@@ -2,7 +2,7 @@
 # AdminGenericInterfaceWebservice.dtl - provides HTML form for AdminGenericInterfaceWebservice
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceWebservice.dtl,v 1.32 2011-07-01 10:18:15 mg Exp $
+# $Id: AdminGenericInterfaceWebservice.dtl,v 1.33 2011-07-01 14:48:36 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -302,6 +302,16 @@
                             <h3>$Text{"$Data{"Title"}"}</h3>
                         </div>
                         <div class="Content">
+<!-- dtl:block:DetailsCommunicationTypeExplanationProvider -->
+                            <p class="FieldExplanation">
+                                $Text{"In provider mode, OTRS offers web services which are used by remote systems."}
+                            </p>
+<!-- dtl:block:DetailsCommunicationTypeExplanationProvider -->
+<!-- dtl:block:DetailsCommunicationTypeExplanationRequester -->
+                            <p class="FieldExplanation">
+                                $Text{"In requester mode, OTRS uses web services of remote systems."}
+                            </p>
+<!-- dtl:block:DetailsCommunicationTypeExplanationRequester -->
                             <h4 class="SpacingTop SpacingBottom">$Text{"Settings"}</h4>
                             <fieldset class="TableLike">
                                 <label for="$QData{"CommunicationType"}TransportList">$Text{"Network transport"}:</label>
@@ -313,6 +323,18 @@
                                 </div>
                             </fieldset>
                             <h4 class="SpacingTop SpacingBottom">$Text{"$Data{"ActionsTitle"}"}</h4>
+
+<!-- dtl:block:DetailsCommunicationTypeActionsExplanationProvider -->
+                            <p class="FieldExplanation">
+                                $Text{"Operations are individual system functions which remote systems can request."}
+                            </p>
+<!-- dtl:block:DetailsCommunicationTypeActionsExplanationProvider -->
+<!-- dtl:block:DetailsCommunicationTypeActionsExplanationRequester -->
+                            <p class="FieldExplanation">
+                                $Text{"Invokers prepare data for a request on a remote web service, and process its response data."}
+                            </p>
+<!-- dtl:block:DetailsCommunicationTypeActionsExplanationRequester -->
+
                             <table class="DataTable" id="$QData{"ActionsTitle"}Table" summary="list of $QData{"ActionsTitle"}">
                                 <thead>
                                     <tr>
@@ -327,7 +349,9 @@
 <!-- dtl:block:DetailsActionsRow -->
                                     <tr>
                                         <td>
-                                            <a class="AsBlock HideLinkOnChange" href="$Env{"Baselink"}Action=$LQData{"Module"};$LQData{"ActionType"}=$LQData{"Name"};Subaction=Change;WebserviceID=$LQData{"WebserviceID"};Nav=$LQData{"Nav"}">$QData{"Name"}</a>
+                                            <a class="AsBlock HideLinkOnChange" href="$Env{"Baselink"}Action=$LQData{"Module"};$LQData{"ActionType"}=$LQData{"Name"};Subaction=Change;WebserviceID=$LQData{"WebserviceID"};Nav=$LQData{"Nav"}">
+                                                $QData{"Name"}
+                                            </a>
                                         </td>
                                         <td>$QData{"Description"}</td>
                                         <td>$QData{"Controller"}</td>
@@ -345,8 +369,13 @@
                                 </tbody>
                             </table>
                             <div class="SpacingTop"></div>
-                            <label class="HideOnChange " for="$QData{"ActionType"}List">$Text{"Add $Data{"ActionType"}"}:</label>
-                            $Data{"ControllersStrg"}
+                            <fieldset class="TableLike">
+                                <label class="HideOnChange" for="$QData{"ActionType"}List">$Text{"Add $Data{"ActionType"}"}:</label>
+                                <div class="Field">
+                                    $Data{"ControllersStrg"}
+                                </div>
+                                <div class="Clear"></div>
+                            </fieldset>
                         </div>
                     </div>
 

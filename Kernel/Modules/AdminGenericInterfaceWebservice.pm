@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericInterfaceWebservice.pm - provides a webservice view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceWebservice.pm,v 1.28 2011-06-25 00:25:35 cg Exp $
+# $Id: AdminGenericInterfaceWebservice.pm,v 1.29 2011-07-01 14:48:37 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.28 $) [1];
+$VERSION = qw($Revision: 1.29 $) [1];
 
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::GenericInterface::Webservice;
@@ -914,7 +914,7 @@ sub _ShowEdit {
             Name         => $CommTypeConfig{$CommunicationType}->{ActionType} . 'List',
             Sort         => 'AlphanumericValue',
             PossibleNone => 1,
-            Class        => 'HideOnChange GenericInterfaceSpacing',
+            Class        => 'HideOnChange',
         );
 
         $Self->{LayoutObject}->Block(
@@ -930,6 +930,10 @@ sub _ShowEdit {
                 }
         );
 
+        $Self->{LayoutObject}->Block(
+            Name => 'DetailsCommunicationTypeExplanation' . $CommunicationType,
+        );
+
         # check if selected trasnport can be configured and show the "configure button"
         if ( $GITransports{ $CommTypeConfig{$CommunicationType}->{SelectedTransport} } ) {
 
@@ -940,6 +944,10 @@ sub _ShowEdit {
                     }
             );
         }
+
+        $Self->{LayoutObject}->Block(
+            Name => 'DetailsCommunicationTypeActionsExplanation' . $CommunicationType,
+        );
 
         if ( !IsHashRefWithData( $CommTypeConfig{$CommunicationType}->{ActionsConfig} ) ) {
             $Self->{LayoutObject}->Block(
