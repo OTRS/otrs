@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1758.2.126 2011-07-01 03:08:42 martin Exp $
+# $Id: CHANGES,v 1.1758.2.127 2011-07-01 03:15:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.9 2011-07-05
+ - 2011-07-01 Fixed bug#7419 - 3.0.8 RPM does not include var/fonts directory.
  - 2011-06-30 Fixed bug#7380 - Undo & close window or Cancel & close window NOT working IE9.
  - 2011-06-29 Fixed bug#7435 - Ticket::Frontend::CustomerTicketZoom###AttributesView settings not used for pdf output.
  - 2011-06-29 Fixed bug#7459 - Files partly in database after executing bin/otrs.ArticleStorageSwitch.pl.
