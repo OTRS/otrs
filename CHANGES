@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1919 2011-07-01 03:16:58 martin Exp $
+# $Id: CHANGES,v 1.1920 2011-07-01 07:31:04 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -72,7 +72,6 @@
  - 2011-06-21 Fixed bug#4946 - Notification mails lack "Precedence: bulk" or similar headers.
  - 2011-06-21 Updated XML::TreePP to 0.41.
  - 2011-06-21 Updated XML::FeedPP to 0.43.
- - 2011-06-20 Fixed bug 3833: Out of Office message is non-localizable.
  - 2011-06-20 Fixed bug 7400: Setting Ticket::Frontend::ShowCustomerTickets not effective.
  - 2011-06-17 Fixed bug 6469: i18n: "Forwarded message" string is not translatable.
  - 2011-06-17 Fixed bug#4524 - SQL errors when there are no valid states for a given state type.

@@ -2,7 +2,7 @@
 # Kernel/System/User.pm - some user functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: User.pm,v 1.115 2011-06-20 13:29:58 mg Exp $
+# $Id: User.pm,v 1.116 2011-07-01 07:31:04 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,10 +20,9 @@ use Digest::SHA::PurePerl qw(sha1_hex sha256_hex);
 use Kernel::System::CheckItem;
 use Kernel::System::Valid;
 use Kernel::System::CacheInternal;
-use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.115 $) [1];
+$VERSION = qw($Revision: 1.116 $) [1];
 
 =head1 NAME
 
@@ -259,36 +258,22 @@ sub GetUserData {
     # out of office check
     if ( !$Param{NoOutOfOffice} ) {
         if ( $Preferences{OutOfOffice} ) {
+            my $Time = $Self->{TimeObject}->SystemTime();
             my $Start
                 = "$Preferences{OutOfOfficeStartYear}-$Preferences{OutOfOfficeStartMonth}-$Preferences{OutOfOfficeStartDay} 00:00:00";
             my $TimeStart = $Self->{TimeObject}->TimeStamp2SystemTime(
                 String => $Start,
             );
-
             my $End
                 = "$Preferences{OutOfOfficeEndYear}-$Preferences{OutOfOfficeEndMonth}-$Preferences{OutOfOfficeEndDay} 23:59:59";
             my $TimeEnd = $Self->{TimeObject}->TimeStamp2SystemTime(
                 String => $End,
             );
-
-            my $Time = $Self->{TimeObject}->SystemTime();
             my $Till = int( ( $TimeEnd - $Time ) / 60 / 60 / 24 );
             my $TillDate
                 = "$Preferences{OutOfOfficeEndYear}-$Preferences{OutOfOfficeEndMonth}-$Preferences{OutOfOfficeEndDay}";
-
             if ( $TimeStart < $Time && $TimeEnd > $Time ) {
-
-                my $LanguageObject = Kernel::Language->new(
-                    MainObject   => $Self->{MainObject},
-                    ConfigObject => $Self->{ConfigObject},
-                    EncodeObject => $Self->{EncodeObject},
-                    LogObject    => $Self->{LogObject},
-                    UserLanguage => $Preferences{UserLanguage} || 'en',
-                );
-
-                my $OutOfOfficeText = $LanguageObject->Get('out of office till');
-
-                $Preferences{OutOfOfficeMessage} = "*** $OutOfOfficeText $TillDate/$Till d ***";
+                $Preferences{OutOfOfficeMessage} = "*** out of office till $TillDate/$Till d ***";
                 $Data{UserLastname} .= ' ' . $Preferences{OutOfOfficeMessage};
             }
         }
@@ -1115,6 +1100,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.115 $ $Date: 2011-06-20 13:29:58 $
+$Revision: 1.116 $ $Date: 2011-07-01 07:31:04 $
 
 =cut
