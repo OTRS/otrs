@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericInterfaceMappingSolMan.pm - provides a Mapping SolMan view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceMappingSolMan.pm,v 1.1 2011-07-04 03:42:36 cr Exp $
+# $Id: AdminGenericInterfaceMappingSolMan.pm,v 1.2 2011-07-04 17:14:09 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::GenericInterface::Webservice;
@@ -46,8 +46,12 @@ sub new {
         || 'GIEmptyMapValue';
 
     $Self->{DuplicateString}
-        = $Self->{ConfigObject}->Get('GenericInterface::Mapping::SolMan::DuplicateString')
-        || 'GIDuplicateMapValue';
+        = $Self->{ConfigObject}->Get('GenericInterface::Mapping::SolMan::DuplicatedString')
+        || 'GIDuplicatedMapValue';
+
+    $Self->{DeletedString}
+        = $Self->{ConfigObject}->Get('GenericInterface::Mapping::SolMan::DeletedString')
+        || 'GIDeletedMapValue';
 
     return $Self;
 
@@ -189,17 +193,20 @@ sub Run {
         }
 
         # otherwise save configuration and return to overview screen
-        #        my $Success = $Self->{WebserviceObject}->WebserviceUpdate(
-        #            ID      => $WebserviceID,
-        #            Name    => $WebserviceData->{Name},
-        #            Config  => $WebserviceData->{Config},
-        #            ValidID => $WebserviceData->{ValidID},
-        #            UserID  => $Self->{UserID},
-        #        );
+        my $Success = $Self->{WebserviceObject}->WebserviceUpdate(
+            ID      => $WebserviceID,
+            Name    => $WebserviceData->{Name},
+            Config  => $WebserviceData->{Config},
+            ValidID => $WebserviceData->{ValidID},
+            UserID  => $Self->{UserID},
+        );
 
-        # get webserice configuration
-        #        my $WebserviceData2 =
-        #            $Self->{WebserviceObject}->WebserviceGet( ID => $WebserviceID );
+        # check for successul webservice update
+        if ( !$Success ) {
+            return $Self->{LayoutObject}->ErrorScreen(
+                Message => "Could not update configuration data for WebserviceID $WebserviceID",
+            );
+        }
 
         return $Self->_ShowEdit(
             %Param,
@@ -226,6 +233,8 @@ sub _ShowEdit {
     my $MappingConfig = $Param{WebserviceData}->{Config}->{ $Param{CommunicationType} }->
         { $Param{ActionType} }->{ $Param{Action} }->{ $Param{Direction} }->{Config};
     $Param{WebserviceName} = $Param{WebserviceData}->{Name};
+
+    $Param{DeletedString} = $Self->{DeletedString};
 
     my %RegisteredMappingConfig = (
         ArticleTypeMap    => 'Article Type',
@@ -316,7 +325,7 @@ sub _ShowEdit {
         );
 
         my $ValueIndex = 0;
-        for my $NewVal ( keys %{ $MappingConfig->{$MappingKeyType} } ) {
+        for my $NewVal ( sort keys %{ $MappingConfig->{$MappingKeyType} } ) {
 
             $ValueIndex++;
 
@@ -436,6 +445,9 @@ sub _GetParams {
         for my $ValueIndex ( 1 .. $ValueCounter ) {
             my $ValueName = $Self->{ParamObject}
                 ->GetParam( Param => 'ValueName' . $MappingKey . '_' . $ValueIndex ) || '';
+
+            # check if value was deleted by the user and skip it
+            next VALUEINDEX if $ValueName eq $Self->{DeletedString};
 
             # check if the original value is empty
             if ( $ValueName eq '' ) {
