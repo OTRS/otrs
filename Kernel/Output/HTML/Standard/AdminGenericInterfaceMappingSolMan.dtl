@@ -2,7 +2,7 @@
 # AdminGenericInterfaceMappingSolMan.dtl - provides HTML form for Admin Mapping SolMan
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceMappingSolMan.dtl,v 1.3 2011-07-04 17:53:09 cr Exp $
+# $Id: AdminGenericInterfaceMappingSolMan.dtl,v 1.4 2011-07-04 21:27:41 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,6 +17,12 @@
 
             $Config{"GenericInterface::Webservice::Path::Separator"}
             <a href="$Env{"Baselink"}Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=$QData{"WebserviceID"}">$QData{"WebserviceName"}</a>
+
+            $Config{"GenericInterface::Webservice::Path::Separator"}
+            <a href="$Env{"Baselink"}Action=$QData{"ActionFrontendModule"};Subaction=Change;$QData{"ActionType"}=$QData{"Action"};WebserviceID=$QData{"WebserviceID"}">$QData{"ActionType"} $QData{"Action"}</a>
+
+            $Config{"GenericInterface::Webservice::Path::Separator"}
+            $Text{"%s SolMan", "$Data{"MappingDirection"}"}
         </h3>
     </div>
 
@@ -28,7 +34,9 @@
             <div class="Content">
                 <ul class="ActionList">
                     <li>
-                        <a href="$Env{"Baselink"}Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=$LQData{"WebserviceID"}" class="CallForAction"><span>$Text{"Go back to web service"}</span></a>
+                        <a href="$Env{"Baselink"}Action=$QData{"ActionFrontendModule"};Subaction=Change;$QData{"ActionType"}=$QData{"Action"};WebserviceID=$QData{"WebserviceID"}" class="CallForAction">
+                            <span>$Text{"Go back to"} $QData{"LowerCaseActionType"}</span>
+                        </a>
                     </li>
                 </ul>
             </div>
@@ -133,14 +141,14 @@
                             $Data{"MappingKeysStrgOrig"}
                         </div>
                         <div class="Clear Spacing"></div>
-                    </fieldset>
 
-                    <div class="Field Spacing">
-                        <button class="Primary" type="submit" value="$Text{"Save"}">$Text{"Save"}</button>
-                        $Text{"or"}
-                        <a href="$Env{"Baselink"}Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=$LQData{"WebserviceID"}">$Text{"Cancel"}</a>
-                    </div>
-                    <div class="Clear"></div>
+                        <div class="Field Spacing">
+                            <button class="Primary" type="submit" value="$Text{"Save"}">$Text{"Save"}</button>
+                            $Text{"or"}
+                            <a href="$Env{"Baselink"}Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=$LQData{"WebserviceID"}">$Text{"Cancel"}</a>
+                        </div>
+                        <div class="Clear"></div>
+                    </fieldset>
                 </form>
             </div>
         </div>
