@@ -2,7 +2,7 @@
 # AdminGenericInterfaceMappingSolMan.dtl - provides HTML form for Admin Mapping SolMan
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceMappingSolMan.dtl,v 1.4 2011-07-04 21:27:41 cr Exp $
+# $Id: AdminGenericInterfaceMappingSolMan.dtl,v 1.5 2011-07-04 22:13:37 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@
             <a href="$Env{"Baselink"}Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=$QData{"WebserviceID"}">$QData{"WebserviceName"}</a>
 
             $Config{"GenericInterface::Webservice::Path::Separator"}
-            <a href="$Env{"Baselink"}Action=$QData{"ActionFrontendModule"};Subaction=Change;$QData{"ActionType"}=$QData{"Action"};WebserviceID=$QData{"WebserviceID"}">$QData{"ActionType"} $QData{"Action"}</a>
+            <a href="$Env{"Baselink"}Action=$LQData{"ActionFrontendModule"};Subaction=Change;$LQData{"ActionType"}=$LQData{"Action"};WebserviceID=$LQData{"WebserviceID"}">$QData{"ActionType"} $QData{"Action"}</a>
 
             $Config{"GenericInterface::Webservice::Path::Separator"}
             $Text{"%s SolMan", "$Data{"MappingDirection"}"}
@@ -34,7 +34,7 @@
             <div class="Content">
                 <ul class="ActionList">
                     <li>
-                        <a href="$Env{"Baselink"}Action=$QData{"ActionFrontendModule"};Subaction=Change;$QData{"ActionType"}=$QData{"Action"};WebserviceID=$QData{"WebserviceID"}" class="CallForAction">
+                        <a href="$Env{"Baselink"}Action=$LQData{"ActionFrontendModule"};Subaction=Change;$LQData{"ActionType"}=$LQData{"Action"};WebserviceID=$LQData{"WebserviceID"}" class="CallForAction">
                             <span>$Text{"Go back to"} $QData{"LowerCaseActionType"}</span>
                         </a>
                     </li>
@@ -149,6 +149,7 @@
                         </div>
                         <div class="Clear"></div>
                     </fieldset>
+                    <input type="hidden" name="DeletedValue" value="$QData{"DeletedString"}" id="DeletedValue" class="DeletedValue" />
                 </form>
             </div>
         </div>
@@ -162,8 +163,6 @@
     </p>
     <div class="SpacingTop"></div>
 </div>
-
-<input type="hidden" name="DeletedValue" value="$QData{"DeletedString"}" id="DeletedValue" class="DeletedValue" />
 
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
