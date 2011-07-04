@@ -1,8 +1,8 @@
 # --
 # README - readme file of OTRS
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: README,v 1.39 2010-11-12 12:02:52 mg Exp $
+# $Id: README,v 1.40 2011-07-04 10:26:27 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,15 +26,17 @@ What is OTRS?
     - Admin web interface for changing system configuration
     - Customer web interface for viewing and sending information to the agents
     - Web interface with themes support
-    - Web interface with Single sign on (e. g. HTTPBasicAuth or LogonTickets)
-    - Multi-language support (Brazilian Portuguese, Bulgarian, Catalonian,
-      Chinese Simple, Chinese Traditional, Czech, Danish, Dutch, English,
-      Estonian, Finnish, French, German, Greek, Hungarian, Italian, Latvian,
-      Norwegian, Persian, Polish, Portuguese, Russian, Slovak, Spanish, Swedish,
-      Turkish, and Vietnamese built in and easy to add your own if needed)
+    - Web interface with Single sign on (e. g. HTTPBasicAuth)
+    - Multi-language support (Arabic, Brazilian Portuguese, Bulgarian, Catalan,
+      Chinese Simple, Chinese Traditional, Croatian, Czech, Danish, Dutch,
+      English, Estonian, Finnish, French, German, Greek, Hindi, Hungarian,
+      Italian, Japanese, Latvian, Lithuanian, Norwegian, Persian (Farsi),
+      Polish, Portuguese, Russian, Serbian, Slovak, Spanish, Swedish, Turkish,
+      Ukrainian, and Vietnamese built in and easy to add your own if needed)
     - customize the output templates (dtl) release independently
     - Web interface with attachment support
-    - Support for ITIL processes via additional packages: Incident, Problem, Config..
+    - Support for ITIL processes via additional packages, passed PinkVerify(TM)
+      for 6 processes.
     - Knowledge Base module (FAQ) via additional package
     - easy and logical to use
 
@@ -83,7 +85,7 @@ What is OTRS?
     - submitting update-info (via email or web interface)
     - deadlines for trouble tickets
     - different levels of permissions/access-rights
-    - central database, support for different SQL databases (MySQL, PostgreSQL, Oracle, MS-SQL, Ingres and DB2)
+    - central database, support for different SQL databases (MySQL, PostgreSQL, Oracle, MS-SQL, and DB2)
     - user authentication against database or LDAP directory
     - easy to develop you own add-ons (OTRS API)
     - easy to write different front-ends (e. g. X11, console, ...)
@@ -92,12 +94,12 @@ What is OTRS?
     - a fast and useful application
     - SOAP interface for integration with other applications
     - built-in capabilities to connect with network monitoring such as Nagios and OpenNMS
-    -
+    - iPhone App available
 
 
 License:
 ========
-  It is distributed under the GNU General Public License - see the
+  It is distributed under the AFFERO GNU General Public License - see the
   accompanying COPYING file for more details.
 
 Documentation:
@@ -140,34 +142,34 @@ $HOME (e. g. /opt/otrs/)
 |
 |  (all modules)
 |--/Kernel/
+|   |-----/Config.pm      (mail configuration file)
 |   |---- /Config/        (Configuration files)
 |   |      |---- /Files/  (System generated, don't touch...)
 |   |
 |   |---- /Output/        (all output generating modules)
 |   |      |---- /HTML/
 |   |             |--- /Standard/*.dtl (all dtl files for Standard theme)
-|   |             |--- /Lite/*.dtl (all dtl files for Lite theme)
 |   |
-|   |---- /Languages/      (all translation files)
+|   |---- /Language/      (all translation files)
 |   |
 |   |---- /Modules/        (all action modules e. g. QueueView, Move, ...)
 |   |      |----- /Agent*      (all modules for the agent interface)
 |   |      |----- /Admin*      (all modules for the admin interface)
 |   |      |----- /Customer*   (all modules for the customer interface)
 |   |
-|   |---- /System/         (back-end API modules)
-|           |--- /DB.pm         (central DB interface)
-|                 |--- /DB/*.pm (DB driver)
-|           |--- /Auth.pm       (authentication module)
+|   |---- /System/         (back-end API modules, selection below)
+|           |--- /DB.pm          (central DB interface)
+|                 |--- /DB/*.pm  (DB drivers)
+|           |--- /Auth.pm        (authentication module)
 |           |--- /AuthSession.pm (session authentication module)
-|           |--- /EmailSend.pm      (create and send e-mail)
+|           |--- /Email.pm       (create and send e-mail)
 |           |--- /EmailParser.pm (parsing e-mail)
-|           |--- /Log.pm        (log module)
-|           |--- /User.pm       (user module)
-|           |--- /Group.pm      (group module)
-|           |--- /WebParam.pm   (e. g. get param)
-|           |--- /Queue.pm      (information about queues. e. g. responses, ...)
-|           |--- /Ticket.pm     (ticket and article functions)
+|           |--- /Log.pm         (log module)
+|           |--- /User.pm        (user module)
+|           |--- /Group.pm       (group module)
+|           |--- /WebParam.pm    (e. g. get params)
+|           |--- /Queue.pm       (information about queues. e. g. responses, ...)
+|           |--- /Ticket.pm      (ticket and article functions)
 |
 |  (data stuff)
 |--/var/
@@ -175,12 +177,28 @@ $HOME (e. g. /opt/otrs/)
 |   |                            ... separately (different files), if you want to store on disk)
 |   |--/cron/                  (all cron jobs for escalations and such)
 |   |
+|   |--/fonts/                 (true type fonts for PDF generation)
+|   |
 |   |--/httpd/                 (all static files served by HTTP)
 |   |   |--- /htdocs/
-|   |         |--- /css/       (css files for the different themes)
-|   |         |--- /images/    (images for the different themes)
-|   |         |--- /js/        (javascript files, prototype and FCKEditor)
-|   |         |--- /yui/       (Yahoo User Interface framework)
+|   |         |--- /js/        (javascript files for OTRS)
+|   |               |--- /js-cache/        (auto-generated minified JS files)
+|   |               |--- /thirdparty/      (contains jQuery, CKEditor and other external JS libraries)
+|   |         |--- /skins/     (CSS and images for front end)
+|   |               |--- /Agent/        (Agent skins)
+|   |                     |--- /default/ (default skin)
+|   |                           |--- /css/ (stylesheets)
+|   |                           |--- /css-cache/ (auto-generated minified CSS files)
+|   |                           |--- /img/ (images)
+|   |                     |--- /slim/    (additional skin)
+|   |                           |--- /.../ (files)
+|   |                     |--- /ivory/   (additional skin)
+|   |                           |--- /.../ (files)
+|   |               |--- /Customer/     (Customer skins)
+|   |                     |--- /default/ (default skin)
+|   |                           |--- /.../ (files)
+|   |                     |--- /ivory/
+|   |                           |--- /.../ (files)
 |   |
 |   |--/log/                   (log files)
 |   |   |--/TicketCounter.log  (ticket counter)
