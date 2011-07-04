@@ -2,7 +2,7 @@
 // Core.Agent.Admin.GenericInterfaceMapping.js - provides the special module functions for the GenericInterface mapping.
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.GenericInterfaceMappingSolMan.js,v 1.2 2011-07-04 17:14:09 cr Exp $
+// $Id: Core.Agent.Admin.GenericInterfaceMappingSolMan.js,v 1.3 2011-07-04 21:45:25 cr Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -42,18 +42,15 @@ Core.Agent.Admin.GenericInterfaceMappingSolMan= (function (TargetNS) {
      *      identify if a value is empty or deleted (useful for server validation)
      */
     TargetNS.RemoveValueMapping = function (IDSelector){
-        var $ObjectIndex,
-        $KeyName,
-        $Clone,
+
+        // copy HTML code for an input replacement for the deleted value
+        var $Clone = $('.DeletedValue').clone(),
 
         // get the index of the value to delete (its always the second element (1) in this RegEx
-        $ObjectIndex = IDSelector.match(/.+_(\d+)/)[1];
+        $ObjectIndex = IDSelector.match(/.+_(\d+)/)[1],
 
         // get the mapping type name
         $KeyName = $('#'+ IDSelector).closest('fieldset').find('.KeyName').val();
-
-        // copy HTML code for an input replacement for the deleted value
-        $Clone = $('.DeletedValue').clone();
 
         // set the input replacement attributes to match the deleted original value
         // new value and other controls are not needed anymore
@@ -152,7 +149,7 @@ Core.Agent.Admin.GenericInterfaceMappingSolMan= (function (TargetNS) {
         // add title
         $Clone.find('.Title').html('Mapping for ' + $KeyDisplayName);
 
-        $Clone.find('.ValueDefaultLabel').attr('for', KeyName + 'Default')
+        $Clone.find('.ValueDefaultLabel').attr('for', KeyName + 'Default');
 
         // copy values and change IDs and names
         $Clone.find(':input').each(function(){
