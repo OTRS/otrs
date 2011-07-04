@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericInterfaceMappingSolMan.pm - provides a Mapping SolMan view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceMappingSolMan.pm,v 1.2 2011-07-04 17:14:09 cr Exp $
+# $Id: AdminGenericInterfaceMappingSolMan.pm,v 1.3 2011-07-04 17:52:09 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::GenericInterface::Webservice;
@@ -431,6 +431,18 @@ sub _GetParams {
         my $MappingKeyValue = $Self->{ParamObject}->GetParam( Param => $MappingKey ) || '';
         next MAPPINGKEY if !$MappingKeyValue;
 
+        # get mapping defaults
+        $GetParam->{ $MappingKey . 'Default' }
+            = $Self->{ParamObject}->GetParam( Param => $MappingKey . 'Default' ) || '';
+
+        # check if MappingKey has a default value
+        if ( $GetParam->{ $MappingKey . 'Default' } ) {
+
+            # create MappingKey basic structure so that the MappingKeyDefault can be displayed
+            # even if there are no configured mapping values for the MappingKey
+            $GetParam->{$MappingKey} = {};
+        }
+
         # get ValueCounters
         my $ValueCounter = $Self->{ParamObject}->GetParam( Param => 'ValueCounter' . $MappingKey )
             || '';
@@ -469,12 +481,7 @@ sub _GetParams {
                 ->GetParam( Param => 'ValueMapNew' . $MappingKey . '_' . $ValueIndex ) || '';
             $GetParam->{$MappingKey}->{$ValueName} = $ValueMap;
         }
-
-        # get mapping defaults
-        $GetParam->{ $MappingKey . 'Default' }
-            = $Self->{ParamObject}->GetParam( Param => $MappingKey . 'Default' ) || '';
     }
-
     return $GetParam;
 }
 1;
