@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericInterfaceMappingSolMan.pm - provides a Mapping SolMan view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceMappingSolMan.pm,v 1.3 2011-07-04 17:52:09 cr Exp $
+# $Id: AdminGenericInterfaceMappingSolMan.pm,v 1.4 2011-07-04 21:25:18 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::GenericInterface::Webservice;
@@ -36,7 +36,7 @@ sub new {
         }
     }
 
-    # create addtional objects
+    # create additional objects
     $Self->{ValidObject} = Kernel::System::Valid->new( %{$Self} );
     $Self->{WebserviceObject} =
         Kernel::System::GenericInterface::Webservice->new( %{$Self} );
@@ -74,7 +74,7 @@ sub Run {
     my $Action = $Operation || $Invoker;
 
     # ------------------------------------------------------------ #
-    # subaction Change: load webservice and show edit screen
+    # subaction Change: load web service and show edit screen
     # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'Add' || $Self->{Subaction} eq 'Change' ) {
 
@@ -84,11 +84,11 @@ sub Run {
                 ->ErrorScreen( Message => "Need WebserviceID!", );
         }
 
-        # get webserice configuration
+        # get web service configuration
         my $WebserviceData =
             $Self->{WebserviceObject}->WebserviceGet( ID => $WebserviceID );
 
-        # check for valid webservice configuration
+        # check for valid web service configuration
         if ( !IsHashRefWithData($WebserviceData) ) {
             return $Self->{LayoutObject}->ErrorScreen(
                 Message => "Could not get data for WebserviceID $WebserviceID",
@@ -120,11 +120,11 @@ sub Run {
                 ->ErrorScreen( Message => "Need WebserviceID!", );
         }
 
-        # get webserice configuration
+        # get web service configuration
         my $WebserviceData =
             $Self->{WebserviceObject}->WebserviceGet( ID => $WebserviceID );
 
-        # check for valid webservice configuration
+        # check for valid web service configuration
         if ( !IsHashRefWithData($WebserviceData) ) {
             return $Self->{LayoutObject}->ErrorScreen(
                 Message => "Could not get data for WebserviceID $WebserviceID",
@@ -134,9 +134,12 @@ sub Run {
         # get parameter from web browser
         my $GetParam = $Self->_GetParams;
 
-        # currently $GetParam contains exacly the information we need fot the new mapping
-        # leve the assignation here for further changes in $GetParam, possible parse is needed
-        my %NewMapping = %{$GetParam};
+        # currently $GetParam contains exactly the information we need for the new mapping
+        # leave the assignation here for further changes in $GetParam, possible parse is needed
+        my %NewMapping = {};
+        if ( IsHashRefWithData($GetParam) ) {
+            my %NewMapping = %{$GetParam};
+        }
 
         # check required parameters
         my %Error;
@@ -155,7 +158,7 @@ sub Run {
                     $Error{$MappingType}->{'OrigValueEmptyError'}->{$ValueName} = 1;
                 }
 
-                # otherwise check for duplicate orininal values
+                # otherwise check for duplicate original values
                 elsif ( $ValueName =~ m{\A (.+) - $Self->{DuplicateString} (?: \d+)}smx ) {
 
                     # set an entry in OrigValueDuplicateError with the duplicate key as value
@@ -201,7 +204,7 @@ sub Run {
             UserID  => $Self->{UserID},
         );
 
-        # check for successul webservice update
+        # check for successful web service update
         if ( !$Success ) {
             return $Self->{LayoutObject}->ErrorScreen(
                 Message => "Could not update configuration data for WebserviceID $WebserviceID",
@@ -226,6 +229,24 @@ sub Run {
 
 sub _ShowEdit {
     my ( $Self, %Param ) = @_;
+
+    # set mapping direction for display
+    $Param{MappingDirection}
+        = $Param{Direction} eq 'MappingOutbound' ? 'Mapping Outbound' : 'Mapping Inbound';
+
+    # set action for go back button
+    $Param{LowerCaseActionType} = lc $Param{ActionType};
+
+    # get the action type (back-end)
+    my $ActionBackend = $Param{WebserviceData}->{Config}->{ $Param{CommunicationType} }->
+        { $Param{ActionType} }->{ $Param{Action} }->{'Type'};
+
+    # get configured Actions
+    my $ActionsConfig
+        = $Self->{ConfigObject}->Get( 'GenericInterface::' . $Param{ActionType} . '::Module' );
+
+    # get the configuration dialog for the action
+    $Param{ActionFrontendModule} = $ActionsConfig->{$ActionBackend}->{'ConfigDialog'};
 
     my $Output = $Self->{LayoutObject}->Header();
     $Output .= $Self->{LayoutObject}->NavigationBar();
@@ -255,7 +276,7 @@ sub _ShowEdit {
         $MappingKeys{$MappingKey} = $RegisteredMappingConfig{$MappingKey};
     }
 
-    # parse the mapping config as JSON strucutre
+    # parse the mapping config as JSON structure
     $Param{MappingConfig} = $Self->{LayoutObject}->JSONEncode(
         Data => \%RegisteredMappingConfig,
     );
@@ -271,7 +292,7 @@ sub _ShowEdit {
         Translate     => 0,
     );
 
-    # create a mapping key types selct only for non set mapping key types
+    # create a mapping key types select only for non set mapping key types
     $Param{MappingKeysStrg} = $Self->{LayoutObject}->BuildSelection(
         Data          => \%MappingKeys,
         Name          => 'KeyMapType',
@@ -314,7 +335,7 @@ sub _ShowEdit {
         # get the name for display
         my $KeyDisplayName = $RegisteredMappingConfig{$MappingKeyType};
 
-        # create the key map seccion
+        # create the key map section
         $Self->{LayoutObject}->Block(
             Name => 'KeyTemplate',
             Data => {
@@ -356,7 +377,7 @@ sub _ShowEdit {
                 elsif ( $Param{Error}->{$MappingKeyType}->{'OrigValueDuplicateError'}->{$NewVal} ) {
 
                  # if the original value was empty it has been changed in _GetParams to a predefined
-                 # string and need to be set to the orinial value again
+                 # string and need to be set to the original value again
                     $NewValClone
                         = $Param{Error}->{$MappingKeyType}->{'OrigValueDuplicateError'}->{$NewVal};
 
@@ -366,7 +387,7 @@ sub _ShowEdit {
 
                 }
 
-                # check for eeror on new value
+                # check for error on new value
                 if ( $Param{Error}->{$MappingKeyType}->{'NewValueEmptyError'}->{$NewVal} ) {
 
                     # set the error class
