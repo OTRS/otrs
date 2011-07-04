@@ -1,0 +1,201 @@
+# --
+# AdminGenericInterfaceMappingSolMan.dtl - provides HTML form for Admin Mapping SolMan
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# --
+# $Id: AdminGenericInterfaceMappingSolMan.dtl,v 1.1 2011-07-04 03:42:36 cr Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst AdminGenericInterfaceMappingSimple">
+    <h1>$Text{"GenericInterface Mapping SolMan for Web Service %s", "$Data{"WebserviceName"}"}</h1>
+    <div class="GenericInterfaceWebserviceConfigPath">
+        <h3>
+            $Config{"GenericInterface::Webservice::Path::Separator"}
+            <a href="$Env{"Baselink"}Action=AdminGenericInterfaceWebservice">$Text{"Web Services"}</a>
+
+            $Config{"GenericInterface::Webservice::Path::Separator"}
+            <a href="$Env{"Baselink"}Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=$QData{"WebserviceID"}">$QData{"WebserviceName"}</a>
+        </h3>
+    </div>
+
+    <div class="SidebarColumn">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>$Text{"Actions"}</h2>
+            </div>
+            <div class="Content">
+                <ul class="ActionList">
+                    <li>
+                        <a href="$Env{"Baselink"}Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=$LQData{"WebserviceID"}" class="CallForAction"><span>$Text{"Go back to web service"}</span></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="ContentColumn">
+
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>$Text{"Mapping SolMan"}</h2>
+            </div>
+            <div class="Content">
+                <form action="$Env{"CGIHandle"}" method="post" class="Validate PreventMultipleSubmits">
+                    <input type="hidden" name="Action" value="$Env{"Action"}"/>
+                    <input type="hidden" name="Subaction" value="$QData{"Subaction"}Action"/>
+                    <input type="hidden" name="WebserviceID" value="$QData{"WebserviceID"}" id="WebserviceID"/>
+                    <input type="hidden" name="CommunicationType" value="$QData{"CommunicationType"}" />
+                    <input type="hidden" name="Operation" value="$QData{"Operation"}" />
+                    <input type="hidden" name="Invoker" value="$QData{"Invoker"}" />
+                    <input type="hidden" name="Direction" value="$QData{"Direction"}"/>
+
+                    <fieldset class="TableLike  SpacingTop">
+                        <label for="KeyMapType">$Text{"New map"}:</label>
+                        <div class="Field">
+                            $Data{"MappingKeysStrg"}
+                        </div>
+                        <div class="Hidden">
+                            $Data{"MappingKeysStrgOrig"}
+                        </div>
+                        <div class="Clear Spacing"></div>
+                    </fieldset>
+
+                    <div class="Content Spacing" id="KeyInsert">
+
+<!-- dtl:block:KeyTemplate -->
+                        <div class="WidgetSimple Expanded WidgetKey $QData{"Classes"}">
+                            <div class="Header">
+                                <div class="WidgetAction Toggle">
+                                    <a href="#" title="$JSText{"Show or hide the content"}"></a>
+                                </div>
+                                <h3 class="Title">$Text{"Mapping for "} $QData{"KeyDisplayName"}</h3>
+                                <div class="AdditionalInformation SpacingTopMini">
+                                    <button type="button" id="RemoveKeyMapping$QData{"KeyName"}" class="Remove" value="Remove key mapping">$Text{"Remove key mapping"}</button>
+                                </div>
+                            </div>
+                            <div class="Content">
+
+                                <fieldset class="TableLike FixedLabelSmall">
+                                    <input type="hidden" name="$QData{"KeyName"}" value="$QData{"KeyName"}" id="$QData{"KeyName"}" class="KeyName" />
+                                    <label>Value Mapping</label>
+                                    <div class="Field ValueInsert">
+<!-- dtl:block:ValueTemplateRowIndex -->
+                                        <input type="hidden" name="ValueCounter$QData{"KeyName"}" value="$QData{"ValueIndex"}" id="ValueCounter$QData{"KeyName"}" class="ValueCounter" />
+<!-- dtl:block:ValueTemplateRowIndex -->
+                                        <div class="Spacing"></div>
+<!-- dtl:block:ValueTemplateRow -->
+                                        <div class="ValueTemplateRow">
+                                            <label for="ValueName$QData{"KeyName"}_$QData{"ValueIndex"}"><span class="Marker">*</span>Map value:</label>
+                                            <input name="ValueName$QData{"KeyName"}_$QData{"ValueIndex"}" id="ValueName$QData{"KeyName"}_$QData{"ValueIndex"}" class="Validate_Required@ W20pc $QData{"ValueNameError"}" type="text" maxlength="100" value="$QData{"ValueName"}"/>
+                                            <div id="ValueName$QData{"KeyName"}_$QData{"ValueIndex"}Error" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
+                                            <div id="ValueName$QData{"KeyName"}_$QData{"ValueIndex"}ServerError" class="TooltipErrorMessage"><p>$Text{"$Data{"ValueNameTooltip"}"}</p></div>
+
+                                            <label for="ValueMapNew$QData{"KeyName"}_$QData{"ValueIndex"}"><span class="Marker">*</span>to new value:</label>
+                                            <input name="ValueMapNew$QData{"KeyName"}_$QData{"ValueIndex"}" id="ValueMapNew$QData{"KeyName"}_$QData{"ValueIndex"}" class="Validate_Required@ W20pc $QData{"ValueMapNewError"}" type="text" maxlength="100" value="$QData{"ValueMapNew"}"/>
+                                            <div id="ValueMapNew$QData{"KeyName"}_$QData{"ValueIndex"}Error" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
+                                            <div id="ValueMapNew$QData{"KeyName"}_$QData{"ValueIndex"}ServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
+
+                                            <button type="button" id="RemoveValueMapping$QData{"KeyName"}_$QData{"ValueIndex"}" class="Remove ValueRemove" value="Remove value mapping">$Text{"Remove value mapping"}</button>
+                                        </div>
+                                        <div class="SpacingTopMini" ></div>
+<!-- dtl:block:ValueTemplateRow -->
+                                    </div>
+                                    <div class="Clear"></div>
+                                    <label for="AddValueMapping$QData{"KeyName"}">$Text{"New value map"}:</label>
+                                    <div class="Field">
+                                        <div class="NewValueMap">
+                                            <button type="button" id="AddValueMapping$QData{"KeyName"}" class="Add ValueAdd" value="Add Value mapping">$Text{"Add value mapping"}</button>
+                                        </div>
+                                    </div>
+                                    <div class="Clear"></div>
+                                    <label for="$QData{"KeyName"}Default" class="ValueDefaultLabel">$Text{"Default"}:</label>
+                                    <input name="$QData{"KeyName"}Default" id="$QData{"KeyName"}Default" class="ValueDefault W20pc" type="text" maxlength="100" value="$QData{"ValueMapDefault"}"/>
+
+                                </fieldset>
+                            </div>
+                        </div>
+<!-- dtl:block:KeyTemplate -->
+
+<!-- dtl:block:ValueTemplate -->
+                        <div class="ValueTemplate Hidden">
+                            <label for="ValueName"><span class="Marker">*</span>Map value:</label>
+                            <input name="ValueName$QData{"KeyName"}_$QData{"ValueIndex"}" id="ValueName" class="W20pc" type="text" maxlength="100" value="$QData{"ValueName"}"/>
+                            <div id="ValueNameError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
+                            <div id="ValueNameServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
+
+                            <label for="ValueMapNew"><span class="Marker">*</span>to new value:</label>
+                            <input name="ValueMapNew$QData{"KeyName"}_$QData{"ValueIndex"}" id="ValueMapNew" class="W20pc" type="text" maxlength="100" value="$QData{"ValueMapNew"}"/>
+                            <div id="ValueMapNewError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
+                            <div id="ValueMapNewServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
+
+                            <button type="button" id="RemoveValueMapping$QData{"KeyVaule"}_$QData{"ValueIndex"}" class="Remove ValueRemove" value="Remove value mapping">$Text{"Remove value mapping"}</button>
+                        </div>
+                        <div class="ValueTemplate SpacingTopMini" ></div>
+<!-- dtl:block:ValueTemplate -->
+
+                    </div>
+                    <div class="Field Spacing">
+                        <button class="Primary" type="submit" value="$Text{"Save"}">$Text{"Save"}</button>
+                        $Text{"or"}
+                        <a href="$Env{"Baselink"}Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=$LQData{"WebserviceID"}">$Text{"Cancel"}</a>
+                    </div>
+                    <div class="Clear"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="Hidden" id="DeleteDialogContainer">
+    <span class="WarningDialog ">&nbsp;</span>
+    <p id="DeleteDialog" class="Center Warning">
+        $Text{"Do you really want to delete this key mapping?"}
+    </p>
+    <div class="SpacingTop"></div>
+</div>
+
+<!-- dtl:js_on_document_complete -->
+<script type="text/javascript">//<![CDATA[
+Core.Config.Set( 'Mapping.SolMan', $Data{"MappingConfig"} );
+
+Core.Agent.Admin.GenericInterfaceMappingSolMan.Init({
+    WebserviceID: $QData{"WebserviceID"},
+    Localization: {
+        DeleteKeyMappingMsg: '$JSText{"Delete this Key Mapping"}',
+        DeleteMsg: '$JSText{"Delete"}',
+        CancelMsg: '$JSText{"Cancel"}'
+    }
+});
+
+// register add of key mapping
+$('#KeyMapType').bind('change', function () {
+    if ($(this).val()) {
+        Core.Agent.Admin.GenericInterfaceMappingSolMan.AddKeyMapping($(this).val());
+    }
+    return false;
+});
+
+ // register remove key action
+$('.AdditionalInformation .Remove').bind('click', function () {
+      Core.Agent.Admin.GenericInterfaceMappingSolMan.ShowDeleteDialog( $(this).attr('id') );
+      return false;
+});
+
+//bind click function to add button
+$('.ValueAdd').bind('click', function () {
+    Core.Agent.Admin.GenericInterfaceMappingSolMan.AddValueMapping(
+        $(this).closest('fieldset').find('.ValueInsert'),
+        $(this).closest('fieldset').find('.KeyName').val()
+    );
+    return false;
+});
+
+//bind click function to remove button
+$('.ValueRemove').bind('click', function () {
+    Core.Agent.Admin.GenericInterfaceMappingSolMan.RemoveValueMapping($(this).attr('id'));
+    return false;
+});
+
+//]]></script>
+<!-- dtl:js_on_document_complete -->
