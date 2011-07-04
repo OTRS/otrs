@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericInterfaceMappingSolMan.pm - provides a Mapping SolMan view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceMappingSolMan.pm,v 1.4 2011-07-04 21:25:18 cr Exp $
+# $Id: AdminGenericInterfaceMappingSolMan.pm,v 1.5 2011-07-04 21:47:41 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::GenericInterface::Webservice;
@@ -136,9 +136,9 @@ sub Run {
 
         # currently $GetParam contains exactly the information we need for the new mapping
         # leave the assignation here for further changes in $GetParam, possible parse is needed
-        my %NewMapping = {};
+        my %NewMapping;
         if ( IsHashRefWithData($GetParam) ) {
-            my %NewMapping = %{$GetParam};
+            %NewMapping = %{$GetParam};
         }
 
         # check required parameters
