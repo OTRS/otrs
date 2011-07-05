@@ -126,13 +126,13 @@
   <widgets xsi:type="model:TextField" x="395" y="458" width="183" text="/Home/User/otrs.yaml" measuredWidth="183" measuredHeight="21">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Button" x="389" y="544" text="OK" measuredWidth="36" measuredHeight="23">
+  <widgets xsi:type="model:Button" x="389" y="544" text="OK" measuredWidth="36" measuredHeight="23" link="WebServiceDetails.screen">
     <font/>
   </widgets>
   <widgets xsi:type="model:Label" x="429" y="545" text="or" measuredWidth="17" measuredHeight="21">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Link" x="445" y="545" text="Cancel" measuredWidth="39" measuredHeight="21">
+  <widgets xsi:type="model:Link" x="445" y="545" text="Cancel" measuredWidth="39" measuredHeight="21" link="WebServiceDetails.screen">
     <font/>
   </widgets>
   <widgets xsi:type="model:Button" x="584" y="458" height="21" text="Browse..." measuredWidth="69" measuredHeight="21">

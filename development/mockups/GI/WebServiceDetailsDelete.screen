@@ -116,10 +116,10 @@
     <font/>
   </widgets>
   <widgets xsi:type="model:Window" x="264" y="228" width="379" height="192" text="Delete Webservice" measuredWidth="379" measuredHeight="192"/>
-  <widgets xsi:type="model:Button" x="405" y="391" text="Yes" measuredWidth="39" measuredHeight="23">
+  <widgets xsi:type="model:Button" x="405" y="391" text="Yes" measuredWidth="39" measuredHeight="23" link="WebServiceDetails.screen">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Button" x="468" y="391" text="No" measuredWidth="35" measuredHeight="23">
+  <widgets xsi:type="model:Button" x="468" y="391" text="No" measuredWidth="35" measuredHeight="23" link="WebServiceDetails.screen">
     <font/>
   </widgets>
   <widgets xsi:type="model:Icon" x="281" y="273" measuredWidth="48" measuredHeight="48" icon="warning (xlarge)"/>

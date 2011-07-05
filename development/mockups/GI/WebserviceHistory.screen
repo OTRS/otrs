@@ -3,59 +3,59 @@
   <widgets xsi:type="model:Browser" width="1024" height="768" text="Browser&#xA;http://..." locked="true" measuredWidth="1024" measuredHeight="768" verticalScrollbar="true"/>
   <widgets xsi:type="model:Window" x="10" y="96" width="237" height="98" text="Actions" measuredWidth="237" measuredHeight="98"/>
   <widgets xsi:type="model:Window" x="264" y="96" width="641" height="613" locked="true" measuredWidth="641" measuredHeight="613"/>
-  <widgets xsi:type="model:Button" x="629" y="632" width="217" text="Export communication details" measuredWidth="217" measuredHeight="27">
+  <widgets xsi:type="model:Button" x="629" y="632" width="217" text="Export communication details" measuredWidth="217" measuredHeight="23">
     <font/>
   </widgets>
   <widgets xsi:type="model:Window" x="10" y="216" width="237" height="89" text="Textbox" measuredWidth="237" measuredHeight="89"/>
   <widgets xsi:type="model:Text" x="20" y="245" width="217" height="50" measuredWidth="217" measuredHeight="50" dummyText="true">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Button" x="20" y="125" width="218" text="Back to webservice details" measuredWidth="218" measuredHeight="27">
+  <widgets xsi:type="model:Button" x="20" y="125" width="218" text="Back to webservice details" measuredWidth="218" measuredHeight="23" link="WebServiceDetails.screen">
     <font/>
   </widgets>
   <widgets xsi:type="model:Icon" x="26" y="131" measuredWidth="16" measuredHeight="16" icon="filled-arrow-left (small)"/>
-  <widgets xsi:type="model:Label" x="20" y="62" text="GI > Services > *Lanxess Solman* > Details > Webservice History" locked="true" measuredWidth="710" measuredHeight="34">
+  <widgets xsi:type="model:Label" x="20" y="62" text="GI > Services > *Lanxess Solman* > Details > Webservice History" locked="true" measuredWidth="506" measuredHeight="26">
     <font size="16" bold="false"/>
   </widgets>
   <widgets xsi:type="model:Icon" x="720" y="632" measuredWidth="16" measuredHeight="16" icon="internet (small)"/>
-  <widgets xsi:type="model:Label" x="294" y="136" text="Select webservice entry" measuredWidth="259" measuredHeight="34">
+  <widgets xsi:type="model:Label" x="294" y="136" text="Select webservice entry" measuredWidth="186" measuredHeight="26">
     <font size="16"/>
   </widgets>
-  <widgets xsi:type="model:Table" x="295" y="175" width="568" text="Name, Time, Created By&#xA;WebserviceName, 2011-03-23 12:23, Someone&#xA;WebserviceName, 2011-03-23 12:24, Someone&#xA;WebserviceName, 2011-03-23 12:25, Someone&#xA;WebserviceName, 2011-03-23 12:28, Someone&#xA;WebserviceName, 2011-03-23 12:30, Someone" measuredWidth="568" measuredHeight="142" selection="0" verticalScrollbar="true">
+  <widgets xsi:type="model:Table" x="295" y="175" width="568" text="Name, Time, Created By&#xA;WebserviceName, 2011-03-23 12:23, Someone&#xA;WebserviceName, 2011-03-23 12:24, Someone&#xA;WebserviceName, 2011-03-23 12:25, Someone&#xA;WebserviceName, 2011-03-23 12:28, Someone&#xA;WebserviceName, 2011-03-23 12:30, Someone" measuredWidth="568" measuredHeight="124" selection="0" verticalScrollbar="true">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Label" x="294" y="320" text="Webservice detail" measuredWidth="192" measuredHeight="34">
+  <widgets xsi:type="model:Label" x="294" y="320" text="Webservice detail" measuredWidth="140" measuredHeight="26">
     <font size="16"/>
   </widgets>
   <widgets xsi:type="model:Accordion" x="296" y="352" width="567" height="329" text="Webservice history detail" measuredWidth="567" measuredHeight="329" selection="0">
-    <items x="0" y="2" width="567" height="27" text="Webservice history detail"/>
+    <items x="0" y="2" width="567" height="24" text="Webservice history detail"/>
   </widgets>
   <widgets xsi:type="model:Arrow" x="571" y="136" width="82" height="37" measuredWidth="82" measuredHeight="37" direction="bottom"/>
-  <widgets xsi:type="model:Note" x="622" y="104" text="Here you have to select one webservice&#xA;entry to be shown. The area below updates via&#xA;AJAX." measuredWidth="306" measuredHeight="61">
+  <widgets xsi:type="model:Note" x="622" y="104" text="Here you have to select one webservice&#xA;entry to be shown. The area below updates via&#xA;AJAX." measuredWidth="259" measuredHeight="49">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Button" x="704" y="632" text="Export webservice" measuredWidth="135" measuredHeight="27">
+  <widgets xsi:type="model:Button" x="704" y="632" text="Export webservice" measuredWidth="117" measuredHeight="23">
     <font/>
   </widgets>
   <widgets xsi:type="model:Rectangle" x="344" y="504" width="495" height="120" text="The YAML file" measuredWidth="495" measuredHeight="120" alpha="192" textAlignment="Left">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Label" x="349" y="400" text="Name:" measuredWidth="48" measuredHeight="25">
+  <widgets xsi:type="model:Label" x="349" y="400" text="Name:" measuredWidth="40" measuredHeight="21">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Label" x="349" y="432" text="Created by:" measuredWidth="78" measuredHeight="25">
+  <widgets xsi:type="model:Label" x="349" y="432" text="Created by:" measuredWidth="67" measuredHeight="21">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Label" x="349" y="464" text="Created time:" measuredWidth="93" measuredHeight="25">
+  <widgets xsi:type="model:Label" x="349" y="464" text="Created time:" measuredWidth="78" measuredHeight="21">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Label" x="524" y="464" text="2011-03-23 12:23" measuredWidth="119" measuredHeight="25">
+  <widgets xsi:type="model:Label" x="524" y="464" text="2011-03-23 12:23" measuredWidth="109" measuredHeight="21">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Label" x="524" y="432" text="Administrator" measuredWidth="92" measuredHeight="25">
+  <widgets xsi:type="model:Label" x="524" y="432" text="Administrator" measuredWidth="79" measuredHeight="21">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Label" x="524" y="400" text="Old webservice" measuredWidth="100" measuredHeight="25">
+  <widgets xsi:type="model:Label" x="524" y="400" text="Old webservice" measuredWidth="86" measuredHeight="21">
     <font/>
   </widgets>
   <hRuler>

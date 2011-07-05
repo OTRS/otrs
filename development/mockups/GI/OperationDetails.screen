@@ -33,7 +33,7 @@
     <font/>
   </widgets>
   <widgets xsi:type="model:Window" x="10" y="96" width="237" height="65" text="Navigation" measuredWidth="237" measuredHeight="65"/>
-  <widgets xsi:type="model:Button" x="20" y="128" width="217" text="Back to webservice details" measuredWidth="217" measuredHeight="23">
+  <widgets xsi:type="model:Button" x="20" y="128" width="217" text="Back to webservice details" measuredWidth="217" measuredHeight="23" link="WebServiceDetails.screen">
     <font/>
   </widgets>
   <widgets xsi:type="model:Icon" x="26" y="132" measuredWidth="16" measuredHeight="16" icon="filled-arrow-left (small)"/>
@@ -46,7 +46,7 @@
   <widgets xsi:type="model:Combo" x="473" y="255" width="158" text="Standard" measuredWidth="158" measuredHeight="21">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Button" x="643" y="254" width="109" text="Edit mapping" measuredWidth="109" measuredHeight="23">
+  <widgets xsi:type="model:Button" x="643" y="254" width="109" text="Edit mapping" measuredWidth="109" measuredHeight="23" link="MappingDetails.screen">
     <font/>
   </widgets>
   <widgets xsi:type="model:Label" x="379" y="285" text="Mapping type" measuredWidth="78" measuredHeight="21">
