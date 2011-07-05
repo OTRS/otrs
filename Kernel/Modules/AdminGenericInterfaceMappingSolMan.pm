@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericInterfaceMappingSolMan.pm - provides a Mapping SolMan view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceMappingSolMan.pm,v 1.6 2011-07-04 22:13:37 cr Exp $
+# $Id: AdminGenericInterfaceMappingSolMan.pm,v 1.7 2011-07-05 16:48:14 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::GenericInterface::Webservice;
@@ -73,6 +73,21 @@ sub Run {
     my $ActionType        = IsStringWithData($Operation) ? 'Operation' : 'Invoker';
     my $Action = $Operation || $Invoker;
 
+    # set mapping direction for display
+    my $MappingDirection
+        = $Direction eq 'MappingOutbound' ? 'Mapping Outbound' : 'Mapping Inbound';
+
+    # get configured Actions
+    my $ActionsConfig
+        = $Self->{ConfigObject}->Get( 'GenericInterface::' . $ActionType . '::Module' );
+
+    # check for valid action backend
+    if ( !IsHashRefWithData($ActionsConfig) ) {
+        return $Self->{LayoutObject}->ErrorScreen(
+            Message => "Could not get registered configuration for actions type $ActionType",
+        );
+    }
+
     # ------------------------------------------------------------ #
     # subaction Change: load web service and show edit screen
     # ------------------------------------------------------------ #
@@ -95,17 +110,33 @@ sub Run {
             );
         }
 
+        # get the action type (back-end)
+        my $ActionBackend = $WebserviceData->{Config}->{$CommunicationType}->{$ActionType}
+            ->{$Action}->{'Type'};
+
+        # check for valid action backend
+        if ( !$ActionBackend ) {
+            return $Self->{LayoutObject}->ErrorScreen(
+                Message => "Could not get backend for $ActionType $Action",
+            );
+        }
+
+        # get the configuration dialog for the action
+        my $ActionFrontendModule = $ActionsConfig->{$ActionBackend}->{'ConfigDialog'};
+
         return $Self->_ShowEdit(
             %Param,
-            WebserviceID      => $WebserviceID,
-            WebserviceData    => $WebserviceData,
-            Operation         => $Operation,
-            Invoker           => $Invoker,
-            Direction         => $Direction,
-            CommunicationType => $CommunicationType,
-            ActionType        => $ActionType,
-            Action            => $Action,
-            Subaction         => 'Change',
+            WebserviceID         => $WebserviceID,
+            WebserviceData       => $WebserviceData,
+            Operation            => $Operation,
+            Invoker              => $Invoker,
+            Direction            => $Direction,
+            MappingDirection     => $MappingDirection,
+            CommunicationType    => $CommunicationType,
+            ActionType           => $ActionType,
+            Action               => $Action,
+            ActionFrontendModule => $ActionFrontendModule,
+            Subaction            => 'Change',
         );
     }
 
@@ -131,7 +162,21 @@ sub Run {
             );
         }
 
-        # get parameter from web browser
+        # get the action type (back-end)
+        my $ActionBackend = $WebserviceData->{Config}->{$CommunicationType}->{$ActionType}
+            ->{$Action}->{'Type'};
+
+        # check for valid action backend
+        if ( !$ActionBackend ) {
+            return $Self->{LayoutObject}->ErrorScreen(
+                Message => "Could not get backend for $ActionType $Action",
+            );
+        }
+
+        # get the configuration dialog for the action
+        my $ActionFrontendModule = $ActionsConfig->{$ActionBackend}->{'ConfigDialog'};
+
+        # get parameters from web browser
         my $GetParam = $Self->_GetParams;
 
         # currently $GetParam contains exactly the information we need for the new mapping
@@ -182,16 +227,18 @@ sub Run {
         # if there is an error return to edit screen
         if ( IsHashRefWithData( \%Error ) ) {
             return $Self->_ShowEdit(
-                Error             => \%Error,
-                WebserviceID      => $WebserviceID,
-                WebserviceData    => $WebserviceData,
-                Operation         => $Operation,
-                Invoker           => $Invoker,
-                Direction         => $Direction,
-                CommunicationType => $CommunicationType,
-                ActionType        => $ActionType,
-                Action            => $Action,
-                Subaction         => 'Change',
+                Error                => \%Error,
+                WebserviceID         => $WebserviceID,
+                WebserviceData       => $WebserviceData,
+                Operation            => $Operation,
+                Invoker              => $Invoker,
+                Direction            => $Direction,
+                MappingDirection     => $MappingDirection,
+                CommunicationType    => $CommunicationType,
+                ActionType           => $ActionType,
+                Action               => $Action,
+                ActionFrontendModule => $ActionFrontendModule,
+                Subaction            => 'Change',
             );
         }
 
@@ -211,17 +258,31 @@ sub Run {
             );
         }
 
+        # Save and finish button: go to Webservice.
+        if ( $Self->{ParamObject}->GetParam( Param => 'ReturnToAction' ) ) {
+            my $RedirectURL
+                = "Action=$ActionFrontendModule;Subaction=Change;$ActionType=$Action;"
+                . "WebserviceID=$WebserviceID;";
+
+            return $Self->{LayoutObject}->Redirect(
+                OP => $RedirectURL,
+            );
+        }
+
+        # otherwise return to edit screen.
         return $Self->_ShowEdit(
             %Param,
-            WebserviceID      => $WebserviceID,
-            WebserviceData    => $WebserviceData,
-            Operation         => $Operation,
-            Invoker           => $Invoker,
-            Direction         => $Direction,
-            CommunicationType => $CommunicationType,
-            ActionType        => $ActionType,
-            Action            => $Action,
-            Subaction         => 'Change',
+            WebserviceID         => $WebserviceID,
+            WebserviceData       => $WebserviceData,
+            Operation            => $Operation,
+            Invoker              => $Invoker,
+            Direction            => $Direction,
+            MappingDirection     => $MappingDirection,
+            CommunicationType    => $CommunicationType,
+            ActionType           => $ActionType,
+            Action               => $Action,
+            ActionFrontendModule => $ActionFrontendModule,
+            Subaction            => 'Change',
         );
     }
 
@@ -230,23 +291,8 @@ sub Run {
 sub _ShowEdit {
     my ( $Self, %Param ) = @_;
 
-    # set mapping direction for display
-    $Param{MappingDirection}
-        = $Param{Direction} eq 'MappingOutbound' ? 'Mapping Outbound' : 'Mapping Inbound';
-
     # set action for go back button
     $Param{LowerCaseActionType} = lc $Param{ActionType};
-
-    # get the action type (back-end)
-    my $ActionBackend = $Param{WebserviceData}->{Config}->{ $Param{CommunicationType} }->
-        { $Param{ActionType} }->{ $Param{Action} }->{'Type'};
-
-    # get configured Actions
-    my $ActionsConfig
-        = $Self->{ConfigObject}->Get( 'GenericInterface::' . $Param{ActionType} . '::Module' );
-
-    # get the configuration dialog for the action
-    $Param{ActionFrontendModule} = $ActionsConfig->{$ActionBackend}->{'ConfigDialog'};
 
     my $Output = $Self->{LayoutObject}->Header();
     $Output .= $Self->{LayoutObject}->NavigationBar();
