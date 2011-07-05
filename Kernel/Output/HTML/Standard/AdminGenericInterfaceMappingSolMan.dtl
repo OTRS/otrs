@@ -2,7 +2,7 @@
 # AdminGenericInterfaceMappingSolMan.dtl - provides HTML form for Admin Mapping SolMan
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceMappingSolMan.dtl,v 1.5 2011-07-04 22:13:37 cr Exp $
+# $Id: AdminGenericInterfaceMappingSolMan.dtl,v 1.6 2011-07-05 16:49:26 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -74,7 +74,7 @@
 
                                 <fieldset class="TableLike FixedLabelSmall">
                                     <input type="hidden" name="$QData{"KeyName"}" value="$QData{"KeyName"}" id="$QData{"KeyName"}" class="KeyName" />
-                                    <label>Value Mapping</label>
+                                    <label>$Text{"Value mapping"}</label>
                                     <div class="Field ValueInsert">
 <!-- dtl:block:ValueTemplateRowIndex -->
                                         <input type="hidden" name="ValueCounter$QData{"KeyName"}" value="$QData{"ValueIndex"}" id="ValueCounter$QData{"KeyName"}" class="ValueCounter" />
@@ -116,7 +116,7 @@
 
 <!-- dtl:block:ValueTemplate -->
                         <div class="ValueTemplate Hidden">
-                            <label for="ValueName"><span class="Marker">*</span>Map value:</label>
+                            <label for="ValueName"><span class="Marker">*</span>$Text{"Map value:"}</label>
                             <input name="ValueName$QData{"KeyName"}_$QData{"ValueIndex"}" id="ValueName" class="W20pc" type="text" maxlength="100" value="$QData{"ValueName"}"/>
                             <div id="ValueNameError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
                             <div id="ValueNameServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
@@ -133,7 +133,7 @@
                     </div>
 
                     <fieldset class="TableLike  SpacingTop">
-                        <label for="KeyMapType">$Text{"New map"}:</label>
+                        <label for="KeyMapType">$Text{"New map:"}</label>
                         <div class="Field">
                             $Data{"MappingKeysStrg"}
                         </div>
@@ -144,6 +144,17 @@
 
                         <div class="Field Spacing">
                             <button class="Primary" type="submit" value="$Text{"Save"}">$Text{"Save"}</button>
+
+                            <button type="submit" id="SaveAndFinishButton" value="$Text{"Save and finish"}">$Text{"Save and finish"}</button>
+                            <input type="hidden" name="ReturnToAction" id="ReturnToAction" value="" />
+<!-- dtl:js_on_document_complete -->
+<script type="text/javascript">//<![CDATA[
+$('#SaveAndFinishButton').bind('click', function(){
+    $('#ReturnToAction').val(1);
+});
+//]]></script>
+<!-- dtl:js_on_document_complete -->
+
                             $Text{"or"}
                             <a href="$Env{"Baselink"}Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=$LQData{"WebserviceID"}">$Text{"Cancel"}</a>
                         </div>
