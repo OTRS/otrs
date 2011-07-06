@@ -2,7 +2,7 @@
 # Kernel/System/PID.pm - all system pid functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: PID.pm,v 1.25 2011-02-14 10:49:54 martin Exp $
+# $Id: PID.pm,v 1.26 2011-07-06 13:59:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.25 $) [1];
+$VERSION = qw($Revision: 1.26 $) [1];
 
 =head1 NAME
 
@@ -102,6 +102,13 @@ create a new process id lock
         Force => 1,
     );
 
+    or to create a new PID with extra TTL time
+
+    $PIDObject->PIDCreate(
+        Name  => 'PostMasterPOP3',
+        TTL   => 60 * 60 * 24 * 3, # for 3 days, per default 1h is used
+    );
+
 =cut
 
 sub PIDCreate {
@@ -116,7 +123,8 @@ sub PIDCreate {
     # check if already exists
     my %ProcessID = $Self->PIDGet(%Param);
     if ( %ProcessID && !$Param{Force} ) {
-        if ( $ProcessID{Created} > ( time() - 3600 ) ) {
+        my $TTL = $Param{TTL} || 3600;
+        if ( $ProcessID{Created} > ( time() - $TTL ) ) {
             $Self->{LogObject}->Log(
                 Priority => 'notice',
                 Message  => "Can't create PID $ProcessID{Name}, because it's already running "
@@ -230,6 +238,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.25 $ $Date: 2011-02-14 10:49:54 $
+$Revision: 1.26 $ $Date: 2011-07-06 13:59:23 $
 
 =cut

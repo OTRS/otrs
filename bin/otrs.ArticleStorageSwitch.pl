@@ -3,7 +3,7 @@
 # otrs.ArticleStorageSwitch.pl - to move stored attachments from one backend to other
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.ArticleStorageSwitch.pl,v 1.14 2011-06-29 14:52:03 martin Exp $
+# $Id: otrs.ArticleStorageSwitch.pl,v 1.15 2011-07-06 13:57:13 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -38,17 +38,18 @@ use Kernel::System::Encode;
 use Kernel::System::Log;
 use Kernel::System::Time;
 use Kernel::System::DB;
+use Kernel::System::PID;
 use Kernel::System::Main;
 use Kernel::System::Ticket;
 
 # get options
 my %Opts;
-getopt( 'hsdcC', \%Opts );
+getopt( 'hsdcCf', \%Opts );
 if ( $Opts{h} ) {
     print "otrs.ArticleStorageSwitch.pl <Revision $VERSION> - to move storage content\n";
     print "Copyright (C) 2001-2011 OTRS AG, http://otrs.org/\n";
     print
-        "usage: otrs.ArticleStorageSwitch.pl -s ArticleStorageDB -d ArticleStorageFS [-c <JUST_SELECT_WHERE_CLOSE_DATE_IS_BEFORE> e. g. -c '2011-06-29 14:00:00' -C <JUST_SELECT_WHERE_CLOSE_IS_OLDER_IN_DAYS] e. g. -C '5'\n";
+        "usage: otrs.ArticleStorageSwitch.pl -s ArticleStorageDB -d ArticleStorageFS [-c <JUST_SELECT_WHERE_CLOSE_DATE_IS_BEFORE> e. g. -c '2011-06-29 14:00:00' -C <JUST_SELECT_WHERE_CLOSE_IS_OLDER_IN_DAYS] e. g. -C '5'  [-f force]\n";
     exit 1;
 }
 
@@ -79,10 +80,22 @@ $CommonObject{TimeObject} = Kernel::System::Time->new(%CommonObject);
 
 # create needed objects
 $CommonObject{DBObject}     = Kernel::System::DB->new(%CommonObject);
+$CommonObject{PIDObject}    = Kernel::System::PID->new(%CommonObject);
 $CommonObject{TicketObject} = Kernel::System::Ticket->new(%CommonObject);
 
 # disable ticket events
 $CommonObject{ConfigObject}->{'Ticket::EventModulePost'} = {};
+
+# create pid lock
+if ( !$Opts{f} && !$CommonObject{PIDObject}->PIDCreate( Name => 'ArticleStorageSwitch' ) ) {
+    print
+        "NOTICE: otrs.ArticleStorageSwitch.pl is already running (use '-f 1' if you want to start it ";
+    print "forced)!\n";
+    exit 1;
+}
+elsif ( $Opts{f} && !$CommonObject{PIDObject}->PIDCreate( Name => 'ArticleStorageSwitch' ) ) {
+    print "NOTICE: otrs.ArticleStorageSwitch.pl is already running but is starting again!\n";
+}
 
 # extended imput validation
 my %SearchParams;
@@ -119,6 +132,13 @@ elsif ( $Opts{C} ) {
     );
 }
 
+# set new PID
+$CommonObject{PIDObject}->PIDCreate(
+    Name  => 'ArticleStorageSwitch',
+    Force => 1,
+    TTL   => 60 * 60 * 24 * 3,
+);
+
 # get all tickets
 my @TicketIDs = $CommonObject{TicketObject}->TicketSearch(
 
@@ -148,6 +168,10 @@ for my $TicketID (@TicketIDs) {
         UserID      => 1,
     );
 }
+
+# delete pid lock
+$CommonObject{PIDObject}->PIDDelete( Name => 'ArticleStorageSwitch' );
+
 print "NOTICE: done.\n";
 
 exit 0;
