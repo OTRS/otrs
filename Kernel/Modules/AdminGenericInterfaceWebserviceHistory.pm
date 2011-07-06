@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericInterfaceWebserviceHistory.pm - provides a log view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceWebserviceHistory.pm,v 1.5 2011-05-25 19:47:27 cr Exp $
+# $Id: AdminGenericInterfaceWebserviceHistory.pm,v 1.6 2011-07-06 21:45:32 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 use Kernel::System::GenericInterface::Webservice;
 use Kernel::System::GenericInterface::WebserviceHistory;
@@ -159,6 +159,8 @@ sub _GetWebserviceList {
 sub _GetWebserviceHistoryDetails {
     my ( $Self, %Param ) = @_;
 
+    my $PasswordMask = '*******';
+
     my $WebserviceHistoryID = $Param{WebserviceHistoryID};
 
     if ( !$WebserviceHistoryID ) {
@@ -173,6 +175,22 @@ sub _GetWebserviceHistoryDetails {
     my $LogData = $Self->{WebserviceHistoryObject}->WebserviceHistoryGet(
         ID => $WebserviceHistoryID,
     );
+
+    # change password string for asterixs
+    for my $CommunicationType (qw(Provider Requester)) {
+        if (
+            defined $LogData->{Config}->{$CommunicationType}->{Transport}->{Config}
+            ->{Authentication}->{Password}
+            )
+        {
+            $LogData->{Config}->{$CommunicationType}->{Transport}->{Config}->{Authentication}
+                ->{Password}
+                =
+                $PasswordMask;
+        }
+    }
+
+    # dump config
     $LogData->{Config} = YAML::Dump( $LogData->{Config} );
 
     # build JSON output
