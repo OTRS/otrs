@@ -74,7 +74,7 @@
   <widgets xsi:type="model:Combo" x="414" y="392" width="77" text="HTTP" measuredWidth="77" measuredHeight="21">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Button" x="499" y="391" text="Edit current type" measuredWidth="109" measuredHeight="23" link="TransportHTTPSOAPDetails.screen">
+  <widgets xsi:type="model:Button" x="499" y="391" text="Edit current type" measuredWidth="109" measuredHeight="23" link="TransportHTTPSOAPProviderDetails.screen">
     <font/>
   </widgets>
   <widgets xsi:type="model:Button" x="784" y="432" width="89" text="Add operation" measuredWidth="89" measuredHeight="23" link="OperationDetails.screen">
@@ -109,7 +109,7 @@
   <widgets xsi:type="model:Combo" x="414" y="664" width="77" text="HTTP" measuredWidth="77" measuredHeight="21">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Button" x="499" y="663" text="Edit current type" measuredWidth="109" measuredHeight="23" link="TransportHTTPSOAPDetails.screen">
+  <widgets xsi:type="model:Button" x="499" y="663" text="Edit current type" measuredWidth="109" measuredHeight="23" link="TransportHTTPSOAPRequesterDetails.screen">
     <font/>
   </widgets>
   <widgets xsi:type="model:Button" x="20" y="272" width="218" text="Export" measuredWidth="218" measuredHeight="23">
