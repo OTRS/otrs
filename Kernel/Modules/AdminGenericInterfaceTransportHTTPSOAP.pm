@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericInterfaceTransportHTTPSOAP.pm - provides a TransportHTTPSOAP view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceTransportHTTPSOAP.pm,v 1.5 2011-06-25 00:25:35 cg Exp $
+# $Id: AdminGenericInterfaceTransportHTTPSOAP.pm,v 1.6 2011-07-07 21:14:01 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::GenericInterface::Webservice;
@@ -113,7 +113,7 @@ sub Run {
         # check required parameters
         my %Error;
         for my $ParamName (
-            qw( NameSpace Encoding )
+            qw( NameSpace )
             )
         {
             if ( !$GetParam->{$ParamName} ) {
@@ -125,27 +125,70 @@ sub Run {
             }
         }
 
-        # check if endpoind is required
-        if ( $CommunicationType ne 'Provider' && !$GetParam->{Endpoint} ) {
+        # to store the clean new configuration locally
+        my $TransportConfig;
 
-            # add server error error class
-            $Error{EndpointServerError} = 'ServerError';
-            $Error{EndpointServerErrorMessage} =
-                'This field is required';
+        # get common settings
+        $TransportConfig->{NameSpace} = $GetParam->{NameSpace};
+
+        # check if is not provider (requester)
+        if ( $CommunicationType ne 'Provider' ) {
+
+            # get requester specific settings
+            $TransportConfig->{Endpoint} = $GetParam->{Endpoint};
+
+            if ( !$GetParam->{Endpoint} ) {
+
+                # add server error error class
+                $Error{EndpointServerError} = 'ServerError';
+                $Error{EndpointServerErrorMessage} =
+                    'This field is required';
+            }
+
+            $TransportConfig->{Encoding}   = $GetParam->{Encoding};
+            $TransportConfig->{SOAPAction} = $GetParam->{SOAPAction};
+
+            # check for SOAPAction
+            if ( $GetParam->{SOAPAction} && $GetParam->{SOAPAction} eq 'Yes' ) {
+
+                # get SOAPAction separator
+                $TransportConfig->{SOAPActionSeparator} = $GetParam->{SOAPActionSeparator};
+            }
+
+            # check for BasicAuth Authentication
+            if ( $GetParam->{Authentication} && $GetParam->{Authentication} eq 'BasicAuth' ) {
+
+                # get BasicAuth settings
+                $TransportConfig->{Authentication}->{Type}     = $GetParam->{Authentication};
+                $TransportConfig->{Authentication}->{User}     = $GetParam->{User};
+                $TransportConfig->{Authentication}->{Password} = $GetParam->{Password};
+
+                if ( !$GetParam->{User} ) {
+
+                    # add server error error class
+                    $Error{'UserServerError'} = 'ServerError';
+                }
+            }
+        }
+
+        # otherwise is provider
+        else {
+
+            # get provider specific settings
+            $TransportConfig->{MaxLength} = $GetParam->{MaxLength};
+
+            # set error for non integer contents
+            if ( $GetParam->{MaxLength} !~ m{\A\d+\Z}sxi ) {
+
+                # add server error error class
+                $Error{MaxLengthServerError} = 'ServerError';
+                $Error{MaxLengthServerErrorMessage} =
+                    'This field should be an integer number.';
+            }
         }
 
         # set new confguration
-        $WebserviceData->{Config}->{$CommunicationType}->{Transport}->{Type} = 'HTTP::SOAP';
-        $WebserviceData->{Config}->{$CommunicationType}->{Transport}->{Config}->{Endpoint}
-            = $GetParam->{Endpoint};
-        $WebserviceData->{Config}->{$CommunicationType}->{Transport}->{Config}->{NameSpace}
-            = $GetParam->{NameSpace};
-        $WebserviceData->{Config}->{$CommunicationType}->{Transport}->{Config}->{Encoding}
-            = $GetParam->{Encoding};
-        $WebserviceData->{Config}->{$CommunicationType}->{Transport}->{Config}->{SOAPAction}
-            = $GetParam->{SOAPAction};
-        $WebserviceData->{Config}->{$CommunicationType}->{Transport}->{Config}->{MaxLength}
-            = $GetParam->{MaxLength};
+        $WebserviceData->{Config}->{$CommunicationType}->{Transport}->{Config} = $TransportConfig;
 
         # if there is an error return to edit screen
         if ( IsHashRefWithData( \%Error ) ) {
@@ -182,9 +225,7 @@ sub Run {
         return $Self->{LayoutObject}->Redirect(
             OP => $RedirectURL,
         );
-
     }
-
 }
 
 sub _ShowEdit {
@@ -193,33 +234,24 @@ sub _ShowEdit {
     my $Output = $Self->{LayoutObject}->Header();
     $Output .= $Self->{LayoutObject}->NavigationBar();
 
-    #configuration
+    # configuration
     $Param{Type}           = 'HTTP::SOAP';
     $Param{WebserviceName} = $Param{WebserviceData}->{Name};
-    $Param{Endpoint}
-        = $Param{WebserviceData}->{Config}->{ $Param{CommunicationType} }->{Transport}->{Config}
-        ->{Endpoint};
-    $Param{NameSpace}
-        = $Param{WebserviceData}->{Config}->{ $Param{CommunicationType} }->{Transport}->{Config}
-        ->{NameSpace};
-    $Param{Encoding}
-        = $Param{WebserviceData}->{Config}->{ $Param{CommunicationType} }->{Transport}->{Config}
-        ->{Encoding};
-    $Param{SOAPAction}
-        = $Param{WebserviceData}->{Config}->{ $Param{CommunicationType} }->{Transport}->{Config}
-        ->{SOAPAction};
-    $Param{MaxLength}
-        = $Param{WebserviceData}->{Config}->{ $Param{CommunicationType} }->{Transport}->{Config}
-        ->{MaxLength};
+    my $TransportConfig = $Param{WebserviceData}->{Config}->{ $Param{CommunicationType} }
+        ->{Transport}->{Config};
 
-    # check if endpoind is required
-    if ( $Param{CommunicationType} ne 'Provider' ) {
-        $Param{EndpointValidateRequired} = 'Validate_Required';
-    }
-    $Self->{LayoutObject}->Block(
-        Name => 'TransportEndpoint' . $Param{CommunicationType},
-    );
+    # extract display parameters from transport config
+    $Param{Endpoint}            = $TransportConfig->{Endpoint};
+    $Param{NameSpace}           = $TransportConfig->{NameSpace};
+    $Param{Encoding}            = $TransportConfig->{Encoding};
+    $Param{MaxLength}           = $TransportConfig->{MaxLength};
+    $Param{SOAPAction}          = $TransportConfig->{SOAPAction};
+    $Param{SOAPActionSeparator} = $TransportConfig->{SOAPActionSeparator};
+    $Param{Authentication}      = $TransportConfig->{Authentication}->{Type};
+    $Param{User}                = $TransportConfig->{Authentication}->{User};
+    $Param{Password}            = $TransportConfig->{Authentication}->{Password};
 
+    # call bread crumbs blocks
     $Self->{LayoutObject}->Block(
         Name => 'WebservicePathElement',
         Data => {
@@ -249,6 +281,67 @@ sub _ShowEdit {
         },
     );
 
+    # check if communication type is not provicer (requester)
+    if ( $Param{CommunicationType} ne 'Provider' ) {
+
+        # create SOAPAction select
+        $Param{SOAPActionStrg} = $Self->{LayoutObject}->BuildSelection(
+            Data => [ 'No', 'Yes' ],
+            Name => 'SOAPAction',
+            SelectedValue => $Param{SOAPAction} || 'Yes',
+            Sort => 'AlphaNumericValue',
+        );
+
+        # set default SOAPActionSeparator
+        my $SelectedSeparator = '#';
+        if ( $Param{SOAPActionSeparator} ) {
+            $SelectedSeparator = $Param{SOAPActionSeparator};
+        }
+
+        # create SOAPActionSeparator select
+        $Param{SOAPActionSeparatorStrg} = $Self->{LayoutObject}->BuildSelection(
+            Data => [ '#', '/' ],
+            Name => 'SOAPActionSeparator',
+            SelectedValue => $SelectedSeparator,
+            Sort          => 'AlphaNumericValue',
+        );
+
+        # hide SOAPActionSearator if SOAPAction is set to No
+        if ( $Param{SOAPAction} && $Param{SOAPAction} eq 'No' ) {
+            $Param{SOAPActionHidden} = 'Hidden';
+        }
+
+        # create Authentication types select
+        $Param{AuthenticationStrg} = $Self->{LayoutObject}->BuildSelection(
+            Data          => ['BasicAuth'],
+            Name          => 'Authentication',
+            SelectedValue => $Param{Authentication} || '-',
+            PossibleNone  => 1,
+            Sort          => 'AlphanumericValue',
+        );
+
+        # hide and disable BasicAuth if BasicAuth is not selected
+        $Param{BasicAuthHidden} = 'Hidden';
+        if ( $Param{Authentication} && $Param{Authentication} eq 'BasicAuth' )
+        {
+            $Param{BasicAuthHidden}      = '';
+            $Param{UserValidateRequired} = 'Validate_Required';
+        }
+
+        # call Endpoint block
+        $Self->{LayoutObject}->Block(
+            Name => 'Endpoint',
+            Data => \%Param,
+        );
+    }
+
+    # call provider or requester specific bocks
+    $Self->{LayoutObject}->Block(
+        Name => 'Transport' . $Param{CommunicationType},
+        Data => \%Param,
+    );
+
+    # call save and finish block
     if ( $Param{NameSpace} ) {
         $Self->{LayoutObject}->Block(
             Name => 'SaveAndFinishButton',
@@ -272,7 +365,10 @@ sub _GetParams {
 
     # get parameters from web browser
     for my $ParamName (
-        qw( Endpoint NameSpace Encoding SOAPAction MaxLength )
+        qw(
+        Endpoint NameSpace Encoding SOAPAction MaxLength Authentication User Password
+        SOAPAction SOAPActionSeparator
+        )
         )
     {
         $GetParam->{$ParamName} =
