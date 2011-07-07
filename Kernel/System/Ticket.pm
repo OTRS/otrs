@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.506 2011-06-29 14:48:28 martin Exp $
+# $Id: Ticket.pm,v 1.507 2011-07-07 15:02:23 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -35,7 +35,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::EventHandler;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.506 $) [1];
+$VERSION = qw($Revision: 1.507 $) [1];
 
 =head1 NAME
 
@@ -922,7 +922,7 @@ Returns:
         TicketFreeText1-16
         TicketFreeTime1-6
 
-        # (time stampes of expected escalations)
+        # (time stamps of expected escalations)
         EscalationResponseTime           (unix time stamp of response time escalation)
         EscalationUpdateTime             (unix time stamp of update time escalation)
         EscalationSolutionTime           (unix time stamp of solution time escalation)
@@ -934,7 +934,7 @@ Returns:
         EscalationTimeWorkingTime        (seconds of working/service time till escalation, e. g. "1800")
         EscalationTime                   (seconds total till escalation of nearest escalation time type - response, update or solution time, e. g. "3600")
 
-        # (detail escalation info about first response, update and solution time)
+        # (detailed escalation info about first response, update and solution time)
         FirstResponseTimeEscalation      (if true, ticket is escalated)
         FirstResponseTimeNotification    (if true, notify - x% of escalation has reached)
         FirstResponseTimeDestinationTime (date of escalation in unix time, e. g. 72193292)
@@ -8489,6 +8489,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.506 $ $Date: 2011-06-29 14:48:28 $
+$Revision: 1.507 $ $Date: 2011-07-07 15:02:23 $
 
 =cut
