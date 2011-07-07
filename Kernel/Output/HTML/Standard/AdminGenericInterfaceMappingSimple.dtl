@@ -2,7 +2,7 @@
 # AdminGenericInterfaceMappingSimple.dtl - provides HTML form for AdminLog
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceMappingSimple.dtl,v 1.6 2011-06-30 22:09:55 cg Exp $
+# $Id: AdminGenericInterfaceMappingSimple.dtl,v 1.7 2011-07-07 22:20:28 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,6 +17,12 @@
 
             $Config{"GenericInterface::Webservice::Path::Separator"}
             <a href="$Env{"Baselink"}Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=$QData{"WebserviceID"}">$QData{"WebserviceName"}</a>
+
+            $Config{"GenericInterface::Webservice::Path::Separator"}
+            <a href="$Env{"Baselink"}Action=$LQData{"ActionFrontendModule"};Subaction=Change;$LQData{"ActionType"}=$LQData{"Action"};WebserviceID=$LQData{"WebserviceID"}">$QData{"ActionType"} $QData{"Action"}</a>
+
+            $Config{"GenericInterface::Webservice::Path::Separator"}
+            $Text{"%s SolMan", "$Data{"MappingDirection"}"}
         </h3>
     </div>
 
@@ -56,7 +62,13 @@
                         <label for="DefaultKeyType">$Text{"Default rule for unmapped keys"}:</label>
                         <div class="Field">
                             $Data{"DefaultKeyTypeStrg"}
-                            <input id="DefaultKeyMapTo" name="DefaultKeyMapTo" class="W25pc $QData{"DefaultKeyMapToHidden"}" type="text" maxlength="100" value="$QData{"DefaultKeyMapTo"}"/>
+                            <div id="DefaultKeyTypeError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
+                            <div id="DefaultKeyTypeServerError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
+                            <input id="DefaultKeyMapTo" name="DefaultKeyMapTo" class="W25pc $QData{"DefaultKeyMapToHidden"} $QData{"DefaultKeyMapToError"}" type="text" maxlength="100" value="$QData{"DefaultKeyMapTo"}"/>
                             <div id="DefaultKeyMapToError" class="TooltipErrorMessage">
                                 <p>$Text{"This field is required."}</p>
                             </div>
@@ -70,7 +82,13 @@
                         <label for="DefaultKeyType">$Text{"Default rule for unmapped values"}:</label>
                         <div class="Field">
                             $Data{"DefaultValueTypeStrg"}
-                            <input id="DefaultValueMapTo"name="DefaultValueMapTo"  class="W25pc $QData{"DefaultValueMapToHidden"}" type="text" maxlength="100" value="$QData{"DefaultValueMapTo"}"/>
+                            <div id="DefaultKeyValueTypeError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
+                            <div id="DefaultValueTypeServerError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
+                            <input id="DefaultValueMapTo"name="DefaultValueMapTo"  class="W25pc $QData{"DefaultValueMapToHidden"} $QData{"DefaultValueMapToError"}" type="text" maxlength="100" value="$QData{"DefaultValueMapTo"}"/>
                             <div id="DefaultValueMapToError" class="TooltipErrorMessage">
                                 <p>$Text{"This field is required."}</p>
                             </div>
@@ -81,7 +99,7 @@
                         </div>
                         <div class="Clear"></div>
 
-                        <label for="DefaultKeyType">$Text{"New key map"}:</label>
+                        <label for="AddKeyMapping">$Text{"New key map"}:</label>
                         <div class="Field">
                             <div class="NewRule">
                                 <button type="button" id="AddKeyMapping" class="Add" value="Add key mapping">$Text{"Add key mapping"}</button>
@@ -107,17 +125,26 @@
                                 <fieldset class="TableLike FixedLabelSmall">
                                     <label>$Text{"Key mapping"}:</label>
                                     <div class="Field">
-                                        Map key matching the
-                                        $Data{"KeyMapTypeStrg"}
-                                        <input name="KeyName$QData{"KeyIndex"}" id="KeyName$QData{"KeyIndex"}" class="W20pc" type="text" maxlength="100" value="$QData{"KeyName"}"/>
+                                        <label for="KeyName$QData{"KeyIndex"}" class="KeyName$QData{"KeyIndex"}Label">Map key</label>
+                                        <input name="KeyName$QData{"KeyIndex"}" id="KeyName$QData{"KeyIndex"}" class="W20pc Validate_Required $QData{"KeyNameError"}" type="text" maxlength="100" value="$QData{"KeyName"}"/>
                                         <div id="KeyName$QData{"KeyIndex"}Error" class="TooltipErrorMessage">
                                             <p>$Text{"This field is required."}</p>
                                         </div>
                                         <div id="KeyName$QData{"KeyIndex"}ServerError" class="TooltipErrorMessage">
                                             <p>$Text{"This field is required."}</p>
                                         </div>
-                                        to new name
-                                        <input name="KeyMapNew$QData{"KeyIndex"}" id="KeyMapNew$QData{"KeyIndex"}" class="W20pc Validate_Required NewValue" type="text" maxlength="100" value="$QData{"KeyMapNew"}"/>
+
+                                        <label for="KeyMapTypeStrg$QData{"KeyIndex"}" class="KeyMapTypeStrg$QData{"KeyIndex"}Label">matching the</label>
+                                        $Data{"KeyMapTypeStrg"}
+                                        <div id="KeyMapTypeStrg$QData{"KeyIndex"}Error" class="TooltipErrorMessage">
+                                            <p>$Text{"This field is required."}</p>
+                                        </div>
+                                        <div id="KeyMapTypeStrg$QData{"KeyIndex"}ServerError" class="TooltipErrorMessage">
+                                            <p>$Text{"This field is required."}</p>
+                                        </div>
+
+                                        <label for="KeyMapNew$QData{"KeyIndex"}" class="KeyMapNew$QData{"KeyIndex"}Label">to new name</label>
+                                        <input name="KeyMapNew$QData{"KeyIndex"}" id="KeyMapNew$QData{"KeyIndex"}" class="W20pc Validate_Required NewValue $QData{"KeyMapNewError"}" type="text" maxlength="100" value="$QData{"KeyMapNew"}"/>
                                         <div id="KeyMapNew$QData{"KeyIndex"}Error" class="TooltipErrorMessage">
                                             <p>$Text{"This field is required."}</p>
                                         </div>
@@ -136,17 +163,26 @@
                                         <div class="Spacing"></div>
 <!-- dtl:block:ValueTemplateRow -->
                                         <div class="ValueTemplateRow SpacingTopSmall">
-                                            Map values matching the
-                                            $Data{"ValueMapTypeStrg"}
-                                            <input name="ValueName$QData{"KeyIndex"}_$QData{"ValueIndex"}" id="ValueName$QData{"KeyIndex"}_$QData{"ValueIndex"}" class="W20pc Validate_Required" type="text" maxlength="100" value="$QData{"ValueName"}"/>
+                                            <label for="ValueName$QData{"KeyIndex"}_$QData{"ValueIndex"}">Map values</label>
+                                            <input name="ValueName$QData{"KeyIndex"}_$QData{"ValueIndex"}" id="ValueName$QData{"KeyIndex"}_$QData{"ValueIndex"}" class="W20pc Validate_Required $QData{"ValueNameError"}" type="text" maxlength="100" value="$QData{"ValueName"}"/>
                                             <div id="ValueName$QData{"KeyIndex"}_$QData{"ValueIndex"}Error" class="TooltipErrorMessage">
                                                 <p>$Text{"This field is required."}</p>
                                             </div>
                                             <div id="ValueName$QData{"KeyIndex"}_$QData{"ValueIndex"}ServerError" class="TooltipErrorMessage">
                                                 <p>$Text{"This field is required."}</p>
                                             </div>
-                                            to new value
-                                            <input name="ValueMapNew$QData{"KeyIndex"}_$QData{"ValueIndex"}" id="ValueMapNew$QData{"KeyIndex"}_$QData{"ValueIndex"}" class="W20pc Validate_Required" type="text" maxlength="100" value="$QData{"ValueMapNew"}"/>
+
+                                            <label for="ValueMapTypeStrg$QData{"KeyIndex"}_$QData{"ValueIndex"}">matching the</label>
+                                            $Data{"ValueMapTypeStrg"}
+                                            <div id="ValueMapTypeStrg$QData{"KeyIndex"}_$QData{"ValueIndex"}Error" class="TooltipErrorMessage">
+                                                <p>$Text{"This field is required."}</p>
+                                            </div>
+                                            <div id="ValueMapTypeStrg$QData{"KeyIndex"}_$QData{"ValueIndex"}ServerError" class="TooltipErrorMessage">
+                                                <p>$Text{"This field is required."}</p>
+                                            </div>
+
+                                            <label for="ValueMapNew$QData{"KeyIndex"}_$QData{"ValueIndex"}">to new value</label>
+                                            <input name="ValueMapNew$QData{"KeyIndex"}_$QData{"ValueIndex"}" id="ValueMapNew$QData{"KeyIndex"}_$QData{"ValueIndex"}" class="W20pc Validate_Required $QData{"ValueMapNewError"}" type="text" maxlength="100" value="$QData{"ValueMapNew"}"/>
                                             <div id="ValueMapNew$QData{"KeyIndex"}_$QData{"ValueIndex"}Error" class="TooltipErrorMessage">
                                                 <p>$Text{"This field is required."}</p>
                                             </div>
@@ -159,7 +195,7 @@
                                     </div>
                                     <div class="Clear"></div>
 
-                                    <label for="DefaultKeyType">$Text{"New key map"}:</label>
+                                    <label for="AddValueMapping$QData{"KeyIndex"}" class="AddValueMapping">$Text{"New key map"}:</label>
                                     <div class="Field">
                                         <div class="NewValueMap">
                                             <button type="button" id="AddValueMapping$QData{"KeyIndex"}" class="Add ValueAdd" value="Add Value mapping">$Text{"Add value mapping"}</button>
@@ -172,9 +208,8 @@
 <!-- dtl:block:KeyTemplate -->
 
 <!-- dtl:block:ValueTemplate -->
-                        <div class="ValueTemplate SpacingTopSmall Hidden">
-                            Map values matching the
-                            $Data{"ValueMapTypeStrg"}
+                        <div class="ValueTemplateRow ValueTemplate SpacingTopSmall Hidden">
+                            <label for="ValueName" class="ValueNameLabel">Map values</label>
                             <input name="ValueName" id="ValueName" class="W20pc" type="text" maxlength="100" value=""/>
                             <div id="ValueNameError" class="TooltipErrorMessage">
                                 <p>$Text{"This field is required."}</p>
@@ -182,7 +217,17 @@
                             <div id="ValueNameServerError" class="TooltipErrorMessage">
                                 <p>$Text{"This field is required."}</p>
                             </div>
-                            to new value
+
+                            <label for="ValueMapTypeStrg" class="ValueMapTypeStrgLabel">matching the</label>
+                            $Data{"ValueMapTypeStrg"}
+                            <div id="ValueMapTypeStrgError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
+                            <div id="ValueMapTypeStrgServerError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
+
+                            <label for="ValueMapNew" class="ValueMapNewLabel">to new value</label>
                             <input name="ValueMapNew" id="ValueMapNew" class="W20pc" type="text" maxlength="100" value=""/>
                             <div id="ValueMapNewError" class="TooltipErrorMessage">
                                 <p>$Text{"This field is required."}</p>
@@ -198,9 +243,21 @@
 
                     <div class="Field Spacing">
                         <button class="Primary" type="submit" value="$Text{"Save"}">$Text{"Save"}</button>
+
+                        <button type="submit" id="SaveAndFinishButton" value="$Text{"Save and finish"}">$Text{"Save and finish"}</button>
+                        <input type="hidden" name="ReturnToAction" id="ReturnToAction" value="" />
+<!-- dtl:js_on_document_complete -->
+<script type="text/javascript">//<![CDATA[
+$('#SaveAndFinishButton').bind('click', function(){
+    $('#ReturnToAction').val(1);
+});
+//]]></script>
+<!-- dtl:js_on_document_complete -->
+
                         $Text{"or"}
                         <a href="$Env{"Baselink"}Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=$LQData{"WebserviceID"}">$Text{"Cancel"}</a>
                     </div>
+
                     <div class="Clear"></div>
 
                 </form>
@@ -222,6 +279,7 @@
 <script type="text/javascript">//<![CDATA[
 Core.Agent.Admin.GenericInterfaceMapping.Init({
     WebserviceID: $QData{"WebserviceID"},
+    DeletedString: '$QData{"DeletedString"}',
     Localization: {
         DeleteKeyMappingMsg: '$JSText{"Delete this Key Mapping"}',
         DeleteMsg: '$JSText{"Delete"}',

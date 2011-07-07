@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericInterfaceMappingSimple.pm - provides a TransportHTTPSOAP view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceMappingSimple.pm,v 1.5 2011-06-30 22:09:55 cg Exp $
+# $Id: AdminGenericInterfaceMappingSimple.pm,v 1.6 2011-07-07 22:20:12 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::GenericInterface::Webservice;
@@ -41,6 +41,10 @@ sub new {
     $Self->{WebserviceObject} =
         Kernel::System::GenericInterface::Webservice->new( %{$Self} );
 
+    $Self->{DeletedString}
+        = $Self->{ConfigObject}->Get('GenericInterface::Mapping::SolMan::DeletedString')
+        || 'GIDeletedMapValue';
+
     return $Self;
 }
 
@@ -59,6 +63,17 @@ sub Run {
     my $CommunicationType = IsStringWithData($Operation) ? 'Provider'  : 'Requester';
     my $ActionType        = IsStringWithData($Operation) ? 'Operation' : 'Invoker';
     my $Action = $Operation || $Invoker;
+
+    # get configured Actions
+    my $ActionsConfig
+        = $Self->{ConfigObject}->Get( 'GenericInterface::' . $ActionType . '::Module' );
+
+    # check for valid action backend
+    if ( !IsHashRefWithData($ActionsConfig) ) {
+        return $Self->{LayoutObject}->ErrorScreen(
+            Message => "Could not get registered configuration for actions type $ActionType",
+        );
+    }
 
     # ------------------------------------------------------------ #
     # subaction Change: load webservice and show edit screen
@@ -82,17 +97,74 @@ sub Run {
             );
         }
 
+        # get the action type (back-end)
+        my $ActionBackend = $WebserviceData->{Config}->{$CommunicationType}->{$ActionType}
+            ->{$Action}->{'Type'};
+
+        # get the configuration dialog for the action
+        my $ActionFrontendModule = $ActionsConfig->{$ActionBackend}->{'ConfigDialog'};
+
+        # recreate structure for edit
+        my %Mapping;
+
+        my $MappingConfig = $WebserviceData->{Config}->{$CommunicationType}->
+            {$ActionType}->{$Action}->{$Direction}->{Config};
+
+        $Mapping{DefaultKeyMapTo} = $MappingConfig->{KeyMapDefault}->{MapTo};
+        $Mapping{DefaultKeyType}  = $MappingConfig->{KeyMapDefault}->{MapType};
+
+        $Mapping{DefaultValueMapTo} = $MappingConfig->{ValueMapDefault}->{MapTo};
+        $Mapping{DefaultValueType}  = $MappingConfig->{ValueMapDefault}->{MapType};
+
+        # add saved values
+        my $KeyIndex = 0;
+        for my $KeyMapType (qw( KeyMapExact KeyMapRegEx )) {
+            for my $Key ( keys %{ $MappingConfig->{$KeyMapType} } ) {
+                $KeyIndex++;
+                my $NewKey = $MappingConfig->{$KeyMapType}->{$Key};
+
+                $Mapping{ 'KeyName' . $KeyIndex }        = $Key;
+                $Mapping{ 'KeyMapNew' . $KeyIndex }      = $NewKey;
+                $Mapping{ 'KeyMapTypeStrg' . $KeyIndex } = $KeyMapType;
+
+                my $ValueIndex = 0;
+                for my $ValueMapType (qw( ValueMapExact ValueMapRegEx )) {
+                    for my $ValueName (
+                        keys %{ $MappingConfig->{ValueMap}->{$NewKey}->{$ValueMapType} }
+                        )
+                    {
+                        $ValueIndex++;
+                        my $NewVal
+                            = $MappingConfig->{ValueMap}->{$NewKey}->{$ValueMapType}->{$ValueName},
+
+                            $Mapping{ 'ValueName' . $KeyIndex . '_' . $ValueIndex } = $ValueName;
+                        $Mapping{ 'ValueMapNew' . $KeyIndex . '_' . $ValueIndex } = $NewVal;
+                        $Mapping{ 'ValueMapTypeStrg' . $KeyIndex . '_' . $ValueIndex }
+                            = $ValueMapType;
+
+                    }
+                }
+
+                # set value index
+                $Mapping{ 'ValueCounter' . $KeyIndex } = $ValueIndex;
+            }
+        }
+
+        # set Key index
+        $Mapping{'KeyCounter'} = $KeyIndex;
+
         return $Self->_ShowEdit(
             %Param,
-            WebserviceID      => $WebserviceID,
-            WebserviceData    => $WebserviceData,
-            Operation         => $Operation,
-            Invoker           => $Invoker,
-            Direction         => $Direction,
-            CommunicationType => $CommunicationType,
-            ActionType        => $ActionType,
-            Action            => $Action,
-            Subaction         => 'Change',
+            WebserviceID         => $WebserviceID,
+            WebserviceData       => \%Mapping,
+            Operation            => $Operation,
+            Invoker              => $Invoker,
+            Direction            => $Direction,
+            CommunicationType    => $CommunicationType,
+            ActionType           => $ActionType,
+            Action               => $Action,
+            ActionFrontendModule => $ActionFrontendModule,
+            Subaction            => 'Change',
         );
     }
 
@@ -118,9 +190,39 @@ sub Run {
             );
         }
 
+        # get the action type (back-end)
+        my $ActionBackend = $WebserviceData->{Config}->{$CommunicationType}->{$ActionType}
+            ->{$Action}->{'Type'};
+
+        # check for valid action backend
+        if ( !$ActionBackend ) {
+            return $Self->{LayoutObject}->ErrorScreen(
+                Message => "Could not get backend for $ActionType $Action",
+            );
+        }
+
+        # get the configuration dialog for the action
+        my $ActionFrontendModule = $ActionsConfig->{$ActionBackend}->{'ConfigDialog'};
+
         # get parameter from web browser
         my $GetParam = $Self->_GetParams;
 
+        # if there is an error return to edit screen
+        if ( $GetParam->{Error} ) {
+            return $Self->_ShowEdit(
+                %Param,
+                WebserviceID         => $WebserviceID,
+                WebserviceData       => $GetParam,
+                Operation            => $Operation,
+                Invoker              => $Invoker,
+                Direction            => $Direction,
+                CommunicationType    => $CommunicationType,
+                ActionType           => $ActionType,
+                Action               => $Action,
+                ActionFrontendModule => $ActionFrontendModule,
+                Subaction            => 'Change',
+            );
+        }
         my %NewMapping;
 
         # set default key
@@ -145,37 +247,10 @@ sub Run {
             }
         }
 
-        #        # check required parameters
-        #        my %Error;
-        #        for my $ParamName (
-        #            qw( NameSpace Encoding )
-        #            )
-        #        {
-        #            if ( !$GetParam->{$ParamName} ) {
-        #
-        #                # add server error error class
-        #                $Error{ $ParamName . 'ServerError' } = 'ServerError';
-        #                $Error{ $ParamName . 'ServerErrorMessage' } =
-        #                    'This field is required';
-        #            }
-        #        }
-
         # set new mapping
         $WebserviceData->{Config}->{$CommunicationType}->{$ActionType}->{$Action}->{$Direction}
             ->{Config}
             = \%NewMapping;
-
-        #        # if there is an error return to edit screen
-        #        if ( IsHashRefWithData( \%Error ) ) {
-        #            return $Self->_ShowEdit(
-        #                %Error,
-        #                %Param,
-        #                WebserviceID      => $WebserviceID,
-        #                WebserviceData    => $WebserviceData,
-        #                CommunicationType => $CommunicationType,
-        #                Action            => 'Change',
-        #            );
-        #        }
 
         # otherwise save configuration and return to overview screen
         my $Success = $Self->{WebserviceObject}->WebserviceUpdate(
@@ -186,17 +261,37 @@ sub Run {
             UserID  => $Self->{UserID},
         );
 
+        # check for successful web service update
+        if ( !$Success ) {
+            return $Self->{LayoutObject}->ErrorScreen(
+                Message => "Could not update configuration data for WebserviceID $WebserviceID",
+            );
+        }
+
+        # save and finish button: go to Webservice.
+        if ( $Self->{ParamObject}->GetParam( Param => 'ReturnToAction' ) ) {
+            my $RedirectURL
+                = "Action=$ActionFrontendModule;Subaction=Change;$ActionType=$Action;"
+                . "WebserviceID=$WebserviceID;";
+
+            return $Self->{LayoutObject}->Redirect(
+                OP => $RedirectURL,
+            );
+        }
+
+        # check if stay on mapping screen or redirect to prev screen
         return $Self->_ShowEdit(
             %Param,
-            WebserviceID      => $WebserviceID,
-            WebserviceData    => $WebserviceData,
-            Operation         => $Operation,
-            Invoker           => $Invoker,
-            Direction         => $Direction,
-            CommunicationType => $CommunicationType,
-            ActionType        => $ActionType,
-            Action            => $Action,
-            Subaction         => 'Change',
+            WebserviceID         => $WebserviceID,
+            WebserviceData       => $GetParam,
+            Operation            => $Operation,
+            Invoker              => $Invoker,
+            Direction            => $Direction,
+            CommunicationType    => $CommunicationType,
+            ActionType           => $ActionType,
+            Action               => $Action,
+            ActionFrontendModule => $ActionFrontendModule,
+            Subaction            => 'Change',
         );
     }
 
@@ -208,18 +303,24 @@ sub _ShowEdit {
     my $Output = $Self->{LayoutObject}->Header();
     $Output .= $Self->{LayoutObject}->NavigationBar();
 
-    my $MappingConfig = $Param{WebserviceData}->{Config}->{ $Param{CommunicationType} }->
-        { $Param{ActionType} }->{ $Param{Action} }->{ $Param{Direction} }->{Config};
-    $Param{WebserviceName} = $Param{WebserviceData}->{Name};
-    $Param{Type}           = 'Mapping::Simple';
+    my $MappingConfig = $Param{WebserviceData};
+    my %Error;
+    if ( defined $Param{WebserviceData}->{Error} ) {
+        %Error = %{ $Param{WebserviceData}->{Error} };
+    }
+    $Param{DeletedString} = $Self->{DeletedString};
 
-    $Param{DefaultKeyMapTo} = $MappingConfig->{KeyMapDefault}->{MapTo};
+    $Param{DefaultKeyMapTo} = $MappingConfig->{DefaultKeyMapTo};
     $Param{DefaultKeyMapToHidden} =
-        $MappingConfig->{KeyMapDefault}->{MapType} ne 'MapTo' ? 'Hidden' : 'Validate_Required';
+        $MappingConfig->{DefaultKeyType} ne 'MapTo' ? 'Hidden' : 'Validate_Required';
+    $Param{DefaultKeyMapToError} = $Error{DefaultKeyMapTo} || '';
+    $Param{DefaultKeyTypeError}  = $Error{DefaultKeyType}  || '';
 
-    $Param{DefaultValueMapTo} = $MappingConfig->{ValueMapDefault}->{MapTo};
+    $Param{DefaultValueMapTo} = $MappingConfig->{DefaultValueMapTo};
     $Param{DefaultValueMapToHidden} =
-        $MappingConfig->{ValueMapDefault}->{MapType} ne 'MapTo' ? 'Hidden' : 'Validate_Required';
+        $MappingConfig->{DefaultValueType} ne 'MapTo' ? 'Hidden' : 'Validate_Required';
+    $Param{DefaultValueMapToError} = $Error{DefaultValueMapTo} || '';
+    $Param{DefaultValueTypeError}  = $Error{DefaultValueType}  || '';
 
     # select object for keys
     $Param{DefaultKeyTypeStrg} = $Self->{LayoutObject}->BuildSelection(
@@ -238,12 +339,11 @@ sub _ShowEdit {
             },
         ],
         Name         => 'DefaultKeyType',
-        Class        => 'DefaultType',
-        SelectedID   => $MappingConfig->{KeyMapDefault}->{MapType},
+        Class        => 'DefaultType ' . $Param{DefaultKeyTypeError},
+        SelectedID   => $MappingConfig->{DefaultKeyType},
         PossibleNone => 1,
         Translate    => 0,
     );
-
     $Param{KeyMapTypeStrg} = $Self->{LayoutObject}->BuildSelection(
         Data => [
             {
@@ -277,8 +377,8 @@ sub _ShowEdit {
             },
         ],
         Name         => 'DefaultValueType',
-        Class        => 'DefaultType',
-        SelectedID   => $MappingConfig->{ValueMapDefault}->{MapType},
+        Class        => 'DefaultType ' . $Param{DefaultKeyTypeError},
+        SelectedID   => $MappingConfig->{DefaultValueType},
         PossibleNone => 1,
         Translate    => 0,
     );
@@ -304,6 +404,7 @@ sub _ShowEdit {
         Data => {
             Classes => 'KeyTemplate Hidden',
             %Param,
+            %Error,
         },
     );
 
@@ -317,86 +418,87 @@ sub _ShowEdit {
     );
 
     # add saved values
-    my $KeyIndex = 0;
-    for my $KeyMapType (qw( KeyMapExact KeyMapRegEx )) {
-        for my $Key ( keys %{ $MappingConfig->{$KeyMapType} } ) {
-            $KeyIndex++;
+    for my $KeyIndex ( 1 .. $MappingConfig->{KeyCounter} ) {
+        my $KeyMapTypeStrgError = $Error{ 'KeyMapTypeStrg' . $KeyIndex } || '';
 
-            # build map type selection
-            my $KeyMapTypeStrg = $Self->{LayoutObject}->BuildSelection(
+        # build map type selection
+        my $KeyMapTypeStrg = $Self->{LayoutObject}->BuildSelection(
+            Data => [
+                {
+                    Key   => 'KeyMapExact',
+                    Value => 'Exact value(s)',
+                },
+                {
+                    Key   => 'KeyMapRegEx',
+                    Value => 'Regular expression',
+                },
+            ],
+            Name         => 'KeyMapTypeStrg' . $KeyIndex,
+            SelectedID   => $MappingConfig->{ 'KeyMapTypeStrg' . $KeyIndex },
+            Class        => 'Validate_Required ' . $KeyMapTypeStrgError,
+            PossibleNone => 1,
+            Translate    => 0,
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'KeyTemplate',
+            Data => {
+                KeyIndex       => $KeyIndex,
+                KeyName        => $MappingConfig->{ 'KeyName' . $KeyIndex },
+                KeyNameError   => $Error{ 'KeyName' . $KeyIndex },
+                KeyMapNew      => $MappingConfig->{ 'KeyMapNew' . $KeyIndex },
+                KeyMapNewError => $Error{ 'KeyMapNew' . $KeyIndex },
+                KeyMapTypeStrg => $KeyMapTypeStrg,
+            },
+        );
+
+        for my $ValueIndex ( 1 .. $MappingConfig->{ 'ValueCounter' . $KeyIndex } ) {
+            my $ValueMapTypeStrgError = $Error{ 'ValueMapTypeStrg' . $KeyIndex . '_' . $ValueIndex }
+                || '';
+            my $ValueMapTypeStrg = $Self->{LayoutObject}->BuildSelection(
                 Data => [
                     {
-                        Key   => 'KeyMapExact',
+                        Key   => 'ValueMapExact',
                         Value => 'Exact value(s)',
                     },
                     {
-                        Key   => 'KeyMapRegEx',
+                        Key   => 'ValueMapRegEx',
                         Value => 'Regular expression',
                     },
                 ],
-                Name         => 'KeyMapTypeStrg' . $KeyIndex,
-                SelectedID   => $KeyMapType,
+                Name => 'ValueMapTypeStrg' . $KeyIndex . '_' . $ValueIndex,
+                SelectedID =>
+                    $MappingConfig->{ 'ValueMapTypeStrg' . $KeyIndex . '_' . $ValueIndex },
+                Class        => 'Validate_Required ' . $ValueMapTypeStrgError,
                 PossibleNone => 1,
                 Translate    => 0,
             );
-            my $NewKey = $MappingConfig->{$KeyMapType}->{$Key};
+
+            # build map type selection
             $Self->{LayoutObject}->Block(
-                Name => 'KeyTemplate',
-                Data => {
-                    KeyName        => $Key,
-                    KeyIndex       => $KeyIndex,
-                    KeyMapNew      => $NewKey,
-                    KeyMapTypeStrg => $KeyMapTypeStrg,
-                },
-            );
-
-            my $ValueIndex = 0;
-            for my $ValueMapType (qw( ValueMapExact ValueMapRegEx )) {
-                for my $NewVal ( keys %{ $MappingConfig->{ValueMap}->{$NewKey}->{$ValueMapType} } )
-                {
-                    $ValueIndex++;
-
-                    # build map type selection
-                    my $ValueMapTypeStrg = $Self->{LayoutObject}->BuildSelection(
-                        Data => [
-                            {
-                                Key   => 'ValueMapExact',
-                                Value => 'Exact value(s)',
-                            },
-                            {
-                                Key   => 'ValueMapRegEx',
-                                Value => 'Regular expression',
-                            },
-                        ],
-                        Name         => 'ValueMapTypeStrg' . $KeyIndex . '_' . $ValueIndex,
-                        SelectedID   => $ValueMapType,
-                        PossibleNone => 1,
-                        Translate    => 0,
-                    );
-
-                    $Self->{LayoutObject}->Block(
-                        Name => 'ValueTemplateRow',
-                        Data => {
-                            KeyIndex   => $KeyIndex,
-                            ValueName  => $NewVal,
-                            ValueIndex => $ValueIndex,
-                            ValueMapNew =>
-                                $MappingConfig->{ValueMap}->{$NewKey}->{$ValueMapType}->{$NewVal},
-                            ValueMapTypeStrg => $ValueMapTypeStrg,
-                        },
-                    );
-                }
-            }
-
-            # set value index
-            $Self->{LayoutObject}->Block(
-                Name => 'ValueTemplateRowIndex',
+                Name => 'ValueTemplateRow',
                 Data => {
                     KeyIndex   => $KeyIndex,
                     ValueIndex => $ValueIndex,
+                    ValueName  => $MappingConfig->{ 'ValueName' . $KeyIndex . '_' . $ValueIndex },
+                    ValueNameError => $Error{ 'ValueName' . $KeyIndex . '_' . $ValueIndex } || '',
+                    ValueMapNew =>
+                        $MappingConfig->{ 'ValueMapNew' . $KeyIndex . '_' . $ValueIndex },
+                    ValueMapNewError => $Error{ 'ValueMapNew' . $KeyIndex . '_' . $ValueIndex }
+                        || '',
+                    ValueMapTypeStrg => $ValueMapTypeStrg,
                 },
             );
+
         }
+
+        # set index value
+        $Self->{LayoutObject}->Block(
+            Name => 'ValueTemplateRowIndex',
+            Data => {
+                KeyIndex   => $KeyIndex,
+                ValueIndex => $MappingConfig->{ 'ValueCounter' . $KeyIndex },
+            },
+        );
 
     }
 
@@ -404,7 +506,7 @@ sub _ShowEdit {
     $Self->{LayoutObject}->Block(
         Name => 'KeyCounter',
         Data => {
-            KeyIndex => $KeyIndex,
+            KeyIndex => $MappingConfig->{KeyCounter} || 0,
         },
     );
 
@@ -436,37 +538,51 @@ sub _GetParams {
     {
         $GetParam->{$ParamName} =
             $Self->{ParamObject}->GetParam( Param => $ParamName ) || '';
+        if ( $GetParam->{$ParamName} eq '' ) {
+            if ( $ParamName =~ /(DefaultKeyMapTo|DefaultValueMapTo)/i ) {
+                my $ParamPart = substr( $ParamName, 0, -5 );
+                if ( $Self->{ParamObject}->GetParam( Param => $ParamPart . 'Type' ) ne 'MapTo' ) {
+                    next;
+                }
+            }
+            $GetParam->{Error}->{$ParamName} = 'ServerError';
+        }
     }
 
     # get params for keys
+    my $KeyIndex = 0;
     for my $KeyCounter ( 1 .. $GetParam->{KeyCounter} ) {
-        $GetParam->{ 'KeyMapTypeStrg' . $KeyCounter } =
-            $Self->{ParamObject}->GetParam( Param => 'KeyMapTypeStrg' . $KeyCounter ) || '';
-
-        $GetParam->{ 'KeyName' . $KeyCounter } =
-            $Self->{ParamObject}->GetParam( Param => 'KeyName' . $KeyCounter ) || '';
-
-        $GetParam->{ 'KeyMapNew' . $KeyCounter } =
-            $Self->{ParamObject}->GetParam( Param => 'KeyMapNew' . $KeyCounter ) || '';
-
-        $GetParam->{ 'ValueCounter' . $KeyCounter } =
-            $Self->{ParamObject}->GetParam( Param => 'ValueCounter' . $KeyCounter ) || 0;
-
-        # get params for keys
-        for my $ValueCounter ( 1 .. $GetParam->{ 'ValueCounter' . $KeyCounter } ) {
-            $GetParam->{ 'ValueMapTypeStrg' . $KeyCounter . '_' . $ValueCounter } =
-                $Self->{ParamObject}
-                ->GetParam( Param => 'ValueMapTypeStrg' . $KeyCounter . '_' . $ValueCounter ) || '';
-
-            $GetParam->{ 'ValueName' . $KeyCounter . '_' . $ValueCounter } =
-                $Self->{ParamObject}
-                ->GetParam( Param => 'ValueName' . $KeyCounter . '_' . $ValueCounter ) || '';
-
-            $GetParam->{ 'ValueMapNew' . $KeyCounter . '_' . $ValueCounter } =
-                $Self->{ParamObject}
-                ->GetParam( Param => 'ValueMapNew' . $KeyCounter . '_' . $ValueCounter ) || '';
+        next if !$Self->{ParamObject}->GetParam( Param => 'ValueCounter' . $KeyCounter );
+        $KeyIndex++;
+        for my $KeyItem (qw(KeyMapTypeStrg KeyName KeyMapNew ValueCounter)) {
+            my $KeyAux = $Self->{ParamObject}->GetParam( Param => $KeyItem . $KeyCounter ) || '';
+            $GetParam->{ $KeyItem . $KeyIndex } = $KeyAux;
+            $GetParam->{Error}->{ $KeyItem . $KeyIndex } = 'ServerError'
+                if $KeyAux eq '';
         }
+
+        # get params for values
+        my $ValueIndex = 0;
+        for my $ValueCounter ( 1 .. $GetParam->{ 'ValueCounter' . $KeyIndex } ) {
+            my $Sufix = $KeyCounter . '_' . $ValueCounter;
+            next
+                if $Self->{ParamObject}->GetParam( Param => 'ValueName' . $Sufix ) eq
+                    $Self->{DeletedString};
+            $ValueIndex++;
+            for my $ValueItem (qw(ValueMapTypeStrg ValueName ValueMapNew)) {
+                my $ValAux = $Self->{ParamObject}->GetParam( Param => $ValueItem . $Sufix ) || '';
+                $GetParam->{ $ValueItem . $KeyIndex . '_' . $ValueIndex } = $ValAux;
+                $GetParam->{Error}->{ $ValueItem . $KeyIndex . '_' . $ValueIndex } = 'ServerError'
+                    if $ValAux eq '';
+            }
+        }
+
+        # set new value index
+        $GetParam->{ 'ValueCounter' . $KeyIndex } = $ValueIndex;
     }
+
+    # set new key index
+    $GetParam->{KeyCounter} = $KeyIndex;
 
     return $GetParam;
 }

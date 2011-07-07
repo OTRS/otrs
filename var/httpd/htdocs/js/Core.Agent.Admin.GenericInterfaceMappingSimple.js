@@ -2,7 +2,7 @@
 // Core.Agent.Admin.GenericInterfaceMapping.js - provides the special module functions for the GenericInterface mapping.
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.GenericInterfaceMappingSimple.js,v 1.1 2011-06-30 22:09:55 cg Exp $
+// $Id: Core.Agent.Admin.GenericInterfaceMappingSimple.js,v 1.2 2011-07-07 22:19:37 cg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -32,8 +32,12 @@ Core.Agent.Admin.GenericInterfaceMapping= (function (TargetNS) {
     TargetNS.Init = function (Params) {
         TargetNS.WebserviceID = parseInt(Params.WebserviceID, 10);
         TargetNS.Localization = Params.Localization;
+        TargetNS.DeletedString = Params.DeletedString;
 
+        // remove Validate_Required class from templates, if not
+        // a validation is fire on hidden fields
         $('.KeyTemplate').find(':input').removeClass('Validate_Required');
+
         $('.DefaultType').bind('change', function(){
 
             // call function to hide or show
@@ -72,7 +76,8 @@ Core.Agent.Admin.GenericInterfaceMapping= (function (TargetNS) {
 
         //bind click function to add button
         $('.ValueRemove').bind('click', function () {
-            $(this).parent().remove();
+            TargetNS.RemoveValueMapping( $(this) );
+        //            $(this).parent().remove();
             return false;
         });
 
@@ -141,14 +146,26 @@ Core.Agent.Admin.GenericInterfaceMapping= (function (TargetNS) {
                     $(this).closest('.WidgetKey').find('.Title').html( 'Mapping for Key ' + $(this).val() );
                 });
             }
+
+            if($(this).hasClass('KeyCounter')) {
+                $(this).val(KeyCounter);
+            }
+
+            $(this).parent().find('.' + ID + 'Label').attr('for', ID + KeyCounter);
+
+            $(this).parent().find('#' + ID + 'Error').attr('id', ID + KeyCounter + 'Error');
+            $(this).parent().find('#' + ID + 'ServerError').attr('id', ID + KeyCounter + 'ServerError');
         });
 
+        // set correct for attribute
+        $Clone.find('.AddValueMapping').attr('for', 'AddValueMapping' + KeyCounter);
+        
         // append to container
         $('#KeyInsert').append($Clone);
 
         // reset template row values
         $('.NewRule').find(':input:not(:button)').attr('value','');
-        $('#KeyMapTypeStrg' + KeyCounter).focus();
+        $('#KeyName' + KeyCounter).focus();
 
         // set new value for KeyCounter
         $('#KeyCounter').val(KeyCounter);
@@ -192,16 +209,17 @@ Core.Agent.Admin.GenericInterfaceMapping= (function (TargetNS) {
 
                 // bind click function to add button
                 $(this).bind('click', function () {
-                    $(this).parent().remove();
+                    // remove row
+                    TargetNS.RemoveValueMapping( $(this) );
                     return false;
                 });
             }
 
+            $(this).parent().find('.' + ID + 'Label').attr('for', ID + Sufix);
+
             $(this).parent().find('#' + ID + 'Error').attr('id', ID + Sufix + 'Error');
-            $(this).parent().find('#' + ID + 'Error').attr('name', ID + Sufix + 'Error');
 
             $(this).parent().find('#' + ID + 'ServerError').attr('id', ID + Sufix + 'ServerError');
-            $(this).parent().find('#' + ID + 'ServerError').attr('name', ID + Sufix + 'ServerError');
         });
         // append to container
         ValueInsert.append($Clone);
@@ -212,6 +230,30 @@ Core.Agent.Admin.GenericInterfaceMapping= (function (TargetNS) {
 
         return false;
     };
+
+    /**
+     * @function
+     * @param {jQueryObject} JQuery object used to decide if is, or not necessary to hide the input text control for MapTo value.
+     * @return nothing
+     *      This function show or hide the input text control for MapTo value
+     */
+    TargetNS.RemoveValueMapping = function (Object) {
+        var ID = Object.attr('id'),
+        HTML = '';
+        // 18 is the length for 'RemoveValueMapping' string
+        ID = ID.substr(18);
+
+        HTML += '<div>';
+        HTML += '    <input type="hidden" name="ValueName' + ID + '" value="' + TargetNS.DeletedString + '" />';
+        HTML += '    <input type="hidden" name="ValueMapTypeStrg' + ID + '" value="' + TargetNS.DeletedString + '" />';
+        HTML += '    <input type="hidden" name="ValueMapNew' + ID + '" value="' + TargetNS.DeletedString + '" />';
+        HTML += '</div>';
+
+        // append to container
+        $('#KeyInsert').append(HTML);
+        Object.parent().remove();
+    };
+
 
     /**
      * @function
