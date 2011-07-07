@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Transport/HTTP/SOAP.pm - GenericInterface network transport interface for HTTP::SOAP
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SOAP.pm,v 1.40 2011-06-29 12:35:41 cg Exp $
+# $Id: SOAP.pm,v 1.41 2011-07-07 21:53:20 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Encode;
 use PerlIO;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.40 $) [1];
+$VERSION = qw($Revision: 1.41 $) [1];
 
 =head1 NAME
 
@@ -485,6 +485,24 @@ sub RequesterPerformRequest {
             Success      => 0,
             ErrorMessage => 'Error creating SOAPHandle: ' . $SOAPHandleFault,
         };
+    }
+
+    # check if needed to modify the SOAPAction header
+    if ( IsStringWithData( $Config->{SOAPAction} ) ) {
+
+        if ( $Config->{SOAPAction} eq 'No' ) {
+
+            # send empty header
+            $SOAPHandle->on_action( sub {'""'} );
+        }
+
+        elsif ( $Config->{SOAPActionSeparator} eq '/' ) {
+
+            # change separator (like for .net web services)
+            $SOAPHandle->on_action(
+                sub { '"' . $Config->{NameSpace} . '/' . $Param{Operation} . '"' }
+            );
+        }
     }
 
     # send request to server
@@ -1107,6 +1125,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.40 $ $Date: 2011-06-29 12:35:41 $
+$Revision: 1.41 $ $Date: 2011-07-07 21:53:20 $
 
 =cut
