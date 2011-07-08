@@ -2,7 +2,7 @@
 # AdminGenericInterfaceMappingSolMan.dtl - provides HTML form for Admin Mapping SolMan
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceMappingSolMan.dtl,v 1.6 2011-07-05 16:49:26 cr Exp $
+# $Id: AdminGenericInterfaceMappingSolMan.dtl,v 1.7 2011-07-08 17:13:11 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -83,12 +83,12 @@
 <!-- dtl:block:ValueTemplateRow -->
                                         <div class="ValueTemplateRow">
                                             <label for="ValueName$QData{"KeyName"}_$QData{"ValueIndex"}"><span class="Marker">*</span>Map value:</label>
-                                            <input name="ValueName$QData{"KeyName"}_$QData{"ValueIndex"}" id="ValueName$QData{"KeyName"}_$QData{"ValueIndex"}" class="Validate_Required@ W20pc $QData{"ValueNameError"}" type="text" maxlength="100" value="$QData{"ValueName"}"/>
+                                            <input name="ValueName$QData{"KeyName"}_$QData{"ValueIndex"}" id="ValueName$QData{"KeyName"}_$QData{"ValueIndex"}" class="Validate_Required W20pc $QData{"ValueNameError"}" type="text" maxlength="100" value="$QData{"ValueName"}"/>
                                             <div id="ValueName$QData{"KeyName"}_$QData{"ValueIndex"}Error" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
                                             <div id="ValueName$QData{"KeyName"}_$QData{"ValueIndex"}ServerError" class="TooltipErrorMessage"><p>$Text{"$Data{"ValueNameTooltip"}"}</p></div>
 
                                             <label for="ValueMapNew$QData{"KeyName"}_$QData{"ValueIndex"}"><span class="Marker">*</span>to new value:</label>
-                                            <input name="ValueMapNew$QData{"KeyName"}_$QData{"ValueIndex"}" id="ValueMapNew$QData{"KeyName"}_$QData{"ValueIndex"}" class="Validate_Required@ W20pc $QData{"ValueMapNewError"}" type="text" maxlength="100" value="$QData{"ValueMapNew"}"/>
+                                            <input name="ValueMapNew$QData{"KeyName"}_$QData{"ValueIndex"}" id="ValueMapNew$QData{"KeyName"}_$QData{"ValueIndex"}" class="Validate_Required W20pc $QData{"ValueMapNewError"}" type="text" maxlength="100" value="$QData{"ValueMapNew"}"/>
                                             <div id="ValueMapNew$QData{"KeyName"}_$QData{"ValueIndex"}Error" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
                                             <div id="ValueMapNew$QData{"KeyName"}_$QData{"ValueIndex"}ServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
 

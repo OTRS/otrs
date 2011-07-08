@@ -2,7 +2,7 @@
 // Core.Agent.Admin.GenericInterfaceMapping.js - provides the special module functions for the GenericInterface mapping.
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.GenericInterfaceMappingSolMan.js,v 1.3 2011-07-04 21:45:25 cr Exp $
+// $Id: Core.Agent.Admin.GenericInterfaceMappingSolMan.js,v 1.4 2011-07-08 17:17:52 cg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -96,7 +96,7 @@ Core.Agent.Admin.GenericInterfaceMappingSolMan= (function (TargetNS) {
             $(this).attr('id', ID + KeyName + '_' + ValueCounter);
             $(this).attr('name', ID + KeyName + '_' + ValueCounter);
 
-            $(this).addClass('Validate_Required@');
+            $(this).addClass('Validate_Required');
 
             // set error controls
             $(this).parent().find('#' + ID + 'Error').attr('id', ID +  KeyName + '_' + ValueCounter + 'Error');
