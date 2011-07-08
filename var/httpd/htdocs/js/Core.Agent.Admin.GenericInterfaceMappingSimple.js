@@ -2,7 +2,7 @@
 // Core.Agent.Admin.GenericInterfaceMapping.js - provides the special module functions for the GenericInterface mapping.
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.GenericInterfaceMappingSimple.js,v 1.2 2011-07-07 22:19:37 cg Exp $
+// $Id: Core.Agent.Admin.GenericInterfaceMappingSimple.js,v 1.3 2011-07-08 20:54:13 cr Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -159,7 +159,7 @@ Core.Agent.Admin.GenericInterfaceMapping= (function (TargetNS) {
 
         // set correct for attribute
         $Clone.find('.AddValueMapping').attr('for', 'AddValueMapping' + KeyCounter);
-        
+
         // append to container
         $('#KeyInsert').append($Clone);
 
@@ -193,7 +193,7 @@ Core.Agent.Admin.GenericInterfaceMapping= (function (TargetNS) {
         ValueCounter ++;
 
         Sufix = KeyCounter + '_' + ValueCounter;
-        
+
         // remove unnecessary classes
         $Clone.removeClass('Hidden ValueTemplate');
 
@@ -262,7 +262,7 @@ Core.Agent.Admin.GenericInterfaceMapping= (function (TargetNS) {
      *      This function show or hide the input text control for MapTo value
      */
     TargetNS.ToggleMapTo = function (Object) {
-        if (Object.val() != 'MapTo') {
+        if (Object.val() !== 'MapTo') {
             Object.next().addClass('Hidden');
             Object.next().removeClass('Validate_Required');
         }
