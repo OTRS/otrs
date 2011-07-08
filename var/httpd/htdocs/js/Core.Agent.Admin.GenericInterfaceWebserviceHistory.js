@@ -2,7 +2,7 @@
 // Core.Agent.Admin.GenericInterfaceWebserviceHistory.js - provides the special module functions for the GenericInterface WebserviceHistory.
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.GenericInterfaceWebserviceHistory.js,v 1.11 2011-07-08 21:41:30 cr Exp $
+// $Id: Core.Agent.Admin.GenericInterfaceWebserviceHistory.js,v 1.12 2011-07-08 21:42:20 cr Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
