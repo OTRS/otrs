@@ -2,7 +2,7 @@
 // Core.Agent.Admin.GenericInterfaceMapping.js - provides the special module functions for the GenericInterface mapping.
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.GenericInterfaceMappingSimple.js,v 1.3 2011-07-08 20:54:13 cr Exp $
+// $Id: Core.Agent.Admin.GenericInterfaceMappingSimple.js,v 1.4 2011-07-08 21:30:52 cg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -262,13 +262,14 @@ Core.Agent.Admin.GenericInterfaceMapping= (function (TargetNS) {
      *      This function show or hide the input text control for MapTo value
      */
     TargetNS.ToggleMapTo = function (Object) {
-        if (Object.val() !== 'MapTo') {
-            Object.next().addClass('Hidden');
-            Object.next().removeClass('Validate_Required');
+    var ID = Object.attr('id');
+    if (Object.val() !== 'MapTo') {
+            $('.' + ID).addClass('Hidden');
+            $('.' + ID).removeClass('Validate_Required');
         }
         else {
-            Object.next().removeClass('Hidden');
-            Object.next().addClass('Validate_Required');
+            $('.' + ID).removeClass('Hidden');
+            $('.' + ID).addClass('Validate_Required');
         }
     };
 
