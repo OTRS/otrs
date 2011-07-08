@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericInterfaceWebserviceHistory.pm - provides a log view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceWebserviceHistory.pm,v 1.7 2011-07-06 23:19:26 cr Exp $
+# $Id: AdminGenericInterfaceWebserviceHistory.pm,v 1.8 2011-07-08 21:26:48 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 use Kernel::System::GenericInterface::Webservice;
 use Kernel::System::GenericInterface::WebserviceHistory;
