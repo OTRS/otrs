@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericInterfaceMappingSimple.pm - provides a TransportHTTPSOAP view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceMappingSimple.pm,v 1.7 2011-07-08 19:45:13 cg Exp $
+# $Id: AdminGenericInterfaceMappingSimple.pm,v 1.8 2011-07-08 21:15:14 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::GenericInterface::Webservice;
@@ -470,7 +470,6 @@ sub _ShowEdit {
                     ValueMapTypeStrg => $ValueMapTypeStrg,
                 },
             );
-
         }
 
         # set index value
