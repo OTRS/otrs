@@ -2,7 +2,7 @@
 # Ticket.t - ticket module testscript
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.t,v 1.68.2.3 2011-05-24 14:14:09 martin Exp $
+# $Id: Ticket.t,v 1.68.2.4 2011-07-08 11:57:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -302,7 +302,7 @@ $TicketObject = Kernel::System::Ticket->new(
 );
 
 my $TicketID = $TicketObject->TicketCreate(
-    Title        => 'Some Ticket Title',
+    Title        => 'Some Ticket_Title',
     Queue        => 'Raw',
     Lock         => 'unlock',
     Priority     => '3 normal',
@@ -320,7 +320,7 @@ $Self->True(
 my %Ticket = $TicketObject->TicketGet( TicketID => $TicketID );
 $Self->Is(
     $Ticket{Title},
-    'Some Ticket Title',
+    'Some Ticket_Title',
     'TicketGet() (Title)',
 );
 $Self->Is(
@@ -2952,7 +2952,7 @@ $Self->True(
 my %Article = $TicketObject->ArticleGet( ArticleID => $ArticleID );
 $Self->Is(
     $Article{Title},
-    'Some Ticket Title',
+    'Some Ticket_Title',
     'ArticleGet()',
 );
 $Self->True(
@@ -3139,8 +3139,8 @@ for ( 1 .. 16 ) {
 for ( 1 .. 16 ) {
     my $TicketFreeTextSet = $TicketObject->TicketFreeTextSet(
         Counter  => $_,
-        Key      => 'Hans' . $_,
-        Value    => 'Max' . $_,
+        Key      => 'Hans_' . $_,
+        Value    => 'Max_' . $_,
         TicketID => $TicketID,
         UserID   => 1,
     );
@@ -3149,6 +3149,22 @@ for ( 1 .. 16 ) {
         'TicketFreeTextSet() ' . $_,
     );
 }
+my %TicketIDsSearch = $TicketObject->TicketSearch(
+
+    # result (required)
+    Result => 'HASH',
+
+    # result limit
+    Limit           => 100,
+    TicketFreeKey1  => 'Hans1_',
+    TicketFreeText1 => 'Max1_',
+    UserID          => 1,
+    Permission      => 'rw',
+);
+$Self->True(
+    $TicketIDsSearch{$TicketID},
+    'TicketSearch() (HASH:TicketFreeKey1 and TicketFreeText1 with _)',
+);
 
 # Check the TicketFreeTime functions
 my %TicketFreeTime = ();
@@ -4003,12 +4019,12 @@ $Self->Is(
 for ( 1 .. 16 ) {
     $Self->Is(
         $Article{ 'TicketFreeKey' . $_ },
-        'Hans' . $_,
+        'Hans_' . $_,
         "ArticleGet() (TicketFreeKey$_)",
     );
     $Self->Is(
         $Article{ 'TicketFreeText' . $_ },
-        'Max' . $_,
+        'Max_' . $_,
         "ArticleGet() (TicketFreeText$_)",
     );
 }
@@ -4437,12 +4453,12 @@ if ( $TicketStatus{$TicketID} ) {
     for ( 1 .. 16 ) {
         $Self->Is(
             $TicketHistory{ 'TicketFreeKey' . $_ },
-            'Hans' . $_,
+            'Hans_' . $_,
             "HistoryTicketStatusGet() (TicketFreeKey$_)",
         );
         $Self->Is(
             $TicketHistory{ 'TicketFreeText' . $_ },
-            'Max' . $_,
+            'Max_' . $_,
             "HistoryTicketStatusGet() (TicketFreeText$_)",
         );
     }
@@ -4465,7 +4481,7 @@ $Self->True(
 
 # ticket search sort/order test
 my $TicketIDSortOrder1 = $TicketObject->TicketCreate(
-    Title        => 'Some Ticket Title - ticket sort/order by tests',
+    Title        => 'Some Ticket_Title - ticket sort/order by tests',
     Queue        => 'Raw',
     Lock         => 'unlock',
     Priority     => '3 normal',
@@ -4477,7 +4493,7 @@ my $TicketIDSortOrder1 = $TicketObject->TicketCreate(
 );
 sleep 2;
 my $TicketIDSortOrder2 = $TicketObject->TicketCreate(
-    Title        => 'Some Ticket Title - ticket sort/order by tests2',
+    Title        => 'Some Ticket_Title - ticket sort/order by tests2',
     Queue        => 'Raw',
     Lock         => 'unlock',
     Priority     => '3 normal',
@@ -4516,7 +4532,7 @@ $Self->True(
     'TicketTicketSearch() - ticket sort/order by (Priority (Down), Age (Down))',
 );
 my $TicketIDSortOrder3 = $TicketObject->TicketCreate(
-    Title        => 'Some Ticket Title - ticket sort/order by tests2',
+    Title        => 'Some Ticket_Title - ticket sort/order by tests2',
     Queue        => 'Raw',
     Lock         => 'unlock',
     Priority     => '4 high',
@@ -4528,7 +4544,7 @@ my $TicketIDSortOrder3 = $TicketObject->TicketCreate(
 );
 sleep 2;
 my $TicketIDSortOrder4 = $TicketObject->TicketCreate(
-    Title        => 'Some Ticket Title - ticket sort/order by tests2',
+    Title        => 'Some Ticket_Title - ticket sort/order by tests2',
     Queue        => 'Raw',
     Lock         => 'unlock',
     Priority     => '4 high',
@@ -4637,7 +4653,7 @@ for my $Module ( 'RuntimeDB', 'StaticDB' ) {
 
     my @TicketIDs;
     $TicketID = $TicketObject->TicketCreate(
-        Title        => 'Some Ticket Title - ticket index accelerator tests',
+        Title        => 'Some Ticket_Title - ticket index accelerator tests',
         Queue        => 'Raw',
         Lock         => 'unlock',
         Priority     => '3 normal',
@@ -4659,7 +4675,7 @@ for my $Module ( 'RuntimeDB', 'StaticDB' ) {
         ShownQueueIDs => [ 1, 2, 3, 4, 5, $QueueID ],
     );
     $TicketID = $TicketObject->TicketCreate(
-        Title        => 'Some Ticket Title - ticket index accelerator tests',
+        Title        => 'Some Ticket_Title - ticket index accelerator tests',
         Queue        => 'Raw',
         Lock         => 'unlock',
         Priority     => '3 normal',
@@ -4675,7 +4691,7 @@ for my $Module ( 'RuntimeDB', 'StaticDB' ) {
         "$Module TicketCreate() - unlock - closed successful",
     );
     $TicketID = $TicketObject->TicketCreate(
-        Title        => 'Some Ticket Title - ticket index accelerator tests',
+        Title        => 'Some Ticket_Title - ticket index accelerator tests',
         Queue        => 'Raw',
         Lock         => 'lock',
         Priority     => '3 normal',
@@ -4691,7 +4707,7 @@ for my $Module ( 'RuntimeDB', 'StaticDB' ) {
         "$Module TicketCreate() - lock - closed successful",
     );
     $TicketID = $TicketObject->TicketCreate(
-        Title        => 'Some Ticket Title - ticket index accelerator tests',
+        Title        => 'Some Ticket_Title - ticket index accelerator tests',
         Queue        => 'Raw',
         Lock         => 'lock',
         Priority     => '3 normal',
@@ -4707,7 +4723,7 @@ for my $Module ( 'RuntimeDB', 'StaticDB' ) {
         "$Module TicketCreate() - lock - open",
     );
     $TicketID = $TicketObject->TicketCreate(
-        Title        => 'Some Ticket Title - ticket index accelerator tests',
+        Title        => 'Some Ticket_Title - ticket index accelerator tests',
         Queue        => 'Raw',
         Lock         => 'unlock',
         Priority     => '3 normal',
@@ -5242,7 +5258,7 @@ for my $Module (qw(StaticDB RuntimeDB)) {
 
     # create some content
     my $TicketID = $TicketObject->TicketCreate(
-        Title        => 'Some Ticket Title',
+        Title        => 'Some Ticket_Title',
         Queue        => 'Raw',
         Lock         => 'unlock',
         Priority     => '3 normal',

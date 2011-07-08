@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1758.2.130 2011-07-07 14:41:32 mb Exp $
+# $Id: CHANGES,v 1.1758.2.131 2011-07-08 11:57:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.10 2011-??-??
+ - 2011-07-08 Fixed bug#7472 - TicketSearch for FreeTexts with _ in string not working on Oracle.
  - 2011-07-07 Fixed bug#7484 - Customer items too much right-aligned in customer information box.
  - 2011-07-01 Fixed bug#7434 - CustomerTicketOverview.dtl - closing listitems missing in HTML.
 

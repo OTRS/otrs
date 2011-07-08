@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.488.2.11 2011-06-29 14:49:37 martin Exp $
+# $Id: Ticket.pm,v 1.488.2.12 2011-07-08 11:57:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -35,7 +35,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::EventHandler;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.488.2.11 $) [1];
+$VERSION = qw($Revision: 1.488.2.12 $) [1];
 
 =head1 NAME
 
@@ -4544,6 +4544,7 @@ sub TicketSearch {
 
             $SQLExt .= " AND LOWER(st.freekey$Number) LIKE LOWER('"
                 . $Self->{DBObject}->Quote( $Param{"TicketFreeKey$Number"}, 'Like' ) . "')";
+            $SQLExt .= ' ' . $Self->{DBObject}->GetDatabaseFunction('LikeEscapeString');
         }
         elsif ( $Param{"TicketFreeKey$Number"} && ref $Param{"TicketFreeKey$Number"} eq 'ARRAY' ) {
             my $SQLExtSub = ' AND (';
@@ -4558,6 +4559,7 @@ sub TicketSearch {
                     $SQLExtSub .= ' OR ' if ($Counter);
                     $SQLExtSub .= " LOWER(st.freekey$Number) LIKE LOWER('"
                         . $Self->{DBObject}->Quote( $Key, 'Like' ) . "')";
+                    $SQLExtSub .= ' ' . $Self->{DBObject}->GetDatabaseFunction('LikeEscapeString');
                     $Counter++;
                 }
             }
@@ -4576,6 +4578,7 @@ sub TicketSearch {
 
             $SQLExt .= " AND LOWER(st.freetext$Number) LIKE LOWER('"
                 . $Self->{DBObject}->Quote( $Param{"TicketFreeText$Number"}, 'Like' ) . "')";
+            $SQLExt .= ' ' . $Self->{DBObject}->GetDatabaseFunction('LikeEscapeString');
         }
         elsif ( $Param{"TicketFreeText$Number"} && ref $Param{"TicketFreeText$Number"} eq 'ARRAY' )
         {
@@ -4591,6 +4594,7 @@ sub TicketSearch {
                     $SQLExtSub .= ' OR ' if ($Counter);
                     $SQLExtSub .= " LOWER(st.freetext$Number) LIKE LOWER('"
                         . $Self->{DBObject}->Quote( $Text, 'Like' ) . "')";
+                    $SQLExtSub .= ' ' . $Self->{DBObject}->GetDatabaseFunction('LikeEscapeString');
                     $Counter++;
                 }
             }
@@ -8450,6 +8454,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.488.2.11 $ $Date: 2011-06-29 14:49:37 $
+$Revision: 1.488.2.12 $ $Date: 2011-07-08 11:57:27 $
 
 =cut
