@@ -2,7 +2,7 @@
 # AdminGenericInterfaceInvokerDefault.dtl - provides HTML form for AdminLog
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceInvokerDefault.dtl,v 1.5 2011-07-01 14:08:02 mg Exp $
+# $Id: AdminGenericInterfaceInvokerDefault.dtl,v 1.6 2011-07-08 16:52:41 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -196,11 +196,10 @@ $('#MappingInboundConfigureButton').bind('click', function(){
                                     </tr>
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
-/*global Core.Agent: true */
     Core.Agent.Admin.GenericInterfaceInvoker.BindDeleteEventDialog({
         ElementID:                  'DeleteEvent$QData{"Event"}',
         EventName:                  '$QData{"Event"}',
-        ElementSelector:            '#DeleteEvent$QData{"Event"}',
+        ElementSelector:            '#DeleteEvent$QData{"Event"}'
     });
 //]]></script>
 <!--dtl:js_on_document_complete-->
