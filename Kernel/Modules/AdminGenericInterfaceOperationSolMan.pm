@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericInterfaceOperationSolMan.pm - provides a log view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceOperationSolMan.pm,v 1.2 2011-05-27 17:32:14 cr Exp $
+# $Id: AdminGenericInterfaceOperationSolMan.pm,v 1.3 2011-07-08 16:46:35 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 use Kernel::System::GenericInterface::Webservice;
 
@@ -333,7 +333,8 @@ sub _ChangeAction {
     }
 
     # Inbound mapping changed, initialize with empty config.
-    if ( $MappingInbound && $MappingInbound ne $OperationConfig->{MappingInbound}->{Type} ) {
+    my $ConfigMappingInboud = $OperationConfig->{MappingInbound}->{Type} || '';
+    if ( $MappingInbound && $MappingInbound ne $ConfigMappingInboud ) {
         $OperationConfig->{MappingInbound} = {
             Type => $MappingInbound,
         };
@@ -349,7 +350,8 @@ sub _ChangeAction {
     }
 
     # Outbound mapping changed, initialize with empty config.
-    if ( $MappingOutbound && $MappingOutbound ne $OperationConfig->{MappingOutbound}->{Type} ) {
+    my $ConfigMappingOutboud = $OperationConfig->{MappingOutbound}->{Type} || '';
+    if ( $MappingOutbound && $MappingOutbound ne $ConfigMappingOutboud ) {
         $OperationConfig->{MappingOutbound} = {
             Type => $MappingOutbound,
         };

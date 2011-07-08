@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericInterfaceInvokerDefault.pm - provides a log view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceInvokerDefault.pm,v 1.1 2011-06-20 17:35:40 cr Exp $
+# $Id: AdminGenericInterfaceInvokerDefault.pm,v 1.2 2011-07-08 16:46:35 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 use Kernel::System::GenericInterface::Webservice;
 
@@ -345,7 +345,8 @@ sub _ChangeAction {
     }
 
     # Inbound mapping changed, initialize with empty config.
-    if ( $MappingInbound && $MappingInbound ne $InvokerConfig->{MappingInbound}->{Type} ) {
+    my $ConfigMappingInbound = $InvokerConfig->{MappingInbound}->{Type} || '';
+    if ( $MappingInbound && $MappingInbound ne $ConfigMappingInbound ) {
         $InvokerConfig->{MappingInbound} = {
             Type => $MappingInbound,
         };
@@ -361,7 +362,8 @@ sub _ChangeAction {
     }
 
     # Outbound mapping changed, initialize with empty config.
-    if ( $MappingOutbound && $MappingOutbound ne $InvokerConfig->{MappingOutbound}->{Type} ) {
+    my $ConfigMappingOutbound = $InvokerConfig->{MappingOutbound}->{Type} || '';
+    if ( $MappingOutbound && $MappingOutbound ne $ConfigMappingOutbound ) {
         $InvokerConfig->{MappingOutbound} = {
             Type => $MappingOutbound,
         };
