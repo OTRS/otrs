@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericInterfaceMappingSimple.pm - provides a TransportHTTPSOAP view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceMappingSimple.pm,v 1.6 2011-07-07 22:20:12 cg Exp $
+# $Id: AdminGenericInterfaceMappingSimple.pm,v 1.7 2011-07-08 19:45:13 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::GenericInterface::Webservice;
@@ -75,34 +75,43 @@ sub Run {
         );
     }
 
+    # check for WebserviceID
+    if ( !$WebserviceID ) {
+        return $Self->{LayoutObject}
+            ->ErrorScreen( Message => "Need WebserviceID!", );
+    }
+
+    # get webserice configuration
+    my $WebserviceData =
+        $Self->{WebserviceObject}->WebserviceGet( ID => $WebserviceID );
+
+    # check for valid webservice configuration
+    if ( !IsHashRefWithData($WebserviceData) ) {
+        return $Self->{LayoutObject}->ErrorScreen(
+            Message => "Could not get data for WebserviceID $WebserviceID",
+        );
+    }
+
+    # get the action type (back-end)
+    my $ActionBackend = $WebserviceData->{Config}->{$CommunicationType}->{$ActionType}
+        ->{$Action}->{'Type'};
+
+    # check for valid action backend
+    if ( !$ActionBackend ) {
+        return $Self->{LayoutObject}->ErrorScreen(
+            Message => "Could not get backend for $ActionType $Action",
+        );
+    }
+
+    # get the configuration dialog for the action
+    my $ActionFrontendModule = $ActionsConfig->{$ActionBackend}->{'ConfigDialog'};
+
+    my $WebserviceName = $WebserviceData->{Name};
+
     # ------------------------------------------------------------ #
     # subaction Change: load webservice and show edit screen
     # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'Add' || $Self->{Subaction} eq 'Change' ) {
-
-        # check for WebserviceID
-        if ( !$WebserviceID ) {
-            return $Self->{LayoutObject}
-                ->ErrorScreen( Message => "Need WebserviceID!", );
-        }
-
-        # get webserice configuration
-        my $WebserviceData =
-            $Self->{WebserviceObject}->WebserviceGet( ID => $WebserviceID );
-
-        # check for valid webservice configuration
-        if ( !IsHashRefWithData($WebserviceData) ) {
-            return $Self->{LayoutObject}->ErrorScreen(
-                Message => "Could not get data for WebserviceID $WebserviceID",
-            );
-        }
-
-        # get the action type (back-end)
-        my $ActionBackend = $WebserviceData->{Config}->{$CommunicationType}->{$ActionType}
-            ->{$Action}->{'Type'};
-
-        # get the configuration dialog for the action
-        my $ActionFrontendModule = $ActionsConfig->{$ActionBackend}->{'ConfigDialog'};
 
         # recreate structure for edit
         my %Mapping;
@@ -156,6 +165,7 @@ sub Run {
         return $Self->_ShowEdit(
             %Param,
             WebserviceID         => $WebserviceID,
+            WebserviceName       => $WebserviceName,
             WebserviceData       => \%Mapping,
             Operation            => $Operation,
             Invoker              => $Invoker,
@@ -171,38 +181,7 @@ sub Run {
     # ------------------------------------------------------------ #
     # subaction ChangeAction: write config and return to overview
     # ------------------------------------------------------------ #
-    elsif ( $Self->{Subaction} eq 'ChangeAction' ) {
-
-        # check for WebserviceID
-        if ( !$WebserviceID ) {
-            return $Self->{LayoutObject}
-                ->ErrorScreen( Message => "Need WebserviceID!", );
-        }
-
-        # get webserice configuration
-        my $WebserviceData =
-            $Self->{WebserviceObject}->WebserviceGet( ID => $WebserviceID );
-
-        # check for valid webservice configuration
-        if ( !IsHashRefWithData($WebserviceData) ) {
-            return $Self->{LayoutObject}->ErrorScreen(
-                Message => "Could not get data for WebserviceID $WebserviceID",
-            );
-        }
-
-        # get the action type (back-end)
-        my $ActionBackend = $WebserviceData->{Config}->{$CommunicationType}->{$ActionType}
-            ->{$Action}->{'Type'};
-
-        # check for valid action backend
-        if ( !$ActionBackend ) {
-            return $Self->{LayoutObject}->ErrorScreen(
-                Message => "Could not get backend for $ActionType $Action",
-            );
-        }
-
-        # get the configuration dialog for the action
-        my $ActionFrontendModule = $ActionsConfig->{$ActionBackend}->{'ConfigDialog'};
+    else {
 
         # get parameter from web browser
         my $GetParam = $Self->_GetParams;
@@ -212,6 +191,7 @@ sub Run {
             return $Self->_ShowEdit(
                 %Param,
                 WebserviceID         => $WebserviceID,
+                WebserviceName       => $WebserviceName,
                 WebserviceData       => $GetParam,
                 Operation            => $Operation,
                 Invoker              => $Invoker,
@@ -223,6 +203,7 @@ sub Run {
                 Subaction            => 'Change',
             );
         }
+
         my %NewMapping;
 
         # set default key
@@ -283,6 +264,7 @@ sub Run {
         return $Self->_ShowEdit(
             %Param,
             WebserviceID         => $WebserviceID,
+            WebserviceName       => $WebserviceName,
             WebserviceData       => $GetParam,
             Operation            => $Operation,
             Invoker              => $Invoker,
@@ -552,11 +534,15 @@ sub _GetParams {
     # get params for keys
     my $KeyIndex = 0;
     for my $KeyCounter ( 1 .. $GetParam->{KeyCounter} ) {
-        next if !$Self->{ParamObject}->GetParam( Param => 'ValueCounter' . $KeyCounter );
+        next if !$Self->{ParamObject}->GetParam( Param => 'KeyCounter' . $KeyCounter );
         $KeyIndex++;
         for my $KeyItem (qw(KeyMapTypeStrg KeyName KeyMapNew ValueCounter)) {
             my $KeyAux = $Self->{ParamObject}->GetParam( Param => $KeyItem . $KeyCounter ) || '';
             $GetParam->{ $KeyItem . $KeyIndex } = $KeyAux;
+            if ( $KeyItem eq 'ValueCounter' && $KeyAux eq '' ) {
+                $GetParam->{ $KeyItem . $KeyIndex } = 0;
+                next;
+            }
             $GetParam->{Error}->{ $KeyItem . $KeyIndex } = 'ServerError'
                 if $KeyAux eq '';
         }

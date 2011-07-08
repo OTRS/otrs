@@ -2,7 +2,7 @@
 # AdminGenericInterfaceMappingSimple.dtl - provides HTML form for AdminLog
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceMappingSimple.dtl,v 1.7 2011-07-07 22:20:28 cg Exp $
+# $Id: AdminGenericInterfaceMappingSimple.dtl,v 1.8 2011-07-08 19:44:22 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@
             <a href="$Env{"Baselink"}Action=$LQData{"ActionFrontendModule"};Subaction=Change;$LQData{"ActionType"}=$LQData{"Action"};WebserviceID=$LQData{"WebserviceID"}">$QData{"ActionType"} $QData{"Action"}</a>
 
             $Config{"GenericInterface::Webservice::Path::Separator"}
-            $Text{"%s SolMan", "$Data{"MappingDirection"}"}
+            $Text{"%s Simple", "$Data{"Direction"}"}
         </h3>
     </div>
 
@@ -151,7 +151,7 @@
                                         <div id="KeyMapNew$QData{"KeyIndex"}ServerError" class="TooltipErrorMessage">
                                             <p>$Text{"This field is required."}</p>
                                         </div>
-                                        <input type="hidden" id="KeyCounter$QData{"KeyIndex"}" value="$QData{"KeyIndex"}" class="KeyCounter" />
+                                        <input type="hidden" name="KeyCounter$QData{"KeyIndex"}" id="KeyCounter$QData{"KeyIndex"}" value="$QData{"KeyIndex"}" class="KeyCounter" />
                                     </div>
                                     <div class="Clear"></div>
 
