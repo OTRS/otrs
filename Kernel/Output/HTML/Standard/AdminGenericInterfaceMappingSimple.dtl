@@ -2,7 +2,7 @@
 # AdminGenericInterfaceMappingSimple.dtl - provides HTML form for AdminLog
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceMappingSimple.dtl,v 1.8 2011-07-08 19:44:22 cg Exp $
+# $Id: AdminGenericInterfaceMappingSimple.dtl,v 1.9 2011-07-08 19:50:06 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -255,7 +255,7 @@ $('#SaveAndFinishButton').bind('click', function(){
 <!-- dtl:js_on_document_complete -->
 
                         $Text{"or"}
-                        <a href="$Env{"Baselink"}Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=$LQData{"WebserviceID"}">$Text{"Cancel"}</a>
+                        <a href="$Env{"Baselink"}Action=$LQData{"ActionFrontendModule"};Subaction=Change;$LQData{"ActionType"}=$LQData{"Action"};WebserviceID=$LQData{"WebserviceID"}">$Text{"Cancel"}</a>
                     </div>
 
                     <div class="Clear"></div>
