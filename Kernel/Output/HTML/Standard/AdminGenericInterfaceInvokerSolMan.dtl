@@ -2,7 +2,7 @@
 # AdminGenericInterfaceInvokerSolMan.dtl - provides HTML form for AdminLog
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceInvokerSolMan.dtl,v 1.6 2011-07-08 17:00:49 cr Exp $
+# $Id: AdminGenericInterfaceInvokerSolMan.dtl,v 1.7 2011-07-08 18:09:36 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -315,8 +315,6 @@ $('#EventType').bind('change', function (){
 $('#AddEvent').bind('click', function (){
     Core.Agent.Admin.GenericInterfaceInvoker.AddEvent( $('#EventType').val() );
 });
-
-Core.Agent.Admin.GenericInterfaceInvoker.ToogleEventSelect( $('#EventType').val() );
 
 //]]></script>
 

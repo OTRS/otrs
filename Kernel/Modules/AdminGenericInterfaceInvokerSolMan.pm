@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericInterfaceInvokerSolMan.pm - provides a log view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceInvokerSolMan.pm,v 1.2 2011-07-08 16:46:35 cr Exp $
+# $Id: AdminGenericInterfaceInvokerSolMan.pm,v 1.3 2011-07-08 18:09:36 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 use Kernel::System::GenericInterface::Webservice;
 
@@ -388,9 +388,13 @@ sub _ChangeAction {
         UserID => $Self->{UserID},
     );
 
+    # remember the selected event type
+    my $SelectedEventType = $Self->{ParamObject}->GetParam( Param => 'EventType' );
+
     # Save button: stay in edit mode.
     my $RedirectURL
-        = "Action=AdminGenericInterfaceInvokerSolMan;Subaction=Change;WebserviceID=$WebserviceID;Invoker=$GetParam{Invoker}";
+        = "Action=AdminGenericInterfaceInvokerSolMan;Subaction=Change;WebserviceID=$WebserviceID;"
+        . "Invoker=$GetParam{Invoker};EventType=$SelectedEventType";
 
     # Save and finish button: go to Webservice.
     if ( $Self->{ParamObject}->GetParam( Param => 'ReturnToWebservice' ) ) {
@@ -600,6 +604,8 @@ sub _ShowScreen {
     my @EventTypeList;
     my @EventList;
 
+    my $SelectedEventType = $Self->{ParamObject}->GetParam( Param => 'EventType' ) || 'Ticket';
+
     # create event trigger selectors (one for each type)
     TYPE:
     for my $Type ( keys %{$RegisteredEvents} ) {
@@ -612,13 +618,19 @@ sub _ShowScreen {
             push @EventList, $Event;
         }
 
+        # hide inactive event lists
+        my $EventListHidden = '';
+        if ( $Type ne $SelectedEventType ) {
+            $EventListHidden = 'Hidden';
+        }
+
         # paint each selector
         my $EventStrg = $Self->{LayoutObject}->BuildSelection(
             Data         => \@EventList,
             Name         => $Type . 'Event',
             Sort         => 'AlphanumericValue',
             PossibleNone => 0,
-            Class        => 'EventList GenericInterfaceSpacing Hidden',
+            Class        => 'EventList GenericInterfaceSpacing ' . $EventListHidden,
         );
 
         $Self->{LayoutObject}->Block(
@@ -633,11 +645,12 @@ sub _ShowScreen {
 
     # create event type selector
     $TemplateData{EventTypeStrg} = $Self->{LayoutObject}->BuildSelection(
-        Data         => \@EventTypeList,
-        Name         => 'EventType',
-        Sort         => 'AlphanumericValue',
-        PossibleNone => 0,
-        Class        => '',
+        Data          => \@EventTypeList,
+        Name          => 'EventType',
+        Sort          => 'AlphanumericValue',
+        SelectedValue => $SelectedEventType,
+        PossibleNone  => 0,
+        Class         => '',
     );
 
     $Output .= $Self->{LayoutObject}->Output(
@@ -716,9 +729,13 @@ sub _AddEvent {
         UserID => $Self->{UserID},
     );
 
-    # Save button: stay in edit mode.
+    # remember the selected event type
+    my $SelectedEventType = $Self->{ParamObject}->GetParam( Param => 'EventType' );
+
+    # stay in edit mode.
     my $RedirectURL
-        = "Action=AdminGenericInterfaceInvokerSolMan;Subaction=Change;WebserviceID=$WebserviceID;Invoker=$GetParam{Invoker}";
+        = "Action=AdminGenericInterfaceInvokerSolMan;Subaction=Change;WebserviceID=$WebserviceID;"
+        . "Invoker=$GetParam{Invoker};EventType=$SelectedEventType";
 
     return $Self->{LayoutObject}->Redirect(
         OP => $RedirectURL,
