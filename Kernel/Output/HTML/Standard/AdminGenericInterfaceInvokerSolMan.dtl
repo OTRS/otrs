@@ -2,7 +2,7 @@
 # AdminGenericInterfaceInvokerSolMan.dtl - provides HTML form for AdminLog
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceInvokerSolMan.dtl,v 1.5 2011-07-04 21:28:24 cr Exp $
+# $Id: AdminGenericInterfaceInvokerSolMan.dtl,v 1.6 2011-07-08 17:00:49 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -217,11 +217,10 @@ $('#ResetRemoteSystemGuid').bind('click', function(){
                                     </tr>
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
-/*global Core.Agent: true */
     Core.Agent.Admin.GenericInterfaceInvoker.BindDeleteEventDialog({
         ElementID:                  'DeleteEvent$QData{"Event"}',
         EventName:                  '$QData{"Event"}',
-        ElementSelector:            '#DeleteEvent$QData{"Event"}',
+        ElementSelector:            '#DeleteEvent$QData{"Event"}'
     });
 //]]></script>
 <!--dtl:js_on_document_complete-->
@@ -236,7 +235,7 @@ $('#ResetRemoteSystemGuid').bind('click', function(){
                         <div class="Hidden" id="DeleteEventDialogContainer">
                             <div id ="DeleteEventDialog" class="InnerContent GenericInterfaceDialog">
                                 <span class="WarningDialog ">&nbsp;</span>
-                                <p class="Center Warning">$Text{"Are you sure to that you want to delete this event trigger?"}</p>
+                                <p class="Center Warning">$Text{"Do you really want to delete this event trigger?"}</p>
                                 <div class="SpacingTop"></div>
                             </div>
                         </div>
