@@ -2,7 +2,7 @@
 # AdminGenericInterfaceMappingSimple.dtl - provides HTML form for AdminLog
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceMappingSimple.dtl,v 1.9 2011-07-08 19:50:06 cg Exp $
+# $Id: AdminGenericInterfaceMappingSimple.dtl,v 1.10 2011-07-08 21:32:21 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -68,7 +68,7 @@
                             <div id="DefaultKeyTypeServerError" class="TooltipErrorMessage">
                                 <p>$Text{"This field is required."}</p>
                             </div>
-                            <input id="DefaultKeyMapTo" name="DefaultKeyMapTo" class="W25pc $QData{"DefaultKeyMapToHidden"} $QData{"DefaultKeyMapToError"}" type="text" maxlength="100" value="$QData{"DefaultKeyMapTo"}"/>
+                            <input id="DefaultKeyMapTo" name="DefaultKeyMapTo" class="W25pc DefaultKeyType $QData{"DefaultKeyMapToHidden"} $QData{"DefaultKeyMapToError"}" type="text" maxlength="100" value="$QData{"DefaultKeyMapTo"}"/>
                             <div id="DefaultKeyMapToError" class="TooltipErrorMessage">
                                 <p>$Text{"This field is required."}</p>
                             </div>
@@ -88,7 +88,7 @@
                             <div id="DefaultValueTypeServerError" class="TooltipErrorMessage">
                                 <p>$Text{"This field is required."}</p>
                             </div>
-                            <input id="DefaultValueMapTo"name="DefaultValueMapTo"  class="W25pc $QData{"DefaultValueMapToHidden"} $QData{"DefaultValueMapToError"}" type="text" maxlength="100" value="$QData{"DefaultValueMapTo"}"/>
+                            <input id="DefaultValueMapTo"name="DefaultValueMapTo"  class="W25pc DefaultValueType $QData{"DefaultValueMapToHidden"} $QData{"DefaultValueMapToError"}" type="text" maxlength="100" value="$QData{"DefaultValueMapTo"}"/>
                             <div id="DefaultValueMapToError" class="TooltipErrorMessage">
                                 <p>$Text{"This field is required."}</p>
                             </div>
