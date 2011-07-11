@@ -2,7 +2,7 @@
 # Ticket.t - ticket module testscript
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.t,v 1.68.2.4 2011-07-08 11:57:27 martin Exp $
+# $Id: Ticket.t,v 1.68.2.5 2011-07-11 09:33:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -3156,8 +3156,8 @@ my %TicketIDsSearch = $TicketObject->TicketSearch(
 
     # result limit
     Limit           => 100,
-    TicketFreeKey1  => 'Hans1_',
-    TicketFreeText1 => 'Max1_',
+    TicketFreeKey1  => 'Hans_1',
+    TicketFreeText1 => 'Max_1',
     UserID          => 1,
     Permission      => 'rw',
 );
