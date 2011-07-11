@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericInterfaceMappingSimple.pm - provides a TransportHTTPSOAP view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceMappingSimple.pm,v 1.11 2011-07-11 17:36:14 cr Exp $
+# $Id: AdminGenericInterfaceMappingSimple.pm,v 1.12 2011-07-11 18:11:45 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::GenericInterface::Webservice;
@@ -327,7 +327,7 @@ sub _ShowEdit {
         Name         => 'DefaultKeyType',
         Class        => 'DefaultType ' . $Param{DefaultKeyTypeError},
         SelectedID   => $MappingConfig->{DefaultKeyType},
-        PossibleNone => 1,
+        PossibleNone => 0,
         Translate    => 0,
     );
     $Param{KeyMapTypeStrg} = $Self->{LayoutObject}->BuildSelection(
@@ -342,7 +342,7 @@ sub _ShowEdit {
             },
         ],
         Name         => 'KeyMapTypeStrg',
-        PossibleNone => 1,
+        PossibleNone => 0,
         Translate    => 0,
     );
 
@@ -365,7 +365,7 @@ sub _ShowEdit {
         Name         => 'DefaultValueType',
         Class        => 'DefaultType ' . $Param{DefaultKeyTypeError},
         SelectedID   => $MappingConfig->{DefaultValueType},
-        PossibleNone => 1,
+        PossibleNone => 0,
         Translate    => 0,
     );
 
@@ -381,7 +381,7 @@ sub _ShowEdit {
             },
         ],
         Name         => 'ValueMapTypeStrg',
-        PossibleNone => 1,
+        PossibleNone => 0,
         Translate    => 0,
     );
 
@@ -422,7 +422,7 @@ sub _ShowEdit {
             Name         => 'KeyMapTypeStrg' . $KeyIndex,
             SelectedID   => $MappingConfig->{ 'KeyMapTypeStrg' . $KeyIndex },
             Class        => 'Validate_Required ' . $KeyMapTypeStrgError,
-            PossibleNone => 1,
+            PossibleNone => 0,
             Translate    => 0,
         );
         $Self->{LayoutObject}->Block(
@@ -455,7 +455,7 @@ sub _ShowEdit {
                 SelectedID =>
                     $MappingConfig->{ 'ValueMapTypeStrg' . $KeyIndex . '_' . $ValueIndex },
                 Class        => 'Validate_Required ' . $ValueMapTypeStrgError,
-                PossibleNone => 1,
+                PossibleNone => 0,
                 Translate    => 0,
             );
 
@@ -537,7 +537,7 @@ sub _GetParams {
     # get params for keys
     my $KeyIndex = 0;
     for my $KeyCounter ( 1 .. $GetParam->{KeyCounter} ) {
-        next if !$Self->{ParamObject}->GetParam( Param => 'KeyCounter' . $KeyCounter );
+        next if !$Self->{ParamObject}->GetParam( Param => 'KeyIndex' . $KeyCounter );
         $KeyIndex++;
         for my $KeyItem (qw(KeyMapTypeStrg KeyName KeyMapNew ValueCounter)) {
             my $KeyAux = $Self->{ParamObject}->GetParam( Param => $KeyItem . $KeyCounter ) || '';

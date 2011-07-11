@@ -2,7 +2,7 @@
 # AdminGenericInterfaceMappingSimple.dtl - provides HTML form for AdminLog
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceMappingSimple.dtl,v 1.13 2011-07-08 21:39:20 cr Exp $
+# $Id: AdminGenericInterfaceMappingSimple.dtl,v 1.14 2011-07-11 18:10:44 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -151,7 +151,7 @@
                                         <div id="KeyMapNew$QData{"KeyIndex"}ServerError" class="TooltipErrorMessage">
                                             <p>$Text{"This field is required."}</p>
                                         </div>
-                                        <input type="hidden" name="KeyCounter$QData{"KeyIndex"}" id="KeyCounter$QData{"KeyIndex"}" value="$QData{"KeyIndex"}" class="KeyCounter" />
+                                        <input type="hidden" name="KeyIndex$QData{"KeyIndex"}" id="KeyIndex$QData{"KeyIndex"}" value="$QData{"KeyIndex"}" class="KeyIndex" />
                                     </div>
                                     <div class="Clear"></div>
 
