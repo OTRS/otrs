@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericInterfaceMappingSimple.pm - provides a TransportHTTPSOAP view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceMappingSimple.pm,v 1.10 2011-07-08 21:19:58 cr Exp $
+# $Id: AdminGenericInterfaceMappingSimple.pm,v 1.11 2011-07-11 17:36:14 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::GenericInterface::Webservice;
@@ -292,14 +292,19 @@ sub _ShowEdit {
     $Param{DeletedString} = $Self->{DeletedString};
 
     $Param{DefaultKeyMapTo} = $MappingConfig->{DefaultKeyMapTo};
-    $Param{DefaultKeyMapToHidden} =
-        $MappingConfig->{DefaultKeyType} ne 'MapTo' ? 'Hidden' : 'Validate_Required';
+
+    my $DefaultKeyType = $MappingConfig->{DefaultKeyType} || '';
+    $Param{DefaultKeyMapToHidden} = $DefaultKeyType ne 'MapTo' ? 'Hidden' : 'Validate_Required';
+
     $Param{DefaultKeyMapToError} = $Error{DefaultKeyMapTo} || '';
     $Param{DefaultKeyTypeError}  = $Error{DefaultKeyType}  || '';
 
     $Param{DefaultValueMapTo} = $MappingConfig->{DefaultValueMapTo};
+
+    my $DefaultValueType = $MappingConfig->{DefaultValueType} || '';
     $Param{DefaultValueMapToHidden} =
-        $MappingConfig->{DefaultValueType} ne 'MapTo' ? 'Hidden' : 'Validate_Required';
+        $DefaultValueType ne 'MapTo' ? 'Hidden' : 'Validate_Required';
+
     $Param{DefaultValueMapToError} = $Error{DefaultValueMapTo} || '';
     $Param{DefaultValueTypeError}  = $Error{DefaultValueType}  || '';
 
