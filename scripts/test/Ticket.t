@@ -2,7 +2,7 @@
 # Ticket.t - ticket module testscript
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.t,v 1.89 2011-07-08 11:51:19 martin Exp $
+# $Id: Ticket.t,v 1.90 2011-07-11 09:23:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -373,7 +373,7 @@ $Self->Is(
 );
 $Self->Is(
     $Ticket{Title},
-    'Some Ticket Title',
+    'Some Ticket_Title',
     'TicketGet() (Title)',
 );
 $Self->Is(
@@ -411,7 +411,7 @@ my $TestUserID = $UserObject->UserLookup(
 );
 
 my $TicketIDCreatedBy = $TicketObject->TicketCreate(
-    Title        => 'Some Ticket Title',
+    Title        => 'Some Ticket_Title',
     Queue        => 'Raw',
     Lock         => 'unlock',
     Priority     => '3 normal',
