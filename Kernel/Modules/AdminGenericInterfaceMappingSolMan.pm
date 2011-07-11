@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericInterfaceMappingSolMan.pm - provides a Mapping SolMan view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceMappingSolMan.pm,v 1.7 2011-07-05 16:48:14 cr Exp $
+# $Id: AdminGenericInterfaceMappingSolMan.pm,v 1.8 2011-07-11 19:53:55 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::GenericInterface::Webservice;
@@ -88,41 +88,41 @@ sub Run {
         );
     }
 
+    # check for WebserviceID
+    if ( !$WebserviceID ) {
+        return $Self->{LayoutObject}
+            ->ErrorScreen( Message => "Need WebserviceID!", );
+    }
+
+    # get web service configuration
+    my $WebserviceData =
+        $Self->{WebserviceObject}->WebserviceGet( ID => $WebserviceID );
+
+    # check for valid web service configuration
+    if ( !IsHashRefWithData($WebserviceData) ) {
+        return $Self->{LayoutObject}->ErrorScreen(
+            Message => "Could not get data for WebserviceID $WebserviceID",
+        );
+    }
+
+    # get the action type (back-end)
+    my $ActionBackend = $WebserviceData->{Config}->{$CommunicationType}->{$ActionType}
+        ->{$Action}->{'Type'};
+
+    # check for valid action backend
+    if ( !$ActionBackend ) {
+        return $Self->{LayoutObject}->ErrorScreen(
+            Message => "Could not get backend for $ActionType $Action",
+        );
+    }
+
+    # get the configuration dialog for the action
+    my $ActionFrontendModule = $ActionsConfig->{$ActionBackend}->{'ConfigDialog'};
+
     # ------------------------------------------------------------ #
     # subaction Change: load web service and show edit screen
     # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'Add' || $Self->{Subaction} eq 'Change' ) {
-
-        # check for WebserviceID
-        if ( !$WebserviceID ) {
-            return $Self->{LayoutObject}
-                ->ErrorScreen( Message => "Need WebserviceID!", );
-        }
-
-        # get web service configuration
-        my $WebserviceData =
-            $Self->{WebserviceObject}->WebserviceGet( ID => $WebserviceID );
-
-        # check for valid web service configuration
-        if ( !IsHashRefWithData($WebserviceData) ) {
-            return $Self->{LayoutObject}->ErrorScreen(
-                Message => "Could not get data for WebserviceID $WebserviceID",
-            );
-        }
-
-        # get the action type (back-end)
-        my $ActionBackend = $WebserviceData->{Config}->{$CommunicationType}->{$ActionType}
-            ->{$Action}->{'Type'};
-
-        # check for valid action backend
-        if ( !$ActionBackend ) {
-            return $Self->{LayoutObject}->ErrorScreen(
-                Message => "Could not get backend for $ActionType $Action",
-            );
-        }
-
-        # get the configuration dialog for the action
-        my $ActionFrontendModule = $ActionsConfig->{$ActionBackend}->{'ConfigDialog'};
 
         return $Self->_ShowEdit(
             %Param,
@@ -144,37 +144,6 @@ sub Run {
     # subaction ChangeAction: write config and return to overview
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'ChangeAction' ) {
-
-        # check for WebserviceID
-        if ( !$WebserviceID ) {
-            return $Self->{LayoutObject}
-                ->ErrorScreen( Message => "Need WebserviceID!", );
-        }
-
-        # get web service configuration
-        my $WebserviceData =
-            $Self->{WebserviceObject}->WebserviceGet( ID => $WebserviceID );
-
-        # check for valid web service configuration
-        if ( !IsHashRefWithData($WebserviceData) ) {
-            return $Self->{LayoutObject}->ErrorScreen(
-                Message => "Could not get data for WebserviceID $WebserviceID",
-            );
-        }
-
-        # get the action type (back-end)
-        my $ActionBackend = $WebserviceData->{Config}->{$CommunicationType}->{$ActionType}
-            ->{$Action}->{'Type'};
-
-        # check for valid action backend
-        if ( !$ActionBackend ) {
-            return $Self->{LayoutObject}->ErrorScreen(
-                Message => "Could not get backend for $ActionType $Action",
-            );
-        }
-
-        # get the configuration dialog for the action
-        my $ActionFrontendModule = $ActionsConfig->{$ActionBackend}->{'ConfigDialog'};
 
         # get parameters from web browser
         my $GetParam = $Self->_GetParams;
