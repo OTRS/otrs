@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1925 2011-07-11 10:29:13 martin Exp $
+# $Id: CHANGES,v 1.1926 2011-07-12 13:58:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -64,6 +64,8 @@
      of > 70 characters exists.
 
 3.0.10 2011-??-??
+ - 2011-07-12 Fixed bug#7015 - Closing split ticked assigned to different agents
+    causes "Locked Tickets Total" to be negative (or off by one).
  - 2011-07-11 Fixed bug#7362 - AuthSyncModule::LDAP::UserSyncMap with multiple auth backends.
  - 2011-07-08 Fixed bug#7472 - TicketSearch for FreeTexts with _ in string not working on Oracle.
  - 2011-07-07 Fixed bug#7484 - Customer items too much right-aligned in customer information box.
