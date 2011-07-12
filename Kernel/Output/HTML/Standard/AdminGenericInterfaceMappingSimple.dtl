@@ -2,7 +2,7 @@
 # AdminGenericInterfaceMappingSimple.dtl - provides HTML form for AdminLog
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceMappingSimple.dtl,v 1.14 2011-07-11 18:10:44 cg Exp $
+# $Id: AdminGenericInterfaceMappingSimple.dtl,v 1.15 2011-07-12 14:44:03 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -195,7 +195,7 @@
                                     </div>
                                     <div class="Clear"></div>
 
-                                    <label for="AddValueMapping$QData{"KeyIndex"}" class="AddValueMapping">$Text{"New key map"}:</label>
+                                    <label for="AddValueMapping$QData{"KeyIndex"}" class="AddValueMapping">$Text{"New value map"}:</label>
                                     <div class="Field">
                                         <div class="NewValueMap">
                                             <button type="button" id="AddValueMapping$QData{"KeyIndex"}" class="Add ValueAdd" value="Add Value mapping">$Text{"Add value mapping"}</button>
