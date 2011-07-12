@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericInterfaceMappingSimple.pm - provides a TransportHTTPSOAP view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceMappingSimple.pm,v 1.12 2011-07-11 18:11:45 cg Exp $
+# $Id: AdminGenericInterfaceMappingSimple.pm,v 1.13 2011-07-12 14:57:45 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::GenericInterface::Webservice;
@@ -260,12 +260,61 @@ sub Run {
             );
         }
 
+        # recreate structure for edit
+        my %Mapping;
+
+        my $MappingConfig = $WebserviceData->{Config}->{$CommunicationType}->
+            {$ActionType}->{$Action}->{$Direction}->{Config};
+
+        $Mapping{DefaultKeyMapTo} = $MappingConfig->{KeyMapDefault}->{MapTo};
+        $Mapping{DefaultKeyType}  = $MappingConfig->{KeyMapDefault}->{MapType};
+
+        $Mapping{DefaultValueMapTo} = $MappingConfig->{ValueMapDefault}->{MapTo};
+        $Mapping{DefaultValueType}  = $MappingConfig->{ValueMapDefault}->{MapType};
+
+        # add saved values
+        my $KeyIndex = 0;
+        for my $KeyMapType (qw( KeyMapExact KeyMapRegEx )) {
+            for my $Key ( keys %{ $MappingConfig->{$KeyMapType} } ) {
+                $KeyIndex++;
+                my $NewKey = $MappingConfig->{$KeyMapType}->{$Key};
+
+                $Mapping{ 'KeyName' . $KeyIndex }        = $Key;
+                $Mapping{ 'KeyMapNew' . $KeyIndex }      = $NewKey;
+                $Mapping{ 'KeyMapTypeStrg' . $KeyIndex } = $KeyMapType;
+
+                my $ValueIndex = 0;
+                for my $ValueMapType (qw( ValueMapExact ValueMapRegEx )) {
+                    for my $ValueName (
+                        keys %{ $MappingConfig->{ValueMap}->{$NewKey}->{$ValueMapType} }
+                        )
+                    {
+                        $ValueIndex++;
+                        my $NewVal
+                            = $MappingConfig->{ValueMap}->{$NewKey}->{$ValueMapType}->{$ValueName},
+
+                            $Mapping{ 'ValueName' . $KeyIndex . '_' . $ValueIndex } = $ValueName;
+                        $Mapping{ 'ValueMapNew' . $KeyIndex . '_' . $ValueIndex } = $NewVal;
+                        $Mapping{ 'ValueMapTypeStrg' . $KeyIndex . '_' . $ValueIndex }
+                            = $ValueMapType;
+
+                    }
+                }
+
+                # set value index
+                $Mapping{ 'ValueCounter' . $KeyIndex } = $ValueIndex;
+            }
+        }
+
+        # set Key index
+        $Mapping{'KeyCounter'} = $KeyIndex;
+
         # check if stay on mapping screen or redirect to prev screen
         return $Self->_ShowEdit(
             %Param,
             WebserviceID         => $WebserviceID,
             WebserviceName       => $WebserviceName,
-            WebserviceData       => $GetParam,
+            WebserviceData       => \%Mapping,
             Operation            => $Operation,
             Invoker              => $Invoker,
             Direction            => $Direction,
