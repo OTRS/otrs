@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Scheduler.xml,v 1.3 2011-04-19 18:37:04 cr Exp $</CVS>
+    <CVS>$Id: Scheduler.xml,v 1.4 2011-07-12 21:16:15 cr Exp $</CVS>
     <ConfigItem Name="Scheduler::LogPath" Required="1" Valid="1">
         <Description Translatable="1">Defines the path for scheduler to store its console output (SchedulerOUT.log and SchedulerERR.log).</Description>
         <Group>Scheduler</Group>
@@ -33,4 +33,43 @@
             <String Regex="[1-9]\d*">86400</String><!-- default 1 day -->
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Frontend::Module###AdminScheduler" Required="0" Valid="1">
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
+        <Group>Scheduler</Group>
+        <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <Group>admin</Group>
+                <Description>Admin</Description>
+                <Title Translatable="1">GenericInterface Webservice Mapping GUI</Title>
+            </FrontendModuleReg>
+        </Setting>
+    </ConfigItem>
+   <ConfigItem Name="Frontend::NotifyModule###800-Scheduler-Check" Required="0" Valid="1">
+        <Description Translatable="1">Defines the module to display a notification in the agent interface, (only for agents on the admin group) if the scheduler is not running.</Description>
+        <Group>Scheduler</Group>
+        <SubGroup>Frontend::Agent::ModuleNotify</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::NotificationSchedulerCheck</Item>
+                <Item Key="NotifyGroups">
+                    <Hash>
+                        <Item Key="admin">1</Item>
+                        <Item Key="users">0</Item>
+                    </Hash>
+                </Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Loader::Agent::CommonJS###000-GenericInterface" Required="1" Valid="1">
+        <Description Translatable="1">List of JS files to always be loaded for the agent interface.</Description>
+        <Group>Scheduler</Group>
+        <SubGroup>Core::Web</SubGroup>
+        <Setting>
+            <Array>
+                <Item>Core.Agent.Admin.Scheduler.js</Item>
+            </Array>
+        </Setting>
+    </ConfigItem>
+
 </otrs_config>
