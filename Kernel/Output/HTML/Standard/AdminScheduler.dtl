@@ -1,0 +1,60 @@
+# --
+# AdminScheduler.dtl - provides HTML form for AdminScheduler
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# --
+# $Id: AdminScheduler.dtl,v 1.1 2011-07-12 21:14:49 cr Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<!-- dtl:block:StartAJAX -->
+<div id="SchedulerRunDialog" class="InnerContent">
+    <form action="$Env{"CGIHandle"}" method="post" id="SchedulerForm">
+        <input type="hidden" name="Action" value="$Env{"Action"}" id="SchedulerAction"/>
+        <input type="hidden" name="Subaction" value="Start"/>
+
+        <fieldset class="TableLike" >
+            <div class="Clear"></div>
+            <div class="Field">
+                <input type="checkbox" id="ForceStart" name="ForceStart"/><span>Force Start</span>
+                <p class="FieldExplanation">
+                    $Text{"This will force Scheduler to start even if the process is still registered"}.
+                </p>
+            </div>
+        </fieldset>
+    </form>
+</div>
+
+<div class="ContentFooter Center">
+    <button id="SchedulerFormSubmit" class="Primary" value="Start scheduler">$Text{"Start scheduler"}</button>
+    <button id="SchedulerFormCancel" value="Cancel">$Text{"Cancel"}</button>
+
+</div>
+
+# placed without dtl blocks to be included in the AJAX call
+<script type="text/javascript">//<![CDATA[
+Core.Agent.Admin.Scheduler.Init({
+    Localization: {
+        CommunicationErrorMsg: '$JSText{"An error occurred during communication."}',
+        SchedulerErrorMsg: '$JSText{"Scheduler could not be started. Check if scheduler is not running and try it again with Force Start option"}'
+    }
+});
+//]]></script>
+<!-- dtl:block:StartAJAX -->
+
+<!-- dtl:block:Search -->
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+    Core.Agent.Admin.Scheduler.Init({
+        Localization: {
+            CommunicationErrorMsg: '$JSText{"An error occurred during communication."}',
+            SchedulerErrorMsg: '$JSText{"Scheduler could not be started. Check if scheduler is not running and try it again with Force Start option"}'
+        }
+    });
+
+    Core.Agent.Admin.Scheduler.OpenSchedulerStartDialog();
+//]]></script>
+<!--dtl:js_on_document_complete-->
+<!-- dtl:block:Search -->
