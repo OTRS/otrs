@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-#  driver: mysql, generated: 2011-05-18 18:52:07
+#  driver: mysql, generated: 2011-07-14 14:40:37
 # ----------------------------------------------------------
 # ----------------------------------------------------------
 #  alter table ticket_index
@@ -106,9 +106,15 @@ CREATE TABLE gi_object_lock_state (
     lock_state_counter INTEGER NOT NULL,
     create_time DATETIME NOT NULL,
     change_time DATETIME NOT NULL,
-    UNIQUE INDEX gi_object_lock_state_U_207 (webservice_id, object_type, object_id),
+    UNIQUE INDEX gi_object_lock_state_U_853 (webservice_id, object_type, object_id),
     INDEX object_lock_state_list_state (webservice_id, object_type, object_id, lock_state)
 );
+# ----------------------------------------------------------
+#  alter table process_id
+# ----------------------------------------------------------
+ALTER TABLE process_id ADD process_change INTEGER NULL;
+UPDATE process_id SET process_change = 0 WHERE process_change IS NULL;
+ALTER TABLE process_id CHANGE process_change process_change INTEGER NOT NULL;
 # ----------------------------------------------------------
 #  insert into table ticket_history_type
 # ----------------------------------------------------------

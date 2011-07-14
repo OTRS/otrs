@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2011-05-18 18:52:12
+--  driver: oracle, generated: 2011-07-14 14:40:37
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 ALTER TABLE ticket_index MODIFY queue VARCHAR2 (200) DEFAULT NULL;
@@ -167,10 +167,16 @@ CREATE TABLE gi_object_lock_state (
     lock_state_counter NUMBER (12, 0) NOT NULL,
     create_time DATE NOT NULL,
     change_time DATE NOT NULL,
-    CONSTRAINT gi_object_lock_state_U_898 UNIQUE (webservice_id, object_type, object_id)
+    CONSTRAINT gi_object_lock_state_U_735 UNIQUE (webservice_id, object_type, object_id)
 );
 CREATE INDEX FK_gi_object_lock_state_webs55 ON gi_object_lock_state (webservice_id);
 CREATE INDEX object_lock_state_list_state ON gi_object_lock_state (webservice_id, object_type, object_id, lock_state);
+-- ----------------------------------------------------------
+--  alter table process_id
+-- ----------------------------------------------------------
+ALTER TABLE process_id ADD process_change NUMBER (12, 0) NULL;
+UPDATE process_id SET process_change = 0 WHERE process_change IS NULL;
+ALTER TABLE process_id MODIFY process_change NUMBER (12, 0) NOT NULL;
 -- ----------------------------------------------------------
 --  insert into table ticket_history_type
 -- ----------------------------------------------------------

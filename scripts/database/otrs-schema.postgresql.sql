@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: postgresql, generated: 2011-05-18 18:42:25
+--  driver: postgresql, generated: 2011-07-14 14:38:03
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -979,7 +979,8 @@ CREATE TABLE process_id (
     process_name VARCHAR (200) NOT NULL,
     process_id VARCHAR (200) NOT NULL,
     process_host VARCHAR (200) NOT NULL,
-    process_create INTEGER NOT NULL
+    process_create INTEGER NOT NULL,
+    process_change INTEGER NOT NULL
 );
 -- ----------------------------------------------------------
 --  create table web_upload_cache
@@ -1239,7 +1240,7 @@ CREATE TABLE gi_object_lock_state (
     lock_state_counter INTEGER NOT NULL,
     create_time timestamp(0) NOT NULL,
     change_time timestamp(0) NOT NULL,
-    CONSTRAINT gi_object_lock_state_U_710 UNIQUE (webservice_id, object_type, object_id)
+    CONSTRAINT gi_object_lock_state_U_522 UNIQUE (webservice_id, object_type, object_id)
 );
 CREATE INDEX object_lock_state_list_state ON gi_object_lock_state (webservice_id, object_type, object_id, lock_state);
 -- ----------------------------------------------------------

@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: db2, generated: 2011-05-18 18:41:27
+--  driver: db2, generated: 2011-07-14 14:38:02
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -1114,7 +1114,8 @@ CREATE TABLE process_id (
     process_name VARCHAR (200) NOT NULL,
     process_id VARCHAR (200) NOT NULL,
     process_host VARCHAR (200) NOT NULL,
-    process_create INTEGER NOT NULL
+    process_create INTEGER NOT NULL,
+    process_change INTEGER NOT NULL
 );
 
 -- ----------------------------------------------------------
@@ -1406,7 +1407,7 @@ CREATE TABLE gi_object_lock_state (
     lock_state_counter INTEGER NOT NULL,
     create_time TIMESTAMP NOT NULL,
     change_time TIMESTAMP NOT NULL,
-    CONSTRAINT gi_object_lock_state_U_508 UNIQUE (webservice_id, object_type, object_id)
+    CONSTRAINT gi_object_lock_state_U_481 UNIQUE (webservice_id, object_type, object_id)
 );
 
 CREATE INDEX object_lock_state_list_state ON gi_object_lock_state (webservice_id, object_type, object_id, lock_state);

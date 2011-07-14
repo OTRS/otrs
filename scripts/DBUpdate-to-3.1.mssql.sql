@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: mssql, generated: 2011-05-18 18:51:32
+--  driver: mssql, generated: 2011-07-14 14:40:37
 -- ----------------------------------------------------------
 GO
 IF EXISTS (SELECT * FROM dbo.sysobjects WHERE name = 'DF_ticket_index_queue' )
@@ -7,29 +7,29 @@ ALTER TABLE ticket_index DROP CONSTRAINT DF_ticket_index_queue;
 GO
 UPDATE ticket_index SET queue = '' WHERE queue IS NULL;
 GO
-ALTER TABLE ticket_index ALTER COLUMN queue VARCHAR (200) NOT NULL;
+ALTER TABLE ticket_index ALTER COLUMN queue NVARCHAR (200) NOT NULL;
 GO
 IF EXISTS (SELECT * FROM dbo.sysobjects WHERE name = 'DF_ticket_index_s_state' )
 ALTER TABLE ticket_index DROP CONSTRAINT DF_ticket_index_s_state;
 GO
 UPDATE ticket_index SET s_state = '' WHERE s_state IS NULL;
 GO
-ALTER TABLE ticket_index ALTER COLUMN s_state VARCHAR (200) NOT NULL;
+ALTER TABLE ticket_index ALTER COLUMN s_state NVARCHAR (200) NOT NULL;
 GO
 IF EXISTS (SELECT * FROM dbo.sysobjects WHERE name = 'DF_ticket_index_s_lock' )
 ALTER TABLE ticket_index DROP CONSTRAINT DF_ticket_index_s_lock;
 GO
 UPDATE ticket_index SET s_lock = '' WHERE s_lock IS NULL;
 GO
-ALTER TABLE ticket_index ALTER COLUMN s_lock VARCHAR (200) NOT NULL;
+ALTER TABLE ticket_index ALTER COLUMN s_lock NVARCHAR (200) NOT NULL;
 -- ----------------------------------------------------------
 --  create table gi_webservice_config
 -- ----------------------------------------------------------
 CREATE TABLE gi_webservice_config (
     id INTEGER NOT NULL IDENTITY(1,1) ,
-    name VARCHAR (200) NOT NULL,
-    config TEXT NOT NULL,
-    config_md5 VARCHAR (32) NOT NULL,
+    name NVARCHAR (200) NOT NULL,
+    config VARBINARY (MAX) NOT NULL,
+    config_md5 NVARCHAR (32) NOT NULL,
     valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
@@ -45,8 +45,8 @@ CREATE TABLE gi_webservice_config (
 CREATE TABLE gi_webservice_config_history (
     id BIGINT NOT NULL IDENTITY(1,1) ,
     config_id INTEGER NOT NULL,
-    config TEXT NOT NULL,
-    config_md5 VARCHAR (32) NOT NULL,
+    config VARBINARY (MAX) NOT NULL,
+    config_md5 NVARCHAR (32) NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
     change_time DATETIME NOT NULL,
@@ -59,9 +59,9 @@ CREATE TABLE gi_webservice_config_history (
 -- ----------------------------------------------------------
 CREATE TABLE scheduler_task_list (
     id BIGINT NOT NULL IDENTITY(1,1) ,
-    task_data VARCHAR (8000) NOT NULL,
-    task_data_md5 VARCHAR (32) NOT NULL,
-    task_type VARCHAR (200) NOT NULL,
+    task_data NVARCHAR (MAX) NOT NULL,
+    task_data_md5 NVARCHAR (32) NOT NULL,
+    task_type NVARCHAR (200) NOT NULL,
     due_time DATETIME NOT NULL,
     create_time DATETIME NOT NULL,
     PRIMARY KEY(id),
@@ -72,9 +72,9 @@ CREATE TABLE scheduler_task_list (
 -- ----------------------------------------------------------
 CREATE TABLE gi_debugger_entry (
     id BIGINT NOT NULL IDENTITY(1,1) ,
-    communication_id VARCHAR (32) NOT NULL,
-    communication_type VARCHAR (50) NOT NULL,
-    remote_ip VARCHAR (50) NULL,
+    communication_id NVARCHAR (32) NOT NULL,
+    communication_type NVARCHAR (50) NOT NULL,
+    remote_ip NVARCHAR (50) NULL,
     webservice_id INTEGER NOT NULL,
     create_time DATETIME NOT NULL,
     PRIMARY KEY(id),
@@ -87,9 +87,9 @@ CREATE INDEX gi_debugger_entry_create_time ON gi_debugger_entry (create_time);
 CREATE TABLE gi_debugger_entry_content (
     id BIGINT NOT NULL IDENTITY(1,1) ,
     gi_debugger_entry_id BIGINT NOT NULL,
-    debug_level VARCHAR (50) NOT NULL,
-    subject VARCHAR (255) NOT NULL,
-    content TEXT NULL,
+    debug_level NVARCHAR (50) NOT NULL,
+    subject NVARCHAR (255) NOT NULL,
+    content VARBINARY (MAX) NULL,
     create_time DATETIME NOT NULL,
     PRIMARY KEY(id)
 );
@@ -100,15 +100,23 @@ CREATE INDEX gi_debugger_entry_content_debug_level ON gi_debugger_entry_content 
 -- ----------------------------------------------------------
 CREATE TABLE gi_object_lock_state (
     webservice_id INTEGER NOT NULL,
-    object_type VARCHAR (30) NOT NULL,
+    object_type NVARCHAR (30) NOT NULL,
     object_id BIGINT NOT NULL,
-    lock_state VARCHAR (30) NOT NULL,
+    lock_state NVARCHAR (30) NOT NULL,
     lock_state_counter INTEGER NOT NULL,
     create_time DATETIME NOT NULL,
     change_time DATETIME NOT NULL,
-    CONSTRAINT gi_object_lock_state_U_267 UNIQUE (webservice_id, object_type, object_id)
+    CONSTRAINT gi_object_lock_state_U_677 UNIQUE (webservice_id, object_type, object_id)
 );
 CREATE INDEX object_lock_state_list_state ON gi_object_lock_state (webservice_id, object_type, object_id, lock_state);
+-- ----------------------------------------------------------
+--  alter table process_id
+-- ----------------------------------------------------------
+ALTER TABLE process_id ADD process_change INTEGER NULL;
+GO
+UPDATE process_id SET process_change = 0 WHERE process_change IS NULL;
+GO
+ALTER TABLE process_id ALTER COLUMN process_change INTEGER NOT NULL;
 -- ----------------------------------------------------------
 --  insert into table ticket_history_type
 -- ----------------------------------------------------------
@@ -168,10 +176,10 @@ INSERT INTO ticket_history_type (name, valid_id, create_by, create_time, change_
 -- ----------------------------------------------------------
 CREATE TABLE smime_signer_cert_relations (
     id INTEGER NOT NULL IDENTITY(1,1) ,
-    cert_hash VARCHAR (8) NOT NULL,
-    cert_fingerprint VARCHAR (59) NOT NULL,
-    ca_hash VARCHAR (8) NOT NULL,
-    ca_fingerprint VARCHAR (59) NOT NULL,
+    cert_hash NVARCHAR (8) NOT NULL,
+    cert_fingerprint NVARCHAR (59) NOT NULL,
+    ca_hash NVARCHAR (8) NOT NULL,
+    ca_fingerprint NVARCHAR (59) NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
     change_time DATETIME NOT NULL,

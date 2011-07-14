@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: db2, generated: 2011-05-18 18:48:03
+--  driver: db2, generated: 2011-07-14 14:40:37
 -- ----------------------------------------------------------
 ALTER TABLE ticket_index ALTER COLUMN queue SET DEFAULT '';
 
@@ -135,10 +135,21 @@ CREATE TABLE gi_object_lock_state (
     lock_state_counter INTEGER NOT NULL,
     create_time TIMESTAMP NOT NULL,
     change_time TIMESTAMP NOT NULL,
-    CONSTRAINT gi_object_lock_state_U_979 UNIQUE (webservice_id, object_type, object_id)
+    CONSTRAINT gi_object_lock_state_U_405 UNIQUE (webservice_id, object_type, object_id)
 );
 
 CREATE INDEX object_lock_state_list_state ON gi_object_lock_state (webservice_id, object_type, object_id, lock_state);
+
+-- ----------------------------------------------------------
+--  alter table process_id
+-- ----------------------------------------------------------
+ALTER TABLE process_id ADD process_change INTEGER;
+
+UPDATE process_id SET process_change = 0 WHERE process_change IS NULL;
+
+ALTER TABLE process_id ALTER COLUMN process_change SET NOT NULL;
+
+CALL SYSPROC.ADMIN_CMD ('REORG TABLE process_id');
 
 -- ----------------------------------------------------------
 --  insert into table ticket_history_type
