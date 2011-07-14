@@ -2,7 +2,7 @@
 # Kernel/System/PID.pm - all system pid functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: PID.pm,v 1.26 2011-07-06 13:59:23 martin Exp $
+# $Id: PID.pm,v 1.27 2011-07-14 20:19:53 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.26 $) [1];
+$VERSION = qw($Revision: 1.27 $) [1];
 
 =head1 NAME
 
@@ -151,9 +151,9 @@ sub PIDCreate {
     my $Time = time();
     return if !$Self->{DBObject}->Do(
         SQL => 'INSERT INTO process_id'
-            . ' (process_name, process_id, process_host, process_create)'
-            . ' VALUES (?, ?, ?, ?)',
-        Bind => [ \$Param{Name}, \$PIDCurrent, \$Self->{Host}, \$Time ],
+            . ' (process_name, process_id, process_host, process_create, process_change)'
+            . ' VALUES (?, ?, ?, ?, ?)',
+        Bind => [ \$Param{Name}, \$PIDCurrent, \$Self->{Host}, \$Time, \$Time ],
     );
     return 1;
 }
@@ -179,7 +179,7 @@ sub PIDGet {
 
     # sql
     return if !$Self->{DBObject}->Prepare(
-        SQL => 'SELECT process_name, process_id, process_host, process_create'
+        SQL => 'SELECT process_name, process_id, process_host, process_create, process_change'
             . ' FROM process_id WHERE process_name = ?',
         Bind => [ \$Param{Name} ],
     );
@@ -190,6 +190,7 @@ sub PIDGet {
             Name    => $Row[0],
             Host    => $Row[2],
             Created => $Row[3],
+            Changed => $Row[4],
         );
     }
     return %Data;
@@ -210,7 +211,7 @@ sub PIDDelete {
 
     # check needed stuff
     if ( !$Param{Name} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Name' );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Name' );
         return;
     }
 
@@ -218,6 +219,43 @@ sub PIDDelete {
     return if !$Self->{DBObject}->Do(
         SQL => 'DELETE FROM process_id WHERE process_name = ? AND process_host = ?',
         Bind => [ \$Param{Name}, \$Self->{Host} ],
+    );
+    return 1;
+}
+
+=item PIDUpdate()
+
+update the process id change time.
+this might be useful as a keep alive signal.
+
+    my $Success = $PIDObject->PIDUpdate(
+        Name    => 'PostMasterPOP3',
+    );
+
+=cut
+
+sub PIDUpdate {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    if ( !$Param{Name} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Name' );
+        return;
+    }
+
+    my %PID = $Self->PIDGet( Name => $Param{Name} );
+
+    if ( !%PID ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Can not get PID' );
+        return;
+    }
+
+    # sql
+    my $Time = time();
+    return if !$Self->{DBObject}->Do(
+        SQL => 'UPDATE process_id SET process_change = ? '
+            . 'WHERE process_name = ?',
+        Bind => [ \$Time, \$Param{Name} ],
     );
     return 1;
 }
@@ -238,6 +276,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.26 $ $Date: 2011-07-06 13:59:23 $
+$Revision: 1.27 $ $Date: 2011-07-14 20:19:53 $
 
 =cut

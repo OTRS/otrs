@@ -1,8 +1,8 @@
 # --
 # PID.t - PID tests
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: PID.t,v 1.8 2010-10-29 22:16:59 en Exp $
+# $Id: PID.t,v 1.9 2011-07-14 20:19:53 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -29,9 +29,9 @@ $Self->False(
     'PIDCreate2()',
 );
 
-my $PIDGet = $PIDObject->PIDGet( Name => 'Test' );
+my %PIDGet = $PIDObject->PIDGet( Name => 'Test' );
 $Self->True(
-    $PIDGet,
+    $PIDGet{PID},
     'PIDGet()',
 );
 
@@ -44,8 +44,47 @@ $Self->True(
     'PIDCreate() - Force',
 );
 
-my $PIDDelete = $PIDObject->PIDDelete( Name => 'Test' );
+my $UpdateSuccess = $PIDObject->PIDUpdate();
 
+$Self->False(
+    $UpdateSuccess,
+    'PIDUpdate() with no name',
+);
+
+$UpdateSuccess = $PIDObject->PIDUpdate(
+    Name => 'NonExistentProcess' . time(),
+);
+
+$Self->False(
+    $UpdateSuccess,
+    'PIDUpdate() with wrong name',
+);
+
+# sleep 2 secons to update the PID change time
+sleep 2;
+
+$UpdateSuccess = $PIDObject->PIDUpdate(
+    Name => 'Test',
+);
+
+$Self->True(
+    $UpdateSuccess,
+    'PIDUpdate()',
+);
+
+my %UpdatedPIDGet = $PIDObject->PIDGet( Name => 'Test' );
+$Self->True(
+    $UpdatedPIDGet{PID},
+    'PIDGet() updated',
+);
+
+$Self->IsNotDeeply(
+    \%PIDGet,
+    \%UpdatedPIDGet,
+    'PIDGet() updated is different than the original one',
+);
+
+my $PIDDelete = $PIDObject->PIDDelete( Name => 'Test' );
 $Self->True(
     $PIDDelete,
     'PIDDelete()',
