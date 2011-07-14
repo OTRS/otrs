@@ -1513,6 +1513,7 @@
     <Column Name="process_id" Required="true" Size="200" Type="VARCHAR"/>
     <Column Name="process_host" Required="true" Size="200" Type="VARCHAR"/>
     <Column Name="process_create" Required="true" Type="INTEGER"/>
+    <Column Name="process_change" Required="true" Type="INTEGER"/>
 </Table>
 
 <!-- web_upload_cache -->

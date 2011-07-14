@@ -124,6 +124,10 @@
     </ForeignKey>
 </TableCreate>
 
+<TableAlter Name="process_id">
+    <ColumnAdd Name="process_change" Required="true" Type="INTEGER"/>
+</TableAlter>
+
 <Insert Table="ticket_history_type">
     <Data Key="name" Type="Quote">EscalationSolutionTimeStop</Data>
     <Data Key="valid_id">1</Data>
