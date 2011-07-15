@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Scheduler.xml,v 1.4 2011-07-12 21:16:15 cr Exp $</CVS>
+    <CVS>$Id: Scheduler.xml,v 1.5 2011-07-15 21:05:54 cg Exp $</CVS>
     <ConfigItem Name="Scheduler::LogPath" Required="1" Valid="1">
         <Description Translatable="1">Defines the path for scheduler to store its console output (SchedulerOUT.log and SchedulerERR.log).</Description>
         <Group>Scheduler</Group>
@@ -23,6 +23,14 @@
         <SubGroup>Core</SubGroup>
         <Setting>
             <String Regex="\d+[.]*\d*">1.0</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Scheduler::PIDUpdateTime" Required="1" Valid="1">
+        <Description Translatable="1">Defines scheduler PID update time in seconds (floating point number).</Description>
+        <Group>Scheduler</Group>
+        <SubGroup>Core</SubGroup>
+        <Setting>
+            <String Regex="\d+[.]*\d*">60.0</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Scheduler::RestartAfterSeconds" Required="1" Valid="1">
