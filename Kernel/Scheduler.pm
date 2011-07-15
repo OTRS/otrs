@@ -2,7 +2,7 @@
 # Kernel/Scheduler.pm - The otrs Scheduler Daemon
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Scheduler.pm,v 1.16 2011-03-10 13:59:45 mg Exp $
+# $Id: Scheduler.pm,v 1.17 2011-07-15 23:27:36 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,9 +17,10 @@ use warnings;
 use Kernel::System::VariableCheck qw(IsHashRefWithData IsStringWithData);
 use Kernel::System::Scheduler::TaskManager;
 use Kernel::Scheduler::TaskHandler;
+use Kernel::System::PID;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 =head1 NAME
 
@@ -101,6 +102,9 @@ sub new {
     # create aditional objects
     $Self->{TaskManagerObject} = Kernel::System::Scheduler::TaskManager->new( %{$Self} );
 
+    $Self->{PIDObject} = Kernel::System::PID->new( %{$Self} );
+    $Self->{PIDUpdateTime} = $Self->{ConfigObject}->Get('Scheduler::PIDUpdateTime') || 60;
+
     return $Self;
 }
 
@@ -117,6 +121,9 @@ daemon to regularly find and execute all pending tasks.
 
 sub Run {
     my ( $Self, %Param ) = @_;
+
+    # try to update PID changed time
+    $Self->PIDCHangedTime();
 
     # get all tasks
     my @TaskList = $Self->{TaskManagerObject}->TaskList();
@@ -191,6 +198,9 @@ sub Run {
 
         # call run method on task handler object
         my $TaskResult = $TaskHandlerObject->Run( Data => $TaskData{Data} );
+
+        # try to update PID changed time
+        $Self->PIDCHangedTime();
 
         # skip if can't delete task
         next TASKITEM if !$Self->{TaskManagerObject}->TaskDelete( ID => $TaskItem->{ID} );
@@ -289,6 +299,50 @@ sub TaskRegister {
     return $TaskID;
 }
 
+=item PIDCHangedTime()
+
+Check if is the case to update the changed time for the PID,
+in order to use it as a keep alive signal.
+
+    my $Success = $SchedulerObject->PIDCHangedTime();
+
+=cut
+
+sub PIDCHangedTime {
+    my ( $Self, %Param ) = @_;
+
+    # PID time to update should be defined, except the first time
+    if ( !defined $Self->{PIDTimeToUpdate} ) {
+        my %PIDGetUpdate = $Self->{PIDObject}->PIDGet(
+            Name => 'otrs.Scheduler'
+        );
+        $Self->{PIDTimeToUpdate} = $PIDGetUpdate{Changed} + $Self->{PIDUpdateTime};
+    }
+
+    # get current system time
+    my $CurrentTime = $Self->{TimeObject}->SystemTime();
+
+    # check if it's necessary to update change time for pid
+    if ( $CurrentTime >= $Self->{PIDTimeToUpdate} ) {
+        my $UpdateSuccess = $Self->{PIDObject}->PIDUpdate(
+            Name => 'otrs.Scheduler'
+        );
+        if ( !$UpdateSuccess ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Could not update PID",
+            );
+            return;
+        }
+        my %PIDGetUpdate = $Self->{PIDObject}->PIDGet(
+            Name => 'otrs.Scheduler'
+        );
+        $Self->{PIDTimeToUpdate} = $PIDGetUpdate{Changed} + $Self->{PIDUpdateTime};
+    }
+
+    return 1;
+}
+
 1;
 
 =back
@@ -305,6 +359,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.16 $ $Date: 2011-03-10 13:59:45 $
+$Revision: 1.17 $ $Date: 2011-07-15 23:27:36 $
 
 =cut
