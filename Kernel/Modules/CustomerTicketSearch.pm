@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketSearch.pm,v 1.67 2011-06-19 20:10:32 mb Exp $
+# $Id: CustomerTicketSearch.pm,v 1.68 2011-07-18 05:54:01 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::SearchProfile;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.67 $) [1];
+$VERSION = qw($Revision: 1.68 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -102,6 +102,7 @@ sub Run {
     else {
         for my $Key (
             qw(TicketNumber From To Cc Subject Body CustomerID ResultForm TimeSearchType StateType
+            SearchInArchive
             TicketFreeTime1
             TicketFreeTime1Start TicketFreeTime1StartDay TicketFreeTime1StartMonth
             TicketFreeTime1StartYear
@@ -373,6 +374,21 @@ sub Run {
                         . $GetParam{ 'TicketFreeTime' . $_ . 'StopDay' }
                         . ' 23:59:59';
                 }
+            }
+        }
+
+        # prepare archive flag
+        if ( $Self->{ConfigObject}->Get('Ticket::ArchiveSystem') ) {
+
+            $GetParam{SearchInArchive} ||= '';
+            if ( $GetParam{SearchInArchive} eq 'AllTickets' ) {
+                $GetParam{ArchiveFlags} = [ 'y', 'n' ];
+            }
+            elsif ( $GetParam{SearchInArchive} eq 'ArchivedTickets' ) {
+                $GetParam{ArchiveFlags} = ['y'];
+            }
+            else {
+                $GetParam{ArchiveFlags} = ['n'];
             }
         }
 
@@ -1034,6 +1050,27 @@ sub MaskForm {
         Name => 'Search',
         Data => { %Param, },
     );
+
+    # enable archive search
+    if ( $Self->{ConfigObject}->Get('Ticket::ArchiveSystem') ) {
+
+        $Param{SearchInArchiveStrg} = $Self->{LayoutObject}->BuildSelection(
+            Data => {
+                ArchivedTickets    => 'Archived tickets',
+                NotArchivedTickets => 'Unarchived tickets',
+                AllTickets         => 'All tickets',
+            },
+            Name => 'SearchInArchive',
+            SelectedID => $Param{SearchInArchive} || 'NotArchivedTickets',
+        );
+
+        $Self->{LayoutObject}->Block(
+            Name => 'SearchInArchive',
+            Data => {
+                SearchInArchiveStrg => $Param{SearchInArchiveStrg},
+            },
+        );
+    }
     for my $Count ( 1 .. 16 ) {
         next if !$Self->{Config}->{TicketFreeText}->{$Count};
         $Self->{LayoutObject}->Block(

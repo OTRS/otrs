@@ -2,7 +2,7 @@
 # CustomerTicketSearch.dtl - provides HTML form for CustomerTicketSearch.pm
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketSearch.dtl,v 1.37 2011-06-19 20:11:31 mb Exp $
+# $Id: CustomerTicketSearch.dtl,v 1.38 2011-07-18 05:55:03 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -114,6 +114,15 @@
                     $Data{"TicketCreateTimeStart"} $Text{"and"} $Data{"TicketCreateTimeStop"}
                 </div>
             </fieldset>
+<!-- dtl:block:SearchInArchive -->
+            <fieldset>
+                <h2>$Text{"Ticket archive system"}</h2>
+                <div>
+                    <label for="SearchInArchive">$Text{"Archive Search"}:</label>
+                    $Data{"SearchInArchiveStrg"}
+                </div>
+            </fieldset>
+<!-- dtl:block:SearchInArchive -->
             <fieldset>
                 <h2>$Text{"Save search as template?"}</h2>
                 <div>
