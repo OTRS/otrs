@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1758.2.133 2011-07-12 14:00:55 martin Exp $
+# $Id: CHANGES,v 1.1758.2.134 2011-07-18 08:44:15 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.10 2011-??-??
+ - 2011-07-18 Fixed bug#7502 - crontab.txt empty on Win32.
  - 2011-07-12 Fixed bug#7015 - Closing split ticked assigned to different agents
     causes "Locked Tickets Total" to be negative (or off by one).
  - 2011-07-11 Fixed bug#7362 - AuthSyncModule::LDAP::UserSyncMap with multiple auth backends.
