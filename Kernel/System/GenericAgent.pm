@@ -2,7 +2,7 @@
 # Kernel/System/GenericAgent.pm - generic agent system module
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: GenericAgent.pm,v 1.72 2011-04-05 08:47:48 mb Exp $
+# $Id: GenericAgent.pm,v 1.73 2011-07-18 11:42:01 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.72 $) [1];
+$VERSION = qw($Revision: 1.73 $) [1];
 
 =head1 NAME
 
@@ -155,14 +155,14 @@ sub new {
 
     # add time attributes
     for my $Type (
-        qw(Time CloseTime TimePending EscalationTime EscalationResponseTime EscalationUpdateTime EscalationSolutionTime)
+        qw(Time ChangeTime CloseTime TimePending EscalationTime EscalationResponseTime EscalationUpdateTime EscalationSolutionTime)
         )
     {
         my $Key = $Type . 'SearchType';
         $Map{$Key} = 'SCALAR';
     }
     for my $Type (
-        qw(TicketCreate TicketClose TicketPending TicketEscalation TicketEscalationResponse TicketEscalationUpdate TicketEscalationSolution)
+        qw(TicketCreate TicketChange TicketClose TicketPending TicketEscalation TicketEscalationResponse TicketEscalationUpdate TicketEscalationSolution)
         )
     {
         for my $Attribute (
@@ -484,6 +484,7 @@ sub JobGet {
     # get time settings
     my %Map = (
         TicketCreate             => 'Time',
+        TicketChange             => 'ChangeTime',
         TicketClose              => 'CloseTime',
         TicketPending            => 'TimePending',
         TicketEscalation         => 'EscalationTime',
@@ -492,7 +493,7 @@ sub JobGet {
         TicketEscalationSolution => 'EscalationSolutionTime',
     );
     for my $Type (
-        qw(TicketCreate TicketClose TicketPending TicketEscalation TicketEscalationResponse TicketEscalationUpdate TicketEscalationSolution)
+        qw(TicketCreate TicketChange TicketClose TicketPending TicketEscalation TicketEscalationResponse TicketEscalationUpdate TicketEscalationSolution)
         )
     {
         my $SearchType = $Map{$Type} . 'SearchType';
@@ -1197,6 +1198,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.72 $ $Date: 2011-04-05 08:47:48 $
+$Revision: 1.73 $ $Date: 2011-07-18 11:42:01 $
 
 =cut

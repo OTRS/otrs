@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1926 2011-07-12 13:58:58 martin Exp $
+# $Id: CHANGES,v 1.1927 2011-07-18 11:42:34 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,10 @@
 # --
 
 3.1.0 beta1 2011-??-??
+ - 2011-07-18 Added feature bug#7479 - Add "TicketChangeTime" as filter parameter
+    in Generic agent.
+ - 2011-07-01 Now stores binary data in VARBINARY rather than deprecated type
+    TEXT on MS SQL Server.
  - 2011-07-01 Fixed bug#7454 - MS SQL should use NVARCHAR to store text strings
     rather than VARCHAR.
  - 2011-06-21 TicketGet() now also returns ChangeBy and CreateBy.

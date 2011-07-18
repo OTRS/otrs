@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericAgent.pm - admin generic agent interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.pm,v 1.98 2011-06-15 09:57:20 mg Exp $
+# $Id: AdminGenericAgent.pm,v 1.99 2011-07-18 11:42:18 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::GenericAgent;
 use Kernel::System::CheckItem;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.98 $) [1];
+$VERSION = qw($Revision: 1.99 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -122,7 +122,7 @@ sub Run {
         }
 
         for my $Type (
-            qw(Time CloseTime TimePending EscalationTime EscalationResponseTime EscalationUpdateTime EscalationSolutionTime)
+            qw(Time ChangeTime CloseTime TimePending EscalationTime EscalationResponseTime EscalationUpdateTime EscalationSolutionTime)
             )
         {
             my $Key = $Type . 'SearchType';
@@ -130,7 +130,8 @@ sub Run {
         }
         for my $Type (
             qw(
-            TicketCreate           TicketClose              TicketPending
+            TicketCreate           TicketChange
+            TicketClose            TicketPending
             TicketEscalation       TicketEscalationResponse
             TicketEscalationUpdate TicketEscalationSolution
             )
@@ -259,6 +260,7 @@ sub Run {
             # get time settings
             my %Map = (
                 TicketCreate             => 'Time',
+                TicketChange             => 'ChangeTime',
                 TicketClose              => 'CloseTime',
                 TicketPending            => 'TimePending',
                 TicketEscalation         => 'EscalationTime',
@@ -268,7 +270,8 @@ sub Run {
             );
             for my $Type (
                 qw(
-                TicketCreate           TicketClose                  TicketPending
+                TicketCreate           TicketClose
+                TicketChange           TicketPending
                 TicketEscalation       TicketEscalationResponse
                 TicketEscalationUpdate TicketEscalationSolution
                 )
@@ -684,6 +687,7 @@ sub _MaskUpdate {
     # get time option
     my %Map = (
         TicketCreate             => 'Time',
+        TicketChange             => 'ChangeTime',
         TicketClose              => 'CloseTime',
         TicketPending            => 'TimePending',
         TicketEscalation         => 'EscalationTime',
@@ -692,7 +696,9 @@ sub _MaskUpdate {
         TicketEscalationSolution => 'EscalationSolutionTime',
     );
     for my $Type (
-        qw( TicketCreate           TicketClose              TicketPending
+        qw(
+        TicketCreate           TicketClose
+        TicketChange           TicketPending
         TicketEscalation       TicketEscalationResponse
         TicketEscalationUpdate TicketEscalationSolution
         )

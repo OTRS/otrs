@@ -2,7 +2,7 @@
 # AdminGenericAgent.dtl - provides HTML form for AdminGenericAgent.pm
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.dtl,v 1.86 2011-06-22 08:59:16 mb Exp $
+# $Id: AdminGenericAgent.dtl,v 1.87 2011-07-18 11:42:00 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -332,6 +332,25 @@
                         <div class="Field">
                             <input type="radio" name="TimeSearchType" value="TimeSlot" $Data{"TimeSearchType::TimeSlot"}/>
                             $Text{"Ticket created between"} $Data{"TicketCreateTimeStart"} $Text{"and"} $Data{"TicketCreateTimeStop"}.
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="ChangeTimeSearchTypeNone">$Text{"Change times"}:</label>
+                        <div class="Field">
+                            <input type="radio" name="ChangeTimeSearchType" id="ChangeTimeSearchTypeNone" value="" $Data{"ChangeTimeSearchType::None"}/>
+                            $Text{"No change time settings."}
+                        </div>
+                        <div class="Clear"></div>
+
+                        <div class="Field">
+                            <input type="radio" name="ChangeTimeSearchType" value="TimePoint" $Data{"ChangeTimeSearchType::TimePoint"}/>
+                            $Text{"Ticket changed"} $Data{"TicketChangeTimePointStart"} $Data{"TicketChangeTimePoint"} $Data{"TicketChangeTimePointFormat"}.
+                        </div>
+                        <div class="Clear"></div>
+
+                        <div class="Field">
+                            <input type="radio" name="ChangeTimeSearchType" value="TimeSlot" $Data{"ChangeTimeSearchType::TimeSlot"}/>
+                            $Text{"Ticket changed between"} $Data{"TicketChangeTimeStart"} $Text{"and"} $Data{"TicketChangeTimeStop"}.
                         </div>
                         <div class="Clear"></div>
 
