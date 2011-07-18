@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1928 2011-07-18 11:58:05 mb Exp $
+# $Id: CHANGES,v 1.1929 2011-07-18 13:49:57 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -68,6 +68,8 @@
      of > 70 characters exists.
 
 3.0.10 2011-??-??
+ - 2011-07-18 Fixed bug#7477 - Dashboard shows "My Queues" even if a queue is preselected
+    in the configuration.
  - 2011-07-18 Fixed bug#6348 - GenericAgent cron job concurrency issues.
  - 2011-07-18 Fixed bug#7502 - crontab.txt empty on Win32.
  - 2011-07-12 Fixed bug#7015 - Closing split ticked assigned to different agents
