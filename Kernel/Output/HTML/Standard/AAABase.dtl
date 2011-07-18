@@ -2,7 +2,7 @@
 # AAABase.dtl - $Text variable file
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AAABase.dtl,v 1.107 2011-07-01 07:31:04 mg Exp $
+# $Id: AAABase.dtl,v 1.108 2011-07-18 18:19:04 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -376,3 +376,7 @@ $Text{"CTRL"}
 $Text{"SHIFT"}
 $Text{"Undo"}
 $Text{"Redo"}
+
+# scheduler
+$Text{"Scheduler process is registered but might not be running."}
+$Text{"Scheduler is not running."}
