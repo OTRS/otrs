@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/DashboardTicketGeneric.pm
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardTicketGeneric.pm,v 1.39 2011-04-05 12:04:34 mb Exp $
+# $Id: DashboardTicketGeneric.pm,v 1.40 2011-07-18 13:44:46 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.39 $) [1];
+$VERSION = qw($Revision: 1.40 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -190,6 +190,10 @@ sub Run {
         },
     );
 
+    if ( defined $TicketSearch{QueueIDs} || defined $TicketSearch{Queues} ) {
+        delete $TicketSearchSummary{MyQueues};
+    }
+
     # check cache
     my $TicketIDs = $Self->{CacheObject}->Get(
         Type => 'Dashboard',
@@ -272,6 +276,18 @@ sub Run {
     if ( $Self->{ConfigObject}->Get('Ticket::Responsible') ) {
         $Self->{LayoutObject}->Block(
             Name => 'ContentLargeTicketGenericFilterResponsible',
+            Data => {
+                %{ $Self->{Config} },
+                Name => $Self->{Name},
+                %{$Summary},
+            },
+        );
+    }
+
+    # show only myqueues if we have the filter
+    if ( $TicketSearchSummary{MyQueues} ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'ContentLargeTicketGenericFilterMyQueues',
             Data => {
                 %{ $Self->{Config} },
                 Name => $Self->{Name},
