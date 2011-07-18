@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.510 2011-07-12 14:20:19 martin Exp $
+# $Id: Ticket.pm,v 1.511 2011-07-18 08:57:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -35,7 +35,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::EventHandler;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.510 $) [1];
+$VERSION = qw($Revision: 1.511 $) [1];
 
 =head1 NAME
 
@@ -4010,25 +4010,7 @@ sub TicketSearch {
     # create sql
     my $SQL;
     if ( $Result eq 'COUNT' ) {
-        $SQL = 'SELECT COUNT(DISTINCT(st.id, st.tn))';
-
-        # add ticket flag extension
-        if ( $Param{TicketFlag} ) {
-
-            $SQL = 'SELECT COUNT(DISTINCT(st.id';
-            my $TicketFlagUserID = $Param{TicketFlagUserID} || $Param{UserID};
-            return if !defined $TicketFlagUserID;
-
-            my $Index = 1;
-            for my $Key ( sort keys %{ $Param{TicketFlag} } ) {
-                my $Value = $Param{TicketFlag}->{$Key};
-                return if !defined $Value;
-
-                $SQL .= ",tf$Index.ticket_key,tf$Index.ticket_value,tf$Index.create_by";
-                $Index++;
-            }
-            $SQL .= '))';
-        }
+        $SQL = 'SELECT COUNT(DISTINCT(st.id))';
     }
     else {
         $SQL = 'SELECT DISTINCT st.id, st.tn';
@@ -8511,6 +8493,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.510 $ $Date: 2011-07-12 14:20:19 $
+$Revision: 1.511 $ $Date: 2011-07-18 08:57:36 $
 
 =cut
