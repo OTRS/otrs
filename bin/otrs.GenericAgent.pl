@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.GenericAgent.pl - a generic agent -=> e. g. close ale emails in a specific queue
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.GenericAgent.pl,v 1.4 2010-08-06 17:49:20 cr Exp $
+# $Id: otrs.GenericAgent.pl,v 1.4.2.1 2011-07-18 11:57:18 mb Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION %Jobs @ISA);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.4.2.1 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -49,7 +49,7 @@ my %Opts = ();
 getopt( 'fcdlb', \%Opts );
 if ( $Opts{h} ) {
     print "otrs.GenericAgent.pl <Revision $VERSION> - OTRS generic agent\n";
-    print "Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
+    print "Copyright (C) 2001-2011 OTRS AG, http://otrs.org/\n";
     print "usage: otrs.GenericAgent.pl [-c 'Kernel::Config::GenericAgentJobModule'] [-d 1] ";
     print "[-l <limit>] [-f force]\n";
     print "usage: otrs.GenericAgent.pl [-c db] [-d 1] [-l <limit>] ";
@@ -97,9 +97,12 @@ if ( !$Opts{c} ) {
     $Opts{c} = 'Kernel::Config::GenericAgent';
 }
 
+my $JobName = 'GenericAgentFile';
+
 # db jobs
 if ( $Opts{c} eq 'db' ) {
-    %Jobs = ();
+    %Jobs    = ();
+    $JobName = 'GenericAgentDB';
 }
 
 # load/import config jobs
@@ -120,11 +123,11 @@ if ( $Opts{c} eq 'db' && $Opts{b} && $Opts{b} !~ /^\d+$/ ) {
 }
 
 # create pid lock
-if ( !$Opts{f} && !$CommonObject{PIDObject}->PIDCreate( Name => 'GenericAgent' ) ) {
+if ( !$Opts{f} && !$CommonObject{PIDObject}->PIDCreate( Name => $JobName ) ) {
     print "NOTICE: otrs.GenericAgent.pl is already running!\n";
     exit 1;
 }
-elsif ( $Opts{f} && !$CommonObject{PIDObject}->PIDCreate( Name => 'GenericAgent' ) ) {
+elsif ( $Opts{f} && !$CommonObject{PIDObject}->PIDCreate( Name => $JobName ) ) {
     print "NOTICE: otrs.GenericAgent.pl is already running but is starting again!\n";
 }
 
@@ -133,7 +136,7 @@ while (1) {
 
     # set new PID
     $CommonObject{PIDObject}->PIDCreate(
-        Name  => 'GenericAgent',
+        Name  => $JobName,
         Force => 1,
     );
 
@@ -156,7 +159,7 @@ while (1) {
 }
 
 # delete pid lock
-$CommonObject{PIDObject}->PIDDelete( Name => 'GenericAgent' );
+$CommonObject{PIDObject}->PIDDelete( Name => $JobName );
 exit(0);
 
 sub ExecuteConfigJobs {
