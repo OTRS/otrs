@@ -2,7 +2,7 @@
 # Kernel/Scheduler.pm - The otrs Scheduler Daemon
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Scheduler.pm,v 1.18 2011-07-18 15:00:20 cg Exp $
+# $Id: Scheduler.pm,v 1.19 2011-07-18 19:45:24 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::Scheduler::TaskHandler;
 use Kernel::System::PID;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 =head1 NAME
 
@@ -123,7 +123,7 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     # try to update PID changed time
-    $Self->PIDChangedTime();
+    $Self->_PIDChangedTimeUpdate();
 
     # get all tasks
     my @TaskList = $Self->{TaskManagerObject}->TaskList();
@@ -200,7 +200,7 @@ sub Run {
         my $TaskResult = $TaskHandlerObject->Run( Data => $TaskData{Data} );
 
         # try to update PID changed time
-        $Self->PIDChangedTime();
+        $Self->_PIDChangedTimeUpdate();
 
         # skip if can't delete task
         next TASKITEM if !$Self->{TaskManagerObject}->TaskDelete( ID => $TaskItem->{ID} );
@@ -299,16 +299,16 @@ sub TaskRegister {
     return $TaskID;
 }
 
-=item PIDChangedTime()
+=item _PIDChangedTimeUpdate()
 
 Check if is the case to update the changed time for the PID,
 in order to use it as a keep alive signal.
 
-    my $Success = $SchedulerObject->PIDChangedTime();
+    my $Success = $SchedulerObject->_PIDChangedTimeUpdate();
 
 =cut
 
-sub PIDChangedTime {
+sub _PIDChangedTimeUpdate {
     my ( $Self, %Param ) = @_;
 
     # PID time to update should be defined, except the first time
@@ -359,6 +359,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.18 $ $Date: 2011-07-18 15:00:20 $
+$Revision: 1.19 $ $Date: 2011-07-18 19:45:24 $
 
 =cut
