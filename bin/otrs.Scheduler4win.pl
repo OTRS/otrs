@@ -3,7 +3,7 @@
 # otrs.Scheduler4win.pl - provides Scheduler Daemon control for Microsoft Windows OS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.Scheduler4win.pl,v 1.21 2011-06-03 22:15:50 cr Exp $
+# $Id: otrs.Scheduler4win.pl,v 1.22 2011-07-18 19:46:20 cr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
+$VERSION = qw($Revision: 1.22 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -192,9 +192,41 @@ elsif ( $Opts{a} && $Opts{a} eq "start" ) {
     }
 
     # check if PID is already there
-    if ( $CommonObject{PIDObject}->PIDGet( Name => 'otrs.Scheduler' ) ) {
+    my %PID = $CommonObject{PIDObject}->PIDGet( Name => 'otrs.Scheduler' );
 
-        # check for force to start option
+    if (%PID) {
+
+        # get the PID update time
+        my $PIDUpdateTime =
+            $CommonObject{ConfigObject}->Get('Scheduler::PIDUpdateTime') || 60.0;
+
+        # get current time
+        my $Time = time();
+
+        # calculate time difference
+        my $DeltaTime = $Time - $PID{Changed};
+
+        # remove PID if changed time is grater than
+        if ( $DeltaTime > $PIDUpdateTime ) {
+
+            # _AutoStop returns an exit code for the OS, we need the opposit value
+            my $PIDDeleteSuccess = !_AutoStop(
+                Message => 'NOTICE: otrs.Shceduler4win.pl is registered on the DB, but the '
+                    . 'registry has not been updated in ' . $DeltaTime . ' seconds!. '
+                    . 'The register will be deleted so Scheduler can start again without '
+                    . 'forcing',
+                DeletePID => 1,
+            );
+
+            if ($PIDDeleteSuccess) {
+                %PID = ();
+            }
+        }
+    }
+
+    # check for force to start option
+    if (%PID) {
+
         if ( !$Opts{f} ) {
             print
                 "NOTICE: otrs.Scheduler4win.pl is already running (use '-force' if you want to start it\n";
