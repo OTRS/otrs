@@ -2,7 +2,7 @@
 # AgentDashboardTicketGeneric.dtl - provides HTML for global dashboard
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboardTicketGeneric.dtl,v 1.38.2.2 2011-04-05 09:34:46 mg Exp $
+# $Id: AgentDashboardTicketGeneric.dtl,v 1.38.2.3 2011-07-18 13:47:35 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -57,7 +57,9 @@
 <!-- dtl:js_on_document_complete -->
 
 <!-- dtl:block:ContentLargeTicketGenericFilterResponsible -->
+<!-- dtl:block:ContentLargeTicketGenericFilterMyQueues -->
     <li class="$QData{"MyQueues::Selected"}"><a href="#" id="Dashboard$QData{"Name"}MyQueues">$Text{"My Queues"} ($QData{"MyQueues"})</a></li>
+<!-- dtl:block:ContentLargeTicketGenericFilterMyQueues -->
     <li class="$QData{"All::Selected"} Last"><a href="#" id="Dashboard$QData{"Name"}All">$Text{"All"} ($QData{"All"})</a></li>
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
