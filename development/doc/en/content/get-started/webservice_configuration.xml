@@ -3,10 +3,10 @@
 <!-- $Id: webservice_configuration.xml,v 1.1 2011/05/02 06:28:52 cg Exp $ -->
 
 <section id="webservice_configuration">
-    <title>Webservice configuration</title>
+    <title>Web service configuration</title>
     <para>
-        The webservice configuration is stored in one database table 'gi_webservice_config'. Each row represents
-        one configured webservice with all it's configuration data in one field, stored as a single
+        The web service configuration is stored in one database table 'gi_webservice_config'. Each row represents
+        one configured web service with all it's configuration data in one field, stored as a single
         line in YAML format.
     </para>
     <section>
@@ -22,7 +22,7 @@
                 <tbody>
                     <row>
                         <entry>name</entry>
-                        <entry>a name to identify the webservice</entry>
+                        <entry>a name to identify the web service</entry>
                     </row>
                     <row>
                         <entry>config</entry>
@@ -30,18 +30,18 @@
                     </row>
                     <row>
                         <entry>config_md5</entry>
-                        <entry>it's used as an other identifier for the webservice</entry>
+                        <entry>it's used as an other identifier for the web service</entry>
                     </row>
                     <row>
                         <entry>valid_id</entry>
-                        <entry>to enable or disable the webservice</entry>
+                        <entry>to enable or disable the web service</entry>
                     </row>
                 </tbody>
             </tgroup>
         </informaltable>
     </section>
     <para>
-        Another table 'gi_webservice_config_history' stores the older config versions. So when an update is made,
+        Another table 'gi_webservice_config_history' stores the older configuration versions. So when an update is made,
         the row in 'gi_webservice_config' is updated, and the old value added as a new row in
         'gi_webservice_config_history' table.
     </para>
@@ -73,12 +73,12 @@
         </informaltable>
     </section>
     <section>
-        <title>Adding a new webservice configuration</title>
+        <title>Adding a new web service configuration</title>
         <para>
-            We can add a new webservice configuration using one of the available tools for this action,
+            We can add a new web service configuration using one of the available tools for this action,
             one in command line, and other one in the web interface, for both you need to have your
             complete configuration in a YAML file, with the structure and content showed below, it will
-            be use as the base for execute your webservice.
+            be use as the base for execute your web service.
         </para>
         <section>
             <title>The YAML file</title>

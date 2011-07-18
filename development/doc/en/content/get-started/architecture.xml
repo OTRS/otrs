@@ -80,15 +80,15 @@ implemented in a way that each one can have different backends.
     <section id="otrs-files">
         <title>Files</title>
         <para>.pl = Perl</para>
-        <para>.pm = Perl Modul</para>
-        <para>.yaml or .yml = Webservice config file</para>
+        <para>.pm = Perl Module</para>
+        <para>.yaml or .yml = Web Service configuration file</para>
     </section>
     <section id="core-module">
         <title>Generic Interface modules</title>
         <para>
 Generic Interface modules are located under $OTRS_HOME/Kernel/GenericInterface/*.
 Here are located all modules for layer on GI. Generic Interface modules are used to handle
-each part of an webservice execution on the system. A short summary about GI modules are:
+each part of an web service execution on the system. A short summary about GI modules are:
         </para>
         <para>
         <itemizedlist mark="round">
@@ -99,10 +99,10 @@ each part of an webservice execution on the system. A short summary about GI mod
                 <para>Kernel::GenericInterface::Mapping (to transform data into a required format)</para>
             </listitem>
             <listitem>
-                <para>Kernel::GenericInterface::Requester (to use OTRS as a webservice client)</para>
+                <para>Kernel::GenericInterface::Requester (to use OTRS as a web service client)</para>
             </listitem>
             <listitem>
-                <para>Kernel::GenericInterface::Provider (to use OTRS as a webservice server)</para>
+                <para>Kernel::GenericInterface::Provider (to use OTRS as a web service server)</para>
             </listitem>
             <listitem>
                 <para>Kernel::GenericInterface::Operation (to execute Provider actions)</para>
@@ -126,15 +126,27 @@ The interface between the browser, web server and the frontend modules.
 A frontend module can be used via the http-link.
         </para>
         <para>
-            <ulink url="">http://localhost/otrs/nph'genericinterface.pl?</ulink>
+            <ulink url="">http://localhost/otrs/nph_genericinterface.pl?</ulink>
 TODO: verify correct paremeters for this interface
+        </para>
+        <para>
+            for example:
+        </para>
+        <para>
+            <ulink url="">http://localhost/otrs/nph_genericinterface/WebserviceID/123</ulink>
+        </para>
+        <para>
+            or
+        </para>
+        <para>
+            <ulink url="">http://localhost/otrs/nph_genericinterface/Webservice/MyWebService</ulink>
         </para>
     </section>
     <section id="cmd-frontend">
         <title>CMD Frontend</title>
         <para>
 The CMD (Command) Frontend is like the Web Frontend Handle and uses the core modules for some
-actions in the system as for example read content on the GI debugger with nex command.
+actions in the system as for example read content on the GI debugger with next command.
         </para>
         <para>
         <screen>

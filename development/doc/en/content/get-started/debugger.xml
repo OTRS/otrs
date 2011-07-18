@@ -6,7 +6,7 @@
     <title>Debugger</title>
     <para>
         The debugger is used to generate a log for all communication steps for inbound and outbound.
-        For each configured webservice, the debugger can be turned on in the configuration.
+        For each configured web service, the debugger can be turned on in the configuration.
         It will collect the data and write it into the database, based on the configured debug level.
     </para>
     <para>
@@ -37,7 +37,7 @@
                     </row>
                     <row>
                         <entry>webservice_id</entry>
-                        <entry>The webservice ID for the current communication</entry>
+                        <entry>The web service ID for the current communication</entry>
                     </row>
                 </tbody>
             </tgroup>
@@ -101,7 +101,7 @@
                 <thead>
                     <row>
                         <entry>Parameter</entry>
-                        <entry>Posible values</entry>
+                        <entry>Possible values</entry>
                         <entry>Description</entry>
                     </row>
                 </thead>
@@ -122,7 +122,7 @@
                     <row>
                         <entry>WebserviceID</entry>
                         <entry></entry>
-                        <entry>The webservice ID for the current communication</entry>
+                        <entry>The web service ID for the current communication</entry>
                     </row>
                     <row>
                         <entry>CommunicationType</entry>

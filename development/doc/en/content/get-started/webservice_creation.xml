@@ -3,9 +3,9 @@
 <!-- $Id: debugger.xml,v 1.1 2011/05/02 06:28:52 cg Exp $ -->
 
 <section id="creating_webservice">
-    <title>Creating a new Webservice</title>
+    <title>Creating a new Web service</title>
     <para>
-        Next we will see how to create and use a new webservice.
+        Next we will see how to create and use a new web service.
     </para>
     <para>
         Everything you need is to complete next simple steps.
@@ -14,7 +14,7 @@
         Each step is listed and explained on deeply below.
         <itemzedlist>
             <listitem>
-                    <para>Webservice configuration</para>
+                    <para>Web service configuration</para>
             </listitem>
             <listitem>
                     <para>Invoker</para>
