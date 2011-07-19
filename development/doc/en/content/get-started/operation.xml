@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE section PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN" "http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd">
-<!-- $Id: operation.xml,v 1.1 2011-07-19 01:58:50 cr Exp $ -->
+<!-- $Id: operation.xml,v 1.2 2011-07-19 20:09:11 cr Exp $ -->
 
 <section id="operation">
-    <title>invoker</title>
+    <title>operation</title>
     <para>
         The operation is used to perform an action within OTRS,
         this action is requested by the external system and can include special parameters in order
@@ -54,7 +54,7 @@ use warnings;
 use Kernel::System::VariableCheck qw(IsHashRefWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
                 ]]></programlisting>
             </para>
             <para>
@@ -162,7 +162,7 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2011-07-19 01:58:50 $
+$Revision: 1.2 $ $Date: 2011-07-19 20:09:11 $
 
 =cut
                 ]]></programlisting>
