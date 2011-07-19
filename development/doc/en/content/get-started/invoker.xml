@@ -7,7 +7,7 @@
     <para>
         The invoker is used to create a request from OTRS to an external system,
         this part of the GI is in charge of perform necessary task in OTRS side,
-        to make a request via a webservice.
+        to make a request via a web service.
     </para>
     <section id="adding_invoker">
         <title>Invoker backend</title>
@@ -34,6 +34,7 @@
         <section id="invoker_code_example">
             <title>Code example</title>
             <para>
+                <!--TODO this is not and stats sample module -->
                 In this section a sample stats module is shown and each subroutine is explained.
             </para>
             <para>
