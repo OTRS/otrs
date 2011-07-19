@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: GenericInterface.xml,v 1.32 2011-07-04 14:49:30 cr Exp $</CVS>
+    <CVS>$Id: GenericInterface.xml,v 1.33 2011-07-19 17:57:13 cg Exp $</CVS>
     <ConfigItem Name="Ticket::EventModulePost###1000-GenericInterface" Required="0" Valid="1">
         <Description Translatable="1">Performs the configured action for each event (as an Invoker) for each configured Webservice.</Description>
         <Group>GenericInterface</Group>
@@ -121,31 +121,6 @@
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="GenericInterface::Mapping::EmptyString" Required="0" Valid="0">
-        <Description Translatable="1">Temporary string to change empty old values (used for server validation).</Description>
-        <Group>GenericInterface</Group>
-        <SubGroup>Core::Mapping</SubGroup>
-        <Setting>
-            <String Regex="">GIEmptyMapValue</String><!-- default GIEmptyMapValue -->
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="GenericInterface::Mapping::DuplicatedString" Required="0" Valid="0">
-        <Description Translatable="1">Temporary string to change duplicated old values (used for server validation).</Description>
-        <Group>GenericInterface</Group>
-        <SubGroup>Core::Mapping</SubGroup>
-        <Setting>
-            <String Regex="">GIDuplicatedMapValue</String><!-- default GIDuplicatedMapValue -->
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="GenericInterface::Mapping::DeletedString" Required="0" Valid="0">
-        <Description Translatable="1">Temporary string to change duplicated old values (used for server validation).</Description>
-        <Group>GenericInterface</Group>
-        <SubGroup>Core::Mapping</SubGroup>
-        <Setting>
-            <String Regex="">GIDeletedMapValue</String><!-- default GIDeletedMapValue -->
-        </Setting>
-    </ConfigItem>
-
     <ConfigItem Name="Frontend::Module###AdminGenericInterfaceDebugger" Required="0" Valid="1">
         <Description Translatable="1">Frontend module registration for the agent interface.</Description>
         <Group>Framework</Group>
