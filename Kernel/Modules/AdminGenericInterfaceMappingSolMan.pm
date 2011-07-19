@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericInterfaceMappingSolMan.pm - provides a Mapping SolMan view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceMappingSolMan.pm,v 1.8 2011-07-11 19:53:55 cr Exp $
+# $Id: AdminGenericInterfaceMappingSolMan.pm,v 1.9 2011-07-19 17:58:08 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::GenericInterface::Webservice;
@@ -41,17 +41,13 @@ sub new {
     $Self->{WebserviceObject} =
         Kernel::System::GenericInterface::Webservice->new( %{$Self} );
 
-    $Self->{EmptyString}
-        = $Self->{ConfigObject}->Get('GenericInterface::Mapping::SolMan::EmptyString')
-        || 'GIEmptyMapValue';
+    $Self->{EmptyString} = '_GenericInterface_Mapping_SolMan_EmptyString_Dont_Use_It_String_Please';
 
     $Self->{DuplicateString}
-        = $Self->{ConfigObject}->Get('GenericInterface::Mapping::SolMan::DuplicatedString')
-        || 'GIDuplicatedMapValue';
+        = '_GenericInterface_Mapping_SolMan_DuplicatedString_Dont_Use_It_String_Please';
 
     $Self->{DeletedString}
-        = $Self->{ConfigObject}->Get('GenericInterface::Mapping::SolMan::DeletedString')
-        || 'GIDeletedMapValue';
+        = '_GenericInterface_Mapping_SolMan_DeletedString_Dont_Use_It_String_Please';
 
     return $Self;
 
