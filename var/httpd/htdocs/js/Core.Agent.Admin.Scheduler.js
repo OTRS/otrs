@@ -2,7 +2,7 @@
 // Core.Agent.Admin.Scheduler.js - provides the special module functions for the scheduler.
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.Scheduler.js,v 1.1 2011-07-12 21:15:13 cr Exp $
+// $Id: Core.Agent.Admin.Scheduler.js,v 1.2 2011-07-19 18:00:15 cr Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -72,7 +72,7 @@ Core.Agent.Admin.Scheduler = (function (TargetNS) {
                 }
 
                 // show main dialog
-                Core.UI.Dialog.ShowContentDialog(HTML, 'Scheduler', '240px', 'Center', true, undefined, true);
+                Core.UI.Dialog.ShowContentDialog(HTML, 'Start Scheduler', '240px', 'Center', true, undefined, true);
 
                 // set submit button action
                 $('#SchedulerFormSubmit').bind('click', function() {
