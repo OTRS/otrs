@@ -1,0 +1,377 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE section PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN" "http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd">
+<!-- $Id: mapping.xml,v 1.1 2011-07-20 01:52:44 cr Exp $ -->
+
+<section id="mapping">
+    <title>mapping</title>
+    <para>
+        The mapping is used to convert data from / to OTRS, to / from the external system.
+        This data can be represented as key =&gt; value pairs, mapping modules can be developed to
+        transform not just values but also the keys.
+    </para>
+    <para>
+        <emphasis>For example:</emphasis>
+    </para>
+   <informaltable>
+        <tgroup cols="2">
+            <thead>
+                <row>
+                    <entry>From</entry>
+                    <entry>To</entry>
+                </row>
+            </thead>
+            <tbody>
+                <row>
+                    <entry>Prio =&gt; Warning</entry>
+                    <entry>PriorityID =&gt; 3</entry>
+                </row>
+            </tbody>
+        </tgroup>
+    </informaltable>
+    <para>
+        The mapping layer is not absolutely necessary, a web service can skip it completely
+        depending on the web service configuration and how invokers and operation are implemented.
+        But if some data transformations are needed, is highly recommended to use an existing
+        mapping module or create a new one.
+    </para>
+    <para>
+        Mapping modules can be called more than one time during a normal communication, take a
+        look to the following examples.
+    </para>
+    <para>
+        <emphasis>OTRS as provider example:</emphasis>
+    </para>
+    <para>
+        <orderedlist>
+            <listitem>
+                <para>
+                    The remote system sends the request with the data in the remote system format
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    The data is mapped from the remote system format to the OTRS format
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    OTRS performs the operation and return the response in OTRS format
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    The data is mapped form the OTRS format to the remote system format
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    The response with the data in the remote system format is sent to the remote
+                    system
+                </para>
+            </listitem>
+        </orderedlist>
+    </para>
+    <para>
+        <emphasis>OTRS as requester example:</emphasis>
+    </para>
+    <para>
+        <orderedlist>
+            <listitem>
+                <para>
+                    OTRS prepare the request to the remote system using the data in the OTRS format
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    The data is mapped from the OTRS format to the remote system format
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    The request is sent to the remote system which perform the action and send the
+                    response back to OTRS with the response data in remote system format
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    The data is mapped form remote system format (again) to the OTRS format
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    OTRS process the response
+                </para>
+            </listitem>
+        </orderedlist>
+    </para>
+    <section id="adding_mapping">
+        <title>Mapping backend</title>
+        <para>
+            Generic Interface provides a mapping module called <emphasis>Simple</emphasis>.
+            With this module most of the data transformations including key and value mapping
+            can be done, and also it defines rules for to handling the default mappings for both
+            keys and values.
+        </para>
+        <para>
+            So it is highly provable that you don't need to develop a custom mapping module.
+            Please check Mapping Simple module (Kernel/GenericInterface/Mapping/Simple.pm)
+            and its online documentation before continue.
+        </para>
+        <para>
+            If Mapping Simple module does not match your needs then we will see how to develop a
+            new Mapping backend, each mapping backend has to implement these subroutines:
+        </para>
+        <para>
+            <itemizedlist mark="round">
+                <listitem>
+                    <para>new</para>
+                </listitem>
+                <listitem>
+                    <para>Map</para>
+                </listitem>
+            </itemizedlist>
+        </para>
+        <para>
+            We should implement each one of this methods in order to be able to map the data in the
+            communication, handled either by the requester or provider. All mapping backends are
+            handled by the mapping module (Kernel/GenericInterface/Mapping.pm).
+        </para>
+        <section id="mapping_code_example">
+            <title>Code example</title>
+            <para>
+                In this section a sample mapping module is shown and each subroutine is explained.
+            </para>
+            <para>
+                <programlisting><![CDATA[
+# --
+# Kernel/GenericInterface/Mapping/Test.pm - GenericInterface test data mapping backend
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+package Kernel::GenericInterface::Mapping::Test;
+
+use strict;
+use warnings;
+
+use Kernel::System::VariableCheck qw(IsHashRefWithData IsStringWithData);
+
+use vars qw(@ISA $VERSION);
+                ]]></programlisting>
+            </para>
+            <para>
+                This is common header that can be found in common OTRS modules. The class/package
+                name is declared via the package keyword.
+            </para>
+            <para>
+                We also include VariableCheck module to perform certain validation over some
+                variables.
+            </para>
+            <para>
+                <programlisting><![CDATA[
+sub new {
+    my ( $Type, %Param ) = @_;
+
+    # allocate new hash for object
+    my $Self = {};
+    bless( $Self, $Type );
+
+    # check needed params
+    for my $Needed (qw(DebuggerObject MainObject MappingConfig)) {
+        if ( !$Param{$Needed} ) {
+            return {
+                Success      => 0,
+                ErrorMessage => "Got no $Needed!"
+            };
+        }
+        $Self->{$Needed} = $Param{$Needed};
+    }
+
+    # check mapping config
+    if ( !IsHashRefWithData( $Param{MappingConfig} ) ) {
+        return $Self->{DebuggerObject}->Error(
+            Summary => 'Got no MappingConfig as hash ref with content!',
+        );
+    }
+
+    # check config - if we have a map config, it has to be a non-empty hash ref
+    if (
+        defined $Param{MappingConfig}->{Config}
+        && !IsHashRefWithData( $Param{MappingConfig}->{Config} )
+        )
+    {
+        return $Self->{DebuggerObject}->Error(
+            Summary => 'Got MappingConfig with Data, but Data is no hash ref with content!',
+        );
+    }
+
+    return $Self;
+}
+                ]]></programlisting>
+            </para>
+            <para>
+                The constructor 'new' creates a new instance of the class. According to the coding
+                guidelines objects of other classes that are needed in this module have to be
+                created in "new".
+            </para>
+            <para>
+                <programlisting><![CDATA[
+sub Map {
+    my ( $Self, %Param ) = @_;
+
+    # check data - only accept undef or hash ref
+    if ( defined $Param{Data} && ref $Param{Data} ne 'HASH' ) {
+        return $Self->{DebuggerObject}
+            ->Error( Summary => 'Got Data but it is not a hash ref in Mapping Test backend!' );
+    }
+
+    # return if data is empty
+    if ( !defined $Param{Data} || !%{ $Param{Data} } ) {
+        return {
+            Success => 1,
+            Data    => {},
+        };
+    }
+
+    # no config means that we just return input data
+    if (
+        !defined $Self->{MappingConfig}->{Config}
+        || !defined $Self->{MappingConfig}->{Config}->{TestOption}
+        )
+    {
+        return {
+            Success => 1,
+            Data    => $Param{Data},
+        };
+    }
+
+    # check TestOption format
+    if ( !IsStringWithData( $Self->{MappingConfig}->{Config}->{TestOption} ) ) {
+        return $Self->{DebuggerObject}->Error(
+            Summary => 'Got no TestOption as string with value!',
+        );
+    }
+
+    # parse data according to configuration
+    my $ReturnData = {};
+    if ( $Self->{MappingConfig}->{Config}->{TestOption} eq 'ToUpper' ) {
+        $ReturnData = $Self->_ToUpper( Data => $Param{Data} );
+    }
+    elsif ( $Self->{MappingConfig}->{Config}->{TestOption} eq 'ToLower' ) {
+        $ReturnData = $Self->_ToLower( Data => $Param{Data} );
+    }
+    elsif ( $Self->{MappingConfig}->{Config}->{TestOption} eq 'Empty' ) {
+        $ReturnData = $Self->_Empty( Data => $Param{Data} );
+    }
+    else {
+        $ReturnData = $Param{Data};
+    }
+
+    # return result
+    return {
+        Success => 1,
+        Data    => $ReturnData,
+    };
+}
+                ]]></programlisting>
+            </para>
+            <para>
+                The 'map' function is the main part of each mapping module, it receibes the mapping
+                configuration (rules) and the data in the original format (either OTRS or remote
+                system format) and convers it to a new format, even the strucure of the data can be
+                changed during the mapping process.
+            </para>
+            <para>
+                In this particular example there are three rules to map the values this rules are
+                set in the mapping configuration key "TestOption" and they are ToUpper, ToLower and
+                Empty.
+            </para>
+            <itemizedlist mark="round">
+                <listitem>
+                    <para>
+                        ToUpper: converts each data value to upper case.
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>
+                        ToLower: converts each data value to lower case.
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>
+                        Empty: converts each data value into an empty string.
+                    </para>
+                </listitem>
+            </itemizedlist>
+            <para>
+                In this example no data key transformations were implemented.
+            </para>
+            <para>
+                <programlisting><![CDATA[
+sub _ToUpper {
+    my ( $Self, %Param ) = @_;
+
+    my $ReturnData = {};
+    for my $Key ( keys %{ $Param{Data} } ) {
+        $ReturnData->{$Key} = uc $Param{Data}->{$Key};
+    }
+
+    return $ReturnData;
+}
+
+sub _ToLower {
+    my ( $Self, %Param ) = @_;
+
+    my $ReturnData = {};
+    for my $Key ( keys %{ $Param{Data} } ) {
+        $ReturnData->{$Key} = lc $Param{Data}->{$Key};
+    }
+
+    return $ReturnData;
+}
+
+sub _Empty {
+    my ( $Self, %Param ) = @_;
+
+    my $ReturnData = {};
+    for my $Key ( keys %{ $Param{Data} } ) {
+        $ReturnData->{$Key} = '';
+    }
+
+    return $ReturnData;
+}
+                ]]></programlisting>
+            </para>
+            <para>
+                This are the helper functions that acctualy performs the string convertions
+            </para>
+            <para>
+                <programlisting><![CDATA[
+
+=end Internal:
+
+=back
+
+=head1 TERMS AND CONDITIONS
+
+This software is part of the OTRS project (L<http://otrs.org/>).
+
+This software comes with ABSOLUTELY NO WARRANTY. For details, see
+the enclosed file COPYING for license information (AGPL). If you
+did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
+
+=cut
+
+=head1 VERSION
+
+$Revision: 1.1 $ $Date: 2011-07-20 01:52:44 $
+
+=cut
+                ]]></programlisting>
+            </para>
+        </section>
+    </section>
+</section>
