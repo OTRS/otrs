@@ -2,7 +2,7 @@
 // Core.Agent.Admin.GenericInterfaceMapping.js - provides the special module functions for the GenericInterface mapping.
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.GenericInterfaceMappingSimple.js,v 1.7 2011-07-11 18:12:14 cg Exp $
+// $Id: Core.Agent.Admin.GenericInterfaceMappingSimple.js,v 1.8 2011-07-20 18:01:53 cr Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -68,8 +68,8 @@ Core.Agent.Admin.GenericInterfaceMapping= (function (TargetNS) {
         //bind click function to add button
         $('.ValueAdd').bind('click', function () {
             TargetNS.AddValueMapping(
-                $(this).closest('fieldset').find('.ValueInsert'),
-                $(this).closest('fieldset').find('.KeyIndex').val()
+                $(this).closest('fieldset').parent().find('.ValueInsert'),
+                $(this).closest('fieldset').parent().find('.KeyIndex').val()
             );
             return false;
         });
@@ -116,7 +116,7 @@ Core.Agent.Admin.GenericInterfaceMapping= (function (TargetNS) {
 
                 // bind click function to add button
                 $(this).bind('click', function () {
-                    TargetNS.AddValueMapping( $(this).closest('fieldset').find('.ValueInsert'), KeyCounter );
+                    TargetNS.AddValueMapping( $(this).closest('fieldset').parent().find('.ValueInsert'), KeyCounter );
                     return false;
                 });
             }

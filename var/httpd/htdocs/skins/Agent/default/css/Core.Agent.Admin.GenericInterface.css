@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.17 $
+ * @version     $Revision: 1.18 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -70,6 +70,11 @@ span.WarningDialog {
  /**
  * @subsubsection     AdminGenericInterfaceMapping
  */
+.KeyTemplateHeader input{
+    margin-left: 13px;
+    margin-right: 13px;
+}
+
 .ValueTemplateRow input{
     margin-left: 13px;
     margin-right: 13px;
