@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericInterfaceMappingSimple.pm - provides a TransportHTTPSOAP view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceMappingSimple.pm,v 1.14 2011-07-19 17:58:08 cg Exp $
+# $Id: AdminGenericInterfaceMappingSimple.pm,v 1.15 2011-07-20 18:30:49 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::GenericInterface::Webservice;
@@ -62,6 +62,12 @@ sub Run {
     my $CommunicationType = IsStringWithData($Operation) ? 'Provider'  : 'Requester';
     my $ActionType        = IsStringWithData($Operation) ? 'Operation' : 'Invoker';
     my $Action = $Operation || $Invoker;
+
+    # set mapping direction for display
+    my $MappingDirection
+        = $Direction eq 'MappingOutbound'
+        ? 'Simple Mapping for Outgoing Data'
+        : 'Simple Mapping for Icomming Data';
 
     # get configured Actions
     my $ActionsConfig
@@ -169,6 +175,7 @@ sub Run {
             Operation            => $Operation,
             Invoker              => $Invoker,
             Direction            => $Direction,
+            MappingDirection     => $MappingDirection,
             CommunicationType    => $CommunicationType,
             ActionType           => $ActionType,
             Action               => $Action,
@@ -195,6 +202,7 @@ sub Run {
                 Operation            => $Operation,
                 Invoker              => $Invoker,
                 Direction            => $Direction,
+                MappingDirection     => $MappingDirection,
                 CommunicationType    => $CommunicationType,
                 ActionType           => $ActionType,
                 Action               => $Action,
@@ -317,6 +325,7 @@ sub Run {
             Operation            => $Operation,
             Invoker              => $Invoker,
             Direction            => $Direction,
+            MappingDirection     => $MappingDirection,
             CommunicationType    => $CommunicationType,
             ActionType           => $ActionType,
             Action               => $Action,

@@ -2,7 +2,7 @@
 # AdminGenericInterfaceMappingSimple.dtl - provides HTML form for AdminLog
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceMappingSimple.dtl,v 1.22 2011-07-20 18:01:38 cr Exp $
+# $Id: AdminGenericInterfaceMappingSimple.dtl,v 1.23 2011-07-20 18:30:49 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@
             <a href="$Env{"Baselink"}Action=$LQData{"ActionFrontendModule"};Subaction=Change;$LQData{"ActionType"}=$LQData{"Action"};WebserviceID=$LQData{"WebserviceID"}">$QData{"ActionType"} $QData{"Action"}</a>
 
             $Config{"GenericInterface::Webservice::Path::Separator"}
-            $Text{"%s Simple", "$Data{"Direction"}"}
+            $Text{"$Data{"MappingDirection"}"}
         </h3>
     </div>
 
