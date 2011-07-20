@@ -1,8 +1,8 @@
 # --
 # AdminNotificationEvent.dtl - provides HTML form for AdminNotificationEvent
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNotificationEvent.dtl,v 1.26 2010-10-07 07:20:16 mb Exp $
+# $Id: AdminNotificationEvent.dtl,v 1.26.2.1 2011-07-20 10:39:48 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -104,7 +104,7 @@
                             $Text{"Name"}:
                         </label>
                         <div class="Field">
-                            <input type="text" name="Name" id="Name" value="$QData{"Name"}" class="W50pc Validate_Required $Data{"NameServerError"}" maxlength="50"/>
+                            <input type="text" name="Name" id="Name" value="$QData{"Name"}" class="W50pc Validate_Required $Data{"NameServerError"}" maxlength="200"/>
                             <div id="NameError" class="TooltipErrorMessage">
                                 <p>$Text{"This field is required."}</p>
                             </div>
@@ -263,7 +263,7 @@
                             $Text{"Subject"}:
                         </label>
                         <div class="Field">
-                            <input type="text" name="Subject" id="Subject" value="$QData{"Subject"}" class="W50pc Validate_Required $Data{"SubjectServerError"}" maxlength="120"/>
+                            <input type="text" name="Subject" id="Subject" value="$QData{"Subject"}" class="W50pc Validate_Required $Data{"SubjectServerError"}" maxlength="200"/>
                             <div id="SubjectError" class="TooltipErrorMessage">
                                 <p>$Text{"This field is required."}</p>
                             </div>
@@ -303,7 +303,7 @@
 
                         <label for="Comment">$Text{"Comment"}: </label>
                         <div class="Field">
-                            <input type="text" name="Comment" id="Comment" value="$QData{"Comment"}" class="W50pc" maxlength="150"/>
+                            <input type="text" name="Comment" id="Comment" value="$QData{"Comment"}" class="W50pc" maxlength="250"/>
                         </div>
                         <div class="Clear"></div>
 
