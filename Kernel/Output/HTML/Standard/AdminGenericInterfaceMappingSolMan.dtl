@@ -2,7 +2,7 @@
 # AdminGenericInterfaceMappingSolMan.dtl - provides HTML form for Admin Mapping SolMan
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceMappingSolMan.dtl,v 1.9 2011-07-08 20:43:12 cr Exp $
+# $Id: AdminGenericInterfaceMappingSolMan.dtl,v 1.10 2011-07-20 15:11:07 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -74,7 +74,12 @@
 
                                 <fieldset class="TableLike FixedLabelSmall">
                                     <input type="hidden" name="$QData{"KeyName"}" value="$QData{"KeyName"}" id="$QData{"KeyName"}" class="KeyName" />
-                                    <label>$Text{"Value mapping"}</label>
+                                    <label for="$QData{"KeyName"}Default" class="ValueDefaultLabel">$Text{"Default value"}:</label>
+                                    <div class="Field">
+                                        <input name="$QData{"KeyName"}Default" id="$QData{"KeyName"}Default" class="ValueDefault W20pc" type="text" maxlength="100" value="$QData{"ValueMapDefault"}"/>
+                                    </div>
+                                    <div class="Clear"></div>
+                                    <label>$Text{"Value mapping:"}</label>
                                     <div class="Field ValueInsert">
 <!-- dtl:block:ValueTemplateRowIndex -->
                                         <input type="hidden" name="ValueCounter$QData{"KeyName"}" value="$QData{"ValueIndex"}" id="ValueCounter$QData{"KeyName"}" class="ValueCounter" />
@@ -82,12 +87,12 @@
                                         <div class="Spacing"></div>
 <!-- dtl:block:ValueTemplateRow -->
                                         <div class="ValueTemplateRow">
-                                            <label for="ValueName$QData{"KeyName"}_$QData{"ValueIndex"}"><span class="Marker">*</span>Map value:</label>
+                                            <label class="Mandatory" for="ValueName$QData{"KeyName"}_$QData{"ValueIndex"}"><span class="Marker">*</span>Map value:</label>
                                             <input name="ValueName$QData{"KeyName"}_$QData{"ValueIndex"}" id="ValueName$QData{"KeyName"}_$QData{"ValueIndex"}" class="Validate_Required W20pc $QData{"ValueNameError"}" type="text" maxlength="100" value="$QData{"ValueName"}"/>
                                             <div id="ValueName$QData{"KeyName"}_$QData{"ValueIndex"}Error" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
                                             <div id="ValueName$QData{"KeyName"}_$QData{"ValueIndex"}ServerError" class="TooltipErrorMessage"><p>$Text{"$Data{"ValueNameTooltip"}"}</p></div>
 
-                                            <label for="ValueMapNew$QData{"KeyName"}_$QData{"ValueIndex"}"><span class="Marker">*</span>to new value:</label>
+                                            <label class="Mandatory" for="ValueMapNew$QData{"KeyName"}_$QData{"ValueIndex"}"><span class="Marker">*</span>to new value:</label>
                                             <input name="ValueMapNew$QData{"KeyName"}_$QData{"ValueIndex"}" id="ValueMapNew$QData{"KeyName"}_$QData{"ValueIndex"}" class="Validate_Required W20pc $QData{"ValueMapNewError"}" type="text" maxlength="100" value="$QData{"ValueMapNew"}"/>
                                             <div id="ValueMapNew$QData{"KeyName"}_$QData{"ValueIndex"}Error" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
                                             <div id="ValueMapNew$QData{"KeyName"}_$QData{"ValueIndex"}ServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
@@ -97,18 +102,14 @@
                                         <div class="SpacingTopMini" ></div>
 <!-- dtl:block:ValueTemplateRow -->
                                     </div>
-                                    <div class="Clear"></div>
-                                    <label for="AddValueMapping$QData{"KeyName"}">$Text{"New value map"}:</label>
-                                    <div class="Field">
-                                        <div class="NewValueMap">
-                                            <button type="button" id="AddValueMapping$QData{"KeyName"}" class="Add ValueAdd" value="Add Value mapping">$Text{"Add value mapping"}</button>
+                                    <fieldset class="TableLike  SpacingTop">
+                                        <label for="AddValueMapping$QData{"KeyName"}">$Text{"New value map"}:</label>
+                                        <div class="Field">
+                                            <div class="NewValueMap">
+                                                <button type="button" id="AddValueMapping$QData{"KeyName"}" class="Add ValueAdd" value="Add Value mapping">$Text{"Add value mapping"}</button>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="Clear"></div>
-                                    <label for="$QData{"KeyName"}Default" class="ValueDefaultLabel">$Text{"Default"}:</label>
-                                    <div class="Field">
-                                        <input name="$QData{"KeyName"}Default" id="$QData{"KeyName"}Default" class="ValueDefault W20pc" type="text" maxlength="100" value="$QData{"ValueMapDefault"}"/>
-                                    </div>
+                                    </fieldset>
                                 </fieldset>
                             </div>
                         </div>
@@ -116,12 +117,12 @@
 
 <!-- dtl:block:ValueTemplate -->
                         <div class="ValueTemplate Hidden">
-                            <label for="ValueName"><span class="Marker">*</span>$Text{"Map value:"}</label>
+                            <label class="Mandatory" for="ValueName"><span class="Marker">*</span>$Text{"Map value:"}</label>
                             <input name="ValueName$QData{"KeyName"}_$QData{"ValueIndex"}" id="ValueName" class="W20pc" type="text" maxlength="100" value="$QData{"ValueName"}"/>
                             <div id="ValueNameError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
                             <div id="ValueNameServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
 
-                            <label for="ValueMapNew"><span class="Marker">*</span>to new value:</label>
+                            <label class="Mandatory" for="ValueMapNew"><span class="Marker">*</span>to new value:</label>
                             <input name="ValueMapNew$QData{"KeyName"}_$QData{"ValueIndex"}" id="ValueMapNew" class="W20pc" type="text" maxlength="100" value="$QData{"ValueMapNew"}"/>
                             <div id="ValueMapNewError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
                             <div id="ValueMapNewServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
@@ -205,8 +206,8 @@ $('.AdditionalInformation .Remove').bind('click', function () {
 //bind click function to add button
 $('.ValueAdd').bind('click', function () {
     Core.Agent.Admin.GenericInterfaceMappingSolMan.AddValueMapping(
-        $(this).closest('fieldset').find('.ValueInsert'),
-        $(this).closest('fieldset').find('.KeyName').val()
+        $(this).closest('fieldset').parent().find('.ValueInsert'),
+        $(this).closest('fieldset').parent().find('.KeyName').val()
     );
     return false;
 });
