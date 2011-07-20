@@ -2,7 +2,7 @@
 // Core.Agent.Admin.GenericInterfaceMapping.js - provides the special module functions for the GenericInterface mapping.
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.GenericInterfaceMappingSolMan.js,v 1.4 2011-07-08 17:17:52 cg Exp $
+// $Id: Core.Agent.Admin.GenericInterfaceMappingSolMan.js,v 1.5 2011-07-20 15:13:28 cr Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -162,10 +162,16 @@ Core.Agent.Admin.GenericInterfaceMappingSolMan= (function (TargetNS) {
                 $(this).val(KeyName);
             }
 
-            // Default value fields
+            // default value fields
             else if ( $(this).hasClass('ValueDefault') ) {
                 $(this).attr('id',   KeyName + 'Default');
                 $(this).attr('name', KeyName + 'Default');
+            }
+
+            // value add button
+            else if ( $(this).hasClass('ValueAdd') ) {
+                $(this).attr('id',  'AddValueMapping' + KeyName );
+                $(this).closest('fieldset').find('label').attr('for', 'AddValueMapping' + KeyName)
             }
 
             // any other field
@@ -179,7 +185,7 @@ Core.Agent.Admin.GenericInterfaceMappingSolMan= (function (TargetNS) {
 
                 // bind click function to add button
                 $(this).bind('click', function () {
-                    TargetNS.AddValueMapping( $(this).closest('fieldset').find('.ValueInsert'), KeyName );
+                    TargetNS.AddValueMapping( $(this).closest('fieldset').parent().find('.ValueInsert'), KeyName );
                     return false;
                 });
             }
