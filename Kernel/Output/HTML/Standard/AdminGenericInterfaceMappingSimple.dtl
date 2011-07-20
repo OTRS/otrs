@@ -2,7 +2,7 @@
 # AdminGenericInterfaceMappingSimple.dtl - provides HTML form for AdminLog
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceMappingSimple.dtl,v 1.15 2011-07-12 14:44:03 cg Exp $
+# $Id: AdminGenericInterfaceMappingSimple.dtl,v 1.16 2011-07-20 15:56:45 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -240,12 +240,12 @@
 <!-- dtl:block:ValueTemplate -->
 
                     </div>
+                    <Fieldset class="TableLike">
+                        <div class="Field Spacing">
+                            <button class="Primary" type="submit" value="$Text{"Save"}">$Text{"Save"}</button>
 
-                    <div class="Field Spacing">
-                        <button class="Primary" type="submit" value="$Text{"Save"}">$Text{"Save"}</button>
-
-                        <button type="submit" id="SaveAndFinishButton" value="$Text{"Save and finish"}">$Text{"Save and finish"}</button>
-                        <input type="hidden" name="ReturnToAction" id="ReturnToAction" value="" />
+                            <button type="submit" id="SaveAndFinishButton" value="$Text{"Save and finish"}">$Text{"Save and finish"}</button>
+                            <input type="hidden" name="ReturnToAction" id="ReturnToAction" value="" />
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
 $('#SaveAndFinishButton').bind('click', function(){
@@ -254,10 +254,11 @@ $('#SaveAndFinishButton').bind('click', function(){
 //]]></script>
 <!-- dtl:js_on_document_complete -->
 
-                        $Text{"or"}
-                        <a href="$Env{"Baselink"}Action=$LQData{"ActionFrontendModule"};Subaction=Change;$LQData{"ActionType"}=$LQData{"Action"};WebserviceID=$LQData{"WebserviceID"}">$Text{"Cancel"}</a>
-                    </div>
+                            $Text{"or"}
+                            <a href="$Env{"Baselink"}Action=$LQData{"ActionFrontendModule"};Subaction=Change;$LQData{"ActionType"}=$LQData{"Action"};WebserviceID=$LQData{"WebserviceID"}">$Text{"Cancel"}</a>
+                        </div>
 
+                    </Fieldset>
                     <div class="Clear"></div>
 
                 </form>
