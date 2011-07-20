@@ -2,7 +2,7 @@
 # AdminGenericInterfaceMappingSimple.dtl - provides HTML form for AdminLog
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceMappingSimple.dtl,v 1.20 2011-07-20 16:20:10 cr Exp $
+# $Id: AdminGenericInterfaceMappingSimple.dtl,v 1.21 2011-07-20 16:57:02 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -126,7 +126,7 @@
                                     <label>$Text{"Key mapping"}:</label>
                                     <div class="Spacing"></div>
                                     <div class="Field KeyTemplateHeader">
-                                        <label for="KeyName$QData{"KeyIndex"}" class="KeyName$QData{"KeyIndex"}Label">$Text{"Map key"}:</label>
+                                        <label for="KeyName$QData{"KeyIndex"}" class="Mandatory KeyName$QData{"KeyIndex"}Label"><span class="Marker">*</span>$Text{"Map key"}:</label>
                                         <input name="KeyName$QData{"KeyIndex"}" id="KeyName$QData{"KeyIndex"}" class="W20pc Validate_Required $QData{"KeyNameError"}" type="text" maxlength="100" value="$QData{"KeyName"}"/>
                                         <div id="KeyName$QData{"KeyIndex"}Error" class="TooltipErrorMessage">
                                             <p>$Text{"This field is required."}</p>
@@ -144,7 +144,7 @@
                                             <p>$Text{"This field is required."}</p>
                                         </div>
 
-                                        <label for="KeyMapNew$QData{"KeyIndex"}" class="KeyMapNew$QData{"KeyIndex"}Label">$Text{"to new key"}:</label>
+                                        <label for="KeyMapNew$QData{"KeyIndex"}" class="Mandatory KeyMapNew$QData{"KeyIndex"}Label"><span class="Marker">*</span>$Text{"to new key"}:</label>
                                         <input name="KeyMapNew$QData{"KeyIndex"}" id="KeyMapNew$QData{"KeyIndex"}" class="W20pc Validate_Required NewValue $QData{"KeyMapNewError"}" type="text" maxlength="100" value="$QData{"KeyMapNew"}"/>
                                         <div id="KeyMapNew$QData{"KeyIndex"}Error" class="TooltipErrorMessage">
                                             <p>$Text{"This field is required."}</p>
@@ -164,7 +164,7 @@
                                         <div class="Spacing"></div>
 <!-- dtl:block:ValueTemplateRow -->
                                         <div class="ValueTemplateRow SpacingTopSmall">
-                                            <label for="ValueName$QData{"KeyIndex"}_$QData{"ValueIndex"}">$Text{"Map value"}:</label>
+                                            <label class="Mandatory" for="ValueName$QData{"KeyIndex"}_$QData{"ValueIndex"}"><span class="Marker">*</span>$Text{"Map value"}:</label>
                                             <input name="ValueName$QData{"KeyIndex"}_$QData{"ValueIndex"}" id="ValueName$QData{"KeyIndex"}_$QData{"ValueIndex"}" class="W20pc Validate_Required $QData{"ValueNameError"}" type="text" maxlength="100" value="$QData{"ValueName"}"/>
                                             <div id="ValueName$QData{"KeyIndex"}_$QData{"ValueIndex"}Error" class="TooltipErrorMessage">
                                                 <p>$Text{"This field is required."}</p>
@@ -182,7 +182,7 @@
                                                 <p>$Text{"This field is required."}</p>
                                             </div>
 
-                                            <label for="ValueMapNew$QData{"KeyIndex"}_$QData{"ValueIndex"}">$Text{"to new value"}:</label>
+                                            <label class="Mandatory" for="ValueMapNew$QData{"KeyIndex"}_$QData{"ValueIndex"}"><span class="Marker">*</span>$Text{"to new value"}:</label>
                                             <input name="ValueMapNew$QData{"KeyIndex"}_$QData{"ValueIndex"}" id="ValueMapNew$QData{"KeyIndex"}_$QData{"ValueIndex"}" class="W20pc Validate_Required $QData{"ValueMapNewError"}" type="text" maxlength="100" value="$QData{"ValueMapNew"}"/>
                                             <div id="ValueMapNew$QData{"KeyIndex"}_$QData{"ValueIndex"}Error" class="TooltipErrorMessage">
                                                 <p>$Text{"This field is required."}</p>
@@ -210,7 +210,7 @@
 
 <!-- dtl:block:ValueTemplate -->
                         <div class="ValueTemplateRow ValueTemplate SpacingTopSmall Hidden">
-                            <label for="ValueName" class="ValueNameLabel">$Text{"Map value"}:</label>
+                            <label for="ValueName" class="Mandatory ValueNameLabel"><span class="Marker">*</span>$Text{"Map value"}:</label>
                             <input name="ValueName" id="ValueName" class="W20pc" type="text" maxlength="100" value=""/>
                             <div id="ValueNameError" class="TooltipErrorMessage">
                                 <p>$Text{"This field is required."}</p>
@@ -228,7 +228,7 @@
                                 <p>$Text{"This field is required."}</p>
                             </div>
 
-                            <label for="ValueMapNew" class="ValueMapNewLabel">$Text{"to new value"}:</label>
+                            <label for="ValueMapNew" class="Mandatory ValueMapNewLabel"><span class="Marker">*</span>$Text{"to new value"}:</label>
                             <input name="ValueMapNew" id="ValueMapNew" class="W20pc" type="text" maxlength="100" value=""/>
                             <div id="ValueMapNewError" class="TooltipErrorMessage">
                                 <p>$Text{"This field is required."}</p>
