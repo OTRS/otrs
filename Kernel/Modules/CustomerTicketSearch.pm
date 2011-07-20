@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketSearch.pm,v 1.68 2011-07-18 05:54:01 mp Exp $
+# $Id: CustomerTicketSearch.pm,v 1.69 2011-07-20 05:05:49 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::SearchProfile;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.68 $) [1];
+$VERSION = qw($Revision: 1.69 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -378,7 +378,11 @@ sub Run {
         }
 
         # prepare archive flag
-        if ( $Self->{ConfigObject}->Get('Ticket::ArchiveSystem') ) {
+        if (
+            $Self->{ConfigObject}->Get('Ticket::ArchiveSystem')
+            && $Self->{ConfigObject}->Get('Ticket::CustomerArchiveSystem')
+            )
+        {
 
             $GetParam{SearchInArchive} ||= '';
             if ( $GetParam{SearchInArchive} eq 'AllTickets' ) {
@@ -1052,7 +1056,11 @@ sub MaskForm {
     );
 
     # enable archive search
-    if ( $Self->{ConfigObject}->Get('Ticket::ArchiveSystem') ) {
+    if (
+        $Self->{ConfigObject}->Get('Ticket::ArchiveSystem')
+        && $Self->{ConfigObject}->Get('Ticket::CustomerArchiveSystem')
+        )
+    {
 
         $Param{SearchInArchiveStrg} = $Self->{LayoutObject}->BuildSelection(
             Data => {

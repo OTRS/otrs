@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketOverview.pm - status for all open tickets
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketOverview.pm,v 1.1 2011-05-09 22:18:31 cr Exp $
+# $Id: CustomerTicketOverview.pm,v 1.2 2011-07-20 05:05:49 mp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -173,6 +173,16 @@ sub Run {
         return $Output;
     }
 
+    # check if archive search is allowed, otherwise search for all tickets
+    my %SearchInArchive = ();
+    if (
+        $Self->{ConfigObject}->Get('Ticket::ArchiveSystem')
+        && !$Self->{ConfigObject}->Get('Ticket::CustomerArchiveSystem')
+        )
+    {
+        $SearchInArchive{ArchiveFlags} = [ 'y', 'n' ];
+    }
+
     my %NavBarFilter;
     my $Counter         = 0;
     my $AllTickets      = 0;
@@ -181,6 +191,7 @@ sub Run {
         $Counter++;
         my $Count = $Self->{TicketObject}->TicketSearch(
             %{ $Filters{ $Self->{Subaction} }->{$Filter}->{Search} },
+            %SearchInArchive,
             Result => 'COUNT',
         );
 
@@ -322,6 +333,7 @@ sub Run {
 
         my @ViewableTickets = $Self->{TicketObject}->TicketSearch(
             %{ $Filters{ $Self->{Subaction} }->{ $Self->{Filter} }->{Search} },
+            %SearchInArchive,
             Result => 'ARRAY',
             Limit  => 1_000,
         );
