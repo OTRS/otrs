@@ -2,7 +2,7 @@
 # Cache.t - Cache tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Cache.t,v 1.20 2011-03-15 15:14:44 mg Exp $
+# $Id: Cache.t,v 1.21 2011-07-21 19:18:13 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -51,7 +51,7 @@ for my $Module qw(FileStorable FileRaw) {
 
     # test charset specific situations
     my $Charset = $ConfigObject->Get('DefaultCharset');
-    if ( $Charset eq 'utf-8' ) {
+    if ( $Charset =~ /^utf(-8|8)$/i ) {
         $CacheSet = $CacheObject->Set(
             Type  => 'CacheTest2',
             Key   => 'Test',
