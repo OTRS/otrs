@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Provider.pm - GenericInterface provider handler
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Provider.pm,v 1.21 2011-06-28 16:37:03 cr Exp $
+# $Id: Provider.pm,v 1.22 2011-07-21 14:45:57 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
+$VERSION = qw($Revision: 1.22 $) [1];
 
 use Kernel::Config;
 use Kernel::System::Log;
@@ -152,6 +152,7 @@ sub Run {
         DebuggerConfig    => $Webservice->{Config}->{Debugger},
         WebserviceID      => $WebserviceID,
         CommunicationType => 'Provider',
+        RemoteIP          => $ENV{REMOTE_ADDR},
     );
 
     if ( ref $Self->{DebuggerObject} ne 'Kernel::GenericInterface::Debugger' ) {
@@ -396,6 +397,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.21 $ $Date: 2011-06-28 16:37:03 $
+$Revision: 1.22 $ $Date: 2011-07-21 14:45:57 $
 
 =cut
