@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/NotificationSchedulerCheck.pm
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: NotificationSchedulerCheck.pm,v 1.4 2011-07-19 18:00:48 cr Exp $
+# $Id: NotificationSchedulerCheck.pm,v 1.5 2011-07-22 22:12:34 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,9 +15,12 @@ use strict;
 use warnings;
 use Kernel::System::Group;
 use Kernel::System::PID;
+use Kernel::System::GenericInterface::Webservice;
+
+use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -27,19 +30,33 @@ sub new {
     bless( $Self, $Type );
 
     # get needed objects
-    for (qw(ConfigObject LogObject DBObject LayoutObject MainObject EncodeObject UserID)) {
+    for (qw(ConfigObject LogObject DBObject LayoutObject MainObject EncodeObject TimeObject UserID))
+    {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
     # create additional objects
-    $Self->{GroupObject} = Kernel::System::Group->new( %{$Self} );
-    $Self->{PIDObject}   = Kernel::System::PID->new( %{$Self} );
+    $Self->{GroupObject}      = Kernel::System::Group->new( %{$Self} );
+    $Self->{PIDObject}        = Kernel::System::PID->new( %{$Self} );
+    $Self->{WebserviceObject} = Kernel::System::GenericInterface::Webservice->new( %{$Self} );
 
     return $Self;
 }
 
 sub Run {
     my ( $Self, %Param ) = @_;
+
+    # TODO OTRS v3.1 will only use scheduler to handle GI Tasks, then it only make sense to
+    # provide this alert is  if at least one valid web service is registered in the configuration
+    # for further versions of OTRS this check can be removed if scheduler is used for other tasks
+
+    # get valid web services list
+    my $WebserviceList = $Self->{WebserviceObject}->WebserviceList( Valid => 1 );
+
+    # return if the list is empty
+    if ( !IsHashRefWithData($WebserviceList) ) {
+        return '';
+    }
 
     # try to get scheduler PID
     my %PID = $Self->{PIDObject}->PIDGet(
