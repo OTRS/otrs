@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.pm,v 1.121 2011-03-29 15:23:04 mb Exp $
+# $Id: AgentTicketSearch.pm,v 1.122 2011-07-22 17:30:51 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::Type;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.121 $) [1];
+$VERSION = qw($Revision: 1.122 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -827,6 +827,9 @@ sub Run {
         }
         elsif ( $GetParam{ResultForm} eq 'Print' ) {
 
+            use Kernel::System::PDF;
+            $Self->{PDFObject} = Kernel::System::PDF->new( %{$Self} );
+
             my @PDFData;
             for (@ViewableTicketIDs) {
 
@@ -865,8 +868,6 @@ sub Run {
                 $UserInfo{CustomerName} = '(' . $UserInfo{CustomerName} . ')'
                     if ( $UserInfo{CustomerName} );
 
-                use Kernel::System::PDF;
-                $Self->{PDFObject} = Kernel::System::PDF->new( %{$Self} );
                 if ( $Self->{PDFObject} ) {
                     my %Info = ( %Data, %UserInfo );
                     my $Created = $Self->{LayoutObject}->Output(
@@ -925,45 +926,50 @@ sub Run {
                     $MaxPages = 100;
                 }
 
-                # create the header
                 my $CellData;
-                $CellData->[0]->[0]->{Content} = $Self->{ConfigObject}->Get('Ticket::Hook');
-                $CellData->[0]->[0]->{Font}    = 'ProportionalBold';
-                $CellData->[0]->[1]->{Content}
-                    = $Self->{LayoutObject}->{LanguageObject}->Get('Created');
-                $CellData->[0]->[1]->{Font} = 'ProportionalBold';
-                $CellData->[0]->[2]->{Content}
-                    = $Self->{LayoutObject}->{LanguageObject}->Get('From');
-                $CellData->[0]->[2]->{Font} = 'ProportionalBold';
-                $CellData->[0]->[3]->{Content}
-                    = $Self->{LayoutObject}->{LanguageObject}->Get('Subject');
-                $CellData->[0]->[3]->{Font} = 'ProportionalBold';
-                $CellData->[0]->[4]->{Content}
-                    = $Self->{LayoutObject}->{LanguageObject}->Get('State');
-                $CellData->[0]->[4]->{Font} = 'ProportionalBold';
-                $CellData->[0]->[5]->{Content}
-                    = $Self->{LayoutObject}->{LanguageObject}->Get('Queue');
-                $CellData->[0]->[5]->{Font} = 'ProportionalBold';
-                $CellData->[0]->[6]->{Content}
-                    = $Self->{LayoutObject}->{LanguageObject}->Get('Owner');
-                $CellData->[0]->[6]->{Font} = 'ProportionalBold';
-                $CellData->[0]->[7]->{Content}
-                    = $Self->{LayoutObject}->{LanguageObject}->Get('CustomerID');
-                $CellData->[0]->[7]->{Font} = 'ProportionalBold';
 
-                # create the content array
-                my $CounterRow = 1;
-                for my $Row (@PDFData) {
-                    my $CounterColumn = 0;
-                    for my $Content ( @{$Row} ) {
-                        $CellData->[$CounterRow]->[$CounterColumn]->{Content} = $Content;
-                        $CounterColumn++;
+                # verify if there are tickets to show
+                if (@PDFData) {
+
+                    # create the header
+                    $CellData->[0]->[0]->{Content} = $Self->{ConfigObject}->Get('Ticket::Hook');
+                    $CellData->[0]->[0]->{Font}    = 'ProportionalBold';
+                    $CellData->[0]->[1]->{Content}
+                        = $Self->{LayoutObject}->{LanguageObject}->Get('Created');
+                    $CellData->[0]->[1]->{Font} = 'ProportionalBold';
+                    $CellData->[0]->[2]->{Content}
+                        = $Self->{LayoutObject}->{LanguageObject}->Get('From');
+                    $CellData->[0]->[2]->{Font} = 'ProportionalBold';
+                    $CellData->[0]->[3]->{Content}
+                        = $Self->{LayoutObject}->{LanguageObject}->Get('Subject');
+                    $CellData->[0]->[3]->{Font} = 'ProportionalBold';
+                    $CellData->[0]->[4]->{Content}
+                        = $Self->{LayoutObject}->{LanguageObject}->Get('State');
+                    $CellData->[0]->[4]->{Font} = 'ProportionalBold';
+                    $CellData->[0]->[5]->{Content}
+                        = $Self->{LayoutObject}->{LanguageObject}->Get('Queue');
+                    $CellData->[0]->[5]->{Font} = 'ProportionalBold';
+                    $CellData->[0]->[6]->{Content}
+                        = $Self->{LayoutObject}->{LanguageObject}->Get('Owner');
+                    $CellData->[0]->[6]->{Font} = 'ProportionalBold';
+                    $CellData->[0]->[7]->{Content}
+                        = $Self->{LayoutObject}->{LanguageObject}->Get('CustomerID');
+                    $CellData->[0]->[7]->{Font} = 'ProportionalBold';
+
+                    # create the content array
+                    my $CounterRow = 1;
+                    for my $Row (@PDFData) {
+                        my $CounterColumn = 0;
+                        for my $Content ( @{$Row} ) {
+                            $CellData->[$CounterRow]->[$CounterColumn]->{Content} = $Content;
+                            $CounterColumn++;
+                        }
+                        $CounterRow++;
                     }
-                    $CounterRow++;
                 }
 
-                # output 'No ticket data found', if no content was given
-                if ( !$CellData->[0]->[0] ) {
+                # otherwise, show 'No ticket data found' message
+                else {
                     $CellData->[0]->[0]->{Content}
                         = $Self->{LayoutObject}->{LanguageObject}->Get('No ticket data found.');
                 }

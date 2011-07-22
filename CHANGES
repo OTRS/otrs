@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1932 2011-07-22 16:07:56 en Exp $
+# $Id: CHANGES,v 1.1933 2011-07-22 17:30:51 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,7 +10,8 @@
 # --
 
 3.1.0 beta1 2011-??-??
- - 2011-06-06 Fixed bug#3923 - Frontend::Output::FilterText###OutputFilterTextAutoLink.
+ - 2011-07-22 Fixed bug#6259 - Search matching no results to Print opens extra tab.
+ - 2011-07-22 Fixed bug#3923 - Frontend::Output::FilterText###OutputFilterTextAutoLink.
  - 2011-07-20 Added feature bug#976 - Send emails via bulk action.
  - 2011-07-18 Added feature bug#7479 - Add "TicketChangeTime" as filter parameter
     in Generic agent.
