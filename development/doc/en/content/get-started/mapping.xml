@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE section PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN" "http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd">
-<!-- $Id: mapping.xml,v 1.1 2011-07-20 01:52:44 cr Exp $ -->
+<!-- $Id: mapping.xml,v 1.2 2011-07-22 22:13:35 cr Exp $ -->
 
 <section id="mapping">
-    <title>mapping</title>
+    <title>Mapping</title>
     <para>
         The mapping is used to convert data from / to OTRS, to / from the external system.
         This data can be represented as key =&gt; value pairs, mapping modules can be developed to
@@ -279,9 +279,9 @@ sub Map {
                 ]]></programlisting>
             </para>
             <para>
-                The 'map' function is the main part of each mapping module, it receibes the mapping
+                The 'map' function is the main part of each mapping module, it receives the mapping
                 configuration (rules) and the data in the original format (either OTRS or remote
-                system format) and convers it to a new format, even the strucure of the data can be
+                system format) and converts it to a new format, even the strucure of the data can be
                 changed during the mapping process.
             </para>
             <para>
@@ -346,7 +346,7 @@ sub _Empty {
                 ]]></programlisting>
             </para>
             <para>
-                This are the helper functions that acctualy performs the string convertions
+                This are the helper functions that actually performs the string conversions
             </para>
             <para>
                 <programlisting><![CDATA[
@@ -367,7 +367,7 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2011-07-20 01:52:44 $
+$Revision: 1.2 $ $Date: 2011-07-22 22:13:35 $
 
 =cut
                 ]]></programlisting>
