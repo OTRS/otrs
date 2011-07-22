@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.171 2011-05-18 07:22:36 mg Exp $
+# $Id: AgentTicketEmail.pm,v 1.172 2011-07-22 12:47:57 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.171 $) [1];
+$VERSION = qw($Revision: 1.172 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -669,7 +669,12 @@ sub Run {
             }
 
             # check if date is valid
-            if ( $StateData{TypeName} && $StateData{TypeName} =~ /^pending/i ) {
+            if (
+                !$ExpandCustomerName
+                && $StateData{TypeName}
+                && $StateData{TypeName} =~ /^pending/i
+                )
+            {
                 if ( !$Self->{TimeObject}->Date2SystemTime( %GetParam, Second => 0 ) ) {
                     $Error{'DateInvalid'} = 'ServerError';
                 }
