@@ -2,7 +2,7 @@
 # Kernel/System/EmailParser.pm - the global email parser module
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: EmailParser.pm,v 1.104 2011-01-13 18:08:47 martin Exp $
+# $Id: EmailParser.pm,v 1.105 2011-07-22 18:02:06 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use MIME::Words qw(:all);
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.104 $) [1];
+$VERSION = qw($Revision: 1.105 $) [1];
 
 =head1 NAME
 
@@ -842,9 +842,9 @@ sub GetContentTypeParams {
     my ( $Self, %Param ) = @_;
 
     my $ContentType = $Param{ContentType} || return;
-    if ( $Param{ContentType} =~ /charset=.+?/i ) {
+    if ( $Param{ContentType} =~ /charset\s*=.+?/i ) {
         $Param{Charset} = $Param{ContentType};
-        $Param{Charset} =~ s/.*?charset=(.*?)/$1/i;
+        $Param{Charset} =~ s/.*?charset\s*=\s*(.*?)/$1/i;
         $Param{Charset} =~ s/"|'//g;
         $Param{Charset} =~ s/(.+?)(;|\s).*/$1/g;
     }
@@ -947,6 +947,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.104 $ $Date: 2011-01-13 18:08:47 $
+$Revision: 1.105 $ $Date: 2011-07-22 18:02:06 $
 
 =cut
