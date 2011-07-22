@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketAttachment.pm - to get the attachments
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketAttachment.pm,v 1.32 2010-08-18 13:36:15 mh Exp $
+# $Id: AgentTicketAttachment.pm,v 1.33 2011-07-22 16:07:56 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::FileTemp;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.32 $) [1];
+$VERSION = qw($Revision: 1.33 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -174,6 +174,21 @@ sub Run {
             ArticleID => $Self->{ArticleID},
             UserID    => $Self->{UserID},
         );
+
+        # extract body to apply some filters
+        # this is due to bug 3923: http://bugs.otrs.org/show_bug.cgi?id=3923
+        if ( $Data{Content} =~ /<body .* [^>]> (.*) <\/body>/ixms ) {
+            my $ContentBody = $Self->{LayoutObject}->Ascii2Html(
+                Text           => $1,
+                HTMLResultMode => 1,
+                LinkFeature    => 1,
+            );
+
+            $Data{Content} =~ s/$1/$ContentBody/;
+
+            # if the content changed, permit inline content
+            $Self->{LoadInlineContent} = 1;
+        }
 
         # reformat rich text document to have correct charset and links to
         # inline documents
