@@ -3,16 +3,17 @@
 <!-- $Id: invoker.xml,v 1.1 2011/05/02 06:28:52 cg Exp $ -->
 
 <section id="invoker">
-    <title>invoker</title>
+    <title>Invoker</title>
     <para>
-        The invoker is used to create a request from OTRS to an external system,
-        this part of the GI is in charge of perform necessary task in OTRS side,
-        to make a request via a web service.
+        The invoker is used to create a request from OTRS to a Remote System, this part of the GI is
+        in charge of perform necessary tasks in OTRS side, to gather the necessary data in order
+        to construct the request.
     </para>
     <section id="adding_invoker">
         <title>Invoker backend</title>
         <para>
-            Next we will see how to develop a new Invoker, each invoker has to implement these subroutines
+            Next we will see how to develop a new Invoker, each invoker has to implement these
+            subroutines:
         </para>
         <para>
             <itemizedlist mark="round">
@@ -34,35 +35,32 @@
         <section id="invoker_code_example">
             <title>Code example</title>
             <para>
-                <!--TODO this is not and stats sample module -->
-                In this section a sample stats module is shown and each subroutine is explained.
+                In this section a sample invoker module is shown and each subroutine is explained.
             </para>
             <para>
                 <programlisting><![CDATA[
 # --
-# Kernel/GenericInterface/Invoker/SolMan/RequestSystemGuid.pm - GenericInterface SolMan RequestSystemGuid Invoker backend
+# Kernel/GenericInterface/Invoker/Test.pm - GenericInterface test data Invoker backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
-#
+# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::GenericInterface::Invoker::SolMan::RequestSystemGuid;
+package Kernel::GenericInterface::Invoker::Test::Test;
 
 use strict;
 use warnings;
 
-use Kernel::System::VariableCheck qw(:all);
-use Kernel::GenericInterface::Invoker::SolMan::Common;
+use Kernel::System::VariableCheck qw(IsString IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
-
+$VERSION = qw($Revision: 1.12 $) [1];
                 ]]></programlisting>
             </para>
             <para>
-                This is common boilerplate that can be found in common OTRS modules. The class/package name is
+                This is common header that can be found in common OTRS modules. The class/package name is
                 declared via the package keyword.
             </para>
             <para>
@@ -75,13 +73,7 @@ sub new {
     bless( $Self, $Type );
 
     # check needed params
-    for my $Needed (
-        qw(
-        DebuggerObject MainObject TimeObject ConfigObject EncodeObject
-        LogObject TimeObject DBObject WebserviceID
-        )
-        )
-    {
+    for my $Needed (qw(DebuggerObject MainObject TimeObject)) {
         if ( !$Param{$Needed} ) {
             return {
                 Success      => 0,
@@ -92,114 +84,145 @@ sub new {
         $Self->{$Needed} = $Param{$Needed};
     }
 
-    # create additional objects
-    $Self->{SolManCommonObject} = Kernel::GenericInterface::Invoker::SolMan::Common->new(
-        %{$Self},
-        Invoker      => 'RequestSystemGuid',
-        WebserviceID => $Self->{WebserviceID},
-    );
-
     return $Self;
 }
                 ]]></programlisting>
             </para>
             <para>
-                The constructor 'new'' creates a new instance of the class. According to the coding guidelines
-                objects of other classes that are needed in this module have to be created in "new". Only the
-                'SolManCommonObject' object is created for this module.
+                The constructor 'new'' creates a new instance of the class. According to the coding
+                guidelines objects of other classes that are needed in this module have to be
+                created in "new".
             </para>
             <para>
                 <programlisting><![CDATA[
 sub PrepareRequest {
     my ( $Self, %Param ) = @_;
 
+    # we need a TicketNumber
+    if ( !IsStringWithData( $Param{Data}->{TicketNumber} ) ) {
+        return $Self->{DebuggerObject}->Error( Summary => 'Got no TicketNumber' );
+    }
+
+    my %ReturnData;
+
+    $ReturnData{TicketNumber} = $Param{Data}->{TicketNumber};
+
+    # check Action
+    if ( IsStringWithData( $Param{Data}->{Action} ) ) {
+        $ReturnData{Action} = $Param{Data}->{Action} . 'Test';
+    }
+
+    # check request for system time
+    if ( IsStringWithData( $Param{Data}->{GetSystemTime} ) && $Param{Data}->{GetSystemTime} ) {
+        $ReturnData{SystemTime} = $Self->{TimeObject}->SystemTime();
+    }
+
     return {
         Success => 1,
-        Data    => {},
+        Data    => \%ReturnData,
     };
 }
                 ]]></programlisting>
             </para>
             <para>
-                The 'PrepareRequest' function is used to handled and collect all needed data to be sent
-                into the request call, here we can receive data from the request handler, use it, and after
-                that we can transfer the results to the mapping layer.
+                The 'PrepareRequest' function is used to handle and collect all needed data to be
+                sent into the request, here we can receive data from the request handler, use it,
+                extend it, generate new data, and after that, we can transfer the results to the
+                mapping layer.
             </para>
             <para>
-                For this example we have not data to receive and also to transfer.
+                For this example we are expecting to receive a ticket number, if there isn't then
+                we use the debugger method "Error()" that creates an entry in the debug log and
+                also returns a structure with the parameter Success as 0 and Error Message as the
+                passed Summary.
+            </para>
+            <para>
+                Also this example appends the word "Test" to the parameter "Action" and if
+                GetSystemTime is requested, it will fill the SystemTime parameter with the current
+                system time. This part of the code is to prepare the data to be sent, on a real
+                invoker some calls to core modules (Kernel/System/*.pm) should be made here.
+            </para>
+            <para>
+                If during any part of the 'PrepareRequest' function the request need to be stop
+                without generating and error an entry in the debug log the following code can be
+                used:
             </para>
             <para>
                 <programlisting><![CDATA[
-
+# stop requester communication
+return {
+    Success           => 1,
+    StopCommunication => 1,
+};
+                ]]></programlisting>
+            </para>
+            <para>
+                Using this, the Requester will understand that the request should not continue (
+                it will not be sent to Mapping layer and will also not be sent to the
+                Network Transport) Requester will not send an error on the debug log. it will only
+                silently stop.
+            </para>
+            <para>
+                <programlisting><![CDATA[
 sub HandleResponse {
     my ( $Self, %Param ) = @_;
 
-    # break early if response was not successfull
+    # if there was an error in the response, forward it
     if ( !$Param{ResponseSuccess} ) {
+        if ( !IsStringWithData( $Param{ResponseErrorMessage} ) ) {
+            return $Self->{DebuggerObject}->Error(
+                Summary => 'Got response error, but no response error message!',
+            );
+        }
         return {
             Success      => 0,
-            ErrorMessage => 'Invoker RequestSystemGuid: Response failure!',
+            ErrorMessage => $Param{ResponseErrorMessage},
         };
     }
 
-    # to store data
-    my $Data = $Param{Data};
-
-    if ( !defined $Data->{Errors} ) {
-        return $Self->{DebuggerObject}->Error(
-            Summary => 'Invoker RequestSystemGuid: Response failure!'
-                . ' An Error parameter was expected',
-        );
+    # we need a TicketNumber
+    if ( !IsStringWithData( $Param{Data}->{TicketNumber} ) ) {
+        return $Self->{DebuggerObject}->Error( Summary => 'Got no TicketNumber!' );
     }
 
-    # if there was an error in the response, forward it
-    if ( IsHashRefWithData( $Data->{Errors} ) ) {
-
-        my $HandleErrorsResult = $Self->{SolManCommonObject}->HandleErrors(
-            Invoker => 'RequestSystemGuid',
-            Errors  => $Data->{Errors},
-        );
-
-        return {
-            Success      => $HandleErrorsResult->{Success},
-            ErrorMessage => $HandleErrorsResult->{ErrorMessage},
-        };
-    }
-
-    # we need a SystemGuid
-    if ( !IsStringWithData( $Data->{SystemGuid} ) ) {
-        return $Self->{DebuggerObject}->Error( Summary => 'Got no SystemGuid!' );
-    }
-
-    # prepare SystemGuid
+    # prepare TicketNumber
     my %ReturnData = (
-        SystemGuid => $Data->{SystemGuid},
+        TicketNumber => $Param{Data}->{TicketNumber},
     );
 
-    # write in debug log
-    $Self->{DebuggerObject}->Info(
-        Summary => 'RequestSystemGuid return success',
-        Data    => \%ReturnData,
-    );
-
-    # set the Remote SystemGuid to the webservice configuration
-    $Self->{SolManCommonObject}->SetRemoteSystemGuid(
-        WebserviceID => $Self->{WebserviceID},
-        SystemGuid   => $Data->{SystemGuid},
-        AllInvokers  => 1,
-    );
+    # check Action
+    if ( IsStringWithData( $Param{Data}->{Action} ) ) {
+        if ( $Param{Data}->{Action} !~ m{ \A ( .*? ) Test \z }xms ) {
+            return $Self->{DebuggerObject}->Error(
+                Summary => 'Got Action but it is not in required format!',
+            );
+        }
+        $ReturnData{Action} = $1;
+    }
 
     return {
         Success => 1,
         Data    => \%ReturnData,
     };
 }
-
                 ]]></programlisting>
             </para>
             <para>
-                The 'HandleResponse' function is used to receive data from the request answer, this data
-                already passed by mapping layer, then you can manipulate it before you pass it to the next layer.
+                The 'HandleResponse' function is used to receive  and process the data from the
+                previous request, that was made to the Remote System this data already passed by
+                Mapping layer, to transform it from Remote System format to OTRS format (if
+                needed).
+            </para>
+            <para>
+                For this particular example it checks the ticket number again and check if the
+                action ends with the word 'Test' (as was done in the 'PrepareRequest' function).
+            </para>
+            <para>
+                <emphasis>Remember </emphasis>
+                This invoker is only used for tests, a real invoker will check if the response
+                was on the format described by the Remote System and can perform some actions
+                like: call another invoker, perform an call to a Core Module, update the database,
+                send an error, etc.
             </para>
             <para>
                 <programlisting><![CDATA[
@@ -219,10 +242,9 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.13 $ $Date: 2011/05/02 14:20:30 $
+$Revision: 1.12 $ $Date: 2011/03/17 13:32:19 $
 
 =cut
-
                 ]]></programlisting>
             </para>
         </section>
