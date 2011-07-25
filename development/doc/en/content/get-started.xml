@@ -20,7 +20,7 @@
 
     <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="get-started/architecture.xml" />
 
-    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="get-started/layer_structure.xml" />
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="get-started/layers_structure.xml" />
 
     <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="get-started/communication_flow.xml" />
 
