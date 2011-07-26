@@ -1,0 +1,378 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE section PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN" "http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd">
+<!-- $Id: architecture.xml,v 1.1 2011-07-26 03:47:31 cr Exp $ -->
+
+<section id="architecture-overview">
+    <title>Architecture Overview</title>
+    <para>
+        The OTRS framework is modular. The following picture shows the basic layer architecture of
+        OTRS.
+    </para>
+    <screenshot>
+        <graphic srccredit="" scale="60" fileref="screenshots/architecture.png"></graphic>
+    </screenshot>
+    <para>
+        Introduced in OTRS 3.1, the OTRS Generic Interface continues OTRS modularity. the next
+        picture shows the basic layer architecture of the Generic Interface.
+    <screenshot>
+        <graphic srccredit="" scale="60" fileref="screenshots/giarchitecture.png"></graphic>
+    </screenshot>
+    </para>
+    <section id="directory">
+        <title>Directories</title>
+        <para>
+        <informaltable>
+            <tgroup cols="2">
+                <thead>
+                    <row>
+                        <entry>Directory</entry>
+                        <entry>Description</entry>
+                    </row>
+                </thead>
+                <tbody>
+                    <row>
+                        <entry>bin/</entry>
+                        <entry>commandline tools</entry>
+                    </row>
+                    <row>
+                        <entry>bin/cgi-bin/</entry>
+                        <entry>web handle</entry>
+                    </row>
+                    <row>
+                        <entry>bin/fcgi-bin/</entry>
+                        <entry>fast cgi web handle</entry>
+                    </row>
+                    <row>
+                        <entry>Kernel</entry>
+                        <entry>application codebase</entry>
+                    </row>
+                    <row>
+                        <entry>Kernel/Config/</entry>
+                        <entry>configuration files</entry>
+                    </row>
+                    <row>
+                        <entry>Kernel/Config/Files</entry>
+                        <entry>configuration files</entry>
+                    </row>
+                    <row>
+                        <entry>Kernel/GenericInterface/</entry>
+                        <entry>the Generic Interface API</entry>
+                    </row>
+                    <row>
+                        <entry>Kernel/GenericInterface/Invoker/</entry>
+                        <entry>invoker modules for Generic Interface</entry>
+                    </row>
+                    <row>
+                        <entry>Kernel/GenericInterface/Mapping/</entry>
+                        <entry>mapping modules for Generic Interface, e.g. Simple</entry>
+                    </row>
+                    <row>
+                        <entry>Kernel/GenericInterface/Operation/</entry>
+                        <entry>operation modules for Generic Interface</entry>
+                    </row>
+                    <row>
+                        <entry>Kernel/GenericInterface/Transport/</entry>
+                        <entry>transport modules for Generic Interface, e.g. "HTTP SOAP"</entry>
+                    </row>
+                    <row>
+                        <entry>Kernel/Language</entry>
+                        <entry>language translation files</entry>
+                    </row>
+                    <row>
+                        <entry>Kernel/Scheduler/</entry>
+                        <entry>Scheduler files</entry>
+                    </row>
+                    <row>
+                        <entry>Kernel/Scheduler/TaskHandler</entry>
+                        <entry>handler modules for scheduler tasks, e.g. GenericInterface</entry>
+                    </row>
+                    <row>
+                        <entry>Kernel/System/</entry>
+                        <entry>core modules, e.g. Log, Ticket...</entry>
+                    </row>
+                    <row>
+                        <entry>Kernel/Modules/</entry>
+                        <entry>frontend modules, e.g. QueueView...</entry>
+                    </row>
+                    <row>
+                        <entry>Kernel/Output/HTML/</entry>
+                        <entry>html templates</entry>
+                    </row>
+                    <row>
+                        <entry>var/</entry>
+                        <entry>variable data</entry>
+                    </row>
+                    <row>
+                        <entry>var/log</entry>
+                        <entry>logfiles</entry>
+                    </row>
+                    <row>
+                        <entry>var/cron/</entry>
+                        <entry>cron files</entry>
+                    </row>
+                    <row>
+                        <entry>var/httpd/htdocs/</entry>
+                        <entry>htdocs directory with index.html</entry>
+                    </row>
+                    <row>
+                        <entry>var/httpd/htdocs/skins/Agent/</entry>
+                        <entry>available skins for the Agent interface</entry>
+                    </row>
+                    <row>
+                        <entry>var/httpd/htdocs/skins/Customer/</entry>
+                        <entry>available skins for the Customer interface</entry>
+                    </row>
+                    <row>
+                        <entry>var/httpd/htdocs/js/</entry>
+                        <entry>JavaScript files</entry>
+                    </row>
+                    <row>
+                        <entry>scripts/</entry>
+                        <entry>misc files</entry>
+                    </row>
+                    <row>
+                        <entry>scripts/test/</entry>
+                        <entry>unit test files</entry>
+                    </row>
+                    <row>
+                        <entry>scripts/test/sample/</entry>
+                        <entry>unit test sample data files</entry>
+                    </row>
+                </tbody>
+            </tgroup>
+        </informaltable>
+        </para>
+    </section>
+    <section id="otrs-files">
+        <title>Files</title>
+        <para>.pl = Perl</para>
+        <para>.pm = Perl Module</para>
+        <para>.dtl = Dynamic Template Language (html template file)</para>
+        <para>.dist = Default Templates of Files</para>
+        <para>.yaml or .yml = YAML files, used for Web Service configuration</para>
+    </section>
+    <section id="core-module">
+        <title>Core Modules</title>
+        <para>
+            Core modules are located under $OTRS_HOME/Kernel/System/*. This layer is for the
+            logical work. Core modules are used to handle system routines like "lock ticket" and
+            "create ticket". A few main core modules are:
+        </para>
+        <para>
+        <itemizedlist mark="round">
+            <listitem>
+                <para>Kernel::System::Config (to access config options)</para>
+            </listitem>
+            <listitem>
+                <para>Kernel::System::Log (to log into OTRS log backend)</para>
+            </listitem>
+            <listitem>
+                <para>Kernel::System::DB (to access the database backend)</para>
+            </listitem>
+            <listitem>
+                <para>Kernel::System::Auth (to check a user authentication)</para>
+            </listitem>
+            <listitem>
+                <para>Kernel::System::User (to manage users)</para>
+            </listitem>
+            <listitem>
+                <para>Kernel::System::Group (to manage groups)</para>
+            </listitem>
+            <listitem>
+                <para>Kernel::System::Email (for sending emails)</para>
+            </listitem>
+        </itemizedlist>
+        </para>
+        <para>
+            For more information, see:
+            <ulink url="http://dev.otrs.org/">http://dev.otrs.org/</ulink>
+        </para>
+    </section>
+    <section id="frontend-handle">
+        <title>Frontend Handle</title>
+        <para>
+            The interface between the browser, web server and the frontend modules. A frontend
+            module can be used via the http-link.
+        </para>
+        <para>
+            <ulink url="">http://localhost/otrs/index.pl?Action=Modul</ulink>
+        </para>
+    </section>
+    <section id="frontend-module">
+        <title>Frontend Modules</title>
+        <para>
+            Frontend modules are located under "$OTRS_HOME/Kernel/Modules/*.pm". There are two
+            public functions in there - "new()" and "run()" - which are accessed from the Frontend
+            Handle (e.g. index.pl).
+        </para>
+        <para>
+            "new()" is used to create a frontend module object. The Frontend Handle provides the
+            used frontend module with the basic framework objects. These are, for example:
+            ParamObject (to get formular params), DBObject (to use existing databse connects),
+            LayoutObject (to use templates and other html layout functions), ConfigObject (to
+            access config settings), LogObject (to use the framework log system), UserObject
+            (to get the user functions from the current user), GroupObject (to get the group
+            functions).
+        </para>
+        <para>
+            For more information on core modules see:
+            <ulink url="http://dev.otrs.org/">http://dev.otrs.org/</ulink>
+        </para>
+    </section>
+    <section id="cmd-frontend">
+        <title>CMD Frontend</title>
+        <para>
+            The CMD (Command) Frontend is like the Web Frontend Handle and the Web Frontend Module
+            in one (just without the LayoutObject) and uses the core modules for some actions in
+            the system.
+        </para>
+    </section>
+    <section id="Generic-Interface">
+        <title>Generic Interface Modules</title>
+        <para>
+            Generic Interface modules are located under $OTRS_HOME/Kernel/GenericInterface/*.
+            Generic Interface modules are used to handle each part of an web service execution on
+            the system. The main modules for the Generic Interface are:
+        </para>
+        <para>
+        <itemizedlist mark="round">
+            <listitem>
+                <para>
+                    Kernel::GenericInterface::Transport (to interact with remote systems)
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    Kernel::GenericInterface::Mapping (to transform data into a required format)
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    Kernel::GenericInterface::Requester (to use OTRS as a client for the web
+                    service)
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    Kernel::GenericInterface::Provider (to use OTRS as a server for web service)
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    Kernel::GenericInterface::Operation (to execute Provider actions)
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    Kernel::GenericInterface::Invoker (to execute Requester actions)
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    Kernel::GenericInterface::Debugger (to track a web service communication,
+                    using log entries)
+                </para>
+            </listitem>
+        </itemizedlist>
+        </para>
+        <para>
+            For more information, see:
+            <ulink url="http://dev.otrs.org/">http://dev.otrs.org/</ulink>
+        </para>
+        <section id="Generic-Interface-Invoker">
+            <title>Generic Interface Invoker Modules</title>
+            <para>
+                Generic Interface Invoker modules are located under
+                $OTRS_HOME/Kernel/GenericInterface/Invoker/*. Each Invoker is contained in a folder
+                called "Controller". This approach help to define a name space not only for
+                internal classes and methods but for filenames too. for example:
+                $OTRS_HOME/Kernel/GenericInterface/Invoker<emphasis>/SolMan/</emphasis> is the
+                Controller for all SolMan kind invokers.
+            </para>
+            <para>
+                Generic Interface Invoker modules are used as a backend to create requests for
+                Remote Systems to execute actions.
+            </para>
+            <para>
+                For more information, see:
+                <ulink url="http://dev.otrs.org/">http://dev.otrs.org/</ulink>
+            </para>
+        </section>
+        <section id="Generic-Interface-Mapping">
+            <title>Generic Interface Mapping Modules</title>
+            <para>
+                Generic Interface Mapping modules are located under
+                $OTRS_HOME/Kernel/GenericInterface/Mapping/*. This modules are used to transform
+                data (keys and values) from one format o another.
+            </para>
+            <para>
+                For more information, see:
+                <ulink url="http://dev.otrs.org/">http://dev.otrs.org/</ulink>
+            </para>
+        </section>
+        <section id="Generic-Interface-Operation">
+            <title>Generic Interface Operation Modules</title>
+            <para>
+                Generic Interface Operation modules are located under
+                $OTRS_HOME/Kernel/GenericInterface/Operation/*. Each Operation is contained in a
+                folder called "Controller". This approach help to define a name space not only for
+                internal classes and methods but for filenames too. for example:
+                $OTRS_HOME/Kernel/GenericInterface/Operation<emphasis>/SolMan/</emphasis> is the
+                Controller for all SolMan kind operations.
+            </para>
+            <para>
+                Generic Interface operation modules are used as a backend to create perform
+                actions requester by a Remote System.
+            </para>
+            <para>
+                For more information, see:
+                <ulink url="http://dev.otrs.org/">http://dev.otrs.org/</ulink>
+            </para>
+        </section>
+        <section id="Generic-Interface-Transport">
+            <title>Generic Interface Transport Modules</title>
+            <para>
+                Generic Interface Network Transport modules are located under
+                $OTRS_HOME/Kernel/GenericInterface/Operation/*. Each transport module should be
+                placed on a diretory named as the Network Protocol used. for example: The "HTTP
+                SOAP" transport module, located in $OTRS_HOME/Kernel/GenericInterface/Transport
+                <emphasis>/HTTP/SOAP.pm</emphasis>.
+            </para>
+            <para>
+                Generic Interface transport modules are used send and recieve data to and from a
+                Remote System.
+            </para>
+            <para>
+                For more information, see:
+                <ulink url="http://dev.otrs.org/">http://dev.otrs.org/</ulink>
+            </para>
+        </section>
+    </section>
+    <section id="Scheduler-TaskHandler">
+        <title>Scheduler Task Handler Modules</title>
+        <para>
+            Scheduler Task Handlder modules are located under
+            $OTRS_HOME/Kernel/Scheduler/TaskHandler/*. this modules are used perform asynchronous
+            tasks. For example GenericInterface task handler perform Generic Interface Requests to
+            Remote Systems outside the apache process, this helps the system to be more responsive,
+            preventing possible performance issues.
+        </para>
+        <para>
+            For more information, see:
+            <ulink url="http://dev.otrs.org/">http://dev.otrs.org/</ulink>
+        </para>
+    </section>
+    <section id="database">
+        <title>Database</title>
+        <para>
+            The database interface supports different databases.
+        </para>
+        <para>
+            For the OTRS data model please refer to the files in your /doc directory. Alternatively
+            you can look at the data model on our CVS server:
+            <ulink url="http://source.otrs.org/viewvc.cgi/otrs/doc/otrs-database.png?view=markup">
+                http://source.otrs.org/viewvc.cgi/otrs/doc/otrs-database.png?view=markup
+            </ulink>.
+        </para>
+    </section>
+</section>
