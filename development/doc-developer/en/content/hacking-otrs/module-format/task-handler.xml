@@ -1,0 +1,183 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE section PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN" "http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd">
+<!-- $Id: task-handler.xml,v 1.1 2011-07-26 17:00:15 cr Exp $ -->
+
+<section id="task-handler">
+    <title>Task Handler</title>
+    <para>
+        The task handler modules are used to perform actions within OTRS asynchronously via OTRS
+        scheduler (a separated "daemon like" process ) made specifically to execute this kind of
+        jobs.
+    </para>
+    <section id="adding_taskhandler">
+        <title>Task Handler backend</title>
+        <para>
+            Next will see how to develop a new scheduler task handler backend, each task handler
+            backend has to implement these subroutines:
+        </para>
+        <para>
+            <itemizedlist mark="round">
+                <listitem>
+                    <para>new</para>
+                </listitem>
+                <listitem>
+                    <para>Run</para>
+                </listitem>
+            </itemizedlist>
+        </para>
+        <para>
+            We should implement each one of this methods in order to be able to execute tasks.
+            All task handler backends are used by main scheduler task handler module
+            (Kernel/scheduler/TaskHandler.pm).
+        </para>
+        <para>
+            Currently the scheduler only have one working task handler backend named
+            "GenericInterface". This task handler backend executes Generic Interface Invoker
+            modules in the background.
+        </para>
+        <para>
+            <emphasis>For example:</emphasis>
+        </para>
+        <para>
+            By using the OTRS Scheduler combined with the Generic Interface a user does not need to
+            wait in the New phone ticket screen after creating a ticket until a Remote System
+            responds to a web service request triggered by an event like "TicketCreate", instead
+            this task can be delegated to the OTRS scheduler to run it on the background.
+        </para>
+        <para>
+            There is no need to create a new task handler backend for the Generic Interface, unless
+            a different behavior from the current one is needed. to delegate Generic Interface
+            Invoker tasks to the OTRS Scheduler you need to configure the Invoker event trigger as
+            asynchronous.
+        </para>
+        <section id="taskhandler_code_example">
+            <title>Code example</title>
+            <para>
+                In this section a sample scheduler task handler module is shown and each subroutine
+                is explained.
+            </para>
+            <para>
+                <programlisting><![CDATA[
+# --
+# Kernel/Scheduler/TaskHandler/Test.pm - Scheduler task handler test backend
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+package Kernel::Scheduler::TaskHandler::Test;
+
+use strict;
+use warnings;
+
+use vars qw(@ISA $VERSION);
+$VERSION = qw($Revision: 1.1 $) [1];
+                ]]></programlisting>
+            </para>
+            <para>
+                This is common header that can be found in common OTRS modules. The class/package
+                name is declared via the package keyword.
+            </para>
+            <para>
+                <programlisting><![CDATA[
+sub new {
+    my ( $Type, %Param ) = @_;
+
+    my $Self = {};
+    bless( $Self, $Type );
+
+    # check needed objects
+    for my $Needed (qw(MainObject ConfigObject LogObject DBObject TimeObject)) {
+        $Self->{$Needed} = $Param{$Needed} || die "Got no $Needed!";
+    }
+
+    return $Self;
+}
+                ]]></programlisting>
+            </para>
+            <para>
+                The constructor 'new' creates a new instance of the class. According to the coding
+                guidelines objects of other classes that are needed in this module have to be
+                created in "new".
+            </para>
+            <para>
+                <programlisting><![CDATA[
+sub Run {
+    my ( $Self, %Param ) = @_;
+
+    # check data - we need a hash ref
+    if ( $Param{Data} && ref $Param{Data} ne 'HASH' ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Got no valid Data!',
+        );
+
+        return {
+            Success => 0,
+        };
+    }
+
+    # create tmp file
+    if ( $Param{Data}->{File} ) {
+        my $Content = 123;
+        return if !$Self->{MainObject}->FileWrite(
+            Location => $Param{Data}->{File},
+            Content  => \$Content,
+        );
+    }
+
+    # re schedule with new time
+    return {
+        Success    => $Param{Data}->{Success},
+        ReSchedule => $Param{Data}->{ReSchedule},
+        DueTime    => $Param{Data}->{ReScheduleDueTime},
+        Data       => $Param{Data}->{ReScheduleData},
+    };
+}
+                ]]></programlisting>
+            </para>
+            <para>
+                The 'Run' function is the main part of the module it checks the incoming data,
+                make calls to other OTRS modules to execute the tasks, waits for the task result and
+                based on the result information it determines if the task was successfully executed
+                or not and if the task needs to be re-schedule itself, when and with which data.
+            </para>
+            <para>
+                For this testing example if the parameter "File" exists in the incoming data, a new
+                file is to be created on the file system by the task handler, depending of the
+                success of this, the task handler will continue to the rest part of the code where
+                base it decisions for the returning structure on the previously provided data.
+            </para>
+            <para>
+                On real task handler backends the decisions for the returning structure could be
+                based on the task handler backend logics, the task execution results, configuration
+                settings, etc.
+            </para>
+            <para>
+                <programlisting><![CDATA[
+1;
+
+=back
+
+=head1 TERMS AND CONDITIONS
+
+This software is part of the OTRS project (L<http://otrs.org/>).
+
+This software comes with ABSOLUTELY NO WARRANTY. For details, see
+the enclosed file COPYING for license information (AGPL). If you
+did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
+
+=cut
+
+=head1 VERSION
+
+$Revision: 1.1 $ $Date: 2011-07-26 17:00:15 $
+
+=cut
+                ]]></programlisting>
+            </para>
+        </section>
+    </section>
+</section>
