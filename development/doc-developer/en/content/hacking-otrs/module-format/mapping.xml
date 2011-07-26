@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE section PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN" "http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd">
-<!-- $Id: mapping.xml,v 1.2 2011-07-22 22:13:35 cr Exp $ -->
+<!-- $Id: mapping.xml,v 1.1 2011-07-26 03:46:26 cr Exp $ -->
 
 <section id="mapping">
     <title>Mapping</title>
@@ -367,9 +367,30 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.2 $ $Date: 2011-07-22 22:13:35 $
+$Revision: 1.1 $ $Date: 2011-07-26 03:46:26 $
 
 =cut
+                ]]></programlisting>
+            </para>
+        </section>
+        <section id="mapping-configuration">
+            <title>Configuration Example</title>
+            <para>
+                There is the need to register this mapping module to be accessible in the OTRS GUI.
+                This can be done using the xml configuration below.
+            </para>
+            <para>
+                <programlisting linenumbering="numbered"><![CDATA[
+<ConfigItem Name="GenericInterface::Mapping::Module###Test" Required="0" Valid="1">
+    <Description Translatable="1">GenericInterface module registration for the mapping layer.</Description>
+    <Group>GenericInterface</Group>
+    <SubGroup>GenericInterface::Mapping::ModuleRegistration</SubGroup>
+    <Setting>
+        <Hash>
+            <Item Key="ConfigDialog"></Item>
+        </Hash>
+    </Setting>
+</ConfigItem>
                 ]]></programlisting>
             </para>
         </section>

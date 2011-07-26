@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE section PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN" "http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd">
-<!-- $Id: operation.xml,v 1.3 2011-07-22 22:13:35 cr Exp $ -->
+<!-- $Id: operation.xml,v 1.1 2011-07-26 03:46:26 cr Exp $ -->
 
 <section id="operation">
     <title>Operation</title>
@@ -54,7 +54,7 @@ use warnings;
 use Kernel::System::VariableCheck qw(IsHashRefWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.1 $) [1];
                 ]]></programlisting>
             </para>
             <para>
@@ -162,9 +162,32 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.3 $ $Date: 2011-07-22 22:13:35 $
+$Revision: 1.1 $ $Date: 2011-07-26 03:46:26 $
 
 =cut
+                ]]></programlisting>
+            </para>
+        </section>
+        <section id="operation-configuration">
+            <title>Configuration Example</title>
+            <para>
+                There is the need to register this operation module to be accessible in the OTRS
+                GUI. This can be done using the xml configuration below.
+            </para>
+            <para>
+                <programlisting linenumbering="numbered"><![CDATA[
+<ConfigItem Name="GenericInterface::Operation::Module###Test::Test" Required="0" Valid="1">
+    <Description Translatable="1">GenericInterface module registration for the operation layer.</Description>
+    <Group>GenericInterface</Group>
+    <SubGroup>GenericInterface::Operation::ModuleRegistration</SubGroup>
+    <Setting>
+        <Hash>
+            <Item Key="Name">Test</Item>
+            <Item Key="Controller">Test</Item>
+            <Item Key="ConfigDialog">AdminGenericInterfaceOperationDefault</Item>
+        </Hash>
+    </Setting>
+</ConfigItem>
                 ]]></programlisting>
             </para>
         </section>

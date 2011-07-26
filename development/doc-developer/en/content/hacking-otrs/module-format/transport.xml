@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE section PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN" "http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd">
-<!-- $Id: transport.xml,v 1.1 2011-07-22 22:13:06 cr Exp $ -->
+<!-- $Id: transport.xml,v 1.1 2011-07-26 03:46:26 cr Exp $ -->
 
 <section id="transport">
     <title>Network Transport</title>
@@ -83,7 +83,7 @@
 # Kernel/GenericInterface/Transport/HTTP/Test.pm - GenericInterface network transport interface for testing
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: transport.xml,v 1.1 2011-07-22 22:13:06 cr Exp $
+# $Id: transport.xml,v 1.1 2011-07-26 03:46:26 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -243,10 +243,6 @@ sub ProviderGenerateResponse {
                 For this particular example we return an standard HTTP response success (200) or
                 not (500), along with the required data on each case.
             </para>
-
-
-
-
             <para>
                 <programlisting><![CDATA[
 sub RequesterPerformRequest {
@@ -335,9 +331,32 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2011-07-22 22:13:06 $
+$Revision: 1.1 $ $Date: 2011-07-26 03:46:26 $
 
 =cut
+                ]]></programlisting>
+            </para>
+        </section>
+        <section id="transport-configuration">
+            <title>Configuration Example</title>
+            <para>
+                There is the need to register this network transport module to be accessible in the
+                OTRS GUI. This can be done using the xml configuration below.
+            </para>
+            <para>
+                <programlisting linenumbering="numbered"><![CDATA[
+<ConfigItem Name="GenericInterface::Transport::Module###HTTP::Test" Required="0" Valid="1">
+    <Description Translatable="1">GenericInterface module registration for the transport layer.</Description>
+    <Group>GenericInterface</Group>
+    <SubGroup>GenericInterface::Transport::ModuleRegistration</SubGroup>
+    <Setting>
+        <Hash>
+            <Item Key="Name">Test</Item>
+            <Item Key="Protocol">HTTP</Item>
+            <Item Key="ConfigDialog">AdminGenericInterfaceTransportHTTPTest</Item>
+        </Hash>
+    </Setting>
+</ConfigItem>
                 ]]></programlisting>
             </para>
         </section>

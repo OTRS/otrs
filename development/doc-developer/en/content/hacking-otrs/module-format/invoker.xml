@@ -1,12 +1,12 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE section PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN" "http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd">
-<!-- $Id: invoker.xml,v 1.1 2011/05/02 06:28:52 cg Exp $ -->
+<!-- $Id: invoker.xml,v 1.1 2011-07-26 03:46:26 cr Exp $ -->
 
 <section id="invoker">
     <title>Invoker</title>
     <para>
-        The invoker is used to create a request from OTRS to a Remote System, this part of the GI is
-        in charge of perform necessary tasks in OTRS side, to gather the necessary data in order
+        The invoker is used to create a request from OTRS to a Remote System, this part of the GI
+        is in charge of perform necessary tasks in OTRS side, to gather the necessary data in order
         to construct the request.
     </para>
     <section id="adding_invoker">
@@ -29,8 +29,8 @@
             </itemizedlist>
         </para>
         <para>
-            We should implement each one of this methods in order to be able to execute a request using
-            the request handler ('Kernel/GenericInterface/Requester.pm').
+            We should implement each one of this methods in order to be able to execute a request
+            using the request handler ('Kernel/GenericInterface/Requester.pm').
         </para>
         <section id="invoker_code_example">
             <title>Code example</title>
@@ -56,12 +56,12 @@ use warnings;
 use Kernel::System::VariableCheck qw(IsString IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.1 $) [1];
                 ]]></programlisting>
             </para>
             <para>
-                This is common header that can be found in common OTRS modules. The class/package name is
-                declared via the package keyword.
+This is common header that can be found in common OTRS modules. The class/package name is declared
+via the package keyword.
             </para>
             <para>
                 <programlisting><![CDATA[
@@ -89,9 +89,8 @@ sub new {
                 ]]></programlisting>
             </para>
             <para>
-                The constructor 'new'' creates a new instance of the class. According to the coding
-                guidelines objects of other classes that are needed in this module have to be
-                created in "new".
+The constructor 'new' creates a new instance of the class. According to the coding guidelines
+objects of other classes that are needed in this module have to be created in "new".
             </para>
             <para>
                 <programlisting><![CDATA[
@@ -125,16 +124,15 @@ sub PrepareRequest {
                 ]]></programlisting>
             </para>
             <para>
-                The 'PrepareRequest' function is used to handle and collect all needed data to be
-                sent into the request, here we can receive data from the request handler, use it,
-                extend it, generate new data, and after that, we can transfer the results to the
-                mapping layer.
+            The 'PrepareRequest' function is used to handle and collect all needed data to be sent
+            into the request, here we can receive data from the request handler, use it, extend it,
+            generate new data, and after that, we can transfer the results to the mapping layer.
             </para>
             <para>
-                For this example we are expecting to receive a ticket number, if there isn't then
-                we use the debugger method "Error()" that creates an entry in the debug log and
-                also returns a structure with the parameter Success as 0 and Error Message as the
-                passed Summary.
+            For this example we are expecting to receive a ticket number, if there isn't then we
+            use the debugger method "Error()" that creates an entry in the debug log and also
+            returns a structure with the parameter Success as 0 and Error Message as the passed
+            summary.
             </para>
             <para>
                 Also this example appends the word "Test" to the parameter "Action" and if
@@ -242,9 +240,32 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.12 $ $Date: 2011/03/17 13:32:19 $
+$Revision: 1.1 $ $Date: 2011-07-26 03:46:26 $
 
 =cut
+                ]]></programlisting>
+            </para>
+        </section>
+        <section id="invoker-configuration">
+            <title>Configuration Example</title>
+            <para>
+                There is the need to register this invoker module to be accessible in the OTRS GUI.
+                This can be done using the xml configuration below.
+            </para>
+            <para>
+                <programlisting linenumbering="numbered"><![CDATA[
+<ConfigItem Name="GenericInterface::Invoker::Module###Test::Test" Required="0" Valid="1">
+    <Description Translatable="1">GenericInterface module registration for the invoker layer.</Description>
+    <Group>GenericInterface</Group>
+    <SubGroup>GenericInterface::Invoker::ModuleRegistration</SubGroup>
+    <Setting>
+        <Hash>
+            <Item Key="Name">Test</Item>
+            <Item Key="Controller">Test</Item>
+            <Item Key="ConfigDialog">AdminGenericInterfaceInvokerDefault</Item>
+        </Hash>
+    </Setting>
+</ConfigItem>
                 ]]></programlisting>
             </para>
         </section>
