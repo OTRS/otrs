@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/SolMan/Common.pm - SolMan common operation functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.29 2011-06-23 22:28:32 cr Exp $
+# $Id: Common.pm,v 1.30 2011-07-26 22:44:46 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::User;
 use Kernel::System::GenericInterface::Webservice;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.29 $) [1];
+$VERSION = qw($Revision: 1.30 $) [1];
 
 =head1 NAME
 
@@ -542,10 +542,45 @@ sub TicketSync {
         }
     }
 
+    # find tickets based on IncidentGuid
+    my $IncidentGuidTicketFlagName = "GI_$Self->{WebserviceID}_SolMan_IncidentGuid";
+    my @ExistingTickets            = $Self->{TicketObject}->TicketSearch(
+        Result     => 'ARRAY',
+        Limit      => 2,
+        TicketFlag => {
+            $IncidentGuidTicketFlagName => $Param{Data}->{IctHead}->{IncidentGuid},
+        },
+        UserID     => 1,
+        Permission => 'rw',
+    );
+
     # create new ticket
     my $TicketID;
-    my $IncidentGuidTicketFlagName = "GI_$Self->{WebserviceID}_SolMan_IncidentGuid";
     if ( $Param{Operation} eq 'ProcessIncident' || $Param{Operation} eq 'ReplicateIncident' ) {
+
+        # if a ticket with the same Guid already exists, nicely ignore the request
+        if ( scalar @ExistingTickets == 1 ) {
+
+            # get ticket number to return to solman
+            my %Ticket = $Self->{TicketObject}->TicketGet(
+                TicketID => $ExistingTickets[0],
+                UserID   => 1,
+            );
+
+            # prepare return data
+            my $ReturnData = {
+                Data => {
+                    Errors     => '',
+                    PersonMaps => $PersonMaps,
+                    PrdIctId   => $Ticket{TicketNumber},
+                },
+                Success => 1,
+            };
+
+            # return result
+            return $ReturnData;
+        }
+
         $TicketID = $Self->{TicketObject}->TicketCreate(
             Title => $Param{Data}->{IctHead}->{ShortDescription} || '',
             Queue => $OperationConfig->{Queue}                   || 'Raw',
@@ -600,19 +635,8 @@ sub TicketSync {
     # update ticket
     else {
 
-        # find ticket based on IncidentGuid
-        my @Tickets = $Self->{TicketObject}->TicketSearch(
-            Result     => 'ARRAY',
-            Limit      => 2,
-            TicketFlag => {
-                $IncidentGuidTicketFlagName => $Param{Data}->{IctHead}->{IncidentGuid},
-            },
-            UserID     => 1,
-            Permission => 'rw',
-        );
-
         # only if exactly one ticket can be found
-        if ( scalar @Tickets != 1 ) {
+        if ( scalar @ExistingTickets != 1 ) {
             return $Self->_ReturnError(
                 ErrorCode => 9,
                 ErrorMessage =>
@@ -621,7 +645,7 @@ sub TicketSync {
             );
         }
 
-        $TicketID = $Tickets[0];
+        $TicketID = $ExistingTickets[0];
 
         # get existing ticket
         my %Ticket = $Self->{TicketObject}->TicketGet(
@@ -1098,6 +1122,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.29 $ $Date: 2011-06-23 22:28:32 $
+$Revision: 1.30 $ $Date: 2011-07-26 22:44:46 $
 
 =cut
