@@ -2,7 +2,7 @@
 // Core.Agent.Admin.SysGenericInterfaceWebservice.js - provides the special module functions for the GenericInterface webservice.
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.GenericInterfaceWebservice.js,v 1.11 2011-07-01 14:47:48 mg Exp $
+// $Id: Core.Agent.Admin.GenericInterfaceWebservice.js,v 1.12 2011-07-27 16:07:39 cr Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -70,32 +70,33 @@ Core.Agent.Admin.GenericInterfaceWebservice = (function (TargetNS) {
             'Center',
             true,
             [
-               {
-                   Label: TargetNS.Localization.DeleteMsg,
-                   Function: function () {
-                       var Data = {
-                            Action: 'AdminGenericInterfaceWebservice',
-                            Subaction: 'Delete',
-                            WebserviceID: TargetNS.WebserviceID
-                        };
+                {
+                     Label: TargetNS.Localization.CancelMsg,
+                     Function: function () {
+                         Core.UI.Dialog.CloseDialog($('#DeleteDialog'));
+                     }
+                },
 
-                        Core.AJAX.FunctionCall(Core.Config.Get('CGIHandle'), Data, function (Response) {
-                            if (!Response || !Response.Success) {
-                                alert(TargetNS.Localization.CommunicationErrorMsg);
-                                return;
-                            }
+                {
+                     Label: TargetNS.Localization.DeleteMsg,
+                     Function: function () {
+                         var Data = {
+                             Action: 'AdminGenericInterfaceWebservice',
+                             Subaction: 'Delete',
+                             WebserviceID: TargetNS.WebserviceID
+                         };
+
+                         Core.AJAX.FunctionCall(Core.Config.Get('CGIHandle'), Data, function (Response) {
+                             if (!Response || !Response.Success) {
+                                 alert(TargetNS.Localization.CommunicationErrorMsg);
+                                 return;
+                             }
                             window.location.href = Core.Config.Get('Baselink') + 'Action=' + Data.Action + ';DeletedWebservice=' + Response.DeletedWebservice;
-                        }, 'json');
+                         }, 'json');
 
-                   }
-               },
-               {
-                   Label: TargetNS.Localization.CancelMsg,
-                   Function: function () {
-                       Core.UI.Dialog.CloseDialog($('#DeleteDialog'));
-                   }
-               }
-           ]
+                     }
+                },
+            ]
         );
 
         Event.stopPropagation();
