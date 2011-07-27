@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE section PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN" "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
-<!-- $Id: webservice_gui.xml,v 1.4 2011-07-27 14:52:28 cr Exp $ -->
+<!-- $Id: webservice_gui.xml,v 1.5 2011-07-27 16:38:36 cr Exp $ -->
 
 <section id="webservice_gui">
-    <title>Web service graphical interface</title>
+    <title>Web Service Graphical Interface</title>
     <para>
         The web service graphical user interface (GUI) is a great tool that allow us to construct
         complex web service configurations in a friendly and nice interface, with it is possible to:
@@ -36,7 +36,7 @@
     </para>
 
     <section id="webservice_gui_overview">
-        <title>Web service GUI overview</title>
+        <title>Web Service Overview</title>
         <para>
             The "Web Services" link in the main screen of Admin Interface leads to the web services
             overview screen that allows you to manage your web service configurations. You can add
