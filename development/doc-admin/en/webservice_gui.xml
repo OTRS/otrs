@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE section PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN" "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
-<!-- $Id: webservice_gui.xml,v 1.5 2011-07-27 16:38:36 cr Exp $ -->
+<!-- $Id: webservice_gui.xml,v 1.6 2011-07-27 16:40:34 cr Exp $ -->
 
 <section id="webservice_gui">
     <title>Web Service Graphical Interface</title>
@@ -12,7 +12,7 @@
         <itemizedlist>
             <listitem>
                 <para>
-                    Create and delete web services.
+                    Create and Delete web services.
                 </para>
             </listitem>
             <listitem>
