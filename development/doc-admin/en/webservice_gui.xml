@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE section PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN" "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
-<!-- $Id: webservice_gui.xml,v 1.6 2011-07-27 16:40:34 cr Exp $ -->
+<!-- $Id: webservice_gui.xml,v 1.7 2011-07-27 16:55:05 cr Exp $ -->
 
 <section id="webservice_gui">
     <title>Web Service Graphical Interface</title>
@@ -38,9 +38,10 @@
     <section id="webservice_gui_overview">
         <title>Web Service Overview</title>
         <para>
-            The "Web Services" link in the main screen of Admin Interface leads to the web services
-            overview screen that allows you to manage your web service configurations. You can add
-            web services or change it configurations from this screen.
+            The "Web Services" link in the main screen of Admin Interface (in the System
+            Administration box) leads to the web services overview screen, where you are able to
+            manage your web service configurations. You can add new web services or change the
+            configuration for the existing ones from this screen.
         </para>
         <note>
             <para>
@@ -64,35 +65,35 @@
         <para>
             The only required field in this part is the web service "Name" that needs to be unique
             in the system and non empty. Other fields are also necessary for the configuration like
-            the "Debug threshold" and the "Validity" but this fields are already filled from a
-            closed list.
+            the "Debug Threshold" and "Validity" but this fields are already filled with the default
+            value from each list.
         </para>
         <para>
             The default value for "Debug Threshold" is "debug", under this configuration all
-            communication logs are registered in the database each Debug Threshold value is more
+            communication logs are registered in the database, each Debug Threshold value is more
             restrictive and discard communication logs set for lower values.
         </para>
         <para>
             <itemizedlist>
-                <title>Debug Threshold levels</title>
+                <title>Debug Threshold levels (from lower to upper)</title>
                 <listitem>
                     <para>
-                        Debug.
+                        Debug
                     </para>
                 </listitem>
                 <listitem>
                     <para>
-                        Info.
+                        Info
                     </para>
                 </listitem>
                 <listitem>
                     <para>
-                        Notice.
+                        Notice
                     </para>
                 </listitem>
                 <listitem>
                     <para>
-                        Error.
+                        Error
                     </para>
                 </listitem>
             </itemizedlist>
