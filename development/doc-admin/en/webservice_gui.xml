@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE section PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN" "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
-<!-- $Id: webservice_gui.xml,v 1.9 2011-07-27 17:45:12 cg Exp $ -->
+<!-- $Id: webservice_gui.xml,v 1.10 2011-07-27 22:55:37 cg Exp $ -->
 
 <section id="webservice_gui">
     <title>Web Service Graphical Interface</title>
@@ -467,6 +467,85 @@
             </para>
             <para>
                 <emphasis>Figure: Web service invoker.</emphasis>
+            </para>
+        </section>
+
+        <section id="webservice-mapping">
+            <title>Web Service Mapping</title>
+            <para>
+            </para>
+            <para>
+                <screenshot>
+                    <screeninfo>Web service mapping</screeninfo>
+                    <graphic srccredit="Adminarea web service mapping - screenshot" scale="40" fileref="screenshots/admin-webservice-mapping.png"></graphic>
+                </screenshot>
+            </para>
+            <para>
+                <emphasis>Figure: Web service mapping.</emphasis>
+            </para>
+        </section>
+
+        <section id="webservice-history">
+            <title>Web Service History</title>
+            <para>
+                Every change on the web service configuration creates a new entry on the history,
+                each row on the "Configuration History List" means one of that entries.
+            </para>
+            <para>
+                Click on one of that rows and the whole configuration will showed on the
+                "History details" section, also exist the possibility to export and restore a web
+                service configuration.
+            </para>
+            <para>
+                Remember that all stored passwords in the web service configuration will
+                be showed and exported as plain text.
+            </para>
+            <warning>
+                <para>
+                    Please be careful when you restore a configuration because this change can't
+                    be restored.
+                </para>
+            </warning>
+            <para>
+                <screenshot>
+                    <screeninfo>Web service history</screeninfo>
+                    <graphic srccredit="Adminarea web service history - screenshot" scale="40" fileref="screenshots/admin-webservice-history.png"></graphic>
+                </screenshot>
+            </para>
+            <para>
+                <emphasis>Figure: Web service history.</emphasis>
+            </para>
+        </section>
+
+        <section id="webservice-debugger">
+            <title>Web Service Debugger</title>
+            <para>
+                This is the log for a web service, here you can see the track for every webservice
+                communication, for provider or requester type.
+            </para>
+            <para>
+                At the beggining a request list is loaded, after the list is showed
+                you can choose one of the rows to check its details. Refine search it's possible
+                using the filters next to the list, just introduce the search criteria and
+                push the "Refresh" button, a new list will be displayed.
+            </para>
+            <para>
+                On the action column you have the chance to go back to the web service or clear the
+                debugger log pushing the "Clear" button and confirm the action with the "Clear" button
+                in the showed dialog.
+            </para>
+            <para>
+                In the "Request data" section you can see the complete data for each step on the
+                comminication process.
+            </para>
+            <para>
+                <screenshot>
+                    <screeninfo>Web service debugger</screeninfo>
+                    <graphic srccredit="Adminarea web service debugger - screenshot" scale="40" fileref="screenshots/admin-webservice-debugger.png"></graphic>
+                </screenshot>
+            </para>
+            <para>
+                <emphasis>Figure: Web service debugger.</emphasis>
             </para>
         </section>
 
