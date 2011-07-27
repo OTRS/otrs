@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE section PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN" "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
-<!-- $Id: webservice_gui.xml,v 1.7 2011-07-27 16:55:05 cr Exp $ -->
+<!-- $Id: webservice_gui.xml,v 1.8 2011-07-27 17:24:44 cr Exp $ -->
 
 <section id="webservice_gui">
     <title>Web Service Graphical Interface</title>
@@ -170,10 +170,11 @@
             </listitem>
         </itemizedlist>
         </para>
-        <para>
-            "Configuration history" and "Debugger" are located on diferent screens, the rest of the
-            actions are performed in this screen.
-        </para>
+        <note>
+            <para>
+                "Configuration history" and "Debugger" will lead you to different screens.
+            </para>
+        </note>
 
         <section id="webservice-clone">
             <title>Web Service Clone</title>
@@ -188,7 +189,7 @@
                     the system.
                 </para>
             </note>
-            <para>Click on "Clone" button to create the web service clone or "Cancel"to close
+            <para>Click on "Clone" button to create the web service clone or "Cancel" to close
             the dialog.</para>
             <para>
                 <screenshot>
@@ -207,7 +208,7 @@
                 The "Export web service" button give you the opportunity to dump the configuration
                 of the current web service into a YAML file, download it and store it on your file
                 system. This can be specialy useful if you want to migrate the web service from one
-                server to another, for example from a testing environment to the production system.
+                server to another, for example from a testing environment to a production system.
             </para>
             <warning>
                 <para>
@@ -216,9 +217,18 @@
                 </para>
             </warning>
             <para>
-                Click on "Export" buttton to dump the configuration into a file or "Cancel" to close
-                the dialog
+                Right after clicking the "Export web service" button a save dialog from your
+                browser will appear (just like when you click on a downloadable file on a web page).
             </para>
+            <note>
+                <para>
+                    Each browser on each operating system has it own save dialog screen and style,
+                    depending on the browser and its configuration it is possible that no dialog is
+                    shown and the file is saved on a default directory on your file system. please
+                    check your browser documentation to know more about how it handle the
+                    downloadable files.
+                </para>
+            </note>
             <para>
                 <screenshot>
                     <screeninfo>Web service export</screeninfo>
@@ -241,6 +251,16 @@
                 Click "Import" button to crate a new web service form a file or "Cancel"  to close
                 the dialog.
             </para>
+            <note>
+                <para>
+                    The web service name will be taken from the configuration file name (e.g. if the
+                    file name is MyWebservice.yml the resulting web service will be named
+                    MyWebservice). If a web service is registered in the system with the same name
+                    as the web service that you want to import, the system will lead you to the
+                    web service change screen to let you change the name of the imported web
+                    service.
+                </para>
+            </note>
             <para>
                 <screenshot>
                     <screeninfo>Web service import</screeninfo>
@@ -256,16 +276,17 @@
             <title>Web Service Delete</title>
             <para>
                 Some times its necessary to delete completeatly a web service, if you are in one of
-                this cases can press on the "Delete web service" button and a new dialog will ask
-                you are sure to delete the web service.
+                this cases you can press on the "Delete web service" button and a new dialog will
+                appear asking if you are sure to delete the web service.
             </para>
             <para>
-                Clink the "Delete" button to confirm the web service delete or "Cancel" to close
+                Clink on "Delete" to confirm the removal of the web service or on "Cancel" to close
                 the dialog.
             </para>
             <warning>
                 <para>
-                    This action can't be undone, please be careful when delete a webservice.
+                    Delete a web service can't be undone, please be careful when delete a
+                    webservice.
                 </para>
             </warning>
             <para>
@@ -299,7 +320,7 @@
             </para>
             <para>
                 On the "OTRS as provider" section it is possible to set or configure the network
-                transport protocol, only previosly registered network transport backends are show
+                transport protocol, only previosly registered network transport backends are shown
                 on the list. To configure the network transport click on the "Configure" button.
                 It is also possible to add new operations in this box, to do this select one of the
                 available operations from the "Add Operation" list, this will lead you to the
@@ -311,9 +332,9 @@
                 you are able to add invokers
             </para>
             <para>
-                Click the "Save" button to save and continue configuring the web service button,
-                "Save and finish" to save and return to the web service overview screen or "Cancel"
-                to discard current configuration level changes and return to web service overview
+                Click the "Save" button to save and continue configuring the web service, or "Save
+                and finish" to save and return to the web service overview screen, or "Cancel" to
+                discard current configuration level changes and return to web service overview
                 screen.
             </para>
             <para>
