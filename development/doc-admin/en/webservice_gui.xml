@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE section PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN" "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
-<!-- $Id: webservice_gui.xml,v 1.3 2011-07-27 14:11:18 cr Exp $ -->
+<!-- $Id: webservice_gui.xml,v 1.4 2011-07-27 14:52:28 cr Exp $ -->
 
 <section id="webservice_gui">
     <title>Web service graphical interface</title>
@@ -55,7 +55,7 @@
             </screenshot>
         </para>
         <para>
-            <emphasis>Figure . Web services overview.</emphasis>
+            <emphasis>Figure: Web services overview.</emphasis>
         </para>
     </section>
 
@@ -122,6 +122,9 @@
                 <screeninfo>Web service add</screeninfo>
                 <graphic srccredit="Adminarea web service add - screenshot" scale="40" fileref="screenshots/admin-webservice-add.png"></graphic>
             </screenshot>
+        </para>
+        <para>
+            <emphasis>Figure: Web services add.</emphasis>
         </para>
     </section>
 
@@ -192,6 +195,9 @@
                     <graphic srccredit="Adminarea web service clone - screenshot" scale="40" fileref="screenshots/admin-webservice-clone.png"></graphic>
                 </screenshot>
             </para>
+            <para>
+                <emphasis>Figure: Web service clone.</emphasis>
+            </para>
         </section>
 
         <section id="webservice-export">
@@ -218,6 +224,9 @@
                     <graphic srccredit="Adminarea web service export - screenshot" scale="40" fileref="screenshots/admin-webservice-export.png"></graphic>
                 </screenshot>
             </para>
+            <para>
+                <emphasis>Figure: Web services export.</emphasis>
+            </para>
         </section>
 
         <section id="webservice-import">
@@ -236,6 +245,9 @@
                     <screeninfo>Web service import</screeninfo>
                     <graphic srccredit="Adminarea web service import - screenshot" scale="40" fileref="screenshots/admin-webservice-import.png"></graphic>
                 </screenshot>
+            </para>
+            <para>
+                <emphasis>Figure: Web services import.</emphasis>
             </para>
         </section>
 
@@ -260,6 +272,9 @@
                     <screeninfo>Web service delete</screeninfo>
                     <graphic srccredit="Adminarea web service delete - screenshot" scale="40" fileref="screenshots/admin-webservice-delete.png"></graphic>
                 </screenshot>
+            </para>
+            <para>
+                <emphasis>Figure: Web service delete.</emphasis>
             </para>
         </section>
 
@@ -305,6 +320,9 @@
                     <screeninfo>Web service change</screeninfo>
                     <graphic srccredit="Adminarea web service change - screenshot" scale="40" fileref="screenshots/admin-webservice-change.png"></graphic>
                 </screenshot>
+            </para>
+            <para>
+                <emphasis>Figure: Web services change.</emphasis>
             </para>
         </section>
     </section>
