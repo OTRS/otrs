@@ -1,193 +1,330 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<!DOCTYPE section PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN" "http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd">
-<!-- $Id: webservice_gui.xml,v 1.1 2011-07-26 22:54:34 cg Exp $ -->
+<!DOCTYPE section PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN" "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<!-- $Id: webservice_gui.xml,v 1.2 2011-07-27 05:38:15 cr Exp $ -->
 
 <section id="webservice_gui">
     <title>Web service graphical interface</title>
     <para>
-        The web service graphical interface is a great tool that allow us to construct complex web service
-        configurations in a friendly and nice interface, with this interface is possible to create a new configuration,
-        import and export configuration on YAML file format. Also it give you the chance to take a look on the history
-        of the configuration, revert changes and export old configurations. One more feature included on this interface
-        is a debugger reader, where you can review the log for the web service communications.
+        The web service graphical user interface (GUI) is a great tool that allow us to construct
+        complex web service configurations in a friendly and nice interface, with it is possible to:
+    </para>
+    <para>
+        <itemizedlist>
+            <listitem>
+                <para>
+                    Create and delete web services.
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    Import and Export configurations (in YAML file format) for existing web
+                    services.
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    View, Revert and Export old configurations for existing web services in the
+                    Web Service History screen.
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    Track all communication logs for each web service in the Debugger screen.
+                </para>
+            </listitem>
+        </itemizedlist>
     </para>
 
     <section id="webservice_gui_overview">
+        <title>Web service GUI overview</title>
         <para>
-        The "Web Services" link on the Admin page allows you to manage your web service configurations.
-        You can add or remove web service configurations.
+            The "Web Services" link in the main screen of Admin Interface leads to the web services
+            overview screen that allows you to manage your web service configurations. You can add
+            web services or change it configurations from this screen.
         </para>
-
-        <para>
-            To create a new web service, press the button "Add web service", there you could provide the needed data.
-        </para>
-
+        <note>
+            <para>
+                To create a new web service, press the button "Add web service", and provide the
+                needed information.
+            </para>
+        </note>
         <para>
             <screenshot>
-            <screeninfo>Web Service Overview</screeninfo>
-            <graphic srccredit="Adminarea web service - screenshot" scale="40" fileref="screenshots/admin-webservice-overview.png"></graphic>
+                <screeninfo>Web Service Overview</screeninfo>
+                <graphic srccredit="Adminarea web service - screenshot" scale="40" fileref="screenshots/admin-webservice-overview.png"></graphic>
             </screenshot>
         </para>
-
         <para>
             <emphasis>Figure . Web services overview.</emphasis>
         </para>
-
     </section>
 
     <section id="webservice_gui_add">
+        <title>Web Service Add</title>
         <para>
-        Required data for the web service is just the name, the debug threshold value is set as default in "debug",
-        it means that all the debug entries with a type over the debug threshold should be written on the log.
-        For the provider and invoker sections only is possible to configure the network transport type.
+            The only required field in this part is the web service "Name" that needs to be unique
+            in the system and non empty. Other fields are also necessary for the configuration like
+            the "Debug threshold" and the "Validity" but this fields are already filled from a
+            closed list.
         </para>
-
         <para>
-            To create a new web service, press the button "Add web service", there you could provide the needed data.
+            The default value for "Debug Threshold" is "debug", under this configuration all
+            communication logs are registered in the database each Debug Threshold value is more
+            restrictive and discard communication logs set for lower values.
         </para>
-
+        <para>
+            <itemizedlist>
+                <title>Debug Threshold levels</title>
+                <listitem>
+                    <para>
+                        Debug.
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>
+                        Info.
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>
+                        Notice.
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>
+                        Error.
+                    </para>
+                </listitem>
+            </itemizedlist>
+        </para>
+        <para>
+            It is also possible at this time to define the network transport protocol for "OTRS as
+            Provider" and "OTRS as requester".
+        </para>
+        <para>
+            Click on "Save" button to register the new web service in the database or click "Cancel"
+            to discard this operation. On both cases you will be returned to the web service
+            overview screen.
+        </para>
+        <para>
+            If you already have a web service configuration file in YAML format you can click
+            on the "Import web service" button on the left side of the screen. for more information
+            on importing web services please check the next section "Web Service Change".
+        </para>
+        <note>
+            <para>
+                To change or add more details to a web service, click on the web service name in the
+                web service overview screen.
+            </para>
+        </note>
         <para>
             <screenshot>
-            <screeninfo>Web service add</screeninfo>
-            <graphic srccredit="Adminarea web service add - screenshot" scale="40" fileref="screenshots/admin-webservice-add.png"></graphic>
+                <screeninfo>Web service add</screeninfo>
+                <graphic srccredit="Adminarea web service add - screenshot" scale="40" fileref="screenshots/admin-webservice-add.png"></graphic>
             </screenshot>
         </para>
-
         <para>
-            <emphasis>Figure . Web services overview.</emphasis>
+            <emphasis>Figure . Web services add.</emphasis>
         </para>
-
     </section>
 
     <section id="webservice_gui_change">
+        <title>Web Service Change</title>
         <para>
-        On this screen you have a complete set of functions to handled every part of a web service, on the left side
-        in the action column you can found some buttons that allow you to perform all possible actions over a
-        web service such, clone, export, import, history, delete and the access to the debugger log.
+            On this screen you have a complete set of functions to handle every part of a web
+            service, on the left side in the action column you can found some buttons that allows
+            you to perform all possible actions over a web service:
+        </para>
+        <para>
+        <itemizedlist>
+            <listitem>
+                <para>
+                    Clone web service.
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    Export web service.
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    Import web service.
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    Configuration History.
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    Delete webservice.
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    Debugger.
+                </para>
+            </listitem>
+        </itemizedlist>
+        </para>
+        <para>
+            "Configuration history" and "Debugger" are located on diferent screens, the rest of the
+            actions are performed in this screen.
         </para>
 
-        <para>
-        For the "Configuration history", "Delete web service", and "Debugger" action there are separated screens to
-        work with them.
-        </para>
+        <section id="webservice-clone">
+            <title>Web Service Clone</title>
+            <para>
+                To clone a web service, you need to click on the "Clone web service" button, a
+                dialog will be shown where you can use the default name or set a new name for the
+                (cloned) web service.
+            </para>
+            <note>
+                <para>
+                    <emphasis>Remember </emphasis> the name of the web service must be unique within
+                    the system.
+                </para>
+            </note>
+            <para>Click on "Clone" button to create the web service clone or "Cancel"to close
+            the dialog.</para>
+            <para>
+                <screenshot>
+                    <screeninfo>Web service clone</screeninfo>
+                    <graphic srccredit="Adminarea web service clone - screenshot" scale="40" fileref="screenshots/admin-webservice-clone.png"></graphic>
+                </screenshot>
+            </para>
+            <para>
+                <emphasis>Figure . Web service clone.</emphasis>
+            </para>
+        </section>
 
+        <section id="webservice-export">
+            <title>Web Service Export</title>
+            <para>
+                The "Export web service" button give you the opportunity to dump the configuration
+                of the current web service into a YAML file, download it and store it on your file
+                system. This can be specialy useful if you want to migrate the web service from one
+                server to another, for example from a testing environment to the production system.
+            </para>
+            <warning>
+                <para>
+                    All stored passwords in the web service configuration will be exported as plain
+                    text.
+                </para>
+            </warning>
+            <para>
+                Click on "Export" buttton to dump the configuration into a file or "Cancel" to close
+                the dialog
+            </para>
+            <para>
+                <screenshot>
+                    <screeninfo>Web service export</screeninfo>
+                    <graphic srccredit="Adminarea web service export - screenshot" scale="40" fileref="screenshots/admin-webservice-export.png"></graphic>
+                </screenshot>
+            </para>
+            <para>
+                <emphasis>Figure . Web services export.</emphasis>
+            </para>
+        </section>
 
+        <section id="webservice-import">
+            <title>Web Service Import</title>
+            <para>
+                A valid web service configuration YAML file is required to use the import web
+                service feature, click on the "Import web service" button, browse for the
+                configuration file or set the complete path on the input box.
+            </para>
+            <para>
+                Click "Import" button to crate a new web service form a file or "Cancel"  to close
+                the dialog.
+            </para>
 
+            <para>
+                <screenshot>
+                    <screeninfo>Web service import</screeninfo>
+                    <graphic srccredit="Adminarea web service import - screenshot" scale="40" fileref="screenshots/admin-webservice-import.png"></graphic>
+                </screenshot>
+            </para>
+            <para>
+                <emphasis>Figure . Web services import.</emphasis>
+            </para>
+        </section>
 
-        <para>
-        If you need to clone a web service just click on the "Clone web service" button, a new dialog showed
-        introduce the name for the new web service (the system suggested one as default), and push the "Clone"
-        button, or push the "Cancel" button if you want to stops the clone action.
-        </para>
+        <section id="webservice-delete">
+            <title>Web Service Delete</title>
+            <para>
+                Some times its necessary to delete completeatly a web service, if you are in one of
+                this cases can press on the "Delete web service" button and a new dialog will ask
+                you are sure to delete the web service.
+            </para>
+            <para>
+                Clink the "Delete" button to confirm the web service delete or "Cancel" to close
+                the dialog.
+            </para>
+            <warning>
+                <para>
+                    This action can't be undone, please be careful when delete a webservice.
+                </para>
+            </warning>
+            <para>
+                <screenshot>
+                    <screeninfo>Web service delete</screeninfo>
+                    <graphic srccredit="Adminarea web service delete - screenshot" scale="40" fileref="screenshots/admin-webservice-delete.png"></graphic>
+                </screenshot>
+            </para>
+            <para>
+                <emphasis>Figure . Web service delete.</emphasis>
+            </para>
+        </section>
 
-        <para>
-            <screenshot>
-            <screeninfo>Web service clone</screeninfo>
-            <graphic srccredit="Adminarea web service clone - screenshot" scale="40" fileref="screenshots/admin-webservice-clone.png"></graphic>
-            </screenshot>
-        </para>
+<!-- TODO add link to Configuration History -->
+<!-- TODO add link to Debugger -->
 
-        <para>
-            <emphasis>Figure . Web service clone.</emphasis>
-        </para>
-
-
-
-        <para>
-        The "Export web service" button give you the opportunity to dump the configuration of the current web service
-        into a YAML file and download it. It file could be used for example to transfer a configuration from a test system
-        to production system.
-        </para>
-
-        <para>
-            <screenshot>
-            <screeninfo>Web service export</screeninfo>
-            <graphic srccredit="Adminarea web service export - screenshot" scale="40" fileref="screenshots/admin-webservice-export.png"></graphic>
-            </screenshot>
-        </para>
-
-        <para>
-            <emphasis>Figure . Web services export.</emphasis>
-        </para>
-
-
-
-        <para>
-        A valid web service configuration YAML file is required to use the import web service feature, if you have it, just
-        click on the "Import web service" button, on the showed dialog select the YAML file with the configuration and press
-        the "Import"" button or the "Cancel" button if you don't want to create the new web service.
-        </para>
-
-        <para>
-            <screenshot>
-            <screeninfo>Web service import</screeninfo>
-            <graphic srccredit="Adminarea web service import - screenshot" scale="40" fileref="screenshots/admin-webservice-import.png"></graphic>
-            </screenshot>
-        </para>
-
-        <para>
-            <emphasis>Figure . Web services import.</emphasis>
-        </para>
-
-
-
-        <para>
-        Some times it's necessary the complete content for a web service configuration, on this cases we can press the
-        "Delete web service" button and a new dialog will ask you if you really want to delete the web service, press
-        the "Delete" button to confirm the action or just cancel it pressing the "Cancel" button.
-        </para>
-
-        <para>
-            <screenshot>
-            <screeninfo>Web service delete</screeninfo>
-            <graphic srccredit="Adminarea web service delete - screenshot" scale="40" fileref="screenshots/admin-webservice-delete.png"></graphic>
-            </screenshot>
-        </para>
-
-        <para>
-            <emphasis>Figure . Web service delete.</emphasis>
-        </para>
-
-
-
-
-        <para>
-        Returning to the web service change screen, now we are going to review the right side of it, where we have the possibility to modify
-        all the general data for a web service such, name, description, remote system, etc... Also there are two more section that
-        allow us to modify parameters for use OTRS as a provider and for use OTRS as a requester.
-        </para>
-
-        <para>
-        On the "OTRS as provider" section you have the possibility to change the setting for the network transport that will be used
-        to interact with OTRS when it offers webservices, it's just necessary to push the 'Configure' button to be redirected to a new
-        screen where you could set all necessary parameters.
-        Also exists the option to add and list the availables operations for the web service, for do it, select the operation to add
-        on the "Add operation" select box at the end of the dialog
-        </para>
-
-        <para>
-        Next down you can see the "OTRS as requester" section you have the same possibility to change the setting for the network
-        as in the last section.
-        For this section you can add and list invokers for the web service, for do it, select the operation to add
-        on the "Add operation" select box at the end of the dialog
-        </para>
-
-        <para>
-        At the end if you want to save your changes and review them, please push the "Save" button or press the "Save and finish"
-        button if you want to save and back to the webservice overview.
-        </para>
-
-        <para>
-            <screenshot>
-            <screeninfo>Web service change</screeninfo>
-            <graphic srccredit="Adminarea web service change - screenshot" scale="40" fileref="screenshots/admin-webservice-change.png"></graphic>
-            </screenshot>
-        </para>
-
-        <para>
-            <emphasis>Figure . Web services change.</emphasis>
-        </para>
-
+        <section id="webservice-configuration-change">
+            <title>Web Service Configuration Change</title>
+            <para>
+                Returning to the web service change screen, now we are going to review the right
+                side of it, where we have the possibility to modify all the general data for a web
+                service like, name, description, debug threshold, etc. Also there are two more
+                sections below that allows us to modify specific parameters for both communication
+                types "OTRS as Provider" and "OTRS as Requester".
+            </para>
+            <para>
+                The web service configuration needs to be saved on each level, this means that if a
+                setting is changed, links to other deeper parts of the configuration will be
+                disabled forcing to save the current configuration level. After saving the disabled
+                links will be re-enabled again allowing you to continue with the configuration.
+            </para>
+            <para>
+                On the "OTRS as provider" section it is possible to set or configure the network
+                transport protocol, only previosly registered network transport backends are show
+                on the list. To configure the network transport click on the "Configure" button.
+                It is also possible to add new operations in this box, to do this select one of the
+                available operations from the "Add Operation" list, this will lead you to the
+                operation configuration screen. After saving the new operation it will be listed on
+                the table avobe.
+            </para>
+            <para>
+                "OTRS as requester" is very similar to the previos one, but instead of operations
+                you are able to add invokers
+            </para>
+            <para>
+                Click the "Save" button to save and continue configuring the web service button,
+                "Save and finish" to save and return to the web service overview screen or "Cancel"
+                to discard current configuration level changes and return to web service overview
+                screen.
+            </para>
+            <para>
+                <screenshot>
+                    <screeninfo>Web service change</screeninfo>
+                    <graphic srccredit="Adminarea web service change - screenshot" scale="40" fileref="screenshots/admin-webservice-change.png"></graphic>
+                </screenshot>
+            </para>
+            <para>
+                <emphasis>Figure . Web services change.</emphasis>
+            </para>
+        </section>
     </section>
-
 </section>
