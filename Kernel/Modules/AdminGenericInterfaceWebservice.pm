@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericInterfaceWebservice.pm - provides a webservice view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceWebservice.pm,v 1.29 2011-07-01 14:48:37 mg Exp $
+# $Id: AdminGenericInterfaceWebservice.pm,v 1.30 2011-07-27 03:24:52 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.29 $) [1];
+$VERSION = qw($Revision: 1.30 $) [1];
 
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::GenericInterface::Webservice;
@@ -791,12 +791,15 @@ sub _ShowEdit {
 
     # create the DebugThreshold select
     my $DebugThresholdStrg = $Self->{LayoutObject}->BuildSelection(
-        Data         => \%DebugThreshold,
-        Name         => 'DebugThreshold',
-        SelectedID   => $DebuggerData->{DebugThreshold} || '',
-        PossibleNone => 0,
-        Translate    => 1,
-        Class        => 'HideTrigger',
+        Data           => \%DebugThreshold,
+        Name           => 'DebugThreshold',
+        SelectedID     => $DebuggerData->{DebugThreshold} || '',
+        PossibleNone   => 0,
+        Translate      => 1,
+        Class          => 'HideTrigger',
+        Sort           => 'IndividualKey',
+        SortIndividual => [ 'debug', 'info', 'notice', 'error' ],
+
     );
 
     my %ValidList = $Self->{ValidObject}->ValidList();
