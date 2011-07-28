@@ -2,7 +2,7 @@
 # Kernel/System/DB.pm - the global database wrapper to support different databases
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.133 2011-05-04 13:47:51 mg Exp $
+# $Id: DB.pm,v 1.134 2011-07-28 22:33:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use DBI;
 use Kernel::System::Time;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.133 $) [1];
+$VERSION = qw($Revision: 1.134 $) [1];
 
 =head1 NAME
 
@@ -637,6 +637,29 @@ sub FetchrowArray {
     }
 
     return @Row;
+}
+
+=item FetchrowArrayOnce()
+
+return the records of SELECT statement
+
+    my @Results = $DBObject->FetchrowArrayOnce(
+        SQL   => "SELECT id, name FROM table",
+        Limit => 10
+    );
+
+=cut
+
+sub FetchrowArrayOnce {
+    my ( $Self, %Param ) = @_;
+
+    return if !$Self->Prepare(%Param);
+
+    my @Records;
+    while ( my @Row = $Self->FetchrowArray() ) {
+        push @Records, \@Row;
+    }
+    return @Records;
 }
 
 =item GetDatabaseFunction()
@@ -1292,6 +1315,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.133 $ $Date: 2011-05-04 13:47:51 $
+$Revision: 1.134 $ $Date: 2011-07-28 22:33:19 $
 
 =cut
