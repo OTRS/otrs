@@ -3,7 +3,7 @@
 # auto_build.sh - build automatically OTRS tar, rpm and src-rpm
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: auto_build.sh,v 1.90 2011-07-01 05:23:54 martin Exp $
+# $Id: auto_build.sh,v 1.91 2011-07-28 18:28:45 mb Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -21,7 +21,7 @@
 # or see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-echo "auto_build.sh - build automatically OTRS tar, rpm and src-rpm <\$Revision: 1.90 $>"
+echo "auto_build.sh - build automatically OTRS tar, rpm and src-rpm <\$Revision: 1.91 $>"
 echo "Copyright (C) 2001-2011 OTRS AG, http://otrs.org/\n";
 
 PATH_TO_CVS_SRC=$1
@@ -313,9 +313,9 @@ else
 fi
 echo "-----------------------------------------------------------------";
 echo "Note: You may have to tag your cvs tree:     cvs tag rel-2_x_x";
-echo "Note: You may have to braunch your cvs tree: cvs tag -b rel-2_x";
+echo "Note: You may have to branch your cvs tree:  cvs tag -b rel-2_x";
 echo "Note: To delete a tag:                       cvs tag -d rel-2_x_x";
-echo "Note: To check out by an timestamp:          cvs co -r rel-2_x -D \"2008-10-02 17:00\" otrs";
+echo "Note: To check out by timestamp:             cvs co -r rel-2_x -D \"2008-10-02 17:00\" otrs";
 echo "-----------------------------------------------------------------";
 
 # --
