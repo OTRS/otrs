@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE section PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN" "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
-<!-- $Id: webservice_gui.xml,v 1.13 2011-07-28 17:06:56 cg Exp $ -->
+<!-- $Id: webservice_gui.xml,v 1.14 2011-07-28 17:53:34 cr Exp $ -->
 
 <section id="webservice_gui">
     <title>Web Service Graphical Interface</title>
@@ -382,15 +382,15 @@
             <para>
                 In future the available network transport list will be increased, currently only
                 "HTTP::SOAP" transport is available. each transport has different configuration
-                options to setup and they might use different frontend modules to configure it but
+                options to setup and they might use different frontend modules to configure it, but
                 they should look similar to the "HTTP::SOAP" transport configuration module.
             </para>
             <para>
                 For "HTTP::SOAP" protocol as provider the configuration is quite simple,
-                there are only two settings to set "Name space" and "Maximum message length" this
-                fields are required. The first one is a URI to give SOAP methods a context,
-                reducing ambiguities, and the second one it's a field where you
-                can specify the maximum size (in bytes) for SOAP messages that OTRS will process.
+                there are only two settings "Namespace" and "Maximum message length" this fields
+                are required. The first one is a URI to give SOAP methods a context, reducing
+                ambiguities, and the second one it's a field where you can specify the maximum size
+                (in bytes) for SOAP messages that OTRS will process.
             </para>
             <para>
                 <screenshot>
@@ -452,22 +452,53 @@
             <title>Web Service Provider Transport</title>
             <para>
                 The network transport configuration for the requester is similar to the
-                configuration for the provider, in the case of the Requester "HTTP::SOAP" network
-                transport there are more fields to be set.
+                configuration for the provider. For the Requester "HTTP::SOAP" network transport
+                there are also more fields to be set.
             </para>
             <para>
-                Apart from the "Endpoint" and "Namespace" that are required fields, you can also
-                specify the encoding (like utf-8, latin1, iso-8859-1, cp1250, etc) for the SOAP
-                message, to send an empty or filled SOAPAction header and it Namespace - Action
-                separator ("/" for .net web services and "#" for the rest), and the authentication
-                mechanism to be used (if needed) as well as its details.
+                Apart from the "Endpoint" (URI of the Remote System web service interface to accept
+                requestes) and "Namespace" that are required fields, you can also specify:
             </para>
+            <itemizedlist>
+                <listitem>
+                    <para>
+                        Encoding (like utf-8, latin1, iso-8859-1, cp1250, etc) for the SOAP
+                        message.
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>
+                        SOAPAction Header: you can to send an empty or filled SOAPAction header,
+                        Set to "No" and the SOAPAction header on the SOAP message will be an
+                        empty string, or set to "Yes" to send the soap action in
+                        Namespace#Action format and define the separator ("/" for .net web
+                        services and "#" for the rest).
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>
+                        Authentication: to set the authentication mechanism, set to "-" to not
+                        use any authentication or select one from the list and the details
+                        fields will appear.
+                    </para>
+                </listitem>
+            </itemizedlist>
             <note>
                 <para>
                     Currently only "BasicAuth" (HTTP) authentication mechanism is implemented you
                     can decide to use it or not depending on the Remote System configuration.
+                    If used, you must provide the User Name and the Password to access the remote
+                    system.
                 </para>
             </note>
+            <warning>
+                <para>
+                    If you supply a password for authentication and after you export the web service
+                    to a YAML file this password will be revealed and will be write into a plain
+                    text string inside the YAML file, be aware of it and take the needed
+                    precautions.
+                </para>
+            </warning>
             <para>
                 <screenshot>
                     <screeninfo>Web Service Requester Network Transport</screeninfo>
@@ -508,18 +539,18 @@
                 you choose the invoker on the web service edit screen, it is only informative.
             </para>
             <para>
-                Event triggers are events within otrs like "TicketCreate", "ArticleSend", etc. That
-                act as triggers to execute the invoker. each invoker need to have at least one
-                event trigger register or the invoker will be useless (because it will never be
-                called). The asynchronous property of the event triggers define if the otrs process
+                Event triggers are events within OTRS like "TicketCreate", "ArticleSend", etc. That
+                act as triggers to execute the invoker. Each invoker needs to have at least one
+                event trigger registered, or the invoker will be useless (because it will never be
+                called). The asynchronous property of the event triggers define if the OTRS process
                 will handle the invoker or if it will be delegated to the Scheduler.
             </para>
             <note>
                 <para>
                     OTRS Scheduler is a separated process that execute tasks in the background, in
-                    this way the otrs process will not be affected if the Remote System takes a long
+                    this way the OTRS process will not be affected if the Remote System takes a long
                     time to respond, if is not available or if there are network problems,
-                    otherwise it will looks like otrs is slow or non responsive. This is why is
+                    otherwise it will looks like OTRS is slow or non responsive. This is why is
                     highly recommend to use asynchronous event triggers always
                 </para>
             </note>
@@ -531,7 +562,7 @@
                 "Event Triggers" list.
             </para>
             <para>
-                To delete an Event trigger, simply locate the event trigger to be delete in the
+                To delete an Event trigger, simply locate the event trigger to be deleted in the
                 "Event Triggers" list and click on the trash icon at the end of the row. It will
                 open a dialog that ask you if you are sure to delete the event trigger. Click
                 "Delete" to remove the event trigger from the list, or "Cancel" to close the dialog.
@@ -596,13 +627,13 @@
             <para>
                 Every change on the web service configuration creates a new entry on the web service
                 history (as a journal). The web service history screen displays a list of all
-                configuration versions for the web service, each row (version) on the "Configuration
+                configuration versions for a web service, each row (version) on the "Configuration
                 History List" means one of that entries in the web service history.
             </para>
             <para>
                 Click on one of that rows to show the whole configuration as it was on that
                 particular date / time, the configuration will be shown in the "History details"
-                section of this screen, from here you are also able to export the selected web
+                section of this screen, from there you are also able to export the selected web
                 service configuration version or restore that version into the current
                 web service configuration.
             </para>
@@ -613,11 +644,11 @@
             </para>
             <para>
                 If changes on the current web service configuration does not work as expected and
-                is not easy to manual revert you can click on the "Revert web service configuration"
-                button. This will open a dialog to ask you if you are sure to revert the web service
-                configuration. Click "Revert web service configuration" in this dialog to
-                replace the current configuration with the selected version, or click "Cancel" to
-                close the dialog.
+                is not easy to manual revert the changes, you can click on the "Revert web service
+                configuration" button. This will open a dialog to ask you if you are sure to revert
+                the web service configuration. Click "Revert web service configuration" in this
+                dialog to replace the current configuration with the selected version, or click
+                "Cancel" to close the dialog.
             </para>
             <warning>
                 <para>
@@ -653,10 +684,30 @@
             </para>
             <para>
                 You can narrow the communication list using the filter on the right part of the
-                screen, you can filter by: communication type (provider or requester), by date
-                before and / or after a particular date, by the remote IP Address or a combination
-                all.
+                screen, you can filter by:
             </para>
+            <itemizedlist>
+                <listitem>
+                    <para>
+                        Communication type (provider or requester)
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>
+                        Date: before and / or after a particular date
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>
+                        The remote IP Address
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>
+                        A combination all.
+                    </para>
+                </listitem>
+            </itemizedlist>
             <para>
                 After filter settings are set push the "Refresh" button, a new list will be
                 displayed meeting your search criteria.
