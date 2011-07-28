@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPackageManager.pm - manage software packages
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPackageManager.pm,v 1.98 2011-01-30 09:49:39 mb Exp $
+# $Id: AdminPackageManager.pm,v 1.98.2.1 2011-07-28 09:06:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Package;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.98 $) [1];
+$VERSION = qw($Revision: 1.98.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -111,6 +111,9 @@ sub Run {
             }
         }
         my $LocalFile = $Self->{ConfigObject}->Get('Home') . "/$Location";
+
+        # do not allow to read file with including .. path (security related)
+        $LocalFile =~ s/\.\.//g;
         if ( !-e $LocalFile ) {
             $Self->{LayoutObject}->Block(
                 Name => 'FileDiff',
