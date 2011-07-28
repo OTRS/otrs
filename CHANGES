@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1935 2011-07-28 11:50:58 mg Exp $
+# $Id: CHANGES,v 1.1936 2011-07-28 15:05:04 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -11,7 +11,6 @@
 
 3.1.0 beta1 2011-??-??
  - 2011-07-22 Fixed bug#6978 - UTF characters got broken.
- - 2011-07-22 Fixed bug#6259 - Search matching no results to Print opens extra tab.
  - 2011-07-22 Fixed bug#3923 - Frontend::Output::FilterText###OutputFilterTextAutoLink.
  - 2011-07-20 Added feature bug#976 - Send emails via bulk action.
  - 2011-07-18 Added feature bug#7479 - Add "TicketChangeTime" as filter parameter
@@ -73,6 +72,7 @@
 
 3.0.10 2011-08-16
  - 2011-07-28 Fixed bug#7518 - Escalation Notify by not working properly.
+ - 2011-07-22 Fixed bug#6259 - Search matching no results to Print opens extra tab.
  - 2011-07-22 Fixed bug#7527 - Calling AgentTicketPhone with pre-selected values fails on
     ticket status of type "pending XYZ".
  - 2011-07-20 Fixed bug#7097 - Length of name of event based notifications limited in the
