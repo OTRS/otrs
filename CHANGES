@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1758.2.141 2011-07-28 15:04:38 en Exp $
+# $Id: CHANGES,v 1.1758.2.142 2011-07-28 15:09:09 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -11,6 +11,7 @@
 
 3.0.10 2011-08-16
  - 2011-07-28 Fixed bug#7518 - Escalation Notify by not working properly.
+ - 2011-07-22 Fixed bug#6978 - UTF characters got broken.
  - 2011-07-22 Fixed bug#6259 - Search matching no results to Print opens extra tab.
  - 2011-07-22 Fixed bug#7527 - Calling AgentTicketPhone with pre-selected values fails on
     ticket status of type "pending XYZ".
