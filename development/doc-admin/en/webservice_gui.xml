@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE section PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN" "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
-<!-- $Id: webservice_gui.xml,v 1.11 2011-07-28 01:57:14 cr Exp $ -->
+<!-- $Id: webservice_gui.xml,v 1.12 2011-07-28 03:37:15 cr Exp $ -->
 
 <section id="webservice_gui">
     <title>Web Service Graphical Interface</title>
@@ -553,6 +553,7 @@
                 <emphasis>Figure: Web service invoker.</emphasis>
             </para>
         </section>
+
         <section id="webservice-mapping">
             <title>Web Service Mapping</title>
             <para>
@@ -571,27 +572,44 @@
         <section id="webservice-history">
             <title>Web Service History</title>
             <para>
-                Every change on the web service configuration creates a new entry on the history,
-                each row on the "Configuration History List" means one of that entries.
+                Every change on the web service configuration creates a new entry on the web service
+                history (as a journal). The web service history screen displays a list of all
+                configuration versions for the web service, each row (version) on the "Configuration
+                History List" means one of that entries in the web service history.
             </para>
             <para>
-                Click on one of that rows and the whole configuration will showed on the
-                "History details" section, also exist the possibility to export and restore a web
-                service configuration.
+                Click on one of that rows to show the whole configuration as it was on that
+                particular date / time, the configuration will be shown in the "History details"
+                section of this screen, from here you are also able to export the selected web
+                service configuration version or restore that version into the current
+                web service configuration.
             </para>
             <para>
-                Remember that all stored passwords in the web service configuration will
-                be showed and exported as plain text.
+                "Export web service configuration" behaves exactly as the "Export web service"
+                feature on the web service change screen, for more information refer to that
+                section.
+            </para>
+            <para>
+                If changes on the current web service configuration does not work as expected and
+                is not easy to manual revert you can click on the "Revert web service configuration"
+                button. This will open a dialog to ask you if you are sure to revert the web service
+                configuration. Click "Revert web service configuration" in this dialog to
+                replace the current configuration with the selected version, or click "Cancel" to
+                close the dialog.
             </para>
             <warning>
                 <para>
+                    Remember that all stored passwords in the web service configuration will
+                    exported as plain text.
+                </para>
+                <para>
                     Please be careful when you restore a configuration because this change can't
-                    be restored.
+                    be undone.
                 </para>
             </warning>
             <para>
                 <screenshot>
-                    <screeninfo>Web service history</screeninfo>
+                    <screeninfo>Web Service History</screeninfo>
                     <graphic srccredit="Adminarea web service history - screenshot" scale="40" fileref="screenshots/admin-webservice-history.png"></graphic>
                 </screenshot>
             </para>
@@ -603,27 +621,44 @@
         <section id="webservice-debugger">
             <title>Web Service Debugger</title>
             <para>
-                This is the log for a web service, here you can see the track for every webservice
-                communication, for provider or requester type.
+                The Debugger stores the log for a web service, in the debugger screen you can track
+                all the web service communications for either provider or requester kind.
             </para>
             <para>
-                At the beggining a request list is loaded, after the list is showed
-                you can choose one of the rows to check its details. Refine search it's possible
-                using the filters next to the list, just introduce the search criteria and
-                push the "Refresh" button, a new list will be displayed.
+                When this screen is shown the request list starts to load, after the list is
+                fully filled you can choose one of the rows (that means a communication sequence) to
+                check its details. This details will appear on a box below.
             </para>
             <para>
-                On the action column you have the chance to go back to the web service or clear the
-                debugger log pushing the "Clear" button and confirm the action with the "Clear" button
-                in the showed dialog.
+                You can narrow the communication list using the filter on the right part of the
+                screen, you can filter by: communication type (provider or requester), by date
+                before and / or after a particular date, by the remote IP Address or a combination
+                all.
             </para>
             <para>
-                In the "Request data" section you can see the complete data for each step on the
-                comminication process.
+                After filter settings are set push the "Refresh" button, a new list will be
+                displayed meeting your search criteria.
+            </para>
+            <note>
+                <para>
+                    Depending on the search criteria for the filters the new list could return no
+                    results.
+                </para>
+            </note>
+            <para>
+                On the left part of the screen under the action column you have the chance to "Go
+                back to the web service" or clear the debugger log by pushing the "Clear" button.
+                This will open a dialog that ask you to confirm erase of the log. Click "Clear" in
+                the dialog button to perform the action or click on "Cancel" to close this dialog.
+            </para>
+            <para>
+                In the "Request details" section you can see all the details for the selected
+                communication. Here you can track the complete flow and check for possible errors or
+                confirm success responses.
             </para>
             <para>
                 <screenshot>
-                    <screeninfo>Web service debugger</screeninfo>
+                    <screeninfo>Web Service Debugger</screeninfo>
                     <graphic srccredit="Adminarea web service debugger - screenshot" scale="40" fileref="screenshots/admin-webservice-debugger.png"></graphic>
                 </screenshot>
             </para>
