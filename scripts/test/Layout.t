@@ -2,7 +2,7 @@
 # scripts/test/Layout.t - layout module testscript
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.t,v 1.54 2011-07-19 14:03:27 te Exp $
+# $Id: Layout.t,v 1.55 2011-07-28 07:55:06 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -685,25 +685,34 @@ $Self->True(
         Result => '<img alt="" src="cid:&lt;734083011@19102009-1795&gt;" />',
     },
     {
-        Name => '_RichTextReplaceLinkOfInlineContent() - generated it self',
+        Name => '_RichTextReplaceLinkOfInlineContent() - generated itself',
         String =>
             '<img width="343" height="563" alt="" src="/otrs-cvs/otrs-cvs/bin/cgi-bin/index.pl?Action=PictureUpload&amp;FormID=1255961382.1012148.29113074&amp;ContentID=inline244217.547683276.1255961382.1012148.29113074@vo7.vo.otrs.com" />',
         Result =>
             '<img width="343" height="563" alt="" src="cid:inline244217.547683276.1255961382.1012148.29113074@vo7.vo.otrs.com" />',
     },
     {
-        Name => '_RichTextReplaceLinkOfInlineContent() - generated it self',
+        Name => '_RichTextReplaceLinkOfInlineContent() - generated itself, with newline',
         String =>
             "<img width=\"343\" height=\"563\" alt=\"\"\nsrc=\"/otrs-cvs/otrs-cvs/bin/cgi-bin/index.pl?Action=PictureUpload&amp;FormID=1255961382.1012148.29113074&amp;ContentID=inline244217.547683276.1255961382.1012148.29113074\@vo7.vo.otrs.com\" />",
         Result =>
             "<img width=\"343\" height=\"563\" alt=\"\"\nsrc=\"cid:inline244217.547683276.1255961382.1012148.29113074\@vo7.vo.otrs.com\" />",
     },
     {
-        Name => '_RichTextReplaceLinkOfInlineContent() - generated it self',
+        Name =>
+            '_RichTextReplaceLinkOfInlineContent() - generated itself, with internal and external image',
         String =>
             '<img width="140" vspace="10" hspace="1" height="38" border="0" alt="AltText" src="http://www.otrs.com/fileadmin/templates/skins/skin_otrs/css/images/logo.gif" /> This text should be displayed <img width="400" height="81" border="0" alt="Description: cid:image001.jpg@01CC3AFE.F81F0B30" src="/otrs/index.pl?Action=PictureUpload&amp;FormID=1311080525.12118416.3676164&amp;ContentID=image001.jpg@01CC4216.1E22E9A0" id="Picture_x0020_1" />',
         Result =>
             '<img width="140" vspace="10" hspace="1" height="38" border="0" alt="AltText" src="http://www.otrs.com/fileadmin/templates/skins/skin_otrs/css/images/logo.gif" /> This text should be displayed <img width="400" height="81" border="0" alt="Description: cid:image001.jpg@01CC3AFE.F81F0B30" src="cid:image001.jpg@01CC4216.1E22E9A0" id="Picture_x0020_1" />',
+    },
+    {
+        Name =>
+            '_RichTextReplaceLinkOfInlineContent() - generated itself, with internal and external image, no space before />',
+        String =>
+            '<img width="140" vspace="10" hspace="1" height="38" border="0" alt="AltText" src="http://www.otrs.com/fileadmin/templates/skins/skin_otrs/css/images/logo.gif" /> This text should be displayed <img width="400" height="81" border="0" alt="Description: cid:image001.jpg@01CC3AFE.F81F0B30" src="/otrs/index.pl?Action=PictureUpload&amp;FormID=1311080525.12118416.3676164&amp;ContentID=image001.jpg@01CC4216.1E22E9A0" id="Picture_x0020_1"/>',
+        Result =>
+            '<img width="140" vspace="10" hspace="1" height="38" border="0" alt="AltText" src="http://www.otrs.com/fileadmin/templates/skins/skin_otrs/css/images/logo.gif" /> This text should be displayed <img width="400" height="81" border="0" alt="Description: cid:image001.jpg@01CC3AFE.F81F0B30" src="cid:image001.jpg@01CC4216.1E22E9A0" id="Picture_x0020_1"/>',
     },
 );
 
