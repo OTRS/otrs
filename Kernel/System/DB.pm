@@ -1,8 +1,8 @@
 # --
 # Kernel/System/DB.pm - the global database wrapper to support different databases
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.105.2.3 2010-05-11 15:29:25 ub Exp $
+# $Id: DB.pm,v 1.105.2.4 2011-07-28 22:35:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use DBI;
 use Kernel::System::Time;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.105.2.3 $) [1];
+$VERSION = qw($Revision: 1.105.2.4 $) [1];
 
 =head1 NAME
 
@@ -644,6 +644,29 @@ sub FetchrowArray {
     return @Row;
 }
 
+=item FetchrowArrayOnce()
+
+return the records of SELECT statement
+
+    my @Results = $DBObject->FetchrowArrayOnce(
+        SQL   => "SELECT id, name FROM table",
+        Limit => 10
+    );
+
+=cut
+
+sub FetchrowArrayOnce {
+    my ( $Self, %Param ) = @_;
+
+    return if !$Self->Prepare(%Param);
+
+    my @Records;
+    while ( my @Row = $Self->FetchrowArray() ) {
+        push @Records, \@Row;
+    }
+    return @Records;
+}
+
 =item GetDatabaseFunction()
 
 to get database functions like
@@ -1165,12 +1188,12 @@ This software is part of the OTRS project (http://otrs.org/).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (AGPL). If you
-did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
 
 =head1 VERSION
 
-$Revision: 1.105.2.3 $ $Date: 2010-05-11 15:29:25 $
+$Revision: 1.105.2.4 $ $Date: 2011-07-28 22:35:14 $
 
 =cut
