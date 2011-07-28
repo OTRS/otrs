@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE section PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN" "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
-<!-- $Id: webservice_gui.xml,v 1.10 2011-07-27 22:55:37 cg Exp $ -->
+<!-- $Id: webservice_gui.xml,v 1.11 2011-07-28 01:57:14 cr Exp $ -->
 
 <section id="webservice_gui">
     <title>Web Service Graphical Interface</title>
@@ -42,6 +42,12 @@
             Administration box) leads to the web services overview screen, where you are able to
             manage your web service configurations. You can add new web services or change the
             configuration for the existing ones from this screen.
+        </para>
+        <para>
+            Every web service configuration screen has in the upper part of the screen a navigation
+            path in a "bread crumbs" style. This navigation path is useful to know exactly in which
+            part of the web service configuration we are, and also we can jump back to any level of
+            the configuration at any time (this action will not save any changes).
         </para>
         <note>
             <para>
@@ -160,7 +166,7 @@
             </listitem>
             <listitem>
                 <para>
-                    Delete webservice.
+                    Delete web service.
                 </para>
             </listitem>
             <listitem>
@@ -207,7 +213,7 @@
             <para>
                 The "Export web service" button give you the opportunity to dump the configuration
                 of the current web service into a YAML file, download it and store it on your file
-                system. This can be specialy useful if you want to migrate the web service from one
+                system. This can be specially useful if you want to migrate the web service from one
                 server to another, for example from a testing environment to a production system.
             </para>
             <warning>
@@ -275,7 +281,7 @@
         <section id="webservice-delete">
             <title>Web Service Delete</title>
             <para>
-                Some times its necessary to delete completeatly a web service, if you are in one of
+                Some times its necessary to delete completely a web service, if you are in one of
                 this cases you can press on the "Delete web service" button and a new dialog will
                 appear asking if you are sure to delete the web service.
             </para>
@@ -285,10 +291,10 @@
             </para>
             <warning>
                 <para>
-                    Delete a web service can't be undone, please be careful when delete a
-                    webservice.
+                    Delete a web service can't be undone, please be careful when delete a web
+                    service.
                 </para>
-            </warning>
+             </warning>
             <para>
                 <screenshot>
                     <screeninfo>Web service delete</screeninfo>
@@ -320,15 +326,15 @@
             </para>
             <para>
                 On the "OTRS as provider" section it is possible to set or configure the network
-                transport protocol, only previosly registered network transport backends are shown
+                transport protocol, only previously registered network transport backends are shown
                 on the list. To configure the network transport click on the "Configure" button.
                 It is also possible to add new operations in this box, to do this select one of the
                 available operations from the "Add Operation" list, this will lead you to the
                 operation configuration screen. After saving the new operation it will be listed on
-                the table avobe.
+                the table above.
             </para>
             <para>
-                "OTRS as requester" is very similar to the previos one, but instead of operations
+                "OTRS as requester" is very similar to the previous one, but instead of operations
                 you are able to add invokers
             </para>
             <para>
@@ -346,35 +352,54 @@
             <para>
                 <emphasis>Figure: Web services change.</emphasis>
             </para>
+            <note>
+                <para>
+                    On the rest of the Generic Interface configuration screens like Network
+                    Transport, operation, Invoker and Mapping, the initial configuration (add)
+                    screen will only present two options at the end "Save" and "Cancel", when the
+                    configuration is re-visited then a new option "Save and Finish" will appear.
+                    The behavior of this features is defined below.
+                </para>
+                <para>
+                    "Save" will store the current configuration level in the database and it will
+                    return to the same screen to review your changes or to configure deeper
+                    settings.
+                </para>
+                <para>
+                    "Save and Finish" will store the current configuration level in the database
+                    and it will return to the previous screen in the configuration hierarchy (to
+                    the immediate upper configuration level).
+                </para>
+                <para>
+                    "Cancel" will discard any configuration change to the current configuration
+                    level and will return to the previous screen in the configuration hierarchy.
+                </para>
+            </note>
         </section>
 
-        <section id="webservice-provider-transport">
-            <title>Web Service Provider Transport</title>
+        <section id="webservice-provider-network-transport">
+            <title>Web Service Provider Network Transport</title>
             <para>
-                For network transport configuration you can choice from some different types of
-                transport, each one have different option to configure, here we are going to check
-                one of the most commoun types, the SOAP transport.
+                In future the available network transport list will be increased, currently only
+                "HTTP::SOAP" transport is available. each transport has different configuration
+                options to setup and they might use different frontend modules to configure it but
+                they should look similar to the "HTTP::SOAP" transport configuration module.
             </para>
             <para>
-                For this option it's very simple to complete it, only a 'Namespace' and
-                'Maximum message length' fields are requiered. The first one is a URI to give SOAP
-                methods a context, reducing ambiguities, and the second one it's a field where you
-                can specify the maximum size (in bytes) of SOAP messages that OTRS will process.
-            </para>
-            <para>
-                For this screen and for the rest involved on web services you will see a single
-                "Save" button on add actions but for edit actions, one more button will show it next
-                to the firt one, the "Save and finish" button give you the possibility to save and go
-                back to the previous screen, for this case you will go back to webservice change screen.
+                For "HTTP::SOAP" protocol as provider the configuration is quite simple,
+                there are only two settings to set "Name space" and "Maximum message length" this
+                fields are required. The first one is a URI to give SOAP methods a context,
+                reducing ambiguities, and the second one it's a field where you
+                can specify the maximum size (in bytes) for SOAP messages that OTRS will process.
             </para>
             <para>
                 <screenshot>
-                    <screeninfo>Web service provider transport</screeninfo>
-                    <graphic srccredit="Adminarea web service provider transport - screenshot" scale="40" fileref="screenshots/admin-webservice-provider-transport.png"></graphic>
+                    <screeninfo>Web Service Provider Network Transport</screeninfo>
+                    <graphic srccredit="Adminarea web service provider network transport - screenshot" scale="40" fileref="screenshots/admin-webservice-provider-transport.png"></graphic>
                 </screenshot>
             </para>
             <para>
-                <emphasis>Figure: Web service provider transport.</emphasis>
+                <emphasis>Figure: Web service provider network transport.</emphasis>
             </para>
         </section>
 
@@ -382,25 +407,39 @@
             <title>Web Service Operation</title>
             <para>
                 The actions that can be performed when you are using OTRS as a provider are called
-                "Operations", it's possible to configure different parameters .
+                "Operations", each operation belongs to a controller (controllers are
+                collections of operations or invokers), normally operations from the same
+                controller need similar settings and shares the same configuration dialog. But each
+                operation can have independent configuration dialogs (if need it).
             </para>
             <para>
-                Apart from a name and a description is also possible to select what type of mapping
-                do you wanto to use for inbound and outbound data. The complete mapping configuraton
-                is done in a separated screen, depending on the mapping type.
+                Name, Description, Backend, and Mappings are fields that normally appear on every
+                operation, other special fields can appear on non default configuration dialogs like
+                Remote System GUID field in SolMan Controller operations.
+            </para>
+            <para>
+                Normally there are two mapping configuration sections on each operation, one for the
+                incoming data and another one for the outgoing data, you can choose different
+                mapping types (backends) for each mapping way, since they configuration is
+                independent from each other and also independent from the operation backend. The
+                normal and most common practice is that the operation uses same mapping type in
+                both cases (with inverted configuration). The complete mapping configuration is
+                done in a separated screen, that depends on the mapping type.
             </para>
             <para>
                 The operation backend is pre-filled and is not editable, you set this parameter when
-                you choose the operation on the web service edit screen.
+                you choose the operation on the web service edit screen, it is only informative.
             </para>
             <para>
-                On the action column you have the options to go back to the web service change screen
-                or you can delete the operation from the web service configuration pressing the "Delete"
-                button and confirm the action with the "Delete" button.
+                In the left part of the screen on the action column you have the options: "Go back
+                to web service" (discarding all changes since the last save) and "Delete", if you
+                click on the last one, a dialog will emerge and ask you if you like to remove the
+                operation, click on "Delete" button to confirm the removal of the operation and it
+                configuration or "Cancel" to close the delete dialog.
             </para>
             <para>
                 <screenshot>
-                    <screeninfo>Web service operation</screeninfo>
+                    <screeninfo>Web Service Operation</screeninfo>
                     <graphic srccredit="Adminarea web service operation - screenshot" scale="40" fileref="screenshots/admin-webservice-operation.png"></graphic>
                 </screenshot>
             </para>
@@ -409,59 +448,104 @@
             </para>
         </section>
 
-        <section id="webservice-requester-transport">
+       <section id="webservice-requester-transport">
             <title>Web Service Provider Transport</title>
             <para>
-                The network transport configuration for the requester it's simmilar to the configuration
-                for invoker but here you have some more fields to fill for the SOAP transport.
+                The network transport configuration for the requester is similar to the
+                configuration for the provider, in the case of the Requester "HTTP::SOAP" network
+                transport there are more fields to be set.
             </para>
             <para>
-                Apart from the endpoint and namespace that are required, exists the option to configure
-                the enconding for the SOAP message contents, choose if you want to fill the SOAP action header
-                and a SOAP action separator, an authentication mechanism and the necessary parameters for it.
+                Apart from the "Endpoint" and "Namespace" that are required fields, you can also
+                specify the encoding (like utf-8, latin1, iso-8859-1, cp1250, etc) for the SOAP
+                message, to send an empty or filled SOAPAction header and it Namespace - Action
+                separator ("/" for .net web services and "#" for the rest), and the authentication
+                mechanism to be used (if needed) as well as its details.
             </para>
-            <para>
-                Also like in other screens you have the "Save" button for add and the extra "Save and finish"
-                button for change action.
-            </para>
+            <note>
+                <para>
+                    Currently only "BasicAuth" (HTTP) authentication mechanism is implemented you
+                    can decide to use it or not depending on the Remote System configuration.
+                </para>
+            </note>
             <para>
                 <screenshot>
-                    <screeninfo>Web service provider transport</screeninfo>
-                    <graphic srccredit="Adminarea web service reuester transport - screenshot" scale="40" fileref="screenshots/admin-webservice-requester-transport.png"></graphic>
+                    <screeninfo>Web Service Requester Network Transport</screeninfo>
+                    <graphic srccredit="Adminarea web service requester network transport - screenshot" scale="40" fileref="screenshots/admin-webservice-requester-transport.png"></graphic>
                 </screenshot>
             </para>
             <para>
-                <emphasis>Figure: Web service requester transport.</emphasis>
+                <emphasis>Figure: Web service requester network transport.</emphasis>
             </para>
         </section>
 
         <section id="webservice-invoker">
             <title>Web Service Invoker</title>
             <para>
-                Invokers are the actions can be performed by OTRS as a requester, it's possible to
-                configure different parameters for them.
+                The actions that can be performed when you are using OTRS as a requester are called
+                "Invokers", each invoker belongs to a controller (controllers are collections of
+                operations or invokers), normally invokers from the same controller need similar
+                settings and shares the same configuration dialog. But each invoker can have
+                independent configuration dialogs (if need it).
             </para>
             <para>
-                Here you have the same possibility like in operations to set a name a description
-                the mapping type do you wanto to use for inbound and outbound data. The complete
-                mapping configuraton is done in a separated screen, depending on the mapping type.
+                Name, Description, Backend, and Mappings are fields that normally appear on every
+                invoker, as well as the list of event triggers other special fields can appear on
+                non default configuration dialogs like Remote System GUID field in SolMan
+                Controller invokers.
+            </para>
+            <para>
+                Normally there are two mapping configuration sections on each invoker, one for the
+                incoming data and another one for the outgoing data, you can choose different
+                mapping types (backends) for each mapping way, since they configuration is
+                independent from each other and also independent from the invoker backend. The
+                normal and most common practice is that the invoker uses same mapping type in
+                both cases (with inverted configuration). The complete mapping configuration is
+                done in a separated screen, that depends on the mapping type.
             </para>
             <para>
                 The invoker backend is pre-filled and is not editable, you set this parameter when
-                you choose the operation on the web service edit screen.
+                you choose the invoker on the web service edit screen, it is only informative.
             </para>
             <para>
-                The necessary stuff for event handling could be configured on this screen, choose the
-                requered parameters for add an event trigger and push the "+" button to add a new event.
+                Event triggers are events within otrs like "TicketCreate", "ArticleSend", etc. That
+                act as triggers to execute the invoker. each invoker need to have at least one
+                event trigger register or the invoker will be useless (because it will never be
+                called). The asynchronous property of the event triggers define if the otrs process
+                will handle the invoker or if it will be delegated to the Scheduler.
+            </para>
+            <note>
+                <para>
+                    OTRS Scheduler is a separated process that execute tasks in the background, in
+                    this way the otrs process will not be affected if the Remote System takes a long
+                    time to respond, if is not available or if there are network problems,
+                    otherwise it will looks like otrs is slow or non responsive. This is why is
+                    highly recommend to use asynchronous event triggers always
+                </para>
+            </note>
+            <para>
+                To add an Event trigger first select the event family from the first list, then the
+                event name from the second list, then set the asynchronous property (if unchecked
+                means that the event trigger will not be asynchronous) and then click on the plus
+                button. a new event trigger will be created and it will be listed on the invoker
+                "Event Triggers" list.
             </para>
             <para>
-                On the action column you have the options to go back to the web service change screen
-                or pressing the "Delete" button you can delete the invoker from the web service
-                configuration  just confirm the action with the "Delete" button or cancel.
+                To delete an Event trigger, simply locate the event trigger to be delete in the
+                "Event Triggers" list and click on the trash icon at the end of the row. It will
+                open a dialog that ask you if you are sure to delete the event trigger. Click
+                "Delete" to remove the event trigger from the list, or "Cancel" to close the dialog.
+            </para>
+            <para>
+                In the left part of the screen on the action column you have the options: "Go back
+                to web service" (discarding all changes since the last save) and "Delete", if you
+                click on the last one, a dialog will emerge and ask you if you like to remove the
+                invoker, click on "Delete" button to confirm the removal of the invoker and it
+                configuration or "Cancel" to close the delete dialog.
             </para>
             <para>
                 <screenshot>
-                    <screeninfo>Web service invoker</screeninfo>
+                    <screeninfo>Web Service Invoker</screeninfo>
                     <graphic srccredit="Adminarea web service invoker - screenshot" scale="40" fileref="screenshots/admin-webservice-invoker.png"></graphic>
                 </screenshot>
             </para>
@@ -469,7 +553,6 @@
                 <emphasis>Figure: Web service invoker.</emphasis>
             </para>
         </section>
-
         <section id="webservice-mapping">
             <title>Web Service Mapping</title>
             <para>
