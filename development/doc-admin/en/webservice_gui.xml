@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE section PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN" "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
-<!-- $Id: webservice_gui.xml,v 1.12 2011-07-28 03:37:15 cr Exp $ -->
+<!-- $Id: webservice_gui.xml,v 1.13 2011-07-28 17:06:56 cg Exp $ -->
 
 <section id="webservice_gui">
     <title>Web Service Graphical Interface</title>
@@ -557,6 +557,28 @@
         <section id="webservice-mapping">
             <title>Web Service Mapping</title>
             <para>
+                There are cases on some web services when you need to map or change data structure, because
+                normally a web service is used to interact with an external system.
+            </para>
+            <para>
+                Exists the option to create different types of mapping, but here we are going to talk about the
+                only one available currently on the system, this is the Mapping::Simple module. This module
+                give you the oportunity to set default values to map for each key or value on every communication
+                data.
+            </para>
+            <para>
+                Clicking on the "+" button for new key map, a new dialog for a single mapping configuration
+                will be displayed, there you can define a key map matching an exact value or a regular
+                expression, also is possible to define same settings for each possible value for this key,
+                pressing the new value map "+" button and introducing the data.
+            </para>
+            <para>
+                Now, if you want to delete a mapping configuration, the only way to do it, it's go back to
+                the corresponding operation or invoker screen, look for the mapping for incomming or
+                outgoing field and set on it an empty value, save the configuration to apply changes.
+            </para>
+            <para>
+                In a future more mapping types will be included.
             </para>
             <para>
                 <screenshot>
