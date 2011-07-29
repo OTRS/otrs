@@ -1,0 +1,169 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE section PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN" "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<!-- $Id: webservice_cl.xml,v 1.1 2011-07-29 22:11:10 cg Exp $ -->
+
+<section id="webservice_cl">
+    <title>Web Service via command line</title>
+    <para>
+        The command line is another option to work with the web services, it's a set of tools
+        can be use to perform basic operation like:
+    </para>
+    <para>
+        <itemizedlist>
+            <listitem>
+                <para>
+                    Create web services based on YAML files, update it and delete it.
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    Reed the debugger log, whit filter options.
+                </para>
+            </listitem>
+        </itemizedlist>
+    </para>
+
+    <section id="webservice_cl_webserviceconfig">
+        <title>Web Service Config</title>
+        <para>
+            The "WebserviceConfig.pl" was developed thinking in a basic but powerful tool for work
+            with web service configurations, it give us the ability to perform next actions:
+        </para>
+        <para>
+            <itemizedlist>
+                <listitem>
+                    <para>
+                        Add: using a YAML file as source a new web service configuration could be created.
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>
+                        Update: On the same way it's used to create a new web service, it can be updated
+                        using a modified or different YAML file.
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>
+                        Read: it's an option to retrieve a service configuration and show it on the screen.
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>
+                        List: list a complete list of all the web service configuration entries on the system.
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>
+                        Delete: this option delete a web service configuration from the system, be
+                        careful when you use it, because this action can't be undone.
+                    </para>
+                </listitem>
+            </itemizedlist>
+        </para>
+        <para>
+            Example: Creating a new web service configuration:
+        </para>
+        <para>
+            <screen>
+                shell> bin/otrs.WebserviceConfig.pl -a write -n webservice_name -f /path/to/yaml/file
+            </screen>
+        </para>
+        <para>
+            Also you can use 'otrs.WebserviceConfig.pl' with next options:
+            <itemizedlist>
+                <listitem>
+                    <para>
+                        <command>-a read  -i webservice_id</command> - To read a stored configuration.
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>
+                        <command>-a write -n webservice_name -f /path/to/yaml/file</command> - To create a new configuration.
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>
+                        <command>-a write -i webservice_id -f /path/to/yaml/file</command> - To update a configuration.
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>
+                        <command>-a list</command> - To list available configurations.
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>
+                        <command>-a delete  -i webservice_id</command> - To delete a configuration.
+                    </para>
+                </listitem>
+            </itemizedlist>
+        </para>
+    </section>
+
+    <section id="webservice_cl_debugger">
+        <title>Web Service Debugger</title>
+        <para>
+            Other available tool on the command line is the "otrs.GenericInterfaceDebugRead.pl"
+            script, it's an interface to search for debugger entries for a communication on a web service.
+        </para>
+
+        <para>
+            Example: Searching for debugger entries:
+        </para>
+        <para>
+            <screen>
+                shell> bin/otrs.GenericInterfaceDebugRead.pl
+            </screen>
+        </para>
+        <para>
+            <itemizedlist>
+                Optional filter parameters can be used for "otrs.GenericInterfaceDebugRead.pl"
+                script are the next:
+                <listitem>
+                    <para>
+                        <command>-c</command>        CommunicationID
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>
+                        <command>-t</command>        CommunicationType 'Provider' or 'Requester' are possible values
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>
+                        <command>-a</command>        CreatedAtOrAfter
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>
+                        <command>-b</command>        CreatedArOrBefore
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>
+                        <command>-i</command>        RemoteIP, must be valid IPv4 or IPv6 address
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>
+                        <command>-w</command>        WebserviceID
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>
+                        <command>-d</command>        WithData
+                    </para>
+                </listitem>
+            </itemizedlist>
+        </para>
+        <para>
+            As result for this command you will see a list with the saved records on the debugger log.
+        </para>
+        <note>
+            <para>
+                An advice it's to include al least one filter on each request, because it reduce
+                the number of entries will showed on the screen.
+            </para>
+        </note>
+    </section>
+</section>
