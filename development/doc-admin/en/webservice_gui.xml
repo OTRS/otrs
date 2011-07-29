@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE section PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN" "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
-<!-- $Id: webservice_gui.xml,v 1.16 2011-07-29 17:38:06 cr Exp $ -->
+<!-- $Id: webservice_gui.xml,v 1.17 2011-07-29 20:54:04 cr Exp $ -->
 
 <section id="webservice_gui">
     <title>Web Service Graphical Interface</title>
@@ -306,9 +306,6 @@
             </para>
         </section>
 
-<!-- TODO add link to Configuration History -->
-<!-- TODO add link to Debugger -->
-
         <section id="webservice-configuration-change">
             <title>Web Service Configuration Change</title>
             <para>
@@ -375,7 +372,6 @@
                     level and will return to the previous screen in the configuration hierarchy.
                 </para>
             </note>
-        </section>
 
         <section id="webservice-provider-network-transport">
             <title>Web Service Provider Network Transport</title>
@@ -448,231 +444,260 @@
             </para>
         </section>
 
-       <section id="webservice-requester-transport">
-            <title>Web Service Provider Transport</title>
-            <para>
-                The network transport configuration for the requester is similar to the
-                configuration for the provider. For the Requester "HTTP::SOAP" network transport
-                there are also more fields to be set.
-            </para>
-            <para>
-                Apart from the "Endpoint" (URI of the Remote System web service interface to accept
-                requestes) and "Namespace" that are required fields, you can also specify:
-            </para>
-            <itemizedlist>
-                <listitem>
-                    <para>
-                        Encoding (like utf-8, latin1, iso-8859-1, cp1250, etc) for the SOAP
-                        message.
-                    </para>
-                </listitem>
-                <listitem>
-                    <para>
-                        SOAPAction Header: you can to send an empty or filled SOAPAction header,
-                        Set to "No" and the SOAPAction header on the SOAP message will be an
-                        empty string, or set to "Yes" to send the soap action in
-                        Namespace#Action format and define the separator ("/" for .net web
-                        services and "#" for the rest).
-                    </para>
-                </listitem>
-                <listitem>
-                    <para>
-                        Authentication: to set the authentication mechanism, set to "-" to not
-                        use any authentication or select one from the list and the details
-                        fields will appear.
-                    </para>
-                </listitem>
-            </itemizedlist>
-            <note>
+           <section id="webservice-requester-transport">
+                <title>Web Service Provider Transport</title>
                 <para>
-                    Currently only "BasicAuth" (HTTP) authentication mechanism is implemented you
-                    can decide to use it or not depending on the Remote System configuration.
-                    If used, you must provide the User Name and the Password to access the remote
-                    system.
+                    The network transport configuration for the requester is similar to the
+                    configuration for the provider. For the Requester "HTTP::SOAP" network transport
+                    there are also more fields to be set.
                 </para>
-            </note>
-            <warning>
                 <para>
-                    If you supply a password for authentication and after you export the web service
-                    to a YAML file this password will be revealed and will be write into a plain
-                    text string inside the YAML file, be aware of it and take the needed
-                    precautions.
+                    Apart from the "Endpoint" (URI of the Remote System web service interface to
+                    accept requestes) and "Namespace" that are required fields, you can also
+                    specify:
                 </para>
-            </warning>
-            <para>
-                <screenshot>
-                    <screeninfo>Web Service Requester Network Transport</screeninfo>
-                    <graphic srccredit="Adminarea web service requester network transport - screenshot" scale="40" fileref="screenshots/admin-webservice-requester-transport.png"></graphic>
-                </screenshot>
-            </para>
-            <para>
-                <emphasis>Figure: Web service requester network transport.</emphasis>
-            </para>
-        </section>
-
-        <section id="webservice-invoker">
-            <title>Web Service Invoker</title>
-            <para>
-                The actions that can be performed when you are using OTRS as a requester are called
-                "Invokers", each invoker belongs to a controller (controllers are collections of
-                operations or invokers), normally invokers from the same controller need similar
-                settings and shares the same configuration dialog. But each invoker can have
-                independent configuration dialogs (if need it).
-            </para>
-            <para>
-                Name, Description, Backend, and Mappings are fields that normally appear on every
-                invoker, as well as the list of event triggers other special fields can appear on
-                non default configuration dialogs like Remote System GUID field in SolMan
-                Controller invokers.
-            </para>
-            <para>
-                Normally there are two mapping configuration sections on each invoker, one for the
-                incoming data and another one for the outgoing data, you can choose different
-                mapping types (backends) for each mapping way, since they configuration is
-                independent from each other and also independent from the invoker backend. The
-                normal and most common practice is that the invoker uses same mapping type in
-                both cases (with inverted configuration). The complete mapping configuration is
-                done in a separated screen, that depends on the mapping type.
-            </para>
-            <para>
-                The invoker backend is pre-filled and is not editable, you set this parameter when
-                you choose the invoker on the web service edit screen, it is only informative.
-            </para>
-            <para>
-                Event triggers are events within OTRS like "TicketCreate", "ArticleSend", etc. That
-                act as triggers to execute the invoker. Each invoker needs to have at least one
-                event trigger registered, or the invoker will be useless (because it will never be
-                called). The asynchronous property of the event triggers define if the OTRS process
-                will handle the invoker or if it will be delegated to the Scheduler.
-            </para>
-            <note>
-                <para>
-                    OTRS Scheduler is a separated process that execute tasks in the background, in
-                    this way the OTRS process will not be affected if the Remote System takes a long
-                    time to respond, if is not available or if there are network problems,
-                    otherwise it will looks like OTRS is slow or non responsive. This is why is
-                    highly recommend to use asynchronous event triggers always
-                </para>
-            </note>
-            <para>
-                To add an Event trigger first select the event family from the first list, then the
-                event name from the second list, then set the asynchronous property (if unchecked
-                means that the event trigger will not be asynchronous) and then click on the plus
-                button. a new event trigger will be created and it will be listed on the invoker
-                "Event Triggers" list.
-            </para>
-            <para>
-                To delete an Event trigger, simply locate the event trigger to be deleted in the
-                "Event Triggers" list and click on the trash icon at the end of the row. It will
-                open a dialog that ask you if you are sure to delete the event trigger. Click
-                "Delete" to remove the event trigger from the list, or "Cancel" to close the dialog.
-            </para>
-            <para>
-                In the left part of the screen on the action column you have the options: "Go back
-                to web service" (discarding all changes since the last save) and "Delete", if you
-                click on the last one, a dialog will emerge and ask you if you like to remove the
-                invoker, click on "Delete" button to confirm the removal of the invoker and it
-                configuration or "Cancel" to close the delete dialog.
-            </para>
-            <para>
-                <screenshot>
-                    <screeninfo>Web Service Invoker</screeninfo>
-                    <graphic srccredit="Adminarea web service invoker - screenshot" scale="40" fileref="screenshots/admin-webservice-invoker.png"></graphic>
-                </screenshot>
-            </para>
-            <para>
-                <emphasis>Figure: Web service invoker.</emphasis>
-            </para>
-        </section>
-
-        <section id="webservice-mapping">
-            <title>Web Service Mapping</title>
-            <para>
-                There are cases on some web services when you need to map or change data structure, because
-                normally a web service is used to interact with an external system, in these cases some values
-                needs to change in order to match with the remote expected data.
-            </para>
-            <para>
-                Exists the option to create different types of mapping, but here we are going to talk about the
-                only one available currently on the system, this is the Mapping::Simple module.
-            </para>
-            <para>
-                This module give you the oportunity to set default values to map for each key or value on a
-                whole communication data.
-            </para>
-            <para>
-                At the beggenning of the screen you could see a general section where you have the chance to
-                set default rules that will apply for all the unmapped keys and values. Basicly exist three
-                options for each one, these are listed below.
-            </para>
-            <itemizedlist>
-                <listitem>
-                    <para>
-                        Keep (leave unchanged): doesn't touch the keys or values on any way.
-                    </para>
-                </listitem>
-                <listitem>
-                    <para>
-                        Ignore (drop key/value pair): in short words, it deletes the key/value pair, because
-                        delete the key and consecuently it's value, when ot apply for values, just the value
-                        is deleted keeping the key.
-                    </para>
-                </listitem>
-                <listitem>
-                    <para>
-                        MapTo (use provided value as default): all keys or values without a map rule, will take
-                        it as default to set it's new value, when you select this option a new text field
-                        for the map value will showed next to the select box.
-                    </para>
-                </listitem>
-            </itemizedlist>
-            <para>
-                Clicking on the "+" button for new key map, a new dialog for a single mapping configuration
-                will be displayed. There you can define a map for a single key, with the next options:
-            </para>
-            <para>
                 <itemizedlist>
                     <listitem>
                         <para>
-                            Exact value(s): the old key string will exchange with the new one in an exact way.
+                            Encoding (like utf-8, latin1, iso-8859-1, cp1250, etc) for the SOAP
+                            message.
                         </para>
                     </listitem>
                     <listitem>
                         <para>
-                            Regular expression: The key string will be replaced following a regular expression
-                            rule.
+                            SOAPAction Header: you can to send an empty or filled SOAPAction header,
+                            Set to "No" and the SOAPAction header on the SOAP message will be an
+                            empty string, or set to "Yes" to send the soap action in
+                            Namespace#Action format and define the separator ("/" for .net web
+                            services and "#" for the rest).
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>
+                            Authentication: to set the authentication mechanism, set to "-" to not
+                            use any authentication or select one from the list and the details
+                            fields will appear.
                         </para>
                     </listitem>
                 </itemizedlist>
-            </para>
-            <para>
-                Pressing the new value map "+" button a new row for a value map will be displayed. Here also
-                it's possible to define rules for each possible value with the same values as for the key.
-                You can add many maps for values as you want, and if you want to delete one of them, just push
-                on the "-" button for each row. Delete the complete section for a key it's possible clicking
-                on the "-" button located on the up right corner of the dialog box.
-            </para>
-            <para>
-                As in the rest of screens for the web services you have to option to save or save and finish,
-                with the last option you will be redirected to the previous screen.
-            </para>
-            <para>
-                Now, if you want to delete a whole mapping configuration, the only way to do it, it's go
-                back to the corresponding operation or invoker screen, look for the mapping for incomming or
-                outgoing field and set on it an empty value, save the configuration to apply changes.
-            </para>
-            <para>
-                In a future more mapping types will be included.
-            </para>
-            <para>
-                <screenshot>
-                    <screeninfo>Web service mapping</screeninfo>
-                    <graphic srccredit="Adminarea web service mapping - screenshot" scale="40" fileref="screenshots/admin-webservice-mapping.png"></graphic>
-                </screenshot>
-            </para>
-            <para>
-                <emphasis>Figure: Web service mapping.</emphasis>
-            </para>
+                <note>
+                    <para>
+                        Currently only "BasicAuth" (HTTP) authentication mechanism is implemented
+                        you can decide to use it or not depending on the Remote System
+                        configuration. If used, you must provide the User Name and the Password to
+                        access the remote system.
+                    </para>
+                </note>
+                <warning>
+                    <para>
+                        If you supply a password for authentication and after you export the web
+                        service to a YAML file this password will be revealed and will be write
+                        into a plain text string inside the YAML file, be aware of it and take the
+                        needed precautions.
+                    </para>
+                </warning>
+                <para>
+                    <screenshot>
+                        <screeninfo>Web Service Requester Network Transport</screeninfo>
+                        <graphic srccredit="Adminarea web service requester network transport - screenshot" scale="40" fileref="screenshots/admin-webservice-requester-transport.png"></graphic>
+                    </screenshot>
+                </para>
+                <para>
+                    <emphasis>Figure: Web service requester network transport.</emphasis>
+                </para>
+            </section>
+
+            <section id="webservice-invoker">
+                <title>Web Service Invoker</title>
+                <para>
+                    The actions that can be performed when you are using OTRS as a requester are
+                    called "Invokers", each invoker belongs to a controller (controllers are
+                    collections of operations or invokers), normally invokers from the same
+                    controller need similar settings and shares the same configuration dialog. But
+                    each invoker can have independent configuration dialogs (if need it).
+                </para>
+                <para>
+                    Name, Description, Backend, and Mappings are fields that normally appear on
+                    every invoker, as well as the list of event triggers other special fields can
+                    appear on non default configuration dialogs like Remote System GUID field in
+                    SolMan Controller invokers.
+                </para>
+                <para>
+                    Normally there are two mapping configuration sections on each invoker, one for
+                    the incoming data and another one for the outgoing data, you can choose
+                    different mapping types (backends) for each mapping way, since they
+                    configuration is independent from each other and also independent from the
+                    invoker backend. The normal and most common practice is that the invoker uses
+                    same mapping type in both cases (with inverted configuration). The complete
+                    mapping configuration is done in a separated screen, that depends on the
+                    mapping type.
+                </para>
+                <para>
+                    The invoker backend is pre-filled and is not editable, you set this parameter
+                    when you choose the invoker on the web service edit screen, it is only
+                    informative.
+                </para>
+                <para>
+                    Event triggers are events within OTRS like "TicketCreate", "ArticleSend", etc.
+                    That act as triggers to execute the invoker. Each invoker needs to have at
+                    least one event trigger registered, or the invoker will be useless (because it
+                    will never be called). The asynchronous property of the event triggers define
+                    if the OTRS process will handle the invoker or if it will be delegated to the
+                    Scheduler.
+                </para>
+                <note>
+                    <para>
+                        OTRS Scheduler is a separated process that execute tasks in the background,
+                        in this way the OTRS process will not be affected if the Remote System
+                        takes a long time to respond, if is not available or if there are network
+                        problems, otherwise it will looks like OTRS is slow or non responsive. This
+                        is why is highly recommend to use asynchronous event triggers always.
+                    </para>
+                </note>
+                <para>
+                    To add an Event trigger first select the event family from the first list, then
+                    the event name from the second list, then set the asynchronous property (if
+                    unchecked means that the event trigger will not be asynchronous) and then click
+                    on the plus button. a new event trigger will be created and it will be listed
+                    on the invoker "Event Triggers" list.
+                </para>
+                <para>
+                    To delete an Event trigger, simply locate the event trigger to be deleted in the
+                    "Event Triggers" list and click on the trash icon at the end of the row. It will
+                    open a dialog that ask you if you are sure to delete the event trigger. Click
+                    "Delete" to remove the event trigger from the list, or "Cancel" to close the
+                    dialog.
+                </para>
+                <para>
+                    In the left part of the screen on the action column you have the options: "Go
+                    back to web service" (discarding all changes since the last save) and "Delete",
+                    if you click on the last one, a dialog will emerge and ask you if you like to
+                    remove the invoker, click on "Delete" button to confirm the removal of the
+                    invoker and it configuration or "Cancel" to close the delete dialog.
+                </para>
+                <para>
+                    <screenshot>
+                        <screeninfo>Web Service Invoker</screeninfo>
+                        <graphic srccredit="Adminarea web service invoker - screenshot" scale="40" fileref="screenshots/admin-webservice-invoker.png"></graphic>
+                    </screenshot>
+                </para>
+                <para>
+                    <emphasis>Figure: Web service invoker.</emphasis>
+                </para>
+            </section>
+
+            <section id="webservice-mapping">
+                <title>Web Service Mapping</title>
+                <para>
+                    There are cases on some web services when you need to transform the data from
+                    one format to another (map or change data structure), because normally a web
+                    service is used to interact with a Remote System, that is highly probable that
+                    is not another OTRS system and / or could not understand the OTRS data
+                    structures and values, in these cases some or all values has to be changed,
+                    and sometimes even the names of the values (keys) and in other cases also the
+                    complete strcuture, in order to match with the remote expected data. To
+                    accomplish this task exist the Generic Interface Mapping Layer.
+                </para>
+                <para>
+                    Each Remote System has it own data structures and it is possible to create new
+                    mapping modules for each case (e.g. there is a customized mapping module for
+                    SAP Solution Manager shipped with OTRS), but it is not always necessary, in fact
+                    the module Mapping::Simple should cover most the mapping needs.
+                </para>
+                <note>
+                    <para>
+                        Unless Mapping::Simple does not cover all mappings needs for a web service
+                        then a new mapping module should be created. To learn more about how create
+                        new mapping modules please consult the OTRS Development Manual.
+                    </para>
+                </note>
+                <para>
+                        Next we will talk about how to configure mappings using the Mapping::Simple
+                        module.
+                </para>
+                <para>
+                    This module gives you the opportunity to set default values to map for each key
+                    or value for the whole communication data.
+                </para>
+                <para>
+                    At the beginning of the screen you could see a general section where you have
+                    the chance to set the default rules that will apply for all the unmapped keys
+                    and values. Basically exist three options for each one, these options are
+                    listed below:
+                </para>
+                <itemizedlist>
+                    <listitem>
+                        <para>
+                            Keep (leave unchanged): doesn't touch the keys or values on any way.
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>
+                            Ignore (drop key/value pair): in short words, when is applied to the
+                            key it deletes the key and value, because when a key is deleted then in
+                            consequence it associated value is deleted too. otherwise then is
+                            applied to the value, only the value is deleted, keeping the key
+                            (that now will be associated to an empty value).
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>
+                            MapTo (use provided key or value as default): all keys and / or values
+                            without a defined map rule, will use this as default, when you select
+                            this option a new text field will appear to set this default.
+                        </para>
+                    </listitem>
+                </itemizedlist>
+                <para>
+                    Clicking on the "+" button for new key map, will display a new box for a single
+                    mapping configuration. You can add as many key mappings as needed, just click
+                    on the "+" button again and a new mapping box will appear below the existing
+                    one. From this mapping boxes you can define a map for a single key, with the
+                    next options:
+                </para>
+                <para>
+                    <itemizedlist>
+                        <listitem>
+                            <para>
+                                Exact value(s): the old key string will be changed to a new one if
+                                the old key matches exactly.
+                            </para>
+                        </listitem>
+                        <listitem>
+                            <para>
+                                Regular expression: The key string will be replaced following a
+                                regular expression rule.
+                            </para>
+                        </listitem>
+                    </itemizedlist>
+                </para>
+                <para>
+                    Pressing the new value map "+" button will display a new row for a value map.
+                    Here also is possible to define rules for each value to be mapped with the same
+                    options as for the key map (Exact value and Regular expression). You can add as
+                    many values to map as you need, and if you want to delete one of them, just
+                    click on the "-" button for each mapping value row.
+                </para>
+                <para>
+                    Delete the complete key mapping section (box) is possible, just push on the "-"
+                    button located on the up right corner of each box that you want to delete.
+                </para>
+                <para>
+                    If you need to delete a whole mapping configuration is very easy, go back to the
+                    corresponding operation or invoker screen, look for the mapping way that you
+                    select before and set its value to "-", and save the configuration to apply
+                    changes.
+                </para>
+                <para>
+                    <screenshot>
+                        <screeninfo>Web Service Mapping</screeninfo>
+                        <graphic srccredit="Adminarea web service mapping - screenshot" scale="40" fileref="screenshots/admin-webservice-mapping.png"></graphic>
+                    </screenshot>
+                </para>
+                <para>
+                    <emphasis>Figure: Web service mapping.</emphasis>
+                </para>
+            </section>
         </section>
 
         <section id="webservice-history">
