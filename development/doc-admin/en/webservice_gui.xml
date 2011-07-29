@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE section PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN" "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
-<!-- $Id: webservice_gui.xml,v 1.15 2011-07-29 15:31:16 cg Exp $ -->
+<!-- $Id: webservice_gui.xml,v 1.16 2011-07-29 17:38:06 cr Exp $ -->
 
 <section id="webservice_gui">
     <title>Web Service Graphical Interface</title>
@@ -629,21 +629,23 @@
             <para>
                 Clicking on the "+" button for new key map, a new dialog for a single mapping configuration
                 will be displayed. There you can define a map for a single key, with the next options:
-            <para>
-            <itemizedlist>
-                <listitem>
-                    <para>
-                        Exact value(s): the old key string will exchange with the new one in an exact way.
-                    </para>
-                </listitem>
-                <listitem>
-                    <para>
-                        Regular expression: The key string will be replaced following a regular expression
-                        rule.
-                    </para>
-                </listitem>
-            </itemizedlist>
             </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>
+                            Exact value(s): the old key string will exchange with the new one in an exact way.
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>
+                            Regular expression: The key string will be replaced following a regular expression
+                            rule.
+                        </para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
                 Pressing the new value map "+" button a new row for a value map will be displayed. Here also
                 it's possible to define rules for each possible value with the same values as for the key.
                 You can add many maps for values as you want, and if you want to delete one of them, just push
