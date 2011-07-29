@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE section PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN" "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
-<!-- $Id: webservice_gui.xml,v 1.14 2011-07-28 17:53:34 cr Exp $ -->
+<!-- $Id: webservice_gui.xml,v 1.15 2011-07-29 15:31:16 cg Exp $ -->
 
 <section id="webservice_gui">
     <title>Web Service Graphical Interface</title>
@@ -589,23 +589,74 @@
             <title>Web Service Mapping</title>
             <para>
                 There are cases on some web services when you need to map or change data structure, because
-                normally a web service is used to interact with an external system.
+                normally a web service is used to interact with an external system, in these cases some values
+                needs to change in order to match with the remote expected data.
             </para>
             <para>
                 Exists the option to create different types of mapping, but here we are going to talk about the
-                only one available currently on the system, this is the Mapping::Simple module. This module
-                give you the oportunity to set default values to map for each key or value on every communication
-                data.
+                only one available currently on the system, this is the Mapping::Simple module.
             </para>
+            <para>
+                This module give you the oportunity to set default values to map for each key or value on a
+                whole communication data.
+            </para>
+            <para>
+                At the beggenning of the screen you could see a general section where you have the chance to
+                set default rules that will apply for all the unmapped keys and values. Basicly exist three
+                options for each one, these are listed below.
+            </para>
+            <itemizedlist>
+                <listitem>
+                    <para>
+                        Keep (leave unchanged): doesn't touch the keys or values on any way.
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>
+                        Ignore (drop key/value pair): in short words, it deletes the key/value pair, because
+                        delete the key and consecuently it's value, when ot apply for values, just the value
+                        is deleted keeping the key.
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>
+                        MapTo (use provided value as default): all keys or values without a map rule, will take
+                        it as default to set it's new value, when you select this option a new text field
+                        for the map value will showed next to the select box.
+                    </para>
+                </listitem>
+            </itemizedlist>
             <para>
                 Clicking on the "+" button for new key map, a new dialog for a single mapping configuration
-                will be displayed, there you can define a key map matching an exact value or a regular
-                expression, also is possible to define same settings for each possible value for this key,
-                pressing the new value map "+" button and introducing the data.
+                will be displayed. There you can define a map for a single key, with the next options:
+            <para>
+            <itemizedlist>
+                <listitem>
+                    <para>
+                        Exact value(s): the old key string will exchange with the new one in an exact way.
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>
+                        Regular expression: The key string will be replaced following a regular expression
+                        rule.
+                    </para>
+                </listitem>
+            </itemizedlist>
+            </para>
+                Pressing the new value map "+" button a new row for a value map will be displayed. Here also
+                it's possible to define rules for each possible value with the same values as for the key.
+                You can add many maps for values as you want, and if you want to delete one of them, just push
+                on the "-" button for each row. Delete the complete section for a key it's possible clicking
+                on the "-" button located on the up right corner of the dialog box.
             </para>
             <para>
-                Now, if you want to delete a mapping configuration, the only way to do it, it's go back to
-                the corresponding operation or invoker screen, look for the mapping for incomming or
+                As in the rest of screens for the web services you have to option to save or save and finish,
+                with the last option you will be redirected to the previous screen.
+            </para>
+            <para>
+                Now, if you want to delete a whole mapping configuration, the only way to do it, it's go
+                back to the corresponding operation or invoker screen, look for the mapping for incomming or
                 outgoing field and set on it an empty value, save the configuration to apply changes.
             </para>
             <para>
