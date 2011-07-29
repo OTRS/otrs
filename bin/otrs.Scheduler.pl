@@ -3,7 +3,7 @@
 # otrs.Scheduler.pl - provides Scheduler Daemon control on Unix like OS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.Scheduler.pl,v 1.33 2011-07-29 16:36:14 ep Exp $
+# $Id: otrs.Scheduler.pl,v 1.34 2011-07-29 17:16:33 cr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.33 $) [1];
+$VERSION = qw($Revision: 1.34 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -623,15 +623,22 @@ sub _AutoStop {
         my $Home    = $CommonObject{ConfigObject}->Get('Home');
         my $PIDFILE = $Home . '/var/run/scheduler.pid';
 
-        if ( unlink($PIDFILE) == 0 ) {
+        # check if the PID file exists
+        # on some linux ditributions if the init.d script is called with the method "restart"
+        # the PID file is deleted (e.g start-stop-daemon based init scripts)
+        if ( -e $PIDFILE ) {
 
-            # log PID file cannot be deleted
-            $CommonObject{LogObject}->Log(
-                Priority => 'error',
-                Message  => "Scheduler could not delete PID file! $!",
-            );
-            $ExitCode = 1;
-            return $ExitCode;
+            # if the PID file exists check if is possible to delete or send an error
+            if ( unlink($PIDFILE) == 0 ) {
+
+                # log PID file cannot be deleted
+                $CommonObject{LogObject}->Log(
+                    Priority => 'error',
+                    Message  => "Scheduler could not delete PID file! $!",
+                );
+                $ExitCode = 1;
+                return $ExitCode;
+            }
         }
         $ExitCode = 0;
         return $ExitCode;
