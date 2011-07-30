@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE section PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN" "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
-<!-- $Id: webservice_cli.xml,v 1.2 2011-07-30 17:08:08 cr Exp $ -->
+<!-- $Id: webservice_cli.xml,v 1.3 2011-07-30 17:10:03 cr Exp $ -->
 
 <section id="webservice_cli">
     <title>Web Service via command line</title>
@@ -117,8 +117,10 @@
         </para>
         <para>
             <itemizedlist>
-                Optional filter parameters can be used for "otrs.GenericInterfaceDebugRead.pl"
-                script are the next:
+                <para>
+                    Optional filter parameters can be used for "otrs.GenericInterfaceDebugRead.pl"
+                    script are the next:
+                </para>
                 <listitem>
                     <para>
                         <command>-c</command>        CommunicationID
