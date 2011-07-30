@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE section PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN" "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
-<!-- $Id: webservice_cli.xml,v 1.1 2011-07-30 17:04:32 cr Exp $ -->
+<!-- $Id: webservice_cli.xml,v 1.2 2011-07-30 17:08:08 cr Exp $ -->
 
-<section id="webservice_cl">
+<section id="webservice_cli">
     <title>Web Service via command line</title>
     <para>
         The command line is another option to work with the web services, it's a set of tools
@@ -23,7 +23,7 @@
         </itemizedlist>
     </para>
 
-    <section id="webservice_cl_webserviceconfig">
+    <section id="webservice_cli_webserviceconfig">
         <title>Web Service Config</title>
         <para>
             The "WebserviceConfig.pl" was developed thinking in a basic but powerful tool for work
@@ -100,7 +100,7 @@
         </para>
     </section>
 
-    <section id="webservice_cl_debugger">
+    <section id="webservice_cli_debugger">
         <title>Web Service Debugger</title>
         <para>
             Other available tool on the command line is the "otrs.GenericInterfaceDebugRead.pl"
