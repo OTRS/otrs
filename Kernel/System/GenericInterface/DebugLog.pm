@@ -2,7 +2,7 @@
 # Kernel/System/GenericInterface/DebugLog.pm - log interface for generic interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DebugLog.pm,v 1.16 2011-05-16 13:55:13 mg Exp $
+# $Id: DebugLog.pm,v 1.17 2011-07-31 01:09:09 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CacheInternal;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 =head1 NAME
 
@@ -563,7 +563,7 @@ when the parameter 'WithData' is set, the complete communication chains will be 
         CommunicationID   => '6f1ed002ab5595859014ebf0951522d9', # optional
         CommunicationType => 'Provider',     # optional, 'Provider' or 'Requester'
         CreatedAtOrAfter  => '2011-01-01 00:00:00', # optional
-        CreatedArOrBefore => '2011-12-31 23:59:59', # optional
+        CreatedAtOrBefore => '2011-12-31 23:59:59', # optional
         RemoteIP          => '192.168.0.1', # optional, must be valid IPv4 or IPv6 address
         WebserviceID      => 1, # optional
         WithData          => 0, # optional
@@ -876,6 +876,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.16 $ $Date: 2011-05-16 13:55:13 $
+$Revision: 1.17 $ $Date: 2011-07-31 01:09:09 $
 
 =cut
