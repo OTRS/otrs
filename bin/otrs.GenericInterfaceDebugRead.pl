@@ -3,7 +3,7 @@
 # bin/otrs.GenericInterfaceDebugRead.pl - the global test handle
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.GenericInterfaceDebugRead.pl,v 1.2 2011-03-17 06:45:49 sb Exp $
+# $Id: otrs.GenericInterfaceDebugRead.pl,v 1.3 2011-07-31 01:10:18 cr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -51,7 +51,7 @@ Options:
     -c        CommunicationID   => '6f1ed002ab5595859014ebf0951522d9',  # optional
     -t        CommunicationType => 'Requester',                         # optional, 'Provider' or 'Requester'
     -a        CreatedAtOrAfter  => '2011-01-01 00:00:00',               # optional
-    -b        CreatedArOrBefore => '2011-12-31 23:59:59',               # optional
+    -b        CreatedAtOrBefore => '2011-12-31 23:59:59',               # optional
     -i        RemoteIP          => '192.168.0.1',                       # optional, must be valid IPv4 or IPv6 address
     -w        WebserviceID      => 1,                                   # optional
     -d        WithData          => 1,                                   # optional
@@ -88,7 +88,7 @@ my $LogData = $DebugLogObject->LogSearch(
     CommunicationID   => $Opts{c},
     CommunicationType => $Opts{t},
     CreatedAtOrAfter  => $Opts{a},
-    CreatedArOrBefore => $Opts{b},
+    CreatedAtOrBefore => $Opts{b},
     RemoteIP          => $Opts{i},
     WebserviceID      => $Opts{w},
     WithData          => $Opts{d},
