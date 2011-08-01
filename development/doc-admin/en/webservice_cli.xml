@@ -1,99 +1,118 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE section PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN" "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
-<!-- $Id: webservice_cli.xml,v 1.3 2011-07-30 17:10:03 cr Exp $ -->
+<!-- $Id: webservice_cli.xml,v 1.4 2011-08-01 14:49:56 cr Exp $ -->
 
 <section id="webservice_cli">
-    <title>Web Service via command line</title>
+    <title>Web Service Command Line Interface</title>
     <para>
-        The command line is another option to work with the web services, it's a set of tools
-        can be use to perform basic operation like:
+        The Command Line Interface (CLI) is fast way to work with the web services, It Consist in
+        a set of tools can be use to perform basic operations like:
     </para>
     <para>
         <itemizedlist>
             <listitem>
                 <para>
-                    Create web services based on YAML files, update it and delete it.
+                    Create, Update, Read, List and Delete web services based on YAML files.
                 </para>
             </listitem>
             <listitem>
                 <para>
-                    Reed the debugger log, whit filter options.
+                    Read the Debugger log, with filter options.
                 </para>
             </listitem>
         </itemizedlist>
     </para>
+    <note>
+        <para>
+            There is another option instead of the CLI to work with web services. Integrated to the
+            Admin interface there are is a complete set of screens to interact with every part of
+            the web service. Please read the web service GUI section included in this manual.
+        </para>
+    </note>
 
     <section id="webservice_cli_webserviceconfig">
-        <title>Web Service Config</title>
+        <title>Web Service Configuration</title>
         <para>
-            The "WebserviceConfig.pl" was developed thinking in a basic but powerful tool for work
-            with web service configurations, it give us the ability to perform next actions:
+            The "WebserviceConfig.pl" was developed thinking in a basic, but fast and powerful tool
+            to work with web service configurations, it give you the ability to perform following
+            actions:
         </para>
         <para>
             <itemizedlist>
                 <listitem>
                     <para>
-                        Add: using a YAML file as source a new web service configuration could be created.
+                        Add: to create web services using a YAML file as the configuration source.
                     </para>
                 </listitem>
                 <listitem>
                     <para>
-                        Update: On the same way it's used to create a new web service, it can be updated
-                        using a modified or different YAML file.
+                        Update: to change an existing web service, the configuration can be changed
+                        using a different or modified YAML file.
                     </para>
                 </listitem>
                 <listitem>
                     <para>
-                        Read: it's an option to retrieve a service configuration and show it on the screen.
+                        Read: to get the current web service configuration displayed on the screen.
                     </para>
                 </listitem>
                 <listitem>
                     <para>
-                        List: list a complete list of all the web service configuration entries on the system.
+                        List: to get a complete list of all the web services registered in system.
                     </para>
                 </listitem>
                 <listitem>
                     <para>
-                        Delete: this option delete a web service configuration from the system, be
-                        careful when you use it, because this action can't be undone.
+                        Delete: to delete a web service from the system, be careful when you use it,
+                        because this action can't be undone.
                     </para>
                 </listitem>
             </itemizedlist>
         </para>
+        <warning>
+            <para>
+                A web service READ operation will display all the configuration as plain text on
+                the screen even stored passwords, please be aware of it and take the needed
+                precautions when you use it.
+            </para>
+        </warning>
         <para>
             Example: Creating a new web service configuration:
         </para>
         <para>
             <screen>
-                shell> bin/otrs.WebserviceConfig.pl -a write -n webservice_name -f /path/to/yaml/file
+                shell> OTRS_HOME/bin/otrs.WebserviceConfig.pl -a write -n &lt;webservice_name&gt; -f /path/to/yaml/file
             </screen>
         </para>
         <para>
-            Also you can use 'otrs.WebserviceConfig.pl' with next options:
+            Also you can use 'otrs.WebserviceConfig.pl' with following options:
             <itemizedlist>
                 <listitem>
                     <para>
-                        <command>-a read  -i webservice_id</command> - To read a stored configuration.
+                        <command>-a read  -i &lt;webservice_id&gt;</command> - To read a stored
+                        configuration.
                     </para>
                 </listitem>
                 <listitem>
                     <para>
-                        <command>-a write -n webservice_name -f /path/to/yaml/file</command> - To create a new configuration.
+                        <command>-a write -n &lt;webservice_name&gt; -f /path/to/yaml/file</command>
+                        - To create a new web service.
                     </para>
                 </listitem>
                 <listitem>
                     <para>
-                        <command>-a write -i webservice_id -f /path/to/yaml/file</command> - To update a configuration.
+                        <command>-a write -i &lt;webservice_id&gt; -f /path/to/yaml/file</command>
+                        - To update a web service.
                     </para>
                 </listitem>
                 <listitem>
                     <para>
-                        <command>-a list</command> - To list available configurations.
+                        <command>-a list</command> - To list available web services.
                     </para>
                 </listitem>
                 <listitem>
                     <para>
-                        <command>-a delete  -i webservice_id</command> - To delete a configuration.
+                        <command>-a delete  -i &lt;webservice_id&gt;</command> - To delete a
+                        web service.
                     </para>
                 </listitem>
             </itemizedlist>
@@ -138,7 +157,7 @@
                 </listitem>
                 <listitem>
                     <para>
-                        <command>-b</command>        CreatedArOrBefore
+                        <command>-b</command>        CreatedAtOrBefore
                     </para>
                 </listitem>
                 <listitem>
