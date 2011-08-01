@@ -2,7 +2,7 @@
 # Kernel/System/GenericAgent.pm - generic agent system module
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: GenericAgent.pm,v 1.73 2011-07-18 11:42:01 mb Exp $
+# $Id: GenericAgent.pm,v 1.74 2011-08-01 09:30:33 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.73 $) [1];
+$VERSION = qw($Revision: 1.74 $) [1];
 
 =head1 NAME
 
@@ -263,15 +263,20 @@ sub JobRun {
 
     # escalation tickets
     if ( $Job{Escalation} ) {
-        if ( !$Job{Queue} ) {
-            my @Tickets = $Self->{TicketObject}->GetOverTimeTickets();
-            for (@Tickets) {
+
+        my @Tickets = $Self->{TicketObject}->TicketSearch(
+            Result                           => 'ARRAY',
+            Limit                            => 100,
+            TicketEscalationTimeOlderMinutes => -( 3 * 8 * 60 ),       # 3 days, roughly
+            Permission                       => 'rw',
+            UserID                           => $Param{UserID} || 1,
+        );
+
+        for (@Tickets) {
+            if ( !$Job{Queue} ) {
                 $Tickets{$_} = $Self->{TicketObject}->TicketNumberLookup( TicketID => $_ );
             }
-        }
-        else {
-            my @Tickets = $Self->{TicketObject}->GetOverTimeTickets();
-            for (@Tickets) {
+            else {
                 my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $_ );
                 if ( $Ticket{Queue} eq $Job{Queue} ) {
                     $Tickets{$_} = $Ticket{TicketNumber};
@@ -1198,6 +1203,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.73 $ $Date: 2011-07-18 11:42:01 $
+$Revision: 1.74 $ $Date: 2011-08-01 09:30:33 $
 
 =cut

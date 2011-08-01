@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/IndexAccelerator/StaticDB.pm - static db queue ticket index module
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: StaticDB.pm,v 1.77 2011-07-28 11:50:58 mg Exp $
+# $Id: StaticDB.pm,v 1.78 2011-08-01 09:30:32 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.77 $) [1];
+$VERSION = qw($Revision: 1.78 $) [1];
 
 sub TicketAcceleratorUpdate {
     my ( $Self, %Param ) = @_;
@@ -471,22 +471,6 @@ sub _GetIndexTicketLock {
         $Hit = 1;
     }
     return $Hit;
-}
-
-sub GetOverTimeTickets {
-    my ( $Self, %Param ) = @_;
-
-    # get all overtime tickets
-    my @TicketIDs = $Self->TicketSearch(
-        Result                           => 'ARRAY',
-        Limit                            => 100,
-        TicketEscalationTimeOlderMinutes => -( 3 * 8 * 60 ),       # 3 days, roughly
-        Permission                       => 'rw',
-        UserID                           => $Param{UserID} || 1,
-    );
-
-    # return overtime tickets
-    return @TicketIDs;
 }
 
 1;
