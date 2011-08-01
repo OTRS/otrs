@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE section PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN" "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
-<!-- $Id: webservice_cli.xml,v 1.4 2011-08-01 14:49:56 cr Exp $ -->
+<!-- $Id: webservice_cli.xml,v 1.5 2011-08-01 16:06:45 cr Exp $ -->
 
 <section id="webservice_cli">
     <title>Web Service Command Line Interface</title>
@@ -123,11 +123,11 @@
         <title>Web Service Debugger</title>
         <para>
             Other available tool on the command line is the "otrs.GenericInterfaceDebugRead.pl"
-            script, it's an interface to search for debugger entries for a communication on a web service.
+            script, which is an interface to search for web service communication's debugger log
+            entries.
         </para>
-
         <para>
-            Example: Searching for debugger entries:
+            Example: Searching for debugger log entries:
         </para>
         <para>
             <screen>
@@ -137,53 +137,63 @@
         <para>
             <itemizedlist>
                 <para>
-                    Optional filter parameters can be used for "otrs.GenericInterfaceDebugRead.pl"
-                    script are the next:
+                    Optional parameters can be used for "otrs.GenericInterfaceDebugRead.pl" script,
+                    they are listed below:
                 </para>
                 <listitem>
                     <para>
-                        <command>-c</command>        CommunicationID
+                        <command>-c</command> - to filter by  Communication ID (md5sum format).
                     </para>
                 </listitem>
                 <listitem>
                     <para>
-                        <command>-t</command>        CommunicationType 'Provider' or 'Requester' are possible values
+                        <command>-t</command> - to filter by CommunicationType ('Provider' or
+                        'Requester').
                     </para>
                 </listitem>
                 <listitem>
                     <para>
-                        <command>-a</command>        CreatedAtOrAfter
+                        <command>-a</command> - to filter by date (At or After a date).
                     </para>
                 </listitem>
                 <listitem>
                     <para>
-                        <command>-b</command>        CreatedAtOrBefore
+                        <command>-b</command> - to filter by date (At or Before a date).
                     </para>
                 </listitem>
                 <listitem>
                     <para>
-                        <command>-i</command>        RemoteIP, must be valid IPv4 or IPv6 address
+                        <command>-i</command> - to filter by IP Address (must be valid IPv4 or IPv6
+                        address).
                     </para>
                 </listitem>
                 <listitem>
                     <para>
-                        <command>-w</command>        WebserviceID
+                        <command>-w</command> - to filter by Web Service ID.
                     </para>
                 </listitem>
                 <listitem>
                     <para>
-                        <command>-d</command>        WithData
+                        <command>-d</command> - to include detailed communication data.
                     </para>
                 </listitem>
             </itemizedlist>
         </para>
         <para>
-            As result for this command you will see a list with the saved records on the debugger log.
+            Example: Searching for debugger log entries with all parameters:
+        </para>
+        <para>
+            <screen>
+                shell> ./otrs.GenericInterfaceDebugRead.pl -c a7cc4d9f5c70387a9bfbe1351bc88966 -t Provider -a '2011-07-22 00:00:00' -b '2011-07-26 00:00:00' -i 127.0.0.1 -w 123 -d 1
+            </screen>
         </para>
         <note>
             <para>
-                An advice it's to include al least one filter on each request, because it reduce
-                the number of entries will showed on the screen.
+                It is highly recommended to include at least one of the filter options listed above,
+                and even more if the "-d" option is selected, because a
+                <emphasis>a lot of </emphasis> information is to be retrieved from the data base
+                and displayed on the screen, this could result in a long wait and much more
+                information than what is really needed.
             </para>
         </note>
     </section>
