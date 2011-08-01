@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2011-07-14 14:38:03
+--  driver: oracle, generated: 2011-08-01 12:19:22
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 -- ----------------------------------------------------------
@@ -692,7 +692,8 @@ CREATE TABLE ticket_flag (
     ticket_key VARCHAR2 (50) NOT NULL,
     ticket_value VARCHAR2 (50) NULL,
     create_time DATE NOT NULL,
-    create_by NUMBER (12, 0) NOT NULL
+    create_by NUMBER (12, 0) NOT NULL,
+    CONSTRAINT ticket_flag_per_user UNIQUE (ticket_id, ticket_key, create_by)
 );
 CREATE INDEX FK_ticket_flag_create_by ON ticket_flag (create_by);
 CREATE INDEX ticket_flag_ticket_id ON ticket_flag (ticket_id);
@@ -2033,7 +2034,7 @@ CREATE TABLE gi_object_lock_state (
     lock_state_counter NUMBER (12, 0) NOT NULL,
     create_time DATE NOT NULL,
     change_time DATE NOT NULL,
-    CONSTRAINT gi_object_lock_state_U_934 UNIQUE (webservice_id, object_type, object_id)
+    CONSTRAINT gi_object_lock_state_U_796 UNIQUE (webservice_id, object_type, object_id)
 );
 CREATE INDEX FK_gi_object_lock_state_webs55 ON gi_object_lock_state (webservice_id);
 CREATE INDEX object_lock_state_list_state ON gi_object_lock_state (webservice_id, object_type, object_id, lock_state);

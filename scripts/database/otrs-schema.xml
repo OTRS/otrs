@@ -675,6 +675,11 @@
     <Index Name="ticket_flag_ticket_id">
         <IndexColumn Name="ticket_id"/>
     </Index>
+    <Unique Name="ticket_flag_per_user">
+        <UniqueColumn Name="ticket_id"/>
+        <UniqueColumn Name="ticket_key"/>
+        <UniqueColumn Name="create_by"/>
+    </Unique>
     <ForeignKey ForeignTable="ticket">
         <Reference Local="ticket_id" Foreign="id"/>
     </ForeignKey>

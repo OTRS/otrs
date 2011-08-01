@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-#  driver: mysql, generated: 2011-07-14 14:38:03
+#  driver: mysql, generated: 2011-08-01 12:19:21
 # ----------------------------------------------------------
 # ----------------------------------------------------------
 #  create table valid
@@ -425,6 +425,7 @@ CREATE TABLE ticket_flag (
     ticket_value VARCHAR (50) NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
+    UNIQUE INDEX ticket_flag_per_user (ticket_id, ticket_key, create_by),
     INDEX ticket_flag_ticket_id (ticket_id),
     INDEX ticket_flag_ticket_id_create_by (ticket_id, create_by),
     INDEX ticket_flag_ticket_id_ticket_key (ticket_id, ticket_key)
@@ -1240,7 +1241,7 @@ CREATE TABLE gi_object_lock_state (
     lock_state_counter INTEGER NOT NULL,
     create_time DATETIME NOT NULL,
     change_time DATETIME NOT NULL,
-    UNIQUE INDEX gi_object_lock_state_U_600 (webservice_id, object_type, object_id),
+    UNIQUE INDEX gi_object_lock_state_U_755 (webservice_id, object_type, object_id),
     INDEX object_lock_state_list_state (webservice_id, object_type, object_id, lock_state)
 );
 # ----------------------------------------------------------

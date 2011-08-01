@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: db2, generated: 2011-07-14 14:38:02
+--  driver: db2, generated: 2011-08-01 12:19:20
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -480,7 +480,8 @@ CREATE TABLE ticket_flag (
     ticket_key VARCHAR (50) NOT NULL,
     ticket_value VARCHAR (50),
     create_time TIMESTAMP NOT NULL,
-    create_by INTEGER NOT NULL
+    create_by INTEGER NOT NULL,
+    CONSTRAINT ticket_flag_per_user UNIQUE (ticket_id, ticket_key, create_by)
 );
 
 CREATE INDEX ticket_flag_ticket_id ON ticket_flag (ticket_id);
@@ -1407,7 +1408,7 @@ CREATE TABLE gi_object_lock_state (
     lock_state_counter INTEGER NOT NULL,
     create_time TIMESTAMP NOT NULL,
     change_time TIMESTAMP NOT NULL,
-    CONSTRAINT gi_object_lock_state_U_481 UNIQUE (webservice_id, object_type, object_id)
+    CONSTRAINT gi_object_lock_state_U_302 UNIQUE (webservice_id, object_type, object_id)
 );
 
 CREATE INDEX object_lock_state_list_state ON gi_object_lock_state (webservice_id, object_type, object_id, lock_state);

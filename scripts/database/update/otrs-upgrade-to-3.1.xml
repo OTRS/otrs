@@ -217,4 +217,12 @@
     <ColumnAdd Name="process_change" Required="true" Type="INTEGER"/>
 </TableAlter>
 
+<TableAlter Name="ticket_flag">
+    <UniqueCreate Name="ticket_flag_per_user">
+        <UniqueColumn Name="ticket_id"/>
+        <UniqueColumn Name="ticket_key"/>
+        <UniqueColumn Name="create_by"/>
+    </UniqueCreate>
+</TableAlter>
+
 </database>

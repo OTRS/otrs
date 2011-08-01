@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: mssql, generated: 2011-07-14 14:40:37
+--  driver: mssql, generated: 2011-08-01 12:13:29
 -- ----------------------------------------------------------
 GO
 IF EXISTS (SELECT * FROM dbo.sysobjects WHERE name = 'DF_ticket_index_queue' )
@@ -106,17 +106,9 @@ CREATE TABLE gi_object_lock_state (
     lock_state_counter INTEGER NOT NULL,
     create_time DATETIME NOT NULL,
     change_time DATETIME NOT NULL,
-    CONSTRAINT gi_object_lock_state_U_677 UNIQUE (webservice_id, object_type, object_id)
+    CONSTRAINT gi_object_lock_state_U_676 UNIQUE (webservice_id, object_type, object_id)
 );
 CREATE INDEX object_lock_state_list_state ON gi_object_lock_state (webservice_id, object_type, object_id, lock_state);
--- ----------------------------------------------------------
---  alter table process_id
--- ----------------------------------------------------------
-ALTER TABLE process_id ADD process_change INTEGER NULL;
-GO
-UPDATE process_id SET process_change = 0 WHERE process_change IS NULL;
-GO
-ALTER TABLE process_id ALTER COLUMN process_change INTEGER NOT NULL;
 -- ----------------------------------------------------------
 --  insert into table ticket_history_type
 -- ----------------------------------------------------------
@@ -186,6 +178,15 @@ CREATE TABLE smime_signer_cert_relations (
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id)
 );
+-- ----------------------------------------------------------
+--  alter table process_id
+-- ----------------------------------------------------------
+ALTER TABLE process_id ADD process_change INTEGER NULL;
+GO
+UPDATE process_id SET process_change = 0 WHERE process_change IS NULL;
+GO
+ALTER TABLE process_id ALTER COLUMN process_change INTEGER NOT NULL;
+ALTER TABLE ticket_flag ADD CONSTRAINT ticket_flag_per_user UNIQUE (ticket_id, ticket_key, create_by);
 ALTER TABLE gi_webservice_config ADD CONSTRAINT FK_gi_webservice_config_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
 ALTER TABLE gi_webservice_config ADD CONSTRAINT FK_gi_webservice_config_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
 ALTER TABLE gi_webservice_config ADD CONSTRAINT FK_gi_webservice_config_valid_id_id FOREIGN KEY (valid_id) REFERENCES valid (id);
