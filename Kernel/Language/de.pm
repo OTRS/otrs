@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Thomas Kaltenbrunner <tkaltenbrunner at opc.de>
 # --
-# $Id: de.pm,v 1.265.2.10 2011-07-01 07:30:49 mg Exp $
+# $Id: de.pm,v 1.265.2.11 2011-08-01 14:15:50 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.265.2.10 $) [1];
+$VERSION = qw($Revision: 1.265.2.11 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -443,9 +443,9 @@ sub Data {
         'Created by Agent/Owner' => 'Erstellt von Agent/Besitzer',
         'Created Priority' => 'Erstellt mit der Priorität',
         'Created State' => 'Erstellt mit dem Status',
-        'Create Time' => 'Ticket erstellt',
+        'Create Time' => 'Erstellzeit',
         'CustomerUserLogin' => 'Kundenlogin',
-        'Close Time' => 'Ticket geschlossen',
+        'Close Time' => 'Schließzeit',
         'TicketAccumulation' => 'Ticket-Aufkommen',
         'Attributes to be printed' => 'Auszugebene Attribute',
         'Sort sequence' => 'Sortierreihenfolge',
@@ -468,8 +468,8 @@ sub Data {
         'Accounted time by Agent' => 'Zeit zugewiesen von Agent',
         'Ticket/Article Accounted Time' => 'Zeit zugewiesen',
         'TicketAccountedTime' => 'Ticket-Bearbeitungszeiten',
-        'Ticket Create Time' => 'Ticket erstellt',
-        'Ticket Close Time' => 'Ticket geschlossen',
+        'Ticket Create Time' => 'Ticket-Erstellzeit',
+        'Ticket Close Time' => 'Ticket-Schließzeit',
 
         # Template: AAATicket
         'Status View' => 'Statusansicht',
