@@ -2,7 +2,7 @@
 # UPGRADING - upgrading OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: UPGRADING,v 1.49.2.3 2011-04-20 14:18:21 mg Exp $
+# $Id: UPGRADING,v 1.49.2.4 2011-08-02 14:17:50 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -260,7 +260,15 @@ from OTRS version 3.0.3 to 3.0.4, you should skip steps 8, 9, 10, and 13 - 16.
     string AND you use the built-in customer table, please replace it with
     <OTRS_CURRENT_UserTitle> instead.
 
-17) Optional: Mark Tickets as Read
+17) Check Your Cronjobs
+    ----------------------------------------
+
+    With OTRS 3.0, some commandline scripts were renamed, such as otrs.PostMaster.pl.
+    Please check that your cronjobs still use the correct filenames. With RPM upgrades,
+    files such as /etc/sysconfig/otrs sometimes are not correctly overwritten, thus
+    keeping the old cron settings, which may lead to errors.
+
+18) Optional: Mark Tickets as Read
     ------------------------------
 
     In OTRS 3.0 there is a new feature: new tickets and new articles which an Agent
@@ -273,5 +281,5 @@ from OTRS version 3.0.3 to 3.0.4, you should skip steps 8, 9, 10, and 13 - 16.
     shell> bin/otrs.MarkTicketAsSeen.pl
 
 
-18) Well done!
+19) Well done!
     ----------
