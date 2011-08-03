@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE section PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN" "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
-<!-- $Id: genericinterface.xml,v 1.1 2011-08-03 02:14:03 cr Exp $ -->
+<!-- $Id: genericinterface.xml,v 1.2 2011-08-03 19:27:53 cr Exp $ -->
 
 <section id="genericinterface">
     <title>Generic Interface</title>
@@ -631,9 +631,916 @@
         </section>
     </section>
 
+    <section id="genericinterface-webservice-configuration">
+        <title>Web Service Configuration</title>
+        <para>
+            From it design the web services was conceived to be portable from one OTRS system to
+            another (e.g. from a test or development environment to a production system), then it
+            was needed an easy way to extract the web service configuration from the database, and
+            import it to another. To accomplish this task Generic Interface implements YAML files
+            as the web services configuration basis.
+        </para>
+        <para>
+            Why YAML? YAML is a markup language designed to be human friendly to read and write (is
+            easier to understand than JSON), it does not have some limitations from XML like numeric
+            tags, is open, standardized, and is complete enough to store the whole web service
+            configuration.
+        </para>
+        <note>
+            <para>
+                To learn more about YAML please visit
+                <ulink url="http://www.yaml.org/">http://www.yaml.org/</ulink>.
+            </para>
+        </note>
+        <para>
+            The following is a web service configuration file example in YAML format:
+        </para>
+        <para>
+            <programlisting><![CDATA[
+---
+Debugger:
+  DebugThreshold: debug
+Description: This an example of a web service configuration
+Provider:
+  Operation:
+    CloseIncident:
+      Description: This is a SolMan test operation
+      MappingInbound: {}
+      MappingOutbound: {}
+      RemoteSystemGuid: ''
+      Type: SolMan::CloseIncident
+    Test:
+      Description: This is a test operation
+      MappingInbound:
+        Config:
+          KeyMapDefault:
+            MapTo: ''
+            MapType: Keep
+          KeyMapExact:
+            Prio: Priority
+          ValueMap:
+            Priority:
+              ValueMapExact:
+                Critical: 5 Very High
+                Information: 1 Vely Low
+                Warning: 3 Normal
+          ValueMapDefault:
+            MapTo: 3 Normal
+            MapType: MapTo
+        Type: Simple
+      MappingOutbound:
+        Config:
+          KeyMapDefault:
+            MapTo: ''
+            MapType: Ignore
+          KeyMapExact:
+            Priority: Prio
+          ValueMap:
+            Prio:
+              ValueMapExact:
+                1 Very Low: Information
+                3 Normal: Warning
+                5 Very High: Critical
+          ValueMapDefault:
+            MapTo: ''
+            MapType: Ignore
+        Type: Simple
+      Type: Test::Test
+  Transport:
+    Config:
+      MaxLength: 10000000
+      NameSpace: http://www.example.com/actions
+    Type: HTTP::SOAP
+RemoteSystem: remote.system.description.example.com
+Requester:
+  Invoker:
+    Test:
+      Description: This is a test invoker
+      Events:
+        - Asynchronous: 1
+          Event: TicketCreate
+        - Asynchronous: 0
+          Event: ArticleUpdate
+      MappingInbound:
+        Type: Simple
+      MappingOutbound:
+        Type: Simple
+      Type: Test::Test
+  Transport:
+    Config:
+      Authentication:
+        Password: '*******'
+        Type: BasicAuth
+        User: otrs
+      Encoding: utf-8
+      Endpoint: http://www.example.com:8080/endpoint
+      NameSpace: http://www.example.com/actions
+      SOAPAction: Yes
+      SOAPActionSeparator: '#'
+    Type: HTTP::SOAP
+            ]]>
+            </programlisting>
+        </para>
+        <section>
+            <title>
+                Configuration Details
+            </title>
+            <section>
+                <title>
+                    General
+                </title>
+                <itemizedlist mark="round">
+                    <listitem>
+                        <para>
+                            Description: a short text that describes the web service.
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>
+                            RemoteSystem: a short description of the Remote System.
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>
+                            Debugger: a container for the debugger settings.
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>
+                            Provider: a container for the provider settings.
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>
+                            Requester: a container for the requester settings.
+                        </para>
+                    </listitem>
+                </itemizedlist>
+            </section>
 
+            <section>
+                <title>
+                    Debugger
+                </title>
+                <itemizedlist mark="round">
+                    <listitem>
+                        <para>
+                            DebugThreshold: the debugger level
+                        </para>
+                        <itemizedlist mark="round">
+                            <title>
+                                Possible Values
+                            </title>
+                            <listitem>
+                                <para>
+                                    debug: all logs are stored in the database.
+                                </para>
+                            </listitem>
+                            <listitem>
+                                <para>
+                                    info: info, notice and error level logs are stored in the
+                                    database.
+                                </para>
+                            </listitem>
+                            <listitem>
+                                <para>
+                                    notice: notice and error level logs are stored in the database.
+                                </para>
+                            </listitem>
+                            <listitem>
+                                <para>
+                                    error: only error level logs are stored in the database.
+                                </para>
+                            </listitem>
 
+                        </itemizedlist>
+                    </listitem>
+                </itemizedlist>
+            </section>
 
+            <section>
+                <title>Provider</title>
+                <itemizedlist mark="round">
+                    <listitem>
+                        <para>
+                            Operation: a container for each operation settings.
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>
+                            Transport: a container for provider network transport settings.
+                        </para>
+                    </listitem>
+                </itemizedlist>
+                <section>
+                    <title>Operation</title>
+                    <itemizedlist mark="round">
+                        <listitem>
+                            <para>
+                                &lt;OperationName&gt;: Unique name for the operation, container for
+                                its own operation settings (cardinality 0..n, but not duplicate).
+                            </para>
+                        </listitem>
+                    </itemizedlist>
+                    <section>
+                        <title>&lt;OperationName&gt;</title>
+                        <para>
+                            This section is based on operations from type "Test::Test" other
+                            operations might contain more or different settings.
+                        </para>
+                        <itemizedlist mark="round">
+                            <listitem>
+                                <para>
+                                    Description: a short text that describes the operation.
+                                </para>
+                            </listitem>
+                            <listitem>
+                                <para>
+                                    MappingInbound: a container for the mapping settings for the
+                                    incoming request data.
+                                </para>
+                            </listitem>
+                            <listitem>
+                                <para>
+                                    MappingOutbound: a container for the mapping settings for the
+                                    outgoing response data.
+                                </para>
+                            </listitem>
+                            <listitem>
+                                <para>
+                                    Type: the operation backend, in Controller::Operation format.
+                                </para>
+                            </listitem>
+                        </itemizedlist>
+                        <section>
+                            <title>MappingInbound</title>
+                            <para>
+                                This section is based on mappings from type "Simple" other mappings
+                                might contain more or different settings.
+                            </para>
+                            <itemizedlist mark="round">
+                                <listitem>
+                                    <para>
+                                        Config: a container for this mapping settings.
+                                    </para>
+                                </listitem>
+                                <listitem>
+                                    <para>
+                                        Type: the mapping backend.
+                                    </para>
+                                </listitem>
 
+                            </itemizedlist>
+                                <section>
+                                    <title>Config</title>
+                                    <itemizedlist mark="round">
+                                        <listitem>
+                                            <para>
+                                                KeyMapDefault: a container for all non mapped keys
+                                                settings.
+                                            </para>
+                                        </listitem>
+                                        <listitem>
+                                            <para>
+                                                ValueMapDefault: a container for all non mapped
+                                                values settings.
+                                            </para>
+                                        </listitem>
+                                        <listitem>
+                                            <para>
+                                                KeyMapExact: a container for all exact key mappings
+                                                (cardinality 0 .. 1).
+                                            </para>
+                                        </listitem>
+                                        <listitem>
+                                            <para>
+                                                KeyMapRegEx: a container for all regular expression
+                                                key mappings (cardinality 0 .. 1).
+                                            </para>
+                                        </listitem>
+                                        <listitem>
+                                            <para>
+                                                ValueMap: a container for all value mappings
+                                                (cardinality 0 .. 1).
+                                            </para>
+                                        </listitem>
+                                    </itemizedlist>
+                                    <section>
+                                        <title>
+                                            KeyMapDefault
+                                        </title>
+                                        <itemizedlist mark="round">
+                                            <listitem>
+                                                <para>
+                                                    MapTo: the new value to be used (only apply if
+                                                    MapType is set to MapTo).
+                                                </para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>
+                                                    MapType: the rule for the mapping.
+                                                </para>
+                                                <itemizedlist>
+                                                    <title>Possible Values</title>
+                                                    <listitem>
+                                                        <para>
+                                                            Keep: leave unchanged.
+                                                        </para>
+                                                    </listitem>
+                                                    <listitem>
+                                                        <para>
+                                                            Ignore: drop.
+                                                        </para>
+                                                    </listitem>
+                                                    <listitem>
+                                                        <para>
+                                                            MapTo: change to the MapTo value.
+                                                        </para>
+                                                    </listitem>
+                                                </itemizedlist>
+                                            </listitem>
+                                        </itemizedlist>
+                                    </section>
+                                    <section>
+                                        <title>
+                                            ValueMapDefault
+                                        </title>
+                                        <para>
+                                            Similar to KeyMapDefault.
+                                        </para>
+                                    </section>
+                                    <section>
+                                        <title>
+                                            KeyMapExact
+                                        </title>
+                                        <itemizedlist mark="round">
+                                            <listitem>
+                                                <para>
+                                                    &lt;oldkey&gt;: &lt;newkey&gt; (cardinality 0
+                                                    .. n but not duplicate).
+                                                </para>
+                                            </listitem>
+                                        </itemizedlist>
+                                    </section>
+                                    <section>
+                                        <title>
+                                            KeyMapRegEx
+                                        </title>
+                                        <itemizedlist mark="round">
+                                            <listitem>
+                                                <para>
+                                                    &lt;oldkey(RegEx)&gt;: &lt;newkey&gt; (
+                                                    cardinality 0 .. n but not duplicate).
+                                                </para>
+                                            </listitem>
+                                        </itemizedlist>
+                                    </section>
+                                    <section>
+                                        <title>
+                                            ValueMap
+                                        </title>
+                                        <itemizedlist mark="round">
+                                            <listitem>
+                                                <para>
+                                                    &lt;newkey&gt;: a container for value mappings
+                                                    for this new key (cardinality depends on the
+                                                    new keys from KeyMapExact and KeyMapRegEx).
+                                                </para>
+                                            </listitem>
+                                        </itemizedlist>
+                                        <section>
+                                            <title>
+                                                &lt;newkey&gt;
+                                            </title>
+                                            <itemizedlist mark="round">
+                                                <listitem>
+                                                    <para>
+                                                        ValueMapExact: a container for all exact
+                                                        value  mappings (cardinality 0 .. 1).
+                                                    </para>
+                                                </listitem>
+                                                <listitem>
+                                                    <para>
+                                                        ValueMapRegEx: a container for all regular
+                                                        expression value  mappings (cardinality
+                                                        0 .. 1).
+                                                    </para>
+                                                </listitem>
+                                            </itemizedlist>
+                                            <section>
+                                                <title>
+                                                    valueMapExact
+                                                </title>
+                                                <itemizedlist mark="round">
+                                                    <listitem>
+                                                        <para>
+                                                            &lt;oldvalue&gt;: &lt;newvalue&gt; (
+                                                            cardinality 0 .. n but not duplicate).
+                                                        </para>
+                                                    </listitem>
+                                                </itemizedlist>
+                                            </section>
+                                            <section>
+                                                <title>
+                                                    ValueMapRegEx
+                                                </title>
+                                                <itemizedlist mark="round">
+                                                    <listitem>
+                                                        <para>
+                                                            &lt;oldvalue(RegEx)&gt;:
+                                                            &lt;newvalue&gt; ( cardinality 0 .. n
+                                                            but not duplicate).
+                                                        </para>
+                                                    </listitem>
+                                                </itemizedlist>
+                                            </section>
+                                        </section>
+                                    </section>
+                                </section>
+                        </section>
+                        <section>
+                            <title>MappingOutbound</title>
+                            <para>
+                                Same as MappingInbound.
+                            </para>
+                        </section>
+                        <section>
+                            <title>Transport</title>
+                            <para>
+                                This section is based on the provider network transport HTTP::SOAP,
+                                other transports might contain more or different settings.
+                            </para>
+                            <itemizedlist mark="round">
+                                <listitem>
+                                    <para>
+                                        Contig: a container for the specific network transport
+                                        configuration settings.
+                                    </para>
+                                </listitem>
+                                <listitem>
+                                    <para>
+                                        Type: the provider network transport backend.
+                                    </para>
+                                </listitem>
+                            </itemizedlist>
+                            <section>
+                                <title>Config</title>
+                                <itemizedlist mark="round">
+                                    <listitem>
+                                        <para>
+                                            MaxLenght: the maximum length in bytes to be read in a
+                                            SOAP message by OTRS.
+                                        </para>
+                                    </listitem>
+                                    <listitem>
+                                        <para>
+                                            NameSpace: an URI that gives a context to all
+                                            operations that belongs to this web service.
+                                        </para>
+                                    </listitem>
+                                </itemizedlist>
+                            </section>
+                        </section>
+                    </section>
+                </section>
+            </section>
 
+            <section>
+                <title>Requester</title>
+                <itemizedlist mark="round">
+                    <listitem>
+                        <para>
+                            Invoker: a container for each invoker settings.
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>
+                            Transport: a container for requester network transport settings.
+                        </para>
+                    </listitem>
+                </itemizedlist>
+                <section>
+                    <title>Invoker</title>
+                    <itemizedlist mark="round">
+                        <listitem>
+                            <para>
+                                &lt;InvokerName&gt;: Unique name for the invoker, container for
+                                its own invoker settings (cardinality 0..n, but not duplicate).
+                            </para>
+                        </listitem>
+                    </itemizedlist>
+                    <section>
+                        <title>&lt;InvokerName&gt;</title>
+                        <para>
+                            This section is based on invokers from type "Test::Test" other
+                            invokers might contain more or different settings.
+                        </para>
+                        <itemizedlist mark="round">
+                            <listitem>
+                                <para>
+                                    Description: a short text that describes the invoker
+                                </para>
+                            </listitem>
+                            <listitem>
+                                <para>
+                                    Events: a container for a unnamed list of event trigger
+                                    settings.
+                                </para>
+                            </listitem>
+                            <listitem>
+                                <para>
+                                    MappingInbound: a container for the mapping settings for the
+                                    incoming response data.
+                                </para>
+                            </listitem>
+                            <listitem>
+                                <para>
+                                    MappingOutbound: a container for the mapping settings for the
+                                    outgoing request data.
+                                </para>
+                            </listitem>
+                            <listitem>
+                                <para>
+                                    Type: the invoker backend, in Controller::Invoker format.
+                                </para>
+                            </listitem>
+                        </itemizedlist>
+                        <section>
+                            <title>Events</title>
+                            <itemizedlist mark="round">
+                                <listitem>
+                                    <para>
+                                        <remark>List Element</remark>: (cardinality 0 .. n)
+                                    </para>
+                                    <itemizedlist mark="round">
+                                        <listitem>
+                                            <para>
+                                                Asynchronous: to set if the invoker execution will
+                                                be delegated to the Scheduler
+                                            </para>
+                                            <itemizedlist mark="round">
+                                                <title>Possible Values</title>
+                                                <listitem>
+                                                    <para>
+                                                        0: not handled by the Scheduler.
+                                                    </para>
+                                                </listitem>
+                                                <listitem>
+                                                    <para>
+                                                        1: handled by the Scheduler.
+                                                    </para>
+                                                </listitem>
+                                            </itemizedlist>
+                                        </listitem>
+                                        <listitem>
+                                            <para>
+                                                Event: the name of the event trigger.
+                                            </para>
+                                            <itemizedlist>
+                                                <title>Possible Values (for ticket events)</title>
+                                                <listitem>
+                                                    <para>
+                                                        TicketCreate
+                                                    </para>
+                                                </listitem>
+                                                <listitem>
+                                                    <para>
+                                                        TicketDelete
+                                                    </para>
+                                                </listitem>
+                                                <listitem>
+                                                    <para>
+                                                        TicketTitleUpdate
+                                                    </para>
+                                                </listitem>
+                                                <listitem>
+                                                    <para>
+                                                        TicketUnlockTimeoutUpdate
+                                                    </para>
+                                                </listitem>
+                                                <listitem>
+                                                    <para>
+                                                        TicketQueueUpdate
+                                                    </para>
+                                                </listitem>
+                                                <listitem>
+                                                    <para>
+                                                        TicketTypeUpdate
+                                                    </para>
+                                                </listitem>
+                                                <listitem>
+                                                    <para>
+                                                        TicketServiceUpdate
+                                                    </para>
+                                                </listitem>
+                                                <listitem>
+                                                    <para>
+                                                        TicketSLAUpdate
+                                                    </para>
+                                                </listitem>
+                                                <listitem>
+                                                    <para>
+                                                        TicketCustomerUpdate
+                                                    </para>
+                                                </listitem>
+                                                <listitem>
+                                                    <para>
+                                                        TicketFreeTextUpdate
+                                                    </para>
+                                                </listitem>
+                                                <listitem>
+                                                    <para>
+                                                        TicketFreeTimeUpdate
+                                                    </para>
+                                                </listitem>
+                                                <listitem>
+                                                    <para>
+                                                        TicketPendingTimeUpdate
+                                                    </para>
+                                                </listitem>
+                                                <listitem>
+                                                    <para>
+                                                        TicketLockUpdate
+                                                    </para>
+                                                </listitem>
+                                                <listitem>
+                                                    <para>
+                                                        TicketArchiveFlagUpdate
+                                                    </para>
+                                                </listitem>
+                                                <listitem>
+                                                    <para>
+                                                        TicketStateUpdate
+                                                    </para>
+                                                </listitem>
+                                                <listitem>
+                                                    <para>
+                                                        TicketOwnerUpdate
+                                                    </para>
+                                                </listitem>
+                                                <listitem>
+                                                    <para>
+                                                        TicketResponsibleUpdate
+                                                    </para>
+                                                </listitem>
+                                                <listitem>
+                                                    <para>
+                                                        TicketPriorityUpdate
+                                                    </para>
+                                                </listitem>
+                                                <listitem>
+                                                    <para>
+                                                        HistoryAdd
+                                                    </para>
+                                                </listitem>
+                                                <listitem>
+                                                    <para>
+                                                        HistoryDelete
+                                                    </para>
+                                                </listitem>
+                                                <listitem>
+                                                    <para>
+                                                        TicketAccountTime
+                                                    </para>
+                                                </listitem>
+                                                <listitem>
+                                                    <para>
+                                                        TicketMerge
+                                                    </para>
+                                                </listitem>
+                                                <listitem>
+                                                    <para>
+                                                        TicketSubscribe
+                                                    </para>
+                                                </listitem>
+                                                <listitem>
+                                                    <para>
+                                                        TicketUnsubscribe
+                                                    </para>
+                                                </listitem>
+                                                <listitem>
+                                                    <para>
+                                                        TicketFlagSet
+                                                    </para>
+                                                </listitem>
+                                                <listitem>
+                                                    <para>
+                                                        TicketFlagDelete
+                                                    </para>
+                                                </listitem>
+                                                <listitem>
+                                                    <para>
+                                                        TicketSlaveLinkAdd
+                                                    </para>
+                                                </listitem>
+                                                <listitem>
+                                                    <para>
+                                                        TicketSlaveLinkDelete
+                                                    </para>
+                                                </listitem>
+                                                <listitem>
+                                                    <para>
+                                                        TicketMasterLinkDelete
+                                                    </para>
+                                                </listitem>
+                                            </itemizedlist>
+                                            <itemizedlist>
+                                                <title>Possible Values (for article events)</title>
+                                                <listitem>
+                                                    <para>
+                                                        Article Events
+                                                    </para>
+                                                </listitem>
+                                                <listitem>
+                                                    <para>
+                                                        ArticleCreate
+                                                    </para>
+                                                </listitem>
+                                                <listitem>
+                                                    <para>
+                                                        ArticleFreeTextUpdate
+                                                    </para>
+                                                </listitem>
+                                                <listitem>
+                                                    <para>
+                                                        ArticleUpdate
+                                                    </para>
+                                                </listitem>
+                                                <listitem>
+                                                    <para>
+                                                        ArticleSend
+                                                    </para>
+                                                </listitem>
+                                                <listitem>
+                                                    <para>
+                                                        ArticleBounce
+                                                    </para>
+                                                </listitem>
+                                                <listitem>
+                                                    <para>
+                                                        ArticleAgentNotification
+                                                    </para>
+                                                </listitem>
+                                                <listitem>
+                                                    <para>
+                                                        ArticleCustomerNotification
+                                                    </para>
+                                                </listitem>
+                                                <listitem>
+                                                    <para>
+                                                        ArticleAutoResponse
+                                                    </para>
+                                                </listitem>
+                                                <listitem>
+                                                    <para>
+                                                        ArticleFlagSet
+                                                    </para>
+                                                </listitem>
+                                                <listitem>
+                                                    <para>
+                                                        ArticleFlagDelete
+                                                    </para>
+                                                </listitem>
+                                                <listitem>
+                                                    <para>
+                                                        ArticleAgentNotification
+                                                    </para>
+                                                </listitem>
+                                                <listitem>
+                                                    <para>
+                                                        ArticleCustomerNotification
+                                                    </para>
+                                                </listitem>
+                                            </itemizedlist>
+                                        </listitem>
+                                    </itemizedlist>
+                                </listitem>
+                            </itemizedlist>
+                        </section>
+                        <section>
+                            <title>MappingInbound</title>
+                            <para>
+                                Same as Operation MappingInbound
+                            </para>
+                        </section>
+                        <section>
+                            <title>MappingOutbound</title>
+                            <para>
+                                Same as Operation MappingInbound.
+                            </para>
+                        </section>
+                        <section>
+                            <title>Transport</title>
+                            <para>
+                                This section is based on the requester network transport HTTP::SOAP,
+                                other transports might contain more or different settings.
+                            </para>
+                            <itemizedlist mark="round">
+                                <listitem>
+                                    <para>
+                                        Contig: a container for the specific network transport
+                                        configuration settings.
+                                    </para>
+                                </listitem>
+                                <listitem>
+                                    <para>
+                                        Type: the requester network transport backend.
+                                    </para>
+                                </listitem>
+                            </itemizedlist>
+                            <section>
+                                <title>Config</title>
+                                <itemizedlist mark="round">
+                                    <listitem>
+                                        <para>
+                                            Authentication: a container for authentication settings.
+                                        </para>
+                                    </listitem>
+                                    <listitem>
+                                        <para>
+                                            Encoding: the SOAP Message request encoding
+                                        </para>
+                                    </listitem>
+                                    <listitem>
+                                        <para>
+                                            Endpoint: the URI of the Remote Server web service to
+                                            accept OTRS requests
+                                        </para>
+                                    </listitem>
+                                    <listitem>
+                                        <para>
+                                            NameSpace: an URI that gives a context to all
+                                            invokers that belongs to this web service.
+                                        </para>
+                                    </listitem>
+                                    <listitem>
+                                        <para>
+                                            SOAPAction: to send an empty or filled SOAPAction header
+                                            in the SOAP Message (in "&lt;NameSpace&gt;
+                                            &lt;Separator&gt; &lt;Action&gt;" format).
+                                        </para>
+                                        <itemizedlist mark="round">
+                                            <title>Possible Values</title>
+                                            <listitem>
+                                                <para>
+                                                    YES: to send a filled SOAPAction header.
+                                                </para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>
+                                                    No: to send an empty SOAPAction header.
+                                                </para>
+                                            </listitem>
+                                        </itemizedlist>
+                                    </listitem>
+                                    <listitem>
+                                        <para>
+                                            SOAPActionSeparator: to set the &lt;Separator&gt; of a
+                                            filled SOAPAction header.
+                                        </para>
+                                        <itemizedlist mark="round">
+                                            <title>Possible Values</title>
+                                            <listitem>
+                                                <para>
+                                                    '/': used for .net web services.
+                                                </para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>
+                                                    '#': used for all the rest web services.
+                                                </para>
+                                            </listitem>
+                                        </itemizedlist>
+                                    </listitem>
+                                </itemizedlist>
+                                <section>
+                                    <title>Authentication</title>
+                                    <itemizedlist mark="round">
+                                        <listitem>
+                                            <para>
+                                                User: the privileged user name that has access to
+                                                the remote web service.
+                                            </para>
+                                        </listitem>
+                                        <listitem>
+                                            <para>
+                                                Password: the password for privileged user in plain
+                                                text.
+                                            </para>
+                                        </listitem>
+                                        <listitem>
+                                            <para>
+                                                Type: the type of authentication.
+                                            </para>
+                                        </listitem>
+                                    </itemizedlist>
+                                </section>
+                            </section>
+                        </section>
+                    </section>
+                </section>
+            </section>
+
+        </section>
+    </section>
 </section>
