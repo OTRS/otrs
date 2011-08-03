@@ -1,0 +1,639 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE section PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN" "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<!-- $Id: genericinterface.xml,v 1.1 2011-08-03 02:14:03 cr Exp $ -->
+
+<section id="genericinterface">
+    <title>Generic Interface</title>
+    <para>
+        The OTRS Generic Interface consist on a multiple layer framework that let OTRS communicate
+        with other systems via a web service. this communication could be in two different ways:
+    </para>
+    <itemizedlist>
+        <listitem>
+            <para>
+                <emphasis>OTRS as Provider: </emphasis> OTRS acts as a server listening request
+                from the External System, processing the information, performing the requested
+                action, and answering the request.
+            </para>
+        </listitem>
+        <listitem>
+            <para>
+                <emphasis>OTRS as Requester: </emphasis> OTRS acts as a client collecting
+                information, and sending the petition to the remote system and waiting for the
+                response.
+            </para>
+        </listitem>
+    </itemizedlist>
+
+    <section id="genericinterface-layers">
+        <title>Generic Interface Layers</title>
+        <para>
+            Generic Interface is build based on a layer model, to be flexible and easy to customize.
+        </para>
+        <para>
+            A layer is a set files, which control how the Generic Interface performs different parts
+            of a web service. Using the right configuration one can build different web services for
+            different External Systems without creating new modules.
+        </para>
+        <note>
+            <para>
+                If the Remote System does not support the current shipped modules for Generic
+                Interface, then special modules needs to be developed for that specific web service.
+            </para>
+            <para>
+                The list of provided Generic Interface modules shipped with OTRS will be updated and
+                increased over the time.
+            </para>
+        </note>
+        <para>
+            <screenshot>
+                <screeninfo>The Generic Interface Layers</screeninfo>
+                <graphic srccredit="genericinterface layers - screenshot" scale="50" fileref="screenshots/genericinterface-layers.png"></graphic>
+            </screenshot>
+        </para>
+        <para>
+            <emphasis>Figure: The graphical interface layers.</emphasis>
+        </para>
+
+        <section>
+            <title>Network Transport</title>
+            <para>
+                This layer is responsible for the correct communication with the Remote System.
+                It receives request and generates responses when acting as provider, and generates
+                requests and receives responses when acting as requester.
+            </para>
+            <para>
+                Provider communication is handled by a new web server handle called
+                "nph-genericinterface.pl".
+            </para>
+            <para>
+                Requester communication could be initiated during an event (triggered by
+                a Generic Interface module or any other OTRS module) this event is catch by the
+                event handler and depending on the configuration the event will be processed
+                directly bye the requester object (by the web server process) or delegate it the
+                Scheduler (a separated process designed to process tasks asynchronously).
+            </para>
+        </section>
+
+        <section>
+            <title>Data Mapping</title>
+            <para>
+                This layer is responsible for translating data structures between OTRS and the
+                Remote System (data internal and data external layers). Normally Remote Systems has
+                different data structures than OTRS (including different values and names for that
+                values), and here resides the importance of the layer to change the received
+                information into something that OTRS can understand and on the opposite way send
+                the information to each Remote System in its natural language.
+            </para>
+            <para>
+                <remark>Example: </remark>
+                    "Priority" (OTRS) might be called "Prio" in a Remote System and could be that
+                    value "1 Low" (OTRS) is "Information" on that system.
+            </para>
+        </section>
+
+        <section>
+        <title>Controller</title>
+            <para>
+                Controllers are collections of similar Operations or Invokers. For example, a
+                Ticket controller might contain several standard ticket operations. Custom
+                controllers can be implemented, for example a "TicketExternalCompany" controller
+                which may contain similar functions like the standard Ticket controller, but with a
+                different data interface, or function names (to adapt to the Remote System function
+                names) or complete different code.
+            </para>
+            <para>
+                One application for Generic Interface could be to Synchronize information with one
+                Remote System that only can talk with another Remote System of the same kind. In
+                this case new controllers needs to be developed and the Operations and Invokers has
+                to emulate the Remote System behavior in such way that the Remote System thinks that
+                is talking with one of it kind.
+            </para>
+        </section>
+
+        <section>
+            <title>Operation (OTRS as a provider)</title>
+            <para>
+                An Operation is a single action that can be performed within OTRS. All operations
+                have the same programming interface, they receive the data into one specific
+                parameter, and return another data structure with a success status, potential error
+                message and returning data.
+            </para>
+            <para>
+                Normally operations uses the already mapped data (internal) to call core modules and
+                perform actions in OTRS like: Create a Ticket, Update a User, Invalidate a Queue,
+                Send a Notification, etc. An operation has full access to the OTRS API to perform
+                the action.
+            </para>
+        </section>
+
+        <section>
+            <title>Invoker (OTRS as a requester)</title>
+            <para>
+                An Invoker is an action that OTRS request to to be made on a Remote System. Invokers
+                uses the OTRS Core modules to process and Collect the needed information to create
+                the request, when the information is ready it has to be mapped to the Remote System
+                format in order to be sent to the Remote System, that will process the information
+                execute the action and send the response back, to either process the success or
+                handle errors.
+            </para>
+        </section>
+    </section>
+
+    <section id="genericinterface_communication_flow">
+        <title>Generic Interface Communication Flow</title>
+        <para>
+            Generic Interface has a defined flow to perform actions as a provider and as a
+            requester.
+        </para>
+        <para>
+            This flows are described below:
+        </para>
+
+        <section>
+            <title>OTRS as Provider</title>
+            <section>
+                <title>
+                    Remote Request:
+                </title>
+                <orderedlist>
+                    <listitem>
+                        <para>
+                            HTTP request
+                        </para>
+                        <itemizedlist mark="round">
+                            <listitem>
+                                <para>
+                                    OTRS receives HTTP request and pass it through the layers.
+                                </para>
+                            </listitem>
+                            <listitem>
+                                <para>
+                                    The provider module in in change to execute and control this
+                                    actions.
+                                </para>
+                            </listitem>
+                        </itemizedlist>
+                    </listitem>
+                    <listitem>
+                        <para>
+                            Network Transport
+                        </para>
+                        <itemizedlist mark="round">
+                            <listitem>
+                                <para>
+                                    The network transport module decode the data payload and
+                                    separate the operation name from the rest of the data.
+                                </para>
+                            </listitem>
+                            <listitem>
+                                <para>
+                                    The operation name and the operation data are returned to the
+                                    provider.
+                                </para>
+                            </listitem>
+                        </itemizedlist>
+                    </listitem>
+                    <listitem>
+                        <para>
+                            <remark>Data External</remark>
+                        </para>
+                        <itemizedlist mark="round">
+                            <listitem>
+                                <para>
+                                    Data as sent from the remote system (This is not a module based
+                                    layer).
+                                </para>
+                            </listitem>
+                        </itemizedlist>
+                    </listitem>
+                    <listitem>
+                        <para>
+                            Mapping
+                        </para>
+                        <itemizedlist mark="round">
+                            <listitem>
+                                <para>
+                                    The data is transformed form the External System format to the
+                                    OTRS internal format as specified in the mapping configuration
+                                    for this operation (Mapping for incoming request data).
+                                </para>
+                            </listitem>
+                            <listitem>
+                                <para>
+                                    The already transformed data is returned to the provider.
+                                </para>
+                            </listitem>
+                        </itemizedlist>
+                    </listitem>
+                    <listitem>
+                        <para>
+                            <remark>Data Internal</remark>
+                        </para>
+                        <itemizedlist mark="round">
+                            <listitem>
+                                <para>
+                                    Data as transformed and prepared to be passed to the operation
+                                    (This is not a module based layer).
+                                </para>
+                            </listitem>
+                        </itemizedlist>
+                    </listitem>
+                    <listitem>
+                        <para>
+                            Operation
+                        </para>
+                        <itemizedlist mark="round">
+                            <listitem>
+                                <para>
+                                    Receives and validates data.
+                                </para>
+                            </listitem>
+                            <listitem>
+                                <para>
+                                    Performs user access control.
+                                </para>
+                            </listitem>
+                            <listitem>
+                                <para>
+                                    Executes the action.
+                                </para>
+                            </listitem>
+                        </itemizedlist>
+                    </listitem>
+                </orderedlist>
+            </section>
+            <section>
+                <title>
+                    OTRS Response:
+                </title>
+                <orderedlist>
+                        <listitem>
+                            <para>
+                                Operation
+                            </para>
+                            <itemizedlist>
+                                <listitem>
+                                    <para>
+                                        Returns result data to the provider.
+                                    </para>
+                                </listitem>
+                            </itemizedlist>
+                        </listitem>
+                    <listitem>
+                        <para>
+                            <remark>Data Internal</remark>
+                        </para>
+                        <itemizedlist>
+                            <listitem>
+                                <para>
+                                    Data as returned from operation.
+                                </para>
+                            </listitem>
+                        </itemizedlist>
+                    </listitem>
+                    <listitem>
+                        <para>
+                            Mapping
+                        </para>
+                        <itemizedlist>
+                            <listitem>
+                                <para>
+                                    The data is transformed back again to the Remote system format
+                                    as specified in the mapping configuration (Mapping for outgoing
+                                    response data).
+                                </para>
+                            </listitem>
+                            <listitem>
+                                <para>
+                                    The already transformed data is returned to the provider.
+                                </para>
+                            </listitem>
+                        </itemizedlist>
+                    </listitem>
+                    <listitem>
+                        <para>
+                            <remark>Data external</remark>
+                        </para>
+                        <itemizedlist>
+                            <listitem>
+                                <para>
+                                    Data as transformed and prepared to be passed to Network
+                                    Transport as response.
+                                </para>
+                            </listitem>
+                        </itemizedlist>
+                    </listitem>
+                    <listitem>
+                        <para>
+                            Network Transport
+                        </para>
+                        <itemizedlist>
+                            <listitem>
+                                <para>
+                                    Receives the data already in the Remote System format.
+                                </para>
+                            </listitem>
+                            <listitem>
+                                <para>
+                                    Constructs a valid response for this network transport type.
+                                </para>
+                            </listitem>
+                        </itemizedlist>
+                    </listitem>
+                    <listitem>
+                        <para>
+                            HTTP response
+                        </para>
+                        <itemizedlist>
+                            <listitem>
+                                <para>
+                                    The response is sent back to the web service client.
+                                </para>
+                            </listitem>
+                            <listitem>
+                                <para>
+                                    In the case of an error, an error response is sent to the remote
+                                    system (e.g. SOAP fault, HTTP error, etc).
+                                </para>
+                            </listitem>
+                        </itemizedlist>
+                    </listitem>
+                </orderedlist>
+            </section>
+        </section>
+
+        <section>
+            <title>OTRS as Requester</title>
+                <section>
+                    <title>OTRS Request:</title>
+                    <orderedlist>
+                        <listitem>
+                            <para>
+                                Event Trigger Handler
+                            </para>
+                            <itemizedlist mark="round">
+                                <listitem>
+                                    <para>
+                                        Based on the web service configuration determines if the
+                                        request will be synchronous or asynchronous.
+                                    </para>
+                                    <itemizedlist mark="round">
+                                        <listitem>
+                                            <para>
+                                                Synchronous
+                                            </para>
+                                            <itemizedlist mark="round">
+                                                <listitem>
+                                                    <para>
+                                                        A direct call to the Requester is made to
+                                                        create a new request and pass it through the
+                                                        layers.
+                                                    </para>
+                                                </listitem>
+                                            </itemizedlist>
+                                        </listitem>
+                                        <listitem>
+                                            <para>
+                                                Asynchronous
+                                            </para>
+                                            <itemizedlist mark="round">
+                                                <listitem>
+                                                    <para>
+                                                        Create a new Generic Interface (Requester)
+                                                        task for the OTRS Scheduler (by delegate
+                                                        the request execution to the Scheduler, the
+                                                        user experience could be highly improved,
+                                                        otherwise all needed times to prepare the
+                                                        request and the remote execution of them
+                                                        will be added to the OTRS Events that
+                                                        trigger those requests).
+                                                    </para>
+                                                </listitem>
+                                                <listitem>
+                                                    <para>
+                                                        In its next cycle the Scheduler process
+                                                        reads this new task and creates a call to
+                                                        the Requester that will create a new
+                                                        request and pass it through the layers.
+                                                    </para>
+                                                </listitem>
+                                            </itemizedlist>
+                                        </listitem>
+                                    </itemizedlist>
+                                </listitem>
+                            </itemizedlist>
+                        </listitem>
+                        <listitem>
+                            <para>
+                                Invoker
+                            </para>
+                            <itemizedlist mark="round">
+                                <listitem>
+                                    <para>
+                                        Receives data from the event.
+                                    </para>
+                                </listitem>
+                                <listitem>
+                                    <para>
+                                        Validates received data (if needed).
+                                    </para>
+                                </listitem>
+                                <listitem>
+                                    <para>
+                                        Call core modules to complement the data (if needed).
+                                    </para>
+                                </listitem>
+                                <listitem>
+                                    <para>
+                                        Return the request data structure or send an Stop
+                                        Communication signal to the requester, to gracefully cancel
+                                        the request.
+                                    </para>
+                                </listitem>
+                            </itemizedlist>
+                        </listitem>
+                        <listitem>
+                            <para>
+                                <remark>Data Internal</remark>
+                            </para>
+                            <itemizedlist mark="round">
+                                <listitem>
+                                    <para>
+                                        Data as passed from the invoker (This is not a module based
+                                        layer).
+                                    </para>
+                                </listitem>
+                            </itemizedlist>
+                        </listitem>
+                        <listitem>
+                            <para>
+                                Mapping
+                            </para>
+                            <itemizedlist mark="round">
+                                <listitem>
+                                    <para>
+                                        The data is transformed to the Remote system format as
+                                        specified in the mapping configuration (Mapping for outgoing
+                                        response data).
+                                    </para>
+                                </listitem>
+                                <listitem>
+                                    <para>
+                                        The already transformed data is returned to the requester.
+                                    </para>
+                                </listitem>
+                            </itemizedlist>
+                        </listitem>
+                        <listitem>
+                            <para>
+                                <remark>Data External</remark>
+                            </para>
+                            <itemizedlist mark="round">
+                                <listitem>
+                                    <para>
+                                        Data as transformed and prepared for sending to the remote
+                                        system.
+                                    </para>
+                                </listitem>
+                            </itemizedlist>
+                        </listitem>
+                        <listitem>
+                            <para>
+                                Network Transport
+                            </para>
+                                <itemizedlist mark="round">
+                                    <listitem>
+                                        <para>
+                                            Receives the remote operation name and the data already
+                                            transformed to the Remote System format from the
+                                            requester.
+                                        </para>
+                                    </listitem>
+                                    <listitem>
+                                        <para>
+                                            Constructs a valid request for the network transport.
+                                        </para>
+                                    </listitem>
+                                    <listitem>
+                                        <para>
+                                            Sends the request to the remote system and waits for the
+                                            response
+                                        </para>
+                                    </listitem>
+                                </itemizedlist>
+                        </listitem>
+                    </orderedlist>
+                </section>
+                <section>
+                    <title>Remote Response:</title>
+                    <orderedlist>
+                        <listitem>
+                            <para>
+                                Network transport
+                            </para>
+                            <itemizedlist mark="round">
+                                <listitem>
+                                    <para>
+                                        Receives the response and decodes the data payload.
+                                    </para>
+                                </listitem>
+                                <listitem>
+                                    <para>
+                                        Returns the data to the requester.
+                                    </para>
+                                </listitem>
+                            </itemizedlist>
+                        </listitem>
+                        <listitem>
+                            <para>
+                                <remark>Data External</remark>
+                            </para>
+                            <itemizedlist mark="round">
+                                <listitem>
+                                    <para>
+                                        Data as received from the Remote System
+                                    </para>
+                                </listitem>
+                            </itemizedlist>
+                        </listitem>
+                    <listitem>
+                        <para>
+                            Mapping
+                        </para>
+                        <itemizedlist mark="round">
+                            <listitem>
+                                <para>
+                                    The data is transformed form the External System format to the
+                                    OTRS internal format as specified in the mapping configuration
+                                    for this operation (Mapping for incoming response data).
+                                </para>
+                            </listitem>
+                            <listitem>
+                                <para>
+                                    The already transformed data is returned to the requester.
+                                </para>
+                            </listitem>
+                        </itemizedlist>
+                    </listitem>
+                    <listitem>
+                        <para>
+                            <remark>Data Internal</remark>
+                        </para>
+                        <itemizedlist mark="round">
+                            <listitem>
+                                <para>
+                                    Data as transformed and ready to be passed back to the
+                                    requester.
+                                </para>
+                            </listitem>
+                        </itemizedlist>
+                    </listitem>
+                    <listitem>
+                        <para>
+                            Invoker
+                        </para>
+                        <itemizedlist mark="round">
+                            <listitem>
+                                <para>
+                                    Receives return data.
+                                </para>
+                            </listitem>
+                            <listitem>
+                                <para>
+                                    Handles the data as needed by specifically by each Invoker
+                                    (included error handling if any).
+                                </para>
+                            </listitem>
+                            <listitem>
+                                <para>
+                                    Return the Invoker result and data to the Requester.
+                                </para>
+                            </listitem>
+                        </itemizedlist>
+                    </listitem>
+                    <listitem>
+                        <para>
+                            Event Handler or Scheduler
+                        </para>
+                        <itemizedlist mark="round">
+                            <listitem>
+                                <para>
+                                    Receives the data from the Requester, in the case of the
+                                    Scheduler this data might contain information to Re-Schedule
+                                    the task immediately or in the future.
+                                </para>
+                            </listitem>
+                        </itemizedlist>
+                    </listitem>
+                </orderedlist>
+            </section>
+        </section>
+    </section>
+
+
+
+
+
+
+</section>
