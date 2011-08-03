@@ -3,7 +3,7 @@
 # otrs.Scheduler.pl - provides Scheduler Daemon control on Unix like OS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.Scheduler.pl,v 1.34 2011-07-29 17:16:33 cr Exp $
+# $Id: otrs.Scheduler.pl,v 1.35 2011-08-03 21:25:59 cr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.34 $) [1];
+$VERSION = qw($Revision: 1.35 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -397,10 +397,14 @@ elsif ( $Opts{a} && $Opts{a} eq "start" ) {
     );
 
     my $Interrupt;
+    my $Terminate;
     my $Hangup;
 
     # when we get a INT signal, set the exit flag
     $SIG{INT} = sub { $Interrupt = 1 };
+
+    # when we get a TERM signal, set the exit flag
+    $SIG{TERM} = sub { $Terminate = 1 };
 
     # when get a HUP signal, set HUP flag
     $SIG{HUP} = sub { $Hangup = 1 };
@@ -459,7 +463,7 @@ elsif ( $Opts{a} && $Opts{a} eq "start" ) {
         }
 
         # check for stop signal (again)
-        if ($Interrupt) {
+        if ( $Interrupt || $Terminate ) {
             my $ExitCode = _AutoStop(
                 DeletePID => 1,
             );
