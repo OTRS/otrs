@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE section PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN" "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
-<!-- $Id: webservice_gui.xml,v 1.18 2011-07-29 21:25:19 cr Exp $ -->
+<!-- $Id: genericinterface-webservice-gui.xml,v 1.1 2011-08-04 04:28:02 cr Exp $ -->
 
 <section id="webservice_gui">
     <title>Web Service Graphical Interface</title>
@@ -58,7 +58,7 @@
         <para>
             <screenshot>
                 <screeninfo>Web Service Overview</screeninfo>
-                <graphic srccredit="Adminarea web service - screenshot" scale="40" fileref="screenshots/admin-webservice-overview.png"></graphic>
+                <graphic srccredit="Adminarea web service - screenshot" scale="40" fileref="screenshots/genericinterface-webservice-overview.png"></graphic>
             </screenshot>
         </para>
         <para>
@@ -127,7 +127,7 @@
         <para>
             <screenshot>
                 <screeninfo>Web service add</screeninfo>
-                <graphic srccredit="Adminarea web service add - screenshot" scale="40" fileref="screenshots/admin-webservice-add.png"></graphic>
+                <graphic srccredit="Adminarea web service add - screenshot" scale="40" fileref="screenshots/genericinterface-webservice-add.png"></graphic>
             </screenshot>
         </para>
         <para>
@@ -200,7 +200,7 @@
             <para>
                 <screenshot>
                     <screeninfo>Web service clone</screeninfo>
-                    <graphic srccredit="Adminarea web service clone - screenshot" scale="40" fileref="screenshots/admin-webservice-clone.png"></graphic>
+                    <graphic srccredit="Adminarea web service clone - screenshot" scale="40" fileref="screenshots/genericinterface-webservice-clone.png"></graphic>
                 </screenshot>
             </para>
             <para>
@@ -238,7 +238,7 @@
             <para>
                 <screenshot>
                     <screeninfo>Web service export</screeninfo>
-                    <graphic srccredit="Adminarea web service export - screenshot" scale="40" fileref="screenshots/admin-webservice-export.png"></graphic>
+                    <graphic srccredit="Adminarea web service export - screenshot" scale="40" fileref="screenshots/genericinterface-webservice-export.png"></graphic>
                 </screenshot>
             </para>
             <para>
@@ -270,7 +270,7 @@
             <para>
                 <screenshot>
                     <screeninfo>Web service import</screeninfo>
-                    <graphic srccredit="Adminarea web service import - screenshot" scale="40" fileref="screenshots/admin-webservice-import.png"></graphic>
+                    <graphic srccredit="Adminarea web service import - screenshot" scale="40" fileref="screenshots/genericinterface-webservice-import.png"></graphic>
                 </screenshot>
             </para>
             <para>
@@ -319,7 +319,7 @@
             <para>
                 <screenshot>
                     <screeninfo>Web Service History</screeninfo>
-                    <graphic srccredit="Adminarea web service history - screenshot" scale="40" fileref="screenshots/admin-webservice-history.png"></graphic>
+                    <graphic srccredit="Adminarea web service history - screenshot" scale="40" fileref="screenshots/genericinterface-webservice-history.png"></graphic>
                 </screenshot>
             </para>
             <para>
@@ -347,7 +347,7 @@
             <para>
                 <screenshot>
                     <screeninfo>Web service delete</screeninfo>
-                    <graphic srccredit="Adminarea web service delete - screenshot" scale="40" fileref="screenshots/admin-webservice-delete.png"></graphic>
+                    <graphic srccredit="Adminarea web service delete - screenshot" scale="40" fileref="screenshots/genericinterface-webservice-delete.png"></graphic>
                 </screenshot>
             </para>
             <para>
@@ -416,7 +416,7 @@
             <para>
                 <screenshot>
                     <screeninfo>Web Service Debugger</screeninfo>
-                    <graphic srccredit="Adminarea web service debugger - screenshot" scale="40" fileref="screenshots/admin-webservice-debugger.png"></graphic>
+                    <graphic srccredit="Adminarea web service debugger - screenshot" scale="40" fileref="screenshots/genericinterface-webservice-debugger.png"></graphic>
                 </screenshot>
             </para>
             <para>
@@ -461,7 +461,7 @@
             <para>
                 <screenshot>
                     <screeninfo>Web service change</screeninfo>
-                    <graphic srccredit="Adminarea web service change - screenshot" scale="40" fileref="screenshots/admin-webservice-change.png"></graphic>
+                    <graphic srccredit="Adminarea web service change - screenshot" scale="40" fileref="screenshots/genericinterface-webservice-change.png"></graphic>
                 </screenshot>
             </para>
             <para>
@@ -509,7 +509,7 @@
             <para>
                 <screenshot>
                     <screeninfo>Web Service Provider Network Transport</screeninfo>
-                    <graphic srccredit="Adminarea web service provider network transport - screenshot" scale="40" fileref="screenshots/admin-webservice-provider-transport.png"></graphic>
+                    <graphic srccredit="Adminarea web service provider network transport - screenshot" scale="40" fileref="screenshots/genericinterface-webservice-provider-transport.png"></graphic>
                 </screenshot>
             </para>
             <para>
@@ -554,7 +554,7 @@
             <para>
                 <screenshot>
                     <screeninfo>Web Service Operation</screeninfo>
-                    <graphic srccredit="Adminarea web service operation - screenshot" scale="40" fileref="screenshots/admin-webservice-operation.png"></graphic>
+                    <graphic srccredit="Adminarea web service operation - screenshot" scale="40" fileref="screenshots/genericinterface-webservice-operation.png"></graphic>
                 </screenshot>
             </para>
             <para>
@@ -617,7 +617,7 @@
                 <para>
                     <screenshot>
                         <screeninfo>Web Service Requester Network Transport</screeninfo>
-                        <graphic srccredit="Adminarea web service requester network transport - screenshot" scale="40" fileref="screenshots/admin-webservice-requester-transport.png"></graphic>
+                        <graphic srccredit="Adminarea web service requester network transport - screenshot" scale="40" fileref="screenshots/genericinterface-webservice-requester-transport.png"></graphic>
                     </screenshot>
                 </para>
                 <para>
@@ -696,7 +696,7 @@
                 <para>
                     <screenshot>
                         <screeninfo>Web Service Invoker</screeninfo>
-                        <graphic srccredit="Adminarea web service invoker - screenshot" scale="40" fileref="screenshots/admin-webservice-invoker.png"></graphic>
+                        <graphic srccredit="Adminarea web service invoker - screenshot" scale="40" fileref="screenshots/genericinterface-webservice-invoker.png"></graphic>
                     </screenshot>
                 </para>
                 <para>
@@ -809,7 +809,7 @@
                 <para>
                     <screenshot>
                         <screeninfo>Web Service Mapping</screeninfo>
-                        <graphic srccredit="Adminarea web service mapping - screenshot" scale="40" fileref="screenshots/admin-webservice-mapping.png"></graphic>
+                        <graphic srccredit="Adminarea web service mapping - screenshot" scale="40" fileref="screenshots/genericinterface-webservice-mapping.png"></graphic>
                     </screenshot>
                 </para>
                 <para>

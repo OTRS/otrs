@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE section PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN" "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
-<!-- $Id: webservice_cli.xml,v 1.5 2011-08-01 16:06:45 cr Exp $ -->
+<!-- $Id: genericinterface-webservice-cli.xml,v 1.1 2011-08-04 04:28:02 cr Exp $ -->
 
 <section id="webservice_cli">
     <title>Web Service Command Line Interface</title>
