@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE section PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN" "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<!-- $Id: genericinterface-layers.xml,v 1.1 2011-08-04 04:29:24 cr Exp $ -->
+
+<section id="genericinterface-layers">
+    <title>Generic Interface Layers</title>
+    <para>
+        Generic Interface is build based on a layer model, to be flexible and easy to customize.
+    </para>
+    <para>
+        A layer is a set files, which control how the Generic Interface performs different parts
+        of a web service. Using the right configuration one can build different web services for
+        different External Systems without creating new modules.
+    </para>
+    <note>
+        <para>
+            If the Remote System does not support the current shipped modules for Generic
+            Interface, then special modules needs to be developed for that specific web service.
+        </para>
+        <para>
+            The list of provided Generic Interface modules shipped with OTRS will be updated and
+            increased over the time.
+        </para>
+    </note>
+    <para>
+        <screenshot>
+            <screeninfo>The Generic Interface Layers</screeninfo>
+            <graphic srccredit="genericinterface layers - screenshot" scale="50" fileref="screenshots/genericinterface-layers.png"></graphic>
+        </screenshot>
+    </para>
+    <para>
+        <emphasis>Figure: The graphical interface layers.</emphasis>
+    </para>
+
+    <section>
+        <title>Network Transport</title>
+        <para>
+            This layer is responsible for the correct communication with the Remote System.
+            It receives request and generates responses when acting as provider, and generates
+            requests and receives responses when acting as requester.
+        </para>
+        <para>
+            Provider communication is handled by a new web server handle called
+            "nph-genericinterface.pl".
+        </para>
+        <para>
+            Requester communication could be initiated during an event (triggered by
+            a Generic Interface module or any other OTRS module) this event is catch by the
+            event handler and depending on the configuration the event will be processed
+            directly bye the requester object (by the web server process) or delegate it the
+            Scheduler (a separated process designed to process tasks asynchronously).
+        </para>
+    </section>
+
+    <section>
+        <title>Data Mapping</title>
+        <para>
+            This layer is responsible for translating data structures between OTRS and the
+            Remote System (data internal and data external layers). Normally Remote Systems has
+            different data structures than OTRS (including different values and names for that
+            values), and here resides the importance of the layer to change the received
+            information into something that OTRS can understand and on the opposite way send
+            the information to each Remote System in its natural language.
+        </para>
+        <para>
+            <remark>Example: </remark>
+                "Priority" (OTRS) might be called "Prio" in a Remote System and could be that
+                value "1 Low" (OTRS) is "Information" on that system.
+        </para>
+    </section>
+
+    <section>
+    <title>Controller</title>
+        <para>
+            Controllers are collections of similar Operations or Invokers. For example, a
+            Ticket controller might contain several standard ticket operations. Custom
+            controllers can be implemented, for example a "TicketExternalCompany" controller
+            which may contain similar functions like the standard Ticket controller, but with a
+            different data interface, or function names (to adapt to the Remote System function
+            names) or complete different code.
+        </para>
+        <para>
+            One application for Generic Interface could be to Synchronize information with one
+            Remote System that only can talk with another Remote System of the same kind. In
+            this case new controllers needs to be developed and the Operations and Invokers has
+            to emulate the Remote System behavior in such way that the Remote System thinks that
+            is talking with one of it kind.
+        </para>
+    </section>
+
+    <section>
+        <title>Operation (OTRS as a provider)</title>
+        <para>
+            An Operation is a single action that can be performed within OTRS. All operations
+            have the same programming interface, they receive the data into one specific
+            parameter, and return another data structure with a success status, potential error
+            message and returning data.
+        </para>
+        <para>
+            Normally operations uses the already mapped data (internal) to call core modules and
+            perform actions in OTRS like: Create a Ticket, Update a User, Invalidate a Queue,
+            Send a Notification, etc. An operation has full access to the OTRS API to perform
+            the action.
+        </para>
+    </section>
+
+    <section>
+        <title>Invoker (OTRS as a requester)</title>
+        <para>
+            An Invoker is an action that OTRS request to to be made on a Remote System. Invokers
+            uses the OTRS Core modules to process and Collect the needed information to create
+            the request, when the information is ready it has to be mapped to the Remote System
+            format in order to be sent to the Remote System, that will process the information
+            execute the action and send the response back, to either process the success or
+            handle errors.
+        </para>
+    </section>
+</section>
