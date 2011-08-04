@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
   "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
-<!-- $Id: adminarea.xml,v 1.1 2011-08-04 04:34:34 cr Exp $ -->
+<!-- $Id: adminarea.xml,v 1.2 2011-08-04 14:46:09 cr Exp $ -->
 
 <chapter id="adminarea">
 <title>The ADMIN area of OTRS</title>
@@ -1828,7 +1828,7 @@ In special cases, you might want to configure the Package Manager, e.g., to use 
     </para>
     <para>
         The graphical interface for web services configuration is described in more detail in the
-        chapter <link linkend="webservice_gui">"Web Service Graphical Interface"</link>.
+        section <link linkend="webservice_gui">"Web Service Graphical Interface"</link>.
     </para>
 </section>
 
