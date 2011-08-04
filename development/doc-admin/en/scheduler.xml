@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE section PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN" "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<!-- $Id: scheduler.xml,v 1.1 2011-08-04 04:34:02 cr Exp $ -->
+
+<chapter id="scheduler">
+    <title>OTRS Scheduler</title>
+
+    <section id="scheduler-gui">
+        <title>Scheduler Graphic Interface</title>
+        <para>
+        .
+        </para>
+            <section id="scheduler-gui-notify">
+                <title>Scheduler Not Running Notification</title>
+                <para>
+                .
+                </para>
+                <para>
+                    <screenshot>
+                        <screeninfo>Scheduler Notification</screeninfo>
+                        <graphic srccredit="scheduler notification - screenshot" scale="40" fileref="screenshots/scheduler-notify.png"></graphic>
+                    </screenshot>
+                </para>
+                <para>
+                    <emphasis>Figure: Scheduler notification.</emphasis>
+                </para>
+            </section>
+            <section id="scheduler-gui-start">
+                <title>Start Scheduler</title>
+                <para>
+                .
+                </para>
+                <para>
+                    <screenshot>
+                        <screeninfo>Start Scheduler</screeninfo>
+                        <graphic srccredit="scheduler start - screenshot" scale="40" fileref="screenshots/scheduler-start.png"></graphic>
+                    </screenshot>
+                </para>
+                <para>
+                    <emphasis>Figure: Start Scheduler.</emphasis>
+                </para>
+
+            </section>
+
+    </section>
+
+    <section id="scheduler-cli">
+        <title>Scheduler Command Line Interface</title>
+        <section id="scheduler-cli-linux">
+            <title>Linux</title>
+            <para>
+            .
+            </para>
+            <section id="scheduler-cli-linux-init">
+                <title>Scheduler Init Files</title>
+                <para>
+                .
+                </para>
+            </section>
+            <section id="scheduler-cli-linux-daemon">
+                <title>Scheduler Daemon File</title>
+                <para>
+                .
+                </para>
+            </section>
+        </section>
+
+       <section id="scheduler-cli-windows">
+            <title>Windows</title>
+            <para>
+            .
+            </para>
+            <section id="scheduler-cli-windows-scm">
+                <title>Scheduler Service Installer</title>
+                <para>
+                .
+                </para>
+            </section>
+            <section id="scheduler-cli-linux-service">
+                <title>Scheduler service File</title>
+                <para>
+                .
+                </para>
+            </section>
+        </section>
+    </section>
+
+</chapter>
