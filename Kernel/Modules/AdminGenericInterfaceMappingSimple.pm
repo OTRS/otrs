@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericInterfaceMappingSimple.pm - provides a TransportHTTPSOAP view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceMappingSimple.pm,v 1.16 2011-07-20 18:44:08 cr Exp $
+# $Id: AdminGenericInterfaceMappingSimple.pm,v 1.17 2011-08-05 19:01:40 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::GenericInterface::Webservice;
@@ -577,7 +577,7 @@ sub _GetParams {
     # get parameters from web browser
     for my $ParamName (
         qw(
-        KeyCounter DefaultKeyType DefaultKeyMapTo DefaultValueType DefaultValueMapTo
+        DefaultKeyType DefaultKeyMapTo DefaultValueType DefaultValueMapTo
         )
         )
     {
@@ -593,6 +593,10 @@ sub _GetParams {
             $GetParam->{Error}->{$ParamName} = 'ServerError';
         }
     }
+
+    # get key counter param (it can be zero if just defaults where defined)
+    $GetParam->{KeyCounter} =
+        $Self->{ParamObject}->GetParam( Param => 'KeyCounter' ) || 0;
 
     # get params for keys
     my $KeyIndex = 0;
