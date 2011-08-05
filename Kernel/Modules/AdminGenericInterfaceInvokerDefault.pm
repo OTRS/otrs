@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericInterfaceInvokerDefault.pm - provides a log view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceInvokerDefault.pm,v 1.3 2011-07-08 18:09:36 cr Exp $
+# $Id: AdminGenericInterfaceInvokerDefault.pm,v 1.4 2011-08-05 19:09:59 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 use Kernel::System::GenericInterface::Webservice;
 
@@ -593,7 +593,6 @@ sub _ShowScreen {
     }
 
     my @EventTypeList;
-    my @EventList;
 
     my $SelectedEventType = $Self->{ParamObject}->GetParam( Param => 'EventType' ) || 'Ticket';
 
@@ -601,6 +600,9 @@ sub _ShowScreen {
     TYPE:
     for my $Type ( keys %{$RegisteredEvents} ) {
         next TYPE if !$Type;
+
+        # refresh event list for each event type
+        my @EventList;
 
         EVENT:
         for my $Event ( keys %{ $RegisteredEvents->{$Type} } ) {
