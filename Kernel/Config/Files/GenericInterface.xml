@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: GenericInterface.xml,v 1.33 2011-07-19 17:57:13 cg Exp $</CVS>
+    <CVS>$Id: GenericInterface.xml,v 1.34 2011-08-05 20:09:58 cr Exp $</CVS>
     <ConfigItem Name="Ticket::EventModulePost###1000-GenericInterface" Required="0" Valid="1">
         <Description Translatable="1">Performs the configured action for each event (as an Invoker) for each configured Webservice.</Description>
         <Group>GenericInterface</Group>
@@ -273,6 +273,7 @@
             </Hash>
         </Setting>
     </ConfigItem>
+<!--
     <ConfigItem Name="GenericInterface::Transport::Module###HTTP::Test" Required="0" Valid="1">
         <Description Translatable="1">GenericInterface module registration for the transport layer.</Description>
         <Group>GenericInterface</Group>
@@ -321,6 +322,17 @@
             </Hash>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="GenericInterface::Mapping::Module###Test" Required="0" Valid="1">
+        <Description Translatable="1">GenericInterface module registration for the mapping layer.</Description>
+        <Group>GenericInterface</Group>
+        <SubGroup>GenericInterface::Mapping::ModuleRegistration</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="ConfigDialog"></Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+ -->
 
     <ConfigItem Name="Frontend::Module###AdminGenericInterfaceMappingSimple" Required="0" Valid="1">
         <Description Translatable="1">Frontend module registration for the agent interface.</Description>
@@ -533,16 +545,6 @@
         <Setting>
             <Hash>
                 <Item Key="ConfigDialog">AdminGenericInterfaceMappingSimple</Item>
-            </Hash>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="GenericInterface::Mapping::Module###Test" Required="0" Valid="1">
-        <Description Translatable="1">GenericInterface module registration for the mapping layer.</Description>
-        <Group>GenericInterface</Group>
-        <SubGroup>GenericInterface::Mapping::ModuleRegistration</SubGroup>
-        <Setting>
-            <Hash>
-                <Item Key="ConfigDialog"></Item>
             </Hash>
         </Setting>
     </ConfigItem>
