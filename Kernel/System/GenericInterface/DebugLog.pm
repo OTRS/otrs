@@ -2,7 +2,7 @@
 # Kernel/System/GenericInterface/DebugLog.pm - log interface for generic interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DebugLog.pm,v 1.17 2011-07-31 01:09:09 cr Exp $
+# $Id: DebugLog.pm,v 1.18 2011-08-09 07:13:27 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CacheInternal;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.17 $) [1];
+$VERSION = qw($Revision: 1.18 $) [1];
 
 =head1 NAME
 
@@ -439,7 +439,7 @@ sub LogDelete {
     if ( $Param{CommunicationID} && !$CommunicationIDValid ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => 'CommunicationID is not a valid md5sum!',
+            Message  => 'CommunicationID is not an md5sum!',
         );
         return;
     }
@@ -876,6 +876,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.17 $ $Date: 2011-07-31 01:09:09 $
+$Revision: 1.18 $ $Date: 2011-08-09 07:13:27 $
 
 =cut
