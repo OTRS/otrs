@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.511 2011-07-18 08:57:36 martin Exp $
+# $Id: Ticket.pm,v 1.512 2011-08-11 09:37:14 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -35,7 +35,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::EventHandler;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.511 $) [1];
+$VERSION = qw($Revision: 1.512 $) [1];
 
 =head1 NAME
 
@@ -511,6 +511,29 @@ sub TicketCreate {
         Name => "\%\%$Param{TN}\%\%$Param{Queue}\%\%$Param{Priority}\%\%$Param{State}\%\%$TicketID",
         CreateUserID => $Param{UserID},
     );
+
+    if ( $Self->{ConfigObject}->Get('Ticket::Service') ) {
+
+        # history insert for service so that initial values can be seen
+        my $HistoryService   = $Param{Service}   || 'NULL';
+        my $HistoryServiceID = $Param{ServiceID} || '';
+        $Self->HistoryAdd(
+            TicketID     => $TicketID,
+            HistoryType  => 'ServiceUpdate',
+            Name         => "\%\%$HistoryService\%\%$HistoryServiceID\%\%NULL\%\%",
+            CreateUserID => $Param{UserID},
+        );
+
+        # history insert for SLA
+        my $HistorySLA   = $Param{SLA}   || 'NULL';
+        my $HistorySLAID = $Param{SLAID} || '';
+        $Self->HistoryAdd(
+            TicketID     => $TicketID,
+            HistoryType  => 'SLAUpdate',
+            Name         => "\%\%$HistorySLA\%\%$HistorySLAID\%\%NULL\%\%",
+            CreateUserID => $Param{UserID},
+        );
+    }
 
     # set customer data if given
     if ( $Param{CustomerNo} || $Param{CustomerID} || $Param{CustomerUser} ) {
@@ -8493,6 +8516,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.511 $ $Date: 2011-07-18 08:57:36 $
+$Revision: 1.512 $ $Date: 2011-08-11 09:37:14 $
 
 =cut
