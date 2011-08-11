@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1939 2011-08-03 12:42:34 en Exp $
+# $Id: CHANGES,v 1.1940 2011-08-11 08:33:16 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -68,6 +68,9 @@
  - 2011-02-02 Fixed bug#3125 - No translation for ticket-state in notifications.
  - 2011-02-02 Fixed bug#6618 - TicketIndex can not be created if queue name
      of > 70 characters exists.
+
+3.0.11 2011-??-??
+ - 2011-08-10 Fixed bug#7549 - Missing mandatory class and * identifier in AgentTicketMove.
 
 3.0.10 2011-08-16
  - 2011-07-28 Fixed bug#7518 - Escalation Notify by not working properly.
