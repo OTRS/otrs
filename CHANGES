@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1758.2.145 2011-08-12 09:20:47 mg Exp $
+# $Id: CHANGES,v 1.1758.2.146 2011-08-12 09:56:11 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.11 2011-??-??
+ - 2011-08-12 Updated Simplified Chinese Translation, thanks to Martin Liu!
  - 2011-08-12 Updated Danish translation, thanks to Lars Jørgensen!
  - 2011-08-10 Fixed bug#7550 - SLA and Service is not written to history.
  - 2011-08-10 Fixed bug#7549 - Missing mandatory class and * identifier in AgentTicketMove.
