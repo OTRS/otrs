@@ -2,7 +2,7 @@
 # Kernel/System/DB/db2.pm - db2 database backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: db2.pm,v 1.60 2011-03-01 18:23:35 en Exp $
+# $Id: db2.pm,v 1.61 2011-08-12 09:06:16 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.60 $) [1];
+$VERSION = qw($Revision: 1.61 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -99,12 +99,7 @@ sub DatabaseCreate {
     }
 
     # return SQL
-    if ( $Self->{ConfigObject}->Get('DefaultCharset') =~ /(utf(\-8|8))/i ) {
-        return ("CREATE DATABASE $Param{Name} using codeset utf-8 territory us pagesize 32 k");
-    }
-    else {
-        return ("CREATE DATABASE $Param{Name}");
-    }
+    return ("CREATE DATABASE $Param{Name} using codeset utf-8 territory us pagesize 32 k");
 }
 
 sub DatabaseDrop {

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.443 2011-06-14 09:15:40 mb Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.444 2011-08-12 09:06:15 mg Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box (to avoid the use of destructive queries, such as DROP DATABASE, and also to steal user passwords).</Description>
         <Group>Framework</Group>
@@ -92,24 +92,6 @@
         <SubGroup>Core</SubGroup>
         <Setting>
             <String Regex="">Example Company</String>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="DefaultCharset" Required="1" Valid="1" ConfigLevel="200">
-        <Description Translatable="1">Sets the default charset for the web interface to use (should represent the charset used to create the database or, in some cases, the database management system being used). "utf-8" is a good choice for environments expecting many charsets. You can specify another charset here (i.e. "iso-8859-1"). Please be sure that you will not be receiving foreign emails, or text, otherwise this could lead to problems.</Description>
-        <Group>Framework</Group>
-        <SubGroup>Core</SubGroup>
-        <Setting>
-            <Option SelectedID="utf-8">
-                <Item Key="iso-8859-1">iso-8859-1</Item>
-                <Item Key="iso-8859-15">iso-8859-15</Item>
-                <Item Key="iso-8859-2">iso-8859-2</Item>
-                <Item Key="iso-8859-3">iso-8859-3</Item>
-                <Item Key="iso-8859-4">iso-8859-4</Item>
-                <Item Key="iso-8859-5">iso-8859-5</Item>
-                <Item Key="iso-8859-7">iso-8859-7</Item>
-                <Item Key="iso-8859-9">iso-8859-9</Item>
-                <Item Key="utf-8">utf-8</Item>
-            </Option>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="DefaultLanguage" Required="1" Valid="1">

@@ -2,7 +2,7 @@
 # Kernel/Modules/Installer.pm - provides the DB installer
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Installer.pm,v 1.87 2011-03-15 08:41:40 mb Exp $
+# $Id: Installer.pm,v 1.88 2011-08-12 09:06:15 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Email;
 use Kernel::System::MailAccount;
 
 use vars qw($VERSION %INC);
-$VERSION = qw($Revision: 1.87 $) [1];
+$VERSION = qw($Revision: 1.88 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -495,9 +495,6 @@ sub Run {
                 return $Output;
             }
 
-            # set default charset to utf8 it configured
-            $Self->ReConfigure( DefaultCharset => 'utf-8', );
-
             $Self->{LayoutObject}->Block(
                 Name => 'DatabaseResultItemMessage',
                 Data => {
@@ -640,7 +637,6 @@ sub Run {
             HTMLQuote  => 0,
             SelectedID => $Self->{ConfigObject}->Get('LogModule'),
         );
-        $Param{DefaultCharset} = 'utf-8';
 
         # build the select field for the InstallerDBStart.dtl
         $Param{SelectCheckMXRecord} = $Self->{LayoutObject}->BuildSelection(

@@ -1,8 +1,8 @@
 # --
 # Encode.t - Encode tests
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Encode.t,v 1.8 2010-10-29 08:58:02 mg Exp $
+# $Id: Encode.t,v 1.9 2011-08-12 09:06:15 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,37 +21,6 @@ my $ConfigObject = Kernel::Config->new();
 my $EncodeObject = Kernel::System::Encode->new(
     ConfigObject => $ConfigObject,
 );
-
-# EncodeInternalUsed tests
-my @Tests = (
-    {
-        Name    => 'EncodeInternalUsed()',
-        Charset => 'UTF-8',
-        Result  => 'utf-8',
-    },
-    {
-        Name    => 'EncodeInternalUsed()',
-        Charset => 'UTF8',
-        Result  => 'utf-8',
-    },
-    {
-        Name    => 'EncodeInternalUsed()',
-        Charset => 'utF8',
-        Result  => 'utf-8',
-    },
-);
-for my $Test (@Tests) {
-    $ConfigObject->Set(
-        Key   => 'DefaultCharset',
-        Value => $Test->{Charset},
-    );
-    my $Charset = $EncodeObject->EncodeInternalUsed();
-    $Self->Is(
-        $Charset,
-        $Test->{Result},
-        $Test->{Name} . " ($Test->{Charset})",
-    );
-}
 
 # Convert tests
 {

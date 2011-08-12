@@ -2,7 +2,7 @@
 # Main.t - Main tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Main.t,v 1.24 2011-03-07 12:00:44 mb Exp $
+# $Id: Main.t,v 1.25 2011-08-12 09:06:15 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -105,28 +105,14 @@ $Self->Is(
 );
 
 # test charset specific situations
-my $Charset = $Self->{ConfigObject}->Get('DefaultCharset');
-if ( $Charset eq 'utf-8' ) {
-    $String = 'abc1234567890äöüß-カスタマ';
-    $MD5Sum = $Self->{MainObject}->MD5sum( String => \$String );
+$String = 'abc1234567890äöüß-カスタマ';
+$MD5Sum = $Self->{MainObject}->MD5sum( String => \$String );
 
-    $Self->Is(
-        $MD5Sum || '',
-        '56a681e0c46b1f156020182cdf62e825',
-        "MD5sum() - String - $String",
-    );
-}
-elsif ( $Charset eq 'iso-8859-1' || $Charset eq 'iso-8859-15' ) {
-    no utf8;
-    $String = 'bc1234567890\xd6\xc4\xdc\xe4\xfc\xf6';
-    $MD5Sum = $Self->{MainObject}->MD5sum( String => \$String );
-
-    $Self->Is(
-        $MD5Sum || '',
-        'f528f84187c4ca0e6fc9c4a937dbf9bb',
-        "MD5sum() - String - $String",
-    );
-}
+$Self->Is(
+    $MD5Sum || '',
+    '56a681e0c46b1f156020182cdf62e825',
+    "MD5sum() - String - $String",
+);
 
 my %MD5SumOf = (
     doc => '2e520036a0cda6a806a8838b1000d9d7',

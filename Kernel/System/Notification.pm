@@ -2,7 +2,7 @@
 # Kernel/System/Notification.pm - lib for notifications
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Notification.pm,v 1.37 2011-02-28 18:36:57 ub Exp $
+# $Id: Notification.pm,v 1.38 2011-08-12 09:06:15 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.37 $) [1];
+$VERSION = qw($Revision: 1.38 $) [1];
 
 =head1 NAME
 
@@ -132,28 +132,24 @@ sub NotificationGet {
     my %Data;
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
 
-        # convert to internal charset e. g. utf8
-        if ( $Self->{EncodeObject}->CharsetInternal() ) {
+        # convert body
+        $Data[5] = $Self->{EncodeObject}->Convert(
+            Text  => $Data[5],
+            From  => $Data[2],
+            To    => 'utf-8',
+            Force => 1,
+        );
 
-            # convert body
-            $Data[5] = $Self->{EncodeObject}->Convert(
-                Text  => $Data[5],
-                From  => $Data[2],
-                To    => $Self->{EncodeObject}->CharsetInternal(),
-                Force => 1,
-            );
+        # convert subject
+        $Data[3] = $Self->{EncodeObject}->Convert(
+            Text  => $Data[3],
+            From  => $Data[2],
+            To    => 'utf-8',
+            Force => 1,
+        );
 
-            # convert subject
-            $Data[3] = $Self->{EncodeObject}->Convert(
-                Text  => $Data[3],
-                From  => $Data[2],
-                To    => $Self->{EncodeObject}->CharsetInternal(),
-                Force => 1,
-            );
-
-            # set new charset
-            $Data[2] = $Self->{EncodeObject}->CharsetInternal();
-        }
+        # set new charset
+        $Data[2] = 'utf-8';
 
         # fix some bad stuff from some browsers (Opera)!
         $Data[5] =~ s/(\n\r|\r\r\n|\r\n|\r)/\n/g;
@@ -311,6 +307,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.37 $ $Date: 2011-02-28 18:36:57 $
+$Revision: 1.38 $ $Date: 2011-08-12 09:06:15 $
 
 =cut

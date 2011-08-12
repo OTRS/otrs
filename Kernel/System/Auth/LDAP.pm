@@ -2,7 +2,7 @@
 # Kernel/System/Auth/LDAP.pm - provides the ldap authentication
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: LDAP.pm,v 1.59 2011-01-27 21:52:28 cg Exp $
+# $Id: LDAP.pm,v 1.60 2011-08-12 09:06:16 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use warnings;
 use Net::LDAP;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.59 $) [1];
+$VERSION = qw($Revision: 1.60 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -125,8 +125,8 @@ sub Auth {
             return;
         }
     }
-    $Param{User} = $Self->_ConvertTo( $Param{User}, $Self->{ConfigObject}->Get('DefaultCharset') );
-    $Param{Pw}   = $Self->_ConvertTo( $Param{Pw},   $Self->{ConfigObject}->Get('DefaultCharset') );
+    $Param{User} = $Self->_ConvertTo( $Param{User}, 'utf-8' );
+    $Param{Pw}   = $Self->_ConvertTo( $Param{Pw},   'utf-8' );
 
     # get params
     my $RemoteAddr = $ENV{REMOTE_ADDR} || 'Got no REMOTE_ADDR env!';

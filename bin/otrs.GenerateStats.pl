@@ -3,7 +3,7 @@
 # bin/otrs.GenerateStats.pl - send stats output via email
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.GenerateStats.pl,v 1.7 2011-04-27 18:54:23 mb Exp $
+# $Id: otrs.GenerateStats.pl,v 1.8 2011-08-12 09:06:15 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 use Getopt::Long;
 use Kernel::Config;
@@ -441,7 +441,7 @@ for my $Recipient ( @{ $Opts{r} } ) {
         To         => $Recipient,
         Subject    => "[Stats - $CountStatArray Records] $Title; Created: $Time",
         Body       => $CommonObject{LanguageObject}->Get( $Opts{m} ),
-        Charset    => $CommonObject{ConfigObject}->{DefaultCharset},
+        Charset    => 'utf-8',
         Attachment => [ {%Attachment}, ],
     );
     print "NOTICE: Email sent to '$Recipient'.\n";

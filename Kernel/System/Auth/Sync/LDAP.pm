@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Auth/Sync/LDAP.pm - provides the ldap sync
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: LDAP.pm,v 1.10 2010-11-11 09:24:45 bes Exp $
+# $Id: LDAP.pm,v 1.11 2011-08-12 09:06:16 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Net::LDAP;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -110,7 +110,7 @@ sub Sync {
             return;
         }
     }
-    $Param{User} = $Self->_ConvertTo( $Param{User}, $Self->{ConfigObject}->Get('DefaultCharset') );
+    $Param{User} = $Self->_ConvertTo( $Param{User}, 'utf-8' );
 
     my $RemoteAddr = $ENV{REMOTE_ADDR} || 'Got no REMOTE_ADDR env!';
 
@@ -233,7 +233,7 @@ sub Sync {
                 # e. g. set utf-8 flag
                 $SyncUser{$Key} = $Self->_ConvertFrom(
                     $SyncUser{$Key},
-                    $Self->{ConfigObject}->Get('DefaultCharset'),
+                    'utf-8',
                 );
             }
             if ( $Entry->get_value('userPassword') ) {
@@ -242,7 +242,7 @@ sub Sync {
                 # e. g. set utf-8 flag
                 $SyncUser{Pw} = $Self->_ConvertFrom(
                     $SyncUser{Pw},
-                    $Self->{ConfigObject}->Get('DefaultCharset')
+                    'utf-8',
                 );
             }
         }

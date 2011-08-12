@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # xml2docbook.pl - config xml to docbook
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: xml2docbook.pl,v 1.25 2010-09-16 13:06:14 mg Exp $
+# $Id: xml2docbook.pl,v 1.26 2011-08-12 09:06:16 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -33,7 +33,7 @@ use warnings;
 use Getopt::Std;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.25 $) [1];
+$VERSION = qw($Revision: 1.26 $) [1];
 
 use Kernel::Config;
 use Kernel::System::Log;
@@ -73,7 +73,7 @@ $UserLang = $Opts{l};
 
 # start xml output
 
-print '<?xml version="1.0" encoding="' . $CommonObject{ConfigObject}->Get('DefaultCharset') . '"?>
+print '<?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE appendix PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
     "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
 ';

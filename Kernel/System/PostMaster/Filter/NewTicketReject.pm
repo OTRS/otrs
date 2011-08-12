@@ -1,8 +1,8 @@
 # --
 # Kernel/System/PostMaster/Filter/NewTicketReject.pm - sub part of PostMaster.pm
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: NewTicketReject.pm,v 1.14 2010-02-26 18:32:22 martin Exp $
+# $Id: NewTicketReject.pm,v 1.15 2011-08-12 09:06:16 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Ticket;
 use Kernel::System::Email;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -115,7 +115,7 @@ sub Run {
             To         => $Param{GetParam}->{From},
             Subject    => $Subject,
             Body       => $Body,
-            Charset    => $Self->{ConfigObject}->Get('DefaultCharset'),
+            Charset    => 'utf-8',
             MimeType   => 'text/plain',
             Loop       => 1,
             Attachment => [

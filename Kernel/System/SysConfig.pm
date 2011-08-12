@@ -2,7 +2,7 @@
 # Kernel/System/SysConfig.pm - all system config tool functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SysConfig.pm,v 1.28 2011-01-27 10:47:53 mb Exp $
+# $Id: SysConfig.pm,v 1.29 2011-08-12 09:06:15 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::Config;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.28 $) [1];
+$VERSION = qw($Revision: 1.29 $) [1];
 
 =head1 NAME
 
@@ -107,13 +107,8 @@ sub new {
     $Self->{Home} = $Self->{ConfigObject}->Get('Home');
 
     # set utf8 if used
-    if ( $Self->{ConfigObject}->Get('DefaultCharset') =~ /^utf(-8|8)$/i ) {
-        $Self->{utf8}     = 1;
-        $Self->{FileMode} = ':utf8';
-    }
-    else {
-        $Self->{FileMode} = '';
-    }
+    $Self->{utf8}     = 1;
+    $Self->{FileMode} = ':utf8';
 
     # create xml object
     $Self->{XMLObject} = Kernel::System::XML->new(%Param);
@@ -2252,6 +2247,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.28 $ $Date: 2011-01-27 10:47:53 $
+$Revision: 1.29 $ $Date: 2011-08-12 09:06:15 $
 
 =cut

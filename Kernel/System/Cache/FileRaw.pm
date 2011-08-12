@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Cache/FileRaw.pm - all cache functions
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: FileRaw.pm,v 1.4 2010-09-10 09:31:13 mg Exp $
+# $Id: FileRaw.pm,v 1.5 2011-08-12 09:06:16 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use warnings;
 umask 002;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -34,9 +34,7 @@ sub new {
     $Self->{CacheDirectory} = $TempDir . '/CacheFileRaw/';
 
     # set mode
-    if ( $Self->{ConfigObject}->Get('DefaultCharset') =~ /^utf(-8|8)$/i ) {
-        $Self->{Mode} = 'utf8';
-    }
+    $Self->{Mode} = 'utf8';
 
     # check if cache directory exists and in case create one
     for my $Directory ( $TempDir, $Self->{CacheDirectory} ) {

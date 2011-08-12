@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Spelling.pm - the global spelling module
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Spelling.pm,v 1.32 2010-06-17 21:39:40 cr Exp $
+# $Id: Spelling.pm,v 1.33 2011-08-12 09:06:15 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::FileTemp;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.32 $) [1];
+$VERSION = qw($Revision: 1.33 $) [1];
 
 =head1 NAME
 
@@ -181,9 +181,7 @@ sub Check {
 
     # aspell encoding
     if ( $Self->{SpellChecker} =~ /aspell/ ) {
-        if ( $Self->{EncodeObject}->CharsetInternal() ) {
-            $Self->{SpellChecker} .= ' --encoding=utf-8';
-        }
+        $Self->{SpellChecker} .= ' --encoding=utf-8';
     }
 
     # open spell checker
@@ -300,6 +298,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.32 $ $Date: 2010-06-17 21:39:40 $
+$Revision: 1.33 $ $Date: 2011-08-12 09:06:15 $
 
 =cut

@@ -2,7 +2,7 @@
 # Kernel/System/Main.pm - main core components
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Main.pm,v 1.58 2011-01-04 17:40:12 en Exp $
+# $Id: Main.pm,v 1.59 2011-08-12 09:06:15 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Unicode::Normalize;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.58 $) [1];
+$VERSION = qw($Revision: 1.59 $) [1];
 
 =head1 NAME
 
@@ -745,11 +745,7 @@ sub Dump {
     # strings as latin1/8bit instead of utf8. Use Storable module used for
     # workaround.
     # -> http://rt.cpan.org/Ticket/Display.html?id=28607
-    if (
-        $Self->{EncodeObject}->CharsetInternal()
-        && $Self->Require('Storable')
-        && $Type eq 'binary'
-        )
+    if ( $Self->Require('Storable') && $Type eq 'binary' )
     {
 
         # Clone the data because we need to disable the utf8 flag in all
@@ -975,6 +971,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.58 $ $Date: 2011-01-04 17:40:12 $
+$Revision: 1.59 $ $Date: 2011-08-12 09:06:15 $
 
 =cut

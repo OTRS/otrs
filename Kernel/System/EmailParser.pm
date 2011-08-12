@@ -2,7 +2,7 @@
 # Kernel/System/EmailParser.pm - the global email parser module
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: EmailParser.pm,v 1.105 2011-07-22 18:02:06 en Exp $
+# $Id: EmailParser.pm,v 1.106 2011-08-12 09:06:15 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use MIME::Words qw(:all);
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.105 $) [1];
+$VERSION = qw($Revision: 1.106 $) [1];
 
 =head1 NAME
 
@@ -447,27 +447,15 @@ sub GetReturnContentType {
     my $Self = shift;
 
     my $ContentType = $Self->GetContentType();
-    if ( $Self->{EncodeObject}->CharsetInternal() ) {
-        my $InternalCharset = $Self->{EncodeObject}->CharsetInternal();
-        $ContentType =~ s/(charset=)(.*)/$1$InternalCharset/ig;
-
-        # debug
-        if ( $Self->{Debug} > 0 ) {
-            $Self->{LogObject}->Log(
-                Priority => 'debug',
-                Message  => "Changed ContentType from '"
-                    . $Self->GetContentType()
-                    . "' to '$ContentType'.",
-            );
-        }
-        return $ContentType;
-    }
+    $ContentType =~ s/(charset=)(.*)/$1utf-8/ig;
 
     # debug
     if ( $Self->{Debug} > 0 ) {
         $Self->{LogObject}->Log(
             Priority => 'debug',
-            Message  => 'Changed no ContentType',
+            Message  => "Changed ContentType from '"
+                . $Self->GetContentType()
+                . "' to '$ContentType'.",
         );
     }
     return $ContentType;
@@ -487,11 +475,7 @@ Returns the charset of the new message body "Charset"
 sub GetReturnCharset {
     my $Self = shift;
 
-    if ( $Self->{EncodeObject}->CharsetInternal() ) {
-        return $Self->{EncodeObject}->CharsetInternal();
-    }
-
-    return $Self->GetCharset();
+    return 'utf-8';
 }
 
 =item GetMessageBody()
@@ -947,6 +931,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.105 $ $Date: 2011-07-22 18:02:06 $
+$Revision: 1.106 $ $Date: 2011-08-12 09:06:15 $
 
 =cut

@@ -1,8 +1,8 @@
 # --
 # XML.t - XML tests
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: XML.t,v 1.31 2010-10-29 22:16:59 en Exp $
+# $Id: XML.t,v 1.32 2011-08-12 09:06:15 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,6 @@ use Kernel::System::Ticket;
 
 my $XMLObject    = Kernel::System::XML->new( %{$Self} );
 my $TicketObject = Kernel::System::Ticket->new( %{$Self} );
-my $Charset      = $Self->{ConfigObject}->Get('DefaultCharset');
 
 # test XMLParse2XMLHash() with an iso-8859-1 encoded xml
 my $String = '<?xml version="1.0" encoding="iso-8859-1" ?>
@@ -39,29 +38,15 @@ $Self->Is(
 );
 
 # test charset specific situations
-if ( $Charset eq 'utf-8' ) {
-    $Self->Is(
-        $XMLHash[1]->{Contact}->[1]->{Name}->[1]->{Content} || '',
-        "ü Some Test",
-        '#1 XMLParse2XMLHash() (Contact->Name->Content)',
-    );
-    $Self->True(
-        Encode::is_utf8( $XMLHash[1]->{Contact}->[1]->{Name}->[1]->{Content} ) || '',
-        '#1 XMLParse2XMLHash() (Contact->Name->type) Encode::is_utf8',
-    );
-}
-elsif ( $Charset eq 'iso-8859-1' || $Charset eq 'iso-8859-15' ) {
-    no utf8;
-    $Self->Is(
-        $XMLHash[1]->{Contact}->[1]->{Name}->[1]->{Content} || '',
-        "� Some Test",
-        '#1 XMLParse2XMLHash() (Contact->Name->Content)',
-    );
-    $Self->True(
-        !Encode::is_utf8( $XMLHash[1]->{Contact}->[1]->{Name}->[1]->{Content} ) || '',
-        '#1 XMLParse2XMLHash() (Contact->Name->type) Encode::is_utf8',
-    );
-}
+$Self->Is(
+    $XMLHash[1]->{Contact}->[1]->{Name}->[1]->{Content} || '',
+    "ü Some Test",
+    '#1 XMLParse2XMLHash() (Contact->Name->Content)',
+);
+$Self->True(
+    Encode::is_utf8( $XMLHash[1]->{Contact}->[1]->{Name}->[1]->{Content} ) || '',
+    '#1 XMLParse2XMLHash() (Contact->Name->type) Encode::is_utf8',
+);
 
 # test XMLParse2XMLHash() with utf-8 encoded xml
 $String = '<?xml version="1.0" encoding="utf-8" ?>
@@ -85,71 +70,42 @@ $Self->Is(
 );
 
 # test charset specific situations
-if ( $Charset eq 'utf-8' ) {
-    $Self->Is(
-        $XMLHash[1]->{Contact}->[1]->{GermanText}->[1]->{Content} || '',
-        'German Umlaute öäü ÄÜÖ ß',
-        '#2 XMLParse2XMLHash() (Contact->GermanText)',
-    );
-    $Self->True(
-        Encode::is_utf8( $XMLHash[1]->{Contact}->[1]->{GermanText}->[1]->{Content} ) || '',
-        '#2 XMLParse2XMLHash() (Contact->GermanText) Encode::is_utf8',
-    );
-    $Self->Is(
-        $XMLHash[1]->{Contact}->[1]->{JapanText}->[1]->{Content} || '',
-        'Japan カスタ',
-        '#2 XMLParse2XMLHash() (Contact->JapanText)',
-    );
-    $Self->True(
-        Encode::is_utf8( $XMLHash[1]->{Contact}->[1]->{JapanText}->[1]->{Content} ) || '',
-        '#2 XMLParse2XMLHash() (Contact->JapanText) Encode::is_utf8',
-    );
-    $Self->Is(
-        $XMLHash[1]->{Contact}->[1]->{ChineseText}->[1]->{Content} || '',
-        'Chinese 用迎使用',
-        '#2 XMLParse2XMLHash() (Contact->ChineseText)',
-    );
-    $Self->True(
-        Encode::is_utf8( $XMLHash[1]->{Contact}->[1]->{ChineseText}->[1]->{Content} ) || '',
-        '#2 XMLParse2XMLHash() (Contact->ChineseText) Encode::is_utf8',
-    );
-    $Self->Is(
-        $XMLHash[1]->{Contact}->[1]->{BulgarianText}->[1]->{Content} || '',
-        'Bulgarian Език',
-        '#2 XMLParse2XMLHash() (Contact->BulgarianText)',
-    );
-    $Self->True(
-        Encode::is_utf8( $XMLHash[1]->{Contact}->[1]->{BulgarianText}->[1]->{Content} ) || '',
-        '#2 XMLParse2XMLHash() (Contact->BulgarianText) Encode::is_utf8',
-    );
-}
-elsif ( $Charset eq 'iso-8859-1' || $Charset eq 'iso-8859-15' ) {
-    no utf8;
-    $Self->Is(
-        $XMLHash[1]->{Contact}->[1]->{GermanText}->[1]->{Content} || '',
-        'German Umlaute ��� ��� �',
-        '#2 XMLParse2XMLHash() (Contact->GermanText)',
-    );
-    $Self->True(
-        !Encode::is_utf8( $XMLHash[1]->{Contact}->[1]->{GermanText}->[1]->{Content} ) || '',
-        '#2 XMLParse2XMLHash() (Contact->GermanText) Encode::is_utf8',
-    );
-
-    $Self->True(
-        !Encode::is_utf8( $XMLHash[1]->{Contact}->[1]->{JapanText}->[1]->{Content} ) || '',
-        '#2 XMLParse2XMLHash() (Contact->JapanText) Encode::is_utf8',
-    );
-
-    $Self->True(
-        !Encode::is_utf8( $XMLHash[1]->{Contact}->[1]->{ChineseText}->[1]->{Content} ) || '',
-        '#2 XMLParse2XMLHash() (Contact->ChineseText) Encode::is_utf8',
-    );
-
-    $Self->True(
-        !Encode::is_utf8( $XMLHash[1]->{Contact}->[1]->{BulgarianText}->[1]->{Content} ) || '',
-        '#2 XMLParse2XMLHash() (Contact->BulgarianText) Encode::is_utf8',
-    );
-}
+$Self->Is(
+    $XMLHash[1]->{Contact}->[1]->{GermanText}->[1]->{Content} || '',
+    'German Umlaute öäü ÄÜÖ ß',
+    '#2 XMLParse2XMLHash() (Contact->GermanText)',
+);
+$Self->True(
+    Encode::is_utf8( $XMLHash[1]->{Contact}->[1]->{GermanText}->[1]->{Content} ) || '',
+    '#2 XMLParse2XMLHash() (Contact->GermanText) Encode::is_utf8',
+);
+$Self->Is(
+    $XMLHash[1]->{Contact}->[1]->{JapanText}->[1]->{Content} || '',
+    'Japan カスタ',
+    '#2 XMLParse2XMLHash() (Contact->JapanText)',
+);
+$Self->True(
+    Encode::is_utf8( $XMLHash[1]->{Contact}->[1]->{JapanText}->[1]->{Content} ) || '',
+    '#2 XMLParse2XMLHash() (Contact->JapanText) Encode::is_utf8',
+);
+$Self->Is(
+    $XMLHash[1]->{Contact}->[1]->{ChineseText}->[1]->{Content} || '',
+    'Chinese 用迎使用',
+    '#2 XMLParse2XMLHash() (Contact->ChineseText)',
+);
+$Self->True(
+    Encode::is_utf8( $XMLHash[1]->{Contact}->[1]->{ChineseText}->[1]->{Content} ) || '',
+    '#2 XMLParse2XMLHash() (Contact->ChineseText) Encode::is_utf8',
+);
+$Self->Is(
+    $XMLHash[1]->{Contact}->[1]->{BulgarianText}->[1]->{Content} || '',
+    'Bulgarian Език',
+    '#2 XMLParse2XMLHash() (Contact->BulgarianText)',
+);
+$Self->True(
+    Encode::is_utf8( $XMLHash[1]->{Contact}->[1]->{BulgarianText}->[1]->{Content} ) || '',
+    '#2 XMLParse2XMLHash() (Contact->BulgarianText) Encode::is_utf8',
+);
 
 $String = '<?xml version="1.0" encoding="utf-8" ?>
     <Contact role="admin" type="organization">
@@ -243,30 +199,15 @@ $Self->Is(
     '#3 XMLParse2XMLHash() (Contact->Quote->Name)',
 );
 
-# test charset specific situations
-if ( $Charset eq 'utf-8' ) {
-    $Self->Is(
-        $XMLHash[1]->{Contact}->[1]->{GermanText}->[1]->{Content} || '',
-        'German Umlaute öäü ÄÜÖ ß',
-        '#3 XMLParse2XMLHash() (Contact->GermanText)',
-    );
-    $Self->True(
-        Encode::is_utf8( $XMLHash[1]->{Contact}->[1]->{GermanText}->[1]->{Content} ) || '',
-        '#3 XMLParse2XMLHash() (Contact->GermanText) Encode::is_utf8',
-    );
-}
-elsif ( $Charset eq 'iso-8859-1' || $Charset eq 'iso-8859-15' ) {
-    no utf8;
-    $Self->Is(
-        $XMLHash[1]->{Contact}->[1]->{GermanText}->[1]->{Content} || '',
-        'German Umlaute ��� ��� �',
-        '#3 XMLParse2XMLHash() (Contact->GermanText)',
-    );
-    $Self->True(
-        !Encode::is_utf8( $XMLHash[1]->{Contact}->[1]->{GermanText}->[1]->{Content} ) || '',
-        '#3 XMLParse2XMLHash() (Contact->GermanText) Encode::is_utf8',
-    );
-}
+$Self->Is(
+    $XMLHash[1]->{Contact}->[1]->{GermanText}->[1]->{Content} || '',
+    'German Umlaute öäü ÄÜÖ ß',
+    '#3 XMLParse2XMLHash() (Contact->GermanText)',
+);
+$Self->True(
+    Encode::is_utf8( $XMLHash[1]->{Contact}->[1]->{GermanText}->[1]->{Content} ) || '',
+    '#3 XMLParse2XMLHash() (Contact->GermanText) Encode::is_utf8',
+);
 
 # enter the @XMLHash into the database, retrieve and delete it
 for my $Key ( 'Some\'Key', '123' ) {
@@ -299,30 +240,15 @@ for my $Key ( 'Some\'Key', '123' ) {
         "#3 ($Key) XMLHashGet() (Telephone2)",
     );
 
-    # test charset specific situations
-    if ( $Charset eq 'utf-8' ) {
-        $Self->Is(
-            $#XMLHashGet == 1 && $XMLHashGet[1]->{Contact}->[1]->{GermanText}->[1]->{Content},
-            'German Umlaute öäü ÄÜÖ ß',
-            "#3 ($Key) XMLHashGet() (GermanText)",
-        );
-        $Self->True(
-            Encode::is_utf8( $XMLHashGet[1]->{Contact}->[1]->{GermanText}->[1]->{Content} ) || '',
-            "#3 ($Key) XMLHashGet() (GermanText) - Encode::is_utf8",
-        );
-    }
-    elsif ( $Charset eq 'iso-8859-1' || $Charset eq 'iso-8859-15' ) {
-        no utf8;
-        $Self->Is(
-            $#XMLHashGet == 1 && $XMLHashGet[1]->{Contact}->[1]->{GermanText}->[1]->{Content},
-            'German Umlaute ��� ��� �',
-            "#3 ($Key) XMLHashGet() (GermanText)",
-        );
-        $Self->True(
-            !Encode::is_utf8( $XMLHashGet[1]->{Contact}->[1]->{GermanText}->[1]->{Content} ) || '',
-            "#3 ($Key) XMLHashGet() (GermanText) - Encode::is_utf8",
-        );
-    }
+    $Self->Is(
+        $#XMLHashGet == 1 && $XMLHashGet[1]->{Contact}->[1]->{GermanText}->[1]->{Content},
+        'German Umlaute öäü ÄÜÖ ß',
+        "#3 ($Key) XMLHashGet() (GermanText)",
+    );
+    $Self->True(
+        Encode::is_utf8( $XMLHashGet[1]->{Contact}->[1]->{GermanText}->[1]->{Content} ) || '',
+        "#3 ($Key) XMLHashGet() (GermanText) - Encode::is_utf8",
+    );
 
     @XMLHashGet = $XMLObject->XMLHashGet(
         Type  => 'SomeType',
@@ -343,30 +269,15 @@ for my $Key ( 'Some\'Key', '123' ) {
         "#3 ($Key) XMLHashGet() (Telephone2)",
     );
 
-    # test charset specific situations
-    if ( $Charset eq 'utf-8' ) {
-        $Self->Is(
-            $#XMLHashGet == 1 && $XMLHash[1]->{Contact}->[1]->{GermanText}->[1]->{Content},
-            'German Umlaute öäü ÄÜÖ ß',
-            "#3 utf8($Key) XMLHashGet() (GermanText)",
-        );
-        $Self->True(
-            Encode::is_utf8( $XMLHashGet[1]->{Contact}->[1]->{GermanText}->[1]->{Content} ) || '',
-            "#3 ($Key) XMLHashGet() (GermanText) - Encode::is_utf8",
-        );
-    }
-    elsif ( $Charset eq 'iso-8859-1' || $Charset eq 'iso-8859-15' ) {
-        no utf8;
-        $Self->Is(
-            $#XMLHashGet == 1 && $XMLHash[1]->{Contact}->[1]->{GermanText}->[1]->{Content},
-            'German Umlaute ��� ��� �',
-            "#3 utf8($Key) XMLHashGet() (GermanText)",
-        );
-        $Self->True(
-            !Encode::is_utf8( $XMLHashGet[1]->{Contact}->[1]->{GermanText}->[1]->{Content} ) || '',
-            "#3 ($Key) XMLHashGet() (GermanText) - Encode::is_utf8",
-        );
-    }
+    $Self->Is(
+        $#XMLHashGet == 1 && $XMLHash[1]->{Contact}->[1]->{GermanText}->[1]->{Content},
+        'German Umlaute öäü ÄÜÖ ß',
+        "#3 utf8($Key) XMLHashGet() (GermanText)",
+    );
+    $Self->True(
+        Encode::is_utf8( $XMLHashGet[1]->{Contact}->[1]->{GermanText}->[1]->{Content} ) || '',
+        "#3 ($Key) XMLHashGet() (GermanText) - Encode::is_utf8",
+    );
 
     @XMLHashGet = $XMLObject->XMLHashGet(
         Type  => 'SomeType',
@@ -387,22 +298,11 @@ for my $Key ( 'Some\'Key', '123' ) {
         "#3 ($Key) XMLHashGet() (Telephone2)",
     );
 
-    # test charset specific situations
-    if ( $Charset eq 'utf-8' ) {
-        $Self->Is(
-            $#XMLHashGet == 1 && $XMLHashGet[1]->{Contact}->[1]->{GermanText}->[1]->{Content},
-            'German Umlaute öäü ÄÜÖ ß',
-            "#3 ($Key) XMLHashGet() (GermanText)",
-        );
-    }
-    elsif ( $Charset eq 'iso-8859-1' || $Charset eq 'iso-8859-15' ) {
-        no utf8;
-        $Self->Is(
-            $#XMLHashGet == 1 && $XMLHashGet[1]->{Contact}->[1]->{GermanText}->[1]->{Content},
-            'German Umlaute ��� ��� �',
-            "#3 ($Key) XMLHashGet() (GermanText)",
-        );
-    }
+    $Self->Is(
+        $#XMLHashGet == 1 && $XMLHashGet[1]->{Contact}->[1]->{GermanText}->[1]->{Content},
+        'German Umlaute öäü ÄÜÖ ß',
+        "#3 ($Key) XMLHashGet() (GermanText)",
+    );
 
     my $XMLHashUpdateTrue = $XMLObject->XMLHashUpdate(
         Type    => 'SomeType',
@@ -433,30 +333,15 @@ for my $Key ( 'Some\'Key', '123' ) {
         "#3 ($Key) XMLHashGet() (Telephone2)",
     );
 
-    # test charset specific situations
-    if ( $Charset eq 'utf-8' ) {
-        $Self->Is(
-            $#XMLHashGet == 1 && $XMLHashGet[1]->{Contact}->[1]->{GermanText}->[1]->{Content},
-            'German Umlaute öäü ÄÜÖ ß',
-            "utf8#3 ($Key) XMLHashGet() (GermanText)",
-        );
-        $Self->True(
-            Encode::is_utf8( $XMLHashGet[1]->{Contact}->[1]->{GermanText}->[1]->{Content} ) || '',
-            "#3 ($Key) XMLHashGet() (GermanText) - Encode::is_utf8",
-        );
-    }
-    elsif ( $Charset eq 'iso-8859-1' || $Charset eq 'iso-8859-15' ) {
-        no utf8;
-        $Self->Is(
-            $#XMLHashGet == 1 && $XMLHashGet[1]->{Contact}->[1]->{GermanText}->[1]->{Content},
-            'German Umlaute ��� ��� �',
-            "utf8#3 ($Key) XMLHashGet() (GermanText)",
-        );
-        $Self->True(
-            !Encode::is_utf8( $XMLHashGet[1]->{Contact}->[1]->{GermanText}->[1]->{Content} ) || '',
-            "#3 ($Key) XMLHashGet() (GermanText) - Encode::is_utf8",
-        );
-    }
+    $Self->Is(
+        $#XMLHashGet == 1 && $XMLHashGet[1]->{Contact}->[1]->{GermanText}->[1]->{Content},
+        'German Umlaute öäü ÄÜÖ ß',
+        "utf8#3 ($Key) XMLHashGet() (GermanText)",
+    );
+    $Self->True(
+        Encode::is_utf8( $XMLHashGet[1]->{Contact}->[1]->{GermanText}->[1]->{Content} ) || '',
+        "#3 ($Key) XMLHashGet() (GermanText) - Encode::is_utf8",
+    );
 
     my $XMLHashDelete = $XMLObject->XMLHashDelete(
         Type => 'SomeType',

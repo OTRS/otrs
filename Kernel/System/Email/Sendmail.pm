@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Email/Sendmail.pm - the global email send module
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Sendmail.pm,v 1.32 2009-12-07 16:21:55 martin Exp $
+# $Id: Sendmail.pm,v 1.33 2011-08-12 09:06:15 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.32 $) [1];
+$VERSION = qw($Revision: 1.33 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -86,9 +86,8 @@ sub Send {
     }
 
     # switch filehandle to utf8 mode if utf-8 is used
-    if ( $Self->{ConfigObject}->Get('DefaultCharset') =~ /^utf(-8|8)$/i ) {
-        binmode $FH, ':utf8';
-    }
+    binmode $FH, ':utf8';
+
     print $FH ${ $Param{Header} };
     print $FH "\n";
     print $FH ${ $Param{Body} };

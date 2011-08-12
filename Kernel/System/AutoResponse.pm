@@ -1,8 +1,8 @@
 # --
 # Kernel/System/AutoResponse.pm - lib for auto responses
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AutoResponse.pm,v 1.45 2010-09-22 08:29:05 mb Exp $
+# $Id: AutoResponse.pm,v 1.46 2011-08-12 09:06:15 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::SystemAddress;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.45 $) [1];
+$VERSION = qw($Revision: 1.46 $) [1];
 
 =head1 NAME
 
@@ -189,28 +189,24 @@ sub AutoResponseGet {
     my %Data;
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
 
-        # convert to internal charset e. g. utf8
-        if ( $Self->{EncodeObject}->CharsetInternal() ) {
+        # convert body
+        $Data[3] = $Self->{EncodeObject}->Convert(
+            Text  => $Data[3],
+            From  => $Data[7],
+            To    => 'utf-8',
+            Force => 1,
+        );
 
-            # convert body
-            $Data[3] = $Self->{EncodeObject}->Convert(
-                Text  => $Data[3],
-                From  => $Data[7],
-                To    => $Self->{EncodeObject}->CharsetInternal(),
-                Force => 1,
-            );
+        # convert subject
+        $Data[4] = $Self->{EncodeObject}->Convert(
+            Text  => $Data[4],
+            From  => $Data[7],
+            To    => 'utf-8',
+            Force => 1,
+        );
 
-            # convert subject
-            $Data[4] = $Self->{EncodeObject}->Convert(
-                Text  => $Data[4],
-                From  => $Data[7],
-                To    => $Self->{EncodeObject}->CharsetInternal(),
-                Force => 1,
-            );
-
-            # set new charset
-            $Data[7] = $Self->{EncodeObject}->CharsetInternal();
-        }
+        # set new charset
+        $Data[7] = 'utf-8';
 
         %Data = (
             ID          => $Param{ID},
@@ -525,6 +521,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.45 $ $Date: 2010-09-22 08:29:05 $
+$Revision: 1.46 $ $Date: 2011-08-12 09:06:15 $
 
 =cut

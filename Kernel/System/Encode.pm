@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Encode.pm - character encodings
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Encode.pm,v 1.46 2010-07-23 07:19:49 martin Exp $
+# $Id: Encode.pm,v 1.47 2011-08-12 09:06:15 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Encode;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = qw($Revision: 1.46 $) [1];
+$VERSION = qw($Revision: 1.47 $) [1];
 
 =head1 NAME
 
@@ -62,40 +62,10 @@ sub new {
     # 0=off; 1=on;
     $Self->{Debug} = 0;
 
-    # get internal charset
-    my $DefaultCharset = lc $Self->{ConfigObject}->Get('DefaultCharset');
-    if ( $DefaultCharset eq 'utf8' ) {
-        $DefaultCharset = 'utf-8';
-    }
-    if ( $DefaultCharset eq 'utf-8' ) {
-        $Self->{UTF8Used} = 1;
-    }
-
-    # check if internal charset is used
-    $Self->{CharsetInternal} = $Self->CharsetInternal();
-
     # encode STDOUT and STDERR
     $Self->SetIO( \*STDOUT, \*STDERR );
 
     return $Self;
-}
-
-=item CharsetInternal()
-
-Returns the internal used charset if possible.
-If Kernel/Config.pm "DefaultCharset" is "utf-8", then utf-8 is
-the internal charset. It returns false if no internal charset (utf-8) is
-used.
-
-    my $Charset = $EncodeObject->CharsetInternal();
-
-=cut
-
-sub CharsetInternal {
-    my $Self = shift;
-
-    return 'utf-8' if $Self->{UTF8Used};
-    return;
 }
 
 =item Convert()
@@ -225,8 +195,8 @@ sub Convert {
 
 =item Convert2CharsetInternal()
 
-Convert given charset into the internal used charset (utf-8), if
-"CharsetInternal()" returns one. Should be used on all I/O interfaces.
+Convert given charset into the internal used charset (utf-8).
+Should be used on all I/O interfaces.
 
     my $String = $EncodeObject->Convert2CharsetInternal(
         Text => $String,
@@ -246,14 +216,12 @@ sub Convert2CharsetInternal {
         return;
     }
 
-    return $Param{Text} if !$Self->{CharsetInternal};
-    return $Self->Convert( %Param, To => $Self->{CharsetInternal} );
+    return $Self->Convert( %Param, To => 'utf-8' );
 }
 
 =item EncodeInput()
 
-Convert internal used charset (e. g. utf-8) into given charset (utf-8), if
-"CharsetInternal()" returns one.
+Convert internal used charset (e. g. utf-8) into given charset (utf-8).
 
 Should be used on all I/O interfaces if data is already utf-8 to set the utf-8 stamp.
 
@@ -267,8 +235,6 @@ sub EncodeInput {
     my ( $Self, $What ) = @_;
 
     return if !defined $What;
-    return if !$Self->{CharsetInternal};
-    return if $Self->{CharsetInternal} ne 'utf-8';
 
     if ( ref $What eq 'SCALAR' ) {
         return $What if !defined ${$What};
@@ -305,9 +271,6 @@ This should be used in for output of utf-8 chars.
 sub EncodeOutput {
     my ( $Self, $What ) = @_;
 
-    return 1 if !$Self->{CharsetInternal};
-    return 1 if $Self->{CharsetInternal} ne 'utf-8';
-
     if ( ref $What eq 'SCALAR' ) {
         return $What if !defined ${$What};
         return $What if !Encode::is_utf8( ${$What} );
@@ -340,9 +303,6 @@ Set array of file handles to utf-8 output.
 sub SetIO {
     my ( $Self, @Array ) = @_;
 
-    return if !$Self->{CharsetInternal};
-    return if $Self->{CharsetInternal} ne 'utf-8';
-
     ROW:
     for my $Row (@Array) {
         next ROW if !defined $Row;
@@ -353,6 +313,17 @@ sub SetIO {
     }
 
     return;
+}
+
+#
+# DEPRECATED METHODS
+#
+
+# COMPAT: to OTRS 3.0
+sub CharsetInternal {
+    my $Self = shift;
+
+    return 'utf-8';
 }
 
 # COMPAT: to OTRS 1.x and 2.x (can be removed later)
@@ -387,6 +358,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.46 $ $Date: 2010-07-23 07:19:49 $
+$Revision: 1.47 $ $Date: 2011-08-12 09:06:15 $
 
 =cut
