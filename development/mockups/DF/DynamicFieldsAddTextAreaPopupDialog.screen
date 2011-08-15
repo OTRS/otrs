@@ -67,7 +67,7 @@
   <widgets xsi:type="model:TextField" x="376" y="428" width="241" measuredWidth="241" measuredHeight="21">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Label" x="503" y="277" text="Mandatory:" measuredWidth="65" measuredHeight="21">
+  <widgets xsi:type="model:Label" x="512" y="277" text="Mandatory:" measuredWidth="65" measuredHeight="21">
     <font/>
   </widgets>
   <widgets xsi:type="model:Button" x="440" y="564" text="Save" measuredWidth="44" measuredHeight="23">
