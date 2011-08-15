@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE section PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN" "http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd">
-<!-- $Id: requirements.xml,v 1.2 2011/05/02 06:20:35 cg Exp $ -->
+<!-- $Id: requirements.xml,v 1.1 2011-08-15 17:46:08 cr Exp $ -->
 
 <section id="development-environment">
     <title>Requirements</title>

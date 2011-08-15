@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE section PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN" "http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd">
-<!-- $Id: layers_structure.xml,v 1.2 2011/05/05 06:56:56 mb Exp $ -->
+<!-- $Id: layers_structure.xml,v 1.1 2011-08-15 17:46:08 cr Exp $ -->
 
 <section id="layers_structure">
     <title>GI Layers</title>

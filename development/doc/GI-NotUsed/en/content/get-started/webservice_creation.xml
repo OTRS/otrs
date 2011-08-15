@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE section PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN" "http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd">
-<!-- $Id: debugger.xml,v 1.1 2011/05/02 06:28:52 cg Exp $ -->
+<!-- $Id: webservice_creation.xml,v 1.1 2011-08-15 17:46:08 cr Exp $ -->
 
 <section id="creating_webservice">
     <title>Creating a new Web service</title>
