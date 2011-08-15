@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<otrs_config version="1.0" init="Application">
+    <CVS>$Id: DynamicFields.xml,v 1.1 2011-08-15 22:41:15 cr Exp $</CVS>
+    <ConfigItem Name="Frontend::Module###AdminDynamicFields" Required="0" Valid="1">
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <Group>admin</Group>
+                <Description>Admin</Description>
+                <Title Translatable="1">Dynamic Fields GUI</Title>
+                <NavBarName>Admin</NavBarName>
+                <NavBarModule>
+                    <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
+                    <Name Translatable="1">Dynamic Fields</Name>
+                    <Description Translatable="1">Create and manage dynamic fields.</Description>
+                    <Block>Ticket</Block>
+                    <Prio>1000</Prio>
+                </NavBarModule>
+                <Loader>
+                </Loader>
+            </FrontendModuleReg>
+        </Setting>
+    </ConfigItem>
+</otrs_config>
