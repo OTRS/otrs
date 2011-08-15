@@ -6,7 +6,7 @@
     <font size="16"/>
   </widgets>
   <widgets xsi:type="model:Window" x="264" y="96" width="641" height="613" locked="true" measuredWidth="641" measuredHeight="613"/>
-  <widgets xsi:type="model:Table" x="274" y="145" width="621" height="212" text="Name v, Description v,Type v,Valid v&#xA;text1, Text Field Number 1, Text, valid&#xA;textarea1, Text area Field Number 1, Textarea, valid&#xA;checkbox1, Check box Field Number 1, Checkbox, valid&#xA;dropdown1, Drop Down Field Number 1, Dropdown, valid&#xA;date1, Date Field Number 1, Date, valid&#xA;datetime1, Date Time Field Number 1, Datetime, valid&#xA;text2, Text Field Number 2, Text, invalid&#xA;text3, Text Field Number 3, Text, nvalid-temporarily" measuredWidth="621" measuredHeight="212" selection="0" horizontalLines="true">
+  <widgets xsi:type="model:Table" x="274" y="145" width="621" height="212" text="Identifier v, Description v, Type, Object v,  Validity v&#xA;text1, My Text 1, Text, Ticket, valid&#xA;textarea1, My Text area 1, Textarea, Ticket, valid&#xA;checkbox1, My Check box 1, Checkbox, Ticket, valid&#xA;dropdown1, My Drop Down 1, Dropdown, Ticket, valid&#xA;date1, My Date 1, Date, Article, valid&#xA;datetime1, My Date Time 1, Datetime, Ticket, valid&#xA;text2, My Text Field 2, Text,  Article, invalid&#xA;text3, My Text Field 3, Text,  Article, Invalid-temporarily" measuredWidth="621" measuredHeight="212" selection="0" horizontalLines="true">
     <font/>
   </widgets>
   <widgets xsi:type="model:Window" x="10" y="256" width="237" height="89" text="Hints" measuredWidth="237" measuredHeight="89"/>
@@ -28,10 +28,6 @@
   <widgets xsi:type="model:Label" x="703" y="125" text="1-8 of 247 - Page: 1 2 3 4 5 >> >" measuredWidth="192" measuredHeight="21">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Note" x="376" y="63" text="Is this the identifier?&#xA;&#xA;" measuredWidth="119" measuredHeight="23">
-    <font/>
-  </widgets>
-  <widgets xsi:type="model:Arrow" x="328" y="87" width="49" height="59" measuredWidth="49" measuredHeight="59" direction="bottom"/>
   <hRuler/>
   <vRuler/>
   <font/>
