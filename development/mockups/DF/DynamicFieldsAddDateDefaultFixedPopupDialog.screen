@@ -110,7 +110,7 @@
   <widgets xsi:type="model:Label" x="253" y="598" width="115" text="Years in Future:" measuredWidth="115" measuredHeight="21" textAlignment="Right">
     <font/>
   </widgets>
-  <widgets xsi:type="model:TextField" x="376" y="598" width="241" measuredWidth="241" measuredHeight="21">
+  <widgets xsi:type="model:TextField" x="376" y="598" width="241" text="5" measuredWidth="241" measuredHeight="21">
     <font/>
   </widgets>
   <widgets xsi:type="model:Label" x="376" y="623" text="The number of years in future to display" measuredWidth="221" measuredHeight="21" foreground="#666666">
@@ -143,7 +143,7 @@
   <widgets xsi:type="model:Label" x="253" y="654" width="115" text="Years in Past:" measuredWidth="115" measuredHeight="21" textAlignment="Right">
     <font/>
   </widgets>
-  <widgets xsi:type="model:TextField" x="376" y="654" width="241" measuredWidth="241" measuredHeight="21">
+  <widgets xsi:type="model:TextField" x="376" y="654" width="241" text="5" measuredWidth="241" measuredHeight="21">
     <font/>
   </widgets>
   <widgets xsi:type="model:Label" x="376" y="679" text="The number of years in past to display" measuredWidth="211" measuredHeight="21" foreground="#666666">
