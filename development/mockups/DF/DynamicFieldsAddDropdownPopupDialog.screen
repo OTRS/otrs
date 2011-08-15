@@ -28,7 +28,7 @@
   <widgets xsi:type="model:Label" x="703" y="125" text="1-8 of 247 - Page: 1 2 3 4 5 >> >" measuredWidth="192" measuredHeight="21">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Rectangle" width="1024" height="716" measuredWidth="1024" measuredHeight="716" background="#f3f3f3" alpha="192" foreground="#ffffff">
+  <widgets xsi:type="model:Rectangle" width="1024" height="768" measuredWidth="1024" measuredHeight="768" background="#f3f3f3" alpha="192" foreground="#ffffff">
     <font/>
   </widgets>
   <widgets xsi:type="model:Browser" x="192" y="8" width="627" height="750" text="Pupup&#xA;http://..." measuredWidth="627" measuredHeight="750"/>
@@ -54,7 +54,7 @@
   <widgets xsi:type="model:TextField" x="309" y="241" width="113" measuredWidth="113" measuredHeight="21">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Window" x="208" y="356" width="593" height="353" text="Text field specific attributes" measuredWidth="593" measuredHeight="353"/>
+  <widgets xsi:type="model:Window" x="208" y="356" width="593" height="353" text="Dropdown field specific attributes" measuredWidth="593" measuredHeight="353"/>
   <widgets xsi:type="model:Label" x="274" y="572" text="Multiple Select:" measuredWidth="87" measuredHeight="21">
     <font/>
   </widgets>
