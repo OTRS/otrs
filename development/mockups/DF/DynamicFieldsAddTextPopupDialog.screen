@@ -28,7 +28,7 @@
   <widgets xsi:type="model:Label" x="703" y="125" text="1-8 of 247 - Page: 1 2 3 4 5 >> >" measuredWidth="192" measuredHeight="21">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Rectangle" width="905" height="716" measuredWidth="905" measuredHeight="716" background="#f3f3f3" alpha="192" foreground="#ffffff">
+  <widgets xsi:type="model:Rectangle" width="1024" height="716" measuredWidth="1024" measuredHeight="716" background="#f3f3f3" alpha="192" foreground="#ffffff">
     <font/>
   </widgets>
   <widgets xsi:type="model:Browser" x="192" y="44" width="627" height="581" text="Pupup&#xA;http://..." measuredWidth="627" measuredHeight="581"/>
