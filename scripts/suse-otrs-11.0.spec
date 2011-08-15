@@ -2,7 +2,7 @@
 # RPM spec file for OpenSUSE 11.x of the OTRS package
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: suse-otrs-11.0.spec,v 1.7 2011-01-27 18:23:09 mp Exp $
+# $Id: suse-otrs-11.0.spec,v 1.8 2011-08-15 12:49:13 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -126,6 +126,12 @@ fi
 # remove old faq config file
 if test -e /opt/otrs/Kernel/Config/Files/FAQ.pm; then
     mv /opt/otrs/Kernel/Config/Files/FAQ.pm /opt/otrs/Kernel/Config/Files/FAQ.pm.not_longer_used;
+fi
+
+# run OTRS rebuild config, delete cache, if the system was already in use (i.e. upgrade).
+if test -e /opt/otrs/Kernel/Config/Files/ZZZAAuto.pm
+    /opt/otrs/bin/otrs.RebuildConfig.pl
+    /opt/otrs/bin/otrs.DeleteCache.pl
 fi
 
 # note
