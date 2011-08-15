@@ -67,10 +67,7 @@
   <widgets xsi:type="model:TextField" x="376" y="428" width="241" measuredWidth="241" measuredHeight="21">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Label" x="542" y="277" text="Type:" measuredWidth="35" measuredHeight="21">
-    <font/>
-  </widgets>
-  <widgets xsi:type="model:TextField" x="591" y="277" width="113" text="Textarea" measuredWidth="113" measuredHeight="21" state="disabled" background="#cccccc">
+  <widgets xsi:type="model:Label" x="503" y="277" text="Mandatory:" measuredWidth="65" measuredHeight="21">
     <font/>
   </widgets>
   <widgets xsi:type="model:Button" x="440" y="564" text="Save" measuredWidth="44" measuredHeight="23">
@@ -102,6 +99,15 @@
     <font/>
   </widgets>
   <widgets xsi:type="model:Combo" x="309" y="335" width="65" text="Yes" measuredWidth="65" measuredHeight="21">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" x="542" y="335" text="Type:" measuredWidth="35" measuredHeight="21">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:TextField" x="591" y="335" width="113" text="Textarea" measuredWidth="113" measuredHeight="21" state="disabled" background="#cccccc">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Combo" x="591" y="277" width="65" text="Yes" measuredWidth="65" measuredHeight="21">
     <font/>
   </widgets>
   <hRuler/>

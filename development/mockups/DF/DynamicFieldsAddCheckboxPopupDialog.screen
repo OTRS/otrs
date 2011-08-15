@@ -58,10 +58,7 @@
   <widgets xsi:type="model:Label" x="289" y="428" text="Default value:" measuredWidth="79" measuredHeight="21">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Label" x="542" y="277" text="Type:" measuredWidth="35" measuredHeight="21">
-    <font/>
-  </widgets>
-  <widgets xsi:type="model:TextField" x="591" y="277" width="113" text="Checkbox" measuredWidth="113" measuredHeight="21" state="disabled" background="#cccccc">
+  <widgets xsi:type="model:Label" x="519" y="277" text="Mandatory:" measuredWidth="65" measuredHeight="21">
     <font/>
   </widgets>
   <widgets xsi:type="model:Button" x="440" y="512" text="Save" measuredWidth="44" measuredHeight="23">
@@ -93,6 +90,15 @@
     <font/>
   </widgets>
   <widgets xsi:type="model:Combo" x="376" y="428" width="99" text="Unchecked" measuredWidth="99" measuredHeight="21">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" x="545" y="335" text="Type:" measuredWidth="35" measuredHeight="21">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:TextField" x="594" y="335" width="113" text="Checkbox" measuredWidth="113" measuredHeight="21" state="disabled" background="#cccccc">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Combo" x="591" y="277" width="65" text="Yes" measuredWidth="65" measuredHeight="21">
     <font/>
   </widgets>
   <hRuler/>
