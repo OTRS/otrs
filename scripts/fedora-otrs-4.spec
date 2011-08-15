@@ -2,7 +2,7 @@
 # RPM spec file for Fedora of the OTRS package
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: fedora-otrs-4.spec,v 1.14 2011-01-27 19:44:38 mp Exp $
+# $Id: fedora-otrs-4.spec,v 1.14.2.1 2011-08-15 12:50:49 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -114,6 +114,12 @@ if test -e /opt/otrs/Kernel/Config/Files/FAQ.pm; then
     mv /opt/otrs/Kernel/Config/Files/FAQ.pm /opt/otrs/Kernel/Config/Files/FAQ.pm.not_longer_used;
 fi
 
+# run OTRS rebuild config, delete cache, if the system was already in use (i.e. upgrade).
+if test -e /opt/otrs/Kernel/Config/Files/ZZZAAuto.pm
+    /opt/otrs/bin/otrs.RebuildConfig.pl
+    /opt/otrs/bin/otrs.DeleteCache.pl
+fi
+
 # note
 HOST=`hostname -f`
 echo ""
@@ -130,7 +136,7 @@ echo " Use a webbrowser and open this link:"
 echo " http://$HOST/otrs/installer.pl"
 echo ""
 echo "[OTRS services]"
-echo " Start OTRS 'service otrs start' (service otrs {start|stop|status|restart)."
+echo " Start OTRS: 'service otrs start' (service otrs {start|stop|status|restart)."
 echo ""
 echo "((enjoy))"
 echo ""
