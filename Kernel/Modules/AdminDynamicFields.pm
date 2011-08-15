@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminDynamicFields.pm - provides a dynamic fields view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminDynamicFields.pm,v 1.1 2011-08-15 22:57:41 cr Exp $
+# $Id: AdminDynamicFields.pm,v 1.2 2011-08-15 23:49:14 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Valid;
 use Kernel::System::CheckItem;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -36,6 +36,12 @@ sub new {
     $Self->{ValidObject} = Kernel::System::Valid->new( %{$Self} );
 
     #    $Self->{DynamicFieldsObject} = Kernel::System::DynamicFields->new( %{$Self} );
+
+    # get configured ticket modules
+    $Self->{DFTicketModuleConfig} = $Self->{ConfigObject}->Get('DynamicFields::Ticket::Module');
+
+    # get configured article modules
+    $Self->{DFArticleModuleConfig} = $Self->{ConfigObject}->Get('DynamicFields::Article::Module');
 
     return $Self;
 }
@@ -65,13 +71,59 @@ sub _ShowOverview {
         Data => \%Param,
     );
 
-    # call all needed dtl blocks
-    $Self->{LayoutObject}->Block(
-        Name => 'ActionList',
-        Data => \%Param,
+    my @TicketFieldBackends;
+
+    TICKETFIELDBACKEND:
+    for my $FieldBackend ( keys %{ $Self->{DFTicketModuleConfig} } ) {
+        next TICKETFIELDBACKEND if !$FieldBackend;
+        push @TicketFieldBackends, $FieldBackend;
+    }
+
+    # create the Add Ticket Dynamic Field select
+    my $AddTicketDynamicFieldStrg = $Self->{LayoutObject}->BuildSelection(
+        Data         => \@TicketFieldBackends,
+        Name         => 'TicketDynamicField',
+        PossibleNone => 0,
+        Translate    => 1,
+        Sort         => 'AlphanumericValue',
     );
 
-    # call all needed dtl blocks
+    # call ActionAddTicketDynamicField block
+    $Self->{LayoutObject}->Block(
+        Name => 'ActionAddTicketDynamicField',
+        Data => {
+            %Param,
+            AddTicketDynamicFieldStrg => $AddTicketDynamicFieldStrg,
+        },
+    );
+
+    my @ArticleFieldBackends;
+
+    ARTICLEFIELDBACKEND:
+    for my $FieldBackend ( keys %{ $Self->{DFArticleModuleConfig} } ) {
+        next ARTICLEFIELDBACKEND if !$FieldBackend;
+        push @ArticleFieldBackends, $FieldBackend;
+    }
+
+    # create the Add Article Dynamic Field select
+    my $AddArticleDynamicFieldStrg = $Self->{LayoutObject}->BuildSelection(
+        Data         => \@ArticleFieldBackends,
+        Name         => 'ArticleDynamicField',
+        PossibleNone => 0,
+        Translate    => 1,
+        Sort         => 'AlphanumericValue',
+    );
+
+    # call ActionAddArticleDynamicField block
+    $Self->{LayoutObject}->Block(
+        Name => 'ActionAddArticleDynamicField',
+        Data => {
+            %Param,
+            AddArticleDynamicFieldStrg => $AddArticleDynamicFieldStrg,
+        },
+    );
+
+    # call hint block
     $Self->{LayoutObject}->Block(
         Name => 'Hint',
         Data => \%Param,

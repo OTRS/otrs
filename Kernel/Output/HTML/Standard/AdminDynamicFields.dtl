@@ -2,7 +2,7 @@
 # AdminDynamicFields.dtl - provides HTML form for DynamicFields
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminDynamicFields.dtl,v 1.1 2011-08-15 22:57:41 cr Exp $
+# $Id: AdminDynamicFields.dtl,v 1.2 2011-08-15 23:49:14 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,18 +16,31 @@
     <div class="Clear"></div>
 
     <div class="SidebarColumn">
-<!-- dtl:block:ActionList -->
         <div class="WidgetSimple">
             <div class="Header">
                 <h2>$Text{"Actions"}</h2>
             </div>
             <div class="Content">
                 <ul class="ActionList">
+<!-- dtl:block:ActionAddTicketDynamicField -->
+                    <li>
+                        $Data{"AddTicketDynamicFieldStrg"}
+                        <div class="FieldExplanation">
+                            <p>$Text{"Add new ticket field."}</p>
+                        </div>
+                    </li>
+<!-- dtl:block:ActionAddTicketDynamicField -->
+<!-- dtl:block:ActionAddArticleDynamicField -->
+                    <li>
+                        $Data{"AddArticleDynamicFieldStrg"}
+                        <div class="FieldExplanation">
+                            <p>$Text{"Add new article field."}</p>
+                        </div>
+                    </li>
+<!-- dtl:block:ActionAddArticleDynamicField -->
                 </ul>
-
             </div>
         </div>
-<!-- dtl:block:ActionList -->
 <!-- dtl:block:Hint -->
         <div class="WidgetSimple">
             <div class="Header">
@@ -35,7 +48,7 @@
             </div>
             <div class="FieldExplanation">
                 <p>
-                    $Text{"."}
+                    $Text{"To add a new field select the field type form the ticket or article list depending on the scope of the new field."}
                 </p>
             </div>
         </div>
