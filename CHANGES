@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1946 2011-08-15 13:43:12 mb Exp $
+# $Id: CHANGES,v 1.1947 2011-08-15 14:14:57 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -71,6 +71,7 @@
      of > 70 characters exists.
 
 3.0.11 2011-??-??
+ - 2011-08-15 Fixed bug#7343 - Fixed bug#7343 - Typos in Customer Company Countries list.
  - 2011-08-15 Fixed bug#7081 - Kernel::System::Log fails when module does not return
     VERSION.
  - 2011-08-15 Fixed bug#6263 - RPM upgrade should run otrs.RebuildConfig.pl and
