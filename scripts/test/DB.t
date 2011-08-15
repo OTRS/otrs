@@ -2,7 +2,7 @@
 # DB.t - database tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.t,v 1.82 2011-04-18 21:05:54 en Exp $
+# $Id: DB.t,v 1.83 2011-08-15 12:06:18 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -1008,7 +1008,7 @@ push @SpecialCharacters, ( ',', '#', 'otrs test', 'otrs_test' );
 my $Counter = 0;
 
 for my $Character (@SpecialCharacters) {
-    $Self->{EncodeObject}->Encode( \$Character );
+    $Self->{EncodeObject}->EncodeInput( \$Character );
     my $name_b = $DBObject->Quote($Character);
 
     # insert

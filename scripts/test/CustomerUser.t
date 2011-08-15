@@ -2,7 +2,7 @@
 # CustomerUser.t - CustomerUser tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerUser.t,v 1.19 2011-03-15 10:09:53 mb Exp $
+# $Id: CustomerUser.t,v 1.20 2011-08-15 12:06:18 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -33,7 +33,7 @@ my $CustomerUserObject = Kernel::System::CustomerUser->new(
 my $UserID = '';
 for my $Key ( 1 .. 3, 'ä', 'カス' ) {
     my $UserRand = 'Example-Customer-User' . $Key . int( rand(1000000) );
-    $Self->{EncodeObject}->Encode( \$UserRand );
+    $Self->{EncodeObject}->EncodeInput( \$UserRand );
 
     $UserID = $UserRand;
     my $UserID = $CustomerUserObject->CustomerUserAdd(
@@ -366,7 +366,7 @@ for my $Key ( 1 .. 3, 'ä', 'カス' ) {
         );
 
         for my $Password qw(some_pass someカス someäöü) {
-            $Self->{EncodeObject}->Encode( \$Password );
+            $Self->{EncodeObject}->EncodeInput( \$Password );
             my $Set = $CustomerUserObject->SetPassword(
                 UserLogin => $UserID,
                 PW        => $Password,
