@@ -6,7 +6,7 @@
     <font size="16"/>
   </widgets>
   <widgets xsi:type="model:Window" x="264" y="96" width="641" height="613" locked="true" measuredWidth="641" measuredHeight="613"/>
-  <widgets xsi:type="model:Table" x="274" y="145" width="621" height="212" text="Name v, Description v,Type v,Valid v&#xA;text1, Text Field Number 1, Text, valid&#xA;textarea1, Text area Field Number 1, Textarea, valid&#xA;checkbox1, Check box Field Number 1, Checkbox, valid&#xA;dropdown1, Drop Down Field Number 1, Dropdown, valid&#xA;date1, Date Field Number 1, Date, valid&#xA;datetime1, Date Time Field Number 1, Datetime, valid&#xA;text2, Text Field Number 2, Text, invalid&#xA;text3, Text Field Number 3, Text, nvalid-temporarily" measuredWidth="621" measuredHeight="212" selection="1" horizontalLines="true">
+  <widgets xsi:type="model:Table" x="274" y="145" width="621" height="212" text="Identifier v, Description v, Type, Object v,  Validity v&#xA;text1, My Text 1, Text, Ticket, valid&#xA;textarea1, My Text area 1, Textarea, Ticket, valid&#xA;checkbox1, My Check box 1, Checkbox, Ticket, valid&#xA;dropdown1, My Drop Down 1, Dropdown, Ticket, valid&#xA;date1, My Date 1, Date, Article, valid&#xA;datetime1, My Date Time 1, Datetime, Ticket, valid&#xA;text2, My Text Field 2, Text,  Article, invalid&#xA;text3, My Text Field 3, Text,  Article, Invalid-temporarily" measuredWidth="621" measuredHeight="212" selection="1" horizontalLines="true">
     <font/>
   </widgets>
   <widgets xsi:type="model:Window" x="10" y="256" width="237" height="89" text="Hints" measuredWidth="237" measuredHeight="89"/>
@@ -28,11 +28,11 @@
   <widgets xsi:type="model:Label" x="703" y="125" text="1-8 of 247 - Page: 1 2 3 4 5 >> >" measuredWidth="192" measuredHeight="21">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Rectangle" width="1024" height="716" measuredWidth="1024" measuredHeight="716" background="#f3f3f3" alpha="192" foreground="#ffffff">
+  <widgets xsi:type="model:Rectangle" width="905" height="716" measuredWidth="905" measuredHeight="716" background="#f3f3f3" alpha="192" foreground="#ffffff">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Browser" x="192" y="44" width="627" height="533" text="Pupup&#xA;http://..." measuredWidth="627" measuredHeight="533"/>
-  <widgets xsi:type="model:Window" x="208" y="179" width="593" height="166" text="General" measuredWidth="593" measuredHeight="166"/>
+  <widgets xsi:type="model:Browser" x="192" y="44" width="627" height="581" text="Pupup&#xA;http://..." measuredWidth="627" measuredHeight="581"/>
+  <widgets xsi:type="model:Window" x="208" y="179" width="593" height="206" text="General" measuredWidth="593" measuredHeight="206"/>
   <widgets xsi:type="model:Label" x="245" y="218" text="Idenfifier:" measuredWidth="57" measuredHeight="21">
     <font/>
   </widgets>
@@ -54,45 +54,54 @@
   <widgets xsi:type="model:TextField" x="309" y="277" width="113" measuredWidth="113" measuredHeight="21">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Window" x="208" y="356" width="593" height="165" text="Text field specific attributes" measuredWidth="593" measuredHeight="165"/>
-  <widgets xsi:type="model:Label" x="294" y="448" text="Translatable:" measuredWidth="75" measuredHeight="21">
+  <widgets xsi:type="model:Window" x="208" y="392" width="593" height="165" text="Text field specific attributes" measuredWidth="593" measuredHeight="165"/>
+  <widgets xsi:type="model:Label" x="256" y="484" text="Translatable values:" measuredWidth="112" measuredHeight="21">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Combo" x="376" y="448" width="65" text="No" measuredWidth="65" measuredHeight="21">
+  <widgets xsi:type="model:Combo" x="376" y="484" width="65" text="No" measuredWidth="65" measuredHeight="21">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Label" x="289" y="392" text="Default Value:" measuredWidth="80" measuredHeight="21">
+  <widgets xsi:type="model:Label" x="289" y="428" text="Default value:" measuredWidth="79" measuredHeight="21">
     <font/>
   </widgets>
-  <widgets xsi:type="model:TextField" x="376" y="392" width="241" measuredWidth="241" measuredHeight="21">
+  <widgets xsi:type="model:TextField" x="376" y="428" width="241" measuredWidth="241" measuredHeight="21">
     <font/>
   </widgets>
   <widgets xsi:type="model:Label" x="542" y="277" text="Type:" measuredWidth="35" measuredHeight="21">
     <font/>
   </widgets>
-  <widgets xsi:type="model:TextField" x="591" y="277" width="113" text="text" measuredWidth="113" measuredHeight="21" state="disabled" background="#cccccc">
+  <widgets xsi:type="model:TextField" x="591" y="277" width="113" text="Text" measuredWidth="113" measuredHeight="21" state="disabled" background="#cccccc">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Button" x="440" y="528" text="Save" measuredWidth="44" measuredHeight="23">
+  <widgets xsi:type="model:Button" x="440" y="564" text="Save" measuredWidth="44" measuredHeight="23">
     <font/>
   </widgets>
   <widgets xsi:type="model:Group" x="192" y="96" width="627" height="70" measuredWidth="627" measuredHeight="70"/>
-  <widgets xsi:type="model:Label" x="202" y="106" text="Dynamic Fields - Add Text new" measuredWidth="249" measuredHeight="26">
+  <widgets xsi:type="model:Label" x="202" y="106" text="Dynamic Fields - Add Ticket Text new" measuredWidth="301" measuredHeight="26">
     <font size="16"/>
   </widgets>
   <widgets xsi:type="model:Link" x="202" y="135" text="Close window" measuredWidth="77" measuredHeight="21">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Label" x="309" y="299" text="sldkdjfsdkf ksjlskdj sal klsjadkl." measuredWidth="176" measuredHeight="21" foreground="#666666">
+  <widgets xsi:type="model:Label" x="309" y="299" text="This is the name to be shown." measuredWidth="166" measuredHeight="21" foreground="#666666">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Label" x="376" y="417" text="sldkdjfsdkf ksjlskdj sal klsjadkl." measuredWidth="176" measuredHeight="21" foreground="#666666">
+  <widgets xsi:type="model:Label" x="376" y="453" text="The value to be prefilled." measuredWidth="139" measuredHeight="21" foreground="#666666">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Label" x="376" y="472" text="sldkdjfsdkf ksjlskdj sal klsjadkl." measuredWidth="176" measuredHeight="21" foreground="#666666">
+  <widgets xsi:type="model:Label" x="376" y="508" text="Set to &quot;Yes&quot; to translate the values." measuredWidth="192" measuredHeight="21" foreground="#666666">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Link" x="489" y="529" text="or Cancel" measuredWidth="54" measuredHeight="21">
+  <widgets xsi:type="model:Link" x="489" y="565" text="or Cancel" measuredWidth="54" measuredHeight="21">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" x="309" y="356" text="Set to &quot;Yes&quot; to traslate the description." measuredWidth="211" measuredHeight="21" foreground="#666666">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Text" x="232" y="336" text="Translatable&#xA;Description:" measuredWidth="66" measuredHeight="26">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Combo" x="309" y="335" width="65" text="Yes" measuredWidth="65" measuredHeight="21">
     <font/>
   </widgets>
   <hRuler/>
