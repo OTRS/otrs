@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField.pm - DynamicFields configuration backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicField.pm,v 1.1 2011-08-16 20:53:21 cg Exp $
+# $Id: DynamicField.pm,v 1.2 2011-08-16 22:44:02 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,9 +17,10 @@ use warnings;
 use YAML;
 use Kernel::System::CacheInternal;
 use Kernel::System::VariableCheck qw(:all);
+use Kernel::System::Cache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 =head1 NAME
 
@@ -98,10 +99,15 @@ sub new {
     }
 
     # create additional objects
+    $Self->{CacheObject} = Kernel::System::Cache->new( %{$Self} );
+
+    # get the cache TTL (in seconds)
+    $Self->{CacheTTL}
+        = int( $Self->{ConfigObject}->Get('DynamicField::CacheTTL') || 3600 );
     $Self->{CacheInternalObject} = Kernel::System::CacheInternal->new(
         %Param,
         Type => 'DynamicField',
-        TTL  => 60 * 60,
+        TTL  => $Self->{CacheTTL},
     );
 
     return $Self;
@@ -148,7 +154,7 @@ sub DynamicFieldAdd {
         SQL =>
             'INSERT INTO dynamic_field (name, article_field, field_type, config, ' .
             'valid_id, create_time, create_by, change_time, change_by)' .
-            ' VALUES (?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
+            ' VALUES (?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
         Bind => [
             \$Param{Name}, \$BelongsArticle, \$Param{Type}, \$Config,
             \$Param{ValidID}, \$Param{UserID}, \$Param{UserID},
@@ -236,9 +242,9 @@ sub DynamicFieldGet {
     else {
         return if !$Self->{DBObject}->Prepare(
             SQL =>
-                'SELECT id, name, field_type, article_field, config, valid_id, create_time, change_time '
+                'SELECT id, name, article_field, field_type, config, valid_id, create_time, change_time '
                 .
-                'FROM gi_DynamicField_config WHERE name = ?',
+                'FROM dynamic_field WHERE name = ?',
             Bind => [ \$Param{Name} ],
         );
     }
@@ -447,6 +453,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2011-08-16 20:53:21 $
+$Revision: 1.2 $ $Date: 2011-08-16 22:44:02 $
 
 =cut
