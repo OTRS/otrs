@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.pm,v 1.122 2011-07-22 17:30:51 en Exp $
+# $Id: AgentTicketSearch.pm,v 1.123 2011-08-16 13:28:38 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::Type;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.122 $) [1];
+$VERSION = qw($Revision: 1.123 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1437,12 +1437,12 @@ sub Run {
             SelectedID => $GetParam{CreatedUserIDs},
         );
         if ( $Self->{ConfigObject}->Get('Ticket::Watcher') ) {
-            $Param{WatchdUserStrg} = $Self->{LayoutObject}->BuildSelection(
+            $Param{WatchUserStrg} = $Self->{LayoutObject}->BuildSelection(
                 Data       => \%ShownUsers,
-                Name       => 'WatchdUserIDs',
+                Name       => 'WatchUserIDs',
                 Multiple   => 1,
                 Size       => 5,
-                SelectedID => $GetParam{WatchdUserIDs},
+                SelectedID => $GetParam{WatchUserIDs},
             );
         }
         if ( $Self->{ConfigObject}->Get('Ticket::Responsible') ) {
