@@ -42,7 +42,7 @@
   <widgets xsi:type="model:Label" x="309" y="206" text="Only lower letters and numbers." measuredWidth="177" measuredHeight="21" foreground="#666666">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Label" x="528" y="182" text="Validity:" measuredWidth="49" measuredHeight="21">
+  <widgets xsi:type="model:Label" x="528" y="182" text="Validity:" measuredWidth="49" measuredHeight="21" textAlignment="Right">
     <font/>
   </widgets>
   <widgets xsi:type="model:Combo" x="591" y="182" width="113" text="valid" measuredWidth="113" measuredHeight="21">
@@ -67,7 +67,7 @@
   <widgets xsi:type="model:TextField" x="376" y="392" width="241" measuredWidth="241" measuredHeight="21">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Label" x="512" y="240" text="Mandatory:" measuredWidth="65" measuredHeight="21">
+  <widgets xsi:type="model:Label" x="528" y="240" width="49" text="Type:" measuredWidth="49" measuredHeight="21" textAlignment="Right">
     <font/>
   </widgets>
   <widgets xsi:type="model:Button" x="436" y="719" text="Save" measuredWidth="44" measuredHeight="23">
@@ -149,13 +149,7 @@
   <widgets xsi:type="model:Label" x="376" y="656" text="Set to &quot;Yes&quot; to translate the values." measuredWidth="192" measuredHeight="21" foreground="#666666">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Label" x="542" y="299" text="Type:" measuredWidth="35" measuredHeight="21">
-    <font/>
-  </widgets>
-  <widgets xsi:type="model:TextField" x="591" y="299" width="113" text="Dropdown" measuredWidth="113" measuredHeight="21" state="disabled" background="#cccccc">
-    <font/>
-  </widgets>
-  <widgets xsi:type="model:Combo" x="591" y="241" width="65" text="Yes" measuredWidth="65" measuredHeight="21">
+  <widgets xsi:type="model:TextField" x="591" y="241" width="113" text="Dropdown" measuredWidth="113" measuredHeight="21" state="disabled" background="#cccccc">
     <font/>
   </widgets>
   <hRuler/>
