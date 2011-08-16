@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.50.2.8 2010-12-17 13:40:27 martin Exp $
+# $Id: LayoutTicket.pm,v 1.50.2.9 2011-08-16 04:52:35 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.50.2.8 $) [1];
+$VERSION = qw($Revision: 1.50.2.9 $) [1];
 
 sub TicketStdResponseString {
     my ( $Self, %Param ) = @_;
@@ -844,6 +844,10 @@ sub ArticleQuote {
 
         # attach also other attachments on article forward
         if ( $Body && $Param{AttachmentsInclude} ) {
+
+            # remove duplicate entries
+            @NotInlineAttachments = keys %{ { map { $_ => 1 } @NotInlineAttachments } };
+
             for my $AttachmentID (@NotInlineAttachments) {
                 my %Attachment = $Self->{TicketObject}->ArticleAttachment(
                     ArticleID => $Param{ArticleID},
