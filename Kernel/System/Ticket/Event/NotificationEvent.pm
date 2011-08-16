@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Event/NotificationEvent.pm - a event module to send notifications
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: NotificationEvent.pm,v 1.23.2.1 2011-05-09 11:19:57 mb Exp $
+# $Id: NotificationEvent.pm,v 1.23.2.2 2011-08-16 14:26:44 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::NotificationEvent;
 use Kernel::System::SystemAddress;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.23.2.1 $) [1];
+$VERSION = qw($Revision: 1.23.2.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -336,9 +336,11 @@ sub _SendNotificationToRecipients {
         }
     }
 
+    # hash to keep track which agents are already receiving this notification
+    my %AgentUsed;
+
     # get recipients by RecipientAgents
     if ( $Param{Notification}->{Data}->{RecipientAgents} ) {
-        my %AgentUsed;
         RECIPIENT:
         for my $Recipient ( @{ $Param{Notification}->{Data}->{RecipientAgents} } ) {
             next if $Recipient == 1;
@@ -369,9 +371,16 @@ sub _SendNotificationToRecipients {
                 Type    => 'ro',
                 GroupID => $Group,
             );
-            for (@GroupMemberList) {
-                my %UserData = $Self->{UserObject}->GetUserData( UserID => $_, Valid => 1 );
-                if ( $UserData{UserEmail} && $UserData{UserID} != 1 ) {
+            GROUPMEMBER:
+            for my $Recipient (@GroupMemberList) {
+                next GROUPMEMBER if $Recipient == 1;
+                next GROUPMEMBER if $AgentUsed{$Recipient};
+                $AgentUsed{$Recipient} = 1;
+                my %UserData = $Self->{UserObject}->GetUserData(
+                    UserID => $Recipient,
+                    Valid  => 1
+                );
+                if ( $UserData{UserEmail} ) {
                     my %Recipient;
                     $Recipient{Email} = $UserData{UserEmail};
                     $Recipient{Type}  = 'Agent';
@@ -389,9 +398,16 @@ sub _SendNotificationToRecipients {
                 Result => 'ID',
                 RoleID => $Role,
             );
-            for (@RoleMemberList) {
-                my %UserData = $Self->{UserObject}->GetUserData( UserID => $_, Valid => 1 );
-                if ( $UserData{UserEmail} && $UserData{UserID} != 1 ) {
+            ROLEMEMBER:
+            for my $Recipient (@RoleMemberList) {
+                next ROLEMEMBER if $Recipient == 1;
+                next ROLEMEMBER if $AgentUsed{$Recipient};
+                $AgentUsed{$Recipient} = 1;
+                my %UserData = $Self->{UserObject}->GetUserData(
+                    UserID => $Recipient,
+                    Valid  => 1
+                );
+                if ( $UserData{UserEmail} ) {
                     my %Recipient;
                     $Recipient{Email} = $UserData{UserEmail};
                     $Recipient{Type}  = 'Agent';
