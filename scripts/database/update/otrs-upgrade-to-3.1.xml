@@ -232,6 +232,10 @@
     <Column Name="value_text" Required="false" Type="VARCHAR" SIZE="1800000" />
     <Column Name="value_date" Required="false" Type="DATE" />
     <Column Name="value_int" Required="false" Type="BIGINT" />
+    <Column Name="create_time" Required="true" Type="DATE"/>
+    <Column Name="create_by" Required="true" Type="INTEGER"/>
+    <Column Name="change_time" Required="true" Type="DATE"/>
+    <Column Name="change_by" Required="true" Type="INTEGER"/>
 
     <Index Name="index_ticket_id">
         <IndexColumn Name="ticket_id"/>
@@ -257,6 +261,21 @@
     <ForeignKey ForeignTable="ticket_dynamicfields_config">
         <Reference Local="field_id" Foreign="id"/>
     </ForeignKey>
+</TableCreate>
+
+<TableCreate Name="dynamic_field">
+    <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
+    <Column Name="name" Required="true" Type="VARCHAR" Size="200"/>
+    <Column Name="article_field" Type="SMALLINT"/>
+    <Column Name="field_type" Required="true" Type="VARCHAR" Size="200"/>
+    <Column Name="config" Type="LONGBLOB"/>
+    <Column Name="create_time" Required="true" Type="DATE"/>
+    <Column Name="create_by" Required="true" Type="INTEGER"/>
+    <Column Name="change_time" Required="true" Type="DATE"/>
+    <Column Name="change_by" Required="true" Type="INTEGER"/>
+    <Unique>
+        <UniqueColumn Name="name"/>
+    </Unique>
 </TableCreate>
 
 </database>
