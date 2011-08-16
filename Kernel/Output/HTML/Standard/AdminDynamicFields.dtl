@@ -2,7 +2,7 @@
 # AdminDynamicFields.dtl - provides HTML form for DynamicFields
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminDynamicFields.dtl,v 1.2 2011-08-15 23:49:14 cr Exp $
+# $Id: AdminDynamicFields.dtl,v 1.3 2011-08-16 22:30:56 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -58,10 +58,105 @@
         <div class="WidgetSimple">
             <div class="Header">
                 <h2>$Text{"Dynamic Fields List"}</h2>
+
+<!-- dtl:block:ContextSettings -->
+
+<!--  TODO Make context settings link change color when mouse over -->
+
+                <ul class="ContextFunctions">
+                    <li class="ContextSettings">
+                        <a href="#" id="ShowContextSettingsDialog" title="$Text{"Settings"}"><span>$Text{"Settings"}</span></a>
+                    </li>
+                </ul>
+
+                <div id="ContextSettingsDialogContainer" class="Hidden">
+                    <form action="$Env{"CGIHandle"}" method="post" id="ContextSettingsDialog">
+                        <input type="hidden" name="Action" value="AgentPreferences"/>
+                        <input type="hidden" name="Subaction" value="Update"/>
+                        <input type="hidden" name="Group" value="$QData{"Group"}"/>
+                        <input type="hidden" name="RedirectURL" value="$QData{"RequestedURL"}"/>
+                        <fieldset class="TableLike">
+                            <label for="$QData{"PreferencesKey"}">$Text{"Dynamic fields per page"}:</label>
+                            <div class="Field">
+                                $Data{"PageShownString"}
+                            </div>
+                            <div class="Clear"></div>
+                        </fieldset>
+                    </form>
+                </div>
+
+<!-- dtl:js_on_document_complete -->
+<script type="text/javascript">//<![CDATA[
+$('#ShowContextSettingsDialog').bind('click', function (Event) {
+    Core.UI.Dialog.ShowContentDialog($('#ContextSettingsDialogContainer'), '$JSText{"Settings"}', '20%', 'Center', true,
+        [
+            {
+                Label: '$JSText{"Submit"}',
+                Type: 'Submit',
+                Class: 'Primary'}
+        ]);
+    Event.preventDefault();
+    Event.stopPropagation();
+    return false;
+});
+//]]></script>
+<!-- dtl:js_on_document_complete -->
+<!-- dtl:block:ContextSettings -->
+
+            </div>
+            <span class="Pagination">
+<!-- dtl:block:OverviewNavBarPageNavBar -->
+                $Data{"ResultLong"}
+                $Data{"SiteNavBarLong"}
+<!-- dtl:block:OverviewNavBarPageNavBar -->
+            </span>
+            <div class="Clear"></div>
+
+            <div class="Content ">
+                <table class="DataTable" id="WebserviceTable" summary="List of all registered Webservices">
+                    <thead>
+                        <tr>
+                            <th>$Text{"Identifier"}</th>
+                            <th>$Text{"Name"}</th>
+                            <th>$Text{"Type"}</th>
+                            <th>$Text{"Object"}</th>
+                            <th>$Text{"Validity"}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+<!-- dtl:block:NoDataFound -->
+                        <tr>
+                            <td colspan="5">
+                                $Text{"No data found."}
+                            </td>
+                        </tr>
+<!-- dtl:block:NoDataFound -->
+<!-- dtl:block:DynamicFieldsRow -->
+                        <tr id="DynamicFieldID_$QData{"ID"}" class="MasterAction">
+                            <td>
+                                <a href="$Env{"Baselink"}Action=$LQData{"FieldBackend"};DynamicFieldID=$LQData{"ID"}" title="$QData{"Title"}" class="MasterActionLink">$Data{"ID"}</a>
+                            </td>
+                            <td>
+                                <div title="$Text{"$Data{"Name"}"}">$Data{"Name"}</div>
+                            </td>
+                            <td>
+                                <div title="$Text{"$Data{"Type"}"}">$Data{"Type"}</div>
+                            </td>
+                            <td>
+                                <div title="$Text{"$Data{"Object"}"}">$Data{"Object"}</div>
+                            </td>
+                            <td>
+                                <div title="$Text{"$Data{"Validity"}"}">$Data{"ValidID"}</div>
+                            </td>
+                        </tr>
+<!-- dtl:block:DynamicFieldsRow -->
+                    </tbody>
+                </table>
             </div>
         </div>
         <div class="Clear"></div>
     </div>
+</div>
 <!-- dtl:block:Main -->
 
 <!--dtl:js_on_document_complete-->
