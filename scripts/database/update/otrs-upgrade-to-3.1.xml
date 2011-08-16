@@ -232,6 +232,7 @@
     <Column Name="value_text" Required="false" Type="VARCHAR" Size="1800000" />
     <Column Name="value_date" Required="false" Type="DATE" />
     <Column Name="value_int" Required="false" Type="BIGINT" />
+    <Column Name="valid_id" Required="true" Type="SMALLINT"/>
     <Column Name="create_time" Required="true" Type="DATE"/>
     <Column Name="create_by" Required="true" Type="INTEGER"/>
     <Column Name="change_time" Required="true" Type="DATE"/>
@@ -261,6 +262,9 @@
     <ForeignKey ForeignTable="ticket_dynamicfields_config">
         <Reference Local="field_id" Foreign="id"/>
     </ForeignKey>
+    <ForeignKey ForeignTable="valid">
+        <Reference Local="valid_id" Foreign="id"/>
+    </ForeignKey>
 </TableCreate>
 
 <TableCreate Name="dynamic_field">
@@ -269,6 +273,7 @@
     <Column Name="article_field" Type="SMALLINT"/>
     <Column Name="field_type" Required="true" Type="VARCHAR" Size="200"/>
     <Column Name="config" Type="LONGBLOB"/>
+    <Column Name="valid_id" Required="true" Type="SMALLINT"/>
     <Column Name="create_time" Required="true" Type="DATE"/>
     <Column Name="create_by" Required="true" Type="INTEGER"/>
     <Column Name="change_time" Required="true" Type="DATE"/>
@@ -276,6 +281,9 @@
     <Unique>
         <UniqueColumn Name="name"/>
     </Unique>
+    <ForeignKey ForeignTable="valid">
+        <Reference Local="valid_id" Foreign="id"/>
+    </ForeignKey>
 </TableCreate>
 
 </database>
