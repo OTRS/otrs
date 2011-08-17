@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.2 $
+ * @version     $Revision: 1.3 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -53,8 +53,8 @@
     -moz-border-radius-bottomleft: 2px;
     -moz-border-radius-bottomright: 2px;
     border-color: #FFFFFF #FFFFFF -moz-use-text-color;
-    border-style: none solid none;
-    border-width: 1px 1px medium;
+    border-style: none solid solid none;
+    border-width: 1px 1px 1px 1px medium;
     overflow: auto;
     padding: 8px 8px 10px;
 }
