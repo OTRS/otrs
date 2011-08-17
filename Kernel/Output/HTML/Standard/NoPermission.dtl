@@ -1,8 +1,8 @@
 # --
-# NoPermission.dtl.dtl - provides HTML NoPermission screen
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# NoPermission.dtl - provides HTML NoPermission screen
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: NoPermission.dtl,v 1.15 2010-07-16 13:45:37 mg Exp $
+# $Id: NoPermission.dtl,v 1.15.2.1 2011-08-17 10:11:02 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
