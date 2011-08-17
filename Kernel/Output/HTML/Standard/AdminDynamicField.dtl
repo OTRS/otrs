@@ -2,7 +2,7 @@
 # AdminDynamicField.dtl - provides HTML form for DynamicFields
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminDynamicField.dtl,v 1.2 2011-08-17 18:06:17 cr Exp $
+# $Id: AdminDynamicField.dtl,v 1.3 2011-08-17 20:53:26 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -41,6 +41,16 @@
                 </ul>
             </div>
         </div>
+
+<!-- dtl:block:ConfigSet -->
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+    Core.Config.Set('DynamicFields.Ticket', $Data{"TicketFieldsConfig"} );
+    Core.Config.Set('DynamicFields.Article', $Data{"ArticleFieldsConfig"} );
+//]]></script>
+<!--dtl:js_on_document_complete-->
+<!-- dtl:block:ConfigSet -->
+
 <!-- dtl:block:Hint -->
         <div class="WidgetSimple">
             <div class="Header">
@@ -60,9 +70,6 @@
                 <h2>$Text{"Dynamic Fields List"}</h2>
 
 <!-- dtl:block:ContextSettings -->
-
-<!--  TODO Make context settings link change color when mouse over -->
-
                 <ul class="ContextFunctions">
                     <li class="ContextSettings">
                         <a href="#" id="ShowContextSettingsDialog" title="$Text{"Settings"}"><span>$Text{"Settings"}</span></a>
@@ -134,7 +141,7 @@ $('#ShowContextSettingsDialog').bind('click', function (Event) {
 <!-- dtl:block:DynamicFieldsRow -->
                         <tr id="DynamicFieldID_$QData{"ID"}" class="MasterAction">
                             <td>
-                                <a href="$Env{"Baselink"}Action=$LQData{"FieldBackend"};DynamicFieldID=$LQData{"ID"}" title="$QData{"Title"}" class="MasterActionLink">$Data{"ID"}</a>
+                                <a href="$Env{"Baselink"}Action=$LQData{"BackendDialog"};Subaction=Change;Object=$LQData{"Object"};ID=$LQData{"ID"}" title="$QData{"ID"}" class="MasterActionLink">$Data{"ID"}</a>
                             </td>
                             <td>
                                 <div title="$Text{"$Data{"Name"}"}">$Data{"Name"}</div>
@@ -161,6 +168,22 @@ $('#ShowContextSettingsDialog').bind('click', function (Event) {
 
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
-// TODO Implement
+$('#TicketDynamicField').bind('change', function() {
+    if ($(this).val() !== '') {
+        Core.Agent.Admin.DynamicField.Redirect($(this).val(), 'Ticket');
+
+        // reset select value to none
+        $(this).val('');
+    }
+});
+
+$('#ArticleDynamicField').bind('change', function() {
+    if ($(this).val() !== '') {
+        Core.Agent.Admin.DynamicField.Redirect($(this).val(), 'Article');
+
+        // reset select value to none
+        $(this).val('');
+    }
+});
 //]]></script>
 <!--dtl:js_on_document_complete-->
