@@ -2,7 +2,7 @@
 # AdminDynamicField.dtl - provides HTML form for DynamicFields
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminDynamicField.dtl,v 1.3 2011-08-17 20:53:26 cr Exp $
+# $Id: AdminDynamicField.dtl,v 1.4 2011-08-17 21:22:57 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -56,10 +56,12 @@
             <div class="Header">
                 <h2>$Text{"Hint"}</h2>
             </div>
-            <div class="FieldExplanation">
-                <p>
-                    $Text{"To add a new field select the field type form the ticket or article list depending on the scope of the new field."}
-                </p>
+            <div class="Content">
+                <div class="FieldExplanation">
+                    <p>
+                        $Text{"To add a new field select the field type form the ticket or article list depending on the scope of the new field."}
+                    </p>
+                </div>
             </div>
         </div>
 <!-- dtl:block:Hint -->
@@ -120,7 +122,7 @@ $('#ShowContextSettingsDialog').bind('click', function (Event) {
             <div class="Clear"></div>
 
             <div class="Content ">
-                <table class="DataTable" id="WebserviceTable" summary="List of all registered Webservices">
+                <table class="DataTable" id="DynamicFieldsTable" summary="List of all registered Dynamic Fields">
                     <thead>
                         <tr>
                             <th>$Text{"Identifier"}</th>
@@ -183,6 +185,15 @@ $('#ArticleDynamicField').bind('change', function() {
 
         // reset select value to none
         $(this).val('');
+    }
+});
+
+$('.MasterAction').bind('click', function (Event) {
+    var $MasterActionLink = $(this).find('.MasterActionLink');
+    // only act if the link was not clicked directly
+    if (Event.target !== $MasterActionLink.get(0)) {
+        window.location = $MasterActionLink.attr('href');
+        return false;
     }
 });
 //]]></script>
