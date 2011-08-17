@@ -2,7 +2,7 @@
 # AdminDynamicField.dtl - provides HTML form for DynamicFields
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminDynamicField.dtl,v 1.5 2011-08-17 21:42:50 cr Exp $
+# $Id: AdminDynamicField.dtl,v 1.6 2011-08-17 22:41:55 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -113,12 +113,14 @@ $('#ShowContextSettingsDialog').bind('click', function (Event) {
 <!-- dtl:block:ContextSettings -->
 
             </div>
-            <span class="Pagination">
+            <div class="DynamicFieldsPagination">
+                <span class="Pagination">
 <!-- dtl:block:OverviewNavBarPageNavBar -->
-                $Data{"ResultLong"}
-                $Data{"SiteNavBarLong"}
+                    $Data{"ResultLong"}
+                    $Data{"SiteNavBarLong"}
 <!-- dtl:block:OverviewNavBarPageNavBar -->
-            </span>
+                </span>
+            </div>
             <div class="Clear"></div>
 
             <div class="DynamicFieldsContent">
