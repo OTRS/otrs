@@ -2,7 +2,7 @@
 # AdminDynamicField.dtl - provides HTML form for DynamicFields
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminDynamicField.dtl,v 1.1 2011-08-17 16:14:23 cr Exp $
+# $Id: AdminDynamicField.dtl,v 1.2 2011-08-17 18:06:17 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -146,7 +146,7 @@ $('#ShowContextSettingsDialog').bind('click', function (Event) {
                                 <div title="$Text{"$Data{"Object"}"}">$Data{"Object"}</div>
                             </td>
                             <td>
-                                <div title="$Text{"$Data{"Validity"}"}">$Data{"ValidID"}</div>
+                                <div title="$Text{"$Data{"Validity"}"}">$Data{"Valid"}</div>
                             </td>
                         </tr>
 <!-- dtl:block:DynamicFieldsRow -->

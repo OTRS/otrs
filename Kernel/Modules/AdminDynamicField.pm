@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminDynamicField.pm - provides a dynamic fields view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminDynamicField.pm,v 1.2 2011-08-17 16:50:40 cr Exp $
+# $Id: AdminDynamicField.pm,v 1.3 2011-08-17 18:06:17 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::DynamicField;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -131,7 +131,9 @@ sub _ShowOverview {
     );
 
     # get dynamic fields list
-    my $DynamicFieldsList = $Self->{DynamicFieldObject}->DynamicFieldList();
+    my $DynamicFieldsList = $Self->{DynamicFieldObject}->DynamicFieldList(
+        Valid => 0,
+    );
 
     # print the list of dynamic fields
     $Self->_DynamicFieldsListShow(
@@ -223,10 +225,25 @@ sub _DynamicFieldsListShow {
                     ID => $DynamicFieldID,
                 );
 
+                # convert ValidID to Validity string
+                my $Valid = $Self->{ValidObject}->ValidLookup(
+                    ValidID => $DynamicFieldData->{ValidID},
+                );
+
+                # convert BelongsArticle to object string
+                my $Object = 'Ticket';
+                if ( $DynamicFieldData->{ValidID} && $DynamicFieldData->{BelongsArticle} eq 1 ) {
+                    $Object = 'Article';
+                }
+
                 # print each dinamic field row
                 $Self->{LayoutObject}->Block(
                     Name => 'DynamicFieldsRow',
-                    Data => $DynamicFieldData,
+                    Data => {
+                        %{$DynamicFieldData},
+                        Valid  => $Valid,
+                        Object => $Object,
+                    },
                 );
             }
         }
