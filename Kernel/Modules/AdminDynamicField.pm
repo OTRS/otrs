@@ -1,15 +1,15 @@
 # --
-# Kernel/Modules/AdminDynamicFields.pm - provides a dynamic fields view for admins
+# Kernel/Modules/AdminDynamicField.pm - provides a dynamic fields view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminDynamicFields.pm,v 1.3 2011-08-16 22:30:56 cr Exp $
+# $Id: AdminDynamicField.pm,v 1.1 2011-08-17 16:14:23 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::Modules::AdminDynamicFields;
+package Kernel::Modules::AdminDynamicField;
 
 use strict;
 use warnings;
@@ -19,7 +19,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::DynamicField;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -147,7 +147,7 @@ sub _ShowOverview {
     );
 
     $Output .= $Self->{LayoutObject}->Output(
-        TemplateFile => 'AdminDynamicFields',
+        TemplateFile => 'AdminDynamicField',
         Data         => {
             %Param,
         },

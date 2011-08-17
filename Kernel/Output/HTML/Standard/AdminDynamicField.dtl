@@ -1,8 +1,8 @@
 # --
-# AdminDynamicFields.dtl - provides HTML form for DynamicFields
+# AdminDynamicField.dtl - provides HTML form for DynamicFields
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminDynamicFields.dtl,v 1.3 2011-08-16 22:30:56 cr Exp $
+# $Id: AdminDynamicField.dtl,v 1.1 2011-08-17 16:14:23 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
