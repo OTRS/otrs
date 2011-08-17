@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField.pm - DynamicFields configuration backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicField.pm,v 1.2 2011-08-16 22:44:02 cg Exp $
+# $Id: DynamicField.pm,v 1.3 2011-08-17 17:34:08 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,12 +15,13 @@ use strict;
 use warnings;
 
 use YAML;
+use Kernel::System::Valid;
 use Kernel::System::CacheInternal;
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::Cache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 =head1 NAME
 
@@ -100,6 +101,7 @@ sub new {
 
     # create additional objects
     $Self->{CacheObject} = Kernel::System::Cache->new( %{$Self} );
+    $Self->{ValidObject} = Kernel::System::Valid->new( %{$Self} );
 
     # get the cache TTL (in seconds)
     $Self->{CacheTTL}
@@ -233,7 +235,7 @@ sub DynamicFieldGet {
     if ( $Param{ID} ) {
         return if !$Self->{DBObject}->Prepare(
             SQL =>
-                'SELECT id, name, article_field, field_type, config, valid_id, create_time, change_time '
+                'SELECT id, name, field_type, article_field, config, valid_id, create_time, change_time '
                 .
                 'FROM dynamic_field WHERE id = ?',
             Bind => [ \$Param{ID} ],
@@ -242,7 +244,7 @@ sub DynamicFieldGet {
     else {
         return if !$Self->{DBObject}->Prepare(
             SQL =>
-                'SELECT id, name, article_field, field_type, config, valid_id, create_time, change_time '
+                'SELECT id, name, field_type, article_field, config, valid_id, create_time, change_time '
                 .
                 'FROM dynamic_field WHERE name = ?',
             Bind => [ \$Param{Name} ],
@@ -453,6 +455,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.2 $ $Date: 2011-08-16 22:44:02 $
+$Revision: 1.3 $ $Date: 2011-08-17 17:34:08 $
 
 =cut
