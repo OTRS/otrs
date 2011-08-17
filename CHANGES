@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1758.2.151 2011-08-16 14:26:43 mb Exp $
+# $Id: CHANGES,v 1.1758.2.152 2011-08-17 11:26:01 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.0.11 2011-??-??
+ - 2011-08-17 Fixed bug#7599 - Back-Link does not work in permission denied screen if
+    this screen is a popup window.
  - 2011-08-16 Fixed bug#7407 - Event based notifications with roles as recipients can
     produce multiple notifications.
  - 2011-08-16 Fixed bug#7589 - Ticket Search - TicketWatcher doesn't expand.
