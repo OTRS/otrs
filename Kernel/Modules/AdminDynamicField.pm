@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminDynamicField.pm - provides a dynamic fields view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminDynamicField.pm,v 1.1 2011-08-17 16:14:23 cr Exp $
+# $Id: AdminDynamicField.pm,v 1.2 2011-08-17 16:50:40 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::DynamicField;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -130,15 +130,8 @@ sub _ShowOverview {
         Data => \%Param,
     );
 
-    my $DynamicFieldsList;
-
-    # TODO Replace with calls to the real object
-    #---
-    for my $i ( 1 .. 100 ) {
-        $DynamicFieldsList->{ 'Field_' . $i } = 1;
-    }
-
-    #---
+    # get dynamic fields list
+    my $DynamicFieldsList = $Self->{DynamicFieldObject}->DynamicFieldList();
 
     # print the list of dynamic fields
     $Self->_DynamicFieldsListShow(
@@ -226,22 +219,9 @@ sub _DynamicFieldsListShow {
             $Counter++;
             if ( $Counter >= $StartHit && $Counter < ( $PageShown + $StartHit ) ) {
 
-                my $DynamicFieldData;
-
-                # TODO Replace with a real call to the core object
-                #---
-                $DynamicFieldData = {
-                    ID             => 'FieldID' . $Counter,
-                    Name           => 'NameForField' . $Counter,
-                    Type           => 'Text',
-                    Config         => '$ConfigHashRef',
-                    BelongsArticle => '1',
-                    ValidID        => 12,
-                    CreateTime     => '2011-02-08 15:08:00',
-                    ChangeTime     => '2011-02-08 15:08:00',
-                };
-
-                #---
+                my $DynamicFieldData = $Self->{DynamicFieldObject}->DynamicFieldGet(
+                    ID => $DynamicFieldID,
+                );
 
                 # print each dinamic field row
                 $Self->{LayoutObject}->Block(
