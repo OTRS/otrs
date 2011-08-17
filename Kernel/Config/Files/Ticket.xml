@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.446 2011-07-29 19:55:50 mb Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.447 2011-08-17 16:13:38 cr Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Translatable="1">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Group>Ticket</Group>
@@ -9946,4 +9946,90 @@ Thanks for your help!
             </Option>
         </Setting>
     </ConfigItem>
+
+    <ConfigItem Name="Frontend::Module###AdminDynamicField" Required="0" Valid="1">
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
+        <Group>DynamicFields</Group>
+        <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <Group>admin</Group>
+                <Description>Admin</Description>
+                <Title Translatable="1">Dynamic Fields GUI</Title>
+                <NavBarName>Admin</NavBarName>
+                <NavBarModule>
+                    <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
+                    <Name Translatable="1">Dynamic Fields</Name>
+                    <Description Translatable="1">Create and manage dynamic fields.</Description>
+                    <Block>Ticket</Block>
+                    <Prio>1000</Prio>
+                </NavBarModule>
+                <Loader>
+                </Loader>
+            </FrontendModuleReg>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="PreferencesGroups###DynamicFieldsOverviewPageShown" Required="0" Valid="1">
+        <Description Translatable="1">Parameters for the pages (in which the dynamic fields are shown) of the dynamic fields overview.</Description>
+        <Group>DynamicFields</Group>
+        <SubGroup>Frontend::Agent::Preferences</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::PreferencesGeneric</Item>
+                <Item Key="Column">Other Settings</Item>
+                <Item Key="Label" Translatable="1">Dynamic Fields Overview Limit</Item>
+                <Item Key="Key" Translatable="1">Dynamic fields limit per page for Dynamic Fields Overview</Item>
+                <Item Key="Data">
+                    <Hash>
+                        <Item Key="10">10</Item>
+                        <Item Key="15">15</Item>
+                        <Item Key="20">20</Item>
+                        <Item Key="25">25</Item>
+                        <Item Key="30">30</Item>
+                        <Item Key="35">35</Item>
+                    </Hash>
+                </Item>
+                <Item Key="DataSelected">25</Item>
+                <Item Key="PrefKey">AdminDynamicFieldsOverviewPageShown</Item>
+                <Item Key="Prio">8000</Item>
+                <Item Key="Active">0</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+
+    <ConfigItem Name="DynamicFields::Ticket::Module###Test" Required="0" Valid="1">
+        <Description Translatable="1">DynamicField module registration for tickets.</Description>
+        <Group>DynamicFields</Group>
+        <SubGroup>DynamicFields::Ticket::ModuleRegistration</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Name">Test Module</Item>
+                <Item Key="ConfigDialog">AdminDynamicFieldTest</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="DynamicFields::Ticket::Module###Text" Required="0" Valid="1">
+        <Description Translatable="1">DynamicField module registration for tickets.</Description>
+        <Group>DynamicFields</Group>
+        <SubGroup>DynamicFields::Ticket::ModuleRegistration</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Name">Text</Item>
+                <Item Key="ConfigDialog">AdminDynamicFieldText</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+
+    <ConfigItem Name="DynamicFields::Article::Module###Text" Required="0" Valid="1">
+        <Description Translatable="1">DynamicField module registration for articles.</Description>
+        <Group>DynamicFields</Group>
+        <SubGroup>DynamicFields::Article::ModuleRegistration</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Name">Text</Item>
+                <Item Key="ConfigDialog">AdminDynamicFieldText</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+
 </otrs_config>
