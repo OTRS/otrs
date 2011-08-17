@@ -2,7 +2,7 @@
 # DynamicField.t - DynamicField tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicField.t,v 1.1 2011-08-16 22:43:28 cg Exp $
+# $Id: DynamicField.t,v 1.2 2011-08-17 18:29:27 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,9 +27,6 @@ my $RandomID = $HelperObject->GetRandomID();
 # set $UserId
 my $UserID = 1;
 
-# set $ValidId
-my $ValidID = 1;
-
 my $DynamicFieldObject = Kernel::System::DynamicField->new( %{$Self} );
 
 my @Tests = (
@@ -43,8 +40,86 @@ my @Tests = (
                 Description => 'Description for Dynamic Field.',
             },
             Type    => 'Text',
-            ValidID => $ValidID,
+            ValidID => 1,
             UserID  => $UserID,
+        },
+    },
+    {
+        Name          => 'test 2',
+        SuccessAdd    => 1,
+        SuccessUpdate => 1,
+        Add           => {
+            Config => {
+                Name        => 'OtherName',
+                Description => 'Description for Dynamic Field.',
+            },
+            Type    => 'Text',
+            ValidID => 2,
+            UserID  => $UserID,
+        },
+    },
+    {
+        Name          => 'test 3',
+        SuccessAdd    => 1,
+        SuccessUpdate => 1,
+        Add           => {
+            Config  => {},
+            Type    => 'Text',
+            ValidID => 2,
+            UserID  => $UserID,
+        },
+    },
+    {
+        Name          => 'test 4',
+        SuccessAdd    => 0,
+        SuccessUpdate => 0,
+        Add           => {
+            Config  => undef,
+            Type    => 'Text',
+            ValidID => 2,
+            UserID  => $UserID,
+        },
+    },
+    {
+        Name          => 'test 5',
+        SuccessAdd    => 0,
+        SuccessUpdate => 0,
+        Add           => {
+            Config => {
+                Name        => 'OtherName',
+                Description => 'Description for Dynamic Field.',
+            },
+            Type    => '',
+            ValidID => 2,
+            UserID  => $UserID,
+        },
+    },
+    {
+        Name          => 'test 6',
+        SuccessAdd    => 0,
+        SuccessUpdate => 0,
+        Add           => {
+            Config => {
+                Name        => 'OtherName',
+                Description => 'Description for Dynamic Field.',
+            },
+            Type    => 'Int',
+            ValidID => '',
+            UserID  => $UserID,
+        },
+    },
+    {
+        Name          => 'test 7',
+        SuccessAdd    => 0,
+        SuccessUpdate => 0,
+        Add           => {
+            Config => {
+                Name        => 'OtherName',
+                Description => 'Description for Dynamic Field.',
+            },
+            Type    => 'Int',
+            ValidID => 1,
+            UserID  => '',
         },
     },
 );
