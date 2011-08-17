@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminDynamicField.pm - provides a dynamic fields view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminDynamicField.pm,v 1.3 2011-08-17 18:06:17 cr Exp $
+# $Id: AdminDynamicField.pm,v 1.4 2011-08-17 20:54:09 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::DynamicField;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -50,8 +50,6 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    # TODO Implement
-
     return $Self->_ShowOverview(
         %Param,
         Action => 'Overview',
@@ -64,7 +62,12 @@ sub _ShowOverview {
     my $Output = $Self->{LayoutObject}->Header();
     $Output .= $Self->{LayoutObject}->NavigationBar();
 
-    # TODO Implement
+    # set transports data
+    my %GITransports;
+    for my $Transport ( keys %{ $Self->{GITransportConfig} } ) {
+        next if !$Transport;
+        $GITransports{$Transport} = $Self->{GITransportConfig}->{$Transport}->{ConfigDialog};
+    }
 
     # call all needed dtl blocks
     $Self->{LayoutObject}->Block(
@@ -73,20 +76,25 @@ sub _ShowOverview {
     );
 
     my @TicketFieldBackends;
+    my %TicketFieldsBackendsConfig;
 
     TICKETFIELDBACKEND:
     for my $FieldBackend ( keys %{ $Self->{DFTicketModuleConfig} } ) {
         next TICKETFIELDBACKEND if !$FieldBackend;
         push @TicketFieldBackends, $FieldBackend;
+
+        $TicketFieldsBackendsConfig{$FieldBackend} =
+            $Self->{DFTicketModuleConfig}->{$FieldBackend}->{ConfigDialog};
     }
 
     # create the Add Ticket Dynamic Field select
     my $AddTicketDynamicFieldStrg = $Self->{LayoutObject}->BuildSelection(
-        Data         => \@TicketFieldBackends,
-        Name         => 'TicketDynamicField',
-        PossibleNone => 0,
-        Translate    => 1,
-        Sort         => 'AlphanumericValue',
+        Data          => \@TicketFieldBackends,
+        Name          => 'TicketDynamicField',
+        PossibleNone  => 1,
+        Translate     => 0,
+        Sort          => 'AlphanumericValue',
+        SelectedValue => '-',
     );
 
     # call ActionAddTicketDynamicField block
@@ -99,20 +107,25 @@ sub _ShowOverview {
     );
 
     my @ArticleFieldBackends;
+    my %ArticleFieldsBackendsConfig;
 
     ARTICLEFIELDBACKEND:
     for my $FieldBackend ( keys %{ $Self->{DFArticleModuleConfig} } ) {
         next ARTICLEFIELDBACKEND if !$FieldBackend;
         push @ArticleFieldBackends, $FieldBackend;
+
+        $ArticleFieldsBackendsConfig{$FieldBackend} =
+            $Self->{DFArticleModuleConfig}->{$FieldBackend}->{ConfigDialog};
     }
 
     # create the Add Article Dynamic Field select
     my $AddArticleDynamicFieldStrg = $Self->{LayoutObject}->BuildSelection(
-        Data         => \@ArticleFieldBackends,
-        Name         => 'ArticleDynamicField',
-        PossibleNone => 0,
-        Translate    => 1,
-        Sort         => 'AlphanumericValue',
+        Data          => \@ArticleFieldBackends,
+        Name          => 'ArticleDynamicField',
+        PossibleNone  => 1,
+        Translate     => 0,
+        Sort          => 'AlphanumericValue',
+        SelectedValue => '-',
     );
 
     # call ActionAddArticleDynamicField block
@@ -121,6 +134,25 @@ sub _ShowOverview {
         Data => {
             %Param,
             AddArticleDynamicFieldStrg => $AddArticleDynamicFieldStrg,
+        },
+    );
+
+    # parse the ticket backends config as JSON strucutre
+    my $TicketFieldsConfig = $Self->{LayoutObject}->JSONEncode(
+        Data => \%TicketFieldsBackendsConfig,
+    );
+
+    # parse the article backends config as JSON strucutre
+    my $ArticleFieldsConfig = $Self->{LayoutObject}->JSONEncode(
+        Data => \%ArticleFieldsBackendsConfig,
+    );
+
+    # set JS configuration
+    $Self->{LayoutObject}->Block(
+        Name => 'ConfigSet',
+        Data => {
+            TicketFieldsConfig  => $TicketFieldsConfig,
+            ArticleFieldsConfig => $ArticleFieldsConfig,
         },
     );
 
@@ -137,8 +169,10 @@ sub _ShowOverview {
 
     # print the list of dynamic fields
     $Self->_DynamicFieldsListShow(
-        DynamicFields => $DynamicFieldsList,
-        Total         => scalar keys %{$DynamicFieldsList},
+        DynamicFields       => $DynamicFieldsList,
+        Total               => scalar keys %{$DynamicFieldsList},
+        TicketFieldsConfig  => \%TicketFieldsBackendsConfig,
+        ArticleFieldsConfig => \%ArticleFieldsBackendsConfig,
     );
 
     $Output .= $Self->{LayoutObject}->Output(
@@ -232,17 +266,22 @@ sub _DynamicFieldsListShow {
 
                 # convert BelongsArticle to object string
                 my $Object = 'Ticket';
-                if ( $DynamicFieldData->{ValidID} && $DynamicFieldData->{BelongsArticle} eq 1 ) {
+                if ( $DynamicFieldData->{ValidID} && $DynamicFieldData->{BelongsToArticle} eq 1 ) {
                     $Object = 'Article';
                 }
+
+                # get the field backend dialog
+                my $BackendDialog =
+                    $Param{ $Object . 'FieldsConfig' }->{ $DynamicFieldData->{Type} } || '';
 
                 # print each dinamic field row
                 $Self->{LayoutObject}->Block(
                     Name => 'DynamicFieldsRow',
                     Data => {
                         %{$DynamicFieldData},
-                        Valid  => $Valid,
-                        Object => $Object,
+                        Valid         => $Valid,
+                        Object        => $Object,
+                        BackendDialog => $BackendDialog,
                     },
                 );
             }
