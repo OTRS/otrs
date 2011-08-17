@@ -2,7 +2,7 @@
 # DynamicField.t - DynamicField tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicField.t,v 1.2 2011-08-17 18:29:27 cg Exp $
+# $Id: DynamicField.t,v 1.3 2011-08-17 21:37:09 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -39,9 +39,10 @@ my @Tests = (
                 Name        => 'AnyName',
                 Description => 'Description for Dynamic Field.',
             },
-            Type    => 'Text',
-            ValidID => 1,
-            UserID  => $UserID,
+            BelongsToArticle => 0,
+            Type             => 'Text',
+            ValidID          => 1,
+            UserID           => $UserID,
         },
     },
     {
@@ -120,6 +121,21 @@ my @Tests = (
             Type    => 'Int',
             ValidID => 1,
             UserID  => '',
+        },
+    },
+    {
+        Name          => 'test 8',
+        SuccessAdd    => 1,
+        SuccessUpdate => 1,
+        Add           => {
+            Config => {
+                Name        => 'AnyName',
+                Description => 'Description for Dynamic Field.',
+            },
+            Type             => 'Text',
+            BelongsToArticle => 8,
+            ValidID          => 1,
+            UserID           => $UserID,
         },
     },
 );
