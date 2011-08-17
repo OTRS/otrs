@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.1 $
+ * @version     $Revision: 1.2 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -47,6 +47,16 @@
 .Header li.Active:active {
     padding-left: 2px;
     background-position: 0 -50px;
+}
+
+.WidgetSimple > .DynamicFieldsContent {
+    -moz-border-radius-bottomleft: 2px;
+    -moz-border-radius-bottomright: 2px;
+    border-color: #FFFFFF #FFFFFF -moz-use-text-color;
+    border-style: none solid none;
+    border-width: 1px 1px medium;
+    overflow: auto;
+    padding: 8px 8px 10px;
 }
 
 }/* end @media */
