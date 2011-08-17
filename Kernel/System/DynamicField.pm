@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField.pm - DynamicFields configuration backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicField.pm,v 1.3 2011-08-17 17:34:08 cg Exp $
+# $Id: DynamicField.pm,v 1.4 2011-08-17 18:56:22 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::Cache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 =head1 NAME
 
@@ -126,7 +126,7 @@ returns id of new Dynamic field if successful or undef otherwise
         Type                => 'Text',          # mandatory, selects the DF backend to use for this field
                                                 # 'text' 'date' 'int', 'text' as default
         Config              => $ConfigHashRef,  # it is stored on YAML format
-        BelongsArticle      => '1',             # optional, 1 as default, set to 1 it belongs
+        BelongsToArticle      => '1',             # optional, 1 as default, set to 1 it belongs
                                                 # to individual articles, otherwise to tickets
         ValidID         => 1,
         UserID          => 123,
@@ -149,7 +149,7 @@ sub DynamicFieldAdd {
     my $Config = YAML::Dump( $Param{Config} );
 
     # belongs article
-    my $BelongsArticle = $Param{BelongsArticle} || '1';
+    my $BelongsToArticle = $Param{BelongsToArticle} || '1';
 
     # sql
     return if !$Self->{DBObject}->Do(
@@ -158,7 +158,7 @@ sub DynamicFieldAdd {
             'valid_id, create_time, create_by, change_time, change_by)' .
             ' VALUES (?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
         Bind => [
-            \$Param{Name}, \$BelongsArticle, \$Param{Type}, \$Config,
+            \$Param{Name}, \$BelongsToArticle, \$Param{Type}, \$Config,
             \$Param{ValidID}, \$Param{UserID}, \$Param{UserID},
         ],
     );
@@ -191,7 +191,7 @@ get Dynamic Field attributes
         Name            => 'NameForField',
         Type            => 'Text',
         Config          => $ConfigHashRef,
-        BelongsArticle  => '1',
+        BelongsToArticle  => '1',
         ValidID         => 12,
         CreateTime      => '2011-02-08 15:08:00',
         ChangeTime      => '2011-02-08 15:08:00',
@@ -255,14 +255,14 @@ sub DynamicFieldGet {
         my $Config = YAML::Load( $Data[4] );
 
         %Data = (
-            ID             => $Data[0],
-            Name           => $Data[1],
-            Type           => $Data[2],
-            BelongsArticle => $Data[3],
-            Config         => $Config,
-            ValidID        => $Data[5],
-            CreateTime     => $Data[6],
-            ChangeTime     => $Data[7],
+            ID               => $Data[0],
+            Name             => $Data[1],
+            Type             => $Data[2],
+            BelongsToArticle => $Data[3],
+            Config           => $Config,
+            ValidID          => $Data[5],
+            CreateTime       => $Data[6],
+            ChangeTime       => $Data[7],
         );
     }
 
@@ -289,7 +289,7 @@ returns 1 on success or undef on error
         Type            => 'Text',              # mandatory, selects the DF backend to use for this field
                                                 # 'text' 'date' 'int', 'text' as default
         Config          => $NewConfigHashRef,   # it is stored on YAML format
-        BelongsArticle  => '1',                 # optional, 1 as default, set to 1 it belongs
+        BelongsToArticle  => '1',                 # optional, 1 as default, set to 1 it belongs
                                                 # to individual articles, otherwise to tickets
         ValidID         => 1,
         UserID          => 123,
@@ -312,7 +312,10 @@ sub DynamicFieldUpdate {
     my $Config = YAML::Dump( $Param{Config} );
 
     # belongs article
-    my $BelongsArticle = $Param{BelongsArticle} || '1';
+    my $BelongsToArticle = $Param{BelongsToArticle} || '1';
+
+    # keep $BelongsToArticle value on 1 or 0
+    $BelongsToArticle = 1 if $BelongsToArticle > 1;
 
     # sql
     return if !$Self->{DBObject}->Do(
@@ -320,7 +323,7 @@ sub DynamicFieldUpdate {
             . ' config = ?, valid_id = ?, change_time = current_timestamp, '
             . ' change_by = ? WHERE id = ?',
         Bind => [
-            \$Param{Name}, \$BelongsArticle, \$Param{Type}, \$Config, \$Param{ValidID},
+            \$Param{Name}, \$BelongsToArticle, \$Param{Type}, \$Config, \$Param{ValidID},
             \$Param{UserID}, \$Param{ID},
         ],
     );
@@ -455,6 +458,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.3 $ $Date: 2011-08-17 17:34:08 $
+$Revision: 1.4 $ $Date: 2011-08-17 18:56:22 $
 
 =cut
