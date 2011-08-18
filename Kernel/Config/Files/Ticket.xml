@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.450 2011-08-18 03:42:25 cr Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.451 2011-08-18 20:47:15 cr Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Translatable="1">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Group>Ticket</Group>
@@ -10011,13 +10011,35 @@ Thanks for your help!
         </Setting>
     </ConfigItem>
 
+    <!--  Object types keys must be in lowercase -->
+    <ConfigItem Name="DynamicFields::ObjectType###ticket" Required="0" Valid="1">
+        <Description Translatable="1">DynamicField object registration.</Description>
+        <Group>DynamicFields</Group>
+        <SubGroup>DynamicFields::ObjectType::Registration</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="DisplayName">Ticket</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="DynamicFields::ObjectType###article" Required="0" Valid="1">
+        <Description Translatable="1">DynamicField object registration.</Description>
+        <Group>DynamicFields</Group>
+        <SubGroup>DynamicFields::ObjectType::Registration</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="DisplayName">Article</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+
     <ConfigItem Name="DynamicFields::Ticket::Module###Test" Required="0" Valid="1">
         <Description Translatable="1">DynamicField module registration for tickets.</Description>
         <Group>DynamicFields</Group>
         <SubGroup>DynamicFields::Ticket::ModuleRegistration</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Name">Test</Item>
+                <Item Key="DisplayName">Test</Item>
                 <Item Key="ConfigDialog">AdminDynamicFieldTest</Item>
             </Hash>
         </Setting>
@@ -10028,7 +10050,7 @@ Thanks for your help!
         <SubGroup>DynamicFields::Ticket::ModuleRegistration</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Name">Text</Item>
+                <Item Key="DisplayName">Text</Item>
                 <Item Key="ConfigDialog">AdminDynamicFieldText</Item>
             </Hash>
         </Setting>
@@ -10040,7 +10062,7 @@ Thanks for your help!
         <SubGroup>DynamicFields::Article::ModuleRegistration</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Name">Text</Item>
+                <Item Key="DisplayName">Text</Item>
                 <Item Key="ConfigDialog">AdminDynamicFieldText</Item>
             </Hash>
         </Setting>
