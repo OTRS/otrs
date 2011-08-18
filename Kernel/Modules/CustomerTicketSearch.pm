@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketSearch.pm,v 1.70 2011-07-21 14:38:53 mp Exp $
+# $Id: CustomerTicketSearch.pm,v 1.71 2011-08-18 17:53:52 des Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::SearchProfile;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.70 $) [1];
+$VERSION = qw($Revision: 1.71 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1109,21 +1109,6 @@ sub MaskForm {
     # html search mask output
     return $Self->{LayoutObject}->Output(
         TemplateFile => 'CustomerTicketSearch',
-        Data         => \%Param,
-    );
-}
-
-sub MaskCSVResult {
-    my ( $Self, %Param ) = @_;
-
-    $Param{Age} = $Self->{LayoutObject}->CustomerAge( Age => $Param{Age}, Space => ' ' );
-
-    # customer info string
-    $Param{CustomerName} = '(' . $Param{CustomerName} . ')' if ( $Param{CustomerName} );
-
-    # create & return output
-    return $Self->{LayoutObject}->Output(
-        TemplateFile => 'CustomerTicketSearchResultCSV',
         Data         => \%Param,
     );
 }
