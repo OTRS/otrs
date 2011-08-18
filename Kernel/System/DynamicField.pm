@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField.pm - DynamicFields configuration backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicField.pm,v 1.6 2011-08-18 18:44:44 cg Exp $
+# $Id: DynamicField.pm,v 1.7 2011-08-18 22:03:50 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::Cache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 =head1 NAME
 
@@ -148,6 +148,20 @@ sub DynamicFieldAdd {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Key!" );
             return;
         }
+    }
+
+    # check needed structure for some fields
+    if (
+        $Param{Name} !~ m{ \A [a-z|\d]+ \z }xms
+        ||
+        $Param{ObjectType} !~ m{ \A [a-z]+ \z }xms
+        )
+    {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Not valid letters on Name:$Param{Name} or ObjectType:$Param{ObjectType}!"
+        );
+        return;
     }
 
     # dump config as string
@@ -318,11 +332,19 @@ sub DynamicFieldUpdate {
     # dump config as string
     my $Config = YAML::Dump( $Param{Config} );
 
-    # belongs article
-    my $BelongsToArticle = $Param{BelongsToArticle} || '1';
-
-    # keep $BelongsToArticle value on 1 or 0
-    $BelongsToArticle = 1 if $BelongsToArticle > 1;
+    # check needed structure for some fields
+    if (
+        $Param{Name} !~ m{ \A [a-z|\d]+ \z }xms
+        ||
+        $Param{ObjectType} !~ m{ \A [a-z]+ \z }xms
+        )
+    {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Not valid letters on Name:$Param{Name} or ObjectType:$Param{ObjectType}!"
+        );
+        return;
+    }
 
     # sql
     return if !$Self->{DBObject}->Do(
@@ -475,6 +497,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.6 $ $Date: 2011-08-18 18:44:44 $
+$Revision: 1.7 $ $Date: 2011-08-18 22:03:50 $
 
 =cut
