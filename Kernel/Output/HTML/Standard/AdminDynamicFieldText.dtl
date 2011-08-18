@@ -2,7 +2,7 @@
 # AdminDynamicFieldText.dtl - provides HTML form for AdminDynamicFieldsText
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminDynamicFieldText.dtl,v 1.1 2011-08-18 03:41:36 cr Exp $
+# $Id: AdminDynamicFieldText.dtl,v 1.2 2011-08-18 17:17:19 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -28,29 +28,24 @@
                     <div class="LayoutGrid ColumnsWithSpacing">
                         <div class="Size1of2">
                             <fieldset class="TableLike">
-                                <label class="Mandatory" for="Identifier"><span class="Marker">*</span> $Text{"Identifier"}:</label>
+                                <label class="Mandatory" for="Name"><span class="Marker">*</span> $Text{"Name"}:</label>
                                 <div class="Field">
-                                    <input id="Identifier" class="W50pc $QData{"NameServerError"} Validate_Required" type="text" maxlength="200" value="$QData{"Identifier"}" name="Identifier"/>
-                                    <div id="IdentifierError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
-                                    <div id="IdentifierServerError" class="TooltipErrorMessage"><p>$Text{"$Data{"IdentifierServerErrorMessage"}"}</p></div>
-                                    <p class="FieldExplanation">$Text{"Must be unique and only accept lower letters and numbers."}</p>
+                                    <input id="Name" class="W50pc $QData{"NameServerError"} Validate_Required" type="text" maxlength="200" value="$QData{"Name"}" name="Name"/>
+                                    <div id="NameError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
+                                    <div id="NameServerError" class="TooltipErrorMessage"><p>$Text{"$Data{"NameServerErrorMessage"}"}</p></div>
+                                    <p class="FieldExplanation">$Text{"Must be unique and only accept lower case letters and numbers."}</p>
                                 </div>
                                 <div class="Clear"></div>
 
-                                <label class="Mandatory" for="Description"><span class="Marker">*</span> $Text{"Description"}:</label>
+                                <label class="Mandatory" for="Label"><span class="Marker">*</span> $Text{"Label"}:</label>
                                 <div class="Field">
-                                    <input id="Description" class="W50pc $QData{"NameServerError"} Validate_Required" type="text" maxlength="200" value="$QData{"Description"}" name="Description"/>
-                                    <div id="DescriptionError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
-                                    <div id="DescriptionServerError" class="TooltipErrorMessage"><p>$Text{"$Data{"DescriptionServerErrorMessage"}"}</p></div>
+                                    <input id="Label" class="W50pc $QData{"LabelServerError"} Validate_Required" type="text" maxlength="200" value="$QData{"Label"}" name="Label"/>
+                                    <div id="LabelError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
+                                    <div id="LabelServerError" class="TooltipErrorMessage"><p>$Text{"$Data{"LabelServerErrorMessage"}"}</p></div>
                                     <p class="FieldExplanation">$Text{"This is the name to be shown on the screens where the field is active."}</p>
                                 </div>
                                 <div class="Clear"></div>
 
-                                <label for="TranslatableDescription"> $Text{"Translatable Description"}:</label>
-                                <div class="Field">
-                                    $Data{"TranslatableDescriptionStrg"}
-                                </div>
-                                <div class="Clear"></div>
                             </fieldset>
                         </div>
                         <div class="Size1of2">
@@ -61,9 +56,10 @@
                                 </div>
                                 <div class="Clear"></div>
 
+                                <div class="SpacingTop"></div>
                                 <label for="Type">$Text{"Type"}:</label>
                                 <div class="Field">
-                                    <input id="Type" readonly="readonly" class="W50pc" type="text" maxlength="200" value="$QData{"Type"}" name="Type"/>
+                                    <input id="Type" readonly="readonly" class="W50pc" type="text" maxlength="200" value="Text" name="Type"/>
                                     <div class="Clear"></div>
                                 </div>
                             </fieldset>
@@ -86,5 +82,9 @@
                 </fieldset>
             </div>
         </div>
+
+    </div>
+    <div class="Footer">
+        <button class="Primary" id="Submit" accesskey="g" title="$Text{"Submit"} (g)" type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button>
     </div>
 </div>
