@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField.pm - DynamicFields configuration backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicField.pm,v 1.4 2011-08-17 18:56:22 cg Exp $
+# $Id: DynamicField.pm,v 1.5 2011-08-18 18:21:18 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::Cache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 =head1 NAME
 
@@ -123,8 +123,11 @@ returns id of new Dynamic field if successful or undef otherwise
 
     my $ID = $DynamicFieldObject->DynamicFieldAdd(
         Name                => 'NameForField',  # mandatory
-        Type                => 'Text',          # mandatory, selects the DF backend to use for this field
+        Label               => 'a description', # mandatory
+        FieldType                => 'Text',          # mandatory, selects the DF backend to use for this field
                                                 # 'text' 'date' 'int', 'text' as default
+        ObjectType          => ,                # this controls which object the dynamic field links to
+                                                # allow only lowercase letters
         Config              => $ConfigHashRef,  # it is stored on YAML format
         BelongsToArticle      => '1',             # optional, 1 as default, set to 1 it belongs
                                                 # to individual articles, otherwise to tickets
@@ -138,7 +141,7 @@ sub DynamicFieldAdd {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for my $Key (qw(Name Type Config ValidID UserID)) {
+    for my $Key (qw(Name Label FieldType ObjectType Config ValidID UserID)) {
         if ( !$Param{$Key} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Key!" );
             return;
@@ -148,17 +151,14 @@ sub DynamicFieldAdd {
     # dump config as string
     my $Config = YAML::Dump( $Param{Config} );
 
-    # belongs article
-    my $BelongsToArticle = $Param{BelongsToArticle} || '1';
-
     # sql
     return if !$Self->{DBObject}->Do(
         SQL =>
-            'INSERT INTO dynamic_field (name, article_field, field_type, config, ' .
+            'INSERT INTO dynamic_field (name, label, field_type, object_type, config, ' .
             'valid_id, create_time, create_by, change_time, change_by)' .
-            ' VALUES (?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
+            ' VALUES (?, ?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
         Bind => [
-            \$Param{Name}, \$BelongsToArticle, \$Param{Type}, \$Config,
+            \$Param{Name}, \$Param{Label}, \$Param{FieldType}, \$Param{ObjectType}, \$Config,
             \$Param{ValidID}, \$Param{UserID}, \$Param{UserID},
         ],
     );
@@ -235,8 +235,8 @@ sub DynamicFieldGet {
     if ( $Param{ID} ) {
         return if !$Self->{DBObject}->Prepare(
             SQL =>
-                'SELECT id, name, field_type, article_field, config, valid_id, create_time, change_time '
-                .
+                'SELECT id, name, label, field_type, object_type, config,' .
+                ' valid_id, create_time, change_time ' .
                 'FROM dynamic_field WHERE id = ?',
             Bind => [ \$Param{ID} ],
         );
@@ -244,25 +244,26 @@ sub DynamicFieldGet {
     else {
         return if !$Self->{DBObject}->Prepare(
             SQL =>
-                'SELECT id, name, field_type, article_field, config, valid_id, create_time, change_time '
-                .
+                'SELECT id, name, label, field_type, object_type, config,' .
+                ' valid_id, create_time, change_time ' .
                 'FROM dynamic_field WHERE name = ?',
             Bind => [ \$Param{Name} ],
         );
     }
 
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
-        my $Config = YAML::Load( $Data[4] );
+        my $Config = YAML::Load( $Data[5] );
 
         %Data = (
-            ID               => $Data[0],
-            Name             => $Data[1],
-            Type             => $Data[2],
-            BelongsToArticle => $Data[3],
-            Config           => $Config,
-            ValidID          => $Data[5],
-            CreateTime       => $Data[6],
-            ChangeTime       => $Data[7],
+            ID         => $Data[0],
+            Name       => $Data[1],
+            Label      => $Data[2],
+            FieldType  => $Data[3],
+            ObjectType => $Data[4],
+            Config     => $Config,
+            ValidID    => $Data[6],
+            CreateTime => $Data[7],
+            ChangeTime => $Data[8],
         );
     }
 
@@ -301,7 +302,7 @@ sub DynamicFieldUpdate {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for my $Key (qw(ID Name Type Config ValidID UserID)) {
+    for my $Key (qw(ID Name Label FieldType ObjectType Config ValidID UserID)) {
         if ( !$Param{$Key} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Key!" );
             return;
@@ -319,12 +320,12 @@ sub DynamicFieldUpdate {
 
     # sql
     return if !$Self->{DBObject}->Do(
-        SQL => 'UPDATE dynamic_field SET name = ?, article_field = ?, field_type = ?, '
+        SQL => 'UPDATE dynamic_field SET name = ?, label = ?, field_type = ?, object_type = ?, '
             . ' config = ?, valid_id = ?, change_time = current_timestamp, '
             . ' change_by = ? WHERE id = ?',
         Bind => [
-            \$Param{Name}, \$BelongsToArticle, \$Param{Type}, \$Config, \$Param{ValidID},
-            \$Param{UserID}, \$Param{ID},
+            \$Param{Name}, \$Param{Label}, \$Param{FieldType}, \$Param{ObjectType}, \$Config,
+            \$Param{ValidID}, \$Param{UserID}, \$Param{ID},
         ],
     );
 
@@ -421,6 +422,7 @@ sub DynamicFieldList {
     if ( !defined $Param{Valid} || $Param{Valid} eq 1 ) {
         $SQL .= ' WHERE valid_id IN (' . join ', ', $Self->{ValidObject}->ValidIDsGet() . ')';
     }
+    $SQL .= " order by name";
 
     return if !$Self->{DBObject}->Prepare( SQL => $SQL );
 
@@ -458,6 +460,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.4 $ $Date: 2011-08-17 18:56:22 $
+$Revision: 1.5 $ $Date: 2011-08-18 18:21:18 $
 
 =cut
