@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField.pm - DynamicFields configuration backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicField.pm,v 1.5 2011-08-18 18:21:18 cg Exp $
+# $Id: DynamicField.pm,v 1.6 2011-08-18 18:44:44 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::Cache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 =head1 NAME
 
@@ -123,17 +123,19 @@ returns id of new Dynamic field if successful or undef otherwise
 
     my $ID = $DynamicFieldObject->DynamicFieldAdd(
         Name                => 'NameForField',  # mandatory
-        Label               => 'a description', # mandatory
-        FieldType                => 'Text',          # mandatory, selects the DF backend to use for this field
-                                                # 'text' 'date' 'int', 'text' as default
-        ObjectType          => ,                # this controls which object the dynamic field links to
+        Label               => 'a description', # mandatory, label to show
+        FieldType           => 'Text',          # mandatory, selects the DF backend to use for this field
+        ObjectType          => 'article',       # this controls which object the dynamic field links to
                                                 # allow only lowercase letters
         Config              => $ConfigHashRef,  # it is stored on YAML format
-        BelongsToArticle      => '1',             # optional, 1 as default, set to 1 it belongs
                                                 # to individual articles, otherwise to tickets
         ValidID         => 1,
         UserID          => 123,
     );
+
+Returns:
+
+    $ID = '567';
 
 =cut
 
@@ -186,15 +188,18 @@ get Dynamic Field attributes
         Name    => 'DynamicField',
     );
 
+Returns:
+
     $DynamicField = {
         ID              => 123,
         Name            => 'NameForField',
-        Type            => 'Text',
+        Label           => 'The label to show',
+        FieldType       => 'Text',
+        ObjectType      => 'Article',
         Config          => $ConfigHashRef,
-        BelongsToArticle  => '1',
-        ValidID         => 12,
+        ValidID         => 1,
         CreateTime      => '2011-02-08 15:08:00',
-        ChangeTime      => '2011-02-08 15:08:00',
+        ChangeTime      => '2011-06-11 17:22:00',
     };
 
 =cut
@@ -286,11 +291,12 @@ returns 1 on success or undef on error
 
     my $Success = $DynamicFieldObject->DynamicFieldUpdate(
         ID              => 1234,                # mandatory
-        Name            => 'DiferentName',      # mandatory
-        Type            => 'Text',              # mandatory, selects the DF backend to use for this field
-                                                # 'text' 'date' 'int', 'text' as default
-        Config          => $NewConfigHashRef,   # it is stored on YAML format
-        BelongsToArticle  => '1',                 # optional, 1 as default, set to 1 it belongs
+        Name                => 'NameForField',  # mandatory
+        Label               => 'a description', # mandatory, label to show
+        FieldType           => 'Text',          # mandatory, selects the DF backend to use for this field
+        ObjectType          => 'article',       # this controls which object the dynamic field links to
+                                                # allow only lowercase letters
+        Config              => $ConfigHashRef,  # it is stored on YAML format
                                                 # to individual articles, otherwise to tickets
         ValidID         => 1,
         UserID          => 123,
@@ -393,6 +399,15 @@ get DynamicField list
         Valid => 0, # optional, defaults to 1
     );
 
+Returns:
+
+    $List = {
+        1 => 'ItemOne',
+        2 => 'ItemTwo',
+        3 => 'ItemThree',
+        4 => 'ItemFour',
+    };
+
 =cut
 
 sub DynamicFieldList {
@@ -460,6 +475,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.5 $ $Date: 2011-08-18 18:21:18 $
+$Revision: 1.6 $ $Date: 2011-08-18 18:44:44 $
 
 =cut
