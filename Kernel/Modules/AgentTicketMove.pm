@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMove.pm - move tickets to queues
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMove.pm,v 1.78.2.4 2011-08-11 08:33:28 mg Exp $
+# $Id: AgentTicketMove.pm,v 1.78.2.5 2011-08-18 19:02:05 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.78.2.4 $) [1];
+$VERSION = qw($Revision: 1.78.2.5 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1001,6 +1001,10 @@ sub AgentMove {
 
     # show spell check
     if ( $Self->{LayoutObject}->{BrowserSpellChecker} ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'TicketOptions',
+            Data => {},
+        );
         $Self->{LayoutObject}->Block(
             Name => 'SpellCheck',
             Data => {},

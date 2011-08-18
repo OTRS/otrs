@@ -2,7 +2,7 @@
 # AgentTicketMove.dtl - provides HTML form for move mask
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMove.dtl,v 1.72.2.1 2011-08-11 08:33:28 mg Exp $
+# $Id: AgentTicketMove.dtl,v 1.72.2.2 2011-08-18 19:02:04 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -104,13 +104,21 @@
                     </div>
                     <div class="Clear"></div>
 
-<!-- dtl:block:SpellCheck -->
+<!-- dtl:block:TicketOptions -->
                     <label>$Text{"Options"}:</label>
                     <div class="Field">
+
+<!-- OutputFilterHook_TicketOptionsBegin -->
+
+<!-- dtl:block:SpellCheck -->
                         <a href="#" id="OptionSpellCheck">[ $Text{"Spell check"} ]</a>
+<!-- dtl:block:SpellCheck -->
+
+<!-- OutputFilterHook_TicketOptionsEnd -->
+
                     </div>
                     <div class="Clear"></div>
-<!-- dtl:block:SpellCheck -->
+<!-- dtl:block:TicketOptions -->
 
                     <label for="Body">$Text{"Text"}:</label>
 
