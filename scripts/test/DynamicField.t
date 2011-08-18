@@ -2,7 +2,7 @@
 # DynamicField.t - DynamicField tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicField.t,v 1.3 2011-08-17 21:37:09 cg Exp $
+# $Id: DynamicField.t,v 1.4 2011-08-18 22:04:41 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,6 +24,8 @@ my $HelperObject = Kernel::System::UnitTest::Helper->new(
 
 my $RandomID = $HelperObject->GetRandomID();
 
+$RandomID =~ s/\-//g;
+
 # set $UserId
 my $UserID = 1;
 
@@ -31,7 +33,7 @@ my $DynamicFieldObject = Kernel::System::DynamicField->new( %{$Self} );
 
 my @Tests = (
     {
-        Name          => 'test 1',
+        Name          => 'test1',
         SuccessAdd    => 1,
         SuccessUpdate => 1,
         Add           => {
@@ -39,14 +41,15 @@ my @Tests = (
                 Name        => 'AnyName',
                 Description => 'Description for Dynamic Field.',
             },
-            BelongsToArticle => 0,
-            Type             => 'Text',
-            ValidID          => 1,
-            UserID           => $UserID,
+            Label      => 'something for label',
+            FieldType  => 'text',
+            ObjectType => 'article',
+            ValidID    => 1,
+            UserID     => $UserID,
         },
     },
     {
-        Name          => 'test 2',
+        Name          => 'test2',
         SuccessAdd    => 1,
         SuccessUpdate => 1,
         Add           => {
@@ -54,49 +57,41 @@ my @Tests = (
                 Name        => 'OtherName',
                 Description => 'Description for Dynamic Field.',
             },
-            Type    => 'Text',
-            ValidID => 2,
-            UserID  => $UserID,
+            Label      => 'alabel',
+            FieldType  => 'text',
+            ObjectType => 'ticket',
+            ValidID    => 2,
+            UserID     => $UserID,
         },
     },
     {
-        Name          => 'test 3',
+        Name          => 'test3',
         SuccessAdd    => 1,
         SuccessUpdate => 1,
         Add           => {
-            Config  => {},
-            Type    => 'Text',
-            ValidID => 2,
-            UserID  => $UserID,
+            Config     => {},
+            Label      => 'nothing interesting',
+            FieldType  => 'text',
+            ObjectType => 'article',
+            ValidID    => 2,
+            UserID     => $UserID,
         },
     },
     {
-        Name          => 'test 4',
+        Name          => 'test4',
         SuccessAdd    => 0,
         SuccessUpdate => 0,
         Add           => {
-            Config  => undef,
-            Type    => 'Text',
-            ValidID => 2,
-            UserID  => $UserID,
+            Config     => undef,
+            Label      => 'label',
+            FieldType  => 'text',
+            ObjectType => 'article',
+            ValidID    => 2,
+            UserID     => $UserID,
         },
     },
     {
-        Name          => 'test 5',
-        SuccessAdd    => 0,
-        SuccessUpdate => 0,
-        Add           => {
-            Config => {
-                Name        => 'OtherName',
-                Description => 'Description for Dynamic Field.',
-            },
-            Type    => '',
-            ValidID => 2,
-            UserID  => $UserID,
-        },
-    },
-    {
-        Name          => 'test 6',
+        Name          => 'test5',
         SuccessAdd    => 0,
         SuccessUpdate => 0,
         Add           => {
@@ -104,13 +99,15 @@ my @Tests = (
                 Name        => 'OtherName',
                 Description => 'Description for Dynamic Field.',
             },
-            Type    => 'Int',
-            ValidID => '',
-            UserID  => $UserID,
+            Label      => '',
+            FieldType  => 'text',
+            ObjectType => 'ticket',
+            ValidID    => 2,
+            UserID     => $UserID,
         },
     },
     {
-        Name          => 'test 7',
+        Name          => 'test6',
         SuccessAdd    => 0,
         SuccessUpdate => 0,
         Add           => {
@@ -118,24 +115,91 @@ my @Tests = (
                 Name        => 'OtherName',
                 Description => 'Description for Dynamic Field.',
             },
-            Type    => 'Int',
-            ValidID => 1,
-            UserID  => '',
+            Label      => 'Other label',
+            FieldType  => '',
+            ObjectType => 'article',
+            ValidID    => 1,
+            UserID     => $UserID,
         },
     },
     {
-        Name          => 'test 8',
-        SuccessAdd    => 1,
-        SuccessUpdate => 1,
+        Name          => 'test7',
+        SuccessAdd    => 0,
+        SuccessUpdate => 0,
         Add           => {
             Config => {
-                Name        => 'AnyName',
+                Name        => 'OtherName',
                 Description => 'Description for Dynamic Field.',
             },
-            Type             => 'Text',
-            BelongsToArticle => 8,
-            ValidID          => 1,
-            UserID           => $UserID,
+            Label      => 'Complex label',
+            FieldType  => 'int',
+            ObjectType => '',
+            ValidID    => 1,
+            UserID     => $UserID,
+        },
+    },
+    {
+        Name          => 'test8',
+        SuccessAdd    => 0,
+        SuccessUpdate => 0,
+        Add           => {
+            Config => {
+                Name        => 'NameTwo',
+                Description => 'Description for Dynamic Field.',
+            },
+            Label      => 'Simple Label',
+            FieldType  => 'text',
+            ObjectType => 'ticket',
+            ValidID    => '',
+            UserID     => $UserID,
+        },
+    },
+    {
+        Name          => 'test9',
+        SuccessAdd    => 0,
+        SuccessUpdate => 0,
+        Add           => {
+            Config => {
+                Name        => 'Config Name',
+                Description => 'Description for Dynamic Field.',
+            },
+            Label      => 'Other label',
+            FieldType  => 'text',
+            ObjectType => 'ticket',
+            ValidID    => 1,
+            UserID     => '',
+        },
+    },
+    {
+        Name          => 'Test 10',
+        SuccessAdd    => 0,
+        SuccessUpdate => 0,
+        Add           => {
+            Config => {
+                Name        => 'Config Name',
+                Description => 'Description for Dynamic Field.',
+            },
+            Label      => 'Other label',
+            FieldType  => 'text',
+            ObjectType => 'ticket',
+            ValidID    => 1,
+            UserID     => $UserID,
+        },
+    },
+    {
+        Name          => 'test11',
+        SuccessAdd    => 0,
+        SuccessUpdate => 0,
+        Add           => {
+            Config => {
+                Name        => 'Config Name',
+                Description => 'Description for Dynamic Field.',
+            },
+            Label      => 'Other label',
+            FieldType  => 'text',
+            ObjectType => 'Article',
+            ValidID    => 1,
+            UserID     => $UserID,
         },
     },
 );
@@ -145,7 +209,7 @@ for my $Test (@Tests) {
 
     # add config
     my $DynamicFieldID = $DynamicFieldObject->DynamicFieldAdd(
-        Name => $Test->{Name} . ' ' . $RandomID,
+        Name => $Test->{Name} . $RandomID,
         %{ $Test->{Add} }
     );
     if ( !$Test->{SuccessAdd} ) {
@@ -172,7 +236,7 @@ for my $Test (@Tests) {
 
     # verify config
     $Self->Is(
-        $Test->{Name} . ' ' . $RandomID,
+        $Test->{Name} . $RandomID,
         $DynamicField->{Name},
         "$Test->{Name} - DynamicFieldGet()",
     );
@@ -183,7 +247,7 @@ for my $Test (@Tests) {
     );
 
     my $DynamicFieldByName = $DynamicFieldObject->DynamicFieldGet(
-        Name => $Test->{Name} . ' ' . $RandomID,
+        Name => $Test->{Name} . $RandomID,
     );
 
     $Self->IsDeeply(
@@ -199,7 +263,7 @@ for my $Test (@Tests) {
 
     # verify config from cache
     $Self->Is(
-        $Test->{Name} . ' ' . $RandomID,
+        $Test->{Name} . $RandomID,
         $DynamicFieldFromCache->{Name},
         "$Test->{Name} - DynamicFieldGet() from cache",
     );
@@ -216,7 +280,7 @@ for my $Test (@Tests) {
     );
 
     my $DynamicFieldByNameFromCache = $DynamicFieldObject->DynamicFieldGet(
-        Name => $Test->{Name} . ' ' . $RandomID,
+        Name => $Test->{Name} . $RandomID,
     );
 
     $Self->IsDeeply(
@@ -231,7 +295,7 @@ for my $Test (@Tests) {
     }
     my $Success = $DynamicFieldObject->DynamicFieldUpdate(
         ID   => $DynamicFieldID,
-        Name => $Test->{Name} . ' ' . $RandomID,
+        Name => $Test->{Name} . $RandomID,
         %{ $Test->{Update} }
     );
     if ( !$Test->{SuccessUpdate} ) {
@@ -256,7 +320,7 @@ for my $Test (@Tests) {
 
     # verify config
     $Self->Is(
-        $Test->{Name} . ' ' . $RandomID,
+        $Test->{Name} . $RandomID,
         $DynamicField->{Name},
         "$Test->{Name} - DynamicFieldGet()",
     );
@@ -267,7 +331,7 @@ for my $Test (@Tests) {
     );
 
     $DynamicFieldByName = $DynamicFieldObject->DynamicFieldGet(
-        Name => $Test->{Name} . ' ' . $RandomID,
+        Name => $Test->{Name} . $RandomID,
     );
 
     $Self->IsDeeply(
@@ -285,7 +349,7 @@ for my $Test (@Tests) {
 
         # verify config from cache
         $Self->Is(
-            $Test->{Name} . ' ' . $RandomID,
+            $Test->{Name} . $RandomID,
             $DynamicFieldUpdateFromCache->{Name},
             "$Test->{Name} - DynamicFieldGet() from cache",
         );
