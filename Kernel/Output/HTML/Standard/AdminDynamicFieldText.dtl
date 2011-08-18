@@ -1,0 +1,90 @@
+# --
+# AdminDynamicFieldText.dtl - provides HTML form for AdminDynamicFieldsText
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# --
+# $Id: AdminDynamicFieldText.dtl,v 1.1 2011-08-18 03:41:36 cr Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<div class="LayoutPopup ARIARoleMain">
+
+    <div class="Header">
+        <h1>Text</h1>
+        <p>
+            <a href="#" class="CancelClosePopup">$Text{"Cancel & close window"}</a>
+        </p>
+    </div>
+
+    <div class="Content">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>General</h2>
+            </div>
+            <div class="Content">
+                <form action="$Env{"CGIHandle"}" method="post" class="Validate PreventMultipleSubmits">
+                    <div class="LayoutGrid ColumnsWithSpacing">
+                        <div class="Size1of2">
+                            <fieldset class="TableLike">
+                                <label class="Mandatory" for="Identifier"><span class="Marker">*</span> $Text{"Identifier"}:</label>
+                                <div class="Field">
+                                    <input id="Identifier" class="W50pc $QData{"NameServerError"} Validate_Required" type="text" maxlength="200" value="$QData{"Identifier"}" name="Identifier"/>
+                                    <div id="IdentifierError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
+                                    <div id="IdentifierServerError" class="TooltipErrorMessage"><p>$Text{"$Data{"IdentifierServerErrorMessage"}"}</p></div>
+                                    <p class="FieldExplanation">$Text{"Must be unique and only accept lower letters and numbers."}</p>
+                                </div>
+                                <div class="Clear"></div>
+
+                                <label class="Mandatory" for="Description"><span class="Marker">*</span> $Text{"Description"}:</label>
+                                <div class="Field">
+                                    <input id="Description" class="W50pc $QData{"NameServerError"} Validate_Required" type="text" maxlength="200" value="$QData{"Description"}" name="Description"/>
+                                    <div id="DescriptionError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
+                                    <div id="DescriptionServerError" class="TooltipErrorMessage"><p>$Text{"$Data{"DescriptionServerErrorMessage"}"}</p></div>
+                                    <p class="FieldExplanation">$Text{"This is the name to be shown on the screens where the field is active."}</p>
+                                </div>
+                                <div class="Clear"></div>
+
+                                <label for="TranslatableDescription"> $Text{"Translatable Description"}:</label>
+                                <div class="Field">
+                                    $Data{"TranslatableDescriptionStrg"}
+                                </div>
+                                <div class="Clear"></div>
+                            </fieldset>
+                        </div>
+                        <div class="Size1of2">
+                            <fieldset class="TableLike">
+                                <label for="ValidID">$Text{"Validity"}:</label>
+                                <div class="Field">
+                                    $Data{"ValidityStrg"}
+                                </div>
+                                <div class="Clear"></div>
+
+                                <label for="Type">$Text{"Type"}:</label>
+                                <div class="Field">
+                                    <input id="Type" readonly="readonly" class="W50pc" type="text" maxlength="200" value="$QData{"Type"}" name="Type"/>
+                                    <div class="Clear"></div>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>Text Field Settings</h2>
+            </div>
+            <div class="Content">
+                <fieldset class="TableLike">
+                    <label for="DefaultValue">$Text{"Default Value"}:</label>
+                    <div class="Field">
+                        <input id="DefaultValue" class="W50pc" type="text" maxlength="200" value="$QData{"DefaultValue"}" name="DefaultValue"/>
+                        <p class="FieldExplanation">$Text{"This is the default value for this field."}</p>
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+    </div>
+</div>
