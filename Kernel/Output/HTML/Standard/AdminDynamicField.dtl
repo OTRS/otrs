@@ -2,7 +2,7 @@
 # AdminDynamicField.dtl - provides HTML form for DynamicFields
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminDynamicField.dtl,v 1.8 2011-08-18 17:17:54 cr Exp $
+# $Id: AdminDynamicField.dtl,v 1.9 2011-08-18 20:48:09 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,22 +22,26 @@
             </div>
             <div class="Content">
                 <ul class="ActionList">
-<!-- dtl:block:ActionAddTicketDynamicField -->
+<!-- dtl:block:ActionAddDynamicField -->
                     <li>
-                        $Data{"AddTicketDynamicFieldStrg"}
+                        $Data{"AddDynamicFieldStrg"}
                         <div class="FieldExplanation">
-                            <p>$Text{"Add new ticket field."}</p>
+                            <p>$Text{"Add new field for object "} $Data{"ObjectType"}.</p>
                         </div>
                     </li>
-<!-- dtl:block:ActionAddTicketDynamicField -->
-<!-- dtl:block:ActionAddArticleDynamicField -->
-                    <li>
-                        $Data{"AddArticleDynamicFieldStrg"}
-                        <div class="FieldExplanation">
-                            <p>$Text{"Add new article field."}</p>
-                        </div>
-                    </li>
-<!-- dtl:block:ActionAddArticleDynamicField -->
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+$('#$Data{"SelectName"}').bind('change', function() {
+    if ($(this).val() !== '') {
+        Core.Agent.Admin.DynamicField.Redirect($(this).val(), '$Data{"ObjectType"}');
+
+        // reset select value to none
+        $(this).val('');
+    }
+});
+//]]></script>
+<!--dtl:js_on_document_complete-->
+<!-- dtl:block:ActionAddDynamicField -->
                 </ul>
             </div>
         </div>
@@ -45,8 +49,7 @@
 <!-- dtl:block:ConfigSet -->
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
-    Core.Config.Set('DynamicFields.Ticket', $Data{"TicketFieldsConfig"} );
-    Core.Config.Set('DynamicFields.Article', $Data{"ArticleFieldsConfig"} );
+    Core.Config.Set('DynamicFields', $Data{"FieldDialogsConfig"} );
 //]]></script>
 <!--dtl:js_on_document_complete-->
 <!-- dtl:block:ConfigSet -->
@@ -145,16 +148,16 @@ $('#ShowContextSettingsDialog').bind('click', function (Event) {
 <!-- dtl:block:DynamicFieldsRow -->
                         <tr id="DynamicFieldID_$QData{"ID"}" class="MasterAction">
                             <td>
-                                <a href="$Env{"Baselink"}Action=$LQData{"BackendDialog"};Subaction=Change;Object=$LQData{"Object"};ID=$LQData{"ID"}" title="$QData{"Name"}" class="MasterActionLink AsPopup">$Data{"Name"}</a>
+                                <a href="$Env{"Baselink"}Action=$LQData{"ConfigDialog"};Subaction=Change;ObjectType=$LQData{"ObjectType"};ID=$LQData{"ID"}" title="$QData{"Name"}" class="MasterActionLink AsPopup">$Data{"Name"}</a>
                             </td>
                             <td>
                                 <div title="$Text{"$Data{"Label"}"}">$Data{"Label"}</div>
                             </td>
                             <td>
-                                <div title="$Text{"$Data{"Type"}"}">$Data{"Type"}</div>
+                                <div title="$Text{"$Data{"FieldTypeName"}"}">$Data{"FieldTypeName"}</div>
                             </td>
                             <td>
-                                <div title="$Text{"$Data{"Object"}"}">$Data{"Object"}</div>
+                                <div title="$Text{"$Data{"ObjectTypeName"}"}">$Data{"ObjectTypeName"}</div>
                             </td>
                             <td>
                                 <div title="$Text{"$Data{"Validity"}"}">$Data{"Valid"}</div>
@@ -172,24 +175,6 @@ $('#ShowContextSettingsDialog').bind('click', function (Event) {
 
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
-$('#TicketDynamicField').bind('change', function() {
-    if ($(this).val() !== '') {
-        Core.Agent.Admin.DynamicField.Redirect($(this).val(), 'Ticket');
-
-        // reset select value to none
-        $(this).val('');
-    }
-});
-
-$('#ArticleDynamicField').bind('change', function() {
-    if ($(this).val() !== '') {
-        Core.Agent.Admin.DynamicField.Redirect($(this).val(), 'Article');
-
-        // reset select value to none
-        $(this).val('');
-    }
-});
-
 $('.MasterAction').bind('click', function (Event) {
     var $MasterActionLink = $(this).find('.MasterActionLink');
     // only act if the link was not clicked directly
