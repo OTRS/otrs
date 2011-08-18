@@ -2,7 +2,7 @@
 # AdminDynamicField.dtl - provides HTML form for DynamicFields
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminDynamicField.dtl,v 1.7 2011-08-17 23:04:32 cr Exp $
+# $Id: AdminDynamicField.dtl,v 1.8 2011-08-18 17:17:54 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -127,8 +127,8 @@ $('#ShowContextSettingsDialog').bind('click', function (Event) {
                 <table class="DataTable" id="DynamicFieldsTable" summary="List of all registered Dynamic Fields">
                     <thead>
                         <tr>
-                            <th>$Text{"Identifier"}</th>
                             <th>$Text{"Name"}</th>
+                            <th>$Text{"Label"}</th>
                             <th>$Text{"Type"}</th>
                             <th>$Text{"Object"}</th>
                             <th>$Text{"Validity"}</th>
@@ -145,10 +145,10 @@ $('#ShowContextSettingsDialog').bind('click', function (Event) {
 <!-- dtl:block:DynamicFieldsRow -->
                         <tr id="DynamicFieldID_$QData{"ID"}" class="MasterAction">
                             <td>
-                                <a href="$Env{"Baselink"}Action=$LQData{"BackendDialog"};Subaction=Change;Object=$LQData{"Object"};ID=$LQData{"ID"}" title="$QData{"ID"}" class="MasterActionLink AsPopup">$Data{"ID"}</a>
+                                <a href="$Env{"Baselink"}Action=$LQData{"BackendDialog"};Subaction=Change;Object=$LQData{"Object"};ID=$LQData{"ID"}" title="$QData{"Name"}" class="MasterActionLink AsPopup">$Data{"Name"}</a>
                             </td>
                             <td>
-                                <div title="$Text{"$Data{"Name"}"}">$Data{"Name"}</div>
+                                <div title="$Text{"$Data{"Label"}"}">$Data{"Label"}</div>
                             </td>
                             <td>
                                 <div title="$Text{"$Data{"Type"}"}">$Data{"Type"}</div>
