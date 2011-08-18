@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: db2, generated: 2011-08-17 18:10:26
+--  driver: db2, generated: 2011-08-18 12:19:03
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -1408,7 +1408,7 @@ CREATE TABLE gi_object_lock_state (
     lock_state_counter INTEGER NOT NULL,
     create_time TIMESTAMP NOT NULL,
     change_time TIMESTAMP NOT NULL,
-    CONSTRAINT gi_object_lock_state_U_779 UNIQUE (webservice_id, object_type, object_id)
+    CONSTRAINT gi_object_lock_state_U_639 UNIQUE (webservice_id, object_type, object_id)
 );
 
 CREATE INDEX object_lock_state_list_state ON gi_object_lock_state (webservice_id, object_type, object_id, lock_state);
@@ -1433,25 +1433,20 @@ CREATE TABLE smime_signer_cert_relations (
 --  create table dynamic_field_value
 -- ----------------------------------------------------------
 CREATE TABLE dynamic_field_value (
-    ticket_id BIGINT NOT NULL,
-    article_id BIGINT,
     field_id INTEGER NOT NULL,
+    object_type VARCHAR (200),
+    object_id BIGINT NOT NULL,
     value_text CLOB (14062K),
     value_date TIMESTAMP,
     value_int BIGINT,
-    valid_id SMALLINT NOT NULL,
-    create_time TIMESTAMP NOT NULL,
-    create_by INTEGER NOT NULL,
-    change_time TIMESTAMP NOT NULL,
-    change_by INTEGER NOT NULL,
-    CONSTRAINT dynamic_field_value_U_282 UNIQUE (ticket_id, article_id, field_id)
+    CONSTRAINT dynamic_field_value_U_109 UNIQUE (field_id, object_type, object_id)
 );
 
-CREATE INDEX index_field_id ON dynamic_field_value (field_id);
+CREATE INDEX index_object ON dynamic_field_value (object_type, object_id);
 
-CREATE INDEX index_ticket_id ON dynamic_field_value (ticket_id);
+CREATE INDEX index_search_date ON dynamic_field_value (field_id, value_date);
 
-CREATE INDEX index_ticket_id_article_id ON dynamic_field_value (ticket_id, article_id);
+CREATE INDEX index_search_int ON dynamic_field_value (field_id, value_int);
 
 -- ----------------------------------------------------------
 --  create table dynamic_field
@@ -1459,8 +1454,9 @@ CREATE INDEX index_ticket_id_article_id ON dynamic_field_value (ticket_id, artic
 CREATE TABLE dynamic_field (
     id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
     name VARCHAR (200) NOT NULL,
-    article_field SMALLINT,
+    label VARCHAR (200) NOT NULL,
     field_type VARCHAR (200) NOT NULL,
+    object_type VARCHAR (200),
     config BLOB (30M),
     valid_id SMALLINT NOT NULL,
     create_time TIMESTAMP NOT NULL,
@@ -1468,5 +1464,5 @@ CREATE TABLE dynamic_field (
     change_time TIMESTAMP NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    CONSTRAINT dynamic_field_U_899 UNIQUE (name)
+    CONSTRAINT dynamic_field_U_515 UNIQUE (name)
 );

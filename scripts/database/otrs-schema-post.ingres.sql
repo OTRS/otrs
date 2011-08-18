@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: ingres, generated: 2011-08-17 18:10:26
+--  driver: ingres, generated: 2011-08-18 12:19:03
 -- ----------------------------------------------------------
 ALTER TABLE valid ADD FOREIGN KEY (create_by) REFERENCES users(id);\g
 ALTER TABLE valid ADD FOREIGN KEY (change_by) REFERENCES users(id);\g
@@ -200,8 +200,7 @@ ALTER TABLE gi_debugger_entry_content ADD FOREIGN KEY (gi_debugger_entry_id) REF
 ALTER TABLE gi_object_lock_state ADD FOREIGN KEY (webservice_id) REFERENCES gi_webservice_config(id);\g
 ALTER TABLE smime_signer_cert_relations ADD FOREIGN KEY (create_by) REFERENCES users(id);\g
 ALTER TABLE smime_signer_cert_relations ADD FOREIGN KEY (change_by) REFERENCES users(id);\g
-ALTER TABLE dynamic_field_value ADD FOREIGN KEY (valid_id) REFERENCES valid(id);\g
-ALTER TABLE dynamic_field_value ADD FOREIGN KEY (field_id) REFERENCES ticket_dynamicfields_config(id);\g
-ALTER TABLE dynamic_field_value ADD FOREIGN KEY (article_id) REFERENCES article(id);\g
-ALTER TABLE dynamic_field_value ADD FOREIGN KEY (ticket_id) REFERENCES ticket(id);\g
+ALTER TABLE dynamic_field_value ADD FOREIGN KEY (field_id) REFERENCES dynamic_field(id);\g
+ALTER TABLE dynamic_field ADD FOREIGN KEY (create_by) REFERENCES users(id);\g
+ALTER TABLE dynamic_field ADD FOREIGN KEY (change_by) REFERENCES users(id);\g
 ALTER TABLE dynamic_field ADD FOREIGN KEY (valid_id) REFERENCES valid(id);\g

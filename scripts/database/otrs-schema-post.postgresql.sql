@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: postgresql, generated: 2011-08-17 18:10:27
+--  driver: postgresql, generated: 2011-08-18 12:19:04
 -- ----------------------------------------------------------
 ALTER TABLE valid ADD CONSTRAINT FK_valid_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
 ALTER TABLE valid ADD CONSTRAINT FK_valid_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
@@ -200,8 +200,7 @@ ALTER TABLE gi_debugger_entry_content ADD CONSTRAINT FK_gi_debugger_entry_conten
 ALTER TABLE gi_object_lock_state ADD CONSTRAINT FK_gi_object_lock_state_webservice_id_id FOREIGN KEY (webservice_id) REFERENCES gi_webservice_config (id);
 ALTER TABLE smime_signer_cert_relations ADD CONSTRAINT FK_smime_signer_cert_relations_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
 ALTER TABLE smime_signer_cert_relations ADD CONSTRAINT FK_smime_signer_cert_relations_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
-ALTER TABLE dynamic_field_value ADD CONSTRAINT FK_dynamic_field_value_article_id_id FOREIGN KEY (article_id) REFERENCES article (id);
-ALTER TABLE dynamic_field_value ADD CONSTRAINT FK_dynamic_field_value_ticket_id_id FOREIGN KEY (ticket_id) REFERENCES ticket (id);
-ALTER TABLE dynamic_field_value ADD CONSTRAINT FK_dynamic_field_value_field_id_id FOREIGN KEY (field_id) REFERENCES ticket_dynamicfields_config (id);
-ALTER TABLE dynamic_field_value ADD CONSTRAINT FK_dynamic_field_value_valid_id_id FOREIGN KEY (valid_id) REFERENCES valid (id);
+ALTER TABLE dynamic_field_value ADD CONSTRAINT FK_dynamic_field_value_field_id_id FOREIGN KEY (field_id) REFERENCES dynamic_field (id);
+ALTER TABLE dynamic_field ADD CONSTRAINT FK_dynamic_field_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
+ALTER TABLE dynamic_field ADD CONSTRAINT FK_dynamic_field_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
 ALTER TABLE dynamic_field ADD CONSTRAINT FK_dynamic_field_valid_id_id FOREIGN KEY (valid_id) REFERENCES valid (id);

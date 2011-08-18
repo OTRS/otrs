@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-#  driver: mysql, generated: 2011-08-17 18:03:08
+#  driver: mysql, generated: 2011-08-18 12:18:47
 # ----------------------------------------------------------
 # ----------------------------------------------------------
 #  alter table ticket_index
@@ -106,7 +106,7 @@ CREATE TABLE gi_object_lock_state (
     lock_state_counter INTEGER NOT NULL,
     create_time DATETIME NOT NULL,
     change_time DATETIME NOT NULL,
-    UNIQUE INDEX gi_object_lock_state_U_711 (webservice_id, object_type, object_id),
+    UNIQUE INDEX gi_object_lock_state_U_444 (webservice_id, object_type, object_id),
     INDEX object_lock_state_list_state (webservice_id, object_type, object_id, lock_state)
 );
 # ----------------------------------------------------------
@@ -189,21 +189,16 @@ ALTER TABLE ticket_flag ADD CONSTRAINT ticket_flag_per_user UNIQUE INDEX (ticket
 #  create table dynamic_field_value
 # ----------------------------------------------------------
 CREATE TABLE dynamic_field_value (
-    ticket_id BIGINT NOT NULL,
-    article_id BIGINT NULL,
     field_id INTEGER NOT NULL,
+    object_type VARCHAR (200) NULL,
+    object_id BIGINT NOT NULL,
     value_text MEDIUMTEXT NULL,
     value_date DATETIME NULL,
     value_int BIGINT NULL,
-    valid_id SMALLINT NOT NULL,
-    create_time DATETIME NOT NULL,
-    create_by INTEGER NOT NULL,
-    change_time DATETIME NOT NULL,
-    change_by INTEGER NOT NULL,
-    UNIQUE INDEX dynamic_field_value_U_439 (ticket_id, article_id, field_id),
-    INDEX index_field_id (field_id),
-    INDEX index_ticket_id (ticket_id),
-    INDEX index_ticket_id_article_id (ticket_id, article_id)
+    UNIQUE INDEX dynamic_field_value_U_295 (field_id, object_type, object_id),
+    INDEX index_object (object_type, object_id),
+    INDEX index_search_date (field_id, value_date),
+    INDEX index_search_int (field_id, value_int)
 );
 # ----------------------------------------------------------
 #  create table dynamic_field
@@ -211,8 +206,9 @@ CREATE TABLE dynamic_field_value (
 CREATE TABLE dynamic_field (
     id INTEGER NOT NULL AUTO_INCREMENT,
     name VARCHAR (200) NOT NULL,
-    article_field SMALLINT NULL,
+    label VARCHAR (200) NOT NULL,
     field_type VARCHAR (200) NOT NULL,
+    object_type VARCHAR (200) NULL,
     config LONGBLOB NULL,
     valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
@@ -220,7 +216,7 @@ CREATE TABLE dynamic_field (
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE INDEX dynamic_field_U_759 (name)
+    UNIQUE INDEX dynamic_field_U_505 (name)
 );
 ALTER TABLE gi_webservice_config ADD CONSTRAINT FK_gi_webservice_config_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
 ALTER TABLE gi_webservice_config ADD CONSTRAINT FK_gi_webservice_config_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
@@ -233,8 +229,7 @@ ALTER TABLE gi_debugger_entry_content ADD CONSTRAINT FK_gi_debugger_entry_conten
 ALTER TABLE gi_object_lock_state ADD CONSTRAINT FK_gi_object_lock_state_webservice_id_id FOREIGN KEY (webservice_id) REFERENCES gi_webservice_config (id);
 ALTER TABLE smime_signer_cert_relations ADD CONSTRAINT FK_smime_signer_cert_relations_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
 ALTER TABLE smime_signer_cert_relations ADD CONSTRAINT FK_smime_signer_cert_relations_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
-ALTER TABLE dynamic_field_value ADD CONSTRAINT FK_dynamic_field_value_article_id_id FOREIGN KEY (article_id) REFERENCES article (id);
-ALTER TABLE dynamic_field_value ADD CONSTRAINT FK_dynamic_field_value_ticket_id_id FOREIGN KEY (ticket_id) REFERENCES ticket (id);
-ALTER TABLE dynamic_field_value ADD CONSTRAINT FK_dynamic_field_value_field_id_id FOREIGN KEY (field_id) REFERENCES ticket_dynamicfields_config (id);
-ALTER TABLE dynamic_field_value ADD CONSTRAINT FK_dynamic_field_value_valid_id_id FOREIGN KEY (valid_id) REFERENCES valid (id);
+ALTER TABLE dynamic_field_value ADD CONSTRAINT FK_dynamic_field_value_field_id_id FOREIGN KEY (field_id) REFERENCES dynamic_field (id);
+ALTER TABLE dynamic_field ADD CONSTRAINT FK_dynamic_field_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
+ALTER TABLE dynamic_field ADD CONSTRAINT FK_dynamic_field_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
 ALTER TABLE dynamic_field ADD CONSTRAINT FK_dynamic_field_valid_id_id FOREIGN KEY (valid_id) REFERENCES valid (id);
