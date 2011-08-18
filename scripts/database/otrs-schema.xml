@@ -1894,4 +1894,65 @@
     </ForeignKey>
 </TableCreate>
 
+<TableCreate Name="dynamic_field_value">
+    <Column Name="ticket_id" Required="true" Type="BIGINT"/>
+    <Column Name="article_id" Required="false" Type="BIGINT"/>
+    <Column Name="field_id" Required="true" Type="INTEGER"/>
+    <Column Name="value_text" Required="false" Type="VARCHAR" Size="1800000" />
+    <Column Name="value_date" Required="false" Type="DATE" />
+    <Column Name="value_int" Required="false" Type="BIGINT" />
+    <Column Name="valid_id" Required="true" Type="SMALLINT"/>
+    <Column Name="create_time" Required="true" Type="DATE"/>
+    <Column Name="create_by" Required="true" Type="INTEGER"/>
+    <Column Name="change_time" Required="true" Type="DATE"/>
+    <Column Name="change_by" Required="true" Type="INTEGER"/>
+
+    <Index Name="index_ticket_id">
+        <IndexColumn Name="ticket_id"/>
+    </Index>
+    <Index Name="index_ticket_id_article_id">
+        <IndexColumn Name="ticket_id"/>
+        <IndexColumn Name="article_id"/>
+    </Index>
+    <Index Name="index_field_id">
+        <IndexColumn Name="field_id"/>
+    </Index>
+    <Unique>
+        <UniqueColumn Name="ticket_id"/>
+        <UniqueColumn Name="article_id"/>
+        <UniqueColumn Name="field_id"/>
+    </Unique>
+    <ForeignKey ForeignTable="ticket">
+        <Reference Local="ticket_id" Foreign="id"/>
+    </ForeignKey>
+    <ForeignKey ForeignTable="article">
+        <Reference Local="article_id" Foreign="id"/>
+    </ForeignKey>
+    <ForeignKey ForeignTable="ticket_dynamicfields_config">
+        <Reference Local="field_id" Foreign="id"/>
+    </ForeignKey>
+    <ForeignKey ForeignTable="valid">
+        <Reference Local="valid_id" Foreign="id"/>
+    </ForeignKey>
+</TableCreate>
+
+<TableCreate Name="dynamic_field">
+    <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
+    <Column Name="name" Required="true" Type="VARCHAR" Size="200"/>
+    <Column Name="article_field" Type="SMALLINT"/>
+    <Column Name="field_type" Required="true" Type="VARCHAR" Size="200"/>
+    <Column Name="config" Type="LONGBLOB"/>
+    <Column Name="valid_id" Required="true" Type="SMALLINT"/>
+    <Column Name="create_time" Required="true" Type="DATE"/>
+    <Column Name="create_by" Required="true" Type="INTEGER"/>
+    <Column Name="change_time" Required="true" Type="DATE"/>
+    <Column Name="change_by" Required="true" Type="INTEGER"/>
+    <Unique>
+        <UniqueColumn Name="name"/>
+    </Unique>
+    <ForeignKey ForeignTable="valid">
+        <Reference Local="valid_id" Foreign="id"/>
+    </ForeignKey>
+</TableCreate>
+
 </database>

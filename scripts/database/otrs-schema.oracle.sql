@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2011-08-01 12:19:22
+--  driver: oracle, generated: 2011-08-17 18:10:27
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 -- ----------------------------------------------------------
@@ -2034,7 +2034,7 @@ CREATE TABLE gi_object_lock_state (
     lock_state_counter NUMBER (12, 0) NOT NULL,
     create_time DATE NOT NULL,
     change_time DATE NOT NULL,
-    CONSTRAINT gi_object_lock_state_U_796 UNIQUE (webservice_id, object_type, object_id)
+    CONSTRAINT gi_object_lock_state_U_137 UNIQUE (webservice_id, object_type, object_id)
 );
 CREATE INDEX FK_gi_object_lock_state_webs55 ON gi_object_lock_state (webservice_id);
 CREATE INDEX object_lock_state_list_state ON gi_object_lock_state (webservice_id, object_type, object_id, lock_state);
@@ -2069,3 +2069,59 @@ end;
 --;
 CREATE INDEX FK_smime_signer_cert_relatiob7 ON smime_signer_cert_relations (change_by);
 CREATE INDEX FK_smime_signer_cert_relatiobb ON smime_signer_cert_relations (create_by);
+-- ----------------------------------------------------------
+--  create table dynamic_field_value
+-- ----------------------------------------------------------
+CREATE TABLE dynamic_field_value (
+    ticket_id NUMBER (20, 0) NOT NULL,
+    article_id NUMBER (20, 0) NULL,
+    field_id NUMBER (12, 0) NOT NULL,
+    value_text CLOB NULL,
+    value_date DATE NULL,
+    value_int NUMBER (20, 0) NULL,
+    valid_id NUMBER (5, 0) NOT NULL,
+    create_time DATE NOT NULL,
+    create_by NUMBER (12, 0) NOT NULL,
+    change_time DATE NOT NULL,
+    change_by NUMBER (12, 0) NOT NULL,
+    CONSTRAINT dynamic_field_value_U_27 UNIQUE (ticket_id, article_id, field_id)
+);
+CREATE INDEX FK_dynamic_field_value_artic53 ON dynamic_field_value (article_id);
+CREATE INDEX FK_dynamic_field_value_field90 ON dynamic_field_value (field_id);
+CREATE INDEX FK_dynamic_field_value_ticke73 ON dynamic_field_value (ticket_id);
+CREATE INDEX FK_dynamic_field_value_validfd ON dynamic_field_value (valid_id);
+CREATE INDEX index_field_id ON dynamic_field_value (field_id);
+CREATE INDEX index_ticket_id ON dynamic_field_value (ticket_id);
+CREATE INDEX index_ticket_id_article_id ON dynamic_field_value (ticket_id, article_id);
+-- ----------------------------------------------------------
+--  create table dynamic_field
+-- ----------------------------------------------------------
+CREATE TABLE dynamic_field (
+    id NUMBER (12, 0) NOT NULL,
+    name VARCHAR2 (200) NOT NULL,
+    article_field NUMBER (5, 0) NULL,
+    field_type VARCHAR2 (200) NOT NULL,
+    config CLOB NULL,
+    valid_id NUMBER (5, 0) NOT NULL,
+    create_time DATE NOT NULL,
+    create_by NUMBER (12, 0) NOT NULL,
+    change_time DATE NOT NULL,
+    change_by NUMBER (12, 0) NOT NULL,
+    CONSTRAINT dynamic_field_U_565 UNIQUE (name)
+);
+ALTER TABLE dynamic_field ADD CONSTRAINT PK_dynamic_field PRIMARY KEY (id);
+DROP SEQUENCE SE_dynamic_field;
+CREATE SEQUENCE SE_dynamic_field;
+CREATE OR REPLACE TRIGGER SE_dynamic_field_t
+before insert on dynamic_field
+for each row
+begin
+  if :new.id IS NULL then
+    select SE_dynamic_field.nextval
+    into :new.id
+    from dual;
+  end if;
+end;
+/
+--;
+CREATE INDEX FK_dynamic_field_valid_id ON dynamic_field (valid_id);

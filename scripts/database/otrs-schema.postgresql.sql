@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: postgresql, generated: 2011-08-01 12:19:22
+--  driver: postgresql, generated: 2011-08-17 18:10:27
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -1241,7 +1241,7 @@ CREATE TABLE gi_object_lock_state (
     lock_state_counter INTEGER NOT NULL,
     create_time timestamp(0) NOT NULL,
     change_time timestamp(0) NOT NULL,
-    CONSTRAINT gi_object_lock_state_U_437 UNIQUE (webservice_id, object_type, object_id)
+    CONSTRAINT gi_object_lock_state_U_158 UNIQUE (webservice_id, object_type, object_id)
 );
 CREATE INDEX object_lock_state_list_state ON gi_object_lock_state (webservice_id, object_type, object_id, lock_state);
 -- ----------------------------------------------------------
@@ -1258,4 +1258,41 @@ CREATE TABLE smime_signer_cert_relations (
     change_time timestamp(0) NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id)
+);
+-- ----------------------------------------------------------
+--  create table dynamic_field_value
+-- ----------------------------------------------------------
+CREATE TABLE dynamic_field_value (
+    ticket_id INTEGER NOT NULL,
+    article_id INTEGER NULL,
+    field_id INTEGER NOT NULL,
+    value_text VARCHAR NULL,
+    value_date timestamp(0) NULL,
+    value_int INTEGER NULL,
+    valid_id INTEGER NOT NULL,
+    create_time timestamp(0) NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time timestamp(0) NOT NULL,
+    change_by INTEGER NOT NULL,
+    CONSTRAINT dynamic_field_value_U_170 UNIQUE (ticket_id, article_id, field_id)
+);
+CREATE INDEX index_field_id ON dynamic_field_value (field_id);
+CREATE INDEX index_ticket_id ON dynamic_field_value (ticket_id);
+CREATE INDEX index_ticket_id_article_id ON dynamic_field_value (ticket_id, article_id);
+-- ----------------------------------------------------------
+--  create table dynamic_field
+-- ----------------------------------------------------------
+CREATE TABLE dynamic_field (
+    id serial NOT NULL,
+    name VARCHAR (200) NOT NULL,
+    article_field INTEGER NULL,
+    field_type VARCHAR (200) NOT NULL,
+    config TEXT NULL,
+    valid_id INTEGER NOT NULL,
+    create_time timestamp(0) NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time timestamp(0) NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id),
+    CONSTRAINT dynamic_field_U_164 UNIQUE (name)
 );
