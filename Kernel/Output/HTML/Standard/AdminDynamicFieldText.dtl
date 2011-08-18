@@ -2,29 +2,34 @@
 # AdminDynamicFieldText.dtl - provides HTML form for AdminDynamicFieldsText
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminDynamicFieldText.dtl,v 1.2 2011-08-18 17:17:19 cr Exp $
+# $Id: AdminDynamicFieldText.dtl,v 1.3 2011-08-18 22:15:34 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-<div class="LayoutPopup ARIARoleMain">
+<form action="$Env{"CGIHandle"}" method="post" class="Validate PreventMultipleSubmits">
+    <input type="hidden" name="Action" value="AdminDynamicFieldText" />
+    <input type="hidden" name="Subaction" value="$QData{"Mode"}Action" />
+    <input type="hidden" name="ObjectType" value="$Data{"ObjectType"}" />
+    <input type="hidden" name="FieldType" value="Text" />
 
-    <div class="Header">
-        <h1>Text</h1>
-        <p>
-            <a href="#" class="CancelClosePopup">$Text{"Cancel & close window"}</a>
-        </p>
-    </div>
+    <div class="LayoutPopup ARIARoleMain">
 
-    <div class="Content">
-        <div class="WidgetSimple">
-            <div class="Header">
-                <h2>General</h2>
-            </div>
-            <div class="Content">
-                <form action="$Env{"CGIHandle"}" method="post" class="Validate PreventMultipleSubmits">
+        <div class="Header">
+            <h1>Text</h1>
+            <p>
+                <a href="#" class="CancelClosePopup">$Text{"Cancel & close window"}</a>
+            </p>
+        </div>
+
+        <div class="Content">
+            <div class="WidgetSimple">
+                <div class="Header">
+                    <h2>General</h2>
+                </div>
+                <div class="Content">
                     <div class="LayoutGrid ColumnsWithSpacing">
                         <div class="Size1of2">
                             <fieldset class="TableLike">
@@ -57,34 +62,43 @@
                                 <div class="Clear"></div>
 
                                 <div class="SpacingTop"></div>
-                                <label for="Type">$Text{"Type"}:</label>
+                                <label for="FieldTypeName">$Text{"Field Type"}:</label>
                                 <div class="Field">
-                                    <input id="Type" readonly="readonly" class="W50pc" type="text" maxlength="200" value="Text" name="Type"/>
+                                    <input id="FieldTypeName" readonly="readonly" class="W50pc" type="text" maxlength="200" value="Text" name="FieldTypeName"/>
                                     <div class="Clear"></div>
                                 </div>
+
+                                <div class="SpacingTop"></div>
+                                <label for="ObjectTypeName">$Text{"Object Type"}:</label>
+                                <div class="Field">
+                                    <input id="ObjectTypeName" readonly="readonly" class="W50pc" type="text" maxlength="200" value="$Data{"ObjectTypeName"}" name="ObjectTypeName"/>
+                                    <div class="Clear"></div>
+                                </div>
+
+
                             </fieldset>
                         </div>
                     </div>
-                </form>
+                </div>
             </div>
-        </div>
-        <div class="WidgetSimple">
-            <div class="Header">
-                <h2>Text Field Settings</h2>
+            <div class="WidgetSimple">
+                <div class="Header">
+                    <h2>Text Field Settings</h2>
+                </div>
+                <div class="Content">
+                    <fieldset class="TableLike">
+                        <label for="DefaultValue">$Text{"Default Value"}:</label>
+                        <div class="Field">
+                            <input id="DefaultValue" class="W50pc" type="text" maxlength="200" value="$QData{"DefaultValue"}" name="DefaultValue"/>
+                            <p class="FieldExplanation">$Text{"This is the default value for this field."}</p>
+                        </div>
+                    </fieldset>
+                </div>
             </div>
-            <div class="Content">
-                <fieldset class="TableLike">
-                    <label for="DefaultValue">$Text{"Default Value"}:</label>
-                    <div class="Field">
-                        <input id="DefaultValue" class="W50pc" type="text" maxlength="200" value="$QData{"DefaultValue"}" name="DefaultValue"/>
-                        <p class="FieldExplanation">$Text{"This is the default value for this field."}</p>
-                    </div>
-                </fieldset>
-            </div>
-        </div>
 
+        </div>
+        <div class="Footer">
+            <button class="Primary" id="Submit" accesskey="g" title="$Text{"Submit"} (g)" type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button>
+        </div>
     </div>
-    <div class="Footer">
-        <button class="Primary" id="Submit" accesskey="g" title="$Text{"Submit"} (g)" type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button>
-    </div>
-</div>
+</form>
