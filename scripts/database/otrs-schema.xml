@@ -1895,17 +1895,24 @@
 </TableCreate>
 
 <TableCreate Name="dynamic_field_value">
+    <!-- foreign key to the dynamic_field -->
     <Column Name="field_id" Required="true" Type="INTEGER"/>
+    <!-- this controls which object the dynamic field links to; currently we will have "ticket" and "article"; allow only lowercase letters -->
+    <!-- we have this field here redundant to avoid a join to the dynamic_field table for searching -->
     <Column Name="object_type" Type="VARCHAR" Size="200"/>
+    <!-- the current object to link to (e. g. ticket or article ID) -->
     <Column Name="object_id" Required="true" Type="BIGINT"/>
+    <!-- for value we have different field types to store data, can be extended in future -->
     <Column Name="value_text" Required="false" Type="VARCHAR" Size="1800000" />
     <Column Name="value_date" Required="false" Type="DATE" />
     <Column Name="value_int" Required="false" Type="BIGINT" />
 
+    <!-- get all fields of an object -->
     <Index Name="index_object">
         <IndexColumn Name="object_type"/>
         <IndexColumn Name="object_id"/>
     </Index>
+    <!-- search objects with certain field content -->
     <Index Name="index_search_date">
         <IndexColumn Name="field_id"/>
         <IndexColumn Name="value_date"/>
@@ -1915,6 +1922,7 @@
         <IndexColumn Name="value_int"/>
     </Index>
 
+<!-- make sure that per field and object, there is only one value -->
     <Unique>
         <UniqueColumn Name="field_id"/>
         <UniqueColumn Name="object_type"/>
@@ -1928,10 +1936,15 @@
 
 <TableCreate Name="dynamic_field">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
+    <!-- the internal field name to be used in response templates, allow only lowercase letters and numbers -->
     <Column Name="name" Required="true" Type="VARCHAR" Size="200"/>
+    <!-- label, always translate -->
     <Column Name="label" Required="true" Type="VARCHAR" Size="200"/>
+    <!-- field type selects the DF backend to use for this field -->
     <Column Name="field_type" Required="true" Type="VARCHAR" Size="200"/>
-    <Column Name="object_type" Type="VARCHAR" Size="200"/>
+    <!-- this controls which object the dynamic field links to; currently we will have "ticket" and "article"; allow only lowercase letters -->
+    <Column Name="object_type" Required="true" Type="VARCHAR" Size="200"/>
+    <!-- config stored as YAML like in the web service configuration -->
     <Column Name="config" Type="LONGBLOB"/>
     <Column Name="valid_id" Required="true" Type="SMALLINT"/>
     <Column Name="create_time" Required="true" Type="DATE"/>
