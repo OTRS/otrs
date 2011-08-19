@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField.pm - DynamicFields configuration backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicField.pm,v 1.11 2011-08-19 15:59:00 cg Exp $
+# $Id: DynamicField.pm,v 1.12 2011-08-19 17:02:50 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::Cache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 =head1 NAME
 
@@ -436,13 +436,14 @@ sub DynamicFieldList {
         Key  => $CacheKey,
     );
 
-    if ($Cache) {
+    my $ResultType = $Param{ResultType} || '';
+    $ResultType = ( $ResultType eq 'HASH' ? $ResultType : 'ARRAY' );
+
+    if ( $Cache && $Cache eq $ResultType ) {
 
         # get data from cache
         return $Cache;
     }
-
-    my %Data;
 
     my $SQL = 'SELECT id, name FROM dynamic_field';
 
@@ -453,22 +454,48 @@ sub DynamicFieldList {
 
     return if !$Self->{DBObject}->Prepare( SQL => $SQL );
 
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        $Data{ $Row[0] } = $Row[1];
+    if ( $ResultType eq 'HASH' ) {
+        my %Data;
+
+        while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+            $Data{ $Row[0] } = $Row[1];
+        }
+
+        if (%Data) {
+
+            # set cache
+            $Self->{CacheObject}->Set(
+                Type  => 'DynamicField',
+                Key   => $CacheKey,
+                Value => \%Data,
+                TTL   => $Self->{CacheTTL},
+            );
+        }
+
+        return \%Data;
+
+    }
+    else {
+
+        my @Data;
+        while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+            push @Data, $Row[0];
+        }
+
+        if (@Data) {
+
+            # set cache
+            $Self->{CacheObject}->Set(
+                Type  => 'DynamicField',
+                Key   => $CacheKey,
+                Value => \@Data,
+                TTL   => $Self->{CacheTTL},
+            );
+        }
+
+        return \@Data;
     }
 
-    if (%Data) {
-
-        # set cache
-        $Self->{CacheObject}->Set(
-            Type  => 'DynamicField',
-            Key   => $CacheKey,
-            Value => \%Data,
-            TTL   => $Self->{CacheTTL},
-        );
-    }
-
-    return \%Data;
 }
 
 1;
@@ -487,6 +514,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.11 $ $Date: 2011-08-19 15:59:00 $
+$Revision: 1.12 $ $Date: 2011-08-19 17:02:50 $
 
 =cut
