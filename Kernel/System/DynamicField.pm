@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField.pm - DynamicFields configuration backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicField.pm,v 1.14 2011-08-19 17:34:55 cr Exp $
+# $Id: DynamicField.pm,v 1.15 2011-08-19 18:49:59 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::Cache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 =head1 NAME
 
@@ -178,15 +178,15 @@ sub DynamicFieldAdd {
         Name => $Param{Name},
     );
 
-    my $ID = $DynamicField->{ID};
+    # return ; if no $DynamicField->{ID}
+    return if !$DynamicField->{ID};
 
-    # TODO add return ; if no $ID
     # delete cache
     $Self->{CacheObject}->CleanUp(
         Type => 'DynamicField',
     );
 
-    return $ID;
+    return $DynamicField->{ID};
 }
 
 =item DynamicFieldGet()
@@ -531,8 +531,7 @@ sub DynamicFieldListGet {
         $Valid = '0';
     }
 
-    # FIXME cahce key is wrong
-    my $CacheKey = 'DynamicFieldList::Valid::' . $Valid;
+    my $CacheKey = 'DynamicFieldListGet::Valid::' . $Valid;
     my $Cache    = $Self->{CacheObject}->Get(
         Type => 'DynamicField',
         Key  => $CacheKey,
@@ -592,6 +591,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.14 $ $Date: 2011-08-19 17:34:55 $
+$Revision: 1.15 $ $Date: 2011-08-19 18:49:59 $
 
 =cut
