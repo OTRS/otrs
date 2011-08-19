@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField.pm - DynamicFields configuration backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicField.pm,v 1.8 2011-08-19 02:51:44 cr Exp $
+# $Id: DynamicField.pm,v 1.9 2011-08-19 02:52:34 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::Cache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 =head1 NAME
 
@@ -297,7 +297,7 @@ sub DynamicFieldGet {
     return \%Data;
 }
 
-# TODO fix pod indention
+# TODO fix pod indentaion
 
 =item DynamicFieldUpdate()
 
@@ -499,6 +499,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.8 $ $Date: 2011-08-19 02:51:44 $
+$Revision: 1.9 $ $Date: 2011-08-19 02:52:34 $
 
 =cut
