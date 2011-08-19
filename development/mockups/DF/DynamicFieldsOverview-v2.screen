@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model:Screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:model="http://wireframesketcher.com/1.0/model.ecore">
+  <widgets xsi:type="model:Browser" width="1024" height="768" text="Browser&#xA;http://..." locked="true" measuredWidth="1024" measuredHeight="768" verticalScrollbar="true"/>
+  <widgets xsi:type="model:Label" x="20" y="62" text="Dynamic Fields - Overview" locked="true" measuredWidth="212" measuredHeight="26">
+    <font size="16"/>
+  </widgets>
+  <widgets xsi:type="model:Window" x="10" y="96" width="989" height="225" text="Ticket: Dynamic Fields List" measuredWidth="989" measuredHeight="225"/>
+  <widgets xsi:type="model:Table" x="32" y="145" width="945" height="120" text="Identifier , Description , Type,  Validity &#xA;text1, My Text 1, Text, valid&#xA;textarea1, My Text area 1, Textarea,  valid&#xA;checkbox1, My Check box 1, Checkbox,  valid&#xA;dropdown1, My Drop Down 1, Dropdown,  valid&#xA;datetime1, My Date Time 1, Datetime,  Invalid-temporarily&#xA;" measuredWidth="945" measuredHeight="120" selection="0" horizontalLines="true">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Combo" x="264" y="280" width="217" text="Text" measuredWidth="217" measuredHeight="21">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" x="176" y="280" text="Add new field" measuredWidth="79" measuredHeight="21" foreground="#666666">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" x="776" y="125" text="1-5 of 247 - Page: 1 2 3 4 5 >> >" measuredWidth="192" measuredHeight="21">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Window" x="10" y="344" width="989" height="185" text="Article: Dynamic Fields List" measuredWidth="989" measuredHeight="185"/>
+  <widgets xsi:type="model:Table" x="32" y="393" width="945" height="80" text="Identifier , Description , Type,  Validity &#xA;date1, My Date 1, Date,  valid&#xA;dropdown2, My Drop Down 2, Dropdown,  invalid&#xA;text3, My Text Field 3, Text,  Invalid-temporarily" measuredWidth="945" measuredHeight="80" selection="0" horizontalLines="true">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Combo" x="264" y="488" width="217" text="Text Area" measuredWidth="217" measuredHeight="21">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" x="176" y="488" text="Add new field" measuredWidth="79" measuredHeight="21" foreground="#666666">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" x="918" y="373" text="1-3 of 3" measuredWidth="50" measuredHeight="21">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Window" x="10" y="552" width="989" height="148" text="&lt;Other Object>: Dynamic Fields List" measuredWidth="989" measuredHeight="148"/>
+  <widgets xsi:type="model:Table" x="32" y="601" width="945" height="43" text="Identifier , Description , Type,  Validity &#xA;Dropdown3, My Drop Down 3, Dropdown,  Invalid-temporarily" measuredWidth="945" measuredHeight="43" selection="0" horizontalLines="true">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Combo" x="264" y="659" width="217" text="Dropdown" measuredWidth="217" measuredHeight="21">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" x="176" y="659" text="Add new field" measuredWidth="79" measuredHeight="21" foreground="#666666">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" x="918" y="581" text="1-1 of 1" measuredWidth="50" measuredHeight="21">
+    <font/>
+  </widgets>
+  <hRuler/>
+  <vRuler/>
+  <font/>
+</model:Screen>
