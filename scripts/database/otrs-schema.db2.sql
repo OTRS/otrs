@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: db2, generated: 2011-08-18 12:19:03
+--  driver: db2, generated: 2011-08-19 17:28:13
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -1408,7 +1408,7 @@ CREATE TABLE gi_object_lock_state (
     lock_state_counter INTEGER NOT NULL,
     create_time TIMESTAMP NOT NULL,
     change_time TIMESTAMP NOT NULL,
-    CONSTRAINT gi_object_lock_state_U_639 UNIQUE (webservice_id, object_type, object_id)
+    CONSTRAINT gi_object_lock_state_U_166 UNIQUE (webservice_id, object_type, object_id)
 );
 
 CREATE INDEX object_lock_state_list_state ON gi_object_lock_state (webservice_id, object_type, object_id, lock_state);
@@ -1439,7 +1439,7 @@ CREATE TABLE dynamic_field_value (
     value_text CLOB (14062K),
     value_date TIMESTAMP,
     value_int BIGINT,
-    CONSTRAINT dynamic_field_value_U_109 UNIQUE (field_id, object_type, object_id)
+    CONSTRAINT dynamic_field_value_U_654 UNIQUE (field_id, object_type, object_id)
 );
 
 CREATE INDEX index_object ON dynamic_field_value (object_type, object_id);
@@ -1456,7 +1456,7 @@ CREATE TABLE dynamic_field (
     name VARCHAR (200) NOT NULL,
     label VARCHAR (200) NOT NULL,
     field_type VARCHAR (200) NOT NULL,
-    object_type VARCHAR (200),
+    object_type VARCHAR (200) NOT NULL,
     config BLOB (30M),
     valid_id SMALLINT NOT NULL,
     create_time TIMESTAMP NOT NULL,
@@ -1464,5 +1464,5 @@ CREATE TABLE dynamic_field (
     change_time TIMESTAMP NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    CONSTRAINT dynamic_field_U_515 UNIQUE (name)
+    CONSTRAINT dynamic_field_U_722 UNIQUE (name)
 );

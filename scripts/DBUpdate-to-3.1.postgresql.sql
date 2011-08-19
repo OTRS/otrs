@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: postgresql, generated: 2011-08-18 12:18:48
+--  driver: postgresql, generated: 2011-08-19 17:27:32
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  alter table ticket_index
@@ -106,7 +106,7 @@ CREATE TABLE gi_object_lock_state (
     lock_state_counter INTEGER NOT NULL,
     create_time timestamp(0) NOT NULL,
     change_time timestamp(0) NOT NULL,
-    CONSTRAINT gi_object_lock_state_U_599 UNIQUE (webservice_id, object_type, object_id)
+    CONSTRAINT gi_object_lock_state_U_674 UNIQUE (webservice_id, object_type, object_id)
 );
 CREATE INDEX object_lock_state_list_state ON gi_object_lock_state (webservice_id, object_type, object_id, lock_state);
 -- ----------------------------------------------------------
@@ -195,7 +195,7 @@ CREATE TABLE dynamic_field_value (
     value_text VARCHAR NULL,
     value_date timestamp(0) NULL,
     value_int INTEGER NULL,
-    CONSTRAINT dynamic_field_value_U_258 UNIQUE (field_id, object_type, object_id)
+    CONSTRAINT dynamic_field_value_U_577 UNIQUE (field_id, object_type, object_id)
 );
 CREATE INDEX index_object ON dynamic_field_value (object_type, object_id);
 CREATE INDEX index_search_date ON dynamic_field_value (field_id, value_date);
@@ -208,7 +208,7 @@ CREATE TABLE dynamic_field (
     name VARCHAR (200) NOT NULL,
     label VARCHAR (200) NOT NULL,
     field_type VARCHAR (200) NOT NULL,
-    object_type VARCHAR (200) NULL,
+    object_type VARCHAR (200) NOT NULL,
     config TEXT NULL,
     valid_id INTEGER NOT NULL,
     create_time timestamp(0) NOT NULL,
@@ -216,7 +216,7 @@ CREATE TABLE dynamic_field (
     change_time timestamp(0) NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    CONSTRAINT dynamic_field_U_32 UNIQUE (name)
+    CONSTRAINT dynamic_field_U_595 UNIQUE (name)
 );
 ALTER TABLE gi_webservice_config ADD CONSTRAINT FK_gi_webservice_config_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
 ALTER TABLE gi_webservice_config ADD CONSTRAINT FK_gi_webservice_config_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);

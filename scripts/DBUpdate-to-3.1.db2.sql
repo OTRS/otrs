@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: db2, generated: 2011-08-18 12:18:47
+--  driver: db2, generated: 2011-08-19 17:27:31
 -- ----------------------------------------------------------
 ALTER TABLE ticket_index ALTER COLUMN queue SET DEFAULT '';
 
@@ -135,7 +135,7 @@ CREATE TABLE gi_object_lock_state (
     lock_state_counter INTEGER NOT NULL,
     create_time TIMESTAMP NOT NULL,
     change_time TIMESTAMP NOT NULL,
-    CONSTRAINT gi_object_lock_state_U_848 UNIQUE (webservice_id, object_type, object_id)
+    CONSTRAINT gi_object_lock_state_U_850 UNIQUE (webservice_id, object_type, object_id)
 );
 
 CREATE INDEX object_lock_state_list_state ON gi_object_lock_state (webservice_id, object_type, object_id, lock_state);
@@ -242,7 +242,7 @@ CREATE TABLE dynamic_field_value (
     value_text CLOB (14062K),
     value_date TIMESTAMP,
     value_int BIGINT,
-    CONSTRAINT dynamic_field_value_U_805 UNIQUE (field_id, object_type, object_id)
+    CONSTRAINT dynamic_field_value_U_273 UNIQUE (field_id, object_type, object_id)
 );
 
 CREATE INDEX index_object ON dynamic_field_value (object_type, object_id);
@@ -259,7 +259,7 @@ CREATE TABLE dynamic_field (
     name VARCHAR (200) NOT NULL,
     label VARCHAR (200) NOT NULL,
     field_type VARCHAR (200) NOT NULL,
-    object_type VARCHAR (200),
+    object_type VARCHAR (200) NOT NULL,
     config BLOB (30M),
     valid_id SMALLINT NOT NULL,
     create_time TIMESTAMP NOT NULL,
@@ -267,7 +267,7 @@ CREATE TABLE dynamic_field (
     change_time TIMESTAMP NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    CONSTRAINT dynamic_field_U_801 UNIQUE (name)
+    CONSTRAINT dynamic_field_U_710 UNIQUE (name)
 );
 
 ALTER TABLE gi_webservice_config ADD CONSTRAINT FK_gi_webservice_config_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
