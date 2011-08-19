@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.453 2011-08-19 17:04:14 cr Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.454 2011-08-19 21:04:29 cr Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Translatable="1">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Group>Ticket</Group>
@@ -10010,6 +10010,18 @@ Thanks for your help!
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Frontend::Module###AdminDynamicFieldTextArea" Required="0" Valid="1">
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
+        <Group>DynamicFields</Group>
+        <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <Group>admin</Group>
+                <Description>Admin</Description>
+                <Title Translatable="1">Dynamic Fields TextArea Backend GUI</Title>
+            </FrontendModuleReg>
+        </Setting>
+    </ConfigItem>
 
     <ConfigItem Name="DynamicFields::ObjectType###Ticket" Required="0" Valid="1">
         <Description Translatable="1">DynamicField object registration.</Description>
@@ -10044,5 +10056,18 @@ Thanks for your help!
             </Hash>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="DynamicFields::Backend###TextArea" Required="0" Valid="1">
+        <Description Translatable="1">DynamicField backend registration.</Description>
+        <Group>DynamicFields</Group>
+        <SubGroup>DynamicFields::Backend::Registration</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="DisplayName">Text Area</Item>
+                <Item Key="Module">Kernel::System::DynamicField::Backend::TextArea</Item>
+                <Item Key="ConfigDialog">AdminDynamicFieldTextArea</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+
 
 </otrs_config>
