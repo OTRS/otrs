@@ -2,7 +2,7 @@
 # DynamicField.t - DynamicField tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicField.t,v 1.4 2011-08-18 22:04:41 cg Exp $
+# $Id: DynamicField.t,v 1.5 2011-08-19 17:03:34 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -186,22 +186,6 @@ my @Tests = (
             UserID     => $UserID,
         },
     },
-    {
-        Name          => 'test11',
-        SuccessAdd    => 0,
-        SuccessUpdate => 0,
-        Add           => {
-            Config => {
-                Name        => 'Config Name',
-                Description => 'Description for Dynamic Field.',
-            },
-            Label      => 'Other label',
-            FieldType  => 'text',
-            ObjectType => 'Article',
-            ValidID    => 1,
-            UserID     => $UserID,
-        },
-    },
 );
 
 my @DynamicFieldIDs;
@@ -362,7 +346,7 @@ for my $Test (@Tests) {
 }
 
 # list check from DB
-my $DynamicFieldList = $DynamicFieldObject->DynamicFieldList( Valid => 0 );
+my $DynamicFieldList = $DynamicFieldObject->DynamicFieldList( Valid => 0, ResultType => 'HASH' );
 for my $DynamicFieldID (@DynamicFieldIDs) {
     $Self->True(
         scalar $DynamicFieldList->{$DynamicFieldID},
@@ -371,7 +355,7 @@ for my $DynamicFieldID (@DynamicFieldIDs) {
 }
 
 # list check from cache
-$DynamicFieldList = $DynamicFieldObject->DynamicFieldList( Valid => 0 );
+$DynamicFieldList = $DynamicFieldObject->DynamicFieldList( Valid => 0, ResultType => 'HASH' );
 for my $DynamicFieldID (@DynamicFieldIDs) {
     $Self->True(
         scalar $DynamicFieldList->{$DynamicFieldID},
@@ -400,7 +384,7 @@ for my $DynamicFieldID (@DynamicFieldIDs) {
 }
 
 # list check from DB
-$DynamicFieldList = $DynamicFieldObject->DynamicFieldList( Valid => 0 );
+$DynamicFieldList = $DynamicFieldObject->DynamicFieldList( Valid => 0, ResultType => 'HASH' );
 for my $DynamicFieldID (@DynamicFieldIDs) {
     $Self->False(
         scalar $DynamicFieldList->{$DynamicFieldID},
@@ -409,7 +393,7 @@ for my $DynamicFieldID (@DynamicFieldIDs) {
 }
 
 # list check from cache
-$DynamicFieldList = $DynamicFieldObject->DynamicFieldList( Valid => 0 );
+$DynamicFieldList = $DynamicFieldObject->DynamicFieldList( Valid => 0, ResultType => 'HASH' );
 for my $DynamicFieldID (@DynamicFieldIDs) {
     $Self->False(
         scalar $DynamicFieldList->{$DynamicFieldID},
