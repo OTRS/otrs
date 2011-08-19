@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminDynamicField.pm - provides a dynamic fields view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminDynamicField.pm,v 1.6 2011-08-18 20:48:09 cr Exp $
+# $Id: AdminDynamicField.pm,v 1.7 2011-08-19 17:03:11 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::DynamicField;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -41,13 +41,8 @@ sub new {
     # get configured object types
     $Self->{ObjectTypeConfig} = $Self->{ConfigObject}->Get('DynamicFields::ObjectType');
 
-    # get configured modules for each type
-    for my $ObjectType ( keys %{ $Self->{ObjectTypeConfig} } ) {
-        my $ObjectTypeName = $Self->{ObjectTypeConfig}->{$ObjectType}->{DisplayName};
-
-        $Self->{ObjectModuleConfig}->{$ObjectType} =
-            $Self->{ConfigObject}->Get( 'DynamicFields::' . $ObjectTypeName . '::Module' );
-    }
+    # get configured field types
+    $Self->{FieldTypeConfig} = $Self->{ConfigObject}->Get('DynamicFields::Backend');
 
     return $Self;
 }
@@ -73,35 +68,32 @@ sub _ShowOverview {
         Data => \%Param,
     );
 
-    my %FieldTypes;
+    my @FieldTypes;
     my %FieldDialogs;
 
-    # cycle thought all objects to create the select add field selects and to retreive is config
-    # dialogs
+    # get the field types (backends) and its config dialogs
+    FIELDTYPE:
+    for my $FieldType ( keys %{ $Self->{FieldTypeConfig} } ) {
+        next FIELDTYPE if !$Self->{FieldTypeConfig}->{$FieldType};
+
+        # add the field type to the list
+        push @FieldTypes, $FieldType;
+
+        # get the config dialog
+        $FieldDialogs{$FieldType} =
+            $Self->{FieldTypeConfig}->{$FieldType}->{ConfigDialog};
+    }
+
+    # cycle thought all objects to create the select add field selects
     OBJECTTYPE:
-    for my $ObjectType ( sort keys %{ $Self->{ObjectModuleConfig} } ) {
-        next OBJECTTYPE if !$Self->{ObjectModuleConfig}->{$ObjectType};
-
-        # store fiedls array for each object locally
-        my $FieldsConfig = $Self->{ObjectModuleConfig}->{$ObjectType};
-
-        FIELDTYPE:
-        for my $FieldType ( keys %{$FieldsConfig} ) {
-            next FIELDTYPE if !$FieldsConfig->{$FieldType};
-
-            # add the field type to the list
-            push @{ $FieldTypes{$ObjectType} }, $FieldType;
-
-            # get the config dialog
-            $FieldDialogs{$ObjectType}->{$FieldType} =
-                $FieldsConfig->{$FieldType}->{ConfigDialog};
-        }
+    for my $ObjectType ( sort keys %{ $Self->{ObjectTypeConfig} } ) {
+        next OBJECTTYPE if !$Self->{ObjectTypeConfig}->{$ObjectType};
 
         my $SelectName = $ObjectType . 'DynamicField';
 
         # create the Add Dynamic Field select
         my $AddDynamicFieldStrg = $Self->{LayoutObject}->BuildSelection(
-            Data          => $FieldTypes{$ObjectType},
+            Data          => \@FieldTypes,
             Name          => $SelectName,
             PossibleNone  => 1,
             Translate     => 0,
@@ -248,13 +240,13 @@ sub _DynamicFieldsListShow {
 
                 # get the field type display name
                 my $FieldTypeName
-                    = $Self->{ObjectModuleConfig}->{ $DynamicFieldData->{ObjectType} }
-                    ->{ $DynamicFieldData->{FieldType} }->{DisplayName}
+                    = $Self->{FieldTypeConfig}->{ $DynamicFieldData->{FieldType} }->{DisplayName}
                     || $DynamicFieldData->{FieldType};
 
                 # get the field backend dialog
-                my $ConfigDialog = $Self->{ObjectModuleConfig}->{ $DynamicFieldData->{ObjectType} }
-                    ->{ $DynamicFieldData->{FieldType} }->{ConfigDialog} || '';
+                my $ConfigDialog
+                    = $Self->{FieldTypeConfig}->{ $DynamicFieldData->{FieldType} }->{ConfigDialog}
+                    || '';
 
                 # print each dinamic field row
                 $Self->{LayoutObject}->Block(

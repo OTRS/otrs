@@ -2,7 +2,7 @@
 # AdminDynamicField.dtl - provides HTML form for DynamicFields
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminDynamicField.dtl,v 1.9 2011-08-18 20:48:09 cr Exp $
+# $Id: AdminDynamicField.dtl,v 1.10 2011-08-19 17:03:11 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,7 +26,7 @@
                     <li>
                         $Data{"AddDynamicFieldStrg"}
                         <div class="FieldExplanation">
-                            <p>$Text{"Add new field for object "} $Data{"ObjectType"}.</p>
+                            <p>$Text{"Add new field for object:"} $Data{"ObjectType"}</p>
                         </div>
                     </li>
 <!--dtl:js_on_document_complete-->
