@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminDynamicField.pm - provides a dynamic fields view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminDynamicField.pm,v 1.9 2011-08-19 20:28:35 cr Exp $
+# $Id: AdminDynamicField.pm,v 1.10 2011-08-19 20:39:23 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::DynamicField;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -34,7 +34,7 @@ sub new {
         }
     }
 
-    # create addtional objects
+    # create additional objects
     $Self->{ValidObject} = Kernel::System::Valid->new( %{$Self} );
 
     $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new( %{$Self} );
@@ -127,7 +127,7 @@ sub _ShowOverview {
         );
     }
 
-    # parse the fieds dialogs as JSON strucutre
+    # parse the fields dialogs as JSON structure
     my $FieldDialogsConfig = $Self->{LayoutObject}->JSONEncode(
         Data => \%FieldDialogs,
     );
@@ -264,7 +264,7 @@ sub _DynamicFieldsListShow {
                     = $Self->{FieldTypeConfig}->{ $DynamicFieldData->{FieldType} }->{ConfigDialog}
                     || '';
 
-                # print each dinamic field row
+                # print each dynamic field row
                 $Self->{LayoutObject}->Block(
                     Name => 'DynamicFieldsRow',
                     Data => {
