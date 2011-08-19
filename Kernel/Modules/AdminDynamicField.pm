@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminDynamicField.pm - provides a dynamic fields view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminDynamicField.pm,v 1.7 2011-08-19 17:03:11 cr Exp $
+# $Id: AdminDynamicField.pm,v 1.8 2011-08-19 17:16:20 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::DynamicField;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -141,7 +141,7 @@ sub _ShowOverview {
     # print the list of dynamic fields
     $Self->_DynamicFieldsListShow(
         DynamicFields => $DynamicFieldsList,
-        Total         => scalar keys %{$DynamicFieldsList},
+        Total         => scalar @{$DynamicFieldsList},
     );
 
     $Output .= $Self->{LayoutObject}->Output(
@@ -220,7 +220,7 @@ sub _DynamicFieldsListShow {
 
         # get dynamic fields details
         my $Counter = 0;
-        for my $DynamicFieldID ( keys %{ $Param{DynamicFields} } ) {
+        for my $DynamicFieldID ( @{ $Param{DynamicFields} } ) {
             $Counter++;
             if ( $Counter >= $StartHit && $Counter < ( $PageShown + $StartHit ) ) {
 
