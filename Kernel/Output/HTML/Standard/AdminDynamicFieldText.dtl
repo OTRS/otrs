@@ -2,7 +2,7 @@
 # AdminDynamicFieldText.dtl - provides HTML form for AdminDynamicFieldsText
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminDynamicFieldText.dtl,v 1.3 2011-08-18 22:15:34 cr Exp $
+# $Id: AdminDynamicFieldText.dtl,v 1.4 2011-08-19 02:48:36 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,13 +12,14 @@
 <form action="$Env{"CGIHandle"}" method="post" class="Validate PreventMultipleSubmits">
     <input type="hidden" name="Action" value="AdminDynamicFieldText" />
     <input type="hidden" name="Subaction" value="$QData{"Mode"}Action" />
-    <input type="hidden" name="ObjectType" value="$Data{"ObjectType"}" />
+    <input type="hidden" name="ObjectType" value="$QData{"ObjectType"}" />
     <input type="hidden" name="FieldType" value="Text" />
+    <input type="hidden" name="ID" value="$QData{"ID"}" />
 
     <div class="LayoutPopup ARIARoleMain">
 
         <div class="Header">
-            <h1>Text</h1>
+            <h1>$Text{"Dynamic Fields"} - $Text{"$Data{"ObjectTypeName"}"}: $Text{"$Data{"Mode"}"} $Text{"Text Field"}</h1>
             <p>
                 <a href="#" class="CancelClosePopup">$Text{"Cancel & close window"}</a>
             </p>
@@ -35,10 +36,11 @@
                             <fieldset class="TableLike">
                                 <label class="Mandatory" for="Name"><span class="Marker">*</span> $Text{"Name"}:</label>
                                 <div class="Field">
-                                    <input id="Name" class="W50pc $QData{"NameServerError"} Validate_Required" type="text" maxlength="200" value="$QData{"Name"}" name="Name"/>
+                                    <input id="Name" class="W50pc $QData{"NameServerError"} $QData{"ShowWarning"} Validate_Required" type="text" maxlength="200" value="$QData{"Name"}" name="Name"/>
                                     <div id="NameError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
                                     <div id="NameServerError" class="TooltipErrorMessage"><p>$Text{"$Data{"NameServerErrorMessage"}"}</p></div>
                                     <p class="FieldExplanation">$Text{"Must be unique and only accept lower case letters and numbers."}</p>
+                                    <p class="Warning Hidden">$Text{"Changing this value will require manual changes in the system."}</p>
                                 </div>
                                 <div class="Clear"></div>
 
@@ -71,7 +73,7 @@
                                 <div class="SpacingTop"></div>
                                 <label for="ObjectTypeName">$Text{"Object Type"}:</label>
                                 <div class="Field">
-                                    <input id="ObjectTypeName" readonly="readonly" class="W50pc" type="text" maxlength="200" value="$Data{"ObjectTypeName"}" name="ObjectTypeName"/>
+                                    <input id="ObjectTypeName" readonly="readonly" class="W50pc" type="text" maxlength="200" value="$QData{"ObjectTypeName"}" name="ObjectTypeName"/>
                                     <div class="Clear"></div>
                                 </div>
 
@@ -102,3 +104,10 @@
         </div>
     </div>
 </form>
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+$('.ShowWarning').bind('change keyup', function (Event) {
+    $('p.Warning').removeClass('Hidden');
+});
+//]]></script>
+<!--dtl:js_on_document_complete-->
