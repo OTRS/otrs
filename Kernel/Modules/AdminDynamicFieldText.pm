@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminDynamicFieldText.pm - provides a dynamic fields text config view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminDynamicFieldText.pm,v 1.5 2011-08-19 17:16:20 cr Exp $
+# $Id: AdminDynamicFieldText.pm,v 1.6 2011-08-19 20:28:52 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::DynamicField;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -279,7 +279,7 @@ sub _ChangeAction {
             )
         {
 
-            # add server error error class
+            # add server error class
             $Errors{NameServerError}        = 'ServerError';
             $Errors{NameServerErrorMessage} = 'There is another field with the same name.';
         }
