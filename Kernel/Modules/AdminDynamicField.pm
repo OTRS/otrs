@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminDynamicField.pm - provides a dynamic fields view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminDynamicField.pm,v 1.8 2011-08-19 17:16:20 cr Exp $
+# $Id: AdminDynamicField.pm,v 1.9 2011-08-19 20:28:35 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,12 +14,13 @@ package Kernel::Modules::AdminDynamicField;
 use strict;
 use warnings;
 
+use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::Valid;
 use Kernel::System::CheckItem;
 use Kernel::System::DynamicField;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -71,6 +72,12 @@ sub _ShowOverview {
     my @FieldTypes;
     my %FieldDialogs;
 
+    if ( !IsHashRefWithData( $Self->{FieldTypeConfig} ) ) {
+        return $Self->{LayoutObject}->ErrorScreen(
+            Message => "Fields configuration is not valid",
+        );
+    }
+
     # get the field types (backends) and its config dialogs
     FIELDTYPE:
     for my $FieldType ( keys %{ $Self->{FieldTypeConfig} } ) {
@@ -82,6 +89,12 @@ sub _ShowOverview {
         # get the config dialog
         $FieldDialogs{$FieldType} =
             $Self->{FieldTypeConfig}->{$FieldType}->{ConfigDialog};
+    }
+
+    if ( !IsHashRefWithData( $Self->{ObjectTypeConfig} ) ) {
+        return $Self->{LayoutObject}->ErrorScreen(
+            Message => "Objects configuration is not valid",
+        );
     }
 
     # cycle thought all objects to create the select add field selects
@@ -220,6 +233,8 @@ sub _DynamicFieldsListShow {
 
         # get dynamic fields details
         my $Counter = 0;
+
+        DYNAMICFIELDID:
         for my $DynamicFieldID ( @{ $Param{DynamicFields} } ) {
             $Counter++;
             if ( $Counter >= $StartHit && $Counter < ( $PageShown + $StartHit ) ) {
@@ -227,6 +242,7 @@ sub _DynamicFieldsListShow {
                 my $DynamicFieldData = $Self->{DynamicFieldObject}->DynamicFieldGet(
                     ID => $DynamicFieldID,
                 );
+                next DYNAMICFIELDID if !IsHashRefWithData($DynamicFieldData);
 
                 # convert ValidID to Validity string
                 my $Valid = $Self->{ValidObject}->ValidLookup(
