@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField.pm - DynamicFields configuration backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicField.pm,v 1.10 2011-08-19 02:54:23 cr Exp $
+# $Id: DynamicField.pm,v 1.11 2011-08-19 15:59:00 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::Cache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 =head1 NAME
 
@@ -115,8 +115,6 @@ sub new {
     return $Self;
 }
 
-# TODO fix pod indentation
-
 =item DynamicFieldAdd()
 
 add new Dynamic Field config
@@ -124,15 +122,15 @@ add new Dynamic Field config
 returns id of new Dynamic field if successful or undef otherwise
 
     my $ID = $DynamicFieldObject->DynamicFieldAdd(
-        Name                => 'NameForField',  # mandatory
-        Label               => 'a description', # mandatory, label to show
-        FieldType           => 'Text',          # mandatory, selects the DF backend to use for this field
-        ObjectType          => 'article',       # this controls which object the dynamic field links to
-                                                # allow only lowercase letters
-        Config              => $ConfigHashRef,  # it is stored on YAML format
-                                                # to individual articles, otherwise to tickets
-        ValidID         => 1,
-        UserID          => 123,
+        Name        => 'NameForField',  # mandatory
+        Label       => 'a description', # mandatory, label to show
+        FieldType   => 'Text',          # mandatory, selects the DF backend to use for this field
+        ObjectType  => 'article',       # this controls which object the dynamic field links to
+                                        # allow only lowercase letters
+        Config      => $ConfigHashRef,  # it is stored on YAML format
+                                        # to individual articles, otherwise to tickets
+        ValidID     => 1,
+        UserID      => 123,
     );
 
 Returns:
@@ -153,15 +151,10 @@ sub DynamicFieldAdd {
     }
 
     # check needed structure for some fields
-    if (
-        $Param{Name} !~ m{ \A [a-z|\d]+ \z }xms
-        ||
-        $Param{ObjectType} !~ m{ \A [a-z]+ \z }xms
-        )
-    {
+    if ( $Param{Name} !~ m{ \A [a-z|\d]+ \z }xms ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Not valid letters on Name:$Param{Name} or ObjectType:$Param{ObjectType}!"
+            Message  => "Not valid letters on Name:$Param{Name}!"
         );
         return;
     }
@@ -195,29 +188,27 @@ sub DynamicFieldAdd {
     return $ID;
 }
 
-#TODO fix pod indentation
-
 =item DynamicFieldGet()
 
 get Dynamic Field attributes
 
     my $DynamicField = $DynamicFieldObject->DynamicFieldGet(
-        ID       => 123,             # ID or Name must be provided
-        Name    => 'DynamicField',
+        ID   => 123,             # ID or Name must be provided
+        Name => 'DynamicField',
     );
 
 Returns:
 
     $DynamicField = {
-        ID              => 123,
-        Name            => 'NameForField',
-        Label           => 'The label to show',
-        FieldType       => 'Text',
-        ObjectType      => 'Article',
-        Config          => $ConfigHashRef,
-        ValidID         => 1,
-        CreateTime      => '2011-02-08 15:08:00',
-        ChangeTime      => '2011-06-11 17:22:00',
+        ID          => 123,
+        Name        => 'NameForField',
+        Label       => 'The label to show',
+        FieldType   => 'Text',
+        ObjectType  => 'Article',
+        Config      => $ConfigHashRef,
+        ValidID     => 1,
+        CreateTime  => '2011-02-08 15:08:00',
+        ChangeTime  => '2011-06-11 17:22:00',
     };
 
 =cut
@@ -301,8 +292,6 @@ sub DynamicFieldGet {
     return \%Data;
 }
 
-# TODO fix pod indentation
-
 =item DynamicFieldUpdate()
 
 update Dynamic Field content into database
@@ -310,16 +299,16 @@ update Dynamic Field content into database
 returns 1 on success or undef on error
 
     my $Success = $DynamicFieldObject->DynamicFieldUpdate(
-        ID              => 1234,                # mandatory
-        Name                => 'NameForField',  # mandatory
-        Label               => 'a description', # mandatory, label to show
-        FieldType           => 'Text',          # mandatory, selects the DF backend to use for this field
-        ObjectType          => 'article',       # this controls which object the dynamic field links to
-                                                # allow only lowercase letters
-        Config              => $ConfigHashRef,  # it is stored on YAML format
-                                                # to individual articles, otherwise to tickets
-        ValidID         => 1,
-        UserID          => 123,
+        ID          => 1234,            # mandatory
+        Name        => 'NameForField',  # mandatory
+        Label       => 'a description', # mandatory, label to show
+        FieldType   => 'Text',          # mandatory, selects the DF backend to use for this field
+        ObjectType  => 'article',       # this controls which object the dynamic field links to
+                                        # allow only lowercase letters
+        Config      => $ConfigHashRef,  # it is stored on YAML format
+                                        # to individual articles, otherwise to tickets
+        ValidID     => 1,
+        UserID      => 123,
     );
 
 =cut
@@ -339,12 +328,7 @@ sub DynamicFieldUpdate {
     my $Config = YAML::Dump( $Param{Config} );
 
     # check needed structure for some fields
-    if (
-        $Param{Name} !~ m{ \A [a-z|\d]+ \z }xms
-        ||
-        $Param{ObjectType} !~ m{ \A [a-z]+ \z }xms
-        )
-    {
+    if ( $Param{Name} !~ m{ \A [a-z|\d]+ \z }xms ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "Not valid letters on Name:$Param{Name} or ObjectType:$Param{ObjectType}!"
@@ -503,6 +487,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.10 $ $Date: 2011-08-19 02:54:23 $
+$Revision: 1.11 $ $Date: 2011-08-19 15:59:00 $
 
 =cut
