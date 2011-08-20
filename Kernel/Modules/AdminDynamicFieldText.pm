@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminDynamicFieldText.pm - provides a dynamic fields text config view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminDynamicFieldText.pm,v 1.7 2011-08-19 20:39:23 cr Exp $
+# $Id: AdminDynamicFieldText.pm,v 1.8 2011-08-20 02:14:56 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::DynamicField;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -168,7 +168,7 @@ sub _AddAction {
     my $FieldID = $Self->{DynamicFieldObject}->DynamicFieldAdd(
         Name       => $GetParam{Name},
         Label      => $GetParam{Label},
-        FieldType  => 'Text',
+        FieldType  => $GetParam{FieldType},
         ObjectType => $GetParam{ObjectType},
         Config     => $FieldConfig,
         ValidID    => $GetParam{ValidID},
@@ -365,11 +365,9 @@ sub _ShowScreen {
 
     # create the Validity select
     my $ValidityStrg = $Self->{LayoutObject}->BuildSelection(
-        Data       => \%ValidList,
-        Name       => 'ValidID',
-        SelectedID => 1,
-
-        #        SelectedID   => $DynamicFieldData->{ValidID} || 1,
+        Data         => \%ValidList,
+        Name         => 'ValidID',
+        SelectedID   => $Param{ValidID} || 1,
         PossibleNone => 0,
         Translate    => 1,
     );
