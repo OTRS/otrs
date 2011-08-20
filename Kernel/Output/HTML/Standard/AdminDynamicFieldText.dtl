@@ -2,7 +2,7 @@
 # AdminDynamicFieldText.dtl - provides HTML form for AdminDynamicFieldsText
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminDynamicFieldText.dtl,v 1.5 2011-08-19 21:44:23 cg Exp $
+# $Id: AdminDynamicFieldText.dtl,v 1.6 2011-08-20 02:15:41 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -77,7 +77,6 @@
                                     <div class="Clear"></div>
                                 </div>
 
-
                             </fieldset>
                         </div>
                     </div>
@@ -110,13 +109,6 @@ $('.ShowWarning').bind('change keyup', function (Event) {
     $('p.Warning').removeClass('Hidden');
 });
 
-
-Core.Form.Validate.AddRule("Validate_LowercaseNumbers", {
-    Validate_TimeUnits: true
-});
-Core.Form.Validate.AddMethod("Validate_LowercaseNumbers", function (Value, Element) {
-    return ( /^[a-z0-9]+$/.test(Value));
-}, "");
-
+Core.Agent.Admin.DynamicField.ValidationInit();
 //]]></script>
 <!--dtl:js_on_document_complete-->
