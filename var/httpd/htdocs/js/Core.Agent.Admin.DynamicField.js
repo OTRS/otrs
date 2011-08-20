@@ -2,7 +2,7 @@
 // Core.Agent.Admin.DynamicField.js - provides the special module functions for the Dynamic Fields.
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.DynamicField.js,v 1.4 2011-08-19 17:03:11 cr Exp $
+// $Id: Core.Agent.Admin.DynamicField.js,v 1.5 2011-08-20 13:50:11 cr Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -37,5 +37,15 @@ Core.Agent.Admin.DynamicField = (function (TargetNS) {
         Core.UI.Popup.OpenPopup(URL, 'Action');
     };
 
+    TargetNS.ValidationInit = function() {
+
+        Core.Form.Validate.AddRule("Validate_LowercaseNumbers", {
+            Validate_TimeUnits: true
+        });
+        Core.Form.Validate.AddMethod("Validate_LowercaseNumbers", function (Value, Element) {
+            return ( /^[a-z0-9]+$/.test(Value));
+        }, "");
+
+    }
     return TargetNS;
 }(Core.Agent.Admin.DynamicField || {}));
