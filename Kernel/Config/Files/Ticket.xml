@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.454 2011-08-19 21:04:29 cr Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.455 2011-08-20 02:13:00 cr Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Translatable="1">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Group>Ticket</Group>
@@ -10007,6 +10007,9 @@ Thanks for your help!
                 <Group>admin</Group>
                 <Description>Admin</Description>
                 <Title Translatable="1">Dynamic Fields Text Backend GUI</Title>
+                <Loader>
+                    <JavaScript>Core.Agent.Admin.DynamicField.js</JavaScript>
+                </Loader>
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
@@ -10019,6 +10022,24 @@ Thanks for your help!
                 <Group>admin</Group>
                 <Description>Admin</Description>
                 <Title Translatable="1">Dynamic Fields TextArea Backend GUI</Title>
+                <Loader>
+                    <JavaScript>Core.Agent.Admin.DynamicField.js</JavaScript>
+                </Loader>
+            </FrontendModuleReg>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Frontend::Module###AdminDynamicFieldCheckbox" Required="0" Valid="1">
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
+        <Group>DynamicFields</Group>
+        <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <Group>admin</Group>
+                <Description>Admin</Description>
+                <Title Translatable="1">Dynamic Fields TextArea Backend GUI</Title>
+                <Loader>
+                    <JavaScript>Core.Agent.Admin.DynamicField.js</JavaScript>
+                </Loader>
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
@@ -10068,6 +10089,17 @@ Thanks for your help!
             </Hash>
         </Setting>
     </ConfigItem>
-
+    <ConfigItem Name="DynamicFields::Backend###Checkbox" Required="0" Valid="1">
+        <Description Translatable="1">DynamicField backend registration.</Description>
+        <Group>DynamicFields</Group>
+        <SubGroup>DynamicFields::Backend::Registration</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="DisplayName">Checkbox</Item>
+                <Item Key="Module">Kernel::System::DynamicField::Backend::Checkbox</Item>
+                <Item Key="ConfigDialog">AdminDynamicFieldCheckbox</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
 
 </otrs_config>
