@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.4 $
+ * @version     $Revision: 1.5 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -69,5 +69,15 @@
     padding: 0px 8px 0px;
 }
 
+.SpacingTopMini {
+    margin-top: 5px;
+}
 
+.ValueRow input{
+    margin-right: 13px;
+}
+
+.RTL .ValueRow input{
+    margin-left: 13px;
+}
 }/* end @media */
