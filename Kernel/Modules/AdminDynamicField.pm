@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminDynamicField.pm - provides a dynamic fields view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminDynamicField.pm,v 1.10 2011-08-19 20:39:23 cr Exp $
+# $Id: AdminDynamicField.pm,v 1.11 2011-08-21 21:41:01 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::DynamicField;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -69,7 +69,7 @@ sub _ShowOverview {
         Data => \%Param,
     );
 
-    my @FieldTypes;
+    my %FieldTypes;
     my %FieldDialogs;
 
     if ( !IsHashRefWithData( $Self->{FieldTypeConfig} ) ) {
@@ -84,7 +84,7 @@ sub _ShowOverview {
         next FIELDTYPE if !$Self->{FieldTypeConfig}->{$FieldType};
 
         # add the field type to the list
-        push @FieldTypes, $FieldType;
+        $FieldTypes{$FieldType} = $Self->{FieldTypeConfig}->{$FieldType}->{DisplayName};
 
         # get the config dialog
         $FieldDialogs{$FieldType} =
@@ -106,7 +106,7 @@ sub _ShowOverview {
 
         # create the Add Dynamic Field select
         my $AddDynamicFieldStrg = $Self->{LayoutObject}->BuildSelection(
-            Data          => \@FieldTypes,
+            Data          => \%FieldTypes,
             Name          => $SelectName,
             PossibleNone  => 1,
             Translate     => 0,
