@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.455 2011-08-20 02:13:00 cr Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.456 2011-08-21 21:14:31 cr Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Translatable="1">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Group>Ticket</Group>
@@ -10043,6 +10043,24 @@ Thanks for your help!
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Frontend::Module###AdminDynamicFieldDropdown" Required="0" Valid="1">
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
+        <Group>DynamicFields</Group>
+        <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <Group>admin</Group>
+                <Description>Admin</Description>
+                <Title Translatable="1">Dynamic Fields TextArea Backend GUI</Title>
+                <Loader>
+                    <CSS>Core.Agent.Admin.DynamicField.css</CSS>
+                    <JavaScript>Core.Agent.Admin.DynamicField.js</JavaScript>
+                    <JavaScript>Core.Agent.Admin.DynamicFieldDropdown.js</JavaScript>
+                </Loader>
+            </FrontendModuleReg>
+        </Setting>
+    </ConfigItem>
+
 
     <ConfigItem Name="DynamicFields::ObjectType###Ticket" Required="0" Valid="1">
         <Description Translatable="1">DynamicField object registration.</Description>
@@ -10098,6 +10116,18 @@ Thanks for your help!
                 <Item Key="DisplayName">Checkbox</Item>
                 <Item Key="Module">Kernel::System::DynamicField::Backend::Checkbox</Item>
                 <Item Key="ConfigDialog">AdminDynamicFieldCheckbox</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="DynamicFields::Backend###Dropdown" Required="0" Valid="1">
+        <Description Translatable="1">DynamicField backend registration.</Description>
+        <Group>DynamicFields</Group>
+        <SubGroup>DynamicFields::Backend::Registration</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="DisplayName">Drop-down</Item>
+                <Item Key="Module">Kernel::System::DynamicField::Backend::Dropdown</Item>
+                <Item Key="ConfigDialog">AdminDynamicFieldDropdown</Item>
             </Hash>
         </Setting>
     </ConfigItem>
