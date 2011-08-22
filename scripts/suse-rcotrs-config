@@ -1,7 +1,7 @@
 # --
 # rcscript config settings for OTRS (http://otrs.org/)
 # --
-# $Id: suse-rcotrs-config,v 1.5 2009-11-04 12:27:57 mn Exp $
+# $Id: suse-rcotrs-config,v 1.6 2011-08-22 10:59:17 mb Exp $
 # --
 
 # 
@@ -15,21 +15,11 @@ OTRS_PROG="OTRS"
 OTRS_ROOT=/opt/otrs
 
 # 
-# if one of this is false, it will not be checked at the startup!
-# Note: (may be the database isn't on the same host! --> DB_RUNNING=0) 
+# if one of these is false, it will not be checked at the startup!
 # 
-OTRS_DB_RUNNING=1
 OTRS_HTTP_RUNNING=1
 OTRS_CRON_RUNNING=1
-
-# 
-# Used database [mysql|postgresql]
-# Note: Take care, that you have changed the Config.pm database settings!
-# 
-OTRS_USED_DB=MySQL
-OTRS_USED_DB_RCSCRIPT=rcmysql
-#OTRS_USED_DB=PostgreSQL
-#OTRS_USED_DB_RCSCRIPT=rcpostgresql
+OTRS_SCHEDULER_RUNNING=1
 
 #
 # Used webserver [apache]
@@ -68,6 +58,13 @@ OTRS_CHECKDB=$OTRS_ROOT/bin/otrs.CheckDB.pl
 # location of otrs.CleanUp.pl
 #
 OTRS_CLEANUP=$OTRS_ROOT/bin/otrs.CleanUp.pl
+
+#
+# location of otrs.Scheduler.pl
+#
+OTRS_SCHEDULER=$OTRS_ROOT/bin/otrs.Scheduler.pl
+
+OTRS_SCHEDULER_TEST="$OTRS_SCHEDULER -a status | grep 'Running'"
 
 # 
 # location of OTRS spool dir

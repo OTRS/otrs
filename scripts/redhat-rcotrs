@@ -45,6 +45,11 @@ if ! test -r $OTRS_CHECKDB; then
     exit 5
 fi
 
+if ! test -r $OTRS_CHECKSCHEDULER; then
+    echo "Error: $OTRS_CHECKSCHEDULER not found!"
+    exit 5
+fi
+
 #
 # main part
 #
@@ -64,7 +69,7 @@ case "$1" in
           echo " done."
         else
           echo "  failed!"
-          echo "  --> Please start the webserver at first! (service $OTRS_USED_WEBSERVER start) <--"
+          echo "  --> Please start the web server first! (service $OTRS_USED_WEBSERVER start) <--"
           exit 1
         fi
       else
@@ -72,28 +77,12 @@ case "$1" in
       fi
 
       # --
-      # check mysql, mysql init script does not have a status check...
+      # database connection
       # --
-      if test $OTRS_DB_RUNNING -gt 0; then
-    echo -n " Checking MySQL ..."
-        if $OTRS_USED_DB_TEST >/dev/null 2>&1; then
-          echo " done."
-        else
-          echo " failed."
-          echo "  --> Please start the database at first! (service $OTRS_USED_DB start) <--"
-          exit 1;
-        fi
-      else
-          echo " Disabled: $OTRS_USED_DB check!"
-      fi
-
-      # --
-      # database connect
-      # --
-      echo -n " Checking database connect... "
+      echo -n " Checking database connection... "
       if ! $OTRS_CHECKDB -s 1; then
           echo " Error! "
-      echo "  May your database isn't configured yet? "
+      echo "  Maybe your database isn't configured yet? "
           echo ""
           echo " Try the web installer to configure your database: "
           echo ""
@@ -106,7 +95,19 @@ case "$1" in
       fi
 
       # --
-      # disable otrs.PostMaster.pl
+      # OTRS Scheduler Service
+      # --
+      echo -n " Checking OTRS Scheduler Service... "
+      if ! $OTRS_SCHEDULER_TEST >/dev/null 2>&1; then
+          echo " Error! "
+      echo "  This can happen if your database is not configured yet. "
+          exit 1;
+      else
+          echo " done."
+      fi  
+
+      # --
+      # enable otrs.PostMaster.pl
       # --
       echo -n " Enable $OTRS_POSTMASTER ..."
       if chmod 755 $OTRS_POSTMASTER; then
@@ -166,6 +167,7 @@ case "$1" in
       else
           echo " failed."
       fi
+
       # --
       # stop cron stuff
       # --
@@ -181,6 +183,15 @@ case "$1" in
           echo " Disabled: cronjobs!"
       fi
 
+      # --
+      # stop scheduler
+      # --
+      if test $OTRS_SCHEDULER_RUNNING -gt 0; then
+          echo -e " Shutting down OTRS scheduler ..."
+          $OTRS_SCHEDULER -a stop
+          echo " done."
+      fi
+      
       echo $"Final shutdown of $OTRS_PROG.. done"
     ;;
     # ------------------------------------------------------
@@ -223,16 +234,23 @@ case "$1" in
       /sbin/service $OTRS_USED_WEBSERVER status
 
       # --
-      # mysql
-      # --
-      /sbin/service $OTRS_USED_DB status
-      # --
       # db check
       # --
-      echo -n "Checking database connect... "
+      echo -n "Checking database connection... "
       if ! $OTRS_CHECKDB -s 1; then
           echo " Error! "
-      echo " May your database isn't configured yet? "
+      echo " Maybe your database isn't configured yet? "
+      else
+          echo "done."
+      fi
+
+      # --
+      # scheduler check
+      # --
+      echo -n "Checking OTRS Scheduler service.... "
+      if ! $OTRS_CHECKSCHEDULER -s 1; then
+          echo " Error! "
+      echo " Maybe your database isn't configured yet? "
       else
           echo "done."
       fi

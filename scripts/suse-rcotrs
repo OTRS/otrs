@@ -1,9 +1,9 @@
 #!/bin/sh
 # --
 # suse-rcotrs - rc script of otrs for SuSE Linux
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: suse-rcotrs,v 1.33 2010-10-11 17:21:09 martin Exp $
+# $Id: suse-rcotrs,v 1.34 2011-08-22 10:59:17 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,11 +12,11 @@
 
 ### BEGIN INIT INFO
 # Provides:          otrs
-# Required-Start:    mysql apache
+# Required-Start:    apache
 # Required-Stop:
 # Default-Start:     3 5
 # Default-Stop:      0 1 2 6
-# Description:       Open Ticket Request System
+# Description:       OTRS Help Desk.
 ### END INIT INFO
 
 export LANG=POSIX
@@ -44,7 +44,7 @@ test -r /etc/sysconfig/otrs && . /etc/sysconfig/otrs && CONFIGFILE=/etc/sysconfi
 test -s /etc/rc.status && . /etc/rc.status
 
 #
-# check needed variable
+# check needed variables
 #
 if ! test $OTRS_ROOT; then
     echo "Error: Corrupt config file ($CONFIGFILE)! OTRS_ROOT not found! Please check your /etc/sysconfig/otrs - maybe it wasn't changed by rpm!"
@@ -81,6 +81,11 @@ if ! test -r $OTRS_CHECKDB; then
     exit 5
 fi
 
+if ! test -r $OTRS_CHECKSCHEDULER; then
+    echo "Error: $OTRS_CHECKSCHEDULER not found!"
+    exit 5
+fi
+
 if test $OTRS_CLEANUP; then
     if ! test -r $OTRS_CLEANUP; then
         echo "Error: $OTRS_CLEANUP not found!"
@@ -107,7 +112,7 @@ case "$1" in
       echo "Starting $OTRS_PROG"
 
       # --
-      # start webserver
+      # start web server
       # --
       if test $OTRS_HTTP_RUNNING -gt 0; then
         if $OTRS_USED_WEBSERVER_RCSCRIPT status > /dev/null 2>&1 ; then
@@ -115,36 +120,18 @@ case "$1" in
           rc_status
         else
           echo " Checking $OTRS_USED_WEBSERVER ... failed!"
-          echo "  --> Please start the webserver at first! ($OTRS_USED_WEBSERVER_RCSCRIPT start) <--"
+          echo "  --> Please start the web server first! ($OTRS_USED_WEBSERVER_RCSCRIPT start) <--"
           rc_failed
           exit 1
         fi
       else
-          echo " Disabled: webserver check!"
-      fi
-
-      # --
-      # check database
-      # --
-      if test $OTRS_DB_RUNNING -gt 0; then
-        if $OTRS_USED_DB_RCSCRIPT status > /dev/null 2>&1 ; then
-          echo " Checking $OTRS_USED_DB ... done."
-          rc_status
-        else
-          echo " Checking $OTRS_USED_DB ... failed."
-          echo "  --> Please start the database at first! ($OTRS_USED_DB_RCSCRIPT start) <--"
-          rc_failed
-          rc_status -v
-          exit 1;
-        fi
-      else
-          echo " Disabled: database check!"
+          echo " Disabled: web server check!"
       fi
 
       # --
       # database connect
       # --
-      echo -n " Checking database connect... ("
+      echo -n " Checking database connection... ("
       if ! $OTRS_CHECKDB -s 1; then
           echo ") "
           echo "----------------------------------------------------------------------------"
@@ -168,6 +155,18 @@ case "$1" in
           echo ")."
           rc_status
       fi
+
+      # --
+      # OTRS Scheduler Service
+      # --
+      echo -n " Checking OTRS Scheduler Service... "
+      if ! $OTRS_SCHEDULER_TEST >/dev/null 2>&1; then
+          echo " Error! "
+      echo "  This can happen if your database is not configured yet. "
+          exit 1;
+      else
+          echo " done."
+      fi  
 
       # --
       # enable otrs.PostMaster.pl
@@ -213,7 +212,7 @@ case "$1" in
       else
           echo " Disabled: cronjobs!"
       fi
-
+      
       echo ""
       echo "  -->> http://$OTRS_HOST/$OTRS_HTTP_LOCATION/index.pl <<-- "
 
@@ -253,6 +252,15 @@ case "$1" in
           echo " Disabled: cronjobs!"
       fi
 
+      # --
+      # stop scheduler
+      # --
+      if test $OTRS_SCHEDULER_RUNNING -gt 0; then
+          echo -e " Shutting down OTRS scheduler ..."
+          $OTRS_SCHEDULER -a stop
+          echo " done."
+      fi
+
       # show status
       rc_status -v
 
@@ -264,7 +272,7 @@ case "$1" in
       echo "Starting $OTRS_PROG (completely)"
 
       # --
-      # start webserver
+      # start web server
       # --
       if test $OTRS_HTTP_RUNNING -gt 0; then
         if $OTRS_USED_WEBSERVER_RCSCRIPT restart > /dev/null 2>&1 ; then
@@ -276,26 +284,7 @@ case "$1" in
           exit 1
         fi
       else
-          echo " Disabled: webserver check!"
-      fi
-
-      # --
-      # check database
-      # --
-      if test $OTRS_DB_RUNNING -gt 0; then
-        if $OTRS_USED_DB_RCSCRIPT restart > /dev/null 2>&1 ; then
-          # just in case, some databases can't get ready so fast!
-          sleep 5;
-          echo " Starting $OTRS_USED_DB ... done."
-          rc_status
-        else
-          echo " Starting $OTRS_USED_DB ... failed."
-          rc_failed
-          rc_status -v
-          exit 1;
-        fi
-      else
-          echo " Disabled: database check!"
+          echo " Disabled: web server check!"
       fi
 
       # --
@@ -338,19 +327,6 @@ case "$1" in
           rc_status
         else
           echo " Shutting down $OTRS_USED_WEBSERVER ... failed."
-          rc_failed
-        fi
-      fi
-
-      # --
-      # database
-      # --
-      if test $OTRS_DB_RUNNING -gt 0; then
-        if $OTRS_USED_DB_RCSCRIPT stop > /dev/null 2>&1 ; then
-          echo " Shutting down $OTRS_USED_DB ... done."
-          rc_status
-        else
-          echo " Shutting down $OTRS_USED_DB ... failed."
           rc_failed
         fi
       fi
@@ -420,26 +396,32 @@ case "$1" in
     # ------------------------------------------------------
     status)
       # --
-      # webserver
+      # web server
       # --
       $OTRS_USED_WEBSERVER_RCSCRIPT status
 
       # --
-      # database
-      # --
-      $OTRS_USED_DB_RCSCRIPT status
-
-      # --
       # db check
       # --
-      echo -n "Checking database connect... ("
+      echo -n "Checking database connection... ("
       if ! $OTRS_CHECKDB -s 1; then
           echo ") "
           echo "----------------------------------------------------------------------------"
-          echo " Error: May your database isn't configured yet? "
+          echo " Error: Maybe your database isn't configured yet? "
           echo "----------------------------------------------------------------------------"
       else
           echo ")."
+      fi
+
+      # --
+      # scheduler check
+      # --
+      echo -n "Checking OTRS Scheduler service.... "
+      if ! $OTRS_CHECKSCHEDULER -s 1; then
+          echo " Error! "
+      echo " Maybe your database isn't configured yet? "
+      else
+          echo "done."
       fi
 
       # --
@@ -447,9 +429,9 @@ case "$1" in
       # --
       echo -n "Checking $OTRS_POSTMASTER ... "
       if test -x $OTRS_POSTMASTER; then
-          echo "(activ) done."
+          echo "(active) done."
       else
-          echo "(not activ) failed."
+          echo "(not active) failed."
       fi
 
       # --
