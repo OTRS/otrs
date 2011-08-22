@@ -2,7 +2,7 @@
 # DynamicField.t - DynamicField tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicField.t,v 1.5 2011-08-19 17:03:34 cg Exp $
+# $Id: DynamicField.t,v 1.6 2011-08-22 18:10:06 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -362,6 +362,32 @@ for my $DynamicFieldID (@DynamicFieldIDs) {
         "DynamicFieldList() from Cache found DynamicField $DynamicFieldID",
     );
 }
+
+# Dynamic Field List Get
+$DynamicFieldList = $DynamicFieldObject->DynamicFieldList( Valid => 0 );
+my @Data;
+for my $DynamicFieldID ( @{$DynamicFieldList} ) {
+    my $DynamicFieldGet = $DynamicFieldObject->DynamicFieldGet(
+        ID => $DynamicFieldID,
+    );
+    push @Data, $DynamicFieldGet;
+}
+
+# list get check from DB
+my $DynamicFieldListGet = $DynamicFieldObject->DynamicFieldListGet( Valid => 0 );
+$Self->IsDeeply(
+    $DynamicFieldListGet,
+    \@Data,
+    "DynamicFieldListGet() from DB found DynamicField ",
+);
+
+# list get check from cache
+$DynamicFieldListGet = $DynamicFieldObject->DynamicFieldListGet( Valid => 0 );
+$Self->IsDeeply(
+    $DynamicFieldListGet,
+    \@Data,
+    "DynamicFieldListGet() from Cache found DynamicField ",
+);
 
 # delete config
 for my $DynamicFieldID (@DynamicFieldIDs) {
