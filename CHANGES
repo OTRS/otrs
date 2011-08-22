@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1950 2011-08-17 11:25:46 ub Exp $
+# $Id: CHANGES,v 1.1951 2011-08-22 09:59:13 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.1.0 beta1 2011-??-??
+ - 2011-08-22 Fixed bug#2365 - Removed dependency on MySQL in RPMs.
  - 2011-08-12 Removed support for non-utf-8 internal encodings.
  - 2011-07-29 Fixed bug#7538 - CustomerSearchAutoComplete###QueryDelay has incorrect pattern match.
  - 2011-07-20 Added feature bug#976 - Send emails via bulk action.

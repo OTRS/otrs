@@ -2,7 +2,7 @@
 # RPM spec file for Fedora of the OTRS package
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: fedora-otrs-4.spec,v 1.15 2011-08-15 12:49:13 mb Exp $
+# $Id: fedora-otrs-4.spec,v 1.16 2011-08-22 09:59:13 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,13 +12,13 @@
 # please send bugfixes or comments to bugs+rpm@otrs.org
 #
 # --
-Summary:      The Open Ticket Request System.
+Summary:      OTRS Help Desk.
 Name:         otrs
 Version:      0.0
 Copyright:    GNU AFFERO GENERAL PUBLIC LICENSE Version 3, 19 November 2007
 Group:        Applications/Mail
 Provides:     otrs
-Requires:     perl perl(DBI) perl(DBD::mysql) perl(URI) mod_perl httpd mysql mysql-server procmail perl(Date::Format) perl(LWP::UserAgent) perl(Net::DNS) perl(IO::Socket::SSL) perl(XML::Parser)
+Requires:     perl perl(DBI) perl(URI) mod_perl httpd procmail perl(Date::Format) perl(LWP::UserAgent) perl(Net::DNS) perl(IO::Socket::SSL) perl(XML::Parser)
 Autoreqprov:  no
 Release:      01
 Source0:      otrs-%{version}.tar.bz2
@@ -128,11 +128,9 @@ echo ""
 echo "[httpd services]"
 echo " Restart httpd 'service httpd restart'"
 echo ""
-echo "[mysqld service]"
-echo " Start mysqld 'service mysqld start'"
-echo ""
 echo "[install the OTRS database]"
-echo " Use a webbrowser and open this link:"
+echo " Make sure your database server is running."
+echo " Use a web browser and open this link:"
 echo " http://$HOST/otrs/installer.pl"
 echo ""
 echo "[OTRS services]"

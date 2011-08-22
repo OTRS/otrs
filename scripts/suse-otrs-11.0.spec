@@ -2,7 +2,7 @@
 # RPM spec file for OpenSUSE 11.x of the OTRS package
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: suse-otrs-11.0.spec,v 1.8 2011-08-15 12:49:13 mb Exp $
+# $Id: suse-otrs-11.0.spec,v 1.9 2011-08-22 09:59:13 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,13 +12,13 @@
 # please send bugfixes or comments to bugs+rpm@otrs.org
 #
 # --
-Summary:      The Open Ticket Request System.
+Summary:      OTRS Help Desk.
 Name:         otrs
 Version:      0.0
 Copyright:    GNU AFFERO GENERAL PUBLIC LICENSE Version 3, 19 November 2007
 Group:        Applications/Mail
 Provides:     otrs
-Requires:     perl perl-DBI perl-GD perl-GDGraph perl-GDTextUtil perl-Net-DNS perl-Digest-MD5 apache2 apache2-mod_perl mysql mysql-client perl-DBD-mysql procmail perl-libwww-perl perl-Encode-HanExtra perl-ldap perl-IO-Socket-SSL perl-SOAP-Lite perl-PDF-API2
+Requires:     perl perl-DBI perl-GD perl-GDGraph perl-GDTextUtil perl-Net-DNS perl-Digest-MD5 apache2 apache2-mod_perl procmail perl-libwww-perl perl-Encode-HanExtra perl-ldap perl-IO-Socket-SSL perl-SOAP-Lite perl-PDF-API2
 Autoreqprov:  on
 Release:      01
 Source0:      otrs-%{version}.tar.bz2
@@ -142,8 +142,8 @@ echo ""
 echo "[SuSEconfig]"
 echo " Execute 'SuSEconfig' to configure the webserver."
 echo ""
-echo "[start Apache and MySQL]"
-echo " Execute 'rcapache2 restart' and 'rcmysql start' in case they don't run."
+echo "[start database and Apache]"
+echo " Make sure your database is running and execute 'rcapache2 restart'."
 echo ""
 echo "[install the OTRS database]"
 echo " Use a webbrowser and open this link:"
