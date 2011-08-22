@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminDynamicFieldDropdown.pm - provides a dynamic fields text config view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminDynamicFieldDropdown.pm,v 1.1 2011-08-21 21:12:26 cr Exp $
+# $Id: AdminDynamicFieldDropdown.pm,v 1.2 2011-08-22 20:12:12 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::DynamicField;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -41,6 +41,9 @@ sub new {
 
     # get configured object types
     $Self->{ObjectTypeConfig} = $Self->{ConfigObject}->Get('DynamicFields::ObjectType');
+
+    # get the fields config
+    $Self->{FieldTypeConfig} = $Self->{ConfigObject}->Get('DynamicFields::Backend') || {};
 
     # set possible values handling strings
     $Self->{EmptyString}     = '_DynamicFields_EmptyString_Dont_Use_It_String_Please';
@@ -81,22 +84,26 @@ sub Run {
 sub _Add {
     my ( $Self, %Param ) = @_;
 
-    my $ObjectType = $Self->{ParamObject}->GetParam( Param => 'ObjectType' );
-
-    if ( !$ObjectType ) {
-        return $Self->{LayoutObject}->ErrorScreen(
-            Message => "Need ObjectType",
-        );
+    my %GetParam;
+    for my $Needed (qw(ObjectType FieldType)) {
+        $GetParam{$Needed} = $Self->{ParamObject}->GetParam( Param => $Needed );
+        if ( !$Needed ) {
+            return $Self->{LayoutObject}->ErrorScreen(
+                Message => "Need $Needed",
+            );
+        }
     }
 
-    # get the object type display name
-    my $ObjectTypeName = $Self->{ObjectTypeConfig}->{$ObjectType}->{DisplayName};
+    # get the object type and field type display name
+    my $ObjectTypeName = $Self->{ObjectTypeConfig}->{ $GetParam{ObjectType} }->{DisplayName} || '';
+    my $FieldTypeName  = $Self->{FieldTypeConfig}->{ $GetParam{FieldType} }->{DisplayName}   || '';
 
     return $Self->_ShowScreen(
         %Param,
+        %GetParam,
         Mode           => 'Add',
-        ObjectType     => $ObjectType,
         ObjectTypeName => $ObjectTypeName,
+        FieldTypeName  => $FieldTypeName,
     );
 }
 
@@ -157,11 +164,11 @@ sub _AddAction {
         );
     }
 
-    my $PossibleValueConfig = $Self->_GetPossibleValues();
+    my $PossibleValues = $Self->_GetPossibleValues();
 
     # set errors for possible values entries
     KEY:
-    for my $Key ( keys %{$PossibleValueConfig} ) {
+    for my $Key ( keys %{$PossibleValues} ) {
 
         # check for empty original values
         if ( $Key =~ m{\A $Self->{EmptyString} (?: \d+)}smx ) {
@@ -178,7 +185,7 @@ sub _AddAction {
         }
 
         # check for empty new values
-        if ( !$PossibleValueConfig->{$Key} ) {
+        if ( !$PossibleValues->{$Key} ) {
 
             # set a true entry in NewValueEmptyError
             $Errors{'PossibleValueErrors'}->{'ValueEmptyError'}->{$Key} = 1;
@@ -191,14 +198,14 @@ sub _AddAction {
             %Param,
             %Errors,
             %GetParam,
-            PossibleValueConfig => $PossibleValueConfig,
-            Mode                => 'Add',
+            PossibleValues => $PossibleValues,
+            Mode           => 'Add',
         );
     }
 
     # set specific config
     my $FieldConfig = {
-        PossibleValues     => $PossibleValueConfig,
+        PossibleValues     => $PossibleValues,
         DefaultValue       => $GetParam{DefaultValue},
         TranslatableValues => $GetParam{TranslatableValues},
     };
@@ -229,16 +236,19 @@ sub _AddAction {
 sub _Change {
     my ( $Self, %Param ) = @_;
 
-    my $ObjectType = $Self->{ParamObject}->GetParam( Param => 'ObjectType' );
-
-    if ( !$ObjectType ) {
-        return $Self->{LayoutObject}->ErrorScreen(
-            Message => "Need ObjectType",
-        );
+    my %GetParam;
+    for my $Needed (qw(ObjectType FieldType)) {
+        $GetParam{$Needed} = $Self->{ParamObject}->GetParam( Param => $Needed );
+        if ( !$Needed ) {
+            return $Self->{LayoutObject}->ErrorScreen(
+                Message => "Need $Needed",
+            );
+        }
     }
 
-    # get the object type display name
-    my $ObjectTypeName = $Self->{ObjectTypeConfig}->{$ObjectType}->{DisplayName};
+    # get the object type and field type display name
+    my $ObjectTypeName = $Self->{ObjectTypeConfig}->{ $GetParam{ObjectType} }->{DisplayName} || '';
+    my $FieldTypeName  = $Self->{FieldTypeConfig}->{ $GetParam{FieldType} }->{DisplayName}   || '';
 
     my $FieldID = $Self->{ParamObject}->GetParam( Param => 'ID' );
 
@@ -260,13 +270,33 @@ sub _Change {
         );
     }
 
+    my %Config = ();
+
+    # extract configuration
+    if ( IsHashRefWithData( $DynamicFieldData->{Config} ) ) {
+
+        # set PossibleValues
+        $Config{PossibleValues} = {};
+        if ( IsHashRefWithData( $DynamicFieldData->{Config}->{PossibleValues} ) ) {
+            $Config{PossibleValues} = $DynamicFieldData->{Config}->{PossibleValues};
+        }
+
+        # set DefaultValue
+        $Config{DefaultValue} = $DynamicFieldData->{Config}->{DefaultValue};
+
+        # set TranslatalbeValues
+        $Config{TranslatableValues} = $DynamicFieldData->{Config}->{TranslatableValues};
+    }
+
     return $Self->_ShowScreen(
         %Param,
+        %GetParam,
         %${DynamicFieldData},
+        %Config,
         ID             => $FieldID,
         Mode           => 'Change',
-        ObjectType     => $ObjectType,
         ObjectTypeName => $ObjectTypeName,
+        FieldTypeName  => $FieldTypeName,
     );
 }
 
@@ -350,11 +380,11 @@ sub _ChangeAction {
         );
     }
 
-    my $PossibleValueConfig = $Self->_GetPossibleValues();
+    my $PossibleValues = $Self->_GetPossibleValues();
 
     # set errors for possible values entries
     KEY:
-    for my $Key ( keys %{$PossibleValueConfig} ) {
+    for my $Key ( keys %{$PossibleValues} ) {
 
         # check for empty original values
         if ( $Key =~ m{\A $Self->{EmptyString} (?: \d+)}smx ) {
@@ -371,28 +401,28 @@ sub _ChangeAction {
         }
 
         # check for empty new values
-        if ( !$PossibleValueConfig->{$Key} ) {
+        if ( !$PossibleValues->{$Key} ) {
 
             # set a true entry in NewValueEmptyError
             $Errors{'PossibleValueErrors'}->{'ValueEmptyError'}->{$Key} = 1;
         }
     }
 
-    # return to add screen if errors
+    # return to change screen if errors
     if (%Errors) {
         return $Self->_ShowScreen(
             %Param,
             %Errors,
             %GetParam,
-            ID                  => $FieldID,
-            PossibleValueConfig => $PossibleValueConfig,
-            Mode                => 'Change',
+            PossibleValues => $PossibleValues,
+            ID             => $FieldID,
+            Mode           => 'Change',
         );
     }
 
     # set specific config
     my $FieldConfig = {
-        PossibleValues     => $PossibleValueConfig,
+        PossibleValues     => $PossibleValues,
         DefaultValue       => $GetParam{DefaultValue},
         TranslatableValues => $GetParam{TranslatableValues},
     };
@@ -447,26 +477,13 @@ sub _ShowScreen {
         Translate    => 1,
     );
 
-    my %Config;
-
-    # send the configuration options if any
-    if ( IsHashRefWithData( $Param{Config} ) ) {
-        %Config = %{ $Param{Config} };
-    }
-
     # define as 0 to get the real value in the HTML
     my $ValueCounter = 0;
 
+    # set PossibleValues
     my %PossibleValues;
-
-    # use possible values from the selected field (if any), does not appay to add screen
-    if ( IsHashRefWithData( $Config{PossibleValues} ) ) {
-        %PossibleValues = %{ $Config{PossibleValues} };
-    }
-
-    # the possible values from the last screen has higher priority that the ones on selected field
-    if ( IsHashRefWithData( $Param{PossibleValueConfig} ) ) {
-        %PossibleValues = %{ $Param{PossibleValueConfig} };
+    if ( IsHashRefWithData( $Param{PossibleValues} ) ) {
+        %PossibleValues = %{ $Param{PossibleValues} };
     }
 
     # output the possible values and errors within (if any)
@@ -540,6 +557,7 @@ sub _ShowScreen {
         },
     );
 
+    # check and bould the Default Value list based on Possible Values
     my %DefaultValuesList;
     POSSIBLEVALUE:
     for my $ValueItem ( keys %PossibleValues ) {
@@ -548,10 +566,7 @@ sub _ShowScreen {
         $DefaultValuesList{$ValueItem} = $PossibleValues{$ValueItem}
     }
 
-    my $DefaultValue = $Config{DefaultValue} || '';
-    if ( $Param{DefaultValue} ) {
-        $DefaultValue = $Param{DefaultValue};
-    }
+    my $DefaultValue = $Param{DefaultValue} || '';
 
     # create the default value select
     my $DefaultValueStrg = $Self->{LayoutObject}->BuildSelection(
@@ -569,10 +584,7 @@ sub _ShowScreen {
         Class    => 'W50pc',
     );
 
-    my $TranslatableValues = $Config{TranslatableValues} || '0';
-    if ( $Param{TranslatableValues} ) {
-        $TranslatableValues = $Param{TranslatableValues};
-    }
+    my $TranslatableValues = $Param{TranslatableValues} || '0';
 
     # create translatable values option list
     my $TranslatableValuesStrg = $Self->{LayoutObject}->BuildSelection(
@@ -590,7 +602,6 @@ sub _ShowScreen {
         TemplateFile => 'AdminDynamicFieldDropdown',
         Data         => {
             %Param,
-            %Config,
             ValidityStrg           => $ValidityStrg,
             ValueCounter           => $ValueCounter,
             DefaultValueStrg       => $DefaultValueStrg,

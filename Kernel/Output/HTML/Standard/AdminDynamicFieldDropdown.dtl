@@ -2,7 +2,7 @@
 # AdminDynamicFieldDropdown.dtl - provides HTML form for AdminDynamicFieldsDropdown
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminDynamicFieldDropdown.dtl,v 1.1 2011-08-21 21:12:26 cr Exp $
+# $Id: AdminDynamicFieldDropdown.dtl,v 1.2 2011-08-22 20:12:12 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,13 +13,13 @@
     <input type="hidden" name="Action" value="AdminDynamicFieldDropdown" />
     <input type="hidden" name="Subaction" value="$QData{"Mode"}Action" />
     <input type="hidden" name="ObjectType" value="$QData{"ObjectType"}" />
-    <input type="hidden" name="FieldType" value="Dropdown" />
+    <input type="hidden" name="FieldType" value="$QData{"FieldType"}" />
     <input type="hidden" name="ID" value="$QData{"ID"}" />
 
     <div class="LayoutPopup ARIARoleMain">
 
         <div class="Header">
-            <h1>$Text{"Dynamic Fields"} - $Text{"$Data{"ObjectTypeName"}"}: $Text{"$Data{"Mode"}"} $Text{"Drop-down Field"}</h1>
+            <h1>$Text{"Dynamic Fields"} - $Text{"$Data{"ObjectTypeName"}"}: $Text{"$Data{"Mode"}"} $Text{"$Data{"FieldTypeName"} Field"}</h1>
             <p>
                 <a href="#" class="CancelClosePopup">$Text{"Cancel & close window"}</a>
             </p>
@@ -36,7 +36,7 @@
                             <fieldset class="TableLike">
                                 <label class="Mandatory" for="Name"><span class="Marker">*</span> $Text{"Name"}:</label>
                                 <div class="Field">
-                                    <input id="Name" class="W50pc $QData{"NameServerError"} $QData{"ShowWarning"}  Validate_LowercaseNumbers" type="text" maxlength="200" value="$QData{"Name"}" name="Name"/>
+                                    <input id="Name" class="W50pc $QData{"NameServerError"} $QData{"ShowWarning"}  Validate_LowercaseNumbers!@#!#!!@#!#" type="text" maxlength="200" value="$QData{"Name"}" name="Name"/>
                                     <div id="NameError" class="TooltipErrorMessage"><p>$Text{"This field is required, and value should be lower case letters and numbers only."}</p></div>
                                     <div id="NameServerError" class="TooltipErrorMessage"><p>$Text{"$Data{"NameServerErrorMessage"}"}</p></div>
                                     <p class="FieldExplanation">$Text{"Must be unique and only accept lower case letters and numbers."}</p>
@@ -66,7 +66,7 @@
                                 <div class="SpacingTop"></div>
                                 <label for="FieldTypeName">$Text{"Field Type"}:</label>
                                 <div class="Field">
-                                    <input id="FieldTypeName" readonly="readonly" class="W50pc" type="text" maxlength="200" value="Drop-down" name="FieldTypeName"/>
+                                    <input id="FieldTypeName" readonly="readonly" class="W50pc" type="text" maxlength="200" value="$QData{"FieldTypeName"}" name="FieldTypeName"/>
                                     <div class="Clear"></div>
                                 </div>
 
