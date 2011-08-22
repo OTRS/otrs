@@ -2,7 +2,7 @@
 // Core.Agent.Admin.DynamicFieldDropdown.js - provides the special module functions for the Dropdown Dynamic Fields.
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.DynamicFieldDropdown.js,v 1.3 2011-08-22 17:42:29 cr Exp $
+// $Id: Core.Agent.Admin.DynamicFieldDropdown.js,v 1.4 2011-08-22 20:41:30 cr Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -174,10 +174,16 @@ Core.Agent.Admin.DynamicFieldDropdown = (function (TargetNS) {
 
         // sort the array by the text (this means the Value)
         SelectOptions.sort(function(a,b) {
-            if (a.text > b.text) return 1;
-            else if (a.text < b.text) return -1;
-            else return 0
-        })
+            if (a.text > b.text) {
+                return 1;
+            }
+            else if (a.text < b.text) {
+                return -1;
+            }
+            else {
+                return 0;
+            }
+        });
 
         // clear the list again and re-populate it with the sorted list
         $("#DefaultValue").empty().append( SelectOptions );
@@ -187,7 +193,7 @@ Core.Agent.Admin.DynamicFieldDropdown = (function (TargetNS) {
         $('#DefaultValue').val(SelectedValue);
 
         return false;
-    }
+    };
 
     return TargetNS;
 }(Core.Agent.Admin.DynamicFieldDropdown || {}));
