@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField.pm - DynamicFields configuration backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicField.pm,v 1.16 2011-08-22 14:04:27 martin Exp $
+# $Id: DynamicField.pm,v 1.17 2011-08-22 18:20:47 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::Cache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 =head1 NAME
 
@@ -45,7 +45,6 @@ create a DynamicField object
     use Kernel::System::Encode;
     use Kernel::System::Log;
     use Kernel::System::Main;
-    use Kernel::System::CacheInternal;
     use Kernel::System::DB;
     use Kernel::System::DynamicField;
 
@@ -62,13 +61,6 @@ create a DynamicField object
         EncodeObject => $EncodeObject,
         LogObject    => $LogObject,
     );
-#QA: CacheInternalObject is not needed in the code
-    my $CacheInternalObject = Kernel::System::CacheInternal->new(
-        ConfigObject => $ConfigObject,
-        LogObject    => $LogObject,
-        MainObject   => $MainObject,
-        EncodeObject => $EncodeObject,
-    );
     my $DBObject = Kernel::System::DB->new(
         ConfigObject => $ConfigObject,
         EncodeObject => $EncodeObject,
@@ -80,7 +72,6 @@ create a DynamicField object
         EncodeObject        => $EncodeObject,
         LogObject           => $LogObject,
         MainObject          => $MainObject,
-        CacheInternalObject => $CacheInternalObject,
         DBObject            => $DBObject,
     );
 
@@ -497,6 +488,7 @@ sub DynamicFieldList {
         return \@Data;
     }
 
+    return;
 }
 
 =item DynamicFieldListGet()
@@ -553,13 +545,17 @@ sub DynamicFieldListGet {
 
     return if !$Self->{DBObject}->Prepare( SQL => $SQL );
 
+    my @DynamicFieldIDs;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        push @DynamicFieldIDs, $Row[0];
+    }
 
-        #QA: Will not work if you do 2 db queries the same time (2 one in DynamicFieldGet()).
+    for my $ItemID (@DynamicFieldIDs) {
+
         my $DynamicField = $Self->DynamicFieldGet(
-            ID => $Row[0],
+            ID => $ItemID,
         );
-        push @Data, {$DynamicField};
+        push @Data, $DynamicField;
     }
 
     if (@Data) {
@@ -593,6 +589,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.16 $ $Date: 2011-08-22 14:04:27 $
+$Revision: 1.17 $ $Date: 2011-08-22 18:20:47 $
 
 =cut
