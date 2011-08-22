@@ -2,7 +2,7 @@
 # AdminDynamicField.dtl - provides HTML form for DynamicFields
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminDynamicField.dtl,v 1.11 2011-08-19 19:29:27 cg Exp $
+# $Id: AdminDynamicField.dtl,v 1.12 2011-08-22 17:38:31 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -149,7 +149,7 @@ $('#ShowContextSettingsDialog').bind('click', function (Event) {
 <!-- dtl:block:DynamicFieldsRow -->
                         <tr id="DynamicFieldID_$QData{"ID"}" class="MasterAction">
                             <td>
-                                <a href="$Env{"Baselink"}Action=$LQData{"ConfigDialog"};Subaction=Change;ObjectType=$LQData{"ObjectType"};ID=$LQData{"ID"}" title="$QData{"Name"}" class="MasterActionLink AsPopup">$Data{"Name"}</a>
+                                <a href="$Env{"Baselink"}Action=$LQData{"ConfigDialog"};Subaction=Change;ObjectType=$LQData{"ObjectType"};FieldType=$LQData{"FieldType"};ID=$LQData{"ID"}" title="$QData{"Name"}" class="MasterActionLink AsPopup">$Data{"Name"}</a>
                             </td>
                             <td>
                                 <div title="$Text{"$Data{"Label"}"}">$Data{"Label"}</div>
