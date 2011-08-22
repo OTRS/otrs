@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminDynamicFieldDateTime.pm - provides a dynamic fields Date Time config view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminDynamicFieldDateTime.pm,v 1.1 2011-08-22 17:45:18 cr Exp $
+# $Id: AdminDynamicFieldDateTime.pm,v 1.2 2011-08-22 20:06:29 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::DynamicField;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -42,7 +42,7 @@ sub new {
     # get configured object types
     $Self->{ObjectTypeConfig} = $Self->{ConfigObject}->Get('DynamicFields::ObjectType');
 
-    # get the field display name
+    # get the fields config
     $Self->{FieldTypeConfig} = $Self->{ConfigObject}->Get('DynamicFields::Backend') || {};
 
     return $Self;
@@ -356,7 +356,7 @@ sub _ChangeAction {
         );
     }
 
-    # return to add screen if errors
+    # return to change screen if errors
     if (%Errors) {
         return $Self->_ShowScreen(
             %Param,
