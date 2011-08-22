@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminDynamicFieldCheckbox.pm - provides a dynamic fields text config view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminDynamicFieldCheckbox.pm,v 1.1 2011-08-20 02:16:38 cr Exp $
+# $Id: AdminDynamicFieldCheckbox.pm,v 1.2 2011-08-22 20:09:53 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::DynamicField;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -41,6 +41,9 @@ sub new {
 
     # get configured object types
     $Self->{ObjectTypeConfig} = $Self->{ConfigObject}->Get('DynamicFields::ObjectType');
+
+    # get the fields config
+    $Self->{FieldTypeConfig} = $Self->{ConfigObject}->Get('DynamicFields::Backend') || {};
 
     return $Self;
 }
@@ -76,22 +79,26 @@ sub Run {
 sub _Add {
     my ( $Self, %Param ) = @_;
 
-    my $ObjectType = $Self->{ParamObject}->GetParam( Param => 'ObjectType' );
-
-    if ( !$ObjectType ) {
-        return $Self->{LayoutObject}->ErrorScreen(
-            Message => "Need ObjectType",
-        );
+    my %GetParam;
+    for my $Needed (qw(ObjectType FieldType)) {
+        $GetParam{$Needed} = $Self->{ParamObject}->GetParam( Param => $Needed );
+        if ( !$Needed ) {
+            return $Self->{LayoutObject}->ErrorScreen(
+                Message => "Need $Needed",
+            );
+        }
     }
 
-    # get the object type display name
-    my $ObjectTypeName = $Self->{ObjectTypeConfig}->{$ObjectType}->{DisplayName};
+    # get the object type and field type display name
+    my $ObjectTypeName = $Self->{ObjectTypeConfig}->{ $GetParam{ObjectType} }->{DisplayName} || '';
+    my $FieldTypeName  = $Self->{FieldTypeConfig}->{ $GetParam{FieldType} }->{DisplayName}   || '';
 
     return $Self->_ShowScreen(
         %Param,
+        %GetParam,
         Mode           => 'Add',
-        ObjectType     => $ObjectType,
         ObjectTypeName => $ObjectTypeName,
+        FieldTypeName  => $FieldTypeName,
     );
 }
 
@@ -190,16 +197,19 @@ sub _AddAction {
 sub _Change {
     my ( $Self, %Param ) = @_;
 
-    my $ObjectType = $Self->{ParamObject}->GetParam( Param => 'ObjectType' );
-
-    if ( !$ObjectType ) {
-        return $Self->{LayoutObject}->ErrorScreen(
-            Message => "Need ObjectType",
-        );
+    my %GetParam;
+    for my $Needed (qw(ObjectType FieldType)) {
+        $GetParam{$Needed} = $Self->{ParamObject}->GetParam( Param => $Needed );
+        if ( !$Needed ) {
+            return $Self->{LayoutObject}->ErrorScreen(
+                Message => "Need $Needed",
+            );
+        }
     }
 
-    # get the object type display name
-    my $ObjectTypeName = $Self->{ObjectTypeConfig}->{$ObjectType}->{DisplayName};
+    # get the object type and field type display name
+    my $ObjectTypeName = $Self->{ObjectTypeConfig}->{ $GetParam{ObjectType} }->{DisplayName} || '';
+    my $FieldTypeName  = $Self->{FieldTypeConfig}->{ $GetParam{FieldType} }->{DisplayName}   || '';
 
     my $FieldID = $Self->{ParamObject}->GetParam( Param => 'ID' );
 
@@ -221,13 +231,22 @@ sub _Change {
         );
     }
 
+    my %Config = ();
+
+    # extract configuration
+    if ( IsHashRefWithData( $DynamicFieldData->{Config} ) ) {
+        %Config = %{ $DynamicFieldData->{Config} };
+    }
+
     return $Self->_ShowScreen(
         %Param,
+        %GetParam,
         %${DynamicFieldData},
+        %Config,
         ID             => $FieldID,
         Mode           => 'Change',
-        ObjectType     => $ObjectType,
         ObjectTypeName => $ObjectTypeName,
+        FieldTypeName  => $FieldTypeName,
     );
 }
 
@@ -308,7 +327,7 @@ sub _ChangeAction {
         );
     }
 
-    # return to add screen if errors
+    # return to change screen if errors
     if (%Errors) {
         return $Self->_ShowScreen(
             %Param,
@@ -370,14 +389,11 @@ sub _ShowScreen {
         SelectedID   => $Param{ValidID} || 1,
         PossibleNone => 0,
         Translate    => 1,
+        Class        => 'W50pc',
     );
 
-    my %Config;
-
-    # send the configuration options if any
-    if ( IsHashRefWithData( $Param{Config} ) ) {
-        %Config = %{ $Param{Config} };
-    }
+    # define config field specific settings
+    my $DefaultValue = $Param{DefaultValue} || '';
 
     # create the default value select
     my $DefaultValueStrg = $Self->{LayoutObject}->BuildSelection(
@@ -386,7 +402,7 @@ sub _ShowScreen {
             1 => 'Checked',
         },
         Name         => 'DefaultValue',
-        SelectedID   => $Config{DefaultValue} || 0,
+        SelectedID   => $Param{DefaultValue} || 0,
         PossibleNone => 0,
         Translate    => 1,
     );
@@ -396,7 +412,6 @@ sub _ShowScreen {
         TemplateFile => 'AdminDynamicFieldCheckbox',
         Data         => {
             %Param,
-            %Config,
             ValidityStrg     => $ValidityStrg,
             DefaultValueStrg => $DefaultValueStrg,
             }
