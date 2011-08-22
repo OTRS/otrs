@@ -2,7 +2,7 @@
 # Kernel/System/TicketSearch.pm - all ticket search functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketSearch.pm,v 1.1 2011-08-22 09:02:14 mg Exp $
+# $Id: TicketSearch.pm,v 1.2 2011-08-22 09:35:15 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 =head1 NAME
 
@@ -427,28 +427,26 @@ sub TicketSearch {
             $SQL .= ', ' . $SortOptions{$SortBy};
         }
     }
-    $SQL .= ' FROM ticket st, queue sq ';
+    $SQL .= ' FROM ticket st INNER JOIN queue sq ON sq.id = st.queue_id ';
 
     # sql, use also article table if needed
-    my ( $ArticleSQL, $ArticleSQLExt ) = $Self->_ArticleIndexQuerySQL( Data => \%Param );
-    $SQL .= $ArticleSQL;
+    $SQL .= $Self->_ArticleIndexQuerySQL( Data => \%Param );
 
     # use also history table if required
-    my $SQLExt = $ArticleSQLExt;
     ARGUMENT:
     for my $Key ( keys %Param ) {
         if ( $Key =~ /^(Ticket(Close|Change)Time(Newer|Older)(Date|Minutes)|Created.+?)/ ) {
-            $SQL    .= ', ticket_history th ';
-            $SQLExt .= ' AND st.id = th.ticket_id';
+            $SQL .= 'INNER JOIN ticket_history th ON st.id = th.ticket_id ';
             last ARGUMENT;
         }
     }
 
     # add ticket watcher table
     if ( $Param{WatchUserIDs} ) {
-        $SQL    .= ', ticket_watcher tw ';
-        $SQLExt .= ' AND st.id = tw.ticket_id';
+        $SQL .= 'INNER JOIN ticket_watcher tw ON st.id = tw.ticket_id ';
     }
+
+    my $SQLExt = ' WHERE 1=1';
 
     # add ticket flag table
     if ( $Param{TicketFlag} ) {
@@ -459,7 +457,6 @@ sub TicketSearch {
             $Index++;
         }
     }
-    $SQLExt = ' WHERE sq.id = st.queue_id' . $SQLExt;
 
     # current type lookup
     if ( $Param{Types} ) {
@@ -1680,6 +1677,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2011-08-22 09:02:14 $
+$Revision: 1.2 $ $Date: 2011-08-22 09:35:15 $
 
 =cut
