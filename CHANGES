@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1951 2011-08-22 09:59:13 mb Exp $
+# $Id: CHANGES,v 1.1952 2011-08-22 11:01:15 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,10 @@
 # --
 
 3.1.0 beta1 2011-??-??
+ - 2011-08-22 Fixed bug#7635 - Remove support for Suse 9.
+ - 2011-08-22 Fixed bug#6444 - OTRS rc scripts checks and stops local mysql database
+    and complains about having no database if you use a remote one.
+ - 2011-08-22 Fixed bug#7638 - OTRS rc scripts installation/check/stop of Scheduler service.
  - 2011-08-22 Fixed bug#2365 - Removed dependency on MySQL in RPMs.
  - 2011-08-12 Removed support for non-utf-8 internal encodings.
  - 2011-07-29 Fixed bug#7538 - CustomerSearchAutoComplete###QueryDelay has incorrect pattern match.
