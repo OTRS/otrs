@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField.pm - DynamicFields configuration backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicField.pm,v 1.17 2011-08-22 18:20:47 cg Exp $
+# $Id: DynamicField.pm,v 1.18 2011-08-22 19:10:31 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::Cache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.17 $) [1];
+$VERSION = qw($Revision: 1.18 $) [1];
 
 =head1 NAME
 
@@ -400,7 +400,8 @@ get DynamicField list
     or
 
     my $List = $DynamicFieldObject->DynamicFieldList(
-        Valid => 0, # optional, defaults to 1
+        Valid => 0,             # optional, defaults to 1
+        ResultType => 'HASH',   # optional, 'ARRAY' or 'HASH', defaults to 'ARRAY'
     );
 
 Returns:
@@ -411,6 +412,15 @@ Returns:
         3 => 'ItemThree',
         4 => 'ItemFour',
     };
+
+    or
+
+    $List = (
+        1,
+        2,
+        3,
+        4
+    );
 
 =cut
 
@@ -505,12 +515,31 @@ get DynamicField list with complete data
 
 Returns:
 
-    $List = {
-        1 => 'ItemOne',
-        2 => 'ItemTwo',
-        3 => 'ItemThree',
-        4 => 'ItemFour',
-    };
+    $List = (
+        {
+            ID          => 123,
+            Name        => 'NameForField',
+            Label       => 'The label to show',
+            FieldType   => 'Text',
+            ObjectType  => 'Article',
+            Config      => $ConfigHashRef,
+            ValidID     => 1,
+            CreateTime  => '2011-02-08 15:08:00',
+            ChangeTime  => '2011-06-11 17:22:00',
+        },
+        {
+            ID          => 321,
+            Name        => 'FieldName',
+            Label       => 'It is not a label',
+            FieldType   => 'Text',
+            ObjectType  => 'Ticket',
+            Config      => $ConfigHashRef,
+            ValidID     => 1,
+            CreateTime  => '2010-09-11 10:08:00',
+            ChangeTime  => '2011-01-01 01:01:01',
+        },
+        ...
+    );
 
 =cut
 
@@ -589,6 +618,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.17 $ $Date: 2011-08-22 18:20:47 $
+$Revision: 1.18 $ $Date: 2011-08-22 19:10:31 $
 
 =cut
