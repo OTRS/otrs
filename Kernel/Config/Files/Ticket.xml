@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.458 2011-08-22 20:27:19 cr Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.459 2011-08-22 20:41:00 cr Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Translatable="1">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Group>Ticket</Group>
@@ -10141,6 +10141,18 @@ Thanks for your help!
             <Hash>
                 <Item Key="DisplayName">Date / Time</Item>
                 <Item Key="Module">Kernel::System::DynamicField::Backend::DateTime</Item>
+                <Item Key="ConfigDialog">AdminDynamicFieldDateTime</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="DynamicFields::Backend###Date" Required="0" Valid="1">
+        <Description Translatable="1">DynamicField backend registration.</Description>
+        <Group>DynamicFields</Group>
+        <SubGroup>DynamicFields::Backend::Registration</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="DisplayName">Date</Item>
+                <Item Key="Module">Kernel::System::DynamicField::Backend::Date</Item>
                 <Item Key="ConfigDialog">AdminDynamicFieldDateTime</Item>
             </Hash>
         </Setting>
