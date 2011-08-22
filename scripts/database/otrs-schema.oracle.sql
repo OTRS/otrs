@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2011-08-19 17:28:15
+--  driver: oracle, generated: 2011-08-22 16:57:32
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 -- ----------------------------------------------------------
@@ -2034,7 +2034,7 @@ CREATE TABLE gi_object_lock_state (
     lock_state_counter NUMBER (12, 0) NOT NULL,
     create_time DATE NOT NULL,
     change_time DATE NOT NULL,
-    CONSTRAINT gi_object_lock_state_U_109 UNIQUE (webservice_id, object_type, object_id)
+    CONSTRAINT gi_object_lock_state_U_840 UNIQUE (webservice_id, object_type, object_id)
 );
 CREATE INDEX FK_gi_object_lock_state_webs55 ON gi_object_lock_state (webservice_id);
 CREATE INDEX object_lock_state_list_state ON gi_object_lock_state (webservice_id, object_type, object_id, lock_state);
@@ -2079,7 +2079,7 @@ CREATE TABLE dynamic_field_value (
     value_text CLOB NULL,
     value_date DATE NULL,
     value_int NUMBER (20, 0) NULL,
-    CONSTRAINT dynamic_field_value_U_51 UNIQUE (field_id, object_type, object_id)
+    CONSTRAINT dynamic_field_value_U_255 UNIQUE (field_id, object_type, object_id)
 );
 CREATE INDEX FK_dynamic_field_value_field90 ON dynamic_field_value (field_id);
 CREATE INDEX index_object ON dynamic_field_value (object_type, object_id);
@@ -2092,6 +2092,7 @@ CREATE TABLE dynamic_field (
     id NUMBER (12, 0) NOT NULL,
     name VARCHAR2 (200) NOT NULL,
     label VARCHAR2 (200) NOT NULL,
+    field_order NUMBER (12, 0) NOT NULL,
     field_type VARCHAR2 (200) NOT NULL,
     object_type VARCHAR2 (200) NOT NULL,
     config CLOB NULL,
@@ -2100,7 +2101,7 @@ CREATE TABLE dynamic_field (
     create_by NUMBER (12, 0) NOT NULL,
     change_time DATE NOT NULL,
     change_by NUMBER (12, 0) NOT NULL,
-    CONSTRAINT dynamic_field_U_229 UNIQUE (name)
+    CONSTRAINT dynamic_field_U_134 UNIQUE (name)
 );
 ALTER TABLE dynamic_field ADD CONSTRAINT PK_dynamic_field PRIMARY KEY (id);
 DROP SEQUENCE SE_dynamic_field;

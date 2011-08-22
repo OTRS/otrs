@@ -271,6 +271,8 @@
     <Column Name="name" Required="true" Type="VARCHAR" Size="200"/>
     <!-- label, always translate -->
     <Column Name="label" Required="true" Type="VARCHAR" Size="200"/>
+    <!-- order defines the DF backend display order on all the masks -->
+    <Column Name="field_order" Required="true" Type="INTEGER"/>
     <!-- field type selects the DF backend to use for this field -->
     <Column Name="field_type" Required="true" Type="VARCHAR" Size="200"/>
     <!-- this controls which object the dynamic field links to; currently we will have "ticket" and "article"; allow only lowercase letters -->
