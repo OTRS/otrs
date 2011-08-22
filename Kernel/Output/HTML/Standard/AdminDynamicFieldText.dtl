@@ -2,7 +2,7 @@
 # AdminDynamicFieldText.dtl - provides HTML form for AdminDynamicFieldsText
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminDynamicFieldText.dtl,v 1.7 2011-08-22 20:08:36 cr Exp $
+# $Id: AdminDynamicFieldText.dtl,v 1.8 2011-08-22 20:25:57 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -90,7 +90,12 @@
                     <fieldset class="TableLike">
                         <label for="DefaultValue">$Text{"Default Value"}:</label>
                         <div class="Field">
+<!-- dtl:block:DefaultValueText -->
                             <input id="DefaultValue" class="W50pc" type="text" maxlength="200" value="$QData{"DefaultValue"}" name="DefaultValue"/>
+<!-- dtl:block:DefaultValueText -->
+<!-- dtl:block:DefaultValueTextArea -->
+                            <textarea id="DefaultValue" class="W50pc" rows="10" cols="60" name="DefaultValue">$QData{"DefaultValue"}</textarea>
+<!-- dtl:block:DefaultValueTextArea -->
                             <p class="FieldExplanation">$Text{"This is the default value for this field."}</p>
                         </div>
                     </fieldset>
