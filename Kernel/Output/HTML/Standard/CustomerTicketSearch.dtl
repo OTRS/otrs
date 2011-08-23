@@ -2,7 +2,7 @@
 # CustomerTicketSearch.dtl - provides HTML form for CustomerTicketSearch.pm
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketSearch.dtl,v 1.34.2.2 2011-04-01 08:48:12 martin Exp $
+# $Id: CustomerTicketSearch.dtl,v 1.34.2.3 2011-08-23 12:53:34 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -118,11 +118,11 @@
                 <h2>$Text{"Search-Profile as Template?"}</h2>
                 <div>
                     <label for="SaveProfile">$Text{"Save as Template?"}</label>
-                    <input title="Save as Template" type="checkbox" id="SaveProfile" name="SaveProfile" />
+                    <input title="$Text{"Save as Template"}" type="checkbox" id="SaveProfile" name="SaveProfile" />
                 </div>
                 <div>
-                    <label for="Profil">$Text{"Template Name"}</label>
-                    <input title="Pick a profil name" type="text" id="Profil" name="Profile" size="30" value="$QData{"Profile"}" />
+                    <label for="Profile">$Text{"Template Name"}</label>
+                    <input title="$Text{"Pick a profile name"}" type="text" id="Profile" name="Profile" size="30" value="$QData{"Profile"}" />
                 </div>
             </fieldset>
             <div id="BottomActionRow" class="ActionRow">
