@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField.pm - DynamicFields configuration backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicField.pm,v 1.21 2011-08-23 10:45:12 mg Exp $
+# $Id: DynamicField.pm,v 1.22 2011-08-23 18:05:57 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::Cache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
+$VERSION = qw($Revision: 1.22 $) [1];
 
 =head1 NAME
 
@@ -359,7 +359,7 @@ sub DynamicFieldUpdate {
             . 'object_type = ?, config = ?, valid_id = ?, change_time = current_timestamp, '
             . ' change_by = ? WHERE id = ?',
         Bind => [
-            \$Param{Name}, \$Param{Label}, \$Param{ObjectType}, \$Param{FieldType},
+            \$Param{Name}, \$Param{Label}, \$Param{FieldOrder}, \$Param{FieldType},
             \$Param{ObjectType}, \$Config, \$Param{ValidID}, \$Param{UserID}, \$Param{ID},
         ],
     );
@@ -670,6 +670,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.21 $ $Date: 2011-08-23 10:45:12 $
+$Revision: 1.22 $ $Date: 2011-08-23 18:05:57 $
 
 =cut
