@@ -2,7 +2,7 @@
 // Core.Agent.Admin.DynamicField.js - provides the special module functions for the Dynamic Fields.
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.DynamicField.js,v 1.7 2011-08-22 20:41:30 cr Exp $
+// $Id: Core.Agent.Admin.DynamicField.js,v 1.8 2011-08-23 02:46:52 cr Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ Core.Agent.Admin = Core.Agent.Admin || {};
 Core.Agent.Admin.DynamicField = (function (TargetNS) {
 
     TargetNS.Redirect = function( FieldType, ObjectType ) {
-        var DynamicFieldsConfig, Action, URL;
+        var DynamicFieldsConfig, Action, URL, FieldOrder;
 
         // get configuration
         DynamicFieldsConfig = Core.Config.Get('DynamicFields');
@@ -32,8 +32,11 @@ Core.Agent.Admin.DynamicField = (function (TargetNS) {
         // get action
         Action = DynamicFieldsConfig[ FieldType ];
 
+        // get field order
+        FieldOrder = parseInt($('#MaxFieldOrder').val(), 10) + 1;
+
         // redirect to correct url
-        URL = Core.Config.Get('Baselink') + 'Action=' + Action + ';Subaction=Add' + ';ObjectType=' + ObjectType + ';FieldType=' + FieldType;
+        URL = Core.Config.Get('Baselink') + 'Action=' + Action + ';Subaction=Add' + ';ObjectType=' + ObjectType + ';FieldType=' + FieldType + ';FieldOrder=' + FieldOrder;
         Core.UI.Popup.OpenPopup(URL, 'Action');
     };
 

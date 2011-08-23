@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminDynamicField.pm - provides a dynamic fields view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminDynamicField.pm,v 1.11 2011-08-21 21:41:01 cr Exp $
+# $Id: AdminDynamicField.pm,v 1.12 2011-08-23 02:46:52 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::DynamicField;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -228,6 +228,8 @@ sub _DynamicFieldsListShow {
         );
     }
 
+    my $MaxFieldOrder = 0;
+
     # check if at least 1 dynamic field is registered in the system
     if ( $Param{Total} ) {
 
@@ -275,6 +277,11 @@ sub _DynamicFieldsListShow {
                         ObjectTypeName => $ObjectTypeName,
                     },
                 );
+
+                # set MaxFieldOrder
+                if ( int $DynamicFieldData->{FieldOrder} > int $MaxFieldOrder ) {
+                    $MaxFieldOrder = $DynamicFieldData->{FieldOrder}
+                }
             }
         }
     }
@@ -286,6 +293,14 @@ sub _DynamicFieldsListShow {
             Data => \%Param,
         );
     }
+
+    $Self->{LayoutObject}->Block(
+        Name => 'MaxFieldOrder',
+        Data => {
+            MaxFieldOrder => $MaxFieldOrder,
+        },
+    );
+
     return;
 }
 

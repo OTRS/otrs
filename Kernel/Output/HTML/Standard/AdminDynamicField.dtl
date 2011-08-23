@@ -2,7 +2,7 @@
 # AdminDynamicField.dtl - provides HTML form for DynamicFields
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminDynamicField.dtl,v 1.12 2011-08-22 17:38:31 cr Exp $
+# $Id: AdminDynamicField.dtl,v 1.13 2011-08-23 02:46:52 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -133,6 +133,7 @@ $('#ShowContextSettingsDialog').bind('click', function (Event) {
                         <tr>
                             <th>$Text{"Name"}</th>
                             <th>$Text{"Label"}</th>
+                            <th>$Text{"Order"}</th>
                             <th>$Text{"Type"}</th>
                             <th>$Text{"Object"}</th>
                             <th>$Text{"Validity"}</th>
@@ -155,6 +156,9 @@ $('#ShowContextSettingsDialog').bind('click', function (Event) {
                                 <div title="$Text{"$Data{"Label"}"}">$Data{"Label"}</div>
                             </td>
                             <td>
+                                <div title="$Text{"$Data{"Label"}"}">$Data{"FieldOrder"}</div>
+                            </td>
+                            <td>
                                 <div title="$Text{"$Data{"FieldTypeName"}"}">$Data{"FieldTypeName"}</div>
                             </td>
                             <td>
@@ -169,6 +173,10 @@ $('#ShowContextSettingsDialog').bind('click', function (Event) {
                 </table>
             </div>
         </div>
+<!-- dtl:block:MaxFieldOrder -->
+        <input id="MaxFieldOrder" type="text" name="MaxFieldOrder" value="$QData{"MaxFieldOrder"}"/>
+<!-- dtl:block:MaxFieldOrder -->
+
         <div class="Clear"></div>
     </div>
 </div>
