@@ -2,7 +2,7 @@
 # AdminDynamicFieldText.dtl - provides HTML form for AdminDynamicFieldsText
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminDynamicFieldText.dtl,v 1.8 2011-08-22 20:25:57 cr Exp $
+# $Id: AdminDynamicFieldText.dtl,v 1.9 2011-08-23 02:48:59 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -50,6 +50,15 @@
                                     <div id="LabelError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
                                     <div id="LabelServerError" class="TooltipErrorMessage"><p>$Text{"$Data{"LabelServerErrorMessage"}"}</p></div>
                                     <p class="FieldExplanation">$Text{"This is the name to be shown on the screens where the field is active."}</p>
+                                </div>
+                                <div class="Clear"></div>
+
+                                <label class="Mandatory" for="FieldOrder"><span class="Marker">*</span> $Text{"Field Order"}:</label>
+                                <div class="Field">
+                                    <input id="FieldOrder" class="W50pc $QData{"FieldOrderServerError"} Validate_Required" type="text" maxlength="200" value="$QData{"FieldOrder"}" name="FieldOrder"/>
+                                    <div id="FieldOrderError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
+                                    <div id="FieldOrderServerError" class="TooltipErrorMessage"><p>$Text{"$Data{"FieldOrderServerErrorMessage"}"}</p></div>
+                                    <p class="FieldExplanation">$Text{"This is order in which this field will be shown on the screens where is active."}</p>
                                 </div>
                                 <div class="Clear"></div>
 

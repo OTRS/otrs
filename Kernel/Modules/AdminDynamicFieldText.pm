@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminDynamicFieldText.pm - provides a dynamic fields text config view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminDynamicFieldText.pm,v 1.10 2011-08-22 20:25:57 cr Exp $
+# $Id: AdminDynamicFieldText.pm,v 1.11 2011-08-23 02:48:59 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::DynamicField;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -80,7 +80,7 @@ sub _Add {
     my ( $Self, %Param ) = @_;
 
     my %GetParam;
-    for my $Needed (qw(ObjectType FieldType)) {
+    for my $Needed (qw(ObjectType FieldType FieldOrder)) {
         $GetParam{$Needed} = $Self->{ParamObject}->GetParam( Param => $Needed );
         if ( !$Needed ) {
             return $Self->{LayoutObject}->ErrorScreen(
@@ -108,7 +108,7 @@ sub _AddAction {
     my %Errors;
     my %GetParam;
 
-    for my $Needed (qw(Name Label)) {
+    for my $Needed (qw(Name Label FieldOrder)) {
         $GetParam{$Needed} = $Self->{ParamObject}->GetParam( Param => $Needed );
         if ( !$GetParam{$Needed} ) {
             $Errors{ $Needed . 'ServerError' }        = 'ServerError';
@@ -145,7 +145,8 @@ sub _AddAction {
         }
     }
 
-    for my $ConfigParam (qw(ObjectType ObjectTypeName FieldType DefaultValue ValidID)) {
+    for my $ConfigParam (qw(ObjectType ObjectTypeName FieldType FieldTypeName DefaultValue ValidID))
+    {
         $GetParam{$ConfigParam} = $Self->{ParamObject}->GetParam( Param => $ConfigParam );
     }
 
@@ -175,6 +176,7 @@ sub _AddAction {
     my $FieldID = $Self->{DynamicFieldObject}->DynamicFieldAdd(
         Name       => $GetParam{Name},
         Label      => $GetParam{Label},
+        FieldOrder => $GetParam{FieldOrder},
         FieldType  => $GetParam{FieldType},
         ObjectType => $GetParam{ObjectType},
         Config     => $FieldConfig,
@@ -256,7 +258,7 @@ sub _ChangeAction {
     my %Errors;
     my %GetParam;
 
-    for my $Needed (qw(Name Label)) {
+    for my $Needed (qw(Name Label FieldOrder)) {
         $GetParam{$Needed} = $Self->{ParamObject}->GetParam( Param => $Needed );
         if ( !$GetParam{$Needed} ) {
             $Errors{ $Needed . 'ServerError' }        = 'ServerError';
@@ -304,7 +306,8 @@ sub _ChangeAction {
         }
     }
 
-    for my $ConfigParam (qw(ObjectType ObjectTypeName FieldType DefaultValue ValidID)) {
+    for my $ConfigParam (qw(ObjectType ObjectTypeName FieldType FieldTypeName DefaultValue ValidID))
+    {
         $GetParam{$ConfigParam} = $Self->{ParamObject}->GetParam( Param => $ConfigParam );
     }
 
@@ -348,6 +351,7 @@ sub _ChangeAction {
         ID         => $FieldID,
         Name       => $GetParam{Name},
         Label      => $GetParam{Label},
+        FieldOrder => $GetParam{FieldOrder},
         FieldType  => $DynamicFieldData->{FieldType},
         ObjectType => $DynamicFieldData->{ObjectType},
         Config     => $FieldConfig,
