@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend.pm - Interface for DynamicField backends
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Backend.pm,v 1.2 2011-08-23 09:26:15 mg Exp $
+# $Id: Backend.pm,v 1.3 2011-08-23 11:21:15 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use warnings;
 #use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 =head1 NAME
 
@@ -110,6 +110,8 @@ creates the label HTML to be used in edit masks.
 
 =cut
 
+sub EditLabelRender { }
+
 =item EditFieldRender()
 
 creates the field HTML to be used in edit masks.
@@ -124,6 +126,8 @@ creates the field HTML to be used in edit masks.
 
 =cut
 
+sub EditFieldRender { }
+
 =item DisplayLabelRender()
 
 creates the label HTML to be used in display masks.
@@ -135,6 +139,8 @@ creates the label HTML to be used in display masks.
 
 =cut
 
+sub DisplayLabelRender { }
+
 =item DisplayFieldRender()
 
 creates the field HTML to be used in display masks.
@@ -145,6 +151,8 @@ creates the field HTML to be used in display masks.
     );
 
 =cut
+
+sub DisplayFieldRender { }
 
 =item HandleEditRequest()
 
@@ -159,6 +167,52 @@ extracting the request parameter(s) for the current dynamic field and storing th
 
 =cut
 
+sub HandleEditRequest { }
+
+=item ValueSet()
+
+sets a dynamic field value.
+
+    my $Success = $BackendObject->ValueSet(
+        DynamicFieldConfig => $DynamicFieldConfig,      # complete config of the DynamicField
+        ObjectID           => $ObjectID,                # ID of the current object that the field must be linked to, e. g. TicketID
+        Value              => 'some text',              # Value to store, depends on backend type
+    );
+
+=cut
+
+sub ValueSet {
+
+=cut
+    Notes
+        This must be implemented by the different backends, but they may share some code.
+
+        Special case:
+        If the object type is 'Ticket' or 'Article', a history entry must be written to that ticket (task for later)
+=cut
+
+}
+
+=item ValueGet()
+
+get a dynamic field value.
+
+    my $Value = $BackendObject->ValueGet(
+        DynamicFieldConfig => $DynamicFieldConfig,      # complete config of the DynamicField
+        ObjectID           => $ObjectID,                # ID of the current object that the field must be linked to, e. g. TicketID
+    );
+
+=cut
+
+sub ValueGet {
+
+=cut
+    Notes
+        This must be implemented by the different backends, but they may share some code.
+=cut
+
+}
+
 =item IsSearchable()
 
 returns if the current field backend is searchable or not.
@@ -166,6 +220,8 @@ returns if the current field backend is searchable or not.
     my $Searchable = $BackendObject->IsSearchable();   # 1 or 0
 
 =cut
+
+sub IsSearchable { }
 
 =item FieldRequestedInSearch()
 
@@ -179,6 +235,7 @@ determines if the current search request
 =cut
 
 # TODO: search SQL may need operator for free time fields (older/newer), depends on HTML structure
+sub FieldRequestedInSearch { }
 
 =item SearchSQLGet()
 
@@ -193,6 +250,8 @@ dynamic field. The table must already be joined.
 
 =cut
 
+sub SearchSQLGet { }
+
 =item SearchLabelRender()
 
 creates the label HTML to be used in edit masks.
@@ -203,6 +262,8 @@ creates the label HTML to be used in edit masks.
     );
 
 =cut
+
+sub SearchLabelRender { }
 
 =item SearchFieldRender()
 
@@ -231,6 +292,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.2 $ $Date: 2011-08-23 09:26:15 $
+$Revision: 1.3 $ $Date: 2011-08-23 11:21:15 $
 
 =cut
