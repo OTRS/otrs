@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField.pm - DynamicFields configuration backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicField.pm,v 1.20 2011-08-23 10:35:53 mg Exp $
+# $Id: DynamicField.pm,v 1.21 2011-08-23 10:45:12 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::Cache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.20 $) [1];
+$VERSION = qw($Revision: 1.21 $) [1];
 
 =head1 NAME
 
@@ -629,6 +629,31 @@ sub DynamicFieldListGet {
 
 }
 
+=item DynamicFieldBackendInstanceGet()
+
+returns a backend instance for a given dynamic field configuration.
+
+    $Instance = $DynamicFieldObject->DynamicFieldBackendInstanceGet(
+        FieldConfig => $FieldConfig,    # Hash reference as returned by DynamicFieldGet
+    );
+
+=cut
+
+sub DynamicFieldBackendInstanceGet {
+
+    # TODO: Implement
+
+=cut
+    Algorithm:
+    - input validation
+    - determine field type
+    - check if backend object for this type is already available
+        - if yes, return it
+        - if no, create it, put it in a variable for reuse and return it
+=cut
+
+}
+
 1;
 
 =back
@@ -645,6 +670,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.20 $ $Date: 2011-08-23 10:35:53 $
+$Revision: 1.21 $ $Date: 2011-08-23 10:45:12 $
 
 =cut
