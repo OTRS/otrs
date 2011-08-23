@@ -2,7 +2,7 @@
 # Kernel/System/DB.pm - the global database wrapper to support different databases
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.137 2011-08-23 11:26:10 mg Exp $
+# $Id: DB.pm,v 1.138 2011-08-23 11:28:24 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use DBI;
 use Kernel::System::Time;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.137 $) [1];
+$VERSION = qw($Revision: 1.138 $) [1];
 
 =head1 NAME
 
@@ -641,7 +641,8 @@ sub FetchrowArray {
 
 =item SelectAll()
 
-returns all available records of SELECT statement.
+returns all available records of a SELECT statement.
+In essence, this calls Prepare() and FetchrowArray() to get all records.
 
     my $ResultAsArrayRef = $DBObject->SelectAll(
         SQL   => "SELECT id, name FROM table",
@@ -1326,6 +1327,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.137 $ $Date: 2011-08-23 11:26:10 $
+$Revision: 1.138 $ $Date: 2011-08-23 11:28:24 $
 
 =cut
