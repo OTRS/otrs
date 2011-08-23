@@ -166,11 +166,8 @@ sub _CheckFrameworkVersion {
         die "ERROR: Can't read $CommonObject->{Home}/RELEASE: $!";
     }
 
-    if ( $ProductName ne 'OTRS' ) {
-        die "Not framework version required"
-    }
-    if ( $Version !~ /^3\.1(.*)$/ ) {
-        die "Not framework version required"
+    if ( $ProductName ne 'OTRS' || $Version !~ /^3\.1(.*)$/ ) {
+        die "Did not find required framework version OTRS 3.1";
     }
 
     return 1;
