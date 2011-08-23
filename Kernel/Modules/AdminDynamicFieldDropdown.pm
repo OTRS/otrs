@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminDynamicFieldDropdown.pm - provides a dynamic fields text config view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminDynamicFieldDropdown.pm,v 1.4 2011-08-23 18:01:59 cr Exp $
+# $Id: AdminDynamicFieldDropdown.pm,v 1.5 2011-08-23 21:07:39 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::DynamicField;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -124,7 +124,7 @@ sub _AddAction {
     if ( $GetParam{Name} ) {
 
         # check if name is lowercase
-        if ( $GetParam{Name} !~ m{\A ( ?: [a-z] | \d )+ \Z}xms ) {
+        if ( $GetParam{Name} !~ m{\A ( ?: [a-z] | \d )+ \z}xms ) {
 
             # add server error error class
             $Errors{NameServerError} = 'ServerError';
@@ -147,6 +147,17 @@ sub _AddAction {
             # add server error error class
             $Errors{NameServerError}        = 'ServerError';
             $Errors{NameServerErrorMessage} = 'There is another field with the same name.';
+        }
+    }
+
+    if ( $GetParam{FieldOrder} ) {
+
+        # check if field order is numeric and possitive
+        if ( $GetParam{FieldOrder} !~ m{\A ( ?: \d )+ \z}xms ) {
+
+            # add server error error class
+            $Errors{FieldOrderServerError}        = 'ServerError';
+            $Errors{FieldOrderServerErrorMessage} = 'The field must be numeric.';
         }
     }
 
@@ -325,7 +336,7 @@ sub _ChangeAction {
     if ( $GetParam{Name} ) {
 
         # check if name is lowercase
-        if ( $GetParam{Name} !~ m{\A ( ?: [a-z] | \d )+ \Z}xms ) {
+        if ( $GetParam{Name} !~ m{\A ( ?: [a-z] | \d )+ \z}xms ) {
 
             # add server error error class
             $Errors{NameServerError} = 'ServerError';
@@ -352,6 +363,17 @@ sub _ChangeAction {
             # add server error class
             $Errors{NameServerError}        = 'ServerError';
             $Errors{NameServerErrorMessage} = 'There is another field with the same name.';
+        }
+    }
+
+    if ( $GetParam{FieldOrder} ) {
+
+        # check if field order is numeric and possitive
+        if ( $GetParam{FieldOrder} !~ m{\A ( ?: \d )+ \z}xms ) {
+
+            # add server error error class
+            $Errors{FieldOrderServerError}        = 'ServerError';
+            $Errors{FieldOrderServerErrorMessage} = 'The field must be numeric.';
         }
     }
 
