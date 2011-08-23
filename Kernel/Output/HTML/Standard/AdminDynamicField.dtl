@@ -2,7 +2,7 @@
 # AdminDynamicField.dtl - provides HTML form for DynamicFields
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminDynamicField.dtl,v 1.13 2011-08-23 02:46:52 cr Exp $
+# $Id: AdminDynamicField.dtl,v 1.14 2011-08-23 17:59:41 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -150,7 +150,7 @@ $('#ShowContextSettingsDialog').bind('click', function (Event) {
 <!-- dtl:block:DynamicFieldsRow -->
                         <tr id="DynamicFieldID_$QData{"ID"}" class="MasterAction">
                             <td>
-                                <a href="$Env{"Baselink"}Action=$LQData{"ConfigDialog"};Subaction=Change;ObjectType=$LQData{"ObjectType"};FieldType=$LQData{"FieldType"};ID=$LQData{"ID"}" title="$QData{"Name"}" class="MasterActionLink AsPopup">$Data{"Name"}</a>
+                                <a href="$Env{"Baselink"}Action=$LQData{"ConfigDialog"};Subaction=Change;ObjectType=$LQData{"ObjectType"};FieldType=$LQData{"FieldType"};ID=$LQData{"ID"}" title="$QData{"Name"}" class="MasterActionLink">$Data{"Name"}</a>
                             </td>
                             <td>
                                 <div title="$Text{"$Data{"Label"}"}">$Data{"Label"}</div>
@@ -174,7 +174,7 @@ $('#ShowContextSettingsDialog').bind('click', function (Event) {
             </div>
         </div>
 <!-- dtl:block:MaxFieldOrder -->
-        <input id="MaxFieldOrder" type="text" name="MaxFieldOrder" value="$QData{"MaxFieldOrder"}"/>
+        <input id="MaxFieldOrder" type="hidden" name="MaxFieldOrder" value="$QData{"MaxFieldOrder"}"/>
 <!-- dtl:block:MaxFieldOrder -->
 
         <div class="Clear"></div>
@@ -188,14 +188,9 @@ $('.MasterAction').bind('click', function (Event) {
     var $MasterActionLink = $(this).find('.MasterActionLink');
     // only act if the link was not clicked directly
     if (Event.target !== $MasterActionLink.get(0)) {
-        Core.UI.Popup.OpenPopup( $MasterActionLink.attr('href'), 'Action');
+        window.location = $MasterActionLink.attr('href');
         return false;
     }
-});
-
-$('a.AsPopup').bind('click', function (Event) {
-    Core.UI.Popup.OpenPopup($(this).attr('href'), 'Action');
-    return false;
 });
 //]]></script>
 <!--dtl:js_on_document_complete-->

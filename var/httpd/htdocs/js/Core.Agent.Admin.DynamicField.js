@@ -2,7 +2,7 @@
 // Core.Agent.Admin.DynamicField.js - provides the special module functions for the Dynamic Fields.
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.DynamicField.js,v 1.8 2011-08-23 02:46:52 cr Exp $
+// $Id: Core.Agent.Admin.DynamicField.js,v 1.9 2011-08-23 17:59:41 cr Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -37,7 +37,7 @@ Core.Agent.Admin.DynamicField = (function (TargetNS) {
 
         // redirect to correct url
         URL = Core.Config.Get('Baselink') + 'Action=' + Action + ';Subaction=Add' + ';ObjectType=' + ObjectType + ';FieldType=' + FieldType + ';FieldOrder=' + FieldOrder;
-        Core.UI.Popup.OpenPopup(URL, 'Action');
+        window.location = URL;
     };
 
     TargetNS.ValidationInit = function() {
