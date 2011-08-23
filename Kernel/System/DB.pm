@@ -2,7 +2,7 @@
 # Kernel/System/DB.pm - the global database wrapper to support different databases
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.136 2011-08-23 09:45:47 martin Exp $
+# $Id: DB.pm,v 1.137 2011-08-23 11:26:10 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use DBI;
 use Kernel::System::Time;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.136 $) [1];
+$VERSION = qw($Revision: 1.137 $) [1];
 
 =head1 NAME
 
@@ -460,7 +460,7 @@ you also can use DBI bind values, required for large strings:
     my $Var1 = 'dog1';
     my $Var2 = 'dog2';
 
-    $DBObject->Do(
+    $DBObject->Prepare(
         SQL    => "SELECT id, name, content FROM table WHERE name_a = ? AND name_b = ?",
         Encode => [ 1, 1, 0 ],
         Bind   => [ \$Var1, \$Var2 ],
@@ -641,23 +641,22 @@ sub FetchrowArray {
 
 =item SelectAll()
 
-return the records of SELECT statement
+returns all available records of SELECT statement.
 
     my $ResultAsArrayRef = $DBObject->SelectAll(
         SQL   => "SELECT id, name FROM table",
         Limit => 10
     );
 
-returns undef (if query failed)
+You can pass the same arguments as to the Prepare() method.
 
-returns an array ref (if query was successful)
+Returns undef (if query failed), or an array ref (if query was successful):
 
   my $ResultAsArrayRef = [
-    [ 1, 2, 3, 4 ],
-    [ 4, 5, 6, 7 ],
-    [ 1, 2, 3, 4 ],
-    [ 8, 1, 5, 4 ],
-    [ 2, 9, 3, 1 ],
+    [ 1, 'itemOne' ],
+    [ 2, 'itemTwo' ],
+    [ 3, 'itemThree' ],
+    [ 4, 'itemFour' ],
   ];
 
 =cut
@@ -1327,6 +1326,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.136 $ $Date: 2011-08-23 09:45:47 $
+$Revision: 1.137 $ $Date: 2011-08-23 11:26:10 $
 
 =cut
