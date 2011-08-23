@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1953 2011-08-23 12:15:18 mb Exp $
+# $Id: CHANGES,v 1.1954 2011-08-23 13:11:45 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -76,6 +76,7 @@
      of > 70 characters exists.
 
 3.0.11 2011-??-??
+ - 2011-08-23 Fixed bug#5621 - OpenSearch not working for Internet Explorer 8.
  - 2011-08-23 Fixed bug#7652 - OpenSearch providers are served with wrong mime type.
  - 2011-08-17 Fixed bug#7599 - Back-Link does not work in permission denied screen if
     this screen is a popup window.
