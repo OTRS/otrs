@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.367 2011-07-19 14:03:27 te Exp $
+# $Id: Layout.pm,v 1.368 2011-08-23 12:18:55 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Mail::Address;
 use URI::Escape qw();
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.367 $) [1];
+$VERSION = qw($Revision: 1.368 $) [1];
 
 =head1 NAME
 
@@ -3188,19 +3188,25 @@ sub CustomerHeader {
         }
     }
 
-    # run header meta modules only on customer frontends
+    my $Frontend;
     if ( $Self->{ConfigObject}->Get('CustomerFrontend::Module')->{ $Self->{Action} } ) {
-        my $HeaderMetaModule = $Self->{ConfigObject}->Get('CustomerFrontend::HeaderMetaModule');
-        if ( ref $HeaderMetaModule eq 'HASH' ) {
-            my %Jobs = %{$HeaderMetaModule};
-            for my $Job ( sort keys %Jobs ) {
+        $Frontend = 'Customer';
+    }
+    else {
+        $Frontend = 'Public';
+    }
 
-                # load and run module
-                next if !$Self->{MainObject}->Require( $Jobs{$Job}->{Module} );
-                my $Object = $Jobs{$Job}->{Module}->new( %{$Self}, LayoutObject => $Self );
-                next if !$Object;
-                $Object->Run( %Param, Config => $Jobs{$Job} );
-            }
+    # run header meta modules only on customer frontends
+    my $HeaderMetaModule = $Self->{ConfigObject}->Get( $Frontend . 'Frontend::HeaderMetaModule' );
+    if ( ref $HeaderMetaModule eq 'HASH' ) {
+        my %Jobs = %{$HeaderMetaModule};
+        for my $Job ( sort keys %Jobs ) {
+
+            # load and run module
+            next if !$Self->{MainObject}->Require( $Jobs{$Job}->{Module} );
+            my $Object = $Jobs{$Job}->{Module}->new( %{$Self}, LayoutObject => $Self );
+            next if !$Object;
+            $Object->Run( %Param, Config => $Jobs{$Job} );
         }
     }
 
@@ -4889,6 +4895,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.367 $ $Date: 2011-07-19 14:03:27 $
+$Revision: 1.368 $ $Date: 2011-08-23 12:18:55 $
 
 =cut
