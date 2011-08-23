@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend.pm - Interface for DynamicField backends
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Backend.pm,v 1.1 2011-08-19 10:34:58 mg Exp $
+# $Id: Backend.pm,v 1.2 2011-08-23 09:26:15 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use warnings;
 #use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 =head1 NAME
 
@@ -115,8 +115,11 @@ creates the label HTML to be used in edit masks.
 creates the field HTML to be used in edit masks.
 
     my $FieldHTML = $BackendObject->EditFieldRender(
-        DynamicFieldConfig => $DynamicFieldConfig,      # complete config of the DynamicField
-        Mandatory          => 1,                        # 0 or 1,
+        DynamicFieldConfig   => $DynamicFieldConfig,      # complete config of the DynamicField
+        PossibleValuesFilter => ['value1', 'value2'],     # Optional. Some backends may support this.
+                                                          #     This may be needed to realize ACL support for ticket masks,
+                                                          #     where the possible values can be limited with and ACL.
+        Mandatory          => 1,                          # 0 or 1,
     );
 
 =cut
@@ -228,6 +231,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2011-08-19 10:34:58 $
+$Revision: 1.2 $ $Date: 2011-08-23 09:26:15 $
 
 =cut
