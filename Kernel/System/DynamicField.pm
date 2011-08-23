@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField.pm - DynamicFields configuration backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicField.pm,v 1.18 2011-08-22 19:10:31 cg Exp $
+# $Id: DynamicField.pm,v 1.19 2011-08-23 02:45:41 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::Cache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 =head1 NAME
 
@@ -116,6 +116,7 @@ returns id of new Dynamic field if successful or undef otherwise
     my $ID = $DynamicFieldObject->DynamicFieldAdd(
         Name        => 'NameForField',  # mandatory
         Label       => 'a description', # mandatory, label to show
+        FieldOrder  => 123,             # mandatory, display order
         FieldType   => 'Text',          # mandatory, selects the DF backend to use for this field
         ObjectType  => 'Article',       # this controls which object the dynamic field links to
                                         # allow only lowercase letters
@@ -135,7 +136,7 @@ sub DynamicFieldAdd {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for my $Key (qw(Name Label FieldType ObjectType Config ValidID UserID)) {
+    for my $Key (qw(Name Label FieldOrder FieldType ObjectType Config ValidID UserID)) {
         if ( !$Param{$Key} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Key!" );
             return;
@@ -151,18 +152,26 @@ sub DynamicFieldAdd {
         return;
     }
 
+    if ( $Param{FieldOrder} !~ m{ \A [\d]+ \z }xms ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Not valid number on FieldOrder:$Param{FieldOrder}!"
+        );
+        return;
+    }
+
     # dump config as string
     my $Config = YAML::Dump( $Param{Config} );
 
     # sql
     return if !$Self->{DBObject}->Do(
         SQL =>
-            'INSERT INTO dynamic_field (name, label, field_type, object_type, config, ' .
-            'valid_id, create_time, create_by, change_time, change_by)' .
-            ' VALUES (?, ?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
+            'INSERT INTO dynamic_field (name, label, field_Order, field_type, object_type,' .
+            'config, valid_id, create_time, create_by, change_time, change_by)' .
+            ' VALUES (?, ?, ?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
         Bind => [
-            \$Param{Name}, \$Param{Label}, \$Param{FieldType}, \$Param{ObjectType}, \$Config,
-            \$Param{ValidID}, \$Param{UserID}, \$Param{UserID},
+            \$Param{Name}, \$Param{Label}, \$Param{FieldOrder}, \$Param{FieldType},
+            \$Param{ObjectType}, \$Config, \$Param{ValidID}, \$Param{UserID}, \$Param{UserID},
         ],
     );
 
@@ -177,6 +186,8 @@ sub DynamicFieldAdd {
     $Self->{CacheObject}->CleanUp(
         Type => 'DynamicField',
     );
+
+    # TODO Reindex order on all dynamic fields
 
     return $DynamicField->{ID};
 }
@@ -196,6 +207,7 @@ Returns:
         ID          => 123,
         Name        => 'NameForField',
         Label       => 'The label to show',
+        FieldOrder  => 123,
         FieldType   => 'Text',
         ObjectType  => 'Article',
         Config      => $ConfigHashRef,
@@ -241,7 +253,7 @@ sub DynamicFieldGet {
     if ( $Param{ID} ) {
         return if !$Self->{DBObject}->Prepare(
             SQL =>
-                'SELECT id, name, label, field_type, object_type, config,' .
+                'SELECT id, name, label, field_order, field_type, object_type, config,' .
                 ' valid_id, create_time, change_time ' .
                 'FROM dynamic_field WHERE id = ?',
             Bind => [ \$Param{ID} ],
@@ -250,7 +262,7 @@ sub DynamicFieldGet {
     else {
         return if !$Self->{DBObject}->Prepare(
             SQL =>
-                'SELECT id, name, label, field_type, object_type, config,' .
+                'SELECT id, name, label, field_order, field_type, object_type, config,' .
                 ' valid_id, create_time, change_time ' .
                 'FROM dynamic_field WHERE name = ?',
             Bind => [ \$Param{Name} ],
@@ -258,18 +270,19 @@ sub DynamicFieldGet {
     }
 
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
-        my $Config = YAML::Load( $Data[5] );
+        my $Config = YAML::Load( $Data[6] );
 
         %Data = (
             ID         => $Data[0],
             Name       => $Data[1],
             Label      => $Data[2],
-            FieldType  => $Data[3],
-            ObjectType => $Data[4],
+            FieldOrder => $Data[3],
+            FieldType  => $Data[4],
+            ObjectType => $Data[5],
             Config     => $Config,
-            ValidID    => $Data[6],
-            CreateTime => $Data[7],
-            ChangeTime => $Data[8],
+            ValidID    => $Data[7],
+            CreateTime => $Data[8],
+            ChangeTime => $Data[9],
         );
     }
 
@@ -294,6 +307,7 @@ returns 1 on success or undef on error
         ID          => 1234,            # mandatory
         Name        => 'NameForField',  # mandatory
         Label       => 'a description', # mandatory, label to show
+        FieldOrder  => 123,             # mandatory, display order
         FieldType   => 'Text',          # mandatory, selects the DF backend to use for this field
         ObjectType  => 'Article',       # this controls which object the dynamic field links to
                                         # allow only lowercase letters
@@ -309,7 +323,7 @@ sub DynamicFieldUpdate {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for my $Key (qw(ID Name Label FieldType ObjectType Config ValidID UserID)) {
+    for my $Key (qw(ID Name Label FieldOrder FieldType ObjectType Config ValidID UserID)) {
         if ( !$Param{$Key} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Key!" );
             return;
@@ -328,14 +342,25 @@ sub DynamicFieldUpdate {
         return;
     }
 
+    if ( $Param{FieldOrder} !~ m{ \A [\d]+ \z }xms ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Not valid number on FieldOrder:$Param{FieldOrder}!"
+        );
+        return;
+    }
+
+    # TODO get the current unmodified record
+    # TODO compare the order from the current to the updated
+
     # sql
     return if !$Self->{DBObject}->Do(
-        SQL => 'UPDATE dynamic_field SET name = ?, label = ?, field_type = ?, object_type = ?, '
-            . ' config = ?, valid_id = ?, change_time = current_timestamp, '
+        SQL => 'UPDATE dynamic_field SET name = ?, label = ?, field_order =?, field_type = ?, '
+            . 'object_type = ?, config = ?, valid_id = ?, change_time = current_timestamp, '
             . ' change_by = ? WHERE id = ?',
         Bind => [
-            \$Param{Name}, \$Param{Label}, \$Param{FieldType}, \$Param{ObjectType}, \$Config,
-            \$Param{ValidID}, \$Param{UserID}, \$Param{ID},
+            \$Param{Name}, \$Param{Label}, \$Param{ObjectType}, \$Param{FieldType},
+            \$Param{ObjectType}, \$Config, \$Param{ValidID}, \$Param{UserID}, \$Param{ID},
         ],
     );
 
@@ -343,6 +368,8 @@ sub DynamicFieldUpdate {
     $Self->{CacheObject}->CleanUp(
         Type => 'DynamicField',
     );
+
+    # TODO if order was changed, Re-index all dynamic fields
 
     return 1;
 }
@@ -393,7 +420,7 @@ sub DynamicFieldDelete {
 
 =item DynamicFieldList()
 
-get DynamicField list
+get DynamicField list ordered by the the "Field Order" field in the DB
 
     my $List = $DynamicFieldObject->DynamicFieldList();
 
@@ -447,12 +474,12 @@ sub DynamicFieldList {
         return $Cache;
     }
 
-    my $SQL = 'SELECT id, name FROM dynamic_field';
+    my $SQL = 'SELECT id, name, field_order FROM dynamic_field';
 
     if ( !defined $Param{Valid} || $Param{Valid} eq 1 ) {
         $SQL .= ' WHERE valid_id IN (' . join ', ', $Self->{ValidObject}->ValidIDsGet() . ')';
     }
-    $SQL .= " order by name";
+    $SQL .= " order by field_order";
 
     return if !$Self->{DBObject}->Prepare( SQL => $SQL );
 
@@ -503,7 +530,7 @@ sub DynamicFieldList {
 
 =item DynamicFieldListGet()
 
-get DynamicField list with complete data
+get DynamicField list with complete data ordered by the "Field Order" field in the DB
 
     my $List = $DynamicFieldObject->DynamicFieldListGet();
 
@@ -565,12 +592,12 @@ sub DynamicFieldListGet {
     }
 
     my @Data;
-    my $SQL = 'SELECT id, name FROM dynamic_field';
+    my $SQL = 'SELECT id, name, field_order FROM dynamic_field';
 
     if ( !defined $Param{Valid} || $Param{Valid} eq 1 ) {
         $SQL .= ' WHERE valid_id IN (' . join ', ', $Self->{ValidObject}->ValidIDsGet() . ')';
     }
-    $SQL .= " order by name";
+    $SQL .= " order by field_order";
 
     return if !$Self->{DBObject}->Prepare( SQL => $SQL );
 
@@ -618,6 +645,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.18 $ $Date: 2011-08-22 19:10:31 $
+$Revision: 1.19 $ $Date: 2011-08-23 02:45:41 $
 
 =cut

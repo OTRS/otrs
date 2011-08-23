@@ -2,7 +2,7 @@
 # DynamicField.t - DynamicField tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicField.t,v 1.6 2011-08-22 18:10:06 cg Exp $
+# $Id: DynamicField.t,v 1.7 2011-08-23 02:45:40 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -42,6 +42,7 @@ my @Tests = (
                 Description => 'Description for Dynamic Field.',
             },
             Label      => 'something for label',
+            FieldOrder => 1,
             FieldType  => 'text',
             ObjectType => 'article',
             ValidID    => 1,
@@ -58,6 +59,7 @@ my @Tests = (
                 Description => 'Description for Dynamic Field.',
             },
             Label      => 'alabel',
+            FieldOrder => 1,
             FieldType  => 'text',
             ObjectType => 'ticket',
             ValidID    => 2,
@@ -71,6 +73,7 @@ my @Tests = (
         Add           => {
             Config     => {},
             Label      => 'nothing interesting',
+            FieldOrder => 1,
             FieldType  => 'text',
             ObjectType => 'article',
             ValidID    => 2,
@@ -84,6 +87,7 @@ my @Tests = (
         Add           => {
             Config     => undef,
             Label      => 'label',
+            FieldOrder => 1,
             FieldType  => 'text',
             ObjectType => 'article',
             ValidID    => 2,
@@ -100,6 +104,7 @@ my @Tests = (
                 Description => 'Description for Dynamic Field.',
             },
             Label      => '',
+            FieldOrder => 1,
             FieldType  => 'text',
             ObjectType => 'ticket',
             ValidID    => 2,
@@ -116,6 +121,7 @@ my @Tests = (
                 Description => 'Description for Dynamic Field.',
             },
             Label      => 'Other label',
+            FieldOrder => 1,
             FieldType  => '',
             ObjectType => 'article',
             ValidID    => 1,
@@ -132,6 +138,7 @@ my @Tests = (
                 Description => 'Description for Dynamic Field.',
             },
             Label      => 'Complex label',
+            FieldOrder => 1,
             FieldType  => 'int',
             ObjectType => '',
             ValidID    => 1,
@@ -149,6 +156,7 @@ my @Tests = (
             },
             Label      => 'Simple Label',
             FieldType  => 'text',
+            FieldOrder => 1,
             ObjectType => 'ticket',
             ValidID    => '',
             UserID     => $UserID,
@@ -164,6 +172,7 @@ my @Tests = (
                 Description => 'Description for Dynamic Field.',
             },
             Label      => 'Other label',
+            FieldOrder => 1,
             FieldType  => 'text',
             ObjectType => 'ticket',
             ValidID    => 1,
@@ -180,6 +189,7 @@ my @Tests = (
                 Description => 'Description for Dynamic Field.',
             },
             Label      => 'Other label',
+            FieldOrder => 1,
             FieldType  => 'text',
             ObjectType => 'ticket',
             ValidID    => 1,
