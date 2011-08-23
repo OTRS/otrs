@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField.pm - DynamicFields configuration backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicField.pm,v 1.19 2011-08-23 02:45:41 cr Exp $
+# $Id: DynamicField.pm,v 1.20 2011-08-23 10:35:53 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::Cache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.19 $) [1];
+$VERSION = qw($Revision: 1.20 $) [1];
 
 =head1 NAME
 
@@ -479,7 +479,7 @@ sub DynamicFieldList {
     if ( !defined $Param{Valid} || $Param{Valid} eq 1 ) {
         $SQL .= ' WHERE valid_id IN (' . join ', ', $Self->{ValidObject}->ValidIDsGet() . ')';
     }
-    $SQL .= " order by field_order";
+    $SQL .= " ORDER BY field_order, id";
 
     return if !$Self->{DBObject}->Prepare( SQL => $SQL );
 
@@ -597,7 +597,7 @@ sub DynamicFieldListGet {
     if ( !defined $Param{Valid} || $Param{Valid} eq 1 ) {
         $SQL .= ' WHERE valid_id IN (' . join ', ', $Self->{ValidObject}->ValidIDsGet() . ')';
     }
-    $SQL .= " order by field_order";
+    $SQL .= " ORDER BY field_order, id";
 
     return if !$Self->{DBObject}->Prepare( SQL => $SQL );
 
@@ -645,6 +645,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.19 $ $Date: 2011-08-23 02:45:41 $
+$Revision: 1.20 $ $Date: 2011-08-23 10:35:53 $
 
 =cut
