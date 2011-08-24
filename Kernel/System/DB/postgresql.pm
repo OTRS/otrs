@@ -2,7 +2,7 @@
 # Kernel/System/DB/postgresql.pm - postgresql database backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: postgresql.pm,v 1.61 2011-08-24 10:44:52 mb Exp $
+# $Id: postgresql.pm,v 1.62 2011-08-24 15:18:57 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.61 $) [1];
+$VERSION = qw($Revision: 1.62 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -57,8 +57,8 @@ sub LoadPreferences {
     $Self->{'DB::ShellConnect'} = 'SET standard_conforming_strings TO ON';
 
     # init sql setting on db connect
-    $Self->{'DB::QuoteUnderscore'} = '\\';
-    $Self->{'DB::Connect'}         = 'SET standard_conforming_strings TO ON';
+    #    $Self->{'DB::QuoteUnderscore'} = '\\';
+    #    $Self->{'DB::Connect'}         = 'SET standard_conforming_strings TO ON';
 
     return 1;
 }
