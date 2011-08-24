@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Text.pm.pm - Interface for DynamicField text backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Text.pm,v 1.1 2011-08-24 21:56:54 cr Exp $
+# $Id: Text.pm,v 1.2 2011-08-24 22:23:00 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 =head1 NAME
 
@@ -31,8 +31,49 @@ DynamicFields Text backend interface
 
 =item new()
 
-usually, you want to create an instance of this
-by using Kernel::System::DynamicField::Backend->new();
+create a DynamicField Text backend object
+
+    use Kernel::Config;
+    use Kernel::System::Encode;
+    use Kernel::System::Log;
+    use Kernel::System::Main;
+    use Kernel::System::CacheInternal;
+    use Kernel::System::DB;
+    use Kernel::System::DynamicField::Backend::Text;
+
+    my $ConfigObject = Kernel::Config->new();
+    my $EncodeObject = Kernel::System::Encode->new(
+        ConfigObject => $ConfigObject,
+    );
+    my $LogObject = Kernel::System::Log->new(
+        ConfigObject => $ConfigObject,
+        EncodeObject => $EncodeObject,
+    );
+    my $MainObject = Kernel::System::Main->new(
+        ConfigObject => $ConfigObject,
+        EncodeObject => $EncodeObject,
+        LogObject    => $LogObject,
+    );
+    my $CacheInternalObject = Kernel::System::CacheInternal->new(
+        ConfigObject => $ConfigObject,
+        LogObject    => $LogObject,
+        MainObject   => $MainObject,
+        EncodeObject => $EncodeObject,
+    );
+    my $DBObject = Kernel::System::DB->new(
+        ConfigObject => $ConfigObject,
+        EncodeObject => $EncodeObject,
+        LogObject    => $LogObject,
+        MainObject   => $MainObject,
+    );
+    my $DynamicFieldTextObject = Kernel::System::DynamicField::Backend::Text->new(
+        ConfigObject        => $ConfigObject,
+        EncodeObject        => $EncodeObject,
+        LogObject           => $LogObject,
+        MainObject          => $MainObject,
+        CacheInternalObject => $CacheInternalObject,
+        DBObject            => $DBObject,
+    );
 
 =cut
 
@@ -69,6 +110,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2011-08-24 21:56:54 $
+$$
 
 =cut
