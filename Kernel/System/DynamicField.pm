@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField.pm - DynamicFields configuration backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicField.pm,v 1.22 2011-08-23 18:05:57 cr Exp $
+# $Id: DynamicField.pm,v 1.23 2011-08-24 03:37:23 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::Cache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.22 $) [1];
+$VERSION = qw($Revision: 1.23 $) [1];
 
 =head1 NAME
 
@@ -187,7 +187,10 @@ sub DynamicFieldAdd {
         Type => 'DynamicField',
     );
 
-    # TODO Reindex order on all dynamic fields
+    # re-order field list
+    my $Success = $Self->_DynamicFieldReorder(
+        ID => $DynamicField->{ID},
+    );
 
     return $DynamicField->{ID};
 }
@@ -314,6 +317,7 @@ returns 1 on success or undef on error
         Config      => $ConfigHashRef,  # it is stored on YAML format
                                         # to individual articles, otherwise to tickets
         ValidID     => 1,
+        Reorder     => 1,               # or 0, to trigger reorder function, default 1
         UserID      => 123,
     );
 
@@ -328,6 +332,11 @@ sub DynamicFieldUpdate {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Key!" );
             return;
         }
+    }
+
+    my $Reorder;
+    if ( !exists $Param{Reorder} or $Param{Reorder} eq 1 ) {
+        $Reorder = 1;
     }
 
     # dump config as string
@@ -350,8 +359,17 @@ sub DynamicFieldUpdate {
         return;
     }
 
-    # TODO get the current unmodified record
-    # TODO compare the order from the current to the updated
+    # get the old dynamic field data
+    my $DynamicField = $Self->DynamicFieldGet(
+        ID => $Param{ID},
+    );
+
+    my $ChangedOrder;
+
+    # check if FieldOrder is changed
+    if ( $DynamicField->{FieldOrder} ne $Param{FieldOrder} ) {
+        $ChangedOrder = 1;
+    }
 
     # sql
     return if !$Self->{DBObject}->Do(
@@ -369,8 +387,12 @@ sub DynamicFieldUpdate {
         Type => 'DynamicField',
     );
 
-    # TODO if order was changed, Re-index all dynamic fields
-
+    # re-order field list if a change in the order was made
+    if ( $Reorder && $ChangedOrder ) {
+        my $Success = $Self->_DynamicFieldReorder(
+            ID => $Param{ID},
+        );
+    }
     return 1;
 }
 
@@ -654,6 +676,129 @@ sub DynamicFieldBackendInstanceGet {
 
 }
 
+=begin Internal:
+
+=cut
+
+=item _DynamicFieldReorder()
+
+re-order the list of fields.
+
+    $Success = $DynamicFieldObject->_DynamicFieldReorder(
+        ID => 123,    # mandatory, the field ID that triggers the re-order
+    );
+
+=cut
+
+sub _DynamicFieldReorder {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    if ( !$Param{ID} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need ID!' );
+        return;
+    }
+
+    # get the Dynamic Field trigger
+    my $DynamicFieldTrigger = $Self->DynamicFieldGet(
+        ID => $Param{ID},
+    );
+
+    # validate data
+    if ( !IsHashRefWithData($DynamicFieldTrigger) ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Could not get Dynamic Field $Param{ID}!",
+        );
+        return;
+    }
+    if ( !$DynamicFieldTrigger->{FieldOrder} ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "The Field Order from  Dynamic Field $DynamicFieldTrigger->{Name} "
+                . 'is invalid!',
+        );
+        return;
+    }
+
+    # extract the field order form the field trigger
+    my $InsertedFieldOrder = $DynamicFieldTrigger->{FieldOrder};
+
+    # get all fields
+    my $DynamicFieldList = $Self->DynamicFieldListGet(
+        Valid => 0,
+    );
+
+    # find fields that need to be updated
+    my @NeedToUpdateList;
+    my %FieldOrderLookup;
+    DYNAMICFIELD:
+    for my $DynamicField ( @{$DynamicFieldList} ) {
+
+        # skip wrong fields (if any)
+        next DYNAMICFIELD if !IsHashRefWithData($DynamicField);
+
+        my $CurrentOrder = $DynamicField->{FieldOrder};
+
+        if ( $FieldOrderLookup{$CurrentOrder} ) {
+            $FieldOrderLookup{$CurrentOrder} = $FieldOrderLookup{$CurrentOrder} + 1;
+        }
+        else {
+            $FieldOrderLookup{$CurrentOrder} = 1;
+        }
+
+        # skip fields with lower order number
+        next DYNAMICFIELD if $CurrentOrder lt $InsertedFieldOrder;
+
+        # skip trigger field
+        next DYNAMICFIELD
+            if ( $CurrentOrder eq $InsertedFieldOrder && $DynamicField->{ID} eq $Param{ID} );
+
+        # skip this and the rest if there is a hole in the numbering, so the inserted field does
+        # not affect them
+        last DYNAMICFIELD
+            if (
+            !$FieldOrderLookup{ $CurrentOrder - 1 }
+            && $CurrentOrder ne 1
+            && $CurrentOrder ne $InsertedFieldOrder
+            );
+
+        # skip this and the rest if the inserted field fits exactly between two exising fields
+        last DYNAMICFIELD
+            if (
+            $CurrentOrder - 1 eq $InsertedFieldOrder
+            && $FieldOrderLookup{$InsertedFieldOrder} eq 1
+            );
+
+        push @NeedToUpdateList, $DynamicField;
+    }
+
+    for my $DynamicField (@NeedToUpdateList) {
+
+        # hash ref validation is not needed since it was validated before
+        # add 1 to the dynamic field order value
+        $DynamicField->{FieldOrder}++;
+
+        # update the database
+        my $Success = $Self->DynamicFieldUpdate(
+            %{$DynamicField},
+            UserID  => 1,
+            Reorder => 0,
+        );
+
+        # check if the update was succesful
+        if ( !$Success ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => 'An error was detected while re ordering the field list on field '
+                    . "DynamicField->{Name}!",
+            );
+            return;
+        }
+    }
+    return 1;
+
+}
 1;
 
 =back
@@ -670,6 +815,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.22 $ $Date: 2011-08-23 18:05:57 $
+$Revision: 1.23 $ $Date: 2011-08-24 03:37:23 $
 
 =cut
