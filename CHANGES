@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1955 2011-08-24 07:15:06 mb Exp $
+# $Id: CHANGES,v 1.1956 2011-08-24 10:53:35 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -11,7 +11,7 @@
 
 3.1.0 beta1 2011-??-??
  - 2011-08-24 Fixed bug#6718 - error when running otrs-initial-insert.postgresql.sql by making
-    otrs.xml2sql.pl write out utf8 files.
+    otrs.xml2sql.pl write out utf8 files and by adding 'SET standard_conforming_strings TO ON'.
  - 2011-08-22 Fixed bug#7635 - Remove support for Suse 9.
  - 2011-08-22 Fixed bug#6444 - OTRS rc scripts checks and stops local mysql database
     and complains about having no database if you use a remote one.
