@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend.pm - Interface for DynamicField backends
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Backend.pm,v 1.3 2011-08-23 11:21:15 mg Exp $
+# $Id: Backend.pm,v 1.4 2011-08-24 21:57:43 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,10 +15,10 @@ use strict;
 use warnings;
 
 #use Kernel::System::CacheInternal;
-#use Kernel::System::VariableCheck qw(:all);
+use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 =head1 NAME
 
@@ -78,6 +78,7 @@ create a DynamicField backend object
         MainObject          => $MainObject,
         CacheInternalObject => $CacheInternalObject,
         DBObject            => $DBObject,
+        FieldType           => 'Text',              # The field backend to use
     );
 
 =cut
@@ -90,11 +91,31 @@ sub new {
     bless( $Self, $Type );
 
     # get needed objects
-    for my $Needed (qw(ConfigObject EncodeObject LogObject MainObject DBObject)) {
+    for my $Needed (qw(ConfigObject EncodeObject LogObject MainObject DBObject FieldType)) {
         die "Got no $Needed!" if !$Param{$Needed};
 
         $Self->{$Needed} = $Param{$Needed};
     }
+
+    if ( !IsStringWithData( $Param{FieldType} ) ) {
+        return $Self->{DebuggerObject}->Error(
+            Summary => 'Got no Field Type as string with value!',
+        );
+    }
+
+    # load backend module
+    my $GenericModule = 'Kernel::System::DynamicField::Backend::' . $Param{FieldType};
+    if ( !$Self->{MainObject}->Require($GenericModule) ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "Can't load dynamic field backend module for field type  $Param{FieldType}!",
+        );
+        return;
+    }
+    $Self->{BackendObject} = $GenericModule->new( %{$Self} );
+
+    # return if backend module could not be executed
+    return if ref $Self->{BackendObject} ne $GenericModule;
 
     return $Self;
 }
@@ -292,6 +313,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.3 $ $Date: 2011-08-23 11:21:15 $
+$Revision: 1.4 $ $Date: 2011-08-24 21:57:43 $
 
 =cut
