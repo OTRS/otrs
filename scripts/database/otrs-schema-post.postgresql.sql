@@ -1,6 +1,7 @@
 -- ----------------------------------------------------------
---  driver: postgresql, generated: 2011-08-24 09:11:04
+--  driver: postgresql, generated: 2011-08-24 12:41:42
 -- ----------------------------------------------------------
+SET standard_conforming_strings TO ON;
 ALTER TABLE valid ADD CONSTRAINT FK_valid_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
 ALTER TABLE valid ADD CONSTRAINT FK_valid_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
 ALTER TABLE users ADD CONSTRAINT FK_users_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);

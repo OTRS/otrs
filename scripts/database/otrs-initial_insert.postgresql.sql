@@ -1,6 +1,7 @@
 -- ----------------------------------------------------------
---  driver: postgresql, generated: 2011-08-24 09:12:03
+--  driver: postgresql, generated: 2011-08-24 12:42:59
 -- ----------------------------------------------------------
+SET standard_conforming_strings TO ON;
 -- ----------------------------------------------------------
 --  insert into table valid
 -- ----------------------------------------------------------
@@ -967,3 +968,4 @@ INSERT INTO notifications (notification_type, notification_charset, notification
 INSERT INTO notifications (notification_type, notification_charset, notification_language, subject, text, content_type, create_by, create_time, change_by, change_time)
     VALUES
     ('Agent::EscalationNotifyBefore', 'utf-8', 'nl', 'Ticket gaat escaleren (<OTRS_CUSTOMER_SUBJECT[24]>)', 'Beste <OTRS_UserFirstname>,Het ticket [<OTRS_TICKET_TicketNumber>] gaat escaleren!Escalatie op:   <OTRS_TICKET_EscalationDestinationDate>Escalatie over: <OTRS_TICKET_EscalationDestinationIn><OTRS_CUSTOMER_FROM> schreef:<OTRS_CUSTOMER_EMAIL[30]>(eerste 30 regels zijn weergegeven)<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentZoom\;TicketID=<OTRS_TICKET_TicketID>', 'text/plain', 1, current_timestamp, 1, current_timestamp);
+SET standard_conforming_strings TO ON;

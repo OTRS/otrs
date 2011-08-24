@@ -2,7 +2,7 @@
 # Kernel/System/DB/postgresql.pm - postgresql database backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: postgresql.pm,v 1.60 2011-03-01 18:23:35 en Exp $
+# $Id: postgresql.pm,v 1.61 2011-08-24 10:44:52 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.60 $) [1];
+$VERSION = qw($Revision: 1.61 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -54,20 +54,11 @@ sub LoadPreferences {
     $Self->{'DB::Comment'}     = '-- ';
     $Self->{'DB::ShellCommit'} = ';';
 
-    #$Self->{'DB::ShellConnect'} = '';
+    $Self->{'DB::ShellConnect'} = 'SET standard_conforming_strings TO ON';
 
     # init sql setting on db connect
-    #$Self->{'DB::Connect'} = '';
-
-# Postgres has a setting which determines how strings must be escaped. We cannot rely on the system configuration
-# for that, so we should set it to the recommended value. However, this is not currently possible because this
-# setting is not supported in older postgres versions. This is a problem, because the Postgresql documentation
-# states that in future versions the default configuration setting will change.
-#
-# see http://www.postgresql.org/docs/9.0/static/runtime-config-compatible.html#GUC-STANDARD-CONFORMING-STRINGS
-# and http://www.postgresql.org/docs/9.0/static/sql-syntax-lexical.html#SQL-SYNTAX-CONSTANTS
-# $Self->{'DB::QuoteUnderscore'}  = '\\';
-# $Self->{'DB::Connect'} = 'SET standard_conforming_strings TO ON';
+    $Self->{'DB::QuoteUnderscore'} = '\\';
+    $Self->{'DB::Connect'}         = 'SET standard_conforming_strings TO ON';
 
     return 1;
 }
