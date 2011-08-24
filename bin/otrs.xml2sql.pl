@@ -3,7 +3,7 @@
 # bin/otrs.xml2sql.pl - a xml 2 sql processor
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.xml2sql.pl,v 1.4 2011-08-01 10:29:31 mg Exp $
+# $Id: otrs.xml2sql.pl,v 1.5 2011-08-24 07:08:46 mb Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -40,7 +40,7 @@ use Kernel::System::Main;
 use Kernel::System::XML;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 my %Opts = ();
 getopt( 'hton', \%Opts );
@@ -180,6 +180,7 @@ sub Dump {
 
     if ($StdOut) {
         open my $OutHandle, '>', $Filename or die "Can't write: $!";
+        binmode $OutHandle, ':utf8';
         print "writing: $Filename\n";
         print $OutHandle $Head;
         for my $Item ( @{$SQL} ) {

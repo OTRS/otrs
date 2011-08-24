@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: ingres, generated: 2011-02-28 12:23:50
+--  driver: ingres, generated: 2011-08-24 09:12:02
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  insert into table valid
@@ -960,7 +960,7 @@ INSERT INTO notifications (notification_type, notification_charset, notification
 -- ----------------------------------------------------------
 INSERT INTO notifications (notification_type, notification_charset, notification_language, subject, text, content_type, create_by, create_time, change_by, change_time)
     VALUES
-    ('Agent::Escalation', 'utf-8', 'nl', 'Escalatie (<OTRS_CUSTOMER_SUBJECT[24]>)', 'Beste <OTRS_UserFirstname>,Het ticket [<OTRS_TICKET_TicketNumber>] is geëscaleerd!Geëscaleerd op:    <OTRS_TICKET_EscalationDestinationDate>Geëscaleerd sinds: <OTRS_TICKET_EscalationDestinationIn><OTRS_CUSTOMER_FROM> schreef:<OTRS_CUSTOMER_EMAIL[30]>(eerste 30 regels zijn weergegeven)<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentZoom;TicketID=<OTRS_TICKET_TicketID>', 'text/plain', 1, current_timestamp, 1, current_timestamp);\g
+    ('Agent::Escalation', 'utf-8', 'nl', 'Escalatie (<OTRS_CUSTOMER_SUBJECT[24]>)', 'Beste <OTRS_UserFirstname>,Het ticket [<OTRS_TICKET_TicketNumber>] is geÃ«scaleerd!GeÃ«scaleerd op:    <OTRS_TICKET_EscalationDestinationDate>GeÃ«scaleerd sinds: <OTRS_TICKET_EscalationDestinationIn><OTRS_CUSTOMER_FROM> schreef:<OTRS_CUSTOMER_EMAIL[30]>(eerste 30 regels zijn weergegeven)<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentZoom;TicketID=<OTRS_TICKET_TicketID>', 'text/plain', 1, current_timestamp, 1, current_timestamp);\g
 -- ----------------------------------------------------------
 --  insert into table notifications
 -- ----------------------------------------------------------

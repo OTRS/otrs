@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: db2, generated: 2011-08-22 16:57:31
+--  driver: db2, generated: 2011-08-24 09:11:02
 -- ----------------------------------------------------------
 ALTER TABLE valid ADD CONSTRAINT FK_valid_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
 
