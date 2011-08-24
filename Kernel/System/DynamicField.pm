@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField.pm - DynamicFields configuration backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicField.pm,v 1.24 2011-08-24 03:55:49 cr Exp $
+# $Id: DynamicField.pm,v 1.25 2011-08-24 21:58:48 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,9 +19,10 @@ use Kernel::System::Valid;
 use Kernel::System::CacheInternal;
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::Cache;
+use Kernel::System::DynamicField::Backend;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.24 $) [1];
+$VERSION = qw($Revision: 1.25 $) [1];
 
 =head1 NAME
 
@@ -659,11 +660,68 @@ returns a backend instance for a given dynamic field configuration.
         FieldConfig => $FieldConfig,    # Hash reference as returned by DynamicFieldGet
     );
 
+    Returns:
+
+        a backend object depending on the field type.
+
 =cut
 
 sub DynamicFieldBackendInstanceGet {
+    my ( $Self, %Param ) = @_;
 
-    # TODO: Implement
+    # check if FieldConfig was sent
+    if ( !$Param{FieldConfig} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need FieldConfig!' );
+        return;
+    }
+
+    # check if the FieldConfig is valid
+    if ( !IsHashRefWithData( $Param{FieldConfig} ) || !$Param{FieldConfig}->{FieldType} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => "FieldConfig is invalid!" );
+        return;
+    }
+
+    my $FieldType = $Param{FieldConfig}->{FieldType};
+
+    # get the Dynamic Fieds configuration
+    my $DynamicFieldsConfig = $Self->{ConfigObject}->Get('DynamicFields::Backend');
+
+    # check if the registration to the selected field type is valid
+    if ( !$DynamicFieldsConfig->{$FieldType} || !$DynamicFieldsConfig->{$FieldType}->{Module} ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Registration for field type $FieldType is invalid!",
+        );
+        return;
+    }
+
+    # check if the object was already created and return it
+    if ( $Self->{ $FieldType . 'FieldObject' } ) {
+        return $Self->{ $FieldType . 'FieldObject' };
+    }
+
+    # set the backend file
+    my $Backend = 'Kernel::System::DynamicField::Backend';
+
+    # create a backend object
+    my $BackendObject = $Backend->new(
+        %{$Self},
+        FieldType => $FieldType,
+    );
+
+    # check if backend object was created succesfully
+    if ($BackendObject) {
+
+        # remember the backend object
+        $Self->{ $FieldType . 'FieldObject' } = $BackendObject;
+
+        # return backend object
+        return $BackendObject;
+    }
+
+    return;
+
+    # TODO: delete algorithn
 
 =cut
     Algorithm:
@@ -815,6 +873,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.24 $ $Date: 2011-08-24 03:55:49 $
+$Revision: 1.25 $ $Date: 2011-08-24 21:58:48 $
 
 =cut
