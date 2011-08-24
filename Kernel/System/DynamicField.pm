@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField.pm - DynamicFields configuration backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicField.pm,v 1.25 2011-08-24 21:58:48 cr Exp $
+# $Id: DynamicField.pm,v 1.26 2011-08-24 22:15:52 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::Cache;
 use Kernel::System::DynamicField::Backend;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.25 $) [1];
+$VERSION = qw($Revision: 1.26 $) [1];
 
 =head1 NAME
 
@@ -701,7 +701,16 @@ sub DynamicFieldBackendInstanceGet {
     }
 
     # set the backend file
-    my $Backend = 'Kernel::System::DynamicField::Backend';
+    my $Backend = 'Kernel::System::DynamicField::Backend::' . $FieldType;
+
+    # check if backend fiel exists
+    if ( !$Self->{MainObject}->Require($Backend) ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Can't load dynamic field backend module for field type $Param{FieldType}!",
+        );
+        return;
+    }
 
     # create a backend object
     my $BackendObject = $Backend->new(
@@ -873,6 +882,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.25 $ $Date: 2011-08-24 21:58:48 $
+$Revision: 1.26 $ $Date: 2011-08-24 22:15:52 $
 
 =cut
