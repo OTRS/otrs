@@ -2,7 +2,7 @@
 # Kernel/System/DynamicFieldValue.pm - DynamicField values backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicFieldValue.pm,v 1.3 2011-08-25 17:56:19 cr Exp $
+# $Id: DynamicFieldValue.pm,v 1.4 2011-08-25 21:11:21 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,10 +15,10 @@ use strict;
 use warnings;
 
 #use Kernel::System::CacheInternal;
-#use Kernel::System::VariableCheck qw(:all);
+use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 =head1 NAME
 
@@ -112,6 +112,7 @@ sets a dynamic field value.
         ValueText          => 'some text',              # optional
         ValueDateTime      => '1977-12-12 12:00:00',    # optional
         ValueInt           => 123,                      # optional
+        UserID             => 123,
     );
 
 =cut
@@ -226,7 +227,62 @@ sub ValueGet {
             ValueInt      => $Data[3],
         );
     }
+
+    # cleanup time stamps (some databases are using e. g. 2008-02-25 22:03:00.000000
+    # and 0000-00-00 00:00:00 time stamps)
+    if ( $Value{ValueDateTime} ) {
+        if ( $Value{ValueDateTime} eq '0000-00-00 00:00:00' ) {
+            $Value{ValueDateTime} = '';
+        }
+        $Value{ValueDateTime} =~ s/^(\d\d\d\d-\d\d-\d\d\s\d\d:\d\d:\d\d)\..+?$/$1/;
+    }
     return \%Value;
+}
+
+=item ValueDelete()
+
+delete a Dynamic field value entry
+
+returns 1 if successful or undef otherwise
+
+    my $Success = $DynamicFieldValueObject->ValueDelete(
+        FieldID            => $FieldID,                 # ID of the dynamic field
+        ObjectType         => $ObjectType,              # the type of object e. g. Ticket,
+                                                        # Article, etc
+        ObjectID           => $ObjectID,                # ID of the current object that the field
+                                                        # must be linked to, e. g. TicketID
+        UserID  => 123,
+    );
+
+=cut
+
+sub ValueDelete {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Key (qw(FieldID ObjectType ObjectID UserID)) {
+        if ( !$Param{$Key} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Key!" );
+            return;
+        }
+    }
+
+    # check if exists
+    my $Value = $Self->ValueGet(
+        FieldID    => $Param{FieldID},
+        ObjectType => $Param{ObjectType},
+        ObjectID   => $Param{ObjectID},
+    );
+    return if !IsHashRefWithData($Value);
+
+    # delete dynamic field value
+    return if !$Self->{DBObject}->Do(
+        SQL => 'DELETE FROM dynamic_field_value'
+            . ' WHERE field_id = ? AND object_type = ? AND object_id = ?',
+        Bind => [ \$Param{FieldID}, \$Param{ObjectType}, \$Param{ObjectID} ],
+    );
+
+    return 1;
 }
 
 1;
@@ -245,6 +301,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.3 $ $Date: 2011-08-25 17:56:19 $
+$Revision: 1.4 $ $Date: 2011-08-25 21:11:21 $
 
 =cut
