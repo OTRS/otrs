@@ -2,7 +2,7 @@
 # DynamicFieldValue.t - DynamicFieldValue backend tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicFieldValue.t,v 1.1 2011-08-25 17:21:19 cr Exp $
+# $Id: DynamicFieldValue.t,v 1.2 2011-08-25 17:30:48 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -117,7 +117,7 @@ my @Tests = (
         },
         ObjectID => $TicketID,
         Value    => {
-            ValueDate => '1977-12-12 12:00:00',
+            ValueDateTime => '1977-12-12 12:00:00',
         },
         SuccessSet => 1,
     },
@@ -141,9 +141,9 @@ my @Tests = (
         },
         ObjectID => $TicketID,
         Value    => {
-            ValueText => 'a text',
-            ValueDate => '1977-12-12 12:00:00',
-            ValueInt  => 1,
+            ValueText     => 'a text',
+            ValueDateTime => '1977-12-12 12:00:00',
+            ValueInt      => 1,
         },
         SuccessSet => 1,
     },

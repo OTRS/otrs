@@ -2,7 +2,7 @@
 # Kernel/System/DynamicFieldValue.pm - DynamicField values backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicFieldValue.pm,v 1.1 2011-08-25 17:21:19 cr Exp $
+# $Id: DynamicFieldValue.pm,v 1.2 2011-08-25 17:30:48 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use warnings;
 #use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 =head1 NAME
 
@@ -107,7 +107,7 @@ sets a dynamic field value.
         DynamicFieldConfig => $DynamicFieldConfig,      # complete config of the DynamicField
         ObjectID           => $ObjectID,                # ID of the current object that the field must be linked to, e. g. TicketID
         ValueText          => 'some text',              # optional
-        ValueDate          => '1977-12-12 12:00:00',    # optional
+        ValueDateTime      => '1977-12-12 12:00:00',    # optional
         ValueInt           => 123,                      # optional
     );
 
@@ -156,7 +156,7 @@ sub ValueSet {
                 . ' VALUES (?, ?, ?, ?, ?, ?)',
             Bind => [
                 \$FieldID, \$ObjectType, \$ObjectID,
-                \$Param{ValueText}, \$Param{ValueDate}, \$Param{ValueInt},
+                \$Param{ValueText}, \$Param{ValueDateTime}, \$Param{ValueInt},
             ],
         );
 
@@ -169,7 +169,7 @@ sub ValueSet {
             'UPDATE dynamic_field_value SET value_text = ?, value_date = ?, value_int = ?'
             . ' WHERE field_id = ? AND object_type = ? AND object_id =?',
         Bind => [
-            \$Param{ValueText}, \$Param{ValueDate}, \$Param{ValueInt},
+            \$Param{ValueText}, \$Param{ValueDateTime}, \$Param{ValueInt},
             \$FieldID, \$ObjectType, \$ObjectID,
         ],
     );
@@ -191,7 +191,7 @@ get a dynamic field value.
     $Value = {
         ID                 => 123,
         ValueText          => 'some text',
-        ValueDate          => '1977-12-12 12:00:00',
+        ValueDateTime      => '1977-12-12 12:00:00',
         ValueInt           => 123,
     }
 
@@ -233,10 +233,10 @@ sub ValueGet {
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
 
         %Value = (
-            ID        => $Data[0],
-            ValueText => $Data[1],
-            ValueDate => $Data[2],
-            ValueInt  => $Data[3],
+            ID            => $Data[0],
+            ValueText     => $Data[1],
+            ValueDateTime => $Data[2],
+            ValueInt      => $Data[3],
         );
     }
     return \%Value;
@@ -258,6 +258,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2011-08-25 17:21:19 $
+$Revision: 1.2 $ $Date: 2011-08-25 17:30:48 $
 
 =cut
