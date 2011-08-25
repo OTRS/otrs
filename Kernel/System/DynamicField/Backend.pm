@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend.pm - Interface for DynamicField backends
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Backend.pm,v 1.5 2011-08-24 22:14:04 cr Exp $
+# $Id: Backend.pm,v 1.6 2011-08-25 03:29:01 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use warnings;
 #use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 =head1 NAME
 
@@ -176,12 +176,83 @@ sets a dynamic field value.
     my $Success = $BackendObject->ValueSet(
         DynamicFieldConfig => $DynamicFieldConfig,      # complete config of the DynamicField
         ObjectID           => $ObjectID,                # ID of the current object that the field must be linked to, e. g. TicketID
-        Value              => 'some text',              # Value to store, depends on backend type
+        #Value              => 'some text',              # Value to store, depends on backend type
+        ValueText          => 'some text',              # optional
+        ValueDate          => '1977-12-12 12:00:00',    # optional
+        ValueInt           => 123                       # optional
     );
 
 =cut
 
 sub ValueSet {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for (qw(DynamicFieldConfig ObjectID)) {
+        if ( !$Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            return;
+        }
+    }
+
+    if ( !$Param{DynamicFieldConfig}->{ID} || !$Param{DynamicFieldConfig}->{ObjectType} ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "The DynamicField configuration is invalid!",
+        );
+        return;
+    }
+
+    # try to get the value (if it was already set)
+    my $Value = $Self->ValueGet(
+        DynamicFieldConfig => $Param{DynamicFieldConfig},
+        ObjectID           => $Param{ObjectID},
+    );
+
+    return if $Value = undef;
+
+    my $ObjectID   = $Param{ObjectID};
+    my $FieldID    = $Param{DynamicFieldConfig}->{ID};
+    my $ObjectType = $Param{DynamicFieldConfig}->{ObjectType};
+
+    # check if value is empty or does not exist
+    if ( !$Value || ( !$Value->{ValueText} && !$Value->{ValueDate} && !$Value->{ValueInt} ) ) {
+
+        # delete the value (is safe)
+        return if !$Self->{DBObject}->Do(
+            SQL => 'DELETE FROM dynamic_field_value'
+                . ' WHERE field_id = ? AND object_type = ? AND object_id =?',
+            Bind => [ \$FieldID, \$ObjectType, \$ObjectID ],
+        );
+
+        # create a new value
+        return if !$Self->{DBObject}->Do(
+            SQL =>
+                'INSERT INTO dynamic_field_value (field_id, object_type, object_id,'
+                . ' value_text, value_date, value_int)'
+                . ' VALUES (?, ?, ?, ?, ?, ?)',
+            Bind => [
+                \$FieldID, \$ObjectType, \$ObjectID,
+                \$Param{ValueText}, \$Param{ValueDate}, \$Param{ValueInt},
+            ],
+        );
+
+        return 1;
+    }
+
+    # otherwise a value exists then it need to be replaced
+    # update field value
+    return if !$Self->{DBObject}->Do(
+        SQL =>
+            'UPDATE dynamic_field_value SET value_text = ?, value_date = ?, value_int = ?'
+            . ' WHERE field_id = ? AND object_type = ? AND object_id =?',
+        Bind => [
+            \$Param{ValueText}, \$Param{ValueDate}, \$Param{ValueInt},
+            \$FieldID, \$ObjectType, \$ObjectID,
+        ],
+    );
+
+    return 1;
 
 =cut
     Notes
@@ -189,6 +260,8 @@ sub ValueSet {
 
         Special case:
         If the object type is 'Ticket' or 'Article', a history entry must be written to that ticket (task for later)
+
+        From CR This might be needed to add in Ticket and Article FreeField set instead of here or in the field type backend!
 =cut
 
 }
@@ -205,6 +278,48 @@ get a dynamic field value.
 =cut
 
 sub ValueGet {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for (qw(DynamicFieldConfig ObjectID)) {
+        if ( !$Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            return;
+        }
+    }
+
+    if ( !$Param{DynamicFieldConfig}->{ID} || !$Param{DynamicFieldConfig}->{ObjectType} ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "The DynamicField configuration is invalid!",
+        );
+        return;
+    }
+
+    my $ObjectID   = $Param{ObjectID};
+    my $FieldID    = $Param{DynamicFieldConfig}->{ID};
+    my $ObjectType = $Param{DynamicFieldConfig}->{ObjectType};
+
+    my %Value;
+
+    # sql
+    return if !$Self->{DBObject}->Do(
+        SQL => 'SELECT value_text, value_date, value_int'
+            . ' FROM dynamic_field_value'
+            . ' WHERE field_id = ? AND object_type = ? AND object_id = ?',
+        Bind => [ \$FieldID, \$ObjectType, \$ObjectID ],
+    );
+
+    while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
+
+        %Value = (
+            ValueText => $Data[1],
+            ValueDate => $Data[2],
+            ValueInt  => $Data[3],
+        );
+    }
+
+    return \%Value;
 
 =cut
     Notes
@@ -292,6 +407,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.5 $ $Date: 2011-08-24 22:14:04 $
+$Revision: 1.6 $ $Date: 2011-08-25 03:29:01 $
 
 =cut
