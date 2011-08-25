@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketBounce.pm - to bounce articles of tickets
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBounce.pm,v 1.49.2.1 2011-05-10 22:34:01 en Exp $
+# $Id: AgentTicketBounce.pm,v 1.49.2.2 2011-08-25 18:13:06 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.49.2.1 $) [1];
+$VERSION = qw($Revision: 1.49.2.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -430,11 +430,9 @@ $Param{Signature}";
                 );
             }
         }
-        else {
-            return $Self->{LayoutObject}->PopupClose(
-                URL => ( $Self->{LastScreenView} || 'Action=AgentDashboard' )
-            );
-        }
+        return $Self->{LayoutObject}->PopupClose(
+            URL => ( $Self->{LastScreenView} || 'Action=AgentDashboard' )
+        );
     }
     return $Self->{LayoutObject}->ErrorScreen(
         Message => 'Wrong Subaction!!',
