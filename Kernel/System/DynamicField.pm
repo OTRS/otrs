@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField.pm - DynamicFields configuration backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicField.pm,v 1.28 2011-08-25 09:25:14 mg Exp $
+# $Id: DynamicField.pm,v 1.29 2011-08-25 17:15:38 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::Cache;
 use Kernel::System::DynamicField::Backend;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.28 $) [1];
+$VERSION = qw($Revision: 1.29 $) [1];
 
 =head1 NAME
 
@@ -115,7 +115,7 @@ add new Dynamic Field config
 returns id of new Dynamic field if successful or undef otherwise
 
     my $ID = $DynamicFieldObject->DynamicFieldAdd(
-        Name        => 'NameForField',  # mandatory
+        Name        => 'nameforfield',  # mandatory
         Label       => 'a description', # mandatory, label to show
         FieldOrder  => 123,             # mandatory, display order
         FieldType   => 'Text',          # mandatory, selects the DF backend to use for this field
@@ -209,7 +209,7 @@ Returns:
 
     $DynamicField = {
         ID          => 123,
-        Name        => 'NameForField',
+        Name        => 'nameforfield',
         Label       => 'The label to show',
         FieldOrder  => 123,
         FieldType   => 'Text',
@@ -309,7 +309,7 @@ returns 1 on success or undef on error
 
     my $Success = $DynamicFieldObject->DynamicFieldUpdate(
         ID          => 1234,            # mandatory
-        Name        => 'NameForField',  # mandatory
+        Name        => 'nameforfield',  # mandatory
         Label       => 'a description', # mandatory, label to show
         FieldOrder  => 123,             # mandatory, display order
         FieldType   => 'Text',          # mandatory, selects the DF backend to use for this field
@@ -574,7 +574,7 @@ Returns:
     $List = (
         {
             ID          => 123,
-            Name        => 'NameForField',
+            Name        => 'nameforfield',
             Label       => 'The label to show',
             FieldType   => 'Text',
             ObjectType  => 'Article',
@@ -585,7 +585,7 @@ Returns:
         },
         {
             ID          => 321,
-            Name        => 'FieldName',
+            Name        => 'fieldname',
             Label       => 'It is not a label',
             FieldType   => 'Text',
             ObjectType  => 'Ticket',
@@ -888,6 +888,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.28 $ $Date: 2011-08-25 09:25:14 $
+$Revision: 1.29 $ $Date: 2011-08-25 17:15:38 $
 
 =cut
