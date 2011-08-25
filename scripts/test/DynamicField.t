@@ -2,7 +2,7 @@
 # DynamicField.t - DynamicField tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicField.t,v 1.11 2011-08-25 03:32:38 cr Exp $
+# $Id: DynamicField.t,v 1.12 2011-08-25 20:35:15 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -55,6 +55,23 @@ my @Tests = (
         SuccessUpdate => 1,
         Add           => {
             Config => {
+                Name        => '!"§$%&/()=?Ü*ÄÖL:L@,.-',
+                Description => 'Description for Dynamic Field.',
+            },
+            Label      => '!"§$%&/()=?Ü*ÄÖL:L@,.-',
+            FieldOrder => 1,
+            FieldType  => 'date',
+            ObjectType => 'ticket',
+            ValidID    => 1,
+            UserID     => $UserID,
+        },
+    },
+    {
+        Name          => 'test3',
+        SuccessAdd    => 1,
+        SuccessUpdate => 1,
+        Add           => {
+            Config => {
                 Name        => 'OtherName',
                 Description => 'Description for Dynamic Field.',
             },
@@ -67,7 +84,7 @@ my @Tests = (
         },
     },
     {
-        Name          => 'test3',
+        Name          => 'test4',
         SuccessAdd    => 1,
         SuccessUpdate => 1,
         Add           => {
@@ -81,7 +98,7 @@ my @Tests = (
         },
     },
     {
-        Name          => 'test4',
+        Name          => 'test5',
         SuccessAdd    => 0,
         SuccessUpdate => 0,
         Add           => {
@@ -95,7 +112,7 @@ my @Tests = (
         },
     },
     {
-        Name          => 'test5',
+        Name          => 'test6',
         SuccessAdd    => 0,
         SuccessUpdate => 0,
         Add           => {
@@ -112,7 +129,7 @@ my @Tests = (
         },
     },
     {
-        Name          => 'test6',
+        Name          => 'test7',
         SuccessAdd    => 0,
         SuccessUpdate => 0,
         Add           => {
@@ -129,7 +146,7 @@ my @Tests = (
         },
     },
     {
-        Name          => 'test7',
+        Name          => 'test8',
         SuccessAdd    => 0,
         SuccessUpdate => 0,
         Add           => {
@@ -146,7 +163,7 @@ my @Tests = (
         },
     },
     {
-        Name          => 'test8',
+        Name          => 'test9',
         SuccessAdd    => 0,
         SuccessUpdate => 0,
         Add           => {
@@ -163,7 +180,7 @@ my @Tests = (
         },
     },
     {
-        Name          => 'test9',
+        Name          => 'test10',
         SuccessAdd    => 0,
         SuccessUpdate => 0,
         Add           => {
@@ -180,7 +197,7 @@ my @Tests = (
         },
     },
     {
-        Name          => 'Test 10',
+        Name          => 'Test 11',
         SuccessAdd    => 0,
         SuccessUpdate => 0,
         Add           => {
