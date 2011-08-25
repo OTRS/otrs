@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-#  driver: mysql, generated: 2011-08-22 16:57:27
+#  driver: mysql, generated: 2011-08-25 11:19:31
 # ----------------------------------------------------------
 # ----------------------------------------------------------
 #  alter table ticket_index
@@ -106,7 +106,7 @@ CREATE TABLE gi_object_lock_state (
     lock_state_counter INTEGER NOT NULL,
     create_time DATETIME NOT NULL,
     change_time DATETIME NOT NULL,
-    UNIQUE INDEX gi_object_lock_state_U_394 (webservice_id, object_type, object_id),
+    UNIQUE INDEX gi_object_lock_state_U_455 (webservice_id, object_type, object_id),
     INDEX object_lock_state_list_state (webservice_id, object_type, object_id, lock_state)
 );
 # ----------------------------------------------------------
@@ -189,13 +189,15 @@ ALTER TABLE ticket_flag ADD CONSTRAINT ticket_flag_per_user UNIQUE INDEX (ticket
 #  create table dynamic_field_value
 # ----------------------------------------------------------
 CREATE TABLE dynamic_field_value (
+    id INTEGER NOT NULL AUTO_INCREMENT,
     field_id INTEGER NOT NULL,
     object_type VARCHAR (200) NULL,
     object_id BIGINT NOT NULL,
     value_text MEDIUMTEXT NULL,
     value_date DATETIME NULL,
     value_int BIGINT NULL,
-    UNIQUE INDEX dynamic_field_value_U_312 (field_id, object_type, object_id),
+    PRIMARY KEY(id),
+    UNIQUE INDEX dynamic_field_value_U_303 (field_id, object_type, object_id),
     INDEX index_object (object_type, object_id),
     INDEX index_search_date (field_id, value_date),
     INDEX index_search_int (field_id, value_int)
@@ -217,7 +219,7 @@ CREATE TABLE dynamic_field (
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE INDEX dynamic_field_U_705 (name)
+    UNIQUE INDEX dynamic_field_U_780 (name)
 );
 ALTER TABLE gi_webservice_config ADD CONSTRAINT FK_gi_webservice_config_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
 ALTER TABLE gi_webservice_config ADD CONSTRAINT FK_gi_webservice_config_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);

@@ -1895,6 +1895,7 @@
 </TableCreate>
 
 <TableCreate Name="dynamic_field_value">
+    <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
     <!-- foreign key to the dynamic_field -->
     <Column Name="field_id" Required="true" Type="INTEGER"/>
     <!-- this controls which object the dynamic field links to; currently we will have "ticket" and "article"; allow only lowercase letters -->

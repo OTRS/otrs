@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: mssql, generated: 2011-08-24 09:11:03
+--  driver: mssql, generated: 2011-08-25 11:19:55
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -1242,7 +1242,7 @@ CREATE TABLE gi_object_lock_state (
     lock_state_counter INTEGER NOT NULL,
     create_time DATETIME NOT NULL,
     change_time DATETIME NOT NULL,
-    CONSTRAINT gi_object_lock_state_U_598 UNIQUE (webservice_id, object_type, object_id)
+    CONSTRAINT gi_object_lock_state_U_448 UNIQUE (webservice_id, object_type, object_id)
 );
 CREATE INDEX object_lock_state_list_state ON gi_object_lock_state (webservice_id, object_type, object_id, lock_state);
 -- ----------------------------------------------------------
@@ -1264,13 +1264,15 @@ CREATE TABLE smime_signer_cert_relations (
 --  create table dynamic_field_value
 -- ----------------------------------------------------------
 CREATE TABLE dynamic_field_value (
+    id INTEGER NOT NULL IDENTITY(1,1) ,
     field_id INTEGER NOT NULL,
     object_type NVARCHAR (200) NULL,
     object_id BIGINT NOT NULL,
     value_text NVARCHAR (MAX) NULL,
     value_date DATETIME NULL,
     value_int BIGINT NULL,
-    CONSTRAINT dynamic_field_value_U_314 UNIQUE (field_id, object_type, object_id)
+    PRIMARY KEY(id),
+    CONSTRAINT dynamic_field_value_U_548 UNIQUE (field_id, object_type, object_id)
 );
 CREATE INDEX index_object ON dynamic_field_value (object_type, object_id);
 CREATE INDEX index_search_date ON dynamic_field_value (field_id, value_date);
@@ -1292,5 +1294,5 @@ CREATE TABLE dynamic_field (
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    CONSTRAINT dynamic_field_U_183 UNIQUE (name)
+    CONSTRAINT dynamic_field_U_874 UNIQUE (name)
 );
