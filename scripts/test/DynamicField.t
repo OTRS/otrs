@@ -2,7 +2,7 @@
 # DynamicField.t - DynamicField tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicField.t,v 1.10 2011-08-24 21:59:19 cr Exp $
+# $Id: DynamicField.t,v 1.11 2011-08-25 03:32:38 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -569,7 +569,7 @@ for my $DynamicFieldID (@AddedFieldIDs) {
     # update the field
     my $Success = $DynamicFieldObject->DynamicFieldUpdate(
         %{$DynamicField},
-        UserID => 1,
+        UserID => $UserID,
     );
 
     # sanity check
@@ -605,7 +605,7 @@ for my $DynamicFieldID (@AddedFieldIDs) {
         my $Success = $DynamicFieldObject->DynamicFieldUpdate(
             %{$DynamicField},
             Reorder => 0,
-            UserID  => 1,
+            UserID  => $UserID,
         );
 
         # sanity check
@@ -643,7 +643,7 @@ for my $DynamicFieldID (@AddedFieldIDs) {
     # update the field
     my $Success = $DynamicFieldObject->DynamicFieldUpdate(
         %{$DynamicField},
-        UserID => 1,
+        UserID => $UserID,
     );
 
     # sanity check
@@ -683,7 +683,7 @@ for my $DynamicFieldID (@AddedFieldIDs) {
     # update the field
     my $Success = $DynamicFieldObject->DynamicFieldUpdate(
         %{$DynamicField},
-        UserID => 1,
+        UserID => $UserID,
     );
 
     # sanity check
@@ -723,7 +723,7 @@ for my $DynamicFieldID (@AddedFieldIDs) {
     # update the field
     my $Success = $DynamicFieldObject->DynamicFieldUpdate(
         %{$DynamicField},
-        UserID => 1,
+        UserID => $UserID,
     );
 
     # sanity check
@@ -763,7 +763,7 @@ for my $DynamicFieldID (@AddedFieldIDs) {
     # update the field
     my $Success = $DynamicFieldObject->DynamicFieldUpdate(
         %{$DynamicField},
-        UserID => 1,
+        UserID => $UserID,
     );
 
     # sanity check
@@ -803,7 +803,7 @@ for my $DynamicFieldID (@AddedFieldIDs) {
     # update the field
     my $Success = $DynamicFieldObject->DynamicFieldUpdate(
         %{$DynamicField},
-        UserID => 1,
+        UserID => $UserID,
     );
 
     # sanity check
@@ -839,7 +839,7 @@ for my $DynamicFieldID (@AddedFieldIDs) {
         my $Success = $DynamicFieldObject->DynamicFieldUpdate(
             %{$DynamicField},
             Reorder => 0,
-            UserID  => 1,
+            UserID  => $UserID,
         );
 
         # sanity check
@@ -873,7 +873,7 @@ for my $DynamicFieldID (@AddedFieldIDs) {
 for my $DynamicFieldID (@AddedFieldIDs) {
     my $Success = $DynamicFieldObject->DynamicFieldDelete(
         ID     => $DynamicFieldID,
-        UserID => 1,
+        UserID => $UserID,
     );
 
     # sanity check
