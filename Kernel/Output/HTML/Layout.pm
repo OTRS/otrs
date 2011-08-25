@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.368 2011-08-23 12:18:55 mb Exp $
+# $Id: Layout.pm,v 1.369 2011-08-25 09:51:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Mail::Address;
 use URI::Escape qw();
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.368 $) [1];
+$VERSION = qw($Revision: 1.369 $) [1];
 
 =head1 NAME
 
@@ -386,9 +386,6 @@ sub new {
         }
     }
 
-# FRAMEWORK-2.5: define $Env{"Images"} (only for compat till 2.5, use $Config{"Frontend::ImagePath"})
-    $Self->{Images} = $Self->{ConfigObject}->Get('Frontend::ImagePath');
-
     # load sub layout files
     my $Dir = $Self->{ConfigObject}->Get('TemplateDir') . '/HTML';
     if ( -e $Dir ) {
@@ -463,8 +460,8 @@ Using a template file:
 Using a template string:
 
     my $HTML = $LayoutObject->Output(
-        Template     => '<b>$QData{"SomeKey"}</b>',
-        Data         => \%Param,
+        Template => '<b>$QData{"SomeKey"}</b>',
+        Data     => \%Param,
     );
 
 Additional parameters:
@@ -1986,9 +1983,9 @@ build a html option element based on given data
     );
 
     my $HashRef = {
-        'Key1' => 'Value1',
-        'Key2' => 'Value2',
-        'Key3' => 'Value3',
+        Key1 => 'Value1',
+        Key2 => 'Value2',
+        Key3 => 'Value3',
     };
 
     my $ArrayRef = [
@@ -2000,21 +1997,21 @@ build a html option element based on given data
 
     my $ArrayHashRef = [
         {
-            Key => '1',
+            Key   => '1',
             Value => 'Value1',
         },
         {
-            Key => '2',
-            Value => 'Value1::Subvalue1',
+            Key      => '2',
+            Value    => 'Value1::Subvalue1',
             Selected => 1,
         },
         {
-            Key => '3',
+            Key   => '3',
             Value => 'Value1::Subvalue2',
         },
         {
-            Key => '4',
-            Value => 'Value2',
+            Key      => '4',
+            Value    => 'Value2',
             Disabled => 1,
         }
     ];
@@ -4287,9 +4284,9 @@ create the option hash
     );
 
     my $OptionRef = {
-        Sort => 'numeric',
+        Sort         => 'numeric',
         PossibleNone => 0,
-        Max => 100,
+        Max          => 100,
     }
 
 =cut
@@ -4297,9 +4294,8 @@ create the option hash
 sub _BuildSelectionOptionRefCreate {
     my ( $Self, %Param ) = @_;
 
-    my $OptionRef = {};
-
     # set SelectedID option
+    my $OptionRef = {};
     if ( defined $Param{SelectedID} ) {
         if ( ref $Param{SelectedID} eq 'ARRAY' ) {
             for my $Key ( @{ $Param{SelectedID} } ) {
@@ -4407,9 +4403,9 @@ create the attribute hash
     );
 
     my $AttributeRef = {
-        name => 'TheName',
+        name     => 'TheName',
         multiple => undef,
-        size => 5,
+        size     => 5,
     }
 
 =cut
@@ -4769,9 +4765,8 @@ create the html string
 sub _BuildSelectionOutput {
     my ( $Self, %Param ) = @_;
 
-    my $String;
-
     # start generation, if AttributeRef and DataRef was found
+    my $String;
     if ( $Param{AttributeRef} && $Param{DataRef} ) {
 
         # generate <select> row
@@ -4873,12 +4868,6 @@ sub _RemoveScriptTags {
     return $Code;
 }
 
-#COMPAT: to 3.0.x and lower (can be removed later)
-sub TransfromDateSelection {
-    my $Self = shift;
-    return $Self->TransformDateSelection(@_);
-}
-
 1;
 
 =end Internal:
@@ -4895,6 +4884,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.368 $ $Date: 2011-08-23 12:18:55 $
+$Revision: 1.369 $ $Date: 2011-08-25 09:51:26 $
 
 =cut

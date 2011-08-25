@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.128 2011-06-15 09:19:46 mg Exp $
+# $Id: LayoutTicket.pm,v 1.129 2011-08-25 09:51:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.128 $) [1];
+$VERSION = qw($Revision: 1.129 $) [1];
 
 sub AgentCustomerViewTable {
     my ( $Self, %Param ) = @_;
@@ -1400,8 +1400,6 @@ sub TicketListShow {
 sub TicketMetaItemsCount {
     my ( $Self, %Param ) = @_;
     return ( 'Priority', 'New Article' );
-
-    #    return ('New Article', 'Locked', 'Watched');
 }
 
 sub TicketMetaItems {
@@ -1415,106 +1413,65 @@ sub TicketMetaItems {
     my @Result;
 
     # show priority
-    if (1) {
-        push @Result, {
+    push @Result, {
 
-            #            Image => $Image,
-            Title      => $Param{Ticket}->{Priority},
-            Class      => 'Flag',
-            ClassSpan  => 'PriorityID-' . $Param{Ticket}->{PriorityID},
-            ClassTable => 'Flags',
-        };
-    }
+        #            Image => $Image,
+        Title      => $Param{Ticket}->{Priority},
+        Class      => 'Flag',
+        ClassSpan  => 'PriorityID-' . $Param{Ticket}->{PriorityID},
+        ClassTable => 'Flags',
+    };
 
     # show new article
-    if (1) {
-        my %TicketFlag = $Self->{TicketObject}->TicketFlagGet(
-            TicketID => $Param{Ticket}->{TicketID},
-            UserID   => $Self->{UserID},
-        );
+    my %TicketFlag = $Self->{TicketObject}->TicketFlagGet(
+        TicketID => $Param{Ticket}->{TicketID},
+        UserID   => $Self->{UserID},
+    );
 
-        # show if new message is in there
-        if ( $TicketFlag{Seen} ) {
-            push @Result, undef;
+    # show if new message is in there
+    if ( $TicketFlag{Seen} ) {
+        push @Result, undef;
+    }
+    else {
+
+        # just show ticket flags if agent belongs to the ticket
+        my $ShowMeta;
+        if (
+            $Self->{UserID} == $Param{Ticket}->{OwnerID}
+            || $Self->{UserID} == $Param{Ticket}->{ResponsibleID}
+            )
+        {
+            $ShowMeta = 1;
         }
-        else {
-
-            # just show ticket flags if agent belongs to the ticket
-            my $ShowMeta;
-            if (
-                $Self->{UserID} == $Param{Ticket}->{OwnerID}
-                || $Self->{UserID} == $Param{Ticket}->{ResponsibleID}
-                )
-            {
+        if ( !$ShowMeta && $Self->{ConfigObject}->Get('Ticket::Watcher') ) {
+            my %Watch = $Self->{TicketObject}->TicketWatchGet(
+                TicketID => $Param{Ticket}->{TicketID},
+            );
+            if ( $Watch{ $Self->{UserID} } ) {
                 $ShowMeta = 1;
             }
-            if ( !$ShowMeta && $Self->{ConfigObject}->Get('Ticket::Watcher') ) {
-                my %Watch = $Self->{TicketObject}->TicketWatchGet(
-                    TicketID => $Param{Ticket}->{TicketID},
-                );
-                if ( $Watch{ $Self->{UserID} } ) {
-                    $ShowMeta = 1;
-                }
-            }
-
-            # show ticket flags
-            my $Image = 'meta-new-inactive.png';
-            if ($ShowMeta) {
-                $Image = 'meta-new.png';
-                push @Result, {
-                    Image      => $Image,
-                    Title      => 'Unread article(s) available',
-                    Class      => 'UnreadArticles',
-                    ClassSpan  => 'UnreadArticles Important',
-                    ClassTable => 'UnreadArticles',
-                };
-            }
-            else {
-                push @Result, {
-                    Image      => $Image,
-                    Title      => 'Unread article(s) available',
-                    Class      => 'UnreadArticles',
-                    ClassSpan  => 'UnreadArticles Unimportant',
-                    ClassTable => 'UnreadArticles',
-                };
-            }
         }
-    }
 
-    # show if it's locked
-    if (0) {
-        if ( $Param{Ticket}->{Lock} eq 'lock' ) {
-            if ( $Param{Ticket}->{OwnerID} == $Self->{UserID} ) {
-                push @Result, {
-                    Image => 'meta-lock-own.gif',
-                    Title => 'Locked by you!',
-                };
-            }
-            else {
-                push @Result, {
-                    Image => 'meta-lock.gif',
-                    Title => 'Locked by somebody else!',
-                };
-            }
-        }
-        else {
-            push @Result, undef;
-        }
-    }
-
-    # check if it get watched
-    if ( 0 && $Self->{ConfigObject}->Get('Ticket::Watcher') ) {
-        my %Watch = $Self->{TicketObject}->TicketWatchGet(
-            TicketID => $Param{Ticket}->{TicketID},
-        );
-        if ( $Watch{ $Self->{UserID} } ) {
+        # show ticket flags
+        my $Image = 'meta-new-inactive.png';
+        if ($ShowMeta) {
+            $Image = 'meta-new.png';
             push @Result, {
-                Image => 'meta-watch.gif',
-                Title => 'Watched by you!',
+                Image      => $Image,
+                Title      => 'Unread article(s) available',
+                Class      => 'UnreadArticles',
+                ClassSpan  => 'UnreadArticles Important',
+                ClassTable => 'UnreadArticles',
             };
         }
         else {
-            push @Result, undef;
+            push @Result, {
+                Image      => $Image,
+                Title      => 'Unread article(s) available',
+                Class      => 'UnreadArticles',
+                ClassSpan  => 'UnreadArticles Unimportant',
+                ClassTable => 'UnreadArticles',
+            };
         }
     }
 
