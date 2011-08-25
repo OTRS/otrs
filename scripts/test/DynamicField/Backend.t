@@ -2,7 +2,7 @@
 # DynamicField/Backend.t - DynamicField backend tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Backend.t,v 1.1 2011-08-25 03:29:32 cr Exp $
+# $Id: Backend.t,v 1.2 2011-08-25 09:25:35 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ my $HelperObject = Kernel::System::UnitTest::Helper->new(
     UnitTestObject => $Self,
 );
 
-my $RandomID = $HelperObject->GetRandomID();
+my $RandomID = int rand 1_000_000_000;
 
 my $DynamicFieldObject = Kernel::System::DynamicField->new( %{$Self} );
 my $BackendObject      = Kernel::System::DynamicField::Backend->new( %{$Self} );
@@ -51,10 +51,10 @@ $Self->True(
 
 # create a dynamicfield
 my $FieldID = $DynamicFieldObject->DynamicFieldAdd(
-    Name       => 'nameforfield',
+    Name       => "dynamicfieldtest$RandomID",
     Label      => 'a description',
     FieldOrder => 9991,
-    FieldType  => 'Text',            # mandatory, selects the DF backend to use for this field
+    FieldType  => 'Text',     # mandatory, selects the DF backend to use for this field
     ObjectType => 'Ticket',
     Config     => {
         DefaultValue => 'a value',
