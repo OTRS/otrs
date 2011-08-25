@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField.pm - DynamicFields configuration backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicField.pm,v 1.27 2011-08-24 22:24:14 cr Exp $
+# $Id: DynamicField.pm,v 1.28 2011-08-25 09:25:14 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::Cache;
 use Kernel::System::DynamicField::Backend;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.27 $) [1];
+$VERSION = qw($Revision: 1.28 $) [1];
 
 =head1 NAME
 
@@ -426,6 +426,12 @@ sub DynamicFieldDelete {
         ID => $Param{ID},
     );
     return if !IsHashRefWithData($DynamicField);
+
+    # delete dynamic field values
+    return if !$Self->{DBObject}->Do(
+        SQL  => 'DELETE FROM dynamic_field_value WHERE field_id = ?',
+        Bind => [ \$Param{ID} ],
+    );
 
     # delete Dynamic field
     return if !$Self->{DBObject}->Do(
@@ -882,6 +888,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.27 $ $Date: 2011-08-24 22:24:14 $
+$Revision: 1.28 $ $Date: 2011-08-25 09:25:14 $
 
 =cut
