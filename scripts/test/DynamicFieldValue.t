@@ -2,7 +2,7 @@
 # DynamicFieldValue.t - DynamicFieldValue backend tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicFieldValue.t,v 1.2 2011-08-25 17:30:48 cr Exp $
+# $Id: DynamicFieldValue.t,v 1.3 2011-08-25 17:56:19 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -71,11 +71,7 @@ $Self->True(
 
 my @Tests = (
     {
-        Name       => 'No DynamicField Config',
-        SuccessSet => 0,
-    },
-    {
-        Name               => 'Empty DynamicField Config',
+        Name               => 'No FieldID',
         DynamicFieldConfig => {},
         ObjectID           => $TicketID,
         SuccessSet         => 0,
@@ -83,12 +79,13 @@ my @Tests = (
     {
         Name               => 'No ObjectID',
         DynamicFieldConfig => {
-            ID => -1,
+            ID         => -1,
+            ObjectType => 'Ticket',
         },
         SuccessSet => 0,
     },
     {
-        Name               => 'No Object Type',
+        Name               => 'No ObjectType',
         DynamicFieldConfig => {
             ID => -1,
         },
@@ -153,8 +150,9 @@ my @Tests = (
 
 for my $Test (@Tests) {
     my $Success = $DynamicFieldValueObject->ValueSet(
-        DynamicFieldConfig => $Test->{DynamicFieldConfig},
-        ObjectID           => $Test->{ObjectID},
+        FieldID    => $Test->{DynamicFieldConfig}->{ID},
+        ObjectType => $Test->{DynamicFieldConfig}->{ObjectType},
+        ObjectID   => $Test->{ObjectID},
         %{ $Test->{Value} },
     );
 
@@ -172,8 +170,9 @@ for my $Test (@Tests) {
 
         # get the value with ValueGet()
         my $Value = $DynamicFieldValueObject->ValueGet(
-            DynamicFieldConfig => $Test->{DynamicFieldConfig},
-            ObjectID           => $Test->{ObjectID},
+            FieldID    => $Test->{DynamicFieldConfig}->{ID},
+            ObjectType => $Test->{DynamicFieldConfig}->{ObjectType},
+            ObjectID   => $Test->{ObjectID},
         );
 
         # sanity check
