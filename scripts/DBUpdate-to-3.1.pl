@@ -3,7 +3,7 @@
 # DBUpdate-to-3.1.pl - update script to migrate OTRS 2.4.x to 3.0.x
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-3.1.pl,v 1.1 2011-08-25 05:05:50 cg Exp $
+# $Id: DBUpdate-to-3.1.pl,v 1.2 2011-08-25 14:04:58 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 use Getopt::Std qw();
 use Kernel::Config;
@@ -85,24 +85,25 @@ EOF
         print "Error!\n\n";
     }
 
-    # check migration is done
-    print "Step 4 of 10: Checking if migration was already performed... ";
-    _CheckMigrationDone($CommonObject);
-    print "done.\n\n";
-
     # insert dynamic field records, if necessary
-    print "Step 5 of 10: Create new dynamic fields for free fields (text, key, date)... ";
-    _DynamicFieldCreation($CommonObject);
+    print "Step 4 of 10: Create new dynamic fields for free fields (text, key, date)... ";
+    if ( !_IsFreefieldsMigrationAlreadyDone($CommonObject) ) {
+        _DynamicFieldCreation($CommonObject);
+    }
     print "done.\n\n";
 
     # migrate ticket free field
-    print "Step 6 of 10: Migrate ticket free fields to dynamic fields.. ";
-    my $TicketMigrated = _DynamicFieldTicketMigration($CommonObject);
+    print "Step 5 of 10: Migrate ticket free fields to dynamic fields.. ";
+    if ( !_IsFreefieldsMigrationAlreadyDone($CommonObject) ) {
+        my $TicketMigrated = _DynamicFieldTicketMigration($CommonObject);
+    }
     print "done.\n\n";
 
     # migrate ticket free field
-    print "Step 7 of 10: Migrate article free fields to dynamic fields.. ";
-    my $ArticleMigrated = _DynamicFieldArticleMigration($CommonObject);
+    print "Step 6 of 10: Migrate article free fields to dynamic fields.. ";
+    if ( !_IsFreefieldsMigrationAlreadyDone($CommonObject) ) {
+        my $ArticleMigrated = _DynamicFieldArticleMigration($CommonObject);
+    }
     print "done.\n\n";
 
     # verify ticket migration
@@ -237,15 +238,15 @@ sub _CheckDynamicFieldTables {
     return 1;
 }
 
-=item _CheckMigrationDone($CommonObject)
+=item _IsFreefieldsMigrationAlreadyDone($CommonObject)
 
-Checks if the free field were drop, then there are nathing to do
+Checks if the free field were dropped already, then the migration can be skipped.
 
-    _CheckMigrationDone($CommonObject);
+    my $AlreadyDone = _IsFreefieldsMigrationAlreadyDone($CommonObject);
 
 =cut
 
-sub _CheckMigrationDone {
+sub _IsFreefieldsMigrationAlreadyDone {
     my $CommonObject = shift;
 
     # select free fields from ticket table
@@ -258,18 +259,21 @@ sub _CheckMigrationDone {
     # ticket and article in table, check if MIN is valid
     # on ANSI sql.
     my $SuccessTicket = $CommonObject->{DBObject}->Do(
-        SQL => 'SELECT freekey1, freetext1, freetime1 FROM ticket where id=1',
+        SQL   => 'SELECT freekey1, freetext1, freetime1 FROM ticket',
+        LIMIT => 1,
     );
 
     my $SuccessArticle = $CommonObject->{DBObject}->Do(
-        SQL => 'SELECT a_freekey1, a_freetext1 FROM article where id=1',
+        SQL   => 'SELECT a_freekey1, a_freetext1 FROM article',
+        LIMIT => 1,
     );
 
     if ( !$SuccessTicket && !$SuccessArticle ) {
-        die "Free fields were deleted, migration is done!";
+        print "Free fields were deleted, migration is already done!";
+        return 1
     }
 
-    return 1;
+    return 0;
 }
 
 =item _DynamicFieldCreation($CommonObject)
@@ -283,20 +287,9 @@ Checks if the free field were drop, then there are nathing to do
 sub _DynamicFieldCreation {
     my $CommonObject = shift;
 
-    my %TicketFreeFields = (
-        freekey  => 16,
-        freetext => 16,
-        freetime => 6,
-    );
-
-    my %ArticleFreeFields = (
-        a_freekey  => 3,
-        a_freetext => 3,
-    );
-
     # select dynamic field entries
     my $SuccessTicket = $CommonObject->{DBObject}->Prepare(
-        SQL => 'SELECT id, name FROM dynamic_field order by id',
+        SQL => 'SELECT id, name FROM dynamic_field',
     );
 
     my %Data;
@@ -304,66 +297,75 @@ sub _DynamicFieldCreation {
         $Data{ $Row[1] } = $Row[0];
     }
 
-    my $ValidID = 1;
-    my $UserID  = 1;
+    my $FieldOrder = 1;
 
-    # insert new dynamic field entries if necessary
-    for my $FreeField ( sort keys %TicketFreeFields ) {
+    # insert new ticket dynamic field entries if necessary
+    for my $Index ( 1 .. 16 ) {
+        for my $FreeField ( 'freekey', 'freetext' ) {
 
-        for my $Index ( 1 .. $TicketFreeFields{$FreeField} ) {
             if ( !$Data{ $FreeField . $Index } ) {
-                my $FieldName  = $FreeField . $Index;
-                my $FieldLabel = $FreeField . 'Label';
-                my $FieldType  = ( $FreeField eq 'freetime' ? 'DateTime' : 'Text' );
-                my $ObjectType = 'Ticket';
-                my $Config     = '';
+                my $FieldName = $FreeField . $Index;
 
-                # insert new dinamic field
-                # sql
+                # insert new dynamic field
                 my $SuccessTicketField = $CommonObject->{DBObject}->Do(
                     SQL =>
-                        'INSERT INTO dynamic_field (name, label, field_type, object_type, config, '
-                        .
-                        'valid_id, create_time, create_by, change_time, change_by)' .
-                        ' VALUES (?, ?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
+                        "INSERT INTO dynamic_field (name, label, field_order, field_type, object_type, config,
+                            valid_id, create_time, create_by, change_time, change_by)
+                        VALUES (?, ?, ?, 'Text', 'Ticket', '', 1, current_timestamp, 1, current_timestamp, 1)",
                     Bind => [
-                        \$FieldName, \$FieldLabel, \$FieldType, \$ObjectType, \$Config,
-                        \$ValidID, \$UserID, \$UserID,
+                        \$FieldName, \$FieldName, \$FieldOrder,
                     ],
                 );
-                if ($SuccessTicketField) {
-                    print "\n Added new dynamic field entry: $FieldName \n";
+                $FieldOrder++;
+                if ( !$SuccessTicketField ) {
+                    die "Could not create new DynamicField $FieldName";
                 }
             }
         }
     }
 
-    # insert new dynamic field entries if necessary
-    for my $FreeField ( sort keys %ArticleFreeFields ) {
+    # insert new ticket dynamic field entries if necessary
+    for my $Index ( 1 .. 6 ) {
 
-        for my $Index ( 1 .. $ArticleFreeFields{$FreeField} ) {
+        if ( !$Data{ 'freetime' . $Index } ) {
+            my $FieldName = 'freetime' . $Index;
+
+            # insert new dynamic field
+            my $SuccessTicketField = $CommonObject->{DBObject}->Do(
+                SQL =>
+                    "INSERT INTO dynamic_field (name, label, field_order, field_type, object_type, config,
+                        valid_id, create_time, create_by, change_time, change_by)
+                    VALUES (?, ?, ?, 'DateTime', 'Ticket', '', 1, current_timestamp, 1, current_timestamp, 1)",
+                Bind => [
+                    \$FieldName, \$FieldName, \$FieldOrder,
+                ],
+            );
+            $FieldOrder++;
+            if ( !$SuccessTicketField ) {
+                die "Could not create new DynamicField $FieldName";
+            }
+        }
+    }
+
+    # insert new article dynamic field entries if necessary
+    for my $Index ( 1 .. 3 ) {
+        for my $FreeField ( 'a_freekey', 'a_freetext' ) {
             if ( !$Data{ $FreeField . $Index } ) {
-                my $FieldName  = $FreeField . $Index;
-                my $FieldLabel = $FreeField . 'Label';
-                my $FieldType  = ( $FreeField eq 'freetime' ? 'DateTime' : 'Text' );
-                my $ObjectType = 'Article';
-                my $Config     = '';
+                my $FieldName = $FreeField . $Index;
 
-                # insert new dinamic field
-                # sql
+                # insert new dynamic field
                 my $SuccessArticleField = $CommonObject->{DBObject}->Do(
                     SQL =>
-                        'INSERT INTO dynamic_field (name, label, field_type, object_type, config, '
-                        .
-                        'valid_id, create_time, create_by, change_time, change_by)' .
-                        ' VALUES (?, ?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
+                        "INSERT INTO dynamic_field (name, label, field_order, field_type, object_type, config,
+                            valid_id, create_time, create_by, change_time, change_by)
+                        VALUES (?, ?, ?, 'Text', 'Article', '', 1, current_timestamp, 1, current_timestamp, 1)",
                     Bind => [
-                        \$FieldName, \$FieldLabel, \$FieldType, \$ObjectType, \$Config,
-                        \$ValidID, \$UserID, \$UserID,
+                        \$FieldName, \$FieldName, \$FieldOrder,
                     ],
                 );
-                if ($SuccessArticleField) {
-                    print "\n Added new dynamic field entry: $FieldName \n";
+                $FieldOrder++;
+                if ( !$SuccessArticleField ) {
+                    die "Could not create new DynamicField $FieldName";
                 }
             }
         }
@@ -399,7 +401,7 @@ sub _DynamicFieldTicketMigration {
         for my $Index ( 1 .. $TicketFreeFields{$FreeField} ) {
             $FreeFieldsTicket   .= $FreeField . $Index . ", ";
             $FreeFieldsTicketDB .= "'" . $FreeField . $Index . "', ";
-            $TicketCondition    .= $FreeField . $Index . " IS NOT NULL or ";
+            $TicketCondition    .= $FreeField . $Index . " IS NOT NULL OR ";
         }
     }
 
@@ -423,8 +425,7 @@ sub _DynamicFieldTicketMigration {
     # select dynamic field entries
     my $SuccessTicketHowMuch = $CommonObject->{DBObject}->Prepare(
         SQL => 'SELECT count(id) FROM ticket ' .
-            'WHERE ' . $TicketCondition . ' ' .
-            'order by id',
+            'WHERE ' . $TicketCondition,
     );
 
     my $HowMuchTickets = 0;
@@ -433,13 +434,13 @@ sub _DynamicFieldTicketMigration {
     }
 
     # create new db connection
-    my $DBConnectionObject = _CommonObjectsBase();
+    my $DBConnectionObject = Kernel::System::DB->new( %{ $CommonObject->{DBObject} } );
 
     # select dynamic field entries
     my $SuccessTicket = $CommonObject->{DBObject}->Prepare(
         SQL => 'SELECT id, ' . $FreeFieldsTicket . ' FROM ticket ' .
             'WHERE ' . $TicketCondition . ' ' .
-            'order by id',
+            'ORDER BY id',
     );
 
     while ( my @Row = $CommonObject->{DBObject}->FetchrowArray() ) {
@@ -448,12 +449,12 @@ sub _DynamicFieldTicketMigration {
         my $ObjectType = 'Ticket';
 
         # select dynamic field entries
-        my $SuccessTicketDynamicFields = $DBConnectionObject->{DBObject}->Prepare(
+        my $SuccessTicketDynamicFields = $DBConnectionObject->Prepare(
             SQL => "SELECT field_id, object_type, object_id FROM dynamic_field_value " .
                 "WHERE object_type ='" . $ObjectType . "' and object_id =" . $Row[0],
         );
         my %DynamicFieldRetrieved;
-        while ( my @Row = $DBConnectionObject->{DBObject}->FetchrowArray() ) {
+        while ( my @Row = $DBConnectionObject->FetchrowArray() ) {
             $DynamicFieldRetrieved{ $Row[0] . $Row[1] . $Row[2] } = $Row[1];
         }
 
@@ -475,7 +476,7 @@ sub _DynamicFieldTicketMigration {
 
                         # insert new dinamic field value
                         # sql
-                        my $SuccessTicketField = $DBConnectionObject->{DBObject}->Do(
+                        my $SuccessTicketField = $DBConnectionObject->Do(
                             SQL =>
                                 'INSERT INTO dynamic_field_value (' .
                                 'field_id, object_type, object_id, value_' . $ValueType .
@@ -531,7 +532,7 @@ sub _DynamicFieldArticleMigration {
         for my $Index ( 1 .. $ArticleFreeFields{$FreeField} ) {
             $FreeFieldsArticle   .= $FreeField . $Index . ", ";
             $FreeFieldsArticleDB .= "'" . $FreeField . $Index . "', ";
-            $ArticleCondition    .= $FreeField . $Index . " IS NOT NULL or ";
+            $ArticleCondition    .= $FreeField . $Index . " IS NOT NULL OR ";
         }
     }
 
@@ -555,8 +556,7 @@ sub _DynamicFieldArticleMigration {
     # select dynamic field entries
     my $SuccessArticleHowMuch = $CommonObject->{DBObject}->Prepare(
         SQL => 'SELECT count(id) FROM article ' .
-            'WHERE ' . $ArticleCondition . ' ' .
-            'order by id',
+            'WHERE ' . $ArticleCondition,
     );
 
     my $HowMuchArticles = 0;
@@ -565,13 +565,13 @@ sub _DynamicFieldArticleMigration {
     }
 
     # create new db connection
-    my $DBConnectionObject = _CommonObjectsBase();
+    my $DBConnectionObject = Kernel::System::DB->new( %{ $CommonObject->{DBObject} } );
 
     # select dynamic field entries
     my $SuccessArticle = $CommonObject->{DBObject}->Prepare(
         SQL => 'SELECT id, ' . $FreeFieldsArticle . ' FROM article ' .
             'WHERE ' . $ArticleCondition . ' ' .
-            'order by id',
+            'ORDER BY id',
     );
 
     while ( my @Row = $CommonObject->{DBObject}->FetchrowArray() ) {
@@ -580,12 +580,12 @@ sub _DynamicFieldArticleMigration {
         my $ObjectType = 'Article';
 
         # select dynamic field entries
-        my $SuccessArticleDynamicFields = $DBConnectionObject->{DBObject}->Prepare(
+        my $SuccessArticleDynamicFields = $DBConnectionObject->Prepare(
             SQL => "SELECT field_id, object_type, object_id FROM dynamic_field_value " .
                 "WHERE object_type ='" . $ObjectType . "' and object_id =" . $Row[0],
         );
         my %DynamicFieldRetrieved;
-        while ( my @Row = $DBConnectionObject->{DBObject}->FetchrowArray() ) {
+        while ( my @Row = $DBConnectionObject->FetchrowArray() ) {
             $DynamicFieldRetrieved{ $Row[0] . $Row[1] . $Row[2] } = $Row[1];
         }
 
@@ -607,7 +607,7 @@ sub _DynamicFieldArticleMigration {
 
                         # insert new dinamic field value
                         # sql
-                        my $SuccessArticleField = $DBConnectionObject->{DBObject}->Do(
+                        my $SuccessArticleField = $DBConnectionObject->Do(
                             SQL =>
                                 'INSERT INTO dynamic_field_value (' .
                                 'field_id, object_type, object_id, value_' . $ValueType .
