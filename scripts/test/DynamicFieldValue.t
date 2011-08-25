@@ -2,7 +2,7 @@
 # DynamicFieldValue.t - DynamicFieldValue backend tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicFieldValue.t,v 1.3 2011-08-25 17:56:19 cr Exp $
+# $Id: DynamicFieldValue.t,v 1.4 2011-08-25 21:12:14 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -74,7 +74,8 @@ my @Tests = (
         Name               => 'No FieldID',
         DynamicFieldConfig => {},
         ObjectID           => $TicketID,
-        SuccessSet         => 0,
+        UserID             => 1,
+        Success            => 0,
     },
     {
         Name               => 'No ObjectID',
@@ -82,18 +83,26 @@ my @Tests = (
             ID         => -1,
             ObjectType => 'Ticket',
         },
-        SuccessSet => 0,
+        UserID  => 1,
+        Success => 0,
     },
     {
         Name               => 'No ObjectType',
         DynamicFieldConfig => {
             ID => -1,
         },
-        ObjectID   => $TicketID,
-        SuccessSet => 0,
+        ObjectID => $TicketID,
+        UserID   => 1,
+        Success  => 0,
     },
-
-    #TODO find and add more fail cases
+    {
+        Name               => 'No UserID',
+        DynamicFieldConfig => {
+            ID => -1,
+        },
+        ObjectID => $TicketID,
+        Success  => 0,
+    },
     {
         Name               => 'Set Text Value',
         DynamicFieldConfig => {
@@ -104,7 +113,8 @@ my @Tests = (
         Value    => {
             ValueText => 'a text',
         },
-        SuccessSet => 1,
+        UserID  => 1,
+        Success => 1,
     },
     {
         Name               => 'Set Date Value',
@@ -116,7 +126,8 @@ my @Tests = (
         Value    => {
             ValueDateTime => '1977-12-12 12:00:00',
         },
-        SuccessSet => 1,
+        UserID  => 1,
+        Success => 1,
     },
     {
         Name               => 'Set Int Value',
@@ -128,7 +139,8 @@ my @Tests = (
         Value    => {
             ValueInt => 1,
         },
-        SuccessSet => 1,
+        UserID  => 1,
+        Success => 1,
     },
     {
         Name               => 'Set All Values',
@@ -142,10 +154,25 @@ my @Tests = (
             ValueDateTime => '1977-12-12 12:00:00',
             ValueInt      => 1,
         },
-        SuccessSet => 1,
+        UserID  => 1,
+        Success => 1,
+    },
+    {
+        Name               => 'Set All Values Umlaut',
+        DynamicFieldConfig => {
+            ID         => $FieldID,
+            ObjectType => 'Ticket',
+        },
+        ObjectID => $TicketID,
+        Value    => {
+            ValueText     => 'äöüßÄÖÜ€ис',
+            ValueDateTime => '1977-12-12 12:00:00',
+            ValueInt      => 1,
+        },
+        UserID  => 1,
+        Success => 1,
     },
 
-    # TODO add ValueGet() specific tests
 );
 
 for my $Test (@Tests) {
@@ -153,13 +180,39 @@ for my $Test (@Tests) {
         FieldID    => $Test->{DynamicFieldConfig}->{ID},
         ObjectType => $Test->{DynamicFieldConfig}->{ObjectType},
         ObjectID   => $Test->{ObjectID},
+        UserID     => $Test->{UserID},
         %{ $Test->{Value} },
     );
 
-    if ( !$Test->{SuccessSet} ) {
+    if ( !$Test->{Success} ) {
         $Self->False(
             $Success,
             "ValueSet() - Test $Test->{Name} - with False",
+        );
+
+        # Try to get the value with ValueGet()
+        my $Value = $DynamicFieldValueObject->ValueGet(
+            FieldID    => $Test->{DynamicFieldConfig}->{ID},
+            ObjectType => $Test->{DynamicFieldConfig}->{ObjectType},
+            ObjectID   => $Test->{ObjectID},
+        );
+
+        $Self->False(
+            $Value,
+            "ValueGet() - Test $Test->{Name} - with False",
+        );
+
+        # try to delete the value with ValueDelete()
+        my $DeleteSuccess = $DynamicFieldValueObject->ValueDelete(
+            FieldID    => $Test->{DynamicFieldConfig}->{ID},
+            ObjectType => $Test->{DynamicFieldConfig}->{ObjectType},
+            ObjectID   => $Test->{ObjectID},
+            UserID     => $Test->{UserID},
+        );
+
+        $Self->False(
+            $DeleteSuccess,
+            "ValueDelete() - Test $Test->{Name} - with False",
         );
     }
     else {
@@ -191,6 +244,78 @@ for my $Test (@Tests) {
         }
     }
 }
+
+# specific tests for ValueGet() ValueDelete
+@Tests = (
+    {
+        Name               => 'Wrong FieldID',
+        DynamicFieldConfig => {
+            ID         => -1,
+            ObjectType => 'Ticket',
+        },
+        ObjectID => $TicketID,
+        UserID   => 1,
+    },
+    {
+        Name               => 'Wrong ObjectType',
+        DynamicFieldConfig => {
+            ID         => $FieldID,
+            ObjectType => 'InvalidObject',
+        },
+        ObjectID => $TicketID,
+        UserID   => 1,
+    },
+    {
+        Name               => 'Wrong ObjectID',
+        DynamicFieldConfig => {
+            ID         => $FieldID,
+            ObjectType => 'Ticket',
+        },
+        ObjectID => -1,
+        UserID   => 1,
+    },
+);
+
+for my $Test (@Tests) {
+
+    # try to get the value with ValueGet()
+    my $Value = $DynamicFieldValueObject->ValueGet(
+        FieldID    => $Test->{DynamicFieldConfig}->{ID},
+        ObjectType => $Test->{DynamicFieldConfig}->{ObjectType},
+        ObjectID   => $Test->{ObjectID},
+    );
+
+    $Self->False(
+        $Value->{ID},
+        "ValueGet() - Test $Test->{Name} - with False",
+    );
+
+    # try to delete the value with ValueDelete()
+    my $DeleteSuccess = $DynamicFieldValueObject->ValueDelete(
+        FieldID    => $Test->{DynamicFieldConfig}->{ID},
+        ObjectType => $Test->{DynamicFieldConfig}->{ObjectType},
+        ObjectID   => $Test->{ObjectID},
+        UserID     => $Test->{UserID},
+    );
+
+    $Self->False(
+        $DeleteSuccess,
+        "ValueDelete() - Test $Test->{Name} - with False",
+    );
+}
+
+# delete the value with ValueDelete()
+my $DeleteSuccess = $DynamicFieldValueObject->ValueDelete(
+    FieldID    => $FieldID,
+    ObjectType => 'Ticket',
+    ObjectID   => $TicketID,
+    UserID     => 1,
+);
+
+$Self->True(
+    $DeleteSuccess,
+    "ValueDelete() successful for Field ID $FieldID",
+);
 
 my $FieldDelete = $DynamicFieldObject->DynamicFieldDelete(
     ID     => $FieldID,
