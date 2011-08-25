@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend.pm - Interface for DynamicField backends
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Backend.pm,v 1.6 2011-08-25 03:29:01 cr Exp $
+# $Id: Backend.pm,v 1.7 2011-08-25 09:28:57 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use warnings;
 #use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 =head1 NAME
 
@@ -303,7 +303,7 @@ sub ValueGet {
     my %Value;
 
     # sql
-    return if !$Self->{DBObject}->Do(
+    return if !$Self->{DBObject}->Prepare(
         SQL => 'SELECT value_text, value_date, value_int'
             . ' FROM dynamic_field_value'
             . ' WHERE field_id = ? AND object_type = ? AND object_id = ?',
@@ -407,6 +407,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.6 $ $Date: 2011-08-25 03:29:01 $
+$Revision: 1.7 $ $Date: 2011-08-25 09:28:57 $
 
 =cut
