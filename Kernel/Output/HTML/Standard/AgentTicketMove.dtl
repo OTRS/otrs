@@ -2,7 +2,7 @@
 # AgentTicketMove.dtl - provides HTML form for move mask
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMove.dtl,v 1.75 2011-08-19 16:43:00 en Exp $
+# $Id: AgentTicketMove.dtl,v 1.76 2011-08-26 16:57:20 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -46,7 +46,7 @@
 
             <div class="Content">
                 <fieldset class="TableLike FixedLabel">
-                    <label for="DestQueueID">$Text{"New Queue"}:</label>
+                    <label class="Mandatory" for="DestQueueID"><span class="Marker">*</span> $Text{"New Queue"}:</label>
                     <div class="Field">
                         $Data{"MoveQueuesStrg"}
                         <div id="DestQueueIDError" class="TooltipErrorMessage" ><p>$Text{"This field is required."}</p></div>
