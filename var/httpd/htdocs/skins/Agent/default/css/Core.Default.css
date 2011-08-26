@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.40.2.1 $
+ * @version     $Revision: 1.40.2.2 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -533,7 +533,7 @@ tbody tr:hover span.UnreadArticles {
  * @subsection  Charts
  */
 .Chart {
-    width: 250px;
+    width: 240px;
     height: 200px;
 }
 
