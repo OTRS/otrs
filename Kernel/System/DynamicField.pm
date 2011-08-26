@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField.pm - DynamicFields configuration backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicField.pm,v 1.31 2011-08-26 16:49:41 cg Exp $
+# $Id: DynamicField.pm,v 1.32 2011-08-26 22:46:25 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::Cache;
 use Kernel::System::DynamicField::Backend;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.31 $) [1];
+$VERSION = qw($Revision: 1.32 $) [1];
 
 =head1 NAME
 
@@ -149,6 +149,21 @@ sub DynamicFieldAdd {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "Not valid letters on Name:$Param{Name}!"
+        );
+        return;
+    }
+
+    # check is Name already exists
+    my $DynamicFieldDuplicated = $Self->DynamicFieldList(
+        ResultType => 'HASH',
+    );
+    my %DuplicatedFields = reverse %{$DynamicFieldDuplicated};
+    %DuplicatedFields = map { $_ => lc $DuplicatedFields{$_} } keys %DuplicatedFields;
+
+    if ( defined $DuplicatedFields{ lc( $Param{Name} ) } ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "The name $Param{Name} already exists for a dynamic field!"
         );
         return;
     }
@@ -348,6 +363,25 @@ sub DynamicFieldUpdate {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "Not valid letters on Name:$Param{Name} or ObjectType:$Param{ObjectType}!"
+        );
+        return;
+    }
+
+    # check is Name already exists
+    my $DynamicFieldDuplicated = $Self->DynamicFieldList(
+        ResultType => 'HASH',
+    );
+    my %DuplicatedFields = reverse %{$DynamicFieldDuplicated};
+    %DuplicatedFields = map { $_ => lc $DuplicatedFields{$_} } keys %DuplicatedFields;
+
+    if (
+        defined $DuplicatedFields{ lc( $Param{Name} ) } &&
+        defined $DuplicatedFields{ lc( $Param{Name} ) } eq $Param{ID}
+        )
+    {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "The name $Param{Name} already exists for a dynamic field!"
         );
         return;
     }
@@ -915,6 +949,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.31 $ $Date: 2011-08-26 16:49:41 $
+$Revision: 1.32 $ $Date: 2011-08-26 22:46:25 $
 
 =cut
