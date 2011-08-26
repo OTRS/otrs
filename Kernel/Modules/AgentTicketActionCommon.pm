@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketActionCommon.pm - common file for several modules
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketActionCommon.pm,v 1.38 2011-05-11 20:15:52 mb Exp $
+# $Id: AgentTicketActionCommon.pm,v 1.39 2011-08-26 15:57:13 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -1225,6 +1225,7 @@ sub _Mask {
         else {
             $Priority{SelectedID} = $Param{NewPriorityID};
         }
+        $Priority{SelectedID} ||= $Param{PriorityID};
         $Param{PriorityStrg} = $Self->{LayoutObject}->BuildSelection(
             Data => \%PriorityList,
             Name => 'NewPriorityID',
