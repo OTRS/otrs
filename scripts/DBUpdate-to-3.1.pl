@@ -3,7 +3,7 @@
 # DBUpdate-to-3.1.pl - update script to migrate OTRS 2.4.x to 3.0.x
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-3.1.pl,v 1.4 2011-08-26 08:56:48 mg Exp $
+# $Id: DBUpdate-to-3.1.pl,v 1.5 2011-08-26 09:34:17 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 use Getopt::Std qw();
 use Kernel::Config;
@@ -107,20 +107,27 @@ EOF
     print "done.\n\n";
 
     # verify ticket migration
-    my $VerificationTicketData;
-    print "Step 10 of 10: Verify if Ticket data were succesfuly migrated.. ";
+    my $VerificationTicketData = 1;
+    print "Step 10 of 10: Verify if ticket data was succesfuly migrated.. ";
     if ( !_IsFreefieldsMigrationAlreadyDone($CommonObject) ) {
         $VerificationTicketData = _VerificationTicketData($CommonObject);
     }
     print "done.\n\n";
 
     # verify article migration
-    my $VerificationArticleData;
-    print "Step 10 of 10: Verify if Article data were succesfuly migrated.. ";
+    my $VerificationArticleData = 1;
+    print "Step 10 of 10: Verify if article data was succesfuly migrated.. ";
     if ( !_IsFreefieldsMigrationAlreadyDone($CommonObject) ) {
         $VerificationArticleData = _VerificationArticleData($CommonObject);
     }
     print "done.\n\n";
+
+    if ( !$VerificationTicketData || !$VerificationArticleData ) {
+        print STDERR "Ticket or article data was not successfully migrated!\n";
+        print STDERR
+            "DO NOT CONTINUE THE UPGRADING PROCESS UNTIL THIS ISSUE IS FIXED, OTHERWISE YOU MAY LOSE DATA!\n";
+        die;
+    }
 
     print "Migration completed!\n";
 
@@ -166,7 +173,7 @@ sub RebuildConfig {
     return 1;
 }
 
-=item _CheckFrameworVersion()
+=item _CheckFrameworkVersion()
 
 Check if framework it's the correct one for Dinamic Fields migration.
 
@@ -453,11 +460,11 @@ sub _DynamicFieldTicketMigration {
         # select dynamic field entries
         my $SuccessTicketDynamicFields = $DBConnectionObject->Prepare(
             SQL => "SELECT field_id, object_type, object_id FROM dynamic_field_value " .
-                "WHERE object_type ='" . $ObjectType . "' and object_id =" . $Row[0],
+                "WHERE object_type ='" . $ObjectType . "' AND object_id =" . $Row[0],
         );
         my %DynamicFieldRetrieved;
-        while ( my @Row = $DBConnectionObject->FetchrowArray() ) {
-            $DynamicFieldRetrieved{ $Row[0] . $Row[1] . $Row[2] } = $Row[1];
+        while ( my @DFVRow = $DBConnectionObject->FetchrowArray() ) {
+            $DynamicFieldRetrieved{ $DFVRow[0] . $DFVRow[1] . $DFVRow[2] } = $DFVRow[1];
         }
 
         my $FieldCounter  = 0;
@@ -495,13 +502,13 @@ sub _DynamicFieldTicketMigration {
             }
         }
         if ( !$SuccessTicket ) {
-            print "\n   Free fields from ticket with ID:$Row[0] was not successfuly migrated. \n";
+            print "   Free fields from ticket with ID:$Row[0] was not successfuly migrated. \n";
         }
         else {
 
             # ticket counter
             $MigratedTicketCounter++;
-            print "\n   Migrated ticket $MigratedTicketCounter of $HowMuchTickets. \n";
+            print "   Migrated ticket $MigratedTicketCounter of $HowMuchTickets. \n";
         }
     }
 
@@ -584,7 +591,7 @@ sub _DynamicFieldArticleMigration {
         # select dynamic field entries
         my $SuccessArticleDynamicFields = $DBConnectionObject->Prepare(
             SQL => "SELECT field_id, object_type, object_id FROM dynamic_field_value " .
-                "WHERE object_type ='" . $ObjectType . "' and object_id =" . $Row[0],
+                "WHERE object_type ='" . $ObjectType . "' AND object_id =" . $Row[0],
         );
         my %DynamicFieldRetrieved;
         while ( my @Row = $DBConnectionObject->FetchrowArray() ) {
@@ -607,8 +614,7 @@ sub _DynamicFieldArticleMigration {
                     my $ObjectID   = $Row[0];
                     if ( !defined $DynamicFieldRetrieved{ $FieldID . $ObjectType . $ObjectID } ) {
 
-                        # insert new dinamic field value
-                        # sql
+                        # insert new dynamic field value
                         my $SuccessArticleField = $DBConnectionObject->Do(
                             SQL =>
                                 'INSERT INTO dynamic_field_value (' .
@@ -626,13 +632,13 @@ sub _DynamicFieldArticleMigration {
             }
         }
         if ( !$SuccessArticle ) {
-            print "\n   Free fields from article with ID:$Row[0] was not successfuly migrated. \n";
+            print "   Free fields from article with ID:$Row[0] was not successfuly migrated. \n";
         }
         else {
 
             # article counter
             $MigratedArticleCounter++;
-            print "\n   Migrated article $MigratedArticleCounter of $HowMuchArticles. \n";
+            print "   Migrated article $MigratedArticleCounter of $HowMuchArticles. \n";
         }
     }
 
@@ -707,17 +713,18 @@ sub _VerificationTicketData {
             SQL => 'SELECT id, field_id, object_type, object_id, ' .
                 'value_text, value_int, value_date ' .
                 'FROM dynamic_field_value ' .
-                'WHERE object_id=? and object_type= ? ' .
+                'WHERE object_id=? AND object_type= ? ' .
                 'ORDER BY id',
             Bind => [ \$Row[0], \$ObjectType ],
         );
 
         my %DynamicFieldValue;
-        while ( my @Row = $DBConnectionObject->FetchrowArray() ) {
-            my $TextValue = $Row[4] || '';
-            my $IntValue  = $Row[5] || '';
-            my $DateValue = $Row[6] || '';
-            $DynamicFieldValue{ $Row[1] . $Row[2] . $Row[3] } = $TextValue . $IntValue . $DateValue;
+        while ( my @DFVRow = $DBConnectionObject->FetchrowArray() ) {
+            my $TextValue = defined $DFVRow[4] ? $DFVRow[4] : '';
+            my $IntValue  = defined $DFVRow[5] ? $DFVRow[5] : '';
+            my $DateValue = defined $DFVRow[6] ? $DFVRow[6] : '';
+            $DynamicFieldValue{ $DFVRow[1] . $DFVRow[2] . $DFVRow[3] }
+                = $TextValue . $IntValue . $DateValue;
         }
 
         my $FieldCounter  = 0;
@@ -739,7 +746,12 @@ sub _VerificationTicketData {
                         $Row[$FieldCounter]
                         )
                     {
-                        print "A field was not correctly migrated: ";
+                        print STDERR
+                            "A field was not correctly migrated: $FieldID $ObjectType $ObjectID\n";
+                        print STDERR "  Found DynamicField value '"
+                            . $DynamicFieldValue{ $FieldID . $ObjectType . $ObjectID }
+                            . "', expected '"
+                            . $Row[$FieldCounter] . "'!\n";
                         return 0;
                     }
                 }
@@ -817,17 +829,18 @@ sub _VerificationArticleData {
             SQL => 'SELECT id, field_id, object_type, object_id, ' .
                 'value_text, value_int, value_date ' .
                 'FROM dynamic_field_value ' .
-                'WHERE object_id=? and object_type= ? ' .
+                'WHERE object_id=? AND object_type= ? ' .
                 'ORDER BY id',
             Bind => [ \$Row[0], \$ObjectType ],
         );
 
         my %DynamicFieldValue;
-        while ( my @Row = $DBConnectionObject->FetchrowArray() ) {
-            my $TextValue = $Row[4] || '';
-            my $IntValue  = $Row[5] || '';
-            my $DateValue = $Row[6] || '';
-            $DynamicFieldValue{ $Row[1] . $Row[2] . $Row[3] } = $TextValue . $IntValue . $DateValue;
+        while ( my @DFVRow = $DBConnectionObject->FetchrowArray() ) {
+            my $TextValue = defined $DFVRow[4] ? $DFVRow[4] : '';
+            my $IntValue  = defined $DFVRow[5] ? $DFVRow[5] : '';
+            my $DateValue = defined $DFVRow[6] ? $DFVRow[6] : '';
+            $DynamicFieldValue{ $DFVRow[1] . $DFVRow[2] . $DFVRow[3] }
+                = $TextValue . $IntValue . $DateValue;
         }
 
         my $FieldCounter   = 0;
@@ -841,14 +854,16 @@ sub _VerificationArticleData {
 
                     my $FieldID    = $DynamicFieldIDs{ 'article' . $FreeField . $Index };
                     my $FieldType  = ( $FreeField eq 'articlefreetime' ? 'DateTime' : 'Text' );
-                    my $FieldValue = $Row[$FieldCounter] || '';
+                    my $FieldValue = $Row[$FieldCounter];
                     my $ValueType  = ( $FreeField eq 'articlefreetime' ? 'date' : 'text' );
                     my $ObjectID   = $Row[0];
                     if ( $DynamicFieldValue{ $FieldID . $ObjectType . $ObjectID } ne $FieldValue ) {
-                        print "A field was not correctly migrated: "
-                            . $FieldID
-                            . $ObjectType
-                            . $ObjectID;
+                        print STDERR
+                            "A field was not correctly migrated (Field $FieldID ObjectType $ObjectType ObjectID $ObjectID)!\n";
+                        print STDERR "  Found DynamicField value '"
+                            . $DynamicFieldValue{ $FieldID . $ObjectType . $ObjectID }
+                            . "', expected '"
+                            . $Row[$FieldCounter] . "'!\n";
                         return 0;
                     }
                 }
