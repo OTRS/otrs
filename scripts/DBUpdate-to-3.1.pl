@@ -3,7 +3,7 @@
 # DBUpdate-to-3.1.pl - update script to migrate OTRS 2.4.x to 3.0.x
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-3.1.pl,v 1.6 2011-08-26 17:54:54 cg Exp $
+# $Id: DBUpdate-to-3.1.pl,v 1.7 2011-08-26 18:55:43 cg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 use Getopt::Std qw();
 use Kernel::Config;
@@ -93,14 +93,14 @@ EOF
     print "done.\n\n";
 
     # migrate ticket free field
-    print "Step 5 of 8: Migrate ticket free fields to dynamic fields.. ";
+    print "Step 5 of 8: Migrate ticket free fields to dynamic fields.. \n";
     if ( !_IsFreefieldsMigrationAlreadyDone($CommonObject) ) {
         my $TicketMigrated = _DynamicFieldTicketMigration($CommonObject);
     }
     print "done.\n\n";
 
     # migrate ticket free field
-    print "Step 6 of 8: Migrate article free fields to dynamic fields.. ";
+    print "Step 6 of 8: Migrate article free fields to dynamic fields.. \n";
     if ( !_IsFreefieldsMigrationAlreadyDone($CommonObject) ) {
         my $ArticleMigrated = _DynamicFieldArticleMigration($CommonObject);
     }
@@ -508,9 +508,12 @@ sub _DynamicFieldTicketMigration {
 
             # ticket counter
             $MigratedTicketCounter++;
-            print "   Migrated ticket $MigratedTicketCounter of $HowMuchTickets. \n";
+            print "   Migrated ticket $MigratedTicketCounter of $HowMuchTickets. \n"
+                if ( $MigratedTicketCounter % 100 ) == 0;
         }
     }
+
+    print "\n Migrated $MigratedTicketCounter tickets of $HowMuchTickets. \n";
 
     return $MigratedTicketCounter;
 }
@@ -638,9 +641,12 @@ sub _DynamicFieldArticleMigration {
 
             # article counter
             $MigratedArticleCounter++;
-            print "   Migrated article $MigratedArticleCounter of $HowMuchArticles. \n";
+            print "   Migrated article $MigratedArticleCounter of $HowMuchArticles. \n"
+                if ( $MigratedArticleCounter % 100 ) == 0;
         }
     }
+
+    print "\n Migrated $MigratedArticleCounter articles of $HowMuchArticles. \n";
 
     return $MigratedArticleCounter;
 }
