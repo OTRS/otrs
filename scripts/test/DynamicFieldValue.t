@@ -2,7 +2,7 @@
 # DynamicFieldValue.t - DynamicFieldValue backend tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicFieldValue.t,v 1.4 2011-08-25 21:12:14 cr Exp $
+# $Id: DynamicFieldValue.t,v 1.5 2011-08-26 11:18:54 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -317,6 +317,38 @@ $Self->True(
     "ValueDelete() successful for Field ID $FieldID",
 );
 
+# set a "New Value"
+{
+    my $Success = $DynamicFieldValueObject->ValueSet(
+        FieldID    => $FieldID,
+        ObjectType => 'Ticket',
+        ObjectID   => $TicketID,
+        ValueText  => 'New Value',
+        UserID     => 1,
+    );
+
+    # sanity check
+    $Self->True(
+        $Success,
+        "ValueSet() - New Value - with True - for FieldID $FieldID",
+    );
+
+    # get the value with ValueGet()
+    my $Value = $DynamicFieldValueObject->ValueGet(
+        FieldID    => $FieldID,
+        ObjectType => 'Ticket',
+        ObjectID   => $TicketID
+    );
+
+    # sanity check
+    $Self->Is(
+        $Value->{ValueText},
+        'New Value',
+        "ValueGet() - New Value for ValueText - for FieldID $FieldID",
+    );
+}
+
+# delete the dynamic field
 my $FieldDelete = $DynamicFieldObject->DynamicFieldDelete(
     ID     => $FieldID,
     UserID => 1,
@@ -328,6 +360,22 @@ $Self->True(
     "DynamicFieldDelete() successful for Field ID $FieldID",
 );
 
+# now that the field was deleted also "New Value" should be deleted too"
+{
+    my $DeleteSuccess = $DynamicFieldValueObject->ValueDelete(
+        FieldID    => $FieldID,
+        ObjectType => 'Ticket',
+        ObjectID   => $TicketID,
+        UserID     => 1,
+    );
+
+    $Self->False(
+        $DeleteSuccess,
+        "ValueDelete() unsuccessful for New Value - for FieldID $FieldID",
+    );
+}
+
+# delete the ticket
 my $TicketDelete = $TicketObject->TicketDelete(
     TicketID => $TicketID,
     UserID   => 1,
