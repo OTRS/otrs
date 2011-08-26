@@ -3,7 +3,7 @@
 # DBUpdate-to-3.1.pl - update script to migrate OTRS 2.4.x to 3.0.x
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-3.1.pl,v 1.5 2011-08-26 09:34:17 mg Exp $
+# $Id: DBUpdate-to-3.1.pl,v 1.6 2011-08-26 17:54:54 cg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 use Getopt::Std qw();
 use Kernel::Config;
@@ -65,7 +65,7 @@ EOF
     # create common objects
     my $CommonObject = _CommonObjectsBase();
 
-    print "Step 1 of 10: Refresh configuration cache... ";
+    print "Step 1 of 8: Refresh configuration cache... ";
     RebuildConfig($CommonObject);
     print "done.\n\n";
 
@@ -73,11 +73,11 @@ EOF
     $CommonObject = _CommonObjectsBase();
 
     # check framework version
-    print "Step 2 of 10: Check framework version... ";
+    print "Step 2 of 8: Check framework version... ";
     _CheckFrameworkVersion($CommonObject);
     print "done.\n\n";
 
-    print "Step 3 of 10: Creating DynamicField tables (if necessary)... ";
+    print "Step 3 of 8: Creating DynamicField tables (if necessary)... ";
     if ( _CheckDynamicFieldTables($CommonObject) ) {
         print "done.\n\n";
     }
@@ -86,21 +86,21 @@ EOF
     }
 
     # insert dynamic field records, if necessary
-    print "Step 4 of 10: Create new dynamic fields for free fields (text, key, date)... ";
+    print "Step 4 of 8: Create new dynamic fields for free fields (text, key, date)... ";
     if ( !_IsFreefieldsMigrationAlreadyDone($CommonObject) ) {
         _DynamicFieldCreation($CommonObject);
     }
     print "done.\n\n";
 
     # migrate ticket free field
-    print "Step 5 of 10: Migrate ticket free fields to dynamic fields.. ";
+    print "Step 5 of 8: Migrate ticket free fields to dynamic fields.. ";
     if ( !_IsFreefieldsMigrationAlreadyDone($CommonObject) ) {
         my $TicketMigrated = _DynamicFieldTicketMigration($CommonObject);
     }
     print "done.\n\n";
 
     # migrate ticket free field
-    print "Step 6 of 10: Migrate article free fields to dynamic fields.. ";
+    print "Step 6 of 8: Migrate article free fields to dynamic fields.. ";
     if ( !_IsFreefieldsMigrationAlreadyDone($CommonObject) ) {
         my $ArticleMigrated = _DynamicFieldArticleMigration($CommonObject);
     }
@@ -108,7 +108,7 @@ EOF
 
     # verify ticket migration
     my $VerificationTicketData = 1;
-    print "Step 10 of 10: Verify if ticket data was succesfuly migrated.. ";
+    print "Step 7 of 8: Verify if ticket data was succesfuly migrated.. ";
     if ( !_IsFreefieldsMigrationAlreadyDone($CommonObject) ) {
         $VerificationTicketData = _VerificationTicketData($CommonObject);
     }
@@ -116,7 +116,7 @@ EOF
 
     # verify article migration
     my $VerificationArticleData = 1;
-    print "Step 10 of 10: Verify if article data was succesfuly migrated.. ";
+    print "Step 8 of 8: Verify if article data was succesfuly migrated.. ";
     if ( !_IsFreefieldsMigrationAlreadyDone($CommonObject) ) {
         $VerificationArticleData = _VerificationArticleData($CommonObject);
     }
@@ -287,7 +287,7 @@ sub _IsFreefieldsMigrationAlreadyDone {
 
 =item _DynamicFieldCreation($CommonObject)
 
-Checks if the free field were drop, then there are nathing to do
+Create new dynamic field entries for free fields on ticket and article table, if necessary.
 
     _DynamicFieldCreation($CommonObject);
 
@@ -310,7 +310,7 @@ sub _DynamicFieldCreation {
 
     # insert new ticket dynamic field entries if necessary
     for my $Index ( 1 .. 16 ) {
-        for my $FreeField ( 'ticketfreekey', 'ticketfreetext' ) {
+        for my $FreeField ( 'TicketFreeKey', 'TicketFreeText' ) {
 
             if ( !$Data{ $FreeField . $Index } ) {
                 my $FieldName = $FreeField . $Index;
@@ -336,8 +336,8 @@ sub _DynamicFieldCreation {
     # insert new ticket dynamic field entries if necessary
     for my $Index ( 1 .. 6 ) {
 
-        if ( !$Data{ 'ticketfreetime' . $Index } ) {
-            my $FieldName = 'ticketfreetime' . $Index;
+        if ( !$Data{ 'TicketFreeTime' . $Index } ) {
+            my $FieldName = 'TicketFreeTime' . $Index;
 
             # insert new dynamic field
             my $SuccessTicketField = $CommonObject->{DBObject}->Do(
@@ -358,7 +358,7 @@ sub _DynamicFieldCreation {
 
     # insert new article dynamic field entries if necessary
     for my $Index ( 1 .. 3 ) {
-        for my $FreeField ( 'articlefreekey', 'articlefreetext' ) {
+        for my $FreeField ( 'ArticleFreeKey', 'ArticleFreeText' ) {
             if ( !$Data{ $FreeField . $Index } ) {
                 my $FieldName = $FreeField . $Index;
 
@@ -385,7 +385,7 @@ sub _DynamicFieldCreation {
 
 =item _DynamicFieldTicketMigration($CommonObject)
 
-Checks if the free field were drop, then there are nathing to do
+Copy data from ticket free fields to dynamic fields.
 
     _DynamicFieldTicketMigration($CommonObject);
 
@@ -396,9 +396,9 @@ sub _DynamicFieldTicketMigration {
 
     my $MigratedTicketCounter = 0;
     my %TicketFreeFields      = (
-        freekey  => 16,
-        freetext => 16,
-        freetime => 6,
+        FreeKey  => 16,
+        FreeText => 16,
+        FreeTime => 6,
     );
 
     # create fields string and condition
@@ -408,9 +408,9 @@ sub _DynamicFieldTicketMigration {
     for my $FreeField ( sort keys %TicketFreeFields ) {
 
         for my $Index ( 1 .. $TicketFreeFields{$FreeField} ) {
-            $FreeFieldsTicket   .= $FreeField . $Index . ", ";
-            $FreeFieldsTicketDB .= "'ticket" . $FreeField . $Index . "', ";
-            $TicketCondition    .= $FreeField . $Index . " IS NOT NULL OR ";
+            $FreeFieldsTicket   .= lc($FreeField) . $Index . ", ";
+            $FreeFieldsTicketDB .= "'Ticket" . $FreeField . $Index . "', ";
+            $TicketCondition    .= lc($FreeField) . $Index . " IS NOT NULL OR ";
         }
     }
 
@@ -476,10 +476,10 @@ sub _DynamicFieldTicketMigration {
                 $FieldCounter++;
                 if ( defined $Row[$FieldCounter] ) {
 
-                    my $FieldID    = $DynamicFieldIDs{ 'ticket' . $FreeField . $Index };
-                    my $FieldType  = ( $FreeField eq 'freetime' ? 'DateTime' : 'Text' );
+                    my $FieldID    = $DynamicFieldIDs{ 'Ticket' . $FreeField . $Index };
+                    my $FieldType  = ( $FreeField eq 'FreeTime' ? 'DateTime' : 'Text' );
                     my $FieldValue = $Row[$FieldCounter];
-                    my $ValueType  = ( $FreeField eq 'freetime' ? 'date' : 'text' );
+                    my $ValueType  = ( $FreeField eq 'FreeTime' ? 'date' : 'text' );
                     my $ObjectID   = $Row[0];
                     if ( !defined $DynamicFieldRetrieved{ $FieldID . $ObjectType . $ObjectID } ) {
 
@@ -517,7 +517,7 @@ sub _DynamicFieldTicketMigration {
 
 =item _DynamicFieldArticleMigration($CommonObject)
 
-Checks if the free field were drop, then there are nathing to do
+Copy data from article free fields to dynamic fields.
 
     _DynamicFieldArticleMigration($CommonObject);
 
@@ -528,8 +528,8 @@ sub _DynamicFieldArticleMigration {
 
     my $MigratedArticleCounter = 0;
     my %ArticleFreeFields      = (
-        freekey  => 3,
-        freetext => 3,
+        FreeKey  => 3,
+        FreeText => 3,
     );
 
     # create fields string and condition
@@ -539,9 +539,9 @@ sub _DynamicFieldArticleMigration {
     for my $FreeField ( sort keys %ArticleFreeFields ) {
 
         for my $Index ( 1 .. $ArticleFreeFields{$FreeField} ) {
-            $FreeFieldsArticle   .= 'a_' . $FreeField . $Index . ", ";
-            $FreeFieldsArticleDB .= "'article" . $FreeField . $Index . "', ";
-            $ArticleCondition    .= 'a_' . $FreeField . $Index . " IS NOT NULL OR ";
+            $FreeFieldsArticle   .= 'a_' . lc($FreeField) . $Index . ", ";
+            $FreeFieldsArticleDB .= "'Article" . $FreeField . $Index . "', ";
+            $ArticleCondition    .= 'a_' . lc($FreeField) . $Index . " IS NOT NULL OR ";
         }
     }
 
@@ -607,10 +607,10 @@ sub _DynamicFieldArticleMigration {
                 $FieldCounter++;
                 if ( defined $Row[$FieldCounter] ) {
 
-                    my $FieldID    = $DynamicFieldIDs{ 'article' . $FreeField . $Index };
-                    my $FieldType  = ( $FreeField eq 'freetime' ? 'DateTime' : 'Text' );
+                    my $FieldID    = $DynamicFieldIDs{ 'Article' . $FreeField . $Index };
+                    my $FieldType  = ( $FreeField eq 'FreeTime' ? 'DateTime' : 'Text' );
                     my $FieldValue = $Row[$FieldCounter];
-                    my $ValueType  = ( $FreeField eq 'freetime' ? 'date' : 'text' );
+                    my $ValueType  = ( $FreeField eq 'FreeTime' ? 'date' : 'text' );
                     my $ObjectID   = $Row[0];
                     if ( !defined $DynamicFieldRetrieved{ $FieldID . $ObjectType . $ObjectID } ) {
 
@@ -647,7 +647,7 @@ sub _DynamicFieldArticleMigration {
 
 =item _VerificationTicketData($CommonObject)
 
-Checks if the DynamicField tables exist, and if they don't they will be created.
+Checks if the data for ticket was succesfuly migrated.
 
     _VerificationTicketData($CommonObject);
 
@@ -658,9 +658,9 @@ sub _VerificationTicketData {
 
     my $MigratedTicketCounter = 0;
     my %TicketFreeFields      = (
-        freekey  => 16,
-        freetext => 16,
-        freetime => 6,
+        FreeKey  => 16,
+        FreeText => 16,
+        FreeTime => 6,
     );
 
     # create fields string and condition
@@ -670,9 +670,9 @@ sub _VerificationTicketData {
     for my $FreeField ( sort keys %TicketFreeFields ) {
 
         for my $Index ( 1 .. $TicketFreeFields{$FreeField} ) {
-            $FreeFieldsTicket   .= $FreeField . $Index . ", ";
-            $FreeFieldsTicketDB .= "'ticket" . $FreeField . $Index . "', ";
-            $TicketCondition    .= $FreeField . $Index . " IS NOT NULL OR ";
+            $FreeFieldsTicket   .= lc($FreeField) . $Index . ", ";
+            $FreeFieldsTicketDB .= "'Ticket" . $FreeField . $Index . "', ";
+            $TicketCondition    .= lc($FreeField) . $Index . " IS NOT NULL OR ";
         }
     }
 
@@ -736,10 +736,10 @@ sub _VerificationTicketData {
                 $FieldCounter++;
                 if ( defined $Row[$FieldCounter] ) {
 
-                    my $FieldID    = $DynamicFieldIDs{ 'ticket' . $FreeField . $Index };
-                    my $FieldType  = ( $FreeField eq 'ticketfreetime' ? 'DateTime' : 'Text' );
+                    my $FieldID    = $DynamicFieldIDs{ 'Ticket' . $FreeField . $Index };
+                    my $FieldType  = ( $FreeField eq 'FreeTime' ? 'DateTime' : 'Text' );
                     my $FieldValue = $Row[$FieldCounter];
-                    my $ValueType  = ( $FreeField eq 'ticketfreetime' ? 'date' : 'text' );
+                    my $ValueType  = ( $FreeField eq 'FreeTime' ? 'date' : 'text' );
                     my $ObjectID   = $Row[0];
                     if (
                         $DynamicFieldValue{ $FieldID . $ObjectType . $ObjectID } ne
@@ -764,7 +764,7 @@ sub _VerificationTicketData {
 
 =item _VerificationArticleData($CommonObject)
 
-Checks if the DynamicField tables exist, and if they don't they will be created.
+Checks if the data for ticket was succesfuly migrated.
 
     _VerificationArticleData($CommonObject);
 
@@ -775,8 +775,8 @@ sub _VerificationArticleData {
 
     my $MigratedArticleCounter = 0;
     my %ArticleFreeFields      = (
-        freekey  => 3,
-        freetext => 3,
+        FreeKey  => 3,
+        FreeText => 3,
     );
 
     # create fields string and condition
@@ -786,9 +786,9 @@ sub _VerificationArticleData {
     for my $FreeField ( sort keys %ArticleFreeFields ) {
 
         for my $Index ( 1 .. $ArticleFreeFields{$FreeField} ) {
-            $FreeFieldsArticle   .= 'a_' . $FreeField . $Index . ", ";
-            $FreeFieldsArticleDB .= "'article" . $FreeField . $Index . "', ";
-            $ArticleCondition    .= 'a_' . $FreeField . $Index . " IS NOT NULL OR ";
+            $FreeFieldsArticle   .= 'a_' . lc($FreeField) . $Index . ", ";
+            $FreeFieldsArticleDB .= "'Article" . $FreeField . $Index . "', ";
+            $ArticleCondition    .= 'a_' . lc($FreeField) . $Index . " IS NOT NULL OR ";
         }
     }
 
@@ -852,10 +852,10 @@ sub _VerificationArticleData {
                 $FieldCounter++;
                 if ( defined $Row[$FieldCounter] ) {
 
-                    my $FieldID    = $DynamicFieldIDs{ 'article' . $FreeField . $Index };
-                    my $FieldType  = ( $FreeField eq 'articlefreetime' ? 'DateTime' : 'Text' );
+                    my $FieldID    = $DynamicFieldIDs{ 'Article' . $FreeField . $Index };
+                    my $FieldType  = ( $FreeField eq 'FreeTime' ? 'DateTime' : 'Text' );
                     my $FieldValue = $Row[$FieldCounter];
-                    my $ValueType  = ( $FreeField eq 'articlefreetime' ? 'date' : 'text' );
+                    my $ValueType  = ( $FreeField eq 'FreeTime' ? 'date' : 'text' );
                     my $ObjectID   = $Row[0];
                     if ( $DynamicFieldValue{ $FieldID . $ObjectType . $ObjectID } ne $FieldValue ) {
                         print STDERR
