@@ -3,7 +3,7 @@
 # DBUpdate-to-3.1.pl - update script to migrate OTRS 2.4.x to 3.0.x
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-3.1.pl,v 1.3 2011-08-26 06:13:24 cg Exp $
+# $Id: DBUpdate-to-3.1.pl,v 1.4 2011-08-26 08:56:48 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 use Getopt::Std qw();
 use Kernel::Config;
@@ -119,19 +119,6 @@ EOF
     print "Step 10 of 10: Verify if Article data were succesfuly migrated.. ";
     if ( !_IsFreefieldsMigrationAlreadyDone($CommonObject) ) {
         $VerificationArticleData = _VerificationArticleData($CommonObject);
-    }
-    print "done.\n\n";
-
-    # if ticket and article migration done
-    # drop free fields from ticket and article tables
-    print "Step 10 of 10: Drop free fields from ticket and article tables.. ";
-    if (
-        !_IsFreefieldsMigrationAlreadyDone($CommonObject) &&
-        $VerificationTicketData &&
-        $VerificationArticleData
-        )
-    {
-        _DropFreeFields($CommonObject);
     }
     print "done.\n\n";
 
@@ -650,71 +637,6 @@ sub _DynamicFieldArticleMigration {
     }
 
     return $MigratedArticleCounter;
-}
-
-=item _DropFreeFields($CommonObject)
-
-Checks if the DynamicField tables exist, and if they don't they will be created.
-
-    _DropFreeFields($CommonObject);
-
-=cut
-
-sub _DropFreeFields {
-    my $CommonObject = shift;
-
-    # drop free fields from ticket table
-    my %TicketFreeFields = (
-        freekey  => 16,
-        freetext => 16,
-        freetime => 6,
-    );
-
-    # create fields string and condition
-    for my $FreeField ( sort keys %TicketFreeFields ) {
-
-        for my $Index ( 1 .. $TicketFreeFields{$FreeField} ) {
-            my $SuccessTicket = $CommonObject->{DBObject}->Do(
-                SQL => 'ALTER TABLE ticket DROP column ' . $FreeField . $Index,
-            );
-
-            if ( !$SuccessTicket ) {
-                die "Could not possible to drop free field from ticket table:"
-                    . $FreeField
-                    . $Index . "!\n";
-            }
-            else {
-                print "Deleted field from ticket table:" . $FreeField . $Index . "!\n";
-            }
-        }
-    }
-
-    # drop free fields from article table
-    my %ArticleFreeFields = (
-        freekey  => 3,
-        freetext => 3,
-    );
-
-    # create fields string and condition
-    for my $FreeField ( sort keys %ArticleFreeFields ) {
-
-        for my $Index ( 1 .. $ArticleFreeFields{$FreeField} ) {
-            my $SuccessArticle = $CommonObject->{DBObject}->Do(
-                SQL => 'ALTER TABLE article DROP column ' . $FreeField . $Index,
-            );
-
-            if ( !$SuccessArticle ) {
-                die "Could not possible to drop free field from article table:"
-                    . $FreeField
-                    . $Index . "!\n";
-            }
-            else {
-                print "Deleted field from article table:" . $FreeField . $Index . "!\n";
-            }
-        }
-    }
-
-    return 1;
 }
 
 =item _VerificationTicketData($CommonObject)

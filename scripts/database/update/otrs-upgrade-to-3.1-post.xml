@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<database Name="otrs">
+
+<!-- Drop old free* fields. Perform this ONLY if the migration script DBUpdate-to-3.1.pl was successful! -->
+<TableAlter Name="ticket">
+    <ColumnDrop Name="freetext1"/>
+    <ColumnDrop Name="freetext2"/>
+    <ColumnDrop Name="freetext3"/>
+    <ColumnDrop Name="freetext4"/>
+    <ColumnDrop Name="freetext5"/>
+    <ColumnDrop Name="freetext6"/>
+    <ColumnDrop Name="freetext7"/>
+    <ColumnDrop Name="freetext8"/>
+    <ColumnDrop Name="freetext9"/>
+    <ColumnDrop Name="freetext10"/>
+    <ColumnDrop Name="freetext11"/>
+    <ColumnDrop Name="freetext12"/>
+    <ColumnDrop Name="freetext13"/>
+    <ColumnDrop Name="freetext14"/>
+    <ColumnDrop Name="freetext15"/>
+    <ColumnDrop Name="freetext16"/>
+    <ColumnDrop Name="freekey1"/>
+    <ColumnDrop Name="freekey2"/>
+    <ColumnDrop Name="freekey3"/>
+    <ColumnDrop Name="freekey4"/>
+    <ColumnDrop Name="freekey5"/>
+    <ColumnDrop Name="freekey6"/>
+    <ColumnDrop Name="freekey7"/>
+    <ColumnDrop Name="freekey8"/>
+    <ColumnDrop Name="freekey9"/>
+    <ColumnDrop Name="freekey10"/>
+    <ColumnDrop Name="freekey11"/>
+    <ColumnDrop Name="freekey12"/>
+    <ColumnDrop Name="freekey13"/>
+    <ColumnDrop Name="freekey14"/>
+    <ColumnDrop Name="freekey15"/>
+    <ColumnDrop Name="freekey16"/>
+    <ColumnDrop Name="freetime1"/>
+    <ColumnDrop Name="freetime2"/>
+    <ColumnDrop Name="freetime3"/>
+    <ColumnDrop Name="freetime4"/>
+    <ColumnDrop Name="freetime5"/>
+    <ColumnDrop Name="freetime6"/>
+</TableAlter>
+
+<TableAlter Name="article">
+    <ColumnDrop Name="a_freetext1"/>
+    <ColumnDrop Name="a_freetext2"/>
+    <ColumnDrop Name="a_freetext3"/>
+    <ColumnDrop Name="a_freekey1"/>
+    <ColumnDrop Name="a_freekey2"/>
+    <ColumnDrop Name="a_freekey3"/>
+</TableAlter>
+
+</database>
