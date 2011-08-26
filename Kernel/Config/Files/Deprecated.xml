@@ -1,0 +1,1101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<otrs_config version="1.0" init="Application">
+    <CVS>$Id: Deprecated.xml,v 1.1 2011-08-26 12:48:51 mg Exp $</CVS>
+    <ConfigItem Name="TicketFreeKey1" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Product">Product</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeKey1::DefaultSelection" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <String Regex=""></String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeText1" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="">-</Item>
+                <Item Key="PC">PC</Item>
+                <Item Key="Notebook">Notebook</Item>
+                <Item Key="Phone">Phone</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeText1::DefaultSelection" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <String Regex="">Notebook</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeText1::Link" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <String Regex="">http://some.example.com/handle?query=$LQData{"TicketFreeText1"}</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeKey2" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Product">Product</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeKey2::DefaultSelection" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <String Regex=""></String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeText2" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="">-</Item>
+                <Item Key="PC">PC</Item>
+                <Item Key="Notebook">Notebook</Item>
+                <Item Key="Phone">Phone</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeText2::DefaultSelection" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <String Regex="">Notebook</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeText2::Link" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <String Regex="">http://some.example.com/handle?query=$LQData{"TicketFreeText2"}</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeKey3" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Product">Product</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeKey3::DefaultSelection" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <String Regex=""></String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeText3" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="">-</Item>
+                <Item Key="PC">PC</Item>
+                <Item Key="Notebook">Notebook</Item>
+                <Item Key="Phone">Phone</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeText3::DefaultSelection" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <String Regex="">Notebook</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeText3::Link" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <String Regex="">http://some.example.com/handle?query=$LQData{"TicketFreeText3"}</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeKey4" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Product">Product</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeKey4::DefaultSelection" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <String Regex=""></String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeText4" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="">-</Item>
+                <Item Key="PC">PC</Item>
+                <Item Key="Notebook">Notebook</Item>
+                <Item Key="Phone">Phone</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeText4::DefaultSelection" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <String Regex="">Notebook</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeText4::Link" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <String Regex="">http://some.example.com/handle?query=$LQData{"TicketFreeText4"}</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeKey5" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Product">Product</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeKey5::DefaultSelection" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <String Regex=""></String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeText5" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="">-</Item>
+                <Item Key="PC">PC</Item>
+                <Item Key="Notebook">Notebook</Item>
+                <Item Key="Phone">Phone</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeText5::DefaultSelection" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <String Regex="">Notebook</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeText5::Link" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <String Regex="">http://some.example.com/handle?query=$LQData{"TicketFreeText5"}</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeKey6" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Product">Product</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeKey6::DefaultSelection" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <String Regex=""></String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeText6" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="">-</Item>
+                <Item Key="PC">PC</Item>
+                <Item Key="Notebook">Notebook</Item>
+                <Item Key="Phone">Phone</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeText6::DefaultSelection" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <String Regex="">Notebook</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeText6::Link" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <String Regex="">http://some.example.com/handle?query=$LQData{"TicketFreeText6"}</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeKey7" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Product">Product</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeKey7::DefaultSelection" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <String Regex=""></String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeText7" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="">-</Item>
+                <Item Key="PC">PC</Item>
+                <Item Key="Notebook">Notebook</Item>
+                <Item Key="Phone">Phone</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeText7::DefaultSelection" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <String Regex="">Notebook</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeText7::Link" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <String Regex="">http://some.example.com/handle?query=$LQData{"TicketFreeText7"}</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeKey8" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Product">Product</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeKey8::DefaultSelection" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <String Regex=""></String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeText8" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="">-</Item>
+                <Item Key="PC">PC</Item>
+                <Item Key="Notebook">Notebook</Item>
+                <Item Key="Phone">Phone</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeText8::DefaultSelection" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <String Regex="">Notebook</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeText8::Link" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <String Regex="">http://some.example.com/handle?query=$LQData{"TicketFreeText8"}</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeKey9" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Product">Product</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeKey9::DefaultSelection" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <String Regex=""></String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeText9" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="">-</Item>
+                <Item Key="PC">PC</Item>
+                <Item Key="Notebook">Notebook</Item>
+                <Item Key="Phone">Phone</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeText9::DefaultSelection" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <String Regex="">Notebook</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeText9::Link" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <String Regex="">http://some.example.com/handle?query=$LQData{"TicketFreeText9"}</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeKey10" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Product">Product</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeKey10::DefaultSelection" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <String Regex=""></String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeText10" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="">-</Item>
+                <Item Key="PC">PC</Item>
+                <Item Key="Notebook">Notebook</Item>
+                <Item Key="Phone">Phone</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeText10::DefaultSelection" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <String Regex="">Notebook</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeText10::Link" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <String Regex="">http://some.example.com/handle?query=$LQData{"TicketFreeText10"}</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeKey11" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Product">Product</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeKey11::DefaultSelection" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <String Regex=""></String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeText11" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="">-</Item>
+                <Item Key="PC">PC</Item>
+                <Item Key="Notebook">Notebook</Item>
+                <Item Key="Phone">Phone</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeText11::DefaultSelection" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <String Regex="">Notebook</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeText11::Link" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <String Regex="">http://some.example.com/handle?query=$LQData{"TicketFreeText11"}</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeKey12" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Product">Product</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeKey12::DefaultSelection" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <String Regex=""></String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeText12" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="">-</Item>
+                <Item Key="PC">PC</Item>
+                <Item Key="Notebook">Notebook</Item>
+                <Item Key="Phone">Phone</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeText12::DefaultSelection" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <String Regex="">Notebook</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeText12::Link" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <String Regex="">http://some.example.com/handle?query=$LQData{"TicketFreeText12"}</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeKey13" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Product">Product</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeKey13::DefaultSelection" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <String Regex=""></String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeText13" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="">-</Item>
+                <Item Key="PC">PC</Item>
+                <Item Key="Notebook">Notebook</Item>
+                <Item Key="Phone">Phone</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeText13::DefaultSelection" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <String Regex="">Notebook</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeText13::Link" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <String Regex="">http://some.example.com/handle?query=$LQData{"TicketFreeText13"}</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeKey14" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Product">Product</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeKey14::DefaultSelection" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <String Regex=""></String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeText14" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="">-</Item>
+                <Item Key="PC">PC</Item>
+                <Item Key="Notebook">Notebook</Item>
+                <Item Key="Phone">Phone</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeText14::DefaultSelection" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <String Regex="">Notebook</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeText14::Link" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <String Regex="">http://some.example.com/handle?query=$LQData{"TicketFreeText14"}</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeKey15" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Product">Product</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeKey15::DefaultSelection" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <String Regex=""></String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeText15" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="">-</Item>
+                <Item Key="PC">PC</Item>
+                <Item Key="Notebook">Notebook</Item>
+                <Item Key="Phone">Phone</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeText15::DefaultSelection" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <String Regex="">Notebook</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeText15::Link" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <String Regex="">http://some.example.com/handle?query=$LQData{"TicketFreeText15"}</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeKey16" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Product">Product</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeKey16::DefaultSelection" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <String Regex=""></String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeText16" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="">-</Item>
+                <Item Key="PC">PC</Item>
+                <Item Key="Notebook">Notebook</Item>
+                <Item Key="Phone">Phone</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeText16::DefaultSelection" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <String Regex="">Notebook</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeText16::Link" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeText</SubGroup>
+        <Setting>
+            <String Regex="">http://some.example.com/handle?query=$LQData{"TicketFreeText16"}</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeTimeKey1" Required="1" Valid="1">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeTime</SubGroup>
+        <Setting>
+            <String>Time1</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeTimeOptional1" Required="1" Valid="1">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeTime</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeTimeDiff1" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeTime</SubGroup>
+        <Setting>
+            <String>0</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeTimePeriod1" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeTime</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="YearPeriodPast">5</Item>
+                <Item Key="YearPeriodFuture">5</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeTimeKey2" Required="1" Valid="1">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeTime</SubGroup>
+        <Setting>
+            <String>Time2</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeTimeOptional2" Required="1" Valid="1">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeTime</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeTimeDiff2" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeTime</SubGroup>
+        <Setting>
+            <String>0</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeTimePeriod2" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeTime</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="YearPeriodPast">5</Item>
+                <Item Key="YearPeriodFuture">5</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeTimeKey3" Required="1" Valid="1">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeTime</SubGroup>
+        <Setting>
+            <String>Time3</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeTimeOptional3" Required="1" Valid="1">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeTime</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeTimeDiff3" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeTime</SubGroup>
+        <Setting>
+            <String>0</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeTimePeriod3" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeTime</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="YearPeriodPast">5</Item>
+                <Item Key="YearPeriodFuture">5</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeTimeKey4" Required="1" Valid="1">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeTime</SubGroup>
+        <Setting>
+            <String>Time4</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeTimeOptional4" Required="1" Valid="1">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeTime</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeTimeDiff4" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeTime</SubGroup>
+        <Setting>
+            <String>0</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeTimePeriod4" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeTime</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="YearPeriodPast">5</Item>
+                <Item Key="YearPeriodFuture">5</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeTimeKey5" Required="1" Valid="1">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeTime</SubGroup>
+        <Setting>
+            <String>Time5</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeTimeOptional5" Required="1" Valid="1">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeTime</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeTimeDiff5" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeTime</SubGroup>
+        <Setting>
+            <String>0</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeTimePeriod5" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeTime</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="YearPeriodPast">5</Item>
+                <Item Key="YearPeriodFuture">5</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeTimeKey6" Required="1" Valid="1">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeTime</SubGroup>
+        <Setting>
+            <String>Time6</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeTimeOptional6" Required="1" Valid="1">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeTime</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeTimeDiff6" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeTime</SubGroup>
+        <Setting>
+            <String>0</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketFreeTimePeriod6" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketFreeTime</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="YearPeriodPast">5</Item>
+                <Item Key="YearPeriodFuture">5</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="ArticleFreeKey1" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::ArticleFreeText</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Work1">Work1</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="ArticleFreeKey1::DefaultSelection" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::ArticleFreeText</SubGroup>
+        <Setting>
+            <String Regex=""></String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="ArticleFreeText1" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::ArticleFreeText</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="">-</Item>
+                <Item Key="Research">Research</Item>
+                <Item Key="Bugfix">Bugfix</Item>
+                <Item Key="Consulting">Consulting</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="ArticleFreeText1::DefaultSelection" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::ArticleFreeText</SubGroup>
+        <Setting>
+            <String Regex="">Research</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="ArticleFreeKey2" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::ArticleFreeText</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Work2">Work2</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="ArticleFreeKey2::DefaultSelection" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::ArticleFreeText</SubGroup>
+        <Setting>
+            <String Regex=""></String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="ArticleFreeText2" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::ArticleFreeText</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="">-</Item>
+                <Item Key="Research">Research</Item>
+                <Item Key="Bugfix">Bugfix</Item>
+                <Item Key="Consulting">Consulting</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="ArticleFreeText2::DefaultSelection" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::ArticleFreeText</SubGroup>
+        <Setting>
+            <String Regex="">Research</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="ArticleFreeKey3" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::ArticleFreeText</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Work3">Work3</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="ArticleFreeKey3::DefaultSelection" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::ArticleFreeText</SubGroup>
+        <Setting>
+            <String Regex=""></String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="ArticleFreeText3" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::ArticleFreeText</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="">-</Item>
+                <Item Key="Research">Research</Item>
+                <Item Key="Bugfix">Bugfix</Item>
+                <Item Key="Consulting">Consulting</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="ArticleFreeText3::DefaultSelection" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::ArticleFreeText</SubGroup>
+        <Setting>
+            <String Regex="">Research</String>
+        </Setting>
+    </ConfigItem>
+</otrs_config>
