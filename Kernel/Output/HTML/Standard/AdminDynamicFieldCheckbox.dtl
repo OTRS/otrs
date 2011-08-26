@@ -2,7 +2,7 @@
 # AdminDynamicFieldCheckbox.dtl - provides HTML form for AdminDynamicFieldsTextArea
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminDynamicFieldCheckbox.dtl,v 1.5 2011-08-23 21:09:18 cr Exp $
+# $Id: AdminDynamicFieldCheckbox.dtl,v 1.6 2011-08-26 23:26:01 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -47,10 +47,10 @@
                             <fieldset class="TableLike">
                                 <label class="Mandatory" for="Name"><span class="Marker">*</span> $Text{"Name"}:</label>
                                 <div class="Field">
-                                    <input id="Name" class="W50pc $QData{"NameServerError"} $QData{"ShowWarning"}  Validate_LowercaseNumbers" type="text" maxlength="200" value="$QData{"Name"}" name="Name"/>
-                                    <div id="NameError" class="TooltipErrorMessage"><p>$Text{"This field is required, and value should be lower case letters and numbers only."}</p></div>
+                                    <input id="Name" class="W50pc $QData{"NameServerError"} $QData{"ShowWarning"}  Validate_Alphanumeric" type="text" maxlength="200" value="$QData{"Name"}" name="Name"/>
+                                    <div id="NameError" class="TooltipErrorMessage"><p>$Text{"This field is required, and value should be alphabetic and numeric characters only."}</p></div>
                                     <div id="NameServerError" class="TooltipErrorMessage"><p>$Text{"$Data{"NameServerErrorMessage"}"}</p></div>
-                                    <p class="FieldExplanation">$Text{"Must be unique and only accept lower case letters and numbers."}</p>
+                                    <p class="FieldExplanation">$Text{"Must be unique and only accept alphabetic and numeric characters."}</p>
                                     <p class="Warning Hidden">$Text{"Changing this value will require manual changes in the system."}</p>
                                 </div>
                                 <div class="Clear"></div>

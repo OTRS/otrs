@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminDynamicFieldCheckbox.pm - provides a dynamic fields text config view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminDynamicFieldCheckbox.pm,v 1.5 2011-08-23 21:09:18 cr Exp $
+# $Id: AdminDynamicFieldCheckbox.pm,v 1.6 2011-08-26 23:25:32 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::DynamicField;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -118,8 +118,8 @@ sub _AddAction {
 
     if ( $GetParam{Name} ) {
 
-        # check if name is lowercase
-        if ( $GetParam{Name} !~ m{\A ( ?: [a-z] | \d )+ \z}xms ) {
+        # check if name is alphanumeric
+        if ( $GetParam{Name} !~ m{\A ( ?: [a-zA-Z] | \d )+ \z}xms ) {
 
             # add server error error class
             $Errors{NameServerError} = 'ServerError';
