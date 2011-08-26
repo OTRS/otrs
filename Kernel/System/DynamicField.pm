@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField.pm - DynamicFields configuration backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicField.pm,v 1.29 2011-08-25 17:15:38 cr Exp $
+# $Id: DynamicField.pm,v 1.30 2011-08-26 01:56:08 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::Cache;
 use Kernel::System::DynamicField::Backend;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.29 $) [1];
+$VERSION = qw($Revision: 1.30 $) [1];
 
 =head1 NAME
 
@@ -457,6 +457,7 @@ get DynamicField list ordered by the the "Field Order" field in the DB
 
     my $List = $DynamicFieldObject->DynamicFieldList(
         Valid => 0,             # optional, defaults to 1
+        ObjectType => 'Ticket', # optional, any DynamicFields registered object e.g. Article
         ResultType => 'HASH',   # optional, 'ARRAY' or 'HASH', defaults to 'ARRAY'
     );
 
@@ -488,7 +489,10 @@ sub DynamicFieldList {
     if ( !$Param{Valid} ) {
         $Valid = '0';
     }
-    my $CacheKey = 'DynamicFieldList::Valid::' . $Valid;
+
+    my $ObjectType = $Param{ObjectType} || 'All';
+
+    my $CacheKey = 'DynamicFieldList::Valid::' . $Valid . 'ObjectType' . $ObjectType;
     my $Cache    = $Self->{CacheObject}->Get(
         Type => 'DynamicField',
         Key  => $CacheKey,
@@ -507,7 +511,17 @@ sub DynamicFieldList {
 
     if ( !defined $Param{Valid} || $Param{Valid} eq 1 ) {
         $SQL .= ' WHERE valid_id IN (' . join ', ', $Self->{ValidObject}->ValidIDsGet() . ')';
+
+        if ( $Param{ObjectType} && $Param{ObjectType} ne 'All' ) {
+            $SQL .= " AND object_type = '" . $Self->{DBObject}->Quote( $Param{ObjectType} ) . "'";
+        }
     }
+    else {
+        if ( $Param{ObjectType} && $Param{ObjectType} ne 'All' ) {
+            $SQL .= " WHERE object_type = '" . $Self->{DBObject}->Quote( $Param{ObjectType} ) . "'";
+        }
+    }
+
     $SQL .= " ORDER BY field_order, id";
 
     return if !$Self->{DBObject}->Prepare( SQL => $SQL );
@@ -566,7 +580,8 @@ get DynamicField list with complete data ordered by the "Field Order" field in t
     or
 
     my $List = $DynamicFieldObject->DynamicFieldListGet(
-        Valid => 0, # optional, defaults to 1
+        Valid        => 0,            # optional, defaults to 1
+        ObjectType   => 'Ticket',     # optional, any DynamicFields registered object e.g. Article
     );
 
 Returns:
@@ -608,7 +623,9 @@ sub DynamicFieldListGet {
         $Valid = '0';
     }
 
-    my $CacheKey = 'DynamicFieldListGet::Valid::' . $Valid;
+    my $ObjectType = $Param{ObjectType} || 'All';
+
+    my $CacheKey = 'DynamicFieldListGet::Valid::' . $Valid . 'ObjectType' . $ObjectType;
     my $Cache    = $Self->{CacheObject}->Get(
         Type => 'DynamicField',
         Key  => $CacheKey,
@@ -625,7 +642,17 @@ sub DynamicFieldListGet {
 
     if ( !defined $Param{Valid} || $Param{Valid} eq 1 ) {
         $SQL .= ' WHERE valid_id IN (' . join ', ', $Self->{ValidObject}->ValidIDsGet() . ')';
+
+        if ( $Param{ObjectType} && $Param{ObjectType} ne 'All' ) {
+            $SQL .= " AND object_type = '" . $Self->{DBObject}->Quote( $Param{ObjectType} ) . "'";
+        }
     }
+    else {
+        if ( $Param{ObjectType} && $Param{ObjectType} ne 'All' ) {
+            $SQL .= " WHERE object_type = '" . $Self->{DBObject}->Quote( $Param{ObjectType} ) . "'";
+        }
+    }
+
     $SQL .= " ORDER BY field_order, id";
 
     return if !$Self->{DBObject}->Prepare( SQL => $SQL );
@@ -888,6 +915,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.29 $ $Date: 2011-08-25 17:15:38 $
+$Revision: 1.30 $ $Date: 2011-08-26 01:56:08 $
 
 =cut

@@ -2,7 +2,7 @@
 # DynamicField.t - DynamicField tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicField.t,v 1.12 2011-08-25 20:35:15 cg Exp $
+# $Id: DynamicField.t,v 1.13 2011-08-26 01:56:08 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -44,7 +44,7 @@ my @Tests = (
             Label      => 'something for label',
             FieldOrder => 1,
             FieldType  => 'text',
-            ObjectType => 'article',
+            ObjectType => 'Article',
             ValidID    => 1,
             UserID     => $UserID,
         },
@@ -61,7 +61,7 @@ my @Tests = (
             Label      => '!"§$%&/()=?Ü*ÄÖL:L@,.-',
             FieldOrder => 1,
             FieldType  => 'date',
-            ObjectType => 'ticket',
+            ObjectType => 'Ticket',
             ValidID    => 1,
             UserID     => $UserID,
         },
@@ -78,7 +78,7 @@ my @Tests = (
             Label      => 'alabel',
             FieldOrder => 1,
             FieldType  => 'text',
-            ObjectType => 'ticket',
+            ObjectType => 'Ticket',
             ValidID    => 2,
             UserID     => $UserID,
         },
@@ -92,7 +92,7 @@ my @Tests = (
             Label      => 'nothing interesting',
             FieldOrder => 1,
             FieldType  => 'text',
-            ObjectType => 'article',
+            ObjectType => 'Article',
             ValidID    => 2,
             UserID     => $UserID,
         },
@@ -106,7 +106,7 @@ my @Tests = (
             Label      => 'label',
             FieldOrder => 1,
             FieldType  => 'text',
-            ObjectType => 'article',
+            ObjectType => 'Article',
             ValidID    => 2,
             UserID     => $UserID,
         },
@@ -123,7 +123,7 @@ my @Tests = (
             Label      => '',
             FieldOrder => 1,
             FieldType  => 'text',
-            ObjectType => 'ticket',
+            ObjectType => 'Ticket',
             ValidID    => 2,
             UserID     => $UserID,
         },
@@ -140,7 +140,7 @@ my @Tests = (
             Label      => 'Other label',
             FieldOrder => 1,
             FieldType  => '',
-            ObjectType => 'article',
+            ObjectType => 'Article',
             ValidID    => 1,
             UserID     => $UserID,
         },
@@ -174,7 +174,7 @@ my @Tests = (
             Label      => 'Simple Label',
             FieldType  => 'text',
             FieldOrder => 1,
-            ObjectType => 'ticket',
+            ObjectType => 'Ticket',
             ValidID    => '',
             UserID     => $UserID,
         },
@@ -191,7 +191,7 @@ my @Tests = (
             Label      => 'Other label',
             FieldOrder => 1,
             FieldType  => 'text',
-            ObjectType => 'ticket',
+            ObjectType => 'Ticket',
             ValidID    => 1,
             UserID     => '',
         },
@@ -208,7 +208,7 @@ my @Tests = (
             Label      => 'Other label',
             FieldOrder => 1,
             FieldType  => 'text',
-            ObjectType => 'ticket',
+            ObjectType => 'Ticket',
             ValidID    => 1,
             UserID     => $UserID,
         },
@@ -415,6 +415,127 @@ $Self->IsDeeply(
     \@Data,
     "DynamicFieldListGet() from Cache found DynamicField ",
 );
+
+# list get check from DB for object type Test
+$DynamicFieldListGet = $DynamicFieldObject->DynamicFieldListGet(
+    Valid      => 0,
+    ObjectType => 'Test'
+);
+$Self->IsDeeply(
+    $DynamicFieldListGet,
+    [],
+    "DynamicFieldListGet() from DB Empty for ObjetType Test ",
+);
+
+# list get check from cache for object type Test
+$DynamicFieldListGet = $DynamicFieldObject->DynamicFieldListGet(
+    Valid      => 0,
+    ObjectType => 'Test'
+);
+$Self->IsDeeply(
+    $DynamicFieldListGet,
+    [],
+    "DynamicFieldListGet() from cache Empty for ObjetType Test ",
+);
+
+# list check from DB for object type Test
+$DynamicFieldList = $DynamicFieldObject->DynamicFieldList(
+    Valid      => 0,
+    ObjectType => 'Test',
+);
+$Self->Is(
+    scalar @{$DynamicFieldList},
+    0,
+    "DynamicFieldList() from DB empty for FieldType Test ",
+);
+
+# list check from Cache for object type Test
+$DynamicFieldList = $DynamicFieldObject->DynamicFieldList(
+    Valid      => 0,
+    ObjectType => 'Test',
+);
+$Self->Is(
+    scalar @{$DynamicFieldList},
+    0,
+    "DynamicFieldList() from Cache empty for FieldType Test ",
+);
+
+my %SeparatedData;
+my %SeparatedIDs;
+
+# separate ticket and article dynamic fileds
+for my $DynamicField (@Data) {
+
+    if ( $DynamicField->{ObjectType} eq 'Ticket' ) {
+        push @{ $SeparatedData{Ticket} }, $DynamicField;
+        push @{ $SeparatedIDs{Ticket} },  $DynamicField->{ID}
+    }
+    elsif ( $DynamicField->{ObjectType} eq 'Article' ) {
+        push @{ $SeparatedData{Article} }, $DynamicField;
+        push @{ $SeparatedIDs{Article} },  $DynamicField->{ID}
+    }
+}
+
+for my $ObjecType (qw(Ticket Article)) {
+
+    # list get check from DB for each object type
+    $DynamicFieldListGet = $DynamicFieldObject->DynamicFieldListGet(
+        Valid      => 0,
+        ObjectType => $ObjecType
+    );
+    $Self->IsDeeply(
+        $DynamicFieldListGet,
+        $SeparatedData{$ObjecType},
+        "DynamicFieldListGet() from DB for ObjetType $ObjecType ",
+    );
+
+    # list get check from cache for each object type
+    $DynamicFieldListGet = $DynamicFieldObject->DynamicFieldListGet(
+        Valid      => 0,
+        ObjectType => $ObjecType
+    );
+    $Self->IsDeeply(
+        $DynamicFieldListGet,
+        $SeparatedData{$ObjecType},
+        "DynamicFieldListGet() from cache for ObjetType $ObjecType ",
+    );
+
+    # list check from DB for each object type
+    $DynamicFieldList = $DynamicFieldObject->DynamicFieldList(
+        Valid      => 0,
+        ObjectType => $ObjecType,
+    );
+    $Self->Is(
+        scalar @{$DynamicFieldList},
+        scalar @{ $SeparatedData{$ObjecType} },
+        "DynamicFieldList() from DB for FieldType $ObjecType ",
+    );
+
+    # list check deepy from DB for each object type
+    $Self->IsDeeply(
+        $DynamicFieldList,
+        $SeparatedIDs{$ObjecType},
+        "DynamicFieldList() deeply check from DB for FieldType $ObjecType ",
+    );
+
+    # list check from Cache for each object type
+    $DynamicFieldList = $DynamicFieldObject->DynamicFieldList(
+        Valid      => 0,
+        ObjectType => $ObjecType,
+    );
+    $Self->Is(
+        scalar @{$DynamicFieldList},
+        scalar @{ $SeparatedData{$ObjecType} },
+        "DynamicFieldList() from Cache for FieldType $ObjecType ",
+    );
+
+    # list check deepy from Cache for each object type
+    $Self->IsDeeply(
+        $DynamicFieldList,
+        $SeparatedIDs{$ObjecType},
+        "DynamicFieldList() deeply check from Cache for FieldType $ObjecType ",
+    );
+}
 
 # delete config
 for my $DynamicFieldID (@DynamicFieldIDs) {
