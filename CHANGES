@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1758.2.155 2011-08-26 15:02:21 en Exp $
+# $Id: CHANGES,v 1.1758.2.156 2011-08-26 15:58:46 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.11 2011-??-??
+ - 2011-08-26 Fixed bug#7507 - AgentTicketActionCommon.dtl don't know about selected Priority.
  - 2011-08-26 Fixed bug#7504 - 7 Day Stats graph doesn't fit into alloted width.
  - 2011-08-25 Fixed bug#7393 - Error when bouncing a ticket with a new state of open or new.
  - 2011-08-23 Fixed bug#5621 - OpenSearch not working for Internet Explorer 8.
