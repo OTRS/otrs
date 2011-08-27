@@ -2,7 +2,7 @@
 # DynamicFieldValue.t - DynamicFieldValue backend tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicFieldValue.t,v 1.6 2011-08-27 02:24:51 cr Exp $
+# $Id: DynamicFieldValue.t,v 1.7 2011-08-27 17:34:47 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -104,6 +104,84 @@ my @Tests = (
         Success  => 0,
     },
     {
+        Name               => 'Invalid Date',
+        DynamicFieldConfig => {
+            ID         => $FieldID,
+            ObjectType => 'Ticket',
+        },
+        ObjectID => $TicketID,
+        Value    => {
+            ValueDateTime => '23-2003-12 - 45:90:80',
+        },
+        UserID  => 1,
+        Success => 0,
+    },
+    {
+        Name               => 'Invalid Date - No Time',
+        DynamicFieldConfig => {
+            ID         => $FieldID,
+            ObjectType => 'Ticket',
+        },
+        ObjectID => $TicketID,
+        Value    => {
+            ValueDateTime => '1977-12-12',
+        },
+        UserID  => 1,
+        Success => 0,
+    },
+    {
+        Name               => 'Invalid Date - Just Time',
+        DynamicFieldConfig => {
+            ID         => $FieldID,
+            ObjectType => 'Ticket',
+        },
+        ObjectID => $TicketID,
+        Value    => {
+            ValueDateTime => '12:00:00',
+        },
+        UserID  => 1,
+        Success => 0,
+    },
+    {
+        Name               => 'Invalid Integer - Letter',
+        DynamicFieldConfig => {
+            ID         => $FieldID,
+            ObjectType => 'Ticket',
+        },
+        ObjectID => $TicketID,
+        Value    => {
+            ValueInt => 'a',
+        },
+        UserID  => 1,
+        Success => 0,
+    },
+    {
+        Name               => 'Invalid Integer - Numbers and Letters',
+        DynamicFieldConfig => {
+            ID         => $FieldID,
+            ObjectType => 'Ticket',
+        },
+        ObjectID => $TicketID,
+        Value    => {
+            ValueInt => '123a',
+        },
+        UserID  => 1,
+        Success => 0,
+    },
+    {
+        Name               => 'Invalid Integer - Real Number',
+        DynamicFieldConfig => {
+            ID         => $FieldID,
+            ObjectType => 'Ticket',
+        },
+        ObjectID => $TicketID,
+        Value    => {
+            ValueInt => '123.0',
+        },
+        UserID  => 1,
+        Success => 0,
+    },
+    {
         Name               => 'Set Text Value',
         DynamicFieldConfig => {
             ID         => $FieldID,
@@ -112,6 +190,32 @@ my @Tests = (
         ObjectID => $TicketID,
         Value    => {
             ValueText => 'a text',
+        },
+        UserID  => 1,
+        Success => 1,
+    },
+    {
+        Name               => 'Set Text Value - empty',
+        DynamicFieldConfig => {
+            ID         => $FieldID,
+            ObjectType => 'Ticket',
+        },
+        ObjectID => $TicketID,
+        Value    => {
+            ValueText => '',
+        },
+        UserID  => 1,
+        Success => 1,
+    },
+    {
+        Name               => 'Set Text Value - unicode',
+        DynamicFieldConfig => {
+            ID         => $FieldID,
+            ObjectType => 'Ticket',
+        },
+        ObjectID => $TicketID,
+        Value    => {
+            ValueText => 'äöüßÄÖÜ€ис',
         },
         UserID  => 1,
         Success => 1,
@@ -137,7 +241,33 @@ my @Tests = (
         },
         ObjectID => $TicketID,
         Value    => {
-            ValueInt => 1,
+            ValueInt => 14524,
+        },
+        UserID  => 1,
+        Success => 1,
+    },
+    {
+        Name               => 'Set Int Value - Zero',
+        DynamicFieldConfig => {
+            ID         => $FieldID,
+            ObjectType => 'Ticket',
+        },
+        ObjectID => $TicketID,
+        Value    => {
+            ValueInt => 0,
+        },
+        UserID  => 1,
+        Success => 1,
+    },
+    {
+        Name               => 'Set Int Value - Negative',
+        DynamicFieldConfig => {
+            ID         => $FieldID,
+            ObjectType => 'Ticket',
+        },
+        ObjectID => $TicketID,
+        Value    => {
+            ValueInt => -10,
         },
         UserID  => 1,
         Success => 1,
@@ -158,7 +288,7 @@ my @Tests = (
         Success => 1,
     },
     {
-        Name               => 'Set All Values Umlaut',
+        Name               => 'Set All Values unicode',
         DynamicFieldConfig => {
             ID         => $FieldID,
             ObjectType => 'Ticket',
@@ -172,7 +302,6 @@ my @Tests = (
         UserID  => 1,
         Success => 1,
     },
-
 );
 
 for my $Test (@Tests) {
@@ -198,7 +327,7 @@ for my $Test (@Tests) {
         );
 
         $Self->False(
-            $Value,
+            $Value->{ID},
             "ValueGet() - Test $Test->{Name} - with False",
         );
 
