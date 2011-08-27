@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminDynamicFieldText.pm - provides a dynamic fields text config view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminDynamicFieldText.pm,v 1.15 2011-08-27 02:37:28 cr Exp $
+# $Id: AdminDynamicFieldText.pm,v 1.16 2011-08-27 02:50:18 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::DynamicField;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -201,9 +201,8 @@ sub _AddAction {
         );
     }
 
-    # load new URL in parent window and close popup
-    return $Self->{LayoutObject}->PopupClose(
-        URL => "Action=AdminDynamicField",
+    return $Self->{LayoutObject}->Redirect(
+        OP => "Action=AdminDynamicField",
     );
 }
 
@@ -387,9 +386,8 @@ sub _ChangeAction {
         );
     }
 
-    # load new URL in parent window and close popup
-    return $Self->{LayoutObject}->PopupClose(
-        URL => "Action=AdminDynamicField",
+    return $Self->{LayoutObject}->Redirect(
+        OP => "Action=AdminDynamicField",
     );
 }
 
