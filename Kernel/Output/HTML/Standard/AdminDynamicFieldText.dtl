@@ -2,7 +2,7 @@
 # AdminDynamicFieldText.dtl - provides HTML form for AdminDynamicFieldsText
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminDynamicFieldText.dtl,v 1.12 2011-08-26 23:26:01 cg Exp $
+# $Id: AdminDynamicFieldText.dtl,v 1.13 2011-08-27 02:37:28 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -66,7 +66,7 @@
 
                                 <label class="Mandatory" for="FieldOrder"><span class="Marker">*</span> $Text{"Field Order"}:</label>
                                 <div class="Field">
-                                    <input id="FieldOrder" class="W50pc $QData{"FieldOrderServerError"} Validate_Required Validate_Number" type="text" maxlength="200" value="$QData{"FieldOrder"}" name="FieldOrder"/>
+                                    $Data{"DynamicFieldOrderSrtg"}
                                     <div id="FieldOrderError" class="TooltipErrorMessage"><p>$Text{"This field is required and must be numeric."}</p></div>
                                     <div id="FieldOrderServerError" class="TooltipErrorMessage"><p>$Text{"$Data{"FieldOrderServerErrorMessage"}"}</p></div>
                                     <p class="FieldExplanation">$Text{"This is order in which this field will be shown on the screens where is active."}</p>

@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminDynamicFieldText.pm - provides a dynamic fields text config view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminDynamicFieldText.pm,v 1.14 2011-08-26 23:25:32 cg Exp $
+# $Id: AdminDynamicFieldText.pm,v 1.15 2011-08-27 02:37:28 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::DynamicField;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -147,7 +147,7 @@ sub _AddAction {
 
     if ( $GetParam{FieldOrder} ) {
 
-        # check if field order is numeric and possitive
+        # check if field order is numeric and positive
         if ( $GetParam{FieldOrder} !~ m{\A ( ?: \d )+ \z}xms ) {
 
             # add server error error class
@@ -319,7 +319,7 @@ sub _ChangeAction {
 
     if ( $GetParam{FieldOrder} ) {
 
-        # check if field order is numeric and possitive
+        # check if field order is numeric and positive
         if ( $GetParam{FieldOrder} !~ m{\A ( ?: \d )+ \z}xms ) {
 
             # add server error error class
@@ -407,6 +407,36 @@ sub _ShowScreen {
     my $Output = $Self->{LayoutObject}->Header();
     $Output .= $Self->{LayoutObject}->NavigationBar();
 
+    # get all fields
+    my $DynamicFieldList = $Self->{DynamicFieldObject}->DynamicFieldListGet(
+        Valid => 0,
+    );
+
+    # get the list of order numbers (is already sorted).
+    my @DynamicfieldOrderList;
+    for my $Dynamicfield ( @{$DynamicFieldList} ) {
+        push @DynamicfieldOrderList, $Dynamicfield->{FieldOrder};
+    }
+
+    # when adding we need to create an extra order number for the new field
+    if ( $Param{Mode} eq 'Add' ) {
+
+        # get the last element form the order list and add 1
+        my $LastOrderNumber = $DynamicfieldOrderList[-1];
+        $LastOrderNumber++;
+
+        # add this new order number to the end of the list
+        push @DynamicfieldOrderList, $LastOrderNumber;
+    }
+
+    my $DynamicFieldOrderSrtg = $Self->{LayoutObject}->BuildSelection(
+        Data          => \@DynamicfieldOrderList,
+        Name          => 'FieldOrder',
+        SelectedValue => $Param{FieldOrder} || 1,
+        PossibleNone  => 0,
+        Class         => 'W50pc Validate_Number',
+    );
+
     my %ValidList = $Self->{ValidObject}->ValidList();
 
     # create the Validity select
@@ -422,7 +452,7 @@ sub _ShowScreen {
     # define config field specific settings
     my $DefaultValue = $Param{DefaultValue} || '';
 
-    # create de default value element
+    # create the default value element
     $Self->{LayoutObject}->Block(
         Name => 'DefaultValue' . $Param{FieldType},
         Data => {
@@ -436,8 +466,9 @@ sub _ShowScreen {
         TemplateFile => 'AdminDynamicFieldText',
         Data         => {
             %Param,
-            ValidityStrg => $ValidityStrg,
-            DefaultValue => $DefaultValue,
+            ValidityStrg          => $ValidityStrg,
+            DynamicFieldOrderSrtg => $DynamicFieldOrderSrtg,
+            DefaultValue          => $DefaultValue,
             }
     );
 
