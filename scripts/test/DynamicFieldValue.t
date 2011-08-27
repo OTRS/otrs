@@ -2,7 +2,7 @@
 # DynamicFieldValue.t - DynamicFieldValue backend tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicFieldValue.t,v 1.5 2011-08-26 11:18:54 cr Exp $
+# $Id: DynamicFieldValue.t,v 1.6 2011-08-27 02:24:51 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -49,7 +49,7 @@ $Self->True(
     "TicketCreate() successful for Ticket ID $TicketID",
 );
 
-# create a dynamicfield
+# create a dynamic field
 my $FieldID = $DynamicFieldObject->DynamicFieldAdd(
     Name       => "dynamicfieldtest$RandomID",
     Label      => 'a description',
