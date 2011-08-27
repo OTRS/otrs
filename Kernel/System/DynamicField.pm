@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField.pm - DynamicFields configuration backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicField.pm,v 1.32 2011-08-26 22:46:25 cg Exp $
+# $Id: DynamicField.pm,v 1.33 2011-08-27 02:24:09 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::Cache;
 use Kernel::System::DynamicField::Backend;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.32 $) [1];
+$VERSION = qw($Revision: 1.33 $) [1];
 
 =head1 NAME
 
@@ -205,7 +205,9 @@ sub DynamicFieldAdd {
 
     # re-order field list
     my $Success = $Self->_DynamicFieldReorder(
-        ID => $DynamicField->{ID},
+        ID         => $DynamicField->{ID},
+        FieldOrder => $DynamicField->{FieldOrder},
+        Mode       => 'Add',
     );
 
     return $DynamicField->{ID};
@@ -425,7 +427,10 @@ sub DynamicFieldUpdate {
     # re-order field list if a change in the order was made
     if ( $Reorder && $ChangedOrder ) {
         my $Success = $Self->_DynamicFieldReorder(
-            ID => $Param{ID},
+            ID            => $Param{ID},
+            FieldOrder    => $Param{FieldOrder},
+            Mode          => 'Update',
+            OldFieldOrder => $DynamicField->{FieldOrder},
         );
     }
     return 1;
@@ -460,6 +465,13 @@ sub DynamicFieldDelete {
         ID => $Param{ID},
     );
     return if !IsHashRefWithData($DynamicField);
+
+    # re-order before delete
+    my $Success = $Self->_DynamicFieldReorder(
+        ID         => $DynamicField->{ID},
+        FieldOrder => $DynamicField->{FieldOrder},
+        Mode       => 'Delete',
+    );
 
     # delete dynamic field values
     return if !$Self->{DBObject}->Do(
@@ -750,7 +762,7 @@ sub DynamicFieldBackendInstanceGet {
 
     my $FieldType = $Param{FieldConfig}->{FieldType};
 
-    # get the Dynamic Fieds configuration
+    # get the Dynamic Fields configuration
     my $DynamicFieldsConfig = $Self->{ConfigObject}->Get('DynamicFields::Backend');
 
     # check if the registration to the selected field type is valid
@@ -770,7 +782,7 @@ sub DynamicFieldBackendInstanceGet {
     # set the backend file
     my $Backend = 'Kernel::System::DynamicField::Backend::' . $FieldType;
 
-    # check if backend fiel exists
+    # check if backend field exists
     if ( !$Self->{MainObject}->Require($Backend) ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
@@ -785,7 +797,7 @@ sub DynamicFieldBackendInstanceGet {
         FieldType => $FieldType,
     );
 
-    # check if backend object was created succesfully
+    # check if backend object was created successfully
     if ($BackendObject) {
 
         # remember the backend object
@@ -797,7 +809,7 @@ sub DynamicFieldBackendInstanceGet {
 
     return;
 
-    # TODO: delete algorithn
+    # TODO: delete algorithm
 
 =cut
     Algorithm:
@@ -819,7 +831,17 @@ sub DynamicFieldBackendInstanceGet {
 re-order the list of fields.
 
     $Success = $DynamicFieldObject->_DynamicFieldReorder(
-        ID => 123,    # mandatory, the field ID that triggers the re-order
+        ID         => 123,              # mandatory, the field ID that triggers the re-order
+        Mode       => 'Add',            # || Update || Delete
+        FieldOrder => 2,                # mandatory, the FieldOrder from the trigger field
+    );
+
+    $Success = $DynamicFieldObject->_DynamicFieldReorder(
+        ID            => 123,           # mandatory, the field ID that triggers the re-order
+        Mode          => 'Update',      # || Update || Delete
+        FieldOrder    => 2,             # mandatory, the FieldOrder from the trigger field
+        OldFieldOrder => 10,            # mandatory for Mode = 'Update', the FieldOrder before the
+                                        # update
     );
 
 =cut
@@ -828,9 +850,20 @@ sub _DynamicFieldReorder {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    if ( !$Param{ID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need ID!' );
-        return;
+    for my $Needed (qw(ID FieldOrder Mode)) {
+        if ( !$Param{$Needed} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => 'Need $Needed!' );
+            return;
+        }
+    }
+
+    if ( $Param{Mode} eq 'Update' ) {
+
+        # check needed stuff
+        if ( !$Param{OldFieldOrder} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => 'Need OldFieldOrder!' );
+            return;
+        }
     }
 
     # get the Dynamic Field trigger
@@ -838,80 +871,125 @@ sub _DynamicFieldReorder {
         ID => $Param{ID},
     );
 
-    # validate data
-    if ( !IsHashRefWithData($DynamicFieldTrigger) ) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => "Could not get Dynamic Field $Param{ID}!",
-        );
-        return;
-    }
-    if ( !$DynamicFieldTrigger->{FieldOrder} ) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => "The Field Order from  Dynamic Field $DynamicFieldTrigger->{Name} "
-                . 'is invalid!',
-        );
-        return;
-    }
-
-    # extract the field order form the field trigger
-    my $InsertedFieldOrder = $DynamicFieldTrigger->{FieldOrder};
+    # extract the field order form the params
+    my $TriggerFieldOrder = $Param{FieldOrder};
 
     # get all fields
     my $DynamicFieldList = $Self->DynamicFieldListGet(
         Valid => 0,
     );
 
-    # find fields that need to be updated
+    # to store the fields that need to be updated
     my @NeedToUpdateList;
-    my %FieldOrderLookup;
-    DYNAMICFIELD:
-    for my $DynamicField ( @{$DynamicFieldList} ) {
 
-        # skip wrong fields (if any)
-        next DYNAMICFIELD if !IsHashRefWithData($DynamicField);
+    # to add or subtract the field order by 1
+    my $Substract;
 
-        my $CurrentOrder = $DynamicField->{FieldOrder};
+    # update and add has different algorithms to select the fields to be updated
+    # check if update
+    if ( $Param{Mode} eq 'Update' ) {
+        my $OldFieldOrder = $Param{OldFieldOrder};
 
-        if ( $FieldOrderLookup{$CurrentOrder} ) {
-            $FieldOrderLookup{$CurrentOrder} = $FieldOrderLookup{$CurrentOrder} + 1;
+        # if the new order and the old order are equal no operation should be performed
+        # this is a double check from DynamicFieldUpdate (is case of the function is called
+        # from outside)
+        return if $TriggerFieldOrder eq $OldFieldOrder;
+
+        # set subtract mode for selected fields
+        if ( $TriggerFieldOrder gt $OldFieldOrder ) {
+            $Substract = 1;
         }
-        else {
-            $FieldOrderLookup{$CurrentOrder} = 1;
+
+        # identify fields that needs to be updated
+        DYNAMICFIELD:
+        for my $DynamicField ( @{$DynamicFieldList} ) {
+
+            # skip wrong fields (if any)
+            next DYNAMICFIELD if !IsHashRefWithData($DynamicField);
+
+            my $CurrentOrder = $DynamicField->{FieldOrder};
+
+            # skip fields with lower order number
+            next DYNAMICFIELD
+                if $CurrentOrder < $OldFieldOrder && $CurrentOrder < $TriggerFieldOrder;
+
+            # skip trigger field
+            next DYNAMICFIELD
+                if ( $CurrentOrder eq $TriggerFieldOrder && $DynamicField->{ID} eq $Param{ID} );
+
+            # skip this and the rest if has greater order number
+            last DYNAMICFIELD
+                if $CurrentOrder > $OldFieldOrder && $CurrentOrder > $TriggerFieldOrder;
+
+            push @NeedToUpdateList, $DynamicField;
         }
-
-        # skip fields with lower order number
-        next DYNAMICFIELD if $CurrentOrder lt $InsertedFieldOrder;
-
-        # skip trigger field
-        next DYNAMICFIELD
-            if ( $CurrentOrder eq $InsertedFieldOrder && $DynamicField->{ID} eq $Param{ID} );
-
-        # skip this and the rest if there is a hole in the numbering, so the inserted field does
-        # not affect them
-        last DYNAMICFIELD
-            if (
-            !$FieldOrderLookup{ $CurrentOrder - 1 }
-            && $CurrentOrder ne 1
-            && $CurrentOrder ne $InsertedFieldOrder
-            );
-
-        # skip this and the rest if the inserted field fits exactly between two exising fields
-        last DYNAMICFIELD
-            if (
-            $CurrentOrder - 1 eq $InsertedFieldOrder
-            && $FieldOrderLookup{$InsertedFieldOrder} eq 1
-            );
-
-        push @NeedToUpdateList, $DynamicField;
     }
 
+    # check if delete action
+    elsif ( $Param{Mode} eq 'Delete' ) {
+
+        $Substract = 1;
+
+        # identify fields that needs to be updated
+        DYNAMICFIELD:
+        for my $DynamicField ( @{$DynamicFieldList} ) {
+
+            # skip wrong fields (if any)
+            next DYNAMICFIELD if !IsHashRefWithData($DynamicField);
+
+            my $CurrentOrder = $DynamicField->{FieldOrder};
+
+            # skip fields with lower order number
+            next DYNAMICFIELD
+                if $CurrentOrder < $TriggerFieldOrder;
+
+            # skip trigger field
+            next DYNAMICFIELD
+                if ( $CurrentOrder eq $TriggerFieldOrder && $DynamicField->{ID} eq $Param{ID} );
+
+            push @NeedToUpdateList, $DynamicField;
+        }
+    }
+
+    # otherwise is add action
+    else {
+
+        # identify fields that needs to be updated
+        DYNAMICFIELD:
+        for my $DynamicField ( @{$DynamicFieldList} ) {
+
+            # skip wrong fields (if any)
+            next DYNAMICFIELD if !IsHashRefWithData($DynamicField);
+
+            my $CurrentOrder = $DynamicField->{FieldOrder};
+
+            # skip fields with lower order number
+            next DYNAMICFIELD
+                if $CurrentOrder < $TriggerFieldOrder;
+
+            # skip trigger field
+            next DYNAMICFIELD
+                if ( $CurrentOrder eq $TriggerFieldOrder && $DynamicField->{ID} eq $Param{ID} );
+
+            push @NeedToUpdateList, $DynamicField;
+        }
+    }
+
+    # update the fields order incrementing or decrementing by 1
     for my $DynamicField (@NeedToUpdateList) {
 
         # hash ref validation is not needed since it was validated before
-        # add 1 to the dynamic field order value
-        $DynamicField->{FieldOrder}++;
+        # check if need to add or subtract
+        if ($Substract) {
+
+            # subtract 1 to the dynamic field order value
+            $DynamicField->{FieldOrder}--;
+        }
+        else {
+
+            # add 1 to the dynamic field order value
+            $DynamicField->{FieldOrder}++;
+        }
 
         # update the database
         my $Success = $Self->DynamicFieldUpdate(
@@ -920,7 +998,7 @@ sub _DynamicFieldReorder {
             Reorder => 0,
         );
 
-        # check if the update was succesful
+        # check if the update was successful
         if ( !$Success ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
@@ -931,7 +1009,6 @@ sub _DynamicFieldReorder {
         }
     }
     return 1;
-
 }
 1;
 
@@ -949,6 +1026,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.32 $ $Date: 2011-08-26 22:46:25 $
+$Revision: 1.33 $ $Date: 2011-08-27 02:24:09 $
 
 =cut
