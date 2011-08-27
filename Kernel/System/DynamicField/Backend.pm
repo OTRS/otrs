@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend.pm - Interface for DynamicField backends
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Backend.pm,v 1.8 2011-08-25 17:12:44 cr Exp $
+# $Id: Backend.pm,v 1.9 2011-08-27 17:35:48 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,10 +15,11 @@ use strict;
 use warnings;
 
 #use Kernel::System::CacheInternal;
-#use Kernel::System::VariableCheck qw(:all);
+use Kernel::System::VariableCheck qw(:all);
+use Kernel::System::DynamicFieldValue;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 =head1 NAME
 
@@ -95,6 +96,9 @@ sub new {
 
         $Self->{$Needed} = $Param{$Needed};
     }
+
+    # create addtional objects
+    $Self->{DynamicFieldValueObject} = Kernel::System::DynamicFieldValue->new( %{$Self} );
 
     return $Self;
 }
@@ -176,12 +180,67 @@ sets a dynamic field value.
     my $Success = $BackendObject->ValueSet(
         DynamicFieldConfig => $DynamicFieldConfig,      # complete config of the DynamicField
         ObjectID           => $ObjectID,                # ID of the current object that the field must be linked to, e. g. TicketID
-        Value              => 'some text',              # Value to store, depends on backend type
+        ValueText          => 'some text',              # Text value to store
+        ValueDateTime      => '1977-12-12 12:00:00',    # Date Time value to store
+        ValueInt           => 123,                      # Int value to store
+        UserID             => 123,
     );
 
 =cut
 
 sub ValueSet {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Needed (qw(DynamicFieldConfig ObjectID UserID)) {
+        if ( !$Param{$Needed} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            return;
+        }
+    }
+
+    # check DynamicFieldConfig (general)
+    if ( !IsHashRefWithData( $Param{DynamicFieldConfig} ) ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "The field configuration is invalid",
+        );
+        return;
+    }
+
+    # check DynamicFieldConfig (internaly)
+    for my $Needed (qw(ID ObjectType)) {
+        if ( !$Param{DynamicFieldConfig}->{$Needed} ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed in DynamicFieldConfig!"
+            );
+            return;
+        }
+    }
+
+    my $ObjectID   = $Param{ObjectID};
+    my $FieldID    = $Param{DynamicFieldConfig}->{ID};
+    my $ObjectType = $Param{DynamicFieldConfig}->{ObjectType};
+
+    my %Value;
+
+    # check undefs
+    for my $ValueType (qw(ValueText ValueDateTime ValueInt)) {
+        if ( defined $Param{$ValueType} ) {
+            $Value{$ValueType} = $Param{$ValueType};
+        }
+    }
+
+    my $Success = $Self->{DynamicFieldValueObject}->ValueSet(
+        FieldID    => $FieldID,
+        ObjectType => $ObjectType,
+        ObjectID   => $ObjectID,
+        %Value,
+        UserID => $Param{UserID},
+    );
+
+    return $Success;
 
 =cut
     Notes
@@ -205,6 +264,47 @@ get a dynamic field value.
 =cut
 
 sub ValueGet {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Needed (qw(DynamicFieldConfig ObjectID)) {
+        if ( !$Param{$Needed} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            return;
+        }
+    }
+
+    # check DynamicFieldConfig (general)
+    if ( !IsHashRefWithData( $Param{DynamicFieldConfig} ) ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "The field configuration is invalid",
+        );
+        return;
+    }
+
+    # check DynamicFieldConfig (internaly)
+    for my $Needed (qw(ID ObjectType)) {
+        if ( !$Param{DynamicFieldConfig}->{$Needed} ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed in DynamicFieldConfig!",
+            );
+            return;
+        }
+    }
+
+    my $ObjectID   = $Param{ObjectID};
+    my $FieldID    = $Param{DynamicFieldConfig}->{ID};
+    my $ObjectType = $Param{DynamicFieldConfig}->{ObjectType};
+
+    my $Value = $Self->{DynamicFieldValueObject}->ValueGet(
+        FieldID    => $FieldID,
+        ObjectType => $ObjectType,
+        ObjectID   => $ObjectID,
+    );
+
+    return $Value;
 
 =cut
     Notes
@@ -292,6 +392,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.8 $ $Date: 2011-08-25 17:12:44 $
+$Revision: 1.9 $ $Date: 2011-08-27 17:35:48 $
 
 =cut
