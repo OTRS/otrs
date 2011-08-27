@@ -2,7 +2,7 @@
 # Kernel/System/DynamicFieldValue.pm - DynamicField values backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicFieldValue.pm,v 1.6 2011-08-27 13:54:26 cr Exp $
+# $Id: DynamicFieldValue.pm,v 1.7 2011-08-27 17:34:02 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,9 +16,10 @@ use warnings;
 
 #use Kernel::System::CacheInternal;
 use Kernel::System::VariableCheck qw(:all);
+use Kernel::System::Time;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 =head1 NAME
 
@@ -96,6 +97,9 @@ sub new {
         $Self->{$Needed} = $Param{$Needed};
     }
 
+    # create additional objects
+    $Self->{TimeObject} = Kernel::System::Time->new( %{$Self} );
+
     return $Self;
 }
 
@@ -137,6 +141,44 @@ sub ValueSet {
 
     # return on ValueGet error
     return if !defined $Value;
+
+    # validate date
+    if ( $Param{ValueDateTime} ) {
+
+        # convert the DateTime value to system time to check errors
+        my $SystemTime = $Self->{TimeObject}->TimeStamp2SystemTime(
+            String => $Param{ValueDateTime},
+        );
+
+        return if !$SystemTime;
+
+        # convert back to time stamp to check errors
+        my $TimeStamp = $Self->{TimeObject}->SystemTime2TimeStamp(
+            SystemTime => $SystemTime,
+        );
+
+        return if !$TimeStamp;
+
+        # compare if the date is the same
+        return if !( $Param{ValueDateTime} eq $TimeStamp )
+    }
+
+    # validate integer
+    if ( $Param{ValueInt} ) {
+
+        if ( $Param{ValueInt} !~ m{\A  -? \d+ \z}smx ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error', Message => "Invalid Integer '$Param{ValueInt}'!"
+            );
+
+            return;
+        }
+    }
+
+    # validate Int Zero
+    if ( defined $Param{ValueInt} && !$Param{ValueInt} ) {
+        $Param{ValueInt} = '0';
+    }
 
     # check if value register does not exist
     if ( !$Value->{ID} ) {
@@ -232,6 +274,7 @@ sub ValueGet {
         }
         $Value{ValueDateTime} =~ s/^(\d\d\d\d-\d\d-\d\d\s\d\d:\d\d:\d\d)\..+?$/$1/;
     }
+
     return \%Value;
 }
 
@@ -297,6 +340,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.6 $ $Date: 2011-08-27 13:54:26 $
+$Revision: 1.7 $ $Date: 2011-08-27 17:34:02 $
 
 =cut
