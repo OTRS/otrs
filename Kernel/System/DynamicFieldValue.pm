@@ -2,7 +2,7 @@
 # Kernel/System/DynamicFieldValue.pm - DynamicField values backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicFieldValue.pm,v 1.4 2011-08-25 21:11:21 cr Exp $
+# $Id: DynamicFieldValue.pm,v 1.5 2011-08-27 13:46:29 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use warnings;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 =head1 NAME
 
@@ -204,10 +204,6 @@ sub ValueGet {
         }
     }
 
-    my $ObjectID   = $Param{ObjectID};
-    my $FieldID    = $Param{DynamicFieldConfig}->{ID};
-    my $ObjectType = $Param{DynamicFieldConfig}->{ObjectType};
-
     my %Value;
 
     # sql
@@ -301,6 +297,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.4 $ $Date: 2011-08-25 21:11:21 $
+$Revision: 1.5 $ $Date: 2011-08-27 13:46:29 $
 
 =cut
