@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.129 2011-08-25 09:51:26 martin Exp $
+# $Id: LayoutTicket.pm,v 1.130 2011-08-29 13:26:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.129 $) [1];
+$VERSION = qw($Revision: 1.130 $) [1];
 
 sub AgentCustomerViewTable {
     my ( $Self, %Param ) = @_;
@@ -341,6 +341,29 @@ sub AgentQueueListOption {
     return $Param{MoveQueuesStrg};
 }
 
+=item AgentFreeText()
+
+generat html for ticket free text fields
+
+    my %HTML = $LayoutObject->AgentFreeText(
+        NullOption => 1,        # if you need a "-" selection option
+        Ticket     => \%Ticket, # optional, current ticket hash if exists
+        Config     => \%Config, # current free field config
+        Class      => ''        # optional, css class for validation
+    );
+
+return:
+
+    my %HTML = (
+        TicketFreeKeyField1   => '<label id="LabelTicketFreeText1">FreeKey:</label><input type="text" name="TicketFreeKey1" value="some value"/>', # html for free key 1
+        TicketFreeTextField1  => '<input type="text" name="TicketFreeText1" value="some value"/>', # html for free text 1
+
+        TicketFreeKeyField16  => '<label id="LabelTicketFreeText16">FreeKey:</label><input type="text" name="TicketFreeKey16" value="some value"/>', # html for free key 16
+        TicketFreeTextField16 => '<select name="TicketFreeText16"><option>-</option><option value="some value">some value</option></select>', # html for free text 16
+    );
+
+=cut
+
 sub AgentFreeText {
     my ( $Self, %Param ) = @_;
 
@@ -350,8 +373,6 @@ sub AgentFreeText {
     my %Config;
     my $Class = '';
     if ( $Param{NullOption} ) {
-
-        #        $NullOption{''} = '-';
         $SelectData{Size}     = 3;
         $SelectData{Multiple} = 1;
     }
@@ -520,18 +541,39 @@ sub AgentFreeText {
     return %Data;
 }
 
+=item AgentFreeDate()
+
+generat html for ticket free time fields
+
+    my $HTML = $LayoutObject->AgentFreeDate(
+        Ticket     => \%Ticket, # optional, current ticket hash if exists
+        Config     => \%Config, # current free time field config
+        Class      => ''        # optional, css class for validation
+    );
+
+return:
+
+    my %HTML = (
+        TicketFreeKey1  => '<lable id="LabelTicketFreeTime" for="TicketFreeTime1">FreeTime1:</label>',
+        TicketFreeTime1  => '
+                        <select name="Month" title="Month" id="Month" class="Validate_DateMonth">
+                            ...
+                        </select>',
+        TicketFreeKey16  => '<lable id="LabelTicketFreeTime" for="TicketFreeTime16">FreeTime16:</label>',
+        TicketFreeTime16  => '
+                        <select name="Month" title="Month" id="Month" class="Validate_DateMonth">
+                            ...
+                        </select>',
+    );
+
+=cut
+
 sub AgentFreeDate {
     my ( $Self, %Param ) = @_;
 
-    my %NullOption;
-    my %SelectData;
     my %Ticket;
     my %Config;
     my $Class = '';
-    if ( $Param{NullOption} ) {
-        $SelectData{Size}     = 3;
-        $SelectData{Multiple} = 1;
-    }
     if ( $Param{Ticket} ) {
         %Ticket = %{ $Param{Ticket} };
     }
@@ -590,6 +632,28 @@ sub AgentFreeDate {
     }
     return %Data;
 }
+
+=item TicketArticleFreeText()
+
+generat html for article free text fields
+
+generat html for article free text fields
+
+    my %HTML = $LayoutObject->TicketArticleFreeText(
+        NullOption => 1,        # if you need a "-" selection option
+        Article    => \%Article, # optional, current article hash if exists
+        Config     => \%Config, # current free field config
+        Class      => ''        # optional, css class for validation
+    );
+
+return:
+
+    my %HTML = (
+        ArticleFreeKeyField1   => '<label id="LabelArticleFreeText1">FreeKey:</label><input type="text" name="ArticleFreeKey1" value="some value"/>', # html for free key 1
+        ArticleFreeTextField1  => '<input type="text" name="ArticleFreeText1" value="some value"/>', # html for free text 1
+    );
+
+=cut
 
 sub TicketArticleFreeText {
     my ( $Self, %Param ) = @_;
@@ -766,17 +830,39 @@ sub TicketArticleFreeText {
     return %Data;
 }
 
+=item CustomerFreeDate()
+
+generat html for ticket free time fields
+
+    my $HTML = $LayoutObject->CustomerFreeDate(
+        Ticket     => \%Ticket, # optional, current ticket hash if exists
+        Config     => \%Config, # current free time field config
+        Class      => ''        # optional, css class for validation
+    );
+
+return:
+
+    my %HTML = (
+        TicketFreeKey1  => '<lable id="LabelTicketFreeTime" for="TicketFreeTime1">FreeTime1:</label>',
+        TicketFreeTime1  => '
+                        <select name="Month" title="Month" id="Month" class="Validate_DateMonth">
+                            ...
+                        </select>',
+        TicketFreeKey16  => '<lable id="LabelTicketFreeTime" for="TicketFreeTime16">FreeTime16:</label>',
+        TicketFreeTime16  => '
+                        <select name="Month" title="Month" id="Month" class="Validate_DateMonth">
+                            ...
+                        </select>',
+    );
+
+=cut
+
 sub CustomerFreeDate {
     my ( $Self, %Param ) = @_;
 
     my %NullOption;
-    my %SelectData;
     my %Ticket;
     my %Config;
-    if ( $Param{NullOption} ) {
-        $SelectData{Size}     = 3;
-        $SelectData{Multiple} = 1;
-    }
     if ( $Param{Ticket} ) {
         %Ticket = %{ $Param{Ticket} };
     }
