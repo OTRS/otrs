@@ -2,7 +2,7 @@
 # DynamicField.t - DynamicField tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicField.t,v 1.17 2011-08-27 02:24:09 cr Exp $
+# $Id: DynamicField.t,v 1.18 2011-08-29 08:45:08 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -1206,13 +1206,13 @@ for my $Dynamicfield ( @{$OriginalDynamicFields} ) {
         $Self->Is(
             $RestoredDynamicField->{$Parameter},
             $Dynamicfield->{$Parameter},
-            "Restored Field match original field on $Parameter - for FieldID $Dynamicfield->{ID}",
-        );
-        $Self->IsDeeply(
-            $RestoredDynamicField->{Config},
-            $Dynamicfield->{Config},
-            "Restored Field match original field on $Parameter - for FieldID $Dynamicfield->{ID}",
+            "Restored Field matches original field on $Parameter - for FieldID $Dynamicfield->{ID}",
         );
     }
+    $Self->IsDeeply(
+        $RestoredDynamicField->{Config},
+        $Dynamicfield->{Config},
+        "Restored Field match original field on Config - for FieldID $Dynamicfield->{ID}",
+    );
 }
 1;
