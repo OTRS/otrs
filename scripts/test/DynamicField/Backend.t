@@ -2,7 +2,7 @@
 # Backend.t - DynamicFieldValue backend tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Backend.t,v 1.7 2011-08-29 21:52:03 cr Exp $
+# $Id: Backend.t,v 1.8 2011-08-29 22:26:11 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -165,6 +165,19 @@ my @Tests = (
             FieldType  => 'Text',
         },
         ObjectID  => $TicketID,
+        Success   => 0,
+        ShouldGet => 0,
+    },
+    {
+        Name               => 'Non Existing Backend',
+        DynamicFieldConfig => {
+            ID         => $FieldID,
+            ObjectType => 'Ticket',
+            FieldType  => 'NonExistingBackend',
+        },
+        ObjectID  => $TicketID,
+        Value     => 'a text',
+        UserID    => 1,
         Success   => 0,
         ShouldGet => 0,
     },

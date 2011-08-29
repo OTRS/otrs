@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend.pm - Interface for DynamicField backends
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Backend.pm,v 1.11 2011-08-29 21:52:04 cr Exp $
+# $Id: Backend.pm,v 1.12 2011-08-29 22:26:11 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 =head1 NAME
 
@@ -267,6 +267,14 @@ sub ValueSet {
     # set the dyanamic filed specific backend
     my $DynamicFieldBackend = 'DynamicField' . $Param{DynamicFieldConfig}->{FieldType} . 'Object';
 
+    if ( !$Self->{$DynamicFieldBackend} ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!"
+        );
+        return;
+    }
+
     # call ValueSet on the specific backend
     my $Success = $Self->{$DynamicFieldBackend}->ValueSet(
         DynamicFieldConfig => $Param{DynamicFieldConfig},
@@ -338,6 +346,14 @@ sub ValueGet {
 
     # set the dyanamic filed specific backend
     my $DynamicFieldBackend = 'DynamicField' . $Param{DynamicFieldConfig}->{FieldType} . 'Object';
+
+    if ( !$Self->{$DynamicFieldBackend} ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!"
+        );
+        return;
+    }
 
     # call ValueGet on the specific backend
     my $Value = $Self->{$DynamicFieldBackend}->ValueGet(
@@ -427,6 +443,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.11 $ $Date: 2011-08-29 21:52:04 $
+$Revision: 1.12 $ $Date: 2011-08-29 22:26:11 $
 
 =cut
