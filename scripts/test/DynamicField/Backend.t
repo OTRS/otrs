@@ -2,7 +2,7 @@
 # Backend.t - DynamicFieldValue backend tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Backend.t,v 1.5 2011-08-29 08:46:48 mg Exp $
+# $Id: Backend.t,v 1.6 2011-08-29 09:40:41 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -70,10 +70,11 @@ $Self->True(
 
 my @Tests = (
     {
-        Name     => 'No DynamicFieldConfig',
-        ObjectID => $TicketID,
-        UserID   => 1,
-        Success  => 0,
+        Name               => 'No DynamicFieldConfig',
+        ObjectID           => $TicketID,
+        UserID             => 1,
+        Success            => 0,
+        ConstructorSuccess => 0,
     },
     {
         Name               => 'No ObjectID',
@@ -81,8 +82,9 @@ my @Tests = (
             ID         => -1,
             ObjectType => 'Ticket',
         },
-        UserID  => 1,
-        Success => 0,
+        UserID             => 1,
+        Success            => 0,
+        ConstructorSuccess => 0,
     },
     {
         Name               => 'Invalid DynamicFieldConfig',
@@ -90,24 +92,27 @@ my @Tests = (
         ObjectID           => $TicketID,
         UserID             => 1,
         Success            => 0,
+        ConstructorSuccess => 0,
     },
     {
         Name               => 'No ID',
         DynamicFieldConfig => {
             ObjectType => 'Ticket',
         },
-        ObjectID => $TicketID,
-        UserID   => 1,
-        Success  => 0,
+        ObjectID           => $TicketID,
+        UserID             => 1,
+        Success            => 0,
+        ConstructorSuccess => 0,
     },
     {
         Name               => 'No ObjectType',
         DynamicFieldConfig => {
             ID => $FieldID,
         },
-        ObjectID => $TicketID,
-        UserID   => 1,
-        Success  => 0,
+        ObjectID           => $TicketID,
+        UserID             => 1,
+        Success            => 0,
+        ConstructorSuccess => 0,
     },
     {
         Name               => 'No UserID',
@@ -115,8 +120,9 @@ my @Tests = (
             ID         => $FieldID,
             ObjectType => 'Ticket',
         },
-        ObjectID => $TicketID,
-        Success  => 0,
+        ObjectID           => $TicketID,
+        Success            => 0,
+        ConstructorSuccess => 0,
     },
     {
         Name               => 'Set Text Value',
@@ -125,10 +131,11 @@ my @Tests = (
             ObjectType => 'Ticket',
             FieldType  => 'Text',
         },
-        ObjectID => $TicketID,
-        Value    => 'a text',
-        UserID   => 1,
-        Success  => 1,
+        ObjectID           => $TicketID,
+        Value              => 'a text',
+        UserID             => 1,
+        Success            => 1,
+        ConstructorSuccess => 1,
     },
     {
         Name               => 'Set Text Value - empty',
@@ -137,10 +144,11 @@ my @Tests = (
             ObjectType => 'Ticket',
             FieldType  => 'Text',
         },
-        ObjectID => $TicketID,
-        Value    => '',
-        UserID   => 1,
-        Success  => 1,
+        ObjectID           => $TicketID,
+        Value              => '',
+        UserID             => 1,
+        Success            => 1,
+        ConstructorSuccess => 1,
     },
     {
         Name               => 'Set Text Value - unicode',
@@ -149,10 +157,63 @@ my @Tests = (
             ObjectType => 'Ticket',
             FieldType  => 'Text',
         },
-        ObjectID => $TicketID,
-        Value    => 'äöüßÄÖÜ€ис',
-        UserID   => 1,
-        Success  => 1,
+        ObjectID           => $TicketID,
+        Value              => 'äöüßÄÖÜ€ис',
+        UserID             => 1,
+        Success            => 1,
+        ConstructorSuccess => 1,
+    },
+    {
+        Name               => 'Set DateTime Value',
+        DynamicFieldConfig => {
+            ID         => $FieldID,
+            ObjectType => 'Ticket',
+            FieldType  => 'DateTime',
+        },
+        ObjectID           => $TicketID,
+        Value              => '2011-01-01 01:01:01',
+        UserID             => 1,
+        Success            => 1,
+        ConstructorSuccess => 1,
+    },
+    {
+        Name               => 'Set DateTime Value - invalid date',
+        DynamicFieldConfig => {
+            ID         => $FieldID,
+            ObjectType => 'Ticket',
+            FieldType  => 'DateTime',
+        },
+        ObjectID           => $TicketID,
+        Value              => '2011-02-31 01:01:01',
+        UserID             => 1,
+        Success            => 0,
+        ConstructorSuccess => 1,
+    },
+    {
+        Name               => 'Set DateTime Value - wrong data',
+        DynamicFieldConfig => {
+            ID         => $FieldID,
+            ObjectType => 'Ticket',
+            FieldType  => 'DateTime',
+        },
+        ObjectID           => $TicketID,
+        Value              => 'Aug 1st',
+        UserID             => 1,
+        Success            => 0,
+        ConstructorSuccess => 1,
+    },
+    {
+        Name               => 'Set DateTime Value - no data',
+        DynamicFieldConfig => {
+            ID         => $FieldID,
+            ObjectType => 'Ticket',
+            FieldType  => 'DateTime',
+        },
+        ObjectID           => $TicketID,
+        Value              => undef,
+        UserID             => 1,
+        Success            => 1,
+        ConstructorSuccess => 1,
     },
 );
 
@@ -163,7 +224,7 @@ for my $Test (@Tests) {
 
     $Self->Is(
         ref $BackendObject ? 1 : 0,
-        $Test->{Success},
+        $Test->{ConstructorSuccess},
         "DynamicFieldBackendInstanceGet() - Test ($Test->{Name}) - Backend creation",
     );
 
@@ -188,9 +249,11 @@ for my $Test (@Tests) {
             ObjectID           => $Test->{ObjectID},
         );
 
-        $Self->False(
-            $Value->{ID},
-            "ValueGet() - Test ($Test->{Name}) - with False",
+        # compare data
+        $Self->IsNot(
+            $Value,
+            $Test->{Value},
+            "ValueGet() after unsuccessful ValueSet() - (Test $Test->{Name}) - Value",
         );
 
     }
@@ -210,7 +273,7 @@ for my $Test (@Tests) {
         $Self->Is(
             $Value,
             $Test->{Value},
-            "ValueGet() after ValueSet() - (Test $Test->{Name}) - Value",
+            "ValueGet() after successful ValueSet() - (Test $Test->{Name}) - Value",
         );
     }
 }
