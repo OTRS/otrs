@@ -2,7 +2,7 @@
 # Kernel/System/DynamicFieldValue.pm - DynamicField values backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicFieldValue.pm,v 1.7 2011-08-27 17:34:02 cr Exp $
+# $Id: DynamicFieldValue.pm,v 1.8 2011-08-29 09:39:54 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::Time;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 =head1 NAME
 
@@ -132,6 +132,14 @@ sub ValueSet {
         }
     }
 
+    # return if no Value was provided
+    if ( !exists $Param{ValueText} && !exists $Param{ValueDateTime} && !exists $Param{ValueInt} )
+    {
+        $Self->{LogObject}
+            ->Log( Priority => 'error', Message => "Need ValueText, ValueDateTime or ValueInt!" );
+        return;
+    }
+
     # try to get the value (if it was already set)
     my $Value = $Self->ValueGet(
         FieldID    => $Param{FieldID},
@@ -142,25 +150,33 @@ sub ValueSet {
     # return on ValueGet error
     return if !defined $Value;
 
-    # validate date
-    if ( $Param{ValueDateTime} ) {
+    if ( exists $Param{ValueDateTime} ) {
 
-        # convert the DateTime value to system time to check errors
-        my $SystemTime = $Self->{TimeObject}->TimeStamp2SystemTime(
-            String => $Param{ValueDateTime},
-        );
+        # validate date
+        if ( $Param{ValueDateTime} ) {
 
-        return if !$SystemTime;
+            # convert the DateTime value to system time to check errors
+            my $SystemTime = $Self->{TimeObject}->TimeStamp2SystemTime(
+                String => $Param{ValueDateTime},
+            );
 
-        # convert back to time stamp to check errors
-        my $TimeStamp = $Self->{TimeObject}->SystemTime2TimeStamp(
-            SystemTime => $SystemTime,
-        );
+            return if !$SystemTime;
 
-        return if !$TimeStamp;
+            # convert back to time stamp to check errors
+            my $TimeStamp = $Self->{TimeObject}->SystemTime2TimeStamp(
+                SystemTime => $SystemTime,
+            );
 
-        # compare if the date is the same
-        return if !( $Param{ValueDateTime} eq $TimeStamp )
+            return if !$TimeStamp;
+
+            # compare if the date is the same
+            return if !( $Param{ValueDateTime} eq $TimeStamp )
+        }
+        else {
+
+            # set ValueDateTime column to NULL
+            $Param{ValueDateTime} = undef;
+        }
     }
 
     # validate integer
@@ -340,6 +356,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.7 $ $Date: 2011-08-27 17:34:02 $
+$Revision: 1.8 $ $Date: 2011-08-29 09:39:54 $
 
 =cut
