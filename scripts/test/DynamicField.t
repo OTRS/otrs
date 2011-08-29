@@ -2,7 +2,7 @@
 # DynamicField.t - DynamicField tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicField.t,v 1.19 2011-08-29 21:44:49 cr Exp $
+# $Id: DynamicField.t,v 1.20 2011-08-29 22:14:22 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -1075,110 +1075,6 @@ for my $DynamicFieldID (@AddedFieldIDs) {
         "DynamicFieldDelete() Field Order Tests for Field ID $DynamicFieldID"
     );
 }
-
-# backend tests
-#@Tests = (
-#    {
-#        Name    => 'No Config',
-#        Success => 0,
-#    },
-#    {
-#        Name        => 'Invalid Config',
-#        FieldConfig => '',
-#        Success     => 0,
-#    },
-#    {
-#        Name        => 'Empty Config',
-#        FieldConfig => {},
-#        Success     => 0,
-#    },
-#    {
-#        Name        => 'No FieldType',
-#        FieldConfig => {
-#            Name => 'text1',
-#        },
-#        Success => 0,
-#    },
-#    {
-#        Name        => 'Empty FieldType',
-#        FieldConfig => {
-#            Name      => 'text1',
-#            FieldType => '',
-#        },
-#        Success => 0,
-#    },
-#    {
-#        Name        => 'Non existing FieldType',
-#        FieldConfig => {
-#            Name      => 'text1',
-#            FieldType => 'Non_Exising_FieldType_Do_Not_Use_This_Value'
-#        },
-#        Success => 0,
-#    },
-#    {
-#        Name        => 'Invalid Module',
-#        FieldConfig => {
-#            Name      => 'text1',
-#            FieldType => 'TestingInvalidModule'
-#        },
-#        Success => 0,
-#    },
-#    {
-#        Name        => 'Non Existing Module',
-#        FieldConfig => {
-#            Name      => 'text1',
-#            FieldType => 'TestingNonExisingModule'
-#        },
-#        Success => 0,
-#    },
-#    {
-#        Name        => 'Success',
-#        FieldConfig => {
-#            Name      => 'text1',
-#            FieldType => 'Text'
-#        },
-#        Success => 1,
-#    },
-#
-#);
-#
-#$Self->{ConfigObject}->Set(
-#    Key   => 'DynamicFields::Backend###TestingInvalidModule',
-#    Value => {
-#        Module => ''
-#        }
-#);
-#
-#$Self->{ConfigObject}->Set(
-#    Key   => 'DynamicFields::Backend###TestingNonExisingModule',
-#    Value => {
-#        Module => 'Kernel::System::DynamicField::Backend::TestingNonExisingModule'
-#        }
-#);
-#
-#$DynamicFieldObject = Kernel::System::DynamicField->new( %{$Self} );
-#
-#for my $Test (@Tests) {
-#
-#    # get the new instance
-#    my $Instance = $DynamicFieldObject->DynamicFieldBackendInstanceGet(
-#        FieldConfig => $Test->{FieldConfig},
-#    );
-#
-#    # check if the instance could be created
-#    if ( !$Test->{Success} ) {
-#        $Self->False(
-#            $Instance,
-#            "DynamicFieldBackendInstanceGet() $Test->{Name} with False",
-#        );
-#    }
-#    else {
-#        $Self->True(
-#            $Instance,
-#            "DynamicFieldBackendInstanceGet() $Test->{Name} with True",
-#        );
-#    }
-#}
 
 # restore original fields order
 for my $DynamicField ( @{$OriginalDynamicFields} ) {

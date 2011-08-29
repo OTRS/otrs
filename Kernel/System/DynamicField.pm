@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField.pm - DynamicFields configuration backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicField.pm,v 1.34 2011-08-29 21:44:49 cr Exp $
+# $Id: DynamicField.pm,v 1.35 2011-08-29 22:14:22 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::Cache;
 use Kernel::System::DynamicField::Backend;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.34 $) [1];
+$VERSION = qw($Revision: 1.35 $) [1];
 
 =head1 NAME
 
@@ -729,97 +729,6 @@ sub DynamicFieldListGet {
     return \@Data;
 }
 
-#=item DynamicFieldBackendInstanceGet()
-#
-#returns a backend instance for a given dynamic field configuration.
-#
-#    $Instance = $DynamicFieldObject->DynamicFieldBackendInstanceGet(
-#        FieldConfig => $FieldConfig,    # Hash reference as returned by DynamicFieldGet
-#    );
-#
-#    Returns:
-#
-#        a backend object depending on the field type.
-#
-#=cut
-
-#sub DynamicFieldBackendInstanceGet {
-#    my ( $Self, %Param ) = @_;
-#
-#    # check if FieldConfig was sent
-#    if ( !$Param{FieldConfig} ) {
-#        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need FieldConfig!' );
-#        return;
-#    }
-#
-#    # check if the FieldConfig is valid
-#    if ( !IsHashRefWithData( $Param{FieldConfig} ) || !$Param{FieldConfig}->{FieldType} ) {
-#        $Self->{LogObject}->Log( Priority => 'error', Message => "FieldConfig is invalid!" );
-#        return;
-#    }
-#
-#    my $FieldType = $Param{FieldConfig}->{FieldType};
-#
-#    # get the Dynamic Fields configuration
-#    my $DynamicFieldsConfig = $Self->{ConfigObject}->Get('DynamicFields::Backend');
-#
-#    # check if the registration to the selected field type is valid
-#    if ( !$DynamicFieldsConfig->{$FieldType} || !$DynamicFieldsConfig->{$FieldType}->{Module} ) {
-#        $Self->{LogObject}->Log(
-#            Priority => 'error',
-#            Message  => "Registration for field type $FieldType is invalid!",
-#        );
-#        return;
-#    }
-#
-#    # check if the object was already created and return it
-#    if ( $Self->{ 'DynamicField' . $FieldType . 'Object' } ) {
-#        return $Self->{ 'DynamicField' . $FieldType . 'Object' };
-#    }
-#
-#    # set the backend file
-#    my $Backend = 'Kernel::System::DynamicField::Backend::' . $FieldType;
-#
-#    # check if backend field exists
-#    if ( !$Self->{MainObject}->Require($Backend) ) {
-#        $Self->{LogObject}->Log(
-#            Priority => 'error',
-#            Message  => "Can't load dynamic field backend module for field type $Param{FieldType}!",
-#        );
-#        return;
-#    }
-#
-#    # create a backend object
-#    my $BackendObject = $Backend->new(
-#        %{$Self},
-#        FieldType => $FieldType,
-#    );
-#
-#    # check if backend object was created successfully
-#    if ($BackendObject) {
-#
-#        # remember the backend object
-#        $Self->{ 'DynamicField' . $FieldType . 'Object' } = $BackendObject;
-#
-#        # return backend object
-#        return $BackendObject;
-#    }
-#
-#    return;
-#
-#    # TODO: delete algorithm
-#
-#=cut
-#    Algorithm:
-#    - input validation
-#    - determine field type
-#    - check if backend object for this type is already available
-#        - if yes, return it
-#        - if no, create it, put it in a variable for reuse and return it
-#=cut
-#
-#}
-
 =begin Internal:
 
 =cut
@@ -1024,6 +933,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.34 $ $Date: 2011-08-29 21:44:49 $
+$Revision: 1.35 $ $Date: 2011-08-29 22:14:22 $
 
 =cut
