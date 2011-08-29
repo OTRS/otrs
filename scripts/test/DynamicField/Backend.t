@@ -2,7 +2,7 @@
 # Backend.t - DynamicFieldValue backend tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Backend.t,v 1.4 2011-08-27 17:37:25 cr Exp $
+# $Id: Backend.t,v 1.5 2011-08-29 08:46:48 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,6 @@ my $HelperObject = Kernel::System::UnitTest::Helper->new(
 my $RandomID = int rand 1_000_000_000;
 
 my $DynamicFieldObject = Kernel::System::DynamicField->new( %{$Self} );
-my $BackendObject      = Kernel::System::DynamicField::Backend->new( %{$Self} );
 my $TicketObject       = Kernel::System::Ticket->new( %{$Self} );
 
 # create a ticket
@@ -120,212 +119,61 @@ my @Tests = (
         Success  => 0,
     },
     {
-        Name               => 'Invalid Date',
-        DynamicFieldConfig => {
-            ID         => $FieldID,
-            ObjectType => 'Ticket',
-        },
-        ObjectID => $TicketID,
-        Value    => {
-            ValueDateTime => '23-2003-12 - 45:90:80',
-        },
-        UserID  => 1,
-        Success => 0,
-    },
-    {
-        Name               => 'Invalid Date - No Time',
-        DynamicFieldConfig => {
-            ID         => $FieldID,
-            ObjectType => 'Ticket',
-        },
-        ObjectID => $TicketID,
-        Value    => {
-            ValueDateTime => '1977-12-12',
-        },
-        UserID  => 1,
-        Success => 0,
-    },
-    {
-        Name               => 'Invalid Date - Just Time',
-        DynamicFieldConfig => {
-            ID         => $FieldID,
-            ObjectType => 'Ticket',
-        },
-        ObjectID => $TicketID,
-        Value    => {
-            ValueDateTime => '12:00:00',
-        },
-        UserID  => 1,
-        Success => 0,
-    },
-    {
-        Name               => 'Invalid Integer - Letter',
-        DynamicFieldConfig => {
-            ID         => $FieldID,
-            ObjectType => 'Ticket',
-        },
-        ObjectID => $TicketID,
-        Value    => {
-            ValueInt => 'a',
-        },
-        UserID  => 1,
-        Success => 0,
-    },
-    {
-        Name               => 'Invalid Integer - Numbers and Letters',
-        DynamicFieldConfig => {
-            ID         => $FieldID,
-            ObjectType => 'Ticket',
-        },
-        ObjectID => $TicketID,
-        Value    => {
-            ValueInt => '123a',
-        },
-        UserID  => 1,
-        Success => 0,
-    },
-    {
-        Name               => 'Invalid Integer - Real Number',
-        DynamicFieldConfig => {
-            ID         => $FieldID,
-            ObjectType => 'Ticket',
-        },
-        ObjectID => $TicketID,
-        Value    => {
-            ValueInt => '123.0',
-        },
-        UserID  => 1,
-        Success => 0,
-    },
-    {
         Name               => 'Set Text Value',
         DynamicFieldConfig => {
             ID         => $FieldID,
             ObjectType => 'Ticket',
+            FieldType  => 'Text',
         },
         ObjectID => $TicketID,
-        Value    => {
-            ValueText => 'a text',
-        },
-        UserID  => 1,
-        Success => 1,
+        Value    => 'a text',
+        UserID   => 1,
+        Success  => 1,
     },
     {
         Name               => 'Set Text Value - empty',
         DynamicFieldConfig => {
             ID         => $FieldID,
             ObjectType => 'Ticket',
+            FieldType  => 'Text',
         },
         ObjectID => $TicketID,
-        Value    => {
-            ValueText => '',
-        },
-        UserID  => 1,
-        Success => 1,
+        Value    => '',
+        UserID   => 1,
+        Success  => 1,
     },
     {
         Name               => 'Set Text Value - unicode',
         DynamicFieldConfig => {
             ID         => $FieldID,
             ObjectType => 'Ticket',
+            FieldType  => 'Text',
         },
         ObjectID => $TicketID,
-        Value    => {
-            ValueText => 'äöüßÄÖÜ€ис',
-        },
-        UserID  => 1,
-        Success => 1,
-    },
-    {
-        Name               => 'Set Date Value',
-        DynamicFieldConfig => {
-            ID         => $FieldID,
-            ObjectType => 'Ticket',
-        },
-        ObjectID => $TicketID,
-        Value    => {
-            ValueDateTime => '1977-12-12 12:00:00',
-        },
-        UserID  => 1,
-        Success => 1,
-    },
-    {
-        Name               => 'Set Int Value',
-        DynamicFieldConfig => {
-            ID         => $FieldID,
-            ObjectType => 'Ticket',
-        },
-        ObjectID => $TicketID,
-        Value    => {
-            ValueInt => 14524,
-        },
-        UserID  => 1,
-        Success => 1,
-    },
-    {
-        Name               => 'Set Int Value - Zero',
-        DynamicFieldConfig => {
-            ID         => $FieldID,
-            ObjectType => 'Ticket',
-        },
-        ObjectID => $TicketID,
-        Value    => {
-            ValueInt => 0,
-        },
-        UserID  => 1,
-        Success => 1,
-    },
-    {
-        Name               => 'Set Int Value - Negative',
-        DynamicFieldConfig => {
-            ID         => $FieldID,
-            ObjectType => 'Ticket',
-        },
-        ObjectID => $TicketID,
-        Value    => {
-            ValueInt => -10,
-        },
-        UserID  => 1,
-        Success => 1,
-    },
-    {
-        Name               => 'Set All Values',
-        DynamicFieldConfig => {
-            ID         => $FieldID,
-            ObjectType => 'Ticket',
-        },
-        ObjectID => $TicketID,
-        Value    => {
-            ValueText     => 'a text',
-            ValueDateTime => '1977-12-12 12:00:00',
-            ValueInt      => 1,
-        },
-        UserID  => 1,
-        Success => 1,
-    },
-    {
-        Name               => 'Set All Values unicode',
-        DynamicFieldConfig => {
-            ID         => $FieldID,
-            ObjectType => 'Ticket',
-        },
-        ObjectID => $TicketID,
-        Value    => {
-            ValueText     => 'äöüßÄÖÜ€ис',
-            ValueDateTime => '1977-12-12 12:00:00',
-            ValueInt      => 1,
-        },
-        UserID  => 1,
-        Success => 1,
+        Value    => 'äöüßÄÖÜ€ис',
+        UserID   => 1,
+        Success  => 1,
     },
 );
 
 for my $Test (@Tests) {
+    my $BackendObject = $DynamicFieldObject->DynamicFieldBackendInstanceGet(
+        FieldConfig => $Test->{DynamicFieldConfig},
+    );
+
+    $Self->Is(
+        ref $BackendObject ? 1 : 0,
+        $Test->{Success},
+        "DynamicFieldBackendInstanceGet() - Test ($Test->{Name}) - Backend creation",
+    );
+
+    next if !ref $BackendObject;
+
     my $Success = $BackendObject->ValueSet(
         DynamicFieldConfig => $Test->{DynamicFieldConfig},
         ObjectID           => $Test->{ObjectID},
         UserID             => $Test->{UserID},
-        %{ $Test->{Value} },
+        Value              => $Test->{Value},
     );
 
     if ( !$Test->{Success} ) {
@@ -358,20 +206,12 @@ for my $Test (@Tests) {
             ObjectID           => $Test->{ObjectID},
         );
 
-        # sanity check
-        $Self->True(
-            $Value,
-            "ValueGet() after ValueSet() - (Test $Test->{Name}) - with True",
-        );
-
         # compare data
-        for my $ValueKey ( keys %{ $Test->{Value} } ) {
-            $Self->Is(
-                $Value->{$ValueKey},
-                $Test->{Value}->{$ValueKey},
-                "ValueGet() after ValueSet() - (Test $Test->{Name}) - Key $ValueKey",
-            );
-        }
+        $Self->Is(
+            $Value,
+            $Test->{Value},
+            "ValueGet() after ValueSet() - (Test $Test->{Name}) - Value",
+        );
     }
 }
 
@@ -382,6 +222,7 @@ for my $Test (@Tests) {
         DynamicFieldConfig => {
             ID         => -1,
             ObjectType => 'Ticket',
+            FieldType  => 'Text',
         },
         ObjectID => $TicketID,
         UserID   => 1,
@@ -391,6 +232,7 @@ for my $Test (@Tests) {
         DynamicFieldConfig => {
             ID         => $FieldID,
             ObjectType => 'InvalidObject',
+            FieldType  => 'Text',
         },
         ObjectID => $TicketID,
         UserID   => 1,
@@ -400,6 +242,7 @@ for my $Test (@Tests) {
         DynamicFieldConfig => {
             ID         => $FieldID,
             ObjectType => 'Ticket',
+            FieldType  => 'Text',
         },
         ObjectID => -1,
         UserID   => 1,
@@ -407,6 +250,10 @@ for my $Test (@Tests) {
 );
 
 for my $Test (@Tests) {
+
+    my $BackendObject = $DynamicFieldObject->DynamicFieldBackendInstanceGet(
+        FieldConfig => $Test->{DynamicFieldConfig},
+    );
 
     # try to get the value with ValueGet()
     my $Value = $BackendObject->ValueGet(

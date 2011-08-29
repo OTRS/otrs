@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend.pm - Interface for DynamicField backends
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Backend.pm,v 1.9 2011-08-27 17:35:48 cr Exp $
+# $Id: Backend.pm,v 1.10 2011-08-29 08:46:48 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,12 +14,11 @@ package Kernel::System::DynamicField::Backend;
 use strict;
 use warnings;
 
-#use Kernel::System::CacheInternal;
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::DynamicFieldValue;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 =head1 NAME
 
@@ -43,7 +42,6 @@ create a DynamicField backend object
     use Kernel::System::Encode;
     use Kernel::System::Log;
     use Kernel::System::Main;
-    use Kernel::System::CacheInternal;
     use Kernel::System::DB;
     use Kernel::System::DynamicField::Backend;
 
@@ -60,12 +58,6 @@ create a DynamicField backend object
         EncodeObject => $EncodeObject,
         LogObject    => $LogObject,
     );
-    my $CacheInternalObject = Kernel::System::CacheInternal->new(
-        ConfigObject => $ConfigObject,
-        LogObject    => $LogObject,
-        MainObject   => $MainObject,
-        EncodeObject => $EncodeObject,
-    );
     my $DBObject = Kernel::System::DB->new(
         ConfigObject => $ConfigObject,
         EncodeObject => $EncodeObject,
@@ -77,7 +69,6 @@ create a DynamicField backend object
         EncodeObject        => $EncodeObject,
         LogObject           => $LogObject,
         MainObject          => $MainObject,
-        CacheInternalObject => $CacheInternalObject,
         DBObject            => $DBObject,
     );
 
@@ -189,58 +180,6 @@ sets a dynamic field value.
 =cut
 
 sub ValueSet {
-    my ( $Self, %Param ) = @_;
-
-    # check needed stuff
-    for my $Needed (qw(DynamicFieldConfig ObjectID UserID)) {
-        if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
-            return;
-        }
-    }
-
-    # check DynamicFieldConfig (general)
-    if ( !IsHashRefWithData( $Param{DynamicFieldConfig} ) ) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => "The field configuration is invalid",
-        );
-        return;
-    }
-
-    # check DynamicFieldConfig (internaly)
-    for my $Needed (qw(ID ObjectType)) {
-        if ( !$Param{DynamicFieldConfig}->{$Needed} ) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message  => "Need $Needed in DynamicFieldConfig!"
-            );
-            return;
-        }
-    }
-
-    my $ObjectID   = $Param{ObjectID};
-    my $FieldID    = $Param{DynamicFieldConfig}->{ID};
-    my $ObjectType = $Param{DynamicFieldConfig}->{ObjectType};
-
-    my %Value;
-
-    # check undefs
-    for my $ValueType (qw(ValueText ValueDateTime ValueInt)) {
-        if ( defined $Param{$ValueType} ) {
-            $Value{$ValueType} = $Param{$ValueType};
-        }
-    }
-
-    my $Success = $Self->{DynamicFieldValueObject}->ValueSet(
-        FieldID    => $FieldID,
-        ObjectType => $ObjectType,
-        ObjectID   => $ObjectID,
-        %Value,
-        UserID => $Param{UserID},
-    );
-
-    return $Success;
 
 =cut
     Notes
@@ -264,47 +203,6 @@ get a dynamic field value.
 =cut
 
 sub ValueGet {
-    my ( $Self, %Param ) = @_;
-
-    # check needed stuff
-    for my $Needed (qw(DynamicFieldConfig ObjectID)) {
-        if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
-            return;
-        }
-    }
-
-    # check DynamicFieldConfig (general)
-    if ( !IsHashRefWithData( $Param{DynamicFieldConfig} ) ) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => "The field configuration is invalid",
-        );
-        return;
-    }
-
-    # check DynamicFieldConfig (internaly)
-    for my $Needed (qw(ID ObjectType)) {
-        if ( !$Param{DynamicFieldConfig}->{$Needed} ) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message  => "Need $Needed in DynamicFieldConfig!",
-            );
-            return;
-        }
-    }
-
-    my $ObjectID   = $Param{ObjectID};
-    my $FieldID    = $Param{DynamicFieldConfig}->{ID};
-    my $ObjectType = $Param{DynamicFieldConfig}->{ObjectType};
-
-    my $Value = $Self->{DynamicFieldValueObject}->ValueGet(
-        FieldID    => $FieldID,
-        ObjectType => $ObjectType,
-        ObjectID   => $ObjectID,
-    );
-
-    return $Value;
 
 =cut
     Notes
@@ -392,6 +290,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.9 $ $Date: 2011-08-27 17:35:48 $
+$Revision: 1.10 $ $Date: 2011-08-29 08:46:48 $
 
 =cut

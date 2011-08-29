@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Text.pm.pm - Interface for DynamicField text backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Text.pm,v 1.3 2011-08-27 17:38:29 cr Exp $
+# $Id: Text.pm,v 1.4 2011-08-29 08:46:48 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,10 +16,11 @@ use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::DynamicFieldValue;
-use Kernel::System::DynamicField::Backend;
+
+use base qw(Kernel::System::DynamicField::Backend);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 =head1 NAME
 
@@ -98,7 +99,7 @@ sub new {
     # create additional objects
     $Self->{DynamicFieldValueObject} = Kernel::System::DynamicFieldValue->new( %{$Self} );
 
-    $Self->{BackendObject} = Kernel::System::DynamicField::Backend->new( %{$Self} );
+    #$Self->{BackendObject} = Kernel::System::DynamicField::Backend->new( %{$Self} );
 
     return $Self;
 }
@@ -121,15 +122,45 @@ get a dynamic field value.
 sub ValueGet {
     my ( $Self, %Param ) = @_;
 
-    my $Value = $Self->{BakcendObject}->ValueGet(
-        %Param,
+    # check needed stuff
+    for my $Needed (qw(DynamicFieldConfig ObjectID)) {
+        if ( !$Param{$Needed} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            return;
+        }
+    }
+
+    # check DynamicFieldConfig (general)
+    if ( !IsHashRefWithData( $Param{DynamicFieldConfig} ) ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "The field configuration is invalid",
+        );
+        return;
+    }
+
+    # check DynamicFieldConfig (internaly)
+    for my $Needed (qw(ID ObjectType)) {
+        if ( !$Param{DynamicFieldConfig}->{$Needed} ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed in DynamicFieldConfig!",
+            );
+            return;
+        }
+    }
+
+    my $DFValue = $Self->{DynamicFieldValueObject}->ValueGet(
+        FieldID    => $Param{DynamicFieldConfig}->{ID},
+        ObjectType => $Param{DynamicFieldConfig}->{ObjectType},
+        ObjectID   => $Param{ObjectID},
     );
 
-    return if !$Value;
+    return if !$DFValue;
 
-    return if !IsHashRefWithData($Value);
+    return if !IsHashRefWithData($DFValue);
 
-    return $Value->{ValueText};
+    return $DFValue->{ValueText};
 }
 
 =item ValueSet()
@@ -148,15 +179,43 @@ sets a dynamic field value.
 sub ValueSet {
     my ( $Self, %Param ) = @_;
 
-    my $Success = $Param{BackendtObject}->ValueSet(
-        DynamicFieldConfig => $Param{DynamicFieldConfig},
-        ObjectID           => $Param{ObjectID},
-        ValueText          => $Param{Value},
-        UserID             => $Param{UserID},
+    # check needed stuff
+    for my $Needed (qw(DynamicFieldConfig ObjectID UserID)) {
+        if ( !$Param{$Needed} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            return;
+        }
+    }
+
+    # check DynamicFieldConfig (general)
+    if ( !IsHashRefWithData( $Param{DynamicFieldConfig} ) ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "The field configuration is invalid",
+        );
+        return;
+    }
+
+    # check DynamicFieldConfig (internaly)
+    for my $Needed (qw(ID ObjectType)) {
+        if ( !$Param{DynamicFieldConfig}->{$Needed} ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed in DynamicFieldConfig!"
+            );
+            return;
+        }
+    }
+
+    my $Success = $Self->{DynamicFieldValueObject}->ValueSet(
+        FieldID    => $Param{DynamicFieldConfig}->{ID},
+        ObjectType => $Param{DynamicFieldConfig}->{ObjectType},
+        ObjectID   => $Param{ObjectID},
+        ValueText  => $Param{Value},
+        UserID     => $Param{UserID},
     );
 
     return $Success;
-
 }
 1;
 
