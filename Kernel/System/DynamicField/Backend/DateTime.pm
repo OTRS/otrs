@@ -1,8 +1,8 @@
 # --
-# Kernel/System/DynamicField/Backend/DateTime.pm - Interface for DynamicField DateTime backend
+# Kernel/System/DynamicField/Backend/DateTime.pm - Delegate for DynamicField DateTime backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DateTime.pm,v 1.1 2011-08-29 09:40:42 mg Exp $
+# $Id: DateTime.pm,v 1.2 2011-08-29 21:46:58 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,10 +17,8 @@ use warnings;
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::DynamicFieldValue;
 
-use base qw(Kernel::System::DynamicField::Backend);
-
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 =head1 NAME
 
@@ -28,7 +26,7 @@ Kernel::System::DynamicField::Backend::DateTime
 
 =head1 SYNOPSIS
 
-DynamicFields DateTime backend interface
+DynamicFields DateTime backend delegate
 
 =head1 PUBLIC INTERFACE
 
@@ -37,7 +35,7 @@ DynamicFields DateTime backend interface
 =item new()
 
 usually, you want to create an instance of this
-by using Kernel::System::DynamicField::DynamicFieldBackendInstanceGet();
+by using Kernel::System::DynamicField::Backend->new();
 
 =cut
 
@@ -58,8 +56,6 @@ sub new {
     # create additional objects
     $Self->{DynamicFieldValueObject} = Kernel::System::DynamicFieldValue->new( %{$Self} );
 
-    #$Self->{BackendObject} = Kernel::System::DynamicField::Backend->new( %{$Self} );
-
     return $Self;
 }
 
@@ -74,40 +70,12 @@ get a dynamic field value.
 
     Returns
 
-    $Value = 'some text';
+    $Value = '1977-12-12 12:34:05';
 
 =cut
 
 sub ValueGet {
     my ( $Self, %Param ) = @_;
-
-    # check needed stuff
-    for my $Needed (qw(DynamicFieldConfig ObjectID)) {
-        if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
-            return;
-        }
-    }
-
-    # check DynamicFieldConfig (general)
-    if ( !IsHashRefWithData( $Param{DynamicFieldConfig} ) ) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => "The field configuration is invalid",
-        );
-        return;
-    }
-
-    # check DynamicFieldConfig (internaly)
-    for my $Needed (qw(ID ObjectType)) {
-        if ( !$Param{DynamicFieldConfig}->{$Needed} ) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message  => "Need $Needed in DynamicFieldConfig!",
-            );
-            return;
-        }
-    }
 
     my $DFValue = $Self->{DynamicFieldValueObject}->ValueGet(
         FieldID    => $Param{DynamicFieldConfig}->{ID},
@@ -129,7 +97,7 @@ sets a dynamic field value.
     my $Success = $DynamicFieldTextObject->ValueSet(
         DynamicFieldConfig => $DynamicFieldConfig,      # complete config of the DynamicField
         ObjectID           => $ObjectID,                # ID of the current object that the field must be linked to, e. g. TicketID
-        Value              => 'some text',              # Value to store, depends on backend type
+        Value              => '1977-12-12 12:23:09',    # Value to store, depends on backend type
         UserID             => 123,
     );
 
@@ -137,34 +105,6 @@ sets a dynamic field value.
 
 sub ValueSet {
     my ( $Self, %Param ) = @_;
-
-    # check needed stuff
-    for my $Needed (qw(DynamicFieldConfig ObjectID UserID)) {
-        if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
-            return;
-        }
-    }
-
-    # check DynamicFieldConfig (general)
-    if ( !IsHashRefWithData( $Param{DynamicFieldConfig} ) ) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => "The field configuration is invalid",
-        );
-        return;
-    }
-
-    # check DynamicFieldConfig (internaly)
-    for my $Needed (qw(ID ObjectType)) {
-        if ( !$Param{DynamicFieldConfig}->{$Needed} ) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message  => "Need $Needed in DynamicFieldConfig!"
-            );
-            return;
-        }
-    }
 
     my $Success = $Self->{DynamicFieldValueObject}->ValueSet(
         FieldID       => $Param{DynamicFieldConfig}->{ID},
