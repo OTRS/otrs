@@ -1,8 +1,8 @@
 # --
-# Kernel/System/DynamicField/Backend/Text.pm.pm - Interface for DynamicField text backend
+# Kernel/System/DynamicField/Backend/Text.pm - Interface for DynamicField text backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Text.pm,v 1.5 2011-08-29 09:03:41 mg Exp $
+# $Id: Text.pm,v 1.6 2011-08-29 09:40:11 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::DynamicFieldValue;
 use base qw(Kernel::System::DynamicField::Backend);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 =head1 NAME
 
