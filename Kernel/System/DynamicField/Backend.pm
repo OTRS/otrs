@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend.pm - Interface for DynamicField backends
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Backend.pm,v 1.10 2011-08-29 08:46:48 mg Exp $
+# $Id: Backend.pm,v 1.11 2011-08-29 21:52:04 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,10 +15,9 @@ use strict;
 use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
-use Kernel::System::DynamicFieldValue;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 =head1 NAME
 
@@ -88,8 +87,64 @@ sub new {
         $Self->{$Needed} = $Param{$Needed};
     }
 
-    # create addtional objects
-    $Self->{DynamicFieldValueObject} = Kernel::System::DynamicFieldValue->new( %{$Self} );
+    # get the Dynamic Fields configuration
+    my $DynamicFieldsConfig = $Self->{ConfigObject}->Get('DynamicFields::Backend');
+
+    # check Configuration format
+    if ( !IsHashRefWithData($DynamicFieldsConfig) ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Dynamic field configuration is not valid!",
+        );
+        return
+    }
+
+    # create all registered backend modules
+    for my $FieldType ( sort keys %{$DynamicFieldsConfig} ) {
+
+        # check if the registration for each field type is valid
+        if ( !$DynamicFieldsConfig->{$FieldType}->{Module} ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Registration for field type $FieldType is invalid!",
+            );
+            return;
+        }
+
+        # set the backend file
+        my $BackendModule = 'Kernel::System::DynamicField::Backend::' . $FieldType;
+
+        # check if backend field exists
+        if ( !$Self->{MainObject}->Require($BackendModule) ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Can't load dynamic field backend module for field type $FieldType!",
+            );
+            return;
+        }
+
+        # create a backend object
+        my $BackendObject = $BackendModule->new( %{$Self} );
+
+        if ( !$BackendObject ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Couldn't create a backend object for field type $FieldType!",
+            );
+            return;
+        }
+
+        if ( ref $BackendObject ne $BackendModule ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Backend object for field type $FieldType was not created successfuly!",
+            );
+            return;
+        }
+
+        # remember the backend object
+        $Self->{ 'DynamicField' . $FieldType . 'Object' } = $BackendObject;
+    }
 
     return $Self;
 }
@@ -170,23 +225,64 @@ sets a dynamic field value.
 
     my $Success = $BackendObject->ValueSet(
         DynamicFieldConfig => $DynamicFieldConfig,      # complete config of the DynamicField
-        ObjectID           => $ObjectID,                # ID of the current object that the field must be linked to, e. g. TicketID
-        ValueText          => 'some text',              # Text value to store
-        ValueDateTime      => '1977-12-12 12:00:00',    # Date Time value to store
-        ValueInt           => 123,                      # Int value to store
+        ObjectID           => $ObjectID,                # ID of the current object that the field
+                                                        # must be linked to, e. g. TicketID
+        Value              => $Value,                   # Value to store, depends on backend type
         UserID             => 123,
     );
 
 =cut
 
 sub ValueSet {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Needed (qw(DynamicFieldConfig ObjectID UserID)) {
+        if ( !$Param{$Needed} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            return;
+        }
+    }
+
+    # check DynamicFieldConfig (general)
+    if ( !IsHashRefWithData( $Param{DynamicFieldConfig} ) ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "The field configuration is invalid",
+        );
+        return;
+    }
+
+    # check DynamicFieldConfig (internaly)
+    for my $Needed (qw(ID FieldType ObjectType)) {
+        if ( !$Param{DynamicFieldConfig}->{$Needed} ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed in DynamicFieldConfig!"
+            );
+            return;
+        }
+    }
+
+    # set the dyanamic filed specific backend
+    my $DynamicFieldBackend = 'DynamicField' . $Param{DynamicFieldConfig}->{FieldType} . 'Object';
+
+    # call ValueSet on the specific backend
+    my $Success = $Self->{$DynamicFieldBackend}->ValueSet(
+        DynamicFieldConfig => $Param{DynamicFieldConfig},
+        ObjectID           => $Param{ObjectID},
+        Value              => $Param{Value},
+        UserID             => 123,
+    );
+
+    return $Success;
 
 =cut
-    Notes
-        This must be implemented by the different backends, but they may share some code.
-
         Special case:
         If the object type is 'Ticket' or 'Article', a history entry must be written to that ticket (task for later)
+
+        from CR: This is not n special base but something that has to be done on Ticket.pm and Article.pm
+
 =cut
 
 }
@@ -197,18 +293,59 @@ get a dynamic field value.
 
     my $Value = $BackendObject->ValueGet(
         DynamicFieldConfig => $DynamicFieldConfig,      # complete config of the DynamicField
-        ObjectID           => $ObjectID,                # ID of the current object that the field must be linked to, e. g. TicketID
+        ObjectID           => $ObjectID,                # ID of the current object that the field
+                                                        # must be linked to, e. g. TicketID
     );
 
+    Return
+
+    $Value = $AValue                                    # depends on backend type, i. e.
+                                                        # Text, $Value =  'a string'
+                                                        # DateTime, $Value = '1977-12-12 12:00:00'
+                                                        # Chackbox, $Value = 1
 =cut
 
 sub ValueGet {
+    my ( $Self, %Param ) = @_;
 
-=cut
-    Notes
-        This must be implemented by the different backends, but they may share some code.
-=cut
+    # check needed stuff
+    for my $Needed (qw(DynamicFieldConfig ObjectID)) {
+        if ( !$Param{$Needed} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            return;
+        }
+    }
 
+    # check DynamicFieldConfig (general)
+    if ( !IsHashRefWithData( $Param{DynamicFieldConfig} ) ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "The field configuration is invalid",
+        );
+        return;
+    }
+
+    # check DynamicFieldConfig (internaly)
+    for my $Needed (qw(ID FieldType ObjectType)) {
+        if ( !$Param{DynamicFieldConfig}->{$Needed} ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed in DynamicFieldConfig!",
+            );
+            return;
+        }
+    }
+
+    # set the dyanamic filed specific backend
+    my $DynamicFieldBackend = 'DynamicField' . $Param{DynamicFieldConfig}->{FieldType} . 'Object';
+
+    # call ValueGet on the specific backend
+    my $Value = $Self->{$DynamicFieldBackend}->ValueGet(
+        DynamicFieldConfig => $Param{DynamicFieldConfig},
+        ObjectID           => $Param{ObjectID},
+    );
+
+    return $Value;
 }
 
 =item IsSearchable()
@@ -290,6 +427,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.10 $ $Date: 2011-08-29 08:46:48 $
+$Revision: 1.11 $ $Date: 2011-08-29 21:52:04 $
 
 =cut

@@ -2,7 +2,7 @@
 # Backend.t - DynamicFieldValue backend tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Backend.t,v 1.6 2011-08-29 09:40:41 mg Exp $
+# $Id: Backend.t,v 1.7 2011-08-29 21:52:03 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -68,13 +68,56 @@ $Self->True(
     "DynamicFieldAdd() successful for Field ID $FieldID",
 );
 
+# get the Dynamic Fields configuration
+my $DynamicFieldsConfig = $Self->{ConfigObject}->Get('DynamicFields::Backend');
+
+# sanity check
+$Self->Is(
+    ref $DynamicFieldsConfig,
+    'HASH',
+    'Dynamic Field confguration',
+);
+$Self->IsNotDeeply(
+    $DynamicFieldsConfig,
+    {},
+    'Dynamic Field confguration is not empty',
+);
+
+# create backend object and delegates
+my $BackendObject = Kernel::System::DynamicField::Backend->new( %{$Self} );
+
+$Self->True(
+    $BackendObject,
+    'Backend object was created',
+);
+
+$Self->Is(
+    ref $BackendObject,
+    'Kernel::System::DynamicField::Backend',
+    'Backend object was created successfuly',
+);
+
+# check all registered backend delegates
+for my $FieldType ( sort keys %{$DynamicFieldsConfig} ) {
+    $Self->True(
+        $BackendObject->{ 'DynamicField' . $FieldType . 'Object' },
+        "Backend delegate for field type $FieldType was created",
+    );
+
+    $Self->Is(
+        ref $BackendObject->{ 'DynamicField' . $FieldType . 'Object' },
+        $DynamicFieldsConfig->{$FieldType}->{Module},
+        "Backend delegate for field type $FieldType was created successfuly",
+    );
+}
+
 my @Tests = (
     {
-        Name               => 'No DynamicFieldConfig',
-        ObjectID           => $TicketID,
-        UserID             => 1,
-        Success            => 0,
-        ConstructorSuccess => 0,
+        Name      => 'No DynamicFieldConfig',
+        ObjectID  => $TicketID,
+        UserID    => 1,
+        Success   => 0,
+        ShouldGet => 0,
     },
     {
         Name               => 'No ObjectID',
@@ -82,9 +125,9 @@ my @Tests = (
             ID         => -1,
             ObjectType => 'Ticket',
         },
-        UserID             => 1,
-        Success            => 0,
-        ConstructorSuccess => 0,
+        UserID    => 1,
+        Success   => 0,
+        ShouldGet => 0,
     },
     {
         Name               => 'Invalid DynamicFieldConfig',
@@ -92,37 +135,38 @@ my @Tests = (
         ObjectID           => $TicketID,
         UserID             => 1,
         Success            => 0,
-        ConstructorSuccess => 0,
+        ShouldGet          => 0,
     },
     {
         Name               => 'No ID',
         DynamicFieldConfig => {
             ObjectType => 'Ticket',
         },
-        ObjectID           => $TicketID,
-        UserID             => 1,
-        Success            => 0,
-        ConstructorSuccess => 0,
+        ObjectID  => $TicketID,
+        UserID    => 1,
+        Success   => 0,
+        ShouldGet => 0,
     },
     {
         Name               => 'No ObjectType',
         DynamicFieldConfig => {
             ID => $FieldID,
         },
-        ObjectID           => $TicketID,
-        UserID             => 1,
-        Success            => 0,
-        ConstructorSuccess => 0,
+        ObjectID  => $TicketID,
+        UserID    => 1,
+        Success   => 0,
+        ShouldGet => 0,
     },
     {
         Name               => 'No UserID',
         DynamicFieldConfig => {
             ID         => $FieldID,
             ObjectType => 'Ticket',
+            FieldType  => 'Text',
         },
-        ObjectID           => $TicketID,
-        Success            => 0,
-        ConstructorSuccess => 0,
+        ObjectID  => $TicketID,
+        Success   => 0,
+        ShouldGet => 0,
     },
     {
         Name               => 'Set Text Value',
@@ -131,11 +175,11 @@ my @Tests = (
             ObjectType => 'Ticket',
             FieldType  => 'Text',
         },
-        ObjectID           => $TicketID,
-        Value              => 'a text',
-        UserID             => 1,
-        Success            => 1,
-        ConstructorSuccess => 1,
+        ObjectID  => $TicketID,
+        Value     => 'a text',
+        UserID    => 1,
+        Success   => 1,
+        ShouldGet => 1,
     },
     {
         Name               => 'Set Text Value - empty',
@@ -144,11 +188,11 @@ my @Tests = (
             ObjectType => 'Ticket',
             FieldType  => 'Text',
         },
-        ObjectID           => $TicketID,
-        Value              => '',
-        UserID             => 1,
-        Success            => 1,
-        ConstructorSuccess => 1,
+        ObjectID  => $TicketID,
+        Value     => '',
+        UserID    => 1,
+        Success   => 1,
+        ShouldGet => 1,
     },
     {
         Name               => 'Set Text Value - unicode',
@@ -157,11 +201,50 @@ my @Tests = (
             ObjectType => 'Ticket',
             FieldType  => 'Text',
         },
-        ObjectID           => $TicketID,
-        Value              => 'äöüßÄÖÜ€ис',
-        UserID             => 1,
-        Success            => 1,
-        ConstructorSuccess => 1,
+        ObjectID  => $TicketID,
+        Value     => 'äöüßÄÖÜ€ис',
+        UserID    => 1,
+        Success   => 1,
+        ShouldGet => 1,
+    },
+    {
+        Name               => 'Set TextArea Value',
+        DynamicFieldConfig => {
+            ID         => $FieldID,
+            ObjectType => 'Ticket',
+            FieldType  => 'TextArea',
+        },
+        ObjectID  => $TicketID,
+        Value     => 'a text',
+        UserID    => 1,
+        Success   => 1,
+        ShouldGet => 1,
+    },
+    {
+        Name               => 'Set TextArea Value - empty',
+        DynamicFieldConfig => {
+            ID         => $FieldID,
+            ObjectType => 'Ticket',
+            FieldType  => 'TextArea',
+        },
+        ObjectID  => $TicketID,
+        Value     => '',
+        UserID    => 1,
+        Success   => 1,
+        ShouldGet => 1,
+    },
+    {
+        Name               => 'Set TextArea Value - unicode',
+        DynamicFieldConfig => {
+            ID         => $FieldID,
+            ObjectType => 'Ticket',
+            FieldType  => 'TextArea',
+        },
+        ObjectID  => $TicketID,
+        Value     => 'äöüßÄÖÜ€ис',
+        UserID    => 1,
+        Success   => 1,
+        ShouldGet => 1,
     },
     {
         Name               => 'Set DateTime Value',
@@ -170,11 +253,152 @@ my @Tests = (
             ObjectType => 'Ticket',
             FieldType  => 'DateTime',
         },
-        ObjectID           => $TicketID,
-        Value              => '2011-01-01 01:01:01',
-        UserID             => 1,
-        Success            => 1,
-        ConstructorSuccess => 1,
+        ObjectID  => $TicketID,
+        Value     => '2011-01-01 01:01:01',
+        UserID    => 1,
+        Success   => 1,
+        ShouldGet => 1,
+    },
+    {
+        Name               => 'Dropdown - No PossibleValues',
+        DynamicFieldConfig => {
+            ID         => $FieldID,
+            ObjectType => 'Ticket',
+            FieldType  => 'Dropdown',
+        },
+        ObjectID  => $TicketID,
+        Value     => 'a text',
+        UserID    => 1,
+        Success   => 0,
+        ShouldGet => 0,
+    },
+    {
+        Name               => 'Dropdown - Invalid PossibleValues',
+        DynamicFieldConfig => {
+            ID             => $FieldID,
+            ObjectType     => 'Ticket',
+            FieldType      => 'Dropdown',
+            PossibleValues => {},
+        },
+        ObjectID  => $TicketID,
+        Value     => 'a text',
+        UserID    => 1,
+        Success   => 0,
+        ShouldGet => 0,
+    },
+    {
+        Name               => 'Dropdown - Invalid Option',
+        DynamicFieldConfig => {
+            ID             => $FieldID,
+            ObjectType     => 'Ticket',
+            FieldType      => 'Dropdown',
+            PossibleValues => {
+                Key1 => 'Value1',
+                Key2 => 'Value2',
+                Key3 => 'Value3',
+            },
+        },
+        ObjectID  => $TicketID,
+        Value     => 'Key4',
+        UserID    => 1,
+        Success   => 0,
+        ShouldGet => 0,
+    },
+    {
+        Name               => 'Dropdown - Invalid Option',
+        DynamicFieldConfig => {
+            ID             => $FieldID,
+            ObjectType     => 'Ticket',
+            FieldType      => 'Dropdown',
+            PossibleValues => {
+                Key1 => 'Value1',
+                Key2 => 'Value2',
+                Key3 => 'Value3',
+            },
+        },
+        ObjectID  => $TicketID,
+        Value     => 'Key3',
+        UserID    => 1,
+        Success   => 1,
+        ShouldGet => 1,
+    },
+    {
+        Name               => 'Checkbox - Invalid Option (Negative)',
+        DynamicFieldConfig => {
+            ID         => $FieldID,
+            ObjectType => 'Ticket',
+            FieldType  => 'Checkbox',
+        },
+        ObjectID  => $TicketID,
+        Value     => -1,
+        UserID    => 1,
+        Success   => 0,
+        ShouldGet => 0,
+    },
+    {
+        Name               => 'Checkbox - Invalid Option (Letter)',
+        DynamicFieldConfig => {
+            ID         => $FieldID,
+            ObjectType => 'Ticket',
+            FieldType  => 'Checkbox',
+        },
+        ObjectID  => $TicketID,
+        Value     => 'a',
+        UserID    => 1,
+        Success   => 0,
+        ShouldGet => 0,
+    },
+    {
+        Name               => 'Checkbox - Invalid Option (Non Binary)',
+        DynamicFieldConfig => {
+            ID         => $FieldID,
+            ObjectType => 'Ticket',
+            FieldType  => 'Checkbox',
+        },
+        ObjectID  => $TicketID,
+        Value     => 5,
+        UserID    => 1,
+        Success   => 0,
+        ShouldGet => 0,
+    },
+    {
+        Name               => 'Set Checkbox Value (1) ',
+        DynamicFieldConfig => {
+            ID         => $FieldID,
+            ObjectType => 'Ticket',
+            FieldType  => 'Checkbox',
+        },
+        ObjectID  => $TicketID,
+        Value     => 1,
+        UserID    => 1,
+        Success   => 1,
+        ShouldGet => 1,
+    },
+    {
+        Name               => 'Set Checkbox Value (0) ',
+        DynamicFieldConfig => {
+            ID         => $FieldID,
+            ObjectType => 'Ticket',
+            FieldType  => 'Checkbox',
+        },
+        ObjectID  => $TicketID,
+        Value     => 0,
+        UserID    => 1,
+        Success   => 1,
+        ShouldGet => 1,
+    },
+    {
+        Name               => 'Set Checkbox Value (Null) ',
+        DynamicFieldConfig => {
+            ID         => $FieldID,
+            ObjectType => 'Ticket',
+            FieldType  => 'Checkbox',
+        },
+        ObjectID  => $TicketID,
+        Value     => undef,
+        UserID    => 1,
+        Success   => 1,
+        ShouldGet => 1,
     },
     {
         Name               => 'Set DateTime Value - invalid date',
@@ -183,11 +407,11 @@ my @Tests = (
             ObjectType => 'Ticket',
             FieldType  => 'DateTime',
         },
-        ObjectID           => $TicketID,
-        Value              => '2011-02-31 01:01:01',
-        UserID             => 1,
-        Success            => 0,
-        ConstructorSuccess => 1,
+        ObjectID  => $TicketID,
+        Value     => '2011-02-31 01:01:01',
+        UserID    => 1,
+        Success   => 0,
+        ShouldGet => 1,
     },
     {
         Name               => 'Set DateTime Value - wrong data',
@@ -196,11 +420,11 @@ my @Tests = (
             ObjectType => 'Ticket',
             FieldType  => 'DateTime',
         },
-        ObjectID           => $TicketID,
-        Value              => 'Aug 1st',
-        UserID             => 1,
-        Success            => 0,
-        ConstructorSuccess => 1,
+        ObjectID  => $TicketID,
+        Value     => 'Aug 1st',
+        UserID    => 1,
+        Success   => 0,
+        ShouldGet => 1,
     },
     {
         Name               => 'Set DateTime Value - no data',
@@ -209,32 +433,72 @@ my @Tests = (
             ObjectType => 'Ticket',
             FieldType  => 'DateTime',
         },
-        ObjectID           => $TicketID,
-        Value              => undef,
-        UserID             => 1,
-        Success            => 1,
-        ConstructorSuccess => 1,
+        ObjectID  => $TicketID,
+        Value     => undef,
+        UserID    => 1,
+        Success   => 1,
+        ShouldGet => 1,
+    },
+    {
+        Name               => 'Set Date Value - invalid date',
+        DynamicFieldConfig => {
+            ID         => $FieldID,
+            ObjectType => 'Ticket',
+            FieldType  => 'Date',
+        },
+        ObjectID  => $TicketID,
+        Value     => '2011-02-31 01:01:01',
+        UserID    => 1,
+        Success   => 0,
+        ShouldGet => 1,
+    },
+    {
+        Name               => 'Set Date Value - invalid time',
+        DynamicFieldConfig => {
+            ID         => $FieldID,
+            ObjectType => 'Ticket',
+            FieldType  => 'Date',
+        },
+        ObjectID  => $TicketID,
+        Value     => '2011-31-02 01:01:01',
+        UserID    => 1,
+        Success   => 0,
+        ShouldGet => 1,
+    },
+    {
+        Name               => 'Set Date Value - wrong data',
+        DynamicFieldConfig => {
+            ID         => $FieldID,
+            ObjectType => 'Ticket',
+            FieldType  => 'DateTime',
+        },
+        ObjectID  => $TicketID,
+        Value     => 'Aug 1st',
+        UserID    => 1,
+        Success   => 0,
+        ShouldGet => 1,
+    },
+    {
+        Name               => 'Set Date Value - no data',
+        DynamicFieldConfig => {
+            ID         => $FieldID,
+            ObjectType => 'Ticket',
+            FieldType  => 'DateTime',
+        },
+        ObjectID  => $TicketID,
+        Value     => undef,
+        UserID    => 1,
+        Success   => 1,
+        ShouldGet => 1,
     },
 );
 
 for my $Test (@Tests) {
-    my $BackendObject = $DynamicFieldObject->DynamicFieldBackendInstanceGet(
-        FieldConfig => $Test->{DynamicFieldConfig},
-    );
-
-    $Self->Is(
-        ref $BackendObject ? 1 : 0,
-        $Test->{ConstructorSuccess},
-        "DynamicFieldBackendInstanceGet() - Test ($Test->{Name}) - Backend creation",
-    );
-
-    next if !ref $BackendObject;
-
     my $Success = $BackendObject->ValueSet(
         DynamicFieldConfig => $Test->{DynamicFieldConfig},
         ObjectID           => $Test->{ObjectID},
-        UserID             => $Test->{UserID},
         Value              => $Test->{Value},
+        UserID             => $Test->{UserID},
     );
 
     if ( !$Test->{Success} ) {
@@ -250,11 +514,20 @@ for my $Test (@Tests) {
         );
 
         # compare data
-        $Self->IsNot(
-            $Value,
-            $Test->{Value},
-            "ValueGet() after unsuccessful ValueSet() - (Test $Test->{Name}) - Value",
-        );
+        if ( $Test->{ShouldGet} ) {
+            $Self->IsNot(
+                $Value,
+                $Test->{Value},
+                "ValueGet() after unsuccessful ValueSet() - (Test $Test->{Name}) - Value",
+            );
+        }
+        else {
+            $Self->Is(
+                $Value,
+                undef,
+                "ValueGet() after unsuccessful ValueSet() - (Test $Test->{Name}) - Value undef",
+            );
+        }
 
     }
     else {
@@ -313,10 +586,6 @@ for my $Test (@Tests) {
 );
 
 for my $Test (@Tests) {
-
-    my $BackendObject = $DynamicFieldObject->DynamicFieldBackendInstanceGet(
-        FieldConfig => $Test->{DynamicFieldConfig},
-    );
 
     # try to get the value with ValueGet()
     my $Value = $BackendObject->ValueGet(
