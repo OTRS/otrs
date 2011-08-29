@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Text.pm.pm - Interface for DynamicField text backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Text.pm,v 1.4 2011-08-29 08:46:48 mg Exp $
+# $Id: Text.pm,v 1.5 2011-08-29 09:03:41 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::DynamicFieldValue;
 use base qw(Kernel::System::DynamicField::Backend);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 =head1 NAME
 
@@ -36,49 +36,8 @@ DynamicFields Text backend interface
 
 =item new()
 
-create a DynamicField Text backend object
-
-    use Kernel::Config;
-    use Kernel::System::Encode;
-    use Kernel::System::Log;
-    use Kernel::System::Main;
-    use Kernel::System::CacheInternal;
-    use Kernel::System::DB;
-    use Kernel::System::DynamicField::Backend::Text;
-
-    my $ConfigObject = Kernel::Config->new();
-    my $EncodeObject = Kernel::System::Encode->new(
-        ConfigObject => $ConfigObject,
-    );
-    my $LogObject = Kernel::System::Log->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-    );
-    my $MainObject = Kernel::System::Main->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-    );
-    my $CacheInternalObject = Kernel::System::CacheInternal->new(
-        ConfigObject => $ConfigObject,
-        LogObject    => $LogObject,
-        MainObject   => $MainObject,
-        EncodeObject => $EncodeObject,
-    );
-    my $DBObject = Kernel::System::DB->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-        MainObject   => $MainObject,
-    );
-    my $DynamicFieldTextObject = Kernel::System::DynamicField::Backend::Text->new(
-        ConfigObject        => $ConfigObject,
-        EncodeObject        => $EncodeObject,
-        LogObject           => $LogObject,
-        MainObject          => $MainObject,
-        CacheInternalObject => $CacheInternalObject,
-        DBObject            => $DBObject,
-    );
+usually, you want to create an instance of this
+by using Kernel::System::DynamicField::DynamicFieldBackendInstanceGet();
 
 =cut
 
