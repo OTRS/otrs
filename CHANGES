@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1961 2011-08-30 09:27:02 mh Exp $
+# $Id: CHANGES,v 1.1962 2011-08-30 09:45:15 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.1.0 beta1 2011-??-??
+ - 2011-08-30 Updated CPAN module CGI to version 3.55.
  - 2011-08-24 Fixed bug#6718 - error when running otrs-initial-insert.postgresql.sql by making
     otrs.xml2sql.pl write out utf8 files and by adding 'SET standard_conforming_strings TO ON'.
  - 2011-08-22 Fixed bug#7635 - Remove support for Suse 9.
