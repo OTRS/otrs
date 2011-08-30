@@ -28,7 +28,7 @@ $ME = "MIME-tools";
 Exporter::export_ok_tags('config', 'msgs', 'msgtypes', 'utils');
 
 # The TOOLKIT version, both in 1.23 style *and* usable by MakeMaker:
-$VERSION = "5.428";
+$VERSION = "5.502";
 
 # Configuration (do NOT alter this directly)...
 # All legal CONFIG vars *must* be in here, even if only to be set to undef:
@@ -174,8 +174,6 @@ sub tmpopen
 
 #------------------------------
 1;
-package MIME::ToolUtils;
-@MIME::ToolUtils::ISA = qw(MIME::Tools);
 __END__
 
 
@@ -250,7 +248,6 @@ You will need the following installed on your system:
 	File::Path
 	File::Spec
 	IPC::Open2              (optional)
-	IO::ScalarArray         from the IO-stringy distribution
 	MIME::Base64
 	MIME::QuotedPrint
 	Net::SMTP

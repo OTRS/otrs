@@ -234,7 +234,6 @@ use MIME::Tools qw(:config :msgs :utils);
 use MIME::Head;
 use MIME::Body;
 use MIME::Decoder;
-use IO::Lines;
 
 @ISA = qw(Mail::Internet);
 
@@ -246,7 +245,7 @@ use IO::Lines;
 #------------------------------
 
 ### The package version, both in 1.23 style *and* usable by MakeMaker:
-$VERSION = "5.428";
+$VERSION = "5.502";
 
 ### Boundary counter:
 my $BCount = 0;
@@ -1816,8 +1815,15 @@ sub print_body {
 	my $boundary = $self->head->multipart_boundary;
 
 	### Preamble:
-	my $preamble = join('', @{ $self->preamble || $DefPreamble });
-	$out->print("$preamble\n") if ($preamble ne '' or $self->preamble);
+	my $plines = $self->preamble;
+	if (defined $plines) {
+	    # Defined, so output the preamble if it exists (avoiding additional
+	    # newline as per ticket 60931)
+	    $out->print( join('', @$plines) . "\n") if (@$plines > 0);
+	} else {
+	    # Undefined, so use default preamble
+	    $out->print( join('', @$DefPreamble) . "\n" );
+	}
 
 	### Parts:
 	my $part;
@@ -1874,7 +1880,7 @@ sub print_bodyhandle {
       ### Transparent mode: data is already encoded, so no
       ### need to encode it again
       my $buf;
-      $out->print($buf) while ($IO->read($buf, 2048));
+      $out->print($buf) while ($IO->read($buf, 8192));
     } else {
       ### Get the encoding, defaulting to "binary" if unsupported:
       my $encoding = ($self->head->mime_encoding || 'binary');

@@ -93,7 +93,7 @@ use MIME::QuotedPrint;
 #------------------------------
 
 ### The package version, both in 1.23 style *and* usable by MakeMaker:
-$VERSION = "5.428";
+$VERSION = "5.502";
 
 ### Nonprintables (controls + x7F + 8bit):
 my $NONPRINT = "\\x00-\\x1F\\x7F-\\xFF";
@@ -173,6 +173,7 @@ Any arguments past the ENCODED string are taken to define a hash of options:
 sub decode_mimewords {
     my $encstr = shift;
     my @tokens;
+    local($1,$2,$3);
     $@ = '';           ### error-return
 
     ### Collapse boundaries between adjacent encoded words:
@@ -211,10 +212,10 @@ sub decode_mimewords {
 	### Case 3: are we looking at ordinary text?
 	pos($encstr) = $pos;               # reset the pointer.
 	if ($encstr =~ m{\G                # from where we left off...
-			 ([\x00-\xFF]*?    #   shortest possible string,
+			 (.*?    #   shortest possible string,
 			  \n*)             #   followed by 0 or more NLs,
 		         (?=(\Z|=\?))      # terminated by "=?" or EOS
-			}xg) {
+			}sxg) {
 	    length($1) or die "MIME::Words: internal logic err: empty token\n";
 	    push @tokens, [$1];
 	    next;
@@ -296,15 +297,7 @@ sub encode_mimewords {
     ###    We limit such words to 18 characters, to guarantee that the
     ###    worst-case encoding give us no more than 54 + ~10 < 75 characters
     my $word;
-# ---
-# OTRS
-# ---
-# 2008-08-02 added patch/workaround for bug in MIME::Words (v5.428, maybe
-# also higner)
-# see also: http://rt.cpan.org/Public/Bug/Display.html?id=5462
-#           http://bugs.otrs.org/show_bug.cgi?id=3121
-#    $rawstr =~ s{([ a-zA-Z0-9\x7F-\xFF]{1,18})}{     ### get next "word"
-    $rawstr =~ s{([a-zA-Z0-9\x7F-\xFF]+\s*)}{     ### get next "word"
+    $rawstr =~ s{([ a-zA-Z0-9\x7F-\xFF]{1,18})}{     ### get next "word"
 	$word = $1;
 	(($word !~ /(?:[$NONPRINT])|(?:^\s+$)/o)
 	 ? $word                                          ### no unsafe chars
