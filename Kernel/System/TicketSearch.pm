@@ -2,7 +2,7 @@
 # Kernel/System/TicketSearch.pm - all ticket search functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketSearch.pm,v 1.2 2011-08-22 09:35:15 mg Exp $
+# $Id: TicketSearch.pm,v 1.3 2011-08-30 12:33:47 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 =head1 NAME
 
@@ -473,7 +473,7 @@ sub TicketSearch {
 
     # type ids
     if ( $Param{TypeIDs} ) {
-        $SQLExt .= $Self->_TicketSearchSqlAndStringCreate(
+        $SQLExt .= $Self->_InConditionGet(
             TableColumn => 'st.type_id',
             IDRef       => $Param{TypeIDs},
         );
@@ -503,7 +503,7 @@ sub TicketSearch {
         if ($HistoryTypeID) {
 
             # create sql part
-            $SQLExt .= $Self->_TicketSearchSqlAndStringCreate(
+            $SQLExt .= $Self->_InConditionGet(
                 TableColumn => 'th.type_id',
                 IDRef       => $Param{CreatedTypeIDs},
             );
@@ -526,7 +526,7 @@ sub TicketSearch {
 
     # state ids
     if ( $Param{StateIDs} ) {
-        $SQLExt .= $Self->_TicketSearchSqlAndStringCreate(
+        $SQLExt .= $Self->_InConditionGet(
             TableColumn => 'st.ticket_state_id',
             IDRef       => $Param{StateIDs},
         );
@@ -556,7 +556,7 @@ sub TicketSearch {
         if ($HistoryTypeID) {
 
             # create sql part
-            $SQLExt .= $Self->_TicketSearchSqlAndStringCreate(
+            $SQLExt .= $Self->_InConditionGet(
                 TableColumn => 'th.state_id',
                 IDRef       => $Param{CreatedStateIDs},
             );
@@ -621,7 +621,7 @@ sub TicketSearch {
 
     # lock ids
     if ( $Param{LockIDs} ) {
-        $SQLExt .= $Self->_TicketSearchSqlAndStringCreate(
+        $SQLExt .= $Self->_InConditionGet(
             TableColumn => 'st.ticket_lock_id',
             IDRef       => $Param{LockIDs},
         );
@@ -629,7 +629,7 @@ sub TicketSearch {
 
     # current owner user ids
     if ( $Param{OwnerIDs} ) {
-        $SQLExt .= $Self->_TicketSearchSqlAndStringCreate(
+        $SQLExt .= $Self->_InConditionGet(
             TableColumn => 'st.user_id',
             IDRef       => $Param{OwnerIDs},
         );
@@ -637,7 +637,7 @@ sub TicketSearch {
 
     # current responsible user ids
     if ( $Param{ResponsibleIDs} ) {
-        $SQLExt .= $Self->_TicketSearchSqlAndStringCreate(
+        $SQLExt .= $Self->_InConditionGet(
             TableColumn => 'st.responsible_user_id',
             IDRef       => $Param{ResponsibleIDs},
         );
@@ -654,7 +654,7 @@ sub TicketSearch {
         if ($HistoryTypeID) {
 
             # create sql part
-            $SQLExt .= $Self->_TicketSearchSqlAndStringCreate(
+            $SQLExt .= $Self->_InConditionGet(
                 TableColumn => 'th.create_by',
                 IDRef       => $Param{CreatedUserIDs},
             );
@@ -692,7 +692,7 @@ sub TicketSearch {
 
     # current queue ids
     if ( $Param{QueueIDs} ) {
-        $SQLExt .= $Self->_TicketSearchSqlAndStringCreate(
+        $SQLExt .= $Self->_InConditionGet(
             TableColumn => 'st.queue_id',
             IDRef       => $Param{QueueIDs},
         );
@@ -722,7 +722,7 @@ sub TicketSearch {
         if ($HistoryTypeID) {
 
             # create sql part
-            $SQLExt .= $Self->_TicketSearchSqlAndStringCreate(
+            $SQLExt .= $Self->_InConditionGet(
                 TableColumn => 'th.queue_id',
                 IDRef       => $Param{CreatedQueueIDs},
             );
@@ -802,7 +802,7 @@ sub TicketSearch {
 
     # priority ids
     if ( $Param{PriorityIDs} ) {
-        $SQLExt .= $Self->_TicketSearchSqlAndStringCreate(
+        $SQLExt .= $Self->_InConditionGet(
             TableColumn => 'st.ticket_priority_id',
             IDRef       => $Param{PriorityIDs},
         );
@@ -832,7 +832,7 @@ sub TicketSearch {
         if ($HistoryTypeID) {
 
             # create sql part
-            $SQLExt .= $Self->_TicketSearchSqlAndStringCreate(
+            $SQLExt .= $Self->_InConditionGet(
                 TableColumn => 'th.priority_id',
                 IDRef       => $Param{CreatedPriorityIDs},
             );
@@ -855,7 +855,7 @@ sub TicketSearch {
 
     # service ids
     if ( $Param{ServiceIDs} ) {
-        $SQLExt .= $Self->_TicketSearchSqlAndStringCreate(
+        $SQLExt .= $Self->_InConditionGet(
             TableColumn => 'st.service_id',
             IDRef       => $Param{ServiceIDs},
         );
@@ -876,7 +876,7 @@ sub TicketSearch {
 
     # sla ids
     if ( $Param{SLAIDs} ) {
-        $SQLExt .= $Self->_TicketSearchSqlAndStringCreate(
+        $SQLExt .= $Self->_InConditionGet(
             TableColumn => 'st.sla_id',
             IDRef       => $Param{SLAIDs},
         );
@@ -884,7 +884,7 @@ sub TicketSearch {
 
     # watch user ids
     if ( $Param{WatchUserIDs} ) {
-        $SQLExt .= $Self->_TicketSearchSqlAndStringCreate(
+        $SQLExt .= $Self->_InConditionGet(
             TableColumn => 'tw.user_id',
             IDRef       => $Param{WatchUserIDs},
         );
@@ -1619,18 +1619,22 @@ sub TicketSearch {
 
 =cut
 
-=item _TicketSearchSqlAndStringCreate()
+=item _InConditionGet()
 
-internal function to create a sql and string
+internal function to create an
 
-    my $SQLPart = $TicketObject->_TicketSearchSqlAndStringCreate(
-        TableColumn => '',
+    AND table.column IN (values)
+
+condition string from an array.
+
+    my $SQLPart = $TicketObject->_InConditionGet(
+        TableColumn => 'table.column',
         IDRef       => $ArrayRef,
-    )
+    );
 
 =cut
 
-sub _TicketSearchSqlAndStringCreate {
+sub _InConditionGet {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
@@ -1652,13 +1656,7 @@ sub _TicketSearchSqlAndStringCreate {
         return if !defined $Self->{DBObject}->Quote( $Value, 'Integer' );
     }
 
-    # create the id string
-    my $TypeIDString = join q{, }, @SortedIDs;
-
-    # create the sql part
-    my $SQL = " AND $Param{TableColumn} IN ($TypeIDString)";
-
-    return $SQL;
+    return " AND $Param{TableColumn} IN (" . ( join ',', @SortedIDs ) . ")";
 }
 
 =end Internal:
@@ -1677,6 +1675,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.2 $ $Date: 2011-08-22 09:35:15 $
+$Revision: 1.3 $ $Date: 2011-08-30 12:33:47 $
 
 =cut
