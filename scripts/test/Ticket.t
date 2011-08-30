@@ -2,7 +2,7 @@
 # Ticket.t - ticket module testscript
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.t,v 1.94 2011-08-30 11:46:50 mg Exp $
+# $Id: Ticket.t,v 1.95 2011-08-30 11:53:51 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -1605,69 +1605,6 @@ $Self->Is(
     4132.56,
     'ArticleAccountedTimeGet()',
 );
-
-# article flag tests
-my @Tests = (
-    {
-        Name   => 'seen flag',
-        Key    => 'seen',
-        Value  => 1,
-        UserID => 1,
-    },
-    {
-        Name   => 'not seend flag',
-        Key    => 'not seen',
-        Value  => 2,
-        UserID => 1,
-    },
-);
-
-for my $Test (@Tests) {
-    my %Flag = $TicketObject->ArticleFlagGet(
-        ArticleID => $ArticleID,
-        UserID    => 1,
-    );
-    $Self->False(
-        $Flag{ $Test->{Key} },
-        'ArticleFlagGet()',
-    );
-    my $Set = $TicketObject->ArticleFlagSet(
-        ArticleID => $ArticleID,
-        Key       => $Test->{Key},
-        Value     => $Test->{Value},
-        UserID    => 1,
-    );
-    $Self->True(
-        $Set,
-        'ArticleFlagSet()',
-    );
-    %Flag = $TicketObject->ArticleFlagGet(
-        ArticleID => $ArticleID,
-        UserID    => 1,
-    );
-    $Self->Is(
-        $Flag{ $Test->{Key} },
-        $Test->{Value},
-        'ArticleFlagGet()',
-    );
-    my $Delete = $TicketObject->ArticleFlagDelete(
-        ArticleID => $ArticleID,
-        Key       => $Test->{Key},
-        UserID    => 1,
-    );
-    $Self->True(
-        $Delete,
-        'ArticleFlagDelete()',
-    );
-    %Flag = $TicketObject->ArticleFlagGet(
-        ArticleID => $ArticleID,
-        UserID    => 1,
-    );
-    $Self->False(
-        $Flag{ $Test->{Key} },
-        'ArticleFlagGet()',
-    );
-}
 
 my ( $Sec, $Min, $Hour, $Day, $Month, $Year ) = $Self->{TimeObject}->SystemTime2Date(
     SystemTime => $Self->{TimeObject}->SystemTime(),
