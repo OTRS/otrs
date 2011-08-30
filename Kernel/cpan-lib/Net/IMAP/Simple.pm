@@ -9,7 +9,7 @@ use IO::Socket;
 use IO::Select;
 use Net::IMAP::Simple::PipeSocket;
 
-our $VERSION = "1.2020";
+our $VERSION = "1.2024";
 
 BEGIN {
     # I'd really rather the pause/cpan indexers miss this "package"
@@ -75,8 +75,8 @@ sub new {
     }
 
     $self->{timeout}           = ( $opts{timeout} ? $opts{timeout} : $self->_timeout );
-    $self->{retry}             = ( $opts{retry} ? $opts{retry} : $self->_retry );
-    $self->{retry_delay}       = ( $opts{retry_delay} ? $opts{retry_delay} : $self->_retry_delay );
+    $self->{retry}             = ( defined($opts{retry}) ? $opts{retry} : $self->_retry );
+    $self->{retry_delay}       = ( defined($opts{retry_delay}) ? $opts{retry_delay} : $self->_retry_delay );
     $self->{bindaddr}          = $opts{bindaddr};
     $self->{use_select_cache}  = $opts{use_select_cache};
     $self->{select_cache_ttl}  = $opts{select_cache_ttl};
@@ -154,7 +154,7 @@ sub _connect {
             PeerPort => $self->{port},
             Timeout  => $self->{timeout},
             Proto    => 'tcp',
-            ( $self->{bindaddr} ? { LocalAddr => $self->{bindaddr} } : () )
+            ( $self->{bindaddr} ? ( LocalAddr => $self->{bindaddr} ) : () )
         );
     }
 
@@ -466,7 +466,7 @@ sub deleted {
 sub range2list {
     my $self_or_class = shift;
     my %h;
-    my @items = sort {$a<=>$b} grep {!$h{$_}++} map { m/(\d+):(\d+)/ ? ($1 .. $2) : ($_) } split(m/[,\s]+/, shift);
+    my @items = grep {!$h{$_}++} map { m/(\d+):(\d+)/ ? ($1 .. $2) : ($_) } split(m/[,\s]+/, shift);
 
     return @items;
 }
