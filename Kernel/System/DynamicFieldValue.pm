@@ -2,7 +2,7 @@
 # Kernel/System/DynamicFieldValue.pm - DynamicField values backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicFieldValue.pm,v 1.8 2011-08-29 09:39:54 mg Exp $
+# $Id: DynamicFieldValue.pm,v 1.9 2011-08-30 17:18:03 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,12 +14,11 @@ package Kernel::System::DynamicFieldValue;
 use strict;
 use warnings;
 
-#use Kernel::System::CacheInternal;
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::Time;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 =head1 NAME
 
@@ -43,7 +42,6 @@ create a DynamicFieldValue backend object
     use Kernel::System::Encode;
     use Kernel::System::Log;
     use Kernel::System::Main;
-    use Kernel::System::CacheInternal;
     use Kernel::System::DB;
     use Kernel::System::DynamicFieldValue;
 
@@ -60,12 +58,6 @@ create a DynamicFieldValue backend object
         EncodeObject => $EncodeObject,
         LogObject    => $LogObject,
     );
-    my $CacheInternalObject = Kernel::System::CacheInternal->new(
-        ConfigObject => $ConfigObject,
-        LogObject    => $LogObject,
-        MainObject   => $MainObject,
-        EncodeObject => $EncodeObject,
-    );
     my $DBObject = Kernel::System::DB->new(
         ConfigObject => $ConfigObject,
         EncodeObject => $EncodeObject,
@@ -77,7 +69,6 @@ create a DynamicFieldValue backend object
         EncodeObject        => $EncodeObject,
         LogObject           => $LogObject,
         MainObject          => $MainObject,
-        CacheInternalObject => $CacheInternalObject,
         DBObject            => $DBObject,
     );
 
@@ -356,6 +347,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.8 $ $Date: 2011-08-29 09:39:54 $
+$Revision: 1.9 $ $Date: 2011-08-30 17:18:03 $
 
 =cut
