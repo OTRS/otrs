@@ -6,7 +6,7 @@ use warnings;
 use YAML::Base;
 use YAML::Node; # XXX This is a temp fix for Module::Build
 
-our $VERSION   = '0.72';
+our $VERSION   = '0.73';
 our @ISA       = 'YAML::Base';
 our @EXPORT    = qw{ Dump Load };
 our @EXPORT_OK = qw{ freeze thaw DumpFile LoadFile Bless Blessed };

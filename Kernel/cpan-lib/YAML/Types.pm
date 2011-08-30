@@ -219,9 +219,10 @@ use constant _QR_TYPES => {
 sub yaml_load {
     my $self = shift;
     my ($node, $class) = @_;
-    return qr{$node} unless $node =~ /^\(\?([\-xism]*):(.*)\)\z/s;
+    return qr{$node} unless $node =~ /^\(\?([\^\-xism]*):(.*)\)\z/s;
     my ($flags, $re) = ($1, $2);
     $flags =~ s/-.*//;
+    $flags =~ s/^\^//;
     my $sub = _QR_TYPES->{$flags} || sub { qr{$_[0]} };
     my $qr = &$sub($re);
     bless $qr, $class if length $class;
