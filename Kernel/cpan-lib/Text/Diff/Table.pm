@@ -4,17 +4,19 @@ use 5.00503;
 use strict;
 use Carp;
 use vars qw{$VERSION @ISA @EXPORT_OK};
+use Text::Diff::Config;
+
 BEGIN {
-	$VERSION   = '1.37';
-	@ISA       = qw( Text::Diff::Base Exporter );
-	@EXPORT_OK = qw( expand_tabs );
+    $VERSION   = '1.41';
+    @ISA       = qw( Text::Diff::Base Exporter );
+    @EXPORT_OK = qw( expand_tabs );
 }
 
 my %escapes = map {
     my $c =
         $_ eq '"' || $_ eq '$' ? qq{'$_'}
-	: $_ eq "\\"           ? qq{"\\\\"}
-	                       : qq{"$_"};
+    : $_ eq "\\"           ? qq{"\\\\"}
+                           : qq{"$_"};
     ( ord eval $c => $_ )
 } (
     map( chr, 32..126),
@@ -35,11 +37,11 @@ sub expand_tabs($) {
              my $spaces = " " x ( 8 - $count % 8  + 8 * length $2 );
              $count = 0;
              $spaces;
-	 }
-	 else {
-	     $count += length $3;
-	     $3;
-	}
+     }
+     else {
+         $count += length $3;
+         $3;
+    }
     }ge;
 
     return $s;
@@ -57,13 +59,16 @@ SCOPE: {
    ## use utf8 if available.  don't if not.
    my $escaper = <<'EOCODE';
       sub escape($) {
-	  use utf8;
-	  join "", map {
-	      $_ = ord;
-	      exists $escapes{$_}
-		  ? $escapes{$_}
-		  : sprintf( "\\x{%04x}", $_ );
-	  } split //, shift;
+      use utf8;
+      join "", map {
+          my $c = $_;
+          $_ = ord;
+          exists $escapes{$_}
+          ? $escapes{$_}
+          : $Text::Diff::Config::Output_Unicode 
+          ? $c
+          : sprintf( "\\x{%04x}", $_ );
+      } split //, shift;
       }
 
       1;
@@ -115,23 +120,23 @@ sub hunk {
                         $A->[1] eq $B->[1]  ? "="
                                             : "*";
         if ( $elt_type ne "*" ) {
-	    if ( $elt_type eq "=" || $A->[1] =~ /\S/ || $B->[1] =~ /\S/ ) {
-		$A->[1] = escape trim_trailing_line_ends expand_tabs $A->[1];
-		$B->[1] = escape trim_trailing_line_ends expand_tabs $B->[1];
-	    }
-	    else {
-		$A->[1] = escape $A->[1];
-		$B->[1] = escape $B->[1];
-	    }
+        if ( $elt_type eq "=" || $A->[1] =~ /\S/ || $B->[1] =~ /\S/ ) {
+        $A->[1] = escape trim_trailing_line_ends expand_tabs $A->[1];
+        $B->[1] = escape trim_trailing_line_ends expand_tabs $B->[1];
+        }
+        else {
+        $A->[1] = escape $A->[1];
+        $B->[1] = escape $B->[1];
+        }
         }
         else {
             ## not using \z here for backcompat reasons.
             $A->[1] =~ /^(\s*?)([^ \t].*?)?(\s*)(?![\n\r])$/s;
             my ( $l_ws_A, $body_A, $t_ws_A ) = ( $1, $2, $3 );
-	    $body_A = "" unless defined $body_A;
+        $body_A = "" unless defined $body_A;
             $B->[1] =~ /^(\s*?)([^ \t].*?)?(\s*)(?![\n\r])$/s;
             my ( $l_ws_B, $body_B, $t_ws_B ) = ( $1, $2, $3 );
-	    $body_B = "" unless defined $body_B;
+        $body_B = "" unless defined $body_B;
 
             my $added_escapes;
 
@@ -377,6 +382,13 @@ Here's why the lines do or do not have whitespace escaped:
 
 Whether or not line 3 should have that tab character escaped is a judgement
 call; so far I'm choosing not to.
+
+=head1 UNICODE
+
+To output the raw unicode chracters consult the documentation of
+L<Text::Diff::Config>. You can set the C<DIFF_OUTPUT_UNICODE> environment
+variable to 1 to output it from the command line. For more information,
+consult this bug: L<https://rt.cpan.org/Ticket/Display.html?id=54214> .
 
 =head1 LIMITATIONS
 

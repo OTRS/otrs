@@ -7,7 +7,7 @@ use Exporter        ();
 use Algorithm::Diff ();
 use vars qw{$VERSION @ISA @EXPORT};
 BEGIN {
-	$VERSION = '1.37';
+	$VERSION = '1.41';
 	@ISA     = 'Exporter';
 	@EXPORT  = 'diff';
 };
