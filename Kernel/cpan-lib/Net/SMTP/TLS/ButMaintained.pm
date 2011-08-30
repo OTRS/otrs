@@ -1,7 +1,7 @@
 package Net::SMTP::TLS::ButMaintained;
 
 BEGIN {
-    $Net::SMTP::TLS::ButMaintained::VERSION = '0.17';
+    $Net::SMTP::TLS::ButMaintained::VERSION = '0.18';
 }
 
 # ABSTRACT: An SMTP client supporting TLS and AUTH
@@ -346,17 +346,17 @@ Net::SMTP::TLS::ButMaintained - An SMTP client supporting TLS and AUTH
 
 =head1 VERSION
 
-version 0.17
+version 0.18
 
 =head1 SYNOPSIS
 
  use Net::SMTP::TLS::ButMaintained;
  my $mailer = Net::SMTP::TLS::ButMaintained->new(
-    'your.mail.host',
-    Hello   =>  'some.host.name',
-    Port    =>  25, #redundant
-    User    =>  'emailguy',
-    Password=>  's3cr3t');
+ 	'your.mail.host',
+	Hello	=>	'some.host.name',
+ 	Port	=>	25, #redundant
+ 	User	=>	'emailguy',
+ 	Password=>	's3cr3t');
  $mailer->mail('emailguy@your.mail.host');
  $mailer->to('someonecool@somewhere.else');
  $mailer->data;
