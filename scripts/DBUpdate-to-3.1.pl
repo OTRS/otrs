@@ -3,7 +3,7 @@
 # DBUpdate-to-3.1.pl - update script to migrate OTRS 2.4.x to 3.0.x
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-3.1.pl,v 1.8 2011-08-30 03:33:58 cg Exp $
+# $Id: DBUpdate-to-3.1.pl,v 1.9 2011-08-30 07:45:57 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 use Getopt::Std qw();
 use Kernel::Config;
@@ -77,7 +77,6 @@ EOF
     print "Step 2 of 9: Check framework version... ";
     _CheckFrameworkVersion($CommonObject);
     print "done.\n\n";
-
     print "Step 3 of 9: Creating DynamicField tables (if necessary)... ";
     if ( _CheckDynamicFieldTables($CommonObject) ) {
         print "done.\n\n";
@@ -130,7 +129,7 @@ EOF
         die;
     }
 
-    # verify article migration
+    # Migrate free fields configuration
     print "Step 9 of 9: Migrate free fields configuration.. ";
     _MigrateFreeFieldsConfiguration($CommonObject);
     print "done.\n\n";
@@ -886,11 +885,12 @@ sub _VerificationArticleData {
     return 1;
 }
 
-=item _VerificationArticleData($CommonObject)
+=item _MigrateFreeFieldsConfiguration($CommonObject)
 
-Checks if the data for ticket was succesfuly migrated.
+migrates the configuration of the free fields from SysConfig to the
+new dynamic_fields table.
 
-    _VerificationArticleData($CommonObject);
+    _MigrateFreeFieldsConfiguration($CommonObject);
 
 =cut
 
