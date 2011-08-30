@@ -1,6 +1,3 @@
-# $Id: Utils.pm,v 1.1 2011-03-02 15:54:38 sb Exp $
-# $OldId: There is no old ID for this file
-
 package SOAP::Lite::Utils;
 use strict;
 

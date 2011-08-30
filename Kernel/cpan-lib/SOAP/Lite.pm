@@ -4,8 +4,7 @@
 # SOAP::Lite is free software; you can redistribute it
 # and/or modify it under the same terms as Perl itself.
 #
-# $Id: Lite.pm,v 1.2 2011-06-13 17:15:32 cr Exp $
-# $OldId: Lite.pm 374 2010-05-14 08:12:25Z kutterma $
+# $Id: Lite.pm,v 1.3 2011-08-30 21:42:51 mh Exp $
 #
 # ======================================================================
 
@@ -19,7 +18,7 @@ package SOAP::Lite;
 
 use 5.006; #weak references require perl 5.6
 use strict;
-our $VERSION = 0.713_01;
+our $VERSION = 0.714;
 # ======================================================================
 
 package SOAP::XMLSchemaApacheSOAP::Deserializer;
@@ -197,7 +196,7 @@ sub as_boolean {
     return [
         $name,
         {'xsi:type' => 'xsd:boolean', %$attr},
-        ( $value ne 'false' && $value ) ? 'true' : 'false'
+        ( $value && $value ne 'false' ) ? 'true' : 'false'
     ];
 }
 
@@ -576,7 +575,8 @@ sub new {
 sub name {
     my $self = UNIVERSAL::isa($_[0] => __PACKAGE__) ? shift->new : __PACKAGE__->new;
     if (@_) {
-        my ($name, $uri, $prefix) = shift;
+        my $name = shift;
+        my ($uri, $prefix);    # predeclare, because can't declare in assign
         if ($name) {
             ($uri, $name) = SOAP::Utils::splitlongname($name);
             unless (defined $uri) {
@@ -1033,8 +1033,14 @@ sub is_href {
 }
 
 sub multiref_anchor {
-    my $seen = shift->seen->{my $id = shift || return undef};
-    return $seen->{multiref} ? "ref-$id" : undef;
+    my ($self, $id) = @_;
+    no warnings qw(uninitialized);
+    if ($self->{ _seen }->{ $id }->{multiref}) {
+        return "ref-$id"
+    }
+    else {
+        return undef;
+    }
 }
 
 sub encode_multirefs {
@@ -1213,11 +1219,11 @@ sub encode_literal_array {
 
     if ($self->autotype) {
         my $items = 'item';
-    
+
         # TODO: add support for multidimensional, partially transmitted and sparse arrays
         my @items = map {$self->encode_object($_, $items)} @$array;
 
-    
+
         my $num = @items;
         my($arraytype, %types) = '-';
         for (@items) {
@@ -1227,10 +1233,10 @@ sub encode_literal_array {
         $arraytype = sprintf "%s\[$num]", keys %types > 1 || $arraytype eq '-'
             ? SOAP::Utils::qualify(xsd => $self->xmlschemaclass->anyTypeValue)
             : $arraytype;
-    
+
         $type = SOAP::Utils::qualify($self->encprefix => 'Array')
             if !defined $type;
-    
+
         return [$name || SOAP::Utils::qualify($self->encprefix => 'Array'),
             {
                 SOAP::Utils::qualify($self->encprefix => 'arrayType') => $arraytype,
@@ -1244,32 +1250,32 @@ sub encode_literal_array {
         #
         # literal arrays are different - { array => [ 5,6 ] }
         # results in <array>5</array><array>6</array>
-        # This means that if there's a literal inside the array (not a 
-        # reference), we have to encode it this way. If there's only 
-        # nested tags, encode as 
+        # This means that if there's a literal inside the array (not a
+        # reference), we have to encode it this way. If there's only
+        # nested tags, encode as
         # <array><foo>1</foo><foo>2</foo></array>
         #
-        
+
         my $literal = undef;
         my @items = map {
-            ref $_ 
+            ref $_
                 ? $self->encode_object($_)
                 : do {
                     $literal++;
                     $_
                 }
-            
+
         } @$array;
 
         if ($literal) {
             return map { [ $name , $attr , $_, $self->gen_id($array) ] } @items;
         }
-        else {         
+        else {
             return [$name || SOAP::Utils::qualify($self->encprefix => 'Array'),
                 $attr,
                 [ @items ],
                 $self->gen_id($array)
-            ];            
+            ];
         }
     }
 }
@@ -1445,18 +1451,28 @@ sub xmlize {
     $attrs ||= {};
 
     local $self->{_level} = $self->{_level} + 1;
+
     return $self->tag($name, $attrs)
         unless defined $values;
+
     return $self->tag($name, $attrs, $values)
         unless UNIVERSAL::isa($values => 'ARRAY');
+
     return $self->tag($name, {%$attrs, href => '#'.$self->multiref_anchor($id)})
         if $self->is_href($id, delete($attrs->{_id}));
-    return $self->tag($name,
-        {
-            %$attrs, id => $self->multiref_anchor($id)
-        },
-        map {$self->xmlize($_)} @$values
-    );
+
+    # we have seen this element as a reference
+    if (defined $id && $self->{ _seen }->{ $id }->{ multiref}) {
+        return $self->tag($name,
+            {
+                %$attrs, id => $self->multiref_anchor($id)
+            },
+            map {$self->xmlize($_)} @$values
+        );
+    }
+    else {
+        return $self->tag($name, $attrs, map {$self->xmlize($_)} @$values);
+    }
 }
 
 sub uriformethod {
@@ -2674,7 +2690,7 @@ sub find_target {
     # try to bind directly
     if (defined($class = $self->dispatch_with->{$method_uri}
             || $self->dispatch_with->{$action || ''}
-            || ($action =~ /^"(.+)"$/
+            || (defined($action) && $action =~ /^"(.+)"$/
                 ? $self->dispatch_with->{$1}
                 : undef))) {
         # return object, nothing else to do here
@@ -5529,10 +5545,10 @@ http://www.perl.com/CPAN-local/authors/id/A/AS/ASANDSTRM/XML-Parser-2.27-bin-1-M
 =head2 Transport Modules
 
 SOAP::Lite allows to add support for additional transport protocols, or
-server handlers, via separate modules implementing the SOAP::Transport::* 
+server handlers, via separate modules implementing the SOAP::Transport::*
 interface. The following modules are available from CPAN:
 
-=over 
+=over
 
 =item * SOAP-Transport-HTTP-Nginx
 

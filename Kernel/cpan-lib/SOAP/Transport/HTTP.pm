@@ -4,8 +4,7 @@
 # SOAP::Lite is free software; you can redistribute it
 # and/or modify it under the same terms as Perl itself.
 #
-# $Id: HTTP.pm,v 1.2 2011-06-13 17:16:38 cr Exp $
-# $OldId: HTTP.pm 374 2010-05-14 08:12:25Z kutterma $
+# $Id: HTTP.pm,v 1.3 2011-08-30 21:42:52 mh Exp $
 #
 # ======================================================================
 
@@ -13,7 +12,7 @@ package SOAP::Transport::HTTP;
 
 use strict;
 
-our $VERSION = 0.713_01;
+our $VERSION = 0.714;
 
 use SOAP::Lite;
 use SOAP::Packager;
@@ -198,13 +197,13 @@ sub send_receive {
           # from string (doing pack with 'C0A*' modifier) if length and
           # bytelength are not the same
             my $bytelength = SOAP::Utils::bytelength($envelope);
-			if ($] < 5.008) {
-				$envelope = pack( 'C0A*', $envelope );
-			}
-			else {
-				require Encode;
-				$envelope = Encode::encode('UTF-8', $envelope); 
-			}
+            if ($] < 5.008) {
+                $envelope = pack( 'C0A*', $envelope );
+            }
+            else {
+                require Encode;
+                $envelope = Encode::encode('UTF-8', $envelope);
+            }
             #  if !$SOAP::Constants::DO_NOT_USE_LWP_LENGTH_HACK
             #      && length($envelope) != $bytelength;
             $http_request->content($envelope);
@@ -574,8 +573,8 @@ sub handle {
                 }
             } else {
                 while ( sysread( STDIN, $buffer, $length ) ) {
-                $content .= $buffer;
-                last if ( length($content) >= $length );
+                    $content .= $buffer;
+                    last if ( length($content) >= $length );
                 }
             }
         }

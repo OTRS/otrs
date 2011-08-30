@@ -5,7 +5,7 @@
 # SOAP::Lite is free software; you can redistribute it
 # and/or modify it under the same terms as Perl itself.
 #
-# $Id: Lite.pm,v 1.7 2010-06-22 09:55:02 mh Exp $
+# $Id: Lite.pm,v 1.8 2011-08-30 21:42:52 mh Exp $
 #
 # ======================================================================
 
@@ -14,7 +14,7 @@ package XML::Parser::Lite;
 use strict;
 use warnings;
 
-our $VERSION = 0.712;
+our $VERSION = 0.714;
 
 sub new {
     my $class = shift;
@@ -128,6 +128,7 @@ my $REGEXP = _regexp('??');
 sub _parse_re {
     use re "eval";
     undef $^R;
+    no strict 'refs';
     1 while $_[0] =~ m{$REGEXP}go
 };
 
@@ -167,7 +168,8 @@ sub _final {
 sub _start {
     die "multiple roots, wrong element '$_[0]'\n" if $level++ && !@stack;
     push(@stack, $_[0]);
-    Start(__PACKAGE__, @_);
+    my $r=Start(__PACKAGE__, @_);
+    return ref($r) eq 'ARRAY' ? $r : undef;
 }
 
 sub _char {
@@ -186,20 +188,24 @@ sub _char {
 sub _end {
     no warnings qw(uninitialized);
     pop(@stack) eq $_[0] or die "mismatched tag '$_[0]'\n";
-    End(__PACKAGE__, $_[0]);
+    my $r=End(__PACKAGE__, $_[0]);
+    return ref($r) eq 'ARRAY' ? $r : undef;
 }
 
 sub comment {
-    Comment(__PACKAGE__, $_[0]);
+    my $r=Comment(__PACKAGE__, $_[0]);
+    return ref($r) eq 'ARRAY' ? $r : undef;
 }
 
 sub end {
-     pop(@stack) eq $_[0] or die "mismatched tag '$_[0]'\n";
-     End(__PACKAGE__, $_[0]);
- }
+    pop(@stack) eq $_[0] or die "mismatched tag '$_[0]'\n";
+    my $r=End(__PACKAGE__, $_[0]);
+    return ref($r) eq 'ARRAY' ? $r : undef;
+}
 
 sub _doctype {
-    Doctype(__PACKAGE__, $_[0]);
+    my $r=Doctype(__PACKAGE__, $_[0]);
+    return ref($r) eq 'ARRAY' ? $r : undef;
 }
 
 sub _xmldecl {

@@ -1,6 +1,3 @@
-# $Id: XMLSchema2001.pm,v 1.2 2011-06-13 17:16:20 cr Exp $
-# $OldId: There is no old ID for this file
-
 package SOAP::Lite::Deserializer::XMLSchema2001;
 
 use strict;
@@ -20,10 +17,10 @@ BEGIN {
     no strict 'refs';
     for my $method (qw(
         anyType anySimpleType
-        float double decimal dateTime timePeriod gMonth gYearMonth gYear 
+        float double decimal dateTime timePeriod gMonth gYearMonth gYear
         century gMonthDay gDay duration recurringDuration
-        language integer nonPositiveInteger negativeInteger long int short 
-        byte nonNegativeInteger unsignedLong unsignedInt unsignedShort 
+        language integer nonPositiveInteger negativeInteger long int short
+        byte nonNegativeInteger unsignedLong unsignedInt unsignedShort
         unsignedByte positiveInteger date time dateTime
         QName
     )) {
