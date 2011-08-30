@@ -2,7 +2,7 @@
 # Ticket.t - ticket module testscript
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.t,v 1.92 2011-08-30 10:23:08 mg Exp $
+# $Id: Ticket.t,v 1.93 2011-08-30 10:27:13 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -2351,136 +2351,6 @@ $TicketObject->TicketDelete(
     TicketID => $TicketID,
     UserID   => 1,
 );
-
-# tests for article search index modules
-for my $Module (qw(StaticDB RuntimeDB)) {
-    $ConfigObject->Set(
-        Key   => 'Ticket::SearchIndexModule',
-        Value => 'Kernel::System::Ticket::ArticleSearchIndex::' . $Module,
-    );
-    my $TicketObject = Kernel::System::Ticket->new(
-        %{$Self},
-        ConfigObject => $ConfigObject,
-    );
-
-    # create some content
-    my $TicketID = $TicketObject->TicketCreate(
-        Title        => 'Some Ticket_Title',
-        Queue        => 'Raw',
-        Lock         => 'unlock',
-        Priority     => '3 normal',
-        State        => 'closed successful',
-        CustomerNo   => '123465',
-        CustomerUser => 'customer@example.com',
-        OwnerID      => 1,
-        UserID       => 1,
-    );
-    $Self->True(
-        $TicketID,
-        'TicketCreate()',
-    );
-
-    my $ArticleID = $TicketObject->ArticleCreate(
-        TicketID    => $TicketID,
-        ArticleType => 'note-internal',
-        SenderType  => 'agent',
-        From        => 'Some Agent <email@example.com>',
-        To          => 'Some Customer <customer@example.com>',
-        Subject     => 'some short description',
-        Body        => 'the message text
-Perl modules provide a range of features to help you avoid reinventing the wheel, and can be downloaded from CPAN ( http://www.cpan.org/ ). A number of popular modules are included with the Perl distribution itself.',
-        ContentType    => 'text/plain; charset=ISO-8859-15',
-        HistoryType    => 'OwnerUpdate',
-        HistoryComment => 'Some free text!',
-        UserID         => 1,
-        NoAgentNotify => 1,    # if you don't want to send agent notifications
-    );
-    $Self->True(
-        $ArticleID,
-        'ArticleCreate()',
-    );
-
-    # search
-    my %TicketIDs = $TicketObject->TicketSearch(
-        Subject    => '%short%',
-        Result     => 'HASH',
-        Limit      => 100,
-        UserID     => 1,
-        Permission => 'rw',
-    );
-    $Self->True(
-        $TicketIDs{$TicketID},
-        'TicketSearch() (HASH:Subject)',
-    );
-
-    $ArticleID = $TicketObject->ArticleCreate(
-        TicketID    => $TicketID,
-        ArticleType => 'note-internal',
-        SenderType  => 'agent',
-        From        => 'Some Agent <email@example.com>',
-        To          => 'Some Customer <customer@example.com>',
-        Subject     => 'Fax Agreement laalala',
-        Body        => 'the message text
-Perl modules provide a range of features to help you avoid reinventing the wheel, and can be downloaded from CPAN ( http://www.cpan.org/ ). A number of popular modules are included with the Perl distribution itself.',
-        ContentType    => 'text/plain; charset=ISO-8859-15',
-        HistoryType    => 'OwnerUpdate',
-        HistoryComment => 'Some free text!',
-        UserID         => 1,
-        NoAgentNotify => 1,    # if you don't want to send agent notifications
-    );
-    $Self->True(
-        $ArticleID,
-        'ArticleCreate()',
-    );
-
-    # search
-    %TicketIDs = $TicketObject->TicketSearch(
-        Subject    => '%fax agreement%',
-        Result     => 'HASH',
-        Limit      => 100,
-        UserID     => 1,
-        Permission => 'rw',
-    );
-    $Self->True(
-        $TicketIDs{$TicketID},
-        'TicketSearch() (HASH:Subject)',
-    );
-
-    # search
-    %TicketIDs = $TicketObject->TicketSearch(
-        Body       => '%HELP%',
-        Result     => 'HASH',
-        Limit      => 100,
-        UserID     => 1,
-        Permission => 'rw',
-    );
-    $Self->True(
-        $TicketIDs{$TicketID},
-        'TicketSearch() (HASH:Body)',
-    );
-
-    # search
-    %TicketIDs = $TicketObject->TicketSearch(
-        Body       => '%HELP_NOT_FOUND%',
-        Result     => 'HASH',
-        Limit      => 100,
-        UserID     => 1,
-        Permission => 'rw',
-    );
-    $Self->True(
-        !$TicketIDs{$TicketID},
-        'TicketSearch() (HASH:Body)',
-    );
-
-    my $Delete = $TicketObject->TicketDelete(
-        TicketID => $TicketID,
-        UserID   => 1,
-    );
-    $Self->True(
-        $Delete,
-        'TicketDelete()',
-    );
-}
 
 # tests for searching StateTypes that might not have states
 # this should return an empty list rather then a big SQL error
