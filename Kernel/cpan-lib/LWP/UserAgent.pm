@@ -5,7 +5,7 @@ use vars qw(@ISA $VERSION);
 
 require LWP::MemberMixin;
 @ISA = qw(LWP::MemberMixin);
-$VERSION = "6.00";
+$VERSION = "6.02";
 
 use HTTP::Request ();
 use HTTP::Response ();
@@ -15,16 +15,6 @@ use LWP ();
 use LWP::Protocol ();
 
 use Carp ();
-
-if ($ENV{PERL_LWP_USE_HTTP_10}) {
-    require LWP::Protocol::http10;
-    LWP::Protocol::implementor('http', 'LWP::Protocol::http10');
-    eval {
-        require LWP::Protocol::https10;
-        LWP::Protocol::implementor('https', 'LWP::Protocol::https10');
-    };
-}
-
 
 
 sub new
@@ -56,9 +46,13 @@ sub new
 	else {
 	    $ssl_opts->{verify_hostname} = 1;
 	}
+    }
+    unless (exists $ssl_opts->{SSL_ca_file}) {
 	if (my $ca_file = $ENV{PERL_LWP_SSL_CA_FILE} || $ENV{HTTPS_CA_FILE}) {
 	    $ssl_opts->{SSL_ca_file} = $ca_file;
 	}
+    }
+    unless (exists $ssl_opts->{SSL_ca_path}) {
 	if (my $ca_path = $ENV{PERL_LWP_SSL_CA_PATH} || $ENV{HTTPS_CA_DIR}) {
 	    $ssl_opts->{SSL_ca_path} = $ca_path;
 	}
@@ -183,12 +177,11 @@ sub send_request
                 $@ =~ s/ at .* line \d+.*//s;  # remove file/line number
                 $response =  _new_response($request, &HTTP::Status::RC_NOT_IMPLEMENTED, $@);
                 if ($scheme eq "https") {
-                    $response->message($response->message . " (IO::Socket::SSL not installed)");
+                    $response->message($response->message . " (LWP::Protocol::https not installed)");
                     $response->content_type("text/plain");
                     $response->content(<<EOT);
-LWP will support https URLs if either IO::Socket::SSL or Crypt::SSLeay
-is installed. More information at
-<http://search.cpan.org/dist/libwww-perl/README.SSL>.
+LWP will support https URLs if the LWP::Protocol::https module
+is installed.
 EOT
                 }
             }
@@ -1361,10 +1354,10 @@ The options that LWP relates to are:
 When TRUE LWP will for secure protocol schemes ensure it connects to servers
 that have a valid certificate matching the expected hostname.  If FALSE no
 checks are made and you can't be sure that you communicate with the expected peer.
-The no checks behaviour was the default for libwww-perl-5.837 and older.
+The no checks behaviour was the default for libwww-perl-5.837 and earlier releases.
 
 This option is initialized from the L<PERL_LWP_SSL_VERIFY_HOSTNAME> environment
-variable.  If the this envirionment variable isn't set; then C<verify_hostname>
+variable.  If this envirionment variable isn't set; then C<verify_hostname>
 defaults to 1.
 
 =item C<SSL_ca_file> => $path
@@ -1385,11 +1378,9 @@ variables C<PERL_LWP_SSL_CA_PATH> and C<HTTPS_CA_DIR> in order.
 Other options can be set and are processed directly by the SSL Socket implementation
 in use.  See L<IO::Socket::SSL> or L<Net::SSL> for details.
 
-If hostname verification is requested, and neither C<SSL_ca_file> nor
-C<SSL_ca_path> is set, then C<SSL_ca_file> is implied to be the one
-provided by L<Mozilla::CA>.  If the Mozilla::CA module isn't available
-SSL requests will fail.  Either install this module, set up an alternative
-SSL_ca_file or disable hostname verification.
+The libwww-perl core no longer bundles protocol plugins for SSL.  You will need
+to install L<LWP::Protocol::https> separately to enable support for processing
+https-URLs.
 
 =back
 
