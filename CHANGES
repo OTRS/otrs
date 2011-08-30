@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1962 2011-08-30 09:45:15 mh Exp $
+# $Id: CHANGES,v 1.1963 2011-08-30 21:45:44 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,21 @@
 # --
 
 3.1.0 beta1 2011-??-??
+ - 2011-08-30 Updated CPAN module SOAP::Lite to version 0.714.
+ - 2011-08-30 Updated CPAN module libwww-perl to version 6.02.
+ - 2011-08-30 Updated CPAN module YAML to version 0.73.
+ - 2011-08-30 Updated CPAN module URI to version 1.59.
+ - 2011-08-30 Updated CPAN module Text::Diff to version 1.41.
+ - 2011-08-30 Updated CPAN module Proc::Daemon to version 0.14.
+ - 2011-08-30 Updated CPAN module Net::SMTP::TLS::ButMaintained to version 0.18.
+ - 2011-08-30 Updated CPAN module Net::IMAP::Simple to version 1.2024.
+ - 2011-08-30 Updated CPAN module Mozilla::CA to version 20110409.
+ - 2011-08-30 Updated CPAN module MailTools to version 2.08.
+ - 2011-08-30 Updated CPAN module MIME::Tools to version 5.502.
+ - 2011-08-30 Updated CPAN module JSON to version 2.53.
+ - 2011-08-30 Updated CPAN module JSON::PP to version 2.27200.
+ - 2011-08-30 Updated CPAN module HTTP::Message to version 6.02.
+ - 2011-08-30 Updated CPAN module Digest::SHA::PurePerl to version 5.62.
  - 2011-08-30 Updated CPAN module CGI to version 3.55.
  - 2011-08-24 Fixed bug#6718 - error when running otrs-initial-insert.postgresql.sql by making
     otrs.xml2sql.pl write out utf8 files and by adding 'SET standard_conforming_strings TO ON'.
