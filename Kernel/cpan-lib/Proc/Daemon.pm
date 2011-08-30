@@ -5,7 +5,7 @@
 ##      Earl Hood         earl@earlhood.com
 ##      Detlef Pilzecker  deti@cpan.org
 ##  Description:
-##      see Daemon.pod file
+##      Run Perl program(s) as a daemon process, see docu in the Daemon.pod file
 ################################################################################
 ##  Copyright (C) 1997-2011 by Earl Hood and Detlef Pilzecker.
 ##
@@ -21,7 +21,7 @@ package Proc::Daemon;
 use strict;
 use POSIX();
 
-$Proc::Daemon::VERSION = '0.06';
+$Proc::Daemon::VERSION = '0.14';
 
 
 ################################################################################
@@ -30,11 +30,16 @@ $Proc::Daemon::VERSION = '0.06';
 #
 #   %Daemon_Settings are hash key=>values and can be:
 #     work_dir     => '/working/daemon/directory'   -> defaults to '/'
-#     child_STDIN  => '/path/to/daemon/STDIN.file'  -> defautls to '/dev/null'
-#     child_STDOUT => '/path/to/daemon/STDOUT.file' -> defaults to '/dev/null'
-#     child_STDERR => '/path/to/daemon/STDERR.file' -> defaults to '/dev/null'
+#     setuid       => 12345                         -> defaults to <undef>
+#     child_STDIN  => '/path/to/daemon/STDIN.file'  -> defautls to '</dev/null'
+#     child_STDOUT => '/path/to/daemon/STDOUT.file' -> defaults to '+>/dev/null'
+#     child_STDERR => '/path/to/daemon/STDERR.file' -> defaults to '+>/dev/null'
+#     dont_close_fh => [ 'main::DATA', 'PackageName::DATA', 'STDOUT', ... ]
+#       -> arrayref with file handles you do not want to be closed in the daemon.
+#     dont_close_fd => [ 5, 8, ... ]                -> arrayref with file
+#       descriptors you do not want to be closed in the daemon.
 #     pid_file =>     '/path/to/pid/file.txt'       -> defaults to
-#       undef (= write no file)
+#       undef (= write no file).
 #     exec_command => 'perl /home/script.pl'        -> execute a system command
 #       via Perls *exec PROGRAM* at the end of the Init routine and never return.
 #       Must be an arrayref if you want to create several daemons at once.
@@ -46,6 +51,8 @@ sub new {
 
     my $self = \%args;
     bless( $self, $class );
+
+    $self->{memory} = {};
 
     return $self;
 }
@@ -78,7 +85,7 @@ sub Init {
 
 
     # Check if $self has been blessed into the package, otherwise do it now.
-    if ( ref( $self ) ne 'Proc::Daemon' ) {
+    unless ( ref( $self ) && eval{ $self->isa( 'Proc::Daemon' ) } ) {
         $self = ref( $self ) eq 'HASH' ? Proc::Daemon->new( %$self ) : Proc::Daemon->new();
     }
     # If $daemon->Init is used again in the same script,
@@ -88,13 +95,41 @@ sub Init {
     }
 
 
-    # Open a filehandle to the anonymous temporary pid file.
-    open( my $FH_MEMORY, "+>", undef ) || die "Can not open anonymous temporary pidfile: $!";
+    # Open a filehandle to an anonymous temporary pid file. If this is not
+    # possible (some environments do not allow all users to use anonymous
+    # temporary files), use the pid_file(s) to retrieve the PIDs for the parent.
+    my $FH_MEMORY;
+    unless ( open( $FH_MEMORY, "+>", undef ) || $self->{pid_file} ) {
+        die "Can not <open> anonymous temporary pidfile ('$!'), therefore you must add 'pid_file' as an Init() argument, e.g. to: '/tmp/proc_daemon_pids'";
+    }
+
+
+    # Get the file descriptors the user does not want to close.
+    my %dont_close_fd;
+    if ( defined $self->{dont_close_fd} ) {
+        die "The argument 'dont_close_fd' must be arrayref!"
+            if ref( $self->{dont_close_fd} ) ne 'ARRAY';
+        foreach ( @{ $self->{dont_close_fd} } ) {
+            die "All entries in 'dont_close_fd' must be numeric ('$_')!" if $_ =~ /\D/;
+            $dont_close_fd{ $_ } = 1;
+        }
+    }
+    # Get the file descriptors of the handles the user does not want to close.
+    if ( defined $self->{dont_close_fh} ) {
+        die "The argument 'dont_close_fh' must be arrayref!"
+            if ref( $self->{dont_close_fh} ) ne 'ARRAY';
+        foreach ( @{ $self->{dont_close_fh} } ) {
+            if ( defined ( my $fn = fileno $_ ) ) {
+                $dont_close_fd{ $fn } = 1;
+            }
+        }
+    }
 
 
     # If system commands are to be executed, put them in a list.
     my @exec_command = ref( $self->{exec_command} ) eq 'ARRAY' ? @{ $self->{exec_command} } : ( $self->{exec_command} );
     $#exec_command = 0 if $#exec_command < 0;
+
 
     # Create a daemon for every system command.
     foreach my $exec_command ( @exec_command ) {
@@ -114,7 +149,7 @@ sub Init {
 
 
             # Set the new working directory.
-            chdir $self->{work_dir} or die "Can't <chdir> to $self->{work_dir}: $!";
+            die "Can't <chdir> to $self->{work_dir}: $!" unless chdir $self->{work_dir};
 
             # Clear the file creation mask.
             umask 0;
@@ -178,24 +213,53 @@ sub Init {
                 # Here the second child is running.
 
 
-                # Close open file handles/descriptors.
-                # $FH_MEMORY also will be closed here.
-                foreach ( 0 .. OpenMax() ) { POSIX::close( $_ ) }
+                # Close all file handles and descriptors the user does not want
+                # to preserve.
+                my $hc_fd; # highest closed file descriptor
+                close $FH_MEMORY;
+                foreach ( 0 .. OpenMax() ) {
+                    unless ( $dont_close_fd{ $_ } ) {
+                        if    ( $_ == 0 ) { close STDIN  }
+                        elsif ( $_ == 1 ) { close STDOUT }
+                        elsif ( $_ == 2 ) { close STDERR }
+                        else { $hc_fd = $_ if POSIX::close( $_ ) }
+                    }
+                }
 
-                # Reopen STDIN, STDOUT and STDERR to '..._path' or to /dev/null.
-                # Data written on a null special file is discarded. Reads from
-                # the null special file always return end of file.
-                open( STDIN,  "<",  $self->{child_STDIN}  || "/dev/null" );
-                open( STDOUT, "+>", $self->{child_STDOUT} || "/dev/null" );
-                open( STDERR, "+>", $self->{child_STDERR} || "/dev/null" );
+                # Sets the real user identifier and the effective user
+                # identifier for the daemon process before opening files.
+                POSIX::setuid( $self->{setuid} ) if defined $self->{setuid};
+
+                # Reopen STDIN, STDOUT and STDERR to 'child_STD...'-path or to
+                # /dev/null. Data written on a null special file is discarded.
+                # Reads from the null special file always return end of file.
+                open( STDIN,  $self->{child_STDIN}  || "</dev/null" )  unless $dont_close_fd{ 0 };
+                open( STDOUT, $self->{child_STDOUT} || "+>/dev/null" ) unless $dont_close_fd{ 1 };
+                open( STDERR, $self->{child_STDERR} || "+>/dev/null" ) unless $dont_close_fd{ 2 };
+
+                # Since <POSIX::close(FD)> is in some cases "secretly" closing
+                # file descriptors without telling it to perl, we need to
+                # re<open> and <CORE::close(FH)> as many files as we closed with
+                # <POSIX::close(FD)>. Otherwise it can happen (especially with
+                # FH opened by __DATA__ or __END__) that there will be two perl
+                # handles associated with one file, what can cause some
+                # confusion.   :-)
+                # see: http://rt.perl.org/rt3/Ticket/Display.html?id=72526
+                if ( $hc_fd ) {
+                    my @fh;
+                    foreach ( 3 .. $hc_fd ) { open $fh[ $_ ], "</dev/null" }
+                    # Perl will try to close all handles when @fh leaves scope
+                    # here, but the rude ones will sacrifice themselves to avoid
+                    # potential damage later.
+                }
 
 
                 # Execute a system command and never return.
                 if ( $exec_command ) {
                     exec $exec_command;
                     exit; # Not a real exit, but needed since Perl warns you if
-                    # there is no statement like 'die', 'warn', or 'exit'
-                    # following 'exec'. The 'exec' function executes a system
+                    # there is no statement like <die>, <warn>, or <exit>
+                    # following <exec>. The <exec> function executes a system
                     # command and never returns.
                 }
 
@@ -204,15 +268,17 @@ sub Init {
                 return $pid;
             }
 
+
             # First child (= second parent) runs here.
 
 
             # Print the PID of the second child into ...
-            # ... the anonymous temporary pid file.
             $pid ||= '';
-            print $FH_MEMORY "$pid\n";
-            close $FH_MEMORY;
-
+            # ... the anonymous temporary pid file.
+            if ( $FH_MEMORY ) {
+                print $FH_MEMORY "$pid\n";
+                close $FH_MEMORY;
+            }
             # ... the real 'pid_file'.
             if ( $self->{pid_file} ) {
                 open( my $FH_PIDFILE, "+>", $self->{pid_file} ) ||
@@ -244,14 +310,25 @@ sub Init {
     # Only first parent runs here.
 
 
-    # Get the daemon PIDs out of the anonymous temporary pid file.
-    seek( $FH_MEMORY, 0, 0 );
-    my @pid = map { chomp $_; $_ eq '' ? undef : $_ } <$FH_MEMORY>;
-    close $FH_MEMORY;
-
-
     # Exit if the context is looking for no value (void context).
     exit 0 unless defined wantarray;
+
+    # Get the daemon PIDs out of the anonymous temporary pid file
+    # or out of the real pid-file(s)
+    my @pid;
+    if ( $FH_MEMORY ) {
+        seek( $FH_MEMORY, 0, 0 );
+        @pid = map { chomp $_; $_ eq '' ? undef : $_ } <$FH_MEMORY>;
+        close $FH_MEMORY;
+    }
+    elsif ( $self->{memory}{pid_file} ) {
+        foreach ( keys %{ $self->{memory}{pid_file} } ) {
+            open( $FH_MEMORY, "<", $_ ) || die "Can not open pid_file '<$_': $!";
+            push( @pid, <$FH_MEMORY> );
+            close $FH_MEMORY;
+        }
+    }
+
     # Return the daemon PIDs (from second child/ren) to the first parent.
     return ( wantarray ? @pid : $pid[0] );
 }
@@ -270,17 +347,17 @@ sub adjust_settings {
     # Set default 'work_dir' if needed.
     $self->{work_dir} ||= '/';
 
-    $self->fix_filename('child_STDIN')  if $self->{child_STDIN}  && $self->{child_STDIN}  ne '/dev/null';
+    $self->fix_filename( 'child_STDIN',  1 ) if $self->{child_STDIN};
 
-    $self->fix_filename('child_STDOUT') if $self->{child_STDOUT} && $self->{child_STDOUT} ne '/dev/null';
+    $self->fix_filename( 'child_STDOUT', 1 ) if $self->{child_STDOUT};
 
-    $self->fix_filename('child_STDERR') if $self->{child_STDERR} && $self->{child_STDERR} ne '/dev/null';
+    $self->fix_filename( 'child_STDERR', 1 ) if $self->{child_STDERR};
 
     # Check 'pid_file's name
     if ( $self->{pid_file} ) {
         die "Pidfile (pid_file => '$self->{pid_file}') can not be only a number. I must be able to distinguish it from a PID number in &get_pid('...')." if $self->{pid_file} =~ /^\d+$/;
 
-        $self->fix_filename('pid_file');
+        $self->fix_filename( 'pid_file' );
     }
 
     return;
@@ -291,15 +368,17 @@ sub adjust_settings {
 # - If the keys value is only a filename add the path of 'work_dir'.
 # - If we have already set a file for this key with the same "path/name",
 #   add a number to the file.
-# Args: ( $self, $key )
+# Args: ( $self, $key, $extract_mode )
 #   key: one of 'child_STDIN', 'child_STDOUT', 'child_STDERR', 'pid_file'
+#   extract_mode: true = separate <open> MODE form filename before checking
+#                 path/filename; false = no MODE to check
 # Returns: nothing
 ################################################################################
-my %memory;
 sub fix_filename {
     my Proc::Daemon $self = shift;
-    my $key = shift;
-    my $var = $self->{ $key };
+    my $key  = shift;
+    my $var  = $self->{ $key };
+    my $mode = ( shift ) ? ( $var =~ s/^([\+\<\>\-\|]+)// ? $1 : ( $key eq 'child_STDIN' ? '<' : '+>' ) ) : '';
 
     # add path to filename
     if ( $var =~ s/^\.\/// || $var !~ /\// ) {
@@ -309,20 +388,20 @@ sub fix_filename {
 
     # If the file was already in use, modify it with '_number':
     # filename_X | filename_X.ext
-    if ( $memory{ $key }{ $var } ) {
+    if ( $self->{memory}{ $key }{ $var } ) {
         $var =~ s/([^\/]+)$//;
         my @i = split( /\./, $1 );
         my $j = $#i ? $#i - 1 : 0;
 
-        $memory{ "$key\_num" } ||= 0;
-        $i[ $j ] =~ s/_$memory{ "$key\_num" }$//;
-        $memory{ "$key\_num" }++;
-        $i[ $j ] .= '_' . $memory{ "$key\_num" };
+        $self->{memory}{ "$key\_num" } ||= 0;
+        $i[ $j ] =~ s/_$self->{memory}{ "$key\_num" }$//;
+        $self->{memory}{ "$key\_num" }++;
+        $i[ $j ] .= '_' . $self->{memory}{ "$key\_num" };
         $var .= join( '.', @i );
     }
 
-    $memory{ $key }{ $var } = 1;
-    $self->{ $key } = $var;
+    $self->{memory}{ $key }{ $var } = 1;
+    $self->{ $key } = $mode . $var;
 
     return;
 }
@@ -406,11 +485,12 @@ sub Status {
 
 ################################################################################
 # Kill the (daemon) process:
-# Kill_Daemon( [ number or string ] )
+# Kill_Daemon( [ number or string [, SIGNAL ] ] )
 #
 # Examples:
 #   $object->Kill_Daemon() - Tries to get the PID out of the settings in new() and kill it.
-#   $object->Kill_Daemon( 12345 ) - Number of PID to kill.
+#   $object->Kill_Daemon( 12345, 'TERM' ) - Number of PID to kill with signal 'TERM'. The
+#     names or numbers of the signals are the ones listed out by kill -l on your system.
 #   $object->Kill_Daemon( './pid.txt' ) - Path to file containing one PID to kill.
 #   $object->Kill_Daemon( 'perl /home/my_perl_daemon.pl' ) - Command line entry of the
 #               running program to kill. Requires Proc::ProcessTable to work.
@@ -420,7 +500,8 @@ sub Status {
 ################################################################################
 sub Kill_Daemon {
     my Proc::Daemon $self = shift;
-    my $pid = shift;
+    my $pid    = shift;
+    my $signal = shift || 'KILL';
     my $pidfile;
 
     # Get the process ID.
@@ -430,7 +511,7 @@ sub Kill_Daemon {
     return 0 if ! $pid;
 
     # Kill the process.
-    my $killed = kill( 9, $pid );
+    my $killed = kill( $signal, $pid );
 
     if ( $killed && $pidfile ) {
         # Set PID in pid file to '0'.

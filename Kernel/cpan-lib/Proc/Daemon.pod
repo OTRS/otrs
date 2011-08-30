@@ -79,7 +79,8 @@ daemon completely from the first parent.
 
 =item 6
 
-The second child closes all open file descriptors.
+The second child closes all open file descriptors (unless you define
+C<dont_close_fh> and/or C<dont_close_fd>).
 
 
 =item 7
@@ -97,8 +98,14 @@ in 'exec_command' is executed and the second child never returns.
 =item 9
 
 The first child transfers the PID of the second child (daemon) to the
-parent and exits. Additionally the PID of the daemon process can be written
-into a file if 'pid_file' is defined.
+parent. Additionally the PID of the daemon process can be written into a file
+if 'pid_file' is defined. Then the first child exits.
+
+
+=item 10
+
+If the parent script is looking for a return value, then the PID(s) of the
+child/ren will be returned. Otherwise the parent will exit.
 
 =back
 
@@ -106,7 +113,11 @@ into a file if 'pid_file' is defined.
 NOTE: Because of the second fork the daemon will not be a session-leader and
 therefore Signals will not be send to other members of his process group. If
 you need the functionality of a session-leader you may want to call
-POSIX::setsid() manually on your daemon.
+POSIX::setsid() manually at your daemon.
+
+
+INFO: Since C<fork> is not performed the same way on Windows systems as on
+Linux, this module does not work with Windows. Patches appreciated!
 
 
 
@@ -126,31 +137,69 @@ following keys from %ARGS are used:
 
 =item work_dir
 
-Defines the path to the daemon working directory. Defaults to C</>.
+Defines the path to the working directory of your daemon. Defaults to C</>.
+
+
+=item setuid
+
+Sets the real user identifier (C<< $< >>) and the effective user identifier
+(C<< $> >>) for the daemon process using C<POSIX::setuid( ... )>, in case you
+want to run your daemon under an other user then the parent. Obviously the
+first user must have the rights to switch to the new user otherwise it will
+stay the same. It is helpful to define the argument C<setuid> if you start your
+script at boot time by init with the superuser, but wants the daemon to run
+under a normal user account.
 
 
 =item child_STDIN
 
-Defines the path to STDIN of your daemon. Defaults to C</dev/null>. Mode is '<'
-(read).
+Defines the path to STDIN for your daemon. Defaults to C</dev/null>. Default
+Mode is '<' (read). You can define other Mode the same way as you do using
+Perls C<open> in a two-argument form.
 
 
 =item child_STDOUT
 
 Defines the path where the output of your daemon will go. Defaults to
-C</dev/null>. Mode is '+>' (write/read).
+C</dev/null>. Default Mode is '+>' (write/read). You can define other Mode the
+same way as you do using Perls C<open> in a two-argument form.
 
 
 =item child_STDERR
 
 Defines the path where the error output of your daemon will go. Defaults to
-C</dev/null>. Mode is '+>' (write/read).
+C</dev/null>. Default Mode is '+>' (write/read). You can define other Mode the
+same way as you do using Perls C<open> in a two-argument form, see example
+below.
+
+
+=item dont_close_fh
+
+If you define it, it must be an arrayref with file handles you want to preserve
+from the parent into the child (daemon). This may be the case if you have code
+below a C<__DATA__> token in your script or module called by C<use> or
+C<require>.
+
+    dont_close_fh => [ 'main::DATA', 'PackageName::DATA', $my_filehandle, ... ],
+
+You can add any kind of file handle to the array (expression in single quotes or
+a scalar variable), including 'STDIN', 'STDOUT' and 'STDERR'. Logically the path
+settings from above (C<child_STDIN>, ...) will be ignored in this case.
+
+DISCLAIMER: Using this argument may not detach your daemon fully from the
+parent! Use it at your own risk.
+
+
+=item dont_close_fd
+
+Same function and disclaimer as C<dont_close_fh>, but instead of file handles
+you write the numeric file descriptors inside the arrayref.
 
 
 =item pid_file
 
-Defines the path to the file where the PID of the child process is
-stored. Defaults to C<undef> (= write no file).
+Defines the path to a file (owned by the parent user) where the PID of the
+daemon process will be stored. Defaults to C<undef> (= write no file).
 
 
 =item exec_command
@@ -167,7 +216,7 @@ Example:
     my $daemon = Proc::Daemon->new(
         work_dir     => '/working/daemon/directory',
         child_STDOUT => '/path/to/daemon/output.file',
-        child_STDERR => 'debug.txt',
+        child_STDERR => '+>>debug.txt',
         pid_file     => 'pid.txt',
         exec_command => 'perl /home/my_script.pl',
       # or:
@@ -181,12 +230,14 @@ In this example:
 =item *
 
 the PID of the daemon will be returned to C<$daemon> in the parent process
-and a pid-file will be created at C</working/daemon/directory/pid.txt>
+and a pid-file will be created at C</working/daemon/directory/pid.txt>.
 
 =item *
 
-all STDOUT of the daemon will go to C</path/to/daemon/output.file> and
-all STDERR will go to C</working/daemon/directory/debug.txt>
+STDOUT will be open with Mode '+>' (write/read)
+to C</path/to/daemon/output.file> and STDERR will be open
+to C</working/daemon/directory/debug.txt> with Mode '+>>' (write/read opened for
+appending).
 
 =item *
 
@@ -215,9 +266,9 @@ reference to start the daemon.
 
 If you want to use the object reference created by C<new> for other daemons,
 you write C<Init( { %ARGS } )>. %ARGS are the same as described in
-C<new>. Notice that you shouldn't call C<Init()>, or
-this next daemon will do and write all in the same files as the first daemon. At
-least use an empty anonymous hash.
+C<new>. Notice that you shouldn't call C<Init()> without argument in this case,
+or the next daemon will execute and/or write in the same files as the first
+daemon. To prevent this use at least an empty anonymous hash here.
 
     $pid = $daemon->Init( {} );
     @pid = $daemon->Init( {
@@ -228,18 +279,20 @@ least use an empty anonymous hash.
 If you don't need the Proc::Daemon object reference in your script, you
 can also use the method without object reference:
 
-    $pid = Proc::Daemon::Init( [ { %ARGS } ] );
+    $pid = Proc::Daemon::Init();
+    # or
+    $pid = Proc::Daemon::Init( { %ARGS } );
 
-To the parent C<Init> returns the PID (scalar) of the daemon, or the PIDs
-(array) of the daemons created (if C<exec_command> has more then one program
-to execute). See examples above.
+C<Init> returns the PID (scalar) of the daemon to the parent, or the PIDs
+(array) of the daemons created if C<exec_command> has more then one program
+to execute. See examples above.
 
-Returns 0 to the child (daemon).
+C<Init> returns 0 to the child (daemon).
 
 If you call the C<Init> method in the context without looking for a return value
 (void context) the parent process will C<exit> here like in earlier versions:
 
-    Proc::Daemon::Init;
+    Proc::Daemon::Init();
 
 
 =item Status( [ $ARG ] )
@@ -272,13 +325,15 @@ L<Proc::ProcessTable> to be installed.
 =back
 
 
-=item Kill_Daemon( [ $ARG ] )
+=item Kill_Daemon( [ $ARG [, SIGNAL] ] )
 
 This function kills the Daemon process. Returns the number of processes
 successfully killed (which mostly is not the same as the PID number), or 0 if
 the process wasn't found. 
 
-$ARG is the same as of C<Status()>.
+$ARG is the same as of C<Status()>. SIGNAL is an optional signal name or number
+as required by Perls C<kill> function and listed out by C<kill -l> on your
+system. Default value is 9 ('KILL' = non-catchable, non-ignorable kill).
 
 
 =item Fork
@@ -379,7 +434,7 @@ Addison-Wesley, Copyright 1992.
 
 =item *
 
-"UNIX Network Progamming", Vol 1, by W. Richard Stevens.
+"UNIX Network Programming", Vol 1, by W. Richard Stevens.
 Prentice-Hall PTR, Copyright 1998.
 
 =back
@@ -392,7 +447,7 @@ Prentice-Hall PTR, Copyright 1998.
 This module requires the C<POSIX> module to be installed.
 
 The C<Proc::ProcessTable> module is not essentially required but it can be
-usefull if it is installed (see above).
+useful if it is installed (see above).
 
 
 
