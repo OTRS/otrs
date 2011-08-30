@@ -14,6 +14,7 @@ sub query
 	$$self = $1;
 	if (defined $q) {
 	    $q =~ s/([^$URI::uric])/ URI::Escape::escape_char($1)/ego;
+	    utf8::downgrade($q);
 	    $$self .= "?$q";
 	}
 	$$self .= $3;

@@ -6,7 +6,7 @@ require URI::WithBase;
 use strict;
 use vars qw(@EXPORT $VERSION);
 
-$VERSION = "5.03";
+$VERSION = "5.04";
 
 # Provide as much as possible of the old URI::URL interface for backwards
 # compatibility...

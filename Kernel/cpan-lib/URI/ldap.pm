@@ -7,7 +7,7 @@ package URI::ldap;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = "1.11";
+$VERSION = "1.12";
 
 require URI::_server;
 require URI::_ldap;

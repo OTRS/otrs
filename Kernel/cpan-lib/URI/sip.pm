@@ -15,7 +15,7 @@ use strict;
 use vars qw(@ISA $VERSION);
 use URI::Escape qw(uri_unescape);
 
-$VERSION = "0.10";
+$VERSION = "0.11";
 
 sub default_port { 5060 }
 

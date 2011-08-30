@@ -23,6 +23,7 @@ sub authority
 	my $rest = $3;
 	if (defined $auth) {
 	    $auth =~ s/([^$ACHAR])/ URI::Escape::escape_char($1)/ego;
+	    utf8::downgrade($auth);
 	    $$self .= "//$auth";
 	}
 	_check_path($rest, $$self);
@@ -42,6 +43,7 @@ sub path
 	my $new_path = shift;
 	$new_path = "" unless defined $new_path;
 	$new_path =~ s/([^$PCHAR])/ URI::Escape::escape_char($1)/ego;
+	utf8::downgrade($new_path);
 	_check_path($new_path, $$self);
 	$$self .= $new_path . $rest;
     }
@@ -59,6 +61,7 @@ sub path_query
 	my $new_path = shift;
 	$new_path = "" unless defined $new_path;
 	$new_path =~ s/([^$URI::uric])/ URI::Escape::escape_char($1)/ego;
+	utf8::downgrade($new_path);
 	_check_path($new_path, $$self);
 	$$self .= $new_path . $rest;
     }

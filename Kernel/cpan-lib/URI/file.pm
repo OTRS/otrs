@@ -5,7 +5,7 @@ use vars qw(@ISA $VERSION $DEFAULT_AUTHORITY %OS_CLASS);
 
 require URI::_generic;
 @ISA = qw(URI::_generic);
-$VERSION = "4.20";
+$VERSION = "4.21";
 
 use URI::Escape qw(uri_unescape);
 
@@ -227,12 +227,12 @@ usually many URIs that map to any given file name.  For instance, an
 authority of "localhost" maps the same as a URI with a missing or empty
 authority.
 
-Example 1: The Mac uses ":" as path separator, but not in the same way
-as a generic URI. ":foo" is a relative name.  "foo:bar" is an absolute
-name.  Also, path segments can contain the "/" character as well as the
-literal "." or "..".  So the mapping looks like this:
+Example 1: The Mac classic (Mac OS 9 and earlier) used ":" as path separator,
+but not in the same way as a generic URI. ":foo" was a relative name.  "foo:bar"
+was an absolute name.  Also, path segments could contain the "/" character as well
+as the literal "." or "..".  So the mapping looks like this:
 
-  Mac                   URI
+  Mac classic           URI
   ----------            -------------------
   :foo:bar     <==>     foo/bar
   :            <==>     ./

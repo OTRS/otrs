@@ -140,7 +140,7 @@ our @ISA = qw(Exporter);
 our %escapes;
 our @EXPORT = qw(uri_escape uri_unescape uri_escape_utf8);
 our @EXPORT_OK = qw(%escapes);
-our $VERSION = "3.30";
+our $VERSION = "3.31";
 
 use Carp ();
 
