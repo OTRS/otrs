@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1758.2.157 2011-08-26 16:57:51 en Exp $
+# $Id: CHANGES,v 1.1758.2.158 2011-08-30 09:26:29 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.0.11 2011-??-??
+ - 2011-08-30 Improved fix of bug#7195 to log a understandable error message if png, gif and
+    jpeg support are not activated in the GD CPAN module.
  - 2011-08-26 Fixed bug#7525 - Move in new window doesn't indicate required fields.
  - 2011-08-26 Fixed bug#7507 - AgentTicketActionCommon.dtl don't know about selected Priority.
  - 2011-08-26 Fixed bug#7504 - 7 Day Stats graph doesn't fit into alloted width.
