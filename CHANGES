@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1960 2011-08-26 16:57:20 en Exp $
+# $Id: CHANGES,v 1.1961 2011-08-30 09:27:02 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -78,6 +78,8 @@
      of > 70 characters exists.
 
 3.0.11 2011-??-??
+ - 2011-08-30 Improved fix of bug#7195 to log a understandable error message if png, gif and
+    jpeg support are not activated in the GD CPAN module.
  - 2011-08-26 Fixed bug#7525 - Move in new window doesn't indicate required fields.
  - 2011-08-26 Fixed bug#7507 - AgentTicketActionCommon.dtl don't know about selected Priority.
  - 2011-08-26 Fixed bug#7504 - 7 Day Stats graph doesn't fit into alloted width.
@@ -89,13 +91,13 @@
  - 2011-08-16 Fixed bug#7407 - Event based notifications with roles as recipients can
     produce multiple notifications.
  - 2011-08-16 Fixed bug#7589 - Ticket Search - TicketWatcher doesn't expand.
- - 2011-08-15 Fixed bug#7343 - Fixed bug#7343 - Typos in Customer Company Countries list.
+ - 2011-08-15 Fixed bug#7343 - Typos in Customer Company Countries list.
  - 2011-08-15 Fixed bug#7081 - Kernel::System::Log fails when module does not return
     VERSION.
  - 2011-08-15 Fixed bug#6263 - RPM upgrade should run otrs.RebuildConfig.pl and
     otrs.DeleteCache.pl.
  - 2011-08-12 Updated Simplified Chinese Translation, thanks to Martin Liu!
- - 2011-08-12 Updated Danish translation, thanks to Lars Jï¿½rgensen!
+ - 2011-08-12 Updated Danish translation, thanks to Lars Jørgensen!
  - 2011-08-10 Fixed bug#7550 - SLA and Service is not written to history.
  - 2011-08-10 Fixed bug#7549 - Missing mandatory class and * identifier in AgentTicketMove.
 
@@ -129,8 +131,8 @@
  - 2011-06-21 Fixed bug#4946 - Notification mails lack "Precedence: bulk" or similar headers.
  - 2011-06-21 Updated XML::TreePP to 0.41.
  - 2011-06-21 Updated XML::FeedPP to 0.43.
- - 2011-06-20 Fixed bug 7400: Setting Ticket::Frontend::ShowCustomerTickets not effective.
- - 2011-06-17 Fixed bug 6469: i18n: "Forwarded message" string is not translatable.
+ - 2011-06-20 Fixed bug#7400 - Setting Ticket::Frontend::ShowCustomerTickets not effective.
+ - 2011-06-17 Fixed bug#6469 - i18n: "Forwarded message" string is not translatable.
  - 2011-06-17 Fixed bug#4524 - SQL errors when there are no valid states for a given state type.
  - 2011-06-17 Fixed bug#7368 - Error in TicketEscalationDateCalculation.
  - 2011-06-17 Fixed bug#7420 - Cache issue when updating states.

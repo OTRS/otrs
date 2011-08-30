@@ -2,7 +2,7 @@
 # Kernel/System/Stats.pm - all stats core functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Stats.pm,v 1.104 2011-04-07 11:51:22 mh Exp $
+# $Id: Stats.pm,v 1.105 2011-08-30 09:27:02 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,10 +16,11 @@ use warnings;
 
 use MIME::Base64;
 use Date::Pcalc qw(:all);
+
 use Kernel::System::XML;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.104 $) [1];
+$VERSION = qw($Revision: 1.105 $) [1];
 
 =head1 NAME
 
@@ -843,21 +844,37 @@ sub GenerateGraph {
         $graph->set_legend(@YLine);
     }
 
-    # check the content type
+    # investigate the possible output types
+    my @OutputTypeList = $graph->export_format();
+
+    # transfer array to hash
+    my %OutputTypes;
+    for my $OutputType (@OutputTypeList) {
+        $OutputTypes{$OutputType} = 1;
+    }
+
+    # select output type
     my $Ext;
-    if ( $graph->can('png') ) {
+    if ( $OutputTypes{'png'} ) {
         $Ext = 'png';
     }
-    else {
+    elsif ( $OutputTypes{'gif'} ) {
+        $Ext = 'gif';
+    }
+    elsif ( $OutputTypes{'jpeg'} ) {
+        $Ext = 'jpeg';
+    }
 
-        # get the fallback type
-        $Ext = $graph->export_format;
+    # error handling
+    if ( !$Ext ) {
 
-        # log the problem
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Can't create png content! Using $Ext instead.",
+            Message =>
+                "The support of png, jpeg and gif output is not activated in the GD CPAN module!",
         );
+
+        return;
     }
 
     # create graph
@@ -3311,6 +3328,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.104 $ $Date: 2011-04-07 11:51:22 $
+$Revision: 1.105 $ $Date: 2011-08-30 09:27:02 $
 
 =cut
