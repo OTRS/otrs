@@ -8,25 +8,22 @@ use Fcntl;
 use integer;
 use FileHandle;
 
-$VERSION = '5.61';
+$VERSION = '5.62';
 
 require Exporter;
 @ISA = qw(Exporter);
 @EXPORT_OK = ();		# see "SHA and HMAC-SHA functions" below
 
-# If possible, inherit from Digest::base (which depends on MIME::Base64)
-
-*addfile = \&_Addfile;
+# If possible, inherit from Digest::base
 
 eval {
-	require MIME::Base64;
 	require Digest::base;
 	push(@ISA, 'Digest::base');
 };
-if ($@) {
-	*hexdigest = \&_Hexdigest;
-	*b64digest = \&_B64digest;
-}
+
+*addfile   = \&_Addfile;
+*hexdigest = \&_Hexdigest;
+*b64digest = \&_B64digest;
 
 # ref. src/sha.c and sha/sha64bit.c from Digest::SHA
 
@@ -651,8 +648,8 @@ sub _shadup { my($self) = @_; my($copy); _shacpy($copy, $self) }
 
 sub _shadump {
 	my $file = shift;
-	my $fh = (!defined($file) || $file eq "") 
-			? FileHandle->new("> -") 
+	my $fh = (!defined($file) || $file eq "")
+			? FileHandle->new("> -")
 			: FileHandle->new($file, "w") or return;
 	my $self = shift;
 	my $is32bit = $self->{alg} <= 256;
@@ -695,8 +692,8 @@ sub _match {
 
 sub _shaload {
 	my $file = shift;
-	my $fh = (!defined($file) || $file eq "") 
-			? FileHandle->new("< -") 
+	my $fh = (!defined($file) || $file eq "")
+			? FileHandle->new("< -")
 			: FileHandle->new($file, "r") or return;
 
 	my @f = _match($fh, "alg") or return;
