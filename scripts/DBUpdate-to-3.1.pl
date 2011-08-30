@@ -3,7 +3,7 @@
 # DBUpdate-to-3.1.pl - update script to migrate OTRS 2.4.x to 3.0.x
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-3.1.pl,v 1.7 2011-08-26 18:55:43 cg Exp $
+# $Id: DBUpdate-to-3.1.pl,v 1.8 2011-08-30 03:33:58 cg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 use Getopt::Std qw();
 use Kernel::Config;
@@ -43,6 +43,7 @@ use Kernel::System::Main;
 use Kernel::System::State;
 use Kernel::System::SysConfig;
 use Kernel::System::XML;
+use Kernel::System::DynamicField;
 
 {
 
@@ -65,7 +66,7 @@ EOF
     # create common objects
     my $CommonObject = _CommonObjectsBase();
 
-    print "Step 1 of 8: Refresh configuration cache... ";
+    print "Step 1 of 9: Refresh configuration cache... ";
     RebuildConfig($CommonObject);
     print "done.\n\n";
 
@@ -73,11 +74,11 @@ EOF
     $CommonObject = _CommonObjectsBase();
 
     # check framework version
-    print "Step 2 of 8: Check framework version... ";
+    print "Step 2 of 9: Check framework version... ";
     _CheckFrameworkVersion($CommonObject);
     print "done.\n\n";
 
-    print "Step 3 of 8: Creating DynamicField tables (if necessary)... ";
+    print "Step 3 of 9: Creating DynamicField tables (if necessary)... ";
     if ( _CheckDynamicFieldTables($CommonObject) ) {
         print "done.\n\n";
     }
@@ -86,21 +87,21 @@ EOF
     }
 
     # insert dynamic field records, if necessary
-    print "Step 4 of 8: Create new dynamic fields for free fields (text, key, date)... ";
+    print "Step 4 of 9: Create new dynamic fields for free fields (text, key, date)... ";
     if ( !_IsFreefieldsMigrationAlreadyDone($CommonObject) ) {
         _DynamicFieldCreation($CommonObject);
     }
     print "done.\n\n";
 
     # migrate ticket free field
-    print "Step 5 of 8: Migrate ticket free fields to dynamic fields.. \n";
+    print "Step 5 of 9: Migrate ticket free fields to dynamic fields.. \n";
     if ( !_IsFreefieldsMigrationAlreadyDone($CommonObject) ) {
         my $TicketMigrated = _DynamicFieldTicketMigration($CommonObject);
     }
     print "done.\n\n";
 
     # migrate ticket free field
-    print "Step 6 of 8: Migrate article free fields to dynamic fields.. \n";
+    print "Step 6 of 9: Migrate article free fields to dynamic fields.. \n";
     if ( !_IsFreefieldsMigrationAlreadyDone($CommonObject) ) {
         my $ArticleMigrated = _DynamicFieldArticleMigration($CommonObject);
     }
@@ -108,7 +109,7 @@ EOF
 
     # verify ticket migration
     my $VerificationTicketData = 1;
-    print "Step 7 of 8: Verify if ticket data was succesfuly migrated.. ";
+    print "Step 7 of 9: Verify if ticket data was succesfuly migrated.. ";
     if ( !_IsFreefieldsMigrationAlreadyDone($CommonObject) ) {
         $VerificationTicketData = _VerificationTicketData($CommonObject);
     }
@@ -116,7 +117,7 @@ EOF
 
     # verify article migration
     my $VerificationArticleData = 1;
-    print "Step 8 of 8: Verify if article data was succesfuly migrated.. ";
+    print "Step 8 of 9: Verify if article data was succesfuly migrated.. ";
     if ( !_IsFreefieldsMigrationAlreadyDone($CommonObject) ) {
         $VerificationArticleData = _VerificationArticleData($CommonObject);
     }
@@ -128,6 +129,11 @@ EOF
             "DO NOT CONTINUE THE UPGRADING PROCESS UNTIL THIS ISSUE IS FIXED, OTHERWISE YOU MAY LOSE DATA!\n";
         die;
     }
+
+    # verify article migration
+    print "Step 9 of 9: Migrate free fields configuration.. ";
+    _MigrateFreeFieldsConfiguration($CommonObject);
+    print "done.\n\n";
 
     print "Migration completed!\n";
 
@@ -874,6 +880,151 @@ sub _VerificationArticleData {
                     }
                 }
             }
+        }
+    }
+
+    return 1;
+}
+
+=item _VerificationArticleData($CommonObject)
+
+Checks if the data for ticket was succesfuly migrated.
+
+    _VerificationArticleData($CommonObject);
+
+=cut
+
+sub _MigrateFreeFieldsConfiguration {
+    my $CommonObject = shift;
+
+    # create additional objects
+    my $SysConfigObject    = Kernel::System::SysConfig->new( %{$CommonObject} );
+    my $DynamicFieldObject = Kernel::System::DynamicField->new( %{$CommonObject} );
+
+    # select dynamic field entries
+    my $SuccessTicket = $CommonObject->{DBObject}->Prepare(
+        SQL =>
+            'SELECT id, name, label, field_order, field_type, object_type, valid_id FROM dynamic_field',
+    );
+
+    my %Data;
+    while ( my @Row = $CommonObject->{DBObject}->FetchrowArray() ) {
+        $Data{ $Row[1] } = {
+            ID         => $Row[0],
+            Name       => $Row[1],
+            Label      => $Row[2],
+            FieldOrder => $Row[3],
+            FieldType  => $Row[4],
+            ObjectType => $Row[5],
+            ValidID    => $Row[6],
+        };
+    }
+
+    # insert new ticket dynamic field entries if necessary
+    for my $Index ( 1 .. 16 ) {
+        for my $FreeField ( 'TicketFreeKey', 'TicketFreeText' ) {
+
+            my $FieldName = $FreeField . $Index;
+            if ( defined $Data{$FieldName} ) {
+                my %FieldConfig;
+
+                # Get all Attributes from Item
+                my %PossibleValues = $SysConfigObject->ConfigItemGet( Name => $FieldName );
+                $FieldConfig{PossibleValues} = \%PossibleValues;
+
+                my %DefaultSelection
+                    = $SysConfigObject->ConfigItemGet( Name => $FieldName . "::DefaultSelection" );
+                $FieldConfig{DefaultSelection} = \%DefaultSelection;
+
+                # set new values
+                $Data{$FieldName}->{Config}     = \%FieldConfig;
+                $Data{$FieldName}->{ObjectType} = 'Dropdown';
+                $Data{$FieldName}->{Reorder}    = '0';
+                $Data{$FieldName}->{ValidID}    = $PossibleValues{Valid} || '1';
+                $Data{$FieldName}->{UserID}     = '1';
+
+                my $SuccessTicketField = $DynamicFieldObject->DynamicFieldUpdate(
+                    %{ $Data{$FieldName} }
+                );
+
+                if ( !$SuccessTicketField ) {
+                    die "Could not migrate configuration for dynamic field: $FieldName";
+                }
+            }
+        }
+    }
+
+    # insert new ticket dynamic field entries if necessary
+    for my $Index ( 1 .. 6 ) {
+
+        my $FieldName = 'TicketFreeTime' . $Index;
+        if ( defined $Data{$FieldName} ) {
+            my %FieldConfig;
+
+            # Get all Attributes from Item
+            my %PossibleValues = $SysConfigObject->ConfigItemGet( Name => $FieldName );
+            $FieldConfig{PossibleValues} = \%PossibleValues;
+
+            my %TimeOptional
+                = $SysConfigObject->ConfigItemGet( Name => "TicketFreeTimeOptional" . $Index );
+            $FieldConfig{TimeOptional} = \%TimeOptional;
+
+            my %TimeDiff = $SysConfigObject->ConfigItemGet( Name => "TicketFreeTimeDiff" . $Index );
+            $FieldConfig{TimeDiff} = \%TimeDiff;
+
+            my %TimePeriod
+                = $SysConfigObject->ConfigItemGet( Name => "TicketFreeTimePeriod" . $Index );
+            $FieldConfig{TimePeriod} = \%TimePeriod;
+
+            # set new values
+            $Data{$FieldName}->{Config}     = \%FieldConfig;
+            $Data{$FieldName}->{ObjectType} = 'Dropdown';
+            $Data{$FieldName}->{Reorder}    = '0';
+            $Data{$FieldName}->{ValidID}    = $PossibleValues{Valid} || '1';
+            $Data{$FieldName}->{UserID}     = '1';
+
+            my $SuccessTicketField = $DynamicFieldObject->DynamicFieldUpdate(
+                %{ $Data{$FieldName} }
+            );
+
+            if ( !$SuccessTicketField ) {
+                die "Could not migrate configuration for dynamic field: $FieldName";
+            }
+        }
+    }
+
+    # insert new article dynamic field entries if necessary
+    for my $Index ( 1 .. 3 ) {
+        for my $FreeField ( 'ArticleFreeKey', 'ArticleFreeText' ) {
+
+            my $FieldName = $FreeField . $Index;
+            if ( defined $Data{$FieldName} ) {
+                my %FieldConfig;
+
+                # Get all Attributes from Item
+                my %PossibleValues = $SysConfigObject->ConfigItemGet( Name => $FieldName );
+                $FieldConfig{PossibleValues} = \%PossibleValues;
+
+                my %DefaultSelection
+                    = $SysConfigObject->ConfigItemGet( Name => $FieldName . "::DefaultSelection" );
+                $FieldConfig{DefaultSelection} = \%DefaultSelection;
+
+                # set new values
+                $Data{$FieldName}->{Config}     = \%FieldConfig;
+                $Data{$FieldName}->{ObjectType} = 'Dropdown';
+                $Data{$FieldName}->{Reorder}    = '0';
+                $Data{$FieldName}->{ValidID}    = $PossibleValues{Valid} || '1';
+                $Data{$FieldName}->{UserID}     = '1';
+
+                my $SuccessTicketField = $DynamicFieldObject->DynamicFieldUpdate(
+                    %{ $Data{$FieldName} }
+                );
+
+                if ( !$SuccessTicketField ) {
+                    die "Could not migrate configuration for dynamic field: $FieldName";
+                }
+            }
+
         }
     }
 
