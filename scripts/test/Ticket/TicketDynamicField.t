@@ -2,7 +2,7 @@
 # TicketDynamicField.t - DynamicFieldValue backend tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketDynamicField.t,v 1.1 2011-08-31 21:23:48 cr Exp $
+# $Id: TicketDynamicField.t,v 1.2 2011-08-31 22:14:54 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -650,16 +650,14 @@ for ( 1 .. 5 ) {
     );
 }
 
-# TODO ReEnable this test when ArticleGet works with DynamicFields
-# TicketObject->TicketFreeTextGet()?
-#my @ArticleFreeTime = $TicketObject->ArticleGet( TicketID => $TicketID );
-#for ( 1 .. 5 ) {
-#    $Self->Is(
-#        $ArticleFreeTime[0]->{ 'TicketFreeTime' . $_ },
-#        "2008-02-25 22:0$_:00",
-#        "ArticleGet() (TicketFreeTime$_)",
-#    );
-#}
+my @ArticleFreeTime = $TicketObject->ArticleGet( TicketID => $TicketID );
+for ( 1 .. 5 ) {
+    $Self->Is(
+        $ArticleFreeTime[0]->{ 'TicketFreeTime' . $_ },
+        "2008-02-25 22:0$_:00",
+        "ArticleGet() (TicketFreeTime$_)",
+    );
+}
 
 # set undef
 for ( 1 .. 5 ) {
