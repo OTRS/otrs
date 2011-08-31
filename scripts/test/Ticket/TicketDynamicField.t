@@ -2,7 +2,7 @@
 # TicketDynamicField.t - DynamicFieldValue backend tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketDynamicField.t,v 1.2 2011-08-31 22:14:54 cr Exp $
+# $Id: TicketDynamicField.t,v 1.3 2011-08-31 22:16:36 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -595,7 +595,7 @@ for ( 1 .. 16 ) {
     );
 }
 
-#TODO Reenable this test when TicketSearch using DynamivFields is ready
+#TODO Reenable this test when TicketSearch using DynamicFields is ready
 #my %TicketIDsSearch = $TicketObject->TicketSearch(
 #    Result          => 'HASH',
 #    Limit           => 100,
