@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.513 2011-08-22 09:02:14 mg Exp $
+# $Id: Ticket.pm,v 1.514 2011-08-31 21:20:57 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -34,9 +34,13 @@ use Kernel::System::Valid;
 use Kernel::System::CacheInternal;
 use Kernel::System::LinkObject;
 use Kernel::System::EventHandler;
+use Kernel::System::DynamicField;
+use Kernel::System::DynamicField::Backend;
+
+use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.513 $) [1];
+$VERSION = qw($Revision: 1.514 $) [1];
 
 =head1 NAME
 
@@ -154,14 +158,16 @@ sub new {
         $Self->{QueueObject} = $Param{QueueObject};
     }
 
-    $Self->{SendmailObject} = Kernel::System::Email->new( %{$Self} );
-    $Self->{TypeObject}     = Kernel::System::Type->new( %{$Self} );
-    $Self->{PriorityObject} = Kernel::System::Priority->new( %{$Self} );
-    $Self->{ServiceObject}  = Kernel::System::Service->new( %{$Self} );
-    $Self->{SLAObject}      = Kernel::System::SLA->new( %{$Self} );
-    $Self->{StateObject}    = Kernel::System::State->new( %{$Self} );
-    $Self->{LockObject}     = Kernel::System::Lock->new( %{$Self} );
-    $Self->{ValidObject}    = Kernel::System::Valid->new( %{$Self} );
+    $Self->{SendmailObject}            = Kernel::System::Email->new( %{$Self} );
+    $Self->{TypeObject}                = Kernel::System::Type->new( %{$Self} );
+    $Self->{PriorityObject}            = Kernel::System::Priority->new( %{$Self} );
+    $Self->{ServiceObject}             = Kernel::System::Service->new( %{$Self} );
+    $Self->{SLAObject}                 = Kernel::System::SLA->new( %{$Self} );
+    $Self->{StateObject}               = Kernel::System::State->new( %{$Self} );
+    $Self->{LockObject}                = Kernel::System::Lock->new( %{$Self} );
+    $Self->{ValidObject}               = Kernel::System::Valid->new( %{$Self} );
+    $Self->{DynamicFieldObject}        = Kernel::System::DynamicField->new( %{$Self} );
+    $Self->{DynamicFieldBackendObject} = Kernel::System::DynamicField::Backend->new( %{$Self} );
 
     # init of event handler
     push @ISA, 'Kernel::System::EventHandler';
@@ -1028,16 +1034,17 @@ sub TicketGet {
             . ' sp.id, sp.name, st.create_time_unix, st.create_time, sq.group_id, st.tn,'
             . ' st.customer_id, st.customer_user_id, st.user_id, st.responsible_user_id, '
             . ' st.until_time,'
-            . ' st.freekey1, st.freetext1, st.freekey2, st.freetext2,'
-            . ' st.freekey3, st.freetext3, st.freekey4, st.freetext4,'
-            . ' st.freekey5, st.freetext5, st.freekey6, st.freetext6,'
-            . ' st.freekey7, st.freetext7, st.freekey8, st.freetext8,'
-            . ' st.freekey9, st.freetext9, st.freekey10, st.freetext10,'
-            . ' st.freekey11, st.freetext11, st.freekey12, st.freetext12,'
-            . ' st.freekey13, st.freetext13, st.freekey14, st.freetext14,'
-            . ' st.freekey15, st.freetext15, st.freekey16, st.freetext16,'
-            . ' st.freetime1, st.freetime2, st.freetime3, st.freetime4,'
-            . ' st.freetime5, st.freetime6,'
+
+            #            . ' st.freekey1, st.freetext1, st.freekey2, st.freetext2,'
+            #            . ' st.freekey3, st.freetext3, st.freekey4, st.freetext4,'
+            #            . ' st.freekey5, st.freetext5, st.freekey6, st.freetext6,'
+            #            . ' st.freekey7, st.freetext7, st.freekey8, st.freetext8,'
+            #            . ' st.freekey9, st.freetext9, st.freekey10, st.freetext10,'
+            #            . ' st.freekey11, st.freetext11, st.freekey12, st.freetext12,'
+            #            . ' st.freekey13, st.freetext13, st.freekey14, st.freetext14,'
+            #            . ' st.freekey15, st.freetext15, st.freekey16, st.freetext16,'
+            #            . ' st.freetime1, st.freetime2, st.freetime3, st.freetime4,'
+            #            . ' st.freetime5, st.freetime6,'
             . ' st.change_time, st.title, st.escalation_update_time, st.timeout,'
             . ' st.type_id, st.service_id, st.sla_id, st.escalation_response_time,'
             . ' st.escalation_solution_time, st.escalation_time, st.archive_flag,'
@@ -1081,44 +1088,45 @@ sub TicketGet {
         $Ticket{TypeID}                 = $Row[58] || 1;
         $Ticket{ServiceID}              = $Row[59] || '';
         $Ticket{SLAID}                  = $Row[60] || '';
-        $Ticket{TicketFreeKey1}         = defined $Row[16] ? $Row[16] : '';
-        $Ticket{TicketFreeText1}        = defined $Row[17] ? $Row[17] : '';
-        $Ticket{TicketFreeKey2}         = defined $Row[18] ? $Row[18] : '';
-        $Ticket{TicketFreeText2}        = defined $Row[19] ? $Row[19] : '';
-        $Ticket{TicketFreeKey3}         = defined $Row[20] ? $Row[20] : '';
-        $Ticket{TicketFreeText3}        = defined $Row[21] ? $Row[21] : '';
-        $Ticket{TicketFreeKey4}         = defined $Row[22] ? $Row[22] : '';
-        $Ticket{TicketFreeText4}        = defined $Row[23] ? $Row[23] : '';
-        $Ticket{TicketFreeKey5}         = defined $Row[24] ? $Row[24] : '';
-        $Ticket{TicketFreeText5}        = defined $Row[25] ? $Row[25] : '';
-        $Ticket{TicketFreeKey6}         = defined $Row[26] ? $Row[26] : '';
-        $Ticket{TicketFreeText6}        = defined $Row[27] ? $Row[27] : '';
-        $Ticket{TicketFreeKey7}         = defined $Row[28] ? $Row[28] : '';
-        $Ticket{TicketFreeText7}        = defined $Row[29] ? $Row[29] : '';
-        $Ticket{TicketFreeKey8}         = defined $Row[30] ? $Row[30] : '';
-        $Ticket{TicketFreeText8}        = defined $Row[31] ? $Row[31] : '';
-        $Ticket{TicketFreeKey9}         = defined $Row[32] ? $Row[32] : '';
-        $Ticket{TicketFreeText9}        = defined $Row[33] ? $Row[33] : '';
-        $Ticket{TicketFreeKey10}        = defined $Row[34] ? $Row[34] : '';
-        $Ticket{TicketFreeText10}       = defined $Row[35] ? $Row[35] : '';
-        $Ticket{TicketFreeKey11}        = defined $Row[36] ? $Row[36] : '';
-        $Ticket{TicketFreeText11}       = defined $Row[37] ? $Row[37] : '';
-        $Ticket{TicketFreeKey12}        = defined $Row[38] ? $Row[38] : '';
-        $Ticket{TicketFreeText12}       = defined $Row[39] ? $Row[39] : '';
-        $Ticket{TicketFreeKey13}        = defined $Row[40] ? $Row[40] : '';
-        $Ticket{TicketFreeText13}       = defined $Row[41] ? $Row[41] : '';
-        $Ticket{TicketFreeKey14}        = defined $Row[42] ? $Row[42] : '';
-        $Ticket{TicketFreeText14}       = defined $Row[43] ? $Row[43] : '';
-        $Ticket{TicketFreeKey15}        = defined $Row[44] ? $Row[44] : '';
-        $Ticket{TicketFreeText15}       = defined $Row[45] ? $Row[45] : '';
-        $Ticket{TicketFreeKey16}        = defined $Row[46] ? $Row[46] : '';
-        $Ticket{TicketFreeText16}       = defined $Row[47] ? $Row[47] : '';
-        $Ticket{TicketFreeTime1}        = defined $Row[48] ? $Row[48] : '';
-        $Ticket{TicketFreeTime2}        = defined $Row[49] ? $Row[49] : '';
-        $Ticket{TicketFreeTime3}        = defined $Row[50] ? $Row[50] : '';
-        $Ticket{TicketFreeTime4}        = defined $Row[51] ? $Row[51] : '';
-        $Ticket{TicketFreeTime5}        = defined $Row[52] ? $Row[52] : '';
-        $Ticket{TicketFreeTime6}        = defined $Row[53] ? $Row[53] : '';
+
+        #        $Ticket{TicketFreeKey1}         = defined $Row[16] ? $Row[16] : '';
+        #        $Ticket{TicketFreeText1}        = defined $Row[17] ? $Row[17] : '';
+        #        $Ticket{TicketFreeKey2}         = defined $Row[18] ? $Row[18] : '';
+        #        $Ticket{TicketFreeText2}        = defined $Row[19] ? $Row[19] : '';
+        #        $Ticket{TicketFreeKey3}         = defined $Row[20] ? $Row[20] : '';
+        #        $Ticket{TicketFreeText3}        = defined $Row[21] ? $Row[21] : '';
+        #        $Ticket{TicketFreeKey4}         = defined $Row[22] ? $Row[22] : '';
+        #        $Ticket{TicketFreeText4}        = defined $Row[23] ? $Row[23] : '';
+        #        $Ticket{TicketFreeKey5}         = defined $Row[24] ? $Row[24] : '';
+        #        $Ticket{TicketFreeText5}        = defined $Row[25] ? $Row[25] : '';
+        #        $Ticket{TicketFreeKey6}         = defined $Row[26] ? $Row[26] : '';
+        #        $Ticket{TicketFreeText6}        = defined $Row[27] ? $Row[27] : '';
+        #        $Ticket{TicketFreeKey7}         = defined $Row[28] ? $Row[28] : '';
+        #        $Ticket{TicketFreeText7}        = defined $Row[29] ? $Row[29] : '';
+        #        $Ticket{TicketFreeKey8}         = defined $Row[30] ? $Row[30] : '';
+        #        $Ticket{TicketFreeText8}        = defined $Row[31] ? $Row[31] : '';
+        #        $Ticket{TicketFreeKey9}         = defined $Row[32] ? $Row[32] : '';
+        #        $Ticket{TicketFreeText9}        = defined $Row[33] ? $Row[33] : '';
+        #        $Ticket{TicketFreeKey10}        = defined $Row[34] ? $Row[34] : '';
+        #        $Ticket{TicketFreeText10}       = defined $Row[35] ? $Row[35] : '';
+        #        $Ticket{TicketFreeKey11}        = defined $Row[36] ? $Row[36] : '';
+        #        $Ticket{TicketFreeText11}       = defined $Row[37] ? $Row[37] : '';
+        #        $Ticket{TicketFreeKey12}        = defined $Row[38] ? $Row[38] : '';
+        #        $Ticket{TicketFreeText12}       = defined $Row[39] ? $Row[39] : '';
+        #        $Ticket{TicketFreeKey13}        = defined $Row[40] ? $Row[40] : '';
+        #        $Ticket{TicketFreeText13}       = defined $Row[41] ? $Row[41] : '';
+        #        $Ticket{TicketFreeKey14}        = defined $Row[42] ? $Row[42] : '';
+        #        $Ticket{TicketFreeText14}       = defined $Row[43] ? $Row[43] : '';
+        #        $Ticket{TicketFreeKey15}        = defined $Row[44] ? $Row[44] : '';
+        #        $Ticket{TicketFreeText15}       = defined $Row[45] ? $Row[45] : '';
+        #        $Ticket{TicketFreeKey16}        = defined $Row[46] ? $Row[46] : '';
+        #        $Ticket{TicketFreeText16}       = defined $Row[47] ? $Row[47] : '';
+        #        $Ticket{TicketFreeTime1}        = defined $Row[48] ? $Row[48] : '';
+        #        $Ticket{TicketFreeTime2}        = defined $Row[49] ? $Row[49] : '';
+        #        $Ticket{TicketFreeTime3}        = defined $Row[50] ? $Row[50] : '';
+        #        $Ticket{TicketFreeTime4}        = defined $Row[51] ? $Row[51] : '';
+        #        $Ticket{TicketFreeTime5}        = defined $Row[52] ? $Row[52] : '';
+        #        $Ticket{TicketFreeTime6}        = defined $Row[53] ? $Row[53] : '';
     }
 
     # check ticket
@@ -1130,17 +1138,64 @@ sub TicketGet {
         return;
     }
 
-    # cleanup time stamps (some databases are using e. g. 2008-02-25 22:03:00.000000
-    # and 0000-00-00 00:00:00 time stamps)
-    for my $Time ( 1 .. 6 ) {
-        my $Key = 'TicketFreeTime' . $Time;
-        next if !$Ticket{$Key};
-        if ( $Ticket{$Key} eq '0000-00-00 00:00:00' ) {
-            $Ticket{$Key} = '';
-            next;
+    # get all dynamic fields for the object type Ticket
+    my $DynamicFieldList = $Self->{DynamicFieldObject}->DynamicFieldListGet(
+        ObjectType => 'Ticket'
+    );
+
+    DYNAMICFIELD:
+    for my $DynamicFieldConfig ( @{$DynamicFieldList} ) {
+
+        # validate each dynamic field
+        next DYNAMICFILED if !$DynamicFieldConfig;
+        next DYNAMICFILED if !IsHashRefWithData($DynamicFieldConfig);
+        next DYNAMICFIELD if !$DynamicFieldConfig->{Name};
+        next DYNAMICFIELD if !IsHashRefWithData( $DynamicFieldConfig->{Config} );
+
+        # get the current value for each dynamic field
+        my $Value = $Self->{DynamicFieldBackendObject}->ValueGet(
+            DynamicFieldConfig => $DynamicFieldConfig,
+            ObjectID           => $Ticket{TicketID},
+        );
+
+        # set the dynamic field name and value into the ticket hash
+        $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = $Value;
+
+        # check if field is TicketFreeKey[1-16], TicketFreeText[1-6] or TicketFreeTime[1-6]
+        # Compatibility feature can be removed on further versions
+        if (
+            $DynamicFieldConfig->{Name} =~ m{
+           \A
+           (
+                TicketFree
+                (?:
+                    (?:Text|Key)
+                    (?:1[0-6]|[1-9])
+                    |
+                    (?:Time [1-6])
+                )
+            )
+            \z
+        }gmxi
+            )
+        {
+
+            # Set field for 3.0 and 2.4 compatibility
+            $Ticket{ $DynamicFieldConfig->{Name} } = $Value;
         }
-        $Ticket{$Key} =~ s/^(\d\d\d\d-\d\d-\d\d\s\d\d:\d\d:\d\d)\..+?$/$1/;
     }
+
+    #    # cleanup time stamps (some databases are using e. g. 2008-02-25 22:03:00.000000
+    #    # and 0000-00-00 00:00:00 time stamps)
+    #    for my $Time ( 1 .. 6 ) {
+    #        my $Key = 'TicketFreeTime' . $Time;
+    #        next if !$Ticket{$Key};
+    #        if ( $Ticket{$Key} eq '0000-00-00 00:00:00' ) {
+    #            $Ticket{$Key} = '';
+    #            next;
+    #        }
+    #        $Ticket{$Key} =~ s/^(\d\d\d\d-\d\d-\d\d\s\d\d:\d\d:\d\d)\..+?$/$1/;
+    #    }
 
     # fillup runtime values
     $Ticket{Age} = $Self->{TimeObject}->SystemTime() - $Ticket{CreateTimeUnix};
@@ -3073,45 +3128,99 @@ sub TicketFreeTextSet {
         $Key = $Ticket{ 'TicketFreeKey' . $Param{Counter} };
     }
 
-    if (
-        $Value  eq $Ticket{"TicketFreeText$Param{Counter}"}
-        && $Key eq $Ticket{"TicketFreeKey$Param{Counter}"}
-        )
-    {
-        return 1;
+    my $UpdateValue;
+    my $UpdateKey;
+
+    # update if old Value was null and new Value is not null
+    if ( defined $Value && !defined $Ticket{"TicketFreeText$Param{Counter}"} ) {
+        $UpdateValue = 1;
     }
 
-    # db quote
-    $Param{Counter} = $Self->{DBObject}->Quote( $Param{Counter}, 'Integer' );
+    # update if old Key was null and new Key is not null
+    if ( defined $Key && !defined $Ticket{"TicketFreeKey$Param{Counter}"} ) {
+        $UpdateKey = 1;
+    }
 
-    # db update
-    return if !$Self->{DBObject}->Do(
-        SQL => "UPDATE ticket SET freekey$Param{Counter} = ?, freetext$Param{Counter} = ?, "
-            . " change_time = current_timestamp, change_by = ? WHERE id = ?",
-        Bind => [ \$Key, \$Value, \$Param{UserID}, \$Param{TicketID} ],
-    );
+    # check if last value was not null
+    if (
+        defined $Ticket{"TicketFreeText$Param{Counter}"}
+        && defined $Ticket{"TicketFreeKey$Param{Counter}"}
+        )
+    {
 
-    # history insert
-    $Self->HistoryAdd(
-        TicketID     => $Param{TicketID},
-        QueueID      => $Ticket{QueueID},
-        HistoryType  => 'TicketFreeTextUpdate',
-        Name         => "\%\%FreeKey$Param{Counter}\%\%$Key\%\%FreeText$Param{Counter}\%\%$Value",
-        CreateUserID => $Param{UserID},
-    );
+        # no opration is needed if old and new registers are the same on both Key and Value
+        if (
+            $Value  eq $Ticket{"TicketFreeText$Param{Counter}"}
+            && $Key eq $Ticket{"TicketFreeKey$Param{Counter}"}
+            )
+        {
+            return 1;
+        }
 
-    # clear ticket cache
-    delete $Self->{ 'Cache::GetTicket' . $Param{TicketID} };
+        # update Value field if is different form the old one
+        if ( $Value ne $Ticket{"TicketFreeText$Param{Counter}"} ) {
+            $UpdateValue = 1;
+        }
 
-    # trigger event
-    $Self->EventHandler(
-        Event => 'TicketFreeTextUpdate',
-        Data  => {
-            Counter  => $Param{Counter},
-            TicketID => $Param{TicketID},
-        },
-        UserID => $Param{UserID},
-    );
+        # update Key field if is different form the old one
+        if ( $Key ne $Ticket{"TicketFreeKey$Param{Counter}"} ) {
+            $UpdateKey = 1;
+        }
+    }
+
+    # set the TicketFreeText as a DynamicField
+    if ($UpdateValue) {
+        my $Success = $Self->TicketDynamicFieldSet(
+            FieldName => "TicketFreeText$Param{Counter}",
+            Value     => $Value,
+            TicketID  => $Param{TicketID},
+            UserID    => $Param{UserID},
+        );
+        return if !$Success;
+    }
+
+    # set the TicketFreeKey as a DynamicField
+    if ($UpdateKey) {
+        my $Success = $Self->TicketDynamicFieldSet(
+            FieldName => "TicketFreeKey$Param{Counter}",
+            Value     => $Key,
+            TicketID  => $Param{TicketID},
+            UserID    => $Param{UserID},
+        );
+        return if !$Success;
+    }
+
+ #    # db quote
+ #    $Param{Counter} = $Self->{DBObject}->Quote( $Param{Counter}, 'Integer' );
+ #
+ #    # db update
+ #    return if !$Self->{DBObject}->Do(
+ #        SQL => "UPDATE ticket SET freekey$Param{Counter} = ?, freetext$Param{Counter} = ?, "
+ #            . " change_time = current_timestamp, change_by = ? WHERE id = ?",
+ #        Bind => [ \$Key, \$Value, \$Param{UserID}, \$Param{TicketID} ],
+ #    );
+ #
+ #    # history insert
+ #    $Self->HistoryAdd(
+ #        TicketID     => $Param{TicketID},
+ #        QueueID      => $Ticket{QueueID},
+ #        HistoryType  => 'TicketFreeTextUpdate',
+ #        Name         => "\%\%FreeKey$Param{Counter}\%\%$Key\%\%FreeText$Param{Counter}\%\%$Value",
+ #        CreateUserID => $Param{UserID},
+ #    );
+ #
+ #    # clear ticket cache
+ #    delete $Self->{ 'Cache::GetTicket' . $Param{TicketID} };
+ #
+ #    # trigger event
+ #    $Self->EventHandler(
+ #        Event => 'TicketFreeTextUpdate',
+ #        Data  => {
+ #            Counter  => $Param{Counter},
+ #            TicketID => $Param{TicketID},
+ #        },
+ #        UserID => $Param{UserID},
+ #    );
 
     return 1;
 }
@@ -3188,45 +3297,62 @@ sub TicketFreeTimeSet {
 
     # check if update is needed
     my %Ticket = $Self->TicketGet( TicketID => $Param{TicketID} );
-    if ( $TimeStamp eq $Ticket{"TicketFreeTime$Param{Counter}"} ) {
+    my $TicketFreeTime = $Ticket{"TicketFreeTime$Param{Counter}"} || '';
+
+    if ( $TimeStamp eq $TicketFreeTime ) {
         return 1;
     }
 
-    # db update
-    $Param{Counter} = $Self->{DBObject}->Quote( $Param{Counter}, 'Integer' );
+    # set correct value for invalid timestamp
     if ( !$TimeStamp || $TimeStamp eq '0000-00-00 00:00:00' ) {
         $TimeStamp = undef;
     }
-    return if !$Self->{DBObject}->Do(
-        SQL => "UPDATE ticket SET freetime$Param{Counter} = ?, "
-            . "change_time = current_timestamp, change_by = ? WHERE id = ?",
-        Bind => [ \$TimeStamp, \$Param{UserID}, \$Param{TicketID} ],
-    );
-    if ( !$TimeStamp ) {
-        $TimeStamp = '';
-    }
 
-    # history insert
-    $Self->HistoryAdd(
-        TicketID     => $Param{TicketID},
-        QueueID      => $Ticket{QueueID},
-        HistoryType  => 'TicketFreeTextUpdate',
-        Name         => "\%\%FreeTime$Param{Counter}\%\%$TimeStamp",
-        CreateUserID => $Param{UserID},
+    # set the TicketFreeTime value as a DynamicFiled
+    my $Success = $Self->TicketDynamicFieldSet(
+        FieldName => "TicketFreeTime$Param{Counter}",
+        Value     => $TimeStamp,
+        TicketID  => $Param{TicketID},
+        UserID    => $Param{UserID},
     );
 
-    # clear ticket cache
-    delete $Self->{ 'Cache::GetTicket' . $Param{TicketID} };
+    return if !$Success;
 
-    # trigger event
-    $Self->EventHandler(
-        Event => 'TicketFreeTimeUpdate',
-        Data  => {
-            Counter  => $Param{Counter},
-            TicketID => $Param{TicketID},
-        },
-        UserID => $Param{UserID},
-    );
+    #    # db update
+    #    $Param{Counter} = $Self->{DBObject}->Quote( $Param{Counter}, 'Integer' );
+    #    if ( !$TimeStamp || $TimeStamp eq '0000-00-00 00:00:00' ) {
+    #        $TimeStamp = undef;
+    #    }
+    #    return if !$Self->{DBObject}->Do(
+    #        SQL => "UPDATE ticket SET freetime$Param{Counter} = ?, "
+    #            . "change_time = current_timestamp, change_by = ? WHERE id = ?",
+    #        Bind => [ \$TimeStamp, \$Param{UserID}, \$Param{TicketID} ],
+    #    );
+    #    if ( !$TimeStamp ) {
+    #        $TimeStamp = '';
+    #    }
+    #
+    #    # history insert
+    #    $Self->HistoryAdd(
+    #        TicketID     => $Param{TicketID},
+    #        QueueID      => $Ticket{QueueID},
+    #        HistoryType  => 'TicketFreeTextUpdate',
+    #        Name         => "\%\%FreeTime$Param{Counter}\%\%$TimeStamp",
+    #        CreateUserID => $Param{UserID},
+    #    );
+    #
+    #    # clear ticket cache
+    #    delete $Self->{ 'Cache::GetTicket' . $Param{TicketID} };
+    #
+    #    # trigger event
+    #    $Self->EventHandler(
+    #        Event => 'TicketFreeTimeUpdate',
+    #        Data  => {
+    #            Counter  => $Param{Counter},
+    #            TicketID => $Param{TicketID},
+    #        },
+    #        UserID => $Param{UserID},
+    #    );
 
     return 1;
 }
@@ -6770,6 +6896,81 @@ sub TicketArticleStorageSwitch {
     return 1;
 }
 
+=item TicketDynamicFieldSet()
+
+store a value for a dynamic field
+
+    my $Success = $TicketObject->TicketDynamicFieldSet(
+        FieldName           => 'TicketFreeText1',       # the name of the dynamic field
+        Value               => $AValue,                 # A value defined by the dynamic field i.e.
+                                                        # a text string, a date or an integer
+        TicketID            => 123,                     # The ID of the ticket
+        TicketHistoryUpdate => 1,                       # Or 0, to update ticket history, default 1
+        UserID              => 1,                       # The ID of the user
+    );
+
+=cut
+
+sub TicketDynamicFieldSet {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Needed (qw(FieldName TicketID UserID)) {
+        if ( !$Param{$Needed} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            return;
+        }
+    }
+
+    my $TicketHistoryUpdate = 1;
+    if ( defined $Param{TicketHistoryUpdate} && !$Param{TicketHistoryUpdate} ) {
+        $TicketHistoryUpdate = 0;
+    }
+
+    # get the Dynamic Field Configuration
+    my $DynamicFieldConfig = $Self->{DynamicFieldObject}->DynamicFieldGet(
+        Name => $Param{FieldName},
+    );
+
+    if ( !IsHashRefWithData($DynamicFieldConfig) ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "The configuration for field $Param{FieldName} is invalid!",
+        );
+        return;
+    }
+
+    # set the value to the dynamc field
+    my $Success = $Self->{DynamicFieldBackendObject}->ValueSet(
+        DynamicFieldConfig => $DynamicFieldConfig,
+        ObjectID           => $Param{TicketID},
+        Value              => $Param{Value},
+        UserID             => $Param{UserID},
+    );
+
+    # return if cant set the value
+    if ( !$Success ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "The value for the Dynamic Field $Param{FieldName} could not be set",
+        );
+
+        return
+    }
+
+    if ($TicketHistoryUpdate) {
+
+        # History add should be placed here
+    }
+
+    # clear ticket cache
+    delete $Self->{ 'Cache::GetTicket' . $Param{TicketID} };
+
+    # Event trigger should be placed here
+
+    return 1;
+}
+
 sub DESTROY {
     my $Self = shift;
 
@@ -6880,6 +7081,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.513 $ $Date: 2011-08-22 09:02:14 $
+$Revision: 1.514 $ $Date: 2011-08-31 21:20:57 $
 
 =cut
