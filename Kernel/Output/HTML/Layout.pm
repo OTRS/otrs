@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.369 2011-08-25 09:51:26 martin Exp $
+# $Id: Layout.pm,v 1.370 2011-08-31 07:56:09 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Mail::Address;
 use URI::Escape qw();
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.369 $) [1];
+$VERSION = qw($Revision: 1.370 $) [1];
 
 =head1 NAME
 
@@ -4868,6 +4868,12 @@ sub _RemoveScriptTags {
     return $Code;
 }
 
+#COMPAT: to 3.0.x and lower (can be removed later)
+sub TransfromDateSelection {
+    my $Self = shift;
+    return $Self->TransformDateSelection(@_);
+}
+
 1;
 
 =end Internal:
@@ -4884,6 +4890,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.369 $ $Date: 2011-08-25 09:51:26 $
+$Revision: 1.370 $ $Date: 2011-08-31 07:56:09 $
 
 =cut
