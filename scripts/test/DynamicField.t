@@ -2,7 +2,7 @@
 # DynamicField.t - DynamicField tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicField.t,v 1.20 2011-08-29 22:14:22 cr Exp $
+# $Id: DynamicField.t,v 1.21 2011-08-31 21:16:16 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -1082,7 +1082,7 @@ for my $DynamicField ( @{$OriginalDynamicFields} ) {
     my $Success = $DynamicFieldObject->DynamicFieldUpdate(
         %{$DynamicField},
         Reorder => 0,
-        UserID  => 123,
+        UserID  => 1,
     );
 
     # check if update (restore) was successful
