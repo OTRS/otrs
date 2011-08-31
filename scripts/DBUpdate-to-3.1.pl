@@ -3,7 +3,7 @@
 # DBUpdate-to-3.1.pl - update script to migrate OTRS 2.4.x to 3.0.x
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-3.1.pl,v 1.11 2011-08-31 04:45:53 cg Exp $
+# $Id: DBUpdate-to-3.1.pl,v 1.12 2011-08-31 17:16:36 cg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 use Getopt::Std qw();
 use Kernel::Config;
@@ -929,8 +929,9 @@ sub _MigrateFreeFieldsConfiguration {
                 my %FieldConfig;
 
                 # Get all Attributes from Item
-                my %ItemHash = $SysConfigObject->ConfigItemGet( Name => $FieldName );
-                if ( !$ItemHash{Valid} ) {
+                my $PossibleValues = $CommonObject->{ConfigObject}->Get($FieldName);
+                $FieldConfig{PossibleValues} = $PossibleValues;
+                if ( !$PossibleValues ) {
 
                     # insert new dynamic field
                     $CommonObject->{DBObject}->Do(
@@ -943,8 +944,6 @@ sub _MigrateFreeFieldsConfiguration {
                     next;
                 }
 
-                my $PossibleValues = $CommonObject->{ConfigObject}->Get($FieldName);
-                $FieldConfig{PossibleValues} = $PossibleValues;
                 if ( scalar keys %{$PossibleValues} == 1 ) {
                     for my $Key ( keys %{$PossibleValues} ) {
                         $Data{$FieldName}->{Label} = $PossibleValues->{$Key};
@@ -981,8 +980,9 @@ sub _MigrateFreeFieldsConfiguration {
             my %FieldConfig;
 
             # Get all Attributes from Item
-            my %ItemHash = $SysConfigObject->ConfigItemGet( Name => $FieldName );
-            if ( !$ItemHash{Valid} ) {
+            my $TimeKey = $CommonObject->{ConfigObject}->Get( 'TicketFreeTimeKey' . $Index );
+            $FieldConfig{Key} = $TimeKey;
+            if ( !$TimeKey ) {
 
                 # insert new dynamic field
                 $CommonObject->{DBObject}->Do(
@@ -994,9 +994,6 @@ sub _MigrateFreeFieldsConfiguration {
                 );
                 next;
             }
-
-            my $TimeKey = $CommonObject->{ConfigObject}->Get( 'TicketFreeTimeKey' . $Index );
-            $FieldConfig{Key} = $TimeKey;
 
             my $TimeOptional
                 = $CommonObject->{ConfigObject}->Get( 'TicketFreeTimeOptional' . $Index );
@@ -1033,8 +1030,9 @@ sub _MigrateFreeFieldsConfiguration {
                 my %FieldConfig;
 
                 # Get all Attributes from Item
-                my %ItemHash = $SysConfigObject->ConfigItemGet( Name => $FieldName );
-                if ( !$ItemHash{Valid} ) {
+                my $PossibleValues = $CommonObject->{ConfigObject}->Get($FieldName);
+                $FieldConfig{PossibleValues} = $PossibleValues;
+                if ( !$PossibleValues ) {
 
                     # insert new dynamic field
                     $CommonObject->{DBObject}->Do(
@@ -1046,9 +1044,6 @@ sub _MigrateFreeFieldsConfiguration {
                     );
                     next;
                 }
-
-                my $PossibleValues = $CommonObject->{ConfigObject}->Get($FieldName);
-                $FieldConfig{PossibleValues} = $PossibleValues;
 
                 my $DefaultSelection
                     = $CommonObject->{ConfigObject}->Get( $FieldName . "::DefaultSelection" );
