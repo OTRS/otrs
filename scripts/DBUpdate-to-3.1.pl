@@ -3,7 +3,7 @@
 # DBUpdate-to-3.1.pl - update script to migrate OTRS 2.4.x to 3.0.x
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-3.1.pl,v 1.9 2011-08-30 07:45:57 mg Exp $
+# $Id: DBUpdate-to-3.1.pl,v 1.10 2011-08-31 04:44:53 cg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 use Getopt::Std qw();
 use Kernel::Config;
@@ -929,18 +929,37 @@ sub _MigrateFreeFieldsConfiguration {
                 my %FieldConfig;
 
                 # Get all Attributes from Item
-                my %PossibleValues = $SysConfigObject->ConfigItemGet( Name => $FieldName );
-                $FieldConfig{PossibleValues} = \%PossibleValues;
+                my %ItemHash = $SysConfigObject->ConfigItemGet( Name => $FieldName );
+                if ( !$ItemHash{Valid} ) {
 
-                my %DefaultSelection
-                    = $SysConfigObject->ConfigItemGet( Name => $FieldName . "::DefaultSelection" );
-                $FieldConfig{DefaultSelection} = \%DefaultSelection;
+                    # insert new dynamic field
+                    $CommonObject->{DBObject}->Do(
+                        SQL =>
+                            "UPDATE dynamic_field set valid_id=2 WHERE id=?",
+                        Bind => [
+                            \$Data{$FieldName}->{ID},
+                        ],
+                    );
+                    next;
+                }
+
+                my $PossibleValues = $CommonObject->{ConfigObject}->Get($FieldName);
+                $FieldConfig{PossibleValues} = $PossibleValues;
+                if ( scalar keys %{$PossibleValues} == 1 ) {
+                    for my $Key ( keys %{$PossibleValues} ) {
+                        $Data{$FieldName}->{Label} = $PossibleValues->{$Key};
+                    }
+                }
+
+                my $DefaultSelection
+                    = $CommonObject->{ConfigObject}->Get( $FieldName . "::DefaultSelection" );
+                $FieldConfig{DefaultSelection} = $DefaultSelection;
 
                 # set new values
                 $Data{$FieldName}->{Config}     = \%FieldConfig;
                 $Data{$FieldName}->{ObjectType} = 'Dropdown';
                 $Data{$FieldName}->{Reorder}    = '0';
-                $Data{$FieldName}->{ValidID}    = $PossibleValues{Valid} || '1';
+                $Data{$FieldName}->{ValidID}    = '1';
                 $Data{$FieldName}->{UserID}     = '1';
 
                 my $SuccessTicketField = $DynamicFieldObject->DynamicFieldUpdate(
@@ -962,26 +981,38 @@ sub _MigrateFreeFieldsConfiguration {
             my %FieldConfig;
 
             # Get all Attributes from Item
-            my %PossibleValues = $SysConfigObject->ConfigItemGet( Name => $FieldName );
-            $FieldConfig{PossibleValues} = \%PossibleValues;
+            my %ItemHash = $SysConfigObject->ConfigItemGet( Name => $FieldName );
+            if ( !$ItemHash{Valid} ) {
 
-            my %TimeOptional
-                = $SysConfigObject->ConfigItemGet( Name => "TicketFreeTimeOptional" . $Index );
-            $FieldConfig{TimeOptional} = \%TimeOptional;
+                # insert new dynamic field
+                $CommonObject->{DBObject}->Do(
+                    SQL =>
+                        "UPDATE dynamic_field set valid_id=2 WHERE id=?",
+                    Bind => [
+                        \$Data{$FieldName}->{ID},
+                    ],
+                );
+                next;
+            }
 
-            my %TimeDiff = $SysConfigObject->ConfigItemGet( Name => "TicketFreeTimeDiff" . $Index );
-            $FieldConfig{TimeDiff} = \%TimeDiff;
+            my $TimeKey = $CommonObject->{ConfigObject}->Get( 'TicketFreeTimeKey' . $Index );
+            $FieldConfig{Key} = $TimeKey;
 
-            my %TimePeriod
-                = $SysConfigObject->ConfigItemGet( Name => "TicketFreeTimePeriod" . $Index );
-            $FieldConfig{TimePeriod} = \%TimePeriod;
+            my $TimeOptional
+                = $CommonObject->{ConfigObject}->Get( 'TicketFreeTimeOptional' . $Index );
+            $FieldConfig{Optional} = $TimeOptional;
+
+            my $TimeDiff = $CommonObject->{ConfigObject}->Get( 'TicketFreeTimeDiff' . $Index );
+            $FieldConfig{TimeDiff} = $TimeDiff;
+
+            my $TimePeriod = $CommonObject->{ConfigObject}->Get( 'TicketFreeTimePeriod' . $Index );
+            $FieldConfig{TimePeriod} = $TimePeriod;
 
             # set new values
-            $Data{$FieldName}->{Config}     = \%FieldConfig;
-            $Data{$FieldName}->{ObjectType} = 'Dropdown';
-            $Data{$FieldName}->{Reorder}    = '0';
-            $Data{$FieldName}->{ValidID}    = $PossibleValues{Valid} || '1';
-            $Data{$FieldName}->{UserID}     = '1';
+            $Data{$FieldName}->{Config}  = \%FieldConfig;
+            $Data{$FieldName}->{Reorder} = '0';
+            $Data{$FieldName}->{ValidID} = '1';
+            $Data{$FieldName}->{UserID}  = '1';
 
             my $SuccessTicketField = $DynamicFieldObject->DynamicFieldUpdate(
                 %{ $Data{$FieldName} }
@@ -1002,18 +1033,32 @@ sub _MigrateFreeFieldsConfiguration {
                 my %FieldConfig;
 
                 # Get all Attributes from Item
-                my %PossibleValues = $SysConfigObject->ConfigItemGet( Name => $FieldName );
-                $FieldConfig{PossibleValues} = \%PossibleValues;
+                my %ItemHash = $SysConfigObject->ConfigItemGet( Name => $FieldName );
+                if ( !$ItemHash{Valid} ) {
 
-                my %DefaultSelection
-                    = $SysConfigObject->ConfigItemGet( Name => $FieldName . "::DefaultSelection" );
-                $FieldConfig{DefaultSelection} = \%DefaultSelection;
+                    # insert new dynamic field
+                    $CommonObject->{DBObject}->Do(
+                        SQL =>
+                            "UPDATE dynamic_field set valid_id=2 WHERE id=?",
+                        Bind => [
+                            \$Data{$FieldName}->{ID},
+                        ],
+                    );
+                    next;
+                }
+
+                my $PossibleValues = $CommonObject->{ConfigObject}->Get($FieldName);
+                $FieldConfig{PossibleValues} = $PossibleValues;
+
+                my $DefaultSelection
+                    = $CommonObject->{ConfigObject}->Get( $FieldName . "::DefaultSelection" );
+                $FieldConfig{DefaultSelection} = $DefaultSelection;
 
                 # set new values
                 $Data{$FieldName}->{Config}     = \%FieldConfig;
                 $Data{$FieldName}->{ObjectType} = 'Dropdown';
                 $Data{$FieldName}->{Reorder}    = '0';
-                $Data{$FieldName}->{ValidID}    = $PossibleValues{Valid} || '1';
+                $Data{$FieldName}->{ValidID}    = '1';
                 $Data{$FieldName}->{UserID}     = '1';
 
                 my $SuccessTicketField = $DynamicFieldObject->DynamicFieldUpdate(
