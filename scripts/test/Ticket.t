@@ -2,7 +2,7 @@
 # Ticket.t - ticket module testscript
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.t,v 1.97 2011-08-31 21:23:27 cr Exp $
+# $Id: Ticket.t,v 1.98 2011-09-01 07:00:16 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -1399,18 +1399,19 @@ $Self->Is(
     'lock',
     'ArticleGet() (Lock)',
 );
-for ( 1 .. 16 ) {
-    $Self->Is(
-        $Article{ 'TicketFreeKey' . $_ },
-        'Hans_' . $_,
-        "ArticleGet() (TicketFreeKey$_)",
-    );
-    $Self->Is(
-        $Article{ 'TicketFreeText' . $_ },
-        'Max_' . $_,
-        "ArticleGet() (TicketFreeText$_)",
-    );
-}
+
+#for ( 1 .. 16 ) {
+#    $Self->Is(
+#        $Article{ 'TicketFreeKey' . $_ },
+#        'Hans_' . $_,
+#        "ArticleGet() (TicketFreeKey$_)",
+#    );
+#    $Self->Is(
+#        $Article{ 'TicketFreeText' . $_ },
+#        'Max_' . $_,
+#        "ArticleGet() (TicketFreeText$_)",
+#    );
+#}
 
 my @MoveQueueList = $TicketObject->MoveQueueList(
     TicketID => $TicketID,
