@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.284 2011-08-31 22:14:18 cr Exp $
+# $Id: Article.pm,v 1.285 2011-09-01 07:03:54 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,7 +26,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.284 $) [1];
+$VERSION = qw($Revision: 1.285 $) [1];
 
 =head1 NAME
 
@@ -1118,27 +1118,111 @@ sub ArticleFreeTextSet {
         }
     }
 
-    # db quote for key an value
-    for (qw(Counter)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
+    # check if update is needed
+    my %Article = $Self->ArticleGet( ArticleID => $Param{ArticleID} );
+
+    my $Value = '';
+    my $Key   = '';
+
+    if ( defined $Param{Value} ) {
+        $Value = $Param{Value};
+    }
+    else {
+        $Value = $Article{ 'ArticleFreeText' . $Param{Counter} };
     }
 
-    # db update
-    return if !$Self->{DBObject}->Do(
-        SQL => "UPDATE article SET a_freekey$Param{Counter} = ?, a_freetext$Param{Counter} = ?, "
-            . " change_time = current_timestamp, change_by = ? WHERE id = ?",
-        Bind => [ \$Param{Key}, \$Param{Value}, \$Param{UserID}, \$Param{ArticleID} ],
-    );
+    if ( defined $Param{Key} ) {
+        $Key = $Param{Key};
+    }
+    else {
+        $Key = $Article{ 'ArticleFreeKey' . $Param{Counter} };
+    }
 
-    # event
-    $Self->EventHandler(
-        Event => 'ArticleFreeTextUpdate',
-        Data  => {
+    my $UpdateValue;
+    my $UpdateKey;
+
+    # update if old Value was null and new Value is not null
+    if ( defined $Value && !defined $Article{"ArticleFreeText$Param{Counter}"} ) {
+        $UpdateValue = 1;
+    }
+
+    # update if old Key was null and new Key is not null
+    if ( defined $Key && !defined $Article{"ArticleFreeKey$Param{Counter}"} ) {
+        $UpdateKey = 1;
+    }
+
+    # check if last value was not null
+    if (
+        defined $Article{"ArticleFreeText$Param{Counter}"}
+        && defined $Article{"ArticleFreeKey$Param{Counter}"}
+        )
+    {
+
+        # no opration is needed if old and new registers are the same on both Key and Value
+        if (
+            $Value  eq $Article{"ArticleFreeText$Param{Counter}"}
+            && $Key eq $Article{"ArticleFreeKey$Param{Counter}"}
+            )
+        {
+            return 1;
+        }
+
+        # update Value field if is different form the old one
+        if ( $Value ne $Article{"ArticleFreeText$Param{Counter}"} ) {
+            $UpdateValue = 1;
+        }
+
+        # update Key field if is different form the old one
+        if ( $Key ne $Article{"ArticleFreeKey$Param{Counter}"} ) {
+            $UpdateKey = 1;
+        }
+    }
+
+    # set the ArticleFreeText as a DynamicField
+    if ($UpdateValue) {
+        my $Success = $Self->ArticleDynamicFieldSet(
+            FieldName => "ArticleFreeText$Param{Counter}",
+            Value     => $Value,
             TicketID  => $Param{TicketID},
             ArticleID => $Param{ArticleID},
-        },
-        UserID => $Param{UserID},
-    );
+            UserID    => $Param{UserID},
+        );
+        return if !$Success;
+    }
+
+    # set the ArticleFreeKey as a DynamicField
+    if ($UpdateKey) {
+        my $Success = $Self->ArticleDynamicFieldSet(
+            FieldName => "ArticleFreeKey$Param{Counter}",
+            Value     => $Key,
+            TicketID  => $Param{TicketID},
+            ArticleID => $Param{ArticleID},
+            UserID    => $Param{UserID},
+        );
+        return if !$Success;
+    }
+
+  #    # db quote for key an value
+  #    for (qw(Counter)) {
+  #        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
+  #    }
+  #
+  #    # db update
+  #    return if !$Self->{DBObject}->Do(
+  #        SQL => "UPDATE article SET a_freekey$Param{Counter} = ?, a_freetext$Param{Counter} = ?, "
+  #            . " change_time = current_timestamp, change_by = ? WHERE id = ?",
+  #        Bind => [ \$Param{Key}, \$Param{Value}, \$Param{UserID}, \$Param{ArticleID} ],
+  #    );
+  #
+  #    # event
+  #    $Self->EventHandler(
+  #        Event => 'ArticleFreeTextUpdate',
+  #        Data  => {
+  #            TicketID  => $Param{TicketID},
+  #            ArticleID => $Param{ArticleID},
+  #        },
+  #        UserID => $Param{UserID},
+  #    );
     return 1;
 }
 
@@ -1483,19 +1567,22 @@ sub ArticleGet {
         . ' sa.a_content_type, sa.create_by, st.tn, article_sender_type_id, st.customer_id, '
         . ' st.until_time, st.ticket_priority_id, st.customer_user_id, st.user_id, '
         . ' st.responsible_user_id, sa.article_type_id, '
-        . ' sa.a_freekey1, sa.a_freetext1, sa.a_freekey2, sa.a_freetext2, '
-        . ' sa.a_freekey3, sa.a_freetext3, st.ticket_answered, '
+
+        #        . ' sa.a_freekey1, sa.a_freetext1, sa.a_freekey2, sa.a_freetext2, '
+        #        . ' sa.a_freekey3, sa.a_freetext3, '
+        . ' st.ticket_answered, '
         . ' sa.incoming_time, sa.id, '
 
- #        . ' st.freekey1, st.freetext1, st.freekey2, st.freetext2,'
- #        . ' st.freekey3, st.freetext3, st.freekey4, st.freetext4,'
- #        . ' st.freekey5, st.freetext5, st.freekey6, st.freetext6,'
- #        . ' st.freekey7, st.freetext7, st.freekey8, st.freetext8, '
- #        . ' st.freekey9, st.freetext9, st.freekey10, st.freetext10, '
- #        . ' st.freekey11, st.freetext11, st.freekey12, st.freetext12, '
- #        . ' st.freekey13, st.freetext13, st.freekey14, st.freetext14, '
- #        . ' st.freekey15, st.freetext15, st.freekey16, st.freetext16, '
- #        . ' st.ticket_lock_id, st.title, st.escalation_update_time, '
+        #        . ' st.freekey1, st.freetext1, st.freekey2, st.freetext2,'
+        #        . ' st.freekey3, st.freetext3, st.freekey4, st.freetext4,'
+        #        . ' st.freekey5, st.freetext5, st.freekey6, st.freetext6,'
+        #        . ' st.freekey7, st.freetext7, st.freekey8, st.freetext8, '
+        #        . ' st.freekey9, st.freetext9, st.freekey10, st.freetext10, '
+        #        . ' st.freekey11, st.freetext11, st.freekey12, st.freetext12, '
+        #        . ' st.freekey13, st.freetext13, st.freekey14, st.freetext14, '
+        #        . ' st.freekey15, st.freetext15, st.freekey16, st.freetext16, '
+        . ' st.ticket_lock_id, st.title, st.escalation_update_time, '
+
  #        . ' st.freetime1 , st.freetime2, st.freetime3, st.freetime4, st.freetime5, st.freetime6, '
         . ' st.type_id, st.service_id, st.sla_id, st.escalation_response_time, '
         . ' st.escalation_solution_time, st.escalation_time, st.change_time '
@@ -1533,18 +1620,18 @@ sub ArticleGet {
     my %Ticket;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         my %Data;
-        $Data{ArticleID}                = $Row[33];
+        $Data{ArticleID}                = $Row[27];
         $Data{TicketID}                 = $Row[0];
         $Ticket{TicketID}               = $Data{TicketID};
-        $Data{Title}                    = $Row[67];
+        $Data{Title}                    = $Row[29];
         $Ticket{Title}                  = $Data{Title};
-        $Data{EscalationTime}           = $Row[80];
+        $Data{EscalationTime}           = $Row[36];
         $Ticket{EscalationTime}         = $Data{EscalationTime};
-        $Data{EscalationUpdateTime}     = $Row[68];
+        $Data{EscalationUpdateTime}     = $Row[30];
         $Ticket{EscalationUpdateTime}   = $Data{EscalationUpdateTime};
-        $Data{EscalationResponseTime}   = $Row[78];
+        $Data{EscalationResponseTime}   = $Row[34];
         $Ticket{EscalationResponseTime} = $Data{EscalationResponseTime};
-        $Data{EscalationSolutionTime}   = $Row[79];
+        $Data{EscalationSolutionTime}   = $Row[35];
         $Ticket{EscalationSolutionTime} = $Data{EscalationSolutionTime};
         $Data{From}                     = $Row[1];
         $Data{To}                       = $Row[2];
@@ -1566,12 +1653,12 @@ sub ArticleGet {
         $Ticket{StateID}    = $Row[11];
         $Data{QueueID}      = $Row[12];
         $Ticket{QueueID}    = $Row[12];
-        $Data{Created}      = $Self->{TimeObject}->SystemTime2TimeStamp( SystemTime => $Row[32] );
+        $Data{Created}      = $Self->{TimeObject}->SystemTime2TimeStamp( SystemTime => $Row[26] );
         $Data{ContentType}  = $Row[14];
         $Data{CreatedBy}    = $Row[15];
         $Data{TicketNumber} = $Row[16];
         $Data{SenderTypeID} = $Row[17];
-        $Ticket{Changed}    = $Row[81];
+        $Ticket{Changed}    = $Row[37];
 
         if ( $Data{ContentType} && $Data{ContentType} =~ /charset=/i ) {
             $Data{Charset} = $Data{ContentType};
@@ -1603,12 +1690,13 @@ sub ArticleGet {
         $Data{ResponsibleID}    = $Row[23] || 1;
         $Ticket{ResponsibleID}  = $Row[23] || 1;
         $Data{ArticleTypeID}    = $Row[24];
-        $Data{ArticleFreeKey1}  = $Row[25];
-        $Data{ArticleFreeText1} = $Row[26];
-        $Data{ArticleFreeKey2}  = $Row[27];
-        $Data{ArticleFreeText2} = $Row[28];
-        $Data{ArticleFreeKey3}  = $Row[29];
-        $Data{ArticleFreeText3} = $Row[30];
+
+        #        $Data{ArticleFreeKey1}  = $Row[25];
+        #        $Data{ArticleFreeText1} = $Row[26];
+        #        $Data{ArticleFreeKey2}  = $Row[27];
+        #        $Data{ArticleFreeText2} = $Row[28];
+        #        $Data{ArticleFreeKey3}  = $Row[29];
+        #        $Data{ArticleFreeText3} = $Row[30];
 
         #        $Data{TicketFreeKey1}      = $Row[34];
         #        $Data{TicketFreeText1}     = $Row[35];
@@ -1648,15 +1736,15 @@ sub ArticleGet {
         #        $Data{TicketFreeTime4}     = $Row[72];
         #        $Data{TicketFreeTime5}     = $Row[73];
         #        $Data{TicketFreeTime6}     = $Row[74];
-        $Data{IncomingTime}        = $Row[32];
+        $Data{IncomingTime}        = $Row[26];
         $Data{RealTillTimeNotUsed} = $Row[19];
-        $Ticket{LockID}            = $Row[66];
-        $Data{TypeID}              = $Row[75];
-        $Ticket{TypeID}            = $Row[75];
-        $Data{ServiceID}           = $Row[76];
-        $Ticket{ServiceID}         = $Row[76];
-        $Data{SLAID}               = $Row[77];
-        $Ticket{SLAID}             = $Row[77];
+        $Ticket{LockID}            = $Row[28];
+        $Data{TypeID}              = $Row[31];
+        $Ticket{TypeID}            = $Row[31];
+        $Data{ServiceID}           = $Row[32];
+        $Ticket{ServiceID}         = $Row[32];
+        $Data{SLAID}               = $Row[33];
+        $Ticket{SLAID}             = $Row[33];
 
         # fill up dynamic varaibles
         $Data{Age} = $Self->{TimeObject}->SystemTime() - $Ticket{CreateTimeUnix};
@@ -1667,53 +1755,94 @@ sub ArticleGet {
             $Data{$Key} =~ s/\n|\r//g;
         }
 
-        if ( $Param{TicketID} ) {
+        # get all dynamic fields for the object type Ticket
+        my $DynamicFieldList = $Self->{DynamicFieldObject}->DynamicFieldListGet(
+            ObjectType => 'Article'
+        );
+        DYNAMICFIELD:
+        for my $DynamicFieldConfig ( @{$DynamicFieldList} ) {
 
-            # get all dynamic fields for the object type Ticket
-            my $DynamicFieldList = $Self->{DynamicFieldObject}->DynamicFieldListGet(
-                ObjectType => 'Ticket'
+            # validate each dynamic field
+            next DYNAMICFILED if !$DynamicFieldConfig;
+            next DYNAMICFILED if !IsHashRefWithData($DynamicFieldConfig);
+            next DYNAMICFIELD if !$DynamicFieldConfig->{Name};
+            next DYNAMICFIELD if !IsHashRefWithData( $DynamicFieldConfig->{Config} );
+
+            # get the current value for each dynamic field
+            my $Value = $Self->{DynamicFieldBackendObject}->ValueGet(
+                DynamicFieldConfig => $DynamicFieldConfig,
+                ObjectID           => $Param{ArticleID},
             );
 
-            DYNAMICFIELD:
-            for my $DynamicFieldConfig ( @{$DynamicFieldList} ) {
+            # set the dynamic field name and value into the ticket hash
+            $Data{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = $Value;
 
-                # validate each dynamic field
-                next DYNAMICFILED if !$DynamicFieldConfig;
-                next DYNAMICFILED if !IsHashRefWithData($DynamicFieldConfig);
-                next DYNAMICFIELD if !$DynamicFieldConfig->{Name};
-                next DYNAMICFIELD if !IsHashRefWithData( $DynamicFieldConfig->{Config} );
-
-                # get the current value for each dynamic field
-                my $Value = $Self->{DynamicFieldBackendObject}->ValueGet(
-                    DynamicFieldConfig => $DynamicFieldConfig,
-                    ObjectID           => $Param{TicketID},
-                );
-
-                # set the dynamic field name and value into the ticket hash
-                $Data{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = $Value;
-
-                # check if field is TicketFreeKey[1-16], TicketFreeText[1-6] or TicketFreeTime[1-6]
-                # Compatibility feature can be removed on further versions
-                if (
-                    $DynamicFieldConfig->{Name} =~ m{
-                   \A
-                   (
-                        TicketFree
-                        (?:
-                            (?:Text|Key)
-                            (?:1[0-6]|[1-9])
-                            |
-                            (?:Time [1-6])
-                        )
+            # check if field is ArticleFreeKey[1-3] or ArticleFreeText[1-3]
+            # Compatibility feature can be removed on further versions
+            if (
+                $DynamicFieldConfig->{Name} =~ m{
+               \A
+               (
+                    ArticleFree
+                    (?:
+                        (?:Text|Key)
+                        (?:[1-3])
                     )
-                    \z
-                }gmxi
-                    )
-                {
+                )
+                \z
+            }gmxi
+                )
+            {
 
-                    # Set field for 3.0 and 2.4 compatibility
-                    $Data{ $DynamicFieldConfig->{Name} } = $Value;
-                }
+                # Set field for 3.0 and 2.4 compatibility
+                $Data{ $DynamicFieldConfig->{Name} } = $Value;
+            }
+        }
+
+        # get all dynamic fields for the object type Ticket
+        $DynamicFieldList = $Self->{DynamicFieldObject}->DynamicFieldListGet(
+            ObjectType => 'Ticket'
+        );
+
+        DYNAMICFIELD:
+        for my $DynamicFieldConfig ( @{$DynamicFieldList} ) {
+
+            # validate each dynamic field
+            next DYNAMICFILED if !$DynamicFieldConfig;
+            next DYNAMICFILED if !IsHashRefWithData($DynamicFieldConfig);
+            next DYNAMICFIELD if !$DynamicFieldConfig->{Name};
+            next DYNAMICFIELD if !IsHashRefWithData( $DynamicFieldConfig->{Config} );
+
+            # get the current value for each dynamic field
+            my $Value = $Self->{DynamicFieldBackendObject}->ValueGet(
+                DynamicFieldConfig => $DynamicFieldConfig,
+                ObjectID           => $Ticket{TicketID},
+            );
+
+            # set the dynamic field name and value into the ticket hash
+            $Data{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = $Value;
+
+            # check if field is TicketFreeKey[1-16], TicketFreeText[1-6] or TicketFreeTime[1-6]
+            # Compatibility feature can be removed on further versions
+            if (
+                $DynamicFieldConfig->{Name} =~ m{
+               \A
+               (
+                    TicketFree
+                    (?:
+                        (?:Text|Key)
+                        (?:1[0-6]|[1-9])
+                        |
+                        (?:Time [1-6])
+                    )
+                )
+                \z
+            }gmxi
+                )
+            {
+
+                # Set field for 3.0 and 2.4 compatibility
+                $Data{ $DynamicFieldConfig->{Name} } = $Value;
             }
         }
 
@@ -3435,6 +3564,75 @@ sub ArticleAttachmentIndex {
     return %Attachments;
 }
 
+=item ArticleDynamicFieldSet()
+
+store a value for a dynamic field
+
+    my $Success = $TicketObject->TicketDynamicFieldSet(
+        FieldName           => 'TicketFreeText1',       # the name of the dynamic field
+        Value               => $AValue,                 # A value defined by the dynamic field i.e.
+                                                        # a text string, a date or an integer
+        ArticleID           => 123,                     # The ID of the article
+        TicketID            => 123,                     # The ID of the article ticket
+        UserID              => 1,                       # The ID of the user
+    );
+
+=cut
+
+sub ArticleDynamicFieldSet {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Needed (qw(FieldName ArticleID TicketID UserID)) {
+        if ( !$Param{$Needed} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            return;
+        }
+    }
+
+    # get the Dynamic Field Configuration
+    my $DynamicFieldConfig = $Self->{DynamicFieldObject}->DynamicFieldGet(
+        Name => $Param{FieldName},
+    );
+
+    if ( !IsHashRefWithData($DynamicFieldConfig) ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "The configuration for field $Param{FieldName} is invalid!",
+        );
+        return;
+    }
+
+    # set the value to the dynamc field
+    my $Success = $Self->{DynamicFieldBackendObject}->ValueSet(
+        DynamicFieldConfig => $DynamicFieldConfig,
+        ObjectID           => $Param{ArticleID},
+        Value              => $Param{Value},
+        UserID             => $Param{UserID},
+    );
+
+    # return if cant set the value
+    if ( !$Success ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "The value for the Dynamic Field $Param{FieldName} could not be set",
+        );
+
+        return
+    }
+
+    # event
+    $Self->EventHandler(
+        Event => 'ArticleDynamicFieldUpdate',
+        Data  => {
+            TicketID  => $Param{TicketID},
+            ArticleID => $Param{ArticleID},
+        },
+        UserID => $Param{UserID},
+    );
+    return 1;
+}
+
 1;
 
 =back
@@ -3451,6 +3649,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.284 $ $Date: 2011-08-31 22:14:18 $
+$Revision: 1.285 $ $Date: 2011-09-01 07:03:54 $
 
 =cut
