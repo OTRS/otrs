@@ -2,7 +2,7 @@
 # TicketDynamicField.t - Ticket Dyanmic Field tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketDynamicField.t,v 1.4 2011-09-01 07:01:36 cr Exp $
+# $Id: TicketDynamicField.t,v 1.5 2011-09-01 22:19:41 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -240,9 +240,9 @@ $Self->True(
     "TicketDelete() successful for Ticket ID $TicketID",
 );
 
-my @OriginalFreeFields;
+my %OriginalFreeFields;
 
-# backup existing freefields and recover after the tests
+# check if configuration already has freefields as dynamic fields
 # get the fields list
 my $DynamicFieldList = $DynamicFieldObject->DynamicFieldListGet(
     ObjectType => 'Ticket',
@@ -267,40 +267,9 @@ for my $DynamicFieldConfig ( @{$DynamicFieldList} ) {
         )
     {
 
-        # add Field Config to
-        push @OriginalFreeFields, $DynamicFieldConfig
+        # set field reference
+        $OriginalFreeFields{ $DynamicFieldConfig->{Name} } = 1;
     }
-}
-
-if (@OriginalFreeFields) {
-
-    $Self->True(
-        @OriginalFreeFields,
-        "FreeFields found on the system and needs to be updated before this test continue",
-    );
-
-    for my $DynamicFieldConfig (@OriginalFreeFields) {
-
-        # rename field
-        my $Success = $DynamicFieldObject->DynamicFieldUpdate(
-            %{$DynamicFieldConfig},
-
-            # override name
-            Name    => 'TestTicketDynamicField' . $DynamicFieldConfig->{Name},
-            Reorder => 0,
-            UserID  => 1,
-        );
-
-        $Self->True(
-            $Success,
-            "Renamed field $DynamicFieldConfig->{Name} to "
-                . "TestTicketDynamicField$DynamicFieldConfig->{Name}",
-            )
-    }
-    $Self->True(
-        @OriginalFreeFields,
-        "End of original fields update",
-    );
 }
 
 # backward compatibity tests
@@ -349,7 +318,9 @@ my @FreeFieldIDs;
 # define TicketFreeText fields
 for my $Counter ( 1 .. 16 ) {
 
+    FIELD:
     for my $Part (qw(Key Text)) {
+        next FIELD if $OriginalFreeFields{ 'TicketFree' . $Part . $Counter };
 
         # create a dynamic field
         my $FieldID = $DynamicFieldObject->DynamicFieldAdd(
@@ -391,7 +362,9 @@ for my $Counter ( 1 .. 16 ) {
 }
 
 # define TicketFreeTime fields
+FIELD:
 for my $Counter ( 1 .. 6 ) {
+    next FIELD if $OriginalFreeFields{ 'TicketFreeTime' . $Counter };
 
     # create a dynamic field
     my $FieldID = $DynamicFieldObject->DynamicFieldAdd(
@@ -414,6 +387,9 @@ for my $Counter ( 1 .. 6 ) {
     );
 
     push @FreeFieldIDs, $FieldID;
+}
+
+for my $Counter ( 1 .. 6 ) {
 
     # set Dynamic Field value using legacy function
     my $Success = $TicketObject->TicketFreeTimeSet(
@@ -719,34 +695,6 @@ for my $FieldID (@FreeFieldIDs) {
     $Self->True(
         $FieldDelete,
         "DynamicFieldDelete() successful for Field ID $FieldID",
-    );
-}
-
-# check if there was FreeFields originaly on the configuration
-if (@OriginalFreeFields) {
-
-    $Self->True(
-        @OriginalFreeFields,
-        "FreeFields found on the system and needs to be restored",
-    );
-
-    # restore original configuration
-    for my $DynamicFieldConfig (@OriginalFreeFields) {
-
-        my $Success = $DynamicFieldObject->DynamicFieldUpdate(
-            %{$DynamicFieldConfig},
-            Reorder => 0,
-            UserID  => 1,
-        );
-
-        $Self->True(
-            $Success,
-            "Restored field $DynamicFieldConfig->{Name}"
-            )
-    }
-    $Self->True(
-        @OriginalFreeFields,
-        "End of original fields restore",
     );
 }
 

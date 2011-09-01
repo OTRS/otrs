@@ -2,7 +2,7 @@
 # ArticleDynamicField.t - Article Dynamic Field tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleDynamicField.t,v 1.1 2011-09-01 07:04:46 cr Exp $
+# $Id: ArticleDynamicField.t,v 1.2 2011-09-01 22:19:41 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -44,8 +44,9 @@ my $TicketID = $TicketObject->TicketCreate(
 );
 
 # sanity check
-$Self->True(
+$Self->IsNot(
     $TicketID,
+    undef,
     "TicketCreate() successful for Ticket ID $TicketID",
 );
 
@@ -263,9 +264,9 @@ $Self->True(
     "TicketDelete() successful for Ticket ID $TicketID",
 );
 
-my @OriginalFreeFields;
+my %OriginalFreeFields;
 
-# backup existing freefields and recover after the tests
+# check if configuration already has freefields as dynamic fields
 # get the fields list
 my $DynamicFieldList = $DynamicFieldObject->DynamicFieldListGet(
     ObjectType => 'Ticket',
@@ -288,8 +289,8 @@ for my $DynamicFieldConfig ( @{$DynamicFieldList} ) {
         )
     {
 
-        # add Field Config to
-        push @OriginalFreeFields, $DynamicFieldConfig
+        # set field reference
+        $OriginalFreeFields{ $DynamicFieldConfig->{Name} } = 1;
     }
 }
 
@@ -315,40 +316,9 @@ for my $DynamicFieldConfig ( @{$DynamicFieldList} ) {
         )
     {
 
-        # add Field Config to
-        push @OriginalFreeFields, $DynamicFieldConfig
+        # set field reference
+        $OriginalFreeFields{ $DynamicFieldConfig->{Name} } = 1;
     }
-}
-
-if (@OriginalFreeFields) {
-
-    $Self->True(
-        @OriginalFreeFields,
-        "FreeFields found on the system and needs to be updated before this test continue",
-    );
-
-    for my $DynamicFieldConfig (@OriginalFreeFields) {
-
-        # rename field
-        my $Success = $DynamicFieldObject->DynamicFieldUpdate(
-            %{$DynamicFieldConfig},
-
-            # override name
-            Name    => 'TestArticleDynamicField' . $DynamicFieldConfig->{Name},
-            Reorder => 0,
-            UserID  => 1,
-        );
-
-        $Self->True(
-            $Success,
-            "Renamed field $DynamicFieldConfig->{Name} to "
-                . "TestArticleDynamicField$DynamicFieldConfig->{Name}",
-            )
-    }
-    $Self->True(
-        @OriginalFreeFields,
-        "End of original fields update",
-    );
 }
 
 # backward compatibity tests
@@ -398,7 +368,9 @@ my @FreeFieldIDs;
 # define TicketFreeText fields
 for my $Counter ( 1 .. 16 ) {
 
+    FIELD:
     for my $Part (qw(Key Text)) {
+        next FIELD if $OriginalFreeFields{ 'TicketFree' . $Part . $Counter };
 
         # create a dynamic field
         my $FieldID = $DynamicFieldObject->DynamicFieldAdd(
@@ -442,7 +414,9 @@ for my $Counter ( 1 .. 16 ) {
 # define ArticleFreeText fields
 for my $Counter ( 1 .. 3 ) {
 
+    ARTICLEFIELD:
     for my $Part (qw(Key Text)) {
+        next ARTICLEFIELD if $OriginalFreeFields{ 'ArticleFree' . $Part . $Counter };
 
         # create a dynamic field
         my $FieldID = $DynamicFieldObject->DynamicFieldAdd(
@@ -528,7 +502,7 @@ for ( 1 .. 3 ) {
     $Self->Is(
         $ArticleFreeText{ 'ArticleFreeText' . $_ },
         'Sun' . $_,
-        "ArticleGet() (ArticleText$_)",
+        "ArticleGet() (ArticleFreeText$_)",
     );
 }
 
@@ -720,34 +694,6 @@ for my $FieldID (@FreeFieldIDs) {
     $Self->True(
         $FieldDelete,
         "DynamicFieldDelete() successful for Field ID $FieldID",
-    );
-}
-
-# check if there was FreeFields originaly on the configuration
-if (@OriginalFreeFields) {
-
-    $Self->True(
-        @OriginalFreeFields,
-        "FreeFields found on the system and needs to be restored",
-    );
-
-    # restore original configuration
-    for my $DynamicFieldConfig (@OriginalFreeFields) {
-
-        my $Success = $DynamicFieldObject->DynamicFieldUpdate(
-            %{$DynamicFieldConfig},
-            Reorder => 0,
-            UserID  => 1,
-        );
-
-        $Self->True(
-            $Success,
-            "Restored field $DynamicFieldConfig->{Name}"
-            )
-    }
-    $Self->True(
-        @OriginalFreeFields,
-        "End of original fields restore",
     );
 }
 
