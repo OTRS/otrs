@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.285 2011-09-01 07:03:54 cr Exp $
+# $Id: Article.pm,v 1.286 2011-09-01 09:29:54 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,7 +26,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.285 $) [1];
+$VERSION = qw($Revision: 1.286 $) [1];
 
 =head1 NAME
 
@@ -1755,12 +1755,32 @@ sub ArticleGet {
             $Data{$Key} =~ s/\n|\r//g;
         }
 
-        # get all dynamic fields for the object type Ticket
-        my $DynamicFieldList = $Self->{DynamicFieldObject}->DynamicFieldListGet(
-            ObjectType => 'Article'
-        );
+        #        # cleanup time stamps (some databases are using e. g. 2008-02-25 22:03:00.000000
+        #        # and 0000-00-00 00:00:00 time stamps)
+        #        for my $Time ( 1 .. 6 ) {
+        #            my $Key = 'TicketFreeTime' . $Time;
+        #            next if !$Data{$Key};
+        #            if ( $Data{$Key} eq '0000-00-00 00:00:00' ) {
+        #                $Data{$Key} = '';
+        #                next;
+        #            }
+        #            $Data{$Key} =~ s/^(\d\d\d\d-\d\d-\d\d\s\d\d:\d\d:\d\d)\..+?$/$1/;
+        #        }
+
+        push @Content, { %Ticket, %Data };
+    }
+
+    my $DynamicFieldArticleList = $Self->{DynamicFieldObject}->DynamicFieldListGet(
+        ObjectType => 'Article'
+    );
+
+    my $DynamicFieldTicketList = $Self->{DynamicFieldObject}->DynamicFieldListGet(
+        ObjectType => 'Ticket'
+    );
+
+    for my $Article (@Content) {
         DYNAMICFIELD:
-        for my $DynamicFieldConfig ( @{$DynamicFieldList} ) {
+        for my $DynamicFieldConfig ( @{$DynamicFieldArticleList} ) {
 
             # validate each dynamic field
             next DYNAMICFILED if !$DynamicFieldConfig;
@@ -1775,7 +1795,7 @@ sub ArticleGet {
             );
 
             # set the dynamic field name and value into the ticket hash
-            $Data{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = $Value;
+            $Article->{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = $Value;
 
             # check if field is ArticleFreeKey[1-3] or ArticleFreeText[1-3]
             # Compatibility feature can be removed on further versions
@@ -1795,17 +1815,12 @@ sub ArticleGet {
             {
 
                 # Set field for 3.0 and 2.4 compatibility
-                $Data{ $DynamicFieldConfig->{Name} } = $Value;
+                $Article->{ $DynamicFieldConfig->{Name} } = $Value;
             }
         }
 
-        # get all dynamic fields for the object type Ticket
-        $DynamicFieldList = $Self->{DynamicFieldObject}->DynamicFieldListGet(
-            ObjectType => 'Ticket'
-        );
-
         DYNAMICFIELD:
-        for my $DynamicFieldConfig ( @{$DynamicFieldList} ) {
+        for my $DynamicFieldConfig ( @{$DynamicFieldTicketList} ) {
 
             # validate each dynamic field
             next DYNAMICFILED if !$DynamicFieldConfig;
@@ -1820,7 +1835,7 @@ sub ArticleGet {
             );
 
             # set the dynamic field name and value into the ticket hash
-            $Data{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = $Value;
+            $Article->{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = $Value;
 
             # check if field is TicketFreeKey[1-16], TicketFreeText[1-6] or TicketFreeTime[1-6]
             # Compatibility feature can be removed on further versions
@@ -1842,23 +1857,9 @@ sub ArticleGet {
             {
 
                 # Set field for 3.0 and 2.4 compatibility
-                $Data{ $DynamicFieldConfig->{Name} } = $Value;
+                $Article->{ $DynamicFieldConfig->{Name} } = $Value;
             }
         }
-
-        #        # cleanup time stamps (some databases are using e. g. 2008-02-25 22:03:00.000000
-        #        # and 0000-00-00 00:00:00 time stamps)
-        #        for my $Time ( 1 .. 6 ) {
-        #            my $Key = 'TicketFreeTime' . $Time;
-        #            next if !$Data{$Key};
-        #            if ( $Data{$Key} eq '0000-00-00 00:00:00' ) {
-        #                $Data{$Key} = '';
-        #                next;
-        #            }
-        #            $Data{$Key} =~ s/^(\d\d\d\d-\d\d-\d\d\s\d\d:\d\d:\d\d)\..+?$/$1/;
-        #        }
-
-        push @Content, { %Ticket, %Data };
     }
 
     # return if content is empty
@@ -3649,6 +3650,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.285 $ $Date: 2011-09-01 07:03:54 $
+$Revision: 1.286 $ $Date: 2011-09-01 09:29:54 $
 
 =cut
