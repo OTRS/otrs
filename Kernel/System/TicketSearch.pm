@@ -2,7 +2,7 @@
 # Kernel/System/TicketSearch.pm - all ticket search functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketSearch.pm,v 1.4 2011-09-01 12:43:14 mg Exp $
+# $Id: TicketSearch.pm,v 1.5 2011-09-01 13:47:23 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 use Kernel::System::DynamicField;
 use Kernel::System::DynamicField::Backend;
@@ -405,10 +405,12 @@ sub TicketSearch {
     );
 
     my %ValidDynamicFieldParams;
+    my %DynamicFieldName2Config;
 
     DYNAMIC_FIELD:
     for my $DynamicField ( @{$TicketDynamicFields} ) {
         $ValidDynamicFieldParams{ "DynamicField_" . $DynamicField->{Name} } = 1;
+        $DynamicFieldName2Config{ $DynamicField->{Name} } = $DynamicField;
     }
 
     # check sort/order by options
@@ -1045,39 +1047,33 @@ sub TicketSearch {
 
         next DYNAMIC_FIELD if ( !$SearchParam );
 
-        # check search attribute, we do not need to search for *
-        next if $SearchParam =~ /^\%{1,3}$/;
+        my @SearchParams = ( ref $SearchParam eq 'ARRAY' ) ? @{$SearchParam} : ($SearchParam);
 
         my $NeedJoin;
-        if ( !ref $SearchParam ) {
-            $SQLExt .= " AND LOWER(dfv$DynamicFieldJoinCounter.value_text) LIKE LOWER('"
-                . $Self->{DBObject}->Quote( $SearchParam, 'Like' ) . "')";
-            $SQLExt .= ' ' . $Self->{DBObject}->GetDatabaseFunction('LikeEscapeString');
-            $NeedJoin = 1;
+        my $SQLExtSub = ' AND (';
+        my $Counter   = 0;
+        TEXT:
+        for my $Text (@SearchParams) {
+            next TEXT if ( !defined $Text || $Text eq '' );
 
+            $Text =~ s/\*/%/gi;
+
+            # check search attribute, we do not need to search for *
+            next if $Text =~ /^\%{1,3}$/;
+
+            $SQLExtSub .= ' OR ' if ($Counter);
+            $SQLExtSub .= $Self->{DynamicFieldBackendObject}->SearchSQLGet(
+                DynamicFieldConfig => $DynamicField,
+                TableAlias         => "dfv$DynamicFieldJoinCounter",
+                SearchTerm         => $Text,
+            );
+
+            $Counter++;
         }
-        elsif ( ref $SearchParam eq 'ARRAY' ) {
-            my $SQLExtSub = ' AND (';
-            my $Counter   = 0;
-            for my $Text ( @{$SearchParam} ) {
-                if ( defined $Text && $Text ne '' ) {
-                    $Text =~ s/\*/%/gi;
-
-                    # check search attribute, we do not need to search for *
-                    next if $Text =~ /^\%{1,3}$/;
-
-                    $SQLExtSub .= ' OR ' if ($Counter);
-                    $SQLExtSub .= " LOWER(dfv$DynamicFieldJoinCounter.value_text) LIKE LOWER('"
-                        . $Self->{DBObject}->Quote( $Text, 'Like' ) . "')";
-                    $SQLExtSub .= ' ' . $Self->{DBObject}->GetDatabaseFunction('LikeEscapeString');
-                    $Counter++;
-                }
-            }
-            $SQLExtSub .= ')';
-            if ($Counter) {
-                $SQLExt .= $SQLExtSub;
-                $NeedJoin = 1;
-            }
+        $SQLExtSub .= ')';
+        if ($Counter) {
+            $SQLExt .= $SQLExtSub;
+            $NeedJoin = 1;
         }
 
         if ($NeedJoin) {
@@ -1620,9 +1616,7 @@ sub TicketSearch {
                 # If the table was already joined for searching, we reuse it.
                 if ( !$DynamicFieldJoinTables{$DynamicFieldName} ) {
 
-                    my $DynamicField = $Self->{DynamicFieldObject}->DynamicFieldGet(
-                        Name => $DynamicFieldName,
-                    );
+                    my $DynamicField = $DynamicFieldName2Config{$DynamicFieldName};
 
                     # Join the table for this dynamic field; use a left outer join in this case.
                     # With an INNER JOIN we'd limit the result set to tickets which have an entry
@@ -1795,6 +1789,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.4 $ $Date: 2011-09-01 12:43:14 $
+$Revision: 1.5 $ $Date: 2011-09-01 13:47:23 $
 
 =cut

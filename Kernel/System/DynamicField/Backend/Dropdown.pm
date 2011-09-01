@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Dropdown.pm - Delegate for DynamicField Dropdown backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Dropdown.pm,v 1.1 2011-08-29 21:47:17 cr Exp $
+# $Id: Dropdown.pm,v 1.2 2011-09-01 13:47:22 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::DynamicFieldValue;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 =head1 NAME
 
@@ -146,6 +146,17 @@ sub ValueSet {
 
     return $Success;
 }
+
+sub SearchSQLGet {
+    my ( $Self, %Param ) = @_;
+
+    my $SQL = " LOWER($Param{TableAlias}.value_text) LIKE LOWER('";
+    $SQL .= $Self->{DBObject}->Quote( $Param{SearchTerm}, 'Like' );
+    $SQL .= "') " . $Self->{DBObject}->GetDatabaseFunction('LikeEscapeString') . ' ';
+
+    return $SQL;
+}
+
 1;
 
 =back
