@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend.pm - Interface for DynamicField backends
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Backend.pm,v 1.13 2011-09-01 13:47:23 mg Exp $
+# $Id: Backend.pm,v 1.14 2011-09-01 22:58:09 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 =head1 NAME
 
@@ -176,7 +176,68 @@ creates the field HTML to be used in edit masks.
 
 =cut
 
-sub EditFieldRender { }
+sub EditFieldRender {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    if ( !$Param{DynamicFieldConfig} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => "Need DynamicFieldConfig!" );
+        return;
+    }
+
+    # check DynamicFieldConfig (general)
+    if ( !IsHashRefWithData( $Param{DynamicFieldConfig} ) ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "The field configuration is invalid",
+        );
+        return;
+    }
+
+    # check DynamicFieldConfig (internally)
+    for my $Needed (qw(ID FieldType ObjectType)) {
+        if ( !$Param{DynamicFieldConfig}->{$Needed} ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed in DynamicFieldConfig!"
+            );
+            return;
+        }
+    }
+
+    # check PossibleValuesFilter (general)
+    if (
+        defined $Param{PossibleValuesFilter}
+        && !IsHashRefWithData( $Param{PossibleValuesFilter} )
+        )
+    {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "The possible values filter is invalid",
+        );
+        return;
+    }
+
+    # set the dyanamic filed specific backend
+    my $DynamicFieldBackend = 'DynamicField' . $Param{DynamicFieldConfig}->{FieldType} . 'Object';
+
+    if ( !$Self->{$DynamicFieldBackend} ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!"
+        );
+        return;
+    }
+
+    # call EditFieldRender on the specific backend
+    my $HTMLString = $Self->{$DynamicFieldBackend}->EditFieldRender(
+        DynamicFieldConfig => $Param{DynamicFieldConfig},
+        PossibleValuesFilter => $Param{PossibleValuesFilter} || '',
+    );
+
+    return $HTMLString;
+
+}
 
 =item DisplayLabelRender()
 
@@ -486,6 +547,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.13 $ $Date: 2011-09-01 13:47:23 $
+$Revision: 1.14 $ $Date: 2011-09-01 22:58:09 $
 
 =cut
