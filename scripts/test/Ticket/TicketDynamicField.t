@@ -1,8 +1,8 @@
 # --
-# TicketDynamicField.t - DynamicFieldValue backend tests
+# TicketDynamicField.t - Ticket Dyanmic Field tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketDynamicField.t,v 1.3 2011-08-31 22:16:36 cr Exp $
+# $Id: TicketDynamicField.t,v 1.4 2011-09-01 07:01:36 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -81,6 +81,8 @@ $Self->IsNotDeeply(
     "DynamicFielGet() successful for Field ID $FieldID",
 );
 
+my %Ticket = $TicketObject->TicketGet( TicketID => $TicketID, UserID => 1 );
+
 # tests definition
 my @Tests = (
     {
@@ -88,6 +90,7 @@ my @Tests = (
         Value     => 'A Value',
         FieldName => undef,
         TicketID  => $TicketID,
+        QueueID   => $Ticket{QueueID},
         UserID    => 1,
         Success   => 0,
     },
@@ -96,6 +99,7 @@ my @Tests = (
         Value     => 'A Value',
         FieldName => $DynamicFieldConfig->{Name},
         TicketID  => undef,
+        QueueID   => $Ticket{QueueID},
         UserID    => 1,
         Success   => 0,
     },
@@ -104,6 +108,7 @@ my @Tests = (
         Value     => 'A Value',
         FieldName => $DynamicFieldConfig->{Name},
         TicketID  => $TicketID,
+        QueueID   => $Ticket{QueueID},
         UserID    => undef,
         Success   => 0,
     },
@@ -112,14 +117,25 @@ my @Tests = (
         Value     => undef,
         FieldName => $DynamicFieldConfig->{Name},
         TicketID  => $TicketID,
+        QueueID   => $Ticket{QueueID},
         UserID    => 1,
         Success   => 1,
+    },
+    {
+        Name      => 'No QueueID',
+        Value     => 'A Value',
+        FieldName => $DynamicFieldConfig->{Name},
+        TicketID  => $TicketID,
+        QueueID   => undef,
+        UserID    => 1,
+        Success   => 0,
     },
     {
         Name      => 'Simple Text Value',
         Value     => 'A Value',
         FieldName => $DynamicFieldConfig->{Name},
         TicketID  => $TicketID,
+        QueueID   => $Ticket{QueueID},
         UserID    => 1,
         Success   => 1,
     },
@@ -132,6 +148,7 @@ for my $Test (@Tests) {
         FieldName => $Test->{FieldName},
         Value     => $Test->{Value},
         TicketID  => $Test->{TicketID},
+        QueueID   => $Test->{QueueID},
         UserID    => $Test->{UserID},
     );
 
@@ -259,7 +276,7 @@ if (@OriginalFreeFields) {
 
     $Self->True(
         @OriginalFreeFields,
-        "FreeFields found on the system and needs to be updated befor this test continue",
+        "FreeFields found on the system and needs to be updated before this test continue",
     );
 
     for my $DynamicFieldConfig (@OriginalFreeFields) {
@@ -418,7 +435,7 @@ for my $Counter ( 1 .. 6 ) {
 }
 
 # get the ticket
-my %Ticket = $TicketObject->TicketGet( TicketID => $TicketID, UserID => 1 );
+%Ticket = $TicketObject->TicketGet( TicketID => $TicketID, UserID => 1 );
 
 for my $Counter ( 1 .. 16 ) {
 
