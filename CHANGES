@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1963 2011-08-30 21:45:44 mh Exp $
+# $Id: CHANGES,v 1.1964 2011-09-01 10:20:28 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.1.0 beta1 2011-??-??
+ - 2011-09-01 Fixed bug#7684 - PostMaster Filter Module fails to create ticket if
+    state set in filter is invalid.
  - 2011-08-30 Updated CPAN module SOAP::Lite to version 0.714.
  - 2011-08-30 Updated CPAN module libwww-perl to version 6.02.
  - 2011-08-30 Updated CPAN module YAML to version 0.73.
@@ -113,7 +115,7 @@
  - 2011-08-15 Fixed bug#6263 - RPM upgrade should run otrs.RebuildConfig.pl and
     otrs.DeleteCache.pl.
  - 2011-08-12 Updated Simplified Chinese Translation, thanks to Martin Liu!
- - 2011-08-12 Updated Danish translation, thanks to Lars Jørgensen!
+ - 2011-08-12 Updated Danish translation, thanks to Lars Jï¿½rgensen!
  - 2011-08-10 Fixed bug#7550 - SLA and Service is not written to history.
  - 2011-08-10 Fixed bug#7549 - Missing mandatory class and * identifier in AgentTicketMove.
 
