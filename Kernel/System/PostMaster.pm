@@ -1,8 +1,8 @@
 # --
 # Kernel/System/PostMaster.pm - the global PostMaster module for OTRS
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: PostMaster.pm,v 1.85 2010-06-17 21:39:40 cr Exp $
+# $Id: PostMaster.pm,v 1.86 2011-09-01 10:14:48 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,6 +18,7 @@ use Kernel::System::EmailParser;
 use Kernel::System::Ticket;
 use Kernel::System::Queue;
 use Kernel::System::State;
+use Kernel::System::Priority;
 use Kernel::System::PostMaster::Reject;
 use Kernel::System::PostMaster::FollowUp;
 use Kernel::System::PostMaster::NewTicket;
@@ -25,7 +26,7 @@ use Kernel::System::PostMaster::DestQueue;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = qw($Revision: 1.85 $) [1];
+$VERSION = qw($Revision: 1.86 $) [1];
 
 =head1 NAME
 
@@ -117,6 +118,7 @@ sub new {
     );
     $Self->{QueueObject}     = Kernel::System::Queue->new(%Param);
     $Self->{StateObject}     = Kernel::System::State->new(%Param);
+    $Self->{PriorityObject}  = Kernel::System::Priority->new(%Param);
     $Self->{DestQueueObject} = Kernel::System::PostMaster::DestQueue->new(
         %Param,
         QueueObject  => $Self->{QueueObject},
@@ -128,6 +130,8 @@ sub new {
         ParserObject         => $Self->{ParserObject},
         TicketObject         => $Self->{TicketObject},
         QueueObject          => $Self->{QueueObject},
+        StateObject          => $Self->{StateObject},
+        PriorityObject       => $Self->{PriorityObject},
         LoopProtectionObject => $Self->{LoopProtectionObject},
     );
     $Self->{FollowUp} = Kernel::System::PostMaster::FollowUp->new(
@@ -635,6 +639,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.85 $ $Date: 2010-06-17 21:39:40 $
+$Revision: 1.86 $ $Date: 2011-09-01 10:14:48 $
 
 =cut

@@ -1,8 +1,8 @@
 # --
 # Kernel/System/PostMaster/NewTicket.pm - sub part of PostMaster.pm
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: NewTicket.pm,v 1.76 2009-10-07 20:41:50 martin Exp $
+# $Id: NewTicket.pm,v 1.77 2011-09-01 10:14:48 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::AutoResponse;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.76 $) [1];
+$VERSION = qw($Revision: 1.77 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -30,7 +30,10 @@ sub new {
     $Self->{Debug} = $Param{Debug} || 0;
 
     # get all objects
-    for (qw(DBObject ConfigObject TicketObject LogObject ParserObject TimeObject QueueObject)) {
+    for (
+        qw(DBObject ConfigObject TicketObject LogObject ParserObject TimeObject QueueObject StateObject PriorityObject)
+        )
+    {
         $Self->{$_} = $Param{$_} || die 'Got no $_';
     }
 
@@ -60,13 +63,33 @@ sub Run {
     # get state
     my $State = $Self->{ConfigObject}->Get('PostmasterDefaultState') || 'new';
     if ( $GetParam{'X-OTRS-State'} ) {
-        $State = $GetParam{'X-OTRS-State'};
+        my $StateID = $Self->{StateObject}->StateLookup( State => $GetParam{'X-OTRS-State'} );
+        if ($StateID) {
+            $State = $GetParam{'X-OTRS-State'};
+        }
+        else {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message => "State $GetParam{'X-OTRS-State'} does not exist, falling back to $State!"
+            );
+        }
     }
 
     # get priority
     my $Priority = $Self->{ConfigObject}->Get('PostmasterDefaultPriority') || '3 normal';
     if ( $GetParam{'X-OTRS-Priority'} ) {
-        $Priority = $GetParam{'X-OTRS-Priority'};
+        my $PriorityID
+            = $Self->{PriorityObject}->PriorityLookup( Priority => $GetParam{'X-OTRS-Priority'} );
+        if ($PriorityID) {
+            $Priority = $GetParam{'X-OTRS-Priority'};
+        }
+        else {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message =>
+                    "Priority $GetParam{'X-OTRS-Priority'} does not exist, falling back to $Priority!"
+            );
+        }
     }
 
     # get sender email
