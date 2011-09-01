@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: db2, generated: 2011-08-24 09:12:02
+--  driver: db2, generated: 2011-09-01 12:48:56
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  insert into table valid
@@ -643,7 +643,7 @@ INSERT INTO ticket_history_type (name, valid_id, create_by, create_time, change_
 -- ----------------------------------------------------------
 INSERT INTO ticket_history_type (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    ('TicketFreeTextUpdate', 1, 1, current_timestamp, 1, current_timestamp);
+    ('TicketDynamicFieldUpdate', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table ticket_history_type

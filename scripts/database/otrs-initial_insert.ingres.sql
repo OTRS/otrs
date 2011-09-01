@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: ingres, generated: 2011-08-24 09:12:02
+--  driver: ingres, generated: 2011-09-01 12:48:57
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  insert into table valid
@@ -552,7 +552,7 @@ INSERT INTO ticket_history_type (id, name, valid_id, create_by, create_time, cha
 -- ----------------------------------------------------------
 INSERT INTO ticket_history_type (id, name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (28, 'TicketFreeTextUpdate', 1, 1, current_timestamp, 1, current_timestamp);\g
+    (28, 'TicketDynamicFieldUpdate', 1, 1, current_timestamp, 1, current_timestamp);\g
 -- ----------------------------------------------------------
 --  insert into table ticket_history_type
 -- ----------------------------------------------------------
