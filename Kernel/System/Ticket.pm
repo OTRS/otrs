@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.515 2011-08-31 22:38:36 cg Exp $
+# $Id: Ticket.pm,v 1.516 2011-09-01 06:59:05 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -40,7 +40,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.515 $) [1];
+$VERSION = qw($Revision: 1.516 $) [1];
 
 =head1 NAME
 
@@ -1058,7 +1058,7 @@ sub TicketGet {
     my %Ticket;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Ticket{TicketID}       = $Row[0];
-        $Ticket{Title}          = $Row[55];
+        $Ticket{Title}          = $Row[17];
         $Ticket{QueueID}        = $Row[1];
         $Ticket{Queue}          = $Row[2];
         $Ticket{StateID}        = $Row[3];
@@ -1069,15 +1069,15 @@ sub TicketGet {
         $Ticket{Created}        = $Self->{TimeObject}->SystemTime2TimeStamp(
             SystemTime => $Ticket{CreateTimeUnix},
         );
-        $Ticket{CreateBy}               = $Row[65];
-        $Ticket{ArchiveFlag}            = $Row[64] ? 'y' : 'n';
-        $Ticket{Changed}                = $Row[54];
-        $Ticket{ChangeBy}               = $Row[66];
-        $Ticket{EscalationTime}         = $Row[63];
-        $Ticket{EscalationUpdateTime}   = $Row[56];
-        $Ticket{EscalationResponseTime} = $Row[61];
-        $Ticket{EscalationSolutionTime} = $Row[62];
-        $Ticket{UnlockTimeout}          = $Row[57];
+        $Ticket{CreateBy}               = $Row[27];
+        $Ticket{ArchiveFlag}            = $Row[26] ? 'y' : 'n';
+        $Ticket{Changed}                = $Row[16];
+        $Ticket{ChangeBy}               = $Row[28];
+        $Ticket{EscalationTime}         = $Row[25];
+        $Ticket{EscalationUpdateTime}   = $Row[18];
+        $Ticket{EscalationResponseTime} = $Row[23];
+        $Ticket{EscalationSolutionTime} = $Row[24];
+        $Ticket{UnlockTimeout}          = $Row[19];
         $Ticket{GroupID}                = $Row[9];
         $Ticket{TicketNumber}           = $Row[10];
         $Ticket{CustomerID}             = $Row[11];
@@ -1085,9 +1085,9 @@ sub TicketGet {
         $Ticket{OwnerID}                = $Row[13];
         $Ticket{ResponsibleID}          = $Row[14] || 1;
         $Ticket{RealTillTimeNotUsed}    = $Row[15];
-        $Ticket{TypeID}                 = $Row[58] || 1;
-        $Ticket{ServiceID}              = $Row[59] || '';
-        $Ticket{SLAID}                  = $Row[60] || '';
+        $Ticket{TypeID}                 = $Row[20] || 1;
+        $Ticket{ServiceID}              = $Row[21] || '';
+        $Ticket{SLAID}                  = $Row[22] || '';
 
         #        $Ticket{TicketFreeKey1}         = defined $Row[16] ? $Row[16] : '';
         #        $Ticket{TicketFreeText1}        = defined $Row[17] ? $Row[17] : '';
@@ -3174,6 +3174,7 @@ sub TicketFreeTextSet {
             FieldName => "TicketFreeText$Param{Counter}",
             Value     => $Value,
             TicketID  => $Param{TicketID},
+            QueueID   => $Ticket{QueueID},
             UserID    => $Param{UserID},
         );
         return if !$Success;
@@ -3185,6 +3186,7 @@ sub TicketFreeTextSet {
             FieldName => "TicketFreeKey$Param{Counter}",
             Value     => $Key,
             TicketID  => $Param{TicketID},
+            QueueID   => $Ticket{QueueID},
             UserID    => $Param{UserID},
         );
         return if !$Success;
@@ -3313,6 +3315,7 @@ sub TicketFreeTimeSet {
         FieldName => "TicketFreeTime$Param{Counter}",
         Value     => $TimeStamp,
         TicketID  => $Param{TicketID},
+        QueueID   => $Ticket{QueueID},
         UserID    => $Param{UserID},
     );
 
@@ -6905,7 +6908,8 @@ store a value for a dynamic field
         Value               => $AValue,                 # A value defined by the dynamic field i.e.
                                                         # a text string, a date or an integer
         TicketID            => 123,                     # The ID of the ticket
-        TicketHistoryUpdate => 1,                       # Or 0, to update ticket history, default 1
+        QueueID             => 1234                     # The Id of the ticket queue, used for
+                                                        # history
         UserID              => 1,                       # The ID of the user
     );
 
@@ -6915,16 +6919,11 @@ sub TicketDynamicFieldSet {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for my $Needed (qw(FieldName TicketID UserID)) {
+    for my $Needed (qw(FieldName TicketID UserID QueueID)) {
         if ( !$Param{$Needed} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
-    }
-
-    my $TicketHistoryUpdate = 1;
-    if ( defined $Param{TicketHistoryUpdate} && !$Param{TicketHistoryUpdate} ) {
-        $TicketHistoryUpdate = 0;
     }
 
     # get the Dynamic Field Configuration
@@ -6958,18 +6957,15 @@ sub TicketDynamicFieldSet {
         return
     }
 
-    if ($TicketHistoryUpdate) {
+    # history insert
+    $Self->HistoryAdd(
+        TicketID => $Param{TicketID},
 
-        # history insert
-        $Self->HistoryAdd(
-            TicketID => $Param{TicketID},
-
-            #            QueueID      => $Ticket{QueueID},
-            HistoryType  => 'TicketDynamicFieldUpdate',
-            Name         => "\%\%FieldName\%\%$Param{FieldName}\%\%Value\%\%$Param{Value}",
-            CreateUserID => $Param{UserID},
-        );
-    }
+        QueueID      => $Param{QueueID},
+        HistoryType  => 'TicketDynamicFieldUpdate',
+        Name         => "\%\%FieldName\%\%$Param{FieldName}\%\%Value\%\%$Param{Value}",
+        CreateUserID => $Param{UserID},
+    );
 
     # clear ticket cache
     delete $Self->{ 'Cache::GetTicket' . $Param{TicketID} };
@@ -7099,6 +7095,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.515 $ $Date: 2011-08-31 22:38:36 $
+$Revision: 1.516 $ $Date: 2011-09-01 06:59:05 $
 
 =cut
