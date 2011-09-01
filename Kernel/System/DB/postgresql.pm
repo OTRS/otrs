@@ -2,7 +2,7 @@
 # Kernel/System/DB/postgresql.pm - postgresql database backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: postgresql.pm,v 1.62 2011-08-24 15:18:57 mb Exp $
+# $Id: postgresql.pm,v 1.63 2011-09-01 11:29:21 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.62 $) [1];
+$VERSION = qw($Revision: 1.63 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -31,12 +31,18 @@ sub LoadPreferences {
     my ( $Self, %Param ) = @_;
 
     # db settings
-    $Self->{'DB::Limit'}                = 'limit';
-    $Self->{'DB::DirectBlob'}           = 0;
-    $Self->{'DB::QuoteSingle'}          = '\'';
-    $Self->{'DB::QuoteBack'}            = '\\';
-    $Self->{'DB::QuoteSemicolon'}       = '\\';
-    $Self->{'DB::QuoteUnderscoreStart'} = '\\\\';
+    $Self->{'DB::Limit'}       = 'limit';
+    $Self->{'DB::DirectBlob'}  = 0;
+    $Self->{'DB::QuoteSingle'} = '\'';
+
+    #$Self->{'DB::QuoteBack'}            = '\\';
+    $Self->{'DB::QuoteBack'} = '';
+
+    #$Self->{'DB::QuoteSemicolon'}       = '\\';
+    $Self->{'DB::QuoteSemicolon'} = '';
+
+    #$Self->{'DB::QuoteUnderscoreStart'} = '\\\\';
+    $Self->{'DB::QuoteUnderscoreStart'} = '\\';
     $Self->{'DB::QuoteUnderscoreEnd'}   = '';
     $Self->{'DB::CaseInsensitive'}      = 0;
     $Self->{'DB::LikeEscapeString'}     = '';
@@ -51,14 +57,12 @@ sub LoadPreferences {
     $Self->{'DB::Encode'} = 1;
 
     # shell setting
-    $Self->{'DB::Comment'}     = '-- ';
-    $Self->{'DB::ShellCommit'} = ';';
-
+    $Self->{'DB::Comment'}      = '-- ';
+    $Self->{'DB::ShellCommit'}  = ';';
     $Self->{'DB::ShellConnect'} = 'SET standard_conforming_strings TO ON';
 
     # init sql setting on db connect
-    #    $Self->{'DB::QuoteUnderscore'} = '\\';
-    #    $Self->{'DB::Connect'}         = 'SET standard_conforming_strings TO ON';
+    $Self->{'DB::Connect'} = 'SET standard_conforming_strings TO ON';
 
     return 1;
 }

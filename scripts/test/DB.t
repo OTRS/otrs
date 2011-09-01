@@ -2,7 +2,7 @@
 # DB.t - database tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.t,v 1.83 2011-08-15 12:06:18 mg Exp $
+# $Id: DB.t,v 1.84 2011-09-01 11:29:21 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -113,7 +113,7 @@ if ( $DBObject->GetDatabaseFunction('Type') eq 'postgresql' ) {
 
     $Self->Is(
         $DBObject->Quote("Test'l;"),
-        'Test\'\'l\\;',
+        'Test\'\'l;',
         'Quote() String - Test\'l;',
     );
 
