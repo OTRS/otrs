@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.516 2011-09-01 06:59:05 cr Exp $
+# $Id: Ticket.pm,v 1.517 2011-09-01 22:22:04 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -40,7 +40,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.516 $) [1];
+$VERSION = qw($Revision: 1.517 $) [1];
 
 =head1 NAME
 
@@ -6957,13 +6957,21 @@ sub TicketDynamicFieldSet {
         return
     }
 
+    my $HistoryValue;
+    if ( !defined $Param{Value} ) {
+        $HistoryValue = '',
+    }
+    else {
+        $HistoryValue = $Param{Value};
+    }
+
     # history insert
     $Self->HistoryAdd(
         TicketID => $Param{TicketID},
 
         QueueID      => $Param{QueueID},
         HistoryType  => 'TicketDynamicFieldUpdate',
-        Name         => "\%\%FieldName\%\%$Param{FieldName}\%\%Value\%\%$Param{Value}",
+        Name         => "\%\%FieldName\%\%$Param{FieldName}\%\%Value\%\%$HistoryValue",
         CreateUserID => $Param{UserID},
     );
 
@@ -6976,7 +6984,7 @@ sub TicketDynamicFieldSet {
         Data  => {
             FieldName => $Param{FieldName},
             Value     => $Param{Value},
-            ObjectID  => $Param{TicketID},
+            TicketID  => $Param{TicketID},
             UserID    => $Param{UserID},
         },
         UserID => $Param{UserID},
@@ -7095,6 +7103,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.516 $ $Date: 2011-09-01 06:59:05 $
+$Revision: 1.517 $ $Date: 2011-09-01 22:22:04 $
 
 =cut
