@@ -2,7 +2,7 @@
 # Backend.t - DynamicFieldValue backend tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Backend.t,v 1.8 2011-08-29 22:26:11 cr Exp $
+# $Id: Backend.t,v 1.9 2011-09-02 08:37:17 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -288,10 +288,12 @@ my @Tests = (
     {
         Name               => 'Dropdown - Invalid PossibleValues',
         DynamicFieldConfig => {
-            ID             => $FieldID,
-            ObjectType     => 'Ticket',
-            FieldType      => 'Dropdown',
-            PossibleValues => {},
+            ID         => $FieldID,
+            ObjectType => 'Ticket',
+            FieldType  => 'Dropdown',
+            Config     => {
+                PossibleValues => {},
+                }
         },
         ObjectID  => $TicketID,
         Value     => 'a text',
@@ -302,13 +304,15 @@ my @Tests = (
     {
         Name               => 'Dropdown - Invalid Option',
         DynamicFieldConfig => {
-            ID             => $FieldID,
-            ObjectType     => 'Ticket',
-            FieldType      => 'Dropdown',
-            PossibleValues => {
-                Key1 => 'Value1',
-                Key2 => 'Value2',
-                Key3 => 'Value3',
+            ID         => $FieldID,
+            ObjectType => 'Ticket',
+            FieldType  => 'Dropdown',
+            Config     => {
+                PossibleValues => {
+                    Key1 => 'Value1',
+                    Key2 => 'Value2',
+                    Key3 => 'Value3',
+                },
             },
         },
         ObjectID  => $TicketID,
@@ -320,13 +324,15 @@ my @Tests = (
     {
         Name               => 'Dropdown - Invalid Option',
         DynamicFieldConfig => {
-            ID             => $FieldID,
-            ObjectType     => 'Ticket',
-            FieldType      => 'Dropdown',
-            PossibleValues => {
-                Key1 => 'Value1',
-                Key2 => 'Value2',
-                Key3 => 'Value3',
+            ID         => $FieldID,
+            ObjectType => 'Ticket',
+            FieldType  => 'Dropdown',
+            Config     => {
+                PossibleValues => {
+                    Key1 => 'Value1',
+                    Key2 => 'Value2',
+                    Key3 => 'Value3',
+                },
             },
         },
         ObjectID  => $TicketID,

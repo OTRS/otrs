@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Dropdown.pm - Delegate for DynamicField Dropdown backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Dropdown.pm,v 1.2 2011-09-01 13:47:22 mg Exp $
+# $Id: Dropdown.pm,v 1.3 2011-09-02 08:37:17 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::DynamicFieldValue;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 =head1 NAME
 
@@ -107,7 +107,7 @@ sub ValueSet {
     my ( $Self, %Param ) = @_;
 
     # check for valid possible values list
-    if ( !$Param{DynamicFieldConfig}->{PossibleValues} ) {
+    if ( !$Param{DynamicFieldConfig}->{Config}->{PossibleValues} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "Need PossibleValues in DynamicFieldConfig!",
@@ -116,7 +116,7 @@ sub ValueSet {
     }
 
     # check if configuration is valid
-    if ( !IsHashRefWithData( $Param{DynamicFieldConfig}->{PossibleValues} ) ) {
+    if ( !IsHashRefWithData( $Param{DynamicFieldConfig}->{Config}->{PossibleValues} ) ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "Dynamic field configuration (PossibleValues) is not valid",
@@ -125,7 +125,7 @@ sub ValueSet {
     }
 
     # get possible values list
-    my $PossibleValues = $Param{DynamicFieldConfig}->{PossibleValues};
+    my $PossibleValues = $Param{DynamicFieldConfig}->{Config}->{PossibleValues};
 
     # check if values is defiend the possible values list
     if ( !$PossibleValues->{ $Param{Value} } ) {
