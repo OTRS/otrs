@@ -3,7 +3,7 @@
 # bin/otrs.CheckModules.pl - to check needed cpan framework modules
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.CheckModules.pl,v 1.28 2011-06-16 20:23:16 cr Exp $
+# $Id: otrs.CheckModules.pl,v 1.29 2011-09-02 22:22:39 cr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -405,6 +405,10 @@ my @NeededModules = (
                 Comment  => 'Handles encoding and decoding of URLs.',
             },
         ],
+    },
+    {
+        Module   => 'Scalar::Util',
+        Required => 1,
     },
 );
 
