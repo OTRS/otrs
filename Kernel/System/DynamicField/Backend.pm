@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend.pm - Interface for DynamicField backends
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Backend.pm,v 1.16 2011-09-02 10:11:57 mg Exp $
+# $Id: Backend.pm,v 1.17 2011-09-02 22:15:28 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,10 +14,11 @@ package Kernel::System::DynamicField::Backend;
 use strict;
 use warnings;
 
+use Scalar::Util qw(weaken);
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 =head1 NAME
 
@@ -40,6 +41,7 @@ create a DynamicField backend object
     use Kernel::Config;
     use Kernel::System::Encode;
     use Kernel::System::Log;
+    use Kernel::System::Time;
     use Kernel::System::Main;
     use Kernel::System::DB;
     use Kernel::System::DynamicField::Backend;
@@ -51,6 +53,10 @@ create a DynamicField backend object
     my $LogObject = Kernel::System::Log->new(
         ConfigObject => $ConfigObject,
         EncodeObject => $EncodeObject,
+    );
+    my $TimeObject = Kernel::System::Time->new(
+        ConfigObject => $ConfigObject,
+        LogObject    => $LogObject,
     );
     my $MainObject = Kernel::System::Main->new(
         ConfigObject => $ConfigObject,
@@ -67,6 +73,7 @@ create a DynamicField backend object
         ConfigObject        => $ConfigObject,
         EncodeObject        => $EncodeObject,
         LogObject           => $LogObject,
+        TimeObject          => $TimeObject,
         MainObject          => $MainObject,
         DBObject            => $DBObject,
     );
@@ -81,10 +88,34 @@ sub new {
     bless( $Self, $Type );
 
     # get needed objects
-    for my $Needed (qw(ConfigObject EncodeObject LogObject MainObject DBObject)) {
+    for my $Needed (qw(ConfigObject EncodeObject LogObject MainObject DBObject TimeObject)) {
         die "Got no $Needed!" if !$Param{$Needed};
 
         $Self->{$Needed} = $Param{$Needed};
+    }
+
+    # check for TicketObject
+    if ( $Param{TicketObject} ) {
+
+        $Self->{TicketObject} = $Param{TicketObject};
+
+        # make ticket object reference week so it will not count as a reference on objetcs destroy
+        weaken( $Self->{TicketObject} );
+    }
+
+    # otherwise create it
+    else {
+
+        # sanity check
+        if ( !$Self->{MainObject}->Require('Kernel::System::Ticket') ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Can't load Ticket Module!",
+            );
+            return;
+        }
+
+        $Self->{TicketObject} = Kernel::System::Ticket->new( %{$Self} );
     }
 
     # get the Dynamic Fields configuration
@@ -336,8 +367,85 @@ sub ValueSet {
         return;
     }
 
+    my $OldValue = $Self->ValueGet(
+        DynamicFieldConfig => $Param{DynamicFieldConfig},
+        ObjectID           => $Param{ObjectID},
+    );
+
+    my $NewValue = $Param{Value};
+
+    # do not procede if there is nothing to update
+    if ( defined $OldValue && defined $NewValue ) {
+        if ( $OldValue eq $NewValue ) {
+            return 1
+        }
+    }
+
     # call ValueSet on the specific backend
     my $Success = $Self->{$DynamicFieldBackend}->ValueSet(%Param);
+
+    if ( !$Success ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Could not update field $Param{DynamicFieldConfig}->{Name} for "
+                . "$Param{DynamicFieldConfig}->{ObjectType} ID $Param{ObjectID} !",
+        );
+        return;
+    }
+
+    if ( $Param{DynamicFieldConfig}->{ObjectType} eq 'Ticket' ) {
+
+        my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Param{ObjectID} );
+
+        my $HistoryValue;
+        if ( !defined $Param{Value} ) {
+            $HistoryValue = '',
+        }
+        else {
+            $HistoryValue = $Param{Value};
+        }
+
+        # history insert
+        $Self->{TicketObject}->HistoryAdd(
+            TicketID    => $Param{ObjectID},
+            QueueID     => $Ticket{QueueID},
+            HistoryType => 'TicketDynamicFieldUpdate',
+            Name =>
+                "\%\%FieldName\%\%$Param{DynamicFieldConfig}->{Name}\%\%Value\%\%$HistoryValue",
+            CreateUserID => $Param{UserID},
+        );
+
+        # clear ticket cache
+        delete $Self->{TicketObject}->{ 'Cache::GetTicket' . $Param{ObjectID} };
+
+        # trigger event
+        $Self->{TicketObject}->EventHandler(
+            Event => 'TicketDynamicFieldUpdate',
+            Data  => {
+                FieldName => $Param{DynamicFieldConfig}->{Name},
+                Value     => $Param{Value},
+                TicketID  => $Param{ObjectID},
+                UserID    => $Param{UserID},
+            },
+            UserID => $Param{UserID},
+        );
+    }
+
+    elsif ( $Param{DynamicFieldConfig}->{ObjectType} eq 'Article' ) {
+
+        my %Article = $Self->{TicketObject}->ArticleGet( ArticleID => $Param{ObjectID} );
+
+        # event
+        $Self->{TicketObject}->EventHandler(
+            Event => 'ArticleDynamicFieldUpdate',
+            Data  => {
+                TicketID  => $Article{TicketID},
+                ArticleID => $Param{ObjectID},
+            },
+            UserID => $Param{UserID},
+        );
+
+    }
 
     return $Success;
 
@@ -598,6 +706,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.16 $ $Date: 2011-09-02 10:11:57 $
+$Revision: 1.17 $ $Date: 2011-09-02 22:15:28 $
 
 =cut
