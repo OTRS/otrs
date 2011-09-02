@@ -2,7 +2,7 @@
 # ArticleDynamicField.t - Article Dynamic Field tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleDynamicField.t,v 1.2 2011-09-01 22:19:41 cr Exp $
+# $Id: ArticleDynamicField.t,v 1.3 2011-09-02 22:19:31 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,243 +26,9 @@ my $HelperObject = Kernel::System::UnitTest::Helper->new(
 
 my $RandomID = int rand 1_000_000_000;
 
+my $TicketObject            = Kernel::System::Ticket->new( %{$Self} );
 my $DynamicFieldObject      = Kernel::System::DynamicField->new( %{$Self} );
 my $DynamicFieldValueObject = Kernel::System::DynamicFieldValue->new( %{$Self} );
-my $TicketObject            = Kernel::System::Ticket->new( %{$Self} );
-
-# create a ticket
-my $TicketID = $TicketObject->TicketCreate(
-    Title        => 'Some Ticket Title',
-    Queue        => 'Raw',
-    Lock         => 'unlock',
-    Priority     => '3 normal',
-    State        => 'new',
-    CustomerID   => '123465',
-    CustomerUser => 'customer@example.com',
-    OwnerID      => 1,
-    UserID       => 1,
-);
-
-# sanity check
-$Self->IsNot(
-    $TicketID,
-    undef,
-    "TicketCreate() successful for Ticket ID $TicketID",
-);
-
-# create an article
-my $ArticleID = $TicketObject->ArticleCreate(
-    TicketID       => $TicketID,
-    ArticleType    => 'note-internal',
-    SenderType     => 'agent',
-    From           => 'Some Agent <agentl@localunittest.com>',
-    To             => 'Some Customer <customer@localunittest.com>',
-    Subject        => 'some short description',
-    Body           => 'the message text',
-    ContentType    => 'text/plain; charset=ISO-8859-15',
-    HistoryType    => 'OwnerUpdate',
-    HistoryComment => 'Some free text!',
-    UserID         => 1,
-    NoAgentNotify  => 1,
-);
-
-# sanity check
-$Self->True(
-    $ArticleID,
-    "ArticleCreate() successful for Ticket ID $TicketID",
-);
-
-# create a dynamic field
-my $FieldID = $DynamicFieldObject->DynamicFieldAdd(
-    Name       => "dynamicfieldtest$RandomID",
-    Label      => 'a description',
-    FieldOrder => 9991,
-    FieldType  => 'Text',      # mandatory, selects the DF backend to use for this field
-    ObjectType => 'Article',
-    Config     => {
-        DefaultValue => 'a value',
-    },
-    ValidID => 1,
-    UserID  => 1,
-);
-
-# sanity check
-$Self->True(
-    $FieldID,
-    "DynamicFieldAdd() successful for Field ID $FieldID",
-);
-
-# get the config for the field
-my $DynamicFieldConfig = $DynamicFieldObject->DynamicFieldGet(
-    ID => $FieldID,
-);
-
-# sanity check
-$Self->IsNotDeeply(
-    $DynamicFieldConfig,
-    {},
-    "DynamicFielGet() successful for Field ID $FieldID",
-);
-
-# tests definition
-my @Tests = (
-    {
-        Name      => 'No Field Name',
-        Value     => 'A Value',
-        FieldName => undef,
-        ArticleID => $ArticleID,
-        TicketID  => $ArticleID,
-        UserID    => 1,
-        Success   => 0,
-    },
-    {
-        Name      => 'No ArticleID',
-        Value     => 'A Value',
-        FieldName => $DynamicFieldConfig->{Name},
-        ArticleID => undef,
-        TicketID  => $ArticleID,
-        UserID    => 1,
-        Success   => 0,
-    },
-    {
-        Name      => 'No UserID',
-        Value     => 'A Value',
-        FieldName => $DynamicFieldConfig->{Name},
-        ArticleID => $ArticleID,
-        TicketID  => $ArticleID,
-        UserID    => undef,
-        Success   => 0,
-    },
-    {
-        Name      => 'No Value',
-        Value     => undef,
-        FieldName => $DynamicFieldConfig->{Name},
-        ArticleID => $ArticleID,
-        TicketID  => $ArticleID,
-        UserID    => 1,
-        Success   => 1,
-    },
-    {
-        Name      => 'No TicketID',
-        Value     => 'A Value',
-        FieldName => $DynamicFieldConfig->{Name},
-        ArticleID => $ArticleID,
-        TicketID  => undef,
-        UserID    => 1,
-        Success   => 0,
-    },
-    {
-        Name      => 'Simple Text Value',
-        Value     => 'A Value',
-        FieldName => $DynamicFieldConfig->{Name},
-        ArticleID => $ArticleID,
-        TicketID  => $ArticleID,
-        UserID    => 1,
-        Success   => 1,
-    },
-);
-
-for my $Test (@Tests) {
-
-    # set the dynamic field velue
-    my $Success = $TicketObject->ArticleDynamicFieldSet(
-        FieldName => $Test->{FieldName},
-        Value     => $Test->{Value},
-        TicketID  => $Test->{TicketID},
-        ArticleID => $Test->{ArticleID},
-        UserID    => $Test->{UserID},
-    );
-
-    # get the article
-    my %ArticleIndex = $TicketObject->ArticleGet(
-        ArticleID => $ArticleID,
-        UserID    => 1,
-    );
-
-    # sanity check
-    $Self->True(
-        \%ArticleIndex,
-        "ArticleGet() - Test ($Test->{Name}) - With true",
-
-    );
-    $Self->IsNotDeeply(
-        \%ArticleIndex,
-        {},
-        "Article is not empty",
-    );
-
-    if ( !$Test->{Success} ) {
-
-        # check for unsuccessful set
-        $Self->False(
-            $Success,
-            "ArticleDynamicFieldSet() - Test ($Test->{Name}) - with False",
-        );
-
-        # check for dynamic field value
-        $Self->Is(
-            $ArticleIndex{ 'DynamicField_' . $Test->{FieldName} },
-            undef,
-            "ArticleGet() - Test ($Test->{Name}) - matched field ID "
-                . $DynamicFieldConfig->{ID},
-        );
-    }
-    else {
-
-        # check for successful set
-        $Self->True(
-            $Success,
-            "ArticleDynamicFieldSet() - Test ($Test->{Name}) - with True",
-        );
-
-        # check for dynamic field value
-        $Self->Is(
-            $ArticleIndex{ 'DynamicField_' . $Test->{FieldName} },
-            $Test->{Value},
-            "ArticleGet() - Test ($Test->{Name}) - matched field ID "
-                . $DynamicFieldConfig->{ID},
-        );
-    }
-}
-
-# delete the dynamic field
-my $FieldDelete = $DynamicFieldObject->DynamicFieldDelete(
-    ID     => $FieldID,
-    UserID => 1,
-);
-
-# sanity check
-$Self->True(
-    $FieldDelete,
-    "DynamicFieldDelete() successful for Field ID $FieldID",
-);
-
-# now that the field was deleted also "New Value" should be deleted too"
-{
-    my $DeleteSuccess = $DynamicFieldValueObject->ValueDelete(
-        FieldID    => $FieldID,
-        ObjectType => 'Ticket',
-        ObjectID   => $TicketID,
-        UserID     => 1,
-    );
-
-    $Self->False(
-        $DeleteSuccess,
-        "ValueDelete() unsuccessful for New Value - for FieldID $FieldID",
-    );
-}
-
-# delete the ticket
-my $TicketDelete = $TicketObject->TicketDelete(
-    TicketID => $TicketID,
-    UserID   => 1,
-);
-
-# sanity check
-$Self->True(
-    $TicketDelete,
-    "TicketDelete() successful for Ticket ID $TicketID",
-);
 
 my %OriginalFreeFields;
 
@@ -270,18 +36,21 @@ my %OriginalFreeFields;
 # get the fields list
 my $DynamicFieldList = $DynamicFieldObject->DynamicFieldListGet(
     ObjectType => 'Ticket',
+    Valid      => 0,
 );
 
 # check for TicketFreeText, TicketFreeKey, TicketFreeTime ArticleFreeText
 for my $DynamicFieldConfig ( @{$DynamicFieldList} ) {
     if (
         $DynamicFieldConfig->{Name} =~ m{
-       \A
-       (
+        \A
+        (
             TicketFree
             (?:
                 (?:Text|Key)
-                (?:[1-3])
+                (?:1[0-6]|[1-9])
+                |
+                (?:Time [1-6])
             )
         )
         \z
@@ -323,7 +92,7 @@ for my $DynamicFieldConfig ( @{$DynamicFieldList} ) {
 
 # backward compatibity tests
 # create a ticket
-$TicketID = $TicketObject->TicketCreate(
+my $TicketID = $TicketObject->TicketCreate(
     Title        => 'Some Ticket Title',
     Queue        => 'Raw',
     Lock         => 'unlock',
@@ -342,7 +111,7 @@ $Self->True(
 );
 
 # create an article
-$ArticleID = $TicketObject->ArticleCreate(
+my $ArticleID = $TicketObject->ArticleCreate(
     TicketID       => $TicketID,
     ArticleType    => 'note-internal',
     SenderType     => 'agent',
@@ -367,7 +136,6 @@ my @FreeFieldIDs;
 
 # define TicketFreeText fields
 for my $Counter ( 1 .. 16 ) {
-
     FIELD:
     for my $Part (qw(Key Text)) {
         next FIELD if $OriginalFreeFields{ 'TicketFree' . $Part . $Counter };
@@ -679,8 +447,6 @@ for ( 1 .. 3 ) {
 #    'TicketSearch() (HASH:ArticleFreeKey1 and ArticleFreeText1 with _)',
 #);
 
-# TODO Add History Tests from Ticket.t
-
 # delete the dynamic fields
 for my $FieldID (@FreeFieldIDs) {
 
@@ -698,7 +464,7 @@ for my $FieldID (@FreeFieldIDs) {
 }
 
 # delete the ticket
-$TicketDelete = $TicketObject->TicketDelete(
+my $TicketDelete = $TicketObject->TicketDelete(
     TicketID => $TicketID,
     UserID   => 1,
 );
