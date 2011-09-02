@@ -3,7 +3,7 @@
 # bin/otrs.xml2sql.pl - a xml 2 sql processor
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.xml2sql.pl,v 1.5 2011-08-24 07:08:46 mb Exp $
+# $Id: otrs.xml2sql.pl,v 1.6 2011-09-02 07:03:23 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -40,7 +40,7 @@ use Kernel::System::Main;
 use Kernel::System::XML;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 my %Opts = ();
 getopt( 'hton', \%Opts );
@@ -112,8 +112,11 @@ for my $DatabaseType (@DatabaseType) {
     );
     $CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
     $CommonObject{TimeObject} = Kernel::System::Time->new(%CommonObject);
-    $CommonObject{DBObject}   = Kernel::System::DB->new(%CommonObject);
-    $CommonObject{XMLObject}  = Kernel::System::XML->new(%CommonObject);
+    $CommonObject{DBObject}   = Kernel::System::DB->new(
+        %CommonObject,
+        AutoConnectNo => 1,    # don't try with foreign drivers
+    );
+    $CommonObject{XMLObject} = Kernel::System::XML->new(%CommonObject);
 
     # parse xml package
     my @XMLARRAY = $CommonObject{XMLObject}->XMLParse( String => $FileString );
