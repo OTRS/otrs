@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend.pm - Interface for DynamicField backends
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Backend.pm,v 1.17 2011-09-02 22:15:28 cr Exp $
+# $Id: Backend.pm,v 1.18 2011-09-02 22:59:46 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Scalar::Util qw(weaken);
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.17 $) [1];
+$VERSION = qw($Revision: 1.18 $) [1];
 
 =head1 NAME
 
@@ -118,7 +118,7 @@ sub new {
         $Self->{TicketObject} = Kernel::System::Ticket->new( %{$Self} );
     }
 
-    # get the Dynamic Fields configuration
+    # get the Dynamic Field Backends configuration
     my $DynamicFieldsConfig = $Self->{ConfigObject}->Get('DynamicFields::Backend');
 
     # check Configuration format
@@ -143,7 +143,7 @@ sub new {
         }
 
         # set the backend file
-        my $BackendModule = 'Kernel::System::DynamicField::Backend::' . $FieldType;
+        my $BackendModule = $DynamicFieldsConfig->{$FieldType}->{Module};
 
         # check if backend field exists
         if ( !$Self->{MainObject}->Require($BackendModule) ) {
@@ -175,6 +175,67 @@ sub new {
 
         # remember the backend object
         $Self->{ 'DynamicField' . $FieldType . 'Object' } = $BackendObject;
+    }
+
+    # get the Dynamic Field Objects configuration
+    my $DynamicFieldObjectTypeConfig = $Self->{ConfigObject}->Get('DynamicFields::ObjectType');
+
+    # check Configuration format
+    if ( !IsHashRefWithData($DynamicFieldObjectTypeConfig) ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Dynamic field object types configuration is not valid!",
+        );
+        return
+    }
+
+    # create all registered backend modules
+    for my $ObjectType ( sort keys %{$DynamicFieldObjectTypeConfig} ) {
+
+        # check if the registration for each field type is valid
+        if ( !$DynamicFieldObjectTypeConfig->{$ObjectType}->{Module} ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Registration for object type $ObjectType is invalid!",
+            );
+            return;
+        }
+
+        # set the backend file
+        my $ObjectHandlerModule = $DynamicFieldObjectTypeConfig->{$ObjectType}->{Module};
+
+        # check if backend field exists
+        if ( !$Self->{MainObject}->Require($ObjectHandlerModule) ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message =>
+                    "Can't load dynamic field object handler module for object type $ObjectType!",
+            );
+            return;
+        }
+
+        # create a backend object
+        my $ObjectHandlerObject = $ObjectHandlerModule->new( %{$Self} );
+
+        if ( !$ObjectHandlerObject ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Couldn't create a handler object for object type $ObjectType!",
+            );
+            return;
+        }
+
+        if ( ref $ObjectHandlerObject ne $ObjectHandlerModule ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message =>
+                    "Handler object for object type $ObjectType was not created successfuly!",
+            );
+            return;
+        }
+
+        # remember the backend object
+        $Self->{ 'DynamicField' . $ObjectType . 'HandlerObject' } = $ObjectHandlerObject;
     }
 
     return $Self;
@@ -393,59 +454,19 @@ sub ValueSet {
         return;
     }
 
-    if ( $Param{DynamicFieldConfig}->{ObjectType} eq 'Ticket' ) {
+    # set the dyanamic filed object handler
+    my $DynamicFieldObjectHandler =
+        'DynamicField' . $Param{DynamicFieldConfig}->{ObjectType} . 'HandlerObject';
 
-        my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Param{ObjectID} );
-
-        my $HistoryValue;
-        if ( !defined $Param{Value} ) {
-            $HistoryValue = '',
-        }
-        else {
-            $HistoryValue = $Param{Value};
-        }
-
-        # history insert
-        $Self->{TicketObject}->HistoryAdd(
-            TicketID    => $Param{ObjectID},
-            QueueID     => $Ticket{QueueID},
-            HistoryType => 'TicketDynamicFieldUpdate',
-            Name =>
-                "\%\%FieldName\%\%$Param{DynamicFieldConfig}->{Name}\%\%Value\%\%$HistoryValue",
-            CreateUserID => $Param{UserID},
+    if ( !$Self->{$DynamicFieldObjectHandler} ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Handler for object $Param{DynamicFieldConfig}->{ObjectType} is invalid!"
         );
-
-        # clear ticket cache
-        delete $Self->{TicketObject}->{ 'Cache::GetTicket' . $Param{ObjectID} };
-
-        # trigger event
-        $Self->{TicketObject}->EventHandler(
-            Event => 'TicketDynamicFieldUpdate',
-            Data  => {
-                FieldName => $Param{DynamicFieldConfig}->{Name},
-                Value     => $Param{Value},
-                TicketID  => $Param{ObjectID},
-                UserID    => $Param{UserID},
-            },
-            UserID => $Param{UserID},
-        );
+        return;
     }
 
-    elsif ( $Param{DynamicFieldConfig}->{ObjectType} eq 'Article' ) {
-
-        my %Article = $Self->{TicketObject}->ArticleGet( ArticleID => $Param{ObjectID} );
-
-        # event
-        $Self->{TicketObject}->EventHandler(
-            Event => 'ArticleDynamicFieldUpdate',
-            Data  => {
-                TicketID  => $Article{TicketID},
-                ArticleID => $Param{ObjectID},
-            },
-            UserID => $Param{UserID},
-        );
-
-    }
+    $Success = $Self->{$DynamicFieldObjectHandler}->PostValueSet(%Param);
 
     return $Success;
 
@@ -706,6 +727,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.17 $ $Date: 2011-09-02 22:15:28 $
+$Revision: 1.18 $ $Date: 2011-09-02 22:59:46 $
 
 =cut
