@@ -2,7 +2,7 @@
 # TicketDynamicFieldSearch.t - ticket module testscript
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketDynamicFieldSearch.t,v 1.2 2011-09-02 10:11:58 mg Exp $
+# $Id: TicketDynamicFieldSearch.t,v 1.3 2011-09-02 12:43:28 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -62,6 +62,7 @@ my $FieldID1 = $DynamicFieldObject->DynamicFieldAdd(
     },
     ValidID => 1,
     UserID  => 1,
+    Reorder => 0,
 );
 
 push @TestDynamicFields, $FieldID1;
@@ -86,6 +87,7 @@ my $FieldID2 = $DynamicFieldObject->DynamicFieldAdd(
     },
     ValidID => 1,
     UserID  => 1,
+    Reorder => 0,
 );
 
 my $Field2Config = $DynamicFieldObject->DynamicFieldGet(
@@ -104,6 +106,7 @@ my $FieldID3 = $DynamicFieldObject->DynamicFieldAdd(
     },
     ValidID => 1,
     UserID  => 1,
+    Reorder => 0,
 );
 
 my $Field3Config = $DynamicFieldObject->DynamicFieldGet(
@@ -122,6 +125,7 @@ my $FieldID4 = $DynamicFieldObject->DynamicFieldAdd(
     },
     ValidID => 1,
     UserID  => 1,
+    Reorder => 0,
 );
 
 my $Field4Config = $DynamicFieldObject->DynamicFieldGet(
@@ -580,28 +584,6 @@ $Self->IsDeeply(
     'Search for two fields, match two tickets, sort for checkbox field, DESC',
 );
 
-=cut
-my $ArticleID = $TicketObject->ArticleCreate(
-    TicketID       => $TicketID,
-    ArticleType    => 'note-internal',
-    SenderType     => 'agent',
-    From           => 'Some Agent <email@example.com>',
-    To             => 'Some Customer <customer-a@example.com>',
-    Subject        => 'some short description',
-    Body           => 'the message text',
-    ContentType    => 'text/plain; charset=ISO-8859-15',
-    HistoryType    => 'OwnerUpdate',
-    HistoryComment => 'Some free text!',
-    UserID         => 1,
-    NoAgentNotify => 1,    # if you don't want to send agent notifications
-);
-
-$Self->True(
-    $ArticleID,
-    'ArticleCreate()',
-);
-=cut
-
 for my $TicketID (@TestTicketIDs) {
 
     # the ticket is no longer needed
@@ -615,8 +597,9 @@ for my $FieldID (@TestDynamicFields) {
 
     # delete the dynamic field
     $DynamicFieldObject->DynamicFieldDelete(
-        ID     => $FieldID,
-        UserID => 1,
+        ID      => $FieldID,
+        UserID  => 1,
+        Reorder => 0,
     );
 }
 
