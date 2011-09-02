@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Checkbox.pm - Delefate for DynamicField Checkbox backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Checkbox.pm,v 1.2 2011-09-01 13:47:22 mg Exp $
+# $Id: Checkbox.pm,v 1.3 2011-09-02 10:11:57 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::DynamicFieldValue;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 =head1 NAME
 
@@ -132,10 +132,24 @@ sub ValueSet {
 sub SearchSQLGet {
     my ( $Self, %Param ) = @_;
 
+    if ( $Param{Operator} ne 'Equals' ) {
+        $Self->{'LogObject'}->Log(
+            'Priority' => 'error',
+            'Message'  => "Unsupported Operator $Param{Operator}",
+        );
+        return;
+    }
+
     my $SQL = " $Param{TableAlias}.value_int = ";
     $SQL .= $Self->{DBObject}->Quote( $Param{SearchTerm}, 'Integer' ) . ' ';
 
     return $SQL;
+}
+
+sub SearchSQLOrderFieldGet {
+    my ( $Self, %Param ) = @_;
+
+    return "$Param{TableAlias}.value_int";
 }
 
 1;

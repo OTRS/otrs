@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/DateTime.pm - Delegate for DynamicField DateTime backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DateTime.pm,v 1.3 2011-09-01 13:47:22 mg Exp $
+# $Id: DateTime.pm,v 1.4 2011-09-02 10:11:57 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::DynamicFieldValue;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 =head1 NAME
 
@@ -120,7 +120,48 @@ sub ValueSet {
 sub SearchSQLGet {
     my ( $Self, %Param ) = @_;
 
-    #TODO: implement
+    if ( $Param{Operator} eq 'Equals' ) {
+        my $SQL = " $Param{TableAlias}.value_date = '";
+        $SQL .= $Self->{DBObject}->Quote( $Param{SearchTerm} ) . "' ";
+        return $SQL;
+    }
+
+    if ( $Param{Operator} eq 'GreaterThan' ) {
+        my $SQL = " $Param{TableAlias}.value_date > '";
+        $SQL .= $Self->{DBObject}->Quote( $Param{SearchTerm} ) . "' ";
+        return $SQL;
+    }
+
+    if ( $Param{Operator} eq 'GreaterThanEquals' ) {
+        my $SQL = " $Param{TableAlias}.value_date >= '";
+        $SQL .= $Self->{DBObject}->Quote( $Param{SearchTerm} ) . "' ";
+        return $SQL;
+    }
+
+    if ( $Param{Operator} eq 'SmallerThan' ) {
+        my $SQL = " $Param{TableAlias}.value_date < '";
+        $SQL .= $Self->{DBObject}->Quote( $Param{SearchTerm} ) . "' ";
+        return $SQL;
+    }
+
+    if ( $Param{Operator} eq 'SmallerThanEquals' ) {
+        my $SQL = " $Param{TableAlias}.value_date <= '";
+        $SQL .= $Self->{DBObject}->Quote( $Param{SearchTerm} ) . "' ";
+        return $SQL;
+    }
+
+    $Self->{'LogObject'}->Log(
+        'Priority' => 'error',
+        'Message'  => "Unsupported Operator $Param{Operator}",
+    );
+
+    return;
+}
+
+sub SearchSQLOrderFieldGet {
+    my ( $Self, %Param ) = @_;
+
+    return "$Param{TableAlias}.value_date";
 }
 
 1;

@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend.pm - Interface for DynamicField backends
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Backend.pm,v 1.15 2011-09-02 08:39:32 mg Exp $
+# $Id: Backend.pm,v 1.16 2011-09-02 10:11:57 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 =head1 NAME
 
@@ -458,7 +458,66 @@ sub SearchSQLGet {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for my $Needed (qw(DynamicFieldConfig SearchTerm TableAlias)) {
+    for my $Needed (qw(DynamicFieldConfig TableAlias Operator)) {
+        if ( !$Param{$Needed} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            return;
+        }
+    }
+
+    # Ignore empty searches
+    return if ( !defined $Param{SearchTerm} || $Param{SearchTerm} eq '' );
+
+    # check DynamicFieldConfig (general)
+    if ( !IsHashRefWithData( $Param{DynamicFieldConfig} ) ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "The field configuration is invalid",
+        );
+        return;
+    }
+
+    # check DynamicFieldConfig (internally)
+    for my $Needed (qw(ID FieldType ObjectType)) {
+        if ( !$Param{DynamicFieldConfig}->{$Needed} ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed in DynamicFieldConfig!",
+            );
+            return;
+        }
+    }
+
+    # set the dynamic field specific backend
+    my $DynamicFieldBackend = 'DynamicField' . $Param{DynamicFieldConfig}->{FieldType} . 'Object';
+
+    if ( !$Self->{$DynamicFieldBackend} ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!"
+        );
+        return;
+    }
+
+    return $Self->{$DynamicFieldBackend}->SearchSQLGet(%Param);
+}
+
+=item SearchSQLOrderFieldGet()
+
+returns the SQL field needed for ordering based on a dynamic field.
+
+    my $SQL = $BackendObject->SearchSQLOrderFieldGet(
+        DynamicFieldConfig => $DynamicFieldConfig,      # complete config of the DynamicField
+        TableAlias         => $TableAlias,              # the alias of the already joined dynamic_field_value table to use
+    );
+
+=cut
+
+sub SearchSQLOrderFieldGet {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Needed (qw(DynamicFieldConfig TableAlias)) {
         if ( !$Param{$Needed} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
@@ -496,7 +555,7 @@ sub SearchSQLGet {
         return;
     }
 
-    return $Self->{$DynamicFieldBackend}->SearchSQLGet(%Param);
+    return $Self->{$DynamicFieldBackend}->SearchSQLOrderFieldGet(%Param);
 }
 
 =item SearchLabelRender()
@@ -539,6 +598,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.15 $ $Date: 2011-09-02 08:39:32 $
+$Revision: 1.16 $ $Date: 2011-09-02 10:11:57 $
 
 =cut

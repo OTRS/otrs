@@ -2,7 +2,7 @@
 # Kernel/System/TicketSearch.pm - all ticket search functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketSearch.pm,v 1.5 2011-09-01 13:47:23 mg Exp $
+# $Id: TicketSearch.pm,v 1.6 2011-09-02 10:11:57 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 use Kernel::System::DynamicField;
 use Kernel::System::DynamicField::Backend;
@@ -111,7 +111,17 @@ To find tickets in your system.
         CreatedQueueIDs    => [1, 42, 512],
 
         # DynamicFields
-        DynamicField_FieldNameX => 'value',
+        #   At least one operator must be specified. Operators will be connected with AND,
+        #       values in an operator with OR.
+        #   You can also pass more than one argument to an operator: ['value1', 'value2']
+        DynamicField_FieldNameX => {
+            Equals            => 123,
+            Like              => 'value*',                # "equals" operator with wildcard support
+            GreaterThan       => '2001-01-01 01:01:01',
+            GreaterThanEquals => '2001-01-01 01:01:01',
+            LowerThan         => '2002-02-02 02:02:02',
+            LowerThanEquals   => '2002-02-02 02:02:02',
+        }
 
         # 1..16 (optional)
         TicketFreeKey1  => 'Product',
@@ -1046,34 +1056,43 @@ sub TicketSearch {
         my $SearchParam = $Param{ "DynamicField_" . $DynamicField->{Name} };
 
         next DYNAMIC_FIELD if ( !$SearchParam );
-
-        my @SearchParams = ( ref $SearchParam eq 'ARRAY' ) ? @{$SearchParam} : ($SearchParam);
+        next DYNAMIC_FIELD if ( ref $SearchParam ne 'HASH' );
 
         my $NeedJoin;
-        my $SQLExtSub = ' AND (';
-        my $Counter   = 0;
-        TEXT:
-        for my $Text (@SearchParams) {
-            next TEXT if ( !defined $Text || $Text eq '' );
 
-            $Text =~ s/\*/%/gi;
+        for my $Operator ( sort keys %{$SearchParam} ) {
 
-            # check search attribute, we do not need to search for *
-            next if $Text =~ /^\%{1,3}$/;
+            my @SearchParams
+                = ( ref $SearchParam->{$Operator} eq 'ARRAY' )
+                ? @{ $SearchParam->{$Operator} }
+                : ( $SearchParam->{$Operator} );
 
-            $SQLExtSub .= ' OR ' if ($Counter);
-            $SQLExtSub .= $Self->{DynamicFieldBackendObject}->SearchSQLGet(
-                DynamicFieldConfig => $DynamicField,
-                TableAlias         => "dfv$DynamicFieldJoinCounter",
-                SearchTerm         => $Text,
-            );
+            my $SQLExtSub = ' AND (';
+            my $Counter   = 0;
+            TEXT:
+            for my $Text (@SearchParams) {
+                next TEXT if ( !defined $Text || $Text eq '' );
 
-            $Counter++;
-        }
-        $SQLExtSub .= ')';
-        if ($Counter) {
-            $SQLExt .= $SQLExtSub;
-            $NeedJoin = 1;
+                $Text =~ s/\*/%/gi;
+
+                # check search attribute, we do not need to search for *
+                next if $Text =~ /^\%{1,3}$/;
+
+                $SQLExtSub .= ' OR ' if ($Counter);
+                $SQLExtSub .= $Self->{DynamicFieldBackendObject}->SearchSQLGet(
+                    DynamicFieldConfig => $DynamicField,
+                    TableAlias         => "dfv$DynamicFieldJoinCounter",
+                    Operator           => $Operator,
+                    SearchTerm         => $Text,
+                );
+
+                $Counter++;
+            }
+            $SQLExtSub .= ')';
+            if ($Counter) {
+                $SQLExt .= $SQLExtSub;
+                $NeedJoin = 1;
+            }
         }
 
         if ($NeedJoin) {
@@ -1612,11 +1631,10 @@ sub TicketSearch {
             # sort by dynamic field
             if ( $ValidDynamicFieldParams{ $SortByArray[$Count] } ) {
                 my ($DynamicFieldName) = $SortByArray[$Count] =~ m/^DynamicField_(.*)$/smx;
+                my $DynamicField = $DynamicFieldName2Config{$DynamicFieldName};
 
                 # If the table was already joined for searching, we reuse it.
                 if ( !$DynamicFieldJoinTables{$DynamicFieldName} ) {
-
-                    my $DynamicField = $DynamicFieldName2Config{$DynamicFieldName};
 
                     # Join the table for this dynamic field; use a left outer join in this case.
                     # With an INNER JOIN we'd limit the result set to tickets which have an entry
@@ -1632,8 +1650,13 @@ sub TicketSearch {
                     $DynamicFieldJoinCounter++;
                 }
 
-                $SQLSelect .= ", $DynamicFieldJoinTables{$DynamicFieldName}.value_text";
-                $SQLExt    .= " $DynamicFieldJoinTables{$DynamicFieldName}.value_text";
+                my $SQLOrderField = $Self->{DynamicFieldBackendObject}->SearchSQLOrderFieldGet(
+                    DynamicFieldConfig => $DynamicField,
+                    TableAlias         => $DynamicFieldJoinTables{$DynamicFieldName},
+                );
+
+                $SQLSelect .= ", $SQLOrderField ";
+                $SQLExt    .= " $SQLOrderField ";
             }
             else {
 
@@ -1789,6 +1812,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.5 $ $Date: 2011-09-01 13:47:23 $
+$Revision: 1.6 $ $Date: 2011-09-02 10:11:57 $
 
 =cut
