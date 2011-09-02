@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.517 2011-09-01 22:22:04 cr Exp $
+# $Id: Ticket.pm,v 1.518 2011-09-02 21:49:22 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -40,7 +40,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.517 $) [1];
+$VERSION = qw($Revision: 1.518 $) [1];
 
 =head1 NAME
 
@@ -158,16 +158,22 @@ sub new {
         $Self->{QueueObject} = $Param{QueueObject};
     }
 
-    $Self->{SendmailObject}            = Kernel::System::Email->new( %{$Self} );
-    $Self->{TypeObject}                = Kernel::System::Type->new( %{$Self} );
-    $Self->{PriorityObject}            = Kernel::System::Priority->new( %{$Self} );
-    $Self->{ServiceObject}             = Kernel::System::Service->new( %{$Self} );
-    $Self->{SLAObject}                 = Kernel::System::SLA->new( %{$Self} );
-    $Self->{StateObject}               = Kernel::System::State->new( %{$Self} );
-    $Self->{LockObject}                = Kernel::System::Lock->new( %{$Self} );
-    $Self->{ValidObject}               = Kernel::System::Valid->new( %{$Self} );
-    $Self->{DynamicFieldObject}        = Kernel::System::DynamicField->new( %{$Self} );
-    $Self->{DynamicFieldBackendObject} = Kernel::System::DynamicField::Backend->new( %{$Self} );
+    $Self->{SendmailObject}     = Kernel::System::Email->new( %{$Self} );
+    $Self->{TypeObject}         = Kernel::System::Type->new( %{$Self} );
+    $Self->{PriorityObject}     = Kernel::System::Priority->new( %{$Self} );
+    $Self->{ServiceObject}      = Kernel::System::Service->new( %{$Self} );
+    $Self->{SLAObject}          = Kernel::System::SLA->new( %{$Self} );
+    $Self->{StateObject}        = Kernel::System::State->new( %{$Self} );
+    $Self->{LockObject}         = Kernel::System::Lock->new( %{$Self} );
+    $Self->{ValidObject}        = Kernel::System::Valid->new( %{$Self} );
+    $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new( %{$Self} );
+
+    # create the DynamicFieldBackendObject passing $Self as TicketObject, this is needed to
+    # delete internal cache
+    $Self->{DynamicFieldBackendObject} = Kernel::System::DynamicField::Backend->new(
+        %{$Self},
+        TicketObject => $Self
+    );
 
     # init of event handler
     push @ISA, 'Kernel::System::EventHandler';
@@ -3170,25 +3176,33 @@ sub TicketFreeTextSet {
 
     # set the TicketFreeText as a DynamicField
     if ($UpdateValue) {
-        my $Success = $Self->TicketDynamicFieldSet(
-            FieldName => "TicketFreeText$Param{Counter}",
-            Value     => $Value,
-            TicketID  => $Param{TicketID},
-            QueueID   => $Ticket{QueueID},
-            UserID    => $Param{UserID},
+        my $DynamicFieldConfig = $Self->{DynamicFieldObject}->DynamicFieldGet(
+            Name => "TicketFreeText$Param{Counter}",
         );
+
+        my $Success = $Self->{DynamicFieldBackendObject}->ValueSet(
+            DynamicFieldConfig => $DynamicFieldConfig,
+            ObjectID           => $Param{TicketID},
+            Value              => $Value,
+            UserID             => $Param{UserID},
+        );
+
         return if !$Success;
     }
 
     # set the TicketFreeKey as a DynamicField
     if ($UpdateKey) {
-        my $Success = $Self->TicketDynamicFieldSet(
-            FieldName => "TicketFreeKey$Param{Counter}",
-            Value     => $Key,
-            TicketID  => $Param{TicketID},
-            QueueID   => $Ticket{QueueID},
-            UserID    => $Param{UserID},
+        my $DynamicFieldConfig = $Self->{DynamicFieldObject}->DynamicFieldGet(
+            Name => "TicketFreeKey$Param{Counter}",
         );
+
+        my $Success = $Self->{DynamicFieldBackendObject}->ValueSet(
+            DynamicFieldConfig => $DynamicFieldConfig,
+            ObjectID           => $Param{TicketID},
+            Value              => $Key,
+            UserID             => $Param{UserID},
+        );
+
         return if !$Success;
     }
 
@@ -3311,12 +3325,15 @@ sub TicketFreeTimeSet {
     }
 
     # set the TicketFreeTime value as a DynamicFiled
-    my $Success = $Self->TicketDynamicFieldSet(
-        FieldName => "TicketFreeTime$Param{Counter}",
-        Value     => $TimeStamp,
-        TicketID  => $Param{TicketID},
-        QueueID   => $Ticket{QueueID},
-        UserID    => $Param{UserID},
+    my $DynamicFieldConfig = $Self->{DynamicFieldObject}->DynamicFieldGet(
+        Name => "TicketFreeTime$Param{Counter}",
+    );
+
+    my $Success = $Self->{DynamicFieldBackendObject}->ValueSet(
+        DynamicFieldConfig => $DynamicFieldConfig,
+        ObjectID           => $Param{TicketID},
+        Value              => $TimeStamp,
+        UserID             => $Param{UserID},
     );
 
     return if !$Success;
@@ -4930,7 +4947,7 @@ sub HistoryTicketStatusGet {
     for my $HistoryTypeData (
         qw(NewTicket FollowUp OwnerUpdate PriorityUpdate CustomerUpdate StateUpdate
         TicketFreeTextUpdate PhoneCallCustomer Forward Bounce SendAnswer EmailCustomer
-        PhoneCallAgent WebRequestCustomer)
+        PhoneCallAgent WebRequestCustomer TicketDynamicFieldUpdate)
         )
     {
         my $ID = $Self->HistoryTypeLookup( Type => $HistoryTypeData );
@@ -5072,6 +5089,7 @@ sub HistoryTicketGet {
         Limit => 3000,
     );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+
         if ( $Row[1] eq 'NewTicket' ) {
             if (
                 $Row[0] =~ /^\%\%(.+?)\%\%(.+?)\%\%(.+?)\%\%(.+?)\%\%(.+?)$/
@@ -5145,6 +5163,21 @@ sub HistoryTicketGet {
                 $Ticket{ 'Ticket' . $3 } = $4;
                 $Ticket{$1}              = $2;
                 $Ticket{$3}              = $4;
+            }
+        }
+        elsif ( $Row[1] eq 'TicketDynamicFieldUpdate' ) {
+            if ( $Row[0] =~ /^\%\%FieldName\%\%(.+?)\%\%Value\%\%(.+?)$/ ) {
+                my $FieldName = $1;
+                my $Value     = $2;
+                $Ticket{$FieldName} = $Value;
+
+                # Backward compatibility for TicketFreeText and TicketFreeTime
+                if ( $FieldName =~ /^Ticket(Free(?:Text|Key)(?:[?:1[0-6]|[1-9]))$/ ) {
+
+                    # Remove the leading Tiket on field name
+                    my $FreeFieldName = $1;
+                    $Ticket{$FreeFieldName} = $Value;
+                }
             }
         }
         elsif ( $Row[1] eq 'PriorityUpdate' ) {
@@ -6899,100 +6932,6 @@ sub TicketArticleStorageSwitch {
     return 1;
 }
 
-=item TicketDynamicFieldSet()
-
-store a value for a dynamic field
-
-    my $Success = $TicketObject->TicketDynamicFieldSet(
-        FieldName           => 'TicketFreeText1',       # the name of the dynamic field
-        Value               => $AValue,                 # A value defined by the dynamic field i.e.
-                                                        # a text string, a date or an integer
-        TicketID            => 123,                     # The ID of the ticket
-        QueueID             => 1234                     # The Id of the ticket queue, used for
-                                                        # history
-        UserID              => 1,                       # The ID of the user
-    );
-
-=cut
-
-sub TicketDynamicFieldSet {
-    my ( $Self, %Param ) = @_;
-
-    # check needed stuff
-    for my $Needed (qw(FieldName TicketID UserID QueueID)) {
-        if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
-            return;
-        }
-    }
-
-    # get the Dynamic Field Configuration
-    my $DynamicFieldConfig = $Self->{DynamicFieldObject}->DynamicFieldGet(
-        Name => $Param{FieldName},
-    );
-
-    if ( !IsHashRefWithData($DynamicFieldConfig) ) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => "The configuration for field $Param{FieldName} is invalid!",
-        );
-        return;
-    }
-
-    # set the value to the dynamc field
-    my $Success = $Self->{DynamicFieldBackendObject}->ValueSet(
-        DynamicFieldConfig => $DynamicFieldConfig,
-        ObjectID           => $Param{TicketID},
-        Value              => $Param{Value},
-        UserID             => $Param{UserID},
-    );
-
-    # return if cant set the value
-    if ( !$Success ) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => "The value for the Dynamic Field $Param{FieldName} could not be set",
-        );
-
-        return
-    }
-
-    my $HistoryValue;
-    if ( !defined $Param{Value} ) {
-        $HistoryValue = '',
-    }
-    else {
-        $HistoryValue = $Param{Value};
-    }
-
-    # history insert
-    $Self->HistoryAdd(
-        TicketID => $Param{TicketID},
-
-        QueueID      => $Param{QueueID},
-        HistoryType  => 'TicketDynamicFieldUpdate',
-        Name         => "\%\%FieldName\%\%$Param{FieldName}\%\%Value\%\%$HistoryValue",
-        CreateUserID => $Param{UserID},
-    );
-
-    # clear ticket cache
-    delete $Self->{ 'Cache::GetTicket' . $Param{TicketID} };
-
-    # trigger event
-    $Self->EventHandler(
-        Event => 'TicketDynamicFieldUpdate',
-        Data  => {
-            FieldName => $Param{FieldName},
-            Value     => $Param{Value},
-            TicketID  => $Param{TicketID},
-            UserID    => $Param{UserID},
-        },
-        UserID => $Param{UserID},
-    );
-
-    return 1;
-}
-
 sub DESTROY {
     my $Self = shift;
 
@@ -7103,6 +7042,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.517 $ $Date: 2011-09-01 22:22:04 $
+$Revision: 1.518 $ $Date: 2011-09-02 21:49:22 $
 
 =cut
