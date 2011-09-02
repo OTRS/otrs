@@ -2,7 +2,7 @@
 # Kernel/System/TicketSearch.pm - all ticket search functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketSearch.pm,v 1.6 2011-09-02 10:11:57 mg Exp $
+# $Id: TicketSearch.pm,v 1.7 2011-09-02 15:09:49 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 use Kernel::System::DynamicField;
 use Kernel::System::DynamicField::Backend;
@@ -415,12 +415,22 @@ sub TicketSearch {
     );
 
     my %ValidDynamicFieldParams;
-    my %DynamicFieldName2Config;
+    my %TicketDynamicFieldName2Config;
+    my %ArticleDynamicFieldName2Config;
 
-    DYNAMIC_FIELD:
     for my $DynamicField ( @{$TicketDynamicFields} ) {
         $ValidDynamicFieldParams{ "DynamicField_" . $DynamicField->{Name} } = 1;
-        $DynamicFieldName2Config{ $DynamicField->{Name} } = $DynamicField;
+        $TicketDynamicFieldName2Config{ $DynamicField->{Name} } = $DynamicField;
+    }
+
+    # Check all configured article dynamic fields
+    my $ArticleDynamicFields = $Self->{DynamicFieldObject}->DynamicFieldListGet(
+        ObjectType => 'Article',
+    );
+
+    for my $DynamicField ( @{$ArticleDynamicFields} ) {
+        $ValidDynamicFieldParams{ "DynamicField_" . $DynamicField->{Name} } = 1;
+        $ArticleDynamicFieldName2Config{ $DynamicField->{Name} } = $DynamicField;
     }
 
     # check sort/order by options
@@ -466,8 +476,10 @@ sub TicketSearch {
 
     my $SQLFrom = ' FROM ticket st INNER JOIN queue sq ON sq.id = st.queue_id ';
 
+    my $ArticleJoinSQL = $Self->_ArticleIndexQuerySQL( Data => \%Param ) || '';
+
     # sql, use also article table if needed
-    $SQLFrom .= $Self->_ArticleIndexQuerySQL( Data => \%Param );
+    $SQLFrom .= $ArticleJoinSQL;
 
     # use also history table if required
     ARGUMENT:
@@ -1052,7 +1064,7 @@ sub TicketSearch {
     my $DynamicFieldJoinCounter = 1;
 
     DYNAMIC_FIELD:
-    for my $DynamicField ( @{$TicketDynamicFields} ) {
+    for my $DynamicField ( @{$TicketDynamicFields}, @{$ArticleDynamicFields} ) {
         my $SearchParam = $Param{ "DynamicField_" . $DynamicField->{Name} };
 
         next DYNAMIC_FIELD if ( !$SearchParam );
@@ -1097,11 +1109,26 @@ sub TicketSearch {
 
         if ($NeedJoin) {
 
-            # Join the table for this dynamic field
-            $SQLFrom .= "INNER JOIN dynamic_field_value dfv$DynamicFieldJoinCounter
-                ON (st.id = dfv$DynamicFieldJoinCounter.object_id
-                    AND dfv$DynamicFieldJoinCounter.field_id = " .
-                $Self->{DBObject}->Quote( $DynamicField->{ID}, 'Integer' ) . ") ";
+            if ( $DynamicField->{ObjectType} eq 'Ticket' ) {
+
+                # Join the table for this dynamic field
+                $SQLFrom .= "INNER JOIN dynamic_field_value dfv$DynamicFieldJoinCounter
+                    ON (st.id = dfv$DynamicFieldJoinCounter.object_id
+                        AND dfv$DynamicFieldJoinCounter.field_id = " .
+                    $Self->{DBObject}->Quote( $DynamicField->{ID}, 'Integer' ) . ") ";
+            }
+            elsif ( $DynamicField->{ObjectType} eq 'Article' ) {
+                if ( !$ArticleJoinSQL ) {
+                    $ArticleJoinSQL = ' INNER JOIN article art ON st.id = art.ticket_id ';
+                    $SQLFrom .= $ArticleJoinSQL;
+                }
+
+                $SQLFrom .= "INNER JOIN dynamic_field_value dfv$DynamicFieldJoinCounter
+                    ON (art.id = dfv$DynamicFieldJoinCounter.object_id
+                        AND dfv$DynamicFieldJoinCounter.field_id = " .
+                    $Self->{DBObject}->Quote( $DynamicField->{ID}, 'Integer' ) . ") ";
+
+            }
 
             $DynamicFieldJoinTables{ $DynamicField->{Name} } = "dfv$DynamicFieldJoinCounter";
 
@@ -1631,18 +1658,36 @@ sub TicketSearch {
             # sort by dynamic field
             if ( $ValidDynamicFieldParams{ $SortByArray[$Count] } ) {
                 my ($DynamicFieldName) = $SortByArray[$Count] =~ m/^DynamicField_(.*)$/smx;
-                my $DynamicField = $DynamicFieldName2Config{$DynamicFieldName};
+
+                my $DynamicField = $TicketDynamicFieldName2Config{$DynamicFieldName} ||
+                    $ArticleDynamicFieldName2Config{$DynamicFieldName};
 
                 # If the table was already joined for searching, we reuse it.
                 if ( !$DynamicFieldJoinTables{$DynamicFieldName} ) {
 
-                    # Join the table for this dynamic field; use a left outer join in this case.
-                    # With an INNER JOIN we'd limit the result set to tickets which have an entry
-                    #   for the DF which is used for sorting.
-                    $SQLFrom .= " LEFT OUTER JOIN dynamic_field_value dfv$DynamicFieldJoinCounter
-                        ON (st.id = dfv$DynamicFieldJoinCounter.object_id
-                            AND dfv$DynamicFieldJoinCounter.field_id = " .
-                        $Self->{DBObject}->Quote( $DynamicField->{ID}, 'Integer' ) . ") ";
+                    if ( $TicketDynamicFieldName2Config{$DynamicFieldName} ) {
+
+                       # Join the table for this dynamic field; use a left outer join in this case.
+                       # With an INNER JOIN we'd limit the result set to tickets which have an entry
+                       #   for the DF which is used for sorting.
+                        $SQLFrom
+                            .= " LEFT OUTER JOIN dynamic_field_value dfv$DynamicFieldJoinCounter
+                            ON (st.id = dfv$DynamicFieldJoinCounter.object_id
+                                AND dfv$DynamicFieldJoinCounter.field_id = " .
+                            $Self->{DBObject}->Quote( $DynamicField->{ID}, 'Integer' ) . ") ";
+                    }
+                    elsif ( $ArticleDynamicFieldName2Config{$DynamicFieldName} ) {
+                        if ( !$ArticleJoinSQL ) {
+                            $ArticleJoinSQL = ' INNER JOIN article art ON st.id = art.ticket_id ';
+                            $SQLFrom .= $ArticleJoinSQL;
+                        }
+
+                        $SQLFrom
+                            .= " LEFT OUTER JOIN dynamic_field_value dfv$DynamicFieldJoinCounter
+                            ON (art.id = dfv$DynamicFieldJoinCounter.object_id
+                                AND dfv$DynamicFieldJoinCounter.field_id = " .
+                            $Self->{DBObject}->Quote( $DynamicField->{ID}, 'Integer' ) . ") ";
+                    }
 
                     $DynamicFieldJoinTables{ $DynamicField->{Name} }
                         = "dfv$DynamicFieldJoinCounter";
@@ -1711,6 +1756,8 @@ sub TicketSearch {
         $Tickets{ $Row[0] } = $Row[1];
         push @TicketIDs, $Row[0];
     }
+
+    #print STDERR "$SQLSelect $SQLFrom $SQLExt\n";
 
     # return COUNT
     if ( $Result eq 'COUNT' ) {
@@ -1812,6 +1859,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.6 $ $Date: 2011-09-02 10:11:57 $
+$Revision: 1.7 $ $Date: 2011-09-02 15:09:49 $
 
 =cut
