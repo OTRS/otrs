@@ -1,6 +1,5 @@
 package MIME::Field::ParamVal;
 
-use MIME::Words;
 
 =head1 NAME
 
@@ -62,6 +61,8 @@ require 5.001;
 use strict;
 use vars qw($VERSION @ISA);
 
+# System modules:
+
 
 # Other modules:
 use Mail::Field;
@@ -79,7 +80,7 @@ use MIME::Tools qw(:config :msgs);
 #------------------------------
 
 # The package version, both in 1.23 style *and* usable by MakeMaker:
-$VERSION = "5.502";
+$VERSION = "5.428";
 
 
 #------------------------------
@@ -190,34 +191,33 @@ sub rfc2231decode {
     my($val) = @_;
     my($enc, $lang, $rest);
 
-    local($1,$2,$3);
-    if ($val =~ m/^([^']*)'([^']*)'(.*)\z/s) {
+    if ($val =~ m/^([^\']*)\'([^\']*)\'(.*)$/) {
+	# SHOULD REALLY DO SOMETHING MORE INTELLIGENT WITH ENCODING!!!
 	$enc = $1;
 	$lang = $2;
 	$rest = $3;
-    } elsif ($val =~ m/^([^']*)'([^']*)\z/s) {
+	$rest = rfc2231percent($rest);
+    } elsif ($val =~ m/^([^\']*)\'([^\']*)$/) {
 	$enc = $1;
 	$rest = $2;
+	$rest = rfc2231percent($rest);
     } else {
-	$rest = $val;
-	# $enc remains undefined when charset/language info is missing
+	$rest = rfc2231percent($val);
     }
-    return ($enc, $lang, $rest);
+    return $rest;
 }
 
 sub rfc2231percent {
     # Do percent-subsitution
     my($str) = @_;
-    local $1;
     $str =~ s/%([0-9a-fA-F]{2})/pack("C", hex($1))/ge;
     return $str;
 }
 
 sub parse_params {
     my ($self, $raw) = @_;
-    my %params;
-    my %rfc2231params;
-    my %rfc2231encoding_is_used;
+    my %params = ();
+    my %rfc2231params = ();
     my $param;
     my $val;
     my $part;
@@ -225,9 +225,8 @@ sub parse_params {
     # Get raw field, and unfold it:
     defined($raw) or $raw = '';
     $raw =~ s/\n//g;
-    $raw =~ s/\s+\z//;              # Strip trailing whitespace
+    $raw =~ s/\s+$//;              # Strip trailing whitespace
 
-    local($1,$2,$3,$4,$5);
     # Extract special first parameter:
     $raw =~ m/\A$SPCZ($FIRST)$SPCZ/og or return {};    # nada!
     $params{'_'} = $1;
@@ -238,30 +237,34 @@ sub parse_params {
 	$raw =~ m/\G$SPCZ(\;$SPCZ)+/og or last;             # skip leading separator
 	$raw =~ m/\G($PARAMNAME)\s*=\s*/og or last;      # give up if not a param
 	$param = lc($1);
-	$raw =~ m/\G(?:("([^"]*)")|($ENCTOKEN)|($BADTOKEN)|($TOKEN))/g or last;   # give up if no value"
+	$raw =~ m/\G(\"([^\"]*)\")|\G($ENCTOKEN)|\G($BADTOKEN)|\G($TOKEN)/g or last;   # give up if no value"
 	my ($qstr, $str, $enctoken, $badtoken, $token) = ($1, $2, $3, $4, $5);
 	if (defined($badtoken)) {
 	    # Strip leading/trailing whitespace from badtoken
-	    $badtoken =~ s/^\s+//;
-	    $badtoken =~ s/\s+\z//;
+	    $badtoken =~ s/^\s*//;
+	    $badtoken =~ s/\s*$//;
 	}
 	$val = defined($qstr) ? $str :
 	    (defined($enctoken) ? $enctoken :
 	     (defined($badtoken) ? $badtoken : $token));
 
 	# Do RFC 2231 processing
-	# Pick out the parts of the parameter
-	if ($param =~ /\*/ &&
-            $param =~ /^ ([^*]+) (?: \* ([^*]+) )? (\*)? \z/xs) {
-	    # We have param*number* or param*number or param*
-	    my($name, $num) = ($1, $2||0);
-	    if (defined($3)) {
-		# We have param*number* or param*
-		# RFC 2231: Asterisks ("*") are reused to provide the
-		# indicator that language and character set information
-		# is present and encoding is being used
-		$val = rfc2231percent($val);
-		$rfc2231encoding_is_used{$name} = 1;
+	if ($param =~ /\*/) {
+	    my($name, $num);
+	    # Pick out the parts of the parameter
+	    if ($param =~ m/^([^*]+)\*([^*]+)\*?$/) {
+		# We have param*number* or param*number
+		$name = $1;
+		$num = $2;
+	    } else {
+		# Fake a part of zero... not sure how to handle this properly
+		$param =~ s/\*//g;
+		$name = $param;
+		$num = 0;
+	    }
+	    # Decode the value unless it was a quoted string
+	    if (!defined($qstr)) {
+		$val = rfc2231decode($val);
 	    }
 	    $rfc2231params{$name}{$num} .= $val;
 	} else {
@@ -280,18 +283,6 @@ sub parse_params {
 	$params{$param} = '';
 	foreach $part (sort { $a <=> $b } keys %{$rfc2231params{$param}}) {
 	    $params{$param} .= $rfc2231params{$param}{$part};
-	}
-	if ($rfc2231encoding_is_used{$param}) {
-	    my($enc, $lang, $val) = rfc2231decode($params{$param});
-	    if (defined $enc) {
-		# re-encode as QP, preserving charset and language info
-		$val =~ s{([=?_\x00-\x1F\x7F-\xFF])}
-			 {sprintf("=%02X", ord($1))}eg;
-		$val =~ tr/ /_/;
-		# RFC 2231 section 5: Language specification in Encoded Words
-		$enc .= '*' . $lang  if defined $lang && $lang ne '';
-		$params{$param} = '=?' . $enc . '?Q?' . $val . '?=';
-	    }
 	}
 	debug "   field param <$param> = <$params{$param}>";
     }

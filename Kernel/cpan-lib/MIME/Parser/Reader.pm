@@ -34,6 +34,7 @@ This class has no official public interface
 =cut
 
 use strict;
+use IO::ScalarArray;
 
 ### All possible end-of-line sequences.
 ### Note that "" is included because last line of stream may have no newline!
@@ -205,7 +206,7 @@ sub native_handle {
 # Follows the RFC 2046 specification, that the CRLF immediately preceding
 # the boundary is part of the boundary, NOT part of the input!
 #
-# NOTE: while parsing bodies, we take care to remember the EXACT end-of-line
+# NOTE: while parsing, we take care to remember the EXACT end-of-line
 # sequence.  This is because we *may* be handling 'binary' encoded data, and
 # in that case we can't just massage \r\n into \n!  Don't worry... if the
 # data is styled as '7bit' or '8bit', the "decoder" will massage the CRLF
@@ -217,13 +218,8 @@ sub native_handle {
 # last.  I strip the last CRLF when I hit the boundary.
 
 sub read_chunk {
-    my ($self, $in, $out, $keep_newline, $normalize_newlines) = @_;
+    my ($self, $in, $out) = @_;
 
-    # If we're parsing a preamble or epilogue, we need to keep the blank line
-    # that precedes the boundary line.
-    $keep_newline ||= 0;
-
-    $normalize_newlines ||= 0;
     ### Init:
     my %bh = %{$self->{BH}};
     my %th = %{$self->{TH}}; my $thx = keys %th;
@@ -240,8 +236,6 @@ sub read_chunk {
     if ($n_in) {
 	if ($n_out) {            ### native input, native output [fastest]
 	    while (<$n_in>) {
-		# Normalize line ending
-		$_ =~ s/(:?\n\r|\r\n|\r)$/\n/ if $normalize_newlines;
 		if (substr($_, 0, 2) eq '--') {
 		    ($maybe = $_) =~ s/[ \t\r\n]+\Z//;
 		    $bh{$maybe} and do { $eos = $bh{$maybe}; last };
@@ -252,8 +246,6 @@ sub read_chunk {
 	}
 	else {                   ### native input, OO output [slower]
 	    while (<$n_in>) {
-		# Normalize line ending
-		$_ =~ s/(:?\n\r|\r\n|\r)$/\n/ if $normalize_newlines;
 		if (substr($_, 0, 2) eq '--') {
 		    ($maybe = $_) =~ s/[ \t\r\n]+\Z//;
 		    $bh{$maybe} and do { $eos = $bh{$maybe}; last };
@@ -266,8 +258,6 @@ sub read_chunk {
     else {
 	if ($n_out) {            ### OO input, native output [even slower]
 	    while (defined($_ = $in->getline)) {
-		# Normalize line ending
-		$_ =~ s/(:?\n\r|\r\n|\r)$/\n/ if $normalize_newlines;
 		if (substr($_, 0, 2) eq '--') {
 		    ($maybe = $_) =~ s/[ \t\r\n]+\Z//;
 		    $bh{$maybe} and do { $eos = $bh{$maybe}; last };
@@ -278,8 +268,6 @@ sub read_chunk {
 	}
 	else {                   ### OO input, OO output [slowest]
 	    while (defined($_ = $in->getline)) {
-		# Normalize line ending
-		$_ =~ s/(:?\n\r|\r\n|\r)$/\n/ if $normalize_newlines;
 		if (substr($_, 0, 2) eq '--') {
 		    ($maybe = $_) =~ s/[ \t\r\n]+\Z//;
 		    $bh{$maybe} and do { $eos = $bh{$maybe}; last };
@@ -290,10 +278,8 @@ sub read_chunk {
 	}
     }
 
-    # Write out last held line, removing terminating CRLF if ended on bound,
-    # unless the line consists only of CRLF and we're wanting to keep the
-    # preceding blank line (as when parsing a preamble)
-    $last =~ s/[\r\n]+\Z// if ($eos =~ /^(DELIM|CLOSE)/ && !($keep_newline && $last =~ m/^[\r\n]\z/));
+    ### Write out last held line, removing terminating CRLF if ended on bound:
+    $last =~ s/[\r\n]+\Z// if ($eos =~ /^(DELIM|CLOSE)/);
     $out->print($last);
 
     ### Save and return what we finished on:
@@ -310,13 +296,9 @@ sub read_chunk {
 #
 sub read_lines {
     my ($self, $in, $outlines) = @_;
-
-    my $data = '';
-    open(my $fh, '>', \$data) or die $!;
-    $self->read_chunk($in, $fh);
-    @$outlines =  split(/^/, $data);
-    close $fh;
-
+    # TODO: we are also stuck keeping this one for now
+    $self->read_chunk($in, IO::ScalarArray->new($outlines));
+    shift @$outlines if ($outlines->[0] eq '');   ### leading empty line
     1;
 }
 
