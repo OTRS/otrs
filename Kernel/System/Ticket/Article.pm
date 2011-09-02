@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.286 2011-09-01 09:29:54 mg Exp $
+# $Id: Article.pm,v 1.287 2011-09-02 21:53:01 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,13 +20,10 @@ use Kernel::System::TemplateGenerator;
 use Kernel::System::Notification;
 use Kernel::System::EmailParser;
 
-use Kernel::System::DynamicField;
-use Kernel::System::DynamicField::Backend;
-
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.286 $) [1];
+$VERSION = qw($Revision: 1.287 $) [1];
 
 =head1 NAME
 
@@ -1180,25 +1177,33 @@ sub ArticleFreeTextSet {
 
     # set the ArticleFreeText as a DynamicField
     if ($UpdateValue) {
-        my $Success = $Self->ArticleDynamicFieldSet(
-            FieldName => "ArticleFreeText$Param{Counter}",
-            Value     => $Value,
-            TicketID  => $Param{TicketID},
-            ArticleID => $Param{ArticleID},
-            UserID    => $Param{UserID},
+        my $DynamicFieldConfig = $Self->{DynamicFieldObject}->DynamicFieldGet(
+            Name => "ArticleFreeText$Param{Counter}",
         );
+
+        my $Success = $Self->{DynamicFieldBackendObject}->ValueSet(
+            DynamicFieldConfig => $DynamicFieldConfig,
+            ObjectID           => $Param{ArticleID},
+            Value              => $Value,
+            UserID             => $Param{UserID},
+        );
+
         return if !$Success;
     }
 
     # set the ArticleFreeKey as a DynamicField
     if ($UpdateKey) {
-        my $Success = $Self->ArticleDynamicFieldSet(
-            FieldName => "ArticleFreeKey$Param{Counter}",
-            Value     => $Key,
-            TicketID  => $Param{TicketID},
-            ArticleID => $Param{ArticleID},
-            UserID    => $Param{UserID},
+        my $DynamicFieldConfig = $Self->{DynamicFieldObject}->DynamicFieldGet(
+            Name => "ArticleFreeKey$Param{Counter}",
         );
+
+        my $Success = $Self->{DynamicFieldBackendObject}->ValueSet(
+            DynamicFieldConfig => $DynamicFieldConfig,
+            ObjectID           => $Param{ArticleID},
+            Value              => $Key,
+            UserID             => $Param{UserID},
+        );
+
         return if !$Success;
     }
 
@@ -1791,7 +1796,7 @@ sub ArticleGet {
             # get the current value for each dynamic field
             my $Value = $Self->{DynamicFieldBackendObject}->ValueGet(
                 DynamicFieldConfig => $DynamicFieldConfig,
-                ObjectID           => $Param{ArticleID},
+                ObjectID           => $Article->{ArticleID},
             );
 
             # set the dynamic field name and value into the ticket hash
@@ -1831,7 +1836,7 @@ sub ArticleGet {
             # get the current value for each dynamic field
             my $Value = $Self->{DynamicFieldBackendObject}->ValueGet(
                 DynamicFieldConfig => $DynamicFieldConfig,
-                ObjectID           => $Ticket{TicketID},
+                ObjectID           => $Article->{TicketID},
             );
 
             # set the dynamic field name and value into the ticket hash
@@ -3565,75 +3570,6 @@ sub ArticleAttachmentIndex {
     return %Attachments;
 }
 
-=item ArticleDynamicFieldSet()
-
-store a value for a dynamic field
-
-    my $Success = $TicketObject->TicketDynamicFieldSet(
-        FieldName           => 'TicketFreeText1',       # the name of the dynamic field
-        Value               => $AValue,                 # A value defined by the dynamic field i.e.
-                                                        # a text string, a date or an integer
-        ArticleID           => 123,                     # The ID of the article
-        TicketID            => 123,                     # The ID of the article ticket
-        UserID              => 1,                       # The ID of the user
-    );
-
-=cut
-
-sub ArticleDynamicFieldSet {
-    my ( $Self, %Param ) = @_;
-
-    # check needed stuff
-    for my $Needed (qw(FieldName ArticleID TicketID UserID)) {
-        if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
-            return;
-        }
-    }
-
-    # get the Dynamic Field Configuration
-    my $DynamicFieldConfig = $Self->{DynamicFieldObject}->DynamicFieldGet(
-        Name => $Param{FieldName},
-    );
-
-    if ( !IsHashRefWithData($DynamicFieldConfig) ) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => "The configuration for field $Param{FieldName} is invalid!",
-        );
-        return;
-    }
-
-    # set the value to the dynamc field
-    my $Success = $Self->{DynamicFieldBackendObject}->ValueSet(
-        DynamicFieldConfig => $DynamicFieldConfig,
-        ObjectID           => $Param{ArticleID},
-        Value              => $Param{Value},
-        UserID             => $Param{UserID},
-    );
-
-    # return if cant set the value
-    if ( !$Success ) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => "The value for the Dynamic Field $Param{FieldName} could not be set",
-        );
-
-        return
-    }
-
-    # event
-    $Self->EventHandler(
-        Event => 'ArticleDynamicFieldUpdate',
-        Data  => {
-            TicketID  => $Param{TicketID},
-            ArticleID => $Param{ArticleID},
-        },
-        UserID => $Param{UserID},
-    );
-    return 1;
-}
-
 1;
 
 =back
@@ -3650,6 +3586,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.286 $ $Date: 2011-09-01 09:29:54 $
+$Revision: 1.287 $ $Date: 2011-09-02 21:53:01 $
 
 =cut
