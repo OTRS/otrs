@@ -2,7 +2,7 @@
 # TicketDynamicField.t - Ticket Dyanmic Field tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketDynamicField.t,v 1.5 2011-09-01 22:19:41 cr Exp $
+# $Id: TicketDynamicField.t,v 1.6 2011-09-02 22:22:10 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -29,216 +29,6 @@ my $RandomID = int rand 1_000_000_000;
 my $DynamicFieldObject      = Kernel::System::DynamicField->new( %{$Self} );
 my $DynamicFieldValueObject = Kernel::System::DynamicFieldValue->new( %{$Self} );
 my $TicketObject            = Kernel::System::Ticket->new( %{$Self} );
-
-# create a ticket
-my $TicketID = $TicketObject->TicketCreate(
-    Title        => 'Some Ticket Title',
-    Queue        => 'Raw',
-    Lock         => 'unlock',
-    Priority     => '3 normal',
-    State        => 'new',
-    CustomerID   => '123465',
-    CustomerUser => 'customer@example.com',
-    OwnerID      => 1,
-    UserID       => 1,
-);
-
-# sanity check
-$Self->True(
-    $TicketID,
-    "TicketCreate() successful for Ticket ID $TicketID",
-);
-
-# create a dynamic field
-my $FieldID = $DynamicFieldObject->DynamicFieldAdd(
-    Name       => "dynamicfieldtest$RandomID",
-    Label      => 'a description',
-    FieldOrder => 9991,
-    FieldType  => 'Text',     # mandatory, selects the DF backend to use for this field
-    ObjectType => 'Ticket',
-    Config     => {
-        DefaultValue => 'a value',
-    },
-    ValidID => 1,
-    UserID  => 1,
-);
-
-# sanity check
-$Self->True(
-    $FieldID,
-    "DynamicFieldAdd() successful for Field ID $FieldID",
-);
-
-# get the config for the field
-my $DynamicFieldConfig = $DynamicFieldObject->DynamicFieldGet(
-    ID => $FieldID,
-);
-
-# sanity check
-$Self->IsNotDeeply(
-    $DynamicFieldConfig,
-    {},
-    "DynamicFielGet() successful for Field ID $FieldID",
-);
-
-my %Ticket = $TicketObject->TicketGet( TicketID => $TicketID, UserID => 1 );
-
-# tests definition
-my @Tests = (
-    {
-        Name      => 'No Field Name',
-        Value     => 'A Value',
-        FieldName => undef,
-        TicketID  => $TicketID,
-        QueueID   => $Ticket{QueueID},
-        UserID    => 1,
-        Success   => 0,
-    },
-    {
-        Name      => 'No TicketID',
-        Value     => 'A Value',
-        FieldName => $DynamicFieldConfig->{Name},
-        TicketID  => undef,
-        QueueID   => $Ticket{QueueID},
-        UserID    => 1,
-        Success   => 0,
-    },
-    {
-        Name      => 'No UserID',
-        Value     => 'A Value',
-        FieldName => $DynamicFieldConfig->{Name},
-        TicketID  => $TicketID,
-        QueueID   => $Ticket{QueueID},
-        UserID    => undef,
-        Success   => 0,
-    },
-    {
-        Name      => 'No Value',
-        Value     => undef,
-        FieldName => $DynamicFieldConfig->{Name},
-        TicketID  => $TicketID,
-        QueueID   => $Ticket{QueueID},
-        UserID    => 1,
-        Success   => 1,
-    },
-    {
-        Name      => 'No QueueID',
-        Value     => 'A Value',
-        FieldName => $DynamicFieldConfig->{Name},
-        TicketID  => $TicketID,
-        QueueID   => undef,
-        UserID    => 1,
-        Success   => 0,
-    },
-    {
-        Name      => 'Simple Text Value',
-        Value     => 'A Value',
-        FieldName => $DynamicFieldConfig->{Name},
-        TicketID  => $TicketID,
-        QueueID   => $Ticket{QueueID},
-        UserID    => 1,
-        Success   => 1,
-    },
-);
-
-for my $Test (@Tests) {
-
-    # set the dynamic field velue
-    my $Success = $TicketObject->TicketDynamicFieldSet(
-        FieldName => $Test->{FieldName},
-        Value     => $Test->{Value},
-        TicketID  => $Test->{TicketID},
-        QueueID   => $Test->{QueueID},
-        UserID    => $Test->{UserID},
-    );
-
-    # get the ticket
-    my %Ticket = $TicketObject->TicketGet( TicketID => $TicketID, UserID => 1 );
-
-    # sanity check
-    $Self->True(
-        \%Ticket,
-        "TicketGet() - Test ($Test->{Name}) - with True",
-
-    );
-    $Self->IsNotDeeply(
-        \%Ticket,
-        {},
-        "Ticket is not empty",
-    );
-
-    if ( !$Test->{Success} ) {
-
-        # check for unsuccessful set
-        $Self->False(
-            $Success,
-            "TicketDynamicFieldSet() - Test ($Test->{Name}) - with False",
-        );
-
-        # check for dynamic field value
-        $Self->Is(
-            $Ticket{ 'DynamicField_' . $Test->{FieldName} },
-            undef,
-            "TicketGet() - Test ($Test->{Name}) - matched field ID "
-                . $DynamicFieldConfig->{ID},
-        );
-    }
-    else {
-
-        # check for successful set
-        $Self->True(
-            $Success,
-            "TicketDynamicFieldSet() - Test ($Test->{Name}) - with True",
-        );
-
-        # check for dynamic field value
-        $Self->Is(
-            $Ticket{ 'DynamicField_' . $Test->{FieldName} },
-            $Test->{Value},
-            "TicketGet() - Test ($Test->{Name}) - matched field ID "
-                . $DynamicFieldConfig->{ID},
-        );
-    }
-}
-
-# delete the dynamic field
-my $FieldDelete = $DynamicFieldObject->DynamicFieldDelete(
-    ID     => $FieldID,
-    UserID => 1,
-);
-
-# sanity check
-$Self->True(
-    $FieldDelete,
-    "DynamicFieldDelete() successful for Field ID $FieldID",
-);
-
-# now that the field was deleted also "New Value" should be deleted too"
-{
-    my $DeleteSuccess = $DynamicFieldValueObject->ValueDelete(
-        FieldID    => $FieldID,
-        ObjectType => 'Ticket',
-        ObjectID   => $TicketID,
-        UserID     => 1,
-    );
-
-    $Self->False(
-        $DeleteSuccess,
-        "ValueDelete() unsuccessful for New Value - for FieldID $FieldID",
-    );
-}
-
-# delete the ticket
-my $TicketDelete = $TicketObject->TicketDelete(
-    TicketID => $TicketID,
-    UserID   => 1,
-);
-
-# sanity check
-$Self->True(
-    $TicketDelete,
-    "TicketDelete() successful for Ticket ID $TicketID",
-);
 
 my %OriginalFreeFields;
 
@@ -274,7 +64,7 @@ for my $DynamicFieldConfig ( @{$DynamicFieldList} ) {
 
 # backward compatibity tests
 # create a ticket
-$TicketID = $TicketObject->TicketCreate(
+my $TicketID = $TicketObject->TicketCreate(
     Title        => 'Some Ticket Title',
     Queue        => 'Raw',
     Lock         => 'unlock',
@@ -310,7 +100,7 @@ my $ArticleID = $TicketObject->ArticleCreate(
 # sanity check
 $Self->True(
     $ArticleID,
-    "TicketCreate() successful for Ticket ID $TicketID",
+    "ArticleCreate() successful for Article ID $ArticleID",
 );
 
 my @FreeFieldIDs;
@@ -411,7 +201,7 @@ for my $Counter ( 1 .. 6 ) {
 }
 
 # get the ticket
-%Ticket = $TicketObject->TicketGet( TicketID => $TicketID, UserID => 1 );
+my %Ticket = $TicketObject->TicketGet( TicketID => $TicketID, UserID => 1 );
 
 for my $Counter ( 1 .. 16 ) {
 
@@ -680,7 +470,40 @@ for ( 1 .. 5 ) {
     );
 }
 
-# TODO Add History Tests from Ticket.t
+my ( $Sec, $Min, $Hour, $Day, $Month, $Year ) = $Self->{TimeObject}->SystemTime2Date(
+    SystemTime => $Self->{TimeObject}->SystemTime(),
+);
+
+my %TicketStatus = $TicketObject->HistoryTicketStatusGet(
+    StopYear   => $Year,
+    StopMonth  => $Month,
+    StopDay    => $Day,
+    StartYear  => $Year - 2,
+    StartMonth => $Month,
+    StartDay   => $Day,
+);
+if ( $TicketStatus{$TicketID} ) {
+    my %TicketHistory = %{ $TicketStatus{$TicketID} };
+
+    for ( 1 .. 16 ) {
+        $Self->Is(
+            $TicketHistory{ 'TicketFreeKey' . $_ },
+            'Hans_' . $_,
+            "HistoryTicketStatusGet() (TicketFreeKey$_)",
+        );
+        $Self->Is(
+            $TicketHistory{ 'TicketFreeText' . $_ },
+            'Max_' . $_,
+            "HistoryTicketStatusGet() (TicketFreeText$_)",
+        );
+    }
+}
+else {
+    $Self->True(
+        0,
+        'HistoryTicketStatusGet()',
+    );
+}
 
 # delete the dynamic fields
 for my $FieldID (@FreeFieldIDs) {
@@ -699,7 +522,7 @@ for my $FieldID (@FreeFieldIDs) {
 }
 
 # delete the ticket
-$TicketDelete = $TicketObject->TicketDelete(
+my $TicketDelete = $TicketObject->TicketDelete(
     TicketID => $TicketID,
     UserID   => 1,
 );
