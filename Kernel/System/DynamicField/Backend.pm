@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend.pm - Interface for DynamicField backends
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Backend.pm,v 1.14 2011-09-01 22:58:09 cg Exp $
+# $Id: Backend.pm,v 1.15 2011-09-02 08:39:32 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 =head1 NAME
 
@@ -337,12 +337,7 @@ sub ValueSet {
     }
 
     # call ValueSet on the specific backend
-    my $Success = $Self->{$DynamicFieldBackend}->ValueSet(
-        DynamicFieldConfig => $Param{DynamicFieldConfig},
-        ObjectID           => $Param{ObjectID},
-        Value              => $Param{Value},
-        UserID             => 123,
-    );
+    my $Success = $Self->{$DynamicFieldBackend}->ValueSet(%Param);
 
     return $Success;
 
@@ -417,10 +412,7 @@ sub ValueGet {
     }
 
     # call ValueGet on the specific backend
-    my $Value = $Self->{$DynamicFieldBackend}->ValueGet(
-        DynamicFieldConfig => $Param{DynamicFieldConfig},
-        ObjectID           => $Param{ObjectID},
-    );
+    my $Value = $Self->{$DynamicFieldBackend}->ValueGet(%Param);
 
     return $Value;
 }
@@ -547,6 +539,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.14 $ $Date: 2011-09-01 22:58:09 $
+$Revision: 1.15 $ $Date: 2011-09-02 08:39:32 $
 
 =cut
