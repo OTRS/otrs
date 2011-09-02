@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField.pm - DynamicFields configuration backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicField.pm,v 1.35 2011-08-29 22:14:22 cr Exp $
+# $Id: DynamicField.pm,v 1.36 2011-09-02 11:43:02 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::Cache;
 use Kernel::System::DynamicField::Backend;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.35 $) [1];
+$VERSION = qw($Revision: 1.36 $) [1];
 
 =head1 NAME
 
@@ -123,6 +123,7 @@ returns id of new Dynamic field if successful or undef otherwise
                                         # allow only lowercase letters
         Config      => $ConfigHashRef,  # it is stored on YAML format
                                         # to individual articles, otherwise to tickets
+        Reorder     => 1,               # or 0, to trigger reorder function, default 1
         ValidID     => 1,
         UserID      => 123,
     );
@@ -153,14 +154,20 @@ sub DynamicFieldAdd {
         return;
     }
 
-    # check is Name already exists
-    my $DynamicFieldDuplicated = $Self->DynamicFieldList(
-        ResultType => 'HASH',
-    );
-    my %DuplicatedFields = reverse %{$DynamicFieldDuplicated};
-    %DuplicatedFields = map { $_ => lc $DuplicatedFields{$_} } keys %DuplicatedFields;
+    my $NameExists;
 
-    if ( defined $DuplicatedFields{ lc( $Param{Name} ) } ) {
+    # check is Name already exists
+    return if !$Self->{DBObject}->Prepare(
+        SQL   => 'SELECT id FROM dynamic_field WHERE LOWER(name) = LOWER(?)',
+        Bind  => [ \$Param{Name} ],
+        LIMIT => 1,
+    );
+
+    while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
+        $NameExists = 1;
+    }
+
+    if ($NameExists) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "The name $Param{Name} already exists for a dynamic field!"
@@ -203,12 +210,15 @@ sub DynamicFieldAdd {
         Type => 'DynamicField',
     );
 
-    # re-order field list
-    my $Success = $Self->_DynamicFieldReorder(
-        ID         => $DynamicField->{ID},
-        FieldOrder => $DynamicField->{FieldOrder},
-        Mode       => 'Add',
-    );
+    if ( !exists $Param{Reorder} || $Param{Reorder} ) {
+
+        # re-order field list
+        $Self->_DynamicFieldReorder(
+            ID         => $DynamicField->{ID},
+            FieldOrder => $DynamicField->{FieldOrder},
+            Mode       => 'Add',
+        );
+    }
 
     return $DynamicField->{ID};
 }
@@ -445,6 +455,7 @@ returns 1 if successful or undef otherwise
     my $Success = $DynamicFieldObject->DynamicFieldDelete(
         ID      => 123,
         UserID  => 123,
+        Reorder => 1,               # or 0, to trigger reorder function, default 1
     );
 
 =cut
@@ -467,11 +478,13 @@ sub DynamicFieldDelete {
     return if !IsHashRefWithData($DynamicField);
 
     # re-order before delete
-    my $Success = $Self->_DynamicFieldReorder(
-        ID         => $DynamicField->{ID},
-        FieldOrder => $DynamicField->{FieldOrder},
-        Mode       => 'Delete',
-    );
+    if ( !exists $Param{Reorder} || $Param{Reorder} ) {
+        my $Success = $Self->_DynamicFieldReorder(
+            ID         => $DynamicField->{ID},
+            FieldOrder => $DynamicField->{FieldOrder},
+            Mode       => 'Delete',
+        );
+    }
 
     # delete dynamic field values
     return if !$Self->{DBObject}->Do(
@@ -933,6 +946,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.35 $ $Date: 2011-08-29 22:14:22 $
+$Revision: 1.36 $ $Date: 2011-09-02 11:43:02 $
 
 =cut
