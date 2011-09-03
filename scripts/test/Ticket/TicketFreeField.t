@@ -1,8 +1,8 @@
 # --
-# TicketDynamicField.t - Ticket Dyanmic Field tests
+# TicketFreeField.t - Ticket Free Field tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketDynamicField.t,v 1.8 2011-09-03 02:04:28 cr Exp $
+# $Id: TicketFreeField.t,v 1.1 2011-09-03 02:07:27 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
