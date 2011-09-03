@@ -2,7 +2,7 @@
 # TicketDynamicField.t - Ticket Dyanmic Field tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketDynamicField.t,v 1.6 2011-09-02 22:22:10 cr Exp $
+# $Id: TicketDynamicField.t,v 1.7 2011-09-03 00:05:54 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -65,7 +65,7 @@ for my $DynamicFieldConfig ( @{$DynamicFieldList} ) {
 # backward compatibity tests
 # create a ticket
 my $TicketID = $TicketObject->TicketCreate(
-    Title        => 'Some Ticket Title',
+    Title        => "Ticket$RandomID",
     Queue        => 'Raw',
     Lock         => 'unlock',
     Priority     => '3 normal',
@@ -378,19 +378,38 @@ for ( 1 .. 16 ) {
     );
 }
 
-#TODO Reenable this test when TicketSearch using DynamicFields is ready
-#my %TicketIDsSearch = $TicketObject->TicketSearch(
-#    Result          => 'HASH',
-#    Limit           => 100,
-#    TicketFreeKey1  => 'Hans_1',
-#    TicketFreeText1 => 'Max_1',
-#    UserID          => 1,
-#    Permission      => 'rw',
-#);
-#$Self->True(
-#    $TicketIDsSearch{$TicketID},
-#    'TicketSearch() (HASH:TicketFreeKey1 and TicketFreeText1 with _)',
-#);
+my @SearchTests = (
+    {
+        Name  => 'TicketFreeKey',
+        Field => 'TicketFreeKey1',
+        Value => 'Hans_1',
+    },
+    {
+        Name  => 'TicketFreeText',
+        Field => 'TicketFreeText1',
+        Value => 'Max_1',
+    },
+);
+
+for my $Test (@SearchTests) {
+
+    my %TicketIDsSearch = $TicketObject->TicketSearch(
+        Result           => 'HASH',
+        Limit            => 100,
+        Title            => "Ticket$RandomID",
+        "$Test->{Field}" => {
+            Equals => "$Test->{Value}",
+        },
+        UserID     => 1,
+        Permission => 'rw',
+    );
+
+    $Self->IsDeeply(
+        \%TicketIDsSearch,
+        { $TicketID => $Ticket{TicketNumber} },
+        "Search for one field ($Test->{Field})",
+    );
+}
 
 # TicketFreeTime tests
 for my $Counter ( 1 .. 6 ) {
