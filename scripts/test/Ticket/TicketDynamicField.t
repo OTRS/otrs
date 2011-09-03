@@ -2,7 +2,7 @@
 # TicketDynamicField.t - Ticket Dyanmic Field tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketDynamicField.t,v 1.7 2011-09-03 00:05:54 cr Exp $
+# $Id: TicketDynamicField.t,v 1.8 2011-09-03 02:04:28 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -381,34 +381,37 @@ for ( 1 .. 16 ) {
 my @SearchTests = (
     {
         Name  => 'TicketFreeKey',
-        Field => 'TicketFreeKey1',
-        Value => 'Hans_1',
+        Field => 'TicketFreeKey',
+        Value => 'Hans_',
     },
     {
         Name  => 'TicketFreeText',
-        Field => 'TicketFreeText1',
-        Value => 'Max_1',
+        Field => 'TicketFreeText',
+        Value => 'Max_',
     },
 );
 
 for my $Test (@SearchTests) {
 
-    my %TicketIDsSearch = $TicketObject->TicketSearch(
-        Result           => 'HASH',
-        Limit            => 100,
-        Title            => "Ticket$RandomID",
-        "$Test->{Field}" => {
-            Equals => "$Test->{Value}",
-        },
-        UserID     => 1,
-        Permission => 'rw',
-    );
+    for my $Counter ( 1 .. 16 ) {
 
-    $Self->IsDeeply(
-        \%TicketIDsSearch,
-        { $TicketID => $Ticket{TicketNumber} },
-        "Search for one field ($Test->{Field})",
-    );
+        my %TicketIDsSearch = $TicketObject->TicketSearch(
+            Result                   => 'HASH',
+            Limit                    => 100,
+            Title                    => "Ticket$RandomID",
+            "$Test->{Field}$Counter" => {
+                Equals => "$Test->{Value}$Counter",
+            },
+            UserID     => 1,
+            Permission => 'rw',
+        );
+
+        $Self->IsDeeply(
+            \%TicketIDsSearch,
+            { $TicketID => $Ticket{TicketNumber} },
+            "Search for one field ($Test->{Field}$Counter)",
+        );
+    }
 }
 
 # TicketFreeTime tests
