@@ -1,8 +1,8 @@
 # --
-# ArticleDynamicField.t - Article Dynamic Field tests
+# ArticleFreeField.t - Article Free Field tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleDynamicField.t,v 1.3 2011-09-02 22:19:31 cr Exp $
+# $Id: ArticleFreeField.t,v 1.1 2011-09-03 02:08:29 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
