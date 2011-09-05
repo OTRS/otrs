@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminDynamicFieldText.pm - provides a dynamic fields text config view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminDynamicFieldText.pm,v 1.16 2011-08-27 02:50:18 cr Exp $
+# $Id: AdminDynamicFieldText.pm,v 1.17 2011-09-05 09:46:09 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::DynamicField;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -124,7 +124,7 @@ sub _AddAction {
             # add server error error class
             $Errors{NameServerError} = 'ServerError';
             $Errors{NameServerErrorMessage} =
-                'The field does not contain only lower case letters and numbers.';
+                'The field does not contain only ASCII letters and numbers.';
         }
 
         # check if name is duplicated
@@ -286,12 +286,12 @@ sub _ChangeAction {
     if ( $GetParam{Name} ) {
 
         # check if name is lowercase
-        if ( $GetParam{Name} !~ m{\A ( ?: [a-z] | \d )+ \z}xms ) {
+        if ( $GetParam{Name} !~ m{\A ( ?: [a-zA-Z] | \d )+ \z}xms ) {
 
             # add server error error class
             $Errors{NameServerError} = 'ServerError';
             $Errors{NameServerErrorMessage} =
-                'The field does not contain only lower case letters and numbers.';
+                'The field does not contain only ASCII letters and numbers.';
         }
 
         # check if name is duplicated
