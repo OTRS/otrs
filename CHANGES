@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1967 2011-09-02 10:46:12 mh Exp $
+# $Id: CHANGES,v 1.1968 2011-09-05 13:53:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -97,6 +97,8 @@
      of > 70 characters exists.
 
 3.0.11 2011-??-??
+ - 2011-09-05 Fixed ticket#2010111742013515 - import/export of static states with .pm file
+    and umlaut in file is not working.
  - 2011-08-30 Improved fix of bug#7195 to log a understandable error message if png, gif and
     jpeg support are not activated in the GD CPAN module.
  - 2011-08-26 Fixed bug#7525 - Move in new window doesn't indicate required fields.
