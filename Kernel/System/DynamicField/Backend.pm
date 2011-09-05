@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend.pm - Interface for DynamicField backends
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Backend.pm,v 1.20 2011-09-05 11:46:14 mg Exp $
+# $Id: Backend.pm,v 1.21 2011-09-05 11:50:07 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Scalar::Util qw(weaken);
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.20 $) [1];
+$VERSION = qw($Revision: 1.21 $) [1];
 
 =head1 NAME
 
@@ -158,64 +158,59 @@ sub new {
     my $DynamicFieldObjectTypeConfig = $Self->{ConfigObject}->Get('DynamicFields::ObjectType');
 
     # check Configuration format
-    if ( !IsHashRefWithData($DynamicFieldObjectTypeConfig) ) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => "Dynamic field object types configuration is not valid!",
-        );
-        return
-    }
+    if ( IsHashRefWithData($DynamicFieldObjectTypeConfig) ) {
 
-    # create all registered backend modules
-    for my $ObjectType ( sort keys %{$DynamicFieldObjectTypeConfig} ) {
+        # create all registered ObjectType handler modules
+        for my $ObjectType ( sort keys %{$DynamicFieldObjectTypeConfig} ) {
 
-        # check if the registration for each field type is valid
-        if ( !$DynamicFieldObjectTypeConfig->{$ObjectType}->{Module} ) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message  => "Registration for object type $ObjectType is invalid!",
+            # check if the registration for each field type is valid
+            if ( !$DynamicFieldObjectTypeConfig->{$ObjectType}->{Module} ) {
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message  => "Registration for object type $ObjectType is invalid!",
+                );
+                return;
+            }
+
+            # set the backend file
+            my $ObjectHandlerModule = $DynamicFieldObjectTypeConfig->{$ObjectType}->{Module};
+
+            # check if backend field exists
+            if ( !$Self->{MainObject}->Require($ObjectHandlerModule) ) {
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message =>
+                        "Can't load dynamic field object handler module for object type $ObjectType!",
+                );
+                return;
+            }
+
+            # create a backend object
+            my $ObjectHandlerObject = $ObjectHandlerModule->new(
+                %{$Self},
+                %Param,    # pass %Param too, for optional arguments like TicketObject
             );
-            return;
+
+            if ( !$ObjectHandlerObject ) {
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message  => "Couldn't create a handler object for object type $ObjectType!",
+                );
+                return;
+            }
+
+            if ( ref $ObjectHandlerObject ne $ObjectHandlerModule ) {
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message =>
+                        "Handler object for object type $ObjectType was not created successfuly!",
+                );
+                return;
+            }
+
+            # remember the backend object
+            $Self->{ 'DynamicField' . $ObjectType . 'HandlerObject' } = $ObjectHandlerObject;
         }
-
-        # set the backend file
-        my $ObjectHandlerModule = $DynamicFieldObjectTypeConfig->{$ObjectType}->{Module};
-
-        # check if backend field exists
-        if ( !$Self->{MainObject}->Require($ObjectHandlerModule) ) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message =>
-                    "Can't load dynamic field object handler module for object type $ObjectType!",
-            );
-            return;
-        }
-
-        # create a backend object
-        my $ObjectHandlerObject = $ObjectHandlerModule->new(
-            %{$Self},
-            %Param,    # pass %Param too, for optional arguments like TicketObject
-        );
-
-        if ( !$ObjectHandlerObject ) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message  => "Couldn't create a handler object for object type $ObjectType!",
-            );
-            return;
-        }
-
-        if ( ref $ObjectHandlerObject ne $ObjectHandlerModule ) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message =>
-                    "Handler object for object type $ObjectType was not created successfuly!",
-            );
-            return;
-        }
-
-        # remember the backend object
-        $Self->{ 'DynamicField' . $ObjectType . 'HandlerObject' } = $ObjectHandlerObject;
     }
 
     return $Self;
@@ -689,6 +684,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.20 $ $Date: 2011-09-05 11:46:14 $
+$Revision: 1.21 $ $Date: 2011-09-05 11:50:07 $
 
 =cut
