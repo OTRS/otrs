@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.520 2011-09-05 11:28:30 mg Exp $
+# $Id: Ticket.pm,v 1.521 2011-09-05 11:55:10 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -40,7 +40,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.520 $) [1];
+$VERSION = qw($Revision: 1.521 $) [1];
 
 =head1 NAME
 
@@ -954,9 +954,9 @@ Returns:
         Changed            => '2010-10-27 20:15:15',
         ChangeBy           => 123,
         ArchiveFlag        => 'y',
-        TicketFreeKey1-16
-        TicketFreeText1-16
-        TicketFreeTime1-6
+
+        # For each configured ticket dynamic field, you'll get an entry like this:
+        DynamicField_X     => 'value_x',
 
         # (time stamps of expected escalations)
         EscalationResponseTime           (unix time stamp of response time escalation)
@@ -1039,19 +1039,7 @@ sub TicketGet {
         SQL => 'SELECT st.id, st.queue_id, sq.name, st.ticket_state_id, st.ticket_lock_id,'
             . ' sp.id, sp.name, st.create_time_unix, st.create_time, sq.group_id, st.tn,'
             . ' st.customer_id, st.customer_user_id, st.user_id, st.responsible_user_id, '
-            . ' st.until_time,'
-
-            #            . ' st.freekey1, st.freetext1, st.freekey2, st.freetext2,'
-            #            . ' st.freekey3, st.freetext3, st.freekey4, st.freetext4,'
-            #            . ' st.freekey5, st.freetext5, st.freekey6, st.freetext6,'
-            #            . ' st.freekey7, st.freetext7, st.freekey8, st.freetext8,'
-            #            . ' st.freekey9, st.freetext9, st.freekey10, st.freetext10,'
-            #            . ' st.freekey11, st.freetext11, st.freekey12, st.freetext12,'
-            #            . ' st.freekey13, st.freetext13, st.freekey14, st.freetext14,'
-            #            . ' st.freekey15, st.freetext15, st.freekey16, st.freetext16,'
-            #            . ' st.freetime1, st.freetime2, st.freetime3, st.freetime4,'
-            #            . ' st.freetime5, st.freetime6,'
-            . ' st.change_time, st.title, st.escalation_update_time, st.timeout,'
+            . ' st.until_time, st.change_time, st.title, st.escalation_update_time, st.timeout,'
             . ' st.type_id, st.service_id, st.sla_id, st.escalation_response_time,'
             . ' st.escalation_solution_time, st.escalation_time, st.archive_flag,'
             . ' st.create_by, st.change_by'
@@ -1094,45 +1082,6 @@ sub TicketGet {
         $Ticket{TypeID}                 = $Row[20] || 1;
         $Ticket{ServiceID}              = $Row[21] || '';
         $Ticket{SLAID}                  = $Row[22] || '';
-
-        #        $Ticket{TicketFreeKey1}         = defined $Row[16] ? $Row[16] : '';
-        #        $Ticket{TicketFreeText1}        = defined $Row[17] ? $Row[17] : '';
-        #        $Ticket{TicketFreeKey2}         = defined $Row[18] ? $Row[18] : '';
-        #        $Ticket{TicketFreeText2}        = defined $Row[19] ? $Row[19] : '';
-        #        $Ticket{TicketFreeKey3}         = defined $Row[20] ? $Row[20] : '';
-        #        $Ticket{TicketFreeText3}        = defined $Row[21] ? $Row[21] : '';
-        #        $Ticket{TicketFreeKey4}         = defined $Row[22] ? $Row[22] : '';
-        #        $Ticket{TicketFreeText4}        = defined $Row[23] ? $Row[23] : '';
-        #        $Ticket{TicketFreeKey5}         = defined $Row[24] ? $Row[24] : '';
-        #        $Ticket{TicketFreeText5}        = defined $Row[25] ? $Row[25] : '';
-        #        $Ticket{TicketFreeKey6}         = defined $Row[26] ? $Row[26] : '';
-        #        $Ticket{TicketFreeText6}        = defined $Row[27] ? $Row[27] : '';
-        #        $Ticket{TicketFreeKey7}         = defined $Row[28] ? $Row[28] : '';
-        #        $Ticket{TicketFreeText7}        = defined $Row[29] ? $Row[29] : '';
-        #        $Ticket{TicketFreeKey8}         = defined $Row[30] ? $Row[30] : '';
-        #        $Ticket{TicketFreeText8}        = defined $Row[31] ? $Row[31] : '';
-        #        $Ticket{TicketFreeKey9}         = defined $Row[32] ? $Row[32] : '';
-        #        $Ticket{TicketFreeText9}        = defined $Row[33] ? $Row[33] : '';
-        #        $Ticket{TicketFreeKey10}        = defined $Row[34] ? $Row[34] : '';
-        #        $Ticket{TicketFreeText10}       = defined $Row[35] ? $Row[35] : '';
-        #        $Ticket{TicketFreeKey11}        = defined $Row[36] ? $Row[36] : '';
-        #        $Ticket{TicketFreeText11}       = defined $Row[37] ? $Row[37] : '';
-        #        $Ticket{TicketFreeKey12}        = defined $Row[38] ? $Row[38] : '';
-        #        $Ticket{TicketFreeText12}       = defined $Row[39] ? $Row[39] : '';
-        #        $Ticket{TicketFreeKey13}        = defined $Row[40] ? $Row[40] : '';
-        #        $Ticket{TicketFreeText13}       = defined $Row[41] ? $Row[41] : '';
-        #        $Ticket{TicketFreeKey14}        = defined $Row[42] ? $Row[42] : '';
-        #        $Ticket{TicketFreeText14}       = defined $Row[43] ? $Row[43] : '';
-        #        $Ticket{TicketFreeKey15}        = defined $Row[44] ? $Row[44] : '';
-        #        $Ticket{TicketFreeText15}       = defined $Row[45] ? $Row[45] : '';
-        #        $Ticket{TicketFreeKey16}        = defined $Row[46] ? $Row[46] : '';
-        #        $Ticket{TicketFreeText16}       = defined $Row[47] ? $Row[47] : '';
-        #        $Ticket{TicketFreeTime1}        = defined $Row[48] ? $Row[48] : '';
-        #        $Ticket{TicketFreeTime2}        = defined $Row[49] ? $Row[49] : '';
-        #        $Ticket{TicketFreeTime3}        = defined $Row[50] ? $Row[50] : '';
-        #        $Ticket{TicketFreeTime4}        = defined $Row[51] ? $Row[51] : '';
-        #        $Ticket{TicketFreeTime5}        = defined $Row[52] ? $Row[52] : '';
-        #        $Ticket{TicketFreeTime6}        = defined $Row[53] ? $Row[53] : '';
     }
 
     # check ticket
@@ -7042,6 +6991,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.520 $ $Date: 2011-09-05 11:28:30 $
+$Revision: 1.521 $ $Date: 2011-09-05 11:55:10 $
 
 =cut
