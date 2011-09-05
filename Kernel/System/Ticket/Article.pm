@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.287 2011-09-02 21:53:01 cr Exp $
+# $Id: Article.pm,v 1.288 2011-09-05 21:28:21 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::EmailParser;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.287 $) [1];
+$VERSION = qw($Revision: 1.288 $) [1];
 
 =head1 NAME
 
@@ -1207,6 +1207,9 @@ sub ArticleFreeTextSet {
         return if !$Success;
     }
 
+    # clear ticket cache
+    delete $Self->{ 'Cache::GetTicket' . $Param{TicketID} };
+
   #    # db quote for key an value
   #    for (qw(Counter)) {
   #        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
@@ -1806,16 +1809,16 @@ sub ArticleGet {
             # Compatibility feature can be removed on further versions
             if (
                 $DynamicFieldConfig->{Name} =~ m{
-               \A
-               (
-                    ArticleFree
-                    (?:
-                        (?:Text|Key)
-                        (?:[1-3])
+                    \A
+                    (
+                        ArticleFree
+                        (?:
+                            (?:Text|Key)
+                            (?:[1-3])
+                        )
                     )
-                )
-                \z
-            }gmxi
+                    \z
+                }smxi
                 )
             {
 
@@ -1846,18 +1849,18 @@ sub ArticleGet {
             # Compatibility feature can be removed on further versions
             if (
                 $DynamicFieldConfig->{Name} =~ m{
-               \A
-               (
-                    TicketFree
-                    (?:
-                        (?:Text|Key)
-                        (?:1[0-6]|[1-9])
-                        |
-                        (?:Time [1-6])
+                    \A
+                    (
+                        TicketFree
+                        (?:
+                            (?:Text|Key)
+                            (?:1[0-6]|[1-9])
+                            |
+                            (?:Time [1-6])
+                        )
                     )
-                )
-                \z
-            }gmxi
+                    \z
+                }smxi
                 )
             {
 
@@ -3586,6 +3589,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.287 $ $Date: 2011-09-02 21:53:01 $
+$Revision: 1.288 $ $Date: 2011-09-05 21:28:21 $
 
 =cut
