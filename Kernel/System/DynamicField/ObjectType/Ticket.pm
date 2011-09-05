@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/ObjectType/Ticket.pm - Ticket object handler for DynamicField
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.1 2011-09-05 07:08:57 mg Exp $
+# $Id: Ticket.pm,v 1.2 2011-09-05 07:18:18 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,10 +14,13 @@ package Kernel::System::DynamicField::ObjectType::Ticket;
 use strict;
 use warnings;
 
+use Scalar::Util;
+
 use Kernel::System::VariableCheck qw(:all);
+use Kernel::System::Ticket;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 =head1 NAME
 
@@ -47,12 +50,30 @@ sub new {
 
     # get needed objects
     for my $Needed (
-        qw(ConfigObject EncodeObject LogObject MainObject DBObject TimeObject TicketObject)
+        qw(ConfigObject EncodeObject LogObject MainObject DBObject TimeObject)
         )
     {
         die "Got no $Needed!" if !$Param{$Needed};
 
         $Self->{$Needed} = $Param{$Needed};
+    }
+
+    # check for TicketObject
+    if ( $Param{TicketObject} ) {
+
+        $Self->{TicketObject} = $Param{TicketObject};
+
+     # Make ticket object reference weak so it will not count as a reference on objetcs destroy.
+     #   This is because the TicketObject has a Kernel::DynamicField::Backend object, which has this
+     #   object, which has a TicketObject again. Without weaken() we'd have a cyclic reference.
+        Scalar::Util::weaken( $Self->{TicketObject} );
+    }
+
+    # otherwise create it
+    else {
+
+        # Here we must not call weaken(), because this is the only reference
+        $Self->{TicketObject} = Kernel::System::Ticket->new( %{$Self} );
     }
 
     return $Self;

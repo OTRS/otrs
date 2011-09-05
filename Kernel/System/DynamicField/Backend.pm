@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend.pm - Interface for DynamicField backends
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Backend.pm,v 1.18 2011-09-02 22:59:46 cr Exp $
+# $Id: Backend.pm,v 1.19 2011-09-05 07:18:18 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Scalar::Util qw(weaken);
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 =head1 NAME
 
@@ -76,6 +76,7 @@ create a DynamicField backend object
         TimeObject          => $TimeObject,
         MainObject          => $MainObject,
         DBObject            => $DBObject,
+        # Optional: pass TicketObject pass if you already have one (for cache consistency reasons)
     );
 
 =cut
@@ -94,30 +95,6 @@ sub new {
         $Self->{$Needed} = $Param{$Needed};
     }
 
-    # check for TicketObject
-    if ( $Param{TicketObject} ) {
-
-        $Self->{TicketObject} = $Param{TicketObject};
-
-        # make ticket object reference week so it will not count as a reference on objetcs destroy
-        weaken( $Self->{TicketObject} );
-    }
-
-    # otherwise create it
-    else {
-
-        # sanity check
-        if ( !$Self->{MainObject}->Require('Kernel::System::Ticket') ) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message  => "Can't load Ticket Module!",
-            );
-            return;
-        }
-
-        $Self->{TicketObject} = Kernel::System::Ticket->new( %{$Self} );
-    }
-
     # get the Dynamic Field Backends configuration
     my $DynamicFieldsConfig = $Self->{ConfigObject}->Get('DynamicFields::Backend');
 
@@ -127,7 +104,7 @@ sub new {
             Priority => 'error',
             Message  => "Dynamic field configuration is not valid!",
         );
-        return
+        return;
     }
 
     # create all registered backend modules
@@ -215,7 +192,10 @@ sub new {
         }
 
         # create a backend object
-        my $ObjectHandlerObject = $ObjectHandlerModule->new( %{$Self} );
+        my $ObjectHandlerObject = $ObjectHandlerModule->new(
+            %{$Self},
+            %Param,    # pass %Param too, for optional arguments like TicketObject
+        );
 
         if ( !$ObjectHandlerObject ) {
             $Self->{LogObject}->Log(
@@ -727,6 +707,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.18 $ $Date: 2011-09-02 22:59:46 $
+$Revision: 1.19 $ $Date: 2011-09-05 07:18:18 $
 
 =cut
