@@ -2,7 +2,7 @@
 # TicketFreeField.t - Ticket Free Field tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketFreeField.t,v 1.1 2011-09-03 02:07:27 cr Exp $
+# $Id: TicketFreeField.t,v 1.2 2011-09-05 14:42:12 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -36,6 +36,7 @@ my %OriginalFreeFields;
 # get the fields list
 my $DynamicFieldList = $DynamicFieldObject->DynamicFieldListGet(
     ObjectType => 'Ticket',
+    Valid      => 0,
 );
 
 # check for TicketFreeText, TicketFreeKey and TicketFreeTime
@@ -124,6 +125,7 @@ for my $Counter ( 1 .. 16 ) {
             },
             ValidID => 1,
             UserID  => 1,
+            Reorder => 0,
         );
 
         # sanity check
@@ -532,8 +534,9 @@ for my $FieldID (@FreeFieldIDs) {
 
     # delete the dynamic field
     my $FieldDelete = $DynamicFieldObject->DynamicFieldDelete(
-        ID     => $FieldID,
-        UserID => 1,
+        ID      => $FieldID,
+        UserID  => 1,
+        Reorder => 0,
     );
 
     # sanity check

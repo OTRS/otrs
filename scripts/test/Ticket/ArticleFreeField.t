@@ -2,7 +2,7 @@
 # ArticleFreeField.t - Article Free Field tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleFreeField.t,v 1.1 2011-09-03 02:08:29 cr Exp $
+# $Id: ArticleFreeField.t,v 1.2 2011-09-05 14:44:57 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -66,6 +66,7 @@ for my $DynamicFieldConfig ( @{$DynamicFieldList} ) {
 # get the fields list
 $DynamicFieldList = $DynamicFieldObject->DynamicFieldListGet(
     ObjectType => 'Article',
+    Valid      => 0,
 );
 
 # check for TicketFreeText, TicketFreeKey, TicketFreeTime ArticleFreeText
@@ -152,6 +153,7 @@ for my $Counter ( 1 .. 16 ) {
             },
             ValidID => 1,
             UserID  => 1,
+            Reorder => 0,
         );
 
         # sanity check
@@ -198,6 +200,7 @@ for my $Counter ( 1 .. 3 ) {
             },
             ValidID => 1,
             UserID  => 1,
+            Reorder => 0,
         );
 
         # sanity check
@@ -452,8 +455,9 @@ for my $FieldID (@FreeFieldIDs) {
 
     # delete the dynamic field
     my $FieldDelete = $DynamicFieldObject->DynamicFieldDelete(
-        ID     => $FieldID,
-        UserID => 1,
+        ID      => $FieldID,
+        UserID  => 1,
+        Reorder => 0,
     );
 
     # sanity check
