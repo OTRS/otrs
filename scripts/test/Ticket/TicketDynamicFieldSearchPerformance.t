@@ -2,7 +2,7 @@
 # TicketDynamicFieldSearchPerformance.t - ticket module testscript
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketDynamicFieldSearchPerformance.t,v 1.1 2011-09-02 11:50:33 mg Exp $
+# $Id: TicketDynamicFieldSearchPerformance.t,v 1.2 2011-09-05 08:20:23 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,6 +24,12 @@ use Time::HiRes;
 
 # create local objects
 my $RandomID = int rand 1_000_000_000;
+
+# Field number to create.
+#   A search will be executed in all fields at once (causing a JOIN for each
+#   field, so be careful with this number.
+
+my $FieldCount = 10;    # Limit to 10 because of the UT servers.
 
 my $ConfigObject = Kernel::Config->new();
 my $UserObject   = Kernel::System::User->new(
@@ -89,12 +95,7 @@ my %Ticket2 = $TicketObject->TicketGet(
 );
 
 my @TestDynamicFields;
-
-#my %DynamicFieldConfigs;
-
 my %SearchParams;
-
-my $FieldCount = 100;
 
 for my $Counter ( 1 .. $FieldCount ) {
 
