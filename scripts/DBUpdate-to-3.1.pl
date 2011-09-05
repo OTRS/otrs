@@ -3,7 +3,7 @@
 # DBUpdate-to-3.1.pl - update script to migrate OTRS 2.4.x to 3.0.x
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-3.1.pl,v 1.13 2011-09-01 17:41:41 cg Exp $
+# $Id: DBUpdate-to-3.1.pl,v 1.14 2011-09-05 09:46:59 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 use Getopt::Std qw();
 use Kernel::Config;
@@ -109,7 +109,7 @@ EOF
 
     # verify ticket migration
     my $VerificationTicketData = 1;
-    print "Step 7 of 10: Verify if ticket data was succesfuly migrated.. ";
+    print "Step 7 of 10: Verify if ticket data was successfully migrated.. ";
     if ( !_IsFreefieldsMigrationAlreadyDone($CommonObject) ) {
         $VerificationTicketData = _VerificationTicketData($CommonObject);
     }
@@ -117,7 +117,7 @@ EOF
 
     # verify article migration
     my $VerificationArticleData = 1;
-    print "Step 8 of 10: Verify if article data was succesfuly migrated.. ";
+    print "Step 8 of 10: Verify if article data was successfully migrated.. ";
     if ( !_IsFreefieldsMigrationAlreadyDone($CommonObject) ) {
         $VerificationArticleData = _VerificationArticleData($CommonObject);
     }
@@ -517,7 +517,7 @@ sub _DynamicFieldTicketMigration {
             }
         }
         if ( !$SuccessTicket ) {
-            print "   Free fields from ticket with ID:$Row[0] was not successfuly migrated. \n";
+            print "   Free fields from ticket with ID:$Row[0] was not successfully migrated. \n";
         }
         else {
 
@@ -650,7 +650,7 @@ sub _DynamicFieldArticleMigration {
             }
         }
         if ( !$SuccessArticle ) {
-            print "   Free fields from article with ID:$Row[0] was not successfuly migrated. \n";
+            print "   Free fields from article with ID:$Row[0] was not successfully migrated. \n";
         }
         else {
 
@@ -668,7 +668,7 @@ sub _DynamicFieldArticleMigration {
 
 =item _VerificationTicketData($CommonObject)
 
-Checks if the data for ticket was succesfuly migrated.
+Checks if the data for ticket was successfully migrated.
 
     _VerificationTicketData($CommonObject);
 
@@ -785,7 +785,7 @@ sub _VerificationTicketData {
 
 =item _VerificationArticleData($CommonObject)
 
-Checks if the data for ticket was succesfuly migrated.
+Checks if the data for ticket was successfully migrated.
 
     _VerificationArticleData($CommonObject);
 
@@ -908,71 +908,70 @@ sub _MigrateFreeFieldsConfiguration {
     my $CommonObject = shift;
 
     # create additional objects
-    my $SysConfigObject    = Kernel::System::SysConfig->new( %{$CommonObject} );
     my $DynamicFieldObject = Kernel::System::DynamicField->new( %{$CommonObject} );
 
-    # select dynamic field entries
-    my $SuccessTicket = $CommonObject->{DBObject}->Prepare(
-        SQL =>
-            'SELECT id, name, label, field_order, field_type, object_type, valid_id FROM dynamic_field',
+    my $DynamicFields = $DynamicFieldObject->DynamicFieldList(
+        Valid      => 0,
+        ResultType => 'HASH',
     );
 
-    my %Data;
-    while ( my @Row = $CommonObject->{DBObject}->FetchrowArray() ) {
-        $Data{ $Row[1] } = {
-            ID         => $Row[0],
-            Name       => $Row[1],
-            Label      => $Row[2],
-            FieldOrder => $Row[3],
-            FieldType  => $Row[4],
-            ObjectType => $Row[5],
-            ValidID    => $Row[6],
-        };
-    }
+    $DynamicFields = { reverse %{$DynamicFields} };
 
-    # insert new ticket dynamic field entries if necessary
+    INDEX:
     for my $Index ( 1 .. 16 ) {
         for my $FreeField ( 'TicketFreeKey', 'TicketFreeText' ) {
 
             my $FieldName = $FreeField . $Index;
-            if ( defined $Data{$FieldName} ) {
-                my %FieldConfig;
+            if ( defined $DynamicFields->{$FieldName} ) {
+
+                my $FieldConfig = $DynamicFieldObject->DynamicFieldGet(
+                    ID => $DynamicFields->{$FieldName},
+                );
 
                 # Get all Attributes from Item
                 my $PossibleValues = $CommonObject->{ConfigObject}->Get($FieldName);
-                $FieldConfig{PossibleValues} = $PossibleValues;
+                $FieldConfig->{Config}->{PossibleValues} = $PossibleValues;
                 if ( !$PossibleValues ) {
 
-                    # insert new dynamic field
-                    $CommonObject->{DBObject}->Do(
-                        SQL =>
-                            "UPDATE dynamic_field set valid_id=2 WHERE id=?",
-                        Bind => [
-                            \$Data{$FieldName}->{ID},
-                        ],
+                    my $SuccessTicketField = $DynamicFieldObject->DynamicFieldUpdate(
+                        %{$FieldConfig},
+                        Reorder => 0,
+                        ValidID => 2,
+                        UserID  => 1,
                     );
-                    next;
+
+                    if ( !$SuccessTicketField ) {
+                        die "Could not migrate configuration for dynamic field: $FieldName";
+                    }
+
+                    next INDEX;
                 }
 
-                if ( scalar keys %{$PossibleValues} == 1 ) {
-                    for my $Key ( keys %{$PossibleValues} ) {
-                        $Data{$FieldName}->{Label} = $PossibleValues->{$Key};
+                if ( $FreeField eq 'TicketFreeText' ) {
+
+         # If the corresponding key has only one possible value for this entry, use it as the label.
+                    my $KeyName      = 'TicketFreeKey' . $Index;
+                    my $PossibleKeys = my $PossibleValues
+                        = $CommonObject->{ConfigObject}->Get($KeyName);
+
+                    if ( ref $PossibleKeys eq 'HASH' && scalar keys %{$PossibleKeys} == 1 ) {
+                        for my $Key ( keys %{$PossibleKeys} ) {
+                            $FieldConfig->{Label} = $PossibleKeys->{$Key};
+                        }
                     }
                 }
 
                 my $DefaultSelection
                     = $CommonObject->{ConfigObject}->Get( $FieldName . "::DefaultSelection" );
-                $FieldConfig{DefaultSelection} = $DefaultSelection;
+                $FieldConfig->{Config}->{DefaultValue} = $DefaultSelection;
 
                 # set new values
-                $Data{$FieldName}->{Config}     = \%FieldConfig;
-                $Data{$FieldName}->{ObjectType} = 'Dropdown';
-                $Data{$FieldName}->{Reorder}    = '0';
-                $Data{$FieldName}->{ValidID}    = '1';
-                $Data{$FieldName}->{UserID}     = '1';
-
                 my $SuccessTicketField = $DynamicFieldObject->DynamicFieldUpdate(
-                    %{ $Data{$FieldName} }
+                    %{$FieldConfig},
+                    FieldType => 'Dropdown',
+                    Reorder   => 0,
+                    ValidID   => 1,
+                    UserID    => 1,
                 );
 
                 if ( !$SuccessTicketField ) {
@@ -982,47 +981,53 @@ sub _MigrateFreeFieldsConfiguration {
         }
     }
 
-    # insert new ticket dynamic field entries if necessary
+    INDEX:
     for my $Index ( 1 .. 6 ) {
 
         my $FieldName = 'TicketFreeTime' . $Index;
-        if ( defined $Data{$FieldName} ) {
-            my %FieldConfig;
+        if ( defined $DynamicFields->{$FieldName} ) {
+            my $FieldConfig = $DynamicFieldObject->DynamicFieldGet(
+                ID => $DynamicFields->{$FieldName},
+            );
 
             # Get all Attributes from Item
             my $TimeKey = $CommonObject->{ConfigObject}->Get( 'TicketFreeTimeKey' . $Index );
-            $FieldConfig{Key} = $TimeKey;
+            $FieldConfig->{Key} = $TimeKey;
             if ( !$TimeKey ) {
 
-                # insert new dynamic field
-                $CommonObject->{DBObject}->Do(
-                    SQL =>
-                        "UPDATE dynamic_field set valid_id=2 WHERE id=?",
-                    Bind => [
-                        \$Data{$FieldName}->{ID},
-                    ],
+                my $SuccessTicketField = $DynamicFieldObject->DynamicFieldUpdate(
+                    %{$FieldConfig},
+                    Reorder => 0,
+                    ValidID => 2,
+                    UserID  => 1,
                 );
-                next;
+
+                if ( !$SuccessTicketField ) {
+                    die "Could not migrate configuration for dynamic field: $FieldName";
+                }
+
+                next INDEX;
             }
 
-            my $TimeOptional
-                = $CommonObject->{ConfigObject}->Get( 'TicketFreeTimeOptional' . $Index );
-            $FieldConfig{Optional} = $TimeOptional;
+            $FieldConfig->{Config}->{DefaultValue}
+                = $CommonObject->{ConfigObject}->Get( 'TicketFreeTimeDiff' . $Index );
 
-            my $TimeDiff = $CommonObject->{ConfigObject}->Get( 'TicketFreeTimeDiff' . $Index );
-            $FieldConfig{TimeDiff} = $TimeDiff;
+            my $FreeTimePeriod
+                = $CommonObject->{ConfigObject}->Get( 'TicketFreeTimePeriod' . $Index );
 
-            my $TimePeriod = $CommonObject->{ConfigObject}->Get( 'TicketFreeTimePeriod' . $Index );
-            $FieldConfig{TimePeriod} = $TimePeriod;
+            if ( $FreeTimePeriod && ref $FreeTimePeriod eq 'HASH' ) {
+                $FieldConfig->{Config}->{YearsPeriod}   = 1;
+                $FieldConfig->{Config}->{YearsInFuture} = $FreeTimePeriod->{YearPeriodFuture};
+                $FieldConfig->{Config}->{YearsInPast}   = $FreeTimePeriod->{YearPeriodPast};
+            }
 
             # set new values
-            $Data{$FieldName}->{Config}  = \%FieldConfig;
-            $Data{$FieldName}->{Reorder} = '0';
-            $Data{$FieldName}->{ValidID} = '1';
-            $Data{$FieldName}->{UserID}  = '1';
-
             my $SuccessTicketField = $DynamicFieldObject->DynamicFieldUpdate(
-                %{ $Data{$FieldName} }
+                %{$FieldConfig},
+                FieldType => 'DateTime',
+                Reorder   => 0,
+                ValidID   => 1,
+                UserID    => 1,
             );
 
             if ( !$SuccessTicketField ) {
@@ -1031,43 +1036,60 @@ sub _MigrateFreeFieldsConfiguration {
         }
     }
 
-    # insert new article dynamic field entries if necessary
+    INDEX:
     for my $Index ( 1 .. 3 ) {
         for my $FreeField ( 'ArticleFreeKey', 'ArticleFreeText' ) {
 
             my $FieldName = $FreeField . $Index;
-            if ( defined $Data{$FieldName} ) {
-                my %FieldConfig;
+            if ( defined $DynamicFields->{$FieldName} ) {
+                my $FieldConfig = $DynamicFieldObject->DynamicFieldGet(
+                    ID => $DynamicFields->{$FieldName},
+                );
 
                 # Get all Attributes from Item
                 my $PossibleValues = $CommonObject->{ConfigObject}->Get($FieldName);
-                $FieldConfig{PossibleValues} = $PossibleValues;
+                $FieldConfig->{Config}->{PossibleValues} = $PossibleValues;
                 if ( !$PossibleValues ) {
 
-                    # insert new dynamic field
-                    $CommonObject->{DBObject}->Do(
-                        SQL =>
-                            "UPDATE dynamic_field set valid_id=2 WHERE id=?",
-                        Bind => [
-                            \$Data{$FieldName}->{ID},
-                        ],
+                    my $SuccessTicketField = $DynamicFieldObject->DynamicFieldUpdate(
+                        %{$FieldConfig},
+                        Reorder => 0,
+                        ValidID => 2,
+                        UserID  => 1,
                     );
-                    next;
+
+                    if ( !$SuccessTicketField ) {
+                        die "Could not migrate configuration for dynamic field: $FieldName";
+                    }
+
+                    next INDEX;
                 }
 
-                my $DefaultSelection
-                    = $CommonObject->{ConfigObject}->Get( $FieldName . "::DefaultSelection" );
-                $FieldConfig{DefaultSelection} = $DefaultSelection;
+                if ( $FreeField eq 'ArticleFreeText' ) {
+
+         # If the corresponding key has only one possible value for this entry, use it as the label.
+                    my $KeyName      = 'ArticleFreeKey' . $Index;
+                    my $PossibleKeys = my $PossibleValues
+                        = $CommonObject->{ConfigObject}->Get($KeyName);
+
+                    if ( ref $PossibleKeys eq 'HASH' && scalar keys %{$PossibleKeys} == 1 ) {
+                        for my $Key ( keys %{$PossibleKeys} ) {
+                            $FieldConfig->{Label} = $PossibleKeys->{$Key};
+                        }
+                    }
+                }
+
+                $FieldConfig->{Config}->{DefaultValue}
+                    = $CommonObject->{ConfigObject}->Get( $FieldName . "::DefaultSelection" )
+                    ;
 
                 # set new values
-                $Data{$FieldName}->{Config}     = \%FieldConfig;
-                $Data{$FieldName}->{ObjectType} = 'Dropdown';
-                $Data{$FieldName}->{Reorder}    = '0';
-                $Data{$FieldName}->{ValidID}    = '1';
-                $Data{$FieldName}->{UserID}     = '1';
-
                 my $SuccessTicketField = $DynamicFieldObject->DynamicFieldUpdate(
-                    %{ $Data{$FieldName} }
+                    %{$FieldConfig},
+                    FieldType => 'Dropdown',
+                    Reorder   => 0,
+                    ValidID   => 1,
+                    UserID    => 1,
                 );
 
                 if ( !$SuccessTicketField ) {
