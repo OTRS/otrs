@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend.pm - Interface for DynamicField backends
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Backend.pm,v 1.19 2011-09-05 07:18:18 mg Exp $
+# $Id: Backend.pm,v 1.20 2011-09-05 11:46:14 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Scalar::Util qw(weaken);
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.19 $) [1];
+$VERSION = qw($Revision: 1.20 $) [1];
 
 =head1 NAME
 
@@ -415,11 +415,9 @@ sub ValueSet {
 
     my $NewValue = $Param{Value};
 
-    # do not procede if there is nothing to update
-    if ( defined $OldValue && defined $NewValue ) {
-        if ( $OldValue eq $NewValue ) {
-            return 1
-        }
+    # do not proceed if there is nothing to update
+    if ( defined $OldValue && defined $NewValue && $OldValue eq $NewValue ) {
+        return 1;
     }
 
     # call ValueSet on the specific backend
@@ -438,26 +436,12 @@ sub ValueSet {
     my $DynamicFieldObjectHandler =
         'DynamicField' . $Param{DynamicFieldConfig}->{ObjectType} . 'HandlerObject';
 
-    if ( !$Self->{$DynamicFieldObjectHandler} ) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => "Handler for object $Param{DynamicFieldConfig}->{ObjectType} is invalid!"
-        );
-        return;
+    # If an ObjectType handler is registered, use it.
+    if ( ref $Self->{$DynamicFieldObjectHandler} ) {
+        return $Self->{$DynamicFieldObjectHandler}->PostValueSet(%Param);
     }
 
-    $Success = $Self->{$DynamicFieldObjectHandler}->PostValueSet(%Param);
-
-    return $Success;
-
-=cut
-        Special case:
-        If the object type is 'Ticket' or 'Article', a history entry must be written to that ticket (task for later)
-
-        from CR: This is not n special base but something that has to be done on Ticket.pm and Article.pm
-
-=cut
-
+    return 1;
 }
 
 =item ValueGet()
@@ -521,9 +505,7 @@ sub ValueGet {
     }
 
     # call ValueGet on the specific backend
-    my $Value = $Self->{$DynamicFieldBackend}->ValueGet(%Param);
-
-    return $Value;
+    return $Self->{$DynamicFieldBackend}->ValueGet(%Param);
 }
 
 =item IsSearchable()
@@ -707,6 +689,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.19 $ $Date: 2011-09-05 07:18:18 $
+$Revision: 1.20 $ $Date: 2011-09-05 11:46:14 $
 
 =cut
