@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.519 2011-09-05 07:21:45 mg Exp $
+# $Id: Ticket.pm,v 1.520 2011-09-05 11:28:30 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -40,7 +40,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.519 $) [1];
+$VERSION = qw($Revision: 1.520 $) [1];
 
 =head1 NAME
 
@@ -4946,7 +4946,7 @@ sub HistoryTicketStatusGet {
     my $SQLExt = '';
     for my $HistoryTypeData (
         qw(NewTicket FollowUp OwnerUpdate PriorityUpdate CustomerUpdate StateUpdate
-        TicketDynamicFieldUpdate PhoneCallCustomer Forward Bounce SendAnswer EmailCustomer
+        PhoneCallCustomer Forward Bounce SendAnswer EmailCustomer
         PhoneCallAgent WebRequestCustomer TicketDynamicFieldUpdate)
         )
     {
@@ -7042,6 +7042,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.519 $ $Date: 2011-09-05 07:21:45 $
+$Revision: 1.520 $ $Date: 2011-09-05 11:28:30 $
 
 =cut
