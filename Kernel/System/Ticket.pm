@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.521 2011-09-05 11:55:10 mg Exp $
+# $Id: Ticket.pm,v 1.522 2011-09-05 14:41:52 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -40,7 +40,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.521 $) [1];
+$VERSION = qw($Revision: 1.522 $) [1];
 
 =head1 NAME
 
@@ -3037,6 +3037,8 @@ sub TicketFreeTextGet {
 
 =item TicketFreeTextSet()
 
+DEPRECATED. This function will be removed in a future version of OTRS, don't use it any more!
+
 Set ticket free text.
 
     my $Success = $TicketObject->TicketFreeTextSet(
@@ -3155,42 +3157,15 @@ sub TicketFreeTextSet {
         return if !$Success;
     }
 
- #    # db quote
- #    $Param{Counter} = $Self->{DBObject}->Quote( $Param{Counter}, 'Integer' );
- #
- #    # db update
- #    return if !$Self->{DBObject}->Do(
- #        SQL => "UPDATE ticket SET freekey$Param{Counter} = ?, freetext$Param{Counter} = ?, "
- #            . " change_time = current_timestamp, change_by = ? WHERE id = ?",
- #        Bind => [ \$Key, \$Value, \$Param{UserID}, \$Param{TicketID} ],
- #    );
- #
- #    # history insert
- #    $Self->HistoryAdd(
- #        TicketID     => $Param{TicketID},
- #        QueueID      => $Ticket{QueueID},
- #        HistoryType  => 'TicketFreeTextUpdate',
- #        Name         => "\%\%FreeKey$Param{Counter}\%\%$Key\%\%FreeText$Param{Counter}\%\%$Value",
- #        CreateUserID => $Param{UserID},
- #    );
- #
- #    # clear ticket cache
- #    delete $Self->{ 'Cache::GetTicket' . $Param{TicketID} };
- #
- #    # trigger event
- #    $Self->EventHandler(
- #        Event => 'TicketFreeTextUpdate',
- #        Data  => {
- #            Counter  => $Param{Counter},
- #            TicketID => $Param{TicketID},
- #        },
- #        UserID => $Param{UserID},
- #    );
+    # clear ticket cache
+    delete $Self->{ 'Cache::GetTicket' . $Param{TicketID} };
 
     return 1;
 }
 
 =item TicketFreeTimeSet()
+
+DEPRECATED. This function will be removed in a future version of OTRS, don't use it any more!
 
 Set ticket free text.
 
@@ -3287,41 +3262,8 @@ sub TicketFreeTimeSet {
 
     return if !$Success;
 
-    #    # db update
-    #    $Param{Counter} = $Self->{DBObject}->Quote( $Param{Counter}, 'Integer' );
-    #    if ( !$TimeStamp || $TimeStamp eq '0000-00-00 00:00:00' ) {
-    #        $TimeStamp = undef;
-    #    }
-    #    return if !$Self->{DBObject}->Do(
-    #        SQL => "UPDATE ticket SET freetime$Param{Counter} = ?, "
-    #            . "change_time = current_timestamp, change_by = ? WHERE id = ?",
-    #        Bind => [ \$TimeStamp, \$Param{UserID}, \$Param{TicketID} ],
-    #    );
-    #    if ( !$TimeStamp ) {
-    #        $TimeStamp = '';
-    #    }
-    #
-    #    # history insert
-    #    $Self->HistoryAdd(
-    #        TicketID     => $Param{TicketID},
-    #        QueueID      => $Ticket{QueueID},
-    #        HistoryType  => 'TicketFreeTextUpdate',
-    #        Name         => "\%\%FreeTime$Param{Counter}\%\%$TimeStamp",
-    #        CreateUserID => $Param{UserID},
-    #    );
-    #
-    #    # clear ticket cache
-    #    delete $Self->{ 'Cache::GetTicket' . $Param{TicketID} };
-    #
-    #    # trigger event
-    #    $Self->EventHandler(
-    #        Event => 'TicketFreeTimeUpdate',
-    #        Data  => {
-    #            Counter  => $Param{Counter},
-    #            TicketID => $Param{TicketID},
-    #        },
-    #        UserID => $Param{UserID},
-    #    );
+    # clear ticket cache
+    delete $Self->{ 'Cache::GetTicket' . $Param{TicketID} };
 
     return 1;
 }
@@ -6991,6 +6933,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.521 $ $Date: 2011-09-05 11:55:10 $
+$Revision: 1.522 $ $Date: 2011-09-05 14:41:52 $
 
 =cut
