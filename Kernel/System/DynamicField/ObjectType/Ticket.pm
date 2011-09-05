@@ -1,15 +1,15 @@
 # --
-# Kernel/System/DynamicField/Object/Ticket.pm - Ticket object handler for DynamicField
+# Kernel/System/DynamicField/ObjectType/Ticket.pm - Ticket object handler for DynamicField
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.1 2011-09-02 23:01:33 cr Exp $
+# $Id: Ticket.pm,v 1.1 2011-09-05 07:08:57 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::System::DynamicField::Object::Ticket;
+package Kernel::System::DynamicField::ObjectType::Ticket;
 
 use strict;
 use warnings;
