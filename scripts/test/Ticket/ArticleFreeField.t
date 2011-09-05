@@ -2,7 +2,7 @@
 # ArticleFreeField.t - Article Free Field tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleFreeField.t,v 1.2 2011-09-05 14:44:57 mg Exp $
+# $Id: ArticleFreeField.t,v 1.3 2011-09-05 21:38:05 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,11 +26,11 @@ my $HelperObject = Kernel::System::UnitTest::Helper->new(
 
 my $RandomID = int rand 1_000_000_000;
 
-my $TicketObject            = Kernel::System::Ticket->new( %{$Self} );
 my $DynamicFieldObject      = Kernel::System::DynamicField->new( %{$Self} );
 my $DynamicFieldValueObject = Kernel::System::DynamicFieldValue->new( %{$Self} );
+my $TicketObject            = Kernel::System::Ticket->new( %{$Self} );
 
-my %OriginalFreeFields;
+my @OriginalFreeFields;
 
 # check if configuration already has freefields as dynamic fields
 # get the fields list
@@ -43,23 +43,23 @@ my $DynamicFieldList = $DynamicFieldObject->DynamicFieldListGet(
 for my $DynamicFieldConfig ( @{$DynamicFieldList} ) {
     if (
         $DynamicFieldConfig->{Name} =~ m{
-        \A
-        (
-            TicketFree
-            (?:
-                (?:Text|Key)
-                (?:1[0-6]|[1-9])
-                |
-                (?:Time [1-6])
+            \A
+            (
+                TicketFree
+                (?:
+                    (?:Text|Key)
+                    (?:1[0-6]|[1-9])
+                    |
+                    (?:Time [1-6])
+                )
             )
-        )
-        \z
-    }gmxi
+            \z
+        }smxi
         )
     {
 
         # set field reference
-        $OriginalFreeFields{ $DynamicFieldConfig->{Name} } = 1;
+        push @OriginalFreeFields, $DynamicFieldConfig;
     }
 }
 
@@ -82,19 +82,47 @@ for my $DynamicFieldConfig ( @{$DynamicFieldList} ) {
                 )
             )
             \z
-        }gmxi
+        }smxi
         )
     {
 
         # set field reference
-        $OriginalFreeFields{ $DynamicFieldConfig->{Name} } = 1;
+        push @OriginalFreeFields, $DynamicFieldConfig;
     }
+}
+
+# rename original fields
+for my $OriginalFreeFieldConfig (@OriginalFreeFields) {
+    my $Success = $DynamicFieldObject->DynamicFieldUpdate(
+        %{$OriginalFreeFieldConfig},
+        Name    => 'TicketFreeFieldTest' . $RandomID . $OriginalFreeFieldConfig->{Name},
+        Reorder => 0,
+        UserID  => 1,
+    );
+
+    # sanity checks
+    $Self->True(
+        $Success,
+        "Renamed field $OriginalFreeFieldConfig->{Name} to "
+            . "TicketFreeFieldTest" . $RandomID . $OriginalFreeFieldConfig->{Name} . " using "
+            . "DynamicFieldUpdate()",
+    );
+
+    my $UpdatedDynamicFieldConfig = $DynamicFieldObject->DynamicFieldGet(
+        Name => 'TicketFreeFieldTest' . $RandomID . $OriginalFreeFieldConfig->{Name},
+    );
+
+    $Self->Is(
+        $OriginalFreeFieldConfig->{ID},
+        $UpdatedDynamicFieldConfig->{ID},
+        "The ID of the Original and the Renamed field match"
+    );
 }
 
 # backward compatibity tests
 # create a ticket
 my $TicketID = $TicketObject->TicketCreate(
-    Title        => 'Some Ticket Title',
+    Title        => "Ticket$RandomID",
     Queue        => 'Raw',
     Lock         => 'unlock',
     Priority     => '3 normal',
@@ -137,12 +165,11 @@ my @FreeFieldIDs;
 
 # define TicketFreeText fields
 for my $Counter ( 1 .. 16 ) {
-    FIELD:
+
     for my $Part (qw(Key Text)) {
-        next FIELD if $OriginalFreeFields{ 'TicketFree' . $Part . $Counter };
 
         # create a dynamic field
-        my $FieldID = $DynamicFieldObject->DynamicFieldAdd(
+        my $FieldID = $TicketObject->{DynamicFieldObject}->DynamicFieldAdd(
             Name       => 'TicketFree' . $Part . $Counter,
             Label      => 'TicketFree' . $Part . $Counter,
             FieldOrder => 9890 + $Counter,
@@ -184,12 +211,10 @@ for my $Counter ( 1 .. 16 ) {
 # define ArticleFreeText fields
 for my $Counter ( 1 .. 3 ) {
 
-    ARTICLEFIELD:
     for my $Part (qw(Key Text)) {
-        next ARTICLEFIELD if $OriginalFreeFields{ 'ArticleFree' . $Part . $Counter };
 
         # create a dynamic field
-        my $FieldID = $DynamicFieldObject->DynamicFieldAdd(
+        my $FieldID = $TicketObject->{DynamicFieldObject}->DynamicFieldAdd(
             Name       => 'ArticleFree' . $Part . $Counter,
             Label      => 'ArticleFree' . $Part . $Counter,
             FieldOrder => 9990 + $Counter,
@@ -453,6 +478,8 @@ for ( 1 .. 3 ) {
 # delete the dynamic fields
 for my $FieldID (@FreeFieldIDs) {
 
+    my $DynamicFieldConfig = $DynamicFieldObject->DynamicFieldGet( ID => $FieldID );
+
     # delete the dynamic field
     my $FieldDelete = $DynamicFieldObject->DynamicFieldDelete(
         ID      => $FieldID,
@@ -463,7 +490,32 @@ for my $FieldID (@FreeFieldIDs) {
     # sanity check
     $Self->True(
         $FieldDelete,
-        "DynamicFieldDelete() successful for Field ID $FieldID",
+        "DynamicFieldDelete() successful for Field ID $FieldID - $DynamicFieldConfig->{Name}",
+    );
+}
+
+# restore original fields
+for my $OriginalFreeFieldConfig (@OriginalFreeFields) {
+    my $Success = $DynamicFieldObject->DynamicFieldUpdate(
+        %{$OriginalFreeFieldConfig},
+        Reorder => 0,
+        UserID  => 1,
+    );
+
+    # sanity checks
+    $Self->True(
+        $Success,
+        "Restored field $OriginalFreeFieldConfig->{Name}"
+    );
+
+    my $UpdatedDynamicFieldConfig = $DynamicFieldObject->DynamicFieldGet(
+        Name => $OriginalFreeFieldConfig->{Name},
+    );
+
+    $Self->Is(
+        $OriginalFreeFieldConfig->{ID},
+        $UpdatedDynamicFieldConfig->{ID},
+        "The ID of the Original field (DynamicFieldGet by Name) match"
     );
 }
 
