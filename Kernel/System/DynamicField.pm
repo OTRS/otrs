@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField.pm - DynamicFields configuration backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicField.pm,v 1.38 2011-09-06 07:36:18 mg Exp $
+# $Id: DynamicField.pm,v 1.39 2011-09-06 08:16:29 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Cache;
 use Kernel::System::DynamicField::Backend;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.38 $) [1];
+$VERSION = qw($Revision: 1.39 $) [1];
 
 =head1 NAME
 
@@ -295,7 +295,7 @@ sub DynamicFieldGet {
     }
 
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
-        my $Config = YAML::Load( $Data[6] );
+        my $Config = YAML::Load( $Data[6] ) || {};
 
         %Data = (
             ID         => $Data[0],
@@ -946,6 +946,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.38 $ $Date: 2011-09-06 07:36:18 $
+$Revision: 1.39 $ $Date: 2011-09-06 08:16:29 $
 
 =cut
