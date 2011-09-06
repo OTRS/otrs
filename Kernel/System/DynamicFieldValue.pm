@@ -2,7 +2,7 @@
 # Kernel/System/DynamicFieldValue.pm - DynamicField values backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicFieldValue.pm,v 1.9 2011-08-30 17:18:03 cr Exp $
+# $Id: DynamicFieldValue.pm,v 1.10 2011-09-06 12:17:07 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::Time;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 =head1 NAME
 
@@ -100,10 +100,8 @@ sets a dynamic field value.
 
     my $Success = $DynamicFieldValueObject->ValueSet(
         FieldID            => $FieldID,                 # ID of the dynamic field
-        ObjectType         => $ObjectType,              # the type of object e. g. Ticket,
-                                                        # Article, etc
         ObjectID           => $ObjectID,                # ID of the current object that the field
-                                                        # must be linked to, e. g. TicketID
+                                                        #   must be linked to, e. g. TicketID
         ValueText          => 'some text',              # optional
         ValueDateTime      => '1977-12-12 12:00:00',    # optional
         ValueInt           => 123,                      # optional
@@ -116,7 +114,7 @@ sub ValueSet {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for my $Needed (qw(FieldID ObjectType ObjectID)) {
+    for my $Needed (qw(FieldID ObjectID)) {
         if ( !$Param{$Needed} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
@@ -133,9 +131,8 @@ sub ValueSet {
 
     # try to get the value (if it was already set)
     my $Value = $Self->ValueGet(
-        FieldID    => $Param{FieldID},
-        ObjectType => $Param{ObjectType},
-        ObjectID   => $Param{ObjectID},
+        FieldID  => $Param{FieldID},
+        ObjectID => $Param{ObjectID},
     );
 
     # return on ValueGet error
@@ -193,11 +190,10 @@ sub ValueSet {
         # create a new value
         return if !$Self->{DBObject}->Do(
             SQL =>
-                'INSERT INTO dynamic_field_value (field_id, object_type, object_id,'
-                . ' value_text, value_date, value_int)'
-                . ' VALUES (?, ?, ?, ?, ?, ?)',
+                'INSERT INTO dynamic_field_value (field_id, object_id, value_text, value_date, value_int)'
+                . ' VALUES (?, ?, ?, ?, ?)',
             Bind => [
-                \$Param{FieldID},   \$Param{ObjectType},    \$Param{ObjectID},
+                \$Param{FieldID}, \$Param{ObjectID},
                 \$Param{ValueText}, \$Param{ValueDateTime}, \$Param{ValueInt},
             ],
         );
@@ -209,10 +205,10 @@ sub ValueSet {
     return if !$Self->{DBObject}->Do(
         SQL =>
             'UPDATE dynamic_field_value SET value_text = ?, value_date = ?, value_int = ?'
-            . ' WHERE field_id = ? AND object_type = ? AND object_id =?',
+            . ' WHERE field_id = ? AND object_id =?',
         Bind => [
             \$Param{ValueText}, \$Param{ValueDateTime}, \$Param{ValueInt},
-            \$Param{FieldID},   \$Param{ObjectType},    \$Param{ObjectID},
+            \$Param{FieldID}, \$Param{ObjectID},
         ],
     );
 
@@ -225,10 +221,8 @@ get a dynamic field value.
 
     my $Value = $DynamicFieldValueObject->ValueGet(
         FieldID            => $FieldID,                 # ID of the dynamic field
-        ObjectType         => $ObjectType,              # the type of object e. g. Ticket,
-                                                        # Article, etc
         ObjectID           => $ObjectID,                # ID of the current object that the field
-                                                        # must be linked to, e. g. TicketID
+                                                        #   is linked to, e. g. TicketID
     );
 
     Returns:
@@ -246,7 +240,7 @@ sub ValueGet {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for my $Needed (qw(FieldID ObjectType ObjectID)) {
+    for my $Needed (qw(FieldID ObjectID)) {
         if ( !$Param{$Needed} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
@@ -259,8 +253,8 @@ sub ValueGet {
     return if !$Self->{DBObject}->Prepare(
         SQL => 'SELECT id, value_text, value_date, value_int'
             . ' FROM dynamic_field_value'
-            . ' WHERE field_id = ? AND object_type = ? AND object_id = ?',
-        Bind => [ \$Param{FieldID}, \$Param{ObjectType}, \$Param{ObjectID} ],
+            . ' WHERE field_id = ? AND object_id = ?',
+        Bind => [ \$Param{FieldID}, \$Param{ObjectID} ],
     );
 
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
@@ -293,10 +287,8 @@ returns 1 if successful or undef otherwise
 
     my $Success = $DynamicFieldValueObject->ValueDelete(
         FieldID            => $FieldID,                 # ID of the dynamic field
-        ObjectType         => $ObjectType,              # the type of object e. g. Ticket,
-                                                        # Article, etc
         ObjectID           => $ObjectID,                # ID of the current object that the field
-                                                        # must be linked to, e. g. TicketID
+                                                        #   is linked to, e. g. TicketID
         UserID  => 123,
     );
 
@@ -306,7 +298,7 @@ sub ValueDelete {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for my $Needed (qw(FieldID ObjectType ObjectID UserID)) {
+    for my $Needed (qw(FieldID ObjectID UserID)) {
         if ( !$Param{$Needed} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
@@ -315,17 +307,15 @@ sub ValueDelete {
 
     # check if exists
     my $Value = $Self->ValueGet(
-        FieldID    => $Param{FieldID},
-        ObjectType => $Param{ObjectType},
-        ObjectID   => $Param{ObjectID},
+        FieldID  => $Param{FieldID},
+        ObjectID => $Param{ObjectID},
     );
     return if !IsHashRefWithData($Value);
 
     # delete dynamic field value
     return if !$Self->{DBObject}->Do(
-        SQL => 'DELETE FROM dynamic_field_value'
-            . ' WHERE field_id = ? AND object_type = ? AND object_id = ?',
-        Bind => [ \$Param{FieldID}, \$Param{ObjectType}, \$Param{ObjectID} ],
+        SQL => 'DELETE FROM dynamic_field_value WHERE field_id = ? AND object_id = ?',
+        Bind => [ \$Param{FieldID}, \$Param{ObjectID} ],
     );
 
     return 1;
@@ -347,6 +337,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.9 $ $Date: 2011-08-30 17:18:03 $
+$Revision: 1.10 $ $Date: 2011-09-06 12:17:07 $
 
 =cut

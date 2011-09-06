@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Text.pm - Delegate for DynamicField Text backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Text.pm,v 1.9 2011-09-02 10:11:57 mg Exp $
+# $Id: Text.pm,v 1.10 2011-09-06 12:17:07 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::DynamicFieldValue;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 =head1 NAME
 
@@ -78,9 +78,8 @@ sub ValueGet {
     my ( $Self, %Param ) = @_;
 
     my $DFValue = $Self->{DynamicFieldValueObject}->ValueGet(
-        FieldID    => $Param{DynamicFieldConfig}->{ID},
-        ObjectType => $Param{DynamicFieldConfig}->{ObjectType},
-        ObjectID   => $Param{ObjectID},
+        FieldID  => $Param{DynamicFieldConfig}->{ID},
+        ObjectID => $Param{ObjectID},
     );
 
     return if !$DFValue;
@@ -107,11 +106,10 @@ sub ValueSet {
     my ( $Self, %Param ) = @_;
 
     my $Success = $Self->{DynamicFieldValueObject}->ValueSet(
-        FieldID    => $Param{DynamicFieldConfig}->{ID},
-        ObjectType => $Param{DynamicFieldConfig}->{ObjectType},
-        ObjectID   => $Param{ObjectID},
-        ValueText  => $Param{Value},
-        UserID     => $Param{UserID},
+        FieldID   => $Param{DynamicFieldConfig}->{ID},
+        ObjectID  => $Param{ObjectID},
+        ValueText => $Param{Value},
+        UserID    => $Param{UserID},
     );
 
     return $Success;

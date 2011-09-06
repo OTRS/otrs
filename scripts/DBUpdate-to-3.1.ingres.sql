@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: ingres, generated: 2011-08-25 11:19:31
+--  driver: ingres, generated: 2011-09-06 14:07:00
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  alter table ticket_index
@@ -13,9 +13,9 @@ ALTER TABLE ticket_index ALTER COLUMN s_state VARCHAR(200);\g
 --  alter table ticket_index
 -- ----------------------------------------------------------
 ALTER TABLE ticket_index ALTER COLUMN s_lock VARCHAR(200);\g
-CREATE SEQUENCE gi_webservice_config_257;\g
+CREATE SEQUENCE gi_webservice_config_609;\g
 CREATE TABLE gi_webservice_config (
-    id INTEGER NOT NULL DEFAULT gi_webservice_config_257.NEXTVAL,
+    id INTEGER NOT NULL DEFAULT gi_webservice_config_609.NEXTVAL,
     name VARCHAR(200) NOT NULL,
     config LONG BYTE NOT NULL,
     config_md5 VARCHAR(32) NOT NULL,
@@ -29,9 +29,9 @@ CREATE TABLE gi_webservice_config (
 );\g
 MODIFY gi_webservice_config TO btree unique ON id WITH unique_scope = statement;\g
 ALTER TABLE gi_webservice_config ADD PRIMARY KEY ( id ) WITH index = base table structure;\g
-CREATE SEQUENCE gi_webservice_config_history_723;\g
+CREATE SEQUENCE gi_webservice_config_history_992;\g
 CREATE TABLE gi_webservice_config_history (
-    id BIGINT NOT NULL DEFAULT gi_webservice_config_history_723.NEXTVAL,
+    id BIGINT NOT NULL DEFAULT gi_webservice_config_history_992.NEXTVAL,
     config_id INTEGER NOT NULL,
     config LONG BYTE NOT NULL,
     config_md5 VARCHAR(32) NOT NULL,
@@ -43,9 +43,9 @@ CREATE TABLE gi_webservice_config_history (
 );\g
 MODIFY gi_webservice_config_history TO btree unique ON id WITH unique_scope = statement;\g
 ALTER TABLE gi_webservice_config_history ADD PRIMARY KEY ( id ) WITH index = base table structure;\g
-CREATE SEQUENCE scheduler_task_list_511;\g
+CREATE SEQUENCE scheduler_task_list_459;\g
 CREATE TABLE scheduler_task_list (
-    id BIGINT NOT NULL DEFAULT scheduler_task_list_511.NEXTVAL,
+    id BIGINT NOT NULL DEFAULT scheduler_task_list_459.NEXTVAL,
     task_data VARCHAR(8000) NOT NULL,
     task_data_md5 VARCHAR(32) NOT NULL,
     task_type VARCHAR(200) NOT NULL,
@@ -55,9 +55,9 @@ CREATE TABLE scheduler_task_list (
 );\g
 MODIFY scheduler_task_list TO btree unique ON id WITH unique_scope = statement;\g
 ALTER TABLE scheduler_task_list ADD PRIMARY KEY ( id ) WITH index = base table structure;\g
-CREATE SEQUENCE gi_debugger_entry_75;\g
+CREATE SEQUENCE gi_debugger_entry_400;\g
 CREATE TABLE gi_debugger_entry (
-    id BIGINT NOT NULL DEFAULT gi_debugger_entry_75.NEXTVAL,
+    id BIGINT NOT NULL DEFAULT gi_debugger_entry_400.NEXTVAL,
     communication_id VARCHAR(32) NOT NULL,
     communication_type VARCHAR(50) NOT NULL,
     remote_ip VARCHAR(50),
@@ -68,9 +68,9 @@ CREATE TABLE gi_debugger_entry (
 MODIFY gi_debugger_entry TO btree unique ON id WITH unique_scope = statement;\g
 ALTER TABLE gi_debugger_entry ADD PRIMARY KEY ( id ) WITH index = base table structure;\g
 CREATE INDEX gi_debugger_entry_create_time ON gi_debugger_entry (create_time);\g
-CREATE SEQUENCE gi_debugger_entry_content_239;\g
+CREATE SEQUENCE gi_debugger_entry_content_175;\g
 CREATE TABLE gi_debugger_entry_content (
-    id BIGINT NOT NULL DEFAULT gi_debugger_entry_content_239.NEXTVAL,
+    id BIGINT NOT NULL DEFAULT gi_debugger_entry_content_175.NEXTVAL,
     gi_debugger_entry_id BIGINT NOT NULL,
     debug_level VARCHAR(50) NOT NULL,
     subject VARCHAR(255) NOT NULL,
@@ -147,9 +147,9 @@ INSERT INTO ticket_history_type (name, valid_id, create_by, create_time, change_
 INSERT INTO ticket_history_type (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
     ('EscalationUpdateTimeStop', 1, 1, current_timestamp, 1, current_timestamp);\g
-CREATE SEQUENCE smime_signer_cert_relations_901;\g
+CREATE SEQUENCE smime_signer_cert_relations_407;\g
 CREATE TABLE smime_signer_cert_relations (
-    id INTEGER NOT NULL DEFAULT smime_signer_cert_relations_901.NEXTVAL,
+    id INTEGER NOT NULL DEFAULT smime_signer_cert_relations_407.NEXTVAL,
     cert_hash VARCHAR(8) NOT NULL,
     cert_fingerprint VARCHAR(59) NOT NULL,
     ca_hash VARCHAR(8) NOT NULL,
@@ -165,25 +165,23 @@ ALTER TABLE smime_signer_cert_relations ADD PRIMARY KEY ( id ) WITH index = base
 --  alter table process_id
 -- ----------------------------------------------------------
 ALTER TABLE process_id ADD COLUMN process_change INTEGER NOT NULL WITH DEFAULT;\g
-CREATE SEQUENCE dynamic_field_value_861;\g
+CREATE SEQUENCE dynamic_field_value_155;\g
 CREATE TABLE dynamic_field_value (
-    id INTEGER NOT NULL DEFAULT dynamic_field_value_861.NEXTVAL,
+    id INTEGER NOT NULL DEFAULT dynamic_field_value_155.NEXTVAL,
     field_id INTEGER NOT NULL,
-    object_type VARCHAR(200),
     object_id BIGINT NOT NULL,
     value_text LONG VARCHAR,
     value_date TIMESTAMP,
     value_int BIGINT,
-    UNIQUE (field_id, object_type, object_id)
+    UNIQUE (field_id, object_id)
 );\g
 MODIFY dynamic_field_value TO btree unique ON id WITH unique_scope = statement;\g
 ALTER TABLE dynamic_field_value ADD PRIMARY KEY ( id ) WITH index = base table structure;\g
-CREATE INDEX index_object ON dynamic_field_value (object_type, object_id);\g
 CREATE INDEX index_search_int ON dynamic_field_value (field_id, value_int);\g
 CREATE INDEX index_search_date ON dynamic_field_value (field_id, value_date);\g
-CREATE SEQUENCE dynamic_field_956;\g
+CREATE SEQUENCE dynamic_field_369;\g
 CREATE TABLE dynamic_field (
-    id INTEGER NOT NULL DEFAULT dynamic_field_956.NEXTVAL,
+    id INTEGER NOT NULL DEFAULT dynamic_field_369.NEXTVAL,
     name VARCHAR(200) NOT NULL,
     label VARCHAR(200) NOT NULL,
     field_order INTEGER NOT NULL,
