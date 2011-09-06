@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField.pm - DynamicFields configuration backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicField.pm,v 1.39 2011-09-06 08:16:29 mg Exp $
+# $Id: DynamicField.pm,v 1.40 2011-09-06 09:34:37 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Cache;
 use Kernel::System::DynamicField::Backend;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.39 $) [1];
+$VERSION = qw($Revision: 1.40 $) [1];
 
 =head1 NAME
 
@@ -539,13 +539,13 @@ sub DynamicFieldList {
 
     # check cache
     my $Valid = 1;
-    if ( !$Param{Valid} ) {
-        $Valid = '0';
+    if ( defined $Param{Valid} && $Param{Valid} eq '0' ) {
+        $Valid = 0;
     }
 
     my $ObjectType = $Param{ObjectType} || 'All';
 
-    my $CacheKey = 'DynamicFieldList::Valid::' . $Valid . 'ObjectType' . $ObjectType;
+    my $CacheKey = 'DynamicFieldList::Valid::' . $Valid . '::ObjectType::' . $ObjectType;
     my $Cache    = $Self->{CacheObject}->Get(
         Type => 'DynamicField',
         Key  => $CacheKey,
@@ -562,7 +562,7 @@ sub DynamicFieldList {
 
     my $SQL = 'SELECT id, name, field_order FROM dynamic_field';
 
-    if ( !defined $Param{Valid} || $Param{Valid} eq 1 ) {
+    if ($Valid) {
         $SQL .= ' WHERE valid_id IN (' . join ', ', $Self->{ValidObject}->ValidIDsGet() . ')';
 
         if ( $Param{ObjectType} && $Param{ObjectType} ne 'All' ) {
@@ -672,13 +672,13 @@ sub DynamicFieldListGet {
 
     # check cache
     my $Valid = 1;
-    if ( !$Param{Valid} ) {
-        $Valid = '0';
+    if ( defined $Param{Valid} && $Param{Valid} eq '0' ) {
+        $Valid = 0;
     }
 
     my $ObjectType = $Param{ObjectType} || 'All';
 
-    my $CacheKey = 'DynamicFieldListGet::Valid::' . $Valid . 'ObjectType' . $ObjectType;
+    my $CacheKey = 'DynamicFieldListGet::Valid::' . $Valid . '::ObjectType::' . $ObjectType;
     my $Cache    = $Self->{CacheObject}->Get(
         Type => 'DynamicField',
         Key  => $CacheKey,
@@ -693,7 +693,7 @@ sub DynamicFieldListGet {
     my @Data;
     my $SQL = 'SELECT id, name, field_order FROM dynamic_field';
 
-    if ( !defined $Param{Valid} || $Param{Valid} eq 1 ) {
+    if ($Valid) {
         $SQL .= ' WHERE valid_id IN (' . join ', ', $Self->{ValidObject}->ValidIDsGet() . ')';
 
         if ( $Param{ObjectType} && $Param{ObjectType} ne 'All' ) {
@@ -946,6 +946,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.39 $ $Date: 2011-09-06 08:16:29 $
+$Revision: 1.40 $ $Date: 2011-09-06 09:34:37 $
 
 =cut
