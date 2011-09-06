@@ -2,7 +2,7 @@
 # ArticleFreeField.t - Article Free Field tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleFreeField.t,v 1.3 2011-09-05 21:38:05 cr Exp $
+# $Id: ArticleFreeField.t,v 1.4 2011-09-06 17:38:16 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -169,7 +169,7 @@ for my $Counter ( 1 .. 16 ) {
     for my $Part (qw(Key Text)) {
 
         # create a dynamic field
-        my $FieldID = $TicketObject->{DynamicFieldObject}->DynamicFieldAdd(
+        my $FieldID = $DynamicFieldObject->DynamicFieldAdd(
             Name       => 'TicketFree' . $Part . $Counter,
             Label      => 'TicketFree' . $Part . $Counter,
             FieldOrder => 9890 + $Counter,
@@ -214,7 +214,7 @@ for my $Counter ( 1 .. 3 ) {
     for my $Part (qw(Key Text)) {
 
         # create a dynamic field
-        my $FieldID = $TicketObject->{DynamicFieldObject}->DynamicFieldAdd(
+        my $FieldID = $DynamicFieldObject->DynamicFieldAdd(
             Name       => 'ArticleFree' . $Part . $Counter,
             Label      => 'ArticleFree' . $Part . $Counter,
             FieldOrder => 9990 + $Counter,

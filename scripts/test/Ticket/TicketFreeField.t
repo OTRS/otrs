@@ -2,7 +2,7 @@
 # TicketFreeField.t - Ticket Free Field tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketFreeField.t,v 1.3 2011-09-05 21:37:38 cr Exp $
+# $Id: TicketFreeField.t,v 1.4 2011-09-06 17:38:16 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -140,7 +140,7 @@ for my $Counter ( 1 .. 16 ) {
     for my $Part (qw(Key Text)) {
 
         # create a dynamic field
-        my $FieldID = $TicketObject->{DynamicFieldObject}->DynamicFieldAdd(
+        my $FieldID = $DynamicFieldObject->DynamicFieldAdd(
             Name       => 'TicketFree' . $Part . $Counter,
             Label      => 'TicketFree' . $Part . $Counter,
             FieldOrder => 9890 + $Counter,
@@ -183,7 +183,7 @@ for my $Counter ( 1 .. 16 ) {
 for my $Counter ( 1 .. 6 ) {
 
     # create a dynamic field
-    my $FieldID = $TicketObject->{DynamicFieldObject}->DynamicFieldAdd(
+    my $FieldID = $DynamicFieldObject->DynamicFieldAdd(
         Name       => 'TicketFreeTime' . $Counter,
         Label      => 'TicketFreeTime' . $Counter,
         FieldOrder => 9900 + $Counter,
