@@ -2,7 +2,7 @@
 # DynamicFieldValue.t - DynamicFieldValue backend tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicFieldValue.t,v 1.7 2011-08-27 17:34:47 cr Exp $
+# $Id: DynamicFieldValue.t,v 1.8 2011-09-06 17:35:26 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -85,15 +85,6 @@ my @Tests = (
         },
         UserID  => 1,
         Success => 0,
-    },
-    {
-        Name               => 'No ObjectType',
-        DynamicFieldConfig => {
-            ID => -1,
-        },
-        ObjectID => $TicketID,
-        UserID   => 1,
-        Success  => 0,
     },
     {
         Name               => 'No UserID',
@@ -381,15 +372,6 @@ for my $Test (@Tests) {
         DynamicFieldConfig => {
             ID         => -1,
             ObjectType => 'Ticket',
-        },
-        ObjectID => $TicketID,
-        UserID   => 1,
-    },
-    {
-        Name               => 'Wrong ObjectType',
-        DynamicFieldConfig => {
-            ID         => $FieldID,
-            ObjectType => 'InvalidObject',
         },
         ObjectID => $TicketID,
         UserID   => 1,
