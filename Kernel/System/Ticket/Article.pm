@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.288 2011-09-05 21:28:21 cr Exp $
+# $Id: Article.pm,v 1.289 2011-09-06 09:39:46 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::EmailParser;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.288 $) [1];
+$VERSION = qw($Revision: 1.289 $) [1];
 
 =head1 NAME
 
@@ -1088,6 +1088,8 @@ sub ArticleFreeTextGet {
 
 =item ArticleFreeTextSet()
 
+DEPRECATED. This function will be removed in a future version of OTRS, don't use it any more!
+
 set an article free text field
 
     my $Success = $TicketObject->ArticleFreeTextSet(
@@ -1210,27 +1212,6 @@ sub ArticleFreeTextSet {
     # clear ticket cache
     delete $Self->{ 'Cache::GetTicket' . $Param{TicketID} };
 
-  #    # db quote for key an value
-  #    for (qw(Counter)) {
-  #        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
-  #    }
-  #
-  #    # db update
-  #    return if !$Self->{DBObject}->Do(
-  #        SQL => "UPDATE article SET a_freekey$Param{Counter} = ?, a_freetext$Param{Counter} = ?, "
-  #            . " change_time = current_timestamp, change_by = ? WHERE id = ?",
-  #        Bind => [ \$Param{Key}, \$Param{Value}, \$Param{UserID}, \$Param{ArticleID} ],
-  #    );
-  #
-  #    # event
-  #    $Self->EventHandler(
-  #        Event => 'ArticleFreeTextUpdate',
-  #        Data  => {
-  #            TicketID  => $Param{TicketID},
-  #            ArticleID => $Param{ArticleID},
-  #        },
-  #        UserID => $Param{UserID},
-  #    );
     return 1;
 }
 
@@ -1575,23 +1556,9 @@ sub ArticleGet {
         . ' sa.a_content_type, sa.create_by, st.tn, article_sender_type_id, st.customer_id, '
         . ' st.until_time, st.ticket_priority_id, st.customer_user_id, st.user_id, '
         . ' st.responsible_user_id, sa.article_type_id, '
-
-        #        . ' sa.a_freekey1, sa.a_freetext1, sa.a_freekey2, sa.a_freetext2, '
-        #        . ' sa.a_freekey3, sa.a_freetext3, '
         . ' st.ticket_answered, '
         . ' sa.incoming_time, sa.id, '
-
-        #        . ' st.freekey1, st.freetext1, st.freekey2, st.freetext2,'
-        #        . ' st.freekey3, st.freetext3, st.freekey4, st.freetext4,'
-        #        . ' st.freekey5, st.freetext5, st.freekey6, st.freetext6,'
-        #        . ' st.freekey7, st.freetext7, st.freekey8, st.freetext8, '
-        #        . ' st.freekey9, st.freetext9, st.freekey10, st.freetext10, '
-        #        . ' st.freekey11, st.freetext11, st.freekey12, st.freetext12, '
-        #        . ' st.freekey13, st.freetext13, st.freekey14, st.freetext14, '
-        #        . ' st.freekey15, st.freetext15, st.freekey16, st.freetext16, '
         . ' st.ticket_lock_id, st.title, st.escalation_update_time, '
-
- #        . ' st.freetime1 , st.freetime2, st.freetime3, st.freetime4, st.freetime5, st.freetime6, '
         . ' st.type_id, st.service_id, st.sla_id, st.escalation_response_time, '
         . ' st.escalation_solution_time, st.escalation_time, st.change_time '
         . ' FROM article sa, ticket st WHERE ';
@@ -1689,61 +1656,15 @@ sub ArticleGet {
         else {
             $Data{MimeType} = '';
         }
-        $Data{CustomerUserID}   = $Row[21];
-        $Ticket{CustomerUserID} = $Row[21];
-        $Data{CustomerID}       = $Row[18];
-        $Ticket{CustomerID}     = $Row[18];
-        $Data{OwnerID}          = $Row[22];
-        $Ticket{OwnerID}        = $Row[22];
-        $Data{ResponsibleID}    = $Row[23] || 1;
-        $Ticket{ResponsibleID}  = $Row[23] || 1;
-        $Data{ArticleTypeID}    = $Row[24];
-
-        #        $Data{ArticleFreeKey1}  = $Row[25];
-        #        $Data{ArticleFreeText1} = $Row[26];
-        #        $Data{ArticleFreeKey2}  = $Row[27];
-        #        $Data{ArticleFreeText2} = $Row[28];
-        #        $Data{ArticleFreeKey3}  = $Row[29];
-        #        $Data{ArticleFreeText3} = $Row[30];
-
-        #        $Data{TicketFreeKey1}      = $Row[34];
-        #        $Data{TicketFreeText1}     = $Row[35];
-        #        $Data{TicketFreeKey2}      = $Row[36];
-        #        $Data{TicketFreeText2}     = $Row[37];
-        #        $Data{TicketFreeKey3}      = $Row[38];
-        #        $Data{TicketFreeText3}     = $Row[39];
-        #        $Data{TicketFreeKey4}      = $Row[40];
-        #        $Data{TicketFreeText4}     = $Row[41];
-        #        $Data{TicketFreeKey5}      = $Row[42];
-        #        $Data{TicketFreeText5}     = $Row[43];
-        #        $Data{TicketFreeKey6}      = $Row[44];
-        #        $Data{TicketFreeText6}     = $Row[45];
-        #        $Data{TicketFreeKey7}      = $Row[46];
-        #        $Data{TicketFreeText7}     = $Row[47];
-        #        $Data{TicketFreeKey8}      = $Row[48];
-        #        $Data{TicketFreeText8}     = $Row[49];
-        #        $Data{TicketFreeKey9}      = $Row[50];
-        #        $Data{TicketFreeText9}     = $Row[51];
-        #        $Data{TicketFreeKey10}     = $Row[52];
-        #        $Data{TicketFreeText10}    = $Row[53];
-        #        $Data{TicketFreeKey11}     = $Row[54];
-        #        $Data{TicketFreeText11}    = $Row[55];
-        #        $Data{TicketFreeKey12}     = $Row[56];
-        #        $Data{TicketFreeText12}    = $Row[57];
-        #        $Data{TicketFreeKey13}     = $Row[58];
-        #        $Data{TicketFreeText13}    = $Row[59];
-        #        $Data{TicketFreeKey14}     = $Row[60];
-        #        $Data{TicketFreeText14}    = $Row[61];
-        #        $Data{TicketFreeKey15}     = $Row[62];
-        #        $Data{TicketFreeText15}    = $Row[63];
-        #        $Data{TicketFreeKey16}     = $Row[64];
-        #        $Data{TicketFreeText16}    = $Row[65];
-        #        $Data{TicketFreeTime1}     = $Row[69];
-        #        $Data{TicketFreeTime2}     = $Row[70];
-        #        $Data{TicketFreeTime3}     = $Row[71];
-        #        $Data{TicketFreeTime4}     = $Row[72];
-        #        $Data{TicketFreeTime5}     = $Row[73];
-        #        $Data{TicketFreeTime6}     = $Row[74];
+        $Data{CustomerUserID}      = $Row[21];
+        $Ticket{CustomerUserID}    = $Row[21];
+        $Data{CustomerID}          = $Row[18];
+        $Ticket{CustomerID}        = $Row[18];
+        $Data{OwnerID}             = $Row[22];
+        $Ticket{OwnerID}           = $Row[22];
+        $Data{ResponsibleID}       = $Row[23] || 1;
+        $Ticket{ResponsibleID}     = $Row[23] || 1;
+        $Data{ArticleTypeID}       = $Row[24];
         $Data{IncomingTime}        = $Row[26];
         $Data{RealTillTimeNotUsed} = $Row[19];
         $Ticket{LockID}            = $Row[28];
@@ -3589,6 +3510,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.288 $ $Date: 2011-09-05 21:28:21 $
+$Revision: 1.289 $ $Date: 2011-09-06 09:39:46 $
 
 =cut
