@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Text.pm - Delegate for DynamicField Text backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Text.pm,v 1.11 2011-09-06 17:41:46 cg Exp $
+# $Id: Text.pm,v 1.12 2011-09-06 20:51:11 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::DynamicFieldValue;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 =head1 NAME
 
@@ -179,6 +179,9 @@ creates the field HTML to be used in edit masks.
                                                           #     This may be needed to realize ACL support for ticket masks,
                                                           #     where the possible values can be limited with and ACL.
         Mandatory          => 1,                          # 0 or 1,
+        Class              => 'AnyCSSClass, OrOneMore',   # Optional
+        ServerError        => 1,                          # 0 or 1,
+        ErrorMessage       => $ErrorMessage,              # Optional or a default will be used in error case
     );
 
 =cut
@@ -211,11 +214,19 @@ sub EditFieldRender {
             return;
         }
     }
+
+    # take config from field config
     my $FieldConfig = $Param{DynamicFieldConfig}->{Config};
+
+    # check and set class if necessary
+    my $FieldClass = 'DynamicFieldText';
+    if ( defined $Param{Class} && $Param{Class} ne '' ) {
+        $FieldClass .= $Param{Class};
+    }
 
     my $HTMLString =
         '<input type="text" ' .
-        'class="DynamicFieldText" ' .
+        'class="' . $FieldClass . '" ' .
         'id="' . $FieldConfig->{Name} . '"' .
         'name="' . $FieldConfig->{Name} . '"' .
         'title="' . $FieldConfig->{Label} . '"' .
@@ -230,14 +241,18 @@ sub EditFieldRender {
             'class="TooltipErrorMessage">' .
             '<p>$Text{"This field is required."}</p>' .
             '</div>';
+    }
+
+    if ( $Param{ServerError} ) {
+
+        my $ErrorMessage = $Param{ErrorMessage} || 'This field is required.';
 
         # for server side validation
         $HTMLString .=
             '<div id="' . $FieldConfig->{Name} . 'ServerError" ' .
             'class="TooltipErrorMessage">' .
-            '<p>$Text{"This field is required."}</p>' .
+            '<p>$Text{"' . $ErrorMessage . '"}</p>' .
             '</div>';
-
     }
 
     return $HTMLString;
