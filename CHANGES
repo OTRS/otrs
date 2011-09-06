@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1968 2011-09-05 13:53:33 martin Exp $
+# $Id: CHANGES,v 1.1969 2011-09-06 11:00:08 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.1.0 beta1 2011-??-??
+ - 2011-09-06 Converted all translation files to utf-8.
  - 2011-09-01 Changed Postgresql driver to also use standard_conforming_strings in regular
     database connections.
  - 2011-09-01 Fixed bug#7684 - PostMaster Filter Module fails to create ticket if
