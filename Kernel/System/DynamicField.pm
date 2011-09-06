@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField.pm - DynamicFields configuration backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicField.pm,v 1.37 2011-09-05 14:27:13 mg Exp $
+# $Id: DynamicField.pm,v 1.38 2011-09-06 07:36:18 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,12 +16,12 @@ use warnings;
 
 use YAML;
 use Kernel::System::Valid;
-use Kernel::System::CacheInternal;
 use Kernel::System::VariableCheck qw(:all);
+use Kernel::System::Cache;
 use Kernel::System::DynamicField::Backend;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.37 $) [1];
+$VERSION = qw($Revision: 1.38 $) [1];
 
 =head1 NAME
 
@@ -92,16 +92,12 @@ sub new {
     }
 
     # create additional objects
+    $Self->{CacheObject} = Kernel::System::Cache->new( %{$Self} );
     $Self->{ValidObject} = Kernel::System::Valid->new( %{$Self} );
 
     # get the cache TTL (in seconds)
     $Self->{CacheTTL}
         = int( $Self->{ConfigObject}->Get('DynamicField::CacheTTL') || 3600 );
-    $Self->{CacheInternalObject} = Kernel::System::CacheInternal->new(
-        %Param,
-        Type => 'DynamicField',
-        TTL  => $Self->{CacheTTL},
-    );
 
     return $Self;
 }
@@ -204,7 +200,9 @@ sub DynamicFieldAdd {
     return if !$DynamicField->{ID};
 
     # delete cache
-    $Self->{CacheInternalObject}->CleanUp();
+    $Self->{CacheObject}->CleanUp(
+        Type => 'DynamicField',
+    );
 
     if ( !exists $Param{Reorder} || $Param{Reorder} ) {
 
@@ -264,8 +262,9 @@ sub DynamicFieldGet {
         $CacheKey = 'DynamicFieldGet::Name::' . $Param{Name};
 
     }
-    my $Cache = $Self->{CacheInternalObject}->Get(
-        Key => $CacheKey,
+    my $Cache = $Self->{CacheObject}->Get(
+        Type => 'DynamicField',
+        Key  => $CacheKey,
     );
 
     # get data from cache
@@ -313,9 +312,11 @@ sub DynamicFieldGet {
     }
 
     # set cache
-    $Self->{CacheInternalObject}->Set(
+    $Self->{CacheObject}->Set(
+        Type  => 'DynamicField',
         Key   => $CacheKey,
         Value => \%Data,
+        TTL   => $Self->{CacheTTL},
     );
 
     return \%Data;
@@ -423,7 +424,9 @@ sub DynamicFieldUpdate {
     );
 
     # delete cache
-    $Self->{CacheInternalObject}->CleanUp();
+    $Self->{CacheObject}->CleanUp(
+        Type => 'DynamicField',
+    );
 
     # re-order field list if a change in the order was made
     if ( $Reorder && $ChangedOrder ) {
@@ -490,7 +493,9 @@ sub DynamicFieldDelete {
     );
 
     # delete cache
-    $Self->{CacheInternalObject}->CleanUp();
+    $Self->{CacheObject}->CleanUp(
+        Type => 'DynamicField',
+    );
 
     return 1;
 }
@@ -541,8 +546,9 @@ sub DynamicFieldList {
     my $ObjectType = $Param{ObjectType} || 'All';
 
     my $CacheKey = 'DynamicFieldList::Valid::' . $Valid . 'ObjectType' . $ObjectType;
-    my $Cache    = $Self->{CacheInternalObject}->Get(
-        Key => $CacheKey,
+    my $Cache    = $Self->{CacheObject}->Get(
+        Type => 'DynamicField',
+        Key  => $CacheKey,
     );
 
     my $ResultType = $Param{ResultType} || '';
@@ -583,7 +589,8 @@ sub DynamicFieldList {
         if (%Data) {
 
             # set cache
-            $Self->{CacheInternalObject}->Set(
+            $Self->{CacheObject}->Set(
+                Type  => 'DynamicField',
                 Key   => $CacheKey,
                 Value => \%Data,
                 TTL   => $Self->{CacheTTL},
@@ -603,7 +610,8 @@ sub DynamicFieldList {
         if (@Data) {
 
             # set cache
-            $Self->{CacheInternalObject}->Set(
+            $Self->{CacheObject}->Set(
+                Type  => 'DynamicField',
                 Key   => $CacheKey,
                 Value => \@Data,
                 TTL   => $Self->{CacheTTL},
@@ -670,9 +678,10 @@ sub DynamicFieldListGet {
 
     my $ObjectType = $Param{ObjectType} || 'All';
 
-    my $CacheKey = 'DynamicFieldListGet::Valid::' . $Valid . '::ObjectType' . $ObjectType;
-    my $Cache    = $Self->{CacheInternalObject}->Get(
-        Key => $CacheKey,
+    my $CacheKey = 'DynamicFieldListGet::Valid::' . $Valid . 'ObjectType' . $ObjectType;
+    my $Cache    = $Self->{CacheObject}->Get(
+        Type => 'DynamicField',
+        Key  => $CacheKey,
     );
 
     if ($Cache) {
@@ -717,9 +726,11 @@ sub DynamicFieldListGet {
     if (@Data) {
 
         # set cache
-        $Self->{CacheInternalObject}->Set(
+        $Self->{CacheObject}->Set(
+            Type  => 'DynamicField',
             Key   => $CacheKey,
             Value => \@Data,
+            TTL   => $Self->{CacheTTL},
         );
     }
     return \@Data;
@@ -913,7 +924,9 @@ sub _DynamicFieldReorder {
     }
 
     # delete cache
-    $Self->{CacheInternalObject}->CleanUp();
+    $Self->{CacheObject}->CleanUp(
+        Type => 'DynamicField',
+    );
 
     return 1;
 }
@@ -933,6 +946,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.37 $ $Date: 2011-09-05 14:27:13 $
+$Revision: 1.38 $ $Date: 2011-09-06 07:36:18 $
 
 =cut
