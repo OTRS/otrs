@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Text.pm - Delegate for DynamicField Text backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Text.pm,v 1.12 2011-09-06 20:51:11 cg Exp $
+# $Id: Text.pm,v 1.13 2011-09-06 21:15:49 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::DynamicFieldValue;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 =head1 NAME
 
@@ -178,9 +178,10 @@ creates the field HTML to be used in edit masks.
         PossibleValuesFilter => ['value1', 'value2'],     # Optional. Some backends may support this.
                                                           #     This may be needed to realize ACL support for ticket masks,
                                                           #     where the possible values can be limited with and ACL.
+        FieldValue         => 'Any value',                # Optional
         Mandatory          => 1,                          # 0 or 1,
         Class              => 'AnyCSSClass, OrOneMore',   # Optional
-        ServerError        => 1,                          # 0 or 1,
+        ServerError        => 1,                          # 0 or 1
         ErrorMessage       => $ErrorMessage,              # Optional or a default will be used in error case
     );
 
@@ -218,6 +219,10 @@ sub EditFieldRender {
     # take config from field config
     my $FieldConfig = $Param{DynamicFieldConfig}->{Config};
 
+    # set the field value or default
+    my $FieldValue
+        = ( defined $Param{FieldValue} ? $Param{FieldValue} : $FieldConfig->{DefaultValue} );
+
     # check and set class if necessary
     my $FieldClass = 'DynamicFieldText';
     if ( defined $Param{Class} && $Param{Class} ne '' ) {
@@ -230,7 +235,7 @@ sub EditFieldRender {
         'id="' . $FieldConfig->{Name} . '"' .
         'name="' . $FieldConfig->{Name} . '"' .
         'title="' . $FieldConfig->{Label} . '"' .
-        'value="" ' .
+        'value="' . $FieldValue . '"' .
         '/>';
 
     if ( $Param{Mandatory} ) {
