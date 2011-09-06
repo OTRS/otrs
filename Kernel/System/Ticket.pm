@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.488.2.17 2011-08-11 09:37:44 mg Exp $
+# $Id: Ticket.pm,v 1.488.2.18 2011-09-06 22:42:31 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -35,7 +35,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::EventHandler;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.488.2.17 $) [1];
+$VERSION = qw($Revision: 1.488.2.18 $) [1];
 
 =head1 NAME
 
@@ -4672,7 +4672,7 @@ sub TicketSearch {
 
     # get articles created older/newer than x minutes or older/newer than a date
     my %ArticleTime = (
-        ArticleCreateTime => 'art.create_time',
+        ArticleCreateTime => 'art.incoming_time',
     );
     for my $Key ( keys %ArticleTime ) {
 
@@ -4681,10 +4681,8 @@ sub TicketSearch {
 
             $Param{ $Key . 'OlderMinutes' } ||= 0;
 
-            my $Time = $Self->{TimeObject}->SystemTime2TimeStamp(
-                SystemTime => $Self->{TimeObject}->SystemTime()
-                    - ( $Param{ $Key . 'OlderMinutes' } * 60 ),
-            );
+            my $Time = $Self->{TimeObject}->SystemTime()
+                - ( $Param{ $Key . 'OlderMinutes' } * 60 );
 
             $SQLExt .= " AND $ArticleTime{$Key} <= '$Time'";
         }
@@ -4694,10 +4692,8 @@ sub TicketSearch {
 
             $Param{ $Key . 'NewerMinutes' } ||= 0;
 
-            my $Time = $Self->{TimeObject}->SystemTime2TimeStamp(
-                SystemTime => $Self->{TimeObject}->SystemTime()
-                    - ( $Param{ $Key . 'NewerMinutes' } * 60 ),
-            );
+            my $Time = $Self->{TimeObject}->SystemTime()
+                - ( $Param{ $Key . 'NewerMinutes' } * 60 );
 
             $SQLExt .= " AND $ArticleTime{$Key} >= '$Time'";
         }
@@ -4706,7 +4702,7 @@ sub TicketSearch {
         if ( $Param{ $Key . 'OlderDate' } ) {
             if (
                 $Param{ $Key . 'OlderDate' }
-                !~ /\d\d\d\d-(\d\d|\d)-(\d\d|\d) (\d\d|\d):(\d\d|\d):(\d\d|\d)/
+                !~ /(\d\d\d\d)-(\d\d|\d)-(\d\d|\d) (\d\d|\d):(\d\d|\d):(\d\d|\d)/
                 )
             {
                 $Self->{LogObject}->Log(
@@ -4716,14 +4712,25 @@ sub TicketSearch {
                 return;
             }
 
-            $SQLExt .= " AND $ArticleTime{$Key} <= '" . $Param{ $Key . 'OlderDate' } . "'";
+            # convert param date to system time
+            my $SystemTime = $Self->{TimeObject}->Date2SystemTime(
+                Year   => $1,
+                Month  => $2,
+                Day    => $3,
+                Hour   => $4,
+                Minute => $5,
+                Second => $6,
+            );
+
+            $SQLExt .= " AND $ArticleTime{$Key} <= '" . $SystemTime . "'";
+
         }
 
         # get articles created newer than xxxx-xx-xx xx:xx date
         if ( $Param{ $Key . 'NewerDate' } ) {
             if (
                 $Param{ $Key . 'NewerDate' }
-                !~ /\d\d\d\d-(\d\d|\d)-(\d\d|\d) (\d\d|\d):(\d\d|\d):(\d\d|\d)/
+                !~ /(\d\d\d\d)-(\d\d|\d)-(\d\d|\d) (\d\d|\d):(\d\d|\d):(\d\d|\d)/
                 )
             {
                 $Self->{LogObject}->Log(
@@ -4733,8 +4740,19 @@ sub TicketSearch {
                 return;
             }
 
-            $SQLExt .= " AND $ArticleTime{$Key} >= '" . $Param{ $Key . 'NewerDate' } . "'";
+            # convert param date to system time
+            my $SystemTime = $Self->{TimeObject}->Date2SystemTime(
+                Year   => $1,
+                Month  => $2,
+                Day    => $3,
+                Hour   => $4,
+                Minute => $5,
+                Second => $6,
+            );
+
+            $SQLExt .= " AND $ArticleTime{$Key} >= '" . $SystemTime . "'";
         }
+
     }
 
     # get tickets created/escalated older/newer than x minutes
@@ -8477,6 +8495,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.488.2.17 $ $Date: 2011-08-11 09:37:44 $
+$Revision: 1.488.2.18 $ $Date: 2011-09-06 22:42:31 $
 
 =cut
