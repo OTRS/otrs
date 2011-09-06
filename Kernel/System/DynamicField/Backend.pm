@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend.pm - Interface for DynamicField backends
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Backend.pm,v 1.21 2011-09-05 11:50:07 mg Exp $
+# $Id: Backend.pm,v 1.22 2011-09-06 18:30:45 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Scalar::Util qw(weaken);
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
+$VERSION = qw($Revision: 1.22 $) [1];
 
 =head1 NAME
 
@@ -239,6 +239,9 @@ creates the field HTML to be used in edit masks.
                                                           #     This may be needed to realize ACL support for ticket masks,
                                                           #     where the possible values can be limited with and ACL.
         Mandatory          => 1,                          # 0 or 1,
+        Class              => 'AnyCSSClass, OrOneMore',   # Optional
+        ServerError        => 1,                          # 0 or 1,
+        ErrorMessage       => $ErrorMessage,              # Optional or a default will be used in error case
     );
 
 =cut
@@ -285,7 +288,7 @@ sub EditFieldRender {
         return;
     }
 
-    # set the dyanamic filed specific backend
+    # set the dynamic filed specific backend
     my $DynamicFieldBackend = 'DynamicField' . $Param{DynamicFieldConfig}->{FieldType} . 'Object';
 
     if ( !$Self->{$DynamicFieldBackend} ) {
@@ -392,7 +395,7 @@ sub ValueSet {
         }
     }
 
-    # set the dyanamic filed specific backend
+    # set the dynamic filed specific backend
     my $DynamicFieldBackend = 'DynamicField' . $Param{DynamicFieldConfig}->{FieldType} . 'Object';
 
     if ( !$Self->{$DynamicFieldBackend} ) {
@@ -684,6 +687,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.21 $ $Date: 2011-09-05 11:50:07 $
+$Revision: 1.22 $ $Date: 2011-09-06 18:30:45 $
 
 =cut
