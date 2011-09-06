@@ -2,7 +2,7 @@
 # Kernel/System/UnitTest.pm - the global test wrapper
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: UnitTest.pm,v 1.57 2011-03-10 21:29:08 sb Exp $
+# $Id: UnitTest.pm,v 1.58 2011-09-06 08:15:00 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.57 $) [1];
+$VERSION = qw($Revision: 1.58 $) [1];
 
 =head1 NAME
 
@@ -744,7 +744,11 @@ sub _DataDiff {
         for my $Key ( keys %A ) {
 
             # do nothing, it's ok
-            next if !defined $A{$Key} && !defined $B{$Key};
+            if ( !defined $A{$Key} && !defined $B{$Key} ) {
+                delete $A{$Key};
+                delete $B{$Key};
+                next;
+            }
 
             # return diff, because its different
             return 1 if !defined $A{$Key} || !defined $B{$Key};
@@ -915,6 +919,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.57 $ $Date: 2011-03-10 21:29:08 $
+$Revision: 1.58 $ $Date: 2011-09-06 08:15:00 $
 
 =cut
