@@ -1,15 +1,15 @@
 # --
-# Kernel/System/DynamicField/BackendCommon.pm - Dynamic field backend functions
+# Kernel/System/DynamicField/Backend/BackendCommon.pm - Dynamic field backend functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: BackendCommon.pm,v 1.2 2011-09-07 17:53:11 cg Exp $
+# $Id: BackendCommon.pm,v 1.1 2011-09-07 18:22:44 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::System::DynamicField::BackendCommon;
+package Kernel::System::DynamicField::Backend::BackendCommon;
 
 use strict;
 use warnings;
@@ -17,11 +17,11 @@ use warnings;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.1 $) [1];
 
 =head1 NAME
 
-Kernel::System::DynamicField::BackendCommon - common fields backend functions
+Kernel::System::DynamicField::Backend::BackendCommon - common fields backend functions
 
 =head1 SYNOPSIS
 
@@ -39,7 +39,7 @@ create an object
     use Kernel::System::Encode;
     use Kernel::System::Log;
     use Kernel::System::Main;
-    use Kernel::System::DynamicField::BackendCommon;
+    use Kernel::System::DynamicField::Backend::BackendCommon;
 
     my $ConfigObject = Kernel::Config->new();
     my $EncodeObject = Kernel::System::Encode->new(
@@ -55,7 +55,7 @@ create an object
         LogObject    => $LogObject,
     );
     );
-    my $BackendCommonObject = Kernel::System::DynamicField::BackendCommon->new(
+    my $BackendCommonObject = Kernel::System::DynamicField::Backend::BackendCommon->new(
         LogObject          => $LogObject,
         MainObject         => $MainObject,
     );
@@ -69,12 +69,7 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for my $Needed (
-        qw(
-        MainObject LogObject
-        )
-        )
-    {
+    for my $Needed (qw(MainObject LogObject)) {
 
         if ( !$Param{$Needed} ) {
             return {
@@ -86,6 +81,7 @@ sub new {
         $Self->{$Needed} = $Param{$Needed};
     }
 
+    return $Self;
 }
 
 =item EditLabelRender()
@@ -170,6 +166,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.2 $ $Date: 2011-09-07 17:53:11 $
+$Revision: 1.1 $ $Date: 2011-09-07 18:22:44 $
 
 =cut
