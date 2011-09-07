@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Text.pm - Delegate for DynamicField Text backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Text.pm,v 1.18 2011-09-07 18:23:33 cr Exp $
+# $Id: Text.pm,v 1.19 2011-09-07 19:43:20 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::DynamicFieldValue;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 =head1 NAME
 
@@ -307,7 +307,8 @@ sub EditFieldValueGet {
     my ( $Self, %Param ) = @_;
 
     # get dynamic field value form param
-    return $Param{ParamObject}->GetParam( Param => $Param{DynamicFieldConfig}->{Name} );
+    return $Param{ParamObject}
+        ->GetParam( Param => 'DynamicField_' . $Param{DynamicFieldConfig}->{Name} );
 }
 
 1;
