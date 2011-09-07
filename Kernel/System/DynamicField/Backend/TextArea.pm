@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/TextArea.pm - Delegate for DynamicField TextArea backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TextArea.pm,v 1.5 2011-09-07 05:13:58 cg Exp $
+# $Id: TextArea.pm,v 1.6 2011-09-07 22:49:37 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,9 +16,10 @@ use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::DynamicFieldValue;
+use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 =head1 NAME
 
@@ -55,6 +56,8 @@ sub new {
 
     # create additional objects
     $Self->{DynamicFieldValueObject} = Kernel::System::DynamicFieldValue->new( %{$Self} );
+    $Self->{BackendCommonObject}
+        = Kernel::System::DynamicField::Backend::BackendCommon->new( %{$Self} );
 
     return $Self;
 }
@@ -175,11 +178,11 @@ creates the field HTML to be used in edit masks.
 
     my $FieldHTML = $DynamicFieldTextObject->EditFieldRender(
         DynamicFieldConfig   => $DynamicFieldConfig,      # complete config of the DynamicField
-        FieldValue         => 'Any value',                # Optional
+        Value              => 'Any value',                # Optional
         Rows               => '10',                       # Optional or 7 as default
         Cols               => '50',                       # Optional or 42 as default
         Mandatory          => 1,                          # 0 or 1,
-        Class              => 'AnyCSSClass, OrOneMore',   # Optional
+        Class              => 'AnyCSSClass OrOneMore',    # Optional
         ServerError        => 1,                          # 0 or 1
         ErrorMessage       => $ErrorMessage,              # Optional or a default will be used in error case
     );
@@ -217,10 +220,12 @@ sub EditFieldRender {
 
     # take config from field config
     my $FieldConfig = $Param{DynamicFieldConfig}->{Config};
+    my $FieldName   = 'DynamicField_' . $Param{DynamicFieldConfig}->{Name};
+    my $FieldLabel  = $Param{DynamicFieldConfig}->{Label};
 
     # set the field value or default
-    my $FieldValue
-        = ( defined $Param{FieldValue} ? $Param{FieldValue} : $FieldConfig->{DefaultValue} );
+    my $Value
+        = ( defined $Param{Value} ? $Param{Value} : $FieldConfig->{DefaultValue} );
 
     # set the rows number
     my $RowsNumber = ( defined $Param{Rows} ? $Param{Rows} : '7' );
@@ -229,31 +234,41 @@ sub EditFieldRender {
     my $ColsNumber = ( defined $Param{Cols} ? $Param{Cols} : '42' );
 
     # check and set class if necessary
-    my $FieldClass = 'DynamicFieldText';
+    my $FieldClass = 'DynamicFieldTextArea';
     if ( defined $Param{Class} && $Param{Class} ne '' ) {
-        $FieldClass .= $Param{Class};
+        $FieldClass .= ' ' . $Param{Class};
     }
 
+    # set field as mandatory
+    $FieldClass .= ' Validate_Required' if $Param{Mandatory};
+
+    # set error css class
+    $FieldClass .= ' ServerError' if $Param{ServerError};
+
     my $HTMLString =
-        '<textarea ' .
-        'class="' . $FieldClass . '" ' .
-        'id="' . $FieldConfig->{Name} . '" ' .
-        'name="' . $FieldConfig->{Name} . '" ' .
-        'title="' . $FieldConfig->{Label} . '" ' .
-        'rows="' . $RowsNumber . '" ' .
-        'cols="' . $ColsNumber . '" ' .
-        '>' .
-        $FieldValue .
-        '</textarea>';
+        '<textarea '
+        . 'class="' . $FieldClass . '" '
+        . 'id="' . $FieldName . '" '
+        . 'name="' . $FieldName . '" '
+        . 'title="' . $FieldLabel . '" '
+        . 'rows="' . $RowsNumber . '" '
+        . 'cols="' . $ColsNumber . '" '
+        . ' >';
+
+    if ( defined $Value ) {
+        $HTMLString .= $Value;
+    }
+
+    $HTMLString .= '</textarea>';
 
     if ( $Param{Mandatory} ) {
 
         # for client side validation
         $HTMLString .=
-            '<div id="' . $FieldConfig->{Name} . 'Error" ' .
-            'class="TooltipErrorMessage">' .
-            '<p>$Text{"This field is required."}</p>' .
-            '</div>';
+            '<div id="' . $FieldName . 'Error" '
+            . 'class="TooltipErrorMessage">'
+            . '<p>$Text{"This field is required."}</p>'
+            . '</div>';
     }
 
     if ( $Param{ServerError} ) {
@@ -262,14 +277,25 @@ sub EditFieldRender {
 
         # for server side validation
         $HTMLString .=
-            '<div id="' . $FieldConfig->{Name} . 'ServerError" ' .
-            'class="TooltipErrorMessage">' .
-            '<p>$Text{"' . $ErrorMessage . '"}</p>' .
-            '</div>';
+            '<div id="' . $FieldName . 'ServerError" '
+            . 'class="TooltipErrorMessage">'
+            . '<p>$Text{"' . $ErrorMessage . '"}</p>'
+            . '</div>';
     }
 
-    return $HTMLString;
+    # call EditLabelRender on the common backend
+    my $LabelString = $Self->{BackendCommonObject}->EditLabelRender(
+        DynamicFieldConfig => $Param{DynamicFieldConfig},
+        Mandatory          => $Param{Mandatory} || '0',
+        FieldName          => $FieldName,
+    );
 
+    my $Data = {
+        Field => $HTMLString,
+        Label => $LabelString,
+    };
+
+    return $Data;
 }
 
 1;
