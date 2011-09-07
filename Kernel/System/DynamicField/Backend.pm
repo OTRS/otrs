@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend.pm - Interface for DynamicField backends
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Backend.pm,v 1.29 2011-09-07 21:13:25 cr Exp $
+# $Id: Backend.pm,v 1.30 2011-09-07 22:12:47 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Scalar::Util qw(weaken);
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.29 $) [1];
+$VERSION = qw($Revision: 1.30 $) [1];
 
 =head1 NAME
 
@@ -350,70 +350,6 @@ extracting the request parameter(s) for the current dynamic field and storing th
 
 sub HandleEditRequest { }
 
-=item EditFieldValueGet()
-
-extracts the value of a dynamic field from the param object
-
-    my $Value = $BackendObject->EditFieldValueGet(
-        DynamicFieldConfig => $DynamicFieldConfig,      # complete config of the DynamicField
-        ParamObject        => $ParamObject,             # the current request data
-    );
-
-    Returns
-
-    $Value = $Value;                                    # depending on each field type e.g.
-                                                        #   $Value = 'a text';
-                                                        #   $Value = '1977-12-12 12:00:00';
-                                                        #   $Value = 1;
-
-=cut
-
-sub EditFieldValueGet {
-    my ( $Self, %Param ) = @_;
-
-    # check needed stuff
-    for my $Needed (qw(DynamicFieldConfig ParamObject)) {
-        if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
-            return;
-        }
-    }
-
-    # check DynamicFieldConfig (general)
-    if ( !IsHashRefWithData( $Param{DynamicFieldConfig} ) ) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => "The field configuration is invalid",
-        );
-        return;
-    }
-
-    # check DynamicFieldConfig (internally)
-    for my $Needed (qw(ID FieldType ObjectType)) {
-        if ( !$Param{DynamicFieldConfig}->{$Needed} ) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message  => "Need $Needed in DynamicFieldConfig!"
-            );
-            return;
-        }
-    }
-
-    # set the dynamic filed specific backend
-    my $DynamicFieldBackend = 'DynamicField' . $Param{DynamicFieldConfig}->{FieldType} . 'Object';
-
-    if ( !$Self->{$DynamicFieldBackend} ) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!"
-        );
-        return;
-    }
-
-    # return GetParam from the specific backend
-    return $Self->{$DynamicFieldBackend}->EditFieldValueGet(%Param);
-}
-
 =item ValueSet()
 
 sets a dynamic field value.
@@ -735,6 +671,72 @@ creates the field HTML to be used in search masks.
 
 =cut
 
+sub SearchFieldRender { }
+
+=item EditFieldValueGet()
+
+extracts the value of a dynamic field from the param object
+
+    my $Value = $BackendObject->EditFieldValueGet(
+        DynamicFieldConfig => $DynamicFieldConfig,      # complete config of the DynamicField
+        ParamObject        => $ParamObject,             # the current request data
+    );
+
+    Returns
+
+    $Value = $Value;                                    # depending on each field type e.g.
+                                                        #   $Value = 'a text';
+                                                        #   $Value = '1977-12-12 12:00:00';
+                                                        #   $Value = 1;
+
+=cut
+
+sub EditFieldValueGet {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Needed (qw(DynamicFieldConfig ParamObject)) {
+        if ( !$Param{$Needed} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            return;
+        }
+    }
+
+    # check DynamicFieldConfig (general)
+    if ( !IsHashRefWithData( $Param{DynamicFieldConfig} ) ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "The field configuration is invalid",
+        );
+        return;
+    }
+
+    # check DynamicFieldConfig (internally)
+    for my $Needed (qw(ID FieldType ObjectType)) {
+        if ( !$Param{DynamicFieldConfig}->{$Needed} ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed in DynamicFieldConfig!"
+            );
+            return;
+        }
+    }
+
+    # set the dynamic filed specific backend
+    my $DynamicFieldBackend = 'DynamicField' . $Param{DynamicFieldConfig}->{FieldType} . 'Object';
+
+    if ( !$Self->{$DynamicFieldBackend} ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!"
+        );
+        return;
+    }
+
+    # return GetParam from the specific backend
+    return $Self->{$DynamicFieldBackend}->EditFieldValueGet(%Param);
+}
+
 1;
 
 =back
@@ -751,6 +753,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.29 $ $Date: 2011-09-07 21:13:25 $
+$Revision: 1.30 $ $Date: 2011-09-07 22:12:47 $
 
 =cut
