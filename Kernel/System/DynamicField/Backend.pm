@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend.pm - Interface for DynamicField backends
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Backend.pm,v 1.28 2011-09-07 21:06:02 cg Exp $
+# $Id: Backend.pm,v 1.29 2011-09-07 21:13:25 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Scalar::Util qw(weaken);
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.28 $) [1];
+$VERSION = qw($Revision: 1.29 $) [1];
 
 =head1 NAME
 
@@ -361,7 +361,7 @@ extracts the value of a dynamic field from the param object
 
     Returns
 
-    $Value = $Value                                     # depending on each field type e.g.
+    $Value = $Value;                                    # depending on each field type e.g.
                                                         #   $Value = 'a text';
                                                         #   $Value = '1977-12-12 12:00:00';
                                                         #   $Value = 1;
@@ -751,6 +751,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.28 $ $Date: 2011-09-07 21:06:02 $
+$Revision: 1.29 $ $Date: 2011-09-07 21:13:25 $
 
 =cut
