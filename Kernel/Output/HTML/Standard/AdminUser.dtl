@@ -2,7 +2,7 @@
 # AdminUser.dtl - provides HTML form for AdminUser
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminUser.dtl,v 1.35 2011-05-16 09:24:01 mb Exp $
+# $Id: AdminUser.dtl,v 1.36 2011-09-07 20:52:37 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -211,6 +211,9 @@
 <!-- dtl:block:UserEmailInvalidConfigServerErrorMsg -->
                             <div id="UserEmailServerError" class="TooltipErrorMessage"><p>$Text{"This email address is not allowed due to the system configuration."}</p></div>
 <!-- dtl:block:UserEmailInvalidConfigServerErrorMsg -->
+<!-- dtl:block:UserEmailInvalidDNSServerErrorMsg -->
+                            <div id="UserEmailServerError" class="TooltipErrorMessage"><p>$Text{"DNS problem, please check your configuration and the error log."}</p></div>
+<!-- dtl:block:UserEmailInvalidDNSServerErrorMsg -->
 <!-- dtl:block:UserEmailInvalidMXServerErrorMsg -->
                             <div id="UserEmailServerError" class="TooltipErrorMessage"><p>$Text{"This email address failed MX check."}</p></div>
 <!-- dtl:block:UserEmailInvalidMXServerErrorMsg -->

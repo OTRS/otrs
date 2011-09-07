@@ -1,8 +1,8 @@
 # --
 # Kernel/System/CheckItem.pm - the global spelling module
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CheckItem.pm,v 1.40 2010-11-25 13:46:27 mg Exp $
+# $Id: CheckItem.pm,v 1.41 2011-09-07 20:52:38 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.40 $) [1];
+$VERSION = qw($Revision: 1.41 $) [1];
 
 =head1 NAME
 
@@ -200,6 +200,7 @@ sub CheckEmail {
             # A recorde lookup
             my $packet = $Resolver->send( $Host, 'A' );
             if ( !$packet ) {
+                $Self->{ErrorType} = 'InvalidDNS';
                 $Error = "DNS problem: " . $Resolver->errorstring();
                 $Self->{LogObject}->Log(
                     Priority => 'error',
@@ -216,6 +217,7 @@ sub CheckEmail {
             else {
                 my $packet = $Resolver->send( $Host, 'MX' );
                 if ( !$packet ) {
+                    $Self->{ErrorType} = 'InvalidDNS';
                     $Error = "DNS problem: " . $Resolver->errorstring();
                     $Self->{LogObject}->Log(
                         Priority => 'error',
@@ -365,6 +367,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.40 $ $Date: 2010-11-25 13:46:27 $
+$Revision: 1.41 $ $Date: 2011-09-07 20:52:38 $
 
 =cut
