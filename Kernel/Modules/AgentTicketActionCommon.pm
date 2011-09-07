@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketActionCommon.pm - common file for several modules
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketActionCommon.pm,v 1.42 2011-09-07 21:36:35 cr Exp $
+# $Id: AgentTicketActionCommon.pm,v 1.43 2011-09-07 22:58:35 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -483,11 +483,37 @@ sub Run {
                 $Mandatory = 1;
             }
 
-            # TODO Implement ServerError
-            my $ServerError;
+            my $ValidationResult;
 
-            # TODO Implement ErrorMessage
-            my $ErrorMessage;
+            # do not validate on attachment upload
+            if ( !$IsUpload ) {
+
+                $ValidationResult = $Self->{BackendObject}->EditFieldValueValidate(
+                    DynamicFieldConfig   => $DynamicFieldConfig,
+                    PossibleValuesFilter => $PossibleValuesFilter,
+                    Value                => $Value,
+                    Mandatory            => $Mandatory,
+                );
+
+                if ( !IsHashRefWithData($ValidationResult) ) {
+                    return $Self->{LayoutObject}->ErrorScreen(
+                        Message =>
+                            "Could not perform validation on field $DynamicFieldConfig->{Label}!",
+                        Comment => 'Please contact the admin.',
+                    );
+                }
+
+                # propagate validation error to the Error variable to be detected by the frontend
+                if ( $ValidationResult->{ServerError} ) {
+                    $Error{ $DynamicFieldConfig->{Name} } = ' ServerError';
+                }
+            }
+
+            # set ServerError
+            my $ServerError = $ValidationResult->{ServerError} || '';
+
+            # set ErrorMessage
+            my $ErrorMessage = $ValidationResult->{ErrorMessage} || '';
 
             # TODO check if the time fields are converted to agent time
             # get field html
@@ -501,7 +527,6 @@ sub Run {
             );
         }
 
-        # TODO proagate dynamic field errors
         # TODO check for attachemt upload (IsUpload)
 
      #        # ticket free text
@@ -807,7 +832,6 @@ sub Run {
             $Self->{UploadCacheObject}->FormIDRemove( FormID => $Self->{FormID} );
         }
 
-        # TODO Store values
         # set dynamic fields
         FIELDNAME:
         for my $FieldName ( keys %{ $Self->{Config}->{DynamicField} } ) {
