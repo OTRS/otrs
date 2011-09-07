@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketActionCommon.pm - common file for several modules
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketActionCommon.pm,v 1.41 2011-09-07 21:17:35 cr Exp $
+# $Id: AgentTicketActionCommon.pm,v 1.42 2011-09-07 21:36:35 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -1522,14 +1522,17 @@ sub _Mask {
     }
 
     # Dynamic fields
+
     # get an orderderd list of valid dynamic fields
-    # TODO DynamicFieldListGet() is really slow
-    my $DynamicFieldList = $Self->{DynamicFieldObject}->DynamicFieldListGet();
+    my $DynamicFieldIDs = $Self->{DynamicFieldObject}->DynamicFieldList();
+
+    # get a loockup table for field name
+    my $DynamicFieldLookUp = $Self->{DynamicFieldObject}->DynamicFieldList( ResultType => 'HASH' );
 
     # cycle trough the Dynamic Fields
     FIELD:
-    for my $DynamicFieldConfig ( @{$DynamicFieldList} ) {
-        my $FieldName = $DynamicFieldConfig->{Name};
+    for my $FieldID ( @{$DynamicFieldIDs} ) {
+        my $FieldName = $DynamicFieldLookUp->{$FieldID};
 
         # skip fields that are not configured for this screen
         next FIELD if !$Self->{Config}->{DynamicField}->{$FieldName};
