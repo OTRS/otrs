@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Text.pm - Delegate for DynamicField Text backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Text.pm,v 1.16 2011-09-07 16:51:13 cr Exp $
+# $Id: Text.pm,v 1.17 2011-09-07 17:42:59 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::DynamicFieldValue;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 =head1 NAME
 
@@ -215,6 +215,8 @@ sub EditFieldRender {
 
     # take config from field config
     my $FieldConfig = $Param{DynamicFieldConfig}->{Config};
+    my $FieldName   = 'DynamicField_' . $Param{DynamicFieldConfig}->{Name};
+    my $FieldLabel  = $Param{DynamicFieldConfig}->{Label};
 
     # set the field value or default
     my $FieldValue
@@ -227,22 +229,29 @@ sub EditFieldRender {
     }
 
     my $HTMLString =
-        '<input type="text" ' .
-        'class="' . $FieldClass . '" ' .
-        'id="' . $FieldConfig->{Name} . '" ' .
-        'name="' . $FieldConfig->{Name} . '" ' .
-        'title="' . $FieldConfig->{Label} . '" ' .
-        'value="' . $FieldValue . '" ' .
-        '/>';
+        '<input type="text" '
+        . 'class="' . $FieldClass . '" '
+        . 'id="' . $FieldName . '" '
+        . 'name="' . $FieldName . '" '
+        . 'title="' . $FieldLabel . '" ';
+
+    if ( defined $FieldValue ) {
+        $HTMLString .= 'value="' . $FieldValue . '" ';
+    }
+    else {
+        $HTMLString .= 'value="" ';
+    }
+
+    $HTMLString .= '/>';
 
     if ( $Param{Mandatory} ) {
 
         # for client side validation
         $HTMLString .=
-            '<div id="' . $FieldConfig->{Name} . 'Error" ' .
-            'class="TooltipErrorMessage">' .
-            '<p>$Text{"This field is required."}</p>' .
-            '</div>';
+            '<div id="' . $FieldName . 'Error" '
+            . 'class="TooltipErrorMessage">'
+            . '<p>$Text{"This field is required."}</p>'
+            . '</div>';
     }
 
     if ( $Param{ServerError} ) {
@@ -251,13 +260,25 @@ sub EditFieldRender {
 
         # for server side validation
         $HTMLString .=
-            '<div id="' . $FieldConfig->{Name} . 'ServerError" ' .
-            'class="TooltipErrorMessage">' .
-            '<p>$Text{"' . $ErrorMessage . '"}</p>' .
-            '</div>';
+            '<div id="' . $FieldName . 'ServerError" '
+            . 'class="TooltipErrorMessage">'
+            . '<p>$Text{"' . $ErrorMessage . '"}</p>'
+            . '</div>';
     }
 
-    return $HTMLString;
+    # call EditLabelRender on the common backend
+    my $LabelString = $Self->{BackendCommonObject}->EditLabelRender(
+        DynamicFieldConfig => $Param{DynamicFieldConfig},
+        Mandatory          => $Param{Mandatory} || '0',
+        FieldName          => $FieldName,
+    );
+
+    my $Data = {
+        Field => $HTMLString,
+        Label => $LabelString,
+    };
+
+    return $Data;
 
 }
 
