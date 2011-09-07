@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend.pm - Interface for DynamicField backends
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Backend.pm,v 1.27 2011-09-07 20:31:16 cg Exp $
+# $Id: Backend.pm,v 1.28 2011-09-07 21:06:02 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Scalar::Util qw(weaken);
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.27 $) [1];
+$VERSION = qw($Revision: 1.28 $) [1];
 
 =head1 NAME
 
@@ -240,7 +240,7 @@ creates the field HTML to be used in edit masks.
                                                           #     where the possible values can be limited with and ACL.
         Value              => 'Any value',                # Optional
         Mandatory          => 1,                          # 0 or 1,
-        Class              => 'AnyCSSClass, OrOneMore',   # Optional
+        Class              => 'AnyCSSClass OrOneMore',   # Optional
         ServerError        => 1,                          # 0 or 1,
         ErrorMessage       => $ErrorMessage,              # Optional or a default will be used in error case
     );
@@ -751,6 +751,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.27 $ $Date: 2011-09-07 20:31:16 $
+$Revision: 1.28 $ $Date: 2011-09-07 21:06:02 $
 
 =cut
