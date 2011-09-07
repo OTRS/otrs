@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Date.pm - Delegate for DynamicField Date backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Date.pm,v 1.4 2011-09-06 12:17:07 mg Exp $
+# $Id: Date.pm,v 1.5 2011-09-07 05:13:58 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::DynamicFieldValue;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 =head1 NAME
 
@@ -170,6 +170,103 @@ sub SearchSQLOrderFieldGet {
     my ( $Self, %Param ) = @_;
 
     return "$Param{TableAlias}.value_date";
+}
+
+=item EditFieldRender()
+
+creates the field HTML to be used in edit masks.
+
+    my $FieldHTML = $DynamicFieldTextObject->EditFieldRender(
+        DynamicFieldConfig   => $DynamicFieldConfig,      # complete config of the DynamicField
+        FieldValue         => 'Any value',                # Optional
+        Mandatory          => 1,                          # 0 or 1,
+        Class              => 'AnyCSSClass, OrOneMore',   # Optional
+        ServerError        => 1,                          # 0 or 1
+        ErrorMessage       => $ErrorMessage,              # Optional or a default will be used in error case
+    );
+
+=cut
+
+sub EditFieldRender {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    if ( !$Param{DynamicFieldConfig} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => "Need DynamicFieldConfig!" );
+        return;
+    }
+
+    # check DynamicFieldConfig (general)
+    if ( !IsHashRefWithData( $Param{DynamicFieldConfig} ) ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "The field configuration is invalid",
+        );
+        return;
+    }
+
+    # check DynamicFieldConfig (internally)
+    for my $Needed (qw(ID Config Name )) {
+        if ( !$Param{DynamicFieldConfig}->{$Needed} ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed in DynamicFieldConfig!"
+            );
+            return;
+        }
+    }
+
+    # take config from field config
+    my $FieldConfig = $Param{DynamicFieldConfig}->{Config};
+
+    # set the field value or default
+    my $FieldValue
+        = ( defined $Param{FieldValue} ? $Param{FieldValue} : $FieldConfig->{DefaultValue} );
+
+    # check and set class if necessary
+    my $FieldClass = 'DynamicFieldText';
+    if ( defined $Param{Class} && $Param{Class} ne '' ) {
+        $FieldClass .= $Param{Class};
+    }
+
+    my $HTMLString = $Self->BuildDateSelection(
+        %Param,
+        %{$FieldConfig},
+        Prefix => $FieldConfig->{Name},
+        Format => 'DateInputFormat',
+
+        #            'TicketFreeTime' . $Count . 'Class' => $Class,
+        DiffTime => $FieldConfig->{DefaultValue} || 0,
+
+        #            %TimePeriod,
+        Validate => 1,
+        Required => $Param{Mandatory} ? 1 : 0,
+    );
+
+    if ( $Param{Mandatory} ) {
+
+        # for client side validation
+        $HTMLString .=
+            '<div id="' . $FieldConfig->{Name} . 'Error" ' .
+            'class="TooltipErrorMessage">' .
+            '<p>$Text{"This field is required."}</p>' .
+            '</div>';
+    }
+
+    if ( $Param{ServerError} ) {
+
+        my $ErrorMessage = $Param{ErrorMessage} || 'This field is required.';
+
+        # for server side validation
+        $HTMLString .=
+            '<div id="' . $FieldConfig->{Name} . 'ServerError" ' .
+            'class="TooltipErrorMessage">' .
+            '<p>$Text{"' . $ErrorMessage . '"}</p>' .
+            '</div>';
+    }
+
+    return $HTMLString;
+
 }
 
 1;

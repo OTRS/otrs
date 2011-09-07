@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Text.pm - Delegate for DynamicField Text backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Text.pm,v 1.14 2011-09-07 02:21:55 cr Exp $
+# $Id: Text.pm,v 1.15 2011-09-07 05:13:58 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::DynamicFieldValue;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 =head1 NAME
 
@@ -175,9 +175,6 @@ creates the field HTML to be used in edit masks.
 
     my $FieldHTML = $DynamicFieldTextObject->EditFieldRender(
         DynamicFieldConfig   => $DynamicFieldConfig,      # complete config of the DynamicField
-        PossibleValuesFilter => ['value1', 'value2'],     # Optional. Some backends may support this.
-                                                          #     This may be needed to realize ACL support for ticket masks,
-                                                          #     where the possible values can be limited with and ACL.
         FieldValue         => 'Any value',                # Optional
         Mandatory          => 1,                          # 0 or 1,
         Class              => 'AnyCSSClass, OrOneMore',   # Optional
@@ -232,10 +229,10 @@ sub EditFieldRender {
     my $HTMLString =
         '<input type="text" ' .
         'class="' . $FieldClass . '" ' .
-        'id="' . $FieldConfig->{Name} . '"' .
-        'name="' . $FieldConfig->{Name} . '"' .
-        'title="' . $FieldConfig->{Label} . '"' .
-        'value="' . $FieldValue . '"' .
+        'id="' . $FieldConfig->{Name} . '" ' .
+        'name="' . $FieldConfig->{Name} . '" ' .
+        'title="' . $FieldConfig->{Label} . '" ' .
+        'value="' . $FieldValue . '" ' .
         '/>';
 
     if ( $Param{Mandatory} ) {
