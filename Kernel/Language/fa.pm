@@ -4,7 +4,7 @@
 # Copyright (C) 2008 Hooman Mesgary <info at mesgary.com>
 # Copyright (C) 2009 Afshar Mohebbi <afshar.mohebbi at gmail.com>
 # --
-# $Id: fa.pm,v 1.92 2011-09-06 10:26:54 mg Exp $
+# $Id: fa.pm,v 1.93 2011-09-07 20:37:39 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.92 $) [1];
+$VERSION = qw($Revision: 1.93 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -838,6 +838,7 @@ sub Data {
         'This email address is not allowed due to the system configuration.' => 'این آدرس ایمیل با توجه به پیکربندی سیستم، نامعتبر است.',
         'This email address failed MX check.' => 'این آدرس ایمیل در چک MX ناموفق بوده است.',
         'The syntax of this email address is incorrect.' => 'گرامر این آدرس ایمیل نادرست می‌باشد.',
+        'DNS problem, please check your configuration and the error log.' => '',
 
         # Template: AdminCustomerUserGroup
         'Manage Customer-Group Relations' => 'مدیریت روابط مشترک-گروه',

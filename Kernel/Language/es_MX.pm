@@ -2,7 +2,7 @@
 # Kernel/Language/es_MX.pm - provides Spanish language translation for Mexico
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: es_MX.pm,v 1.44 2011-09-06 10:26:54 mg Exp $
+# $Id: es_MX.pm,v 1.45 2011-09-07 20:37:39 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.44 $) [1];
+$VERSION = qw($Revision: 1.45 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -833,6 +833,7 @@ sub Data {
         'This email address is not allowed due to the system configuration.' => 'Esta dirección de correo electrónico no está permitida, debido a la configuración del sistema.',
         'This email address failed MX check.' => 'Esta dirección de correo electrónico falló la verificación MX.',
         'The syntax of this email address is incorrect.' => 'La sintáxis de esta dirección de correo electrónico es incorrecta.',
+        'DNS problem, please check your configuration and the error log.' => 'Problema con el DNS. Por favor, verifique su configuración y el registro de errores.',
 
         # Template: AdminCustomerUserGroup
         'Manage Customer-Group Relations' => 'Gestionar Relaciones Cliente-Grupo',

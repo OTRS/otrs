@@ -4,7 +4,7 @@
 # Copyright (C) 2011 Chetan Nagaonkar <Chetan_Nagaonkar at OptForOPS.com>
 # Copyright (C) 2011 Chetan Nagaonkar <ChetanNagaonkar at yahoo.com>
 # --
-# $Id: hi.pm,v 1.6 2011-09-06 10:26:53 mg Exp $
+# $Id: hi.pm,v 1.7 2011-09-07 20:37:39 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -835,6 +835,7 @@ sub Data {
         'This email address is not allowed due to the system configuration.' => 'यह ईमेल पता प्रणाली विन्यास की वजह से स्वीकार्य नहीं है।',
         'This email address failed MX check.' => 'यह ईमेल पता MX जांच में विफल रहा।',
         'The syntax of this email address is incorrect.' => 'इस ईमेल पते के वाक्य रचना ग़लत है।',
+        'DNS problem, please check your configuration and the error log.' => '',
 
         # Template: AdminCustomerUserGroup
         'Manage Customer-Group Relations' => 'ग्राहक-समूह संबंधों का प्रबंधन करें',
