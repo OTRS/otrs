@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Text.pm - Delegate for DynamicField Text backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Text.pm,v 1.20 2011-09-07 20:31:38 cg Exp $
+# $Id: Text.pm,v 1.21 2011-09-07 21:06:44 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::DynamicFieldValue;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.20 $) [1];
+$VERSION = qw($Revision: 1.21 $) [1];
 
 =head1 NAME
 
@@ -180,7 +180,7 @@ creates the field HTML to be used in edit masks.
         DynamicFieldConfig   => $DynamicFieldConfig,      # complete config of the DynamicField
         Value         => 'Any value',                # Optional
         Mandatory          => 1,                          # 0 or 1,
-        Class              => 'AnyCSSClass, OrOneMore',   # Optional
+        Class              => 'AnyCSSClass OrOneMore',   # Optional
         ServerError        => 1,                          # 0 or 1
         ErrorMessage       => $ErrorMessage,              # Optional or a default will be used in error case
     );
@@ -228,7 +228,7 @@ sub EditFieldRender {
     # check and set class if necessary
     my $FieldClass = 'DynamicFieldText';
     if ( defined $Param{Class} && $Param{Class} ne '' ) {
-        $FieldClass .= $Param{Class};
+        $FieldClass .= ' ' . $Param{Class};
     }
 
     my $HTMLString =
@@ -282,7 +282,6 @@ sub EditFieldRender {
     };
 
     return $Data;
-
 }
 
 =item EditFieldValueGet()
