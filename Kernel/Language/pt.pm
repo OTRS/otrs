@@ -2,7 +2,7 @@
 # Kernel/Language/pt.pm - provides pt language translation
 # Copyright (C) 2004-2007 CAT - Filipe Henriques <filipehenriques at ip.pt>
 # --
-# $Id: pt.pm,v 1.105 2011-09-06 10:26:53 mg Exp $
+# $Id: pt.pm,v 1.106 2011-09-07 20:51:14 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.105 $) [1];
+$VERSION = qw($Revision: 1.106 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -833,6 +833,7 @@ sub Data {
         'This email address is not allowed due to the system configuration.' => '',
         'This email address failed MX check.' => '',
         'The syntax of this email address is incorrect.' => '',
+        'DNS problem, please check your configuration and the error log.' => '',
 
         # Template: AdminCustomerUserGroup
         'Manage Customer-Group Relations' => '',

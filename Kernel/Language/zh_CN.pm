@@ -7,7 +7,7 @@
 # Copyright (C) 2009 Qingjiu Jia <jiaqj at yahoo.com>
 # Copyright (C) 2011 Martin Liu <liuzh66 at gmail.com> http://martinliu.cn
 # --
-# $Id: zh_CN.pm,v 1.95 2011-09-06 10:26:54 mg Exp $
+# $Id: zh_CN.pm,v 1.96 2011-09-07 20:51:14 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.95 $) [1];
+$VERSION = qw($Revision: 1.96 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -799,6 +799,7 @@ sub Data {
         'This email address is not allowed due to the system configuration.' => '该邮件地址不符合系统配置要求。',
         'This email address failed MX check.' => '该邮件地址MX检查无效。',
         'The syntax of this email address is incorrect.' => '该邮件地址语法错误。',
+        'DNS problem, please check your configuration and the error log.' => '',
 
         # Template: AdminCustomerUserGroup
         'Manage Customer-Group Relations' => '管理客户与群组的对应关系',

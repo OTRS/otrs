@@ -8,7 +8,7 @@
 # Copyright (C) 2009 Alessandro Faraldi <faraldia at gmail.com>
 # Copyright (C) 2010 Alessandro Grassi <alessandro.grassi at devise.it>
 # --
-# $Id: it.pm,v 1.114 2011-09-06 10:26:53 mg Exp $
+# $Id: it.pm,v 1.115 2011-09-07 20:48:43 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.114 $) [1];
+$VERSION = qw($Revision: 1.115 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -839,6 +839,7 @@ sub Data {
         'This email address is not allowed due to the system configuration.' => 'Questo indirizzo email non è consentito dalla configurazione di sistema.',
         'This email address failed MX check.' => 'Questo indirizzo email non ha superato il controllo MX.',
         'The syntax of this email address is incorrect.' => 'La sintassi di questa email è errata.',
+        'DNS problem, please check your configuration and the error log.' => '',
 
         # Template: AdminCustomerUserGroup
         'Manage Customer-Group Relations' => 'Gestisci relazioni Cliente-Gruppo',

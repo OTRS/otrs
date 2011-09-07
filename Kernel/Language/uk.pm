@@ -2,7 +2,7 @@
 # Kernel/Language/uk.pm - provides ru language translation
 # Copyright (C) 2010 Бельский Артем
 # --
-# $Id: uk.pm,v 1.20 2011-09-06 10:26:54 mg Exp $
+# $Id: uk.pm,v 1.21 2011-09-07 20:51:14 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.20 $) [1];
+$VERSION = qw($Revision: 1.21 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -833,6 +833,7 @@ sub Data {
         'This email address is not allowed due to the system configuration.' => '',
         'This email address failed MX check.' => '',
         'The syntax of this email address is incorrect.' => '',
+        'DNS problem, please check your configuration and the error log.' => '',
 
         # Template: AdminCustomerUserGroup
         'Manage Customer-Group Relations' => '',

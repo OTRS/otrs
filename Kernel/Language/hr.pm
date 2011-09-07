@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # Copyright (C) 2011 Damir Dzeko <damir punkt dzeko masterspace inet.hr>
 # --
-# $Id: hr.pm,v 1.4 2011-09-06 10:26:54 mg Exp $
+# $Id: hr.pm,v 1.5 2011-09-07 20:45:03 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -837,6 +837,7 @@ sub Data {
         'This email address is not allowed due to the system configuration.' => 'Postavke sustava ne dopuštaju ovu adresu E-pošte.',
         'This email address failed MX check.' => 'Ova adresa E-pošte ne prolazi DNS/MX provjeru.',
         'The syntax of this email address is incorrect.' => 'Sintaksa ove adrese E-pošta je neispravna.',
+        'DNS problem, please check your configuration and the error log.' => '',
 
         # Template: AdminCustomerUserGroup
         'Manage Customer-Group Relations' => 'Upravljanje članstvom korisnika u grupi',

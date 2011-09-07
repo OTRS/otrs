@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # Copyright (C) 2011 Edgaras Luko�evi�ius <edgaras[eta]kauko.lt or admin[eta]sysadmin.lt>
 # --
-# $Id: lt.pm,v 1.4 2011-09-06 10:26:54 mg Exp $
+# $Id: lt.pm,v 1.5 2011-09-07 20:48:43 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -833,6 +833,7 @@ sub Data {
         'This email address is not allowed due to the system configuration.' => 'D�l sistemos konfig�racijos �is el. pa�to adresas yra neleid�iamas.',
         'This email address failed MX check.' => 'Nepavyko �io el. pa�to adreso MX patikrinimas.',
         'The syntax of this email address is incorrect.' => '�io el. pa�to adreso sintaks� yra neteisinga.',
+        'DNS problem, please check your configuration and the error log.' => '',
 
         # Template: AdminCustomerUserGroup
         'Manage Customer-Group Relations' => 'Valdyti klientas-grup� s�sajas',

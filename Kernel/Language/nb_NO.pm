@@ -8,7 +8,7 @@
 # Copyright (C) 2011 Lars Erik Utsi Gullerud <lerik at nolink.net>
 # Copyright (C) 2011 Espen Stefansen <espen.stefansen at imr.no>
 # --
-# $Id: nb_NO.pm,v 1.112 2011-09-06 10:26:53 mg Exp $
+# $Id: nb_NO.pm,v 1.113 2011-09-07 20:48:43 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.112 $;
+$VERSION = q$Revision: 1.113 $;
 
 sub Data {
     my $Self = shift;
@@ -839,6 +839,7 @@ sub Data {
         'This email address is not allowed due to the system configuration.' => 'Denne e-postadressen er ikke tillatt i systemkonfigurasjonen',
         'This email address failed MX check.' => 'Denne e-postadressen feilet i en DNS-test (ingen MX)',
         'The syntax of this email address is incorrect.' => 'Syntaksen på denne e-postadressen er feil.',
+        'DNS problem, please check your configuration and the error log.' => '',
 
         # Template: AdminCustomerUserGroup
         'Manage Customer-Group Relations' => 'Adminstrere forhold mellom Kunde og Gruppe',

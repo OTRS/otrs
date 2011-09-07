@@ -2,7 +2,7 @@
 # Kernel/Language/sk_SK.pm - provides Slovak language translation
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: sk_SK.pm,v 1.78 2011-09-06 10:26:54 mg Exp $
+# $Id: sk_SK.pm,v 1.79 2011-09-07 20:51:14 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.78 $) [1];
+$VERSION = qw($Revision: 1.79 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -833,6 +833,7 @@ sub Data {
         'This email address is not allowed due to the system configuration.' => '',
         'This email address failed MX check.' => '',
         'The syntax of this email address is incorrect.' => '',
+        'DNS problem, please check your configuration and the error log.' => '',
 
         # Template: AdminCustomerUserGroup
         'Manage Customer-Group Relations' => '',
