@@ -2,7 +2,7 @@
 # CustomerTicketZoom.dtl - provides HTML TicketZoom for CustomerTicketZoom.pm
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.dtl,v 1.106.2.4 2011-06-30 18:53:24 mb Exp $
+# $Id: CustomerTicketZoom.dtl,v 1.106.2.5 2011-09-07 22:16:03 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,9 @@
     <div class="Content">
         <div class="TicketHeader">
             <h2 title="$QData{"Title"}">
-                <span title="$Text{"$Data{"StateTypeGeneric"}"}" id="Flag" class="$QData{"StateTypeGeneric"}"><span>$Text{"$Data{"StateTypeGeneric"}"}</span></span>
+<!-- dtl:block:PriorityFlag -->
+                <div class="Flag" title="$Text{"$Data{"Priority"}"}"><span class="PriorityID-$QData{"PriorityID"}">$Text{"$Data{"Priority"}"}</span></div>
+<!-- dtl:block:PriorityFlag -->
                 $QData{"Title","65"}
                 <span class="TicketHook">$QData{"TicketNumber"}</span>
             </h2>

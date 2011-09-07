@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.pm,v 1.75.2.1 2011-06-22 08:43:47 mb Exp $
+# $Id: CustomerTicketZoom.pm,v 1.75.2.2 2011-09-07 22:16:03 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Web::UploadCache;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.75.2.1 $) [1];
+$VERSION = qw($Revision: 1.75.2.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -367,14 +367,6 @@ sub _Mask {
         );
     }
 
-    # set generic state type
-    if ( $Param{StateType} =~ /^closed/i ) {
-        $Param{StateTypeGeneric} = 'Closed';
-    }
-    else {
-        $Param{StateTypeGeneric} = 'Open';
-    }
-
     # build article stuff
     my $SelectedArticleID = $Self->{ParamObject}->GetParam( Param => 'ArticleID' );
     my $BaseLink          = $Self->{LayoutObject}->{Baselink} . "TicketID=$Self->{TicketID}&";
@@ -423,6 +415,14 @@ sub _Mask {
     if ( !$ArticleID && $LastCustomerArticleID ) {
         $ArticleID         = $LastCustomerArticleID;
         $SelectedArticleID = $ArticleID;
+    }
+
+    # ticket priority flag
+    if ( $Self->{Config}->{AttributesView}->{Priority} ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'PriorityFlag',
+            Data => \%Param,
+        );
     }
 
     # ticket type
