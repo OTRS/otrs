@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Thomas Kaltenbrunner <tkaltenbrunner at opc.de>
 # --
-# $Id: de.pm,v 1.265.2.11 2011-08-01 14:15:50 mg Exp $
+# $Id: de.pm,v 1.265.2.12 2011-09-07 20:59:34 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.265.2.11 $) [1];
+$VERSION = qw($Revision: 1.265.2.12 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -789,6 +789,7 @@ sub Data {
         'This email address is not allowed due to the system configuration.' => 'Diese E-Mail-Adresse wird von der aktuellen Systemkonfiguration nicht zugelassen.',
         'This email address failed MX check.' => 'Für diese E-Mail-Adresse ist die MX-Prüfung fehlgeschlagen.',
         'The syntax of this email address is incorrect.' => 'Die Syntax dieser E-Mail-Adresse ist fehlerhaft.',
+        'DNS problem, please check your configuration and the error log.' => '',
 
         # Template: AdminCustomerUserGroup
         'Manage Customer-Group Relations' => 'Kunden-Gruppen-Zuordnung verwalten',

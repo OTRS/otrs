@@ -4,7 +4,7 @@
 # Copyright (C) 2009 Yiye Huang <yiyehuang at gmail.com>
 # Copyright (C) 2009 Qingjiu Jia <jiaqj at yahoo.com>
 # --
-# $Id: zh_TW.pm,v 1.21.2.2 2011-05-16 20:41:25 mp Exp $
+# $Id: zh_TW.pm,v 1.21.2.3 2011-09-07 21:04:33 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.21.2.2 $) [1];
+$VERSION = qw($Revision: 1.21.2.3 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -790,6 +790,7 @@ sub Data {
         'This email address is not allowed due to the system configuration.' => '',
         'This email address failed MX check.' => '',
         'The syntax of this email address is incorrect.' => '',
+        'DNS problem, please check your configuration and the error log.' => '',
 
         # Template: AdminCustomerUserGroup
         'Manage Customer-Group Relations' => '',

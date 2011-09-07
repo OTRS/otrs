@@ -4,7 +4,7 @@
 # Copyright (C) 2007-2008 Mads N. Vestergaard <mnv[at]timmy.dk>
 # Copyright (C) 2010 Lars Jørgensen <lajo[at]kb.dk>
 # --
-# $Id: da.pm,v 1.83.2.3 2011-08-12 09:20:48 mg Exp $
+# $Id: da.pm,v 1.83.2.4 2011-09-07 20:59:34 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 
 use vars qw($VERSION);
 
-$VERSION = qw($Revision: 1.83.2.3 $) [1];
+$VERSION = qw($Revision: 1.83.2.4 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -796,6 +796,7 @@ sub Data {
         'This email address is not allowed due to the system configuration.' => 'Denne mailadresse er ikke tilladt ifølge systemkonfigurationen.',
         'This email address failed MX check.' => 'Denne mail-adresse fejler MX-tjek.',
         'The syntax of this email address is incorrect.' => 'Syntaksen på denne mail-adresse er forkert.',
+        'DNS problem, please check your configuration and the error log.' => '',
 
         # Template: AdminCustomerUserGroup
         'Manage Customer-Group Relations' => 'Administrer Kunde/Gruppe-relationer',

@@ -8,7 +8,7 @@
 # Copyright (C) 2004-2008 Yann Richard <ze at nbox.org>
 # Copyright (C) 2009-2010 Olivier Sallou <olivier.sallou at irisa.fr>
 # --
-# $Id: fr.pm,v 1.142.2.3 2011-05-16 20:36:09 mp Exp $
+# $Id: fr.pm,v 1.142.2.4 2011-09-07 21:04:33 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.142.2.3 $) [1];
+$VERSION = qw($Revision: 1.142.2.4 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -794,6 +794,7 @@ sub Data {
         'This email address is not allowed due to the system configuration.' => '',
         'This email address failed MX check.' => '',
         'The syntax of this email address is incorrect.' => '',
+        'DNS problem, please check your configuration and the error log.' => '',
 
         # Template: AdminCustomerUserGroup
         'Manage Customer-Group Relations' => 'Gérer les relations Client-Group',

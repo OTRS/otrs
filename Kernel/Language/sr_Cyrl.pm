@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Milorad Jovanovic <j.milorad at gmail.com>
 # --
-# $Id: sr_Cyrl.pm,v 1.10.2.2 2011-05-16 20:39:25 mp Exp $
+# $Id: sr_Cyrl.pm,v 1.10.2.3 2011-09-07 21:08:07 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.10.2.2 $) [1];
+$VERSION = qw($Revision: 1.10.2.3 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -788,6 +788,7 @@ sub Data {
         'This email address is not allowed due to the system configuration.' => 'Ова е-мејл адреса није дозвољена због системске конфигурације.',
         'This email address failed MX check.' => 'Ова е-мејл адреса не задовољава "MX" проверу.',
         'The syntax of this email address is incorrect.' => 'Синтакса ове е-мејл адресе је неисправна.',
+        'DNS problem, please check your configuration and the error log.' => '',
 
         # Template: AdminCustomerUserGroup
         'Manage Customer-Group Relations' => 'Управљање релацијама Корисник-Група',

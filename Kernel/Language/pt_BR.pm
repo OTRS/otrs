@@ -6,7 +6,7 @@
 # Copyright (C) 2007-2010 Fabricio Luiz Machado <soprobr gmail.com>
 # Copyright (C) 2010-2011 Murilo Moreira de Oliveira <murilo.moreira gmail.com>
 # --
-# $Id: pt_BR.pm,v 1.109.2.4 2011-05-16 20:37:33 mp Exp $
+# $Id: pt_BR.pm,v 1.109.2.5 2011-09-07 21:01:28 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.109.2.4 $) [1];
+$VERSION = qw($Revision: 1.109.2.5 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -789,6 +789,7 @@ sub Data {
         'This email address is not allowed due to the system configuration.' => 'Este endereço de e-mail não é permitido devido à configuração do sistema.',
         'This email address failed MX check.' => 'Para este endereço de e-mail, o teste MX falhou.',
         'The syntax of this email address is incorrect.' => 'A sintaxe deste endereço de e-mail está incorreta.',
+        'DNS problem, please check your configuration and the error log.' => '',
 
         # Template: AdminCustomerUserGroup
         'Manage Customer-Group Relations' => 'Gerenciar Relações Clientes-Grupos',

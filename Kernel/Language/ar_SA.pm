@@ -2,7 +2,7 @@
 # Kernel/Language/ar_SA.pm - provides ar_SA language translation
 # Copyright (C) 2007 Mohammad Saleh <maoaf at yahoo.com>
 # --
-# $Id: ar_SA.pm,v 1.57.2.2 2011-05-16 20:29:46 mp Exp $
+# $Id: ar_SA.pm,v 1.57.2.3 2011-09-07 20:59:34 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.57.2.2 $) [1];
+$VERSION = qw($Revision: 1.57.2.3 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -790,6 +790,7 @@ sub Data {
         'This email address is not allowed due to the system configuration.' => '',
         'This email address failed MX check.' => '',
         'The syntax of this email address is incorrect.' => '',
+        'DNS problem, please check your configuration and the error log.' => '',
 
         # Template: AdminCustomerUserGroup
         'Manage Customer-Group Relations' => '',

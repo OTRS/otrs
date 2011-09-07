@@ -8,7 +8,7 @@
 # Copyright (C) 2010 Ton van Boven <ton 'at' avebo.nl>
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: nl.pm,v 1.152.2.9 2011-08-23 14:17:16 mb Exp $
+# $Id: nl.pm,v 1.152.2.10 2011-09-07 21:04:33 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -28,7 +28,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.152.2.9 $) [1];
+$VERSION = qw($Revision: 1.152.2.10 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -808,6 +808,7 @@ sub Data {
         'This email address is not allowed due to the system configuration.' => 'Dit e-mailadres is niet toegestaan.',
         'This email address failed MX check.' => 'Dit e-mailadres klopt niet.',
         'The syntax of this email address is incorrect.' => 'De syntax van dit e-mailadres klopt niet.',
+        'DNS problem, please check your configuration and the error log.' => '',
 
         # Template: AdminCustomerUserGroup
         'Manage Customer-Group Relations' => 'Beheer Klant - Groep koppelingen',
