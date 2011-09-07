@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend.pm - Interface for DynamicField backends
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Backend.pm,v 1.30 2011-09-07 22:12:47 cr Exp $
+# $Id: Backend.pm,v 1.31 2011-09-07 22:57:43 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Scalar::Util qw(weaken);
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.30 $) [1];
+$VERSION = qw($Revision: 1.31 $) [1];
 
 =head1 NAME
 
@@ -733,10 +733,89 @@ sub EditFieldValueGet {
         return;
     }
 
-    # return GetParam from the specific backend
+    # return value from the specific backend
     return $Self->{$DynamicFieldBackend}->EditFieldValueGet(%Param);
 }
 
+=item EditFieldValueValidate()
+
+validate the current value for the dynamic field
+
+    my $Result = $BackendObject->EditFieldValueValidate(
+        DynamicFieldConfig   => $DynamicFieldConfig,      # complete config of the DynamicField
+        PossibleValuesFilter => ['value1', 'value2'],     # Optional. Some backends may support this.
+                                                          #     This may be needed to realize ACL support for ticket masks,
+                                                          #     where the possible values can be limited with and ACL.
+        Value              => 'Any value',                # Optional
+        Mandatory          => 1,                          # 0 or 1,
+    );
+
+    Returns
+
+    $Result = {
+        ServerError        => 1,                          # 0 or 1,
+        ErrorMessage       => $ErrorMessage,              # Optional or a default will be used in error case
+    }
+
+=cut
+
+sub EditFieldValueValidate {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    if ( !$Param{DynamicFieldConfig} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => "Need DynamicFieldConfig!" );
+        return;
+    }
+
+    # check DynamicFieldConfig (general)
+    if ( !IsHashRefWithData( $Param{DynamicFieldConfig} ) ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "The field configuration is invalid",
+        );
+        return;
+    }
+
+    # check DynamicFieldConfig (internally)
+    for my $Needed (qw(ID FieldType ObjectType)) {
+        if ( !$Param{DynamicFieldConfig}->{$Needed} ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed in DynamicFieldConfig!"
+            );
+            return;
+        }
+    }
+
+    # check PossibleValuesFilter (general)
+    if (
+        defined $Param{PossibleValuesFilter}
+        && !IsHashRefWithData( $Param{PossibleValuesFilter} )
+        )
+    {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "The possible values filter is invalid",
+        );
+        return;
+    }
+
+    # set the dynamic filed specific backend
+    my $DynamicFieldBackend = 'DynamicField' . $Param{DynamicFieldConfig}->{FieldType} . 'Object';
+
+    if ( !$Self->{$DynamicFieldBackend} ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!"
+        );
+        return;
+    }
+
+    # return validation structure from the specific backend
+    return $Self->{$DynamicFieldBackend}->EditFieldValueValidate(%Param);
+
+}
 1;
 
 =back
@@ -753,6 +832,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.30 $ $Date: 2011-09-07 22:12:47 $
+$Revision: 1.31 $ $Date: 2011-09-07 22:57:43 $
 
 =cut
