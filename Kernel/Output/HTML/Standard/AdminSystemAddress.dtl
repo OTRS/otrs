@@ -2,7 +2,7 @@
 # AdminSystemAddress.dtl - provides HTML form for AdminSystemAddress
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSystemAddress.dtl,v 1.25.2.2 2011-03-17 16:38:51 ub Exp $
+# $Id: AdminSystemAddress.dtl,v 1.25.2.3 2011-09-07 20:53:50 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -121,6 +121,9 @@
 <!-- dtl:block:EmailInvalidMXServerErrorMsg -->
                                 <p>$Text{"This email address failed MX check."}</p>
 <!-- dtl:block:EmailInvalidMXServerErrorMsg -->
+<!-- dtl:block:EmailInvalidDNSServerErrorMsg -->
+                                <p>$Text{"DNS problem, please check your configuration and the error log."}</p>
+<!-- dtl:block:EmailInvalidDNSServerErrorMsg -->
 <!-- dtl:block:EmailInvalidSyntaxServerErrorMsg -->
                                 <p>$Text{"The syntax of this email address is incorrect."}</p>
 <!-- dtl:block:EmailInvalidSyntaxServerErrorMsg -->
