@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Text.pm - Delegate for DynamicField Text backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Text.pm,v 1.19 2011-09-07 19:43:20 cr Exp $
+# $Id: Text.pm,v 1.20 2011-09-07 20:31:38 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::DynamicFieldValue;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.19 $) [1];
+$VERSION = qw($Revision: 1.20 $) [1];
 
 =head1 NAME
 
@@ -178,7 +178,7 @@ creates the field HTML to be used in edit masks.
 
     my $FieldHTML = $DynamicFieldTextObject->EditFieldRender(
         DynamicFieldConfig   => $DynamicFieldConfig,      # complete config of the DynamicField
-        FieldValue         => 'Any value',                # Optional
+        Value         => 'Any value',                # Optional
         Mandatory          => 1,                          # 0 or 1,
         Class              => 'AnyCSSClass, OrOneMore',   # Optional
         ServerError        => 1,                          # 0 or 1
@@ -222,8 +222,8 @@ sub EditFieldRender {
     my $FieldLabel  = $Param{DynamicFieldConfig}->{Label};
 
     # set the field value or default
-    my $FieldValue
-        = ( defined $Param{FieldValue} ? $Param{FieldValue} : $FieldConfig->{DefaultValue} );
+    my $Value
+        = ( defined $Param{Value} ? $Param{Value} : $FieldConfig->{DefaultValue} );
 
     # check and set class if necessary
     my $FieldClass = 'DynamicFieldText';
@@ -238,8 +238,8 @@ sub EditFieldRender {
         . 'name="' . $FieldName . '" '
         . 'title="' . $FieldLabel . '" ';
 
-    if ( defined $FieldValue ) {
-        $HTMLString .= 'value="' . $FieldValue . '" ';
+    if ( defined $Value ) {
+        $HTMLString .= 'value="' . $Value . '" ';
     }
     else {
         $HTMLString .= 'value="" ';
