@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend.pm - Interface for DynamicField backends
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Backend.pm,v 1.25 2011-09-07 17:37:12 cg Exp $
+# $Id: Backend.pm,v 1.26 2011-09-07 20:24:46 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Scalar::Util qw(weaken);
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.25 $) [1];
+$VERSION = qw($Revision: 1.26 $) [1];
 
 =head1 NAME
 
@@ -238,6 +238,7 @@ creates the field HTML to be used in edit masks.
         PossibleValuesFilter => ['value1', 'value2'],     # Optional. Some backends may support this.
                                                           #     This may be needed to realize ACL support for ticket masks,
                                                           #     where the possible values can be limited with and ACL.
+        FieldValue         => 'Any value',                # Optional
         Mandatory          => 1,                          # 0 or 1,
         Class              => 'AnyCSSClass, OrOneMore',   # Optional
         ServerError        => 1,                          # 0 or 1,
@@ -301,12 +302,7 @@ sub EditFieldRender {
 
     # call EditFieldRender on the specific backend
     my $HTMLStrings = $Self->{$DynamicFieldBackend}->EditFieldRender(
-        DynamicFieldConfig   => $Param{DynamicFieldConfig},
-        PossibleValuesFilter => $Param{PossibleValuesFilter} || '',
-        Mandatory            => $Param{Mandatory} || '0',
-        Class                => $Param{Class} || '',
-        ServerError          => $Param{ServerError} || '0',
-        ErrorMessage         => $Param{ErrorMessage},
+        %Param
     );
 
     return $HTMLStrings;
@@ -755,6 +751,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.25 $ $Date: 2011-09-07 17:37:12 $
+$Revision: 1.26 $ $Date: 2011-09-07 20:24:46 $
 
 =cut
