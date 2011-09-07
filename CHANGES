@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1971 2011-09-07 20:52:37 en Exp $
+# $Id: CHANGES,v 1.1972 2011-09-07 22:17:07 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -98,6 +98,7 @@
      of > 70 characters exists.
 
 3.0.11 2011-??-??
+ - 2011-09-07 Fixed bug#7633 - Status flag in customer interface ticket zoom has wrong colors.
  - 2011-09-07 Fixed bug#7591 - Email address field validation fails if name server does not respond.
  - 2011-09-06 Fixed bug#7566 - Ticket search with article create date not working with StaticDB.
  - 2011-09-05 Fixed ticket#2010111742013515 - import/export of static states with .pm file

@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Customer Frontend
- * @version     $Revision: 1.8 $
+ * @version     $Revision: 1.9 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -38,7 +38,27 @@
     font-size: 12px;
 }
 
-#Flag {
+.Flag span.PriorityID-1 {
+    background-color:#03c4f0;
+}
+
+.Flag span.PriorityID-2 {
+    background-color:#83bfc8;
+}
+
+.Flag span.PriorityID-3 {
+    background-color:#cdcdcd;
+}
+
+.Flag span.PriorityID-4 {
+    background-color:#ffaaaa;
+}
+
+.Flag span.PriorityID-5 {
+    background-color:#ff505e;
+}
+
+.Flag {
     top: 2px;
     left: 6px;
     width: 21px;
@@ -52,37 +72,17 @@
     display: block;
 }
 
-.RTL #Flag {
+.RTL .Flag {
     left: auto;
     right: 6px;
 }
 
-#Flag span {
+.Flag span {
     height: 15px;
     line-height: 15px;
     border: 1px solid transparent;
     border-bottom: none;
     display: block;
-}
-
-#Flag.Open {
-    border: 1px solid #28A530;
-}
-
-#Flag.Open span {
-    background: #24ee31;
-    border-color: #56f856;
-    -moz-box-shadow: 0 -1px 0 #46c946;
-    -webkit-box-shadow: 0 -1px 0 #46c946;
-    box-shadow: 0 -1px 0 #46c946;
-}
-
-#Flag.Closed {
-    border: 1px solid #7F0C0C;
-}
-
-#Flag.Closed span {
-    background: #BD1212;
 }
 
 #Metadata {
