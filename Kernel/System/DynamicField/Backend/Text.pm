@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Text.pm - Delegate for DynamicField Text backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Text.pm,v 1.15 2011-09-07 05:13:58 cg Exp $
+# $Id: Text.pm,v 1.16 2011-09-07 16:51:13 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::DynamicFieldValue;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 =head1 NAME
 
@@ -261,11 +261,11 @@ sub EditFieldRender {
 
 }
 
-=item GetParam()
+=item EditFieldValueGet()
 
 extracts the value of a dynamic field from the param object
 
-    my $Value = $BackendObject->GetParam(
+    my $Value = $BackendObject->EditFieldValueGet(
         DynamicFieldConfig => $DynamicFieldConfig,      # complete config of the DynamicField
         ParamObject        => $ParamObject,             # the current request data
     );
@@ -279,7 +279,7 @@ extracts the value of a dynamic field from the param object
 
 =cut
 
-sub GetParam {
+sub EditFieldValueGet {
     my ( $Self, %Param ) = @_;
 
     # get dynamic field value form param
