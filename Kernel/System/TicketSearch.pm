@@ -2,7 +2,7 @@
 # Kernel/System/TicketSearch.pm - all ticket search functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketSearch.pm,v 1.7 2011-09-02 15:09:49 mg Exp $
+# $Id: TicketSearch.pm,v 1.8 2011-09-07 16:01:48 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 use Kernel::System::DynamicField;
 use Kernel::System::DynamicField::Backend;
@@ -1216,7 +1216,7 @@ sub TicketSearch {
 
     # get articles created older/newer than x minutes or older/newer than a date
     my %ArticleTime = (
-        ArticleCreateTime => 'art.create_time',
+        ArticleCreateTime => 'art.incoming_time',
     );
     for my $Key ( keys %ArticleTime ) {
 
@@ -1225,10 +1225,8 @@ sub TicketSearch {
 
             $Param{ $Key . 'OlderMinutes' } ||= 0;
 
-            my $Time = $Self->{TimeObject}->SystemTime2TimeStamp(
-                SystemTime => $Self->{TimeObject}->SystemTime()
-                    - ( $Param{ $Key . 'OlderMinutes' } * 60 ),
-            );
+            my $Time = $Self->{TimeObject}->SystemTime()
+                - ( $Param{ $Key . 'OlderMinutes' } * 60 );
 
             $SQLExt .= " AND $ArticleTime{$Key} <= '$Time'";
         }
@@ -1238,10 +1236,8 @@ sub TicketSearch {
 
             $Param{ $Key . 'NewerMinutes' } ||= 0;
 
-            my $Time = $Self->{TimeObject}->SystemTime2TimeStamp(
-                SystemTime => $Self->{TimeObject}->SystemTime()
-                    - ( $Param{ $Key . 'NewerMinutes' } * 60 ),
-            );
+            my $Time = $Self->{TimeObject}->SystemTime()
+                - ( $Param{ $Key . 'NewerMinutes' } * 60 );
 
             $SQLExt .= " AND $ArticleTime{$Key} >= '$Time'";
         }
@@ -1250,7 +1246,7 @@ sub TicketSearch {
         if ( $Param{ $Key . 'OlderDate' } ) {
             if (
                 $Param{ $Key . 'OlderDate' }
-                !~ /\d\d\d\d-(\d\d|\d)-(\d\d|\d) (\d\d|\d):(\d\d|\d):(\d\d|\d)/
+                !~ /(\d\d\d\d)-(\d\d|\d)-(\d\d|\d) (\d\d|\d):(\d\d|\d):(\d\d|\d)/
                 )
             {
                 $Self->{LogObject}->Log(
@@ -1260,14 +1256,25 @@ sub TicketSearch {
                 return;
             }
 
-            $SQLExt .= " AND $ArticleTime{$Key} <= '" . $Param{ $Key . 'OlderDate' } . "'";
+            # convert param date to system time
+            my $SystemTime = $Self->{TimeObject}->Date2SystemTime(
+                Year   => $1,
+                Month  => $2,
+                Day    => $3,
+                Hour   => $4,
+                Minute => $5,
+                Second => $6,
+            );
+
+            $SQLExt .= " AND $ArticleTime{$Key} <= '" . $SystemTime . "'";
+
         }
 
         # get articles created newer than xxxx-xx-xx xx:xx date
         if ( $Param{ $Key . 'NewerDate' } ) {
             if (
                 $Param{ $Key . 'NewerDate' }
-                !~ /\d\d\d\d-(\d\d|\d)-(\d\d|\d) (\d\d|\d):(\d\d|\d):(\d\d|\d)/
+                !~ /(\d\d\d\d)-(\d\d|\d)-(\d\d|\d) (\d\d|\d):(\d\d|\d):(\d\d|\d)/
                 )
             {
                 $Self->{LogObject}->Log(
@@ -1277,7 +1284,17 @@ sub TicketSearch {
                 return;
             }
 
-            $SQLExt .= " AND $ArticleTime{$Key} >= '" . $Param{ $Key . 'NewerDate' } . "'";
+            # convert param date to system time
+            my $SystemTime = $Self->{TimeObject}->Date2SystemTime(
+                Year   => $1,
+                Month  => $2,
+                Day    => $3,
+                Hour   => $4,
+                Minute => $5,
+                Second => $6,
+            );
+
+            $SQLExt .= " AND $ArticleTime{$Key} >= '" . $SystemTime . "'";
         }
     }
 
@@ -1859,6 +1876,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.7 $ $Date: 2011-09-02 15:09:49 $
+$Revision: 1.8 $ $Date: 2011-09-07 16:01:48 $
 
 =cut
