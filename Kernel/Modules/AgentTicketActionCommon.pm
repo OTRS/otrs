@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketActionCommon.pm - common file for several modules
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketActionCommon.pm,v 1.39 2011-08-26 15:57:13 en Exp $
+# $Id: AgentTicketActionCommon.pm,v 1.40 2011-09-07 02:23:11 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,6 +16,9 @@ use warnings;
 
 use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
+use Kernel::System::DynamicField;
+use Kernel::System::DynamicField::Backend;
+use Kernel::System::VariableCheck qw(:all);
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -33,8 +36,10 @@ sub new {
             $Self->{LayoutObject}->FatalError( Message => "Got no $Needed!" );
         }
     }
-    $Self->{StateObject}       = Kernel::System::State->new(%Param);
-    $Self->{UploadCacheObject} = Kernel::System::Web::UploadCache->new(%Param);
+    $Self->{StateObject}        = Kernel::System::State->new(%Param);
+    $Self->{UploadCacheObject}  = Kernel::System::Web::UploadCache->new(%Param);
+    $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new(%Param);
+    $Self->{BackendObject}      = Kernel::System::DynamicField::Backend->new(%Param);
 
     # get form id
     $Self->{FormID} = $Self->{ParamObject}->GetParam( Param => 'FormID' );
@@ -168,83 +173,102 @@ sub Run {
         $GetParam{$Key} = $Self->{ParamObject}->GetParam( Param => $Key );
     }
 
-    # get ticket free text params
-    for my $Count ( 1 .. 16 ) {
-        my $Key  = 'TicketFreeKey' . $Count;
-        my $Text = 'TicketFreeText' . $Count;
-        $GetParam{$Key}  = $Self->{ParamObject}->GetParam( Param => $Key );
-        $GetParam{$Text} = $Self->{ParamObject}->GetParam( Param => $Text );
-    }
+    # cycle trough the activated Dynamic Fields for this screen
+    FIELDNAME:
+    for my $FieldName ( keys %{ $Self->{Config}->{DynamicField} } ) {
+        next FIELDNAME if !$FieldName;
 
-    # get ticket free time params
-    FREETIMENUMBER:
-    for my $Count ( 1 .. 6 ) {
-
-        # create freetime prefix
-        my $FreeTimePrefix = 'TicketFreeTime' . $Count;
-
-        # get form params
-        for my $Type (qw(Used Year Month Day Hour Minute)) {
-            $GetParam{ $FreeTimePrefix . $Type } = $Self->{ParamObject}->GetParam(
-                Param => $FreeTimePrefix . $Type,
-            );
-        }
-
-        if ( $Self->{Config}->{TicketFreeTime}->{$Count} == 2 ) {
-            $GetParam{ $FreeTimePrefix . 'Required' } = 1;
-        }
-
-        # set additional params
-        $GetParam{ $FreeTimePrefix . 'Optional' } = 1;
-        $GetParam{ $FreeTimePrefix . 'Used' } = $GetParam{ $FreeTimePrefix . 'Used' } || 0;
-        if ( !$Self->{ConfigObject}->Get( 'TicketFreeTimeOptional' . $Count ) ) {
-            $GetParam{ $FreeTimePrefix . 'Optional' } = 0;
-            $GetParam{ $FreeTimePrefix . 'Used' }     = 1;
-        }
-
-        # check the timedata
-        my $TimeDataComplete = 1;
-        TYPE:
-        for my $Type (qw(Used Year Month Day Hour Minute)) {
-            next TYPE if defined $GetParam{ $FreeTimePrefix . $Type };
-
-            $TimeDataComplete = 0;
-            last TYPE;
-        }
-
-        next FREETIMENUMBER if $TimeDataComplete;
-
-        if ( !$Ticket{$FreeTimePrefix} ) {
-            for my $Type (qw(Used Year Month Day Hour Minute)) {
-                delete $GetParam{ $FreeTimePrefix . $Type };
-            }
-            next FREETIMENUMBER;
-        }
-
-        # get freetime data from ticket
-        my $TicketFreeTimeString = $Self->{TimeObject}->TimeStamp2SystemTime(
-            String => $Ticket{$FreeTimePrefix},
+        # get the configuration of the dynamic field
+        my $DynamicFieldConfig = $Self->{DynamicFieldObject}->DynamicFieldGet(
+            Name => $FieldName,
         );
-        my ( $Second, $Minute, $Hour, $Day, $Month, $Year ) = $Self->{TimeObject}->SystemTime2Date(
-            SystemTime => $TicketFreeTimeString,
+        next FIELDNAME if !IsHashRefWithData($DynamicFieldConfig);
+        next FIELDNAME if !$DynamicFieldConfig->{ValidID} ne 1;
+
+        # extract the dynamic field value form the web request
+        $GetParam{$FieldName} = $Self->{BackendObject}->GetParam(
+            DynamicFieldConfig => $DynamicFieldConfig,
+            ParamObject        => $Self->{ParamObject},
         );
-
-        $GetParam{ $FreeTimePrefix . 'UsedFromTicket' } = 1;
-        $GetParam{ $FreeTimePrefix . 'Used' }           = 1;
-        $GetParam{ $FreeTimePrefix . 'Minute' }         = $Minute;
-        $GetParam{ $FreeTimePrefix . 'Hour' }           = $Hour;
-        $GetParam{ $FreeTimePrefix . 'Day' }            = $Day;
-        $GetParam{ $FreeTimePrefix . 'Month' }          = $Month;
-        $GetParam{ $FreeTimePrefix . 'Year' }           = $Year;
     }
 
-    # get article free text params
-    for my $Count ( 1 .. 3 ) {
-        my $Key  = 'ArticleFreeKey' . $Count;
-        my $Text = 'ArticleFreeText' . $Count;
-        $GetParam{$Key}  = $Self->{ParamObject}->GetParam( Param => $Key );
-        $GetParam{$Text} = $Self->{ParamObject}->GetParam( Param => $Text );
-    }
+    #    # get ticket free text params
+    #    for my $Count ( 1 .. 16 ) {
+    #        my $Key  = 'TicketFreeKey' . $Count;
+    #        my $Text = 'TicketFreeText' . $Count;
+    #        $GetParam{$Key}  = $Self->{ParamObject}->GetParam( Param => $Key );
+    #        $GetParam{$Text} = $Self->{ParamObject}->GetParam( Param => $Text );
+    #    }
+
+#    # get ticket free time params
+#    FREETIMENUMBER:
+#    for my $Count ( 1 .. 6 ) {
+#
+#        # create freetime prefix
+#        my $FreeTimePrefix = 'TicketFreeTime' . $Count;
+#
+#        # get form params
+#        for my $Type (qw(Used Year Month Day Hour Minute)) {
+#            $GetParam{ $FreeTimePrefix . $Type } = $Self->{ParamObject}->GetParam(
+#                Param => $FreeTimePrefix . $Type,
+#            );
+#        }
+#
+#        if ( $Self->{Config}->{TicketFreeTime}->{$Count} == 2 ) {
+#            $GetParam{ $FreeTimePrefix . 'Required' } = 1;
+#        }
+#
+#        # set additional params
+#        $GetParam{ $FreeTimePrefix . 'Optional' } = 1;
+#        $GetParam{ $FreeTimePrefix . 'Used' } = $GetParam{ $FreeTimePrefix . 'Used' } || 0;
+#        if ( !$Self->{ConfigObject}->Get( 'TicketFreeTimeOptional' . $Count ) ) {
+#            $GetParam{ $FreeTimePrefix . 'Optional' } = 0;
+#            $GetParam{ $FreeTimePrefix . 'Used' }     = 1;
+#        }
+#
+#        # check the timedata
+#        my $TimeDataComplete = 1;
+#        TYPE:
+#        for my $Type (qw(Used Year Month Day Hour Minute)) {
+#            next TYPE if defined $GetParam{ $FreeTimePrefix . $Type };
+#
+#            $TimeDataComplete = 0;
+#            last TYPE;
+#        }
+#
+#        next FREETIMENUMBER if $TimeDataComplete;
+#
+#        if ( !$Ticket{$FreeTimePrefix} ) {
+#            for my $Type (qw(Used Year Month Day Hour Minute)) {
+#                delete $GetParam{ $FreeTimePrefix . $Type };
+#            }
+#            next FREETIMENUMBER;
+#        }
+#
+#        # get freetime data from ticket
+#        my $TicketFreeTimeString = $Self->{TimeObject}->TimeStamp2SystemTime(
+#            String => $Ticket{$FreeTimePrefix},
+#        );
+#        my ( $Second, $Minute, $Hour, $Day, $Month, $Year ) = $Self->{TimeObject}->SystemTime2Date(
+#            SystemTime => $TicketFreeTimeString,
+#        );
+#
+#        $GetParam{ $FreeTimePrefix . 'UsedFromTicket' } = 1;
+#        $GetParam{ $FreeTimePrefix . 'Used' }           = 1;
+#        $GetParam{ $FreeTimePrefix . 'Minute' }         = $Minute;
+#        $GetParam{ $FreeTimePrefix . 'Hour' }           = $Hour;
+#        $GetParam{ $FreeTimePrefix . 'Day' }            = $Day;
+#        $GetParam{ $FreeTimePrefix . 'Month' }          = $Month;
+#        $GetParam{ $FreeTimePrefix . 'Year' }           = $Year;
+#    }
+#
+#    # get article free text params
+#    for my $Count ( 1 .. 3 ) {
+#        my $Key  = 'ArticleFreeKey' . $Count;
+#        my $Text = 'ArticleFreeText' . $Count;
+#        $GetParam{$Key}  = $Self->{ParamObject}->GetParam( Param => $Key );
+#        $GetParam{$Text} = $Self->{ParamObject}->GetParam( Param => $Text );
+#    }
 
     # transform pending time, time stamp based on user time zone
     if (
