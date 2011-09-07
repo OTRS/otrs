@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.274.2.2 2011-06-28 12:58:44 cg Exp $
+# $Id: Article.pm,v 1.274.2.3 2011-09-07 22:42:19 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Notification;
 use Kernel::System::EmailParser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.274.2.2 $) [1];
+$VERSION = qw($Revision: 1.274.2.3 $) [1];
 
 =head1 NAME
 
@@ -1268,6 +1268,7 @@ returns an array with hash ref (hash contains result of ArticleGet())
 
     my @ArticleBox = $TicketObject->ArticleContentIndex(
         TicketID => 123,
+        UserID   => 1,
     );
 
 or with "StripPlainBodyAsAttachment => 1" feature to not include first
@@ -1275,6 +1276,7 @@ attachment / body and html body as attachment
 
     my @ArticleBox = $TicketObject->ArticleContentIndex(
         TicketID                   => 123,
+        UserID                     => 1,
         StripPlainBodyAsAttachment => 1,
     );
 
@@ -1283,6 +1285,7 @@ attachment / body as attachment (html body will be shown as attachment)
 
     my @ArticleBox = $TicketObject->ArticleContentIndex(
         TicketID                   => 123,
+        UserID                     => 1,
         StripPlainBodyAsAttachment => 2,
     );
 
@@ -1291,6 +1294,7 @@ only with given article types
 
     my @ArticleBox = $TicketObject->ArticleContentIndex(
         TicketID    => 123,
+        UserID      => 1,
         ArticleType => [ $ArticleType1, $ArticleType2 ],
     );
 
@@ -3355,6 +3359,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.274.2.2 $ $Date: 2011-06-28 12:58:44 $
+$Revision: 1.274.2.3 $ $Date: 2011-09-07 22:42:19 $
 
 =cut
