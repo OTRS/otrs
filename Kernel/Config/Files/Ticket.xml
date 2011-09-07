@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.462 2011-09-05 07:08:57 mg Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.463 2011-09-07 21:39:19 cr Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Translatable="1">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Group>Ticket</Group>
@@ -9059,6 +9059,21 @@ Thanks for your help!
                 <Item Key="DisplayName">Date</Item>
                 <Item Key="Module">Kernel::System::DynamicField::Backend::Date</Item>
                 <Item Key="ConfigDialog">AdminDynamicFieldDateTime</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+
+    <ConfigItem Name="Ticket::Frontend::AgentTicketNote###DynamicField" Required="0" Valid="1">
+        <Description Translatable="1">Dynamic fields shown in the ticket note screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewNote</SubGroup>
+        <Setting>
+            <Hash>
+<!--
+                <Item Key="Field1">1</Item>
+                <Item Key="Field2">0</Item>
+                <Item Key="Field3">2</Item>
+-->
             </Hash>
         </Setting>
     </ConfigItem>
