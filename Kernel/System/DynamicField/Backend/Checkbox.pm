@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Checkbox.pm - Delefate for DynamicField Checkbox backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Checkbox.pm,v 1.8 2011-09-08 18:28:12 cg Exp $
+# $Id: Checkbox.pm,v 1.9 2011-09-08 18:32:25 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::DynamicFieldValue;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 =head1 NAME
 
@@ -211,7 +211,7 @@ sub EditFieldRender {
     my $FieldChecked = ( defined $Value && $Value eq '1' ? 'checked="checked"' : '' );
 
     # check and set class if necessary
-    my $FieldClass = 'DynamicFieldText';
+    my $FieldClass = 'DynamicFieldCheckbox';
     if ( defined $Param{Class} && $Param{Class} ne '' ) {
         $FieldClass .= ' ' . $Param{Class};
     }
