@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminQueue.pm - to add/update/delete queues
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminQueue.pm,v 1.81 2011-06-03 03:38:01 dz Exp $
+# $Id: AdminQueue.pm,v 1.82 2011-09-08 20:51:33 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Signature;
 use Kernel::System::SystemAddress;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.81 $) [1];
+$VERSION = qw($Revision: 1.82 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -447,13 +447,43 @@ sub _Edit {
             delete $CleanHash{$Key};
         }
     }
-    $Param{QueueOption} = $Self->{LayoutObject}->AgentQueueListOption(
-        Data => { '' => ' -', %CleanHash, },
-        Name => 'ParentQueueID',
-        Selected       => $ParentQueue,
-        MaxLevel       => 4,
-        OnChangeSubmit => 0,
-    );
+
+    # get list type
+    my $ListType = $Self->{ConfigObject}->Get('Ticket::Frontend::ListType');
+
+    # verify if queue list should be a list or a tree
+    if ( $ListType eq 'tree' ) {
+        $Param{QueueOption} = $Self->{LayoutObject}->AgentQueueListOption(
+            Data => { '' => ' -', %CleanHash, },
+            Name => 'ParentQueueID',
+            Selected       => $ParentQueue,
+            MaxLevel       => 3,
+            OnChangeSubmit => 0,
+        );
+    }
+    else {
+
+        # leave only queues with 3 levels, because max allowed level is 4:
+        # new queue + 3 levels of parent queue = 4 levels
+        for my $Key ( keys %CleanHash ) {
+            my $QueueName      = $CleanHash{$Key};
+            my @QueueNameLevel = split( ::, $QueueName );
+            my $QueueLevel     = $#QueueNameLevel + 1;
+            if ( $QueueLevel > 3 ) {
+                delete $CleanHash{$Key};
+            }
+        }
+
+        $Param{QueueOption} = $Self->{LayoutObject}->BuildSelection(
+            Data          => \%CleanHash,
+            Name          => 'ParentQueueID',
+            SelectedValue => $ParentQueue,
+            PossibleNone  => 1,
+            HTMLQuote     => 0,
+            Translation   => 0,
+        );
+    }
+
     $Param{QueueLongOption} = $Self->{LayoutObject}->AgentQueueListOption(
         Data => { $Self->{QueueObject}->QueueList( Valid => 0 ), },
         Name => 'QueueID',
