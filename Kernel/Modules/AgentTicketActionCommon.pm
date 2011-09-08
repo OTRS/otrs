@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketActionCommon.pm - common file for several modules
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketActionCommon.pm,v 1.43 2011-09-07 22:58:35 cr Exp $
+# $Id: AgentTicketActionCommon.pm,v 1.44 2011-09-08 21:03:47 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -191,6 +191,7 @@ sub Run {
         $DyanmicFieldValues{$FieldName} = $Self->{BackendObject}->EditFieldValueGet(
             DynamicFieldConfig => $DynamicFieldConfig,
             ParamObject        => $Self->{ParamObject},
+            LayoutObject       => $Self->{LayoutObject},
         );
     }
 
