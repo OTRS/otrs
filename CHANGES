@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1973 2011-09-07 22:43:14 en Exp $
+# $Id: CHANGES,v 1.1974 2011-09-08 22:56:52 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.1.0 beta1 2011-??-??
+ - 2011-09-09 Updated CPAN module Mozilla::CA to version 20110904.
  - 2011-09-06 Converted all translation files to utf-8.
  - 2011-09-01 Changed Postgresql driver to also use standard_conforming_strings in regular
     database connections.
