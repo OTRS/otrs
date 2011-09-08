@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/BackendCommon.pm - Dynamic field backend functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: BackendCommon.pm,v 1.1 2011-09-07 18:22:44 cr Exp $
+# $Id: BackendCommon.pm,v 1.2 2011-09-08 17:58:12 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 =head1 NAME
 
@@ -127,24 +127,29 @@ sub EditLabelRender {
         }
     }
 
+    my $Name       = $Param{DynamicFieldConfig}->{Name};
+    my $LabelText  = $Param{DynamicFieldConfig}->{Label};
+    my $LabelID    = 'Label_' . $Param{DynamicFieldConfig}->{Name};
     my $HTMLString = '';
+
     if ( $Param{Mandatory} ) {
 
         # for DynamicFreeFields
-        $HTMLString =
-            '<label id="Label_' . $Param{DynamicFieldConfig}->{Name} . '" '
-            . 'for="' . $Param{FieldName} . '" class="Mandatory">'
-            . '<span class="Marker">*</span> '
-            . $Param{DynamicFieldConfig}->{Label}
-            . ':</label>';
+        $HTMLString = <<"EOF";
+<label id="$LabelID" for="$Name" class="Mandatory">
+    <span class="Marker">*</span>
+        $LabelText:
+</label>
+EOF
     }
     else {
 
         # for DynamicFreeFields
-        $HTMLString =
-            '<label id="Label_' . $Param{DynamicFieldConfig}->{Name} . '">'
-            . $Param{DynamicFieldConfig}->{Label}
-            . ':</label>';
+        $HTMLString = <<"EOF";
+<label id="$LabelID" for="$Name">
+        $LabelText:
+</label>
+EOF
     }
 
     return $HTMLString;
@@ -166,6 +171,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2011-09-07 18:22:44 $
+$Revision: 1.2 $ $Date: 2011-09-08 17:58:12 $
 
 =cut

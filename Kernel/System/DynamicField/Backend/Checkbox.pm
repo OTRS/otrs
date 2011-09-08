@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Checkbox.pm - Delefate for DynamicField Checkbox backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Checkbox.pm,v 1.6 2011-09-07 23:03:11 cg Exp $
+# $Id: Checkbox.pm,v 1.7 2011-09-08 17:58:12 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::DynamicFieldValue;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 =head1 NAME
 
@@ -160,7 +160,6 @@ creates the field HTML to be used in edit masks.
     my $FieldHTML = $DynamicFieldTextObject->EditFieldRender(
         DynamicFieldConfig   => $DynamicFieldConfig,      # complete config of the DynamicField
         Value              => 'Any value',                # Optional
-        Checked            => 1,                          # 0 or 1,
         Mandatory          => 1,                          # 0 or 1,
         Class              => 'AnyCSSClass OrOneMore',    # Optional
         ServerError        => 1,                          # 0 or 1
@@ -203,12 +202,8 @@ sub EditFieldRender {
     my $FieldName   = 'DynamicField_' . $Param{DynamicFieldConfig}->{Name};
     my $FieldLabel  = $Param{DynamicFieldConfig}->{Label};
 
-    # set the field value or default
-    my $Value
-        = ( defined $Param{Value} ? $Param{Value} : $FieldConfig->{DefaultValue} );
-
     # set as checked if necessary
-    my $FieldChecked = ( defined $Param{Checked} ? 'checked="checked"' : '' );
+    my $FieldChecked = ( defined $Param{Value} && $Param{Value} eq '1' ? 'checked="checked"' : '' );
 
     # check and set class if necessary
     my $FieldClass = 'DynamicFieldText';
@@ -222,43 +217,36 @@ sub EditFieldRender {
     # set error css class
     $FieldClass .= ' ServerError' if $Param{ServerError};
 
-    my $HTMLString =
-        '<input type="checkbox" '
-        . 'class="' . $FieldClass . '" '
-        . 'id="' . $FieldName . '" '
-        . 'name="' . $FieldName . '" '
-        . 'title="' . $FieldLabel . '" '
-        . $FieldChecked . ' ';
-
-    if ( defined $Value ) {
-        $HTMLString .= 'value="' . $Value . '" ';
-    }
-    else {
-        $HTMLString .= 'value="" ';
-    }
-
-    $HTMLString .= '/>';
+    my $HTMLString = <<"EOF";
+<input type="checkbox" class="$FieldClass" id="$FieldName" name="$FieldName" title="$FieldLabel" $FieldChecked value="1" />
+EOF
 
     if ( $Param{Mandatory} ) {
+        my $DivID = $FieldName . 'Error';
 
         # for client side validation
-        $HTMLString .=
-            '<div id="' . $FieldName . 'Error" '
-            . 'class="TooltipErrorMessage">'
-            . '<p>$Text{"This field is required."}</p>'
-            . '</div>';
+        $HTMLString .= <<"EOF";
+    <div id="$DivID" class="TooltipErrorMessage">
+        <p>
+            \$Text{"This field is required."}
+        </p>
+    </div>
+EOF
     }
 
     if ( $Param{ServerError} ) {
 
         my $ErrorMessage = $Param{ErrorMessage} || 'This field is required.';
+        my $DivID = $FieldName . 'ServerError';
 
         # for server side validation
-        $HTMLString .=
-            '<div id="' . $FieldName . 'ServerError" '
-            . 'class="TooltipErrorMessage">'
-            . '<p>$Text{"' . $ErrorMessage . '"}</p>'
-            . '</div>';
+        $HTMLString .= <<"EOF";
+    <div id="$DivID" class="TooltipErrorMessage">
+        <p>
+            \$Text{"$ErrorMessage"}
+        </p>
+    </div>
+EOF
     }
 
     # call EditLabelRender on the common backend
