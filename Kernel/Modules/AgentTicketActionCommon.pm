@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketActionCommon.pm - common file for several modules
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketActionCommon.pm,v 1.44 2011-09-08 21:03:47 cr Exp $
+# $Id: AgentTicketActionCommon.pm,v 1.45 2011-09-08 22:22:33 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -194,8 +194,6 @@ sub Run {
             LayoutObject       => $Self->{LayoutObject},
         );
     }
-
-    # TODO be sure that transform time fields, time stamp based on user time zone
 
     #    # get ticket free text params
     #    for my $Count ( 1 .. 16 ) {
@@ -516,7 +514,6 @@ sub Run {
             # set ErrorMessage
             my $ErrorMessage = $ValidationResult->{ErrorMessage} || '';
 
-            # TODO check if the time fields are converted to agent time
             # get field html
             $DynamicFieldHTML{$FieldName} = $Self->{BackendObject}->EditFieldRender(
                 DynamicFieldConfig   => $DynamicFieldConfig,
@@ -527,8 +524,6 @@ sub Run {
                 ErrorMessage         => $ErrorMessage,
             );
         }
-
-        # TODO check for attachemt upload (IsUpload)
 
      #        # ticket free text
      #        my %TicketFreeText;
@@ -1022,12 +1017,12 @@ sub Run {
                 $Mandatory = 1;
             }
 
-            # TODO check if the time fields are converted to agent time
             # get field html
             $DynamicFieldHTML{$FieldName} = $Self->{BackendObject}->EditFieldRender(
                 DynamicFieldConfig   => $DynamicFieldConfig,
                 PossibleValuesFilter => $PossibleValuesFilter,
                 Mandatory            => $Mandatory,
+                LayoutObject         => $Self->{LayoutObject},
             );
         }
 
