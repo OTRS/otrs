@@ -1,8 +1,8 @@
 # --
-# Kernel/System/DynamicField/Backend/Checkbox.pm - Delefate for DynamicField Checkbox backend
+# Kernel/System/DynamicField/Backend/Checkbox.pm - Delegate for DynamicField Checkbox backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Checkbox.pm,v 1.9 2011-09-08 18:32:25 cg Exp $
+# $Id: Checkbox.pm,v 1.10 2011-09-08 18:44:05 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::DynamicFieldValue;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 =head1 NAME
 
@@ -267,6 +267,131 @@ EOF
     };
 
     return $Data;
+}
+
+=item EditFieldValueGet()
+
+extracts the value of a dynamic field from the param object
+
+    my $Value = $BackendObject->EditFieldValueGet(
+        DynamicFieldConfig => $DynamicFieldConfig,      # complete config of the DynamicField
+        ParamObject        => $ParamObject,             # the current request data
+    );
+
+    Returns
+
+    $Value = 'a text';
+
+=cut
+
+sub EditFieldValueGet {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Needed (qw(DynamicFieldConfig ParamObject)) {
+        if ( !$Param{DynamicFieldConfig} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            return;
+        }
+    }
+
+    # check DynamicFieldConfig (general)
+    if ( !IsHashRefWithData( $Param{DynamicFieldConfig} ) ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "The field configuration is invalid",
+        );
+        return;
+    }
+
+    # check DynamicFieldConfig (internally)
+    for my $Needed (qw(ID Config Name )) {
+        if ( !$Param{DynamicFieldConfig}->{$Needed} ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed in DynamicFieldConfig!"
+            );
+            return;
+        }
+    }
+
+    # get dynamic field value form param
+    return $Param{ParamObject}
+        ->GetParam( Param => 'DynamicField_' . $Param{DynamicFieldConfig}->{Name} );
+}
+
+=item EditFieldValueValidate()
+
+validate the current value for the dynamic field
+
+    my $Result =  $DynamicFieldTextObject->EditFieldValueValidate(
+        DynamicFieldConfig   => $DynamicFieldConfig,      # complete config of the DynamicField
+        PossibleValuesFilter => ['value1', 'value2'],     # Optional. Some backends may support this.
+                                                          #     This may be needed to realize ACL support for ticket masks,
+                                                          #     where the possible values can be limited with and ACL.
+        Value              => 'Any value',                # Optional
+        Mandatory          => 1,                          # 0 or 1,
+    );
+
+    Returns
+
+    $Result = {
+        ServerError        => 1,                          # 0 or 1,
+        ErrorMessage       => $ErrorMessage,              # Optional or a default will be used in error case
+    }
+
+=cut
+
+sub EditFieldValueValidate {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    if ( !$Param{DynamicFieldConfig} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => "Need DynamicFieldConfig!" );
+        return;
+    }
+
+    # check DynamicFieldConfig (general)
+    if ( !IsHashRefWithData( $Param{DynamicFieldConfig} ) ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "The field configuration is invalid",
+        );
+        return;
+    }
+
+    # check DynamicFieldConfig (internally)
+    for my $Needed (qw(ID Config Name )) {
+        if ( !$Param{DynamicFieldConfig}->{$Needed} ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed in DynamicFieldConfig!"
+            );
+            return;
+        }
+    }
+
+    my $ServerError;
+    my $ErrorMessage;
+
+    # perform necessary validations
+    if ( $Param{Mandatory} && !$Param{Value} ) {
+        $ServerError = 1;
+    }
+
+    # validate only 0 or 1 as possible values
+    if ( $Param{Value} && $Param{Value} ne 1 ) {
+        $ServerError  = 1;
+        $ErrorMessage = 'The field content is invalid';
+    }
+
+    # create resulting structure
+    my $Result = {
+        ServerError  => $ServerError,
+        ErrorMessage => $ErrorMessage,
+    };
+
+    return $Result;
 }
 
 1;
