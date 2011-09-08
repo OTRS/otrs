@@ -2,7 +2,7 @@
 # RPM spec file for Fedora of the OTRS package
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: fedora-otrs-4.spec,v 1.14.2.1 2011-08-15 12:50:49 mb Exp $
+# $Id: fedora-otrs-4.spec,v 1.14.2.2 2011-09-08 14:29:36 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -115,9 +115,9 @@ if test -e /opt/otrs/Kernel/Config/Files/FAQ.pm; then
 fi
 
 # run OTRS rebuild config, delete cache, if the system was already in use (i.e. upgrade).
-if test -e /opt/otrs/Kernel/Config/Files/ZZZAAuto.pm
-    /opt/otrs/bin/otrs.RebuildConfig.pl
-    /opt/otrs/bin/otrs.DeleteCache.pl
+if test -e /opt/otrs/Kernel/Config/Files/ZZZAAuto.pm; then
+    /opt/otrs/bin/otrs.RebuildConfig.pl;
+    /opt/otrs/bin/otrs.DeleteCache.pl;
 fi
 
 # note
