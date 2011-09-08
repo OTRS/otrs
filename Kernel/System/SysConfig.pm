@@ -2,7 +2,7 @@
 # Kernel/System/SysConfig.pm - all system config tool functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SysConfig.pm,v 1.29 2011-08-12 09:06:15 mg Exp $
+# $Id: SysConfig.pm,v 1.30 2011-09-08 11:54:56 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::Config;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.29 $) [1];
+$VERSION = qw($Revision: 1.30 $) [1];
 
 =head1 NAME
 
@@ -1779,8 +1779,12 @@ sub _DataDiff {
         # compare %A with %B and remove it if checked
         for my $Key ( keys %A ) {
 
-            # do nothing, it's ok
-            next if !defined $A{$Key} && !defined $B{$Key};
+            # Check if both are undefined
+            if ( !defined $A{$Key} && !defined $B{$Key} ) {
+                delete $A{$Key};
+                delete $B{$Key};
+                next;
+            }
 
             # return diff, because its different
             return 1 if !defined $A{$Key} || !defined $B{$Key};
@@ -2247,6 +2251,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.29 $ $Date: 2011-08-12 09:06:15 $
+$Revision: 1.30 $ $Date: 2011-09-08 11:54:56 $
 
 =cut

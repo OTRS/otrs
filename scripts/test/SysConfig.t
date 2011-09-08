@@ -1,8 +1,8 @@
 # --
 # SysConfig.t - SysConfig tests
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SysConfig.t,v 1.11 2010-10-29 22:16:59 en Exp $
+# $Id: SysConfig.t,v 1.12 2011-09-08 11:54:56 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -117,8 +117,8 @@ $Self->True(
     'DataDiff() HASH',
 );
 
-%Ah = ( 'Test' => 123, A => [ 1, 3, 4 ], B => { a => 1 }, );
-%Bh = ( 'Test' => 123, A => [ 1, 3, 4 ], B => { a => 1 }, );
+%Ah = ( 'Test' => 123, A => [ 1, 3, 4 ], B => { a => 1 }, special => undef );
+%Bh = ( 'Test' => 123, A => [ 1, 3, 4 ], B => { a => 1 }, special => undef );
 $Diff = $SysConfigObject->_DataDiff(
     Data1 => \%Ah,
     Data2 => \%Bh,
