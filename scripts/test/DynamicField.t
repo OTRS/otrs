@@ -2,7 +2,7 @@
 # DynamicField.t - DynamicField tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicField.t,v 1.21 2011-08-31 21:16:16 cr Exp $
+# $Id: DynamicField.t,v 1.22 2011-09-08 17:00:54 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -240,7 +240,7 @@ for my $Test (@Tests) {
     # add config
     my $DynamicFieldID = $DynamicFieldObject->DynamicFieldAdd(
         Name => $Test->{Name} . $RandomID,
-        %{ $Test->{Add} }
+        %{ $Test->{Add} },
     );
     if ( !$Test->{SuccessAdd} ) {
         $Self->False(
@@ -326,7 +326,7 @@ for my $Test (@Tests) {
     my $Success = $DynamicFieldObject->DynamicFieldUpdate(
         ID   => $DynamicFieldID,
         Name => $Test->{Name} . $RandomID,
-        %{ $Test->{Update} }
+        %{ $Test->{Update} },
     );
     if ( !$Test->{SuccessUpdate} ) {
         $Self->False(
