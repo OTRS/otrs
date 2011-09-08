@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField.pm - DynamicFields configuration backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicField.pm,v 1.40 2011-09-06 09:34:37 mg Exp $
+# $Id: DynamicField.pm,v 1.41 2011-09-08 16:37:49 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Cache;
 use Kernel::System::DynamicField::Backend;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.40 $) [1];
+$VERSION = qw($Revision: 1.41 $) [1];
 
 =head1 NAME
 
@@ -382,7 +382,7 @@ sub DynamicFieldUpdate {
 
     if (
         defined $DuplicatedFields{ lc( $Param{Name} ) } &&
-        defined $DuplicatedFields{ lc( $Param{Name} ) } eq $Param{ID}
+        $DuplicatedFields{ lc( $Param{Name} ) } ne $Param{ID}
         )
     {
         $Self->{LogObject}->Log(
@@ -946,6 +946,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.40 $ $Date: 2011-09-06 09:34:37 $
+$Revision: 1.41 $ $Date: 2011-09-08 16:37:49 $
 
 =cut
