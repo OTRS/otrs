@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/BackendCommon.pm - Dynamic field backend functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: BackendCommon.pm,v 1.2 2011-09-08 17:58:12 cg Exp $
+# $Id: BackendCommon.pm,v 1.3 2011-09-08 18:25:06 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 =head1 NAME
 
@@ -127,7 +127,7 @@ sub EditLabelRender {
         }
     }
 
-    my $Name       = $Param{DynamicFieldConfig}->{Name};
+    my $Name       = $Param{FieldName};
     my $LabelText  = $Param{DynamicFieldConfig}->{Label};
     my $LabelID    = 'Label_' . $Param{DynamicFieldConfig}->{Name};
     my $HTMLString = '';
@@ -171,6 +171,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.2 $ $Date: 2011-09-08 17:58:12 $
+$Revision: 1.3 $ $Date: 2011-09-08 18:25:06 $
 
 =cut
