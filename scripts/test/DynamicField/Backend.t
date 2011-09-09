@@ -2,7 +2,7 @@
 # Backend.t - DynamicFieldValue backend tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Backend.t,v 1.11 2011-09-09 16:05:44 cr Exp $
+# $Id: Backend.t,v 1.12 2011-09-09 18:09:35 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -291,6 +291,8 @@ my @Tests = (
         Success   => 0,
         ShouldGet => 0,
     },
+
+    # options validation are now just on the frontend then this test should be successful
     {
         Name               => 'Dropdown - Invalid Option',
         DynamicFieldConfig => {
@@ -308,8 +310,8 @@ my @Tests = (
         ObjectID  => $TicketID,
         Value     => 'Key4',
         UserID    => 1,
-        Success   => 0,
-        ShouldGet => 0,
+        Success   => 1,
+        ShouldGet => 1,
     },
     {
         Name               => 'Dropdown - Invalid Option',

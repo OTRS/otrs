@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Dropdown.pm - Delegate for DynamicField Dropdown backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Dropdown.pm,v 1.8 2011-09-09 15:26:33 cg Exp $
+# $Id: Dropdown.pm,v 1.9 2011-09-09 18:09:35 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::DynamicFieldValue;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 =head1 NAME
 
@@ -122,18 +122,6 @@ sub ValueSet {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "Dynamic field configuration (PossibleValues) is not valid",
-        );
-        return;
-    }
-
-    # get possible values list
-    my $PossibleValues = $Param{DynamicFieldConfig}->{Config}->{PossibleValues};
-
-    # check if values is defiend the possible values list
-    if ( !$PossibleValues->{ $Param{Value} } ) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => "The value $Param{Value} is not a defined option for this field",
         );
         return;
     }
