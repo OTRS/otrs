@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Dropdown.pm - Delegate for DynamicField Dropdown backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Dropdown.pm,v 1.12 2011-09-09 23:02:50 cg Exp $
+# $Id: Dropdown.pm,v 1.13 2011-09-09 23:32:46 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::DynamicFieldValue;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 =head1 NAME
 
@@ -297,16 +297,25 @@ sub EditFieldValueValidate {
 
     # perform necessary validations
     if ( $Param{Mandatory} && !$Param{Value} ) {
-        $ServerError = 1;
+        return {
+            ServerError => 1,
+        };
     }
+    else {
 
-    # get possible values list
-    my $PossibleValues = $Param{DynamicFieldConfig}->{Config}->{PossibleValues};
+        # get possible values list
+        my $PossibleValues = $Param{DynamicFieldConfig}->{Config}->{PossibleValues};
 
-    # validate if value is in possible values list
-    if ( $Param{Value} && !$PossibleValues->{ $Param{Value} } ) {
-        $ServerError  = 1;
-        $ErrorMessage = 'The field content is invalid';
+        # overwrite possible values if PossibleValuesFilter
+        if ( defined $Param{PossibleValuesFilter} ) {
+            $PossibleValues = $Param{PossibleValuesFilter}
+        }
+
+        # validate if value is in possible values list (but let pass empty values)
+        if ( $Param{Value} && !$PossibleValues->{ $Param{Value} } ) {
+            $ServerError  = 1;
+            $ErrorMessage = 'The field content is invalid';
+        }
     }
 
     # create resulting structure
