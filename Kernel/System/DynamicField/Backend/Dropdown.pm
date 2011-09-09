@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Dropdown.pm - Delegate for DynamicField Dropdown backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Dropdown.pm,v 1.9 2011-09-09 18:09:35 cr Exp $
+# $Id: Dropdown.pm,v 1.10 2011-09-09 22:46:26 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::DynamicFieldValue;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 =head1 NAME
 
@@ -324,6 +324,9 @@ creates the field HTML to be used in edit masks.
 
     my $FieldHTML = $DynamicFieldTextObject->EditFieldRender(
         DynamicFieldConfig   => $DynamicFieldConfig,      # complete config of the DynamicField
+        PossibleValuesFilter => ['value1', 'value2'],     # Optional. Some backends may support this.
+                                                          #     This may be needed to realize ACL support for ticket masks,
+                                                          #     where the possible values can be limited with and ACL.
         Value              => 'Any value',                # Optional
         Mandatory          => 1,                          # 0 or 1,
         Class              => 'AnyCSSClass OrOneMore',    # Optional
@@ -383,6 +386,13 @@ sub EditFieldRender {
 
     # set error css class
     $FieldClass .= ' ServerError' if $Param{ServerError};
+
+    # set PossibleValues
+    my $SelectionData = $FieldConfig->{PossibleValues};
+
+    # use PossibleValuesFilter if defined
+    $SelectionData = $Param{PossibleValuesFilter}
+        if defined $Param{PossibleValuesFilter};
 
     my $HTMLString = $Param{LayoutObject}->BuildSelection(
         Data         => $FieldConfig->{PossibleValues},
