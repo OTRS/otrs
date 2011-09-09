@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/DateTime.pm - Delegate for DynamicField DateTime backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DateTime.pm,v 1.7 2011-09-08 22:21:31 cr Exp $
+# $Id: DateTime.pm,v 1.8 2011-09-09 18:01:35 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,9 +17,10 @@ use warnings;
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::DynamicFieldValue;
 use Kernel::System::Time;
+use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 =head1 NAME
 
@@ -57,6 +58,8 @@ sub new {
     # create additional objects
     $Self->{DynamicFieldValueObject} = Kernel::System::DynamicFieldValue->new( %{$Self} );
     $Self->{TimeObject}              = Kernel::System::Time->new( %{$Self} );
+    $Self->{BackendCommonObject}
+        = Kernel::System::DynamicField::Backend::BackendCommon->new( %{$Self} );
 
     return $Self;
 }
@@ -241,6 +244,127 @@ sub EditFieldValueGet {
     return $Self->{TimeObject}->SystemTime2TimeStamp(
         SystemTime => $SystemTime,
     );
+}
+
+=item EditFieldRender()
+
+creates the field HTML to be used in edit masks.
+
+    my $FieldHTML = $DynamicFieldTextObject->EditFieldRender(
+        DynamicFieldConfig   => $DynamicFieldConfig,      # complete config of the DynamicField
+        Value              => 'Any value',                # Optional
+        Mandatory          => 1,                          # 0 or 1,
+        Class              => 'AnyCSSClass OrOneMore',    # Optional
+        ServerError        => 1,                          # 0 or 1
+        ErrorMessage       => $ErrorMessage,              # Optional or a default will be used in error case
+    );
+
+=cut
+
+sub EditFieldRender {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    if ( !$Param{DynamicFieldConfig} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => "Need DynamicFieldConfig!" );
+        return;
+    }
+
+    # check DynamicFieldConfig (general)
+    if ( !IsHashRefWithData( $Param{DynamicFieldConfig} ) ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "The field configuration is invalid",
+        );
+        return;
+    }
+
+    # check DynamicFieldConfig (internally)
+    for my $Needed (qw(ID Config Name )) {
+        if ( !$Param{DynamicFieldConfig}->{$Needed} ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed in DynamicFieldConfig!"
+            );
+            return;
+        }
+    }
+
+    # take config from field config
+    my $FieldConfig = $Param{DynamicFieldConfig}->{Config};
+    my $FieldName   = 'DynamicField_' . $Param{DynamicFieldConfig}->{Name};
+    my $FieldLabel  = $Param{DynamicFieldConfig}->{Label};
+
+    # set the field value or default
+    my $Value = $FieldConfig->{DefaultValue} || '';
+    $Value = $Param{Value}
+        if defined $Param{Value};
+
+    # check and set class if necessary
+    my $FieldClass = 'DynamicFieldText';
+    if ( defined $Param{Class} && $Param{Class} ne '' ) {
+        $FieldClass .= ' ' . $Param{Class};
+    }
+
+    # set field as mandatory
+    $FieldClass .= ' Validate_Required' if $Param{Mandatory};
+
+    # set error css class
+    $FieldClass .= ' ServerError' if $Param{ServerError};
+
+    my $HTMLString = $Param{LayoutObject}->BuildDateSelection(
+        %Param,
+        Prefix               => $FieldName,
+        Format               => 'DateInputFormatLong',
+        $FieldName . 'Class' => $FieldClass,
+        DiffTime             => $FieldConfig->{DefaultValue} || '',
+        $FieldConfig,
+        Validate => 1,
+        Required => $Param{Mandatory} || 0,
+    );
+
+    if ( $Param{Mandatory} ) {
+        my $DivID = $FieldName . 'Error';
+
+        # for client side validation
+        $HTMLString .= <<"EOF";
+
+    <div id="$DivID" class="TooltipErrorMessage">
+        <p>
+            \$Text{"This field is required."}
+        </p>
+    </div>
+EOF
+    }
+
+    if ( $Param{ServerError} ) {
+
+        my $ErrorMessage = $Param{ErrorMessage} || 'This field is required.';
+        my $DivID = $FieldName . 'ServerError';
+
+        # for server side validation
+        $HTMLString .= <<"EOF";
+    <div id="$DivID" class="TooltipErrorMessage">
+        <p>
+            \$Text{"$ErrorMessage"}
+        </p>
+    </div>
+EOF
+    }
+
+    # call EditLabelRender on the common backend
+    my $LabelString = $Self->{BackendCommonObject}->EditLabelRender(
+        DynamicFieldConfig => $Param{DynamicFieldConfig},
+        Mandatory          => $Param{Mandatory} || '0',
+        FieldName          => $FieldName,
+    );
+
+    my $Data = {
+        Field => $HTMLString,
+        Label => $LabelString,
+    };
+
+    return $Data;
 }
 
 1;
