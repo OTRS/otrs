@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketActionCommon.pm - common file for several modules
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketActionCommon.pm,v 1.46 2011-09-09 14:09:21 mg Exp $
+# $Id: AgentTicketActionCommon.pm,v 1.47 2011-09-09 16:49:36 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -475,6 +475,10 @@ sub Run {
             next FIELDNAME if !IsHashRefWithData($DynamicFieldConfig);
             next FIELDNAME if $DynamicFieldConfig->{ValidID} ne 1;
 
+            # skip dynamic fields for other object types than Ticket or Article
+            next FIELDNAME if $DynamicFieldConfig->{ObjectType} ne 'Ticket'
+                    && $DynamicFieldConfig->{ObjectType} ne 'Article';
+
             # TODO Implement PossibleValuesFilter
             # set possible values filter from ACLs
             my $PossibleValuesFilter;
@@ -835,7 +839,11 @@ sub Run {
             next FIELDNAME if !IsHashRefWithData($DynamicFieldConfig);
             next FIELDNAME if $DynamicFieldConfig->{ValidID} ne 1;
 
-            # set theo bject ID (TicketID or ArticleID) depending on the field configration
+            # skip dynamic fields for other object types than Ticket or Article
+            next FIELDNAME if $DynamicFieldConfig->{ObjectType} ne 'Ticket'
+                    && $DynamicFieldConfig->{ObjectType} ne 'Article';
+
+            # set the object ID (TicketID or ArticleID) depending on the field configration
             my $ObjectID
                 = $DynamicFieldConfig->{ObjectType} eq 'Article' ? $ArticleID : $Self->{TicketID};
 
@@ -998,6 +1006,10 @@ sub Run {
             # skip undefined dynamic fields and non valid
             next FIELDNAME if !IsHashRefWithData($DynamicFieldConfig);
             next FIELDNAME if $DynamicFieldConfig->{ValidID} ne 1;
+
+            # skip dynamic fields for other object types than Ticket or Article
+            next FIELDNAME if $DynamicFieldConfig->{ObjectType} ne 'Ticket'
+                    && $DynamicFieldConfig->{ObjectType} ne 'Article';
 
             # TODO Implement PossibleValuesFilter
             # set possible values filter from ACLs
@@ -1529,7 +1541,6 @@ sub _Mask {
 
     # Dynamic fields
 
-    # TODO: limit this to FieldType Ticket and Article when fetching the fields
     # get an orderderd list of valid dynamic fields
     my $DynamicFieldIDs = $Self->{DynamicFieldObject}->DynamicFieldList();
 
