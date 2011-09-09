@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField.pm - DynamicFields configuration backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicField.pm,v 1.41 2011-09-08 16:37:49 cr Exp $
+# $Id: DynamicField.pm,v 1.42 2011-09-09 07:25:34 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Cache;
 use Kernel::System::DynamicField::Backend;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.41 $) [1];
+$VERSION = qw($Revision: 1.42 $) [1];
 
 =head1 NAME
 
@@ -150,7 +150,7 @@ sub DynamicFieldAdd {
 
     my $NameExists;
 
-    # check is Name already exists
+    # check if Name already exists
     return if !$Self->{DBObject}->Prepare(
         SQL   => 'SELECT id FROM dynamic_field WHERE LOWER(name) = LOWER(?)',
         Bind  => [ \$Param{Name} ],
@@ -373,18 +373,23 @@ sub DynamicFieldUpdate {
         return;
     }
 
-    # check is Name already exists
-    my $DynamicFieldDuplicated = $Self->DynamicFieldList(
-        ResultType => 'HASH',
-    );
-    my %DuplicatedFields = reverse %{$DynamicFieldDuplicated};
-    %DuplicatedFields = map { $_ => lc $DuplicatedFields{$_} } keys %DuplicatedFields;
+    my $NameExists;
 
-    if (
-        defined $DuplicatedFields{ lc( $Param{Name} ) } &&
-        $DuplicatedFields{ lc( $Param{Name} ) } ne $Param{ID}
-        )
-    {
+    # check if Name already exists
+    return if !$Self->{DBObject}->Prepare(
+        SQL => '
+            SELECT id FROM dynamic_field
+            WHERE LOWER(name) = LOWER(?)
+                AND id != ?',
+        Bind => [ \$Param{Name}, \$Param{ID} ],
+        LIMIT => 1,
+    );
+
+    while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
+        $NameExists = 1;
+    }
+
+    if ($NameExists) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "The name $Param{Name} already exists for a dynamic field!"
@@ -946,6 +951,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.41 $ $Date: 2011-09-08 16:37:49 $
+$Revision: 1.42 $ $Date: 2011-09-09 07:25:34 $
 
 =cut
