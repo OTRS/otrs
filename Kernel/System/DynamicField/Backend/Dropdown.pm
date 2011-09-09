@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Dropdown.pm - Delegate for DynamicField Dropdown backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Dropdown.pm,v 1.7 2011-09-08 22:54:20 cg Exp $
+# $Id: Dropdown.pm,v 1.8 2011-09-09 15:26:33 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::DynamicFieldValue;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 =head1 NAME
 
@@ -397,12 +397,13 @@ sub EditFieldRender {
     $FieldClass .= ' ServerError' if $Param{ServerError};
 
     my $HTMLString = $Param{LayoutObject}->BuildSelection(
-        Data        => $FieldConfig->{PossibleValues},
-        Name        => $FieldName,
-        SelectedID  => $Value,
-        Translation => 0,
-        Class       => $FieldClass,
-        HTMLQuote   => 1,
+        Data         => $FieldConfig->{PossibleValues},
+        Name         => $FieldName,
+        SelectedID   => $Value,
+        Translation  => 0,
+        PossibleNone => 1,
+        Class        => $FieldClass,
+        HTMLQuote    => 1,
     );
 
     if ( $Param{Mandatory} ) {
