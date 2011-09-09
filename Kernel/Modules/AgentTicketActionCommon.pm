@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketActionCommon.pm - common file for several modules
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketActionCommon.pm,v 1.45 2011-09-08 22:22:33 cr Exp $
+# $Id: AgentTicketActionCommon.pm,v 1.46 2011-09-09 14:09:21 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -173,12 +173,15 @@ sub Run {
         $GetParam{$Key} = $Self->{ParamObject}->GetParam( Param => $Key );
     }
 
-    my %DyanmicFieldValues;
+    my %DynamicFieldValues;
 
     # cycle trough the activated Dynamic Fields for this screen
     FIELDNAME:
     for my $FieldName ( keys %{ $Self->{Config}->{DynamicField} } ) {
         next FIELDNAME if !$FieldName;
+
+        # Check if field was displayed
+        next FIELDNAME if !$Self->{Config}->{DynamicField}->{$FieldName};
 
         # get the configuration of the dynamic field
         my $DynamicFieldConfig = $Self->{DynamicFieldObject}->DynamicFieldGet(
@@ -188,7 +191,7 @@ sub Run {
         next FIELDNAME if $DynamicFieldConfig->{ValidID} ne 1;
 
         # extract the dynamic field value form the web request
-        $DyanmicFieldValues{$FieldName} = $Self->{BackendObject}->EditFieldValueGet(
+        $DynamicFieldValues{$FieldName} = $Self->{BackendObject}->EditFieldValueGet(
             DynamicFieldConfig => $DynamicFieldConfig,
             ParamObject        => $Self->{ParamObject},
             LayoutObject       => $Self->{LayoutObject},
@@ -461,6 +464,9 @@ sub Run {
         for my $FieldName ( keys %{ $Self->{Config}->{DynamicField} } ) {
             next FIELDNAME if !$FieldName;
 
+            # Check if field should be displayed
+            next FIELDNAME if !$Self->{Config}->{DynamicField}->{$FieldName};
+
             my $DynamicFieldConfig = $Self->{DynamicFieldObject}->DynamicFieldGet(
                 Name => $FieldName,
             );
@@ -469,18 +475,9 @@ sub Run {
             next FIELDNAME if !IsHashRefWithData($DynamicFieldConfig);
             next FIELDNAME if $DynamicFieldConfig->{ValidID} ne 1;
 
-            # set the field value to display from the param
-            my $Value = $DyanmicFieldValues{$FieldName} || '';
-
             # TODO Implement PossibleValuesFilter
             # set possible values filter from ACLs
             my $PossibleValuesFilter;
-
-            # set mandatory property
-            my $Mandatory;
-            if ( $Self->{Config}->{DynamicField}->{$FieldName} eq 2 ) {
-                $Mandatory = 1;
-            }
 
             my $ValidationResult;
 
@@ -490,8 +487,8 @@ sub Run {
                 $ValidationResult = $Self->{BackendObject}->EditFieldValueValidate(
                     DynamicFieldConfig   => $DynamicFieldConfig,
                     PossibleValuesFilter => $PossibleValuesFilter,
-                    Value                => $Value,
-                    Mandatory            => $Mandatory,
+                    Value                => $DynamicFieldValues{$FieldName} || '',
+                    Mandatory            => $Self->{Config}->{DynamicField}->{$FieldName} == 2,
                 );
 
                 if ( !IsHashRefWithData($ValidationResult) ) {
@@ -508,20 +505,14 @@ sub Run {
                 }
             }
 
-            # set ServerError
-            my $ServerError = $ValidationResult->{ServerError} || '';
-
-            # set ErrorMessage
-            my $ErrorMessage = $ValidationResult->{ErrorMessage} || '';
-
             # get field html
             $DynamicFieldHTML{$FieldName} = $Self->{BackendObject}->EditFieldRender(
                 DynamicFieldConfig   => $DynamicFieldConfig,
                 PossibleValuesFilter => $PossibleValuesFilter,
-                Value                => $Value,
-                Mandatory            => $Mandatory,
-                ServerError          => $ServerError,
-                ErrorMessage         => $ErrorMessage,
+                Value                => $DynamicFieldValues{$FieldName} || '',
+                Mandatory            => $Self->{Config}->{DynamicField}->{$FieldName} == 2,
+                ServerError          => $ValidationResult->{ServerError} || '',
+                ErrorMessage         => $ValidationResult->{ErrorMessage} || '',
             );
         }
 
@@ -833,6 +824,9 @@ sub Run {
         for my $FieldName ( keys %{ $Self->{Config}->{DynamicField} } ) {
             next FIELDNAME if !$FieldName;
 
+            # Check if field was displayed
+            next FIELDNAME if !$Self->{Config}->{DynamicField}->{$FieldName};
+
             my $DynamicFieldConfig = $Self->{DynamicFieldObject}->DynamicFieldGet(
                 Name => $FieldName,
             );
@@ -842,19 +836,14 @@ sub Run {
             next FIELDNAME if $DynamicFieldConfig->{ValidID} ne 1;
 
             # set theo bject ID (TicketID or ArticleID) depending on the field configration
-            my $ObjectID = $Self->{TicketID};
-            if ( $DynamicFieldConfig->{ObjectType} eq 'Article' ) {
-                $ObjectID = $ArticleID;
-            }
-
-            # get the field value
-            my $Value = $DyanmicFieldValues{$FieldName};
+            my $ObjectID
+                = $DynamicFieldConfig->{ObjectType} eq 'Article' ? $ArticleID : $Self->{TicketID};
 
             # set the value
             my $Success = $Self->{BackendObject}->ValueSet(
                 DynamicFieldConfig => $DynamicFieldConfig,
                 ObjectID           => $ObjectID,
-                Value              => $Value,
+                Value              => $DynamicFieldValues{$FieldName},
                 UserID             => $Self->{UserID},
             );
         }
@@ -999,6 +988,9 @@ sub Run {
         for my $FieldName ( keys %{ $Self->{Config}->{DynamicField} } ) {
             next FIELDNAME if !$FieldName;
 
+            # Check if field should be displayed
+            next FIELDNAME if !$Self->{Config}->{DynamicField}->{$FieldName};
+
             my $DynamicFieldConfig = $Self->{DynamicFieldObject}->DynamicFieldGet(
                 Name => $FieldName,
             );
@@ -1011,17 +1003,11 @@ sub Run {
             # set possible values filter from ACLs
             my $PossibleValuesFilter;
 
-            # set mandatory property
-            my $Mandatory;
-            if ( $Self->{Config}->{DynamicField}->{$FieldName} eq 2 ) {
-                $Mandatory = 1;
-            }
-
             # get field html
             $DynamicFieldHTML{$FieldName} = $Self->{BackendObject}->EditFieldRender(
                 DynamicFieldConfig   => $DynamicFieldConfig,
                 PossibleValuesFilter => $PossibleValuesFilter,
-                Mandatory            => $Mandatory,
+                Mandatory            => $Self->{Config}->{DynamicField}->{$FieldName} == 2,
                 LayoutObject         => $Self->{LayoutObject},
             );
         }
@@ -1543,6 +1529,7 @@ sub _Mask {
 
     # Dynamic fields
 
+    # TODO: limit this to FieldType Ticket and Article when fetching the fields
     # get an orderderd list of valid dynamic fields
     my $DynamicFieldIDs = $Self->{DynamicFieldObject}->DynamicFieldList();
 
