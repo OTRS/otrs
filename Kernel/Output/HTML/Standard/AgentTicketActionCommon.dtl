@@ -2,7 +2,7 @@
 # AgentTicketActionCommon.dtl - provides common HTML form for several masks
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketActionCommon.dtl,v 1.56 2011-09-07 21:15:43 cr Exp $
+# $Id: AgentTicketActionCommon.dtl,v 1.57 2011-09-09 23:53:14 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -302,77 +302,111 @@ $Include{"RichTextEditor"}
                 <div class="Clear"></div>
 <!-- dtl:block:DynamicField -->
 
+# example of how to use fixed dynamic field blocks for customizations
+#<!-- dtl:block:DynamicField_Field1 -->
+#                $Data{"DynamicFieldLabel1"}
+#                <div class="Field">
+#                    $Data{"DynamicField1"}
+#                </div>
+#                <div class="Clear"></div>
+#<!-- dtl:block:DynamicField_Field1 -->
+#<!-- dtl:block:DynamicField_Field2 -->
+#                $Data{"DynamicFieldLabel2"}
+#                <div class="Field">
+#                    $Data{"DynamicField2"}
+#                </div>
+#                <div class="Clear"></div>
+#<!-- dtl:block:DynamicField_Field3 -->
+
 <!-- dtl:block:TicketFreeText -->
+<!--
                 $Data{"TicketFreeKeyField"}
                 <div class="Field">
                     $Data{"TicketFreeTextField"}
                 </div>
                 <div class="Clear"></div>
+                -->
 <!-- dtl:block:TicketFreeText -->
 
 # example of how to use fixed ticket freetext blocks for customizations
 #<!-- dtl:block:TicketFreeText1 -->
+<!--
 #                $Data{"TicketFreeKeyField1"}
 #                <div class="Field">
 #                    $Data{"TicketFreeTextField1"}
 #                </div>
 #                <div class="Clear"></div>
+                -->
 #<!-- dtl:block:TicketFreeText1 -->
 #<!-- dtl:block:TicketFreeText2 -->
+<!--
 #                $Data{"TicketFreeKeyField2"}
 #                <div class="Field">
 #                    $Data{"TicketFreeTextField2"}
 #                </div>
 #                <div class="Clear"></div>
+                -->
 #<!-- dtl:block:TicketFreeText2 -->
 
 <!-- dtl:block:TicketFreeTime -->
+<!--
                 $Data{"TicketFreeTimeKey"}
                 <div class="Field">
                     $Data{"TicketFreeTime"}
                     <div id="TicketFreeTime$Data{"Count"}UsedError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
                 </div>
                 <div class="Clear"></div>
+                -->
 <!-- dtl:block:TicketFreeTime -->
 
 # example of how to use fixed ticket freetime blocks for customizations
 #<!-- dtl:block:TicketFreeTime1 -->
+<!--
 #                        <label>$Data{"TicketFreeTimeKey1"}:</label>
 #                        <div class="Field">
 #                            $Data{"TicketFreeTime1"}
 #                        </div>
 #                        <div class="Clear"></div>
+                -->
 #<!-- dtl:block:TicketFreeTime1 -->
 #<!-- dtl:block:TicketFreeTime2 -->
+<!--
 #                        <label>$Data{"TicketFreeTimeKey2"}:</label>
 #                        <div class="Field">
 #                            $Data{"TicketFreeTime2"}
 #                        </div>
 #                        <div class="Clear"></div>
+                -->
 #<!-- dtl:block:TicketFreeTime2 -->
 
 <!-- dtl:block:ArticleFreeText -->
+<!--
                 $Data{"ArticleFreeKeyField"}
                 <div class="Field">
                     $Data{"ArticleFreeTextField"}
                 </div>
                 <div class="Clear"></div>
+                -->
 <!-- dtl:block:ArticleFreeText -->
 
 # example of how to use fixed article freetext blocks for customizations
 #<!-- dtl:block:ArticleFreeText1 -->
+<!--
 #                $Data{"ArticleFreeKeyField1"}
 #                <div class="Field">
 #                    $Data{"ArticleFreeTextField1"}
 #                </div>
 #                <div class="Clear"></div>
+                -->
 #<!-- dtl:block:ArticleFreeText1 -->
 #<!-- dtl:block:ArticleFreeText2 -->
+<!--
 #                $Data{"ArticleFreeKeyField2"}
 #                <div class="Field">
 #                    $Data{"ArticleFreeTextField2"}
 #                </div>
 #                <div class="Clear"></div>
+                -->
 #<!-- dtl:block:ArticleFreeText2 -->
 
 <!-- dtl:block:TimeUnitsLabel -->
