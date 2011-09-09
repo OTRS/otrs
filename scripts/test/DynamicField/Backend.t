@@ -2,7 +2,7 @@
 # Backend.t - DynamicFieldValue backend tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Backend.t,v 1.10 2011-09-06 17:35:42 cr Exp $
+# $Id: Backend.t,v 1.11 2011-09-09 16:05:44 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -551,12 +551,26 @@ for my $Test (@Tests) {
             ObjectID           => $Test->{ObjectID},
         );
 
-        # compare data
-        $Self->Is(
-            $Value,
-            $Test->{Value},
-            "ValueGet() after successful ValueSet() - (Test $Test->{Name}) - Value",
-        );
+        # workaround for oracle
+        # oracle databases can't determine the difference between NULL and ''
+        if ( $Value eq '' ) {
+
+            # test falseness
+            $Self->False(
+                $Value,
+                "ValueGet() after successful ValueSet() - (Test $Test->{Name}) - "
+                    . "Value (Special case for '')"
+            );
+        }
+        else {
+
+            # compare data
+            $Self->Is(
+                $Value,
+                $Test->{Value},
+                "ValueGet() after successful ValueSet() - (Test $Test->{Name}) - Value",
+            );
+        }
     }
 }
 
