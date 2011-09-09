@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketActionCommon.pm - common file for several modules
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketActionCommon.pm,v 1.47 2011-09-09 16:49:36 cr Exp $
+# $Id: AgentTicketActionCommon.pm,v 1.48 2011-09-09 23:34:45 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -479,9 +479,26 @@ sub Run {
             next FIELDNAME if $DynamicFieldConfig->{ObjectType} ne 'Ticket'
                     && $DynamicFieldConfig->{ObjectType} ne 'Article';
 
-            # TODO Implement PossibleValuesFilter
-            # set possible values filter from ACLs
             my $PossibleValuesFilter;
+
+            # check if field has PossibleValues property in its configuration
+            if ( IsHashRefWithData( $DynamicFieldConfig->{Config}->{PossibleValues} ) ) {
+
+                # set possible values filter from ACLs
+                my $ACL = $Self->{TicketObject}->TicketAcl(
+                    Action        => $Self->{Action},
+                    TicketID      => $Self->{TicketID},
+                    Type          => 'DynamicField_' . $FieldName,
+                    ReturnType    => 'Ticket',
+                    ReturnSubType => 'DynamicField_' . $FieldName,
+                    Data          => $DynamicFieldConfig->{Config}->{PossibleValues},
+                    UserID        => $Self->{UserID},
+                );
+                if ($ACL) {
+                    my %Filter = $Self->{TicketObject}->TicketAclData();
+                    $PossibleValuesFilter = \%Filter;
+                }
+            }
 
             my $ValidationResult;
 
@@ -517,6 +534,7 @@ sub Run {
                 Mandatory            => $Self->{Config}->{DynamicField}->{$FieldName} == 2,
                 ServerError          => $ValidationResult->{ServerError} || '',
                 ErrorMessage         => $ValidationResult->{ErrorMessage} || '',
+                LayoutObject         => $Self->{LayoutObject},
             );
         }
 
@@ -1011,9 +1029,26 @@ sub Run {
             next FIELDNAME if $DynamicFieldConfig->{ObjectType} ne 'Ticket'
                     && $DynamicFieldConfig->{ObjectType} ne 'Article';
 
-            # TODO Implement PossibleValuesFilter
-            # set possible values filter from ACLs
             my $PossibleValuesFilter;
+
+            # check if field has PossibleValues property in its configuration
+            if ( IsHashRefWithData( $DynamicFieldConfig->{Config}->{PossibleValues} ) ) {
+
+                # set possible values filter from ACLs
+                my $ACL = $Self->{TicketObject}->TicketAcl(
+                    Action        => $Self->{Action},
+                    TicketID      => $Self->{TicketID},
+                    Type          => 'DynamicField_' . $FieldName,
+                    ReturnType    => 'Ticket',
+                    ReturnSubType => 'DynamicField_' . $FieldName,
+                    Data          => $DynamicFieldConfig->{Config}->{PossibleValues},
+                    UserID        => $Self->{UserID},
+                );
+                if ($ACL) {
+                    my %Filter = $Self->{TicketObject}->TicketAclData();
+                    $PossibleValuesFilter = \%Filter;
+                }
+            }
 
             # get field html
             $DynamicFieldHTML{$FieldName} = $Self->{BackendObject}->EditFieldRender(
