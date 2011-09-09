@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/DateTime.pm - Delegate for DynamicField DateTime backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DateTime.pm,v 1.9 2011-09-09 23:02:50 cg Exp $
+# $Id: DateTime.pm,v 1.10 2011-09-09 23:40:20 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Time;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 =head1 NAME
 
@@ -167,85 +167,6 @@ sub SearchSQLOrderFieldGet {
     return "$Param{TableAlias}.value_date";
 }
 
-=item EditFieldValueGet()
-
-extracts the value of a dynamic field from the param object and transforms it to the user timezone
-
-    my $Value = $BackendObject->EditFieldValueGet(
-        DynamicFieldConfig => $DynamicFieldConfig,      # complete config of the DynamicField
-        ParamObject        => $ParamObject,             # the current request data
-        LayoutObject       => $LayoutObject
-    );
-
-    Returns
-
-    $Value = 'a text';
-
-=cut
-
-sub EditFieldValueGet {
-    my ( $Self, %Param ) = @_;
-
-    # check needed stuff
-    for my $Needed (qw(DynamicFieldConfig ParamObject LayoutObject)) {
-        if ( !$Param{DynamicFieldConfig} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
-            return;
-        }
-    }
-
-    # check DynamicFieldConfig (general)
-    if ( !IsHashRefWithData( $Param{DynamicFieldConfig} ) ) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => "The field configuration is invalid",
-        );
-        return;
-    }
-
-    # check DynamicFieldConfig (internally)
-    for my $Needed (qw( ID Config Name )) {
-        if ( !$Param{DynamicFieldConfig}->{$Needed} ) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message  => "Need $Needed in DynamicFieldConfig!"
-            );
-            return;
-        }
-    }
-
-    # set the Prefix as the dynamic field name
-    my $Prefix = 'DynamicField_' . $Param{DynamicFieldConfig}->{Name};
-
-    # get dynamic field value form param
-    my %DynamicFieldValues;
-    for my $Type (qw(Used Year Month Day Hour Minute)) {
-        $DynamicFieldValues{ $Prefix . $Type } = $Self->{ParamObject}->GetParam(
-            Param => $Prefix . $Type,
-        );
-    }
-
-    # transform time stamp based on user time zone
-    %DynamicFieldValues = $Param{LayoutObject}->TransformDateSelection(
-        %DynamicFieldValues,
-        Prefix => $Prefix,
-    );
-
-    # convert the already transformed time data into a string to return as the value
-    my $SystemTime = $Self->{TimeObject}->Date2SystemTime(
-        Year   => $DynamicFieldValues{Year},
-        Month  => $DynamicFieldValues{Month},
-        Day    => $DynamicFieldValues{Day},
-        Hour   => $DynamicFieldValues{Hour} || 00,
-        Minute => $DynamicFieldValues{Minute} || 00,
-        Second => $DynamicFieldValues{Second} || 00,
-    );
-
-    return $Self->{TimeObject}->SystemTime2TimeStamp(
-        SystemTime => $SystemTime,
-    );
-}
-
 =item EditFieldRender()
 
 creates the field HTML to be used in edit masks.
@@ -367,6 +288,85 @@ EOF
     };
 
     return $Data;
+}
+
+=item EditFieldValueGet()
+
+extracts the value of a dynamic field from the param object and transforms it to the user timezone
+
+    my $Value = $BackendObject->EditFieldValueGet(
+        DynamicFieldConfig => $DynamicFieldConfig,      # complete config of the DynamicField
+        ParamObject        => $ParamObject,             # the current request data
+        LayoutObject       => $LayoutObject
+    );
+
+    Returns
+
+    $Value = 'a text';
+
+=cut
+
+sub EditFieldValueGet {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Needed (qw(DynamicFieldConfig ParamObject LayoutObject)) {
+        if ( !$Param{DynamicFieldConfig} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            return;
+        }
+    }
+
+    # check DynamicFieldConfig (general)
+    if ( !IsHashRefWithData( $Param{DynamicFieldConfig} ) ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "The field configuration is invalid",
+        );
+        return;
+    }
+
+    # check DynamicFieldConfig (internally)
+    for my $Needed (qw( ID Config Name )) {
+        if ( !$Param{DynamicFieldConfig}->{$Needed} ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed in DynamicFieldConfig!"
+            );
+            return;
+        }
+    }
+
+    # set the Prefix as the dynamic field name
+    my $Prefix = 'DynamicField_' . $Param{DynamicFieldConfig}->{Name};
+
+    # get dynamic field value form param
+    my %DynamicFieldValues;
+    for my $Type (qw(Used Year Month Day Hour Minute)) {
+        $DynamicFieldValues{ $Prefix . $Type } = $Self->{ParamObject}->GetParam(
+            Param => $Prefix . $Type,
+        );
+    }
+
+    # transform time stamp based on user time zone
+    %DynamicFieldValues = $Param{LayoutObject}->TransformDateSelection(
+        %DynamicFieldValues,
+        Prefix => $Prefix,
+    );
+
+    # convert the already transformed time data into a string to return as the value
+    my $SystemTime = $Self->{TimeObject}->Date2SystemTime(
+        Year   => $DynamicFieldValues{Year},
+        Month  => $DynamicFieldValues{Month},
+        Day    => $DynamicFieldValues{Day},
+        Hour   => $DynamicFieldValues{Hour} || 00,
+        Minute => $DynamicFieldValues{Minute} || 00,
+        Second => $DynamicFieldValues{Second} || 00,
+    );
+
+    return $Self->{TimeObject}->SystemTime2TimeStamp(
+        SystemTime => $SystemTime,
+    );
 }
 
 1;

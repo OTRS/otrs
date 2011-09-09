@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Dropdown.pm - Delegate for DynamicField Dropdown backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Dropdown.pm,v 1.13 2011-09-09 23:32:46 cr Exp $
+# $Id: Dropdown.pm,v 1.14 2011-09-09 23:37:09 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::DynamicFieldValue;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 =head1 NAME
 
@@ -190,6 +190,138 @@ sub SearchSQLOrderFieldGet {
     return "$Param{TableAlias}.value_text";
 }
 
+=item EditFieldRender()
+
+creates the field HTML to be used in edit masks.
+
+    my $FieldHTML = $DynamicFieldTextObject->EditFieldRender(
+        DynamicFieldConfig   => $DynamicFieldConfig,      # complete config of the DynamicField
+        PossibleValuesFilter => ['value1', 'value2'],     # Optional. Some backends may support this.
+                                                          #     This may be needed to realize ACL support for ticket masks,
+                                                          #     where the possible values can be limited with and ACL.
+        Value              => 'Any value',                # Optional
+        Mandatory          => 1,                          # 0 or 1,
+        Class              => 'AnyCSSClass OrOneMore',    # Optional
+        ServerError        => 1,                          # 0 or 1
+        ErrorMessage       => $ErrorMessage,              # Optional or a default will be used in error case
+    );
+
+=cut
+
+sub EditFieldRender {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Needed (qw(DynamicFieldConfig LayoutObject)) {
+        if ( !$Param{$Needed} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            return;
+        }
+    }
+
+    # check DynamicFieldConfig (general)
+    if ( !IsHashRefWithData( $Param{DynamicFieldConfig} ) ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "The field configuration is invalid",
+        );
+        return;
+    }
+
+    # check DynamicFieldConfig (internally)
+    for my $Needed (qw(ID Config Name )) {
+        if ( !$Param{DynamicFieldConfig}->{$Needed} ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed in DynamicFieldConfig!"
+            );
+            return;
+        }
+    }
+
+    # take config from field config
+    my $FieldConfig = $Param{DynamicFieldConfig}->{Config};
+    my $FieldName   = 'DynamicField_' . $Param{DynamicFieldConfig}->{Name};
+    my $FieldLabel  = $Param{DynamicFieldConfig}->{Label};
+
+    # set the field value or default
+    my $Value = $FieldConfig->{DefaultValue} || '';
+    $Value = $Param{Value}
+        if defined $Param{Value};
+
+    # check and set class if necessary
+    my $FieldClass = 'DynamicFieldText';
+    if ( defined $Param{Class} && $Param{Class} ne '' ) {
+        $FieldClass .= ' ' . $Param{Class};
+    }
+
+    # set field as mandatory
+    $FieldClass .= ' Validate_Required' if $Param{Mandatory};
+
+    # set error css class
+    $FieldClass .= ' ServerError' if $Param{ServerError};
+
+    # set PossibleValues
+    my $SelectionData = $FieldConfig->{PossibleValues};
+
+    # use PossibleValuesFilter if defined
+    $SelectionData = $Param{PossibleValuesFilter}
+        if defined $Param{PossibleValuesFilter};
+
+    my $HTMLString = $Param{LayoutObject}->BuildSelection(
+        Data         => $SelectionData,
+        Name         => $FieldName,
+        SelectedID   => $Value,
+        Translation  => 0,
+        PossibleNone => 1,
+        Class        => $FieldClass,
+        HTMLQuote    => 1,
+    );
+
+    if ( $Param{Mandatory} ) {
+        my $DivID = $FieldName . 'Error';
+
+        # for client side validation
+        $HTMLString .= <<"EOF";
+
+    <div id="$DivID" class="TooltipErrorMessage">
+        <p>
+            \$Text{"This field is required."}
+        </p>
+    </div>
+EOF
+    }
+
+    if ( $Param{ServerError} ) {
+
+        my $ErrorMessage = $Param{ErrorMessage} || 'This field is required.';
+        my $DivID = $FieldName . 'ServerError';
+
+        # for server side validation
+        $HTMLString .= <<"EOF";
+    <div id="$DivID" class="TooltipErrorMessage">
+        <p>
+            \$Text{"$ErrorMessage"}
+        </p>
+    </div>
+EOF
+    }
+
+    # call EditLabelRender on the common backend
+    my $LabelString = $Self->{BackendCommonObject}->EditLabelRender(
+        DynamicFieldConfig => $Param{DynamicFieldConfig},
+        Mandatory          => $Param{Mandatory} || '0',
+        FieldName          => $FieldName,
+    );
+
+    my $Data = {
+        Field => $HTMLString,
+        Label => $LabelString,
+    };
+
+    return $Data;
+}
+
 =item EditFieldValueGet()
 
 extracts the value of a dynamic field from the param object
@@ -325,138 +457,6 @@ sub EditFieldValueValidate {
     };
 
     return $Result;
-}
-
-=item EditFieldRender()
-
-creates the field HTML to be used in edit masks.
-
-    my $FieldHTML = $DynamicFieldTextObject->EditFieldRender(
-        DynamicFieldConfig   => $DynamicFieldConfig,      # complete config of the DynamicField
-        PossibleValuesFilter => ['value1', 'value2'],     # Optional. Some backends may support this.
-                                                          #     This may be needed to realize ACL support for ticket masks,
-                                                          #     where the possible values can be limited with and ACL.
-        Value              => 'Any value',                # Optional
-        Mandatory          => 1,                          # 0 or 1,
-        Class              => 'AnyCSSClass OrOneMore',    # Optional
-        ServerError        => 1,                          # 0 or 1
-        ErrorMessage       => $ErrorMessage,              # Optional or a default will be used in error case
-    );
-
-=cut
-
-sub EditFieldRender {
-    my ( $Self, %Param ) = @_;
-
-    # check needed stuff
-    for my $Needed (qw(DynamicFieldConfig LayoutObject)) {
-        if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
-            return;
-        }
-    }
-
-    # check DynamicFieldConfig (general)
-    if ( !IsHashRefWithData( $Param{DynamicFieldConfig} ) ) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => "The field configuration is invalid",
-        );
-        return;
-    }
-
-    # check DynamicFieldConfig (internally)
-    for my $Needed (qw(ID Config Name )) {
-        if ( !$Param{DynamicFieldConfig}->{$Needed} ) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message  => "Need $Needed in DynamicFieldConfig!"
-            );
-            return;
-        }
-    }
-
-    # take config from field config
-    my $FieldConfig = $Param{DynamicFieldConfig}->{Config};
-    my $FieldName   = 'DynamicField_' . $Param{DynamicFieldConfig}->{Name};
-    my $FieldLabel  = $Param{DynamicFieldConfig}->{Label};
-
-    # set the field value or default
-    my $Value = $FieldConfig->{DefaultValue} || '';
-    $Value = $Param{Value}
-        if defined $Param{Value};
-
-    # check and set class if necessary
-    my $FieldClass = 'DynamicFieldText';
-    if ( defined $Param{Class} && $Param{Class} ne '' ) {
-        $FieldClass .= ' ' . $Param{Class};
-    }
-
-    # set field as mandatory
-    $FieldClass .= ' Validate_Required' if $Param{Mandatory};
-
-    # set error css class
-    $FieldClass .= ' ServerError' if $Param{ServerError};
-
-    # set PossibleValues
-    my $SelectionData = $FieldConfig->{PossibleValues};
-
-    # use PossibleValuesFilter if defined
-    $SelectionData = $Param{PossibleValuesFilter}
-        if defined $Param{PossibleValuesFilter};
-
-    my $HTMLString = $Param{LayoutObject}->BuildSelection(
-        Data         => $SelectionData,
-        Name         => $FieldName,
-        SelectedID   => $Value,
-        Translation  => 0,
-        PossibleNone => 1,
-        Class        => $FieldClass,
-        HTMLQuote    => 1,
-    );
-
-    if ( $Param{Mandatory} ) {
-        my $DivID = $FieldName . 'Error';
-
-        # for client side validation
-        $HTMLString .= <<"EOF";
-
-    <div id="$DivID" class="TooltipErrorMessage">
-        <p>
-            \$Text{"This field is required."}
-        </p>
-    </div>
-EOF
-    }
-
-    if ( $Param{ServerError} ) {
-
-        my $ErrorMessage = $Param{ErrorMessage} || 'This field is required.';
-        my $DivID = $FieldName . 'ServerError';
-
-        # for server side validation
-        $HTMLString .= <<"EOF";
-    <div id="$DivID" class="TooltipErrorMessage">
-        <p>
-            \$Text{"$ErrorMessage"}
-        </p>
-    </div>
-EOF
-    }
-
-    # call EditLabelRender on the common backend
-    my $LabelString = $Self->{BackendCommonObject}->EditLabelRender(
-        DynamicFieldConfig => $Param{DynamicFieldConfig},
-        Mandatory          => $Param{Mandatory} || '0',
-        FieldName          => $FieldName,
-    );
-
-    my $Data = {
-        Field => $HTMLString,
-        Label => $LabelString,
-    };
-
-    return $Data;
 }
 
 1;
