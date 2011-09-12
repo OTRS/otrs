@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/DateTime.pm - Delegate for DynamicField DateTime backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DateTime.pm,v 1.12 2011-09-12 16:14:40 cr Exp $
+# $Id: DateTime.pm,v 1.13 2011-09-12 17:48:06 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Time;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 =head1 NAME
 
@@ -253,7 +253,7 @@ sub EditFieldRender {
     );
 
     if ( $Param{Mandatory} ) {
-        my $DivID = $FieldName . 'Error';
+        my $DivID = $FieldName . 'UsedError';
 
         # for client side validation
         $HTMLString .= <<"EOF";
@@ -269,7 +269,7 @@ EOF
     if ( $Param{ServerError} ) {
 
         my $ErrorMessage = $Param{ErrorMessage} || 'This field is required.';
-        my $DivID = $FieldName . 'ServerError';
+        my $DivID = $FieldName . 'UsedServerError';
 
         # for server side validation
         $HTMLString .= <<"EOF";
@@ -285,7 +285,7 @@ EOF
     my $LabelString = $Self->{BackendCommonObject}->EditLabelRender(
         DynamicFieldConfig => $Param{DynamicFieldConfig},
         Mandatory          => $Param{Mandatory} || '0',
-        FieldName          => $FieldName,
+        FieldName          => $FieldName . 'Used',
     );
 
     my $Data = {
@@ -365,14 +365,82 @@ sub EditFieldValueGet {
         Year   => $DynamicFieldValues{Year},
         Month  => $DynamicFieldValues{Month},
         Day    => $DynamicFieldValues{Day},
-        Hour   => $DynamicFieldValues{Hour} || 00,
-        Minute => $DynamicFieldValues{Minute} || 00,
-        Second => $DynamicFieldValues{Second} || 00,
+        Hour   => $DynamicFieldValues{Hour} || '00',
+        Minute => $DynamicFieldValues{Minute} || '00',
+        Second => $DynamicFieldValues{Second} || '00',
     );
 
     return $Self->{TimeObject}->SystemTime2TimeStamp(
         SystemTime => $SystemTime,
     );
+}
+
+=item EditFieldValueValidate()
+
+validate the current value for the dynamic field
+
+    my $Result =  $DynamicFieldTextObject->EditFieldValueValidate(
+        DynamicFieldConfig   => $DynamicFieldConfig,      # complete config of the DynamicField
+        PossibleValuesFilter => ['value1', 'value2'],     # Optional. Some backends may support this.
+                                                          #     This may be needed to realize ACL support for ticket masks,
+                                                          #     where the possible values can be limited with and ACL.
+        Value              => 'Any value',                # Optional
+        Mandatory          => 1,                          # 0 or 1,
+    );
+
+    Returns
+
+    $Result = {
+        ServerError        => 1,                          # 0 or 1,
+        ErrorMessage       => $ErrorMessage,              # Optional or a default will be used in error case
+    }
+
+=cut
+
+sub EditFieldValueValidate {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    if ( !$Param{DynamicFieldConfig} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => "Need DynamicFieldConfig!" );
+        return;
+    }
+
+    # check DynamicFieldConfig (general)
+    if ( !IsHashRefWithData( $Param{DynamicFieldConfig} ) ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "The field configuration is invalid",
+        );
+        return;
+    }
+
+    # check DynamicFieldConfig (internally)
+    for my $Needed (qw(ID Config Name )) {
+        if ( !$Param{DynamicFieldConfig}->{$Needed} ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed in DynamicFieldConfig!"
+            );
+            return;
+        }
+    }
+
+    my $ServerError;
+    my $ErrorMessage;
+
+    # perform necessary validations
+    if ( $Param{Mandatory} && !$Param{Value} ) {
+        $ServerError = 1;
+    }
+
+    # create resulting structure
+    my $Result = {
+        ServerError  => $ServerError,
+        ErrorMessage => $ErrorMessage,
+    };
+
+    return $Result;
 }
 
 1;
