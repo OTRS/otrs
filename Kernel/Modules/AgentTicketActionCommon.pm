@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketActionCommon.pm - common file for several modules
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketActionCommon.pm,v 1.50 2011-09-12 17:52:14 cr Exp $
+# $Id: AgentTicketActionCommon.pm,v 1.51 2011-09-12 21:43:23 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -510,7 +510,7 @@ sub Run {
                 $ValidationResult = $Self->{BackendObject}->EditFieldValueValidate(
                     DynamicFieldConfig   => $DynamicFieldConfig,
                     PossibleValuesFilter => $PossibleValuesFilter,
-                    Value                => $DynamicFieldValues{$FieldName} || '',
+                    ParamObject          => $Self->{ParamObject},
                     Mandatory            => $Self->{Config}->{DynamicField}->{$FieldName} == 2,
                 );
 
@@ -537,6 +537,7 @@ sub Run {
                 ServerError          => $ValidationResult->{ServerError} || '',
                 ErrorMessage         => $ValidationResult->{ErrorMessage} || '',
                 LayoutObject         => $Self->{LayoutObject},
+                ParamObject          => $Self->{ParamObject},
             );
         }
 
@@ -1073,6 +1074,7 @@ sub Run {
                 Value                => $Value,
                 Mandatory            => $Self->{Config}->{DynamicField}->{$FieldName} == 2,
                 LayoutObject         => $Self->{LayoutObject},
+                ParamObject          => $Self->{ParamObject},
             );
         }
 
