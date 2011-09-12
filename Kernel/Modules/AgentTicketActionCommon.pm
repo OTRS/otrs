@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketActionCommon.pm - common file for several modules
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketActionCommon.pm,v 1.48 2011-09-09 23:34:45 cr Exp $
+# $Id: AgentTicketActionCommon.pm,v 1.49 2011-09-12 14:26:40 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -182,6 +182,8 @@ sub Run {
 
         # Check if field was displayed
         next FIELDNAME if !$Self->{Config}->{DynamicField}->{$FieldName};
+
+        #TODO: limit by ObjectType
 
         # get the configuration of the dynamic field
         my $DynamicFieldConfig = $Self->{DynamicFieldObject}->DynamicFieldGet(
