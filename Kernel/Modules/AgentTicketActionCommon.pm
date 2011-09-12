@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketActionCommon.pm - common file for several modules
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketActionCommon.pm,v 1.49 2011-09-12 14:26:40 mg Exp $
+# $Id: AgentTicketActionCommon.pm,v 1.50 2011-09-12 17:52:14 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -1052,10 +1052,25 @@ sub Run {
                 }
             }
 
+            # to store dynamic field value from database (or undefined)
+            my $Value;
+
+            # only get values for Ticket fields (all screens based on AgentTickeActionCommon
+            # generates a new article, then article fields will be always empty at the beginign)
+            if ( $DynamicFieldConfig->{ObjectType} eq 'Ticket' ) {
+
+                # get value stored on the database
+                $Value = $Self->{BackendObject}->ValueGet(
+                    DynamicFieldConfig => $DynamicFieldConfig,
+                    ObjectID           => $Self->{TicketID},
+                );
+            }
+
             # get field html
             $DynamicFieldHTML{$FieldName} = $Self->{BackendObject}->EditFieldRender(
                 DynamicFieldConfig   => $DynamicFieldConfig,
                 PossibleValuesFilter => $PossibleValuesFilter,
+                Value                => $Value,
                 Mandatory            => $Self->{Config}->{DynamicField}->{$FieldName} == 2,
                 LayoutObject         => $Self->{LayoutObject},
             );
