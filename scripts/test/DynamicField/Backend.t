@@ -2,7 +2,7 @@
 # Backend.t - DynamicFieldValue backend tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Backend.t,v 1.12 2011-09-09 18:09:35 cr Exp $
+# $Id: Backend.t,v 1.13 2011-09-12 16:01:06 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -123,6 +123,7 @@ my @Tests = (
         Name               => 'No ObjectID',
         DynamicFieldConfig => {
             ID         => -1,
+            Name       => "dynamicfieldtest$RandomID",
             ObjectType => 'Ticket',
         },
         UserID    => 1,
@@ -140,6 +141,7 @@ my @Tests = (
     {
         Name               => 'No ID',
         DynamicFieldConfig => {
+            Name       => "dynamicfieldtest$RandomID",
             ObjectType => 'Ticket',
         },
         ObjectID  => $TicketID,
@@ -151,6 +153,7 @@ my @Tests = (
         Name               => 'No UserID',
         DynamicFieldConfig => {
             ID         => $FieldID,
+            Name       => "dynamicfieldtest$RandomID",
             ObjectType => 'Ticket',
             FieldType  => 'Text',
         },
@@ -162,6 +165,7 @@ my @Tests = (
         Name               => 'Non Existing Backend',
         DynamicFieldConfig => {
             ID         => $FieldID,
+            Name       => "dynamicfieldtest$RandomID",
             ObjectType => 'Ticket',
             FieldType  => 'NonExistingBackend',
         },
@@ -175,6 +179,7 @@ my @Tests = (
         Name               => 'Set Text Value',
         DynamicFieldConfig => {
             ID         => $FieldID,
+            Name       => "dynamicfieldtest$RandomID",
             ObjectType => 'Ticket',
             FieldType  => 'Text',
         },
@@ -188,6 +193,7 @@ my @Tests = (
         Name               => 'Set Text Value - empty',
         DynamicFieldConfig => {
             ID         => $FieldID,
+            Name       => "dynamicfieldtest$RandomID",
             ObjectType => 'Ticket',
             FieldType  => 'Text',
         },
@@ -201,6 +207,7 @@ my @Tests = (
         Name               => 'Set Text Value - unicode',
         DynamicFieldConfig => {
             ID         => $FieldID,
+            Name       => "dynamicfieldtest$RandomID",
             ObjectType => 'Ticket',
             FieldType  => 'Text',
         },
@@ -214,6 +221,7 @@ my @Tests = (
         Name               => 'Set TextArea Value',
         DynamicFieldConfig => {
             ID         => $FieldID,
+            Name       => "dynamicfieldtest$RandomID",
             ObjectType => 'Ticket',
             FieldType  => 'TextArea',
         },
@@ -227,6 +235,7 @@ my @Tests = (
         Name               => 'Set TextArea Value - empty',
         DynamicFieldConfig => {
             ID         => $FieldID,
+            Name       => "dynamicfieldtest$RandomID",
             ObjectType => 'Ticket',
             FieldType  => 'TextArea',
         },
@@ -240,6 +249,7 @@ my @Tests = (
         Name               => 'Set TextArea Value - unicode',
         DynamicFieldConfig => {
             ID         => $FieldID,
+            Name       => "dynamicfieldtest$RandomID",
             ObjectType => 'Ticket',
             FieldType  => 'TextArea',
         },
@@ -253,6 +263,7 @@ my @Tests = (
         Name               => 'Set DateTime Value',
         DynamicFieldConfig => {
             ID         => $FieldID,
+            Name       => "dynamicfieldtest$RandomID",
             ObjectType => 'Ticket',
             FieldType  => 'DateTime',
         },
@@ -266,6 +277,7 @@ my @Tests = (
         Name               => 'Dropdown - No PossibleValues',
         DynamicFieldConfig => {
             ID         => $FieldID,
+            Name       => "dynamicfieldtest$RandomID",
             ObjectType => 'Ticket',
             FieldType  => 'Dropdown',
         },
@@ -279,6 +291,7 @@ my @Tests = (
         Name               => 'Dropdown - Invalid PossibleValues',
         DynamicFieldConfig => {
             ID         => $FieldID,
+            Name       => "dynamicfieldtest$RandomID",
             ObjectType => 'Ticket',
             FieldType  => 'Dropdown',
             Config     => {
@@ -297,6 +310,7 @@ my @Tests = (
         Name               => 'Dropdown - Invalid Option',
         DynamicFieldConfig => {
             ID         => $FieldID,
+            Name       => "dynamicfieldtest$RandomID",
             ObjectType => 'Ticket',
             FieldType  => 'Dropdown',
             Config     => {
@@ -317,6 +331,7 @@ my @Tests = (
         Name               => 'Dropdown - Invalid Option',
         DynamicFieldConfig => {
             ID         => $FieldID,
+            Name       => "dynamicfieldtest$RandomID",
             ObjectType => 'Ticket',
             FieldType  => 'Dropdown',
             Config     => {
@@ -337,6 +352,7 @@ my @Tests = (
         Name               => 'Checkbox - Invalid Option (Negative)',
         DynamicFieldConfig => {
             ID         => $FieldID,
+            Name       => "dynamicfieldtest$RandomID",
             ObjectType => 'Ticket',
             FieldType  => 'Checkbox',
         },
@@ -350,6 +366,7 @@ my @Tests = (
         Name               => 'Checkbox - Invalid Option (Letter)',
         DynamicFieldConfig => {
             ID         => $FieldID,
+            Name       => "dynamicfieldtest$RandomID",
             ObjectType => 'Ticket',
             FieldType  => 'Checkbox',
         },
@@ -363,6 +380,7 @@ my @Tests = (
         Name               => 'Checkbox - Invalid Option (Non Binary)',
         DynamicFieldConfig => {
             ID         => $FieldID,
+            Name       => "dynamicfieldtest$RandomID",
             ObjectType => 'Ticket',
             FieldType  => 'Checkbox',
         },
@@ -376,6 +394,7 @@ my @Tests = (
         Name               => 'Set Checkbox Value (1) ',
         DynamicFieldConfig => {
             ID         => $FieldID,
+            Name       => "dynamicfieldtest$RandomID",
             ObjectType => 'Ticket',
             FieldType  => 'Checkbox',
         },
@@ -389,6 +408,7 @@ my @Tests = (
         Name               => 'Set Checkbox Value (0) ',
         DynamicFieldConfig => {
             ID         => $FieldID,
+            Name       => "dynamicfieldtest$RandomID",
             ObjectType => 'Ticket',
             FieldType  => 'Checkbox',
         },
@@ -402,6 +422,7 @@ my @Tests = (
         Name               => 'Set Checkbox Value (Null) ',
         DynamicFieldConfig => {
             ID         => $FieldID,
+            Name       => "dynamicfieldtest$RandomID",
             ObjectType => 'Ticket',
             FieldType  => 'Checkbox',
         },
@@ -415,6 +436,7 @@ my @Tests = (
         Name               => 'Set DateTime Value - invalid date',
         DynamicFieldConfig => {
             ID         => $FieldID,
+            Name       => "dynamicfieldtest$RandomID",
             ObjectType => 'Ticket',
             FieldType  => 'DateTime',
         },
@@ -428,6 +450,7 @@ my @Tests = (
         Name               => 'Set DateTime Value - wrong data',
         DynamicFieldConfig => {
             ID         => $FieldID,
+            Name       => "dynamicfieldtest$RandomID",
             ObjectType => 'Ticket',
             FieldType  => 'DateTime',
         },
@@ -441,6 +464,7 @@ my @Tests = (
         Name               => 'Set DateTime Value - no data',
         DynamicFieldConfig => {
             ID         => $FieldID,
+            Name       => "dynamicfieldtest$RandomID",
             ObjectType => 'Ticket',
             FieldType  => 'DateTime',
         },
@@ -454,6 +478,7 @@ my @Tests = (
         Name               => 'Set Date Value - invalid date',
         DynamicFieldConfig => {
             ID         => $FieldID,
+            Name       => "dynamicfieldtest$RandomID",
             ObjectType => 'Ticket',
             FieldType  => 'Date',
         },
@@ -467,6 +492,7 @@ my @Tests = (
         Name               => 'Set Date Value - invalid time',
         DynamicFieldConfig => {
             ID         => $FieldID,
+            Name       => "dynamicfieldtest$RandomID",
             ObjectType => 'Ticket',
             FieldType  => 'Date',
         },
@@ -480,6 +506,7 @@ my @Tests = (
         Name               => 'Set Date Value - wrong data',
         DynamicFieldConfig => {
             ID         => $FieldID,
+            Name       => "dynamicfieldtest$RandomID",
             ObjectType => 'Ticket',
             FieldType  => 'DateTime',
         },
@@ -493,6 +520,7 @@ my @Tests = (
         Name               => 'Set Date Value - no data',
         DynamicFieldConfig => {
             ID         => $FieldID,
+            Name       => "dynamicfieldtest$RandomID",
             ObjectType => 'Ticket',
             FieldType  => 'DateTime',
         },
@@ -526,6 +554,7 @@ for my $Test (@Tests) {
 
         # compare data
         if ( $Test->{ShouldGet} ) {
+
             $Self->IsNot(
                 $Value,
                 $Test->{Value},
@@ -555,7 +584,7 @@ for my $Test (@Tests) {
 
         # workaround for oracle
         # oracle databases can't determine the difference between NULL and ''
-        if ( $Value eq '' ) {
+        if ( defined $Value && $Value eq '' ) {
 
             # test falseness
             $Self->False(
