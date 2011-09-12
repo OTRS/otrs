@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Text.pm - Delegate for DynamicField Text backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Text.pm,v 1.26 2011-09-12 19:37:43 cr Exp $
+# $Id: Text.pm,v 1.27 2011-09-12 19:40:17 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::DynamicFieldValue;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.26 $) [1];
+$VERSION = qw($Revision: 1.27 $) [1];
 
 =head1 NAME
 
@@ -290,8 +290,8 @@ EOF
 extracts the value of a dynamic field from the param object
 
     my $Value = $BackendObject->EditFieldValueGet(
-        DynamicFieldConfig => $DynamicFieldConfig,      # complete config of the DynamicField
-        ParamObject        => $ParamObject,             # the current request data
+        DynamicFieldConfig   => $DynamicFieldConfig,    # complete config of the DynamicField
+        ParamObject          => $ParamObject,           # the current request data
         ReturnValueStructure => 1                       # || 0, default 0. Not used in this
                                                         #   backend but placed for consistency
                                                         #   reasons
