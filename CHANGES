@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1758.2.163 2011-09-07 22:42:19 en Exp $
+# $Id: CHANGES,v 1.1758.2.164 2011-09-12 08:36:29 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.11 2011-??-??
+ - 2011-09-12 Fixed bug#7708 - Only 400 agents available in AdminUser.
  - 2011-09-07 Fixed bug#7678 - ArticleContentIndex: API Documentation disagrees with code.
  - 2011-09-07 Fixed bug#7633 - Status flag in customer interface ticket zoom has wrong colors.
  - 2011-09-07 Fixed bug#7591 - Email address field validation fails if name server does not respond.
