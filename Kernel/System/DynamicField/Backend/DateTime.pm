@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/DateTime.pm - Delegate for DynamicField DateTime backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DateTime.pm,v 1.17 2011-09-12 21:04:54 cg Exp $
+# $Id: DateTime.pm,v 1.18 2011-09-12 21:37:49 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Time;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.17 $) [1];
+$VERSION = qw($Revision: 1.18 $) [1];
 
 =head1 NAME
 
@@ -405,25 +405,29 @@ sub EditFieldValueGet {
         return \%DynamicFieldValues;
     }
 
-    # transform time stamp based on user time zone
-    %DynamicFieldValues = $Param{LayoutObject}->TransformDateSelection(
-        %DynamicFieldValues,
-        Prefix => $Prefix,
-    );
+    my $ManualTimeStamp = '';
 
-    # convert the already transformed time data into a string to return as the value
-    my $SystemTime = $Self->{TimeObject}->Date2SystemTime(
-        Year   => $DynamicFieldValues{Year},
-        Month  => $DynamicFieldValues{Month},
-        Day    => $DynamicFieldValues{Day},
-        Hour   => $DynamicFieldValues{Hour} || '00',
-        Minute => $DynamicFieldValues{Minute} || '00',
-        Second => $DynamicFieldValues{Second} || '00',
-    );
+    if ( $DynamicFieldValues{ $Prefix . 'Used' } ) {
 
-    return $Self->{TimeObject}->SystemTime2TimeStamp(
-        SystemTime => $SystemTime,
-    );
+        # transform time stamp based on user time zone
+        %DynamicFieldValues = $Param{LayoutObject}->TransformDateSelection(
+            %DynamicFieldValues,
+            Prefix => $Prefix,
+        );
+
+        my $Year   = $DynamicFieldValues{ $Prefix . 'Year' }   || '0000';
+        my $Month  = $DynamicFieldValues{ $Prefix . 'Month' }  || '00';
+        my $Day    = $DynamicFieldValues{ $Prefix . 'Day' }    || '00';
+        my $Hour   = $DynamicFieldValues{ $Prefix . 'Hour' }   || '00';
+        my $Minute = $DynamicFieldValues{ $Prefix . 'Minute' } || '00';
+        my $Second = $DynamicFieldValues{ $Prefix . 'Second' } || '00';
+
+        $ManualTimeStamp =
+            $Year . '-' . $Month . '-' . $Day . ' '
+            . $Hour . ':' . $Minute . ':' . $Second;
+    }
+
+    return $ManualTimeStamp;
 }
 
 =item EditFieldValueValidate()
@@ -486,11 +490,23 @@ sub EditFieldValueValidate {
         ReturnValueStructure => 1,
     );
 
+    # on normal basis Used field could be empty but if there was no value from EditFieldValueGet()
+    # it must be an error
+    if ( !defined $Value ) {
+        return {
+            ServerError  => 1,
+            ErrorMessage => 'Invalid Date!'
+            }
+    }
+
     my $ServerError;
     my $ErrorMessage;
 
+    # set the date time prefix as field name
+    my $Prefix = $Param{DynamicFieldConfig}->{Name};
+
     # perform necessary validations
-    if ( $Param{Mandatory} && !$Value ) {
+    if ( $Param{Mandatory} && !$Value->{ $Prefix . 'Used' } ) {
         $ServerError = 1;
     }
 
