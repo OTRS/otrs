@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/DateTime.pm - Delegate for DynamicField DateTime backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DateTime.pm,v 1.16 2011-09-12 20:26:40 cr Exp $
+# $Id: DateTime.pm,v 1.17 2011-09-12 21:04:54 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Time;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 =head1 NAME
 
@@ -231,16 +231,15 @@ sub EditFieldRender {
 
     # extract the dynamic field value form the web request
     my $FieldValues = $Self->EditFieldValueGet(
-
-        #        DynamicFieldConfig => $DynamicFieldConfig,
-        #        ParamObject        => $Self->{ParamObject},
-        #        LayoutObject       => $Self->{LayoutObject},
         ReturnValueStructure => 1,
         %Param,
     );
 
-    if ( IsHashRefWithData($FieldValues) ) {
-
+    # set values from ParamObject if present
+    if ( defined $FieldValues && IsHashRefWithData($FieldValues) ) {
+        for my $Type (qw(Used Year Month Day Hour Minute)) {
+            $FieldConfig->{ $FieldName . $Type } = $FieldValues->{ $FieldName . $Type };
+        }
     }
 
     # check and set class if necessary
@@ -261,11 +260,11 @@ sub EditFieldRender {
         Format               => 'DateInputFormatLong',
         $FieldName . 'Class' => $FieldClass,
         DiffTime             => $FieldConfig->{DefaultValue} || '',
-        %{$FieldConfig},
         $FieldName . Required => $Param{Mandatory} || 0,
         $FieldName . Used     => $Used,
         $FieldName . Optional => 1,
         Validate              => 1,
+        %{$FieldConfig},
     );
 
     if ( $Param{Mandatory} ) {
