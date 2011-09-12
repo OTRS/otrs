@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Text.pm - Delegate for DynamicField Text backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Text.pm,v 1.25 2011-09-08 17:58:12 cg Exp $
+# $Id: Text.pm,v 1.26 2011-09-12 19:37:43 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::DynamicFieldValue;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.25 $) [1];
+$VERSION = qw($Revision: 1.26 $) [1];
 
 =head1 NAME
 
@@ -292,6 +292,9 @@ extracts the value of a dynamic field from the param object
     my $Value = $BackendObject->EditFieldValueGet(
         DynamicFieldConfig => $DynamicFieldConfig,      # complete config of the DynamicField
         ParamObject        => $ParamObject,             # the current request data
+        ReturnValueStructure => 1                       # || 0, default 0. Not used in this
+                                                        #   backend but placed for consistency
+                                                        #   reasons
     );
 
     Returns
@@ -345,8 +348,8 @@ validate the current value for the dynamic field
         PossibleValuesFilter => ['value1', 'value2'],     # Optional. Some backends may support this.
                                                           #     This may be needed to realize ACL support for ticket masks,
                                                           #     where the possible values can be limited with and ACL.
-        Value              => 'Any value',                # Optional
-        Mandatory          => 1,                          # 0 or 1,
+        ParamObject          => $ParamObject              # To get the values directly from the web request
+        Mandatory            => 1,                        # 0 or 1,
     );
 
     Returns
@@ -362,9 +365,11 @@ sub EditFieldValueValidate {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    if ( !$Param{DynamicFieldConfig} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need DynamicFieldConfig!" );
-        return;
+    for my $Needed (qw(DynamicFieldConfig ParamObject)) {
+        if ( !$Param{$Needed} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            return;
+        }
     }
 
     # check DynamicFieldConfig (general)
@@ -387,11 +392,20 @@ sub EditFieldValueValidate {
         }
     }
 
+    # get the field value from the http request
+    my $Value = $Self->EditFieldValueGet(
+        DynamicFieldConfig => $Param{DynamicFieldConfig},
+        ParamObject        => $Param{ParamObject},
+
+        # not necessary for this backend but place it for consistency reasons
+        ReturnValueStructure => 1,
+    );
+
     my $ServerError;
     my $ErrorMessage;
 
     # perform necessary validations
-    if ( $Param{Mandatory} && !$Param{Value} ) {
+    if ( $Param{Mandatory} && !$Value ) {
         $ServerError = 1;
     }
 
