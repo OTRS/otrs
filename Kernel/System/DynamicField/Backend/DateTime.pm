@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/DateTime.pm - Delegate for DynamicField DateTime backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DateTime.pm,v 1.14 2011-09-12 20:03:49 cg Exp $
+# $Id: DateTime.pm,v 1.15 2011-09-12 20:08:48 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Time;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 =head1 NAME
 
@@ -178,6 +178,8 @@ creates the field HTML to be used in edit masks.
         Class              => 'AnyCSSClass OrOneMore',    # Optional
         ServerError        => 1,                          # 0 or 1
         ErrorMessage       => $ErrorMessage,              # Optional or a default will be used in error case
+        LayoutObject         => $LayoutObject,
+        ParamObject          => $ParamObject,             # the current request data
     );
 
 =cut
@@ -236,6 +238,10 @@ sub EditFieldRender {
         ReturnValueStructure => 1,
         %Param,
     );
+
+    if ( IsHashRefWithData($FieldValues) ) {
+
+    }
 
     # check and set class if necessary
     my $FieldClass = 'DynamicFieldText';
@@ -367,16 +373,16 @@ sub EditFieldValueGet {
         );
     }
 
+    # check if return value structure is nedded
+    if ( defined $Param{ReturnValueStructure} && $Param{ReturnValueStructure} eq '1' ) {
+        return \%DynamicFieldValues;
+    }
+
     # transform time stamp based on user time zone
     %DynamicFieldValues = $Param{LayoutObject}->TransformDateSelection(
         %DynamicFieldValues,
         Prefix => $Prefix,
     );
-
-    # check if return value structure is nedded
-    if ( defined $Param{ReturnValueStructure} && $Param{ReturnValueStructure} eq '1' ) {
-        return \%DynamicFieldValues;
-    }
 
     # convert the already transformed time data into a string to return as the value
     my $SystemTime = $Self->{TimeObject}->Date2SystemTime(
