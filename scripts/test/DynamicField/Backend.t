@@ -2,7 +2,7 @@
 # Backend.t - DynamicFieldValue backend tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Backend.t,v 1.13 2011-09-12 16:01:06 cr Exp $
+# $Id: Backend.t,v 1.14 2011-09-12 22:01:19 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -584,7 +584,7 @@ for my $Test (@Tests) {
 
         # workaround for oracle
         # oracle databases can't determine the difference between NULL and ''
-        if ( defined $Value && $Value eq '' ) {
+        if ( !defined $Value || $Value eq '' ) {
 
             # test falseness
             $Self->False(
