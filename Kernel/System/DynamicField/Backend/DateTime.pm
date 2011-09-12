@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/DateTime.pm - Delegate for DynamicField DateTime backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DateTime.pm,v 1.13 2011-09-12 17:48:06 cr Exp $
+# $Id: DateTime.pm,v 1.14 2011-09-12 20:03:49 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Time;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 =head1 NAME
 
@@ -186,7 +186,7 @@ sub EditFieldRender {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for my $Needed (qw(DynamicFieldConfig LayoutObject)) {
+    for my $Needed (qw(DynamicFieldConfig LayoutObject ParamObject)) {
         if ( !$Param{$Needed} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
@@ -226,6 +226,16 @@ sub EditFieldRender {
         $Value = $Param{Value};
         $Used  = 1;
     }
+
+    # extract the dynamic field value form the web request
+    my $FieldValues = $Self->EditFieldValueGet(
+
+        #        DynamicFieldConfig => $DynamicFieldConfig,
+        #        ParamObject        => $Self->{ParamObject},
+        #        LayoutObject       => $Self->{LayoutObject},
+        ReturnValueStructure => 1,
+        %Param,
+    );
 
     # check and set class if necessary
     my $FieldClass = 'DynamicFieldText';
@@ -301,9 +311,12 @@ EOF
 extracts the value of a dynamic field from the param object and transforms it to the user timezone
 
     my $Value = $BackendObject->EditFieldValueGet(
-        DynamicFieldConfig => $DynamicFieldConfig,      # complete config of the DynamicField
-        ParamObject        => $ParamObject,             # the current request data
-        LayoutObject       => $LayoutObject
+        DynamicFieldConfig   => $DynamicFieldConfig,      # complete config of the DynamicField
+        ParamObject          => $ParamObject,             # the current request data
+        LayoutObject         => $LayoutObject,
+        ReturnValueStructure => 1,                        # || 0, default 0. Not used in this
+                                                          #   backend but placed for consistency
+                                                          #   reasons
     );
 
     Returns
@@ -359,6 +372,11 @@ sub EditFieldValueGet {
         %DynamicFieldValues,
         Prefix => $Prefix,
     );
+
+    # check if return value structure is nedded
+    if ( defined $Param{ReturnValueStructure} && $Param{ReturnValueStructure} eq '1' ) {
+        return \%DynamicFieldValues;
+    }
 
     # convert the already transformed time data into a string to return as the value
     my $SystemTime = $Self->{TimeObject}->Date2SystemTime(
