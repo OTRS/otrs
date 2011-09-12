@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend.pm - Interface for DynamicField backends
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Backend.pm,v 1.33 2011-09-09 20:32:00 cg Exp $
+# $Id: Backend.pm,v 1.34 2011-09-12 19:35:47 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Scalar::Util qw(weaken);
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.33 $) [1];
+$VERSION = qw($Revision: 1.34 $) [1];
 
 =head1 NAME
 
@@ -680,9 +680,12 @@ sub SearchFieldRender { }
 extracts the value of a dynamic field from the param object
 
     my $Value = $BackendObject->EditFieldValueGet(
-        DynamicFieldConfig => $DynamicFieldConfig,      # complete config of the DynamicField
-        ParamObject        => $ParamObject,             # the current request data
-        LayoutObject       => $LayoutObject,
+        DynamicFieldConfig   => $DynamicFieldConfig,    # complete config of the DynamicField
+        ParamObject          => $ParamObject,           # the current request data
+        LayoutObject         => $LayoutObject,
+        ReturnValueStructure => 0,                      # || 1, default 0
+                                                        #   Returns the values as got from the
+                                                        #   http request
     );
 
     Returns
@@ -690,6 +693,29 @@ extracts the value of a dynamic field from the param object
     $Value = $Value;                                    # depending on each field type e.g.
                                                         #   $Value = 'a text';
                                                         #   $Value = '1977-12-12 12:00:00';
+                                                        #   $Value = 1;
+
+    my $Value = $BackendObject->EditFieldValueGet(
+        DynamicFieldConfig   => $DynamicFieldConfig,    # complete config of the DynamicField
+        ParamObject          => $ParamObject,           # the current request data
+        LayoutObject         => $LayoutObject,
+        ReturnValueStructure => 1,                      # || 0, default 0
+                                                        #   Returns the values as got from the
+                                                        #   http request
+    );
+
+    Returns
+
+    $Value = $Value;                                    # depending on each field type e.g.
+                                                        #   $Value = 'a text';
+                                                        #   $Value = {
+                                                                Used   => 1,
+                                                                Year   => '1977',
+                                                                Month  => '12',
+                                                                Day    => '12',
+                                                                Hour   => '12',
+                                                                Minute => '00'
+                                                            },
                                                         #   $Value = 1;
 
 =cut
@@ -749,8 +775,8 @@ validate the current value for the dynamic field
         PossibleValuesFilter => ['value1', 'value2'],     # Optional. Some backends may support this.
                                                           #     This may be needed to realize ACL support for ticket masks,
                                                           #     where the possible values can be limited with and ACL.
-        Value              => 'Any value',                # Optional
-        Mandatory          => 1,                          # 0 or 1,
+        ParamObject          => $Self->{ParamObject}      # To get the values directly from the web request
+        Mandatory            => 1,                        # 0 or 1,
     );
 
     Returns
@@ -835,6 +861,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.33 $ $Date: 2011-09-09 20:32:00 $
+$Revision: 1.34 $ $Date: 2011-09-12 19:35:47 $
 
 =cut
