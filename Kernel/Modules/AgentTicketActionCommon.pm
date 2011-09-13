@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketActionCommon.pm - common file for several modules
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketActionCommon.pm,v 1.51 2011-09-12 21:43:23 cr Exp $
+# $Id: AgentTicketActionCommon.pm,v 1.52 2011-09-13 16:25:30 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -183,14 +183,16 @@ sub Run {
         # Check if field was displayed
         next FIELDNAME if !$Self->{Config}->{DynamicField}->{$FieldName};
 
-        #TODO: limit by ObjectType
-
         # get the configuration of the dynamic field
         my $DynamicFieldConfig = $Self->{DynamicFieldObject}->DynamicFieldGet(
             Name => $FieldName,
         );
         next FIELDNAME if !IsHashRefWithData($DynamicFieldConfig);
         next FIELDNAME if $DynamicFieldConfig->{ValidID} ne 1;
+
+        # skip dynamic fields for other object types than Ticket or Article
+        next FIELDNAME if $DynamicFieldConfig->{ObjectType} ne 'Ticket'
+                && $DynamicFieldConfig->{ObjectType} ne 'Article';
 
         # extract the dynamic field value form the web request
         $DynamicFieldValues{$FieldName} = $Self->{BackendObject}->EditFieldValueGet(
@@ -532,7 +534,6 @@ sub Run {
             $DynamicFieldHTML{$FieldName} = $Self->{BackendObject}->EditFieldRender(
                 DynamicFieldConfig   => $DynamicFieldConfig,
                 PossibleValuesFilter => $PossibleValuesFilter,
-                Value                => $DynamicFieldValues{$FieldName} || '',
                 Mandatory            => $Self->{Config}->{DynamicField}->{$FieldName} == 2,
                 ServerError          => $ValidationResult->{ServerError} || '',
                 ErrorMessage         => $ValidationResult->{ErrorMessage} || '',
