@@ -2,7 +2,7 @@
 // Core.UI.ActionRow.js - provides all functions for the Action row
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.UI.ActionRow.js,v 1.5 2011-02-17 21:30:59 en Exp $
+// $Id: Core.UI.ActionRow.js,v 1.6 2011-09-13 17:24:21 mp Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -101,7 +101,7 @@ Core.UI.ActionRow = (function (TargetNS) {
                 .find('li:last').addClass('Last');
         }
         // Exactly one checkbox is selected
-        else if ($Checkboxes.length === 1) {
+        else if ($Checkboxes.length === 1 && !$('#SelectAllTickets').is(':checked') ) {
             // Update actions and deactivate bulk action
             $ActionRow.find('#BulkAction').addClass('Inactive');
 
