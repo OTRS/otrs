@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminDynamicFieldText.pm - provides a dynamic fields text config view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminDynamicFieldText.pm,v 1.17 2011-09-05 09:46:09 mg Exp $
+# $Id: AdminDynamicFieldText.pm,v 1.18 2011-09-13 20:58:16 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::DynamicField;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.17 $) [1];
+$VERSION = qw($Revision: 1.18 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -156,7 +156,9 @@ sub _AddAction {
         }
     }
 
-    for my $ConfigParam (qw(ObjectType ObjectTypeName FieldType FieldTypeName DefaultValue ValidID))
+    for my $ConfigParam (
+        qw(ObjectType ObjectTypeName FieldType FieldTypeName DefaultValue ValidID Rows Cols)
+        )
     {
         $GetParam{$ConfigParam} = $Self->{ParamObject}->GetParam( Param => $ConfigParam );
     }
@@ -182,6 +184,11 @@ sub _AddAction {
     my $FieldConfig = {
         DefaultValue => $GetParam{DefaultValue},
     };
+
+    if ( $GetParam{FieldType} eq 'TextArea' ) {
+        $FieldConfig->{Rows} = $GetParam{Rows};
+        $FieldConfig->{Cols} = $GetParam{Cols};
+    }
 
     # create a new field
     my $FieldID = $Self->{DynamicFieldObject}->DynamicFieldAdd(
@@ -327,7 +334,9 @@ sub _ChangeAction {
         }
     }
 
-    for my $ConfigParam (qw(ObjectType ObjectTypeName FieldType FieldTypeName DefaultValue ValidID))
+    for my $ConfigParam (
+        qw(ObjectType ObjectTypeName FieldType FieldTypeName DefaultValue ValidID Rows Cols)
+        )
     {
         $GetParam{$ConfigParam} = $Self->{ParamObject}->GetParam( Param => $ConfigParam );
     }
@@ -366,6 +375,11 @@ sub _ChangeAction {
     my $FieldConfig = {
         DefaultValue => $GetParam{DefaultValue},
     };
+
+    if ( $GetParam{FieldType} eq 'TextArea' ) {
+        $FieldConfig->{Rows} = $GetParam{Rows};
+        $FieldConfig->{Cols} = $GetParam{Cols};
+    }
 
     # update dynamic field (FieldType and ObjectType cannot be changed; use old values)
     my $UpdateSuccess = $Self->{DynamicFieldObject}->DynamicFieldUpdate(
@@ -458,6 +472,19 @@ sub _ShowScreen {
             DefaultValue => $DefaultValue,
         },
     );
+
+    if ( $Param{FieldType} eq 'TextArea' ) {
+
+        # create the default value element
+        $Self->{LayoutObject}->Block(
+            Name => 'ColsRowsValues',
+            Data => {
+                %Param,
+                Rows => $Param{Rows},
+                Cols => $Param{Cols},
+            },
+        );
+    }
 
     # generate output
     $Output .= $Self->{LayoutObject}->Output(
