@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Checkbox.pm - Delegate for DynamicField Checkbox backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Checkbox.pm,v 1.15 2011-09-13 20:31:47 cg Exp $
+# $Id: Checkbox.pm,v 1.16 2011-09-13 22:25:33 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::DynamicFieldValue;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 =head1 NAME
 
@@ -176,10 +176,24 @@ sub EditFieldRender {
     my $FieldValue = $Self->EditFieldValueGet(
         %Param,
     );
+    print STDERR $Self->{MainObject}->Dump($FieldValue);
 
     # set values from ParamObject if present
     if ( defined $FieldValue ) {
-        $Value = $FieldValue;
+        if (
+            !defined $FieldValue->{FieldValue} &&
+            defined $FieldValue->{HiddenValue} && $FieldValue->{HiddenValue} eq '1'
+            )
+        {
+            $Value = '0';
+        }
+        elsif (
+            defined $FieldValue->{FieldValue}  && $FieldValue->{FieldValue}  eq '1' &&
+            defined $FieldValue->{HiddenValue} && $FieldValue->{HiddenValue} eq '1'
+            )
+        {
+            $Value = '1';
+        }
     }
 
     # set as checked if necessary
@@ -197,8 +211,10 @@ sub EditFieldRender {
     # set error css class
     $FieldClass .= ' ServerError' if $Param{ServerError};
 
-    my $HTMLString = <<"EOF";
+    my $FieldNameHidden = $FieldName . "Hidden";
+    my $HTMLString      = <<"EOF";
 <input type="checkbox" class="$FieldClass" id="$FieldName" name="$FieldName" title="$FieldLabel" $FieldChecked value="1" />
+<input type="hidden" id="$FieldNameHidden" name="$FieldNameHidden" value="1" />
 EOF
 
     if ( $Param{Mandatory} ) {
@@ -275,9 +291,17 @@ sub EditFieldValueGet {
         }
     }
 
+    my %Data;
+
     # get dynamic field value form param
-    return $Param{ParamObject}
+    $Data{FieldValue} = $Param{ParamObject}
         ->GetParam( Param => 'DynamicField_' . $Param{DynamicFieldConfig}->{Name} );
+
+    # get dynamic field hidden value form param
+    $Data{HiddenValue} = $Param{ParamObject}
+        ->GetParam( Param => 'DynamicField_' . $Param{DynamicFieldConfig}->{Name} . 'Hidden' );
+
+    return \%Data;
 }
 
 sub EditFieldValueValidate {
@@ -312,13 +336,14 @@ sub EditFieldValueValidate {
     }
 
     # get the field value from the http request
-    my $Value = $Self->EditFieldValueGet(
+    my $FieldValue = $Self->EditFieldValueGet(
         DynamicFieldConfig => $Param{DynamicFieldConfig},
         ParamObject        => $Param{ParamObject},
 
         # not necessary for this backend but place it for consistency reasons
         ReturnValueStructure => 1,
     );
+    my $Value = $FieldValue->{FieldValue} || '';
 
     my $ServerError;
     my $ErrorMessage;
