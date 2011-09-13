@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/DateTime.pm - Delegate for DynamicField DateTime backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DateTime.pm,v 1.20 2011-09-13 12:47:53 mg Exp $
+# $Id: DateTime.pm,v 1.21 2011-09-13 22:22:37 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Time;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.20 $) [1];
+$VERSION = qw($Revision: 1.21 $) [1];
 
 =head1 NAME
 
@@ -337,6 +337,19 @@ sub EditFieldValueGet {
             %DynamicFieldValues,
             Prefix => $Prefix,
         );
+
+        # add a leading zero for date parts that could be les than ten to generate a correct
+        # time stamp
+        for my $Type (qw(Month Day Hour Minute Second)) {
+            if (
+                $DynamicFieldValues{ $Prefix . $Type }
+                && $DynamicFieldValues{ $Prefix . $Type } <= 10
+                )
+            {
+                $DynamicFieldValues{ $Prefix . $Type }
+                    = '0' . $DynamicFieldValues{ $Prefix . $Type };
+            }
+        }
 
         my $Year   = $DynamicFieldValues{ $Prefix . 'Year' }   || '0000';
         my $Month  = $DynamicFieldValues{ $Prefix . 'Month' }  || '00';
