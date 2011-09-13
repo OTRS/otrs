@@ -1914,12 +1914,10 @@
         <IndexColumn Name="field_id"/>
         <IndexColumn Name="value_int"/>
     </Index>
-    <!-- make sure that per field and object, there is only one value -->
-    <Unique>
-        <UniqueColumn Name="field_id"/>
-        <UniqueColumn Name="object_id"/>
-    </Unique>
-
+    <Index Name="index_field_values">
+        <IndexColumn Name="field_id"/>
+        <IndexColumn Name="object_id"/>
+    </Index>
     <ForeignKey ForeignTable="dynamic_field">
         <Reference Local="field_id" Foreign="id"/>
     </ForeignKey>

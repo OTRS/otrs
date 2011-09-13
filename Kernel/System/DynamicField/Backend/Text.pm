@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Text.pm - Delegate for DynamicField Text backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Text.pm,v 1.29 2011-09-13 10:14:18 mg Exp $
+# $Id: Text.pm,v 1.30 2011-09-13 12:47:53 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::DynamicFieldValue;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.29 $) [1];
+$VERSION = qw($Revision: 1.30 $) [1];
 
 =head1 NAME
 
@@ -74,20 +74,24 @@ sub ValueGet {
     );
 
     return if !$DFValue;
+    return if !IsArrayRefWithData($DFValue);
+    return if !IsHashRefWithData( $DFValue->[0] );
 
-    return if !IsHashRefWithData($DFValue);
-
-    return $DFValue->{ValueText};
+    return $DFValue->[0]->{ValueText};
 }
 
 sub ValueSet {
     my ( $Self, %Param ) = @_;
 
     my $Success = $Self->{DynamicFieldValueObject}->ValueSet(
-        FieldID   => $Param{DynamicFieldConfig}->{ID},
-        ObjectID  => $Param{ObjectID},
-        ValueText => $Param{Value},
-        UserID    => $Param{UserID},
+        FieldID  => $Param{DynamicFieldConfig}->{ID},
+        ObjectID => $Param{ObjectID},
+        Value    => [
+            {
+                ValueText => $Param{Value},
+            },
+        ],
+        UserID => $Param{UserID},
     );
 
     return $Success;

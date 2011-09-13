@@ -2,7 +2,7 @@
 # DynamicFieldValue.t - DynamicFieldValue backend tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicFieldValue.t,v 1.10 2011-09-12 22:01:19 cr Exp $
+# $Id: DynamicFieldValue.t,v 1.11 2011-09-13 12:47:54 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -101,9 +101,11 @@ my @Tests = (
             ObjectType => 'Ticket',
         },
         ObjectID => $TicketID,
-        Value    => {
-            ValueDateTime => '23-2003-12 - 45:90:80',
-        },
+        Value    => [
+            {
+                ValueDateTime => '23-2003-12 - 45:90:80',
+            }
+        ],
         UserID  => 1,
         Success => 0,
     },
@@ -114,9 +116,11 @@ my @Tests = (
             ObjectType => 'Ticket',
         },
         ObjectID => $TicketID,
-        Value    => {
-            ValueDateTime => '1977-12-12',
-        },
+        Value    => [
+            {
+                ValueDateTime => '1977-12-12',
+            },
+        ],
         UserID  => 1,
         Success => 0,
     },
@@ -127,9 +131,11 @@ my @Tests = (
             ObjectType => 'Ticket',
         },
         ObjectID => $TicketID,
-        Value    => {
-            ValueDateTime => '12:00:00',
-        },
+        Value    => [
+            {
+                ValueDateTime => '12:00:00',
+            },
+        ],
         UserID  => 1,
         Success => 0,
     },
@@ -140,9 +146,11 @@ my @Tests = (
             ObjectType => 'Ticket',
         },
         ObjectID => $TicketID,
-        Value    => {
-            ValueInt => 'a',
-        },
+        Value    => [
+            {
+                ValueInt => 'a',
+            },
+        ],
         UserID  => 1,
         Success => 0,
     },
@@ -153,9 +161,11 @@ my @Tests = (
             ObjectType => 'Ticket',
         },
         ObjectID => $TicketID,
-        Value    => {
-            ValueInt => '123a',
-        },
+        Value    => [
+            {
+                ValueInt => '123a',
+            },
+        ],
         UserID  => 1,
         Success => 0,
     },
@@ -166,9 +176,11 @@ my @Tests = (
             ObjectType => 'Ticket',
         },
         ObjectID => $TicketID,
-        Value    => {
-            ValueInt => '123.0',
-        },
+        Value    => [
+            {
+                ValueInt => '123.0',
+            },
+        ],
         UserID  => 1,
         Success => 0,
     },
@@ -179,9 +191,11 @@ my @Tests = (
             ObjectType => 'Ticket',
         },
         ObjectID => $TicketID,
-        Value    => {
-            ValueText => 'a text',
-        },
+        Value    => [
+            {
+                ValueText => 'a text',
+            },
+        ],
         UserID  => 1,
         Success => 1,
     },
@@ -192,9 +206,11 @@ my @Tests = (
             ObjectType => 'Ticket',
         },
         ObjectID => $TicketID,
-        Value    => {
-            ValueText => '',
-        },
+        Value    => [
+            {
+                ValueText => '',
+            },
+        ],
         UserID  => 1,
         Success => 1,
     },
@@ -205,9 +221,11 @@ my @Tests = (
             ObjectType => 'Ticket',
         },
         ObjectID => $TicketID,
-        Value    => {
-            ValueText => 'äöüßÄÖÜ€ис',
-        },
+        Value    => [
+            {
+                ValueText => 'äöüßÄÖÜ€ис',
+            },
+        ],
         UserID  => 1,
         Success => 1,
     },
@@ -218,9 +236,11 @@ my @Tests = (
             ObjectType => 'Ticket',
         },
         ObjectID => $TicketID,
-        Value    => {
-            ValueDateTime => '1977-12-12 12:00:00',
-        },
+        Value    => [
+            {
+                ValueDateTime => '1977-12-12 12:00:00',
+            },
+        ],
         UserID  => 1,
         Success => 1,
     },
@@ -231,9 +251,11 @@ my @Tests = (
             ObjectType => 'Ticket',
         },
         ObjectID => $TicketID,
-        Value    => {
-            ValueInt => 14524,
-        },
+        Value    => [
+            {
+                ValueInt => 14524,
+            },
+        ],
         UserID  => 1,
         Success => 1,
     },
@@ -244,9 +266,11 @@ my @Tests = (
             ObjectType => 'Ticket',
         },
         ObjectID => $TicketID,
-        Value    => {
-            ValueInt => 0,
-        },
+        Value    => [
+            {
+                ValueInt => 0,
+            },
+        ],
         UserID  => 1,
         Success => 1,
     },
@@ -257,9 +281,11 @@ my @Tests = (
             ObjectType => 'Ticket',
         },
         ObjectID => $TicketID,
-        Value    => {
-            ValueInt => -10,
-        },
+        Value    => [
+            {
+                ValueInt => -10,
+            },
+        ],
         UserID  => 1,
         Success => 1,
     },
@@ -270,11 +296,13 @@ my @Tests = (
             ObjectType => 'Ticket',
         },
         ObjectID => $TicketID,
-        Value    => {
-            ValueText     => 'a text',
-            ValueDateTime => '1977-12-12 12:00:00',
-            ValueInt      => 1,
-        },
+        Value    => [
+            {
+                ValueText     => 'a text',
+                ValueDateTime => '1977-12-12 12:00:00',
+                ValueInt      => 1,
+            },
+        ],
         UserID  => 1,
         Success => 1,
     },
@@ -285,11 +313,13 @@ my @Tests = (
             ObjectType => 'Ticket',
         },
         ObjectID => $TicketID,
-        Value    => {
-            ValueText     => 'äöüßÄÖÜ€ис',
-            ValueDateTime => '1977-12-12 12:00:00',
-            ValueInt      => 1,
-        },
+        Value    => [
+            {
+                ValueText     => 'äöüßÄÖÜ€ис',
+                ValueDateTime => '1977-12-12 12:00:00',
+                ValueInt      => 1,
+            },
+        ],
         UserID  => 1,
         Success => 1,
     },
@@ -301,9 +331,8 @@ for my $Test (@Tests) {
         ObjectType => $Test->{DynamicFieldConfig}->{ObjectType},
         ObjectID   => $Test->{ObjectID},
         UserID     => $Test->{UserID},
-        %{ $Test->{Value} },
+        Value      => $Test->{Value},
     );
-
     if ( !$Test->{Success} ) {
         $Self->False(
             $Success,
@@ -318,21 +347,8 @@ for my $Test (@Tests) {
         );
 
         $Self->False(
-            $Value->{ID},
+            $Value->[0]->{ID},
             "ValueGet() - Test $Test->{Name} - with False",
-        );
-
-        # try to delete the value with ValueDelete()
-        my $DeleteSuccess = $DynamicFieldValueObject->ValueDelete(
-            FieldID    => $Test->{DynamicFieldConfig}->{ID},
-            ObjectType => $Test->{DynamicFieldConfig}->{ObjectType},
-            ObjectID   => $Test->{ObjectID},
-            UserID     => $Test->{UserID},
-        );
-
-        $Self->False(
-            $DeleteSuccess,
-            "ValueDelete() - Test $Test->{Name} - with False",
         );
     }
     else {
@@ -350,19 +366,19 @@ for my $Test (@Tests) {
 
         # sanity check
         $Self->True(
-            $Value,
+            $Value->[0],
             "ValueGet() after ValueSet() - Test $Test->{Name} - with True",
         );
 
-        for my $ValueKey ( keys %{ $Test->{Value} } ) {
+        for my $ValueKey ( keys %{ $Test->{Value}->[0] } ) {
 
             # workaround for oracle
             # oracle databases can't determine the difference between NULL and ''
-            if ( !defined $Value->{$ValueKey} || $Value->{$ValueKey} eq '' ) {
+            if ( !defined $Value->[0]->{$ValueKey} || $Value->[0]->{$ValueKey} eq '' ) {
 
                 # test falseness
                 $Self->False(
-                    $Value->{$ValueKey},
+                    $Value->[0]->{$ValueKey},
                     "ValueGet() after ValueSet() - Test $Test->{Name} - "
                         . " (Special case for '')"
                 );
@@ -371,8 +387,8 @@ for my $Test (@Tests) {
 
                 # compare data
                 $Self->Is(
-                    $Value->{$ValueKey},
-                    $Test->{Value}->{$ValueKey},
+                    $Value->[0]->{$ValueKey},
+                    $Test->{Value}->[0]->{$ValueKey},
                     "ValueGet() after ValueSet() - Test $Test->{Name} - Key $ValueKey",
                 );
             }
@@ -380,7 +396,7 @@ for my $Test (@Tests) {
     }
 }
 
-# specific tests for ValueGet() ValueDelete
+# specific tests for ValueGet()
 @Tests = (
     {
         Name               => 'Wrong FieldID',
@@ -412,21 +428,8 @@ for my $Test (@Tests) {
     );
 
     $Self->False(
-        $Value->{ID},
+        $Value->[0]->{ID},
         "ValueGet() - Test $Test->{Name} - with False",
-    );
-
-    # try to delete the value with ValueDelete()
-    my $DeleteSuccess = $DynamicFieldValueObject->ValueDelete(
-        FieldID    => $Test->{DynamicFieldConfig}->{ID},
-        ObjectType => $Test->{DynamicFieldConfig}->{ObjectType},
-        ObjectID   => $Test->{ObjectID},
-        UserID     => $Test->{UserID},
-    );
-
-    $Self->False(
-        $DeleteSuccess,
-        "ValueDelete() - Test $Test->{Name} - with False",
     );
 }
 
@@ -449,8 +452,12 @@ $Self->True(
         FieldID    => $FieldID,
         ObjectType => 'Ticket',
         ObjectID   => $TicketID,
-        ValueText  => 'New Value',
-        UserID     => 1,
+        Value      => [
+            {
+                ValueText => 'New Value',
+            },
+        ],
+        UserID => 1,
     );
 
     # sanity check
@@ -468,7 +475,7 @@ $Self->True(
 
     # sanity check
     $Self->Is(
-        $Value->{ValueText},
+        $Value->[0]->{ValueText},
         'New Value',
         "ValueGet() - New Value for ValueText - for FieldID $FieldID",
     );
@@ -488,16 +495,17 @@ $Self->True(
 
 # now that the field was deleted also "New Value" should be deleted too"
 {
-    my $DeleteSuccess = $DynamicFieldValueObject->ValueDelete(
+
+    # get the value with ValueGet()
+    my $Value = $DynamicFieldValueObject->ValueGet(
         FieldID    => $FieldID,
         ObjectType => 'Ticket',
-        ObjectID   => $TicketID,
-        UserID     => 1,
+        ObjectID   => $TicketID
     );
 
     $Self->False(
-        $DeleteSuccess,
-        "ValueDelete() unsuccessful for New Value - for FieldID $FieldID",
+        $Value->[0],
+        "Value was deleted by FieldDeletion of $FieldID",
     );
 }
 

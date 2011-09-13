@@ -2,7 +2,7 @@
 # Kernel/System/DynamicFieldValue.pm - DynamicField values backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicFieldValue.pm,v 1.10 2011-09-06 12:17:07 mg Exp $
+# $Id: DynamicFieldValue.pm,v 1.11 2011-09-13 12:47:54 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::Time;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 =head1 NAME
 
@@ -96,16 +96,23 @@ sub new {
 
 =item ValueSet()
 
-sets a dynamic field value.
+sets a dynamic field value. This is represented by one or more rows in the dynamic_field_value
+table, each storing one text, date and int field. Please see how they will be returned by
+L<ValueGet()>.
 
     my $Success = $DynamicFieldValueObject->ValueSet(
-        FieldID            => $FieldID,                 # ID of the dynamic field
-        ObjectID           => $ObjectID,                # ID of the current object that the field
-                                                        #   must be linked to, e. g. TicketID
-        ValueText          => 'some text',              # optional
-        ValueDateTime      => '1977-12-12 12:00:00',    # optional
-        ValueInt           => 123,                      # optional
-        UserID             => 123,
+        FieldID  => $FieldID,                 # ID of the dynamic field
+        ObjectID => $ObjectID,                # ID of the current object that the field
+                                              #   must be linked to, e. g. TicketID
+        Value    => [
+            {
+                ValueText          => 'some text',            # optional, one of these fields must be provided
+                ValueDateTime      => '1977-12-12 12:00:00',  # optional
+                ValueInt           => 123,                    # optional
+            },
+            ...
+        ],
+        UserID   => $UserID,
     );
 
 =cut
@@ -114,7 +121,7 @@ sub ValueSet {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for my $Needed (qw(FieldID ObjectID)) {
+    for my $Needed (qw(FieldID ObjectID Value)) {
         if ( !$Param{$Needed} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
@@ -122,102 +129,116 @@ sub ValueSet {
     }
 
     # return if no Value was provided
-    if ( !exists $Param{ValueText} && !exists $Param{ValueDateTime} && !exists $Param{ValueInt} )
+    if ( ref $Param{Value} ne 'ARRAY' || !$Param{Value}->[0] )
     {
-        $Self->{LogObject}
-            ->Log( Priority => 'error', Message => "Need ValueText, ValueDateTime or ValueInt!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need Param{Value}!"
+        );
         return;
     }
 
-    # try to get the value (if it was already set)
-    my $Value = $Self->ValueGet(
+    my @Values;
+
+    my $Counter = 0;
+    while (1) {
+        if ( ref $Param{Value}->[$Counter] ne 'HASH' ) {
+            last;
+        }
+
+        if (
+            !defined $Param{Value}->[$Counter]->{ValueText}
+            && !defined $Param{Value}->[$Counter]->{ValueInt}
+            && !defined $Param{Value}->[$Counter]->{ValueDateTime}
+            )
+        {
+            last;
+        }
+
+        my %Value = (
+            ValueText     => scalar $Param{Value}->[$Counter]->{ValueText},
+            ValueInt      => scalar $Param{Value}->[$Counter]->{ValueInt},
+            ValueDateTime => scalar $Param{Value}->[$Counter]->{ValueDateTime},
+        );
+
+        if ( exists $Value{ValueDateTime} ) {
+
+            # validate date
+            if ( $Value{ValueDateTime} ) {
+
+                # convert the DateTime value to system time to check errors
+                my $SystemTime = $Self->{TimeObject}->TimeStamp2SystemTime(
+                    String => $Value{ValueDateTime},
+                );
+
+                return if !$SystemTime;
+
+                # convert back to time stamp to check errors
+                my $TimeStamp = $Self->{TimeObject}->SystemTime2TimeStamp(
+                    SystemTime => $SystemTime,
+                );
+
+                return if !$TimeStamp;
+
+                # compare if the date is the same
+                return if !( $Value{ValueDateTime} eq $TimeStamp )
+            }
+            else {
+
+                # set ValueDateTime column to NULL
+                $Value{ValueDateTime} = undef;
+            }
+        }
+
+        # validate integer
+        if ( $Value{ValueInt} ) {
+
+            if ( $Value{ValueInt} !~ m{\A  -? \d+ \z}smx ) {
+                $Self->{LogObject}->Log(
+                    Priority => 'error', Message => "Invalid Integer '$Value{ValueInt}'!"
+                );
+
+                return;
+            }
+        }
+
+        # validate Int Zero
+        if ( defined $Value{ValueInt} && !$Value{ValueInt} ) {
+            $Value{ValueInt} = '0';
+        }
+
+        push @Values, \%Value;
+        $Counter++;
+    }
+
+    # delete existing value
+    $Self->ValueDelete(
         FieldID  => $Param{FieldID},
         ObjectID => $Param{ObjectID},
+        UserID   => $Param{UserID},
     );
 
-    # return on ValueGet error
-    return if !defined $Value;
+    for my $Value (@Values) {
 
-    if ( exists $Param{ValueDateTime} ) {
-
-        # validate date
-        if ( $Param{ValueDateTime} ) {
-
-            # convert the DateTime value to system time to check errors
-            my $SystemTime = $Self->{TimeObject}->TimeStamp2SystemTime(
-                String => $Param{ValueDateTime},
-            );
-
-            return if !$SystemTime;
-
-            # convert back to time stamp to check errors
-            my $TimeStamp = $Self->{TimeObject}->SystemTime2TimeStamp(
-                SystemTime => $SystemTime,
-            );
-
-            return if !$TimeStamp;
-
-            # compare if the date is the same
-            return if !( $Param{ValueDateTime} eq $TimeStamp )
-        }
-        else {
-
-            # set ValueDateTime column to NULL
-            $Param{ValueDateTime} = undef;
-        }
-    }
-
-    # validate integer
-    if ( $Param{ValueInt} ) {
-
-        if ( $Param{ValueInt} !~ m{\A  -? \d+ \z}smx ) {
-            $Self->{LogObject}->Log(
-                Priority => 'error', Message => "Invalid Integer '$Param{ValueInt}'!"
-            );
-
-            return;
-        }
-    }
-
-    # validate Int Zero
-    if ( defined $Param{ValueInt} && !$Param{ValueInt} ) {
-        $Param{ValueInt} = '0';
-    }
-
-    # check if value register does not exist
-    if ( !$Value->{ID} ) {
-
-        # create a new value
+        # create a new value entry
         return if !$Self->{DBObject}->Do(
             SQL =>
                 'INSERT INTO dynamic_field_value (field_id, object_id, value_text, value_date, value_int)'
                 . ' VALUES (?, ?, ?, ?, ?)',
             Bind => [
                 \$Param{FieldID}, \$Param{ObjectID},
-                \$Param{ValueText}, \$Param{ValueDateTime}, \$Param{ValueInt},
+                \$Value->{ValueText}, \$Value->{ValueDateTime}, \$Value->{ValueInt},
             ],
         );
-
-        return 1;
     }
-
-    # otherwise update field value
-    return if !$Self->{DBObject}->Do(
-        SQL =>
-            'UPDATE dynamic_field_value SET value_text = ?, value_date = ?, value_int = ?'
-            . ' WHERE field_id = ? AND object_id =?',
-        Bind => [
-            \$Param{ValueText}, \$Param{ValueDateTime}, \$Param{ValueInt},
-            \$Param{FieldID}, \$Param{ObjectID},
-        ],
-    );
 
     return 1;
 }
 
 =item ValueGet()
 
-get a dynamic field value.
+get a dynamic field value. For each table row there will be one entry in the
+result list.
 
     my $Value = $DynamicFieldValueObject->ValueGet(
         FieldID            => $FieldID,                 # ID of the dynamic field
@@ -225,14 +246,14 @@ get a dynamic field value.
                                                         #   is linked to, e. g. TicketID
     );
 
-    Returns:
-
-    $Value = {
-        ID                 => 123,
-        ValueText          => 'some text',
-        ValueDateTime      => '1977-12-12 12:00:00',
-        ValueInt           => 123,
-    }
+    Returns [
+        {
+            ID                 => 437,
+            ValueText          => 'some text',
+            ValueDateTime      => '1977-12-12 12:00:00',
+            ValueInt           => 123,
+        },
+    ];
 
 =cut
 
@@ -247,43 +268,42 @@ sub ValueGet {
         }
     }
 
-    my %Value;
+    my @Result;
 
-    # sql
     return if !$Self->{DBObject}->Prepare(
-        SQL => 'SELECT id, value_text, value_date, value_int'
-            . ' FROM dynamic_field_value'
-            . ' WHERE field_id = ? AND object_id = ?',
+        SQL =>
+            'SELECT id, value_text, value_date, value_int
+            FROM dynamic_field_value
+            WHERE field_id = ? AND object_id = ?
+            ORDER BY id',
         Bind => [ \$Param{FieldID}, \$Param{ObjectID} ],
     );
 
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
 
-        %Value = (
+        # cleanup time stamps (some databases are using e. g. 2008-02-25 22:03:00.000000
+        # and 0000-00-00 00:00:00 time stamps)
+        if ( $Data[2] ) {
+            if ( $Data[2] eq '0000-00-00 00:00:00' ) {
+                $Data[2] = undef;
+            }
+            $Data[2] =~ s/^(\d\d\d\d-\d\d-\d\d\s\d\d:\d\d:\d\d)\..+?$/$1/;
+        }
+
+        push @Result, {
             ID            => $Data[0],
             ValueText     => $Data[1],
             ValueDateTime => $Data[2],
             ValueInt      => $Data[3],
-        );
+        };
     }
 
-    # cleanup time stamps (some databases are using e. g. 2008-02-25 22:03:00.000000
-    # and 0000-00-00 00:00:00 time stamps)
-    if ( $Value{ValueDateTime} ) {
-        if ( $Value{ValueDateTime} eq '0000-00-00 00:00:00' ) {
-            $Value{ValueDateTime} = '';
-        }
-        $Value{ValueDateTime} =~ s/^(\d\d\d\d-\d\d-\d\d\s\d\d:\d\d:\d\d)\..+?$/$1/;
-    }
-
-    return \%Value;
+    return \@Result;
 }
 
 =item ValueDelete()
 
-delete a Dynamic field value entry
-
-returns 1 if successful or undef otherwise
+delete a Dynamic field value entry. All associated rows will be deleted.
 
     my $Success = $DynamicFieldValueObject->ValueDelete(
         FieldID            => $FieldID,                 # ID of the dynamic field
@@ -291,6 +311,8 @@ returns 1 if successful or undef otherwise
                                                         #   is linked to, e. g. TicketID
         UserID  => 123,
     );
+
+    Returns 1.
 
 =cut
 
@@ -304,13 +326,6 @@ sub ValueDelete {
             return;
         }
     }
-
-    # check if exists
-    my $Value = $Self->ValueGet(
-        FieldID  => $Param{FieldID},
-        ObjectID => $Param{ObjectID},
-    );
-    return if !IsHashRefWithData($Value);
 
     # delete dynamic field value
     return if !$Self->{DBObject}->Do(
@@ -337,6 +352,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.10 $ $Date: 2011-09-06 12:17:07 $
+$Revision: 1.11 $ $Date: 2011-09-13 12:47:54 $
 
 =cut

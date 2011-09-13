@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Date.pm - Delegate for DynamicField Date backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Date.pm,v 1.9 2011-09-13 10:14:18 mg Exp $
+# $Id: Date.pm,v 1.10 2011-09-13 12:47:53 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Time;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 =head1 NAME
 
@@ -76,10 +76,10 @@ sub ValueGet {
     );
 
     return if !$DFValue;
+    return if !IsArrayRefWithData($DFValue);
+    return if !IsHashRefWithData( $DFValue->[0] );
 
-    return if !IsHashRefWithData($DFValue);
-
-    return $DFValue->{ValueDateTime};
+    return $DFValue->[0]->{ValueDateTime};
 }
 
 sub ValueSet {
@@ -96,10 +96,14 @@ sub ValueSet {
     }
 
     my $Success = $Self->{DynamicFieldValueObject}->ValueSet(
-        FieldID       => $Param{DynamicFieldConfig}->{ID},
-        ObjectID      => $Param{ObjectID},
-        ValueDateTime => $Param{Value},
-        UserID        => $Param{UserID},
+        FieldID  => $Param{DynamicFieldConfig}->{ID},
+        ObjectID => $Param{ObjectID},
+        Value    => [
+            {
+                ValueDateTime => $Param{Value},
+            },
+        ],
+        UserID => $Param{UserID},
     );
 
     return $Success;

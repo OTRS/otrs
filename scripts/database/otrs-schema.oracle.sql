@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2011-09-06 14:15:25
+--  driver: oracle, generated: 2011-09-13 14:46:31
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 -- ----------------------------------------------------------
@@ -2034,7 +2034,7 @@ CREATE TABLE gi_object_lock_state (
     lock_state_counter NUMBER (12, 0) NOT NULL,
     create_time DATE NOT NULL,
     change_time DATE NOT NULL,
-    CONSTRAINT gi_object_lock_state_U_345 UNIQUE (webservice_id, object_type, object_id)
+    CONSTRAINT gi_object_lock_state_U_847 UNIQUE (webservice_id, object_type, object_id)
 );
 CREATE INDEX FK_gi_object_lock_state_webs55 ON gi_object_lock_state (webservice_id);
 CREATE INDEX object_lock_state_list_state ON gi_object_lock_state (webservice_id, object_type, object_id, lock_state);
@@ -2078,8 +2078,7 @@ CREATE TABLE dynamic_field_value (
     object_id NUMBER (20, 0) NOT NULL,
     value_text CLOB NULL,
     value_date DATE NULL,
-    value_int NUMBER (20, 0) NULL,
-    CONSTRAINT dynamic_field_value_U_241 UNIQUE (field_id, object_id)
+    value_int NUMBER (20, 0) NULL
 );
 ALTER TABLE dynamic_field_value ADD CONSTRAINT PK_dynamic_field_value PRIMARY KEY (id);
 DROP SEQUENCE SE_dynamic_field_value;
@@ -2097,6 +2096,7 @@ end;
 /
 --;
 CREATE INDEX FK_dynamic_field_value_field90 ON dynamic_field_value (field_id);
+CREATE INDEX index_field_values ON dynamic_field_value (field_id, object_id);
 CREATE INDEX index_search_date ON dynamic_field_value (field_id, value_date);
 CREATE INDEX index_search_int ON dynamic_field_value (field_id, value_int);
 -- ----------------------------------------------------------
@@ -2115,7 +2115,7 @@ CREATE TABLE dynamic_field (
     create_by NUMBER (12, 0) NOT NULL,
     change_time DATE NOT NULL,
     change_by NUMBER (12, 0) NOT NULL,
-    CONSTRAINT dynamic_field_U_697 UNIQUE (name)
+    CONSTRAINT dynamic_field_U_748 UNIQUE (name)
 );
 ALTER TABLE dynamic_field ADD CONSTRAINT PK_dynamic_field PRIMARY KEY (id);
 DROP SEQUENCE SE_dynamic_field;
