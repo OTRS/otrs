@@ -2,7 +2,7 @@
 # AdminDynamicFieldText.dtl - provides HTML form for AdminDynamicFieldsText
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminDynamicFieldText.dtl,v 1.13 2011-08-27 02:37:28 cr Exp $
+# $Id: AdminDynamicFieldText.dtl,v 1.14 2011-09-13 20:59:04 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -106,6 +106,20 @@
                 </div>
                 <div class="Content">
                     <fieldset class="TableLike">
+<!-- dtl:block:ColsRowsValues -->
+                        <label for="Rows">$Text{"Number of rows"}:</label>
+                        <div class="Field">
+                            <input id="Rows" class="W50pc" type="text" maxlength="200" value="$QData{"Rows"}" name="Rows"/>
+                        </div>
+                        <div class="Clear"></div>
+                        <label for="Cols">$Text{"Number of Cols"}:</label>
+                        <div class="Field">
+                            <input id="Cols" class="W50pc" type="text" maxlength="200" value="$QData{"Cols"}" name="Cols"/>
+                        </div>
+                        <div class="Clear"></div>
+<!-- dtl:block:ColsRowsValues -->
+
+
                         <label for="DefaultValue">$Text{"Default Value"}:</label>
                         <div class="Field">
 <!-- dtl:block:DefaultValueText -->
