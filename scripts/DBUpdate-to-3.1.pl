@@ -3,7 +3,7 @@
 # DBUpdate-to-3.1.pl - update script to migrate OTRS 2.4.x to 3.0.x
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-3.1.pl,v 1.15 2011-09-06 08:16:29 mg Exp $
+# $Id: DBUpdate-to-3.1.pl,v 1.16 2011-09-13 13:08:20 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 use Getopt::Std qw();
 use Kernel::Config;
@@ -474,8 +474,12 @@ sub _DynamicFieldTicketMigration {
 
         # select dynamic field entries
         my $SuccessTicketDynamicFields = $DBConnectionObject->Prepare(
-            SQL => "SELECT field_id, object_type, object_id FROM dynamic_field_value " .
-                "WHERE object_type ='" . $ObjectType . "' AND object_id =" . $Row[0],
+            SQL => "
+                SELECT DISTINCT(dfv.field_id), df.object_type, dfv.object_id
+                FROM dynamic_field_value dfv, dynamic_field df
+                WHERE df.object_type ='$ObjectType'
+                    AND dfv.object_id = $Row[0]
+                    AND df.id = dfv.field_id",
         );
         my %DynamicFieldRetrieved;
         while ( my @DFVRow = $DBConnectionObject->FetchrowArray() ) {
@@ -503,10 +507,10 @@ sub _DynamicFieldTicketMigration {
                         my $SuccessTicketField = $DBConnectionObject->Do(
                             SQL =>
                                 'INSERT INTO dynamic_field_value (' .
-                                'field_id, object_type, object_id, value_' . $ValueType .
-                                ') VALUES (?, ?, ?, ?)',
+                                'field_id, object_id, value_' . $ValueType .
+                                ') VALUES (?, ?, ?)',
                             Bind => [
-                                \$FieldID, \$ObjectType, \$ObjectID, \$FieldValue,
+                                \$FieldID, \$ObjectID, \$FieldValue,
                             ],
                         );
                         if ( !$SuccessTicketField ) {
@@ -608,8 +612,11 @@ sub _DynamicFieldArticleMigration {
 
         # select dynamic field entries
         my $SuccessArticleDynamicFields = $DBConnectionObject->Prepare(
-            SQL => "SELECT field_id, object_type, object_id FROM dynamic_field_value " .
-                "WHERE object_type ='" . $ObjectType . "' AND object_id =" . $Row[0],
+            SQL => "SELECT DISTINCT(dfv.field_id), df.object_type, dfv.object_id
+                FROM dynamic_field_value dfv, dynamic_field df
+                WHERE df.object_type ='$ObjectType'
+                    AND dfv.object_id = $Row[0]
+                    AND df.id = dfv.field_id",
         );
         my %DynamicFieldRetrieved;
         while ( my @Row = $DBConnectionObject->FetchrowArray() ) {
@@ -636,10 +643,10 @@ sub _DynamicFieldArticleMigration {
                         my $SuccessArticleField = $DBConnectionObject->Do(
                             SQL =>
                                 'INSERT INTO dynamic_field_value (' .
-                                'field_id, object_type, object_id, value_' . $ValueType .
-                                ') VALUES (?, ?, ?, ?)',
+                                'field_id, object_id, value_' . $ValueType .
+                                ') VALUES (?, ?, ?)',
                             Bind => [
-                                \$FieldID, \$ObjectType, \$ObjectID, \$FieldValue,
+                                \$FieldID, \$ObjectID, \$FieldValue,
                             ],
                         );
                         if ( !$SuccessArticleField ) {
@@ -731,12 +738,14 @@ sub _VerificationTicketData {
 
         # select dynamic field entries
         my $SuccessDynamicField = $DBConnectionObject->Prepare(
-            SQL => 'SELECT id, field_id, object_type, object_id, ' .
-                'value_text, value_int, value_date ' .
-                'FROM dynamic_field_value ' .
-                'WHERE object_id=? AND object_type= ? ' .
-                'ORDER BY id',
-            Bind => [ \$Row[0], \$ObjectType ],
+            SQL =>
+                "SELECT dfv.id, dfv.field_id, df.object_type, dfv.object_id,
+                    dfv.value_text, dfv.value_int, dfv.value_date
+                FROM dynamic_field_value dfv, dynamic_field df
+                WHERE df.object_type ='$ObjectType'
+                    AND dfv.object_id = $Row[0]
+                    AND df.id = dfv.field_id
+                ORDER BY dfv.id",
         );
 
         my %DynamicFieldValue;
@@ -847,12 +856,13 @@ sub _VerificationArticleData {
 
         # select dynamic field entries
         my $SuccessDynamicField = $DBConnectionObject->Prepare(
-            SQL => 'SELECT id, field_id, object_type, object_id, ' .
-                'value_text, value_int, value_date ' .
-                'FROM dynamic_field_value ' .
-                'WHERE object_id=? AND object_type= ? ' .
-                'ORDER BY id',
-            Bind => [ \$Row[0], \$ObjectType ],
+            SQL => "SELECT dfv.id, dfv.field_id, df.object_type, dfv.object_id,
+                    dfv.value_text, dfv.value_int, dfv.value_date
+                FROM dynamic_field_value dfv, dynamic_field df
+                WHERE df.object_type ='$ObjectType'
+                    AND dfv.object_id = $Row[0]
+                    AND df.id = dfv.field_id
+                ORDER BY dfv.id",
         );
 
         my %DynamicFieldValue;
