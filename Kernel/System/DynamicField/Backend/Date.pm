@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Date.pm - Delegate for DynamicField Date backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Date.pm,v 1.8 2011-09-12 22:10:35 cg Exp $
+# $Id: Date.pm,v 1.9 2011-09-13 10:14:18 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Time;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 =head1 NAME
 
@@ -31,6 +31,9 @@ Kernel::System::DynamicField::Backend::Date
 DynamicFields Date backend delegate
 
 =head1 PUBLIC INTERFACE
+
+This module implements the public interface of L<Kernel::System::DynamicField::Backend>.
+Please look there for a detailed reference of the functions.
 
 =over 4
 
@@ -64,21 +67,6 @@ sub new {
     return $Self;
 }
 
-=item ValueGet()
-
-get a dynamic field value.
-
-    my $Value = $DynamicFieldTextObject->ValueGet(
-        DynamicFieldConfig => $DynamicFieldConfig,      # complete config of the DynamicField
-        ObjectID           => $ObjectID,                # ID of the current object that the field must be linked to, e. g. TicketID
-    );
-
-    Returns
-
-    $Value = '1977-12-12';
-
-=cut
-
 sub ValueGet {
     my ( $Self, %Param ) = @_;
 
@@ -93,19 +81,6 @@ sub ValueGet {
 
     return $DFValue->{ValueDateTime};
 }
-
-=item ValueSet()
-
-sets a dynamic field value.
-
-    my $Success = $DynamicFieldTextObject->ValueSet(
-        DynamicFieldConfig => $DynamicFieldConfig,      # complete config of the DynamicField
-        ObjectID           => $ObjectID,                # ID of the current object that the field must be linked to, e. g. TicketID
-        Value              => '1977-12-12',             # Value to store, depends on backend type
-        UserID             => 123,
-    );
-
-=cut
 
 sub ValueSet {
     my ( $Self, %Param ) = @_;
@@ -176,24 +151,6 @@ sub SearchSQLOrderFieldGet {
 
     return "$Param{TableAlias}.value_date";
 }
-
-=item EditFieldRender()
-
-creates the field HTML to be used in edit masks.
-
-    my $FieldHTML = $DynamicFieldTextObject->EditFieldRender(
-        DynamicFieldConfig   => $DynamicFieldConfig,      # complete config of the DynamicField
-        PossibleValuesFilter => ['value1', 'value2'],     # Optional. Some backends may support this.
-                                                          #     This may be needed to realize ACL support for ticket masks,
-                                                          #     where the possible values can be limited with and ACL.
-        Value              => 'Any value',                # Optional
-        Mandatory          => 1,                          # 0 or 1,
-        Class              => 'AnyCSSClass OrOneMore',    # Optional
-        ServerError        => 1,                          # 0 or 1
-        ErrorMessage       => $ErrorMessage,              # Optional or a default will be used in error case
-    );
-
-=cut
 
 sub EditFieldRender {
     my ( $Self, %Param ) = @_;
@@ -321,45 +278,6 @@ EOF
 
     return $Data;
 }
-
-=item EditFieldValueGet()
-
-extracts the value of a dynamic field from the param object and transforms it to the user timezone
-
-    my $Value = $BackendObject->EditFieldValueGet(
-        DynamicFieldConfig   => $DynamicFieldConfig,      # complete config of the DynamicField
-        ParamObject          => $ParamObject,             # the current request data
-        LayoutObject         => $LayoutObject,
-        ReturnValueStructure => 0,                        # || 0, default 0. Not used in this
-                                                          #   backend but placed for consistency
-                                                          #   reasons
-    );
-
-    Returns
-
-    $Value = '1977-12-12 12:00:00';
-
-    my $Value = $BackendObject->EditFieldValueGet(
-        DynamicFieldConfig   => $DynamicFieldConfig,      # complete config of the DynamicField
-        ParamObject          => $ParamObject,             # the current request data
-        LayoutObject         => $LayoutObject,
-        ReturnValueStructure => 1,                        # || 0, default 0. Not used in this
-                                                          #   backend but placed for consistency
-                                                          #   reasons
-    );
-    Returns
-
-    $Value = {
-        Used   => 1,
-        Year   => '1977',
-        Month  => '12',
-        Day    => '12',
-        Hour   => '00',
-        Minute => '00',
-        Second => '00',
-    };
-
-=cut
 
 sub EditFieldValueGet {
     my ( $Self, %Param ) = @_;

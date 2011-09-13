@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend.pm - Interface for DynamicField backends
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Backend.pm,v 1.34 2011-09-12 19:35:47 cr Exp $
+# $Id: Backend.pm,v 1.35 2011-09-13 10:14:18 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Scalar::Util qw(weaken);
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.34 $) [1];
+$VERSION = qw($Revision: 1.35 $) [1];
 
 =head1 NAME
 
@@ -216,34 +216,27 @@ sub new {
     return $Self;
 }
 
-=item EditLabelRender()
-
-creates the label HTML to be used in edit masks.
-
-    my $LabelHTML = $BackendObject->EditLabelRender(
-        DynamicFieldConfig => $DynamicFieldConfig,      # complete config of the DynamicField
-        Mandatory          => 1,                        # 0 or 1,
-    );
-
-=cut
-
-sub EditLabelRender { }
-
 =item EditFieldRender()
 
 creates the field HTML to be used in edit masks.
 
     my $FieldHTML = $BackendObject->EditFieldRender(
         DynamicFieldConfig   => $DynamicFieldConfig,      # complete config of the DynamicField
+        ParamObject          => $ParamObject,
         PossibleValuesFilter => ['value1', 'value2'],     # Optional. Some backends may support this.
                                                           #     This may be needed to realize ACL support for ticket masks,
                                                           #     where the possible values can be limited with and ACL.
         Value              => 'Any value',                # Optional
         Mandatory          => 1,                          # 0 or 1,
-        Class              => 'AnyCSSClass OrOneMore',   # Optional
+        Class              => 'AnyCSSClass OrOneMore',    # Optional
         ServerError        => 1,                          # 0 or 1,
         ErrorMessage       => $ErrorMessage,              # Optional or a default will be used in error case
     );
+
+    Returns {
+        Field => $HTMLString,
+        Label => $LabelString,
+    };
 
 =cut
 
@@ -251,7 +244,7 @@ sub EditFieldRender {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for my $Needed (qw(DynamicFieldConfig LayoutObject)) {
+    for my $Needed (qw(DynamicFieldConfig LayoutObject ParamObject)) {
         if ( !$Param{$Needed} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
@@ -454,12 +447,10 @@ get a dynamic field value.
                                                         # must be linked to, e. g. TicketID
     );
 
-    Return
-
-    $Value = $AValue                                    # depends on backend type, i. e.
+    Return $Value                                       # depends on backend type, i. e.
                                                         # Text, $Value =  'a string'
                                                         # DateTime, $Value = '1977-12-12 12:00:00'
-                                                        # Chackbox, $Value = 1
+                                                        # Checkbox, $Value = 1
 =cut
 
 sub ValueGet {
@@ -677,20 +668,18 @@ sub SearchFieldRender { }
 
 =item EditFieldValueGet()
 
-extracts the value of a dynamic field from the param object
+extracts the value of a dynamic field from the param object.
 
     my $Value = $BackendObject->EditFieldValueGet(
         DynamicFieldConfig   => $DynamicFieldConfig,    # complete config of the DynamicField
         ParamObject          => $ParamObject,           # the current request data
         LayoutObject         => $LayoutObject,
-        ReturnValueStructure => 0,                      # || 1, default 0
-                                                        #   Returns the values as got from the
-                                                        #   http request
+        ReturnValueStructure => 0,                      # 0 || 1, default 0
+                                                        #   Returns the structured values as got from the http request
+                                                        #   (only for backend internal use).
     );
 
-    Returns
-
-    $Value = $Value;                                    # depending on each field type e.g.
+    Returns $Value;                                     # depending on each field type e.g.
                                                         #   $Value = 'a text';
                                                         #   $Value = '1977-12-12 12:00:00';
                                                         #   $Value = 1;
@@ -699,14 +688,12 @@ extracts the value of a dynamic field from the param object
         DynamicFieldConfig   => $DynamicFieldConfig,    # complete config of the DynamicField
         ParamObject          => $ParamObject,           # the current request data
         LayoutObject         => $LayoutObject,
-        ReturnValueStructure => 1,                      # || 0, default 0
-                                                        #   Returns the values as got from the
-                                                        #   http request
+        ReturnValueStructure => 1,                      # 0 || 1, default 0
+                                                        #   Returns the structured values as got from the http request
+                                                        #   (only for backend internal use).
     );
 
-    Returns
-
-    $Value = $Value;                                    # depending on each field type e.g.
+    Returns $Value;                                     # depending on each field type e.g.
                                                         #   $Value = 'a text';
                                                         #   $Value = {
                                                                 Used   => 1,
@@ -717,7 +704,6 @@ extracts the value of a dynamic field from the param object
                                                                 Minute => '00'
                                                             },
                                                         #   $Value = 1;
-
 =cut
 
 sub EditFieldValueGet {
@@ -861,6 +847,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.34 $ $Date: 2011-09-12 19:35:47 $
+$Revision: 1.35 $ $Date: 2011-09-13 10:14:18 $
 
 =cut

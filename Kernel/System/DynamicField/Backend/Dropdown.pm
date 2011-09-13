@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Dropdown.pm - Delegate for DynamicField Dropdown backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Dropdown.pm,v 1.15 2011-09-12 19:53:41 cr Exp $
+# $Id: Dropdown.pm,v 1.16 2011-09-13 10:14:18 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::DynamicFieldValue;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 =head1 NAME
 
@@ -30,6 +30,9 @@ Kernel::System::DynamicField::Backend::Dropdown
 DynamicFields Dropdown backend delegate
 
 =head1 PUBLIC INTERFACE
+
+This module implements the public interface of L<Kernel::System::DynamicField::Backend>.
+Please look there for a detailed reference of the functions.
 
 =over 4
 
@@ -62,21 +65,6 @@ sub new {
     return $Self;
 }
 
-=item ValueGet()
-
-get a dynamic field value.
-
-    my $Value = $DynamicFieldTextObject->ValueGet(
-        DynamicFieldConfig => $DynamicFieldConfig,      # complete config of the DynamicField
-        ObjectID           => $ObjectID,                # ID of the current object that the field must be linked to, e. g. TicketID
-    );
-
-    Returns
-
-    $Value = 'AnOption';
-
-=cut
-
 sub ValueGet {
     my ( $Self, %Param ) = @_;
 
@@ -91,19 +79,6 @@ sub ValueGet {
 
     return $DFValue->{ValueText};
 }
-
-=item ValueSet()
-
-sets a dynamic field value.
-
-    my $Success = $DynamicFieldTextObject->ValueSet(
-        DynamicFieldConfig => $DynamicFieldConfig,      # complete config of the DynamicField
-        ObjectID           => $ObjectID,                # ID of the current object that the field must be linked to, e. g. TicketID
-        Value              => 'AnOption',              # Value to store, depends on backend type
-        UserID             => 123,
-    );
-
-=cut
 
 sub ValueSet {
     my ( $Self, %Param ) = @_;
@@ -189,24 +164,6 @@ sub SearchSQLOrderFieldGet {
 
     return "$Param{TableAlias}.value_text";
 }
-
-=item EditFieldRender()
-
-creates the field HTML to be used in edit masks.
-
-    my $FieldHTML = $DynamicFieldTextObject->EditFieldRender(
-        DynamicFieldConfig   => $DynamicFieldConfig,      # complete config of the DynamicField
-        PossibleValuesFilter => ['value1', 'value2'],     # Optional. Some backends may support this.
-                                                          #     This may be needed to realize ACL support for ticket masks,
-                                                          #     where the possible values can be limited with and ACL.
-        Value              => 'Any value',                # Optional
-        Mandatory          => 1,                          # 0 or 1,
-        Class              => 'AnyCSSClass OrOneMore',    # Optional
-        ServerError        => 1,                          # 0 or 1
-        ErrorMessage       => $ErrorMessage,              # Optional or a default will be used in error case
-    );
-
-=cut
 
 sub EditFieldRender {
     my ( $Self, %Param ) = @_;
@@ -322,24 +279,6 @@ EOF
     return $Data;
 }
 
-=item EditFieldValueGet()
-
-extracts the value of a dynamic field from the param object
-
-    my $Value = $BackendObject->EditFieldValueGet(
-        DynamicFieldConfig   => $DynamicFieldConfig,    # complete config of the DynamicField
-        ParamObject          => $ParamObject,           # the current request data
-        ReturnValueStructure => 1                       # || 0, default 0. Not used in this
-                                                        #   backend but placed for consistency
-                                                        #   reasons
-    );
-
-    Returns
-
-    $Value = 'a text';
-
-=cut
-
 sub EditFieldValueGet {
     my ( $Self, %Param ) = @_;
 
@@ -375,28 +314,6 @@ sub EditFieldValueGet {
     return $Param{ParamObject}
         ->GetParam( Param => 'DynamicField_' . $Param{DynamicFieldConfig}->{Name} );
 }
-
-=item EditFieldValueValidate()
-
-validate the current value for the dynamic field
-
-    my $Result =  $DynamicFieldTextObject->EditFieldValueValidate(
-        DynamicFieldConfig   => $DynamicFieldConfig,      # complete config of the DynamicField
-        PossibleValuesFilter => ['value1', 'value2'],     # Optional. Some backends may support this.
-                                                          #     This may be needed to realize ACL support for ticket masks,
-                                                          #     where the possible values can be limited with and ACL.
-        ParamObject          => $ParamObject              # To get the values directly from the web request
-        Mandatory            => 1,                        # 0 or 1,
-    );
-
-    Returns
-
-    $Result = {
-        ServerError        => 1,                          # 0 or 1,
-        ErrorMessage       => $ErrorMessage,              # Optional or a default will be used in error case
-    }
-
-=cut
 
 sub EditFieldValueValidate {
     my ( $Self, %Param ) = @_;
