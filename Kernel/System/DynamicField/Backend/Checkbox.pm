@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Checkbox.pm - Delegate for DynamicField Checkbox backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Checkbox.pm,v 1.14 2011-09-13 12:47:53 mg Exp $
+# $Id: Checkbox.pm,v 1.15 2011-09-13 20:31:47 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::DynamicFieldValue;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 =head1 NAME
 
@@ -136,9 +136,11 @@ sub EditFieldRender {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    if ( !$Param{DynamicFieldConfig} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need DynamicFieldConfig!" );
-        return;
+    for my $Needed (qw(DynamicFieldConfig ParamObject)) {
+        if ( !$Param{$Needed} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            return;
+        }
     }
 
     # check DynamicFieldConfig (general)
@@ -151,7 +153,7 @@ sub EditFieldRender {
     }
 
     # check DynamicFieldConfig (internally)
-    for my $Needed (qw(ID Config Name )) {
+    for my $Needed (qw(ID Config Name)) {
         if ( !$Param{DynamicFieldConfig}->{$Needed} ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
@@ -169,6 +171,16 @@ sub EditFieldRender {
     # set the field value or default
     my $Value = $FieldConfig->{DefaultValue} || '';
     $Value = $Param{Value} if defined $Param{Value};
+
+    # extract the dynamic field value form the web request
+    my $FieldValue = $Self->EditFieldValueGet(
+        %Param,
+    );
+
+    # set values from ParamObject if present
+    if ( defined $FieldValue ) {
+        $Value = $FieldValue;
+    }
 
     # set as checked if necessary
     my $FieldChecked = ( defined $Value && $Value eq '1' ? 'checked="checked"' : '' );
