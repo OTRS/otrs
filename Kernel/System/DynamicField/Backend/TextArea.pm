@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/TextArea.pm - Delegate for DynamicField TextArea backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TextArea.pm,v 1.12 2011-09-13 15:45:46 cg Exp $
+# $Id: TextArea.pm,v 1.13 2011-09-13 22:28:04 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::DynamicFieldValue;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 =head1 NAME
 
@@ -203,10 +203,10 @@ sub EditFieldRender {
     }
 
     # set the rows number
-    my $RowsNumber = ( defined $Param{Rows} ? $Param{Rows} : '7' );
+    my $RowsNumber = ( defined $FieldConfig->{Rows} ? $FieldConfig->{Rows} : '7' );
 
     # set the cols number
-    my $ColsNumber = ( defined $Param{Cols} ? $Param{Cols} : '42' );
+    my $ColsNumber = ( defined $FieldConfig->{Cols} ? $FieldConfig->{Cols} : '42' );
 
     # check and set class if necessary
     my $FieldClass = 'DynamicFieldTextArea';
