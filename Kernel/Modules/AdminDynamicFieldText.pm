@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminDynamicFieldText.pm - provides a dynamic fields text config view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminDynamicFieldText.pm,v 1.18 2011-09-13 20:58:16 cg Exp $
+# $Id: AdminDynamicFieldText.pm,v 1.19 2011-09-14 20:43:43 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::DynamicField;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -358,6 +358,30 @@ sub _ChangeAction {
         return $Self->{LayoutObject}->ErrorScreen(
             Message => "Could not get data for dynamic field $FieldID",
         );
+    }
+
+    # only for textarea
+    if ( $GetParam{FieldType} eq 'TextArea' ) {
+        if ( $GetParam{Rows} ) {
+
+            # check if field order is numeric and positive
+            if ( $GetParam{Rows} !~ m{\A ( ?: \d )+ \z}xms ) {
+
+                # add server error error class
+                $Errors{RowsServerError}        = 'ServerError';
+                $Errors{RowsServerErrorMessage} = 'The field must be numeric.';
+            }
+        }
+        if ( $GetParam{Cols} ) {
+
+            # check if field order is numeric and positive
+            if ( $GetParam{Cols} !~ m{\A ( ?: \d )+ \z}xms ) {
+
+                # add server error error class
+                $Errors{ColsServerError}        = 'ServerError';
+                $Errors{ColsServerErrorMessage} = 'The field must be numeric.';
+            }
+        }
     }
 
     # return to change screen if errors

@@ -2,7 +2,7 @@
 # AdminDynamicFieldText.dtl - provides HTML form for AdminDynamicFieldsText
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminDynamicFieldText.dtl,v 1.14 2011-09-13 20:59:04 cg Exp $
+# $Id: AdminDynamicFieldText.dtl,v 1.15 2011-09-14 20:42:06 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -109,12 +109,16 @@
 <!-- dtl:block:ColsRowsValues -->
                         <label for="Rows">$Text{"Number of rows"}:</label>
                         <div class="Field">
-                            <input id="Rows" class="W50pc" type="text" maxlength="200" value="$QData{"Rows"}" name="Rows"/>
+                            <input id="Rows" class="W50pc Validate_Number $Data{"RowsServerError"}" type="text" maxlength="200" value="$QData{"Rows"}" name="Rows"/>
+                            <div id="RowsError" class="TooltipErrorMessage"><p>$Text{"This field must be numeric."}</p></div>
+                            <div id="RowsServerError" class="TooltipErrorMessage"><p>$Text{"$Data{"RowsServerErrorMessage"}"}</p></div>
                         </div>
                         <div class="Clear"></div>
                         <label for="Cols">$Text{"Number of Cols"}:</label>
                         <div class="Field">
-                            <input id="Cols" class="W50pc" type="text" maxlength="200" value="$QData{"Cols"}" name="Cols"/>
+                            <input id="Cols" class="W50pc Validate_Number $Data{"ColsServerError"}" type="text" maxlength="200" value="$QData{"Cols"}" name="Cols"/>
+                            <div id="ColsError" class="TooltipErrorMessage"><p>$Text{"This field must be numeric."}</p></div>
+                            <div id="ColsServerError" class="TooltipErrorMessage"><p>$Text{"$Data{"ColsServerErrorMessage"}"}</p></div>
                         </div>
                         <div class="Clear"></div>
 <!-- dtl:block:ColsRowsValues -->
