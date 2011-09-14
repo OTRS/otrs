@@ -2,7 +2,7 @@
 # DynamicField.t - DynamicField tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicField.t,v 1.22 2011-09-08 17:00:54 cr Exp $
+# $Id: DynamicField.t,v 1.23 2011-09-14 20:52:01 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -1060,6 +1060,231 @@ for my $Test (@AddDeleteTests) {
             "Delete Order $Test->{Name} Test for field ID $DynamicFieldID",
         );
     }
+}
+
+# List and ListGet specific tests
+
+my @ListFields = (
+    {
+        Name   => 'List1' . $RandomID,
+        Label  => 'something for label',
+        Config => {
+            DefautValue => '',
+        },
+        FieldOrder => 1101,
+        FieldType  => 'Text',
+        ObjectType => 'ListTest_Ticket',
+        ValidID    => 1,
+        UserID     => $UserID,
+    },
+    {
+        Name   => 'List2' . $RandomID,
+        Label  => 'something for label',
+        Config => {
+            DefautValue => '',
+        },
+        FieldOrder => 1102,
+        FieldType  => 'Text',
+        ObjectType => 'ListTest_Ticket',
+        ValidID    => 1,
+        UserID     => $UserID,
+    },
+    {
+        Name   => 'List3' . $RandomID,
+        Label  => 'something for label',
+        Config => {
+            DefautValue => '',
+        },
+        FieldOrder => 1103,
+        FieldType  => 'Text',
+        ObjectType => 'ListTest_Ticket',
+        ValidID    => 1,
+        UserID     => $UserID,
+    },
+    {
+        Name   => 'List4' . $RandomID,
+        Label  => 'something for label',
+        Config => {
+            DefautValue => '',
+        },
+        FieldOrder => 1104,
+        FieldType  => 'Text',
+        ObjectType => 'ListTest_Article',
+        ValidID    => 1,
+        UserID     => $UserID,
+    },
+    {
+        Name   => 'List5' . $RandomID,
+        Label  => 'something for label',
+        Config => {
+            DefautValue => '',
+        },
+        FieldOrder => 1105,
+        FieldType  => 'Text',
+        ObjectType => 'ListTest_Article',
+        ValidID    => 1,
+        UserID     => $UserID,
+    },
+    {
+        Name   => 'List6' . $RandomID,
+        Label  => 'something for label',
+        Config => {
+            DefautValue => '',
+        },
+        FieldOrder => 1106,
+        FieldType  => 'Text',
+        ObjectType => 'ListTest_Other',
+        ValidID    => 1,
+        UserID     => $UserID,
+    },
+
+);
+
+my @TicketFieldIDs;
+my %TicketFieldExtendedIDs;
+my @TicketFields;
+my @ArticleFieldIDs;
+my %ArticleFieldExtendedIDs;
+my @ArticleFields;
+
+# create ListFields and prepare compare structures
+for my $FieldConfig (@ListFields) {
+
+    my $FieldID = $DynamicFieldObject->DynamicFieldAdd( %{$FieldConfig} );
+
+    # sanity check
+    $Self->True(
+        $FieldID,
+        "DynamicFieldAdd() for ListField $FieldConfig->{Name}",
+    );
+
+    # add to the list to be deleted at the end of the tests
+    push @AddedFieldIDs, $FieldID;
+
+    if ( $FieldConfig->{ObjectType} eq 'ListTest_Ticket' ) {
+
+        # add ID to the specific ticket ids
+        push @TicketFieldIDs, $FieldID;
+
+        # add ID and name to the ticket extended ids
+        $TicketFieldExtendedIDs{$FieldID} = $FieldConfig->{Name};
+
+        my $GotFieldConfig = $DynamicFieldObject->DynamicFieldGet( ID => $FieldID );
+
+        # add field to the ticket fields
+        push @TicketFields, $GotFieldConfig;
+    }
+    elsif ( $FieldConfig->{ObjectType} eq 'ListTest_Article' ) {
+
+        # add ID to the specific ticket ids
+        push @ArticleFieldIDs, $FieldID;
+
+        # add ID and name to the ticket extended ids
+        $ArticleFieldExtendedIDs{$FieldID} = $FieldConfig->{Name};
+
+        my $GotFieldConfig = $DynamicFieldObject->DynamicFieldGet( ID => $FieldID );
+
+        # add field to the ticket fields
+        push @ArticleFields, $GotFieldConfig;
+    }
+}
+
+# check ObjectType string and array ref
+for my $ObjectType (qw(Ticket Article)) {
+
+    # get the list using an array ref
+    my $GotFieldIDs = $DynamicFieldObject->DynamicFieldList(
+        Valid      => 0,
+        ObjectType => [ 'ListTest_' . $ObjectType ],
+    );
+
+    # set the correct compare list
+    my @CompareFieldIDs = $ObjectType eq 'Ticket' ? @TicketFieldIDs : @ArticleFieldIDs;
+
+    $Self->IsDeeply(
+        $GotFieldIDs,
+        \@CompareFieldIDs,
+        "DynamicFieldList() for ObjecType[$ObjectType]"
+    );
+
+    # get the extended list using an array ref
+    my $GotExtendedIDs = $DynamicFieldObject->DynamicFieldList(
+        Valid      => 0,
+        ObjectType => [ 'ListTest_' . $ObjectType ],
+        ResultType => 'HASH',
+    );
+
+    # set the correct compare list
+    my %CompareExtendedIDs =
+        $ObjectType eq 'Ticket' ? %TicketFieldExtendedIDs : %ArticleFieldExtendedIDs;
+
+    $Self->IsDeeply(
+        $GotExtendedIDs,
+        \%CompareExtendedIDs,
+        "DynamicFieldList() ResultType 'HASH' for ObjecType[$ObjectType]"
+    );
+
+    # get the extended list using an array ref
+    my $GotFields = $DynamicFieldObject->DynamicFieldListGet(
+        Valid      => 0,
+        ObjectType => [ 'ListTest_' . $ObjectType ],
+    );
+
+    # set the correct compare list
+    my @CompareFields =
+        $ObjectType eq 'Ticket' ? @TicketFields : @ArticleFields;
+
+    $Self->IsDeeply(
+        $GotFields,
+        \@CompareFields,
+        "DynamicFieldListGet() for ObjecType[$ObjectType]"
+    );
+}
+
+# tests with more than one object type
+{
+
+    # cobine list for comparisons
+    my @ListFieldIDs     = ( @TicketFieldIDs,         @ArticleFieldIDs );
+    my %ListExtendendIDs = ( %TicketFieldExtendedIDs, %ArticleFieldExtendedIDs );
+    @ListFields = ( @TicketFields, @ArticleFields );
+
+    # get the list using an array ref
+    my $GotListFieldIDs = $DynamicFieldObject->DynamicFieldList(
+        Valid => 0,
+        ObjectType => [ 'ListTest_Ticket', 'ListTest_Article' ],
+    );
+
+    $Self->IsDeeply(
+        $GotListFieldIDs,
+        \@ListFieldIDs,
+        "DynamicFieldList() for combined object types"
+    );
+
+    # get the extended list using an array ref
+    my $GotListExtendedIDs = $DynamicFieldObject->DynamicFieldList(
+        Valid      => 0,
+        ObjectType => [ 'ListTest_Ticket', 'ListTest_Article' ],
+        ResultType => 'HASH',
+    );
+
+    $Self->IsDeeply(
+        $GotListExtendedIDs,
+        \%ListExtendendIDs,
+        "DynamicFieldList() ResultType 'HASH' for combined object types"
+    );
+
+    # get the extended list using an array ref
+    my $GotListFields = $DynamicFieldObject->DynamicFieldListGet(
+        Valid => 0,
+        ObjectType => [ 'ListTest_Ticket', 'ListTest_Article' ],
+    );
+
+    $Self->IsDeeply(
+        $GotListFields,
+        \@ListFields,
+        "DynamicFieldListGet() for combined object types"
+    );
 }
 
 # remove DynamicFields

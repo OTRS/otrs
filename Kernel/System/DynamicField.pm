@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField.pm - DynamicFields configuration backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicField.pm,v 1.42 2011-09-09 07:25:34 mg Exp $
+# $Id: DynamicField.pm,v 1.43 2011-09-14 20:52:01 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Cache;
 use Kernel::System::DynamicField::Backend;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.42 $) [1];
+$VERSION = qw($Revision: 1.43 $) [1];
 
 =head1 NAME
 
@@ -515,7 +515,11 @@ get DynamicField list ordered by the the "Field Order" field in the DB
 
     my $List = $DynamicFieldObject->DynamicFieldList(
         Valid => 0,             # optional, defaults to 1
-        ObjectType => 'Ticket', # optional, any DynamicFields registered object e.g. Article
+
+        # object  type (optional) as STRING or as ARRAYREF
+        ObjectType => 'Ticket',
+        ObjectType => ['Ticket', 'Article'],
+
         ResultType => 'HASH',   # optional, 'ARRAY' or 'HASH', defaults to 'ARRAY'
     );
 
@@ -548,7 +552,14 @@ sub DynamicFieldList {
         $Valid = 0;
     }
 
-    my $ObjectType = $Param{ObjectType} || 'All';
+    # set cache key object type component depending on the ObjectType parameter
+    my $ObjectType = 'All';
+    if ( IsArrayRefWithData( $Param{ObjectType} ) ) {
+        $ObjectType = join '_', sort @{ $Param{ObjectType} };
+    }
+    elsif ( IsStringWithData( $Param{ObjectType} ) ) {
+        $ObjectType = $Param{ObjectType};
+    }
 
     my $CacheKey = 'DynamicFieldList::Valid::' . $Valid . '::ObjectType::' . $ObjectType;
     my $Cache    = $Self->{CacheObject}->Get(
@@ -570,13 +581,28 @@ sub DynamicFieldList {
     if ($Valid) {
         $SQL .= ' WHERE valid_id IN (' . join ', ', $Self->{ValidObject}->ValidIDsGet() . ')';
 
-        if ( $Param{ObjectType} && $Param{ObjectType} ne 'All' ) {
-            $SQL .= " AND object_type = '" . $Self->{DBObject}->Quote( $Param{ObjectType} ) . "'";
+        if ( $Param{ObjectType} ) {
+            if ( IsStringWithData( $Param{ObjectType} ) && $Param{ObjectType} ne 'All' ) {
+                $SQL .=
+                    " AND object_type = '" . $Self->{DBObject}->Quote( $Param{ObjectType} ) . "'";
+            }
+            elsif ( IsArrayRefWithData( $Param{ObjectType} ) ) {
+                my $ObjectTypeString = join ',', map "'$_'", @{ $Param{ObjectType} };
+                $SQL .= " WHERE object_type IN ($ObjectTypeString)";
+
+            }
         }
     }
     else {
-        if ( $Param{ObjectType} && $Param{ObjectType} ne 'All' ) {
-            $SQL .= " WHERE object_type = '" . $Self->{DBObject}->Quote( $Param{ObjectType} ) . "'";
+        if ( $Param{ObjectType} ) {
+            if ( IsStringWithData( $Param{ObjectType} ) && $Param{ObjectType} ne 'All' ) {
+                $SQL .=
+                    " WHERE object_type = '" . $Self->{DBObject}->Quote( $Param{ObjectType} ) . "'";
+            }
+            elsif ( IsArrayRefWithData( $Param{ObjectType} ) ) {
+                my $ObjectTypeString = join ',', map "'$_'", @{ $Param{ObjectType} };
+                $SQL .= " WHERE object_type IN ($ObjectTypeString)";
+            }
         }
     }
 
@@ -639,7 +665,10 @@ get DynamicField list with complete data ordered by the "Field Order" field in t
 
     my $List = $DynamicFieldObject->DynamicFieldListGet(
         Valid        => 0,            # optional, defaults to 1
-        ObjectType   => 'Ticket',     # optional, any DynamicFields registered object e.g. Article
+
+        # object  type (optional) as STRING or as ARRAYREF
+        ObjectType => 'Ticket',
+        ObjectType => ['Ticket', 'Article'],
     );
 
 Returns:
@@ -681,7 +710,14 @@ sub DynamicFieldListGet {
         $Valid = 0;
     }
 
-    my $ObjectType = $Param{ObjectType} || 'All';
+    # set cache key object type component depending on the ObjectType parameter
+    my $ObjectType = 'All';
+    if ( IsArrayRefWithData( $Param{ObjectType} ) ) {
+        $ObjectType = join '_', sort @{ $Param{ObjectType} };
+    }
+    elsif ( IsStringWithData( $Param{ObjectType} ) ) {
+        $ObjectType = $Param{ObjectType};
+    }
 
     my $CacheKey = 'DynamicFieldListGet::Valid::' . $Valid . '::ObjectType::' . $ObjectType;
     my $Cache    = $Self->{CacheObject}->Get(
@@ -701,13 +737,28 @@ sub DynamicFieldListGet {
     if ($Valid) {
         $SQL .= ' WHERE valid_id IN (' . join ', ', $Self->{ValidObject}->ValidIDsGet() . ')';
 
-        if ( $Param{ObjectType} && $Param{ObjectType} ne 'All' ) {
-            $SQL .= " AND object_type = '" . $Self->{DBObject}->Quote( $Param{ObjectType} ) . "'";
+        if ( $Param{ObjectType} ) {
+            if ( IsStringWithData( $Param{ObjectType} ) && $Param{ObjectType} ne 'All' ) {
+                $SQL .=
+                    " AND object_type = '" . $Self->{DBObject}->Quote( $Param{ObjectType} ) . "'";
+            }
+            elsif ( IsArrayRefWithData( $Param{ObjectType} ) ) {
+                my $ObjectTypeString = join ',', map "'$_'", @{ $Param{ObjectType} };
+                $SQL .= " WHERE object_type IN ($ObjectTypeString)";
+
+            }
         }
     }
     else {
-        if ( $Param{ObjectType} && $Param{ObjectType} ne 'All' ) {
-            $SQL .= " WHERE object_type = '" . $Self->{DBObject}->Quote( $Param{ObjectType} ) . "'";
+        if ( $Param{ObjectType} ) {
+            if ( IsStringWithData( $Param{ObjectType} ) && $Param{ObjectType} ne 'All' ) {
+                $SQL .=
+                    " WHERE object_type = '" . $Self->{DBObject}->Quote( $Param{ObjectType} ) . "'";
+            }
+            elsif ( IsArrayRefWithData( $Param{ObjectType} ) ) {
+                my $ObjectTypeString = join ',', map "'$_'", @{ $Param{ObjectType} };
+                $SQL .= " WHERE object_type IN ($ObjectTypeString)";
+            }
         }
     }
 
@@ -951,6 +1002,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.42 $ $Date: 2011-09-09 07:25:34 $
+$Revision: 1.43 $ $Date: 2011-09-14 20:52:01 $
 
 =cut
