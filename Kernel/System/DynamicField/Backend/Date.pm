@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Date.pm - Delegate for DynamicField Date backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Date.pm,v 1.11 2011-09-13 22:23:00 cr Exp $
+# $Id: Date.pm,v 1.12 2011-09-14 18:23:01 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Time;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 =head1 NAME
 
@@ -196,9 +196,21 @@ sub EditFieldRender {
 
     # set the field value or default
     my $Value = $FieldConfig->{DefaultValue} || '';
+
+    my %SplitedFieldValues;
     if ( defined $Param{Value} ) {
         $Value = $Param{Value};
-        $Used  = 1;
+        my ( $Year, $Month, $Day, $Hour, $Minute, $Second ) = $Value =~
+            m{ \A ( \d{4} ) - ( \d{2} ) - ( \d{2} ) \s ( \d{2} ) : ( \d{2} ) : ( \d{2} ) \z }xms;
+
+        %SplitedFieldValues = (
+            $FieldName . 'Year'   => $Year,
+            $FieldName . 'Month'  => $Month,
+            $FieldName . 'Day'    => $Day,
+            $FieldName . 'Hour'   => $Hour,
+            $FieldName . 'Minute' => $Minute,
+        );
+        $Used = 1;
     }
 
     # extract the dynamic field value form the web request
@@ -237,6 +249,7 @@ sub EditFieldRender {
         $FieldName . Optional => 1,
         Validate              => 1,
         %{$FieldConfig},
+        %SplitedFieldValues,
     );
 
     if ( $Param{Mandatory} ) {
@@ -431,9 +444,9 @@ sub EditFieldValueValidate {
     my $Prefix = $Param{DynamicFieldConfig}->{Name};
 
     # perform necessary validations
-    if ( $Param{Mandatory} && !$Value->{ $Prefix . 'Used' } ) {
-        $ServerError = 1;
-    }
+    #    if ( $Param{Mandatory} && !$Value->{ $Prefix . 'Used' } ) {
+    #        $ServerError = 1;
+    #    }
 
     # create resulting structure
     my $Result = {

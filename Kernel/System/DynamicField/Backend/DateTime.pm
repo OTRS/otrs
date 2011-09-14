@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/DateTime.pm - Delegate for DynamicField DateTime backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DateTime.pm,v 1.22 2011-09-14 01:26:21 cg Exp $
+# $Id: DateTime.pm,v 1.23 2011-09-14 18:19:17 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Time;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.22 $) [1];
+$VERSION = qw($Revision: 1.23 $) [1];
 
 =head1 NAME
 
@@ -190,16 +190,16 @@ sub EditFieldRender {
     my %SplitedFieldValues;
     if ( defined $Param{Value} ) {
         $Value = $Param{Value};
-        my $SystemTime = $Self->{TimeObject}->TimeStamp2SystemTime(
-            String => $Value,
+        my ( $Year, $Month, $Day, $Hour, $Minute, $Second ) = $Value =~
+            m{ \A ( \d{4} ) - ( \d{2} ) - ( \d{2} ) \s ( \d{2} ) : ( \d{2} ) : ( \d{2} ) \z }xms;
+
+        %SplitedFieldValues = (
+            $FieldName . 'Year'   => $Year,
+            $FieldName . 'Month'  => $Month,
+            $FieldName . 'Day'    => $Day,
+            $FieldName . 'Hour'   => $Hour,
+            $FieldName . 'Minute' => $Minute,
         );
-        my ( $Sec, $Minute, $Hour, $Day, $Month, $Year, $WeekDay )
-            = $Self->{TimeObject}->SystemTime2Date(
-            SystemTime => $SystemTime,
-            );
-        for my $Type (qw(Year Month Day Hour Minute)) {
-            $SplitedFieldValues{ $FieldName . $Type } = $Type;
-        }
         $Used = 1;
     }
 
@@ -239,6 +239,7 @@ sub EditFieldRender {
         $FieldName . Optional => 1,
         Validate              => 1,
         %{$FieldConfig},
+        %SplitedFieldValues,
     );
 
     if ( $Param{Mandatory} ) {
