@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketForward.pm - to forward a message
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketForward.pm,v 1.107 2011-06-28 16:41:15 en Exp $
+# $Id: AgentTicketForward.pm,v 1.108 2011-09-14 01:18:47 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,10 +20,13 @@ use Kernel::System::SystemAddress;
 use Kernel::System::CustomerUser;
 use Kernel::System::Web::UploadCache;
 use Kernel::System::TemplateGenerator;
+use Kernel::System::DynamicField;
+use Kernel::System::DynamicField::Backend;
+use Kernel::System::VariableCheck qw(:all);
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.107 $) [1];
+$VERSION = qw($Revision: 1.108 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -47,6 +50,8 @@ sub new {
     $Self->{StateObject}        = Kernel::System::State->new(%Param);
     $Self->{SystemAddress}      = Kernel::System::SystemAddress->new(%Param);
     $Self->{UploadCacheObject}  = Kernel::System::Web::UploadCache->new(%Param);
+    $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new(%Param);
+    $Self->{BackendObject}      = Kernel::System::DynamicField::Backend->new(%Param);
 
     # get params
     for (
@@ -94,13 +99,13 @@ sub Form {
     my %Error;
     my %GetParam = %{ $Self->{GetParam} };
 
-    # get ticket free text params
-    for my $Count ( 1 .. 16 ) {
-        my $Key  = 'TicketFreeKey' . $Count;
-        my $Text = 'TicketFreeText' . $Count;
-        $GetParam{$Key}  = $Self->{ParamObject}->GetParam( Param => $Key );
-        $GetParam{$Text} = $Self->{ParamObject}->GetParam( Param => $Text );
-    }
+    #    # get ticket free text params
+    #    for my $Count ( 1 .. 16 ) {
+    #        my $Key  = 'TicketFreeKey' . $Count;
+    #        my $Text = 'TicketFreeText' . $Count;
+    #        $GetParam{$Key}  = $Self->{ParamObject}->GetParam( Param => $Key );
+    #        $GetParam{$Text} = $Self->{ParamObject}->GetParam( Param => $Text );
+    #    }
 
     # check needed stuff
     if ( !$Self->{TicketID} ) {
@@ -341,108 +346,176 @@ sub Form {
         }
     }
 
-    # get free text config options
-    my %TicketFreeText;
-    for my $Count ( 1 .. 16 ) {
-        $TicketFreeText{"TicketFreeKey$Count"} = $Self->{TicketObject}->TicketFreeTextGet(
-            TicketID => $Self->{TicketID},
-            Type     => "TicketFreeKey$Count",
-            Action   => $Self->{Action},
-            UserID   => $Self->{UserID},
-        );
-        $TicketFreeText{"TicketFreeText$Count"} = $Self->{TicketObject}->TicketFreeTextGet(
-            TicketID => $Self->{TicketID},
-            Type     => "TicketFreeText$Count",
-            Action   => $Self->{Action},
-            UserID   => $Self->{UserID},
+    my %DynamicFieldHTML;
+
+    # create html strings for all dynamic fields
+    FIELDNAME:
+    for my $FieldName ( keys %{ $Self->{Config}->{DynamicField} } ) {
+        next FIELDNAME if !$FieldName;
+
+        # Check if field should be displayed
+        next FIELDNAME if !$Self->{Config}->{DynamicField}->{$FieldName};
+
+        my $DynamicFieldConfig = $Self->{DynamicFieldObject}->DynamicFieldGet(
+            Name => $FieldName,
         );
 
-        # If Key has value 2, this means that the freetextfield is required
-        if ( $Self->{Config}->{TicketFreeText}->{$Count} == 2 ) {
-            $TicketFreeText{Required}->{$Count} = 1;
-        }
-    }
-    my %TicketFreeTextHTML = $Self->{LayoutObject}->AgentFreeText(
-        Ticket => \%Ticket,
-        Config => \%TicketFreeText,
-    );
+        # skip undefined dynamic fields and non valid
+        next FIELDNAME if !IsHashRefWithData($DynamicFieldConfig);
+        next FIELDNAME if $DynamicFieldConfig->{ValidID} ne 1;
 
-    # get ticket free time params
-    for my $Count ( 1 .. 6 ) {
-        if ( !$Self->{ConfigObject}->Get( 'TicketFreeTimeOptional' . $Count ) ) {
-            $GetParam{ 'TicketFreeTime' . $Count . 'Used' } = 1;
-        }
-    }
+        # skip dynamic fields for other object types than Ticket or Article
+        next FIELDNAME if $DynamicFieldConfig->{ObjectType} ne 'Ticket'
+                && $DynamicFieldConfig->{ObjectType} ne 'Article';
 
-    # free time
-    my %TicketFreeTime;
-    for my $Count ( 1 .. 6 ) {
-        $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Optional' }
-            = $Self->{ConfigObject}->Get( 'TicketFreeTimeOptional' . $Count ) || 0;
-        $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Used' }
-            = $GetParam{ 'TicketFreeTime' . $Count . 'Used' };
+        my $PossibleValuesFilter;
 
-        if ( $Ticket{ 'TicketFreeTime' . $Count } ) {
-            (
-                $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Secunde' },
-                $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Minute' },
-                $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Hour' },
-                $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Day' },
-                $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Month' },
-                $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Year' }
-                )
-                = $Self->{TimeObject}->SystemTime2Date(
-                SystemTime => $Self->{TimeObject}->TimeStamp2SystemTime(
-                    String => $Ticket{ 'TicketFreeTime' . $Count },
-                ),
-                );
-            $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Used' } = 1;
+        # check if field has PossibleValues property in its configuration
+        if ( IsHashRefWithData( $DynamicFieldConfig->{Config}->{PossibleValues} ) ) {
+
+            # set possible values filter from ACLs
+            my $ACL = $Self->{TicketObject}->TicketAcl(
+                Action        => $Self->{Action},
+                TicketID      => $Self->{TicketID},
+                Type          => 'DynamicField_' . $FieldName,
+                ReturnType    => 'Ticket',
+                ReturnSubType => 'DynamicField_' . $FieldName,
+                Data          => $DynamicFieldConfig->{Config}->{PossibleValues},
+                UserID        => $Self->{UserID},
+            );
+            if ($ACL) {
+                my %Filter = $Self->{TicketObject}->TicketAclData();
+                $PossibleValuesFilter = \%Filter;
+            }
         }
 
-        if ( $Self->{Config}->{TicketFreeTime}->{$Count} == 2 ) {
-            $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Required' } = 1;
+        # to store dynamic field value from database (or undefined)
+        my $Value;
+
+        # only get values for Ticket fields (all screens based on AgentTickeActionCommon
+        # generates a new article, then article fields will be always empty at the beginign)
+        if ( $DynamicFieldConfig->{ObjectType} eq 'Ticket' ) {
+
+            # get value stored on the database
+            $Value = $Self->{BackendObject}->ValueGet(
+                DynamicFieldConfig => $DynamicFieldConfig,
+                ObjectID           => $Self->{TicketID},
+            );
         }
-    }
-    my %TicketFreeTimeHTML = $Self->{LayoutObject}->AgentFreeDate( Ticket => \%TicketFreeTime, );
 
-    # get article free text default selections
-    my %ArticleFreeDefault;
-    for my $Count ( 1 .. 3 ) {
-        my $Key  = 'ArticleFreeKey' . $Count;
-        my $Text = 'ArticleFreeText' . $Count;
-        $ArticleFreeDefault{$Key} = $GetParam{$Key}
-            || $Self->{ConfigObject}->Get( $Key . '::DefaultSelection' );
-        $ArticleFreeDefault{$Text} = $GetParam{$Text}
-            || $Self->{ConfigObject}->Get( $Text . '::DefaultSelection' );
-    }
-
-    # article free text
-    my %ArticleFreeText;
-    for my $Count ( 1 .. 3 ) {
-        my $Key  = 'ArticleFreeKey' . $Count;
-        my $Text = 'ArticleFreeText' . $Count;
-        $ArticleFreeText{$Key} = $Self->{TicketObject}->ArticleFreeTextGet(
-            TicketID => $Self->{TicketID},
-            Type     => $Key,
-            Action   => $Self->{Action},
-            UserID   => $Self->{UserID},
+        # get field html
+        $DynamicFieldHTML{$FieldName} = $Self->{BackendObject}->EditFieldRender(
+            DynamicFieldConfig   => $DynamicFieldConfig,
+            PossibleValuesFilter => $PossibleValuesFilter,
+            Value                => $Value,
+            Mandatory            => $Self->{Config}->{DynamicField}->{$FieldName} == 2,
+            LayoutObject         => $Self->{LayoutObject},
+            ParamObject          => $Self->{ParamObject},
         );
-        $ArticleFreeText{$Text} = $Self->{TicketObject}->ArticleFreeTextGet(
-            TicketID => $Self->{TicketID},
-            Type     => $Text,
-            Action   => $Self->{Action},
-            UserID   => $Self->{UserID},
-        );
-
-        # If Key has value 2, this means that the ArticleFreeText is required
-        if ( $Self->{Config}->{ArticleFreeText}->{$Count} == 2 ) {
-            $ArticleFreeText{Required}->{$Count} = 1;
-        }
     }
-    my %ArticleFreeTextHTML = $Self->{LayoutObject}->TicketArticleFreeText(
-        Config => \%ArticleFreeText,
-        Article => { %GetParam, %ArticleFreeDefault, },
-    );
+
+  #    # get free text config options
+  #    my %TicketFreeText;
+  #    for my $Count ( 1 .. 16 ) {
+  #        $TicketFreeText{"TicketFreeKey$Count"} = $Self->{TicketObject}->TicketFreeTextGet(
+  #            TicketID => $Self->{TicketID},
+  #            Type     => "TicketFreeKey$Count",
+  #            Action   => $Self->{Action},
+  #            UserID   => $Self->{UserID},
+  #        );
+  #        $TicketFreeText{"TicketFreeText$Count"} = $Self->{TicketObject}->TicketFreeTextGet(
+  #            TicketID => $Self->{TicketID},
+  #            Type     => "TicketFreeText$Count",
+  #            Action   => $Self->{Action},
+  #            UserID   => $Self->{UserID},
+  #        );
+  #
+  #        # If Key has value 2, this means that the freetextfield is required
+  #        if ( $Self->{Config}->{TicketFreeText}->{$Count} == 2 ) {
+  #            $TicketFreeText{Required}->{$Count} = 1;
+  #        }
+  #    }
+  #    my %TicketFreeTextHTML = $Self->{LayoutObject}->AgentFreeText(
+  #        Ticket => \%Ticket,
+  #        Config => \%TicketFreeText,
+  #    );
+  #
+  #    # get ticket free time params
+  #    for my $Count ( 1 .. 6 ) {
+  #        if ( !$Self->{ConfigObject}->Get( 'TicketFreeTimeOptional' . $Count ) ) {
+  #            $GetParam{ 'TicketFreeTime' . $Count . 'Used' } = 1;
+  #        }
+  #    }
+  #
+  #    # free time
+  #    my %TicketFreeTime;
+  #    for my $Count ( 1 .. 6 ) {
+  #        $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Optional' }
+  #            = $Self->{ConfigObject}->Get( 'TicketFreeTimeOptional' . $Count ) || 0;
+  #        $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Used' }
+  #            = $GetParam{ 'TicketFreeTime' . $Count . 'Used' };
+  #
+  #        if ( $Ticket{ 'TicketFreeTime' . $Count } ) {
+  #            (
+  #                $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Secunde' },
+  #                $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Minute' },
+  #                $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Hour' },
+  #                $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Day' },
+  #                $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Month' },
+  #                $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Year' }
+  #                )
+  #                = $Self->{TimeObject}->SystemTime2Date(
+  #                SystemTime => $Self->{TimeObject}->TimeStamp2SystemTime(
+  #                    String => $Ticket{ 'TicketFreeTime' . $Count },
+  #                ),
+  #                );
+  #            $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Used' } = 1;
+  #        }
+  #
+  #        if ( $Self->{Config}->{TicketFreeTime}->{$Count} == 2 ) {
+  #            $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Required' } = 1;
+  #        }
+  #    }
+  #    my %TicketFreeTimeHTML = $Self->{LayoutObject}->AgentFreeDate( Ticket => \%TicketFreeTime, );
+  #
+  #    # get article free text default selections
+  #    my %ArticleFreeDefault;
+  #    for my $Count ( 1 .. 3 ) {
+  #        my $Key  = 'ArticleFreeKey' . $Count;
+  #        my $Text = 'ArticleFreeText' . $Count;
+  #        $ArticleFreeDefault{$Key} = $GetParam{$Key}
+  #            || $Self->{ConfigObject}->Get( $Key . '::DefaultSelection' );
+  #        $ArticleFreeDefault{$Text} = $GetParam{$Text}
+  #            || $Self->{ConfigObject}->Get( $Text . '::DefaultSelection' );
+  #    }
+  #
+  #    # article free text
+  #    my %ArticleFreeText;
+  #    for my $Count ( 1 .. 3 ) {
+  #        my $Key  = 'ArticleFreeKey' . $Count;
+  #        my $Text = 'ArticleFreeText' . $Count;
+  #        $ArticleFreeText{$Key} = $Self->{TicketObject}->ArticleFreeTextGet(
+  #            TicketID => $Self->{TicketID},
+  #            Type     => $Key,
+  #            Action   => $Self->{Action},
+  #            UserID   => $Self->{UserID},
+  #        );
+  #        $ArticleFreeText{$Text} = $Self->{TicketObject}->ArticleFreeTextGet(
+  #            TicketID => $Self->{TicketID},
+  #            Type     => $Text,
+  #            Action   => $Self->{Action},
+  #            UserID   => $Self->{UserID},
+  #        );
+  #
+  #        # If Key has value 2, this means that the ArticleFreeText is required
+  #        if ( $Self->{Config}->{ArticleFreeText}->{$Count} == 2 ) {
+  #            $ArticleFreeText{Required}->{$Count} = 1;
+  #        }
+  #    }
+  #    my %ArticleFreeTextHTML = $Self->{LayoutObject}->TicketArticleFreeText(
+  #        Config => \%ArticleFreeText,
+  #        Article => { %GetParam, %ArticleFreeDefault, },
+  #    );
 
     # build view ...
     # start with page ...
@@ -464,11 +537,13 @@ sub Form {
         Attachments => \@Attachments,
         %Data,
         %GetParam,
-        InReplyTo  => $Data{MessageID},
-        References => "$Data{References} $Data{MessageID}",
-        %TicketFreeTextHTML,
-        %TicketFreeTimeHTML,
-        %ArticleFreeTextHTML,
+        InReplyTo        => $Data{MessageID},
+        References       => "$Data{References} $Data{MessageID}",
+        DynamicFieldHTML => \%DynamicFieldHTML,
+
+        #        %TicketFreeTextHTML,
+        #        %TicketFreeTimeHTML,
+        #        %ArticleFreeTextHTML,
     );
     $Output .= $Self->{LayoutObject}->Footer(
         Type => 'Small',
@@ -483,13 +558,42 @@ sub SendEmail {
     my %Error;
     my %GetParam = %{ $Self->{GetParam} };
 
-    # get ticket free text params
-    for my $Count ( 1 .. 16 ) {
-        my $Key  = 'TicketFreeKey' . $Count;
-        my $Text = 'TicketFreeText' . $Count;
-        $GetParam{$Key}  = $Self->{ParamObject}->GetParam( Param => $Key );
-        $GetParam{$Text} = $Self->{ParamObject}->GetParam( Param => $Text );
+    my %DynamicFieldValues;
+
+    # cycle trough the activated Dynamic Fields for this screen
+    FIELDNAME:
+    for my $FieldName ( keys %{ $Self->{Config}->{DynamicField} } ) {
+        next FIELDNAME if !$FieldName;
+
+        # Check if field was displayed
+        next FIELDNAME if !$Self->{Config}->{DynamicField}->{$FieldName};
+
+        # get the configuration of the dynamic field
+        my $DynamicFieldConfig = $Self->{DynamicFieldObject}->DynamicFieldGet(
+            Name => $FieldName,
+        );
+        next FIELDNAME if !IsHashRefWithData($DynamicFieldConfig);
+        next FIELDNAME if $DynamicFieldConfig->{ValidID} ne 1;
+
+        # skip dynamic fields for other object types than Ticket or Article
+        next FIELDNAME if $DynamicFieldConfig->{ObjectType} ne 'Ticket'
+                && $DynamicFieldConfig->{ObjectType} ne 'Article';
+
+        # extract the dynamic field value form the web request
+        $DynamicFieldValues{$FieldName} = $Self->{BackendObject}->EditFieldValueGet(
+            DynamicFieldConfig => $DynamicFieldConfig,
+            ParamObject        => $Self->{ParamObject},
+            LayoutObject       => $Self->{LayoutObject},
+        );
     }
+
+    #    # get ticket free text params
+    #    for my $Count ( 1 .. 16 ) {
+    #        my $Key  = 'TicketFreeKey' . $Count;
+    #        my $Text = 'TicketFreeText' . $Count;
+    #        $GetParam{$Key}  = $Self->{ParamObject}->GetParam( Param => $Key );
+    #        $GetParam{$Text} = $Self->{ParamObject}->GetParam( Param => $Text );
+    #    }
 
     my $QueueID   = $Self->{QueueID};
     my %StateData = ();
@@ -548,71 +652,146 @@ sub SendEmail {
         Subject      => $GetParam{Subject} || '',
     );
 
-    # prepare free text
-    my %TicketFree;
-    for my $Count ( 1 .. 16 ) {
-        $TicketFree{"TicketFreeKey$Count"}
-            = $Self->{ParamObject}->GetParam( Param => "TicketFreeKey$Count" );
-        $TicketFree{"TicketFreeText$Count"}
-            = $Self->{ParamObject}->GetParam( Param => "TicketFreeText$Count" );
-    }
+    my %DynamicFieldHTML;
 
-    # get free text config options
-    my %TicketFreeText;
-    for my $Count ( 1 .. 16 ) {
-        my $Key  = 'TicketFreeKey' . $Count;
-        my $Text = 'TicketFreeText' . $Count;
-        $TicketFreeText{"TicketFreeKey$Count"} = $Self->{TicketObject}->TicketFreeTextGet(
-            TicketID => $Self->{TicketID},
-            Type     => $Key,
-            Action   => $Self->{Action},
-            UserID   => $Self->{UserID},
-        );
-        $TicketFreeText{"TicketFreeText$Count"} = $Self->{TicketObject}->TicketFreeTextGet(
-            TicketID => $Self->{TicketID},
-            Type     => $Text,
-            Action   => $Self->{Action},
-            UserID   => $Self->{UserID},
+    # create html strings for all dynamic fields
+    FIELDNAME:
+    for my $FieldName ( keys %{ $Self->{Config}->{DynamicField} } ) {
+        next FIELDNAME if !$FieldName;
+
+        # Check if field should be displayed
+        next FIELDNAME if !$Self->{Config}->{DynamicField}->{$FieldName};
+
+        my $DynamicFieldConfig = $Self->{DynamicFieldObject}->DynamicFieldGet(
+            Name => $FieldName,
         );
 
-        # If Key has value 2, this means that the freetextfield is required
-        if ( $Self->{Config}->{TicketFreeText}->{$Count} == 2 ) {
-            $TicketFreeText{Required}->{$Count} = 1;
+        # skip undefined dynamic fields and non valid
+        next FIELDNAME if !IsHashRefWithData($DynamicFieldConfig);
+        next FIELDNAME if $DynamicFieldConfig->{ValidID} ne 1;
+
+        # skip dynamic fields for other object types than Ticket or Article
+        next FIELDNAME if $DynamicFieldConfig->{ObjectType} ne 'Ticket'
+                && $DynamicFieldConfig->{ObjectType} ne 'Article';
+
+        my $PossibleValuesFilter;
+
+        # check if field has PossibleValues property in its configuration
+        if ( IsHashRefWithData( $DynamicFieldConfig->{Config}->{PossibleValues} ) ) {
+
+            # set possible values filter from ACLs
+            my $ACL = $Self->{TicketObject}->TicketAcl(
+                Action        => $Self->{Action},
+                TicketID      => $Self->{TicketID},
+                Type          => 'DynamicField_' . $FieldName,
+                ReturnType    => 'Ticket',
+                ReturnSubType => 'DynamicField_' . $FieldName,
+                Data          => $DynamicFieldConfig->{Config}->{PossibleValues},
+                UserID        => $Self->{UserID},
+            );
+            if ($ACL) {
+                my %Filter = $Self->{TicketObject}->TicketAclData();
+                $PossibleValuesFilter = \%Filter;
+            }
         }
 
-        # check required FreeTextField (if configured)
-        if (
-            $Self->{Config}->{TicketFreeText}->{$Count} == 2
-            && $GetParam{$Text} eq ''
-            )
-        {
-            $TicketFreeText{Error}->{$Count} = 1;
-            $Error{$Text} = 'ServerError';
+        my $ValidationResult = $Self->{BackendObject}->EditFieldValueValidate(
+            DynamicFieldConfig   => $DynamicFieldConfig,
+            PossibleValuesFilter => $PossibleValuesFilter,
+            ParamObject          => $Self->{ParamObject},
+            Mandatory            => $Self->{Config}->{DynamicField}->{$FieldName} == 2,
+        );
+
+        if ( !IsHashRefWithData($ValidationResult) ) {
+            return $Self->{LayoutObject}->ErrorScreen(
+                Message =>
+                    "Could not perform validation on field $DynamicFieldConfig->{Label}!",
+                Comment => 'Please contact the admin.',
+            );
         }
 
+        # propagate validation error to the Error variable to be detected by the frontend
+        if ( $ValidationResult->{ServerError} ) {
+            $Error{ $DynamicFieldConfig->{Name} } = ' ServerError';
+        }
+
+        # get field html
+        $DynamicFieldHTML{$FieldName} = $Self->{BackendObject}->EditFieldRender(
+            DynamicFieldConfig   => $DynamicFieldConfig,
+            PossibleValuesFilter => $PossibleValuesFilter,
+            Mandatory            => $Self->{Config}->{DynamicField}->{$FieldName} == 2,
+            ServerError          => $ValidationResult->{ServerError} || '',
+            ErrorMessage         => $ValidationResult->{ErrorMessage} || '',
+            LayoutObject         => $Self->{LayoutObject},
+            ParamObject          => $Self->{ParamObject},
+        );
     }
-    my %TicketFreeTextHTML = $Self->{LayoutObject}->AgentFreeText(
-        Config => \%TicketFreeText,
-        Ticket => \%TicketFree,
-    );
 
-    # get ticket free time params
-    for my $Count ( 1 .. 6 ) {
-        for my $Type (qw(Used Year Month Day Hour Minute)) {
-            $GetParam{ 'TicketFreeTime' . $Count . $Type }
-                = $Self->{ParamObject}->GetParam( Param => 'TicketFreeTime' . $Count . $Type );
-        }
-        $GetParam{ 'TicketFreeTime' . $Count . 'Optional' }
-            = $Self->{ConfigObject}->Get( 'TicketFreeTimeOptional' . $Count ) || 0;
-        if ( !$Self->{ConfigObject}->Get( 'TicketFreeTimeOptional' . $Count ) ) {
-            $GetParam{ 'TicketFreeTime' . $Count . 'Used' } = 1;
-        }
-
-        if ( $Self->{Config}->{TicketFreeTime}->{$Count} == 2 ) {
-            $GetParam{ 'TicketFreeTime' . $Count . 'Required' } = 1;
-        }
-
-    }
+    #    # prepare free text
+    #    my %TicketFree;
+    #    for my $Count ( 1 .. 16 ) {
+    #        $TicketFree{"TicketFreeKey$Count"}
+    #            = $Self->{ParamObject}->GetParam( Param => "TicketFreeKey$Count" );
+    #        $TicketFree{"TicketFreeText$Count"}
+    #            = $Self->{ParamObject}->GetParam( Param => "TicketFreeText$Count" );
+    #    }
+    #
+    #    # get free text config options
+    #    my %TicketFreeText;
+    #    for my $Count ( 1 .. 16 ) {
+    #        my $Key  = 'TicketFreeKey' . $Count;
+    #        my $Text = 'TicketFreeText' . $Count;
+    #        $TicketFreeText{"TicketFreeKey$Count"} = $Self->{TicketObject}->TicketFreeTextGet(
+    #            TicketID => $Self->{TicketID},
+    #            Type     => $Key,
+    #            Action   => $Self->{Action},
+    #            UserID   => $Self->{UserID},
+    #        );
+    #        $TicketFreeText{"TicketFreeText$Count"} = $Self->{TicketObject}->TicketFreeTextGet(
+    #            TicketID => $Self->{TicketID},
+    #            Type     => $Text,
+    #            Action   => $Self->{Action},
+    #            UserID   => $Self->{UserID},
+    #        );
+    #
+    #        # If Key has value 2, this means that the freetextfield is required
+    #        if ( $Self->{Config}->{TicketFreeText}->{$Count} == 2 ) {
+    #            $TicketFreeText{Required}->{$Count} = 1;
+    #        }
+    #
+    #        # check required FreeTextField (if configured)
+    #        if (
+    #            $Self->{Config}->{TicketFreeText}->{$Count} == 2
+    #            && $GetParam{$Text} eq ''
+    #            )
+    #        {
+    #            $TicketFreeText{Error}->{$Count} = 1;
+    #            $Error{$Text} = 'ServerError';
+    #        }
+    #
+    #    }
+    #    my %TicketFreeTextHTML = $Self->{LayoutObject}->AgentFreeText(
+    #        Config => \%TicketFreeText,
+    #        Ticket => \%TicketFree,
+    #    );
+    #
+    #    # get ticket free time params
+    #    for my $Count ( 1 .. 6 ) {
+    #        for my $Type (qw(Used Year Month Day Hour Minute)) {
+    #            $GetParam{ 'TicketFreeTime' . $Count . $Type }
+    #                = $Self->{ParamObject}->GetParam( Param => 'TicketFreeTime' . $Count . $Type );
+    #        }
+    #        $GetParam{ 'TicketFreeTime' . $Count . 'Optional' }
+    #            = $Self->{ConfigObject}->Get( 'TicketFreeTimeOptional' . $Count ) || 0;
+    #        if ( !$Self->{ConfigObject}->Get( 'TicketFreeTimeOptional' . $Count ) ) {
+    #            $GetParam{ 'TicketFreeTime' . $Count . 'Used' } = 1;
+    #        }
+    #
+    #        if ( $Self->{Config}->{TicketFreeTime}->{$Count} == 2 ) {
+    #            $GetParam{ 'TicketFreeTime' . $Count . 'Required' } = 1;
+    #        }
+    #
+    #    }
 
     # transform pending time, time stamp based on user time zone
     if (
@@ -628,68 +807,68 @@ sub SendEmail {
         );
     }
 
-    # transform free time, time stamp based on user time zone
-    for my $Count ( 1 .. 6 ) {
-        my $Prefix = 'TicketFreeTime' . $Count;
-        next if !defined $GetParam{ $Prefix . 'Year' };
-        next if !defined $GetParam{ $Prefix . 'Month' };
-        next if !defined $GetParam{ $Prefix . 'Day' };
-        next if !defined $GetParam{ $Prefix . 'Hour' };
-        next if !defined $GetParam{ $Prefix . 'Minute' };
-        %GetParam = $Self->{LayoutObject}->TransformDateSelection(
-            %GetParam,
-            Prefix => $Prefix
-        );
-    }
-
-    my %TicketFreeTimeHTML = $Self->{LayoutObject}->AgentFreeDate( Ticket => \%GetParam, );
-
-    # get article free text params
-    for my $Count ( 1 .. 3 ) {
-        my $Key  = 'ArticleFreeKey' . $Count;
-        my $Text = 'ArticleFreeText' . $Count;
-        $GetParam{$Key}  = $Self->{ParamObject}->GetParam( Param => $Key );
-        $GetParam{$Text} = $Self->{ParamObject}->GetParam( Param => $Text );
-    }
-
-    # article free text
-    my %ArticleFreeText;
-    for my $Count ( 1 .. 3 ) {
-        my $Key  = 'ArticleFreeKey' . $Count;
-        my $Text = 'ArticleFreeText' . $Count;
-        $ArticleFreeText{$Key} = $Self->{TicketObject}->ArticleFreeTextGet(
-            TicketID => $Self->{TicketID},
-            Type     => $Key,
-            Action   => $Self->{Action},
-            UserID   => $Self->{UserID},
-        );
-        $ArticleFreeText{$Text} = $Self->{TicketObject}->ArticleFreeTextGet(
-            TicketID => $Self->{TicketID},
-            Type     => $Text,
-            Action   => $Self->{Action},
-            UserID   => $Self->{UserID},
-        );
-
-        # If Key has value 2, this means that the field is required
-        if ( $Self->{Config}->{ArticleFreeText}->{$Count} == 2 ) {
-            $ArticleFreeText{Required}->{$Count} = 1;
-        }
-
-        # check required ArticleTextField (if configured)
-        if (
-            $Self->{Config}->{ArticleFreeText}->{$Count} == 2
-            && $GetParam{$Text} eq ''
-            )
-        {
-            $ArticleFreeText{Error}->{$Count} = 1;
-            $Error{$Text} = 'ServerError';
-        }
-    }
-
-    my %ArticleFreeTextHTML = $Self->{LayoutObject}->TicketArticleFreeText(
-        Config  => \%ArticleFreeText,
-        Article => \%GetParam,
-    );
+    #    # transform free time, time stamp based on user time zone
+    #    for my $Count ( 1 .. 6 ) {
+    #        my $Prefix = 'TicketFreeTime' . $Count;
+    #        next if !defined $GetParam{ $Prefix . 'Year' };
+    #        next if !defined $GetParam{ $Prefix . 'Month' };
+    #        next if !defined $GetParam{ $Prefix . 'Day' };
+    #        next if !defined $GetParam{ $Prefix . 'Hour' };
+    #        next if !defined $GetParam{ $Prefix . 'Minute' };
+    #        %GetParam = $Self->{LayoutObject}->TransformDateSelection(
+    #            %GetParam,
+    #            Prefix => $Prefix
+    #        );
+    #    }
+    #
+    #    my %TicketFreeTimeHTML = $Self->{LayoutObject}->AgentFreeDate( Ticket => \%GetParam, );
+    #
+    #    # get article free text params
+    #    for my $Count ( 1 .. 3 ) {
+    #        my $Key  = 'ArticleFreeKey' . $Count;
+    #        my $Text = 'ArticleFreeText' . $Count;
+    #        $GetParam{$Key}  = $Self->{ParamObject}->GetParam( Param => $Key );
+    #        $GetParam{$Text} = $Self->{ParamObject}->GetParam( Param => $Text );
+    #    }
+    #
+    #    # article free text
+    #    my %ArticleFreeText;
+    #    for my $Count ( 1 .. 3 ) {
+    #        my $Key  = 'ArticleFreeKey' . $Count;
+    #        my $Text = 'ArticleFreeText' . $Count;
+    #        $ArticleFreeText{$Key} = $Self->{TicketObject}->ArticleFreeTextGet(
+    #            TicketID => $Self->{TicketID},
+    #            Type     => $Key,
+    #            Action   => $Self->{Action},
+    #            UserID   => $Self->{UserID},
+    #        );
+    #        $ArticleFreeText{$Text} = $Self->{TicketObject}->ArticleFreeTextGet(
+    #            TicketID => $Self->{TicketID},
+    #            Type     => $Text,
+    #            Action   => $Self->{Action},
+    #            UserID   => $Self->{UserID},
+    #        );
+    #
+    #        # If Key has value 2, this means that the field is required
+    #        if ( $Self->{Config}->{ArticleFreeText}->{$Count} == 2 ) {
+    #            $ArticleFreeText{Required}->{$Count} = 1;
+    #        }
+    #
+    #        # check required ArticleTextField (if configured)
+    #        if (
+    #            $Self->{Config}->{ArticleFreeText}->{$Count} == 2
+    #            && $GetParam{$Text} eq ''
+    #            )
+    #        {
+    #            $ArticleFreeText{Error}->{$Count} = 1;
+    #            $Error{$Text} = 'ServerError';
+    #        }
+    #    }
+    #
+    #    my %ArticleFreeTextHTML = $Self->{LayoutObject}->TicketArticleFreeText(
+    #        Config  => \%ArticleFreeText,
+    #        Article => \%GetParam,
+    #    );
 
     # check some values
     for my $Line (qw(To Cc Bcc)) {
@@ -781,15 +960,17 @@ sub SendEmail {
             Type  => 'Small',
         );
         $Output .= $Self->_Mask(
-            TicketNumber => $TicketNumber,
-            TicketID     => $Self->{TicketID},
-            QueueID      => $QueueID,
-            NextStates   => $Self->_GetNextStates(),
-            Errors       => \%Error,
-            Attachments  => \@Attachments,
-            %TicketFreeTextHTML,
-            %TicketFreeTimeHTML,
-            %ArticleFreeTextHTML,
+            TicketNumber     => $TicketNumber,
+            TicketID         => $Self->{TicketID},
+            QueueID          => $QueueID,
+            NextStates       => $Self->_GetNextStates(),
+            Errors           => \%Error,
+            Attachments      => \@Attachments,
+            DynamicFieldHTML => \%DynamicFieldHTML,
+
+            #            %TicketFreeTextHTML,
+            #            %TicketFreeTimeHTML,
+            #            %ArticleFreeTextHTML,
             %GetParam,
         );
         $Output .= $Self->{LayoutObject}->Footer(
@@ -894,64 +1075,97 @@ sub SendEmail {
         );
     }
 
-    # update ticket free text
-    for ( 1 .. 16 ) {
-        my $FreeKey   = $Self->{ParamObject}->GetParam( Param => "TicketFreeKey$_" );
-        my $FreeValue = $Self->{ParamObject}->GetParam( Param => "TicketFreeText$_" );
-        if ( defined $FreeKey && defined $FreeValue ) {
-            $Self->{TicketObject}->TicketFreeTextSet(
-                Key      => $FreeKey,
-                Value    => $FreeValue,
-                Counter  => $_,
-                TicketID => $Self->{TicketID},
-                UserID   => $Self->{UserID},
-            );
-        }
-    }
+    # set dynamic fields
+    FIELDNAME:
+    for my $FieldName ( keys %{ $Self->{Config}->{DynamicField} } ) {
+        next FIELDNAME if !$FieldName;
 
-    # set ticket free time
-    for my $Count ( 1 .. 6 ) {
-        my $Prefix = 'TicketFreeTime' . $Count;
-        next if !defined $GetParam{ $Prefix . 'Year' };
-        next if !defined $GetParam{ $Prefix . 'Month' };
-        next if !defined $GetParam{ $Prefix . 'Day' };
-        next if !defined $GetParam{ $Prefix . 'Hour' };
-        next if !defined $GetParam{ $Prefix . 'Minute' };
+        # Check if field was displayed
+        next FIELDNAME if !$Self->{Config}->{DynamicField}->{$FieldName};
 
-        # set time stamp to NULL if field is not used/checked
-        if ( !$GetParam{ $Prefix . 'Used' } ) {
-            $GetParam{ $Prefix . 'Year' }   = 0;
-            $GetParam{ $Prefix . 'Month' }  = 0;
-            $GetParam{ $Prefix . 'Day' }    = 0;
-            $GetParam{ $Prefix . 'Hour' }   = 0;
-            $GetParam{ $Prefix . 'Minute' } = 0;
-        }
+        my $DynamicFieldConfig = $Self->{DynamicFieldObject}->DynamicFieldGet(
+            Name => $FieldName,
+        );
 
-        # set free time
-        $Self->{TicketObject}->TicketFreeTimeSet(
-            %GetParam,
-            Prefix   => 'TicketFreeTime',
-            TicketID => $Self->{TicketID},
-            Counter  => $Count,
-            UserID   => $Self->{UserID},
+        # skip undefined dynamic fields and non valid
+        next FIELDNAME if !IsHashRefWithData($DynamicFieldConfig);
+        next FIELDNAME if $DynamicFieldConfig->{ValidID} ne 1;
+
+        # skip dynamic fields for other object types than Ticket or Article
+        next FIELDNAME if $DynamicFieldConfig->{ObjectType} ne 'Ticket'
+                && $DynamicFieldConfig->{ObjectType} ne 'Article';
+
+        # set the object ID (TicketID or ArticleID) depending on the field configration
+        my $ObjectID
+            = $DynamicFieldConfig->{ObjectType} eq 'Article' ? $ArticleID : $Self->{TicketID};
+
+        # set the value
+        my $Success = $Self->{BackendObject}->ValueSet(
+            DynamicFieldConfig => $DynamicFieldConfig,
+            ObjectID           => $ObjectID,
+            Value              => $DynamicFieldValues{$FieldName},
+            UserID             => $Self->{UserID},
         );
     }
 
-    # set article free text
-    for my $Count ( 1 .. 3 ) {
-        my $Key  = 'ArticleFreeKey' . $Count;
-        my $Text = 'ArticleFreeText' . $Count;
-        if ( defined $GetParam{$Key} ) {
-            $Self->{TicketObject}->ArticleFreeTextSet(
-                TicketID  => $Self->{TicketID},
-                ArticleID => $ArticleID,
-                Key       => $GetParam{$Key},
-                Value     => $GetParam{$Text},
-                Counter   => $Count,
-                UserID    => $Self->{UserID},
-            );
-        }
-    }
+    #    # update ticket free text
+    #    for ( 1 .. 16 ) {
+    #        my $FreeKey   = $Self->{ParamObject}->GetParam( Param => "TicketFreeKey$_" );
+    #        my $FreeValue = $Self->{ParamObject}->GetParam( Param => "TicketFreeText$_" );
+    #        if ( defined $FreeKey && defined $FreeValue ) {
+    #            $Self->{TicketObject}->TicketFreeTextSet(
+    #                Key      => $FreeKey,
+    #                Value    => $FreeValue,
+    #                Counter  => $_,
+    #                TicketID => $Self->{TicketID},
+    #                UserID   => $Self->{UserID},
+    #            );
+    #        }
+    #    }
+    #
+    #    # set ticket free time
+    #    for my $Count ( 1 .. 6 ) {
+    #        my $Prefix = 'TicketFreeTime' . $Count;
+    #        next if !defined $GetParam{ $Prefix . 'Year' };
+    #        next if !defined $GetParam{ $Prefix . 'Month' };
+    #        next if !defined $GetParam{ $Prefix . 'Day' };
+    #        next if !defined $GetParam{ $Prefix . 'Hour' };
+    #        next if !defined $GetParam{ $Prefix . 'Minute' };
+    #
+    #        # set time stamp to NULL if field is not used/checked
+    #        if ( !$GetParam{ $Prefix . 'Used' } ) {
+    #            $GetParam{ $Prefix . 'Year' }   = 0;
+    #            $GetParam{ $Prefix . 'Month' }  = 0;
+    #            $GetParam{ $Prefix . 'Day' }    = 0;
+    #            $GetParam{ $Prefix . 'Hour' }   = 0;
+    #            $GetParam{ $Prefix . 'Minute' } = 0;
+    #        }
+    #
+    #        # set free time
+    #        $Self->{TicketObject}->TicketFreeTimeSet(
+    #            %GetParam,
+    #            Prefix   => 'TicketFreeTime',
+    #            TicketID => $Self->{TicketID},
+    #            Counter  => $Count,
+    #            UserID   => $Self->{UserID},
+    #        );
+    #    }
+    #
+    #    # set article free text
+    #    for my $Count ( 1 .. 3 ) {
+    #        my $Key  = 'ArticleFreeKey' . $Count;
+    #        my $Text = 'ArticleFreeText' . $Count;
+    #        if ( defined $GetParam{$Key} ) {
+    #            $Self->{TicketObject}->ArticleFreeTextSet(
+    #                TicketID  => $Self->{TicketID},
+    #                ArticleID => $ArticleID,
+    #                Key       => $GetParam{$Key},
+    #                Value     => $GetParam{$Text},
+    #                Counter   => $Count,
+    #                UserID    => $Self->{UserID},
+    #            );
+    #        }
+    #    }
 
     # set state
     $Self->{TicketObject}->TicketStateSet(
@@ -1083,54 +1297,85 @@ sub _Mask {
         ValidateDateInFuture => 1,
     );
 
-    # ticket free text
-    for my $Count ( 1 .. 16 ) {
-        next if !$Self->{Config}->{'TicketFreeText'}->{$Count};
+    # Dynamic fields
+
+    # get an orderderd list of valid dynamic fields
+    my $DynamicFieldIDs = $Self->{DynamicFieldObject}->DynamicFieldList();
+
+    # get a loockup table for field name
+    my $DynamicFieldLookUp = $Self->{DynamicFieldObject}->DynamicFieldList( ResultType => 'HASH' );
+
+    # cycle trough the Dynamic Fields
+    FIELD:
+    for my $FieldID ( @{$DynamicFieldIDs} ) {
+        my $FieldName = $DynamicFieldLookUp->{$FieldID};
+
+        # skip fields that are not configured for this screen
+        next FIELD if !$Self->{Config}->{DynamicField}->{$FieldName};
+
+        # skip fields that HTML could not be retrieved
+        next FIELD if !IsHashRefWithData( $Param{DynamicFieldHTML}->{$FieldName} );
+
+        # get the html strings form $Param
+        my $DynamicFieldHTML = $Param{DynamicFieldHTML}->{$FieldName};
+
         $Self->{LayoutObject}->Block(
-            Name => 'TicketFreeText',
+            Name => 'DynamicField',
             Data => {
-                TicketFreeKeyField  => $Param{ 'TicketFreeKeyField' . $Count },
-                TicketFreeTextField => $Param{ 'TicketFreeTextField' . $Count },
-                %Param,
+                DynamicFieldLabel => $DynamicFieldHTML->{Label},
+                DynamicField      => $DynamicFieldHTML->{Field},
             },
-        );
-        $Self->{LayoutObject}->Block(
-            Name => 'TicketFreeText' . $Count,
-            Data => { %Param, Count => $Count, },
-        );
-    }
-    for my $Count ( 1 .. 6 ) {
-        next if !$Self->{Config}->{'TicketFreeTime'}->{$Count};
-        $Self->{LayoutObject}->Block(
-            Name => 'TicketFreeTime',
-            Data => {
-                TicketFreeTimeKey => $Param{ 'TicketFreeTimeKey' . $Count },
-                TicketFreeTime    => $Param{ 'TicketFreeTime' . $Count },
-                Count             => $Count,
-            },
-        );
-        $Self->{LayoutObject}->Block(
-            Name => 'TicketFreeTime' . $Count,
-            Data => { %Param, Count => $Count, },
         );
     }
 
-    # article free text
-    for my $Count ( 1 .. 3 ) {
-        next if !$Self->{Config}->{ArticleFreeText}->{$Count};
-        $Self->{LayoutObject}->Block(
-            Name => 'ArticleFreeText',
-            Data => {
-                ArticleFreeKeyField  => $Param{ 'ArticleFreeKeyField' . $Count },
-                ArticleFreeTextField => $Param{ 'ArticleFreeTextField' . $Count },
-                Count                => $Count,
-            },
-        );
-        $Self->{LayoutObject}->Block(
-            Name => 'ArticleFreeText' . $Count,
-            Data => { %Param, Count => $Count, },
-        );
-    }
+    #    # ticket free text
+    #    for my $Count ( 1 .. 16 ) {
+    #        next if !$Self->{Config}->{'TicketFreeText'}->{$Count};
+    #        $Self->{LayoutObject}->Block(
+    #            Name => 'TicketFreeText',
+    #            Data => {
+    #                TicketFreeKeyField  => $Param{ 'TicketFreeKeyField' . $Count },
+    #                TicketFreeTextField => $Param{ 'TicketFreeTextField' . $Count },
+    #                %Param,
+    #            },
+    #        );
+    #        $Self->{LayoutObject}->Block(
+    #            Name => 'TicketFreeText' . $Count,
+    #            Data => { %Param, Count => $Count, },
+    #        );
+    #    }
+    #    for my $Count ( 1 .. 6 ) {
+    #        next if !$Self->{Config}->{'TicketFreeTime'}->{$Count};
+    #        $Self->{LayoutObject}->Block(
+    #            Name => 'TicketFreeTime',
+    #            Data => {
+    #                TicketFreeTimeKey => $Param{ 'TicketFreeTimeKey' . $Count },
+    #                TicketFreeTime    => $Param{ 'TicketFreeTime' . $Count },
+    #                Count             => $Count,
+    #            },
+    #        );
+    #        $Self->{LayoutObject}->Block(
+    #            Name => 'TicketFreeTime' . $Count,
+    #            Data => { %Param, Count => $Count, },
+    #        );
+    #    }
+    #
+    #    # article free text
+    #    for my $Count ( 1 .. 3 ) {
+    #        next if !$Self->{Config}->{ArticleFreeText}->{$Count};
+    #        $Self->{LayoutObject}->Block(
+    #            Name => 'ArticleFreeText',
+    #            Data => {
+    #                ArticleFreeKeyField  => $Param{ 'ArticleFreeKeyField' . $Count },
+    #                ArticleFreeTextField => $Param{ 'ArticleFreeTextField' . $Count },
+    #                Count                => $Count,
+    #            },
+    #        );
+    #        $Self->{LayoutObject}->Block(
+    #            Name => 'ArticleFreeText' . $Count,
+    #            Data => { %Param, Count => $Count, },
+    #        );
+    #    }
 
     # show time accounting box
     if ( $Self->{ConfigObject}->Get('Ticket::Frontend::AccountTime') ) {
