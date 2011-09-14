@@ -2,7 +2,7 @@
 # Installer.dtl - provides HTML form for Installer
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Installer.dtl,v 1.47.2.6 2011-08-17 13:41:19 mb Exp $
+# $Id: Installer.dtl,v 1.47.2.7 2011-09-14 18:08:39 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -112,7 +112,7 @@
             <div class="Clear"></div>
             <div class="Center LayoutGrid Content">
                 <p>$Text{"Web site"}: <a href="http://otrs.com" target="_blank">http://otrs.com/</a></p>
-                <p>$Text{"Email"}: <a href="mailto:enjoy@otrs.com">enjoy@otrs.com</a></p>
+                <p>$Text{"Email"}: <a href="mailto:sales@otrs.com">sales@otrs.com</a></p>
             </div>
             <div class="Clear"></div>
         </div>

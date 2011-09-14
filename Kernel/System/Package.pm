@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Package.pm - lib package manager
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Package.pm,v 1.119 2010-09-23 08:44:35 mb Exp $
+# $Id: Package.pm,v 1.119.2.1 2011-09-14 18:08:39 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::SysConfig;
 use Kernel::System::WebUserAgent;
 
 use vars qw($VERSION $S);
-$VERSION = qw($Revision: 1.119 $) [1];
+$VERSION = qw($Revision: 1.119.2.1 $) [1];
 
 =head1 NAME
 
@@ -1247,10 +1247,10 @@ sub PackageVerify {
     $Self->{PackageVerifyInfo} = {
         Description => "This package is not deployed by the OTRS Project. The OTRS "
             . "Project is not responsible if you run into problems by using this package. "
-            . "Please contact <a href=\"mailto:enjoy\@otrs.com?Subject=Package "
+            . "Please contact <a href=\"mailto:sales\@otrs.com?Subject=Package "
             . $Param{Structure}->{Name}->{Content}
             . "Version=" . $Param{Structure}->{Name}->{Content}
-            . "\">enjoy\@otrs.com</a> if you have any "
+            . "\">sales\@otrs.com</a> if you have any "
             . "problems.<br>For more info see: "
             . "<a href=\"http://otrs.org/verify?Name="
             . $Param{Structure}->{Name}->{Content}
@@ -2483,6 +2483,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.119 $ $Date: 2010-09-23 08:44:35 $
+$Revision: 1.119.2.1 $ $Date: 2011-09-14 18:08:39 $
 
 =cut
