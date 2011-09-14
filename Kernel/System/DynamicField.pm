@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField.pm - DynamicFields configuration backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicField.pm,v 1.43 2011-09-14 20:52:01 cr Exp $
+# $Id: DynamicField.pm,v 1.44 2011-09-14 23:05:59 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Cache;
 use Kernel::System::DynamicField::Backend;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.43 $) [1];
+$VERSION = qw($Revision: 1.44 $) [1];
 
 =head1 NAME
 
@@ -521,6 +521,15 @@ get DynamicField list ordered by the the "Field Order" field in the DB
         ObjectType => ['Ticket', 'Article'],
 
         ResultType => 'HASH',   # optional, 'ARRAY' or 'HASH', defaults to 'ARRAY'
+
+        FieldFilter => {        # optional, only active fields (non 0) will be returned
+            ItemOne   => 1,
+            ItemTwo   => 2,
+            ItemThree => 1,
+            ItemFour  => 1,
+            ItemFive  => 0,
+        },
+
     );
 
 Returns:
@@ -545,6 +554,24 @@ Returns:
 
 sub DynamicFieldList {
     my ( $Self, %Param ) = @_;
+
+    # to store fieldIDs whitelist
+    my %AllowedFieldIDs;
+
+    if ( IsHashRefWithData( $Param{FieldFilter} ) ) {
+
+        # fill the fieldIDs whitelist
+        FIELDNAME:
+        for my $FieldName ( keys %{ $Param{FieldFilter} } ) {
+            next FIELDNAME if !$Param{FieldFilter}->{$FieldName};
+
+            my $FieldConfig = $Self->DynamicFieldGet( Name => $FieldName );
+            next FIELDNAME if !IsHashRefWithData($FieldConfig);
+            next FIELDNAME if !$FieldConfig->{ID};
+
+            $AllowedFieldIDs{ $FieldConfig->{ID} } = 1,
+        }
+    }
 
     # check cache
     my $Valid = 1;
@@ -572,84 +599,155 @@ sub DynamicFieldList {
 
     if ( $Cache && $Cache eq $ResultType ) {
 
-        # get data from cache
-        return $Cache;
-    }
+        # check if FieldFilter is not set
+        if ( !IsHashRefWithData( $Param{FieldFilter} ) ) {
 
-    my $SQL = 'SELECT id, name, field_order FROM dynamic_field';
+            # return raw data from cache
+            return $Cache;
+        }
 
-    if ($Valid) {
-        $SQL .= ' WHERE valid_id IN (' . join ', ', $Self->{ValidObject}->ValidIDsGet() . ')';
+        # otherwise apply the filter
+        my $FilteredData;
 
-        if ( $Param{ObjectType} ) {
-            if ( IsStringWithData( $Param{ObjectType} ) && $Param{ObjectType} ne 'All' ) {
-                $SQL .=
-                    " AND object_type = '" . $Self->{DBObject}->Quote( $Param{ObjectType} ) . "'";
+        # check if cache is ARRAY ref
+        if ( $ResultType eq 'ARRAY' ) {
+
+            FIELDID:
+            for my $FieldID ($Cache) {
+                next FIELDID if !$AllowedFieldIDs{$FieldID};
+
+                push @{$FilteredData}, $FieldID;
             }
-            elsif ( IsArrayRefWithData( $Param{ObjectType} ) ) {
-                my $ObjectTypeString = join ',', map "'$_'", @{ $Param{ObjectType} };
-                $SQL .= " WHERE object_type IN ($ObjectTypeString)";
 
+            # return filtered data from cache
+            return $FilteredData;
+        }
+
+        # otherwise is a HASH ref
+        else {
+
+            FIELDID:
+            for my $FieldID ( keys %{$Cache} ) {
+                next FIELDID if !$AllowedFieldIDs{$FieldID};
+
+                $FilteredData->{$FieldID} = $Cache->{$FieldID}
             }
         }
+
+        # return filtered data from cache
+        return $FilteredData;
     }
+
     else {
-        if ( $Param{ObjectType} ) {
-            if ( IsStringWithData( $Param{ObjectType} ) && $Param{ObjectType} ne 'All' ) {
-                $SQL .=
-                    " WHERE object_type = '" . $Self->{DBObject}->Quote( $Param{ObjectType} ) . "'";
+        my $SQL = 'SELECT id, name, field_order FROM dynamic_field';
+
+        if ($Valid) {
+            $SQL .= ' WHERE valid_id IN (' . join ', ', $Self->{ValidObject}->ValidIDsGet() . ')';
+
+            if ( $Param{ObjectType} ) {
+                if ( IsStringWithData( $Param{ObjectType} ) && $Param{ObjectType} ne 'All' ) {
+                    $SQL .=
+                        " AND object_type = '"
+                        . $Self->{DBObject}->Quote( $Param{ObjectType} ) . "'";
+                }
+                elsif ( IsArrayRefWithData( $Param{ObjectType} ) ) {
+                    my $ObjectTypeString = join ',', map "'$_'", @{ $Param{ObjectType} };
+                    $SQL .= " WHERE object_type IN ($ObjectTypeString)";
+
+                }
             }
-            elsif ( IsArrayRefWithData( $Param{ObjectType} ) ) {
-                my $ObjectTypeString = join ',', map "'$_'", @{ $Param{ObjectType} };
-                $SQL .= " WHERE object_type IN ($ObjectTypeString)";
+        }
+        else {
+            if ( $Param{ObjectType} ) {
+                if ( IsStringWithData( $Param{ObjectType} ) && $Param{ObjectType} ne 'All' ) {
+                    $SQL .=
+                        " WHERE object_type = '"
+                        . $Self->{DBObject}->Quote( $Param{ObjectType} ) . "'";
+                }
+                elsif ( IsArrayRefWithData( $Param{ObjectType} ) ) {
+                    my $ObjectTypeString = join ',', map "'$_'", @{ $Param{ObjectType} };
+                    $SQL .= " WHERE object_type IN ($ObjectTypeString)";
+                }
             }
         }
-    }
 
-    $SQL .= " ORDER BY field_order, id";
+        $SQL .= " ORDER BY field_order, id";
 
-    return if !$Self->{DBObject}->Prepare( SQL => $SQL );
+        return if !$Self->{DBObject}->Prepare( SQL => $SQL );
 
-    if ( $ResultType eq 'HASH' ) {
-        my %Data;
+        if ( $ResultType eq 'HASH' ) {
+            my %Data;
 
-        while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-            $Data{ $Row[0] } = $Row[1];
+            while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+                $Data{ $Row[0] } = $Row[1];
+            }
+
+            if (%Data) {
+
+                # set cache
+                $Self->{CacheObject}->Set(
+                    Type  => 'DynamicField',
+                    Key   => $CacheKey,
+                    Value => \%Data,
+                    TTL   => $Self->{CacheTTL},
+                );
+            }
+
+            # check if FieldFilter is not set
+            if ( !IsHashRefWithData( $Param{FieldFilter} ) ) {
+
+                # return raw data from DB
+                return \%Data;
+            }
+
+            my %FilteredData;
+            FIELDID:
+            for my $FieldID ( keys %Data ) {
+                next FIELDID if !$AllowedFieldIDs{$FieldID};
+
+                $FilteredData{$FieldID} = $Data{$FieldID};
+            }
+
+            # return filtered data from DB
+            return \%FilteredData;
         }
 
-        if (%Data) {
+        else {
 
-            # set cache
-            $Self->{CacheObject}->Set(
-                Type  => 'DynamicField',
-                Key   => $CacheKey,
-                Value => \%Data,
-                TTL   => $Self->{CacheTTL},
-            );
+            my @Data;
+            while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+                push @Data, $Row[0];
+            }
+
+            if (@Data) {
+
+                # set cache
+                $Self->{CacheObject}->Set(
+                    Type  => 'DynamicField',
+                    Key   => $CacheKey,
+                    Value => \@Data,
+                    TTL   => $Self->{CacheTTL},
+                );
+            }
+
+            # check if FieldFilter is not set
+            if ( !IsHashRefWithData( $Param{FieldFilter} ) ) {
+
+                # return raw data from DB
+                return \@Data;
+            }
+
+            my @FilteredData;
+            FIELDID:
+            for my $FieldID (@Data) {
+                next FIELDID if !$AllowedFieldIDs{$FieldID};
+
+                push @FilteredData, $FieldID;
+            }
+
+            # return filtered data from DB
+            return \@FilteredData;
         }
-
-        return \%Data;
-
-    }
-    else {
-
-        my @Data;
-        while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-            push @Data, $Row[0];
-        }
-
-        if (@Data) {
-
-            # set cache
-            $Self->{CacheObject}->Set(
-                Type  => 'DynamicField',
-                Key   => $CacheKey,
-                Value => \@Data,
-                TTL   => $Self->{CacheTTL},
-            );
-        }
-
-        return \@Data;
     }
 
     return;
@@ -669,6 +767,14 @@ get DynamicField list with complete data ordered by the "Field Order" field in t
         # object  type (optional) as STRING or as ARRAYREF
         ObjectType => 'Ticket',
         ObjectType => ['Ticket', 'Article'],
+
+        FieldFilter => {        # optional, only active fields (non 0) will be returned
+            nameforfield => 1,
+            fieldname    => 2,
+            other        => 0,
+            otherfield   => 0,
+        },
+
     );
 
 Returns:
@@ -727,8 +833,26 @@ sub DynamicFieldListGet {
 
     if ($Cache) {
 
-        # get data from cache
-        return $Cache;
+        # check if FieldFilter is not set
+        if ( !IsHashRefWithData( $Param{FieldFilter} ) ) {
+
+            # return raw data from cache
+            return $Cache;
+        }
+
+        my $FilteredData;
+
+        DYNAMICFIELD:
+        for my $DynamicFieldConfig ( @{$Cache} ) {
+            next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+            next DYNAMICFIELD if !$DynamicFieldConfig->{Name};
+            next DYNAMICFIELD if !$Param{FieldFilter}->{ $DynamicFieldConfig->{Name} };
+
+            push @{$FilteredData}, $DynamicFieldConfig,
+        }
+
+        # return filtered data from cache
+        return $FilteredData;
     }
 
     my @Data;
@@ -789,7 +913,27 @@ sub DynamicFieldListGet {
             TTL   => $Self->{CacheTTL},
         );
     }
-    return \@Data;
+
+    # check if FieldFilter is not set
+    if ( !IsHashRefWithData( $Param{FieldFilter} ) ) {
+
+        # return raw data from DB
+        return \@Data;
+    }
+
+    my $FilteredData;
+
+    DYNAMICFIELD:
+    for my $DynamicFieldConfig (@Data) {
+        next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+        next DYNAMICFIELD if !$DynamicFieldConfig->{Name};
+        next DYNAMICFIELD if !$Param{FieldFilter}->{ $DynamicFieldConfig->{Name} };
+
+        push @{$FilteredData}, $DynamicFieldConfig,
+    }
+
+    # return filtered data from DB
+    return $FilteredData;
 }
 
 =begin Internal:
@@ -986,6 +1130,7 @@ sub _DynamicFieldReorder {
 
     return 1;
 }
+
 1;
 
 =back
@@ -1002,6 +1147,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.43 $ $Date: 2011-09-14 20:52:01 $
+$Revision: 1.44 $ $Date: 2011-09-14 23:05:59 $
 
 =cut
