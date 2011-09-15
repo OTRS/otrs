@@ -2,7 +2,7 @@
 # AdminUser.dtl - provides HTML form for AdminUser
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminUser.dtl,v 1.31.2.3 2011-09-12 08:38:11 mg Exp $
+# $Id: AdminUser.dtl,v 1.31.2.4 2011-09-15 00:51:10 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -124,9 +124,6 @@
                             <td>$TimeShort{"$QData{"CreateTime"}"}</td>
                         </tr>
 <!-- dtl:block:OverviewResultRow -->
-                        <tr class="FilterMessage Hidden">
-                            <td colspan="7">$Text{"No matches found."}</td>
-                        </tr>
                     </tbody>
                 </table>
             </div>
