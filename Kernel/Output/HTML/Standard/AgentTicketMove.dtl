@@ -2,7 +2,7 @@
 # AgentTicketMove.dtl - provides HTML form for move mask
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMove.dtl,v 1.76 2011-08-26 16:57:20 en Exp $
+# $Id: AgentTicketMove.dtl,v 1.77 2011-09-15 04:47:40 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -193,6 +193,30 @@ $Include{"RichTextEditor"}
                     </div>
                     <div class="Clear"></div>
 <!-- dtl:block:Priority -->
+
+<!-- dtl:block:DynamicField -->
+                    $Data{"DynamicFieldLabel"}
+                    <div class="Field">
+                        $Data{"DynamicField"}
+                    </div>
+                    <div class="Clear"></div>
+<!-- dtl:block:DynamicField -->
+
+# example of how to use fixed dynamic field blocks for customizations
+#<!-- dtl:block:DynamicField_Field1 -->
+#                $Data{"DynamicFieldLabel1"}
+#                <div class="Field">
+#                    $Data{"DynamicField1"}
+#                </div>
+#                <div class="Clear"></div>
+#<!-- dtl:block:DynamicField_Field1 -->
+#<!-- dtl:block:DynamicField_Field2 -->
+#                $Data{"DynamicFieldLabel2"}
+#                <div class="Field">
+#                    $Data{"DynamicField2"}
+#                </div>
+#                <div class="Clear"></div>
+#<!-- dtl:block:DynamicField_Field2 -->
 
 <!-- dtl:block:TicketFreeText -->
                     $Data{"TicketFreeKeyField"}

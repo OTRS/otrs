@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.465 2011-09-14 01:29:50 cr Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.466 2011-09-15 04:47:40 cr Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Translatable="1">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Group>Ticket</Group>
@@ -9096,6 +9096,15 @@ Thanks for your help!
         <SubGroup>Frontend::Agent::Ticket::ViewForward</SubGroup>
         <Setting>
             <Hash>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketMove###DynamicField" Required="0" Valid="1">
+        <Description Translatable="1">Dynamic fields shown in the ticket move screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewMove</SubGroup>
+        <Setting>
+            <Hash>
 <!--
                 <Item Key="Test1">1</Item>
                 <Item Key="Test2">1</Item>
@@ -9103,7 +9112,7 @@ Thanks for your help!
                 <Item Key="Test4">1</Item>
                 <Item Key="Test5">1</Item>
                 <Item Key="Test6">1</Item>
--->
+ -->
             </Hash>
         </Setting>
     </ConfigItem>
