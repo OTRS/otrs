@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Date.pm - Delegate for DynamicField Date backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Date.pm,v 1.12 2011-09-14 18:23:01 cg Exp $
+# $Id: Date.pm,v 1.13 2011-09-15 17:46:08 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Time;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 =head1 NAME
 
@@ -192,8 +192,6 @@ sub EditFieldRender {
     my $FieldName   = 'DynamicField_' . $Param{DynamicFieldConfig}->{Name};
     my $FieldLabel  = $Param{DynamicFieldConfig}->{Label};
 
-    my $Used = 0;
-
     # set the field value or default
     my $Value = $FieldConfig->{DefaultValue} || '';
 
@@ -210,7 +208,6 @@ sub EditFieldRender {
             $FieldName . 'Hour'   => $Hour,
             $FieldName . 'Minute' => $Minute,
         );
-        $Used = 1;
     }
 
     # extract the dynamic field value form the web request
@@ -245,7 +242,6 @@ sub EditFieldRender {
         $FieldName . 'Class' => $FieldClass,
         DiffTime             => $FieldConfig->{DefaultValue} || '',
         $FieldName . Required => $Param{Mandatory} || 0,
-        $FieldName . Used     => $Used,
         $FieldName . Optional => 1,
         Validate              => 1,
         %{$FieldConfig},
@@ -441,12 +437,12 @@ sub EditFieldValueValidate {
     my $ErrorMessage;
 
     # set the date time prefix as field name
-    my $Prefix = $Param{DynamicFieldConfig}->{Name};
+    my $Prefix = 'DynamicField_' . $Param{DynamicFieldConfig}->{Name};
 
     # perform necessary validations
-    #    if ( $Param{Mandatory} && !$Value->{ $Prefix . 'Used' } ) {
-    #        $ServerError = 1;
-    #    }
+    if ( $Param{Mandatory} && !$Value->{ $Prefix . 'Used' } ) {
+        $ServerError = 1;
+    }
 
     # create resulting structure
     my $Result = {
