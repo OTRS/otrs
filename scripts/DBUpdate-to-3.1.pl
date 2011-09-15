@@ -3,7 +3,7 @@
 # DBUpdate-to-3.1.pl - update script to migrate OTRS 2.4.x to 3.0.x
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-3.1.pl,v 1.16 2011-09-13 13:08:20 mg Exp $
+# $Id: DBUpdate-to-3.1.pl,v 1.17 2011-09-15 10:36:25 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 use Getopt::Std qw();
 use Kernel::Config;
@@ -44,6 +44,7 @@ use Kernel::System::State;
 use Kernel::System::SysConfig;
 use Kernel::System::XML;
 use Kernel::System::DynamicField;
+use Kernel::System::Cache;
 
 {
 
@@ -917,6 +918,13 @@ new dynamic_fields table.
 sub _MigrateFreeFieldsConfiguration {
     my $CommonObject = shift;
 
+    # Purge cache first to make sure that the DF API works correctly
+    #   after we made inserts by hand.
+    my $CacheObject = Kernel::System::Cache->new( %{$CommonObject} );
+    $CacheObject->CleanUp(
+        Type => 'DynamicField',
+    );
+
     # create additional objects
     my $DynamicFieldObject = Kernel::System::DynamicField->new( %{$CommonObject} );
 
@@ -927,11 +935,12 @@ sub _MigrateFreeFieldsConfiguration {
 
     $DynamicFields = { reverse %{$DynamicFields} };
 
-    INDEX:
     for my $Index ( 1 .. 16 ) {
+        FIELD:
         for my $FreeField ( 'TicketFreeKey', 'TicketFreeText' ) {
 
             my $FieldName = $FreeField . $Index;
+
             if ( defined $DynamicFields->{$FieldName} ) {
 
                 my $FieldConfig = $DynamicFieldObject->DynamicFieldGet(
@@ -941,20 +950,26 @@ sub _MigrateFreeFieldsConfiguration {
                 # Get all Attributes from Item
                 my $PossibleValues = $CommonObject->{ConfigObject}->Get($FieldName);
                 $FieldConfig->{Config}->{PossibleValues} = $PossibleValues;
-                if ( !$PossibleValues ) {
 
-                    my $SuccessTicketField = $DynamicFieldObject->DynamicFieldUpdate(
-                        %{$FieldConfig},
-                        Reorder => 0,
-                        ValidID => 2,
-                        UserID  => 1,
-                    );
+                if ( !$PossibleValues || !%{$PossibleValues} ) {
 
-                    if ( !$SuccessTicketField ) {
-                        die "Could not migrate configuration for dynamic field: $FieldName";
+                    # Leave this a text field. If the config setting was disabled,
+                    #   disable this field.
+                    if ( !defined $PossibleValues ) {
+
+                        my $SuccessTicketField = $DynamicFieldObject->DynamicFieldUpdate(
+                            %{$FieldConfig},
+                            Reorder => 0,
+                            ValidID => 2,
+                            UserID  => 1,
+                        );
+
+                        if ( !$SuccessTicketField ) {
+                            die "Could not migrate configuration for dynamic field: $FieldName";
+                        }
                     }
 
-                    next INDEX;
+                    next FIELD;
                 }
 
                 if ( $FreeField eq 'TicketFreeText' ) {
@@ -991,9 +1006,9 @@ sub _MigrateFreeFieldsConfiguration {
         }
     }
 
-    INDEX:
     for my $Index ( 1 .. 6 ) {
 
+        FIELD:
         my $FieldName = 'TicketFreeTime' . $Index;
         if ( defined $DynamicFields->{$FieldName} ) {
             my $FieldConfig = $DynamicFieldObject->DynamicFieldGet(
@@ -1002,7 +1017,7 @@ sub _MigrateFreeFieldsConfiguration {
 
             # Get all Attributes from Item
             my $TimeKey = $CommonObject->{ConfigObject}->Get( 'TicketFreeTimeKey' . $Index );
-            $FieldConfig->{Key} = $TimeKey;
+            $FieldConfig->{Label} = $TimeKey;
             if ( !$TimeKey ) {
 
                 my $SuccessTicketField = $DynamicFieldObject->DynamicFieldUpdate(
@@ -1016,7 +1031,7 @@ sub _MigrateFreeFieldsConfiguration {
                     die "Could not migrate configuration for dynamic field: $FieldName";
                 }
 
-                next INDEX;
+                next FIELD;
             }
 
             $FieldConfig->{Config}->{DefaultValue}
@@ -1046,8 +1061,9 @@ sub _MigrateFreeFieldsConfiguration {
         }
     }
 
-    INDEX:
     for my $Index ( 1 .. 3 ) {
+
+        FIELD:
         for my $FreeField ( 'ArticleFreeKey', 'ArticleFreeText' ) {
 
             my $FieldName = $FreeField . $Index;
@@ -1059,20 +1075,24 @@ sub _MigrateFreeFieldsConfiguration {
                 # Get all Attributes from Item
                 my $PossibleValues = $CommonObject->{ConfigObject}->Get($FieldName);
                 $FieldConfig->{Config}->{PossibleValues} = $PossibleValues;
-                if ( !$PossibleValues ) {
+                if ( !$PossibleValues || !%{$PossibleValues} ) {
 
-                    my $SuccessTicketField = $DynamicFieldObject->DynamicFieldUpdate(
-                        %{$FieldConfig},
-                        Reorder => 0,
-                        ValidID => 2,
-                        UserID  => 1,
-                    );
+                    # Leave this a text field. If the config setting was disabled,
+                    #   disable this field.
+                    if ( !defined $PossibleValues ) {
+                        my $SuccessTicketField = $DynamicFieldObject->DynamicFieldUpdate(
+                            %{$FieldConfig},
+                            Reorder => 0,
+                            ValidID => 2,
+                            UserID  => 1,
+                        );
 
-                    if ( !$SuccessTicketField ) {
-                        die "Could not migrate configuration for dynamic field: $FieldName";
+                        if ( !$SuccessTicketField ) {
+                            die "Could not migrate configuration for dynamic field: $FieldName";
+                        }
                     }
 
-                    next INDEX;
+                    next FIELD;
                 }
 
                 if ( $FreeField eq 'ArticleFreeText' ) {
