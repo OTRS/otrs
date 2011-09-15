@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # Copyright (C) 2011 Edgaras Luko�evi�ius <edgaras[eta]kauko.lt or admin[eta]sysadmin.lt>
 # --
-# $Id: lt.pm,v 1.5 2011-09-07 20:48:43 en Exp $
+# $Id: lt.pm,v 1.6 2011-09-15 11:38:49 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -756,7 +756,7 @@ sub Data {
         'History::Misc' => '%s',
         'History::SetPendingTime' => 'Aktualisiert: %s',
         'History::StateUpdate' => 'Alt: "%s" Neu: "%s"',
-        'History::TicketFreeTextUpdate' => 'Trikties laisv� laukeli� pakeitimas: %s=%s;%s=%s;',
+        'History::TicketDynamicFieldUpdate' => 'Trikties laisv� laukeli� pakeitimas: %s=%s;%s=%s;',
         'History::WebRequestCustomer' => 'Kliento u�klausa internetu.',
         'History::TicketLinkAdd' => 'Prid�ti trikties s�saja "%s".',
         'History::TicketLinkDelete' => 'Pa�alinta trikties s�saja "%s".',

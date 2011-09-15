@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # Copyright (C) 2011 Damir Dzeko <damir punkt dzeko masterspace inet.hr>
 # --
-# $Id: hr.pm,v 1.5 2011-09-07 20:45:03 en Exp $
+# $Id: hr.pm,v 1.6 2011-09-15 11:38:48 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -760,7 +760,7 @@ sub Data {
         'History::Misc' => '%s',
         'History::SetPendingTime' => 'Ažurirano: %s',
         'History::StateUpdate' => 'Staro: "%s" Novo: "%s"',
-        'History::TicketFreeTextUpdate' => 'Ažurirano: %s=%s;%s=%s;',
+        'History::TicketDynamicFieldUpdate' => 'Ažurirano: %s=%s;%s=%s;',
         'History::WebRequestCustomer' => 'Korisnički Web zahtjev.',
         'History::TicketLinkAdd' => 'Veza na "%s" postavljena.',
         'History::TicketLinkDelete' => 'Veza na "%s" uklonjena.',

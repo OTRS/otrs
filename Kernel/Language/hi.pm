@@ -4,7 +4,7 @@
 # Copyright (C) 2011 Chetan Nagaonkar <Chetan_Nagaonkar at OptForOPS.com>
 # Copyright (C) 2011 Chetan Nagaonkar <ChetanNagaonkar at yahoo.com>
 # --
-# $Id: hi.pm,v 1.7 2011-09-07 20:37:39 en Exp $
+# $Id: hi.pm,v 1.8 2011-09-15 11:38:47 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -758,7 +758,7 @@ sub Data {
         'History::Misc' => 'विविध %s।',
         'History::SetPendingTime' => 'विचाराधीन निर्धारित समय: %s।',
         'History::StateUpdate' => 'पुराना: "%s". नया: "%s"।',
-        'History::TicketFreeTextUpdate' => 'टिकट पाठ्य अद्यतन: %s=%s;%s=%s;',
+        'History::TicketDynamicFieldUpdate' => 'टिकट पाठ्य अद्यतन: %s=%s;%s=%s;',
         'History::WebRequestCustomer' => 'ग्राहक वेब अनुरोध।',
         'History::TicketLinkAdd' => 'टिकट के लिए लिंक जोड़ा गया "%s"।',
         'History::TicketLinkDelete' => 'टिकट के लिए लिंक हटाया "%s"।',

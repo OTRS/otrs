@@ -6,7 +6,7 @@
 # Copyright (C) 2010 O2BS.com, s r.o. Jakub Hanus
 # Copyright (C) 2010 Pavel <pavel.vilim at kodys.cz>
 # --
-# $Id: cs.pm,v 1.7 2011-09-07 20:35:05 en Exp $
+# $Id: cs.pm,v 1.8 2011-09-15 11:38:51 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -760,7 +760,7 @@ sub Data {
         'History::Misc' => '%s',
         'History::SetPendingTime' => 'Aktualizováno: %s',
         'History::StateUpdate' => 'Starý: "%s" Nový: "%s"',
-        'History::TicketFreeTextUpdate' => 'Aktualizováno: %s=%s;%s=%s;',
+        'History::TicketDynamicFieldUpdate' => 'Aktualizováno: %s=%s;%s=%s;',
         'History::WebRequestCustomer' => 'Webový požadavek Zákazníka.',
         'History::TicketLinkAdd' => 'Spárováno s Tiketem "%s".',
         'History::TicketLinkDelete' => 'Párování s tiketem "%s" zrušeno.',

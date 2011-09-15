@@ -4,7 +4,7 @@
 # Copyright (C) 2008 Hooman Mesgary <info at mesgary.com>
 # Copyright (C) 2009 Afshar Mohebbi <afshar.mohebbi at gmail.com>
 # --
-# $Id: fa.pm,v 1.93 2011-09-07 20:37:39 en Exp $
+# $Id: fa.pm,v 1.94 2011-09-15 11:38:48 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.93 $) [1];
+$VERSION = qw($Revision: 1.94 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -761,7 +761,7 @@ sub Data {
         'History::Misc' => 'سابقه::سایر',
         'History::SetPendingTime' => 'سابقه::تنظیم زمان تعلیق',
         'History::StateUpdate' => 'سابقه::بروزرسانی وضعیت',
-        'History::TicketFreeTextUpdate' => 'سابقه::بروزرسانی درخواست متنی',
+        'History::TicketDynamicFieldUpdate' => 'سابقه::بروزرسانی درخواست متنی',
         'History::WebRequestCustomer' => 'سابقه::درخواست از طریق وب توسط مشترک',
         'History::TicketLinkAdd' => 'سابقه::لینک افزودن درخواست ',
         'History::TicketLinkDelete' => 'سابقه::لینک حذف درخواست ',

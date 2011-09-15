@@ -9,7 +9,7 @@
 # Copyright (C) 2010-2011 Eugene Kungurov <ekungurov83 at ya.ru>
 # Copyright (C) 2010 Sergey Romanov <romanov_s at mail.ru>
 # --
-# $Id: ru.pm,v 1.120 2011-09-07 20:45:03 en Exp $
+# $Id: ru.pm,v 1.121 2011-09-15 11:38:47 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.120 $) [1];
+$VERSION = qw($Revision: 1.121 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -763,7 +763,7 @@ sub Data {
         'History::Misc' => '%s',
         'History::SetPendingTime' => 'Обновлено: %s',
         'History::StateUpdate' => 'Прежнее состояние: %s, новое состояние: %s',
-        'History::TicketFreeTextUpdate' => 'Обновлено: %s=%s;%s=%s;',
+        'History::TicketDynamicFieldUpdate' => 'Обновлено: %s=%s;%s=%s;',
         'History::WebRequestCustomer' => 'Веб-запрос пользователя.',
         'History::TicketLinkAdd' => 'К заявке «%s» добавлена связь.',
         'History::TicketLinkDelete' => 'Связь с заявкой «%s» удалена.',

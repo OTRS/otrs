@@ -3,7 +3,7 @@
 # Copyright (C) 2004 Vladimir Gerdjikov <gerdjikov at gerdjikovs.net>
 # Copyright (C) 2007 Alex Kantchev <ak at otrs.org>
 # --
-# $Id: bg.pm,v 1.118 2011-09-07 20:34:55 en Exp $
+# $Id: bg.pm,v 1.119 2011-09-15 11:38:50 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.118 $) [1];
+$VERSION = qw($Revision: 1.119 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -757,7 +757,7 @@ sub Data {
         'History::Misc' => '%s',
         'History::SetPendingTime' => 'Актуализирано: %s',
         'History::StateUpdate' => 'Стар: "%s" Нов: "%s"',
-        'History::TicketFreeTextUpdate' => 'Актуализирано: %s=%s;%s=%s;',
+        'History::TicketDynamicFieldUpdate' => 'Актуализирано: %s=%s;%s=%s;',
         'History::WebRequestCustomer' => 'Клиентска заявка по web.',
         'History::TicketLinkAdd' => 'Добавена връзка към билет "%s".',
         'History::TicketLinkDelete' => 'Изтрита връзка към билет "%s".',

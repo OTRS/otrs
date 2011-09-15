@@ -2,7 +2,7 @@
 # Kernel/Language/vi_VN.pm - provides Vietnamese language translation
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: vi_VN.pm,v 1.52 2011-09-07 20:45:03 en Exp $
+# $Id: vi_VN.pm,v 1.53 2011-09-15 11:38:49 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.52 $) [1];
+$VERSION = qw($Revision: 1.53 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -755,7 +755,7 @@ sub Data {
         'History::Misc' => 'Lịch sử::Khác',
         'History::SetPendingTime' => 'Lịch sử::Đặt thời gian treo',
         'History::StateUpdate' => 'Lịch sử::Cập nhật trạng thái',
-        'History::TicketFreeTextUpdate' => 'Lịch sử::Cập nhật thẻ',
+        'History::TicketDynamicFieldUpdate' => 'Lịch sử::Cập nhật thẻ',
         'History::WebRequestCustomer' => 'Lịch sử::Khách hàng yêu cầu web',
         'History::TicketLinkAdd' => 'Lịch sử::Thêm liên kết thẻ',
         'History::TicketLinkDelete' => 'Lịch sử::Xóa liên kết thẻ',

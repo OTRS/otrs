@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Thomas Kaltenbrunner <tkaltenbrunner at opc.de>
 # --
-# $Id: de.pm,v 1.285 2011-09-07 20:37:39 en Exp $
+# $Id: de.pm,v 1.286 2011-09-15 11:38:47 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.285 $) [1];
+$VERSION = qw($Revision: 1.286 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -756,7 +756,7 @@ sub Data {
         'History::Misc' => '%s',
         'History::SetPendingTime' => 'Aktualisiert: %s',
         'History::StateUpdate' => 'Alt: "%s" Neu: "%s"',
-        'History::TicketFreeTextUpdate' => 'Aktualisiert: %s=%s;%s=%s;',
+        'History::TicketDynamicFieldUpdate' => 'Aktualisiert: %s=%s;%s=%s;',
         'History::WebRequestCustomer' => 'Kunde stellte Anfrage über Web.',
         'History::TicketLinkAdd' => 'Verknüpfung zu "%s" hergestellt.',
         'History::TicketLinkDelete' => 'Verknüpfung zu "%s" gelöscht.',

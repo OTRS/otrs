@@ -3,7 +3,7 @@
 # Copyright (C) 2006 Stelios Maistros <smaistros aegean.gr>
 # Copyright (C) 2006 George Thomas <gthomas aegean.gr>
 # --
-# $Id: el.pm,v 1.80 2011-09-07 20:37:39 en Exp $
+# $Id: el.pm,v 1.81 2011-09-15 11:38:49 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.80 $) [1];
+$VERSION = qw($Revision: 1.81 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -760,7 +760,7 @@ sub Data {
         'History::Misc' => '%s',
         'History::SetPendingTime' => 'Ενημερώθηκε: %s',
         'History::StateUpdate' => 'Παλαιό: "%s" Νέο: "%s"',
-        'History::TicketFreeTextUpdate' => 'Ενημερώθηκε: %s=%s;%s=%s;',
+        'History::TicketDynamicFieldUpdate' => 'Ενημερώθηκε: %s=%s;%s=%s;',
         'History::WebRequestCustomer' => 'Αίτημα πελάτη μέσω web.',
         'History::TicketLinkAdd' => 'Προσθήκη συνδέσμου στο δελτίο "%s".',
         'History::TicketLinkDelete' => 'Διαγραφή συνδέσμού απο το δελτίο "%s".',

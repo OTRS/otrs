@@ -8,7 +8,7 @@
 # Copyright (C) 2010 Ton van Boven <ton 'at' avebo.nl>
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: nl.pm,v 1.161 2011-09-07 20:45:03 en Exp $
+# $Id: nl.pm,v 1.162 2011-09-15 11:38:51 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -28,7 +28,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.161 $) [1];
+$VERSION = qw($Revision: 1.162 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -769,7 +769,7 @@ sub Data {
         'History::Misc' => '%s',
         'History::SetPendingTime' => 'Bijgewerkt: %s',
         'History::StateUpdate' => 'Oud: "%s" Nieuw: "%s"',
-        'History::TicketFreeTextUpdate' => 'Bijgewerkt: %s=%s;%s=%s;',
+        'History::TicketDynamicFieldUpdate' => 'Bijgewerkt: %s=%s;%s=%s;',
         'History::WebRequestCustomer' => 'Klant stelt vraag via web.',
         'History::TicketLinkAdd' => 'Koppeling naar "%s" toegevoegd.',
         'History::TicketLinkDelete' => 'Koppeling naar "%s" verwijderd.',

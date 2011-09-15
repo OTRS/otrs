@@ -6,7 +6,7 @@
 # Copyright (C) 2007 Aron Ujvari <ujvari@hungary.com>
 # Copyright (C) 2009 Arnold Matyasi <arn@webma.hu>
 # --
-# $Id: hu.pm,v 1.96 2011-09-07 20:45:03 en Exp $
+# $Id: hu.pm,v 1.97 2011-09-15 11:38:51 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.96 $) [1];
+$VERSION = qw($Revision: 1.97 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -760,7 +760,7 @@ sub Data {
         'History::Misc' => 'Történet::Vegyes',
         'History::SetPendingTime' => 'Történet::VárakozásiIdőBeállítás',
         'History::StateUpdate' => 'Történet::ÁllapotMódosítás',
-        'History::TicketFreeTextUpdate' => 'Történet::JegySzabadSzövegMódosítás',
+        'History::TicketDynamicFieldUpdate' => 'Történet::JegySzabadSzövegMódosítás',
         'History::WebRequestCustomer' => 'Történet::ÜgyfélWebKérés',
         'History::TicketLinkAdd' => 'Történet::JegyCsatolásHozzáadás',
         'History::TicketLinkDelete' => 'Történet::JegyCsatolásTörlés',

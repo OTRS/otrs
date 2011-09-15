@@ -6,7 +6,7 @@
 # Copyright (C) 2007-2010 Fabricio Luiz Machado <soprobr gmail.com>
 # Copyright (C) 2010-2011 Murilo Moreira de Oliveira <murilo.moreira gmail.com>
 # --
-# $Id: pt_BR.pm,v 1.115 2011-09-07 20:51:14 en Exp $
+# $Id: pt_BR.pm,v 1.116 2011-09-15 11:38:51 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.115 $) [1];
+$VERSION = qw($Revision: 1.116 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -759,7 +759,7 @@ sub Data {
         'History::Misc' => '%s',
         'History::SetPendingTime' => 'Atualizado: %s',
         'History::StateUpdate' => 'Anterior: "%s" Novo: "%s"',
-        'History::TicketFreeTextUpdate' => 'Atualizado: %s=%s;%s=%s;',
+        'History::TicketDynamicFieldUpdate' => 'Atualizado: %s=%s;%s=%s;',
         'History::WebRequestCustomer' => 'Requisição do cliente via web.',
         'History::TicketLinkAdd' => 'Adicionadas associações ao chamado "%s".',
         'History::TicketLinkDelete' => 'Associações do chamado excluídas "%s".',

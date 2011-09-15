@@ -2,7 +2,7 @@
 # AAATicket.dtl - $Text variable file
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AAATicket.dtl,v 1.74 2011-09-06 10:28:37 mg Exp $
+# $Id: AAATicket.dtl,v 1.75 2011-09-15 11:38:51 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -303,7 +303,7 @@ $Text{"History::LoopProtection"}
 $Text{"History::Misc"}
 $Text{"History::SetPendingTime"}
 $Text{"History::StateUpdate"}
-$Text{"History::TicketFreeTextUpdate"}
+$Text{"History::TicketDynamicFieldUpdate"}
 $Text{"History::WebRequestCustomer"}
 $Text{"History::TicketLinkAdd"}
 $Text{"History::TicketLinkDelete"}

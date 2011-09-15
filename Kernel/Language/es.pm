@@ -6,7 +6,7 @@
 # Copyright (C) 2009 Gustavo Azambuja <gazambuja at gmail.com>
 # Copyright (C) 2009 Emiliano Gonzalez <egonzalez@ergio.com.ar>
 # --
-# $Id: es.pm,v 1.131 2011-09-07 20:37:39 en Exp $
+# $Id: es.pm,v 1.132 2011-09-15 11:38:48 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.131 $) [1];
+$VERSION = qw($Revision: 1.132 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -760,7 +760,7 @@ sub Data {
         'History::Misc' => '%s',
         'History::SetPendingTime' => 'Actualizado: %s',
         'History::StateUpdate' => 'Antiguo: "%s". Nuevo: "%s"',
-        'History::TicketFreeTextUpdate' => 'Actualizado: %s=%s;%s=%s;',
+        'History::TicketDynamicFieldUpdate' => 'Actualizado: %s=%s;%s=%s;',
         'History::WebRequestCustomer' => 'Solicitud de cliente vía web.',
         'History::TicketLinkAdd' => 'Añadido enlace al ticket "%s".',
         'History::TicketLinkDelete' => 'Eliminado enlace al ticket "%s".',

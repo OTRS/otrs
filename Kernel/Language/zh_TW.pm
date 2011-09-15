@@ -4,7 +4,7 @@
 # Copyright (C) 2009 Yiye Huang <yiyehuang at gmail.com>
 # Copyright (C) 2009 Qingjiu Jia <jiaqj at yahoo.com>
 # --
-# $Id: zh_TW.pm,v 1.26 2011-09-07 20:45:03 en Exp $
+# $Id: zh_TW.pm,v 1.27 2011-09-15 11:38:47 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.26 $) [1];
+$VERSION = qw($Revision: 1.27 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -758,7 +758,7 @@ sub Data {
         'History::Misc' => '%s',
         'History::SetPendingTime' => 'Refreshed: %s',
         'History::StateUpdate' => 'Before "%s" 新: "%s"',
-        'History::TicketFreeTextUpdate' => 'Refreshed: %s=%s;%s=%s;',
+        'History::TicketDynamicFieldUpdate' => 'Refreshed: %s=%s;%s=%s;',
         'History::WebRequestCustomer' => '客戶進行網上請求.',
         'History::TicketLinkAdd' => 'Link to "%s" established.',
         'History::TicketLinkDelete' => 'Link to "%s" removed.',

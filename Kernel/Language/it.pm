@@ -8,7 +8,7 @@
 # Copyright (C) 2009 Alessandro Faraldi <faraldia at gmail.com>
 # Copyright (C) 2010 Alessandro Grassi <alessandro.grassi at devise.it>
 # --
-# $Id: it.pm,v 1.115 2011-09-07 20:48:43 en Exp $
+# $Id: it.pm,v 1.116 2011-09-15 11:38:47 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.115 $) [1];
+$VERSION = qw($Revision: 1.116 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -762,7 +762,7 @@ sub Data {
         'History::Misc' => '%s',
         'History::SetPendingTime' => 'Aggiornato: %s',
         'History::StateUpdate' => 'Vecchio: "%s" Nuovo: "%s"',
-        'History::TicketFreeTextUpdate' => 'Aggiornato: %s=%s;%s=%s;',
+        'History::TicketDynamicFieldUpdate' => 'Aggiornato: %s=%s;%s=%s;',
         'History::WebRequestCustomer' => 'Richiesta del cliente via web.',
         'History::TicketLinkAdd' => 'Aggiunto link alla richiesta "%s".',
         'History::TicketLinkDelete' => 'Eliminato link alla richiesta "%s".',

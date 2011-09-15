@@ -2,7 +2,7 @@
 # Kernel/Language/en_CA.pm - provides en_CA language translation
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: en_CA.pm,v 1.9 2011-04-05 09:10:24 mb Exp $
+# $Id: en_CA.pm,v 1.10 2011-09-15 11:38:47 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -80,7 +80,7 @@ sub Data {
         'History::Misc' => '%s',
         'History::SetPendingTime' => 'Updated: %s',
         'History::StateUpdate' => 'Old: "%s" New: "%s"',
-        'History::TicketFreeTextUpdate' => 'Updated: %s=%s;%s=%s;',
+        'History::TicketDynamicFieldUpdate' => 'Updated: %s=%s;%s=%s;',
         'History::WebRequestCustomer' => 'Customer request via web.',
         'History::TicketLinkAdd' => 'Added link to ticket "%s".',
         'History::TicketLinkDelete' => 'Deleted link to ticket "%s".',

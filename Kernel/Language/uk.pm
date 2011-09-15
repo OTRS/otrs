@@ -2,7 +2,7 @@
 # Kernel/Language/uk.pm - provides ru language translation
 # Copyright (C) 2010 Бельский Артем
 # --
-# $Id: uk.pm,v 1.21 2011-09-07 20:51:14 en Exp $
+# $Id: uk.pm,v 1.22 2011-09-15 11:38:50 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
+$VERSION = qw($Revision: 1.22 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -756,7 +756,7 @@ sub Data {
         'History::Misc' => '%s',
         'History::SetPendingTime' => '',
         'History::StateUpdate' => '',
-        'History::TicketFreeTextUpdate' => '',
+        'History::TicketDynamicFieldUpdate' => '',
         'History::WebRequestCustomer' => '',
         'History::TicketLinkAdd' => '',
         'History::TicketLinkDelete' => '',

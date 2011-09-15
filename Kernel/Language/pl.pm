@@ -3,7 +3,7 @@
 # Copyright (C) 2003-2010 Tomasz Melissa <janek at rumianek.com>
 # Copyright (C) 2009 Artur Skalski <skal.ar at wp.pl>
 # --
-# $Id: pl.pm,v 1.110 2011-09-07 20:45:03 en Exp $
+# $Id: pl.pm,v 1.111 2011-09-15 11:38:50 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.110 $) [1];
+$VERSION = qw($Revision: 1.111 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -757,7 +757,7 @@ sub Data {
         'History::Misc' => '%s',
         'History::SetPendingTime' => 'Ustawiony czas przypomnienia: %s',
         'History::StateUpdate' => 'Aktualizacja statusu. Stary: "%s" nowy: "%s"',
-        'History::TicketFreeTextUpdate' => 'Zaktualizowano: %s=%s;%s=%s;',
+        'History::TicketDynamicFieldUpdate' => 'Zaktualizowano: %s=%s;%s=%s;',
         'History::WebRequestCustomer' => 'Żądanie klienta przez www.',
         'History::TicketLinkAdd' => 'Dodano łącze do zgłoszenia "%s".',
         'History::TicketLinkDelete' => 'Usunięto łacze ze zgłoszenia "%s".',

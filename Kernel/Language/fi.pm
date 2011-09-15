@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Antti Kämäräinen <antti at seu.net>
 # Copyright (C) 2007-2008 Mikko Hynninen <first.last at tietokartano.fi>
 # --
-# $Id: fi.pm,v 1.118 2011-09-07 20:45:04 en Exp $
+# $Id: fi.pm,v 1.119 2011-09-15 11:38:49 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.118 $) [1];
+$VERSION = qw($Revision: 1.119 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -757,7 +757,7 @@ sub Data {
         'History::Misc' => '%s',
         'History::SetPendingTime' => 'Päivitetty: %s',
         'History::StateUpdate' => 'Vanha: "%s" Uusi: "%s"',
-        'History::TicketFreeTextUpdate' => 'Päivitetty: %s=%s;%s=%s;',
+        'History::TicketDynamicFieldUpdate' => 'Päivitetty: %s=%s;%s=%s;',
         'History::WebRequestCustomer' => 'Asiakaspyyntö webin kautta.',
         'History::TicketLinkAdd' => 'Lisätty linkki tikettiin "%s".',
         'History::TicketLinkDelete' => 'Poistettu linkki tikettiin "%s".',

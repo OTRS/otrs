@@ -7,7 +7,7 @@
 # Copyright (C) 2009 Qingjiu Jia <jiaqj at yahoo.com>
 # Copyright (C) 2011 Martin Liu <liuzh66 at gmail.com> http://martinliu.cn
 # --
-# $Id: zh_CN.pm,v 1.96 2011-09-07 20:51:14 en Exp $
+# $Id: zh_CN.pm,v 1.97 2011-09-15 11:38:50 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.96 $) [1];
+$VERSION = qw($Revision: 1.97 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -723,7 +723,7 @@ sub Data {
         'History::Misc' => '历史：其他 %s',
         'History::SetPendingTime' => '历史：刷新%s',
         'History::StateUpdate' => '历史：状态从"%s" 更新为 "%s"',
-        'History::TicketFreeTextUpdate' => '历史：票单自定义文本更新， %s=%s;%s=%s;',
+        'History::TicketDynamicFieldUpdate' => '历史：票单自定义文本更新， %s=%s;%s=%s;',
         'History::WebRequestCustomer' => '历史：客户进行网上请求.',
         'History::TicketLinkAdd' => '历史：到票单"%s" 的链接被建立',
         'History::TicketLinkDelete' => '历史：票单"%s" 的链接被删除',

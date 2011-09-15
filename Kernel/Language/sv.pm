@@ -3,7 +3,7 @@
 # Copyright (C) 2004 Mats Eric Olausson <mats at synergy.se>
 # Copyright (C) 2009 Mikael Mattsson" <Mikael.Mattsson at konsumvarmland.se>
 # --
-# $Id: sv.pm,v 1.96 2011-09-07 20:51:14 en Exp $
+# $Id: sv.pm,v 1.97 2011-09-15 11:38:48 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.96 $) [1];
+$VERSION = qw($Revision: 1.97 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -757,7 +757,7 @@ sub Data {
         'History::Misc' => '%s',
         'History::SetPendingTime' => 'Updated: %s',
         'History::StateUpdate' => 'Old: "%s" New: "%s"',
-        'History::TicketFreeTextUpdate' => 'Updated: %s=%s;%s=%s;',
+        'History::TicketDynamicFieldUpdate' => 'Updated: %s=%s;%s=%s;',
         'History::WebRequestCustomer' => 'Customer request via web.',
         'History::TicketLinkAdd' => 'Added link to ticket "%s".',
         'History::TicketLinkDelete' => 'Deleted link to ticket "%s".',

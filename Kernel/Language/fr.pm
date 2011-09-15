@@ -8,7 +8,7 @@
 # Copyright (C) 2004-2008 Yann Richard <ze at nbox.org>
 # Copyright (C) 2009-2010 Olivier Sallou <olivier.sallou at irisa.fr>
 # --
-# $Id: fr.pm,v 1.148 2011-09-07 20:48:43 en Exp $
+# $Id: fr.pm,v 1.149 2011-09-15 11:38:51 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.148 $) [1];
+$VERSION = qw($Revision: 1.149 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -762,7 +762,7 @@ sub Data {
         'History::Misc' => '%s',
         'History::SetPendingTime' => 'Mise à jour: %s',
         'History::StateUpdate' => 'État Avant: "%s" Après: "%s"',
-        'History::TicketFreeTextUpdate' => 'Mise à jour: %s=%s;%s=%s;',
+        'History::TicketDynamicFieldUpdate' => 'Mise à jour: %s=%s;%s=%s;',
         'History::WebRequestCustomer' => 'Requête du client via le web.',
         'History::TicketLinkAdd' => 'Ajout d\'un lien vers le ticket "%s".',
         'History::TicketLinkDelete' => 'Suppression du lien vers le ticket "%s".',

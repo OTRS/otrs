@@ -2,7 +2,7 @@
 # Kernel/Language/pt.pm - provides pt language translation
 # Copyright (C) 2004-2007 CAT - Filipe Henriques <filipehenriques at ip.pt>
 # --
-# $Id: pt.pm,v 1.106 2011-09-07 20:51:14 en Exp $
+# $Id: pt.pm,v 1.107 2011-09-15 11:38:47 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.106 $) [1];
+$VERSION = qw($Revision: 1.107 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -756,7 +756,7 @@ sub Data {
         'History::Misc' => '%s',
         'History::SetPendingTime' => 'Actualizado: %s',
         'History::StateUpdate' => 'Antigo: "%s" Novo: "%s"',
-        'History::TicketFreeTextUpdate' => 'Actualizado: %s=%s;%s=%s;',
+        'History::TicketDynamicFieldUpdate' => 'Actualizado: %s=%s;%s=%s;',
         'History::WebRequestCustomer' => 'Customer request via web.',
         'History::TicketLinkAdd' => 'Adicionado novo link ao ticket "%s".',
         'History::TicketLinkDelete' => 'Apagado link de ticket "%s".',

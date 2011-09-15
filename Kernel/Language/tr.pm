@@ -2,7 +2,7 @@
 # Kernel/Language/tr.pm - provides Turkish language translation
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: tr.pm,v 1.53 2011-09-07 20:51:14 en Exp $
+# $Id: tr.pm,v 1.54 2011-09-15 11:38:51 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.53 $)[1];
+$VERSION = qw($Revision: 1.54 $)[1];
 
 sub Data {
     my $Self = shift;
@@ -755,7 +755,7 @@ sub Data {
         'History::Misc' => '%s',
         'History::SetPendingTime' => 'Güncellendi: %s',
         'History::StateUpdate' => 'Eski: "%s" Yeni: "%s"',
-        'History::TicketFreeTextUpdate' => 'Güncellendi: %s=%s;%s=%s;',
+        'History::TicketDynamicFieldUpdate' => 'Güncellendi: %s=%s;%s=%s;',
         'History::WebRequestCustomer' => 'Web üzerinden Müşteri İsteği.',
         'History::TicketLinkAdd' => '"%s" biletine köprü eklendi.',
         'History::TicketLinkDelete' => '"%s" biletine köprü silinde.',

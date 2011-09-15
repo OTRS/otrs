@@ -2,7 +2,7 @@
 # Kernel/Language/ct.pm - provides ct language translation
 # Copyright (C) 2008 Sistemes OTIC (ibsalut) - Antonio Linde
 # --
-# $Id: ct.pm,v 1.52 2011-09-07 20:35:27 en Exp $
+# $Id: ct.pm,v 1.53 2011-09-15 11:38:50 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.52 $) [1];
+$VERSION = qw($Revision: 1.53 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -756,7 +756,7 @@ sub Data {
         'History::Misc' => '%s',
         'History::SetPendingTime' => 'Actualitzat: %s',
         'History::StateUpdate' => 'Antic: "%s" Nou: "%s"',
-        'History::TicketFreeTextUpdate' => 'Actualitzat: %s=%s;%s=%s;',
+        'History::TicketDynamicFieldUpdate' => 'Actualitzat: %s=%s;%s=%s;',
         'History::WebRequestCustomer' => 'Sol·licitud de client per web.',
         'History::TicketLinkAdd' => 'Afegit enllaç al tiquet "%s".',
         'History::TicketLinkDelete' => 'Eliminat enllaç al tiquet "%s".',

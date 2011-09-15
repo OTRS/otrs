@@ -4,7 +4,7 @@
 # Copyright (C) 2007-2008 Mads N. Vestergaard <mnv[at]timmy.dk>
 # Copyright (C) 2010 Lars Jørgensen <lajo[at]kb.dk>
 # --
-# $Id: da.pm,v 1.89 2011-09-07 20:35:41 en Exp $
+# $Id: da.pm,v 1.90 2011-09-15 11:38:48 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 
 use vars qw($VERSION);
 
-$VERSION = qw($Revision: 1.89 $) [1];
+$VERSION = qw($Revision: 1.90 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -758,7 +758,7 @@ sub Data {
         'History::Misc' => 'Diverse %s',
         'History::SetPendingTime' => 'Sag afventer til %s',
         'History::StateUpdate' => 'Gammel status var "%s", ny status er "%s".',
-        'History::TicketFreeTextUpdate' => 'Opdateret: %s=%s;%s=%s;',
+        'History::TicketDynamicFieldUpdate' => 'Opdateret: %s=%s;%s=%s;',
         'History::WebRequestCustomer' => 'Kundeanmodning via web.',
         'History::TicketLinkAdd' => 'Tilføjet link til sag %s.',
         'History::TicketLinkDelete' => 'Slettet link til sag %s.',

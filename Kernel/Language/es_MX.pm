@@ -2,7 +2,7 @@
 # Kernel/Language/es_MX.pm - provides Spanish language translation for Mexico
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: es_MX.pm,v 1.45 2011-09-07 20:37:39 en Exp $
+# $Id: es_MX.pm,v 1.46 2011-09-15 11:38:50 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.45 $) [1];
+$VERSION = qw($Revision: 1.46 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -756,7 +756,7 @@ sub Data {
         'History::Misc' => '%s',
         'History::SetPendingTime' => 'Actualizado: %s',
         'History::StateUpdate' => 'Antiguo: "%s". Nuevo: "%s"',
-        'History::TicketFreeTextUpdate' => 'Actualizado: %s=%s;%s=%s;',
+        'History::TicketDynamicFieldUpdate' => 'Actualizado: %s=%s;%s=%s;',
         'History::WebRequestCustomer' => 'Solicitud de cliente vía web.',
         'History::TicketLinkAdd' => 'Añadido enlace al ticket "%s".',
         'History::TicketLinkDelete' => 'Eliminado enlace al ticket "%s".',
