@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.pm,v 1.135 2011-09-15 02:41:18 cr Exp $
+# $Id: AgentTicketCompose.pm,v 1.136 2011-09-15 04:37:05 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.135 $) [1];
+$VERSION = qw($Revision: 1.136 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -63,14 +63,14 @@ sub new {
         $Self->{FormID} = $Self->{UploadCacheObject}->FormIDCreate();
     }
 
-    # get config of frontend module
+    # get config for frontend module
     $Self->{Config} = $Self->{ConfigObject}->Get("Ticket::Frontend::$Self->{Action}");
 
     # get the dynamic fields for this screen
     $Self->{DynamicField} = $Self->{DynamicFieldObject}->DynamicFieldListGet(
         Valid       => 1,
         ObjectType  => [ 'Ticket', 'Article' ],
-        FieldFilter => $Self->{Config}->{DynamicField},
+        FieldFilter => $Self->{Config}->{DynamicField} || {},
     );
 
     return $Self;
@@ -158,6 +158,7 @@ sub Run {
         $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ );
     }
 
+    # get Dynamic fields form ParamObject
     my %DynamicFieldValues;
 
     # cycle trough the activated Dynamic Fields for this screen

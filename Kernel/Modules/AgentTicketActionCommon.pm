@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketActionCommon.pm - common file for several modules
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketActionCommon.pm,v 1.53 2011-09-15 02:41:18 cr Exp $
+# $Id: AgentTicketActionCommon.pm,v 1.54 2011-09-15 04:37:05 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -64,7 +64,7 @@ sub new {
     $Self->{DynamicField} = $Self->{DynamicFieldObject}->DynamicFieldListGet(
         Valid       => 1,
         ObjectType  => [ 'Ticket', 'Article' ],
-        FieldFilter => $Self->{Config}->{DynamicField},
+        FieldFilter => $Self->{Config}->{DynamicField} || {},
     );
 
     return $Self;
@@ -1031,7 +1031,7 @@ sub Run {
                 PossibleValuesFilter => $PossibleValuesFilter,
                 Value                => $Value,
                 Mandatory =>
-                    $Self->{Config}->{DynamicField}->{$DynamicFieldConfig} == 2,
+                    $Self->{Config}->{DynamicField}->{ $DynamicFieldConfig->{Name} } == 2,
                 LayoutObject => $Self->{LayoutObject},
                 ParamObject  => $Self->{ParamObject},
                 );
