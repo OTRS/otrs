@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField.pm - DynamicFields configuration backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicField.pm,v 1.47 2011-09-15 04:35:59 cr Exp $
+# $Id: DynamicField.pm,v 1.48 2011-09-15 07:28:32 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Cache;
 use Kernel::System::DynamicField::Backend;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.47 $) [1];
+$VERSION = qw($Revision: 1.48 $) [1];
 
 =head1 NAME
 
@@ -658,7 +658,10 @@ sub DynamicFieldList {
                         . $Self->{DBObject}->Quote( $Param{ObjectType} ) . "'";
                 }
                 elsif ( IsArrayRefWithData( $Param{ObjectType} ) ) {
-                    my $ObjectTypeString = join ',', map "'$_'", @{ $Param{ObjectType} };
+                    my $ObjectTypeString =
+                        join ',',
+                        map "'" . $Self->{DBObject}->Quote($_) . "'",
+                        @{ $Param{ObjectType} };
                     $SQL .= " AND object_type IN ($ObjectTypeString)";
 
                 }
@@ -672,7 +675,10 @@ sub DynamicFieldList {
                         . $Self->{DBObject}->Quote( $Param{ObjectType} ) . "'";
                 }
                 elsif ( IsArrayRefWithData( $Param{ObjectType} ) ) {
-                    my $ObjectTypeString = join ',', map "'$_'", @{ $Param{ObjectType} };
+                    my $ObjectTypeString =
+                        join ',',
+                        map "'" . $Self->{DBObject}->Quote($_) . "'",
+                        @{ $Param{ObjectType} };
                     $SQL .= " WHERE object_type IN ($ObjectTypeString)";
                 }
             }
@@ -895,7 +901,10 @@ sub DynamicFieldListGet {
                     " AND object_type = '" . $Self->{DBObject}->Quote( $Param{ObjectType} ) . "'";
             }
             elsif ( IsArrayRefWithData( $Param{ObjectType} ) ) {
-                my $ObjectTypeString = join ',', map "'$_'", @{ $Param{ObjectType} };
+                my $ObjectTypeString =
+                    join ',',
+                    map "'" . $Self->{DBObject}->Quote($_) . "'",
+                    @{ $Param{ObjectType} };
                 $SQL .= " AND object_type IN ($ObjectTypeString)";
 
             }
@@ -908,7 +917,10 @@ sub DynamicFieldListGet {
                     " WHERE object_type = '" . $Self->{DBObject}->Quote( $Param{ObjectType} ) . "'";
             }
             elsif ( IsArrayRefWithData( $Param{ObjectType} ) ) {
-                my $ObjectTypeString = join ',', map "'$_'", @{ $Param{ObjectType} };
+                my $ObjectTypeString =
+                    join ',',
+                    map "'" . $Self->{DBObject}->Quote($_) . "'",
+                    @{ $Param{ObjectType} };
                 $SQL .= " WHERE object_type IN ($ObjectTypeString)";
             }
         }
@@ -1182,6 +1194,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.47 $ $Date: 2011-09-15 04:35:59 $
+$Revision: 1.48 $ $Date: 2011-09-15 07:28:32 $
 
 =cut
