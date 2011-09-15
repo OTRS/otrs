@@ -2,7 +2,7 @@
 # AgentTicketPhoneCommon.dtl - provides HTML form for phone
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhoneCommon.dtl,v 1.2 2011-08-19 18:49:16 en Exp $
+# $Id: AgentTicketPhoneCommon.dtl,v 1.3 2011-09-15 23:31:49 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -129,69 +129,29 @@ $Include{"RichTextEditor"}
                     </div>
                     <div class="Clear"></div>
 
-<!-- dtl:block:TicketFreeText -->
-                    $Data{"TicketFreeKeyField"}
+<!-- dtl:block:DynamicField -->
+                    $Data{"DynamicFieldLabel"}
                     <div class="Field">
-                        $Data{"TicketFreeTextField"}
+                        $Data{"DynamicField"}
                     </div>
                     <div class="Clear"></div>
-<!-- dtl:block:TicketFreeText -->
+<!-- dtl:block:DynamicField -->
 
-#<!-- dtl:block:TicketFreeText1 -->
-#            <tr>
-#              <td class="contentkey">$Data{"TicketFreeKeyField1"}:</td>
-#              <td class="contentvalue">$Data{"TicketFreeTextField1"}</td>
-#            </tr>
-#<!-- dtl:block:TicketFreeText1 -->
-#<!-- dtl:block:TicketFreeText2 -->
-#            <tr>
-#              <td class="contentkey">$Data{"TicketFreeKeyField2"}:</td>
-#              <td class="contentvalue">$Data{"TicketFreeTextField2"}</td>
-#            </tr>
-#<!-- dtl:block:TicketFreeText2 -->
-
-<!-- dtl:block:TicketFreeTime -->
-                    $Data{"TicketFreeTimeKey"}
-                    <div class="Field">
-                        $Data{"TicketFreeTime"}
-                        <div id="TicketFreeTime$Data{"Count"}UsedError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
-                    </div>
-                    <div class="Clear"></div>
-<!-- dtl:block:TicketFreeTime -->
-
-#<!-- dtl:block:TicketFreeTime1 -->
-#            <tr>
-#              <td class="contentkey">$Text{"$Config{"TicketFreeTimeKey1"}"}:</td>
-#              <td class="contentvalue">$Data{"TicketFreeTime1"}</td>
-#            </tr>
-#<!-- dtl:block:TicketFreeTime1 -->
-#<!-- dtl:block:TicketFreeTime2 -->
-#            <tr>
-#              <td class="contentkey">$Text{"$Config{"TicketFreeTimeKey2"}"}:</td>
-#              <td class="contentvalue">$Data{"TicketFreeTime2"}</td>
-#            </tr>
-#<!-- dtl:block:TicketFreeTime2 -->
-
-<!-- dtl:block:ArticleFreeText -->
-                    $Data{"ArticleFreeKeyField"}
-                    <div class="Field">
-                        $Data{"ArticleFreeTextField"}
-                    </div>
-                    <div class="Clear"></div>
-<!-- dtl:block:ArticleFreeText -->
-
-#<!-- dtl:block:ArticleFreeText1 -->
-#                <tr>
-#                  <td class="contentkey">$Data{"ArticleFreeKeyField1"}:</td>
-#                  <td class="contentvalue">$Data{"ArticleFreeTextField1"}</td>
-#                </tr>
-#<!-- dtl:block:ArticleFreeText1 -->
-#<!-- dtl:block:ArticleFreeText2 -->
-#                <tr>
-#                  <td class="contentkey">$Data{"ArticleFreeKeyField2"}:</td>
-#                  <td class="contentvalue">$Data{"ArticleFreeTextField2"}</td>
-#                </tr>
-#<!-- dtl:block:ArticleFreeText2 -->
+# example of how to use fixed dynamic field blocks for customizations
+#<!-- dtl:block:DynamicField_Field1 -->
+#                $Data{"DynamicFieldLabel1"}
+#                <div class="Field">
+#                    $Data{"DynamicField1"}
+#                </div>
+#                <div class="Clear"></div>
+#<!-- dtl:block:DynamicField_Field1 -->
+#<!-- dtl:block:DynamicField_Field2 -->
+#                $Data{"DynamicFieldLabel2"}
+#                <div class="Field">
+#                    $Data{"DynamicField2"}
+#                </div>
+#                <div class="Clear"></div>
+#<!-- dtl:block:DynamicField_Field2 -->
 
 <!-- dtl:block:TimeUnitsLabel -->
                     <label for="TimeUnits">$Text{"Time units"}$Text{"$Config{"Ticket::Frontend::TimeUnits"}"}:</label>
