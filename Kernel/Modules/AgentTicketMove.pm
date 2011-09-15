@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMove.pm - move tickets to queues
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMove.pm,v 1.89 2011-09-15 04:47:40 cr Exp $
+# $Id: AgentTicketMove.pm,v 1.90 2011-09-15 18:15:08 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.89 $) [1];
+$VERSION = qw($Revision: 1.90 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -314,50 +314,91 @@ sub Run {
             QueueID => $GetParam{DestQueueID} || 1,
         );
 
-        # get free text config options
-        my @TicketFreeTextConfig;
-        for my $Count ( 1 .. 16 ) {
-            my $Key       = 'TicketFreeKey' . $Count;
-            my $Text      = 'TicketFreeText' . $Count;
-            my $ConfigKey = $Self->{TicketObject}->TicketFreeTextGet(
-                TicketID => $Self->{TicketID},
-                Type     => $Key,
-                Action   => $Self->{Action},
-                QueueID  => $GetParam{DestQueueID} || 0,
-                UserID   => $Self->{UserID},
+        # update Dynamc Fields Possible Values via AJAX
+        my @DynamicFieldAJAX;
+
+        # cycle trough the activated Dynamic Fields for this screen
+        DYNAMICFIELD:
+        for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
+            next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+            next DYNAMICFIELD
+                if !IsHashRefWithData( $DynamicFieldConfig->{Config}->{PossibleValues} );
+
+            my $PossibleValues = $DynamicFieldConfig->{Config}->{PossibleValues};
+
+            # set possible values filter from ACLs
+            my $ACL = $Self->{TicketObject}->TicketAcl(
+                Action        => $Self->{Action},
+                TicketID      => $Self->{TicketID},
+                QueueID       => $GetParam{DestQueueID} || 0,
+                Type          => 'DynamicField_' . $DynamicFieldConfig->{Name},
+                ReturnType    => 'Ticket',
+                ReturnSubType => 'DynamicField_' . $DynamicFieldConfig->{Name},
+                Data          => $DynamicFieldConfig->{Config}->{PossibleValues},
+                UserID        => $Self->{UserID},
             );
-            if ($ConfigKey) {
-                push(
-                    @TicketFreeTextConfig,
-                    {
-                        Name        => $Key,
-                        Data        => $ConfigKey,
-                        SelectedID  => $GetParam{$Key},
-                        Translation => 0,
-                        Max         => 100,
-                    }
-                );
+            if ($ACL) {
+                my %Filter = $Self->{TicketObject}->TicketAclData();
+                $PossibleValues = \%Filter;
             }
-            my $ConfigValue = $Self->{TicketObject}->TicketFreeTextGet(
-                TicketID => $Self->{TicketID},
-                Type     => $Text,
-                Action   => $Self->{Action},
-                QueueID  => $GetParam{DestQueueID} || 0,
-                UserID   => $Self->{UserID},
+
+            # add dynamic field to the list of fields to update
+            push(
+                @DynamicFieldAJAX,
+                {
+                    Name        => 'DynamicField_' . $DynamicFieldConfig->{Name},
+                    Data        => $PossibleValues,
+                    SelectedID  => $DynamicFieldValues{ $DynamicFieldConfig->{Name} },
+                    Translation => $DynamicFieldConfig->{Config}->{TranslatableValues} || 0,
+                    Max         => 100,
+                }
             );
-            if ($ConfigValue) {
-                push(
-                    @TicketFreeTextConfig,
-                    {
-                        Name        => $Text,
-                        Data        => $ConfigValue,
-                        SelectedID  => $GetParam{$Text},
-                        Translation => 0,
-                        Max         => 100,
-                    }
-                );
-            }
         }
+
+        #        # get free text config options
+        #        my @TicketFreeTextConfig;
+        #        for my $Count ( 1 .. 16 ) {
+        #            my $Key       = 'TicketFreeKey' . $Count;
+        #            my $Text      = 'TicketFreeText' . $Count;
+        #            my $ConfigKey = $Self->{TicketObject}->TicketFreeTextGet(
+        #                TicketID => $Self->{TicketID},
+        #                Type     => $Key,
+        #                Action   => $Self->{Action},
+        #                QueueID  => $GetParam{DestQueueID} || 0,
+        #                UserID   => $Self->{UserID},
+        #            );
+        #            if ($ConfigKey) {
+        #                push(
+        #                    @TicketFreeTextConfig,
+        #                    {
+        #                        Name        => $Key,
+        #                        Data        => $ConfigKey,
+        #                        SelectedID  => $GetParam{$Key},
+        #                        Translation => 0,
+        #                        Max         => 100,
+        #                    }
+        #                );
+        #            }
+        #            my $ConfigValue = $Self->{TicketObject}->TicketFreeTextGet(
+        #                TicketID => $Self->{TicketID},
+        #                Type     => $Text,
+        #                Action   => $Self->{Action},
+        #                QueueID  => $GetParam{DestQueueID} || 0,
+        #                UserID   => $Self->{UserID},
+        #            );
+        #            if ($ConfigValue) {
+        #                push(
+        #                    @TicketFreeTextConfig,
+        #                    {
+        #                        Name        => $Text,
+        #                        Data        => $ConfigValue,
+        #                        SelectedID  => $GetParam{$Text},
+        #                        Translation => 0,
+        #                        Max         => 100,
+        #                    }
+        #                );
+        #            }
+        #        }
         my $JSON = $Self->{LayoutObject}->BuildSelectionJSON(
             [
                 {
@@ -384,7 +425,9 @@ sub Run {
                     PossibleNone => 1,
                     Max          => 100,
                 },
-                @TicketFreeTextConfig,
+
+                #                @TicketFreeTextConfig,
+                @DynamicFieldAJAX,
             ],
         );
         return $Self->{LayoutObject}->Attachment(
@@ -1203,6 +1246,8 @@ sub AgentMove {
         );
     }
 
+    my @DynamicFieldNames;
+
     # Dynamic fields
     # cycle trough the activated Dynamic Fields for this screen
     DYNAMICFIELD:
@@ -1224,7 +1269,12 @@ sub AgentMove {
                 DynamicField      => $DynamicFieldHTML->{Field},
             },
         );
+
+        push @DynamicFieldNames, $DynamicFieldConfig->{Name};
     }
+
+    # create a string with the quoted dynamic field names separated by a commas
+    $Param{DynamicFieldNamesStrg} = join ',', map "'DynamicField_$_'", @DynamicFieldNames;
 
     #    # ticket free text
     #    for my $Count ( 1 .. 16 ) {
