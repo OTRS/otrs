@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.pm,v 1.134 2011-09-14 01:22:09 cr Exp $
+# $Id: AgentTicketCompose.pm,v 1.135 2011-09-15 02:41:18 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.134 $) [1];
+$VERSION = qw($Revision: 1.135 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -65,6 +65,13 @@ sub new {
 
     # get config of frontend module
     $Self->{Config} = $Self->{ConfigObject}->Get("Ticket::Frontend::$Self->{Action}");
+
+    # get the dynamic fields for this screen
+    $Self->{DynamicField} = $Self->{DynamicFieldObject}->DynamicFieldListGet(
+        Valid       => 1,
+        ObjectType  => [ 'Ticket', 'Article' ],
+        FieldFilter => $Self->{Config}->{DynamicField},
+    );
 
     return $Self;
 }
@@ -154,30 +161,17 @@ sub Run {
     my %DynamicFieldValues;
 
     # cycle trough the activated Dynamic Fields for this screen
-    FIELDNAME:
-    for my $FieldName ( keys %{ $Self->{Config}->{DynamicField} } ) {
-        next FIELDNAME if !$FieldName;
-
-        # Check if field was displayed
-        next FIELDNAME if !$Self->{Config}->{DynamicField}->{$FieldName};
-
-        # get the configuration of the dynamic field
-        my $DynamicFieldConfig = $Self->{DynamicFieldObject}->DynamicFieldGet(
-            Name => $FieldName,
-        );
-        next FIELDNAME if !IsHashRefWithData($DynamicFieldConfig);
-        next FIELDNAME if $DynamicFieldConfig->{ValidID} ne 1;
-
-        # skip dynamic fields for other object types than Ticket or Article
-        next FIELDNAME if $DynamicFieldConfig->{ObjectType} ne 'Ticket'
-                && $DynamicFieldConfig->{ObjectType} ne 'Article';
+    DYNAMICFIELD:
+    for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
+        next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
 
         # extract the dynamic field value form the web request
-        $DynamicFieldValues{$FieldName} = $Self->{BackendObject}->EditFieldValueGet(
+        $DynamicFieldValues{ $DynamicFieldConfig->{Name} } =
+            $Self->{BackendObject}->EditFieldValueGet(
             DynamicFieldConfig => $DynamicFieldConfig,
             ParamObject        => $Self->{ParamObject},
             LayoutObject       => $Self->{LayoutObject},
-        );
+            );
     }
 
     # transform pending time, time stamp based on user time zone
@@ -340,27 +334,13 @@ sub Run {
             }
         }
 
+        # create html strings for all dynamic fields
         my %DynamicFieldHTML;
 
-        # create html strings for all dynamic fields
-        FIELDNAME:
-        for my $FieldName ( keys %{ $Self->{Config}->{DynamicField} } ) {
-            next FIELDNAME if !$FieldName;
-
-            # Check if field should be displayed
-            next FIELDNAME if !$Self->{Config}->{DynamicField}->{$FieldName};
-
-            my $DynamicFieldConfig = $Self->{DynamicFieldObject}->DynamicFieldGet(
-                Name => $FieldName,
-            );
-
-            # skip undefined dynamic fields and non valid
-            next FIELDNAME if !IsHashRefWithData($DynamicFieldConfig);
-            next FIELDNAME if $DynamicFieldConfig->{ValidID} ne 1;
-
-            # skip dynamic fields for other object types than Ticket or Article
-            next FIELDNAME if $DynamicFieldConfig->{ObjectType} ne 'Ticket'
-                    && $DynamicFieldConfig->{ObjectType} ne 'Article';
+        # cycle trough the activated Dynamic Fields for this screen
+        DYNAMICFIELD:
+        for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
+            next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
 
             my $PossibleValuesFilter;
 
@@ -371,9 +351,9 @@ sub Run {
                 my $ACL = $Self->{TicketObject}->TicketAcl(
                     Action        => $Self->{Action},
                     TicketID      => $Self->{TicketID},
-                    Type          => 'DynamicField_' . $FieldName,
+                    Type          => 'DynamicField_' . $DynamicFieldConfig->{Name},
                     ReturnType    => 'Ticket',
-                    ReturnSubType => 'DynamicField_' . $FieldName,
+                    ReturnSubType => 'DynamicField_' . $DynamicFieldConfig->{Name},
                     Data          => $DynamicFieldConfig->{Config}->{PossibleValues},
                     UserID        => $Self->{UserID},
                 );
@@ -392,7 +372,8 @@ sub Run {
                     DynamicFieldConfig   => $DynamicFieldConfig,
                     PossibleValuesFilter => $PossibleValuesFilter,
                     ParamObject          => $Self->{ParamObject},
-                    Mandatory            => $Self->{Config}->{DynamicField}->{$FieldName} == 2,
+                    Mandatory =>
+                        $Self->{Config}->{DynamicField}->{ $DynamicFieldConfig->{Name} } == 2,
                 );
 
                 if ( !IsHashRefWithData($ValidationResult) ) {
@@ -410,15 +391,17 @@ sub Run {
             }
 
             # get field html
-            $DynamicFieldHTML{$FieldName} = $Self->{BackendObject}->EditFieldRender(
+            $DynamicFieldHTML{ $DynamicFieldConfig->{Name} } =
+                $Self->{BackendObject}->EditFieldRender(
                 DynamicFieldConfig   => $DynamicFieldConfig,
                 PossibleValuesFilter => $PossibleValuesFilter,
-                Mandatory            => $Self->{Config}->{DynamicField}->{$FieldName} == 2,
-                ServerError          => $ValidationResult->{ServerError} || '',
-                ErrorMessage         => $ValidationResult->{ErrorMessage} || '',
-                LayoutObject         => $Self->{LayoutObject},
-                ParamObject          => $Self->{ParamObject},
-            );
+                Mandatory =>
+                    $Self->{Config}->{DynamicField}->{ $DynamicFieldConfig->{Name} } == 2,
+                ServerError  => $ValidationResult->{ServerError}  || '',
+                ErrorMessage => $ValidationResult->{ErrorMessage} || '',
+                LayoutObject => $Self->{LayoutObject},
+                ParamObject  => $Self->{ParamObject},
+                );
         }
 
         # check if there is an error
@@ -439,10 +422,6 @@ sub Run {
                 TicketBackType => $TicketBackType,
                 %Ticket,
                 DynamicFieldHTML => \%DynamicFieldHTML,
-
-                #                %TicketFreeTextHTML,
-                #                %TicketFreeTimeHTML,
-                #                %ArticleFreeTextHTML,
                 %GetParam,
             );
             $Output .= $Self->{LayoutObject}->Footer(
@@ -552,24 +531,10 @@ sub Run {
         }
 
         # set dynamic fields
-        FIELDNAME:
-        for my $FieldName ( keys %{ $Self->{Config}->{DynamicField} } ) {
-            next FIELDNAME if !$FieldName;
-
-            # Check if field was displayed
-            next FIELDNAME if !$Self->{Config}->{DynamicField}->{$FieldName};
-
-            my $DynamicFieldConfig = $Self->{DynamicFieldObject}->DynamicFieldGet(
-                Name => $FieldName,
-            );
-
-            # skip undefined dynamic fields and non valid
-            next FIELDNAME if !IsHashRefWithData($DynamicFieldConfig);
-            next FIELDNAME if $DynamicFieldConfig->{ValidID} ne 1;
-
-            # skip dynamic fields for other object types than Ticket or Article
-            next FIELDNAME if $DynamicFieldConfig->{ObjectType} ne 'Ticket'
-                    && $DynamicFieldConfig->{ObjectType} ne 'Article';
+        # cycle trough the activated Dynamic Fields for this screen
+        DYNAMICFIELD:
+        for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
+            next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
 
             # set the object ID (TicketID or ArticleID) depending on the field configration
             my $ObjectID
@@ -579,7 +544,7 @@ sub Run {
             my $Success = $Self->{BackendObject}->ValueSet(
                 DynamicFieldConfig => $DynamicFieldConfig,
                 ObjectID           => $ObjectID,
-                Value              => $DynamicFieldValues{$FieldName},
+                Value              => $DynamicFieldValues{ $DynamicFieldConfig->{Name} },
                 UserID             => $Self->{UserID},
             );
         }
@@ -982,27 +947,13 @@ $QData{"Signature"}
             }
         }
 
+        # create html strings for all dynamic fields
         my %DynamicFieldHTML;
 
-        # create html strings for all dynamic fields
-        FIELDNAME:
-        for my $FieldName ( keys %{ $Self->{Config}->{DynamicField} } ) {
-            next FIELDNAME if !$FieldName;
-
-            # Check if field should be displayed
-            next FIELDNAME if !$Self->{Config}->{DynamicField}->{$FieldName};
-
-            my $DynamicFieldConfig = $Self->{DynamicFieldObject}->DynamicFieldGet(
-                Name => $FieldName,
-            );
-
-            # skip undefined dynamic fields and non valid
-            next FIELDNAME if !IsHashRefWithData($DynamicFieldConfig);
-            next FIELDNAME if $DynamicFieldConfig->{ValidID} ne 1;
-
-            # skip dynamic fields for other object types than Ticket or Article
-            next FIELDNAME if $DynamicFieldConfig->{ObjectType} ne 'Ticket'
-                    && $DynamicFieldConfig->{ObjectType} ne 'Article';
+        # cycle trough the activated Dynamic Fields for this screen
+        DYNAMICFIELD:
+        for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
+            next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
 
             my $PossibleValuesFilter;
 
@@ -1013,9 +964,9 @@ $QData{"Signature"}
                 my $ACL = $Self->{TicketObject}->TicketAcl(
                     Action        => $Self->{Action},
                     TicketID      => $Self->{TicketID},
-                    Type          => 'DynamicField_' . $FieldName,
+                    Type          => 'DynamicField_' . $DynamicFieldConfig->{Name},
                     ReturnType    => 'Ticket',
-                    ReturnSubType => 'DynamicField_' . $FieldName,
+                    ReturnSubType => 'DynamicField_' . $DynamicFieldConfig->{Name},
                     Data          => $DynamicFieldConfig->{Config}->{PossibleValues},
                     UserID        => $Self->{UserID},
                 );
@@ -1040,14 +991,16 @@ $QData{"Signature"}
             }
 
             # get field html
-            $DynamicFieldHTML{$FieldName} = $Self->{BackendObject}->EditFieldRender(
+            $DynamicFieldHTML{ $DynamicFieldConfig->{Name} } =
+                $Self->{BackendObject}->EditFieldRender(
                 DynamicFieldConfig   => $DynamicFieldConfig,
                 PossibleValuesFilter => $PossibleValuesFilter,
                 Value                => $Value,
-                Mandatory            => $Self->{Config}->{DynamicField}->{$FieldName} == 2,
-                LayoutObject         => $Self->{LayoutObject},
-                ParamObject          => $Self->{ParamObject},
-            );
+                Mandatory =>
+                    $Self->{Config}->{DynamicField}->{ $DynamicFieldConfig->{Name} } == 2,
+                LayoutObject => $Self->{LayoutObject},
+                ParamObject  => $Self->{ParamObject},
+                );
         }
 
         # build references if exist
@@ -1190,26 +1143,18 @@ sub _Mask {
     }
 
     # Dynamic fields
-
-    # get an orderderd list of valid dynamic fields
-    my $DynamicFieldIDs = $Self->{DynamicFieldObject}->DynamicFieldList();
-
-    # get a loockup table for field name
-    my $DynamicFieldLookUp = $Self->{DynamicFieldObject}->DynamicFieldList( ResultType => 'HASH' );
-
-    # cycle trough the Dynamic Fields
-    FIELD:
-    for my $FieldID ( @{$DynamicFieldIDs} ) {
-        my $FieldName = $DynamicFieldLookUp->{$FieldID};
-
-        # skip fields that are not configured for this screen
-        next FIELD if !$Self->{Config}->{DynamicField}->{$FieldName};
+    # cycle trough the activated Dynamic Fields for this screen
+    DYNAMICFIELD:
+    for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
+        next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
 
         # skip fields that HTML could not be retrieved
-        next FIELD if !IsHashRefWithData( $Param{DynamicFieldHTML}->{$FieldName} );
+        next DYNAMICFIELD if !IsHashRefWithData(
+            $Param{DynamicFieldHTML}->{ $DynamicFieldConfig->{Name} }
+        );
 
         # get the html strings form $Param
-        my $DynamicFieldHTML = $Param{DynamicFieldHTML}->{$FieldName};
+        my $DynamicFieldHTML = $Param{DynamicFieldHTML}->{ $DynamicFieldConfig->{Name} };
 
         $Self->{LayoutObject}->Block(
             Name => 'DynamicField',
