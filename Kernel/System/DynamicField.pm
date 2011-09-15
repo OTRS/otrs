@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField.pm - DynamicFields configuration backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicField.pm,v 1.45 2011-09-15 02:11:12 cr Exp $
+# $Id: DynamicField.pm,v 1.46 2011-09-15 04:26:39 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Cache;
 use Kernel::System::DynamicField::Backend;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.45 $) [1];
+$VERSION = qw($Revision: 1.46 $) [1];
 
 =head1 NAME
 
@@ -558,7 +558,7 @@ sub DynamicFieldList {
     # to store fieldIDs whitelist
     my %AllowedFieldIDs;
 
-    if ( IsHashRefWithData( $Param{FieldFilter} ) ) {
+    if ( defined $Param{FieldFilter} && IsHashRefWithData( $Param{FieldFilter} ) ) {
 
         # fill the fieldIDs whitelist
         FIELDNAME:
@@ -600,10 +600,17 @@ sub DynamicFieldList {
     if ( $Cache && $Cache eq $ResultType ) {
 
         # check if FieldFilter is not set
-        if ( !IsHashRefWithData( $Param{FieldFilter} ) ) {
+        if ( !defined $Param{FieldFilter} ) {
 
             # return raw data from cache
             return $Cache;
+        }
+        elsif ( !IsHashRefWithData( $Param{FieldFilter} ) ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => 'FieldFilter must be a HASH reference!'
+            );
+            return;
         }
 
         # otherwise apply the filter
@@ -694,10 +701,17 @@ sub DynamicFieldList {
             }
 
             # check if FieldFilter is not set
-            if ( !IsHashRefWithData( $Param{FieldFilter} ) ) {
+            if ( !defined $Param{FieldFilter} ) {
 
                 # return raw data from DB
                 return \%Data;
+            }
+            elsif ( !IsHashRefWithData( $Param{FieldFilter} ) ) {
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message  => 'FieldFilter must be a HASH reference!'
+                );
+                return;
             }
 
             my %FilteredData;
@@ -731,10 +745,17 @@ sub DynamicFieldList {
             }
 
             # check if FieldFilter is not set
-            if ( !IsHashRefWithData( $Param{FieldFilter} ) ) {
+            if ( !defined $Param{FieldFilter} ) {
 
                 # return raw data from DB
                 return \@Data;
+            }
+            elsif ( !IsHashRefWithData( $Param{FieldFilter} ) ) {
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message  => 'FieldFilter must be a HASH reference!'
+                );
+                return;
             }
 
             my @FilteredData;
@@ -834,10 +855,17 @@ sub DynamicFieldListGet {
     if ($Cache) {
 
         # check if FieldFilter is not set
-        if ( !IsHashRefWithData( $Param{FieldFilter} ) ) {
+        if ( !defined $Param{FieldFilter} ) {
 
             # return raw data from cache
             return $Cache;
+        }
+        elsif ( !IsHashRefWithData( $Param{FieldFilter} ) ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => 'FieldFilter must be a HASH reference!'
+            );
+            return;
         }
 
         my $FilteredData;
@@ -915,10 +943,17 @@ sub DynamicFieldListGet {
     }
 
     # check if FieldFilter is not set
-    if ( !IsHashRefWithData( $Param{FieldFilter} ) ) {
+    if ( !defined $Param{FieldFilter} ) {
 
         # return raw data from DB
         return \@Data;
+    }
+    elsif ( !IsHashRefWithData( $Param{FieldFilter} ) ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'FieldFilter must be a HASH reference!'
+        );
+        return;
     }
 
     my $FilteredData;
@@ -1147,6 +1182,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.45 $ $Date: 2011-09-15 02:11:12 $
+$Revision: 1.46 $ $Date: 2011-09-15 04:26:39 $
 
 =cut
