@@ -2,7 +2,7 @@
 # AdminDynamicFieldDropdown.dtl - provides HTML form for AdminDynamicFieldsDropdown
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminDynamicFieldDropdown.dtl,v 1.7 2011-08-27 02:34:05 cr Exp $
+# $Id: AdminDynamicFieldDropdown.dtl,v 1.8 2011-09-15 18:13:10 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -157,6 +157,14 @@
                         <div class="Field">
                             $Data{"DefaultValueStrg"}
                             <p class="FieldExplanation">$Text{"This is the default value for this field."}</p>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <div class="SpacingTop"></div>
+                        <label for="DefaultValue">$Text{"Allow Possible None"}:</label>
+                        <div class="Field">
+                            $Data{"PossibleNoneStrg"}
+                            <p class="FieldExplanation">$Text{"Activate this option to create an empty selectable value."}</p>
                         </div>
                         <div class="Clear"></div>
 

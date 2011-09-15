@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminDynamicFieldDropdown.pm - provides a dynamic fields text config view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminDynamicFieldDropdown.pm,v 1.9 2011-09-05 09:46:09 mg Exp $
+# $Id: AdminDynamicFieldDropdown.pm,v 1.10 2011-09-15 18:12:55 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::DynamicField;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -162,7 +162,10 @@ sub _AddAction {
     }
 
     for my $ConfigParam (
-        qw(ObjectType ObjectTypeName FieldType FieldTypeName DefaultValue TranslatableValues ValidID)
+        qw(
+        ObjectType ObjectTypeName FieldType FieldTypeName DefaultValue PossibleNone
+        TranslatableValues ValidID
+        )
         )
     {
         $GetParam{$ConfigParam} = $Self->{ParamObject}->GetParam( Param => $ConfigParam );
@@ -218,6 +221,7 @@ sub _AddAction {
     my $FieldConfig = {
         PossibleValues     => $PossibleValues,
         DefaultValue       => $GetParam{DefaultValue},
+        PossibleNone       => $GetParam{PossibleNone},
         TranslatableValues => $GetParam{TranslatableValues},
     };
 
@@ -295,6 +299,9 @@ sub _Change {
         # set DefaultValue
         $Config{DefaultValue} = $DynamicFieldData->{Config}->{DefaultValue};
 
+        # set PossibleNone
+        $Config{PossibleNone} = $DynamicFieldData->{Config}->{PossibleNone};
+
         # set TranslatalbeValues
         $Config{TranslatableValues} = $DynamicFieldData->{Config}->{TranslatableValues};
     }
@@ -335,7 +342,7 @@ sub _ChangeAction {
     if ( $GetParam{Name} ) {
 
         # check if name is lowercase
-        if ( $GetParam{Name} !~ m{\A ( ?: [a-z] | \d )+ \z}xms ) {
+        if ( $GetParam{Name} !~ m{\A ( ?: [a-zA-Z] | \d )+ \z}xms ) {
 
             # add server error error class
             $Errors{NameServerError} = 'ServerError';
@@ -377,7 +384,10 @@ sub _ChangeAction {
     }
 
     for my $ConfigParam (
-        qw(ObjectType ObjectTypeName FieldType FieldTypeName DefaultValue TranslatableValues ValidID)
+        qw(
+        ObjectType ObjectTypeName FieldType FieldTypeName DefaultValue PossibleNone
+        TranslatableValues ValidID
+        )
         )
     {
         $GetParam{$ConfigParam} = $Self->{ParamObject}->GetParam( Param => $ConfigParam );
@@ -446,6 +456,7 @@ sub _ChangeAction {
     my $FieldConfig = {
         PossibleValues     => $PossibleValues,
         DefaultValue       => $GetParam{DefaultValue},
+        PossibleNone       => $GetParam{PossibleNone},
         TranslatableValues => $GetParam{TranslatableValues},
     };
 
@@ -638,6 +649,19 @@ sub _ShowScreen {
         Class    => 'W50pc',
     );
 
+    my $PossibleNone = $Param{PossibleNone} || '0';
+
+    # create translatable values option list
+    my $PossibleNoneStrg = $Self->{LayoutObject}->BuildSelection(
+        Data => {
+            0 => 'No',
+            1 => 'Yes',
+        },
+        Name       => 'PossibleNone',
+        SelectedID => $PossibleNone,
+        Class      => 'W50pc',
+    );
+
     my $TranslatableValues = $Param{TranslatableValues} || '0';
 
     # create translatable values option list
@@ -660,6 +684,7 @@ sub _ShowScreen {
             DynamicFieldOrderSrtg  => $DynamicFieldOrderSrtg,
             ValueCounter           => $ValueCounter,
             DefaultValueStrg       => $DefaultValueStrg,
+            PossibleNoneStrg       => $PossibleNoneStrg,
             TranslatableValuesStrg => $TranslatableValuesStrg,
             }
     );
