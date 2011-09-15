@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField.pm - DynamicFields configuration backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicField.pm,v 1.44 2011-09-14 23:05:59 cr Exp $
+# $Id: DynamicField.pm,v 1.45 2011-09-15 02:11:12 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Cache;
 use Kernel::System::DynamicField::Backend;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.44 $) [1];
+$VERSION = qw($Revision: 1.45 $) [1];
 
 =head1 NAME
 
@@ -652,7 +652,7 @@ sub DynamicFieldList {
                 }
                 elsif ( IsArrayRefWithData( $Param{ObjectType} ) ) {
                     my $ObjectTypeString = join ',', map "'$_'", @{ $Param{ObjectType} };
-                    $SQL .= " WHERE object_type IN ($ObjectTypeString)";
+                    $SQL .= " AND object_type IN ($ObjectTypeString)";
 
                 }
             }
@@ -868,7 +868,7 @@ sub DynamicFieldListGet {
             }
             elsif ( IsArrayRefWithData( $Param{ObjectType} ) ) {
                 my $ObjectTypeString = join ',', map "'$_'", @{ $Param{ObjectType} };
-                $SQL .= " WHERE object_type IN ($ObjectTypeString)";
+                $SQL .= " AND object_type IN ($ObjectTypeString)";
 
             }
         }
@@ -1147,6 +1147,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.44 $ $Date: 2011-09-14 23:05:59 $
+$Revision: 1.45 $ $Date: 2011-09-15 02:11:12 $
 
 =cut
