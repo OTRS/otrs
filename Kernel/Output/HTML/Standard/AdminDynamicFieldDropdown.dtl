@@ -2,7 +2,7 @@
 # AdminDynamicFieldDropdown.dtl - provides HTML form for AdminDynamicFieldsDropdown
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminDynamicFieldDropdown.dtl,v 1.8 2011-09-15 18:13:10 cr Exp $
+# $Id: AdminDynamicFieldDropdown.dtl,v 1.9 2011-09-16 07:27:22 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -64,7 +64,7 @@
                                 </div>
                                 <div class="Clear"></div>
 
-                                <label class="Mandatory" for="FieldOrder"><span class="Marker">*</span> $Text{"Field Order"}:</label>
+                                <label class="Mandatory" for="FieldOrder"><span class="Marker">*</span> $Text{"Field order"}:</label>
                                 <div class="Field">
                                     $Data{"DynamicFieldOrderSrtg"}
                                     <div id="FieldOrderError" class="TooltipErrorMessage"><p>$Text{"This field is required and must be numeric."}</p></div>
@@ -83,14 +83,14 @@
                                 <div class="Clear"></div>
 
                                 <div class="SpacingTop"></div>
-                                <label for="FieldTypeName">$Text{"Field Type"}:</label>
+                                <label for="FieldTypeName">$Text{"Field type"}:</label>
                                 <div class="Field">
                                     <input id="FieldTypeName" readonly="readonly" class="W50pc" type="text" maxlength="200" value="$QData{"FieldTypeName"}" name="FieldTypeName"/>
                                     <div class="Clear"></div>
                                 </div>
 
                                 <div class="SpacingTop"></div>
-                                <label for="ObjectTypeName">$Text{"Object Type"}:</label>
+                                <label for="ObjectTypeName">$Text{"Object type"}:</label>
                                 <div class="Field">
                                     <input id="ObjectTypeName" readonly="readonly" class="W50pc" type="text" maxlength="200" value="$QData{"ObjectTypeName"}" name="ObjectTypeName"/>
                                     <div class="Clear"></div>
@@ -106,7 +106,7 @@
                 </div>
                 <div class="Content">
                     <fieldset class="TableLike">
-                        <label>$Text{"Possible Values"}:</label>
+                        <label>$Text{"Possible values"}:</label>
                         <div class="Field ValueInsert">
                             <input type="hidden" name="ValueCounter" value="$QData{"ValueCounter"}" id="ValueCounter" class="ValueCounter" />
                             <div class="Spacing"></div>
@@ -146,14 +146,14 @@
                         </div>
                         <div class="Clear"></div>
 
-                        <label for="AddValue">$Text{"Add Value"}:</label>
+                        <label for="AddValue">$Text{"Add value"}:</label>
                         <div class="Field">
                             <button id="AddValue" class="Add" type="button" value="Add Value">$Text{"Add Value"}</button>
                         </div>
                         <div class="Clear"></div>
 
                         <div class="SpacingTop"></div>
-                        <label for="DefaultValue">$Text{"Default Value"}:</label>
+                        <label for="DefaultValue">$Text{"Default value"}:</label>
                         <div class="Field">
                             $Data{"DefaultValueStrg"}
                             <p class="FieldExplanation">$Text{"This is the default value for this field."}</p>
@@ -161,14 +161,14 @@
                         <div class="Clear"></div>
 
                         <div class="SpacingTop"></div>
-                        <label for="DefaultValue">$Text{"Allow Possible None"}:</label>
+                        <label for="DefaultValue">$Text{"Allow empty value"}:</label>
                         <div class="Field">
                             $Data{"PossibleNoneStrg"}
                             <p class="FieldExplanation">$Text{"Activate this option to create an empty selectable value."}</p>
                         </div>
                         <div class="Clear"></div>
 
-                        <label for="TranslatableValues">$Text{"Translatable Values"}:</label>
+                        <label for="TranslatableValues">$Text{"Translatable values"}:</label>
                         <div class="Field">
                             $Data{"TranslatableValuesStrg"}
                             <p class="FieldExplanation">$Text{"If you activate this option the values will be translated to the user defined language."}</p>

@@ -2,7 +2,7 @@
 # AdminDynamicFieldDateTime.dtl - provides HTML form for AdminDynamicFieldsDateTime
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminDynamicFieldDateTime.dtl,v 1.6 2011-08-27 02:32:13 cr Exp $
+# $Id: AdminDynamicFieldDateTime.dtl,v 1.7 2011-09-16 07:27:22 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -64,7 +64,7 @@
                                 </div>
                                 <div class="Clear"></div>
 
-                                <label class="Mandatory" for="FieldOrder"><span class="Marker">*</span> $Text{"Field Order"}:</label>
+                                <label class="Mandatory" for="FieldOrder"><span class="Marker">*</span> $Text{"Field order"}:</label>
                                 <div class="Field">
                                     $Data{"DynamicFieldOrderSrtg"}
                                     <div id="FieldOrderError" class="TooltipErrorMessage"><p>$Text{"This field is required and must be numeric."}</p></div>
@@ -83,14 +83,14 @@
                                 <div class="Clear"></div>
 
                                 <div class="SpacingTop"></div>
-                                <label for="FieldTypeName">$Text{"Field Type"}:</label>
+                                <label for="FieldTypeName">$Text{"Field type"}:</label>
                                 <div class="Field">
                                     <input id="FieldTypeName" readonly="readonly" class="W50pc" type="text" maxlength="200" value="$QData{"FieldTypeName"}" name="FieldTypeName"/>
                                     <div class="Clear"></div>
                                 </div>
 
                                 <div class="SpacingTop"></div>
-                                <label for="ObjectTypeName">$Text{"Object Type"}:</label>
+                                <label for="ObjectTypeName">$Text{"Object type"}:</label>
                                 <div class="Field">
                                     <input id="ObjectTypeName" readonly="readonly" class="W50pc" type="text" maxlength="200" value="$QData{"ObjectTypeName"}" name="ObjectTypeName"/>
                                     <div class="Clear"></div>
@@ -106,7 +106,7 @@
                 </div>
                 <div class="Content">
                     <fieldset class="TableLike">
-                        <label for="DefaultValue">$Text{"Default Date Difference"}:</label>
+                        <label for="DefaultValue">$Text{"Default date difference"}:</label>
                         <div class="Field">
                             <input id="DefaultValue" class="W50pc Validate_PositiveNegativeNumbers $QData{"DefaultValueServerError"}" type="text" maxlength="200" value="$QData{"DefaultValue"}" name="DefaultValue"/>
                             <div id="DefaultValueError" class="TooltipErrorMessage"><p>$Text{"This field must be numeric."}</p></div>
@@ -115,7 +115,7 @@
                         </div>
                         <div class="Clear"></div>
 
-                        <label for="YearsPeriod">$Text{"Define Years Period"}:</label>
+                        <label for="YearsPeriod">$Text{"Define years period"}:</label>
                         <div class="Field">
                             $Data{"YearsPeriodStrg"}
                             <p class="FieldExplanation">$Text{"Activate this feature to define a fixed range of years (in future and in past) to be displayed on the year selection of the field."}</p>
@@ -123,7 +123,7 @@
                         <div class="Clear"></div>
 
                         <fieldset id="YearsPeriodOption" class="TableLike $QData{"ClassYearsPeriod"}">
-                            <label for="YearsInFuture">$Text{"Years In Future"}:</label>
+                            <label for="YearsInFuture">$Text{"Years in future"}:</label>
                             <div class="Field">
                                 <input id="YearsInFuture" class="W50pc Validate_PositiveNegativeNumbers $QData{"YearsInFutureServerError"}" type="text" maxlength="200" value="$QData{"YearsInFuture"}" name="YearsInFuture"/>
                                 <div id="YearsInFutureError" class="TooltipErrorMessage"><p>$Text{"This field must be numeric."}</p></div>
@@ -132,7 +132,7 @@
                             </div>
                             <div class="Clear"></div>
 
-                            <label for="YearsInPast">$Text{"Years In Past"}:</label>
+                            <label for="YearsInPast">$Text{"Years in past"}:</label>
                             <div class="Field">
                                 <input id="YearsInPast" class="W50pc Validate_PositiveNegativeNumbers $QData{"YearsInPastServerError"}" type="text" maxlength="200" value="$QData{"YearsInPast"}" name="YearsInPast"/>
                                 <p class="FieldExplanation">$Text{"Years in past to display (by default is 5 years)."}</p>
