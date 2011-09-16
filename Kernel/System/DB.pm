@@ -2,7 +2,7 @@
 # Kernel/System/DB.pm - the global database wrapper to support different databases
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.138 2011-08-23 11:28:24 mg Exp $
+# $Id: DB.pm,v 1.139 2011-09-16 09:30:10 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use DBI;
 use Kernel::System::Time;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.138 $) [1];
+$VERSION = qw($Revision: 1.139 $) [1];
 
 =head1 NAME
 
@@ -118,7 +118,12 @@ sub new {
         $Self->{'DB::Type'} = 'mysql';
     }
     elsif ( $Self->{DSN} =~ /:pg/i ) {
-        $Self->{'DB::Type'} = 'postgresql';
+        if ( $Self->{ConfigObject}->Get('DatabasePostgresqlBefore82') ) {
+            $Self->{'DB::Type'} = 'postgresql_before_8_2';
+        }
+        else {
+            $Self->{'DB::Type'} = 'postgresql';
+        }
     }
     elsif ( $Self->{DSN} =~ /:oracle/i ) {
         $Self->{'DB::Type'} = 'oracle';
@@ -1327,6 +1332,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.138 $ $Date: 2011-08-23 11:28:24 $
+$Revision: 1.139 $ $Date: 2011-09-16 09:30:10 $
 
 =cut

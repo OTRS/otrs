@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1976 2011-09-13 17:42:41 mp Exp $
+# $Id: CHANGES,v 1.1977 2011-09-16 09:30:10 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,9 @@
 # --
 
 3.1.0 beta1 2011-??-??
+ - 2011-09-16 Added new legacy driver for PostgreSQL 8.1 or earlier. This needs to be activated
+    for such older installations in Kernel/Config.pm as follows:
+    $Self->{DatabasePostgresqlBefore82} = 1;
  - 2011-09-09 Updated CPAN module Mozilla::CA to version 20110904.
  - 2011-09-06 Converted all translation files to utf-8.
  - 2011-09-01 Changed Postgresql driver to also use standard_conforming_strings in regular

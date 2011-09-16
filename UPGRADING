@@ -2,7 +2,7 @@
 # UPGRADING - upgrading OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: UPGRADING,v 1.52 2011-09-08 14:03:15 mg Exp $
+# $Id: UPGRADING,v 1.53 2011-09-16 09:30:10 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -94,11 +94,46 @@ from OTRS version 3.1.0 to 3.1.1, you should skip steps 8 and 11.
 
      shell> cd /opt/otrs/
 
+
+    SCHEMA UPDATE PART 1:
+    =====================
+
     MySQL:
      shell> cat scripts/DBUpdate-to-3.1.mysql.sql | mysql -p -f -u root otrs
-    PostgreSQL:
+
+    PostgreSQL 8.2+:
      shell> cat scripts/DBUpdate-to-3.1.postgresql.sql | psql otrs
 
+    PostgreSQL, older versions:
+     shell> cat scripts/DBUpdate-to-3.1.postgresql_before_8_2.sql | psql otrs
+
+
+    NOTE: If you use PostgreSQL 8.1 or earlier, you need to activate the new legacy driver
+    for these older versions. Do this by adding a new line to your Kernel/Config.pm like this:
+
+    $Self->{DatabasePostgresqlBefore82} = 1;
+
+
+    DATABASE MIGRATION SCRIPT
+    =========================
+
+    shell> cat scripts/DBUpdate-to-3.1.pl
+
+    Do not continue the upgrading process if this script did not work properly for you.
+    Otherwise data loss may occur.
+
+
+    SCHEMA UPDATE PART 2:
+    =====================
+
+    MySQL:
+     shell> cat scripts/DBUpdate-to-3.1-post.mysql.sql | mysql -p -f -u root otrs
+
+    PostgreSQL 8.2+:
+     shell> cat scripts/DBUpdate-to-3.1-post.postgresql.sql | psql otrs
+
+    PostgreSQL, older versions:
+     shell> cat scripts/DBUpdate-to-3.1-post.postgresql_before_8_2.sql | psql otrs
 
 
 9) Refresh the configuration cache and delete caches

@@ -2,7 +2,7 @@
 # DB.t - database tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.t,v 1.84 2011-09-01 11:29:21 mg Exp $
+# $Id: DB.t,v 1.85 2011-09-16 09:30:10 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -114,6 +114,25 @@ if ( $DBObject->GetDatabaseFunction('Type') eq 'postgresql' ) {
     $Self->Is(
         $DBObject->Quote("Test'l;"),
         'Test\'\'l;',
+        'Quote() String - Test\'l;',
+    );
+
+    $Self->Is(
+        $DBObject->Quote( "Block[12]Block[12]", 'Like' ),
+        'Block[12]Block[12]',
+        'Quote() Like-String - Block[12]Block[12]',
+    );
+}
+elsif ( $DBObject->GetDatabaseFunction('Type') eq 'postgresql_before_8_2' ) {
+    $Self->Is(
+        $DBObject->Quote("Test'l"),
+        'Test\'\'l',
+        'Quote() String - Test\'l',
+    );
+
+    $Self->Is(
+        $DBObject->Quote("Test'l;"),
+        'Test\'\'l\\;',
         'Quote() String - Test\'l;',
     );
 
