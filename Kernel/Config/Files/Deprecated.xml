@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Deprecated.xml,v 1.2 2011-09-19 18:43:30 cr Exp $</CVS>
+    <CVS>$Id: Deprecated.xml,v 1.3 2011-09-19 19:29:42 cr Exp $</CVS>
     <ConfigItem Name="TicketFreeKey1" Required="0" Valid="0">
         <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
         <Group>Ticket</Group>
@@ -1811,6 +1811,24 @@
                 <Item Key="1">0</Item>
                 <Item Key="2">0</Item>
                 <Item Key="3">0</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="PreferencesGroups###FreeText" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! Defines the config parameters of this item, to be shown in the preferences view.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Agent::Preferences</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::PreferencesGeneric</Item>
+                <Item Key="Column">Other Settings</Item>
+                <Item Key="Label" Translatable="1">Example for free text</Item>
+                <Item Key="Key" Translatable="1">Example for free text</Item>
+                <Item Key="Block">Input</Item>
+                <Item Key="Data">$Env{"UserFreeText"}</Item>
+                <Item Key="PrefKey">UserFreeText</Item>
+                <Item Key="Prio">7000</Item>
+                <Item Key="Active">1</Item>
             </Hash>
         </Setting>
     </ConfigItem>
