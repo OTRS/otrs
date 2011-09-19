@@ -3,7 +3,7 @@
 # DBUpdate-to-3.1.pl - update script to migrate OTRS 2.4.x to 3.0.x
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-3.1.pl,v 1.18 2011-09-15 18:10:30 cr Exp $
+# $Id: DBUpdate-to-3.1.pl,v 1.19 2011-09-19 19:32:48 cr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 use Getopt::Std qw();
 use Kernel::Config;
@@ -1077,26 +1077,15 @@ sub _MigrateFreeFieldsConfiguration {
 
                 if ( ref $PossibleValues eq 'HASH' ) {
 
-                    # to store non empty keys
-                    my $TempPossibleValues;
+                    # search for "None" value in possible values list
+                    if ( $PossibleValues->{''} eq '-' ) {
 
-                    KEY:
-                    for my $ValueKey ( keys %{$PossibleValues} ) {
+                        # delete "None" value from the list
+                        delete $PossibleValues->{''};
 
-                        # check for possible none
-                        if ( !$ValueKey && $PossibleValues->{$ValueKey} eq '-' ) {
-
-                            # set possible none config setting and skip
-                            $FieldConfig->{Config}->{PossibleNone} = 1;
-                            next KEY;
-                        }
-
-                        # copy key value pair to a temporal hash
-                        $TempPossibleValues->{$ValueKey} = $PossibleValues->{$ValueKey};
+                        # set possible none configuration inside the field config
+                        $FieldConfig->{Config}->{PossibleNone} = 1;
                     }
-
-                    # retrun filtered temporal hash to real PossibleValues
-                    $PossibleValues = $TempPossibleValues;
                 }
 
                 # set none empty PossibleValues into the field config
