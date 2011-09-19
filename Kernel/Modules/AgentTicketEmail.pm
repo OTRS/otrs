@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.174 2011-09-19 19:30:57 cr Exp $
+# $Id: AgentTicketEmail.pm,v 1.175 2011-09-19 21:02:23 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.174 $) [1];
+$VERSION = qw($Revision: 1.175 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -71,7 +71,7 @@ sub new {
     # get the dynamic fields for this screen
     $Self->{DynamicField} = $Self->{DynamicFieldObject}->DynamicFieldListGet(
         Valid       => 1,
-        ObjectType  => ['Ticket'],
+        ObjectType  => [ 'Ticket', 'Article' ],
         FieldFilter => $Self->{Config}->{DynamicField} || {},
     );
 
