@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1977 2011-09-16 09:30:10 mg Exp $
+# $Id: CHANGES,v 1.1978 2011-09-19 10:04:11 jh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.1.0 beta1 2011-??-??
+ - 2011-09-19 Fixed bug#7756 - DefaultViewNewLine Config does not get used.
  - 2011-09-16 Added new legacy driver for PostgreSQL 8.1 or earlier. This needs to be activated
     for such older installations in Kernel/Config.pm as follows:
     $Self->{DatabasePostgresqlBefore82} = 1;
