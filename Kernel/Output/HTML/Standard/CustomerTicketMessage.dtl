@@ -2,7 +2,7 @@
 # CustomerTicketMessage.dtl - provides HTML form for customer message
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.dtl,v 1.62 2011-09-19 21:52:37 cr Exp $
+# $Id: CustomerTicketMessage.dtl,v 1.63 2011-09-19 21:58:17 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -160,33 +160,6 @@ $Include{"CustomerRichTextEditor"}
                 </div>
                 <div class="Clear"></div>
 <!-- dtl:block:DynamicField -->
-<!-- dtl:block:FreeText -->
-<!--
-                <div>
-                    $Data{"TicketFreeKeyField"}
-                    $Data{"TicketFreeTextField"}
-                    <div class="Clear"></div>
-                </div>
-                -->
-<!-- dtl:block:FreeText -->
-<!-- dtl:block:FreeTime -->
-<!--
-                <div>
-                    $Data{"TicketFreeTimeKey"}
-                    $Data{"TicketFreeTime"}
-                    <div id="TicketFreeTime$Data{"Count"}UsedError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
-                    <div class="Clear"></div>
-                </div>
-                -->
-<!-- dtl:block:FreeTime -->
-<!-- dtl:block:ArticleFreeText -->
-<!--
-                $Data{"ArticleFreeKeyField"}
-                $Data{"ArticleFreeTextField"}
-                <div id="ArticleFreeText$Data{"Count"}UsedError" class="TooltipErrorMessage NoJavaScriptMessage$QData{"ServerError"}"><p>$Text{"This field is required."}</p></div>
-                <div class="Clear"></div>
-                -->
-<!-- dtl:block:ArticleFreeText -->
             </fieldset>
             <div id="BottomActionRow" class="ActionRow">
                 <button id="submitRichText" accesskey="g" title="$Text{"Submit"} (g)" type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button>
