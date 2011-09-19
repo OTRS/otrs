@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.188 2011-09-19 19:32:02 cr Exp $
+# $Id: AgentTicketPhone.pm,v 1.189 2011-09-19 21:01:57 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,7 +26,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.188 $) [1];
+$VERSION = qw($Revision: 1.189 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -68,7 +68,7 @@ sub new {
     # get the dynamic fields for this screen
     $Self->{DynamicField} = $Self->{DynamicFieldObject}->DynamicFieldListGet(
         Valid       => 1,
-        ObjectType  => ['Ticket'],
+        ObjectType  => ['Ticket, Article'],
         FieldFilter => $Self->{Config}->{DynamicField} || {},
     );
 
@@ -162,38 +162,6 @@ sub Run {
                 TicketNumber => $Article{TicketNumber},
                 Subject => $Article{Subject} || '',
             );
-
-            #TODO Is this still needed?
-            #            # fill free text fields
-            #            for my $Count ( 1 .. 16 ) {
-            #                my $Key  = 'TicketFreeKey' . $Count;
-            #                my $Text = 'TicketFreeText' . $Count;
-            #                if ( defined $Article{$Key} ) {
-            #                    $GetParam{$Key} = $Article{$Key};
-            #                }
-            #                if ( defined $Article{$Text} ) {
-            #                    $GetParam{$Text} = $Article{$Text};
-            #                }
-            #            }
-            #
-            #            # fill free time fields
-            #            for my $Count ( 1 .. 6 ) {
-            #                if ( defined $Article{ 'TicketFreeTime' . $Count } ) {
-            #                    $GetParam{ 'TicketFreeTime' . $Count . 'Used' } = 1;
-            #                    my $SystemTime = $Self->{TimeObject}->TimeStamp2SystemTime(
-            #                        String => $Article{ 'TicketFreeTime' . $Count },
-            #                    );
-            #                    my ( $Sec, $Min, $Hour, $Day, $Month, $Year )
-            #                        = $Self->{TimeObject}->SystemTime2Date(
-            #                        SystemTime => $SystemTime,
-            #                        );
-            #                    $GetParam{ 'TicketFreeTime' . $Count . 'Year' }   = $Year;
-            #                    $GetParam{ 'TicketFreeTime' . $Count . 'Month' }  = $Month;
-            #                    $GetParam{ 'TicketFreeTime' . $Count . 'Day' }    = $Day;
-            #                    $GetParam{ 'TicketFreeTime' . $Count . 'Hour' }   = $Hour;
-            #                    $GetParam{ 'TicketFreeTime' . $Count . 'Minute' } = $Min;
-            #                }
-            #            }
 
             # body preparation for plain text processing
             $Article{Body} = $Self->{LayoutObject}->ArticleQuote(
