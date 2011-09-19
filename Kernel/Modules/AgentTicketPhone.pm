@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.187 2011-09-15 23:31:49 cr Exp $
+# $Id: AgentTicketPhone.pm,v 1.188 2011-09-19 19:32:02 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,7 +26,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.187 $) [1];
+$VERSION = qw($Revision: 1.188 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -265,15 +265,36 @@ sub Run {
             # to store dynamic field value from database (or undefined)
             my $Value;
 
-            # only get values for Ticket fields (all screens based on AgentTickeActionCommon
-            # generates a new article, then article fields will be always empty at the beginign)
-            if ( $DynamicFieldConfig->{ObjectType} eq 'Ticket' ) {
+            # in case of split a TicketID and ArticleID are always given, Get the value
+            # from DB this cases
+            if ( $Self->{TicketID} && $Article{ArticleID} ) {
 
-                # get value stored on the database
+            # select TicketID or ArticleID go get the value depending on dynamic field configuration
+                my $ObjectID
+                    = $DynamicFieldConfig->{ObjectType} eq 'Ticket'
+                    ? $Self->{TicketID}
+                    : $Article{ArticleID};
+
+                # get value stored on the database (split)
                 $Value = $Self->{BackendObject}->ValueGet(
                     DynamicFieldConfig => $DynamicFieldConfig,
-                    ObjectID           => $Self->{TicketID},
+                    ObjectID           => $ObjectID,
                 );
+            }
+
+            # otherwise (on a new ticket). Check if the user has a user specific default value for
+            # the dynamic field, otherwise will use Dynamc Field default value
+            else {
+
+                # get user preferences
+                my %UserPreferences = $Self->{UserObject}->GetUserData(
+                    UserID => $Self->{UserID},
+                );
+
+                # override the value from user preferences if is set
+                if ( $UserPreferences{ 'UserDynamicField_' . $DynamicFieldConfig->{Name} } ) {
+                    $Value = $UserPreferences{ 'UserDynamicField_' . $DynamicFieldConfig->{Name} };
+                }
             }
 
             # get field html
