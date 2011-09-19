@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/TicketOverviewPreview.pm
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketOverviewPreview.pm,v 1.49.2.1 2011-03-01 18:17:20 cg Exp $
+# $Id: TicketOverviewPreview.pm,v 1.49.2.2 2011-09-19 08:58:06 jh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::SystemAddress;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.49.2.1 $) [1];
+$VERSION = qw($Revision: 1.49.2.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -710,12 +710,12 @@ sub _Show {
 
             # html quoting
             $ArticleItem->{Body} = $Self->{LayoutObject}->Ascii2Html(
-                NewLine => $Self->{Config}->{DefaultViewNewLine}  || 90,
+                NewLine => $Self->{ConfigObject}->Get('DefaultViewNewLine')  || 90,
                 Text    => $ArticleItem->{Body},
-                VMax    => $Self->{Config}->{DefaultPreViewLines} || 25,
+                VMax    => $Self->{ConfigObject}->Get('DefaultPreViewLines') || 25,
                 LinkFeature     => 1,
                 HTMLResultMode  => 1,
-                StripEmptyLines => $Self->{Config}->{StripEmptyLines},
+                StripEmptyLines => $Self->{ConfigObject}->Get('StripEmptyLines'),
             );
 
             # do charset check
