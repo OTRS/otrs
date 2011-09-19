@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.173 2011-09-15 23:31:49 cr Exp $
+# $Id: AgentTicketEmail.pm,v 1.174 2011-09-19 19:30:57 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.173 $) [1];
+$VERSION = qw($Revision: 1.174 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -187,15 +187,14 @@ sub Run {
                 # to store dynamic field value from database (or undefined)
                 my $Value;
 
-                # only get values for Ticket fields (all screens based on AgentTickeActionCommon
-                # generates a new article, then article fields will be always empty at the beginign)
-                if ( $DynamicFieldConfig->{ObjectType} eq 'Ticket' ) {
+                # get user preferences
+                my %UserPreferences = $Self->{UserObject}->GetUserData(
+                    UserID => $Self->{UserID},
+                );
 
-                    # get value stored on the database
-                    $Value = $Self->{BackendObject}->ValueGet(
-                        DynamicFieldConfig => $DynamicFieldConfig,
-                        ObjectID           => $Self->{TicketID},
-                    );
+                # override the value from user preferences if is set
+                if ( $UserPreferences{ 'UserDynamicField_' . $DynamicFieldConfig->{Name} } ) {
+                    $Value = $UserPreferences{ 'UserDynamicField_' . $DynamicFieldConfig->{Name} };
                 }
 
                 # get field html
