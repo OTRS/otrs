@@ -2,7 +2,7 @@
 # UPGRADING - upgrading OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: UPGRADING,v 1.53 2011-09-16 09:30:10 mg Exp $
+# $Id: UPGRADING,v 1.54 2011-09-20 09:19:21 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -178,6 +178,16 @@ XX) Ticket Event handlers
     The Event name TicketFreeTextUpdate was renamed to TicketDynamicFieldUpdate,
     and ArticleFreeTextUpdate was renamed to ArticleDynamicFieldUpdate. If you have any
     custom event handlers for these events, please adapt them.
+
+
+XX) DynamicField User Preferences Module
+    ------------------------------------
+
+    If you had one or more active custom settings for "PreferencesGroups###Freetext",
+    you need to adapt them to work with the new DynamicFields engine. The PrefKey
+    setting must be changed to "UserDynamicField_DynamicField", where the part after
+    the _ is the name of the dynamic field. Existing values would need to be renamed
+    in the database as well.
 
 
 12) Well done!
