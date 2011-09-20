@@ -1,8 +1,8 @@
 // --
-// Core.Agent.Admin.DynamicFieldDropdown.js - provides the special module functions for the Dropdown Dynamic Fields.
+// Core.Agent.Admin.DynamicFieldMultiselect.js - provides the special module functions for the Multiselect Dynamic Fields.
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.DynamicFieldMultiselect.js,v 1.2 2011-09-20 22:52:31 cg Exp $
+// $Id: Core.Agent.Admin.DynamicFieldMultiselect.js,v 1.3 2011-09-20 22:53:33 cg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -17,11 +17,11 @@ Core.Agent.Admin = Core.Agent.Admin || {};
 
 /**
  * @namespace
- * @exports TargetNS as Core.Agent.Admin.DynamicFielddropdown
+ * @exports TargetNS as Core.Agent.Admin.DynamicFieldMultiselect
  * @description
- *      This namespace contains the special module functions for the DynamicFieldDropdown module.
+ *      This namespace contains the special module functions for the DynamicFieldMultiselect module.
  */
-Core.Agent.Admin.DynamicFieldDropdown = (function (TargetNS) {
+Core.Agent.Admin.DynamicFieldMultiselect = (function (TargetNS) {
 
     /**
      * @function
@@ -122,7 +122,7 @@ Core.Agent.Admin.DynamicFieldDropdown = (function (TargetNS) {
         $('#ValueCounter').val(ValueCounter);
 
         $('.DefaultValueKeyItem,.DefaultValueItem').bind('keyup', function () {
-            Core.Agent.Admin.DynamicFieldDropdown.RecreateDefaultValueList();
+            Core.Agent.Admin.DynamicFieldMultiselect.RecreateDefaultValueList();
         });
 
         return false;
@@ -196,4 +196,4 @@ Core.Agent.Admin.DynamicFieldDropdown = (function (TargetNS) {
     };
 
     return TargetNS;
-}(Core.Agent.Admin.DynamicFieldDropdown || {}));
+}(Core.Agent.Admin.DynamicFieldMultiselect || {}));
