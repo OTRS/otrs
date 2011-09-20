@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.175 2011-09-19 21:02:23 cr Exp $
+# $Id: AgentTicketEmail.pm,v 1.176 2011-09-20 14:18:44 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.175 $) [1];
+$VERSION = qw($Revision: 1.176 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -158,6 +158,11 @@ sub Run {
             # create html strings for all dynamic fields
             my %DynamicFieldHTML;
 
+            # get user preferences
+            my %UserPreferences = $Self->{UserObject}->GetUserData(
+                UserID => $Self->{UserID},
+            );
+
             # cycle trough the activated Dynamic Fields for this screen
             DYNAMICFIELD:
             for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
@@ -186,11 +191,6 @@ sub Run {
 
                 # to store dynamic field value from database (or undefined)
                 my $Value;
-
-                # get user preferences
-                my %UserPreferences = $Self->{UserObject}->GetUserData(
-                    UserID => $Self->{UserID},
-                );
 
                 # override the value from user preferences if is set
                 if ( $UserPreferences{ 'UserDynamicField_' . $DynamicFieldConfig->{Name} } ) {
