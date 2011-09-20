@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.pm,v 1.136 2011-09-15 04:37:05 cr Exp $
+# $Id: AgentTicketCompose.pm,v 1.137 2011-09-20 17:55:13 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.136 $) [1];
+$VERSION = qw($Revision: 1.137 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -984,11 +984,8 @@ $QData{"Signature"}
             # generates a new article, then article fields will be always empty at the beginign)
             if ( $DynamicFieldConfig->{ObjectType} eq 'Ticket' ) {
 
-                # get value stored on the database
-                $Value = $Self->{BackendObject}->ValueGet(
-                    DynamicFieldConfig => $DynamicFieldConfig,
-                    ObjectID           => $Self->{TicketID},
-                );
+                # get value stored on the database from Ticket
+                $Value = $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} };
             }
 
             # get field html
