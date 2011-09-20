@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.523 2011-09-05 21:28:21 cr Exp $
+# $Id: Ticket.pm,v 1.524 2011-09-20 21:57:44 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -40,7 +40,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.523 $) [1];
+$VERSION = qw($Revision: 1.524 $) [1];
 
 =head1 NAME
 
@@ -916,8 +916,10 @@ sub TicketSubjectClean {
 Get ticket info
 
     my %Ticket = $TicketObject->TicketGet(
-        TicketID => 123,
-        UserID   => 123,
+        TicketID      => 123,
+        DynamicFields => 1,         # or 0, default 1. To include or not the dynamic fields and
+                                    #   it's values on the return structure
+        UserID        => 123,
     );
 
 Returns:
@@ -1027,11 +1029,17 @@ sub TicketGet {
     }
     $Param{Extended} ||= '';
 
+    # check cache
+    my $DynamicFields = 1;
+    if ( defined $Param{DynamicFields} && $Param{DynamicFields} eq '0' ) {
+        $DynamicFields = '';
+    }
+
     my $CacheKey = 'Cache::GetTicket' . $Param{TicketID};
 
     # check if result is cached
-    if ( $Self->{$CacheKey}->{ $Param{Extended} } ) {
-        return %{ $Self->{$CacheKey}->{ $Param{Extended} } };
+    if ( $Self->{$CacheKey}->{ $Param{Extended} }->{$DynamicFields} ) {
+        return %{ $Self->{$CacheKey}->{ $Param{Extended} }->{$DynamicFields} };
     }
 
     # fetch the result
@@ -1093,50 +1101,54 @@ sub TicketGet {
         return;
     }
 
-    # get all dynamic fields for the object type Ticket
-    my $DynamicFieldList = $Self->{DynamicFieldObject}->DynamicFieldListGet(
-        ObjectType => 'Ticket'
-    );
+    # check if need to return DynamicFields
+    if ($DynamicFields) {
 
-    DYNAMICFIELD:
-    for my $DynamicFieldConfig ( @{$DynamicFieldList} ) {
-
-        # validate each dynamic field
-        next DYNAMICFILED if !$DynamicFieldConfig;
-        next DYNAMICFILED if !IsHashRefWithData($DynamicFieldConfig);
-        next DYNAMICFIELD if !$DynamicFieldConfig->{Name};
-        next DYNAMICFIELD if !IsHashRefWithData( $DynamicFieldConfig->{Config} );
-
-        # get the current value for each dynamic field
-        my $Value = $Self->{DynamicFieldBackendObject}->ValueGet(
-            DynamicFieldConfig => $DynamicFieldConfig,
-            ObjectID           => $Ticket{TicketID},
+        # get all dynamic fields for the object type Ticket
+        my $DynamicFieldList = $Self->{DynamicFieldObject}->DynamicFieldListGet(
+            ObjectType => 'Ticket'
         );
 
-        # set the dynamic field name and value into the ticket hash
-        $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = $Value;
+        DYNAMICFIELD:
+        for my $DynamicFieldConfig ( @{$DynamicFieldList} ) {
 
-        # check if field is TicketFreeKey[1-16], TicketFreeText[1-6] or TicketFreeTime[1-6]
-        # Compatibility feature can be removed on further versions
-        if (
-            $DynamicFieldConfig->{Name} =~ m{
-           \A
-           (
-                TicketFree
-                (?:
-                    (?:Text|Key)
-                    (?:1[0-6]|[1-9])
-                    |
-                    (?:Time [1-6])
+            # validate each dynamic field
+            next DYNAMICFILED if !$DynamicFieldConfig;
+            next DYNAMICFILED if !IsHashRefWithData($DynamicFieldConfig);
+            next DYNAMICFIELD if !$DynamicFieldConfig->{Name};
+            next DYNAMICFIELD if !IsHashRefWithData( $DynamicFieldConfig->{Config} );
+
+            # get the current value for each dynamic field
+            my $Value = $Self->{DynamicFieldBackendObject}->ValueGet(
+                DynamicFieldConfig => $DynamicFieldConfig,
+                ObjectID           => $Ticket{TicketID},
+            );
+
+            # set the dynamic field name and value into the ticket hash
+            $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = $Value;
+
+            # check if field is TicketFreeKey[1-16], TicketFreeText[1-6] or TicketFreeTime[1-6]
+            # Compatibility feature can be removed on further versions
+            if (
+                $DynamicFieldConfig->{Name} =~ m{
+               \A
+               (
+                    TicketFree
+                    (?:
+                        (?:Text|Key)
+                        (?:1[0-6]|[1-9])
+                        |
+                        (?:Time [1-6])
+                    )
                 )
-            )
-            \z
-        }smx
-            )
-        {
+                \z
+            }smx
+                )
+            {
 
-            # Set field for 3.0 and 2.4 compatibility
-            $Ticket{ $DynamicFieldConfig->{Name} } = $Value;
+                # Set field for 3.0 and 2.4 compatibility
+                $Ticket{ $DynamicFieldConfig->{Name} } = $Value;
+            }
         }
     }
 
@@ -1216,7 +1228,7 @@ sub TicketGet {
     }
 
     # cache user result
-    $Self->{$CacheKey}->{ $Param{Extended} } = \%Ticket;
+    $Self->{$CacheKey}->{ $Param{Extended} }->{$DynamicFields} = \%Ticket;
 
     return %Ticket;
 }
@@ -1552,8 +1564,9 @@ sub TicketQueueID {
 
     # get ticket data
     my %Ticket = $Self->TicketGet(
-        TicketID => $Param{TicketID},
-        UserID   => 1,
+        TicketID      => $Param{TicketID},
+        DynamicFields => 0,
+        UserID        => 1,
     );
 
     return if !%Ticket;
@@ -3703,7 +3716,10 @@ sub TicketLockGet {
         return;
     }
 
-    my %Ticket = $Self->TicketGet(%Param);
+    my %Ticket = $Self->TicketGet(
+        %Param,
+        DynamicFields => 0,
+    );
 
     # check lock state
     return 1 if lc $Ticket{Lock} eq 'lock';
@@ -3764,7 +3780,10 @@ sub TicketLockSet {
     }
 
     # check if update is needed
-    my %Ticket = $Self->TicketGet(%Param);
+    my %Ticket = $Self->TicketGet(
+        %Param,
+        DynamicFields => 0,
+    );
     return 1 if $Ticket{Lock} eq $Param{Lock};
 
     # db update
@@ -6933,6 +6952,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.523 $ $Date: 2011-09-05 21:28:21 $
+$Revision: 1.524 $ $Date: 2011-09-20 21:57:44 $
 
 =cut
