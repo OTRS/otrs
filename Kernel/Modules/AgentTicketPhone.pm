@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.189 2011-09-19 21:01:57 cr Exp $
+# $Id: AgentTicketPhone.pm,v 1.190 2011-09-20 08:11:10 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,7 +26,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.189 $) [1];
+$VERSION = qw($Revision: 1.190 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -68,7 +68,7 @@ sub new {
     # get the dynamic fields for this screen
     $Self->{DynamicField} = $Self->{DynamicFieldObject}->DynamicFieldListGet(
         Valid       => 1,
-        ObjectType  => ['Ticket, Article'],
+        ObjectType  => [ 'Ticket', 'Article' ],
         FieldFilter => $Self->{Config}->{DynamicField} || {},
     );
 
@@ -204,6 +204,11 @@ sub Run {
         # create html strings for all dynamic fields
         my %DynamicFieldHTML;
 
+        # get user preferences
+        my %UserPreferences = $Self->{UserObject}->GetUserData(
+            UserID => $Self->{UserID},
+        );
+
         # cycle trough the activated Dynamic Fields for this screen
         DYNAMICFIELD:
         for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
@@ -253,11 +258,6 @@ sub Run {
             # otherwise (on a new ticket). Check if the user has a user specific default value for
             # the dynamic field, otherwise will use Dynamc Field default value
             else {
-
-                # get user preferences
-                my %UserPreferences = $Self->{UserObject}->GetUserData(
-                    UserID => $Self->{UserID},
-                );
 
                 # override the value from user preferences if is set
                 if ( $UserPreferences{ 'UserDynamicField_' . $DynamicFieldConfig->{Name} } ) {
