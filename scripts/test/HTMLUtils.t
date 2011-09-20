@@ -2,7 +2,7 @@
 # HTMLUtils.t - HTMLUtils tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: HTMLUtils.t,v 1.13.2.10 2011-01-04 16:08:01 mg Exp $
+# $Id: HTMLUtils.t,v 1.13.2.11 2011-09-20 12:21:37 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -711,7 +711,7 @@ my $HTML = $Self->{HTMLUtilsObject}->LinkQuote(
 
 my $EndSeconds = $Self->{TimeObject}->SystemTime();
 $Self->True(
-    ( $EndSeconds - $StartSeconds ) < 5,
+    ( $EndSeconds - $StartSeconds ) < 10,
     'LinkQuote - Performance on large data set',
 );
 
