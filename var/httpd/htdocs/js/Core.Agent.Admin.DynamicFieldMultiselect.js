@@ -2,7 +2,7 @@
 // Core.Agent.Admin.DynamicFieldDropdown.js - provides the special module functions for the Dropdown Dynamic Fields.
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.DynamicFieldMultiselect.js,v 1.1 2011-09-20 22:44:43 cg Exp $
+// $Id: Core.Agent.Admin.DynamicFieldMultiselect.js,v 1.2 2011-09-20 22:52:31 cg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you

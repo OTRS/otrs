@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminDynamicFieldMultiselect.pm - provides a dynamic fields text config view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminDynamicFieldMultiselect.pm,v 1.1 2011-09-20 22:44:43 cg Exp $
+# $Id: AdminDynamicFieldMultiselect.pm,v 1.2 2011-09-20 22:51:23 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::DynamicField;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
