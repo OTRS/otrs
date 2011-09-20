@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.391 2011-09-06 10:31:17 mg Exp $
+# $Id: Defaults.pm,v 1.392 2011-09-20 09:09:13 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -29,7 +29,7 @@ use warnings;
 use 5.008_006;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.391 $) [1];
+$VERSION = qw($Revision: 1.392 $) [1];
 
 # prepend '../Custom', '../Kernel/cpan-lib' and '../' to the module search path @INC
 use File::Basename;
@@ -1067,18 +1067,6 @@ sub LoadDefaults {
         Prio    => 6000,
         Active   => 0,
     };
-
-#    $Self->{PreferencesGroups}->{FreeText} = {
-#        Module  => 'Kernel::Output::HTML::PreferencesGeneric',
-#        Column  => 'Other Options',
-#        Label   => 'Free Text',
-#        Desc    => 'Example for free text.',
-#        Block   => 'Input',
-#        Data    => '$Env{"UserFreeText"}',
-#        PrefKey => 'UserFreeText',
-#        Prio    => 7000,
-#        Active   => 1,
-#    };
 
     $Self->{PreferencesGroups}->{Language} = {
         Module  => 'Kernel::Output::HTML::PreferencesLanguage',
@@ -2216,6 +2204,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.391 $ $Date: 2011-09-06 10:31:17 $
+$Revision: 1.392 $ $Date: 2011-09-20 09:09:13 $
 
 =cut
