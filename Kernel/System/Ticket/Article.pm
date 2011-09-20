@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.290 2011-09-07 22:43:14 en Exp $
+# $Id: Article.pm,v 1.291 2011-09-20 21:59:31 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::EmailParser;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.290 $) [1];
+$VERSION = qw($Revision: 1.291 $) [1];
 
 =head1 NAME
 
@@ -1403,9 +1403,10 @@ sub ArticleContentIndex {
     }
 
     my @ArticleBox = $Self->ArticleGet(
-        TicketID    => $Param{TicketID},
-        ArticleType => $Param{ArticleType},
-        UserID      => $Param{UserID},
+        TicketID      => $Param{TicketID},
+        ArticleType   => $Param{ArticleType},
+        UserID        => $Param{UserID},
+        DynamicFields => 0,
     );
 
     # article attachments of each article
@@ -1429,8 +1430,12 @@ sub ArticleContentIndex {
 returns article data
 
     my %Article = $TicketObject->ArticleGet(
-        ArticleID => 123,
-        UserID    => 123,
+        ArticleID     => 123,
+        DynamicFields => 1,         # or 0, default 1. To include or not the dynamic fields and
+                                    #   it's values on the return structure
+        UserID        => 123,
+    );
+
     );
 
 Article:
@@ -1703,94 +1708,103 @@ sub ArticleGet {
         push @Content, { %Ticket, %Data };
     }
 
-    my $DynamicFieldArticleList = $Self->{DynamicFieldObject}->DynamicFieldListGet(
-        ObjectType => 'Article'
-    );
+    my $DynamicFields = 1;
+    if ( defined $Param{DynamicFields} && $Param{DynamicFields} eq '0' ) {
+        $DynamicFields = '';
+    }
 
-    my $DynamicFieldTicketList = $Self->{DynamicFieldObject}->DynamicFieldListGet(
-        ObjectType => 'Ticket'
-    );
+    # checl if need to return dynamic fields
+    if ($DynamicFields) {
 
-    for my $Article (@Content) {
-        DYNAMICFIELD:
-        for my $DynamicFieldConfig ( @{$DynamicFieldArticleList} ) {
+        my $DynamicFieldArticleList = $Self->{DynamicFieldObject}->DynamicFieldListGet(
+            ObjectType => 'Article'
+        );
 
-            # validate each dynamic field
-            next DYNAMICFILED if !$DynamicFieldConfig;
-            next DYNAMICFILED if !IsHashRefWithData($DynamicFieldConfig);
-            next DYNAMICFIELD if !$DynamicFieldConfig->{Name};
-            next DYNAMICFIELD if !IsHashRefWithData( $DynamicFieldConfig->{Config} );
+        my $DynamicFieldTicketList = $Self->{DynamicFieldObject}->DynamicFieldListGet(
+            ObjectType => 'Ticket'
+        );
 
-            # get the current value for each dynamic field
-            my $Value = $Self->{DynamicFieldBackendObject}->ValueGet(
-                DynamicFieldConfig => $DynamicFieldConfig,
-                ObjectID           => $Article->{ArticleID},
-            );
+        for my $Article (@Content) {
+            DYNAMICFIELD:
+            for my $DynamicFieldConfig ( @{$DynamicFieldArticleList} ) {
 
-            # set the dynamic field name and value into the ticket hash
-            $Article->{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = $Value;
+                # validate each dynamic field
+                next DYNAMICFILED if !$DynamicFieldConfig;
+                next DYNAMICFILED if !IsHashRefWithData($DynamicFieldConfig);
+                next DYNAMICFIELD if !$DynamicFieldConfig->{Name};
+                next DYNAMICFIELD if !IsHashRefWithData( $DynamicFieldConfig->{Config} );
 
-            # check if field is ArticleFreeKey[1-3] or ArticleFreeText[1-3]
-            # Compatibility feature can be removed on further versions
-            if (
-                $DynamicFieldConfig->{Name} =~ m{
-                    \A
-                    (
-                        ArticleFree
-                        (?:
-                            (?:Text|Key)
-                            (?:[1-3])
+                # get the current value for each dynamic field
+                my $Value = $Self->{DynamicFieldBackendObject}->ValueGet(
+                    DynamicFieldConfig => $DynamicFieldConfig,
+                    ObjectID           => $Article->{ArticleID},
+                );
+
+                # set the dynamic field name and value into the ticket hash
+                $Article->{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = $Value;
+
+                # check if field is ArticleFreeKey[1-3] or ArticleFreeText[1-3]
+                # Compatibility feature can be removed on further versions
+                if (
+                    $DynamicFieldConfig->{Name} =~ m{
+                        \A
+                        (
+                            ArticleFree
+                            (?:
+                                (?:Text|Key)
+                                (?:[1-3])
+                            )
                         )
+                        \z
+                    }smxi
                     )
-                    \z
-                }smxi
-                )
-            {
+                {
 
-                # Set field for 3.0 and 2.4 compatibility
-                $Article->{ $DynamicFieldConfig->{Name} } = $Value;
+                    # Set field for 3.0 and 2.4 compatibility
+                    $Article->{ $DynamicFieldConfig->{Name} } = $Value;
+                }
             }
-        }
 
-        DYNAMICFIELD:
-        for my $DynamicFieldConfig ( @{$DynamicFieldTicketList} ) {
+            DYNAMICFIELD:
+            for my $DynamicFieldConfig ( @{$DynamicFieldTicketList} ) {
 
-            # validate each dynamic field
-            next DYNAMICFILED if !$DynamicFieldConfig;
-            next DYNAMICFILED if !IsHashRefWithData($DynamicFieldConfig);
-            next DYNAMICFIELD if !$DynamicFieldConfig->{Name};
-            next DYNAMICFIELD if !IsHashRefWithData( $DynamicFieldConfig->{Config} );
+                # validate each dynamic field
+                next DYNAMICFILED if !$DynamicFieldConfig;
+                next DYNAMICFILED if !IsHashRefWithData($DynamicFieldConfig);
+                next DYNAMICFIELD if !$DynamicFieldConfig->{Name};
+                next DYNAMICFIELD if !IsHashRefWithData( $DynamicFieldConfig->{Config} );
 
-            # get the current value for each dynamic field
-            my $Value = $Self->{DynamicFieldBackendObject}->ValueGet(
-                DynamicFieldConfig => $DynamicFieldConfig,
-                ObjectID           => $Article->{TicketID},
-            );
+                # get the current value for each dynamic field
+                my $Value = $Self->{DynamicFieldBackendObject}->ValueGet(
+                    DynamicFieldConfig => $DynamicFieldConfig,
+                    ObjectID           => $Article->{TicketID},
+                );
 
-            # set the dynamic field name and value into the ticket hash
-            $Article->{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = $Value;
+                # set the dynamic field name and value into the ticket hash
+                $Article->{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = $Value;
 
-            # check if field is TicketFreeKey[1-16], TicketFreeText[1-6] or TicketFreeTime[1-6]
-            # Compatibility feature can be removed on further versions
-            if (
-                $DynamicFieldConfig->{Name} =~ m{
-                    \A
-                    (
-                        TicketFree
-                        (?:
-                            (?:Text|Key)
-                            (?:1[0-6]|[1-9])
-                            |
-                            (?:Time [1-6])
+                # check if field is TicketFreeKey[1-16], TicketFreeText[1-6] or TicketFreeTime[1-6]
+                # Compatibility feature can be removed on further versions
+                if (
+                    $DynamicFieldConfig->{Name} =~ m{
+                        \A
+                        (
+                            TicketFree
+                            (?:
+                                (?:Text|Key)
+                                (?:1[0-6]|[1-9])
+                                |
+                                (?:Time [1-6])
+                            )
                         )
+                        \z
+                    }smxi
                     )
-                    \z
-                }smxi
-                )
-            {
+                {
 
-                # Set field for 3.0 and 2.4 compatibility
-                $Article->{ $DynamicFieldConfig->{Name} } = $Value;
+                    # Set field for 3.0 and 2.4 compatibility
+                    $Article->{ $DynamicFieldConfig->{Name} } = $Value;
+                }
             }
         }
     }
@@ -3514,6 +3528,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.290 $ $Date: 2011-09-07 22:43:14 $
+$Revision: 1.291 $ $Date: 2011-09-20 21:59:31 $
 
 =cut
