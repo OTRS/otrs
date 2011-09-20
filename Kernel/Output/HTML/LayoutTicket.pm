@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.130 2011-08-29 13:26:18 martin Exp $
+# $Id: LayoutTicket.pm,v 1.131 2011-09-20 22:02:42 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.130 $) [1];
+$VERSION = qw($Revision: 1.131 $) [1];
 
 sub AgentCustomerViewTable {
     my ( $Self, %Param ) = @_;
@@ -1148,7 +1148,10 @@ sub ArticleQuote {
     }
 
     # as fallback use text body for quote
-    my %Article = $Self->{TicketObject}->ArticleGet( ArticleID => $Param{ArticleID} );
+    my %Article = $Self->{TicketObject}->ArticleGet(
+        ArticleID     => $Param{ArticleID},
+        DynamicFields => 0,
+    );
 
     # check if original content isn't text/plain or text/html, don't use it
     if ( !$Article{ContentType} ) {

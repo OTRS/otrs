@@ -2,7 +2,7 @@
 # Kernel/System/TemplateGenerator.pm - generate salutations, signatures and responses
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TemplateGenerator.pm,v 1.54 2011-02-02 10:12:01 mb Exp $
+# $Id: TemplateGenerator.pm,v 1.55 2011-09-20 22:02:42 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::AutoResponse;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.54 $) [1];
+$VERSION = qw($Revision: 1.55 $) [1];
 
 =head1 NAME
 
@@ -430,7 +430,10 @@ sub Response {
     }
 
     # get  queue
-    my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Param{TicketID} );
+    my %Ticket = $Self->{TicketObject}->TicketGet(
+        TicketID      => $Param{TicketID},
+        DynamicFields => 0,
+    );
 
     # get salutation
     my %Queue = $Self->{QueueObject}->QueueGet(
@@ -1360,6 +1363,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.54 $ $Date: 2011-02-02 10:12:01 $
+$Revision: 1.55 $ $Date: 2011-09-20 22:02:42 $
 
 =cut

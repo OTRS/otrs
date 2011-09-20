@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketAttachment.pm - to get the attachments
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketAttachment.pm,v 1.34 2011-08-03 12:41:33 en Exp $
+# $Id: AgentTicketAttachment.pm,v 1.35 2011-09-20 22:02:42 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::FileTemp;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.34 $) [1];
+$VERSION = qw($Revision: 1.35 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -57,8 +57,9 @@ sub Run {
 
     # check permissions
     my %Article = $Self->{TicketObject}->ArticleGet(
-        ArticleID => $Self->{ArticleID},
-        UserID    => $Self->{UserID},
+        ArticleID     => $Self->{ArticleID},
+        DynamicFields => 0,
+        UserID        => $Self->{UserID},
     );
     if ( !$Article{TicketID} ) {
         $Self->{LogObject}->Log(

@@ -1,9 +1,9 @@
 # --
 # Kernel/System/Ticket/Permission/OwnerCheck.pm - the sub
 # module of the global ticket handle
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: OwnerCheck.pm,v 1.12 2009-02-17 00:07:24 martin Exp $
+# $Id: OwnerCheck.pm,v 1.13 2011-09-20 22:02:42 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -45,7 +45,10 @@ sub Run {
     }
 
     # get ticket data
-    my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Param{TicketID} );
+    my %Ticket = $Self->{TicketObject}->TicketGet(
+        TicketID      => $Param{TicketID},
+        DynamicFields => 0,
+    );
 
     # check ticket owner, return access if current user is ticket owner
     return 1 if $Ticket{OwnerID} eq $Param{UserID};
