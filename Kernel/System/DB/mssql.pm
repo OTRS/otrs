@@ -2,7 +2,7 @@
 # Kernel/System/DB/mssql.pm - mssql database backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: mssql.pm,v 1.60 2011-07-01 14:36:04 mb Exp $
+# $Id: mssql.pm,v 1.61 2011-09-21 15:12:21 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.60 $) [1];
+$VERSION = qw($Revision: 1.61 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -236,7 +236,7 @@ sub TableCreate {
         $SQL .= $PrimaryKey;
     }
 
-    # add uniq
+    # add uniqueness
     for my $Name ( sort keys %Uniq ) {
         if ($SQL) {
             $SQL .= ",\n";
@@ -265,7 +265,7 @@ sub TableCreate {
             "ALTER TABLE $TableName ADD CONSTRAINT $DefaultName DEFAULT ($Default{$Column}) FOR $Column";
     }
 
-    # add indexs
+    # add index
     for my $Name ( sort keys %Index ) {
         push(
             @Return,
@@ -784,7 +784,7 @@ sub _TypeTranslation {
         }
     }
     elsif ( $Tag->{Type} =~ /^longblob$/i ) {
-        $Tag->{Type} = 'VARBINARY (MAX)';
+        $Tag->{Type} = 'NVARCHAR (MAX)';
     }
     elsif ( $Tag->{Type} =~ /^DECIMAL$/i ) {
         $Tag->{Type} = 'DECIMAL (' . $Tag->{Size} . ')';
