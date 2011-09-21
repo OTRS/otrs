@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Multiselect.pm - Delegate for DynamicField Multiselect backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Multiselect.pm,v 1.2 2011-09-20 22:50:43 cg Exp $
+# $Id: Multiselect.pm,v 1.3 2011-09-21 23:00:39 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::DynamicFieldValue;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 =head1 NAME
 
@@ -211,13 +211,13 @@ sub EditFieldRender {
         if defined $Param{Value};
 
     # extract the dynamic field value form the web request
-    my $FieldValue = $Self->EditFieldValueGet(
+    my @FieldValue = $Self->EditFieldValueGet(
         %Param,
     );
 
     # set values from ParamObject if present
-    if ( defined $FieldValue ) {
-        $Value = $FieldValue;
+    if ( IsArrayRefWithData( \@FieldValue ) ) {
+        $Value = \@FieldValue;
     }
 
     # check and set class if necessary
@@ -239,32 +239,19 @@ sub EditFieldRender {
     $SelectionData = $Param{PossibleValuesFilter}
         if defined $Param{PossibleValuesFilter};
 
-    #TODO: remove it, it's just for test
-    $SelectionData = [
-        {
-            Key   => '1',
-            Value => 'Value1',
-        },
-        {
-            Key      => '2',
-            Value    => 'Value1::Subvalue1',
-            Selected => 1,
-        },
-        {
-            Key   => '3',
-            Value => 'Value1::Subvalue2',
-        },
-        {
-            Key      => '4',
-            Value    => 'Value2',
-            Disabled => 1,
-        }
-    ];
+    # check value
+    my @Values;
+    if ( ref $Value eq 'ARRAY' ) {
+        @Values = @{$Value};
+    }
+    else {
+        @Values = ($Value);
+    }
 
     my $HTMLString = $Param{LayoutObject}->BuildSelection(
         Data         => $SelectionData,
         Name         => $FieldName,
-        SelectedID   => $Value,
+        SelectedID   => \@Values,
         Translation  => $FieldConfig->{TranslatableValues} || 0,
         PossibleNone => $FieldConfig->{PossibleNone} || 0,
         Class        => $FieldClass,
@@ -349,7 +336,7 @@ sub EditFieldValueGet {
 
     # get dynamic field value form param
     return $Param{ParamObject}
-        ->GetParam( Param => 'DynamicField_' . $Param{DynamicFieldConfig}->{Name} );
+        ->GetArray( Param => 'DynamicField_' . $Param{DynamicFieldConfig}->{Name} );
 }
 
 sub EditFieldValueValidate {
