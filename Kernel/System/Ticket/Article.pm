@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.291 2011-09-20 21:59:31 cr Exp $
+# $Id: Article.pm,v 1.292 2011-09-21 04:09:51 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::EmailParser;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.291 $) [1];
+$VERSION = qw($Revision: 1.292 $) [1];
 
 =head1 NAME
 
@@ -1349,8 +1349,10 @@ sub ArticleIndex {
 returns an array with hash ref (hash contains result of ArticleGet())
 
     my @ArticleBox = $TicketObject->ArticleContentIndex(
-        TicketID => 123,
-        UserID   => 1,
+        TicketID      => 123,
+        DynamicFields => 1,         # or 0, default 1. To include or not the dynamic fields and
+                                    #   it's values on the return structure
+        UserID        => 1,
     );
 
 or with "StripPlainBodyAsAttachment => 1" feature to not include first
@@ -1402,11 +1404,17 @@ sub ArticleContentIndex {
         }
     }
 
+    # check if dynamic fields are required
+    my $DynamicFields = 1;
+    if ( defined $Param{DynamicFields} && $Param{DynamicFields} eq '0' ) {
+        $DynamicFields = 0;
+    }
+
     my @ArticleBox = $Self->ArticleGet(
         TicketID      => $Param{TicketID},
         ArticleType   => $Param{ArticleType},
         UserID        => $Param{UserID},
-        DynamicFields => 0,
+        DynamicFields => $DynamicFields,
     );
 
     # article attachments of each article
@@ -3528,6 +3536,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.291 $ $Date: 2011-09-20 21:59:31 $
+$Revision: 1.292 $ $Date: 2011-09-21 04:09:51 $
 
 =cut
