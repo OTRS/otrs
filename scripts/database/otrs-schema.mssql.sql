@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: mssql, generated: 2011-09-16 11:13:13
+--  driver: mssql, generated: 2011-09-21 16:44:26
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -633,7 +633,7 @@ CREATE INDEX article_search_ticket_id ON article_search (ticket_id);
 CREATE TABLE article_plain (
     id BIGINT NOT NULL IDENTITY(1,1) ,
     article_id BIGINT NOT NULL,
-    body VARBINARY (MAX) NOT NULL,
+    body NVARCHAR (MAX) NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
     change_time DATETIME NOT NULL,
@@ -652,7 +652,7 @@ CREATE TABLE article_attachment (
     content_type NVARCHAR (450) NULL,
     content_id NVARCHAR (250) NULL,
     content_alternative NVARCHAR (50) NULL,
-    content VARBINARY (MAX) NOT NULL,
+    content NVARCHAR (MAX) NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
     change_time DATETIME NOT NULL,
@@ -710,7 +710,7 @@ CREATE TABLE standard_attachment (
     id INTEGER NOT NULL IDENTITY(1,1) ,
     name NVARCHAR (200) NOT NULL,
     content_type NVARCHAR (250) NOT NULL,
-    content VARBINARY (MAX) NOT NULL,
+    content NVARCHAR (MAX) NOT NULL,
     filename NVARCHAR (250) NOT NULL,
     comments NVARCHAR (250) NULL,
     valid_id SMALLINT NOT NULL,
@@ -993,7 +993,7 @@ CREATE TABLE web_upload_cache (
     content_id NVARCHAR (250) NULL,
     content_size NVARCHAR (30) NULL,
     content_type NVARCHAR (250) NULL,
-    content VARBINARY (MAX) NOT NULL,
+    content NVARCHAR (MAX) NOT NULL,
     create_time_unix BIGINT NOT NULL
 );
 -- ----------------------------------------------------------
@@ -1134,7 +1134,7 @@ CREATE INDEX virtual_fs_preferences_virtual_fs_id ON virtual_fs_preferences (vir
 CREATE TABLE virtual_fs_db (
     id BIGINT NOT NULL IDENTITY(1,1) ,
     filename NVARCHAR (350) NOT NULL,
-    content VARBINARY (MAX) NOT NULL,
+    content NVARCHAR (MAX) NOT NULL,
     create_time DATETIME NOT NULL,
     PRIMARY KEY(id)
 );
@@ -1151,7 +1151,7 @@ CREATE TABLE package_repository (
     filename NVARCHAR (250) NULL,
     content_size NVARCHAR (30) NULL,
     content_type NVARCHAR (250) NULL,
-    content VARBINARY (MAX) NOT NULL,
+    content NVARCHAR (MAX) NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
     change_time DATETIME NOT NULL,
@@ -1164,7 +1164,7 @@ CREATE TABLE package_repository (
 CREATE TABLE gi_webservice_config (
     id INTEGER NOT NULL IDENTITY(1,1) ,
     name NVARCHAR (200) NOT NULL,
-    config VARBINARY (MAX) NOT NULL,
+    config NVARCHAR (MAX) NOT NULL,
     config_md5 NVARCHAR (32) NOT NULL,
     valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
@@ -1181,7 +1181,7 @@ CREATE TABLE gi_webservice_config (
 CREATE TABLE gi_webservice_config_history (
     id BIGINT NOT NULL IDENTITY(1,1) ,
     config_id INTEGER NOT NULL,
-    config VARBINARY (MAX) NOT NULL,
+    config NVARCHAR (MAX) NOT NULL,
     config_md5 NVARCHAR (32) NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
@@ -1225,7 +1225,7 @@ CREATE TABLE gi_debugger_entry_content (
     gi_debugger_entry_id BIGINT NOT NULL,
     debug_level NVARCHAR (50) NOT NULL,
     subject NVARCHAR (255) NOT NULL,
-    content VARBINARY (MAX) NULL,
+    content NVARCHAR (MAX) NULL,
     create_time DATETIME NOT NULL,
     PRIMARY KEY(id)
 );
@@ -1242,7 +1242,7 @@ CREATE TABLE gi_object_lock_state (
     lock_state_counter INTEGER NOT NULL,
     create_time DATETIME NOT NULL,
     change_time DATETIME NOT NULL,
-    CONSTRAINT gi_object_lock_state_U_230 UNIQUE (webservice_id, object_type, object_id)
+    CONSTRAINT gi_object_lock_state_U_913 UNIQUE (webservice_id, object_type, object_id)
 );
 CREATE INDEX object_lock_state_list_state ON gi_object_lock_state (webservice_id, object_type, object_id, lock_state);
 -- ----------------------------------------------------------
@@ -1285,12 +1285,12 @@ CREATE TABLE dynamic_field (
     field_order INTEGER NOT NULL,
     field_type NVARCHAR (200) NOT NULL,
     object_type NVARCHAR (200) NOT NULL,
-    config VARBINARY (MAX) NULL,
+    config NVARCHAR (MAX) NULL,
     valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    CONSTRAINT dynamic_field_U_732 UNIQUE (name)
+    CONSTRAINT dynamic_field_U_450 UNIQUE (name)
 );
