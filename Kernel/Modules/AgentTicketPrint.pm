@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPrint.pm - print layout for agent interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPrint.pm,v 1.77 2011-09-21 04:05:28 cr Exp $
+# $Id: AgentTicketPrint.pm,v 1.78 2011-09-21 19:38:05 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.77 $) [1];
+$VERSION = qw($Revision: 1.78 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -260,18 +260,6 @@ sub Run {
             PageData   => \%Page,
             TicketData => \%Ticket,
         );
-
-        #        # output ticket freetext fields
-        #        $Self->_PDFOutputTicketFreeText(
-        #            PageData   => \%Page,
-        #            TicketData => \%Ticket,
-        #        );
-        #
-        #        # output ticket freetime fields
-        #        $Self->_PDFOutputTicketFreeTime(
-        #            PageData   => \%Page,
-        #            TicketData => \%Ticket,
-        #        );
 
         # output linked objects
         if (%LinkData) {
@@ -680,92 +668,6 @@ sub _PDFOutputLinkedObjects {
     return 1;
 }
 
-#sub _PDFOutputTicketFreeText {
-#    my ( $Self, %Param ) = @_;
-#
-#    # check needed stuff
-#    for my $Needed (qw(PageData TicketData)) {
-#        if ( !defined( $Param{$Needed} ) ) {
-#            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
-#            return;
-#        }
-#    }
-#    my $Output = 0;
-#    my %Ticket = %{ $Param{TicketData} };
-#    my %Page   = %{ $Param{PageData} };
-#
-#    my %TableParam;
-#    my $Row = 0;
-#
-#    # generate table
-#    for my $Count ( 1 .. 16 ) {
-#        if ( $Ticket{"TicketFreeText$Count"} ne "" ) {
-#            $TableParam{CellData}[$Row][0]{Content} = $Ticket{"TicketFreeKey$Count"} . ':';
-#            $TableParam{CellData}[$Row][0]{Font}    = 'ProportionalBold';
-#            $TableParam{CellData}[$Row][1]{Content} = $Ticket{"TicketFreeText$Count"};
-#
-#            $Row++;
-#            $Output = 1;
-#        }
-#    }
-#    $TableParam{ColumnData}[0]{Width} = 80;
-#    $TableParam{ColumnData}[1]{Width} = 431;
-#
-#    # output ticket freetext
-#    if ($Output) {
-#
-#        # set new position
-#        $Self->{PDFObject}->PositionSet(
-#            Move => 'relativ',
-#            Y    => -15,
-#        );
-#
-#        # output headline
-#        $Self->{PDFObject}->Text(
-#            Text     => $Self->{LayoutObject}->{LanguageObject}->Get('TicketFreeText'),
-#            Height   => 7,
-#            Type     => 'Cut',
-#            Font     => 'ProportionalBoldItalic',
-#            FontSize => 7,
-#            Color    => '#666666',
-#        );
-#
-#        # set new position
-#        $Self->{PDFObject}->PositionSet(
-#            Move => 'relativ',
-#            Y    => -4,
-#        );
-#
-#        # table params
-#        $TableParam{Type}            = 'Cut';
-#        $TableParam{Border}          = 0;
-#        $TableParam{FontSize}        = 6;
-#        $TableParam{BackgroundColor} = '#DDDDDD';
-#        $TableParam{Padding}         = 1;
-#        $TableParam{PaddingTop}      = 3;
-#        $TableParam{PaddingBottom}   = 3;
-#
-#        # output table
-#        for ( $Page{PageCount} .. $Page{MaxPages} ) {
-#
-#            # output table (or a fragment of it)
-#            %TableParam = $Self->{PDFObject}->Table( %TableParam, );
-#
-#            # stop output or output next page
-#            if ( $TableParam{State} ) {
-#                last;
-#            }
-#            else {
-#                $Self->{PDFObject}->PageNew(
-#                    %Page, FooterRight => $Page{PageText} . ' ' . $Page{PageCount},
-#                );
-#                $Page{PageCount}++;
-#            }
-#        }
-#    }
-#    return 1;
-#}
-
 sub _PDFOutputTicketDynamicFields {
     my ( $Self, %Param ) = @_;
 
@@ -868,100 +770,6 @@ sub _PDFOutputTicketDynamicFields {
     }
     return 1;
 }
-
-#sub _PDFOutputTicketFreeTime {
-#    my ( $Self, %Param ) = @_;
-#
-#    # check needed stuff
-#    for my $Needed (qw(PageData TicketData)) {
-#        if ( !defined( $Param{$Needed} ) ) {
-#            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
-#            return;
-#        }
-#    }
-#    my $Output = 0;
-#    my %Ticket = %{ $Param{TicketData} };
-#    my %Page   = %{ $Param{PageData} };
-#
-#    my %TableParam;
-#    my $Row = 0;
-#
-#    # generate table
-#    for my $Count ( 1 .. 6 ) {
-#        if ( $Ticket{"TicketFreeTime$Count"} ) {
-#            my $TicketFreeTimeKey = $Self->{ConfigObject}->Get( 'TicketFreeTimeKey' . $Count )
-#                || '';
-#            my $TicketFreeTime = $Ticket{"TicketFreeTime$Count"};
-#
-#            $TableParam{CellData}[$Row][0]{Content}
-#                = $Self->{LayoutObject}->{LanguageObject}->Get($TicketFreeTimeKey) . ':';
-#            $TableParam{CellData}[$Row][0]{Font}    = 'ProportionalBold';
-#            $TableParam{CellData}[$Row][1]{Content} = $Self->{LayoutObject}->Output(
-#                Template => '$TimeLong{"$Data{"TicketFreeTime"}"}',
-#                Data => { TicketFreeTime => $TicketFreeTime, },
-#            );
-#
-#            $Row++;
-#            $Output = 1;
-#        }
-#    }
-#    $TableParam{ColumnData}[0]{Width} = 80;
-#    $TableParam{ColumnData}[1]{Width} = 431;
-#
-#    # output ticket freetime
-#    if ($Output) {
-#
-#        # set new position
-#        $Self->{PDFObject}->PositionSet(
-#            Move => 'relativ',
-#            Y    => -15,
-#        );
-#
-#        # output headline
-#        $Self->{PDFObject}->Text(
-#            Text     => $Self->{LayoutObject}->{LanguageObject}->Get('TicketFreeTime'),
-#            Height   => 7,
-#            Type     => 'Cut',
-#            Font     => 'ProportionalBoldItalic',
-#            FontSize => 7,
-#            Color    => '#666666',
-#        );
-#
-#        # set new position
-#        $Self->{PDFObject}->PositionSet(
-#            Move => 'relativ',
-#            Y    => -4,
-#        );
-#
-#        # table params
-#        $TableParam{Type}            = 'Cut';
-#        $TableParam{Border}          = 0;
-#        $TableParam{FontSize}        = 6;
-#        $TableParam{BackgroundColor} = '#DDDDDD';
-#        $TableParam{Padding}         = 1;
-#        $TableParam{PaddingTop}      = 3;
-#        $TableParam{PaddingBottom}   = 3;
-#
-#        # output table
-#        for ( $Page{PageCount} .. $Page{MaxPages} ) {
-#
-#            # output table (or a fragment of it)
-#            %TableParam = $Self->{PDFObject}->Table( %TableParam, );
-#
-#            # stop output or output next page
-#            if ( $TableParam{State} ) {
-#                last;
-#            }
-#            else {
-#                $Self->{PDFObject}->PageNew(
-#                    %Page, FooterRight => $Page{PageText} . ' ' . $Page{PageCount},
-#                );
-#                $Page{PageCount}++;
-#            }
-#        }
-#    }
-#    return 1;
-#}
 
 sub _PDFOutputCustomerInfos {
     my ( $Self, %Param ) = @_;
@@ -1179,16 +987,6 @@ sub _PDFOutputArticles {
             $Row++;
         }
 
- #        for my $Count ( 1 .. 3 ) {
- #
- #            if ( $Article{"ArticleFreeText$Count"} ) {
- #                $TableParam1{CellData}[$Row][0]{Content} = $Article{"ArticleFreeKey$Count"} . ':';
- #                $TableParam1{CellData}[$Row][0]{Font}    = 'ProportionalBold';
- #                $TableParam1{CellData}[$Row][1]{Content} = $Article{"ArticleFreeText$Count"};
- #                $Row++;
- #            }
- #        }
-
         $TableParam1{CellData}[$Row][0]{Content}
             = $Self->{LayoutObject}->{LanguageObject}->Get('Type') . ':';
         $TableParam1{CellData}[$Row][0]{Font} = 'ProportionalBold';
@@ -1367,44 +1165,6 @@ sub _HTMLMask {
         );
     }
 
-#    # ticket free text
-#    for my $Count ( 1 .. 16 ) {
-#        if ( $Param{ 'TicketFreeText' . $Count } ) {
-#            $Self->{LayoutObject}->Block(
-#                Name => 'TicketFreeText' . $Count,
-#                Data => {%Param},
-#            );
-#            $Self->{LayoutObject}->Block(
-#                Name => 'TicketFreeText',
-#                Data => {
-#                    %Param,
-#                    TicketFreeKey  => $Param{ 'TicketFreeKey' . $Count },
-#                    TicketFreeText => $Param{ 'TicketFreeText' . $Count },
-#                    Count          => $Count,
-#                },
-#            );
-#        }
-#    }
-#
-#    # ticket free time
-#    for my $Count ( 1 .. 6 ) {
-#        if ( $Param{ 'TicketFreeTime' . $Count } ) {
-#            $Self->{LayoutObject}->Block(
-#                Name => 'TicketFreeTime' . $Count,
-#                Data => {%Param},
-#            );
-#            $Self->{LayoutObject}->Block(
-#                Name => 'TicketFreeTime',
-#                Data => {
-#                    %Param,
-#                    TicketFreeTimeKey => $Self->{ConfigObject}->Get( 'TicketFreeTimeKey' . $Count ),
-#                    TicketFreeTime    => $Param{ 'TicketFreeTime' . $Count },
-#                    Count             => $Count,
-#                },
-#            );
-#        }
-#    }
-
     # build article stuff
     my $SelectedArticleID = $Param{ArticleID} || '';
     my @ArticleBox = @{ $Param{ArticleBox} };
@@ -1522,19 +1282,6 @@ sub _HTMLMask {
                 },
             );
         }
-
-        #        # show article free text
-        #        for my $Count ( 1 .. 3 ) {
-        #            if ( $Article{"ArticleFreeText$Count"} ) {
-        #                $Self->{LayoutObject}->Block(
-        #                    Name => 'ArticleFreeText',
-        #                    Data => {
-        #                        Key   => $Article{"ArticleFreeKey$Count"},
-        #                        Value => $Article{"ArticleFreeText$Count"},
-        #                    },
-        #                );
-        #            }
-        #        }
     }
 
     return $Self->{LayoutObject}->Output(
