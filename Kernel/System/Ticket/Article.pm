@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.292 2011-09-21 04:09:51 cr Exp $
+# $Id: Article.pm,v 1.293 2011-09-22 13:50:11 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::EmailParser;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.292 $) [1];
+$VERSION = qw($Revision: 1.293 $) [1];
 
 =head1 NAME
 
@@ -1350,8 +1350,7 @@ returns an array with hash ref (hash contains result of ArticleGet())
 
     my @ArticleBox = $TicketObject->ArticleContentIndex(
         TicketID      => 123,
-        DynamicFields => 1,         # or 0, default 1. To include or not the dynamic fields and
-                                    #   it's values on the return structure
+        DynamicFields => 1,         # 0 or 1, default 1. To include or not the dynamic field values on the return structure.
         UserID        => 1,
     );
 
@@ -1405,16 +1404,16 @@ sub ArticleContentIndex {
     }
 
     # check if dynamic fields are required
-    my $DynamicFields = 1;
+    my $FetchDynamicFields = 1;
     if ( defined $Param{DynamicFields} && $Param{DynamicFields} eq '0' ) {
-        $DynamicFields = 0;
+        $FetchDynamicFields = 0;
     }
 
     my @ArticleBox = $Self->ArticleGet(
         TicketID      => $Param{TicketID},
         ArticleType   => $Param{ArticleType},
         UserID        => $Param{UserID},
-        DynamicFields => $DynamicFields,
+        DynamicFields => $FetchDynamicFields,
     );
 
     # article attachments of each article
@@ -1439,11 +1438,8 @@ returns article data
 
     my %Article = $TicketObject->ArticleGet(
         ArticleID     => 123,
-        DynamicFields => 1,         # or 0, default 1. To include or not the dynamic fields and
-                                    #   it's values on the return structure
+        DynamicFields => 1,      # 0 or 1, default 1. To include or not the dynamic field values on the return structure.
         UserID        => 123,
-    );
-
     );
 
 Article:
@@ -1524,6 +1520,11 @@ sub ArticleGet {
     if ( !$Param{ArticleID} && !$Param{TicketID} ) {
         $Self->{LogObject}->Log( Priority => 'error', Message => 'Need ArticleID or TicketID!' );
         return;
+    }
+
+    my $FetchDynamicFields = 1;
+    if ( defined $Param{DynamicFields} && $Param{DynamicFields} eq '0' ) {
+        $FetchDynamicFields = 0;
     }
 
     # article type lookup
@@ -1716,13 +1717,8 @@ sub ArticleGet {
         push @Content, { %Ticket, %Data };
     }
 
-    my $DynamicFields = 1;
-    if ( defined $Param{DynamicFields} && $Param{DynamicFields} eq '0' ) {
-        $DynamicFields = '';
-    }
-
     # checl if need to return dynamic fields
-    if ($DynamicFields) {
+    if ($FetchDynamicFields) {
 
         my $DynamicFieldArticleList = $Self->{DynamicFieldObject}->DynamicFieldListGet(
             ObjectType => 'Article'
@@ -3536,6 +3532,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.292 $ $Date: 2011-09-21 04:09:51 $
+$Revision: 1.293 $ $Date: 2011-09-22 13:50:11 $
 
 =cut

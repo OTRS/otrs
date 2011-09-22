@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.524 2011-09-20 21:57:44 cr Exp $
+# $Id: Ticket.pm,v 1.525 2011-09-22 13:50:11 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -40,7 +40,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.524 $) [1];
+$VERSION = qw($Revision: 1.525 $) [1];
 
 =head1 NAME
 
@@ -917,8 +917,7 @@ Get ticket info
 
     my %Ticket = $TicketObject->TicketGet(
         TicketID      => 123,
-        DynamicFields => 1,         # or 0, default 1. To include or not the dynamic fields and
-                                    #   it's values on the return structure
+        DynamicFields => 1,         # 0 or 1, default 1. To include or not the dynamic field values on the return structure.
         UserID        => 123,
     );
 
@@ -1030,16 +1029,16 @@ sub TicketGet {
     $Param{Extended} ||= '';
 
     # check cache
-    my $DynamicFields = 1;
+    my $FetchDynamicFields = 1;
     if ( defined $Param{DynamicFields} && $Param{DynamicFields} eq '0' ) {
-        $DynamicFields = '';
+        $FetchDynamicFields = 0;
     }
 
     my $CacheKey = 'Cache::GetTicket' . $Param{TicketID};
 
     # check if result is cached
-    if ( $Self->{$CacheKey}->{ $Param{Extended} }->{$DynamicFields} ) {
-        return %{ $Self->{$CacheKey}->{ $Param{Extended} }->{$DynamicFields} };
+    if ( $Self->{$CacheKey}->{ $Param{Extended} }->{$FetchDynamicFields} ) {
+        return %{ $Self->{$CacheKey}->{ $Param{Extended} }->{$FetchDynamicFields} };
     }
 
     # fetch the result
@@ -1102,7 +1101,7 @@ sub TicketGet {
     }
 
     # check if need to return DynamicFields
-    if ($DynamicFields) {
+    if ($FetchDynamicFields) {
 
         # get all dynamic fields for the object type Ticket
         my $DynamicFieldList = $Self->{DynamicFieldObject}->DynamicFieldListGet(
@@ -1228,7 +1227,7 @@ sub TicketGet {
     }
 
     # cache user result
-    $Self->{$CacheKey}->{ $Param{Extended} }->{$DynamicFields} = \%Ticket;
+    $Self->{$CacheKey}->{ $Param{Extended} }->{$FetchDynamicFields} = \%Ticket;
 
     return %Ticket;
 }
@@ -6952,6 +6951,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.524 $ $Date: 2011-09-20 21:57:44 $
+$Revision: 1.525 $ $Date: 2011-09-22 13:50:11 $
 
 =cut
