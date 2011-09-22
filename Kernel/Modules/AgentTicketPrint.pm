@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPrint.pm - print layout for agent interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPrint.pm,v 1.79 2011-09-21 20:40:12 cr Exp $
+# $Id: AgentTicketPrint.pm,v 1.80 2011-09-22 17:37:50 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.79 $) [1];
+$VERSION = qw($Revision: 1.80 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -172,7 +172,7 @@ sub Run {
     }
 
     # generate pdf output
-    if ( $Self->{PDFObject} ) {
+    if ( !$Self->{PDFObject} ) {
         my $PrintedBy = $Self->{LayoutObject}->{LanguageObject}->Get('printed by');
         my $Time      = $Self->{LayoutObject}->Output( Template => '$Env{"Time"}' );
         my $Url       = ' ';
@@ -705,7 +705,8 @@ sub _PDFOutputTicketDynamicFields {
             Value              => $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} },
             LayoutObject       => $Self->{LayoutObject},
         );
-        $TableParam{CellData}[$Row][0]{Content} = $PrintStrings->{Label} . ':';
+        $TableParam{CellData}[$Row][0]{Content}
+            = $Self->{LayoutObject}->{LanguageObject}->Get( $DynamicFieldConfig->{Label} ) . ':';
         $TableParam{CellData}[$Row][0]{Font}    = 'ProportionalBold';
         $TableParam{CellData}[$Row][1]{Content} = $PrintStrings->{Field};
 
@@ -981,7 +982,9 @@ sub _PDFOutputArticles {
                 Value              => $Article{ 'DynamicField_' . $DynamicFieldConfig->{Name} },
                 LayoutObject       => $Self->{LayoutObject},
             );
-            $TableParam1{CellData}[$Row][0]{Content} = $PrintStrings->{Label} . ':';
+            $TableParam1{CellData}[$Row][0]{Content}
+                = $Self->{LayoutObject}->{LanguageObject}->Get( $DynamicFieldConfig->{Label} )
+                . ':';
             $TableParam1{CellData}[$Row][0]{Font}    = 'ProportionalBold';
             $TableParam1{CellData}[$Row][1]{Content} = $PrintStrings->{Field};
             $Row++;
@@ -1152,15 +1155,15 @@ sub _HTMLMask {
             LayoutObject       => $Self->{LayoutObject},
         );
 
-        my $Label = $PrintStrings->{Label} . ':';
+        my $Label = $DynamicFieldConfig->{Label};
 
         my $Field = $PrintStrings->{Field};
 
         $Self->{LayoutObject}->Block(
             Name => 'TicketDynamicField',
             Data => {
-                DynamicFieldLabel => $Label,
-                DynamicField      => $Field,
+                Label        => $Label,
+                DynamicField => $Field,
             },
         );
     }
@@ -1270,15 +1273,15 @@ sub _HTMLMask {
                 LayoutObject       => $Self->{LayoutObject},
             );
 
-            my $Label = $PrintStrings->{Label} . ':';
+            my $Label = $DynamicFieldConfig->{Label};
 
             my $Field = $PrintStrings->{Field};
 
             $Self->{LayoutObject}->Block(
                 Name => 'ArticleDynamicField',
                 Data => {
-                    DynamicFieldLabel => $Label,
-                    DynamicField      => $Field,
+                    Label        => $Label,
+                    DynamicField => $Field,
                 },
             );
         }
