@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1758.2.166 2011-09-19 09:55:34 jh Exp $
+# $Id: CHANGES,v 1.1758.2.167 2011-09-22 10:21:03 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.11 2011-??-??
+ - 2011-09-22 Fixed bug#7776 - Double encoding for AJAX responses on ActiveState perl.
  - 2011-09-19 Fixed bug#7756 - DefaultViewNewLine Config does not get used.
  - 2011-09-13 Fixed bug#6902 - QueueView: My Queues > bulk menu duplication.
  - 2011-09-12 Fixed bug#7708 - Only 400 agents available in AdminUser.
