@@ -2,7 +2,7 @@
 # AgentTicketOverviewSmall.dtl - html for ticket overview table
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewSmall.dtl,v 1.78 2011-06-22 09:17:32 mb Exp $
+# $Id: AgentTicketOverviewSmall.dtl,v 1.79 2011-09-22 03:38:44 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -102,6 +102,11 @@
                         <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};$Data{"LinkSort"};SortBy=CustomerID;OrderBy=$LQData{"OrderBy"}">$Text{"CustomerID"}</a>
                     </th>
 <!-- dtl:block:OverviewNavBarPageCustomerID -->
+<!-- dtl:block:OverviewNavBarPageDynamicField -->
+                    <th class="CustomerID Last $QData{"CSS"}">
+                        <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};$Data{"LinkSort"};SortBy=$LQData{"DynamicFieldName"};OrderBy=$LQData{"OrderBy"}">$Data{"Label"}</a>
+                    </th>
+<!-- dtl:block:OverviewNavBarPageDynamicField -->
                 </tr>
             </thead>
 <!-- dtl:block:TableHeader-->
@@ -161,6 +166,11 @@
                         </a>
                         <div title="$QData{"CustomerName"}">$QData{"CustomerName","15"}</div>
                     </td>
+<!-- dtl:block:RecordDynamicField -->
+                    <td>
+                        <div title="$QData{"Title"}">$Data{"Value"}</div>
+                    </td>
+<!-- dtl:block:RecordDynamicField -->
                 </tr>
 
 <!-- dtl:block:DocumentReadyActionRowAdd -->

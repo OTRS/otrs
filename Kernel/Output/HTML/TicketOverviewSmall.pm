@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/TicketOverviewSmall.pm
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketOverviewSmall.pm,v 1.37 2010-11-23 16:10:31 mg Exp $
+# $Id: TicketOverviewSmall.pm,v 1.38 2011-09-22 03:38:44 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,9 +15,12 @@ use strict;
 use warnings;
 
 use Kernel::System::CustomerUser;
+use Kernel::System::DynamicField;
+use Kernel::System::DynamicField::Backend;
+use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.37 $) [1];
+$VERSION = qw($Revision: 1.38 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -35,9 +38,22 @@ sub new {
     }
 
     $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
+    $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new(%Param);
+    $Self->{BackendObject}      = Kernel::System::DynamicField::Backend->new(%Param);
 
     $Self->{SmallViewColumnHeader}
         = $Self->{ConfigObject}->Get('Ticket::Frontend::OverviewSmall')->{ColumnHeader};
+
+    # get dynamic field config for frontend module
+    $Self->{DynamicFieldFilter}
+        = $Self->{ConfigObject}->Get("Ticket::Frontend::OverviewSmall")->{DynamicField};
+
+    # get the dynamic fields for this screen
+    $Self->{DynamicField} = $Self->{DynamicFieldObject}->DynamicFieldListGet(
+        Valid       => 1,
+        ObjectType  => [ 'Ticket', 'Article' ],
+        FieldFilter => $Self->{DynamicFieldFilter} || {},
+    );
 
     return $Self;
 }
@@ -326,6 +342,43 @@ sub Run {
             );
         }
 
+        # Dynamic fields
+        # cycle trough the activated Dynamic Fields for this screen
+        DYNAMICFIELD:
+        for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
+            next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+
+            # get header label
+            my $LabelStrg = $Self->{BackendObject}->DisplayLabelRender(
+                DynamicFieldConfig => $DynamicFieldConfig,
+                LayoutObject       => $Self->{LayoutObject},
+            );
+
+            my $CSS = '';
+            my $OrderBy;
+            if ( $Param{SortBy} && ( $Param{SortBy} eq $DynamicFieldConfig->{Name} ) ) {
+                if ( $Param{OrderBy} && ( $Param{OrderBy} eq 'Up' ) ) {
+                    $OrderBy = 'Down';
+                    $CSS .= ' SortDescending';
+                }
+                else {
+                    $OrderBy = 'Up';
+                    $CSS .= ' SortAscending';
+                }
+            }
+
+            $Self->{LayoutObject}->Block(
+                Name => 'OverviewNavBarPageDynamicField',
+                Data => {
+                    %Param,
+                    Label            => $LabelStrg,
+                    DynamicFieldName => $DynamicFieldConfig->{Name},
+                    OrderBy          => $OrderBy,
+                    CSS              => $CSS,
+                },
+            );
+        }
+
         $Self->{LayoutObject}->Block( Name => 'TableBody' );
 
     }
@@ -416,6 +469,28 @@ sub Run {
             $Self->{LayoutObject}->Block(
                 Name => 'RecordTicketTitle',
                 Data => { %Article, %UserInfo },
+            );
+        }
+
+        # Dynamic fields
+        # cycle trough the activated Dynamic Fields for this screen
+        DYNAMICFIELD:
+        for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
+            next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+
+            # get field value
+            my $FieldStrg = $Self->{BackendObject}->DisplayFieldRender(
+                DynamicFieldConfig => $DynamicFieldConfig,
+                Value              => $Article{ 'DynamicField_' . $DynamicFieldConfig->{Name} },
+                LayoutObject       => $Self->{LayoutObject},
+            );
+
+            $Self->{LayoutObject}->Block(
+                Name => 'RecordDynamicField',
+                Data => {
+                    Value => $FieldStrg->{Value},
+                    Title => $FieldStrg->{Title},
+                },
             );
         }
 
