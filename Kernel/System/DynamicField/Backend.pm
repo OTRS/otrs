@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend.pm - Interface for DynamicField backends
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Backend.pm,v 1.39 2011-09-22 17:12:37 cr Exp $
+# $Id: Backend.pm,v 1.40 2011-09-22 19:44:35 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Scalar::Util qw(weaken);
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.39 $) [1];
+$VERSION = qw($Revision: 1.40 $) [1];
 
 =head1 NAME
 
@@ -304,25 +304,29 @@ sub EditFieldRender {
 
 }
 
-=item DisplayFieldRender()
+=item DisplayValueRender()
 
-creates the field string to be used in display masks.
+creates value and title strings to be used in display masks.
 
-    my $FieldStrg = $BackendObject->DisplayFieldRender(
+    my $ValueStrg = $BackendObject->DisplayValueRender(
         DynamicFieldConfig => $DynamicFieldConfig,      # complete config of the DynamicField
-        Value              => 'Any value',                # Optional
-        LayoutObject         => $LayoutObject,
+        Value              => 'Any value',              # Optional
+        HTMLOutput         => 1,                        # or 0, defult 1, to return HTML ready
+                                                        #    values
+        ValueMaxChars      => 20,                       # Optional (for HTMLOuput only)
+        TitleMaxChars      => 20,                       # Optional (for HTMLOuput only)
+        LayoutObject       => $LayoutObject,
     );
 
     Returns
 
-    $FieldStrg = {
+    $ValueStrg = {
         Title => $Title,
         Value => $Value,
     }
 =cut
 
-sub DisplayFieldRender {
+sub DisplayValueRender {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
@@ -364,12 +368,12 @@ sub DisplayFieldRender {
         return;
     }
 
-    # call DisplayFieldRender on the specific backend
-    my $PrintStrings = $Self->{$DynamicFieldBackend}->DisplayFieldRender(
+    # call DisplayValueRender on the specific backend
+    my $ValueStrg = $Self->{$DynamicFieldBackend}->DisplayValueRender(
         %Param
     );
 
-    return $PrintStrings;
+    return $ValueStrg;
 }
 
 =item HandleEditRequest()
@@ -874,76 +878,6 @@ sub EditFieldValueValidate {
 
 }
 
-=item PrintFieldRender()
-
-creates the strings to be used in print masks.
-
-    my $PrintStrings = $BackendObject->PrintFieldRender(
-        DynamicFieldConfig => $DynamicFieldConfig,      # complete config of the DynamicField
-        Value              => 'Any value',
-        HTMLOutput         => 1                         # or 0, to return HTML ready values
-        LayoutObject         => $LayoutObject,
-    );
-
-    Returns
-
-    $PrintStrings = {
-        Field        => $FieldString,
-        Label        => $LabelString,
-    }
-
-=cut
-
-sub PrintFieldRender {
-    my ( $Self, %Param ) = @_;
-
-    # check needed stuff
-    for my $Needed (qw(DynamicFieldConfig Value LayoutObject)) {
-        if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
-            return;
-        }
-    }
-
-    # check DynamicFieldConfig (general)
-    if ( !IsHashRefWithData( $Param{DynamicFieldConfig} ) ) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => "The field configuration is invalid",
-        );
-        return;
-    }
-
-    # check DynamicFieldConfig (internally)
-    for my $Needed (qw(ID FieldType ObjectType)) {
-        if ( !$Param{DynamicFieldConfig}->{$Needed} ) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message  => "Need $Needed in DynamicFieldConfig!"
-            );
-            return;
-        }
-    }
-
-    # set the dynamic filed specific backend
-    my $DynamicFieldBackend = 'DynamicField' . $Param{DynamicFieldConfig}->{FieldType} . 'Object';
-
-    if ( !$Self->{$DynamicFieldBackend} ) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!"
-        );
-        return;
-    }
-
-    # call EditFieldRender on the specific backend
-    my $PrintStrings = $Self->{$DynamicFieldBackend}->PrintFieldRender(
-        %Param
-    );
-
-    return $PrintStrings;
-}
-
 =item IsSortable()
 
 returns if the current field backend is sortable or not.
@@ -1016,6 +950,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.39 $ $Date: 2011-09-22 17:12:37 $
+$Revision: 1.40 $ $Date: 2011-09-22 19:44:35 $
 
 =cut

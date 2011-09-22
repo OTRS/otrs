@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/TextArea.pm - Delegate for DynamicField TextArea backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TextArea.pm,v 1.17 2011-09-22 17:12:37 cr Exp $
+# $Id: TextArea.pm,v 1.18 2011-09-22 19:44:35 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::DynamicFieldValue;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.17 $) [1];
+$VERSION = qw($Revision: 1.18 $) [1];
 
 =head1 NAME
 
@@ -360,56 +360,7 @@ sub EditFieldValueValidate {
     return $Result;
 }
 
-sub PrintFieldRender {
-    my ( $Self, %Param ) = @_;
-
-    # check needed stuff
-    for my $Needed (qw(DynamicFieldConfig Value LayoutObject)) {
-        if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
-            return;
-        }
-    }
-
-    # check DynamicFieldConfig (general)
-    if ( !IsHashRefWithData( $Param{DynamicFieldConfig} ) ) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => "The field configuration is invalid",
-        );
-        return;
-    }
-
-    # check DynamicFieldConfig (internally)
-    for my $Needed (qw(ID Config Name)) {
-        if ( !$Param{DynamicFieldConfig}->{$Needed} ) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message  => "Need $Needed in DynamicFieldConfig!"
-            );
-            return;
-        }
-    }
-
-    my $LabelString
-        = $Param{LayoutObject}->{LanguageObject}->Get( $Param{DynamicFieldConfig}->{Label} );
-
-    my $FieldString = $Param{Value};
-
-    # output for HTML
-    if ( $Param{HTMLOutput} ) {
-        $FieldString =~ s{(\n|\n\r|\r\r\n|\r\n)}{<br/>}g;
-    }
-
-    my $Data = {
-        Field => $FieldString,
-        Label => $LabelString,
-    };
-
-    return $Data;
-}
-
-sub DisplayFieldRender {
+sub DisplayValueRender {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
@@ -440,16 +391,35 @@ sub DisplayFieldRender {
         }
     }
 
-    my $FieldString = $Param{Value} || '';
+    # set HTMLOuput as default if not specified
+    if ( !defined $Param{HTMLOutput} ) {
+        $Param{HTMLOutput} = 1;
+    }
 
-    # convert new line characters to HTML <br> tags
-    $FieldString =~ s{(\n|\n\r|\r\r\n|\r\n)}{<br/>}g;
+    # get raw Title and Value strings from field value
+    my $Value = $Param{Value} || '';
+    my $Title = $Param{Value} || '';
 
-    my $TitleString = $Param{Value} || '';
+    # HTMLOuput transformations
+    if ( $Param{HTMLOutput} ) {
 
+        $Value = $Param{LayoutObject}->Ascii2Html(
+            Text => $Value,
+            Max => $Param{ValueMaxChars} || '',
+        );
+
+        $Value =~ s{(\n|\n\r|\r\r\n|\r\n)}{<br/>}g;
+
+        $Title = $Param{LayoutObject}->Ascii2Html(
+            Text => $Title,
+            Max => $Param{TitleMaxChars} || '',
+        );
+    }
+
+    # create return structure
     my $Data = {
-        Value => $FieldString,
-        Title => $TitleString,
+        Value => $Value,
+        Title => $Title,
     };
 
     return $Data;
