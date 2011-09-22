@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Multiselect.pm - Delegate for DynamicField Multiselect backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Multiselect.pm,v 1.3 2011-09-21 23:00:39 cg Exp $
+# $Id: Multiselect.pm,v 1.4 2011-09-22 23:03:20 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::DynamicFieldValue;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 =head1 NAME
 
@@ -77,7 +77,13 @@ sub ValueGet {
     return if !IsArrayRefWithData($DFValue);
     return if !IsHashRefWithData( $DFValue->[0] );
 
-    return $DFValue->[0]->{ValueText};
+    # extract real values
+    my @ReturnData;
+    for my $Item ( @{$DFValue} ) {
+        push @ReturnData, $Item->{ValueText}
+    }
+
+    return \@ReturnData;
 }
 
 sub ValueSet {
@@ -101,15 +107,24 @@ sub ValueSet {
         return;
     }
 
+    # check value
+    my @Values;
+    if ( ref $Param{Value} eq 'ARRAY' ) {
+        @Values = @{ $Param{Value} };
+    }
+    else {
+        @Values = ( $Param{Value} );
+    }
+
+    my @ValueText;
+    for my $Item (@Values) {
+        push @ValueText, { ValueText => $Item };
+    }
     my $Success = $Self->{DynamicFieldValueObject}->ValueSet(
         FieldID  => $Param{DynamicFieldConfig}->{ID},
         ObjectID => $Param{ObjectID},
-        Value    => [
-            {
-                ValueText => $Param{Value},
-            },
-        ],
-        UserID => $Param{UserID},
+        Value    => \@ValueText,
+        UserID   => $Param{UserID},
     );
 
     return $Success;
@@ -210,14 +225,14 @@ sub EditFieldRender {
     $Value = $Param{Value}
         if defined $Param{Value};
 
-    # extract the dynamic field value form the web request
-    my @FieldValue = $Self->EditFieldValueGet(
+    #d extract the dynamic field value form the web request
+    my $FieldValue = $Self->EditFieldValueGet(
         %Param,
     );
 
     # set values from ParamObject if present
-    if ( IsArrayRefWithData( \@FieldValue ) ) {
-        $Value = \@FieldValue;
+    if ( IsArrayRefWithData($FieldValue) ) {
+        $Value = $FieldValue;
     }
 
     # check and set class if necessary
@@ -335,8 +350,9 @@ sub EditFieldValueGet {
     }
 
     # get dynamic field value form param
-    return $Param{ParamObject}
+    my @ReturnData = $Param{ParamObject}
         ->GetArray( Param => 'DynamicField_' . $Param{DynamicFieldConfig}->{Name} );
+    return \@ReturnData;
 }
 
 sub EditFieldValueValidate {
@@ -371,7 +387,7 @@ sub EditFieldValueValidate {
     }
 
     # get the field value from the http request
-    my $Value = $Self->EditFieldValueGet(
+    my $Values = $Self->EditFieldValueGet(
         DynamicFieldConfig => $Param{DynamicFieldConfig},
         ParamObject        => $Param{ParamObject},
 
@@ -383,7 +399,7 @@ sub EditFieldValueValidate {
     my $ErrorMessage;
 
     # perform necessary validations
-    if ( $Param{Mandatory} && !$Value ) {
+    if ( $Param{Mandatory} && !IsArrayRefWithData($Values) ) {
         return {
             ServerError => 1,
         };
@@ -399,9 +415,11 @@ sub EditFieldValueValidate {
         }
 
         # validate if value is in possible values list (but let pass empty values)
-        if ( $Value && !$PossibleValues->{$Value} ) {
-            $ServerError  = 1;
-            $ErrorMessage = 'The field content is invalid';
+        for my $Item ( @{$Values} ) {
+            if ( !$PossibleValues->{$Item} ) {
+                $ServerError  = 1;
+                $ErrorMessage = 'The field content is invalid';
+            }
         }
     }
 
@@ -412,6 +430,143 @@ sub EditFieldValueValidate {
     };
 
     return $Result;
+}
+
+sub DisplayValueRender {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Needed (qw(DynamicFieldConfig LayoutObject)) {
+        if ( !$Param{$Needed} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            return;
+        }
+    }
+
+    # check DynamicFieldConfig (general)
+    if ( !IsHashRefWithData( $Param{DynamicFieldConfig} ) ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "The field configuration is invalid",
+        );
+        return;
+    }
+
+    # check DynamicFieldConfig (internally)
+    for my $Needed (qw(ID Config Name)) {
+        if ( !$Param{DynamicFieldConfig}->{$Needed} ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed in DynamicFieldConfig!"
+            );
+            return;
+        }
+    }
+
+    # set HTMLOuput as default if not specified
+    if ( !defined $Param{HTMLOutput} ) {
+        $Param{HTMLOutput} = 1;
+    }
+
+    # get raw Title and Value strings from field value
+    #    my $Value = $Param{Value} || '';
+    #    my $Title = $Param{Value} || '';
+
+    my $Value = '';
+    my $Title = '';
+
+    # check value
+    my @Values;
+    if ( ref $Param{Value} eq 'ARRAY' ) {
+        @Values = @{ $Param{Value} };
+    }
+    else {
+        @Values = ( $Param{Value} );
+    }
+
+    # get real values
+    my $PossibleValues     = $Param{DynamicFieldConfig}->{Config}->{PossibleValues};
+    my $TranslatableValues = $Param{DynamicFieldConfig}->{Config}->{TranslatableValues};
+
+    my @ReadeableValues;
+    for my $Item (@Values) {
+
+        if ( $PossibleValues->{$Item} ) {
+
+            # get readeble value
+            my $RedeableValue = $PossibleValues->{$Item};
+
+            # check is needed to translate values
+            if ($TranslatableValues) {
+
+                # translate value
+                $RedeableValue = $Param{LayoutObject}->{LanguageObject}->Get($RedeableValue);
+            }
+
+            push @ReadeableValues, $RedeableValue;
+        }
+    }
+
+    # HTMLOuput transformations
+    $Value = join( "\n", @ReadeableValues );
+    $Title = $Value;
+
+    if ( $Param{HTMLOutput} ) {
+
+        $Value = $Param{LayoutObject}->Ascii2Html(
+            Text => $Value,
+            Max => $Param{ValueMaxChars} || '',
+        );
+
+        $Value =~ s{(\n|\n\r|\r\r\n|\r\n)}{<br/>}g;
+
+        $Title = $Param{LayoutObject}->Ascii2Html(
+            Text => $Title,
+            Max => $Param{TitleMaxChars} || '',
+        );
+    }
+
+    # create return structure
+    my $Data = {
+        Value => $Value,
+        Title => $Title,
+    };
+
+    return $Data;
+}
+
+sub IsSortable {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Needed (qw(DynamicFieldConfig)) {
+        if ( !$Param{$Needed} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            return;
+        }
+    }
+
+    # check DynamicFieldConfig (general)
+    if ( !IsHashRefWithData( $Param{DynamicFieldConfig} ) ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "The field configuration is invalid",
+        );
+        return;
+    }
+
+    # check DynamicFieldConfig (internally)
+    for my $Needed (qw(ID FieldType ObjectType)) {
+        if ( !$Param{DynamicFieldConfig}->{$Needed} ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed in DynamicFieldConfig!"
+            );
+            return;
+        }
+    }
+
+    return 0;
 }
 
 1;
