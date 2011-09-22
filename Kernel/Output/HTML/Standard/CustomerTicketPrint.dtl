@@ -2,7 +2,7 @@
 # CustomerTicketPrint.dtl - provides HTML print view
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketPrint.dtl,v 1.19 2011-09-22 17:37:50 cr Exp $
+# $Id: CustomerTicketPrint.dtl,v 1.20 2011-09-22 19:47:03 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -116,7 +116,7 @@
                 <tr>
                     <td class="contentkey">$Text{"$Data{"Label"}"}:</td>
                     <td class="contentvalue">
-                        <div title="$QData{"DynamicField"}">$Data{"DynamicField"}</div>
+                        <div title="$QData{"Title"}">$Data{"Value"}</div>
                     </td>
                 </tr>
 <!-- dtl:block:TicketDynamicField -->
@@ -126,15 +126,15 @@
 #               <tr>
 #                   <td class="contentkey">$Text{"$Data{"Label1"}"}:</td>
 #                   <td class="contentvalue">
-#                       <div title="$QData{"DynamicField1"}">$Data{"DynamicField1"}</div>
+#                       <div title="$QData{"Title1"}">$Data{"Value1"}</div>
 #                   </td>
 #               </tr>
 #<!-- dtl:block:TicketDynamicField_Field1 -->
 #<!-- dtl:block:TicketDynamicField_Field2 -->
 #               <tr>
-#                   <td class="contentkey">$Text{"Data{"Label2"}"}:</td>
+#                   <td class="contentkey">$Text{"$Data{"Label2"}"}:</td>
 #                   <td class="contentvalue">
-#                       <div title="$QData{"DynamicField2"}">$Data{"DynamicField2"}</div>
+#                       <div title="$QData{"Title2"}">$Data{"Value2"}</div>
 #                   </td>
 #               </tr>
 #<!-- dtl:block:TicketDynamicField_Field2 -->
@@ -176,7 +176,7 @@
                                         <tr>
                                             <td class="contentkey" width="15%">$Text{"$Data{"Label"}"}:</td>
                                             <td class="contentvalue" width="85%">
-                                                <div title="$QData{"DynamicField"}">$Data{"DynamicField"}</div>
+                                                <div title="$QData{"Title"}">$Data{"Value"}</div>
                                             </td>
                                         </tr>
 <!-- dtl:block:ArticleDynamicField -->

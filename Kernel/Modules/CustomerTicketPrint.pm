@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketPrint.pm - print layout for customer interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketPrint.pm,v 1.43 2011-09-22 17:37:50 cr Exp $
+# $Id: CustomerTicketPrint.pm,v 1.44 2011-09-22 19:47:03 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.43 $) [1];
+$VERSION = qw($Revision: 1.44 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -445,15 +445,16 @@ sub _PDFOutputTicketDynamicFields {
         next DYNAMICFIELD if $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} } eq "";
 
         # get print string for this dynamic field
-        my $PrintStrings = $Self->{BackendObject}->PrintFieldRender(
+        my $ValueStrg = $Self->{BackendObject}->DisplayValueRender(
             DynamicFieldConfig => $DynamicFieldConfig,
             Value              => $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} },
+            HTMLOutput         => 0,
             LayoutObject       => $Self->{LayoutObject},
         );
         $TableParam{CellData}[$Row][0]{Content}
             = $Self->{LayoutObject}->{LanguageObject}->Get( $DynamicFieldConfig->{Label} ) . ':';
         $TableParam{CellData}[$Row][0]{Font}    = 'ProportionalBold';
-        $TableParam{CellData}[$Row][1]{Content} = $PrintStrings->{Field};
+        $TableParam{CellData}[$Row][1]{Content} = $ValueStrg->{Value};
 
         $Row++;
         $Output = 1;
@@ -718,16 +719,17 @@ sub _PDFOutputArticles {
             next DYNAMICFIELD if $Article{ 'DynamicField_' . $DynamicFieldConfig->{Name} } eq "";
 
             # get print string for this dynamic field
-            my $PrintStrings = $Self->{BackendObject}->PrintFieldRender(
+            my $ValueStrg = $Self->{BackendObject}->DisplayValueRender(
                 DynamicFieldConfig => $DynamicFieldConfig,
                 Value              => $Article{ 'DynamicField_' . $DynamicFieldConfig->{Name} },
+                HTMLOutput         => 0,
                 LayoutObject       => $Self->{LayoutObject},
             );
             $TableParam1{CellData}[$Row][0]{Content}
                 = $Self->{LayoutObject}->{LanguageObject}->Get( $DynamicFieldConfig->{Label} )
                 . ':';
             $TableParam1{CellData}[$Row][0]{Font}    = 'ProportionalBold';
-            $TableParam1{CellData}[$Row][1]{Content} = $PrintStrings->{Field};
+            $TableParam1{CellData}[$Row][1]{Content} = $ValueStrg->{Value};
             $Row++;
         }
 
@@ -907,16 +909,13 @@ sub _HTMLMask {
         next DYNAMICFIELD if $Param{ 'DynamicField_' . $DynamicFieldConfig->{Name} } eq "";
 
         # get print string for this dynamic field
-        my $PrintStrings = $Self->{BackendObject}->PrintFieldRender(
+        my $ValueStrg = $Self->{BackendObject}->DisplayValueRender(
             DynamicFieldConfig => $DynamicFieldConfig,
             Value              => $Param{ 'DynamicField_' . $DynamicFieldConfig->{Name} },
             HTMLOutput         => 1,
+            ValueMaxChars      => 20,
             LayoutObject       => $Self->{LayoutObject},
         );
-
-        my $Label = $DynamicFieldConfig->{Label};
-
-        my $Field = $PrintStrings->{Field};
 
         # display the header only once
         if ( !$HeaderFlag ) {
@@ -927,11 +926,14 @@ sub _HTMLMask {
             $HeaderFlag = 1;
         }
 
+        my $Label = $DynamicFieldConfig->{Label};
+
         $Self->{LayoutObject}->Block(
             Name => 'TicketDynamicField',
             Data => {
-                Label        => $Label,
-                DynamicField => $Field,
+                Label => $Label,
+                Value => $ValueStrg->{Value},
+                Title => $ValueStrg->{Title},
             },
         );
     }
@@ -1018,22 +1020,22 @@ sub _HTMLMask {
             next DYNAMICFIELD if $Article{ 'DynamicField_' . $DynamicFieldConfig->{Name} } eq "";
 
             # get print string for this dynamic field
-            my $PrintStrings = $Self->{BackendObject}->PrintFieldRender(
+            my $ValueStrg = $Self->{BackendObject}->DisplayValueRender(
                 DynamicFieldConfig => $DynamicFieldConfig,
                 Value              => $Article{ 'DynamicField_' . $DynamicFieldConfig->{Name} },
                 HTMLOutput         => 1,
+                ValueMaxChars      => 20,
                 LayoutObject       => $Self->{LayoutObject},
             );
 
             my $Label = $DynamicFieldConfig->{Label};
 
-            my $Field = $PrintStrings->{Field};
-
             $Self->{LayoutObject}->Block(
                 Name => 'ArticleDynamicField',
                 Data => {
-                    Label        => $Label,
-                    DynamicField => $Field,
+                    Label => $Label,
+                    Value => $ValueStrg->{Value},
+                    Title => $ValueStrg->{Title},
                 },
             );
         }
