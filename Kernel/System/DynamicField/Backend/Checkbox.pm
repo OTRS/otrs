@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Checkbox.pm - Delegate for DynamicField Checkbox backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Checkbox.pm,v 1.19 2011-09-21 04:02:30 cr Exp $
+# $Id: Checkbox.pm,v 1.20 2011-09-22 03:36:57 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::DynamicFieldValue;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.19 $) [1];
+$VERSION = qw($Revision: 1.20 $) [1];
 
 =head1 NAME
 
@@ -413,17 +413,114 @@ sub PrintFieldRender {
         }
     }
 
-    my $FieldString = 'Yes';
-
     my $LabelString = $Param{DynamicFieldConfig}->{Label};
 
-    my $Translatable = 1;
+    my $FieldString = 'Yes';
+
+    # check is needed to translate values
+    if ( $Param{DynamicFieldConfig}->{Config}->{TranslatableValues} ) {
+
+        # translate value
+        $FieldString = $Param{LayoutObject}->{LanguageObject}->Get($FieldString);
+    }
 
     my $Data = {
-        Field        => $FieldString,
-        Translatable => $Translatable,
-        Label        => $LabelString,
+        Field => $FieldString,
+        Label => $LabelString,
 
+    };
+
+    return $Data;
+}
+
+sub DisplayLabelRender {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Needed (qw(DynamicFieldConfig LayoutObject)) {
+        if ( !$Param{$Needed} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            return;
+        }
+    }
+
+    # check DynamicFieldConfig (general)
+    if ( !IsHashRefWithData( $Param{DynamicFieldConfig} ) ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "The field configuration is invalid",
+        );
+        return;
+    }
+
+    # check DynamicFieldConfig (internally)
+    for my $Needed (qw(ID Config Name)) {
+        if ( !$Param{DynamicFieldConfig}->{$Needed} ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed in DynamicFieldConfig!"
+            );
+            return;
+        }
+    }
+
+    return $Param{LayoutObject}->{LanguageObject}->Get( $Param{DynamicFieldConfig}->{Label} ) || '';
+}
+
+sub DisplayFieldRender {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Needed (qw(DynamicFieldConfig LayoutObject)) {
+        if ( !$Param{$Needed} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            return;
+        }
+    }
+
+    # check DynamicFieldConfig (general)
+    if ( !IsHashRefWithData( $Param{DynamicFieldConfig} ) ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "The field configuration is invalid",
+        );
+        return;
+    }
+
+    # check DynamicFieldConfig (internally)
+    for my $Needed (qw(ID Config Name)) {
+        if ( !$Param{DynamicFieldConfig}->{$Needed} ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed in DynamicFieldConfig!"
+            );
+            return;
+        }
+    }
+
+    # check for Null value
+    if ( !defined $Param{Value} ) {
+        $Param{Value} = 0;
+    }
+
+    # convert value to user frendly string
+    my $FieldString = 'Yes';
+    if ( $Param{Value} ne 1 ) {
+        $FieldString = 'No';
+    }
+
+    # check is needed to translate values
+    if ( $Param{DynamicFieldConfig}->{Config}->{TranslatableValues} ) {
+
+        # translate value
+        $FieldString = $Param{LayoutObject}->{LanguageObject}->Get($FieldString);
+    }
+
+    my $TitleString = $FieldString;
+
+    my $Data = {
+        Value => $FieldString,
+        Title => $TitleString,
     };
 
     return $Data;
