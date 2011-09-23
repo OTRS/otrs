@@ -2,7 +2,7 @@
 # Kernel/System/TicketSearch.pm - all ticket search functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketSearch.pm,v 1.9 2011-09-23 11:32:44 mg Exp $
+# $Id: TicketSearch.pm,v 1.10 2011-09-23 12:10:10 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 use Kernel::System::DynamicField;
 use Kernel::System::DynamicField::Backend;
@@ -409,28 +409,37 @@ sub TicketSearch {
     $Self->{DynamicFieldBackendObject}
         ||= Kernel::System::DynamicField::Backend->new( %{$Self} );
 
-    # Check all configured ticket dynamic fields
-    my $TicketDynamicFields = $Self->{DynamicFieldObject}->DynamicFieldListGet(
-        ObjectType => 'Ticket',
-    );
-
+    my $TicketDynamicFields  = [];
+    my $ArticleDynamicFields = [];
     my %ValidDynamicFieldParams;
     my %TicketDynamicFieldName2Config;
     my %ArticleDynamicFieldName2Config;
 
-    for my $DynamicField ( @{$TicketDynamicFields} ) {
-        $ValidDynamicFieldParams{ "DynamicField_" . $DynamicField->{Name} } = 1;
-        $TicketDynamicFieldName2Config{ $DynamicField->{Name} } = $DynamicField;
-    }
+    # Only fetch DynamicField data if a field was requested for searching or sorting
+    my $ParamCheckString = ( join '', keys %Param ) || '';
+    $ParamCheckString .= $Param{SortBy} || '';
 
-    # Check all configured article dynamic fields
-    my $ArticleDynamicFields = $Self->{DynamicFieldObject}->DynamicFieldListGet(
-        ObjectType => 'Article',
-    );
+    if ( $ParamCheckString =~ m/DynamicField_/smx ) {
 
-    for my $DynamicField ( @{$ArticleDynamicFields} ) {
-        $ValidDynamicFieldParams{ "DynamicField_" . $DynamicField->{Name} } = 1;
-        $ArticleDynamicFieldName2Config{ $DynamicField->{Name} } = $DynamicField;
+        # Check all configured ticket dynamic fields
+        $TicketDynamicFields = $Self->{DynamicFieldObject}->DynamicFieldListGet(
+            ObjectType => 'Ticket',
+        );
+
+        for my $DynamicField ( @{$TicketDynamicFields} ) {
+            $ValidDynamicFieldParams{ "DynamicField_" . $DynamicField->{Name} } = 1;
+            $TicketDynamicFieldName2Config{ $DynamicField->{Name} } = $DynamicField;
+        }
+
+        # Check all configured article dynamic fields
+        $ArticleDynamicFields = $Self->{DynamicFieldObject}->DynamicFieldListGet(
+            ObjectType => 'Article',
+        );
+
+        for my $DynamicField ( @{$ArticleDynamicFields} ) {
+            $ValidDynamicFieldParams{ "DynamicField_" . $DynamicField->{Name} } = 1;
+            $ArticleDynamicFieldName2Config{ $DynamicField->{Name} } = $DynamicField;
+        }
     }
 
     # check sort/order by options
@@ -1874,6 +1883,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.9 $ $Date: 2011-09-23 11:32:44 $
+$Revision: 1.10 $ $Date: 2011-09-23 12:10:10 $
 
 =cut

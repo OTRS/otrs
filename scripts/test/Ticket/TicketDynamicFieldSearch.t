@@ -2,7 +2,7 @@
 # TicketDynamicFieldSearch.t - ticket module testscript
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketDynamicFieldSearch.t,v 1.4 2011-09-23 10:07:45 mg Exp $
+# $Id: TicketDynamicFieldSearch.t,v 1.5 2011-09-23 12:10:10 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -566,7 +566,7 @@ $Self->IsDeeply(
 $Self->IsDeeply(
     \@TicketResultSearch,
     [ $TicketID1, $TicketID2, ],
-    'Search for two fields, match two tickets, sort for another field, ASC',
+    'Search for field, match two tickets, sort for another field, ASC',
 );
 
 @TicketResultSearch = $TicketObject->TicketSearch(
@@ -585,7 +585,7 @@ $Self->IsDeeply(
 $Self->IsDeeply(
     \@TicketResultSearch,
     [ $TicketID2, $TicketID1, ],
-    'Search for two fields, match two tickets, sort for another field, DESC',
+    'Search for field, match two tickets, sort for another field, DESC',
 );
 
 @TicketResultSearch = $TicketObject->TicketSearch(
@@ -604,7 +604,7 @@ $Self->IsDeeply(
 $Self->IsDeeply(
     \@TicketResultSearch,
     [ $TicketID1, $TicketID2, ],
-    'Search for two fields, match two tickets, sort for date field, ASC',
+    'Search for field, match two tickets, sort for date field, ASC',
 );
 
 @TicketResultSearch = $TicketObject->TicketSearch(
@@ -623,7 +623,7 @@ $Self->IsDeeply(
 $Self->IsDeeply(
     \@TicketResultSearch,
     [ $TicketID2, $TicketID1, ],
-    'Search for two fields, match two tickets, sort for date field, DESC',
+    'Search for field, match two tickets, sort for date field, DESC',
 );
 
 @TicketResultSearch = $TicketObject->TicketSearch(
@@ -642,7 +642,7 @@ $Self->IsDeeply(
 $Self->IsDeeply(
     \@TicketResultSearch,
     [ $TicketID1, $TicketID2, ],
-    'Search for two fields, match two tickets, sort for checkbox field, ASC',
+    'Search for field, match two tickets, sort for checkbox field, ASC',
 );
 
 @TicketResultSearch = $TicketObject->TicketSearch(
@@ -661,7 +661,39 @@ $Self->IsDeeply(
 $Self->IsDeeply(
     \@TicketResultSearch,
     [ $TicketID2, $TicketID1, ],
-    'Search for two fields, match two tickets, sort for checkbox field, DESC',
+    'Search for field, match two tickets, sort for checkbox field, DESC',
+);
+
+@TicketResultSearch = $TicketObject->TicketSearch(
+    Result     => 'ARRAY',
+    Limit      => 100,
+    Title      => "Ticket$RandomID",
+    UserID     => 1,
+    Permission => 'rw',
+    SortBy     => "DynamicField_DFT4$RandomID",
+    OrderBy    => 'Up',
+);
+
+$Self->IsDeeply(
+    \@TicketResultSearch,
+    [ $TicketID1, $TicketID2, ],
+    'Search for no field, sort for checkbox field, ASC',
+);
+
+@TicketResultSearch = $TicketObject->TicketSearch(
+    Result     => 'ARRAY',
+    Limit      => 100,
+    Title      => "Ticket$RandomID",
+    UserID     => 1,
+    Permission => 'rw',
+    SortBy     => "DynamicField_DFT4$RandomID",
+    OrderBy    => 'Down',
+);
+
+$Self->IsDeeply(
+    \@TicketResultSearch,
+    [ $TicketID2, $TicketID1, ],
+    'Search for no field, sort for checkbox field, DESC',
 );
 
 for my $TicketID (@TestTicketIDs) {
