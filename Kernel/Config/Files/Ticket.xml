@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.476 2011-09-23 18:39:41 cr Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.477 2011-09-23 20:13:19 cr Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Translatable="1">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Group>Ticket</Group>
@@ -5852,6 +5852,7 @@ $QData{"Body"}
         <SubGroup>Frontend::Customer::Ticket::ViewZoom</SubGroup>
         <Setting>
             <Hash>
+<!--
                 <Item Key="TicketFreeTime1">0</Item>
                 <Item Key="TicketFreeTime2">0</Item>
                 <Item Key="TicketFreeTime3">0</Item>
@@ -5877,6 +5878,7 @@ $QData{"Body"}
                 <Item Key="ArticleFreeText1">0</Item>
                 <Item Key="ArticleFreeText2">0</Item>
                 <Item Key="ArticleFreeText3">0</Item>
+ -->
                 <Item Key="Queue">1</Item>
                 <Item Key="Type">0</Item>
                 <Item Key="Priority">1</Item>
@@ -8491,15 +8493,15 @@ Thanks for your help!
         <SubGroup>Frontend::Agent::Ticket::ViewZoom</SubGroup>
         <Setting>
             <Hash>
-<!--
-                <Item Key="Test1">1</Item>
-                <Item Key="Test2">1</Item>
-                <Item Key="Test3">1</Item>
-                <Item Key="Test4">1</Item>
-                <Item Key="Test5">1</Item>
-                <Item Key="Test6">1</Item>
-                <Item Key="Test7">1</Item>
- -->
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::CustomerTicketZoom###DynamicField" Required="0" Valid="1">
+        <Description Translatable="1">Dynamic fields shown in the ticket zoom screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Customer::Ticket::ViewZoom</SubGroup>
+        <Setting>
+            <Hash>
             </Hash>
         </Setting>
     </ConfigItem>
