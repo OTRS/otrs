@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/TicketOverviewPreview.pm
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketOverviewPreview.pm,v 1.53 2011-09-19 13:57:53 jh Exp $
+# $Id: TicketOverviewPreview.pm,v 1.54 2011-09-23 17:33:13 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,9 +16,11 @@ use warnings;
 
 use Kernel::System::CustomerUser;
 use Kernel::System::SystemAddress;
+use Kernel::System::DynamicField::Backend;
+use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.53 $) [1];
+$VERSION = qw($Revision: 1.54 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -37,6 +39,20 @@ sub new {
 
     $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
     $Self->{SystemAddress}      = Kernel::System::SystemAddress->new(%Param);
+
+    $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new(%Param);
+    $Self->{BackendObject}      = Kernel::System::DynamicField::Backend->new(%Param);
+
+    # get dynamic field config for frontend module
+    $Self->{DynamicFieldFilter}
+        = $Self->{ConfigObject}->Get("Ticket::Frontend::OverviewPreview")->{DynamicField};
+
+    # get the dynamic fields for this screen
+    $Self->{DynamicField} = $Self->{DynamicFieldObject}->DynamicFieldListGet(
+        Valid       => 1,
+        ObjectType  => [ 'Ticket', 'Article' ],
+        FieldFilter => $Self->{DynamicFieldFilter} || {},
+    );
 
     return $Self;
 }
@@ -482,76 +498,6 @@ sub _Show {
         }
     }
 
-    # ticket free text
-    for my $Count ( 1 .. 16 ) {
-        if ( $Article{ 'TicketFreeText' . $Count } ) {
-            $Self->{LayoutObject}->Block(
-                Name => 'TicketFreeText' . $Count,
-                Data => { %Param, %Article, %AclAction },
-            );
-            $Self->{LayoutObject}->Block(
-                Name => 'TicketFreeText',
-                Data => {
-                    %Param, %Article, %AclAction,
-                    TicketFreeKey  => $Article{ 'TicketFreeKey' . $Count },
-                    TicketFreeText => $Article{ 'TicketFreeText' . $Count },
-                    Count          => $Count,
-                },
-            );
-            if ( !$Self->{ConfigObject}->Get( 'TicketFreeText' . $Count . '::Link' ) ) {
-                $Self->{LayoutObject}->Block(
-                    Name => 'TicketFreeTextPlain' . $Count,
-                    Data => { %Param, %Article, %AclAction },
-                );
-                $Self->{LayoutObject}->Block(
-                    Name => 'TicketFreeTextPlain',
-                    Data => {
-                        %Param, %Article, %AclAction,
-                        TicketFreeKey  => $Article{ 'TicketFreeKey' . $Count },
-                        TicketFreeText => $Article{ 'TicketFreeText' . $Count },
-                        Count          => $Count,
-                    },
-                );
-            }
-            else {
-                $Self->{LayoutObject}->Block(
-                    Name => 'TicketFreeTextLink' . $Count,
-                    Data => { %Param, %Article, %AclAction },
-                );
-                $Self->{LayoutObject}->Block(
-                    Name => 'TicketFreeTextLink',
-                    Data => {
-                        %Param, %Article, %AclAction,
-                        TicketFreeTextLink =>
-                            $Self->{ConfigObject}->Get( 'TicketFreeText' . $Count . '::Link' ),
-                        TicketFreeKey  => $Article{ 'TicketFreeKey' . $Count },
-                        TicketFreeText => $Article{ 'TicketFreeText' . $Count },
-                        Count          => $Count,
-                    },
-                );
-            }
-        }
-    }
-
-    # ticket free time
-    for my $Count ( 1 .. 6 ) {
-        if ( $Article{ 'TicketFreeTime' . $Count } ) {
-            $Self->{LayoutObject}->Block(
-                Name => 'TicketFreeTime' . $Count,
-                Data => { %Param, %Article, %AclAction },
-            );
-            $Self->{LayoutObject}->Block(
-                Name => 'TicketFreeTime',
-                Data => {
-                    %Param, %Article, %AclAction,
-                    TicketFreeTimeKey => $Self->{ConfigObject}->Get( 'TicketFreeTimeKey' . $Count ),
-                    TicketFreeTime    => $Article{ 'TicketFreeTime' . $Count },
-                    Count             => $Count,
-                },
-            );
-        }
-    }
-
     # create output
     $Self->{LayoutObject}->Block(
         Name => 'AgentAnswer',
@@ -703,6 +649,87 @@ sub _Show {
             Name => 'SolutionTime',
             Data => { %Param, %Article },
         );
+    }
+
+    # Dynamic fields
+    my $Counter;
+    my $Class = 'Middle';
+
+    # cycle trough the activated Dynamic Fields for this screen
+    DYNAMICFIELD:
+    for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
+        next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+
+        $Counter++;
+
+        # get field value
+        my $ValueStrg = $Self->{BackendObject}->DisplayValueRender(
+            DynamicFieldConfig => $DynamicFieldConfig,
+            Value              => $Article{ 'DynamicField_' . $DynamicFieldConfig->{Name} },
+            ValueMaxChars      => 20,
+            LayoutObject       => $Self->{LayoutObject},
+        );
+
+        my $Label = $DynamicFieldConfig->{Label};
+
+        # create a new row if counter is starting
+        if ( $Counter == 1 ) {
+            $Self->{LayoutObject}->Block(
+                Name => 'DynamicFieldTableRow',
+                Data => {
+                    Class => $Class,
+                },
+            );
+        }
+
+        # display separation row just once
+        $Class = '';
+
+        # outout dynamic field label
+        $Self->{LayoutObject}->Block(
+            Name => 'DynamicFieldTableRowRecord',
+            Data => {
+                Label => $Label,
+            },
+        );
+
+        # outout dynamic field value plain
+        $Self->{LayoutObject}->Block(
+            Name => 'DynamicFieldTableRowRecordPlain',
+            Data => {
+                Value => $ValueStrg->{Value},
+                Title => $ValueStrg->{Title},
+            },
+        );
+
+        # only 2 dynamic fields by row are allowed, reset couter if needed
+        if ( $Counter == 2 ) {
+            $Counter = 0;
+        }
+    }
+
+    # fill the rest of the Dyanmic Fields row with empty cells, this will look better
+    if ( $Counter > 0 && $Counter < 2 ) {
+
+        for ( $Counter + 1 ... 2 ) {
+
+            # outout dynamic field label
+            $Self->{LayoutObject}->Block(
+                Name => 'DynamicFieldTableRowRecord',
+                Data => {
+                    Label => '',
+                },
+            );
+
+            # outout dynamic field value plain
+            $Self->{LayoutObject}->Block(
+                Name => 'DynamicFieldTableRowRecordPlain',
+                Data => {
+                    Value => '',
+                    Title => '',
+                },
+            );
+        }
     }
 
     # check if a certain article type should be displayed as expanded
