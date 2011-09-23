@@ -2,7 +2,7 @@
 # CustomerTicketZoom.dtl - provides HTML TicketZoom for CustomerTicketZoom.pm
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.dtl,v 1.113 2011-09-07 22:17:07 en Exp $
+# $Id: CustomerTicketZoom.dtl,v 1.114 2011-09-23 19:21:17 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -51,26 +51,27 @@
 <!-- dtl:block:Responsible -->
                 <li><span class="Key">$Text{"Responsible"}:</span> <span title="$QData{"Responsible"}">$QData{"Responsible"}</span></li>
 <!-- dtl:block:Responsible -->
-# use this if you want to show TicketFreeKey1-16 and TicketFreeText1-16
-<!-- dtl:block:TicketFreeText -->
-                <li><span class="Key">$QData{"TicketFreeKey","20"}:</span> <span title="$QData{"TicketFreeText"}">$QData{"TicketFreeText","20"}</span></li>
-<!-- dtl:block:TicketFreeText -->
-#<!-- dtl:block:TicketFreeText1 -->
-#                    <li><span class="Key">$QData{"TicketFreeKey1","20"}:</span> <span title="$QData{"TicketFreeText1"}">$QData{"TicketFreeText1","20"}</span></li>
-#<!-- dtl:block:TicketFreeText1 -->
-#<!-- dtl:block:TicketFreeText2 -->
-#                    <li><span class="Key">$QData{"TicketFreeKey2","20"}:</span> <span title="$QData{"TicketFreeText2"}">$QData{"TicketFreeText2","20"}</span></li>
-#<!-- dtl:block:TicketFreeText2 -->
-# use this if you want to show TicketFreeTime1-6
-<!-- dtl:block:TicketFreeTime -->
-                <li><span class="Key">$Text{"$Data{"TicketFreeTimeKey"}"}:</span> <span title="$TimeShort{"$QData{"TicketFreeTime"}"}">$TimeShort{"$QData{"TicketFreeTime"}"}</span></li>
-<!-- dtl:block:TicketFreeTime -->
-#<!-- dtl:block:TicketFreeTime1 -->
-#                    <li><span class="Key">$Text{"$Data{"TicketFreeTimeKey1"}"}:</span> <span title="$TimeShort{"$QData{"TicketFreeTime1"}"}">$TimeShort{"$QData{"TicketFreeTime1"}"}</span></li>
-#<!-- dtl:block:TicketFreeTime1 -->
-#<!-- dtl:block:TicketFreeTime2 -->
-#                    <li><span class="Key">$Text{"$Data{"TicketFreeTimeKey2"}"}:</span> <span title="$TimeShort{"$QData{"TicketFreeTime2"}"}">$TimeShort{"$QData{"TicketFreeTime2"}"}</span></li>
-#<!-- dtl:block:TicketFreeTime2 -->
+
+# show ticket dynamic fields
+<!-- dtl:block:TicketDynamicField -->
+                <li>
+                    <span class="Key">$Text{"$Data{"Label"}"}:</span>
+                    <span title="$QData{"Title"}">$Data{"Value"}</span>
+                </li>
+<!-- dtl:block:TicketDynamicField -->
+#<!-- dtl:block:TicketDynamicField1 -->
+#                <li>
+#                    <span class="Key">$Text{"$Data{"Label1"}"}:</span>
+#                    <span title="$QData{"Title1"}">$Data{"Value1"}</span>
+#                </li>
+#<!-- dtl:block:TicketDynamicField1 -->
+#<!-- dtl:block:TicketDynamicField2 -->
+#                <li>
+#                    <span class="Key">$Text{"$Data{"Label2"}"}:</span>
+#                    <span title="$QData{"Title2"}">$Data{"Value2"}</span>
+#                </li>
+#<!-- dtl:block:TicketDynamicField2 -->
+
 <!-- dtl:block:Print -->
                 <li><a href="$Env{"Baselink"}Action=CustomerTicketPrint;TicketID=$LQData{"TicketID"}" class="Print AsPopup" title="$Text{"Print"}">$Text{"Print"}</a></li>
 <!-- dtl:block:Print -->
@@ -113,13 +114,28 @@
                                 <div class="Clear"></div>
                             </div>
 
-# show the ArticleFreeKey1-3 and ArticleFreeText1-3
-<!-- dtl:block:ArticleFreeText -->
+# show article dynamic fields
+<!-- dtl:block:ArticleDynamicField -->
                             <div>
-                                <div class="Label" title="$QData{"Key"}">$QData{"Key", "11"}:</div> <span title="$QData{"Value"}">$QData{"Value","160"}</span>
+                                <div class="Label" title="$QData{"Label"}">$Text{"$Data{"Label"}"}:</div>
+                                <span title="$QData{"Title"}">$Data{"Value"}</span>
                                 <div class="Clear"></div>
                             </div>
-<!-- dtl:block:ArticleFreeText -->
+<!-- dtl:block:ArticleDynamicField -->
+#<!-- dtl:block:ArticleDynamicField1 -->
+#                            <div>
+#                                <div class="Label" title="$QData{"Label1"}">$Text{"$Data{"Label1"}"}:</div>
+#                                <span title="$QData{"Title1"}">$Data{"Value1"}</span>
+#                                <div class="Clear"></div>
+#                            </div>
+#<!-- dtl:block:ArticleDynamicField1 -->
+#<!-- dtl:block:ArticleDynamicField1 -->
+#                            <div>
+#                                <div class="Label" title="$QData{"Label2"}">$Text{"$Data{"Label2"}"}:</div>
+#                                <span title="$QData{"Title2"}">$Data{"Value2"}</span>
+#                                <div class="Clear"></div>
+#                            </div>
+#<!-- dtl:block:ArticleDynamicField1 -->
 
 <!-- dtl:block:ArticleAttachment -->
                             <div class="Attachments">

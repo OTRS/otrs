@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.pm,v 1.78 2011-09-07 22:17:07 en Exp $
+# $Id: CustomerTicketZoom.pm,v 1.79 2011-09-23 19:21:17 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,9 +16,12 @@ use warnings;
 
 use Kernel::System::Web::UploadCache;
 use Kernel::System::State;
+use Kernel::System::DynamicField;
+use Kernel::System::DynamicField::Backend;
+use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.78 $) [1];
+$VERSION = qw($Revision: 1.79 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -40,8 +43,10 @@ sub new {
     }
 
     # needed objects
-    $Self->{StateObject}       = Kernel::System::State->new(%Param);
-    $Self->{UploadCacheObject} = Kernel::System::Web::UploadCache->new(%Param);
+    $Self->{StateObject}        = Kernel::System::State->new(%Param);
+    $Self->{UploadCacheObject}  = Kernel::System::Web::UploadCache->new(%Param);
+    $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new(%Param);
+    $Self->{BackendObject}      = Kernel::System::DynamicField::Backend->new(%Param);
 
     # get form id
     $Self->{FormID} = $Self->{ParamObject}->GetParam( Param => 'FormID' );
@@ -52,6 +57,9 @@ sub new {
     }
 
     $Self->{Config} = $Self->{ConfigObject}->Get("Ticket::Frontend::$Self->{Action}");
+
+    # get dynamic field config for frontend module
+    $Self->{DynamicFieldFilter} = $Self->{Config}->{DynamicField};
 
     return $Self;
 }
@@ -506,40 +514,36 @@ sub _Mask {
         );
     }
 
-    # ticket free text
-    for my $Count ( 1 .. 16 ) {
-        next if !$Param{ 'TicketFreeText' . $Count };
-        next if !$Self->{Config}->{AttributesView}->{ 'TicketFreeText' . $Count };
-        $Self->{LayoutObject}->Block(
-            Name => 'TicketFreeText' . $Count,
-            Data => \%Param,
-        );
-        $Self->{LayoutObject}->Block(
-            Name => 'TicketFreeText',
-            Data => {
-                %Param,
-                TicketFreeKey  => $Param{ 'TicketFreeKey' . $Count },
-                TicketFreeText => $Param{ 'TicketFreeText' . $Count },
-                Count          => $Count,
-            },
-        );
-    }
+    # get the dynamic fields for ticket object
+    my $DynamicField = $Self->{DynamicFieldObject}->DynamicFieldListGet(
+        Valid       => 1,
+        ObjectType  => ['Ticket'],
+        FieldFilter => $Self->{DynamicFieldFilter} || {},
+    );
 
-    # ticket free time
-    for my $Count ( 1 .. 6 ) {
-        next if !$Param{ 'TicketFreeTime' . $Count };
-        next if !$Self->{Config}->{AttributesView}->{ 'TicketFreeTime' . $Count };
-        $Self->{LayoutObject}->Block(
-            Name => 'TicketFreeTime' . $Count,
-            Data => \%Param,
+    # cycle trough the activated Dynamic Fields for ticket object
+    DYNAMICFIELD:
+    for my $DynamicFieldConfig ( @{$DynamicField} ) {
+        next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+        next DYNAMICFIELD if !$Param{ 'DynamicField_' . $DynamicFieldConfig->{Name} };
+        next DYNAMICFIELD if $Param{ 'DynamicField_' . $DynamicFieldConfig->{Name} } eq "";
+
+        # get print string for this dynamic field
+        my $ValueStrg = $Self->{BackendObject}->DisplayValueRender(
+            DynamicFieldConfig => $DynamicFieldConfig,
+            Value              => $Param{ 'DynamicField_' . $DynamicFieldConfig->{Name} },
+            ValueMaxChars      => 25,
+            LayoutObject       => $Self->{LayoutObject},
         );
+
+        my $Label = $DynamicFieldConfig->{Label};
+
         $Self->{LayoutObject}->Block(
-            Name => 'TicketFreeTime',
+            Name => 'TicketDynamicField',
             Data => {
-                %Param,
-                TicketFreeTimeKey => $Self->{ConfigObject}->Get( 'TicketFreeTimeKey' . $Count ),
-                TicketFreeTime    => $Param{ 'TicketFreeTime' . $Count },
-                Count             => $Count,
+                Label => $Label,
+                Value => $ValueStrg->{Value},
+                Title => $ValueStrg->{Title},
             },
         );
     }
@@ -607,15 +611,36 @@ sub _Mask {
             );
         }
 
-        # show article free text
-        for my $Count ( 1 .. 3 ) {
-            next if !$Article{ 'ArticleFreeText' . $Count };
-            next if !$Self->{Config}->{AttributesView}->{ 'ArticleFreeText' . $Count };
+        # get the dynamic fields for article object
+        my $DynamicField = $Self->{DynamicFieldObject}->DynamicFieldListGet(
+            Valid       => 1,
+            ObjectType  => ['Article'],
+            FieldFilter => $Self->{DynamicFieldFilter} || {},
+        );
+
+        # cycle trough the activated Dynamic Fields for ticket object
+        DYNAMICFIELD:
+        for my $DynamicFieldConfig ( @{$DynamicField} ) {
+            next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+            next DYNAMICFIELD if !$Article{ 'DynamicField_' . $DynamicFieldConfig->{Name} };
+            next DYNAMICFIELD if $Article{ 'DynamicField_' . $DynamicFieldConfig->{Name} } eq "";
+
+            # get print string for this dynamic field
+            my $ValueStrg = $Self->{BackendObject}->DisplayValueRender(
+                DynamicFieldConfig => $DynamicFieldConfig,
+                Value              => $Article{ 'DynamicField_' . $DynamicFieldConfig->{Name} },
+                ValueMaxChars      => 160,
+                LayoutObject       => $Self->{LayoutObject},
+            );
+
+            my $Label = $DynamicFieldConfig->{Label};
+
             $Self->{LayoutObject}->Block(
-                Name => 'ArticleFreeText',
+                Name => 'ArticleDynamicField',
                 Data => {
-                    Key   => $Article{ 'ArticleFreeKey' . $Count },
-                    Value => $Article{ 'ArticleFreeText' . $Count },
+                    Label => $Label,
+                    Value => $ValueStrg->{Value},
+                    Title => $ValueStrg->{Title},
                 },
             );
         }
