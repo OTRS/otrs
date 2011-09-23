@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Multiselect.pm - Delegate for DynamicField Multiselect backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Multiselect.pm,v 1.4 2011-09-22 23:03:20 cg Exp $
+# $Id: Multiselect.pm,v 1.5 2011-09-23 10:27:59 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::DynamicFieldValue;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 =head1 NAME
 
@@ -133,40 +133,24 @@ sub ValueSet {
 sub SearchSQLGet {
     my ( $Self, %Param ) = @_;
 
+    my %Operators = (
+        Equals            => '=',
+        GreaterThan       => '>',
+        GreaterThanEquals => '>=',
+        SmallerThan       => '<',
+        SmallerThanEquals => '<=',
+    );
+
+    if ( $Operators{ $Param{Operator} } ) {
+        my $SQL = " $Param{TableAlias}.value_text $Operators{$Param{Operator}} '";
+        $SQL .= $Self->{DBObject}->Quote( $Param{SearchTerm} ) . "' ";
+        return $SQL;
+    }
+
     if ( $Param{Operator} eq 'Like' ) {
         my $SQL = " LOWER($Param{TableAlias}.value_text) LIKE LOWER('";
         $SQL .= $Self->{DBObject}->Quote( $Param{SearchTerm}, 'Like' );
         $SQL .= "') " . $Self->{DBObject}->GetDatabaseFunction('LikeEscapeString') . ' ';
-        return $SQL;
-    }
-
-    if ( $Param{Operator} eq 'Equals' ) {
-        my $SQL = " $Param{TableAlias}.value_text = '";
-        $SQL .= $Self->{DBObject}->Quote( $Param{SearchTerm} ) . "' ";
-        return $SQL;
-    }
-
-    if ( $Param{Operator} eq 'GreaterThan' ) {
-        my $SQL = " $Param{TableAlias}.value_text > '";
-        $SQL .= $Self->{DBObject}->Quote( $Param{SearchTerm} ) . "' ";
-        return $SQL;
-    }
-
-    if ( $Param{Operator} eq 'GreaterThanEquals' ) {
-        my $SQL = " $Param{TableAlias}.value_text >= '";
-        $SQL .= $Self->{DBObject}->Quote( $Param{SearchTerm} ) . "' ";
-        return $SQL;
-    }
-
-    if ( $Param{Operator} eq 'SmallerThan' ) {
-        my $SQL = " $Param{TableAlias}.value_text < '";
-        $SQL .= $Self->{DBObject}->Quote( $Param{SearchTerm} ) . "' ";
-        return $SQL;
-    }
-
-    if ( $Param{Operator} eq 'SmallerThanEquals' ) {
-        my $SQL = " $Param{TableAlias}.value_text <= '";
-        $SQL .= $Self->{DBObject}->Quote( $Param{SearchTerm} ) . "' ";
         return $SQL;
     }
 

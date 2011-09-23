@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/DateTime.pm - Delegate for DynamicField DateTime backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DateTime.pm,v 1.30 2011-09-22 19:44:35 cr Exp $
+# $Id: DateTime.pm,v 1.31 2011-09-23 10:27:59 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Time;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.30 $) [1];
+$VERSION = qw($Revision: 1.31 $) [1];
 
 =head1 NAME
 
@@ -102,32 +102,16 @@ sub ValueSet {
 sub SearchSQLGet {
     my ( $Self, %Param ) = @_;
 
-    if ( $Param{Operator} eq 'Equals' ) {
-        my $SQL = " $Param{TableAlias}.value_date = '";
-        $SQL .= $Self->{DBObject}->Quote( $Param{SearchTerm} ) . "' ";
-        return $SQL;
-    }
+    my %Operators = (
+        Equals            => '=',
+        GreaterThan       => '>',
+        GreaterThanEquals => '>=',
+        SmallerThan       => '<',
+        SmallerThanEquals => '<=',
+    );
 
-    if ( $Param{Operator} eq 'GreaterThan' ) {
-        my $SQL = " $Param{TableAlias}.value_date > '";
-        $SQL .= $Self->{DBObject}->Quote( $Param{SearchTerm} ) . "' ";
-        return $SQL;
-    }
-
-    if ( $Param{Operator} eq 'GreaterThanEquals' ) {
-        my $SQL = " $Param{TableAlias}.value_date >= '";
-        $SQL .= $Self->{DBObject}->Quote( $Param{SearchTerm} ) . "' ";
-        return $SQL;
-    }
-
-    if ( $Param{Operator} eq 'SmallerThan' ) {
-        my $SQL = " $Param{TableAlias}.value_date < '";
-        $SQL .= $Self->{DBObject}->Quote( $Param{SearchTerm} ) . "' ";
-        return $SQL;
-    }
-
-    if ( $Param{Operator} eq 'SmallerThanEquals' ) {
-        my $SQL = " $Param{TableAlias}.value_date <= '";
+    if ( $Operators{ $Param{Operator} } ) {
+        my $SQL = " $Param{TableAlias}.value_date $Operators{$Param{Operator}} '";
         $SQL .= $Self->{DBObject}->Quote( $Param{SearchTerm} ) . "' ";
         return $SQL;
     }

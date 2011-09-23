@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Checkbox.pm - Delegate for DynamicField Checkbox backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Checkbox.pm,v 1.23 2011-09-22 19:44:35 cr Exp $
+# $Id: Checkbox.pm,v 1.24 2011-09-23 10:27:59 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::DynamicFieldValue;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.23 $) [1];
+$VERSION = qw($Revision: 1.24 $) [1];
 
 =head1 NAME
 
@@ -112,18 +112,18 @@ sub ValueSet {
 sub SearchSQLGet {
     my ( $Self, %Param ) = @_;
 
-    if ( $Param{Operator} ne 'Equals' ) {
-        $Self->{'LogObject'}->Log(
-            'Priority' => 'error',
-            'Message'  => "Unsupported Operator $Param{Operator}",
-        );
-        return;
+    if ( $Param{Operator} eq 'Equals' ) {
+        my $SQL = " $Param{TableAlias}.value_int = ";
+        $SQL .= $Self->{DBObject}->Quote( $Param{SearchTerm}, 'Integer' ) . ' ';
+        return $SQL;
     }
 
-    my $SQL = " $Param{TableAlias}.value_int = ";
-    $SQL .= $Self->{DBObject}->Quote( $Param{SearchTerm}, 'Integer' ) . ' ';
+    $Self->{'LogObject'}->Log(
+        'Priority' => 'error',
+        'Message'  => "Unsupported Operator $Param{Operator}",
+    );
 
-    return $SQL;
+    return;
 }
 
 sub SearchSQLOrderFieldGet {
