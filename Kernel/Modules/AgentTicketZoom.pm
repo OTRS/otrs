@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.152 2011-05-02 13:27:00 mb Exp $
+# $Id: AgentTicketZoom.pm,v 1.153 2011-09-23 18:34:47 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,9 +18,12 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 use Kernel::System::EmailParser;
 use Kernel::System::SystemAddress;
+use Kernel::System::DynamicField;
+use Kernel::System::DynamicField::Backend;
+use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.152 $) [1];
+$VERSION = qw($Revision: 1.153 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -79,6 +82,12 @@ sub new {
     $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
     $Self->{LinkObject}         = Kernel::System::LinkObject->new(%Param);
     $Self->{SystemAddress}      = Kernel::System::SystemAddress->new(%Param);
+    $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new(%Param);
+    $Self->{BackendObject}      = Kernel::System::DynamicField::Backend->new(%Param);
+
+    # get dynamic field config for frontend module
+    $Self->{DynamicFieldFilter}
+        = $Self->{ConfigObject}->Get("Ticket::Frontend::AgentTicketZoom")->{DynamicField};
 
     return $Self;
 }
@@ -752,73 +761,42 @@ sub MaskAgentZoom {
         );
     }
 
-    # ticket free text
-    FREETEXT:
-    for my $Count ( 1 .. 16 ) {
-        next FREETEXT if !$Ticket{ 'TicketFreeText' . $Count };
-        $Self->{LayoutObject}->Block(
-            Name => 'TicketFreeText' . $Count,
-            Data => { %Ticket, %AclAction },
+    # get the dynamic fields for ticket object
+    my $DynamicField = $Self->{DynamicFieldObject}->DynamicFieldListGet(
+        Valid       => 1,
+        ObjectType  => ['Ticket'],
+        FieldFilter => $Self->{DynamicFieldFilter} || {},
+    );
+
+    # cycle trough the activated Dynamic Fields for ticket object
+    DYNAMICFIELD:
+    for my $DynamicFieldConfig ( @{$DynamicField} ) {
+        next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+        next DYNAMICFIELD if !$Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} };
+        next DYNAMICFIELD if $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} } eq "";
+
+        # get print string for this dynamic field
+        my $ValueStrg = $Self->{BackendObject}->DisplayValueRender(
+            DynamicFieldConfig => $DynamicFieldConfig,
+            Value              => $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} },
+            ValueMaxChars      => 25,
+            LayoutObject       => $Self->{LayoutObject},
         );
+
+        my $Label = $DynamicFieldConfig->{Label};
+
         $Self->{LayoutObject}->Block(
-            Name => 'TicketFreeText',
+            Name => 'TicketDynamicField',
             Data => {
-                %Ticket, %AclAction,
-                TicketFreeKey  => $Ticket{ 'TicketFreeKey' . $Count },
-                TicketFreeText => $Ticket{ 'TicketFreeText' . $Count },
-                Count          => $Count,
+                Label => $Label,
             },
         );
-        if ( !$Self->{ConfigObject}->Get( 'TicketFreeText' . $Count . '::Link' ) ) {
-            $Self->{LayoutObject}->Block(
-                Name => 'TicketFreeTextPlain' . $Count,
-                Data => { %Ticket, %AclAction },
-            );
-            $Self->{LayoutObject}->Block(
-                Name => 'TicketFreeTextPlain',
-                Data => {
-                    %Ticket, %AclAction,
-                    TicketFreeKey  => $Ticket{ 'TicketFreeKey' . $Count },
-                    TicketFreeText => $Ticket{ 'TicketFreeText' . $Count },
-                    Count          => $Count,
-                },
-            );
-        }
-        else {
-            $Self->{LayoutObject}->Block(
-                Name => 'TicketFreeTextLink' . $Count,
-                Data => { %Ticket, %AclAction },
-            );
-            $Self->{LayoutObject}->Block(
-                Name => 'TicketFreeTextLink',
-                Data => {
-                    %Ticket, %AclAction,
-                    TicketFreeTextLink => $Self->{ConfigObject}->Get(
-                        'TicketFreeText' . $Count . '::Link'
-                    ),
-                    TicketFreeKey  => $Ticket{ 'TicketFreeKey' . $Count },
-                    TicketFreeText => $Ticket{ 'TicketFreeText' . $Count },
-                    Count          => $Count,
-                },
-            );
-        }
-    }
 
-    # ticket free time
-    FREETIME:
-    for my $Count ( 1 .. 6 ) {
-        next FREETIME if !$Ticket{ 'TicketFreeTime' . $Count };
         $Self->{LayoutObject}->Block(
-            Name => 'TicketFreeTime' . $Count,
-            Data => { %Ticket, %AclAction },
-        );
-        $Self->{LayoutObject}->Block(
-            Name => 'TicketFreeTime',
+            Name => 'TicketDynamicFieldPlain',
             Data => {
-                %Ticket, %AclAction,
-                TicketFreeTimeKey => $Self->{ConfigObject}->Get( 'TicketFreeTimeKey' . $Count ),
-                TicketFreeTime    => $Ticket{ 'TicketFreeTime' . $Count },
-                Count             => $Count,
+                Value => $ValueStrg->{Value},
+                Title => $ValueStrg->{Title},
             },
         );
     }
@@ -1744,15 +1722,36 @@ sub _ArticleItem {
         );
     }
 
-    # show article free text
-    FREETEXT:
-    for my $Count ( 1 .. 3 ) {
-        next FREETEXT if !$Article{"ArticleFreeText$Count"};
+    # get the dynamic fields for article object
+    my $DynamicField = $Self->{DynamicFieldObject}->DynamicFieldListGet(
+        Valid       => 1,
+        ObjectType  => ['Article'],
+        FieldFilter => $Self->{DynamicFieldFilter} || {},
+    );
+
+    # cycle trough the activated Dynamic Fields for ticket object
+    DYNAMICFIELD:
+    for my $DynamicFieldConfig ( @{$DynamicField} ) {
+        next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+        next DYNAMICFIELD if !$Article{ 'DynamicField_' . $DynamicFieldConfig->{Name} };
+        next DYNAMICFIELD if $Article{ 'DynamicField_' . $DynamicFieldConfig->{Name} } eq "";
+
+        # get print string for this dynamic field
+        my $ValueStrg = $Self->{BackendObject}->DisplayValueRender(
+            DynamicFieldConfig => $DynamicFieldConfig,
+            Value              => $Article{ 'DynamicField_' . $DynamicFieldConfig->{Name} },
+            ValueMaxChars      => 160,
+            LayoutObject       => $Self->{LayoutObject},
+        );
+
+        my $Label = $DynamicFieldConfig->{Label};
+
         $Self->{LayoutObject}->Block(
-            Name => 'ArticleFreeText',
+            Name => 'ArticleDynamicField',
             Data => {
-                Key   => $Article{"ArticleFreeKey$Count"},
-                Value => $Article{"ArticleFreeText$Count"},
+                Label => $Label,
+                Value => $ValueStrg->{Value},
+                Title => $ValueStrg->{Title},
             },
         );
     }
