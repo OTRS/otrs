@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.131 2011-09-20 22:02:42 cr Exp $
+# $Id: LayoutTicket.pm,v 1.132 2011-09-23 21:23:14 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.131 $) [1];
+$VERSION = qw($Revision: 1.132 $) [1];
 
 sub AgentCustomerViewTable {
     my ( $Self, %Param ) = @_;
@@ -541,382 +541,382 @@ sub AgentFreeText {
     return %Data;
 }
 
-=item AgentFreeDate()
+#=item AgentFreeDate()
+#
+#generat html for ticket free time fields
+#
+#    my $HTML = $LayoutObject->AgentFreeDate(
+#        Ticket     => \%Ticket, # optional, current ticket hash if exists
+#        Config     => \%Config, # current free time field config
+#        Class      => ''        # optional, css class for validation
+#    );
+#
+#return:
+#
+#    my %HTML = (
+#        TicketFreeKey1  => '<lable id="LabelTicketFreeTime" for="TicketFreeTime1">FreeTime1:</label>',
+#        TicketFreeTime1  => '
+#                        <select name="Month" title="Month" id="Month" class="Validate_DateMonth">
+#                            ...
+#                        </select>',
+#        TicketFreeKey16  => '<lable id="LabelTicketFreeTime" for="TicketFreeTime16">FreeTime16:</label>',
+#        TicketFreeTime16  => '
+#                        <select name="Month" title="Month" id="Month" class="Validate_DateMonth">
+#                            ...
+#                        </select>',
+#    );
+#
+#=cut
+#
+#sub AgentFreeDate {
+#    my ( $Self, %Param ) = @_;
+#
+#    my %Ticket;
+#    my %Config;
+#    my $Class = '';
+#    if ( $Param{Ticket} ) {
+#        %Ticket = %{ $Param{Ticket} };
+#    }
+#    if ( $Param{Config} ) {
+#        %Config = %{ $Param{Config} };
+#    }
+#    if ( $Param{Class} ) {
+#        $Class = $Param{Class};
+#    }
+#    my %Data;
+#    for my $Count ( 1 .. 6 ) {
+#        my %TimePeriod;
+#        if ( $Self->{ConfigObject}->Get( 'TicketFreeTimePeriod' . $Count ) ) {
+#            %TimePeriod = %{ $Self->{ConfigObject}->Get( 'TicketFreeTimePeriod' . $Count ) };
+#        }
+#
+#        $Data{ 'TicketFreeTime' . $Count } = $Self->BuildDateSelection(
+#            %Param,
+#            %Ticket,
+#            Prefix                              => 'TicketFreeTime' . $Count,
+#            Format                              => 'DateInputFormatLong',
+#            'TicketFreeTime' . $Count . 'Class' => $Class,
+#            DiffTime => $Self->{ConfigObject}->Get( 'TicketFreeTimeDiff' . $Count ) || 0,
+#            %TimePeriod,
+#            Validate => 1,
+#            Required => $Param{'Ticket'}->{ 'TicketFreeTime' . $Count . 'Required' } ? 1 : 0,
+#        );
+#
+#        if ( $Param{'Ticket'}->{ 'TicketFreeTime' . $Count . 'Required' } ) {
+#            $Data{ 'TicketFreeTimeKey' . $Count } =
+#                '<label class="Mandatory" id="LabelTicketFreeTime'
+#                . $Count
+#                . '"'
+#                . ' for="TicketFreeTime'
+#                . $Count
+#                . 'Used">'
+#                . '<span class="Marker">*</span> '
+#                . '$Text{"'
+#                . $Self->{ConfigObject}->Get( 'TicketFreeTimeKey' . $Count )
+#                . '"}'
+#                . ':</label>';
+#        }
+#        else {
+#            $Data{ 'TicketFreeTimeKey' . $Count } =
+#                '<label id="LabelTicketFreeTime'
+#                . $Count
+#                . '"'
+#                . ' for="TicketFreeTime'
+#                . $Count
+#                . 'Used">'
+#                . '$Text{"'
+#                . $Self->{ConfigObject}->Get( 'TicketFreeTimeKey' . $Count )
+#                . '"}'
+#                . ':</label>';
+#        }
+#    }
+#    return %Data;
+#}
 
-generat html for ticket free time fields
+#=item TicketArticleFreeText()
+#
+#generat html for article free text fields
+#
+#generat html for article free text fields
+#
+#    my %HTML = $LayoutObject->TicketArticleFreeText(
+#        NullOption => 1,        # if you need a "-" selection option
+#        Article    => \%Article, # optional, current article hash if exists
+#        Config     => \%Config, # current free field config
+#        Class      => ''        # optional, css class for validation
+#    );
+#
+#return:
+#
+#    my %HTML = (
+#        ArticleFreeKeyField1   => '<label id="LabelArticleFreeText1">FreeKey:</label><input type="text" name="ArticleFreeKey1" value="some value"/>', # html for free key 1
+#        ArticleFreeTextField1  => '<input type="text" name="ArticleFreeText1" value="some value"/>', # html for free text 1
+#    );
+#
+#=cut
+#
+#sub TicketArticleFreeText {
+#    my ( $Self, %Param ) = @_;
+#
+#    my %NullOption;
+#    my %SelectData;
+#    my %Article;
+#    my %Config;
+#    my $Class = '';
+#    if ( $Param{NullOption} ) {
+#        $SelectData{Size}     = 3;
+#        $SelectData{Multiple} = 1;
+#    }
+#    if ( $Param{Article} ) {
+#        %Article = %{ $Param{Article} };
+#    }
+#    if ( $Param{Config} ) {
+#        %Config = %{ $Param{Config} };
+#    }
+#    if ( $Param{Class} ) {
+#        $Class = $Param{Class};
+#    }
+#    my %Data;
+#    for ( 1 .. 3 ) {
+#
+#        # key
+#        if ( ref $Config{"ArticleFreeKey$_"} eq 'HASH' && %{ $Config{"ArticleFreeKey$_"} } ) {
+#            my $Counter = 0;
+#            my $LastKey = '';
+#            for ( keys %{ $Config{"ArticleFreeKey$_"} } ) {
+#                $Counter++;
+#                $LastKey = $_;
+#            }
+#            if ( $Counter == 1 && $Param{NullOption} ) {
+#                if ($LastKey) {
+#                    $Data{"ArticleFreeKeyField$_"} = $Config{"ArticleFreeKey$_"}->{$LastKey};
+#                }
+#            }
+#            elsif ( $Counter > 1 ) {
+#                $Data{"ArticleFreeKeyField$_"} = $Self->BuildSelection(
+#                    Data => { %NullOption, %{ $Config{"ArticleFreeKey$_"} }, },
+#                    Name => "ArticleFreeKey$_",
+#                    SelectedValue => $Article{"ArticleFreeKey$_"},
+#                    Translation   => 0,
+#                    Class         => 'ArticleFreeKey',
+#                    HTMLQuote     => 1,
+#                    %SelectData,
+#                );
+#            }
+#            else {
+#                if ($LastKey) {
+#                    $Data{"ArticleFreeKeyField$_"}
+#                        = $Config{"ArticleFreeKey$_"}->{$LastKey}
+#                        . '<input type="hidden" name="ArticleFreeKey'
+#                        . $_
+#                        . '" value="'
+#                        . $Self->Ascii2Html( Text => $LastKey ) . '"/>';
+#                }
+#            }
+#        }
+#        else {
+#            if ( defined $Article{"ArticleFreeKey$_"} ) {
+#                if ( ref $Article{"ArticleFreeKey$_"} eq 'ARRAY' ) {
+#                    if ( $Article{"ArticleFreeKey$_"}->[0] ) {
+#                        $Article{"ArticleFreeKey$_"} = $Article{"ArticleFreeKey$_"}->[0];
+#                    }
+#                    else {
+#                        $Article{"ArticleFreeKey$_"} = '';
+#                    }
+#                }
+#                $Data{"ArticleFreeKeyField$_"}
+#                    = '<input type="text" class="ArticleFreeKey" name="ArticleFreeKey'
+#                    . $_
+#                    . '" value="'
+#                    . $Self->Ascii2Html( Text => $Article{"ArticleFreeKey$_"} )
+#                    . '" />';
+#            }
+#            else {
+#                $Data{"ArticleFreeKeyField$_"}
+#                    = '<input type="text" class="ArticleFreeKey" name="ArticleFreeKey' . $_
+#                    . '" value="" />';
+#            }
+#        }
+#
+#        # Add Validate and Error classes
+#        my $ClassParam = "$Class ";
+#        my $DataParam  = "";
+#        if ( $Config{"Required"}->{$_} ) {
+#            $ClassParam .= 'Validate_Required';
+#            if ( ref $Config{"ArticleFreeText$_"} eq 'HASH' ) {
+#                $ClassParam .= 'Dropdown';
+#            }
+#            $ClassParam .= ' ';
+#
+#            $DataParam
+#                .= '<div id="ArticleFreeText'
+#                . $_
+#                . 'Error" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>';
+#
+#            # for ArticleFreeKeyField
+#            $Data{"ArticleFreeKeyField$_"} =
+#                '<label id="LabelArticleFreeText' . $_
+#                . '" class="Mandatory"><span class="Marker">*</span> '
+#                . $Data{"ArticleFreeKeyField$_"}
+#                . ':</label>';
+#        }
+#        else {
+#
+#            # for ArticleFreeKeyField
+#            $Data{"ArticleFreeKeyField$_"} =
+#                '<label id="LabelArticleFreeText' . $_ . '">'
+#                . $Data{"ArticleFreeKeyField$_"}
+#                . ':</label>';
+#        }
+#
+#        if ( $Config{"Error"}->{$_} ) {
+#            $ClassParam .= 'ServerError ';
+#            $DataParam
+#                .= '<div id="ArticleFreeText'
+#                . $_
+#                . 'ServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>';
+#        }
+#
+#        # value
+#        if ( ref $Config{"ArticleFreeText$_"} eq 'HASH' ) {
+#            $Data{"ArticleFreeTextField$_"} = $Self->BuildSelection(
+#                Data => { %NullOption, %{ $Config{"ArticleFreeText$_"} }, },
+#                Name => "ArticleFreeText$_",
+#                SelectedValue => $Article{"ArticleFreeText$_"},
+#                Translation   => 0,
+#                HTMLQuote     => 1,
+#                Class         => "ArticleFreeText $ClassParam",
+#                %SelectData,
+#            );
+#
+#            $Data{"ArticleFreeTextField$_"} .= $DataParam;
+#        }
+#        else {
+#            if ( defined $Article{"ArticleFreeText$_"} ) {
+#                if ( ref $Article{"ArticleFreeText$_"} eq 'ARRAY' ) {
+#                    if ( $Article{"ArticleFreeText$_"}->[0] ) {
+#                        $Article{"ArticleFreeText$_"} = $Article{"ArticleFreeText$_"}->[0];
+#                    }
+#                    else {
+#                        $Article{"ArticleFreeText$_"} = '';
+#                    }
+#                }
+#                $Data{"ArticleFreeTextField$_"}
+#                    = '<input type="text" class="ArticleFreeText '
+#                    . $ClassParam
+#                    . '" name="ArticleFreeText'
+#                    . $_
+#                    . '" id="ArticleFreeText'
+#                    . $_
+#                    . '" value="'
+#                    . $Self->Ascii2Html( Text => $Article{"ArticleFreeText$_"} )
+#                    . '" />';
+#
+#                $Data{"ArticleFreeTextField$_"} .= $DataParam;
+#            }
+#            else {
+#                $Data{"ArticleFreeTextField$_"}
+#                    = '<input type="text" class="ArticleFreeText ' . $ClassParam
+#                    . '" name="ArticleFreeText'
+#                    . $_
+#                    . '" id="ArticleFreeText'
+#                    . $_
+#                    . '" value="" />';
+#
+#                $Data{"ArticleFreeTextField$_"} .= $DataParam;
+#            }
+#        }
+#    }
+#    return %Data;
+#}
 
-    my $HTML = $LayoutObject->AgentFreeDate(
-        Ticket     => \%Ticket, # optional, current ticket hash if exists
-        Config     => \%Config, # current free time field config
-        Class      => ''        # optional, css class for validation
-    );
-
-return:
-
-    my %HTML = (
-        TicketFreeKey1  => '<lable id="LabelTicketFreeTime" for="TicketFreeTime1">FreeTime1:</label>',
-        TicketFreeTime1  => '
-                        <select name="Month" title="Month" id="Month" class="Validate_DateMonth">
-                            ...
-                        </select>',
-        TicketFreeKey16  => '<lable id="LabelTicketFreeTime" for="TicketFreeTime16">FreeTime16:</label>',
-        TicketFreeTime16  => '
-                        <select name="Month" title="Month" id="Month" class="Validate_DateMonth">
-                            ...
-                        </select>',
-    );
-
-=cut
-
-sub AgentFreeDate {
-    my ( $Self, %Param ) = @_;
-
-    my %Ticket;
-    my %Config;
-    my $Class = '';
-    if ( $Param{Ticket} ) {
-        %Ticket = %{ $Param{Ticket} };
-    }
-    if ( $Param{Config} ) {
-        %Config = %{ $Param{Config} };
-    }
-    if ( $Param{Class} ) {
-        $Class = $Param{Class};
-    }
-    my %Data;
-    for my $Count ( 1 .. 6 ) {
-        my %TimePeriod;
-        if ( $Self->{ConfigObject}->Get( 'TicketFreeTimePeriod' . $Count ) ) {
-            %TimePeriod = %{ $Self->{ConfigObject}->Get( 'TicketFreeTimePeriod' . $Count ) };
-        }
-
-        $Data{ 'TicketFreeTime' . $Count } = $Self->BuildDateSelection(
-            %Param,
-            %Ticket,
-            Prefix                              => 'TicketFreeTime' . $Count,
-            Format                              => 'DateInputFormatLong',
-            'TicketFreeTime' . $Count . 'Class' => $Class,
-            DiffTime => $Self->{ConfigObject}->Get( 'TicketFreeTimeDiff' . $Count ) || 0,
-            %TimePeriod,
-            Validate => 1,
-            Required => $Param{'Ticket'}->{ 'TicketFreeTime' . $Count . 'Required' } ? 1 : 0,
-        );
-
-        if ( $Param{'Ticket'}->{ 'TicketFreeTime' . $Count . 'Required' } ) {
-            $Data{ 'TicketFreeTimeKey' . $Count } =
-                '<label class="Mandatory" id="LabelTicketFreeTime'
-                . $Count
-                . '"'
-                . ' for="TicketFreeTime'
-                . $Count
-                . 'Used">'
-                . '<span class="Marker">*</span> '
-                . '$Text{"'
-                . $Self->{ConfigObject}->Get( 'TicketFreeTimeKey' . $Count )
-                . '"}'
-                . ':</label>';
-        }
-        else {
-            $Data{ 'TicketFreeTimeKey' . $Count } =
-                '<label id="LabelTicketFreeTime'
-                . $Count
-                . '"'
-                . ' for="TicketFreeTime'
-                . $Count
-                . 'Used">'
-                . '$Text{"'
-                . $Self->{ConfigObject}->Get( 'TicketFreeTimeKey' . $Count )
-                . '"}'
-                . ':</label>';
-        }
-    }
-    return %Data;
-}
-
-=item TicketArticleFreeText()
-
-generat html for article free text fields
-
-generat html for article free text fields
-
-    my %HTML = $LayoutObject->TicketArticleFreeText(
-        NullOption => 1,        # if you need a "-" selection option
-        Article    => \%Article, # optional, current article hash if exists
-        Config     => \%Config, # current free field config
-        Class      => ''        # optional, css class for validation
-    );
-
-return:
-
-    my %HTML = (
-        ArticleFreeKeyField1   => '<label id="LabelArticleFreeText1">FreeKey:</label><input type="text" name="ArticleFreeKey1" value="some value"/>', # html for free key 1
-        ArticleFreeTextField1  => '<input type="text" name="ArticleFreeText1" value="some value"/>', # html for free text 1
-    );
-
-=cut
-
-sub TicketArticleFreeText {
-    my ( $Self, %Param ) = @_;
-
-    my %NullOption;
-    my %SelectData;
-    my %Article;
-    my %Config;
-    my $Class = '';
-    if ( $Param{NullOption} ) {
-        $SelectData{Size}     = 3;
-        $SelectData{Multiple} = 1;
-    }
-    if ( $Param{Article} ) {
-        %Article = %{ $Param{Article} };
-    }
-    if ( $Param{Config} ) {
-        %Config = %{ $Param{Config} };
-    }
-    if ( $Param{Class} ) {
-        $Class = $Param{Class};
-    }
-    my %Data;
-    for ( 1 .. 3 ) {
-
-        # key
-        if ( ref $Config{"ArticleFreeKey$_"} eq 'HASH' && %{ $Config{"ArticleFreeKey$_"} } ) {
-            my $Counter = 0;
-            my $LastKey = '';
-            for ( keys %{ $Config{"ArticleFreeKey$_"} } ) {
-                $Counter++;
-                $LastKey = $_;
-            }
-            if ( $Counter == 1 && $Param{NullOption} ) {
-                if ($LastKey) {
-                    $Data{"ArticleFreeKeyField$_"} = $Config{"ArticleFreeKey$_"}->{$LastKey};
-                }
-            }
-            elsif ( $Counter > 1 ) {
-                $Data{"ArticleFreeKeyField$_"} = $Self->BuildSelection(
-                    Data => { %NullOption, %{ $Config{"ArticleFreeKey$_"} }, },
-                    Name => "ArticleFreeKey$_",
-                    SelectedValue => $Article{"ArticleFreeKey$_"},
-                    Translation   => 0,
-                    Class         => 'ArticleFreeKey',
-                    HTMLQuote     => 1,
-                    %SelectData,
-                );
-            }
-            else {
-                if ($LastKey) {
-                    $Data{"ArticleFreeKeyField$_"}
-                        = $Config{"ArticleFreeKey$_"}->{$LastKey}
-                        . '<input type="hidden" name="ArticleFreeKey'
-                        . $_
-                        . '" value="'
-                        . $Self->Ascii2Html( Text => $LastKey ) . '"/>';
-                }
-            }
-        }
-        else {
-            if ( defined $Article{"ArticleFreeKey$_"} ) {
-                if ( ref $Article{"ArticleFreeKey$_"} eq 'ARRAY' ) {
-                    if ( $Article{"ArticleFreeKey$_"}->[0] ) {
-                        $Article{"ArticleFreeKey$_"} = $Article{"ArticleFreeKey$_"}->[0];
-                    }
-                    else {
-                        $Article{"ArticleFreeKey$_"} = '';
-                    }
-                }
-                $Data{"ArticleFreeKeyField$_"}
-                    = '<input type="text" class="ArticleFreeKey" name="ArticleFreeKey'
-                    . $_
-                    . '" value="'
-                    . $Self->Ascii2Html( Text => $Article{"ArticleFreeKey$_"} )
-                    . '" />';
-            }
-            else {
-                $Data{"ArticleFreeKeyField$_"}
-                    = '<input type="text" class="ArticleFreeKey" name="ArticleFreeKey' . $_
-                    . '" value="" />';
-            }
-        }
-
-        # Add Validate and Error classes
-        my $ClassParam = "$Class ";
-        my $DataParam  = "";
-        if ( $Config{"Required"}->{$_} ) {
-            $ClassParam .= 'Validate_Required';
-            if ( ref $Config{"ArticleFreeText$_"} eq 'HASH' ) {
-                $ClassParam .= 'Dropdown';
-            }
-            $ClassParam .= ' ';
-
-            $DataParam
-                .= '<div id="ArticleFreeText'
-                . $_
-                . 'Error" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>';
-
-            # for ArticleFreeKeyField
-            $Data{"ArticleFreeKeyField$_"} =
-                '<label id="LabelArticleFreeText' . $_
-                . '" class="Mandatory"><span class="Marker">*</span> '
-                . $Data{"ArticleFreeKeyField$_"}
-                . ':</label>';
-        }
-        else {
-
-            # for ArticleFreeKeyField
-            $Data{"ArticleFreeKeyField$_"} =
-                '<label id="LabelArticleFreeText' . $_ . '">'
-                . $Data{"ArticleFreeKeyField$_"}
-                . ':</label>';
-        }
-
-        if ( $Config{"Error"}->{$_} ) {
-            $ClassParam .= 'ServerError ';
-            $DataParam
-                .= '<div id="ArticleFreeText'
-                . $_
-                . 'ServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>';
-        }
-
-        # value
-        if ( ref $Config{"ArticleFreeText$_"} eq 'HASH' ) {
-            $Data{"ArticleFreeTextField$_"} = $Self->BuildSelection(
-                Data => { %NullOption, %{ $Config{"ArticleFreeText$_"} }, },
-                Name => "ArticleFreeText$_",
-                SelectedValue => $Article{"ArticleFreeText$_"},
-                Translation   => 0,
-                HTMLQuote     => 1,
-                Class         => "ArticleFreeText $ClassParam",
-                %SelectData,
-            );
-
-            $Data{"ArticleFreeTextField$_"} .= $DataParam;
-        }
-        else {
-            if ( defined $Article{"ArticleFreeText$_"} ) {
-                if ( ref $Article{"ArticleFreeText$_"} eq 'ARRAY' ) {
-                    if ( $Article{"ArticleFreeText$_"}->[0] ) {
-                        $Article{"ArticleFreeText$_"} = $Article{"ArticleFreeText$_"}->[0];
-                    }
-                    else {
-                        $Article{"ArticleFreeText$_"} = '';
-                    }
-                }
-                $Data{"ArticleFreeTextField$_"}
-                    = '<input type="text" class="ArticleFreeText '
-                    . $ClassParam
-                    . '" name="ArticleFreeText'
-                    . $_
-                    . '" id="ArticleFreeText'
-                    . $_
-                    . '" value="'
-                    . $Self->Ascii2Html( Text => $Article{"ArticleFreeText$_"} )
-                    . '" />';
-
-                $Data{"ArticleFreeTextField$_"} .= $DataParam;
-            }
-            else {
-                $Data{"ArticleFreeTextField$_"}
-                    = '<input type="text" class="ArticleFreeText ' . $ClassParam
-                    . '" name="ArticleFreeText'
-                    . $_
-                    . '" id="ArticleFreeText'
-                    . $_
-                    . '" value="" />';
-
-                $Data{"ArticleFreeTextField$_"} .= $DataParam;
-            }
-        }
-    }
-    return %Data;
-}
-
-=item CustomerFreeDate()
-
-generat html for ticket free time fields
-
-    my $HTML = $LayoutObject->CustomerFreeDate(
-        Ticket     => \%Ticket, # optional, current ticket hash if exists
-        Config     => \%Config, # current free time field config
-        Class      => ''        # optional, css class for validation
-    );
-
-return:
-
-    my %HTML = (
-        TicketFreeKey1  => '<lable id="LabelTicketFreeTime" for="TicketFreeTime1">FreeTime1:</label>',
-        TicketFreeTime1  => '
-                        <select name="Month" title="Month" id="Month" class="Validate_DateMonth">
-                            ...
-                        </select>',
-        TicketFreeKey16  => '<lable id="LabelTicketFreeTime" for="TicketFreeTime16">FreeTime16:</label>',
-        TicketFreeTime16  => '
-                        <select name="Month" title="Month" id="Month" class="Validate_DateMonth">
-                            ...
-                        </select>',
-    );
-
-=cut
-
-sub CustomerFreeDate {
-    my ( $Self, %Param ) = @_;
-
-    my %NullOption;
-    my %Ticket;
-    my %Config;
-    if ( $Param{Ticket} ) {
-        %Ticket = %{ $Param{Ticket} };
-    }
-    if ( $Param{Config} ) {
-        %Config = %{ $Param{Config} };
-    }
-    my %Data;
-    for my $Count ( 1 .. 6 ) {
-        my %TimePeriod;
-        if ( $Self->{ConfigObject}->Get( 'TicketFreeTimePeriod' . $Count ) ) {
-            %TimePeriod = %{ $Self->{ConfigObject}->Get( 'TicketFreeTimePeriod' . $Count ) };
-        }
-
-        $Data{ 'TicketFreeTime' . $Count } = $Self->BuildDateSelection(
-            Area => 'Customer',
-            %Param,
-            %Ticket,
-            Prefix   => 'TicketFreeTime' . $Count,
-            Format   => 'DateInputFormatLong',
-            DiffTime => $Self->{ConfigObject}->Get( 'TicketFreeTimeDiff' . $Count ) || 0,
-            "TicketFreeTime${Count}Class" => 'DateSelection',
-            %TimePeriod,
-            Validate => 1,
-            Required => $Param{'Ticket'}->{ 'TicketFreeTime' . $Count . 'Required' } ? 1 : 0,
-        );
-
-        if ( $Param{'Ticket'}->{ 'TicketFreeTime' . $Count . 'Required' } ) {
-            $Data{ 'TicketFreeTimeKey' . $Count } =
-                '<label class="Mandatory" id="LabelTicketFreeTime'
-                . $Count
-                . '" for="TicketFreeTime'
-                . $Count
-                . 'Used">'
-                . '<span class="Marker">*</span> '
-                . '$Text{"'
-                . $Self->{ConfigObject}->Get( 'TicketFreeTimeKey' . $Count )
-                . '"}'
-                . ':</label>';
-        }
-        else {
-            $Data{ 'TicketFreeTimeKey' . $Count } =
-                '<label id="LabelTicketFreeTime'
-                . $Count
-                . '" for="TicketFreeTime'
-                . $Count
-                . 'Used">'
-                . '$Text{"'
-                . $Self->{ConfigObject}->Get( 'TicketFreeTimeKey' . $Count )
-                . '"}'
-                . ':</label>';
-        }
-    }
-    return %Data;
-}
+#=item CustomerFreeDate()
+#
+#generat html for ticket free time fields
+#
+#    my $HTML = $LayoutObject->CustomerFreeDate(
+#        Ticket     => \%Ticket, # optional, current ticket hash if exists
+#        Config     => \%Config, # current free time field config
+#        Class      => ''        # optional, css class for validation
+#    );
+#
+#return:
+#
+#    my %HTML = (
+#        TicketFreeKey1  => '<lable id="LabelTicketFreeTime" for="TicketFreeTime1">FreeTime1:</label>',
+#        TicketFreeTime1  => '
+#                        <select name="Month" title="Month" id="Month" class="Validate_DateMonth">
+#                            ...
+#                        </select>',
+#        TicketFreeKey16  => '<lable id="LabelTicketFreeTime" for="TicketFreeTime16">FreeTime16:</label>',
+#        TicketFreeTime16  => '
+#                        <select name="Month" title="Month" id="Month" class="Validate_DateMonth">
+#                            ...
+#                        </select>',
+#    );
+#
+#=cut
+#
+#sub CustomerFreeDate {
+#    my ( $Self, %Param ) = @_;
+#
+#    my %NullOption;
+#    my %Ticket;
+#    my %Config;
+#    if ( $Param{Ticket} ) {
+#        %Ticket = %{ $Param{Ticket} };
+#    }
+#    if ( $Param{Config} ) {
+#        %Config = %{ $Param{Config} };
+#    }
+#    my %Data;
+#    for my $Count ( 1 .. 6 ) {
+#        my %TimePeriod;
+#        if ( $Self->{ConfigObject}->Get( 'TicketFreeTimePeriod' . $Count ) ) {
+#            %TimePeriod = %{ $Self->{ConfigObject}->Get( 'TicketFreeTimePeriod' . $Count ) };
+#        }
+#
+#        $Data{ 'TicketFreeTime' . $Count } = $Self->BuildDateSelection(
+#            Area => 'Customer',
+#            %Param,
+#            %Ticket,
+#            Prefix   => 'TicketFreeTime' . $Count,
+#            Format   => 'DateInputFormatLong',
+#            DiffTime => $Self->{ConfigObject}->Get( 'TicketFreeTimeDiff' . $Count ) || 0,
+#            "TicketFreeTime${Count}Class" => 'DateSelection',
+#            %TimePeriod,
+#            Validate => 1,
+#            Required => $Param{'Ticket'}->{ 'TicketFreeTime' . $Count . 'Required' } ? 1 : 0,
+#        );
+#
+#        if ( $Param{'Ticket'}->{ 'TicketFreeTime' . $Count . 'Required' } ) {
+#            $Data{ 'TicketFreeTimeKey' . $Count } =
+#                '<label class="Mandatory" id="LabelTicketFreeTime'
+#                . $Count
+#                . '" for="TicketFreeTime'
+#                . $Count
+#                . 'Used">'
+#                . '<span class="Marker">*</span> '
+#                . '$Text{"'
+#                . $Self->{ConfigObject}->Get( 'TicketFreeTimeKey' . $Count )
+#                . '"}'
+#                . ':</label>';
+#        }
+#        else {
+#            $Data{ 'TicketFreeTimeKey' . $Count } =
+#                '<label id="LabelTicketFreeTime'
+#                . $Count
+#                . '" for="TicketFreeTime'
+#                . $Count
+#                . 'Used">'
+#                . '$Text{"'
+#                . $Self->{ConfigObject}->Get( 'TicketFreeTimeKey' . $Count )
+#                . '"}'
+#                . ':</label>';
+#        }
+#    }
+#    return %Data;
+#}
 
 =item ArticleQuote()
 
