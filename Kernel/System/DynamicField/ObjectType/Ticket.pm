@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/ObjectType/Ticket.pm - Ticket object handler for DynamicField
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.3 2011-09-08 15:56:17 cr Exp $
+# $Id: Ticket.pm,v 1.4 2011-09-23 18:32:57 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::Ticket;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 =head1 NAME
 
@@ -132,6 +132,12 @@ sub PostValueSet {
     }
     else {
         $HistoryValue = $Param{Value};
+    }
+
+    # fix Value if it's an array ref
+    my @Values;
+    if ( ref $Param{Value} eq 'ARRAY' ) {
+        $HistoryValue = join ',', @{$HistoryValue};
     }
 
     # history insert
