@@ -2,7 +2,7 @@
 # AgentTicketOverviewMedium.dtl - provides HTML Ticket Overview
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewMedium.dtl,v 1.62 2011-09-23 16:12:46 cr Exp $
+# $Id: AgentTicketOverviewMedium.dtl,v 1.63 2011-09-23 18:35:51 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -114,7 +114,7 @@
 #                        <td>
 #                            <label>$Text{"$Data{"Label1"}"}</label>
 #<!-- dtl:block:DynamicFieldLink1 -->
-#                            <div title="$Data{"Title1"}"><a href="$LQData{Link1}" target="_blank">$Data{"Value1"}</a></div>
+#                            <div title="$Data{"Title1"}"><a href="$Data{Link1}" target="_blank">$Data{"Value1"}</a></div>
 #<!-- dtl:block:DynamicFieldLink1 -->
 #<!-- dtl:block:DynamicFieldPlain1 -->
 #                            <div title="$Data{"Title1"}"><span>$Data{"Value1"}</span></div>
@@ -147,7 +147,7 @@
 #                        <td>
 #                            <label>$Text{"$Data{"Label2"}"}</label>
 #<!-- dtl:block:DynamicFieldLink2 -->
-#                            <div title="$Data{"Title2"}"><a href="$LQData{Link2}" target="_blank">$Data{"Value2"}</a></div>
+#                            <div title="$Data{"Title2"}"><a href="$Data{Link2}" target="_blank">$Data{"Value2"}</a></div>
 #<!-- dtl:block:DynamicFieldLink2 -->
 #<!-- dtl:block:DynamicFieldPlain2 -->
 #                            <div title="$Data{"Title2"}"><span>$Data{"Value2"}</span></div>
@@ -183,7 +183,7 @@
 #                        <td>
 #                            <label>$Text{"$Data{"Label3"}"}</label>
 #<!-- dtl:block:DynamicFieldLink3 -->
-#                            <div title="$Data{"Title3"}"><a href="$LQData{Link3}" target="_blank">$Data{"Value3"}</a></div>
+#                            <div title="$Data{"Title3"}"><a href="$Data{Link3}" target="_blank">$Data{"Value3"}</a></div>
 #<!-- dtl:block:DynamicFieldLink3 -->
 #<!-- dtl:block:DynamicFieldPlain3 -->
 #                            <div title="$Data{"Title3"}"><span>$Data{"Value3"}</span></div>
@@ -210,7 +210,7 @@
                         <td>
                             <label>$Text{"$Data{"Label"}"}</label>
 <!-- dtl:block:DynamicFieldTableRowRecordLink -->
-                            <div title="$Data{"Title"}"><a href="$LQData{Link}" target="_blank">$Data{"Value"}</a></div>
+                            <div title="$Data{"Title"}"><a href="$Data{Link}" target="_blank">$Data{"Value"}</a></div>
 <!-- dtl:block:DynamicFieldTableRowRecordLink -->
 <!-- dtl:block:DynamicFieldTableRowRecordPlain -->
                             <div title="$Data{"Title"}"><span>$Data{"Value"}</span></div>

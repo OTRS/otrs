@@ -2,7 +2,7 @@
 # AgentTicketOverviewPreview.dtl - provides HTML Ticket Overview
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewPreview.dtl,v 1.70 2011-09-23 17:33:14 cr Exp $
+# $Id: AgentTicketOverviewPreview.dtl,v 1.71 2011-09-23 18:35:51 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -183,7 +183,7 @@
                             <td>
                                 <label>$Text{"$Data{"Label"}"}</label>
 <!-- dtl:block:DynamicFieldTableRowRecordLink -->
-                                <div title="$Data{"Title"}"><a href="$LQData{Link}" target="_blank">$Data{"Value"}</a></div>
+                                <div title="$Data{"Title"}"><a href="$Data{Link}" target="_blank">$Data{"Value"}</a></div>
 <!-- dtl:block:DynamicFieldTableRowRecordLink -->
 <!-- dtl:block:DynamicFieldTableRowRecordPlain -->
                                 <div title="$Data{"Title"}"><span>$Data{"Value"}</span></div>
@@ -199,7 +199,7 @@
 #                        <td>
 #                            <label>$Text{"$Data{"Label1"}"}</label>
 #<!-- dtl:block:DynamicFieldTableRowRecordLink1 -->
-#                            <div title="$Data{"Title1"}"><a href="$LQData{Link1}" target="_blank">$Data{"Value1"}</a></div>
+#                            <div title="$Data{"Title1"}"><a href="$Data{Link1}" target="_blank">$Data{"Value1"}</a></div>
 #<!-- dtl:block:DynamicFieldTableRowRecordLink1 -->
 #<!-- dtl:block:DynamicFieldTableRowRecordPlain1 -->
 #                            <div title="$Data{"Title1"}"><span>$Data{"Value1"}</span></div>
@@ -213,7 +213,7 @@
 #                        <td>
 #                            <label>$Text{"$Data{"Label2"}"}</label>
 #<!-- dtl:block:DynamicFieldTableRowRecordLink2 -->
-#                            <div title="$Data{"Title2"}"><a href="$LQData{Link2}" target="_blank">$Data{"Value2"}</a></div>
+#                            <div title="$Data{"Title2"}"><a href="$Data{Link2}" target="_blank">$Data{"Value2"}</a></div>
 #<!-- dtl:block:DynamicFieldTableRowRecordLink2 -->
 #<!-- dtl:block:DynamicFieldTableRowRecordPlain2 -->
 #                            <div title="$Data{"Title2"}"><span>$Data{"Value2"}</span></div>
