@@ -2,7 +2,7 @@
 # Backend.t - DynamicFieldValue backend tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Backend.t,v 1.14 2011-09-12 22:01:19 cr Exp $
+# $Id: Backend.t,v 1.15 2011-09-23 22:59:47 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -305,6 +305,38 @@ my @Tests = (
         ShouldGet => 0,
     },
 
+    {
+        Name               => 'Multiselect - No PossibleValues',
+        DynamicFieldConfig => {
+            ID         => $FieldID,
+            Name       => "dynamicfieldtest$RandomID",
+            ObjectType => 'Ticket',
+            FieldType  => 'Multiselect',
+        },
+        ObjectID  => $TicketID,
+        Value     => 'a text',
+        UserID    => 1,
+        Success   => 0,
+        ShouldGet => 1,
+    },
+    {
+        Name               => 'Multiselect - Invalid PossibleValues',
+        DynamicFieldConfig => {
+            ID         => $FieldID,
+            Name       => "dynamicfieldtest$RandomID",
+            ObjectType => 'Ticket',
+            FieldType  => 'Multiselect',
+            Config     => {
+                PossibleValues => {},
+                }
+        },
+        ObjectID  => $TicketID,
+        Value     => 'a text',
+        UserID    => 1,
+        Success   => 0,
+        ShouldGet => 1,
+    },
+
     # options validation are now just on the frontend then this test should be successful
     {
         Name               => 'Dropdown - Invalid Option',
@@ -334,6 +366,50 @@ my @Tests = (
             Name       => "dynamicfieldtest$RandomID",
             ObjectType => 'Ticket',
             FieldType  => 'Dropdown',
+            Config     => {
+                PossibleValues => {
+                    Key1 => 'Value1',
+                    Key2 => 'Value2',
+                    Key3 => 'Value3',
+                },
+            },
+        },
+        ObjectID  => $TicketID,
+        Value     => 'Key3',
+        UserID    => 1,
+        Success   => 1,
+        ShouldGet => 1,
+    },
+
+    # options validation are now just on the frontend then this test should be successful
+    {
+        Name               => 'Multiselect - Invalid Option',
+        DynamicFieldConfig => {
+            ID         => $FieldID,
+            Name       => "dynamicfieldtest$RandomID",
+            ObjectType => 'Ticket',
+            FieldType  => 'Multiselect',
+            Config     => {
+                PossibleValues => {
+                    Key1 => 'Value1',
+                    Key2 => 'Value2',
+                    Key3 => 'Value3',
+                },
+            },
+        },
+        ObjectID  => $TicketID,
+        Value     => 'Key4',
+        UserID    => 1,
+        Success   => 1,
+        ShouldGet => 1,
+    },
+    {
+        Name               => 'Multiselect - Invalid Option',
+        DynamicFieldConfig => {
+            ID         => $FieldID,
+            Name       => "dynamicfieldtest$RandomID",
+            ObjectType => 'Ticket',
+            FieldType  => 'Multiselect',
             Config     => {
                 PossibleValues => {
                     Key1 => 'Value1',
@@ -530,6 +606,7 @@ my @Tests = (
         Success   => 1,
         ShouldGet => 1,
     },
+
 );
 
 for my $Test (@Tests) {
@@ -551,6 +628,11 @@ for my $Test (@Tests) {
             DynamicFieldConfig => $Test->{DynamicFieldConfig},
             ObjectID           => $Test->{ObjectID},
         );
+
+        # fix Value if it's an array ref
+        if ( defined $Value && ref $Value eq 'ARRAY' ) {
+            $Value = join ',', @{$Value};
+        }
 
         # compare data
         if ( $Test->{ShouldGet} ) {
@@ -581,6 +663,11 @@ for my $Test (@Tests) {
             DynamicFieldConfig => $Test->{DynamicFieldConfig},
             ObjectID           => $Test->{ObjectID},
         );
+
+        # fix Value if it's an array ref
+        if ( defined $Value && ref $Value eq 'ARRAY' ) {
+            $Value = join ',', @{$Value};
+        }
 
         # workaround for oracle
         # oracle databases can't determine the difference between NULL and ''
@@ -650,6 +737,238 @@ for my $Test (@Tests) {
     $Self->False(
         $Value->{ID},
         "ValueGet() - Test ($Test->{Name}) - with False",
+    );
+
+}
+
+use Kernel::Config;
+use Kernel::System::Encode;
+use Kernel::System::Log;
+use Kernel::System::Time;
+use Kernel::System::Main;
+use Kernel::System::Web::Request;
+use Kernel::Output::HTML::Layout;
+
+my $ConfigObject = Kernel::Config->new();
+my $EncodeObject = Kernel::System::Encode->new(
+    ConfigObject => $ConfigObject,
+);
+my $LogObject = Kernel::System::Log->new(
+    ConfigObject => $ConfigObject,
+    EncodeObject => $EncodeObject,
+);
+my $MainObject = Kernel::System::Main->new(
+    ConfigObject => $ConfigObject,
+    EncodeObject => $EncodeObject,
+    LogObject    => $LogObject,
+);
+my $TimeObject = Kernel::System::Time->new(
+    ConfigObject => $ConfigObject,
+    LogObject    => $LogObject,
+);
+my $RequestObject = Kernel::System::Web::Request->new(
+    ConfigObject => $ConfigObject,
+    LogObject    => $LogObject,
+    EncodeObject => $EncodeObject,
+    MainObject   => $MainObject,
+);
+my $ParamObject = Kernel::System::Web::Request->new(
+    ConfigObject => $ConfigObject,
+    LogObject    => $LogObject,
+    EncodeObject => $EncodeObject,
+    MainObject   => $MainObject,
+
+    #        WebRequest => 0,
+);
+my $LayoutObject = Kernel::Output::HTML::Layout->new(
+    ConfigObject  => $ConfigObject,
+    LogObject     => $LogObject,
+    MainObject    => $MainObject,
+    TimeObject    => $TimeObject,
+    RequestObject => $RequestObject,
+    EncodeObject  => $EncodeObject,
+    ParamObject   => $ParamObject,
+    Lang          => 'en',
+);
+
+# specific tests for ValueGet()
+@Tests = (
+    {
+        Name               => 'Text',
+        DynamicFieldConfig => {
+            ID         => -1,
+            ObjectType => 'Ticket',
+            FieldType  => 'Text',
+            Config     => {},
+            Name       => 'FieldOne',
+            Label      => 'Label for field'
+        },
+        LayoutObject => $LayoutObject,
+        ObjectID     => $TicketID,
+        UserID       => 1,
+    },
+    {
+        Name               => 'TextArea',
+        DynamicFieldConfig => {
+            ID         => -1,
+            ObjectType => 'Ticket',
+            FieldType  => 'TextArea',
+            Config     => {},
+            Name       => 'FieldOne',
+            Label      => 'Label for field'
+        },
+        LayoutObject => $LayoutObject,
+        ObjectID     => $TicketID,
+        UserID       => 1,
+    },
+    {
+        Name               => 'Checkbox',
+        DynamicFieldConfig => {
+            ID         => -1,
+            ObjectType => 'Ticket',
+            FieldType  => 'Checkbox',
+            Config     => {},
+            Name       => 'FieldOne',
+            Label      => 'Label for field'
+        },
+        LayoutObject => $LayoutObject,
+        ObjectID     => $TicketID,
+        UserID       => 1,
+    },
+    {
+        Name               => 'Dropdown',
+        DynamicFieldConfig => {
+            ID         => -1,
+            ObjectType => 'Ticket',
+            FieldType  => 'Dropdown',
+            Config     => {
+                PossibleValues => {
+                    a => 'aaa',
+                    b => 'bbb',
+                    c => 'ccc',
+                },
+                DefaultValue => 'a',
+            },
+            Name  => 'FieldOne',
+            Label => 'Label for field'
+        },
+        LayoutObject => $LayoutObject,
+        ObjectID     => $TicketID,
+        UserID       => 1,
+    },
+    {
+        Name               => 'DateTime',
+        DynamicFieldConfig => {
+            ID         => -1,
+            ObjectType => 'Ticket',
+            FieldType  => 'DateTime',
+            Config     => {
+                PossibleValues => {
+                    a => 'aaa',
+                    b => 'bbb',
+                    c => 'ccc',
+                },
+                DefaultValue => '0',
+            },
+            Name  => 'FieldOne',
+            Label => 'Label for field'
+        },
+        LayoutObject => $LayoutObject,
+        ObjectID     => $TicketID,
+        UserID       => 1,
+    },
+    {
+        Name               => 'Datefield',
+        DynamicFieldConfig => {
+            ID         => -1,
+            ObjectType => 'Ticket',
+            FieldType  => 'Date',
+            Config     => {
+                PossibleValues => {
+                    a => 'aaa',
+                    b => 'bbb',
+                    c => 'ccc',
+                },
+                DefaultValue => '0',
+            },
+            Name  => 'FieldTwo',
+            Label => 'Label for field'
+        },
+        LayoutObject => $LayoutObject,
+        ObjectID     => $TicketID,
+        UserID       => 1,
+    },
+    {
+        Name               => 'Multiselect',
+        DynamicFieldConfig => {
+            ID         => -1,
+            ObjectType => 'Ticket',
+            FieldType  => 'Multiselect',
+            Config     => {
+                PossibleValues => {
+                    a => 'aaa',
+                    b => 'bbb',
+                    c => 'ccc',
+                },
+                DefaultValue => 'a',
+            },
+            Name  => 'FieldOne',
+            Label => 'Label for field'
+        },
+        LayoutObject => $LayoutObject,
+        ObjectID     => $TicketID,
+        UserID       => 1,
+    },
+
+    #    {
+    #        Name               => 'Wrong ObjectType',
+    #        DynamicFieldConfig => {
+    #            ID         => $FieldID,
+    #            ObjectType => 'InvalidObject',
+    #            FieldType  => 'Text',
+    #        },
+    #        ObjectID => $TicketID,
+    #        UserID   => 1,
+    #    },
+    #    {
+    #        Name               => 'Wrong ObjectID',
+    #        DynamicFieldConfig => {
+    #            ID         => $FieldID,
+    #            ObjectType => 'Ticket',
+    #            FieldType  => 'Text',
+    #        },
+    #        ObjectID => -1,
+    #        UserID   => 1,
+    #    },
+);
+
+for my $Test (@Tests) {
+
+    my $FieldHTML = $BackendObject->EditFieldRender(
+        DynamicFieldConfig   => $Test->{DynamicFieldConfig},   # complete config of the DynamicField
+        PossibleValuesFilter => {
+            z => 'zz',
+            x => 'xx',
+            y => 'yy',
+        },
+
+#        PossibleValuesFilter => ['value1', 'value2'],     # Optional. Some backends may support this.
+#                                                          #     This may be needed to realize ACL support for ticket masks,
+#                                                          #     where the possible values can be limited with and ACL.
+#        Value              => 'b',                # Optional
+        Mandatory    => 1,                        # 0 or 1,
+        Class        => 'AnyCSSClass OrOneMore',  # Optional
+        ServerError  => 1,                        # 0 or 1,
+        ErrorMessage => 'mensaje de error',       # Optional or a default will be used in error case
+        LayoutObject => $LayoutObject,
+        ParamObject  => $ParamObject,
+    );
+
+    print STDERR $Self->{MainObject}->Dump($FieldHTML);
+
+    $Self->True(
+        $FieldHTML,
+        "EditFieldRender() - Test ($Test->{Name}) - with True",
     );
 
 }
