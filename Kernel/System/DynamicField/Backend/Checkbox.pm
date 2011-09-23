@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Checkbox.pm - Delegate for DynamicField Checkbox backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Checkbox.pm,v 1.24 2011-09-23 10:27:59 mg Exp $
+# $Id: Checkbox.pm,v 1.25 2011-09-23 21:44:14 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::DynamicFieldValue;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.24 $) [1];
+$VERSION = qw($Revision: 1.25 $) [1];
 
 =head1 NAME
 
@@ -442,34 +442,6 @@ sub DisplayValueRender {
 
 sub IsSortable {
     my ( $Self, %Param ) = @_;
-
-    # check needed stuff
-    for my $Needed (qw(DynamicFieldConfig)) {
-        if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
-            return;
-        }
-    }
-
-    # check DynamicFieldConfig (general)
-    if ( !IsHashRefWithData( $Param{DynamicFieldConfig} ) ) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => "The field configuration is invalid",
-        );
-        return;
-    }
-
-    # check DynamicFieldConfig (internally)
-    for my $Needed (qw(ID FieldType ObjectType)) {
-        if ( !$Param{DynamicFieldConfig}->{$Needed} ) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message  => "Need $Needed in DynamicFieldConfig!"
-            );
-            return;
-        }
-    }
 
     return 1;
 }
