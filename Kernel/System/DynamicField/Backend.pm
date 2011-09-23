@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend.pm - Interface for DynamicField backends
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Backend.pm,v 1.40 2011-09-22 19:44:35 cr Exp $
+# $Id: Backend.pm,v 1.41 2011-09-23 11:32:44 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Scalar::Util qw(weaken);
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.40 $) [1];
+$VERSION = qw($Revision: 1.41 $) [1];
 
 =head1 NAME
 
@@ -577,7 +577,9 @@ dynamic field. The table must already be joined.
     my $SQL = $BackendObject->SearchSQLGet(
         DynamicFieldConfig => $DynamicFieldConfig,      # complete config of the DynamicField
         TableAlias         => $TableAlias,              # the alias of the already joined dynamic_field_value table to use
-        SearchTerm         => $SearchTerm,
+        SearchTerm         => $SearchTerm,              # What to look for. Placeholders in LIKE searches must be passed as %.
+        Operator           => $Operator,                # One of [Equals, Like, GreaterThan, GreaterThanEquals, SmallerThan, SmallerThanEquals]
+                                                        #   The supported operators differ for the different backends.
     );
 
 =cut
@@ -950,6 +952,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.40 $ $Date: 2011-09-22 19:44:35 $
+$Revision: 1.41 $ $Date: 2011-09-23 11:32:44 $
 
 =cut

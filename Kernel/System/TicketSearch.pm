@@ -2,7 +2,7 @@
 # Kernel/System/TicketSearch.pm - all ticket search functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketSearch.pm,v 1.8 2011-09-07 16:01:48 en Exp $
+# $Id: TicketSearch.pm,v 1.9 2011-09-23 11:32:44 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 use Kernel::System::DynamicField;
 use Kernel::System::DynamicField::Backend;
@@ -1774,8 +1774,6 @@ sub TicketSearch {
         push @TicketIDs, $Row[0];
     }
 
-    #print STDERR "$SQLSelect $SQLFrom $SQLExt\n";
-
     # return COUNT
     if ( $Result eq 'COUNT' ) {
         if ($CacheObject) {
@@ -1876,6 +1874,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.8 $ $Date: 2011-09-07 16:01:48 $
+$Revision: 1.9 $ $Date: 2011-09-23 11:32:44 $
 
 =cut
