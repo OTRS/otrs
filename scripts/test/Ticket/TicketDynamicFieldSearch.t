@@ -2,7 +2,7 @@
 # TicketDynamicFieldSearch.t - ticket module testscript
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketDynamicFieldSearch.t,v 1.3 2011-09-02 12:43:28 mg Exp $
+# $Id: TicketDynamicFieldSearch.t,v 1.4 2011-09-23 10:07:45 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -355,10 +355,9 @@ $Self->IsDeeply(
     "DynamicField_DFT2$RandomID" => {
         Equals => 'ticket1_field2',
     },
-    "DynamicField_DFT3$RandomID" =>
-        {
+    "DynamicField_DFT3$RandomID" => {
         Equals => '2001-01-01 01:01:01',
-        },
+    },
     "DynamicField_DFT4$RandomID" => {
         Equals => 0,
     },
@@ -370,6 +369,87 @@ $Self->IsDeeply(
     \%TicketIDsSearch,
     { $TicketID1 => $Ticket1{TicketNumber} },
     'Search for four fields',
+);
+
+%TicketIDsSearch = $TicketObject->TicketSearch(
+    Result                       => 'HASH',
+    Limit                        => 100,
+    Title                        => "Ticket$RandomID",
+    "DynamicField_DFT1$RandomID" => {
+        Equals => 'ticket1_field1',
+    },
+    "DynamicField_DFT2$RandomID" => {
+        Equals => 'ticket1_field2',
+    },
+    "DynamicField_DFT3$RandomID" => {
+        GreaterThanEquals => '2001-01-01 01:01:01',
+        SmallerThanEquals => '2001-01-01 01:01:01',
+    },
+    "DynamicField_DFT4$RandomID" => {
+        Equals => 0,
+    },
+    UserID     => 1,
+    Permission => 'rw',
+);
+
+$Self->IsDeeply(
+    \%TicketIDsSearch,
+    { $TicketID1 => $Ticket1{TicketNumber} },
+    'Search for four fields, two operators with equals',
+);
+
+%TicketIDsSearch = $TicketObject->TicketSearch(
+    Result                       => 'HASH',
+    Limit                        => 100,
+    Title                        => "Ticket$RandomID",
+    "DynamicField_DFT1$RandomID" => {
+        Equals => 'ticket1_field1',
+    },
+    "DynamicField_DFT2$RandomID" => {
+        Equals => 'ticket1_field2',
+    },
+    "DynamicField_DFT3$RandomID" => {
+        GreaterThan => '2001-01-01 01:01:00',
+        SmallerThan => '2001-01-01 01:01:02',
+    },
+    "DynamicField_DFT4$RandomID" => {
+        Equals => 0,
+    },
+    UserID     => 1,
+    Permission => 'rw',
+);
+
+$Self->IsDeeply(
+    \%TicketIDsSearch,
+    { $TicketID1 => $Ticket1{TicketNumber} },
+    'Search for four fields, two operators without equals',
+);
+
+%TicketIDsSearch = $TicketObject->TicketSearch(
+    Result                       => 'HASH',
+    Limit                        => 100,
+    Title                        => "Ticket$RandomID",
+    "DynamicField_DFT1$RandomID" => {
+        Equals => 'ticket1_field1',
+    },
+    "DynamicField_DFT2$RandomID" => {
+        Equals => 'ticket1_field2',
+    },
+    "DynamicField_DFT3$RandomID" => {
+        GreaterThan => '2001-01-01 01:01:01',
+        SmallerThan => '2001-01-01 01:01:01',
+    },
+    "DynamicField_DFT4$RandomID" => {
+        Equals => 0,
+    },
+    UserID     => 1,
+    Permission => 'rw',
+);
+
+$Self->IsDeeply(
+    \%TicketIDsSearch,
+    {},
+    'Search for four fields, two operators without equals (no match)',
 );
 
 %TicketIDsSearch = $TicketObject->TicketSearch(
