@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Dropdown.pm - Delegate for DynamicField Dropdown backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Dropdown.pm,v 1.25 2011-09-23 10:27:59 mg Exp $
+# $Id: Dropdown.pm,v 1.26 2011-09-23 14:47:47 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::DynamicFieldValue;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.25 $) [1];
+$VERSION = qw($Revision: 1.26 $) [1];
 
 =head1 NAME
 
@@ -426,6 +426,13 @@ sub DisplayValueRender {
 
     # get raw Value strings from field value
     my $Value = $Param{Value} || '';
+
+    # get real value
+    if ( $Param{DynamicFieldConfig}->{Config}->{PossibleValues}->{$Value} ) {
+
+        # get readeable value
+        $Value = $Param{DynamicFieldConfig}->{Config}->{PossibleValues}->{$Value};
+    }
 
     # check is needed to translate values
     if ( $Param{DynamicFieldConfig}->{Config}->{TranslatableValues} ) {
