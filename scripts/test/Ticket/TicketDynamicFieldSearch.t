@@ -2,7 +2,7 @@
 # TicketDynamicFieldSearch.t - ticket module testscript
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketDynamicFieldSearch.t,v 1.5 2011-09-23 12:10:10 mg Exp $
+# $Id: TicketDynamicFieldSearch.t,v 1.6 2011-09-23 18:01:39 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -94,6 +94,8 @@ my $Field2Config = $DynamicFieldObject->DynamicFieldGet(
     ID => $FieldID2,
 );
 
+push @TestDynamicFields, $FieldID2;
+
 # create a dynamic field
 my $FieldID3 = $DynamicFieldObject->DynamicFieldAdd(
     Name       => "DFT3$RandomID",
@@ -112,6 +114,8 @@ my $FieldID3 = $DynamicFieldObject->DynamicFieldAdd(
 my $Field3Config = $DynamicFieldObject->DynamicFieldGet(
     ID => $FieldID3,
 );
+
+push @TestDynamicFields, $FieldID3;
 
 # create a dynamic field
 my $FieldID4 = $DynamicFieldObject->DynamicFieldAdd(
@@ -133,6 +137,31 @@ my $Field4Config = $DynamicFieldObject->DynamicFieldGet(
 );
 
 push @TestDynamicFields, $FieldID4;
+
+# create a dynamic field
+my $FieldID5 = $DynamicFieldObject->DynamicFieldAdd(
+    Name       => "DFT5$RandomID",
+    Label      => 'Description',
+    FieldOrder => 9995,
+    FieldType  => 'Multiselect',     # mandatory, selects the DF backend to use for this field
+    ObjectType => 'Ticket',
+    Config     => {
+        DefaultValue   => 'Default',
+        PossibleValues => {
+            ticket1_field5 => 'ticket1_field51',
+            ticket2_field5 => 'ticket2_field52',
+        },
+    },
+    ValidID => 1,
+    UserID  => 1,
+    Reorder => 0,
+);
+
+my $Field5Config = $DynamicFieldObject->DynamicFieldGet(
+    ID => $FieldID5,
+);
+
+push @TestDynamicFields, $FieldID5;
 
 my @TestTicketIDs;
 
@@ -201,6 +230,13 @@ $BackendObject->ValueSet(
 );
 
 $BackendObject->ValueSet(
+    DynamicFieldConfig => $Field5Config,
+    ObjectID           => $TicketID1,
+    Value              => 'ticket1_field5',
+    UserID             => 1,
+);
+
+$BackendObject->ValueSet(
     DynamicFieldConfig => $Field1Config,
     ObjectID           => $TicketID2,
     Value              => 'ticket2_field1',
@@ -225,6 +261,13 @@ $BackendObject->ValueSet(
     DynamicFieldConfig => $Field4Config,
     ObjectID           => $TicketID2,
     Value              => '1',
+    UserID             => 1,
+);
+
+$BackendObject->ValueSet(
+    DynamicFieldConfig => $Field5Config,
+    ObjectID           => $TicketID2,
+    Value              => 'ticket2_field5',
     UserID             => 1,
 );
 
@@ -361,6 +404,9 @@ $Self->IsDeeply(
     "DynamicField_DFT4$RandomID" => {
         Equals => 0,
     },
+    "DynamicField_DFT5$RandomID" => {
+        Equals => 'ticket1_field5',
+    },
     UserID     => 1,
     Permission => 'rw',
 );
@@ -368,7 +414,7 @@ $Self->IsDeeply(
 $Self->IsDeeply(
     \%TicketIDsSearch,
     { $TicketID1 => $Ticket1{TicketNumber} },
-    'Search for four fields',
+    'Search for five fields',
 );
 
 %TicketIDsSearch = $TicketObject->TicketSearch(
@@ -388,6 +434,9 @@ $Self->IsDeeply(
     "DynamicField_DFT4$RandomID" => {
         Equals => 0,
     },
+    "DynamicField_DFT5$RandomID" => {
+        Equals => 'ticket1_field5',
+    },
     UserID     => 1,
     Permission => 'rw',
 );
@@ -395,7 +444,7 @@ $Self->IsDeeply(
 $Self->IsDeeply(
     \%TicketIDsSearch,
     { $TicketID1 => $Ticket1{TicketNumber} },
-    'Search for four fields, two operators with equals',
+    'Search for five fields, two operators with equals',
 );
 
 %TicketIDsSearch = $TicketObject->TicketSearch(
@@ -415,6 +464,9 @@ $Self->IsDeeply(
     "DynamicField_DFT4$RandomID" => {
         Equals => 0,
     },
+    "DynamicField_DFT5$RandomID" => {
+        Equals => 'ticket1_field5',
+    },
     UserID     => 1,
     Permission => 'rw',
 );
@@ -422,7 +474,7 @@ $Self->IsDeeply(
 $Self->IsDeeply(
     \%TicketIDsSearch,
     { $TicketID1 => $Ticket1{TicketNumber} },
-    'Search for four fields, two operators without equals',
+    'Search for five fields, two operators without equals',
 );
 
 %TicketIDsSearch = $TicketObject->TicketSearch(
@@ -442,6 +494,9 @@ $Self->IsDeeply(
     "DynamicField_DFT4$RandomID" => {
         Equals => 0,
     },
+    "DynamicField_DFT5$RandomID" => {
+        Equals => 'ticket1_field5',
+    },
     UserID     => 1,
     Permission => 'rw',
 );
@@ -449,7 +504,7 @@ $Self->IsDeeply(
 $Self->IsDeeply(
     \%TicketIDsSearch,
     {},
-    'Search for four fields, two operators without equals (no match)',
+    'Search for five fields, two operators without equals (no match)',
 );
 
 %TicketIDsSearch = $TicketObject->TicketSearch(
@@ -469,6 +524,9 @@ $Self->IsDeeply(
     "DynamicField_DFT4$RandomID" => {
         Equals => 0,
     },
+    "DynamicField_DFT5$RandomID" => {
+        Equals => 'ticket1_field5',
+    },
     UserID     => 1,
     Permission => 'rw',
 );
@@ -476,7 +534,7 @@ $Self->IsDeeply(
 $Self->IsDeeply(
     \%TicketIDsSearch,
     {},
-    'Search for four fields, wrong third value',
+    'Search for five fields, wrong third value',
 );
 
 %TicketIDsSearch = $TicketObject->TicketSearch(
@@ -496,6 +554,9 @@ $Self->IsDeeply(
     "DynamicField_DFT4$RandomID" => {
         Equals => 1,
     },
+    "DynamicField_DFT5$RandomID" => {
+        Equals => 'ticket1_field5',
+    },
     UserID     => 1,
     Permission => 'rw',
 );
@@ -503,7 +564,37 @@ $Self->IsDeeply(
 $Self->IsDeeply(
     \%TicketIDsSearch,
     {},
-    'Search for four fields, wrong fourth value',
+    'Search for five fields, wrong fourth value',
+);
+
+%TicketIDsSearch = $TicketObject->TicketSearch(
+    Result                       => 'HASH',
+    Limit                        => 100,
+    Title                        => "Ticket$RandomID",
+    "DynamicField_DFT1$RandomID" => {
+        Equals => 'ticket1_field1',
+    },
+    "DynamicField_DFT2$RandomID" => {
+        Equals => 'ticket1_field2',
+    },
+    "DynamicField_DFT3$RandomID" =>
+        {
+        Equals => '2001-01-01 01:01:01',
+        },
+    "DynamicField_DFT4$RandomID" => {
+        Equals => 1,
+    },
+    "DynamicField_DFT5$RandomID" => {
+        Equals => 'ticket1000_field5',
+    },
+    UserID     => 1,
+    Permission => 'rw',
+);
+
+$Self->IsDeeply(
+    \%TicketIDsSearch,
+    {},
+    'Search for five fields, wrong fifth value',
 );
 
 my @TicketResultSearch = $TicketObject->TicketSearch(
@@ -694,6 +785,25 @@ $Self->IsDeeply(
     \@TicketResultSearch,
     [ $TicketID2, $TicketID1, ],
     'Search for no field, sort for checkbox field, DESC',
+);
+
+@TicketResultSearch = $TicketObject->TicketSearch(
+    Result                       => 'ARRAY',
+    Limit                        => 100,
+    Title                        => "Ticket$RandomID",
+    "DynamicField_DFT5$RandomID" => {
+        Like => 'ticket%_field5',
+    },
+    UserID     => 1,
+    Permission => 'rw',
+    SortBy     => "DynamicField_DFT1$RandomID",
+    OrderBy    => 'Up',
+);
+
+$Self->IsDeeply(
+    \@TicketResultSearch,
+    [ $TicketID1, $TicketID2, ],
+    'Search for field, match two tickets, sort for text field, ASC',
 );
 
 for my $TicketID (@TestTicketIDs) {
