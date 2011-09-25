@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
-# DBUpdate-to-3.1.pl - update script to migrate OTRS 2.4.x to 3.0.x
+# DBUpdate-to-3.1.pl - update script to migrate OTRS 3.0.x to 3.1.x
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-3.1.pl,v 1.21 2011-09-25 18:39:05 mb Exp $
+# $Id: DBUpdate-to-3.1.pl,v 1.22 2011-09-25 18:46:12 mb Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
+$VERSION = qw($Revision: 1.22 $) [1];
 
 use Getopt::Std qw();
 use Kernel::Config;
@@ -55,7 +55,7 @@ use Kernel::System::Cache;
     if ( exists $Opts{h} ) {
         print <<"EOF";
 
-DBUpdate-to-3.1.pl <Revision $VERSION> - Database migration script for Dynamic Fields
+DBUpdate-to-3.1.pl <Revision $VERSION> - Upgrade scripts for OTRS 3.0.x to 3.1.x migration.
 Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 
 EOF
