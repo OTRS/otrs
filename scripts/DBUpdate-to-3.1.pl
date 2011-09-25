@@ -3,7 +3,7 @@
 # DBUpdate-to-3.1.pl - update script to migrate OTRS 2.4.x to 3.0.x
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-3.1.pl,v 1.20 2011-09-21 15:10:53 mb Exp $
+# $Id: DBUpdate-to-3.1.pl,v 1.21 2011-09-25 18:39:05 mb Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.20 $) [1];
+$VERSION = qw($Revision: 1.21 $) [1];
 
 use Getopt::Std qw();
 use Kernel::Config;
@@ -278,10 +278,9 @@ sub _MSSQLUpgrade {
             }
     }
     print "Found " . scalar @Columns . " columns to alter.\n\n";
-    my $i;
+    open my $outfile, '>', 'upgrade.mssql';
+
     for my $Column (@Columns) {
-        $i++;
-        last if $i == 10;
         print
             "Updating table $Column->{Table}, column $Column->{Column} of type $Column->{DataType}...\n";
 
@@ -295,10 +294,6 @@ sub _MSSQLUpgrade {
         if ( $Column->{DataType} eq 'TEXT' ) {
             $Column->{Size} = 'MAX';
         }
-
-        print
-            "ALTER TABLE $Column->{Table} ALTER COLUMN $Column->{Column} NVARCHAR( $Column->{Size} ) $Column->{Nullable}\n";
-
         return if !$CommonObject->{DBObject}->Do(
             SQL  => 'ALTER TABLE ? ALTER COLUMN ? NVARCHAR( ? ) ?',
             Bind => [
@@ -307,7 +302,7 @@ sub _MSSQLUpgrade {
             ],
         );
     }
-
+    close $outfile;
     return 1;
 }
 
