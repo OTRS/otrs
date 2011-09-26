@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Multiselect.pm - Delegate for DynamicField Multiselect backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Multiselect.pm,v 1.7 2011-09-26 09:27:12 mg Exp $
+# $Id: Multiselect.pm,v 1.8 2011-09-26 20:22:35 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::DynamicFieldValue;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 =head1 NAME
 
@@ -163,25 +163,8 @@ sub SearchSQLOrderFieldGet {
 sub EditFieldRender {
     my ( $Self, %Param ) = @_;
 
-    # check needed stuff
-    for my $Needed (qw(DynamicFieldConfig LayoutObject ParamObject)) {
-        if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
-            return;
-        }
-    }
-
-    # check DynamicFieldConfig (general)
-    if ( !IsHashRefWithData( $Param{DynamicFieldConfig} ) ) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => "The field configuration is invalid",
-        );
-        return;
-    }
-
     # check DynamicFieldConfig (internally)
-    for my $Needed (qw(ID Config Name )) {
+    for my $Needed (qw(ID Config Name)) {
         if ( !$Param{DynamicFieldConfig}->{$Needed} ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
@@ -297,23 +280,6 @@ EOF
 sub EditFieldValueGet {
     my ( $Self, %Param ) = @_;
 
-    # check needed stuff
-    for my $Needed (qw(DynamicFieldConfig ParamObject)) {
-        if ( !$Param{DynamicFieldConfig} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
-            return;
-        }
-    }
-
-    # check DynamicFieldConfig (general)
-    if ( !IsHashRefWithData( $Param{DynamicFieldConfig} ) ) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => "The field configuration is invalid",
-        );
-        return;
-    }
-
     # check DynamicFieldConfig (internally)
     for my $Needed (qw(ID Config Name )) {
         if ( !$Param{DynamicFieldConfig}->{$Needed} ) {
@@ -334,25 +300,8 @@ sub EditFieldValueGet {
 sub EditFieldValueValidate {
     my ( $Self, %Param ) = @_;
 
-    # check needed stuff
-    for my $Needed (qw(DynamicFieldConfig ParamObject)) {
-        if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
-            return;
-        }
-    }
-
-    # check DynamicFieldConfig (general)
-    if ( !IsHashRefWithData( $Param{DynamicFieldConfig} ) ) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => "The field configuration is invalid",
-        );
-        return;
-    }
-
     # check DynamicFieldConfig (internally)
-    for my $Needed (qw(ID Config Name )) {
+    for my $Needed (qw(ID Config Name)) {
         if ( !$Param{DynamicFieldConfig}->{$Needed} ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
@@ -410,23 +359,6 @@ sub EditFieldValueValidate {
 
 sub DisplayValueRender {
     my ( $Self, %Param ) = @_;
-
-    # check needed stuff
-    for my $Needed (qw(DynamicFieldConfig LayoutObject)) {
-        if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
-            return;
-        }
-    }
-
-    # check DynamicFieldConfig (general)
-    if ( !IsHashRefWithData( $Param{DynamicFieldConfig} ) ) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => "The field configuration is invalid",
-        );
-        return;
-    }
 
     # check DynamicFieldConfig (internally)
     for my $Needed (qw(ID Config Name)) {
