@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/TicketOverviewPreview.pm
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketOverviewPreview.pm,v 1.55 2011-09-23 18:36:37 cr Exp $
+# $Id: TicketOverviewPreview.pm,v 1.56 2011-09-26 12:08:13 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.55 $) [1];
+$VERSION = qw($Revision: 1.56 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -652,8 +652,8 @@ sub _Show {
     }
 
     # Dynamic fields
-    my $Counter;
-    my $Class = 'Middle';
+    my $Counter = 0;
+    my $Class   = 'Middle';
 
     # cycle trough the activated Dynamic Fields for this screen
     DYNAMICFIELD:
