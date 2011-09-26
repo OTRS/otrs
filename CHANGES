@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1981 2011-09-26 16:44:51 ub Exp $
+# $Id: CHANGES,v 1.1982 2011-09-26 16:45:36 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,7 +10,8 @@
 # --
 
 3.1.0 beta1 2011-??-??
- - 2011-09-16
+ - 2011-09-26 Added missing cpan module Encode::Locale which is now required
+    for HTTP::Response and LWP::UserAgent.
  - 2011-09-16 Added new legacy driver for PostgreSQL 8.1 or earlier. This needs to be activated
     for such older installations in Kernel/Config.pm as follows:
     $Self->{DatabasePostgresqlBefore82} = 1;
