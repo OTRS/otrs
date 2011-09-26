@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Multiselect.pm - Delegate for DynamicField Multiselect backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Multiselect.pm,v 1.8 2011-09-26 20:22:35 cg Exp $
+# $Id: Multiselect.pm,v 1.9 2011-09-26 21:14:44 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::DynamicFieldValue;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 =head1 NAME
 
@@ -163,17 +163,6 @@ sub SearchSQLOrderFieldGet {
 sub EditFieldRender {
     my ( $Self, %Param ) = @_;
 
-    # check DynamicFieldConfig (internally)
-    for my $Needed (qw(ID Config Name)) {
-        if ( !$Param{DynamicFieldConfig}->{$Needed} ) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message  => "Need $Needed in DynamicFieldConfig!"
-            );
-            return;
-        }
-    }
-
     # take config from field config
     my $FieldConfig = $Param{DynamicFieldConfig}->{Config};
     my $FieldName   = 'DynamicField_' . $Param{DynamicFieldConfig}->{Name};
@@ -280,17 +269,6 @@ EOF
 sub EditFieldValueGet {
     my ( $Self, %Param ) = @_;
 
-    # check DynamicFieldConfig (internally)
-    for my $Needed (qw(ID Config Name )) {
-        if ( !$Param{DynamicFieldConfig}->{$Needed} ) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message  => "Need $Needed in DynamicFieldConfig!"
-            );
-            return;
-        }
-    }
-
     # get dynamic field value form param
     my @ReturnData = $Param{ParamObject}
         ->GetArray( Param => 'DynamicField_' . $Param{DynamicFieldConfig}->{Name} );
@@ -299,17 +277,6 @@ sub EditFieldValueGet {
 
 sub EditFieldValueValidate {
     my ( $Self, %Param ) = @_;
-
-    # check DynamicFieldConfig (internally)
-    for my $Needed (qw(ID Config Name)) {
-        if ( !$Param{DynamicFieldConfig}->{$Needed} ) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message  => "Need $Needed in DynamicFieldConfig!"
-            );
-            return;
-        }
-    }
 
     # get the field value from the http request
     my $Values = $Self->EditFieldValueGet(
@@ -360,26 +327,12 @@ sub EditFieldValueValidate {
 sub DisplayValueRender {
     my ( $Self, %Param ) = @_;
 
-    # check DynamicFieldConfig (internally)
-    for my $Needed (qw(ID Config Name)) {
-        if ( !$Param{DynamicFieldConfig}->{$Needed} ) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message  => "Need $Needed in DynamicFieldConfig!"
-            );
-            return;
-        }
-    }
-
     # set HTMLOuput as default if not specified
     if ( !defined $Param{HTMLOutput} ) {
         $Param{HTMLOutput} = 1;
     }
 
-    # get raw Title and Value strings from field value
-    #    my $Value = $Param{Value} || '';
-    #    my $Title = $Param{Value} || '';
-
+    # set Value and Title variables
     my $Value = '';
     my $Title = '';
 
@@ -416,7 +369,7 @@ sub DisplayValueRender {
     }
 
     # HTMLOuput transformations
-    $Value = join( "\n", @ReadeableValues );
+    $Value = join( ", ", @ReadeableValues );
     $Title = $Value;
 
     if ( $Param{HTMLOutput} ) {
