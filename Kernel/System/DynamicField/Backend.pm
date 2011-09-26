@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend.pm - Interface for DynamicField backends
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Backend.pm,v 1.41 2011-09-23 11:32:44 mg Exp $
+# $Id: Backend.pm,v 1.42 2011-09-26 21:49:03 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Scalar::Util qw(weaken);
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.41 $) [1];
+$VERSION = qw($Revision: 1.42 $) [1];
 
 =head1 NAME
 
@@ -261,7 +261,7 @@ sub EditFieldRender {
     }
 
     # check DynamicFieldConfig (internally)
-    for my $Needed (qw(ID FieldType ObjectType)) {
+    for my $Needed (qw(ID FieldType ObjectType Config Name)) {
         if ( !$Param{DynamicFieldConfig}->{$Needed} ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
@@ -347,7 +347,7 @@ sub DisplayValueRender {
     }
 
     # check DynamicFieldConfig (internally)
-    for my $Needed (qw(ID FieldType ObjectType)) {
+    for my $Needed (qw(ID FieldType ObjectType Config Name)) {
         if ( !$Param{DynamicFieldConfig}->{$Needed} ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
@@ -775,7 +775,7 @@ sub EditFieldValueGet {
     }
 
     # check DynamicFieldConfig (internally)
-    for my $Needed (qw(ID FieldType ObjectType)) {
+    for my $Needed (qw(ID FieldType ObjectType Name)) {
         if ( !$Param{DynamicFieldConfig}->{$Needed} ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
@@ -841,7 +841,7 @@ sub EditFieldValueValidate {
     }
 
     # check DynamicFieldConfig (internally)
-    for my $Needed (qw(ID FieldType ObjectType)) {
+    for my $Needed (qw(ID FieldType ObjectType Config Name)) {
         if ( !$Param{DynamicFieldConfig}->{$Needed} ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
@@ -952,6 +952,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.41 $ $Date: 2011-09-23 11:32:44 $
+$Revision: 1.42 $ $Date: 2011-09-26 21:49:03 $
 
 =cut
