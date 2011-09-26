@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketPrint.pm - print layout for customer interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketPrint.pm,v 1.44 2011-09-22 19:47:03 cr Exp $
+# $Id: CustomerTicketPrint.pm,v 1.45 2011-09-26 20:42:00 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.44 $) [1];
+$VERSION = qw($Revision: 1.45 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -49,6 +49,10 @@ sub new {
 
     # get the configuration to check for printable objects
     $Self->{Config} = $Self->{ConfigObject}->Get("Ticket::Frontend::CustomerTicketZoom");
+
+    # get dynamic field config for frontend module
+    $Self->{DynamicFieldFilter}
+        = $Self->{ConfigObject}->Get("Ticket::Frontend::CustomerTicketPrint")->{DynamicField};
 
     return $Self;
 }
@@ -432,8 +436,9 @@ sub _PDFOutputTicketDynamicFields {
 
     # get the dynamic fields for ticket object
     my $DynamicField = $Self->{DynamicFieldObject}->DynamicFieldListGet(
-        Valid      => 1,
-        ObjectType => ['Ticket'],
+        Valid       => 1,
+        ObjectType  => ['Ticket'],
+        FieldFilter => $Self->{DynamicFieldFilter} || {},
     );
 
     # generate table
@@ -706,8 +711,9 @@ sub _PDFOutputArticles {
 
         # get the dynamic fields for ticket object
         my $DynamicField = $Self->{DynamicFieldObject}->DynamicFieldListGet(
-            Valid      => 1,
-            ObjectType => ['Article'],
+            Valid       => 1,
+            ObjectType  => ['Article'],
+            FieldFilter => $Self->{DynamicFieldFilter} || {},
         );
 
         # generate table
@@ -894,8 +900,9 @@ sub _HTMLMask {
 
     # get the dynamic fields for ticket object
     my $DynamicField = $Self->{DynamicFieldObject}->DynamicFieldListGet(
-        Valid      => 1,
-        ObjectType => ['Ticket'],
+        Valid       => 1,
+        ObjectType  => ['Ticket'],
+        FieldFilter => $Self->{DynamicFieldFilter} || {},
     );
 
     # flag to control the header print
@@ -1008,8 +1015,9 @@ sub _HTMLMask {
 
         # get the dynamic fields for ticket object
         my $DynamicField = $Self->{DynamicFieldObject}->DynamicFieldListGet(
-            Valid      => 1,
-            ObjectType => ['Article'],
+            Valid       => 1,
+            ObjectType  => ['Article'],
+            FieldFilter => $Self->{DynamicFieldFilter} || {},
         );
 
         # cycle trough the activated Dynamic Fields for ticket object
