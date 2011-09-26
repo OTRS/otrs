@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/TicketOverviewSmall.pm
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketOverviewSmall.pm,v 1.40 2011-09-22 19:47:49 cr Exp $
+# $Id: TicketOverviewSmall.pm,v 1.41 2011-09-26 12:14:53 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.40 $) [1];
+$VERSION = qw($Revision: 1.41 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -358,7 +358,11 @@ sub Run {
             if ($IsSortable) {
                 my $CSS = '';
                 my $OrderBy;
-                if ( $Param{SortBy} && ( $Param{SortBy} eq $DynamicFieldConfig->{Name} ) ) {
+                if (
+                    $Param{SortBy}
+                    && ( $Param{SortBy} eq ( 'DynamicField_' . $DynamicFieldConfig->{Name} ) )
+                    )
+                {
                     if ( $Param{OrderBy} && ( $Param{OrderBy} eq 'Up' ) ) {
                         $OrderBy = 'Down';
                         $CSS .= ' SortDescending';
