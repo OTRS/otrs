@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/ObjectType/Ticket.pm - Ticket object handler for DynamicField
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.4 2011-09-23 18:32:57 cg Exp $
+# $Id: Ticket.pm,v 1.5 2011-09-27 18:06:02 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,12 +19,15 @@ use Scalar::Util;
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::Ticket;
 
+use Kernel::System::Web::Request;
+use Kernel::Output::HTML::Layout;
+
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 =head1 NAME
 
-Kernel::System::DynamicField::Backend::Ticket
+Kernel::System::DynamicField::ObjectType::Ticket
 
 =head1 SYNOPSIS
 
@@ -37,7 +40,7 @@ Ticket object handler for DynamicFields
 =item new()
 
 usually, you want to create an instance of this
-by using Kernel::System::DynamicField::Backend->new();
+by using Kernel::System::DynamicField::ObjectType::Ticket->new();
 
 =cut
 
@@ -75,6 +78,16 @@ sub new {
         # Here we must not call weaken(), because this is the only reference
         $Self->{TicketObject} = Kernel::System::Ticket->new( %{$Self} );
     }
+
+    # create extra needed objects
+    my $ParamObject = Kernel::System::Web::Request->new(
+        %{$Self},
+        WebRequest => 0,
+    );
+    $Self->{LayoutObject} = Kernel::Output::HTML::Layout->new(
+        ParamObject => $ParamObject,
+        %{$Self},
+    );
 
     return $Self;
 }
@@ -134,11 +147,14 @@ sub PostValueSet {
         $HistoryValue = $Param{Value};
     }
 
-    # fix Value if it's an array ref
-    my @Values;
-    if ( ref $Param{Value} eq 'ARRAY' ) {
-        $HistoryValue = join ',', @{$HistoryValue};
-    }
+    # get value for storing
+    my $ValueStrg = $Self->{TicketObject}->{DynamicFieldBackendObject}->DisplayValueRender(
+        DynamicFieldConfig => $Param{DynamicFieldConfig},
+        Value              => $HistoryValue,
+        HTMLOutput         => 0,
+        LayoutObject       => $Self->{LayoutObject},
+    );
+    $HistoryValue = $ValueStrg->{Value};
 
     # history insert
     $Self->{TicketObject}->HistoryAdd(
