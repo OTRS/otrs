@@ -2,7 +2,7 @@
 # Backend.t - DynamicFieldValue backend tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Backend.t,v 1.15 2011-09-23 22:59:47 cg Exp $
+# $Id: Backend.t,v 1.16 2011-09-27 22:09:12 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -175,6 +175,71 @@ my @Tests = (
         Success   => 0,
         ShouldGet => 0,
     },
+
+    {
+        Name               => 'Dropdown - No PossibleValues',
+        DynamicFieldConfig => {
+            ID         => $FieldID,
+            Name       => "dynamicfieldtest$RandomID",
+            ObjectType => 'Ticket',
+            FieldType  => 'Dropdown',
+        },
+        ObjectID  => $TicketID,
+        Value     => 'a text',
+        UserID    => 1,
+        Success   => 0,
+        ShouldGet => 0,
+    },
+    {
+        Name               => 'Dropdown - Invalid PossibleValues',
+        DynamicFieldConfig => {
+            ID         => $FieldID,
+            Name       => "dynamicfieldtest$RandomID",
+            ObjectType => 'Ticket',
+            FieldType  => 'Dropdown',
+            Config     => {
+                PossibleValues => '',
+                }
+        },
+        ObjectID  => $TicketID,
+        Value     => 'a text',
+        UserID    => 1,
+        Success   => 0,
+        ShouldGet => 0,
+    },
+
+    {
+        Name               => 'Multiselect - No PossibleValues',
+        DynamicFieldConfig => {
+            ID         => $FieldID,
+            Name       => "dynamicfieldtest$RandomID",
+            ObjectType => 'Ticket',
+            FieldType  => 'Multiselect',
+        },
+        ObjectID  => $TicketID,
+        Value     => 'a text',
+        UserID    => 1,
+        Success   => 0,
+        ShouldGet => 0,
+    },
+    {
+        Name               => 'Multiselect - Invalid PossibleValues',
+        DynamicFieldConfig => {
+            ID         => $FieldID,
+            Name       => "dynamicfieldtest$RandomID",
+            ObjectType => 'Ticket',
+            FieldType  => 'Multiselect',
+            Config     => {
+                PossibleValues => '',
+                }
+        },
+        ObjectID  => $TicketID,
+        Value     => 'a text',
+        UserID    => 1,
+        Success   => 0,
+        ShouldGet => 0,
+    },
+
     {
         Name               => 'Set Text Value',
         DynamicFieldConfig => {
@@ -271,69 +336,6 @@ my @Tests = (
         Value     => '2011-01-01 01:01:01',
         UserID    => 1,
         Success   => 1,
-        ShouldGet => 1,
-    },
-    {
-        Name               => 'Dropdown - No PossibleValues',
-        DynamicFieldConfig => {
-            ID         => $FieldID,
-            Name       => "dynamicfieldtest$RandomID",
-            ObjectType => 'Ticket',
-            FieldType  => 'Dropdown',
-        },
-        ObjectID  => $TicketID,
-        Value     => 'a text',
-        UserID    => 1,
-        Success   => 0,
-        ShouldGet => 0,
-    },
-    {
-        Name               => 'Dropdown - Invalid PossibleValues',
-        DynamicFieldConfig => {
-            ID         => $FieldID,
-            Name       => "dynamicfieldtest$RandomID",
-            ObjectType => 'Ticket',
-            FieldType  => 'Dropdown',
-            Config     => {
-                PossibleValues => {},
-                }
-        },
-        ObjectID  => $TicketID,
-        Value     => 'a text',
-        UserID    => 1,
-        Success   => 0,
-        ShouldGet => 0,
-    },
-
-    {
-        Name               => 'Multiselect - No PossibleValues',
-        DynamicFieldConfig => {
-            ID         => $FieldID,
-            Name       => "dynamicfieldtest$RandomID",
-            ObjectType => 'Ticket',
-            FieldType  => 'Multiselect',
-        },
-        ObjectID  => $TicketID,
-        Value     => 'a text',
-        UserID    => 1,
-        Success   => 0,
-        ShouldGet => 1,
-    },
-    {
-        Name               => 'Multiselect - Invalid PossibleValues',
-        DynamicFieldConfig => {
-            ID         => $FieldID,
-            Name       => "dynamicfieldtest$RandomID",
-            ObjectType => 'Ticket',
-            FieldType  => 'Multiselect',
-            Config     => {
-                PossibleValues => {},
-                }
-        },
-        ObjectID  => $TicketID,
-        Value     => 'a text',
-        UserID    => 1,
-        Success   => 0,
         ShouldGet => 1,
     },
 
