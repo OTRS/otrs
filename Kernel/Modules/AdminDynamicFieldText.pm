@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminDynamicFieldText.pm - provides a dynamic fields text config view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminDynamicFieldText.pm,v 1.19 2011-09-14 20:43:43 cg Exp $
+# $Id: AdminDynamicFieldText.pm,v 1.20 2011-09-27 17:01:22 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::DynamicField;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.19 $) [1];
+$VERSION = qw($Revision: 1.20 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -481,7 +481,7 @@ sub _ShowScreen {
         Name         => 'ValidID',
         SelectedID   => $Param{ValidID} || 1,
         PossibleNone => 0,
-        Translate    => 1,
+        Translation  => 1,
         Class        => 'W50pc',
     );
 

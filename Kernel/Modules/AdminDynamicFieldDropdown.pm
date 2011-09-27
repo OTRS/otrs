@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminDynamicFieldDropdown.pm - provides a dynamic fields text config view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminDynamicFieldDropdown.pm,v 1.10 2011-09-15 18:12:55 cr Exp $
+# $Id: AdminDynamicFieldDropdown.pm,v 1.11 2011-09-27 17:01:22 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::DynamicField;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -538,7 +538,7 @@ sub _ShowScreen {
         Name         => 'ValidID',
         SelectedID   => $Param{ValidID} || 1,
         PossibleNone => 0,
-        Translate    => 1,
+        Translation  => 1,
         Class        => 'W50pc',
     );
 
@@ -642,7 +642,7 @@ sub _ShowScreen {
 
         # Don't make is translatable because this will confuse the user (also current JS
         # is not prepared)
-        Translate => 0,
+        Translation => 0,
 
         # Multiple selections are currently not supported
         Multiple => 0,

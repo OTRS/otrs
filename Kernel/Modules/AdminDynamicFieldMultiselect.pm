@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminDynamicFieldMultiselect.pm - provides a dynamic fields text config view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminDynamicFieldMultiselect.pm,v 1.3 2011-09-21 20:54:12 cg Exp $
+# $Id: AdminDynamicFieldMultiselect.pm,v 1.4 2011-09-27 17:01:22 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::DynamicField;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -542,7 +542,7 @@ sub _ShowScreen {
         Name         => 'ValidID',
         SelectedID   => $Param{ValidID} || 1,
         PossibleNone => 0,
-        Translate    => 1,
+        Translation  => 1,
         Class        => 'W50pc',
     );
 
@@ -625,6 +625,7 @@ sub _ShowScreen {
             %Param,
         },
     );
+    print STDERR $Self->{MainObject}->Dump( \%PossibleValues );
 
     # check and build the Default Value list based on Possible Values
     my %DefaultValuesList;
@@ -646,7 +647,7 @@ sub _ShowScreen {
 
         # Don't make is translatable because this will confuse the user (also current JS
         # is not prepared)
-        Translate => 0,
+        Translation => 0,
 
         #        # Multiple selections, now is going to be supported
         Multiple => 1,

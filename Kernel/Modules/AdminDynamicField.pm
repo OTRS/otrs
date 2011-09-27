@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminDynamicField.pm - provides a dynamic fields view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminDynamicField.pm,v 1.12 2011-08-23 02:46:52 cr Exp $
+# $Id: AdminDynamicField.pm,v 1.13 2011-09-27 17:01:22 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::DynamicField;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -109,7 +109,7 @@ sub _ShowOverview {
             Data          => \%FieldTypes,
             Name          => $SelectName,
             PossibleNone  => 1,
-            Translate     => 0,
+            Translation   => 0,
             Sort          => 'AlphanumericValue',
             SelectedValue => '-',
             Class         => 'W75pc',
