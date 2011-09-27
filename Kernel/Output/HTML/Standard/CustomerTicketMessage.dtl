@@ -2,7 +2,7 @@
 # CustomerTicketMessage.dtl - provides HTML form for customer message
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.dtl,v 1.63 2011-09-19 21:58:17 cr Exp $
+# $Id: CustomerTicketMessage.dtl,v 1.64 2011-09-27 16:52:36 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -153,13 +153,33 @@ $Include{"CustomerRichTextEditor"}
                     <div class="Clear"></div>
                 </div>
 <!-- dtl:block:Priority -->
+
 <!-- dtl:block:DynamicField -->
-                $Data{"DynamicFieldLabel"}
+                $Data{"Label"}
                 <div class="Field">
-                    $Data{"DynamicField"}
+                    $Data{"Field"}
                 </div>
                 <div class="Clear"></div>
 <!-- dtl:block:DynamicField -->
+
+# example of how to use fixed dynamic field blocks for customizations
+# Note: Field1 and Field2 are the names of the fields and had to be replaced with the actual
+# field names
+#<!-- dtl:block:DynamicField_Field1 -->
+#                $Data{"Label"}
+#                <div class="Field">
+#                    $Data{"Field"}
+#                </div>
+#                <div class="Clear"></div>
+#<!-- dtl:block:DynamicField_Field1 -->
+#<!-- dtl:block:DynamicField_Field2 -->
+#                $Data{"Label"}
+#                <div class="Field">
+#                    $Data{"Field"}
+#                </div>
+#                <div class="Clear"></div>
+#<!-- dtl:block:DynamicField_Field2 -->
+
             </fieldset>
             <div id="BottomActionRow" class="ActionRow">
                 <button id="submitRichText" accesskey="g" title="$Text{"Submit"} (g)" type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button>
