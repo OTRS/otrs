@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.153 2011-09-23 18:34:47 cr Exp $
+# $Id: AgentTicketZoom.pm,v 1.154 2011-09-27 22:41:01 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.153 $) [1];
+$VERSION = qw($Revision: 1.154 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -799,6 +799,22 @@ sub MaskAgentZoom {
                 Title => $ValueStrg->{Title},
             },
         );
+
+        # example of dynamic fields order customization
+        #        $Self->{LayoutObject}->Block(
+        #            Name => 'TicketDynamicField_' . $DynamicFieldConfig->{Name},
+        #            Data => {
+        #                Label => $Label,
+        #            },
+        #        );
+        #
+        #        $Self->{LayoutObject}->Block(
+        #            Name => 'TicketDynamicField_' . $DynamicFieldConfig->{Name} . '_Plain',
+        #            Data => {
+        #                Value => $ValueStrg->{Value},
+        #                Title => $ValueStrg->{Title},
+        #            },
+        #        );
     }
 
     # customer info string
@@ -1754,6 +1770,16 @@ sub _ArticleItem {
                 Title => $ValueStrg->{Title},
             },
         );
+
+        # example of dynamic fields order customization
+        #        $Self->{LayoutObject}->Block(
+        #            Name => 'ArticleDynamicField_' . $DynamicFieldConfig->{Name},
+        #            Data => {
+        #                Label => $Label,
+        #                Value => $ValueStrg->{Value},
+        #                Title => $ValueStrg->{Title},
+        #            },
+        #        );
     }
 
     # run article view modules

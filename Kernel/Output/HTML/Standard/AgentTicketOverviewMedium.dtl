@@ -2,7 +2,7 @@
 # AgentTicketOverviewMedium.dtl - provides HTML Ticket Overview
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewMedium.dtl,v 1.63 2011-09-23 18:35:51 cr Exp $
+# $Id: AgentTicketOverviewMedium.dtl,v 1.64 2011-09-27 22:41:01 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -110,17 +110,20 @@
                         <td>
                             <label>$Text{"CustomerID"}</label><a href="$Config{"CustomerDBLink"}" class="AsPopup PopupType_TicketAction" $Config{"CustomerDBLinkTarget"}>$QData{"CustomerID", "26"}</a><br /><div title="$QData{"CustomerName"}">$QData{"CustomerName","15"}</div>
                         </td>
-#<!-- dtl:block:DynamicField1 -->
+# example of how to use fixed dynamic field blocks for customizations
+# Note: Field1 is the name of the field and had to be replaced with the actual
+# field name
+#<!-- dtl:block:DynamicField_Field1 -->
 #                        <td>
-#                            <label>$Text{"$Data{"Label1"}"}</label>
-#<!-- dtl:block:DynamicFieldLink1 -->
-#                            <div title="$Data{"Title1"}"><a href="$Data{Link1}" target="_blank">$Data{"Value1"}</a></div>
-#<!-- dtl:block:DynamicFieldLink1 -->
-#<!-- dtl:block:DynamicFieldPlain1 -->
-#                            <div title="$Data{"Title1"}"><span>$Data{"Value1"}</span></div>
-#<!-- dtl:block:DynamicFieldPlain1 -->
+#                            <label>$Text{"$Data{"Label"}"}</label>
+#<!-- dtl:block:DynamicField_Field1_Link -->
+#                            <div title="$Data{"Title"}"><a href="$Data{Link}" target="_blank">$Data{"Value"}</a></div>
+#<!-- dtl:block:DynamicField_Field1_Link -->
+#<!-- dtl:block:DynamicField_Field1_Plain -->
+#                            <div title="$Data{"Title"}"><span>$Data{"Value"}</span></div>
+#<!-- dtl:block:DynamicField_Field1_Plain -->
 #                        </td>
-#<!-- dtl:block:DynamicField1 -->
+#<!-- dtl:block:DynamicField_Field1 -->
                         <td>
                             <label>$Text{"First Response Time"}</label>
 <!-- dtl:block:FirstResponseTime -->
@@ -143,17 +146,20 @@
                             <label>$Text{"Type"}</label><div title="$QData{"Type"}">$QData{"Type","26"}</div>
 <!-- dtl:block:Type -->
                         </td>
-#<!-- dtl:block:DynamicField2 -->
+# example of how to use fixed dynamic field blocks for customizations
+# Note: Field2 is the name of the field and had to be replaced with the actual
+# field name
+#<!-- dtl:block:DynamicField_Field2 -->
 #                        <td>
-#                            <label>$Text{"$Data{"Label2"}"}</label>
-#<!-- dtl:block:DynamicFieldLink2 -->
-#                            <div title="$Data{"Title2"}"><a href="$Data{Link2}" target="_blank">$Data{"Value2"}</a></div>
-#<!-- dtl:block:DynamicFieldLink2 -->
-#<!-- dtl:block:DynamicFieldPlain2 -->
-#                            <div title="$Data{"Title2"}"><span>$Data{"Value2"}</span></div>
-#<!-- dtl:block:DynamicFieldPlain2 -->
+#                            <label>$Text{"$Data{"Label"}"}</label>
+#<!-- dtl:block:DynamicField_Field2_Link -->
+#                            <div title="$Data{"Title"}"><a href="$Data{Link}" target="_blank">$Data{"Value"}</a></div>
+#<!-- dtl:block:DynamicField_Field2_Link -->
+#<!-- dtl:block:DynamicField_Field2_Plain -->
+#                            <div title="$Data{"Title"}"><span>$Data{"Value"}</span></div>
+#<!-- dtl:block:DynamicField_Field2_Plain -->
 #                        </td>
-#<!-- dtl:block:DynamicField2 -->
+#<!-- dtl:block:DynamicField_Field2 -->
                         <td>
                             <label>$Text{"Update Time"}</label>
 <!-- dtl:block:UpdateTime -->
@@ -179,17 +185,20 @@
                             <label>$Text{"Service Level Agreement"}</label><div title="$QData{"SLA"}">$QData{"SLA","26"}</div>
 <!-- dtl:block:SLA -->
                         </td>
-#<!-- dtl:block:DynamicField3 -->
+# example of how to use fixed dynamic field blocks for customizations
+# Note: Field3 is the name of the field and had to be replaced with the actual
+# field name
+#<!-- dtl:block:DynamicField_Field3 -->
 #                        <td>
-#                            <label>$Text{"$Data{"Label3"}"}</label>
-#<!-- dtl:block:DynamicFieldLink3 -->
-#                            <div title="$Data{"Title3"}"><a href="$Data{Link3}" target="_blank">$Data{"Value3"}</a></div>
-#<!-- dtl:block:DynamicFieldLink3 -->
-#<!-- dtl:block:DynamicFieldPlain3 -->
-#                            <div title="$Data{"Title3"}"><span>$Data{"Value3"}</span></div>
-#<!-- dtl:block:DynamicFieldPlain3 -->
+#                            <label>$Text{"$Data{"Label"}"}</label>
+#<!-- dtl:block:DynamicField_Field3_Link -->
+#                            <div title="$Data{"Title"}"><a href="$Data{Link}" target="_blank">$Data{"Value"}</a></div>
+#<!-- dtl:block:DynamicField_Field3_Link -->
+#<!-- dtl:block:DynamicField_Field3_Plain -->
+#                            <div title="$Data{"Title"}"><span>$Data{"Value"}</span></div>
+#<!-- dtl:block:DynamicField_Field3_Plain -->
 #                        </td>
-#<!-- dtl:block:DynamicField3 -->
+#<!-- dtl:block:DynamicField_Field3 -->
                         <td>
                             <label>$Text{"Solution Time"}</label>
 <!-- dtl:block:SolutionTime -->

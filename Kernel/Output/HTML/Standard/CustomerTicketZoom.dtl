@@ -2,7 +2,7 @@
 # CustomerTicketZoom.dtl - provides HTML TicketZoom for CustomerTicketZoom.pm
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.dtl,v 1.114 2011-09-23 19:21:17 cr Exp $
+# $Id: CustomerTicketZoom.dtl,v 1.115 2011-09-27 22:41:01 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -59,18 +59,21 @@
                     <span title="$QData{"Title"}">$Data{"Value"}</span>
                 </li>
 <!-- dtl:block:TicketDynamicField -->
-#<!-- dtl:block:TicketDynamicField1 -->
+# example of how to use fixed dynamic field blocks for customizations
+# Note: Field1 and Field2 are the names of the fields and had to be replaced with the actual
+# field names
+#<!-- dtl:block:TicketDynamicField_Field1 -->
 #                <li>
-#                    <span class="Key">$Text{"$Data{"Label1"}"}:</span>
-#                    <span title="$QData{"Title1"}">$Data{"Value1"}</span>
+#                    <span class="Key">$Text{"$Data{"Label"}"}:</span>
+#                    <span title="$QData{"Title1"}">$Data{"Value"}</span>
 #                </li>
-#<!-- dtl:block:TicketDynamicField1 -->
-#<!-- dtl:block:TicketDynamicField2 -->
+#<!-- dtl:block:TicketDynamicField_Field1 -->
+#<!-- dtl:block:TicketDynamicField_Field2 -->
 #                <li>
-#                    <span class="Key">$Text{"$Data{"Label2"}"}:</span>
-#                    <span title="$QData{"Title2"}">$Data{"Value2"}</span>
+#                    <span class="Key">$Text{"$Data{"Label"}"}:</span>
+#                    <span title="$QData{"Title2"}">$Data{"Value"}</span>
 #                </li>
-#<!-- dtl:block:TicketDynamicField2 -->
+#<!-- dtl:block:TicketDynamicField_Field2 -->
 
 <!-- dtl:block:Print -->
                 <li><a href="$Env{"Baselink"}Action=CustomerTicketPrint;TicketID=$LQData{"TicketID"}" class="Print AsPopup" title="$Text{"Print"}">$Text{"Print"}</a></li>
@@ -122,20 +125,23 @@
                                 <div class="Clear"></div>
                             </div>
 <!-- dtl:block:ArticleDynamicField -->
-#<!-- dtl:block:ArticleDynamicField1 -->
+# example of how to use fixed dynamic field blocks for customizations
+# Note: Field1 and Field2 are the names of the fields and had to be replaced with the actual
+# field names
+#<!-- dtl:block:ArticleDynamicField_Field1 -->
 #                            <div>
-#                                <div class="Label" title="$QData{"Label1"}">$Text{"$Data{"Label1"}"}:</div>
-#                                <span title="$QData{"Title1"}">$Data{"Value1"}</span>
+#                                <div class="Label" title="$QData{"Label"}">$Text{"$Data{"Label"}"}:</div>
+#                                <span title="$QData{"Title"}">$Data{"Value"}</span>
 #                                <div class="Clear"></div>
 #                            </div>
-#<!-- dtl:block:ArticleDynamicField1 -->
-#<!-- dtl:block:ArticleDynamicField1 -->
+#<!-- dtl:block:ArticleDynamicField_Field1 -->
+#<!-- dtl:block:ArticleDynamicField_Field2 -->
 #                            <div>
-#                                <div class="Label" title="$QData{"Label2"}">$Text{"$Data{"Label2"}"}:</div>
-#                                <span title="$QData{"Title2"}">$Data{"Value2"}</span>
+#                                <div class="Label" title="$QData{"Label"}">$Text{"$Data{"Label"}"}:</div>
+#                                <span title="$QData{"Title"}">$Data{"Value"}</span>
 #                                <div class="Clear"></div>
 #                            </div>
-#<!-- dtl:block:ArticleDynamicField1 -->
+#<!-- dtl:block:ArticleDynamicField_Field2 -->
 
 <!-- dtl:block:ArticleAttachment -->
                             <div class="Attachments">

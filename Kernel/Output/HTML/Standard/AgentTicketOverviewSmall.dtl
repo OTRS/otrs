@@ -2,7 +2,7 @@
 # AgentTicketOverviewSmall.dtl - html for ticket overview table
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewSmall.dtl,v 1.81 2011-09-26 12:14:53 mg Exp $
+# $Id: AgentTicketOverviewSmall.dtl,v 1.82 2011-09-27 22:41:01 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -113,6 +113,29 @@
 <!-- dtl:block:OverviewNavBarPageDynamicFieldNotSortable -->
                     </th>
 <!-- dtl:block:OverviewNavBarPageDynamicField -->
+# example of how to use fixed dynamic field blocks for customizations
+# Note: Field1 and Field2 are the names of the fields and had to be replaced with the actual
+# field names
+#<!-- dtl:block:OverviewNavBarPageDynamicField_Field1 -->
+#                    <th class="DynamicField Last $QData{"CSS"}">
+#<!-- dtl:block:OverviewNavBarPageDynamicField_Field1_Sortable -->
+#                        <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};$Data{"LinkSort"};SortBy=DynamicField_$LQData{"DynamicFieldName"};OrderBy=$LQData{"OrderBy"}">$Text{"$Data{"Label"}"}</a>
+#<!-- dtl:block:OverviewNavBarPageDynamicField_Field1_Sortable -->
+#<!-- dtl:block:OverviewNavBarPageDynamicField_Field1_NotSortable -->
+#                        <span>$Text{"$Data{"Label"}"}</span>
+#<!-- dtl:block:OverviewNavBarPageDynamicField_Field1_NotSortable -->
+#                    </th>
+#<!-- dtl:block:OverviewNavBarPageDynamicField_Field1 -->
+#<!-- dtl:block:OverviewNavBarPageDynamicField_Field2 -->
+#                    <th class="DynamicField Last $QData{"CSS"}">
+#<!-- dtl:block:OverviewNavBarPageDynamicField_Field2_Sortable -->
+#                        <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};$Data{"LinkSort"};SortBy=DynamicField_$LQData{"DynamicFieldName"};OrderBy=$LQData{"OrderBy"}">$Text{"$Data{"Label"}"}</a>
+#<!-- dtl:block:OverviewNavBarPageDynamicField_Field2_Sortable -->
+#<!-- dtl:block:OverviewNavBarPageDynamicField_Field2_NotSortable -->
+#                        <span>$Text{"$Data{"Label"}"}</span>
+#<!-- dtl:block:OverviewNavBarPageDynamicField_Field2_NotSortable -->
+#                    </th>
+#<!-- dtl:block:OverviewNavBarPageDynamicField_Field2 -->
 
                 </tr>
             </thead>
@@ -178,6 +201,20 @@
                         <div title="$QData{"Title"}">$Data{"Value"}</div>
                     </td>
 <!-- dtl:block:RecordDynamicField -->
+# example of how to use fixed dynamic field blocks for customizations
+# Note: Field1 and Field2 are the names of the fields and had to be replaced with the actual
+# field names
+#<!-- dtl:block:RecordDynamicField_Field1 -->
+#                    <td>
+#                        <div title="$QData{"Title"}">$Data{"Value"}</div>
+#                    </td>
+#<!-- dtl:block:RecordDynamicField_Field1 -->
+#<!-- dtl:block:RecordDynamicField_Field2 -->
+#                    <td>
+#                        <div title="$QData{"Title"}">$Data{"Value"}</div>
+#                    </td>
+#<!-- dtl:block:RecordDynamicField_Field2 -->
+
                 </tr>
 
 <!-- dtl:block:DocumentReadyActionRowAdd -->

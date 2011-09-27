@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPrint.pm - print layout for agent interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPrint.pm,v 1.82 2011-09-26 20:42:00 cr Exp $
+# $Id: AgentTicketPrint.pm,v 1.83 2011-09-27 22:41:01 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.82 $) [1];
+$VERSION = qw($Revision: 1.83 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1175,6 +1175,16 @@ sub _HTMLMask {
                 Title => $ValueStrg->{Title},
             },
         );
+
+        # example of dynamic fields order customization
+        #        $Self->{LayoutObject}->Block(
+        #            Name => 'TicketDynamicField_' . $DynamicFieldConfig->{Name},
+        #            Data => {
+        #                Label => $Label,
+        #                Value => $ValueStrg->{Value},
+        #                Title => $ValueStrg->{Title},
+        #            },
+        #        );
     }
 
     # build article stuff
@@ -1294,6 +1304,16 @@ sub _HTMLMask {
                     Title => $ValueStrg->{Title},
                 },
             );
+
+            # example of dynamic fields order customization
+            #            $Self->{LayoutObject}->Block(
+            #                Name => 'ArticleDynamicField_' . $DynamicFieldConfig->{Name},
+            #                Data => {
+            #                    Label => $Label,
+            #                    Value => $ValueStrg->{Value},
+            #                    Title => $ValueStrg->{Title},
+            #                },
+            #            );
         }
     }
 

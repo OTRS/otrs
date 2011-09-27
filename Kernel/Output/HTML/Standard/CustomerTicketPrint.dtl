@@ -2,7 +2,7 @@
 # CustomerTicketPrint.dtl - provides HTML print view
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketPrint.dtl,v 1.20 2011-09-22 19:47:03 cr Exp $
+# $Id: CustomerTicketPrint.dtl,v 1.21 2011-09-27 22:41:01 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -122,19 +122,21 @@
 <!-- dtl:block:TicketDynamicField -->
 
 # example of how to use fixed dynamic field blocks for customizations
+# Note: Field1 and Field2 are the names of the fields and had to be replaced with the actual
+# field names
 #<!-- dtl:block:TicketDynamicField_Field1 -->
 #               <tr>
-#                   <td class="contentkey">$Text{"$Data{"Label1"}"}:</td>
+#                   <td class="contentkey">$Text{"$Data{"Label"}"}:</td>
 #                   <td class="contentvalue">
-#                       <div title="$QData{"Title1"}">$Data{"Value1"}</div>
+#                       <div title="$QData{"Title"}">$Data{"Value"}</div>
 #                   </td>
 #               </tr>
 #<!-- dtl:block:TicketDynamicField_Field1 -->
 #<!-- dtl:block:TicketDynamicField_Field2 -->
 #               <tr>
-#                   <td class="contentkey">$Text{"$Data{"Label2"}"}:</td>
+#                   <td class="contentkey">$Text{"$Data{"Label"}"}:</td>
 #                   <td class="contentvalue">
-#                       <div title="$QData{"Title2"}">$Data{"Value2"}</div>
+#                       <div title="$QData{"Title"}">$Data{"Value"}</div>
 #                   </td>
 #               </tr>
 #<!-- dtl:block:TicketDynamicField_Field2 -->
@@ -180,6 +182,25 @@
                                             </td>
                                         </tr>
 <!-- dtl:block:ArticleDynamicField -->
+# example of how to use fixed dynamic field blocks for customizations
+# Note: Field1 and Field2 are the names of the fields and had to be replaced with the actual
+# field names
+#<!-- dtl:block:ArticleDynamicField_Field1 -->
+#                                        <tr>
+#                                            <td class="contentkey" width="15%">$Text{"$Data{"Label"}"}:</td>
+#                                            <td class="contentvalue" width="85%">
+#                                                <div title="$QData{"Title"}">$Data{"Value"}</div>
+#                                            </td>
+#                                        </tr>
+#<!-- dtl:block:ArticleDynamicField_Field1 -->
+#<!-- dtl:block:ArticleDynamicField_Field2 -->
+#                                        <tr>
+#                                            <td class="contentkey" width="15%">$Text{"$Data{"Label"}"}:</td>
+#                                            <td class="contentvalue" width="85%">
+#                                                <div title="$QData{"Title"}">$Data{"Value"}</div>
+#                                            </td>
+#                                        </tr>
+#<!-- dtl:block:ArticleDynamicField_Field2 -->
                                         <tr>
                                             <td class="contentkey">$Text{"Type"}:</td>
                                             <td class="contentvalue"> $Text{"$Data{"ArticleType"}"}</td>

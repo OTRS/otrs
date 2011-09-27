@@ -2,7 +2,7 @@
 # AgentTicketOverviewPreview.dtl - provides HTML Ticket Overview
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewPreview.dtl,v 1.71 2011-09-23 18:35:51 cr Exp $
+# $Id: AgentTicketOverviewPreview.dtl,v 1.72 2011-09-27 22:41:01 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -193,33 +193,34 @@
                         </tr>
 <!-- dtl:block:DynamicFieldTableRow -->
 
-# custom dynamic fields
+# example of how to use fixed dynamic field blocks for customizations
+# Note: Field1 and Field2 are the names of the fields and had to be replaced with the actual
+# field names
 #                    <tr>
-#<!-- dtl:block:DynamicFieldTableRowRecord1 -->
+#<!-- dtl:block:DynamicField_Field1_TableRowRecord -->
 #                        <td>
-#                            <label>$Text{"$Data{"Label1"}"}</label>
-#<!-- dtl:block:DynamicFieldTableRowRecordLink1 -->
-#                            <div title="$Data{"Title1"}"><a href="$Data{Link1}" target="_blank">$Data{"Value1"}</a></div>
-#<!-- dtl:block:DynamicFieldTableRowRecordLink1 -->
-#<!-- dtl:block:DynamicFieldTableRowRecordPlain1 -->
-#                            <div title="$Data{"Title1"}"><span>$Data{"Value1"}</span></div>
-#<!-- dtl:block:DynamicFieldTableRowRecordPlain1 -->
+#                            <label>$Text{"$Data{"Label"}"}</label>
+#<!-- dtl:block:DynamicField_Field1_TableRowRecordLink -->
+#                            <div title="$Data{"Title"}"><a href="$Data{Link}" target="_blank">$Data{"Value"}</a></div>
+#<!-- dtl:block:DynamicField_Field1_TableRowRecordLink -->
+#<!-- dtl:block:DynamicField_Field1_TableRowRecordPlain -->
+#                            <div title="$Data{"Title"}"><span>$Data{"Value"}</span></div>
+#<!-- dtl:block:DynamicField_Field1_TableRowRecordPlain -->
 #                        </td>
-#<!-- dtl:block:DynamicFieldTableRowRecord1 -->
+#<!-- dtl:block:DynamicField_Field1_TableRowRecord -->
 #                    </tr>
-
 #                    <tr>
-#<!-- dtl:block:DynamicFieldTableRowRecord2 -->
+#<!-- dtl:block:DynamicField_Field2_TableRowRecord -->
 #                        <td>
-#                            <label>$Text{"$Data{"Label2"}"}</label>
-#<!-- dtl:block:DynamicFieldTableRowRecordLink2 -->
-#                            <div title="$Data{"Title2"}"><a href="$Data{Link2}" target="_blank">$Data{"Value2"}</a></div>
-#<!-- dtl:block:DynamicFieldTableRowRecordLink2 -->
-#<!-- dtl:block:DynamicFieldTableRowRecordPlain2 -->
-#                            <div title="$Data{"Title2"}"><span>$Data{"Value2"}</span></div>
-#<!-- dtl:block:DynamicFieldTableRowRecordPlain2 -->
+#                            <label>$Text{"$Data{"Label"}"}</label>
+#<!-- dtl:block:DynamicField_Field2_TableRowRecordLink -->
+#                            <div title="$Data{"Title"}"><a href="$Data{Link}" target="_blank">$Data{"Value"}</a></div>
+#<!-- dtl:block:DynamicField_Field2_TableRowRecordLink -->
+#<!-- dtl:block:DynamicField_Field2_TableRowRecordPlain -->
+#                            <div title="$Data{"Title"}"><span>$Data{"Value"}</span></div>
+#<!-- dtl:block:DynamicField_Field2_TableRowRecordPlain -->
 #                        </td>
-#<!-- dtl:block:DynamicFieldTableRowRecord2 -->
+#<!-- dtl:block:DynamicField_Field2_TableRowRecord -->
 #                    </tr>
 
                     </tbody>
