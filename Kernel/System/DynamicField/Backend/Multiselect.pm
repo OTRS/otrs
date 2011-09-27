@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Multiselect.pm - Delegate for DynamicField Multiselect backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Multiselect.pm,v 1.9 2011-09-26 21:14:44 cg Exp $
+# $Id: Multiselect.pm,v 1.10 2011-09-27 01:38:46 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::DynamicFieldValue;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 =head1 NAME
 
@@ -368,8 +368,20 @@ sub DisplayValueRender {
         }
     }
 
+    # get DynamicField default settings
+    my $DefaultConfig = $Self->{ConfigObject}->Get('DynamicFields::Default') || {};
+
+    # get specific field settings
+    my $FieldConfig = $Self->{ConfigObject}->Get('DynamicFields::Backend')->{MultiSelect} || {};
+
+    # set new line separator
+    my $NewLineSeparator = $FieldConfig->{NewLineSeparator} || '';
+    if ( !$NewLineSeparator ) {
+        $NewLineSeparator = $DefaultConfig->{NewLineSeparator} || '';
+    }
+
     # HTMLOuput transformations
-    $Value = join( ", ", @ReadeableValues );
+    $Value = join( $NewLineSeparator, @ReadeableValues );
     $Title = $Value;
 
     if ( $Param{HTMLOutput} ) {
