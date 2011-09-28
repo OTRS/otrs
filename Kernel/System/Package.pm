@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Package.pm,v 1.120 2011-09-14 18:07:05 mb Exp $
+# $Id: Package.pm,v 1.121 2011-09-28 09:13:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::SysConfig;
 use Kernel::System::WebUserAgent;
 
 use vars qw($VERSION $S);
-$VERSION = qw($Revision: 1.120 $) [1];
+$VERSION = qw($Revision: 1.121 $) [1];
 
 =head1 NAME
 
@@ -407,19 +407,6 @@ sub PackageInstall {
         );
     }
 
-    # add package
-    return if !$Self->RepositoryAdd( String => $Param{String} );
-
-    # update package status
-    return if !$Self->{DBObject}->Do(
-        SQL => 'UPDATE package_repository SET install_status = \'installed\''
-            . ' WHERE name = ? AND version = ?',
-        Bind => [
-            \$Structure{Name}->{Content},
-            \$Structure{Version}->{Content},
-        ],
-    );
-
     # install code (pre)
     if ( $Structure{CodeInstall} ) {
         $Self->_Code(
@@ -437,9 +424,22 @@ sub PackageInstall {
     # install files
     if ( $Structure{Filelist} && ref $Structure{Filelist} eq 'ARRAY' ) {
         for my $File ( @{ $Structure{Filelist} } ) {
-            $Self->_FileInstall( File => $File );
+            return if !$Self->_FileInstall( File => $File );
         }
     }
+
+    # add package
+    return if !$Self->RepositoryAdd( String => $Param{String} );
+
+    # update package status
+    return if !$Self->{DBObject}->Do(
+        SQL => 'UPDATE package_repository SET install_status = \'installed\''
+            . ' WHERE name = ? AND version = ?',
+        Bind => [
+            \$Structure{Name}->{Content},
+            \$Structure{Version}->{Content},
+        ],
+    );
 
     # install config
     $Self->{SysConfigObject} = Kernel::System::SysConfig->new( %{$Self} );
@@ -506,7 +506,7 @@ sub PackageReinstall {
         for my $File ( @{ $Structure{Filelist} } ) {
 
             # install file
-            $Self->_FileInstall( File => $File, Reinstall => 1 );
+            return if !$Self->_FileInstall( File => $File, Reinstall => 1 );
         }
     }
 
@@ -713,7 +713,7 @@ sub PackageUpgrade {
         for my $File ( @{ $InstalledStructure{Filelist} } ) {
 
             # remove file
-            $Self->_FileRemove( File => $File );
+            return if !$Self->_FileRemove( File => $File );
         }
     }
 
@@ -722,7 +722,7 @@ sub PackageUpgrade {
         for my $File ( @{ $Structure{Filelist} } ) {
 
             # install file
-            $Self->_FileInstall( File => $File );
+            return if !$Self->_FileInstall( File => $File );
         }
     }
 
@@ -842,7 +842,7 @@ sub PackageUninstall {
         for my $File ( @{ $Structure{Filelist} } ) {
 
             # remove file
-            $Self->_FileRemove( File => $File );
+            return if !$Self->_FileRemove( File => $File );
         }
     }
 
@@ -866,6 +866,9 @@ sub PackageUninstall {
             Structure => \%Structure,
         );
     }
+
+    # install config
+    $Self->{ConfigObject} = Kernel::Config->new( %{$Self} );
 
     return 1;
 }
@@ -1676,7 +1679,7 @@ sub PackageExport {
         for my $File ( @{ $Structure{Filelist} } ) {
 
             # install file
-            $Self->_FileInstall( File => $File, Home => $Param{Home} );
+            return if !$Self->_FileInstall( File => $File, Home => $Param{Home} );
         }
     }
     return 1;
@@ -2215,6 +2218,25 @@ sub _FileInstall {
     my $RealFile = $Home . '/' . $Param{File}->{Location};
     $RealFile =~ s/\/\//\//g;
 
+    # check not allowed files
+    my $FilesNotAllowed = [
+        'Kernel/Config.pm$',
+        'Kernel/Config/Files/ZZZAuto.pm$',
+        'Kernel/Config/Files/ZZZAAuto.pm$',
+        'var/tmp/Cache.*',
+        'var/log/.*',
+        '\.\./',
+    ];
+
+    for my $FileNotAllowed ( @{$FilesNotAllowed} ) {
+        next if $RealFile !~ /$FileNotAllowed/;
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Not allowed to overwrite $RealFile via package manager!",
+        );
+        return;
+    }
+
     # backup old file (if reinstall, don't overwrite .backup and .save files)
     if ( -e $RealFile ) {
         if ( $Param{File}->{Type} && $Param{File}->{Type} =~ /^replace$/i ) {
@@ -2483,6 +2505,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.120 $ $Date: 2011-09-14 18:07:05 $
+$Revision: 1.121 $ $Date: 2011-09-28 09:13:20 $
 
 =cut

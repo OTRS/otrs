@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1982 2011-09-26 16:45:36 ub Exp $
+# $Id: CHANGES,v 1.1983 2011-09-28 09:14:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,17 +10,20 @@
 # --
 
 3.1.0 beta1 2011-??-??
+ - 2011-09-28 Fixed Ticket#2011080542009673 - Improved security handling
+    regarding _FileInstall().
  - 2011-09-26 Added missing cpan module Encode::Locale which is now required
     for HTTP::Response and LWP::UserAgent.
- - 2011-09-16 Added new legacy driver for PostgreSQL 8.1 or earlier. This needs to be activated
-    for such older installations in Kernel/Config.pm as follows:
+ - 2011-09-16 Added new legacy driver for PostgreSQL 8.1 or earlier. This
+    needs to be activated for such older installations in Kernel/Config.pm
+    as follows:
     $Self->{DatabasePostgresqlBefore82} = 1;
  - 2011-09-09 Updated CPAN module Mozilla::CA to version 20110904.
  - 2011-09-06 Converted all translation files to utf-8.
- - 2011-09-01 Changed Postgresql driver to also use standard_conforming_strings in regular
-    database connections.
- - 2011-09-01 Fixed bug#7684 - PostMaster Filter Module fails to create ticket if
-    state set in filter is invalid.
+ - 2011-09-01 Changed Postgresql driver to also use standard_conforming_strings
+    in regular database connections.
+ - 2011-09-01 Fixed bug#7684 - PostMaster Filter Module fails to create ticket
+    if state set in filter is invalid.
  - 2011-08-30 Updated CPAN module SOAP::Lite to version 0.714.
  - 2011-08-30 Updated CPAN module libwww-perl to version 6.02.
  - 2011-08-30 Updated CPAN module YAML to version 0.73.
