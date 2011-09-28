@@ -2,7 +2,7 @@
 # AgentTicketCompose.dtl - provides HTML form for AgentTicketCompose
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.dtl,v 1.88 2011-09-14 01:27:45 cr Exp $
+# $Id: AgentTicketCompose.dtl,v 1.89 2011-09-28 02:39:08 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -168,25 +168,27 @@ $Include{"RichTextEditor"}
                     <div class="Clear"></div>
 
 <!-- dtl:block:DynamicField -->
-                    $Data{"DynamicFieldLabel"}
+                    $Data{"Label"}
                     <div class="Field">
-                        $Data{"DynamicField"}
+                        $Data{"Field"}
                     </div>
                     <div class="Clear"></div>
 <!-- dtl:block:DynamicField -->
 
 # example of how to use fixed dynamic field blocks for customizations
+# Note: Field1 and Field2 are the names of the fields and had to be replaced with the actual
+# field names
 #<!-- dtl:block:DynamicField_Field1 -->
-#                $Data{"DynamicFieldLabel1"}
+#                $Data{"Label"}
 #                <div class="Field">
-#                    $Data{"DynamicField1"}
+#                    $Data{"Field"}
 #                </div>
 #                <div class="Clear"></div>
 #<!-- dtl:block:DynamicField_Field1 -->
 #<!-- dtl:block:DynamicField_Field2 -->
-#                $Data{"DynamicFieldLabel2"}
+#                $Data{"Label"}
 #                <div class="Field">
-#                    $Data{"DynamicField2"}
+#                    $Data{"Field"}
 #                </div>
 #                <div class="Clear"></div>
 #<!-- dtl:block:DynamicField_Field2 -->
