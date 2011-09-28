@@ -3,7 +3,7 @@
 # DBUpdate-to-3.1.pl - update script to migrate OTRS 3.0.x to 3.1.x
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-3.1.pl,v 1.22 2011-09-25 18:46:12 mb Exp $
+# $Id: DBUpdate-to-3.1.pl,v 1.23 2011-09-28 22:37:29 cg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.22 $) [1];
+$VERSION = qw($Revision: 1.23 $) [1];
 
 use Getopt::Std qw();
 use Kernel::Config;
@@ -67,7 +67,7 @@ EOF
     # create common objects
     my $CommonObject = _CommonObjectsBase();
 
-    print "Step 1 of 11: Refresh configuration cache... ";
+    print "Step 1 of 12: Refresh configuration cache... ";
     RebuildConfig($CommonObject);
     print "done.\n\n";
 
@@ -75,16 +75,16 @@ EOF
     $CommonObject = _CommonObjectsBase();
 
     # check framework version
-    print "Step 2 of 11: Check framework version... ";
+    print "Step 2 of 12: Check framework version... ";
     _CheckFrameworkVersion($CommonObject);
     print "done.\n\n";
 
     # upgrade MSSQL data types
-    print "Step 3 of 11: Upgrade Microsoft SQL Server data types... ";
+    print "Step 3 of 12: Upgrade Microsoft SQL Server data types... ";
     _MSSQLUpgrade($CommonObject);
     print "done.\n\n";
 
-    print "Step 4 of 11: Creating DynamicField tables (if necessary)... ";
+    print "Step 4 of 12: Creating DynamicField tables (if necessary)... ";
     if ( _CheckDynamicFieldTables($CommonObject) ) {
         print "done.\n\n";
     }
@@ -93,21 +93,21 @@ EOF
     }
 
     # insert dynamic field records, if necessary
-    print "Step 5 of 11: Create new dynamic fields for free fields (text, key, date)... ";
+    print "Step 5 of 12: Create new dynamic fields for free fields (text, key, date)... ";
     if ( !_IsFreefieldsMigrationAlreadyDone($CommonObject) ) {
         _DynamicFieldCreation($CommonObject);
     }
     print "done.\n\n";
 
     # migrate ticket free field
-    print "Step 6 of 11: Migrate ticket free fields to dynamic fields.. \n";
+    print "Step 6 of 12: Migrate ticket free fields to dynamic fields.. \n";
     if ( !_IsFreefieldsMigrationAlreadyDone($CommonObject) ) {
         my $TicketMigrated = _DynamicFieldTicketMigration($CommonObject);
     }
     print "done.\n\n";
 
     # migrate ticket free field
-    print "Step 7 of 11: Migrate article free fields to dynamic fields.. \n";
+    print "Step 7 of 12: Migrate article free fields to dynamic fields.. \n";
     if ( !_IsFreefieldsMigrationAlreadyDone($CommonObject) ) {
         my $ArticleMigrated = _DynamicFieldArticleMigration($CommonObject);
     }
@@ -115,7 +115,7 @@ EOF
 
     # verify ticket migration
     my $VerificationTicketData = 1;
-    print "Step 8 of 11: Verify if ticket data was successfully migrated.. ";
+    print "Step 8 of 12: Verify if ticket data was successfully migrated.. ";
     if ( !_IsFreefieldsMigrationAlreadyDone($CommonObject) ) {
         $VerificationTicketData = _VerificationTicketData($CommonObject);
     }
@@ -123,7 +123,7 @@ EOF
 
     # verify article migration
     my $VerificationArticleData = 1;
-    print "Step 9 of 11: Verify if article data was successfully migrated.. ";
+    print "Step 9 of 12: Verify if article data was successfully migrated.. ";
     if ( !_IsFreefieldsMigrationAlreadyDone($CommonObject) ) {
         $VerificationArticleData = _VerificationArticleData($CommonObject);
     }
@@ -137,18 +137,23 @@ EOF
     }
 
     # Migrate free fields configuration
-    print "Step 10 of 11: Migrate free fields configuration.. ";
+    print "Step 10 of 12: Migrate free fields configuration.. ";
     _MigrateFreeFieldsConfiguration($CommonObject);
     print "done.\n\n";
 
     print
-        "Step 11 of 11: Update history type from 'TicketFreeTextUpdate' to 'TicketDynamicFieldUpdate'... ";
+        "Step 11 of 12: Update history type from 'TicketFreeTextUpdate' to 'TicketDynamicFieldUpdate'... ";
     if ( _UpdateHistoryType($CommonObject) ) {
         print "done.\n\n";
     }
     else {
         print "Error!\n\n";
     }
+
+    # Migrate free fields configuration
+    print "Step 12 of 12: Migrate free fields window configuration.. ";
+    _MigrateWindowConfiguration($CommonObject);
+    print "done.\n\n";
 
     print "Migration completed!\n";
 
@@ -1247,6 +1252,146 @@ sub _UpdateHistoryType {
         return 0;
     }
 
+    return 1;
+}
+
+=item _MigrateWindowConfiguration($CommonObject)
+
+migrates the configuration of the free fields from SysConfig to the
+new dynamic_fields table.
+
+    _MigrateWindowConfiguration($CommonObject);
+
+=cut
+
+sub _MigrateWindowConfiguration {
+    my $CommonObject = shift;
+
+    # Purge cache first to make sure that the DF API works correctly
+    #   after we made inserts by hand.
+    my $CacheObject = Kernel::System::Cache->new( %{$CommonObject} );
+    $CacheObject->CleanUp(
+        Type => 'DynamicField',
+    );
+
+    # create additional objects
+    my $DynamicFieldObject = Kernel::System::DynamicField->new( %{$CommonObject} );
+    my $SysConfigObject    = Kernel::System::SysConfig->new( %{$CommonObject} );
+
+    my $DynamicFields = $DynamicFieldObject->DynamicFieldList(
+        Valid      => 0,
+        ResultType => 'HASH',
+    );
+
+    $DynamicFields = { reverse %{$DynamicFields} };
+
+    my @Windows = (
+        'CustomerTicketPrint',
+        'AgentTicketPrint',
+        'CustomerTicketZoom',
+        'AgentTicketZoom',
+        'OverviewPreview',
+        'OverviewMedium',
+        'OverviewSmall',
+        'CustomerTicketMessage',
+        'AgentTicketResponsible',
+        'AgentTicketPriority',
+        'AgentTicketPhoneOutbound',
+        'AgentTicketPhoneInbound',
+        'AgentTicketPhone',
+        'AgentTicketPending',
+        'AgentTicketOwner',
+        'AgentTicketNote',
+        'AgentTicketMove',
+        'AgentTicketForward',
+        'AgentTicketFreeText',
+        'AgentTicketEmail',
+        'AgentTicketCompose',
+        'AgentTicketClose',
+    );
+
+    for my $Window (@Windows) {
+
+        my $WindowConfig =
+            $CommonObject->{ConfigObject}->Get("Ticket::Frontend::$Window");
+
+        for my $FreeField ( 'TicketFreeKey', 'TicketFreeText' ) {
+            if ( defined $WindowConfig->{$FreeField} ) {
+
+                my $Config = $WindowConfig->{$FreeField};
+
+                my %ValuesToSet;
+                for my $Index ( 1 .. 16 ) {
+
+                    my $FieldName = $FreeField . $Index;
+                    if ( defined $DynamicFields->{$FieldName} && $Config->{$Index} ) {
+
+                        $ValuesToSet{$FieldName} = $Config->{$Index};
+                    }
+                }
+
+                my $KeyString = "Ticket::Frontend::$Window" . "###DynamicField";
+                $SysConfigObject->ConfigItemUpdate(
+                    Valid => 1,
+                    Key   => $KeyString,
+                    Value => \%ValuesToSet,
+                );
+            }
+        }
+
+        # end TicketFree Key and Text
+
+        if ( defined $WindowConfig->{TicketFreeTime} ) {
+
+            my $Config = $WindowConfig->{TicketFreeTime};
+
+            my %ValuesToSet;
+            for my $Index ( 1 .. 6 ) {
+
+                my $FieldName = 'TicketFreeTime' . $Index;
+                if ( defined $DynamicFields->{$FieldName} && $Config->{$Index} ) {
+
+                    $ValuesToSet{$FieldName} = $Config->{$Index};
+                }
+            }
+
+            my $KeyString = "Ticket::Frontend::$Window" . "###DynamicField";
+            $SysConfigObject->ConfigItemUpdate(
+                Valid => 1,
+                Key   => $KeyString,
+                Value => \%ValuesToSet,
+            );
+        }
+
+        # end TicketFreeTime
+
+        for my $FreeField ( 'ArticleFreeKey', 'ArticleFreeText' ) {
+            if ( defined $WindowConfig->{$FreeField} ) {
+
+                my $Config = $WindowConfig->{$FreeField};
+
+                my %ValuesToSet;
+                for my $Index ( 1 .. 3 ) {
+
+                    my $FieldName = $FreeField . $Index;
+                    if ( defined $DynamicFields->{$FieldName} && $Config->{$Index} ) {
+
+                        $ValuesToSet{$FieldName} = $Config->{$Index};
+                    }
+                }
+
+                my $KeyString = "Ticket::Frontend::$Window" . "###DynamicField";
+                $SysConfigObject->ConfigItemUpdate(
+                    Valid => 1,
+                    Key   => $KeyString,
+                    Value => \%ValuesToSet,
+                );
+            }
+        }
+
+        # end ArticleFree Key and Text
+
+    }
     return 1;
 }
 
