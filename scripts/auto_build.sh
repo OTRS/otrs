@@ -3,7 +3,7 @@
 # auto_build.sh - build automatically OTRS tar, rpm and src-rpm
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: auto_build.sh,v 1.92 2011-09-29 09:35:41 mg Exp $
+# $Id: auto_build.sh,v 1.93 2011-09-29 13:38:25 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -21,7 +21,7 @@
 # or see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-echo "auto_build.sh - build automatically OTRS tar, rpm and src-rpm <\$Revision: 1.92 $>"
+echo "auto_build.sh - build automatically OTRS tar, rpm and src-rpm <\$Revision: 1.93 $>"
 echo "Copyright (C) 2001-2011 OTRS AG, http://otrs.org/\n";
 
 PATH_TO_CVS_SRC=$1
@@ -38,8 +38,12 @@ PACKAGE_DEST_DIR="/tmp/$PACKAGE-packages"
 PACKAGE_TMP_SPEC="/tmp/$PACKAGE.spec"
 RPM_BUILD="rpmbuild"
 #RPM_BUILD="rpm"
+
 SUPPORT_PACKAGE="http://ftp.otrs.org/pub/otrs/packages/Support-1.2.7.opm"
 IPHONE_PACKAGE="http://ftp.otrs.org/pub/otrs/packages/iPhoneHandle-1.0.3.opm"
+MANUAL_EN="http://ftp.otrs.org/pub/otrs/doc/doc-admin/3.1/en/pdf/otrs_admin_book.pdf"
+MANUAL_DE="http://ftp.otrs.org/pub/otrs/doc/doc-admin/3.1/de/pdf/otrs_admin_book.pdf"
+
 
 if ! test $PATH_TO_CVS_SRC || ! test $VERSION || ! test $RELEASE; then
     # --
@@ -155,10 +159,14 @@ rm -rf development
 # remove swap stuff
 find -name ".#*" | xargs rm -rf
 
-# build html docu
-#$PATH_TO_CVS_SRC/scripts/auto_docbuild.sh $PATH_TO_CVS_SRC/../doc/ > /dev/null
-mkdir doc/manual
-cp -R /tmp/OTRSDOC-package/* doc/manual/
+# include pdf docs
+mkdir -p doc/manual/en
+wget "$MANUAL_EN" || exit 1;
+mv otrs_admin_book.pdf doc/manual/en
+
+mkdir -p doc/manual/de
+wget "$MANUAL_DE" || exit 1;
+mv otrs_admin_book.pdf doc/manual/de
 
 # mk ARCHIVE
 bin/otrs.CheckSum.pl -a create
