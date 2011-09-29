@@ -1,8 +1,8 @@
 # --
 # WebUploadCache.t - test of the web upload cache mechanism
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: WebUploadCache.t,v 1.12.2.1 2010-01-18 19:48:41 martin Exp $
+# $Id: WebUploadCache.t,v 1.12.2.2 2011-09-29 21:28:38 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -32,6 +32,7 @@ for my $Module (qw(DB FS)) {
 
     # file checks
     for my $File (qw(xls txt doc png pdf)) {
+
         my $Content = '';
         open( IN,
             "< "
@@ -45,9 +46,11 @@ for my $Module (qw(DB FS)) {
         }
         close(IN);
         $Self->{EncodeObject}->EncodeOutput( \$Content );
+
         my $MD5       = md5_hex($Content);
-        my $ContentID = int rand 1234;
-        my $Add       = $Self->{UploadCacheObject}->FormIDAddFile(
+        my $ContentID = ( int rand 99999 ) + 1;
+
+        my $Add = $Self->{UploadCacheObject}->FormIDAddFile(
             FormID      => $FormID,
             Filename    => 'UploadCache Test1äöüß.' . $File,
             Content     => $Content,
