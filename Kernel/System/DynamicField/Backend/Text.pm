@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Text.pm - Delegate for DynamicField Text backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Text.pm,v 1.40 2011-09-29 20:00:08 cr Exp $
+# $Id: Text.pm,v 1.41 2011-09-29 21:05:13 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::DynamicFieldValue;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.40 $) [1];
+$VERSION = qw($Revision: 1.41 $) [1];
 
 =head1 NAME
 
@@ -324,7 +324,7 @@ EOF
     my $LabelString = $Self->{BackendCommonObject}->EditLabelRender(
         DynamicFieldConfig => $Param{DynamicFieldConfig},
         FieldName          => $FieldName,
-        AdditionalText     => 'e.g. Text or Te*t'
+        AdditionalText     => 'e.g. Text or Te*t',
     );
 
     my $Data = {
