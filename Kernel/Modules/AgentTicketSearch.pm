@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.pm,v 1.126 2011-09-29 20:08:45 cr Exp $
+# $Id: AgentTicketSearch.pm,v 1.127 2011-09-29 21:56:01 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.126 $) [1];
+$VERSION = qw($Revision: 1.127 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1324,7 +1324,7 @@ sub Run {
                 {
                     Key   => 'DynamicField_' . $DynamicFieldConfig->{Name},
                     Value => $Self->{LayoutObject}->{LanguageObject}->Get(
-                        $DynamicFieldConfig->{Name}
+                        $DynamicFieldConfig->{Label}
                     ),
                 },
             );
