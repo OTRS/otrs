@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/BackendCommon.pm - Dynamic field backend functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: BackendCommon.pm,v 1.3 2011-09-08 18:25:06 cg Exp $
+# $Id: BackendCommon.pm,v 1.4 2011-09-29 19:45:49 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 =head1 NAME
 
@@ -91,6 +91,7 @@ creates the label HTML to be used in edit masks.
     my $LabelHTML = $BackendObject->EditLabelRender(
         DynamicFieldConfig => $DynamicFieldConfig,      # complete config of the DynamicField
         FieldName          => 'TheField',               # the value to be set on the 'for' attribute
+        AdditionalText     => 'Between'                 # other text to be placed next to FieldName
         Mandatory          => 1,                        # 0 or 1,
     );
 
@@ -127,30 +128,46 @@ sub EditLabelRender {
         }
     }
 
-    my $Name       = $Param{FieldName};
-    my $LabelText  = $Param{DynamicFieldConfig}->{Label};
-    my $LabelID    = 'Label_' . $Param{DynamicFieldConfig}->{Name};
+    my $Name      = $Param{FieldName};
+    my $LabelText = $Param{DynamicFieldConfig}->{Label};
+
+    # my $LabelID    = 'Label_' . $Param{DynamicFieldConfig}->{Name};
+    my $LabelID    = 'LabelDynamicField_' . $Param{DynamicFieldConfig}->{Name};
     my $HTMLString = '';
 
     if ( $Param{Mandatory} ) {
 
-        # for DynamicFreeFields
+        # opening tag
         $HTMLString = <<"EOF";
 <label id="$LabelID" for="$Name" class="Mandatory">
     <span class="Marker">*</span>
-        $LabelText:
-</label>
 EOF
     }
     else {
 
-        # for DynamicFreeFields
+        # opening tag
         $HTMLString = <<"EOF";
 <label id="$LabelID" for="$Name">
-        $LabelText:
-</label>
 EOF
     }
+
+    # text
+    if ( $Param{AdditionalText} ) {
+        $HTMLString .= <<"EOF";
+        \$Text{"$LabelText"} (\$Text{"$Param{AdditionalText}"}):
+EOF
+
+    }
+    else {
+        $HTMLString .= <<"EOF";
+        \$Text{"$LabelText"}:
+EOF
+    }
+
+    # closing tag
+    $HTMLString .= <<"EOF";
+</label>
+EOF
 
     return $HTMLString;
 }
@@ -171,6 +188,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.3 $ $Date: 2011-09-08 18:25:06 $
+$Revision: 1.4 $ $Date: 2011-09-29 19:45:49 $
 
 =cut
