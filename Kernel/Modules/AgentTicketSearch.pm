@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.pm,v 1.125 2011-09-29 19:49:35 cr Exp $
+# $Id: AgentTicketSearch.pm,v 1.126 2011-09-29 20:08:45 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.125 $) [1];
+$VERSION = qw($Revision: 1.126 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -208,47 +208,6 @@ sub Run {
             )
         {
 
-            #            TicketFreeTime1
-            #            TicketFreeTime1Start TicketFreeTime1StartDay TicketFreeTime1StartMonth
-            #            TicketFreeTime1StartYear
-            #            TicketFreeTime1Stop TicketFreeTime1StopDay TicketFreeTime1StopMonth
-            #            TicketFreeTime1StopYear
-            #            TicketFreeTime2
-            #            TicketFreeTime2Start TicketFreeTime2StartDay TicketFreeTime2StartMonth
-            #            TicketFreeTime2StartYear
-            #            TicketFreeTime2Stop TicketFreeTime2StopDay TicketFreeTime2StopMonth
-            #            TicketFreeTime2StopYear
-            #            TicketFreeTime3
-            #            TicketFreeTime3Start TicketFreeTime3StartDay TicketFreeTime3StartMonth
-            #            TicketFreeTime3StartYear
-            #            TicketFreeTime3Stop TicketFreeTime3StopDay TicketFreeTime3StopMonth
-            #            TicketFreeTime3StopYear
-            #            TicketFreeTime4
-            #            TicketFreeTime4Start TicketFreeTime4StartDay TicketFreeTime4StartMonth
-            #            TicketFreeTime4StartYear
-            #            TicketFreeTime4Stop TicketFreeTime4StopDay TicketFreeTime4StopMonth
-            #            TicketFreeTime4StopYear
-            #            TicketFreeTime5
-            #            TicketFreeTime5Start TicketFreeTime5StartDay TicketFreeTime5StartMonth
-            #            TicketFreeTime5StartYear
-            #            TicketFreeTime5Stop TicketFreeTime5StopDay TicketFreeTime5StopMonth
-            #            TicketFreeTime5StopYear
-            #            TicketFreeTime6
-            #            TicketFreeTime6Start TicketFreeTime6StartDay TicketFreeTime6StartMonth
-            #            TicketFreeTime6StartYear
-            #            TicketFreeTime6Stop TicketFreeTime6StopDay TicketFreeTime6StopMonth
-            #            TicketFreeTime6StopYear
-            #            TicketFreeTime7
-            #            TicketFreeTime7Start TicketFreeTime7StartDay TicketFreeTime7StartMonth
-            #            TicketFreeTime7StartYear
-            #            TicketFreeTime7Stop TicketFreeTime7StopDay TicketFreeTime7StopMonth
-            #            TicketFreeTime7StopYear
-            #            TicketFreeTime8
-            #            TicketFreeTime8Start TicketFreeTime8StartDay TicketFreeTime8StartMonth
-            #            TicketFreeTime8StartYear
-            #            TicketFreeTime8Stop TicketFreeTime8StopDay TicketFreeTime8StopMonth
-            #            TicketFreeTime8StopYear
-
             # get search string params (get submitted params)
             $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ );
 
@@ -264,15 +223,6 @@ sub Run {
             qw(StateIDs StateTypeIDs QueueIDs PriorityIDs OwnerIDs
             CreatedQueueIDs CreatedUserIDs WatchUserIDs ResponsibleIDs
             TypeIDs ServiceIDs SLAIDs LockIDs)
-
-            #            TicketFreeKey1 TicketFreeText1 TicketFreeKey2 TicketFreeText2
-            #            TicketFreeKey3 TicketFreeText3 TicketFreeKey4 TicketFreeText4
-            #            TicketFreeKey5 TicketFreeText5 TicketFreeKey6 TicketFreeText6
-            #            TicketFreeKey7 TicketFreeText7 TicketFreeKey8 TicketFreeText8
-            #            TicketFreeKey9 TicketFreeText9 TicketFreeKey10 TicketFreeText10
-            #            TicketFreeKey11 TicketFreeText11 TicketFreeKey12 TicketFreeText12
-            #            TicketFreeKey13 TicketFreeText13 TicketFreeKey14 TicketFreeText14
-            #            TicketFreeKey15 TicketFreeText15 TicketFreeKey16 TicketFreeText16)
             )
         {
 
@@ -702,45 +652,6 @@ sub Run {
                 }
             }
         }
-
-        #        # free time
-        #        for ( 1 .. 6 ) {
-        #            if ( !$GetParam{ 'TicketFreeTime' . $_ } ) {
-        #                for my $Type (qw(Year Month Day)) {
-        #                    $GetParam{ 'TicketFreeTime' . $_ . 'Start' . $Type } = undef;
-        #                    $GetParam{ 'TicketFreeTime' . $_ . 'Stop' . $Type }  = undef;
-        #                }
-        #                $GetParam{ 'TicketFreeTime' . $_ . 'NewerDate' } = undef;
-        #                $GetParam{ 'TicketFreeTime' . $_ . 'OlderDate' } = undef;
-        #            }
-        #            else {
-        #                $GetParam{ 'TicketFreeTime' . $_ } = 'checked="checked"';
-        #                if (
-        #                    $GetParam{ 'TicketFreeTime' . $_ . 'StartDay' }
-        #                    && $GetParam{ 'TicketFreeTime' . $_ . 'StartMonth' }
-        #                    && $GetParam{ 'TicketFreeTime' . $_ . 'StartYear' }
-        #                    )
-        #                {
-        #                    $GetParam{ 'TicketFreeTime' . $_ . 'NewerDate' }
-        #                        = $GetParam{ 'TicketFreeTime' . $_ . 'StartYear' } . '-'
-        #                        . $GetParam{ 'TicketFreeTime' . $_ . 'StartMonth' } . '-'
-        #                        . $GetParam{ 'TicketFreeTime' . $_ . 'StartDay' }
-        #                        . ' 00:00:00';
-        #                }
-        #                if (
-        #                    $GetParam{ 'TicketFreeTime' . $_ . 'StopDay' }
-        #                    && $GetParam{ 'TicketFreeTime' . $_ . 'StopMonth' }
-        #                    && $GetParam{ 'TicketFreeTime' . $_ . 'StopYear' }
-        #                    )
-        #                {
-        #                    $GetParam{ 'TicketFreeTime' . $_ . 'OlderDate' }
-        #                        = $GetParam{ 'TicketFreeTime' . $_ . 'StopYear' } . '-'
-        #                        . $GetParam{ 'TicketFreeTime' . $_ . 'StopMonth' } . '-'
-        #                        . $GetParam{ 'TicketFreeTime' . $_ . 'StopDay' }
-        #                        . ' 23:59:59';
-        #                }
-        #            }
-        #        }
 
         # prepare fulltext search
         if ( $GetParam{Fulltext} ) {
@@ -1449,61 +1360,6 @@ sub Run {
                 );
         }
 
-        #        # get free text config options
-        #        my %TicketFreeText;
-        #        for ( 1 .. 16 ) {
-        #            $TicketFreeText{"TicketFreeKey$_"} = $Self->{TicketObject}->TicketFreeTextGet(
-        #                Type   => "TicketFreeKey$_",
-        #                FillUp => 1,
-        #                Action => $Self->{Action},
-        #                UserID => $Self->{UserID},
-        #            );
-        #            $TicketFreeText{"TicketFreeText$_"} = $Self->{TicketObject}->TicketFreeTextGet(
-        #                Type   => "TicketFreeText$_",
-        #                FillUp => 1,
-        #                Action => $Self->{Action},
-        #                UserID => $Self->{UserID},
-        #            );
-        #        }
-        #        my %TicketFreeTextHTML = $Self->{LayoutObject}->AgentFreeText(
-        #            NullOption => 1,
-        #            Ticket     => \%GetParam,
-        #            Config     => \%TicketFreeText,
-        #        );
-        #        for my $Count ( 1 .. 16 ) {
-        #            next if !$Self->{Config}->{TicketFreeText}->{$Count};
-        #            my $Config = $Self->{ConfigObject}->Get( 'TicketFreeKey' . $Count );
-        #            next if !$Config;
-        #            my $Name = '';
-        #            for my $Key ( sort keys %{$Config} ) {
-        #                next if !$Config->{$Key};
-        #                if ($Name) {
-        #                    $Name .= '/';
-        #                }
-        #                $Name .= $Config->{$Key};
-        #            }
-        #            next if !$Name;
-        #            push @Attributes, (
-        #                {
-        #                    Key   => 'TicketFreeText' . $Count,
-        #                    Value => $Name,
-        #                },
-        #            );
-        #        }
-        #
-        #        for my $Count ( 1 .. 6 ) {
-        #            next if !$Self->{Config}->{TicketFreeTime}->{$Count};
-        #            my $Config = $Self->{ConfigObject}->Get( 'TicketFreeTimeKey' . $Count );
-        #            next if !$Config;
-        #            my $Name = $Config;
-        #            push @Attributes, (
-        #                {
-        #                    Key   => 'TicketFreeTime' . $Count,
-        #                    Value => $Name,
-        #                },
-        #            );
-        #        }
-
         push @Attributes, (
             {
                 Key   => 'LockIDs',
@@ -1935,21 +1791,6 @@ sub Run {
             Format => 'DateInputFormat',
         );
 
- #        for ( 1 .. 6 ) {
- #            $Param{ 'TicketFreeTime' . $_ . 'Start' } = $Self->{LayoutObject}->BuildDateSelection(
- #                %GetParam,
- #                Prefix   => 'TicketFreeTime' . $_ . 'Start',
- #                Format   => 'DateInputFormat',
- #                DiffTime => -( ( 60 * 60 * 24 ) * 30 ),
- #            );
- #            $Param{ 'TicketFreeTime' . $_ . 'Stop' } = $Self->{LayoutObject}->BuildDateSelection(
- #                %GetParam,
- #                Prefix   => 'TicketFreeTime' . $_ . 'Stop',
- #                Format   => 'DateInputFormat',
- #                DiffTime => +( ( 60 * 60 * 24 ) * 30 ),
- #            );
- #        }
-
         $Param{TicketChangeTimePoint} = $Self->{LayoutObject}->BuildSelection(
             Data => {
                 1  => ' 1',
@@ -2151,21 +1992,6 @@ sub Run {
             }
         }
 
- #        for ( 1 .. 6 ) {
- #            $Param{ 'TicketFreeTime' . $_ . 'Start' } = $Self->{LayoutObject}->BuildDateSelection(
- #                %GetParam,
- #                Prefix   => 'TicketFreeTime' . $_ . 'Start',
- #                Format   => 'DateInputFormat',
- #                DiffTime => -( ( 60 * 60 * 24 ) * 30 ),
- #            );
- #            $Param{ 'TicketFreeTime' . $_ . 'Stop' } = $Self->{LayoutObject}->BuildDateSelection(
- #                %GetParam,
- #                Prefix   => 'TicketFreeTime' . $_ . 'Stop',
- #                Format   => 'DateInputFormat',
- #                DiffTime => +( ( 60 * 60 * 24 ) * 30 ),
- #            );
- #        }
-
         # build type string
         if ( $Self->{ConfigObject}->Get('Ticket::Type') ) {
             my %Type = $Self->{TypeObject}->TypeList( UserID => $Self->{UserID}, );
@@ -2186,8 +2012,6 @@ sub Run {
             Data => {
                 %Param,
                 %GetParam,
-
-                #                %TicketFreeTextHTML,
                 EmptySearch => $EmptySearch
             },
         );
