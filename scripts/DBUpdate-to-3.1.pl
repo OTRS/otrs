@@ -3,7 +3,7 @@
 # DBUpdate-to-3.1.pl - update script to migrate OTRS 3.0.x to 3.1.x
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-3.1.pl,v 1.23 2011-09-28 22:37:29 cg Exp $
+# $Id: DBUpdate-to-3.1.pl,v 1.24 2011-09-29 17:28:32 cg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.23 $) [1];
+$VERSION = qw($Revision: 1.24 $) [1];
 
 use Getopt::Std qw();
 use Kernel::Config;
@@ -152,8 +152,12 @@ EOF
 
     # Migrate free fields configuration
     print "Step 12 of 12: Migrate free fields window configuration.. ";
-    _MigrateWindowConfiguration($CommonObject);
-    print "done.\n\n";
+    if ( _MigrateWindowConfiguration($CommonObject) ) {
+        print "done.\n\n";
+    }
+    else {
+        print "Error!\n\n";
+    }
 
     print "Migration completed!\n";
 
@@ -1257,8 +1261,8 @@ sub _UpdateHistoryType {
 
 =item _MigrateWindowConfiguration($CommonObject)
 
-migrates the configuration of the free fields from SysConfig to the
-new dynamic_fields table.
+migrates the configuration of the free fields for each window to the
+new dynamic field structure.
 
     _MigrateWindowConfiguration($CommonObject);
 
@@ -1331,11 +1335,17 @@ sub _MigrateWindowConfiguration {
                 }
 
                 my $KeyString = "Ticket::Frontend::$Window" . "###DynamicField";
-                $SysConfigObject->ConfigItemUpdate(
+                my $Success   = $SysConfigObject->ConfigItemUpdate(
                     Valid => 1,
                     Key   => $KeyString,
                     Value => \%ValuesToSet,
                 );
+
+                if ( !$Success ) {
+                    print
+                        "Could not possible migrate the values for $FreeField on $Window window!\n";
+                    return 0;
+                }
             }
         }
 
@@ -1356,11 +1366,17 @@ sub _MigrateWindowConfiguration {
             }
 
             my $KeyString = "Ticket::Frontend::$Window" . "###DynamicField";
-            $SysConfigObject->ConfigItemUpdate(
+            my $Success   = $SysConfigObject->ConfigItemUpdate(
                 Valid => 1,
                 Key   => $KeyString,
                 Value => \%ValuesToSet,
             );
+
+            if ( !$Success ) {
+                print
+                    "Could not possible migrate the values for TicketFreeTime on $Window window!\n";
+                return 0;
+            }
         }
 
         # end TicketFreeTime
@@ -1381,11 +1397,17 @@ sub _MigrateWindowConfiguration {
                 }
 
                 my $KeyString = "Ticket::Frontend::$Window" . "###DynamicField";
-                $SysConfigObject->ConfigItemUpdate(
+                my $Success   = $SysConfigObject->ConfigItemUpdate(
                     Valid => 1,
                     Key   => $KeyString,
                     Value => \%ValuesToSet,
                 );
+
+                if ( !$Success ) {
+                    print
+                        "Could not possible migrate the values for $FreeField on $Window window!\n";
+                    return 0;
+                }
             }
         }
 
