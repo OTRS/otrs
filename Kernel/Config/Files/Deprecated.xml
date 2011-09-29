@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Deprecated.xml,v 1.6 2011-09-20 09:10:50 mg Exp $</CVS>
+    <CVS>$Id: Deprecated.xml,v 1.7 2011-09-29 20:28:16 cr Exp $</CVS>
     <ConfigItem Name="TicketFreeKey1" Required="0" Valid="0">
         <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
         <Group>Z_Deprecated</Group>
@@ -1882,6 +1882,214 @@
                 <Item Key="2">0</Item>
                 <Item Key="3">0</Item>
             </Hash>
+        </Setting>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketSearch###TicketFreeText" Required="0" Valid="1">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Z_Deprecated</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewSearch</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="1">1</Item>
+                <Item Key="2">1</Item>
+                <Item Key="3">0</Item>
+                <Item Key="4">0</Item>
+                <Item Key="5">0</Item>
+                <Item Key="6">0</Item>
+                <Item Key="7">0</Item>
+                <Item Key="8">0</Item>
+                <Item Key="9">0</Item>
+                <Item Key="10">0</Item>
+                <Item Key="11">0</Item>
+                <Item Key="12">0</Item>
+                <Item Key="13">0</Item>
+                <Item Key="14">0</Item>
+                <Item Key="15">0</Item>
+                <Item Key="16">0</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketSearch###TicketFreeTime" Required="0" Valid="1">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Z_Deprecated</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewSearch</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="1">0</Item>
+                <Item Key="2">0</Item>
+                <Item Key="3">0</Item>
+                <Item Key="4">0</Item>
+                <Item Key="5">0</Item>
+                <Item Key="6">0</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketSearch###Defaults###TicketFreeTime1" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Z_Deprecated</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewSearch</SubGroup>
+        <Setting>
+            <String></String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketSearch###Defaults###TicketFreeTime2" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Z_Deprecated</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewSearch</SubGroup>
+        <Setting>
+            <String></String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketSearch###Defaults###TicketFreeTime3" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Z_Deprecated</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewSearch</SubGroup>
+        <Setting>
+            <String></String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketSearch###Defaults###TicketFreeTime4" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Z_Deprecated</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewSearch</SubGroup>
+        <Setting>
+            <String></String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketSearch###Defaults###TicketFreeTime5" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Z_Deprecated</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewSearch</SubGroup>
+        <Setting>
+            <String></String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketSearch###Defaults###TicketFreeText1" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Z_Deprecated</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewSearch</SubGroup>
+        <Setting>
+            <Array></Array>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketSearch###Defaults###TicketFreeText2" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Z_Deprecated</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewSearch</SubGroup>
+        <Setting>
+            <Array></Array>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketSearch###Defaults###TicketFreeText3" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Z_Deprecated</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewSearch</SubGroup>
+        <Setting>
+            <Array></Array>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketSearch###Defaults###TicketFreeText4" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Z_Deprecated</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewSearch</SubGroup>
+        <Setting>
+            <Array></Array>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketSearch###Defaults###TicketFreeText5" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Z_Deprecated</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewSearch</SubGroup>
+        <Setting>
+            <Array></Array>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketSearch###Defaults###TicketFreeText6" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Z_Deprecated</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewSearch</SubGroup>
+        <Setting>
+            <Array></Array>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketSearch###Defaults###TicketFreeText7" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Z_Deprecated</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewSearch</SubGroup>
+        <Setting>
+            <Array></Array>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketSearch###Defaults###TicketFreeText8" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Z_Deprecated</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewSearch</SubGroup>
+        <Setting>
+            <Array></Array>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketSearch###Defaults###TicketFreeText9" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Z_Deprecated</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewSearch</SubGroup>
+        <Setting>
+            <Array></Array>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketSearch###Defaults###TicketFreeText10" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Z_Deprecated</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewSearch</SubGroup>
+        <Setting>
+            <Array></Array>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketSearch###Defaults###TicketFreeText11" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Z_Deprecated</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewSearch</SubGroup>
+        <Setting>
+            <Array></Array>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketSearch###Defaults###TicketFreeText12" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Z_Deprecated</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewSearch</SubGroup>
+        <Setting>
+            <Array></Array>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketSearch###Defaults###TicketFreeText13" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Z_Deprecated</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewSearch</SubGroup>
+        <Setting>
+            <Array></Array>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketSearch###Defaults###TicketFreeText14" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Z_Deprecated</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewSearch</SubGroup>
+        <Setting>
+            <Array></Array>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketSearch###Defaults###TicketFreeText15" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Z_Deprecated</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewSearch</SubGroup>
+        <Setting>
+            <Array></Array>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketSearch###Defaults###TicketFreeText16" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Z_Deprecated</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewSearch</SubGroup>
+        <Setting>
+            <Array></Array>
         </Setting>
     </ConfigItem>
 </otrs_config>

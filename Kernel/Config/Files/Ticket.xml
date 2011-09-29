@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.480 2011-09-29 19:49:35 cr Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.481 2011-09-29 20:28:16 cr Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Translatable="1">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Group>Ticket</Group>
@@ -1107,46 +1107,6 @@ Description>
             <String Regex="">10</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::AgentTicketSearch###TicketFreeText" Required="0" Valid="1">
-        <Description Translatable="1">Ticket free text options shown in the ticket search of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewSearch</SubGroup>
-        <Setting>
-            <Hash>
-                <Item Key="1">1</Item>
-                <Item Key="2">1</Item>
-                <Item Key="3">0</Item>
-                <Item Key="4">0</Item>
-                <Item Key="5">0</Item>
-                <Item Key="6">0</Item>
-                <Item Key="7">0</Item>
-                <Item Key="8">0</Item>
-                <Item Key="9">0</Item>
-                <Item Key="10">0</Item>
-                <Item Key="11">0</Item>
-                <Item Key="12">0</Item>
-                <Item Key="13">0</Item>
-                <Item Key="14">0</Item>
-                <Item Key="15">0</Item>
-                <Item Key="16">0</Item>
-            </Hash>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::AgentTicketSearch###TicketFreeTime" Required="0" Valid="1">
-        <Description Translatable="1">Ticket free time options shown in the ticket search of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewSearch</SubGroup>
-        <Setting>
-            <Hash>
-                <Item Key="1">0</Item>
-                <Item Key="2">0</Item>
-                <Item Key="3">0</Item>
-                <Item Key="4">0</Item>
-                <Item Key="5">0</Item>
-                <Item Key="6">0</Item>
-            </Hash>
-        </Setting>
-    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketSearch###SortBy::Default" Required="1" Valid="1">
         <Description Translatable="1">Defines the default ticket attribute for ticket sorting of the ticket search result of the agent interface.</Description>
         <Group>Ticket</Group>
@@ -1159,6 +1119,7 @@ Description>
                 <Item Key="Queue">Queue</Item>
                 <Item Key="Priority">Priority</Item>
                 <Item Key="EscalationTime">EscalationTime</Item>
+<!--
                 <Item Key="TicketFreeTime1">TicketFreeTime1</Item>
                 <Item Key="TicketFreeTime2">TicketFreeTime2</Item>
                 <Item Key="TicketFreeTime3">TicketFreeTime3</Item>
@@ -1197,6 +1158,7 @@ Description>
                 <Item Key="TicketFreeText14">TicketFreeText14</Item>
                 <Item Key="TicketFreeText15">TicketFreeText15</Item>
                 <Item Key="TicketFreeText16">TicketFreeText16</Item>
+ -->
             </Option>
         </Setting>
     </ConfigItem>
@@ -1455,174 +1417,6 @@ Description>
         <SubGroup>Frontend::Agent::Ticket::ViewSearch</SubGroup>
         <Setting>
             <String></String>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::AgentTicketSearch###Defaults###TicketFreeTime1" Required="0" Valid="0">
-        <Description Translatable="1">Defines the default shown ticket search attribute for ticket search screen.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewSearch</SubGroup>
-        <Setting>
-            <String></String>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::AgentTicketSearch###Defaults###TicketFreeTime2" Required="0" Valid="0">
-        <Description Translatable="1">Defines the default shown ticket search attribute for ticket search screen.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewSearch</SubGroup>
-        <Setting>
-            <String></String>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::AgentTicketSearch###Defaults###TicketFreeTime3" Required="0" Valid="0">
-        <Description Translatable="1">Defines the default shown ticket search attribute for ticket search screen.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewSearch</SubGroup>
-        <Setting>
-            <String></String>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::AgentTicketSearch###Defaults###TicketFreeTime4" Required="0" Valid="0">
-        <Description Translatable="1">Defines the default shown ticket search attribute for ticket search screen.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewSearch</SubGroup>
-        <Setting>
-            <String></String>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::AgentTicketSearch###Defaults###TicketFreeTime5" Required="0" Valid="0">
-        <Description Translatable="1">Defines the default shown ticket search attribute for ticket search screen.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewSearch</SubGroup>
-        <Setting>
-            <String></String>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::AgentTicketSearch###Defaults###TicketFreeText1" Required="0" Valid="0">
-        <Description Translatable="1">Defines the default shown ticket search attribute for ticket search screen.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewSearch</SubGroup>
-        <Setting>
-            <Array></Array>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::AgentTicketSearch###Defaults###TicketFreeText2" Required="0" Valid="0">
-        <Description Translatable="1">Defines the default shown ticket search attribute for ticket search screen.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewSearch</SubGroup>
-        <Setting>
-            <Array></Array>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::AgentTicketSearch###Defaults###TicketFreeText3" Required="0" Valid="0">
-        <Description Translatable="1">Defines the default shown ticket search attribute for ticket search screen.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewSearch</SubGroup>
-        <Setting>
-            <Array></Array>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::AgentTicketSearch###Defaults###TicketFreeText4" Required="0" Valid="0">
-        <Description Translatable="1">Defines the default shown ticket search attribute for ticket search screen.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewSearch</SubGroup>
-        <Setting>
-            <Array></Array>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::AgentTicketSearch###Defaults###TicketFreeText5" Required="0" Valid="0">
-        <Description Translatable="1">Defines the default shown ticket search attribute for ticket search screen.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewSearch</SubGroup>
-        <Setting>
-            <Array></Array>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::AgentTicketSearch###Defaults###TicketFreeText6" Required="0" Valid="0">
-        <Description Translatable="1">Defines the default shown ticket search attribute for ticket search screen.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewSearch</SubGroup>
-        <Setting>
-            <Array></Array>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::AgentTicketSearch###Defaults###TicketFreeText7" Required="0" Valid="0">
-        <Description Translatable="1">Defines the default shown ticket search attribute for ticket search screen.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewSearch</SubGroup>
-        <Setting>
-            <Array></Array>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::AgentTicketSearch###Defaults###TicketFreeText8" Required="0" Valid="0">
-        <Description Translatable="1">Defines the default shown ticket search attribute for ticket search screen.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewSearch</SubGroup>
-        <Setting>
-            <Array></Array>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::AgentTicketSearch###Defaults###TicketFreeText9" Required="0" Valid="0">
-        <Description Translatable="1">Defines the default shown ticket search attribute for ticket search screen.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewSearch</SubGroup>
-        <Setting>
-            <Array></Array>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::AgentTicketSearch###Defaults###TicketFreeText10" Required="0" Valid="0">
-        <Description Translatable="1">Defines the default shown ticket search attribute for ticket search screen.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewSearch</SubGroup>
-        <Setting>
-            <Array></Array>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::AgentTicketSearch###Defaults###TicketFreeText11" Required="0" Valid="0">
-        <Description Translatable="1">Defines the default shown ticket search attribute for ticket search screen.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewSearch</SubGroup>
-        <Setting>
-            <Array></Array>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::AgentTicketSearch###Defaults###TicketFreeText12" Required="0" Valid="0">
-        <Description Translatable="1">Defines the default shown ticket search attribute for ticket search screen.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewSearch</SubGroup>
-        <Setting>
-            <Array></Array>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::AgentTicketSearch###Defaults###TicketFreeText13" Required="0" Valid="0">
-        <Description Translatable="1">Defines the default shown ticket search attribute for ticket search screen.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewSearch</SubGroup>
-        <Setting>
-            <Array></Array>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::AgentTicketSearch###Defaults###TicketFreeText14" Required="0" Valid="0">
-        <Description Translatable="1">Defines the default shown ticket search attribute for ticket search screen.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewSearch</SubGroup>
-        <Setting>
-            <Array></Array>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::AgentTicketSearch###Defaults###TicketFreeText15" Required="0" Valid="0">
-        <Description Translatable="1">Defines the default shown ticket search attribute for ticket search screen.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewSearch</SubGroup>
-        <Setting>
-            <Array></Array>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::AgentTicketSearch###Defaults###TicketFreeText16" Required="0" Valid="0">
-        <Description Translatable="1">Defines the default shown ticket search attribute for ticket search screen.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewSearch</SubGroup>
-        <Setting>
-            <Array></Array>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Search###Ticket" Required="0" Valid="1">
