@@ -2,7 +2,7 @@
 # AgentTicketSearch.dtl - provides HTML form for AgentTicketSearch
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.dtl,v 1.70 2011-08-16 13:28:38 mb Exp $
+# $Id: AgentTicketSearch.dtl,v 1.71 2011-09-29 19:49:35 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -121,6 +121,18 @@
             <input type="text" name="Body" value="$QData{"Body"}" class="W50pc"/>
             <button type="button" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
+        <div class="Clear"></div>
+
+<!-- dtl:block:DynamicField -->
+        $Data{"Label"}
+        <div class="Field">
+            $Data{"Field"}
+            <button type="button" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
+        </div>
+        <div class="Clear"></div>
+<!-- dtl:block:DynamicField -->
+
+<!--
         <div class="Clear"></div>
         $Data{"TicketFreeKeyField1"}
         <div class="Field">
@@ -260,6 +272,7 @@
             <button type="button" class="Remove" value="Remove" title="$Text{"Remove this entry"}">$Text{"Remove"}</button>
         </div>
         <div class="Clear"></div>
+        -->
         <label for="ServiceIDs" id="LabelServiceIDs">$Text{"Service"}:</label>
         <div class="Field">
             $Data{"ServicesStrg"}
@@ -406,6 +419,9 @@
 //]]></script>
 
 <!-- dtl:block:SearchAJAX -->
+
+
+
 <!-- dtl:block:Search -->
 
 <!--dtl:js_on_document_complete-->

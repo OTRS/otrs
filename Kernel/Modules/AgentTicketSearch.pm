@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.pm,v 1.124 2011-08-23 12:15:18 mb Exp $
+# $Id: AgentTicketSearch.pm,v 1.125 2011-09-29 19:49:35 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,9 +22,12 @@ use Kernel::System::SLA;
 use Kernel::System::State;
 use Kernel::System::Type;
 use Kernel::System::CSV;
+use Kernel::System::DynamicField;
+use Kernel::System::DynamicField::Backend;
+use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.124 $) [1];
+$VERSION = qw($Revision: 1.125 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -51,6 +54,8 @@ sub new {
     $Self->{TypeObject}          = Kernel::System::Type->new(%Param);
     $Self->{CSVObject}           = Kernel::System::CSV->new(%Param);
     $Self->{LockObject}          = Kernel::System::Lock->new(%Param);
+    $Self->{DynamicFieldObject}  = Kernel::System::DynamicField->new(%Param);
+    $Self->{BackendObject}       = Kernel::System::DynamicField::Backend->new(%Param);
 
     # if we need to do a fulltext search on an external mirror database
     if ( $Self->{ConfigObject}->Get('Core::MirrorDB::DSN') ) {
@@ -76,6 +81,23 @@ sub new {
     }
 
     $Self->{Config} = $Self->{ConfigObject}->Get("Ticket::Frontend::$Self->{Action}");
+
+    # get dynamic field config for frontend module
+    $Self->{DynamicFieldFilter} = $Self->{Config}->{DynamicField};
+
+    # get the dynamic fields for ticket object
+    $Self->{DynamicField} = $Self->{DynamicFieldObject}->DynamicFieldListGet(
+        Valid       => 1,
+        ObjectType  => ['Ticket'],
+        FieldFilter => $Self->{DynamicFieldFilter} || {},
+    );
+
+    # get the ticket dynamic fields for CSV display
+    $Self->{CSVDynamicField} = $Self->{DynamicFieldObject}->DynamicFieldListGet(
+        Valid       => 1,
+        ObjectType  => ['Ticket'],
+        FieldFilter => $Self->{Config}->{SearchCSVDynamicField} || {},
+    );
 
     return $Self;
 }
@@ -158,46 +180,6 @@ sub Run {
             Agent ResultForm TimeSearchType ChangeTimeSearchType CloseTimeSearchType UseSubQueues
             ArticleTimeSearchType SearchInArchive
             Fulltext ShownAttributes
-            TicketFreeTime1
-            TicketFreeTime1Start TicketFreeTime1StartDay TicketFreeTime1StartMonth
-            TicketFreeTime1StartYear
-            TicketFreeTime1Stop TicketFreeTime1StopDay TicketFreeTime1StopMonth
-            TicketFreeTime1StopYear
-            TicketFreeTime2
-            TicketFreeTime2Start TicketFreeTime2StartDay TicketFreeTime2StartMonth
-            TicketFreeTime2StartYear
-            TicketFreeTime2Stop TicketFreeTime2StopDay TicketFreeTime2StopMonth
-            TicketFreeTime2StopYear
-            TicketFreeTime3
-            TicketFreeTime3Start TicketFreeTime3StartDay TicketFreeTime3StartMonth
-            TicketFreeTime3StartYear
-            TicketFreeTime3Stop TicketFreeTime3StopDay TicketFreeTime3StopMonth
-            TicketFreeTime3StopYear
-            TicketFreeTime4
-            TicketFreeTime4Start TicketFreeTime4StartDay TicketFreeTime4StartMonth
-            TicketFreeTime4StartYear
-            TicketFreeTime4Stop TicketFreeTime4StopDay TicketFreeTime4StopMonth
-            TicketFreeTime4StopYear
-            TicketFreeTime5
-            TicketFreeTime5Start TicketFreeTime5StartDay TicketFreeTime5StartMonth
-            TicketFreeTime5StartYear
-            TicketFreeTime5Stop TicketFreeTime5StopDay TicketFreeTime5StopMonth
-            TicketFreeTime5StopYear
-            TicketFreeTime6
-            TicketFreeTime6Start TicketFreeTime6StartDay TicketFreeTime6StartMonth
-            TicketFreeTime6StartYear
-            TicketFreeTime6Stop TicketFreeTime6StopDay TicketFreeTime6StopMonth
-            TicketFreeTime6StopYear
-            TicketFreeTime7
-            TicketFreeTime7Start TicketFreeTime7StartDay TicketFreeTime7StartMonth
-            TicketFreeTime7StartYear
-            TicketFreeTime7Stop TicketFreeTime7StopDay TicketFreeTime7StopMonth
-            TicketFreeTime7StopYear
-            TicketFreeTime8
-            TicketFreeTime8Start TicketFreeTime8StartDay TicketFreeTime8StartMonth
-            TicketFreeTime8StartYear
-            TicketFreeTime8Stop TicketFreeTime8StopDay TicketFreeTime8StopMonth
-            TicketFreeTime8StopYear
             ArticleCreateTimePointFormat ArticleCreateTimePoint
             ArticleCreateTimePointStart
             ArticleCreateTimeStart ArticleCreateTimeStartDay ArticleCreateTimeStartMonth
@@ -226,6 +208,47 @@ sub Run {
             )
         {
 
+            #            TicketFreeTime1
+            #            TicketFreeTime1Start TicketFreeTime1StartDay TicketFreeTime1StartMonth
+            #            TicketFreeTime1StartYear
+            #            TicketFreeTime1Stop TicketFreeTime1StopDay TicketFreeTime1StopMonth
+            #            TicketFreeTime1StopYear
+            #            TicketFreeTime2
+            #            TicketFreeTime2Start TicketFreeTime2StartDay TicketFreeTime2StartMonth
+            #            TicketFreeTime2StartYear
+            #            TicketFreeTime2Stop TicketFreeTime2StopDay TicketFreeTime2StopMonth
+            #            TicketFreeTime2StopYear
+            #            TicketFreeTime3
+            #            TicketFreeTime3Start TicketFreeTime3StartDay TicketFreeTime3StartMonth
+            #            TicketFreeTime3StartYear
+            #            TicketFreeTime3Stop TicketFreeTime3StopDay TicketFreeTime3StopMonth
+            #            TicketFreeTime3StopYear
+            #            TicketFreeTime4
+            #            TicketFreeTime4Start TicketFreeTime4StartDay TicketFreeTime4StartMonth
+            #            TicketFreeTime4StartYear
+            #            TicketFreeTime4Stop TicketFreeTime4StopDay TicketFreeTime4StopMonth
+            #            TicketFreeTime4StopYear
+            #            TicketFreeTime5
+            #            TicketFreeTime5Start TicketFreeTime5StartDay TicketFreeTime5StartMonth
+            #            TicketFreeTime5StartYear
+            #            TicketFreeTime5Stop TicketFreeTime5StopDay TicketFreeTime5StopMonth
+            #            TicketFreeTime5StopYear
+            #            TicketFreeTime6
+            #            TicketFreeTime6Start TicketFreeTime6StartDay TicketFreeTime6StartMonth
+            #            TicketFreeTime6StartYear
+            #            TicketFreeTime6Stop TicketFreeTime6StopDay TicketFreeTime6StopMonth
+            #            TicketFreeTime6StopYear
+            #            TicketFreeTime7
+            #            TicketFreeTime7Start TicketFreeTime7StartDay TicketFreeTime7StartMonth
+            #            TicketFreeTime7StartYear
+            #            TicketFreeTime7Stop TicketFreeTime7StopDay TicketFreeTime7StopMonth
+            #            TicketFreeTime7StopYear
+            #            TicketFreeTime8
+            #            TicketFreeTime8Start TicketFreeTime8StartDay TicketFreeTime8StartMonth
+            #            TicketFreeTime8StartYear
+            #            TicketFreeTime8Stop TicketFreeTime8StopDay TicketFreeTime8StopMonth
+            #            TicketFreeTime8StopYear
+
             # get search string params (get submitted params)
             $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ );
 
@@ -240,15 +263,16 @@ sub Run {
         for (
             qw(StateIDs StateTypeIDs QueueIDs PriorityIDs OwnerIDs
             CreatedQueueIDs CreatedUserIDs WatchUserIDs ResponsibleIDs
-            TypeIDs ServiceIDs SLAIDs LockIDs
-            TicketFreeKey1 TicketFreeText1 TicketFreeKey2 TicketFreeText2
-            TicketFreeKey3 TicketFreeText3 TicketFreeKey4 TicketFreeText4
-            TicketFreeKey5 TicketFreeText5 TicketFreeKey6 TicketFreeText6
-            TicketFreeKey7 TicketFreeText7 TicketFreeKey8 TicketFreeText8
-            TicketFreeKey9 TicketFreeText9 TicketFreeKey10 TicketFreeText10
-            TicketFreeKey11 TicketFreeText11 TicketFreeKey12 TicketFreeText12
-            TicketFreeKey13 TicketFreeText13 TicketFreeKey14 TicketFreeText14
-            TicketFreeKey15 TicketFreeText15 TicketFreeKey16 TicketFreeText16)
+            TypeIDs ServiceIDs SLAIDs LockIDs)
+
+            #            TicketFreeKey1 TicketFreeText1 TicketFreeKey2 TicketFreeText2
+            #            TicketFreeKey3 TicketFreeText3 TicketFreeKey4 TicketFreeText4
+            #            TicketFreeKey5 TicketFreeText5 TicketFreeKey6 TicketFreeText6
+            #            TicketFreeKey7 TicketFreeText7 TicketFreeKey8 TicketFreeText8
+            #            TicketFreeKey9 TicketFreeText9 TicketFreeKey10 TicketFreeText10
+            #            TicketFreeKey11 TicketFreeText11 TicketFreeKey12 TicketFreeText12
+            #            TicketFreeKey13 TicketFreeText13 TicketFreeKey14 TicketFreeText14
+            #            TicketFreeKey15 TicketFreeText15 TicketFreeKey16 TicketFreeText16)
             )
         {
 
@@ -257,6 +281,26 @@ sub Run {
             if (@Array) {
                 $GetParam{$_} = \@Array;
             }
+        }
+    }
+
+    # get Dynamic fields form profile
+    # cycle trough the activated Dynamic Fields for this screen
+    DYNAMICFIELD:
+    for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
+        next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+
+        # extract the dynamic field value form the web request
+        my $DynamicFieldValue = $Self->{BackendObject}->SearchFieldValueGet(
+            DynamicFieldConfig     => $DynamicFieldConfig,
+            ParamObject            => $Self->{ParamObject},
+            ReturnProfileStructure => 1,
+            LayoutObject           => $Self->{LayoutObject},
+        );
+
+        # set the comple value structure in GetParam to store it later in the search profile
+        if ( IsHashRefWithData($DynamicFieldValue) ) {
+            %GetParam = ( %GetParam, %{$DynamicFieldValue} );
         }
     }
 
@@ -659,44 +703,44 @@ sub Run {
             }
         }
 
-        # free time
-        for ( 1 .. 6 ) {
-            if ( !$GetParam{ 'TicketFreeTime' . $_ } ) {
-                for my $Type (qw(Year Month Day)) {
-                    $GetParam{ 'TicketFreeTime' . $_ . 'Start' . $Type } = undef;
-                    $GetParam{ 'TicketFreeTime' . $_ . 'Stop' . $Type }  = undef;
-                }
-                $GetParam{ 'TicketFreeTime' . $_ . 'NewerDate' } = undef;
-                $GetParam{ 'TicketFreeTime' . $_ . 'OlderDate' } = undef;
-            }
-            else {
-                $GetParam{ 'TicketFreeTime' . $_ } = 'checked="checked"';
-                if (
-                    $GetParam{ 'TicketFreeTime' . $_ . 'StartDay' }
-                    && $GetParam{ 'TicketFreeTime' . $_ . 'StartMonth' }
-                    && $GetParam{ 'TicketFreeTime' . $_ . 'StartYear' }
-                    )
-                {
-                    $GetParam{ 'TicketFreeTime' . $_ . 'NewerDate' }
-                        = $GetParam{ 'TicketFreeTime' . $_ . 'StartYear' } . '-'
-                        . $GetParam{ 'TicketFreeTime' . $_ . 'StartMonth' } . '-'
-                        . $GetParam{ 'TicketFreeTime' . $_ . 'StartDay' }
-                        . ' 00:00:00';
-                }
-                if (
-                    $GetParam{ 'TicketFreeTime' . $_ . 'StopDay' }
-                    && $GetParam{ 'TicketFreeTime' . $_ . 'StopMonth' }
-                    && $GetParam{ 'TicketFreeTime' . $_ . 'StopYear' }
-                    )
-                {
-                    $GetParam{ 'TicketFreeTime' . $_ . 'OlderDate' }
-                        = $GetParam{ 'TicketFreeTime' . $_ . 'StopYear' } . '-'
-                        . $GetParam{ 'TicketFreeTime' . $_ . 'StopMonth' } . '-'
-                        . $GetParam{ 'TicketFreeTime' . $_ . 'StopDay' }
-                        . ' 23:59:59';
-                }
-            }
-        }
+        #        # free time
+        #        for ( 1 .. 6 ) {
+        #            if ( !$GetParam{ 'TicketFreeTime' . $_ } ) {
+        #                for my $Type (qw(Year Month Day)) {
+        #                    $GetParam{ 'TicketFreeTime' . $_ . 'Start' . $Type } = undef;
+        #                    $GetParam{ 'TicketFreeTime' . $_ . 'Stop' . $Type }  = undef;
+        #                }
+        #                $GetParam{ 'TicketFreeTime' . $_ . 'NewerDate' } = undef;
+        #                $GetParam{ 'TicketFreeTime' . $_ . 'OlderDate' } = undef;
+        #            }
+        #            else {
+        #                $GetParam{ 'TicketFreeTime' . $_ } = 'checked="checked"';
+        #                if (
+        #                    $GetParam{ 'TicketFreeTime' . $_ . 'StartDay' }
+        #                    && $GetParam{ 'TicketFreeTime' . $_ . 'StartMonth' }
+        #                    && $GetParam{ 'TicketFreeTime' . $_ . 'StartYear' }
+        #                    )
+        #                {
+        #                    $GetParam{ 'TicketFreeTime' . $_ . 'NewerDate' }
+        #                        = $GetParam{ 'TicketFreeTime' . $_ . 'StartYear' } . '-'
+        #                        . $GetParam{ 'TicketFreeTime' . $_ . 'StartMonth' } . '-'
+        #                        . $GetParam{ 'TicketFreeTime' . $_ . 'StartDay' }
+        #                        . ' 00:00:00';
+        #                }
+        #                if (
+        #                    $GetParam{ 'TicketFreeTime' . $_ . 'StopDay' }
+        #                    && $GetParam{ 'TicketFreeTime' . $_ . 'StopMonth' }
+        #                    && $GetParam{ 'TicketFreeTime' . $_ . 'StopYear' }
+        #                    )
+        #                {
+        #                    $GetParam{ 'TicketFreeTime' . $_ . 'OlderDate' }
+        #                        = $GetParam{ 'TicketFreeTime' . $_ . 'StopYear' } . '-'
+        #                        . $GetParam{ 'TicketFreeTime' . $_ . 'StopMonth' } . '-'
+        #                        . $GetParam{ 'TicketFreeTime' . $_ . 'StopDay' }
+        #                        . ' 23:59:59';
+        #                }
+        #            }
+        #        }
 
         # prepare fulltext search
         if ( $GetParam{Fulltext} ) {
@@ -721,6 +765,37 @@ sub Run {
             }
         }
 
+        my %AttributeLookup;
+
+        # create attibute lookup table
+        for my $Attribute ( @{ $GetParam{ShownAttributes} } ) {
+            $AttributeLookup{$Attribute} = 1;
+        }
+
+        # dynamic fields search parameters for ticket search
+        my %DynamicFieldSearchParameters;
+
+        # cycle trough the activated Dynamic Fields for this screen
+        DYNAMICFIELD:
+        for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
+            next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+            next DYNAMICFIELD
+                if !$AttributeLookup{ 'LabelDynamicField_' . $DynamicFieldConfig->{Name} };
+
+            # extract the dynamic field value form the web request
+            my $SearchParameter = $Self->{BackendObject}->SearchFieldParameterBuild(
+                DynamicFieldConfig => $DynamicFieldConfig,
+                Profile            => \%GetParam,
+                LayoutObject       => $Self->{LayoutObject},
+            );
+
+            # set search parameter
+            $DynamicFieldSearchParameters{ 'DynamicField_' . $DynamicFieldConfig->{Name} }
+                = $SearchParameter
+
+                # set value to display
+        }
+
         # perform ticket search
         my @ViewableTicketIDs = $Self->{TicketObjectSearch}->TicketSearch(
             Result              => 'ARRAY',
@@ -733,6 +808,7 @@ sub Run {
             ContentSearchSuffix => '*',
             FullTextIndex       => 1,
             %GetParam,
+            %DynamicFieldSearchParameters,
         );
 
         # CSV output
@@ -789,6 +865,16 @@ sub Run {
                 # csv quote
                 if ( !@CSVHead ) {
                     @CSVHead = @{ $Self->{Config}->{SearchCSVData} };
+
+                    # include the selected dynamic fields on CVS resutls
+                    DYNAMICFIELD:
+                    for my $DynamicFieldConfig ( @{ $Self->{CSVDynamicField} } ) {
+                        next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+                        next DYNAMICFIELD if !$DynamicFieldConfig->{Name};
+                        next DYNAMICFIELD if $DynamicFieldConfig->{Name} eq '';
+
+                        push @CSVHead, 'DynamicField_' . $DynamicFieldConfig->{Name};
+                    }
                 }
                 my @Data;
                 for (@CSVHead) {
@@ -956,6 +1042,8 @@ sub Run {
                         = $Self->{LayoutObject}->{LanguageObject}->Get('CustomerID');
                     $CellData->[0]->[7]->{Font} = 'ProportionalBold';
 
+                    #TODO Should also include DynamicFields?
+
                     # create the content array
                     my $CounterRow = 1;
                     for my $Row (@PDFData) {
@@ -1048,6 +1136,9 @@ sub Run {
                     $Param{Warning} = '$Text{"Reached max. count of %s search hits!", "'
                         . $Self->{SearchLimit} . '"}';
                 }
+
+                # TODO Should also include Dynamic Fields?
+
                 $Output .= $Self->{LayoutObject}->Output(
                     TemplateFile => 'AgentTicketSearchResultPrint',
                     Data         => \%Param,
@@ -1167,6 +1258,7 @@ sub Run {
             if ( $Self->{Config}->{Defaults} ) {
                 for my $Key ( sort keys %{ $Self->{Config}->{Defaults} } ) {
                     next if !$Self->{Config}->{Defaults}->{$Key};
+                    next if $Key eq 'DynamicField';
 
                     if ( $Key =~ /^(Ticket|Article)(Create|Change|Close)/ ) {
                         my @Items = split /;/, $Self->{Config}->{Defaults}->{$Key};
@@ -1294,60 +1386,123 @@ sub Run {
             );
         }
 
-        # get free text config options
-        my %TicketFreeText;
-        for ( 1 .. 16 ) {
-            $TicketFreeText{"TicketFreeKey$_"} = $Self->{TicketObject}->TicketFreeTextGet(
-                Type   => "TicketFreeKey$_",
-                FillUp => 1,
-                Action => $Self->{Action},
-                UserID => $Self->{UserID},
-            );
-            $TicketFreeText{"TicketFreeText$_"} = $Self->{TicketObject}->TicketFreeTextGet(
-                Type   => "TicketFreeText$_",
-                FillUp => 1,
-                Action => $Self->{Action},
-                UserID => $Self->{UserID},
-            );
-        }
-        my %TicketFreeTextHTML = $Self->{LayoutObject}->AgentFreeText(
-            NullOption => 1,
-            Ticket     => \%GetParam,
-            Config     => \%TicketFreeText,
-        );
-        for my $Count ( 1 .. 16 ) {
-            next if !$Self->{Config}->{TicketFreeText}->{$Count};
-            my $Config = $Self->{ConfigObject}->Get( 'TicketFreeKey' . $Count );
-            next if !$Config;
-            my $Name = '';
-            for my $Key ( sort keys %{$Config} ) {
-                next if !$Config->{$Key};
-                if ($Name) {
-                    $Name .= '/';
-                }
-                $Name .= $Config->{$Key};
+        my $DynamicFieldSeparator = 1;
+
+        # create dynamic fields seaarch options for attribute select
+        # cycle trough the activated Dynamic Fields for this screen
+        DYNAMICFIELD:
+        for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
+            next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+            next DYNAMICFIELD if !$DynamicFieldConfig->{Name};
+            next DYNAMICFIELD if $DynamicFieldConfig->{Name} eq '';
+
+            # create a separator for dynamic fields attributes
+            if ($DynamicFieldSeparator) {
+                push @Attributes, (
+                    {
+                        Key      => '',
+                        Value    => '-',
+                        Disabled => 1,
+                    },
+                );
+
+                $DynamicFieldSeparator = 0;
             }
-            next if !$Name;
+
             push @Attributes, (
                 {
-                    Key   => 'TicketFreeText' . $Count,
-                    Value => $Name,
+                    Key   => 'DynamicField_' . $DynamicFieldConfig->{Name},
+                    Value => $Self->{LayoutObject}->{LanguageObject}->Get(
+                        $DynamicFieldConfig->{Name}
+                    ),
                 },
             );
         }
 
-        for my $Count ( 1 .. 6 ) {
-            next if !$Self->{Config}->{TicketFreeTime}->{$Count};
-            my $Config = $Self->{ConfigObject}->Get( 'TicketFreeTimeKey' . $Count );
-            next if !$Config;
-            my $Name = $Config;
+        # create a separator if a dynamic field attribute was pushed
+        if ( !$DynamicFieldSeparator ) {
             push @Attributes, (
                 {
-                    Key   => 'TicketFreeTime' . $Count,
-                    Value => $Name,
+                    Key      => '',
+                    Value    => '-',
+                    Disabled => 1,
                 },
             );
         }
+
+        # create HTML strings for all dynamic fields
+        my %DynamicFieldHTML;
+
+        # cycle trough the activated Dynamic Fields for this screen
+        DYNAMICFIELD:
+        for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
+            next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+
+            # get field html
+            $DynamicFieldHTML{ $DynamicFieldConfig->{Name} } =
+                $Self->{BackendObject}->SearchFieldRender(
+                DynamicFieldConfig => $DynamicFieldConfig,
+                Profile            => \%GetParam,
+                DefaultValue =>
+                    $Self->{Config}->{Defaults}->{DynamicField}->{ $DynamicFieldConfig->{Name} },
+                LayoutObject => $Self->{LayoutObject},
+                );
+        }
+
+        #        # get free text config options
+        #        my %TicketFreeText;
+        #        for ( 1 .. 16 ) {
+        #            $TicketFreeText{"TicketFreeKey$_"} = $Self->{TicketObject}->TicketFreeTextGet(
+        #                Type   => "TicketFreeKey$_",
+        #                FillUp => 1,
+        #                Action => $Self->{Action},
+        #                UserID => $Self->{UserID},
+        #            );
+        #            $TicketFreeText{"TicketFreeText$_"} = $Self->{TicketObject}->TicketFreeTextGet(
+        #                Type   => "TicketFreeText$_",
+        #                FillUp => 1,
+        #                Action => $Self->{Action},
+        #                UserID => $Self->{UserID},
+        #            );
+        #        }
+        #        my %TicketFreeTextHTML = $Self->{LayoutObject}->AgentFreeText(
+        #            NullOption => 1,
+        #            Ticket     => \%GetParam,
+        #            Config     => \%TicketFreeText,
+        #        );
+        #        for my $Count ( 1 .. 16 ) {
+        #            next if !$Self->{Config}->{TicketFreeText}->{$Count};
+        #            my $Config = $Self->{ConfigObject}->Get( 'TicketFreeKey' . $Count );
+        #            next if !$Config;
+        #            my $Name = '';
+        #            for my $Key ( sort keys %{$Config} ) {
+        #                next if !$Config->{$Key};
+        #                if ($Name) {
+        #                    $Name .= '/';
+        #                }
+        #                $Name .= $Config->{$Key};
+        #            }
+        #            next if !$Name;
+        #            push @Attributes, (
+        #                {
+        #                    Key   => 'TicketFreeText' . $Count,
+        #                    Value => $Name,
+        #                },
+        #            );
+        #        }
+        #
+        #        for my $Count ( 1 .. 6 ) {
+        #            next if !$Self->{Config}->{TicketFreeTime}->{$Count};
+        #            my $Config = $Self->{ConfigObject}->Get( 'TicketFreeTimeKey' . $Count );
+        #            next if !$Config;
+        #            my $Name = $Config;
+        #            push @Attributes, (
+        #                {
+        #                    Key   => 'TicketFreeTime' . $Count,
+        #                    Value => $Name,
+        #                },
+        #            );
+        #        }
 
         push @Attributes, (
             {
@@ -1780,20 +1935,20 @@ sub Run {
             Format => 'DateInputFormat',
         );
 
-        for ( 1 .. 6 ) {
-            $Param{ 'TicketFreeTime' . $_ . 'Start' } = $Self->{LayoutObject}->BuildDateSelection(
-                %GetParam,
-                Prefix   => 'TicketFreeTime' . $_ . 'Start',
-                Format   => 'DateInputFormat',
-                DiffTime => -( ( 60 * 60 * 24 ) * 30 ),
-            );
-            $Param{ 'TicketFreeTime' . $_ . 'Stop' } = $Self->{LayoutObject}->BuildDateSelection(
-                %GetParam,
-                Prefix   => 'TicketFreeTime' . $_ . 'Stop',
-                Format   => 'DateInputFormat',
-                DiffTime => +( ( 60 * 60 * 24 ) * 30 ),
-            );
-        }
+ #        for ( 1 .. 6 ) {
+ #            $Param{ 'TicketFreeTime' . $_ . 'Start' } = $Self->{LayoutObject}->BuildDateSelection(
+ #                %GetParam,
+ #                Prefix   => 'TicketFreeTime' . $_ . 'Start',
+ #                Format   => 'DateInputFormat',
+ #                DiffTime => -( ( 60 * 60 * 24 ) * 30 ),
+ #            );
+ #            $Param{ 'TicketFreeTime' . $_ . 'Stop' } = $Self->{LayoutObject}->BuildDateSelection(
+ #                %GetParam,
+ #                Prefix   => 'TicketFreeTime' . $_ . 'Stop',
+ #                Format   => 'DateInputFormat',
+ #                DiffTime => +( ( 60 * 60 * 24 ) * 30 ),
+ #            );
+ #        }
 
         $Param{TicketChangeTimePoint} = $Self->{LayoutObject}->BuildSelection(
             Data => {
@@ -1996,20 +2151,20 @@ sub Run {
             }
         }
 
-        for ( 1 .. 6 ) {
-            $Param{ 'TicketFreeTime' . $_ . 'Start' } = $Self->{LayoutObject}->BuildDateSelection(
-                %GetParam,
-                Prefix   => 'TicketFreeTime' . $_ . 'Start',
-                Format   => 'DateInputFormat',
-                DiffTime => -( ( 60 * 60 * 24 ) * 30 ),
-            );
-            $Param{ 'TicketFreeTime' . $_ . 'Stop' } = $Self->{LayoutObject}->BuildDateSelection(
-                %GetParam,
-                Prefix   => 'TicketFreeTime' . $_ . 'Stop',
-                Format   => 'DateInputFormat',
-                DiffTime => +( ( 60 * 60 * 24 ) * 30 ),
-            );
-        }
+ #        for ( 1 .. 6 ) {
+ #            $Param{ 'TicketFreeTime' . $_ . 'Start' } = $Self->{LayoutObject}->BuildDateSelection(
+ #                %GetParam,
+ #                Prefix   => 'TicketFreeTime' . $_ . 'Start',
+ #                Format   => 'DateInputFormat',
+ #                DiffTime => -( ( 60 * 60 * 24 ) * 30 ),
+ #            );
+ #            $Param{ 'TicketFreeTime' . $_ . 'Stop' } = $Self->{LayoutObject}->BuildDateSelection(
+ #                %GetParam,
+ #                Prefix   => 'TicketFreeTime' . $_ . 'Stop',
+ #                Format   => 'DateInputFormat',
+ #                DiffTime => +( ( 60 * 60 * 24 ) * 30 ),
+ #            );
+ #        }
 
         # build type string
         if ( $Self->{ConfigObject}->Get('Ticket::Type') ) {
@@ -2028,8 +2183,34 @@ sub Run {
         # html search mask output
         $Self->{LayoutObject}->Block(
             Name => 'SearchAJAX',
-            Data => { %Param, %GetParam, %TicketFreeTextHTML, EmptySearch => $EmptySearch },
+            Data => {
+                %Param,
+                %GetParam,
+
+                #                %TicketFreeTextHTML,
+                EmptySearch => $EmptySearch
+            },
         );
+
+        # output Dynamic fields blocks
+        # cycle trough the activated Dynamic Fields for this screen
+        DYNAMICFIELD:
+        for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
+            next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+
+            # skip fields that HTML could not be retrieved
+            next DYNAMICFIELD if !IsHashRefWithData(
+                $DynamicFieldHTML{ $DynamicFieldConfig->{Name} }
+            );
+
+            $Self->{LayoutObject}->Block(
+                Name => 'DynamicField',
+                Data => {
+                    Label => $DynamicFieldHTML{ $DynamicFieldConfig->{Name} }->{Label},
+                    Field => $DynamicFieldHTML{ $DynamicFieldConfig->{Name} }->{Field},
+                },
+            );
+        }
 
         # comapt. map for attributes
         my %Map = (

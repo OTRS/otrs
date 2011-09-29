@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.479 2011-09-27 01:41:04 cr Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.480 2011-09-29 19:49:35 cr Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Translatable="1">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Group>Ticket</Group>
@@ -1246,6 +1246,7 @@ Description>
                 <Item>From</Item>
                 <Item>Subject</Item>
                 <Item>AccountedTime</Item>
+<!--
                 <Item>TicketFreeKey1</Item>
                 <Item>TicketFreeText1</Item>
                 <Item>TicketFreeKey2</Item>
@@ -1268,6 +1269,7 @@ Description>
                 <Item>TicketFreeTime4</Item>
                 <Item>TicketFreeTime5</Item>
                 <Item>TicketFreeTime6</Item>
+ -->
                 <Item>ArticleTree</Item>
                 <Item>SolutionInMin</Item>
                 <Item>SolutionDiffInMin</Item>
@@ -8537,7 +8539,24 @@ Thanks for your help!
         <SubGroup>Frontend::Agent::Ticket::ViewSearch</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Test1">1</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketSearch###Defaults###DynamicField" Required="0" Valid="1">
+        <Description Translatable="1">Defines the default shown ticket search attribute for ticket search screen. Example: a text, 1, DynamicField_Field1StartYear=2002;DynamicField_Field1StartMonth=12;DynamicField_Field1StartDay=12;DynamicField_Field1StartHour=00;DynamicField_Field1StartMinute=00;DynamicField_Field1StartSecond=00;DynamicField_Field1StopYear=2009;DynamicField_Field1StopMonth=02;DynamicField_Field1StopDay=10;DynamicField_Field1StopHour=23;DynamicField_Field1StopMinute=59;DynamicField_Field1StopSecond=59;.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewSearch</SubGroup>
+        <Setting>
+            <Hash>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketSearch###SearchCSVDynamicField" Required="0" Valid="1">
+        <Description Translatable="1">Dynamic Fields used to export the search result in CSV format.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewSearch</SubGroup>
+        <Setting>
+            <Hash>
             </Hash>
         </Setting>
     </ConfigItem>
