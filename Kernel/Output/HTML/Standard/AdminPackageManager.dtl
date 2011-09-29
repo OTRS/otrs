@@ -2,7 +2,7 @@
 # AdminPackageManager.dtl - provides global HTML AdminPackageManager
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPackageManager.dtl,v 1.47.2.1 2011-02-18 00:00:57 en Exp $
+# $Id: AdminPackageManager.dtl,v 1.47.2.2 2011-09-29 08:08:49 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -263,6 +263,30 @@
                     </tr>
                 </table>
             </form>
+            <br/>
+            <table border="0" width="100%" cellspacing="0" cellpadding="4">
+                <tr>
+                    <td class="contenthead">$Text{"Hint"}:</td>
+                </tr>
+                <tr>
+                    <td class="contentbody">
+                        <p>
+                            $Text{"Did you know that the OTRS Group offers"}
+                            <a href="http://www.otrs.com/solutions/subscriptions/feature-add-ons/">$Text{"helpful feature add-ons?"}</a>
+                        </p>
+                        <p>
+                            <a href="http://www.otrs.com/solutions/subscriptions/feature-add-ons/">
+                                <img src="$Config{"Frontend::ImagePath"}/feature_add_ons.png" />
+                            </a>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="contentfooter">
+                        &nbsp;
+                    </td>
+                </tr>
+            </table>
         </td>
         <td width="70%" class="mainbody">
             <table border="0" width="100%" cellspacing="0" cellpadding="4">
