@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Text.pm - Delegate for DynamicField Text backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Text.pm,v 1.39 2011-09-26 21:30:58 cg Exp $
+# $Id: Text.pm,v 1.40 2011-09-29 20:00:08 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::DynamicFieldValue;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.39 $) [1];
+$VERSION = qw($Revision: 1.40 $) [1];
 
 =head1 NAME
 
@@ -292,6 +292,98 @@ sub IsSortable {
     my ( $Self, %Param ) = @_;
 
     return 1;
+}
+
+sub SearchFieldRender {
+    my ( $Self, %Param ) = @_;
+
+    # take config from field config
+    my $FieldConfig = $Param{DynamicFieldConfig}->{Config};
+    my $FieldName   = 'DynamicField_' . $Param{DynamicFieldConfig}->{Name};
+    my $FieldLabel  = $Param{DynamicFieldConfig}->{Label};
+
+    # set the field value
+    my $Value = $Param{DefaultValue} || '';
+
+    # get the field value, this fuction is always called after the profile is loaded
+    my $FieldValue = $Self->SearchFieldValueGet(%Param);
+
+    # set values from profile if present
+    if ( defined $FieldValue ) {
+        $Value = $FieldValue;
+    }
+
+    # check and set class if necessary
+    my $FieldClass = 'DynamicFieldText';
+
+    my $HTMLString = <<"EOF";
+<input type="text" class="$FieldClass" id="$FieldName" name="$FieldName" title="$FieldLabel" value="$Value" />
+EOF
+
+    # call EditLabelRender on the common backend
+    my $LabelString = $Self->{BackendCommonObject}->EditLabelRender(
+        DynamicFieldConfig => $Param{DynamicFieldConfig},
+        FieldName          => $FieldName,
+        AdditionalText     => 'e.g. Text or Te*t'
+    );
+
+    my $Data = {
+        Field => $HTMLString,
+        Label => $LabelString,
+    };
+
+    return $Data;
+}
+
+sub SearchFieldValueGet {
+    my ( $Self, %Param ) = @_;
+
+    my $Value;
+
+    # get dynamic field value form param object
+    if ( defined $Param{ParamObject} ) {
+        $Value = $Param{ParamObject}
+            ->GetParam( Param => 'DynamicField_' . $Param{DynamicFieldConfig}->{Name} );
+    }
+
+    # otherwise get the value from the profile
+    elsif ( defined $Param{Profile} ) {
+        $Value = $Param{Profile}->{ 'DynamicField_' . $Param{DynamicFieldConfig}->{Name} };
+    }
+    else {
+        return;
+    }
+
+    if ( defined $Param{ReturnProfileStructure} && $Param{ReturnProfileStructure} eq 1 ) {
+        return {
+            'DynamicField_' . $Param{DynamicFieldConfig}->{Name} => $Value,
+        };
+    }
+
+    return $Value;
+
+}
+
+sub SearchFieldParameterBuild {
+    my ( $Self, %Param ) = @_;
+
+    # get field value
+    my $Value = $Self->SearchFieldValueGet(%Param);
+
+    # set operator
+    my $Operator = 'Equals';
+
+    # search for a wild card in the value
+    if ( $Value && $Value =~ m{\*} ) {
+
+        # change oprator
+        $Operator = 'Like';
+    }
+
+    # return search parameter structure
+    return {
+        $Operator => $Value,
+    };
 }
 
 1;

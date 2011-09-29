@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/DateTime.pm - Delegate for DynamicField DateTime backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DateTime.pm,v 1.33 2011-09-26 21:30:58 cg Exp $
+# $Id: DateTime.pm,v 1.34 2011-09-29 20:00:08 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Time;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.33 $) [1];
+$VERSION = qw($Revision: 1.34 $) [1];
 
 =head1 NAME
 
@@ -371,6 +371,219 @@ sub IsSortable {
     my ( $Self, %Param ) = @_;
 
     return 1;
+}
+
+sub SearchFieldRender {
+    my ( $Self, %Param ) = @_;
+
+    # take config from field config
+    my $FieldConfig = $Param{DynamicFieldConfig}->{Config};
+    my $FieldName   = 'DynamicField_' . $Param{DynamicFieldConfig}->{Name};
+    my $FieldLabel  = $Param{DynamicFieldConfig}->{Label};
+
+    my $Value;
+
+    my %DefaultValue;
+
+    if ( defined $Param{DefaultValue} ) {
+        my @Items = split /;/, $Param{DefaultValue};
+        for my $Item (@Items) {
+            my ( $Key, $Value ) = split /=/, $Item;
+            if ( $Key =~ m{Start} ) {
+                $DefaultValue{ValueStart}->{$Key} = $Value;
+            }
+            elsif ( $Key =~ m{Stop} ) {
+                $DefaultValue{ValueStop}->{$Key} = $Value;
+            }
+        }
+    }
+
+    # set the field value
+    if (%DefaultValue) {
+        $Value = \%DefaultValue;
+    }
+
+    # get the field value, this fuction is always called after the profile is loaded
+    my $FieldValues = $Self->SearchFieldValueGet(
+        %Param,
+    );
+
+    if (
+        defined $FieldValues
+        && defined $FieldValues->{ValueStart}
+        && defined $FieldValues->{ValueStop}
+        )
+    {
+        $Value = $FieldValues;
+    }
+
+    # check and set class if necessary
+    my $FieldClass = 'DynamicFieldDateTime';
+
+    # build HTML for start value set
+    my $HTMLString = $Param{LayoutObject}->BuildDateSelection(
+        %Param,
+        Prefix               => $FieldName . 'Start',
+        Format               => 'DateInputFormatLong',
+        $FieldName . 'Class' => $FieldClass,
+        DiffTime             => -( ( 60 * 60 * 24 ) * 30 ),
+        Validate             => 1,
+        %{ $Value->{ValueStart} },
+    );
+
+    # build HTML for "and" separator
+    $HTMLString .= <<'EOF';
+  $Text{"and"}
+  <br/>
+EOF
+
+    # build HTML for stop value set
+    $HTMLString .= $Param{LayoutObject}->BuildDateSelection(
+        %Param,
+        Prefix               => $FieldName . 'Stop',
+        Format               => 'DateInputFormatLong',
+        $FieldName . 'Class' => $FieldClass,
+        DiffTime             => +( ( 60 * 60 * 24 ) * 30 ),
+        Validate             => 1,
+        %{ $Value->{ValueStop} },
+    );
+
+    # call EditLabelRender on the common backend
+    my $LabelString = $Self->{BackendCommonObject}->EditLabelRender(
+        DynamicFieldConfig => $Param{DynamicFieldConfig},
+        FieldName          => $FieldName,
+        AdditionalText     => 'Between',
+    );
+
+    my $Data = {
+        Field => $HTMLString,
+        Label => $LabelString,
+    };
+
+    return $Data;
+}
+
+sub SearchFieldValueGet {
+    my ( $Self, %Param ) = @_;
+
+    # set the Prefix as the dynamic field name
+    my $Prefix = 'DynamicField_' . $Param{DynamicFieldConfig}->{Name};
+
+    # get dynamic field value
+    my %DynamicFieldValues;
+    for my $Type (qw(Start Stop)) {
+        for my $Part (qw(Year Month Day)) {
+
+            # get dynamic field value form param object
+            if ( defined $Param{ParamObject} ) {
+                $DynamicFieldValues{ $Prefix . $Type . $Part } = $Param{ParamObject}->GetParam(
+                    Param => $Prefix . $Type . $Part,
+                );
+            }
+
+            # otherwise get the value from the profile
+            elsif ( defined $Param{Profile} ) {
+                $DynamicFieldValues{ $Prefix . $Type . $Part }
+                    = $Param{Profile}->{ $Prefix . $Type . $Part };
+            }
+            else {
+                return;
+            }
+        }
+    }
+
+    # return if the field is empty (e.g. initial screen)
+    return if !$DynamicFieldValues{ $Prefix . 'StartYear' }
+            && !$DynamicFieldValues{ $Prefix . 'StartMonth' }
+            && !$DynamicFieldValues{ $Prefix . 'StartDay' }
+            && !$DynamicFieldValues{ $Prefix . 'StopYear' }
+            && !$DynamicFieldValues{ $Prefix . 'StopMonth' }
+            && !$DynamicFieldValues{ $Prefix . 'StopDay' };
+
+    $DynamicFieldValues{ $Prefix . 'StartHour' }   = '00';
+    $DynamicFieldValues{ $Prefix . 'StartMinute' } = '00';
+    $DynamicFieldValues{ $Prefix . 'StartSecond' } = '00';
+    $DynamicFieldValues{ $Prefix . 'StopHour' }    = '23';
+    $DynamicFieldValues{ $Prefix . 'StopMinute' }  = '59';
+    $DynamicFieldValues{ $Prefix . 'StopSecond' }  = '59';
+
+    # check if return value structure is nedded
+    if ( defined $Param{ReturnProfileStructure} && $Param{ReturnProfileStructure} eq '1' ) {
+        return \%DynamicFieldValues;
+    }
+
+    # add a leading zero for date parts that could be less than ten to generate a correct
+    # time stamp
+    for my $Type (qw(Start Stop)) {
+        for my $Part (qw(Month Day Hour Minute Second)) {
+            if (
+                $DynamicFieldValues{ $Prefix . $Type . $Part }
+                && $DynamicFieldValues{ $Prefix . $Type . $Part } < 10
+                && length $DynamicFieldValues{ $Prefix . $Type . $Part } == 1
+                )
+            {
+                $DynamicFieldValues{ $Prefix . $Type . $Part }
+                    = '0' . $DynamicFieldValues{ $Prefix . $Type . $Part };
+            }
+        }
+    }
+
+    my $ValueStart = {
+        $Prefix . 'StartYear'   => $DynamicFieldValues{ $Prefix . 'StartYear' }   || '0000',
+        $Prefix . 'StartMonth'  => $DynamicFieldValues{ $Prefix . 'StartMonth' }  || '00',
+        $Prefix . 'StartDay'    => $DynamicFieldValues{ $Prefix . 'StartDay' }    || '00',
+        $Prefix . 'StartHour'   => $DynamicFieldValues{ $Prefix . 'StartHour' }   || '00',
+        $Prefix . 'StartMinute' => $DynamicFieldValues{ $Prefix . 'StartMinute' } || '00',
+        $Prefix . 'StartSecond' => $DynamicFieldValues{ $Prefix . 'StartSecond' } || '00',
+    };
+
+    my $ValueStop = {
+        $Prefix . 'StopYear'   => $DynamicFieldValues{ $Prefix . 'StopYear' }   || '0000',
+        $Prefix . 'StopMonth'  => $DynamicFieldValues{ $Prefix . 'StopMonth' }  || '00',
+        $Prefix . 'StopDay'    => $DynamicFieldValues{ $Prefix . 'StopDay' }    || '00',
+        $Prefix . 'StopHour'   => $DynamicFieldValues{ $Prefix . 'StopHour' }   || '00',
+        $Prefix . 'StopMinute' => $DynamicFieldValues{ $Prefix . 'StopMinute' } || '00',
+        $Prefix . 'StopSecond' => $DynamicFieldValues{ $Prefix . 'StopSecond' } || '00',
+    };
+
+    return {
+        ValueStart => $ValueStart,
+        ValueStop  => $ValueStop,
+    };
+}
+
+sub SearchFieldParameterBuild {
+    my ( $Self, %Param ) = @_;
+
+    # get field value
+    my $Value = $Self->SearchFieldValueGet(%Param);
+
+    # search for a wild card in the value
+    if ( $Value && IsHashRefWithData($Value) ) {
+
+        my $Prefix = 'DynamicField_' . $Param{DynamicFieldConfig}->{Name};
+
+        # return search parameter structure
+        return {
+            GreaterThanEquals
+                => $Value->{ValueStart}->{ $Prefix . 'StartYear' } . '-'
+                . $Value->{ValueStart}->{ $Prefix . 'StartMonth' } . '-'
+                . $Value->{ValueStart}->{ $Prefix . 'StartDay' } . ' '
+                . $Value->{ValueStart}->{ $Prefix . 'StartHour' } . ':'
+                . $Value->{ValueStart}->{ $Prefix . 'StartMinute' } . ':'
+                . $Value->{ValueStart}->{ $Prefix . 'StartSecond' } . ':',
+
+            SmallerThanEquals
+                => $Value->{ValueStop}->{ $Prefix . 'StopYear' } . '-'
+                . $Value->{ValueStop}->{ $Prefix . 'StopMonth' } . '-'
+                . $Value->{ValueStop}->{ $Prefix . 'StopDay' } . ' '
+                . $Value->{ValueStop}->{ $Prefix . 'StopHour' } . ':'
+                . $Value->{ValueStop}->{ $Prefix . 'StopMinute' } . ':'
+                . $Value->{ValueStop}->{ $Prefix . 'StopSecond' } . ':',
+        };
+    }
+
+    return;
 }
 
 1;

@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend.pm - Interface for DynamicField backends
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Backend.pm,v 1.42 2011-09-26 21:49:03 cg Exp $
+# $Id: Backend.pm,v 1.43 2011-09-29 20:00:09 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Scalar::Util qw(weaken);
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.42 $) [1];
+$VERSION = qw($Revision: 1.43 $) [1];
 
 =head1 NAME
 
@@ -688,32 +688,6 @@ sub SearchSQLOrderFieldGet {
     return $Self->{$DynamicFieldBackend}->SearchSQLOrderFieldGet(%Param);
 }
 
-=item SearchLabelRender()
-
-creates the label HTML to be used in edit masks.
-
-    my $FieldHTML = $BackendObject->SearchLabelRender(
-        DynamicFieldConfig => $DynamicFieldConfig,      # complete config of the DynamicField
-        SearchTemplate     => $TemplateDate,            # optional, search template data to load
-    );
-
-=cut
-
-sub SearchLabelRender { }
-
-=item SearchFieldRender()
-
-creates the field HTML to be used in search masks.
-
-    my $FieldHTML = $BackendObject->SearchFieldRender(
-        DynamicFieldConfig => $DynamicFieldConfig,      # complete config of the DynamicField
-        SearchTemplate     => $TemplateDate,            # optional, search template data to load
-    );
-
-=cut
-
-sub SearchFieldRender { }
-
 =item EditFieldValueGet()
 
 extracts the value of a dynamic field from the param object.
@@ -936,6 +910,297 @@ sub IsSortable {
     );
 }
 
+=item SearchFieldRender()
+
+creates the field HTML to be used in search masks.
+
+    my $FieldHTML = $BackendObject->SearchFieldRender(
+        DynamicFieldConfig   => $DynamicFieldConfig,      # complete config of the DynamicField
+        ParamObject          => $ParamObject,
+        Profile              => $ProfileData,             # search template data to load
+        DefaultValue         => $Value,                   # optional, depending on each field type e.g
+                                                          #   $Value = a text';
+                                                          #   $Value
+                                                          #       = 'DynamicField_' . $DynamicFieldConfig->{Name} . 'StartYear=1977;'
+                                                          #       . 'DynamicField_' . $DynamicFieldConfig->{Name} . 'StartMonth=12;'
+                                                          #       . 'DynamicField_' . $DynamicFieldConfig->{Name} . 'StartDay=12;'
+                                                          #       . 'DynamicField_' . $DynamicFieldConfig->{Name} . 'StartHour=00;'
+                                                          #       . 'DynamicField_' . $DynamicFieldConfig->{Name} . 'StartMinute=00;'
+                                                          #       . 'DynamicField_' . $DynamicFieldConfig->{Name} . 'StartSecond=00;'
+                                                          #       . 'DynamicField_' . $DynamicFieldConfig->{Name} . 'StopYear=2011;'
+                                                          #       . 'DynamicField_' . $DynamicFieldConfig->{Name} . 'StopMonth=09;'
+                                                          #       . 'DynamicField_' . $DynamicFieldConfig->{Name} . 'StopDay=29;'
+                                                          #       . 'DynamicField_' . $DynamicFieldConfig->{Name} . 'StopHour=23;'
+                                                          #       . 'DynamicField_' . $DynamicFieldConfig->{Name} . 'StopMinute=59;'
+                                                          #       . 'DynamicField_' . $DynamicFieldConfig->{Name} . 'StopSecond=59;';
+                                                          #
+                                                          #   $Value =  1;
+=
+    );
+
+    Returns {
+        Field => $HTMLString,
+        Label => $LabelString,
+    };
+
+=cut
+
+sub SearchFieldRender {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Needed (qw(DynamicFieldConfig LayoutObject Profile)) {
+        if ( !$Param{$Needed} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            return;
+        }
+    }
+
+    # check DynamicFieldConfig (general)
+    if ( !IsHashRefWithData( $Param{DynamicFieldConfig} ) ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "The field configuration is invalid",
+        );
+        return;
+    }
+
+    # check DynamicFieldConfig (internally)
+    for my $Needed (qw(ID FieldType ObjectType)) {
+        if ( !$Param{DynamicFieldConfig}->{$Needed} ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed in DynamicFieldConfig!"
+            );
+            return;
+        }
+    }
+
+    # set the dynamic filed specific backend
+    my $DynamicFieldBackend = 'DynamicField' . $Param{DynamicFieldConfig}->{FieldType} . 'Object';
+
+    if ( !$Self->{$DynamicFieldBackend} ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!"
+        );
+        return;
+    }
+
+    # call SearchFieldRender on the specific backend
+    my $HTMLStrings = $Self->{$DynamicFieldBackend}->SearchFieldRender(
+        %Param
+    );
+
+    return $HTMLStrings;
+
+}
+
+=item SearchFieldValueGet()
+
+extracts the value of a dynamic field from the param object or search profile.
+
+    my $Value = $BackendObject->SearchFieldValueGet(
+        DynamicFieldConfig     => $DynamicFieldConfig,    # complete config of the DynamicField
+        ParamObject            => $ParamObject,           # the current request data
+        LayoutObject           => $LayoutObject,
+        Profile                => $ProfileData,           # the serach profile
+        ReturnProfileStructure => 0,                      # 0 || 1, default 0
+                                                          #   Returns the structured values as got from the http request
+    );
+
+    Returns $Value;                                       # depending on each field type e.g.
+                                                          #   $Value = 'a text';
+                                                          #   $Value = {
+                                                          #       ValueStart {
+                                                          #           'DynamicField_' . $DynamicFieldConfig->{Name} . 'StartYear'   => '1977',
+                                                          #           'DynamicField_' . $DynamicFieldConfig->{Name} . 'StartMonth'  => '12',
+                                                          #           'DynamicField_' . $DynamicFieldConfig->{Name} . 'StartDay'    => '12',
+                                                          #           'DynamicField_' . $DynamicFieldConfig->{Name} . 'StartHour'   => '00',
+                                                          #           'DynamicField_' . $DynamicFieldConfig->{Name} . 'StartMinute' => '00',
+                                                          #           'DynamicField_' . $DynamicFieldConfig->{Name} . 'StartSecond' => '00',
+                                                          #       },
+                                                          #       ValueStop {
+                                                          #           'DynamicField_' . $DynamicFieldConfig->{Name} . 'StopYear'    => '2011',
+                                                          #           'DynamicField_' . $DynamicFieldConfig->{Name} . 'StopMonth'   => '09',
+                                                          #           'DynamicField_' . $DynamicFieldConfig->{Name} . 'StopDay'     => '29',
+                                                          #           'DynamicField_' . $DynamicFieldConfig->{Name} . 'StopHour'    => '23',
+                                                          #           'DynamicField_' . $DynamicFieldConfig->{Name} . 'StopMinute'  => '59',
+                                                          #           'DynamicField_' . $DynamicFieldConfig->{Name} . 'StopSecond'  => '59',
+                                                          #       },
+                                                          #   },
+                                                          #   $Value = 1;
+
+    my $Value = $BackendObject->SearchFieldValueGet(
+        DynamicFieldConfig   => $DynamicFieldConfig,      # complete config of the DynamicField
+        ParamObject          => $ParamObject,             # the current request data
+        LayoutObject         => $LayoutObject,
+        Profile              => $ProfileData,             # the serach profile
+        ReturnProfileStructure => 1,                      # 0 || 1, default 0
+                                                          #   Returns the structured values as got from the http request
+    );
+
+    Returns $Value;                                       # depending on each field type e.g.
+                                                          #   $Value =  {
+                                                          #       'DynamicField_' . $DynamicFieldConfig->{Name} => 'a text';
+                                                          #   };
+                                                          #   $Value = {
+                                                          #       'DynamicField_' . $DynamicFieldConfig->{Name} . 'StartYear'   => '1977',
+                                                          #       'DynamicField_' . $DynamicFieldConfig->{Name} . 'StartMonth'  => '12',
+                                                          #       'DynamicField_' . $DynamicFieldConfig->{Name} . 'StartDay'    => '12',
+                                                          #       'DynamicField_' . $DynamicFieldConfig->{Name} . 'StartHour'   => '00',
+                                                          #       'DynamicField_' . $DynamicFieldConfig->{Name} . 'StartMinute' => '00',
+                                                          #       'DynamicField_' . $DynamicFieldConfig->{Name} . 'StartSecond' => '00',
+                                                          #       'DynamicField_' . $DynamicFieldConfig->{Name} . 'StopYear'    => '2011',
+                                                          #       'DynamicField_' . $DynamicFieldConfig->{Name} . 'StopMonth'   => '09',
+                                                          #       'DynamicField_' . $DynamicFieldConfig->{Name} . 'StopDay'     => '29',
+                                                          #       'DynamicField_' . $DynamicFieldConfig->{Name} . 'StopHour'    => '23',
+                                                          #       'DynamicField_' . $DynamicFieldConfig->{Name} . 'StopMinute'  => '59',
+                                                          #       'DynamicField_' . $DynamicFieldConfig->{Name} . 'StopSecond'  => '59',
+                                                          #   };
+                                                          #   $Value =  {
+                                                          #       'DynamicField_' . $DynamicFieldConfig->{Name} = 1;
+                                                          #   };
+=cut
+
+sub SearchFieldValueGet {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Needed (qw(DynamicFieldConfig LayoutObject)) {
+        if ( !$Param{$Needed} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            return;
+        }
+    }
+
+    # check ParamObject and Profile
+    if ( !$Param{ParamObject} && !$Param{Profile} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => "Need ParamObject or Profile!" );
+        return;
+    }
+
+    if ( $Param{ParamObject} && $Param{Profile} ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Only ParamObject or Profile must be specified but not both!"
+        );
+        return;
+    }
+
+    # check if profile is a hash reference
+    if ( $Param{Profile} && ref $Param{Profile} ne 'HASH' ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "The search profile is invalid",
+        );
+        return;
+    }
+
+    # check DynamicFieldConfig (general)
+    if ( !IsHashRefWithData( $Param{DynamicFieldConfig} ) ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "The field configuration is invalid",
+        );
+        return;
+    }
+
+    # check DynamicFieldConfig (internally)
+    for my $Needed (qw(ID FieldType ObjectType Name)) {
+        if ( !$Param{DynamicFieldConfig}->{$Needed} ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed in DynamicFieldConfig!"
+            );
+            return;
+        }
+    }
+
+    # set the dynamic filed specific backend
+    my $DynamicFieldBackend = 'DynamicField' . $Param{DynamicFieldConfig}->{FieldType} . 'Object';
+
+    if ( !$Self->{$DynamicFieldBackend} ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!"
+        );
+        return;
+    }
+
+    # return value from the specific backend
+    return $Self->{$DynamicFieldBackend}->SearchFieldValueGet(%Param);
+}
+
+=item SearchFieldParameterBuild()
+
+build the search parameters to be passed to the search engine.
+
+    my $DynamicFieldSearchParameter = $BackendObject->SearchFieldParameterBuild(
+        DynamicFieldConfig   => $DynamicFieldConfig,    # complete config of the DynamicField
+        LayoutObject         => $LayoutObject,
+        Profile              => $ProfileData,           # the serach profile
+    );
+
+    Returns
+
+    $DynamicFieldSearchParameter {
+        Equals => $Value,                               # Availabel operatiors:
+                                                        #   Equals            => 123,
+                                                        #   Like              => 'value*',
+                                                        #   GreaterThan       => '2001-01-01 01:01:01',
+                                                        #   GreaterThanEquals => '2001-01-01 01:01:01',
+                                                        #   LowerThan         => '2002-02-02 02:02:02',
+                                                        #   LowerThanEquals   => '2002-02-02 02:02:02',
+        };
+=cut
+
+sub SearchFieldParameterBuild {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Needed (qw(DynamicFieldConfig LayoutObject Profile)) {
+        if ( !$Param{$Needed} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            return;
+        }
+    }
+
+    # check DynamicFieldConfig (general)
+    if ( !IsHashRefWithData( $Param{DynamicFieldConfig} ) ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "The field configuration is invalid",
+        );
+        return;
+    }
+
+    # check DynamicFieldConfig (internally)
+    for my $Needed (qw(ID FieldType ObjectType Name)) {
+        if ( !$Param{DynamicFieldConfig}->{$Needed} ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed in DynamicFieldConfig!"
+            );
+            return;
+        }
+    }
+
+    # set the dynamic filed specific backend
+    my $DynamicFieldBackend = 'DynamicField' . $Param{DynamicFieldConfig}->{FieldType} . 'Object';
+
+    if ( !$Self->{$DynamicFieldBackend} ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!"
+        );
+        return;
+    }
+
+    # return value from the specific backend
+    return $Self->{$DynamicFieldBackend}->SearchFieldParameterBuild(%Param);
+}
+
 1;
 
 =back
@@ -952,6 +1217,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.42 $ $Date: 2011-09-26 21:49:03 $
+$Revision: 1.43 $ $Date: 2011-09-29 20:00:09 $
 
 =cut
