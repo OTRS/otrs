@@ -3,7 +3,7 @@
 # DBUpdate-to-3.1.pl - update script to migrate OTRS 3.0.x to 3.1.x
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-3.1.pl,v 1.26 2011-09-30 12:28:51 mg Exp $
+# $Id: DBUpdate-to-3.1.pl,v 1.27 2011-09-30 13:03:13 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.26 $) [1];
+$VERSION = qw($Revision: 1.27 $) [1];
 
 use Getopt::Std qw();
 use Kernel::Config;
@@ -515,10 +515,10 @@ sub _DynamicFieldTicketMigration {
     # get dynamic field ids and names
     my %DynamicFieldIDs;
     my $SuccessFields = $CommonObject->{DBObject}->Prepare(
-        SQL => 'SELECT id, name FROM dynamic_field ' .
-            'WHERE name in (' . $FreeFieldsTicketDB . ')',
-
-        #        Bind => [\$FreeFieldsTicket],
+        SQL => "SELECT id, name FROM dynamic_field
+                WHERE name in ($FreeFieldsTicketDB)
+                    AND object_type = 'Ticket'
+                ",
     );
     while ( my @Row = $CommonObject->{DBObject}->FetchrowArray() ) {
         $DynamicFieldIDs{ $Row[1] } = $Row[0];
@@ -547,21 +547,17 @@ sub _DynamicFieldTicketMigration {
 
     while ( my @Row = $CommonObject->{DBObject}->FetchrowArray() ) {
 
-        # set object type
-        my $ObjectType = 'Ticket';
-
         # select dynamic field entries
         my $SuccessTicketDynamicFields = $DBConnectionObject->Prepare(
             SQL => "
-                SELECT DISTINCT(dfv.field_id), df.object_type, dfv.object_id
-                FROM dynamic_field_value dfv, dynamic_field df
-                WHERE df.object_type ='$ObjectType'
-                    AND dfv.object_id = $Row[0]
-                    AND df.id = dfv.field_id",
+                SELECT DISTINCT(dfv.field_id), dfv.object_id
+                FROM dynamic_field_value dfv
+                WHERE dfv.field_id IN (" . join( ',', values %DynamicFieldIDs ) . ")
+                    AND dfv.object_id = $Row[0]",
         );
         my %DynamicFieldRetrieved;
         while ( my @DFVRow = $DBConnectionObject->FetchrowArray() ) {
-            $DynamicFieldRetrieved{ $DFVRow[0] . $DFVRow[1] . $DFVRow[2] } = $DFVRow[1];
+            $DynamicFieldRetrieved{ $DFVRow[0] . $DFVRow[1] } = 1;
         }
 
         my $FieldCounter  = 0;
@@ -578,10 +574,9 @@ sub _DynamicFieldTicketMigration {
                     my $FieldValue = $Row[$FieldCounter];
                     my $ValueType  = ( $FreeField eq 'FreeTime' ? 'date' : 'text' );
                     my $ObjectID   = $Row[0];
-                    if ( !defined $DynamicFieldRetrieved{ $FieldID . $ObjectType . $ObjectID } ) {
+                    if ( !defined $DynamicFieldRetrieved{ $FieldID . $ObjectID } ) {
 
                         # insert new dinamic field value
-                        # sql
                         my $SuccessTicketField = $DBConnectionObject->Do(
                             SQL =>
                                 'INSERT INTO dynamic_field_value (' .
@@ -653,16 +648,16 @@ sub _DynamicFieldArticleMigration {
     # get dynamic field ids
     my %DynamicFieldIDs;
     my $SuccessFields = $CommonObject->{DBObject}->Prepare(
-        SQL => 'SELECT id, name FROM dynamic_field ' .
-            'WHERE name in (' . $FreeFieldsArticleDB . ')',
-
-        #        Bind => [\$FreeFieldsArticle],
+        SQL => "SELECT id, name FROM dynamic_field
+                WHERE name in ($FreeFieldsArticleDB)
+                    AND object_type = 'Article'
+                ",
     );
     while ( my @Row = $CommonObject->{DBObject}->FetchrowArray() ) {
         $DynamicFieldIDs{ $Row[1] } = $Row[0];
     }
 
-    # select dynamic field entries
+    # select articles with dynamic field entries
     my $SuccessArticleHowMuch = $CommonObject->{DBObject}->Prepare(
         SQL => 'SELECT count(id) FROM article ' .
             'WHERE ' . $ArticleCondition,
@@ -685,20 +680,16 @@ sub _DynamicFieldArticleMigration {
 
     while ( my @Row = $CommonObject->{DBObject}->FetchrowArray() ) {
 
-        # set object type
-        my $ObjectType = 'Article';
-
         # select dynamic field entries
         my $SuccessArticleDynamicFields = $DBConnectionObject->Prepare(
-            SQL => "SELECT DISTINCT(dfv.field_id), df.object_type, dfv.object_id
-                FROM dynamic_field_value dfv, dynamic_field df
-                WHERE df.object_type ='$ObjectType'
-                    AND dfv.object_id = $Row[0]
-                    AND df.id = dfv.field_id",
+            SQL => "SELECT dfv.field_id, dfv.object_id
+                FROM dynamic_field_value dfv
+                WHERE dfv.field_id IN (" . join( ',', values %DynamicFieldIDs ) . ")
+                    AND dfv.object_id = $Row[0]",
         );
         my %DynamicFieldRetrieved;
         while ( my @Row = $DBConnectionObject->FetchrowArray() ) {
-            $DynamicFieldRetrieved{ $Row[0] . $Row[1] . $Row[2] } = $Row[1];
+            $DynamicFieldRetrieved{ $Row[0] . $Row[1] } = 1;
         }
 
         my $FieldCounter   = 0;
@@ -715,7 +706,7 @@ sub _DynamicFieldArticleMigration {
                     my $FieldValue = $Row[$FieldCounter];
                     my $ValueType  = ( $FreeField eq 'FreeTime' ? 'date' : 'text' );
                     my $ObjectID   = $Row[0];
-                    if ( !defined $DynamicFieldRetrieved{ $FieldID . $ObjectType . $ObjectID } ) {
+                    if ( !defined $DynamicFieldRetrieved{ $FieldID . $ObjectID } ) {
 
                         # insert new dynamic field value
                         my $SuccessArticleField = $DBConnectionObject->Do(
