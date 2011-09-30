@@ -3,7 +3,7 @@
 # DBUpdate-to-3.1.pl - update script to migrate OTRS 3.0.x to 3.1.x
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-3.1.pl,v 1.24 2011-09-29 17:28:32 cg Exp $
+# $Id: DBUpdate-to-3.1.pl,v 1.25 2011-09-30 12:14:16 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.24 $) [1];
+$VERSION = qw($Revision: 1.25 $) [1];
 
 use Getopt::Std qw();
 use Kernel::Config;
@@ -262,10 +262,9 @@ Upgrade Microsoft SQL Server database field types.
 sub _MSSQLUpgrade {
     my $CommonObject = shift;
 
-    my $DBType = $CommonObject->{ConfigObject}->Get('Database::Type');
+    my $DBType = $CommonObject->{ConfigObject}->Get('Database::Type') || '';
     if ( $DBType ne 'mssql' ) {
-        print "Only needed for Microsoft SQL Server, and you are using $DBType.\n";
-        print "Skipping.\n\n";
+        print "Only needed for Microsoft SQL Server. Skipping.\n\n";
         return 1;
     }
 
@@ -1156,7 +1155,7 @@ sub _MigrateFreeFieldsConfiguration {
                 if ( ref $PossibleValues eq 'HASH' ) {
 
                     # search for "None" value in possible values list
-                    if ( $PossibleValues->{''} eq '-' ) {
+                    if ( $PossibleValues->{''} && $PossibleValues->{''} eq '-' ) {
 
                         # delete "None" value from the list
                         delete $PossibleValues->{''};
@@ -1343,7 +1342,7 @@ sub _MigrateWindowConfiguration {
 
                 if ( !$Success ) {
                     print
-                        "Could not possible migrate the values for $FreeField on $Window window!\n";
+                        "Could not migrate the values for $FreeField on $Window window!\n";
                     return 0;
                 }
             }
@@ -1374,7 +1373,7 @@ sub _MigrateWindowConfiguration {
 
             if ( !$Success ) {
                 print
-                    "Could not possible migrate the values for TicketFreeTime on $Window window!\n";
+                    "Could not migrate the values for TicketFreeTime on $Window window!\n";
                 return 0;
             }
         }
@@ -1405,7 +1404,7 @@ sub _MigrateWindowConfiguration {
 
                 if ( !$Success ) {
                     print
-                        "Could not possible migrate the values for $FreeField on $Window window!\n";
+                        "Could not migrate the values for $FreeField on $Window window!\n";
                     return 0;
                 }
             }
