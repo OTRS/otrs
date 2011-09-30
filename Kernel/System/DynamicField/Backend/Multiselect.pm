@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Multiselect.pm - Delegate for DynamicField Multiselect backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Multiselect.pm,v 1.10 2011-09-27 01:38:46 cr Exp $
+# $Id: Multiselect.pm,v 1.11 2011-09-30 03:17:23 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::DynamicFieldValue;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 =head1 NAME
 
@@ -412,6 +412,115 @@ sub IsSortable {
     my ( $Self, %Param ) = @_;
 
     return 0;
+}
+
+sub SearchFieldRender {
+    my ( $Self, %Param ) = @_;
+
+    # take config from field config
+    my $FieldConfig = $Param{DynamicFieldConfig}->{Config};
+    my $FieldName   = 'DynamicField_' . $Param{DynamicFieldConfig}->{Name};
+    my $FieldLabel  = $Param{DynamicFieldConfig}->{Label};
+
+    my $Value;
+
+    my @DefaultValue;
+
+    if ( defined $Param{DefaultValue} ) {
+        my @DefaultValue = split /;/, $Param{DefaultValue};
+    }
+
+    # set the field value
+    if (@DefaultValue) {
+        $Value = \@DefaultValue;
+    }
+
+    # get the field value, this fuction is always called after the profile is loaded
+    my $FieldValues = $Self->SearchFieldValueGet(
+        %Param,
+    );
+
+    if ( defined $FieldValues )
+    {
+        $Value = $FieldValues;
+    }
+
+    # check and set class if necessary
+    my $FieldClass = 'DynamicFieldMultiSelect';
+
+    # set PossibleValues
+    my $SelectionData = $FieldConfig->{PossibleValues};
+
+    # use PossibleValuesFilter if defined
+    $SelectionData = $Param{PossibleValuesFilter}
+        if defined $Param{PossibleValuesFilter};
+
+    my $HTMLString = $Param{LayoutObject}->BuildSelection(
+        Data         => $SelectionData,
+        Name         => $FieldName,
+        SelectedID   => $Value,
+        Translation  => $FieldConfig->{TranslatableValues} || 0,
+        PossibleNone => $FieldConfig->{PossibleNone} || 0,
+        Class        => $FieldClass,
+        Multiple     => 1,
+        HTMLQuote    => 1,
+    );
+
+    # call EditLabelRender on the common backend
+    my $LabelString = $Self->{BackendCommonObject}->EditLabelRender(
+        DynamicFieldConfig => $Param{DynamicFieldConfig},
+        FieldName          => $FieldName,
+    );
+
+    my $Data = {
+        Field => $HTMLString,
+        Label => $LabelString,
+    };
+
+    return $Data;
+}
+
+sub SearchFieldValueGet {
+    my ( $Self, %Param ) = @_;
+
+    my $Value;
+
+    # get dynamic field value form param object
+    if ( defined $Param{ParamObject} ) {
+        my @FieldValues = $Param{ParamObject}
+            ->GetArray( Param => 'DynamicField_' . $Param{DynamicFieldConfig}->{Name} );
+
+        $Value = \@FieldValues;
+    }
+
+    # otherwise get the value from the profile
+    elsif ( defined $Param{Profile} ) {
+        $Value = $Param{Profile}->{ 'DynamicField_' . $Param{DynamicFieldConfig}->{Name} };
+    }
+    else {
+        return;
+    }
+
+    if ( defined $Param{ReturnProfileStructure} && $Param{ReturnProfileStructure} eq 1 ) {
+        return {
+            'DynamicField_' . $Param{DynamicFieldConfig}->{Name} => $Value,
+        };
+    }
+
+    return $Value;
+
+}
+
+sub SearchFieldParameterBuild {
+    my ( $Self, %Param ) = @_;
+
+    # get field value
+    my $Value = $Self->SearchFieldValueGet(%Param);
+
+    # return search parameter structure
+    return {
+        Equals => $Value,
+    };
 }
 
 1;
