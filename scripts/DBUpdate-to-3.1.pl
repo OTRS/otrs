@@ -3,7 +3,7 @@
 # DBUpdate-to-3.1.pl - update script to migrate OTRS 3.0.x to 3.1.x
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-3.1.pl,v 1.25 2011-09-30 12:14:16 mg Exp $
+# $Id: DBUpdate-to-3.1.pl,v 1.26 2011-09-30 12:28:51 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.25 $) [1];
+$VERSION = qw($Revision: 1.26 $) [1];
 
 use Getopt::Std qw();
 use Kernel::Config;
@@ -1318,12 +1318,15 @@ sub _MigrateWindowConfiguration {
         my $WindowConfig =
             $CommonObject->{ConfigObject}->Get("Ticket::Frontend::$Window");
 
+        my $KeyString       = "Ticket::Frontend::$Window" . "###DynamicField";
+        my $ExistingSetting = $CommonObject->{ConfigObject}->Get("Ticket::Frontend::$Window") || {};
+        my %ValuesToSet     = %{ $ExistingSetting->{DynamicField} || {} };
+
         for my $FreeField ( 'TicketFreeKey', 'TicketFreeText' ) {
             if ( defined $WindowConfig->{$FreeField} ) {
 
                 my $Config = $WindowConfig->{$FreeField};
 
-                my %ValuesToSet;
                 for my $Index ( 1 .. 16 ) {
 
                     my $FieldName = $FreeField . $Index;
@@ -1331,19 +1334,6 @@ sub _MigrateWindowConfiguration {
 
                         $ValuesToSet{$FieldName} = $Config->{$Index};
                     }
-                }
-
-                my $KeyString = "Ticket::Frontend::$Window" . "###DynamicField";
-                my $Success   = $SysConfigObject->ConfigItemUpdate(
-                    Valid => 1,
-                    Key   => $KeyString,
-                    Value => \%ValuesToSet,
-                );
-
-                if ( !$Success ) {
-                    print
-                        "Could not migrate the values for $FreeField on $Window window!\n";
-                    return 0;
                 }
             }
         }
@@ -1354,7 +1344,6 @@ sub _MigrateWindowConfiguration {
 
             my $Config = $WindowConfig->{TicketFreeTime};
 
-            my %ValuesToSet;
             for my $Index ( 1 .. 6 ) {
 
                 my $FieldName = 'TicketFreeTime' . $Index;
@@ -1362,19 +1351,6 @@ sub _MigrateWindowConfiguration {
 
                     $ValuesToSet{$FieldName} = $Config->{$Index};
                 }
-            }
-
-            my $KeyString = "Ticket::Frontend::$Window" . "###DynamicField";
-            my $Success   = $SysConfigObject->ConfigItemUpdate(
-                Valid => 1,
-                Key   => $KeyString,
-                Value => \%ValuesToSet,
-            );
-
-            if ( !$Success ) {
-                print
-                    "Could not migrate the values for TicketFreeTime on $Window window!\n";
-                return 0;
             }
         }
 
@@ -1385,7 +1361,6 @@ sub _MigrateWindowConfiguration {
 
                 my $Config = $WindowConfig->{$FreeField};
 
-                my %ValuesToSet;
                 for my $Index ( 1 .. 3 ) {
 
                     my $FieldName = $FreeField . $Index;
@@ -1395,22 +1370,22 @@ sub _MigrateWindowConfiguration {
                     }
                 }
 
-                my $KeyString = "Ticket::Frontend::$Window" . "###DynamicField";
-                my $Success   = $SysConfigObject->ConfigItemUpdate(
-                    Valid => 1,
-                    Key   => $KeyString,
-                    Value => \%ValuesToSet,
-                );
-
-                if ( !$Success ) {
-                    print
-                        "Could not migrate the values for $FreeField on $Window window!\n";
-                    return 0;
-                }
             }
         }
 
         # end ArticleFree Key and Text
+
+        my $Success = $SysConfigObject->ConfigItemUpdate(
+            Valid => 1,
+            Key   => $KeyString,
+            Value => \%ValuesToSet,
+        );
+
+        if ( !$Success ) {
+            print
+                "Could not migrate the config values on $Window window!\n";
+            return 0;
+        }
 
     }
     return 1;
