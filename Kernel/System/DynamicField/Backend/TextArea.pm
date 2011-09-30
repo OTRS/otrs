@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/TextArea.pm - Delegate for DynamicField TextArea backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TextArea.pm,v 1.23 2011-09-29 21:05:32 cr Exp $
+# $Id: TextArea.pm,v 1.24 2011-09-30 11:56:01 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::DynamicFieldValue;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.23 $) [1];
+$VERSION = qw($Revision: 1.24 $) [1];
 
 =head1 NAME
 
@@ -276,26 +276,10 @@ sub DisplayValueRender {
     if ( $Param{HTMLOutput} ) {
 
         $Value = $Param{LayoutObject}->Ascii2Html(
-            Text => $Value,
-            Max => $Param{ValueMaxChars} || '',
+            Text           => $Value,
+            HTMLResultMode => 1,
+            Max            => $Param{ValueMaxChars} || '',
         );
-
-        # get DynamicField default settings
-        my $DefaultConfig = $Self->{ConfigObject}->Get('DynamicFields::Default') || {};
-
-        # get specific field settings
-        my $FieldConfig = $Self->{ConfigObject}->Get('DynamicFields::Backend')->{TextArea} || {};
-
-        # set new line separator
-        my $NewLineSeparator = $FieldConfig->{NewLineSeparator} || '';
-        if ( !$NewLineSeparator ) {
-            $NewLineSeparator = $DefaultConfig->{NewLineSeparator} || '';
-        }
-
-        $Value =~ s{(\n|\n\r|\r\r\n|(\r\n)+)}{$NewLineSeparator}g;
-
-        # remove line termination
-        chomp $Value;
 
         $Title = $Param{LayoutObject}->Ascii2Html(
             Text => $Title,

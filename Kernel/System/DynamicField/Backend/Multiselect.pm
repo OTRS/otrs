@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Multiselect.pm - Delegate for DynamicField Multiselect backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Multiselect.pm,v 1.11 2011-09-30 03:17:23 cr Exp $
+# $Id: Multiselect.pm,v 1.12 2011-09-30 11:56:01 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::DynamicFieldValue;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 =head1 NAME
 
@@ -349,39 +349,33 @@ sub DisplayValueRender {
     my $PossibleValues     = $Param{DynamicFieldConfig}->{Config}->{PossibleValues};
     my $TranslatableValues = $Param{DynamicFieldConfig}->{Config}->{TranslatableValues};
 
-    my @ReadeableValues;
+    my @ReadableValues;
     for my $Item (@Values) {
 
         if ( $PossibleValues->{$Item} ) {
 
             # get readeble value
-            my $RedeableValue = $PossibleValues->{$Item};
+            my $ReadableValue = $PossibleValues->{$Item};
 
             # check is needed to translate values
             if ($TranslatableValues) {
 
                 # translate value
-                $RedeableValue = $Param{LayoutObject}->{LanguageObject}->Get($RedeableValue);
+                $ReadableValue = $Param{LayoutObject}->{LanguageObject}->Get($ReadableValue);
             }
 
-            push @ReadeableValues, $RedeableValue;
+            push @ReadableValues, $ReadableValue;
         }
     }
 
-    # get DynamicField default settings
-    my $DefaultConfig = $Self->{ConfigObject}->Get('DynamicFields::Default') || {};
-
     # get specific field settings
-    my $FieldConfig = $Self->{ConfigObject}->Get('DynamicFields::Backend')->{MultiSelect} || {};
+    my $FieldConfig = $Self->{ConfigObject}->Get('DynamicFields::Backend')->{Multiselect} || {};
 
     # set new line separator
-    my $NewLineSeparator = $FieldConfig->{NewLineSeparator} || '';
-    if ( !$NewLineSeparator ) {
-        $NewLineSeparator = $DefaultConfig->{NewLineSeparator} || '';
-    }
+    my $ItemSeparator = $FieldConfig->{ItemSeparator} || ', ';
 
     # HTMLOuput transformations
-    $Value = join( $NewLineSeparator, @ReadeableValues );
+    $Value = join( $ItemSeparator, @ReadableValues );
     $Title = $Value;
 
     if ( $Param{HTMLOutput} ) {
@@ -390,8 +384,6 @@ sub DisplayValueRender {
             Text => $Value,
             Max => $Param{ValueMaxChars} || '',
         );
-
-        $Value =~ s{(\n|\n\r|\r\r\n|\r\n)}{<br/>}g;
 
         $Title = $Param{LayoutObject}->Ascii2Html(
             Text => $Title,
