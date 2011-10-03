@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Date.pm - Delegate for DynamicField Date backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Date.pm,v 1.23 2011-09-29 21:10:23 cr Exp $
+# $Id: Date.pm,v 1.24 2011-10-03 22:04:46 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Time;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.23 $) [1];
+$VERSION = qw($Revision: 1.24 $) [1];
 
 =head1 NAME
 
@@ -431,8 +431,22 @@ sub SearchFieldRender {
     # check and set class if necessary
     my $FieldClass = 'DynamicFieldDateTime';
 
+    # set as checked if necessary
+    my $FieldChecked
+        = ( defined $Value->{$FieldName} && $Value->{$FieldName} == 1 ? 'checked="checked"' : '' );
+
+    my $HTMLString = <<"EOF";
+    <input type="hidden" name=$FieldName value="1"/>
+EOF
+
+    if ( $Param{Interface} ne 'Agent' ) {
+        $HTMLString = <<"EOF";
+    <input type="checkbox" name=$FieldName value="1" $FieldChecked/>
+EOF
+    }
+
     # build HTML for start value set
-    my $HTMLString = $Param{LayoutObject}->BuildDateSelection(
+    $HTMLString .= $Param{LayoutObject}->BuildDateSelection(
         %Param,
         Prefix               => $FieldName . 'Start',
         Format               => 'DateInputFormat',
@@ -486,6 +500,10 @@ sub SearchFieldValueGet {
 
             # get dynamic field value form param object
             if ( defined $Param{ParamObject} ) {
+
+                # return if value was not checked (useful in customer interface)
+                return if !$Param{ParamObject}->GetParam( Param => $Prefix );
+
                 $DynamicFieldValues{ $Prefix . $Type . $Part } = $Param{ParamObject}->GetParam(
                     Param => $Prefix . $Type . $Part,
                 );
@@ -493,6 +511,10 @@ sub SearchFieldValueGet {
 
             # otherwise get the value from the profile
             elsif ( defined $Param{Profile} ) {
+
+                # return if value was not checked (useful in customer interface)
+                return if !$Param{Profile}->{$Prefix};
+
                 $DynamicFieldValues{ $Prefix . $Type . $Part }
                     = $Param{Profile}->{ $Prefix . $Type . $Part };
             }
@@ -516,6 +538,8 @@ sub SearchFieldValueGet {
     $DynamicFieldValues{ $Prefix . 'StopHour' }    = '23';
     $DynamicFieldValues{ $Prefix . 'StopMinute' }  = '59';
     $DynamicFieldValues{ $Prefix . 'StopSecond' }  = '59';
+
+    $DynamicFieldValues{$Prefix} = 1;
 
     # check if return value structure is nedded
     if ( defined $Param{ReturnProfileStructure} && $Param{ReturnProfileStructure} eq '1' ) {
@@ -557,6 +581,7 @@ sub SearchFieldValueGet {
     };
 
     return {
+        $Prefix    => 1,
         ValueStart => $ValueStart,
         ValueStop  => $ValueStop,
     };
@@ -567,6 +592,13 @@ sub SearchFieldParameterBuild {
 
     # get field value
     my $Value = $Self->SearchFieldValueGet(%Param);
+
+    # do not search if value was not checked (useful for customer interface)
+    if ( !$Value ) {
+        return {
+            Equals => '',
+            }
+    }
 
     # search for a wild card in the value
     if ( $Value && IsHashRefWithData($Value) ) {
