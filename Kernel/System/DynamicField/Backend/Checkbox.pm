@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Checkbox.pm - Delegate for DynamicField Checkbox backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Checkbox.pm,v 1.27 2011-10-03 16:35:42 cr Exp $
+# $Id: Checkbox.pm,v 1.28 2011-10-03 22:06:58 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::DynamicFieldValue;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.27 $) [1];
+$VERSION = qw($Revision: 1.28 $) [1];
 
 =head1 NAME
 
@@ -343,7 +343,7 @@ sub SearchFieldRender {
     my $FieldLabel  = $Param{DynamicFieldConfig}->{Label};
 
     # set the field value
-    my $Value = $Param{DefaultValue} || 1;
+    my $Value = $Param{DefaultValue};
 
     # get the field value, this fuction is always called after the profile is loaded
     my $FieldValue = $Self->SearchFieldValueGet(%Param);
@@ -353,9 +353,12 @@ sub SearchFieldRender {
         $Value = $FieldValue;
     }
 
-    # value must be 1 or -1
+    # value must be 1, 0 or -1
     if ( $Value && $Value >= 1 ) {
         $Value = 1;
+    }
+    elsif ( !defined $Value || !$Value ) {
+        $Value = 0;
     }
     else {
         $Value = -1;
@@ -370,9 +373,9 @@ sub SearchFieldRender {
             -1 => 'Unchecked',
         },
         Name         => $FieldName,
-        SelectedID   => $Value,
+        SelectedID   => $Value || '',
         Translation  => 1,
-        PossibleNone => 0,
+        PossibleNone => 1,
         Class        => $FieldClass,
         Multiple     => 0,
         HTMLQuote    => 1,
@@ -418,7 +421,6 @@ sub SearchFieldValueGet {
     }
 
     return $Value;
-
 }
 
 sub SearchFieldParameterBuild {
@@ -428,7 +430,7 @@ sub SearchFieldParameterBuild {
     my $Value = $Self->SearchFieldValueGet(%Param);
 
     # set the correct value for "unchecked" (-1) search options
-    if ( $Value == -1 ) {
+    if ( $Value eq -1 ) {
         $Value = '0';
     }
 
