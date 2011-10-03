@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Dropdown.pm - Delegate for DynamicField Dropdown backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Dropdown.pm,v 1.31 2011-10-03 16:43:51 cr Exp $
+# $Id: Dropdown.pm,v 1.32 2011-10-03 22:05:52 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::DynamicFieldValue;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.31 $) [1];
+$VERSION = qw($Revision: 1.32 $) [1];
 
 =head1 NAME
 
@@ -396,7 +396,7 @@ sub SearchFieldRender {
         Name         => $FieldName,
         SelectedID   => $Value,
         Translation  => $FieldConfig->{TranslatableValues} || 0,
-        PossibleNone => 0,
+        PossibleNone => 1,
         Class        => $FieldClass,
         Multiple     => 1,
         HTMLQuote    => 1,
