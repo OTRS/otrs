@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Multiselect.pm - Delegate for DynamicField Multiselect backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Multiselect.pm,v 1.12 2011-09-30 11:56:01 mg Exp $
+# $Id: Multiselect.pm,v 1.13 2011-10-03 16:10:32 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::DynamicFieldValue;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 =head1 NAME
 
@@ -350,7 +350,10 @@ sub DisplayValueRender {
     my $TranslatableValues = $Param{DynamicFieldConfig}->{Config}->{TranslatableValues};
 
     my @ReadableValues;
+
+    VALUEITEM:
     for my $Item (@Values) {
+        next VALUEITEM if !$Item;
 
         if ( $PossibleValues->{$Item} ) {
 
