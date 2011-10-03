@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.22 $
+ * @version     $Revision: 1.23 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -246,7 +246,7 @@
     font-weight: bold;
 }
 
-.OverviewMedium Div.DynamicFieldSeparator {
+.OverviewMedium div.DynamicFieldSeparator {
     border-bottom: 1px dotted #CCCCCC;
     margin-left: 2pc;
     margin-right: 2pc;
