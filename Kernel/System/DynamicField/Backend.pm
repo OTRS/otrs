@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend.pm - Interface for DynamicField backends
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Backend.pm,v 1.43 2011-09-29 20:00:09 cr Exp $
+# $Id: Backend.pm,v 1.44 2011-10-03 22:03:53 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Scalar::Util qw(weaken);
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.43 $) [1];
+$VERSION = qw($Revision: 1.44 $) [1];
 
 =head1 NAME
 
@@ -935,7 +935,7 @@ creates the field HTML to be used in search masks.
                                                           #       . 'DynamicField_' . $DynamicFieldConfig->{Name} . 'StopSecond=59;';
                                                           #
                                                           #   $Value =  1;
-=
+        Interface            => 'Agent'                   # or 'Customer', default 'Agent'
     );
 
     Returns {
@@ -987,6 +987,21 @@ sub SearchFieldRender {
         return;
     }
 
+    # set the correct interface mode to create the dynamic fields
+    if ( !defined $Param{Interface} ) {
+        $Param{Interface} = 'Agent';
+    }
+    if ( defined $Param{Interface} && $Param{Interface} eq 'Public' ) {
+        $Param{Interface} = 'Customer';
+    }
+    if ( $Param{Interface} ne 'Agent' && $Param{Interface} ne 'Customer' ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Interface $Param{Interface} is invalid!"
+        );
+        return;
+    }
+
     # call SearchFieldRender on the specific backend
     my $HTMLStrings = $Self->{$DynamicFieldBackend}->SearchFieldRender(
         %Param
@@ -1012,6 +1027,7 @@ extracts the value of a dynamic field from the param object or search profile.
     Returns $Value;                                       # depending on each field type e.g.
                                                           #   $Value = 'a text';
                                                           #   $Value = {
+                                                          #      'DynamicField_' . $DynamicFieldConfig->{Name} => 1,
                                                           #       ValueStart {
                                                           #           'DynamicField_' . $DynamicFieldConfig->{Name} . 'StartYear'   => '1977',
                                                           #           'DynamicField_' . $DynamicFieldConfig->{Name} . 'StartMonth'  => '12',
@@ -1045,6 +1061,7 @@ extracts the value of a dynamic field from the param object or search profile.
                                                           #       'DynamicField_' . $DynamicFieldConfig->{Name} => 'a text';
                                                           #   };
                                                           #   $Value = {
+                                                          #       'DynamicField_' . $DynamicFieldConfig->{Name}                 => 1,
                                                           #       'DynamicField_' . $DynamicFieldConfig->{Name} . 'StartYear'   => '1977',
                                                           #       'DynamicField_' . $DynamicFieldConfig->{Name} . 'StartMonth'  => '12',
                                                           #       'DynamicField_' . $DynamicFieldConfig->{Name} . 'StartDay'    => '12',
@@ -1217,6 +1234,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.43 $ $Date: 2011-09-29 20:00:09 $
+$Revision: 1.44 $ $Date: 2011-10-03 22:03:53 $
 
 =cut
