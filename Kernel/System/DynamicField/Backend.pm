@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend.pm - Interface for DynamicField backends
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Backend.pm,v 1.44 2011-10-03 22:03:53 cr Exp $
+# $Id: Backend.pm,v 1.45 2011-10-04 01:19:59 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Scalar::Util qw(weaken);
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.44 $) [1];
+$VERSION = qw($Revision: 1.45 $) [1];
 
 =head1 NAME
 
@@ -1162,14 +1162,18 @@ build the search parameters to be passed to the search engine.
     Returns
 
     $DynamicFieldSearchParameter {
-        Equals => $Value,                               # Availabel operatiors:
+        Parameter {
+            Equals => $Value,                           # Available operatiors:
+
                                                         #   Equals            => 123,
                                                         #   Like              => 'value*',
                                                         #   GreaterThan       => '2001-01-01 01:01:01',
                                                         #   GreaterThanEquals => '2001-01-01 01:01:01',
                                                         #   LowerThan         => '2002-02-02 02:02:02',
                                                         #   LowerThanEquals   => '2002-02-02 02:02:02',
-        };
+        },
+        Display => $DisplayValue,                       # the value to be displayed in the search terms section
+    };
 =cut
 
 sub SearchFieldParameterBuild {
@@ -1234,6 +1238,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.44 $ $Date: 2011-10-03 22:03:53 $
+$Revision: 1.45 $ $Date: 2011-10-04 01:19:59 $
 
 =cut
