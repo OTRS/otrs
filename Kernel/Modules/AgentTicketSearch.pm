@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.pm,v 1.129 2011-10-04 01:23:02 cr Exp $
+# $Id: AgentTicketSearch.pm,v 1.130 2011-10-04 21:17:25 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.129 $) [1];
+$VERSION = qw($Revision: 1.130 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -791,7 +791,39 @@ sub Run {
                 }
                 my @Data;
                 for (@CSVHead) {
-                    push @Data, $Info{$_};
+
+                    # check if header is a dynamic field and get the value from dynamic field
+                    # backend
+                    if ( $_ =~ m{\A DynamicField_ ( [a-zA-Z\d]+ ) \z}xms ) {
+
+                        # loop over the dyanmic fields configured for CSV output
+                        DYNAMICFIELD:
+                        for my $DynamicFieldConfig ( @{ $Self->{CSVDynamicField} } ) {
+                            next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+                            next DYNAMICFIELD if !$DynamicFieldConfig->{Name};
+
+                            # skip all fields that does not match with current field name ($1)
+                            # with out the 'DynamicField_' prefix
+                            next DYNAMICFIELD if $DynamicFieldConfig->{Name} ne $1;
+
+                            # get the value as for print (to corretly display)
+                            my $ValueStrg = $Self->{BackendObject}->DisplayValueRender(
+                                DynamicFieldConfig => $DynamicFieldConfig,
+                                Value              => $Info{$_},
+                                HTMLOutput         => 0,
+                                LayoutObject       => $Self->{LayoutObject},
+                            );
+                            push @Data, $ValueStrg->{Value};
+
+                            # terminate the DYNAMICFIELD loop
+                            last DYNAMICFIELD;
+                        }
+                    }
+
+                    # otherwise retreive data from article
+                    else {
+                        push @Data, $Info{$_};
+                    }
                 }
                 push @CSVData, \@Data;
             }
