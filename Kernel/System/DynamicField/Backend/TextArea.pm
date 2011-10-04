@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/TextArea.pm - Delegate for DynamicField TextArea backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TextArea.pm,v 1.25 2011-10-04 01:22:13 cr Exp $
+# $Id: TextArea.pm,v 1.26 2011-10-04 21:11:03 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::DynamicFieldValue;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.25 $) [1];
+$VERSION = qw($Revision: 1.26 $) [1];
 
 =head1 NAME
 
@@ -376,6 +376,15 @@ sub SearchFieldParameterBuild {
 
     # get field value
     my $Value = $Self->SearchFieldValueGet(%Param);
+
+    if ( !$Value ) {
+        return {
+            Parameter => {
+                'Like' => '',
+            },
+            Display => '',
+            }
+    }
 
     # return search parameter structure
     return {
