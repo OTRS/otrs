@@ -2,7 +2,7 @@
 # CustomerTicketSearch.dtl - provides HTML form for CustomerTicketSearch.pm
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketSearch.dtl,v 1.38 2011-07-18 05:55:03 mp Exp $
+# $Id: CustomerTicketSearch.dtl,v 1.39 2011-10-04 21:21:39 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -66,21 +66,13 @@
                     <label for="Body">$Text{"Text"}</label>
                     <input title="$Text{"Text"}" type="text" id="Body" name="Body" value="$QData{"Body"}" size="20" />
                 </div>
-<!-- dtl:block:FreeText -->
+<!-- dtl:block:DynamicField -->
                 <div>
-                    $Data{"TicketFreeKeyField"}
-                    $Data{"TicketFreeTextField"}
+                    $Data{"Label"}
+                    $Data{"Field"}
                 </div>
                 <div class="Clear"></div>
-<!-- dtl:block:FreeText -->
-<!-- dtl:block:FreeTime -->
-                <div>
-                    <label for ="TicketFreeTime$QData{"Count"}">$Data{"TicketFreeTimeKey"} ($Text{"Between"})</label>
-                    <input type="checkbox" id="TicketFreeTime$QData{"Count"}" name="TicketFreeTime$QData{"Count"}" value="checked" $QData{"TicketFreeTime"}/>
-                    $Data{"TicketFreeTimeStart"} $Text{"and"} $Data{"TicketFreeTimeStop"} $Data{"TicketFreeTime"}
-                </div>
-                <div class="Clear"></div>
-<!-- dtl:block:FreeTime -->
+<!-- dtl:block:DynamicField -->
             </fieldset>
             <fieldset class="Columns">
                 <div class="Column">
