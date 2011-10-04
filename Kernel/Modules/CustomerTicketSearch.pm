@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketSearch.pm,v 1.73 2011-10-04 01:24:55 cr Exp $
+# $Id: CustomerTicketSearch.pm,v 1.74 2011-10-04 21:25:56 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,7 +26,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.73 $) [1];
+$VERSION = qw($Revision: 1.74 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -63,13 +63,19 @@ sub new {
         FieldFilter => $Self->{DynamicFieldFilter} || {},
     );
 
-    #  not yet implemented
-    #    # get the ticket dynamic fields for CSV display
-    #    $Self->{CSVDynamicField} = $Self->{DynamicFieldObject}->DynamicFieldListGet(
-    #        Valid       => 1,
-    #        ObjectType  => ['Ticket'],
-    #        FieldFilter => $Self->{Config}->{SearchCSVDynamicField} || {},
-    #    );
+    # get the ticket dynamic fields for overview display
+    $Self->{OverviewDynamicField} = $Self->{DynamicFieldObject}->DynamicFieldListGet(
+        Valid       => 1,
+        ObjectType  => ['Ticket'],
+        FieldFilter => $Self->{Config}->{SearchOverviewDynamicField} || {},
+    );
+
+    # get the ticket dynamic fields for CSV display
+    $Self->{CSVDynamicField} = $Self->{DynamicFieldObject}->DynamicFieldListGet(
+        Valid       => 1,
+        ObjectType  => ['Ticket'],
+        FieldFilter => $Self->{Config}->{SearchCSVDynamicField} || {},
+    );
 
     return $Self;
 }
@@ -451,21 +457,51 @@ sub Run {
                 if ( !@CSVHead ) {
                     @CSVHead = @{ $Self->{Config}->{SearchCSVData} };
 
-              # not yet implemented
-              #                    # include the selected dynamic fields on CVS resutls
-              #                    DYNAMICFIELD:
-              #                    for my $DynamicFieldConfig ( @{ $Self->{CSVDynamicField} } ) {
-              #                        next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
-              #                        next DYNAMICFIELD if !$DynamicFieldConfig->{Name};
-              #                        next DYNAMICFIELD if $DynamicFieldConfig->{Name} eq '';
-              #
-              #                        push @CSVHead, 'DynamicField_' . $DynamicFieldConfig->{Name};
-              #                    }
+                    # include the selected dynamic fields on CVS resutls
+                    DYNAMICFIELD:
+                    for my $DynamicFieldConfig ( @{ $Self->{CSVDynamicField} } ) {
+                        next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+                        next DYNAMICFIELD if !$DynamicFieldConfig->{Name};
+                        next DYNAMICFIELD if $DynamicFieldConfig->{Name} eq '';
 
+                        push @CSVHead, 'DynamicField_' . $DynamicFieldConfig->{Name};
+                    }
                 }
                 my @Data;
                 for (@CSVHead) {
-                    push @Data, $Info{$_};
+
+                    # check if header is a dynamic field and get the value from dynamic field
+                    # backend
+                    if ( $_ =~ m{\A DynamicField_ ( [a-zA-Z\d]+ ) \z}xms ) {
+
+                        # loop over the dyanmic fields configured for CSV output
+                        DYNAMICFIELD:
+                        for my $DynamicFieldConfig ( @{ $Self->{CSVDynamicField} } ) {
+                            next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+                            next DYNAMICFIELD if !$DynamicFieldConfig->{Name};
+
+                            # skip all fields that does not match with current field name ($1)
+                            # with out the 'DynamicField_' prefix
+                            next DYNAMICFIELD if $DynamicFieldConfig->{Name} ne $1;
+
+                            # get the value as for print (to corretly display)
+                            my $ValueStrg = $Self->{BackendObject}->DisplayValueRender(
+                                DynamicFieldConfig => $DynamicFieldConfig,
+                                Value              => $Info{$_},
+                                HTMLOutput         => 0,
+                                LayoutObject       => $Self->{LayoutObject},
+                            );
+                            push @Data, $ValueStrg->{Value};
+
+                            # terminate the loop
+                            last DYNAMICFIELD;
+                        }
+                    }
+
+                    # otherwise retreive data from article
+                    else {
+                        push @Data, $Info{$_};
+                    }
                 }
                 push @CSVData, \@Data;
             }
@@ -577,6 +613,75 @@ sub Run {
 
         # if there are results to show
         if (@ViewableTicketIDs) {
+
+            # Dynamic fields table headers
+            # cycle trough the activated Dynamic Fields for this screen
+            DYNAMICFIELD:
+            for my $DynamicFieldConfig ( @{ $Self->{OverviewDynamicField} } ) {
+                next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+
+                my $Label = $DynamicFieldConfig->{Label};
+
+                # get field sortable condition
+                my $IsSortable = $Self->{BackendObject}->IsSortable(
+                    DynamicFieldConfig => $DynamicFieldConfig,
+                );
+
+                if ($IsSortable) {
+                    my $CSS   = '';
+                    my $Order = 'Down';
+                    if (
+                        $Self->{SortBy}
+                        && ( $Self->{SortBy} eq ( 'DynamicField_' . $DynamicFieldConfig->{Name} ) )
+                        )
+                    {
+                        if ( $Self->{Order} && ( $Self->{Order} eq 'Up' ) ) {
+                            $Order = 'Down';
+                            $CSS .= ' SortAscending';
+                        }
+                        else {
+                            $Order = 'Up';
+                            $CSS .= ' SortDescending';
+                        }
+                    }
+
+                    $Self->{LayoutObject}->Block(
+                        Name => 'HeaderDynamicField',
+                        Data => {
+                            %Param,
+                            CSS => $CSS,
+                        },
+                    );
+
+                    $Self->{LayoutObject}->Block(
+                        Name => 'HeaderDynamicFieldSortable',
+                        Data => {
+                            %Param,
+                            Order            => $Order,
+                            Label            => $Label,
+                            DynamicFieldName => $DynamicFieldConfig->{Name},
+                        },
+                    );
+                }
+                else {
+
+                    $Self->{LayoutObject}->Block(
+                        Name => 'HeaderDynamicField',
+                        Data => {
+                            %Param,
+                        },
+                    );
+
+                    $Self->{LayoutObject}->Block(
+                        Name => 'HeaderDynamicFieldNotSortable',
+                        Data => {
+                            %Param,
+                            Label => $Label,
+                        },
+                    );
+                }
+            }
+
             for my $TicketID (@ViewableTicketIDs) {
                 $Counter++;
 
@@ -640,6 +745,29 @@ sub Run {
                             %Owner,
                         },
                     );
+
+                    # Dynamic fields
+                    # cycle trough the activated Dynamic Fields for this screen
+                    DYNAMICFIELD:
+                    for my $DynamicFieldConfig ( @{ $Self->{OverviewDynamicField} } ) {
+                        next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+
+                        # get field value
+                        my $ValueStrg = $Self->{BackendObject}->DisplayValueRender(
+                            DynamicFieldConfig => $DynamicFieldConfig,
+                            Value => $Article{ 'DynamicField_' . $DynamicFieldConfig->{Name} },
+                            ValueMaxChars => 20,
+                            LayoutObject  => $Self->{LayoutObject},
+                        );
+
+                        $Self->{LayoutObject}->Block(
+                            Name => 'RecordDynamicField',
+                            Data => {
+                                Value => $ValueStrg->{Value},
+                                Title => $ValueStrg->{Title},
+                            },
+                        );
+                    }
                 }
             }
         }
