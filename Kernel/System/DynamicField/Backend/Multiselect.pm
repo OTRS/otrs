@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Multiselect.pm - Delegate for DynamicField Multiselect backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Multiselect.pm,v 1.15 2011-10-03 22:05:52 cr Exp $
+# $Id: Multiselect.pm,v 1.16 2011-10-04 01:22:13 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::DynamicFieldValue;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 =head1 NAME
 
@@ -512,9 +512,47 @@ sub SearchFieldParameterBuild {
     # get field value
     my $Value = $Self->SearchFieldValueGet(%Param);
 
+    my $DisplayValue;
+
+    if ($Value) {
+        if ( ref $Value eq 'ARRAY' ) {
+
+            my @DisplayItemList;
+            for my $Item ( @{$Value} ) {
+
+                # set the display value
+                my $DisplayItem = $Param{DynamicFieldConfig}->{Config}->{PossibleValues}->{$Item};
+                if ( $Param{DynamicFieldConfig}->{Config}->{TranslatableValues} ) {
+
+                    # translate the value
+                    $DisplayItem = $Param{LayoutObject}->{LanguageObject}->Get($DisplayValue);
+                }
+
+                push @DisplayItemList, $DisplayItem;
+            }
+
+            # combine different values into one string
+            $DisplayValue = join ' + ', @DisplayItemList;
+        }
+        else {
+
+            # set the display value
+            $DisplayValue = $Param{DynamicFieldConfig}->{PossibleValues}->{$Value};
+
+            if ( $Param{DynamicFieldConfig}->{Config}->{TranslatableValues} ) {
+
+                # translate the value
+                $DisplayValue = $Param{LayoutObject}->{LanguageObject}->Get($DisplayValue);
+            }
+        }
+    }
+
     # return search parameter structure
     return {
-        Equals => $Value,
+        Parameter => {
+            Equals => $Value,
+        },
+        Display => $DisplayValue,
     };
 }
 

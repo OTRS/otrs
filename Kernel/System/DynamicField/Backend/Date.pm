@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Date.pm - Delegate for DynamicField Date backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Date.pm,v 1.24 2011-10-03 22:04:46 cr Exp $
+# $Id: Date.pm,v 1.25 2011-10-04 01:22:13 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Time;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.24 $) [1];
+$VERSION = qw($Revision: 1.25 $) [1];
 
 =head1 NAME
 
@@ -605,23 +605,39 @@ sub SearchFieldParameterBuild {
 
         my $Prefix = 'DynamicField_' . $Param{DynamicFieldConfig}->{Name};
 
+        my $ValueStart
+            = $Value->{ValueStart}->{ $Prefix . 'StartYear' } . '-'
+            . $Value->{ValueStart}->{ $Prefix . 'StartMonth' } . '-'
+            . $Value->{ValueStart}->{ $Prefix . 'StartDay' } . ' '
+            . $Value->{ValueStart}->{ $Prefix . 'StartHour' } . ':'
+            . $Value->{ValueStart}->{ $Prefix . 'StartMinute' } . ':'
+            . $Value->{ValueStart}->{ $Prefix . 'StartSecond' };
+
+        my $ValueStop
+            = $Value->{ValueStop}->{ $Prefix . 'StopYear' } . '-'
+            . $Value->{ValueStop}->{ $Prefix . 'StopMonth' } . '-'
+            . $Value->{ValueStop}->{ $Prefix . 'StopDay' } . ' '
+            . $Value->{ValueStop}->{ $Prefix . 'StopHour' } . ':'
+            . $Value->{ValueStop}->{ $Prefix . 'StopMinute' } . ':'
+            . $Value->{ValueStop}->{ $Prefix . 'StopSecond' };
+
+        my $DisplayValueStart
+            = $Value->{ValueStart}->{ $Prefix . 'StartYear' } . '-'
+            . $Value->{ValueStart}->{ $Prefix . 'StartMonth' } . '-'
+            . $Value->{ValueStart}->{ $Prefix . 'StartDay' };
+
+        my $DisplayValueStop
+            = $Value->{ValueStop}->{ $Prefix . 'StopYear' } . '-'
+            . $Value->{ValueStop}->{ $Prefix . 'StopMonth' } . '-'
+            . $Value->{ValueStop}->{ $Prefix . 'StopDay' };
+
         # return search parameter structure
         return {
-            GreaterThanEquals
-                => $Value->{ValueStart}->{ $Prefix . 'StartYear' } . '-'
-                . $Value->{ValueStart}->{ $Prefix . 'StartMonth' } . '-'
-                . $Value->{ValueStart}->{ $Prefix . 'StartDay' } . ' '
-                . $Value->{ValueStart}->{ $Prefix . 'StartHour' } . ':'
-                . $Value->{ValueStart}->{ $Prefix . 'StartMinute' } . ':'
-                . $Value->{ValueStart}->{ $Prefix . 'StartSecond' } . ':',
-
-            SmallerThanEquals
-                => $Value->{ValueStop}->{ $Prefix . 'StopYear' } . '-'
-                . $Value->{ValueStop}->{ $Prefix . 'StopMonth' } . '-'
-                . $Value->{ValueStop}->{ $Prefix . 'StopDay' } . ' '
-                . $Value->{ValueStop}->{ $Prefix . 'StopHour' } . ':'
-                . $Value->{ValueStop}->{ $Prefix . 'StopMinute' } . ':'
-                . $Value->{ValueStop}->{ $Prefix . 'StopSecond' } . ':',
+            Parameter => {
+                GreaterThanEquals => $ValueStart,
+                SmallerThanEquals => $ValueStop,
+            },
+            Display => $DisplayValueStart . ' - ' . $DisplayValueStop,
         };
     }
 
