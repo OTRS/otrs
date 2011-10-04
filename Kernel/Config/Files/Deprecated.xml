@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Deprecated.xml,v 1.8 2011-10-04 01:28:22 cr Exp $</CVS>
+    <CVS>$Id: Deprecated.xml,v 1.9 2011-10-04 01:29:05 cr Exp $</CVS>
     <ConfigItem Name="TicketFreeKey1" Required="0" Valid="0">
         <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
         <Group>Z_Deprecated</Group>
@@ -2132,5 +2132,4 @@
             </Hash>
         </Setting>
     </ConfigItem>
-
 </otrs_config>
