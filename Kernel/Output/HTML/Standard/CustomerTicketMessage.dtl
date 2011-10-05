@@ -2,7 +2,7 @@
 # CustomerTicketMessage.dtl - provides HTML form for customer message
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.dtl,v 1.59.2.2 2011-06-10 17:35:50 mp Exp $
+# $Id: CustomerTicketMessage.dtl,v 1.59.2.3 2011-10-05 20:34:43 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -159,6 +159,9 @@ $Include{"CustomerRichTextEditor"}
                     $Data{"TicketFreeTextField"}
                     <div class="Clear"></div>
                 </div>
+<!-- Workaround for IE7 -->
+                <div class="Clear"></div>
+<!-- Workaround for IE7 -->
 <!-- dtl:block:FreeText -->
 <!-- dtl:block:FreeTime -->
                 <div>
