@@ -2,7 +2,7 @@
 # Kernel/Language/sk_SK.pm - provides Slovak language translation
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: sk_SK.pm,v 1.80 2011-09-15 11:38:50 mg Exp $
+# $Id: sk_SK.pm,v 1.81 2011-10-07 13:56:40 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.80 $) [1];
+$VERSION = qw($Revision: 1.81 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -689,7 +689,7 @@ sub Data {
         'Ticket move notification' => '',
         'Send me a notification if a ticket is moved into one of "My Queues".' => '',
         'Send ticket move notifications' => '',
-        'Your queue selection of your favourite queues. You also get notified about those queues via email if enabled.' => 'Váš výber z obľúbených radov. Tiež môžete byť oboznámený s požiadavkou cez e-mail =>  ak je to možné.',
+        'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' => 'Váš výber z obľúbených radov. Tiež môžete byť oboznámený s požiadavkou cez e-mail =>  ak je to možné.',
         'Custom Queue' => 'Klientské rady.',
         'QueueView refresh time' => '?',
         'If enabled, the QueueView will automatically refresh after the specified time.' => '',

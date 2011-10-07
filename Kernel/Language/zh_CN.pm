@@ -7,7 +7,7 @@
 # Copyright (C) 2009 Qingjiu Jia <jiaqj at yahoo.com>
 # Copyright (C) 2011 Martin Liu <liuzh66 at gmail.com> http://martinliu.cn
 # --
-# $Id: zh_CN.pm,v 1.97 2011-09-15 11:38:50 mg Exp $
+# $Id: zh_CN.pm,v 1.98 2011-10-07 13:58:45 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.97 $) [1];
+$VERSION = qw($Revision: 1.98 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -657,7 +657,7 @@ sub Data {
         'Ticket move notification' => '票单移动通知',
         'Send me a notification if a ticket is moved into one of "My Queues".' => '如果有票单被转入我的队列，请通知我.',
         'Send ticket move notifications' => '发送票单移动通知',
-        'Your queue selection of your favourite queues. You also get notified about those queues via email if enabled.' => '您的最常用队列，如果您设置了邮件通知，您将会得到该队列的状态通知.',
+        'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' => '您的最常用队列，如果您设置了邮件通知，您将会得到该队列的状态通知.',
         'Custom Queue' => '客户队列',
         'QueueView refresh time' => '队列视图刷新频率',
         'If enabled, the QueueView will automatically refresh after the specified time.' => '如果启用此功能, 队列视图会自动在指定时间内自动刷新.',

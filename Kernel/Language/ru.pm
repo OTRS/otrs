@@ -9,7 +9,7 @@
 # Copyright (C) 2010-2011 Eugene Kungurov <ekungurov83 at ya.ru>
 # Copyright (C) 2010 Sergey Romanov <romanov_s at mail.ru>
 # --
-# $Id: ru.pm,v 1.121 2011-09-15 11:38:47 mg Exp $
+# $Id: ru.pm,v 1.122 2011-10-07 13:56:40 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.121 $) [1];
+$VERSION = qw($Revision: 1.122 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -696,7 +696,7 @@ sub Data {
         'Ticket move notification' => 'Уведомление о перемещении заявки',
         'Send me a notification if a ticket is moved into one of "My Queues".' => 'Прислать мне уведомление, если заявка перемещена в одну из моих очередей.',
         'Send ticket move notifications' => 'Отправлять уведомления о перемещении заявок',
-        'Your queue selection of your favourite queues. You also get notified about those queues via email if enabled.' => 'Выбор очередей, которые вас интересуют. Вы также будете уведомляться по электронной почте, если эта функция включена.',
+        'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' => 'Выбор очередей, которые вас интересуют. Вы также будете уведомляться по электронной почте, если эта функция включена.',
         'Custom Queue' => 'Резервная очередь',
         'QueueView refresh time' => 'Время обновления монитора очередей',
         'If enabled, the QueueView will automatically refresh after the specified time.' => 'Монитор очередей будет автоматически обновляться через указанный промежуток времени.',

@@ -6,7 +6,7 @@
 # Copyright (C) 2007-2010 Fabricio Luiz Machado <soprobr gmail.com>
 # Copyright (C) 2010-2011 Murilo Moreira de Oliveira <murilo.moreira gmail.com>
 # --
-# $Id: pt_BR.pm,v 1.116 2011-09-15 11:38:51 mg Exp $
+# $Id: pt_BR.pm,v 1.117 2011-10-07 13:56:39 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.116 $) [1];
+$VERSION = qw($Revision: 1.117 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -692,7 +692,7 @@ sub Data {
         'Ticket move notification' => 'Notificação de movimentaçaõ de chamados',
         'Send me a notification if a ticket is moved into one of "My Queues".' => 'Notifique-me se chamados forem movimentados para "Minhas Filas"',
         'Send ticket move notifications' => 'Enviar notificações de movimentação de chamados',
-        'Your queue selection of your favourite queues. You also get notified about those queues via email if enabled.' => 'Fila de seleção das filas preferenciais. Você também será notificado sobre essas filas por e-mail se habilitado.',
+        'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' => 'Fila de seleção das filas preferenciais. Você também será notificado sobre essas filas por e-mail se habilitado.',
         'Custom Queue' => 'Fila Personalizada',
         'QueueView refresh time' => 'Tempo de atualização das filas',
         'If enabled, the QueueView will automatically refresh after the specified time.' => 'Se habilitado, a tela de filas será automaticamente atualizada após o tempo especificado.',

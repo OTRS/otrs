@@ -2,7 +2,7 @@
 # Kernel/Language/vi_VN.pm - provides Vietnamese language translation
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: vi_VN.pm,v 1.53 2011-09-15 11:38:49 mg Exp $
+# $Id: vi_VN.pm,v 1.54 2011-10-07 13:58:45 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.53 $) [1];
+$VERSION = qw($Revision: 1.54 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -688,7 +688,7 @@ sub Data {
         'Ticket move notification' => '',
         'Send me a notification if a ticket is moved into one of "My Queues".' => 'Gửi thông báo cho tôi nếu một thẻ được chuyển vào trong "Hàng đợi của tôi".',
         'Send ticket move notifications' => '',
-        'Your queue selection of your favourite queues. You also get notified about those queues via email if enabled.' => 'Lựa chọn hàng đợi trong số các hàng đợi ưa thích của bạn. Bạn cũng sẽ nhận được thông báo về chúng thông qua email nếu chức năng được kích hoạt',
+        'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' => 'Lựa chọn hàng đợi trong số các hàng đợi ưa thích của bạn. Bạn cũng sẽ nhận được thông báo về chúng thông qua email nếu chức năng được kích hoạt',
         'Custom Queue' => '',
         'QueueView refresh time' => 'Thời gian làm mới Hàng đợi',
         'If enabled, the QueueView will automatically refresh after the specified time.' => '',

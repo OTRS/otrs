@@ -2,7 +2,7 @@
 # Kernel/Language/pt.pm - provides pt language translation
 # Copyright (C) 2004-2007 CAT - Filipe Henriques <filipehenriques at ip.pt>
 # --
-# $Id: pt.pm,v 1.107 2011-09-15 11:38:47 mg Exp $
+# $Id: pt.pm,v 1.108 2011-10-07 13:56:39 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.107 $) [1];
+$VERSION = qw($Revision: 1.108 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -689,7 +689,7 @@ sub Data {
         'Ticket move notification' => '',
         'Send me a notification if a ticket is moved into one of "My Queues".' => 'Notifique-me se um ticket for movido para uma das "Minhas Filas".',
         'Send ticket move notifications' => '',
-        'Your queue selection of your favourite queues. You also get notified about those queues via email if enabled.' => 'Selecção das suas filas favoritas. Será notificado acerca destas filas via correio electrónico se o serviço estiver activo.',
+        'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' => 'Selecção das suas filas favoritas. Será notificado acerca destas filas via correio electrónico se o serviço estiver activo.',
         'Custom Queue' => 'Fila Personalizada',
         'QueueView refresh time' => 'Tempo de refrescamento da Visualização  de Filas',
         'If enabled, the QueueView will automatically refresh after the specified time.' => '',

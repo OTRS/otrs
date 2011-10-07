@@ -2,7 +2,7 @@
 # Kernel/Language/uk.pm - provides ru language translation
 # Copyright (C) 2010 Бельский Артем
 # --
-# $Id: uk.pm,v 1.22 2011-09-15 11:38:50 mg Exp $
+# $Id: uk.pm,v 1.23 2011-10-07 13:58:45 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.22 $) [1];
+$VERSION = qw($Revision: 1.23 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -689,7 +689,7 @@ sub Data {
         'Ticket move notification' => 'Повідомлення про переміщення заявки',
         'Send me a notification if a ticket is moved into one of "My Queues".' => 'Надіслати мені повідомлення, якщо заявка переміщена в одну з моїх черг.',
         'Send ticket move notifications' => 'Відправити повідомлення про переміщення заявки',
-        'Your queue selection of your favourite queues. You also get notified about those queues via email if enabled.' => 'Вибір черг, які вас цікавлять. Ви також будете повідомлятися по електронній пошті, якщо ця функція включена.',
+        'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' => 'Вибір черг, які вас цікавлять. Ви також будете повідомлятися по електронній пошті, якщо ця функція включена.',
         'Custom Queue' => 'Резервна черга',
         'QueueView refresh time' => '',
         'If enabled, the QueueView will automatically refresh after the specified time.' => '',

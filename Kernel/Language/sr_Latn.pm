@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Milorad Jovanović <j.milorad at gmail.com>
 # --
-# $Id: sr_Latn.pm,v 1.16 2011-09-15 11:38:50 mg Exp $
+# $Id: sr_Latn.pm,v 1.17 2011-10-07 13:56:40 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -689,7 +689,7 @@ sub Data {
         'Ticket move notification' => 'Obaveštenje o pomeranju tiketa',
         'Send me a notification if a ticket is moved into one of "My Queues".' => 'Pošalji mi obaveštenje kad se tiket premesti u "Moje Redove".',
         'Send ticket move notifications' => 'Pošalji obaveštenje o pomeranju tiketa',
-        'Your queue selection of your favourite queues. You also get notified about those queues via email if enabled.' => 'Izabrani omiljeni redovi. Ako je aktivirano, dobiđete i obaveštenje o ovim redovima.',
+        'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' => 'Izabrani omiljeni redovi. Ako je aktivirano, dobiđete i obaveštenje o ovim redovima.',
         'Custom Queue' => 'Prilagođen red',
         'QueueView refresh time' => 'Vreme osvežavanja reda',
         'If enabled, the QueueView will automatically refresh after the specified time.' => 'Ako je uključeno, pregled reda će biti osvežen posle zadatog vremena.',

@@ -3,7 +3,7 @@
 # Copyright (C) 2004 Mats Eric Olausson <mats at synergy.se>
 # Copyright (C) 2009 Mikael Mattsson" <Mikael.Mattsson at konsumvarmland.se>
 # --
-# $Id: sv.pm,v 1.97 2011-09-15 11:38:48 mg Exp $
+# $Id: sv.pm,v 1.98 2011-10-07 13:56:40 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.97 $) [1];
+$VERSION = qw($Revision: 1.98 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -690,7 +690,7 @@ sub Data {
         'Ticket move notification' => '',
         'Send me a notification if a ticket is moved into one of "My Queues".' => 'Skicka mig ett meddelande ifall ett ärende flyttas till en av "Mina köer"',
         'Send ticket move notifications' => '',
-        'Your queue selection of your favourite queues. You also get notified about those queues via email if enabled.' => 'Ditt urval av favoritköer. Du blir också meddelad om dessa köer via epost om det aktiverats.',
+        'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' => 'Ditt urval av favoritköer. Du blir också meddelad om dessa köer via epost om det aktiverats.',
         'Custom Queue' => 'Utvald kö',
         'QueueView refresh time' => 'Automatisk uppdateringsintervall fö Kö-bild',
         'If enabled, the QueueView will automatically refresh after the specified time.' => '',
