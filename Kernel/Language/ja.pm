@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # Copyright (C) 2010-2011 Kaz Kamimura <kamypus at yahoo.co.jp>
 # --
-# $Id: ja.pm,v 1.16 2011-09-15 11:38:50 mg Exp $
+# $Id: ja.pm,v 1.17 2011-10-07 13:46:46 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -689,7 +689,7 @@ sub Data {
         'Ticket move notification' => '移転チケット通知',
         'Send me a notification if a ticket is moved into one of "My Queues".' => '移転チケットが担当キューに入ったら通知を送信',
         'Send ticket move notifications' => '移転チケット通知を送信',
-        'Your queue selection of your favourite queues. You also get notified about those queues via email if enabled.' => 'お気に入りのキューを選択。有効にした場合、これらのキューについてメール通知を受信します',
+        'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' => 'お気に入りのキューを選択。有効にした場合、これらのキューについてメール通知を受信します',
         'Custom Queue' => 'カスタムキュー',
         'QueueView refresh time' => 'キュー一覧自動更新間隔',
         'If enabled, the QueueView will automatically refresh after the specified time.' => '有効にした場合、キュー一覧は自動で指定時間後に更新されます',

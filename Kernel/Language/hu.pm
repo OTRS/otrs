@@ -6,7 +6,7 @@
 # Copyright (C) 2007 Aron Ujvari <ujvari@hungary.com>
 # Copyright (C) 2009 Arnold Matyasi <arn@webma.hu>
 # --
-# $Id: hu.pm,v 1.97 2011-09-15 11:38:51 mg Exp $
+# $Id: hu.pm,v 1.98 2011-10-07 13:46:46 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.97 $) [1];
+$VERSION = qw($Revision: 1.98 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -693,7 +693,7 @@ sub Data {
         'Ticket move notification' => '',
         'Send me a notification if a ticket is moved into one of "My Queues".' => 'Küldjön nekem értesítést, ha egy jegyet a "Saját várólistáim" egyikébe mozgatták.',
         'Send ticket move notifications' => '',
-        'Your queue selection of your favourite queues. You also get notified about those queues via email if enabled.' => 'Saját várólistáknak tekintett várólisták kiválasztása. E-mail értesítítések fog kapni ezekről a várólistákról, amennyiben ez engedélyezett.',
+        'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' => 'Saját várólistáknak tekintett várólisták kiválasztása. E-mail értesítítések fog kapni ezekről a várólistákról, amennyiben ez engedélyezett.',
         'Custom Queue' => 'Egyedi várólisták',
         'QueueView refresh time' => 'Várólista nézet frissítési ideje',
         'If enabled, the QueueView will automatically refresh after the specified time.' => '',

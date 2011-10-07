@@ -3,7 +3,7 @@
 # Copyright (C) 2003-2010 Tomasz Melissa <janek at rumianek.com>
 # Copyright (C) 2009 Artur Skalski <skal.ar at wp.pl>
 # --
-# $Id: pl.pm,v 1.111 2011-09-15 11:38:50 mg Exp $
+# $Id: pl.pm,v 1.112 2011-10-07 13:46:46 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.111 $) [1];
+$VERSION = qw($Revision: 1.112 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -690,7 +690,7 @@ sub Data {
         'Ticket move notification' => 'Powiadomienie o przeniesieniu zgłoszenia',
         'Send me a notification if a ticket is moved into one of "My Queues".' => 'Powiadom o przesunięciu do mojej kolejki',
         'Send ticket move notifications' => 'Wysyłaj powiadomienia o przesunięciu zgłoszenia do innej kolejki',
-        'Your queue selection of your favourite queues. You also get notified about those queues via email if enabled.' => 'Twój zestaw wybranych kolejek. Jeżeli włączysz opcję "Powiadomienie o nowym zgłoszeniu" to dostaniesz wiadomość email o każdym nowym zgłoszeniu, które pojawi się w tych kolejkach.',
+        'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' => 'Twój zestaw wybranych kolejek. Jeżeli włączysz opcję "Powiadomienie o nowym zgłoszeniu" to dostaniesz wiadomość email o każdym nowym zgłoszeniu, które pojawi się w tych kolejkach.',
         'Custom Queue' => 'Kolejka modyfikowana',
         'QueueView refresh time' => 'Interwał odświeżania Widoku Kolejek',
         'If enabled, the QueueView will automatically refresh after the specified time.' => 'Jeżeli ustawisz tu jakąś wartość, widok kolejek zgłoszeń będzie odświeżany w określonym interwale.',

@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # Copyright (C) 2011 Edgaras Luko�evi�ius <edgaras[eta]kauko.lt or admin[eta]sysadmin.lt>
 # --
-# $Id: lt.pm,v 1.6 2011-09-15 11:38:49 mg Exp $
+# $Id: lt.pm,v 1.7 2011-10-07 13:46:46 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -689,7 +689,7 @@ sub Data {
         'Ticket move notification' => '�sp�jimas apie trikties perk�lim�',
         'Send me a notification if a ticket is moved into one of "My Queues".' => 'Si�sti man �sp�jim� jeigu triktis yra perkeliamas � vien� i� "mano eili�".',
         'Send ticket move notifications' => 'Si�sti �sp�jimus apie trikties perk�lim�',
-        'Your queue selection of your favourite queues. You also get notified about those queues via email if enabled.' => 'J�s� m�gstamiausi� eili� rinkinys. Taip pat b�site informuoti apie �ias eiles jei �jungsite (�galinsite) toki� funkcij�.',
+        'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' => 'J�s� m�gstamiausi� eili� rinkinys. Taip pat b�site informuoti apie �ias eiles jei �jungsite (�galinsite) toki� funkcij�.',
         'Custom Queue' => 'Pasirinktin� (nestandartin�) eil�',
         'QueueView refresh time' => 'Eili� per�i�ros lango atnaujinimo intervalas',
         'If enabled, the QueueView will automatically refresh after the specified time.' => 'Eili� per�i�ra automati�kai atsinaujins po nurodyto laiko, jeigu tai �jungsite',

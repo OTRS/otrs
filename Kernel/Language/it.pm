@@ -8,7 +8,7 @@
 # Copyright (C) 2009 Alessandro Faraldi <faraldia at gmail.com>
 # Copyright (C) 2010 Alessandro Grassi <alessandro.grassi at devise.it>
 # --
-# $Id: it.pm,v 1.116 2011-09-15 11:38:47 mg Exp $
+# $Id: it.pm,v 1.117 2011-10-07 13:46:46 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.116 $) [1];
+$VERSION = qw($Revision: 1.117 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -695,7 +695,7 @@ sub Data {
         'Ticket move notification' => 'Notifica di spostamento del ticket',
         'Send me a notification if a ticket is moved into one of "My Queues".' => 'Mandami una notifica se una richiesta viene spostata in una coda della lista "Le mie Code"',
         'Send ticket move notifications' => 'Invia notifica di spostamento del ticket',
-        'Your queue selection of your favourite queues. You also get notified about those queues via email if enabled.' => 'La vostra selezione delle code preferite. Se attivato, sarete anche notificati delle modifiche su questa coda',
+        'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' => 'La vostra selezione delle code preferite. Se attivato, sarete anche notificati delle modifiche su questa coda',
         'Custom Queue' => 'Coda personale',
         'QueueView refresh time' => 'Tempo di aggiornamento lista richieste',
         'If enabled, the QueueView will automatically refresh after the specified time.' => '',

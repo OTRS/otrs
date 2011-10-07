@@ -8,7 +8,7 @@
 # Copyright (C) 2011 Lars Erik Utsi Gullerud <lerik at nolink.net>
 # Copyright (C) 2011 Espen Stefansen <espen.stefansen at imr.no>
 # --
-# $Id: nb_NO.pm,v 1.114 2011-09-15 11:38:47 mg Exp $
+# $Id: nb_NO.pm,v 1.115 2011-10-07 13:46:46 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.114 $;
+$VERSION = q$Revision: 1.115 $;
 
 sub Data {
     my $Self = shift;
@@ -695,7 +695,7 @@ sub Data {
         'Ticket move notification' => 'Varsling om flytting av sak',
         'Send me a notification if a ticket is moved into one of "My Queues".' => 'Send meg en varsling dersom en sak flyttes over i en av mine utvalgte køer.',
         'Send ticket move notifications' => 'Send varsling om flytting av sak',
-        'Your queue selection of your favourite queues. You also get notified about those queues via email if enabled.' => 'Her velger du dine utvalgte køer. Du vil også få varslinger fra disse køer, hvis du har valgt det.',
+        'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' => 'Her velger du dine utvalgte køer. Du vil også få varslinger fra disse køer, hvis du har valgt det.',
         'Custom Queue' => 'Utvalgte køer',
         'QueueView refresh time' => 'Automatisk oppdateringsfrekvens av køvisningen',
         'If enabled, the QueueView will automatically refresh after the specified time.' => 'Hvis slått på vil kølisten automatisk oppdatere seg etter spesifisert tid',

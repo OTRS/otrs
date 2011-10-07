@@ -8,7 +8,7 @@
 # Copyright (C) 2010 Ton van Boven <ton 'at' avebo.nl>
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: nl.pm,v 1.162 2011-09-15 11:38:51 mg Exp $
+# $Id: nl.pm,v 1.163 2011-10-07 13:46:46 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -28,7 +28,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.162 $) [1];
+$VERSION = qw($Revision: 1.163 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -702,7 +702,7 @@ sub Data {
         'Ticket move notification' => 'Melding bij verplaatsen van een ticket',
         'Send me a notification if a ticket is moved into one of "My Queues".' => ' Stuur een melding als een ticket wordt verplaatst in een van mijn wachtrijen',
         'Send ticket move notifications' => 'Melding bij het verplaatsen van een ticket',
-        'Your queue selection of your favourite queues. You also get notified about those queues via email if enabled.' => 'Uw selectie van favoriete wachtrijen. U ontvangt automatisch een melding van nieuwe tickets in deze wachtrij, als u hiervoor heeft gekozen.',
+        'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' => 'Uw selectie van favoriete wachtrijen. U ontvangt automatisch een melding van nieuwe tickets in deze wachtrij, als u hiervoor heeft gekozen.',
         'Custom Queue' => 'Aangepaste wachtrij.',
         'QueueView refresh time' => 'Verversingstijd wachtrij',
         'If enabled, the QueueView will automatically refresh after the specified time.' => 'Het wachtrijoverzicht zal automatisch verversen na de ingestelde periode.',

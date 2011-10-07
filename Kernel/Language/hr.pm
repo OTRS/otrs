@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # Copyright (C) 2011 Damir Dzeko <damir punkt dzeko masterspace inet.hr>
 # --
-# $Id: hr.pm,v 1.6 2011-09-15 11:38:48 mg Exp $
+# $Id: hr.pm,v 1.7 2011-10-07 13:46:46 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -693,7 +693,7 @@ sub Data {
         'Ticket move notification' => 'Obavijest o premještaju kartice',
         'Send me a notification if a ticket is moved into one of "My Queues".' => 'Pošalji mi obavijest o premještaju kartice u "Moje repove".',
         'Send ticket move notifications' => 'Pošalji obavijest o premještaju kartice',
-        'Your queue selection of your favourite queues. You also get notified about those queues via email if enabled.' => 'Izabrani favorizirani repovi. Ako je aktivirana, dobit ćete i obavijest o ovim repovima.',
+        'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' => 'Izabrani favorizirani repovi. Ako je aktivirana, dobit ćete i obavijest o ovim repovima.',
         'Custom Queue' => 'Prilagođeni rep',
         'QueueView refresh time' => 'Vrijeme osvježavanja pregleda repa',
         'If enabled, the QueueView will automatically refresh after the specified time.' => 'Ako je uključeno, pregled repa bit će osvježen poslije zadanog vremena.',

@@ -2,7 +2,7 @@
 # Kernel/Language/lv.pm - provides Latvian language translation
 # Copyright (C) 2009 Ivars Strazdins <ivars.strazdins at gmail.com>
 # --
-# $Id: lv.pm,v 1.30 2011-09-15 11:38:47 mg Exp $
+# $Id: lv.pm,v 1.31 2011-10-07 13:46:46 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.30 $) [1];
+$VERSION = qw($Revision: 1.31 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -688,7 +688,7 @@ sub Data {
         'Ticket move notification' => '',
         'Send me a notification if a ticket is moved into one of "My Queues".' => 'Nosūtīt man paziņojumu, ja pieteikums pārvietots uz kādu no "Manām rindām".',
         'Send ticket move notifications' => '',
-        'Your queue selection of your favourite queues. You also get notified about those queues via email if enabled.' => 'Izvēlētās prioritārās rindas. Ja ir iestatīts, tad jūs saņemsiet par šīm rindām paziņojumus arī e-pastā.',
+        'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' => 'Izvēlētās prioritārās rindas. Ja ir iestatīts, tad jūs saņemsiet par šīm rindām paziņojumus arī e-pastā.',
         'Custom Queue' => 'Pielāgota rinda',
         'QueueView refresh time' => 'Rindas skata atjaunināšanas laiks',
         'If enabled, the QueueView will automatically refresh after the specified time.' => '',
