@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Customer Frontend
- * @version     $Revision: 1.1 $
+ * @version     $Revision: 1.1.2.1 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  * @css-for     IE7
@@ -13,7 +13,7 @@
  */
 
 /**
- * @bugfix      Default Button 
+ * @bugfix      Default Button
  */
 
 button {
@@ -21,11 +21,11 @@ button {
 }
 
 /**
- * @bugfix      Spacing problems 
+ * @bugfix      Spacing problems
  */
 
-.ActionRow {
-    height: 23px;
+li.Clear {
+    Display: None;
 }
 
 .Overview thead {
@@ -46,7 +46,7 @@ button {
 
 /**
  * @bugfix      overflow:hidden problem
- * @see         http://snook.ca/archives/html_and_css/position_relative_overflow_ie/ 
+ * @see         http://snook.ca/archives/html_and_css/position_relative_overflow_ie/
  */
 #Slider {
     position: relative;
@@ -65,4 +65,4 @@ div.Clear {
     display: inline;
 }
 
-} /* end @media */  
+} /* end @media */
