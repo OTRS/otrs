@@ -6,7 +6,7 @@
 # Copyright (C) 2010 O2BS.com, s r.o. Jakub Hanus
 # Copyright (C) 2010 Pavel <pavel.vilim at kodys.cz>
 # --
-# $Id: cs.pm,v 1.8 2011-09-15 11:38:51 mg Exp $
+# $Id: cs.pm,v 1.9 2011-10-07 13:14:48 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -693,7 +693,7 @@ sub Data {
         'Ticket move notification' => '',
         'Send me a notification if a ticket is moved into one of "My Queues".' => 'Pošli mi oznámení pokud je Tiket přesunut do mých Front.',
         'Send ticket move notifications' => '',
-        'Your queue selection of your favourite queues. You also get notified about those queues via email if enabled.' => 'Selekce Front z Oblíbených. Bude zasíláno oznámení, je-li zapnuto.',
+        'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' => 'Selekce Front z Oblíbených. Bude zasíláno oznámení, je-li zapnuto.',
         'Custom Queue' => 'Vlastní fronta',
         'QueueView refresh time' => 'Doba obnovení náhledu fronty',
         'If enabled, the QueueView will automatically refresh after the specified time.' => '',

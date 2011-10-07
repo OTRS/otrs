@@ -2,7 +2,7 @@
 # Kernel/Language/et.pm - provides Estonian language translation
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: et.pm,v 1.52 2011-09-15 11:38:49 mg Exp $
+# $Id: et.pm,v 1.53 2011-10-07 13:14:48 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.52 $) [1];
+$VERSION = qw($Revision: 1.53 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -688,7 +688,7 @@ sub Data {
         'Ticket move notification' => '',
         'Send me a notification if a ticket is moved into one of "My Queues".' => 'Saada mulle teavitus, kui intsident on tõstetud mõnda järjekorda "Minu järjekordades".',
         'Send ticket move notifications' => '',
-        'Your queue selection of your favourite queues. You also get notified about those queues via email if enabled.' => 'Sinu valik oma vajalikumatest järjekordadest. Saad ka teavituse e-posti teel, kui see on lubatud.',
+        'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' => 'Sinu valik oma vajalikumatest järjekordadest. Saad ka teavituse e-posti teel, kui see on lubatud.',
         'Custom Queue' => 'Kohandatud järjekord',
         'QueueView refresh time' => 'Järjekorravaate värskendusaeg',
         'If enabled, the QueueView will automatically refresh after the specified time.' => '',

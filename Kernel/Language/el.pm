@@ -3,7 +3,7 @@
 # Copyright (C) 2006 Stelios Maistros <smaistros aegean.gr>
 # Copyright (C) 2006 George Thomas <gthomas aegean.gr>
 # --
-# $Id: el.pm,v 1.81 2011-09-15 11:38:49 mg Exp $
+# $Id: el.pm,v 1.82 2011-10-07 13:14:48 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.81 $) [1];
+$VERSION = qw($Revision: 1.82 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -692,7 +692,7 @@ sub Data {
         'Send me a notification if a ticket is moved into one of "My Queues".' => 'Αποστολη ειδοποιησης αν ενα δελτιο αποσταλει σε μια απο τις
 "Ουρές μου".',
         'Send ticket move notifications' => '',
-        'Your queue selection of your favourite queues. You also get notified about those queues via email if enabled.' => 'Οι επιλεγμένες απο τις
+        'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' => 'Οι επιλεγμένες απο τις
 αγαπημένες σας ουρές.Μπορείτε να ειδοποιείστε μεσω email αν το ενεργοποιήσετε.',
         'Custom Queue' => 'Προσαρμοσμένη Ουρά',
         'QueueView refresh time' => 'Χρόνος ανανέωσης προβολής της ουράς',

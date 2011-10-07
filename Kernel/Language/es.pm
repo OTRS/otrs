@@ -6,7 +6,7 @@
 # Copyright (C) 2009 Gustavo Azambuja <gazambuja at gmail.com>
 # Copyright (C) 2009 Emiliano Gonzalez <egonzalez@ergio.com.ar>
 # --
-# $Id: es.pm,v 1.132 2011-09-15 11:38:48 mg Exp $
+# $Id: es.pm,v 1.133 2011-10-07 13:14:48 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.132 $) [1];
+$VERSION = qw($Revision: 1.133 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -693,7 +693,7 @@ sub Data {
         'Ticket move notification' => '',
         'Send me a notification if a ticket is moved into one of "My Queues".' => 'Notifíqueme si un ticket es colocado en una de "Mis Colas".',
         'Send ticket move notifications' => '',
-        'Your queue selection of your favourite queues. You also get notified about those queues via email if enabled.' => 'Cola de selección de colas favoritas. Ud. también puede ser notificado de estas colas vía correo si está habilitado',
+        'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' => 'Cola de selección de colas favoritas. Ud. también puede ser notificado de estas colas vía correo si está habilitado',
         'Custom Queue' => 'Cola personal',
         'QueueView refresh time' => 'Tiempo de actualización de la vista de colas',
         'If enabled, the QueueView will automatically refresh after the specified time.' => '',

@@ -4,7 +4,7 @@
 # Copyright (C) 2007-2008 Mads N. Vestergaard <mnv[at]timmy.dk>
 # Copyright (C) 2010 Lars Jørgensen <lajo[at]kb.dk>
 # --
-# $Id: da.pm,v 1.90 2011-09-15 11:38:48 mg Exp $
+# $Id: da.pm,v 1.91 2011-10-07 13:14:48 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 
 use vars qw($VERSION);
 
-$VERSION = qw($Revision: 1.90 $) [1];
+$VERSION = qw($Revision: 1.91 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -691,7 +691,7 @@ sub Data {
         'Ticket move notification' => 'Besked om flyttede sager',
         'Send me a notification if a ticket is moved into one of "My Queues".' => 'Send mig en besked, hvis en sag flyttes ind i en af "Mine køer".',
         'Send ticket move notifications' => 'Send besked om flyttede sager',
-        'Your queue selection of your favourite queues. You also get notified about those queues via email if enabled.' => 'Dit valg af foretrukne køer. Du får besked om handlinger i disse køer via mail, hvis det er aktiveret.',
+        'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' => 'Dit valg af foretrukne køer. Du får besked om handlinger i disse køer via mail, hvis det er aktiveret.',
         'Custom Queue' => 'Tilpasset kø',
         'QueueView refresh time' => 'Genindlæsningstid af kø-visningen',
         'If enabled, the QueueView will automatically refresh after the specified time.' => 'Hvis aktiveret vil Kø-visningen automatisk genindlæses efter den specificerede tid.',

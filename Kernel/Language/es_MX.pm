@@ -2,7 +2,7 @@
 # Kernel/Language/es_MX.pm - provides Spanish language translation for Mexico
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: es_MX.pm,v 1.46 2011-09-15 11:38:50 mg Exp $
+# $Id: es_MX.pm,v 1.47 2011-10-07 13:14:48 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.46 $) [1];
+$VERSION = qw($Revision: 1.47 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -689,7 +689,7 @@ sub Data {
         'Ticket move notification' => 'Notificación de reubicación de ticket',
         'Send me a notification if a ticket is moved into one of "My Queues".' => 'Notifíqueme si un ticket es colocado en una de "Mis Filas".',
         'Send ticket move notifications' => 'Enviar notificaciones de reubicación de ticket',
-        'Your queue selection of your favourite queues. You also get notified about those queues via email if enabled.' => 'Fila de selección de filas favoritas. Ud. también puede ser notificado de estas filas vía correo si está habilitado',
+        'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' => 'Fila de selección de filas favoritas. Ud. también puede ser notificado de estas filas vía correo si está habilitado',
         'Custom Queue' => 'Fila personal',
         'QueueView refresh time' => 'Tiempo de actualización de la vista de filas',
         'If enabled, the QueueView will automatically refresh after the specified time.' => 'Si se habilita, la vista de filas se actualizará automáticamente después del tiempo especificado.',

@@ -4,7 +4,7 @@
 # Copyright (C) 2011 Chetan Nagaonkar <Chetan_Nagaonkar at OptForOPS.com>
 # Copyright (C) 2011 Chetan Nagaonkar <ChetanNagaonkar at yahoo.com>
 # --
-# $Id: hi.pm,v 1.8 2011-09-15 11:38:47 mg Exp $
+# $Id: hi.pm,v 1.9 2011-10-07 13:14:49 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -691,7 +691,7 @@ sub Data {
         'Ticket move notification' => 'टिकट स्थानांतरित अधिसूचना',
         'Send me a notification if a ticket is moved into one of "My Queues".' => 'यदि टिकट मेरी किसी भी "मेरी श्रेणी" में नया टिकट प्रस्तावित किया जाता है तो मुझे सूचना भेजें।',
         'Send ticket move notifications' => 'टिकट स्थानांतरित अधिसूचना भेजें।',
-        'Your queue selection of your favourite queues. You also get notified about those queues via email if enabled.' => 'अपनी श्रेणी का चयन करें पसंदीदा श्रेणीयो से। आपको उन श्रेणीयो के बारे में ईमेल द्वारा अधिसूचित किया जाएगा। सक्रिय होने पर।',
+        'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' => 'अपनी श्रेणी का चयन करें पसंदीदा श्रेणीयो से। आपको उन श्रेणीयो के बारे में ईमेल द्वारा अधिसूचित किया जाएगा। सक्रिय होने पर।',
         'Custom Queue' => 'कस्टम श्रेणी ',
         'QueueView refresh time' => 'श्रेणीदृश्य का नवीनीकृत समय',
         'If enabled, the QueueView will automatically refresh after the specified time.' => 'यदि सक्रिय है,श्रेणीदृश्य स्वचालित रूप से निर्धारित समय के बाद ताज़ा होगी।',

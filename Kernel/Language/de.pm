@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Thomas Kaltenbrunner <tkaltenbrunner at opc.de>
 # --
-# $Id: de.pm,v 1.286 2011-09-15 11:38:47 mg Exp $
+# $Id: de.pm,v 1.287 2011-10-07 13:14:48 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.286 $) [1];
+$VERSION = qw($Revision: 1.287 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -689,7 +689,7 @@ sub Data {
         'Ticket move notification' => 'Benachrichtigung beim Verschieben von Tickets',
         'Send me a notification if a ticket is moved into one of "My Queues".' => 'Zusenden einer Mitteilung beim Verschieben eines Tickets in "Meine Queues".',
         'Send ticket move notifications' => 'Benachrichtigung beim Verschieben eines Tickets',
-        'Your queue selection of your favourite queues. You also get notified about those queues via email if enabled.' => 'Queue Auswahl der bevorzugten Queues. Es werden E-Mail-Benachrichtigungen über diese ausgewählten Queues versendet.',
+        'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' => 'Queue Auswahl der bevorzugten Queues. Es werden E-Mail-Benachrichtigungen über diese ausgewählten Queues versendet.',
         'Custom Queue' => 'Bevorzugte Queue',
         'QueueView refresh time' => 'Queue-Ansicht Aktualisierungszeit',
         'If enabled, the QueueView will automatically refresh after the specified time.' => 'Automatische Aktualisierung der Queue-Ansicht nach der angegebenen Zeit',

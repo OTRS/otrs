@@ -2,7 +2,7 @@
 # Kernel/Language/ar_SA.pm - provides ar_SA language translation
 # Copyright (C) 2007 Mohammad Saleh <maoaf at yahoo.com>
 # --
-# $Id: ar_SA.pm,v 1.63 2011-09-15 11:38:48 mg Exp $
+# $Id: ar_SA.pm,v 1.64 2011-10-07 13:14:47 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.63 $) [1];
+$VERSION = qw($Revision: 1.64 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -691,7 +691,7 @@ sub Data {
         'Ticket move notification' => '',
         'Send me a notification if a ticket is moved into one of "My Queues".' => 'أرسلي تنبيه إذا نقلت أحد البطاقات إلى أحد قوائم "بطاقاتي".',
         'Send ticket move notifications' => '',
-        'Your queue selection of your favourite queues. You also get notified about those queues via email if enabled.' => 'القوائم المفضلة لديك من قوائم البطاقات. أيضاً سيتم تنبيهك عن هذه القوائم من خلال اليبريد الإلكتروني إذا فعلت',
+        'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' => 'القوائم المفضلة لديك من قوائم البطاقات. أيضاً سيتم تنبيهك عن هذه القوائم من خلال اليبريد الإلكتروني إذا فعلت',
         'Custom Queue' => '',
         'QueueView refresh time' => 'وقت تحديث قائمة البطاقات',
         'If enabled, the QueueView will automatically refresh after the specified time.' => '',

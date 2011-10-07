@@ -8,7 +8,7 @@
 # Copyright (C) 2004-2008 Yann Richard <ze at nbox.org>
 # Copyright (C) 2009-2010 Olivier Sallou <olivier.sallou at irisa.fr>
 # --
-# $Id: fr.pm,v 1.149 2011-09-15 11:38:51 mg Exp $
+# $Id: fr.pm,v 1.150 2011-10-07 13:14:49 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.149 $) [1];
+$VERSION = qw($Revision: 1.150 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -695,7 +695,7 @@ sub Data {
         'Ticket move notification' => 'Notification de déplacement de Ticket',
         'Send me a notification if a ticket is moved into one of "My Queues".' => 'Me prévenir si un ticket est déplacé dans une de "Mes files".',
         'Send ticket move notifications' => '',
-        'Your queue selection of your favourite queues. You also get notified about those queues via email if enabled.' => 'Votre sélection des files préférées. Vous recevrez une information par courriel si disponible',
+        'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' => 'Votre sélection des files préférées. Vous recevrez une information par courriel si disponible',
         'Custom Queue' => 'File d\'attente personnalisée',
         'QueueView refresh time' => 'Temps de rafraîchissement de la vue des files',
         'If enabled, the QueueView will automatically refresh after the specified time.' => '',

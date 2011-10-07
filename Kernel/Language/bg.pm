@@ -3,7 +3,7 @@
 # Copyright (C) 2004 Vladimir Gerdjikov <gerdjikov at gerdjikovs.net>
 # Copyright (C) 2007 Alex Kantchev <ak at otrs.org>
 # --
-# $Id: bg.pm,v 1.119 2011-09-15 11:38:50 mg Exp $
+# $Id: bg.pm,v 1.120 2011-10-07 13:14:48 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.119 $) [1];
+$VERSION = qw($Revision: 1.120 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -690,7 +690,7 @@ sub Data {
         'Ticket move notification' => '',
         'Send me a notification if a ticket is moved into one of "My Queues".' => 'Изпратете уведомление билет е преместен в "Собствени опашки".',
         'Send ticket move notifications' => '',
-        'Your queue selection of your favourite queues. You also get notified about those queues via email if enabled.' => 'Вашия избор за предпочитани опашки. Вие ще получите уведомления за тези опашки ако сте го разрешили.',
+        'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' => 'Вашия избор за предпочитани опашки. Вие ще получите уведомления за тези опашки ако сте го разрешили.',
         'Custom Queue' => 'Потребителска опашка',
         'QueueView refresh time' => 'Време за обновяване изгледът на опашката',
         'If enabled, the QueueView will automatically refresh after the specified time.' => '',

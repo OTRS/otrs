@@ -4,7 +4,7 @@
 # Copyright (C) 2008 Hooman Mesgary <info at mesgary.com>
 # Copyright (C) 2009 Afshar Mohebbi <afshar.mohebbi at gmail.com>
 # --
-# $Id: fa.pm,v 1.94 2011-09-15 11:38:48 mg Exp $
+# $Id: fa.pm,v 1.95 2011-10-07 13:14:49 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.94 $) [1];
+$VERSION = qw($Revision: 1.95 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -694,7 +694,7 @@ sub Data {
         'Ticket move notification' => 'اعلان انتقال درخواست',
         'Send me a notification if a ticket is moved into one of "My Queues".' => 'انتقال یک درخواست به لیست درخواست‌های من را اطلاع بده.',
         'Send ticket move notifications' => 'ارسال اعلان‌های انتقال درخواست',
-        'Your queue selection of your favourite queues. You also get notified about those queues via email if enabled.' => 'شما از طریق ایمیل از وضعیت لیست خود مطلع خواهید شد - در صورتیکه این گزینه در سیستم فعال باشد',
+        'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' => 'شما از طریق ایمیل از وضعیت لیست خود مطلع خواهید شد - در صورتیکه این گزینه در سیستم فعال باشد',
         'Custom Queue' => 'لیست سفارشی',
         'QueueView refresh time' => 'زمان بازیابی لیست درخواست‌ها',
         'If enabled, the QueueView will automatically refresh after the specified time.' => 'اگر مشخص شده باشد، صف درخواست به صورت خودکار پس از زمان مشخص شده مجددا بارگذاری می‌شود.',
