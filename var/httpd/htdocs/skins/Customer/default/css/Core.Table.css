@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Customer Frontend
- * @version     $Revision: 1.7 $
+ * @version     $Revision: 1.8 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -161,7 +161,13 @@ table.Overview {
  * @subsection  Table Style Hovered
  */
 .Overview tbody tr:hover td {
-    background: url(../img/tr_hover.png) repeat-x;
+    background: #FBBA49;
+    background: -moz-linear-gradient(top, #FFE7BD 0%, #FBBA49 20%, #F6AD3E 51%, #F3960D 51%, #E98207 95%, #E07006 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#FFE7BD), color-stop(20%,#FBBA49), color-stop(51%,#F6AD3E), color-stop(51%,#F3960D), color-stop(95%,#E98207), color-stop(100%,#E07006));
+    background: -webkit-linear-gradient(top, #FFE7BD 0%,#FBBA49 20%,#F6AD3E 51%,#F3960D 51%,#E98207 95%,#E07006 100%);
+    background: -o-linear-gradient(top, #FFE7BD 0%,#FBBA49 20%,#F6AD3E 51%,#F3960D 51%,#E98207 95%,#E07006 100%);
+    background: -ms-linear-gradient(top, #FFE7BD 0%,#FBBA49 20%,#F6AD3E 51%,#F3960D 51%,#E98207 95%,#E07006 100%);
+    background: linear-gradient(top, #FFE7BD 0%,#FBBA49 20%,#F6AD3E 51%,#F3960D 51%,#E98207 95%,#E07006 100%);
 }
 .Overview tbody tr:hover {
     border-color: #CCC;
