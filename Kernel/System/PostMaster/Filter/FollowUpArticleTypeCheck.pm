@@ -1,8 +1,8 @@
 # --
 # Kernel/System/PostMaster/Filter/FollowUpArticleTypeCheck.pm - sub part of PostMaster.pm
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: FollowUpArticleTypeCheck.pm,v 1.5 2010-02-26 11:53:23 martin Exp $
+# $Id: FollowUpArticleTypeCheck.pm,v 1.6 2011-10-10 13:54:52 ep Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -52,7 +52,9 @@ sub Run {
     return if !@ArticleIndex;
 
     # check if current sender is customer (do nothing)
-    return 1 if lc $ArticleIndex[0]->{CustomerUserID} eq lc $Param{GetParam}->{'X-Sender'};
+    if ( $ArticleIndex[0]->{CustomerUserID} && $Param{GetParam}->{'X-Sender'} ) {
+        return 1 if lc $ArticleIndex[0]->{CustomerUserID} eq lc $Param{GetParam}->{'X-Sender'};
+    }
 
     # check if current sender got an internal forward
     my $InternalForward;
