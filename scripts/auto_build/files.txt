@@ -39,6 +39,7 @@
 %dir /opt/otrs/var/packages/*.opm
 %dir /opt/otrs/var/article/
 /opt/otrs/var/httpd/
+/opt/otrs/var/fonts/
 %dir /opt/otrs/var/log/
 %dir /opt/otrs/var/sessions/
 %dir /opt/otrs/var/spool/
