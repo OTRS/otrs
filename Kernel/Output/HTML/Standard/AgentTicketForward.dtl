@@ -1,8 +1,8 @@
 # --
 # AgentTicketForward.dtl - provides HTML form for AgentTicketForward
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketForward.dtl,v 1.85 2010-12-20 15:35:05 martin Exp $
+# $Id: AgentTicketForward.dtl,v 1.85.2.1 2011-10-10 12:53:24 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ $Include{"AgentCustomerSearch"}
 
     <div class="LayoutPopup ARIARoleMain">
         <div class="Header">
-            <h1>$Text{"Forward ticket: $QData{"TicketNumber"}"} - $QData{"Title","60"}</h1>
+            <h1>$Text{"Forward ticket: "} $QData{"TicketNumber"} - $QData{"Title","60"}</h1>
 
 <!-- dtl:block:TicketBack -->
             <p>
