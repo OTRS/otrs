@@ -2,14 +2,14 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1758.2.169 2011-10-07 16:47:31 cr Exp $
+# $Id: CHANGES,v 1.1758.2.170 2011-10-10 08:51:31 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-3.0.11 2011-??-??
+3.0.11 2011-10-18
  - 2011-10-07 Fixed bug#7812 - Height of search terms doesn't fit on search results page on IE7
  - 2011-10-05 Fixed bug#7807 - Ticket free text misplaced in IE7.
  - 2011-09-22 Fixed bug#7776 - Double encoding for AJAX responses on ActiveState perl.
