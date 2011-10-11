@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Thomas Kaltenbrunner <tkaltenbrunner at opc.de>
 # --
-# $Id: de.pm,v 1.287 2011-10-07 13:14:48 mb Exp $
+# $Id: de.pm,v 1.288 2011-10-11 08:03:24 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.287 $) [1];
+$VERSION = qw($Revision: 1.288 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1330,6 +1330,7 @@ sub Data {
         'AutoIncrement' => 'AutoIncrement',
         'SQL' => 'SQL',
         'File differences for file %s' => 'Dateiunterschiede für Datei %s',
+        'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' => 'Der Turbo für Ihr OTRS - Exklusive Feature Add-Ons für Subscription-Kunden:',
 
         # Template: AdminPerformanceLog
         'Performance Log' => 'Performance Log',
