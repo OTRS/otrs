@@ -2,7 +2,7 @@
 # AdminGenericInterfaceWebservice.dtl - provides HTML form for AdminGenericInterfaceWebservice
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceWebservice.dtl,v 1.34 2011-07-27 16:19:03 cr Exp $
+# $Id: AdminGenericInterfaceWebservice.dtl,v 1.35 2011-10-12 12:26:54 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -172,13 +172,12 @@
             <div class="Header">
                 <h2>$Text{"Hint"}</h2>
             </div>
-            <div class="FieldExplanation">
-                <p>
+            <div class="Content">
+                <p class="FieldExplanation">
                     $Text{"After you save the configuration you will be redirected again to the edit screen."}
                 </p>
-                <br/>
-                <p>
-                    $Text{"If you want to return to overview please click on the "Go to overview" button."}
+                <p class="FieldExplanation">
+                    $Text{"If you want to return to overview please click the "Go to overview" button."}
                 </p>
             </div>
         </div>
