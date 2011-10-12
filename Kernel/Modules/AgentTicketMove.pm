@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMove.pm - move tickets to queues
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMove.pm,v 1.94 2011-09-27 16:52:36 cr Exp $
+# $Id: AgentTicketMove.pm,v 1.95 2011-10-12 16:00:48 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.94 $) [1];
+$VERSION = qw($Revision: 1.95 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -137,9 +137,6 @@ sub Run {
     }
     for my $Parameter (qw(Year Month Day Hour Minute)) {
         $GetParam{$Parameter} = $Self->{ParamObject}->GetParam( Param => $Parameter );
-    }
-    if ( !$GetParam{DestQueueID} ) {
-        $GetParam{OwnerAll} = 1;
     }
 
     # get Dynamic fields form ParamObject
