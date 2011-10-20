@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Dropdown.pm - Delegate for DynamicField Dropdown backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Dropdown.pm,v 1.33 2011-10-04 01:22:13 cr Exp $
+# $Id: Dropdown.pm,v 1.34 2011-10-20 21:16:24 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::DynamicFieldValue;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.33 $) [1];
+$VERSION = qw($Revision: 1.34 $) [1];
 
 =head1 NAME
 
@@ -494,6 +494,35 @@ sub SearchFieldParameterBuild {
             Equals => $Value,
         },
         Display => $DisplayValue,
+    };
+}
+
+sub StatsFieldParameterBuild {
+    my ( $Self, %Param ) = @_;
+
+    # set PossibleValues
+    my $Values = $Param{DynamicFieldConfig}->{Config}->{PossibleValues};
+
+    # use PossibleValuesFilter if defined
+    $Values = $Param{PossibleValuesFilter}
+        if defined $Param{PossibleValuesFilter};
+
+    return {
+        Values             => $Values,
+        Name               => 'DynamicField_' . $Param{DynamicFieldConfig}->{Label},
+        Element            => 'DynamicField_' . $Param{DynamicFieldConfig}->{Name},
+        TranslatableValues => $Param{DynamicFieldconfig}->{Config}->{TranslatableValues},
+    };
+}
+
+sub StatsSearchFieldParameterBuild {
+    my ( $Self, %Param ) = @_;
+
+    my $Operator = 'Equals';
+    my $Value    = $Param{Value};
+
+    return {
+        $Operator => $Value,
     };
 }
 
