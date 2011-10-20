@@ -2,7 +2,7 @@
 // Core.UI.Table.js - Table specific functions
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.UI.Table.js,v 1.7 2011-03-22 15:29:05 mb Exp $
+// $Id: Core.UI.Table.js,v 1.8 2011-10-20 09:59:43 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -62,6 +62,50 @@ Core.UI.Table = (function (TargetNS) {
                 .add('li:last-child', $Context)
                 .addClass('Last');
         }
+    };
+
+    /**
+     * @function
+     * @description
+     *      This function re-calculates some css values for the fixed table headers.
+     *      The ControlRow can be of a different height in some cases. That needs adjustment of the following elements.
+     * @return nothing
+     */
+    TargetNS.InitFixedHeader = function () {
+        var $ControlRow,
+            ControlRowHeight = 0,
+            ControlRowLineHeight = 25,
+            FixedHeaderAdjustement = 0,
+            FixedHeaderTopPosition,
+            FixedHeaderContainerPadding;
+
+        // Only if a fixed table exists
+        if (!$('#FixedTable').length) {
+            return;
+        }
+
+        $ControlRow = $('.OverviewControl .ControlRow');
+
+        if (!$ControlRow.length) {
+            return;
+        }
+
+        ControlRowHeight = $ControlRow.height();
+        // Default CSS is defined for a ControlRow with one line
+        FixedHeaderAdjustement = ControlRowHeight - ControlRowLineHeight;
+
+        // Only continue if ControlRow has more than one line
+        if (FixedHeaderAdjustement <= 0) {
+            return;
+        }
+
+        // Adjust CSS
+        FixedHeaderContainerPadding = parseInt($('.Overview.FixedHeader').css('padding-top'), 10);
+        FixedHeaderTopPosition = parseInt($('.Overview.FixedHeader thead tr').css('top'), 10);
+
+        $('.Overview.FixedHeader').css('padding-top', (FixedHeaderContainerPadding + FixedHeaderAdjustement - 0) + 'px');
+        $('.Overview.FixedHeader thead tr').css('top', (FixedHeaderTopPosition + FixedHeaderAdjustement - 0) + 'px');
+
     };
 
     /**

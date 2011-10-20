@@ -2,7 +2,7 @@
 // Core.Agent.js - provides the application functions
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.js,v 1.18 2011-05-10 11:36:24 mg Exp $
+// $Id: Core.Agent.js,v 1.19 2011-10-20 09:59:43 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -161,6 +161,7 @@ Core.Agent = (function (TargetNS) {
         InitNavigation();
         Core.Exception.Init();
         Core.UI.Table.InitCSSPseudoClasses();
+        Core.UI.Table.InitFixedHeader();
         Core.UI.InitWidgetActionToggle();
         Core.UI.InitMessageBoxClose();
         Core.UI.ProcessTagAttributeClasses();
