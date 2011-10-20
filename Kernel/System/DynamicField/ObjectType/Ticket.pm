@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/ObjectType/Ticket.pm - Ticket object handler for DynamicField
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.5 2011-09-27 18:06:02 cg Exp $
+# $Id: Ticket.pm,v 1.6 2011-10-20 14:00:34 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::Web::Request;
 use Kernel::Output::HTML::Layout;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 =head1 NAME
 
@@ -181,7 +181,7 @@ sub PostValueSet {
         UserID => $Param{UserID},
     );
 
-    return 1
+    return 1;
 }
 
 1;
