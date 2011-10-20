@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend.pm - Interface for DynamicField backends
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Backend.pm,v 1.46 2011-10-20 14:01:50 mg Exp $
+# $Id: Backend.pm,v 1.47 2011-10-20 21:07:45 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Scalar::Util qw(weaken);
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.46 $) [1];
+$VERSION = qw($Revision: 1.47 $) [1];
 
 =head1 NAME
 
@@ -1122,7 +1122,7 @@ build the search parameters to be passed to the search engine.
 
     Returns
 
-    $DynamicFieldSearchParameter {
+    $DynamicFieldSearchParameter = {
         Parameter {
             Equals => $Value,                           # Available operatiors:
 
@@ -1183,6 +1183,145 @@ sub SearchFieldParameterBuild {
     return $Self->{$DynamicFieldBackend}->SearchFieldParameterBuild(%Param);
 }
 
+=item StatsFieldParameterBuild()
+    my $DynamicFieldStatsParameter =  $BackendObject->StatsFieldParameterBuild(
+        DynamicFieldConfig   => $DynamicFieldConfig,      # complete config of the DynamicField
+        PossibleValuesFilter => ['value1', 'value2'],     # Optional. Some backends may support this.
+                                                          #     This may be needed to realize ACL support for ticket masks,
+                                                          #     where the possible values can be limited with and ACL.
+    );
+
+    returns
+
+    $DynamicFieldStatsParameter = {
+        Values => {
+            $Key1 => $Value1,
+            $Key2 => $Value2,
+        },
+        Name               => 'DynamicField_' . $DynamicFieldConfig->{Label},
+        Element            => 'DynamicField_' . $DynamicFieldConfig->{Name},
+        TranslatableValues => 1,
+    };
+=cut
+
+sub StatsFieldParameterBuild {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Needed (qw(DynamicFieldConfig)) {
+        if ( !$Param{$Needed} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            return;
+        }
+    }
+
+    # check DynamicFieldConfig (general)
+    if ( !IsHashRefWithData( $Param{DynamicFieldConfig} ) ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "The field configuration is invalid",
+        );
+        return;
+    }
+
+    # check DynamicFieldConfig (internally)
+    for my $Needed (qw(ID FieldType ObjectType Name)) {
+        if ( !$Param{DynamicFieldConfig}->{$Needed} ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed in DynamicFieldConfig!"
+            );
+            return;
+        }
+    }
+
+    # set the dynamic filed specific backend
+    my $DynamicFieldBackend = 'DynamicField' . $Param{DynamicFieldConfig}->{FieldType} . 'Object';
+
+    if ( !$Self->{$DynamicFieldBackend} ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!"
+        );
+        return;
+    }
+
+    # return value from the specific backend
+    return $Self->{$DynamicFieldBackend}->StatsFieldParameterBuild(%Param);
+
+}
+
+=item StatsSearchFieldParameterBuild()
+
+build the search parameters to be passed to the search engine within the stats module.
+
+    my $DynamicFieldStatsSearchParameter = $BackendObject->StatsSearchFieldParameterBuild(
+        DynamicFieldConfig   => $DynamicFieldConfig,    # complete config of the DynamicField
+        Value                => $Value,                 # the serach profile
+    );
+
+    Returns
+
+    $DynamicFieldStatsSearchParameter = {
+            Equals => $Value,                           # Available operatiors:
+
+                                                        #   Equals            => 123,
+                                                        #   Like              => 'value*',
+                                                        #   GreaterThan       => '2001-01-01 01:01:01',
+                                                        #   GreaterThanEquals => '2001-01-01 01:01:01',
+                                                        #   LowerThan         => '2002-02-02 02:02:02',
+                                                        #   LowerThanEquals   => '2002-02-02 02:02:02',
+        },
+    };
+=cut
+
+sub StatsSearchFieldParameterBuild {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Needed (qw(DynamicFieldConfig Value)) {
+        if ( !$Param{$Needed} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            return;
+        }
+    }
+
+    # check DynamicFieldConfig (general)
+    if ( !IsHashRefWithData( $Param{DynamicFieldConfig} ) ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "The field configuration is invalid",
+        );
+        return;
+    }
+
+    # check DynamicFieldConfig (internally)
+    for my $Needed (qw(ID FieldType ObjectType Name)) {
+        if ( !$Param{DynamicFieldConfig}->{$Needed} ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed in DynamicFieldConfig!"
+            );
+            return;
+        }
+    }
+
+    # set the dynamic filed specific backend
+    my $DynamicFieldBackend = 'DynamicField' . $Param{DynamicFieldConfig}->{FieldType} . 'Object';
+
+    if ( !$Self->{$DynamicFieldBackend} ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!"
+        );
+        return;
+    }
+
+    # return value from the specific backend
+    return $Self->{$DynamicFieldBackend}->StatsSearchFieldParameterBuild(%Param);
+
+}
+
 1;
 
 =back
@@ -1199,6 +1338,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.46 $ $Date: 2011-10-20 14:01:50 $
+$Revision: 1.47 $ $Date: 2011-10-20 21:07:45 $
 
 =cut
