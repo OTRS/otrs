@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend.pm - Interface for DynamicField backends
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Backend.pm,v 1.45 2011-10-04 01:19:59 cr Exp $
+# $Id: Backend.pm,v 1.46 2011-10-20 14:01:50 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Scalar::Util qw(weaken);
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.45 $) [1];
+$VERSION = qw($Revision: 1.46 $) [1];
 
 =head1 NAME
 
@@ -376,21 +376,6 @@ sub DisplayValueRender {
     return $ValueStrg;
 }
 
-=item HandleEditRequest()
-
-when a form with dynamic fields was submitted, this function will handle the request by
-extracting the request parameter(s) for the current dynamic field and storing the value in the database.
-
-    my $Success = $BackendObject->HandleEditRequest(
-        DynamicFieldConfig => $DynamicFieldConfig,      # complete config of the DynamicField
-        ObjectID           => $ObjectID,                # ID of the current object that the field must be linked to, e. g. TicketID
-        ParamObject        => $ParamObject,             # the current request data
-    );
-
-=cut
-
-sub HandleEditRequest { }
-
 =item ValueSet()
 
 sets a dynamic field value.
@@ -544,30 +529,6 @@ sub ValueGet {
     # call ValueGet on the specific backend
     return $Self->{$DynamicFieldBackend}->ValueGet(%Param);
 }
-
-=item IsSearchable()
-
-returns if the current field backend is searchable or not.
-
-    my $Searchable = $BackendObject->IsSearchable();   # 1 or 0
-
-=cut
-
-sub IsSearchable { }
-
-=item FieldRequestedInSearch()
-
-determines if the current search request
-
-    my $SQL = $BackendObject->FieldRequestedInSearch(
-        DynamicFieldConfig => $DynamicFieldConfig,      # complete config of the DynamicField
-        SearchParams       => $SearchParams,            # current search parameters
-    );
-
-=cut
-
-# TODO: search SQL may need operator for free time fields (older/newer), depends on HTML structure
-sub FieldRequestedInSearch { }
 
 =item SearchSQLGet()
 
@@ -1238,6 +1199,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.45 $ $Date: 2011-10-04 01:19:59 $
+$Revision: 1.46 $ $Date: 2011-10-20 14:01:50 $
 
 =cut
