@@ -2,7 +2,7 @@
 # UPGRADING - upgrading OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: UPGRADING,v 1.54 2011-09-20 09:19:21 mg Exp $
+# $Id: UPGRADING,v 1.55 2011-10-20 14:21:45 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -188,6 +188,14 @@ XX) DynamicField User Preferences Module
     setting must be changed to "UserDynamicField_DynamicField", where the part after
     the _ is the name of the dynamic field. Existing values would need to be renamed
     in the database as well.
+
+
+XX) Escalation Events
+    -----------------
+
+    If you want to use the new escalation events in your system, you need to activate the
+    corresponding GenericAgent job in Kernel/Config/GenericAcent.pm. Please look into
+    Kernel/Config/GenericAgent.pm.dist for an example of how to do this.
 
 
 12) Well done!

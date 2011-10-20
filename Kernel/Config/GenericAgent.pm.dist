@@ -1,8 +1,8 @@
 # --
 # Kernel/Config/GenericAgent.pm - config file of generic agent
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: GenericAgent.pm.dist,v 1.14 2010-12-03 09:58:00 bes Exp $
+# $Id: GenericAgent.pm.dist,v 1.15 2011-10-20 14:21:45 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,14 +18,15 @@ use vars qw($VERSION @ISA @EXPORT %Jobs);
 require Exporter;
 @ISA     = qw(Exporter);
 @EXPORT  = qw(%Jobs);
-$VERSION = qw($Revision: 1.14 $)[1];
+$VERSION = qw($Revision: 1.15 $)[1];
 
 # -----------------------------------------------------------------------
 # config options
 # -----------------------------------------------------------------------
 %Jobs = (
 
-   # [name of job] -> send escalation notifications
+    # GenericAgent job that sends escalation notifications.
+    #   Activate this if you want to use these notifications in your system.
 #   'send escalation notifications' => {
 #       Escalation => 1,
 #       # new ticket properties
@@ -33,8 +34,19 @@ $VERSION = qw($Revision: 1.14 $)[1];
 #           Module => 'Kernel::System::GenericAgent::NotifyAgentGroupOfCustomQueue',
 #       },
 #   },
-   # insert your jobs (see Kernel/Config/GenericAgent.pm.examples)
 
+
+    # GenericAgent job that triggers escalation forewarn and escalation start events.
+    #   Activate this if you want to use these events in your system.
+#    'trigger escalation events' => {
+#        Escalation => 1,
+#        # new ticket properties
+#        New => {
+#            Module => 'Kernel::System::GenericAgent::TriggerEscalationStartEvents',
+#        },
+#    },
+
+   # insert your jobs (see Kernel/Config/GenericAgent.pm.examples)
 );
 # -----------------------------------------------------------------------
 # end of config options
