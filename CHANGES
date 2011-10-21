@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1986 2011-10-20 09:59:43 mn Exp $
+# $Id: CHANGES,v 1.1987 2011-10-21 08:32:07 des Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -1262,7 +1262,13 @@
     for ticket events (config is compatble with old one).
  - 2009-09-15 Improved performance of the PDF backend.
 
-2.4.11 (????/??/??)
+2.4.13 (????/??/??)
+ - 2011-10-21 Fixed bug#7845 - No DispatchMultiple Method in rpc.pl script.
+
+2.4.12 (2011/10/18)
+ - 2011-09-22 Fixed bug#7776 - Double encoding for AJAX responses on ActiveState perl.
+
+2.4.11 (2011/08/16)
  - 2011-04-07 Fixed bug#7195 - Graphs doesn't use GIF as fallback if PNG is not available.
 
 2.4.10 (2011/04/12)
