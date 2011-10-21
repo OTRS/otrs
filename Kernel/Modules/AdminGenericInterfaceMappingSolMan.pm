@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericInterfaceMappingSolMan.pm - provides a Mapping SolMan view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceMappingSolMan.pm,v 1.10 2011-07-20 18:29:23 cr Exp $
+# $Id: AdminGenericInterfaceMappingSolMan.pm,v 1.11 2011-10-21 05:03:02 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::GenericInterface::Webservice;
@@ -73,7 +73,7 @@ sub Run {
     my $MappingDirection
         = $Direction eq 'MappingOutbound'
         ? 'SolMan Mapping for Outgoing Data'
-        : 'SolMan Mapping for Icomming Data';
+        : 'SolMan Mapping for Incoming Data';
 
     # get configured Actions
     my $ActionsConfig
@@ -82,7 +82,7 @@ sub Run {
     # check for valid action backend
     if ( !IsHashRefWithData($ActionsConfig) ) {
         return $Self->{LayoutObject}->ErrorScreen(
-            Message => "Could not get registered configuration for actions type $ActionType",
+            Message => "Could not get registered configuration for action type $ActionType",
         );
     }
 

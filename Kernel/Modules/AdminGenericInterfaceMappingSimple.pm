@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericInterfaceMappingSimple.pm - provides a TransportHTTPSOAP view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceMappingSimple.pm,v 1.17 2011-08-05 19:01:40 cr Exp $
+# $Id: AdminGenericInterfaceMappingSimple.pm,v 1.18 2011-10-21 05:03:02 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.17 $) [1];
+$VERSION = qw($Revision: 1.18 $) [1];
 
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::GenericInterface::Webservice;
@@ -67,7 +67,7 @@ sub Run {
     my $MappingDirection
         = $Direction eq 'MappingOutbound'
         ? 'Simple Mapping for Outgoing Data'
-        : 'Simple Mapping for Icomming Data';
+        : 'Simple Mapping for Incoming Data';
 
     # get configured Actions
     my $ActionsConfig
@@ -76,7 +76,7 @@ sub Run {
     # check for valid action backend
     if ( !IsHashRefWithData($ActionsConfig) ) {
         return $Self->{LayoutObject}->ErrorScreen(
-            Message => "Could not get registered configuration for actions type $ActionType",
+            Message => "Could not get registered configuration for action type $ActionType",
         );
     }
 
