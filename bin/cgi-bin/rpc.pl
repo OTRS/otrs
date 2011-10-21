@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # bin/cgi-bin/rpc.pl - soap handle
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: rpc.pl,v 1.14 2009-06-29 21:25:56 martin Exp $
+# $Id: rpc.pl,v 1.14.2.1 2011-10-21 08:17:48 des Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -45,7 +45,7 @@ use Kernel::System::Ticket;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.14.2.1 $) [1];
 
 SOAP::Transport::HTTP::CGI->dispatch_to('Core')->handle;
 
@@ -118,6 +118,89 @@ sub Dispatch {
     }
 
     return $CommonObject{$Object}->$Method(%Param);
+}
+
+sub DispatchMultipleTicketMethods {
+    my ( $Self, $User, $Pw, $Object, $MethodParamArrayRef ) = @_;
+
+    $User ||= '';
+    $Pw   ||= '';
+
+    # common objects
+    my %CommonObject = ();
+    $CommonObject{ConfigObject} = Kernel::Config->new();
+    $CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
+    $CommonObject{LogObject}    = Kernel::System::Log->new(
+        LogPrefix => 'OTRS-RPC',
+        %CommonObject,
+    );
+    $CommonObject{MainObject}         = Kernel::System::Main->new(%CommonObject);
+    $CommonObject{DBObject}           = Kernel::System::DB->new(%CommonObject);
+    $CommonObject{PIDObject}          = Kernel::System::PID->new(%CommonObject);
+    $CommonObject{TimeObject}         = Kernel::System::Time->new(%CommonObject);
+    $CommonObject{UserObject}         = Kernel::System::User->new(%CommonObject);
+    $CommonObject{GroupObject}        = Kernel::System::Group->new(%CommonObject);
+    $CommonObject{QueueObject}        = Kernel::System::Queue->new(%CommonObject);
+    $CommonObject{CustomerUserObject} = Kernel::System::CustomerUser->new(%CommonObject);
+    $CommonObject{TicketObject}       = Kernel::System::Ticket->new(%CommonObject);
+    $CommonObject{LinkObject}         = Kernel::System::LinkObject->new(%CommonObject);
+
+    my $RequiredUser     = $CommonObject{ConfigObject}->Get('SOAP::User');
+    my $RequiredPassword = $CommonObject{ConfigObject}->Get('SOAP::Password');
+
+    if (
+        !defined $RequiredUser
+        || !length $RequiredUser
+        || !defined $RequiredPassword || !length $RequiredPassword
+        )
+    {
+        $CommonObject{LogObject}->Log(
+            Priority => 'notice',
+            Message  => "SOAP::User or SOAP::Password is empty, SOAP access denied!",
+        );
+        return;
+    }
+
+    if ( $User ne $RequiredUser || $Pw ne $RequiredPassword ) {
+        $CommonObject{LogObject}->Log(
+            Priority => 'notice',
+            Message  => "Auth for user $User (pw $Pw) failed!",
+        );
+        return;
+    }
+
+    if ( !$CommonObject{$Object} ) {
+        $CommonObject{LogObject}->Log(
+            Priority => 'error',
+            Message  => "No such Object $Object!",
+        );
+        return "No such Object $Object!";
+    }
+
+    my $TicketID;
+    my $Counter;
+
+    for my $MethodParamEntry ( @{$MethodParamArrayRef} ) {
+
+        my $Method    = $MethodParamEntry->{Method};
+        my %Parameter = %{ $MethodParamEntry->{Parameter} };
+
+        # push ticket id to params if there is no ticket id
+        if ( !$Parameter{TicketID} && $TicketID ) {
+            $Parameter{TicketID} = $TicketID;
+        }
+
+        my $ReturnValue = $CommonObject{$Object}->$Method(%Parameter);
+
+        # remember ticket id if method was TicketCreate
+        if ( !$Counter && $Object eq 'TicketObject' && $Method eq 'TicketCreate' ) {
+            $TicketID = $ReturnValue;
+        }
+
+        $Counter++;
+    }
+
+    return $TicketID;
 }
 
 1;
