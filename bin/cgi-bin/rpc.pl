@@ -3,7 +3,7 @@
 # bin/cgi-bin/rpc.pl - soap handle
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: rpc.pl,v 1.14.2.1 2011-10-21 08:17:48 des Exp $
+# $Id: rpc.pl,v 1.14.2.2 2011-10-21 09:16:53 des Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -45,7 +45,7 @@ use Kernel::System::Ticket;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.14.2.1 $) [1];
+$VERSION = qw($Revision: 1.14.2.2 $) [1];
 
 SOAP::Transport::HTTP::CGI->dispatch_to('Core')->handle;
 
@@ -119,6 +119,19 @@ sub Dispatch {
 
     return $CommonObject{$Object}->$Method(%Param);
 }
+
+=item DispatchMultipleTicketMethods()
+
+to dispatch multiple ticket methods and get the TicketID
+
+    my $TicketID = $RPC->DispatchMultipleTicketMethods(
+        $SOAP_User,
+        $SOAP_Pass,
+        'TicketObject',
+        [ { Method => 'TicketCreate', Parameter => \%TicketData }, { Method => 'ArticleCreate', Parameter => \%ArticleData } ],
+    );
+
+=cut
 
 sub DispatchMultipleTicketMethods {
     my ( $Self, $User, $Pw, $Object, $MethodParamArrayRef ) = @_;
