@@ -2,7 +2,7 @@
 # UPGRADING - upgrading OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: UPGRADING,v 1.55 2011-10-20 14:21:45 mg Exp $
+# $Id: UPGRADING,v 1.56 2011-10-24 08:48:53 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -157,7 +157,13 @@ from OTRS version 3.1.0 to 3.1.1, you should skip steps 8 and 11.
     Now you can log into your system.
 
 
-11) Check for encoding issues
+11) Check installed packages
+    ------------------------
+    In the package manager, check if all packages are still marked as
+    correctly installed or if any require reinstallation or even a package upgrade.
+
+
+12) Check for encoding issues
     -------------------------
 
     OTRS 3.1 only allows UTF-8 as internal charset.
