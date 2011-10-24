@@ -2,7 +2,7 @@
 # Kernel/System/TicketSearch.pm - all ticket search functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketSearch.pm,v 1.10 2011-09-23 12:10:10 mg Exp $
+# $Id: TicketSearch.pm,v 1.11 2011-10-24 10:46:12 ep Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 use Kernel::System::DynamicField;
 use Kernel::System::DynamicField::Backend;
@@ -1867,9 +1867,9 @@ sub _InConditionGet {
     return " AND $Param{TableColumn} IN (" . ( join ',', @SortedIDs ) . ")";
 }
 
-=end Internal:
-
 1;
+
+=end Internal:
 
 =back
 
@@ -1883,6 +1883,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.10 $ $Date: 2011-09-23 12:10:10 $
+$Revision: 1.11 $ $Date: 2011-10-24 10:46:12 $
 
 =cut
