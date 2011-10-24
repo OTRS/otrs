@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericInterfaceWebservice.pm - provides a webservice view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceWebservice.pm,v 1.30 2011-07-27 03:24:52 cr Exp $
+# $Id: AdminGenericInterfaceWebservice.pm,v 1.31 2011-10-24 17:24:42 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.30 $) [1];
+$VERSION = qw($Revision: 1.31 $) [1];
 
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::GenericInterface::Webservice;
@@ -938,7 +938,11 @@ sub _ShowEdit {
         );
 
         # check if selected trasnport can be configured and show the "configure button"
-        if ( $GITransports{ $CommTypeConfig{$CommunicationType}->{SelectedTransport} } ) {
+        if (
+            $CommTypeConfig{$CommunicationType}->{SelectedTransport} &&
+            $GITransports{ $CommTypeConfig{$CommunicationType}->{SelectedTransport} }
+            )
+        {
 
             $Self->{LayoutObject}->Block(
                 Name => 'DetailsTransportPropertiesButton',
