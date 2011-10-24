@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.485 2011-10-07 09:17:02 mb Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.486 2011-10-24 22:00:36 cr Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Translatable="1">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Group>Ticket</Group>
@@ -824,44 +824,6 @@ Description>
                 <Item Key="Subject">Subject</Item>
                 <Item Key="Queue">Queue</Item>
                 <Item Key="TicketEscalation">TicketEscalation</Item>
-                <Item Key="TicketFreeTime1">TicketFreeTime1</Item>
-                <Item Key="TicketFreeTime2">TicketFreeTime2</Item>
-                <Item Key="TicketFreeTime3">TicketFreeTime3</Item>
-                <Item Key="TicketFreeTime4">TicketFreeTime4</Item>
-                <Item Key="TicketFreeTime5">TicketFreeTime5</Item>
-                <Item Key="TicketFreeTime6">TicketFreeTime6</Item>
-                <Item Key="TicketFreeKey1">TicketFreeKey1</Item>
-                <Item Key="TicketFreeKey2">TicketFreeKey2</Item>
-                <Item Key="TicketFreeKey3">TicketFreeKey3</Item>
-                <Item Key="TicketFreeKey4">TicketFreeKey4</Item>
-                <Item Key="TicketFreeKey5">TicketFreeKey5</Item>
-                <Item Key="TicketFreeKey6">TicketFreeKey6</Item>
-                <Item Key="TicketFreeKey7">TicketFreeKey7</Item>
-                <Item Key="TicketFreeKey8">TicketFreeKey8</Item>
-                <Item Key="TicketFreeKey9">TicketFreeKey9</Item>
-                <Item Key="TicketFreeKey10">TicketFreeKey10</Item>
-                <Item Key="TicketFreeKey11">TicketFreeKey11</Item>
-                <Item Key="TicketFreeKey12">TicketFreeKey12</Item>
-                <Item Key="TicketFreeKey13">TicketFreeKey13</Item>
-                <Item Key="TicketFreeKey14">TicketFreeKey14</Item>
-                <Item Key="TicketFreeKey15">TicketFreeKey15</Item>
-                <Item Key="TicketFreeKey16">TicketFreeKey16</Item>
-                <Item Key="TicketFreeText1">TicketFreeText1</Item>
-                <Item Key="TicketFreeText2">TicketFreeText2</Item>
-                <Item Key="TicketFreeText3">TicketFreeText3</Item>
-                <Item Key="TicketFreeText4">TicketFreeText4</Item>
-                <Item Key="TicketFreeText5">TicketFreeText5</Item>
-                <Item Key="TicketFreeText6">TicketFreeText6</Item>
-                <Item Key="TicketFreeText7">TicketFreeText7</Item>
-                <Item Key="TicketFreeText8">TicketFreeText8</Item>
-                <Item Key="TicketFreeText9">TicketFreeText9</Item>
-                <Item Key="TicketFreeText10">TicketFreeText10</Item>
-                <Item Key="TicketFreeText11">TicketFreeText11</Item>
-                <Item Key="TicketFreeText12">TicketFreeText12</Item>
-                <Item Key="TicketFreeText13">TicketFreeText13</Item>
-                <Item Key="TicketFreeText14">TicketFreeText14</Item>
-                <Item Key="TicketFreeText15">TicketFreeText15</Item>
-                <Item Key="TicketFreeText16">TicketFreeText16</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -948,44 +910,6 @@ Description>
                 <Item Key="Queue">Queue</Item>
                 <Item Key="Priority">Priority</Item>
                 <Item Key="TicketEscalation">TicketEscalation</Item>
-                <Item Key="TicketFreeTime1">TicketFreeTime1</Item>
-                <Item Key="TicketFreeTime2">TicketFreeTime2</Item>
-                <Item Key="TicketFreeTime3">TicketFreeTime3</Item>
-                <Item Key="TicketFreeTime4">TicketFreeTime4</Item>
-                <Item Key="TicketFreeTime5">TicketFreeTime5</Item>
-                <Item Key="TicketFreeTime6">TicketFreeTime6</Item>
-                <Item Key="TicketFreeKey1">TicketFreeKey1</Item>
-                <Item Key="TicketFreeKey2">TicketFreeKey2</Item>
-                <Item Key="TicketFreeKey3">TicketFreeKey3</Item>
-                <Item Key="TicketFreeKey4">TicketFreeKey4</Item>
-                <Item Key="TicketFreeKey5">TicketFreeKey5</Item>
-                <Item Key="TicketFreeKey6">TicketFreeKey6</Item>
-                <Item Key="TicketFreeKey7">TicketFreeKey7</Item>
-                <Item Key="TicketFreeKey8">TicketFreeKey8</Item>
-                <Item Key="TicketFreeKey9">TicketFreeKey9</Item>
-                <Item Key="TicketFreeKey10">TicketFreeKey10</Item>
-                <Item Key="TicketFreeKey11">TicketFreeKey11</Item>
-                <Item Key="TicketFreeKey12">TicketFreeKey12</Item>
-                <Item Key="TicketFreeKey13">TicketFreeKey13</Item>
-                <Item Key="TicketFreeKey14">TicketFreeKey14</Item>
-                <Item Key="TicketFreeKey15">TicketFreeKey15</Item>
-                <Item Key="TicketFreeKey16">TicketFreeKey16</Item>
-                <Item Key="TicketFreeText1">TicketFreeText1</Item>
-                <Item Key="TicketFreeText2">TicketFreeText2</Item>
-                <Item Key="TicketFreeText3">TicketFreeText3</Item>
-                <Item Key="TicketFreeText4">TicketFreeText4</Item>
-                <Item Key="TicketFreeText5">TicketFreeText5</Item>
-                <Item Key="TicketFreeText6">TicketFreeText6</Item>
-                <Item Key="TicketFreeText7">TicketFreeText7</Item>
-                <Item Key="TicketFreeText8">TicketFreeText8</Item>
-                <Item Key="TicketFreeText9">TicketFreeText9</Item>
-                <Item Key="TicketFreeText10">TicketFreeText10</Item>
-                <Item Key="TicketFreeText11">TicketFreeText11</Item>
-                <Item Key="TicketFreeText12">TicketFreeText12</Item>
-                <Item Key="TicketFreeText13">TicketFreeText13</Item>
-                <Item Key="TicketFreeText14">TicketFreeText14</Item>
-                <Item Key="TicketFreeText15">TicketFreeText15</Item>
-                <Item Key="TicketFreeText16">TicketFreeText16</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -1020,44 +944,6 @@ Description>
                 <Item Key="Queue">Queue</Item>
                 <Item Key="Priority">Priority</Item>
                 <Item Key="EscalationTime">EscalationTime</Item>
-                <Item Key="TicketFreeTime1">TicketFreeTime1</Item>
-                <Item Key="TicketFreeTime2">TicketFreeTime2</Item>
-                <Item Key="TicketFreeTime3">TicketFreeTime3</Item>
-                <Item Key="TicketFreeTime4">TicketFreeTime4</Item>
-                <Item Key="TicketFreeTime5">TicketFreeTime5</Item>
-                <Item Key="TicketFreeTime6">TicketFreeTime6</Item>
-                <Item Key="TicketFreeKey1">TicketFreeKey1</Item>
-                <Item Key="TicketFreeKey2">TicketFreeKey2</Item>
-                <Item Key="TicketFreeKey3">TicketFreeKey3</Item>
-                <Item Key="TicketFreeKey4">TicketFreeKey4</Item>
-                <Item Key="TicketFreeKey5">TicketFreeKey5</Item>
-                <Item Key="TicketFreeKey6">TicketFreeKey6</Item>
-                <Item Key="TicketFreeKey7">TicketFreeKey7</Item>
-                <Item Key="TicketFreeKey8">TicketFreeKey8</Item>
-                <Item Key="TicketFreeKey9">TicketFreeKey9</Item>
-                <Item Key="TicketFreeKey10">TicketFreeKey10</Item>
-                <Item Key="TicketFreeKey11">TicketFreeKey11</Item>
-                <Item Key="TicketFreeKey12">TicketFreeKey12</Item>
-                <Item Key="TicketFreeKey13">TicketFreeKey13</Item>
-                <Item Key="TicketFreeKey14">TicketFreeKey14</Item>
-                <Item Key="TicketFreeKey15">TicketFreeKey15</Item>
-                <Item Key="TicketFreeKey16">TicketFreeKey16</Item>
-                <Item Key="TicketFreeText1">TicketFreeText1</Item>
-                <Item Key="TicketFreeText2">TicketFreeText2</Item>
-                <Item Key="TicketFreeText3">TicketFreeText3</Item>
-                <Item Key="TicketFreeText4">TicketFreeText4</Item>
-                <Item Key="TicketFreeText5">TicketFreeText5</Item>
-                <Item Key="TicketFreeText6">TicketFreeText6</Item>
-                <Item Key="TicketFreeText7">TicketFreeText7</Item>
-                <Item Key="TicketFreeText8">TicketFreeText8</Item>
-                <Item Key="TicketFreeText9">TicketFreeText9</Item>
-                <Item Key="TicketFreeText10">TicketFreeText10</Item>
-                <Item Key="TicketFreeText11">TicketFreeText11</Item>
-                <Item Key="TicketFreeText12">TicketFreeText12</Item>
-                <Item Key="TicketFreeText13">TicketFreeText13</Item>
-                <Item Key="TicketFreeText14">TicketFreeText14</Item>
-                <Item Key="TicketFreeText15">TicketFreeText15</Item>
-                <Item Key="TicketFreeText16">TicketFreeText16</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -1119,46 +1005,6 @@ Description>
                 <Item Key="Queue">Queue</Item>
                 <Item Key="Priority">Priority</Item>
                 <Item Key="EscalationTime">EscalationTime</Item>
-<!--
-                <Item Key="TicketFreeTime1">TicketFreeTime1</Item>
-                <Item Key="TicketFreeTime2">TicketFreeTime2</Item>
-                <Item Key="TicketFreeTime3">TicketFreeTime3</Item>
-                <Item Key="TicketFreeTime4">TicketFreeTime4</Item>
-                <Item Key="TicketFreeTime5">TicketFreeTime5</Item>
-                <Item Key="TicketFreeTime6">TicketFreeTime6</Item>
-                <Item Key="TicketFreeKey1">TicketFreeKey1</Item>
-                <Item Key="TicketFreeKey2">TicketFreeKey2</Item>
-                <Item Key="TicketFreeKey3">TicketFreeKey3</Item>
-                <Item Key="TicketFreeKey4">TicketFreeKey4</Item>
-                <Item Key="TicketFreeKey5">TicketFreeKey5</Item>
-                <Item Key="TicketFreeKey6">TicketFreeKey6</Item>
-                <Item Key="TicketFreeKey7">TicketFreeKey7</Item>
-                <Item Key="TicketFreeKey8">TicketFreeKey8</Item>
-                <Item Key="TicketFreeKey9">TicketFreeKey9</Item>
-                <Item Key="TicketFreeKey10">TicketFreeKey10</Item>
-                <Item Key="TicketFreeKey11">TicketFreeKey11</Item>
-                <Item Key="TicketFreeKey12">TicketFreeKey12</Item>
-                <Item Key="TicketFreeKey13">TicketFreeKey13</Item>
-                <Item Key="TicketFreeKey14">TicketFreeKey14</Item>
-                <Item Key="TicketFreeKey15">TicketFreeKey15</Item>
-                <Item Key="TicketFreeKey16">TicketFreeKey16</Item>
-                <Item Key="TicketFreeText1">TicketFreeText1</Item>
-                <Item Key="TicketFreeText2">TicketFreeText2</Item>
-                <Item Key="TicketFreeText3">TicketFreeText3</Item>
-                <Item Key="TicketFreeText4">TicketFreeText4</Item>
-                <Item Key="TicketFreeText5">TicketFreeText5</Item>
-                <Item Key="TicketFreeText6">TicketFreeText6</Item>
-                <Item Key="TicketFreeText7">TicketFreeText7</Item>
-                <Item Key="TicketFreeText8">TicketFreeText8</Item>
-                <Item Key="TicketFreeText9">TicketFreeText9</Item>
-                <Item Key="TicketFreeText10">TicketFreeText10</Item>
-                <Item Key="TicketFreeText11">TicketFreeText11</Item>
-                <Item Key="TicketFreeText12">TicketFreeText12</Item>
-                <Item Key="TicketFreeText13">TicketFreeText13</Item>
-                <Item Key="TicketFreeText14">TicketFreeText14</Item>
-                <Item Key="TicketFreeText15">TicketFreeText15</Item>
-                <Item Key="TicketFreeText16">TicketFreeText16</Item>
- -->
             </Option>
         </Setting>
     </ConfigItem>
@@ -1208,30 +1054,6 @@ Description>
                 <Item>From</Item>
                 <Item>Subject</Item>
                 <Item>AccountedTime</Item>
-<!--
-                <Item>TicketFreeKey1</Item>
-                <Item>TicketFreeText1</Item>
-                <Item>TicketFreeKey2</Item>
-                <Item>TicketFreeText2</Item>
-                <Item>TicketFreeKey3</Item>
-                <Item>TicketFreeText3</Item>
-                <Item>TicketFreeKey4</Item>
-                <Item>TicketFreeText4</Item>
-                <Item>TicketFreeKey5</Item>
-                <Item>TicketFreeText5</Item>
-                <Item>TicketFreeKey6</Item>
-                <Item>TicketFreeText6</Item>
-                <Item>TicketFreeKey7</Item>
-                <Item>TicketFreeText7</Item>
-                <Item>TicketFreeKey8</Item>
-                <Item>TicketFreeText8</Item>
-                <Item>TicketFreeTime1</Item>
-                <Item>TicketFreeTime2</Item>
-                <Item>TicketFreeTime3</Item>
-                <Item>TicketFreeTime4</Item>
-                <Item>TicketFreeTime5</Item>
-                <Item>TicketFreeTime6</Item>
- -->
                 <Item>ArticleTree</Item>
                 <Item>SolutionInMin</Item>
                 <Item>SolutionDiffInMin</Item>
@@ -1441,44 +1263,6 @@ Description>
                 <Item Key="Queue">Queue</Item>
                 <Item Key="Priority">Priority</Item>
                 <Item Key="EscalationTime">EscalationTime</Item>
-                <Item Key="TicketFreeTime1">TicketFreeTime1</Item>
-                <Item Key="TicketFreeTime2">TicketFreeTime2</Item>
-                <Item Key="TicketFreeTime3">TicketFreeTime3</Item>
-                <Item Key="TicketFreeTime4">TicketFreeTime4</Item>
-                <Item Key="TicketFreeTime5">TicketFreeTime5</Item>
-                <Item Key="TicketFreeTime6">TicketFreeTime6</Item>
-                <Item Key="TicketFreeKey1">TicketFreeKey1</Item>
-                <Item Key="TicketFreeKey2">TicketFreeKey2</Item>
-                <Item Key="TicketFreeKey3">TicketFreeKey3</Item>
-                <Item Key="TicketFreeKey4">TicketFreeKey4</Item>
-                <Item Key="TicketFreeKey5">TicketFreeKey5</Item>
-                <Item Key="TicketFreeKey6">TicketFreeKey6</Item>
-                <Item Key="TicketFreeKey7">TicketFreeKey7</Item>
-                <Item Key="TicketFreeKey8">TicketFreeKey8</Item>
-                <Item Key="TicketFreeKey9">TicketFreeKey9</Item>
-                <Item Key="TicketFreeKey10">TicketFreeKey10</Item>
-                <Item Key="TicketFreeKey11">TicketFreeKey11</Item>
-                <Item Key="TicketFreeKey12">TicketFreeKey12</Item>
-                <Item Key="TicketFreeKey13">TicketFreeKey13</Item>
-                <Item Key="TicketFreeKey14">TicketFreeKey14</Item>
-                <Item Key="TicketFreeKey15">TicketFreeKey15</Item>
-                <Item Key="TicketFreeKey16">TicketFreeKey16</Item>
-                <Item Key="TicketFreeText1">TicketFreeText1</Item>
-                <Item Key="TicketFreeText2">TicketFreeText2</Item>
-                <Item Key="TicketFreeText3">TicketFreeText3</Item>
-                <Item Key="TicketFreeText4">TicketFreeText4</Item>
-                <Item Key="TicketFreeText5">TicketFreeText5</Item>
-                <Item Key="TicketFreeText6">TicketFreeText6</Item>
-                <Item Key="TicketFreeText7">TicketFreeText7</Item>
-                <Item Key="TicketFreeText8">TicketFreeText8</Item>
-                <Item Key="TicketFreeText9">TicketFreeText9</Item>
-                <Item Key="TicketFreeText10">TicketFreeText10</Item>
-                <Item Key="TicketFreeText11">TicketFreeText11</Item>
-                <Item Key="TicketFreeText12">TicketFreeText12</Item>
-                <Item Key="TicketFreeText13">TicketFreeText13</Item>
-                <Item Key="TicketFreeText14">TicketFreeText14</Item>
-                <Item Key="TicketFreeText15">TicketFreeText15</Item>
-                <Item Key="TicketFreeText16">TicketFreeText16</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -1505,44 +1289,6 @@ Description>
                 <Item Key="Queue">Queue</Item>
                 <Item Key="Priority">Priority</Item>
                 <Item Key="EscalationTime">EscalationTime</Item>
-                <Item Key="TicketFreeTime1">TicketFreeTime1</Item>
-                <Item Key="TicketFreeTime2">TicketFreeTime2</Item>
-                <Item Key="TicketFreeTime3">TicketFreeTime3</Item>
-                <Item Key="TicketFreeTime4">TicketFreeTime4</Item>
-                <Item Key="TicketFreeTime5">TicketFreeTime5</Item>
-                <Item Key="TicketFreeTime6">TicketFreeTime6</Item>
-                <Item Key="TicketFreeKey1">TicketFreeKey1</Item>
-                <Item Key="TicketFreeKey2">TicketFreeKey2</Item>
-                <Item Key="TicketFreeKey3">TicketFreeKey3</Item>
-                <Item Key="TicketFreeKey4">TicketFreeKey4</Item>
-                <Item Key="TicketFreeKey5">TicketFreeKey5</Item>
-                <Item Key="TicketFreeKey6">TicketFreeKey6</Item>
-                <Item Key="TicketFreeKey7">TicketFreeKey7</Item>
-                <Item Key="TicketFreeKey8">TicketFreeKey8</Item>
-                <Item Key="TicketFreeKey9">TicketFreeKey9</Item>
-                <Item Key="TicketFreeKey10">TicketFreeKey10</Item>
-                <Item Key="TicketFreeKey11">TicketFreeKey11</Item>
-                <Item Key="TicketFreeKey12">TicketFreeKey12</Item>
-                <Item Key="TicketFreeKey13">TicketFreeKey13</Item>
-                <Item Key="TicketFreeKey14">TicketFreeKey14</Item>
-                <Item Key="TicketFreeKey15">TicketFreeKey15</Item>
-                <Item Key="TicketFreeKey16">TicketFreeKey16</Item>
-                <Item Key="TicketFreeText1">TicketFreeText1</Item>
-                <Item Key="TicketFreeText2">TicketFreeText2</Item>
-                <Item Key="TicketFreeText3">TicketFreeText3</Item>
-                <Item Key="TicketFreeText4">TicketFreeText4</Item>
-                <Item Key="TicketFreeText5">TicketFreeText5</Item>
-                <Item Key="TicketFreeText6">TicketFreeText6</Item>
-                <Item Key="TicketFreeText7">TicketFreeText7</Item>
-                <Item Key="TicketFreeText8">TicketFreeText8</Item>
-                <Item Key="TicketFreeText9">TicketFreeText9</Item>
-                <Item Key="TicketFreeText10">TicketFreeText10</Item>
-                <Item Key="TicketFreeText11">TicketFreeText11</Item>
-                <Item Key="TicketFreeText12">TicketFreeText12</Item>
-                <Item Key="TicketFreeText13">TicketFreeText13</Item>
-                <Item Key="TicketFreeText14">TicketFreeText14</Item>
-                <Item Key="TicketFreeText15">TicketFreeText15</Item>
-                <Item Key="TicketFreeText16">TicketFreeText16</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -1569,44 +1315,6 @@ Description>
                 <Item Key="Queue">Queue</Item>
                 <Item Key="Priority">Priority</Item>
                 <Item Key="EscalationTime">EscalationTime</Item>
-                <Item Key="TicketFreeTime1">TicketFreeTime1</Item>
-                <Item Key="TicketFreeTime2">TicketFreeTime2</Item>
-                <Item Key="TicketFreeTime3">TicketFreeTime3</Item>
-                <Item Key="TicketFreeTime4">TicketFreeTime4</Item>
-                <Item Key="TicketFreeTime5">TicketFreeTime5</Item>
-                <Item Key="TicketFreeTime6">TicketFreeTime6</Item>
-                <Item Key="TicketFreeKey1">TicketFreeKey1</Item>
-                <Item Key="TicketFreeKey2">TicketFreeKey2</Item>
-                <Item Key="TicketFreeKey3">TicketFreeKey3</Item>
-                <Item Key="TicketFreeKey4">TicketFreeKey4</Item>
-                <Item Key="TicketFreeKey5">TicketFreeKey5</Item>
-                <Item Key="TicketFreeKey6">TicketFreeKey6</Item>
-                <Item Key="TicketFreeKey7">TicketFreeKey7</Item>
-                <Item Key="TicketFreeKey8">TicketFreeKey8</Item>
-                <Item Key="TicketFreeKey9">TicketFreeKey9</Item>
-                <Item Key="TicketFreeKey10">TicketFreeKey10</Item>
-                <Item Key="TicketFreeKey11">TicketFreeKey11</Item>
-                <Item Key="TicketFreeKey12">TicketFreeKey12</Item>
-                <Item Key="TicketFreeKey13">TicketFreeKey13</Item>
-                <Item Key="TicketFreeKey14">TicketFreeKey14</Item>
-                <Item Key="TicketFreeKey15">TicketFreeKey15</Item>
-                <Item Key="TicketFreeKey16">TicketFreeKey16</Item>
-                <Item Key="TicketFreeText1">TicketFreeText1</Item>
-                <Item Key="TicketFreeText2">TicketFreeText2</Item>
-                <Item Key="TicketFreeText3">TicketFreeText3</Item>
-                <Item Key="TicketFreeText4">TicketFreeText4</Item>
-                <Item Key="TicketFreeText5">TicketFreeText5</Item>
-                <Item Key="TicketFreeText6">TicketFreeText6</Item>
-                <Item Key="TicketFreeText7">TicketFreeText7</Item>
-                <Item Key="TicketFreeText8">TicketFreeText8</Item>
-                <Item Key="TicketFreeText9">TicketFreeText9</Item>
-                <Item Key="TicketFreeText10">TicketFreeText10</Item>
-                <Item Key="TicketFreeText11">TicketFreeText11</Item>
-                <Item Key="TicketFreeText12">TicketFreeText12</Item>
-                <Item Key="TicketFreeText13">TicketFreeText13</Item>
-                <Item Key="TicketFreeText14">TicketFreeText14</Item>
-                <Item Key="TicketFreeText15">TicketFreeText15</Item>
-                <Item Key="TicketFreeText16">TicketFreeText16</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -5648,33 +5356,6 @@ $QData{"Body"}
         <SubGroup>Frontend::Customer::Ticket::ViewZoom</SubGroup>
         <Setting>
             <Hash>
-<!--
-                <Item Key="TicketFreeTime1">0</Item>
-                <Item Key="TicketFreeTime2">0</Item>
-                <Item Key="TicketFreeTime3">0</Item>
-                <Item Key="TicketFreeTime4">0</Item>
-                <Item Key="TicketFreeTime5">0</Item>
-                <Item Key="TicketFreeTime6">0</Item>
-                <Item Key="TicketFreeText1">0</Item>
-                <Item Key="TicketFreeText2">0</Item>
-                <Item Key="TicketFreeText3">0</Item>
-                <Item Key="TicketFreeText4">0</Item>
-                <Item Key="TicketFreeText5">0</Item>
-                <Item Key="TicketFreeText6">0</Item>
-                <Item Key="TicketFreeText7">0</Item>
-                <Item Key="TicketFreeText8">0</Item>
-                <Item Key="TicketFreeText9">0</Item>
-                <Item Key="TicketFreeText10">0</Item>
-                <Item Key="TicketFreeText11">0</Item>
-                <Item Key="TicketFreeText12">0</Item>
-                <Item Key="TicketFreeText13">0</Item>
-                <Item Key="TicketFreeText14">0</Item>
-                <Item Key="TicketFreeText15">0</Item>
-                <Item Key="TicketFreeText16">0</Item>
-                <Item Key="ArticleFreeText1">0</Item>
-                <Item Key="ArticleFreeText2">0</Item>
-                <Item Key="ArticleFreeText3">0</Item>
- -->
                 <Item Key="Queue">1</Item>
                 <Item Key="Type">0</Item>
                 <Item Key="Priority">1</Item>
@@ -5714,46 +5395,6 @@ $QData{"Body"}
                 <Item Key="Queue">Queue</Item>
                 <Item Key="Priority">Priority</Item>
                 <Item Key="EscalationTime">EscalationTime</Item>
-<!--
-                <Item Key="TicketFreeTime1">TicketFreeTime1</Item>
-                <Item Key="TicketFreeTime2">TicketFreeTime2</Item>
-                <Item Key="TicketFreeTime3">TicketFreeTime3</Item>
-                <Item Key="TicketFreeTime4">TicketFreeTime4</Item>
-                <Item Key="TicketFreeTime5">TicketFreeTime5</Item>
-                <Item Key="TicketFreeTime6">TicketFreeTime6</Item>
-                <Item Key="TicketFreeKey1">TicketFreeKey1</Item>
-                <Item Key="TicketFreeKey2">TicketFreeKey2</Item>
-                <Item Key="TicketFreeKey3">TicketFreeKey3</Item>
-                <Item Key="TicketFreeKey4">TicketFreeKey4</Item>
-                <Item Key="TicketFreeKey5">TicketFreeKey5</Item>
-                <Item Key="TicketFreeKey6">TicketFreeKey6</Item>
-                <Item Key="TicketFreeKey7">TicketFreeKey7</Item>
-                <Item Key="TicketFreeKey8">TicketFreeKey8</Item>
-                <Item Key="TicketFreeKey9">TicketFreeKey9</Item>
-                <Item Key="TicketFreeKey10">TicketFreeKey10</Item>
-                <Item Key="TicketFreeKey11">TicketFreeKey11</Item>
-                <Item Key="TicketFreeKey12">TicketFreeKey12</Item>
-                <Item Key="TicketFreeKey13">TicketFreeKey13</Item>
-                <Item Key="TicketFreeKey14">TicketFreeKey14</Item>
-                <Item Key="TicketFreeKey15">TicketFreeKey15</Item>
-                <Item Key="TicketFreeKey16">TicketFreeKey16</Item>
-                <Item Key="TicketFreeText1">TicketFreeText1</Item>
-                <Item Key="TicketFreeText2">TicketFreeText2</Item>
-                <Item Key="TicketFreeText3">TicketFreeText3</Item>
-                <Item Key="TicketFreeText4">TicketFreeText4</Item>
-                <Item Key="TicketFreeText5">TicketFreeText5</Item>
-                <Item Key="TicketFreeText6">TicketFreeText6</Item>
-                <Item Key="TicketFreeText7">TicketFreeText7</Item>
-                <Item Key="TicketFreeText8">TicketFreeText8</Item>
-                <Item Key="TicketFreeText9">TicketFreeText9</Item>
-                <Item Key="TicketFreeText10">TicketFreeText10</Item>
-                <Item Key="TicketFreeText11">TicketFreeText11</Item>
-                <Item Key="TicketFreeText12">TicketFreeText12</Item>
-                <Item Key="TicketFreeText13">TicketFreeText13</Item>
-                <Item Key="TicketFreeText14">TicketFreeText14</Item>
-                <Item Key="TicketFreeText15">TicketFreeText15</Item>
-                <Item Key="TicketFreeText16">TicketFreeText16</Item>
- -->
             </Option>
         </Setting>
     </ConfigItem>
