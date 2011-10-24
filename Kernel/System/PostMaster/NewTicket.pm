@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/NewTicket.pm - sub part of PostMaster.pm
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: NewTicket.pm,v 1.78 2011-10-21 22:41:09 cg Exp $
+# $Id: NewTicket.pm,v 1.79 2011-10-24 17:19:42 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::AutoResponse;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.78 $) [1];
+$VERSION = qw($Revision: 1.79 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -225,6 +225,7 @@ sub Run {
         ObjectType => 'Ticket'
         );
 
+    # set dynamic fields for Ticket object type
     for my $DynamicField ( sort keys %{$DynamicFieldList} ) {
         my $Key = 'X-OTRS-DynamicField-' . $DynamicField;
         if ( $GetParam{$Key} ) {
@@ -365,6 +366,41 @@ sub Run {
         print "SenderType: $GetParam{'X-OTRS-SenderType'}\n";
         print "ArticleType: $GetParam{'X-OTRS-ArticleType'}\n";
     }
+
+    # dynamic fields
+    $DynamicFieldList =
+        $Self->{TicketObject}->{DynamicFieldObject}->DynamicFieldList(
+        Valid      => 0,
+        ResultType => 'HASH',
+        ObjectType => 'Article'
+        );
+
+    # set dynamic fields for Article object type
+    for my $DynamicField ( sort keys %{$DynamicFieldList} ) {
+        my $Key = 'X-OTRS-DynamicField-' . $DynamicField;
+        if ( $GetParam{$Key} ) {
+
+            # get dynamic field config
+            my $DynamicFieldGet
+                = $Self->{TicketObject}->{DynamicFieldBackendObject}->DynamicFieldGet(
+                ID => $DynamicField,
+                );
+
+            $Self->{TicketObject}->{DynamicFieldBackendObject}->ValueSet(
+                DynamicFieldConfig => $DynamicFieldGet->{Config},
+                ObjectID           => $TicketID,
+                Value              => $GetParam{$Key},
+                UserID             => $Param{InmailUserID},
+            );
+
+            if ( $Self->{Debug} > 0 ) {
+                print "$Key: " . $GetParam{$Key} . "\n";
+            }
+        }
+    }
+
+    # reverse dynamic field list
+    %DynamicFieldListReversed = reverse %{$DynamicFieldList};
 
     # set free article text
     %Values =
