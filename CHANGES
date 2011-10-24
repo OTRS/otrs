@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1990 2011-10-24 12:21:19 mg Exp $
+# $Id: CHANGES,v 1.1991 2011-10-24 12:33:43 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,7 +12,7 @@
 3.1.0 beta1 2011-??-??
  - 2011-10-24 Fixed bug#7824 - Tickets locked through 'tmp_lock' lock type aren't shown as locked
     tickets
- - 2011-10-20 Fixed bug#7168 - Overview (AgentITSMConfigItem) of Config Items will not show all classes.
+ - 2011-10-20 Fixed bug#7168 - Ticket Overview Control Row can only be one line high.
  - 2011-09-28 Fixed Ticket#2011080542009673 - Improved security handling
     regarding _FileInstall().
  - 2011-09-26 Added missing cpan module Encode::Locale which is now required
