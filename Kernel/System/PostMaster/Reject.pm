@@ -1,8 +1,8 @@
 # --
 # Kernel/System/PostMaster/Reject.pm - the sub part of PostMaster.pm
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Reject.pm,v 1.15 2009-03-24 12:14:35 martin Exp $
+# $Id: Reject.pm,v 1.16 2011-10-24 20:28:44 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -112,25 +112,91 @@ sub Run {
         );
     }
 
-    # set free article text
-    my @Values = ( 'X-OTRS-FollowUp-ArticleKey', 'X-OTRS-FollowUp-ArticleValue' );
-    my $CounterTmp = 0;
-    while ( $CounterTmp <= 3 ) {
-        $CounterTmp++;
-        if ( $GetParam{"$Values[0]$CounterTmp"} ) {
-            $Self->{TicketObject}->ArticleFreeTextSet(
-                TicketID  => $Param{TicketID},
-                ArticleID => $ArticleID,
-                Key       => $GetParam{"$Values[0]$CounterTmp"},
-                Value     => $GetParam{"$Values[1]$CounterTmp"},
-                Counter   => $CounterTmp,
-                UserID    => $Param{InmailUserID},
-            );
-            if ( $Self->{Debug} > 0 ) {
-                print "ArticleKey$CounterTmp: " . $GetParam{"$Values[0]$CounterTmp"} . "\n";
-                print "ArticleValue$CounterTmp: " . $GetParam{"$Values[1]$CounterTmp"} . "\n";
-            }
+    #    # set free article text
+    #    my @Values = ( 'X-OTRS-FollowUp-ArticleKey', 'X-OTRS-FollowUp-ArticleValue' );
+    #    my $CounterTmp = 0;
+    #    while ( $CounterTmp <= 3 ) {
+    #        $CounterTmp++;
+    #        if ( $GetParam{"$Values[0]$CounterTmp"} ) {
+    #            $Self->{TicketObject}->ArticleFreeTextSet(
+    #                TicketID  => $Param{TicketID},
+    #                ArticleID => $ArticleID,
+    #                Key       => $GetParam{"$Values[0]$CounterTmp"},
+    #                Value     => $GetParam{"$Values[1]$CounterTmp"},
+    #                Counter   => $CounterTmp,
+    #                UserID    => $Param{InmailUserID},
+    #            );
+    #            if ( $Self->{Debug} > 0 ) {
+    #                print "ArticleKey$CounterTmp: " . $GetParam{"$Values[0]$CounterTmp"} . "\n";
+    #                print "ArticleValue$CounterTmp: " . $GetParam{"$Values[1]$CounterTmp"} . "\n";
+    #            }
+    #
+    #        }
+    #    }
 
+    # dynamic fields
+    my $DynamicFieldList =
+        $Self->{TicketObject}->{DynamicFieldObject}->DynamicFieldList(
+        Valid      => 0,
+        ResultType => 'HASH',
+        ObjectType => 'Article'
+        );
+
+    # set dynamic fields for Article object type
+    for my $DynamicField ( sort keys %{$DynamicFieldList} ) {
+        my $Key = 'X-OTRS-DynamicField-' . $DynamicField;
+        if ( $GetParam{$Key} ) {
+
+            # get dynamic field config
+            my $DynamicFieldGet
+                = $Self->{TicketObject}->{DynamicFieldBackendObject}->DynamicFieldGet(
+                ID => $DynamicField,
+                );
+
+            $Self->{TicketObject}->{DynamicFieldBackendObject}->ValueSet(
+                DynamicFieldConfig => $DynamicFieldGet->{Config},
+                ObjectID           => $ArticleID,
+                Value              => $GetParam{$Key},
+                UserID             => $Param{InmailUserID},
+            );
+
+            if ( $Self->{Debug} > 0 ) {
+                print "$Key: " . $GetParam{$Key} . "\n";
+            }
+        }
+    }
+
+    # reverse dynamic field list
+    my %DynamicFieldListReversed = reverse %{$DynamicFieldList};
+
+    # set free article text
+    my %Values =
+        (
+        'X-OTRS-FollowUp-ArticleKey'   => 'ArticleFreeKey',
+        'X-OTRS-FollowUp-ArticleValue' => 'ArticleFreeText',
+        );
+    for my $Item ( sort keys %Values ) {
+        for my $Count ( 1 .. 16 ) {
+            my $Key = $Item . $Count;
+            if ( $GetParam{$Key} ) {
+
+                # get dynamic field config
+                my $DynamicFieldGet = $Self->{TicketObject}->{DynamicFieldObject}->DynamicFieldGet(
+                    ID => $DynamicFieldListReversed{ $Values{$Item} . $Count },
+                );
+                if ($DynamicFieldGet) {
+                    my $Success = $Self->{TicketObject}->{DynamicFieldBackendObject}->ValueSet(
+                        DynamicFieldConfig => $DynamicFieldGet,
+                        ObjectID           => $ArticleID,
+                        Value              => $GetParam{$Key},
+                        UserID             => $Param{InmailUserID},
+                    );
+                }
+
+                if ( $Self->{Debug} > 0 ) {
+                    print "TicketKey$Count: " . $GetParam{$Key} . "\n";
+                }
+            }
         }
     }
 
