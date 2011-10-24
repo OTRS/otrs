@@ -2,7 +2,7 @@
 // Core.AJAX.js - provides the funcionality for AJAX calls
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.AJAX.js,v 1.24 2011-04-06 11:44:58 mg Exp $
+// $Id: Core.AJAX.js,v 1.25 2011-10-24 11:17:32 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -105,37 +105,37 @@ Core.AJAX = (function (TargetNS) {
     /**
      * @function
      * @private
-     * @param {Object} Data The new field data
-     * @param {Object} FieldsToUpdate The array of field elements
+     * @param {Object} Data The new field data.
+     *                  The keys are the IDs of the fields to be updated.
      * @return nothing
      * @description Updates the given fields with the given data
      */
-    function UpdateFormElements(Data, FieldsToUpdate) {
-        $.each(FieldsToUpdate, function (Index, Value) {
-            var $Element = $('#' + Value),
-                ElementData;
-            if ($Element.length && Data) {
-                // Select elements
-                if ($Element.is('select')) {
-                    ElementData = Data[Value];
-                    if (ElementData) {
-                        $Element.empty();
-                        $.each(ElementData, function (Index, Value) {
-                            var NewOption = new Option(Value[1], Value[0], Value[2], Value[3]);
-                            // overwrite option text, because of wrong html quoting of text content
-                            // needed for IE
-                            NewOption.innerHTML = Value[1];
-                            $Element.append(NewOption);
-                        });
-                    }
-                }
-                // Other form elements
-                else {
-                    if (Data[Value]) {
-                        $Element.val(Value);
-                    }
-                }
+    function UpdateFormElements(Data) {
+        if (typeof Data !== 'object') {
+            return;
+        }
+        $.each(Data, function (Key, Value) {
+            var $Element = $('#' + Key);
+
+            if (!$Element.length || !Value) {
+                return;
             }
+
+            // Select elements
+            if ($Element.is('select')) {
+                $Element.empty();
+                $.each(Value, function (Index, Value) {
+                    var NewOption = new Option(Value[1], Value[0], Value[2], Value[3]);
+                    // overwrite option text, because of wrong html quoting of text content
+                    // needed for IE
+                    NewOption.innerHTML = Value[1];
+                    $Element.append(NewOption);
+                });
+                return;
+            }
+
+            // Other form elements
+            $Element.val(Value);
         });
     }
 
@@ -166,6 +166,11 @@ Core.AJAX = (function (TargetNS) {
                         QueryString += encodeURIComponent(Name) + '=' + encodeURIComponent($(this).val() || 'on') + ";";
                     }
                 }
+                else if ($(this).is('select')) {
+                    $.each($(this).find('option:selected'), function(){
+                        QueryString += encodeURIComponent(Name) + '=' + encodeURIComponent($(this).val() || '') + ";";
+                    });
+                }
                 else {
                     QueryString += encodeURIComponent(Name) + '=' + encodeURIComponent($(this).val() || '') + ";";
                 }
@@ -180,7 +185,9 @@ Core.AJAX = (function (TargetNS) {
      * @param {jQueryObject} $EventElement The jQuery object of the element(s) which are included in the form that should be submitted
      * @param {String} Subaction The subaction parameter for the perl module
      * @param {String} ChangedElement The name of the element which was changed by the user
-     * @param {Object} FieldsToUpdate The names of the fields that should be updated with the server answer
+     * @param {Object} FieldsToUpdate DEPRECATED.
+     *                      This used to be the names of the fields that should be updated with the server answer,
+     *                      but is not needed any more and will be removed in a future version of OTRS.
      * @param {Function} [SuccessCallback] Callback function to be executed on AJAX success (optional).
      * @return nothing
      */
