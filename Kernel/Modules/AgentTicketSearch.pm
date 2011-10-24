@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.pm,v 1.131 2011-10-20 20:57:57 cr Exp $
+# $Id: AgentTicketSearch.pm,v 1.132 2011-10-24 22:05:46 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.131 $) [1];
+$VERSION = qw($Revision: 1.132 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -987,8 +987,6 @@ sub Run {
                         = $Self->{LayoutObject}->{LanguageObject}->Get('CustomerID');
                     $CellData->[0]->[7]->{Font} = 'ProportionalBold';
 
-                    #TODO Should also include DynamicFields?
-
                     # create the content array
                     my $CounterRow = 1;
                     for my $Row (@PDFData) {
@@ -1081,8 +1079,6 @@ sub Run {
                     $Param{Warning} = '$Text{"Reached max. count of %s search hits!", "'
                         . $Self->{SearchLimit} . '"}';
                 }
-
-                # TODO Should also include Dynamic Fields?
 
                 $Output .= $Self->{LayoutObject}->Output(
                     TemplateFile => 'AgentTicketSearchResultPrint',
