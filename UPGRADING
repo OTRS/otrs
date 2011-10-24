@@ -1,8 +1,8 @@
 # --
 # UPGRADING - upgrading OTRS
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: UPGRADING,v 1.37 2009-08-28 14:52:26 mb Exp $
+# $Id: UPGRADING,v 1.37.2.1 2011-10-24 08:51:29 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -119,7 +119,13 @@ to 2.4 first (1.1->1.2->1.3->2.0->2.1->2.2->2.3->2.4 ...).
     shell> /etc/init.d/cron start
 
 
-12) Well done!
+12) Check installed packages
+    ------------------------
+    In the package manager, check if all packages are still marked as
+    correctly installed or if any require reinstallation or even a package upgrade.
+
+
+13) Well done!
     ----------
     Log in as 'root@localhost' and select Admin -> SysConfig to make
     sure that OTRS updates the configuration files.
