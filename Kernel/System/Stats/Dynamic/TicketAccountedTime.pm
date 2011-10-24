@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Stats/Dynamic/TicketAccountedTime.pm - stats for accounted ticket time
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketAccountedTime.pm,v 1.9 2009-11-26 10:37:29 bes Exp $
+# $Id: TicketAccountedTime.pm,v 1.10 2011-10-24 19:32:57 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,9 +19,12 @@ use Kernel::System::Service;
 use Kernel::System::SLA;
 use Kernel::System::Ticket;
 use Kernel::System::Type;
+use Kernel::System::DynamicField;
+use Kernel::System::DynamicField::Backend;
+use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -37,15 +40,23 @@ sub new {
     {
         $Self->{$Object} = $Param{$Object} || die "Got no $Object!";
     }
-    $Self->{QueueObject}    = Kernel::System::Queue->new( %{$Self} );
-    $Self->{TicketObject}   = Kernel::System::Ticket->new( %{$Self} );
-    $Self->{StateObject}    = Kernel::System::State->new( %{$Self} );
-    $Self->{PriorityObject} = Kernel::System::Priority->new( %{$Self} );
-    $Self->{LockObject}     = Kernel::System::Lock->new( %{$Self} );
-    $Self->{CustomerUser}   = Kernel::System::CustomerUser->new( %{$Self} );
-    $Self->{ServiceObject}  = Kernel::System::Service->new( %{$Self} );
-    $Self->{SLAObject}      = Kernel::System::SLA->new( %{$Self} );
-    $Self->{TypeObject}     = Kernel::System::Type->new( %{$Self} );
+    $Self->{QueueObject}        = Kernel::System::Queue->new( %{$Self} );
+    $Self->{TicketObject}       = Kernel::System::Ticket->new( %{$Self} );
+    $Self->{StateObject}        = Kernel::System::State->new( %{$Self} );
+    $Self->{PriorityObject}     = Kernel::System::Priority->new( %{$Self} );
+    $Self->{LockObject}         = Kernel::System::Lock->new( %{$Self} );
+    $Self->{CustomerUser}       = Kernel::System::CustomerUser->new( %{$Self} );
+    $Self->{ServiceObject}      = Kernel::System::Service->new( %{$Self} );
+    $Self->{SLAObject}          = Kernel::System::SLA->new( %{$Self} );
+    $Self->{TypeObject}         = Kernel::System::Type->new( %{$Self} );
+    $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new(%Param);
+    $Self->{BackendObject}      = Kernel::System::DynamicField::Backend->new(%Param);
+
+    # get the dynamic fields for ticket object
+    $Self->{DynamicField} = $Self->{DynamicFieldObject}->DynamicFieldListGet(
+        Valid      => 1,
+        ObjectType => ['Ticket'],
+    );
 
     return $Self;
 }
@@ -473,72 +484,59 @@ sub GetObjectAttributes {
         push @ObjectAttributes, \%ObjectAttribute;
     }
 
-    FREEKEY:
-    for my $FreeKey ( 1 .. 16 ) {
+    # cycle trough the activated Dynamic Fields for this screen
+    DYNAMICFIELD:
+    for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
+        next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
 
-        # get ticket free key config
-        my $TicketFreeKey = $Self->{ConfigObject}->Get( 'TicketFreeKey' . $FreeKey );
+        my $PossibleValuesFilter;
 
-        next FREEKEY if ref $TicketFreeKey ne 'HASH';
-
-        my @FreeKey = keys %{$TicketFreeKey};
-        my $Name    = '';
-
-        if ( scalar @FreeKey == 1 ) {
-            $Name = $TicketFreeKey->{ $FreeKey[0] };
-        }
-        else {
-            $Name = 'TicketFreeText' . $FreeKey;
-
-            my %ObjectAttribute = (
-                Name             => 'TicketFreeKey' . $FreeKey,
-                UseAsXvalue      => 1,
-                UseAsValueSeries => 1,
-                UseAsRestriction => 1,
-                Element          => 'TicketFreeKey' . $FreeKey,
-                Block            => 'MultiSelectField',
-                Values           => $TicketFreeKey,
-                Translation      => 0,
-            );
-
-            push @ObjectAttributes, \%ObjectAttribute;
+        # set possible values filter from ACLs
+        my $ACL = $Self->{TicketObject}->TicketAcl(
+            Action        => 'AgentStats',
+            Type          => 'DynamicField_' . $DynamicFieldConfig->{Name},
+            ReturnType    => 'Ticket',
+            ReturnSubType => 'DynamicField_' . $DynamicFieldConfig->{Name},
+            Data          => $DynamicFieldConfig->{Config}->{PossibleValues} || {},
+            UserID        => 1,
+        );
+        if ($ACL) {
+            my %Filter = $Self->{TicketObject}->TicketAclData();
+            $PossibleValuesFilter = \%Filter;
         }
 
-        # get ticket free text
-        my $TicketFreeText = $Self->{TicketObject}->TicketFreeTextGet(
-            Type   => 'TicketFreeText' . $FreeKey,
-            Action => 'AgentStats',
-            FillUp => 1,
-            UserID => 1,
+        # get field html
+        my $DynamicFieldStatsParameter = $Self->{BackendObject}->StatsFieldParameterBuild(
+            DynamicFieldConfig   => $DynamicFieldConfig,
+            PossibleValuesFilter => $PossibleValuesFilter,
         );
 
-        if ($TicketFreeText) {
+        if ( IsHashRefWithData($DynamicFieldStatsParameter) ) {
+            if ( IsHashRefWithData( $DynamicFieldStatsParameter->{Values} ) ) {
 
-            my %ObjectAttribute = (
-                Name             => $Name,
-                UseAsXvalue      => 1,
-                UseAsValueSeries => 1,
-                UseAsRestriction => 1,
-                Element          => 'TicketFreeText' . $FreeKey,
-                Block            => 'MultiSelectField',
-                Values           => $TicketFreeText,
-                Translation      => 0,
-            );
-
-            push @ObjectAttributes, \%ObjectAttribute;
-        }
-        else {
-
-            my %ObjectAttribute = (
-                Name             => $Name,
-                UseAsXvalue      => 0,
-                UseAsValueSeries => 0,
-                UseAsRestriction => 1,
-                Element          => 'TicketFreeText' . $FreeKey,
-                Block            => 'InputField',
-            );
-
-            push @ObjectAttributes, \%ObjectAttribute;
+                my %ObjectAttribute = (
+                    Name             => $DynamicFieldStatsParameter->{Name},
+                    UseAsXvalue      => 1,
+                    UseAsValueSeries => 1,
+                    UseAsRestriction => 1,
+                    Element          => $DynamicFieldStatsParameter->{Element},
+                    Block            => 'MultiSelectField',
+                    Values           => $DynamicFieldStatsParameter->{Values},
+                    Translation      => 0,
+                );
+                push @ObjectAttributes, \%ObjectAttribute;
+            }
+            else {
+                my %ObjectAttribute = (
+                    Name             => $DynamicFieldStatsParameter->{Name},
+                    UseAsXvalue      => 0,
+                    UseAsValueSeries => 0,
+                    UseAsRestriction => 1,
+                    Element          => $DynamicFieldStatsParameter->{Element},
+                    Block            => 'InputField',
+                );
+                push @ObjectAttributes, \%ObjectAttribute;
+            }
         }
     }
 
@@ -800,6 +798,35 @@ sub _ReportingValues {
         $TicketSearch{$Attribute} = $SearchAttributes->{$Attribute};
     }
 
+    for my $ParameterName ( keys %TicketSearch ) {
+        if ( $ParameterName =~ m{\A DynamicField_ ( [a-zA-Z\d]+ ) \z}xms ) {
+
+            # loop over the dyanmic fields configured
+            DYNAMICFIELD:
+            for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
+                next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+                next DYNAMICFIELD if !$DynamicFieldConfig->{Name};
+
+                # skip all fields that does not match with current field name ($1)
+                # with out the 'DynamicField_' prefix
+                next DYNAMICFIELD if $DynamicFieldConfig->{Name} ne $1;
+
+                # get new search parameter
+                my $DynamicFieldStatsSearchParameter
+                    = $Self->{BackendObject}->StatsSearchFieldParameterBuild(
+                    DynamicFieldConfig => $DynamicFieldConfig,
+                    Value              => $TicketSearch{$ParameterName},
+                    );
+
+                # delete original search parameter
+                delete $TicketSearch{$ParameterName};
+
+                # add new search parameter
+                $TicketSearch{$ParameterName} = $DynamicFieldStatsSearchParameter;
+            }
+        }
+    }
+
     if (%TicketSearch) {
 
         # get the involved tickets
@@ -1013,23 +1040,16 @@ sub _AllowedTicketSearchAttributes {
         TicketEscalationResponseTimeOlderDate
         TicketEscalationSolutionTimeNewerDate
         TicketEscalationSolutionTimeOlderDate
-        TicketFreeTime1NewerDate
-        TicketFreeTime1OlderDate
-        TicketFreeTime2NewerDate
-        TicketFreeTime2OlderDate
-        TicketFreeTime3NewerDate
-        TicketFreeTime3OlderDate
-        TicketFreeTime4NewerDate
-        TicketFreeTime4OlderDate
-        TicketFreeTime5NewerDate
-        TicketFreeTime5OlderDate
-        TicketFreeTime6NewerDate
-        TicketFreeTime6OlderDate
     );
 
-    FREEKEY:
-    for my $FreeKey ( 1 .. 16 ) {
-        push @Attributes, 'TicketFreeKey' . $FreeKey, 'TicketFreeText' . $FreeKey;
+    # loop over the dyanmic fields configured
+    DYNAMICFIELD:
+    for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
+        next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+        next DYNAMICFIELD if !$DynamicFieldConfig->{Name};
+
+        # add dynamic field to Attribute list
+        push @Attributes, 'DynamicField_' . $DynamicFieldConfig->{Name};
     }
 
     return \@Attributes;
