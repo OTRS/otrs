@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1988 2011-10-24 09:22:12 mg Exp $
+# $Id: CHANGES,v 1.1989 2011-10-24 10:48:45 ep Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.1.0 beta1 2011-??-??
+ - 2011-10-24 Fixed bug#7824 - Tickets locked through 'tmp_lock' lock type aren't shown as locked
+    tickets
  - 2011-10-20 Fixed bug#7168 - Overview (AgentITSMConfigItem) of Config Items will not show all classes.
  - 2011-09-28 Fixed Ticket#2011080542009673 - Improved security handling
     regarding _FileInstall().

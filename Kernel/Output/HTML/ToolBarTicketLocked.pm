@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/ToolBarTicketLocked.pm
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ToolBarTicketLocked.pm,v 1.8 2011-03-20 09:36:40 mb Exp $
+# $Id: ToolBarTicketLocked.pm,v 1.9 2011-10-24 10:48:45 ep Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -45,14 +45,14 @@ sub Run {
     # get user lock data
     my $Count = $Self->{TicketObject}->TicketSearch(
         Result     => 'COUNT',
-        Locks      => ['lock'],
+        Locks      => [ 'lock', 'tmp_lock' ],
         OwnerIDs   => [ $Self->{UserID} ],
         UserID     => 1,
         Permission => 'ro',
     );
     my $CountNew = $Self->{TicketObject}->TicketSearch(
         Result     => 'COUNT',
-        Locks      => ['lock'],
+        Locks      => [ 'lock', 'tmp_lock' ],
         OwnerIDs   => [ $Self->{UserID} ],
         TicketFlag => {
             Seen => 1,
@@ -64,7 +64,7 @@ sub Run {
     $CountNew = $Count - $CountNew;
     my $CountReached = $Self->{TicketObject}->TicketSearch(
         Result                        => 'COUNT',
-        Locks                         => ['lock'],
+        Locks                         => [ 'lock', 'tmp_lock' ],
         StateType                     => ['pending reminder'],
         TicketPendingTimeOlderMinutes => 1,
         OwnerIDs                      => [ $Self->{UserID} ],

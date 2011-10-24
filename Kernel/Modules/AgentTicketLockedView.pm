@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketLockedView.pm - to view all locked tickets
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketLockedView.pm,v 1.15 2010-11-04 17:57:08 mb Exp $
+# $Id: AgentTicketLockedView.pm,v 1.16 2011-10-24 10:48:45 ep Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -84,7 +84,7 @@ sub Run {
             Name   => 'All',
             Prio   => 1000,
             Search => {
-                Locks      => ['lock'],
+                Locks => [ 'lock', 'tmp_lock' ],
                 OwnerIDs   => [ $Self->{UserID} ],
                 OrderBy    => $OrderBy,
                 SortBy     => $SortByS,
@@ -96,7 +96,7 @@ sub Run {
             Name   => 'New Article',
             Prio   => 1001,
             Search => {
-                Locks      => ['lock'],
+                Locks => [ 'lock', 'tmp_lock' ],
                 OwnerIDs   => [ $Self->{UserID} ],
                 TicketFlag => {
                     Seen => 1,
@@ -112,12 +112,12 @@ sub Run {
             Name   => 'Pending',
             Prio   => 1002,
             Search => {
-                Locks      => ['lock'],
-                StateType  => [ 'pending reminder', 'pending auto' ],
-                OwnerIDs   => [ $Self->{UserID} ],
-                OrderBy    => $OrderBy,
-                SortBy     => $SortByS,
-                UserID     => 1,
+                Locks     => [ 'lock',             'tmp_lock' ],
+                StateType => [ 'pending reminder', 'pending auto' ],
+                OwnerIDs  => [ $Self->{UserID} ],
+                OrderBy   => $OrderBy,
+                SortBy    => $SortByS,
+                UserID    => 1,
                 Permission => 'ro',
             },
         },
@@ -125,7 +125,7 @@ sub Run {
             Name   => 'Reminder Reached',
             Prio   => 1003,
             Search => {
-                Locks                         => ['lock'],
+                Locks => [ 'lock', 'tmp_lock' ],
                 StateType                     => ['pending reminder'],
                 TicketPendingTimeOlderMinutes => 1,
                 OwnerIDs                      => [ $Self->{UserID} ],
