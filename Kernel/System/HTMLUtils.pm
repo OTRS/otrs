@@ -2,7 +2,7 @@
 # Kernel/System/HTMLUtils.pm - creating and modifying html strings
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: HTMLUtils.pm,v 1.27 2011-01-04 16:07:50 mg Exp $
+# $Id: HTMLUtils.pm,v 1.28 2011-10-24 12:21:19 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.27 $) [1];
+$VERSION = qw($Revision: 1.28 $) [1];
 
 =head1 NAME
 
@@ -115,7 +115,7 @@ sub ToAscii {
         my $Ascii = $Self->ToAscii(
             String => $2,
         );
-        # force line braking
+        # force line breaking
         if ( length $Ascii > 78 ) {
             $Ascii =~ s/(.{4,78})(?:\s|\z)/$1\n/gm;
         }
@@ -132,7 +132,7 @@ sub ToAscii {
         my $Ascii = $Self->ToAscii(
             String => $1,
         );
-        # force line braking
+        # force line breaking
         if ( length $Ascii > 78 ) {
             $Ascii =~ s/(.{4,78})(?:\s|\z)/$1\n/gm;
         }
@@ -531,7 +531,7 @@ sub ToAscii {
     # remove empty lines
     $Param{String} =~ s/^\s*\n\s*\n/\n/mg;
 
-    # force line braking
+    # force line breaking
     if ( length $Param{String} > 78 ) {
         $Param{String} =~ s/(.{4,78})(?:\s|\z)/$1\n/gm;
     }
@@ -1051,6 +1051,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.27 $ $Date: 2011-01-04 16:07:50 $
+$Revision: 1.28 $ $Date: 2011-10-24 12:21:19 $
 
 =cut
