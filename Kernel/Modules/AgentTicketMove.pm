@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMove.pm - move tickets to queues
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMove.pm,v 1.95 2011-10-12 16:00:48 sb Exp $
+# $Id: AgentTicketMove.pm,v 1.96 2011-10-24 21:47:16 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.95 $) [1];
+$VERSION = qw($Revision: 1.96 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1041,13 +1041,13 @@ sub AgentMove {
         );
 
         # example of dynamic fields order customization
-        #        $Self->{LayoutObject}->Block(
-        #            Name => 'DynamicField_' . $DynamicFieldConfig->{Name},
-        #            Data => {
-        #                Label => $DynamicFieldHTML->{Label},
-        #                Field      => $DynamicFieldHTML->{Field},
-        #            },
-        #        );
+        $Self->{LayoutObject}->Block(
+            Name => 'DynamicField_' . $DynamicFieldConfig->{Name},
+            Data => {
+                Label => $DynamicFieldHTML->{Label},
+                Field => $DynamicFieldHTML->{Field},
+            },
+        );
 
         push @DynamicFieldNames, $DynamicFieldConfig->{Name};
     }

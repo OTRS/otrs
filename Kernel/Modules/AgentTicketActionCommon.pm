@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketActionCommon.pm - common file for several modules
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketActionCommon.pm,v 1.57 2011-09-27 16:52:36 cr Exp $
+# $Id: AgentTicketActionCommon.pm,v 1.58 2011-10-24 21:47:16 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -1260,13 +1260,13 @@ sub _Mask {
         );
 
         # example of dynamic fields order customization
-        #        $Self->{LayoutObject}->Block(
-        #            Name => 'DynamicField_' . $DynamicFieldConfig->{Name},
-        #            Data => {
-        #                Label => $DynamicFieldHTML->{Label},
-        #                Field      => $DynamicFieldHTML->{Field},
-        #            },
-        #        );
+        $Self->{LayoutObject}->Block(
+            Name => 'DynamicField_' . $DynamicFieldConfig->{Name},
+            Data => {
+                Label => $DynamicFieldHTML->{Label},
+                Field => $DynamicFieldHTML->{Field},
+            },
+        );
     }
 
     # get output back

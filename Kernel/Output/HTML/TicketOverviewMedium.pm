@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/TicketOverviewMedium.pm
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketOverviewMedium.pm,v 1.45 2011-09-27 22:41:01 cr Exp $
+# $Id: TicketOverviewMedium.pm,v 1.46 2011-10-24 21:47:16 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.45 $) [1];
+$VERSION = qw($Revision: 1.46 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -679,22 +679,22 @@ sub _Show {
         }
 
         # example of dynamic fields order customization
-        #        # outout dynamic field label
-        #        $Self->{LayoutObject}->Block(
-        #            Name => 'DynamicFieldTableRowRecord' . $DynamicFieldConfig->{Name},
-        #            Data => {
-        #                Label => $Label,
-        #            },
-        #        );
-        #
-        #        # outout dynamic field value plain
-        #        $Self->{LayoutObject}->Block(
-        #            Name => 'DynamicFieldTableRowRecordPlain' . $DynamicFieldConfig->{Name},
-        #            Data => {
-        #                Value => $ValueStrg->{Value},
-        #                Title => $ValueStrg->{Title},
-        #            },
-        #        );
+        # outout dynamic field label
+        $Self->{LayoutObject}->Block(
+            Name => 'DynamicFieldTableRowRecord' . $DynamicFieldConfig->{Name},
+            Data => {
+                Label => $Label,
+            },
+        );
+
+        # outout dynamic field value plain
+        $Self->{LayoutObject}->Block(
+            Name => 'DynamicFieldTableRowRecordPlain' . $DynamicFieldConfig->{Name},
+            Data => {
+                Value => $ValueStrg->{Value},
+                Title => $ValueStrg->{Title},
+            },
+        );
     }
 
     # fill the rest of the Dyanmic Fields row with empty cells, this will look better
