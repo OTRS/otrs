@@ -2,7 +2,7 @@
 # UPGRADING - upgrading OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: UPGRADING,v 1.49.2.4 2011-08-02 14:17:50 mg Exp $
+# $Id: UPGRADING,v 1.49.2.5 2011-10-24 08:48:59 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -141,7 +141,13 @@ from OTRS version 3.0.3 to 3.0.4, you should skip steps 8, 9, 10, and 13 - 16.
     Now you can log into your system.
 
 
-13) Check for encoding issues
+13) Check installed packages
+    ------------------------
+    In the package manager, check if all packages are still marked as
+    correctly installed or if any require reinstallation or even a package upgrade.
+
+
+14) Check for encoding issues
     -------------------------
 
     With OTRS 3.0, the default charset of OTRS was changed from "iso-8859-1" to "utf-8".
@@ -163,7 +169,7 @@ from OTRS version 3.0.3 to 3.0.4, you should skip steps 8, 9, 10, and 13 - 16.
     OTRS 3.1 will only allow UTF-8 as internal charset.
 
 
-14) Check for Custom Frontend Module Registrations
+15) Check for Custom Frontend Module Registrations
     ----------------------------------------------
 
     Starting with OTRS 3.0, application modules may have their own special CSS and/or
@@ -189,7 +195,7 @@ from OTRS version 3.0.3 to 3.0.4, you should skip steps 8, 9, 10, and 13 - 16.
     module specific CSS. If this setting is not activated on your system, you can
     safely omit this step.
 
-15) Check for customized PreferencesGroups entries
+16) Check for customized PreferencesGroups entries
     ----------------------------------------------
 
     With OTRS 3.0, there were a few corrections in PreferencesGroups configuration entries.
@@ -238,7 +244,7 @@ from OTRS version 3.0.3 to 3.0.4, you should skip steps 8, 9, 10, and 13 - 16.
       'Prio' => '4000'
     };
 
-16) Customer Database Backend Field Renaming
+17) Customer Database Backend Field Renaming
     ----------------------------------------
 
     The field 'salutation' in the built-in customer database has been renamed to
@@ -260,7 +266,7 @@ from OTRS version 3.0.3 to 3.0.4, you should skip steps 8, 9, 10, and 13 - 16.
     string AND you use the built-in customer table, please replace it with
     <OTRS_CURRENT_UserTitle> instead.
 
-17) Check Your Cronjobs
+18) Check Your Cronjobs
     ----------------------------------------
 
     With OTRS 3.0, some commandline scripts were renamed, such as otrs.PostMaster.pl.
@@ -268,7 +274,7 @@ from OTRS version 3.0.3 to 3.0.4, you should skip steps 8, 9, 10, and 13 - 16.
     files such as /etc/sysconfig/otrs sometimes are not correctly overwritten, thus
     keeping the old cron settings, which may lead to errors.
 
-18) Optional: Mark Tickets as Read
+19) Optional: Mark Tickets as Read
     ------------------------------
 
     In OTRS 3.0 there is a new feature: new tickets and new articles which an Agent
@@ -281,5 +287,5 @@ from OTRS version 3.0.3 to 3.0.4, you should skip steps 8, 9, 10, and 13 - 16.
     shell> bin/otrs.MarkTicketAsSeen.pl
 
 
-19) Well done!
+20) Well done!
     ----------
