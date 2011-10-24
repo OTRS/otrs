@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Date.pm - Delegate for DynamicField Date backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Date.pm,v 1.26 2011-10-20 21:16:24 cr Exp $
+# $Id: Date.pm,v 1.27 2011-10-24 13:17:53 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Time;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.26 $) [1];
+$VERSION = qw($Revision: 1.27 $) [1];
 
 =head1 NAME
 
@@ -121,8 +121,15 @@ sub SearchSQLGet {
     );
 
     if ( $Operators{ $Param{Operator} } ) {
-        my $SQL = " $Param{TableAlias}.value_date $Operators{$Param{Operator}} '";
-        $SQL .= $Self->{DBObject}->Quote( $Param{SearchTerm} ) . " 00:00:00' ";
+        my $SQL = " $Param{TableAlias}.value_date $Operators{$Param{Operator}} '"
+            . $Self->{DBObject}->Quote( $Param{SearchTerm} );
+
+        # Append hh:mm:ss if only the ISO date was supplied to get a full datetime string.
+        if ( $Param{SearchTerm} =~ m{\A \d{4}-\d{2}-\d{2}\z}xms ) {
+            $SQL .= " 00:00:00";
+        }
+
+        $SQL .= "' ";
         return $SQL;
     }
 
