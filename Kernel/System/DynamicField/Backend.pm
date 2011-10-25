@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend.pm - Interface for DynamicField backends
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Backend.pm,v 1.48 2011-10-25 03:27:36 cg Exp $
+# $Id: Backend.pm,v 1.49 2011-10-25 17:30:44 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Scalar::Util qw(weaken);
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.48 $) [1];
+$VERSION = qw($Revision: 1.49 $) [1];
 
 =head1 NAME
 
@@ -313,8 +313,8 @@ creates value and title strings to be used in display masks.
         Value              => 'Any value',              # Optional
         HTMLOutput         => 1,                        # or 0, defult 1, to return HTML ready
                                                         #    values
-        ValueMaxChars      => 20,                       # Optional (for HTMLOuput only)
-        TitleMaxChars      => 20,                       # Optional (for HTMLOuput only)
+        ValueMaxChars      => 20,                       # Optional (for HTMLOutput only)
+        TitleMaxChars      => 20,                       # Optional (for HTMLOutput only)
         LayoutObject       => $LayoutObject,
     );
 
@@ -1329,6 +1329,8 @@ creates value and title strings to be used in display masks.
     my $ValueStrg = $BackendObject->ReadableValueRender(
         DynamicFieldConfig => $DynamicFieldConfig,      # complete config of the DynamicField
         Value              => 'Any value',              # Optional
+        ValueMaxChars      => 20,                       # Optional
+        TitleMaxChars      => 20,                       # Optional
     );
 
     Returns
@@ -1403,6 +1405,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.48 $ $Date: 2011-10-25 03:27:36 $
+$Revision: 1.49 $ $Date: 2011-10-25 17:30:44 $
 
 =cut
