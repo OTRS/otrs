@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.pm,v 1.81 2011-10-24 21:47:16 cr Exp $
+# $Id: CustomerTicketZoom.pm,v 1.82 2011-10-25 12:37:37 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.81 $) [1];
+$VERSION = qw($Revision: 1.82 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -701,11 +701,20 @@ sub _Mask {
                 );
             }
             else {
+                my $SessionInformation;
+
+                # Append session information to URL if needed
+                if ( !$Self->{LayoutObject}->{SessionIDCookie} ) {
+                    $SessionInformation = $Self->{LayoutObject}->{SessionName} . '='
+                        . $Self->{LayoutObject}->{SessionID};
+                }
+
                 $Self->{LayoutObject}->Block(
                     Name => 'BodyHTMLPlaceholder',
                     Data => {
                         %Param,
                         %Article,
+                        SessionInformation => $SessionInformation,
                     },
                 );
             }
