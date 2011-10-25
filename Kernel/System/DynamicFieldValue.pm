@@ -2,7 +2,7 @@
 # Kernel/System/DynamicFieldValue.pm - DynamicField values backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicFieldValue.pm,v 1.12 2011-10-25 23:05:44 cr Exp $
+# $Id: DynamicFieldValue.pm,v 1.13 2011-10-25 23:31:59 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Time;
 use Kernel::System::Cache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 =head1 NAME
 
@@ -358,7 +358,7 @@ get all distinct values from a field stored on the database
 
     my $HistoricalValues = $DynamicFieldValueObject->HistoricalValueGet(
         FieldID   => $FieldID,                  # ID of the dynamic field
-        ValueType => 'Text,'                    # or 'Date' or 'Integer'. Default 'Text'
+        ValueType => 'Text',                    # or 'Date' or 'Integer'. Default 'Text'
         UserID    => 123,
     );
 
@@ -457,6 +457,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.12 $ $Date: 2011-10-25 23:05:44 $
+$Revision: 1.13 $ $Date: 2011-10-25 23:31:59 $
 
 =cut
