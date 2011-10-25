@@ -2,7 +2,7 @@
 # PostMaster.t - PostMaster tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: PostMaster.t,v 1.27 2011-03-03 13:19:06 martin Exp $
+# $Id: PostMaster.t,v 1.28 2011-10-25 20:32:15 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,6 +18,12 @@ use Kernel::System::PostMaster;
 use Kernel::System::PostMaster::Filter;
 use Kernel::System::Ticket;
 use Kernel::Config;
+
+use Kernel::System::Log;
+use Kernel::System::Time;
+use Kernel::System::Encode;
+use Kernel::System::DB;
+use Kernel::System::Main;
 
 # create local config object
 my $ConfigObject = Kernel::Config->new();
@@ -58,6 +64,44 @@ for my $Module (qw(DB FS)) {
         "#$Module - Check() - $UserRand1",
     );
 }
+
+# create needed extra objects
+my %CommonObject;
+$CommonObject{ConfigObject} = $ConfigObject;
+$CommonObject{LogObject}    = Kernel::System::Log->new(
+    LogPrefix => 'PostMaster-Test',
+    %CommonObject,
+);
+$CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
+$CommonObject{MainObject}   = Kernel::System::Main->new(%CommonObject);
+$CommonObject{TimeObject}   = Kernel::System::Time->new(%CommonObject);
+$CommonObject{DBObject}     = Kernel::System::DB->new(%CommonObject);
+
+my $SQL = "SELECT id from dynamic_field WHERE valid_id=2";
+
+$CommonObject{DBObject}->Prepare( SQL => $SQL );
+
+my @DynamicFieldIDsTwo;
+while ( my @Row = $CommonObject{DBObject}->FetchrowArray() ) {
+    push @DynamicFieldIDsTwo, $Row[0];
+}
+
+$SQL = "SELECT id from dynamic_field WHERE valid_id=3";
+
+$CommonObject{DBObject}->Prepare( SQL => $SQL );
+
+my @DynamicFieldIDsThree;
+while ( my @Row = $CommonObject{DBObject}->FetchrowArray() ) {
+    push @DynamicFieldIDsThree, $Row[0];
+}
+
+my $ValidIDToSet = 1;
+
+# set all dynamic fields as valid
+my $SuccessValid = $CommonObject{DBObject}->Do(
+    SQL  => 'UPDATE dynamic_field SET valid_id = ?',
+    Bind => [ \$ValidIDToSet ],
+);
 
 # use different subject format
 for my $TicketSubjectConfig ( 'Right', 'Left' ) {
@@ -189,27 +233,27 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                             Result => 'Misc',
                         },
                         {
-                            Key    => 'TicketFreeKey1',
+                            Key    => 'DynamicField_TicketFreeKey1',
                             Result => 'Key1',
                         },
                         {
-                            Key    => 'TicketFreeText1',
+                            Key    => 'DynamicField_TicketFreeText1',
                             Result => 'Text1',
                         },
                         {
-                            Key    => 'TicketFreeKey2',
-                            Result => '',
+                            Key    => 'DynamicField_TicketFreeKey2',
+                            Result => undef,
                         },
                         {
-                            Key    => 'TicketFreeText2',
-                            Result => '',
+                            Key    => 'DynamicField_TicketFreeText2',
+                            Result => undef,
                         },
                         {
-                            Key    => 'TicketFreeKey3',
+                            Key    => 'DynamicField_TicketFreeKey3',
                             Result => 'Key3',
                         },
                         {
-                            Key    => 'TicketFreeText3',
+                            Key    => 'DynamicField_TicketFreeText3',
                             Result => 'Text3',
                         },
                     );
@@ -262,44 +306,44 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                     );
                     my @Tests = (
                         {
-                            Key    => 'TicketFreeKey1',
+                            Key    => 'DynamicField_TicketFreeKey1',
                             Result => 'Test',
                         },
                         {
-                            Key    => 'TicketFreeText1',
+                            Key    => 'DynamicField_TicketFreeText1',
                             Result => 'ABC',
                         },
                         {
-                            Key    => 'TicketFreeKey2',
+                            Key    => 'DynamicField_TicketFreeKey2',
                             Result => 'Test2',
                         },
                         {
-                            Key    => 'TicketFreeText2',
+                            Key    => 'DynamicField_TicketFreeText2',
                             Result => 'ABC2',
                         },
                         {
-                            Key    => 'TicketFreeTime1',
-                            Result => '2008-01-12 13:14:00',
+                            Key    => 'DynamicField_TicketFreeTime1',
+                            Result => '2008-01-12 13:14:15',
                         },
                         {
-                            Key    => 'TicketFreeTime2',
-                            Result => '2008-01-12 13:15:00',
+                            Key    => 'DynamicField_TicketFreeTime2',
+                            Result => '2008-01-12 13:15:16',
                         },
                         {
-                            Key    => 'TicketFreeTime3',
-                            Result => '2008-01-12 13:16:00',
+                            Key    => 'DynamicField_TicketFreeTime3',
+                            Result => '2008-01-12 13:16:17',
                         },
                         {
-                            Key    => 'TicketFreeTime4',
-                            Result => '2008-01-12 13:17:00',
+                            Key    => 'DynamicField_TicketFreeTime4',
+                            Result => '2008-01-12 13:17:18',
                         },
                         {
-                            Key    => 'TicketFreeTime5',
-                            Result => '2008-01-12 13:18:00',
+                            Key    => 'DynamicField_TicketFreeTime5',
+                            Result => '2008-01-12 13:18:19',
                         },
                         {
-                            Key    => 'TicketFreeTime6',
-                            Result => '2008-01-12 13:19:00',
+                            Key    => 'DynamicField_TicketFreeTime6',
+                            Result => '2008-01-12 13:19:20',
                         },
                     );
                     for my $Test (@Tests) {
@@ -705,7 +749,7 @@ Some Content in Body
     my %Ticket = $TicketObject->TicketGet( TicketID => $Return[1] );
     for my $Test (@Tests) {
         next if !$Test->{Check};
-        for my $Key ( %{ $Test->{Check} } ) {
+        for my $Key ( sort keys %{ $Test->{Check} } ) {
             $Self->Is(
                 $Ticket{$Key},
                 $Test->{Check}->{$Key},
@@ -736,6 +780,33 @@ Some Content in Body
             );
         }
     }
+}
+
+# revert changes to dynamic_field table
+my $DynamicFieldIDsTwo = join ',', @DynamicFieldIDsTwo;
+
+if ( $DynamicFieldIDsTwo ne '' ) {
+    $ValidIDToSet = 2;
+
+    # return value to dynamic fields
+    $SuccessValid = $CommonObject{DBObject}->Do(
+        SQL => 'UPDATE dynamic_field SET valid_id = ? '
+            . 'WHERE id IN (' . $DynamicFieldIDsTwo . ')',
+        Bind => [ \$ValidIDToSet ],
+    );
+}
+
+my $DynamicFieldIDsThree = join ',', @DynamicFieldIDsThree;
+
+if ( $DynamicFieldIDsThree ne '' ) {
+    $ValidIDToSet = 3;
+
+    # return value to dynamic fields
+    $SuccessValid = $CommonObject{DBObject}->Do(
+        SQL => 'UPDATE dynamic_field SET valid_id = ? '
+            . 'WHERE id IN (' . $DynamicFieldIDsThree . ')',
+        Bind => [ \$ValidIDToSet ],
+    );
 }
 
 1;
