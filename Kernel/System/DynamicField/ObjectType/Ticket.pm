@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/ObjectType/Ticket.pm - Ticket object handler for DynamicField
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.6 2011-10-20 14:00:34 mg Exp $
+# $Id: Ticket.pm,v 1.7 2011-10-25 03:29:11 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,11 +19,8 @@ use Scalar::Util;
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::Ticket;
 
-use Kernel::System::Web::Request;
-use Kernel::Output::HTML::Layout;
-
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 =head1 NAME
 
@@ -78,16 +75,6 @@ sub new {
         # Here we must not call weaken(), because this is the only reference
         $Self->{TicketObject} = Kernel::System::Ticket->new( %{$Self} );
     }
-
-    # create extra needed objects
-    my $ParamObject = Kernel::System::Web::Request->new(
-        %{$Self},
-        WebRequest => 0,
-    );
-    $Self->{LayoutObject} = Kernel::Output::HTML::Layout->new(
-        ParamObject => $ParamObject,
-        %{$Self},
-    );
 
     return $Self;
 }
@@ -148,11 +135,9 @@ sub PostValueSet {
     }
 
     # get value for storing
-    my $ValueStrg = $Self->{TicketObject}->{DynamicFieldBackendObject}->DisplayValueRender(
+    my $ValueStrg = $Self->{TicketObject}->{DynamicFieldBackendObject}->ReadableValueRender(
         DynamicFieldConfig => $Param{DynamicFieldConfig},
         Value              => $HistoryValue,
-        HTMLOutput         => 0,
-        LayoutObject       => $Self->{LayoutObject},
     );
     $HistoryValue = $ValueStrg->{Value};
 
