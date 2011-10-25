@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Multiselect.pm - Delegate for DynamicField Multiselect backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Multiselect.pm,v 1.19 2011-10-25 17:30:43 cg Exp $
+# $Id: Multiselect.pm,v 1.20 2011-10-25 22:08:17 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::DynamicFieldValue;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.19 $) [1];
+$VERSION = qw($Revision: 1.20 $) [1];
 
 =head1 NAME
 
@@ -367,6 +367,14 @@ sub DisplayValueRender {
                 $ReadableValue = $Param{LayoutObject}->{LanguageObject}->Get($ReadableValue);
             }
 
+            # HTMLOuput transformations
+            if ( $Param{HTMLOutput} ) {
+
+                $ReadableValue = $Param{LayoutObject}->Ascii2Html(
+                    Text => $ReadableValue,
+                );
+            }
+
             push @ReadableValues, $ReadableValue;
         }
     }
@@ -381,18 +389,11 @@ sub DisplayValueRender {
     $Value = join( $ItemSeparator, @ReadableValues );
     $Title = $Value;
 
-    if ( $Param{HTMLOutput} ) {
-
-        $Value = $Param{LayoutObject}->Ascii2Html(
-            Text => $Value,
-            Max => $Param{ValueMaxChars} || '',
-        );
-
-        $Title = $Param{LayoutObject}->Ascii2Html(
-            Text => $Title,
-            Max => $Param{TitleMaxChars} || '',
-        );
-    }
+    # cut strings if needed
+    $Value = substr $Value, 0, $Param{ValueMaxChars}
+        if $Param{ValueMaxChars};
+    $Title = substr $Title, 0, $Param{TitleMaxChars}
+        if $Param{TitleMaxChars};
 
     # create return structure
     my $Data = {
