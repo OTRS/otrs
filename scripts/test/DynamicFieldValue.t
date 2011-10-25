@@ -2,7 +2,7 @@
 # DynamicFieldValue.t - DynamicFieldValue backend tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicFieldValue.t,v 1.11 2011-09-13 12:47:54 mg Exp $
+# $Id: DynamicFieldValue.t,v 1.12 2011-10-25 23:05:44 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -520,5 +520,235 @@ $Self->True(
     $TicketDelete,
     "TicketDelete() successful for Ticket ID $TicketID",
 );
+
+# HistoryValueGet() tests
+# set info to create some tickets
+my %TicketInfo = (
+    Title        => 'Some Ticket Title',
+    Queue        => 'Raw',
+    Lock         => 'unlock',
+    Priority     => '3 normal',
+    State        => 'new',
+    CustomerID   => '123465',
+    CustomerUser => 'customer@example.com',
+    OwnerID      => 1,
+    UserID       => 1,
+);
+
+# set the tickets to create
+my $TicketsToCreate = 5;
+
+my @CreatedTicketIds;
+
+# create each ticket
+for my $Counter ( 1 .. $TicketsToCreate ) {
+    my $TicketID = $TicketObject->TicketCreate(%TicketInfo);
+
+    # sanity check
+    $Self->True(
+        $TicketID,
+        "TicketCreate() successful for Ticket ID $TicketID - for HistoryValueGet()",
+    );
+
+    # store the ticket IDs
+    push @CreatedTicketIds, $TicketID;
+}
+
+# sanity checks for created tickets
+$Self->Is(
+    scalar @CreatedTicketIds,
+    $TicketsToCreate,
+    "Tickets created match the number of tickets to create - for HistoryValueGet()"
+);
+
+# create a dynamic field
+$FieldID = $DynamicFieldObject->DynamicFieldAdd(
+    Name       => "dynamicfieldtest$RandomID",
+    Label      => 'a description',
+    FieldOrder => 9991,
+    FieldType  => 'Text',     # mandatory, selects the DF backend to use for this field
+    ObjectType => 'Ticket',
+    Config     => {
+        DefaultValue => 'a value',
+    },
+    ValidID => 1,
+    UserID  => 1,
+);
+
+# sanity check
+$Self->True(
+    $FieldID,
+    "DynamicFieldAdd() successful for Field ID $FieldID - for HistoryValueGet()",
+);
+
+my $Counter;
+
+my %TextValues;
+my %IntValues;
+my %DateValues;
+
+for my $TicketID (@CreatedTicketIds) {
+    $Counter++;
+
+    # set proper counter for date
+    my $DateCounter = '00';
+    if ( $Counter > 0 && $Counter < 10 ) {
+        $DateCounter = '0' . $Counter;
+    }
+    elsif ( $Counter > 59 ) {
+        $DateCounter = '59'
+    }
+    else {
+        $DateCounter = $Counter;
+    }
+
+    # set the DF value
+    my %Value = (
+        ValueText     => 'Text' . $Counter,
+        ValueDateTime => '2011-01-01 00:' . $DateCounter . ':00',
+        ValueInt      => $Counter,
+    );
+
+    my $Success = $DynamicFieldValueObject->ValueSet(
+        FieldID    => $FieldID,
+        ObjectType => 'Ticket',
+        ObjectID   => $TicketID,
+        UserID     => 1,
+        Value      => [ \%Value ],
+    );
+
+    $Self->True(
+        $Success,
+        "ValueSet() for TicketID $TicketID - for HistoryValueGet()",
+    );
+
+    # reset counter to store duplicates
+    if ( $Counter == scalar @CreatedTicketIds - 2 ) {
+        $Counter = 0;
+    }
+
+    $TextValues{ $Value{ValueText} }     = $Value{ValueText};
+    $DateValues{ $Value{ValueDateTime} } = $Value{ValueDateTime};
+    $IntValues{ $Value{ValueInt} }       = $Value{ValueInt};
+
+}
+
+my $HistoricalValues = $DynamicFieldValueObject->HistoricalValueGet(
+    FieldID   => $FieldID,
+    ValueType => 'Text',
+    UserID    => 1,
+);
+
+$Self->IsDeeply(
+    $HistoricalValues,
+    \%TextValues,
+    "HistoricalValueGet() for Text data"
+);
+
+$HistoricalValues = $DynamicFieldValueObject->HistoricalValueGet(
+    FieldID   => $FieldID,
+    ValueType => 'DateTime',
+    UserID    => 1,
+);
+
+$Self->IsDeeply(
+    $HistoricalValues,
+    \%DateValues,
+    "HistoricalValueGet() for Date or DateTime data"
+);
+
+$HistoricalValues = $DynamicFieldValueObject->HistoricalValueGet(
+    FieldID   => $FieldID,
+    ValueType => 'Integer',
+    UserID    => 1,
+);
+
+$Self->IsDeeply(
+    $HistoricalValues,
+    \%IntValues,
+    "HistoricalValueGet() for Integer data"
+);
+
+# HistoricalValues (from cache)
+$HistoricalValues = $DynamicFieldValueObject->HistoricalValueGet(
+    FieldID   => $FieldID,
+    ValueType => 'Text',
+    UserID    => 1,
+);
+
+$Self->IsDeeply(
+    $HistoricalValues,
+    \%TextValues,
+    "HistoricalValueGet() for Text data - from Cache"
+);
+
+$HistoricalValues = $DynamicFieldValueObject->HistoricalValueGet(
+    FieldID   => $FieldID,
+    ValueType => 'DateTime',
+    UserID    => 1,
+);
+
+$Self->IsDeeply(
+    $HistoricalValues,
+    \%DateValues,
+    "HistoricalValueGet() for Date or DateTime data - from Cache"
+);
+
+$HistoricalValues = $DynamicFieldValueObject->HistoricalValueGet(
+    FieldID   => $FieldID,
+    ValueType => 'Integer',
+    UserID    => 1,
+);
+
+$Self->IsDeeply(
+    $HistoricalValues,
+    \%IntValues,
+    "HistoricalValueGet() for Integer data - from Cache"
+);
+
+# delete the dynamic field
+$FieldDelete = $DynamicFieldObject->DynamicFieldDelete(
+    ID     => $FieldID,
+    UserID => 1,
+);
+
+# sanity check
+$Self->True(
+    $FieldDelete,
+    "DynamicFieldDelete() successful for Field ID $FieldID - for HistoryValueGet()",
+);
+
+# now that the field was deleted also "New Value" should be deleted too"
+for my $TicketID (@CreatedTicketIds) {
+
+    # get the value with ValueGet()
+    my $Value = $DynamicFieldValueObject->ValueGet(
+        FieldID    => $FieldID,
+        ObjectType => 'Ticket',
+        ObjectID   => $TicketID
+    );
+
+    $Self->False(
+        $Value->[0],
+        "Value for TicketID $TicketID was deleted by FieldDeletion of $FieldID"
+            . "- for HistoryValueGet()",
+    );
+}
+
+# delete created tickets
+for my $TicketID (@CreatedTicketIds) {
+
+    # delete the ticket
+    my $TicketDelete = $TicketObject->TicketDelete(
+        TicketID => $TicketID,
+        UserID   => 1,
+    );
+
+    # sanity check
+    $Self->True(
+        $TicketDelete,
+        "TicketDelete() successful for Ticket ID $TicketID - for HistoryValueGet()",
+    );
+}
 
 1;

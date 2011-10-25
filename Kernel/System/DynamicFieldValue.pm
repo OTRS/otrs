@@ -2,7 +2,7 @@
 # Kernel/System/DynamicFieldValue.pm - DynamicField values backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicFieldValue.pm,v 1.11 2011-09-13 12:47:54 mg Exp $
+# $Id: DynamicFieldValue.pm,v 1.12 2011-10-25 23:05:44 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,9 +16,10 @@ use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::Time;
+use Kernel::System::Cache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 =head1 NAME
 
@@ -89,7 +90,12 @@ sub new {
     }
 
     # create additional objects
-    $Self->{TimeObject} = Kernel::System::Time->new( %{$Self} );
+    $Self->{TimeObject}  = Kernel::System::Time->new( %{$Self} );
+    $Self->{CacheObject} = Kernel::System::Cache->new( %{$Self} );
+
+    # get the cache TTL (in seconds)
+    $Self->{CacheTTL}
+        = int( $Self->{ConfigObject}->Get('DynamicField::CacheTTL') || 3600 );
 
     return $Self;
 }
@@ -232,6 +238,11 @@ sub ValueSet {
         );
     }
 
+    # delete cache
+    $Self->{CacheObject}->CleanUp(
+        Type => 'DynamicFieldValue',
+    );
+
     return 1;
 }
 
@@ -333,7 +344,101 @@ sub ValueDelete {
         Bind => [ \$Param{FieldID}, \$Param{ObjectID} ],
     );
 
+    # delete cache
+    $Self->{CacheObject}->CleanUp(
+        Type => 'DynamicFieldValue',
+    );
+
     return 1;
+}
+
+=item HistoricalValueGet()
+
+get all distinct values from a field stored on the database
+
+    my $HistoricalValues = $DynamicFieldValueObject->HistoricalValueGet(
+        FieldID   => $FieldID,                  # ID of the dynamic field
+        ValueType => 'Text,'                    # or 'Date' or 'Integer'. Default 'Text'
+        UserID    => 123,
+    );
+
+    Returns:
+
+    $HistoricalValues{
+        ValueA => 'ValueA',
+        ValueB => 'ValueB',
+        ValueC => 'ValueC'
+    };
+=cut
+
+sub HistoricalValueGet {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Needed (qw(FieldID UserID)) {
+        if ( !$Param{$Needed} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            return;
+        }
+    }
+
+    my $ValueType = 'value_text';
+    if ( $Param{ValueType} && $Param{ValueType} eq 'DateTime' ) {
+        $ValueType = 'value_date';
+    }
+    elsif ( $Param{ValueType} && $Param{ValueType} eq 'Integer' ) {
+        $ValueType = 'value_int';
+    }
+
+    # check cache
+    my $CacheKey = 'HistoricalValueGet::FieldID::' . $Param{FieldID} . '::ValueType::' . $ValueType;
+
+    my $Cache = $Self->{CacheObject}->Get(
+        Type => 'DynamicFieldValue',
+        Key  => $CacheKey,
+    );
+
+    # get data from cache
+    if ($Cache) {
+        return $Cache;
+    }
+
+    return if !$Self->{DBObject}->Prepare(
+        SQL =>
+            "SELECT DISTINCT($ValueType) FROM dynamic_field_value WHERE field_id = ?",
+        Bind => [ \$Param{FieldID} ],
+    );
+
+    my %Data;
+    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+
+        # check if the value is already stored
+        if ( $Row[0] && !$Data{ $Row[0] } ) {
+
+            if ( $ValueType eq 'Date' ) {
+
+                # cleanup time stamps (some databases are using e. g. 2008-02-25 22:03:00.000000
+                # and 0000-00-00 00:00:00 time stamps)
+                if ( $Row[0] eq '0000-00-00 00:00:00' ) {
+                    $Row[0] = undef;
+                }
+                $Row[0] =~ s/^(\d\d\d\d-\d\d-\d\d\s\d\d:\d\d:\d\d)\..+?$/$1/;
+            }
+
+            # store the results
+            $Data{ $Row[0] } = $Row[0];
+        }
+    }
+
+    # set cache
+    $Self->{CacheObject}->Set(
+        Type  => 'DynamicFieldValue',
+        Key   => $CacheKey,
+        Value => \%Data,
+        TTL   => $Self->{CacheTTL},
+    );
+
+    return \%Data;
 }
 
 1;
@@ -352,6 +457,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.11 $ $Date: 2011-09-13 12:47:54 $
+$Revision: 1.12 $ $Date: 2011-10-25 23:05:44 $
 
 =cut
