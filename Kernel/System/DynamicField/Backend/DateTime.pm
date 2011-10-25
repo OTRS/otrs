@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/DateTime.pm - Delegate for DynamicField DateTime backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DateTime.pm,v 1.37 2011-10-20 21:16:24 cr Exp $
+# $Id: DateTime.pm,v 1.38 2011-10-25 03:24:19 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Time;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.37 $) [1];
+$VERSION = qw($Revision: 1.38 $) [1];
 
 =head1 NAME
 
@@ -630,6 +630,22 @@ sub StatsSearchFieldParameterBuild {
     my ( $Self, %Param ) = @_;
 
     return;
+}
+
+sub ReadableValueRender {
+    my ( $Self, %Param ) = @_;
+
+    my $Value = '';
+
+    # Title is always equal to Value
+    my $Title = $Value;
+
+    my $Data = {
+        Value => $Value,
+        Title => $Title,
+    };
+
+    return $Data;
 }
 
 1;

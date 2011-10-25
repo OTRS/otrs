@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Date.pm - Delegate for DynamicField Date backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Date.pm,v 1.27 2011-10-24 13:17:53 mg Exp $
+# $Id: Date.pm,v 1.28 2011-10-25 03:24:19 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Time;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.27 $) [1];
+$VERSION = qw($Revision: 1.28 $) [1];
 
 =head1 NAME
 
@@ -661,6 +661,22 @@ sub StatsSearchFieldParameterBuild {
     my ( $Self, %Param ) = @_;
 
     return;
+}
+
+sub ReadableValueRender {
+    my ( $Self, %Param ) = @_;
+
+    my $Value = '';
+
+    # Title is always equal to Value
+    my $Title = $Value;
+
+    my $Data = {
+        Value => $Value,
+        Title => $Title,
+    };
+
+    return $Data;
 }
 
 1;

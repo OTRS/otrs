@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Multiselect.pm - Delegate for DynamicField Multiselect backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Multiselect.pm,v 1.17 2011-10-20 21:16:24 cr Exp $
+# $Id: Multiselect.pm,v 1.18 2011-10-25 03:24:20 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::DynamicFieldValue;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.17 $) [1];
+$VERSION = qw($Revision: 1.18 $) [1];
 
 =head1 NAME
 
@@ -583,6 +583,56 @@ sub StatsSearchFieldParameterBuild {
     return {
         $Operator => $Value,
     };
+}
+
+sub ReadableValueRender {
+    my ( $Self, %Param ) = @_;
+
+    # set Value and Title variables
+    my $Value = '';
+    my $Title = '';
+
+    # check value
+    my @Values;
+    if ( ref $Param{Value} eq 'ARRAY' ) {
+        @Values = @{ $Param{Value} };
+    }
+    else {
+        @Values = ( $Param{Value} );
+    }
+
+    # get real values
+    my $PossibleValues = $Param{DynamicFieldConfig}->{Config}->{PossibleValues};
+
+    my @ReadableValues;
+
+    VALUEITEM:
+    for my $Item (@Values) {
+        next VALUEITEM if !$Item;
+
+        if ( $PossibleValues->{$Item} ) {
+
+            # get readeble value
+            my $ReadableValue = $PossibleValues->{$Item};
+
+            push @ReadableValues, $ReadableValue;
+        }
+    }
+
+    # set new line separator
+    my $ItemSeparator = ', ';
+
+    # Ouput transformations
+    $Value = join( $ItemSeparator, @ReadableValues );
+    $Title = $Value;
+
+    # create return structure
+    my $Data = {
+        Value => $Value,
+        Title => $Title,
+    };
+
+    return $Data;
 }
 
 1;

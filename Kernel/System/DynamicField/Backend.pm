@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend.pm - Interface for DynamicField backends
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Backend.pm,v 1.47 2011-10-20 21:07:45 cr Exp $
+# $Id: Backend.pm,v 1.48 2011-10-25 03:27:36 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Scalar::Util qw(weaken);
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.47 $) [1];
+$VERSION = qw($Revision: 1.48 $) [1];
 
 =head1 NAME
 
@@ -1322,6 +1322,71 @@ sub StatsSearchFieldParameterBuild {
 
 }
 
+=item ReadableValueRender()
+
+creates value and title strings to be used in display masks.
+
+    my $ValueStrg = $BackendObject->ReadableValueRender(
+        DynamicFieldConfig => $DynamicFieldConfig,      # complete config of the DynamicField
+        Value              => 'Any value',              # Optional
+    );
+
+    Returns
+
+    $ValueStrg = {
+        Title => $Title,
+        Value => $Value,
+    }
+=cut
+
+sub ReadableValueRender {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    if ( !$Param{DynamicFieldConfig} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => "Need DynamicFieldConfig!" );
+        return;
+    }
+
+    # check DynamicFieldConfig (general)
+    if ( !IsHashRefWithData( $Param{DynamicFieldConfig} ) ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "The field configuration is invalid",
+        );
+        return;
+    }
+
+    # check DynamicFieldConfig (internally)
+    for my $Needed (qw(ID FieldType ObjectType Config Name)) {
+        if ( !$Param{DynamicFieldConfig}->{$Needed} ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed in DynamicFieldConfig!"
+            );
+            return;
+        }
+    }
+
+    # set the dynamic filed specific backend
+    my $DynamicFieldBackend = 'DynamicField' . $Param{DynamicFieldConfig}->{FieldType} . 'Object';
+
+    if ( !$Self->{$DynamicFieldBackend} ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!"
+        );
+        return;
+    }
+
+    # call DisplayValueRender on the specific backend
+    my $ValueStrg = $Self->{$DynamicFieldBackend}->ReadableValueRender(
+        %Param
+    );
+
+    return $ValueStrg;
+}
+
 1;
 
 =back
@@ -1338,6 +1403,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.47 $ $Date: 2011-10-20 21:07:45 $
+$Revision: 1.48 $ $Date: 2011-10-25 03:27:36 $
 
 =cut

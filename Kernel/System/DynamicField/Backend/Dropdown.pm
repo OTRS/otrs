@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Dropdown.pm - Delegate for DynamicField Dropdown backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Dropdown.pm,v 1.34 2011-10-20 21:16:24 cr Exp $
+# $Id: Dropdown.pm,v 1.35 2011-10-25 03:24:20 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::DynamicFieldValue;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.34 $) [1];
+$VERSION = qw($Revision: 1.35 $) [1];
 
 =head1 NAME
 
@@ -524,6 +524,30 @@ sub StatsSearchFieldParameterBuild {
     return {
         $Operator => $Value,
     };
+}
+
+sub ReadableValueRender {
+    my ( $Self, %Param ) = @_;
+
+    # get raw Value strings from field value
+    my $Value = $Param{Value} || '';
+
+    # get real value
+    if ( $Param{DynamicFieldConfig}->{Config}->{PossibleValues}->{$Value} ) {
+
+        # get readeable value
+        $Value = $Param{DynamicFieldConfig}->{Config}->{PossibleValues}->{$Value};
+    }
+
+    # set title as value after update and before limit
+    my $Title = $Value;
+
+    my $Data = {
+        Value => $Value,
+        Title => $Title,
+    };
+
+    return $Data;
 }
 
 1;
