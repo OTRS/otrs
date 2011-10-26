@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.192 2011-10-24 21:47:16 cr Exp $
+# $Id: AgentTicketPhone.pm,v 1.193 2011-10-26 16:52:20 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,7 +26,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.192 $) [1];
+$VERSION = qw($Revision: 1.193 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -89,6 +89,56 @@ sub Run {
         )
     {
         $GetParam{$Key} = $Self->{ParamObject}->GetParam( Param => $Key );
+    }
+
+    # MultipleCustomer From-field
+    my @MultipleCustomer;
+    my $CustomersNumber
+        = $Self->{ParamObject}->GetParam( Param => 'CustomerTicketCounterFromCustomer' ) || 0;
+    my $Selected = $Self->{ParamObject}->GetParam( Param => 'CustomerSelected' ) || '';
+
+    if ($CustomersNumber) {
+        my $CustomerCounter = 1;
+        for my $Count ( 1 ... $CustomersNumber ) {
+            my $CustomerElement
+                = $Self->{ParamObject}->GetParam( Param => 'CustomerTicketText_' . $Count );
+            my $CustomerSelected = ( $Selected eq $Count ? 'checked="checked"' : '' );
+            my $CustomerKey = $Self->{ParamObject}->GetParam( Param => 'CustomerKey_' . $Count )
+                || '';
+
+            if ($CustomerElement) {
+
+                $GetParam{From} .= $CustomerElement . ',';
+
+                # check email address
+                my $CustomerErrorMsg = 'CustomerGenericServerErrorMsg';
+                my $CustomerError    = '';
+                for my $Email ( Mail::Address->parse($CustomerElement) ) {
+                    if ( !$Self->{CheckItemObject}->CheckEmail( Address => $Email->address() ) ) {
+                        $CustomerErrorMsg = $Self->{CheckItemObject}->CheckErrorType()
+                            . 'ServerErrorMsg';
+                        $CustomerError = 'ServerError';
+                    }
+                }
+
+                my $CustomerDisabled = '';
+                my $CountAux         = $Count;
+                if ( $CustomerError ne '' ) {
+                    $CustomerDisabled = 'disabled="disabled"';
+                    $CountAux         = $Count . 'Error';
+                }
+
+                push @MultipleCustomer, {
+                    Count            => $CountAux,
+                    CustomerElement  => $CustomerElement,
+                    CustomerSelected => $CustomerSelected,
+                    CustomerKey      => $CustomerKey,
+                    CustomerError    => $CustomerError,
+                    CustomerErrorMsg => $CustomerErrorMsg,
+                    CustomerDisabled => $CustomerDisabled,
+                };
+            }
+        }
     }
 
     # get Dynamic fields form ParamObject
@@ -353,6 +403,7 @@ sub Run {
 
             #            %GetParam,
             DynamicFieldHTML => \%DynamicFieldHTML,
+            MultipleCustomer => \@MultipleCustomer,
         );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
@@ -728,6 +779,7 @@ sub Run {
                 Attachments  => \@Attachments,
                 %GetParam,
                 DynamicFieldHTML => \%DynamicFieldHTML,
+                MultipleCustomer => \@MultipleCustomer,
             );
 
             $Output .= $Self->{LayoutObject}->Footer();
@@ -1408,12 +1460,41 @@ sub _MaskPhoneNew {
         }
     }
 
-    # display server error msg according with the occurred email (from) error type
-    if ( $Param{Errors} && $Param{Errors}->{ErrorType} ) {
-        $Self->{LayoutObject}->Block( Name => 'Email' . $Param{Errors}->{ErrorType} );
+    # From
+    my $CustomerCounter = 0;
+    if ( $Param{MultipleCustomer} ) {
+        for my $Item ( @{ $Param{MultipleCustomer} } ) {
+
+            $Self->{LayoutObject}->Block(
+                Name => 'MultipleCustomer',
+                Data => $Item,
+            );
+            $Self->{LayoutObject}->Block(
+                Name => $Item->{CustomerErrorMsg},
+                Data => $Item,
+            );
+            if ( $Item->{CustomerError} ) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'CustomerErrorExplantion',
+                );
+            }
+            $CustomerCounter++;
+        }
     }
-    else {
-        $Self->{LayoutObject}->Block( Name => 'GenericServerErrorMsg' );
+
+    # set customer counter
+    $Self->{LayoutObject}->Block(
+        Name => 'MultipleCustomerCounter',
+        Data => {
+            CustomerCounter => $CustomerCounter++,
+        },
+    );
+
+    if ( $Param{FromInvalid} && $Param{Errors} && !$Param{Errors}->{FromErrorType} ) {
+        $Self->{LayoutObject}->Block( Name => 'FromServerErrorMsg' );
+    }
+    if ( $Param{Errors}->{FromErrorType} ) {
+        $Param{FromInvalid} = '';
     }
 
     my @DynamicFieldNames;
