@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1758.2.173 2011-10-25 12:38:02 mg Exp $
+# $Id: CHANGES,v 1.1758.2.174 2011-10-26 10:41:51 jp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.12 ????-??-??
+ - 2011-10-26 Fixed bug#7465 - Out-of-office unlock does not work upon customer's web reply.
  - 2011-10-25 Fixed bug#7843 - Customer and Agent Ticket Zoom issue with Sessions.
  - 2011-10-24 Improved rpc-example.pl to not use autodispatch any more.
 
@@ -45,7 +46,7 @@
  - 2011-08-15 Fixed bug#6263 - RPM upgrade should run otrs.RebuildConfig.pl and
     otrs.DeleteCache.pl.
  - 2011-08-12 Updated Simplified Chinese Translation, thanks to Martin Liu!
- - 2011-08-12 Updated Danish translation, thanks to Lars Jørgensen!
+ - 2011-08-12 Updated Danish translation, thanks to Lars Jï¿½rgensen!
  - 2011-08-10 Fixed bug#7550 - SLA and Service is not written to history.
  - 2011-08-10 Fixed bug#7549 - Missing mandatory class and * identifier in AgentTicketMove.
 
