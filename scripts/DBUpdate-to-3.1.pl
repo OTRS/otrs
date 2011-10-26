@@ -3,7 +3,7 @@
 # DBUpdate-to-3.1.pl - update script to migrate OTRS 3.0.x to 3.1.x
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-3.1.pl,v 1.28 2011-10-26 18:44:53 cr Exp $
+# $Id: DBUpdate-to-3.1.pl,v 1.29 2011-10-26 18:54:20 cr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.28 $) [1];
+$VERSION = qw($Revision: 1.29 $) [1];
 
 use Getopt::Std qw();
 use Kernel::Config;
@@ -67,7 +67,7 @@ EOF
     # create common objects
     my $CommonObject = _CommonObjectsBase();
 
-    print "Step 1 of 12: Refresh configuration cache... ";
+    print "Step 1 of 13: Refresh configuration cache... ";
     RebuildConfig($CommonObject);
     print "done.\n\n";
 
@@ -75,16 +75,16 @@ EOF
     $CommonObject = _CommonObjectsBase();
 
     # check framework version
-    print "Step 2 of 12: Check framework version... ";
+    print "Step 2 of 13: Check framework version... ";
     _CheckFrameworkVersion($CommonObject);
     print "done.\n\n";
 
     # upgrade MSSQL data types
-    print "Step 3 of 12: Upgrade Microsoft SQL Server data types... ";
+    print "Step 3 of 13: Upgrade Microsoft SQL Server data types... ";
     _MSSQLUpgrade($CommonObject);
     print "done.\n\n";
 
-    print "Step 4 of 12: Creating DynamicField tables (if necessary)... ";
+    print "Step 4 of 13: Creating DynamicField tables (if necessary)... ";
     if ( _CheckDynamicFieldTables($CommonObject) ) {
         print "done.\n\n";
     }
@@ -93,21 +93,21 @@ EOF
     }
 
     # insert dynamic field records, if necessary
-    print "Step 5 of 12: Create new dynamic fields for free fields (text, key, date)... ";
+    print "Step 5 of 13: Create new dynamic fields for free fields (text, key, date)... ";
     if ( !_IsFreefieldsMigrationAlreadyDone($CommonObject) ) {
         _DynamicFieldCreation($CommonObject);
     }
     print "done.\n\n";
 
     # migrate ticket free field
-    print "Step 6 of 12: Migrate ticket free fields to dynamic fields.. \n";
+    print "Step 6 of 13: Migrate ticket free fields to dynamic fields.. \n";
     if ( !_IsFreefieldsMigrationAlreadyDone($CommonObject) ) {
         my $TicketMigrated = _DynamicFieldTicketMigration($CommonObject);
     }
     print "done.\n\n";
 
     # migrate ticket free field
-    print "Step 7 of 12: Migrate article free fields to dynamic fields.. \n";
+    print "Step 7 of 13: Migrate article free fields to dynamic fields.. \n";
     if ( !_IsFreefieldsMigrationAlreadyDone($CommonObject) ) {
         my $ArticleMigrated = _DynamicFieldArticleMigration($CommonObject);
     }
@@ -115,7 +115,7 @@ EOF
 
     # verify ticket migration
     my $VerificationTicketData = 1;
-    print "Step 8 of 12: Verify if ticket data was successfully migrated.. ";
+    print "Step 8 of 13: Verify if ticket data was successfully migrated.. ";
     if ( !_IsFreefieldsMigrationAlreadyDone($CommonObject) ) {
         $VerificationTicketData = _VerificationTicketData($CommonObject);
     }
@@ -123,7 +123,7 @@ EOF
 
     # verify article migration
     my $VerificationArticleData = 1;
-    print "Step 9 of 12: Verify if article data was successfully migrated.. ";
+    print "Step 9 of 13: Verify if article data was successfully migrated.. ";
     if ( !_IsFreefieldsMigrationAlreadyDone($CommonObject) ) {
         $VerificationArticleData = _VerificationArticleData($CommonObject);
     }
@@ -137,12 +137,12 @@ EOF
     }
 
     # Migrate free fields configuration
-    print "Step 10 of 12: Migrate free fields configuration.. ";
+    print "Step 10 of 13: Migrate free fields configuration.. ";
     _MigrateFreeFieldsConfiguration($CommonObject);
     print "done.\n\n";
 
     print
-        "Step 11 of 12: Update history type from 'TicketFreeTextUpdate' to 'TicketDynamicFieldUpdate'... ";
+        "Step 11 of 13: Update history type from 'TicketFreeTextUpdate' to 'TicketDynamicFieldUpdate'... ";
     if ( _UpdateHistoryType($CommonObject) ) {
         print "done.\n\n";
     }
@@ -151,8 +151,17 @@ EOF
     }
 
     # Migrate free fields configuration
-    print "Step 12 of 12: Migrate free fields window configuration.. ";
+    print "Step 12 of 13: Migrate free fields window configuration.. ";
     if ( _MigrateWindowConfiguration($CommonObject) ) {
+        print "done.\n\n";
+    }
+    else {
+        print "Error!\n\n";
+    }
+
+    # Migrate free fields configuration
+    print "Step 13 of 13: Migrate free fields stats configuration.. ";
+    if ( _MigrateStatsConfiguration($CommonObject) ) {
         print "done.\n\n";
     }
     else {
@@ -1379,6 +1388,115 @@ sub _MigrateWindowConfiguration {
         }
 
     }
+    return 1;
+}
+
+=item _MigrateStatsConfiguration($CommonObject)
+
+migrates the configuration of the free fields for each statistic to the
+new dynamic field structure.
+
+    _MigrateStatsConfiguration($CommonObject);
+
+=cut
+
+sub _MigrateStatsConfiguration {
+    my $CommonObject = shift;
+
+    # Purge cache first to make sure that the DF API works correctly
+    #   after we made inserts by hand.
+    my $CacheObject = Kernel::System::Cache->new( %{$CommonObject} );
+    $CacheObject->CleanUp(
+        Type => 'DynamicField',
+    );
+
+    # Purge xml cache in order to re-read all stats from the database
+    # this will be usefull because we are updating DB registers by hand
+    $CacheObject->CleanUp(
+        Type => 'XML',
+    );
+
+    # create additional objects
+    my $DynamicFieldObject = Kernel::System::DynamicField->new( %{$CommonObject} );
+
+    # create new db connection
+    my $DBConnectionObject = Kernel::System::DB->new( %{ $CommonObject->{DBObject} } );
+
+    # find all statistics parts that need to be updated
+    return if !$DBConnectionObject->Prepare(
+        SQL => "SELECT xml_type, xml_key, xml_content_key, xml_content_value
+            FROM xml_storage
+            WHERE xml_type = 'Stats'
+                AND xml_content_key like '%UseAs%'
+                AND xml_content_value like 'TicketFree%'
+            ORDER BY xml_key",
+    );
+
+    my @StatRecordsToChange;
+
+    # loop trought all results
+    while ( my @Row = $DBConnectionObject->FetchrowArray() ) {
+
+        # get field details
+        my %StatRecordConfig = (
+            XMLType         => $Row[0],
+            XMLKey          => $Row[1],
+            XMLContentKey   => $Row[2],
+            XMLContentValue => $Row[3],
+        );
+
+        # save field details
+        push @StatRecordsToChange, \%StatRecordConfig;
+    }
+
+    # get DynamicFields list
+    my $DynamicFields = $DynamicFieldObject->DynamicFieldList(
+        Valid      => 0,
+        ResultType => 'HASH',
+    );
+
+    # reverse the DynamicFields list to create a lookup table
+    $DynamicFields = { reverse %{$DynamicFields} };
+
+    STATSFIELDCONFIG:
+    for my $StatRecordConfig (@StatRecordsToChange) {
+
+        # check if the migarted dynamic field is available
+        next STATSFIELDCONFIG if !$DynamicFields->{ $StatRecordConfig->{XMLContentValue} };
+
+        # set new field name for stats
+        $StatRecordConfig->{XMLContentValueNew}
+            = 'DynamicField_' . $StatRecordConfig->{XMLContentValue};
+
+        # update database
+        my $SuccessStatsUpdate = $DBConnectionObject->Do(
+            SQL =>
+                'UPDATE xml_storage '
+                . 'SET xml_content_value = ? '
+                . 'WHERE xml_type = ? '
+                . 'AND xml_key = ? '
+                . 'AND xml_content_key = ? '
+                . 'AND xml_content_value = ?',
+            Bind => [
+                \$StatRecordConfig->{XMLContentValueNew},
+                \$StatRecordConfig->{XMLType},
+                \$StatRecordConfig->{XMLKey},
+                \$StatRecordConfig->{XMLContentKey},
+                \$StatRecordConfig->{XMLContentValue},
+            ],
+        );
+
+        # check for errors
+        if ( !$SuccessStatsUpdate ) {
+            print "Could not migrate the statistic ID $StatRecordConfig->{XMLKEY}"
+                . " field $StatRecordConfig->{XMLContentValue}\n";
+
+            # return error
+            return 0;
+        }
+    }
+
+    # return success
     return 1;
 }
 
