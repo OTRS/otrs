@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1758.2.174 2011-10-26 10:41:51 jp Exp $
+# $Id: CHANGES,v 1.1758.2.175 2011-10-26 11:24:18 jp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -46,7 +46,7 @@
  - 2011-08-15 Fixed bug#6263 - RPM upgrade should run otrs.RebuildConfig.pl and
     otrs.DeleteCache.pl.
  - 2011-08-12 Updated Simplified Chinese Translation, thanks to Martin Liu!
- - 2011-08-12 Updated Danish translation, thanks to Lars J�rgensen!
+ - 2011-08-12 Updated Danish translation, thanks to Lars Jørgensen!
  - 2011-08-10 Fixed bug#7550 - SLA and Service is not written to history.
  - 2011-08-10 Fixed bug#7549 - Missing mandatory class and * identifier in AgentTicketMove.
 
