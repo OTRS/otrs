@@ -2,7 +2,7 @@
 # Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm - stats about ticket solution and response time
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketSolutionResponseTime.pm,v 1.7 2011-10-24 19:32:41 cr Exp $
+# $Id: TicketSolutionResponseTime.pm,v 1.8 2011-10-26 04:12:58 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -796,9 +796,6 @@ sub _ReportingValues {
                     DynamicFieldConfig => $DynamicFieldConfig,
                     Value              => $TicketSearch{$ParameterName},
                     );
-
-                # delete original search parameter
-                delete $TicketSearch{$ParameterName};
 
                 # add new search parameter
                 $TicketSearch{$ParameterName} = $DynamicFieldStatsSearchParameter;

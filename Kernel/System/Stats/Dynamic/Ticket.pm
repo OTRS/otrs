@@ -2,7 +2,7 @@
 # Kernel/System/Stats/Dynamic/Ticket.pm - all advice functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.33 2011-10-24 19:32:41 cr Exp $
+# $Id: Ticket.pm,v 1.34 2011-10-26 04:12:58 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.33 $) [1];
+$VERSION = qw($Revision: 1.34 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -541,9 +541,6 @@ sub GetStatElement {
                     DynamicFieldConfig => $DynamicFieldConfig,
                     Value              => $Param{$ParameterName},
                     );
-
-                # delete original search parameter
-                delete $Param{$ParameterName};
 
                 # add new search parameter
                 $Param{$ParameterName} = $DynamicFieldStatsSearchParameter;
