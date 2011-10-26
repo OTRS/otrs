@@ -2,7 +2,7 @@
 # TicketDynamicFieldSearch.t - ticket module testscript
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketDynamicFieldSearch.t,v 1.6 2011-09-23 18:01:39 cg Exp $
+# $Id: TicketDynamicFieldSearch.t,v 1.7 2011-10-26 22:15:41 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -146,10 +146,13 @@ my $FieldID5 = $DynamicFieldObject->DynamicFieldAdd(
     FieldType  => 'Multiselect',     # mandatory, selects the DF backend to use for this field
     ObjectType => 'Ticket',
     Config     => {
-        DefaultValue   => 'Default',
+        DefaultValue => [ 'ticket2_field5', 'ticket4_field5' ],
         PossibleValues => {
             ticket1_field5 => 'ticket1_field51',
             ticket2_field5 => 'ticket2_field52',
+            ticket3_field5 => 'ticket2_field53',
+            ticket4_field5 => 'ticket2_field54',
+            ticket5_field5 => 'ticket2_field55',
         },
     },
     ValidID => 1,
@@ -232,7 +235,7 @@ $BackendObject->ValueSet(
 $BackendObject->ValueSet(
     DynamicFieldConfig => $Field5Config,
     ObjectID           => $TicketID1,
-    Value              => 'ticket1_field5',
+    Value              => ['ticket1_field5'],
     UserID             => 1,
 );
 
@@ -267,8 +270,12 @@ $BackendObject->ValueSet(
 $BackendObject->ValueSet(
     DynamicFieldConfig => $Field5Config,
     ObjectID           => $TicketID2,
-    Value              => 'ticket2_field5',
-    UserID             => 1,
+    Value              => [
+        'ticket1_field5',
+        'ticket2_field5',
+        'ticket4_field5',
+    ],
+    UserID => 1,
 );
 
 my %TicketIDsSearch = $TicketObject->TicketSearch(
@@ -804,6 +811,64 @@ $Self->IsDeeply(
     \@TicketResultSearch,
     [ $TicketID1, $TicketID2, ],
     'Search for field, match two tickets, sort for text field, ASC',
+);
+
+@TicketResultSearch = $TicketObject->TicketSearch(
+    Result                       => 'ARRAY',
+    Limit                        => 100,
+    Title                        => "Ticket$RandomID",
+    "DynamicField_DFT5$RandomID" => {
+        Like => 'ticket1_field5',
+    },
+    UserID     => 1,
+    Permission => 'rw',
+    SortBy     => "DynamicField_DFT1$RandomID",
+    OrderBy    => 'Down',
+);
+
+$Self->IsDeeply(
+    \@TicketResultSearch,
+    [ $TicketID2, $TicketID1, ],
+    'Search for one value, match two ticket',
+);
+
+@TicketResultSearch = $TicketObject->TicketSearch(
+    Result                       => 'ARRAY',
+    Limit                        => 100,
+    Title                        => "Ticket$RandomID",
+    "DynamicField_DFT5$RandomID" => {
+        Like => 'ticket2_field5',
+        Like => 'ticket4_field5',
+    },
+    UserID     => 1,
+    Permission => 'rw',
+    SortBy     => "DynamicField_DFT1$RandomID",
+    OrderBy    => 'Down',
+);
+
+$Self->IsDeeply(
+    \@TicketResultSearch,
+    [ $TicketID2, ],
+    'Search for two values in a same field, match one ticket using two operators',
+);
+
+@TicketResultSearch = $TicketObject->TicketSearch(
+    Result                       => 'ARRAY',
+    Limit                        => 100,
+    Title                        => "Ticket$RandomID",
+    "DynamicField_DFT5$RandomID" => {
+        Like => [ 'ticket2_field5', 'ticket4_field5' ],
+    },
+    UserID     => 1,
+    Permission => 'rw',
+    SortBy     => "DynamicField_DFT1$RandomID",
+    OrderBy    => 'Down',
+);
+
+$Self->IsDeeply(
+    \@TicketResultSearch,
+    [ $TicketID2, ],
+    'Search for two values in a same field, match one ticket using an array ',
 );
 
 for my $TicketID (@TestTicketIDs) {
