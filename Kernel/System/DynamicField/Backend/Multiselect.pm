@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Multiselect.pm - Delegate for DynamicField Multiselect backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Multiselect.pm,v 1.23 2011-10-26 20:04:09 cg Exp $
+# $Id: Multiselect.pm,v 1.24 2011-10-26 21:39:00 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::DynamicFieldValue;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.23 $) [1];
+$VERSION = qw($Revision: 1.24 $) [1];
 
 =head1 NAME
 
@@ -646,11 +646,8 @@ sub ReadableValueRender {
         push @ReadableValues, $ReadableValue;
     }
 
-    # get specific field settings
-    my $FieldConfig = $Self->{ConfigObject}->Get('DynamicFields::Backend')->{Multiselect} || {};
-
     # set new line separator
-    my $ItemSeparator = $FieldConfig->{ItemSeparator} || ', ';
+    my $ItemSeparator = ', ';
 
     # Ouput transformations
     $Value = join( $ItemSeparator, @ReadableValues );
