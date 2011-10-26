@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Dropdown.pm - Delegate for DynamicField Dropdown backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Dropdown.pm,v 1.36 2011-10-25 17:30:44 cg Exp $
+# $Id: Dropdown.pm,v 1.37 2011-10-26 02:42:51 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::DynamicFieldValue;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.36 $) [1];
+$VERSION = qw($Revision: 1.37 $) [1];
 
 =head1 NAME
 
@@ -387,6 +387,19 @@ sub SearchFieldRender {
     # set PossibleValues
     my $SelectionData = $FieldConfig->{PossibleValues};
 
+    # get historical values from database
+    my $HistoricalValues = $Self->{DynamicFieldValueObject}->HistoricalValueGet(
+        FieldID   => $Param{DynamicFieldConfig}->{ID},
+        ValueType => 'Text,',
+    );
+
+    # add historic values to current values (if they don't exist anymore)
+    for my $Key ( keys %{$HistoricalValues} ) {
+        if ( !$SelectionData->{$Key} ) {
+            $SelectionData->{$Key} = $HistoricalValues->{$Key}
+        }
+    }
+
     # use PossibleValuesFilter if defined
     $SelectionData = $Param{PossibleValuesFilter}
         if defined $Param{PossibleValuesFilter};
@@ -502,6 +515,19 @@ sub StatsFieldParameterBuild {
 
     # set PossibleValues
     my $Values = $Param{DynamicFieldConfig}->{Config}->{PossibleValues};
+
+    # get historical values from database
+    my $HistoricalValues = $Self->{DynamicFieldValueObject}->HistoricalValueGet(
+        FieldID   => $Param{DynamicFieldConfig}->{ID},
+        ValueType => 'Text,',
+    );
+
+    # add historic values to current values (if they don't exist anymore)
+    for my $Key ( keys %{$HistoricalValues} ) {
+        if ( !$Values->{$Key} ) {
+            $Values->{$Key} = $HistoricalValues->{$Key}
+        }
+    }
 
     # use PossibleValuesFilter if defined
     $Values = $Param{PossibleValuesFilter}
