@@ -2,7 +2,7 @@
 # DynamicFieldValue.t - DynamicFieldValue backend tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicFieldValue.t,v 1.12 2011-10-25 23:05:44 cr Exp $
+# $Id: DynamicFieldValue.t,v 1.13 2011-10-26 02:14:45 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -636,7 +636,6 @@ for my $TicketID (@CreatedTicketIds) {
 my $HistoricalValues = $DynamicFieldValueObject->HistoricalValueGet(
     FieldID   => $FieldID,
     ValueType => 'Text',
-    UserID    => 1,
 );
 
 $Self->IsDeeply(
@@ -648,7 +647,6 @@ $Self->IsDeeply(
 $HistoricalValues = $DynamicFieldValueObject->HistoricalValueGet(
     FieldID   => $FieldID,
     ValueType => 'DateTime',
-    UserID    => 1,
 );
 
 $Self->IsDeeply(
@@ -660,7 +658,6 @@ $Self->IsDeeply(
 $HistoricalValues = $DynamicFieldValueObject->HistoricalValueGet(
     FieldID   => $FieldID,
     ValueType => 'Integer',
-    UserID    => 1,
 );
 
 $Self->IsDeeply(
@@ -673,7 +670,6 @@ $Self->IsDeeply(
 $HistoricalValues = $DynamicFieldValueObject->HistoricalValueGet(
     FieldID   => $FieldID,
     ValueType => 'Text',
-    UserID    => 1,
 );
 
 $Self->IsDeeply(
@@ -685,7 +681,6 @@ $Self->IsDeeply(
 $HistoricalValues = $DynamicFieldValueObject->HistoricalValueGet(
     FieldID   => $FieldID,
     ValueType => 'DateTime',
-    UserID    => 1,
 );
 
 $Self->IsDeeply(
@@ -697,7 +692,6 @@ $Self->IsDeeply(
 $HistoricalValues = $DynamicFieldValueObject->HistoricalValueGet(
     FieldID   => $FieldID,
     ValueType => 'Integer',
-    UserID    => 1,
 );
 
 $Self->IsDeeply(
@@ -731,7 +725,7 @@ for my $TicketID (@CreatedTicketIds) {
     $Self->False(
         $Value->[0],
         "Value for TicketID $TicketID was deleted by FieldDeletion of $FieldID"
-            . "- for HistoryValueGet()",
+            . " - for HistoryValueGet()",
     );
 }
 
