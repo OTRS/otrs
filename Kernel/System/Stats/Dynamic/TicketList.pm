@@ -2,7 +2,7 @@
 # Kernel/System/Stats/Dynamic/TicketList.pm - reporting via ticket lists
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketList.pm,v 1.14 2011-10-24 19:32:41 cr Exp $
+# $Id: TicketList.pm,v 1.15 2011-10-26 04:14:36 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,7 +25,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -671,7 +671,33 @@ sub GetStatTable {
         $Ticket{EscalationDestinationDate}   ||= '';
         $Ticket{EscalationTimeWorkingTime}   ||= 0;
 
-        #TODO transform DynamicFields values to text values (i.e. multiselect)
+        for my $ParameterName ( keys %Ticket ) {
+            if ( $ParameterName =~ m{\A DynamicField_ ( [a-zA-Z\d]+ ) \z}xms ) {
+
+                # loop over the dyanmic fields configured
+                DYNAMICFIELD:
+                for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
+                    next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+                    next DYNAMICFIELD if !$DynamicFieldConfig->{Name};
+
+                    # skip all fields that does not match with current field name ($1)
+                    # with out the 'DynamicField_' prefix
+                    next DYNAMICFIELD if $DynamicFieldConfig->{Name} ne $1;
+
+                    # get field value in plain text
+                    my $ValueStrg = $Self->{BackendObject}->ReadableValueRender(
+                        DynamicFieldConfig => $DynamicFieldConfig,
+                        Value              => $Ticket{$ParameterName},
+                    );
+
+                    if ( $ValueStrg->{Value} ) {
+
+                        # change raw value from ticket to a plain text value
+                        $Ticket{$ParameterName} = $ValueStrg->{Value};
+                    }
+                }
+            }
+        }
 
         ATTRIBUTE:
         for my $Attribute ( @{$SortedAttributesRef} ) {
