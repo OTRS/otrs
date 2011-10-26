@@ -2,7 +2,7 @@
 # Backend.t - DynamicFieldValue backend tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Backend.t,v 1.16 2011-09-27 22:09:12 cg Exp $
+# $Id: Backend.t,v 1.17 2011-10-26 21:28:50 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -399,8 +399,10 @@ my @Tests = (
                 },
             },
         },
-        ObjectID  => $TicketID,
-        Value     => 'Key4',
+        ObjectID => $TicketID,
+        Value    => [
+            'Key4'
+        ],
         UserID    => 1,
         Success   => 1,
         ShouldGet => 1,
@@ -420,12 +422,41 @@ my @Tests = (
                 },
             },
         },
-        ObjectID  => $TicketID,
-        Value     => 'Key3',
+        ObjectID => $TicketID,
+        Value    => [
+            'Key3'
+        ],
         UserID    => 1,
         Success   => 1,
         ShouldGet => 1,
     },
+    {
+        Name               => 'Multiselect - multiple values',
+        DynamicFieldConfig => {
+            ID         => $FieldID,
+            Name       => "dynamicfieldtest$RandomID",
+            ObjectType => 'Ticket',
+            FieldType  => 'Multiselect',
+            Config     => {
+                PossibleValues => {
+                    Key1 => 'Value1',
+                    Key2 => 'Value2',
+                    Key3 => 'Value3',
+                    Key4 => 'Value4',
+                    Key5 => 'Value5',
+                },
+            },
+        },
+        ObjectID => $TicketID,
+        Value    => [
+            'Key2',
+            'Key4'
+        ],
+        UserID    => 1,
+        Success   => 1,
+        ShouldGet => 1,
+    },
+
     {
         Name               => 'Checkbox - Invalid Option (Negative)',
         DynamicFieldConfig => {
@@ -666,11 +697,6 @@ for my $Test (@Tests) {
             ObjectID           => $Test->{ObjectID},
         );
 
-        # fix Value if it's an array ref
-        if ( defined $Value && ref $Value eq 'ARRAY' ) {
-            $Value = join ',', @{$Value};
-        }
-
         # workaround for oracle
         # oracle databases can't determine the difference between NULL and ''
         if ( !defined $Value || $Value eq '' ) {
@@ -683,13 +709,25 @@ for my $Test (@Tests) {
             );
         }
         else {
+            if ( ref $Value eq 'ARRAY' ) {
 
-            # compare data
-            $Self->Is(
-                $Value,
-                $Test->{Value},
-                "ValueGet() after successful ValueSet() - (Test $Test->{Name}) - Value",
-            );
+                # compare data
+                $Self->IsDeeply(
+                    $Value,
+                    $Test->{Value},
+                    "ValueGet() after successful ValueSet() - (Test $Test->{Name}) - Value",
+                );
+
+            }
+            else {
+
+                # compare data
+                $Self->Is(
+                    $Value,
+                    $Test->{Value},
+                    "ValueGet() after successful ValueSet() - (Test $Test->{Name}) - Value",
+                );
+            }
         }
     }
 }
