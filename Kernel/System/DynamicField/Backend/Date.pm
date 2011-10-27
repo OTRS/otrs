@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Date.pm - Delegate for DynamicField Date backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Date.pm,v 1.30 2011-10-26 15:05:26 cg Exp $
+# $Id: Date.pm,v 1.31 2011-10-27 17:47:04 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Time;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.30 $) [1];
+$VERSION = qw($Revision: 1.31 $) [1];
 
 =head1 NAME
 
@@ -672,10 +672,8 @@ sub ReadableValueRender {
     my $Title = $Value;
 
     # cut strings if needed
-    $Value = substr $Value, 0, $Param{ValueMaxChars}
-        if $Param{ValueMaxChars};
-    $Title = substr $Title, 0, $Param{TitleMaxChars}
-        if $Param{TitleMaxChars};
+    $Value = substr $Value, 0, $Param{ValueMaxChars} if $Param{ValueMaxChars};
+    $Title = substr $Title, 0, $Param{TitleMaxChars} if $Param{TitleMaxChars};
 
     my $Data = {
         Value => $Value,
