@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend.pm - Interface for DynamicField backends
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Backend.pm,v 1.49 2011-10-25 17:30:44 cg Exp $
+# $Id: Backend.pm,v 1.50 2011-10-27 14:21:08 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Scalar::Util qw(weaken);
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.49 $) [1];
+$VERSION = qw($Revision: 1.50 $) [1];
 
 =head1 NAME
 
@@ -306,7 +306,8 @@ sub EditFieldRender {
 
 =item DisplayValueRender()
 
-creates value and title strings to be used in display masks.
+creates value and title strings to be used in display masks. Supports HTML output
+and will transform dates to the current user's timezone.
 
     my $ValueStrg = $BackendObject->DisplayValueRender(
         DynamicFieldConfig => $DynamicFieldConfig,      # complete config of the DynamicField
@@ -1324,7 +1325,8 @@ sub StatsSearchFieldParameterBuild {
 
 =item ReadableValueRender()
 
-creates value and title strings to be used in display masks.
+creates value and title strings to be used for storage (e. g. TicketHistory).
+Produces text output and does not transform time zones of dates.
 
     my $ValueStrg = $BackendObject->ReadableValueRender(
         DynamicFieldConfig => $DynamicFieldConfig,      # complete config of the DynamicField
@@ -1405,6 +1407,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.49 $ $Date: 2011-10-25 17:30:44 $
+$Revision: 1.50 $ $Date: 2011-10-27 14:21:08 $
 
 =cut
