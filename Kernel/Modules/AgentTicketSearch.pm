@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.pm,v 1.132 2011-10-24 22:05:46 cr Exp $
+# $Id: AgentTicketSearch.pm,v 1.133 2011-10-27 10:35:18 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.132 $) [1];
+$VERSION = qw($Revision: 1.133 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -679,7 +679,7 @@ sub Run {
         my %AttributeLookup;
 
         # create attibute lookup table
-        for my $Attribute ( @{ $GetParam{ShownAttributes} } ) {
+        for my $Attribute ( @{ $GetParam{ShownAttributes} || [] } ) {
             $AttributeLookup{$Attribute} = 1;
         }
 
