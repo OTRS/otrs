@@ -2,7 +2,7 @@
 # PostMaster.t - PostMaster tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: PostMaster.t,v 1.28 2011-10-25 20:32:15 cg Exp $
+# $Id: PostMaster.t,v 1.29 2011-10-27 22:31:28 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,6 +24,7 @@ use Kernel::System::Time;
 use Kernel::System::Encode;
 use Kernel::System::DB;
 use Kernel::System::Main;
+use Kernel::System::DynamicField;
 
 # create local config object
 my $ConfigObject = Kernel::Config->new();
@@ -65,43 +66,81 @@ for my $Module (qw(DB FS)) {
     );
 }
 
-# create needed extra objects
-my %CommonObject;
-$CommonObject{ConfigObject} = $ConfigObject;
-$CommonObject{LogObject}    = Kernel::System::Log->new(
-    LogPrefix => 'PostMaster-Test',
-    %CommonObject,
+# add or update dynamic fields if needed
+my $DynamicFieldObject = Kernel::System::DynamicField->new( %{$Self} );
+
+my @DynamicfieldIDs;
+my @DynamicFieldUpdate;
+my %NeededDynamicfields = (
+    TicketFreeKey1  => 1,
+    TicketFreeText1 => 1,
+    TicketFreeKey2  => 1,
+    TicketFreeText2 => 1,
+    TicketFreeKey3  => 1,
+    TicketFreeText3 => 1,
+    TicketFreeTime1 => 1,
+    TicketFreeTime2 => 1,
+    TicketFreeTime3 => 1,
+    TicketFreeTime4 => 1,
+    TicketFreeTime5 => 1,
+    TicketFreeTime6 => 1,
 );
-$CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
-$CommonObject{MainObject}   = Kernel::System::Main->new(%CommonObject);
-$CommonObject{TimeObject}   = Kernel::System::Time->new(%CommonObject);
-$CommonObject{DBObject}     = Kernel::System::DB->new(%CommonObject);
 
-my $SQL = "SELECT id from dynamic_field WHERE valid_id=2";
-
-$CommonObject{DBObject}->Prepare( SQL => $SQL );
-
-my @DynamicFieldIDsTwo;
-while ( my @Row = $CommonObject{DBObject}->FetchrowArray() ) {
-    push @DynamicFieldIDsTwo, $Row[0];
-}
-
-$SQL = "SELECT id from dynamic_field WHERE valid_id=3";
-
-$CommonObject{DBObject}->Prepare( SQL => $SQL );
-
-my @DynamicFieldIDsThree;
-while ( my @Row = $CommonObject{DBObject}->FetchrowArray() ) {
-    push @DynamicFieldIDsThree, $Row[0];
-}
-
-my $ValidIDToSet = 1;
-
-# set all dynamic fields as valid
-my $SuccessValid = $CommonObject{DBObject}->Do(
-    SQL  => 'UPDATE dynamic_field SET valid_id = ?',
-    Bind => [ \$ValidIDToSet ],
+# list available dynamic fields
+my $DynamicFields = $DynamicFieldObject->DynamicFieldList(
+    Valid      => 0,
+    ResultType => 'HASH',
 );
+$DynamicFields = ( ref $DynamicFields eq 'HASH' ? $DynamicFields : {} );
+$DynamicFields = { reverse %{$DynamicFields} };
+
+for my $FieldName ( sort keys %NeededDynamicfields ) {
+    if ( !$DynamicFields->{$FieldName} ) {
+
+        # create a dynamic field
+        my $FieldID = $DynamicFieldObject->DynamicFieldAdd(
+            Name       => $FieldName,
+            Label      => $FieldName . "_test",
+            FieldOrder => 9991,
+            FieldType  => 'Text',
+            ObjectType => 'Ticket',
+            Config     => {
+                DefaultValue => 'a value',
+            },
+            ValidID => 1,
+            UserID  => 1,
+        );
+
+        # verify dynamic field creation
+        $Self->True(
+            $FieldID,
+            "DynamicFieldAdd() successful for Field $FieldName",
+        );
+
+        push @DynamicfieldIDs, $FieldID;
+    }
+    else {
+        my $DynamicField
+            = $DynamicFieldObject->DynamicFieldGet( ID => $DynamicFields->{$FieldName} );
+
+        if ( $DynamicField->{ValidID} > 1 ) {
+            push @DynamicFieldUpdate, $DynamicField;
+            $DynamicField->{ValidID} = 1;
+            my $SuccessUpdate = $DynamicFieldObject->DynamicFieldUpdate(
+                %{$DynamicField},
+                Reorder => 0,
+                UserID  => 1,
+                ValidID => 1,
+            );
+
+            # verify dynamic field creation
+            $Self->True(
+                $SuccessUpdate,
+                "DynamicFieldUpdate() successful update for Field $DynamicField->{Name}",
+            );
+        }
+    }
+}
 
 # use different subject format
 for my $TicketSubjectConfig ( 'Right', 'Left' ) {
@@ -782,30 +821,29 @@ Some Content in Body
     }
 }
 
-# revert changes to dynamic_field table
-my $DynamicFieldIDsTwo = join ',', @DynamicFieldIDsTwo;
-
-if ( $DynamicFieldIDsTwo ne '' ) {
-    $ValidIDToSet = 2;
-
-    # return value to dynamic fields
-    $SuccessValid = $CommonObject{DBObject}->Do(
-        SQL => 'UPDATE dynamic_field SET valid_id = ? '
-            . 'WHERE id IN (' . $DynamicFieldIDsTwo . ')',
-        Bind => [ \$ValidIDToSet ],
+# revert changes to dynamic fields
+for my $DynamicField (@DynamicFieldUpdate) {
+    my $SuccessUpdate = $DynamicFieldObject->DynamicFieldUpdate(
+        Reorder => 0,
+        UserID  => 1,
+        %{$DynamicField},
+    );
+    $Self->True(
+        $SuccessUpdate,
+        "Reverted changes on ValidID for $DynamicField->{Name} field.",
     );
 }
 
-my $DynamicFieldIDsThree = join ',', @DynamicFieldIDsThree;
+for my $DynamicFieldID (@DynamicfieldIDs) {
 
-if ( $DynamicFieldIDsThree ne '' ) {
-    $ValidIDToSet = 3;
-
-    # return value to dynamic fields
-    $SuccessValid = $CommonObject{DBObject}->Do(
-        SQL => 'UPDATE dynamic_field SET valid_id = ? '
-            . 'WHERE id IN (' . $DynamicFieldIDsThree . ')',
-        Bind => [ \$ValidIDToSet ],
+    # delete the dynamic field
+    my $FieldDelete = $DynamicFieldObject->DynamicFieldDelete(
+        ID     => $DynamicFieldID,
+        UserID => 1,
+    );
+    $Self->True(
+        $FieldDelete,
+        "Deleted dynamic field with id $DynamicFieldID.",
     );
 }
 
