@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/TicketOverviewSmall.pm
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketOverviewSmall.pm,v 1.44 2011-10-24 21:47:16 cr Exp $
+# $Id: TicketOverviewSmall.pm,v 1.45 2011-10-28 16:05:10 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.44 $) [1];
+$VERSION = qw($Revision: 1.45 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -268,11 +268,11 @@ sub Run {
             if ( $Param{SortBy} && ( $Param{SortBy} eq $Item ) ) {
                 if ( $Param{OrderBy} && ( $Param{OrderBy} eq 'Up' ) ) {
                     $OrderBy = 'Down';
-                    $CSS .= ' SortDescending';
+                    $CSS .= ' SortAscending';
                 }
                 else {
                     $OrderBy = 'Up';
-                    $CSS .= ' SortAscending';
+                    $CSS .= ' SortDescending';
                 }
             }
 
@@ -324,11 +324,11 @@ sub Run {
             if ( $Param{SortBy} && ( $Param{SortBy} eq $Key ) ) {
                 if ( $Param{OrderBy} && ( $Param{OrderBy} eq 'Up' ) ) {
                     $OrderBy = 'Down';
-                    $CSS .= ' SortDescending';
+                    $CSS .= ' SortAscending';
                 }
                 else {
                     $OrderBy = 'Up';
-                    $CSS .= ' SortAscending';
+                    $CSS .= ' SortDescending';
                 }
             }
 
