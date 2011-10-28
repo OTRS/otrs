@@ -2,7 +2,7 @@
 // Core.AJAX.UnitTest.js - UnitTests
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.AJAX.UnitTest.js,v 1.9 2011-05-10 11:36:24 mg Exp $
+// $Id: Core.AJAX.UnitTest.js,v 1.10 2011-10-28 08:24:16 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -99,7 +99,7 @@ Core.AJAX = (function (Namespace) {
              },
              {
                  HTML:   '<select name="Element" multiple="multiple"><option value="1" selected="selected">one</option><option value="2" selected="selected">two</option></select>',
-                 Result: 'Element=1%2C2;',
+                 Result: 'Element=1;Element=2;',
                  Name:   'Multi-select with multiple values'
 
              },
@@ -111,7 +111,7 @@ Core.AJAX = (function (Namespace) {
              },
              {
                  HTML:   '<select name="Element" multiple="multiple"><option value="1">one</option><option value="2">two</option></select>',
-                 Result: 'Element=;',
+                 Result: '',
                  Name:   'Multi-select, empty'
 
              },
