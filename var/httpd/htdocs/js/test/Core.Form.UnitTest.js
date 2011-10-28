@@ -1,8 +1,8 @@
 // --
 // Core.UI.Accessibility.UnitTest.js - UnitTests
-// Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
+// Copyright (C) 2001-2011 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Form.UnitTest.js,v 1.3 2010-08-11 10:56:30 mg Exp $
+// $Id: Core.Form.UnitTest.js,v 1.4 2011-10-28 08:46:21 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -45,27 +45,25 @@ Core.Form = (function (Namespace) {
              */
             Core.Form.DisableForm($('#TestForm'));
 
-            equals($('#TestForm').hasClass("AlreadyDisabled"), true );
+            equals($('#TestForm').hasClass("AlreadyDisabled"), true, 'Form is already disabled' );
 
             $.each($('#TestForm').find("input, textarea, select, button"), function(key, value) {
+
+
                 var readonlyValue = $(this).attr('readonly');
-                var tagnameValue  = $(this).attr('tagName');
+                var tagnameValue  = $(this).prop('tagName');
                 var typeValue     = $(this).attr('type');
                 var disabledValue = $(this).attr('disabled');
 
-                if (readonlyValue == 'readonly') {
-                    readonlyValue = true;
-                }
-
                 if (tagnameValue == "BUTTON") {
-                    equals(disabledValue, true );
+                    equals(disabledValue, 'disabled', 'disabledValue for BUTTON' );
                 }
                 else {
                     if (typeValue == "hidden") {
-                        notEqual(readonlyValue, true );
+                        equals(readonlyValue, undefined, 'readonlyValue for ' + tagnameValue );
                     }
                     else {
-                        equals(readonlyValue, true );
+                        equals(readonlyValue, 'readonly', 'readonlyValue for ' + tagnameValue  );
                     }
                 }
             });
@@ -76,27 +74,24 @@ Core.Form = (function (Namespace) {
              */
             Core.Form.EnableForm($('#TestForm'));
 
-            notEqual($('#TestForm').hasClass("AlreadyDisabled"), true );
+            equals($('#TestForm').hasClass("AlreadyDisabled"), false, 'Form is not already disabled' );
 
             $.each($('#TestForm').find("input, textarea, select, button"), function(key, value) {
+
                 var readonlyValue = $(this).attr('readonly');
-                var tagnameValue  = $(this).attr('tagName');
+                var tagnameValue  = $(this).prop('tagName');
                 var typeValue     = $(this).attr('type');
                 var disabledValue = $(this).attr('disabled');
 
-                if (readonlyValue == undefined) {
-                    readonlyValue = false;
-                }
-
                 if (tagnameValue == "BUTTON") {
-                    equals(disabledValue, false );
+                    equals(disabledValue, undefined, 'enabledValue for BUTTON' );
                 }
                 else {
                     if (typeValue == "hidden") {
-                        equals(readonlyValue, false );
+                        equals(readonlyValue, undefined, 'readonlyValue for ' + tagnameValue );
                     }
                     else {
-                        equals(readonlyValue, false );
+                        equals(readonlyValue, undefined, 'readonlyValue for ' + tagnameValue );
                     }
                 }
             });
