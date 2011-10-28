@@ -2,7 +2,7 @@
 // Core.Form.js - provides functions for form handling
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Form.js,v 1.13 2011-03-10 10:55:17 mn Exp $
+// $Id: Core.Form.js,v 1.14 2011-10-28 08:55:38 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -45,18 +45,14 @@ Core.Form = (function (TargetNS) {
         if (!$Form.hasClass('AlreadyDisabled')) {
             $.each($Form.find("input:not([type='hidden']), textarea, select, button"), function (key, value) {
                 var ReadonlyValue = $(this).attr('readonly'),
-                    TagnameValue  = $(this).attr('tagName'),
+                    TagnameValue  = $(this).prop('tagName'),
                     DisabledValue = $(this).attr('disabled');
 
                 if (TagnameValue === 'BUTTON') {
-                    if (DisabledValue === true) {
-                        Core.Data.Set($(this), 'OldDisabledStatus', 'disabled');
-                    }
+                    Core.Data.Set($(this), 'OldDisabledStatus', DisabledValue);
                 }
                 else {
-                    if (ReadonlyValue === true) {
-                        Core.Data.Set($(this), 'OldReadonlyStatus', 'readonly');
-                    }
+                    Core.Data.Set($(this), 'OldReadonlyStatus', ReadonlyValue);
                 }
             });
 
@@ -98,7 +94,7 @@ Core.Form = (function (TargetNS) {
             .removeAttr('disabled');
 
         $.each($Form.find("input:not([type='hidden']), textarea, select, button"), function (key, value) {
-            var TagnameValue  = $(this).attr('tagName'),
+            var TagnameValue  = $(this).prop('tagName'),
                 ReadonlyValue = Core.Data.Get($(this), 'OldReadonlyStatus'),
                 DisabledValue = Core.Data.Get($(this), 'OldDisabledStatus');
 
