@@ -1,0 +1,26 @@
+# --
+# $Id: OTRS-PATCHES.txt,v 1.1 2011-10-28 09:58:20 mn Exp $
+# --
+# A list of all patches applied to CKEditor for OTRS.
+# --
+
+Patches to be applied:
+
+-   _sources/plugins/image/dialogs/2010-10-28-image-dialog.patch
+    OTRS Bug#4503: Removes Border Option from Image Dialog
+
+-   After that, copy _sources/plugins/image/dialogs/image.js to
+    plugins/image/dialogs/image.js to make sure the patched version is
+    also used in CKEditor.
+
+-   _sources/plugins/dialogui/2010-10-28-dialogui.patch
+    Adds additional hidden fields to the image upload
+
+Content which does not need patching on update:
+
+-   Note that _sources/plugins/aspell is already a patched plugin
+    which is taken over from a previous CKEditor folder of OTRS. This
+    only needs patching if the plugin itself would have to be updated.
+
+-   Note that skins/default is a patched version of the kama skin
+    with a new icon set and some changed widths and dropdown sizes.
