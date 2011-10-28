@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Multiselect.pm - Delegate for DynamicField Multiselect backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Multiselect.pm,v 1.26 2011-10-28 13:10:42 mg Exp $
+# $Id: Multiselect.pm,v 1.27 2011-10-28 17:54:04 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::DynamicFieldValue;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.26 $) [1];
+$VERSION = qw($Revision: 1.27 $) [1];
 
 =head1 NAME
 
@@ -333,8 +333,10 @@ sub DisplayValueRender {
     }
 
     # set Value and Title variables
-    my $Value = '';
-    my $Title = '';
+    my $Value         = '';
+    my $Title         = '';
+    my $ValueMaxChars = $Param{ValueMaxChars} || '';
+    my $TitleMaxChars = $Param{TitleMaxChars} || '';
 
     # check value
     my @Values;
@@ -350,6 +352,7 @@ sub DisplayValueRender {
     my $TranslatableValues = $Param{DynamicFieldConfig}->{Config}->{TranslatableValues};
 
     my @ReadableValues;
+    my @ReadableTitles;
 
     VALUEITEM:
     for my $Item (@Values) {
@@ -360,11 +363,33 @@ sub DisplayValueRender {
             # get readeble value
             my $ReadableValue = $PossibleValues->{$Item};
 
-            # check is needed to translate values
+            my $ReadableLength = length $ReadableValue;
+
+            # check if needed to translate values
             if ($TranslatableValues) {
 
                 # translate value
                 $ReadableValue = $Param{LayoutObject}->{LanguageObject}->Get($ReadableValue);
+            }
+
+            # set title equal value
+            my $ReadableTitle = $ReadableValue;
+
+            # cut strings if needed
+            if ( $ValueMaxChars ne '' ) {
+                $ReadableValue = substr $ReadableValue, 0, $ValueMaxChars;
+
+                # decrease the max parameter
+                $ValueMaxChars = $ValueMaxChars - $ReadableLength;
+                $ValueMaxChars = 0 if $ValueMaxChars < 0;
+            }
+
+            if ( $TitleMaxChars ne '' ) {
+                $ReadableTitle = substr $ReadableTitle, 0, $TitleMaxChars;
+
+                # decrease the max parameter
+                $TitleMaxChars = $TitleMaxChars - $ReadableLength;
+                $TitleMaxChars = 0 if $TitleMaxChars < 0;
             }
 
             # HTMLOuput transformations
@@ -373,9 +398,14 @@ sub DisplayValueRender {
                 $ReadableValue = $Param{LayoutObject}->Ascii2Html(
                     Text => $ReadableValue,
                 );
+
+                $ReadableTitle = $Param{LayoutObject}->Ascii2Html(
+                    Text => $ReadableTitle,
+                );
             }
 
             push @ReadableValues, $ReadableValue;
+            push @ReadableTitles, $ReadableTitle;
         }
     }
 
@@ -387,11 +417,7 @@ sub DisplayValueRender {
 
     # HTMLOuput transformations
     $Value = join( $ItemSeparator, @ReadableValues );
-    $Title = $Value;
-
-    # cut strings if needed
-    $Value = substr $Value, 0, $Param{ValueMaxChars} if $Param{ValueMaxChars};
-    $Title = substr $Title, 0, $Param{TitleMaxChars} if $Param{TitleMaxChars};
+    $Title = join( $ItemSeparator, @ReadableTitles );
 
     # create return structure
     my $Data = {
@@ -400,6 +426,7 @@ sub DisplayValueRender {
     };
 
     return $Data;
+
 }
 
 sub IsSortable {
