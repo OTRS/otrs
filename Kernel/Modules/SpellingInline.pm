@@ -2,7 +2,7 @@
 # Kernel/Modules/SpellingInline.pm - spelling module
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SpellingInline.pm,v 1.3 2011-10-28 10:03:45 mn Exp $
+# $Id: SpellingInline.pm,v 1.4 2011-10-28 11:22:50 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Spelling;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -92,7 +92,7 @@ sub Run {
         );
 
         my $JS = $Self->{LayoutObject}->JSONEncode(
-            Data => $SpellCheck{$_}->{Replace},
+            Data => $SpellCheck{$_}->{Replace} || [],
         );
 
         $JSData .= "words[0][$Count] = '$Word';\n";
