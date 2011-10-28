@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Thomas Kaltenbrunner <tkaltenbrunner at opc.de>
 # --
-# $Id: de.pm,v 1.265.2.13 2011-10-11 08:00:13 mab Exp $
+# $Id: de.pm,v 1.265.2.14 2011-10-28 12:46:16 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.265.2.13 $) [1];
+$VERSION = qw($Revision: 1.265.2.14 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -386,7 +386,7 @@ sub Data {
         # Template: AAAPreferences
         'Preferences updated successfully!' => 'Benutzereinstellungen erfolgreich aktualisiert!',
         'User Profile' => 'Benutzer-Profil',
-        'Email Settings' => 'Email-Einstellungen',
+        'Email Settings' => 'E-Mail-Einstellungen',
         'Other Settings' => 'Andere Einstellungen',
         'Change Password' => 'Passwort ändern',
         'Current Password' => 'Akutelles Passwort',
@@ -412,7 +412,7 @@ sub Data {
         'Please fill out the required fields!' => 'Bitte füllen Sie alle Pflichtfelder aus!',
         'Please select a file!' => 'Bitte wählen Sie eine Datei aus!',
         'Please select an object!' => 'Bitte wählen Sie ein Statistik-Objekt aus!',
-        'Please select a graph size!' => 'Bitte legen Sie die Graphikgröße fest!',
+        'Please select a graph size!' => 'Bitte legen Sie die Grafikgröße fest!',
         'Please select one element for the X-axis!' => 'Bitte wählen Sie ein Element für die X-Achse aus!',
         'Please select only one element or turn off the button \'Fixed\' where the select field is marked!' => 'Bitte wählen Sie nur ein Element aus oder entfernen Sie das Häkchen der Checkbox \'Fixed\'!',
         'If you use a checkbox you have to select some attributes of the select field!' => 'Wenn Sie Inhalte eines Auswahlfelds auswählen müssen Sie mindestens zwei Attribute auswählen!',
@@ -594,7 +594,7 @@ sub Data {
         'Bulk Action' => 'Sammel-Aktion',
         'Bulk Actions on Tickets' => 'Sammel-Action an Tickets',
         'Send Email and create a new Ticket' => 'E-Mail senden und neues Ticket erstellen',
-        'Create new Email Ticket and send this out (Outbound)' => 'Neues Ticket wird erstellt und Email versendet',
+        'Create new Email Ticket and send this out (Outbound)' => 'Neues Ticket wird erstellt und E-Mail versendet',
         'Create new Phone Ticket (Inbound)' => 'Neues Ticket wird über einkommenden Anruf erstellt',
         'Overview of all open Tickets' => 'Übersicht über alle offenen Tickets',
         'Locked Tickets' => 'Gesperrte Tickets',
@@ -648,7 +648,7 @@ sub Data {
         'Ticket move notification' => 'Benachrichtigung beim Verschieben von Tickets',
         'Send me a notification if a ticket is moved into one of "My Queues".' => 'Zusenden einer Mitteilung beim Verschieben eines Tickets in "Meine Queues".',
         'Send ticket move notifications' => 'Benachrichtigung beim Verschieben eines Tickets',
-        'Your queue selection of your favourite queues. You also get notified about those queues via email if enabled.' => 'Queue Auswahl der bevorzugten Queues. Es werden E-Mail-Benachrichtigungen über diese ausgewählten Queues versendet.',
+        'Your queue selection of your favourite queues. You also get notified about those queues via email if enabled.' => 'Auswahl der bevorzugten Queues. Es werden E-Mail-Benachrichtigungen über diese ausgewählten Queues versendet.',
         'Custom Queue' => 'Bevorzugte Queue',
         'QueueView refresh time' => 'Queue-Ansicht Aktualisierungszeit',
         'If enabled, the QueueView will automatically refresh after the specified time.' => 'Automatische Aktualisierung der Queue-Ansicht nach der angegebenen Zeit',
@@ -946,18 +946,18 @@ sub Data {
         'Time' => 'Zeit',
 
         # Template: AdminMailAccount
-        'Mail Account Management' => 'EMail Kontenverwaltung',
-        'Add mail account' => 'Emailkonto hinzufügen',
+        'Mail Account Management' => 'E-Mail-Kontenverwaltung',
+        'Add mail account' => 'E-Mailkonto hinzufügen',
         'All incoming emails with one account will be dispatched in the selected queue!' => 'Einkommende E-Mails von POP3-Konten werden in die ausgewählte Queue einsortiert!',
         'If your account is trusted, the already existing X-OTRS header at arrival time (for priority, ...) will be used! PostMaster filter will be used anyway.' => 'Wird dem Konto vertraut, werden die X-OTRS Header benutzt! PostMaster Filter werden trotzdem benutzt.',
         'Host' => 'Host',
-        'Delete account' => 'Emailkonto löschen',
-        'Fetch mail' => 'Emails abholen',
-        'Add Mail Account' => 'Emailkonto hinzufügen',
+        'Delete account' => 'E-Mailkonto löschen',
+        'Fetch mail' => 'E-Mails abholen',
+        'Add Mail Account' => 'E-Mailkonto hinzufügen',
         'Example: mail.example.com' => 'Beispiel: mail.example.com',
         'Trusted' => 'Vertraut',
         'Dispatching' => 'Verteilung',
-        'Edit Mail Account' => 'Emailkonto bearbeiten',
+        'Edit Mail Account' => 'E-Mailkonto bearbeiten',
 
         # Template: AdminNavigationBar
         'Admin' => 'Admin',
@@ -1071,7 +1071,7 @@ sub Data {
         'PostMaster Filter Management' => 'PostMaster Filter-Verwaltung',
         'Add filter' => 'Filter hinzufügen',
         'To dispatch or filter incoming emails based on email headers. Matching using Regular Expressions is also possible.' => 'Einkommende Mails anhand von E-Mail-Kopfzeilen verteilen oder filtern. Für die Suche können auch reguläre Ausdrücke benutzt werden.',
-        'If you want to match only the email address, use EMAILADDRESS:info@example.com in From, To or Cc.' => 'Wenn nur eine Email-Adresse gesucht wird, dann benutz EMAILADDRESS:info@example.com in Von, An oder Cc.',
+        'If you want to match only the email address, use EMAILADDRESS:info@example.com in From, To or Cc.' => 'Wenn nur eine E-Mail-Adresse gesucht wird, dann benutz EMAILADDRESS:info@example.com in Von, An oder Cc.',
         'If you use Regular Expressions, you also can use the matched value in () as [***] in the \'Set\' action.' => 'Wenn Sie reguläre Ausdrücke verwenden, können Sie die gefundenen Werte in () auch als [***] in der Aktion "Setzen" verwenden.',
         'Delete this filter' => 'Diesen Filter löschen',
         'Add PostMaster Filter' => 'PostMaster Filter hinzufügen',
@@ -1082,7 +1082,7 @@ sub Data {
         'Filter Condition' => 'Filterbedingung',
         'Value' => 'Wert',
         'The field needs to be a valid regular expression or a literal word.' => '',
-        'Set Email Headers' => 'Email-Kopfzeilen setzen',
+        'Set Email Headers' => 'E-Mail-Kopfzeilen setzen',
         'The field needs to be a literal word.' => '',
 
         # Template: AdminPriority
@@ -1441,15 +1441,15 @@ sub Data {
 
         # Template: AgentStatsEditSpecification
         'Permissions' => 'Rechtevergabe',
-        'You can select one or more groups to define access for different agents.' => 'Sie können eine oder mehrere Gruppen definieren um Zugriffsrechte für verschiedene Agenten zu vergeben.',
+        'You can select one or more groups to define access for different agents.' => 'Sie können eine oder mehrere Gruppen definieren, um Zugriffsrechte für verschiedene Agenten zu vergeben.',
         'Some result formats are disabled because at least one needed package is not installed.' => 'Einige Ausgabeformate sind nicht aktiviert, weil mindestens ein benötigtes Modul nicht installiert wurde.',
         'Please contact your administrator.' => 'Bitte kontaktieren Sie Ihren Administrator.',
         'Graph size' => 'Grafik-Größe',
-        'If you use a graph as output format you have to select at least one graph size.' => 'Wenn Sie als Ausgabeformat eine Graphik ausgewählt haben, müssen Sie hier die Graphikgröße auswählen.',
+        'If you use a graph as output format you have to select at least one graph size.' => 'Wenn Sie als Ausgabeformat eine Grafik ausgewählt haben, müssen Sie hier die Grafikgröße auswählen.',
         'Sum rows' => 'Zeilensummierung',
         'Sum columns' => 'Spaltensummierung',
         'Use cache' => 'Cache verwenden',
-        'Most of the stats can be cached. This will speed up the presentation of this stat.' => 'Die meisten der Statistiken können gecached werden. Diese beschleunigt das wiederholte aufrufen einer Statistik.',
+        'Most of the stats can be cached. This will speed up the presentation of this stat.' => 'Die meisten der Statistiken können gecached werden. Dies beschleunigt das wiederholte Aufrufen einer Statistik.',
         'If set to invalid end users can not generate the stat.' => 'Bei "ungültig" können Nutzer die Statistik nicht mehr ausführen.',
 
         # Template: AgentStatsEditValueSeries
@@ -1486,7 +1486,7 @@ sub Data {
         'Exactly what fields and formats you can influence is defined by the statistic administrator.' => 'Welche Felder und Formate Sie genau beeinflussen können, wird vom Administrator der Statistik festgelegt.',
         'Stat Details' => 'Statistik-Details',
         'Format' => 'Format',
-        'Graphsize' => 'Graphikgröße',
+        'Graphsize' => 'Grafikgröße',
         'Cache' => 'Cache',
         'Exchange Axis' => 'Achsen vertauschen',
         'Configurable params of static stat' => 'Konfigurierbare Parameter der statischen Statistik',
@@ -1502,7 +1502,7 @@ sub Data {
         'Set Pending' => 'Setze wartend',
         'Change Priority of Ticket' => 'Ändern der Ticket-Priorität',
         'Change Responsible of Ticket' => 'Ändern der Ticket-Verantwortlichen',
-        'Cancel & close window' => 'Abbrechen und Fenster schliessen',
+        'Cancel & close window' => 'Abbrechen und Fenster schließen',
         'Service invalid.' => 'Ungültiger Service',
         'New Owner' => 'Neuer Besitzer',
         'Please set a new owner!' => 'Bitte einen neuen Besitzer angeben',
@@ -1614,9 +1614,9 @@ sub Data {
         'Phone call' => 'Anruf',
 
         # Template: AgentTicketPlain
-        'Email Text Plain View' => 'Email unformatiert anzeigen',
+        'Email Text Plain View' => 'E-Mail unformatiert anzeigen',
         'Plain' => 'Unformatiert',
-        'Download this email' => 'Diese Email herunterladen',
+        'Download this email' => 'Diese E-Mail herunterladen',
 
         # Template: AgentTicketPrint
         'Ticket-Info' => 'Ticket-Info',
@@ -2735,7 +2735,7 @@ sub Data {
         'PostMaster Mail Accounts' => 'PostMaster-E-Mail-Konten',
         'Protection against CSRF (Cross Site Request Forgery) exploits (for more info see http://en.wikipedia.org/wiki/Cross-site_request_forgery).' => '',
         'Queue view' => 'Ansicht nach Queues',
-        'QueueView Refresh Time' => 'Queueansicht Aktualisierungszeit',
+        'QueueView Refresh Time' => 'Queue-Ansicht Aktualisierungszeit',
         'Refresh interval' => 'Aktualisierungsintervall',
         'Replaces the original sender with current customer\'s email address on compose answer in the ticket compose screen of the agent interface.' => '',
         'Required permissions to change the customer of a ticket in the agent interface.' => '',
