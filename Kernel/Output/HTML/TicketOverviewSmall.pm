@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/TicketOverviewSmall.pm
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketOverviewSmall.pm,v 1.37 2010-11-23 16:10:31 mg Exp $
+# $Id: TicketOverviewSmall.pm,v 1.37.2.1 2011-10-28 16:06:06 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.37 $) [1];
+$VERSION = qw($Revision: 1.37.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -252,11 +252,11 @@ sub Run {
             if ( $Param{SortBy} && ( $Param{SortBy} eq $Item ) ) {
                 if ( $Param{OrderBy} && ( $Param{OrderBy} eq 'Up' ) ) {
                     $OrderBy = 'Down';
-                    $CSS .= ' SortDescending';
+                    $CSS .= ' SortAscending';
                 }
                 else {
                     $OrderBy = 'Up';
-                    $CSS .= ' SortAscending';
+                    $CSS .= ' SortDescending';
                 }
             }
 
@@ -308,11 +308,11 @@ sub Run {
             if ( $Param{SortBy} && ( $Param{SortBy} eq $Key ) ) {
                 if ( $Param{OrderBy} && ( $Param{OrderBy} eq 'Up' ) ) {
                     $OrderBy = 'Down';
-                    $CSS .= ' SortDescending';
+                    $CSS .= ' SortAscending';
                 }
                 else {
                     $OrderBy = 'Up';
-                    $CSS .= ' SortAscending';
+                    $CSS .= ' SortDescending';
                 }
             }
 
