@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.451 2011-10-28 08:43:30 mn Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.452 2011-10-28 08:54:06 mn Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box (to avoid the use of destructive queries, such as DROP DATABASE, and also to steal user passwords).</Description>
         <Group>Framework</Group>
@@ -5569,7 +5569,7 @@ via the Preferences button after logging in.
                 <Item>thirdparty/json/json2.js</Item>
                 <Item>thirdparty/jquery-1.6.4/jquery.js</Item>
                 <Item>thirdparty/jquery-ui-1.8.16/jquery-ui.js</Item>
-                <Item>thirdparty/jquery-validate-1.8/jquery.validate.js</Item>
+                <Item>thirdparty/jquery-validate-1.9/jquery.validate.js</Item>
                 <Item>thirdparty/stacktrace/stacktrace.js</Item>
                 <Item>Core.JavaScriptEnhancements.js</Item>
                 <Item>Core.Debug.js</Item>
@@ -5656,7 +5656,7 @@ via the Preferences button after logging in.
         <Setting>
             <Array>
                 <Item>thirdparty/jquery-1.6.4/jquery.js</Item>
-                <Item>thirdparty/jquery-validate-1.8/jquery.validate.js</Item>
+                <Item>thirdparty/jquery-validate-1.9/jquery.validate.js</Item>
                 <Item>thirdparty/jquery-ui-1.8.16/jquery-ui.js</Item>
                 <Item>thirdparty/stacktrace/stacktrace.js</Item>
                 <Item>Core.Debug.js</Item>

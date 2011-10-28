@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1995 2011-10-28 08:43:30 mn Exp $
+# $Id: CHANGES,v 1.1996 2011-10-28 08:54:06 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.1.0 beta1 2011-??-??
+ - 2011-10-28 Updated jQuery Validate plugin to 1.9.
  - 2011-10-28 Updated jQuery UI to 1.8.16.
  - 2011-10-28 Updated jQuery to 1.6.4.
  - 2011-10-24 Fixed bug#7824 - Tickets locked through 'tmp_lock' lock type aren't shown as locked
