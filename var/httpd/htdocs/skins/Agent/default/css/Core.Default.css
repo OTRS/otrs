@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.44 $
+ * @version     $Revision: 1.45 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -244,6 +244,10 @@ dd {
 
 .SpacingBottomLarge {
     margin-bottom: 89px;
+}
+
+.SpacingLeft {
+    margin-left: 10px;
 }
 
 /**

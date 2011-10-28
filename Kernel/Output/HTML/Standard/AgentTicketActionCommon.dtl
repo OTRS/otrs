@@ -2,7 +2,7 @@
 # AgentTicketActionCommon.dtl - provides common HTML form for several masks
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketActionCommon.dtl,v 1.60 2011-09-27 16:52:36 cr Exp $
+# $Id: AgentTicketActionCommon.dtl,v 1.61 2011-10-28 16:08:21 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -231,7 +231,7 @@ $Include{"RichTextEditor"}
 <!-- dtl:block:Attachment -->
                         <li>
                             $QData{"Filename"} ($QData{"Filesize"})
-                            <button type="submit" id="AttachmentDelete$QData{"FileID"}" name="AttachmentDelete$QData{"FileID"}" value="$Text{"Delete"}">$Text{"Delete"}</button>
+                            <button type="submit" id="AttachmentDelete$QData{"FileID"}" name="AttachmentDelete$QData{"FileID"}" value="$Text{"Delete"}" class="SpacingLeft">$Text{"Delete"}</button>
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
     $('#AttachmentDelete$QData{"FileID"}').bind('click', function () {

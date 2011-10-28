@@ -2,7 +2,7 @@
 # CustomerTicketMessage.dtl - provides HTML form for customer message
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.dtl,v 1.64 2011-09-27 16:52:36 cr Exp $
+# $Id: CustomerTicketMessage.dtl,v 1.65 2011-10-28 16:08:21 en Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -141,7 +141,7 @@ $Include{"CustomerRichTextEditor"}
 <!-- dtl:block:Attachment -->
                     <div class="Attachment">
                         $QData{"Filename"} <span>$QData{"Filesize"}</span>
-                        <button type="submit" name="AttachmentDelete$QData{"FileID"}" value="$Text{"Delete"}">$Text{"Delete"}</button>
+                        <button type="submit" name="AttachmentDelete$QData{"FileID"}" value="$Text{"Delete"}" class="SpacingLeft">$Text{"Delete"}</button>
                     </div>
 <!-- dtl:block:Attachment -->
                     <div class="Clear"></div>
