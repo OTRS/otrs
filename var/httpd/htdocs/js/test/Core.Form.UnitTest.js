@@ -2,7 +2,7 @@
 // Core.UI.Accessibility.UnitTest.js - UnitTests
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Form.UnitTest.js,v 1.4 2011-10-28 08:46:21 mg Exp $
+// $Id: Core.Form.UnitTest.js,v 1.5 2011-10-28 09:02:18 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -18,13 +18,14 @@ Core.Form = (function (Namespace) {
         module('Core.Form');
         test('Core.Form.DisableForm() and Core.Form.EnableForm()', function(){
 
-            expect(22);
+            expect(26);
 
             /*
              * Create a form containter for the tests
              */
             var $TestForm = $('<form id="TestForm"></form>');
             $TestForm.append('<input type="text" value="ObjectOne" id="ObjectOne" name="ObjectOne" />');
+            $TestForm.append('<input type="text" readonly="readonly" data-initially-readonly="readonly" value="ObjectOne" id="ObjectOne" name="ObjectOne" />');
             $TestForm.append('<input type="password" value="ObjectTwo" id="ObjectTwo" name="ObjectTwo" />');
             $TestForm.append('<input type="checkbox" value="ObjectThree" id="ObjectThree" name="ObjectThree" />');
             $TestForm.append('<input type="radio" value="ObjectFour" id="ObjectFour" name="ObjectFour" />');
@@ -34,6 +35,7 @@ Core.Form = (function (Namespace) {
             $TestForm.append('<select id="ObjectEight" name="ObjectEight"><option value="1">EightOne</option><option value="2">EightTwo</option></select>');
             $TestForm.append('<button value="ObjectNine" type="submit" id="ObjectNine">ObjectNine</button>');
             $TestForm.append('<button value="ObjectTen" type="button" id="ObjectTen">ObjectTen</button>');
+            $TestForm.append('<button value="ObjectTen" type="button" disabled="disabled" data-initially-disabled="disabled" id="ObjectTen">ObjectTen</button>');
             $('body').append($TestForm);
 
             /*
@@ -82,16 +84,19 @@ Core.Form = (function (Namespace) {
                 var tagnameValue  = $(this).prop('tagName');
                 var typeValue     = $(this).attr('type');
                 var disabledValue = $(this).attr('disabled');
+                var expectedDisabledValue = $(this).data('initially-disabled') ? 'disabled' : undefined;
+                var expectedReadonlyValue = $(this).data('initially-readonly') ? 'readonly' : undefined;
+
 
                 if (tagnameValue == "BUTTON") {
-                    equals(disabledValue, undefined, 'enabledValue for BUTTON' );
+                    equals(disabledValue, expectedDisabledValue, 'enabledValue for BUTTON' );
                 }
                 else {
                     if (typeValue == "hidden") {
-                        equals(readonlyValue, undefined, 'readonlyValue for ' + tagnameValue );
+                        equals(readonlyValue, expectedReadonlyValue, 'readonlyValue for ' + tagnameValue );
                     }
                     else {
-                        equals(readonlyValue, undefined, 'readonlyValue for ' + tagnameValue );
+                        equals(readonlyValue, expectedReadonlyValue, 'readonlyValue for ' + tagnameValue );
                     }
                 }
             });
