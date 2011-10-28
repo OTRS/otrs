@@ -3,7 +3,7 @@
 # DBUpdate-to-3.1.pl - update script to migrate OTRS 3.0.x to 3.1.x
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-3.1.pl,v 1.30 2011-10-28 21:17:13 cg Exp $
+# $Id: DBUpdate-to-3.1.pl,v 1.31 2011-10-28 22:56:32 cg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.30 $) [1];
+$VERSION = qw($Revision: 1.31 $) [1];
 
 use Getopt::Std qw();
 use Kernel::Config;
@@ -1290,6 +1290,7 @@ sub _MigrateWindowConfiguration {
 
     my @Windows = (
         'CustomerTicketMessage',
+        'CustomerTicketSearch',
         'AgentTicketResponsible',
         'AgentTicketPriority',
         'AgentTicketPhoneOutbound',
