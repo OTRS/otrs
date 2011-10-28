@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1993 2011-10-26 11:21:26 jp Exp $
+# $Id: CHANGES,v 1.1994 2011-10-28 08:13:04 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.1.0 beta1 2011-??-??
+ - 2011-10-28 Updated jQuery to 1.6.4.
  - 2011-10-24 Fixed bug#7824 - Tickets locked through 'tmp_lock' lock type aren't shown as locked
     tickets
  - 2011-10-20 Fixed bug#7168 - Ticket Overview Control Row can only be one line high.
