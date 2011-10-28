@@ -2,7 +2,7 @@
 // Core.UI.Table.js - Table specific functions
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.UI.Table.js,v 1.8 2011-10-20 09:59:43 mn Exp $
+// $Id: Core.UI.Table.js,v 1.9 2011-10-28 09:32:28 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -141,18 +141,23 @@ Core.UI.Table = (function (TargetNS) {
                  * @description Ckeck if a text exist inside an element
                  */
                 function CheckText($Element, FilterText) {
-                    if ($Element.text().toLowerCase().indexOf(FilterText) > -1){
+                    var Text;
+
+                    Text = $Element.text();
+                    if (Text && Text.toLowerCase().indexOf(FilterText) > -1){
                         return true;
                     }
 
                     if ($Element.is('li, td')) {
-                        if ($Element.attr('title').toLowerCase().indexOf(FilterText) > -1) {
+                        Text = $Element.attr('title');
+                        if (Text && Text.toLowerCase().indexOf(FilterText) > -1) {
                             return true;
                         }
                     }
                     else {
                         $Element.find('td').each(function () {
-                            if ($(this).attr('title').toLowerCase().indexOf(FilterText) > -1) {
+                            Text = $(this).attr('title');
+                            if (Text && Text.toLowerCase().indexOf(FilterText) > -1) {
                                 return true;
                             }
                         });
