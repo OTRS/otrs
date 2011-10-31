@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Multiselect.pm - Delegate for DynamicField Multiselect backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Multiselect.pm,v 1.30 2011-10-31 13:05:57 mg Exp $
+# $Id: Multiselect.pm,v 1.31 2011-10-31 20:21:31 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::DynamicFieldValue;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.30 $) [1];
+$VERSION = qw($Revision: 1.31 $) [1];
 
 =head1 NAME
 
@@ -168,10 +168,13 @@ sub EditFieldRender {
     my $FieldName   = 'DynamicField_' . $Param{DynamicFieldConfig}->{Name};
     my $FieldLabel  = $Param{DynamicFieldConfig}->{Label};
 
+    my $Value = '';
+
     # set the field value or default
-    my $Value = $FieldConfig->{DefaultValue} || '';
-    $Value = $Param{Value}
-        if defined $Param{Value};
+    if ( $Param{UseDefaultValue} ) {
+        $Value = $FieldConfig->{DefaultValue} || '';
+    }
+    $Value = $Param{Value} if defined $Param{Value};
 
     #d extract the dynamic field value form the web request
     my $FieldValue = $Self->EditFieldValueGet(
@@ -211,12 +214,21 @@ sub EditFieldRender {
         @Values = ($Value);
     }
 
+    # set PossibleNone attribute
+    my $FieldPossibleNone;
+    if ( defined $Param{OverridePossibleNone} ) {
+        $FieldPossibleNone = $Param{OverridePossibleNone};
+    }
+    else {
+        $FieldPossibleNone = $FieldConfig->{PossibleNone} || 0;
+    }
+
     my $HTMLString = $Param{LayoutObject}->BuildSelection(
         Data         => $SelectionData,
         Name         => $FieldName,
         SelectedID   => \@Values,
         Translation  => $FieldConfig->{TranslatableValues} || 0,
-        PossibleNone => $FieldConfig->{PossibleNone} || 0,
+        PossibleNone => $FieldPossibleNone,
         Class        => $FieldClass,
         HTMLQuote    => 1,
         Multiple     => 1,
@@ -269,10 +281,30 @@ EOF
 sub EditFieldValueGet {
     my ( $Self, %Param ) = @_;
 
-    # get dynamic field value form param
-    my @ReturnData = $Param{ParamObject}
-        ->GetArray( Param => 'DynamicField_' . $Param{DynamicFieldConfig}->{Name} );
-    return \@ReturnData;
+    my $FieldName = 'DynamicField_' . $Param{DynamicFieldConfig}->{Name};
+
+    my $Value;
+
+    # check if there is a Template and retreive the dinalic field value from there
+    if ( IsHashRefWithData( $Param{Template} ) ) {
+        $Value = $Param{Template}->{$FieldName};
+    }
+
+    # otherwise get dynamic field value form param
+    else {
+        my @Data = $Param{ParamObject}->GetArray( Param => $FieldName );
+
+        $Value = \@Data;
+    }
+
+    if ( defined $Param{ReturnTemplateStructure} && $Param{ReturnTemplateStructure} eq 1 ) {
+        return {
+            $FieldName => $Value,
+        };
+    }
+
+    # for this field the normal return an the ReturnValueStructure are the same
+    return $Value;
 }
 
 sub EditFieldValueValidate {
@@ -446,7 +478,7 @@ sub SearchFieldRender {
 
     # take config from field config
     my $FieldConfig = $Param{DynamicFieldConfig}->{Config};
-    my $FieldName   = 'DynamicField_' . $Param{DynamicFieldConfig}->{Name};
+    my $FieldName   = 'Search_DynamicField_' . $Param{DynamicFieldConfig}->{Name};
     my $FieldLabel  = $Param{DynamicFieldConfig}->{Label};
 
     my $Value;
@@ -528,14 +560,14 @@ sub SearchFieldValueGet {
     # get dynamic field value form param object
     if ( defined $Param{ParamObject} ) {
         my @FieldValues = $Param{ParamObject}
-            ->GetArray( Param => 'DynamicField_' . $Param{DynamicFieldConfig}->{Name} );
+            ->GetArray( Param => 'Search_DynamicField_' . $Param{DynamicFieldConfig}->{Name} );
 
         $Value = \@FieldValues;
     }
 
     # otherwise get the value from the profile
     elsif ( defined $Param{Profile} ) {
-        $Value = $Param{Profile}->{ 'DynamicField_' . $Param{DynamicFieldConfig}->{Name} };
+        $Value = $Param{Profile}->{ 'Search_DynamicField_' . $Param{DynamicFieldConfig}->{Name} };
     }
     else {
         return;
@@ -543,7 +575,7 @@ sub SearchFieldValueGet {
 
     if ( defined $Param{ReturnProfileStructure} && $Param{ReturnProfileStructure} eq 1 ) {
         return {
-            'DynamicField_' . $Param{DynamicFieldConfig}->{Name} => $Value,
+            'Search_DynamicField_' . $Param{DynamicFieldConfig}->{Name} => $Value,
         };
     }
 
@@ -632,7 +664,7 @@ sub StatsFieldParameterBuild {
     };
 }
 
-sub StatsSearchFieldParameterBuild {
+sub CommonSearchFieldParameterBuild {
     my ( $Self, %Param ) = @_;
 
     my $Operator = 'Equals';
@@ -690,6 +722,34 @@ sub ReadableValueRender {
     };
 
     return $Data;
+}
+
+sub TemplateValueTypeGet {
+    my ( $Self, %Param ) = @_;
+
+    my $FieldName = 'DynamicField_' . $Param{DynamicFieldConfig}->{Name};
+
+    # set the field types
+    my $EditValueType   = 'ARRAY';
+    my $SearchValueType = 'ARRAY';
+
+    # return the correct structure
+    if ( $Param{FieldType} eq 'Edit' ) {
+        return {
+            $FieldName => $EditValueType,
+            }
+    }
+    elsif ( $Param{FieldType} eq 'Search' ) {
+        return {
+            'Search_' . $FieldName => $SearchValueType,
+            }
+    }
+    else {
+        return {
+            $FieldName             => $EditValueType,
+            'Search_' . $FieldName => $SearchValueType,
+            }
+    }
 }
 
 1;
