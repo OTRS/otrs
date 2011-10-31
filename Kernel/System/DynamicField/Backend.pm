@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend.pm - Interface for DynamicField backends
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Backend.pm,v 1.50 2011-10-27 14:21:08 mg Exp $
+# $Id: Backend.pm,v 1.51 2011-10-31 20:10:24 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Scalar::Util qw(weaken);
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.50 $) [1];
+$VERSION = qw($Revision: 1.51 $) [1];
 
 =head1 NAME
 
@@ -226,11 +226,18 @@ creates the field HTML to be used in edit masks.
         PossibleValuesFilter => ['value1', 'value2'],     # Optional. Some backends may support this.
                                                           #     This may be needed to realize ACL support for ticket masks,
                                                           #     where the possible values can be limited with and ACL.
-        Value              => 'Any value',                # Optional
-        Mandatory          => 1,                          # 0 or 1,
-        Class              => 'AnyCSSClass OrOneMore',    # Optional
-        ServerError        => 1,                          # 0 or 1,
-        ErrorMessage       => $ErrorMessage,              # Optional or a default will be used in error case
+        Value                => 'Any value',              # Optional
+        Mandatory            => 1,                        # 0 or 1,
+        Class                => 'AnyCSSClass OrOneMore',  # Optional
+        ServerError          => 1,                        # 0 or 1,
+        ErrorMessage         => $ErrorMessage,            # Optional or a default will be used in error case
+        UseDefaultValue      => 1,                        # 0 or 1, 1 default
+        OverridePossibleNone => 1,                        # Optional, 0 or 1. If defined orverrides the Possible None
+                                                          #     setting of all dynamic fields (where applies) with the
+                                                          #     defined value
+        ConfirmationNeeded   => 0,                        # Optional, 0 or 1, default 0. To display a confirmation element
+                                                          #     on fields that apply (like chackbox)
+
     );
 
     Returns {
@@ -293,6 +300,11 @@ sub EditFieldRender {
             Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!"
         );
         return;
+    }
+
+    # set use default value as default if not specified
+    if ( !defined $Param{UseDefaultValue} ) {
+        $Param{UseDefaultValue} = 1;
     }
 
     # call EditFieldRender on the specific backend
@@ -657,10 +669,16 @@ extracts the value of a dynamic field from the param object.
     my $Value = $BackendObject->EditFieldValueGet(
         DynamicFieldConfig   => $DynamicFieldConfig,    # complete config of the DynamicField
         ParamObject          => $ParamObject,           # the current request data
-        LayoutObject         => $LayoutObject,
+        LayoutObject         => $LayoutObject,          # used to transform dates to user time zone
+        TransformDates       => 1                       # 1 || 0, default 1, to transform the dyanmic fields that
+                                                        #   use dates to the user time zone (i.e. Date, DateTime
+                                                        #   dynamic fields)
+        Template             => $Template,
         ReturnValueStructure => 0,                      # 0 || 1, default 0
-                                                        #   Returns the structured values as got from the http request
+                                                        #   Returns special structure
                                                         #   (only for backend internal use).
+        ReturnTemplateStructure => 0,                   # 0 || 1, default 0
+                                                        #   Returns the structured values as got from the http request
     );
 
     Returns $Value;                                     # depending on each field type e.g.
@@ -671,7 +689,11 @@ extracts the value of a dynamic field from the param object.
     my $Value = $BackendObject->EditFieldValueGet(
         DynamicFieldConfig   => $DynamicFieldConfig,    # complete config of the DynamicField
         ParamObject          => $ParamObject,           # the current request data
-        LayoutObject         => $LayoutObject,
+        TransformDates       => 0                       # 1 || 0, default 1, to transform the dyanmic fields that
+                                                        #   use dates to the user time zone (i.e. Date, DateTime
+                                                        #   dynamic fields)
+
+        Template             => $Template               # stored values from DB like Search profile or Generic Agent job
         ReturnValueStructure => 1,                      # 0 || 1, default 0
                                                         #   Returns the structured values as got from the http request
                                                         #   (only for backend internal use).
@@ -694,11 +716,31 @@ sub EditFieldValueGet {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for my $Needed (qw(DynamicFieldConfig ParamObject LayoutObject)) {
+    for my $Needed (qw(DynamicFieldConfig)) {
         if ( !$Param{$Needed} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
+    }
+
+    # check for the data source
+    if ( !$Param{ParamObject} && !$Param{Template} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => "Need ParamObject or Template!" );
+        return;
+    }
+
+    # define transform dates parameter
+    if ( !defined $Param{TransformDates} ) {
+        $Param{TransformDates} = 1;
+    }
+
+    # check needed objects for transform dates
+    if ( $Param{TransformDates} && !$Param{LayoutObject} ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need LayoutObject to transform dates!"
+        );
+        return;
     }
 
     # check DynamicFieldConfig (general)
@@ -897,7 +939,7 @@ creates the field HTML to be used in search masks.
                                                           #       . 'DynamicField_' . $DynamicFieldConfig->{Name} . 'StopSecond=59;';
                                                           #
                                                           #   $Value =  1;
-        Interface            => 'Agent'                   # or 'Customer', default 'Agent'
+        ConfirmationCheckboxes => 0                       # or 1, to dislay confirmation checkboxes
     );
 
     Returns {
@@ -949,21 +991,6 @@ sub SearchFieldRender {
         return;
     }
 
-    # set the correct interface mode to create the dynamic fields
-    if ( !defined $Param{Interface} ) {
-        $Param{Interface} = 'Agent';
-    }
-    if ( defined $Param{Interface} && $Param{Interface} eq 'Public' ) {
-        $Param{Interface} = 'Customer';
-    }
-    if ( $Param{Interface} ne 'Agent' && $Param{Interface} ne 'Customer' ) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => "Interface $Param{Interface} is invalid!"
-        );
-        return;
-    }
-
     # call SearchFieldRender on the specific backend
     my $HTMLStrings = $Self->{$DynamicFieldBackend}->SearchFieldRender(
         %Param
@@ -980,7 +1007,6 @@ extracts the value of a dynamic field from the param object or search profile.
     my $Value = $BackendObject->SearchFieldValueGet(
         DynamicFieldConfig     => $DynamicFieldConfig,    # complete config of the DynamicField
         ParamObject            => $ParamObject,           # the current request data
-        LayoutObject           => $LayoutObject,
         Profile                => $ProfileData,           # the serach profile
         ReturnProfileStructure => 0,                      # 0 || 1, default 0
                                                           #   Returns the structured values as got from the http request
@@ -1012,7 +1038,6 @@ extracts the value of a dynamic field from the param object or search profile.
     my $Value = $BackendObject->SearchFieldValueGet(
         DynamicFieldConfig   => $DynamicFieldConfig,      # complete config of the DynamicField
         ParamObject          => $ParamObject,             # the current request data
-        LayoutObject         => $LayoutObject,
         Profile              => $ProfileData,             # the serach profile
         ReturnProfileStructure => 1,                      # 0 || 1, default 0
                                                           #   Returns the structured values as got from the http request
@@ -1046,7 +1071,7 @@ sub SearchFieldValueGet {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for my $Needed (qw(DynamicFieldConfig LayoutObject)) {
+    for my $Needed (qw(DynamicFieldConfig)) {
         if ( !$Param{$Needed} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
@@ -1252,11 +1277,11 @@ sub StatsFieldParameterBuild {
 
 }
 
-=item StatsSearchFieldParameterBuild()
+=item CommonSearchFieldParameterBuild()
 
 build the search parameters to be passed to the search engine within the stats module.
 
-    my $DynamicFieldStatsSearchParameter = $BackendObject->StatsSearchFieldParameterBuild(
+    my $DynamicFieldStatsSearchParameter = $BackendObject->CommonSearchFieldParameterBuild(
         DynamicFieldConfig   => $DynamicFieldConfig,    # complete config of the DynamicField
         Value                => $Value,                 # the serach profile
     );
@@ -1276,7 +1301,7 @@ build the search parameters to be passed to the search engine within the stats m
     };
 =cut
 
-sub StatsSearchFieldParameterBuild {
+sub CommonSearchFieldParameterBuild {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
@@ -1319,7 +1344,7 @@ sub StatsSearchFieldParameterBuild {
     }
 
     # return value from the specific backend
-    return $Self->{$DynamicFieldBackend}->StatsSearchFieldParameterBuild(%Param);
+    return $Self->{$DynamicFieldBackend}->CommonSearchFieldParameterBuild(%Param);
 
 }
 
@@ -1391,6 +1416,101 @@ sub ReadableValueRender {
     return $ValueStrg;
 }
 
+=item TemplateValueTypeGet()
+
+gets the value type (SCALAR or ARRAY) for a field stored on a template, like a Search Profile or a
+Generic Agent job
+
+    my $ValueType = $BackendObject->TemplateValueTypeGet(
+        DynamicFieldConfig => $DynamicFieldConfig,       # complete config of the DynamicField
+        FieldType => 'Edit',                             # or 'Search' or 'All'
+    );
+
+    returns
+
+    $ValueType = {
+        'DynamicField_ . '$DynamicFieldConfig->{Name} => 'SCALAR',
+    }
+
+    my $ValueType = $Self->{BackendObject}->TemplateValueTypeGet(
+        DynamicFieldConfig => $DynamicFieldConfig,
+        FieldType => 'Search',
+    );
+
+    returns
+
+    $ValueType = {
+        'Search_DynamicField_' . $DynamicFieldConfig->{Name} => 'ARRAY',
+    }
+
+    my $ValueType = $Self->{BackendObject}->TemplateValueTypeGet(
+        DynamicFieldConfig => $DynamicFieldConfig,
+        FieldType => 'All',
+    );
+
+    returns
+
+    $ValueType = {
+        'DynamicField_ . '$DynamicFieldConfig->{Name} => 'SCALAR',
+        'Search_DynamicField_' . $DynamicFieldConfig->{Name} => 'ARRAY',
+    }
+=cut
+
+sub TemplateValueTypeGet {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Needed (qw(DynamicFieldConfig FieldType)) {
+        if ( !$Param{$Needed} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            return;
+        }
+    }
+
+    # check DynamicFieldConfig (general)
+    if ( !IsHashRefWithData( $Param{DynamicFieldConfig} ) ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "The field configuration is invalid",
+        );
+        return;
+    }
+
+    # check DynamicFieldConfig (internally)
+    for my $Needed (qw(ID FieldType ObjectType Config Name)) {
+        if ( !$Param{DynamicFieldConfig}->{$Needed} ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed in DynamicFieldConfig!"
+            );
+            return;
+        }
+    }
+
+    # set FieldType to All as a fallback
+    if ( $Param{FieldType} ne 'Edit' && $Param{FieldType} ne 'Search' ) {
+        $Param{FieldType} = 'All';
+    }
+
+    # set the dynamic filed specific backend
+    my $DynamicFieldBackend = 'DynamicField' . $Param{DynamicFieldConfig}->{FieldType} . 'Object';
+
+    if ( !$Self->{$DynamicFieldBackend} ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!"
+        );
+        return;
+    }
+
+    # call TemplateValueTypeGet on the specific backend
+    my $ValueType = $Self->{$DynamicFieldBackend}->TemplateValueTypeGet(
+        %Param
+    );
+
+    return $ValueType;
+}
+
 1;
 
 =back
@@ -1407,6 +1527,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.50 $ $Date: 2011-10-27 14:21:08 $
+$Revision: 1.51 $ $Date: 2011-10-31 20:10:24 $
 
 =cut
