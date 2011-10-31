@@ -2,7 +2,7 @@
 # Kernel/System/Stats/Dynamic/TicketAccountedTime.pm - stats for accounted ticket time
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketAccountedTime.pm,v 1.11 2011-10-26 04:12:58 cr Exp $
+# $Id: TicketAccountedTime.pm,v 1.12 2011-10-31 10:35:40 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -808,7 +808,7 @@ sub _ReportingValues {
                 next DYNAMICFIELD if !$DynamicFieldConfig->{Name};
 
                 # skip all fields that does not match with current field name ($1)
-                # with out the 'DynamicField_' prefix
+                # without the 'DynamicField_' prefix
                 next DYNAMICFIELD if $DynamicFieldConfig->{Name} ne $1;
 
                 # get new search parameter
