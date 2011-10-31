@@ -3,7 +3,7 @@
 # DBUpdate-to-3.1.pl - update script to migrate OTRS 3.0.x to 3.1.x
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-3.1.pl,v 1.34 2011-10-31 21:23:41 cg Exp $
+# $Id: DBUpdate-to-3.1.pl,v 1.35 2011-10-31 23:19:49 cr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.34 $) [1];
+$VERSION = qw($Revision: 1.35 $) [1];
 
 use Getopt::Std qw();
 use Kernel::Config;
@@ -67,7 +67,7 @@ EOF
     # create common objects
     my $CommonObject = _CommonObjectsBase();
 
-    print "Step 1 of 12: Refresh configuration cache... ";
+    print "Step 1 of 13: Refresh configuration cache... ";
     RebuildConfig($CommonObject);
     print "done.\n\n";
 
@@ -75,11 +75,11 @@ EOF
     $CommonObject = _CommonObjectsBase();
 
     # check framework version
-    print "Step 2 of 12: Check framework version... ";
+    print "Step 2 of 13: Check framework version... ";
     _CheckFrameworkVersion($CommonObject);
     print "done.\n\n";
 
-    print "Step 3 of 12: Creating DynamicField tables (if necessary)... ";
+    print "Step 3 of 13: Creating DynamicField tables (if necessary)... ";
     if ( _CheckDynamicFieldTables($CommonObject) ) {
         print "done.\n\n";
     }
@@ -88,21 +88,21 @@ EOF
     }
 
     # insert dynamic field records, if necessary
-    print "Step 4 of 12: Create new dynamic fields for free fields (text, key, date)... ";
+    print "Step 4 of 13: Create new dynamic fields for free fields (text, key, date)... ";
     if ( !_IsFreefieldsMigrationAlreadyDone($CommonObject) ) {
         _DynamicFieldCreation($CommonObject);
     }
     print "done.\n\n";
 
     # migrate ticket free field
-    print "Step 5 of 12: Migrate ticket free fields to dynamic fields... \n";
+    print "Step 5 of 13: Migrate ticket free fields to dynamic fields... \n";
     if ( !_IsFreefieldsMigrationAlreadyDone($CommonObject) ) {
         my $TicketMigrated = _DynamicFieldTicketMigration($CommonObject);
     }
     print "done.\n\n";
 
     # migrate ticket free field
-    print "Step 6 of 12: Migrate article free fields to dynamic fields... \n";
+    print "Step 6 of 13: Migrate article free fields to dynamic fields... \n";
     if ( !_IsFreefieldsMigrationAlreadyDone($CommonObject) ) {
         my $ArticleMigrated = _DynamicFieldArticleMigration($CommonObject);
     }
@@ -110,7 +110,7 @@ EOF
 
     # verify ticket migration
     my $VerificationTicketData = 1;
-    print "Step 7 of 12: Verify if ticket data was successfully migrated... ";
+    print "Step 7 of 13: Verify if ticket data was successfully migrated... ";
     if ( !_IsFreefieldsMigrationAlreadyDone($CommonObject) ) {
         $VerificationTicketData = _VerificationTicketData($CommonObject);
     }
@@ -118,7 +118,7 @@ EOF
 
     # verify article migration
     my $VerificationArticleData = 1;
-    print "Step 8 of 12: Verify if article data was successfully migrated... ";
+    print "Step 8 of 13: Verify if article data was successfully migrated... ";
     if ( !_IsFreefieldsMigrationAlreadyDone($CommonObject) ) {
         $VerificationArticleData = _VerificationArticleData($CommonObject);
     }
@@ -132,12 +132,12 @@ EOF
     }
 
     # Migrate free fields configuration
-    print "Step 9 of 12: Migrate free fields configuration... ";
+    print "Step 9 of 13: Migrate free fields configuration... ";
     _MigrateFreeFieldsConfiguration($CommonObject);
     print "done.\n\n";
 
     print
-        "Step 10 of 12: Update history type from 'TicketFreeTextUpdate' to 'TicketDynamicFieldUpdate'... ";
+        "Step 10 of 13: Update history type from 'TicketFreeTextUpdate' to 'TicketDynamicFieldUpdate'... ";
     if ( _UpdateHistoryType($CommonObject) ) {
         print "done.\n\n";
     }
@@ -146,7 +146,7 @@ EOF
     }
 
     # Migrate free fields configuration
-    print "Step 11 of 12: Migrate free fields window configuration... ";
+    print "Step 11 of 13: Migrate free fields window configuration... ";
     if ( _MigrateWindowConfiguration($CommonObject) ) {
         print "done.\n\n";
     }
@@ -154,9 +154,18 @@ EOF
         print "Error!\n\n";
     }
 
-    # Migrate free fields configuration
-    print "Step 12 of 12: Migrate free fields stats configuration... ";
+    # Migrate free fields configuration for stats
+    print "Step 12 of 13: Migrate free fields stats configuration... ";
     if ( _MigrateStatsConfiguration($CommonObject) ) {
+        print "done.\n\n";
+    }
+    else {
+        print "Error!\n\n";
+    }
+
+    # Migrate free fields configuration for generic agent jobs
+    print "Step 13 of 13: Migrate free fields generic agent jobs configuration.. ";
+    if ( _MigrateGenericAgentJobConfiguration($CommonObject) ) {
         print "done.\n\n";
     }
     else {
@@ -1468,6 +1477,158 @@ sub _MigrateStatsConfiguration {
     }
 
     # return success
+    return 1;
+}
+
+=item _MigrateGenericAgentJobConfiguration($CommonObject)
+
+migrates the configuration of the free fields for each generic agent job to the
+new dynamic field structure.
+
+    _MigrateGenericAgentJobConfiguration($CommonObject);
+
+=cut
+
+sub _MigrateGenericAgentJobConfiguration {
+    my $CommonObject = shift;
+
+    # create additional objects
+    my $DynamicFieldObject = Kernel::System::DynamicField->new( %{$CommonObject} );
+
+    # create new db connection
+    my $DBConnectionObject = Kernel::System::DB->new( %{ $CommonObject->{DBObject} } );
+
+    # get DynamicFields list
+    my $DynamicFields = $DynamicFieldObject->DynamicFieldList(
+        Valid      => 0,
+        ResultType => 'HASH',
+    );
+
+    # reverse the DynamicFields list to create a lookup table
+    $DynamicFields = { reverse %{$DynamicFields} };
+
+    # find all free fields for search to be migrated
+    return if !$DBConnectionObject->Prepare(
+        SQL => "SELECT gaj.job_name, gaj.job_key, gaj.job_value
+            FROM generic_agent_jobs gaj
+            WHERE gaj.job_key like 'TicketFree%'
+            ORDER BY gaj.job_name",
+    );
+
+    my @SearchRecordsToChange;
+
+    # loop trought all results
+    while ( my @Row = $DBConnectionObject->FetchrowArray() ) {
+
+        # get field details
+        my %JobRecordConfig = (
+            JobName  => $Row[0],
+            JobKey   => $Row[1],
+            JobValue => $Row[2],
+        );
+
+        # save field details
+        push @SearchRecordsToChange, \%JobRecordConfig;
+    }
+
+    # set search prefix
+    my $SearchPrefix = 'Search_DynamicField_';
+
+    JOBFIELDCONFIG:
+    for my $JobRecordConfig (@SearchRecordsToChange) {
+
+        # check if the migarted dynamic field is available
+        next JOBFIELDCONFIG if !$DynamicFields->{ $JobRecordConfig->{JobKey} };
+
+        # append search prefix to search free fields
+        $JobRecordConfig->{JobKeyNew} = $SearchPrefix . $JobRecordConfig->{JobKey};
+
+        # update database
+        my $SuccessJobUpdate = $DBConnectionObject->Do(
+            SQL => "UPDATE generic_agent_jobs gaj
+                SET gaj.job_key = ?
+                WHERE gaj.job_name = ?
+                    AND gaj.job_key = ?
+                    AND gaj.job_value = ?",
+            Bind => [
+                \$JobRecordConfig->{JobKeyNew},
+                \$JobRecordConfig->{JobName},
+                \$JobRecordConfig->{JobKey},
+                \$JobRecordConfig->{JobValue},
+            ],
+        );
+
+        # check for errors
+        if ( !$SuccessJobUpdate ) {
+            print "Could not migrate the Generic Agent Job $JobRecordConfig->{JobKey}"
+                . " field $JobRecordConfig->{JobKey}\n";
+
+            return 0;
+        }
+    }
+
+    # find all free fields for set to be migrated
+    return if !$DBConnectionObject->Prepare(
+        SQL => "SELECT gaj.job_name, gaj.job_key, gaj.job_value
+            FROM generic_agent_jobs gaj
+            WHERE gaj.job_key like 'NewTicketFree%'
+            ORDER BY gaj.job_name",
+    );
+
+    my @SetRecordsToChange;
+
+    # loop trought all results
+    while ( my @Row = $DBConnectionObject->FetchrowArray() ) {
+
+        # get field details
+        my %JobRecordConfig = (
+            JobName  => $Row[0],
+            JobKey   => $Row[1],
+            JobValue => $Row[2],
+        );
+
+        # save field details
+        push @SetRecordsToChange, \%JobRecordConfig;
+    }
+
+    # set the set prefix
+    my $SetPrefix = 'DynamicField_';
+
+    JOBFIELDCONFIG:
+    for my $JobRecordConfig (@SetRecordsToChange) {
+
+        # remove the new prefix
+        $JobRecordConfig->{JobKey} =~ s{New}{};
+
+        # check if the migarted dynamic field is available
+        next JOBFIELDCONFIG if !$DynamicFields->{ $JobRecordConfig->{JobKey} };
+
+        # append set prefix to set free fields
+        $JobRecordConfig->{JobKeyNew} = $SetPrefix . $JobRecordConfig->{JobKey};
+
+        # update database
+        my $SuccessJobUpdate = $DBConnectionObject->Do(
+            SQL => "UPDATE generic_agent_jobs gaj
+                SET gaj.job_key = ?
+                WHERE gaj.job_name = ?
+                    AND gaj.job_key = ?
+                    AND gaj.job_value = ?",
+            Bind => [
+                \$JobRecordConfig->{JobKeyNew},
+                \$JobRecordConfig->{JobName},
+                \$JobRecordConfig->{JobKey},
+                \$JobRecordConfig->{JobValue},
+            ],
+        );
+
+        # check for errors
+        if ( !$SuccessJobUpdate ) {
+            print "Could not migrate the Generic Agent Job $JobRecordConfig->{JobKey}"
+                . " field $JobRecordConfig->{JobKey}\n";
+
+            return 0;
+        }
+    }
     return 1;
 }
 
