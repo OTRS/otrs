@@ -2,7 +2,7 @@
 // Core.Agent.Stats.js - provides the special module functions for AgentStats
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Stats.js,v 1.3 2011-10-31 10:58:10 mg Exp $
+// $Id: Core.Agent.Stats.js,v 1.4 2011-10-31 11:02:27 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -53,7 +53,7 @@ Core.Agent.Stats = (function (TargetNS) {
      * @param {Object} The name of the radio button to be selected
      */
     TargetNS.SelectCheckbox = function (Name) {
-        $('input:checkbox[name=' + Name + ']').attr('checked', true);
+        $('input:checkbox[name=' + Name + ']').attr('checked', 'checked');
     };
 
     /**
@@ -65,7 +65,7 @@ Core.Agent.Stats = (function (TargetNS) {
      */
 
     TargetNS.SelectRadiobutton = function (Value, Name) {
-        $('input:radio[name=' + Name + '][value=' + Value + ']').attr('checked', true);
+        $('input:radio[name=' + Name + '][value=' + Value + ']').attr('checked', 'checked');
     };
 
     return TargetNS;
