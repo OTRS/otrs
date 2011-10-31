@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1999 2011-10-28 10:15:21 mn Exp $
+# $Id: CHANGES,v 1.2000 2011-10-31 15:35:38 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.1.0 beta1 2011-??-??
+ - 2011-10-31 Fixed bug#7858 - Make "Apache::DBI" option not being overwritten with each update.
+    Apache::DBI is now loaded in web server configuration file.
  - 2011-10-28 Updated CKEditor to 3.6.2.
  - 2011-10-28 Updated json2.js to current version 2011-10-19.
  - 2011-10-28 Updated stacktrace.js to 0.3.

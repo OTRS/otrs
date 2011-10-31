@@ -3,7 +3,7 @@
 # scripts/apache-perl-startup.pl - to load the modules if mod_perl is used
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: apache2-perl-startup.pl,v 1.50 2011-09-07 09:12:16 mg Exp $
+# $Id: apache2-perl-startup.pl,v 1.51 2011-10-31 15:35:38 mb Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -47,10 +47,6 @@ use lib "/opt/otrs/Custom";
 use CGI ();
 CGI->compile(':cgi');
 use CGI::Carp ();
-
-#use Apache::DBI ();
-#Apache::DBI->connect_on_init('DBI:mysql:otrs', 'otrs', 'some-pass');
-use DBI ();
 
 # enable this if you use mysql
 #use DBD::mysql ();
