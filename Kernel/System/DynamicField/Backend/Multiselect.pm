@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Multiselect.pm - Delegate for DynamicField Multiselect backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Multiselect.pm,v 1.28 2011-10-31 09:14:00 mg Exp $
+# $Id: Multiselect.pm,v 1.29 2011-10-31 09:37:18 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::DynamicFieldValue;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.28 $) [1];
+$VERSION = qw($Revision: 1.29 $) [1];
 
 =head1 NAME
 
@@ -685,8 +685,12 @@ sub ReadableValueRender {
     $Title = $Value;
 
     # cut strings if needed
-    $Value = substr $Value, 0, $Param{ValueMaxChars} if $Param{ValueMaxChars};
-    $Title = substr $Title, 0, $Param{TitleMaxChars} if $Param{TitleMaxChars};
+    if ( $Param{ValueMaxChars} && length($Value) > $Param{ValueMaxChars} ) {
+        $Value = substr( $Value, 0, $Param{ValueMaxChars} ) . '...';
+    }
+    if ( $Param{TitleMaxChars} && length($Title) > $Param{TitleMaxChars} ) {
+        $Title = substr( $Title, 0, $Param{TitleMaxChars} ) . '...';
+    }
 
     # create return structure
     my $Data = {

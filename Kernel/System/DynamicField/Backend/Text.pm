@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Text.pm - Delegate for DynamicField Text backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Text.pm,v 1.46 2011-10-27 17:47:04 cg Exp $
+# $Id: Text.pm,v 1.47 2011-10-31 09:37:18 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::DynamicFieldValue;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.46 $) [1];
+$VERSION = qw($Revision: 1.47 $) [1];
 
 =head1 NAME
 
@@ -278,6 +278,14 @@ sub DisplayValueRender {
             Max => $Param{TitleMaxChars} || '',
         );
     }
+    else {
+        if ( $Param{ValueMaxChars} && length($Value) > $Param{ValueMaxChars} ) {
+            $Value = substr( $Value, 0, $Param{ValueMaxChars} ) . '...';
+        }
+        if ( $Param{TitleMaxChars} && length($Title) > $Param{TitleMaxChars} ) {
+            $Title = substr( $Title, 0, $Param{TitleMaxChars} ) . '...';
+        }
+    }
 
     # create return structure
     my $Data = {
@@ -417,8 +425,12 @@ sub ReadableValueRender {
     my $Title = $Param{Value} || '';
 
     # cut strings if needed
-    $Value = substr $Value, 0, $Param{ValueMaxChars} if $Param{ValueMaxChars};
-    $Title = substr $Title, 0, $Param{TitleMaxChars} if $Param{TitleMaxChars};
+    if ( $Param{ValueMaxChars} && length($Value) > $Param{ValueMaxChars} ) {
+        $Value = substr( $Value, 0, $Param{ValueMaxChars} ) . '...';
+    }
+    if ( $Param{TitleMaxChars} && length($Title) > $Param{TitleMaxChars} ) {
+        $Title = substr( $Title, 0, $Param{TitleMaxChars} ) . '...';
+    }
 
     # create return structure
     my $Data = {
