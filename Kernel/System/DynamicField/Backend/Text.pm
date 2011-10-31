@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Text.pm - Delegate for DynamicField Text backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Text.pm,v 1.48 2011-10-31 13:05:57 mg Exp $
+# $Id: Text.pm,v 1.49 2011-10-31 13:13:36 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::DynamicFieldValue;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.48 $) [1];
+$VERSION = qw($Revision: 1.49 $) [1];
 
 =head1 NAME
 
@@ -263,8 +263,8 @@ sub DisplayValueRender {
     }
 
     # get raw Title and Value strings from field value
-    my $Value = $Param{Value} || '';
-    my $Title = $Param{Value} || '';
+    my $Value = defined $Param{Value} ? $Param{Value} : '';
+    my $Title = $Value;
 
     # HTMLOuput transformations
     if ( $Param{HTMLOutput} ) {
