@@ -3,7 +3,7 @@
 # DBUpdate-to-3.1.pl - update script to migrate OTRS 3.0.x to 3.1.x
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-3.1.pl,v 1.32 2011-10-31 13:26:57 mb Exp $
+# $Id: DBUpdate-to-3.1.pl,v 1.33 2011-10-31 13:53:15 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.32 $) [1];
+$VERSION = qw($Revision: 1.33 $) [1];
 
 use Getopt::Std qw();
 use Kernel::Config;
@@ -95,14 +95,14 @@ EOF
     print "done.\n\n";
 
     # migrate ticket free field
-    print "Step 5 of 12: Migrate ticket free fields to dynamic fields.. \n";
+    print "Step 5 of 12: Migrate ticket free fields to dynamic fields... \n";
     if ( !_IsFreefieldsMigrationAlreadyDone($CommonObject) ) {
         my $TicketMigrated = _DynamicFieldTicketMigration($CommonObject);
     }
     print "done.\n\n";
 
     # migrate ticket free field
-    print "Step 6 of 12: Migrate article free fields to dynamic fields.. \n";
+    print "Step 6 of 12: Migrate article free fields to dynamic fields... \n";
     if ( !_IsFreefieldsMigrationAlreadyDone($CommonObject) ) {
         my $ArticleMigrated = _DynamicFieldArticleMigration($CommonObject);
     }
@@ -110,7 +110,7 @@ EOF
 
     # verify ticket migration
     my $VerificationTicketData = 1;
-    print "Step 7 of 12: Verify if ticket data was successfully migrated.. ";
+    print "Step 7 of 12: Verify if ticket data was successfully migrated... ";
     if ( !_IsFreefieldsMigrationAlreadyDone($CommonObject) ) {
         $VerificationTicketData = _VerificationTicketData($CommonObject);
     }
@@ -118,7 +118,7 @@ EOF
 
     # verify article migration
     my $VerificationArticleData = 1;
-    print "Step 8 of 12: Verify if article data was successfully migrated.. ";
+    print "Step 8 of 12: Verify if article data was successfully migrated... ";
     if ( !_IsFreefieldsMigrationAlreadyDone($CommonObject) ) {
         $VerificationArticleData = _VerificationArticleData($CommonObject);
     }
@@ -132,7 +132,7 @@ EOF
     }
 
     # Migrate free fields configuration
-    print "Step 9 of 12: Migrate free fields configuration.. ";
+    print "Step 9 of 12: Migrate free fields configuration... ";
     _MigrateFreeFieldsConfiguration($CommonObject);
     print "done.\n\n";
 
@@ -146,7 +146,7 @@ EOF
     }
 
     # Migrate free fields configuration
-    print "Step 11 of 12: Migrate free fields window configuration.. ";
+    print "Step 11 of 12: Migrate free fields window configuration... ";
     if ( _MigrateWindowConfiguration($CommonObject) ) {
         print "done.\n\n";
     }
@@ -155,7 +155,7 @@ EOF
     }
 
     # Migrate free fields configuration
-    print "Step 12 of 12: Migrate free fields stats configuration.. ";
+    print "Step 12 of 12: Migrate free fields stats configuration... ";
     if ( _MigrateStatsConfiguration($CommonObject) ) {
         print "done.\n\n";
     }
@@ -1397,12 +1397,12 @@ sub _MigrateStatsConfiguration {
         # update database
         my $SuccessStatsUpdate = $DBConnectionObject->Do(
             SQL =>
-                'UPDATE xml_storage '
-                . 'SET xml_content_value = ? '
-                . 'WHERE xml_type = ? '
-                . 'AND xml_key = ? '
-                . 'AND xml_content_key = ? '
-                . 'AND xml_content_value = ?',
+                'UPDATE xml_storage
+                SET xml_content_value = ?
+                WHERE xml_type = ?
+                    AND xml_key = ?
+                    AND xml_content_key = ?
+                    AND xml_content_value = ?',
             Bind => [
                 \$StatRecordConfig->{XMLContentValueNew},
                 \$StatRecordConfig->{XMLType},
