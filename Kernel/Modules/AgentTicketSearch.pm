@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.pm,v 1.133 2011-10-27 10:35:18 mg Exp $
+# $Id: AgentTicketSearch.pm,v 1.134 2011-10-31 20:25:38 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.133 $) [1];
+$VERSION = qw($Revision: 1.134 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -691,7 +691,7 @@ sub Run {
         for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
             next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
             next DYNAMICFIELD
-                if !$AttributeLookup{ 'LabelDynamicField_' . $DynamicFieldConfig->{Name} };
+                if !$AttributeLookup{ 'LabelSearch_DynamicField_' . $DynamicFieldConfig->{Name} };
 
             # extract the dynamic field value form the profile
             my $SearchParameter = $Self->{BackendObject}->SearchFieldParameterBuild(
@@ -1352,7 +1352,7 @@ sub Run {
 
             push @Attributes, (
                 {
-                    Key   => 'DynamicField_' . $DynamicFieldConfig->{Name},
+                    Key   => 'Search_DynamicField_' . $DynamicFieldConfig->{Name},
                     Value => $Self->{LayoutObject}->{LanguageObject}->Get(
                         $DynamicFieldConfig->{Label}
                     ),
