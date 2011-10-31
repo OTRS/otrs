@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Checkbox.pm - Delegate for DynamicField Checkbox backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Checkbox.pm,v 1.37 2011-10-31 20:15:46 cr Exp $
+# $Id: Checkbox.pm,v 1.38 2011-10-31 21:20:59 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::DynamicFieldValue;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.37 $) [1];
+$VERSION = qw($Revision: 1.38 $) [1];
 
 =head1 NAME
 
@@ -394,8 +394,17 @@ sub SearchFieldRender {
     my $FieldName   = 'Search_DynamicField_' . $Param{DynamicFieldConfig}->{Name};
     my $FieldLabel  = $Param{DynamicFieldConfig}->{Label};
 
+    my $Value;
+    my @DefaultValue;
+
+    if ( defined $Param{DefaultValue} ) {
+        my @DefaultValue = split /;/, $Param{DefaultValue};
+    }
+
     # set the field value
-    my $Value = $Param{DefaultValue};
+    if (@DefaultValue) {
+        $Value = \@DefaultValue;
+    }
 
     # get the field value, this fuction is always called after the profile is loaded
     my $FieldValue = $Self->SearchFieldValueGet(%Param);
@@ -405,15 +414,18 @@ sub SearchFieldRender {
         $Value = $FieldValue;
     }
 
-    # value must be 1, 0 or -1
-    if ( $Value && $Value >= 1 ) {
-        $Value = 1;
-    }
-    elsif ( !defined $Value || !$Value ) {
-        $Value = 0;
-    }
-    else {
-        $Value = -1;
+    for my $Item ( @{$Value} ) {
+
+        # value must be 1, '' or -1
+        if ( !defined $Item || !$Item ) {
+            $Item = '';
+        }
+        elsif ( $Item && $Item >= 1 ) {
+            $Item = 1;
+        }
+        else {
+            $Item = -1;
+        }
     }
 
     # check and set class if necessary
@@ -487,16 +499,50 @@ sub SearchFieldParameterBuild {
 
     if ($Value) {
 
-        # set the display value
-        $DisplayValue = $Value eq 1 ? 'Checked' : 'Unchecked';
+        if ( ref $Value eq "ARRAY" ) {
+            my @DisplayItemList;
+            ITEM:
+            for my $Item ( @{$Value} ) {
 
-        # translate the value
-        $DisplayValue = $Param{LayoutObject}->{LanguageObject}->Get($DisplayValue);
-    }
+                # set the display value
+                my $DisplayItem
+                    = $Item eq 1
+                    ? 'Checked'
+                    : $Item eq -1 ? 'Unchecked'
+                    :               '';
 
-    # set the correct value for "unchecked" (-1) search options
-    if ( $Value && $Value eq -1 ) {
-        $Value = '0';
+                # translate the value
+                $DisplayItem = $Param{LayoutObject}->{LanguageObject}->Get($DisplayItem);
+
+                push @DisplayItemList, $DisplayItem;
+
+                # set the correct value for "unchecked" (-1) search options
+                if ( $Item && $Item eq -1 ) {
+                    $Item = '0';
+                }
+            }
+
+            # combine different values into one string
+            $DisplayValue = join ' + ', @DisplayItemList;
+
+        }
+        else {
+
+            # set the display value
+            $DisplayValue
+                = $Value eq 1
+                ? 'Checked'
+                : $Value eq -1 ? 'Unchecked'
+                :                '';
+
+            # translate the value
+            $DisplayValue = $Param{LayoutObject}->{LanguageObject}->Get($DisplayValue);
+        }
+
+        # set the correct value for "unchecked" (-1) search options
+        if ( $Value && $Value eq -1 ) {
+            $Value = '0';
+        }
     }
 
     # return search parameter structure
