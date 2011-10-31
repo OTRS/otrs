@@ -2,7 +2,7 @@
 // Core.Agent.CustomerSearch.js - provides the special module functions for the customer search
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.CustomerSearch.js,v 1.19 2011-10-27 12:48:35 ub Exp $
+// $Id: Core.Agent.CustomerSearch.js,v 1.20 2011-10-31 11:10:06 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -312,7 +312,7 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
             if( $(this).hasClass('CustomerTicketRadio') ) {
 
                 if (TicketCustomerIDs === 0) {
-                    $(this).attr('checked', true);
+                    $(this).attr('checked', 'checked');
                 }
 
                 // set counter as value
@@ -355,7 +355,7 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
         $('#CustomerTicketCounter' + Field).val(CustomerTicketCounter);
         if ( CustomerKey !== '' && TicketCustomerIDs === 0 && ( Field === 'ToCustomer' || Field === 'FromCustomer' ) ) {
 
-            $('.CustomerContainer input:radio:first').attr('checked', true).trigger('change');
+            $('.CustomerContainer input:radio:first').attr('checked', 'checked').trigger('change');
         }
 
         // return value to search field
@@ -382,7 +382,7 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
 
         if( !$('.CustomerContainer input:radio').is(':checked') ){
             //set the first one as checked
-            $('.CustomerContainer input:radio:first').attr('checked', true).trigger('change');
+            $('.CustomerContainer input:radio:first').attr('checked', 'checked').trigger('change');
         }
     };
 

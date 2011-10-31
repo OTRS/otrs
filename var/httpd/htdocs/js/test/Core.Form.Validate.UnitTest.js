@@ -2,7 +2,7 @@
 // Core.Form.Validate.UnitTest.js - UnitTests
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: Core.Form.Validate.UnitTest.js,v 1.3 2011-03-25 11:35:16 mg Exp $
+// $Id: Core.Form.Validate.UnitTest.js,v 1.4 2011-10-31 11:07:52 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -55,7 +55,12 @@ Core.Form.Validate = (function (Namespace) {
                     $(this).val('2');
                 }
                 else if ($(this).is('input:checkbox, input:radio')) {
-                    $(this).attr('checked', !$(this).attr('checked'));
+                    if ($(this).attr('checked')) {
+                        $(this).attr('checked', 'checked');
+                    }
+                    else {
+                        $(this).removeAttr('checked');
+                    }
                 }
 
                 Core.Form.Validate.ValidateElement($(this));
