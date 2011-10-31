@@ -2,7 +2,7 @@
 # UPGRADING - upgrading OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: UPGRADING,v 1.56 2011-10-24 08:48:53 mg Exp $
+# $Id: UPGRADING,v 1.57 2011-10-31 13:39:19 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,6 +21,9 @@ take an extra step; read http://bugs.otrs.org/show_bug.cgi?id=6798
 If you need to do a "patch level upgrade", which is an upgrade for instance
 from OTRS version 3.1.0 to 3.1.1, you should skip steps 8 and 11.
 
+If you are using Microsoft SQL Server as the DBMS for OTRS, please refer
+to the manual, chapter "Upgrading Microsoft SQL Server Data Types" for instructions
+how to upgrade the data types used by OTRS. 
 
 1) Stop all relevant services
    --------------------------
