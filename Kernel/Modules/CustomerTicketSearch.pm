@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketSearch.pm,v 1.74 2011-10-04 21:25:56 cr Exp $
+# $Id: CustomerTicketSearch.pm,v 1.75 2011-10-31 21:23:24 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,7 +26,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.74 $) [1];
+$VERSION = qw($Revision: 1.75 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -632,7 +632,10 @@ sub Run {
                     my $Order = 'Down';
                     if (
                         $Self->{SortBy}
-                        && ( $Self->{SortBy} eq ( 'DynamicField_' . $DynamicFieldConfig->{Name} ) )
+                        && (
+                            $Self->{SortBy} eq
+                            ( 'Search_DynamicField_' . $DynamicFieldConfig->{Name} )
+                        )
                         )
                     {
                         if ( $Self->{Order} && ( $Self->{Order} eq 'Up' ) ) {
@@ -998,8 +1001,8 @@ sub Run {
                 Profile            => \%GetParam,
                 DefaultValue =>
                     $Self->{Config}->{Defaults}->{DynamicField}->{ $DynamicFieldConfig->{Name} },
-                LayoutObject => $Self->{LayoutObject},
-                Interface    => 'Customer',
+                LayoutObject           => $Self->{LayoutObject},
+                ConfirmationCheckboxes => 1,
                 );
         }
 
