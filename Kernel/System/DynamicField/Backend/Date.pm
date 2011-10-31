@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Date.pm - Delegate for DynamicField Date backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Date.pm,v 1.33 2011-10-31 13:05:57 mg Exp $
+# $Id: Date.pm,v 1.34 2011-10-31 20:16:38 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Time;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.33 $) [1];
+$VERSION = qw($Revision: 1.34 $) [1];
 
 =head1 NAME
 
@@ -155,8 +155,12 @@ sub EditFieldRender {
     my $FieldName   = 'DynamicField_' . $Param{DynamicFieldConfig}->{Name};
     my $FieldLabel  = $Param{DynamicFieldConfig}->{Label};
 
+    my $Value;
+
     # set the field value or default
-    my $Value = $FieldConfig->{DefaultValue} || '';
+    if ( $Param{UseDefaultValue} ) {
+        $Value = $FieldConfig->{DefaultValue} || '';
+    }
 
     my %SplitedFieldValues;
     if ( defined $Param{Value} ) {
@@ -261,13 +265,25 @@ sub EditFieldValueGet {
     # set the Prefix as the dynamic field name
     my $Prefix = 'DynamicField_' . $Param{DynamicFieldConfig}->{Name};
 
-    # get dynamic field value form param
     my %DynamicFieldValues;
-    for my $Type (qw(Used Year Month Day)) {
-        $DynamicFieldValues{ $Prefix . $Type } = $Param{ParamObject}->GetParam(
-            Param => $Prefix . $Type,
-        );
+
+    # check if there is a Template and retreive the dinalic field value from there
+    if ( IsHashRefWithData( $Param{Template} ) ) {
+        for my $Type (qw(Used Year Month Day)) {
+            $DynamicFieldValues{ $Prefix . $Type } = $Param{Template}->{ $Prefix . $Type };
+        }
     }
+
+    # otherwise get dynamic field value form param
+    else {
+        for my $Type (qw(Used Year Month Day)) {
+            $DynamicFieldValues{ $Prefix . $Type } = $Param{ParamObject}->GetParam(
+                Param => $Prefix . $Type,
+            );
+        }
+    }
+
+    # complete the rest of the date with 0s to have a valid Date/Time value
     for my $Type (qw(Hour Minute Second)) {
         $DynamicFieldValues{ $Prefix . $Type } = '00';
     }
@@ -283,15 +299,24 @@ sub EditFieldValueGet {
         return \%DynamicFieldValues;
     }
 
+    # check if return template structure is nedded
+    if ( defined $Param{ReturnTemplateStructure} && $Param{ReturnTemplateStructure} eq '1' ) {
+        return \%DynamicFieldValues;
+    }
+
     my $ManualTimeStamp = '';
 
     if ( $DynamicFieldValues{ $Prefix . 'Used' } ) {
 
-        # transform time stamp based on user time zone
-        %DynamicFieldValues = $Param{LayoutObject}->TransformDateSelection(
-            %DynamicFieldValues,
-            Prefix => $Prefix,
-        );
+        # check if need and can transform dates
+        if ( $Param{TransformDates} && $Param{LayoutObject} ) {
+
+            # transform time stamp based on user time zone
+            %DynamicFieldValues = $Param{LayoutObject}->TransformDateSelection(
+                %DynamicFieldValues,
+                Prefix => $Prefix,
+            );
+        }
 
         # add a leading zero for date parts that could be les than ten to generate a correct
         # time stamp
@@ -396,7 +421,7 @@ sub SearchFieldRender {
 
     # take config from field config
     my $FieldConfig = $Param{DynamicFieldConfig}->{Config};
-    my $FieldName   = 'DynamicField_' . $Param{DynamicFieldConfig}->{Name};
+    my $FieldName   = 'Search_DynamicField_' . $Param{DynamicFieldConfig}->{Name};
     my $FieldLabel  = $Param{DynamicFieldConfig}->{Label};
 
     my $Value;
@@ -443,12 +468,12 @@ sub SearchFieldRender {
         = ( defined $Value->{$FieldName} && $Value->{$FieldName} == 1 ? 'checked="checked"' : '' );
 
     my $HTMLString = <<"EOF";
-    <input type="hidden" name=$FieldName value="1"/>
+    <input type="hidden" id="$FieldName" name="$FieldName" value="1"/>
 EOF
 
-    if ( $Param{Interface} ne 'Agent' ) {
+    if ( $Param{ConfirmationCheckboxes} ) {
         $HTMLString = <<"EOF";
-    <input type="checkbox" name=$FieldName value="1" $FieldChecked/>
+    <input type="checkbox" id="$FieldName" name="$FieldName" value="1" $FieldChecked/>
 EOF
     }
 
@@ -498,7 +523,7 @@ sub SearchFieldValueGet {
     my ( $Self, %Param ) = @_;
 
     # set the Prefix as the dynamic field name
-    my $Prefix = 'DynamicField_' . $Param{DynamicFieldConfig}->{Name};
+    my $Prefix = 'Search_DynamicField_' . $Param{DynamicFieldConfig}->{Name};
 
     # get dynamic field value
     my %DynamicFieldValues;
@@ -610,7 +635,7 @@ sub SearchFieldParameterBuild {
     # search for a wild card in the value
     if ( $Value && IsHashRefWithData($Value) ) {
 
-        my $Prefix = 'DynamicField_' . $Param{DynamicFieldConfig}->{Name};
+        my $Prefix = 'Search_DynamicField_' . $Param{DynamicFieldConfig}->{Name};
 
         my $ValueStart
             = $Value->{ValueStart}->{ $Prefix . 'StartYear' } . '-'
@@ -654,12 +679,14 @@ sub SearchFieldParameterBuild {
 sub StatsFieldParameterBuild {
     my ( $Self, %Param ) = @_;
 
+    # this field should not be shown in stats
     return;
 }
 
-sub StatsSearchFieldParameterBuild {
+sub CommonSearchFieldParameterBuild {
     my ( $Self, %Param ) = @_;
 
+    # this field should not be shown in stats
     return;
 }
 
@@ -677,6 +704,34 @@ sub ReadableValueRender {
     };
 
     return $Data;
+}
+
+sub TemplateValueTypeGet {
+    my ( $Self, %Param ) = @_;
+
+    my $FieldName = 'DynamicField_' . $Param{DynamicFieldConfig}->{Name};
+
+    # set the field types
+    my $EditValueType   = 'SCALAR';
+    my $SearchValueType = 'SCALAR';
+
+    # return the correct structure
+    if ( $Param{FieldType} eq 'Edit' ) {
+        return {
+            $FieldName => $EditValueType,
+            }
+    }
+    elsif ( $Param{FieldType} eq 'Search' ) {
+        return {
+            'Search_' . $FieldName => $SearchValueType,
+            }
+    }
+    else {
+        return {
+            $FieldName             => $EditValueType,
+            'Search_' . $FieldName => $SearchValueType,
+            }
+    }
 }
 
 1;
