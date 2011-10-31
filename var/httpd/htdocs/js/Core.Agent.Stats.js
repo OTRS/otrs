@@ -2,7 +2,7 @@
 // Core.Agent.Stats.js - provides the special module functions for AgentStats
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Stats.js,v 1.2 2011-02-17 21:30:59 en Exp $
+// $Id: Core.Agent.Stats.js,v 1.3 2011-10-31 10:58:10 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -35,7 +35,7 @@ Core.Agent.Stats = (function (TargetNS) {
 
         // find out if a GD element is used
         $.each($Format.children('option'), function () {
-            if ($(this).attr('selected') === true) {
+            if ($(this).attr('selected') === 'selected') {
                 if (Reg.test($(this).val()) === true) {
                     Flag = true;
                 }
