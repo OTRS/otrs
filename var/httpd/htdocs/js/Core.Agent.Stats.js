@@ -2,7 +2,7 @@
 // Core.Agent.Stats.js - provides the special module functions for AgentStats
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Stats.js,v 1.4 2011-10-31 11:02:27 mg Exp $
+// $Id: Core.Agent.Stats.js,v 1.5 2011-10-31 11:22:01 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -34,16 +34,19 @@ Core.Agent.Stats = (function (TargetNS) {
             Reg = /^GD::/;
 
         // find out if a GD element is used
-        $.each($Format.children('option'), function () {
-            if ($(this).attr('selected') === 'selected') {
-                if (Reg.test($(this).val()) === true) {
-                    Flag = true;
-                }
+        $.each($Format.children('option:selected'), function () {
+            if (Reg.test($(this).val()) === true) {
+                Flag = true;
             }
         });
 
         // activate or deactivate the Graphsize menu
-        $('#GraphSize').attr('disabled', Flag ? false : true);
+        if (Flag) {
+            $('#GraphSize').removeAttr('disabled');
+        }
+        else {
+            $('#GraphSize').attr('disabled', 'disabled');
+        }
     };
 
     /**
