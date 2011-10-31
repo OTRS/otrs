@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/TextArea.pm - Delegate for DynamicField TextArea backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TextArea.pm,v 1.31 2011-10-31 09:37:18 mg Exp $
+# $Id: TextArea.pm,v 1.32 2011-10-31 13:05:57 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::DynamicFieldValue;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.31 $) [1];
+$VERSION = qw($Revision: 1.32 $) [1];
 
 =head1 NAME
 
@@ -426,9 +426,8 @@ sub StatsSearchFieldParameterBuild {
 sub ReadableValueRender {
     my ( $Self, %Param ) = @_;
 
-    # get raw Title and Value strings from field value
-    my $Value = $Param{Value} || '';
-    my $Title = $Param{Value} || '';
+    my $Value = defined $Param{Value} ? $Param{Value} : '';
+    my $Title = $Value;
 
     # cut strings if needed
     if ( $Param{ValueMaxChars} && length($Value) > $Param{ValueMaxChars} ) {
