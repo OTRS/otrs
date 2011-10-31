@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Multiselect.pm - Delegate for DynamicField Multiselect backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Multiselect.pm,v 1.27 2011-10-28 17:54:04 cg Exp $
+# $Id: Multiselect.pm,v 1.28 2011-10-31 09:14:00 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::DynamicFieldValue;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.27 $) [1];
+$VERSION = qw($Revision: 1.28 $) [1];
 
 =head1 NAME
 
@@ -354,59 +354,63 @@ sub DisplayValueRender {
     my @ReadableValues;
     my @ReadableTitles;
 
+    my $ShowValueEllipsis;
+    my $ShowTitleEllipsis;
+
     VALUEITEM:
     for my $Item (@Values) {
         next VALUEITEM if !$Item;
 
+        my $ReadableValue = $Item;
+
         if ( $PossibleValues->{$Item} ) {
-
-            # get readeble value
-            my $ReadableValue = $PossibleValues->{$Item};
-
-            my $ReadableLength = length $ReadableValue;
-
-            # check if needed to translate values
+            $ReadableValue = $PossibleValues->{$Item};
             if ($TranslatableValues) {
-
-                # translate value
                 $ReadableValue = $Param{LayoutObject}->{LanguageObject}->Get($ReadableValue);
             }
-
-            # set title equal value
-            my $ReadableTitle = $ReadableValue;
-
-            # cut strings if needed
-            if ( $ValueMaxChars ne '' ) {
-                $ReadableValue = substr $ReadableValue, 0, $ValueMaxChars;
-
-                # decrease the max parameter
-                $ValueMaxChars = $ValueMaxChars - $ReadableLength;
-                $ValueMaxChars = 0 if $ValueMaxChars < 0;
-            }
-
-            if ( $TitleMaxChars ne '' ) {
-                $ReadableTitle = substr $ReadableTitle, 0, $TitleMaxChars;
-
-                # decrease the max parameter
-                $TitleMaxChars = $TitleMaxChars - $ReadableLength;
-                $TitleMaxChars = 0 if $TitleMaxChars < 0;
-            }
-
-            # HTMLOuput transformations
-            if ( $Param{HTMLOutput} ) {
-
-                $ReadableValue = $Param{LayoutObject}->Ascii2Html(
-                    Text => $ReadableValue,
-                );
-
-                $ReadableTitle = $Param{LayoutObject}->Ascii2Html(
-                    Text => $ReadableTitle,
-                );
-            }
-
-            push @ReadableValues, $ReadableValue;
-            push @ReadableTitles, $ReadableTitle;
         }
+
+        my $ReadableLength = length $ReadableValue;
+
+        # set title equal value
+        my $ReadableTitle = $ReadableValue;
+
+        # cut strings if needed
+        if ( $ValueMaxChars ne '' ) {
+
+            $ShowValueEllipsis = 1 if ( length $ReadableValue > $ValueMaxChars );
+            $ReadableValue = substr $ReadableValue, 0, $ValueMaxChars;
+
+            # decrease the max parameter
+            $ValueMaxChars = $ValueMaxChars - $ReadableLength;
+            $ValueMaxChars = 0 if $ValueMaxChars < 0;
+
+        }
+
+        if ( $TitleMaxChars ne '' ) {
+
+            $ShowTitleEllipsis = 1 if ( length $ReadableTitle > $ValueMaxChars );
+            $ReadableTitle = substr $ReadableTitle, 0, $TitleMaxChars;
+
+            # decrease the max parameter
+            $TitleMaxChars = $TitleMaxChars - $ReadableLength;
+            $TitleMaxChars = 0 if $TitleMaxChars < 0;
+        }
+
+        # HTMLOuput transformations
+        if ( $Param{HTMLOutput} ) {
+
+            $ReadableValue = $Param{LayoutObject}->Ascii2Html(
+                Text => $ReadableValue,
+            );
+
+            $ReadableTitle = $Param{LayoutObject}->Ascii2Html(
+                Text => $ReadableTitle,
+            );
+        }
+
+        push @ReadableValues, $ReadableValue if length $ReadableValue;
+        push @ReadableTitles, $ReadableTitle if length $ReadableTitle;
     }
 
     # get specific field settings
@@ -415,9 +419,11 @@ sub DisplayValueRender {
     # set new line separator
     my $ItemSeparator = $FieldConfig->{ItemSeparator} || ', ';
 
-    # HTMLOuput transformations
     $Value = join( $ItemSeparator, @ReadableValues );
     $Title = join( $ItemSeparator, @ReadableTitles );
+
+    $Value .= '...' if $ShowValueEllipsis;
+    $Title .= '...' if $ShowTitleEllipsis;
 
     # create return structure
     my $Data = {
