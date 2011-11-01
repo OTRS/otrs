@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.pm,v 1.124.2.8 2011-06-17 12:01:49 mg Exp $
+# $Id: AgentTicketCompose.pm,v 1.124.2.9 2011-11-01 10:33:08 des Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.124.2.8 $) [1];
+$VERSION = qw($Revision: 1.124.2.9 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1169,9 +1169,8 @@ sub _Mask {
     my ( $Self, %Param ) = @_;
 
     # build next states string
-    if ( !$Self->{Config}->{StateDefault} ) {
-        $Param{NextStates}->{''} = '-';
-    }
+    $Param{NextStates}->{''} = '-';
+
     my %State;
     if ( $Param{GetParam}->{StateID} ) {
         $State{SelectedID} = $Param{GetParam}->{StateID};
