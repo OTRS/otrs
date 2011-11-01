@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Multiselect.pm - Delegate for DynamicField Multiselect backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Multiselect.pm,v 1.31 2011-10-31 20:21:31 cr Exp $
+# $Id: Multiselect.pm,v 1.32 2011-11-01 18:47:22 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::DynamicFieldValue;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.31 $) [1];
+$VERSION = qw($Revision: 1.32 $) [1];
 
 =head1 NAME
 
@@ -260,6 +260,22 @@ EOF
             \$Text{"$ErrorMessage"}
         </p>
     </div>
+EOF
+    }
+
+    if ( $Param{AJAXUpdate} ) {
+
+        my $FieldSelector = '#' . $FieldName;
+
+        #add js to call FormUpdate()
+        $HTMLString .= <<"EOF";
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+    \$('$FieldSelector').bind('change', function (Event) {
+        Core.AJAX.FormUpdate(\$(this).parents('form'), 'AJAXUpdate', '$FieldName', [ ]);
+    });
+//]]></script>
+<!--dtl:js_on_document_complete-->
 EOF
     }
 
