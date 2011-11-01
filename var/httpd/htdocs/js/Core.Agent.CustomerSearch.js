@@ -2,7 +2,7 @@
 // Core.Agent.CustomerSearch.js - provides the special module functions for the customer search
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.CustomerSearch.js,v 1.20 2011-10-31 11:10:06 mg Exp $
+// $Id: Core.Agent.CustomerSearch.js,v 1.21 2011-11-01 23:04:09 cg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -348,6 +348,8 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
             }
 
         });
+        // show container
+        $('#TicketCustomerContent' + Field ).parent().removeClass('Hidden');
         // append to container
         $('#TicketCustomerContent' + Field ).append($Clone);
 
