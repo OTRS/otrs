@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericAgent.pm - admin generic agent interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.pm,v 1.99 2011-07-18 11:42:18 mb Exp $
+# $Id: AdminGenericAgent.pm,v 1.100 2011-11-01 03:09:44 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,9 +22,12 @@ use Kernel::System::State;
 use Kernel::System::Type;
 use Kernel::System::GenericAgent;
 use Kernel::System::CheckItem;
+use Kernel::System::DynamicField;
+use Kernel::System::DynamicField::Backend;
+use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.99 $) [1];
+$VERSION = qw($Revision: 1.100 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -47,6 +50,14 @@ sub new {
     $Self->{SLAObject}          = Kernel::System::SLA->new(%Param);
     $Self->{TypeObject}         = Kernel::System::Type->new(%Param);
     $Self->{GenericAgentObject} = Kernel::System::GenericAgent->new(%Param);
+    $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new(%Param);
+    $Self->{BackendObject}      = Kernel::System::DynamicField::Backend->new(%Param);
+
+    # get the dynamic fields for ticket object
+    $Self->{DynamicField} = $Self->{DynamicFieldObject}->DynamicFieldListGet(
+        Valid      => 1,
+        ObjectType => ['Ticket'],
+    );
 
     return $Self;
 }
@@ -159,36 +170,26 @@ sub Run {
             }
         }
 
-        # get new free field params
-        for my $ID ( 1 .. 16 ) {
+        # get dynamic fields to set from web request
+        # to store dynamic fields profile data
+        my %DynamicFieldValues;
 
-            # ticket free keys
-            if ( defined( $Self->{ParamObject}->GetParam( Param => "NewTicketFreeKey$ID" ) ) ) {
-                $GetParam{"NewTicketFreeKey$ID"} = $Self->{ParamObject}->GetParam(
-                    Param => 'NewTicketFreeKey' . $ID,
-                );
+        # cycle trough the activated Dynamic Fields for this screen
+        DYNAMICFIELD:
+        for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
+            next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
 
-                # remove leading and trailing blank spaces
-                $CheckItemObject->StringClean( StringRef => \$GetParam{"NewTicketFreeKey$ID"} )
-                    if ( $GetParam{"NewTicketFreeKey$ID"} );
-            }
+            # extract the dynamic field value form the web request
+            my $DynamicFieldValue = $Self->{BackendObject}->EditFieldValueGet(
+                DynamicFieldConfig      => $DynamicFieldConfig,
+                ParamObject             => $Self->{ParamObject},
+                LayoutObject            => $Self->{LayoutObject},
+                ReturnTemplateStructure => 1,
+            );
 
-            # ticket free text
-            if (
-                $Self->{ParamObject}->GetParam( Param => "NewTicketFreeText$ID" )
-                || (
-                    defined( $Self->{ParamObject}->GetParam( Param => "NewTicketFreeText$ID" ) )
-                    && $Self->{ConfigObject}->Get("TicketFreeText$ID")
-                )
-                )
-            {
-                $GetParam{"NewTicketFreeText$ID"} = $Self->{ParamObject}->GetParam(
-                    Param => 'NewTicketFreeText' . $ID,
-                );
-
-                # remove leading and trailing blank spaces
-                $CheckItemObject->StringClean( StringRef => \$GetParam{"NewTicketFreeText$ID"} )
-                    if ( $GetParam{"NewTicketFreeText$ID"} );
+            # set the comple value structure in GetParam to store it later in the Generic Agent Job
+            if ( IsHashRefWithData($DynamicFieldValue) ) {
+                %DynamicFieldValues = ( %DynamicFieldValues, %{$DynamicFieldValue} );
             }
         }
 
@@ -207,29 +208,23 @@ sub Run {
             }
         }
 
-        # get free field params
-        for my $ID ( 1 .. 16 ) {
+        # get Dynamic fields for search from web request
+        # cycle trough the activated Dynamic Fields for this screen
+        DYNAMICFIELD:
+        for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
+            next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
 
-            # get search array params for free key (get submitted params)
-            if ( $Self->{ParamObject}->GetArray( Param => "TicketFreeKey$ID" ) ) {
-                @{ $GetParam{"TicketFreeKey$ID"} } = $Self->{ParamObject}->GetArray(
-                    Param => 'TicketFreeKey' . $ID,
-                );
-            }
+            # extract the dynamic field value form the web request
+            my $DynamicFieldValue = $Self->{BackendObject}->SearchFieldValueGet(
+                DynamicFieldConfig     => $DynamicFieldConfig,
+                ParamObject            => $Self->{ParamObject},
+                ReturnProfileStructure => 1,
+                LayoutObject           => $Self->{LayoutObject},
+            );
 
-            # get search array params for free text (get submitted params)
-            if ( $Self->{ConfigObject}->Get("TicketFreeText$ID") ) {
-                if ( $Self->{ParamObject}->GetArray( Param => "TicketFreeText$ID" ) ) {
-                    @{ $GetParam{"TicketFreeText$ID"} } = $Self->{ParamObject}->GetArray(
-                        Param => 'TicketFreeText' . $ID,
-                    );
-                }
-            }
-            else {
-                my @Array = $Self->{ParamObject}->GetArray( Param => 'TicketFreeText' . $ID );
-                if ( $Array[0] ) {
-                    @{ $GetParam{"TicketFreeText$ID"} } = @Array;
-                }
+            # set the comple value structure in GetParam to store it later in the Generic Agent Job
+            if ( IsHashRefWithData($DynamicFieldValue) ) {
+                %DynamicFieldValues = ( %DynamicFieldValues, %{$DynamicFieldValue} );
             }
         }
 
@@ -252,8 +247,11 @@ sub Run {
 
             # insert new profile params
             $Self->{GenericAgentObject}->JobAdd(
-                Name   => $Self->{Profile},
-                Data   => \%GetParam,
+                Name => $Self->{Profile},
+                Data => {
+                    %GetParam,
+                    %DynamicFieldValues,
+                },
                 UserID => $Self->{UserID},
             );
 
@@ -371,6 +369,30 @@ sub Run {
                 }
             }
 
+            # dynamic fields search parameters for ticket search
+            my %DynamicFieldSearchParameters;
+
+            # cycle trough the activated Dynamic Fields for this screen
+            DYNAMICFIELD:
+            for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
+                next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+                next DYNAMICFIELD
+                    if !$DynamicFieldValues{ 'Search_DynamicField_' . $DynamicFieldConfig->{Name} };
+
+                # extract the dynamic field value form the profile
+                my $SearchParameter = $Self->{BackendObject}->SearchFieldParameterBuild(
+                    DynamicFieldConfig => $DynamicFieldConfig,
+                    Profile            => \%DynamicFieldValues,
+                    LayoutObject       => $Self->{LayoutObject},
+                );
+
+                # set search parameter
+                if ( defined $SearchParameter ) {
+                    $DynamicFieldSearchParameters{ 'DynamicField_' . $DynamicFieldConfig->{Name} }
+                        = $SearchParameter->{Parameter};
+                }
+            }
+
             # perform ticket search
             my $Counter = $Self->{TicketObject}->TicketSearch(
                 Result          => 'COUNT',
@@ -380,6 +402,7 @@ sub Run {
                 Limit           => 60_000,
                 ConditionInline => 1,
                 %GetParam,
+                %DynamicFieldSearchParameters,
             ) || 0;
             my @TicketIDs = $Self->{TicketObject}->TicketSearch(
                 Result          => 'ARRAY',
@@ -389,6 +412,7 @@ sub Run {
                 Limit           => 30,
                 ConditionInline => 1,
                 %GetParam,
+                %DynamicFieldSearchParameters,
             );
 
             $Self->{LayoutObject}->Block( Name => 'ActionList', );
@@ -449,6 +473,7 @@ sub Run {
         $JobDataReference = $Self->_MaskUpdate(
             %Param,
             %GetParam,
+            %DynamicFieldValues,
             %Errors,
         );
 
@@ -977,120 +1002,96 @@ sub _MaskUpdate {
         );
     }
 
-    # get free text config options
-    my %TicketFreeText;
-    my %TicketFreeTextData;
-    for my $Count ( 1 .. 16 ) {
-        $TicketFreeText{ 'TicketFreeKey' . $Count } = $Self->{TicketObject}->TicketFreeTextGet(
-            Type   => 'TicketFreeKey' . $Count,
-            FillUp => 1,
-            Action => $Self->{Action},
-            UserID => $Self->{UserID},
+    # create dynamic field HTML for set with historical data options
+    my $PrintDynamicFieldsSearchHeader = 1;
+
+    # cycle trough the activated Dynamic Fields for this screen
+    DYNAMICFIELD:
+    for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
+        next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+
+        # get field html
+        my $DynamicFieldHTML = $Self->{BackendObject}->SearchFieldRender(
+            DynamicFieldConfig => $DynamicFieldConfig,
+            Profile            => \%JobData,
+            DefaultValue =>
+                $Self->{Config}->{Defaults}->{DynamicField}->{ $DynamicFieldConfig->{Name} },
+            LayoutObject           => $Self->{LayoutObject},
+            ConfirmationCheckboxes => 1,
         );
-        $TicketFreeText{ 'TicketFreeText' . $Count } = $Self->{TicketObject}->TicketFreeTextGet(
-            Type   => 'TicketFreeText' . $Count,
-            FillUp => 1,
-            Action => $Self->{Action},
-            UserID => $Self->{UserID},
-        );
 
-        $TicketFreeTextData{ 'TicketFreeKey' . $Count } = $JobData{ 'TicketFreeKey' . $Count };
-        $TicketFreeTextData{ 'TicketFreeText' . $Count }
-            = $JobData{ 'TicketFreeText' . $Count };
-    }
+        next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldHTML);
 
-    # generate the free text fields
-    my %TicketFreeTextHTML = $Self->{LayoutObject}->AgentFreeText(
-        Config     => \%TicketFreeText,
-        Ticket     => \%TicketFreeTextData,
-        NullOption => 1,
-    );
-
-    # Free field settings
-    my $Flag = 1;
-    COUNT:
-    for my $Count ( 1 .. 16 ) {
-
-        next COUNT if ref $Self->{ConfigObject}->Get( 'TicketFreeKey' . $Count ) ne 'HASH';
-
-        # $Flag to show the whole freefield block
-        if ($Flag) {
-            $Self->{LayoutObject}->Block( Name => 'TicketFreeField' );
-            $Flag = 0;
+        if ($PrintDynamicFieldsSearchHeader) {
+            $Self->{LayoutObject}->Block( Name => 'DynamicField' );
+            $PrintDynamicFieldsSearchHeader = 0;
         }
 
-        # output free text field
+        # output dynamic field
         $Self->{LayoutObject}->Block(
-            Name => 'TicketFreeFieldElement',
+            Name => 'DynamicFieldElement',
             Data => {
-                TicketFreeKey  => $TicketFreeTextHTML{ 'TicketFreeKeyField' . $Count },
-                TicketFreeText => $TicketFreeTextHTML{ 'TicketFreeTextField' . $Count },
-                ValueID        => 'TicketFreeText' . $Count
+                Label => $DynamicFieldHTML->{Label},
+                Field => $DynamicFieldHTML->{Field},
             },
         );
     }
 
-    # New free field settings
-    $Flag = 1;
-    for my $ID ( 1 .. 16 ) {
-        if ( ref( $Self->{ConfigObject}->Get( 'TicketFreeKey' . $ID ) ) eq 'HASH' ) {
+    # create dynamic field HTML for set with historical data options
+    my $PrintDynamicFieldsEditHeader = 1;
 
-            # $Flag to show the whole freefield block
-            if ($Flag) {
-                $Self->{LayoutObject}->Block( Name => 'NewTicketFreeField', );
-                $Flag = 0;
-            }
+    # cycle trough the activated Dynamic Fields for this screen
+    DYNAMICFIELD:
+    for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
+        next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
 
-            # generate free key
-            my %TicketFreeKey    = %{ $Self->{ConfigObject}->Get( 'TicketFreeKey' . $ID ) };
-            my @FreeKey          = keys %TicketFreeKey;
-            my $NewTicketFreeKey = '';
+        my $PossibleValuesFilter;
 
-            if ( $#FreeKey == 0 ) {
-                $NewTicketFreeKey = $TicketFreeKey{ $FreeKey[0] };
-            }
-            else {
-                $NewTicketFreeKey = $Self->{LayoutObject}->BuildSelection(
-                    Data        => \%TicketFreeKey,
-                    Name        => 'NewTicketFreeKey' . $ID,
-                    Size        => 4,
-                    Multiple    => 1,
-                    Translation => 0,
-                    SelectedID  => $JobData{ 'NewTicketFreeKey' . $ID },
-                );
-            }
+        # check if field has PossibleValues property in its configuration
+        if ( IsHashRefWithData( $DynamicFieldConfig->{Config}->{PossibleValues} ) ) {
 
-            # generate free text
-            my $NewTicketFreeText = '';
-            if ( !$Self->{ConfigObject}->Get( 'TicketFreeText' . $ID ) ) {
-                my $Value = $JobData{ 'NewTicketFreeText' . $ID } || '';
-                $NewTicketFreeText
-                    = '<input type="text" name="NewTicketFreeText'
-                    . $ID
-                    . '" size="30" value="'
-                    . $Value . '">';
-            }
-            else {
-                my %TicketFreeText = %{ $Self->{ConfigObject}->Get( 'TicketFreeText' . $ID ) };
-                $NewTicketFreeText = $Self->{LayoutObject}->BuildSelection(
-                    Data        => \%TicketFreeText,
-                    Name        => 'NewTicketFreeText' . $ID,
-                    Size        => 4,
-                    Multiple    => 1,
-                    Translation => 0,
-                    SelectedID  => $JobData{ 'NewTicketFreeText' . $ID },
-                );
-            }
-
-            $Self->{LayoutObject}->Block(
-                Name => 'NewTicketFreeFieldElement',
-                Data => {
-                    NewTicketFreeKey  => $NewTicketFreeKey,
-                    NewTicketFreeText => $NewTicketFreeText,
-                    ValueID           => 'NewTicketFreeText' . $ID
-                },
+            # set possible values filter from ACLs
+            my $ACL = $Self->{TicketObject}->TicketAcl(
+                Action        => $Self->{Action},
+                Type          => 'DynamicField_' . $DynamicFieldConfig->{Name},
+                ReturnType    => 'Ticket',
+                ReturnSubType => 'DynamicField_' . $DynamicFieldConfig->{Name},
+                Data          => $DynamicFieldConfig->{Config}->{PossibleValues},
+                UserID        => $Self->{UserID},
             );
+            if ($ACL) {
+                my %Filter = $Self->{TicketObject}->TicketAclData();
+                $PossibleValuesFilter = \%Filter;
+            }
         }
+
+        # get field html
+        my $DynamicFieldHTML = $Self->{BackendObject}->EditFieldRender(
+            DynamicFieldConfig   => $DynamicFieldConfig,
+            PossibleValuesFilter => $PossibleValuesFilter,
+            LayoutObject         => $Self->{LayoutObject},
+            ParamObject          => $Self->{ParamObject},
+            UseDefaultValue      => 0,
+            OverridePossibleNone => 1,
+            ConfirmationNeeded   => 1,
+            Template             => \%JobData,
+        );
+
+        next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldHTML);
+
+        if ($PrintDynamicFieldsEditHeader) {
+            $Self->{LayoutObject}->Block( Name => 'NewDynamicField' );
+            $PrintDynamicFieldsEditHeader = 0;
+        }
+
+        # output dynamic field
+        $Self->{LayoutObject}->Block(
+            Name => 'NewDynamicFieldElement',
+            Data => {
+                Label => $DynamicFieldHTML->{Label},
+                Field => $DynamicFieldHTML->{Field},
+            },
+        );
     }
     return \%JobData;
 }

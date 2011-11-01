@@ -2,7 +2,7 @@
 # AdminGenericAgent.dtl - provides HTML form for AdminGenericAgent.pm
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.dtl,v 1.88 2011-07-31 13:11:06 ep Exp $
+# $Id: AdminGenericAgent.dtl,v 1.89 2011-11-01 03:07:51 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -304,18 +304,17 @@
                             $Data{"LockOption"}
                         </div>
                         <div class="Clear"></div>
-<!-- dtl:block:TicketFreeField -->
-                        <label>$Text{"TicketFreeFields"}</label>
+<!-- dtl:block:DynamicField -->
+                        <label>$Text{"Dynamic Fields"}</label>
                         <div class="Clear"></div>
-<!-- dtl:block:TicketFreeFieldElement -->
-                        $Data{"TicketFreeKey"}
+<!-- dtl:block:DynamicFieldElement -->
+                        $Data{"Label"}
                         <div class="Field">
-                            $Data{"TicketFreeText"}
+                            $Data{"Field"}
                         </div>
                         <div class="Clear"></div>
-<!-- dtl:block:TicketFreeFieldElement -->
-<!-- dtl:block:TicketFreeField -->
-
+<!-- dtl:block:DynamicFieldElement -->
+<!-- dtl:block:DynamicField -->
                         <label for="TimeSearchTypeNone">$Text{"Create times"}:</label>
                         <div class="Field">
                             <input type="radio" name="TimeSearchType" id="TimeSearchTypeNone" value="" $Data{"TimeSearchType::None"}/>
@@ -562,17 +561,17 @@
                         </div>
                         <div class="Clear"></div>
 <!-- dtl:block:NewTicketType -->
-<!-- dtl:block:NewTicketFreeField -->
-                        <label>$Text{"New TicketFreeFields"}</label>
+<!-- dtl:block:NewDynamicField -->
+                        <label>$Text{"New Dynamic Fields"}</label>
                         <div class="Clear"></div>
-<!-- dtl:block:NewTicketFreeFieldElement -->
-                        <label>$Data{"NewTicketFreeKey"}</label>
+<!-- dtl:block:NewDynamicFieldElement -->
+                        $Data{"Label"}
                         <div class="Field">
-                            $Data{"NewTicketFreeText"}
+                            $Data{"Field"}
                         </div>
                         <div class="Clear"></div>
-<!-- dtl:block:NewTicketFreeFieldElement -->
-<!-- dtl:block:NewTicketFreeField -->
+<!-- dtl:block:NewDynamicFieldElement -->
+<!-- dtl:block:NewDynamicField -->
 <!-- dtl:block:NewArchiveFlag -->
                         <label for="NewArchiveFlag">$Text{"Archive selected tickets"}:</label>
                         <div class="Field">

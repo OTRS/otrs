@@ -2,7 +2,7 @@
 # Kernel/System/GenericAgent.pm - generic agent system module
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: GenericAgent.pm,v 1.75 2011-08-12 09:06:15 mg Exp $
+# $Id: GenericAgent.pm,v 1.76 2011-11-01 03:06:58 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,8 +14,12 @@ package Kernel::System::GenericAgent;
 use strict;
 use warnings;
 
+use Kernel::System::DynamicField;
+use Kernel::System::DynamicField::Backend;
+use Kernel::System::VariableCheck qw(:all);
+
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.75 $) [1];
+$VERSION = qw($Revision: 1.76 $) [1];
 
 =head1 NAME
 
@@ -105,6 +109,16 @@ sub new {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
+    # create additional objects
+    $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new(%Param);
+    $Self->{BackendObject}      = Kernel::System::DynamicField::Backend->new(%Param);
+
+    # get the dynamic fields for ticket object
+    $Self->{DynamicField} = $Self->{DynamicFieldObject}->DynamicFieldListGet(
+        Valid      => 1,
+        ObjectType => ['Ticket'],
+    );
+
     # debug
     $Self->{Debug} = $Param{Debug} || 0;
 
@@ -174,13 +188,23 @@ sub new {
         }
     }
 
-    # add free text attributes
-    for my $Type ( 1 .. 16 ) {
-        my $Key   = 'TicketFreeKey' . $Type;
-        my $Value = 'TicketFreeText' . $Type;
+    # Add Dynamic Fields attributes
+    DYNAMICFIELD:
+    for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
+        next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
 
-        $Map{$Key}   = 'ARRAY';
-        $Map{$Value} = 'ARRAY';
+        # get the field type of the dynamic fields for edit and search
+        my $FieldValueType = $Self->{BackendObject}->TemplateValueTypeGet(
+            DynamicFieldConfig => $DynamicFieldConfig,
+            FieldType          => 'All',
+        );
+
+        # Add field type to Map
+        if ( IsHashRefWithData($FieldValueType) ) {
+            for my $FieldName ( keys %{$FieldValueType} ) {
+                $Map{$FieldName} = $FieldValueType->{$FieldName};
+            }
+        }
     }
 
     $Self->{Map} = \%Map;
@@ -215,6 +239,7 @@ sub JobRun {
 
     # get job from param
     my %Job;
+    my %DynamicFieldSearchTemplate;
     if ( $Param{Config} ) {
         %Job = %{ $Param{Config} };
 
@@ -248,7 +273,19 @@ sub JobRun {
                 $Job{New}->{$NewKey} = $DBJobRaw{$Key};
             }
             else {
-                $Job{$Key} = $DBJobRaw{$Key};
+
+                # skip dynamic fields
+                if ( $Key !~ m{ DynamicField_ }xms ) {
+                    $Job{$Key} = $DBJobRaw{$Key};
+                }
+            }
+
+            # convert dynamic fields
+            if ( $Key =~ m{ \A DynamicField_ }xms ) {
+                $Job{New}->{$Key} = $DBJobRaw{$Key};
+            }
+            elsif ( $Key =~ m{ \A Search_DynamicField_ }xms ) {
+                $DynamicFieldSearchTemplate{$Key} = $DBJobRaw{$Key};
             }
         }
         if ( exists $Job{SearchInArchive} && $Job{SearchInArchive} eq 'ArchivedTickets' ) {
@@ -256,6 +293,32 @@ sub JobRun {
         }
         if ( exists $Job{SearchInArchive} && $Job{SearchInArchive} eq 'AllTickets' ) {
             $Job{ArchiveFlags} = [ 'y', 'n' ];
+        }
+    }
+
+    # set dynamic fields search parameters
+    my %DynamicFieldSearchParameters;
+    DYNAMICFIELD:
+    for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
+        next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+
+        # get field value from the information extracted from Generic Agent job
+        my $Value = $Self->{BackendObject}->SearchFieldValueGet(
+            DynamicFieldConfig => $DynamicFieldConfig,
+            Profile            => \%DynamicFieldSearchTemplate,
+        ) || '';
+
+        if ($Value) {
+
+            # get search attibutes
+            my $SearchParameter = $Self->{BackendObject}->CommonSearchFieldParameterBuild(
+                DynamicFieldConfig => $DynamicFieldConfig,
+                Value              => $Value,
+            );
+
+            # add search attribute to the search structure
+            $DynamicFieldSearchParameters{ 'DynamicField_' . $DynamicFieldConfig->{Name} }
+                = $SearchParameter;
         }
     }
 
@@ -298,6 +361,7 @@ sub JobRun {
             %Tickets = (
                 $Self->{TicketObject}->TicketSearch(
                     %Job,
+                    %DynamicFieldSearchParameters,
                     ConditionInline => 1,
                     StateType       => $Type,
                     Limit           => $Param{Limit} || 4000,
@@ -314,6 +378,7 @@ sub JobRun {
                 %Tickets = (
                     $Self->{TicketObject}->TicketSearch(
                         %Job,
+                        %DynamicFieldSearchParameters,
                         ConditionInline => 1,
                         Queues          => [$_],
                         StateType       => $Type,
@@ -328,6 +393,7 @@ sub JobRun {
             %Tickets = (
                 $Self->{TicketObject}->TicketSearch(
                     %Job,
+                    %DynamicFieldSearchParameters,
                     ConditionInline => 1,
                     StateType       => $Type,
                     Queues          => [ $Job{Queue} ],
@@ -357,6 +423,11 @@ sub JobRun {
                 }
             }
 
+            # also search in Dynamic fields search attributes
+            for my $DynamicFieldName ( keys %DynamicFieldSearchParameters ) {
+                $Count++;
+            }
+
             # log no search attribute
             if ( !$Count ) {
                 $Self->{LogObject}->Log(
@@ -373,6 +444,7 @@ sub JobRun {
             }
             %Tickets = $Self->{TicketObject}->TicketSearch(
                 %Job,
+                %DynamicFieldSearchParameters,
                 ConditionInline => 1,
                 Limit           => $Param{Limit} || 4000,
                 UserID          => $Param{UserID},
@@ -386,6 +458,7 @@ sub JobRun {
                 %Tickets = (
                     $Self->{TicketObject}->TicketSearch(
                         %Job,
+                        %DynamicFieldSearchParameters,
                         ConditionInline => 1,
                         Queues          => [$_],
                         Limit           => $Param{Limit} || 4000,
@@ -398,6 +471,7 @@ sub JobRun {
         else {
             %Tickets = $Self->{TicketObject}->TicketSearch(
                 %Job,
+                %DynamicFieldSearchParameters,
                 ConditionInline => 1,
                 Queues          => [ $Job{Queue} ],
                 Limit           => $Param{Limit} || 4000,
@@ -1009,49 +1083,44 @@ sub _JobRunTicket {
         );
     }
 
-    # set ticket free text options
-    for ( 1 .. 16 ) {
-        if (
-            defined $Param{Config}->{New}->{"TicketFreeKey$_"}
-            || defined $Param{Config}->{New}->{"TicketFreeText$_"}
-            )
-        {
-            my %Data;
-            $Data{TicketID} = $Param{TicketID};
-            $Data{UserID}   = $Param{UserID};
-            $Data{Counter}  = $_;
+    # set new dyanmic fields options
+    # cycle trough the activated Dynamic Fields for this screen
+    DYNAMICFIELD:
+    for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
+        next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
 
-            if ( defined $Param{Config}->{New}->{"TicketFreeKey$_"} ) {
-                $Data{Key} = $Param{Config}->{New}->{"TicketFreeKey$_"};
-            }
+        # extract the dynamic field value form the web request
+        my $Value = $Self->{BackendObject}->EditFieldValueGet(
+            DynamicFieldConfig => $DynamicFieldConfig,
+            Template           => $Param{Config}->{New},
+            TransformDates     => 0,
+        );
 
-            # insert the freefieldkey, if only one key is possible
-            if (
-                !$Data{Key}
-                && ref $Self->{ConfigObject}->Get( 'TicketFreeKey' . $_ ) eq 'HASH'
-                )
-            {
-                my %TicketFreeKey = %{ $Self->{ConfigObject}->Get( 'TicketFreeKey' . $_ ) };
-                my @FreeKey       = keys %TicketFreeKey;
+        if ($Value) {
+            my $Success = $Self->{BackendObject}->ValueSet(
+                DynamicFieldConfig => $DynamicFieldConfig,
+                ObjectID           => $Param{TicketID},
+                Value              => $Value,
+                UserID             => 1,
+            );
 
-                if ( $#FreeKey == 0 ) {
-                    $Data{Key} = $TicketFreeKey{ $FreeKey[0] };
+            if ($Success) {
+                if ( $Self->{NoticeSTDOUT} ) {
+                    my $ValueStrg = $Self->{BackendObject}->ReadableValueRender(
+                        DynamicFieldConfig => $DynamicFieldConfig,
+                        Value              => $Value,
+                    );
+                    print "  - set ticket dynamic field $DynamicFieldConfig->{Name} "
+                        . "of Ticket $Ticket to $ValueStrg->{Title} '\n";
                 }
             }
-
-            if ( defined $Param{Config}->{New}->{"TicketFreeText$_"} ) {
-                $Data{Value} = $Param{Config}->{New}->{"TicketFreeText$_"};
+            else {
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message  => "Coud not set dynamic field $DynamicFieldConfig->{Name} "
+                        . "for Ticket $Ticket.",
+                );
             }
-
-            if ( $Self->{NoticeSTDOUT} ) {
-                if ( defined $Data{Key} ) {
-                    print "  - set ticket free text of Ticket $Ticket to Key: '$Data{Key}'\n";
-                }
-                if ( defined $Data{Value} ) {
-                    print "  - set ticket free text of Ticket $Ticket to Text: '$Data{Value}'\n";
-                }
-            }
-            $Self->{TicketObject}->TicketFreeTextSet(%Data);
         }
     }
 
@@ -1203,6 +1272,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.75 $ $Date: 2011-08-12 09:06:15 $
+$Revision: 1.76 $ $Date: 2011-11-01 03:06:58 $
 
 =cut
