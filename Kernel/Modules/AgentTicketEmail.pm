@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.181 2011-11-01 18:44:19 cr Exp $
+# $Id: AgentTicketEmail.pm,v 1.182 2011-11-01 21:55:09 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.181 $) [1];
+$VERSION = qw($Revision: 1.182 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1135,6 +1135,17 @@ sub Run {
             $GetParam{From} = $Queue{Email};
         }
 
+        # convert dynamic field values into a structure for ACLs
+        my %DynamicFieldACLParameters;
+        DYNAMICFIELD:
+        for my $DynamcField ( keys %DynamicFieldValues ) {
+            next DYNAMICFIELD if !$DynamcField;
+            next DYNAMICFIELD if !$DynamicFieldValues{$DynamcField};
+
+            $DynamicFieldACLParameters{ 'DynamicField_' . $DynamcField }
+                = $DynamicFieldValues{$DynamcField};
+        }
+
         # get list type
         my $TreeView = 0;
         if ( $Self->{ConfigObject}->Get('Ticket::Frontend::ListType') eq 'tree' ) {
@@ -1155,23 +1166,27 @@ sub Run {
         );
         my $NextStates = $Self->_GetNextStates(
             %GetParam,
+            DynamicField   => \%DynamicFieldACLParameters,
             CustomerUserID => $CustomerUser || '',
-            QueueID        => $QueueID      || 1,
+            QueueID        => $QueueID || 1,
         );
         my $Priorities = $Self->_GetPriorities(
             %GetParam,
+            DynamicField   => \%DynamicFieldACLParameters,
             CustomerUserID => $CustomerUser || '',
-            QueueID        => $QueueID      || 1,
+            QueueID        => $QueueID || 1,
         );
         my $Services = $Self->_GetServices(
             %GetParam,
+            DynamicField   => \%DynamicFieldACLParameters,
             CustomerUserID => $CustomerUser || '',
-            QueueID        => $QueueID      || 1,
+            QueueID        => $QueueID || 1,
         );
         my $SLAs = $Self->_GetSLAs(
             %GetParam,
+            DynamicField   => \%DynamicFieldACLParameters,
             CustomerUserID => $CustomerUser || '',
-            QueueID        => $QueueID      || 1,
+            QueueID        => $QueueID || 1,
             Services       => $Services,
         );
 
@@ -1193,6 +1208,7 @@ sub Run {
                 Action        => $Self->{Action},
                 TicketID      => $Self->{TicketID},
                 QueueID       => $GetParam{DestQueueID} || 0,
+                DynamicField  => \%DynamicFieldACLParameters,
                 Type          => 'DynamicField_' . $DynamicFieldConfig->{Name},
                 ReturnType    => 'Ticket',
                 ReturnSubType => 'DynamicField_' . $DynamicFieldConfig->{Name},

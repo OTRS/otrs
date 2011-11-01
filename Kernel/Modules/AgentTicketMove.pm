@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMove.pm - move tickets to queues
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMove.pm,v 1.98 2011-11-01 18:44:19 cr Exp $
+# $Id: AgentTicketMove.pm,v 1.99 2011-11-01 21:55:08 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.98 $) [1];
+$VERSION = qw($Revision: 1.99 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -208,17 +208,31 @@ sub Run {
 
     # ajax update
     if ( $Self->{Subaction} eq 'AJAXUpdate' ) {
+
+        # convert dynamic field values into a structure for ACLs
+        my %DynamicFieldACLParameters;
+        DYNAMICFIELD:
+        for my $DynamcField ( keys %DynamicFieldValues ) {
+            next DYNAMICFIELD if !$DynamcField;
+            next DYNAMICFIELD if !$DynamicFieldValues{$DynamcField};
+
+            $DynamicFieldACLParameters{ 'DynamicField_' . $DynamcField }
+                = $DynamicFieldValues{$DynamcField};
+        }
+
         my $Users = $Self->_GetUsers(
             QueueID  => $GetParam{DestQueueID},
             AllUsers => $GetParam{OwnerAll},
         );
         my $NextStates = $Self->_GetNextStates(
-            TicketID => $Self->{TicketID},
-            QueueID => $GetParam{DestQueueID} || 1,
+            DynamicField => \%DynamicFieldACLParameters,
+            TicketID     => $Self->{TicketID},
+            QueueID      => $GetParam{DestQueueID} || 1,
         );
         my $NextPriorities = $Self->_GetPriorities(
-            TicketID => $Self->{TicketID},
-            QueueID => $GetParam{DestQueueID} || 1,
+            DynamicField => \%DynamicFieldACLParameters,
+            TicketID     => $Self->{TicketID},
+            QueueID      => $GetParam{DestQueueID} || 1,
         );
 
         # update Dynamc Fields Possible Values via AJAX
@@ -238,6 +252,7 @@ sub Run {
                 Action        => $Self->{Action},
                 TicketID      => $Self->{TicketID},
                 QueueID       => $GetParam{DestQueueID} || 0,
+                DynamicField  => \%DynamicFieldACLParameters,
                 Type          => 'DynamicField_' . $DynamicFieldConfig->{Name},
                 ReturnType    => 'Ticket',
                 ReturnSubType => 'DynamicField_' . $DynamicFieldConfig->{Name},
