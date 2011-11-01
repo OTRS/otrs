@@ -3,7 +3,7 @@
 # DBUpdate-to-3.1.pl - update script to migrate OTRS 3.0.x to 3.1.x
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-3.1.pl,v 1.36 2011-11-01 03:01:02 cr Exp $
+# $Id: DBUpdate-to-3.1.pl,v 1.37 2011-11-01 18:35:41 cg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.36 $) [1];
+$VERSION = qw($Revision: 1.37 $) [1];
 
 use Getopt::Std qw();
 use Kernel::Config;
@@ -67,7 +67,7 @@ EOF
     # create common objects
     my $CommonObject = _CommonObjectsBase();
 
-    print "Step 1 of 13: Refresh configuration cache... ";
+    print "Step 1 of 14: Refresh configuration cache... ";
     RebuildConfig($CommonObject);
     print "done.\n\n";
 
@@ -75,11 +75,11 @@ EOF
     $CommonObject = _CommonObjectsBase();
 
     # check framework version
-    print "Step 2 of 13: Check framework version... ";
+    print "Step 2 of 14: Check framework version... ";
     _CheckFrameworkVersion($CommonObject);
     print "done.\n\n";
 
-    print "Step 3 of 13: Creating DynamicField tables (if necessary)... ";
+    print "Step 3 of 14: Creating DynamicField tables (if necessary)... ";
     if ( _CheckDynamicFieldTables($CommonObject) ) {
         print "done.\n\n";
     }
@@ -88,21 +88,21 @@ EOF
     }
 
     # insert dynamic field records, if necessary
-    print "Step 4 of 13: Create new dynamic fields for free fields (text, key, date)... ";
+    print "Step 4 of 14: Create new dynamic fields for free fields (text, key, date)... ";
     if ( !_IsFreefieldsMigrationAlreadyDone($CommonObject) ) {
         _DynamicFieldCreation($CommonObject);
     }
     print "done.\n\n";
 
     # migrate ticket free field
-    print "Step 5 of 13: Migrate ticket free fields to dynamic fields... \n";
+    print "Step 5 of 14: Migrate ticket free fields to dynamic fields... \n";
     if ( !_IsFreefieldsMigrationAlreadyDone($CommonObject) ) {
         my $TicketMigrated = _DynamicFieldTicketMigration($CommonObject);
     }
     print "done.\n\n";
 
     # migrate ticket free field
-    print "Step 6 of 13: Migrate article free fields to dynamic fields... \n";
+    print "Step 6 of 14: Migrate article free fields to dynamic fields... \n";
     if ( !_IsFreefieldsMigrationAlreadyDone($CommonObject) ) {
         my $ArticleMigrated = _DynamicFieldArticleMigration($CommonObject);
     }
@@ -110,7 +110,7 @@ EOF
 
     # verify ticket migration
     my $VerificationTicketData = 1;
-    print "Step 7 of 13: Verify if ticket data was successfully migrated... ";
+    print "Step 7 of 14: Verify if ticket data was successfully migrated... ";
     if ( !_IsFreefieldsMigrationAlreadyDone($CommonObject) ) {
         $VerificationTicketData = _VerificationTicketData($CommonObject);
     }
@@ -118,7 +118,7 @@ EOF
 
     # verify article migration
     my $VerificationArticleData = 1;
-    print "Step 8 of 13: Verify if article data was successfully migrated... ";
+    print "Step 8 of 14: Verify if article data was successfully migrated... ";
     if ( !_IsFreefieldsMigrationAlreadyDone($CommonObject) ) {
         $VerificationArticleData = _VerificationArticleData($CommonObject);
     }
@@ -132,12 +132,12 @@ EOF
     }
 
     # Migrate free fields configuration
-    print "Step 9 of 13: Migrate free fields configuration... ";
+    print "Step 9 of 14: Migrate free fields configuration... ";
     _MigrateFreeFieldsConfiguration($CommonObject);
     print "done.\n\n";
 
     print
-        "Step 10 of 13: Update history type from 'TicketFreeTextUpdate' to 'TicketDynamicFieldUpdate'... ";
+        "Step 10 of 14: Update history type from 'TicketFreeTextUpdate' to 'TicketDynamicFieldUpdate'... ";
     if ( _UpdateHistoryType($CommonObject) ) {
         print "done.\n\n";
     }
@@ -146,7 +146,7 @@ EOF
     }
 
     # Migrate free fields configuration
-    print "Step 11 of 13: Migrate free fields window configuration... ";
+    print "Step 11 of 14: Migrate free fields window configuration... ";
     if ( _MigrateWindowConfiguration($CommonObject) ) {
         print "done.\n\n";
     }
@@ -155,7 +155,7 @@ EOF
     }
 
     # Migrate free fields configuration for stats
-    print "Step 12 of 13: Migrate free fields stats configuration... ";
+    print "Step 12 of 14: Migrate free fields stats configuration... ";
     if ( _MigrateStatsConfiguration($CommonObject) ) {
         print "done.\n\n";
     }
@@ -164,8 +164,17 @@ EOF
     }
 
     # Migrate free fields configuration for generic agent jobs
-    print "Step 13 of 13: Migrate free fields generic agent jobs configuration.. ";
+    print "Step 13 of 14: Migrate free fields generic agent jobs configuration.. ";
     if ( _MigrateGenericAgentJobConfiguration($CommonObject) ) {
+        print "done.\n\n";
+    }
+    else {
+        print "Error!\n\n";
+    }
+
+    # Migrate free fields configuration for Post Master
+    print "Step 14 of 14: Migrate free fields post master configuration.. ";
+    if ( _MigratePostMasterConfiguration($CommonObject) ) {
         print "done.\n\n";
     }
     else {
@@ -1656,6 +1665,144 @@ sub _MigrateGenericAgentJobConfiguration {
             }
         }
     }
+    return 1;
+}
+
+=item _MigratePostMasterConfiguration($CommonObject)
+
+migrates the configuration of the free fields for PostMaster module into the
+new dynamic field structure.
+
+    _MigratePostMasterConfiguration($CommonObject);
+
+=cut
+
+sub _MigratePostMasterConfiguration {
+    my $CommonObject = shift;
+
+    # Purge cache first to make sure that the DF API works correctly
+    #   after we made inserts by hand.
+    my $CacheObject = Kernel::System::Cache->new( %{$CommonObject} );
+    $CacheObject->CleanUp(
+        Type => 'DynamicField',
+    );
+
+    # create additional objects
+    my $DynamicFieldObject = Kernel::System::DynamicField->new( %{$CommonObject} );
+    my $SysConfigObject    = Kernel::System::SysConfig->new( %{$CommonObject} );
+
+    # get current dynamic fields
+    my $DynamicFields = $DynamicFieldObject->DynamicFieldList(
+        Valid      => 0,
+        ResultType => 'HASH',
+    );
+
+    # set values as keys
+    $DynamicFields = { reverse %{$DynamicFields} };
+
+    # Post Master configuration
+    my $ExistingSetting = $CommonObject->{ConfigObject}->Get('PostmasterX-Header');
+    my @ValuesToSet = @{ $ExistingSetting || () };
+
+    if ( scalar @ValuesToSet ) {
+
+        # transform the array from config into a hash
+        # in order to facility the interaction with the values
+        my %CurrentXHeaders = map { $_ => 1 } @ValuesToSet;
+
+        # migration for ticket fields
+        my %XHeadersToChange = (
+            'X-OTRS-TicketKey'            => 'TicketFreeKey',
+            'X-OTRS-TicketValue'          => 'TicketFreeText',
+            'X-OTRS-FollowUp-TicketKey'   => 'TicketFreeKey',
+            'X-OTRS-FollowUp-TicketValue' => 'TicketFreeText',
+        );
+
+        for my $Key ( sort keys %XHeadersToChange ) {
+            for my $Index ( 1 .. 16 ) {
+
+                # set header and field name
+                my $HeaderName = $Key . $Index;
+                my $FieldName  = $XHeadersToChange{$Key} . $Index;
+
+                if ( defined $DynamicFields->{$FieldName} && defined $CurrentXHeaders{$HeaderName} )
+                {
+
+                    # delete old element
+                    delete $CurrentXHeaders{$HeaderName};
+
+                    # set new element
+                    $CurrentXHeaders{ 'X-OTRS-DynamicField-' . $FieldName } = 1;
+                }
+            }
+        }
+
+        # migration for time fields
+        %XHeadersToChange = (
+            'X-OTRS-TicketTime'          => 'TicketFreeTime',
+            'X-OTRS-FollowUp-TicketTime' => 'TicketFreeTime',
+        );
+
+        for my $Key ( sort keys %XHeadersToChange ) {
+            for my $Index ( 1 .. 6 ) {
+
+                my $HeaderName = $Key . $Index;
+                my $FieldName  = $XHeadersToChange{$Key} . $Index;
+                if ( defined $DynamicFields->{$FieldName} && defined $CurrentXHeaders{$HeaderName} )
+                {
+
+                    # delete old element
+                    delete $CurrentXHeaders{$HeaderName};
+
+                    # set new element
+                    $CurrentXHeaders{ 'X-OTRS-DynamicField-' . $FieldName } = 1;
+                }
+            }
+        }
+
+        # migration for article fields
+        %XHeadersToChange = (
+            'X-OTRS-ArticleKey'            => 'ArticleFreeKey',
+            'X-OTRS-ArticleValue'          => 'ArticleFreeText',
+            'X-OTRS-FollowUp-ArticleKey'   => 'ArticleFreeKey',
+            'X-OTRS-FollowUp-ArticleValue' => 'ArticleFreeText',
+        );
+
+        for my $Key ( sort keys %XHeadersToChange ) {
+            for my $Index ( 1 .. 3 ) {
+
+                my $HeaderName = $Key . $Index;
+                my $FieldName  = $XHeadersToChange{$Key} . $Index;
+                if ( defined $DynamicFields->{$FieldName} && defined $CurrentXHeaders{$HeaderName} )
+                {
+
+                    # delete old element
+                    delete $CurrentXHeaders{$HeaderName};
+
+                    # set new element
+                    $CurrentXHeaders{ 'X-OTRS-DynamicField-' . $FieldName } = 1;
+                }
+            }
+        }
+
+        # revert values from hash into an array
+        @ValuesToSet = sort keys %CurrentXHeaders;
+
+    }
+
+    # execute the update action in sysconfig
+    my $Success = $SysConfigObject->ConfigItemUpdate(
+        Valid => 1,
+        Key   => 'PostmasterX-Header',
+        Value => \@ValuesToSet,
+    );
+
+    if ( !$Success ) {
+        print
+            "Could not migrate the config values on AgentTicketSearch window!\n";
+        return 0;
+    }
+
     return 1;
 }
 
