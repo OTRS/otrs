@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.pm,v 1.142 2011-11-01 16:39:32 cr Exp $
+# $Id: AgentTicketCompose.pm,v 1.143 2011-11-01 19:13:10 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.142 $) [1];
+$VERSION = qw($Revision: 1.143 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -402,6 +402,9 @@ sub Run {
                 ErrorMessage => $ValidationResult->{ErrorMessage} || '',
                 LayoutObject => $Self->{LayoutObject},
                 ParamObject  => $Self->{ParamObject},
+
+                # AgentTicketCompose does not support AJAXUpdate
+                AJAXUpdate => 0,
                 );
         }
 
@@ -1001,6 +1004,9 @@ $QData{"Signature"}
                     $Self->{Config}->{DynamicField}->{ $DynamicFieldConfig->{Name} } == 2,
                 LayoutObject => $Self->{LayoutObject},
                 ParamObject  => $Self->{ParamObject},
+
+                # AgentTicketCompose does not support AJAXUpdate
+                AJAXUpdate => 0,
                 );
         }
 
