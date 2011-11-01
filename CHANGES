@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2001 2011-10-31 19:59:26 mb Exp $
+# $Id: CHANGES,v 1.2002 2011-11-01 10:38:55 des Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.1.0 beta1 2011-??-??
+ - 2011-11-01 Fixed bug#7823 - ACL could remove default state from ticket masks.
  - 2011-10-31 Fixed bug#7454 - MSSQL should use NVARCHAR to store text strings rather than VARCHAR.
  - 2011-10-31 Fixed bug#7858 - Make "Apache::DBI" option not being overwritten with each update.
     Apache::DBI is now loaded in web server configuration file.
