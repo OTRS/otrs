@@ -2,7 +2,7 @@
 # AgentTicketForward.dtl - provides HTML form for AgentTicketForward
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketForward.dtl,v 1.91 2011-10-28 16:08:21 en Exp $
+# $Id: AgentTicketForward.dtl,v 1.92 2011-11-01 16:38:15 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -176,29 +176,35 @@ $Include{"RichTextEditor"}
                 <div class="Clear"></div>
 
 <!-- dtl:block:DynamicField -->
-                $Data{"Label"}
-                <div class="Field">
-                    $Data{"Field"}
+                <div class="Row Row_DynamicField_$QData{"Name"}">
+                    $Data{"Label"}
+                    <div class="Field">
+                        $Data{"Field"}
+                    </div>
+                    <div class="Clear"></div>
                 </div>
-                <div class="Clear"></div>
 <!-- dtl:block:DynamicField -->
 
 # example of how to use fixed dynamic field blocks for customizations
 # Note: Field1 and Field2 are the names of the fields and had to be replaced with the actual
 # field names
 #<!-- dtl:block:DynamicField_Field1 -->
-#                $Data{"Label"}
-#                <div class="Field">
-#                    $Data{"Field"}
+#                <div class="Row Row_DynamicField_$QData{"Name"}">
+#                    $Data{"Label"}
+#                    <div class="Field">
+#                        $Data{"Field"}
+#                    </div>
+#                    <div class="Clear"></div>
 #                </div>
-#                <div class="Clear"></div>
 #<!-- dtl:block:DynamicField_Field1 -->
 #<!-- dtl:block:DynamicField_Field2 -->
-#                $Data{"Label"}
-#                <div class="Field">
-#                    $Data{"Field"}
+#                <div class="Row Row_DynamicField_$QData{"Name"}">
+#                    $Data{"Label"}
+#                    <div class="Field">
+#                        $Data{"Field"}
+#                    </div>
+#                    <div class="Clear"></div>
 #                </div>
-#                <div class="Clear"></div>
 #<!-- dtl:block:DynamicField_Field2 -->
 
 <!-- dtl:block:TimeUnitsLabel -->
