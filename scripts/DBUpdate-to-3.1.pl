@@ -3,7 +3,7 @@
 # DBUpdate-to-3.1.pl - update script to migrate OTRS 3.0.x to 3.1.x
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-3.1.pl,v 1.37 2011-11-01 18:35:41 cg Exp $
+# $Id: DBUpdate-to-3.1.pl,v 1.38 2011-11-01 22:05:28 cg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.37 $) [1];
+$VERSION = qw($Revision: 1.38 $) [1];
 
 use Getopt::Std qw();
 use Kernel::Config;
@@ -1728,11 +1728,28 @@ sub _MigratePostMasterConfiguration {
                 if ( defined $DynamicFields->{$FieldName} && defined $CurrentXHeaders{$HeaderName} )
                 {
 
+                    # set header name for dynamic field
+                    my $NewHeaderName = 'X-OTRS-DynamicField-' . $FieldName;
+
                     # delete old element
                     delete $CurrentXHeaders{$HeaderName};
 
                     # set new element
-                    $CurrentXHeaders{ 'X-OTRS-DynamicField-' . $FieldName } = 1;
+                    $CurrentXHeaders{$NewHeaderName} = 1;
+
+                    # update rows in postmaster_filter table
+                    my $SuccessUpdate = $CommonObject->{DBObject}->Do(
+                        SQL =>
+                            "UPDATE postmaster_filter SET f_key=? WHERE f_key=?",
+                        Bind => [
+                            \$NewHeaderName, \$HeaderName,
+                        ],
+                    );
+
+                    if ( !$SuccessUpdate ) {
+                        print "Could not possible to change the key for the post master filter!\n";
+                    }
+
                 }
             }
         }
@@ -1751,11 +1768,28 @@ sub _MigratePostMasterConfiguration {
                 if ( defined $DynamicFields->{$FieldName} && defined $CurrentXHeaders{$HeaderName} )
                 {
 
+                    # set header name for dynamic field
+                    my $NewHeaderName = 'X-OTRS-DynamicField-' . $FieldName;
+
                     # delete old element
                     delete $CurrentXHeaders{$HeaderName};
 
                     # set new element
-                    $CurrentXHeaders{ 'X-OTRS-DynamicField-' . $FieldName } = 1;
+                    $CurrentXHeaders{$NewHeaderName} = 1;
+
+                    # update rows in postmaster_filter table
+                    my $SuccessUpdate = $CommonObject->{DBObject}->Do(
+                        SQL =>
+                            "UPDATE postmaster_filter SET f_key=? WHERE f_key=?",
+                        Bind => [
+                            \$NewHeaderName, \$HeaderName,
+                        ],
+                    );
+
+                    if ( !$SuccessUpdate ) {
+                        print "Could not possible to change the key for the post master filter!\n";
+                    }
+
                 }
             }
         }
@@ -1776,11 +1810,28 @@ sub _MigratePostMasterConfiguration {
                 if ( defined $DynamicFields->{$FieldName} && defined $CurrentXHeaders{$HeaderName} )
                 {
 
+                    # set header name for dynamic field
+                    my $NewHeaderName = 'X-OTRS-DynamicField-' . $FieldName;
+
                     # delete old element
                     delete $CurrentXHeaders{$HeaderName};
 
                     # set new element
-                    $CurrentXHeaders{ 'X-OTRS-DynamicField-' . $FieldName } = 1;
+                    $CurrentXHeaders{$NewHeaderName} = 1;
+
+                    # update rows in postmaster_filter table
+                    my $SuccessUpdate = $CommonObject->{DBObject}->Do(
+                        SQL =>
+                            "UPDATE postmaster_filter SET f_key=? WHERE f_key=?",
+                        Bind => [
+                            \$NewHeaderName, \$HeaderName,
+                        ],
+                    );
+
+                    if ( !$SuccessUpdate ) {
+                        print "Could not possible to change the key for the post master filter!\n";
+                    }
+
                 }
             }
         }
