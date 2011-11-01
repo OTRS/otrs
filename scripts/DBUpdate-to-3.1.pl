@@ -3,7 +3,7 @@
 # DBUpdate-to-3.1.pl - update script to migrate OTRS 3.0.x to 3.1.x
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-3.1.pl,v 1.35 2011-10-31 23:19:49 cr Exp $
+# $Id: DBUpdate-to-3.1.pl,v 1.36 2011-11-01 03:01:02 cr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.35 $) [1];
+$VERSION = qw($Revision: 1.36 $) [1];
 
 use Getopt::Std qw();
 use Kernel::Config;
@@ -1598,35 +1598,62 @@ sub _MigrateGenericAgentJobConfiguration {
     for my $JobRecordConfig (@SetRecordsToChange) {
 
         # remove the new prefix
-        $JobRecordConfig->{JobKey} =~ s{New}{};
+        $JobRecordConfig->{JobKeyTemp} = $JobRecordConfig->{JobKey};
+        $JobRecordConfig->{JobKeyTemp} =~ s{New}{};
 
         # check if the migarted dynamic field is available
-        next JOBFIELDCONFIG if !$DynamicFields->{ $JobRecordConfig->{JobKey} };
+        next JOBFIELDCONFIG if !$DynamicFields->{ $JobRecordConfig->{JobKeyTemp} };
 
         # append set prefix to set free fields
-        $JobRecordConfig->{JobKeyNew} = $SetPrefix . $JobRecordConfig->{JobKey};
+        $JobRecordConfig->{JobKeyNew} = $SetPrefix . $JobRecordConfig->{JobKeyTemp};
 
-        # update database
-        my $SuccessJobUpdate = $DBConnectionObject->Do(
-            SQL => "UPDATE generic_agent_jobs gaj
-                SET gaj.job_key = ?
-                WHERE gaj.job_name = ?
-                    AND gaj.job_key = ?
-                    AND gaj.job_value = ?",
-            Bind => [
-                \$JobRecordConfig->{JobKeyNew},
-                \$JobRecordConfig->{JobName},
-                \$JobRecordConfig->{JobKey},
-                \$JobRecordConfig->{JobValue},
-            ],
-        );
+        if ( $JobRecordConfig->{JobValue} ) {
 
-        # check for errors
-        if ( !$SuccessJobUpdate ) {
-            print "Could not migrate the Generic Agent Job $JobRecordConfig->{JobKey}"
-                . " field $JobRecordConfig->{JobKey}\n";
+            # update database
+            my $SuccessJobUpdate = $DBConnectionObject->Do(
+                SQL => "UPDATE generic_agent_jobs gaj
+                    SET gaj.job_key = ?
+                    WHERE gaj.job_name = ?
+                        AND gaj.job_key = ?
+                        AND gaj.job_value = ?",
+                Bind => [
+                    \$JobRecordConfig->{JobKeyNew},
+                    \$JobRecordConfig->{JobName},
+                    \$JobRecordConfig->{JobKey},
+                    \$JobRecordConfig->{JobValue},
+                ],
+            );
 
-            return 0;
+            # check for errors
+            if ( !$SuccessJobUpdate ) {
+                print "Could not migrate the Generic Agent Job $JobRecordConfig->{JobKey}"
+                    . " field $JobRecordConfig->{JobKey}\n";
+
+                return 0;
+            }
+        }
+        else {
+
+            # delete empty options
+            my $SuccessJobDelete = $DBConnectionObject->Do(
+                SQL => "DELETE FROM generic_agent_jobs
+                    WHERE job_name = ?
+                        AND job_key = ?
+                        AND job_value = ?",
+                Bind => [
+                    \$JobRecordConfig->{JobName},
+                    \$JobRecordConfig->{JobKey},
+                    \$JobRecordConfig->{JobValue},
+                ],
+            );
+
+            # check for errors
+            if ( !$SuccessJobDelete ) {
+                print "Could not delete empty field $JobRecordConfig->{JobKey} from the "
+                    . "Generic Agent Job $JobRecordConfig->{JobKey}\n";
+
+                return 0;
+            }
         }
     }
     return 1;
