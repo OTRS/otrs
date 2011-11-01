@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/Reject.pm - the sub part of PostMaster.pm
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Reject.pm,v 1.16 2011-10-24 20:28:44 cg Exp $
+# $Id: Reject.pm,v 1.17 2011-11-01 18:30:33 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -111,28 +111,6 @@ sub Run {
             UserID             => $Param{InmailUserID},
         );
     }
-
-    #    # set free article text
-    #    my @Values = ( 'X-OTRS-FollowUp-ArticleKey', 'X-OTRS-FollowUp-ArticleValue' );
-    #    my $CounterTmp = 0;
-    #    while ( $CounterTmp <= 3 ) {
-    #        $CounterTmp++;
-    #        if ( $GetParam{"$Values[0]$CounterTmp"} ) {
-    #            $Self->{TicketObject}->ArticleFreeTextSet(
-    #                TicketID  => $Param{TicketID},
-    #                ArticleID => $ArticleID,
-    #                Key       => $GetParam{"$Values[0]$CounterTmp"},
-    #                Value     => $GetParam{"$Values[1]$CounterTmp"},
-    #                Counter   => $CounterTmp,
-    #                UserID    => $Param{InmailUserID},
-    #            );
-    #            if ( $Self->{Debug} > 0 ) {
-    #                print "ArticleKey$CounterTmp: " . $GetParam{"$Values[0]$CounterTmp"} . "\n";
-    #                print "ArticleValue$CounterTmp: " . $GetParam{"$Values[1]$CounterTmp"} . "\n";
-    #            }
-    #
-    #        }
-    #    }
 
     # dynamic fields
     my $DynamicFieldList =

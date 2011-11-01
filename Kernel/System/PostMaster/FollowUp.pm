@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/FollowUp.pm - the sub part of PostMaster.pm
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: FollowUp.pm,v 1.69 2011-10-24 20:28:44 cg Exp $
+# $Id: FollowUp.pm,v 1.70 2011-11-01 18:29:45 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::User;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.69 $) [1];
+$VERSION = qw($Revision: 1.70 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -220,53 +220,6 @@ sub Run {
         }
     }
 
-  #    # set free ticket text
-  #    my @Values = ( 'X-OTRS-FollowUp-TicketKey', 'X-OTRS-FollowUp-TicketValue' );
-  #    for my $Count ( 1 .. 16 ) {
-  #        if ( $GetParam{ $Values[0] . $Count } ) {
-  #            $Self->{TicketObject}->TicketFreeTextSet(
-  #                TicketID => $Param{TicketID},
-  #                Key      => $GetParam{ $Values[0] . $Count },
-  #                Value    => $GetParam{ $Values[1] . $Count },
-  #                Counter  => $Count,
-  #                UserID   => $Param{InmailUserID},
-  #            );
-  #            if ( $Self->{Debug} > 0 ) {
-  #                print "TicketKey$Count: " . $GetParam{ $Values[0] . $Count } . "\n";
-  #                print "TicketValue$Count: " . $GetParam{ $Values[1] . $Count } . "\n";
-  #            }
-  #        }
-  #    }
-  #
-  #    # set ticket free time
-  #    for my $Count ( 1 .. 6 ) {
-  #        my $Key = 'X-OTRS-FollowUp-TicketTime' . $Count;
-  #        if ( $GetParam{$Key} ) {
-  #            my $SystemTime = $Self->{TimeObject}->TimeStamp2SystemTime(
-  #                String => $GetParam{$Key},
-  #            );
-  #            my ( $Sec, $Min, $Hour, $Day, $Month, $Year ) = $Self->{TimeObject}->SystemTime2Date(
-  #                SystemTime => $SystemTime,
-  #            );
-  #            if ( $Year && $Month && $Day && $Hour && $Min ) {
-  #                $Self->{TicketObject}->TicketFreeTimeSet(
-  #                    'TicketFreeTime' . $Count . 'Year'   => $Year,
-  #                    'TicketFreeTime' . $Count . 'Month'  => $Month,
-  #                    'TicketFreeTime' . $Count . 'Day'    => $Day,
-  #                    'TicketFreeTime' . $Count . 'Hour'   => $Hour,
-  #                    'TicketFreeTime' . $Count . 'Minute' => $Min,
-  #                    Prefix                               => 'TicketFreeTime',
-  #                    TicketID                             => $Param{TicketID},
-  #                    Counter                              => $Count,
-  #                    UserID                               => $Param{InmailUserID},
-  #                );
-  #                if ( $Self->{Debug} > 0 ) {
-  #                    print "TicketTime$Count: " . $GetParam{$Key} . "\n";
-  #                }
-  #            }
-  #        }
-  #    }
-
     # dynamic fields
     my $DynamicFieldList =
         $Self->{TicketObject}->{DynamicFieldObject}->DynamicFieldList(
@@ -418,26 +371,6 @@ sub Run {
             UserID             => $Param{InmailUserID},
         );
     }
-
-    #    # set free article text
-    #    @Values = ( 'X-OTRS-FollowUp-ArticleKey', 'X-OTRS-FollowUp-ArticleValue' );
-    #    for my $Count ( 1 .. 3 ) {
-    #        if ( $GetParam{ $Values[0] . $Count } ) {
-    #            $Self->{TicketObject}->ArticleFreeTextSet(
-    #                TicketID  => $Param{TicketID},
-    #                ArticleID => $ArticleID,
-    #                Key       => $GetParam{ $Values[0] . $Count },
-    #                Value     => $GetParam{ $Values[1] . $Count },
-    #                Counter   => $Count,
-    #                UserID    => $Param{InmailUserID},
-    #            );
-    #            if ( $Self->{Debug} > 0 ) {
-    #                print "ArticleKey$Count: " . $GetParam{ $Values[0] . $Count } . "\n";
-    #                print "ArticleValue$Count: " . $GetParam{ $Values[1] . $Count } . "\n";
-    #            }
-    #
-    #        }
-    #    }
 
     # dynamic fields
     $DynamicFieldList =
