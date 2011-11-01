@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.194 2011-11-01 16:39:32 cr Exp $
+# $Id: AgentTicketPhone.pm,v 1.195 2011-11-01 18:44:19 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,7 +26,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.194 $) [1];
+$VERSION = qw($Revision: 1.195 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -325,6 +325,7 @@ sub Run {
                     $Self->{Config}->{DynamicField}->{ $DynamicFieldConfig->{Name} } == 2,
                 LayoutObject => $Self->{LayoutObject},
                 ParamObject  => $Self->{ParamObject},
+                AJAXUpdate   => 1,
                 );
         }
 
@@ -580,6 +581,7 @@ sub Run {
                 ErrorMessage => $ValidationResult->{ErrorMessage} || '',
                 LayoutObject => $Self->{LayoutObject},
                 ParamObject  => $Self->{ParamObject},
+                AJAXUpdate   => 1,
                 );
         }
 

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhoneCommon.pm - phone calls for existing tickets
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhoneCommon.pm,v 1.10 2011-11-01 16:39:32 cr Exp $
+# $Id: AgentTicketPhoneCommon.pm,v 1.11 2011-11-01 18:44:19 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,7 +25,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -268,6 +268,9 @@ sub Run {
                     $Self->{Config}->{DynamicField}->{ $DynamicFieldConfig->{Name} } == 2,
                 LayoutObject => $Self->{LayoutObject},
                 ParamObject  => $Self->{ParamObject},
+
+                # AgentTicketPhoneOutbound and AgentTicketPhoneInboud does not support AJAXUpdate
+                AJAXUpdate => 0,
                 );
         }
 
@@ -452,6 +455,9 @@ sub Run {
                 ErrorMessage => $ValidationResult->{ErrorMessage} || '',
                 LayoutObject => $Self->{LayoutObject},
                 ParamObject  => $Self->{ParamObject},
+
+                # AgentTicketPhoneOutbound and AgentTicketPhoneInboud does not support AJAXUpdate
+                AJAXUpdate => 0,
                 );
         }
 

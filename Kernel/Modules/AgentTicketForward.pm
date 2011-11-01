@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketForward.pm - to forward a message
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketForward.pm,v 1.116 2011-11-01 16:39:32 cr Exp $
+# $Id: AgentTicketForward.pm,v 1.117 2011-11-01 18:44:19 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,7 +26,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.116 $) [1];
+$VERSION = qw($Revision: 1.117 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -396,6 +396,9 @@ sub Form {
                 $Self->{Config}->{DynamicField}->{ $DynamicFieldConfig->{Name} } == 2,
             LayoutObject => $Self->{LayoutObject},
             ParamObject  => $Self->{ParamObject},
+
+            # AgentTicketForward does not support AJAXUpdate
+            AJAXUpdate => 0,
             );
     }
 
@@ -570,6 +573,9 @@ sub SendEmail {
             ErrorMessage => $ValidationResult->{ErrorMessage} || '',
             LayoutObject => $Self->{LayoutObject},
             ParamObject  => $Self->{ParamObject},
+
+            # AgentTicketForward does not support AJAXUpdate
+            AJAXUpdate => 0,
             );
     }
 

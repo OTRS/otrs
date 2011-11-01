@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketActionCommon.pm - common file for several modules
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketActionCommon.pm,v 1.59 2011-11-01 16:39:32 cr Exp $
+# $Id: AgentTicketActionCommon.pm,v 1.60 2011-11-01 18:44:19 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -430,6 +430,11 @@ sub Run {
                 ErrorMessage => $ValidationResult->{ErrorMessage} || '',
                 LayoutObject => $Self->{LayoutObject},
                 ParamObject  => $Self->{ParamObject},
+
+                # AgentTicketFreeText, AgentTicketNote, AgentTicketOwner, AgentTicketPending,
+                # AgentTicketClose, AgentTicketPriority and AgentTicketResponsible does not support
+                # AJAXUpdate
+                AJAXUpdate => 0,
                 );
         }
 
@@ -794,6 +799,11 @@ sub Run {
                     $Self->{Config}->{DynamicField}->{ $DynamicFieldConfig->{Name} } == 2,
                 LayoutObject => $Self->{LayoutObject},
                 ParamObject  => $Self->{ParamObject},
+
+                # AgentTicketFreeText, AgentTicketNote, AgentTicketOwner, AgentTicketPending,
+                # AgentTicketClose, AgentTicketPriority and AgentTicketResponsible does not support
+                # AJAXUpdate
+                AJAXUpdate => 0,
                 );
         }
 
