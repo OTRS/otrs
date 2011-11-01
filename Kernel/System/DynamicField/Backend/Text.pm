@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Text.pm - Delegate for DynamicField Text backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Text.pm,v 1.50 2011-10-31 20:22:49 cr Exp $
+# $Id: Text.pm,v 1.51 2011-11-01 22:21:43 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::DynamicFieldValue;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.50 $) [1];
+$VERSION = qw($Revision: 1.51 $) [1];
 
 =head1 NAME
 
@@ -497,6 +497,12 @@ sub TemplateValueTypeGet {
             'Search_' . $FieldName => $SearchValueType,
             }
     }
+}
+
+sub IsAJAXUpdateable {
+    my ( $Self, %Param ) = @_;
+
+    return 0;
 }
 
 1;

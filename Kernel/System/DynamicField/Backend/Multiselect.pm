@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Multiselect.pm - Delegate for DynamicField Multiselect backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Multiselect.pm,v 1.32 2011-11-01 18:47:22 cr Exp $
+# $Id: Multiselect.pm,v 1.33 2011-11-01 22:21:43 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::DynamicFieldValue;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.32 $) [1];
+$VERSION = qw($Revision: 1.33 $) [1];
 
 =head1 NAME
 
@@ -766,6 +766,12 @@ sub TemplateValueTypeGet {
             'Search_' . $FieldName => $SearchValueType,
             }
     }
+}
+
+sub IsAJAXUpdateable {
+    my ( $Self, %Param ) = @_;
+
+    return 1;
 }
 
 1;
