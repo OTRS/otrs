@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1758.2.176 2011-11-01 10:37:53 des Exp $
+# $Id: CHANGES,v 1.1758.2.177 2011-11-02 09:19:38 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.0.12 ????-??-??
+ - 2011-11-01 Fixed bug#7875 - Restricting visibility of SLA in the Customer Ticket
+    zoom does not work.
  - 2011-11-01 Fixed bug#7823 - ACL could remove default state from ticket masks.
  - 2011-10-26 Fixed bug#7465 - Out-of-office unlock does not work upon customer's web reply.
  - 2011-10-25 Fixed bug#7843 - Customer and Agent Ticket Zoom issue with Sessions.

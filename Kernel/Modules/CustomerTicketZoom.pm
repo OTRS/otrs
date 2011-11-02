@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.pm,v 1.75.2.4 2011-10-26 10:41:51 jp Exp $
+# $Id: CustomerTicketZoom.pm,v 1.75.2.5 2011-11-02 09:19:39 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::State;
 use Kernel::System::User;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.75.2.4 $) [1];
+$VERSION = qw($Revision: 1.75.2.5 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -469,7 +469,12 @@ sub _Mask {
             Name => 'Service',
             Data => \%Param,
         );
-        if ( $Param{SLA} ) {
+        if (
+            $Param{SLA}
+            && $Self->{ConfigObject}->Get('Ticket::Service')
+            && $Self->{Config}->{AttributesView}->{SLA}
+            )
+        {
             $Self->{LayoutObject}->Block(
                 Name => 'SLA',
                 Data => \%Param,
