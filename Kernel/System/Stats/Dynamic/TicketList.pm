@@ -2,7 +2,7 @@
 # Kernel/System/Stats/Dynamic/TicketList.pm - reporting via ticket lists
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketList.pm,v 1.16 2011-10-31 10:35:40 mg Exp $
+# $Id: TicketList.pm,v 1.17 2011-11-02 18:04:12 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,7 +25,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1007,7 +1007,7 @@ sub _TicketAttributes {
         next DYNAMICFIELD if !$DynamicFieldConfig->{Name};
 
         $TicketAttributes{ 'DynamicField_' . $DynamicFieldConfig->{Name} }
-            = 'DynamicField_' . $DynamicFieldConfig->{Label}
+            = $DynamicFieldConfig->{Label}
     }
 
     return \%TicketAttributes;
