@@ -8,7 +8,7 @@
 # Copyright (C) 2010 Ton van Boven <ton 'at' avebo.nl>
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: nl.pm,v 1.152.2.11 2011-11-02 11:24:57 mb Exp $
+# $Id: nl.pm,v 1.152.2.12 2011-11-02 14:00:13 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -28,7 +28,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.152.2.11 $) [1];
+$VERSION = qw($Revision: 1.152.2.12 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -135,8 +135,8 @@ sub Data {
         'Unlink' => 'Ontkoppel',
         'Linked' => 'Gekoppeld',
         'Link (Normal)' => 'Koppeling (normaal)',
-        'Link (Parent)' => 'Koppeling (hoofd)',
-        'Link (Child)' => 'Koppeling (sub)',
+        'Link (Parent)' => 'Koppeling (vader)',
+        'Link (Child)' => 'Koppeling (zoon)',
         'Normal' => 'Normaal',
         'Parent' => 'Vader',
         'Child' => 'Zoon',
@@ -1553,7 +1553,7 @@ sub Data {
         'Invalid ticket identifier!' => 'Ongeldige ticket identifier.',
         'Merge to oldest' => 'Voeg samen met oudste',
         'Link together' => 'Koppelen',
-        'Link to parent' => 'Koppel aan hoofd item',
+        'Link to parent' => 'Koppel aan vader-item',
         'Unlock tickets' => 'Ontgrendel tickets',
 
         # Template: AgentTicketClose
@@ -2666,7 +2666,7 @@ sub Data {
         'Link roles to groups.' => 'Koppel rollen aan groepen.',
         'Link this ticket to other objects!' => 'Koppel dit ticket aan andere objecten.',
         'Links 2 tickets with a "Normal" type link.' => 'Koppelt twee tickets met een "Normaal"-type koppeling.',
-        'Links 2 tickets with a "ParentChild" type link.' => 'Koppelt twee tickets met een "hoofd - sub"-type koppeling.',
+        'Links 2 tickets with a "ParentChild" type link.' => 'Koppelt twee tickets met een "vader - zoon"-type koppeling.',
         'List of CSS files to always be loaded for the agent interface.' => '',
         'List of CSS files to always be loaded for the customer interface.' => '',
         'List of IE6-specific CSS files to always be loaded for the customer interface.' => '',
@@ -3176,7 +3176,7 @@ sub Data {
         'Change responsible of ticket' => 'Wijzig verantwoordelijke van dit ticket',
         'Change user <-> group settings' => 'Wijzigen van gebruiker <-> groep toekenning',
         'ChangeLog' => 'Wijziging',
-        'Child-Object' => 'Subitem',
+        'Child-Object' => 'Zoon-item',
         'City{CustomerUser}' => 'Woonplaats',
         'Clear From' => 'Wis e-mailadres',
         'Clear To' => '"Aan" leeg maken',
@@ -3316,7 +3316,7 @@ sub Data {
         'Link Table' => 'Koppelingen',
         'Link auto responses to queues.' => 'Koppel wachtrijen aan automatische antwoorden.',
         'Link queues to auto responses..' => 'Koppel wachtrijen aan automatische antwoorden.',
-        'Link to Parent' => 'Koppel aan hoofd-item',
+        'Link to Parent' => 'Koppel aan vader-item',
         'Linked as' => 'Gekoppeld als',
         'Load Settings' => 'Laad configuratie uit bestand',
         'Loading' => 'Laden',
@@ -3416,7 +3416,7 @@ sub Data {
         'Param 6' => 'Parameter 6',
         'Param 6 key' => 'Parameter 6 sleutel',
         'Param 6 value' => 'Parameter 6 waarde',
-        'Parent-Object' => 'Hoofd item',
+        'Parent-Object' => 'Vader-item',
         'Password is already in use! Please use an other password!' => 'Wachtwoord wordt al gebruikt. Kies een ander wachtwoord.',
         'Password is already used! Please use an other password!' => 'Wachtwoord is al in gebruik. Kies een ander wachtwoord.',
         'Passwords doesn\'t match! Please try it again!' => 'Wachtwoorden komen niet overeen! Probeer het opnieuw.',
