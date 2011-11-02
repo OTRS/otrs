@@ -3,7 +3,7 @@
 # DBUpdate-to-3.1.pl - update script to migrate OTRS 3.0.x to 3.1.x
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-3.1.pl,v 1.41 2011-11-02 21:45:01 cr Exp $
+# $Id: DBUpdate-to-3.1.pl,v 1.42 2011-11-02 21:58:38 cr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.41 $) [1];
+$VERSION = qw($Revision: 1.42 $) [1];
 
 use Getopt::Std qw();
 use Kernel::Config;
@@ -68,7 +68,7 @@ EOF
     my $CommonObject = _CommonObjectsBase();
 
     # define the number of steps
-    my $Steps = 16;
+    my $Steps = 17;
 
     print "Step 1 of $Steps: Refresh configuration cache... ";
     RebuildConfig($CommonObject);
@@ -196,6 +196,15 @@ EOF
     # Migrate free fields auto responses configuration
     print "Step 16 of $Steps: Migrate free fields auto responses configuration.. ";
     if ( _MigrateAutoResponsesConfiguration($CommonObject) ) {
+        print "done.\n\n";
+    }
+    else {
+        print "Error!\n\n";
+    }
+
+    # Migrate free fields salutations configuration
+    print "Step 17 of $Steps: Migrate free fields salutations configuration.. ";
+    if ( _MigrateSalutationsConfiguration($CommonObject) ) {
         print "done.\n\n";
     }
     else {
@@ -2075,6 +2084,99 @@ sub _MigrateAutoResponsesConfiguration {
         if ( !$SuccessAutoResponseUpdate ) {
             print "Could not migrate the Auto Response "
                 . "$AutoResponseRecordConfig->{AutoResponseName}\n";
+            return 0;
+        }
+    }
+    return 1;
+}
+
+=item _MigrateSalutationsConfiguration($CommonObject)
+
+migrates the configuration of the free fields for each salutation to the
+new dynamic field structure.
+
+    _MigrateSalutationsConfiguration($CommonObject);
+
+=cut
+
+sub _MigrateSalutationsConfiguration {
+    my $CommonObject = shift;
+
+    # create additional objects
+    my $DynamicFieldObject = Kernel::System::DynamicField->new( %{$CommonObject} );
+
+    # create new db connection
+    my $DBConnectionObject = Kernel::System::DB->new( %{ $CommonObject->{DBObject} } );
+
+    # get DynamicFields list
+    my $DynamicFields = $DynamicFieldObject->DynamicFieldList(
+        Valid      => 0,
+        ResultType => 'HASH',
+    );
+
+    # reverse the DynamicFields list to create a lookup table
+    $DynamicFields = { reverse %{$DynamicFields} };
+
+    # localize dynamic fields
+    my %LocalDynamicFields = %{$DynamicFields};
+
+    # use only dynamic fields migrated from Ticket Free Fields
+    FIELDNAME:
+    for my $FieldName ( keys %LocalDynamicFields ) {
+        next FIELDNAME if $FieldName =~ m{\A TicketFree ( ?: Text|Key|Time ) \d+ \Z}xms;
+        delete $LocalDynamicFields{$FieldName};
+    }
+
+    # find all responses that has defined free fields tags
+    return if !$DBConnectionObject->Prepare(
+        SQL => "SELECT s.id, s.name, s.text
+            FROM salutation s
+            WHERE s.text like '%OTRS_TICKET_TicketFree%'
+            ORDER BY s.id",
+    );
+
+    my @SalutationRecordsToChange;
+
+    # loop trought all results
+    while ( my @Row = $DBConnectionObject->FetchrowArray() ) {
+
+        # get response details
+        my %SalutationRecordConfig = (
+            SalutationID      => $Row[0],
+            SalutationName    => $Row[1],
+            SalutationText    => $Row[2],
+            SalutationTextNew => $Row[2]
+        );
+
+        for my $FieldName ( keys %LocalDynamicFields ) {
+
+            # replace all ocurrences of this $FieldName
+            $SalutationRecordConfig{SalutationTextNew}
+                =~ s{OTRS_TICKET_$FieldName}{OTRS_TICKET_DynamicField_$FieldName}gsx;
+        }
+
+        # save redord details to update DB later
+        push @SalutationRecordsToChange, \%SalutationRecordConfig;
+    }
+
+    for my $SalutationRecordConfig (@SalutationRecordsToChange) {
+
+        # update database
+        my $SuccessSalutationUpdate = $DBConnectionObject->Do(
+            SQL => "UPDATE salutation s
+                SET s.text = ?
+                WHERE s.id = ?
+                    AND s.name = ?",
+            Bind => [
+                \$SalutationRecordConfig->{SalutationTextNew},
+                \$SalutationRecordConfig->{SalutationID},
+                \$SalutationRecordConfig->{SalutationName},
+            ],
+        );
+
+        # check for errors
+        if ( !$SuccessSalutationUpdate ) {
+            print "Could not migrate the Salutation $SalutationRecordConfig->{SalutationName}\n";
             return 0;
         }
     }
