@@ -2,7 +2,7 @@
 # AdminDynamicFieldDropdown.dtl - provides HTML form for AdminDynamicFieldsDropdown
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminDynamicFieldDropdown.dtl,v 1.10 2011-09-26 08:36:30 mg Exp $
+# $Id: AdminDynamicFieldDropdown.dtl,v 1.11 2011-11-02 13:33:29 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,7 +10,7 @@
 # --
 
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
-    <h1>$Text{"Dynamic Fields"} - $Text{"$Data{"ObjectTypeName"}"}: $Text{"$Data{"Mode"}"} $Text{"$Data{"FieldTypeName"} Field"}</h1>
+    <h1>$Text{"Dynamic Fields"} - $Text{"$Data{"ObjectTypeName"}"}: $Text{"$Data{"Mode"}"} $Text{"$Data{"FieldTypeName"}"} $Text{"Field"}</h1>
 
     <div class="Clear"></div>
 
@@ -102,7 +102,7 @@
             </div>
             <div class="WidgetSimple">
                 <div class="Header">
-                    <h2>$Text{"$Data{"FieldTypeName"} Field Settings"}</h2>
+                    <h2>$Text{"$Data{"FieldTypeName"}"} $Text{"Field Settings"}</h2>
                 </div>
                 <div class="Content">
                     <fieldset class="TableLike">
@@ -172,7 +172,7 @@
                         <div class="Field">
                             $Data{"TranslatableValuesStrg"}
                             <p class="FieldExplanation">$Text{"If you activate this option the values will be translated to the user defined language."}</p>
-                            <p class="FieldExplanation"><strong>$Text{"Note:"} </strong>$Text{"You need to add the translations manually into the language translation files."}</p>
+                            <p class="FieldExplanation"><strong>$Text{"Note"}: </strong>$Text{"You need to add the translations manually into the language translation files."}</p>
                         </div>
                         <div class="Clear"></div>
                     </fieldset>

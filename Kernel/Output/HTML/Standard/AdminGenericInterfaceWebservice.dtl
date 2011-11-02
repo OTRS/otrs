@@ -2,7 +2,7 @@
 # AdminGenericInterfaceWebservice.dtl - provides HTML form for AdminGenericInterfaceWebservice
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceWebservice.dtl,v 1.35 2011-10-12 12:26:54 mg Exp $
+# $Id: AdminGenericInterfaceWebservice.dtl,v 1.36 2011-11-02 13:33:29 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -369,7 +369,7 @@
                             </table>
                             <div class="SpacingTop"></div>
                             <fieldset class="TableLike">
-                                <label class="HideOnChange" for="$QData{"ActionType"}List">$Text{"Add $Data{"ActionType"}"}:</label>
+                                <label class="HideOnChange" for="$QData{"ActionType"}List">$Text{"Add %s", "$Data{"ActionType"}"}:</label>
                                 <div class="Field">
                                     $Data{"ControllersStrg"}
                                 </div>

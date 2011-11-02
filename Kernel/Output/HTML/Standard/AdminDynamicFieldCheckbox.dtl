@@ -2,7 +2,7 @@
 # AdminDynamicFieldCheckbox.dtl - provides HTML form for AdminDynamicFieldsTextArea
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminDynamicFieldCheckbox.dtl,v 1.8 2011-09-16 07:27:22 mg Exp $
+# $Id: AdminDynamicFieldCheckbox.dtl,v 1.9 2011-11-02 13:33:29 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,7 +10,7 @@
 # --
 
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
-    <h1>$Text{"Dynamic Fields"} - $Text{"$Data{"ObjectTypeName"}"}: $Text{"$Data{"Mode"}"} $Text{"$Data{"FieldTypeName"} Field"}</h1>
+    <h1>$Text{"Dynamic Fields"} - $Text{"$Data{"ObjectTypeName"}"}: $Text{"$Data{"Mode"}"} $Text{"$Data{"FieldTypeName"}"} $Text{"Field"}</h1>
 
     <div class="Clear"></div>
 
@@ -102,7 +102,7 @@
             </div>
             <div class="WidgetSimple">
                 <div class="Header">
-                    <h2>$Text{"$Data{"FieldTypeName"} Field Settings"}</h2>
+                    <h2>$Text{"$Data{"FieldTypeName"}"} $Text{"Field Settings"}</h2>
                 </div>
                 <div class="Content">
                     <fieldset class="TableLike">
