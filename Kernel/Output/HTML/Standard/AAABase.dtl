@@ -2,7 +2,7 @@
 # AAABase.dtl - $Text variable file
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AAABase.dtl,v 1.99.2.4 2011-07-01 07:30:49 mg Exp $
+# $Id: AAABase.dtl,v 1.99.2.5 2011-11-02 15:52:03 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -246,6 +246,7 @@ $Text{"Preview"}
 $Text{"Package not correctly deployed! You should reinstall the Package again!"}
 $Text{"%s is not writable!"}
 $Text{"Cannot create %s!"}
+$Text{"Check to activate this date"}
 
 $Text{"Customer %s added"}
 $Text{"Role added!"}
