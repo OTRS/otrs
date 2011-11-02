@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Multiselect.pm - Delegate for DynamicField Multiselect backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Multiselect.pm,v 1.33 2011-11-01 22:21:43 cr Exp $
+# $Id: Multiselect.pm,v 1.34 2011-11-02 00:50:29 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::DynamicFieldValue;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.33 $) [1];
+$VERSION = qw($Revision: 1.34 $) [1];
 
 =head1 NAME
 
@@ -267,12 +267,28 @@ EOF
 
         my $FieldSelector = '#' . $FieldName;
 
+        my $FieldsToUpdate;
+        if ( IsArrayRefWithData( $Param{UpdatableFields} ) ) {
+            my $FirstItem = 1;
+            FIELD:
+            for my $Field ( @{ $Param{UpdatableFields} } ) {
+                next FIELD if $Field eq $FieldName;
+                if ($FirstItem) {
+                    $FirstItem = 0;
+                }
+                else {
+                    $FieldsToUpdate .= ', ';
+                }
+                $FieldsToUpdate .= "'" . $Field . "'";
+            }
+        }
+
         #add js to call FormUpdate()
         $HTMLString .= <<"EOF";
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
     \$('$FieldSelector').bind('change', function (Event) {
-        Core.AJAX.FormUpdate(\$(this).parents('form'), 'AJAXUpdate', '$FieldName', [ ]);
+        Core.AJAX.FormUpdate(\$(this).parents('form'), 'AJAXUpdate', '$FieldName', [ $FieldsToUpdate ]);
     });
 //]]></script>
 <!--dtl:js_on_document_complete-->
