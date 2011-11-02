@@ -2,7 +2,7 @@
 # AgentTicketMove.dtl - provides HTML form for move mask
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMove.dtl,v 1.82 2011-11-01 16:38:15 cr Exp $
+# $Id: AgentTicketMove.dtl,v 1.83 2011-11-02 00:44:56 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -56,7 +56,7 @@
     $('#DestQueueID').bind('change', function (Event) {
         $('#NoSubmit').val('1');
         Core.AJAX.FormUpdate($('#MoveTicketToQueue'), 'AJAXUpdate', 'DestQueueID', ['NewUserID', 'NextStateID', 'NewPriorityID', $Data{"DynamicFieldNamesStrg"}]);
-    })
+    });
 //]]></script>
 <!--dtl:js_on_document_complete-->
                     </div>
@@ -75,7 +75,7 @@
             $('#NewUserID').focus();
         });
         return false;
-    })
+    });
 //]]></script>
 <!--dtl:js_on_document_complete-->
 
@@ -90,7 +90,7 @@
 <script type="text/javascript">//<![CDATA[
     $('#OldUserID').bind('click', function (Event) {
         $('#UserSelection').attr('checked', 'checked');
-    })
+    });
 //]]></script>
 <!--dtl:js_on_document_complete-->
                     </div>
