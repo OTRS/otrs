@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.pm,v 1.83 2011-10-26 11:21:26 jp Exp $
+# $Id: CustomerTicketZoom.pm,v 1.84 2011-11-02 09:22:26 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.83 $) [1];
+$VERSION = qw($Revision: 1.84 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -486,7 +486,12 @@ sub _Mask {
             Name => 'Service',
             Data => \%Param,
         );
-        if ( $Param{SLA} ) {
+        if (
+            $Param{SLA}
+            && $Self->{ConfigObject}->Get('Ticket::Service')
+            && $Self->{Config}->{AttributesView}->{SLA}
+            )
+        {
             $Self->{LayoutObject}->Block(
                 Name => 'SLA',
                 Data => \%Param,

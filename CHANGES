@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2003 2011-11-01 23:31:59 cg Exp $
+# $Id: CHANGES,v 1.2004 2011-11-02 09:22:26 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -122,6 +122,8 @@
      of > 70 characters exists.
 
 3.0.12 ????-??-??
+ - 2011-11-01 Fixed bug#7875 - Restricting visibility of SLA in the Customer Ticket
+    zoom does not work.
  - 2011-10-26 Fixed bug#7465 - Out-of-office unlock does not work upon customer's web reply.
  - 2011-10-25 Fixed bug#7843 - Customer and Agent Ticket Zoom issue with Sessions.
  - 2011-10-24 Improved rpc-example.pl to not use autodispatch any more.
