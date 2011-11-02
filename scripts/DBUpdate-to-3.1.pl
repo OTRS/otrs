@@ -3,7 +3,7 @@
 # DBUpdate-to-3.1.pl - update script to migrate OTRS 3.0.x to 3.1.x
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-3.1.pl,v 1.38 2011-11-01 22:05:28 cg Exp $
+# $Id: DBUpdate-to-3.1.pl,v 1.39 2011-11-02 19:34:54 cr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.38 $) [1];
+$VERSION = qw($Revision: 1.39 $) [1];
 
 use Getopt::Std qw();
 use Kernel::Config;
@@ -67,7 +67,10 @@ EOF
     # create common objects
     my $CommonObject = _CommonObjectsBase();
 
-    print "Step 1 of 14: Refresh configuration cache... ";
+    # define the number of steps
+    my $Steps = 14;
+
+    print "Step 1 of $Steps: Refresh configuration cache... ";
     RebuildConfig($CommonObject);
     print "done.\n\n";
 
@@ -75,11 +78,11 @@ EOF
     $CommonObject = _CommonObjectsBase();
 
     # check framework version
-    print "Step 2 of 14: Check framework version... ";
+    print "Step 2 of $Steps: Check framework version... ";
     _CheckFrameworkVersion($CommonObject);
     print "done.\n\n";
 
-    print "Step 3 of 14: Creating DynamicField tables (if necessary)... ";
+    print "Step 3 of $Steps: Creating DynamicField tables (if necessary)... ";
     if ( _CheckDynamicFieldTables($CommonObject) ) {
         print "done.\n\n";
     }
@@ -88,21 +91,21 @@ EOF
     }
 
     # insert dynamic field records, if necessary
-    print "Step 4 of 14: Create new dynamic fields for free fields (text, key, date)... ";
+    print "Step 4 of $Steps: Create new dynamic fields for free fields (text, key, date)... ";
     if ( !_IsFreefieldsMigrationAlreadyDone($CommonObject) ) {
         _DynamicFieldCreation($CommonObject);
     }
     print "done.\n\n";
 
     # migrate ticket free field
-    print "Step 5 of 14: Migrate ticket free fields to dynamic fields... \n";
+    print "Step 5 of $Steps: Migrate ticket free fields to dynamic fields... \n";
     if ( !_IsFreefieldsMigrationAlreadyDone($CommonObject) ) {
         my $TicketMigrated = _DynamicFieldTicketMigration($CommonObject);
     }
     print "done.\n\n";
 
     # migrate ticket free field
-    print "Step 6 of 14: Migrate article free fields to dynamic fields... \n";
+    print "Step 6 of $Steps: Migrate article free fields to dynamic fields... \n";
     if ( !_IsFreefieldsMigrationAlreadyDone($CommonObject) ) {
         my $ArticleMigrated = _DynamicFieldArticleMigration($CommonObject);
     }
@@ -110,7 +113,7 @@ EOF
 
     # verify ticket migration
     my $VerificationTicketData = 1;
-    print "Step 7 of 14: Verify if ticket data was successfully migrated... ";
+    print "Step 7 of $Steps: Verify if ticket data was successfully migrated... ";
     if ( !_IsFreefieldsMigrationAlreadyDone($CommonObject) ) {
         $VerificationTicketData = _VerificationTicketData($CommonObject);
     }
@@ -118,7 +121,7 @@ EOF
 
     # verify article migration
     my $VerificationArticleData = 1;
-    print "Step 8 of 14: Verify if article data was successfully migrated... ";
+    print "Step 8 of $Steps: Verify if article data was successfully migrated... ";
     if ( !_IsFreefieldsMigrationAlreadyDone($CommonObject) ) {
         $VerificationArticleData = _VerificationArticleData($CommonObject);
     }
@@ -132,12 +135,12 @@ EOF
     }
 
     # Migrate free fields configuration
-    print "Step 9 of 14: Migrate free fields configuration... ";
+    print "Step 9 of $Steps: Migrate free fields configuration... ";
     _MigrateFreeFieldsConfiguration($CommonObject);
     print "done.\n\n";
 
     print
-        "Step 10 of 14: Update history type from 'TicketFreeTextUpdate' to 'TicketDynamicFieldUpdate'... ";
+        "Step 10 of $Steps: Update history type from 'TicketFreeTextUpdate' to 'TicketDynamicFieldUpdate'... ";
     if ( _UpdateHistoryType($CommonObject) ) {
         print "done.\n\n";
     }
@@ -146,7 +149,7 @@ EOF
     }
 
     # Migrate free fields configuration
-    print "Step 11 of 14: Migrate free fields window configuration... ";
+    print "Step 11 of $Steps: Migrate free fields window configuration... ";
     if ( _MigrateWindowConfiguration($CommonObject) ) {
         print "done.\n\n";
     }
@@ -155,7 +158,7 @@ EOF
     }
 
     # Migrate free fields configuration for stats
-    print "Step 12 of 14: Migrate free fields stats configuration... ";
+    print "Step 12 of $Steps: Migrate free fields stats configuration... ";
     if ( _MigrateStatsConfiguration($CommonObject) ) {
         print "done.\n\n";
     }
@@ -164,7 +167,7 @@ EOF
     }
 
     # Migrate free fields configuration for generic agent jobs
-    print "Step 13 of 14: Migrate free fields generic agent jobs configuration.. ";
+    print "Step 13 of $Steps: Migrate free fields generic agent jobs configuration.. ";
     if ( _MigrateGenericAgentJobConfiguration($CommonObject) ) {
         print "done.\n\n";
     }
@@ -173,7 +176,7 @@ EOF
     }
 
     # Migrate free fields configuration for Post Master
-    print "Step 14 of 14: Migrate free fields post master configuration.. ";
+    print "Step 14 of $Steps: Migrate free fields post master configuration.. ";
     if ( _MigratePostMasterConfiguration($CommonObject) ) {
         print "done.\n\n";
     }
