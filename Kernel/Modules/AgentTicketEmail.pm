@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.182 2011-11-01 21:55:09 cr Exp $
+# $Id: AgentTicketEmail.pm,v 1.183 2011-11-02 00:57:40 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.182 $) [1];
+$VERSION = qw($Revision: 1.183 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -348,9 +348,10 @@ sub Run {
                     Value                => $Value,
                     Mandatory =>
                         $Self->{Config}->{DynamicField}->{ $DynamicFieldConfig->{Name} } == 2,
-                    LayoutObject => $Self->{LayoutObject},
-                    ParamObject  => $Self->{ParamObject},
-                    AJAXUpdate   => 1,
+                    LayoutObject    => $Self->{LayoutObject},
+                    ParamObject     => $Self->{ParamObject},
+                    AJAXUpdate      => 1,
+                    UpdatableFields => $Self->_GetFieldsToUpdate(),
                     );
             }
 
@@ -619,6 +620,7 @@ sub Run {
                 LayoutObject => $Self->{LayoutObject},
                 ParamObject  => $Self->{ParamObject},
                 AJAXUpdate   => 1,
+                UpdatableFields => $Self->_GetFieldsToUpdate(),
                 );
         }
 
@@ -2008,6 +2010,30 @@ sub _MaskEmailNew {
 
     # get output back
     return $Self->{LayoutObject}->Output( TemplateFile => 'AgentTicketEmail', Data => \%Param );
+}
+
+sub _GetFieldsToUpdate {
+    my ( $Self, %Param ) = @_;
+
+    # set the fields that can be updatable via AJAXUpdate
+    my @UpdatableFields
+        = qw( Dest NextStateID PriorityID ServiceID SLAID SignKeyID CryptKeyID To Cc Bcc );
+
+    # cycle trough the activated Dynamic Fields for this screen
+    DYNAMICFIELD:
+    for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
+        next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+
+        my $Updateable = $Self->{BackendObject}->IsAJAXUpdateable(
+            DynamicFieldConfig => $DynamicFieldConfig,
+        );
+
+        next DYNAMICFIELD if !$Updateable;
+
+        push @UpdatableFields, 'DynamicField_' . $DynamicFieldConfig->{Name};
+    }
+
+    return \@UpdatableFields;
 }
 
 1;

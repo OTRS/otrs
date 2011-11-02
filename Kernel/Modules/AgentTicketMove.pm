@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMove.pm - move tickets to queues
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMove.pm,v 1.99 2011-11-01 21:55:08 cr Exp $
+# $Id: AgentTicketMove.pm,v 1.100 2011-11-02 00:57:40 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.99 $) [1];
+$VERSION = qw($Revision: 1.100 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -389,9 +389,10 @@ sub Run {
             Value                => $Value,
             Mandatory =>
                 $Self->{Config}->{DynamicField}->{ $DynamicFieldConfig->{Name} } == 2,
-            LayoutObject => $Self->{LayoutObject},
-            ParamObject  => $Self->{ParamObject},
-            AJAXUpdate   => 1,
+            LayoutObject    => $Self->{LayoutObject},
+            ParamObject     => $Self->{ParamObject},
+            AJAXUpdate      => 1,
+            UpdatableFields => $Self->_GetFieldsToUpdate(),
             );
     }
 
@@ -518,6 +519,7 @@ sub Run {
                 LayoutObject => $Self->{LayoutObject},
                 ParamObject  => $Self->{ParamObject},
                 AJAXUpdate   => 1,
+                UpdatableFields => $Self->_GetFieldsToUpdate(),
                 );
         }
     }
@@ -1174,6 +1176,29 @@ sub _GetNextStates {
         );
     }
     return \%NextStates;
+}
+
+sub _GetFieldsToUpdate {
+    my ( $Self, %Param ) = @_;
+
+    # set the fields that can be updatable via AJAXUpdate
+    my @UpdatableFields = qw( DestQueueID NewStateID NewPriorityID );
+
+    # cycle trough the activated Dynamic Fields for this screen
+    DYNAMICFIELD:
+    for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
+        next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+
+        my $Updateable = $Self->{BackendObject}->IsAJAXUpdateable(
+            DynamicFieldConfig => $DynamicFieldConfig,
+        );
+
+        next DYNAMICFIELD if !$Updateable;
+
+        push @UpdatableFields, 'DynamicField_' . $DynamicFieldConfig->{Name};
+    }
+
+    return \@UpdatableFields;
 }
 
 1;
