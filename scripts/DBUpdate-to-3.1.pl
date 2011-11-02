@@ -3,7 +3,7 @@
 # DBUpdate-to-3.1.pl - update script to migrate OTRS 3.0.x to 3.1.x
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-3.1.pl,v 1.42 2011-11-02 21:58:38 cr Exp $
+# $Id: DBUpdate-to-3.1.pl,v 1.43 2011-11-02 22:14:26 cr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.42 $) [1];
+$VERSION = qw($Revision: 1.43 $) [1];
 
 use Getopt::Std qw();
 use Kernel::Config;
@@ -68,7 +68,7 @@ EOF
     my $CommonObject = _CommonObjectsBase();
 
     # define the number of steps
-    my $Steps = 17;
+    my $Steps = 18;
 
     print "Step 1 of $Steps: Refresh configuration cache... ";
     RebuildConfig($CommonObject);
@@ -205,6 +205,15 @@ EOF
     # Migrate free fields salutations configuration
     print "Step 17 of $Steps: Migrate free fields salutations configuration.. ";
     if ( _MigrateSalutationsConfiguration($CommonObject) ) {
+        print "done.\n\n";
+    }
+    else {
+        print "Error!\n\n";
+    }
+
+    # Migrate free fields signatures configuration
+    print "Step 18 of $Steps: Migrate free fields signatures configuration.. ";
+    if ( _MigrateSignaturesConfiguration($CommonObject) ) {
         print "done.\n\n";
     }
     else {
@@ -2017,7 +2026,7 @@ sub _MigrateAutoResponsesConfiguration {
         delete $LocalDynamicFields{$FieldName};
     }
 
-    # find all responses that has defined free fields tags
+    # find all auto responses that has defined free fields tags
     return if !$DBConnectionObject->Prepare(
         SQL => "SELECT ar.id, ar.name, ar.text0, ar.text1, ar.text2
             FROM auto_response ar
@@ -2032,7 +2041,7 @@ sub _MigrateAutoResponsesConfiguration {
     # loop trought all results
     while ( my @Row = $DBConnectionObject->FetchrowArray() ) {
 
-        # get response details
+        # get auto response details
         my %AutoResponseRecordConfig = (
             AutoResponseID       => $Row[0],
             AutoResponseName     => $Row[1],
@@ -2127,7 +2136,7 @@ sub _MigrateSalutationsConfiguration {
         delete $LocalDynamicFields{$FieldName};
     }
 
-    # find all responses that has defined free fields tags
+    # find all salutations that has defined free fields tags
     return if !$DBConnectionObject->Prepare(
         SQL => "SELECT s.id, s.name, s.text
             FROM salutation s
@@ -2140,7 +2149,7 @@ sub _MigrateSalutationsConfiguration {
     # loop trought all results
     while ( my @Row = $DBConnectionObject->FetchrowArray() ) {
 
-        # get response details
+        # get salutation details
         my %SalutationRecordConfig = (
             SalutationID      => $Row[0],
             SalutationName    => $Row[1],
@@ -2177,6 +2186,99 @@ sub _MigrateSalutationsConfiguration {
         # check for errors
         if ( !$SuccessSalutationUpdate ) {
             print "Could not migrate the Salutation $SalutationRecordConfig->{SalutationName}\n";
+            return 0;
+        }
+    }
+    return 1;
+}
+
+=item _MigrateSignaturesConfiguration($CommonObject)
+
+migrates the configuration of the free fields for each signature to the
+new dynamic field structure.
+
+    _MigrateSignaturesConfiguration($CommonObject);
+
+=cut
+
+sub _MigrateSignaturesConfiguration {
+    my $CommonObject = shift;
+
+    # create additional objects
+    my $DynamicFieldObject = Kernel::System::DynamicField->new( %{$CommonObject} );
+
+    # create new db connection
+    my $DBConnectionObject = Kernel::System::DB->new( %{ $CommonObject->{DBObject} } );
+
+    # get DynamicFields list
+    my $DynamicFields = $DynamicFieldObject->DynamicFieldList(
+        Valid      => 0,
+        ResultType => 'HASH',
+    );
+
+    # reverse the DynamicFields list to create a lookup table
+    $DynamicFields = { reverse %{$DynamicFields} };
+
+    # localize dynamic fields
+    my %LocalDynamicFields = %{$DynamicFields};
+
+    # use only dynamic fields migrated from Ticket Free Fields
+    FIELDNAME:
+    for my $FieldName ( keys %LocalDynamicFields ) {
+        next FIELDNAME if $FieldName =~ m{\A TicketFree ( ?: Text|Key|Time ) \d+ \Z}xms;
+        delete $LocalDynamicFields{$FieldName};
+    }
+
+    # find all signatures that has defined free fields tags
+    return if !$DBConnectionObject->Prepare(
+        SQL => "SELECT s.id, s.name, s.text
+            FROM signature s
+            WHERE s.text like '%OTRS_TICKET_TicketFree%'
+            ORDER BY s.id",
+    );
+
+    my @SignatureRecordsToChange;
+
+    # loop trought all results
+    while ( my @Row = $DBConnectionObject->FetchrowArray() ) {
+
+        # get signature details
+        my %SignatureRecordConfig = (
+            SignatureID      => $Row[0],
+            SignatureName    => $Row[1],
+            SignatureText    => $Row[2],
+            SignatureTextNew => $Row[2]
+        );
+
+        for my $FieldName ( keys %LocalDynamicFields ) {
+
+            # replace all ocurrences of this $FieldName
+            $SignatureRecordConfig{SignatureTextNew}
+                =~ s{OTRS_TICKET_$FieldName}{OTRS_TICKET_DynamicField_$FieldName}gsx;
+        }
+
+        # save redord details to update DB later
+        push @SignatureRecordsToChange, \%SignatureRecordConfig;
+    }
+
+    for my $SignatureRecordConfig (@SignatureRecordsToChange) {
+
+        # update database
+        my $SuccessSignatureUpdate = $DBConnectionObject->Do(
+            SQL => "UPDATE signature s
+                SET s.text = ?
+                WHERE s.id = ?
+                    AND s.name = ?",
+            Bind => [
+                \$SignatureRecordConfig->{SignatureTextNew},
+                \$SignatureRecordConfig->{SignatureID},
+                \$SignatureRecordConfig->{SignatureName},
+            ],
+        );
+
+        # check for errors
+        if ( !$SuccessSignatureUpdate ) {
+            print "Could not migrate the Signature $SignatureRecordConfig->{SignatureName}\n";
             return 0;
         }
     }
