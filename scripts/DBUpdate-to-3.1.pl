@@ -3,7 +3,7 @@
 # DBUpdate-to-3.1.pl - update script to migrate OTRS 3.0.x to 3.1.x
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-3.1.pl,v 1.39 2011-11-02 19:34:54 cr Exp $
+# $Id: DBUpdate-to-3.1.pl,v 1.40 2011-11-02 21:06:34 cr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.39 $) [1];
+$VERSION = qw($Revision: 1.40 $) [1];
 
 use Getopt::Std qw();
 use Kernel::Config;
@@ -68,7 +68,7 @@ EOF
     my $CommonObject = _CommonObjectsBase();
 
     # define the number of steps
-    my $Steps = 14;
+    my $Steps = 15;
 
     print "Step 1 of $Steps: Refresh configuration cache... ";
     RebuildConfig($CommonObject);
@@ -178,6 +178,15 @@ EOF
     # Migrate free fields configuration for Post Master
     print "Step 14 of $Steps: Migrate free fields post master configuration.. ";
     if ( _MigratePostMasterConfiguration($CommonObject) ) {
+        print "done.\n\n";
+    }
+    else {
+        print "Error!\n\n";
+    }
+
+    # Migrate free fields responses configuration
+    print "Step 15 of $Steps: Migrate free fields responses configuration.. ";
+    if ( _MigrateResponsesConfiguration($CommonObject) ) {
         print "done.\n\n";
     }
     else {
@@ -1857,6 +1866,99 @@ sub _MigratePostMasterConfiguration {
         return 0;
     }
 
+    return 1;
+}
+
+=item _MigrateResponsesConfiguration($CommonObject)
+
+migrates the configuration of the free fields for each response to the
+new dynamic field structure.
+
+    _MigrateResponsesConfiguration($CommonObject);
+
+=cut
+
+sub _MigrateResponsesConfiguration {
+    my $CommonObject = shift;
+
+    # create additional objects
+    my $DynamicFieldObject = Kernel::System::DynamicField->new( %{$CommonObject} );
+
+    # create new db connection
+    my $DBConnectionObject = Kernel::System::DB->new( %{ $CommonObject->{DBObject} } );
+
+    # get DynamicFields list
+    my $DynamicFields = $DynamicFieldObject->DynamicFieldList(
+        Valid      => 0,
+        ResultType => 'HASH',
+    );
+
+    # reverse the DynamicFields list to create a lookup table
+    $DynamicFields = { reverse %{$DynamicFields} };
+
+    # localize dynamic fields
+    my %LocalDynamicFields = %{$DynamicFields};
+
+    # use only dynamic fields migrated from Ticket Free Fields
+    FIELDNAME:
+    for my $FieldName ( keys %LocalDynamicFields ) {
+        next FIELDNAME if $FieldName =~ m{\A TicketFree ( ?: Text|Key|Time ) \d+ \Z}xms;
+        delete $LocalDynamicFields{$FieldName};
+    }
+
+    # find all responses that has defined free fields tags
+    return if !$DBConnectionObject->Prepare(
+        SQL => "SELECT sr.id, sr.name, sr.text
+            FROM standard_response sr
+            WHERE sr.text like '%OTRS_TICKET_TicketFree%'
+            ORDER BY sr.id",
+    );
+
+    my @ResponseRecordsToChange;
+
+    # loop trought all results
+    while ( my @Row = $DBConnectionObject->FetchrowArray() ) {
+
+        # get response details
+        my %ResponseRecordConfig = (
+            ResponseID      => $Row[0],
+            ResponseName    => $Row[1],
+            ResponseText    => $Row[2],
+            ResponseTextNew => $Row[2]
+        );
+
+        for my $FieldName ( keys %LocalDynamicFields ) {
+
+            # replace all ocurrences of this $FieldName
+            $ResponseRecordConfig{ResponseTextNew}
+                =~ s{OTRS_TICKET_$FieldName}{OTRS_TICKET_DynamicField_$FieldName}gsx;
+        }
+
+        # save redord details to update DB later
+        push @ResponseRecordsToChange, \%ResponseRecordConfig;
+    }
+
+    for my $ResponseRecordConfig (@ResponseRecordsToChange) {
+
+        # update database
+        my $SuccessResponseUpdate = $DBConnectionObject->Do(
+            SQL => "UPDATE standard_response sr
+                SET sr.text = ?
+                WHERE sr.id = ?
+                    AND sr.name = ?",
+            Bind => [
+                \$ResponseRecordConfig->{ResponseTextNew},
+                \$ResponseRecordConfig->{ResponseID},
+                \$ResponseRecordConfig->{ResponseName},
+            ],
+        );
+
+        # check for errors
+        if ( !$SuccessResponseUpdate ) {
+            print "Could not migrate the Response $ResponseRecordConfig->{ResponseName}\n";
+            return 0;
+        }
+    }
     return 1;
 }
 
