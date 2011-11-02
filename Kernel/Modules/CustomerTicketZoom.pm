@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/CustomerTicketZoom.pm - to get a closer view
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.pm,v 1.48.2.2 2010-05-31 15:14:32 mb Exp $
+# $Id: CustomerTicketZoom.pm,v 1.48.2.3 2011-11-02 18:12:47 jp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,9 +16,10 @@ use warnings;
 
 use Kernel::System::Web::UploadCache;
 use Kernel::System::State;
+use Kernel::System::User;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.48.2.2 $) [1];
+$VERSION = qw($Revision: 1.48.2.3 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -42,6 +43,7 @@ sub new {
     # needed objects
     $Self->{StateObject}      = Kernel::System::State->new(%Param);
     $Self->{UploadCachObject} = Kernel::System::Web::UploadCache->new(%Param);
+    $Self->{AgentUserObject}  = Kernel::System::User->new(%Param);
 
     # get article id
     $Self->{ArticleID} = $Self->{ParamObject}->GetParam( Param => 'ArticleID' );
@@ -176,14 +178,36 @@ sub Run {
         }
         if ( !%Error ) {
 
+            # unlock ticket if agent is on vacation
+            my $LockAction;
+            if ( $Ticket{OwnerID} ) {
+                my %User = $Self->{AgentUserObject}->GetUserData(
+                    UserID => $Ticket{OwnerID},
+                );
+                if ( %User && $User{OutOfOffice} && $User{OutOfOfficeMessage} ) {
+                    $LockAction = 'unlock';
+                }
+            }
+
             # set lock if ticket was closed
-            if ( $Lock && $State{TypeName} =~ /^close/i && $Ticket{OwnerID} ne '1' ) {
+            if (
+                !$LockAction
+                && $Lock
+                && $State{TypeName} =~ /^close/i && $Ticket{OwnerID} ne '1'
+                )
+            {
+
+                $LockAction = 'lock';
+            }
+
+            if ($LockAction) {
                 $Self->{TicketObject}->LockSet(
                     TicketID => $Self->{TicketID},
-                    Lock     => 'lock',
-                    UserID   => => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
+                    Lock     => $LockAction,
+                    UserID   => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
                 );
             }
+
             my $From = "$Self->{UserFirstname} $Self->{UserLastname} <$Self->{UserEmail}>";
 
             my $MimeType = 'text/plain';
