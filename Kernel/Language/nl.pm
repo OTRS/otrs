@@ -8,7 +8,7 @@
 # Copyright (C) 2010 Ton van Boven <ton 'at' avebo.nl>
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: nl.pm,v 1.152.2.10 2011-09-07 21:04:33 en Exp $
+# $Id: nl.pm,v 1.152.2.11 2011-11-02 11:24:57 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -28,13 +28,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.152.2.10 $) [1];
+$VERSION = qw($Revision: 1.152.2.11 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2011-06-30 20:53:45
+    # Last translation file sync: 2011-11-02 12:14:14
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -138,8 +138,8 @@ sub Data {
         'Link (Parent)' => 'Koppeling (hoofd)',
         'Link (Child)' => 'Koppeling (sub)',
         'Normal' => 'Normaal',
-        'Parent' => 'hoofd',
-        'Child' => 'sub',
+        'Parent' => 'Vader',
+        'Child' => 'Zoon',
         'Hit' => 'Hit',
         'Hits' => 'Hits',
         'Text' => 'Tekst',
@@ -369,7 +369,6 @@ sub Data {
         'SHIFT' => 'SHIFT',
         'Undo' => 'Ongedaan maken',
         'Redo' => 'Herhalen',
-        'out of office till' => 'Niet aanwezig tot',
 
         # Template: AAAMonth
         'Jan' => 'jan',
@@ -807,8 +806,8 @@ sub Data {
         'This field is required and needs to be a valid email address.' => 'Dit veld is verplicht en moet een geldig e-mailadres zijn.',
         'This email address is not allowed due to the system configuration.' => 'Dit e-mailadres is niet toegestaan.',
         'This email address failed MX check.' => 'Dit e-mailadres klopt niet.',
+        'DNS problem, please check your configuration and the error log.' => 'DNS probleem geconstateerd. Kijk in de log voor meer details en pas uw configuratie aan.',
         'The syntax of this email address is incorrect.' => 'De syntax van dit e-mailadres klopt niet.',
-        'DNS problem, please check your configuration and the error log.' => '',
 
         # Template: AdminCustomerUserGroup
         'Manage Customer-Group Relations' => 'Beheer Klant - Groep koppelingen',
@@ -1042,12 +1041,13 @@ sub Data {
         'Install' => 'Installeer',
         'Install Package' => 'Installeer pakket',
         'Update repository information' => 'Vernieuw repository gegevens',
+        'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' => 'Heeft u een feature niet kunnen vinden? De OTRS Groep levert add-ons voor klanten met een subscription:',
         'Online Repository' => 'Online Repository',
         'Vendor' => 'Leverancier',
         'Module documentation' => 'Moduledocumentatie',
         'Upgrade' => 'Upgrade',
         'Local Repository' => 'Lokale Repository',
-        'Uninstall' => 'Deënstalleer',
+        'Uninstall' => 'Verwijder',
         'Package not correctly deployed! You should reinstall the package again!' => 'Pakket is niet correct geïnstalleerd. Installeer het pakket opnieuw.',
         'Reinstall' => 'Herinstalleer',
         'Download package' => 'Download pakket',
@@ -1146,7 +1146,7 @@ sub Data {
         'Manage Response-Queue Relations' => 'Beheer Antwoord - Wachtrij koppelingen',
         'Filter' => 'Filter',
         'Filter for Responses' => 'Filter op antwoorden',
-        'Responses' => 'Standaard antwoorden',
+        'Responses' => 'Standaard-antwoorden',
         'Change Queue Relations for Response' => 'Bewerk gekoppelde wachtrijen voor antwoord',
         'Change Response Relations for Queue' => 'Bewerk gekoppelde antwoorden voor wachtrij',
 
@@ -1258,9 +1258,9 @@ sub Data {
         'Unique agents' => 'Unieke gebruikers',
         'Unique customers' => 'Unieke klanten',
         'Kill all sessions' => 'Alle sessies verwijderen',
+        'Kill this session' => 'Verwijder deze sessie',
         'Session' => 'Sessie',
         'Kill' => 'Verwijder',
-        'Kill this session' => 'Verwijder deze sessie',
         'Detail View for SessionID' => 'Details',
 
         # Template: AdminSignature
@@ -1650,11 +1650,11 @@ sub Data {
         # Template: AgentTicketResponsible
 
         # Template: AgentTicketSearch
-        'Search template' => 'Template',
-        'Create Template' => 'Maak template',
+        'Search template' => 'Sjabloon',
+        'Create Template' => 'Maak sjabloon',
         'Create New' => 'Nieuw',
         'Profile link' => 'Link voor zoekopdracht',
-        'Save changes in template' => 'Sla wijzigingen op in template',
+        'Save changes in template' => 'Sla wijzigingen op in sjabloon',
         'Add another attribute' => 'Voeg attribuut toe',
         'Output' => 'Uitvoeren naar',
         'Fulltext' => 'Volledig',
@@ -1778,9 +1778,11 @@ sub Data {
         'Time restrictions' => 'Tijd',
         'Only tickets created' => 'Alleen tickets aangemaakt',
         'Only tickets created between' => 'Alleen tickets aangemaakt tussen',
-        'Search-Profile as Template?' => 'Bewaar als template?',
+        'Search-Profile as Template?' => 'Bewaar als sjabloon?',
         'Save as Template?' => 'Bewaar als template?',
-        'Template Name' => 'Template naam',
+        'Save as Template' => 'Opslaan',
+        'Template Name' => 'Sjabloon',
+        'Pick a profile name' => 'Naam voor dit sjabloon',
         'Output to' => 'Uitvoer naar',
 
         # Template: CustomerTicketSearchOpenSearchDescription
@@ -2067,7 +2069,7 @@ sub Data {
         'Article free text options shown in the ticket phone outbound screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' => '',
         'Article free text options shown in the ticket priority screen of a zoomed ticket in the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' => '',
         'Article free text options shown in the ticket responsible screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' => '',
-        'Attachments <-> Responses' => 'Standaard antwoorden <-> Bijlagen',
+        'Attachments <-> Responses' => 'Standaard-antwoorden <-> Bijlagen',
         'Auto Responses <-> Queues' => 'Wachtrijen <-> Automatische antwoorden',
         'Automated line break in text messages after x number of chars.' => '',
         'Automatically lock and set owner to current Agent after selecting for an Bulk Action.' => '',
@@ -2656,11 +2658,11 @@ sub Data {
         'It is possible to configure different themes, for example to distinguish between agents and customers, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in "Key" should match the domain, and the value in "Content" should be a valid theme on your system. Please see the example entries for the proper form of the regex.' => '',
         'Link agents to groups.' => 'Koppel gebruikers aan groepen.',
         'Link agents to roles.' => 'Koppel gebruikers aan rollen.',
-        'Link attachments to responses templates.' => 'Koppel standaard antwoorden aan bijlagen.',
+        'Link attachments to responses templates.' => 'Koppel standaard-antwoorden aan bijlagen.',
         'Link customers to groups.' => 'Koppel klanten aan groepen.',
         'Link customers to services.' => 'Koppel klanten aan services.',
         'Link queues to auto responses.' => 'Koppel wachtrijen aan automatische antwoorden.',
-        'Link responses to queues.' => 'Koppel standaard antwoorden aan wachtrijen.',
+        'Link responses to queues.' => 'Koppel standaard-antwoorden aan wachtrijen.',
         'Link roles to groups.' => 'Koppel rollen aan groepen.',
         'Link this ticket to other objects!' => 'Koppel dit ticket aan andere objecten.',
         'Links 2 tickets with a "Normal" type link.' => 'Koppelt twee tickets met een "Normaal"-type koppeling.',
@@ -2776,7 +2778,7 @@ sub Data {
         'Required permissions to use the ticket priority screen of a zoomed ticket in the agent interface.' => '',
         'Required permissions to use the ticket responsible screen in the agent interface.' => '',
         'Resets and unlocks the owner of a ticket if it was moved to another queue.' => '',
-        'Responses <-> Queues' => 'Standaard antwoorden <-> Wachtrijen',
+        'Responses <-> Queues' => 'Standaard-antwoorden <-> Wachtrijen',
         'Restores a ticket from the archive (only if the event is a state change, from closed to any open available state).' => '',
         'Roles <-> Groups' => 'Rollen <-> Groepen',
         'Runs an initial wildcard search of the existing customer users when accessing the AdminCustomerUser module.' => '',
@@ -2841,7 +2843,6 @@ sub Data {
         'Sets the minimal ticket counter size (if "AutoIncrement" was selected as TicketNumberGenerator). Default is 5, this means the counter starts from 10000.' => '',
         'Sets the minimum number of characters before autocomplete query is sent.' => '',
         'Sets the number of lines that are displayed in text messages (e.g. ticket lines in the QueueZoom).' => '',
-        'Sets the number of lines that are displayed in the preview of messages (e.g. for tickets in the QueueView).' => '',
         'Sets the number of search results to be displayed for the autocomplete feature.' => '',
         'Sets the options for PGP binary.' => '',
         'Sets the order of the different items in the customer preferences view.' => '',
@@ -3198,7 +3199,7 @@ sub Data {
         'Contact customer' => 'Neem contact op',
         'Context Settings' => 'Context',
         'Country{CustomerUser}' => 'Land',
-        'Create New Template' => 'Maak nieuwe template',
+        'Create New Template' => 'Maak nieuw sjabloon',
         'Create Times' => 'Zoek op aanmaakdatum',
         'Create new Phone Ticket' => 'Maak nieuw telefoon ticket aan',
         'Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...).' => 'Maak nieuwe groepen aan om de toegangsrechten te regelen voor verschillende groepen van agenten (bijvoorbeeld verkoopafdeling, supportafdeling).',
@@ -3446,9 +3447,9 @@ sub Data {
         'Reminder messages' => 'Herinneringsberichten',
         'Required Field' => 'Verplicht veld',
         'Required!' => 'Verplicht',
-        'Response Management' => 'Beheer standaard antwoorden',
-        'Responses <-> Attachments Management' => 'Beheer Standaard Antwoorden <-> Bijlagen',
-        'Responses <-> Queue Management' => 'Beheer Standaard Antwoorden <-> Wachtrijen',
+        'Response Management' => 'Beheer standaard-antwoorden',
+        'Responses <-> Attachments Management' => 'Beheer Standaard-antwoorden <-> Bijlagen',
+        'Responses <-> Queue Management' => 'Beheer Standaard-antwoorden <-> Wachtrijen',
         'Return to the compose screen' => 'Terug naar berichtscherm',
         'Role' => 'Rol',
         'Roles <-> Agents' => 'Gebruikers <-> Rollen',
@@ -3456,7 +3457,7 @@ sub Data {
         'Roles <-> Users' => 'Rollen <-> Gebruikers',
         'Roles <-> Users Management' => 'Beheer Rollen <-> Gebruikers',
         'Save Job as?' => 'Sla taak op onder',
-        'Save Search-Profile as Template?' => 'Zoekprofiel als template bewaren ?',
+        'Save Search-Profile as Template?' => 'Zoekprofiel als sjabloon bewaren ?',
         'Schedule' => 'Plan in',
         'Search Result' => 'Zoekresultaat',
         'Search Ticket' => 'Zoek Ticket',
@@ -3628,6 +3629,7 @@ sub Data {
         'modified' => 'gewijzigd',
         'new ticket' => 'nieuw ticket',
         'next step' => 'volgende stap',
+        'out of office till' => 'Niet aanwezig tot',
         'send' => 'verstuur',
         'sort downward' => 'sorteer aflopend',
         'sort upward' => 'sorteer oplopend',
