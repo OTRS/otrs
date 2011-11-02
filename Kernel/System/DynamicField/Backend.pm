@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend.pm - Interface for DynamicField backends
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Backend.pm,v 1.53 2011-11-01 22:21:43 cr Exp $
+# $Id: Backend.pm,v 1.54 2011-11-02 00:56:04 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Scalar::Util qw(weaken);
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.53 $) [1];
+$VERSION = qw($Revision: 1.54 $) [1];
 
 =head1 NAME
 
@@ -237,8 +237,12 @@ creates the field HTML to be used in edit masks.
                                                           #     defined value
         ConfirmationNeeded   => 0,                        # Optional, 0 or 1, default 0. To display a confirmation element
                                                           #     on fields that apply (like chackbox)
-        AJAXUpdate           => 1,                        # Optionam, 0 ir 1. To create JS code for field change to update
+        AJAXUpdate           => 1,                        # Optional, 0 ir 1. To create JS code for field change to update
                                                           #     the form using ACLs triggered by the field
+        UpdatableFields      => [                         # Optional, to use if AJAXUpdate is 1. List of fields to display a
+            NetxStateID,                                  #     spinning wheel when reloading via AJAXUpdate.
+            PriorityID,
+        ],
     );
 
     Returns {
@@ -1590,6 +1594,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.53 $ $Date: 2011-11-01 22:21:43 $
+$Revision: 1.54 $ $Date: 2011-11-02 00:56:04 $
 
 =cut
