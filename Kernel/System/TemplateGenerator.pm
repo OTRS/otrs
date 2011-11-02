@@ -2,7 +2,7 @@
 # Kernel/System/TemplateGenerator.pm - generate salutations, signatures and responses
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TemplateGenerator.pm,v 1.55 2011-09-20 22:02:42 cr Exp $
+# $Id: TemplateGenerator.pm,v 1.56 2011-11-02 19:13:27 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,9 +22,12 @@ use Kernel::System::StandardResponse;
 use Kernel::System::Notification;
 use Kernel::System::AutoResponse;
 use Kernel::Language;
+use Kernel::System::DynamicField;
+use Kernel::System::DynamicField::Backend;
+use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.55 $) [1];
+$VERSION = qw($Revision: 1.56 $) [1];
 
 =head1 NAME
 
@@ -152,6 +155,14 @@ sub new {
     $Self->{StandardResponseObject} = Kernel::System::StandardResponse->new(%Param);
     $Self->{NotificationObject}     = Kernel::System::Notification->new(%Param);
     $Self->{AutoResponseObject}     = Kernel::System::AutoResponse->new(%Param);
+    $Self->{DynamicFieldObject}     = Kernel::System::DynamicField->new(%Param);
+    $Self->{BackendObject}          = Kernel::System::DynamicField::Backend->new(%Param);
+
+    # get the dynamic fields for ticket object
+    $Self->{DynamicField} = $Self->{DynamicFieldObject}->DynamicFieldListGet(
+        Valid      => 1,
+        ObjectType => ['Ticket'],
+    );
 
     return $Self;
 }
@@ -1117,6 +1128,23 @@ sub _Replace {
         }
     }
 
+    # cycle trough the activated Dynamic Fields for this screen
+    DYNAMICFIELD:
+    for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
+        next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+
+        # get the readable value for each dynamic field
+        my $ValueStrg = $Self->{BackendObject}->ReadableValueRender(
+            DynamicFieldConfig => $DynamicFieldConfig,
+            Value              => $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} },
+        );
+
+        # replace ticket content with the value from ReadableValueRender (if any)
+        if ( IsHashRefWithData($ValueStrg) ) {
+            $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = $ValueStrg->{Value};
+        }
+    }
+
     # replace it
     for ( keys %Ticket ) {
         next if !defined $Ticket{$_};
@@ -1363,6 +1391,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.55 $ $Date: 2011-09-20 22:02:42 $
+$Revision: 1.56 $ $Date: 2011-11-02 19:13:27 $
 
 =cut
