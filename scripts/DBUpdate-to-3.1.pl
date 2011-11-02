@@ -3,7 +3,7 @@
 # DBUpdate-to-3.1.pl - update script to migrate OTRS 3.0.x to 3.1.x
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-3.1.pl,v 1.40 2011-11-02 21:06:34 cr Exp $
+# $Id: DBUpdate-to-3.1.pl,v 1.41 2011-11-02 21:45:01 cr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.40 $) [1];
+$VERSION = qw($Revision: 1.41 $) [1];
 
 use Getopt::Std qw();
 use Kernel::Config;
@@ -68,7 +68,7 @@ EOF
     my $CommonObject = _CommonObjectsBase();
 
     # define the number of steps
-    my $Steps = 15;
+    my $Steps = 16;
 
     print "Step 1 of $Steps: Refresh configuration cache... ";
     RebuildConfig($CommonObject);
@@ -185,8 +185,17 @@ EOF
     }
 
     # Migrate free fields responses configuration
-    print "Step 15 of $Steps: Migrate free fields responses configuration.. ";
+    print "Step 15 of $Steps: Migrate free fields standard responses configuration.. ";
     if ( _MigrateResponsesConfiguration($CommonObject) ) {
+        print "done.\n\n";
+    }
+    else {
+        print "Error!\n\n";
+    }
+
+    # Migrate free fields auto responses configuration
+    print "Step 16 of $Steps: Migrate free fields auto responses configuration.. ";
+    if ( _MigrateAutoResponsesConfiguration($CommonObject) ) {
         print "done.\n\n";
     }
     else {
@@ -1956,6 +1965,116 @@ sub _MigrateResponsesConfiguration {
         # check for errors
         if ( !$SuccessResponseUpdate ) {
             print "Could not migrate the Response $ResponseRecordConfig->{ResponseName}\n";
+            return 0;
+        }
+    }
+    return 1;
+}
+
+=item _MigrateAutoResponsesConfiguration($CommonObject)
+
+migrates the configuration of the free fields for each auto response to the
+new dynamic field structure.
+
+    _MigrateResponsesConfiguration($CommonObject);
+
+=cut
+
+sub _MigrateAutoResponsesConfiguration {
+    my $CommonObject = shift;
+
+    # create additional objects
+    my $DynamicFieldObject = Kernel::System::DynamicField->new( %{$CommonObject} );
+
+    # create new db connection
+    my $DBConnectionObject = Kernel::System::DB->new( %{ $CommonObject->{DBObject} } );
+
+    # get DynamicFields list
+    my $DynamicFields = $DynamicFieldObject->DynamicFieldList(
+        Valid      => 0,
+        ResultType => 'HASH',
+    );
+
+    # reverse the DynamicFields list to create a lookup table
+    $DynamicFields = { reverse %{$DynamicFields} };
+
+    # localize dynamic fields
+    my %LocalDynamicFields = %{$DynamicFields};
+
+    # use only dynamic fields migrated from Ticket Free Fields
+    FIELDNAME:
+    for my $FieldName ( keys %LocalDynamicFields ) {
+        next FIELDNAME if $FieldName =~ m{\A TicketFree ( ?: Text|Key|Time ) \d+ \Z}xms;
+        delete $LocalDynamicFields{$FieldName};
+    }
+
+    # find all responses that has defined free fields tags
+    return if !$DBConnectionObject->Prepare(
+        SQL => "SELECT ar.id, ar.name, ar.text0, ar.text1, ar.text2
+            FROM auto_response ar
+            WHERE ar.text0 like '%OTRS_TICKET_TicketFree%'
+                OR ar.text1 like '%OTRS_TICKET_TicketFree%'
+                OR ar.text2 like '%OTRS_TICKET_TicketFree%'
+            ORDER BY ar.id",
+    );
+
+    my @AutoResponseRecordsToChange;
+
+    # loop trought all results
+    while ( my @Row = $DBConnectionObject->FetchrowArray() ) {
+
+        # get response details
+        my %AutoResponseRecordConfig = (
+            AutoResponseID       => $Row[0],
+            AutoResponseName     => $Row[1],
+            AutoResponseText0    => $Row[2],
+            AutoResponseText0New => $Row[2],
+            AutoResponseText1    => $Row[3],
+            AutoResponseText1New => $Row[3],
+            AutoResponseText2    => $Row[4],
+            AutoResponseText2New => $Row[4],
+        );
+
+        for my $FieldName ( keys %LocalDynamicFields ) {
+
+            # replace all ocurrences of this $FieldName
+            $AutoResponseRecordConfig{AutoResponseText0New}
+                =~ s{OTRS_TICKET_$FieldName}{OTRS_TICKET_DynamicField_$FieldName}gsx;
+
+            $AutoResponseRecordConfig{AutoResponseText1New}
+                =~ s{OTRS_TICKET_$FieldName}{OTRS_TICKET_DynamicField_$FieldName}gsx;
+
+            if ( $AutoResponseRecordConfig{AutoResponseText2New} ) {
+                $AutoResponseRecordConfig{AutoResponseText2New}
+                    =~ s{OTRS_TICKET_$FieldName}{OTRS_TICKET_DynamicField_$FieldName}gsx;
+            }
+        }
+
+        # save redord details to update DB later
+        push @AutoResponseRecordsToChange, \%AutoResponseRecordConfig;
+    }
+
+    for my $AutoResponseRecordConfig (@AutoResponseRecordsToChange) {
+
+        # update database
+        my $SuccessAutoResponseUpdate = $DBConnectionObject->Do(
+            SQL => "UPDATE auto_response ar
+                SET ar.text0 = ?, ar.text1 = ?, ar.text2 = ?
+                WHERE ar.id = ?
+                    AND ar.name = ?",
+            Bind => [
+                \$AutoResponseRecordConfig->{AutoResponseText0New},
+                \$AutoResponseRecordConfig->{AutoResponseText1New},
+                \$AutoResponseRecordConfig->{AutoResponseText2New},
+                \$AutoResponseRecordConfig->{AutoResponseID},
+                \$AutoResponseRecordConfig->{AutoResponseName},
+            ],
+        );
+
+        # check for errors
+        if ( !$SuccessAutoResponseUpdate ) {
+            print "Could not migrate the Auto Response "
+                . "$AutoResponseRecordConfig->{AutoResponseName}\n";
             return 0;
         }
     }
