@@ -3,7 +3,7 @@
 # bin/otrs.CheckModules.pl - to check needed cpan framework modules
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.CheckModules.pl,v 1.30 2011-09-27 10:17:56 ub Exp $
+# $Id: otrs.CheckModules.pl,v 1.31 2011-11-03 20:59:10 mb Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -354,7 +354,7 @@ my @NeededModules = (
             {
                 Module   => 'Text::CSV_XS',
                 Required => 0,
-                Comment  => 'Optional, install it for faster CSV handling.',
+                Comment  => 'Install it for faster CSV handling.',
             },
         ],
     },
@@ -366,12 +366,12 @@ my @NeededModules = (
     {
         Module   => 'HTTP::Message',
         Required => 1,
-        Comment  => 'Required for HTTP communiction.',
+        Comment  => 'Required for HTTP communication.',
         Depends  => [
             {
                 Module       => 'HTTP::Headers',
                 Required     => 1,
-                Comment      => 'Required for HTTP communiction.',
+                Comment      => 'Required for HTTP communication.',
                 NotSupported => [
                     {
                         Version => '1.64',
