@@ -3,7 +3,7 @@
 # DBUpdate-to-3.1.pl - update script to migrate OTRS 3.0.x to 3.1.x
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-3.1.pl,v 1.47 2011-11-03 20:55:22 cr Exp $
+# $Id: DBUpdate-to-3.1.pl,v 1.48 2011-11-03 21:50:00 cr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.47 $) [1];
+$VERSION = qw($Revision: 1.48 $) [1];
 
 use Getopt::Std qw();
 use Kernel::Config;
@@ -1911,26 +1911,14 @@ new dynamic field structure.
 sub _MigrateResponsesConfiguration {
     my $CommonObject = shift;
 
-    # create additional objects
-    my $DynamicFieldObject = Kernel::System::DynamicField->new( %{$CommonObject} );
-
-    # get DynamicFields list
-    my $DynamicFields = $DynamicFieldObject->DynamicFieldList(
-        Valid      => 0,
-        ResultType => 'HASH',
-    );
-
-    # reverse the DynamicFields list to create a lookup table
-    $DynamicFields = { reverse %{$DynamicFields} };
-
-    # localize dynamic fields
-    my %LocalDynamicFields = %{$DynamicFields};
-
-    # use only dynamic fields migrated from Ticket Free Fields
-    FIELDNAME:
-    for my $FieldName ( keys %LocalDynamicFields ) {
-        next FIELDNAME if $FieldName =~ m{\A TicketFree ( ?: Text|Key|Time ) \d+ \Z}xms;
-        delete $LocalDynamicFields{$FieldName};
+    # set local dynamic fields as OTRS 3.0 Free Fields defaults
+    my %LocalDynamicFields;
+    for my $Counter ( 1 .. 16 ) {
+        $LocalDynamicFields{ 'TicketFreeText' . $Counter } = 1;
+        $LocalDynamicFields{ 'TicketFreeKey' . $Counter }  = 1;
+    }
+    for my $Counter ( 1 .. 6 ) {
+        $LocalDynamicFields{ 'TicketFreeTime' . $Counter } = 1;
     }
 
     # find all responses that has defined free fields tags
@@ -2001,26 +1989,14 @@ new dynamic field structure.
 sub _MigrateAutoResponsesConfiguration {
     my $CommonObject = shift;
 
-    # create additional objects
-    my $DynamicFieldObject = Kernel::System::DynamicField->new( %{$CommonObject} );
-
-    # get DynamicFields list
-    my $DynamicFields = $DynamicFieldObject->DynamicFieldList(
-        Valid      => 0,
-        ResultType => 'HASH',
-    );
-
-    # reverse the DynamicFields list to create a lookup table
-    $DynamicFields = { reverse %{$DynamicFields} };
-
-    # localize dynamic fields
-    my %LocalDynamicFields = %{$DynamicFields};
-
-    # use only dynamic fields migrated from Ticket Free Fields
-    FIELDNAME:
-    for my $FieldName ( keys %LocalDynamicFields ) {
-        next FIELDNAME if $FieldName =~ m{\A TicketFree ( ?: Text|Key|Time ) \d+ \Z}xms;
-        delete $LocalDynamicFields{$FieldName};
+    # set local dynamic fields as OTRS 3.0 Free Fields defaults
+    my %LocalDynamicFields;
+    for my $Counter ( 1 .. 16 ) {
+        $LocalDynamicFields{ 'TicketFreeText' . $Counter } = 1;
+        $LocalDynamicFields{ 'TicketFreeKey' . $Counter }  = 1;
+    }
+    for my $Counter ( 1 .. 6 ) {
+        $LocalDynamicFields{ 'TicketFreeTime' . $Counter } = 1;
     }
 
     # find all auto responses that has defined free fields tags
@@ -2108,26 +2084,14 @@ new dynamic field structure.
 sub _MigrateSalutationsConfiguration {
     my $CommonObject = shift;
 
-    # create additional objects
-    my $DynamicFieldObject = Kernel::System::DynamicField->new( %{$CommonObject} );
-
-    # get DynamicFields list
-    my $DynamicFields = $DynamicFieldObject->DynamicFieldList(
-        Valid      => 0,
-        ResultType => 'HASH',
-    );
-
-    # reverse the DynamicFields list to create a lookup table
-    $DynamicFields = { reverse %{$DynamicFields} };
-
-    # localize dynamic fields
-    my %LocalDynamicFields = %{$DynamicFields};
-
-    # use only dynamic fields migrated from Ticket Free Fields
-    FIELDNAME:
-    for my $FieldName ( keys %LocalDynamicFields ) {
-        next FIELDNAME if $FieldName =~ m{\A TicketFree ( ?: Text|Key|Time ) \d+ \Z}xms;
-        delete $LocalDynamicFields{$FieldName};
+    # set local dynamic fields as OTRS 3.0 Free Fields defaults
+    my %LocalDynamicFields;
+    for my $Counter ( 1 .. 16 ) {
+        $LocalDynamicFields{ 'TicketFreeText' . $Counter } = 1;
+        $LocalDynamicFields{ 'TicketFreeKey' . $Counter }  = 1;
+    }
+    for my $Counter ( 1 .. 6 ) {
+        $LocalDynamicFields{ 'TicketFreeTime' . $Counter } = 1;
     }
 
     # find all salutations that has defined free fields tags
@@ -2198,26 +2162,14 @@ new dynamic field structure.
 sub _MigrateSignaturesConfiguration {
     my $CommonObject = shift;
 
-    # create additional objects
-    my $DynamicFieldObject = Kernel::System::DynamicField->new( %{$CommonObject} );
-
-    # get DynamicFields list
-    my $DynamicFields = $DynamicFieldObject->DynamicFieldList(
-        Valid      => 0,
-        ResultType => 'HASH',
-    );
-
-    # reverse the DynamicFields list to create a lookup table
-    $DynamicFields = { reverse %{$DynamicFields} };
-
-    # localize dynamic fields
-    my %LocalDynamicFields = %{$DynamicFields};
-
-    # use only dynamic fields migrated from Ticket Free Fields
-    FIELDNAME:
-    for my $FieldName ( keys %LocalDynamicFields ) {
-        next FIELDNAME if $FieldName =~ m{\A TicketFree ( ?: Text|Key|Time ) \d+ \Z}xms;
-        delete $LocalDynamicFields{$FieldName};
+    # set local dynamic fields as OTRS 3.0 Free Fields defaults
+    my %LocalDynamicFields;
+    for my $Counter ( 1 .. 16 ) {
+        $LocalDynamicFields{ 'TicketFreeText' . $Counter } = 1;
+        $LocalDynamicFields{ 'TicketFreeKey' . $Counter }  = 1;
+    }
+    for my $Counter ( 1 .. 6 ) {
+        $LocalDynamicFields{ 'TicketFreeTime' . $Counter } = 1;
     }
 
     # find all signatures that has defined free fields tags
