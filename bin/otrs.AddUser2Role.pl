@@ -3,7 +3,7 @@
 # bin/otrs.AddUser2Role.pl - Assign users to Roles from CLI
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.AddUser2Role.pl,v 1.4 2011-01-30 14:16:48 mb Exp $
+# $Id: otrs.AddUser2Role.pl,v 1.5 2011-11-03 21:00:04 mb Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -47,7 +47,7 @@ use Kernel::System::User;
 my %Opts;
 getopt( 'ur', \%Opts );
 if ( !$Opts{r} || !$Opts{u} ) {
-    print "otrs.AddUser2Role <Revision $VERSION> - assign Users to Roles\n";
+    print "$0 <Revision $VERSION> - assign Users to Roles\n";
     print "Copyright (C) 2001-2011 OTRS AG, http://otrs.org/\n";
     print "usage: $FindBin::Script -u <USER> -r <ROLE> \n";
     exit 1;

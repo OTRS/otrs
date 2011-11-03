@@ -3,7 +3,7 @@
 # bin/otrs.AddSystemAddress.pl - add new system addresses
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.AddSystemAddress.pl,v 1.1 2011-01-31 12:33:03 mb Exp $
+# $Id: otrs.AddSystemAddress.pl,v 1.2 2011-11-03 21:00:04 mb Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -45,7 +45,7 @@ use Getopt::Std;
 getopts( 'c:d:e:q:h', \%opts );
 
 if ( $opts{h} ) {
-    print STDERR "Usage: bin/otrs.AddSystemAddress [-c <comment>] -d <display name> \n";
+    print STDERR "Usage: $0 [-c <comment>] -d <display name> \n";
     print STDERR "    -e <email address> -q <queue name>\n";
     exit;
 }

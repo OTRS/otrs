@@ -3,7 +3,7 @@
 # bin/otrs.xml2sql.pl - a xml 2 sql processor
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.xml2sql.pl,v 1.6 2011-09-02 07:03:23 mg Exp $
+# $Id: otrs.xml2sql.pl,v 1.7 2011-11-03 21:00:04 mb Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -40,17 +40,17 @@ use Kernel::System::Main;
 use Kernel::System::XML;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 my %Opts = ();
 getopt( 'hton', \%Opts );
 if ( $Opts{'h'} || !%Opts ) {
     print <<"EOF";
-xml2sql.pl <Revision $VERSION> - otrs.xml2sql - tool to generate database specific SQL from the XML database definition files used by OTRS
+$0 <Revision $VERSION> - tool to generate database specific SQL from the XML database definition files used by OTRS
 
 Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 
-Usage: xml2sql.pl -t <DATABASE_TYPE> (or 'all') [-o <OUTPUTDIR> -n <NAME> -s <SPLIT_FILES>]
+Usage: $0 -t <DATABASE_TYPE> (or 'all') [-o <OUTPUTDIR> -n <NAME> -s <SPLIT_FILES>]
 EOF
     exit 1;
 }

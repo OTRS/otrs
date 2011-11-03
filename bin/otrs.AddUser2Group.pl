@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.AddUser2Group.pl - Add User to a Group
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.AddUser2Group.pl,v 1.3 2010-08-06 17:49:20 cr Exp $
+# $Id: otrs.AddUser2Group.pl,v 1.4 2011-11-03 21:00:04 mb Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -46,7 +46,7 @@ getopt( 'guph', \%Opts );
 
 if ( $Opts{h} || !$Opts{g} || !$Opts{u} || !$Opts{p} ) {
     print STDERR
-        "Usage: bin/otrs.AddUser2Group -g groupname -u username -p ro|rw\n";
+        "Usage: $0 -g groupname -u username -p ro|rw\n";
     exit;
 }
 

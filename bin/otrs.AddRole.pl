@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.AddRole.pl - add new system roles
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.AddRole.pl,v 1.3 2010-08-06 17:49:20 cr Exp $
+# $Id: otrs.AddRole.pl,v 1.4 2011-11-03 21:00:04 mb Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -43,7 +43,7 @@ use Getopt::Std;
 getopts( 'c:n:h', \%opts );
 
 if ( $opts{h} ) {
-    print STDERR "Usage: bin/otrs.AddRole [-c <comment>] -n <rolename>\n";
+    print STDERR "Usage: $0 [-c <comment>] -n <rolename>\n";
     exit;
 }
 
