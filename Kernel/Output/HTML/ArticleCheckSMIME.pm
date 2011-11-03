@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/ArticleCheckSMIME.pm
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleCheckSMIME.pm,v 1.26 2011-06-03 03:38:01 dz Exp $
+# $Id: ArticleCheckSMIME.pm,v 1.27 2011-11-03 01:15:39 te Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Crypt;
 use Kernel::System::EmailParser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.26 $) [1];
+$VERSION = qw($Revision: 1.27 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -191,12 +191,17 @@ sub Check {
 
             if ( $Decrypt{Successful} ) {
 
+                # parse the decryptet email body
+                my $ParserObject
+                    = Kernel::System::EmailParser->new( %{$Self}, Email => $Decrypt{Data} );
+                my $Body = $ParserObject->GetMessageBody();
+
                 # updated article body
                 $Self->{TicketObject}->ArticleUpdate(
                     TicketID  => $Param{Article}->{TicketID},
                     ArticleID => $Self->{ArticleID},
                     Key       => 'Body',
-                    Value     => $Decrypt{Data},
+                    Value     => $Body,
                     UserID    => $Self->{UserID},
                 );
 
@@ -205,6 +210,17 @@ sub Check {
                     ArticleID => $Self->{ArticleID},
                     UserID    => $Self->{UserID},
                 );
+
+                # write attachments to the storage
+                for my $Attachment ( $ParserObject->GetAttachments() ) {
+                    $Self->{TicketObject}->ArticleWriteAttachment(
+                        Content     => $Attachment->{Content},
+                        Filename    => $Attachment->{Filename},
+                        ContentType => $Attachment->{ContentType},
+                        ArticleID   => $Self->{ArticleID},
+                        UserID      => $Self->{UserID},
+                    );
+                }
 
                 push(
                     @Return,
