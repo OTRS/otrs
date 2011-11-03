@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2005 2011-11-03 11:45:10 des Exp $
+# $Id: CHANGES,v 1.2006 2011-11-03 14:59:58 des Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,10 +10,8 @@
 # --
 
 3.1.0 beta1 2011-??-??
- - 2011-11-03 Fixed bug#7865 - Special characters in group names.
  - 2011-11-01 Added functionality to allow to use auto-complete feature for more than one entry in To, From,
     Cc and Bcc fields into TicketPhone and EmailTicket screens.
- - 2011-11-01 Fixed bug#7823 - ACL could remove default state from ticket masks.
  - 2011-10-31 Fixed bug#7454 - MSSQL should use NVARCHAR to store text strings rather than VARCHAR.
  - 2011-10-31 Fixed bug#7858 - Make "Apache::DBI" option not being overwritten with each update.
     Apache::DBI is now loaded in web server configuration file.
@@ -123,11 +121,13 @@
      of > 70 characters exists.
 
 3.0.12 ????-??-??
- - 2011-11-01 Fixed bug#7875 - Restricting visibility of SLA in the Customer Ticket
-    zoom does not work.
+ - 2011-11-03 Fixed bug#7865 - Special characters in group names.
+ - 2011-11-01 Fixed bug#7875 - Restricting visibility of SLA in the Customer Ticket zoom does not work.
+ - 2011-11-01 Fixed bug#7823 - ACL could remove default state from ticket masks.
  - 2011-10-26 Fixed bug#7465 - Out-of-office unlock does not work upon customer's web reply.
  - 2011-10-25 Fixed bug#7843 - Customer and Agent Ticket Zoom issue with Sessions.
  - 2011-10-24 Improved rpc-example.pl to not use autodispatch any more.
+ - 2011-10-21 Fixed bug#7845 - No DispatchMultiple Method in rpc.pl script.
 
 3.0.11 2011-10-18
  - 2011-10-07 Fixed bug#7812 - Height of search terms doesn't fit on search results page on IE7
@@ -1284,13 +1284,7 @@
     for ticket events (config is compatble with old one).
  - 2009-09-15 Improved performance of the PDF backend.
 
-2.4.13 (????/??/??)
- - 2011-10-21 Fixed bug#7845 - No DispatchMultiple Method in rpc.pl script.
-
-2.4.12 (2011/10/18)
- - 2011-09-22 Fixed bug#7776 - Double encoding for AJAX responses on ActiveState perl.
-
-2.4.11 (2011/08/16)
+2.4.11 (????/??/??)
  - 2011-04-07 Fixed bug#7195 - Graphs doesn't use GIF as fallback if PNG is not available.
 
 2.4.10 (2011/04/12)
