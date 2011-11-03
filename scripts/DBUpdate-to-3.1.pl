@@ -3,7 +3,7 @@
 # DBUpdate-to-3.1.pl - update script to migrate OTRS 3.0.x to 3.1.x
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-3.1.pl,v 1.43 2011-11-02 22:14:26 cr Exp $
+# $Id: DBUpdate-to-3.1.pl,v 1.44 2011-11-03 13:41:06 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.43 $) [1];
+$VERSION = qw($Revision: 1.44 $) [1];
 
 use Getopt::Std qw();
 use Kernel::Config;
@@ -1593,11 +1593,11 @@ sub _MigrateGenericAgentJobConfiguration {
 
         # update database
         my $SuccessJobUpdate = $DBConnectionObject->Do(
-            SQL => "UPDATE generic_agent_jobs gaj
-                SET gaj.job_key = ?
-                WHERE gaj.job_name = ?
-                    AND gaj.job_key = ?
-                    AND gaj.job_value = ?",
+            SQL => "UPDATE generic_agent_jobs
+                SET job_key = ?
+                WHERE job_name = ?
+                    AND job_key = ?
+                    AND job_value = ?",
             Bind => [
                 \$JobRecordConfig->{JobKeyNew},
                 \$JobRecordConfig->{JobName},
@@ -1659,11 +1659,11 @@ sub _MigrateGenericAgentJobConfiguration {
 
             # update database
             my $SuccessJobUpdate = $DBConnectionObject->Do(
-                SQL => "UPDATE generic_agent_jobs gaj
-                    SET gaj.job_key = ?
-                    WHERE gaj.job_name = ?
-                        AND gaj.job_key = ?
-                        AND gaj.job_value = ?",
+                SQL => "UPDATE generic_agent_jobs
+                    SET job_key = ?
+                    WHERE job_name = ?
+                        AND job_key = ?
+                        AND job_value = ?",
                 Bind => [
                     \$JobRecordConfig->{JobKeyNew},
                     \$JobRecordConfig->{JobName},
@@ -1969,10 +1969,10 @@ sub _MigrateResponsesConfiguration {
 
         # update database
         my $SuccessResponseUpdate = $DBConnectionObject->Do(
-            SQL => "UPDATE standard_response sr
-                SET sr.text = ?
-                WHERE sr.id = ?
-                    AND sr.name = ?",
+            SQL => "UPDATE standard_response
+                SET text = ?
+                WHERE id = ?
+                    AND name = ?",
             Bind => [
                 \$ResponseRecordConfig->{ResponseTextNew},
                 \$ResponseRecordConfig->{ResponseID},
@@ -2076,10 +2076,10 @@ sub _MigrateAutoResponsesConfiguration {
 
         # update database
         my $SuccessAutoResponseUpdate = $DBConnectionObject->Do(
-            SQL => "UPDATE auto_response ar
-                SET ar.text0 = ?, ar.text1 = ?, ar.text2 = ?
-                WHERE ar.id = ?
-                    AND ar.name = ?",
+            SQL => "UPDATE auto_response
+                SET text0 = ?, text1 = ?, text2 = ?
+                WHERE id = ?
+                    AND name = ?",
             Bind => [
                 \$AutoResponseRecordConfig->{AutoResponseText0New},
                 \$AutoResponseRecordConfig->{AutoResponseText1New},
@@ -2172,10 +2172,10 @@ sub _MigrateSalutationsConfiguration {
 
         # update database
         my $SuccessSalutationUpdate = $DBConnectionObject->Do(
-            SQL => "UPDATE salutation s
-                SET s.text = ?
-                WHERE s.id = ?
-                    AND s.name = ?",
+            SQL => "UPDATE salutation
+                SET text = ?
+                WHERE id = ?
+                    AND name = ?",
             Bind => [
                 \$SalutationRecordConfig->{SalutationTextNew},
                 \$SalutationRecordConfig->{SalutationID},
@@ -2265,10 +2265,10 @@ sub _MigrateSignaturesConfiguration {
 
         # update database
         my $SuccessSignatureUpdate = $DBConnectionObject->Do(
-            SQL => "UPDATE signature s
-                SET s.text = ?
-                WHERE s.id = ?
-                    AND s.name = ?",
+            SQL => "UPDATE signature
+                SET text = ?
+                WHERE id = ?
+                    AND name = ?",
             Bind => [
                 \$SignatureRecordConfig->{SignatureTextNew},
                 \$SignatureRecordConfig->{SignatureID},
