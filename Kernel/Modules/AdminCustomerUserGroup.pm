@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminCustomerUserGroup.pm - to add/update/delete groups <-> users
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUserGroup.pm,v 1.37 2010-11-10 11:04:28 mg Exp $
+# $Id: AdminCustomerUserGroup.pm,v 1.38 2011-11-03 11:44:11 des Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::CustomerGroup;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.37 $) [1];
+$VERSION = qw($Revision: 1.38 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -437,7 +437,7 @@ sub _Change {
     DATAITEM:
     for my $ID ( sort { uc( $Data{$a} ) cmp uc( $Data{$b} ) } keys %Data ) {
 
-        next DATAITEM if ( grep /$Param{Data}->{$ID}/, @CustomerAlwaysGroups );
+        next DATAITEM if ( grep /\Q$Param{Data}->{$ID}\E/, @CustomerAlwaysGroups );
 
         # set output class
         $Self->{LayoutObject}->Block(
@@ -574,7 +574,7 @@ sub _Overview {
         keys %GroupData
         )
     {
-        next GROUP if ( grep /$GroupData{$ID}/, @CustomerAlwaysGroups );
+        next GROUP if ( grep /\Q$GroupData{$ID}\E/, @CustomerAlwaysGroups );
 
         # output gorup block
         $Self->{LayoutObject}->Block(

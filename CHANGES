@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2004 2011-11-02 09:22:26 mb Exp $
+# $Id: CHANGES,v 1.2005 2011-11-03 11:45:10 des Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.1.0 beta1 2011-??-??
+ - 2011-11-03 Fixed bug#7865 - Special characters in group names.
  - 2011-11-01 Added functionality to allow to use auto-complete feature for more than one entry in To, From,
     Cc and Bcc fields into TicketPhone and EmailTicket screens.
  - 2011-11-01 Fixed bug#7823 - ACL could remove default state from ticket masks.
