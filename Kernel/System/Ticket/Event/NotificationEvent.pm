@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Event/NotificationEvent.pm - a event module to send notifications
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: NotificationEvent.pm,v 1.30 2011-10-24 12:23:43 mg Exp $
+# $Id: NotificationEvent.pm,v 1.31 2011-11-03 05:46:42 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::NotificationEvent;
 use Kernel::System::SystemAddress;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.30 $) [1];
+$VERSION = qw($Revision: 1.31 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -516,10 +516,31 @@ sub _SendNotification {
 
     # ticket data
     my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Param{TicketID} );
-    for ( keys %Ticket ) {
-        next if !defined $Ticket{$_};
-        $Notification{Body}    =~ s/<OTRS_TICKET_$_>/$Ticket{$_}/gi;
-        $Notification{Subject} =~ s/<OTRS_TICKET_$_>/$Ticket{$_}/gi;
+    for my $Key ( keys %Ticket ) {
+        next if !defined $Ticket{$Key};
+
+        my $DisplayValue = $Ticket{$Key};
+
+        if ( $Key =~ /^DynamicField_/i ) {
+
+            my $FieldName = $Key;
+            $FieldName =~ s/DynamicField_//gi;
+
+            # get dynamic field config
+            my $DynamicField = $Self->{TicketObject}->{DynamicFieldObject}->DynamicFieldGet(
+                Name => $FieldName,
+            );
+
+            # get dysplay value
+            my $ValueStrg = $Self->{TicketObject}->{DynamicFieldBackendObject}->ReadableValueRender(
+                DynamicFieldConfig => $DynamicField,
+                Value              => $DisplayValue,
+            );
+            $DisplayValue = $ValueStrg->{Value};
+        }
+
+        $Notification{Body}    =~ s/<OTRS_TICKET_$Key>/$DisplayValue/gi;
+        $Notification{Subject} =~ s/<OTRS_TICKET_$Key>/$DisplayValue/gi;
     }
 
     # cleanup
