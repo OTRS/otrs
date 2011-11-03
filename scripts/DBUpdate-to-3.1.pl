@@ -3,7 +3,7 @@
 # DBUpdate-to-3.1.pl - update script to migrate OTRS 3.0.x to 3.1.x
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-3.1.pl,v 1.45 2011-11-03 13:42:05 mg Exp $
+# $Id: DBUpdate-to-3.1.pl,v 1.46 2011-11-03 14:00:58 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.45 $) [1];
+$VERSION = qw($Revision: 1.46 $) [1];
 
 use Getopt::Std qw();
 use Kernel::Config;
@@ -167,7 +167,7 @@ EOF
     }
 
     # Migrate free fields configuration for generic agent jobs
-    print "Step 13 of $Steps: Migrate free fields generic agent jobs configuration.. ";
+    print "Step 13 of $Steps: Migrate free fields generic agent jobs configuration... ";
     if ( _MigrateGenericAgentJobConfiguration($CommonObject) ) {
         print "done.\n\n";
     }
@@ -176,7 +176,7 @@ EOF
     }
 
     # Migrate free fields configuration for Post Master
-    print "Step 14 of $Steps: Migrate free fields post master configuration.. ";
+    print "Step 14 of $Steps: Migrate free fields post master configuration... ";
     if ( _MigratePostMasterConfiguration($CommonObject) ) {
         print "done.\n\n";
     }
@@ -185,7 +185,7 @@ EOF
     }
 
     # Migrate free fields responses configuration
-    print "Step 15 of $Steps: Migrate free fields standard responses configuration.. ";
+    print "Step 15 of $Steps: Migrate free fields standard responses configuration... ";
     if ( _MigrateResponsesConfiguration($CommonObject) ) {
         print "done.\n\n";
     }
@@ -194,7 +194,7 @@ EOF
     }
 
     # Migrate free fields auto responses configuration
-    print "Step 16 of $Steps: Migrate free fields auto responses configuration.. ";
+    print "Step 16 of $Steps: Migrate free fields auto responses configuration... ";
     if ( _MigrateAutoResponsesConfiguration($CommonObject) ) {
         print "done.\n\n";
     }
@@ -203,7 +203,7 @@ EOF
     }
 
     # Migrate free fields salutations configuration
-    print "Step 17 of $Steps: Migrate free fields salutations configuration.. ";
+    print "Step 17 of $Steps: Migrate free fields salutations configuration... ";
     if ( _MigrateSalutationsConfiguration($CommonObject) ) {
         print "done.\n\n";
     }
@@ -212,7 +212,7 @@ EOF
     }
 
     # Migrate free fields signatures configuration
-    print "Step 18 of $Steps: Migrate free fields signatures configuration.. ";
+    print "Step 18 of $Steps: Migrate free fields signatures configuration... ";
     if ( _MigrateSignaturesConfiguration($CommonObject) ) {
         print "done.\n\n";
     }
@@ -534,7 +534,7 @@ sub _DynamicFieldTicketMigration {
     }
 
     # create new db connection
-    my $DBConnectionObject = Kernel::System::DB->new( %{ $CommonObject->{DBObject} } );
+    my $SecondDBObject = Kernel::System::DB->new( %{ $CommonObject->{DBObject} } );
 
     # select dynamic field entries
     my $SuccessTicket = $CommonObject->{DBObject}->Prepare(
@@ -546,7 +546,7 @@ sub _DynamicFieldTicketMigration {
     while ( my @Row = $CommonObject->{DBObject}->FetchrowArray() ) {
 
         # select dynamic field entries
-        my $SuccessTicketDynamicFields = $DBConnectionObject->Prepare(
+        my $SuccessTicketDynamicFields = $SecondDBObject->Prepare(
             SQL => "
                 SELECT DISTINCT(dfv.field_id), dfv.object_id
                 FROM dynamic_field_value dfv
@@ -554,7 +554,7 @@ sub _DynamicFieldTicketMigration {
                     AND dfv.object_id = $Row[0]",
         );
         my %DynamicFieldRetrieved;
-        while ( my @DFVRow = $DBConnectionObject->FetchrowArray() ) {
+        while ( my @DFVRow = $SecondDBObject->FetchrowArray() ) {
             $DynamicFieldRetrieved{ $DFVRow[0] . $DFVRow[1] } = 1;
         }
 
@@ -575,7 +575,7 @@ sub _DynamicFieldTicketMigration {
                     if ( !defined $DynamicFieldRetrieved{ $FieldID . $ObjectID } ) {
 
                         # insert new dinamic field value
-                        my $SuccessTicketField = $DBConnectionObject->Do(
+                        my $SuccessTicketField = $SecondDBObject->Do(
                             SQL =>
                                 'INSERT INTO dynamic_field_value (' .
                                 'field_id, object_id, value_' . $ValueType .
@@ -667,7 +667,7 @@ sub _DynamicFieldArticleMigration {
     }
 
     # create new db connection
-    my $DBConnectionObject = Kernel::System::DB->new( %{ $CommonObject->{DBObject} } );
+    my $SecondDBObject = Kernel::System::DB->new( %{ $CommonObject->{DBObject} } );
 
     # select dynamic field entries
     my $SuccessArticle = $CommonObject->{DBObject}->Prepare(
@@ -679,14 +679,14 @@ sub _DynamicFieldArticleMigration {
     while ( my @Row = $CommonObject->{DBObject}->FetchrowArray() ) {
 
         # select dynamic field entries
-        my $SuccessArticleDynamicFields = $DBConnectionObject->Prepare(
+        my $SuccessArticleDynamicFields = $SecondDBObject->Prepare(
             SQL => "SELECT dfv.field_id, dfv.object_id
                 FROM dynamic_field_value dfv
                 WHERE dfv.field_id IN (" . join( ',', values %DynamicFieldIDs ) . ")
                     AND dfv.object_id = $Row[0]",
         );
         my %DynamicFieldRetrieved;
-        while ( my @Row = $DBConnectionObject->FetchrowArray() ) {
+        while ( my @Row = $SecondDBObject->FetchrowArray() ) {
             $DynamicFieldRetrieved{ $Row[0] . $Row[1] } = 1;
         }
 
@@ -707,7 +707,7 @@ sub _DynamicFieldArticleMigration {
                     if ( !defined $DynamicFieldRetrieved{ $FieldID . $ObjectID } ) {
 
                         # insert new dynamic field value
-                        my $SuccessArticleField = $DBConnectionObject->Do(
+                        my $SuccessArticleField = $SecondDBObject->Do(
                             SQL =>
                                 'INSERT INTO dynamic_field_value (' .
                                 'field_id, object_id, value_' . $ValueType .
@@ -777,7 +777,7 @@ sub _VerificationTicketData {
     $TicketCondition    = substr $TicketCondition,    0, -3;
 
     # create new db connection
-    my $DBConnectionObject = Kernel::System::DB->new( %{ $CommonObject->{DBObject} } );
+    my $SecondDBObject = Kernel::System::DB->new( %{ $CommonObject->{DBObject} } );
 
     # get dynamic field ids and names
     my %DynamicFieldIDs;
@@ -804,7 +804,7 @@ sub _VerificationTicketData {
         my $ObjectType = 'Ticket';
 
         # select dynamic field entries
-        my $SuccessDynamicField = $DBConnectionObject->Prepare(
+        my $SuccessDynamicField = $SecondDBObject->Prepare(
             SQL =>
                 "SELECT dfv.id, dfv.field_id, df.object_type, dfv.object_id,
                     dfv.value_text, dfv.value_int, dfv.value_date
@@ -816,7 +816,7 @@ sub _VerificationTicketData {
         );
 
         my %DynamicFieldValue;
-        while ( my @DFVRow = $DBConnectionObject->FetchrowArray() ) {
+        while ( my @DFVRow = $SecondDBObject->FetchrowArray() ) {
             my $TextValue = defined $DFVRow[4] ? $DFVRow[4] : '';
             my $IntValue  = defined $DFVRow[5] ? $DFVRow[5] : '';
             my $DateValue = defined $DFVRow[6] ? $DFVRow[6] : '';
@@ -895,7 +895,7 @@ sub _VerificationArticleData {
     $ArticleCondition    = substr $ArticleCondition,    0, -3;
 
     # create new db connection
-    my $DBConnectionObject = Kernel::System::DB->new( %{ $CommonObject->{DBObject} } );
+    my $SecondDBObject = Kernel::System::DB->new( %{ $CommonObject->{DBObject} } );
 
     # get dynamic field ids and names
     my %DynamicFieldIDs;
@@ -922,7 +922,7 @@ sub _VerificationArticleData {
         my $ObjectType = 'Article';
 
         # select dynamic field entries
-        my $SuccessDynamicField = $DBConnectionObject->Prepare(
+        my $SuccessDynamicField = $SecondDBObject->Prepare(
             SQL => "SELECT dfv.id, dfv.field_id, df.object_type, dfv.object_id,
                     dfv.value_text, dfv.value_int, dfv.value_date
                 FROM dynamic_field_value dfv, dynamic_field df
@@ -933,7 +933,7 @@ sub _VerificationArticleData {
         );
 
         my %DynamicFieldValue;
-        while ( my @DFVRow = $DBConnectionObject->FetchrowArray() ) {
+        while ( my @DFVRow = $SecondDBObject->FetchrowArray() ) {
             my $TextValue = defined $DFVRow[4] ? $DFVRow[4] : '';
             my $IntValue  = defined $DFVRow[5] ? $DFVRow[5] : '';
             my $DateValue = defined $DFVRow[6] ? $DFVRow[6] : '';
@@ -1447,11 +1447,8 @@ sub _MigrateStatsConfiguration {
     # create additional objects
     my $DynamicFieldObject = Kernel::System::DynamicField->new( %{$CommonObject} );
 
-    # create new db connection
-    my $DBConnectionObject = Kernel::System::DB->new( %{ $CommonObject->{DBObject} } );
-
     # find all statistics parts that need to be updated
-    return if !$DBConnectionObject->Prepare(
+    return if !$CommonObject->{DBObject}->Prepare(
         SQL => "SELECT xml_type, xml_key, xml_content_key, xml_content_value
             FROM xml_storage
             WHERE xml_type = 'Stats'
@@ -1463,7 +1460,7 @@ sub _MigrateStatsConfiguration {
     my @StatRecordsToChange;
 
     # loop through all results
-    while ( my @Row = $DBConnectionObject->FetchrowArray() ) {
+    while ( my @Row = $CommonObject->{DBObject}->FetchrowArray() ) {
 
         # get field details
         my %StatRecordConfig = (
@@ -1497,7 +1494,7 @@ sub _MigrateStatsConfiguration {
             = 'DynamicField_' . $StatRecordConfig->{XMLContentValue};
 
         # update database
-        my $SuccessStatsUpdate = $DBConnectionObject->Do(
+        my $SuccessStatsUpdate = $CommonObject->{DBObject}->Do(
             SQL =>
                 'UPDATE xml_storage
                 SET xml_content_value = ?
@@ -1543,9 +1540,6 @@ sub _MigrateGenericAgentJobConfiguration {
     # create additional objects
     my $DynamicFieldObject = Kernel::System::DynamicField->new( %{$CommonObject} );
 
-    # create new db connection
-    my $DBConnectionObject = Kernel::System::DB->new( %{ $CommonObject->{DBObject} } );
-
     # get DynamicFields list
     my $DynamicFields = $DynamicFieldObject->DynamicFieldList(
         Valid      => 0,
@@ -1556,7 +1550,7 @@ sub _MigrateGenericAgentJobConfiguration {
     $DynamicFields = { reverse %{$DynamicFields} };
 
     # find all free fields for search to be migrated
-    return if !$DBConnectionObject->Prepare(
+    return if !$CommonObject->{DBObject}->Prepare(
         SQL => "SELECT gaj.job_name, gaj.job_key, gaj.job_value
             FROM generic_agent_jobs gaj
             WHERE gaj.job_key like 'TicketFree%'
@@ -1566,7 +1560,7 @@ sub _MigrateGenericAgentJobConfiguration {
     my @SearchRecordsToChange;
 
     # loop through all results
-    while ( my @Row = $DBConnectionObject->FetchrowArray() ) {
+    while ( my @Row = $CommonObject->{DBObject}->FetchrowArray() ) {
 
         # get field details
         my %JobRecordConfig = (
@@ -1592,7 +1586,7 @@ sub _MigrateGenericAgentJobConfiguration {
         $JobRecordConfig->{JobKeyNew} = $SearchPrefix . $JobRecordConfig->{JobKey};
 
         # update database
-        my $SuccessJobUpdate = $DBConnectionObject->Do(
+        my $SuccessJobUpdate = $CommonObject->{DBObject}->Do(
             SQL => "UPDATE generic_agent_jobs
                 SET job_key = ?
                 WHERE job_name = ?
@@ -1616,7 +1610,7 @@ sub _MigrateGenericAgentJobConfiguration {
     }
 
     # find all free fields for set to be migrated
-    return if !$DBConnectionObject->Prepare(
+    return if !$CommonObject->{DBObject}->Prepare(
         SQL => "SELECT gaj.job_name, gaj.job_key, gaj.job_value
             FROM generic_agent_jobs gaj
             WHERE gaj.job_key like 'NewTicketFree%'
@@ -1626,7 +1620,7 @@ sub _MigrateGenericAgentJobConfiguration {
     my @SetRecordsToChange;
 
     # loop through all results
-    while ( my @Row = $DBConnectionObject->FetchrowArray() ) {
+    while ( my @Row = $CommonObject->{DBObject}->FetchrowArray() ) {
 
         # get field details
         my %JobRecordConfig = (
@@ -1658,7 +1652,7 @@ sub _MigrateGenericAgentJobConfiguration {
         if ( $JobRecordConfig->{JobValue} ) {
 
             # update database
-            my $SuccessJobUpdate = $DBConnectionObject->Do(
+            my $SuccessJobUpdate = $CommonObject->{DBObject}->Do(
                 SQL => "UPDATE generic_agent_jobs
                     SET job_key = ?
                     WHERE job_name = ?
@@ -1683,7 +1677,7 @@ sub _MigrateGenericAgentJobConfiguration {
         else {
 
             # delete empty options
-            my $SuccessJobDelete = $DBConnectionObject->Do(
+            my $SuccessJobDelete = $CommonObject->{DBObject}->Do(
                 SQL => "DELETE FROM generic_agent_jobs
                     WHERE job_name = ?
                         AND job_key = ?
@@ -1911,9 +1905,6 @@ sub _MigrateResponsesConfiguration {
     # create additional objects
     my $DynamicFieldObject = Kernel::System::DynamicField->new( %{$CommonObject} );
 
-    # create new db connection
-    my $DBConnectionObject = Kernel::System::DB->new( %{ $CommonObject->{DBObject} } );
-
     # get DynamicFields list
     my $DynamicFields = $DynamicFieldObject->DynamicFieldList(
         Valid      => 0,
@@ -1934,7 +1925,7 @@ sub _MigrateResponsesConfiguration {
     }
 
     # find all responses that has defined free fields tags
-    return if !$DBConnectionObject->Prepare(
+    return if !$CommonObject->{DBObject}->Prepare(
         SQL => "SELECT sr.id, sr.name, sr.text
             FROM standard_response sr
             WHERE sr.text like '%OTRS_TICKET_TicketFree%'
@@ -1944,7 +1935,7 @@ sub _MigrateResponsesConfiguration {
     my @ResponseRecordsToChange;
 
     # loop through all results
-    while ( my @Row = $DBConnectionObject->FetchrowArray() ) {
+    while ( my @Row = $CommonObject->{DBObject}->FetchrowArray() ) {
 
         # get response details
         my %ResponseRecordConfig = (
@@ -1968,7 +1959,7 @@ sub _MigrateResponsesConfiguration {
     for my $ResponseRecordConfig (@ResponseRecordsToChange) {
 
         # update database
-        my $SuccessResponseUpdate = $DBConnectionObject->Do(
+        my $SuccessResponseUpdate = $CommonObject->{DBObject}->Do(
             SQL => "UPDATE standard_response
                 SET text = ?
                 WHERE id = ?
@@ -2004,9 +1995,6 @@ sub _MigrateAutoResponsesConfiguration {
     # create additional objects
     my $DynamicFieldObject = Kernel::System::DynamicField->new( %{$CommonObject} );
 
-    # create new db connection
-    my $DBConnectionObject = Kernel::System::DB->new( %{ $CommonObject->{DBObject} } );
-
     # get DynamicFields list
     my $DynamicFields = $DynamicFieldObject->DynamicFieldList(
         Valid      => 0,
@@ -2027,7 +2015,7 @@ sub _MigrateAutoResponsesConfiguration {
     }
 
     # find all auto responses that has defined free fields tags
-    return if !$DBConnectionObject->Prepare(
+    return if !$CommonObject->{DBObject}->Prepare(
         SQL => "SELECT ar.id, ar.name, ar.text0, ar.text1, ar.text2
             FROM auto_response ar
             WHERE ar.text0 like '%OTRS_TICKET_TicketFree%'
@@ -2039,7 +2027,7 @@ sub _MigrateAutoResponsesConfiguration {
     my @AutoResponseRecordsToChange;
 
     # loop through all results
-    while ( my @Row = $DBConnectionObject->FetchrowArray() ) {
+    while ( my @Row = $CommonObject->{DBObject}->FetchrowArray() ) {
 
         # get auto response details
         my %AutoResponseRecordConfig = (
@@ -2075,7 +2063,7 @@ sub _MigrateAutoResponsesConfiguration {
     for my $AutoResponseRecordConfig (@AutoResponseRecordsToChange) {
 
         # update database
-        my $SuccessAutoResponseUpdate = $DBConnectionObject->Do(
+        my $SuccessAutoResponseUpdate = $CommonObject->{DBObject}->Do(
             SQL => "UPDATE auto_response
                 SET text0 = ?, text1 = ?, text2 = ?
                 WHERE id = ?
@@ -2114,9 +2102,6 @@ sub _MigrateSalutationsConfiguration {
     # create additional objects
     my $DynamicFieldObject = Kernel::System::DynamicField->new( %{$CommonObject} );
 
-    # create new db connection
-    my $DBConnectionObject = Kernel::System::DB->new( %{ $CommonObject->{DBObject} } );
-
     # get DynamicFields list
     my $DynamicFields = $DynamicFieldObject->DynamicFieldList(
         Valid      => 0,
@@ -2137,7 +2122,7 @@ sub _MigrateSalutationsConfiguration {
     }
 
     # find all salutations that has defined free fields tags
-    return if !$DBConnectionObject->Prepare(
+    return if !$CommonObject->{DBObject}->Prepare(
         SQL => "SELECT s.id, s.name, s.text
             FROM salutation s
             WHERE s.text like '%OTRS_TICKET_TicketFree%'
@@ -2147,7 +2132,7 @@ sub _MigrateSalutationsConfiguration {
     my @SalutationRecordsToChange;
 
     # loop through all results
-    while ( my @Row = $DBConnectionObject->FetchrowArray() ) {
+    while ( my @Row = $CommonObject->{DBObject}->FetchrowArray() ) {
 
         # get salutation details
         my %SalutationRecordConfig = (
@@ -2171,7 +2156,7 @@ sub _MigrateSalutationsConfiguration {
     for my $SalutationRecordConfig (@SalutationRecordsToChange) {
 
         # update database
-        my $SuccessSalutationUpdate = $DBConnectionObject->Do(
+        my $SuccessSalutationUpdate = $CommonObject->{DBObject}->Do(
             SQL => "UPDATE salutation
                 SET text = ?
                 WHERE id = ?
@@ -2207,9 +2192,6 @@ sub _MigrateSignaturesConfiguration {
     # create additional objects
     my $DynamicFieldObject = Kernel::System::DynamicField->new( %{$CommonObject} );
 
-    # create new db connection
-    my $DBConnectionObject = Kernel::System::DB->new( %{ $CommonObject->{DBObject} } );
-
     # get DynamicFields list
     my $DynamicFields = $DynamicFieldObject->DynamicFieldList(
         Valid      => 0,
@@ -2230,7 +2212,7 @@ sub _MigrateSignaturesConfiguration {
     }
 
     # find all signatures that has defined free fields tags
-    return if !$DBConnectionObject->Prepare(
+    return if !$CommonObject->{DBObject}->Prepare(
         SQL => "SELECT s.id, s.name, s.text
             FROM signature s
             WHERE s.text like '%OTRS_TICKET_TicketFree%'
@@ -2240,7 +2222,7 @@ sub _MigrateSignaturesConfiguration {
     my @SignatureRecordsToChange;
 
     # loop through all results
-    while ( my @Row = $DBConnectionObject->FetchrowArray() ) {
+    while ( my @Row = $CommonObject->{DBObject}->FetchrowArray() ) {
 
         # get signature details
         my %SignatureRecordConfig = (
@@ -2264,7 +2246,7 @@ sub _MigrateSignaturesConfiguration {
     for my $SignatureRecordConfig (@SignatureRecordsToChange) {
 
         # update database
-        my $SuccessSignatureUpdate = $DBConnectionObject->Do(
+        my $SuccessSignatureUpdate = $CommonObject->{DBObject}->Do(
             SQL => "UPDATE signature
                 SET text = ?
                 WHERE id = ?
