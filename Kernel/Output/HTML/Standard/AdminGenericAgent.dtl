@@ -1,8 +1,8 @@
 # --
 # AdminGenericAgent.dtl - provides HTML form for AdminGenericAgent.pm
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.dtl,v 1.83 2010-11-29 19:45:04 cg Exp $
+# $Id: AdminGenericAgent.dtl,v 1.83.2.1 2011-11-03 15:21:36 des Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -611,7 +611,7 @@
                         <div class="Field">
                             $Data{"DeleteOption"}
                             <p class="Error">
-                                $Text{"Warning: All affected tickets will be removed from the database and cannot be restored!"})
+                                $Text{"Warning: All affected tickets will be removed from the database and cannot be restored!"}
                             </p>
                         </div>
                         <div class="Clear"></div>
