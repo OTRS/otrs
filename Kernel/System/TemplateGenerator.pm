@@ -2,7 +2,7 @@
 # Kernel/System/TemplateGenerator.pm - generate salutations, signatures and responses
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TemplateGenerator.pm,v 1.56 2011-11-02 19:13:27 cr Exp $
+# $Id: TemplateGenerator.pm,v 1.57 2011-11-03 23:51:58 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.56 $) [1];
+$VERSION = qw($Revision: 1.57 $) [1];
 
 =head1 NAME
 
@@ -156,7 +156,10 @@ sub new {
     $Self->{NotificationObject}     = Kernel::System::Notification->new(%Param);
     $Self->{AutoResponseObject}     = Kernel::System::AutoResponse->new(%Param);
     $Self->{DynamicFieldObject}     = Kernel::System::DynamicField->new(%Param);
-    $Self->{BackendObject}          = Kernel::System::DynamicField::Backend->new(%Param);
+    $Self->{BackendObject}          = Kernel::System::DynamicField::Backend->new(
+        TimeObject => $Self->{TicketObject}->{TimeObject},
+        %Param
+    );
 
     # get the dynamic fields for ticket object
     $Self->{DynamicField} = $Self->{DynamicFieldObject}->DynamicFieldListGet(
@@ -1391,6 +1394,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.56 $ $Date: 2011-11-02 19:13:27 $
+$Revision: 1.57 $ $Date: 2011-11-03 23:51:58 $
 
 =cut
