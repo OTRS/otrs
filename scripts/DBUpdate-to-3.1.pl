@@ -3,7 +3,7 @@
 # DBUpdate-to-3.1.pl - update script to migrate OTRS 3.0.x to 3.1.x
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-3.1.pl,v 1.46 2011-11-03 14:00:58 mg Exp $
+# $Id: DBUpdate-to-3.1.pl,v 1.47 2011-11-03 20:55:22 cr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.46 $) [1];
+$VERSION = qw($Revision: 1.47 $) [1];
 
 use Getopt::Std qw();
 use Kernel::Config;
@@ -68,7 +68,7 @@ EOF
     my $CommonObject = _CommonObjectsBase();
 
     # define the number of steps
-    my $Steps = 18;
+    my $Steps = 19;
 
     print "Step 1 of $Steps: Refresh configuration cache... ";
     RebuildConfig($CommonObject);
@@ -214,6 +214,15 @@ EOF
     # Migrate free fields signatures configuration
     print "Step 18 of $Steps: Migrate free fields signatures configuration... ";
     if ( _MigrateSignaturesConfiguration($CommonObject) ) {
+        print "done.\n\n";
+    }
+    else {
+        print "Error!\n\n";
+    }
+
+    # Migrate free fields search profiles configuration
+    print "Step 19 of $Steps: Migrate free fields search profiles configuration.. ";
+    if ( _MigrateSearchProfilesConfiguration($CommonObject) ) {
         print "done.\n\n";
     }
     else {
@@ -1602,7 +1611,7 @@ sub _MigrateGenericAgentJobConfiguration {
 
         # check for errors
         if ( !$SuccessJobUpdate ) {
-            print "Could not migrate the Generic Agent Job $JobRecordConfig->{JobKey}"
+            print "Could not migrate the Generic Agent Job $JobRecordConfig->{JobName}"
                 . " field $JobRecordConfig->{JobKey}\n";
 
             return 0;
@@ -1668,7 +1677,7 @@ sub _MigrateGenericAgentJobConfiguration {
 
             # check for errors
             if ( !$SuccessJobUpdate ) {
-                print "Could not migrate the Generic Agent Job $JobRecordConfig->{JobKey}"
+                print "Could not migrate the Generic Agent Job $JobRecordConfig->{JobName}"
                     . " field $JobRecordConfig->{JobKey}\n";
 
                 return 0;
@@ -1692,7 +1701,7 @@ sub _MigrateGenericAgentJobConfiguration {
             # check for errors
             if ( !$SuccessJobDelete ) {
                 print "Could not delete empty field $JobRecordConfig->{JobKey} from the "
-                    . "Generic Agent Job $JobRecordConfig->{JobKey}\n";
+                    . "Generic Agent Job $JobRecordConfig->{JobName}\n";
 
                 return 0;
             }
@@ -2261,6 +2270,98 @@ sub _MigrateSignaturesConfiguration {
         # check for errors
         if ( !$SuccessSignatureUpdate ) {
             print "Could not migrate the Signature $SignatureRecordConfig->{SignatureName}\n";
+            return 0;
+        }
+    }
+    return 1;
+}
+
+=item _MigrateSearchProfilesConfiguration($CommonObject)
+
+migrates the configuration of the free fields for each search profile to the
+new dynamic field structure.
+
+    _MigrateSearchProfilesConfiguration($CommonObject);
+
+=cut
+
+sub _MigrateSearchProfilesConfiguration {
+    my $CommonObject = shift;
+
+    # create additional objects
+    my $DynamicFieldObject = Kernel::System::DynamicField->new( %{$CommonObject} );
+
+    # get DynamicFields list
+    my $DynamicFields = $DynamicFieldObject->DynamicFieldList(
+        Valid      => 0,
+        ResultType => 'HASH',
+    );
+
+    # reverse the DynamicFields list to create a lookup table
+    $DynamicFields = { reverse %{$DynamicFields} };
+
+    # find all free fields for search to be migrated
+    return if !$CommonObject->{DBObject}->Prepare(
+        SQL => "SELECT sp.login, sp.profile_name, sp.profile_type, sp.profile_key, sp.profile_value
+            FROM search_profile sp
+            WHERE sp.profile_key LIKE 'TicketFree%'
+            ORDER BY sp.login, sp.profile_name",
+    );
+
+    my @ProfileRecordsToChange;
+
+    # loop through all results
+    while ( my @Row = $CommonObject->{DBObject}->FetchrowArray() ) {
+
+        # get field details
+        my %ProfileRecordConfig = (
+            ProfileLogin => $Row[0],
+            ProfileName  => $Row[1],
+            ProfileType  => $Row[2],
+            ProfileKey   => $Row[3],
+            ProfileValue => $Row[4],
+        );
+
+        # save field details
+        push @ProfileRecordsToChange, \%ProfileRecordConfig;
+    }
+
+    # set search prefix
+    my $SearchPrefix = 'Search_DynamicField_';
+
+    PROFILEFIELDCONFIG:
+    for my $ProfileRecordConfig (@ProfileRecordsToChange) {
+
+        # check if the migarted dynamic field is available
+        next PROFILEFIELDCONFIG if !$DynamicFields->{ $ProfileRecordConfig->{ProfileKey} };
+
+        # append search prefix to search profile free fields
+        $ProfileRecordConfig->{ProfileKeyNew} = $SearchPrefix . $ProfileRecordConfig->{ProfileKey};
+
+        # update database
+        my $SuccessProfileUpdate = $CommonObject->{DBObject}->Do(
+            SQL => "UPDATE search_profile
+                SET profile_key = ?
+                WHERE login = ?
+                    AND profile_name = ?
+                    AND profile_type = ?
+                    AND profile_key = ?
+                    AND profile_value = ?",
+            Bind => [
+                \$ProfileRecordConfig->{ProfileKeyNew},
+                \$ProfileRecordConfig->{ProfileLogin},
+                \$ProfileRecordConfig->{ProfileName},
+                \$ProfileRecordConfig->{ProfileType},
+                \$ProfileRecordConfig->{ProfileKey},
+                \$ProfileRecordConfig->{ProfileValue},
+            ],
+        );
+
+        # check for errors
+        if ( !$SuccessProfileUpdate ) {
+            print "Could not migrate the Search Profile $ProfileRecordConfig->{ProfileName}"
+                . " field $ProfileRecordConfig->{ProfileKey}\n";
+
             return 0;
         }
     }
