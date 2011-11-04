@@ -3,7 +3,7 @@
 # DBUpdate-to-3.1.pl - update script to migrate OTRS 3.0.x to 3.1.x
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-3.1.pl,v 1.49 2011-11-04 15:05:17 mg Exp $
+# $Id: DBUpdate-to-3.1.pl,v 1.50 2011-11-04 15:19:19 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.49 $) [1];
+$VERSION = qw($Revision: 1.50 $) [1];
 
 use Getopt::Std qw();
 use Kernel::Config;
@@ -1501,7 +1501,7 @@ sub _MigrateStatsConfiguration {
     STATSFIELDCONFIG:
     for my $StatRecordConfig (@StatRecordsToChange) {
 
-        # check if the migarted dynamic field is available
+        # check if the migrated dynamic field is available
         next STATSFIELDCONFIG if !$DynamicFields->{ $StatRecordConfig->{XMLContentValue} };
 
         # set new field name for stats
@@ -1594,7 +1594,7 @@ sub _MigrateGenericAgentJobConfiguration {
     JOBFIELDCONFIG:
     for my $JobRecordConfig (@SearchRecordsToChange) {
 
-        # check if the migarted dynamic field is available
+        # check if the migrated dynamic field is available
         next JOBFIELDCONFIG if !$DynamicFields->{ $JobRecordConfig->{JobKey} };
 
         # append search prefix to search free fields
@@ -1658,7 +1658,7 @@ sub _MigrateGenericAgentJobConfiguration {
         $JobRecordConfig->{JobKeyTemp} = $JobRecordConfig->{JobKey};
         $JobRecordConfig->{JobKeyTemp} =~ s{New}{};
 
-        # check if the migarted dynamic field is available
+        # check if the migrated dynamic field is available
         next JOBFIELDCONFIG if !$DynamicFields->{ $JobRecordConfig->{JobKeyTemp} };
 
         # append set prefix to set free fields
@@ -1950,7 +1950,7 @@ sub _MigrateResponsesConfiguration {
 
         for my $FieldName ( keys %LocalDynamicFields ) {
 
-            # replace all ocurrences of this $FieldName
+            # replace all occurrences of this $FieldName
             $ResponseRecordConfig{ResponseTextNew}
                 =~ s{OTRS_TICKET_$FieldName}{OTRS_TICKET_DynamicField_$FieldName}gsx;
         }
@@ -2034,7 +2034,7 @@ sub _MigrateAutoResponsesConfiguration {
 
         for my $FieldName ( keys %LocalDynamicFields ) {
 
-            # replace all ocurrences of this $FieldName
+            # replace all occurrences of this $FieldName
             $AutoResponseRecordConfig{AutoResponseText0New}
                 =~ s{OTRS_TICKET_$FieldName}{OTRS_TICKET_DynamicField_$FieldName}gsx;
 
@@ -2123,7 +2123,7 @@ sub _MigrateSalutationsConfiguration {
 
         for my $FieldName ( keys %LocalDynamicFields ) {
 
-            # replace all ocurrences of this $FieldName
+            # replace all occurrences of this $FieldName
             $SalutationRecordConfig{SalutationTextNew}
                 =~ s{OTRS_TICKET_$FieldName}{OTRS_TICKET_DynamicField_$FieldName}gsx;
         }
@@ -2201,7 +2201,7 @@ sub _MigrateSignaturesConfiguration {
 
         for my $FieldName ( keys %LocalDynamicFields ) {
 
-            # replace all ocurrences of this $FieldName
+            # replace all occurrences of this $FieldName
             $SignatureRecordConfig{SignatureTextNew}
                 =~ s{OTRS_TICKET_$FieldName}{OTRS_TICKET_DynamicField_$FieldName}gsx;
         }
@@ -2290,7 +2290,7 @@ sub _MigrateSearchProfilesConfiguration {
     PROFILEFIELDCONFIG:
     for my $ProfileRecordConfig (@ProfileRecordsToChange) {
 
-        # check if the migarted dynamic field is available
+        # check if the migrated dynamic field is available
         next PROFILEFIELDCONFIG if !$DynamicFields->{ $ProfileRecordConfig->{ProfileKey} };
 
         # append search prefix to search profile free fields
