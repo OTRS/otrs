@@ -2,7 +2,7 @@
 # AdminDynamicFieldDateTime.dtl - provides HTML form for AdminDynamicFieldsDateTime
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminDynamicFieldDateTime.dtl,v 1.8 2011-11-02 13:33:29 mb Exp $
+# $Id: AdminDynamicFieldDateTime.dtl,v 1.9 2011-11-04 13:49:12 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -102,7 +102,7 @@
             </div>
             <div class="WidgetSimple">
                 <div class="Header">
-                    <h2>$Text{"$Data{"FieldTypeName"}"} $text{"Field Settings"}</h2>
+                    <h2>$Text{"$Data{"FieldTypeName"}"} $Text{"Field Settings"}</h2>
                 </div>
                 <div class="Content">
                     <fieldset class="TableLike">
