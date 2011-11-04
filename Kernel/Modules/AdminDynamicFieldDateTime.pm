@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminDynamicFieldDateTime.pm - provides a dynamic fields Date Time config view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminDynamicFieldDateTime.pm,v 1.10 2011-09-27 17:01:22 cg Exp $
+# $Id: AdminDynamicFieldDateTime.pm,v 1.11 2011-11-04 22:36:35 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::DynamicField;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -169,7 +169,9 @@ sub _AddAction {
         }
     }
 
-    for my $ConfigParam (qw(ObjectType ObjectTypeName FieldType FieldTypeName YearsPeriod ValidID))
+    for my $ConfigParam (
+        qw(ObjectType ObjectTypeName FieldType FieldTypeName YearsPeriod ValidID Link)
+        )
     {
         $GetParam{$ConfigParam} = $Self->{ParamObject}->GetParam( Param => $ConfigParam );
     }
@@ -197,6 +199,7 @@ sub _AddAction {
         YearsPeriod   => $GetParam{YearsPeriod},
         YearsInFuture => $GetParam{YearsInFuture},
         YearsInPast   => $GetParam{YearsInPast},
+        Link          => $GetParam{Link},
     };
 
     # create a new field
@@ -356,7 +359,9 @@ sub _ChangeAction {
         }
     }
 
-    for my $ConfigParam (qw(ObjectType ObjectTypeName FieldType FieldTypeName YearsPeriod ValidID))
+    for my $ConfigParam (
+        qw(ObjectType ObjectTypeName FieldType FieldTypeName YearsPeriod ValidID Link)
+        )
     {
         $GetParam{$ConfigParam} = $Self->{ParamObject}->GetParam( Param => $ConfigParam );
     }
@@ -397,6 +402,7 @@ sub _ChangeAction {
         YearsPeriod   => $GetParam{YearsPeriod},
         YearsInFuture => $GetParam{YearsInFuture},
         YearsInPast   => $GetParam{YearsInPast},
+        Link          => $GetParam{Link},
     };
 
     # update dynamic field (FieldType and ObjectType cannot be changed; use old values)
@@ -484,6 +490,7 @@ sub _ShowScreen {
     my $YearsPeriod   = $Param{YearsPeriod}   || 0;
     my $YearsInFuture = $Param{YearsInFuture} || 5;
     my $YearsInPast   = $Param{YearsInPast}   || 5;
+    my $Link          = $Param{Link}          || '';
 
     # create the Default Value Type select
     my $YearsPeriodStrg = $Self->{LayoutObject}->BuildSelection(
@@ -516,7 +523,7 @@ sub _ShowScreen {
             DefaultValue          => $DefaultValue,
             YearsInFuture         => $YearsInFuture,
             YearsInPast           => $YearsInPast,
-
+            Link                  => $Link,
             }
     );
 

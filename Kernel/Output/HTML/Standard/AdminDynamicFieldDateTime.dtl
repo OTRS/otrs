@@ -2,7 +2,7 @@
 # AdminDynamicFieldDateTime.dtl - provides HTML form for AdminDynamicFieldsDateTime
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminDynamicFieldDateTime.dtl,v 1.9 2011-11-04 13:49:12 mg Exp $
+# $Id: AdminDynamicFieldDateTime.dtl,v 1.10 2011-11-04 22:36:35 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -141,6 +141,16 @@
                             </div>
                             <div class="Clear"></div>
                         </fieldset>
+                        <label for="Link">$Text{"Show link"}:</label>
+                        <div class="Field">
+                            <input id="Link" class="W50pc" type="text" maxlength="500" value="$QData{"Link"}" name="Link"/>
+                            <p class="FieldExplanation">
+                                $Text{"Here you can specify an optional link to show instead of the plain value when this field is displayed for an existing ticket."}
+                                <br/>
+                                $Text{"Example"}: http://some.example.com/handle?query=<span>$</span>LQData{"Field1"}
+                            </p>
+                        </div>
+                        <div class="Clear"></div>
                     </fieldset>
                 </div>
             </div>
