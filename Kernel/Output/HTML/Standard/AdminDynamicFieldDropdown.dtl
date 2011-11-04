@@ -2,7 +2,7 @@
 # AdminDynamicFieldDropdown.dtl - provides HTML form for AdminDynamicFieldsDropdown
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminDynamicFieldDropdown.dtl,v 1.11 2011-11-02 13:33:29 mb Exp $
+# $Id: AdminDynamicFieldDropdown.dtl,v 1.12 2011-11-04 03:00:28 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -173,6 +173,16 @@
                             $Data{"TranslatableValuesStrg"}
                             <p class="FieldExplanation">$Text{"If you activate this option the values will be translated to the user defined language."}</p>
                             <p class="FieldExplanation"><strong>$Text{"Note"}: </strong>$Text{"You need to add the translations manually into the language translation files."}</p>
+                        </div>
+                        <div class="Clear"></div>
+                        <label for="DefaultValue">$Text{"Link"}:</label>
+                        <div class="Field">
+                            <input id="Link" class="W50pc" type="text" maxlength="500" value="$QData{"Link"}" name="Link"/>
+                            <p class="FieldExplanation">
+                                $Text{"http link to be used for this field value"}.
+                                <br/>
+                                $Text{"Example"}: http://some.example.com/handle?query=<span>$</span>LQData{"Field1"}
+                            </p>
                         </div>
                         <div class="Clear"></div>
                     </fieldset>

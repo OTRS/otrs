@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminDynamicFieldDropdown.pm - provides a dynamic fields text config view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminDynamicFieldDropdown.pm,v 1.11 2011-09-27 17:01:22 cg Exp $
+# $Id: AdminDynamicFieldDropdown.pm,v 1.12 2011-11-04 03:00:28 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::DynamicField;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -164,7 +164,7 @@ sub _AddAction {
     for my $ConfigParam (
         qw(
         ObjectType ObjectTypeName FieldType FieldTypeName DefaultValue PossibleNone
-        TranslatableValues ValidID
+        TranslatableValues ValidID Link
         )
         )
     {
@@ -223,6 +223,7 @@ sub _AddAction {
         DefaultValue       => $GetParam{DefaultValue},
         PossibleNone       => $GetParam{PossibleNone},
         TranslatableValues => $GetParam{TranslatableValues},
+        Link               => $GetParam{Link},
     };
 
     # create a new field
@@ -304,6 +305,9 @@ sub _Change {
 
         # set TranslatalbeValues
         $Config{TranslatableValues} = $DynamicFieldData->{Config}->{TranslatableValues};
+
+        # set Link
+        $Config{Link} = $DynamicFieldData->{Config}->{Link};
     }
 
     return $Self->_ShowScreen(
@@ -386,7 +390,7 @@ sub _ChangeAction {
     for my $ConfigParam (
         qw(
         ObjectType ObjectTypeName FieldType FieldTypeName DefaultValue PossibleNone
-        TranslatableValues ValidID
+        TranslatableValues ValidID Link
         )
         )
     {
@@ -458,6 +462,7 @@ sub _ChangeAction {
         DefaultValue       => $GetParam{DefaultValue},
         PossibleNone       => $GetParam{PossibleNone},
         TranslatableValues => $GetParam{TranslatableValues},
+        Link               => $GetParam{Link},
     };
 
     # update dynamic field (FieldType and ObjectType cannot be changed; use old values)
@@ -675,6 +680,8 @@ sub _ShowScreen {
         Class      => 'W50pc',
     );
 
+    my $Link = $Param{Link} || '';
+
     # generate output
     $Output .= $Self->{LayoutObject}->Output(
         TemplateFile => 'AdminDynamicFieldDropdown',
@@ -686,6 +693,7 @@ sub _ShowScreen {
             DefaultValueStrg       => $DefaultValueStrg,
             PossibleNoneStrg       => $PossibleNoneStrg,
             TranslatableValuesStrg => $TranslatableValuesStrg,
+            Link                   => $Link,
             }
     );
 

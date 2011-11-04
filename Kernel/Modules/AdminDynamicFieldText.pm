@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminDynamicFieldText.pm - provides a dynamic fields text config view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminDynamicFieldText.pm,v 1.20 2011-09-27 17:01:22 cg Exp $
+# $Id: AdminDynamicFieldText.pm,v 1.21 2011-11-04 03:00:28 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::DynamicField;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.20 $) [1];
+$VERSION = qw($Revision: 1.21 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -157,7 +157,7 @@ sub _AddAction {
     }
 
     for my $ConfigParam (
-        qw(ObjectType ObjectTypeName FieldType FieldTypeName DefaultValue ValidID Rows Cols)
+        qw(ObjectType ObjectTypeName FieldType FieldTypeName DefaultValue ValidID Rows Cols Link)
         )
     {
         $GetParam{$ConfigParam} = $Self->{ParamObject}->GetParam( Param => $ConfigParam );
@@ -184,6 +184,10 @@ sub _AddAction {
     my $FieldConfig = {
         DefaultValue => $GetParam{DefaultValue},
     };
+
+    if ( $GetParam{FieldType} eq 'Text' ) {
+        $FieldConfig->{Link} = $GetParam{Link},
+    }
 
     if ( $GetParam{FieldType} eq 'TextArea' ) {
         $FieldConfig->{Rows} = $GetParam{Rows};
@@ -335,7 +339,7 @@ sub _ChangeAction {
     }
 
     for my $ConfigParam (
-        qw(ObjectType ObjectTypeName FieldType FieldTypeName DefaultValue ValidID Rows Cols)
+        qw(ObjectType ObjectTypeName FieldType FieldTypeName DefaultValue ValidID Rows Cols Link)
         )
     {
         $GetParam{$ConfigParam} = $Self->{ParamObject}->GetParam( Param => $ConfigParam );
@@ -399,6 +403,10 @@ sub _ChangeAction {
     my $FieldConfig = {
         DefaultValue => $GetParam{DefaultValue},
     };
+
+    if ( $GetParam{FieldType} eq 'Text' ) {
+        $FieldConfig->{Link} = $GetParam{Link};
+    }
 
     if ( $GetParam{FieldType} eq 'TextArea' ) {
         $FieldConfig->{Rows} = $GetParam{Rows};
@@ -497,6 +505,21 @@ sub _ShowScreen {
         },
     );
 
+    # define config field specific settings
+    my $Link = $Param{Link} || '';
+
+    if ( $Param{FieldType} eq 'Text' ) {
+
+        # create the default link element
+        $Self->{LayoutObject}->Block(
+            Name => 'Link',
+            Data => {
+                %Param,
+                Link => $Link,
+            },
+        );
+    }
+
     if ( $Param{FieldType} eq 'TextArea' ) {
 
         # create the default value element
@@ -518,6 +541,7 @@ sub _ShowScreen {
             ValidityStrg          => $ValidityStrg,
             DynamicFieldOrderSrtg => $DynamicFieldOrderSrtg,
             DefaultValue          => $DefaultValue,
+            Link                  => $Link,
             }
     );
 
