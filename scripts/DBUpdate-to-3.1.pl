@@ -3,7 +3,7 @@
 # DBUpdate-to-3.1.pl - update script to migrate OTRS 3.0.x to 3.1.x
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-3.1.pl,v 1.48 2011-11-03 21:50:00 cr Exp $
+# $Id: DBUpdate-to-3.1.pl,v 1.49 2011-11-04 15:05:17 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.48 $) [1];
+$VERSION = qw($Revision: 1.49 $) [1];
 
 use Getopt::Std qw();
 use Kernel::Config;
@@ -68,7 +68,7 @@ EOF
     my $CommonObject = _CommonObjectsBase();
 
     # define the number of steps
-    my $Steps = 19;
+    my $Steps = 20;
 
     print "Step 1 of $Steps: Refresh configuration cache... ";
     RebuildConfig($CommonObject);
@@ -221,13 +221,19 @@ EOF
     }
 
     # Migrate free fields search profiles configuration
-    print "Step 19 of $Steps: Migrate free fields search profiles configuration.. ";
+    print "Step 19 of $Steps: Migrate free fields search profiles configuration... ";
     if ( _MigrateSearchProfilesConfiguration($CommonObject) ) {
         print "done.\n\n";
     }
     else {
         print "Error!\n\n";
     }
+
+    # Clean up the cache completely at the end.
+    print "Step 20 of $Steps: Clean up the cache... ";
+    my $CacheObject = Kernel::System::Cache->new( %{$CommonObject} );
+    $CacheObject->CleanUp();
+    print "done.\n\n";
 
     print "Migration completed!\n";
 
