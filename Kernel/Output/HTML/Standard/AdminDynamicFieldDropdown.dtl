@@ -2,7 +2,7 @@
 # AdminDynamicFieldDropdown.dtl - provides HTML form for AdminDynamicFieldsDropdown
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminDynamicFieldDropdown.dtl,v 1.13 2011-11-04 14:08:45 mg Exp $
+# $Id: AdminDynamicFieldDropdown.dtl,v 1.14 2011-11-04 22:34:41 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -175,7 +175,7 @@
                             <p class="FieldExplanation"><strong>$Text{"Note"}: </strong>$Text{"You need to add the translations manually into the language translation files."}</p>
                         </div>
                         <div class="Clear"></div>
-                        <label for="DefaultValue">$Text{"Link"}:</label>
+                        <label for="Link">$Text{"Show link"}:</label>
                         <div class="Field">
                             <input id="Link" class="W50pc" type="text" maxlength="500" value="$QData{"Link"}" name="Link"/>
                             <p class="FieldExplanation">
