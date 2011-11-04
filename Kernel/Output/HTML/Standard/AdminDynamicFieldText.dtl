@@ -2,7 +2,7 @@
 # AdminDynamicFieldText.dtl - provides HTML form for AdminDynamicFieldsText
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminDynamicFieldText.dtl,v 1.18 2011-11-04 03:00:28 cr Exp $
+# $Id: AdminDynamicFieldText.dtl,v 1.19 2011-11-04 14:08:45 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -138,11 +138,11 @@
                         </div>
                         <div class="Clear"></div>
 <!-- dtl:block:Link -->
-                        <label for="DefaultValue">$Text{"Link"}:</label>
+                        <label for="DefaultValue">$Text{"Show link"}:</label>
                         <div class="Field">
                             <input id="Link" class="W50pc" type="text" maxlength="500" value="$QData{"Link"}" name="Link"/>
                             <p class="FieldExplanation">
-                                $Text{"http link to be used for this field value"}.
+                                $Text{"Here you can specify an optional link to show instead of the plain value when this field is displayed for an existing ticket."}
                                 <br/>
                                 $Text{"Example"}: http://some.example.com/handle?query=<span>$</span>LQData{"Field1"}
                             </p>
