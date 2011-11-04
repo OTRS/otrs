@@ -3,7 +3,7 @@
 # DBUpdate-to-3.1.pl - update script to migrate OTRS 3.0.x to 3.1.x
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-3.1.pl,v 1.50 2011-11-04 15:19:19 mg Exp $
+# $Id: DBUpdate-to-3.1.pl,v 1.51 2011-11-04 22:49:34 cg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.50 $) [1];
+$VERSION = qw($Revision: 1.51 $) [1];
 
 use Getopt::Std qw();
 use Kernel::Config;
@@ -68,7 +68,7 @@ EOF
     my $CommonObject = _CommonObjectsBase();
 
     # define the number of steps
-    my $Steps = 20;
+    my $Steps = 22;
 
     print "Step 1 of $Steps: Refresh configuration cache... ";
     RebuildConfig($CommonObject);
@@ -229,8 +229,26 @@ EOF
         print "Error!\n\n";
     }
 
+    # Migrate free fields notifications configuration
+    print "Step 20 of $Steps: Migrate free fields notifications configuration... ";
+    if ( _MigrateNotificationsConfiguration($CommonObject) ) {
+        print "done.\n\n";
+    }
+    else {
+        print "Error!\n\n";
+    }
+
+    # Migrate free fields notification event configuration
+    print "Step 21 of $Steps: Migrate free fields notification event configuration... ";
+    if ( _MigrateNotificationEventConfiguration($CommonObject) ) {
+        print "done.\n\n";
+    }
+    else {
+        print "Error!\n\n";
+    }
+
     # Clean up the cache completely at the end.
-    print "Step 20 of $Steps: Clean up the cache... ";
+    print "Step 22 of $Steps: Clean up the cache... ";
     my $CacheObject = Kernel::System::Cache->new( %{$CommonObject} );
     $CacheObject->CleanUp();
     print "done.\n\n";
@@ -2321,6 +2339,190 @@ sub _MigrateSearchProfilesConfiguration {
                 . " field $ProfileRecordConfig->{ProfileKey}\n";
 
             return 0;
+        }
+    }
+    return 1;
+}
+
+=item _MigrateNotificationsConfiguration($CommonObject)
+
+migrates the configuration of the free fields for each notification to the
+new dynamic field structure.
+
+    _MigrateNotificationsConfiguration($CommonObject);
+
+=cut
+
+sub _MigrateNotificationsConfiguration {
+    my $CommonObject = shift;
+
+    # set local dynamic fields as OTRS 3.0 Free Fields defaults
+    my %LocalDynamicFields;
+    for my $Counter ( 1 .. 16 ) {
+        $LocalDynamicFields{ 'TicketFreeText' . $Counter } = 1;
+        $LocalDynamicFields{ 'TicketFreeKey' . $Counter }  = 1;
+    }
+    for my $Counter ( 1 .. 6 ) {
+        $LocalDynamicFields{ 'TicketFreeTime' . $Counter } = 1;
+    }
+
+    # find all signatures that has defined free fields tags
+    return if !$CommonObject->{DBObject}->Prepare(
+        SQL => "SELECT id, subject, text, notification_type
+            FROM notifications
+            WHERE subject like '%OTRS_TICKET_TicketFree%' OR text like '%OTRS_TICKET_TicketFree%'
+            ORDER BY id",
+    );
+
+    my @NotificationRecordsToChange;
+
+    # loop through all results
+    while ( my @Row = $CommonObject->{DBObject}->FetchrowArray() ) {
+
+        # get signature details
+        my %NotificationRecordConfig = (
+            NotificationID         => $Row[0],
+            NotificationSubject    => $Row[1],
+            NotificationSubjectNew => $Row[1],
+            NotificationText       => $Row[2],
+            NotificationTextNew    => $Row[2],
+            NotificationType       => $Row[3]
+        );
+
+        for my $FieldName ( keys %LocalDynamicFields ) {
+
+            # replace all occurrences of this $FieldName
+            $NotificationRecordConfig{NotificationSubjectNew}
+                =~ s{OTRS_TICKET_$FieldName}{OTRS_TICKET_DynamicField_$FieldName}gsx;
+            $NotificationRecordConfig{NotificationTextNew}
+                =~ s{OTRS_TICKET_$FieldName}{OTRS_TICKET_DynamicField_$FieldName}gsx;
+        }
+
+        # save record details to update DB later
+        push @NotificationRecordsToChange, \%NotificationRecordConfig;
+    }
+
+    for my $NotificationRecordConfig (@NotificationRecordsToChange) {
+
+        if (
+            $NotificationRecordConfig->{NotificationSubject} ne
+            $NotificationRecordConfig->{NotificationSubjectNew}
+            ||
+            $NotificationRecordConfig->{NotificationText} ne
+            $NotificationRecordConfig->{NotificationTextNew}
+            )
+        {
+
+            # update database
+            my $SuccessNotificationUpdate = $CommonObject->{DBObject}->Do(
+                SQL => "UPDATE notifications
+                    SET subject = ?, text = ?
+                    WHERE id = ?",
+                Bind => [
+                    \$NotificationRecordConfig->{NotificationSubjectNew},
+                    \$NotificationRecordConfig->{NotificationTextNew},
+                    \$NotificationRecordConfig->{NotificationID},
+                ],
+            );
+
+            # check for errors
+            if ( !$SuccessNotificationUpdate ) {
+                print
+                    "Could not migrate the Notification $NotificationRecordConfig->{NotificationType}\n";
+                return 0;
+            }
+        }
+    }
+    return 1;
+}
+
+=item _MigrateNotificationEventConfiguration($CommonObject)
+
+migrates the configuration of the free fields for each notification event to the
+new dynamic field structure.
+
+    _MigrateNotificationEventConfiguration($CommonObject);
+
+=cut
+
+sub _MigrateNotificationEventConfiguration {
+    my $CommonObject = shift;
+
+    # set local dynamic fields as OTRS 3.0 Free Fields defaults
+    my %LocalDynamicFields;
+    for my $Counter ( 1 .. 16 ) {
+        $LocalDynamicFields{ 'TicketFreeText' . $Counter } = 1;
+        $LocalDynamicFields{ 'TicketFreeKey' . $Counter }  = 1;
+    }
+    for my $Counter ( 1 .. 6 ) {
+        $LocalDynamicFields{ 'TicketFreeTime' . $Counter } = 1;
+    }
+
+    # find all signatures that has defined free fields tags
+    return if !$CommonObject->{DBObject}->Prepare(
+        SQL => "SELECT id, subject, text, name
+            FROM notification_event
+            WHERE subject like '%OTRS_TICKET_TicketFree%' OR text like '%OTRS_TICKET_TicketFree%'
+            ORDER BY id",
+    );
+
+    my @NotificationRecordsToChange;
+
+    # loop through all results
+    while ( my @Row = $CommonObject->{DBObject}->FetchrowArray() ) {
+
+        # get signature details
+        my %NotificationRecordConfig = (
+            NotificationID         => $Row[0],
+            NotificationSubject    => $Row[1],
+            NotificationSubjectNew => $Row[1],
+            NotificationText       => $Row[2],
+            NotificationTextNew    => $Row[2],
+            NotificationName       => $Row[3]
+        );
+
+        for my $FieldName ( keys %LocalDynamicFields ) {
+
+            # replace all occurrences of this $FieldName
+            $NotificationRecordConfig{NotificationSubjectNew}
+                =~ s{OTRS_TICKET_$FieldName}{OTRS_TICKET_DynamicField_$FieldName}gsx;
+            $NotificationRecordConfig{NotificationTextNew}
+                =~ s{OTRS_TICKET_$FieldName}{OTRS_TICKET_DynamicField_$FieldName}gsx;
+        }
+
+        # save record details to update DB later
+        push @NotificationRecordsToChange, \%NotificationRecordConfig;
+    }
+
+    for my $NotificationRecordConfig (@NotificationRecordsToChange) {
+
+        if (
+            $NotificationRecordConfig->{NotificationSubject} ne
+            $NotificationRecordConfig->{NotificationSubjectNew}
+            ||
+            $NotificationRecordConfig->{NotificationText} ne
+            $NotificationRecordConfig->{NotificationTextNew}
+            )
+        {
+
+            # update database
+            my $SuccessNotificationUpdate = $CommonObject->{DBObject}->Do(
+                SQL => "UPDATE notification_event
+                    SET subject = ?, text = ?
+                    WHERE id = ?",
+                Bind => [
+                    \$NotificationRecordConfig->{NotificationSubjectNew},
+                    \$NotificationRecordConfig->{NotificationTextNew},
+                    \$NotificationRecordConfig->{NotificationID},
+                ],
+            );
+
+            # check for errors
+            if ( !$SuccessNotificationUpdate ) {
+                print
+                    "Could not migrate the Notification $NotificationRecordConfig->{NotificationName}\n";
+                return 0;
+            }
         }
     }
     return 1;
