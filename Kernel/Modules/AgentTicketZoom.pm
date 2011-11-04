@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.156 2011-11-04 03:01:26 cr Exp $
+# $Id: AgentTicketZoom.pm,v 1.157 2011-11-04 22:13:35 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.156 $) [1];
+$VERSION = qw($Revision: 1.157 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1779,20 +1779,68 @@ sub _ArticleItem {
             Name => 'ArticleDynamicField',
             Data => {
                 Label => $Label,
-                Value => $ValueStrg->{Value},
-                Title => $ValueStrg->{Title},
             },
         );
 
+        if ( $ValueStrg->{Link} ) {
+
+            # output link element
+            $Self->{LayoutObject}->Block(
+                Name => 'ArticleDynamicFieldLink',
+                Data => {
+                    Value                       => $ValueStrg->{Value},
+                    Title                       => $ValueStrg->{Title},
+                    Link                        => $ValueStrg->{Link},
+                    $DynamicFieldConfig->{Name} => $ValueStrg->{Value}
+                },
+            );
+        }
+        else {
+
+            # output non link element
+            $Self->{LayoutObject}->Block(
+                Name => 'ArticleDynamicFieldPlain',
+                Data => {
+                    Value => $ValueStrg->{Value},
+                    Title => $ValueStrg->{Title},
+                },
+            );
+        }
+
         # example of dynamic fields order customization
         $Self->{LayoutObject}->Block(
-            Name => 'ArticleDynamicField_' . $DynamicFieldConfig->{Name},
+            Name => 'ArticleDynamicField' . $DynamicFieldConfig->{Name},
             Data => {
                 Label => $Label,
                 Value => $ValueStrg->{Value},
                 Title => $ValueStrg->{Title},
             },
         );
+
+        if ( $ValueStrg->{Link} ) {
+
+            # output link element
+            $Self->{LayoutObject}->Block(
+                Name => 'ArticleDynamicField' . $DynamicFieldConfig->{Name} . 'Link',
+                Data => {
+                    Value                       => $ValueStrg->{Value},
+                    Title                       => $ValueStrg->{Title},
+                    Link                        => $ValueStrg->{Link},
+                    $DynamicFieldConfig->{Name} => $ValueStrg->{Value}
+                },
+            );
+        }
+        else {
+
+            # output non link element
+            $Self->{LayoutObject}->Block(
+                Name => 'ArticleDynamicField' . $DynamicFieldConfig->{Name} . 'Plain',
+                Data => {
+                    Value => $ValueStrg->{Value},
+                    Title => $ValueStrg->{Title},
+                },
+            );
+        }
     }
 
     # run article view modules
