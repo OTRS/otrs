@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.32 $
+ * @version     $Revision: 1.33 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -471,6 +471,15 @@ td.Attachment {
 .TableSmall tr:hover td a,
 .TableSmall tr.Active td a {
     color: #000;
+}
+
+.TableSmall td a.DynamicFieldLink {
+    color: #FF7722;
+}
+
+.TableSmall tr:hover td a.DynamicFieldLink,
+.TableSmall tr.Active td a.DynamicFieldLink {
+    color: #FFFFFF;
 }
 
 .TableSmall tr.Even td {
