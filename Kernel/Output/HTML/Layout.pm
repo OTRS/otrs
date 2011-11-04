@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.372 2011-10-25 12:37:37 mg Exp $
+# $Id: Layout.pm,v 1.373 2011-11-04 10:13:51 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Mail::Address;
 use URI::Escape qw();
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.372 $) [1];
+$VERSION = qw($Revision: 1.373 $) [1];
 
 =head1 NAME
 
@@ -255,12 +255,17 @@ sub new {
         elsif ( $HttpUserAgent =~ /safari/ ) {
             $Self->{Browser} = 'Safari';
 
-            # on iphone disable rich text editor
-            if ( $HttpUserAgent =~ /iphone\sos/ ) {
+            # if it's an iPad/iPhone with iOS5 the rte can be enabled
+            if ( $HttpUserAgent =~ /(ipad|iphone);.*cpu.*os 5_/ ) {
+                $Self->{BrowserRichText} = 1;
+            }
+
+            # on iphone (with older iOS) disable rich text editor
+            elsif ( $HttpUserAgent =~ /iphone\sos/ ) {
                 $Self->{BrowserRichText} = 0;
             }
 
-            # on ipad disable rich text editor
+            # on ipad (with older iOS) disable rich text editor
             elsif ( $HttpUserAgent =~ /ipad;\s/ ) {
                 $Self->{BrowserRichText} = 0;
             }
@@ -4890,6 +4895,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.372 $ $Date: 2011-10-25 12:37:37 $
+$Revision: 1.373 $ $Date: 2011-11-04 10:13:51 $
 
 =cut
