@@ -3,7 +3,7 @@
 # DBUpdate-to-3.1.pl - update script to migrate OTRS 3.0.x to 3.1.x
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-3.1.pl,v 1.51 2011-11-04 22:49:34 cg Exp $
+# $Id: DBUpdate-to-3.1.pl,v 1.52 2011-11-04 23:14:29 cr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.51 $) [1];
+$VERSION = qw($Revision: 1.52 $) [1];
 
 use Getopt::Std qw();
 use Kernel::Config;
@@ -1088,6 +1088,11 @@ sub _MigrateFreeFieldsConfiguration {
                 my $DefaultSelection
                     = $CommonObject->{ConfigObject}->Get( $FieldName . "::DefaultSelection" );
                 $FieldConfig->{Config}->{DefaultValue} = $DefaultSelection;
+
+                # migrate free text link setting
+                my $Link
+                    = $CommonObject->{ConfigObject}->Get( $FieldName . "::Link" );
+                $FieldConfig->{Config}->{Link} = $Link;
 
                 # set new values
                 my $SuccessTicketField = $DynamicFieldObject->DynamicFieldUpdate(
