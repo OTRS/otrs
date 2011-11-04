@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Dropdown.pm - Delegate for DynamicField Dropdown backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Dropdown.pm,v 1.46 2011-11-02 18:04:12 cr Exp $
+# $Id: Dropdown.pm,v 1.47 2011-11-04 02:58:02 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::DynamicFieldValue;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.46 $) [1];
+$VERSION = qw($Revision: 1.47 $) [1];
 
 =head1 NAME
 
@@ -407,9 +407,13 @@ sub DisplayValueRender {
         }
     }
 
+    # set field link form config
+    my $Link = $Param{DynamicFieldConfig}->{Config}->{Link} || '';
+
     my $Data = {
         Value => $Value,
         Title => $Title,
+        Link  => $Link,
     };
 
     return $Data;

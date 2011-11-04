@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Multiselect.pm - Delegate for DynamicField Multiselect backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Multiselect.pm,v 1.35 2011-11-02 18:04:12 cr Exp $
+# $Id: Multiselect.pm,v 1.36 2011-11-04 02:58:02 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::DynamicFieldValue;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.35 $) [1];
+$VERSION = qw($Revision: 1.36 $) [1];
 
 =head1 NAME
 
@@ -489,10 +489,14 @@ sub DisplayValueRender {
     $Value .= '...' if $ShowValueEllipsis;
     $Title .= '...' if $ShowTitleEllipsis;
 
+    # this field type does not support the Link Feature
+    my $Link;
+
     # create return structure
     my $Data = {
         Value => $Value,
         Title => $Title,
+        Link  => $Link,
     };
 
     return $Data;

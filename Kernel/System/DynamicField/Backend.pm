@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend.pm - Interface for DynamicField backends
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Backend.pm,v 1.54 2011-11-02 00:56:04 cr Exp $
+# $Id: Backend.pm,v 1.55 2011-11-04 02:58:02 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Scalar::Util qw(weaken);
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.54 $) [1];
+$VERSION = qw($Revision: 1.55 $) [1];
 
 =head1 NAME
 
@@ -341,6 +341,7 @@ and will transform dates to the current user's timezone.
     $ValueStrg = {
         Title => $Title,
         Value => $Value,
+        Link  => $link,
     }
 =cut
 
@@ -1594,6 +1595,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.54 $ $Date: 2011-11-02 00:56:04 $
+$Revision: 1.55 $ $Date: 2011-11-04 02:58:02 $
 
 =cut
