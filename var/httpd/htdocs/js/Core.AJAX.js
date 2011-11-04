@@ -2,7 +2,7 @@
 // Core.AJAX.js - provides the funcionality for AJAX calls
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.AJAX.js,v 1.25 2011-10-24 11:17:32 mg Exp $
+// $Id: Core.AJAX.js,v 1.26 2011-11-04 14:29:34 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -200,9 +200,11 @@ Core.AJAX = (function (TargetNS) {
         Data.ElementChanged = ChangedElement;
         QueryString = TargetNS.SerializeForm($EventElement, Data) + SerializeData(Data);
 
-        $.each(FieldsToUpdate, function (Index, Value) {
-            ToggleAJAXLoader(Value);
-        });
+        if (FieldsToUpdate) {
+            $.each(FieldsToUpdate, function (Index, Value) {
+                ToggleAJAXLoader(Value);
+            });
+        }
 
         $.ajax({
             type: 'POST',
@@ -222,9 +224,11 @@ Core.AJAX = (function (TargetNS) {
                 }
             },
             complete: function () {
-                $.each(FieldsToUpdate, function (Index, Value) {
-                    ToggleAJAXLoader(Value);
-                });
+                if (FieldsToUpdate) {
+                    $.each(FieldsToUpdate, function (Index, Value) {
+                        ToggleAJAXLoader(Value);
+                    });
+                }
             },
             error: function () {
                 // We are out of the OTRS App scope, that's why an exception would not be caught. Therefor we handle the error manually.
