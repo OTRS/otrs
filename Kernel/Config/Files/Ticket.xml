@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.486 2011-10-24 22:00:36 cr Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.487 2011-11-04 08:18:40 mg Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Translatable="1">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Group>Ticket</Group>
@@ -7620,7 +7620,7 @@ Thanks for your help!
         <SubGroup>DynamicFields::ObjectType::Registration</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="DisplayName">Ticket</Item>
+                <Item Key="DisplayName" Translatable="1">Ticket</Item>
                 <Item Key="Module">Kernel::System::DynamicField::ObjectType::Ticket</Item>
             </Hash>
         </Setting>
@@ -7631,7 +7631,7 @@ Thanks for your help!
         <SubGroup>DynamicFields::ObjectType::Registration</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="DisplayName">Article</Item>
+                <Item Key="DisplayName" Translatable="1">Article</Item>
                 <Item Key="Module">Kernel::System::DynamicField::ObjectType::Article</Item>
             </Hash>
         </Setting>
@@ -7643,7 +7643,7 @@ Thanks for your help!
         <SubGroup>DynamicFields::Backend::Registration</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="DisplayName">Text</Item>
+                <Item Key="DisplayName" Translatable="1">Text</Item>
                 <Item Key="Module">Kernel::System::DynamicField::Backend::Text</Item>
                 <Item Key="ConfigDialog">AdminDynamicFieldText</Item>
             </Hash>
@@ -7655,7 +7655,7 @@ Thanks for your help!
         <SubGroup>DynamicFields::Backend::Registration</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="DisplayName">Text Area</Item>
+                <Item Key="DisplayName" Translatable="1">Textarea</Item>
                 <Item Key="Module">Kernel::System::DynamicField::Backend::TextArea</Item>
                 <Item Key="ConfigDialog">AdminDynamicFieldText</Item>
             </Hash>
@@ -7667,7 +7667,7 @@ Thanks for your help!
         <SubGroup>DynamicFields::Backend::Registration</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="DisplayName">Checkbox</Item>
+                <Item Key="DisplayName" Translatable="1">Checkbox</Item>
                 <Item Key="Module">Kernel::System::DynamicField::Backend::Checkbox</Item>
                 <Item Key="ConfigDialog">AdminDynamicFieldCheckbox</Item>
             </Hash>
@@ -7679,7 +7679,7 @@ Thanks for your help!
         <SubGroup>DynamicFields::Backend::Registration</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="DisplayName">Drop-down</Item>
+                <Item Key="DisplayName" Translatable="1">Dropdown</Item>
                 <Item Key="Module">Kernel::System::DynamicField::Backend::Dropdown</Item>
                 <Item Key="ConfigDialog">AdminDynamicFieldDropdown</Item>
             </Hash>
@@ -7691,7 +7691,7 @@ Thanks for your help!
         <SubGroup>DynamicFields::Backend::Registration</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="DisplayName">Date / Time</Item>
+                <Item Key="DisplayName" Translatable="1">Date / Time</Item>
                 <Item Key="Module">Kernel::System::DynamicField::Backend::DateTime</Item>
                 <Item Key="ConfigDialog">AdminDynamicFieldDateTime</Item>
             </Hash>
@@ -7703,7 +7703,7 @@ Thanks for your help!
         <SubGroup>DynamicFields::Backend::Registration</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="DisplayName">Date</Item>
+                <Item Key="DisplayName" Translatable="1">Date</Item>
                 <Item Key="Module">Kernel::System::DynamicField::Backend::Date</Item>
                 <Item Key="ConfigDialog">AdminDynamicFieldDateTime</Item>
             </Hash>
@@ -7716,7 +7716,7 @@ Thanks for your help!
         <SubGroup>DynamicFields::Backend::Registration</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="DisplayName">Multiselect</Item>
+                <Item Key="DisplayName" Translatable="1">Multiselect</Item>
                 <Item Key="Module">Kernel::System::DynamicField::Backend::Multiselect</Item>
                 <Item Key="ConfigDialog">AdminDynamicFieldMultiselect</Item>
                 <Item Key="ItemSeparator">, </Item>

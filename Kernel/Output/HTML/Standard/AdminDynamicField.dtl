@@ -2,7 +2,7 @@
 # AdminDynamicField.dtl - provides HTML form for DynamicFields
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminDynamicField.dtl,v 1.15 2011-11-02 13:33:29 mb Exp $
+# $Id: AdminDynamicField.dtl,v 1.16 2011-11-04 08:18:41 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -153,19 +153,19 @@ $('#ShowContextSettingsDialog').bind('click', function (Event) {
                                 <a href="$Env{"Baselink"}Action=$LQData{"ConfigDialog"};Subaction=Change;ObjectType=$LQData{"ObjectType"};FieldType=$LQData{"FieldType"};ID=$LQData{"ID"}" title="$QData{"Name"}" class="MasterActionLink">$Data{"Name"}</a>
                             </td>
                             <td>
-                                <div title="$Text{"$Data{"Label"}"}">$Data{"Label"}</div>
+                                <div>$Text{"$Data{"Label"}"}</div>
                             </td>
                             <td>
-                                <div title="$Text{"$Data{"Label"}"}">$Data{"FieldOrder"}</div>
+                                <div>$Data{"FieldOrder"}</div>
                             </td>
                             <td>
-                                <div title="$Text{"$Data{"FieldTypeName"}"}">$Data{"FieldTypeName"}</div>
+                                <div>$Text{"$Data{"FieldTypeName"}"}</div>
                             </td>
                             <td>
-                                <div title="$Text{"$Data{"ObjectTypeName"}"}">$Data{"ObjectTypeName"}</div>
+                                <div>$Text{"$Data{"ObjectTypeName"}"}</div>
                             </td>
                             <td>
-                                <div title="$Text{"$Data{"Validity"}"}">$Data{"Valid"}</div>
+                                <div>$Text{"$Data{"Valid"}"}</div>
                             </td>
                         </tr>
 <!-- dtl:block:DynamicFieldsRow -->
