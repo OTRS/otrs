@@ -2,7 +2,7 @@
 # AgentTicketOverviewSmall.dtl - html for ticket overview table
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewSmall.dtl,v 1.83 2011-11-04 03:03:46 cr Exp $
+# $Id: AgentTicketOverviewSmall.dtl,v 1.84 2011-11-04 22:49:37 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -200,7 +200,7 @@
                     <td>
                         <div title="$QData{"Title"}">
 <!-- dtl:block:RecordDynamicFieldLink -->
-                            <a href="$Data{"Link"}" class="DynamicFieldLink AsPopup">$Data{"Value"}</a>
+                            <a href="$Data{"Link"}" class="DynamicFieldLink">$Data{"Value"}</a>
 <!-- dtl:block:RecordDynamicFieldLink -->
 <!-- dtl:block:RecordDynamicFieldPlain -->
                             $Data{"Value"}
@@ -215,7 +215,7 @@
 #                    <td>
 #                        <div title="$QData{"Title"}">
 #<!-- dtl:block:RecordDynamicField1Link -->
-#                            <a href="$Data{"Link"}" class="DynamicFieldLink AsPopup">$Data{"Value"}</a>
+#                            <a href="$Data{"Link"}" class="DynamicFieldLink">$Data{"Value"}</a>
 #<!-- dtl:block:RecordDynamicField1Link -->
 #<!-- dtl:block:RecordDynamicField1Plain -->
 #                            $Data{"Value"}
@@ -227,7 +227,7 @@
 #                    <td>
 #                        <div title="$QData{"Title"}">
 #<!-- dtl:block:RecordDynamicField1Link -->
-#                            <a href="$Data{"Link"}" class="DynamicFieldLink AsPopup">$Data{"Value"}</a>
+#                            <a href="$Data{"Link"}" class="DynamicFieldLink">$Data{"Value"}</a>
 #<!-- dtl:block:RecordDynamicField1Link -->
 #<!-- dtl:block:RecordDynamicField1Plain -->
 #                            $Data{"Value"}
@@ -301,6 +301,10 @@
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
 $('a.AsPopup').bind('click', function (Event) {
+    Core.UI.Popup.OpenPopup($(this).attr('href'), 'Action');
+    return false;
+});
+$('a.DynamicFieldLink').bind('click', function (Event) {
     Core.UI.Popup.OpenPopup($(this).attr('href'), 'Action');
     return false;
 });

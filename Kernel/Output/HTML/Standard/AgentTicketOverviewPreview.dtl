@@ -2,7 +2,7 @@
 # AgentTicketOverviewPreview.dtl - provides HTML Ticket Overview
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewPreview.dtl,v 1.73 2011-11-04 03:02:57 cr Exp $
+# $Id: AgentTicketOverviewPreview.dtl,v 1.74 2011-11-04 22:49:37 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -183,7 +183,7 @@
                             <td>
                                 <label>$Text{"$Data{"Label"}"}</label>
 <!-- dtl:block:DynamicFieldTableRowRecordLink -->
-                                <div title="$Data{"Title"}"><a href="$Data{"Link"}" class="AsPopup DynamicFieldLink">$Data{"Value"}</a></div>
+                                <div title="$Data{"Title"}"><a href="$Data{"Link"}" class="DynamicFieldLink">$Data{"Value"}</a></div>
 <!-- dtl:block:DynamicFieldTableRowRecordLink -->
 <!-- dtl:block:DynamicFieldTableRowRecordPlain -->
                                 <div title="$Data{"Title"}"><span>$Data{"Value"}</span></div>
@@ -201,7 +201,7 @@
 #                        <td>
 #                            <label>$Text{"$Data{"Label"}"}</label>
 #<!-- dtl:block:DynamicField_Field1_TableRowRecordLink -->
-#                            <div title="$Data{"Title"}"><a href="$Data{"Link"}" class="AsPopup DynamicFieldLink">$Data{"Value"}</a></div>
+#                            <div title="$Data{"Title"}"><a href="$Data{"Link"}" class="DynamicFieldLink">$Data{"Value"}</a></div>
 #<!-- dtl:block:DynamicField_Field1_TableRowRecordLink -->
 #<!-- dtl:block:DynamicField_Field1_TableRowRecordPlain -->
 #                            <div title="$Data{"Title"}"><span>$Data{"Value"}</span></div>
@@ -214,7 +214,7 @@
 #                        <td>
 #                            <label>$Text{"$Data{"Label"}"}</label>
 #<!-- dtl:block:DynamicField_Field2_TableRowRecordLink -->
-#                            <div title="$Data{"Title"}"><a href="$Data{"Link"}" class="AsPopup DynamicFieldLink">$Data{"Value"}</a></div>
+#                            <div title="$Data{"Title"}"><a href="$Data{"Link"}" class="DynamicFieldLink">$Data{"Value"}</a></div>
 #<!-- dtl:block:DynamicField_Field2_TableRowRecordLink -->
 #<!-- dtl:block:DynamicField_Field2_TableRowRecordPlain -->
 #                            <div title="$Data{"Title"}"><span>$Data{"Value"}</span></div>
@@ -368,6 +368,10 @@ $Data{"Body"}
         }
 
         Core.UI.Popup.OpenPopup($(this).attr('href'), PopupType);
+        return false;
+    });
+    $('a.DynamicFieldLink').bind('click', function (Event) {
+        Core.UI.Popup.OpenPopup($(this).attr('href'), 'Action');
         return false;
     });
 //]]></script>
