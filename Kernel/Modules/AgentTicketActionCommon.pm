@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketActionCommon.pm - common file for several modules
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketActionCommon.pm,v 1.60 2011-11-01 18:44:19 cr Exp $
+# $Id: AgentTicketActionCommon.pm,v 1.61 2011-11-04 20:25:15 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -60,10 +60,18 @@ sub new {
     # get config of frontend module
     $Self->{Config} = $Self->{ConfigObject}->Get("Ticket::Frontend::$Self->{Action}");
 
+    # define the dynamic fields to show based on the object type
+    my $ObjectType = ['Ticket'];
+
+    # only screens that add notes can modify Article dynamic fields
+    if ( $Self->{Config}->{Note} ) {
+        $ObjectType = [ 'Ticket', 'Article' ];
+    }
+
     # get the dynamic fields for this screen
     $Self->{DynamicField} = $Self->{DynamicFieldObject}->DynamicFieldListGet(
         Valid       => 1,
-        ObjectType  => [ 'Ticket', 'Article' ],
+        ObjectType  => $ObjectType,
         FieldFilter => $Self->{Config}->{DynamicField} || {},
     );
 
