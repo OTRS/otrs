@@ -2,7 +2,7 @@
 # AgentTicketOverviewSmall.dtl - html for ticket overview table
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewSmall.dtl,v 1.82 2011-09-27 22:41:01 cr Exp $
+# $Id: AgentTicketOverviewSmall.dtl,v 1.83 2011-11-04 03:03:46 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -198,7 +198,14 @@
                     </td>
 <!-- dtl:block:RecordDynamicField -->
                     <td>
-                        <div title="$QData{"Title"}">$Data{"Value"}</div>
+                        <div title="$QData{"Title"}">
+<!-- dtl:block:RecordDynamicFieldLink -->
+                            <a href="$Data{"Link"}" class="DynamicFieldLink AsPopup">$Data{"Value"}</a>
+<!-- dtl:block:RecordDynamicFieldLink -->
+<!-- dtl:block:RecordDynamicFieldPlain -->
+                            $Data{"Value"}
+<!-- dtl:block:RecordDynamicFieldPlain -->
+                        </div>
                     </td>
 <!-- dtl:block:RecordDynamicField -->
 # example of how to use fixed dynamic field blocks for customizations
@@ -206,12 +213,26 @@
 # field names
 #<!-- dtl:block:RecordDynamicField_Field1 -->
 #                    <td>
-#                        <div title="$QData{"Title"}">$Data{"Value"}</div>
+#                        <div title="$QData{"Title"}">
+#<!-- dtl:block:RecordDynamicField1Link -->
+#                            <a href="$Data{"Link"}" class="DynamicFieldLink AsPopup">$Data{"Value"}</a>
+#<!-- dtl:block:RecordDynamicField1Link -->
+#<!-- dtl:block:RecordDynamicField1Plain -->
+#                            $Data{"Value"}
+#<!-- dtl:block:RecordDynamicField1Plain -->
+#                        </div>
 #                    </td>
 #<!-- dtl:block:RecordDynamicField_Field1 -->
 #<!-- dtl:block:RecordDynamicField_Field2 -->
 #                    <td>
-#                        <div title="$QData{"Title"}">$Data{"Value"}</div>
+#                        <div title="$QData{"Title"}">
+#<!-- dtl:block:RecordDynamicField1Link -->
+#                            <a href="$Data{"Link"}" class="DynamicFieldLink AsPopup">$Data{"Value"}</a>
+#<!-- dtl:block:RecordDynamicField1Link -->
+#<!-- dtl:block:RecordDynamicField1Plain -->
+#                            $Data{"Value"}
+#<!-- dtl:block:RecordDynamicField1Plain -->
+#                        </div>
 #                    </td>
 #<!-- dtl:block:RecordDynamicField_Field2 -->
 

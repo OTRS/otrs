@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.155 2011-10-24 21:47:16 cr Exp $
+# $Id: AgentTicketZoom.pm,v 1.156 2011-11-04 03:01:26 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.155 $) [1];
+$VERSION = qw($Revision: 1.156 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -792,13 +792,26 @@ sub MaskAgentZoom {
             },
         );
 
-        $Self->{LayoutObject}->Block(
-            Name => 'TicketDynamicFieldPlain',
-            Data => {
-                Value => $ValueStrg->{Value},
-                Title => $ValueStrg->{Title},
-            },
-        );
+        if ( $ValueStrg->{Link} ) {
+            $Self->{LayoutObject}->Block(
+                Name => 'TicketDynamicFieldLink',
+                Data => {
+                    Value                       => $ValueStrg->{Value},
+                    Title                       => $ValueStrg->{Title},
+                    Link                        => $ValueStrg->{Link},
+                    $DynamicFieldConfig->{Name} => $ValueStrg->{Value},
+                },
+            );
+        }
+        else {
+            $Self->{LayoutObject}->Block(
+                Name => 'TicketDynamicFieldPlain',
+                Data => {
+                    Value => $ValueStrg->{Value},
+                    Title => $ValueStrg->{Title},
+                },
+            );
+        }
 
         # example of dynamic fields order customization
         $Self->{LayoutObject}->Block(

@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/TicketOverviewMedium.pm
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketOverviewMedium.pm,v 1.47 2011-11-01 19:08:28 cr Exp $
+# $Id: TicketOverviewMedium.pm,v 1.48 2011-11-04 03:02:19 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.47 $) [1];
+$VERSION = qw($Revision: 1.48 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -664,14 +664,30 @@ sub _Show {
             },
         );
 
-        # outout dynamic field value plain
-        $Self->{LayoutObject}->Block(
-            Name => 'DynamicFieldTableRowRecordPlain',
-            Data => {
-                Value => $ValueStrg->{Value},
-                Title => $ValueStrg->{Title},
-            },
-        );
+        if ( $ValueStrg->{Link} ) {
+
+            # outout dynamic field value link
+            $Self->{LayoutObject}->Block(
+                Name => 'DynamicFieldTableRowRecordLink',
+                Data => {
+                    Value                       => $ValueStrg->{Value},
+                    Title                       => $ValueStrg->{Title},
+                    Link                        => $ValueStrg->{Link},
+                    $DynamicFieldConfig->{Name} => $ValueStrg->{Value},
+                },
+            );
+        }
+        else {
+
+            # outout dynamic field value plain
+            $Self->{LayoutObject}->Block(
+                Name => 'DynamicFieldTableRowRecordPlain',
+                Data => {
+                    Value => $ValueStrg->{Value},
+                    Title => $ValueStrg->{Title},
+                },
+            );
+        }
 
         # only 5 dynamic fields by row are allowed, reset couter if needed
         if ( $Counter == 5 ) {
@@ -687,14 +703,30 @@ sub _Show {
             },
         );
 
-        # outout dynamic field value plain
-        $Self->{LayoutObject}->Block(
-            Name => 'DynamicFieldTableRowRecordPlain' . $DynamicFieldConfig->{Name},
-            Data => {
-                Value => $ValueStrg->{Value},
-                Title => $ValueStrg->{Title},
-            },
-        );
+        if ( $ValueStrg->{Link} ) {
+
+            # outout dynamic field value link
+            $Self->{LayoutObject}->Block(
+                Name => 'DynamicFieldTableRowRecord' . $DynamicFieldConfig->{Name} . 'Link',
+                Data => {
+                    Value                       => $ValueStrg->{Value},
+                    Title                       => $ValueStrg->{Title},
+                    Link                        => $ValueStrg->{Link},
+                    $DynamicFieldConfig->{Name} => $ValueStrg->{Value},
+                },
+            );
+        }
+        else {
+
+            # outout dynamic field value plain
+            $Self->{LayoutObject}->Block(
+                Name => 'DynamicFieldTableRowRecord' . $DynamicFieldConfig->{Name} . 'Plain',
+                Data => {
+                    Value => $ValueStrg->{Value},
+                    Title => $ValueStrg->{Title},
+                },
+            );
+        }
     }
 
     # fill the rest of the Dyanmic Fields row with empty cells, this will look better

@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/TicketOverviewSmall.pm
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketOverviewSmall.pm,v 1.46 2011-11-01 19:08:28 cr Exp $
+# $Id: TicketOverviewSmall.pm,v 1.47 2011-11-04 03:03:46 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.46 $) [1];
+$VERSION = qw($Revision: 1.47 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -564,6 +564,27 @@ sub Run {
                 },
             );
 
+            if ( $ValueStrg->{Link} ) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'RecordDynamicFieldLink',
+                    Data => {
+                        Value                       => $ValueStrg->{Value},
+                        Title                       => $ValueStrg->{Title},
+                        Link                        => $ValueStrg->{Link},
+                        $DynamicFieldConfig->{Name} => $ValueStrg->{Value},
+                    },
+                );
+            }
+            else {
+                $Self->{LayoutObject}->Block(
+                    Name => 'RecordDynamicFieldPlain',
+                    Data => {
+                        Value => $ValueStrg->{Value},
+                        Title => $ValueStrg->{Title},
+                    },
+                );
+            }
+
             # example of dynamic fields order customization
             $Self->{LayoutObject}->Block(
                 Name => 'RecordDynamicField' . $DynamicFieldConfig->{Name},
@@ -572,6 +593,27 @@ sub Run {
                     Title => $ValueStrg->{Title},
                 },
             );
+
+            if ( $ValueStrg->{Link} ) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'RecordDynamicField' . $DynamicFieldConfig->{Name} . 'Link',
+                    Data => {
+                        Value                       => $ValueStrg->{Value},
+                        Title                       => $ValueStrg->{Title},
+                        Link                        => $ValueStrg->{Link},
+                        $DynamicFieldConfig->{Name} => $ValueStrg->{Value},
+                    },
+                );
+            }
+            else {
+                $Self->{LayoutObject}->Block(
+                    Name => 'RecordDynamicField' . $DynamicFieldConfig->{Name} . 'Plain',
+                    Data => {
+                        Value => $ValueStrg->{Value},
+                        Title => $ValueStrg->{Title},
+                    },
+                );
+            }
         }
 
         # add action items as js

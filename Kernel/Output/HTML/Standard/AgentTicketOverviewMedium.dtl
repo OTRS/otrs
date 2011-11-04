@@ -2,7 +2,7 @@
 # AgentTicketOverviewMedium.dtl - provides HTML Ticket Overview
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewMedium.dtl,v 1.64 2011-09-27 22:41:01 cr Exp $
+# $Id: AgentTicketOverviewMedium.dtl,v 1.65 2011-11-04 03:02:19 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -116,12 +116,12 @@
 #<!-- dtl:block:DynamicField_Field1 -->
 #                        <td>
 #                            <label>$Text{"$Data{"Label"}"}</label>
-#<!-- dtl:block:DynamicField_Field1_Link -->
-#                            <div title="$Data{"Title"}"><a href="$Data{Link}" target="_blank">$Data{"Value"}</a></div>
-#<!-- dtl:block:DynamicField_Field1_Link -->
-#<!-- dtl:block:DynamicField_Field1_Plain -->
+#<!-- dtl:block:DynamicField_Field1Link -->
+#                            <div title="$Data{"Title"}"><a href="$Data{"Link"}" class="AsPopup DynamicFieldLink">$Data{"Value"}</a></div>
+#<!-- dtl:block:DynamicField_Field1Link -->
+#<!-- dtl:block:DynamicField_Field1Plain -->
 #                            <div title="$Data{"Title"}"><span>$Data{"Value"}</span></div>
-#<!-- dtl:block:DynamicField_Field1_Plain -->
+#<!-- dtl:block:DynamicField_Field1Plain -->
 #                        </td>
 #<!-- dtl:block:DynamicField_Field1 -->
                         <td>
@@ -152,12 +152,12 @@
 #<!-- dtl:block:DynamicField_Field2 -->
 #                        <td>
 #                            <label>$Text{"$Data{"Label"}"}</label>
-#<!-- dtl:block:DynamicField_Field2_Link -->
-#                            <div title="$Data{"Title"}"><a href="$Data{Link}" target="_blank">$Data{"Value"}</a></div>
-#<!-- dtl:block:DynamicField_Field2_Link -->
-#<!-- dtl:block:DynamicField_Field2_Plain -->
+#<!-- dtl:block:DynamicField_Field2Link -->
+#                            <div title="$Data{"Title"}"><a href="$Data{"Link"}" class=" AsPopup DynamicFieldLink">$Data{"Value"}</a></div>
+#<!-- dtl:block:DynamicField_Field2Link -->
+#<!-- dtl:block:DynamicField_Field2Plain -->
 #                            <div title="$Data{"Title"}"><span>$Data{"Value"}</span></div>
-#<!-- dtl:block:DynamicField_Field2_Plain -->
+#<!-- dtl:block:DynamicField_Field2Plain -->
 #                        </td>
 #<!-- dtl:block:DynamicField_Field2 -->
                         <td>
@@ -191,12 +191,12 @@
 #<!-- dtl:block:DynamicField_Field3 -->
 #                        <td>
 #                            <label>$Text{"$Data{"Label"}"}</label>
-#<!-- dtl:block:DynamicField_Field3_Link -->
-#                            <div title="$Data{"Title"}"><a href="$Data{Link}" target="_blank">$Data{"Value"}</a></div>
-#<!-- dtl:block:DynamicField_Field3_Link -->
-#<!-- dtl:block:DynamicField_Field3_Plain -->
+#<!-- dtl:block:DynamicField_Field3Link -->
+#                            <div title="$Data{"Title"}"><a href="$Data{"Link"}" class="AsPopup DynamicFieldLink">$Data{"Value"}</a></div>
+#<!-- dtl:block:DynamicField_Field3Link -->
+#<!-- dtl:block:DynamicField_Field3Plain -->
 #                            <div title="$Data{"Title"}"><span>$Data{"Value"}</span></div>
-#<!-- dtl:block:DynamicField_Field3_Plain -->
+#<!-- dtl:block:DynamicField_Field3Plain -->
 #                        </td>
 #<!-- dtl:block:DynamicField_Field3 -->
                         <td>
@@ -219,7 +219,7 @@
                         <td>
                             <label>$Text{"$Data{"Label"}"}</label>
 <!-- dtl:block:DynamicFieldTableRowRecordLink -->
-                            <div title="$Data{"Title"}"><a href="$Data{Link}" target="_blank">$Data{"Value"}</a></div>
+                            <div title="$Data{"Title"}"><a href="$Data{"Link"}" class="AsPopup DynamicFieldLink">$Data{"Value"}</a></div>
 <!-- dtl:block:DynamicFieldTableRowRecordLink -->
 <!-- dtl:block:DynamicFieldTableRowRecordPlain -->
                             <div title="$Data{"Title"}"><span>$Data{"Value"}</span></div>

@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.195 2011-09-30 11:35:43 mg Exp $
+# $Id: AgentTicketZoom.dtl,v 1.196 2011-11-04 03:01:26 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -195,7 +195,7 @@
                         <label>$Text{"$Data{"Label"}"}:</label>
                         <p class="Value">
 <!-- dtl:block:TicketDynamicFieldLink -->
-                            <span title="$QData{"Title"}"><a href="$Data{"Link"}" target="_blank">$Data{"Value"}</a></span>
+                            <span title="$QData{"Title"}"><a href="$Data{"Link"}" target="_blank" class="DynamicFieldLink">$Data{"Value"}</a></span>
 <!-- dtl:block:TicketDynamicFieldLink -->
 <!-- dtl:block:TicketDynamicFieldPlain -->
                             <span title="$QData{"Title"}">$Data{"Value"}</span>
