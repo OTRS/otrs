@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminQueueResponses.pm - to manage queue <-> responses assignments
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminQueueResponses.pm,v 1.42 2011-06-06 00:12:12 ep Exp $
+# $Id: AdminQueueResponses.pm,v 1.43 2011-11-05 17:01:27 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Queue;
 use Kernel::System::StandardResponse;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.42 $) [1];
+$VERSION = qw($Revision: 1.43 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -132,6 +132,7 @@ sub Run {
                 Bind => [ \$ID ],
             );
             for my $NewID (@IDs) {
+                next if !$ID;
                 $Self->{DBObject}->Do(
                     SQL => 'INSERT INTO queue_standard_response (queue_id, standard_response_id, '
                         . 'create_time, create_by, change_time, change_by) VALUES '
@@ -170,6 +171,7 @@ sub Run {
                 Bind => [ \$ID ],
             );
             for my $NewID (@IDs) {
+                next if !$NewID;
                 $Self->{DBObject}->Do(
                     SQL => 'INSERT INTO queue_standard_response (queue_id, standard_response_id, '
                         . 'create_time, create_by, change_time, change_by) VALUES '
