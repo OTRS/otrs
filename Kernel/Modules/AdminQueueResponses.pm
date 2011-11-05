@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminQueueResponses.pm - to add/update/delete groups <-> users
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminQueueResponses.pm,v 1.41 2010-11-10 11:04:28 mg Exp $
+# $Id: AdminQueueResponses.pm,v 1.41.2.1 2011-11-05 16:58:54 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Queue;
 use Kernel::System::StandardResponse;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.41 $) [1];
+$VERSION = qw($Revision: 1.41.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -132,6 +132,7 @@ sub Run {
                 Bind => [ \$ID ],
             );
             for my $NewID (@IDs) {
+                next if !$NewID;
                 $Self->{DBObject}->Do(
                     SQL => 'INSERT INTO queue_standard_response (queue_id, standard_response_id, '
                         . 'create_time, create_by, change_time, change_by) VALUES '
@@ -170,6 +171,7 @@ sub Run {
                 Bind => [ \$ID ],
             );
             for my $NewID (@IDs) {
+                next if !$NewID;
                 $Self->{DBObject}->Do(
                     SQL => 'INSERT INTO queue_standard_response (queue_id, standard_response_id, '
                         . 'create_time, create_by, change_time, change_by) VALUES '
