@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminQueueResponses.pm - to manage queue <-> responses assignments
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminQueueResponses.pm,v 1.44 2011-11-05 17:08:35 mb Exp $
+# $Id: AdminQueueResponses.pm,v 1.45 2011-11-05 17:17:02 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Queue;
 use Kernel::System::StandardResponse;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.44 $) [1];
+$VERSION = qw($Revision: 1.45 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -125,23 +125,22 @@ sub Run {
                 $Active = 1;
                 last;
             }
-
-            # update db
-            $Self->{DBObject}->Do(
-                SQL  => 'DELETE FROM queue_standard_response WHERE queue_id = ?',
-                Bind => [ \$ID ],
-            );
-            for my $NewID (@IDs) {
-                next if !$ID;
-                $Self->{DBObject}->Do(
-                    SQL => 'INSERT INTO queue_standard_response (queue_id, standard_response_id, '
-                        . 'create_time, create_by, change_time, change_by) VALUES '
-                        . ' (?, ?, current_timestamp, ?, current_timestamp, ?)',
-                    Bind => [ \$ID, \$NewID, \$Self->{UserID}, \$Self->{UserID} ],
-                );
-            }
         }
 
+        # update db
+        $Self->{DBObject}->Do(
+            SQL  => 'DELETE FROM queue_standard_response WHERE queue_id = ?',
+            Bind => [ \$ID ],
+        );
+        for my $NewID (@IDs) {
+            next if !$ID;
+            $Self->{DBObject}->Do(
+                SQL => 'INSERT INTO queue_standard_response (queue_id, standard_response_id, '
+                    . 'create_time, create_by, change_time, change_by) VALUES '
+                    . ' (?, ?, current_timestamp, ?, current_timestamp, ?)',
+                Bind => [ \$ID, \$NewID, \$Self->{UserID}, \$Self->{UserID} ],
+            );
+        }
         return $Self->{LayoutObject}->Redirect( OP => "Action=$Self->{Action}" );
     }
 
@@ -164,21 +163,21 @@ sub Run {
                 $Active = 1;
                 last;
             }
+        }
 
-            # update db
+        # update db
+        $Self->{DBObject}->Do(
+            SQL  => 'DELETE FROM queue_standard_response WHERE standard_response_id = ?',
+            Bind => [ \$ID ],
+        );
+        for my $NewID (@IDs) {
+            next if !$NewID;
             $Self->{DBObject}->Do(
-                SQL  => 'DELETE FROM queue_standard_response WHERE standard_response_id = ?',
-                Bind => [ \$ID ],
+                SQL => 'INSERT INTO queue_standard_response (queue_id, standard_response_id, '
+                    . 'create_time, create_by, change_time, change_by) VALUES '
+                    . ' (?, ?, current_timestamp, ?, current_timestamp, ?)',
+                Bind => [ \$NewID, \$ID, \$Self->{UserID}, \$Self->{UserID} ],
             );
-            for my $NewID (@IDs) {
-                next if !$NewID;
-                $Self->{DBObject}->Do(
-                    SQL => 'INSERT INTO queue_standard_response (queue_id, standard_response_id, '
-                        . 'create_time, create_by, change_time, change_by) VALUES '
-                        . ' (?, ?, current_timestamp, ?, current_timestamp, ?)',
-                    Bind => [ \$NewID, \$ID, \$Self->{UserID}, \$Self->{UserID} ],
-                );
-            }
         }
 
         return $Self->{LayoutObject}->Redirect( OP => "Action=$Self->{Action}" );
