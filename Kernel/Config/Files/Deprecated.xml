@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Deprecated.xml,v 1.9 2011-10-04 01:29:05 cr Exp $</CVS>
+    <CVS>$Id: Deprecated.xml,v 1.10 2011-11-06 15:31:17 cr Exp $</CVS>
     <ConfigItem Name="TicketFreeKey1" Required="0" Valid="0">
         <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
         <Group>Z_Deprecated</Group>
@@ -2129,6 +2129,225 @@
                 <Item Key="4">0</Item>
                 <Item Key="5">0</Item>
                 <Item Key="6">0</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+   <ConfigItem Name="Ticket::EventModulePost###TicketFreeFieldDefault" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Z_Deprecated</Group>
+        <SubGroup>Core::TicketFreeTextDefault</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::System::Ticket::Event::TicketFreeFieldDefault</Item>
+                <Item Key="Transaction">1</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::TicketFreeFieldDefault###Element1" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Z_Deprecated</Group>
+        <SubGroup>Core::TicketFreeTextDefault</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Counter">1</Item>
+                <Item Key="Key">TicketType</Item>
+                <Item Key="Value">Default</Item>
+                <Item Key="Event">TicketCreate</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::TicketFreeFieldDefault###Element2" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Z_Deprecated</Group>
+        <SubGroup>Core::TicketFreeTextDefault</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Counter"></Item>
+                <Item Key="Key"></Item>
+                <Item Key="Value"></Item>
+                <Item Key="Event"></Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::TicketFreeFieldDefault###Element3" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Z_Deprecated</Group>
+        <SubGroup>Core::TicketFreeTextDefault</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Counter"></Item>
+                <Item Key="Key"></Item>
+                <Item Key="Value"></Item>
+                <Item Key="Event"></Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::TicketFreeFieldDefault###Element4" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Z_Deprecated</Group>
+        <SubGroup>Core::TicketFreeTextDefault</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Counter"></Item>
+                <Item Key="Key"></Item>
+                <Item Key="Value"></Item>
+                <Item Key="Event"></Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::TicketFreeFieldDefault###Element5" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Z_Deprecated</Group>
+        <SubGroup>Core::TicketFreeTextDefault</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Counter"></Item>
+                <Item Key="Key"></Item>
+                <Item Key="Value"></Item>
+                <Item Key="Event"></Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::TicketFreeFieldDefault###Element6" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Z_Deprecated</Group>
+        <SubGroup>Core::TicketFreeTextDefault</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Counter"></Item>
+                <Item Key="Key"></Item>
+                <Item Key="Value"></Item>
+                <Item Key="Event"></Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::TicketFreeFieldDefault###Element7" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Z_Deprecated</Group>
+        <SubGroup>Core::TicketFreeTextDefault</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Counter"></Item>
+                <Item Key="Key"></Item>
+                <Item Key="Value"></Item>
+                <Item Key="Event"></Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::TicketFreeFieldDefault###Element8" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Z_Deprecated</Group>
+        <SubGroup>Core::TicketFreeTextDefault</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Counter"></Item>
+                <Item Key="Key"></Item>
+                <Item Key="Value"></Item>
+                <Item Key="Event"></Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::TicketFreeFieldDefault###Element9" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Z_Deprecated</Group>
+        <SubGroup>Core::TicketFreeTextDefault</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Counter"></Item>
+                <Item Key="Key"></Item>
+                <Item Key="Value"></Item>
+                <Item Key="Event"></Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::TicketFreeFieldDefault###Element10" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Z_Deprecated</Group>
+        <SubGroup>Core::TicketFreeTextDefault</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Counter"></Item>
+                <Item Key="Key"></Item>
+                <Item Key="Value"></Item>
+                <Item Key="Event"></Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::TicketFreeFieldDefault###Element11" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Z_Deprecated</Group>
+        <SubGroup>Core::TicketFreeTextDefault</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Counter"></Item>
+                <Item Key="Key"></Item>
+                <Item Key="Value"></Item>
+                <Item Key="Event"></Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::TicketFreeFieldDefault###Element12" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Z_Deprecated</Group>
+        <SubGroup>Core::TicketFreeTextDefault</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Counter"></Item>
+                <Item Key="Key"></Item>
+                <Item Key="Value"></Item>
+                <Item Key="Event"></Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::TicketFreeFieldDefault###Element13" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Z_Deprecated</Group>
+        <SubGroup>Core::TicketFreeTextDefault</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Counter"></Item>
+                <Item Key="Key"></Item>
+                <Item Key="Value"></Item>
+                <Item Key="Event"></Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::TicketFreeFieldDefault###Element14" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Z_Deprecated</Group>
+        <SubGroup>Core::TicketFreeTextDefault</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Counter"></Item>
+                <Item Key="Key"></Item>
+                <Item Key="Value"></Item>
+                <Item Key="Event"></Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::TicketFreeFieldDefault###Element15" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Z_Deprecated</Group>
+        <SubGroup>Core::TicketFreeTextDefault</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Counter"></Item>
+                <Item Key="Key"></Item>
+                <Item Key="Value"></Item>
+                <Item Key="Event"></Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::TicketFreeFieldDefault###Element16" Required="0" Valid="0">
+        <Description Translatable="1">DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.</Description>
+        <Group>Z_Deprecated</Group>
+        <SubGroup>Core::TicketFreeTextDefault</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Counter"></Item>
+                <Item Key="Key"></Item>
+                <Item Key="Value"></Item>
+                <Item Key="Event"></Item>
             </Hash>
         </Setting>
     </ConfigItem>
