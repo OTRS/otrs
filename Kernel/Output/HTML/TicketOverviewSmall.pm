@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/TicketOverviewSmall.pm
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketOverviewSmall.pm,v 1.47 2011-11-04 03:03:46 cr Exp $
+# $Id: TicketOverviewSmall.pm,v 1.48 2011-11-06 15:36:28 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.47 $) [1];
+$VERSION = qw($Revision: 1.48 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -571,7 +571,7 @@ sub Run {
                         Value                       => $ValueStrg->{Value},
                         Title                       => $ValueStrg->{Title},
                         Link                        => $ValueStrg->{Link},
-                        $DynamicFieldConfig->{Name} => $ValueStrg->{Value},
+                        $DynamicFieldConfig->{Name} => $ValueStrg->{Title},
                     },
                 );
             }
@@ -601,7 +601,7 @@ sub Run {
                         Value                       => $ValueStrg->{Value},
                         Title                       => $ValueStrg->{Title},
                         Link                        => $ValueStrg->{Link},
-                        $DynamicFieldConfig->{Name} => $ValueStrg->{Value},
+                        $DynamicFieldConfig->{Name} => $ValueStrg->{Title},
                     },
                 );
             }

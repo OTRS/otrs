@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.157 2011-11-04 22:13:35 cr Exp $
+# $Id: AgentTicketZoom.pm,v 1.158 2011-11-06 15:36:28 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.157 $) [1];
+$VERSION = qw($Revision: 1.158 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -799,7 +799,7 @@ sub MaskAgentZoom {
                     Value                       => $ValueStrg->{Value},
                     Title                       => $ValueStrg->{Title},
                     Link                        => $ValueStrg->{Link},
-                    $DynamicFieldConfig->{Name} => $ValueStrg->{Value},
+                    $DynamicFieldConfig->{Name} => $ValueStrg->{Title},
                 },
             );
         }
@@ -1791,7 +1791,7 @@ sub _ArticleItem {
                     Value                       => $ValueStrg->{Value},
                     Title                       => $ValueStrg->{Title},
                     Link                        => $ValueStrg->{Link},
-                    $DynamicFieldConfig->{Name} => $ValueStrg->{Value}
+                    $DynamicFieldConfig->{Name} => $ValueStrg->{Title}
                 },
             );
         }
@@ -1826,7 +1826,7 @@ sub _ArticleItem {
                     Value                       => $ValueStrg->{Value},
                     Title                       => $ValueStrg->{Title},
                     Link                        => $ValueStrg->{Link},
-                    $DynamicFieldConfig->{Name} => $ValueStrg->{Value}
+                    $DynamicFieldConfig->{Name} => $ValueStrg->{Title}
                 },
             );
         }
