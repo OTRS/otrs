@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.488 2011-11-05 19:16:33 mb Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.489 2011-11-06 15:37:56 cr Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Translatable="1">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Group>Ticket</Group>
@@ -7177,225 +7177,6 @@ Thanks for your help!
             <String Regex="">(MAILER-DAEMON|postmaster|abuse)@.+?\..+?</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::EventModulePost###TicketFreeFieldDefault" Required="0" Valid="0">
-        <Description Translatable="1">Event module registration. For more performance you can define a trigger event (e. g. Event =&gt; TicketCreate). This is only possible if all TicketFreeField elements need the same event.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Core::TicketFreeTextDefault</SubGroup>
-        <Setting>
-            <Hash>
-                <Item Key="Module">Kernel::System::Ticket::Event::TicketFreeFieldDefault</Item>
-                <Item Key="Transaction">1</Item>
-            </Hash>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::TicketFreeFieldDefault###Element1" Required="0" Valid="0">
-        <Description Translatable="1">Configures a default TicketFreeField setting. "Counter" defines the free text field which should be used, "Key" is the TicketFreeKey, "Value" is the TicketFreeText and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Core::TicketFreeTextDefault</SubGroup>
-        <Setting>
-            <Hash>
-                <Item Key="Counter">1</Item>
-                <Item Key="Key">TicketType</Item>
-                <Item Key="Value">Default</Item>
-                <Item Key="Event">TicketCreate</Item>
-            </Hash>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::TicketFreeFieldDefault###Element2" Required="0" Valid="0">
-        <Description Translatable="1">Configures a default TicketFreeField setting. "Counter" defines the free text field which should be used, "Key" is the TicketFreeKey, "Value" is the TicketFreeText and "Event" defines the trigger event.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Core::TicketFreeTextDefault</SubGroup>
-        <Setting>
-            <Hash>
-                <Item Key="Counter"></Item>
-                <Item Key="Key"></Item>
-                <Item Key="Value"></Item>
-                <Item Key="Event"></Item>
-            </Hash>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::TicketFreeFieldDefault###Element3" Required="0" Valid="0">
-        <Description Translatable="1">Configures a default TicketFreeField setting. "Counter" defines the free text field which should be used, "Key" is the TicketFreeKey, "Value" is the TicketFreeText and "Event" defines the trigger event.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Core::TicketFreeTextDefault</SubGroup>
-        <Setting>
-            <Hash>
-                <Item Key="Counter"></Item>
-                <Item Key="Key"></Item>
-                <Item Key="Value"></Item>
-                <Item Key="Event"></Item>
-            </Hash>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::TicketFreeFieldDefault###Element4" Required="0" Valid="0">
-        <Description Translatable="1">Configures a default TicketFreeField setting. "Counter" defines the free text field which should be used, "Key" is the TicketFreeKey, "Value" is the TicketFreeText and "Event" defines the trigger event.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Core::TicketFreeTextDefault</SubGroup>
-        <Setting>
-            <Hash>
-                <Item Key="Counter"></Item>
-                <Item Key="Key"></Item>
-                <Item Key="Value"></Item>
-                <Item Key="Event"></Item>
-            </Hash>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::TicketFreeFieldDefault###Element5" Required="0" Valid="0">
-        <Description Translatable="1">Configures a default TicketFreeField setting. "Counter" defines the free text field which should be used, "Key" is the TicketFreeKey, "Value" is the TicketFreeText and "Event" defines the trigger event.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Core::TicketFreeTextDefault</SubGroup>
-        <Setting>
-            <Hash>
-                <Item Key="Counter"></Item>
-                <Item Key="Key"></Item>
-                <Item Key="Value"></Item>
-                <Item Key="Event"></Item>
-            </Hash>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::TicketFreeFieldDefault###Element6" Required="0" Valid="0">
-        <Description Translatable="1">Configures a default TicketFreeField setting. "Counter" defines the free text field which should be used, "Key" is the TicketFreeKey, "Value" is the TicketFreeText and "Event" defines the trigger event.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Core::TicketFreeTextDefault</SubGroup>
-        <Setting>
-            <Hash>
-                <Item Key="Counter"></Item>
-                <Item Key="Key"></Item>
-                <Item Key="Value"></Item>
-                <Item Key="Event"></Item>
-            </Hash>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::TicketFreeFieldDefault###Element7" Required="0" Valid="0">
-        <Description Translatable="1">Configures a default TicketFreeField setting. "Counter" defines the free text field which should be used, "Key" is the TicketFreeKey, "Value" is the TicketFreeText and "Event" defines the trigger event.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Core::TicketFreeTextDefault</SubGroup>
-        <Setting>
-            <Hash>
-                <Item Key="Counter"></Item>
-                <Item Key="Key"></Item>
-                <Item Key="Value"></Item>
-                <Item Key="Event"></Item>
-            </Hash>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::TicketFreeFieldDefault###Element8" Required="0" Valid="0">
-        <Description Translatable="1">Configures a default TicketFreeField setting. "Counter" defines the free text field which should be used, "Key" is the TicketFreeKey, "Value" is the TicketFreeText and "Event" defines the trigger event.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Core::TicketFreeTextDefault</SubGroup>
-        <Setting>
-            <Hash>
-                <Item Key="Counter"></Item>
-                <Item Key="Key"></Item>
-                <Item Key="Value"></Item>
-                <Item Key="Event"></Item>
-            </Hash>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::TicketFreeFieldDefault###Element9" Required="0" Valid="0">
-        <Description Translatable="1">Configures a default TicketFreeField setting. "Counter" defines the free text field which should be used, "Key" is the TicketFreeKey, "Value" is the TicketFreeText and "Event" defines the trigger event.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Core::TicketFreeTextDefault</SubGroup>
-        <Setting>
-            <Hash>
-                <Item Key="Counter"></Item>
-                <Item Key="Key"></Item>
-                <Item Key="Value"></Item>
-                <Item Key="Event"></Item>
-            </Hash>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::TicketFreeFieldDefault###Element10" Required="0" Valid="0">
-        <Description Translatable="1">Configures a default TicketFreeField setting. "Counter" defines the free text field which should be used, "Key" is the TicketFreeKey, "Value" is the TicketFreeText and "Event" defines the trigger event.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Core::TicketFreeTextDefault</SubGroup>
-        <Setting>
-            <Hash>
-                <Item Key="Counter"></Item>
-                <Item Key="Key"></Item>
-                <Item Key="Value"></Item>
-                <Item Key="Event"></Item>
-            </Hash>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::TicketFreeFieldDefault###Element11" Required="0" Valid="0">
-        <Description Translatable="1">Configures a default TicketFreeField setting. "Counter" defines the free text field which should be used, "Key" is the TicketFreeKey, "Value" is the TicketFreeText and "Event" defines the trigger event.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Core::TicketFreeTextDefault</SubGroup>
-        <Setting>
-            <Hash>
-                <Item Key="Counter"></Item>
-                <Item Key="Key"></Item>
-                <Item Key="Value"></Item>
-                <Item Key="Event"></Item>
-            </Hash>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::TicketFreeFieldDefault###Element12" Required="0" Valid="0">
-        <Description Translatable="1">Configures a default TicketFreeField setting. "Counter" defines the free text field which should be used, "Key" is the TicketFreeKey, "Value" is the TicketFreeText and "Event" defines the trigger event.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Core::TicketFreeTextDefault</SubGroup>
-        <Setting>
-            <Hash>
-                <Item Key="Counter"></Item>
-                <Item Key="Key"></Item>
-                <Item Key="Value"></Item>
-                <Item Key="Event"></Item>
-            </Hash>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::TicketFreeFieldDefault###Element13" Required="0" Valid="0">
-        <Description Translatable="1">Configures a default TicketFreeField setting. "Counter" defines the free text field which should be used, "Key" is the TicketFreeKey, "Value" is the TicketFreeText and "Event" defines the trigger event.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Core::TicketFreeTextDefault</SubGroup>
-        <Setting>
-            <Hash>
-                <Item Key="Counter"></Item>
-                <Item Key="Key"></Item>
-                <Item Key="Value"></Item>
-                <Item Key="Event"></Item>
-            </Hash>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::TicketFreeFieldDefault###Element14" Required="0" Valid="0">
-        <Description Translatable="1">Configures a default TicketFreeField setting. "Counter" defines the free text field which should be used, "Key" is the TicketFreeKey, "Value" is the TicketFreeText and "Event" defines the trigger event.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Core::TicketFreeTextDefault</SubGroup>
-        <Setting>
-            <Hash>
-                <Item Key="Counter"></Item>
-                <Item Key="Key"></Item>
-                <Item Key="Value"></Item>
-                <Item Key="Event"></Item>
-            </Hash>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::TicketFreeFieldDefault###Element15" Required="0" Valid="0">
-        <Description Translatable="1">Configures a default TicketFreeField setting. "Counter" defines the free text field which should be used, "Key" is the TicketFreeKey, "Value" is the TicketFreeText and "Event" defines the trigger event.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Core::TicketFreeTextDefault</SubGroup>
-        <Setting>
-            <Hash>
-                <Item Key="Counter"></Item>
-                <Item Key="Key"></Item>
-                <Item Key="Value"></Item>
-                <Item Key="Event"></Item>
-            </Hash>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::TicketFreeFieldDefault###Element16" Required="0" Valid="0">
-        <Description Translatable="1">Configures a default TicketFreeField setting. "Counter" defines the free text field which should be used, "Key" is the TicketFreeKey, "Value" is the TicketFreeText and "Event" defines the trigger event.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Core::TicketFreeTextDefault</SubGroup>
-        <Setting>
-            <Hash>
-                <Item Key="Counter"></Item>
-                <Item Key="Key"></Item>
-                <Item Key="Value"></Item>
-                <Item Key="Event"></Item>
-            </Hash>
-        </Setting>
-    </ConfigItem>
     <ConfigItem Name="LinkObject::PossibleLink###0200" Required="0" Valid="1">
         <Description Translatable="1">Links 2 tickets with a "Normal" type link.</Description>
         <Group>Ticket</Group>
@@ -7980,6 +7761,241 @@ Thanks for your help!
         <SubGroup>Frontend::Customer::Ticket::ViewSearch</SubGroup>
         <Setting>
             <Hash>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::EventModulePost###TicketDynamicFieldDefault" Required="0" Valid="0">
+        <Description Translatable="1">Event module registration. For more performance you can define a trigger event (e. g. Event =&gt; TicketCreate). This is only possible if all Ticket dynamic fields need the same event.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketDynamicFieldDefault</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::System::Ticket::Event::TicketDynamicFieldDefault</Item>
+                <Item Key="Transaction">1</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::TicketDynamicFieldDefault###Element1" Required="0" Valid="0">
+        <Description Translatable="1">Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, "DependentField" the name of another dynamic field where the set of the value deppends on, "DependentValue" the value that the DependentField must have and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketDynamicFieldDefault</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Name">Field1</Item>
+                <Item Key="Value">Default</Item>
+                <Item Key="DependentField">Field2</Item>
+                <Item Key="DependentValue">TicketType</Item>
+                <Item Key="Event">TicketCreate</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::TicketDynamicFieldDefault###Element2" Required="0" Valid="0">
+        <Description Translatable="1">Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, "DependentField" the name of another dynamic field where the set of the value deppends on, "DependentValue" the value that the DependentField must have and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketDynamicFieldDefault</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Name"></Item>
+                <Item Key="Value"></Item>
+                <Item Key="DependentField"></Item>
+                <Item Key="DependentValue"></Item>
+                <Item Key="Event"></Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::TicketDynamicFieldDefault###Element3" Required="0" Valid="0">
+        <Description Translatable="1">Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, "DependentField" the name of another dynamic field where the set of the value deppends on, "DependentValue" the value that the DependentField must have and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketDynamicFieldDefault</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Name"></Item>
+                <Item Key="Value"></Item>
+                <Item Key="DependentField"></Item>
+                <Item Key="DependentValue"></Item>
+                <Item Key="Event"></Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::TicketDynamicFieldDefault###Element4" Required="0" Valid="0">
+        <Description Translatable="1">Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, "DependentField" the name of another dynamic field where the set of the value deppends on, "DependentValue" the value that the DependentField must have and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketDynamicFieldDefault</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Name"></Item>
+                <Item Key="Value"></Item>
+                <Item Key="DependentField"></Item>
+                <Item Key="DependentValue"></Item>
+                <Item Key="Event"></Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::TicketDynamicFieldDefault###Element5" Required="0" Valid="0">
+        <Description Translatable="1">Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, "DependentField" the name of another dynamic field where the set of the value deppends on, "DependentValue" the value that the DependentField must have and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketDynamicFieldDefault</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Name"></Item>
+                <Item Key="Value"></Item>
+                <Item Key="DependentField"></Item>
+                <Item Key="DependentValue"></Item>
+                <Item Key="Event"></Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::TicketDynamicFieldDefault###Element6" Required="0" Valid="0">
+        <Description Translatable="1">Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, "DependentField" the name of another dynamic field where the set of the value deppends on, "DependentValue" the value that the DependentField must have and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketDynamicFieldDefault</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Name"></Item>
+                <Item Key="Value"></Item>
+                <Item Key="DependentField"></Item>
+                <Item Key="DependentValue"></Item>
+                <Item Key="Event"></Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::TicketDynamicFieldDefault###Element7" Required="0" Valid="0">
+        <Description Translatable="1">Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, "DependentField" the name of another dynamic field where the set of the value deppends on, "DependentValue" the value that the DependentField must have and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketDynamicFieldDefault</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Name"></Item>
+                <Item Key="Value"></Item>
+                <Item Key="DependentField"></Item>
+                <Item Key="DependentValue"></Item>
+                <Item Key="Event"></Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::TicketDynamicFieldDefault###Element8" Required="0" Valid="0">
+        <Description Translatable="1">Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, "DependentField" the name of another dynamic field where the set of the value deppends on, "DependentValue" the value that the DependentField must have and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketDynamicFieldDefault</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Name"></Item>
+                <Item Key="Value"></Item>
+                <Item Key="DependentField"></Item>
+                <Item Key="DependentValue"></Item>
+                <Item Key="Event"></Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::TicketDynamicFieldDefault###Element9" Required="0" Valid="0">
+        <Description Translatable="1">Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, "DependentField" the name of another dynamic field where the set of the value deppends on, "DependentValue" the value that the DependentField must have and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketDynamicFieldDefault</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Name"></Item>
+                <Item Key="Value"></Item>
+                <Item Key="DependentField"></Item>
+                <Item Key="DependentValue"></Item>
+                <Item Key="Event"></Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::TicketDynamicFieldDefault###Element10" Required="0" Valid="0">
+        <Description Translatable="1">Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, "DependentField" the name of another dynamic field where the set of the value deppends on, "DependentValue" the value that the DependentField must have and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketDynamicFieldDefault</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Name"></Item>
+                <Item Key="Value"></Item>
+                <Item Key="DependentField"></Item>
+                <Item Key="DependentValue"></Item>
+                <Item Key="Event"></Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::TicketDynamicFieldDefault###Element11" Required="0" Valid="0">
+        <Description Translatable="1">Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, "DependentField" the name of another dynamic field where the set of the value deppends on, "DependentValue" the value that the DependentField must have and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketDynamicFieldDefault</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Name"></Item>
+                <Item Key="Value"></Item>
+                <Item Key="DependentField"></Item>
+                <Item Key="DependentValue"></Item>
+                <Item Key="Event"></Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::TicketDynamicFieldDefault###Element12" Required="0" Valid="0">
+        <Description Translatable="1">Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, "DependentField" the name of another dynamic field where the set of the value deppends on, "DependentValue" the value that the DependentField must have and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketDynamicFieldDefault</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Name"></Item>
+                <Item Key="Value"></Item>
+                <Item Key="DependentField"></Item>
+                <Item Key="DependentValue"></Item>
+                <Item Key="Event"></Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::TicketDynamicFieldDefault###Element13" Required="0" Valid="0">
+        <Description Translatable="1">Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, "DependentField" the name of another dynamic field where the set of the value deppends on, "DependentValue" the value that the DependentField must have and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketDynamicFieldDefault</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Name"></Item>
+                <Item Key="Value"></Item>
+                <Item Key="DependentField"></Item>
+                <Item Key="DependentValue"></Item>
+                <Item Key="Event"></Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::TicketDynamicFieldDefault###Element14" Required="0" Valid="0">
+        <Description Translatable="1">Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, "DependentField" the name of another dynamic field where the set of the value deppends on, "DependentValue" the value that the DependentField must have and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketDynamicFieldDefault</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Name"></Item>
+                <Item Key="Value"></Item>
+                <Item Key="DependentField"></Item>
+                <Item Key="DependentValue"></Item>
+                <Item Key="Event"></Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::TicketDynamicFieldDefault###Element15" Required="0" Valid="0">
+        <Description Translatable="1">Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, "DependentField" the name of another dynamic field where the set of the value deppends on, "DependentValue" the value that the DependentField must have and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketDynamicFieldDefault</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Name"></Item>
+                <Item Key="Value"></Item>
+                <Item Key="DependentField"></Item>
+                <Item Key="DependentValue"></Item>
+                <Item Key="Event"></Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::TicketDynamicFieldDefault###Element16" Required="0" Valid="0">
+        <Description Translatable="1">Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, "DependentField" the name of another dynamic field where the set of the value deppends on, "DependentValue" the value that the DependentField must have and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketDynamicFieldDefault</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Name"></Item>
+                <Item Key="Value"></Item>
+                <Item Key="DependentField"></Item>
+                <Item Key="DependentValue"></Item>
+                <Item Key="Event"></Item>
             </Hash>
         </Setting>
     </ConfigItem>
