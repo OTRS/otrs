@@ -2,7 +2,7 @@
 # README - readme file of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: README,v 1.41 2011-07-04 10:27:11 mb Exp $
+# $Id: README,v 1.42 2011-11-07 10:57:52 jb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -142,7 +142,7 @@ $HOME (e. g. /opt/otrs/)
 |
 |  (all modules)
 |--/Kernel/
-|   |-----/Config.pm      (mail configuration file)
+|   |-----/Config.pm      (main configuration file)
 |   |---- /Config/        (Configuration files)
 |   |      |---- /Files/  (System generated, don't touch...)
 |   |

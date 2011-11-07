@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2011 2011-11-05 19:16:34 mb Exp $
+# $Id: CHANGES,v 1.2012 2011-11-07 10:58:47 jb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.1.0 beta1 2011-??-??
+ - 2011-11-07 Fixed spelling mistake in README
  - 2011-11-04 Removed 'address' and 'div' style formats from CKEditor.
  - 2011-11-04 Added support for CKEditor on iPhone and iPad with iOS5.
  - 2011-11-04 Added config option Frontend::AgentLinkObject::WildcardSearch to enable
