@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Event/TicketDynamicFieldDefault.pm - a event module for default ticket dynamic field settings
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketDynamicFieldDefault.pm,v 1.1 2011-11-06 15:39:03 cr Exp $
+# $Id: TicketDynamicFieldDefault.pm,v 1.2 2011-11-07 16:52:00 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -94,14 +94,6 @@ sub Run {
 
             # check if field is defined and valid
             next ELEMENT if !$Self->{DynamicFieldLookup}->{ $Element->{Name} };
-
-            # check if a dependent field is set
-            if ( $Element->{DependentField} ) {
-
-                #skip if dependent value does not match with the ticket information
-                next ELEMENT if $Ticket{ 'DynamicField_' . $Element->{DependentField} }
-                        ne $Element->{DependentValue};
-            }
 
             # get dynamic field config
             my $DynamicFieldConfig = $Self->{DynamicFieldLookup}->{ $Element->{Name} };
