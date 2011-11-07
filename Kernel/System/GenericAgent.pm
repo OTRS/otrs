@@ -2,7 +2,7 @@
 # Kernel/System/GenericAgent.pm - generic agent system module
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: GenericAgent.pm,v 1.77 2011-11-07 17:07:10 cr Exp $
+# $Id: GenericAgent.pm,v 1.78 2011-11-07 23:29:46 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.77 $) [1];
+$VERSION = qw($Revision: 1.78 $) [1];
 
 =head1 NAME
 
@@ -1096,7 +1096,7 @@ sub _JobRunTicket {
             TransformDates     => 0,
         );
 
-        if ( $Value ne '' ) {
+        if ( defined $Value && $Value ne '' ) {
             my $Success = $Self->{BackendObject}->ValueSet(
                 DynamicFieldConfig => $DynamicFieldConfig,
                 ObjectID           => $Param{TicketID},
@@ -1272,6 +1272,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.77 $ $Date: 2011-11-07 17:07:10 $
+$Revision: 1.78 $ $Date: 2011-11-07 23:29:46 $
 
 =cut
