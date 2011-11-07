@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Auth.pm - provides the authentification
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Auth.pm,v 1.42 2009-09-03 16:12:13 tr Exp $
+# $Id: Auth.pm,v 1.42.2.1 2011-11-07 13:15:57 des Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.42 $) [1];
+$VERSION = qw($Revision: 1.42.2.1 $) [1];
 
 =head1 NAME
 
@@ -183,14 +183,23 @@ sub Auth {
         # next on no success
         next if !$User;
 
-        # use all 11 sync backends
-        for my $Count ( '', 1 .. 10 ) {
+        # sync used auth backend
+        if ( $Self->{"AuthSyncBackend$Count"} ) {
 
-            # return on no config setting
-            next if !$Self->{"AuthSyncBackend$Count"};
-
-            # sync backend
+            # sync same backend as auth was successfully
             $Self->{"AuthSyncBackend$Count"}->Sync( %Param, User => $User );
+        }
+
+        # use all 11 sync backends
+        else {
+            for my $Count ( '', 1 .. 10 ) {
+
+                # return on no config setting
+                next if !$Self->{"AuthSyncBackend$Count"};
+
+                # sync backend
+                $Self->{"AuthSyncBackend$Count"}->Sync( %Param, User => $User );
+            }
         }
 
         # remember auth backend
@@ -290,12 +299,12 @@ This software is part of the OTRS project (http://otrs.org/).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (AGPL). If you
-did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
 
 =head1 VERSION
 
-$Revision: 1.42 $ $Date: 2009-09-03 16:12:13 $
+$Revision: 1.42.2.1 $ $Date: 2011-11-07 13:15:57 $
 
 =cut
