@@ -1,8 +1,8 @@
 # --
 # GenericAgent.t - GenericAgent tests
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: GenericAgent.t,v 1.12 2010-10-29 05:03:20 en Exp $
+# $Id: GenericAgent.t,v 1.13 2011-11-07 23:30:48 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,6 +17,8 @@ use utf8;
 use Kernel::System::Ticket;
 use Kernel::System::Queue;
 use Kernel::System::GenericAgent;
+use Kernel::System::UnitTest::Helper;
+use Kernel::System::DynamicField;
 use Kernel::Config;
 
 # create local config object
@@ -29,6 +31,75 @@ $ConfigObject->Set(
 );
 
 # create local objects
+# add or update dynamic fields if needed
+my $DynamicFieldObject = Kernel::System::DynamicField->new( %{$Self} );
+
+my @DynamicfieldIDs;
+my @DynamicFieldUpdate;
+
+my %NeededDynamicfields = (
+    TicketFreeKey1  => 1,
+    TicketFreeText1 => 1,
+    TicketFreeKey2  => 1,
+    TicketFreeText2 => 1,
+);
+
+# list available dynamic fields
+my $DynamicFields = $DynamicFieldObject->DynamicFieldList(
+    Valid      => 0,
+    ResultType => 'HASH',
+);
+$DynamicFields = ( ref $DynamicFields eq 'HASH' ? $DynamicFields : {} );
+$DynamicFields = { reverse %{$DynamicFields} };
+
+for my $FieldName ( sort keys %NeededDynamicfields ) {
+    if ( !$DynamicFields->{$FieldName} ) {
+
+        # create a dynamic field
+        my $FieldID = $DynamicFieldObject->DynamicFieldAdd(
+            Name       => $FieldName,
+            Label      => $FieldName . "_test",
+            FieldOrder => 9991,
+            FieldType  => 'Text',
+            ObjectType => 'Ticket',
+            Config     => {
+                DefaultValue => 'a value',
+            },
+            ValidID => 1,
+            UserID  => 1,
+        );
+
+        # verify dynamic field creation
+        $Self->True(
+            $FieldID,
+            "DynamicFieldAdd() successful for Field $FieldName",
+        );
+
+        push @DynamicfieldIDs, $FieldID;
+    }
+    else {
+        my $DynamicField
+            = $DynamicFieldObject->DynamicFieldGet( ID => $DynamicFields->{$FieldName} );
+
+        if ( $DynamicField->{ValidID} > 1 ) {
+            push @DynamicFieldUpdate, $DynamicField;
+            $DynamicField->{ValidID} = 1;
+            my $SuccessUpdate = $DynamicFieldObject->DynamicFieldUpdate(
+                %{$DynamicField},
+                Reorder => 0,
+                UserID  => 1,
+                ValidID => 1,
+            );
+
+            # verify dynamic field creation
+            $Self->True(
+                $SuccessUpdate,
+                "DynamicFieldUpdate() successful update for Field $DynamicField->{Name}",
+            );
+        }
+    }
+}
+
 my $TicketObject = Kernel::System::Ticket->new(
     %{$Self},
     ConfigObject => $ConfigObject,
@@ -51,8 +122,17 @@ my %Jobs = ();
 %Jobs = $GenericAgentObject->JobList();
 my $JobCounter1 = keys %Jobs;
 
+my $HelperObject = Kernel::System::UnitTest::Helper->new(
+    %$Self,
+    UnitTestObject => $Self,
+);
+
+my $RandomID = $HelperObject->GetRandomID();
+
+$RandomID =~ s/\-//g;
+
 # Add a new Job
-my $Name   = 'UnitTest' . int( rand(1000000) );
+my $Name   = 'UnitTest_' . $RandomID;
 my %NewJob = (
     Name => $Name,
     Data => {
@@ -81,43 +161,43 @@ my %NewJob = (
         TicketCreateTimePointStart  => 'Last',
         TicketCreateTimePointFormat => 'year',
 
-        TicketCreateTimeStartMonth => 8,
-        TicketCreateTimeStopMonth  => 9,
-        TicketCreateTimeStartDay   => 7,
-        TicketCreateTimeStopYear   => 2006,
-        TicketCreateTimeStartYear  => 2006,
-        TicketCreateTimeStopDay    => 6,
-        NewTitle                   => 'some new title',
-        NewStateID                 => 2,
-        NewPriorityID              => 3,
-        NewNoteBody                => '',
-        NewCustomerUserLogin       => '',
-        NewOwnerID                 => 1,
-        NewModule                  => '',
-        NewTicketFreeKey1          => 'Phone',
-        NewTicketFreeText1         => 'Test 1',
-        NewSendNoNotification      => 0,
-        NewDelete                  => 0,
-        NewCustomerID              => '',
-        NewNoteSubject             => '',
-        NewLockID                  => 2,
-        NewNoteFrom                => '',
-        NewTicketFreeKey2          => 'Test',
-        NewTicketFreeText2         => 'Value 2',
-        NewCMD                     => '',
-        NewParamKey1               => '',
-        NewParamValue1             => '',
-        NewParamKey2               => '',
-        NewParamValue2             => '',
-        NewParamKey3               => '',
-        NewParamValue3             => '',
-        NewParamKey4               => '',
-        NewParamValue4             => '',
-        NewParamKey5               => '',
-        NewParamValue5             => '',
-        NewParamKey6               => '',
-        NewParamValue6             => '',
-        Valid                      => 1,
+        TicketCreateTimeStartMonth   => 8,
+        TicketCreateTimeStopMonth    => 9,
+        TicketCreateTimeStartDay     => 7,
+        TicketCreateTimeStopYear     => 2006,
+        TicketCreateTimeStartYear    => 2006,
+        TicketCreateTimeStopDay      => 6,
+        NewTitle                     => 'some new title',
+        NewStateID                   => 2,
+        NewPriorityID                => 3,
+        NewNoteBody                  => '',
+        NewCustomerUserLogin         => '',
+        NewOwnerID                   => 1,
+        NewModule                    => '',
+        DynamicField_TicketFreeKey1  => 'Phone',
+        DynamicField_TicketFreeText1 => 'Test 1',
+        NewSendNoNotification        => 0,
+        NewDelete                    => 0,
+        NewCustomerID                => '',
+        NewNoteSubject               => '',
+        NewLockID                    => 2,
+        NewNoteFrom                  => '',
+        DynamicField_TicketFreeKey2  => 'Test',
+        DynamicField_TicketFreeText2 => 'Value 2',
+        NewCMD                       => '',
+        NewParamKey1                 => '',
+        NewParamValue1               => '',
+        NewParamKey2                 => '',
+        NewParamValue2               => '',
+        NewParamKey3                 => '',
+        NewParamValue3               => '',
+        NewParamKey4                 => '',
+        NewParamValue4               => '',
+        NewParamKey5                 => '',
+        NewParamValue5               => '',
+        NewParamKey6                 => '',
+        NewParamValue6               => '',
+        Valid                        => 1,
     },
 );
 
@@ -165,24 +245,24 @@ $Self->Is(
     "JobGet() - NewTitle",
 );
 $Self->Is(
-    $GetParam{NewTicketFreeKey1} || '',
+    $GetParam{DynamicField_TicketFreeKey1} || '',
     'Phone',
-    "JobGet() - NewTicketFreeKey1",
+    "JobGet() - DynamicField_TicketFreeKey1",
 );
 $Self->Is(
-    $GetParam{NewTicketFreeText1} || '',
+    $GetParam{DynamicField_TicketFreeText1} || '',
     'Test 1',
-    "JobGet() - NewTicketFreeText1",
+    "JobGet() - DynamicField_FreeText1",
 );
 $Self->Is(
-    $GetParam{NewTicketFreeKey2} || '',
+    $GetParam{DynamicField_TicketFreeKey2} || '',
     'Test',
-    "JobGet() - NewTicketFreeKey2",
+    "JobGet() - DynamicField_TicketFreeKey2",
 );
 $Self->Is(
-    $GetParam{NewTicketFreeText2} || '',
+    $GetParam{DynamicField_TicketFreeText2} || '',
     'Value 2',
-    "JobGet() - NewTicketFreeText2",
+    "JobGet() - DynamicField_TicketFreeText2",
 );
 $Self->True(
     !$GetParam{From},
@@ -301,29 +381,28 @@ $Self->Is(
     3,
     "TicketGet() - Priority",
 );
-
 $Self->Is(
-    $Ticket{TicketFreeKey1} || '',
+    $Ticket{DynamicField_TicketFreeKey1} || '',
     'Phone',
-    "TicketGet() - TicketFreeKey1",
+    "TicketGet() -  DynamicField_TicketFreeKey1",
 );
 
 $Self->Is(
-    $Ticket{TicketFreeText1} || '',
+    $Ticket{DynamicField_TicketFreeText1} || '',
     'Test 1',
-    "TicketGet() - TicketFreeText1",
+    "TicketGet() - DynamicField_TicketFreeText1",
 );
 
 $Self->Is(
-    $Ticket{TicketFreeKey2} || '',
+    $Ticket{DynamicField_TicketFreeKey2} || '',
     'Test',
-    "TicketGet() - TicketFreeKey2",
+    "TicketGet() - DynamicField_TicketFreeKey2",
 );
 
 $Self->Is(
-    $Ticket{TicketFreeText2} || '',
+    $Ticket{DynamicField_TicketFreeText2} || '',
     'Value 2',
-    "TicketGet() - TicketFreeText2",
+    "TicketGet() - DynamicField_TicketFreeText2",
 );
 
 $Self->True(
@@ -352,24 +431,24 @@ $Self->Is(
     "JobGet() - NewTitle",
 );
 $Self->Is(
-    $GetParam{NewTicketFreeKey1} || '',
+    $GetParam{DynamicField_TicketFreeKey1} || '',
     'Phone',
-    "JobGet() - NewTicketFreeKey1",
+    "JobGet() - DynamicField_TicketFreeKey1",
 );
 $Self->Is(
-    $GetParam{NewTicketFreeText1} || '',
+    $GetParam{DynamicField_TicketFreeText1} || '',
     'Test 1',
-    "JobGet() - NewTicketFreeText1",
+    "JobGet() - DynamicField_TicketFreeText1",
 );
 $Self->Is(
-    $GetParam{NewTicketFreeKey2} || '',
+    $GetParam{DynamicField_TicketFreeKey2} || '',
     'Test',
-    "JobGet() - NewTicketFreeKey2",
+    "JobGet() - DynamicField_TicketFreeKey2",
 );
 $Self->Is(
-    $GetParam{NewTicketFreeText2} || '',
+    $GetParam{DynamicField_TicketFreeText2} || '',
     'Value 2',
-    "JobGet() - NewTicketFreeText2",
+    "JobGet() - DynamicField_TicketFreeText2",
 );
 $Self->True(
     !$GetParam{From},
@@ -430,24 +509,24 @@ $Self->Is(
     "JobGet() - NewTitle",
 );
 $Self->Is(
-    $GetParam{NewTicketFreeKey1} || '',
+    $GetParam{DynamicField_TicketFreeKey1} || '',
     'Phone',
-    "JobGet() - NewTicketFreeKey1",
+    "JobGet() - DynamicField_TicketFreeKey1",
 );
 $Self->Is(
-    $GetParam{NewTicketFreeText1} || '',
+    $GetParam{DynamicField_TicketFreeText1} || '',
     'Test 1',
-    "JobGet() - NewTicketFreeText1",
+    "JobGet() - DynamicField_TicketFreeText1",
 );
 $Self->Is(
-    $GetParam{NewTicketFreeKey2} || '',
+    $GetParam{DynamicField_TicketFreeKey2} || '',
     'Test',
-    "JobGet() - NewTicketFreeKey2",
+    "JobGet() - DynamicField_TicketFreeKey2",
 );
 $Self->Is(
-    $GetParam{NewTicketFreeText2} || '',
+    $GetParam{DynamicField_TicketFreeText2} || '',
     'Value 2',
-    "JobGet() - NewTicketFreeText2",
+    "JobGet() - DynamicField_TicketFreeText2",
 );
 $Self->Is(
     $GetParam{From} || '',
@@ -488,5 +567,31 @@ $Self->Is(
     $JobCounter3,
     "JobDelete() check if the correct number of jobs available",
 );
+
+# revert changes to dynamic fields
+for my $DynamicField (@DynamicFieldUpdate) {
+    my $SuccessUpdate = $DynamicFieldObject->DynamicFieldUpdate(
+        Reorder => 0,
+        UserID  => 1,
+        %{$DynamicField},
+    );
+    $Self->True(
+        $SuccessUpdate,
+        "Reverted changes on ValidID for $DynamicField->{Name} field.",
+    );
+}
+
+for my $DynamicFieldID (@DynamicfieldIDs) {
+
+    # delete the dynamic field
+    my $FieldDelete = $DynamicFieldObject->DynamicFieldDelete(
+        ID     => $DynamicFieldID,
+        UserID => 1,
+    );
+    $Self->True(
+        $FieldDelete,
+        "Deleted dynamic field with id $DynamicFieldID.",
+    );
+}
 
 1;
