@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminNotificationEvent.pm - to manage event-based notifications
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNotificationEvent.pm,v 1.33 2011-05-24 11:45:26 mb Exp $
+# $Id: AdminNotificationEvent.pm,v 1.34 2011-11-07 19:35:38 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,9 +22,10 @@ use Kernel::System::SLA;
 use Kernel::System::State;
 use Kernel::System::Type;
 use Kernel::System::Valid;
+use Kernel::System::DynamicField;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.33 $) [1];
+$VERSION = qw($Revision: 1.34 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -42,13 +43,14 @@ sub new {
 
     $Self->{NotificationEventObject} = Kernel::System::NotificationEvent->new(%Param);
 
-    $Self->{PriorityObject} = Kernel::System::Priority->new(%Param);
-    $Self->{StateObject}    = Kernel::System::State->new(%Param);
-    $Self->{LockObject}     = Kernel::System::Lock->new(%Param);
-    $Self->{ServiceObject}  = Kernel::System::Service->new(%Param);
-    $Self->{SLAObject}      = Kernel::System::SLA->new(%Param);
-    $Self->{TypeObject}     = Kernel::System::Type->new(%Param);
-    $Self->{ValidObject}    = Kernel::System::Valid->new(%Param);
+    $Self->{PriorityObject}     = Kernel::System::Priority->new(%Param);
+    $Self->{StateObject}        = Kernel::System::State->new(%Param);
+    $Self->{LockObject}         = Kernel::System::Lock->new(%Param);
+    $Self->{ServiceObject}      = Kernel::System::Service->new(%Param);
+    $Self->{SLAObject}          = Kernel::System::SLA->new(%Param);
+    $Self->{TypeObject}         = Kernel::System::Type->new(%Param);
+    $Self->{ValidObject}        = Kernel::System::Valid->new(%Param);
+    $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new(%Param);
 
     return $Self;
 }
@@ -357,6 +359,17 @@ sub _Edit {
         $EventClass .= ' ' . $Param{EventsServerError};
     }
 
+    # build dynamic field list
+    # get the dynamic fields for ticket object
+    my $DynamicFields = $Self->{DynamicFieldObject}->DynamicFieldList(
+        Valid      => 1,
+        ObjectType => ['Ticket'],
+        ResultType => 'HASH',
+    );
+    my %DynamicFieldList =
+        map { 'TicketDynamicFieldUpdate_' . $_ => 'TicketDynamicFieldUpdate_' . $_ }
+        sort values %{$DynamicFields};
+
     # Build the list...
     $Param{EventsStrg} = $Self->{LayoutObject}->BuildSelection(
         Data => {
@@ -369,28 +382,6 @@ sub _Edit {
             TicketSLAUpdate                    => 'TicketSLAUpdate',
             TicketUnlockTimeoutUpdate          => 'TicketUnlockTimeoutUpdate',
             TicketCustomerUpdate               => 'TicketCustomerUpdate',
-            TicketFreeTextUpdate1              => 'TicketFreeTextUpdate1',
-            TicketFreeTextUpdate2              => 'TicketFreeTextUpdate2',
-            TicketFreeTextUpdate3              => 'TicketFreeTextUpdate3',
-            TicketFreeTextUpdate4              => 'TicketFreeTextUpdate4',
-            TicketFreeTextUpdate5              => 'TicketFreeTextUpdate5',
-            TicketFreeTextUpdate6              => 'TicketFreeTextUpdate6',
-            TicketFreeTextUpdate7              => 'TicketFreeTextUpdate7',
-            TicketFreeTextUpdate8              => 'TicketFreeTextUpdate8',
-            TicketFreeTextUpdate9              => 'TicketFreeTextUpdate9',
-            TicketFreeTextUpdate10             => 'TicketFreeTextUpdate10',
-            TicketFreeTextUpdate11             => 'TicketFreeTextUpdate11',
-            TicketFreeTextUpdate12             => 'TicketFreeTextUpdate12',
-            TicketFreeTextUpdate13             => 'TicketFreeTextUpdate13',
-            TicketFreeTextUpdate14             => 'TicketFreeTextUpdate14',
-            TicketFreeTextUpdate15             => 'TicketFreeTextUpdate15',
-            TicketFreeTextUpdate16             => 'TicketFreeTextUpdate16',
-            TicketFreeTimeUpdate1              => 'TicketFreeTimeUpdate1',
-            TicketFreeTimeUpdate2              => 'TicketFreeTimeUpdate2',
-            TicketFreeTimeUpdate3              => 'TicketFreeTimeUpdate3',
-            TicketFreeTimeUpdate4              => 'TicketFreeTimeUpdate4',
-            TicketFreeTimeUpdate5              => 'TicketFreeTimeUpdate5',
-            TicketFreeTimeUpdate6              => 'TicketFreeTimeUpdate6',
             TicketPendingTimeUpdate            => 'TicketPendingTimeUpdate',
             TicketLockUpdate                   => 'TicketLockUpdate',
             TicketOwnerUpdate                  => 'TicketOwnerUpdate',
@@ -413,6 +404,7 @@ sub _Edit {
             EscalationResponseTimeStop         => 'EscalationResponseTimeStop',
             EscalationUpdateTimeStop           => 'EscalationUpdateTimeStop',
             EscalationSolutionTimeStop         => 'EscalationSolutionTimeStop',
+            %DynamicFieldList,
         },
         Name       => 'Events',
         Multiple   => 1,
