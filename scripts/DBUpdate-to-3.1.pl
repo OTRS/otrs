@@ -3,7 +3,7 @@
 # DBUpdate-to-3.1.pl - update script to migrate OTRS 3.0.x to 3.1.x
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-3.1.pl,v 1.52 2011-11-04 23:14:29 cr Exp $
+# $Id: DBUpdate-to-3.1.pl,v 1.53 2011-11-07 11:28:20 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.52 $) [1];
+$VERSION = qw($Revision: 1.53 $) [1];
 
 use Getopt::Std qw();
 use Kernel::Config;
@@ -871,11 +871,10 @@ sub _VerificationTicketData {
                     my $FieldValue = $Row[$FieldCounter];
                     my $ValueType  = ( $FreeField eq 'FreeTime' ? 'date' : 'text' );
                     my $ObjectID   = $Row[0];
-                    if (
-                        $DynamicFieldValue{ $FieldID . $ObjectType . $ObjectID } ne
-                        $Row[$FieldCounter]
-                        )
-                    {
+
+  # Only check for existence of a value. We cannot compare to the old value because in the meantime,
+  #   a new value might have been set on the ticket.
+                    if ( $DynamicFieldValue{ $FieldID . $ObjectType . $ObjectID } eq '' ) {
                         print STDERR
                             "A field was not correctly migrated: $FieldID $ObjectType $ObjectID\n";
                         print STDERR "  Found DynamicField value '"
@@ -988,7 +987,10 @@ sub _VerificationArticleData {
                     my $FieldValue = $Row[$FieldCounter];
                     my $ValueType  = ( $FreeField eq 'FreeTime' ? 'date' : 'text' );
                     my $ObjectID   = $Row[0];
-                    if ( $DynamicFieldValue{ $FieldID . $ObjectType . $ObjectID } ne $FieldValue ) {
+
+  # Only check for existence of a value. We cannot compare to the old value because in the meantime,
+  #   a new value might have been set on the ticket.
+                    if ( $DynamicFieldValue{ $FieldID . $ObjectType . $ObjectID } eq '' ) {
                         print STDERR
                             "A field was not correctly migrated (Field $FieldID ObjectType $ObjectType ObjectID $ObjectID)!\n";
                         print STDERR "  Found DynamicField value '"
