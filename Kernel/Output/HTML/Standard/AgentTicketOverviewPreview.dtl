@@ -2,7 +2,7 @@
 # AgentTicketOverviewPreview.dtl - provides HTML Ticket Overview
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewPreview.dtl,v 1.74 2011-11-04 22:49:37 cr Exp $
+# $Id: AgentTicketOverviewPreview.dtl,v 1.75 2011-11-07 08:41:20 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -371,7 +371,7 @@ $Data{"Body"}
         return false;
     });
     $('a.DynamicFieldLink').bind('click', function (Event) {
-        Core.UI.Popup.OpenPopup($(this).attr('href'), 'Action');
+        Core.UI.Popup.OpenPopup($(this).attr('href'), 'DynamicFieldLink');
         return false;
     });
 //]]></script>
