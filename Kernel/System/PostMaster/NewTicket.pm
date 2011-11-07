@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/NewTicket.pm - sub part of PostMaster.pm
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: NewTicket.pm,v 1.80 2011-10-24 20:28:44 cg Exp $
+# $Id: NewTicket.pm,v 1.81 2011-11-07 23:13:35 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::AutoResponse;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.80 $) [1];
+$VERSION = qw($Revision: 1.81 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -182,6 +182,7 @@ sub Run {
         OwnerID      => $Param{InmailUserID},
         UserID       => $Param{InmailUserID},
     );
+
     if ( !$TicketID ) {
         return;
     }
@@ -227,7 +228,7 @@ sub Run {
 
     # set dynamic fields for Ticket object type
     for my $DynamicField ( sort keys %{$DynamicFieldList} ) {
-        my $Key = 'X-OTRS-DynamicField-' . $DynamicField;
+        my $Key = 'X-OTRS-DynamicField-' . $DynamicFieldList->{$DynamicField};
         if ( $GetParam{$Key} ) {
 
             # get dynamic field config
@@ -373,7 +374,7 @@ sub Run {
 
     # set dynamic fields for Article object type
     for my $DynamicField ( sort keys %{$DynamicFieldList} ) {
-        my $Key = 'X-OTRS-DynamicField-' . $DynamicField;
+        my $Key = 'X-OTRS-DynamicField-' . $DynamicFieldList->{$DynamicField};
         if ( $GetParam{$Key} ) {
 
             # get dynamic field config

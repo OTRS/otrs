@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/FollowUp.pm - the sub part of PostMaster.pm
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: FollowUp.pm,v 1.70 2011-11-01 18:29:45 cg Exp $
+# $Id: FollowUp.pm,v 1.71 2011-11-07 23:13:35 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::User;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.70 $) [1];
+$VERSION = qw($Revision: 1.71 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -230,7 +230,7 @@ sub Run {
 
     # set dynamic fields for Ticket object type
     for my $DynamicField ( sort keys %{$DynamicFieldList} ) {
-        my $Key = 'X-OTRS-DynamicField-' . $DynamicField;
+        my $Key = 'X-OTRS-DynamicField-' . $DynamicFieldList->{$DynamicField};
         if ( $GetParam{$Key} ) {
 
             # get dynamic field config
@@ -382,7 +382,7 @@ sub Run {
 
     # set dynamic fields for Article object type
     for my $DynamicField ( sort keys %{$DynamicFieldList} ) {
-        my $Key = 'X-OTRS-DynamicField-' . $DynamicField;
+        my $Key = 'X-OTRS-DynamicField-' . $DynamicFieldList->{$DynamicField};
         if ( $GetParam{$Key} ) {
 
             # get dynamic field config
