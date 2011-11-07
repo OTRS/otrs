@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Date.pm - Delegate for DynamicField Date backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Date.pm,v 1.37 2011-11-04 22:39:24 cr Exp $
+# $Id: Date.pm,v 1.38 2011-11-07 10:03:11 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Time;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.37 $) [1];
+$VERSION = qw($Revision: 1.38 $) [1];
 
 =head1 NAME
 
@@ -202,12 +202,17 @@ sub EditFieldRender {
     # set error css class
     $FieldClass .= ' ServerError' if $Param{ServerError};
 
+    my $DiffTime = $FieldConfig->{DefaultValue};
+    if ( !defined $DiffTime || $DiffTime !~ m/^ \s* -? \d+ \s* $/smx ) {
+        $DiffTime = 0;
+    }
+
     my $HTMLString = $Param{LayoutObject}->BuildDateSelection(
         %Param,
         Prefix               => $FieldName,
         Format               => 'DateInputFormat',
         $FieldName . 'Class' => $FieldClass,
-        DiffTime             => $FieldConfig->{DefaultValue} || '',
+        DiffTime             => $DiffTime,
         $FieldName . Required => $Param{Mandatory} || 0,
         $FieldName . Optional => 1,
         Validate              => 1,
