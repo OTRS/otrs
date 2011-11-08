@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Mapping/SolMan.pm - GenericInterface SolMan mapping backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SolMan.pm,v 1.4 2011-05-10 00:42:38 sb Exp $
+# $Id: SolMan.pm,v 1.5 2011-11-08 22:07:45 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 =head1 NAME
 
@@ -159,10 +159,10 @@ sub Map {
             Default => $Self->{MappingConfig}->{Config}->{StateMapDefault} || 'open',
         );
 
-        # map ticket freetext
-        $Param{Data}->{IctAdditionalInfos}->{item} = $Self->_TicketFreeTextMap(
+        # map ticket dynamic fields
+        $Param{Data}->{IctAdditionalInfos}->{item} = $Self->_TicketDynamicFieldMap(
             AdditionalInfos => $Param{Data}->{IctAdditionalInfos}->{item},
-            Map => $Self->{MappingConfig}->{Config}->{TicketFreeTextMap} || {},
+            Map => $Self->{MappingConfig}->{Config}->{TicketDynamicFieldMap} || {},
         );
     }
 
@@ -324,12 +324,12 @@ sub _StateMap {
     return \@AdditionalInfos;
 }
 
-=item _TicketFreeTextMap()
+=item _TicketDynamicFieldMap()
 
-map ticket freetext fields by using a predefined list
+map ticket dynamic fields by using a predefined list
 other additional infos are just passed back
 
-    my $AdditionalInfos => $MappingObject->_TicketFreeTextMap(
+    my $AdditionalInfos => $MappingObject->_TicketDynamicFieldMap(
         AdditionalInfos =>[ # list of additional infos
             ...
         ],
@@ -344,7 +344,7 @@ other additional infos are just passed back
 
 =cut
 
-sub _TicketFreeTextMap {
+sub _TicketDynamicFieldMap {
     my ( $Self, %Param ) = @_;
 
     # if only attribute is passed, map it directly
@@ -354,7 +354,7 @@ sub _TicketFreeTextMap {
         )
     {
         my %MapHash = %{ $Param{AdditionalInfos} };
-        $MapHash{TicketFreeTextField} =
+        $MapHash{TicketDynamicField} =
             $Param{Map}->{ $MapHash{AddInfoAttribute} };
         return \%MapHash;
     }
@@ -364,7 +364,7 @@ sub _TicketFreeTextMap {
     ADDINFO:
     for my $AddInfo ( @{ $Param{AdditionalInfos} } ) {
         if ( $Param{Map}->{ $AddInfo->{AddInfoAttribute} } ) {
-            $AddInfo->{TicketFreeTextField} =
+            $AddInfo->{TicketDynamicField} =
                 $Param{Map}->{ $AddInfo->{AddInfoAttribute} };
         }
         push @AdditionalInfos, $AddInfo;
@@ -391,6 +391,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.4 $ $Date: 2011-05-10 00:42:38 $
+$Revision: 1.5 $ $Date: 2011-11-08 22:07:45 $
 
 =cut

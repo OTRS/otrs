@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/SolMan/Common.pm - SolMan common operation functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.30 2011-07-26 22:44:46 sb Exp $
+# $Id: Common.pm,v 1.31 2011-11-08 22:07:46 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,9 +21,11 @@ use Kernel::System::Ticket;
 use Kernel::System::CustomerUser;
 use Kernel::System::User;
 use Kernel::System::GenericInterface::Webservice;
+use Kernel::System::DynamicField;
+use Kernel::System::DynamicField::Backend;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.30 $) [1];
+$VERSION = qw($Revision: 1.31 $) [1];
 
 =head1 NAME
 
@@ -123,6 +125,22 @@ sub new {
         );
     }
 
+    $Self->{DynamicFieldObject}        = $Self->{TicketObject}->{DynamicFieldObject};
+    $Self->{DynamicFieldBackendObject} = $Self->{TicketObject}->{DynamicFieldBackendObject};
+
+    # get the dynamic fields
+    $Self->{DynamicField} = $Self->{DynamicFieldObject}->DynamicFieldListGet(
+        Valid      => 1,
+        ObjectType => ['Ticket'],
+    );
+
+    # create a lookup table by name (since name is unique)
+    DYNAMICFIELD:
+    for my $DynamicField ( @{ $Self->{DynamicField} } ) {
+        next DYNAMICFIELD if !$DynamicField->{Name};
+
+        $Self->{DynamicFieldLookup}->{ $DynamicField->{Name} } = $DynamicField;
+    }
     return $Self;
 }
 
@@ -497,9 +515,9 @@ sub TicketSync {
         $PersonMaps->{item} = \@PersonMapsArray
     }
 
-    # get state and ticket freetext fields from data
+    # get state and ticket dynamic fields from data
     my $NewState;
-    my %TicketFreeText;
+    my %TicketDynamicFields;
     if ( IsHashRefWithData( $Param{Data}->{IctAdditionalInfos} ) ) {
 
         # in case there is only one additional info entry
@@ -513,12 +531,12 @@ sub TicketSync {
             }
             elsif (
                 IsStringWithData(
-                    $Param{Data}->{IctAdditionalInfos}->{item}->{TicketFreeTextField}
+                    $Param{Data}->{IctAdditionalInfos}->{item}->{TicketDynamicField}
                 )
                 )
             {
-                $TicketFreeText{
-                    $Param{Data}->{IctAdditionalInfos}->{item}->{TicketFreeTextField}
+                $TicketDynamicFields{
+                    $Param{Data}->{IctAdditionalInfos}->{item}->{TicketDynamicField}
                     } = $Param{Data}->{IctAdditionalInfos}->{item}->{AddInfoValue} || '';
             }
         }
@@ -536,8 +554,8 @@ sub TicketSync {
                     next ADDINFO;
                 }
 
-                next ADDINFO if !IsStringWithData( $AddInfo->{TicketFreeTextField} );
-                $TicketFreeText{ $AddInfo->{TicketFreeTextField} } = $AddInfo->{AddInfoValue};
+                next ADDINFO if !IsStringWithData( $AddInfo->{TicketDynamicField} );
+                $TicketDynamicFields{ $AddInfo->{TicketDynamicField} } = $AddInfo->{AddInfoValue};
             }
         }
     }
@@ -954,25 +972,32 @@ sub TicketSync {
         }
     }
 
-    # set ticket freetext fields
-    for my $Number ( sort keys %TicketFreeText ) {
-        my $TicketFreeTextDefault = $Self->{TicketObject}->TicketFreeTextGet(
-            Type   => 'TicketFreeKey' . $Number,
-            UserID => 1,
+    # set ticket dynamic fields
+    DYNAMICFIELD:
+    for my $DynamicField ( sort keys %TicketDynamicFields ) {
+        next DYNAMICFIELD if !$DynamicField;
+        next DYNAMICFIELD if !$Self->{DynamicFieldLookup}->{$DynamicField};
+        next DYNAMICFIELD if !IsHashRefWithData( $Self->{DynamicFieldLookup}->{$DynamicField} );
+
+        # get dynamic field configuration
+        my $DynamicFieldConfig = $Self->{DynamicFieldLookup}->{$DynamicField};
+
+        # set the value
+        my $Success = $Self->{DynamicFieldBackendObject}->ValueSet(
+            DynamicFieldConfig => $DynamicFieldConfig,
+            ObjectID           => $TicketID,
+            Value              => $TicketDynamicFields{$DynamicField},
+            UserID             => 1,
         );
-        my $Key;
-        DEFAULT:
-        for my $Default ( sort keys %{$TicketFreeTextDefault} ) {
-            $Key = $Default;
-            last DEFAULT;
+
+        if ( !$Success ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message =>
+                    "Can not set value $TicketDynamicFields{$DynamicField} "
+                    . "for dynamic field $DynamicField!"
+            );
         }
-        my $TicketFreeTextSuccess = $Self->{TicketObject}->TicketFreeTextSet(
-            Counter  => $Number,
-            Key      => $Key,
-            Value    => $TicketFreeText{$Number},
-            TicketID => $TicketID,
-            UserID   => 1,
-        );
     }
 
     # close ticket
@@ -1122,6 +1147,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.30 $ $Date: 2011-07-26 22:44:46 $
+$Revision: 1.31 $ $Date: 2011-11-08 22:07:46 $
 
 =cut

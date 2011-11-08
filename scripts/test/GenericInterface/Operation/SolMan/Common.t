@@ -2,7 +2,7 @@
 # Common.t - ReplicateIncident Operation tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.t,v 1.21 2011-06-23 22:28:32 cr Exp $
+# $Id: Common.t,v 1.22 2011-11-08 22:07:45 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,6 +20,8 @@ use Kernel::System::GenericInterface::Webservice;
 use Kernel::GenericInterface::Debugger;
 use Kernel::GenericInterface::Mapping;
 use Kernel::GenericInterface::Operation;
+use Kernel::System::DynamicField;
+
 use Kernel::Config;
 
 my $ConfigObject = Kernel::Config->new();
@@ -34,6 +36,38 @@ my $WebserviceObject = Kernel::System::GenericInterface::Webservice->new(
 
 my $RandomID1 = int rand 1_000_000_000;
 my $RandomID2 = $RandomID1 + 1;
+
+# create required dynamic fields
+my $DynamicFieldObject = Kernel::System::DynamicField->new(
+    %{$Self},
+    ConfigObject => $ConfigObject,
+);
+
+my @AddedDynamicFieldIDs;
+
+for my $FieldName (qw(SAPComponent SAPSystemID SAPSystemClient)) {
+    my $DynamicFieldID = $DynamicFieldObject->DynamicFieldAdd(
+        Name       => $FieldName . $RandomID1,
+        Label      => 'a description',
+        FieldOrder => 99999,
+        FieldType  => 'Text',
+        ObjectType => 'Ticket',
+        Config     => {
+            Description => 'Description for Dynamic Field.',
+        },
+        ValidID => 1,
+        UserID  => 1,
+    );
+
+    # sanity check
+    $Self->True(
+        $DynamicFieldID,
+        "DynamicFieldAdd() Field $FieldName$RandomID1, ID $DynamicFieldID, created successfully"
+    );
+
+    # add id to the list to delete later
+    push @AddedDynamicFieldIDs, $DynamicFieldID;
+}
 
 my $WebserviceConfig = {
     Debugger => {
@@ -70,10 +104,10 @@ my $WebserviceConfig = {
                         StateMap => {
                             E0003SLFC0001 => 'pending reminder',
                         },
-                        TicketFreeTextMap => {
-                            SAPComponent    => 10,
-                            SAPSystemID     => 11,
-                            SAPSystemClient => 12,
+                        TicketDynamicFieldMap => {
+                            SAPComponent    => 'SAPComponent' . $RandomID1,
+                            SAPSystemID     => 'SAPSystemID' . $RandomID1,
+                            SAPSystemClient => 'SAPSystemClient' . $RandomID2,
                         },
                     },
                     Type => 'SolMan',
@@ -283,12 +317,12 @@ works too',
                     'phone',
                     'email-internal',
                 ],
-                Priority       => '5 very high',
-                State          => 'pending reminder',
-                TicketFreeText => {
-                    10 => 'DE-TST',
-                    11 => 'localhost',
-                    12 => '',
+                Priority            => '5 very high',
+                State               => 'pending reminder',
+                TicketDynamicFields => {
+                    'SAPComponent' . $RandomID1    => 'DE-TST',
+                    'SAPSystemID' . $RandomID1     => 'localhost',
+                    'SAPSystemClient' . $RandomID2 => '',
                 },
             },
             Data => {
@@ -1260,13 +1294,19 @@ for my $TestChain (@Tests) {
                     "$Test->{Name} Ticket data contains correct State after mapping",
                 );
             }
-            my $MapTicketFreeText = $Test->{Expected}->{TicketFreeText};
-            if ( ref $MapTicketFreeText eq 'HASH' ) {
-                for my $Number ( sort keys %{$MapTicketFreeText} ) {
+
+            my $MapTicketDynamicFields = $Test->{Expected}->{TicketDynamicFields};
+            if ( ref $MapTicketDynamicFields eq 'HASH' ) {
+                for my $DynamicField ( sort keys %{$MapTicketDynamicFields} ) {
+
+                    # workaround after porting to dynamic fields
+                    if ( !defined $TicketData{ 'DynamicField_' . $DynamicField } ) {
+                        $TicketData{ 'DynamicField_' . $DynamicField } = '';
+                    }
                     $Self->Is(
-                        $TicketData{ 'TicketFreeText' . $Number },
-                        $MapTicketFreeText->{$Number},
-                        "$Test->{Name} Ticket data contains correct TicketFreeText$Number"
+                        $TicketData{ 'DynamicField_' . $DynamicField },
+                        $MapTicketDynamicFields->{$DynamicField},
+                        "$Test->{Name} Ticket data contains correct dynamic field $DynamicField"
                             . " after mapping",
                     );
                 }
@@ -1468,6 +1508,20 @@ for my $TestChain (@Tests) {
     );
 
 }    # END TESTCHAIN
+
+# delete used dynamic fields
+for my $DynamicFieldID (@AddedDynamicFieldIDs) {
+    my $Success = $DynamicFieldObject->DynamicFieldDelete(
+        ID     => $DynamicFieldID,
+        UserID => 1,
+    );
+
+    #sanity check
+    $Self->True(
+        $Success,
+        "DynamicFieldDelete() for field ID $DynamicFieldID, deleted successfully",
+    );
+}
 
 # delete config
 my $Success = $WebserviceObject->WebserviceDelete(
