@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.pm,v 1.84 2011-11-02 09:22:26 mb Exp $
+# $Id: CustomerTicketZoom.pm,v 1.85 2011-11-08 17:35:06 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.84 $) [1];
+$VERSION = qw($Revision: 1.85 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -555,8 +555,7 @@ sub _Mask {
     DYNAMICFIELD:
     for my $DynamicFieldConfig ( @{$DynamicField} ) {
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
-        next DYNAMICFIELD if !$Param{ 'DynamicField_' . $DynamicFieldConfig->{Name} };
-        next DYNAMICFIELD if $Param{ 'DynamicField_' . $DynamicFieldConfig->{Name} } eq "";
+        next DYNAMICFIELD if $Param{ 'DynamicField_' . $DynamicFieldConfig->{Name} } eq '';
 
         # get print string for this dynamic field
         my $ValueStrg = $Self->{BackendObject}->DisplayValueRender(
@@ -662,8 +661,7 @@ sub _Mask {
         DYNAMICFIELD:
         for my $DynamicFieldConfig ( @{$DynamicField} ) {
             next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
-            next DYNAMICFIELD if !$Article{ 'DynamicField_' . $DynamicFieldConfig->{Name} };
-            next DYNAMICFIELD if $Article{ 'DynamicField_' . $DynamicFieldConfig->{Name} } eq "";
+            next DYNAMICFIELD if $Article{ 'DynamicField_' . $DynamicFieldConfig->{Name} } eq '';
 
             # get print string for this dynamic field
             my $ValueStrg = $Self->{BackendObject}->DisplayValueRender(
@@ -685,14 +683,14 @@ sub _Mask {
             );
 
             # example of dynamic fields order customization
-            #            $Self->{LayoutObject}->Block(
-            #                Name => 'ArticleDynamicField_' . $DynamicFieldConfig->{Name},
-            #                Data => {
-            #                    Label => $Label,
-            #                    Value => $ValueStrg->{Value},
-            #                    Title => $ValueStrg->{Title},
-            #                },
-            #            );
+            $Self->{LayoutObject}->Block(
+                Name => 'ArticleDynamicField_' . $DynamicFieldConfig->{Name},
+                Data => {
+                    Label => $Label,
+                    Value => $ValueStrg->{Value},
+                    Title => $ValueStrg->{Title},
+                },
+            );
         }
 
         # check if just a only html email
