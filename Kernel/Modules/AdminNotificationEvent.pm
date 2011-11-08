@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminNotificationEvent.pm - to manage event-based notifications
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNotificationEvent.pm,v 1.34 2011-11-07 19:35:38 cg Exp $
+# $Id: AdminNotificationEvent.pm,v 1.35 2011-11-08 10:25:19 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,7 +25,7 @@ use Kernel::System::Valid;
 use Kernel::System::DynamicField;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.34 $) [1];
+$VERSION = qw($Revision: 1.35 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -404,6 +404,8 @@ sub _Edit {
             EscalationResponseTimeStop         => 'EscalationResponseTimeStop',
             EscalationUpdateTimeStop           => 'EscalationUpdateTimeStop',
             EscalationSolutionTimeStop         => 'EscalationSolutionTimeStop',
+
+            # Special events for each DynamicField
             %DynamicFieldList,
         },
         Name       => 'Events',
