@@ -2,7 +2,7 @@
 # VariableCheck.t - tests for VariableCheck
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: VariableCheck.t,v 1.4 2011-03-03 08:30:26 mg Exp $
+# $Id: VariableCheck.t,v 1.5 2011-11-08 09:43:04 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -890,5 +890,64 @@ $TestVariables = {
     String5 => "\t",
 };
 $RunTests->( 'IsStringWithData', $TestVariables, $ExpectedTestResults );
+
+#
+# DataIsDifferent tests
+#
+
+my %hash1 = (
+    key1 => '1',
+    key2 => '2',
+    key3 => {
+        test  => 2,
+        test2 => [
+            1, 2, 3,
+        ],
+    },
+    key4 => undef,
+);
+
+my %hash2 = %hash1;
+$hash2{AdditionalKey} = 1;
+
+my @List1 = ( 1, 2, 3, );
+my @List2 = (
+    1,
+    2,
+    4,
+    [ 1, 2, 3 ],
+    {
+        test => 'test',
+    },
+);
+
+my $Scalar1 = 1;
+my $Scalar2 = {
+    test => [ 1, 2, 3 ],
+};
+
+my $Count = 0;
+for my $Value1 ( \%hash1, \%hash2, \@List1, \@List2, \$Scalar1, \$Scalar2 ) {
+    $Count++;
+    $Self->Is(
+        scalar DataIsDifferent( Data1 => $Value1, Data2 => $Value1 ),
+        scalar undef,
+        'DataIsDifferent() - Test ' . $Count,
+    );
+
+    my $Count2 = 0;
+    VALUE2: for my $Value2 ( \%hash1, \%hash2, \@List1, \@List2, \$Scalar1, \$Scalar2 ) {
+        if ( $Value2 == $Value1 ) {
+            next VALUE2;
+        }
+        $Count2++;
+
+        $Self->Is(
+            scalar DataIsDifferent( Data1 => $Value1, Data2 => $Value2 ),
+            1,
+            'DataIsDifferent() - Test ' . $Count . ':' . $Count2,
+        );
+    }
+}
 
 1;
