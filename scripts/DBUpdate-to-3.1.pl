@@ -3,7 +3,7 @@
 # DBUpdate-to-3.1.pl - update script to migrate OTRS 3.0.x to 3.1.x
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-3.1.pl,v 1.54 2011-11-07 19:33:11 cg Exp $
+# $Id: DBUpdate-to-3.1.pl,v 1.55 2011-11-08 08:26:48 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.54 $) [1];
+$VERSION = qw($Revision: 1.55 $) [1];
 
 use Getopt::Std qw();
 use Kernel::Config;
@@ -1977,7 +1977,7 @@ sub _MigrateResponsesConfiguration {
 
             # replace all occurrences of this $FieldName
             $ResponseRecordConfig{ResponseTextNew}
-                =~ s{OTRS_TICKET_$FieldName}{OTRS_TICKET_DynamicField_$FieldName}gsx;
+                =~ s{\QOTRS_TICKET_$FieldName\E}{OTRS_TICKET_DynamicField_$FieldName}gsx;
         }
 
         # save record details to update DB later
@@ -2061,14 +2061,14 @@ sub _MigrateAutoResponsesConfiguration {
 
             # replace all occurrences of this $FieldName
             $AutoResponseRecordConfig{AutoResponseText0New}
-                =~ s{OTRS_TICKET_$FieldName}{OTRS_TICKET_DynamicField_$FieldName}gsx;
+                =~ s{\QOTRS_TICKET_$FieldName\E}{OTRS_TICKET_DynamicField_$FieldName}gsx;
 
             $AutoResponseRecordConfig{AutoResponseText1New}
-                =~ s{OTRS_TICKET_$FieldName}{OTRS_TICKET_DynamicField_$FieldName}gsx;
+                =~ s{\QOTRS_TICKET_$FieldName\E}{OTRS_TICKET_DynamicField_$FieldName}gsx;
 
             if ( $AutoResponseRecordConfig{AutoResponseText2New} ) {
                 $AutoResponseRecordConfig{AutoResponseText2New}
-                    =~ s{OTRS_TICKET_$FieldName}{OTRS_TICKET_DynamicField_$FieldName}gsx;
+                    =~ s{\QOTRS_TICKET_$FieldName\E}{OTRS_TICKET_DynamicField_$FieldName}gsx;
             }
         }
 
@@ -2150,7 +2150,7 @@ sub _MigrateSalutationsConfiguration {
 
             # replace all occurrences of this $FieldName
             $SalutationRecordConfig{SalutationTextNew}
-                =~ s{OTRS_TICKET_$FieldName}{OTRS_TICKET_DynamicField_$FieldName}gsx;
+                =~ s{\QOTRS_TICKET_$FieldName\E}{OTRS_TICKET_DynamicField_$FieldName}gsx;
         }
 
         # save record details to update DB later
@@ -2228,7 +2228,7 @@ sub _MigrateSignaturesConfiguration {
 
             # replace all occurrences of this $FieldName
             $SignatureRecordConfig{SignatureTextNew}
-                =~ s{OTRS_TICKET_$FieldName}{OTRS_TICKET_DynamicField_$FieldName}gsx;
+                =~ s{\QOTRS_TICKET_$FieldName\E}{OTRS_TICKET_DynamicField_$FieldName}gsx;
         }
 
         # save record details to update DB later
@@ -2400,9 +2400,9 @@ sub _MigrateNotificationsConfiguration {
 
             # replace all occurrences of this $FieldName
             $NotificationRecordConfig{NotificationSubjectNew}
-                =~ s{OTRS_TICKET_$FieldName}{OTRS_TICKET_DynamicField_$FieldName}gsx;
+                =~ s{\QOTRS_TICKET_$FieldName\E}{OTRS_TICKET_DynamicField_$FieldName}gsx;
             $NotificationRecordConfig{NotificationTextNew}
-                =~ s{OTRS_TICKET_$FieldName}{OTRS_TICKET_DynamicField_$FieldName}gsx;
+                =~ s{\QOTRS_TICKET_$FieldName\E}{OTRS_TICKET_DynamicField_$FieldName}gsx;
         }
 
         # save record details to update DB later
@@ -2494,9 +2494,9 @@ sub _MigrateNotificationEventConfiguration {
 
             # replace all occurrences of this $FieldName
             $NotificationRecordConfig{NotificationSubjectNew}
-                =~ s{OTRS_TICKET_$FieldName}{OTRS_TICKET_DynamicField_$FieldName}gsx;
+                =~ s{\QOTRS_TICKET_$FieldName\E}{OTRS_TICKET_DynamicField_$FieldName}gsx;
             $NotificationRecordConfig{NotificationTextNew}
-                =~ s{OTRS_TICKET_$FieldName}{OTRS_TICKET_DynamicField_$FieldName}gsx;
+                =~ s{\QOTRS_TICKET_$FieldName\E}{OTRS_TICKET_DynamicField_$FieldName}gsx;
         }
 
         # save record details to update DB later
@@ -2568,7 +2568,7 @@ sub _MigrateNotificationEventConfiguration {
 
             # replace all occurrences of this $FieldName
             $NotificationItemRecordConfig{NotificationEventValueNew}
-                =~ s{$FieldName}{TicketDynamicFieldUpdate_$LocalDynamicFieldsItem{$FieldName}}gsx;
+                =~ s{\Q$FieldName\E}{TicketDynamicFieldUpdate_$LocalDynamicFieldsItem{$FieldName}}gsx;
         }
 
         # save record details to update DB later
