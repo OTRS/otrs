@@ -2,7 +2,7 @@
 # PostMaster.t - PostMaster tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: PostMaster.t,v 1.29 2011-10-27 22:31:28 cg Exp $
+# $Id: PostMaster.t,v 1.30 2011-11-08 14:09:38 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -237,14 +237,16 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                 for my $Line (@Content) {
                     push @ContentNew, $Line;
                 }
+                my @Return;
+                {
+                    my $PostMasterObject = Kernel::System::PostMaster->new(
+                        %{$Self},
+                        ConfigObject => $ConfigObject,
+                        Email        => \@Content,
+                    );
 
-                my $PostMasterObject = Kernel::System::PostMaster->new(
-                    %{$Self},
-                    ConfigObject => $ConfigObject,
-                    Email        => \@Content,
-                );
-
-                my @Return = $PostMasterObject->Run();
+                    @Return = $PostMasterObject->Run();
+                }
                 $Self->Is(
                     $Return[0] || 0,
                     1,
@@ -451,12 +453,14 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                     }
                     push @Content, $Line;
                 }
-                $PostMasterObject = Kernel::System::PostMaster->new(
-                    %{$Self},
-                    ConfigObject => $ConfigObject,
-                    Email        => \@Content,
-                );
-                @Return = $PostMasterObject->Run();
+                {
+                    my $PostMasterObject = Kernel::System::PostMaster->new(
+                        %{$Self},
+                        ConfigObject => $ConfigObject,
+                        Email        => \@Content,
+                    );
+                    @Return = $PostMasterObject->Run();
+                }
                 $Self->Is(
                     $Return[0] || 0,
                     2,
@@ -499,12 +503,14 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                     }
                     push @Content, $Line;
                 }
-                $PostMasterObject = Kernel::System::PostMaster->new(
-                    %{$Self},
-                    ConfigObject => $ConfigObject,
-                    Email        => \@Content,
-                );
-                @Return = $PostMasterObject->Run();
+                {
+                    my $PostMasterObject = Kernel::System::PostMaster->new(
+                        %{$Self},
+                        ConfigObject => $ConfigObject,
+                        Email        => \@Content,
+                    );
+                    @Return = $PostMasterObject->Run();
+                }
                 $Self->Is(
                     $Return[0] || 0,
                     2,
@@ -526,12 +532,14 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                     }
                     push @Content, $Line;
                 }
-                $PostMasterObject = Kernel::System::PostMaster->new(
-                    %{$Self},
-                    ConfigObject => $ConfigObject,
-                    Email        => \@Content,
-                );
-                @Return = $PostMasterObject->Run();
+                {
+                    my $PostMasterObject = Kernel::System::PostMaster->new(
+                        %{$Self},
+                        ConfigObject => $ConfigObject,
+                        Email        => \@Content,
+                    );
+                    @Return = $PostMasterObject->Run();
+                }
                 $Self->Is(
                     $Return[0] || 0,
                     2,
@@ -553,12 +561,14 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                     }
                     push @Content, $Line;
                 }
-                $PostMasterObject = Kernel::System::PostMaster->new(
-                    %{$Self},
-                    ConfigObject => $ConfigObject,
-                    Email        => \@Content,
-                );
-                @Return = $PostMasterObject->Run();
+                {
+                    my $PostMasterObject = Kernel::System::PostMaster->new(
+                        %{$Self},
+                        ConfigObject => $ConfigObject,
+                        Email        => \@Content,
+                    );
+                    @Return = $PostMasterObject->Run();
+                }
                 $Self->Is(
                     $Return[0] || 0,
                     2,
@@ -580,12 +590,14 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                     }
                     push @Content, $Line;
                 }
-                $PostMasterObject = Kernel::System::PostMaster->new(
-                    %{$Self},
-                    ConfigObject => $ConfigObject,
-                    Email        => \@Content,
-                );
-                @Return = $PostMasterObject->Run();
+                {
+                    my $PostMasterObject = Kernel::System::PostMaster->new(
+                        %{$Self},
+                        ConfigObject => $ConfigObject,
+                        Email        => \@Content,
+                    );
+                    @Return = $PostMasterObject->Run();
+                }
                 $Self->Is(
                     $Return[0] || 0,
                     2,
@@ -632,13 +644,16 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                     Key   => 'PostmasterFollowUpStateClosed',
                     Value => 'new'
                 );
-                $PostMasterObject = Kernel::System::PostMaster->new(
-                    %{$Self},
-                    TicketObject => $TicketObject,
-                    ConfigObject => $ConfigObject,
-                    Email        => \@Content,
-                );
-                @Return = $PostMasterObject->Run();
+                {
+                    my $PostMasterObject = Kernel::System::PostMaster->new(
+                        %{$Self},
+                        TicketObject => $TicketObject,
+                        ConfigObject => $ConfigObject,
+                        Email        => \@Content,
+                    );
+                    @Return = $PostMasterObject->Run();
+                }
+
                 $Self->Is(
                     $Return[0] || 0,
                     2,
@@ -763,13 +778,16 @@ Subject: some subject
 Some Content in Body
 ';
 
-    my $PostMasterObject = Kernel::System::PostMaster->new(
-        %{$Self},
-        ConfigObject => $ConfigObject,
-        Email        => \$Email,
-    );
+    my @Return;
+    {
+        my $PostMasterObject = Kernel::System::PostMaster->new(
+            %{$Self},
+            ConfigObject => $ConfigObject,
+            Email        => \$Email,
+        );
 
-    my @Return = $PostMasterObject->Run();
+        @Return = $PostMasterObject->Run();
+    }
     $Self->Is(
         $Return[0] || 0,
         1,
