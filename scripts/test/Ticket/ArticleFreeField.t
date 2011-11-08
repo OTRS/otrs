@@ -2,7 +2,7 @@
 # ArticleFreeField.t - Article Free Field tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleFreeField.t,v 1.4 2011-09-06 17:38:16 cr Exp $
+# $Id: ArticleFreeField.t,v 1.5 2011-11-08 23:29:37 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -284,7 +284,7 @@ for ( 1 .. 3 ) {
     );
     $Self->True(
         $ArticleFreeTextSet,
-        'ArticleFreeTextSet() ' . $_,
+        'ArticleFreeTextSet() 1 ' . $_,
     );
 }
 
@@ -293,12 +293,12 @@ for ( 1 .. 3 ) {
     $Self->Is(
         $ArticleFreeText{ 'ArticleFreeKey' . $_ },
         'Planet' . $_,
-        "ArticleGet() (ArticleFreeKey$_)",
+        "ArticleGet() 1 (ArticleFreeKey$_)",
     );
     $Self->Is(
         $ArticleFreeText{ 'ArticleFreeText' . $_ },
         'Sun' . $_,
-        "ArticleGet() (ArticleFreeText$_)",
+        "ArticleGet() 1 (ArticleFreeText$_)",
     );
 }
 
@@ -313,7 +313,7 @@ for ( 1 .. 3 ) {
     );
     $Self->True(
         $ArticleFreeTextSet,
-        'ArticleFreeTextSet () without key ' . $_,
+        'ArticleFreeTextSet() 2 without key ' . $_,
     );
 }
 
@@ -323,12 +323,12 @@ for ( 1 .. 3 ) {
     $Self->Is(
         $ArticleFreeText{ 'ArticleFreeKey' . $_ },
         'Planet' . $_,
-        "ArticleGet() (ArticleFreeKey$_)",
+        "ArticleGet() 2 (ArticleFreeKey$_)",
     );
     $Self->Is(
         $ArticleFreeText{ 'ArticleFreeText' . $_ },
         'Earth' . $_,
-        "ArticleGet() (ArticleFreeText$_)",
+        "ArticleGet() 2 (ArticleFreeText$_)",
     );
 }
 
@@ -343,7 +343,7 @@ for ( 1 .. 3 ) {
     );
     $Self->True(
         $ArticleFreeTextSet,
-        'ArticleFreeTextSet () without value ' . $_,
+        'ArticleFreeTextSet () 3 without value ' . $_,
     );
 }
 
@@ -353,12 +353,12 @@ for ( 1 .. 3 ) {
     $Self->Is(
         $ArticleFreeText{ 'ArticleFreeKey' . $_ },
         'Location' . $_,
-        "ArticleGet() (ArticleFreeKey$_)",
+        "ArticleGet() 3 (ArticleFreeKey$_)",
     );
     $Self->Is(
         $ArticleFreeText{ 'ArticleFreeText' . $_ },
         'Earth' . $_,
-        "ArticleGet() (ArticleFreeText$_)",
+        "ArticleGet() 3 (ArticleFreeText$_)",
     );
 }
 
@@ -372,7 +372,7 @@ for ( 1 .. 3 ) {
     );
     $Self->True(
         $ArticleFreeTextSet,
-        'ArticleFreeTextSet () without key and value ' . $_,
+        'ArticleFreeTextSet() 4 without key and value ' . $_,
     );
 }
 
@@ -381,12 +381,12 @@ for ( 1 .. 3 ) {
     $Self->Is(
         $ArticleFreeText{ 'ArticleFreeKey' . $_ },
         'Location' . $_,
-        "ArticleGet() (ArticleFreeKey$_)",
+        "ArticleGet() 4 (ArticleFreeKey$_)",
     );
     $Self->Is(
         $ArticleFreeText{ 'ArticleFreeText' . $_ },
         'Earth' . $_,
-        "ArticleGet() (ArticleFreeText$_)",
+        "ArticleGet() 4 (ArticleFreeText$_)",
     );
 }
 
@@ -402,7 +402,7 @@ for ( 1 .. 3 ) {
     );
     $Self->True(
         $ArticleFreeTextSet,
-        'ArticleFreeTextSet () with empty key and value ' . $_,
+        'ArticleFreeTextSet() 5 with empty key and value ' . $_,
     );
 }
 
@@ -411,12 +411,12 @@ for ( 1 .. 3 ) {
     $Self->Is(
         $ArticleFreeText{ 'ArticleFreeKey' . $_ },
         '',
-        "ArticleGet() (ArticleFreeKey$_)",
+        "ArticleGet() 5 (ArticleFreeKey$_)",
     );
     $Self->Is(
         $ArticleFreeText{ 'ArticleFreeText' . $_ },
         '',
-        "ArticleGet() (ArticleFreeText$_)",
+        "ArticleGet() 5 (ArticleFreeText$_)",
     );
 }
 
@@ -431,7 +431,7 @@ for ( 1 .. 3 ) {
     );
     $Self->True(
         $ArticleTextSet,
-        'ArticleFreeTextSet() ' . $_,
+        'ArticleFreeTextSet() 6 ' . $_,
     );
 }
 
@@ -440,24 +440,24 @@ for ( 1 .. 16 ) {
     $Self->Is(
         $ArticleFreeText{ 'TicketFreeKey' . $_ },
         'Hans_' . $_,
-        "ArticleGet() (TicketFreeKey$_)",
+        "ArticleGet() 6 (TicketFreeKey$_)",
     );
     $Self->Is(
         $ArticleFreeText{ 'TicketFreeText' . $_ },
         'Max_' . $_,
-        "ArticleGet() (TicketFreeText$_)",
+        "ArticleGet() 6 (TicketFreeText$_)",
     );
 }
 for ( 1 .. 3 ) {
     $Self->Is(
         $ArticleFreeText{ 'TicketFreeKey' . $_ },
         'Hans_' . $_,
-        "ArticleGet() (TicketFreeText$_)",
+        "ArticleGet() 6 (TicketFreeText$_)",
     );
     $Self->Is(
         $ArticleFreeText{ 'TicketFreeText' . $_ },
         'Max_' . $_,
-        "ArticleGet() (TicketFreeText$_)",
+        "ArticleGet() 6 (TicketFreeText$_)",
     );
 }
 
