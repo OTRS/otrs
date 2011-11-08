@@ -2,7 +2,7 @@
 // Core.Form.Validate.js - provides functions for validating form inputs
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Form.Validate.js,v 1.33 2011-02-17 21:30:59 en Exp $
+// $Id: Core.Form.Validate.js,v 1.34 2011-11-08 12:17:00 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -74,6 +74,12 @@ Core.Form.Validate = (function (TargetNS) {
             ErrorType = 'Error';
         }
 
+        // Check if the element has already an error class
+        // (that means, this function call is an additional call)
+        if ($Element.hasClass(Options.ErrorClass)) {
+            return;
+        }
+
         // Add error class to field and its label
         $Element.addClass(Options.ErrorClass);
         $(Element.form).find("label[for=" + Element.id + "]").addClass(Options.ErrorLabelClass);
@@ -107,6 +113,13 @@ Core.Form.Validate = (function (TargetNS) {
 
         // speak the error message for screen reader users
         Core.UI.Accessibility.AudibleAlert(InputErrorMessageText);
+
+        // if the element, which has an validation error, is a richtext element, than manually trigger the focus event
+        if (Core.UI.RichTextEditor.IsEnabled($Element)) {
+            window.setTimeout(function () {
+                $Element.focus();
+            }, 0);
+        }
     }
 
     /**
