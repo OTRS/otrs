@@ -2,7 +2,7 @@
 # TicketHistory.t - ticket module testscript
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketHistory.t,v 1.1 2011-08-30 10:23:08 mg Exp $
+# $Id: TicketHistory.t,v 1.2 2011-11-08 15:24:55 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -197,6 +197,14 @@ for my $Test (@Tests) {
                 TicketID => $HistoryCreateTicketID,
             );
 
+            my %LookForHistoryTypes = (
+                NewTicket      => 1,
+                OwnerUpdate    => 1,
+                CustomerUpdate => 1,
+            );
+
+            @HistoryGet = grep { $LookForHistoryTypes{ $_->{HistoryType} } } @HistoryGet;
+
             $Self->True(
                 scalar @HistoryGet,
                 'HistoryGet - HistoryGet()',
@@ -247,7 +255,7 @@ for my $Test (@Tests) {
                     $Self->Is(
                         $Result->{$ResultEntry},
                         $HistoryGet[$ResultCount]->{$ResultEntry},
-                        'HistoryGet - Check returned content',
+                        "HistoryGet - Check returned content $ResultEntry",
                     );
                 }
             }
