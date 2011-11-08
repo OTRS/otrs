@@ -2,7 +2,7 @@
 # TicketACL.t - Ticket Access Control Lists tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketACL.t,v 1.1 2011-11-08 05:40:41 cr Exp $
+# $Id: TicketACL.t,v 1.2 2011-11-08 18:16:58 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -213,7 +213,18 @@ my %TestACLs = (
             },
         },
     },
-
+    'DynamicField-1' => {
+        Properties => {
+            DynamicField => {
+                DynamicField_Field1 => ['Item1'],
+            },
+        },
+        PossibleNot => {
+            Ticket => {
+                State => ['open'],
+            },
+        },
+    },
 );
 
 $ConfigObject->Set(
@@ -300,9 +311,8 @@ my @Tests = (
             Queue         => $QueueName,
             UserID        => $UserID,
         },
-        SuccessMatch  => 1,
-        SuccessReturn => 1,
-        ReturnData    => {
+        SuccessMatch => 1,
+        ReturnData   => {
             1 => 'new',
         },
     },
@@ -333,9 +343,8 @@ my @Tests = (
             Queue         => $QueueName,
             UserID        => $UserID,
         },
-        SuccessMatch  => 1,
-        SuccessReturn => 1,
-        ReturnData    => {
+        SuccessMatch => 1,
+        ReturnData   => {
             1 => 'new',
         },
     },
@@ -351,9 +360,8 @@ my @Tests = (
             QueueID       => $QueueID,
             UserID        => $UserID,
         },
-        SuccessMatch  => 1,
-        SuccessReturn => 1,
-        ReturnData    => {
+        SuccessMatch => 1,
+        ReturnData   => {
             1 => 'new',
         },
     },
@@ -372,9 +380,8 @@ my @Tests = (
             Service       => $ServiceName,
             UserID        => $UserID,
         },
-        SuccessMatch  => 1,
-        SuccessReturn => 1,
-        ReturnData    => {
+        SuccessMatch => 1,
+        ReturnData   => {
             1 => '1 very low',
             3 => '3 medium',
         },
@@ -394,9 +401,8 @@ my @Tests = (
             ServiceID     => $ServiceID,
             UserID        => $UserID,
         },
-        SuccessMatch  => 1,
-        SuccessReturn => 1,
-        ReturnData    => {
+        SuccessMatch => 1,
+        ReturnData   => {
             1 => '1 very low',
             3 => '3 medium',
         },
@@ -415,9 +421,8 @@ my @Tests = (
             Type          => $TypeName,
             UserID        => $UserID,
         },
-        SuccessMatch  => 1,
-        SuccessReturn => 1,
-        ReturnData    => {
+        SuccessMatch => 1,
+        ReturnData   => {
             1 => 'Raw',
         },
     },
@@ -435,9 +440,8 @@ my @Tests = (
             TypeID        => $TypeID,
             UserID        => $UserID,
         },
-        SuccessMatch  => 1,
-        SuccessReturn => 1,
-        ReturnData    => {
+        SuccessMatch => 1,
+        ReturnData   => {
             1 => 'Raw',
         },
     },
@@ -452,9 +456,8 @@ my @Tests = (
             ReturnSubType  => 'State',
             CustomerUserID => $CustomerUserData{UserID},
         },
-        SuccessMatch  => 1,
-        SuccessReturn => 1,
-        ReturnData    => {
+        SuccessMatch => 1,
+        ReturnData   => {
             2 => 'open',
         },
     },
@@ -473,9 +476,8 @@ my @Tests = (
             Action        => 'AgentTicketPhone',
             UserID        => $UserID,
         },
-        SuccessMatch  => 1,
-        SuccessReturn => 1,
-        ReturnData    => {
+        SuccessMatch => 1,
+        ReturnData   => {
             2 => '2 low',
             4 => '4 high',
             5 => '5 very high'
@@ -497,7 +499,27 @@ my @Tests = (
             AgentTicketPhone   => 1
         },
     },
-
+    {
+        Name   => 'ACL DynamicField-1 - correct DynamicField',
+        Config => {
+            Data => {
+                1 => 'new',
+                2 => 'open',
+                3 => 'closed',
+            },
+            ReturnType    => 'Ticket',
+            ReturnSubType => 'State',
+            DynamicField  => {
+                DynamicField_Field1 => ['Item1']
+            },
+            UserID => $UserID,
+        },
+        SuccessMatch => 1,
+        ReturnData   => {
+            1 => 'new',
+            3 => 'closed',
+        },
+    },
 );
 
 for my $Test (@Tests) {
