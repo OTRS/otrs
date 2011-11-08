@@ -2,7 +2,7 @@
 # UPGRADING - upgrading OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: UPGRADING,v 1.57 2011-10-31 13:39:19 mb Exp $
+# $Id: UPGRADING,v 1.58 2011-11-08 12:03:02 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ from OTRS version 3.1.0 to 3.1.1, you should skip steps 8 and 11.
 
 If you are using Microsoft SQL Server as the DBMS for OTRS, please refer
 to the manual, chapter "Upgrading Microsoft SQL Server Data Types" for instructions
-how to upgrade the data types used by OTRS. 
+how to upgrade the data types used by OTRS.
 
 1) Stop all relevant services
    --------------------------
@@ -184,9 +184,8 @@ XX) TicketHistory
 XX) Ticket Event handlers
     ---------------------
 
-    The Event name TicketFreeTextUpdate was renamed to TicketDynamicFieldUpdate,
-    and ArticleFreeTextUpdate was renamed to ArticleDynamicFieldUpdate. If you have any
-    custom event handlers for these events, please adapt them.
+    The Event name TicketFreeTextUpdate_$Counter was renamed to TicketDynamicFieldUpdate_$FieldName.
+    If you have any custom event handlers for these events, please adapt them.
 
 
 XX) DynamicField User Preferences Module
@@ -197,6 +196,17 @@ XX) DynamicField User Preferences Module
     setting must be changed to "UserDynamicField_DynamicField", where the part after
     the _ is the name of the dynamic field. Existing values would need to be renamed
     in the database as well.
+
+
+XX) Custom free field default value event handler
+    ---------------------------------------------
+    If you used the event handler Ticket::EventModulePost###TicketFreeFieldDefault (not active by default),
+    you'll need to migrate its configuration to the new setting Ticket::EventModulePost###TicketDynamicFieldDefault.
+
+    The configuration of this is slightly different; where you had to specify a Counter indicating the TicketFreeText
+    number previously, now you need to specify the name of the DynamicField (for migrated fields, this will be
+    DynamicField_TicketFreeKey$Counter and DynamicField_TicketFreeText$Counter. You need two separate entries now
+    if you want to set both the key and the text field.
 
 
 XX) Escalation Events
