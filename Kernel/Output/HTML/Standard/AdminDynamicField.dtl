@@ -2,7 +2,7 @@
 # AdminDynamicField.dtl - provides HTML form for DynamicFields
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminDynamicField.dtl,v 1.16 2011-11-04 08:18:41 mg Exp $
+# $Id: AdminDynamicField.dtl,v 1.17 2011-11-08 23:42:52 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -63,7 +63,7 @@ $('#$Data{"SelectName"}').bind('change', function() {
             <div class="Content">
                 <div class="FieldExplanation">
                     <p>
-                        $Text{"To add a new field select the field type form the ticket or article list depending on the scope of the new field."}
+                        $Text{"To add a new field, select the field type form one of the object's list, the object defines the boundary of the field and it can't be changed after the field creation."}
                     </p>
                 </div>
             </div>
