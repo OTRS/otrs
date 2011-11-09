@@ -2,7 +2,7 @@
 # AdminDynamicFieldDateTime.dtl - provides HTML form for AdminDynamicFieldsDateTime
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminDynamicFieldDateTime.dtl,v 1.10 2011-11-04 22:36:35 cr Exp $
+# $Id: AdminDynamicFieldDateTime.dtl,v 1.11 2011-11-09 00:12:33 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -48,7 +48,7 @@
                                 <label class="Mandatory" for="Name"><span class="Marker">*</span> $Text{"Name"}:</label>
                                 <div class="Field">
                                     <input id="Name" class="W50pc $QData{"NameServerError"} $QData{"ShowWarning"}  Validate_Alphanumeric" type="text" maxlength="200" value="$QData{"Name"}" name="Name"/>
-                                    <div id="NameError" class="TooltipErrorMessage"><p>$Text{"This field is required, and value should be alphabetic and numeric characters only."}</p></div>
+                                    <div id="NameError" class="TooltipErrorMessage"><p>$Text{"This field is required, and the value should be alphabetic and numeric characters only."}</p></div>
                                     <div id="NameServerError" class="TooltipErrorMessage"><p>$Text{"$Data{"NameServerErrorMessage"}"}</p></div>
                                     <p class="FieldExplanation">$Text{"Must be unique and only accept alphabetic and numeric characters."}</p>
                                     <p class="Warning Hidden">$Text{"Changing this value will require manual changes in the system."}</p>
@@ -69,7 +69,7 @@
                                     $Data{"DynamicFieldOrderSrtg"}
                                     <div id="FieldOrderError" class="TooltipErrorMessage"><p>$Text{"This field is required and must be numeric."}</p></div>
                                     <div id="FieldOrderServerError" class="TooltipErrorMessage"><p>$Text{"$Data{"FieldOrderServerErrorMessage"}"}</p></div>
-                                    <p class="FieldExplanation">$Text{"This is order in which this field will be shown on the screens where is active."}</p>
+                                    <p class="FieldExplanation">$Text{"This is the order in which this field will be shown on the screens where is active."}</p>
                                 </div>
                                 <div class="Clear"></div>
                             </fieldset>
@@ -111,31 +111,31 @@
                             <input id="DefaultValue" class="W50pc Validate_PositiveNegativeNumbers $QData{"DefaultValueServerError"}" type="text" maxlength="200" value="$QData{"DefaultValue"}" name="DefaultValue"/>
                             <div id="DefaultValueError" class="TooltipErrorMessage"><p>$Text{"This field must be numeric."}</p></div>
                             <div id="DefaultValueServerError" class="TooltipErrorMessage"><p>$Text{"This field must be numeric."}</p></div>
-                            <p class="FieldExplanation">$Text{"The difference from now (in seconds) to calculate the field default value (e.g. 3600 or -60)."}</p>
+                            <p class="FieldExplanation">$Text{"The difference from NOW (in seconds) to calculate the field default value (e.g. 3600 or -60)."}</p>
                         </div>
                         <div class="Clear"></div>
 
                         <label for="YearsPeriod">$Text{"Define years period"}:</label>
                         <div class="Field">
                             $Data{"YearsPeriodStrg"}
-                            <p class="FieldExplanation">$Text{"Activate this feature to define a fixed range of years (in future and in past) to be displayed on the year selection of the field."}</p>
+                            <p class="FieldExplanation">$Text{"Activate this feature to define a fixed range of years (in the future and in the past) to be displayed on the year part of the field."}</p>
                         </div>
                         <div class="Clear"></div>
 
                         <fieldset id="YearsPeriodOption" class="TableLike $QData{"ClassYearsPeriod"}">
-                            <label for="YearsInFuture">$Text{"Years in future"}:</label>
+                            <label for="YearsInFuture">$Text{"Years in the future"}:</label>
                             <div class="Field">
                                 <input id="YearsInFuture" class="W50pc Validate_PositiveNegativeNumbers $QData{"YearsInFutureServerError"}" type="text" maxlength="200" value="$QData{"YearsInFuture"}" name="YearsInFuture"/>
                                 <div id="YearsInFutureError" class="TooltipErrorMessage"><p>$Text{"This field must be numeric."}</p></div>
                                 <div id="YearsInFutureServerError" class="TooltipErrorMessage"><p>$Text{"This field must be numeric."}</p></div>
-                                <p class="FieldExplanation">$Text{"Years in future to display (by default is 5 years)."}</p>
+                                <p class="FieldExplanation">$Text{"Years in the future to display (default: 5 years)."}</p>
                             </div>
                             <div class="Clear"></div>
 
-                            <label for="YearsInPast">$Text{"Years in past"}:</label>
+                            <label for="YearsInPast">$Text{"Years in the past"}:</label>
                             <div class="Field">
                                 <input id="YearsInPast" class="W50pc Validate_PositiveNegativeNumbers $QData{"YearsInPastServerError"}" type="text" maxlength="200" value="$QData{"YearsInPast"}" name="YearsInPast"/>
-                                <p class="FieldExplanation">$Text{"Years in past to display (by default is 5 years)."}</p>
+                                <p class="FieldExplanation">$Text{"Years in the past to display (default: 5 years)."}</p>
                                 <div id="YearsInPastError" class="TooltipErrorMessage"><p>$Text{"This field must be numeric."}</p></div>
                                 <div id="YearsInPastServerError" class="TooltipErrorMessage"><p>$Text{"This field must be numeric."}</p></div>
                             </div>
@@ -145,7 +145,7 @@
                         <div class="Field">
                             <input id="Link" class="W50pc" type="text" maxlength="500" value="$QData{"Link"}" name="Link"/>
                             <p class="FieldExplanation">
-                                $Text{"Here you can specify an optional link to show instead of the plain value when this field is displayed for an existing ticket."}
+                                $Text{"Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens."}
                                 <br/>
                                 $Text{"Example"}: http://some.example.com/handle?query=<span>$</span>LQData{"Field1"}
                             </p>

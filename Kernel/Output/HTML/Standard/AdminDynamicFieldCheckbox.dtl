@@ -2,7 +2,7 @@
 # AdminDynamicFieldCheckbox.dtl - provides HTML form for AdminDynamicFieldsTextArea
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminDynamicFieldCheckbox.dtl,v 1.9 2011-11-02 13:33:29 mb Exp $
+# $Id: AdminDynamicFieldCheckbox.dtl,v 1.10 2011-11-09 00:12:33 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -48,7 +48,7 @@
                                 <label class="Mandatory" for="Name"><span class="Marker">*</span> $Text{"Name"}:</label>
                                 <div class="Field">
                                     <input id="Name" class="W50pc $QData{"NameServerError"} $QData{"ShowWarning"}  Validate_Alphanumeric" type="text" maxlength="200" value="$QData{"Name"}" name="Name"/>
-                                    <div id="NameError" class="TooltipErrorMessage"><p>$Text{"This field is required, and value should be alphabetic and numeric characters only."}</p></div>
+                                    <div id="NameError" class="TooltipErrorMessage"><p>$Text{"This field is required, and the value should be alphabetic and numeric characters only."}</p></div>
                                     <div id="NameServerError" class="TooltipErrorMessage"><p>$Text{"$Data{"NameServerErrorMessage"}"}</p></div>
                                     <p class="FieldExplanation">$Text{"Must be unique and only accept alphabetic and numeric characters."}</p>
                                     <p class="Warning Hidden">$Text{"Changing this value will require manual changes in the system."}</p>
@@ -69,7 +69,7 @@
                                     $Data{"DynamicFieldOrderSrtg"}
                                     <div id="FieldOrderError" class="TooltipErrorMessage"><p>$Text{"This field is required and must be numeric."}</p></div>
                                     <div id="FieldOrderServerError" class="TooltipErrorMessage"><p>$Text{"$Data{"FieldOrderServerErrorMessage"}"}</p></div>
-                                    <p class="FieldExplanation">$Text{"This is order in which this field will be shown on the screens where is active."}</p>
+                                    <p class="FieldExplanation">$Text{"This is the order in which this field will be shown on the screens where is active."}</p>
                                 </div>
                                 <div class="Clear"></div>
                             </fieldset>

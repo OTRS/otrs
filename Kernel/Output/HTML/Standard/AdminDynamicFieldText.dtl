@@ -2,7 +2,7 @@
 # AdminDynamicFieldText.dtl - provides HTML form for AdminDynamicFieldsText
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminDynamicFieldText.dtl,v 1.20 2011-11-04 22:34:41 cr Exp $
+# $Id: AdminDynamicFieldText.dtl,v 1.21 2011-11-09 00:12:33 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -48,7 +48,7 @@
                                 <label class="Mandatory" for="Name"><span class="Marker">*</span> $Text{"Name"}:</label>
                                 <div class="Field">
                                     <input id="Name" class="W50pc $QData{"NameServerError"} $QData{"ShowWarning"}  Validate_Alphanumeric" type="text" maxlength="200" value="$QData{"Name"}" name="Name"/>
-                                    <div id="NameError" class="TooltipErrorMessage"><p>$Text{"This field is required, and value should be alphabetic and numeric characters only."}</p></div>
+                                    <div id="NameError" class="TooltipErrorMessage"><p>$Text{"This field is required, and the value should be alphabetic and numeric characters only."}</p></div>
                                     <div id="NameServerError" class="TooltipErrorMessage"><p>$Text{"$Data{"NameServerErrorMessage"}"}</p></div>
                                     <p class="FieldExplanation">$Text{"Must be unique and only accept alphabetic and numeric characters."}</p>
                                     <p class="Warning Hidden">$Text{"Changing this value will require manual changes in the system."}</p>
@@ -69,7 +69,7 @@
                                     $Data{"DynamicFieldOrderSrtg"}
                                     <div id="FieldOrderError" class="TooltipErrorMessage"><p>$Text{"This field is required and must be numeric."}</p></div>
                                     <div id="FieldOrderServerError" class="TooltipErrorMessage"><p>$Text{"$Data{"FieldOrderServerErrorMessage"}"}</p></div>
-                                    <p class="FieldExplanation">$Text{"This is order in which this field will be shown on the screens where is active."}</p>
+                                    <p class="FieldExplanation">$Text{"This is the order in which this field will be shown on the screens where is active."}</p>
                                 </div>
                                 <div class="Clear"></div>
                             </fieldset>
@@ -112,7 +112,7 @@
                             <input id="Rows" class="W25pc Validate_Number $Data{"RowsServerError"}" type="text" maxlength="3" value="$QData{"Rows"}" name="Rows"/>
                             <div id="RowsError" class="TooltipErrorMessage"><p>$Text{"This field must be numeric."}</p></div>
                             <div id="RowsServerError" class="TooltipErrorMessage"><p>$Text{"$Data{"RowsServerErrorMessage"}"}</p></div>
-                            <p class="FieldExplanation">$Text{"Specify the height of the edit field in lines."}</p>
+                            <p class="FieldExplanation">$Text{"Specify the height (in lines) for this field in the edit mode."}</p>
                         </div>
                         <div class="Clear"></div>
                         <label for="Cols">$Text{"Number of cols"}:</label>
@@ -120,7 +120,7 @@
                             <input id="Cols" class="W25pc Validate_Number $Data{"ColsServerError"}" type="text" maxlength="3" value="$QData{"Cols"}" name="Cols"/>
                             <div id="ColsError" class="TooltipErrorMessage"><p>$Text{"This field must be numeric."}</p></div>
                             <div id="ColsServerError" class="TooltipErrorMessage"><p>$Text{"$Data{"ColsServerErrorMessage"}"}</p></div>
-                            <p class="FieldExplanation">$Text{"Specify the width of the edit field in characters."}</p>
+                            <p class="FieldExplanation">$Text{"Specify the width (in characters) for this field in the edit mode."}</p>
                         </div>
                         <div class="Clear"></div>
 <!-- dtl:block:ColsRowsValues -->
@@ -142,7 +142,7 @@
                         <div class="Field">
                             <input id="Link" class="W50pc" type="text" maxlength="500" value="$QData{"Link"}" name="Link"/>
                             <p class="FieldExplanation">
-                                $Text{"Here you can specify an optional link to show instead of the plain value when this field is displayed for an existing ticket."}
+                                $Text{"Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens."}
                                 <br/>
                                 $Text{"Example"}: http://some.example.com/handle?query=<span>$</span>LQData{"Field1"}
                             </p>
