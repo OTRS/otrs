@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/NewTicket.pm - sub part of PostMaster.pm
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: NewTicket.pm,v 1.81 2011-11-07 23:13:35 cg Exp $
+# $Id: NewTicket.pm,v 1.82 2011-11-09 15:33:39 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::AutoResponse;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.81 $) [1];
+$VERSION = qw($Revision: 1.82 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -233,12 +233,12 @@ sub Run {
 
             # get dynamic field config
             my $DynamicFieldGet
-                = $Self->{TicketObject}->{DynamicFieldBackendObject}->DynamicFieldGet(
+                = $Self->{TicketObject}->{DynamicFieldObject}->DynamicFieldGet(
                 ID => $DynamicField,
                 );
 
             $Self->{TicketObject}->{DynamicFieldBackendObject}->ValueSet(
-                DynamicFieldConfig => $DynamicFieldGet->{Config},
+                DynamicFieldConfig => $DynamicFieldGet,
                 ObjectID           => $TicketID,
                 Value              => $GetParam{$Key},
                 UserID             => $Param{InmailUserID},
@@ -379,12 +379,12 @@ sub Run {
 
             # get dynamic field config
             my $DynamicFieldGet
-                = $Self->{TicketObject}->{DynamicFieldBackendObject}->DynamicFieldGet(
+                = $Self->{TicketObject}->{DynamicFieldObject}->DynamicFieldGet(
                 ID => $DynamicField,
                 );
 
             $Self->{TicketObject}->{DynamicFieldBackendObject}->ValueSet(
-                DynamicFieldConfig => $DynamicFieldGet->{Config},
+                DynamicFieldConfig => $DynamicFieldGet,
                 ObjectID           => $ArticleID,
                 Value              => $GetParam{$Key},
                 UserID             => $Param{InmailUserID},

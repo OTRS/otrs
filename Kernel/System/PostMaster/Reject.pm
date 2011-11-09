@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/Reject.pm - the sub part of PostMaster.pm
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Reject.pm,v 1.18 2011-11-07 23:13:35 cg Exp $
+# $Id: Reject.pm,v 1.19 2011-11-09 15:33:39 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -127,12 +127,12 @@ sub Run {
 
             # get dynamic field config
             my $DynamicFieldGet
-                = $Self->{TicketObject}->{DynamicFieldBackendObject}->DynamicFieldGet(
+                = $Self->{TicketObject}->{DynamicFieldObject}->DynamicFieldGet(
                 ID => $DynamicField,
                 );
 
             $Self->{TicketObject}->{DynamicFieldBackendObject}->ValueSet(
-                DynamicFieldConfig => $DynamicFieldGet->{Config},
+                DynamicFieldConfig => $DynamicFieldGet,
                 ObjectID           => $ArticleID,
                 Value              => $GetParam{$Key},
                 UserID             => $Param{InmailUserID},
