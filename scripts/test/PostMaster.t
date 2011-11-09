@@ -2,7 +2,7 @@
 # PostMaster.t - PostMaster tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: PostMaster.t,v 1.30 2011-11-08 14:09:38 mg Exp $
+# $Id: PostMaster.t,v 1.31 2011-11-09 22:49:49 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -141,6 +141,45 @@ for my $FieldName ( sort keys %NeededDynamicfields ) {
         }
     }
 }
+
+my %NeededXHeaders = (
+    'X-OTRS-DynamicField-TicketFreeKey1'  => 1,
+    'X-OTRS-DynamicField-TicketFreeText1' => 1,
+    'X-OTRS-DynamicField-TicketFreeKey2'  => 1,
+    'X-OTRS-DynamicField-TicketFreeText2' => 1,
+    'X-OTRS-DynamicField-TicketFreeKey3'  => 1,
+    'X-OTRS-DynamicField-TicketFreeText3' => 1,
+    'X-OTRS-DynamicField-TicketFreeTime1' => 1,
+    'X-OTRS-DynamicField-TicketFreeTime2' => 1,
+    'X-OTRS-DynamicField-TicketFreeTime3' => 1,
+    'X-OTRS-DynamicField-TicketFreeTime4' => 1,
+    'X-OTRS-DynamicField-TicketFreeTime5' => 1,
+    'X-OTRS-DynamicField-TicketFreeTime6' => 1,
+    'X-OTRS-TicketKey1'                   => 1,
+    'X-OTRS-TicketValue1'                 => 1,
+    'X-OTRS-TicketKey2'                   => 1,
+    'X-OTRS-TicketValue2'                 => 1,
+    'X-OTRS-TicketKey3'                   => 1,
+    'X-OTRS-TicketValue3'                 => 1,
+    'X-OTRS-TicketTime1'                  => 1,
+    'X-OTRS-TicketTime2'                  => 1,
+    'X-OTRS-TicketTime3'                  => 1,
+    'X-OTRS-TicketTime4'                  => 1,
+    'X-OTRS-TicketTime5'                  => 1,
+    'X-OTRS-TicketTime6'                  => 1,
+);
+
+my $XHeaders          = $ConfigObject->Get('PostmasterX-Header');
+my @PostmasterXHeader = @{$XHeaders};
+HEADER:
+for my $Header ( sort keys %NeededXHeaders ) {
+    next HEADER if ( grep $_ eq $Header, @PostmasterXHeader );
+    push @PostmasterXHeader, $Header;
+}
+$ConfigObject->Set(
+    Key   => 'PostmasterX-Header',
+    Value => \@PostmasterXHeader
+);
 
 # use different subject format
 for my $TicketSubjectConfig ( 'Right', 'Left' ) {
