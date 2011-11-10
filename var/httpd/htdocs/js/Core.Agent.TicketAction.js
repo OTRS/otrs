@@ -2,7 +2,7 @@
 // Core.Agent.TicketAction.js - provides functions for all ticket action popups
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.TicketAction.js,v 1.11 2011-10-31 11:10:06 mg Exp $
+// $Id: Core.Agent.TicketAction.js,v 1.12 2011-11-10 08:55:39 mab Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -43,7 +43,7 @@ Core.Agent.TicketAction = (function (TargetNS) {
      */
     function OpenAddressBook() {
         var AddressBookIFrameURL, AddressBookIFrame;
-        AddressBookIFrameURL = Core.Config.Get('CGIHandle') + '?Action=AgentBook;To=' + encodeURIComponent($('#CustomerAutoComplete').val()) + ';Cc=' + encodeURIComponent($('#Cc').val()) + ';Bcc=' + encodeURIComponent($('#Bcc').val());
+        AddressBookIFrameURL = Core.Config.Get('CGIHandle') + '?Action=AgentBook;To=' + encodeURIComponent($('#CustomerAutoComplete, #ToCustomer').val()) + ';Cc=' + encodeURIComponent($('#Cc, #CcCustomer').val()) + ';Bcc=' + encodeURIComponent($('#Bcc, #BccCustomer').val());
         AddressBookIFrame = '<iframe class="TextOption" src="' + AddressBookIFrameURL + '"></iframe>';
         Core.UI.Dialog.ShowContentDialog(AddressBookIFrame, '', '10px', 'Center', true);
     }
@@ -117,16 +117,19 @@ Core.Agent.TicketAction = (function (TargetNS) {
         // Register Apply button event
         $('#Apply').bind('click', function (Event) {
             // Update ticket action popup fields
-            var $To = $('#CustomerAutoComplete', parent.document),
-                $Cc = $('#Cc', parent.document),
-                $Bcc = $('#Bcc', parent.document);
+            var $To = $('#ToCustomer', parent.document),
+                $Cc = $('#CcCustomer', parent.document),
+                $Bcc = $('#BccCustomer', parent.document);
 
-            $To.val($('#To').val());
-            $Cc.val($('#Cc').val());
-            $Bcc.val($('#Bcc').val());
+            $To.val($('#ToCustomer').val());
+            $Cc.val($('#CcCustomer').val());
+            $Bcc.val($('#BccCustomer').val());
 
             // Because we are in an iframe, we need to call the parent frames javascript function
             // with a jQuery object which is in the parent frames context
+            parent.Core.Agent.CustomerSearch.AddTicketCustomer( 'ToCustomer', $('#ToCustomer').val() );
+            parent.Core.Agent.CustomerSearch.AddTicketCustomer( 'CcCustomer', $('#CcCustomer').val() );
+            parent.Core.Agent.CustomerSearch.AddTicketCustomer( 'BccCustomer', $('#BccCustomer').val() );
             parent.Core.UI.Dialog.CloseDialog($('.Dialog', parent.document));
         });
 
