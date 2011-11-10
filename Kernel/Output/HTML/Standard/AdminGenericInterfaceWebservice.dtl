@@ -2,7 +2,7 @@
 # AdminGenericInterfaceWebservice.dtl - provides HTML form for AdminGenericInterfaceWebservice
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceWebservice.dtl,v 1.36 2011-11-02 13:33:29 mb Exp $
+# $Id: AdminGenericInterfaceWebservice.dtl,v 1.37 2011-11-10 04:38:59 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -11,7 +11,7 @@
 
 <!-- dtl:block:Main -->
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
-    <h1>$Text{"GenericInterface Web Service Management"} - $QData{"Action"}</h1>
+    <h1>$Text{"GenericInterface Web Service Management"} - $Text{"$Data{"Action"}"}</h1>
     <div class="GenericInterfaceWebserviceConfigPath">
         <h3>
 <!-- dtl:block:WebservicePathElement -->
@@ -24,7 +24,6 @@
             $Config{"GenericInterface::Webservice::Path::Separator"}
             $QData{"Name"}
 <!-- dtl:block:WebservicePathElementNoLink -->
-
         </h3>
     </div>
 
@@ -70,7 +69,7 @@
                                         <div class="Field">
                                             <input id="CloneName" class="CloneName W75pc Validate_Required" type="text" maxlength="250" value="" name="CloneName"/>
                                             <div id="CloneNameError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
-                                            <div class="FieldExplanation">the name must be unique.</div>
+                                            <div class="FieldExplanation">$Text{"The name must be unique."}</div>
                                         </div>
                                         <div class="Clear"></div>
                                     </fieldset>
@@ -111,7 +110,7 @@
                                         <div class="Field">
                                             <input id="ConfigFile" class=" W75pc Validate_Required" type="file" maxlength="250" value="" name="ConfigFile"/>
                                             <div id="ConfigFileError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
-                                            <div class="FieldExplanation">the file must be a valid web service configuration YAML file.</div>
+                                            <div class="FieldExplanation">$Text{"The file must be a valid web service configuration YAML file."}</div>
                                         </div>
                                         <div class="Clear"></div>
                                     </fieldset>
@@ -217,10 +216,10 @@
                             <td>
                                 <a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Change;WebserviceID=$LQData{"ID"};Nav=$LQData{"Nav"}">$QData{"Name"}</a>
                             </td>
-                            <td>$QData{"Description"}</td>
-                            <td>$QData{"RemoteSystem"}</td>
-                            <td>$QData{"ProviderTransport"}</td>
-                            <td>$QData{"RequesterTransport"}</td>
+                            <td>$Text{"$Data{"Description"}"}</td>
+                            <td>$Text{"$Data{"RemoteSystem"}"}</td>
+                            <td>$Text{"$Data{"ProviderTransport"}"}</td>
+                            <td>$Text{"$Data{"RequesterTransport"}"}</td>
                             <td>$Text{"$Data{"Valid"}"}</td>
                         </tr>
 <!-- dtl:block:OverviewResultRow -->
@@ -330,7 +329,7 @@
 <!-- dtl:block:DetailsCommunicationTypeActionsExplanationProvider -->
 <!-- dtl:block:DetailsCommunicationTypeActionsExplanationRequester -->
                             <p class="FieldExplanation">
-                                $Text{"Invokers prepare data for a request on a remote web service, and process its response data."}
+                                $Text{"Invokers prepare data for a request on a remote web service, and process it's response data."}
                             </p>
 <!-- dtl:block:DetailsCommunicationTypeActionsExplanationRequester -->
 
@@ -352,10 +351,10 @@
                                                 $QData{"Name"}
                                             </a>
                                         </td>
-                                        <td>$QData{"Description"}</td>
-                                        <td>$QData{"Controller"}</td>
-                                        <td>$QData{"MappingInbound"}</td>
-                                        <td>$QData{"MappingOutbound"}</td>
+                                        <td>$Text{"$Data{"Description"}"}</td>
+                                        <td>$QData{"Controller"}"}</td>
+                                        <td>$Text{"$Data{"MappingInbound"}"}</td>
+                                        <td>$Text{"$Data{"MappingOutbound"}"}</td>
                                     </tr>
 <!-- dtl:block:DetailsActionsRow -->
 <!-- dtl:block:DetailsActionsNoDataFoundMsg -->
@@ -369,7 +368,7 @@
                             </table>
                             <div class="SpacingTop"></div>
                             <fieldset class="TableLike">
-                                <label class="HideOnChange" for="$QData{"ActionType"}List">$Text{"Add %s", "$Data{"ActionType"}"}:</label>
+                                <label class="HideOnChange" for="$QData{"ActionType"}List">$Text{"Add"} $Text{"$Data{"ActionType"}"}:</label>
                                 <div class="Field">
                                     $Data{"ControllersStrg"}
                                 </div>
