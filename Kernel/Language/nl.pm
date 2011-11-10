@@ -8,7 +8,7 @@
 # Copyright (C) 2010 Ton van Boven <ton 'at' avebo.nl>
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: nl.pm,v 1.164 2011-11-02 13:57:28 mb Exp $
+# $Id: nl.pm,v 1.165 2011-11-10 11:19:15 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -28,13 +28,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.164 $) [1];
+$VERSION = qw($Revision: 1.165 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2011-11-02 13:29:52
+    # Last translation file sync: 2011-11-10 12:16:28
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -279,6 +279,7 @@ sub Data {
         'Package not correctly deployed! Please reinstall the package.' => 'Pakket onjuist geïnstalleerd. Installeer het paket opnieuw.',
         '%s is not writable!' => '%s is niet schrijfbaar.',
         'Cannot create %s!' => 'Kan %s niet aanmaken.',
+        'Check to activate this date' => '',
         'You have Out of Office enabled, would you like to disable it?' => '',
         'Customer %s added' => 'Klant %s toegevoegd.',
         'Role added!' => 'Rol toegevoegd.',
@@ -889,7 +890,7 @@ sub Data {
         # Template: AdminDynamicField
         'Dynamic Fields Management' => 'Beheer van dynamische velden',
         'Add new field for object' => 'Nieuw veld voor object',
-        'To add a new field select the field type form the ticket or article list depending on the scope of the new field.' => '',
+        'To add a new field, select the field type form one of the object\'s list, the object defines the boundary of the field and it can\'t be changed after the field creation.' => '',
         'Dynamic Fields List' => 'Lijst met dynamische velden',
         'Dynamic fields per page' => 'Dynamische velden per pagina',
         'Label' => 'Label',
@@ -901,13 +902,13 @@ sub Data {
         'Field' => 'Veld',
         'Go back to overview' => 'Terug naar het overzicht',
         'General' => 'Algemeen',
-        'This field is required, and value should be alphabetic and numeric characters only.' => '',
+        'This field is required, and the value should be alphabetic and numeric characters only.' => '',
         'Must be unique and only accept alphabetic and numeric characters.' => 'Moet uniek zijn en kan alleen alfanumerieke tekens bevatten.',
         'Changing this value will require manual changes in the system.' => 'Na aanpassen van deze waarde zijn handmatige aanpassingen in het systeem nodig.',
         'This is the name to be shown on the screens where the field is active.' => '',
         'Field order' => 'Volgorde velden',
         'This field is required and must be numeric.' => 'Dit veld is verplicht en moet numeriek zijn.',
-        'This is order in which this field will be shown on the screens where is active.' => '',
+        'This is the order in which this field will be shown on the screens where is active.' => '',
         'Field type' => 'Veldtype',
         'Object type' => 'Objecttype',
         'Field Settings' => 'Veld-instellingen',
@@ -918,13 +919,15 @@ sub Data {
         # Template: AdminDynamicFieldDateTime
         'Default date difference' => 'Standaard verschil met huidige datum',
         'This field must be numeric.' => 'Dit veld moet numeriek zijn.',
-        'The difference from now (in seconds) to calculate the field default value (e.g. 3600 or -60).' => '',
+        'The difference from NOW (in seconds) to calculate the field default value (e.g. 3600 or -60).' => '',
         'Define years period' => 'Geef mogelijke periode',
-        'Activate this feature to define a fixed range of years (in future and in past) to be displayed on the year selection of the field.' => '',
-        'Years in future' => 'Jaren in de toekomst',
-        'Years in future to display (by default is 5 years).' => '',
-        'Years in past' => 'Jaren in het verleden',
-        'Years in past to display (by default is 5 years).' => '',
+        'Activate this feature to define a fixed range of years (in the future and in the past) to be displayed on the year part of the field.' => '',
+        'Years in the future' => '',
+        'Years in the future to display (default: 5 years).' => '',
+        'Years in the past' => '',
+        'Years in the past to display (default: 5 years).' => '',
+        'Show link' => '',
+        'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' => '',
 
         # Template: AdminDynamicFieldDropdown
         'Possible values' => 'Mogelijke waarden',
@@ -937,16 +940,16 @@ sub Data {
         'Activate this option to create an empty selectable value.' => '',
         'Translatable values' => 'Waarden zijn vertaalbaar',
         'If you activate this option the values will be translated to the user defined language.' => '',
-        'Note:' => '',
+        'Note' => 'Notitie',
         'You need to add the translations manually into the language translation files.' => '',
 
         # Template: AdminDynamicFieldMultiselect
 
         # Template: AdminDynamicFieldText
         'Number of rows' => 'Aantal regels',
-        'Specify the height of the edit field in lines.' => 'Geef de hoogte van het tekstveld in regels',
+        'Specify the height (in lines) for this field in the edit mode.' => '',
         'Number of cols' => 'Aantal kolommen',
-        'Specify the width of the edit field in characters.' => 'Geef de breedte van het tekstveld in tekens',
+        'Specify the width (in characters) for this field in the edit mode.' => '',
 
         # Template: AdminEmail
         'Admin Notification' => 'Melding van de beheerder',
@@ -1085,10 +1088,10 @@ sub Data {
         'Please provide a unique name for this web service invoker.' => '',
         'The name you entered already exists.' => '',
         'Invoker backend' => '',
-        'This OTRS invoker backend module will be called to prepare the data to be sent to the remote system, and to process its response data.' => '',
+        'This OTRS invoker backend module will be called to prepare the data to be sent to the remote system, and to process it\'s response data.' => '',
         'Mapping for outgoing request data' => '',
         'Configure' => '',
-        'The data from the invoker of OTRS will be processed by this mapping, to transformit to the kind of data the remote system expects.' => '',
+        'The data from the invoker of OTRS will be processed by this mapping, to transform it to the kind of data the remote system expects.' => '',
         'Mapping for incoming response data' => '',
         'The response data will be processed by this mapping, to transform it to the kind of data the invoker of OTRS expects.' => '',
         'Event Triggers' => '',
@@ -1096,6 +1099,7 @@ sub Data {
         'Delete this event' => '',
         'This invoker will be triggered by the configured events.' => '',
         'Do you really want to delete this event trigger?' => '',
+        'Add Event Trigger' => '',
         'To add a new event select the event object and event name and click on the "+" button' => '',
         'Asynchronous event triggers are handled by the OTRS Scheduler in background (recommended).' => '',
         'Synchronous event triggers would be processed directly during the web request.' => '',
@@ -1103,11 +1107,6 @@ sub Data {
         'Save and finish' => '',
         'Delete this Invoker' => '',
         'Delete this Event Trigger' => '',
-
-        # Template: AdminGenericInterfaceInvokerSolMan
-        'Remote System GUID' => '',
-        'This global unique ID (GUID) from the Solution Manager system is set automatically.' => '',
-        'This value can be reset if another Solution Manager is used (e.g. on development and production systems).' => '',
 
         # Template: AdminGenericInterfaceMappingSimple
         'GenericInterface Mapping Simple for Web Service %s' => '',
@@ -1135,15 +1134,6 @@ sub Data {
         'Do you really want to delete this key mapping?' => '',
         'Delete this Key Mapping' => '',
 
-        # Template: AdminGenericInterfaceMappingSolMan
-        'GenericInterface Mapping SolMan for Web Service %s' => '',
-        '%s SolMan' => '',
-        'Mapping SolMan' => '',
-        'Mapping for ' => '',
-        'Value mapping:' => '',
-        'Map value:' => '',
-        'New map:' => '',
-
         # Template: AdminGenericInterfaceOperationDefault
         'Add new Operation to Web Service %s' => '',
         'Change Operation %s of Web Service %s' => '',
@@ -1160,8 +1150,6 @@ sub Data {
         'Mapping for outgoing response data' => '',
         'The response data will be processed by this mapping, to transform it to the kind of data the remote system expects.' => '',
         'Delete this Operation' => '',
-
-        # Template: AdminGenericInterfaceOperationSolMan
 
         # Template: AdminGenericInterfaceTransportHTTPSOAP
         'GenericInterface Transport HTTP::SOAP for Web Service %s' => '',
@@ -1195,10 +1183,12 @@ sub Data {
         'GenericInterface Web Service Management' => '',
         'Add web service' => '',
         'Clone web service' => '',
+        'The name must be unique.' => '',
         'Clone' => '',
         'Export web service' => '',
         'Import web service' => '',
         'Configuration File' => '',
+        'The file must be a valid web service configuration YAML file.' => '',
         'Import' => 'Importeer',
         'Configuration history' => '',
         'Delete web service' => '',
@@ -1214,11 +1204,10 @@ sub Data {
         'In provider mode, OTRS offers web services which are used by remote systems.' => '',
         'In requester mode, OTRS uses web services of remote systems.' => '',
         'Operations are individual system functions which remote systems can request.' => '',
-        'Invokers prepare data for a request on a remote web service, and process its response data.' => '',
+        'Invokers prepare data for a request on a remote web service, and process it\'s response data.' => '',
         'Controller' => '',
         'Inbound mapping' => '',
         'Outbound mapping' => '',
-        'Add ' => '',
         'Delete webservice' => '',
         'Clone webservice' => '',
         'Import webservice' => '',
@@ -2360,6 +2349,7 @@ sub Data {
         'Change the responsible person for this ticket' => '',
         'Change the ticket priority' => '',
         'Changes the owner of tickets to everyone (useful for ASP). Normally only agent with rw permissions in the queue of the ticket will be shown.' => '',
+        'Checkbox' => '',
         'Checks the SystemID in ticket number detection for follow-ups (use "No" if SystemID has been changed after using the system).' => '',
         'Close this ticket' => '',
         'Comment for new history entries in the customer interface.' => '',
@@ -2367,8 +2357,7 @@ sub Data {
         'Company Tickets' => 'Tickets van groep',
         'Company name for the customer web interface. Will also be included in emails as an X-Header.' => '',
         'Configure your own log text for PGP.' => '',
-        'Configures a default TicketFreeField setting. "Counter" defines the free text field which should be used, "Key" is the TicketFreeKey, "Value" is the TicketFreeText and "Event" defines the trigger event.' => '',
-        'Configures a default TicketFreeField setting. "Counter" defines the free text field which should be used, "Key" is the TicketFreeKey, "Value" is the TicketFreeText and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".' => '',
+        'Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".' => '',
         'Configures the full-text index. Execute "bin/otrs.RebuildFulltextIndex.pl" in order to generate a new index.' => '',
         'Controls if customers have the ability to sort their tickets.' => '',
         'Converts HTML mails into text messages.' => '',
@@ -2400,6 +2389,7 @@ sub Data {
         'Customers <-> Services' => 'Klanten <-> Services',
         'DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.' => '',
         'Data used to export the search result in CSV format.' => '',
+        'Date / Time' => '',
         'Debugs the translation set. If this is set to "Yes" all strings (text) without translations are written to STDERR. This can be helpful when you are creating a new translation file. Otherwise, this option should remain set to "No".' => '',
         'Default ACL values for ticket actions.' => '',
         'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimePointFormat=year;TicketCreateTimePointStart=Last;TicketCreateTimePoint=2;".' => '',
@@ -2659,6 +2649,7 @@ sub Data {
         'Defines the receipent target of the phone ticket and the sender of the email ticket ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the agent interface.' => '',
         'Defines the receipent target of the tickets ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the customer interface.' => '',
         'Defines the search limit for the stats.' => '',
+        'Defines the sender for rejected emails.' => '',
         'Defines the separator between the agents real name and the given queue email address.' => '',
         'Defines the spacing of the legends.' => '',
         'Defines the standard permissions available for customers within the application. If more permissions are needed, you can enter them here. Permissions must be hard coded to be effective. Please ensure, when adding any of the afore mentioned permissions, that the "rw" permission remains the last entry.' => '',
@@ -2711,6 +2702,7 @@ sub Data {
         'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be activated).' => '',
         'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box (to avoid the use of destructive queries, such as DROP DATABASE, and also to steal user passwords).' => '',
         'Displays the accounted time for an article in the ticket zoom view.' => '',
+        'Dropdown' => '',
         'Dynamic Fields Checkbox Backend GUI' => '',
         'Dynamic Fields Date Time Backend GUI' => '',
         'Dynamic Fields Drop-down Backend GUI' => '',
@@ -2764,7 +2756,7 @@ sub Data {
         'Enables ticket watcher feature only for the listed groups.' => '',
         'Escalation view' => 'Escalatieoverzicht',
         'Event list to be displayed on GUI to trigger generic interface invokers.' => '',
-        'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate). This is only possible if all TicketFreeField elements need the same event.' => '',
+        'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate). This is only possible if all Ticket dynamic fields need the same event.' => '',
         'Example for dynamic dield' => '',
         'Example for dynamic field' => '',
         'Example for free text' => '',
@@ -2790,7 +2782,6 @@ sub Data {
         'GenericInterface Debugger GUI' => '',
         'GenericInterface Invoker GUI' => '',
         'GenericInterface Operation GUI' => '',
-        'GenericInterface SolMan Operation GUI' => '',
         'GenericInterface TransportHTTPSOAP GUI' => '',
         'GenericInterface Web Service GUI' => '',
         'GenericInterface Webservice History GUI' => '',
@@ -2903,7 +2894,6 @@ sub Data {
         'Max size of the subjects in an email reply.' => '',
         'Maximal auto email responses to own email-address a day (Loop-Protection).' => '',
         'Maximal size in KBytes for mails that can be fetched via POP3/POP3S/IMAP/IMAPS (KBytes).' => '',
-        'Maximum number of attempts to replicate an incident or article in the GenericInterface.' => '',
         'Maximum number of tickets to be displayed in the result of a search in the agent interface.' => '',
         'Maximum number of tickets to be displayed in the result of a search in the customer interface.' => '',
         'Maximum size (in characters) of the customer info table in the queue view.' => '',
@@ -2928,6 +2918,7 @@ sub Data {
         'Module to generate ticket statistics.' => '',
         'Module to show notifications and escalations (ShownMax: max. shown escalations, EscalationInMinutes: Show ticket which will escalation in, CacheTime: Cache of calculated escalations in seconds).' => '',
         'Module to use database filter storage.' => '',
+        'Multiselect' => '',
         'My Tickets' => 'Mijn tickets',
         'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.' => '',
         'New email ticket' => 'Nieuw e-mail ticket',
@@ -2935,7 +2926,6 @@ sub Data {
         'Next possible ticket states after adding a phone note in the ticket phone inbound screen of the agent interface.' => '',
         'Next possible ticket states after adding a phone note in the ticket phone outbound screen of the agent interface.' => '',
         'Notifications (Event)' => 'Meldingen (gebeurtenis)',
-        'Number in seconds after current time to schedule tasks .' => '',
         'Number of displayed tickets' => 'Aantal weergegeven tickets',
         'Number of lines (per ticket) that are shown by the search utility in the agent interface.' => '',
         'Number of tickets to be displayed in each page of a search result in the agent interface.' => '',
@@ -3222,10 +3212,12 @@ sub Data {
         'Specifies user id of the postmaster data base.' => '',
         'Standard available permissions for agents within the application. If more permissions are needed, they can be entered here. Permissions must be defined to be effective. Some other good permissions have also been provided built-in: note, close, pending, customer, freetext, move, compose, responsible, forward, and bounce. Make sure that "rw" is always the last registered permission.' => '',
         'Start number for statistics counting. Every new stat increments this number.' => '',
+        'Starts a wildcard search of the active object after the link object mask is started.' => '',
         'Statistics' => 'Rapportages',
         'Status view' => 'Statusoverzicht',
         'Stores cookies after the browser has been closed.' => '',
         'Strips empty lines on the ticket preview in the queue view.' => '',
+        'Textarea' => '',
         'The "bin/PostMasterMailAccount.pl" will reconnect to POP3/POP3S/IMAP/IMAPS host after the specified count of messages.' => '',
         'The agent skin\'s InternalName which should be used in the agent interface. Please check the available skins in Frontend::Agent::Skins.' => '',
         'The customer skin\'s InternalName which should be used in the customer interface. Please check the available skins in Frontend::Customer::Skins.' => '',
@@ -3566,7 +3558,6 @@ sub Data {
         'No matches found' => 'Geen overeenkomsten gevonden',
         'No means, send agent and customer notifications on changes.' => ' ',
         'No time settings.' => 'Geen tijdinstellingen.',
-        'Note' => 'Notitie',
         'Note Text' => 'Notitietekst',
         'Notification (Customer)' => 'Melding (klant)',
         'Notifications' => 'Meldingen',
@@ -3699,6 +3690,8 @@ sub Data {
         'Sorry, feature not active!' => 'Deze functie is niet actief.',
         'Sort by' => 'Sorteer op',
         'Source' => 'Bron',
+        'Specify the height of the edit field in lines.' => 'Geef de hoogte van het tekstveld in regels',
+        'Specify the width of the edit field in characters.' => 'Geef de breedte van het tekstveld in tekens',
         'Spell Check' => 'Spellingscontrole',
         'Split' => 'Splitsen',
         'State Type' => 'Status type',
@@ -3807,6 +3800,8 @@ sub Data {
         'Wildcards are allowed.' => 'Wildcards zijn toegestaan.',
         'With an invalid stat it isn\'t feasible to generate a stat.' => 'Als het rapport op ongeldig staat kan deze niet gegenereerd worden.',
         'With the input and select fields you can configurate the stat at your needs. Which elements of a stat you can edit depends on your stats administrator who configurated the stat.' => 'Met de invoer- en selectievelden is het rapport aanpasbaar. Welke elementen precies aan te passen zijn verschilt per rapportage.',
+        'Years in future' => 'Jaren in de toekomst',
+        'Years in past' => 'Jaren in het verleden',
         'Yes means, send no agent and customer notifications on changes.' => 'Bij \'Ja\' worden er geen meldingen gestuurd naar eigenaar en klant bij wijzigingen.',
         'Yes, save it with name' => 'Ja, sla op met naam',
         'You as the customer have the ability to let us support staff people jump around as you wish because it\'s all about you.' => 'U als onze klant heeft de mogelijkheid om alles van ons gedaan te krijgen, ',
