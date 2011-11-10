@@ -2,7 +2,7 @@
 // Core.Agent.CustomerSearch.js - provides the special module functions for the customer search
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.CustomerSearch.js,v 1.21 2011-11-01 23:04:09 cg Exp $
+// $Id: Core.Agent.CustomerSearch.js,v 1.22 2011-11-10 08:57:11 mab Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -189,13 +189,18 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
                     BackupData.CustomerKey = CustomerKey;
                     BackupData.CustomerEmail = UI.item.value;
 
+                    if (Core.Config.Get('Action') === 'AgentBook') {
+                        $('#' + $(this).attr('id')).val(UI.item.value);
+                        return false;
+                    }
+
                     $Element.val(UI.item.value);
 
-                    if (Core.Config.Get('Action') === 'AgentTicketEmail' ) {
+                    if (Core.Config.Get('Action') === 'AgentTicketEmail' || Core.Config.Get('Action') === 'AgentTicketCompose' ) {
                         $Element.val('');
                     }
 
-                    if (Core.Config.Get('Action') !== 'AgentTicketPhone' && Core.Config.Get('Action') !== 'AgentTicketEmail') {
+                    if (Core.Config.Get('Action') !== 'AgentTicketPhone' && Core.Config.Get('Action') !== 'AgentTicketEmail' && Core.Config.Get('Action') !== 'AgentTicketCompose') {
                         // set hidden field SelectedCustomerUser
                         $('#SelectedCustomerUser').val(CustomerKey);
 
@@ -225,7 +230,7 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
                 }
             });
 
-            if (Core.Config.Get('Action') !== 'AgentTicketPhone' && Core.Config.Get('Action') !== 'AgentTicketEmail') {
+            if (Core.Config.Get('Action') !== 'AgentTicketPhone' && Core.Config.Get('Action') !== 'AgentTicketEmail' && Core.Config.Get('Action') !== 'AgentTicketCompose') {
                 $Element.blur(function () {
                     var FieldValue = $(this).val();
                     if (FieldValue !== BackupData.CustomerEmail && FieldValue !== BackupData.CustomerKey) {

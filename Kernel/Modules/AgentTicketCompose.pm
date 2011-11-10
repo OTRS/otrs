@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.pm,v 1.143 2011-11-01 19:13:10 cr Exp $
+# $Id: AgentTicketCompose.pm,v 1.144 2011-11-10 08:57:11 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.143 $) [1];
+$VERSION = qw($Revision: 1.144 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -156,6 +156,168 @@ sub Run {
         )
     {
         $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ );
+    }
+
+    my @MultipleCustomer;
+    my $CustomersNumber
+        = $Self->{ParamObject}->GetParam( Param => 'CustomerTicketCounterToCustomer' ) || 0;
+    my $Selected = $Self->{ParamObject}->GetParam( Param => 'CustomerSelected' ) || '';
+
+    if ($CustomersNumber) {
+        my $CustomerCounter = 1;
+        for my $Count ( 1 ... $CustomersNumber ) {
+            my $CustomerElement
+                = $Self->{ParamObject}->GetParam( Param => 'CustomerTicketText_' . $Count );
+            my $CustomerSelected = ( $Selected eq $Count ? 'checked="checked"' : '' );
+            my $CustomerKey = $Self->{ParamObject}->GetParam( Param => 'CustomerKey_' . $Count )
+                || '';
+            my $CustomerQueue = $Self->{ParamObject}->GetParam( Param => 'CustomerQueue_' . $Count )
+                || '';
+            if ($CustomerElement) {
+
+                $GetParam{To} .= $CustomerElement . ',';
+
+                # check email address
+                my $CustomerErrorMsg = 'CustomerGenericServerErrorMsg';
+                my $CustomerError    = '';
+                for my $Email ( Mail::Address->parse($CustomerElement) ) {
+                    if ( !$Self->{CheckItemObject}->CheckEmail( Address => $Email->address() ) ) {
+                        $CustomerErrorMsg = $Self->{CheckItemObject}->CheckErrorType()
+                            . 'ServerErrorMsg';
+                        $CustomerError = 'ServerError';
+                    }
+                }
+
+                my $CustomerDisabled = '';
+                my $CountAux         = $Count;
+                if ( $CustomerError ne '' ) {
+                    $CustomerDisabled = 'disabled="disabled"';
+                    $CountAux         = $Count . 'Error';
+                }
+
+                if ( $CustomerQueue ne '' ) {
+                    $CustomerQueue = $Count;
+                }
+
+                push @MultipleCustomer, {
+                    Count            => $CountAux,
+                    CustomerElement  => $CustomerElement,
+                    CustomerSelected => $CustomerSelected,
+                    CustomerKey      => $CustomerKey,
+                    CustomerError    => $CustomerError,
+                    CustomerErrorMsg => $CustomerErrorMsg,
+                    CustomerDisabled => $CustomerDisabled,
+                    CustomerQueue    => $CustomerQueue,
+                };
+            }
+        }
+    }
+
+    my @MultipleCustomerCc;
+    my $CustomersNumberCc
+        = $Self->{ParamObject}->GetParam( Param => 'CustomerTicketCounterCcCustomer' ) || 0;
+
+    if ($CustomersNumberCc) {
+        for my $Count ( 1 ... $CustomersNumberCc ) {
+            my $CustomerElementCc
+                = $Self->{ParamObject}->GetParam( Param => 'CcCustomerTicketText_' . $Count );
+            my $CustomerKeyCc = $Self->{ParamObject}->GetParam( Param => 'CcCustomerKey_' . $Count )
+                || '';
+            my $CustomerQueueCc
+                = $Self->{ParamObject}->GetParam( Param => 'CcCustomerQueue_' . $Count )
+                || '';
+
+            if ($CustomerElementCc) {
+
+                $GetParam{Cc} .= $CustomerElementCc . ',';
+
+                # check email address
+                my $CustomerErrorMsgCc = 'CustomerGenericServerErrorMsg';
+                my $CustomerErrorCc    = '';
+                for my $Email ( Mail::Address->parse($CustomerElementCc) ) {
+                    if ( !$Self->{CheckItemObject}->CheckEmail( Address => $Email->address() ) ) {
+                        $CustomerErrorMsgCc = $Self->{CheckItemObject}->CheckErrorType()
+                            . 'ServerErrorMsg';
+                        $CustomerErrorCc = 'ServerError';
+                    }
+                }
+
+                my $CustomerDisabledCc = '';
+                my $CountAuxCc         = $Count;
+                if ( $CustomerErrorCc ne '' ) {
+                    $CustomerDisabledCc = 'disabled="disabled"';
+                    $CountAuxCc         = $Count . 'Error';
+                }
+
+                if ( $CustomerQueueCc ne '' ) {
+                    $CustomerQueueCc = $Count;
+                }
+
+                push @MultipleCustomerCc, {
+                    Count            => $CountAuxCc,
+                    CustomerElement  => $CustomerElementCc,
+                    CustomerKey      => $CustomerKeyCc,
+                    CustomerError    => $CustomerErrorCc,
+                    CustomerErrorMsg => $CustomerErrorMsgCc,
+                    CustomerDisabled => $CustomerDisabledCc,
+                    CustomerQueue    => $CustomerQueueCc,
+                };
+            }
+        }
+    }
+
+    my @MultipleCustomerBcc;
+    my $CustomersNumberBcc
+        = $Self->{ParamObject}->GetParam( Param => 'CustomerTicketCounterBccCustomer' ) || 0;
+
+    if ($CustomersNumberBcc) {
+        for my $Count ( 1 ... $CustomersNumberBcc ) {
+            my $CustomerElementBcc
+                = $Self->{ParamObject}->GetParam( Param => 'BccCustomerTicketText_' . $Count );
+            my $CustomerKeyBcc
+                = $Self->{ParamObject}->GetParam( Param => 'BccCustomerKey_' . $Count )
+                || '';
+            my $CustomerQueueBcc
+                = $Self->{ParamObject}->GetParam( Param => 'BccCustomerQueue_' . $Count )
+                || '';
+
+            if ($CustomerElementBcc) {
+
+                $GetParam{Bcc} .= $CustomerElementBcc . ',';
+
+                # check email address
+                my $CustomerErrorMsgBcc = 'CustomerGenericServerErrorMsg';
+                my $CustomerErrorBcc    = '';
+                for my $Email ( Mail::Address->parse($CustomerElementBcc) ) {
+                    if ( !$Self->{CheckItemObject}->CheckEmail( Address => $Email->address() ) ) {
+                        $CustomerErrorMsgBcc = $Self->{CheckItemObject}->CheckErrorType()
+                            . 'ServerErrorMsg';
+                        $CustomerErrorBcc = 'ServerError';
+                    }
+                }
+
+                my $CustomerDisabledBcc = '';
+                my $CountAuxBcc         = $Count;
+                if ( $CustomerErrorBcc ne '' ) {
+                    $CustomerDisabledBcc = 'disabled="disabled"';
+                    $CountAuxBcc         = $Count . 'Error';
+                }
+
+                if ( $CustomerQueueBcc ne '' ) {
+                    $CustomerQueueBcc = $Count;
+                }
+
+                push @MultipleCustomerBcc, {
+                    Count            => $CountAuxBcc,
+                    CustomerElement  => $CustomerElementBcc,
+                    CustomerKey      => $CustomerKeyBcc,
+                    CustomerError    => $CustomerErrorBcc,
+                    CustomerErrorMsg => $CustomerErrorMsgBcc,
+                    CustomerDisabled => $CustomerDisabledBcc,
+                    CustomerQueue    => $CustomerQueueBcc,
+                };
+            }
+        }
     }
 
     # get Dynamic fields form ParamObject
@@ -1015,13 +1177,16 @@ $QData{"Signature"}
 
         # build view ...
         $Output .= $Self->_Mask(
-            TicketID       => $Self->{TicketID},
-            NextStates     => $Self->_GetNextStates(),
-            Attachments    => \@Attachments,
-            Errors         => \%Error,
-            GetParam       => \%GetParam,
-            ResponseID     => $GetParam{ResponseID},
-            ReplyArticleID => $GetParam{ArticleID},
+            TicketID            => $Self->{TicketID},
+            NextStates          => $Self->_GetNextStates(),
+            Attachments         => \@Attachments,
+            Errors              => \%Error,
+            MultipleCustomer    => \@MultipleCustomer,
+            MultipleCustomerCc  => \@MultipleCustomerCc,
+            MultipleCustomerBcc => \@MultipleCustomerBcc,
+            GetParam            => \%GetParam,
+            ResponseID          => $GetParam{ResponseID},
+            ReplyArticleID      => $GetParam{ArticleID},
             %Ticket,
             %Data,
             InReplyTo        => $Data{MessageID},
@@ -1104,6 +1269,93 @@ sub _Mask {
         Data => {
             FormID => $Self->{FormID},
             %Param,
+        },
+    );
+
+    # prepare errors!
+    my $CustomerCounterCc = 0;
+    if ( $Param{MultipleCustomerCc} ) {
+        for my $Item ( @{ $Param{MultipleCustomerCc} } ) {
+            $Self->{LayoutObject}->Block(
+                Name => 'CcMultipleCustomer',
+                Data => $Item,
+            );
+            $Self->{LayoutObject}->Block(
+                Name => 'Cc' . $Item->{CustomerErrorMsg},
+                Data => $Item,
+            );
+            if ( $Item->{CustomerError} ) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'CcCustomerErrorExplantion',
+                );
+            }
+            $CustomerCounterCc++;
+        }
+    }
+
+    # set customer counter
+    $Self->{LayoutObject}->Block(
+        Name => 'CcMultipleCustomerCounter',
+        Data => {
+            CustomerCounter => $CustomerCounterCc++,
+        },
+    );
+
+    # prepare errors!
+    my $CustomerCounterBcc = 0;
+    if ( $Param{MultipleCustomerBcc} ) {
+        for my $Item ( @{ $Param{MultipleCustomerBcc} } ) {
+            $Self->{LayoutObject}->Block(
+                Name => 'BccMultipleCustomer',
+                Data => $Item,
+            );
+            $Self->{LayoutObject}->Block(
+                Name => 'Bcc' . $Item->{CustomerErrorMsg},
+                Data => $Item,
+            );
+            if ( $Item->{CustomerError} ) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'BccCustomerErrorExplantion',
+                );
+            }
+            $CustomerCounterBcc++;
+        }
+    }
+
+    # set customer counter
+    $Self->{LayoutObject}->Block(
+        Name => 'BccMultipleCustomerCounter',
+        Data => {
+            CustomerCounter => $CustomerCounterBcc++,
+        },
+    );
+
+    # prepare errors!
+    my $CustomerCounter = 0;
+    if ( $Param{MultipleCustomer} ) {
+        for my $Item ( @{ $Param{MultipleCustomer} } ) {
+            $Self->{LayoutObject}->Block(
+                Name => 'MultipleCustomer',
+                Data => $Item,
+            );
+            $Self->{LayoutObject}->Block(
+                Name => $Item->{CustomerErrorMsg},
+                Data => $Item,
+            );
+            if ( $Item->{CustomerError} ) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'CustomerErrorExplantion',
+                );
+            }
+            $CustomerCounter++;
+        }
+    }
+
+    # set customer counter
+    $Self->{LayoutObject}->Block(
+        Name => 'MultipleCustomerCounter',
+        Data => {
+            CustomerCounter => $CustomerCounter++,
         },
     );
 
