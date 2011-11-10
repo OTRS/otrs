@@ -2,7 +2,7 @@
 // Core.AJAX.js - provides the funcionality for AJAX calls
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.AJAX.js,v 1.26 2011-11-04 14:29:34 mg Exp $
+// $Id: Core.AJAX.js,v 1.27 2011-11-10 10:51:16 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -27,35 +27,53 @@ Core.AJAX = (function (TargetNS) {
      * @function
      * @private
      * @param {string} FieldID Id of the field which is updated via ajax
+     * @param {string} Show Show or hide the AJAX loader image
      * @description Shows and hides an ajax loader for every element which is updates via ajax
      */
-    function ToggleAJAXLoader(FieldID) {
+    function ToggleAJAXLoader(FieldID, Show) {
         var $Element = $('#' + FieldID),
             $Loader = $('#' + AJAXLoaderPrefix + FieldID),
             LoaderHTML = '<span id="' + AJAXLoaderPrefix + FieldID + '" class="AJAXLoader"></span>';
 
-        if (!$Loader.length) {
-            if ( $Element.not('[type=hidden]').length ) {
-                $Element.after(LoaderHTML);
-                if (typeof ActiveAJAXCalls[FieldID] === 'undefined') {
-                    ActiveAJAXCalls[FieldID] = 0;
-                }
-                ActiveAJAXCalls[FieldID]++;
-            }
+        // Ignore hidden fields
+        if ($Element.is('[type=hidden]').length) {
+            return;
         }
-        else if ($Loader.is(':hidden')) {
-            $Loader.show();
-            if (typeof ActiveAJAXCalls[FieldID] === 'undefined') {
+        // Element not present, reset counter and ignore
+        if (!$Element.length) {
                 ActiveAJAXCalls[FieldID] = 0;
-            }
+                return;
+        }
+
+        // Init counter value, if needed.
+        // This counter stores the number of running AJAX requests for each field.
+        // The loader image will be shown if it is > 0.
+        if (typeof ActiveAJAXCalls[FieldID] === 'undefined') {
+            ActiveAJAXCalls[FieldID] = 0;
+        }
+
+        // Calculate counter
+        if (Show) {
             ActiveAJAXCalls[FieldID]++;
         }
         else {
             ActiveAJAXCalls[FieldID]--;
             if (ActiveAJAXCalls[FieldID] <= 0) {
-                $Loader.hide();
                 ActiveAJAXCalls[FieldID] = 0;
             }
+        }
+
+        // Show or hide the loader
+        if (ActiveAJAXCalls[FieldID] > 0) {
+            if (!$Loader.length) {
+                $Element.after(LoaderHTML);
+            }
+            else {
+                $Loader.show();
+            }
+        }
+        else {
+            $Loader.hide();
         }
     }
 
@@ -202,7 +220,7 @@ Core.AJAX = (function (TargetNS) {
 
         if (FieldsToUpdate) {
             $.each(FieldsToUpdate, function (Index, Value) {
-                ToggleAJAXLoader(Value);
+                ToggleAJAXLoader(Value, true);
             });
         }
 
@@ -226,7 +244,7 @@ Core.AJAX = (function (TargetNS) {
             complete: function () {
                 if (FieldsToUpdate) {
                     $.each(FieldsToUpdate, function (Index, Value) {
-                        ToggleAJAXLoader(Value);
+                        ToggleAJAXLoader(Value, false);
                     });
                 }
             },
