@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketForward.pm - to forward a message
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketForward.pm,v 1.97.2.8 2011-11-01 10:34:23 des Exp $
+# $Id: AgentTicketForward.pm,v 1.97.2.9 2011-11-10 11:58:34 des Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.97.2.8 $) [1];
+$VERSION = qw($Revision: 1.97.2.9 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -825,7 +825,7 @@ sub SendEmail {
         my @NewAttachmentData;
         for my $Attachment (@AttachmentData) {
             my $ContentID = $Attachment->{ContentID};
-            if ($ContentID) {
+            if ( $ContentID && ( $Attachment->{ContentType} =~ /image/i ) ) {
                 my $ContentIDHTMLQuote = $Self->{LayoutObject}->Ascii2Html(
                     Text => $ContentID,
                 );
@@ -1196,7 +1196,10 @@ sub _Mask {
 
     # show attachments
     for my $Attachment ( @{ $Param{Attachments} } ) {
-        next if $Attachment->{ContentID} && $Self->{LayoutObject}->{BrowserRichText};
+        next
+            if $Attachment->{ContentID}
+                && $Self->{LayoutObject}->{BrowserRichText}
+                && ( $Attachment->{ContentType} =~ /image/i );
         $Self->{LayoutObject}->Block(
             Name => 'Attachment',
             Data => $Attachment,
