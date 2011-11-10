@@ -3,7 +3,7 @@
 # auto_build.sh - build automatically OTRS tar, rpm and src-rpm
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: auto_build.sh,v 1.87.2.8 2011-10-11 11:39:02 mg Exp $
+# $Id: auto_build.sh,v 1.87.2.9 2011-11-10 12:45:26 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -21,7 +21,7 @@
 # or see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-echo "auto_build.sh - build automatically OTRS tar, rpm and src-rpm <\$Revision: 1.87.2.8 $>"
+echo "auto_build.sh - build automatically OTRS tar, rpm and src-rpm <\$Revision: 1.87.2.9 $>"
 echo "Copyright (C) 2001-2011 OTRS AG, http://otrs.org/\n";
 
 PATH_TO_CVS_SRC=$1
@@ -50,9 +50,9 @@ if ! test $PATH_TO_CVS_SRC || ! test $VERSION || ! test $RELEASE; then
     # build src needed
     # --
     echo ""
-    echo "Usage: auto_build.sh <PATH_TO_CVS_SRC> <VERSION>"
+    echo "Usage: auto_build.sh <PATH_TO_CVS_SRC> <VERSION> <BUILD>"
     echo ""
-    echo "  Try: auto_build.sh /home/ernie/src/otrs 1.0.2"
+    echo "  Try: auto_build.sh /home/ernie/src/otrs 1.0.2 01"
     echo ""
     exit 1;
 else
