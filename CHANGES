@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2016 2011-11-10 12:06:02 des Exp $
+# $Id: CHANGES,v 1.2017 2011-11-10 12:21:57 des Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -129,7 +129,7 @@
      of > 70 characters exists.
 
 3.0.12 ????-??-??
- - 2011-11-10 Fixed bug#7879 - Ticket forward not working if content-id existis.
+ - 2011-11-10 Fixed bug#7879 - Ticket forward not working if content-id exists.
  - 2011-11-07 Fixed bug#7887 - Type based ACLs does not match if Type (Name) is sent.
  - 2011-11-05 Fixed bug#7876 - NewTicketReject Postmaster module uses Admin Address
     as 'from' in reject emails.
