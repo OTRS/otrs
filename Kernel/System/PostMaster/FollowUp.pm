@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/FollowUp.pm - the sub part of PostMaster.pm
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: FollowUp.pm,v 1.72 2011-11-09 15:33:39 cg Exp $
+# $Id: FollowUp.pm,v 1.73 2011-11-10 22:41:04 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::User;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.72 $) [1];
+$VERSION = qw($Revision: 1.73 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -229,14 +229,14 @@ sub Run {
         );
 
     # set dynamic fields for Ticket object type
-    for my $DynamicField ( sort keys %{$DynamicFieldList} ) {
-        my $Key = 'X-OTRS-DynamicField-' . $DynamicFieldList->{$DynamicField};
+    for my $DynamicFieldID ( sort keys %{$DynamicFieldList} ) {
+        my $Key = 'X-OTRS-DynamicField-' . $DynamicFieldList->{$DynamicFieldID};
         if ( $GetParam{$Key} ) {
 
             # get dynamic field config
             my $DynamicFieldGet
                 = $Self->{TicketObject}->{DynamicFieldObject}->DynamicFieldGet(
-                ID => $DynamicField,
+                ID => $DynamicFieldID,
                 );
 
             $Self->{TicketObject}->{DynamicFieldBackendObject}->ValueSet(
@@ -381,14 +381,14 @@ sub Run {
         );
 
     # set dynamic fields for Article object type
-    for my $DynamicField ( sort keys %{$DynamicFieldList} ) {
-        my $Key = 'X-OTRS-DynamicField-' . $DynamicFieldList->{$DynamicField};
+    for my $DynamicFieldID ( sort keys %{$DynamicFieldList} ) {
+        my $Key = 'X-OTRS-DynamicField-' . $DynamicFieldList->{$DynamicFieldID};
         if ( $GetParam{$Key} ) {
 
             # get dynamic field config
             my $DynamicFieldGet
                 = $Self->{TicketObject}->{DynamicFieldObject}->DynamicFieldGet(
-                ID => $DynamicField,
+                ID => $DynamicFieldID,
                 );
 
             $Self->{TicketObject}->{DynamicFieldBackendObject}->ValueSet(
