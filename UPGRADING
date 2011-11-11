@@ -2,7 +2,7 @@
 # UPGRADING - upgrading OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: UPGRADING,v 1.59 2011-11-11 08:41:33 mg Exp $
+# $Id: UPGRADING,v 1.60 2011-11-11 12:38:27 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -191,6 +191,14 @@ how to upgrade the data types used by OTRS.
     Non-UTF-8 installations of OTRS must switch to UTF-8.
 
 
+XX) Escalation Events
+    -----------------
+
+    If you want to use the new escalation events in your system, you need to activate the
+    corresponding GenericAgent job in Kernel/Config/GenericAcent.pm. Please look into
+    Kernel/Config/GenericAgent.pm.dist for an example of how to do this.
+
+
 XX) TicketHistory
     -------------
 
@@ -218,6 +226,7 @@ XX) DynamicField User Preferences Module
 
 XX) Custom free field default value event handler
     ---------------------------------------------
+
     If you used the event handler Ticket::EventModulePost###TicketFreeFieldDefault (not active by default),
     you'll need to migrate its configuration to the new setting Ticket::EventModulePost###TicketDynamicFieldDefault.
 
@@ -227,12 +236,14 @@ XX) Custom free field default value event handler
     if you want to set both the key and the text field.
 
 
-XX) Escalation Events
-    -----------------
+XX) FreeText/Time based ACLs
+    ------------------------
 
-    If you want to use the new escalation events in your system, you need to activate the
-    corresponding GenericAgent job in Kernel/Config/GenericAcent.pm. Please look into
-    Kernel/Config/GenericAgent.pm.dist for an example of how to do this.
+    If you have any ACLs defined which involve freetext or freetime fields, you need to adjust these
+    ACL definitions.
+    Please have a look at http://doc.otrs.org/3.1/en/html/acl.html. There you can find a list of all possible ACL
+    settings. In general, you need to add the prefix "DynamicField_" to existing free field definitions, and you
+    can add a new "DynamicField" section to the "Properties" list for situations when a ticket does not exist yet.
 
 
 XX) Well done!
