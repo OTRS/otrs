@@ -2,7 +2,7 @@
 # UPGRADING - upgrading OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: UPGRADING,v 1.58 2011-11-08 12:03:02 mg Exp $
+# $Id: UPGRADING,v 1.59 2011-11-11 08:41:33 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -148,7 +148,25 @@ how to upgrade the data types used by OTRS.
     shell> bin/otrs.DeleteCache.pl
 
 
-10) Restart your services
+10) Update Your Web Server Configuration
+    ------------------------------------
+
+    Note: this applies only if you use the Apache web server together with mod_perl2,
+    and do not use the configuration file directly from the OTRS installation directory
+    (e. g. with a symlink from the Apache configuration directory).
+
+    Please add a new setting to the Apache configuration file for OTRS:
+
+      # set mod_perl2 option for generic interface
+      <Location /otrs/nph-genericinterface.pl>
+          PerlOptions -ParseHeaders
+      </Location>
+
+    Please see the file /opt/otrs/scripts/apache2-httpd.include.conf for an example of
+    where this new option needs to be added (inside the <IfModule mod_perl.c> block).
+
+
+11) Restart your services
     ---------------------
 
     e. g. (depends on used services):
@@ -160,13 +178,13 @@ how to upgrade the data types used by OTRS.
     Now you can log into your system.
 
 
-11) Check installed packages
+12) Check installed packages
     ------------------------
     In the package manager, check if all packages are still marked as
     correctly installed or if any require reinstallation or even a package upgrade.
 
 
-12) Check for encoding issues
+13) Check for encoding issues
     -------------------------
 
     OTRS 3.1 only allows UTF-8 as internal charset.
@@ -217,5 +235,5 @@ XX) Escalation Events
     Kernel/Config/GenericAgent.pm.dist for an example of how to do this.
 
 
-12) Well done!
+XX) Well done!
     ----------
