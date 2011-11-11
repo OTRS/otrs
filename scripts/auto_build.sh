@@ -3,7 +3,7 @@
 # auto_build.sh - build automatically OTRS tar, rpm and src-rpm
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: auto_build.sh,v 1.97 2011-11-10 12:48:16 mg Exp $
+# $Id: auto_build.sh,v 1.98 2011-11-11 10:54:20 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -21,7 +21,7 @@
 # or see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-echo "auto_build.sh - build automatically OTRS tar, rpm and src-rpm <\$Revision: 1.97 $>"
+echo "auto_build.sh - build automatically OTRS tar, rpm and src-rpm <\$Revision: 1.98 $>"
 echo "Copyright (C) 2001-2011 OTRS AG, http://otrs.org/\n";
 
 PATH_TO_CVS_SRC=$1
@@ -99,16 +99,12 @@ rm -rf $PACKAGE_DEST_DIR
 mkdir $PACKAGE_DEST_DIR
 mkdir $PACKAGE_DEST_DIR/RPMS
 mkdir $PACKAGE_DEST_DIR/RPMS/suse
-mkdir $PACKAGE_DEST_DIR/RPMS/suse/9.0
-mkdir $PACKAGE_DEST_DIR/RPMS/suse/9.1
 mkdir $PACKAGE_DEST_DIR/RPMS/suse/10.0
 mkdir $PACKAGE_DEST_DIR/RPMS/suse/11.0
 mkdir $PACKAGE_DEST_DIR/RPMS/fedora
 mkdir $PACKAGE_DEST_DIR/RPMS/fedora/4
 mkdir $PACKAGE_DEST_DIR/SRPMS
 mkdir $PACKAGE_DEST_DIR/SRPMS/suse
-mkdir $PACKAGE_DEST_DIR/SRPMS/suse/9.0
-mkdir $PACKAGE_DEST_DIR/SRPMS/suse/9.1
 mkdir $PACKAGE_DEST_DIR/SRPMS/suse/10.0
 mkdir $PACKAGE_DEST_DIR/SRPMS/suse/11.0
 mkdir $PACKAGE_DEST_DIR/SRPMS/fedora
