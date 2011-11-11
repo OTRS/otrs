@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.198 2011-11-02 13:11:05 cr Exp $
+# $Id: AgentTicketPhone.pm,v 1.199 2011-11-11 15:30:50 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,7 +26,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.198 $) [1];
+$VERSION = qw($Revision: 1.199 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -316,13 +316,12 @@ sub Run {
             }
 
             # get field html
-            $DynamicFieldHTML{ $DynamicFieldConfig->{Name} } =
-                $Self->{BackendObject}->EditFieldRender(
+            $DynamicFieldHTML{ $DynamicFieldConfig->{Name} }
+                = $Self->{BackendObject}->EditFieldRender(
                 DynamicFieldConfig   => $DynamicFieldConfig,
                 PossibleValuesFilter => $PossibleValuesFilter,
                 Value                => $Value,
-                Mandatory =>
-                    $Self->{Config}->{DynamicField}->{ $DynamicFieldConfig->{Name} } == 2,
+                Mandatory => $Self->{Config}->{DynamicField}->{ $DynamicFieldConfig->{Name} } == 2,
                 LayoutObject    => $Self->{LayoutObject},
                 ParamObject     => $Self->{ParamObject},
                 AJAXUpdate      => 1,
@@ -572,13 +571,12 @@ sub Run {
             }
 
             # get field html
-            $DynamicFieldHTML{ $DynamicFieldConfig->{Name} } =
-                $Self->{BackendObject}->EditFieldRender(
+            $DynamicFieldHTML{ $DynamicFieldConfig->{Name} }
+                = $Self->{BackendObject}->EditFieldRender(
                 DynamicFieldConfig   => $DynamicFieldConfig,
                 PossibleValuesFilter => $PossibleValuesFilter,
-                Mandatory =>
-                    $Self->{Config}->{DynamicField}->{ $DynamicFieldConfig->{Name} } == 2,
-                ServerError  => $ValidationResult->{ServerError}  || '',
+                Mandatory => $Self->{Config}->{DynamicField}->{ $DynamicFieldConfig->{Name} } == 2,
+                ServerError => $ValidationResult->{ServerError} || '',
                 ErrorMessage => $ValidationResult->{ErrorMessage} || '',
                 LayoutObject => $Self->{LayoutObject},
                 ParamObject  => $Self->{ParamObject},
