@@ -3,7 +3,7 @@
 # DBUpdate-to-3.1.pl - update script to migrate OTRS 3.0.x to 3.1.x
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-3.1.pl,v 1.57 2011-11-11 08:25:43 mg Exp $
+# $Id: DBUpdate-to-3.1.pl,v 1.58 2011-11-11 19:37:35 cr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.57 $) [1];
+$VERSION = qw($Revision: 1.58 $) [1];
 
 use Getopt::Std qw();
 use Kernel::Config;
@@ -1785,10 +1785,22 @@ sub _MigratePostMasterConfiguration {
 
         # migration for ticket fields
         my %XHeadersToChange = (
-            'X-OTRS-TicketKey'            => 'TicketFreeKey',
-            'X-OTRS-TicketValue'          => 'TicketFreeText',
-            'X-OTRS-FollowUp-TicketKey'   => 'TicketFreeKey',
-            'X-OTRS-FollowUp-TicketValue' => 'TicketFreeText',
+            'X-OTRS-TicketKey' => {
+                Name => 'TicketFreeKey',
+                Type => '',
+            },
+            'X-OTRS-TicketValue' => {
+                Name => 'TicketFreeText',
+                Type => '',
+            },
+            'X-OTRS-FollowUp-TicketKey' => {
+                Name => 'TicketFreeKey',
+                Type => 'FollowUp-',
+            },
+            'X-OTRS-FollowUp-TicketValue' => {
+                Name => 'TicketFreeText',
+                Type => 'FollowUp-',
+            },
         );
 
         for my $Key ( sort keys %XHeadersToChange ) {
@@ -1796,13 +1808,14 @@ sub _MigratePostMasterConfiguration {
 
                 # set header and field name
                 my $HeaderName = $Key . $Index;
-                my $FieldName  = $XHeadersToChange{$Key} . $Index;
+                my $FieldName  = $XHeadersToChange{$Key}->{Name} . $Index;
+                my $FieldType  = $XHeadersToChange{$Key}->{Type};
 
                 if ( defined $DynamicFields->{$FieldName} && defined $CurrentXHeaders{$HeaderName} )
                 {
 
                     # set header name for dynamic field
-                    my $NewHeaderName = 'X-OTRS-DynamicField-' . $FieldName;
+                    my $NewHeaderName = 'X-OTRS-' . $FieldType . 'DynamicField-' . $FieldName;
 
                     # delete old element
                     delete $CurrentXHeaders{$HeaderName};
@@ -1829,20 +1842,28 @@ sub _MigratePostMasterConfiguration {
 
         # migration for time fields
         %XHeadersToChange = (
-            'X-OTRS-TicketTime'          => 'TicketFreeTime',
-            'X-OTRS-FollowUp-TicketTime' => 'TicketFreeTime',
+            'X-OTRS-TicketTime' => {
+                Name => 'TicketFreeTime',
+                Type => '',
+            },
+            'X-OTRS-FollowUp-TicketTime' => {
+                Name => 'TicketFreeTime',
+                Type => 'FollowUp-',
+            },
         );
 
         for my $Key ( sort keys %XHeadersToChange ) {
             for my $Index ( 1 .. 6 ) {
 
                 my $HeaderName = $Key . $Index;
-                my $FieldName  = $XHeadersToChange{$Key} . $Index;
+                my $FieldName  = $XHeadersToChange{$Key}->{Name} . $Index;
+                my $FieldType  = $XHeadersToChange{$Key}->{Type};
+
                 if ( defined $DynamicFields->{$FieldName} && defined $CurrentXHeaders{$HeaderName} )
                 {
 
                     # set header name for dynamic field
-                    my $NewHeaderName = 'X-OTRS-DynamicField-' . $FieldName;
+                    my $NewHeaderName = 'X-OTRS-' . $FieldType . 'DynamicField-' . $FieldName;
 
                     # delete old element
                     delete $CurrentXHeaders{$HeaderName};
@@ -1869,22 +1890,35 @@ sub _MigratePostMasterConfiguration {
 
         # migration for article fields
         %XHeadersToChange = (
-            'X-OTRS-ArticleKey'            => 'ArticleFreeKey',
-            'X-OTRS-ArticleValue'          => 'ArticleFreeText',
-            'X-OTRS-FollowUp-ArticleKey'   => 'ArticleFreeKey',
-            'X-OTRS-FollowUp-ArticleValue' => 'ArticleFreeText',
+            'X-OTRS-ArticleKey' => {
+                Name => 'ArticleFreeKey',
+                Type => '',
+            },
+            'X-OTRS-ArticleValue' => {
+                Name => 'ArticleFreeText',
+                Type => '',
+            },
+            'X-OTRS-FollowUp-ArticleKey' => {
+                Name => 'ArticleFreeKey',
+                Type => 'FollowUp-',
+            },
+            'X-OTRS-FollowUp-ArticleValue' => {
+                Name => 'ArticleFreeText',
+                Type => 'FollowUp-',
+            },
         );
 
         for my $Key ( sort keys %XHeadersToChange ) {
             for my $Index ( 1 .. 3 ) {
 
                 my $HeaderName = $Key . $Index;
-                my $FieldName  = $XHeadersToChange{$Key} . $Index;
+                my $FieldName  = $XHeadersToChange{$Key}->{Name} . $Index;
+                my $FieldType  = $XHeadersToChange{$Key}->{Type};
                 if ( defined $DynamicFields->{$FieldName} && defined $CurrentXHeaders{$HeaderName} )
                 {
 
                     # set header name for dynamic field
-                    my $NewHeaderName = 'X-OTRS-DynamicField-' . $FieldName;
+                    my $NewHeaderName = 'X-OTRS-' . $FieldType . 'DynamicField-' . $FieldName;
 
                     # delete old element
                     delete $CurrentXHeaders{$HeaderName};
