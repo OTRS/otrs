@@ -2,7 +2,7 @@
 # INSTALL description of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: INSTALL,v 1.58 2011-03-08 12:47:53 mb Exp $
+# $Id: INSTALL,v 1.59 2011-11-11 08:41:01 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ Mandatory:
     * a few Perl modules (see step 2 of the chapter "Installation" for details)
 
 Optional:
-    * On the Apache webserver, using mod_perl is highly recommended
+    * On the Apache webserver, using mod_perl2 is highly recommended
     * LDAPv2 compliant server (e. g. OpenLDAP)
 
 
@@ -27,16 +27,16 @@ Installation:
 =============
 
 The steps below describe how to install OTRS on Linux.
-This procedure describes 'installation from source'. If you want to deploy 
-on RedHat, CentOS, Fedora, OpenSUSE, or SLES you can also choose to 
+This procedure describes 'installation from source'. If you want to deploy
+on RedHat, CentOS, Fedora, OpenSUSE, or SLES you can also choose to
 instead install using the RPM from our website at http://otrs.org/downloads
 Please refer to http://doc.otrs.org/ for detailed instructions on RPM based
 installation.
 
 If you want to deploy on Windows we ship an installer that automatically
 installs OTRS, Apache (a webserver), Perl including all modules, MySQL, and
-sets up the cron jobs for you. Please refer to 
-http://doc.otrs.org/3.0/en/html/c480.html#installation-on-windows 
+sets up the cron jobs for you. Please refer to
+http://doc.otrs.org/3.1/en/html/installation.html#installation-on-windows
 for detailed instructions.
 
 The OTRS system user in this example is "otrs" and the installation
@@ -48,7 +48,7 @@ directory is /opt/otrs. You can adapt these values as needed.
    shell> tar -xzvf otrs-x.x.x.tar.gz
    shell> mv otrs-x.x.x otrs
 
-2) Install additional Perl modules:
+2) Install Additional Perl Modules:
    --------------------------------
    Use the following script to get an overview of all installed and
    required cpan modules.
@@ -58,38 +58,39 @@ directory is /opt/otrs. You can adapt these values as needed.
    To install missing Perl modules, you can:
 
    a) Install the packages via the package manager of your Linux distribution.
-   
+
       - For RedHat, CentOS, Fedora or compatible systems:
-      
+
         shell> yum install "perl(Digest::MD5)"
-      
+
       - For Suse Enterprise Linux, openSUSE or compatible systems:
         first determine the name of the package the module is shipped in.
         Usually the package for My::Module would be called "perl-My-Module".
-        
+
         shell> zypper search Digest::MD5
-      
+
         Then install:
-        
+
         shell> zypper install perl-Digest-MD5
-      
+
       - For Debian, Ubuntu or compatible systems
-        first determine the name of the package the module is shipped in. 
+        first determine the name of the package the module is shipped in.
         Usually the package for My::Module would be called "libmy-module-perl".
-        
+
         shell> apt-get search Digest::MD5
-      
+
         Then install:
+
         shell> apt-get install libdigest-md5-perl
-      
+
       Please note that it might be that you can't find all modules or their
       required versions in your distribution repository, in that case you might
       choose to install those modules via CPAN (see below).
-      
+
    - or -
 
    b) Install the required modules via the CPAN shell
-   
+
       note that when you're on Unix you should run CPAN as your superuser
       account because the modules should be accessible both by the OTRS
       account and the account under which the web server is running.
@@ -103,7 +104,7 @@ directory is /opt/otrs. You can adapt these values as needed.
    Any optional modules listed by the script should be installed depending
    on the special requirements of the target system.
 
-3) Create OTRS user:
+3) Create OTRS User:
    -----------------
 
     Create user:
@@ -116,8 +117,8 @@ directory is /opt/otrs. You can adapt these values as needed.
 
     (SuSE=www, Red Hat/CentOS/Fedora=apache, Debian/Ubuntu=www-data)
 
-4) Demo config files:
-   ------------------
+4) Activate Default Config Files:
+   ------------------------------
     There are two OTRS config files bundled in $OTRS_HOME/Kernel/*.dist
     and $OTRS_HOME/Kernel/Config/*.dist. You must activate them by copying
     them without the ".dist" filename extension.
@@ -135,6 +136,9 @@ directory is /opt/otrs. You can adapt these values as needed.
    ------------------------------------------
       shell> perl -cw /opt/otrs/bin/cgi-bin/index.pl
       /opt/otrs/bin/cgi-bin/index.pl syntax OK
+
+      shell> perl -cw /opt/otrs/bin/cgi-bin/customer.pl
+      /opt/otrs/bin/cgi-bin/customer.pl syntax OK
 
       shell> perl -cw /opt/otrs/bin/otrs.PostMaster.pl
       /opt/otrs/bin/otrs.PostMaster.pl syntax OK
@@ -171,7 +175,7 @@ directory is /opt/otrs. You can adapt these values as needed.
 8) Database setup:
    ---------------
    If you use MySQL, you can use the Web based installer (http://yourhost/otrs/installer.pl).
-   Otherwise, please follow README.database for instructions
+   Otherwise, please follow README.database for instructions.
 
 9) First login:
    ------------
@@ -215,13 +219,13 @@ Notes:
 ======
 
 We advise you to read the OTRS performance tuning chapter on our homepage:
-http://doc.otrs.org/3.0/en/html/.
+http://doc.otrs.org/3.1/en/html/performance-tuning.html.
 
 If you encounter problems with the installation, you can send a message to our
 mailing list otrs@otrs.org (http://lists.otrs.org/).
 
-You can also ask the OTRS Group to either help you in planning or deploying 
-OTRS, or review your installed OTRS system. Our professional services are 
+You can also ask the OTRS Group to either help you in planning or deploying
+OTRS, or review your installed OTRS system. Our professional services are
 designed to help you deploy OTRS faster and to get the most benefit out of
 OTRS. See for more information: http://www.otrs.com/en/services/
 
@@ -229,5 +233,3 @@ OTRS. See for more information: http://www.otrs.com/en/services/
 ((enjoy))
 
  Your OTRS Team
-
-EOF
