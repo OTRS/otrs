@@ -2,7 +2,7 @@
 # TicketFreeField.t - Ticket Free Field tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketFreeField.t,v 1.4 2011-09-06 17:38:16 cr Exp $
+# $Id: TicketFreeField.t,v 1.5 2011-11-11 20:45:34 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -378,6 +378,17 @@ for ( 1 .. 16 ) {
 
 %TicketFreeText = $TicketObject->TicketGet( TicketID => $TicketID );
 for ( 1 .. 16 ) {
+
+    #workaround oracle
+    if ( $TicketObject->{ConfigObject}->Get('DatabaseDSN') =~ m{DBI:Oracle}gi ) {
+        if ( !defined $TicketFreeText{ 'TicketFreeKey' . $_ } ) {
+            $TicketFreeText{ 'TicketFreeKey' . $_ } = '';
+        }
+        if ( !defined $TicketFreeText{ 'TicketFreeText' . $_ } ) {
+            $TicketFreeText{ 'TicketFreeText' . $_ } = '';
+        }
+    }
+
     $Self->Is(
         $TicketFreeText{ 'TicketFreeKey' . $_ },
         '',
