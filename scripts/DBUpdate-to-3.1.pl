@@ -3,7 +3,7 @@
 # DBUpdate-to-3.1.pl - update script to migrate OTRS 3.0.x to 3.1.x
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-3.1.pl,v 1.56 2011-11-11 03:05:38 cr Exp $
+# $Id: DBUpdate-to-3.1.pl,v 1.57 2011-11-11 08:25:43 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.56 $) [1];
+$VERSION = qw($Revision: 1.57 $) [1];
 
 use Getopt::Std qw();
 use Kernel::Config;
@@ -1775,7 +1775,7 @@ sub _MigratePostMasterConfiguration {
 
     # Post Master configuration
     my $ExistingSetting = $CommonObject->{ConfigObject}->Get('PostmasterX-Header');
-    my @ValuesToSet = @{$ExistingSetting} || ();
+    my @ValuesToSet = @{ $ExistingSetting || [] };
 
     if ( scalar @ValuesToSet ) {
 
