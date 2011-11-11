@@ -2,7 +2,7 @@
 # TicketDynamicFieldSearchPerformance.t - ticket module testscript
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketDynamicFieldSearchPerformance.t,v 1.2 2011-09-05 08:20:23 mg Exp $
+# $Id: TicketDynamicFieldSearchPerformance.t,v 1.3 2011-11-11 10:07:09 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -138,7 +138,7 @@ for my $Counter ( 1 .. $FieldCount ) {
         Like => "ticket1_%",
     };
 
-    if ( grep { $_ == $Counter } ( 10, 20, 50, 100, 200 ) ) {
+    if ( grep { $_ == $Counter } ( 5, 10, 20, 50, 100, 200 ) ) {
 
         my $Start = [ Time::HiRes::gettimeofday() ];
 
@@ -158,11 +158,11 @@ for my $Counter ( 1 .. $FieldCount ) {
         );
 
         my $TimeTaken    = Time::HiRes::tv_interval($Start);
-        my $TimeExpected = $Counter / 10;
+        my $TimeExpected = $Counter / 5;
 
         $Self->True(
             $TimeTaken < $TimeExpected,
-            "Search for $Counter field took less than $TimeExpected seconds ($TimeTaken)",
+            "Search for $Counter fields took less than $TimeExpected seconds ($TimeTaken)",
         );
     }
 }
