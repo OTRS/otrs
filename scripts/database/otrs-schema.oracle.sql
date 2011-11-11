@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2011-09-16 11:13:14
+--  driver: oracle, generated: 2011-11-10 14:54:56
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 -- ----------------------------------------------------------
@@ -596,44 +596,6 @@ CREATE TABLE ticket (
     escalation_update_time NUMBER (12, 0) NOT NULL,
     escalation_response_time NUMBER (12, 0) NOT NULL,
     escalation_solution_time NUMBER (12, 0) NOT NULL,
-    freekey1 VARCHAR2 (80) NULL,
-    freetext1 VARCHAR2 (150) NULL,
-    freekey2 VARCHAR2 (80) NULL,
-    freetext2 VARCHAR2 (150) NULL,
-    freekey3 VARCHAR2 (80) NULL,
-    freetext3 VARCHAR2 (150) NULL,
-    freekey4 VARCHAR2 (80) NULL,
-    freetext4 VARCHAR2 (150) NULL,
-    freekey5 VARCHAR2 (80) NULL,
-    freetext5 VARCHAR2 (150) NULL,
-    freekey6 VARCHAR2 (80) NULL,
-    freetext6 VARCHAR2 (150) NULL,
-    freekey7 VARCHAR2 (80) NULL,
-    freetext7 VARCHAR2 (150) NULL,
-    freekey8 VARCHAR2 (80) NULL,
-    freetext8 VARCHAR2 (150) NULL,
-    freekey9 VARCHAR2 (80) NULL,
-    freetext9 VARCHAR2 (150) NULL,
-    freekey10 VARCHAR2 (80) NULL,
-    freetext10 VARCHAR2 (150) NULL,
-    freekey11 VARCHAR2 (80) NULL,
-    freetext11 VARCHAR2 (150) NULL,
-    freekey12 VARCHAR2 (80) NULL,
-    freetext12 VARCHAR2 (150) NULL,
-    freekey13 VARCHAR2 (80) NULL,
-    freetext13 VARCHAR2 (150) NULL,
-    freekey14 VARCHAR2 (80) NULL,
-    freetext14 VARCHAR2 (150) NULL,
-    freekey15 VARCHAR2 (80) NULL,
-    freetext15 VARCHAR2 (150) NULL,
-    freekey16 VARCHAR2 (80) NULL,
-    freetext16 VARCHAR2 (150) NULL,
-    freetime1 DATE NULL,
-    freetime2 DATE NULL,
-    freetime3 DATE NULL,
-    freetime4 DATE NULL,
-    freetime5 DATE NULL,
-    freetime6 DATE NULL,
     valid_id NUMBER (5, 0) NOT NULL,
     archive_flag NUMBER (5, 0) DEFAULT 0 NOT NULL,
     create_time_unix NUMBER (20, 0) NOT NULL,
@@ -922,12 +884,6 @@ CREATE TABLE article (
     a_body CLOB NOT NULL,
     incoming_time NUMBER (12, 0) NOT NULL,
     content_path VARCHAR2 (250) NULL,
-    a_freekey1 VARCHAR2 (250) NULL,
-    a_freetext1 VARCHAR2 (250) NULL,
-    a_freekey2 VARCHAR2 (250) NULL,
-    a_freetext2 VARCHAR2 (250) NULL,
-    a_freekey3 VARCHAR2 (250) NULL,
-    a_freetext3 VARCHAR2 (250) NULL,
     valid_id NUMBER (5, 0) NOT NULL,
     create_time DATE NOT NULL,
     create_by NUMBER (12, 0) NOT NULL,
@@ -970,13 +926,7 @@ CREATE TABLE article_search (
     a_subject VARCHAR2 (3800) NULL,
     a_message_id VARCHAR2 (3800) NULL,
     a_body CLOB NOT NULL,
-    incoming_time NUMBER (12, 0) NOT NULL,
-    a_freekey1 VARCHAR2 (250) NULL,
-    a_freetext1 VARCHAR2 (250) NULL,
-    a_freekey2 VARCHAR2 (250) NULL,
-    a_freetext2 VARCHAR2 (250) NULL,
-    a_freekey3 VARCHAR2 (250) NULL,
-    a_freetext3 VARCHAR2 (250) NULL
+    incoming_time NUMBER (12, 0) NOT NULL
 );
 ALTER TABLE article_search ADD CONSTRAINT PK_article_search PRIMARY KEY (id);
 CREATE INDEX article_search_article_sendec7 ON article_search (article_sender_type_id);
@@ -2034,7 +1984,7 @@ CREATE TABLE gi_object_lock_state (
     lock_state_counter NUMBER (12, 0) NOT NULL,
     create_time DATE NOT NULL,
     change_time DATE NOT NULL,
-    CONSTRAINT gi_object_lock_state_U_607 UNIQUE (webservice_id, object_type, object_id)
+    CONSTRAINT gi_object_lock_state_U_309 UNIQUE (webservice_id, object_type, object_id)
 );
 CREATE INDEX FK_gi_object_lock_state_webs55 ON gi_object_lock_state (webservice_id);
 CREATE INDEX object_lock_state_list_state ON gi_object_lock_state (webservice_id, object_type, object_id, lock_state);
@@ -2115,7 +2065,7 @@ CREATE TABLE dynamic_field (
     create_by NUMBER (12, 0) NOT NULL,
     change_time DATE NOT NULL,
     change_by NUMBER (12, 0) NOT NULL,
-    CONSTRAINT dynamic_field_U_4 UNIQUE (name)
+    CONSTRAINT dynamic_field_U_692 UNIQUE (name)
 );
 ALTER TABLE dynamic_field ADD CONSTRAINT PK_dynamic_field PRIMARY KEY (id);
 DROP SEQUENCE SE_dynamic_field;

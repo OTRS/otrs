@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: mssql, generated: 2011-09-21 16:44:26
+--  driver: mssql, generated: 2011-11-10 14:54:56
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -347,44 +347,6 @@ CREATE TABLE ticket (
     escalation_update_time INTEGER NOT NULL,
     escalation_response_time INTEGER NOT NULL,
     escalation_solution_time INTEGER NOT NULL,
-    freekey1 NVARCHAR (80) NULL,
-    freetext1 NVARCHAR (150) NULL,
-    freekey2 NVARCHAR (80) NULL,
-    freetext2 NVARCHAR (150) NULL,
-    freekey3 NVARCHAR (80) NULL,
-    freetext3 NVARCHAR (150) NULL,
-    freekey4 NVARCHAR (80) NULL,
-    freetext4 NVARCHAR (150) NULL,
-    freekey5 NVARCHAR (80) NULL,
-    freetext5 NVARCHAR (150) NULL,
-    freekey6 NVARCHAR (80) NULL,
-    freetext6 NVARCHAR (150) NULL,
-    freekey7 NVARCHAR (80) NULL,
-    freetext7 NVARCHAR (150) NULL,
-    freekey8 NVARCHAR (80) NULL,
-    freetext8 NVARCHAR (150) NULL,
-    freekey9 NVARCHAR (80) NULL,
-    freetext9 NVARCHAR (150) NULL,
-    freekey10 NVARCHAR (80) NULL,
-    freetext10 NVARCHAR (150) NULL,
-    freekey11 NVARCHAR (80) NULL,
-    freetext11 NVARCHAR (150) NULL,
-    freekey12 NVARCHAR (80) NULL,
-    freetext12 NVARCHAR (150) NULL,
-    freekey13 NVARCHAR (80) NULL,
-    freetext13 NVARCHAR (150) NULL,
-    freekey14 NVARCHAR (80) NULL,
-    freetext14 NVARCHAR (150) NULL,
-    freekey15 NVARCHAR (80) NULL,
-    freetext15 NVARCHAR (150) NULL,
-    freekey16 NVARCHAR (80) NULL,
-    freetext16 NVARCHAR (150) NULL,
-    freetime1 DATETIME NULL,
-    freetime2 DATETIME NULL,
-    freetime3 DATETIME NULL,
-    freetime4 DATETIME NULL,
-    freetime5 DATETIME NULL,
-    freetime6 DATETIME NULL,
     valid_id SMALLINT NOT NULL,
     archive_flag SMALLINT NOT NULL,
     create_time_unix BIGINT NOT NULL,
@@ -583,12 +545,6 @@ CREATE TABLE article (
     a_body NVARCHAR (MAX) NOT NULL,
     incoming_time INTEGER NOT NULL,
     content_path NVARCHAR (250) NULL,
-    a_freekey1 NVARCHAR (250) NULL,
-    a_freetext1 NVARCHAR (250) NULL,
-    a_freekey2 NVARCHAR (250) NULL,
-    a_freetext2 NVARCHAR (250) NULL,
-    a_freekey3 NVARCHAR (250) NULL,
-    a_freetext3 NVARCHAR (250) NULL,
     valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
@@ -615,12 +571,6 @@ CREATE TABLE article_search (
     a_message_id NVARCHAR (3800) NULL,
     a_body NVARCHAR (MAX) NOT NULL,
     incoming_time INTEGER NOT NULL,
-    a_freekey1 NVARCHAR (250) NULL,
-    a_freetext1 NVARCHAR (250) NULL,
-    a_freekey2 NVARCHAR (250) NULL,
-    a_freetext2 NVARCHAR (250) NULL,
-    a_freekey3 NVARCHAR (250) NULL,
-    a_freetext3 NVARCHAR (250) NULL,
     PRIMARY KEY(id)
 );
 CREATE INDEX article_search_article_sender_type_id ON article_search (article_sender_type_id);
@@ -1242,7 +1192,7 @@ CREATE TABLE gi_object_lock_state (
     lock_state_counter INTEGER NOT NULL,
     create_time DATETIME NOT NULL,
     change_time DATETIME NOT NULL,
-    CONSTRAINT gi_object_lock_state_U_913 UNIQUE (webservice_id, object_type, object_id)
+    CONSTRAINT gi_object_lock_state_U_5 UNIQUE (webservice_id, object_type, object_id)
 );
 CREATE INDEX object_lock_state_list_state ON gi_object_lock_state (webservice_id, object_type, object_id, lock_state);
 -- ----------------------------------------------------------
@@ -1292,5 +1242,5 @@ CREATE TABLE dynamic_field (
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    CONSTRAINT dynamic_field_U_450 UNIQUE (name)
+    CONSTRAINT dynamic_field_U_368 UNIQUE (name)
 );

@@ -512,44 +512,6 @@
     <Column Name="escalation_update_time" Required="true" Type="INTEGER"/>
     <Column Name="escalation_response_time" Required="true" Type="INTEGER"/>
     <Column Name="escalation_solution_time" Required="true" Type="INTEGER"/>
-    <Column Name="freekey1" Required="false" Size="80" Type="VARCHAR"/>
-    <Column Name="freetext1" Required="false" Size="150" Type="VARCHAR"/>
-    <Column Name="freekey2" Required="false" Size="80" Type="VARCHAR"/>
-    <Column Name="freetext2" Required="false" Size="150" Type="VARCHAR"/>
-    <Column Name="freekey3" Required="false" Size="80" Type="VARCHAR"/>
-    <Column Name="freetext3" Required="false" Size="150" Type="VARCHAR"/>
-    <Column Name="freekey4" Required="false" Size="80" Type="VARCHAR"/>
-    <Column Name="freetext4" Required="false" Size="150" Type="VARCHAR"/>
-    <Column Name="freekey5" Required="false" Size="80" Type="VARCHAR"/>
-    <Column Name="freetext5" Required="false" Size="150" Type="VARCHAR"/>
-    <Column Name="freekey6" Required="false" Size="80" Type="VARCHAR"/>
-    <Column Name="freetext6" Required="false" Size="150" Type="VARCHAR"/>
-    <Column Name="freekey7" Required="false" Size="80" Type="VARCHAR"/>
-    <Column Name="freetext7" Required="false" Size="150" Type="VARCHAR"/>
-    <Column Name="freekey8" Required="false" Size="80" Type="VARCHAR"/>
-    <Column Name="freetext8" Required="false" Size="150" Type="VARCHAR"/>
-    <Column Name="freekey9" Required="false" Size="80" Type="VARCHAR"/>
-    <Column Name="freetext9" Required="false" Size="150" Type="VARCHAR"/>
-    <Column Name="freekey10" Required="false" Size="80" Type="VARCHAR"/>
-    <Column Name="freetext10" Required="false" Size="150" Type="VARCHAR"/>
-    <Column Name="freekey11" Required="false" Size="80" Type="VARCHAR"/>
-    <Column Name="freetext11" Required="false" Size="150" Type="VARCHAR"/>
-    <Column Name="freekey12" Required="false" Size="80" Type="VARCHAR"/>
-    <Column Name="freetext12" Required="false" Size="150" Type="VARCHAR"/>
-    <Column Name="freekey13" Required="false" Size="80" Type="VARCHAR"/>
-    <Column Name="freetext13" Required="false" Size="150" Type="VARCHAR"/>
-    <Column Name="freekey14" Required="false" Size="80" Type="VARCHAR"/>
-    <Column Name="freetext14" Required="false" Size="150" Type="VARCHAR"/>
-    <Column Name="freekey15" Required="false" Size="80" Type="VARCHAR"/>
-    <Column Name="freetext15" Required="false" Size="150" Type="VARCHAR"/>
-    <Column Name="freekey16" Required="false" Size="80" Type="VARCHAR"/>
-    <Column Name="freetext16" Required="false" Size="150" Type="VARCHAR"/>
-    <Column Name="freetime1" Required="false" Type="DATE"/>
-    <Column Name="freetime2" Required="false" Type="DATE"/>
-    <Column Name="freetime3" Required="false" Type="DATE"/>
-    <Column Name="freetime4" Required="false" Type="DATE"/>
-    <Column Name="freetime5" Required="false" Type="DATE"/>
-    <Column Name="freetime6" Required="false" Type="DATE"/>
     <Column Name="valid_id" Required="true" Type="SMALLINT"/>
     <Column Name="archive_flag" Required="true" Default="0" Type="SMALLINT"/>
     <Column Name="create_time_unix" Required="true" Type="BIGINT"/>
@@ -949,12 +911,6 @@
     <Column Name="a_body" Required="true" Size="1800000" Type="VARCHAR"/>
     <Column Name="incoming_time" Required="true" Type="INTEGER"/>
     <Column Name="content_path" Required="false" Size="250" Type="VARCHAR"/>
-    <Column Name="a_freekey1" Required="false" Size="250" Type="VARCHAR"/>
-    <Column Name="a_freetext1" Required="false" Size="250" Type="VARCHAR"/>
-    <Column Name="a_freekey2" Required="false" Size="250" Type="VARCHAR"/>
-    <Column Name="a_freetext2" Required="false" Size="250" Type="VARCHAR"/>
-    <Column Name="a_freekey3" Required="false" Size="250" Type="VARCHAR"/>
-    <Column Name="a_freetext3" Required="false" Size="250" Type="VARCHAR"/>
     <Column Name="valid_id" Required="true" Type="SMALLINT"/>
     <Column Name="create_time" Required="true" Type="DATE"/>
     <Column Name="create_by" Required="true" Type="INTEGER"/>
@@ -1003,12 +959,6 @@
     <Column Name="a_message_id" Required="false" Size="3800" Type="VARCHAR"/>
     <Column Name="a_body" Required="true" Size="1800000" Type="VARCHAR"/>
     <Column Name="incoming_time" Required="true" Type="INTEGER"/>
-    <Column Name="a_freekey1" Required="false" Size="250" Type="VARCHAR"/>
-    <Column Name="a_freetext1" Required="false" Size="250" Type="VARCHAR"/>
-    <Column Name="a_freekey2" Required="false" Size="250" Type="VARCHAR"/>
-    <Column Name="a_freetext2" Required="false" Size="250" Type="VARCHAR"/>
-    <Column Name="a_freekey3" Required="false" Size="250" Type="VARCHAR"/>
-    <Column Name="a_freetext3" Required="false" Size="250" Type="VARCHAR"/>
     <Index Name="article_search_ticket_id">
         <IndexColumn Name="ticket_id"/>
     </Index>

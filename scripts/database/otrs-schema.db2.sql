@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: db2, generated: 2011-09-16 11:13:12
+--  driver: db2, generated: 2011-11-10 14:54:55
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -381,44 +381,6 @@ CREATE TABLE ticket (
     escalation_update_time INTEGER NOT NULL,
     escalation_response_time INTEGER NOT NULL,
     escalation_solution_time INTEGER NOT NULL,
-    freekey1 VARCHAR (80),
-    freetext1 VARCHAR (150),
-    freekey2 VARCHAR (80),
-    freetext2 VARCHAR (150),
-    freekey3 VARCHAR (80),
-    freetext3 VARCHAR (150),
-    freekey4 VARCHAR (80),
-    freetext4 VARCHAR (150),
-    freekey5 VARCHAR (80),
-    freetext5 VARCHAR (150),
-    freekey6 VARCHAR (80),
-    freetext6 VARCHAR (150),
-    freekey7 VARCHAR (80),
-    freetext7 VARCHAR (150),
-    freekey8 VARCHAR (80),
-    freetext8 VARCHAR (150),
-    freekey9 VARCHAR (80),
-    freetext9 VARCHAR (150),
-    freekey10 VARCHAR (80),
-    freetext10 VARCHAR (150),
-    freekey11 VARCHAR (80),
-    freetext11 VARCHAR (150),
-    freekey12 VARCHAR (80),
-    freetext12 VARCHAR (150),
-    freekey13 VARCHAR (80),
-    freetext13 VARCHAR (150),
-    freekey14 VARCHAR (80),
-    freetext14 VARCHAR (150),
-    freekey15 VARCHAR (80),
-    freetext15 VARCHAR (150),
-    freekey16 VARCHAR (80),
-    freetext16 VARCHAR (150),
-    freetime1 TIMESTAMP,
-    freetime2 TIMESTAMP,
-    freetime3 TIMESTAMP,
-    freetime4 TIMESTAMP,
-    freetime5 TIMESTAMP,
-    freetime6 TIMESTAMP,
     valid_id SMALLINT NOT NULL,
     archive_flag SMALLINT NOT NULL DEFAULT 0,
     create_time_unix BIGINT NOT NULL,
@@ -671,12 +633,6 @@ CREATE TABLE article (
     a_body CLOB (14062K) NOT NULL,
     incoming_time INTEGER NOT NULL,
     content_path VARCHAR (250),
-    a_freekey1 VARCHAR (250),
-    a_freetext1 VARCHAR (250),
-    a_freekey2 VARCHAR (250),
-    a_freetext2 VARCHAR (250),
-    a_freekey3 VARCHAR (250),
-    a_freetext3 VARCHAR (250),
     valid_id SMALLINT NOT NULL,
     create_time TIMESTAMP NOT NULL,
     create_by INTEGER NOT NULL,
@@ -708,12 +664,6 @@ CREATE TABLE article_search (
     a_message_id VARCHAR (3800),
     a_body CLOB (14062K) NOT NULL,
     incoming_time INTEGER NOT NULL,
-    a_freekey1 VARCHAR (250),
-    a_freetext1 VARCHAR (250),
-    a_freekey2 VARCHAR (250),
-    a_freetext2 VARCHAR (250),
-    a_freekey3 VARCHAR (250),
-    a_freetext3 VARCHAR (250),
     PRIMARY KEY(id)
 );
 
@@ -1408,7 +1358,7 @@ CREATE TABLE gi_object_lock_state (
     lock_state_counter INTEGER NOT NULL,
     create_time TIMESTAMP NOT NULL,
     change_time TIMESTAMP NOT NULL,
-    CONSTRAINT gi_object_lock_state_U_653 UNIQUE (webservice_id, object_type, object_id)
+    CONSTRAINT gi_object_lock_state_U_305 UNIQUE (webservice_id, object_type, object_id)
 );
 
 CREATE INDEX object_lock_state_list_state ON gi_object_lock_state (webservice_id, object_type, object_id, lock_state);
@@ -1465,5 +1415,5 @@ CREATE TABLE dynamic_field (
     change_time TIMESTAMP NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    CONSTRAINT dynamic_field_U_204 UNIQUE (name)
+    CONSTRAINT dynamic_field_U_954 UNIQUE (name)
 );

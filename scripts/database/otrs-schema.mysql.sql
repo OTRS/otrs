@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-#  driver: mysql, generated: 2011-09-16 11:13:13
+#  driver: mysql, generated: 2011-11-10 14:54:56
 # ----------------------------------------------------------
 # ----------------------------------------------------------
 #  create table valid
@@ -347,44 +347,6 @@ CREATE TABLE ticket (
     escalation_update_time INTEGER NOT NULL,
     escalation_response_time INTEGER NOT NULL,
     escalation_solution_time INTEGER NOT NULL,
-    freekey1 VARCHAR (80) NULL,
-    freetext1 VARCHAR (150) NULL,
-    freekey2 VARCHAR (80) NULL,
-    freetext2 VARCHAR (150) NULL,
-    freekey3 VARCHAR (80) NULL,
-    freetext3 VARCHAR (150) NULL,
-    freekey4 VARCHAR (80) NULL,
-    freetext4 VARCHAR (150) NULL,
-    freekey5 VARCHAR (80) NULL,
-    freetext5 VARCHAR (150) NULL,
-    freekey6 VARCHAR (80) NULL,
-    freetext6 VARCHAR (150) NULL,
-    freekey7 VARCHAR (80) NULL,
-    freetext7 VARCHAR (150) NULL,
-    freekey8 VARCHAR (80) NULL,
-    freetext8 VARCHAR (150) NULL,
-    freekey9 VARCHAR (80) NULL,
-    freetext9 VARCHAR (150) NULL,
-    freekey10 VARCHAR (80) NULL,
-    freetext10 VARCHAR (150) NULL,
-    freekey11 VARCHAR (80) NULL,
-    freetext11 VARCHAR (150) NULL,
-    freekey12 VARCHAR (80) NULL,
-    freetext12 VARCHAR (150) NULL,
-    freekey13 VARCHAR (80) NULL,
-    freetext13 VARCHAR (150) NULL,
-    freekey14 VARCHAR (80) NULL,
-    freetext14 VARCHAR (150) NULL,
-    freekey15 VARCHAR (80) NULL,
-    freetext15 VARCHAR (150) NULL,
-    freekey16 VARCHAR (80) NULL,
-    freetext16 VARCHAR (150) NULL,
-    freetime1 DATETIME NULL,
-    freetime2 DATETIME NULL,
-    freetime3 DATETIME NULL,
-    freetime4 DATETIME NULL,
-    freetime5 DATETIME NULL,
-    freetime6 DATETIME NULL,
     valid_id SMALLINT NOT NULL,
     archive_flag SMALLINT NOT NULL DEFAULT 0,
     create_time_unix BIGINT NOT NULL,
@@ -582,12 +544,6 @@ CREATE TABLE article (
     a_body MEDIUMTEXT NOT NULL,
     incoming_time INTEGER NOT NULL,
     content_path VARCHAR (250) NULL,
-    a_freekey1 VARCHAR (250) NULL,
-    a_freetext1 VARCHAR (250) NULL,
-    a_freekey2 VARCHAR (250) NULL,
-    a_freetext2 VARCHAR (250) NULL,
-    a_freekey3 VARCHAR (250) NULL,
-    a_freetext3 VARCHAR (250) NULL,
     valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
@@ -614,12 +570,6 @@ CREATE TABLE article_search (
     a_message_id TEXT NULL,
     a_body MEDIUMTEXT NOT NULL,
     incoming_time INTEGER NOT NULL,
-    a_freekey1 VARCHAR (250) NULL,
-    a_freetext1 VARCHAR (250) NULL,
-    a_freekey2 VARCHAR (250) NULL,
-    a_freetext2 VARCHAR (250) NULL,
-    a_freekey3 VARCHAR (250) NULL,
-    a_freetext3 VARCHAR (250) NULL,
     PRIMARY KEY(id),
     INDEX article_search_article_sender_type_id (article_sender_type_id),
     INDEX article_search_article_type_id (article_type_id),
@@ -1241,7 +1191,7 @@ CREATE TABLE gi_object_lock_state (
     lock_state_counter INTEGER NOT NULL,
     create_time DATETIME NOT NULL,
     change_time DATETIME NOT NULL,
-    UNIQUE INDEX gi_object_lock_state_U_218 (webservice_id, object_type, object_id),
+    UNIQUE INDEX gi_object_lock_state_U_471 (webservice_id, object_type, object_id),
     INDEX object_lock_state_list_state (webservice_id, object_type, object_id, lock_state)
 );
 # ----------------------------------------------------------
@@ -1291,5 +1241,5 @@ CREATE TABLE dynamic_field (
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE INDEX dynamic_field_U_88 (name)
+    UNIQUE INDEX dynamic_field_U_31 (name)
 );
