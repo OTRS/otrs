@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/Reject.pm - the sub part of PostMaster.pm
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Reject.pm,v 1.20 2011-11-10 22:41:04 cr Exp $
+# $Id: Reject.pm,v 1.21 2011-11-11 02:30:54 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.20 $) [1];
+$VERSION = qw($Revision: 1.21 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -121,7 +121,10 @@ sub Run {
         );
 
     # set dynamic fields for Article object type
+    DYNAMICFIELDID:
     for my $DynamicFieldID ( sort keys %{$DynamicFieldList} ) {
+        next DYNAMICFIELDID if !$DynamicFieldID;
+        next DYNAMICFIELDID if !$DynamicFieldList->{$DynamicFieldID};
         my $Key = 'X-OTRS-DynamicField-' . $DynamicFieldList->{$DynamicFieldID};
         if ( $GetParam{$Key} ) {
 
@@ -156,7 +159,7 @@ sub Run {
     for my $Item ( sort keys %Values ) {
         for my $Count ( 1 .. 16 ) {
             my $Key = $Item . $Count;
-            if ( $GetParam{$Key} ) {
+            if ( $GetParam{$Key} && $DynamicFieldListReversed{ $Values{$Item} . $Count } ) {
 
                 # get dynamic field config
                 my $DynamicFieldGet = $Self->{TicketObject}->{DynamicFieldObject}->DynamicFieldGet(
