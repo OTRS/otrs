@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.200 2011-11-11 15:35:14 ub Exp $
+# $Id: AgentTicketPhone.pm,v 1.201 2011-11-12 00:05:07 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,7 +26,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.200 $) [1];
+$VERSION = qw($Revision: 1.201 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -91,6 +91,9 @@ sub Run {
         $GetParam{$Key} = $Self->{ParamObject}->GetParam( Param => $Key );
     }
 
+    # If is an action about attachments
+    my $IsUpload = ( $Self->{ParamObject}->GetParam( Param => 'AttachmentUpload' ) ? 1 : 0 );
+
     # MultipleCustomer From-field
     my @MultipleCustomer;
     my $CustomersNumber
@@ -108,24 +111,28 @@ sub Run {
 
             if ($CustomerElement) {
 
-                $GetParam{From} .= $CustomerElement . ',';
-
-                # check email address
-                my $CustomerErrorMsg = 'CustomerGenericServerErrorMsg';
-                my $CustomerError    = '';
-                for my $Email ( Mail::Address->parse($CustomerElement) ) {
-                    if ( !$Self->{CheckItemObject}->CheckEmail( Address => $Email->address() ) ) {
-                        $CustomerErrorMsg = $Self->{CheckItemObject}->CheckErrorType()
-                            . 'ServerErrorMsg';
-                        $CustomerError = 'ServerError';
-                    }
-                }
-
-                my $CustomerDisabled = '';
                 my $CountAux         = $Count;
-                if ( $CustomerError ne '' ) {
-                    $CustomerDisabled = 'disabled="disabled"';
-                    $CountAux         = $Count . 'Error';
+                my $CustomerError    = '';
+                my $CustomerErrorMsg = 'CustomerGenericServerErrorMsg';
+                my $CustomerDisabled = '';
+
+                if ( !$IsUpload ) {
+                    $GetParam{From} .= $CustomerElement . ',';
+
+                    # check email address
+                    for my $Email ( Mail::Address->parse($CustomerElement) ) {
+                        if ( !$Self->{CheckItemObject}->CheckEmail( Address => $Email->address() ) )
+                        {
+                            $CustomerErrorMsg = $Self->{CheckItemObject}->CheckErrorType()
+                                . 'ServerErrorMsg';
+                            $CustomerError = 'ServerError';
+                        }
+                    }
+
+                    if ( $CustomerError ne '' ) {
+                        $CustomerDisabled = 'disabled="disabled"';
+                        $CountAux         = $Count . 'Error';
+                    }
                 }
 
                 push @MultipleCustomer, {
@@ -460,9 +467,6 @@ sub Run {
             $GetParam{Body}
                 =~ s/(^>.+|.{4,$Self->{ConfigObject}->Get('Ticket::Frontend::TextAreaNote')})(?:\s|\z)/$1\n/gm;
         }
-
-        # If is an action about attachments
-        my $IsUpload = 0;
 
         # attachment delete
         for my $Count ( 1 .. 16 ) {
@@ -1498,6 +1502,10 @@ sub _MaskPhoneNew {
             }
             $CustomerCounter++;
         }
+    }
+
+    if ( !$CustomerCounter ) {
+        $Param{CustomerHiddenContainer} = 'Hidden';
     }
 
     # set customer counter
