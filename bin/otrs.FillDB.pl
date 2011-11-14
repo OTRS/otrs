@@ -3,7 +3,7 @@
 # bin/otrs.FillDB.pl - fill db with demo data
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.FillDB.pl,v 1.5 2011-11-14 12:31:08 cr Exp $
+# $Id: otrs.FillDB.pl,v 1.6 2011-11-14 16:53:23 cr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use lib dirname($RealBin) . "/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Getopt::Std;
@@ -79,9 +79,14 @@ $CommonObject{ConfigObject}->Set(
 );
 
 # get dynamic fields
-my $DynamicField = $CommonObject{DynamicFieldObject}->DynamicFieldListGet(
-    Valid => 1,
-    ObjectType => [ 'Ticket', 'Article' ],
+my $TicketDynamicField = $CommonObject{DynamicFieldObject}->DynamicFieldListGet(
+    Valid      => 1,
+    ObjectType => ['Ticket'],
+);
+
+my $ArticleDynamicField = $CommonObject{DynamicFieldObject}->DynamicFieldListGet(
+    Valid      => 1,
+    ObjectType => ['Article'],
 );
 
 # get options
@@ -197,7 +202,7 @@ foreach ( 1 .. $Opts{'t'} ) {
             );
 
             DYNAMICFIELD:
-            for my $DynamicFieldConfig ( @{$DynamicField} ) {
+            for my $DynamicFieldConfig ( @{$ArticleDynamicField} ) {
                 next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
                 next DYNAMICFIELD if $DynamicFieldConfig->{ObjectType} ne 'Article';
 
@@ -218,7 +223,7 @@ foreach ( 1 .. $Opts{'t'} ) {
         }
 
         DYNAMICFIELD:
-        for my $DynamicFieldConfig ( @{$DynamicField} ) {
+        for my $DynamicFieldConfig ( @{$TicketDynamicField} ) {
             next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
             next DYNAMICFIELD if $DynamicFieldConfig->{ObjectType} ne 'Ticket';
 
