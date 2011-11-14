@@ -3,7 +3,7 @@
 # bin/otrs.FillDB.pl - fill db with demo data
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.FillDB.pl,v 1.4 2011-08-25 05:06:34 cg Exp $
+# $Id: otrs.FillDB.pl,v 1.5 2011-11-14 12:31:08 cr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use lib dirname($RealBin) . "/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Getopt::Std;
@@ -46,6 +46,9 @@ use Kernel::System::Queue;
 use Kernel::System::Ticket;
 use Kernel::System::PostMaster;
 use Kernel::System::LinkObject;
+use Kernel::System::DynamicField;
+use Kernel::System::DynamicField::Backend;
+use Kernel::System::VariableCheck qw(:all);
 
 # ---
 # common objects
@@ -57,19 +60,28 @@ $CommonObject{LogObject}    = Kernel::System::Log->new(
     LogPrefix => 'OTRS-otrs.FillDB.pl',
     %CommonObject,
 );
-$CommonObject{TimeObject}   = Kernel::System::Time->new(%CommonObject);
-$CommonObject{MainObject}   = Kernel::System::Main->new(%CommonObject);
-$CommonObject{DBObject}     = Kernel::System::DB->new(%CommonObject);
-$CommonObject{UserObject}   = Kernel::System::User->new(%CommonObject);
-$CommonObject{GroupObject}  = Kernel::System::Group->new(%CommonObject);
-$CommonObject{QueueObject}  = Kernel::System::Queue->new(%CommonObject);
-$CommonObject{TicketObject} = Kernel::System::Ticket->new(%CommonObject);
-$CommonObject{LinkObject}   = Kernel::System::LinkObject->new(%CommonObject);
+$CommonObject{TimeObject}         = Kernel::System::Time->new(%CommonObject);
+$CommonObject{MainObject}         = Kernel::System::Main->new(%CommonObject);
+$CommonObject{DBObject}           = Kernel::System::DB->new(%CommonObject);
+$CommonObject{UserObject}         = Kernel::System::User->new(%CommonObject);
+$CommonObject{GroupObject}        = Kernel::System::Group->new(%CommonObject);
+$CommonObject{QueueObject}        = Kernel::System::Queue->new(%CommonObject);
+$CommonObject{TicketObject}       = Kernel::System::Ticket->new(%CommonObject);
+$CommonObject{LinkObject}         = Kernel::System::LinkObject->new(%CommonObject);
+$CommonObject{DynamicFieldObject} = Kernel::System::DynamicField->new(%CommonObject);
+$CommonObject{DynamicFieldBackendObject}
+    = Kernel::System::DynamicField::Backend->new(%CommonObject);
 
 # set dummy sendmail module
 $CommonObject{ConfigObject}->Set(
     Key   => 'SendmailModule',
     Value => 'Kernel::System::Email::DoNotSendEmail',
+);
+
+# get dynamic fields
+my $DynamicField = $CommonObject{DynamicFieldObject}->DynamicFieldListGet(
+    Valid => 1,
+    ObjectType => [ 'Ticket', 'Article' ],
 );
 
 # get options
@@ -184,39 +196,42 @@ foreach ( 1 .. $Opts{'t'} ) {
                 NoAgentNotify => 1,    # if you don't want to send agent notifications
             );
 
-            foreach my $Count ( 1 .. 2 ) {
-                my %FreeText = RandomFreeText($Count);
-                if (%FreeText) {
-                    $CommonObject{TicketObject}->ArticleFreeTextSet(
-                        TicketID  => $TicketID,
-                        ArticleID => $ArticleID,
-                        Key       => $FreeText{Key},
-                        Value     => $FreeText{Value},
-                        Counter   => $Count,
-                        UserID    => $UserIDs[ int( rand( $Opts{u} ) ) ],
-                    );
+            DYNAMICFIELD:
+            for my $DynamicFieldConfig ( @{$DynamicField} ) {
+                next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+                next DYNAMICFIELD if $DynamicFieldConfig->{ObjectType} ne 'Article';
 
-                    print
-                        "NOTICE: Article with ID '$ArticleID' updated free text $Count $FreeText{Key}:$FreeText{Value}.\n";
+                # set a random value
+                my $Result = $CommonObject{DynamicFieldBackendObject}->RandomValueSet(
+                    DynamicFieldConfig => $DynamicFieldConfig,
+                    ObjectID           => $ArticleID,
+                    UserID             => $UserIDs[ int( rand( $Opts{u} ) ) ],
+                );
+
+                if ( $Result->{Success} ) {
+                    print "NOTICE: Article with ID '$ArticleID' set dynamic field "
+                        . "$DynamicFieldConfig->{Name}: $Result->{Value}.\n";
                 }
             }
 
             print "NOTICE: New Article '$ArticleID' created for Ticket '$TicketID'.\n";
         }
 
-        foreach my $Count ( 1 .. 4 ) {
-            my %FreeText = RandomFreeText($Count);
-            if (%FreeText) {
-                $CommonObject{TicketObject}->TicketFreeTextSet(
-                    TicketID => $TicketID,
-                    Key      => $FreeText{Key},
-                    Value    => $FreeText{Value},
-                    Counter  => $Count,
-                    UserID   => $UserIDs[ int( rand( $Opts{u} ) ) ],
-                );
+        DYNAMICFIELD:
+        for my $DynamicFieldConfig ( @{$DynamicField} ) {
+            next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+            next DYNAMICFIELD if $DynamicFieldConfig->{ObjectType} ne 'Ticket';
 
-                print
-                    "NOTICE: Ticket with ID '$TicketID' updated free text $Count $FreeText{Key}:$FreeText{Value}.\n";
+            # set a random value
+            my $Result = $CommonObject{DynamicFieldBackendObject}->RandomValueSet(
+                DynamicFieldConfig => $DynamicFieldConfig,
+                ObjectID           => $TicketID,
+                UserID             => $UserIDs[ int( rand( $Opts{u} ) ) ],
+            );
+
+            if ( $Result->{Success} ) {
+                print "NOTICE: Ticket with ID '$TicketID' set dynamic field "
+                    . "$DynamicFieldConfig->{Name}: $Result->{Value}.\n";
             }
         }
 
@@ -247,7 +262,7 @@ foreach my $TicketID (@TicketIDs) {
 
     # add email
     my @Files = glob $CommonObject{ConfigObject}->Get('Home')
-        . '/scripts/test/sample/PostMaster-Test*.box';
+        . '/scripts/test/sample/PostMaster/PostMaster-Test*.box';
     my $File    = $Files[ int( rand( $#Files + 1 ) ) ];
     my @Content = ();
     open( IN, '<', $File ) || die $!;
@@ -331,13 +346,6 @@ foreach my $TicketID (@TicketIDs) {
         #        );
         print "NOTICE: Link Ticket $TicketID ParentChild to Ticket $TicketIDChild.\n";
     }
-}
-
-sub RandomFreeText {
-    my $Count = shift || return;
-    my $Name = int( rand(500) );
-
-    return ( Key => 'TicketKey' . $Count, Value => $Name );
 }
 
 sub RandomAddress {
