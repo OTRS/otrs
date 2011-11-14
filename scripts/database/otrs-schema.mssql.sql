@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: mssql, generated: 2011-11-10 14:54:56
+--  driver: mssql, generated: 2011-11-14 13:07:19
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -884,6 +884,7 @@ CREATE TABLE mail_account (
     account_type NVARCHAR (20) NOT NULL,
     queue_id INTEGER NOT NULL,
     trusted SMALLINT NOT NULL,
+    imap_folder NVARCHAR (250) NULL,
     comments NVARCHAR (250) NULL,
     valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
@@ -1192,7 +1193,7 @@ CREATE TABLE gi_object_lock_state (
     lock_state_counter INTEGER NOT NULL,
     create_time DATETIME NOT NULL,
     change_time DATETIME NOT NULL,
-    CONSTRAINT gi_object_lock_state_U_5 UNIQUE (webservice_id, object_type, object_id)
+    CONSTRAINT gi_object_lock_state_U_556 UNIQUE (webservice_id, object_type, object_id)
 );
 CREATE INDEX object_lock_state_list_state ON gi_object_lock_state (webservice_id, object_type, object_id, lock_state);
 -- ----------------------------------------------------------
@@ -1242,5 +1243,5 @@ CREATE TABLE dynamic_field (
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    CONSTRAINT dynamic_field_U_368 UNIQUE (name)
+    CONSTRAINT dynamic_field_U_846 UNIQUE (name)
 );

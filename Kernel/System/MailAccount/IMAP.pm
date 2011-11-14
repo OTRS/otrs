@@ -2,7 +2,7 @@
 # Kernel/System/MailAccount/IMAP.pm - lib for imap accounts
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: IMAP.pm,v 1.11 2011-03-09 13:41:55 mb Exp $
+# $Id: IMAP.pm,v 1.12 2011-11-14 14:13:41 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use Net::IMAP::Simple;
 use Kernel::System::PostMaster;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -131,8 +131,11 @@ sub _Fetch {
         return;
     }
 
+    # read folder from MailAccount configuration
+    my $IMAPFolder = $Param{IMAPFolder} || 'INBOX';
+
     my $IMAPObject = $Connect{IMAPObject};
-    my $NOM = $IMAPObject->select('INBOX') || 0;
+    my $NOM = $IMAPObject->select($IMAPFolder) || 0;
 
     # fetch messages
     if ( !$NOM ) {
@@ -239,7 +242,7 @@ sub _Fetch {
             Message => "$AuthType: Fetched $FetchCounter email(s) from $Param{Login}/$Param{Host}.",
         );
     }
-    $IMAPObject->expunge_mailbox('INBOX');
+    $IMAPObject->expunge_mailbox($IMAPFolder);
     $IMAPObject->quit();
     if ($CMD) {
         print "$AuthType: Connection to $Param{Host} closed.\n\n";

@@ -1,8 +1,8 @@
 # --
 # Kernel/System/MailAccount.pm - lib for mail accounts
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: MailAccount.pm,v 1.16 2010-06-17 21:39:40 cr Exp $
+# $Id: MailAccount.pm,v 1.17 2011-11-14 14:13:19 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 =head1 NAME
 
@@ -93,6 +93,7 @@ adds a new mail account
         Password      => 'SomePassword',
         Host          => 'pop3.example.com',
         Type          => 'POP3',
+        IMAPFolder    => 'Some Folder', # optional, only valid for IMAP-type accounts
         ValidID       => 1,
         Trusted       => 0,
         DispatchingBy => 'Queue', # Queue|From
@@ -128,16 +129,27 @@ sub MailAccountAdd {
         return;
     }
 
+    # only set IMAP folder on IMAP type accounts
+    # fallback to 'INBOX' if none given
+    if ( $Param{Type} =~ m{ IMAP .* }xmsi ) {
+        if ( !defined $Param{IMAPFolder} || !$Param{IMAPFolder} ) {
+            $Param{IMAPFolder} = 'INBOX';
+        }
+    }
+    else {
+        $Param{IMAPFolder} = '';
+    }
+
     # sql
     return if !$Self->{DBObject}->Do(
         SQL =>
             'INSERT INTO mail_account (login, pw, host, account_type, valid_id, comments, queue_id, '
-            . ' trusted, create_time, create_by, change_time, change_by)'
-            . ' VALUES (?, ?, ?, ?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
+            . ' imap_folder, trusted, create_time, create_by, change_time, change_by)'
+            . ' VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
         Bind => [
             \$Param{Login},   \$Param{Password}, \$Param{Host},    \$Param{Type},
-            \$Param{ValidID}, \$Param{Comment},  \$Param{QueueID}, \$Param{Trusted},
-            \$Param{UserID},  \$Param{UserID},
+            \$Param{ValidID}, \$Param{Comment},  \$Param{QueueID}, \$Param{IMAPFolder},
+            \$Param{Trusted}, \$Param{UserID},   \$Param{UserID},
         ],
     );
 
@@ -160,7 +172,7 @@ returns a hash of mail account data
         ID => 123,
     );
 
-(returns: ID, Login, Password, Host, Type, QueueID, Trusted, Comment, DispatchingBy, ValidID)
+(returns: ID, Login, Password, Host, Type, QueueID, Trusted, IMAPFolder, Comment, DispatchingBy, ValidID)
 
 =cut
 
@@ -180,7 +192,8 @@ sub MailAccountGet {
 
     # sql
     return if !$Self->{DBObject}->Prepare(
-        SQL => 'SELECT login, pw, host, account_type, queue_id, trusted, comments, valid_id, '
+        SQL =>
+            'SELECT login, pw, host, account_type, queue_id, imap_folder, trusted, comments, valid_id, '
             . ' create_time, change_time FROM mail_account WHERE id = ?',
         Bind => [ \$Param{ID} ],
     );
@@ -193,11 +206,12 @@ sub MailAccountGet {
             Host       => $Data[2],
             Type       => $Data[3] || 'POP3',    # compat for old setups
             QueueID    => $Data[4],
-            Trusted    => $Data[5],
-            Comment    => $Data[6],
-            ValidID    => $Data[7],
-            CreateTime => $Data[8],
-            ChangeTime => $Data[9],
+            IMAPFolder => $Data[5],
+            Trusted    => $Data[6],
+            Comment    => $Data[7],
+            ValidID    => $Data[8],
+            CreateTime => $Data[9],
+            ChangeTime => $Data[10],
         );
     }
     if ( $Data{QueueID} == 0 ) {
@@ -206,6 +220,18 @@ sub MailAccountGet {
     else {
         $Data{DispatchingBy} = 'Queue';
     }
+
+    # only return IMAP folder on IMAP type accounts
+    # fallback to 'INBOX' if none given
+    if ( $Data{Type} =~ m{ IMAP .* }xmsi ) {
+        if ( defined $Data{IMAPFolder} && !$Data{IMAPFolder} ) {
+            $Data{IMAPFolder} = 'INBOX';
+        }
+    }
+    else {
+        $Data{IMAPFolder} = '';
+    }
+
     return %Data;
 }
 
@@ -219,6 +245,7 @@ update a new mail account
         Password      => 'SomePassword',
         Host          => 'pop3.example.com',
         Type          => 'POP3',
+        IMAPFolder    => 'Some Folder', # optional, only valid for IMAP-type accounts
         ValidID       => 1,
         Trusted       => 0,
         DispatchingBy => 'Queue', # Queue|From
@@ -248,15 +275,26 @@ sub MailAccountUpdate {
         return;
     }
 
+    # only set IMAP folder on IMAP type accounts
+    # fallback to 'INBOX' if none given
+    if ( $Param{Type} =~ m{ IMAP .* }xmsi ) {
+        if ( !defined $Param{IMAPFolder} || !$Param{IMAPFolder} ) {
+            $Param{IMAPFolder} = 'INBOX';
+        }
+    }
+    else {
+        $Param{IMAPFolder} = '';
+    }
+
     # sql
     return if !$Self->{DBObject}->Do(
         SQL => 'UPDATE mail_account SET login = ?, pw = ?, host = ?, account_type = ?, '
-            . ' comments = ?, trusted = ?, valid_id = ?, change_time = current_timestamp, '
+            . ' comments = ?, imap_folder = ?, trusted = ?, valid_id = ?, change_time = current_timestamp, '
             . ' change_by = ?, queue_id = ? WHERE id = ?',
         Bind => [
-            \$Param{Login},   \$Param{Password}, \$Param{Host},    \$Param{Type},
-            \$Param{Comment}, \$Param{Trusted},  \$Param{ValidID}, \$Param{UserID},
-            \$Param{QueueID}, \$Param{ID},
+            \$Param{Login},   \$Param{Password},   \$Param{Host},    \$Param{Type},
+            \$Param{Comment}, \$Param{IMAPFolder}, \$Param{Trusted}, \$Param{ValidID},
+            \$Param{UserID},  \$Param{QueueID},    \$Param{ID},
         ],
     );
     return 1;
@@ -313,7 +351,7 @@ sub MailAccountList {
 
 =item MailAccountBackendList()
 
-returns a list usable backends
+returns a list of usable backends
 
     my %List = $MailAccount->MailAccountBackendList();
 
@@ -448,6 +486,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.16 $ $Date: 2010-06-17 21:39:40 $
+$Revision: 1.17 $ $Date: 2011-11-14 14:13:19 $
 
 =cut

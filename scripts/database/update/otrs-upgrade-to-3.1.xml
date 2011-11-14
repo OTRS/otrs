@@ -285,4 +285,8 @@
     </ForeignKey>
 </TableCreate>
 
+<TableAlter Name="mail_account">
+    <ColumnAdd Name="imap_folder" Required="false" Size="250" Type="VARCHAR"/>
+</TableAlter>
+
 </database>

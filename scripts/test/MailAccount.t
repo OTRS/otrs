@@ -1,8 +1,8 @@
 # --
 # MailAccount.t - MailAccount tests
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: MailAccount.t,v 1.5 2010-10-29 05:03:20 en Exp $
+# $Id: MailAccount.t,v 1.6 2011-11-14 14:15:43 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,6 +24,7 @@ my $MailAccountAdd = $MailAccountObject->MailAccountAdd(
     Type          => 'POP3',
     ValidID       => 1,
     Trusted       => 0,
+    IMAPFolder    => 'Foo',
     DispatchingBy => 'Queue',              # Queue|From
     QueueID       => 1,
     UserID        => 1,
@@ -55,6 +56,11 @@ $Self->True(
     'MailAccountGet() - Type',
 );
 
+$Self->True(
+    $MailAccount{IMAPFolder} eq '',
+    'MailAccountGet() - IMAPFolder',
+);
+
 my $MailAccountUpdate = $MailAccountObject->MailAccountUpdate(
     ID            => $MailAccountAdd,
     Login         => 'mail2',
@@ -62,6 +68,7 @@ my $MailAccountUpdate = $MailAccountObject->MailAccountUpdate(
     Host          => 'imap.example.com',
     Type          => 'IMAP',
     ValidID       => 1,
+    IMAPFolder    => 'Bar',
     Trusted       => 0,
     DispatchingBy => 'Queue',              # Queue|From
     QueueID       => 1,
@@ -94,6 +101,11 @@ $Self->True(
     'MailAccountGet() - Type',
 );
 
+$Self->True(
+    $MailAccount{IMAPFolder} eq 'Bar',
+    'MailAccountGet() - IMAPFolder',
+);
+
 my %List = $MailAccountObject->MailAccountList(
     Valid => 0,    # just valid/all accounts
 );
@@ -110,6 +122,103 @@ my $MailAccountDelete = $MailAccountObject->MailAccountDelete(
 $Self->True(
     $MailAccountDelete,
     'MailAccountDelete()',
+);
+
+my $MailAccountAddIMAP = $MailAccountObject->MailAccountAdd(
+    Login         => 'mail',
+    Password      => 'SomePassword',
+    Host          => 'imap.example.com',
+    Type          => 'IMAPS',
+    ValidID       => 1,
+    Trusted       => 0,
+    IMAPFolder    => 'Foo',
+    DispatchingBy => 'Queue',              # Queue|From
+    QueueID       => 1,
+    UserID        => 1,
+);
+
+$Self->True(
+    $MailAccountAddIMAP,
+    'MailAccountAdd()',
+);
+
+%MailAccount = $MailAccountObject->MailAccountGet(
+    ID => $MailAccountAddIMAP,
+);
+
+$Self->True(
+    $MailAccount{Login} eq 'mail',
+    'MailAccountGet() - Login',
+);
+$Self->True(
+    $MailAccount{Password} eq 'SomePassword',
+    'MailAccountGet() - Login',
+);
+$Self->True(
+    $MailAccount{Host} eq 'imap.example.com',
+    'MailAccountGet() - Host',
+);
+$Self->True(
+    $MailAccount{Type} eq 'IMAPS',
+    'MailAccountGet() - Type',
+);
+
+$Self->True(
+    $MailAccount{IMAPFolder} eq 'Foo',
+    'MailAccountGet() - IMAPFolder',
+);
+
+my $MailAccountUpdateIMAP = $MailAccountObject->MailAccountUpdate(
+    ID            => $MailAccountAddIMAP,
+    Login         => 'mail2',
+    Password      => 'SomePassword2',
+    Host          => 'imaps.example.com',
+    Type          => 'IMAPS',
+    ValidID       => 1,
+    Trusted       => 0,
+    DispatchingBy => 'Queue',               # Queue|From
+    QueueID       => 1,
+    UserID        => 1,
+);
+
+$Self->True(
+    $MailAccountUpdateIMAP,
+    'MailAccountUpdate()',
+);
+
+%MailAccount = $MailAccountObject->MailAccountGet(
+    ID => $MailAccountAddIMAP,
+);
+
+$Self->True(
+    $MailAccount{Login} eq 'mail2',
+    'MailAccountGet() - Login',
+);
+$Self->True(
+    $MailAccount{Password} eq 'SomePassword2',
+    'MailAccountGet() - Login',
+);
+$Self->True(
+    $MailAccount{Host} eq 'imaps.example.com',
+    'MailAccountGet() - Host',
+);
+$Self->True(
+    $MailAccount{Type} eq 'IMAPS',
+    'MailAccountGet() - Type',
+);
+
+$Self->True(
+    $MailAccount{IMAPFolder} eq 'INBOX',
+    'MailAccountGet() - IMAPFolder fallback',
+);
+
+my $MailAccountDeleteIMAP = $MailAccountObject->MailAccountDelete(
+    ID => $MailAccountAddIMAP,
+);
+
+$Self->True(
+    $MailAccountDeleteIMAP,
+    'MailAccountDelete() IMAP account',
 );
 
 1;
