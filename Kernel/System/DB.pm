@@ -2,7 +2,7 @@
 # Kernel/System/DB.pm - the global database wrapper to support different databases
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.127.2.2 2011-07-29 11:47:29 martin Exp $
+# $Id: DB.pm,v 1.127.2.3 2011-11-14 18:13:34 jp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use DBI;
 use Kernel::System::Time;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.127.2.2 $) [1];
+$VERSION = qw($Revision: 1.127.2.3 $) [1];
 
 =head1 NAME
 
@@ -954,7 +954,7 @@ sub QueryCondition {
     $Param{Value} =~ s/\s+$//g;
 
     # add base brackets
-    if ( $Param{Value} !~ /^\(/ || $Param{Value} !~ /\)$/ ) {
+    if ( $Param{Value} !~ /^(?<!\\)\(/ || $Param{Value} !~ /(?<!\\)\)$/ ) {
         $Param{Value} = '(' . $Param{Value} . ')';
     }
 
@@ -979,10 +979,10 @@ sub QueryCondition {
     $Param{Value} =~ s/\+/&&/g;
 
     # replace AND by &&
-    $Param{Value} =~ s/(\s|\)|\()AND(\s|\(|\))/$1&&$2/g;
+    $Param{Value} =~ s/(\s|(?<!\\)\)|(?<!\\)\()AND(\s|(?<!\\)\(|(?<!\\)\))/$1&&$2/g;
 
     # replace OR by ||
-    $Param{Value} =~ s/(\s|\)|\()OR(\s|\(|\))/$1||$2/g;
+    $Param{Value} =~ s/(\s|(?<!\\)\)|(?<!\\)\()OR(\s|(?<!\\)\(|(?<!\\)\))/$1||$2/g;
 
     # replace * with % (for SQL)
     $Param{Value} =~ s/\*/%/g;
@@ -997,12 +997,12 @@ sub QueryCondition {
     $Param{Value} =~ s/\%!/!%/g;
 
     # remove leading/trailing conditions
-    $Param{Value} =~ s/(&&|\|\|)\)$/)/g;
-    $Param{Value} =~ s/^\((&&|\|\|)/(/g;
+    $Param{Value} =~ s/(&&|\|\|)(?<!\\)\)$/)/g;
+    $Param{Value} =~ s/^(?<!\\)\((&&|\|\|)/(/g;
 
     # clean up not needed spaces in condistions
-    $Param{Value} =~ s/(\s(\(|\)|\||&))/$2/g;
-    $Param{Value} =~ s/((\(|\)|\||&)\s)/$2/g;
+    $Param{Value} =~ s/(\s((?<!\\)\(|(?<!\\)\)|\||&))/$2/g;
+    $Param{Value} =~ s/(((?<!\\)\(|(?<!\\)\)|\||&)\s)/$2/g;
 
     # use extended condition mode
     # 1. replace " " by "&&"
@@ -1028,12 +1028,30 @@ sub QueryCondition {
     my $SQL   = '';
     my $Word  = '';
     my $Not   = 0;
+
+    POSITION:
     for my $Position ( 0 .. $#Array ) {
 
         # find word
-        if ( $Array[$Position] !~ /(\(|\)|\!|\||&)/ ) {
+        if (
+
+            # if the previous element was '\\', the current element has to be added as word
+            # so that search queries like '\(Test\)' (searching for round brackets) work
+            (
+                $Position > 0
+                && $Array[ $Position - 1 ] eq '\\'
+                && (
+                    $Array[$Position] eq '('
+                    || $Array[$Position] eq ')'
+                )
+            )
+
+            # "default" case: don't add brackets, etc. to a word being searched for
+            || $Array[$Position] !~ /(\(|\)|\!|\||&)/
+            )
+        {
             $Word .= $Array[$Position];
-            next;
+            next POSITION;
         }
 
         # if word exists, do something with it
@@ -1142,7 +1160,14 @@ sub QueryCondition {
         }
 
         # add ( or ) for query
-        if ( $Array[$Position] =~ /(\(|\))/ ) {
+        if (
+
+            # if the previous element was '\\', don't handle the current one as an SQL bracket
+            # (it was a bracket to search for)
+            ( $Position == 0 || $Array[ $Position - 1 ] ne '\\' )
+            && $Array[$Position] =~ /(\(|\))/
+            )
+        {
             $SQL .= $Array[$Position];
 
             # remember for syntax check
@@ -1270,6 +1295,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.127.2.2 $ $Date: 2011-07-29 11:47:29 $
+$Revision: 1.127.2.3 $ $Date: 2011-11-14 18:13:34 $
 
 =cut
