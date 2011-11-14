@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/DateTime.pm - Delegate for DynamicField DateTime backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DateTime.pm,v 1.48 2011-11-07 10:03:11 mg Exp $
+# $Id: DateTime.pm,v 1.49 2011-11-14 12:29:59 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Time;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.48 $) [1];
+$VERSION = qw($Revision: 1.49 $) [1];
 
 =head1 NAME
 
@@ -715,6 +715,35 @@ sub IsAJAXUpdateable {
     my ( $Self, %Param ) = @_;
 
     return 0;
+}
+
+sub RandomValueSet {
+    my ( $Self, %Param ) = @_;
+
+    my $YearValue   = int( rand(40) ) + 1_990;
+    my $MonthValue  = int( rand(9) ) + 1;
+    my $DayValue    = int( rand(10) ) + 10;
+    my $HourValue   = int( rand(12) ) + 10;
+    my $MinuteValue = int( rand(30) ) + 10;
+    my $SecondValue = int( rand(30) ) + 10;
+
+    my $Value = $YearValue . '-0' . $MonthValue . '-' . $DayValue . ' '
+        . $HourValue . ':' . $MinuteValue . ':' . $SecondValue;
+
+    my $Success = $Self->ValueSet(
+        %Param,
+        Value => $Value,
+    );
+
+    if ( !$Success ) {
+        return {
+            Success => 0,
+        };
+    }
+    return {
+        Success => 1,
+        Value   => $Value,
+    };
 }
 
 1;

@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend.pm - Interface for DynamicField backends
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Backend.pm,v 1.56 2011-11-08 09:54:18 mg Exp $
+# $Id: Backend.pm,v 1.57 2011-11-14 12:30:27 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Scalar::Util qw(weaken);
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.56 $) [1];
+$VERSION = qw($Revision: 1.57 $) [1];
 
 =head1 NAME
 
@@ -1579,6 +1579,94 @@ sub IsAJAXUpdateable {
     );
 }
 
+=item RandomValueSet()
+
+sets a dynamic field random value.
+
+    my $Result = $BackendObject->RandomValueSet(
+        DynamicFieldConfig => $DynamicFieldConfig,      # complete config of the DynamicField
+        ObjectID           => $ObjectID,                # ID of the current object that the field
+                                                        # must be linked to, e. g. TicketID
+        UserID             => 123,
+    );
+
+    returns:
+
+    $Result {
+        Success => 1                # or undef
+        Value   => $RandomValue     # or undef
+    }
+=cut
+
+sub RandomValueSet {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Needed (qw(DynamicFieldConfig ObjectID UserID)) {
+        if ( !$Param{$Needed} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            return;
+        }
+    }
+
+    # check DynamicFieldConfig (general)
+    if ( !IsHashRefWithData( $Param{DynamicFieldConfig} ) ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "The field configuration is invalid",
+        );
+        return;
+    }
+
+    # check DynamicFieldConfig (internally)
+    for my $Needed (qw(ID FieldType ObjectType)) {
+        if ( !$Param{DynamicFieldConfig}->{$Needed} ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed in DynamicFieldConfig!"
+            );
+            return;
+        }
+    }
+
+    # set the dynamic filed specific backend
+    my $DynamicFieldBackend = 'DynamicField' . $Param{DynamicFieldConfig}->{FieldType} . 'Object';
+
+    if ( !$Self->{$DynamicFieldBackend} ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!"
+        );
+        return;
+    }
+
+    # call RandomValueSet on the specific backend
+    my $Result = $Self->{$DynamicFieldBackend}->RandomValueSet(%Param);
+
+    if ( !$Result->{Success} ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Could not update field $Param{DynamicFieldConfig}->{Name} for "
+                . "$Param{DynamicFieldConfig}->{ObjectType} ID $Param{ObjectID} !",
+        );
+        return;
+    }
+
+    # set the dyanamic filed object handler
+    my $DynamicFieldObjectHandler =
+        'DynamicField' . $Param{DynamicFieldConfig}->{ObjectType} . 'HandlerObject';
+
+    # If an ObjectType handler is registered, use it.
+    if ( ref $Self->{$DynamicFieldObjectHandler} ) {
+        my $PostSuccess = $Self->{$DynamicFieldObjectHandler}->PostValueSet(
+            %Param,
+            Value => $Result->{Value},
+        );
+    }
+
+    return $Result
+}
+
 1;
 
 =back
@@ -1595,6 +1683,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.56 $ $Date: 2011-11-08 09:54:18 $
+$Revision: 1.57 $ $Date: 2011-11-14 12:30:27 $
 
 =cut
