@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend.pm - Interface for DynamicField backends
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Backend.pm,v 1.57 2011-11-14 12:30:27 cr Exp $
+# $Id: Backend.pm,v 1.58 2011-11-14 22:54:17 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Scalar::Util qw(weaken);
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.57 $) [1];
+$VERSION = qw($Revision: 1.58 $) [1];
 
 =head1 NAME
 
@@ -946,6 +946,7 @@ creates the field HTML to be used in search masks.
                                                           #
                                                           #   $Value =  1;
         ConfirmationCheckboxes => 0                       # or 1, to dislay confirmation checkboxes
+        UseLabelHints          => 1                       # or 0, default 1. To display seach hints in labels
     );
 
     Returns {
@@ -984,6 +985,10 @@ sub SearchFieldRender {
             );
             return;
         }
+    }
+
+    if ( !defined $Param{UseLabelHints} ) {
+        $Param{UseLabelHints} = 1;
     }
 
     # set the dynamic filed specific backend
@@ -1667,6 +1672,140 @@ sub RandomValueSet {
     return $Result
 }
 
+=item IsMatchable()
+
+returns if the current field backend value can be matched win am object attribute list or not.
+
+    my $Matchable = $BackendObject->IsMatchable(
+        DynamicFieldConfig => $DynamicFieldConfig,       # complete config of the DynamicField
+    );
+
+    Returns:
+
+    $Matchable                                 # 1 or 0
+
+=cut
+
+sub IsMatchable {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Needed (qw(DynamicFieldConfig)) {
+        if ( !$Param{$Needed} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            return;
+        }
+    }
+
+    # check DynamicFieldConfig (general)
+    if ( !IsHashRefWithData( $Param{DynamicFieldConfig} ) ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "The field configuration is invalid",
+        );
+        return;
+    }
+
+    # check DynamicFieldConfig (internally)
+    for my $Needed (qw(ID FieldType ObjectType)) {
+        if ( !$Param{DynamicFieldConfig}->{$Needed} ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed in DynamicFieldConfig!"
+            );
+            return;
+        }
+    }
+
+    # set the dynamic filed specific backend
+    my $DynamicFieldBackend = 'DynamicField' . $Param{DynamicFieldConfig}->{FieldType} . 'Object';
+
+    if ( !$Self->{$DynamicFieldBackend} ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!"
+        );
+        return;
+    }
+
+    # call IsMatchable on the specific backend
+    return $Self->{$DynamicFieldBackend}->IsMatchable(
+        %Param
+    );
+}
+
+=item ObjectMatch()
+
+returns if the current field backend value can be matched win am object attribute list or not.
+
+    my $Match = $BackendObject->ObjectMatch(
+        DynamicFieldConfig => $DynamicFieldConfig,       # complete config of the DynamicField
+        Value              => $Value,                    # single value to match
+        ObjectAttributes   => $ObjectAttributes,         # the complete set of attributes from an object
+                                                         #      ( i.e. the result of a TicketGet() )
+    );
+
+    Returns:
+
+    $Match                                 # 1 or 0
+
+=cut
+
+sub ObjectMatch {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Needed (qw(DynamicFieldConfig ObjectAttributes)) {
+        if ( !$Param{$Needed} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            return;
+        }
+    }
+
+    # check DynamicFieldConfig (general)
+    if ( !IsHashRefWithData( $Param{DynamicFieldConfig} ) ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "The field configuration is invalid",
+        );
+        return;
+    }
+
+    # check DynamicFieldConfig (internally)
+    for my $Needed (qw(ID FieldType ObjectType)) {
+        if ( !$Param{DynamicFieldConfig}->{$Needed} ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed in DynamicFieldConfig!"
+            );
+            return;
+        }
+    }
+
+    if ( !defined $Param{Value} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => "Need Value!" );
+        return;
+    }
+
+    # do not perfom the action if the ObjectAttributes parameter is empty
+    return if !IsHashRefWithData( $Param{ObjectAttributes} );
+
+    # set the dynamic filed specific backend
+    my $DynamicFieldBackend = 'DynamicField' . $Param{DynamicFieldConfig}->{FieldType} . 'Object';
+
+    if ( !$Self->{$DynamicFieldBackend} ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!"
+        );
+        return;
+    }
+
+    # call ObjectMatch on the specific backend
+    return $Self->{$DynamicFieldBackend}->ObjectMatch(
+        %Param
+    );
+}
 1;
 
 =back
@@ -1683,6 +1822,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.57 $ $Date: 2011-11-14 12:30:27 $
+$Revision: 1.58 $ $Date: 2011-11-14 22:54:17 $
 
 =cut

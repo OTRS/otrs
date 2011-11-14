@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Date.pm - Delegate for DynamicField Date backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Date.pm,v 1.39 2011-11-14 12:29:59 cr Exp $
+# $Id: Date.pm,v 1.40 2011-11-14 22:56:07 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Time;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.39 $) [1];
+$VERSION = qw($Revision: 1.40 $) [1];
 
 =head1 NAME
 
@@ -513,11 +513,16 @@ EOF
         %{ $Value->{ValueStop} },
     );
 
+    my $AdditionalText;
+    if ( $Param{UseLabelHints} ) {
+        $AdditionalText = 'Between';
+    }
+
     # call EditLabelRender on the common backend
     my $LabelString = $Self->{BackendCommonObject}->EditLabelRender(
         DynamicFieldConfig => $Param{DynamicFieldConfig},
         FieldName          => $FieldName,
-        AdditionalText     => 'Between',
+        AdditionalText     => $AdditionalText,
     );
 
     my $Data = {
@@ -772,6 +777,21 @@ sub RandomValueSet {
         Success => 1,
         Value   => $Value,
     };
+}
+
+sub IsMatchable {
+    my ( $Self, %Param ) = @_;
+
+    return 0;
+}
+
+sub ObjectMatch {
+    my ( $Self, %Param ) = @_;
+
+    my $FieldName = $Param{DynamicFieldConfig}->{Name};
+
+    # not supported
+    return 0;
 }
 
 1;

@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/TextArea.pm - Delegate for DynamicField TextArea backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TextArea.pm,v 1.38 2011-11-14 12:29:59 cr Exp $
+# $Id: TextArea.pm,v 1.39 2011-11-14 22:56:07 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::DynamicFieldValue;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.38 $) [1];
+$VERSION = qw($Revision: 1.39 $) [1];
 
 =head1 NAME
 
@@ -527,6 +527,24 @@ sub RandomValueSet {
     };
 }
 
+sub IsMatchable {
+    my ( $Self, %Param ) = @_;
+
+    return 1;
+}
+
+sub ObjectMatch {
+    my ( $Self, %Param ) = @_;
+
+    my $FieldName = 'DynamicField_' . $Param{DynamicFieldConfig}->{Name};
+
+    # return false if not match
+    if ( $Param{ObjectAttributes}->{$FieldName} ne $Param{Value} ) {
+        return 0;
+    }
+
+    return 1;
+}
 1;
 
 =back
