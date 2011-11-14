@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Thomas Kaltenbrunner <tkaltenbrunner at opc.de>
 # --
-# $Id: de.pm,v 1.291 2011-11-10 13:54:40 mg Exp $
+# $Id: de.pm,v 1.292 2011-11-14 09:38:09 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.291 $) [1];
+$VERSION = qw($Revision: 1.292 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -2132,6 +2132,11 @@ sub Data {
         'Database check successful.' => 'Datenbankprüfung erfolgreich.',
         'Mail check successful.' => 'Konfigurationsprüfung erfolgreich.',
         'Error in the mail settings. Please correct and try again.' => 'Fehler in der Mail-Konfiguration. Bitte korrigieren und nochmals probieren.',
+        'Registration' => 'Registrierung',
+        'Register your OTRS' => 'Registrieren Sie Ihr OTRS',
+        'Please fill in all fields marked as mandatory.' => 'Bitte füllen Sie alle Pflichtfelder aus.',
+        'Complete registration and continue' => 'Registrierung abschließen und fortfahren',
+        'Skipping this step will automatically skip the registration of your OTRS. Are you sure you want to continue?' => 'Wenn Sie diesen Schritt überspringen, wird die Registrierung Ihres OTRS-Systems ebenfalls übersprungen. Möchten Sie wirklich fortfahren?',
 
         # Template: InstallerConfigureMail
         'Configure Outbound Mail' => 'Mailversand konfigurieren',

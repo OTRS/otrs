@@ -2,7 +2,7 @@
 # Installer.dtl - provides HTML form for Installer
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Installer.dtl,v 1.54 2011-09-14 18:09:05 mb Exp $
+# $Id: Installer.dtl,v 1.55 2011-11-14 09:33:27 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -31,7 +31,7 @@
 
 <!-- dtl:block:Intro -->
     <div class="Center">
-        <ul id="ProgressBar" class="ProgressBarElements4 SpacingTop SpacingBottom">
+        <ul id="ProgressBar" class="ProgressBarElements5 SpacingTop SpacingBottom">
             <li class="First">
                 <span>
                     <a href="#">$Text{"Step %s", "1"}<span>$Text{"License"}</span></a>
@@ -47,9 +47,14 @@
                     <a href="#">$Text{"Step %s", "3"}<span>$Text{"General Specifications and Mail Settings"}</span></a>
                 </span>
             </li>
+            <li>
+                <span>
+                    <a href="#">$Text{"Step %s", "4"}<span>$Text{"Registration"}</span></a>
+                </span>
+            </li>
             <li class="Last">
                 <span>
-                    <a href="#">$Text{"Step %s", "4"}<span>$Text{"Finish"}</span></a>
+                    <a href="#">$Text{"Step %s", "5"}<span>$Text{"Finish"}</span></a>
                 </span>
             </li>
         </ul>
@@ -135,6 +140,8 @@ $Include{"InstallerDBResult"}
 $Include{"InstallerSystem"}
 
 $Include{"InstallerConfigureMail"}
+
+$Include{"InstallerRegistration"}
 
 $Include{"InstallerFinish"}
 

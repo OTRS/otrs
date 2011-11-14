@@ -1,8 +1,8 @@
 # --
 # InstallerConfigureMail.dtl - provides the form for the Installer's mail configuration
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: InstallerConfigureMail.dtl,v 1.19 2010-11-16 16:56:35 en Exp $
+# $Id: InstallerConfigureMail.dtl,v 1.20 2011-11-14 09:33:27 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -11,7 +11,7 @@
 
 <!-- dtl:block:ConfigureMail-->
 <div class="Center">
-    <ul id="ProgressBar" class="ProgressBarElements4 SpacingTop SpacingBottom">
+    <ul id="ProgressBar" class="ProgressBarElements5 SpacingTop SpacingBottom">
         <li class="Highlighted NoLink First">
             <span>
                 <a href="#">$Text{"Step %s", "1"}<span>$Text{"License"}</span></a>
@@ -27,9 +27,14 @@
                 <a href="#">$Text{"Step %s", "3"}<span>$Text{"General Specifications and Mail Settings"}</span></a>
             </span>
         </li>
+        <li>
+            <span>
+                <a href="#">$Text{"Step %s", "4"}<span>$Text{"Registration"}</span></a>
+            </span>
+        </li>
         <li class="Last">
             <span>
-                <a href="#">$Text{"Step %s", "4"}<span>$Text{"Finish"}</span></a>
+                <a href="#">$Text{"Step %s", "5"}<span>$Text{"Finish"}</span></a>
             </span>
         </li>
     </ul>
@@ -38,7 +43,7 @@
 <div class="W50pc SpacingTop SpacingBottom CenterBox">
     <form action="$Env{"CGIHandle"}" method="post" id="FormMail">
         <input type="hidden" name="Action" value="Installer"/>
-        <input type="hidden" name="Subaction" value="Finish"/>
+        <input type="hidden" name="Subaction" value="Registration"/>
         <input type="hidden" name="Skip" value="0"/>
 
         <div class="WidgetSimple">
@@ -180,7 +185,12 @@
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
     $('#ButtonCheckMail').bind('click', Core.Installer.CheckMailConfig);
-    $('#ButtonSkipMail').bind('click', Core.Installer.SkipMailConfig);
+    $('#ButtonSkipMail').bind('click', function() {
+        if (confirm("$JSText{"Skipping this step will automatically skip the registration of your OTRS. Are you sure you want to continue?"}")) {
+            Core.Installer.SkipMailConfig();
+        }
+        return false;
+    });
     $('#SMTPAuth').bind('change', function () {
         Core.Installer.CheckSMTPAuth($(this));
     });

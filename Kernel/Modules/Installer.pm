@@ -2,7 +2,7 @@
 # Kernel/Modules/Installer.pm - provides the DB installer
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Installer.pm,v 1.88 2011-08-12 09:06:15 mg Exp $
+# $Id: Installer.pm,v 1.89 2011-11-14 09:36:54 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Email;
 use Kernel::System::MailAccount;
 
 use vars qw($VERSION %INC);
-$VERSION = qw($Revision: 1.88 $) [1];
+$VERSION = qw($Revision: 1.89 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -111,12 +111,21 @@ sub Run {
         }
     }
 
+    # if the user skipped the mail configuration dialog, we don't walk through the registration
+    # because we don't have enough data
+    if ( $Self->{Subaction} eq 'Registration' && $Self->{ParamObject}->GetParam( Param => 'Skip' ) )
+    {
+        $Self->{Subaction} = 'Finish';
+    }
+
     # print intro form
     my $Title = $Self->{LayoutObject}->{LanguageObject}->Get('Install OTRS');
     if ( !$Self->{Subaction} ) {
-        my $Output = $Self->{LayoutObject}->Header(
-            Title => "$Title - " . $Self->{LayoutObject}->{LanguageObject}->Get('Intro')
-        );
+        my $Output =
+            $Self->{LayoutObject}->Header(
+            Title => "$Title - "
+                . $Self->{LayoutObject}->{LanguageObject}->Get('Intro')
+            );
         $Self->{LayoutObject}->Block(
             Name => 'Intro',
             Data => {}
@@ -131,14 +140,16 @@ sub Run {
 
     # print license from
     elsif ( $Self->{Subaction} eq 'License' ) {
-        my $Output = $Self->{LayoutObject}->Header(
-            Title => "$Title - " . $Self->{LayoutObject}->{LanguageObject}->Get('License')
-        );
+        my $Output =
+            $Self->{LayoutObject}->Header(
+            Title => "$Title - "
+                . $Self->{LayoutObject}->{LanguageObject}->Get('License')
+            );
         $Self->{LayoutObject}->Block(
             Name => 'License',
             Data => {
                 Item => 'License',
-                Step => '1/4',
+                Step => '1/5',
             },
         );
         $Self->{LayoutObject}->Block(
@@ -156,9 +167,11 @@ sub Run {
     # do database settings
     elsif ( $Self->{Subaction} eq 'Start' ) {
         if ( !-w "$Self->{Path}/Kernel/Config.pm" ) {
-            my $Output = $Self->{LayoutObject}->Header(
-                Title => "$Title - " . $Self->{LayoutObject}->{LanguageObject}->Get('Error')
-            );
+            my $Output =
+                $Self->{LayoutObject}->Header(
+                Title => "$Title - "
+                    . $Self->{LayoutObject}->{LanguageObject}->Get('Error')
+                );
             $Output .= $Self->{LayoutObject}->Warning(
                 Message => "Kernel/Config.pm isn't writable!",
                 Comment => 'If you want to use the installer, set the '
@@ -170,22 +183,21 @@ sub Run {
 
         # build the select field for the InstallerDBStart.dtl
         $Param{SelectDBType} = $Self->{LayoutObject}->BuildSelection(
-            Data => {
-                MySQL => 'MySQL',
-            },
-            Name       => 'DBType',
+            Data => { MySQL => 'MySQL', },
+            Name => 'DBType',
             SelectedID => 'MySQL',
         );
 
-        my $Output = $Self->{LayoutObject}->Header(
+        my $Output =
+            $Self->{LayoutObject}->Header(
             Title => "$Title - "
                 . $Self->{LayoutObject}->{LanguageObject}->Get('Create Database')
-        );
+            );
         $Self->{LayoutObject}->Block(
             Name => 'DatabaseStart',
             Data => {
                 Item         => 'Create Database',
-                Step         => '2/4',
+                Step         => '2/5',
                 SelectDBType => $Param{SelectDBType},
                 }
         );
@@ -225,10 +237,11 @@ sub Run {
         my $OutputJSON = $Self->{LayoutObject}->JSONEncode( Data => \%Result );
 
         return $Self->{LayoutObject}->Attachment(
-            ContentType => 'application/json; charset=' . $Self->{LayoutObject}->{Charset},
-            Content     => $OutputJSON,
-            Type        => 'inline',
-            NoCache     => 1,
+            ContentType => 'application/json; charset='
+                . $Self->{LayoutObject}->{Charset},
+            Content => $OutputJSON,
+            Type    => 'inline',
+            NoCache => 1,
         );
     }
 
@@ -252,17 +265,19 @@ sub Run {
 
         if ( $DB{DBAction} eq 'Create' ) {
 
-            my $Output = $Self->{LayoutObject}->Header(
+            my $Output =
+                $Self->{LayoutObject}->Header(
                 Title => $Title . '-'
-                    . $Self->{LayoutObject}->{LanguageObject}->Get('Create Database')
-            );
+                    . $Self->{LayoutObject}->{LanguageObject}
+                    ->Get('Create Database')
+                );
 
             # FIXME !!! use $DB{Type}!!!
             $Self->{LayoutObject}->Block(
                 Name => 'DatabaseResult',
                 Data => {
                     Item => 'Create Database',
-                    Step => '2/4',
+                    Step => '2/5',
                 },
             );
 
@@ -303,7 +318,8 @@ sub Run {
 
             # create db tables
             # read otrs-schema.mysql.sql and process stuff
-            my @SQL = $Self->ParseSQLFile("$DirOfSQLFiles/otrs-schema.mysql.sql");
+            my @SQL =
+                $Self->ParseSQLFile("$DirOfSQLFiles/otrs-schema.mysql.sql");
             $DBH->do("use $DB{Database}");
             $Self->{LayoutObject}->Block(
                 Name => 'DatabaseResultItem',
@@ -339,10 +355,15 @@ sub Run {
 
             # initial insert
             # - read otrs-initial_insert.mysql.sql and process stuff -
-            @SQL = $Self->ParseSQLFile("$DirOfSQLFiles/otrs-initial_insert.mysql.sql");
+            @SQL = $Self->ParseSQLFile(
+                "$DirOfSQLFiles/otrs-initial_insert.mysql.sql"
+            );
             $Self->{LayoutObject}->Block(
                 Name => 'DatabaseResultItem',
-                Data => { Item => "Inserting initial inserts 'otrs-initial_insert.mysql.sql'", },
+                Data => {
+                    Item =>
+                        "Inserting initial inserts 'otrs-initial_insert.mysql.sql'",
+                },
             );
             for (@SQL) {
                 if ( !$DBH->do($_) ) {
@@ -374,10 +395,12 @@ sub Run {
 
             # foreign key
             # - read otrs-schema-post.mysql.sql and process stuff -
-            @SQL = $Self->ParseSQLFile("$DirOfSQLFiles/otrs-schema-post.mysql.sql");
+            @SQL =
+                $Self->ParseSQLFile("$DirOfSQLFiles/otrs-schema-post.mysql.sql");
             $Self->{LayoutObject}->Block(
                 Name => 'DatabaseResultItem',
-                Data => { Item => "Foreign Keys 'otrs-schema-post.mysql.sql'", },
+                Data =>
+                    { Item => "Foreign Keys 'otrs-schema-post.mysql.sql'", },
             );
             for (@SQL) {
                 if ( !$DBH->do($_) ) {
@@ -410,7 +433,10 @@ sub Run {
             # user add
             $Self->{LayoutObject}->Block(
                 Name => 'DatabaseResultItem',
-                Data => { Item => "Creating database user '$DB{DatabaseUser}\@$DB{NewHost}'", },
+                Data => {
+                    Item =>
+                        "Creating database user '$DB{DatabaseUser}\@$DB{NewHost}'",
+                },
             );
             if (
                 !$DBH->do(
@@ -485,7 +511,9 @@ sub Run {
             );
 
             if ($ReConfigure) {
-                my $Output = $Self->{LayoutObject}->Header( Title => 'Install OTRS - Error' );
+                my $Output =
+                    $Self->{LayoutObject}
+                    ->Header( Title => 'Install OTRS - Error' );
                 $Output .= $Self->{LayoutObject}->Warning(
                     Message => "Kernel/Config.pm isn't writable!",
                     Comment => 'If you want to use the installer, set the '
@@ -498,8 +526,8 @@ sub Run {
             $Self->{LayoutObject}->Block(
                 Name => 'DatabaseResultItemMessage',
                 Data => {
-                    Message =>
-                        $Self->{LayoutObject}->{LanguageObject}->Get('Database setup successful!'),
+                    Message => $Self->{LayoutObject}->{LanguageObject}
+                        ->Get('Database setup successful!'),
                 },
             );
             $Self->{LayoutObject}->Block(
@@ -515,16 +543,18 @@ sub Run {
         }
         elsif ( $DB{DBAction} eq 'Delete' ) {
 
-            my $Output = $Self->{LayoutObject}->Header(
-                Title => "$Title - " . $Self->{LayoutObject}->{LanguageObject}->Get('Database')
-            );
+            my $Output =
+                $Self->{LayoutObject}->Header(
+                Title => "$Title - "
+                    . $Self->{LayoutObject}->{LanguageObject}->Get('Database')
+                );
 
             # drop database
             $Self->{LayoutObject}->Block(
                 Name => 'DatabaseResult',
                 Data => {
                     Item => 'Database',
-                    Step => '2/4',
+                    Step => '2/5',
                 },
             );
             $Self->{LayoutObject}->Block(
@@ -559,7 +589,8 @@ sub Run {
                 $Self->{LayoutObject}->Block(
                     Name => 'DatabaseResultItemMessage',
                     Data => {
-                        Message => $Self->{LayoutObject}->{LanguageObject}->Get('Database deleted.')
+                        Message => $Self->{LayoutObject}->{LanguageObject}
+                            ->Get('Database deleted.')
                     },
                 );
                 $Self->{LayoutObject}->Block(
@@ -571,7 +602,7 @@ sub Run {
                 TemplateFile => 'Installer',
                 Data         => {
                     Item => 'Drop Database',
-                    Step => '4/4',
+                    Step => '4/5',
                     }
             );
             $Output .= $Self->{LayoutObject}->Footer();
@@ -593,9 +624,7 @@ sub Run {
         }
 
         # create sys config object
-        my $SysConfigObject = Kernel::System::SysConfig->new(
-            %{$Self}
-        );
+        my $SysConfigObject = Kernel::System::SysConfig->new( %{$Self} );
 
         # take care that default config file is existing
         if ( !$SysConfigObject->WriteDefault() ) {
@@ -604,9 +633,7 @@ sub Run {
 
         # install default files
         if ( $Self->{MainObject}->Require('Kernel::System::Package') ) {
-            my $PackageObject = Kernel::System::Package->new(
-                %{$Self}
-            );
+            my $PackageObject = Kernel::System::Package->new( %{$Self} );
             if ($PackageObject) {
                 $PackageObject->PackageInstallDefaultFiles();
             }
@@ -648,15 +675,16 @@ sub Run {
             SelectedID => '1',
         );
 
-        my $Output = $Self->{LayoutObject}->Header(
+        my $Output =
+            $Self->{LayoutObject}->Header(
             Title => "$Title - "
                 . $Self->{LayoutObject}->{LanguageObject}->Get('System Settings')
-        );
+            );
         $Self->{LayoutObject}->Block(
             Name => 'System',
             Data => {
                 Item => 'System Settings',
-                Step => '3/4',
+                Step => '3/5',
                 %Param,
             },
         );
@@ -678,9 +706,7 @@ sub Run {
         }
 
         # create sys config object
-        my $SysConfigObject = Kernel::System::SysConfig->new(
-            %{$Self}
-        );
+        my $SysConfigObject = Kernel::System::SysConfig->new( %{$Self} );
 
         # take care that default config file is existing
         if ( !$SysConfigObject->WriteDefault() ) {
@@ -731,14 +757,16 @@ sub Run {
             Name => 'InboundMailType',
         );
 
-        my $Output = $Self->{LayoutObject}->Header(
-            Title => "$Title - " . $Self->{LayoutObject}->{LanguageObject}->Get('Configure Mail')
-        );
+        my $Output =
+            $Self->{LayoutObject}->Header(
+            Title => "$Title - "
+                . $Self->{LayoutObject}->{LanguageObject}->Get('Configure Mail')
+            );
         $Self->{LayoutObject}->Block(
             Name => 'ConfigureMail',
             Data => {
                 Item             => 'Mail Configuration',
-                Step             => '3/4',
+                Step             => '3/5',
                 InboundMailType  => $InboundMailTypeSelection,
                 OutboundMailType => $OutboundMailTypeSelection,
                 OutboundPorts    => $OutboundMailDefaultPorts,
@@ -752,13 +780,67 @@ sub Run {
         return $Output;
     }
 
+    # print registration from
+    elsif ( $Self->{Subaction} eq 'Registration' ) {
+        my $Output =
+            $Self->{LayoutObject}->Header(
+            Title => "$Title - "
+                . $Self->{LayoutObject}->{LanguageObject}->Get('Registration')
+            );
+
+        $Self->{LayoutObject}->Block(
+            Name => 'Registration',
+            Data => {
+                Item => 'Register your OTRS',
+                Step => '4/5',
+            },
+        );
+
+        # check if we have our list of countries available
+        my $CustomerCompanyConfig =
+            $Self->{ConfigObject}->Get('CustomerCompany');
+        if (
+            $CustomerCompanyConfig
+            && %{$CustomerCompanyConfig}
+            && %{
+                $CustomerCompanyConfig->{Selections}
+                    ->{CustomerCompanyCountry}
+            }
+            )
+        {
+
+            my $CountryStr = $Self->{LayoutObject}->BuildSelection(
+                Data => $CustomerCompanyConfig->{Selections}
+                    ->{CustomerCompanyCountry},
+                Name => 'Country',
+                ID   => 'Country',
+                Sort => 'AlphanumericValue',
+            );
+
+            $Self->{LayoutObject}->Block(
+                Name => 'CountryStr',
+                Data => { CountryStr => $CountryStr, },
+            );
+        }
+        else {
+
+            $Self->{LayoutObject}->Block( Name => 'CountryInput', );
+        }
+
+        $Output .= $Self->{LayoutObject}->Output(
+            TemplateFile => 'Installer',
+            Data         => {},
+        );
+        $Output .= $Self->{LayoutObject}->Footer();
+        return $Output;
+    }
+
     elsif ( $Self->{Subaction} eq 'Finish' ) {
+
         $Self->{DBObject} = Kernel::System::DB->new( %{$Self} );
 
         # create sys config object
-        my $SysConfigObject = Kernel::System::SysConfig->new(
-            %{$Self}
-        );
+        my $SysConfigObject = Kernel::System::SysConfig->new( %{$Self} );
 
         # take care that default config file is existing
         if ( !$SysConfigObject->WriteDefault() ) {
@@ -772,19 +854,86 @@ sub Run {
             Value => 1,
         );
         if ( !$Result ) {
-            $Self->{LayoutObject}->FatalError( Message => "Can't write Config file!" );
+            $Self->{LayoutObject}
+                ->FatalError( Message => "Can't write Config file!" );
+        }
+
+        # check if the user wants to register
+        my $DoRegistration   = 1;
+        my $RegistrationDone = 0;
+        my %RegistrationInfo;
+        my @FieldsMandatory = qw(Lastname Firstname Organization Email);
+        for my $Key (
+            qw(Lastname Firstname Organization Position Email Country Phone Skip)
+            )
+        {
+            $RegistrationInfo{$Key} =
+                $Self->{ParamObject}->GetParam( Param => $Key );
+        }
+
+        if ( $RegistrationInfo{Skip} ) {
+
+            $DoRegistration = 0;
+        }
+        else {
+
+            MANDATORYFIELD:
+            for my $Field (@FieldsMandatory) {
+
+                if ( $RegistrationInfo{$Field} eq '' ) {
+                    $DoRegistration = 0;
+                    last MANDATORYFIELD;
+                }
+            }
+        }
+
+        if ($DoRegistration) {
+
+            my $Mailtext = <<"MAILTEXT";
+
+A user wants to register at OTRS. He/she provided the following data:
+
+Lastname: $RegistrationInfo{Lastname}
+Firstname: $RegistrationInfo{Firstname}
+Organization: $RegistrationInfo{Organization}
+Position: $RegistrationInfo{Position}
+Email: $RegistrationInfo{Email}
+Country: $RegistrationInfo{Country}
+Phone: $RegistrationInfo{Phone}
+
+Note: Please do not answer this email directly!
+
+MAILTEXT
+
+            eval {
+
+                $Self->{DBObject} = Kernel::System::DB->new( %{$Self} );
+                my $SendObject = Kernel::System::Email->new( %{$Self} );
+                my $From
+                    = "$RegistrationInfo{Firstname} $RegistrationInfo{Lastname} <$RegistrationInfo{Email}>";
+                my $RegistrationDone = $SendObject->Send(
+                    From     => $From,
+                    To       => 'register@otrs.com',
+                    Subject  => 'New user registration from the OTRS installer',
+                    Charset  => 'utf-8',
+                    MimeType => 'text/plain',
+                    Body     => $Mailtext,
+                );
+            };
         }
 
         my $OTRSHandle = $ENV{SCRIPT_NAME};
         $OTRSHandle =~ s/\/(.*)\/installer\.pl/$1/;
-        my $Output = $Self->{LayoutObject}->Header(
-            Title => "$Title - " . $Self->{LayoutObject}->{LanguageObject}->Get('Finished')
-        );
+        my $Output =
+            $Self->{LayoutObject}->Header(
+            Title => "$Title - "
+                . $Self->{LayoutObject}->{LanguageObject}->Get('Finished')
+            );
         $Self->{LayoutObject}->Block(
             Name => 'Finish',
             Data => {
                 Item       => 'Finished',
-                Step       => '4/4',
+                Step       => '5/5',
                 OTRSHandle => $OTRSHandle,
                 %Dist,
             },
@@ -792,7 +941,8 @@ sub Run {
         if ( $Dist{Webserver} ) {
             $Self->{LayoutObject}->Block(
                 Name => 'Restart',
-                Data => \%Dist,,
+                Data => \%Dist,
+                ,
             );
         }
         $Output .= $Self->{LayoutObject}->Output(
@@ -835,12 +985,12 @@ sub ReConfigure {
             # replace config with %Param
             for my $Key ( keys %Param ) {
                 if ( $Param{$Key} =~ /^[0-9]+$/ && $Param{$Key} !~ /^0/ ) {
-                    $NewConfig
-                        =~ s/(\$Self->{("|'|)$Key("|'|)} =.+?);/\$Self->{'$Key'} = $Param{$Key};/g;
+                    $NewConfig =~
+                        s/(\$Self->{("|'|)$Key("|'|)} =.+?);/\$Self->{'$Key'} = $Param{$Key};/g;
                 }
                 else {
-                    $NewConfig
-                        =~ s/(\$Self->{("|'|)$Key("|'|)} =.+?');/\$Self->{'$Key'} = '$Param{$Key}';/g;
+                    $NewConfig =~
+                        s/(\$Self->{("|'|)$Key("|'|)} =.+?');/\$Self->{'$Key'} = '$Param{$Key}';/g;
                 }
             }
             $Config .= $NewConfig;
@@ -852,10 +1002,12 @@ sub ReConfigure {
     for my $Key ( sort keys %Param ) {
         if ( $Config !~ /\$Self->{("|'|)$Key("|'|)} =.+?;/ ) {
             if ( $Param{$Key} =~ /^[0-9]+$/ && $Param{$Key} !~ /^0/ ) {
-                $Config =~ s/\$DIBI\$/\$DIBI\$\n    \$Self->{'$Key'} = $Param{$Key};/g;
+                $Config =~
+                    s/\$DIBI\$/\$DIBI\$\n    \$Self->{'$Key'} = $Param{$Key};/g;
             }
             else {
-                $Config =~ s/\$DIBI\$/\$DIBI\$\n    \$Self->{'$Key'} = '$Param{$Key}';/g;
+                $Config =~
+                    s/\$DIBI\$/\$DIBI\$\n    \$Self->{'$Key'} = '$Param{$Key}';/g;
             }
         }
     }
@@ -896,7 +1048,8 @@ sub ParseSQLFile {
     }
     else {
         if ( !$Self->{$_} ) {
-            $Self->{LayoutObject}->FatalError( Message => "Can't open $File: $!" );
+            $Self->{LayoutObject}
+                ->FatalError( Message => "Can't open $File: $!" );
         }
     }
     return @SQL;
@@ -906,15 +1059,20 @@ sub ConnectToDB {
     my ( $Self, %Param ) = @_;
 
     my %DB;
-    $DB{User}         = $Self->{ParamObject}->GetParam( Param => 'DBUser' )            || '';
-    $DB{Password}     = $Self->{ParamObject}->GetParam( Param => 'DBPassword' )        || '';
-    $DB{DatabaseHost} = $Self->{ParamObject}->GetParam( Param => 'DBHost' )            || '';
-    $DB{Type}         = $Self->{ParamObject}->GetParam( Param => 'DBType' )            || '';
-    $DB{Database}     = $Self->{ParamObject}->GetParam( Param => 'DBName' )            || '';
-    $DB{DBAction}     = $Self->{ParamObject}->GetParam( Param => 'DBAction' )          || '';
-    $DB{DatabaseUser} = $Self->{ParamObject}->GetParam( Param => 'OTRSDBUser' )        || '';
-    $DB{DatabasePw}   = $Self->{ParamObject}->GetParam( Param => 'OTRSDBPassword' )    || '';
-    $DB{NewHost}      = $Self->{ParamObject}->GetParam( Param => 'OTRSDBConnectHost' ) || '';
+    $DB{User} = $Self->{ParamObject}->GetParam( Param => 'DBUser' ) || '';
+    $DB{Password} = $Self->{ParamObject}->GetParam( Param => 'DBPassword' )
+        || '';
+    $DB{DatabaseHost} = $Self->{ParamObject}->GetParam( Param => 'DBHost' )
+        || '';
+    $DB{Type}     = $Self->{ParamObject}->GetParam( Param => 'DBType' )   || '';
+    $DB{Database} = $Self->{ParamObject}->GetParam( Param => 'DBName' )   || '';
+    $DB{DBAction} = $Self->{ParamObject}->GetParam( Param => 'DBAction' ) || '';
+    $DB{DatabaseUser} = $Self->{ParamObject}->GetParam( Param => 'OTRSDBUser' )
+        || '';
+    $DB{DatabasePw} =
+        $Self->{ParamObject}->GetParam( Param => 'OTRSDBPassword' ) || '';
+    $DB{NewHost} =
+        $Self->{ParamObject}->GetParam( Param => 'OTRSDBConnectHost' ) || '';
 
     # check params
     for my $Key ( keys %DB ) {
@@ -931,7 +1089,8 @@ sub ConnectToDB {
 
     # connect to database
     my $DBH = DBI->connect(
-        "DBI:mysql:database=;host=$DB{DatabaseHost};", $DB{User}, $DB{Password},
+        "DBI:mysql:database=;host=$DB{DatabaseHost};",
+        $DB{User}, $DB{Password},
     );
     if ( !$DBH ) {
         return (
@@ -968,11 +1127,14 @@ sub CheckMailConfiguration {
     my ( $Self, %Param ) = @_;
 
     # first check outbound mail config
-    my $OutboundMailType = $Self->{ParamObject}->GetParam( Param => 'OutboundMailType' );
-    my $SMTPHost         = $Self->{ParamObject}->GetParam( Param => 'SMTPHost' );
-    my $SMTPPort         = $Self->{ParamObject}->GetParam( Param => 'SMTPPort' );
-    my $SMTPAuthUser     = $Self->{ParamObject}->GetParam( Param => 'SMTPAuthUser' );
-    my $SMTPAuthPassword = $Self->{ParamObject}->GetParam( Param => 'SMTPAuthPassword' );
+    my $OutboundMailType =
+        $Self->{ParamObject}->GetParam( Param => 'OutboundMailType' );
+    my $SMTPHost = $Self->{ParamObject}->GetParam( Param => 'SMTPHost' );
+    my $SMTPPort = $Self->{ParamObject}->GetParam( Param => 'SMTPPort' );
+    my $SMTPAuthUser =
+        $Self->{ParamObject}->GetParam( Param => 'SMTPAuthUser' );
+    my $SMTPAuthPassword =
+        $Self->{ParamObject}->GetParam( Param => 'SMTPAuthPassword' );
 
     # if chosen config option is SMTP, set some Config params
     if ( $OutboundMailType && $OutboundMailType ne 'sendmail' ) {
@@ -1017,18 +1179,18 @@ sub CheckMailConfiguration {
 
     # check outbound mail configuration
     $Self->{DBObject} = Kernel::System::DB->new( %{$Self} );
-    my $SendObject = Kernel::System::Email->new(
-        %{$Self}
-    );
-    my %Result = $SendObject->Check();
+    my $SendObject = Kernel::System::Email->new( %{$Self} );
+    my %Result     = $SendObject->Check();
 
-    my $SysConfigObject = Kernel::System::SysConfig->new(
-        %{$Self}
-    );
+    my $SysConfigObject = Kernel::System::SysConfig->new( %{$Self} );
 
     # if smtp check was successful, write data into config
     my $SendmailModule = $Self->{ConfigObject}->Get('SendmailModule');
-    if ( $Result{Successful} && $SendmailModule ne 'Kernel::System::Email::Sendmail' ) {
+    if (
+        $Result{Successful}
+        && $SendmailModule ne 'Kernel::System::Email::Sendmail'
+        )
+    {
         my %NewConfigs = (
             'SendmailModule'       => $SendmailModule,
             'SendmailModule::Host' => $SMTPHost,
@@ -1060,7 +1222,11 @@ sub CheckMailConfiguration {
     }
 
     # if sendmail check was successful, write data into config
-    elsif ( $Result{Successful} && $SendmailModule eq 'Kernel::System::Email::Sendmail' ) {
+    elsif (
+        $Result{Successful}
+        && $SendmailModule eq 'Kernel::System::Email::Sendmail'
+        )
+    {
         $SysConfigObject->ConfigItemUpdate(
             Valid => 1,
             Key   => 'SendmailModule',
@@ -1074,9 +1240,7 @@ sub CheckMailConfiguration {
     }
 
     # check inbound mail config
-    my $MailAccount = Kernel::System::MailAccount->new(
-        %{$Self}
-    );
+    my $MailAccount = Kernel::System::MailAccount->new( %{$Self} );
 
     for (qw(InboundUser InboundPassword InboundHost)) {
         if ( !$Self->{ParamObject}->GetParam( Param => $_ ) ) {
@@ -1084,10 +1248,12 @@ sub CheckMailConfiguration {
         }
     }
 
-    my $InboundUser     = $Self->{ParamObject}->GetParam( Param => 'InboundUser' );
-    my $InboundPassword = $Self->{ParamObject}->GetParam( Param => 'InboundPassword' );
-    my $InboundHost     = $Self->{ParamObject}->GetParam( Param => 'InboundHost' );
-    my $InboundMailType = $Self->{ParamObject}->GetParam( Param => 'InboundMailType' );
+    my $InboundUser = $Self->{ParamObject}->GetParam( Param => 'InboundUser' );
+    my $InboundPassword =
+        $Self->{ParamObject}->GetParam( Param => 'InboundPassword' );
+    my $InboundHost = $Self->{ParamObject}->GetParam( Param => 'InboundHost' );
+    my $InboundMailType =
+        $Self->{ParamObject}->GetParam( Param => 'InboundMailType' );
 
     %Result = $MailAccount->MailAccountCheck(
         Login    => $InboundUser,
@@ -1113,7 +1279,10 @@ sub CheckMailConfiguration {
         );
 
         if ( !$Id ) {
-            return ( Successful => 0, Message => 'Error while adding mail account!' );
+            return (
+                Successful => 0,
+                Message    => 'Error while adding mail account!'
+            );
         }
     }
 

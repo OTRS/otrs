@@ -2,7 +2,7 @@
 // Core.Installer.js - provides the special module functions for Installer
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Installer.js,v 1.6 2011-10-31 11:22:01 mg Exp $
+// $Id: Core.Installer.js,v 1.7 2011-11-14 09:34:17 mab Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -114,7 +114,7 @@ InstallerDBStart
         var Data = Core.AJAX.SerializeForm( $('#FormMail') );
         Data += 'CheckMode=Mail;';
         Core.AJAX.FunctionCall(Core.Config.Get('Baselink'), Data, CheckMailConfigCallback );
-        $('input[name=Subaction]').val('Finish');
+        $('input[name=Subaction]').val('Registration');
     };
 
     /**
@@ -135,5 +135,16 @@ InstallerDBStart
             alert(Core.Config.Get('Installer.CheckMailLabelTwo'));
         }
     };
+    
+    /**
+     * @function
+     * @return nothing
+     *      This function skips the registration
+     */
+    TargetNS.SkipRegistration = function () {
+        $('input[name=Skip]').val('1');
+        $('form').submit();
+    };
+    
     return TargetNS;
 }(Core.Installer || {}));

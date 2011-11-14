@@ -1,8 +1,8 @@
 # --
 # InstallerDBStart.dtl - provides the Installer's form to configure the DB
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: InstallerDBStart.dtl,v 1.15 2010-11-10 12:35:58 mg Exp $
+# $Id: InstallerDBStart.dtl,v 1.16 2011-11-14 09:33:27 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -11,7 +11,7 @@
 
 <!-- dtl:block:DatabaseStart -->
 <div class="Center">
-    <ul id="ProgressBar" class="ProgressBarElements4 SpacingTop SpacingBottom">
+    <ul id="ProgressBar" class="ProgressBarElements5 SpacingTop SpacingBottom">
         <li class="Highlighted NoLink First">
             <span>
                 <a href="#">$Text{"Step %s", "1"}<span>$Text{"License"}</span></a>
@@ -27,9 +27,14 @@
                 <a href="#">$Text{"Step %s", "3"}<span>$Text{"General Specifications and Mail Settings"}</span></a>
             </span>
         </li>
+        <li>
+            <span>
+                <a href="#">$Text{"Step %s", "4"}<span>$Text{"Registration"}</span></a>
+            </span>
+        </li>
         <li class="Last">
             <span>
-                <a href="#">$Text{"Step %s", "4"}<span>$Text{"Finish"}</span></a>
+                <a href="#">$Text{"Step %s", "5"}<span>$Text{"Finish"}</span></a>
             </span>
         </li>
     </ul>
