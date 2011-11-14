@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhoneCommon.pm - phone calls for existing tickets
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhoneCommon.pm,v 1.11 2011-11-01 18:44:19 cr Exp $
+# $Id: AgentTicketPhoneCommon.pm,v 1.12 2011-11-14 22:10:29 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,7 +25,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -266,11 +266,10 @@ sub Run {
                 Value                => $Value,
                 Mandatory =>
                     $Self->{Config}->{DynamicField}->{ $DynamicFieldConfig->{Name} } == 2,
-                LayoutObject => $Self->{LayoutObject},
-                ParamObject  => $Self->{ParamObject},
-
-                # AgentTicketPhoneOutbound and AgentTicketPhoneInboud does not support AJAXUpdate
-                AJAXUpdate => 0,
+                LayoutObject    => $Self->{LayoutObject},
+                ParamObject     => $Self->{ParamObject},
+                AJAXUpdate      => 1,
+                UpdatableFields => $Self->_GetFieldsToUpdate(),
                 );
         }
 
@@ -455,9 +454,8 @@ sub Run {
                 ErrorMessage => $ValidationResult->{ErrorMessage} || '',
                 LayoutObject => $Self->{LayoutObject},
                 ParamObject  => $Self->{ParamObject},
-
-                # AgentTicketPhoneOutbound and AgentTicketPhoneInboud does not support AJAXUpdate
-                AJAXUpdate => 0,
+                AJAXUpdate   => 1,
+                UpdatableFields => $Self->_GetFieldsToUpdate(),
                 );
         }
 
@@ -670,6 +668,85 @@ sub Run {
             );
         }
     }
+    elsif ( $Self->{Subaction} eq 'AJAXUpdate' ) {
+
+        # convert dynamic field values into a structure for ACLs
+        my %DynamicFieldACLParameters;
+        DYNAMICFIELD:
+        for my $DynamcField ( keys %DynamicFieldValues ) {
+            next DYNAMICFIELD if !$DynamcField;
+            next DYNAMICFIELD if !$DynamicFieldValues{$DynamcField};
+
+            $DynamicFieldACLParameters{ 'DynamicField_' . $DynamcField }
+                = $DynamicFieldValues{$DynamcField};
+        }
+
+        my $NextStates = $Self->_GetNextStates(
+            DynamicField => \%DynamicFieldACLParameters,
+        );
+
+        # update Dynamc Fields Possible Values via AJAX
+        my @DynamicFieldAJAX;
+
+        # cycle trough the activated Dynamic Fields for this screen
+        DYNAMICFIELD:
+        for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
+            next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+            next DYNAMICFIELD
+                if !IsHashRefWithData( $DynamicFieldConfig->{Config}->{PossibleValues} );
+            next DYNAMICFIELD if $DynamicFieldConfig->{ObjectType} ne 'Ticket';
+
+            my $PossibleValues = $DynamicFieldConfig->{Config}->{PossibleValues};
+
+            # set possible values filter from ACLs
+            my $ACL = $Self->{TicketObject}->TicketAcl(
+                Action        => $Self->{Action},
+                TicketID      => $Self->{TicketID},
+                QueueID       => 0,
+                DynamicField  => \%DynamicFieldACLParameters,
+                Type          => 'DynamicField_' . $DynamicFieldConfig->{Name},
+                ReturnType    => 'Ticket',
+                ReturnSubType => 'DynamicField_' . $DynamicFieldConfig->{Name},
+                Data          => $DynamicFieldConfig->{Config}->{PossibleValues},
+                UserID        => $Self->{UserID},
+            );
+            if ($ACL) {
+                my %Filter = $Self->{TicketObject}->TicketAclData();
+                $PossibleValues = \%Filter;
+            }
+
+            # add dynamic field to the list of fields to update
+            push(
+                @DynamicFieldAJAX,
+                {
+                    Name        => 'DynamicField_' . $DynamicFieldConfig->{Name},
+                    Data        => $PossibleValues,
+                    SelectedID  => $DynamicFieldValues{ $DynamicFieldConfig->{Name} },
+                    Translation => $DynamicFieldConfig->{Config}->{TranslatableValues} || 0,
+                    Max         => 100,
+                }
+            );
+        }
+
+        my $JSON = $Self->{LayoutObject}->BuildSelectionJSON(
+            [
+                {
+                    Name        => 'NextStateID',
+                    Data        => $NextStates,
+                    SelectedID  => $GetParam{NextStateID},
+                    Translation => 1,
+                    Max         => 100,
+                },
+                @DynamicFieldAJAX
+            ],
+        );
+        return $Self->{LayoutObject}->Attachment(
+            ContentType => 'application/json; charset=' . $Self->{LayoutObject}->{Charset},
+            Content     => $JSON,
+            Type        => 'inline',
+            NoCache     => 1,
+        );
+    }
     return $Self->{LayoutObject}->ErrorScreen(
         Message => 'No Subaction!!',
         Comment => 'Please contact your administrator',
@@ -683,6 +760,7 @@ sub _GetNextStates {
         TicketID => $Self->{TicketID},
         Action   => $Self->{Action},
         UserID   => $Self->{UserID},
+        %Param,
     );
     return \%NextStates;
 }
@@ -947,6 +1025,29 @@ sub _MaskPhone {
         Data         => \%Param,
     );
 
+}
+
+sub _GetFieldsToUpdate {
+    my ( $Self, %Param ) = @_;
+
+    # set the fields that can be updatable via AJAXUpdate
+    my @UpdatableFields = qw( NextStateID );
+
+    # cycle trough the activated Dynamic Fields for this screen
+    DYNAMICFIELD:
+    for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
+        next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+
+        my $Updateable = $Self->{BackendObject}->IsAJAXUpdateable(
+            DynamicFieldConfig => $DynamicFieldConfig,
+        );
+
+        next DYNAMICFIELD if !$Updateable;
+
+        push @UpdatableFields, 'DynamicField_' . $DynamicFieldConfig->{Name};
+    }
+
+    return \@UpdatableFields;
 }
 
 1;
