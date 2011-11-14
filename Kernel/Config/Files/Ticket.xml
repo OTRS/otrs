@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.425.2.7 2011-11-05 19:17:34 mb Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.425.2.8 2011-11-14 11:19:25 mb Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Translatable="1">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Group>Ticket</Group>
@@ -1528,7 +1528,7 @@
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::CustomerSearch</SubGroup>
         <Setting>
-            <String Regex="^[1-9]+$">100</String>
+            <String Regex="^[0-9]{1,4}$">100</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::CustomerSearchAutoComplete###TypeAhead" Required="1" Valid="1">
