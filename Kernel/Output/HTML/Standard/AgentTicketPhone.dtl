@@ -2,7 +2,7 @@
 # AgentTicketPhone.dtl - provides HTML form for phone
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.dtl,v 1.134 2011-11-01 23:11:26 cg Exp $
+# $Id: AgentTicketPhone.dtl,v 1.135 2011-11-14 18:24:15 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -65,7 +65,7 @@ $Include{"AgentCustomerSearch"}
 <!-- dtl:block:TicketType -->
 
 
-                    <div class="Field Hidden">
+                    <div class="Field $QData{"CustomerHiddenContainer"}">
                         <div class="CustomerTicketTemplateFromCustomer SpacingTopSmall Hidden">
                             <input name="CustomerSelected" id="CustomerSelected" class="CustomerTicketRadio" type="radio" value=""/>
                             <input name="CustomerKey" id="CustomerKey" class="CustomerKey" type="hidden" value=""/>
@@ -150,6 +150,13 @@ $Include{"AgentCustomerSearch"}
 //]]></script>
 <!--dtl:js_on_document_complete-->
 
+<!-- dtl:block:FromExternalCustomer -->
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+    Core.Agent.CustomerSearch.AddTicketCustomer( 'FromCustomer', '$QData{"Email"}', '$QData{"Customer"}', true );
+//]]></script>
+<!--dtl:js_on_document_complete-->
+<!-- dtl:block:FromExternalCustomer -->
 
                     <label class="Mandatory" for="Dest"><span class="Marker">*</span> $Text{"To queue"}:</label>
                     <div class="Field">
