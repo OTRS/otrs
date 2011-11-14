@@ -2,7 +2,7 @@
 // Core.Agent.CustomerSearch.js - provides the special module functions for the customer search
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.CustomerSearch.js,v 1.22 2011-11-10 08:57:11 mab Exp $
+// $Id: Core.Agent.CustomerSearch.js,v 1.23 2011-11-14 18:15:03 cg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -251,9 +251,9 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
 
                 // If the field was already prefilled, but a customer user could not be found on the server side,
                 //  the auto complete should be fired to give the user a selection of possible matches to choose from.
-                if (ActiveAutoComplete && $Element.val() && $Element.val().length && !$('#SelectedCustomerUser').val().length) {
-                    $($Element).focus().autocomplete('search', $Element.val());
-                }
+//                if (ActiveAutoComplete && $Element.val() && $Element.val().length && !$('#SelectedCustomerUser').val().length) {
+//                    $($Element).focus().autocomplete('search', $Element.val());
+//                }
             }
 
             if (!ActiveAutoComplete) {
@@ -280,7 +280,7 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
      * @return nothing
      *      This function add a new ticket customer
      */
-    TargetNS.AddTicketCustomer = function (Field, CustomerValue, CustomerKey) {
+    TargetNS.AddTicketCustomer = function (Field, CustomerValue, CustomerKey, SetAsCustomerTicket) {
 
         if (CustomerValue === '') {
             return false;
@@ -360,9 +360,13 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
 
         // set new value for CustomerTicketCounter
         $('#CustomerTicketCounter' + Field).val(CustomerTicketCounter);
-        if ( CustomerKey !== '' && TicketCustomerIDs === 0 && ( Field === 'ToCustomer' || Field === 'FromCustomer' ) ) {
-
-            $('.CustomerContainer input:radio:first').attr('checked', 'checked').trigger('change');
+        if ( ( CustomerKey !== '' && TicketCustomerIDs === 0 && ( Field === 'ToCustomer' || Field === 'FromCustomer' ) ) || SetAsCustomerTicket ) {
+            if (SetAsCustomerTicket) {
+                $('#CustomerSelected_' + CustomerTicketCounter).attr('checked', 'checked').trigger('change');
+            }
+            else {
+                $('.CustomerContainer input:radio:first').attr('checked', 'checked').trigger('change');
+            }
         }
 
         // return value to search field
