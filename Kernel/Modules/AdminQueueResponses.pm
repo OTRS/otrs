@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminQueueResponses.pm - to manage queue <-> responses assignments
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminQueueResponses.pm,v 1.45 2011-11-05 17:17:02 mb Exp $
+# $Id: AdminQueueResponses.pm,v 1.46 2011-11-14 07:36:44 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Queue;
 use Kernel::System::StandardResponse;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.45 $) [1];
+$VERSION = qw($Revision: 1.46 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -115,25 +115,13 @@ sub Run {
 
         my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' );
 
-        # get list of responses
-        my %StandardResponseData
-            = $Self->{StandardResponseObject}->StandardResponseList( Valid => 1 );
-        for my $StandardResponseID ( keys %StandardResponseData ) {
-            my $Active = 0;
-            for my $QueueID (@IDs) {
-                next if $QueueID ne $StandardResponseID;
-                $Active = 1;
-                last;
-            }
-        }
-
         # update db
         $Self->{DBObject}->Do(
             SQL  => 'DELETE FROM queue_standard_response WHERE queue_id = ?',
             Bind => [ \$ID ],
         );
         for my $NewID (@IDs) {
-            next if !$ID;
+            next if !$NewID;
             $Self->{DBObject}->Do(
                 SQL => 'INSERT INTO queue_standard_response (queue_id, standard_response_id, '
                     . 'create_time, create_by, change_time, change_by) VALUES '
@@ -153,17 +141,6 @@ sub Run {
         my @IDs = $Self->{ParamObject}->GetArray( Param => 'Response' );
 
         my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' );
-
-        # get existing responses
-        my %QueueData = $Self->{QueueObject}->QueueList( Valid => 1 );
-        for my $QueueID ( keys %QueueData ) {
-            my $Active = 0;
-            for my $StandardResponseID (@IDs) {
-                next if $StandardResponseID ne $QueueID;
-                $Active = 1;
-                last;
-            }
-        }
 
         # update db
         $Self->{DBObject}->Do(
