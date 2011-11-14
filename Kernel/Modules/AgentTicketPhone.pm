@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.201 2011-11-12 00:05:07 cg Exp $
+# $Id: AgentTicketPhone.pm,v 1.202 2011-11-14 18:20:58 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,7 +26,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.201 $) [1];
+$VERSION = qw($Revision: 1.202 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -439,6 +439,11 @@ sub Run {
         my $CustomerID = $Self->{ParamObject}->GetParam( Param => 'CustomerID' ) || '';
         my $ExpandCustomerName = $Self->{ParamObject}->GetParam( Param => 'ExpandCustomerName' )
             || 0;
+        my %FromExternalCustomer;
+        $FromExternalCustomer{Customer}
+            = $Self->{ParamObject}->GetParam( Param => 'PreSelectedCustomerUser' )
+            || $Self->{ParamObject}->GetParam( Param => 'CustomerUser' )
+            || '';
 
         if ( $Self->{ParamObject}->GetParam( Param => 'OwnerAllRefresh' ) ) {
             $GetParam{OwnerAll} = 1;
@@ -654,6 +659,12 @@ sub Run {
             if ( $CustomerUserData{UserLogin} ) {
                 $CustomerUser = $CustomerUserData{UserLogin};
             }
+            if ( $FromExternalCustomer{Customer} ) {
+                my %ExternalCustomerUserData = $Self->{CustomerUserObject}->CustomerUserDataGet(
+                    User => $FromExternalCustomer{Customer},
+                );
+                $FromExternalCustomer{Email} = $ExternalCustomerUserData{UserEmail};
+            }
             $Error{ExpandCustomerName} = 1;
         }
 
@@ -784,8 +795,9 @@ sub Run {
                 Errors       => \%Error,
                 Attachments  => \@Attachments,
                 %GetParam,
-                DynamicFieldHTML => \%DynamicFieldHTML,
-                MultipleCustomer => \@MultipleCustomer,
+                DynamicFieldHTML     => \%DynamicFieldHTML,
+                MultipleCustomer     => \@MultipleCustomer,
+                FromExternalCustomer => \%FromExternalCustomer,
             );
 
             $Output .= $Self->{LayoutObject}->Footer();
@@ -1482,11 +1494,25 @@ sub _MaskPhoneNew {
         }
     }
 
-    # From
+    # From external
+    my $ShowErrors = 1;
+    if ( defined $Param{FromExternalCustomer} ) {
+        $ShowErrors = 0;
+        $Self->{LayoutObject}->Block(
+            Name => 'FromExternalCustomer',
+            Data => $Param{FromExternalCustomer},
+        );
+    }
     my $CustomerCounter = 0;
     if ( $Param{MultipleCustomer} ) {
         for my $Item ( @{ $Param{MultipleCustomer} } ) {
+            if ( !$ShowErrors ) {
 
+                # set empty values for errors
+                $Item->{CustomerError}    = '';
+                $Item->{CustomerDisabled} = '';
+                $Item->{CustomerErrorMsg} = 'CustomerGenericServerErrorMsg';
+            }
             $Self->{LayoutObject}->Block(
                 Name => 'MultipleCustomer',
                 Data => $Item,
@@ -1519,7 +1545,7 @@ sub _MaskPhoneNew {
     if ( $Param{FromInvalid} && $Param{Errors} && !$Param{Errors}->{FromErrorType} ) {
         $Self->{LayoutObject}->Block( Name => 'FromServerErrorMsg' );
     }
-    if ( $Param{Errors}->{FromErrorType} ) {
+    if ( $Param{Errors}->{FromErrorType} || !$ShowErrors ) {
         $Param{FromInvalid} = '';
     }
 
