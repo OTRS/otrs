@@ -2,7 +2,7 @@
 # AdminMailAccount.dtl - provides HTML form for AdminMailAccount
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminMailAccount.dtl,v 1.35 2011-11-14 14:14:29 mb Exp $
+# $Id: AdminMailAccount.dtl,v 1.36 2011-11-14 14:57:43 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -159,12 +159,14 @@
                         </div>
                         <div class="Clear"></div>
 
-                        <label for="IMAPFolder">$Text{"IMAP Folder"}:</label>
-                        <div class="Field">
-                            <input type="text" class="W50pc" name="IMAPFolder" id="IMAPFolder" value="INBOX" maxlength="250"/>
-                            <p class="FieldExplanation">$Text{"Only modify this if you need to fetch mail from a different folder than INBOX."}</p>
+                        <div class="Row Row_IMAPFolder Hidden">
+                            <label for="IMAPFolder">$Text{"IMAP Folder"}:</label>
+                            <div class="Field">
+                                <input type="text" class="W50pc" name="IMAPFolder" id="IMAPFolder" value="INBOX" maxlength="250"/>
+                                <p class="FieldExplanation">$Text{"Only modify this if you need to fetch mail from a different folder than INBOX."}</p>
+                            </div>
+                            <div class="Clear"></div>
                         </div>
-                        <div class="Clear"></div>
 
                         <label class="Mandatory" for="Trusted"><span class="Marker">*</span> $Text{"Trusted"}:</label>
                         <div class="Field">
@@ -272,12 +274,14 @@
                         </div>
                         <div class="Clear"></div>
 
-                        <label for="IMAPFolder">$Text{"IMAP Folder"}:</label>
-                        <div class="Field">
-                            <input type="text" class="W50pc" name="IMAPFolder" id="IMAPFolder" value="$QData{"IMAPFolder"}" maxlength="250"/>
-                            <p class="FieldExplanation">$Text{"Only modify this if you need to fetch mail from a different folder than INBOX."}</p>
+                        <div class="Row Row_IMAPFolder Hidden">
+                            <label for="IMAPFolder">$Text{"IMAP Folder"}:</label>
+                            <div class="Field">
+                                <input type="text" class="W50pc" name="IMAPFolder" id="IMAPFolder" value="$QData{"IMAPFolder"}" maxlength="250"/>
+                                <p class="FieldExplanation">$Text{"Only modify this if you need to fetch mail from a different folder than INBOX."}</p>
+                            </div>
+                            <div class="Clear"></div>
                         </div>
-                        <div class="Clear"></div>
 
                         <label class="Mandatory" for="Trusted"><span class="Marker">*</span> $Text{"Trusted"}:</label>
                         <div class="Field">
@@ -349,3 +353,18 @@
     <div class="Clear"></div>
 </div>
 <!-- dtl:block:Overview -->
+
+<!-- dtl:js_on_document_complete -->
+<script type="text/javascript">//<![CDATA[
+// Show IMAPFolder selection only for IMAP backends
+$('select#TypeAdd, select#Type').bind('change', function(){
+    if (/IMAP/.test($(this).val())) {
+        $('.Row_IMAPFolder').show();
+    }
+    else {
+        $('.Row_IMAPFolder').hide();
+    }
+}).trigger('change');
+//]]></script>
+
+<!-- dtl:js_on_document_complete -->
