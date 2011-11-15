@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Loader.pm - CSS/JavaScript loader backend
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Loader.pm,v 1.17 2010-11-22 12:23:29 mg Exp $
+# $Id: Loader.pm,v 1.18 2011-11-15 11:41:53 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.17 $) [1];
+$VERSION = qw($Revision: 1.18 $) [1];
 
 use Kernel::System::CacheInternal;
 
@@ -417,7 +417,7 @@ deletes all the loader cache files.
 
 Returns a list of deleted files.
 
-    my @DeletedFiles = $LoaderObject->CacheDelete( Code => $CSS );
+    my @DeletedFiles = $LoaderObject->CacheDelete();
 
 =cut
 
@@ -502,6 +502,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.17 $ $Date: 2010-11-22 12:23:29 $
+$Revision: 1.18 $ $Date: 2011-11-15 11:41:53 $
 
 =cut
