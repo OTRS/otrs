@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Package.pm,v 1.119.2.2 2011-11-15 11:06:41 mg Exp $
+# $Id: Package.pm,v 1.119.2.3 2011-11-15 11:41:39 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,9 +21,10 @@ use Kernel::System::XML;
 use Kernel::System::SysConfig;
 use Kernel::System::WebUserAgent;
 use Kernel::System::Cache;
+use Kernel::System::Loader;
 
 use vars qw($VERSION $S);
-$VERSION = qw($Revision: 1.119.2.2 $) [1];
+$VERSION = qw($Revision: 1.119.2.3 $) [1];
 
 =head1 NAME
 
@@ -98,8 +99,9 @@ sub new {
     }
 
     # create additional objects
-    $Self->{XMLObject}   = Kernel::System::XML->new( %{$Self} );
-    $Self->{CacheObject} = Kernel::System::Cache->new( %{$Self} );
+    $Self->{XMLObject}    = Kernel::System::XML->new( %{$Self} );
+    $Self->{CacheObject}  = Kernel::System::Cache->new( %{$Self} );
+    $Self->{LoaderObject} = Kernel::System::Loader->new( %{$Self} );
 
     $Self->{PackageMap} = {
         Name            => 'SCALAR',
@@ -462,6 +464,7 @@ sub PackageInstall {
     }
 
     $Self->{CacheObject}->CleanUp();
+    $Self->{LoaderObject}->CacheDelete();
 
     return 1;
 }
@@ -528,6 +531,7 @@ sub PackageReinstall {
     }
 
     $Self->{CacheObject}->CleanUp();
+    $Self->{LoaderObject}->CacheDelete();
 
     return 1;
 }
@@ -801,6 +805,7 @@ sub PackageUpgrade {
     }
 
     $Self->{CacheObject}->CleanUp();
+    $Self->{LoaderObject}->CacheDelete();
 
     return 1;
 }
@@ -876,6 +881,7 @@ sub PackageUninstall {
     }
 
     $Self->{CacheObject}->CleanUp();
+    $Self->{LoaderObject}->CacheDelete();
 
     return 1;
 }
@@ -2493,6 +2499,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.119.2.2 $ $Date: 2011-11-15 11:06:41 $
+$Revision: 1.119.2.3 $ $Date: 2011-11-15 11:41:39 $
 
 =cut
