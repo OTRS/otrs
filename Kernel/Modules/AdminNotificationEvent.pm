@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminNotificationEvent.pm - to manage event-based notifications
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNotificationEvent.pm,v 1.35 2011-11-08 10:25:19 mg Exp $
+# $Id: AdminNotificationEvent.pm,v 1.36 2011-11-15 02:37:02 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,9 +23,11 @@ use Kernel::System::State;
 use Kernel::System::Type;
 use Kernel::System::Valid;
 use Kernel::System::DynamicField;
+use Kernel::System::DynamicField::Backend;
+use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.35 $) [1];
+$VERSION = qw($Revision: 1.36 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -51,6 +53,13 @@ sub new {
     $Self->{TypeObject}         = Kernel::System::Type->new(%Param);
     $Self->{ValidObject}        = Kernel::System::Valid->new(%Param);
     $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new(%Param);
+    $Self->{BackendObject}      = Kernel::System::DynamicField::Backend->new(%Param);
+
+    # get the dynamic fields for this screen
+    $Self->{DynamicField} = $Self->{DynamicFieldObject}->DynamicFieldListGet(
+        Valid      => 1,
+        ObjectType => ['Ticket'],
+    );
 
     return $Self;
 }
@@ -69,6 +78,7 @@ sub Run {
         $Self->_Edit(
             Action => 'Change',
             %Data,
+            DynamicFieldValues => $Data{Data},
         );
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'AdminNotificationEvent',
@@ -104,17 +114,38 @@ sub Run {
             $GetParam{Data}->{$Parameter} = \@Data;
         }
 
-        # get free field params
-        for my $Count ( 1 .. 16 ) {
-            my $Key = "TicketFreeKey$Count";
-            my @Keys = $Self->{ParamObject}->GetArray( Param => $Key );
-            if (@Keys) {
-                $GetParam{Data}->{$Key} = \@Keys;
-            }
-            my $Value = "TicketFreeText$Count";
-            my @Values = $Self->{ParamObject}->GetArray( Param => $Value );
-            if (@Values) {
-                $GetParam{Data}->{$Value} = \@Values;
+        # to store dynamic fields profile data
+        my %DynamicFieldValues;
+
+        # get Dynamic fields for search from web request
+        # cycle trough the activated Dynamic Fields for this screen
+        DYNAMICFIELD:
+        for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
+            next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+
+            # extract the dynamic field value form the web request
+            my $DynamicFieldValue = $Self->{BackendObject}->SearchFieldValueGet(
+                DynamicFieldConfig     => $DynamicFieldConfig,
+                ParamObject            => $Self->{ParamObject},
+                ReturnProfileStructure => 1,
+                LayoutObject           => $Self->{LayoutObject},
+            );
+
+            # set the comple value structure in GetParam to store it later in the Generic Agent Job
+            if ( IsHashRefWithData($DynamicFieldValue) ) {
+
+                # set search structure for display
+                %DynamicFieldValues = ( %DynamicFieldValues, %{$DynamicFieldValue} );
+
+                #make all values array refs
+                for my $FieldName ( keys %{$DynamicFieldValue} ) {
+                    if ( ref $DynamicFieldValue->{$FieldName} ne 'ARRAY' ) {
+                        $DynamicFieldValue->{$FieldName} = [ $DynamicFieldValue->{$FieldName} ];
+                    }
+                }
+
+                # store special structure for match
+                $GetParam{Data} = { %{ $GetParam{Data} }, %{$DynamicFieldValue} };
             }
         }
 
@@ -151,6 +182,7 @@ sub Run {
             $Self->_Edit(
                 Action => 'Change',
                 %GetParam,
+                DynamicFieldValues => \%DynamicFieldValues,
             );
             $Output .= $Self->{LayoutObject}->Output(
                 TemplateFile => 'AdminNotificationEvent',
@@ -205,17 +237,38 @@ sub Run {
             $GetParam{Data}->{$Parameter} = \@Data;
         }
 
-        # get free field params
-        for my $Count ( 1 .. 16 ) {
-            my $Key = "TicketFreeKey$Count";
-            my @Keys = $Self->{ParamObject}->GetArray( Param => $Key );
-            if (@Keys) {
-                $GetParam{Data}->{$Key} = \@Keys;
-            }
-            my $Value = "TicketFreeText$Count";
-            my @Values = $Self->{ParamObject}->GetArray( Param => $Value );
-            if (@Values) {
-                $GetParam{Data}->{$Value} = \@Values;
+        # to store dynamic fields profile data
+        my %DynamicFieldValues;
+
+        # get Dynamic fields for search from web request
+        # cycle trough the activated Dynamic Fields for this screen
+        DYNAMICFIELD:
+        for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
+            next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+
+            # extract the dynamic field value form the web request
+            my $DynamicFieldValue = $Self->{BackendObject}->SearchFieldValueGet(
+                DynamicFieldConfig     => $DynamicFieldConfig,
+                ParamObject            => $Self->{ParamObject},
+                ReturnProfileStructure => 1,
+                LayoutObject           => $Self->{LayoutObject},
+            );
+
+            # set the comple value structure in GetParam to store it later in the Generic Agent Job
+            if ( IsHashRefWithData($DynamicFieldValue) ) {
+
+                # set search structure for display
+                %DynamicFieldValues = ( %DynamicFieldValues, %{$DynamicFieldValue} );
+
+                #make all values array refs
+                for my $FieldName ( keys %{$DynamicFieldValue} ) {
+                    if ( ref $DynamicFieldValue->{$FieldName} ne 'ARRAY' ) {
+                        $DynamicFieldValue->{$FieldName} = [ $DynamicFieldValue->{$FieldName} ];
+                    }
+                }
+
+                # store special structure for match
+                $GetParam{Data} = { %{ $GetParam{Data} }, %{$DynamicFieldValue} };
             }
         }
 
@@ -253,6 +306,7 @@ sub Run {
             $Self->_Edit(
                 Action => 'Add',
                 %GetParam,
+                DynamicFieldValues => \%DynamicFieldValues,
             );
             $Output .= $Self->{LayoutObject}->Output(
                 TemplateFile => 'AdminNotificationEvent',
@@ -534,47 +588,41 @@ sub _Edit {
         );
     }
 
-    # get free text config options
-    my %TicketFreeText;
-    my %TicketFreeTextData;
-    for my $Count ( 1 .. 16 ) {
-        $TicketFreeText{ 'TicketFreeKey' . $Count } = $Self->{TicketObject}->TicketFreeTextGet(
-            Type   => 'TicketFreeKey' . $Count,
-            FillUp => 1,
-            Action => $Self->{Action},
-            UserID => $Self->{UserID},
+    # create dynamic field HTML for set with historical data options
+    my $PrintDynamicFieldsSearchHeader = 1;
+
+    # cycle trough the activated Dynamic Fields for this screen
+    DYNAMICFIELD:
+    for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
+        next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+
+        # skip all dynamic fields where ObjectMatch is not yet implemented
+        next DYNAMICFIELD if !$Self->{BackendObject}->IsMatchable(
+            DynamicFieldConfig => $DynamicFieldConfig,
         );
-        $TicketFreeText{ 'TicketFreeText' . $Count } = $Self->{TicketObject}->TicketFreeTextGet(
-            Type   => 'TicketFreeText' . $Count,
-            FillUp => 1,
-            Action => $Self->{Action},
-            UserID => $Self->{UserID},
+
+        # get field html
+        my $DynamicFieldHTML = $Self->{BackendObject}->SearchFieldRender(
+            DynamicFieldConfig     => $DynamicFieldConfig,
+            Profile                => $Param{DynamicFieldValues} || {},
+            LayoutObject           => $Self->{LayoutObject},
+            ConfirmationCheckboxes => 1,
+            UseLabelHints          => 0,
         );
-        $TicketFreeTextData{ 'TicketFreeKey' . $Count }
-            = $Param{Data}->{ 'TicketFreeKey' . $Count };
-        $TicketFreeTextData{ 'TicketFreeText' . $Count }
-            = $Param{Data}->{ 'TicketFreeText' . $Count };
-    }
 
-    # generate the free text fields
-    my %TicketFreeTextHTML = $Self->{LayoutObject}->AgentFreeText(
-        Config     => \%TicketFreeText,
-        Ticket     => \%TicketFreeTextData,
-        NullOption => 1,
-    );
+        next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldHTML);
 
-    # Free field settings
-    for my $Count ( 1 .. 16 ) {
+        if ($PrintDynamicFieldsSearchHeader) {
+            $Self->{LayoutObject}->Block( Name => 'DynamicField' );
+            $PrintDynamicFieldsSearchHeader = 0;
+        }
 
-        next if ref $Self->{ConfigObject}->Get( 'TicketFreeKey' . $Count ) ne 'HASH';
-
-        # output free text field
+        # output dynamic field
         $Self->{LayoutObject}->Block(
-            Name => 'OverviewUpdateTicketFreeFieldElement',
+            Name => 'DynamicFieldElement',
             Data => {
-                ID             => 'TicketFreeText' . $Count,
-                TicketFreeKey  => $TicketFreeTextHTML{ 'TicketFreeKeyField' . $Count },
-                TicketFreeText => $TicketFreeTextHTML{ 'TicketFreeTextField' . $Count },
+                Label => $DynamicFieldHTML->{Label},
+                Field => $DynamicFieldHTML->{Field},
             },
         );
     }
