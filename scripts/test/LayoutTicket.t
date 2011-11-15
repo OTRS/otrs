@@ -2,7 +2,7 @@
 # scripts/test/LayoutTicket.t - layout module testscript
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutTicket.t,v 1.4 2011-01-13 18:08:47 martin Exp $
+# $Id: LayoutTicket.t,v 1.4.2.1 2011-11-15 10:11:23 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -77,6 +77,8 @@ my $HTML = '<html>
 <b>Test HTML document.</b>
 <img src="cid:1234" border="0">
 <img src="Untitled%20Attachment" border="0">
+Special case from Lotus Notes:
+<img src=cid:_1_09B1841409B1651C003EDE23C325785D border="0">
 </body>
 </html>';
 
@@ -123,6 +125,16 @@ $TicketObject->ArticleWriteAttachment(
 );
 
 $TicketObject->ArticleWriteAttachment(
+    Filename    => 'image4.png',
+    MimeType    => 'image/png',
+    ContentType => 'image/png',
+    Content     => '#fake image3#',
+    ContentID   => '_1_09B1841409B1651C003EDE23C325785D',
+    ArticleID   => $ArticleID,
+    UserID      => 1,
+);
+
+$TicketObject->ArticleWriteAttachment(
     Filename    => 'image.bmp',
     MimeType    => 'image/bmp',
     ContentType => 'image/bmp',
@@ -147,6 +159,19 @@ my @Tests = (
             'image.png'  => 1,
             'image2.png' => 1,
             'image3.png' => 1,
+            }
+    },
+    {
+        Config => {
+            'Frontend::RichText' => 1,
+        },
+        BodyRegExp => [
+            '<b>Test HTML document.<\/b>',
+            '<img src=".+?Action=PictureUpload;.+?SessionID=123;ContentID=_1_09B1841409B1651C003EDE23C325785D" border="0">',
+        ],
+        AttachmentsInclude => 1,
+        Attachment         => {
+            'image4.png' => 1,
             }
     },
     {

@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.123.2.5 2011-11-04 00:51:58 sb Exp $
+# $Id: LayoutTicket.pm,v 1.123.2.6 2011-11-15 10:11:23 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.123.2.5 $) [1];
+$VERSION = qw($Revision: 1.123.2.6 $) [1];
 
 sub AgentCustomerViewTable {
     my ( $Self, %Param ) = @_;
@@ -937,12 +937,22 @@ sub ArticleQuote {
             my %Attachments = %{ $ArticleTmp->{Atms} };
             my %AttachmentAlreadyUsed;
             $Body =~ s{
-                "cid:(.*?)"
+                (=|"|')cid:(.*?)("|'|>|\/>|\s)
             }
             {
+                my $Start= $1;
+                my $ContentID = $2;
+                my $End = $3;
+
+                # improve html quality
+                if ( $Start ne '"' && $Start ne '\'' ) {
+                    $Start .= '"';
+                }
+                if ( $End ne '"' && $End ne '\'' ) {
+                    $End = '"' . $End;
+                }
 
                 # find attachment to include
-                my $ContentID = $1;
                 ATMCOUNT:
                 for my $AttachmentID ( sort keys %Attachments ) {
 
@@ -982,7 +992,7 @@ sub ArticleQuote {
                 }
 
                 # return link
-                '"' . $ContentID . '"';
+                $Start . $ContentID . $End;
             }egxi;
 
             # find inlines images using Content-Location instead of Content-ID
