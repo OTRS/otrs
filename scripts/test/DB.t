@@ -2,7 +2,7 @@
 # DB.t - database tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.t,v 1.77.2.4 2011-11-14 18:13:34 jp Exp $
+# $Id: DB.t,v 1.77.2.5 2011-11-15 08:59:47 jp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -2204,7 +2204,7 @@ my @Queries = (
             Some3 => 1,
             Some4 => 1,
             Some5 => 1,
-            Some6 => 0,
+            Some6 => 1,
         },
     },
     {
@@ -2215,7 +2215,7 @@ my @Queries = (
             Some3 => 0,
             Some4 => 0,
             Some5 => 1,
-            Some6 => 0,
+            Some6 => 1,
         },
     },
     {
@@ -2226,7 +2226,7 @@ my @Queries = (
             Some3 => 0,
             Some4 => 0,
             Some5 => 1,
-            Some6 => 0,
+            Some6 => 1,
         },
     },
     {
@@ -2237,7 +2237,7 @@ my @Queries = (
             Some3 => 0,
             Some4 => 0,
             Some5 => 1,
-            Some6 => 0,
+            Some6 => 1,
         },
     },
     {
@@ -2248,7 +2248,7 @@ my @Queries = (
             Some3 => 0,
             Some4 => 0,
             Some5 => 1,
-            Some6 => 0,
+            Some6 => 1,
         },
     },
     {
@@ -2259,7 +2259,7 @@ my @Queries = (
             Some3 => 0,
             Some4 => 0,
             Some5 => 1,
-            Some6 => 0,
+            Some6 => 1,
         },
     },
     {
@@ -2270,7 +2270,7 @@ my @Queries = (
             Some3 => 1,
             Some4 => 1,
             Some5 => 1,
-            Some6 => 0,
+            Some6 => 1,
         },
     },
     {
@@ -2281,7 +2281,7 @@ my @Queries = (
             Some3 => 1,
             Some4 => 1,
             Some5 => 1,
-            Some6 => 0,
+            Some6 => 1,
         },
     },
     {
@@ -2413,7 +2413,7 @@ my @Queries = (
             Some3 => 1,
             Some4 => 1,
             Some5 => 1,
-            Some6 => 0,
+            Some6 => 1,
         },
     },
     {
@@ -2512,7 +2512,7 @@ my @Queries = (
             Some3 => 1,
             Some4 => 1,
             Some5 => 0,
-            Some6 => 0,
+            Some6 => 1,
         },
     },
     {
