@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Event/NotificationEvent.pm - a event module to send notifications
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: NotificationEvent.pm,v 1.33 2011-11-10 22:38:22 cr Exp $
+# $Id: NotificationEvent.pm,v 1.34 2011-11-15 02:35:04 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,9 +16,12 @@ use warnings;
 
 use Kernel::System::NotificationEvent;
 use Kernel::System::SystemAddress;
+use Kernel::System::DynamicField;
+use Kernel::System::DynamicField::Backend;
+use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.33 $) [1];
+$VERSION = qw($Revision: 1.34 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -33,6 +36,20 @@ sub new {
         )
     {
         $Self->{$Needed} = $Param{$Needed} || die "Got no $Needed!";
+    }
+
+    $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new(%Param);
+    $Self->{BackendObject}      = Kernel::System::DynamicField::Backend->new(%Param);
+
+    # get dynamic fields
+    $Self->{DynamicField} = $Self->{DynamicFieldObject}->DynamicFieldListGet(
+        Valid      => 1,
+        ObjectType => ['Ticket'],
+    );
+
+    # create a dynamic field config lookup table
+    for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
+        $Self->{DynamicFieldConfigLookup}->{ $DynamicFieldConfig->{Name} } = $DynamicFieldConfig;
     }
 
     return $Self;
@@ -111,9 +128,33 @@ sub Run {
             VALUE:
             for my $Value ( @{ $Notification{Data}->{$Key} } ) {
                 next VALUE if !$Value;
-                if ( $Value eq $Ticket{$Key} ) {
-                    $Match = 1;
-                    last;
+
+                # check if key is a search dynamic field
+                if ( $Key =~ m{\A Search_DynamicField_}xms ) {
+
+                    # remove search prefix
+                    my $DynamicFieldName = $Key;
+
+                    $DynamicFieldName =~ s{Search_DynamicField_}{};
+
+                    # get the dynamic field config for this field
+                    my $DynamicFieldConfig = $Self->{DynamicFieldConfigLookup}->{$DynamicFieldName};
+
+                    next if !$DynamicFieldConfig;
+
+                    $Match = $Self->{BackendObject}->ObjectMatch(
+                        DynamicFieldConfig => $DynamicFieldConfig,
+                        Value              => $Value,
+                        ObjectAttributes   => \%Ticket,
+                    );
+                    last if $Match;
+                }
+                else {
+
+                    if ( $Value eq $Ticket{$Key} ) {
+                        $Match = 1;
+                        last;
+                    }
                 }
             }
             next NOTIFICATION if !$Match;
