@@ -2,7 +2,7 @@
 // Core.Config.js - provides the JS config
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Config.js,v 1.4 2011-02-17 21:30:59 en Exp $
+// $Id: Core.Config.js,v 1.5 2011-11-15 15:36:01 mab Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -150,6 +150,9 @@ Core.Config = (function (TargetNS) {
         },
         'Microsoft Internet Explorer 6': function () {
             return ($.browser.msie && $.browser.version === '6.0');
+        },
+        'Microsoft Internet Explorer 7': function () {
+            return ($.browser.msie && $.browser.version === '7.0');
         },
         'Konqueror (without WebKit engine)': function () {
             return ($.browser.webkit && navigator.vendor === 'KDE');
