@@ -2,7 +2,7 @@
 # AgentTicketEmail.dtl - provides HTML form for agent email
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.dtl,v 1.149 2011-11-01 23:11:26 cg Exp $
+# $Id: AgentTicketEmail.dtl,v 1.150 2011-11-15 16:32:31 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -86,7 +86,7 @@ $('#Dest').bind('change', function (Event) {
                     <div class="Clear"></div>
 
 
-                    <div class="Field Hidden">
+                    <div class="Field $QData{"CustomerHiddenContainer"}">
                         <div class="CustomerTicketTemplateToCustomer SpacingTopSmall Hidden">
                             <input name="CustomerSelected" id="CustomerSelected" class="CustomerTicketRadio" type="radio" value=""/>
                             <input name="CustomerKey" id="CustomerKey" class="CustomerKey" type="hidden" value=""/>
@@ -152,6 +152,13 @@ $('#Dest').bind('change', function (Event) {
 //]]></script>
 <!--dtl:js_on_document_complete-->
 
+<!-- dtl:block:FromExternalCustomer -->
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+    Core.Agent.CustomerSearch.AddTicketCustomer( 'ToCustomer', '$QData{"Email"}', '$QData{"Customer"}', true );
+//]]></script>
+<!--dtl:js_on_document_complete-->
+<!-- dtl:block:FromExternalCustomer -->
 
                     <label for="ToCustomer">$Text{"To customer"}:</label>
                     <div class="Field">
@@ -175,7 +182,7 @@ $('#Dest').bind('change', function (Event) {
 <!--dtl:js_on_document_complete-->
 
 
-                    <div class="Field Hidden">
+                    <div class="Field $QData{"CcCustomerHiddenContainer"}">
                         <div class="CustomerTicketTemplateCcCustomer SpacingTopSmall Hidden">
                             <input name="CcCustomerKey" id="CcCustomerKey" class="CustomerKey" type="hidden" value=""/>
                             <input class="CcCustomerTicketText W75pc" name="CcCustomerTicketText" id="CcCustomerTicketText" type="text" value="" readonly="readonly" />
@@ -236,7 +243,7 @@ $('#Dest').bind('change', function (Event) {
 <!--dtl:js_on_document_complete-->
 
 
-                    <div class="Field Hidden">
+                    <div class="Field $QData{"BccCustomerHiddenContainer"}">
                         <div class="CustomerTicketTemplateBccCustomer SpacingTopSmall Hidden">
                             <input name="BccCustomerKey" id="BccCustomerKey" class="CustomerKey" type="hidden" value=""/>
                             <input class="BccCustomerTicketText W75pc" name="BccCustomerTicketText" id="BccCustomerTicketText" type="text" value="" readonly="readonly" />
