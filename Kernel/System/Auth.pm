@@ -2,7 +2,7 @@
 # Kernel/System/Auth.pm - provides the authentification
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Auth.pm,v 1.42.2.1 2011-11-07 13:15:57 des Exp $
+# $Id: Auth.pm,v 1.42.2.2 2011-11-15 10:29:40 des Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.42.2.1 $) [1];
+$VERSION = qw($Revision: 1.42.2.2 $) [1];
 
 =head1 NAME
 
@@ -183,11 +183,18 @@ sub Auth {
         # next on no success
         next if !$User;
 
-        # sync used auth backend
-        if ( $Self->{"AuthSyncBackend$Count"} ) {
+        # configured auth sync backend
+        my $AuthSyncBackend = $Self->{ConfigObject}->Get("AuthModule${Count}::UseSyncBackend");
 
-            # sync same backend as auth was successfully
-            $Self->{"AuthSyncBackend$Count"}->Sync( %Param, User => $User );
+        # sync with configured auth backend
+        if ( defined $AuthSyncBackend ) {
+
+            # if $AuthSyncBackend is defined but empty, don't sync with any backend
+            if ($AuthSyncBackend) {
+
+                # sync configured backend
+                $Self->{$AuthSyncBackend}->Sync( %Param, User => $User );
+            }
         }
 
         # use all 11 sync backends
@@ -305,6 +312,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.42.2.1 $ $Date: 2011-11-07 13:15:57 $
+$Revision: 1.42.2.2 $ $Date: 2011-11-15 10:29:40 $
 
 =cut
