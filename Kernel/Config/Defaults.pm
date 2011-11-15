@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.397 2011-11-04 14:20:55 sb Exp $
+# $Id: Defaults.pm,v 1.398 2011-11-15 10:27:37 des Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -29,7 +29,7 @@ use warnings;
 use 5.008_006;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.397 $) [1];
+$VERSION = qw($Revision: 1.398 $) [1];
 
 # prepend '../Custom', '../Kernel/cpan-lib' and '../' to the module search path @INC
 use File::Basename;
@@ -339,6 +339,11 @@ sub LoadDefaults {
     # --------------------------------------------------- #
     # This is the auth. module againt the otrs db
     $Self->{AuthModule} = 'Kernel::System::Auth::DB';
+
+    # defines AuthSyncBackend (AuthSyncModule) for AuthModule
+    # if this key exists and is empty, there won't be a sync.
+    # example values: AuthSyncBackend, AuthSyncBackend2
+    $Self->{'AuthModule::UseSyncBackend'} = '';
 
     # password crypt type (sha2|sha1|md5|crypt|plain)
 #    $Self->{'AuthModule::DB::CryptType'} = 'md5';
@@ -2204,6 +2209,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.397 $ $Date: 2011-11-04 14:20:55 $
+$Revision: 1.398 $ $Date: 2011-11-15 10:27:37 $
 
 =cut
