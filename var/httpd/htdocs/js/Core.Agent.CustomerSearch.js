@@ -2,7 +2,7 @@
 // Core.Agent.CustomerSearch.js - provides the special module functions for the customer search
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.CustomerSearch.js,v 1.23 2011-11-14 18:15:03 cg Exp $
+// $Id: Core.Agent.CustomerSearch.js,v 1.24 2011-11-15 08:34:56 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -277,10 +277,11 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
      * @function
      * @param {String} CustomerValue The readable customer identifier.
      * @param {String} Customerkey on system.
+     * @param {String} SetAsTicketCustomer set this customer as main ticket customer.
      * @return nothing
      *      This function add a new ticket customer
      */
-    TargetNS.AddTicketCustomer = function (Field, CustomerValue, CustomerKey, SetAsCustomerTicket) {
+    TargetNS.AddTicketCustomer = function (Field, CustomerValue, CustomerKey, SetAsTicketCustomer) {
 
         if (CustomerValue === '') {
             return false;
@@ -360,8 +361,8 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
 
         // set new value for CustomerTicketCounter
         $('#CustomerTicketCounter' + Field).val(CustomerTicketCounter);
-        if ( ( CustomerKey !== '' && TicketCustomerIDs === 0 && ( Field === 'ToCustomer' || Field === 'FromCustomer' ) ) || SetAsCustomerTicket ) {
-            if (SetAsCustomerTicket) {
+        if ( ( CustomerKey !== '' && TicketCustomerIDs === 0 && ( Field === 'ToCustomer' || Field === 'FromCustomer' ) ) || SetAsTicketCustomer ) {
+            if (SetAsTicketCustomer) {
                 $('#CustomerSelected_' + CustomerTicketCounter).attr('checked', 'checked').trigger('change');
             }
             else {
