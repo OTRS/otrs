@@ -2,7 +2,7 @@
 # Package.t - Package tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Package.t,v 1.33 2011-09-28 09:12:19 martin Exp $
+# $Id: Package.t,v 1.34 2011-11-15 11:06:58 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,11 +15,47 @@ use vars (qw($Self));
 
 use Kernel::System::Package;
 use File::Copy;
+use Kernel::System::Cache;
 
 # create local objects
 my $PackageObject = Kernel::System::Package->new( %{$Self} );
+my $CacheObject   = Kernel::System::Cache->new( %{$Self} );
 
 my $Home = $Self->{ConfigObject}->Get('Home');
+
+my $CachePopulate = sub {
+    my $CacheSet = $CacheObject->Set(
+        Type  => 'TicketTest',
+        Key   => 'Package',
+        Value => 'PackageValue',
+        TTL   => 24 * 60 * 60,
+    );
+    $Self->True(
+        $CacheSet,
+        "CacheSet successful",
+    );
+    my $CacheValue = $CacheObject->Get(
+        Type => 'TicketTest',
+        Key  => 'Package',
+    );
+    $Self->Is(
+        $CacheValue,
+        'PackageValue',
+        "CacheSet value",
+    );
+};
+
+my $CacheClearedCheck = sub {
+    my $CacheValue = $CacheObject->Get(
+        Type => 'TicketTest',
+        Key  => 'Package',
+    );
+    $Self->Is(
+        scalar $CacheValue,
+        scalar undef,
+        "CacheGet value was cleared",
+    );
+};
 
 my $String = '<?xml version="1.0" encoding="utf-8" ?>
 <otrs_package version="1.0">
@@ -114,12 +150,16 @@ $Self->True(
     '#1 RepositoryRemove()',
 );
 
+$CachePopulate->();
+
 my $PackageInstall = $PackageObject->PackageInstall( String => $String );
 
 $Self->True(
     $PackageInstall,
     '#1 PackageInstall()',
 );
+
+$CacheClearedCheck->();
 
 # check if the package is already installed - check by name
 $PackageIsInstalledByName = $PackageObject->PackageIsInstalled( Name => 'Test' );
@@ -161,12 +201,16 @@ $Self->True(
     '#1 PackageUninstall()',
 );
 
+$CachePopulate->();
+
 my $PackageInstall2 = $PackageObject->PackageInstall( String => $PackageBuild );
 
 $Self->True(
     $PackageInstall2,
     '#1 PackageInstall() - 2',
 );
+
+$CacheClearedCheck->();
 
 my $DeployCheck2 = $PackageObject->DeployCheck(
     Name    => 'Test',
@@ -226,10 +270,12 @@ $String = '<?xml version="1.0" encoding="utf-8" ?>
 
 # reinstall
 my $PackageReinstall = $PackageObject->PackageReinstall( String => $String );
-$Self->True(
-    !$PackageReinstall,
+$Self->False(
+    $PackageReinstall,
     '#1 PackageReinstall() - TestFrameworkCheck reinstalled',
 );
+
+$CachePopulate->();
 
 my $PackageUninstall2 = $PackageObject->PackageUninstall( String => $PackageBuild );
 
@@ -237,6 +283,8 @@ $Self->True(
     $PackageUninstall2,
     '#1 PackageUninstall() - 2',
 );
+
+$CacheClearedCheck->();
 
 $String = '<?xml version="1.0" encoding="utf-8" ?>
 <otrs_package version="1.0">
@@ -511,12 +559,16 @@ my $String3b = '<?xml version="1.0" encoding="utf-8" ?>
 </otrs_package>
 ';
 
+$CachePopulate->();
+
 $PackageUpgrade = $PackageObject->PackageUpgrade( String => $String3b );
 
 $Self->True(
     $PackageUpgrade,
     '#5 PackageUpgrade() - ok.',
 );
+
+$CacheClearedCheck->();
 
 $Self->True(
     !-f $TmpDir . '/test1',
@@ -1032,11 +1084,15 @@ if ( !$DeveloperSystem ) {
     );
 
     # reinstall
+    $CachePopulate->();
+
     my $PackageReinstall = $PackageObject->PackageReinstall( String => $String );
     $Self->True(
         $PackageReinstall,
         '#13 PackageReinstall() - TestFrameworkFileCheck reinstalled',
     );
+
+    $CacheClearedCheck->();
 
     # check if save file exists
     $Self->True(

@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2022 2011-11-15 10:11:36 mg Exp $
+# $Id: CHANGES,v 1.2023 2011-11-15 11:06:59 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -132,6 +132,7 @@
      of > 70 characters exists.
 
 3.0.12 ????-??-??
+ - 2011-11-15 Fixed bug#7901 - Package Manager does not clear the cache.
  - 2011-11-15 Fixed bug#7120 - Inline images from lotus notes does not show in
     AgentTicketCompose interface.
  - 2011-11-14 Fixed bug#7526 - OTRS Ticket Search not working with ( or ).
