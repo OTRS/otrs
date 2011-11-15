@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Thomas Kaltenbrunner <tkaltenbrunner at opc.de>
 # --
-# $Id: de.pm,v 1.292 2011-11-14 09:38:09 mab Exp $
+# $Id: de.pm,v 1.293 2011-11-15 15:35:19 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.292 $) [1];
+$VERSION = qw($Revision: 1.293 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -2220,9 +2220,9 @@ sub Data {
         # Template: Login
         'JavaScript Not Available' => 'JavaScript nicht aktiviert oder nicht unterstützt.',
         'Browser Warning' => 'Browser Warnung',
-        'The browser you are using is too old.' => 'Den Browser denn Sie benutzen ist zu alt/veraltet.',
-        'OTRS runs with a huge lists of browsers, please upgrade to one of these.' => 'OTRS funktioniert mit einer großen Auswahl an Browsern, bitte installieren und benutzen Sie einen von diesen.',
-        'Please see the documentation or ask your admin for further information.' => 'Bitte lesen die Dokumentation oder fragen Sie Ihren Systemadministrator für weitergehende Informationen.',
+        'The browser you are using is too old.' => 'Sie verwenden leider einen (stark) veralteten Browser.',
+        'OTRS runs with a huge lists of browsers, please upgrade to one of these.' => 'OTRS funktioniert mit einer großen Auswahl an Browsern, aus denen Sie wählen können. Bitte installieren Sie einen neueren Browser oder upgraden Sie Ihren vorhandenen.',
+        'Please see the documentation or ask your admin for further information.' => 'Bitte lesen Sie auch die Dokumentation oder fragen Sie Ihren Systemadministrator.',
         'Lost your password?' => 'Passwort verloren?',
         'Request New Password' => 'Neues Passwort anfordern',
         'Back to login' => 'Zurück zur Anmeldung',
