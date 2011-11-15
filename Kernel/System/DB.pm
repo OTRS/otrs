@@ -2,7 +2,7 @@
 # Kernel/System/DB.pm - the global database wrapper to support different databases
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.140 2011-11-14 18:15:25 jp Exp $
+# $Id: DB.pm,v 1.141 2011-11-15 13:10:43 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use DBI;
 use Kernel::System::Time;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.140 $) [1];
+$VERSION = qw($Revision: 1.141 $) [1];
 
 =head1 NAME
 
@@ -88,23 +88,28 @@ sub new {
     # 0=off; 1=updates; 2=+selects; 3=+Connects;
     $Self->{Debug} = $Param{Debug} || 0;
 
-    # check needed objects
-    for (qw(ConfigObject LogObject MainObject EncodeObject)) {
-        if ( $Param{$_} ) {
-            $Self->{$_} = $Param{$_};
+    # get needed objects
+    for my $Needed (qw(ConfigObject LogObject MainObject EncodeObject)) {
+        if ( $Param{$Needed} ) {
+            $Self->{$Needed} = $Param{$Needed};
         }
         else {
-            die "Got no $_!";
+            die "Got no $Needed!";
         }
     }
 
-    # time object
-    $Self->{TimeObject} = Kernel::System::Time->new( %{$Self} );
+    if ( $Param{TimeObject} ) {
+        $Self->{TimeObject} = $Param{TimeObject};
+    }
+    else {
+        $Self->{TimeObject} = Kernel::System::Time->new( %{$Self} );
+    }
 
     # get config data
     $Self->{DSN}  = $Param{DatabaseDSN}  || $Self->{ConfigObject}->Get('DatabaseDSN');
     $Self->{USER} = $Param{DatabaseUser} || $Self->{ConfigObject}->Get('DatabaseUser');
     $Self->{PW}   = $Param{DatabasePw}   || $Self->{ConfigObject}->Get('DatabasePw');
+
     $Self->{SlowLog} = $Param{'Database::SlowLog'}
         || $Self->{ConfigObject}->Get('Database::SlowLog');
 
@@ -218,6 +223,7 @@ sub Connect {
         $Self->{PW},
         $Self->{Backend}->{'DB::Attribute'},
     );
+
     if ( !$Self->{dbh} ) {
         $Self->{LogObject}->Log(
             Caller   => 1,
@@ -226,9 +232,11 @@ sub Connect {
         );
         return;
     }
+
     if ( $Self->{Backend}->{'DB::Connect'} ) {
         $Self->Do( SQL => $Self->{Backend}->{'DB::Connect'} );
     }
+
     return $Self->{dbh};
 }
 
@@ -256,6 +264,7 @@ sub Disconnect {
     if ( $Self->{dbh} ) {
         $Self->{dbh}->disconnect();
     }
+
     return 1;
 }
 
@@ -326,6 +335,7 @@ sub Quote {
         Priority => 'error',
         Message  => "Invalid quote type '$Type'!",
     );
+
     return;
 }
 
@@ -433,6 +443,7 @@ sub Do {
         );
         return;
     }
+
     return 1;
 }
 
@@ -737,9 +748,10 @@ generate database-specific sql syntax (e. g. CREATE TABLE ...)
 sub SQLProcessor {
     my ( $Self, %Param ) = @_;
 
-    my @SQL = ();
+    my @SQL;
     if ( $Param{Database} && ref $Param{Database} eq 'ARRAY' ) {
-        my @Table = ();
+
+        my @Table;
         for my $Tag ( @{ $Param{Database} } ) {
 
             # create table
@@ -764,7 +776,6 @@ sub SQLProcessor {
                 push @Table, $Tag;
             }
 
-            #            elsif ( $Tag->{Tag} eq 'UniqueColumn' && $Tag->{TagType} eq 'Start' ) {
             elsif ( $Tag->{Tag} eq 'UniqueColumn' ) {
                 push @Table, $Tag;
             }
@@ -779,7 +790,6 @@ sub SQLProcessor {
                 push @Table, $Tag;
             }
 
-            #            elsif ( $Tag->{Tag} eq 'IndexColumn' && $Tag->{TagType} eq 'Start' ) {
             elsif ( $Tag->{Tag} eq 'IndexColumn' ) {
                 push @Table, $Tag;
             }
@@ -853,6 +863,7 @@ sub SQLProcessor {
             }
         }
     }
+
     return @SQL;
 }
 
@@ -873,6 +884,7 @@ sub SQLProcessorPost {
         undef $Self->{Backend}->{Post};
         return @Return;
     }
+
     return ();
 }
 
@@ -906,7 +918,9 @@ sub GetTableData {
 
         $SQL .= " WHERE valid_id IN ( ${\(join ', ', @ValidIDs)} )";
     }
+
     $Self->Prepare( SQL => $SQL );
+
     while ( my @Row = $Self->FetchrowArray() ) {
         if ( $Row[3] ) {
             if ($Clamp) {
@@ -928,6 +942,7 @@ sub GetTableData {
             $Data{ $Row[0] } = $Row[1];
         }
     }
+
     return %Data;
 }
 
@@ -1141,6 +1156,7 @@ sub QueryCondition {
             # if it's a NOT LIKE condition
             if ( $Array[$Position] eq '!' || $Not ) {
                 $Not = 0;
+
                 my $SQLA;
                 for my $Key (@Keys) {
                     if ($SQLA) {
@@ -1255,6 +1271,7 @@ sub QueryCondition {
         );
         return;
     }
+
     return $SQL;
 }
 
@@ -1312,6 +1329,7 @@ sub _TypeCheck {
             Message  => "Unknown data type '$Tag->{Type}'!",
         );
     }
+
     return 1;
 }
 
@@ -1324,6 +1342,7 @@ sub _NameCheck {
             Message  => "Table names should not have more the 30 chars ($Tag->{Name})!",
         );
     }
+
     return 1;
 }
 
@@ -1357,6 +1376,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.140 $ $Date: 2011-11-14 18:15:25 $
+$Revision: 1.141 $ $Date: 2011-11-15 13:10:43 $
 
 =cut
