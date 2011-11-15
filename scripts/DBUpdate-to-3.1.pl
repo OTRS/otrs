@@ -3,7 +3,7 @@
 # DBUpdate-to-3.1.pl - update script to migrate OTRS 3.0.x to 3.1.x
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-3.1.pl,v 1.58 2011-11-11 19:37:35 cr Exp $
+# $Id: DBUpdate-to-3.1.pl,v 1.59 2011-11-15 02:39:35 cr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.58 $) [1];
+$VERSION = qw($Revision: 1.59 $) [1];
 
 use Getopt::Std qw();
 use Kernel::Config;
@@ -2563,7 +2563,8 @@ sub _MigrateNotificationEventConfiguration {
             # check for errors
             if ( !$SuccessNotificationUpdate ) {
                 print
-                    "Could not migrate the Notification $NotificationRecordConfig->{NotificationName}\n";
+                    "Could not migrate the Notification "
+                    . "$NotificationRecordConfig->{NotificationName}\n";
                 return 0;
             }
         }
@@ -2632,12 +2633,91 @@ sub _MigrateNotificationEventConfiguration {
             # check for errors
             if ( !$SuccessNotificationItemUpdate ) {
                 print
-                    "Could not migrate the Notification Item $NotificationItemRecordConfig->{NotificationName}\n";
+                    "Could not migrate the Notification Item "
+                    . "$NotificationItemRecordConfig->{NotificationName}\n";
                 return 0;
             }
         }
     }
 
+    # notification event item keys
+
+    # create additional objects
+    my $DynamicFieldObject = Kernel::System::DynamicField->new( %{$CommonObject} );
+
+    # get DynamicFields list
+    my $DynamicFields = $DynamicFieldObject->DynamicFieldList(
+        Valid      => 0,
+        ResultType => 'HASH',
+    );
+
+    # reverse the DynamicFields list to create a lookup table
+    $DynamicFields = { reverse %{$DynamicFields} };
+
+    # find all notification events that has defined free fields tags
+    return if !$CommonObject->{DBObject}->Prepare(
+        SQL => "SELECT notification_id, event_key, event_value
+            FROM notification_event_item
+            WHERE event_key like 'TicketFree%'
+            ORDER BY notification_id",
+    );
+
+    # reset notifications array
+    @NotificationItemRecordsToChange = ();
+
+    # loop through all results
+    while ( my @Row = $CommonObject->{DBObject}->FetchrowArray() ) {
+
+        # get signature details
+        my %NotificationItemRecordConfig = (
+            NotificationID          => $Row[0],
+            NotificationEventKey    => $Row[1],
+            NotificationEventKeyNew => $Row[1],
+            NotificationEventValue  => $Row[2],
+        );
+
+        # save field details
+        push @NotificationItemRecordsToChange, \%NotificationItemRecordConfig;
+    }
+
+    # set search prefix
+    my $SearchPrefix = 'Search_DynamicField_';
+
+    NOTIFICATIONITEMCONFIG:
+    for my $NotificationItemRecordConfig (@NotificationItemRecordsToChange) {
+
+        # check if the migrated dynamic field is available
+        next NOTIFICATIONITEMCONFIG
+            if !$DynamicFields->{ $NotificationItemRecordConfig->{NotificationEventKey} };
+
+        # append search prefix to the notification key free fields
+        $NotificationItemRecordConfig->{NotificationEventKeyNew}
+            = $SearchPrefix . $NotificationItemRecordConfig->{NotificationEventKey};
+
+        # update database
+        my $SuccessNotificationEventItemUpdate = $CommonObject->{DBObject}->Do(
+            SQL => "UPDATE notification_event_item
+                SET event_key = ?
+                WHERE notification_id = ?
+                    AND event_key = ?
+                    AND event_value = ?",
+            Bind => [
+                \$NotificationItemRecordConfig->{NotificationEventKeyNew},
+                \$NotificationItemRecordConfig->{NotificationID},
+                \$NotificationItemRecordConfig->{NotificationEventKey},
+                \$NotificationItemRecordConfig->{NotificationEventValue},
+            ],
+        );
+
+        # check for errors
+        if ( !$SuccessNotificationEventItemUpdate ) {
+            print "Could not migrate the Noptification event item "
+                . "for Notification ID $NotificationItemRecordConfig->{NotificationID} "
+                . "field $NotificationItemRecordConfig->{NotificationEventKey}\n";
+
+            return 0;
+        }
+    }
     return 1;
 }
 
