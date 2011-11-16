@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.186 2011-11-16 02:52:10 cr Exp $
+# $Id: AgentTicketEmail.pm,v 1.187 2011-11-16 13:54:40 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.186 $) [1];
+$VERSION = qw($Revision: 1.187 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -105,6 +105,9 @@ sub Run {
         $GetParam{$Key} = $Self->{ParamObject}->GetParam( Param => $Key );
     }
 
+    # If is an action about attachments
+    my $IsUpload = ( $Self->{ParamObject}->GetParam( Param => 'AttachmentUpload' ) ? 1 : 0 );
+
     # MultipleCustomer To-field
     my @MultipleCustomer;
     my $CustomersNumber
@@ -124,22 +127,27 @@ sub Run {
 
                 $GetParam{To} .= $CustomerElement . ',';
 
-                # check email address
                 my $CustomerErrorMsg = 'CustomerGenericServerErrorMsg';
                 my $CustomerError    = '';
-                for my $Email ( Mail::Address->parse($CustomerElement) ) {
-                    if ( !$Self->{CheckItemObject}->CheckEmail( Address => $Email->address() ) ) {
-                        $CustomerErrorMsg = $Self->{CheckItemObject}->CheckErrorType()
-                            . 'ServerErrorMsg';
-                        $CustomerError = 'ServerError';
-                    }
-                }
-
                 my $CustomerDisabled = '';
                 my $CountAux         = $Count;
-                if ( $CustomerError ne '' ) {
-                    $CustomerDisabled = 'disabled="disabled"';
-                    $CountAux         = $Count . 'Error';
+
+                if ( !$IsUpload ) {
+
+                    # check email address
+                    for my $Email ( Mail::Address->parse($CustomerElement) ) {
+                        if ( !$Self->{CheckItemObject}->CheckEmail( Address => $Email->address() ) )
+                        {
+                            $CustomerErrorMsg = $Self->{CheckItemObject}->CheckErrorType()
+                                . 'ServerErrorMsg';
+                            $CustomerError = 'ServerError';
+                        }
+                    }
+
+                    if ( $CustomerError ne '' ) {
+                        $CustomerDisabled = 'disabled="disabled"';
+                        $CountAux         = $Count . 'Error';
+                    }
                 }
 
                 push @MultipleCustomer, {
@@ -168,25 +176,28 @@ sub Run {
                 || '';
 
             if ($CustomerElementCc) {
-
-                $GetParam{Cc} .= $CustomerElementCc . ',';
-
-                # check email address
                 my $CustomerErrorMsgCc = 'CustomerGenericServerErrorMsg';
                 my $CustomerErrorCc    = '';
-                for my $Email ( Mail::Address->parse($CustomerElementCc) ) {
-                    if ( !$Self->{CheckItemObject}->CheckEmail( Address => $Email->address() ) ) {
-                        $CustomerErrorMsgCc = $Self->{CheckItemObject}->CheckErrorType()
-                            . 'ServerErrorMsg';
-                        $CustomerErrorCc = 'ServerError';
-                    }
-                }
-
                 my $CustomerDisabledCc = '';
                 my $CountAuxCc         = $Count;
-                if ( $CustomerErrorCc ne '' ) {
-                    $CustomerDisabledCc = 'disabled="disabled"';
-                    $CountAuxCc         = $Count . 'Error';
+
+                if ( !$IsUpload ) {
+                    $GetParam{Cc} .= $CustomerElementCc . ',';
+
+                    # check email address
+                    for my $Email ( Mail::Address->parse($CustomerElementCc) ) {
+                        if ( !$Self->{CheckItemObject}->CheckEmail( Address => $Email->address() ) )
+                        {
+                            $CustomerErrorMsgCc = $Self->{CheckItemObject}->CheckErrorType()
+                                . 'ServerErrorMsg';
+                            $CustomerErrorCc = 'ServerError';
+                        }
+                    }
+
+                    if ( $CustomerErrorCc ne '' ) {
+                        $CustomerDisabledCc = 'disabled="disabled"';
+                        $CountAuxCc         = $Count . 'Error';
+                    }
                 }
 
                 push @MultipleCustomerCc, {
@@ -216,24 +227,27 @@ sub Run {
 
             if ($CustomerElementBcc) {
 
-                $GetParam{Bcc} .= $CustomerElementBcc . ',';
-
-                # check email address
-                my $CustomerErrorMsgBcc = 'CustomerGenericServerErrorMsg';
-                my $CustomerErrorBcc    = '';
-                for my $Email ( Mail::Address->parse($CustomerElementBcc) ) {
-                    if ( !$Self->{CheckItemObject}->CheckEmail( Address => $Email->address() ) ) {
-                        $CustomerErrorMsgBcc = $Self->{CheckItemObject}->CheckErrorType()
-                            . 'ServerErrorMsg';
-                        $CustomerErrorBcc = 'ServerError';
-                    }
-                }
-
                 my $CustomerDisabledBcc = '';
                 my $CountAuxBcc         = $Count;
-                if ( $CustomerErrorBcc ne '' ) {
-                    $CustomerDisabledBcc = 'disabled="disabled"';
-                    $CountAuxBcc         = $Count . 'Error';
+                my $CustomerErrorMsgBcc = 'CustomerGenericServerErrorMsg';
+                my $CustomerErrorBcc    = '';
+                if ( !$IsUpload ) {
+                    $GetParam{Bcc} .= $CustomerElementBcc . ',';
+
+                    # check email address
+                    for my $Email ( Mail::Address->parse($CustomerElementBcc) ) {
+                        if ( !$Self->{CheckItemObject}->CheckEmail( Address => $Email->address() ) )
+                        {
+                            $CustomerErrorMsgBcc = $Self->{CheckItemObject}->CheckErrorType()
+                                . 'ServerErrorMsg';
+                            $CustomerErrorBcc = 'ServerError';
+                        }
+                    }
+
+                    if ( $CustomerErrorBcc ne '' ) {
+                        $CustomerDisabledBcc = 'disabled="disabled"';
+                        $CountAuxBcc         = $Count . 'Error';
+                    }
                 }
 
                 push @MultipleCustomerBcc, {
@@ -497,6 +511,11 @@ sub Run {
             || '';
         my $ExpandCustomerName = $Self->{ParamObject}->GetParam( Param => 'ExpandCustomerName' )
             || 0;
+        my %FromExternalCustomer;
+        $FromExternalCustomer{Customer}
+            = $Self->{ParamObject}->GetParam( Param => 'PreSelectedCustomerUser' )
+            || $Self->{ParamObject}->GetParam( Param => 'CustomerUser' )
+            || '';
         $GetParam{QueueID}            = $NewQueueID;
         $GetParam{ExpandCustomerName} = $ExpandCustomerName;
 
@@ -521,9 +540,6 @@ sub Run {
                 $ExpandCustomerName = 2;
             }
         }
-
-        # If is an action about attachments
-        my $IsUpload = 0;
 
         # attachment delete
         for my $Count ( 1 .. 32 ) {
@@ -693,6 +709,12 @@ sub Run {
             }
             if ( $CustomerUserData{UserLogin} ) {
                 $CustomerUser = $CustomerUserData{UserLogin};
+            }
+            if ( $FromExternalCustomer{Customer} ) {
+                my %ExternalCustomerUserData = $Self->{CustomerUserObject}->CustomerUserDataGet(
+                    User => $FromExternalCustomer{Customer},
+                );
+                $FromExternalCustomer{Email} = $ExternalCustomerUserData{UserEmail};
             }
             $Error{ExpandCustomerName} = 1;
         }
@@ -892,10 +914,11 @@ sub Run {
                 Attachments  => \@Attachments,
                 Signature    => $Signature,
                 %GetParam,
-                DynamicFieldHTML    => \%DynamicFieldHTML,
-                MultipleCustomer    => \@MultipleCustomer,
-                MultipleCustomerCc  => \@MultipleCustomerCc,
-                MultipleCustomerBcc => \@MultipleCustomerBcc,
+                DynamicFieldHTML     => \%DynamicFieldHTML,
+                MultipleCustomer     => \@MultipleCustomer,
+                MultipleCustomerCc   => \@MultipleCustomerCc,
+                MultipleCustomerBcc  => \@MultipleCustomerBcc,
+                FromExternalCustomer => \%FromExternalCustomer,
             );
 
             $Output .= $Self->{LayoutObject}->Footer();
@@ -1643,10 +1666,33 @@ sub _MaskEmailNew {
         }
     }
 
+    # From external
+    my $ShowErrors = 1;
+    if (
+        defined $Param{FromExternalCustomer}
+        &&
+        defined $Param{FromExternalCustomer}->{Email} &&
+        defined $Param{FromExternalCustomer}->{Customer}
+        )
+    {
+        $ShowErrors = 0;
+        $Self->{LayoutObject}->Block(
+            Name => 'FromExternalCustomer',
+            Data => $Param{FromExternalCustomer},
+        );
+    }
+
     # Cc
     my $CustomerCounterCc = 0;
     if ( $Param{MultipleCustomerCc} ) {
         for my $Item ( @{ $Param{MultipleCustomerCc} } ) {
+            if ( !$ShowErrors ) {
+
+                # set empty values for errors
+                $Item->{CustomerError}    = '';
+                $Item->{CustomerDisabled} = '';
+                $Item->{CustomerErrorMsg} = 'CustomerGenericServerErrorMsg';
+            }
             $Self->{LayoutObject}->Block(
                 Name => 'CcMultipleCustomer',
                 Data => $Item,
@@ -1664,6 +1710,10 @@ sub _MaskEmailNew {
         }
     }
 
+    if ( !$CustomerCounterCc ) {
+        $Param{CcCustomerHiddenContainer} = 'Hidden';
+    }
+
     # set customer counter
     $Self->{LayoutObject}->Block(
         Name => 'CcMultipleCustomerCounter',
@@ -1676,6 +1726,13 @@ sub _MaskEmailNew {
     my $CustomerCounterBcc = 0;
     if ( $Param{MultipleCustomerBcc} ) {
         for my $Item ( @{ $Param{MultipleCustomerBcc} } ) {
+            if ( !$ShowErrors ) {
+
+                # set empty values for errors
+                $Item->{CustomerError}    = '';
+                $Item->{CustomerDisabled} = '';
+                $Item->{CustomerErrorMsg} = 'CustomerGenericServerErrorMsg';
+            }
             $Self->{LayoutObject}->Block(
                 Name => 'BccMultipleCustomer',
                 Data => $Item,
@@ -1693,6 +1750,10 @@ sub _MaskEmailNew {
         }
     }
 
+    if ( !$CustomerCounterBcc ) {
+        $Param{BccCustomerHiddenContainer} = 'Hidden';
+    }
+
     # set customer counter
     $Self->{LayoutObject}->Block(
         Name => 'BccMultipleCustomerCounter',
@@ -1705,6 +1766,13 @@ sub _MaskEmailNew {
     my $CustomerCounter = 0;
     if ( $Param{MultipleCustomer} ) {
         for my $Item ( @{ $Param{MultipleCustomer} } ) {
+            if ( !$ShowErrors ) {
+
+                # set empty values for errors
+                $Item->{CustomerError}    = '';
+                $Item->{CustomerDisabled} = '';
+                $Item->{CustomerErrorMsg} = 'CustomerGenericServerErrorMsg';
+            }
             $Self->{LayoutObject}->Block(
                 Name => 'MultipleCustomer',
                 Data => $Item,
@@ -1722,6 +1790,10 @@ sub _MaskEmailNew {
         }
     }
 
+    if ( !$CustomerCounter ) {
+        $Param{CustomerHiddenContainer} = 'Hidden';
+    }
+
     # set customer counter
     $Self->{LayoutObject}->Block(
         Name => 'MultipleCustomerCounter',
@@ -1735,8 +1807,26 @@ sub _MaskEmailNew {
             Name => 'ToServerErrorMsg',
         );
     }
-    if ( $Param{Errors}->{ToErrorType} ) {
+    if ( $Param{Errors}->{ToErrorType} || !$ShowErrors ) {
         $Param{ToInvalid} = '';
+    }
+
+    if ( $Param{CcInvalid} && $Param{Errors} && !$Param{Errors}->{CcErrorType} ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'CcServerErrorMsg',
+        );
+    }
+    if ( $Param{Errors}->{CcErrorType} || !$ShowErrors ) {
+        $Param{CcInvalid} = '';
+    }
+
+    if ( $Param{BccInvalid} && $Param{Errors} && !$Param{Errors}->{BccErrorType} ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'BccServerErrorMsg',
+        );
+    }
+    if ( $Param{Errors}->{BccErrorType} || !$ShowErrors ) {
+        $Param{BccInvalid} = '';
     }
 
     my @DynamicFieldNames;
