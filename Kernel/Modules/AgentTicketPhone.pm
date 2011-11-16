@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.203 2011-11-14 22:49:40 cg Exp $
+# $Id: AgentTicketPhone.pm,v 1.204 2011-11-16 02:52:10 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,7 +26,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.203 $) [1];
+$VERSION = qw($Revision: 1.204 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -278,8 +278,8 @@ sub Run {
 
                 # set possible values filter from ACLs
                 my $ACL = $Self->{TicketObject}->TicketAcl(
+                    %GetParam,
                     Action        => $Self->{Action},
-                    TicketID      => $Self->{TicketID},
                     Type          => 'DynamicField_' . $DynamicFieldConfig->{Name},
                     ReturnType    => 'Ticket',
                     ReturnSubType => 'DynamicField_' . $DynamicFieldConfig->{Name},
@@ -538,8 +538,8 @@ sub Run {
 
                 # set possible values filter from ACLs
                 my $ACL = $Self->{TicketObject}->TicketAcl(
+                    %GetParam,
                     Action        => $Self->{Action},
-                    TicketID      => $Self->{TicketID},
                     Type          => 'DynamicField_' . $DynamicFieldConfig->{Name},
                     ReturnType    => 'Ticket',
                     ReturnSubType => 'DynamicField_' . $DynamicFieldConfig->{Name},
@@ -1122,8 +1122,9 @@ sub Run {
 
             # set possible values filter from ACLs
             my $ACL = $Self->{TicketObject}->TicketAcl(
+                %GetParam,
+                DynamicField  => \%DynamicFieldACLParameters,
                 Action        => $Self->{Action},
-                TicketID      => $Self->{TicketID},
                 QueueID       => $QueueID || 0,
                 DynamicField  => \%DynamicFieldACLParameters,
                 Type          => 'DynamicField_' . $DynamicFieldConfig->{Name},
