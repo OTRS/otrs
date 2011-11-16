@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.205 2011-11-16 20:22:15 cr Exp $
+# $Id: AgentTicketPhone.pm,v 1.206 2011-11-16 23:55:05 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,7 +26,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.205 $) [1];
+$VERSION = qw($Revision: 1.206 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -258,13 +258,40 @@ sub Run {
             }
         }
 
-        # create html strings for all dynamic fields
-        my %DynamicFieldHTML;
-
         # get user preferences
         my %UserPreferences = $Self->{UserObject}->GetUserData(
             UserID => $Self->{UserID},
         );
+
+        # store the dynamic fields default values or used specific default values to be used as
+        # ACLs info for all fields
+        my %DynamicFieldDefaults;
+
+        # cycle trough the activated Dynamic Fields for this screen
+        DYNAMICFIELD:
+        for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
+            next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+            next DYNAMICFIELD if !IsHashRefWithData( $DynamicFieldConfig->{Config} );
+            next DYNAMICFIELD if !$DynamicFieldConfig->{Name};
+
+            # get default value from dynamic field config (if any)
+            my $DefaultValue = $DynamicFieldConfig->{Config}->{DefaultValue} || '';
+
+            # override the value from user preferences if is set
+            if ( $UserPreferences{ 'UserDynamicField_' . $DynamicFieldConfig->{Name} } ) {
+                $DefaultValue
+                    = $UserPreferences{ 'UserDynamicField_' . $DynamicFieldConfig->{Name} };
+            }
+
+            next DYNAMICFIELD if $DefaultValue eq '';
+            next DYNAMICFIELD if ref $DefaultValue eq 'ARRAY' && !IsArrayRefWithData($DefaultValue);
+
+            $DynamicFieldDefaults{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = $DefaultValue;
+        }
+        $GetParam{DynamicField} = \%DynamicFieldDefaults;
+
+        # create html strings for all dynamic fields
+        my %DynamicFieldHTML;
 
         # cycle trough the activated Dynamic Fields for this screen
         DYNAMICFIELD:
@@ -522,6 +549,18 @@ sub Run {
                 }
             }
         }
+
+        # convert dynamic field values into a structure for ACLs
+        my %DynamicFieldACLParameters;
+        DYNAMICFIELD:
+        for my $DynamcField ( keys %DynamicFieldValues ) {
+            next DYNAMICFIELD if !$DynamcField;
+            next DYNAMICFIELD if !$DynamicFieldValues{$DynamcField};
+
+            $DynamicFieldACLParameters{ 'DynamicField_' . $DynamcField }
+                = $DynamicFieldValues{$DynamcField};
+        }
+        $GetParam{DynamicField} = \%DynamicFieldACLParameters;
 
         # create html strings for all dynamic fields
         my %DynamicFieldHTML;
@@ -1066,6 +1105,7 @@ sub Run {
             $DynamicFieldACLParameters{ 'DynamicField_' . $DynamcField }
                 = $DynamicFieldValues{$DynamcField};
         }
+        $GetParam{DynamicField} = \%DynamicFieldACLParameters;
 
         # get list type
         my $TreeView = 0;
@@ -1083,27 +1123,23 @@ sub Run {
         );
         my $NextStates = $Self->_GetNextStates(
             %GetParam,
-            DynamicField   => \%DynamicFieldACLParameters,
             CustomerUserID => $CustomerUser || '',
-            QueueID        => $QueueID || 1,
+            QueueID        => $QueueID      || 1,
         );
         my $Priorities = $Self->_GetPriorities(
             %GetParam,
-            DynamicField   => \%DynamicFieldACLParameters,
             CustomerUserID => $CustomerUser || '',
-            QueueID        => $QueueID || 1,
+            QueueID        => $QueueID      || 1,
         );
         my $Services = $Self->_GetServices(
             %GetParam,
-            DynamicField   => \%DynamicFieldACLParameters,
             CustomerUserID => $CustomerUser || '',
-            QueueID        => $QueueID || 1,
+            QueueID        => $QueueID      || 1,
         );
         my $SLAs = $Self->_GetSLAs(
             %GetParam,
-            DynamicField   => \%DynamicFieldACLParameters,
             CustomerUserID => $CustomerUser || '',
-            QueueID        => $QueueID || 1,
+            QueueID        => $QueueID      || 1,
             Services       => $Services,
         );
 
@@ -1123,7 +1159,6 @@ sub Run {
             # set possible values filter from ACLs
             my $ACL = $Self->{TicketObject}->TicketAcl(
                 %GetParam,
-                DynamicField  => \%DynamicFieldACLParameters,
                 Action        => $Self->{Action},
                 QueueID       => $QueueID || 0,
                 Type          => 'DynamicField_' . $DynamicFieldConfig->{Name},
