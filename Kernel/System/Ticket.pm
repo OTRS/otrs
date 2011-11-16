@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.527 2011-11-08 05:35:56 cr Exp $
+# $Id: Ticket.pm,v 1.528 2011-11-16 02:44:10 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -40,7 +40,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.527 $) [1];
+$VERSION = qw($Revision: 1.528 $) [1];
 
 =head1 NAME
 
@@ -6177,6 +6177,34 @@ sub TicketAcl {
     # check for dynamic fields
     if ( IsHashRefWithData( $Param{DynamicField} ) ) {
         $Checks{DynamicField} = $Param{DynamicField};
+
+        # update or add dynamic fields information to the ticket check
+        for my $DynamicFieldName ( keys %{ $Param{DynamicField} } ) {
+            $Checks{Ticket}->{$DynamicFieldName} = $Param{DynamicField}->{$DynamicFieldName};
+
+            if (
+                $DynamicFieldName =~ m{
+               \A DynamicField_
+               (
+                    TicketFree
+                    (?:
+                        (?:Text|Key)
+                        (?:1[0-6]|[1-9])
+                        |
+                        (?:Time [1-6])
+                    )
+                )
+                \z
+            }smx
+                )
+            {
+
+                # Set field for 3.0 and 2.4 compatibility
+                my $CompatName = $DynamicFieldName;
+                $CompatName =~ s{\A DynamicField_ }{}smx;
+                $Checks{Ticket}->{$CompatName} = $Param{DynamicField}->{$DynamicFieldName};
+            }
+        }
     }
 
     # use user data
@@ -6209,16 +6237,53 @@ sub TicketAcl {
             $CustomerUser{"Group_$Type"} = \@Groups;
         }
         $Checks{CustomerUser} = \%CustomerUser;
+
+        # update or add customer information to the ticket check
+        $Checks{Ticket}->{CustomerUserID} = $Checks{CustomerUser}->{UserLogin};
+    }
+    elsif ( !$Param{SutomerUserID} ) {
+        if ( IsStringWithData( $Checks{Ticket}->{CustomerUserID} ) ) {
+
+            # get customer data from the ticket
+            my %CustomerUser = $Self->{CustomerUserObject}->CustomerUserDataGet(
+                User => $Checks{Ticket}->{CustomerUserID},
+            );
+            for my $Type ( @{ $Self->{ConfigObject}->Get('System::Customer::Permission') } ) {
+                my @Groups = $Self->{CustomerGroupObject}->GroupMemberList(
+                    UserID => $Checks{Ticket}->{CustomerUserID},
+                    Result => 'Name',
+                    Type   => $Type,
+                );
+                $CustomerUser{"Group_$Type"} = \@Groups;
+            }
+            $Checks{CustomerUser} = \%CustomerUser;
+        }
     }
 
     # use queue data (if given)
     if ( $Param{QueueID} ) {
         my %Queue = $Self->{QueueObject}->QueueGet( ID => $Param{QueueID} );
         $Checks{Queue} = \%Queue;
+
+        # update or add queue information to the ticket check
+        $Checks{Ticket}->{Queue}   = $Checks{Queue}->{Name};
+        $Checks{Ticket}->{QueueID} = $Checks{Queue}->{QueueID};
     }
     elsif ( $Param{Queue} ) {
         my %Queue = $Self->{QueueObject}->QueueGet( Name => $Param{Queue} );
         $Checks{Queue} = \%Queue;
+
+        # update or add queue information to the ticket check
+        $Checks{Ticket}->{Queue}   = $Checks{Queue}->{Name};
+        $Checks{Ticket}->{QueueID} = $Checks{Queue}->{QueueID};
+    }
+    elsif ( !$Param{QueueID} && !$Param{Queue} ) {
+        if ( IsPositiveInteger( $Checks{Ticket}->{QueueID} ) ) {
+
+            # get queue data from the ticket
+            my %Queue = $Self->{QueueObject}->QueueGet( ID => $Checks{Ticket}->{QueueID} );
+            $Checks{Queue} = \%Queue;
+        }
     }
 
     # use service data (if given)
@@ -6228,6 +6293,10 @@ sub TicketAcl {
             UserID    => 1,
         );
         $Checks{Service} = \%Service;
+
+        # update or add service information to the ticket check
+        $Checks{Ticket}->{Service}   = $Checks{Service}->{Name};
+        $Checks{Ticket}->{ServiceID} = $Checks{Service}->{ServiceID};
     }
     elsif ( $Param{Service} ) {
         my %Service = $Self->{ServiceObject}->ServiceGet(
@@ -6235,6 +6304,21 @@ sub TicketAcl {
             UserID => 1,
         );
         $Checks{Service} = \%Service;
+
+        # update or add service information to the ticket check
+        $Checks{Ticket}->{Service}   = $Checks{Service}->{Name};
+        $Checks{Ticket}->{ServiceID} = $Checks{Service}->{ServiceID};
+    }
+    elsif ( !$Param{ServiceID} && !$Param{Service} ) {
+        if ( IsPositiveInteger( $Checks{Ticket}->{ServiceID} ) ) {
+
+            # get service data from the ticket
+            my %Service = $Self->{ServiceObject}->ServiceGet(
+                ServiceID => $Checks{Ticket}->{ServiceID},
+                UserID    => 1,
+            );
+            $Checks{Service} = \%Service;
+        }
     }
 
     # use type data (if given)
@@ -6244,6 +6328,10 @@ sub TicketAcl {
             UserID => 1,
         );
         $Checks{Type} = \%Type;
+
+        # update or add ticket type information to the ticket check
+        $Checks{Ticket}->{Type}   = $Checks{Type}->{Name};
+        $Checks{Ticket}->{TypeID} = $Checks{Type}->{ID};
     }
     elsif ( $Param{Type} ) {
 
@@ -6268,6 +6356,280 @@ sub TicketAcl {
                 UserID => 1,
             );
             $Checks{Type} = \%Type;
+
+            # update or add ticket type information to the ticket check
+            $Checks{Ticket}->{Type}   = $Checks{Type}->{Name};
+            $Checks{Ticket}->{TypeID} = $Checks{Type}->{ID};
+        }
+    }
+    elsif ( !$Param{TypeID} && !$Param{Type} ) {
+        if ( IsPositiveInteger( $Checks{Ticket}->{TypeID} ) ) {
+
+            # get type data from the ticket
+            my %Type = $Self->{TypeObject}->TypeGet(
+                ID     => $Checks{Ticket}->{TypeID},
+                UserID => 1,
+            );
+            $Checks{Type} = \%Type;
+        }
+    }
+
+    # use priority data (if given)
+    if ( $Param{NewPriorityID} && !$Param{PriorityID} ) {
+        $Param{PriorityID} = $Param{NewPriorityID}
+    }
+    if ( $Param{PriorityID} ) {
+        my %Priority = $Self->{PriorityObject}->PriorityGet(
+            PriorityID => $Param{PriorityID},
+            UserID     => 1,
+        );
+        $Checks{Priority} = \%Priority;
+
+        # update or add priority information to the ticket check
+        $Checks{Ticket}->{Priority}   = $Checks{Priority}->{Name};
+        $Checks{Ticket}->{PriorityID} = $Checks{Priority}->{ID};
+    }
+    elsif ( $Param{Priority} ) {
+        my $PriorityID = $Self->{PriorityObject}->PriorityLookup(
+            Priority => $Param{Priority},
+        );
+        my %Priority = $Self->{PriorityObject}->PriorityGet(
+            PriorityID => $PriorityID,
+            UserID     => 1,
+        );
+        $Checks{Priority} = \%Priority;
+
+        # update or add priority information to the ticket check
+        $Checks{Ticket}->{Priority}   = $Checks{Priority}->{Name};
+        $Checks{Ticket}->{PriorityID} = $Checks{Priority}->{ID};
+    }
+    elsif ( !$Param{PriorityID} && !$Param{Priority} ) {
+        if ( IsPositiveInteger( $Checks{Ticket}->{PriorityID} ) ) {
+
+            # get priority data from the ticket
+            my %Priority = $Self->{PriorityObject}->PriorityGet(
+                PriorityID => $Checks{Ticket}->{PriorityID},
+                UserID     => 1,
+            );
+            $Checks{Priority} = \%Priority;
+        }
+    }
+
+    # use SLA data (if given)
+    if ( $Param{SLAID} ) {
+        my %SLA = $Self->{SLAObject}->SLAGet(
+            SLAID  => $Param{SLAID},
+            UserID => 1,
+        );
+        $Checks{SLA} = \%SLA;
+
+        # update or add SLA information to the ticket check
+        $Checks{Ticket}->{SLA}   = $Checks{SLA}->{Name};
+        $Checks{Ticket}->{SLAID} = $Checks{SLA}->{SLAID};
+    }
+    elsif ( $Param{SLA} ) {
+        my $SLAID = $Self->{SLAObject}->SLALookup(
+            Name => $Param{SLA},
+        );
+        my %SLA = $Self->{SLAObject}->SLAGet(
+            SLAID  => $SLAID,
+            UserID => 1,
+        );
+        $Checks{SLA} = \%SLA;
+
+        # update or add SLA information to the ticket check
+        $Checks{Ticket}->{SLA}   = $Checks{SLA}->{Name};
+        $Checks{Ticket}->{SLAID} = $Checks{SLA}->{SLAID};
+    }
+    elsif ( !$Param{SLAID} && !$Param{SLA} ) {
+        if ( IsPositiveInteger( $Checks{Ticket}->{SLAID} ) ) {
+
+            # get SLA data from the ticket
+            my %SLA = $Self->{SLAObject}->SLAGet(
+                SLAID  => $Checks{Ticket}->{SLAID},
+                UserID => 1,
+            );
+            $Checks{SLA} = \%SLA;
+        }
+    }
+
+    # use state data (if given)
+    if ( $Param{NextStateID} && !$Param{StateID} ) {
+        $Param{StateID} = $Param{NextStateID}
+    }
+    if ( $Param{StateID} ) {
+        my %State = $Self->{StateObject}->StateGet(
+            ID     => $Param{StateID},
+            UserID => 1,
+        );
+        $Checks{State} = \%State;
+
+        # update or add state information to the ticket check
+        $Checks{Ticket}->{State}   = $Checks{State}->{Name};
+        $Checks{Ticket}->{StateID} = $Checks{State}->{ID};
+    }
+    elsif ( $Param{State} ) {
+        my %State = $Self->{StateObject}->StateGet(
+            Name   => $Param{State},
+            UserID => 1,
+        );
+        $Checks{State} = \%State;
+
+        # update or add state information to the ticket check
+        $Checks{Ticket}->{State}   = $Checks{State}->{Name};
+        $Checks{Ticket}->{StateID} = $Checks{State}->{ID};
+    }
+    elsif ( !$Param{StateID} && !$Param{State} ) {
+        if ( IsPositiveInteger( $Checks{Ticket}->{StateID} ) ) {
+
+            # get state data from the ticket
+            my %State = $Self->{StateObject}->StateGet(
+                ID     => $Checks{Ticket}->{StateID},
+                UserID => 1,
+            );
+            $Checks{State} = \%State;
+        }
+    }
+
+    # use owner data (if given)
+    if (
+        $Param{NewOwnerID}
+        && !$Param{OwnerID}
+        && defined $Param{NewOwnerType}
+        && $Param{NewOwnerType} eq 'New'
+        )
+    {
+        $Param{OwnerID} = $Param{NewOwnerID};
+    }
+    elsif (
+        $Param{OldOwnerID}
+        && !$Param{OwnerID}
+        && defined $Param{NewOwnerType}
+        && $Param{NewOwnerType} eq 'Old'
+        )
+    {
+        $Param{OwnerID} = $Param{OldOwnerID};
+    }
+
+    if ( $Param{OwnerID} ) {
+        my %Owner = $Self->{UserObject}->GetUserData(
+            UserID => $Param{OwnerID},
+        );
+        for my $Type ( @{ $Self->{ConfigObject}->Get('System::Permission') } ) {
+            my @Groups = $Self->{GroupObject}->GroupMemberList(
+                UserID => $Param{OwnerID},
+                Result => 'Name',
+                Type   => $Type,
+            );
+            $Owner{"Group_$Type"} = \@Groups;
+        }
+        $Checks{Owner} = \%Owner;
+
+        # update or add owner information to the ticket check
+        $Checks{Ticket}->{Owner}   = $Checks{Owner}->{UserLogin};
+        $Checks{Ticket}->{OwnerID} = $Checks{Owner}->{UserID};
+    }
+    elsif ( $Param{Owner} ) {
+        my $OwnerID = $Self->{UserObject}->UserLookup(
+            UserLogin => $Param{Owner},
+        );
+        my %Owner = $Self->{UserObject}->GetUserData(
+            UserID => $OwnerID,
+        );
+        for my $Type ( @{ $Self->{ConfigObject}->Get('System::Permission') } ) {
+            my @Groups = $Self->{GroupObject}->GroupMemberList(
+                UserID => $OwnerID,
+                Result => 'Name',
+                Type   => $Type,
+            );
+            $Owner{"Group_$Type"} = \@Groups;
+        }
+        $Checks{Owner} = \%Owner;
+
+        # update or add owner information to the ticket check
+        $Checks{Ticket}->{Owner}   = $Checks{Owner}->{UserLogin};
+        $Checks{Ticket}->{OwnerID} = $Checks{Owner}->{UserID};
+    }
+    elsif ( !$Param{OwnerID} && !$Param{Owner} ) {
+        if ( IsPositiveInteger( $Checks{Ticket}->{OwnerID} ) ) {
+
+            # get responsible data from the ticket
+            my %Owner = $Self->{UserObject}->GetUserData(
+                UserID => $Checks{Ticket}->{OwnerID},
+            );
+            for my $Type ( @{ $Self->{ConfigObject}->Get('System::Permission') } ) {
+                my @Groups = $Self->{GroupObject}->GroupMemberList(
+                    UserID => $Checks{Ticket}->{OwnerID},
+                    Result => 'Name',
+                    Type   => $Type,
+                );
+                $Owner{"Group_$Type"} = \@Groups;
+            }
+            $Checks{Owner} = \%Owner;
+        }
+    }
+
+    # use responsible data (if given)
+    if ( $Param{NewResponsibleID} && !$Param{ResponsibleID} )
+    {
+        $Param{ResponsibleID} = $Param{NewResponsibleID};
+    }
+
+    if ( $Param{ResponsibleID} ) {
+        my %Responsible = $Self->{UserObject}->GetUserData(
+            UserID => $Param{ResponsibleID},
+        );
+        for my $Type ( @{ $Self->{ConfigObject}->Get('System::Permission') } ) {
+            my @Groups = $Self->{GroupObject}->GroupMemberList(
+                UserID => $Param{ResponsibleID},
+                Result => 'Name',
+                Type   => $Type,
+            );
+            $Responsible{"Group_$Type"} = \@Groups;
+        }
+        $Checks{Responsible} = \%Responsible;
+
+        # update or add responsible information to the ticket check
+        $Checks{Ticket}->{Responsible}   = $Checks{Responsible}->{UserLogin};
+        $Checks{Ticket}->{ResponsibleID} = $Checks{Responsible}->{UserID};
+    }
+    elsif ( $Param{Responsible} ) {
+        my $ResponsibleID = $Self->{UserObject}->UserLookup(
+            UserLogin => $Param{Responsible},
+        );
+        my %Responsible = $Self->{UserObject}->GetUserData(
+            UserID => $ResponsibleID,
+        );
+        for my $Type ( @{ $Self->{ConfigObject}->Get('System::Permission') } ) {
+            my @Groups = $Self->{GroupObject}->GroupMemberList(
+                UserID => $ResponsibleID,
+                Result => 'Name',
+                Type   => $Type,
+            );
+            $Responsible{"Group_$Type"} = \@Groups;
+        }
+        $Checks{Responsible} = \%Responsible;
+
+        # update or add responsible information to the ticket check
+        $Checks{Ticket}->{Responsible}   = $Checks{Responsible}->{UserLogin};
+        $Checks{Ticket}->{ResponsibleID} = $Checks{Responsible}->{UserID};
+    }
+    elsif ( !$Param{ResponsibleID} && !$Param{Responsible} ) {
+        if ( IsPositiveInteger( $Checks{Ticket}->{ResponsibleID} ) ) {
+
+            # get responsible data from the ticket
+            my %Responsible = $Self->{UserObject}->GetUserData(
+                UserID => $Checks{Ticket}->{ResponsibleID},
+            );
+            for my $Type ( @{ $Self->{ConfigObject}->Get('System::Permission') } ) {
+                my @Groups = $Self->{GroupObject}->GroupMemberList(
+                    UserID => $Checks{Ticket}->{ResponsibleID},
+                    Result => 'Name',
+                    Type   => $Type,
+                );
+                $Responsible{"Group_$Type"} = \@Groups;
+            }
+            $Checks{Responsible} = \%Responsible;
         }
     }
 
@@ -6956,6 +7318,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.527 $ $Date: 2011-11-08 05:35:56 $
+$Revision: 1.528 $ $Date: 2011-11-16 02:44:10 $
 
 =cut
