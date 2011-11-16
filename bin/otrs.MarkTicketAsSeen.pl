@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # otrs.MarkTicketAsSeen.pl - set all ticket to seen
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.MarkTicketAsSeen.pl,v 1.2 2010-12-19 12:42:00 martin Exp $
+# $Id: otrs.MarkTicketAsSeen.pl,v 1.2.2.1 2011-11-16 08:51:54 mb Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.2.2.1 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -44,11 +44,12 @@ use Kernel::System::Ticket;
 
 # get options
 my %Opts = ();
-getopt( 'h', \%Opts );
+getopts( 'hs:', \%Opts );
 if ( $Opts{h} ) {
-    print "otrs.MarkTicketAsSeen.pl <Revision $VERSION> - set all tickets to seen\n";
-    print "Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
-    print "usage: otrs.MarkTicketAsSeen.pl\n";
+    print "otrs.MarkTicketAsSeen.pl <Revision $VERSION> - mark tickets as seen by the agent\n";
+    print "Copyright (C) 2001-2011 OTRS AG, http://otrs.org/\n\n";
+    print "usage: otrs.MarkTicketAsSeen.pl [-s Open]\n\n";
+    print "If you pass '-s Open' it will only update non-closed tickets.\n";
     exit 1;
 }
 
@@ -69,6 +70,15 @@ $CommonObject{TicketObject} = Kernel::System::Ticket->new(%CommonObject);
 # disable ticket events
 $CommonObject{ConfigObject}->{'Ticket::EventModulePost'} = undef;
 
+my %Search;
+if ( defined $Opts{s} && $Opts{s} eq 'Open' ) {
+    print "Only processing tickets that are not closed:\n";
+    $Search{StateType} = 'Open';
+}
+else {
+    print "Processing all tickets:\n";
+}
+
 # get all users
 my %Users = $CommonObject{UserObject}->UserList(
     Type  => 'Short',
@@ -86,6 +96,9 @@ my @TicketIDs = $CommonObject{TicketObject}->TicketSearch(
     Limit      => 1_000_000_000,
     UserID     => 1,
     Permission => 'ro',
+
+    # restriction
+    %Search,
 );
 
 my $TicketCount = scalar @TicketIDs;
@@ -150,7 +163,7 @@ for my $TicketID (@TicketIDs) {
         );
     }
 
-    print "NOTICE: $Count of $TicketCount Tickets.\n";
+    print "NOTICE: $Count of $TicketCount tickets.\n";
 }
 print "NOTICE: done.\n";
 
