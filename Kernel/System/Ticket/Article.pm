@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.293 2011-09-22 13:50:11 mg Exp $
+# $Id: Article.pm,v 1.294 2011-11-16 20:43:53 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::EmailParser;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.293 $) [1];
+$VERSION = qw($Revision: 1.294 $) [1];
 
 =head1 NAME
 
@@ -2869,14 +2869,14 @@ sub SendAutoResponse {
             TicketID    => $Param{TicketID},
             HistoryType => 'Misc',
             Name        => "Sent no auto-response because the sender doesn't want "
-                . "a auto-response (e. g. loop or precedence header)",
+                . "an auto-response (e. g. loop or precedence header)",
             CreateUserID => $Param{UserID},
         );
         $Self->{LogObject}->Log(
             Priority => 'notice',
             Message  => "Sent no '$Param{AutoResponseType}' for Ticket ["
                 . "$Ticket{TicketNumber}] ($OrigHeader{From}) because the "
-                . "sender doesn't want a auto-response (e. g. loop or precedence header)"
+                . "sender doesn't want an auto-response (e. g. loop or precedence header)"
         );
         return;
     }
@@ -2898,7 +2898,7 @@ sub SendAutoResponse {
             CreateUserID => $Param{UserID},
         );
 
-        # do log
+        # log
         $Self->{LogObject}->Log(
             Priority => 'notice',
             Message  => "Sent no '$Param{AutoResponseType}' for Ticket ["
@@ -2923,14 +2923,14 @@ sub SendAutoResponse {
             TicketID     => $Param{TicketID},
             CreateUserID => $Param{UserID},
             HistoryType  => 'Misc',
-            Name         => 'Sent not auto response, no valid email in From.',
+            Name         => 'Sent no auto response - no valid email address found in From field.',
         );
 
         # log
         $Self->{LogObject}->Log(
             Priority => 'notice',
-            Message  => "Sent not auto response to '$OrigHeader{From}' because of"
-                . " invalid From address",
+            Message  => "Sent no auto response to '$OrigHeader{From}' because of"
+                . " invalid From address.",
         );
         return 1;
     }
@@ -2944,14 +2944,14 @@ sub SendAutoResponse {
             TicketID     => $Param{TicketID},
             CreateUserID => $Param{UserID},
             HistoryType  => 'Misc',
-            Name         => 'Sent not auto response, SendNoAutoResponseRegExp is matching.',
+            Name         => 'Sent no auto response, SendNoAutoResponseRegExp matched.',
         );
 
         # log
         $Self->{LogObject}->Log(
             Priority => 'notice',
-            Message  => "Sent not auto response to '$OrigHeader{From}' because config"
-                . " option SendNoAutoResponseRegExp (/$NoAutoRegExp/i) is matching!",
+            Message  => "Sent no auto response to '$OrigHeader{From}' because config"
+                . " option SendNoAutoResponseRegExp (/$NoAutoRegExp/i) matched.",
         );
         return 1;
     }
@@ -3532,6 +3532,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.293 $ $Date: 2011-09-22 13:50:11 $
+$Revision: 1.294 $ $Date: 2011-11-16 20:43:53 $
 
 =cut
