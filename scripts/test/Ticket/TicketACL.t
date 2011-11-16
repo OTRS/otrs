@@ -2,7 +2,7 @@
 # TicketACL.t - Ticket Access Control Lists tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketACL.t,v 1.2 2011-11-08 18:16:58 cr Exp $
+# $Id: TicketACL.t,v 1.3 2011-11-16 20:18:50 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,6 +22,9 @@ use Kernel::System::Valid;
 use Kernel::System::Queue;
 use Kernel::System::Service;
 use Kernel::System::Type;
+use Kernel::System::Priority;
+use Kernel::System::SLA;
+use Kernel::System::State;
 
 use vars qw($Self);
 
@@ -41,9 +44,12 @@ my $CustomerUserObject = Kernel::System::CustomerUser->new(
     %{$Self},
     ConfigObject => $ConfigObject,
 );
-my $QueueObject   = Kernel::System::Queue->new( %{$Self} );
-my $ServiceObject = Kernel::System::Service->new( %{$Self} );
-my $TypeObject    = Kernel::System::Type->new( %{$Self} );
+my $QueueObject    = Kernel::System::Queue->new( %{$Self} );
+my $ServiceObject  = Kernel::System::Service->new( %{$Self} );
+my $TypeObject     = Kernel::System::Type->new( %{$Self} );
+my $PriorityObject = Kernel::System::Priority->new( %{$Self} );
+my $SLAObject      = Kernel::System::SLA->new( %{$Self} );
+my $StateObject    = Kernel::System::State->new( %{$Self} );
 
 # set valid options
 my %ValidList = $ValidObject->ValidList();
@@ -135,6 +141,64 @@ my %TypeData = $TypeObject->TypeGet(
     UserID => 1,
 );
 
+# set priority options
+my $PriorityName = 'Priority_' . $RandomID;
+my $PriorityID   = $PriorityObject->PriorityAdd(
+    Name    => $PriorityName,
+    ValidID => $ValidList{'valid'},
+    UserID  => 1,
+);
+
+# sanity check
+$Self->True(
+    $PriorityID,
+    "PriorityAdd() ID ($PriorityID) added successfully"
+);
+
+my %PriorityData = $PriorityObject->PriorityGet(
+    PriorityID => $PriorityID,
+    UserID     => 1,
+);
+
+# set SLA options
+my $SLAName = 'SLA_' . $RandomID;
+my $SLAID   = $SLAObject->SLAAdd(
+    Name    => $SLAName,
+    ValidID => $ValidList{'valid'},
+    UserID  => 1,
+);
+
+# sanity check
+$Self->True(
+    $SLAID,
+    "SLAAdd() ID ($SLAID) added successfully"
+);
+
+my %SLAData = $SLAObject->SLAGet(
+    SLAID  => $SLAID,
+    UserID => 1,
+);
+
+# set state options
+my $StateName = 'State_' . $RandomID;
+my $StateID   = $StateObject->StateAdd(
+    Name    => $StateName,
+    ValidID => 1,
+    TypeID  => 1,
+    UserID  => 1,
+);
+
+# sanity check
+$Self->True(
+    $StateID,
+    "StateAdd() ID ($StateID) added successfully"
+);
+
+my %StateData = $StateObject->StateGet(
+    ID     => $StateID,
+    UserID => 1,
+);
+
 # set testig ACLs options
 my %TestACLs = (
     'Queue-1' => {
@@ -180,6 +244,66 @@ my %TestACLs = (
             },
         },
         Possible => {
+            Ticket => {
+                State => ['open'],
+            },
+        },
+    },
+    'Priority-1' => {
+        Properties => {
+            Priority => {
+                Name => [$PriorityName],
+            },
+        },
+        Possible => {
+            Ticket => {
+                Queue => ['Raw'],
+            },
+        },
+    },
+    'SLA-1' => {
+        Properties => {
+            SLA => {
+                Name => [$SLAName],
+            },
+        },
+        PossibleNot => {
+            Ticket => {
+                State => ['open'],
+            },
+        },
+    },
+    'State-1' => {
+        Properties => {
+            State => {
+                Name => [$StateName],
+            },
+        },
+        PossibleNot => {
+            Ticket => {
+                Queue => ['Raw'],
+            },
+        },
+    },
+    'Owner-1' => {
+        Properties => {
+            Owner => {
+                UserLogin => [$UserLogin],
+            },
+        },
+        Possible => {
+            Ticket => {
+                State => ['open'],
+            },
+        },
+    },
+    'Responsible-1' => {
+        Properties => {
+            Responsible => {
+                UserLogin => [$UserLogin],
+            },
+        },
+        PossibleNot => {
             Ticket => {
                 State => ['open'],
             },
@@ -462,6 +586,198 @@ my @Tests = (
         },
     },
     {
+        Name   => 'ACL Priority-1 - correct Priority',
+        Config => {
+            Data => {
+                1 => 'Raw',
+                2 => 'PostMaster',
+                3 => 'Junk',
+                4 => 'Misc',
+            },
+            ReturnType    => 'Ticket',
+            ReturnSubType => 'Queue',
+            Priority      => $PriorityName,
+            UserID        => $UserID,
+        },
+        SuccessMatch => 1,
+        ReturnData   => {
+            1 => 'Raw',
+        },
+    },
+    {
+        Name   => 'ACL Priority-1 - correct PriorityID',
+        Config => {
+            Data => {
+                1 => 'Raw',
+                2 => 'PostMaster',
+                3 => 'Junk',
+                4 => 'Misc',
+            },
+            ReturnType    => 'Ticket',
+            ReturnSubType => 'Queue',
+            PriorityID    => $PriorityID,
+            UserID        => $UserID,
+        },
+        SuccessMatch => 1,
+        ReturnData   => {
+            1 => 'Raw',
+        },
+    },
+    {
+        Name   => 'ACL SLA-1 - correct SLA',
+        Config => {
+            Data => {
+                1 => 'new',
+                2 => 'open',
+                3 => 'closed'
+            },
+            ReturnType    => 'Ticket',
+            ReturnSubType => 'State',
+            SLA           => $SLAName,
+            UserID        => $UserID,
+        },
+        SuccessMatch => 1,
+        ReturnData   => {
+            1 => 'new',
+            3 => 'closed',
+        },
+    },
+    {
+        Name   => 'ACL SLA-1 - correct SLAID',
+        Config => {
+            Data => {
+                1 => 'new',
+                2 => 'open',
+                3 => 'closed',
+            },
+            ReturnType    => 'Ticket',
+            ReturnSubType => 'State',
+            SLAID         => $SLAID,
+            UserID        => $UserID,
+        },
+        SuccessMatch => 1,
+        ReturnData   => {
+            1 => 'new',
+            3 => 'closed'
+        },
+    },
+    {
+        Name   => 'ACL State-1 - correct State',
+        Config => {
+            Data => {
+                1 => 'Raw',
+                2 => 'PostMaster',
+                3 => 'Junk',
+                4 => 'Misc',
+            },
+            ReturnType    => 'Ticket',
+            ReturnSubType => 'Queue',
+            State         => $StateName,
+            UserID        => $UserID,
+        },
+        SuccessMatch => 1,
+        ReturnData   => {
+            2 => 'PostMaster',
+            3 => 'Junk',
+            4 => 'Misc',
+        },
+    },
+    {
+        Name   => 'ACL State-1 - correct StateID',
+        Config => {
+            Data => {
+                1 => 'Raw',
+                2 => 'PostMaster',
+                3 => 'Junk',
+                4 => 'Misc',
+            },
+            ReturnType    => 'Ticket',
+            ReturnSubType => 'Queue',
+            StateID       => $StateID,
+            UserID        => $UserID,
+        },
+        SuccessMatch => 1,
+        ReturnData   => {
+            2 => 'PostMaster',
+            3 => 'Junk',
+            4 => 'Misc',
+        },
+    },
+    {
+        Name   => 'ACL Owner-1 - correct Owner',
+        Config => {
+            Data => {
+                1 => 'new',
+                2 => 'open',
+                3 => 'closed'
+            },
+            ReturnType    => 'Ticket',
+            ReturnSubType => 'State',
+            Owner         => $UserLogin,
+            UserID        => $UserID,
+        },
+        SuccessMatch => 1,
+        ReturnData   => {
+            2 => 'open',
+        },
+    },
+    {
+        Name   => 'ACL Owner-1 - correct OwnerID',
+        Config => {
+            Data => {
+                1 => 'new',
+                2 => 'open',
+                3 => 'closed',
+            },
+            ReturnType    => 'Ticket',
+            ReturnSubType => 'State',
+            OwnerID       => $UserID,
+            UserID        => $UserID,
+        },
+        SuccessMatch => 1,
+        ReturnData   => {
+            2 => 'open',
+        },
+    },
+    {
+        Name   => 'ACL Responsible-1 - correct Responsible',
+        Config => {
+            Data => {
+                1 => 'new',
+                2 => 'open',
+                3 => 'closed'
+            },
+            ReturnType    => 'Ticket',
+            ReturnSubType => 'State',
+            Responsible   => $UserLogin,
+            UserID        => $UserID,
+        },
+        SuccessMatch => 1,
+        ReturnData   => {
+            1 => 'new',
+            3 => 'closed',
+        },
+    },
+    {
+        Name   => 'ACL Responsible-1 - correct ResponsibleID',
+        Config => {
+            Data => {
+                1 => 'new',
+                2 => 'open',
+                3 => 'closed',
+            },
+            ReturnType    => 'Ticket',
+            ReturnSubType => 'State',
+            ResponsibleID => $UserID,
+            UserID        => $UserID,
+        },
+        SuccessMatch => 1,
+        ReturnData   => {
+            1 => 'new',
+            3 => 'closed'
+        },
+    },
+    {
         Name   => 'ACL Frontend-1 - correct Action',
         Config => {
             Data => {
@@ -599,6 +915,43 @@ my $TypeUpdateSuccess = $TypeObject->TypeUpdate(
 $Self->True(
     $TypeUpdateSuccess,
     "TypeUpdate() ID ($TypeID) invalidated successfully"
+);
+
+my $PriorityUpdateSuccess = $PriorityObject->PriorityUpdate(
+    %PriorityData,
+    PriorityID => $PriorityData{ID},
+    ValidID    => $ValidList{'invalid'},
+    UserID     => 1,
+);
+
+# sanity check
+$Self->True(
+    $PriorityUpdateSuccess,
+    "PriorityUpdate() ID ($PriorityID) invalidated successfully"
+);
+
+my $SLAUpdateSuccess = $SLAObject->SLAUpdate(
+    %SLAData,
+    ValidID => $ValidList{'invalid'},
+    UserID  => 1,
+);
+
+# sanity check
+$Self->True(
+    $SLAUpdateSuccess,
+    "SLAUpdate() ID ($SLAID) invalidated successfully"
+);
+
+my $StateUpdateSuccess = $StateObject->StateUpdate(
+    %StateData,
+    ValidID => $ValidList{'invalid'},
+    UserID  => 1,
+);
+
+# sanity check
+$Self->True(
+    $StateUpdateSuccess,
+    "StateUpdate() ID ($StateID) invalidated successfully"
 );
 
 my $TicketDeleteSuccess = $TicketObject->TicketDelete(
