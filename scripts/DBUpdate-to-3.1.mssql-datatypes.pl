@@ -3,7 +3,7 @@
 # DBUpdate-to-3.1.mssql-datatypes.pl - update script to migrate data types in the MS-SQL database
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-3.1.mssql-datatypes.pl,v 1.1 2011-10-31 13:29:58 mb Exp $
+# $Id: DBUpdate-to-3.1.mssql-datatypes.pl,v 1.2 2011-11-17 18:02:23 mb Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 use Getopt::Std qw();
 use Kernel::Config;
@@ -67,7 +67,7 @@ EOF
     # create common objects
     my $CommonObject = _CommonObjectsBase();
 
-    print "Step 1 of 10: Checking database type... ";
+    print "Step 1 of 2: Checking database type... ";
     my $DBType = $CommonObject->{ConfigObject}->Get('Database::Type') || '';
     if ( $DBType ne 'mssql' ) {
         print "This migration script is only needed when you use Microsoft SQL Server.\n";
@@ -79,7 +79,7 @@ EOF
     }
 
     # do actual upgrade
-    print "Step 2 of 10: Create Upgrade Files... \n\n";
+    print "Step 2 of 2: Creating Upgrade Files... \n\n";
     _DatabaseUpgrade($CommonObject);
     print "done.\n\n";
 
