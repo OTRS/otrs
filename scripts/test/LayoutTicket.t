@@ -2,7 +2,7 @@
 # scripts/test/LayoutTicket.t - layout module testscript
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutTicket.t,v 1.6 2011-11-15 10:11:36 mg Exp $
+# $Id: LayoutTicket.t,v 1.7 2011-11-17 11:32:28 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -167,7 +167,7 @@ my @Tests = (
         },
         BodyRegExp => [
             '<b>Test HTML document.<\/b>',
-            '<img src=".+?Action=PictureUpload;.+?SessionID=123;ContentID=1234" border="0">',
+            '<img src="[^;]+?Action=PictureUpload;FormID=[0-9.]+;SessionID=123;ContentID=1234" border="0">',
         ],
         AttachmentsInclude => 1,
         Attachment         => {
@@ -182,7 +182,7 @@ my @Tests = (
         },
         BodyRegExp => [
             '<b>Test HTML document.<\/b>',
-            '<img src=".+?Action=PictureUpload;.+?SessionID=123;ContentID=_1_09B1841409B1651C003EDE23C325785D" border="0">',
+            '<img src="[^;]+?Action=PictureUpload;FormID=[0-9.]+;SessionID=123;ContentID=_1_09B1841409B1651C003EDE23C325785D" border="0">',
         ],
         AttachmentsInclude => 1,
         Attachment         => {
@@ -195,7 +195,7 @@ my @Tests = (
         },
         BodyRegExp => [
             '<b>Test HTML document.<\/b>',
-            '<img src=".+?Action=PictureUpload;.+?SessionID=123;ContentID=1234" border="0">',
+            '<img src="[^;]+?Action=PictureUpload;FormID=[0-9.]+;SessionID=123;ContentID=1234" border="0">',
         ],
         AttachmentsInclude => 0,
         Attachment         => {
@@ -235,7 +235,7 @@ my @Tests = (
             'Frontend::RichText' => 1,
         },
         BodyRegExp => [
-            '<img src=".+?Action=PictureUpload;.+?SessionID=123;ContentID=Untitled%2520Attachment" border="0">',
+            '<img src="[^;]+?Action=PictureUpload;FormID=[0-9.]+;SessionID=123;ContentID=Untitled%2520Attachment" border="0">',
         ],
         AttachmentsInclude => 0,
         Attachment         => {
