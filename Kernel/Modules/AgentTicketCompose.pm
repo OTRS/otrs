@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.pm,v 1.145 2011-11-17 11:19:39 mab Exp $
+# $Id: AgentTicketCompose.pm,v 1.146 2011-11-17 18:27:13 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.145 $) [1];
+$VERSION = qw($Revision: 1.146 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1274,6 +1274,12 @@ sub _Mask {
         ValidateDateInFuture => 1,
     );
 
+    # Multiple-Autocomplete
+    $Param{To} = ( scalar @{ $Param{MultipleCustomer} } ? '' : $Param{To} );
+    if ( defined $Param{To} && $Param{To} ne '' ) {
+        $Param{ToInvalid} = ''
+    }
+
     $Self->{LayoutObject}->Block(
         Name => 'Content',
         Data => {
@@ -1369,13 +1375,10 @@ sub _Mask {
         },
     );
 
-    if ( $Param{ToInvalid} && $Param{Errors} && !$Param{Errors}->{ToErrorType} ) {
+    if ( $Param{ToInvalid} && $Param{Errors} ) {
         $Self->{LayoutObject}->Block(
             Name => 'ToServerErrorMsg',
         );
-    }
-    if ( $Param{Errors}->{ToErrorType} ) {
-        $Param{ToInvalid} = '';
     }
 
     $Self->{LayoutObject}->Block(
