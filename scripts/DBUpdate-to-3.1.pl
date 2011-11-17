@@ -3,7 +3,7 @@
 # DBUpdate-to-3.1.pl - update script to migrate OTRS 3.0.x to 3.1.x
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-3.1.pl,v 1.59 2011-11-15 02:39:35 cr Exp $
+# $Id: DBUpdate-to-3.1.pl,v 1.60 2011-11-17 02:08:57 cg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.59 $) [1];
+$VERSION = qw($Revision: 1.60 $) [1];
 
 use Getopt::Std qw();
 use Kernel::Config;
@@ -1453,6 +1453,124 @@ sub _MigrateWindowConfiguration {
     if ( !$Success ) {
         print
             "Could not migrate the config values on AgentTicketSearch window!\n";
+        return 0;
+    }
+
+    # CustomerTicketZoom configuration
+
+    $WindowConfig = $CommonObject->{ConfigObject}->Get('Ticket::Frontend::CustomerTicketZoom')
+        || {};
+    my %ValuesToSetZoom;
+    my $Config;
+    if ( defined $WindowConfig->{AttributesView} && ref $WindowConfig->{AttributesView} eq 'HASH' )
+    {
+
+        $Config = $WindowConfig->{AttributesView};
+
+        my %FreeFields = (
+            TicketFreeText  => 16,
+            TicketFreeTime  => 6,
+            ArticleFreeText => 3,
+        );
+
+        for my $Field ( sort keys %FreeFields ) {
+            for my $Index ( 1 .. $FreeFields{$Field} ) {
+                my $FieldName = $Field . $Index;
+                if ( defined $Config->{$FieldName} && defined $DynamicFields->{$FieldName} ) {
+
+                    # set dynamic field for this screen
+                    $ValuesToSetZoom{$FieldName} = $Config->{$FieldName};
+
+                    # delete key from config
+                    delete $Config->{$FieldName};
+                }
+            }
+        }
+
+    }
+
+    my $SuccessAttributes = $SysConfigObject->ConfigItemUpdate(
+        Valid => 1,
+        Key   => 'Ticket::Frontend::CustomerTicketZoom###AttributesView',
+        Value => $Config,
+    );
+
+    if ( !$SuccessAttributes ) {
+        print
+            "Could not migrate the config values on CustomerTicketZoom window!\n";
+        return 0;
+    }
+
+    my $SuccessDynamicField = $SysConfigObject->ConfigItemUpdate(
+        Valid => 1,
+        Key   => 'Ticket::Frontend::CustomerTicketZoom###DynamicField',
+        Value => \%ValuesToSetZoom,
+    );
+
+    if ( !$SuccessDynamicField ) {
+        print
+            "Could not migrate the config values on CustomerTicketZoom window!\n";
+        return 0;
+    }
+
+    # AgentTicketPrint configuration
+
+    my %ValuesToSetPrint;
+    my %FreeFields = (
+        TicketFreeKey   => 16,
+        TicketFreeText  => 16,
+        TicketFreeTime  => 6,
+        ArticleFreeKey  => 3,
+        ArticleFreeText => 3,
+    );
+
+    for my $Field ( sort keys %FreeFields ) {
+        for my $Index ( 1 .. $FreeFields{$Field} ) {
+            my $FieldName = $Field . $Index;
+            if ( defined $DynamicFields->{$FieldName} ) {
+
+                # set dynamic field for this screen
+                $ValuesToSetPrint{$FieldName} = 1;
+            }
+        }
+    }
+
+    $SuccessDynamicField = $SysConfigObject->ConfigItemUpdate(
+        Valid => 1,
+        Key   => 'Ticket::Frontend::AgentTicketPrint###DynamicField',
+        Value => \%ValuesToSetPrint,
+    );
+
+    if ( !$SuccessDynamicField ) {
+        print
+            "Could not migrate the config values on AgentTicketPrint window!\n";
+        return 0;
+    }
+
+    # CustomerTicketPrint configuration
+
+    %ValuesToSetPrint = ();
+
+    for my $Field ( sort keys %FreeFields ) {
+        for my $Index ( 1 .. $FreeFields{$Field} ) {
+            my $FieldName = $Field . $Index;
+            if ( defined $DynamicFields->{$FieldName} ) {
+
+                # set dynamic field for this screen
+                $ValuesToSetPrint{$FieldName} = 1;
+            }
+        }
+    }
+
+    $SuccessDynamicField = $SysConfigObject->ConfigItemUpdate(
+        Valid => 1,
+        Key   => 'Ticket::Frontend::CustomerTicketPrint###DynamicField',
+        Value => \%ValuesToSetPrint,
+    );
+
+    if ( !$SuccessDynamicField ) {
+        print
+            "Could not migrate the config values on CustomerTicketPrint window!\n";
         return 0;
     }
 
