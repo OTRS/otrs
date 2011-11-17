@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2026 2011-11-17 08:09:29 mb Exp $
+# $Id: CHANGES,v 1.2027 2011-11-17 08:15:50 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -134,6 +134,8 @@
      of > 70 characters exists.
 
 3.0.12 ????-??-??
+ - 2011-11-17 Fixed bug#5782 - Skipped GenericAgent cron executions because of
+    timing issues.
  - 2011-11-17 Fixed bug#7674 - Pagination in dashboard appears even with one page of
     results.
  - 2011-11-16 Fixed bug#7903 - Improve MarkTicketsAsSeen for use with large amounts
