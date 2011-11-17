@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2025 2011-11-16 08:55:16 mb Exp $
+# $Id: CHANGES,v 1.2026 2011-11-17 08:09:29 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -134,6 +134,8 @@
      of > 70 characters exists.
 
 3.0.12 ????-??-??
+ - 2011-11-17 Fixed bug#7674 - Pagination in dashboard appears even with one page of
+    results.
  - 2011-11-16 Fixed bug#7903 - Improve MarkTicketsAsSeen for use with large amounts
     of tickets.
  - 2011-11-15 Fixed bug#7901 - Package Manager does not clear the cache.
