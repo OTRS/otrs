@@ -2,7 +2,7 @@
 # AgentTicketCompose.dtl - provides HTML form for AgentTicketCompose
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.dtl,v 1.92 2011-11-10 08:57:11 mab Exp $
+# $Id: AgentTicketCompose.dtl,v 1.93 2011-11-17 11:19:39 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -51,6 +51,7 @@ $Include{"AgentCustomerSearch"}
 
                     <div class="Field">
                         <div class="CustomerTicketTemplateToCustomer SpacingTopSmall Hidden">
+                            <input name="CustomerInitialValue" id="CustomerInitialValue" type="hidden" value="$QData{"To"}" />
                             <input name="CustomerKey" id="CustomerKey" class="CustomerKey" type="hidden" value=""/>
                             <input name="CustomerQueue" id="CustomerQueue" class="CustomerQueue" type="hidden" value=""/>
                             <input class="CustomerTicketText W75pc" name="CustomerTicketText" id="CustomerTicketText" type="text" value="" readonly="readonly" />
@@ -60,7 +61,6 @@ $Include{"AgentCustomerSearch"}
                         <div id="TicketCustomerContentToCustomer" class="CustomerContainer">
 <!-- dtl:block:MultipleCustomer -->
                             <div class="SpacingTopSmall ">
-                                <input name="CustomerSelected" id="CustomerSelected" class="CustomerTicketRadio" type="radio" value="$QData{"Count"}" $QData{"CustomerSelected"}  $QData{"CustomerDisabled"} />
                                 <input name="CustomerKey_$QData{"Count"}" id="CustomerKey_$QData{"Count"}" class="CustomerKey" type="hidden" value="$QData{"CustomerKey"}"/>
                                 <input name="CustomerQueue_$QData{"Count"}" id="CustomerQueue_$QData{"Count"}" class="CustomerQueue" type="hidden" value="$QData{"CustomerQueue"}"/>
                                 <input class="CustomerTicketText W75pc $QData{"CustomerError"}" name="CustomerTicketText_$Data{"Count"}" id="CustomerTicketText_$Data{"Count"}" type="text" value="$QData{"CustomerElement"}" readonly="readonly" />
@@ -97,17 +97,6 @@ $Include{"AgentCustomerSearch"}
                     <div class="Clear"></div>
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
-    $('.CustomerTicketRadio').bind('change', function () {
-        var CustomerKey;
-        if ( $(this).attr('checked') ){
-
-            CustomerKey = $( '#CustomerKey_' +$(this).val() ).val();
-            // get customer tickets
-            Core.Agent.CustomerSearch.ReloadCustomerInfo(CustomerKey);
-        }
-        return false;
-    });
-
     $('.CustomerTicketRemove').bind('click', function () {
         Core.Agent.CustomerSearch.RemoveCustomerTicket( $(this) );
         return false;
@@ -118,13 +107,13 @@ $Include{"AgentCustomerSearch"}
 
                     <label for="ToCustomer">$Text{"To"}:</label>
                     <div class="Field">
-                        <input id="ToCustomer" type="text" name="ToCustomer" value="$QData{"To"}" class="CustomerAutoComplete W75pc AutocompleteOff $QData{"ToInvalid"}"/>
+                        <input id="ToCustomer" type="text" name="ToCustomer" value="" class="CustomerAutoComplete W75pc AutocompleteOff $QData{"ToInvalid"}"/>
 
                         <button type="button" id="AddTicketCustomer" name="AddTicketCustomer" value="$Text{"Add"}">$Text{"Add"}</button>
 
                         <div id="ToCustomerServerError" class="TooltipErrorMessage">
 <!-- dtl:block:ToServerErrorMsg -->
-                            <p>$Text{"Please include at least one customer for the ticket."}</p>
+                            <p>$Text{"Please include at least one recipient"}</p>
 <!-- dtl:block:ToServerErrorMsg -->
                         </div>
                     </div>
@@ -134,14 +123,16 @@ $Include{"AgentCustomerSearch"}
     $('#AddTicketCustomer').bind('click', function () {
         Core.Agent.CustomerSearch.AddTicketCustomer( 'ToCustomer', $('#ToCustomer').val() );
     });
-    if ($('#ToCustomer').val() !== '') {
-        Core.Agent.CustomerSearch.AddTicketCustomer( 'ToCustomer', $('#ToCustomer').val() );
+    var InitialTo = $('#CustomerInitialValue').val();
+    if (InitialTo !== '' && !$('#CustomerTicketText_1').val()) {
+        Core.Agent.CustomerSearch.AddTicketCustomer( 'ToCustomer', InitialTo );
     }
 //]]></script>
 <!--dtl:js_on_document_complete-->
 
                     <div class="Field">
                         <div class="CustomerTicketTemplateCcCustomer SpacingTopSmall Hidden">
+                            <input name="CcCustomerInitialValue" id="CcCustomerInitialValue" type="hidden" value="$QData{"Cc"}" />
                             <input name="CcCustomerKey" id="CcCustomerKey" class="CustomerKey" type="hidden" value=""/>
                             <input name="CcCustomerQueue" id="CcCustomerQueue" class="CustomerQueue" type="hidden" value=""/>
                             <input class="CcCustomerTicketText W75pc" name="CcCustomerTicketText" id="CcCustomerTicketText" type="text" value="" readonly="readonly" />
@@ -189,7 +180,7 @@ $Include{"AgentCustomerSearch"}
 
                     <label for="CcCustomer">$Text{"Cc"}:</label>
                     <div class="Field">
-                        <input id="CcCustomer" type="text" name="CcCustomer" value="$QData{"Cc"}" class="CustomerAutoComplete W75pc AutocompleteOff $QData{"CcInvalid"}"/>
+                        <input id="CcCustomer" type="text" name="CcCustomer" value="" class="CustomerAutoComplete W75pc AutocompleteOff $QData{"CcInvalid"}"/>
                         <button type="button" id="CcAddTicketCustomer" name="CcAddTicketCustomer" value="$Text{"Add"}">$Text{"Add"}</button>
 
                     </div>
@@ -199,14 +190,16 @@ $Include{"AgentCustomerSearch"}
     $('#CcAddTicketCustomer').bind('click', function () {
         Core.Agent.CustomerSearch.AddTicketCustomer( 'CcCustomer', $('#CcCustomer').val() );
     });
-    if ($('#CcCustomer').val() !== '') {
-        Core.Agent.CustomerSearch.AddTicketCustomer( 'CcCustomer', $('#CcCustomer').val() );
+    var InitialCc = $('#CcCustomerInitialValue').val();
+    if (InitialCc !== '' && !$('#CcCustomerTicketText_1').val()) {
+        Core.Agent.CustomerSearch.AddTicketCustomer( 'CcCustomer', InitialCc );
     }
 //]]></script>
 <!--dtl:js_on_document_complete-->
 
                     <div class="Field">
                         <div class="CustomerTicketTemplateBccCustomer SpacingTopSmall Hidden">
+                            <input name="BccCustomerInitialValue" id="BccCustomerInitialValue" type="hidden" value="$QData{"Bcc"}" />
                             <input name="BccCustomerKey" id="BccCustomerKey" class="CustomerKey" type="hidden" value=""/>
                             <input name="BccCustomerQueue" id="BccCustomerQueue" class="CustomerQueue" type="hidden" value=""/>
                             <input class="BccCustomerTicketText W75pc" name="BccCustomerTicketText" id="BccCustomerTicketText" type="text" value="" readonly="readonly" />
@@ -254,7 +247,7 @@ $Include{"AgentCustomerSearch"}
 
                     <label for="BccCustomer">$Text{"Bcc"}:</label>
                     <div class="Field">
-                        <input id="BccCustomer" type="text" name="BccCustomer" value="$QData{"Bcc"}" class="CustomerAutoComplete W75pc AutocompleteOff $QData{"BccInvalid"}"/>
+                        <input id="BccCustomer" type="text" name="BccCustomer" value="" class="CustomerAutoComplete W75pc AutocompleteOff $QData{"BccInvalid"}"/>
                         <button type="button" id="BccAddTicketCustomer" name="BccAddTicketCustomer" value="$Text{"Add"}">$Text{"Add"}</button>
 
                     </div>
@@ -264,8 +257,9 @@ $Include{"AgentCustomerSearch"}
     $('#BccAddTicketCustomer').bind('click', function () {
         Core.Agent.CustomerSearch.AddTicketCustomer( 'BccCustomer', $('#BccCustomer').val() );
     });
-    if ($('#BccCustomer').val() !== '') {
-        Core.Agent.CustomerSearch.AddTicketCustomer( 'BccCustomer', $('#BccCustomer').val() );
+    var InitialBcc = $('#BccCustomerInitialValue').val();
+    if (InitialBcc !== '' && !$('#BccCustomerTicketText_1').val()) {
+        Core.Agent.CustomerSearch.AddTicketCustomer( 'BccCustomer', InitialBcc );
     }
 //]]></script>
 <!--dtl:js_on_document_complete-->

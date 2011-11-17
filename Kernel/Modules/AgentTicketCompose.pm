@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.pm,v 1.144 2011-11-10 08:57:11 mab Exp $
+# $Id: AgentTicketCompose.pm,v 1.145 2011-11-17 11:19:39 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.144 $) [1];
+$VERSION = qw($Revision: 1.145 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -420,6 +420,13 @@ sub Run {
             }
         }
 
+        # check if at least one recipient has been chosen
+        if ( $IsUpload == 0 ) {
+            if ( !$GetParam{To} ) {
+                $Error{'ToInvalid'} = 'ServerError';
+            }
+        }
+
         # check some values
         for my $Line (qw(To Cc Bcc)) {
             next if !$GetParam{$Line};
@@ -579,13 +586,16 @@ sub Run {
             );
             $GetParam{StandardResponse} = $GetParam{Body};
             $Output .= $Self->_Mask(
-                TicketID       => $Self->{TicketID},
-                NextStates     => $Self->_GetNextStates(),
-                ResponseFormat => $Self->{LayoutObject}->Ascii2Html( Text => $GetParam{Body} ),
-                Errors         => \%Error,
-                Attachments    => \@Attachments,
-                GetParam       => \%GetParam,
-                TicketBackType => $TicketBackType,
+                TicketID            => $Self->{TicketID},
+                NextStates          => $Self->_GetNextStates(),
+                ResponseFormat      => $Self->{LayoutObject}->Ascii2Html( Text => $GetParam{Body} ),
+                Errors              => \%Error,
+                MultipleCustomer    => \@MultipleCustomer,
+                MultipleCustomerCc  => \@MultipleCustomerCc,
+                MultipleCustomerBcc => \@MultipleCustomerBcc,
+                Attachments         => \@Attachments,
+                GetParam            => \%GetParam,
+                TicketBackType      => $TicketBackType,
                 %Ticket,
                 DynamicFieldHTML => \%DynamicFieldHTML,
                 %GetParam,
@@ -1272,7 +1282,7 @@ sub _Mask {
         },
     );
 
-    # prepare errors!
+    # Cc
     my $CustomerCounterCc = 0;
     if ( $Param{MultipleCustomerCc} ) {
         for my $Item ( @{ $Param{MultipleCustomerCc} } ) {
@@ -1301,7 +1311,7 @@ sub _Mask {
         },
     );
 
-    # prepare errors!
+    # Bcc
     my $CustomerCounterBcc = 0;
     if ( $Param{MultipleCustomerBcc} ) {
         for my $Item ( @{ $Param{MultipleCustomerBcc} } ) {
@@ -1330,7 +1340,7 @@ sub _Mask {
         },
     );
 
-    # prepare errors!
+    # To
     my $CustomerCounter = 0;
     if ( $Param{MultipleCustomer} ) {
         for my $Item ( @{ $Param{MultipleCustomer} } ) {
@@ -1358,6 +1368,15 @@ sub _Mask {
             CustomerCounter => $CustomerCounter++,
         },
     );
+
+    if ( $Param{ToInvalid} && $Param{Errors} && !$Param{Errors}->{ToErrorType} ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'ToServerErrorMsg',
+        );
+    }
+    if ( $Param{Errors}->{ToErrorType} ) {
+        $Param{ToInvalid} = '';
+    }
 
     $Self->{LayoutObject}->Block(
         Name => $Param{TicketBackType},
