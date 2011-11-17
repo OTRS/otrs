@@ -3,7 +3,7 @@
 # bin/otrs.CheckModules.pl - to check needed cpan framework modules
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.CheckModules.pl,v 1.32 2011-11-14 15:27:31 mb Exp $
+# $Id: otrs.CheckModules.pl,v 1.33 2011-11-17 08:52:02 mb Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -427,6 +427,23 @@ my @NeededModules = (
         Required => 1,
     },
 );
+
+# if we're on Windows we need some additional modules
+if ( $^O eq "MSWin32" ) {
+    my @WindowsModules = (
+        {
+            Module   => 'Win32::Daemon',
+            Required => 1,
+            Comment  => 'For running the OTRS Scheduler Service.',
+        },
+        {
+            Module   => 'Win32::Service',
+            Required => 1,
+            Comment  => 'For running the OTRS Scheduler Service.',
+        },
+    );
+    push @NeededModules, @WindowsModules;
+}
 
 # try to load modules
 my $Depends = 0;
