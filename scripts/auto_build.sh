@@ -3,7 +3,7 @@
 # auto_build.sh - build automatically OTRS tar, rpm and src-rpm
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: auto_build.sh,v 1.102 2011-11-18 10:01:06 mg Exp $
+# $Id: auto_build.sh,v 1.103 2011-11-18 10:04:00 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -21,7 +21,7 @@
 # or see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-echo "auto_build.sh - build automatically OTRS tar, rpm and src-rpm <\$Revision: 1.102 $>"
+echo "auto_build.sh - build automatically OTRS tar, rpm and src-rpm <\$Revision: 1.103 $>"
 echo "Copyright (C) 2001-2011 OTRS AG, http://otrs.org/\n";
 
 PATH_TO_CVS_SRC=$1
@@ -172,12 +172,12 @@ bin/otrs.CheckSum.pl -a create
 # add pre installed packages
 mkdir var/packages/
 
-if test $SUPPORT_PACKAGE
+if test $SUPPORT_PACKAGE; then
     wget "$SUPPORT_PACKAGE"
     mv Support*.opm var/packages/
 fi
 
-if test $IPHONE_PACKAGE
+if test $IPHONE_PACKAGE; then
     wget "$IPHONE_PACKAGE"
     mv iPhoneHandle*.opm var/packages/
 fi
