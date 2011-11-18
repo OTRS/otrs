@@ -1,8 +1,8 @@
 # --
-# UPGRADING - upgrading OTRS
+# UPGRADING - Upgrading Instructions for OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: UPGRADING,v 1.61 2011-11-11 12:40:32 mg Exp $
+# $Id: UPGRADING,v 1.62 2011-11-18 08:15:26 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,11 +19,13 @@ Please note that if you upgrade from OTRS 2.2 or earlier, you have to
 take an extra step; read http://bugs.otrs.org/show_bug.cgi?id=6798
 
 If you need to do a "patch level upgrade", which is an upgrade for instance
-from OTRS version 3.1.1 to 3.1.3, you should skip steps XX to YY.
+from OTRS version 3.1.1 to 3.1.3, you should skip steps 8, 10 and 12-20.
 
 If you are using Microsoft SQL Server as the DBMS for OTRS, please refer
 to the manual, chapter "Upgrading Microsoft SQL Server Data Types" for instructions
-how to upgrade the data types used by OTRS (http://doc.otrs.org/3.1/en/html/upgrading-mssql-datatypes.html).
+how to upgrade the data types used by OTRS
+(http://doc.otrs.org/3.1/en/html/upgrading-mssql-datatypes.html).
+
 
 1) Stop all relevant services
    --------------------------
@@ -191,7 +193,7 @@ how to upgrade the data types used by OTRS (http://doc.otrs.org/3.1/en/html/upgr
     Non-UTF-8 installations of OTRS must switch to UTF-8.
 
 
-XX) Escalation Events
+14) Escalation Events
     -----------------
 
     If you want to use the new escalation events in your system, you need to activate the
@@ -199,7 +201,7 @@ XX) Escalation Events
     Kernel/Config/GenericAgent.pm.dist for an example of how to do this.
 
 
-XX) TicketHistory
+15) TicketHistory
     -------------
 
     The TicketHistory type TicketFreeTextUpdate was renamed to
@@ -207,14 +209,14 @@ XX) TicketHistory
     please adjust it.
 
 
-XX) Ticket Event handlers
+16) Ticket Event handlers
     ---------------------
 
     The Event name TicketFreeTextUpdate_$Counter was renamed to TicketDynamicFieldUpdate_$FieldName.
     If you have any custom event handlers for these events, please adapt them.
 
 
-XX) DynamicField User Preferences Module
+17) DynamicField User Preferences Module
     ------------------------------------
 
     If you had one or more active custom settings for "PreferencesGroups###Freetext",
@@ -224,7 +226,7 @@ XX) DynamicField User Preferences Module
     in the database as well.
 
 
-XX) Custom free field default value event handler
+18) Custom free field default value event handler
     ---------------------------------------------
 
     If you used the event handler Ticket::EventModulePost###TicketFreeFieldDefault (not active by default),
@@ -236,7 +238,7 @@ XX) Custom free field default value event handler
     if you want to set both the key and the text field.
 
 
-XX) FreeText/Time based ACLs
+19) FreeText/Time based ACLs
     ------------------------
 
     If you have any ACLs defined which involve freetext or freetime fields, you need to adjust these
@@ -246,5 +248,5 @@ XX) FreeText/Time based ACLs
     can add a new "DynamicField" section to the "Properties" list for situations when a ticket does not exist yet.
 
 
-XX) Well done!
+20) Well done!
     ----------

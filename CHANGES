@@ -2,14 +2,14 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2028 2011-11-17 11:32:29 mg Exp $
+# $Id: CHANGES,v 1.2029 2011-11-18 08:15:26 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-3.1.0 beta1 2011-??-??
+3.1.0 beta1 2011-11-22
  - 2011-11-15 Added IE7 to browser blacklist.
  - 2011-11-15 Updated German translation.
  - 2011-11-14 Added Idea#724 - Connect to IMAP servers using TLS encryption.

@@ -2,7 +2,7 @@
 # README - readme file of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: README,v 1.42 2011-11-07 10:57:52 jb Exp $
+# $Id: README,v 1.43 2011-11-18 08:15:26 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -219,5 +219,3 @@ $HOME (e. g. /opt/otrs/)
 |           |                                                   root user, queues, ...)
 |           |--- /otrs-schema-post.(mysql|postgresql|*).sql (create foreign keys script)
 |
-
-EOF
