@@ -2,7 +2,7 @@
 # Kernel/Language/es_MX.pm - provides Spanish language translation for Mexico
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: es_MX.pm,v 1.48 2011-11-10 11:19:14 mg Exp $
+# $Id: es_MX.pm,v 1.49 2011-11-18 08:10:34 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.48 $) [1];
+$VERSION = qw($Revision: 1.49 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2011-11-10 12:16:15
+    # Last translation file sync: 2011-11-18 08:58:34
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1239,6 +1239,8 @@ sub Data {
         'Fetch mail' => 'Obtener correo',
         'Add Mail Account' => 'Agregar Dirección de Correo',
         'Example: mail.example.com' => 'Ejemplo: correo.ejemplo.com',
+        'IMAP Folder' => '',
+        'Only modify this if you need to fetch mail from a different folder than INBOX.' => '',
         'Trusted' => 'Confiable',
         'Dispatching' => 'Remitiendo',
         'Edit Mail Account' => 'Modificar Dirección de Correo',
@@ -1830,7 +1832,11 @@ sub Data {
 
         # Template: AgentTicketCompose
         'Compose answer for ticket' => 'Redacte una respuesta para el ticket',
-        'Need a valid email address.' => 'Se require una dirección de correo electrónica válida.',
+        'Remove Ticket Customer' => '',
+        'Please remove this entry and enter a new one with the correct value.' => '',
+        'Please include at least one recipient' => '',
+        'Remove Cc' => '',
+        'Remove Bcc' => '',
         'Address book' => 'Agenda de direcciones',
         'Pending Date' => 'Fecha pendiente',
         'for pending* states' => 'en estado pendiente*',
@@ -1844,12 +1850,8 @@ sub Data {
         # Template: AgentTicketEmail
         'Create New Email Ticket' => 'Crear un Ticket nuevo de Correo Electrónico',
         'From queue' => 'De la fila',
-        'Remove Ticket Customer' => '',
-        'Please remove this entry and enter a new one with the correct value.' => '',
         'To customer' => '',
         'Please include at least one customer for the ticket.' => '',
-        'Remove Cc' => '',
-        'Remove Bcc' => '',
         'Get all' => 'Obtener todos',
 
         # Template: AgentTicketEscalation
@@ -1869,6 +1871,7 @@ sub Data {
         'Ticket Merge' => 'Fusionar Ticket',
         'You need to use a ticket number!' => '¡Necesita usar un número de ticket!',
         'A valid ticket number is required.' => 'Se requiere un número de ticket válido.',
+        'Need a valid email address.' => 'Se require una dirección de correo electrónica válida.',
 
         # Template: AgentTicketMove
         'Move Ticket' => 'Mover Ticket',
@@ -2124,6 +2127,7 @@ sub Data {
         'In order to experience OTRS, you\'ll need to enable JavaScript in your browser.' => 'Para utilizar OTRS correctamente, es necesario que habilite JavaScript en su explorador web.',
         'Database Settings' => 'Configuraciones de la Base de Datos',
         'General Specifications and Mail Settings' => 'Especificaciones Generales y Configuraciones de Correo',
+        'Registration' => '',
         'Welcome to %s' => 'Bienvenido a %s',
         'Web site' => 'Sitio web',
         'Database check successful.' => 'Verificación satisfactoria de la base de datos',
@@ -2156,6 +2160,7 @@ sub Data {
         'Result of mail configuration check' => 'Resultado de la verificación de la configuración de correo.',
         'Check mail configuration' => 'Verificar configuración de correo',
         'Skip this step' => 'Omitir este paso',
+        'Skipping this step will automatically skip the registration of your OTRS. Are you sure you want to continue?' => '',
 
         # Template: InstallerDBResult
         'False' => 'Falso',
@@ -2185,6 +2190,12 @@ sub Data {
 
         # Template: InstallerLicenseText
 
+        # Template: InstallerRegistration
+        'Organization' => 'Organización',
+        'Position' => '',
+        'Complete registration and continue' => '',
+        'Please fill in all fields marked as mandatory.' => '',
+
         # Template: InstallerSystem
         'SystemID' => 'ID de sistema',
         'The identifier of the system. Each ticket number and each HTTP session ID contain this number.' => 'Identificador del sistema. Todos los números de tickets e ID\'s de sesiones HTTP contendrán este número.',
@@ -2192,7 +2203,6 @@ sub Data {
         'Fully qualified domain name of your system.' => 'Nombre de dominio totalmente calificado de su sistema.',
         'AdminEmail' => 'Correo del Administrador.',
         'Email address of the system administrator.' => 'Dirección de correo electrónico del administrador del sistema.',
-        'Organization' => 'Organización',
         'Log' => 'Log',
         'LogModule' => 'MóduloLog',
         'Log backend to use.' => 'Backend a usar para el log.',

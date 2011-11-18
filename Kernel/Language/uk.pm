@@ -2,7 +2,7 @@
 # Kernel/Language/uk.pm - provides ru language translation
 # Copyright (C) 2010 Бельский Артем
 # --
-# $Id: uk.pm,v 1.24 2011-11-10 11:19:13 mg Exp $
+# $Id: uk.pm,v 1.25 2011-11-18 08:08:44 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.24 $) [1];
+$VERSION = qw($Revision: 1.25 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2011-11-10 12:16:38
+    # Last translation file sync: 2011-11-18 08:59:58
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1239,6 +1239,8 @@ sub Data {
         'Fetch mail' => 'Забрати лист',
         'Add Mail Account' => 'Додати поштовий обліковий запис',
         'Example: mail.example.com' => '',
+        'IMAP Folder' => '',
+        'Only modify this if you need to fetch mail from a different folder than INBOX.' => '',
         'Trusted' => 'Безпечна',
         'Dispatching' => 'Перенапрямок',
         'Edit Mail Account' => 'Змінити поштовий обліковий запис',
@@ -1830,7 +1832,11 @@ sub Data {
 
         # Template: AgentTicketCompose
         'Compose answer for ticket' => 'Створення відповідь на заявку',
-        'Need a valid email address.' => ' Потрібно вірну поштову адресу.',
+        'Remove Ticket Customer' => '',
+        'Please remove this entry and enter a new one with the correct value.' => '',
+        'Please include at least one recipient' => '',
+        'Remove Cc' => '',
+        'Remove Bcc' => '',
         'Address book' => 'Адресна книга',
         'Pending Date' => 'Наступна дата',
         'for pending* states' => ' для наступних станів* ',
@@ -1844,12 +1850,8 @@ sub Data {
         # Template: AgentTicketEmail
         'Create New Email Ticket' => 'Заявка по e-mail',
         'From queue' => ' Із черги',
-        'Remove Ticket Customer' => '',
-        'Please remove this entry and enter a new one with the correct value.' => '',
         'To customer' => '',
         'Please include at least one customer for the ticket.' => '',
-        'Remove Cc' => '',
-        'Remove Bcc' => '',
         'Get all' => '',
 
         # Template: AgentTicketEscalation
@@ -1869,6 +1871,7 @@ sub Data {
         'Ticket Merge' => 'Об\'єднання заявок',
         'You need to use a ticket number!' => 'Вам необхідно використовувати номер заявки!',
         'A valid ticket number is required.' => '',
+        'Need a valid email address.' => ' Потрібно вірну поштову адресу.',
 
         # Template: AgentTicketMove
         'Move Ticket' => 'Перемістити заявку',
@@ -2124,6 +2127,7 @@ sub Data {
         'In order to experience OTRS, you\'ll need to enable JavaScript in your browser.' => '',
         'Database Settings' => '',
         'General Specifications and Mail Settings' => '',
+        'Registration' => '',
         'Welcome to %s' => ' Ласкаво просимо в %s',
         'Web site' => '',
         'Database check successful.' => '',
@@ -2156,6 +2160,7 @@ sub Data {
         'Result of mail configuration check' => 'Результати перевірки настроювань пошти',
         'Check mail configuration' => 'Перевірити настроювання пошти',
         'Skip this step' => 'Пропустити цей крок',
+        'Skipping this step will automatically skip the registration of your OTRS. Are you sure you want to continue?' => '',
 
         # Template: InstallerDBResult
         'False' => '',
@@ -2185,6 +2190,12 @@ sub Data {
 
         # Template: InstallerLicenseText
 
+        # Template: InstallerRegistration
+        'Organization' => 'Організація',
+        'Position' => '',
+        'Complete registration and continue' => '',
+        'Please fill in all fields marked as mandatory.' => '',
+
         # Template: InstallerSystem
         'SystemID' => '',
         'The identifier of the system. Each ticket number and each HTTP session ID contain this number.' => '',
@@ -2192,7 +2203,6 @@ sub Data {
         'Fully qualified domain name of your system.' => '',
         'AdminEmail' => '',
         'Email address of the system administrator.' => '',
-        'Organization' => 'Організація',
         'Log' => 'Журнал',
         'LogModule' => '',
         'Log backend to use.' => '',

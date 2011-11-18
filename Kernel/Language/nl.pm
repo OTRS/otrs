@@ -8,7 +8,7 @@
 # Copyright (C) 2010 Ton van Boven <ton 'at' avebo.nl>
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: nl.pm,v 1.165 2011-11-10 11:19:15 mg Exp $
+# $Id: nl.pm,v 1.166 2011-11-18 08:05:23 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -28,13 +28,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.165 $) [1];
+$VERSION = qw($Revision: 1.166 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2011-11-10 12:16:28
+    # Last translation file sync: 2011-11-18 08:59:29
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1252,6 +1252,8 @@ sub Data {
         'Fetch mail' => 'Mail ophalen',
         'Add Mail Account' => 'Mail account toevoegen',
         'Example: mail.example.com' => 'Bijvoorbeeld: mail.example.com',
+        'IMAP Folder' => '',
+        'Only modify this if you need to fetch mail from a different folder than INBOX.' => '',
         'Trusted' => 'Vertrouwd',
         'Dispatching' => 'Sortering',
         'Edit Mail Account' => 'Bewerk mail account',
@@ -1843,7 +1845,11 @@ sub Data {
 
         # Template: AgentTicketCompose
         'Compose answer for ticket' => 'Bericht opstellen voor',
-        'Need a valid email address.' => 'Geen geldig e-mailadres.',
+        'Remove Ticket Customer' => 'Verwijder ',
+        'Please remove this entry and enter a new one with the correct value.' => '',
+        'Please include at least one recipient' => '',
+        'Remove Cc' => 'Verwijder CC',
+        'Remove Bcc' => 'Verwijder BCC',
         'Address book' => 'Adresboek',
         'Pending Date' => 'Wacht tot datum',
         'for pending* states' => 'voor \'wachtend op-\' statussen',
@@ -1857,12 +1863,8 @@ sub Data {
         # Template: AgentTicketEmail
         'Create New Email Ticket' => 'Maak nieuw e-mail ticket',
         'From queue' => 'In wachtrij',
-        'Remove Ticket Customer' => 'Verwijder ',
-        'Please remove this entry and enter a new one with the correct value.' => '',
         'To customer' => 'Aan klant',
         'Please include at least one customer for the ticket.' => 'Voeg ten minste één klant toe voor dit ticket.',
-        'Remove Cc' => 'Verwijder CC',
-        'Remove Bcc' => 'Verwijder BCC',
         'Get all' => 'Gebruik alle',
 
         # Template: AgentTicketEscalation
@@ -1882,6 +1884,7 @@ sub Data {
         'Ticket Merge' => 'Ticket samenvoegen',
         'You need to use a ticket number!' => 'Gebruik een ticketnummer.',
         'A valid ticket number is required.' => 'Een geldig ticketnummer is verplicht.',
+        'Need a valid email address.' => 'Geen geldig e-mailadres.',
 
         # Template: AgentTicketMove
         'Move Ticket' => 'Verplaats ticket',
@@ -2137,6 +2140,7 @@ sub Data {
         'In order to experience OTRS, you\'ll need to enable JavaScript in your browser.' => 'Om OTRS te kunnen gebruiken, moet JavaScript geactiveerd zijn in uw browser.',
         'Database Settings' => 'Database configuratie',
         'General Specifications and Mail Settings' => 'Algemene instellingen en mailconfiguratie',
+        'Registration' => '',
         'Welcome to %s' => 'Welkom bij %s',
         'Web site' => 'Website',
         'Database check successful.' => 'Database controle gelukt.',
@@ -2169,6 +2173,7 @@ sub Data {
         'Result of mail configuration check' => 'Resultaat van mailconfiguratie test',
         'Check mail configuration' => 'Test mailconfiguratie',
         'Skip this step' => 'Sla dit over',
+        'Skipping this step will automatically skip the registration of your OTRS. Are you sure you want to continue?' => '',
 
         # Template: InstallerDBResult
         'False' => 'Fout',
@@ -2198,6 +2203,12 @@ sub Data {
 
         # Template: InstallerLicenseText
 
+        # Template: InstallerRegistration
+        'Organization' => 'Organisatie',
+        'Position' => '',
+        'Complete registration and continue' => '',
+        'Please fill in all fields marked as mandatory.' => '',
+
         # Template: InstallerSystem
         'SystemID' => 'Systeem identificatie',
         'The identifier of the system. Each ticket number and each HTTP session ID contain this number.' => 'De identifier van het systeem. Ieder ticketnummer en elk HTTP sessie ID bevat dit nummer.',
@@ -2205,7 +2216,6 @@ sub Data {
         'Fully qualified domain name of your system.' => 'Fully Qualified Domain Name van het systeem.',
         'AdminEmail' => 'E-mailadres beheerder',
         'Email address of the system administrator.' => 'E-mailadres van de beheerder.',
-        'Organization' => 'Organisatie',
         'Log' => 'Log',
         'LogModule' => 'Logmodule',
         'Log backend to use.' => 'Te gebruiken logbestand.',

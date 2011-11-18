@@ -2,7 +2,7 @@
 # Kernel/Language/lv.pm - provides Latvian language translation
 # Copyright (C) 2009 Ivars Strazdins <ivars.strazdins at gmail.com>
 # --
-# $Id: lv.pm,v 1.32 2011-11-10 11:19:12 mg Exp $
+# $Id: lv.pm,v 1.33 2011-11-18 08:05:23 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,13 +14,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.32 $) [1];
+$VERSION = qw($Revision: 1.33 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2011-11-10 12:16:26
+    # Last translation file sync: 2011-11-18 08:59:21
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1238,6 +1238,8 @@ sub Data {
         'Fetch mail' => '',
         'Add Mail Account' => '',
         'Example: mail.example.com' => '',
+        'IMAP Folder' => '',
+        'Only modify this if you need to fetch mail from a different folder than INBOX.' => '',
         'Trusted' => 'Uzticams',
         'Dispatching' => 'Nosūtīšana',
         'Edit Mail Account' => '',
@@ -1829,7 +1831,11 @@ sub Data {
 
         # Template: AgentTicketCompose
         'Compose answer for ticket' => 'Rakstīt atbildi pieteikumam',
-        'Need a valid email address.' => '',
+        'Remove Ticket Customer' => '',
+        'Please remove this entry and enter a new one with the correct value.' => '',
+        'Please include at least one recipient' => '',
+        'Remove Cc' => '',
+        'Remove Bcc' => '',
         'Address book' => '',
         'Pending Date' => 'Izlemt līdz (datumam)',
         'for pending* states' => 'izlemšanas* stāvokļiem',
@@ -1843,12 +1849,8 @@ sub Data {
         # Template: AgentTicketEmail
         'Create New Email Ticket' => '',
         'From queue' => '',
-        'Remove Ticket Customer' => '',
-        'Please remove this entry and enter a new one with the correct value.' => '',
         'To customer' => '',
         'Please include at least one customer for the ticket.' => '',
-        'Remove Cc' => '',
-        'Remove Bcc' => '',
         'Get all' => '',
 
         # Template: AgentTicketEscalation
@@ -1868,6 +1870,7 @@ sub Data {
         'Ticket Merge' => 'Apvienot pieteikumus',
         'You need to use a ticket number!' => 'Jālieto pieteikuma numurs!',
         'A valid ticket number is required.' => '',
+        'Need a valid email address.' => '',
 
         # Template: AgentTicketMove
         'Move Ticket' => 'Pārvietot pieteikumu',
@@ -2123,6 +2126,7 @@ sub Data {
         'In order to experience OTRS, you\'ll need to enable JavaScript in your browser.' => '',
         'Database Settings' => '',
         'General Specifications and Mail Settings' => '',
+        'Registration' => '',
         'Welcome to %s' => '%s',
         'Web site' => '',
         'Database check successful.' => '',
@@ -2155,6 +2159,7 @@ sub Data {
         'Result of mail configuration check' => '',
         'Check mail configuration' => '',
         'Skip this step' => '',
+        'Skipping this step will automatically skip the registration of your OTRS. Are you sure you want to continue?' => '',
 
         # Template: InstallerDBResult
         'False' => '',
@@ -2184,6 +2189,12 @@ sub Data {
 
         # Template: InstallerLicenseText
 
+        # Template: InstallerRegistration
+        'Organization' => 'Organizācija/uzņēmums',
+        'Position' => '',
+        'Complete registration and continue' => '',
+        'Please fill in all fields marked as mandatory.' => '',
+
         # Template: InstallerSystem
         'SystemID' => 'Sistēmas ID',
         'The identifier of the system. Each ticket number and each HTTP session ID contain this number.' => '',
@@ -2191,7 +2202,6 @@ sub Data {
         'Fully qualified domain name of your system.' => '',
         'AdminEmail' => 'Administratora e-pasts',
         'Email address of the system administrator.' => '',
-        'Organization' => 'Organizācija/uzņēmums',
         'Log' => 'Žurnāls',
         'LogModule' => 'Žurnāla modulis',
         'Log backend to use.' => '',

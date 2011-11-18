@@ -4,7 +4,7 @@
 # Copyright (C) 2008 Hooman Mesgary <info at mesgary.com>
 # Copyright (C) 2009 Afshar Mohebbi <afshar.mohebbi at gmail.com>
 # --
-# $Id: fa.pm,v 1.96 2011-11-10 11:19:12 mg Exp $
+# $Id: fa.pm,v 1.97 2011-11-18 08:11:25 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,13 +17,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.96 $) [1];
+$VERSION = qw($Revision: 1.97 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2011-11-10 12:16:17
+    # Last translation file sync: 2011-11-18 08:58:44
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1244,6 +1244,8 @@ sub Data {
         'Fetch mail' => 'واکشی ایمیل',
         'Add Mail Account' => 'افزودن حساب ایمیل',
         'Example: mail.example.com' => 'مثال: mail.example.com',
+        'IMAP Folder' => '',
+        'Only modify this if you need to fetch mail from a different folder than INBOX.' => '',
         'Trusted' => 'مجاز',
         'Dispatching' => 'توزیع',
         'Edit Mail Account' => 'ویرایش حساب ایمیل',
@@ -1835,7 +1837,11 @@ sub Data {
 
         # Template: AgentTicketCompose
         'Compose answer for ticket' => 'ارسال پاسخ برای درخواست',
-        'Need a valid email address.' => 'به آدرس ایمیل معتبر نیاز است.',
+        'Remove Ticket Customer' => '',
+        'Please remove this entry and enter a new one with the correct value.' => '',
+        'Please include at least one recipient' => '',
+        'Remove Cc' => '',
+        'Remove Bcc' => '',
         'Address book' => 'دفترچه آدرس',
         'Pending Date' => 'مهلت تعلیق',
         'for pending* states' => 'برای حالات تعلیق',
@@ -1849,12 +1855,8 @@ sub Data {
         # Template: AgentTicketEmail
         'Create New Email Ticket' => 'ساخت درخواست ایمیلی جدید',
         'From queue' => 'از صف درخواست',
-        'Remove Ticket Customer' => '',
-        'Please remove this entry and enter a new one with the correct value.' => '',
         'To customer' => '',
         'Please include at least one customer for the ticket.' => '',
-        'Remove Cc' => '',
-        'Remove Bcc' => '',
         'Get all' => 'گرفتن همه',
 
         # Template: AgentTicketEscalation
@@ -1874,6 +1876,7 @@ sub Data {
         'Ticket Merge' => 'ادغام درخواست',
         'You need to use a ticket number!' => 'شما باید از شماره درخواست استفاده نمائید!',
         'A valid ticket number is required.' => 'شماره درخواست معتبر مورد نیاز است.',
+        'Need a valid email address.' => 'به آدرس ایمیل معتبر نیاز است.',
 
         # Template: AgentTicketMove
         'Move Ticket' => 'انتقال درخواست',
@@ -2129,6 +2132,7 @@ sub Data {
         'In order to experience OTRS, you\'ll need to enable JavaScript in your browser.' => 'به منظور تجربه این نرم‌افزار ، نیاز دارید که جاوااسکریپت مرورگر خود را فعال نمایید.',
         'Database Settings' => 'تنظیمات پایگاه داده',
         'General Specifications and Mail Settings' => 'مشخصات عمومی و تنظیمات ایمیل',
+        'Registration' => '',
         'Welcome to %s' => 'به %s خوش آمدید',
         'Web site' => 'وب سایت',
         'Database check successful.' => 'کنترل پایگاه داده با موفقیت انجام شد.',
@@ -2161,6 +2165,7 @@ sub Data {
         'Result of mail configuration check' => 'نتیجه کنترل پیکربندی ایمیل',
         'Check mail configuration' => 'کنترل پیکربندی ایمیل',
         'Skip this step' => 'از این مرحله بگذر',
+        'Skipping this step will automatically skip the registration of your OTRS. Are you sure you want to continue?' => '',
 
         # Template: InstallerDBResult
         'False' => 'نادرست',
@@ -2190,6 +2195,12 @@ sub Data {
 
         # Template: InstallerLicenseText
 
+        # Template: InstallerRegistration
+        'Organization' => 'سازمان',
+        'Position' => '',
+        'Complete registration and continue' => '',
+        'Please fill in all fields marked as mandatory.' => '',
+
         # Template: InstallerSystem
         'SystemID' => 'شناسه سیستم',
         'The identifier of the system. Each ticket number and each HTTP session ID contain this number.' => 'شناسه سیستم. هر شماره درخواست و هر شناسه HTTP Session شامل این شماره می‌باشد.',
@@ -2197,7 +2208,6 @@ sub Data {
         'Fully qualified domain name of your system.' => 'FQDN سیستم شما',
         'AdminEmail' => 'ایمیل مدیر',
         'Email address of the system administrator.' => 'آدرس ایمیل مدیریت سیستم',
-        'Organization' => 'سازمان',
         'Log' => 'وقایع ثبت شده',
         'LogModule' => 'ماژول ثبت وقایع',
         'Log backend to use.' => '',

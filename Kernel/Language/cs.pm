@@ -6,7 +6,7 @@
 # Copyright (C) 2010 O2BS.com, s r.o. Jakub Hanus
 # Copyright (C) 2010 Pavel <pavel.vilim at kodys.cz>
 # --
-# $Id: cs.pm,v 1.10 2011-11-10 11:19:15 mg Exp $
+# $Id: cs.pm,v 1.11 2011-11-18 08:05:23 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,13 +19,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2011-11-10 12:16:09
+    # Last translation file sync: 2011-11-18 08:58:10
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1243,6 +1243,8 @@ sub Data {
         'Fetch mail' => '',
         'Add Mail Account' => '',
         'Example: mail.example.com' => '',
+        'IMAP Folder' => '',
+        'Only modify this if you need to fetch mail from a different folder than INBOX.' => '',
         'Trusted' => 'Ověřeno',
         'Dispatching' => 'Zařazení',
         'Edit Mail Account' => '',
@@ -1834,7 +1836,11 @@ sub Data {
 
         # Template: AgentTicketCompose
         'Compose answer for ticket' => 'Sestavit odpověď pro tiket',
-        'Need a valid email address.' => '',
+        'Remove Ticket Customer' => '',
+        'Please remove this entry and enter a new one with the correct value.' => '',
+        'Please include at least one recipient' => '',
+        'Remove Cc' => '',
+        'Remove Bcc' => '',
         'Address book' => '',
         'Pending Date' => 'Očekávaný čas vyřízení',
         'for pending* states' => 'pro stavy očekávání*',
@@ -1848,12 +1854,8 @@ sub Data {
         # Template: AgentTicketEmail
         'Create New Email Ticket' => '',
         'From queue' => '',
-        'Remove Ticket Customer' => '',
-        'Please remove this entry and enter a new one with the correct value.' => '',
         'To customer' => '',
         'Please include at least one customer for the ticket.' => '',
-        'Remove Cc' => '',
-        'Remove Bcc' => '',
         'Get all' => '',
 
         # Template: AgentTicketEscalation
@@ -1873,6 +1875,7 @@ sub Data {
         'Ticket Merge' => 'Sloučení Tiketu',
         'You need to use a ticket number!' => 'Notno použít číslo Tiketu',
         'A valid ticket number is required.' => '',
+        'Need a valid email address.' => '',
 
         # Template: AgentTicketMove
         'Move Ticket' => 'Přesunout tiket',
@@ -2128,6 +2131,7 @@ sub Data {
         'In order to experience OTRS, you\'ll need to enable JavaScript in your browser.' => '',
         'Database Settings' => '',
         'General Specifications and Mail Settings' => '',
+        'Registration' => '',
         'Welcome to %s' => 'Vítejte v %s',
         'Web site' => '',
         'Database check successful.' => '',
@@ -2160,6 +2164,7 @@ sub Data {
         'Result of mail configuration check' => '',
         'Check mail configuration' => '',
         'Skip this step' => '',
+        'Skipping this step will automatically skip the registration of your OTRS. Are you sure you want to continue?' => '',
 
         # Template: InstallerDBResult
         'False' => '',
@@ -2189,6 +2194,12 @@ sub Data {
 
         # Template: InstallerLicenseText
 
+        # Template: InstallerRegistration
+        'Organization' => 'Organizace',
+        'Position' => '',
+        'Complete registration and continue' => '',
+        'Please fill in all fields marked as mandatory.' => '',
+
         # Template: InstallerSystem
         'SystemID' => 'Systémové ID',
         'The identifier of the system. Each ticket number and each HTTP session ID contain this number.' => '',
@@ -2196,7 +2207,6 @@ sub Data {
         'Fully qualified domain name of your system.' => '',
         'AdminEmail' => 'Email Administrátora',
         'Email address of the system administrator.' => '',
-        'Organization' => 'Organizace',
         'Log' => '',
         'LogModule' => 'Log Modul',
         'Log backend to use.' => '',

@@ -8,7 +8,7 @@
 # Copyright (C) 2009 Alessandro Faraldi <faraldia at gmail.com>
 # Copyright (C) 2010 Alessandro Grassi <alessandro.grassi at devise.it>
 # --
-# $Id: it.pm,v 1.118 2011-11-10 11:19:12 mg Exp $
+# $Id: it.pm,v 1.119 2011-11-18 08:12:27 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,13 +21,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.118 $) [1];
+$VERSION = qw($Revision: 1.119 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2011-11-10 12:16:23
+    # Last translation file sync: 2011-11-18 08:59:09
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1245,6 +1245,8 @@ sub Data {
         'Fetch mail' => 'Scarica posta',
         'Add Mail Account' => 'Aggiungi account di posta',
         'Example: mail.example.com' => 'Esempio: mail.exempio.it',
+        'IMAP Folder' => '',
+        'Only modify this if you need to fetch mail from a different folder than INBOX.' => '',
         'Trusted' => 'Fidato',
         'Dispatching' => 'Smistamento',
         'Edit Mail Account' => 'Modifica account di posta',
@@ -1836,7 +1838,11 @@ sub Data {
 
         # Template: AgentTicketCompose
         'Compose answer for ticket' => 'Componi la risposta alla richiesta',
-        'Need a valid email address.' => 'Serve un indirizzo email valido',
+        'Remove Ticket Customer' => '',
+        'Please remove this entry and enter a new one with the correct value.' => '',
+        'Please include at least one recipient' => '',
+        'Remove Cc' => '',
+        'Remove Bcc' => '',
         'Address book' => 'Rubrica',
         'Pending Date' => 'Attesa fino a',
         'for pending* states' => 'per gli stati di attesa*',
@@ -1850,12 +1856,8 @@ sub Data {
         # Template: AgentTicketEmail
         'Create New Email Ticket' => 'Crea nuovo ticket email',
         'From queue' => 'Dalla coda',
-        'Remove Ticket Customer' => '',
-        'Please remove this entry and enter a new one with the correct value.' => '',
         'To customer' => '',
         'Please include at least one customer for the ticket.' => '',
-        'Remove Cc' => '',
-        'Remove Bcc' => '',
         'Get all' => 'Prendi tutto',
 
         # Template: AgentTicketEscalation
@@ -1875,6 +1877,7 @@ sub Data {
         'Ticket Merge' => 'Unisci Richiesta',
         'You need to use a ticket number!' => 'Devi usare un numero di richiesta',
         'A valid ticket number is required.' => 'Serve un numero ticket valido.',
+        'Need a valid email address.' => 'Serve un indirizzo email valido',
 
         # Template: AgentTicketMove
         'Move Ticket' => 'Sposta la richiesta',
@@ -2130,6 +2133,7 @@ sub Data {
         'In order to experience OTRS, you\'ll need to enable JavaScript in your browser.' => 'Per poter usare OTRS, è necessario abilitare JavaScript nel browser.',
         'Database Settings' => 'Impostazion Database',
         'General Specifications and Mail Settings' => 'Specifiche generiche ed impostazioni email',
+        'Registration' => '',
         'Welcome to %s' => 'Benvenuto in %s',
         'Web site' => '',
         'Database check successful.' => 'Controllo database eseguito con successo.',
@@ -2162,6 +2166,7 @@ sub Data {
         'Result of mail configuration check' => 'Risultato del controllo di configurazione della posta',
         'Check mail configuration' => 'Controllo configurazione della posta',
         'Skip this step' => 'Salta questo passaggio',
+        'Skipping this step will automatically skip the registration of your OTRS. Are you sure you want to continue?' => '',
 
         # Template: InstallerDBResult
         'False' => 'Falso',
@@ -2191,6 +2196,12 @@ sub Data {
 
         # Template: InstallerLicenseText
 
+        # Template: InstallerRegistration
+        'Organization' => 'Azienda',
+        'Position' => '',
+        'Complete registration and continue' => '',
+        'Please fill in all fields marked as mandatory.' => '',
+
         # Template: InstallerSystem
         'SystemID' => 'ID del sistema',
         'The identifier of the system. Each ticket number and each HTTP session ID contain this number.' => 'L\'identificatore di questo sistema. Ogni numero di ticket e ogni ID di sessione HTTP contengono questo numero.',
@@ -2198,7 +2209,6 @@ sub Data {
         'Fully qualified domain name of your system.' => 'Nome FQDN di questo sistema',
         'AdminEmail' => 'Admin Email',
         'Email address of the system administrator.' => 'Indirizzo dell\'amministratore di sistema.',
-        'Organization' => 'Azienda',
         'Log' => '',
         'LogModule' => 'Modulo di log',
         'Log backend to use.' => 'Backend di log da usare',

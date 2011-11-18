@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # Copyright (C) 2011 Edgaras Luko�evi�ius <edgaras[eta]kauko.lt or admin[eta]sysadmin.lt>
 # --
-# $Id: lt.pm,v 1.8 2011-11-10 11:19:13 mg Exp $
+# $Id: lt.pm,v 1.9 2011-11-18 08:05:23 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2011-11-10 12:16:25
+    # Last translation file sync: 2011-11-18 08:59:17
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1239,6 +1239,8 @@ sub Data {
         'Fetch mail' => 'Gauti (parsi�sti) lai�kus',
         'Add Mail Account' => 'Prid�ti el. pa�to paskyr�',
         'Example: mail.example.com' => 'Pavyzd�iui : mail.example.com',
+        'IMAP Folder' => '',
+        'Only modify this if you need to fetch mail from a different folder than INBOX.' => '',
         'Trusted' => 'Patikimas',
         'Dispatching' => 'I�skirstymas',
         'Edit Mail Account' => 'Redaguoti pa�to paskyr�',
@@ -1830,7 +1832,11 @@ sub Data {
 
         # Template: AgentTicketCompose
         'Compose answer for ticket' => 'Sukurti atsakym� trik�iai',
-        'Need a valid email address.' => 'Reikia galiojan�io el. pa�to adreso.',
+        'Remove Ticket Customer' => '',
+        'Please remove this entry and enter a new one with the correct value.' => '',
+        'Please include at least one recipient' => '',
+        'Remove Cc' => '',
+        'Remove Bcc' => '',
         'Address book' => 'Adres� knyga',
         'Pending Date' => '',
         'for pending* states' => '',
@@ -1844,12 +1850,8 @@ sub Data {
         # Template: AgentTicketEmail
         'Create New Email Ticket' => 'Sukurti nauj� el. pa�to trikt�',
         'From queue' => 'i� eil�s',
-        'Remove Ticket Customer' => '',
-        'Please remove this entry and enter a new one with the correct value.' => '',
         'To customer' => '',
         'Please include at least one customer for the ticket.' => '',
-        'Remove Cc' => '',
-        'Remove Bcc' => '',
         'Get all' => 'Gauti visus',
 
         # Template: AgentTicketEscalation
@@ -1869,6 +1871,7 @@ sub Data {
         'Ticket Merge' => 'Trik�i� suliejimas',
         'You need to use a ticket number!' => 'Turite naudoti trikties numer�!',
         'A valid ticket number is required.' => 'B�tinas galiojantis trikties numeris.',
+        'Need a valid email address.' => 'Reikia galiojan�io el. pa�to adreso.',
 
         # Template: AgentTicketMove
         'Move Ticket' => 'Perkelti trikt�',
@@ -2124,6 +2127,7 @@ sub Data {
         'In order to experience OTRS, you\'ll need to enable JavaScript in your browser.' => 'Norint geriausios, darbo su OTRS, patirties Jums reikia savo nar�ykl�je �jungti JavaScript.',
         'Database Settings' => 'Duomen� baz�s nustatymai',
         'General Specifications and Mail Settings' => 'Bendrieji reikalavimai ir Pa�to nustatymai',
+        'Registration' => '',
         'Welcome to %s' => 'Sveiki atvyk� � %s',
         'Web site' => 'Interneto puslapis',
         'Database check successful.' => 'Duomen� baz�s patikrinimas s�kmingas.',
@@ -2156,6 +2160,7 @@ sub Data {
         'Result of mail configuration check' => 'El. pa�to konfig�racijos patikrinimo rezultatas',
         'Check mail configuration' => 'Patikrinti el. pa�to konfig�racij�',
         'Skip this step' => 'Praleisti �� �ingsn�',
+        'Skipping this step will automatically skip the registration of your OTRS. Are you sure you want to continue?' => '',
 
         # Template: InstallerDBResult
         'False' => 'Neigiama',
@@ -2185,6 +2190,12 @@ sub Data {
 
         # Template: InstallerLicenseText
 
+        # Template: InstallerRegistration
+        'Organization' => 'Organizacija',
+        'Position' => '',
+        'Complete registration and continue' => '',
+        'Please fill in all fields marked as mandatory.' => '',
+
         # Template: InstallerSystem
         'SystemID' => 'SystemID',
         'The identifier of the system. Each ticket number and each HTTP session ID contain this number.' => 'Sistemos identifikacijos numeris. �is numeris bus kiekviename trikties numeryje ir kiekviename HTTP sesijos ID',
@@ -2192,7 +2203,6 @@ sub Data {
         'Fully qualified domain name of your system.' => 'Pilnas sistemos domeno pavadinimas (Fully qualified domain name).',
         'AdminEmail' => 'Administratoriaus el. pa�to adresas',
         'Email address of the system administrator.' => 'Sistemos administratoriaus el. pa�to adresas.',
-        'Organization' => 'Organizacija',
         'Log' => '�urnalas (log)',
         'LogModule' => '�urnalo modulis (log module)',
         'Log backend to use.' => '�urnalo posistem�.',

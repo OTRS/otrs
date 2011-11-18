@@ -7,7 +7,7 @@
 # Copyright (C) 2009 Qingjiu Jia <jiaqj at yahoo.com>
 # Copyright (C) 2011 Martin Liu <liuzh66 at gmail.com> http://martinliu.cn
 # --
-# $Id: zh_CN.pm,v 1.99 2011-11-10 11:19:14 mg Exp $
+# $Id: zh_CN.pm,v 1.100 2011-11-18 08:10:34 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,13 +20,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.99 $) [1];
+$VERSION = qw($Revision: 1.100 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2011-11-10 12:16:40
+    # Last translation file sync: 2011-11-18 09:00:05
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1244,6 +1244,8 @@ sub Data {
         'Fetch mail' => '查收邮件',
         'Add Mail Account' => '新增邮件帐号',
         'Example: mail.example.com' => '范例：mail.example.com',
+        'IMAP Folder' => '',
+        'Only modify this if you need to fetch mail from a different folder than INBOX.' => '',
         'Trusted' => '是否信任',
         'Dispatching' => '分派',
         'Edit Mail Account' => '修改邮件帐号',
@@ -1835,7 +1837,11 @@ sub Data {
 
         # Template: AgentTicketCompose
         'Compose answer for ticket' => '撰写答复票单',
-        'Need a valid email address.' => '需要有效的邮件地址。',
+        'Remove Ticket Customer' => '',
+        'Please remove this entry and enter a new one with the correct value.' => '',
+        'Please include at least one recipient' => '',
+        'Remove Cc' => '',
+        'Remove Bcc' => '',
         'Address book' => '地址簿',
         'Pending Date' => '进入等待状态日期',
         'for pending* states' => '针对等待状态',
@@ -1849,12 +1855,8 @@ sub Data {
         # Template: AgentTicketEmail
         'Create New Email Ticket' => '创建邮件票单',
         'From queue' => '来自队列',
-        'Remove Ticket Customer' => '',
-        'Please remove this entry and enter a new one with the correct value.' => '',
         'To customer' => '',
         'Please include at least one customer for the ticket.' => '',
-        'Remove Cc' => '',
-        'Remove Bcc' => '',
         'Get all' => '获取全部',
 
         # Template: AgentTicketEscalation
@@ -1874,6 +1876,7 @@ sub Data {
         'Ticket Merge' => '票单合并',
         'You need to use a ticket number!' => '您需要使用一个票单编号!',
         'A valid ticket number is required.' => '需要有效的票单编号。',
+        'Need a valid email address.' => '需要有效的邮件地址。',
 
         # Template: AgentTicketMove
         'Move Ticket' => '移动票单',
@@ -2129,6 +2132,7 @@ sub Data {
         'In order to experience OTRS, you\'ll need to enable JavaScript in your browser.' => '要继续使用 OTRS，请打开浏览器的 JavaScript 功能.',
         'Database Settings' => '数据库设置',
         'General Specifications and Mail Settings' => '一般设定和邮件配置',
+        'Registration' => '',
         'Welcome to %s' => '欢迎使用 %s',
         'Web site' => '网址',
         'Database check successful.' => '数据库检查完成.',
@@ -2161,6 +2165,7 @@ sub Data {
         'Result of mail configuration check' => '邮件服务器配置检查结果',
         'Check mail configuration' => '检查邮件配置',
         'Skip this step' => '跳过这一步',
+        'Skipping this step will automatically skip the registration of your OTRS. Are you sure you want to continue?' => '',
 
         # Template: InstallerDBResult
         'False' => '出错',
@@ -2190,6 +2195,12 @@ sub Data {
 
         # Template: InstallerLicenseText
 
+        # Template: InstallerRegistration
+        'Organization' => '组织',
+        'Position' => '',
+        'Complete registration and continue' => '',
+        'Please fill in all fields marked as mandatory.' => '',
+
         # Template: InstallerSystem
         'SystemID' => '系统ID',
         'The identifier of the system. Each ticket number and each HTTP session ID contain this number.' => '每个票单和HTTP会话ID包含系统标识符。',
@@ -2197,7 +2208,6 @@ sub Data {
         'Fully qualified domain name of your system.' => '系统FQDN（全称域名）',
         'AdminEmail' => '管理员地址',
         'Email address of the system administrator.' => '系统管理员邮件地址。',
-        'Organization' => '组织',
         'Log' => '日志',
         'LogModule' => '日志模块',
         'Log backend to use.' => '日志后台使用。',

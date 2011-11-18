@@ -4,7 +4,7 @@
 # Copyright (C) 2007-2008 Mads N. Vestergaard <mnv[at]timmy.dk>
 # Copyright (C) 2010 Lars Jørgensen <lajo[at]kb.dk>
 # --
-# $Id: da.pm,v 1.92 2011-11-10 11:19:12 mg Exp $
+# $Id: da.pm,v 1.93 2011-11-18 08:05:23 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,13 +17,13 @@ use warnings;
 
 use vars qw($VERSION);
 
-$VERSION = qw($Revision: 1.92 $) [1];
+$VERSION = qw($Revision: 1.93 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2011-11-10 12:16:11
+    # Last translation file sync: 2011-11-18 08:58:17
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1241,6 +1241,8 @@ sub Data {
         'Fetch mail' => 'Hent mail',
         'Add Mail Account' => 'Tilføj mailkonto',
         'Example: mail.example.com' => 'F.eks. post.firma.dk',
+        'IMAP Folder' => '',
+        'Only modify this if you need to fetch mail from a different folder than INBOX.' => '',
         'Trusted' => 'Pålidelig',
         'Dispatching' => 'Tildeler',
         'Edit Mail Account' => 'Rediger mailkonto',
@@ -1832,7 +1834,11 @@ sub Data {
 
         # Template: AgentTicketCompose
         'Compose answer for ticket' => 'Skriv svar til sag',
-        'Need a valid email address.' => 'Angiv en gyldig mail-adresse',
+        'Remove Ticket Customer' => '',
+        'Please remove this entry and enter a new one with the correct value.' => '',
+        'Please include at least one recipient' => '',
+        'Remove Cc' => '',
+        'Remove Bcc' => '',
         'Address book' => 'Adressebog',
         'Pending Date' => 'Afventer dato',
         'for pending* states' => 'for afventende tilstande',
@@ -1846,12 +1852,8 @@ sub Data {
         # Template: AgentTicketEmail
         'Create New Email Ticket' => 'Opret ny mail-sag',
         'From queue' => 'Fra kø',
-        'Remove Ticket Customer' => '',
-        'Please remove this entry and enter a new one with the correct value.' => '',
         'To customer' => '',
         'Please include at least one customer for the ticket.' => '',
-        'Remove Cc' => '',
-        'Remove Bcc' => '',
         'Get all' => 'Hent alle',
 
         # Template: AgentTicketEscalation
@@ -1871,6 +1873,7 @@ sub Data {
         'Ticket Merge' => 'Sagssamling',
         'You need to use a ticket number!' => 'Du skal bruge et sagsnummer.',
         'A valid ticket number is required.' => 'Angiv et gyldigt sagsnummer',
+        'Need a valid email address.' => 'Angiv en gyldig mail-adresse',
 
         # Template: AgentTicketMove
         'Move Ticket' => 'Flyt Sag',
@@ -2126,6 +2129,7 @@ sub Data {
         'In order to experience OTRS, you\'ll need to enable JavaScript in your browser.' => 'For at opleve OTRS, skal du aktivere JavaScript i din browser.',
         'Database Settings' => 'Database-indstillinger',
         'General Specifications and Mail Settings' => 'Generelle specifikationer og mail-indstillinger',
+        'Registration' => '',
         'Welcome to %s' => 'Velkommen til %s',
         'Web site' => 'Webside',
         'Database check successful.' => 'Databasen er tjekket ok.',
@@ -2158,6 +2162,7 @@ sub Data {
         'Result of mail configuration check' => 'Resultat af konfigurationstjek af indgående mail',
         'Check mail configuration' => 'Tjek mail-konfiguration',
         'Skip this step' => 'Spring dette trin over',
+        'Skipping this step will automatically skip the registration of your OTRS. Are you sure you want to continue?' => '',
 
         # Template: InstallerDBResult
         'False' => 'Falsk',
@@ -2187,6 +2192,12 @@ sub Data {
 
         # Template: InstallerLicenseText
 
+        # Template: InstallerRegistration
+        'Organization' => 'Organisation',
+        'Position' => '',
+        'Complete registration and continue' => '',
+        'Please fill in all fields marked as mandatory.' => '',
+
         # Template: InstallerSystem
         'SystemID' => 'System-ID',
         'The identifier of the system. Each ticket number and each HTTP session ID contain this number.' => 'Systemets ID. Hver sagsnummer og hver HTTP-session-id indeholder dette nummer.',
@@ -2194,7 +2205,6 @@ sub Data {
         'Fully qualified domain name of your system.' => 'Dit systems Fully Qualified Domain Name',
         'AdminEmail' => 'Admin-Email',
         'Email address of the system administrator.' => 'System-administrators mail-adresse.',
-        'Organization' => 'Organisation',
         'Log' => 'Log',
         'LogModule' => 'LogModul',
         'Log backend to use.' => 'Brug denne log-backend.',

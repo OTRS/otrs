@@ -3,7 +3,7 @@
 # Copyright (C) 2006 Stelios Maistros <smaistros aegean.gr>
 # Copyright (C) 2006 George Thomas <gthomas aegean.gr>
 # --
-# $Id: el.pm,v 1.83 2011-11-10 11:19:13 mg Exp $
+# $Id: el.pm,v 1.84 2011-11-18 08:08:44 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,13 +16,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.83 $) [1];
+$VERSION = qw($Revision: 1.84 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2011-11-10 12:16:13
+    # Last translation file sync: 2011-11-18 08:58:26
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1246,6 +1246,8 @@ sub Data {
         'Fetch mail' => '',
         'Add Mail Account' => '',
         'Example: mail.example.com' => '',
+        'IMAP Folder' => '',
+        'Only modify this if you need to fetch mail from a different folder than INBOX.' => '',
         'Trusted' => 'Εμπιστος',
         'Dispatching' => 'Αποστολή',
         'Edit Mail Account' => '',
@@ -1839,7 +1841,11 @@ sub Data {
 
         # Template: AgentTicketCompose
         'Compose answer for ticket' => 'Σύνθεση απάντησης για το δελτίο',
-        'Need a valid email address.' => '',
+        'Remove Ticket Customer' => '',
+        'Please remove this entry and enter a new one with the correct value.' => '',
+        'Please include at least one recipient' => '',
+        'Remove Cc' => '',
+        'Remove Bcc' => '',
         'Address book' => '',
         'Pending Date' => 'εκκρεμής ημερομηνία',
         'for pending* states' => 'για εκκρεμείς* καταστάσεις',
@@ -1853,12 +1859,8 @@ sub Data {
         # Template: AgentTicketEmail
         'Create New Email Ticket' => '',
         'From queue' => '',
-        'Remove Ticket Customer' => '',
-        'Please remove this entry and enter a new one with the correct value.' => '',
         'To customer' => '',
         'Please include at least one customer for the ticket.' => '',
-        'Remove Cc' => '',
-        'Remove Bcc' => '',
         'Get all' => '',
 
         # Template: AgentTicketEscalation
@@ -1878,6 +1880,7 @@ sub Data {
         'Ticket Merge' => 'Ένωση μηνυμάτων',
         'You need to use a ticket number!' => 'Παρακαλώ χρησιμοποιείστε αριθμό δελτίου!',
         'A valid ticket number is required.' => '',
+        'Need a valid email address.' => '',
 
         # Template: AgentTicketMove
         'Move Ticket' => 'Μεταφορά Δελτίου',
@@ -2133,6 +2136,7 @@ sub Data {
         'In order to experience OTRS, you\'ll need to enable JavaScript in your browser.' => '',
         'Database Settings' => '',
         'General Specifications and Mail Settings' => '',
+        'Registration' => '',
         'Welcome to %s' => 'Καλωσορίσατε στο %s',
         'Web site' => '',
         'Database check successful.' => '',
@@ -2165,6 +2169,7 @@ sub Data {
         'Result of mail configuration check' => '',
         'Check mail configuration' => '',
         'Skip this step' => '',
+        'Skipping this step will automatically skip the registration of your OTRS. Are you sure you want to continue?' => '',
 
         # Template: InstallerDBResult
         'False' => '',
@@ -2194,6 +2199,12 @@ sub Data {
 
         # Template: InstallerLicenseText
 
+        # Template: InstallerRegistration
+        'Organization' => 'Οργανισμός',
+        'Position' => '',
+        'Complete registration and continue' => '',
+        'Please fill in all fields marked as mandatory.' => '',
+
         # Template: InstallerSystem
         'SystemID' => '',
         'The identifier of the system. Each ticket number and each HTTP session ID contain this number.' => '',
@@ -2201,7 +2212,6 @@ sub Data {
         'Fully qualified domain name of your system.' => '',
         'AdminEmail' => '',
         'Email address of the system administrator.' => '',
-        'Organization' => 'Οργανισμός',
         'Log' => 'Καταγραφικό',
         'LogModule' => '',
         'Log backend to use.' => '',

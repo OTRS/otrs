@@ -3,7 +3,7 @@
 # Copyright (C) 2003-2010 Tomasz Melissa <janek at rumianek.com>
 # Copyright (C) 2009 Artur Skalski <skal.ar at wp.pl>
 # --
-# $Id: pl.pm,v 1.113 2011-11-10 11:19:14 mg Exp $
+# $Id: pl.pm,v 1.114 2011-11-18 08:10:34 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,13 +16,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.113 $) [1];
+$VERSION = qw($Revision: 1.114 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2011-11-10 12:16:29
+    # Last translation file sync: 2011-11-18 08:59:32
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1240,6 +1240,8 @@ sub Data {
         'Fetch mail' => 'Pobierz pocztę',
         'Add Mail Account' => 'Dodaj Konto Pocztowe',
         'Example: mail.example.com' => '',
+        'IMAP Folder' => '',
+        'Only modify this if you need to fetch mail from a different folder than INBOX.' => '',
         'Trusted' => 'Zaufane',
         'Dispatching' => 'Przekazanie',
         'Edit Mail Account' => 'Edytuj Konto Pocztowe',
@@ -1831,7 +1833,11 @@ sub Data {
 
         # Template: AgentTicketCompose
         'Compose answer for ticket' => 'Edytuj odpowiedź na zgłoszenie',
-        'Need a valid email address.' => '',
+        'Remove Ticket Customer' => '',
+        'Please remove this entry and enter a new one with the correct value.' => '',
+        'Please include at least one recipient' => '',
+        'Remove Cc' => '',
+        'Remove Bcc' => '',
         'Address book' => '',
         'Pending Date' => 'Termin wyznaczony',
         'for pending* states' => 'dla statusów "oczekujących" z pola powyżej',
@@ -1845,12 +1851,8 @@ sub Data {
         # Template: AgentTicketEmail
         'Create New Email Ticket' => 'Utwórz nowe zgłoszenie email',
         'From queue' => 'Do kolejki',
-        'Remove Ticket Customer' => '',
-        'Please remove this entry and enter a new one with the correct value.' => '',
         'To customer' => '',
         'Please include at least one customer for the ticket.' => '',
-        'Remove Cc' => '',
-        'Remove Bcc' => '',
         'Get all' => 'Pobierz wszystkich',
 
         # Template: AgentTicketEscalation
@@ -1870,6 +1872,7 @@ sub Data {
         'Ticket Merge' => 'Scal zgłoszenie',
         'You need to use a ticket number!' => 'Musisz użyć numeru zgłoszenia!',
         'A valid ticket number is required.' => 'Wymagany jest poprawny numer zgłoszenia.',
+        'Need a valid email address.' => '',
 
         # Template: AgentTicketMove
         'Move Ticket' => 'Przenieś zgłoszenie',
@@ -2125,6 +2128,7 @@ sub Data {
         'In order to experience OTRS, you\'ll need to enable JavaScript in your browser.' => '',
         'Database Settings' => '',
         'General Specifications and Mail Settings' => '',
+        'Registration' => '',
         'Welcome to %s' => 'Witamy w %s',
         'Web site' => '',
         'Database check successful.' => '',
@@ -2157,6 +2161,7 @@ sub Data {
         'Result of mail configuration check' => '',
         'Check mail configuration' => '',
         'Skip this step' => '',
+        'Skipping this step will automatically skip the registration of your OTRS. Are you sure you want to continue?' => '',
 
         # Template: InstallerDBResult
         'False' => '',
@@ -2186,6 +2191,12 @@ sub Data {
 
         # Template: InstallerLicenseText
 
+        # Template: InstallerRegistration
+        'Organization' => 'Organizacja',
+        'Position' => '',
+        'Complete registration and continue' => '',
+        'Please fill in all fields marked as mandatory.' => '',
+
         # Template: InstallerSystem
         'SystemID' => 'ID Systemu',
         'The identifier of the system. Each ticket number and each HTTP session ID contain this number.' => '',
@@ -2193,7 +2204,6 @@ sub Data {
         'Fully qualified domain name of your system.' => '',
         'AdminEmail' => 'Email od Admina',
         'Email address of the system administrator.' => '',
-        'Organization' => 'Organizacja',
         'Log' => 'Log',
         'LogModule' => 'Moduł logowania',
         'Log backend to use.' => '',

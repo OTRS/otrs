@@ -4,7 +4,7 @@
 # Copyright (C) 2011 Chetan Nagaonkar <Chetan_Nagaonkar at OptForOPS.com>
 # Copyright (C) 2011 Chetan Nagaonkar <ChetanNagaonkar at yahoo.com>
 # --
-# $Id: hi.pm,v 1.10 2011-11-10 11:19:12 mg Exp $
+# $Id: hi.pm,v 1.11 2011-11-18 08:08:44 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,13 +17,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2011-11-10 12:16:20
+    # Last translation file sync: 2011-11-18 08:58:58
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1241,6 +1241,8 @@ sub Data {
         'Fetch mail' => 'आनयन मेल',
         'Add Mail Account' => 'मेल खाता जोड़ें',
         'Example: mail.example.com' => 'उदाहरण:मेल.उदाहरण.कॉम',
+        'IMAP Folder' => '',
+        'Only modify this if you need to fetch mail from a different folder than INBOX.' => '',
         'Trusted' => 'विश्वसनीय',
         'Dispatching' => 'प्रेषण',
         'Edit Mail Account' => 'मेल खाता संपादित करें',
@@ -1832,7 +1834,11 @@ sub Data {
 
         # Template: AgentTicketCompose
         'Compose answer for ticket' => 'टिकट के लिए जवाब लिखें',
-        'Need a valid email address.' => 'वैध ईमेल पता चाहिए।',
+        'Remove Ticket Customer' => '',
+        'Please remove this entry and enter a new one with the correct value.' => '',
+        'Please include at least one recipient' => '',
+        'Remove Cc' => '',
+        'Remove Bcc' => '',
         'Address book' => 'पता पुस्तिका',
         'Pending Date' => 'विचाराधीन दिनांक',
         'for pending* states' => 'विचाराधीन* स्थिति के लिए',
@@ -1846,12 +1852,8 @@ sub Data {
         # Template: AgentTicketEmail
         'Create New Email Ticket' => 'नई ईमेल टिकट बनाएँ',
         'From queue' => 'श्रेणी से',
-        'Remove Ticket Customer' => '',
-        'Please remove this entry and enter a new one with the correct value.' => '',
         'To customer' => '',
         'Please include at least one customer for the ticket.' => '',
-        'Remove Cc' => '',
-        'Remove Bcc' => '',
         'Get all' => 'सभी प्राप्त करें',
 
         # Template: AgentTicketEscalation
@@ -1871,6 +1873,7 @@ sub Data {
         'Ticket Merge' => 'टिकट मिलाएं',
         'You need to use a ticket number!' => 'आपको एक टिकट नंबर का उपयोग आवश्यक है',
         'A valid ticket number is required.' => 'एक वैध टिकट संख्या की आवश्यकता है।',
+        'Need a valid email address.' => 'वैध ईमेल पता चाहिए।',
 
         # Template: AgentTicketMove
         'Move Ticket' => 'टिकट स्थानांतरित करें',
@@ -2126,6 +2129,7 @@ sub Data {
         'In order to experience OTRS, you\'ll need to enable JavaScript in your browser.' => 'OTRS अनुभव करने के लिए,आपको अपने ब्राउज़र में जावास्क्रिप्ट सक्षम करना होगा।',
         'Database Settings' => 'आंकड़ाकोष व्यवस्थाऐं',
         'General Specifications and Mail Settings' => 'सामान्य निर्दिष्टीकरण और मेल व्यवस्थाऐं',
+        'Registration' => '',
         'Welcome to %s' => '%s में आपका स्वागत है',
         'Web site' => 'वेबसाइट',
         'Database check successful.' => 'आंकड़ाकोष की जाँच सफल रही।',
@@ -2158,6 +2162,7 @@ sub Data {
         'Result of mail configuration check' => 'मेल विन्यास की जाँच के नतीजे',
         'Check mail configuration' => 'मेल विन्यास की जाँच करें',
         'Skip this step' => 'यह चरण छोड़ें',
+        'Skipping this step will automatically skip the registration of your OTRS. Are you sure you want to continue?' => '',
 
         # Template: InstallerDBResult
         'False' => 'ग़लत',
@@ -2187,6 +2192,12 @@ sub Data {
 
         # Template: InstallerLicenseText
 
+        # Template: InstallerRegistration
+        'Organization' => 'संगठन',
+        'Position' => '',
+        'Complete registration and continue' => '',
+        'Please fill in all fields marked as mandatory.' => '',
+
         # Template: InstallerSystem
         'SystemID' => 'सिस्टम ID',
         'The identifier of the system. Each ticket number and each HTTP session ID contain this number.' => 'प्रणाली का पहचानकर्ता। प्रत्येक टिकट संख्या और प्रत्येक HTTP सत्र ID कॆ पास यह संख्या होती हैं।',
@@ -2194,7 +2205,6 @@ sub Data {
         'Fully qualified domain name of your system.' => 'पूरी तरह से योग्य आपके सिस्टम का प्रक्षेत्र नाम।',
         'AdminEmail' => 'व्यवस्थापक ईमेल',
         'Email address of the system administrator.' => 'प्रणाली प्रशासक का ईमेल पता।',
-        'Organization' => 'संगठन',
         'Log' => 'अभिलेख',
         'LogModule' => 'मॉड्यूल अभिलेख',
         'Log backend to use.' => 'अभिलेख का बैकेंड प्रयोग के लिये',

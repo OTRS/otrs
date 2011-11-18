@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Thomas Kaltenbrunner <tkaltenbrunner at opc.de>
 # --
-# $Id: de.pm,v 1.293 2011-11-15 15:35:19 mab Exp $
+# $Id: de.pm,v 1.294 2011-11-18 08:11:25 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.293 $) [1];
+$VERSION = qw($Revision: 1.294 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2011-11-10 12:16:12
+    # Last translation file sync: 2011-11-18 08:58:22
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -877,8 +877,7 @@ sub Data {
         # Template: AdminDynamicField
         'Dynamic Fields Management' => 'Verwaltung dynamischer Felder',
         'Add new field for object' => 'Neues Feld hinzufügen für Objekt',
-        'To add a new field, select the field type form one of the object\'s list, the object defines the boundary of the field and it can\'t be changed after the field creation.'
-            => 'Zum Anlegen eines neuen Feldes, wählen Sie den Feldtyp aus der Objekliste aus. Das Objekt definiert die Zugehörigkeit des Feldes und kann nach Erstellung nicht mehr geändert werden.',
+        'To add a new field, select the field type form one of the object\'s list, the object defines the boundary of the field and it can\'t be changed after the field creation.' => 'Zum Anlegen eines neuen Feldes, wählen Sie den Feldtyp aus der Objekliste aus. Das Objekt definiert die Zugehörigkeit des Feldes und kann nach Erstellung nicht mehr geändert werden.',
         'Dynamic Fields List' => 'Liste der dynamischen Felder',
         'Dynamic fields per page' => 'Dynamische Felder pro Seite',
         'Label' => 'Beschriftung',
@@ -909,15 +908,13 @@ sub Data {
         'This field must be numeric.' => 'Dieses Feld darf nur Zahlen beinhalten.',
         'The difference from NOW (in seconds) to calculate the field default value (e.g. 3600 or -60).' => 'Der Unterschied zu JETZT in Sekunden, mit dem der Standardwert des Feldes berechnet wird (z. B. 3600 oder -60).',
         'Define years period' => 'Jahresbereich angeben',
-        'Activate this feature to define a fixed range of years (in the future and in the past) to be displayed on the year part of the field.'
-        => 'Aktivieren Sie diese Funktion, um für die Datumsauswahl einen festen Jahresbereich anzugeben (Jahre in der Vergangenheit und Zukunft).',
+        'Activate this feature to define a fixed range of years (in the future and in the past) to be displayed on the year part of the field.' => 'Aktivieren Sie diese Funktion, um für die Datumsauswahl einen festen Jahresbereich anzugeben (Jahre in der Vergangenheit und Zukunft).',
         'Years in the future' => 'Jahre in der Zukunft',
         'Years in the future to display (default: 5 years).' => 'Jahre in der Zukunft, die angezeigt werden (Standard: 5).',
         'Years in the past' => 'Jahre in der Vergangenheit',
         'Years in the past to display (default: 5 years).' => 'Jahre in der Vergangenheit, die angezeigt werden (Standard: 5).',
         'Show link' => 'Link anzeigen',
-        'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.'
-        => 'Hier können Sie einen optionalen link für die Felddarstellung in Übersichten und Ansichtsseiten angeben.',
+        'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' => 'Hier können Sie einen optionalen link für die Felddarstellung in Übersichten und Ansichtsseiten angeben.',
 
         # Template: AdminDynamicFieldDropdown
         'Possible values' => 'Mögliche Werte',
@@ -1242,6 +1239,8 @@ sub Data {
         'Fetch mail' => 'E-Mails abholen',
         'Add Mail Account' => 'E-Mailkonto hinzufügen',
         'Example: mail.example.com' => 'Beispiel: mail.example.com',
+        'IMAP Folder' => '',
+        'Only modify this if you need to fetch mail from a different folder than INBOX.' => '',
         'Trusted' => 'Vertraut',
         'Dispatching' => 'Verteilung',
         'Edit Mail Account' => 'E-Mailkonto bearbeiten',
@@ -1833,7 +1832,11 @@ sub Data {
 
         # Template: AgentTicketCompose
         'Compose answer for ticket' => 'Antwort erstellen für',
-        'Need a valid email address.' => 'Benötige gültige E-Mail-Adresse.',
+        'Remove Ticket Customer' => '',
+        'Please remove this entry and enter a new one with the correct value.' => '',
+        'Please include at least one recipient' => '',
+        'Remove Cc' => '',
+        'Remove Bcc' => '',
         'Address book' => 'Adressbuch',
         'Pending Date' => 'Warten bis',
         'for pending* states' => 'für warten* Status',
@@ -1847,12 +1850,8 @@ sub Data {
         # Template: AgentTicketEmail
         'Create New Email Ticket' => 'Neues E-Mail-Ticket anlegen',
         'From queue' => 'aus Queue',
-        'Remove Ticket Customer' => '',
-        'Please remove this entry and enter a new one with the correct value.' => '',
         'To customer' => '',
         'Please include at least one customer for the ticket.' => '',
-        'Remove Cc' => '',
-        'Remove Bcc' => '',
         'Get all' => 'Alles holen',
 
         # Template: AgentTicketEscalation
@@ -1872,6 +1871,7 @@ sub Data {
         'Ticket Merge' => 'Ticket zusammenfassen',
         'You need to use a ticket number!' => 'Bitte eine Ticketnummer benutzen!',
         'A valid ticket number is required.' => 'Eine gültige Ticketnummer ist erforderlich.',
+        'Need a valid email address.' => 'Benötige gültige E-Mail-Adresse.',
 
         # Template: AgentTicketMove
         'Move Ticket' => 'Ticket verschieben',
@@ -2127,16 +2127,12 @@ sub Data {
         'In order to experience OTRS, you\'ll need to enable JavaScript in your browser.' => 'Um alle Möglichkeiten von OTRS voll ausschöpfen zu können, müssen Sie JavaScript in Ihrem Browser aktivieren.',
         'Database Settings' => 'Datenbankeinstellungen',
         'General Specifications and Mail Settings' => 'Allgemeine Einstellungen und E-Mail-Einstellungen',
+        'Registration' => 'Registrierung',
         'Welcome to %s' => 'Willkommen zu %s',
         'Web site' => 'Website',
         'Database check successful.' => 'Datenbankprüfung erfolgreich.',
         'Mail check successful.' => 'Konfigurationsprüfung erfolgreich.',
         'Error in the mail settings. Please correct and try again.' => 'Fehler in der Mail-Konfiguration. Bitte korrigieren und nochmals probieren.',
-        'Registration' => 'Registrierung',
-        'Register your OTRS' => 'Registrieren Sie Ihr OTRS',
-        'Please fill in all fields marked as mandatory.' => 'Bitte füllen Sie alle Pflichtfelder aus.',
-        'Complete registration and continue' => 'Registrierung abschließen und fortfahren',
-        'Skipping this step will automatically skip the registration of your OTRS. Are you sure you want to continue?' => 'Wenn Sie diesen Schritt überspringen, wird die Registrierung Ihres OTRS-Systems ebenfalls übersprungen. Möchten Sie wirklich fortfahren?',
 
         # Template: InstallerConfigureMail
         'Configure Outbound Mail' => 'Mailversand konfigurieren',
@@ -2164,6 +2160,7 @@ sub Data {
         'Result of mail configuration check' => 'Ergebnis der E-Mail-Konfigurationsprüfung',
         'Check mail configuration' => 'E-Mail-Konfiguration prüfen',
         'Skip this step' => 'Diesen Schritt überspringen',
+        'Skipping this step will automatically skip the registration of your OTRS. Are you sure you want to continue?' => 'Wenn Sie diesen Schritt überspringen, wird die Registrierung Ihres OTRS-Systems ebenfalls übersprungen. Möchten Sie wirklich fortfahren?',
 
         # Template: InstallerDBResult
         'False' => 'Falsch',
@@ -2193,6 +2190,12 @@ sub Data {
 
         # Template: InstallerLicenseText
 
+        # Template: InstallerRegistration
+        'Organization' => 'Organisation',
+        'Position' => '',
+        'Complete registration and continue' => 'Registrierung abschließen und fortfahren',
+        'Please fill in all fields marked as mandatory.' => 'Bitte füllen Sie alle Pflichtfelder aus.',
+
         # Template: InstallerSystem
         'SystemID' => 'SystemID',
         'The identifier of the system. Each ticket number and each HTTP session ID contain this number.' => 'Der System-Identifizierer. Jede Ticketnummer und jede HTTP-Sitzungs-ID enthalten diese Nummer.',
@@ -2200,7 +2203,6 @@ sub Data {
         'Fully qualified domain name of your system.' => 'Voll qualifizierter Domainname Ihres Systems.',
         'AdminEmail' => 'E-Mail des Administrators',
         'Email address of the system administrator.' => 'E-Mail-Adresse des Administrators.',
-        'Organization' => 'Organisation',
         'Log' => 'Protokoll',
         'LogModule' => 'Protokollmodul',
         'Log backend to use.' => 'Protokoll-Backend, welches verwendet werden soll.',
@@ -3623,6 +3625,7 @@ sub Data {
         'Realname' => 'Tatsächlicher Name',
         'Rebuild' => 'Rebuild',
         'Recipients' => 'Empfänger',
+        'Register your OTRS' => 'Registrieren Sie Ihr OTRS',
         'Reminder' => 'Erinnernd',
         'Reminder messages' => 'Nachrichten zur Erinnerung',
         'Remove from list of subscribed tickets' => 'Ticket-Abo kündigen',

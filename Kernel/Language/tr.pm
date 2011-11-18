@@ -2,7 +2,7 @@
 # Kernel/Language/tr.pm - provides Turkish language translation
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: tr.pm,v 1.56 2011-11-10 11:19:15 mg Exp $
+# $Id: tr.pm,v 1.57 2011-11-18 08:10:34 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,13 +14,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.56 $)[1];
+$VERSION = qw($Revision: 1.57 $)[1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2011-11-10 12:16:37
+    # Last translation file sync: 2011-11-18 08:59:55
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1238,6 +1238,8 @@ sub Data {
         'Fetch mail' => '',
         'Add Mail Account' => '',
         'Example: mail.example.com' => '',
+        'IMAP Folder' => '',
+        'Only modify this if you need to fetch mail from a different folder than INBOX.' => '',
         'Trusted' => 'Güvenilir',
         'Dispatching' => 'Gönderiliyor',
         'Edit Mail Account' => '',
@@ -1829,7 +1831,11 @@ sub Data {
 
         # Template: AgentTicketCompose
         'Compose answer for ticket' => 'Bilete cevap yaz',
-        'Need a valid email address.' => '',
+        'Remove Ticket Customer' => '',
+        'Please remove this entry and enter a new one with the correct value.' => '',
+        'Please include at least one recipient' => '',
+        'Remove Cc' => '',
+        'Remove Bcc' => '',
         'Address book' => '',
         'Pending Date' => 'Bekleme tarihi',
         'for pending* states' => 'Bekleme* durumları için',
@@ -1843,12 +1849,8 @@ sub Data {
         # Template: AgentTicketEmail
         'Create New Email Ticket' => '',
         'From queue' => '',
-        'Remove Ticket Customer' => '',
-        'Please remove this entry and enter a new one with the correct value.' => '',
         'To customer' => '',
         'Please include at least one customer for the ticket.' => '',
-        'Remove Cc' => '',
-        'Remove Bcc' => '',
         'Get all' => '',
 
         # Template: AgentTicketEscalation
@@ -1868,6 +1870,7 @@ sub Data {
         'Ticket Merge' => 'Bilet Birleştir',
         'You need to use a ticket number!' => 'Bilet numarası kullanmalısınız!',
         'A valid ticket number is required.' => '',
+        'Need a valid email address.' => '',
 
         # Template: AgentTicketMove
         'Move Ticket' => 'Bileti Taşı',
@@ -2123,6 +2126,7 @@ sub Data {
         'In order to experience OTRS, you\'ll need to enable JavaScript in your browser.' => '',
         'Database Settings' => '',
         'General Specifications and Mail Settings' => '',
+        'Registration' => '',
         'Welcome to %s' => '%s sistemine hoşgeldiniz',
         'Web site' => '',
         'Database check successful.' => '',
@@ -2155,6 +2159,7 @@ sub Data {
         'Result of mail configuration check' => '',
         'Check mail configuration' => '',
         'Skip this step' => '',
+        'Skipping this step will automatically skip the registration of your OTRS. Are you sure you want to continue?' => '',
 
         # Template: InstallerDBResult
         'False' => '',
@@ -2184,6 +2189,12 @@ sub Data {
 
         # Template: InstallerLicenseText
 
+        # Template: InstallerRegistration
+        'Organization' => 'Kuruluş',
+        'Position' => '',
+        'Complete registration and continue' => '',
+        'Please fill in all fields marked as mandatory.' => '',
+
         # Template: InstallerSystem
         'SystemID' => 'Sistem Kimliği',
         'The identifier of the system. Each ticket number and each HTTP session ID contain this number.' => '',
@@ -2191,7 +2202,6 @@ sub Data {
         'Fully qualified domain name of your system.' => '',
         'AdminEmail' => 'Yönetici E-Posta Adresi',
         'Email address of the system administrator.' => '',
-        'Organization' => 'Kuruluş',
         'Log' => 'Günlük',
         'LogModule' => 'Günlük Bileşeni',
         'Log backend to use.' => '',

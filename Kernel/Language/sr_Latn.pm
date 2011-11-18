@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Milorad Jovanović <j.milorad at gmail.com>
 # --
-# $Id: sr_Latn.pm,v 1.18 2011-11-10 11:19:13 mg Exp $
+# $Id: sr_Latn.pm,v 1.19 2011-11-18 08:10:34 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2011-11-10 12:16:35
+    # Last translation file sync: 2011-11-18 08:59:49
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1239,6 +1239,8 @@ sub Data {
         'Fetch mail' => 'Preuzmi poštu',
         'Add Mail Account' => 'Dodaj E-mejl nalog',
         'Example: mail.example.com' => 'Primer: mail.example.com',
+        'IMAP Folder' => '',
+        'Only modify this if you need to fetch mail from a different folder than INBOX.' => '',
         'Trusted' => 'Od poverenja',
         'Dispatching' => 'Otprema',
         'Edit Mail Account' => 'Uredi E-mejl nalog',
@@ -1830,7 +1832,11 @@ sub Data {
 
         # Template: AgentTicketCompose
         'Compose answer for ticket' => 'Napiši odgovor na tiket',
-        'Need a valid email address.' => 'Potrebna ispravna imejl adresa.',
+        'Remove Ticket Customer' => '',
+        'Please remove this entry and enter a new one with the correct value.' => '',
+        'Please include at least one recipient' => '',
+        'Remove Cc' => '',
+        'Remove Bcc' => '',
         'Address book' => 'Adresar',
         'Pending Date' => 'Datum čekanja',
         'for pending* states' => 'za stanja čekanja',
@@ -1844,12 +1850,8 @@ sub Data {
         # Template: AgentTicketEmail
         'Create New Email Ticket' => 'Otvori novi imejl tiket',
         'From queue' => 'iz Reda',
-        'Remove Ticket Customer' => '',
-        'Please remove this entry and enter a new one with the correct value.' => '',
         'To customer' => '',
         'Please include at least one customer for the ticket.' => '',
-        'Remove Cc' => '',
-        'Remove Bcc' => '',
         'Get all' => 'Uzmi sve',
 
         # Template: AgentTicketEscalation
@@ -1869,6 +1871,7 @@ sub Data {
         'Ticket Merge' => 'Spajanje tiketa',
         'You need to use a ticket number!' => 'Molimo vas da koristite broj tiketa!',
         'A valid ticket number is required.' => 'Neophodan je ispravan broj tiketa.',
+        'Need a valid email address.' => 'Potrebna ispravna imejl adresa.',
 
         # Template: AgentTicketMove
         'Move Ticket' => 'Premesti tiket',
@@ -2124,6 +2127,7 @@ sub Data {
         'In order to experience OTRS, you\'ll need to enable JavaScript in your browser.' => 'Kako bi ste koristili "OTRS" neophodno je da aktivirate Java skript u vašem Web čitaču.',
         'Database Settings' => 'Podešavanje baze podataka',
         'General Specifications and Mail Settings' => 'Opšte specifikacije i podešavanje pošte',
+        'Registration' => '',
         'Welcome to %s' => 'Dobrodošli na %s',
         'Web site' => '"Web" stranica',
         'Database check successful.' => 'Uspešna provera baze podataka.',
@@ -2156,6 +2160,7 @@ sub Data {
         'Result of mail configuration check' => 'Rezultat provere podešavanja pošte',
         'Check mail configuration' => 'Proveri konfiguraciju mejla',
         'Skip this step' => 'Preskoči ovaj korak',
+        'Skipping this step will automatically skip the registration of your OTRS. Are you sure you want to continue?' => '',
 
         # Template: InstallerDBResult
         'False' => '"False"',
@@ -2185,6 +2190,12 @@ sub Data {
 
         # Template: InstallerLicenseText
 
+        # Template: InstallerRegistration
+        'Organization' => 'Organizacija',
+        'Position' => '',
+        'Complete registration and continue' => '',
+        'Please fill in all fields marked as mandatory.' => '',
+
         # Template: InstallerSystem
         'SystemID' => 'Sistemski ID',
         'The identifier of the system. Each ticket number and each HTTP session ID contain this number.' => 'Sistemski identifikator. Svaki broj tiketa i svaki ID "HTTP" sesije sadrži ovaj broj.',
@@ -2192,7 +2203,6 @@ sub Data {
         'Fully qualified domain name of your system.' => '"FQDN" - ime servera uključujući puno ime domena npr "otrs-server.example.org"',
         'AdminEmail' => 'imejl administrator',
         'Email address of the system administrator.' => 'imejl adresa sistemskog administratora.',
-        'Organization' => 'Organizacija',
         'Log' => 'Dnevnik',
         'LogModule' => 'Modul dnevnika',
         'Log backend to use.' => 'Sistem koji se koristi za dnevnik.',

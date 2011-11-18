@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # Copyright (C) 2010-2011 Kaz Kamimura <kamypus at yahoo.co.jp>
 # --
-# $Id: ja.pm,v 1.18 2011-11-10 11:19:13 mg Exp $
+# $Id: ja.pm,v 1.19 2011-11-18 08:05:23 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2011-11-10 12:16:24
+    # Last translation file sync: 2011-11-18 08:59:13
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1239,6 +1239,8 @@ sub Data {
         'Fetch mail' => 'メールを取得',
         'Add Mail Account' => 'メールアカウント追加',
         'Example: mail.example.com' => '例: mail.example.com',
+        'IMAP Folder' => '',
+        'Only modify this if you need to fetch mail from a different folder than INBOX.' => '',
         'Trusted' => '信頼済',
         'Dispatching' => '振り分け処理',
         'Edit Mail Account' => 'メールアカウント編集',
@@ -1830,7 +1832,11 @@ sub Data {
 
         # Template: AgentTicketCompose
         'Compose answer for ticket' => 'チケットの回答を作成',
-        'Need a valid email address.' => '有効なメールアドレスが必要です。',
+        'Remove Ticket Customer' => '',
+        'Please remove this entry and enter a new one with the correct value.' => '',
+        'Please include at least one recipient' => '',
+        'Remove Cc' => '',
+        'Remove Bcc' => '',
         'Address book' => 'アドレス帳',
         'Pending Date' => '保留期間',
         'for pending* states' => '状態:保留にする',
@@ -1844,12 +1850,8 @@ sub Data {
         # Template: AgentTicketEmail
         'Create New Email Ticket' => '新規メールチケットを作成',
         'From queue' => 'キューから',
-        'Remove Ticket Customer' => '',
-        'Please remove this entry and enter a new one with the correct value.' => '',
         'To customer' => '',
         'Please include at least one customer for the ticket.' => '',
-        'Remove Cc' => '',
-        'Remove Bcc' => '',
         'Get all' => '全てを取得',
 
         # Template: AgentTicketEscalation
@@ -1869,6 +1871,7 @@ sub Data {
         'Ticket Merge' => 'チケット結合',
         'You need to use a ticket number!' => '使用するチケット番号が必要です。',
         'A valid ticket number is required.' => '有効なチケット番号が必要です。',
+        'Need a valid email address.' => '有効なメールアドレスが必要です。',
 
         # Template: AgentTicketMove
         'Move Ticket' => 'チケット移転',
@@ -2124,6 +2127,7 @@ sub Data {
         'In order to experience OTRS, you\'ll need to enable JavaScript in your browser.' => 'OTRSを利用するにはお使いのブラウザでJavaScriptを有効にする必要があります。',
         'Database Settings' => 'データベース設定',
         'General Specifications and Mail Settings' => '共通仕様とメール設定',
+        'Registration' => '',
         'Welcome to %s' => 'ようこそ %s',
         'Web site' => 'Webサイト',
         'Database check successful.' => 'データベースチェックに成功しました。',
@@ -2156,6 +2160,7 @@ sub Data {
         'Result of mail configuration check' => 'メール設定チェックの結果',
         'Check mail configuration' => 'メール設定チェック',
         'Skip this step' => 'この手順を飛ばす',
+        'Skipping this step will automatically skip the registration of your OTRS. Are you sure you want to continue?' => '',
 
         # Template: InstallerDBResult
         'False' => '失敗',
@@ -2185,6 +2190,12 @@ sub Data {
 
         # Template: InstallerLicenseText
 
+        # Template: InstallerRegistration
+        'Organization' => '組織',
+        'Position' => '',
+        'Complete registration and continue' => '',
+        'Please fill in all fields marked as mandatory.' => '',
+
         # Template: InstallerSystem
         'SystemID' => 'システムID',
         'The identifier of the system. Each ticket number and each HTTP session ID contain this number.' => 'システムの識別子。各チケット番号とHTTPセッションIDはこの番号が含まれます。',
@@ -2192,7 +2203,6 @@ sub Data {
         'Fully qualified domain name of your system.' => 'システムのFQDN',
         'AdminEmail' => '管理者メール',
         'Email address of the system administrator.' => 'システム管理者のメールアドレス',
-        'Organization' => '組織',
         'Log' => 'ログ',
         'LogModule' => 'ログモジュール',
         'Log backend to use.' => 'ログバックエンドを使用するには',

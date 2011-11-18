@@ -4,7 +4,7 @@
 # Copyright (C) 2009 Yiye Huang <yiyehuang at gmail.com>
 # Copyright (C) 2009 Qingjiu Jia <jiaqj at yahoo.com>
 # --
-# $Id: zh_TW.pm,v 1.29 2011-11-10 11:19:12 mg Exp $
+# $Id: zh_TW.pm,v 1.30 2011-11-18 08:08:44 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,13 +17,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.29 $) [1];
+$VERSION = qw($Revision: 1.30 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2011-11-10 12:16:41
+    # Last translation file sync: 2011-11-18 09:00:09
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1241,6 +1241,8 @@ sub Data {
         'Fetch mail' => '',
         'Add Mail Account' => '',
         'Example: mail.example.com' => '',
+        'IMAP Folder' => '',
+        'Only modify this if you need to fetch mail from a different folder than INBOX.' => '',
         'Trusted' => '是否信任',
         'Dispatching' => '分派',
         'Edit Mail Account' => '',
@@ -1832,7 +1834,11 @@ sub Data {
 
         # Template: AgentTicketCompose
         'Compose answer for ticket' => '撰寫答復,Ticket 編號',
-        'Need a valid email address.' => '',
+        'Remove Ticket Customer' => '',
+        'Please remove this entry and enter a new one with the correct value.' => '',
+        'Please include at least one recipient' => '',
+        'Remove Cc' => '',
+        'Remove Bcc' => '',
         'Address book' => '',
         'Pending Date' => '進入等待狀態日期',
         'for pending* states' => '針對等待狀態',
@@ -1846,12 +1852,8 @@ sub Data {
         # Template: AgentTicketEmail
         'Create New Email Ticket' => '',
         'From queue' => '',
-        'Remove Ticket Customer' => '',
-        'Please remove this entry and enter a new one with the correct value.' => '',
         'To customer' => '',
         'Please include at least one customer for the ticket.' => '',
-        'Remove Cc' => '',
-        'Remove Bcc' => '',
         'Get all' => '',
 
         # Template: AgentTicketEscalation
@@ -1871,6 +1873,7 @@ sub Data {
         'Ticket Merge' => 'Ticket 合並',
         'You need to use a ticket number!' => '您需要使用一個 Ticket 編號!',
         'A valid ticket number is required.' => '',
+        'Need a valid email address.' => '',
 
         # Template: AgentTicketMove
         'Move Ticket' => '移動 Ticket',
@@ -2126,6 +2129,7 @@ sub Data {
         'In order to experience OTRS, you\'ll need to enable JavaScript in your browser.' => '',
         'Database Settings' => '',
         'General Specifications and Mail Settings' => '',
+        'Registration' => '',
         'Welcome to %s' => '歡迎使用 %s',
         'Web site' => '',
         'Database check successful.' => '',
@@ -2158,6 +2162,7 @@ sub Data {
         'Result of mail configuration check' => '',
         'Check mail configuration' => '',
         'Skip this step' => '',
+        'Skipping this step will automatically skip the registration of your OTRS. Are you sure you want to continue?' => '',
 
         # Template: InstallerDBResult
         'False' => '',
@@ -2187,6 +2192,12 @@ sub Data {
 
         # Template: InstallerLicenseText
 
+        # Template: InstallerRegistration
+        'Organization' => '組織',
+        'Position' => '',
+        'Complete registration and continue' => '',
+        'Please fill in all fields marked as mandatory.' => '',
+
         # Template: InstallerSystem
         'SystemID' => '系統ID',
         'The identifier of the system. Each ticket number and each HTTP session ID contain this number.' => '',
@@ -2194,7 +2205,6 @@ sub Data {
         'Fully qualified domain name of your system.' => '',
         'AdminEmail' => '管理員地址',
         'Email address of the system administrator.' => '',
-        'Organization' => '組織',
         'Log' => '日志',
         'LogModule' => '日志模塊',
         'Log backend to use.' => '',
