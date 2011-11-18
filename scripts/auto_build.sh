@@ -3,7 +3,7 @@
 # auto_build.sh - build automatically OTRS tar, rpm and src-rpm
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: auto_build.sh,v 1.99 2011-11-18 08:35:10 mg Exp $
+# $Id: auto_build.sh,v 1.100 2011-11-18 08:52:00 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -21,7 +21,7 @@
 # or see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-echo "auto_build.sh - build automatically OTRS tar, rpm and src-rpm <\$Revision: 1.99 $>"
+echo "auto_build.sh - build automatically OTRS tar, rpm and src-rpm <\$Revision: 1.100 $>"
 echo "Copyright (C) 2001-2011 OTRS AG, http://otrs.org/\n";
 
 PATH_TO_CVS_SRC=$1
@@ -215,6 +215,7 @@ FILES=$PATH_TO_CVS_SRC/scripts/auto_build/files.txt
 # --
 # build SuSE 11.0 rpm
 # --
+echo "Building SuSE 11.0 rpm..."
 specfile=$PACKAGE_TMP_SPEC
 # replace version and release
 cat $ARCHIVE_DIR/scripts/suse-otrs-11.0.spec | sed "s/^Version:.*/Version:      $VERSION/" | sed "s/^Release:.*/Release:      $RELEASE/" > $specfile.tmp
@@ -231,6 +232,7 @@ mv $SYSTEM_SRPM_DIR/$PACKAGE*$VERSION*$RELEASE*.src.rpm $PACKAGE_DEST_DIR/SRPMS/
 # --
 # build SuSE 10.0 rpm
 # --
+echo "Building SuSE 10.0 rpm..."
 specfile=$PACKAGE_TMP_SPEC
 # replace version and release
 cat $ARCHIVE_DIR/scripts/suse-otrs-10.0.spec | sed "s/^Version:.*/Version:      $VERSION/" | sed "s/^Release:.*/Release:      $RELEASE/" > $specfile.tmp
@@ -247,6 +249,7 @@ mv $SYSTEM_SRPM_DIR/$PACKAGE*$VERSION*$RELEASE*.src.rpm $PACKAGE_DEST_DIR/SRPMS/
 # --
 # build Fedora rpm
 # --
+echo "Building Fedora rpm..."
 cp $ARCHIVE_DIR/scripts/redhat-rpmmacros ~/.rpmmacros || exit 1
 specfile=$PACKAGE_TMP_SPEC
 cat $ARCHIVE_DIR/scripts/fedora-otrs-4.spec | sed "s/^Version:.*/Version:      $VERSION/" | sed "s/^Release:.*/Release:      $RELEASE/" > $specfile.tmp
