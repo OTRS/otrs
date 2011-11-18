@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Thomas Kaltenbrunner <tkaltenbrunner at opc.de>
 # --
-# $Id: de.pm,v 1.294 2011-11-18 08:11:25 mb Exp $
+# $Id: de.pm,v 1.295 2011-11-18 08:18:48 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.294 $) [1];
+$VERSION = qw($Revision: 1.295 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1239,8 +1239,8 @@ sub Data {
         'Fetch mail' => 'E-Mails abholen',
         'Add Mail Account' => 'E-Mailkonto hinzufügen',
         'Example: mail.example.com' => 'Beispiel: mail.example.com',
-        'IMAP Folder' => '',
-        'Only modify this if you need to fetch mail from a different folder than INBOX.' => '',
+        'IMAP Folder' => 'IMAP-Ordner',
+        'Only modify this if you need to fetch mail from a different folder than INBOX.' => 'Ändern Sie diese Einstellung nur, wenn die Mails aus einem anderen Ordner als "INBOX" geholt werden sollen.',
         'Trusted' => 'Vertraut',
         'Dispatching' => 'Verteilung',
         'Edit Mail Account' => 'E-Mailkonto bearbeiten',
