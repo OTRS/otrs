@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.374 2011-11-17 08:09:29 mb Exp $
+# $Id: Layout.pm,v 1.375 2011-11-21 18:43:22 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Mail::Address;
 use URI::Escape qw();
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.374 $) [1];
+$VERSION = qw($Revision: 1.375 $) [1];
 
 =head1 NAME
 
@@ -3201,7 +3201,7 @@ sub CustomerHeader {
         $Frontend = 'Public';
     }
 
-    # run header meta modules only on customer frontends
+    # run header meta modules for customer and public frontends
     my $HeaderMetaModule = $Self->{ConfigObject}->Get( $Frontend . 'Frontend::HeaderMetaModule' );
     if ( ref $HeaderMetaModule eq 'HASH' ) {
         my %Jobs = %{$HeaderMetaModule};
@@ -4898,6 +4898,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.374 $ $Date: 2011-11-17 08:09:29 $
+$Revision: 1.375 $ $Date: 2011-11-21 18:43:22 $
 
 =cut
