@@ -2,7 +2,7 @@
 # Error.dtl - provides HTML Error screen
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Error.dtl,v 1.19.2.1 2011-03-16 11:54:44 mg Exp $
+# $Id: Error.dtl,v 1.19.2.2 2011-11-21 08:39:48 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -31,13 +31,13 @@
                         <form action="http://bugs.otrs.org/enter_bug.cgi">
                             <input type="hidden" name="comment" value="
                             Message:
-$Data{"Message"}
+$QData{"Message"}
 
                             Comment:
-$Data{"Comment"}
+$QData{"Comment"}
 
                             Traceback:
-$Data{"BackendTraceback"}
+$QData{"BackendTraceback"}
                             "/>
                             <input type="hidden" name="bug_file_loc" value="$QEnv{"SERVER_NAME"}$QEnv{"REQUEST_URI"}"/>
                             <input class="button" type="submit" value="$Text{"Click here to report a bug!"}"/>
