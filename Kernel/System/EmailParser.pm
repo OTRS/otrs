@@ -2,7 +2,7 @@
 # Kernel/System/EmailParser.pm - the global email parser module
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: EmailParser.pm,v 1.106 2011-08-12 09:06:15 mg Exp $
+# $Id: EmailParser.pm,v 1.107 2011-11-21 19:20:34 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use MIME::Words qw(:all);
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.106 $) [1];
+$VERSION = qw($Revision: 1.107 $) [1];
 
 =head1 NAME
 
@@ -524,7 +524,7 @@ sub GetMessageBody {
             $Self->{MessageBody} = $BodyStrg;
         }
 
-        # check if it's juat a html email (store it as attachment and add text/plain)
+        # check if the mail contains only HTML (store it as attachment and add text/plain)
         $Self->CheckMessageBody();
 
         # return message body
@@ -539,7 +539,7 @@ sub GetMessageBody {
             );
         }
 
-        # check if there is an valid attachment there, if yes, return
+        # check if there is a valid attachment there, if yes, return
         # first attachment (normally text/plain) as message body
         my @Attachments = $Self->GetAttachments();
         if ( @Attachments > 0 ) {
@@ -571,7 +571,7 @@ sub GetMessageBody {
                 $Self->{MessageBody} = '- no text message => see attachment -';
             }
 
-            # check it it's juat a html email (store it as attachment and add text/plain)
+            # check it it's a html-only email (store it as attachment and add text/plain)
             $Self->CheckMessageBody();
 
             # return message body
@@ -582,7 +582,7 @@ sub GetMessageBody {
                 $Self->{LogObject}->Log(
                     Priority => 'debug',
                     Message =>
-                        'No attachments returned from GetAttachments(), just a null attachment!?',
+                        'No attachments returned from GetAttachments(), just an empty attachment!?',
                 );
             }
 
@@ -931,6 +931,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.106 $ $Date: 2011-08-12 09:06:15 $
+$Revision: 1.107 $ $Date: 2011-11-21 19:20:34 $
 
 =cut
