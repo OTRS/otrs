@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentLinkObject.pm - to link objects
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentLinkObject.pm,v 1.60 2011-11-04 00:55:11 mh Exp $
+# $Id: AgentLinkObject.pm,v 1.61 2011-11-21 01:45:32 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.60 $) [1];
+$VERSION = qw($Revision: 1.61 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -457,15 +457,12 @@ sub Run {
         }
 
         # get already linked objects
-        my $LinkListWithData = {};
-        if ( $SearchList && $SearchList->{ $Form{TargetObject} } ) {
-            $LinkListWithData = $Self->{LinkObject}->LinkListWithData(
-                Object => $Form{SourceObject},
-                Key    => $Form{SourceKey},
-                State  => $Form{State},
-                UserID => $Self->{UserID},
-            );
-        }
+        my $LinkListWithData = $Self->{LinkObject}->LinkListWithData(
+            Object => $Form{SourceObject},
+            Key    => $Form{SourceKey},
+            State  => $Form{State},
+            UserID => $Self->{UserID},
+        );
 
         if ( $LinkListWithData && $LinkListWithData->{ $Form{TargetObject} } ) {
 
