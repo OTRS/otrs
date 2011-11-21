@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhoneCommon.pm - phone calls for existing tickets
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhoneCommon.pm,v 1.12 2011-11-14 22:10:29 cr Exp $
+# $Id: AgentTicketPhoneCommon.pm,v 1.13 2011-11-21 14:02:00 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,7 +25,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -187,6 +187,18 @@ sub Run {
             );
     }
 
+    # convert dynamic field values into a structure for ACLs
+    my %DynamicFieldACLParameters;
+    DYNAMICFIELD:
+    for my $DynamcField ( keys %DynamicFieldValues ) {
+        next DYNAMICFIELD if !$DynamcField;
+        next DYNAMICFIELD if !$DynamicFieldValues{$DynamcField};
+
+        $DynamicFieldACLParameters{ 'DynamicField_' . $DynamcField }
+            = $DynamicFieldValues{$DynamcField};
+    }
+    $GetParam{DynamicField} = \%DynamicFieldACLParameters;
+
     # transform pending time, time stamp based on user time zone
     if (
         defined $GetParam{Year}
@@ -233,6 +245,7 @@ sub Run {
 
                 # set possible values filter from ACLs
                 my $ACL = $Self->{TicketObject}->TicketAcl(
+                    %GetParam,
                     Action        => $Self->{Action},
                     TicketID      => $Self->{TicketID},
                     Type          => 'DynamicField_' . $DynamicFieldConfig->{Name},
@@ -291,11 +304,13 @@ sub Run {
             Type => 'Small',
         );
         $Output .= $Self->_MaskPhone(
-            TicketID         => $Self->{TicketID},
-            QueueID          => $Self->{QueueID},
-            TicketNumber     => $Ticket{TicketNumber},
-            Title            => $Ticket{Title},
-            NextStates       => $Self->_GetNextStates(),
+            TicketID     => $Self->{TicketID},
+            QueueID      => $Self->{QueueID},
+            TicketNumber => $Ticket{TicketNumber},
+            Title        => $Ticket{Title},
+            NextStates   => $Self->_GetNextStates(
+                %GetParam,
+            ),
             CustomerData     => \%CustomerData,
             Subject          => $Subject,
             Body             => $Body,
@@ -402,6 +417,7 @@ sub Run {
 
                 # set possible values filter from ACLs
                 my $ACL = $Self->{TicketObject}->TicketAcl(
+                    %GetParam,
                     Action        => $Self->{Action},
                     TicketID      => $Self->{TicketID},
                     Type          => 'DynamicField_' . $DynamicFieldConfig->{Name},
@@ -502,7 +518,9 @@ sub Run {
             $Output .= $Self->_MaskPhone(
                 TicketID     => $Self->{TicketID},
                 TicketNumber => $Tn,
-                NextStates   => $Self->_GetNextStates(),
+                NextStates   => $Self->_GetNextStates(
+                    %GetParam,
+                ),
                 CustomerData => \%CustomerData,
                 Attachments  => \@Attachments,
                 %GetParam,
@@ -670,19 +688,8 @@ sub Run {
     }
     elsif ( $Self->{Subaction} eq 'AJAXUpdate' ) {
 
-        # convert dynamic field values into a structure for ACLs
-        my %DynamicFieldACLParameters;
-        DYNAMICFIELD:
-        for my $DynamcField ( keys %DynamicFieldValues ) {
-            next DYNAMICFIELD if !$DynamcField;
-            next DYNAMICFIELD if !$DynamicFieldValues{$DynamcField};
-
-            $DynamicFieldACLParameters{ 'DynamicField_' . $DynamcField }
-                = $DynamicFieldValues{$DynamcField};
-        }
-
         my $NextStates = $Self->_GetNextStates(
-            DynamicField => \%DynamicFieldACLParameters,
+            %GetParam,
         );
 
         # update Dynamc Fields Possible Values via AJAX
@@ -700,10 +707,9 @@ sub Run {
 
             # set possible values filter from ACLs
             my $ACL = $Self->{TicketObject}->TicketAcl(
+                %GetParam,
                 Action        => $Self->{Action},
                 TicketID      => $Self->{TicketID},
-                QueueID       => 0,
-                DynamicField  => \%DynamicFieldACLParameters,
                 Type          => 'DynamicField_' . $DynamicFieldConfig->{Name},
                 ReturnType    => 'Ticket',
                 ReturnSubType => 'DynamicField_' . $DynamicFieldConfig->{Name},
@@ -880,6 +886,25 @@ sub _MaskPhone {
 
     $Param{FormID} = $Self->{FormID};
 
+    my $DynamicFieldNames = $Self->_GetFieldsToUpdate(
+        OnlyDynamicFields => 1
+    );
+
+    # create a string with the quoted dynamic field names separated by a commas
+    if ( IsArrayRefWithData($DynamicFieldNames) ) {
+        my $FirstItem = 1;
+        FIELD:
+        for my $Field ( @{$DynamicFieldNames} ) {
+            if ($FirstItem) {
+                $FirstItem = 0;
+            }
+            else {
+                $Param{DynamicFieldNamesStrg} .= ', ';
+            }
+            $Param{DynamicFieldNamesStrg} .= "'" . $Field . "'";
+        }
+    }
+
     # build next states string
     my %Selected;
     if ( $Param{NextStateID} ) {
@@ -1030,8 +1055,13 @@ sub _MaskPhone {
 sub _GetFieldsToUpdate {
     my ( $Self, %Param ) = @_;
 
+    my @UpdatableFields;
+
     # set the fields that can be updatable via AJAXUpdate
-    my @UpdatableFields = qw( NextStateID );
+
+    if ( !$Param{OnlyDynamicFields} ) {
+        @UpdatableFields = qw( NextStateID );
+    }
 
     # cycle trough the activated Dynamic Fields for this screen
     DYNAMICFIELD:

@@ -2,7 +2,7 @@
 # AgentTicketPhoneCommon.dtl - provides HTML form for phone
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhoneCommon.dtl,v 1.6 2011-11-01 16:38:15 cr Exp $
+# $Id: AgentTicketPhoneCommon.dtl,v 1.7 2011-11-21 14:02:21 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -120,6 +120,13 @@ $Include{"RichTextEditor"}
                         $Data{"NextStatesStrg"}
                     </div>
                     <div class="Clear"></div>
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+    $('#NextStateID').bind('change', function (Event) {
+        Core.AJAX.FormUpdate( $(this).parents('form'), 'AJAXUpdate', 'NextStateID', [ $Data{"DynamicFieldNamesStrg"} ]);
+    });
+//]]></script>
+<!--dtl:js_on_document_complete-->
 
                     <label>$Text{"Pending Date"} ($Text{"for pending* states"}):</label>
                     <div class="Field">
