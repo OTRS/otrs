@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Web/Request.pm - a wrapper for CGI.pm or Apache::Request.pm
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Request.pm,v 1.37 2010-06-17 22:14:28 cr Exp $
+# $Id: Request.pm,v 1.37.2.1 2011-11-21 09:00:42 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CheckItem;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.37 $) [1];
+$VERSION = qw($Revision: 1.37.2.1 $) [1];
 
 =head1 NAME
 
@@ -81,8 +81,8 @@ sub new {
     # Simple Common Gateway Interface Class
     use CGI qw(:cgi);
 
-    # to get the errors on screen
-    use CGI::Carp qw(fatalsToBrowser);
+    # send errors to web server error log
+    use CGI::Carp;
 
     # max 5 MB posts
     $CGI::POST_MAX = $Self->{ConfigObject}->Get('WebMaxFileUpload') || 1024 * 1024 * 5;
@@ -369,6 +369,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.37 $ $Date: 2010-06-17 22:14:28 $
+$Revision: 1.37.2.1 $ $Date: 2011-11-21 09:00:42 $
 
 =cut
