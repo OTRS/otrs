@@ -2,7 +2,7 @@
 # Kernel/System/Web/InterfaceAgent.pm - the agent interface file (incl. auth)
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: InterfaceAgent.pm,v 1.58.2.1 2011-02-09 23:40:08 en Exp $
+# $Id: InterfaceAgent.pm,v 1.58.2.2 2011-11-21 10:20:32 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION @INC);
-$VERSION = qw($Revision: 1.58.2.1 $) [1];
+$VERSION = qw($Revision: 1.58.2.2 $) [1];
 
 # all framework needed modules
 use Kernel::Config;
@@ -329,12 +329,21 @@ sub Run {
         if ( !$Self->{ConfigObject}->Get('SessionUseCookieAfterBrowserClose') ) {
             $Expires = '';
         }
+
+        my $SecureAttribute;
+        if ( $ENV{HTTPS} && $ENV{HTTPS} =~ m/^on$/ismx ) {
+
+            # Restrict Cookie to HTTPS if it is used.
+            $SecureAttribute = 1;
+        }
+
         $LayoutObject = Kernel::Output::HTML::Layout->new(
             SetCookies => {
                 SessionIDCookie => $Self->{ParamObject}->SetCookie(
                     Key     => $Param{SessionName},
                     Value   => $NewSessionID,
                     Expires => $Expires,
+                    Secure  => scalar $SecureAttribute,
                 ),
             },
             SessionID   => $NewSessionID,
@@ -923,6 +932,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.58.2.1 $ $Date: 2011-02-09 23:40:08 $
+$Revision: 1.58.2.2 $ $Date: 2011-11-21 10:20:32 $
 
 =cut

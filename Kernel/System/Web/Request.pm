@@ -2,7 +2,7 @@
 # Kernel/System/Web/Request.pm - a wrapper for CGI.pm or Apache::Request.pm
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Request.pm,v 1.37.2.1 2011-11-21 09:00:42 mb Exp $
+# $Id: Request.pm,v 1.37.2.2 2011-11-21 10:20:32 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CheckItem;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.37.2.1 $) [1];
+$VERSION = qw($Revision: 1.37.2.2 $) [1];
 
 =head1 NAME
 
@@ -321,8 +321,10 @@ sub _GetUploadInfo {
 set a cookie
 
     $ParamObject->SetCookie(
-        Key   => ID,
-        Value => 123456,
+        Key     => ID,
+        Value   => 123456,
+        Expires => '+3660s',
+        Secure  => 1,           # optional, set secure attribute to disable cookie on HTTP (HTTPS only)
     );
 
 =cut
@@ -334,6 +336,7 @@ sub SetCookie {
         -name    => $Param{Key},
         -value   => $Param{Value},
         -expires => $Param{Expires},
+        -secure  => $Param{Secure},
     );
 }
 
@@ -369,6 +372,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.37.2.1 $ $Date: 2011-11-21 09:00:42 $
+$Revision: 1.37.2.2 $ $Date: 2011-11-21 10:20:32 $
 
 =cut
