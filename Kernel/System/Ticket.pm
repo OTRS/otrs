@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.529 2011-11-19 21:30:33 cr Exp $
+# $Id: Ticket.pm,v 1.530 2011-11-21 13:01:12 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -40,7 +40,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.529 $) [1];
+$VERSION = qw($Revision: 1.530 $) [1];
 
 =head1 NAME
 
@@ -6206,20 +6206,30 @@ sub TicketAcl {
             }
         }
     }
-    else {
-        TICKETATTRIBUTE:
-        for my $TicketAttribute ( keys %{ $Checks{Ticket} } ) {
-            next TICKETATTRIBUTE if !$TicketAttribute;
 
-            # check if is a dynamic field with data
-            next TICKETATTRIBUTE if $TicketAttribute !~ m{ \A DynamicField_ }smx;
-            next TICKETATTRIBUTE if !$Checks{Ticket}->{$TicketAttribute};
-            next TICKETATTRIBUTE if
-                ref $Checks{Ticket}->{$TicketAttribute} eq 'ARRAY'
-                    && !IsArrayRefWithData( $Checks{Ticket}->{$TicketAttribute} );
+    # always get info from ticket too and set it to the Dynamic Field check hash if the info is
+    # different. this can be done because in the previous step ticket info was updated. but maybe
+    # ticket has more information stored than in the DynamicField parameter.
+    TICKETATTRIBUTE:
+    for my $TicketAttribute ( keys %{ $Checks{Ticket} } ) {
+        next TICKETATTRIBUTE if !$TicketAttribute;
 
-            $Checks{DynamicField}->{$TicketAttribute} = $Checks{Ticket}->{$TicketAttribute};
+        # check if is a dynamic field with data
+        next TICKETATTRIBUTE if $TicketAttribute !~ m{ \A DynamicField_ }smx;
+        next TICKETATTRIBUTE if !$Checks{Ticket}->{$TicketAttribute};
+        next TICKETATTRIBUTE if
+            ref $Checks{Ticket}->{$TicketAttribute} eq 'ARRAY'
+                && !IsArrayRefWithData( $Checks{Ticket}->{$TicketAttribute} );
+
+        # compare if data is different and skip on same data
+        if ( $Checks{DynamicField}->{$TicketAttribute} ) {
+            next TICKETATTRIBUTE if !DataIsDifferent(
+                Data1 => $Checks{Ticket}->{$TicketAttribute},
+                Data2 => $Checks{DynamicField}->{$TicketAttribute},
+            );
         }
+
+        $Checks{DynamicField}->{$TicketAttribute} = $Checks{Ticket}->{$TicketAttribute};
     }
 
     # use user data
@@ -7333,6 +7343,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.529 $ $Date: 2011-11-19 21:30:33 $
+$Revision: 1.530 $ $Date: 2011-11-21 13:01:12 $
 
 =cut
