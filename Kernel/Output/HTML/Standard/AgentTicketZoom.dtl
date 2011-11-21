@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.197 2011-11-04 22:13:35 cr Exp $
+# $Id: AgentTicketZoom.dtl,v 1.198 2011-11-21 19:21:32 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -95,15 +95,15 @@
                         <div class="Clear"></div>
 <!-- dtl:block:Type -->
                         <label>$Text{"State"}:</label>
-                        <p class="Value" title="$Text{"$Data{"State"}"}">$Text{"$Data{"State"}","18"}</p>
+                        <p class="Value" title="$Text{"$Data{"State"}"}">$Text{"$Data{"State"}"}</p>
                         <div class="Clear"></div>
 
                         <label>$Text{"Locked"}:</label>
-                        <p class="Value" title="$Text{"$Data{"Lock"}"}">$Text{"$Data{"Lock"}","18"}</p>
+                        <p class="Value" title="$Text{"$Data{"Lock"}"}">$Text{"$Data{"Lock"}"}</p>
                         <div class="Clear"></div>
 
                         <label>$Text{"Priority"}:</label>
-                        <p class="Value" title="$Text{"$Data{"Priority"}"}">$Text{"$Data{"Priority"}","18"}</p>
+                        <p class="Value" title="$Text{"$Data{"Priority"}"}">$Text{"$Data{"Priority"}"}</p>
                         <div class="Clear"></div>
 
                         <label>$Text{"Queue"}:</label>
