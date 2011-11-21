@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.993.2.204 2011-11-10 12:22:40 des Exp $
+# $Id: CHANGES,v 1.993.2.205 2011-11-21 08:59:13 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 2.4.13 (????/??/??)
+ - 2011-11-21 Fixed bug#7909 - Errors should be logged in web server error log only.
  - 2011-11-10 Fixed bug#7879 - Ticket forward not working if content-id exists.
  - 2011-11-07 Fixed bug#7362 - AuthSyncModule::LDAP::UserSyncMap with multiple auth backends.
  - 2011-11-02 Fixed bug#7465 - Out-of-office unlock does not work upon customer's web reply.
