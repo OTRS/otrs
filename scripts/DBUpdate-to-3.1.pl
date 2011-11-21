@@ -3,7 +3,7 @@
 # DBUpdate-to-3.1.pl - update script to migrate OTRS 3.0.x to 3.1.x
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-3.1.pl,v 1.61 2011-11-17 17:20:23 cg Exp $
+# $Id: DBUpdate-to-3.1.pl,v 1.62 2011-11-21 18:42:40 cr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.61 $) [1];
+$VERSION = qw($Revision: 1.62 $) [1];
 
 use Getopt::Std qw();
 use Kernel::Config;
@@ -631,12 +631,13 @@ sub _DynamicFieldTicketMigration {
 
             # ticket counter
             $MigratedTicketCounter++;
-            print "   Migrated ticket $MigratedTicketCounter of $HowMuchTickets. \n"
-                if ( $MigratedTicketCounter % 100 ) == 0;
+            print "   Migrated ticket $MigratedTicketCounter of $HowMuchTickets"
+                . " (with Free fields data). \n" if ( $MigratedTicketCounter % 100 ) == 0;
         }
     }
 
-    print "\n Migrated $MigratedTicketCounter tickets of $HowMuchTickets. \n";
+    print "\n Migrated $MigratedTicketCounter tickets of $HowMuchTickets"
+        . " (with Free fields data). \n";
 
     return $MigratedTicketCounter;
 }
@@ -763,12 +764,13 @@ sub _DynamicFieldArticleMigration {
 
             # article counter
             $MigratedArticleCounter++;
-            print "   Migrated article $MigratedArticleCounter of $HowMuchArticles. \n"
-                if ( $MigratedArticleCounter % 100 ) == 0;
+            print "   Migrated article $MigratedArticleCounter of $HowMuchArticles"
+                . " (with Free fields data). \n" if ( $MigratedArticleCounter % 100 ) == 0;
         }
     }
 
-    print "\n Migrated $MigratedArticleCounter articles of $HowMuchArticles. \n";
+    print "\n Migrated $MigratedArticleCounter articles of $HowMuchArticles"
+        . " (with Free fields data). \n";
 
     return $MigratedArticleCounter;
 }
@@ -871,12 +873,10 @@ sub _VerificationTicketData {
                     my $FieldValue = $Row[$FieldCounter];
                     my $ValueType  = ( $FreeField eq 'FreeTime' ? 'date' : 'text' );
                     my $ObjectID   = $Row[0];
-
-  # Only check for existence of a value. We cannot compare to the old value because in the meantime,
-  #   a new value might have been set on the ticket.
-                    if ( $DynamicFieldValue{ $FieldID . $ObjectType . $ObjectID } eq '' ) {
+                    if ( $DynamicFieldValue{ $FieldID . $ObjectType . $ObjectID } ne $FieldValue ) {
                         print STDERR
-                            "A field was not correctly migrated: $FieldID $ObjectType $ObjectID\n";
+                            "A field was not correctly migrated: Field ID $FieldID "
+                            . "$ObjectType ID $ObjectID\n";
                         print STDERR "  Found DynamicField value '"
                             . $DynamicFieldValue{ $FieldID . $ObjectType . $ObjectID }
                             . "', expected '"
@@ -987,12 +987,10 @@ sub _VerificationArticleData {
                     my $FieldValue = $Row[$FieldCounter];
                     my $ValueType  = ( $FreeField eq 'FreeTime' ? 'date' : 'text' );
                     my $ObjectID   = $Row[0];
-
-  # Only check for existence of a value. We cannot compare to the old value because in the meantime,
-  #   a new value might have been set on the ticket.
-                    if ( $DynamicFieldValue{ $FieldID . $ObjectType . $ObjectID } eq '' ) {
+                    if ( $DynamicFieldValue{ $FieldID . $ObjectType . $ObjectID } ne $FieldValue ) {
                         print STDERR
-                            "A field was not correctly migrated (Field $FieldID ObjectType $ObjectType ObjectID $ObjectID)!\n";
+                            "A field was not correctly migrated (Field ID $FieldID"
+                            . " $ObjectType ID $ObjectID)!\n";
                         print STDERR "  Found DynamicField value '"
                             . $DynamicFieldValue{ $FieldID . $ObjectType . $ObjectID }
                             . "', expected '"
