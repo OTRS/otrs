@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.295 2011-11-17 15:28:08 des Exp $
+# $Id: Article.pm,v 1.296 2011-11-21 08:22:05 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,9 +21,10 @@ use Kernel::System::Notification;
 use Kernel::System::EmailParser;
 
 use Kernel::System::VariableCheck qw(:all);
+use MIME::Base64;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.295 $) [1];
+$VERSION = qw($Revision: 1.296 $) [1];
 
 =head1 NAME
 
@@ -262,6 +263,39 @@ sub ArticleCreate {
             Message  => 'Can\'t get ArticleID from INSERT!',
         );
         return;
+    }
+
+    # check for base64 encoded images in html body and upload them
+    for my $Attachment (@AttachmentConvert) {
+
+        if (
+            $Attachment->{ContentType} eq "text/html; charset=\"$Param{Charset}\""
+            && $Attachment->{Filename} eq 'file-2'
+            )
+        {
+
+            my $FQDN = $Self->{ConfigObject}->Get('FQDN');
+            $Attachment->{Content} =~ s{(src=")(data:image/)(png|gif|jpg|bmp)(;base64,)(.+?)(")}{
+
+                my $Base64String = $5;
+
+                my $FileName     = 'pasted-' . time() . '-' . int(rand(1000000)) . '-' . $Param{UserID} . '.' . $3;
+                my $ContentType  = "image/$3; name=\"$FileName\"";
+                my $ContentID    = 'pasted.' . time() . '.' . int(rand(1000000)) . '.' . $Param{UserID} . '@' . $FQDN;
+
+                my $AttachmentData = {
+                    Content     => decode_base64($Base64String),
+                    ContentType => $ContentType,
+                    ContentID   => $ContentID,
+                    Filename    => $FileName,
+                };
+                push @AttachmentConvert, $AttachmentData;
+
+                # compose new image tag
+                $1 . "cid:$ContentID" . $6
+
+            }egxi;
+        }
     }
 
     # add converted attachments
@@ -3534,6 +3568,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.295 $ $Date: 2011-11-17 15:28:08 $
+$Revision: 1.296 $ $Date: 2011-11-21 08:22:05 $
 
 =cut

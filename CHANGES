@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2030 2011-11-19 21:33:56 cr Exp $
+# $Id: CHANGES,v 1.2031 2011-11-21 08:22:46 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.1.0 beta2 ????-??-??
+ - 2011-11-21 Added feature to drag and drop/copy and paste images to richtext editor in firefox (base64 encoded).
  - 2011-11-19 Fixed bug#7917 - New ACL mechanism does not generate DynamicField hash check when
     only TicketID is given.
 
