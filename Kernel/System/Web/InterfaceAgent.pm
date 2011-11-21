@@ -2,7 +2,7 @@
 # Kernel/System/Web/InterfaceAgent.pm - the agent interface file (incl. auth)
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: InterfaceAgent.pm,v 1.58.2.2 2011-11-21 10:20:32 mg Exp $
+# $Id: InterfaceAgent.pm,v 1.58.2.3 2011-11-21 10:29:00 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION @INC);
-$VERSION = qw($Revision: 1.58.2.2 $) [1];
+$VERSION = qw($Revision: 1.58.2.3 $) [1];
 
 # all framework needed modules
 use Kernel::Config;
@@ -331,7 +331,7 @@ sub Run {
         }
 
         my $SecureAttribute;
-        if ( $ENV{HTTPS} && $ENV{HTTPS} =~ m/^on$/ismx ) {
+        if ( $Self->{ConfigObject}->Get('HttpType') eq 'https' ) {
 
             # Restrict Cookie to HTTPS if it is used.
             $SecureAttribute = 1;
@@ -932,6 +932,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.58.2.2 $ $Date: 2011-11-21 10:20:32 $
+$Revision: 1.58.2.3 $ $Date: 2011-11-21 10:29:00 $
 
 =cut
