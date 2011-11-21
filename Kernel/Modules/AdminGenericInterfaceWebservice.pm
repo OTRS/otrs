@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericInterfaceWebservice.pm - provides a webservice view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceWebservice.pm,v 1.31 2011-10-24 17:24:42 cg Exp $
+# $Id: AdminGenericInterfaceWebservice.pm,v 1.32 2011-11-21 12:20:20 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.31 $) [1];
+$VERSION = qw($Revision: 1.32 $) [1];
 
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::GenericInterface::Webservice;
@@ -968,17 +968,17 @@ sub _ShowEdit {
             for my $ActionName ( keys %{ $CommTypeConfig{$CommunicationType}->{ActionsConfig} } ) {
 
                 # get control information
-                my $ActionDails
+                my $ActionDetails
                     = $CommTypeConfig{$CommunicationType}->{ActionsConfig}->{$ActionName};
 
                 # create output data
                 my %ActionData = (
                     Name            => $ActionName,
-                    Description     => $ActionDails->{Description} || '-',
-                    Controller      => $ActionDails->{Type},
-                    MappingInbound  => $ActionDails->{MappingInbound}->{Type} || '-',
-                    MappingOutbound => $ActionDails->{MappingOutbound}->{Type} || '-',
-                    Module          => $GIControllers{ $ActionDails->{Type} },
+                    Description     => $ActionDetails->{Description} || '-',
+                    Controller      => $ActionDetails->{Type},
+                    MappingInbound  => $ActionDetails->{MappingInbound}->{Type} || '-',
+                    MappingOutbound => $ActionDetails->{MappingOutbound}->{Type} || '-',
+                    Module          => $GIControllers{ $ActionDetails->{Type} },
                     ActionType      => $CommTypeConfig{$CommunicationType}->{ActionType},
                 );
 
