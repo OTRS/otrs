@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketSearch.pm,v 1.75 2011-10-31 21:23:24 cr Exp $
+# $Id: CustomerTicketSearch.pm,v 1.76 2011-11-21 09:58:43 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,7 +26,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.75 $) [1];
+$VERSION = qw($Revision: 1.76 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -457,7 +457,7 @@ sub Run {
                 if ( !@CSVHead ) {
                     @CSVHead = @{ $Self->{Config}->{SearchCSVData} };
 
-                    # include the selected dynamic fields on CVS resutls
+                    # include the selected dynamic fields in CVS results
                     DYNAMICFIELD:
                     for my $DynamicFieldConfig ( @{ $Self->{CSVDynamicField} } ) {
                         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
@@ -474,17 +474,17 @@ sub Run {
                     # backend
                     if ( $_ =~ m{\A DynamicField_ ( [a-zA-Z\d]+ ) \z}xms ) {
 
-                        # loop over the dyanmic fields configured for CSV output
+                        # loop over the dynamic fields configured for CSV output
                         DYNAMICFIELD:
                         for my $DynamicFieldConfig ( @{ $Self->{CSVDynamicField} } ) {
                             next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
                             next DYNAMICFIELD if !$DynamicFieldConfig->{Name};
 
-                            # skip all fields that does not match with current field name ($1)
+                            # skip all fields that do not match the current field name ($1)
                             # with out the 'DynamicField_' prefix
                             next DYNAMICFIELD if $DynamicFieldConfig->{Name} ne $1;
 
-                            # get the value as for print (to corretly display)
+                            # get the value for print
                             my $ValueStrg = $Self->{BackendObject}->DisplayValueRender(
                                 DynamicFieldConfig => $DynamicFieldConfig,
                                 Value              => $Info{$_},
@@ -931,7 +931,7 @@ sub Run {
         my $TicketSort = '';
         my $AgeSort    = '';
 
-        # this sets the opposit to the $Order
+        # define sort order
         if ( $Order eq 'Down' ) {
             $Sort = 'SortAscending';
         }
@@ -1215,7 +1215,7 @@ sub MaskForm {
     for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
 
-        # skip fields that HTML could not be retrieved
+        # skip fields if HTML could not be retrieved
         next DYNAMICFIELD if !IsHashRefWithData(
             $Param{DynamicFieldHTML}->{ $DynamicFieldConfig->{Name} }
         );
