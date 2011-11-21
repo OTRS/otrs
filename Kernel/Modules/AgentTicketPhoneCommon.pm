@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhoneCommon.pm - phone calls for existing tickets
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhoneCommon.pm,v 1.13 2011-11-21 14:02:00 cr Exp $
+# $Id: AgentTicketPhoneCommon.pm,v 1.14 2011-11-21 22:50:20 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,7 +25,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1058,7 +1058,6 @@ sub _GetFieldsToUpdate {
     my @UpdatableFields;
 
     # set the fields that can be updatable via AJAXUpdate
-
     if ( !$Param{OnlyDynamicFields} ) {
         @UpdatableFields = qw( NextStateID );
     }
