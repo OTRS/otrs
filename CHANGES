@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2034 2011-11-21 10:20:47 mg Exp $
+# $Id: CHANGES,v 1.2035 2011-11-21 12:37:45 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -44,8 +44,7 @@
  - 2011-10-24 Fixed bug#7824 - Tickets locked through 'tmp_lock' lock type aren't shown as locked
     tickets
  - 2011-10-20 Fixed bug#7168 - Ticket Overview Control Row can only be one line high.
- - 2011-09-28 Fixed Ticket#2011080542009673 - Improved security handling
-    regarding _FileInstall().
+ - 2011-09-28 Fixed Ticket#2011080542009673 - Improved location check for _FileInstall().
  - 2011-09-26 Added missing cpan module Encode::Locale which is now required
     for HTTP::Response and LWP::UserAgent.
  - 2011-09-16 Added new legacy driver for PostgreSQL 8.1 or earlier. This
