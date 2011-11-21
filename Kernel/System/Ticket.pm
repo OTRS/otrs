@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.530 2011-11-21 13:01:12 cr Exp $
+# $Id: Ticket.pm,v 1.531 2011-11-21 13:37:43 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -40,7 +40,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.530 $) [1];
+$VERSION = qw($Revision: 1.531 $) [1];
 
 =head1 NAME
 
@@ -6490,8 +6490,9 @@ sub TicketAcl {
         $Checks{State} = \%State;
 
         # update or add state information to the ticket check
-        $Checks{Ticket}->{State}   = $Checks{State}->{Name};
-        $Checks{Ticket}->{StateID} = $Checks{State}->{ID};
+        $Checks{Ticket}->{State}     = $Checks{State}->{Name};
+        $Checks{Ticket}->{StateID}   = $Checks{State}->{ID};
+        $Checks{Ticket}->{StateType} = $Checks{State}->{TypeName};
     }
     elsif ( $Param{State} ) {
         my %State = $Self->{StateObject}->StateGet(
@@ -6501,8 +6502,9 @@ sub TicketAcl {
         $Checks{State} = \%State;
 
         # update or add state information to the ticket check
-        $Checks{Ticket}->{State}   = $Checks{State}->{Name};
-        $Checks{Ticket}->{StateID} = $Checks{State}->{ID};
+        $Checks{Ticket}->{State}     = $Checks{State}->{Name};
+        $Checks{Ticket}->{StateID}   = $Checks{State}->{ID};
+        $Checks{Ticket}->{StateType} = $Checks{State}->{TypeName};
     }
     elsif ( !$Param{StateID} && !$Param{State} ) {
         if ( IsPositiveInteger( $Checks{Ticket}->{StateID} ) ) {
@@ -7343,6 +7345,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.530 $ $Date: 2011-11-21 13:01:12 $
+$Revision: 1.531 $ $Date: 2011-11-21 13:37:43 $
 
 =cut

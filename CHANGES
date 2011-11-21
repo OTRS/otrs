@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2035 2011-11-21 12:37:45 mg Exp $
+# $Id: CHANGES,v 1.2036 2011-11-21 13:40:24 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.1.0 beta2 ????-??-??
+ - 2011-11-21 Fixed bug#7920  - New ACL mechanism does not update Ticket{StateType} when a State
+    or StateID is given.
  - 2011-11-21 Use the secure attribute to restrict coookies to HTTPS if it is used.
  - 2011-11-21 Fixed bug#7909 - Errors should be logged in web server error log only.
  - 2011-11-21 Added feature to drag and drop/copy and paste images to richtext editor in firefox (base64 encoded).
