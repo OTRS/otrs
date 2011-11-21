@@ -1,8 +1,8 @@
 # --
 # Redirect.dtl - provides global HTML redirect header
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Redirect.dtl,v 1.11 2009-02-16 11:07:25 tr Exp $
+# $Id: Redirect.dtl,v 1.11.6.1 2011-11-21 08:26:43 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,6 +12,6 @@
 # http redirect headers
 Content-Type: text/html; charset=$Env{"UserCharset"};
 Status: 302 Moved
-location: $Data{"Redirect"}
+location: $QData{"Redirect"}
 
-document <a href="$Data{"Redirect"}">moved</a>
+document <a href="$QData{"Redirect"}">moved</a>
