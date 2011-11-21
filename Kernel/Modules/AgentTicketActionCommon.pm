@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketActionCommon.pm - common file for several modules
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketActionCommon.pm,v 1.61 2011-11-04 20:25:15 cr Exp $
+# $Id: AgentTicketActionCommon.pm,v 1.62 2011-11-21 22:56:31 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -205,6 +205,18 @@ sub Run {
             );
     }
 
+    # convert dynamic field values into a structure for ACLs
+    my %DynamicFieldACLParameters;
+    DYNAMICFIELD:
+    for my $DynamcField ( keys %DynamicFieldValues ) {
+        next DYNAMICFIELD if !$DynamcField;
+        next DYNAMICFIELD if !$DynamicFieldValues{$DynamcField};
+
+        $DynamicFieldACLParameters{ 'DynamicField_' . $DynamcField }
+            = $DynamicFieldValues{$DynamcField};
+    }
+    $GetParam{DynamicField} = \%DynamicFieldACLParameters;
+
     # transform pending time, time stamp based on user time zone
     if (
         defined $GetParam{Year}
@@ -386,6 +398,7 @@ sub Run {
 
                 # set possible values filter from ACLs
                 my $ACL = $Self->{TicketObject}->TicketAcl(
+                    %GetParam,
                     Action        => $Self->{Action},
                     TicketID      => $Self->{TicketID},
                     Type          => 'DynamicField_' . $DynamicFieldConfig->{Name},
@@ -438,11 +451,8 @@ sub Run {
                 ErrorMessage => $ValidationResult->{ErrorMessage} || '',
                 LayoutObject => $Self->{LayoutObject},
                 ParamObject  => $Self->{ParamObject},
-
-                # AgentTicketFreeText, AgentTicketNote, AgentTicketOwner, AgentTicketPending,
-                # AgentTicketClose, AgentTicketPriority and AgentTicketResponsible does not support
-                # AJAXUpdate
-                AJAXUpdate => 0,
+                AJAXUpdate   => 1,
+                UpdatableFields => $Self->_GetFieldsToUpdate(),
                 );
         }
 
@@ -736,6 +746,174 @@ sub Run {
             URL => "Action=AgentTicketZoom;TicketID=$Self->{TicketID};ArticleID=$ArticleID",
         );
     }
+    elsif ( $Self->{Subaction} eq 'AJAXUpdate' ) {
+        my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Self->{TicketID} );
+        my $CustomerUser = $GetParam{SelectedCustomerUser} || $Ticket{CustomerUserID};
+        my $ServiceID    = $GetParam{ServiceID}            || $Ticket{ServiceID};
+        my $QueueID      = $Ticket{QueueID};
+
+        # convert dynamic field values into a structure for ACLs
+        my %DynamicFieldACLParameters;
+        DYNAMICFIELD:
+        for my $DynamcField ( keys %DynamicFieldValues ) {
+            next DYNAMICFIELD if !$DynamcField;
+            next DYNAMICFIELD if !$DynamicFieldValues{$DynamcField};
+
+            $DynamicFieldACLParameters{ 'DynamicField_' . $DynamcField }
+                = $DynamicFieldValues{$DynamcField};
+        }
+
+        # get list type
+        my $TreeView = 0;
+        if ( $Self->{ConfigObject}->Get('Ticket::Frontend::ListType') eq 'tree' ) {
+            $TreeView = 1;
+        }
+
+        my $Owners = $Self->_GetOwners(
+            %GetParam,
+            QueueID  => $QueueID,
+            AllUsers => $GetParam{OwnerAll},
+        );
+        my $OldOwners = $Self->_GetOldOwners(
+            %GetParam,
+            QueueID  => $QueueID,
+            AllUsers => $GetParam{OwnerAll},
+        );
+        my $ResponsibleUsers = $Self->_GetResponsible(
+            %GetParam,
+            QueueID  => $QueueID,
+            AllUsers => $GetParam{OwnerAll},
+        );
+        my $Priorities = $Self->_GetPriorities(
+            %GetParam,
+        );
+        my $Services = $Self->_GetServices(
+            %GetParam,
+            CustomerUserID => $CustomerUser,
+            QueueID        => $QueueID,
+        );
+        my $SLAs = $Self->_GetSLAs(
+            %GetParam,
+            CustomerUserID => $CustomerUser,
+            QueueID        => $QueueID,
+            ServiceID      => $ServiceID,
+        );
+        my $NextStates = $Self->_GetNextStates(
+            %GetParam,
+            CustomerUserID => $CustomerUser || '',
+            QueueID        => $QueueID      || 1,
+        );
+
+        # update Dynamc Fields Possible Values via AJAX
+        my @DynamicFieldAJAX;
+
+        # cycle trough the activated Dynamic Fields for this screen
+        DYNAMICFIELD:
+        for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
+            next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+            next DYNAMICFIELD
+                if !IsHashRefWithData( $DynamicFieldConfig->{Config}->{PossibleValues} );
+            next DYNAMICFIELD if $DynamicFieldConfig->{ObjectType} ne 'Ticket';
+
+            my $PossibleValues = $DynamicFieldConfig->{Config}->{PossibleValues};
+
+            # set possible values filter from ACLs
+            my $ACL = $Self->{TicketObject}->TicketAcl(
+                %GetParam,
+                Action        => $Self->{Action},
+                TicketID      => $Self->{TicketID},
+                QueueID       => $QueueID || 0,
+                Type          => 'DynamicField_' . $DynamicFieldConfig->{Name},
+                ReturnType    => 'Ticket',
+                ReturnSubType => 'DynamicField_' . $DynamicFieldConfig->{Name},
+                Data          => $DynamicFieldConfig->{Config}->{PossibleValues},
+                UserID        => $Self->{UserID},
+            );
+            if ($ACL) {
+                my %Filter = $Self->{TicketObject}->TicketAclData();
+                $PossibleValues = \%Filter;
+            }
+
+            # add dynamic field to the list of fields to update
+            push(
+                @DynamicFieldAJAX,
+                {
+                    Name        => 'DynamicField_' . $DynamicFieldConfig->{Name},
+                    Data        => $PossibleValues,
+                    SelectedID  => $DynamicFieldValues{ $DynamicFieldConfig->{Name} },
+                    Translation => $DynamicFieldConfig->{Config}->{TranslatableValues} || 0,
+                    Max         => 100,
+                }
+            );
+        }
+        my $JSON = $Self->{LayoutObject}->BuildSelectionJSON(
+            [
+
+                {
+                    Name         => 'NewOwnerID',
+                    Data         => $Owners,
+                    SelectedID   => $GetParam{NewOwnerID},
+                    Translation  => 0,
+                    PossibleNone => 1,
+                    Max          => 100,
+                },
+                {
+                    Name         => 'OldOwnerID',
+                    Data         => $OldOwners,
+                    SelectedID   => $GetParam{OldOwnerID},
+                    Translation  => 0,
+                    PossibleNone => 1,
+                    Max          => 100,
+                },
+                {
+                    Name         => 'NewResponsibleID',
+                    Data         => $ResponsibleUsers,
+                    SelectedID   => $GetParam{NewResponsibleID},
+                    Translation  => 0,
+                    PossibleNone => 1,
+                    Max          => 100,
+                },
+                {
+                    Name        => 'NextStateID',
+                    Data        => $NextStates,
+                    SelectedID  => $GetParam{NextStateID},
+                    Translation => 1,
+                    Max         => 100,
+                },
+                {
+                    Name        => 'PriorityID',
+                    Data        => $Priorities,
+                    SelectedID  => $GetParam{PriorityID},
+                    Translation => 1,
+                    Max         => 100,
+                },
+                {
+                    Name         => 'ServiceID',
+                    Data         => $Services,
+                    SelectedID   => $GetParam{ServiceID},
+                    PossibleNone => 1,
+                    Translation  => 0,
+                    TreeView     => $TreeView,
+                    Max          => 100,
+                },
+                {
+                    Name         => 'SLAID',
+                    Data         => $SLAs,
+                    SelectedID   => $GetParam{SLAID},
+                    PossibleNone => 1,
+                    Translation  => 0,
+                    Max          => 100,
+                },
+                @DynamicFieldAJAX
+            ],
+        );
+        return $Self->{LayoutObject}->Attachment(
+            ContentType => 'application/json; charset=' . $Self->{LayoutObject}->{Charset},
+            Content     => $JSON,
+            Type        => 'inline',
+            NoCache     => 1,
+        );
+    }
     else {
 
         # fillup configured default vars
@@ -772,6 +950,7 @@ sub Run {
 
                 # set possible values filter from ACLs
                 my $ACL = $Self->{TicketObject}->TicketAcl(
+                    %GetParam,
                     Action        => $Self->{Action},
                     TicketID      => $Self->{TicketID},
                     Type          => 'DynamicField_' . $DynamicFieldConfig->{Name},
@@ -805,13 +984,10 @@ sub Run {
                 Value                => $Value,
                 Mandatory =>
                     $Self->{Config}->{DynamicField}->{ $DynamicFieldConfig->{Name} } == 2,
-                LayoutObject => $Self->{LayoutObject},
-                ParamObject  => $Self->{ParamObject},
-
-                # AgentTicketFreeText, AgentTicketNote, AgentTicketOwner, AgentTicketPending,
-                # AgentTicketClose, AgentTicketPriority and AgentTicketResponsible does not support
-                # AJAXUpdate
-                AJAXUpdate => 0,
+                LayoutObject    => $Self->{LayoutObject},
+                ParamObject     => $Self->{ParamObject},
+                AJAXUpdate      => 1,
+                UpdatableFields => $Self->_GetFieldsToUpdate(),
                 );
         }
 
@@ -854,6 +1030,25 @@ sub _Mask {
         );
     }
 
+    my $DynamicFieldNames = $Self->_GetFieldsToUpdate(
+        OnlyDynamicFields => 1
+    );
+
+    # create a string with the quoted dynamic field names separated by a commas
+    if ( IsArrayRefWithData($DynamicFieldNames) ) {
+        my $FirstItem = 1;
+        FIELD:
+        for my $Field ( @{$DynamicFieldNames} ) {
+            if ($FirstItem) {
+                $FirstItem = 0;
+            }
+            else {
+                $Param{DynamicFieldNamesStrg} .= ', ';
+            }
+            $Param{DynamicFieldNamesStrg} .= "'" . $Field . "'";
+        }
+    }
+
     # types
     if ( $Self->{ConfigObject}->Get('Ticket::Type') && $Self->{Config}->{TicketType} ) {
         my %Type = $Self->{TicketObject}->TicketTypeList(
@@ -878,7 +1073,7 @@ sub _Mask {
 
     # services
     if ( $Self->{ConfigObject}->Get('Ticket::Service') && $Self->{Config}->{Service} ) {
-        my %Service = ( '', '-' );
+        my %Service;
         if ( $Ticket{CustomerUserID} ) {
             %Service = $Self->{TicketObject}->TicketServiceList(
                 %Param,
@@ -902,14 +1097,11 @@ sub _Mask {
             Name => 'Service',
             Data => {%Param},
         );
-        my %SLA;
-        if ( $Param{ServiceID} ) {
-            %SLA = $Self->{TicketObject}->TicketSLAList(
-                %Param,
-                Action => $Self->{Action},
-                UserID => $Self->{UserID},
-            );
-        }
+        my %SLA = $Self->{TicketObject}->TicketSLAList(
+            %Param,
+            Action => $Self->{Action},
+            UserID => $Self->{UserID},
+        );
         $Param{SLAStrg} = $Self->{LayoutObject}->BuildSelection(
             Data         => \%SLA,
             Name         => 'SLAID',
@@ -1291,6 +1483,188 @@ sub _Mask {
 
     # get output back
     return $Self->{LayoutObject}->Output( TemplateFile => $Self->{Action}, Data => \%Param );
+}
+
+sub _GetNextStates {
+    my ( $Self, %Param ) = @_;
+
+    my %NextStates = $Self->{TicketObject}->TicketStateList(
+        TicketID => $Self->{TicketID},
+        Action   => $Self->{Action},
+        UserID   => $Self->{UserID},
+        %Param,
+    );
+    return \%NextStates;
+}
+
+sub _GetResponsible {
+    my ( $Self, %Param ) = @_;
+    my %ShownUsers;
+    my %AllGroupsMembers = $Self->{UserObject}->UserList(
+        Type  => 'Long',
+        Valid => 1,
+    );
+    if ( $Param{QueueID} && !$Param{AllUsers} ) {
+        my $GID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Param{QueueID} );
+        my %MemberList = $Self->{GroupObject}->GroupMemberList(
+            GroupID => $GID,
+            Type    => 'note',
+            Result  => 'HASH',
+            Cached  => 1,
+        );
+        for my $UserID ( keys %MemberList ) {
+            $ShownUsers{$UserID} = $AllGroupsMembers{$UserID};
+        }
+    }
+
+    # workflow
+    my $ACL = $Self->{TicketObject}->TicketAcl(
+        %Param,
+        ReturnType    => 'Ticket',
+        ReturnSubType => 'Responsible',
+        Data          => \%ShownUsers,
+        UserID        => $Self->{UserID},
+    );
+
+    return { $Self->{TicketObject}->TicketAclData() } if $ACL;
+
+    return \%ShownUsers;
+}
+
+sub _GetOwners {
+    my ( $Self, %Param ) = @_;
+    my %ShownUsers;
+    my %AllGroupsMembers = $Self->{UserObject}->UserList(
+        Type  => 'Long',
+        Valid => 1,
+    );
+    if ( $Param{QueueID} && !$Param{AllUsers} ) {
+        my $GID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Param{QueueID} );
+        my %MemberList = $Self->{GroupObject}->GroupMemberList(
+            GroupID => $GID,
+            Type    => 'note',
+            Result  => 'HASH',
+            Cached  => 1,
+        );
+        for my $UserID ( keys %MemberList ) {
+            $ShownUsers{$UserID} = $AllGroupsMembers{$UserID};
+        }
+    }
+
+    # workflow
+    my $ACL = $Self->{TicketObject}->TicketAcl(
+        %Param,
+        ReturnType    => 'Ticket',
+        ReturnSubType => 'Owner',
+        Data          => \%ShownUsers,
+        UserID        => $Self->{UserID},
+    );
+
+    return { $Self->{TicketObject}->TicketAclData() } if $ACL;
+
+    return \%ShownUsers;
+}
+
+sub _GetOldOwners {
+    my ( $Self, %Param ) = @_;
+    my @OldUserInfo = $Self->{TicketObject}->TicketOwnerList( TicketID => $Self->{TicketID} );
+    my %UserHash;
+    if (@OldUserInfo) {
+        my $Counter = 1;
+        for my $User ( reverse @OldUserInfo ) {
+            next if $UserHash{ $User->{UserID} };
+            $UserHash{ $User->{UserID} } = "$Counter: $User->{UserLastname} "
+                . "$User->{UserFirstname} ($User->{UserLogin})";
+            $Counter++;
+        }
+    }
+    if ( !%UserHash ) {
+        $UserHash{''} = '-';
+    }
+
+    # workflow
+    my $ACL = $Self->{TicketObject}->TicketAcl(
+        %Param,
+        ReturnType    => 'Ticket',
+        ReturnSubType => 'Owner',
+        Data          => \%UserHash,
+        UserID        => $Self->{UserID},
+    );
+
+    return { $Self->{TicketObject}->TicketAclData() } if $ACL;
+
+    return \%UserHash;
+}
+
+sub _GetServices {
+    my ( $Self, %Param ) = @_;
+    my %Service;
+    if ( $Param{CustomerUserID} ) {
+        %Service = $Self->{TicketObject}->TicketServiceList(
+            %Param,
+            Action => $Self->{Action},
+            UserID => $Self->{UserID},
+        );
+    }
+    return \%Service;
+}
+
+sub _GetSLAs {
+    my ( $Self, %Param ) = @_;
+    my %SLA;
+    if ( $Param{ServiceID} ) {
+        %SLA = $Self->{TicketObject}->TicketSLAList(
+            %Param,
+            Action => $Self->{Action},
+        );
+    }
+    return \%SLA;
+}
+
+sub _GetPriorities {
+    my ( $Self, %Param ) = @_;
+
+    my %Priorities = $Self->{TicketObject}->TicketPriorityList(
+        %Param,
+        Action   => $Self->{Action},
+        UserID   => $Self->{UserID},
+        TicketID => $Self->{TicketID},
+    );
+    if ( !$Self->{Config}->{PriorityDefault} ) {
+        $Priorities{''} = '-';
+    }
+    return \%Priorities;
+}
+
+sub _GetFieldsToUpdate {
+    my ( $Self, %Param ) = @_;
+
+    my @UpdatableFields;
+
+    # set the fields that can be updatable via AJAXUpdate
+    if ( !$Param{OnlyDynamicFields} ) {
+        @UpdatableFields
+            = qw(
+            TypeID ServiceID SLAID NewOwnerID OldOwnerID NewResponsibleID NewStateID
+            NewPriorityID
+        );
+    }
+
+    # cycle trough the activated Dynamic Fields for this screen
+    DYNAMICFIELD:
+    for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
+        next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+
+        my $Updateable = $Self->{BackendObject}->IsAJAXUpdateable(
+            DynamicFieldConfig => $DynamicFieldConfig,
+        );
+
+        next DYNAMICFIELD if !$Updateable;
+
+        push @UpdatableFields, 'DynamicField_' . $DynamicFieldConfig->{Name};
+    }
+
+    return \@UpdatableFields;
 }
 
 1;
