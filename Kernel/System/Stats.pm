@@ -2,7 +2,7 @@
 # Kernel/System/Stats.pm - all stats core functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Stats.pm,v 1.100.2.4 2011-09-05 13:56:46 martin Exp $
+# $Id: Stats.pm,v 1.100.2.5 2011-11-21 19:24:00 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Date::Pcalc qw(:all);
 use Kernel::System::XML;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.100.2.4 $) [1];
+$VERSION = qw($Revision: 1.100.2.5 $) [1];
 
 =head1 NAME
 
@@ -798,6 +798,26 @@ sub GenerateGraph {
     my @PData = ( $HeadArrayRef, @StatArray );
     my ( $XSize, $YSize ) = split( m{x}x, $Param{GraphSize} );
     my $graph = $GDBackend->new( $XSize || 550, $YSize || 350 );
+
+    # set fonts so we can use non-latin characters
+    my $FontDir    = $Self->{ConfigObject}->Get('Home') . '/var/fonts/';
+    my $TitleFont  = $FontDir . 'DejaVuSans-Bold.ttf';
+    my $LegendFont = $FontDir . 'DejaVuSans.ttf';
+    $graph->set_title_font( $TitleFont, 14 );
+
+    # there are different font options for different font types
+    if ( $GDBackend eq 'GD::Graph::pie' ) {
+        $graph->set_value_font( $LegendFont, 9 );
+    }
+    else {
+        $graph->set_values_font( $LegendFont, 9 );
+        $graph->set_legend_font( $LegendFont, 9 );
+        $graph->set_x_label_font( $LegendFont, 9 );
+        $graph->set_y_label_font( $LegendFont, 9 );
+        $graph->set_x_axis_font( $LegendFont, 9 );
+        $graph->set_y_axis_font( $LegendFont, 9 );
+    }
+
     $graph->set(
         x_label => $XLable,
 
@@ -3332,6 +3352,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.100.2.4 $ $Date: 2011-09-05 13:56:46 $
+$Revision: 1.100.2.5 $ $Date: 2011-11-21 19:24:00 $
 
 =cut
