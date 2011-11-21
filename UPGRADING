@@ -2,7 +2,7 @@
 # UPGRADING - Upgrading Instructions for OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: UPGRADING,v 1.62 2011-11-18 08:15:26 mg Exp $
+# $Id: UPGRADING,v 1.63 2011-11-21 13:55:16 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ If you are running a lower version of OTRS you have to follow the upgrade path
 to 3.0 first (1.1->1.2->1.3->2.0->2.1->2.2->2.3->2.4->3.0->3.1 ...)!
 
 Please note that if you upgrade from OTRS 2.2 or earlier, you have to
-take an extra step; read http://bugs.otrs.org/show_bug.cgi?id=6798
+take an extra step; please read http://bugs.otrs.org/show_bug.cgi?id=6798
 
 If you need to do a "patch level upgrade", which is an upgrade for instance
 from OTRS version 3.1.1 to 3.1.3, you should skip steps 8, 10 and 12-20.
@@ -75,10 +75,12 @@ how to upgrade the data types used by OTRS
 
     shell> rpm -Uvh otrs-x.x.x.-01.rpm
 
-    Restore old configuration files is not needed, done by RPM.
+    In this case the RPM update automatically restores the old configuration files.
 
 6) Own themes
    ----------
+
+   Note: The OTRS themes between 3.0 and 3.1 are NOT compatible, so don't use your old themes!
 
    Themes are located under $OTRS_HOME/Kernel/Output/HTML/*/*.dtl (default: OTRS_HOME=/opt/otrs)
 
@@ -150,7 +152,7 @@ how to upgrade the data types used by OTRS
     shell> bin/otrs.DeleteCache.pl
 
 
-10) Update Your Web Server Configuration
+10) Update your web server configuration
     ------------------------------------
 
     Note: this applies only if you use the Apache web server together with mod_perl2,
@@ -193,7 +195,7 @@ how to upgrade the data types used by OTRS
     Non-UTF-8 installations of OTRS must switch to UTF-8.
 
 
-14) Escalation Events
+14) Escalation events
     -----------------
 
     If you want to use the new escalation events in your system, you need to activate the
@@ -209,14 +211,14 @@ how to upgrade the data types used by OTRS
     please adjust it.
 
 
-16) Ticket Event handlers
+16) Ticket event handlers
     ---------------------
 
     The Event name TicketFreeTextUpdate_$Counter was renamed to TicketDynamicFieldUpdate_$FieldName.
     If you have any custom event handlers for these events, please adapt them.
 
 
-17) DynamicField User Preferences Module
+17) DynamicField user preferences module
     ------------------------------------
 
     If you had one or more active custom settings for "PreferencesGroups###Freetext",
