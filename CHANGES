@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2036 2011-11-21 13:40:24 cr Exp $
+# $Id: CHANGES,v 1.2037 2011-11-21 18:40:25 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,7 +10,9 @@
 # --
 
 3.1.0 beta2 ????-??-??
- - 2011-11-21 Fixed bug#7920  - New ACL mechanism does not update Ticket{StateType} when a State
+ - 2011-11-21 Fixed bug#3804 - Stats in Bar or Pie chart formats don't display non-
+    ascii characters correctly.
+ - 2011-11-21 Fixed bug#7920 - New ACL mechanism does not update Ticket{StateType} when a State
     or StateID is given.
  - 2011-11-21 Use the secure attribute to restrict coookies to HTTPS if it is used.
  - 2011-11-21 Fixed bug#7909 - Errors should be logged in web server error log only.
