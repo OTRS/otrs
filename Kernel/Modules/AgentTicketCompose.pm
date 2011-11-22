@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.pm,v 1.146 2011-11-17 18:27:13 cg Exp $
+# $Id: AgentTicketCompose.pm,v 1.147 2011-11-22 10:39:55 te Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.146 $) [1];
+$VERSION = qw($Revision: 1.147 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -776,6 +776,58 @@ sub Run {
         # load new URL in parent window and close popup
         return $Self->{LayoutObject}->PopupClose(
             URL => "Action=AgentTicketZoom;TicketID=$Self->{TicketID};ArticleID=$ArticleID",
+        );
+    }
+
+    # check for SMIME / PGP if customer has changed
+    elsif ( $Self->{Subaction} eq 'AJAXUpdate' ) {
+
+        my @ExtendedData;
+
+        # run compose modules
+        if ( ref $Self->{ConfigObject}->Get('Ticket::Frontend::ArticleComposeModule') eq 'HASH' ) {
+            my %Jobs = %{ $Self->{ConfigObject}->Get('Ticket::Frontend::ArticleComposeModule') };
+            for my $Job ( sort keys %Jobs ) {
+
+                # load module
+                next if !$Self->{MainObject}->Require( $Jobs{$Job}->{Module} );
+
+                my $Object = $Jobs{$Job}->{Module}->new( %{$Self}, Debug => $Self->{Debug}, );
+
+                # get params
+                for my $Parameter ( $Object->Option( %GetParam, Config => $Jobs{$Job} ) ) {
+                    $GetParam{$Parameter} = $Self->{ParamObject}->GetParam( Param => $Parameter );
+                }
+
+                # run module
+                my %Data = $Object->Data( %GetParam, Config => $Jobs{$Job} );
+
+                my $Key = $Object->Option( %GetParam, Config => $Jobs{$Job} );
+                if ($Key) {
+                    push(
+                        @ExtendedData,
+                        {
+                            Name        => $Key,
+                            Data        => \%Data,
+                            SelectedID  => $GetParam{$Key},
+                            Translation => 1,
+                            Max         => 100,
+                        }
+                    );
+                }
+            }
+        }
+
+        my $JSON = $Self->{LayoutObject}->BuildSelectionJSON(
+            [
+                @ExtendedData,
+            ],
+        );
+        return $Self->{LayoutObject}->Attachment(
+            ContentType => 'application/json; charset=' . $Self->{LayoutObject}->{Charset},
+            Content     => $JSON,
+            Type        => 'inline',
+            NoCache     => 1,
         );
     }
     else {
