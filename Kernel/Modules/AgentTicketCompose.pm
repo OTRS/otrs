@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.pm,v 1.147 2011-11-22 10:39:55 te Exp $
+# $Id: AgentTicketCompose.pm,v 1.148 2011-11-22 19:49:38 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.147 $) [1];
+$VERSION = qw($Revision: 1.148 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1365,7 +1365,7 @@ sub _Mask {
     $Self->{LayoutObject}->Block(
         Name => 'CcMultipleCustomerCounter',
         Data => {
-            CustomerCounter => $CustomerCounterCc++,
+            CustomerCounter => $CustomerCounterCc,
         },
     );
 
@@ -1423,7 +1423,7 @@ sub _Mask {
     $Self->{LayoutObject}->Block(
         Name => 'MultipleCustomerCounter',
         Data => {
-            CustomerCounter => $CustomerCounter++,
+            CustomerCounter => $CustomerCounter,
         },
     );
 
@@ -1431,6 +1431,42 @@ sub _Mask {
         $Self->{LayoutObject}->Block(
             Name => 'ToServerErrorMsg',
         );
+    }
+
+    # set preselected values for Cc field
+    if ( $Param{Cc} ne '' && !$CustomerCounterCc ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'PreFilledCc',
+        );
+
+        # split To values
+        for my $Email ( Mail::Address->parse( $Param{Cc} ) ) {
+            $Self->{LayoutObject}->Block(
+                Name => 'PreFilledCcRow',
+                Data => {
+                    Email => $Email->address(),
+                },
+            );
+        }
+        $Param{Cc} = '';
+    }
+
+    # set preselected values for To field
+    if ( $Param{To} ne '' && !$CustomerCounter ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'PreFilledTo',
+        );
+
+        # split To values
+        for my $Email ( Mail::Address->parse( $Param{To} ) ) {
+            $Self->{LayoutObject}->Block(
+                Name => 'PreFilledToRow',
+                Data => {
+                    Email => $Email->address(),
+                },
+            );
+        }
+        $Param{To} = '';
     }
 
     $Self->{LayoutObject}->Block(

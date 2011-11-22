@@ -2,7 +2,7 @@
 # AgentTicketCompose.dtl - provides HTML form for AgentTicketCompose
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.dtl,v 1.94 2011-11-22 10:39:55 te Exp $
+# $Id: AgentTicketCompose.dtl,v 1.95 2011-11-22 19:51:00 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -123,12 +123,18 @@ $Include{"AgentCustomerSearch"}
     $('#AddTicketCustomer').bind('click', function () {
         Core.Agent.CustomerSearch.AddTicketCustomer( 'ToCustomer', $('#ToCustomer').val() );
     });
-    var InitialTo = $('#CustomerInitialValue').val();
-    if (InitialTo !== '' && !$('#CustomerTicketText_1').val()) {
-        Core.Agent.CustomerSearch.AddTicketCustomer( 'ToCustomer', InitialTo );
-    }
 //]]></script>
 <!--dtl:js_on_document_complete-->
+
+<!-- dtl:block:PreFilledTo -->
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+<!-- dtl:block:PreFilledToRow -->
+    Core.Agent.CustomerSearch.AddTicketCustomer( 'ToCustomer', '$QData{"Email"}' );
+<!-- dtl:block:PreFilledToRow -->
+//]]></script>
+<!--dtl:js_on_document_complete-->
+<!-- dtl:block:PreFilledTo -->
 
                     <div class="Field">
                         <div class="CustomerTicketTemplateCcCustomer SpacingTopSmall Hidden">
@@ -190,12 +196,18 @@ $Include{"AgentCustomerSearch"}
     $('#CcAddTicketCustomer').bind('click', function () {
         Core.Agent.CustomerSearch.AddTicketCustomer( 'CcCustomer', $('#CcCustomer').val() );
     });
-    var InitialCc = $('#CcCustomerInitialValue').val();
-    if (InitialCc !== '' && !$('#CcCustomerTicketText_1').val()) {
-        Core.Agent.CustomerSearch.AddTicketCustomer( 'CcCustomer', InitialCc );
-    }
 //]]></script>
 <!--dtl:js_on_document_complete-->
+
+<!-- dtl:block:PreFilledCc -->
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+<!-- dtl:block:PreFilledCcRow -->
+    Core.Agent.CustomerSearch.AddTicketCustomer( 'CcCustomer', '$QData{"Email"}' );
+<!-- dtl:block:PreFilledCcRow -->
+//]]></script>
+<!--dtl:js_on_document_complete-->
+<!-- dtl:block:PreFilledCc -->
 
                     <div class="Field">
                         <div class="CustomerTicketTemplateBccCustomer SpacingTopSmall Hidden">
