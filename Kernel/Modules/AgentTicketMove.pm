@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMove.pm - move tickets to queues
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMove.pm,v 1.100 2011-11-02 00:57:40 cr Exp $
+# $Id: AgentTicketMove.pm,v 1.101 2011-11-22 21:13:25 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.100 $) [1];
+$VERSION = qw($Revision: 1.101 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -139,6 +139,9 @@ sub Run {
         $GetParam{$Parameter} = $Self->{ParamObject}->GetParam( Param => $Parameter );
     }
 
+    # new owner type ACL compatibility
+    $GetParam{NewOwnerType} = $GetParam{UserSelection};
+
     # get Dynamic fields form ParamObject
     my %DynamicFieldValues;
 
@@ -155,6 +158,18 @@ sub Run {
             LayoutObject       => $Self->{LayoutObject},
             );
     }
+
+    # convert dynamic field values into a structure for ACLs
+    my %DynamicFieldACLParameters;
+    DYNAMICFIELD:
+    for my $DynamcField ( keys %DynamicFieldValues ) {
+        next DYNAMICFIELD if !$DynamcField;
+        next DYNAMICFIELD if !$DynamicFieldValues{$DynamcField};
+
+        $DynamicFieldACLParameters{ 'DynamicField_' . $DynamcField }
+            = $DynamicFieldValues{$DynamcField};
+    }
+    $GetParam{DynamicField} = \%DynamicFieldACLParameters;
 
     # transform pending time, time stamp based on user time zone
     if (
@@ -197,42 +212,37 @@ sub Run {
 
     # check new/old user selection
     if ( $GetParam{UserSelection} && $GetParam{UserSelection} eq 'Old' ) {
-        $GetParam{'UserSelection::Old'} = 'checked';
+        $GetParam{'UserSelection::Old'} = 'checked="checked"';
         if ( $GetParam{OldUserID} ) {
             $GetParam{NewUserID} = $GetParam{OldUserID};
         }
     }
     else {
-        $GetParam{'UserSelection::New'} = 'checked';
+        $GetParam{'UserSelection::New'} = 'checked="checked"';
     }
 
     # ajax update
     if ( $Self->{Subaction} eq 'AJAXUpdate' ) {
 
-        # convert dynamic field values into a structure for ACLs
-        my %DynamicFieldACLParameters;
-        DYNAMICFIELD:
-        for my $DynamcField ( keys %DynamicFieldValues ) {
-            next DYNAMICFIELD if !$DynamcField;
-            next DYNAMICFIELD if !$DynamicFieldValues{$DynamcField};
-
-            $DynamicFieldACLParameters{ 'DynamicField_' . $DynamcField }
-                = $DynamicFieldValues{$DynamcField};
-        }
-
-        my $Users = $Self->_GetUsers(
+        my $NewUsers = $Self->_GetUsers(
+            %GetParam,
+            QueueID  => $GetParam{DestQueueID},
+            AllUsers => $GetParam{OwnerAll},
+        );
+        my $OldOwners = $Self->_GetOldOwners(
+            %GetParam,
             QueueID  => $GetParam{DestQueueID},
             AllUsers => $GetParam{OwnerAll},
         );
         my $NextStates = $Self->_GetNextStates(
-            DynamicField => \%DynamicFieldACLParameters,
-            TicketID     => $Self->{TicketID},
-            QueueID      => $GetParam{DestQueueID} || 1,
+            %GetParam,
+            TicketID => $Self->{TicketID},
+            QueueID => $GetParam{DestQueueID} || 1,
         );
         my $NextPriorities = $Self->_GetPriorities(
-            DynamicField => \%DynamicFieldACLParameters,
-            TicketID     => $Self->{TicketID},
-            QueueID      => $GetParam{DestQueueID} || 1,
+            %GetParam,
+            TicketID => $Self->{TicketID},
+            QueueID => $GetParam{DestQueueID} || 1,
         );
 
         # update Dynamc Fields Possible Values via AJAX
@@ -249,10 +259,10 @@ sub Run {
 
             # set possible values filter from ACLs
             my $ACL = $Self->{TicketObject}->TicketAcl(
+                %GetParam,
                 Action        => $Self->{Action},
                 TicketID      => $Self->{TicketID},
                 QueueID       => $GetParam{DestQueueID} || 0,
-                DynamicField  => \%DynamicFieldACLParameters,
                 Type          => 'DynamicField_' . $DynamicFieldConfig->{Name},
                 ReturnType    => 'Ticket',
                 ReturnSubType => 'DynamicField_' . $DynamicFieldConfig->{Name},
@@ -281,8 +291,16 @@ sub Run {
             [
                 {
                     Name         => 'NewUserID',
-                    Data         => $Users,
+                    Data         => $NewUsers,
                     SelectedID   => $GetParam{NewUserID},
+                    Translation  => 0,
+                    PossibleNone => 1,
+                    Max          => 100,
+                },
+                {
+                    Name         => 'OldUserID',
+                    Data         => $OldOwners,
+                    SelectedID   => $GetParam{OldUserID},
                     Translation  => 0,
                     PossibleNone => 1,
                     Max          => 100,
@@ -356,6 +374,7 @@ sub Run {
 
             # set possible values filter from ACLs
             my $ACL = $Self->{TicketObject}->TicketAcl(
+                %GetParam,
                 Action        => $Self->{Action},
                 TicketID      => $Self->{TicketID},
                 Type          => 'DynamicField_' . $DynamicFieldConfig->{Name},
@@ -466,6 +485,7 @@ sub Run {
 
                 # set possible values filter from ACLs
                 my $ACL = $Self->{TicketObject}->TicketAcl(
+                    %GetParam,
                     Action        => $Self->{Action},
                     TicketID      => $Self->{TicketID},
                     Type          => 'DynamicField_' . $DynamicFieldConfig->{Name},
@@ -582,6 +602,7 @@ sub Run {
 
         # fetch all queues
         my %MoveQueues = $Self->{TicketObject}->MoveList(
+            %GetParam,
             TicketID => $Self->{TicketID},
             UserID   => $Self->{UserID},
             Action   => $Self->{Action},
@@ -590,12 +611,14 @@ sub Run {
 
         # get next states
         my $NextStates = $Self->_GetNextStates(
+            %GetParam,
             TicketID => $Self->{TicketID},
             QueueID => $GetParam{DestQueueID} || 1,
         );
 
         # get next priorities
         my $NextPriorities = $Self->_GetPriorities(
+            %GetParam,
             TicketID => $Self->{TicketID},
             QueueID => $GetParam{DestQueueID} || 1,
         );
@@ -898,6 +921,25 @@ sub AgentMove {
         $OldUserSelectedID = $Param{OldUser}->[0]->{UserID} . '1';
     }
 
+    my $DynamicFieldNames = $Self->_GetFieldsToUpdate(
+        OnlyDynamicFields => 1
+    );
+
+    # create a string with the quoted dynamic field names separated by a commas
+    if ( IsArrayRefWithData($DynamicFieldNames) ) {
+        my $FirstItem = 1;
+        FIELD:
+        for my $Field ( @{$DynamicFieldNames} ) {
+            if ($FirstItem) {
+                $FirstItem = 0;
+            }
+            else {
+                $Param{DynamicFieldNamesStrg} .= ', ';
+            }
+            $Param{DynamicFieldNamesStrg} .= "'" . $Field . "'";
+        }
+    }
+
     # build string
     $Param{OldUserStrg} = $Self->{LayoutObject}->BuildSelection(
         Data         => \%UserHash,
@@ -1035,8 +1077,6 @@ sub AgentMove {
         );
     }
 
-    my @DynamicFieldNames;
-
     # Dynamic fields
     # cycle trough the activated Dynamic Fields for this screen
     DYNAMICFIELD:
@@ -1070,11 +1110,7 @@ sub AgentMove {
             },
         );
 
-        push @DynamicFieldNames, $DynamicFieldConfig->{Name};
     }
-
-    # create a string with the quoted dynamic field names separated by a commas
-    $Param{DynamicFieldNamesStrg} = join ',', map "'DynamicField_$_'", @DynamicFieldNames;
 
     # fillup configured default vars
     if ( $Param{Body} eq '' && $Self->{Config}->{Body} ) {
@@ -1145,7 +1181,50 @@ sub _GetUsers {
             }
         }
     }
+
+    # workflow
+    my $ACL = $Self->{TicketObject}->TicketAcl(
+        %Param,
+        ReturnType    => 'Ticket',
+        ReturnSubType => 'NewOwner',
+        Data          => \%ShownUsers,
+        UserID        => $Self->{UserID},
+    );
+
+    return { $Self->{TicketObject}->TicketAclData() } if $ACL;
+
     return \%ShownUsers;
+}
+
+sub _GetOldOwners {
+    my ( $Self, %Param ) = @_;
+    my @OldUserInfo = $Self->{TicketObject}->TicketOwnerList( TicketID => $Self->{TicketID} );
+    my %UserHash;
+    if (@OldUserInfo) {
+        my $Counter = 1;
+        for my $User ( reverse @OldUserInfo ) {
+            next if $UserHash{ $User->{UserID} };
+            $UserHash{ $User->{UserID} } = "$Counter: $User->{UserLastname} "
+                . "$User->{UserFirstname} ($User->{UserLogin})";
+            $Counter++;
+        }
+    }
+    if ( !%UserHash ) {
+        $UserHash{''} = '-';
+    }
+
+    # workflow
+    my $ACL = $Self->{TicketObject}->TicketAcl(
+        %Param,
+        ReturnType    => 'Ticket',
+        ReturnSubType => 'OldOwner',
+        Data          => \%UserHash,
+        UserID        => $Self->{UserID},
+    );
+
+    return { $Self->{TicketObject}->TicketAclData() } if $ACL;
+
+    return \%UserHash;
 }
 
 sub _GetPriorities {
@@ -1181,8 +1260,13 @@ sub _GetNextStates {
 sub _GetFieldsToUpdate {
     my ( $Self, %Param ) = @_;
 
+    my @UpdatableFields;
+
     # set the fields that can be updatable via AJAXUpdate
-    my @UpdatableFields = qw( DestQueueID NewStateID NewPriorityID );
+    if ( !$Param{OnlyDynamicFields} ) {
+        @UpdatableFields
+            = qw( DestQueueID NewUserID OldUserID NewStateID NewPriorityID );
+    }
 
     # cycle trough the activated Dynamic Fields for this screen
     DYNAMICFIELD:

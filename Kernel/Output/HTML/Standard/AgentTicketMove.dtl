@@ -2,14 +2,14 @@
 # AgentTicketMove.dtl - provides HTML form for move mask
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMove.dtl,v 1.83 2011-11-02 00:44:56 cr Exp $
+# $Id: AgentTicketMove.dtl,v 1.84 2011-11-22 21:13:25 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-<form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose" class="Validate PreventMultipleSubmits" id="MoveTicketToQueue">
+<form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="MoveTicketToQueue" class="Validate PreventMultipleSubmits" id="MoveTicketToQueue">
     <input type="hidden" name="Action"       value="$Env{"Action"}"/>
     <input type="hidden" name="Subaction"    value="MoveTicket"/>
     <input type="hidden" name="FormID"       value="$QData{"FormID"}"/>
@@ -55,7 +55,7 @@
 <script type="text/javascript">//<![CDATA[
     $('#DestQueueID').bind('change', function (Event) {
         $('#NoSubmit').val('1');
-        Core.AJAX.FormUpdate($('#MoveTicketToQueue'), 'AJAXUpdate', 'DestQueueID', ['NewUserID', 'NextStateID', 'NewPriorityID', $Data{"DynamicFieldNamesStrg"}]);
+        Core.AJAX.FormUpdate($('#MoveTicketToQueue'), 'AJAXUpdate', 'DestQueueID', ['NewUserID', 'OldUserID', 'NewStateID', 'NewPriorityID', $Data{"DynamicFieldNamesStrg"}]);
     });
 //]]></script>
 <!--dtl:js_on_document_complete-->
@@ -64,7 +64,7 @@
 
                     <label for="NewUserID">$Text{"New Owner"}:</label>
                     <div class="Field">
-                        <input type="radio" name="UserSelection" value="New" $QData{"UserSelection::New"}/>
+                        <input type="radio" name="UserSelection" value="New" $Data{"UserSelection::New"}/>
                         $Data{"OwnerStrg"}
                         <a href="#" id="OwnerSelectionGetAll" class="GetAllAJAX" title="$Text{"Get all"}">$Text{"Get all"}</a>
 <!--dtl:js_on_document_complete-->
@@ -76,6 +76,13 @@
         });
         return false;
     });
+
+    $('#NewUserID').bind('change', function (Event) {
+        Core.AJAX.FormUpdate($('#MoveTicketToQueue'), 'AJAXUpdate', 'NewUserID', ['DestQueueID', 'OldUserID', 'NewStateID', 'NewPriorityID', $Data{"DynamicFieldNamesStrg"}]);
+    });
+    $('#NewUserID').bind('click', function () {
+        Core.Agent.TicketAction.SelectRadioButton('New','UserSelection');
+    });
 //]]></script>
 <!--dtl:js_on_document_complete-->
 
@@ -84,12 +91,16 @@
 
                     <label for="OldUserID">$Text{"Previous Owner"}:</label>
                     <div class="Field">
-                        <input type="radio" name="UserSelection" value="Old" $QData{"UserSelection::Old"}/>
+                        <input type="radio" name="UserSelection" value="Old" $Data{"UserSelection::Old"}/>
                         $Data{"OldUserStrg"}
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
-    $('#OldUserID').bind('click', function (Event) {
-        $('#UserSelection').attr('checked', 'checked');
+    $('#OldUserID').bind('change', function (Event) {
+        Core.AJAX.FormUpdate($('#MoveTicketToQueue'), 'AJAXUpdate', 'OldUserID', ['DestQueueID', 'NewUserID', 'NewStateID', 'NewPriorityID', $Data{"DynamicFieldNamesStrg"}]);
+    });
+
+    $('#OldUserID').bind('click', function () {
+        Core.Agent.TicketAction.SelectRadioButton('Old','UserSelection');
     });
 //]]></script>
 <!--dtl:js_on_document_complete-->
@@ -172,6 +183,13 @@ $Include{"RichTextEditor"}
                     <label for="NewStateID">$Text{"Next ticket state"}:</label>
                     <div class="Field">
                         $Data{"NextStatesStrg"}
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+    $('#NewStateID').bind('change', function (Event) {
+        Core.AJAX.FormUpdate($('#MoveTicketToQueue'), 'AJAXUpdate', 'NewStateID', ['DestQueueID', 'NewUserID', 'OldUserID', 'NewPriorityID', $Data{"DynamicFieldNamesStrg"}]);
+    });
+//]]></script>
+<!--dtl:js_on_document_complete-->
                     </div>
                     <div class="Clear"></div>
 
@@ -190,6 +208,13 @@ $Include{"RichTextEditor"}
                     <label for="NewPriorityID">$Text{"Priority"}:</label>
                     <div class="Field">
                         $Data{"NextPrioritiesStrg"}
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+    $('#NewPriorityID').bind('change', function (Event) {
+        Core.AJAX.FormUpdate($('#MoveTicketToQueue'), 'AJAXUpdate', 'NewStateID', ['DestQueueID', 'NewUserID', 'OldUserID', 'NewStateID', $Data{"DynamicFieldNamesStrg"}]);
+    });
+//]]></script>
+<!--dtl:js_on_document_complete-->
                     </div>
                     <div class="Clear"></div>
 <!-- dtl:block:Priority -->
