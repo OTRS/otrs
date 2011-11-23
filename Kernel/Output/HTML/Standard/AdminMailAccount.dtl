@@ -2,7 +2,7 @@
 # AdminMailAccount.dtl - provides HTML form for AdminMailAccount
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminMailAccount.dtl,v 1.36 2011-11-14 14:57:43 mg Exp $
+# $Id: AdminMailAccount.dtl,v 1.37 2011-11-23 19:31:51 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -180,11 +180,13 @@
                         </div>
                         <div class="Clear"></div>
 
-                        <label class="Mandatory" for="QueueID"><span class="Marker">*</span> $Text{"Queue"}:</label>
-                        <div class="Field">
-                            $Data{"QueueOption"}
+                        <div class="Row Row_Queue Hidden">
+                            <label class="Mandatory" for="QueueID"><span class="Marker">*</span> $Text{"Queue"}:</label>
+                            <div class="Field">
+                                $Data{"QueueOption"}
+                            </div>
+                            <div class="Clear"></div>
                         </div>
-                        <div class="Clear"></div>
 
                         <label class="Mandatory" for="ValidID"><span class="Marker">*</span> $Text{"Validity"}:</label>
                         <div class="Field">
@@ -307,17 +309,19 @@
                         </div>
                         <div class="Clear"></div>
 
-                        <label class="Mandatory" for="QueueID"><span class="Marker">*</span> $Text{"Queue"}:</label>
-                        <div class="Field">
-                            $Data{"QueueOption"}
-                            <div id="QueueIDError" class="TooltipErrorMessage">
-                                <p>$Text{"This field is required."}</p>
+                        <div class="Row Row_Queue Hidden">
+                            <label class="Mandatory" for="QueueID"><span class="Marker">*</span> $Text{"Queue"}:</label>
+                            <div class="Field">
+                                $Data{"QueueOption"}
+                                <div id="QueueIDError" class="TooltipErrorMessage">
+                                    <p>$Text{"This field is required."}</p>
+                                </div>
+                                <div id="QueueIDServerError" class="TooltipErrorMessage">
+                                    <p>$Text{"This field is required."}</p>
+                                </div>
                             </div>
-                            <div id="QueueIDServerError" class="TooltipErrorMessage">
-                                <p>$Text{"This field is required."}</p>
-                            </div>
+                            <div class="Clear"></div>
                         </div>
-                        <div class="Clear"></div>
 
                         <label class="Mandatory" for="ValidID"><span class="Marker">*</span> $Text{"Validity"}:</label>
                         <div class="Field">
@@ -363,6 +367,15 @@ $('select#TypeAdd, select#Type').bind('change', function(){
     }
     else {
         $('.Row_IMAPFolder').hide();
+    }
+}).trigger('change');
+// Show only Queue field if Dispatch By Queue is selected
+$('select#DispatchingBy').bind('change', function(){
+    if (/Queue/.test($(this).val())) {
+        $('.Row_Queue').show();
+    }
+    else {
+        $('.Row_Queue').hide();
     }
 }).trigger('change');
 //]]></script>
