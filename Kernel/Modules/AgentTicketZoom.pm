@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.160 2011-11-08 20:17:28 cr Exp $
+# $Id: AgentTicketZoom.pm,v 1.161 2011-11-23 20:31:34 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.160 $) [1];
+$VERSION = qw($Revision: 1.161 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -358,6 +358,9 @@ sub MaskAgentZoom {
         Action   => $Self->{Action},
         Type     => 'move_into',
     );
+
+    # don't offer to move to current queue
+    delete $MoveQueues{ $Ticket{QueueID} };
 
     # fetch all std. responses
     my %StandardResponses
