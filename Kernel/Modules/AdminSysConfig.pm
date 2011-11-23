@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSysConfig.pm - to change, import, export ConfigParameters
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSysConfig.pm,v 1.117 2011-11-23 18:48:18 mb Exp $
+# $Id: AdminSysConfig.pm,v 1.118 2011-11-23 20:14:55 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::SysConfig;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.117 $) [1];
+$VERSION = qw($Revision: 1.118 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1323,7 +1323,7 @@ sub ListConfigItem {
         );
 
         # Array Element Group
-        for my $ArrayElement qw(Group GroupRo) {
+        for my $ArrayElement (qw(Group GroupRo)) {
             for my $Index ( 1 .. $#{ $FrontendModuleReg->{$ArrayElement} } ) {
 
                 $Self->{LayoutObject}->Block(
@@ -1404,7 +1404,7 @@ sub ListConfigItem {
             );
 
             # Array Element Group
-            for my $ArrayElement (qw{Group GroupRo}) {
+            for my $ArrayElement (qw(Group GroupRo)) {
                 for my $Index2 ( 1 .. $#{ $FrontendModuleReg->{NavBar}[$Index]{$ArrayElement} } ) {
                     $Self->{LayoutObject}->Block(
                         Name => 'ConfigElementFrontendModuleRegContentNavBar' . $ArrayElement,
@@ -1425,7 +1425,7 @@ sub ListConfigItem {
         if ( ref $FrontendModuleReg->{NavBarModule} eq 'ARRAY' ) {
             for my $Index ( 1 .. $#{ $FrontendModuleReg->{NavBarModule} } ) {
                 my %Data;
-                for my $Key (qw{Module Name Block Prio}) {
+                for my $Key (qw(Module Name Block Pri)) {
                     $Data{ 'Key' . $Key }     = $Key;
                     $Data{ 'Content' . $Key } = '';
                     if ( defined $FrontendModuleReg->{NavBarModule}->[1]->{$Key}->[1]->{Content} ) {
@@ -1449,7 +1449,7 @@ sub ListConfigItem {
         }
         elsif ( defined $FrontendModuleReg->{NavBarModule} ) {
             my %Data;
-            for my $Key (qw{Module Name Description Block Prio}) {
+            for my $Key (qw(Module Name Description Block Prio)) {
                 $Data{ 'Key' . $Key }     = $Key;
                 $Data{ 'Content' . $Key } = '';
                 if ( defined $FrontendModuleReg->{NavBarModule}->{$Key}->[1]->{Content} ) {
