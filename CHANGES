@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2042 2011-11-23 20:31:34 mb Exp $
+# $Id: CHANGES,v 1.2043 2011-11-23 22:08:33 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.1.0 beta2 ????-??-??
+ - 2011-11-23 Added Idea#378 - Show ticket creator in zoom view.
  - 2011-11-23 Fixed bug#6139 - Hide current queue in queue move dialog in AgentTicketZoom.
  - 2011-11-23 Fixed bug#6365 - AdminMailAccount Queue field should be hidden or disabled if Dispatching
     is set to 'By Mail'.

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.161 2011-11-23 20:31:34 mb Exp $
+# $Id: AgentTicketZoom.pm,v 1.162 2011-11-23 22:08:33 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.161 $) [1];
+$VERSION = qw($Revision: 1.162 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -118,7 +118,7 @@ sub Run {
     # get ticket attributes
     my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Self->{TicketID} );
 
-    # get ack actions
+    # get acl actions
     $Self->{TicketObject}->TicketAcl(
         Data          => '-',
         Action        => $Self->{Action},
@@ -645,6 +645,15 @@ sub MaskAgentZoom {
                 );
             }
         }
+    }
+
+    # show created by if different then User ID 1
+    if ( $Ticket{CreateBy} > 1 ) {
+        $Ticket{CreatedByUser} = $Self->{UserObject}->UserName( UserID => $Ticket{CreateBy} );
+        $Self->{LayoutObject}->Block(
+            Name => 'CreatedBy',
+            Data => {%Ticket},
+        );
     }
 
     # ticket type
