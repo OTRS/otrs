@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2039 2011-11-21 22:58:42 cr Exp $
+# $Id: CHANGES,v 1.2040 2011-11-23 18:48:18 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.1.0 beta2 ????-??-??
+ - 2011-11-23 Fixed bug#7930 - Depreciation warnings in error log when running OTRS on
+    Perl 5.14.
  - 2011-11-21 Fixed bug#7914 - DynamicField Value Storage on AgentTicketActionCommon.pm and
     AgentTicketPhoneCommon.pm.
  - 2011-11-21 Fixed bug#7923 - Free field value not correctly migrated error on DBUpdate-to-3.1.pl.
@@ -147,7 +149,13 @@
      of > 70 characters exists.
 
 3.0.12 ????-??-??
- - 2011-11-17 Fixed bug#7896 -  Inline images are broken in ticket answers.
+ - 2011-11-23 Fixed bug#7930 - Depreciation warnings in error log when running OTRS on
+    Perl 5.14.
+ - 2011-11-21 Fixed bug#3804 - Stats in Bar or Pie chart formats don't display non-
+    ascii characters correctly.
+ - 2011-11-21 Use the secure attribute to restrict coookies to HTTPS if it is used.
+ - 2011-11-21 Fixed bug#7909 - Errors should be logged in web server error log only.
+ - 2011-11-17 Fixed bug#7896 - Inline images are broken in ticket answers.
  - 2011-11-17 Fixed bug#5782 - Skipped GenericAgent cron executions because of
     timing issues.
  - 2011-11-17 Fixed bug#7674 - Pagination in dashboard appears even with one page of
