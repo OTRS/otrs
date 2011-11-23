@@ -2,7 +2,7 @@
 # UPGRADING - Upgrading Instructions for OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: UPGRADING,v 1.63 2011-11-21 13:55:16 mg Exp $
+# $Id: UPGRADING,v 1.64 2011-11-23 18:27:06 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -124,7 +124,7 @@ how to upgrade the data types used by OTRS
     DATABASE MIGRATION SCRIPT
     =========================
 
-    shell> cat scripts/DBUpdate-to-3.1.pl
+    shell> scripts/DBUpdate-to-3.1.pl
 
     Do not continue the upgrading process if this script did not work properly for you.
     Otherwise data loss may occur.
