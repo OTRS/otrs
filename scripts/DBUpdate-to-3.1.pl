@@ -3,7 +3,7 @@
 # DBUpdate-to-3.1.pl - update script to migrate OTRS 3.0.x to 3.1.x
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-3.1.pl,v 1.62 2011-11-21 18:42:40 cr Exp $
+# $Id: DBUpdate-to-3.1.pl,v 1.63 2011-11-23 18:30:17 cg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.62 $) [1];
+$VERSION = qw($Revision: 1.63 $) [1];
 
 use Getopt::Std qw();
 use Kernel::Config;
@@ -631,13 +631,11 @@ sub _DynamicFieldTicketMigration {
 
             # ticket counter
             $MigratedTicketCounter++;
-            print "   Migrated ticket $MigratedTicketCounter of $HowMuchTickets"
-                . " (with Free fields data). \n" if ( $MigratedTicketCounter % 100 ) == 0;
+            print _ProgressBar( $MigratedTicketCounter, $HowMuchTickets, 'Ticket' );
         }
     }
 
-    print "\n Migrated $MigratedTicketCounter tickets of $HowMuchTickets"
-        . " (with Free fields data). \n";
+    print "\n" if $MigratedTicketCounter;
 
     return $MigratedTicketCounter;
 }
@@ -764,13 +762,11 @@ sub _DynamicFieldArticleMigration {
 
             # article counter
             $MigratedArticleCounter++;
-            print "   Migrated article $MigratedArticleCounter of $HowMuchArticles"
-                . " (with Free fields data). \n" if ( $MigratedArticleCounter % 100 ) == 0;
+            print _ProgressBar( $MigratedArticleCounter, $HowMuchArticles, 'Article' );
         }
     }
 
-    print "\n Migrated $MigratedArticleCounter articles of $HowMuchArticles"
-        . " (with Free fields data). \n";
+    print "\n" if $MigratedArticleCounter;
 
     return $MigratedArticleCounter;
 }
@@ -2843,6 +2839,24 @@ sub _MigrateNotificationEventConfiguration {
         }
     }
     return 1;
+}
+
+=item _ProgressBar($Index, $TotalSize, $ObjectType )
+
+show a progress bar.
+
+    _ProgressBar( $Index, $TotalSize, 'Ticket');
+
+=cut
+
+sub _ProgressBar {
+    my ( $Got, $Total, $Object ) = @_;
+    my $Width     = 50;
+    my $Char      = '-';
+    my $Num_width = length $Total;
+    sprintf "[%-${Width}s] Migrated %${Num_width}s $Object of %s (%.2f%%)\r",
+        '<' . $Char x ( ( $Width - 2 ) * $Got / $Total ) . '>',
+        $Got, $Total, 100 * $Got / +$Total;
 }
 
 1;
