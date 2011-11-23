@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1758.2.194 2011-11-21 19:24:00 mb Exp $
+# $Id: CHANGES,v 1.1758.2.195 2011-11-23 18:46:33 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.0.12 ????-??-??
+ - 2011-11-23 Fixed bug#7930 - Depreciation warnings in error log when running OTRS on
+    Perl 5.14.
  - 2011-11-21 Fixed bug#3804 - Stats in Bar or Pie chart formats don't display non-
     ascii characters correctly.
  - 2011-11-21 Use the secure attribute to restrict coookies to HTTPS if it is used.
