@@ -1,1144 +1,1144 @@
 -- ----------------------------------------------------------
---  driver: mssql, generated: 2011-09-21 16:47:56
+--  driver: mssql, generated: 2011-11-23 23:56:48
 -- ----------------------------------------------------------
-                DECLARE @defname VARCHAR(200), @cmd VARCHAR(2000)
-                SET @defname = (
+                DECLARE @defnameticketfreetext1 VARCHAR(200), @cmdticketfreetext1 VARCHAR(2000)
+                SET @defnameticketfreetext1 = (
                     SELECT name FROM sysobjects so JOIN sysconstraints sc ON so.id = sc.constid
                     WHERE object_name(so.parent_obj) = 'ticket' AND so.xtype = 'D' AND sc.colid = (
                         SELECT colid FROM syscolumns WHERE id = object_id('ticket') AND name = 'freetext1'
                     )
                 )
-                SET @cmd = 'ALTER TABLE ticket DROP CONSTRAINT ' + @defname
-                EXEC(@cmd)
+                SET @cmdticketfreetext1 = 'ALTER TABLE ticket DROP CONSTRAINT ' + @defnameticketfreetext1
+                EXEC(@cmdticketfreetext1)
 ;
-                    DECLARE @sql NVARCHAR(4000)
+                    DECLARE @sqlticketfreetext1 NVARCHAR(4000)
 
                     WHILE 1=1
                     BEGIN
-                        SET @sql = (SELECT TOP 1 'ALTER TABLE ticket DROP CONSTRAINT [' + constraint_name + ']'
+                        SET @sqlticketfreetext1 = (SELECT TOP 1 'ALTER TABLE ticket DROP CONSTRAINT [' + constraint_name + ']'
                         -- SELECT *
                         FROM information_schema.CONSTRAINT_COLUMN_USAGE where table_name='ticket' and column_name='freetext1'
                         )
-                        IF @sql IS NULL BREAK
-                        EXEC (@sql)
+                        IF @sqlticketfreetext1 IS NULL BREAK
+                        EXEC (@sqlticketfreetext1)
                     END
 ;
 -- ----------------------------------------------------------
 --  alter table ticket
 -- ----------------------------------------------------------
 ALTER TABLE ticket DROP COLUMN freetext1;
-                DECLARE @defname VARCHAR(200), @cmd VARCHAR(2000)
-                SET @defname = (
+                DECLARE @defnameticketfreetext2 VARCHAR(200), @cmdticketfreetext2 VARCHAR(2000)
+                SET @defnameticketfreetext2 = (
                     SELECT name FROM sysobjects so JOIN sysconstraints sc ON so.id = sc.constid
                     WHERE object_name(so.parent_obj) = 'ticket' AND so.xtype = 'D' AND sc.colid = (
                         SELECT colid FROM syscolumns WHERE id = object_id('ticket') AND name = 'freetext2'
                     )
                 )
-                SET @cmd = 'ALTER TABLE ticket DROP CONSTRAINT ' + @defname
-                EXEC(@cmd)
+                SET @cmdticketfreetext2 = 'ALTER TABLE ticket DROP CONSTRAINT ' + @defnameticketfreetext2
+                EXEC(@cmdticketfreetext2)
 ;
-                    DECLARE @sql NVARCHAR(4000)
+                    DECLARE @sqlticketfreetext2 NVARCHAR(4000)
 
                     WHILE 1=1
                     BEGIN
-                        SET @sql = (SELECT TOP 1 'ALTER TABLE ticket DROP CONSTRAINT [' + constraint_name + ']'
+                        SET @sqlticketfreetext2 = (SELECT TOP 1 'ALTER TABLE ticket DROP CONSTRAINT [' + constraint_name + ']'
                         -- SELECT *
                         FROM information_schema.CONSTRAINT_COLUMN_USAGE where table_name='ticket' and column_name='freetext2'
                         )
-                        IF @sql IS NULL BREAK
-                        EXEC (@sql)
+                        IF @sqlticketfreetext2 IS NULL BREAK
+                        EXEC (@sqlticketfreetext2)
                     END
 ;
 -- ----------------------------------------------------------
 --  alter table ticket
 -- ----------------------------------------------------------
 ALTER TABLE ticket DROP COLUMN freetext2;
-                DECLARE @defname VARCHAR(200), @cmd VARCHAR(2000)
-                SET @defname = (
+                DECLARE @defnameticketfreetext3 VARCHAR(200), @cmdticketfreetext3 VARCHAR(2000)
+                SET @defnameticketfreetext3 = (
                     SELECT name FROM sysobjects so JOIN sysconstraints sc ON so.id = sc.constid
                     WHERE object_name(so.parent_obj) = 'ticket' AND so.xtype = 'D' AND sc.colid = (
                         SELECT colid FROM syscolumns WHERE id = object_id('ticket') AND name = 'freetext3'
                     )
                 )
-                SET @cmd = 'ALTER TABLE ticket DROP CONSTRAINT ' + @defname
-                EXEC(@cmd)
+                SET @cmdticketfreetext3 = 'ALTER TABLE ticket DROP CONSTRAINT ' + @defnameticketfreetext3
+                EXEC(@cmdticketfreetext3)
 ;
-                    DECLARE @sql NVARCHAR(4000)
+                    DECLARE @sqlticketfreetext3 NVARCHAR(4000)
 
                     WHILE 1=1
                     BEGIN
-                        SET @sql = (SELECT TOP 1 'ALTER TABLE ticket DROP CONSTRAINT [' + constraint_name + ']'
+                        SET @sqlticketfreetext3 = (SELECT TOP 1 'ALTER TABLE ticket DROP CONSTRAINT [' + constraint_name + ']'
                         -- SELECT *
                         FROM information_schema.CONSTRAINT_COLUMN_USAGE where table_name='ticket' and column_name='freetext3'
                         )
-                        IF @sql IS NULL BREAK
-                        EXEC (@sql)
+                        IF @sqlticketfreetext3 IS NULL BREAK
+                        EXEC (@sqlticketfreetext3)
                     END
 ;
 -- ----------------------------------------------------------
 --  alter table ticket
 -- ----------------------------------------------------------
 ALTER TABLE ticket DROP COLUMN freetext3;
-                DECLARE @defname VARCHAR(200), @cmd VARCHAR(2000)
-                SET @defname = (
+                DECLARE @defnameticketfreetext4 VARCHAR(200), @cmdticketfreetext4 VARCHAR(2000)
+                SET @defnameticketfreetext4 = (
                     SELECT name FROM sysobjects so JOIN sysconstraints sc ON so.id = sc.constid
                     WHERE object_name(so.parent_obj) = 'ticket' AND so.xtype = 'D' AND sc.colid = (
                         SELECT colid FROM syscolumns WHERE id = object_id('ticket') AND name = 'freetext4'
                     )
                 )
-                SET @cmd = 'ALTER TABLE ticket DROP CONSTRAINT ' + @defname
-                EXEC(@cmd)
+                SET @cmdticketfreetext4 = 'ALTER TABLE ticket DROP CONSTRAINT ' + @defnameticketfreetext4
+                EXEC(@cmdticketfreetext4)
 ;
-                    DECLARE @sql NVARCHAR(4000)
+                    DECLARE @sqlticketfreetext4 NVARCHAR(4000)
 
                     WHILE 1=1
                     BEGIN
-                        SET @sql = (SELECT TOP 1 'ALTER TABLE ticket DROP CONSTRAINT [' + constraint_name + ']'
+                        SET @sqlticketfreetext4 = (SELECT TOP 1 'ALTER TABLE ticket DROP CONSTRAINT [' + constraint_name + ']'
                         -- SELECT *
                         FROM information_schema.CONSTRAINT_COLUMN_USAGE where table_name='ticket' and column_name='freetext4'
                         )
-                        IF @sql IS NULL BREAK
-                        EXEC (@sql)
+                        IF @sqlticketfreetext4 IS NULL BREAK
+                        EXEC (@sqlticketfreetext4)
                     END
 ;
 -- ----------------------------------------------------------
 --  alter table ticket
 -- ----------------------------------------------------------
 ALTER TABLE ticket DROP COLUMN freetext4;
-                DECLARE @defname VARCHAR(200), @cmd VARCHAR(2000)
-                SET @defname = (
+                DECLARE @defnameticketfreetext5 VARCHAR(200), @cmdticketfreetext5 VARCHAR(2000)
+                SET @defnameticketfreetext5 = (
                     SELECT name FROM sysobjects so JOIN sysconstraints sc ON so.id = sc.constid
                     WHERE object_name(so.parent_obj) = 'ticket' AND so.xtype = 'D' AND sc.colid = (
                         SELECT colid FROM syscolumns WHERE id = object_id('ticket') AND name = 'freetext5'
                     )
                 )
-                SET @cmd = 'ALTER TABLE ticket DROP CONSTRAINT ' + @defname
-                EXEC(@cmd)
+                SET @cmdticketfreetext5 = 'ALTER TABLE ticket DROP CONSTRAINT ' + @defnameticketfreetext5
+                EXEC(@cmdticketfreetext5)
 ;
-                    DECLARE @sql NVARCHAR(4000)
+                    DECLARE @sqlticketfreetext5 NVARCHAR(4000)
 
                     WHILE 1=1
                     BEGIN
-                        SET @sql = (SELECT TOP 1 'ALTER TABLE ticket DROP CONSTRAINT [' + constraint_name + ']'
+                        SET @sqlticketfreetext5 = (SELECT TOP 1 'ALTER TABLE ticket DROP CONSTRAINT [' + constraint_name + ']'
                         -- SELECT *
                         FROM information_schema.CONSTRAINT_COLUMN_USAGE where table_name='ticket' and column_name='freetext5'
                         )
-                        IF @sql IS NULL BREAK
-                        EXEC (@sql)
+                        IF @sqlticketfreetext5 IS NULL BREAK
+                        EXEC (@sqlticketfreetext5)
                     END
 ;
 -- ----------------------------------------------------------
 --  alter table ticket
 -- ----------------------------------------------------------
 ALTER TABLE ticket DROP COLUMN freetext5;
-                DECLARE @defname VARCHAR(200), @cmd VARCHAR(2000)
-                SET @defname = (
+                DECLARE @defnameticketfreetext6 VARCHAR(200), @cmdticketfreetext6 VARCHAR(2000)
+                SET @defnameticketfreetext6 = (
                     SELECT name FROM sysobjects so JOIN sysconstraints sc ON so.id = sc.constid
                     WHERE object_name(so.parent_obj) = 'ticket' AND so.xtype = 'D' AND sc.colid = (
                         SELECT colid FROM syscolumns WHERE id = object_id('ticket') AND name = 'freetext6'
                     )
                 )
-                SET @cmd = 'ALTER TABLE ticket DROP CONSTRAINT ' + @defname
-                EXEC(@cmd)
+                SET @cmdticketfreetext6 = 'ALTER TABLE ticket DROP CONSTRAINT ' + @defnameticketfreetext6
+                EXEC(@cmdticketfreetext6)
 ;
-                    DECLARE @sql NVARCHAR(4000)
+                    DECLARE @sqlticketfreetext6 NVARCHAR(4000)
 
                     WHILE 1=1
                     BEGIN
-                        SET @sql = (SELECT TOP 1 'ALTER TABLE ticket DROP CONSTRAINT [' + constraint_name + ']'
+                        SET @sqlticketfreetext6 = (SELECT TOP 1 'ALTER TABLE ticket DROP CONSTRAINT [' + constraint_name + ']'
                         -- SELECT *
                         FROM information_schema.CONSTRAINT_COLUMN_USAGE where table_name='ticket' and column_name='freetext6'
                         )
-                        IF @sql IS NULL BREAK
-                        EXEC (@sql)
+                        IF @sqlticketfreetext6 IS NULL BREAK
+                        EXEC (@sqlticketfreetext6)
                     END
 ;
 -- ----------------------------------------------------------
 --  alter table ticket
 -- ----------------------------------------------------------
 ALTER TABLE ticket DROP COLUMN freetext6;
-                DECLARE @defname VARCHAR(200), @cmd VARCHAR(2000)
-                SET @defname = (
+                DECLARE @defnameticketfreetext7 VARCHAR(200), @cmdticketfreetext7 VARCHAR(2000)
+                SET @defnameticketfreetext7 = (
                     SELECT name FROM sysobjects so JOIN sysconstraints sc ON so.id = sc.constid
                     WHERE object_name(so.parent_obj) = 'ticket' AND so.xtype = 'D' AND sc.colid = (
                         SELECT colid FROM syscolumns WHERE id = object_id('ticket') AND name = 'freetext7'
                     )
                 )
-                SET @cmd = 'ALTER TABLE ticket DROP CONSTRAINT ' + @defname
-                EXEC(@cmd)
+                SET @cmdticketfreetext7 = 'ALTER TABLE ticket DROP CONSTRAINT ' + @defnameticketfreetext7
+                EXEC(@cmdticketfreetext7)
 ;
-                    DECLARE @sql NVARCHAR(4000)
+                    DECLARE @sqlticketfreetext7 NVARCHAR(4000)
 
                     WHILE 1=1
                     BEGIN
-                        SET @sql = (SELECT TOP 1 'ALTER TABLE ticket DROP CONSTRAINT [' + constraint_name + ']'
+                        SET @sqlticketfreetext7 = (SELECT TOP 1 'ALTER TABLE ticket DROP CONSTRAINT [' + constraint_name + ']'
                         -- SELECT *
                         FROM information_schema.CONSTRAINT_COLUMN_USAGE where table_name='ticket' and column_name='freetext7'
                         )
-                        IF @sql IS NULL BREAK
-                        EXEC (@sql)
+                        IF @sqlticketfreetext7 IS NULL BREAK
+                        EXEC (@sqlticketfreetext7)
                     END
 ;
 -- ----------------------------------------------------------
 --  alter table ticket
 -- ----------------------------------------------------------
 ALTER TABLE ticket DROP COLUMN freetext7;
-                DECLARE @defname VARCHAR(200), @cmd VARCHAR(2000)
-                SET @defname = (
+                DECLARE @defnameticketfreetext8 VARCHAR(200), @cmdticketfreetext8 VARCHAR(2000)
+                SET @defnameticketfreetext8 = (
                     SELECT name FROM sysobjects so JOIN sysconstraints sc ON so.id = sc.constid
                     WHERE object_name(so.parent_obj) = 'ticket' AND so.xtype = 'D' AND sc.colid = (
                         SELECT colid FROM syscolumns WHERE id = object_id('ticket') AND name = 'freetext8'
                     )
                 )
-                SET @cmd = 'ALTER TABLE ticket DROP CONSTRAINT ' + @defname
-                EXEC(@cmd)
+                SET @cmdticketfreetext8 = 'ALTER TABLE ticket DROP CONSTRAINT ' + @defnameticketfreetext8
+                EXEC(@cmdticketfreetext8)
 ;
-                    DECLARE @sql NVARCHAR(4000)
+                    DECLARE @sqlticketfreetext8 NVARCHAR(4000)
 
                     WHILE 1=1
                     BEGIN
-                        SET @sql = (SELECT TOP 1 'ALTER TABLE ticket DROP CONSTRAINT [' + constraint_name + ']'
+                        SET @sqlticketfreetext8 = (SELECT TOP 1 'ALTER TABLE ticket DROP CONSTRAINT [' + constraint_name + ']'
                         -- SELECT *
                         FROM information_schema.CONSTRAINT_COLUMN_USAGE where table_name='ticket' and column_name='freetext8'
                         )
-                        IF @sql IS NULL BREAK
-                        EXEC (@sql)
+                        IF @sqlticketfreetext8 IS NULL BREAK
+                        EXEC (@sqlticketfreetext8)
                     END
 ;
 -- ----------------------------------------------------------
 --  alter table ticket
 -- ----------------------------------------------------------
 ALTER TABLE ticket DROP COLUMN freetext8;
-                DECLARE @defname VARCHAR(200), @cmd VARCHAR(2000)
-                SET @defname = (
+                DECLARE @defnameticketfreetext9 VARCHAR(200), @cmdticketfreetext9 VARCHAR(2000)
+                SET @defnameticketfreetext9 = (
                     SELECT name FROM sysobjects so JOIN sysconstraints sc ON so.id = sc.constid
                     WHERE object_name(so.parent_obj) = 'ticket' AND so.xtype = 'D' AND sc.colid = (
                         SELECT colid FROM syscolumns WHERE id = object_id('ticket') AND name = 'freetext9'
                     )
                 )
-                SET @cmd = 'ALTER TABLE ticket DROP CONSTRAINT ' + @defname
-                EXEC(@cmd)
+                SET @cmdticketfreetext9 = 'ALTER TABLE ticket DROP CONSTRAINT ' + @defnameticketfreetext9
+                EXEC(@cmdticketfreetext9)
 ;
-                    DECLARE @sql NVARCHAR(4000)
+                    DECLARE @sqlticketfreetext9 NVARCHAR(4000)
 
                     WHILE 1=1
                     BEGIN
-                        SET @sql = (SELECT TOP 1 'ALTER TABLE ticket DROP CONSTRAINT [' + constraint_name + ']'
+                        SET @sqlticketfreetext9 = (SELECT TOP 1 'ALTER TABLE ticket DROP CONSTRAINT [' + constraint_name + ']'
                         -- SELECT *
                         FROM information_schema.CONSTRAINT_COLUMN_USAGE where table_name='ticket' and column_name='freetext9'
                         )
-                        IF @sql IS NULL BREAK
-                        EXEC (@sql)
+                        IF @sqlticketfreetext9 IS NULL BREAK
+                        EXEC (@sqlticketfreetext9)
                     END
 ;
 -- ----------------------------------------------------------
 --  alter table ticket
 -- ----------------------------------------------------------
 ALTER TABLE ticket DROP COLUMN freetext9;
-                DECLARE @defname VARCHAR(200), @cmd VARCHAR(2000)
-                SET @defname = (
+                DECLARE @defnameticketfreetext10 VARCHAR(200), @cmdticketfreetext10 VARCHAR(2000)
+                SET @defnameticketfreetext10 = (
                     SELECT name FROM sysobjects so JOIN sysconstraints sc ON so.id = sc.constid
                     WHERE object_name(so.parent_obj) = 'ticket' AND so.xtype = 'D' AND sc.colid = (
                         SELECT colid FROM syscolumns WHERE id = object_id('ticket') AND name = 'freetext10'
                     )
                 )
-                SET @cmd = 'ALTER TABLE ticket DROP CONSTRAINT ' + @defname
-                EXEC(@cmd)
+                SET @cmdticketfreetext10 = 'ALTER TABLE ticket DROP CONSTRAINT ' + @defnameticketfreetext10
+                EXEC(@cmdticketfreetext10)
 ;
-                    DECLARE @sql NVARCHAR(4000)
+                    DECLARE @sqlticketfreetext10 NVARCHAR(4000)
 
                     WHILE 1=1
                     BEGIN
-                        SET @sql = (SELECT TOP 1 'ALTER TABLE ticket DROP CONSTRAINT [' + constraint_name + ']'
+                        SET @sqlticketfreetext10 = (SELECT TOP 1 'ALTER TABLE ticket DROP CONSTRAINT [' + constraint_name + ']'
                         -- SELECT *
                         FROM information_schema.CONSTRAINT_COLUMN_USAGE where table_name='ticket' and column_name='freetext10'
                         )
-                        IF @sql IS NULL BREAK
-                        EXEC (@sql)
+                        IF @sqlticketfreetext10 IS NULL BREAK
+                        EXEC (@sqlticketfreetext10)
                     END
 ;
 -- ----------------------------------------------------------
 --  alter table ticket
 -- ----------------------------------------------------------
 ALTER TABLE ticket DROP COLUMN freetext10;
-                DECLARE @defname VARCHAR(200), @cmd VARCHAR(2000)
-                SET @defname = (
+                DECLARE @defnameticketfreetext11 VARCHAR(200), @cmdticketfreetext11 VARCHAR(2000)
+                SET @defnameticketfreetext11 = (
                     SELECT name FROM sysobjects so JOIN sysconstraints sc ON so.id = sc.constid
                     WHERE object_name(so.parent_obj) = 'ticket' AND so.xtype = 'D' AND sc.colid = (
                         SELECT colid FROM syscolumns WHERE id = object_id('ticket') AND name = 'freetext11'
                     )
                 )
-                SET @cmd = 'ALTER TABLE ticket DROP CONSTRAINT ' + @defname
-                EXEC(@cmd)
+                SET @cmdticketfreetext11 = 'ALTER TABLE ticket DROP CONSTRAINT ' + @defnameticketfreetext11
+                EXEC(@cmdticketfreetext11)
 ;
-                    DECLARE @sql NVARCHAR(4000)
+                    DECLARE @sqlticketfreetext11 NVARCHAR(4000)
 
                     WHILE 1=1
                     BEGIN
-                        SET @sql = (SELECT TOP 1 'ALTER TABLE ticket DROP CONSTRAINT [' + constraint_name + ']'
+                        SET @sqlticketfreetext11 = (SELECT TOP 1 'ALTER TABLE ticket DROP CONSTRAINT [' + constraint_name + ']'
                         -- SELECT *
                         FROM information_schema.CONSTRAINT_COLUMN_USAGE where table_name='ticket' and column_name='freetext11'
                         )
-                        IF @sql IS NULL BREAK
-                        EXEC (@sql)
+                        IF @sqlticketfreetext11 IS NULL BREAK
+                        EXEC (@sqlticketfreetext11)
                     END
 ;
 -- ----------------------------------------------------------
 --  alter table ticket
 -- ----------------------------------------------------------
 ALTER TABLE ticket DROP COLUMN freetext11;
-                DECLARE @defname VARCHAR(200), @cmd VARCHAR(2000)
-                SET @defname = (
+                DECLARE @defnameticketfreetext12 VARCHAR(200), @cmdticketfreetext12 VARCHAR(2000)
+                SET @defnameticketfreetext12 = (
                     SELECT name FROM sysobjects so JOIN sysconstraints sc ON so.id = sc.constid
                     WHERE object_name(so.parent_obj) = 'ticket' AND so.xtype = 'D' AND sc.colid = (
                         SELECT colid FROM syscolumns WHERE id = object_id('ticket') AND name = 'freetext12'
                     )
                 )
-                SET @cmd = 'ALTER TABLE ticket DROP CONSTRAINT ' + @defname
-                EXEC(@cmd)
+                SET @cmdticketfreetext12 = 'ALTER TABLE ticket DROP CONSTRAINT ' + @defnameticketfreetext12
+                EXEC(@cmdticketfreetext12)
 ;
-                    DECLARE @sql NVARCHAR(4000)
+                    DECLARE @sqlticketfreetext12 NVARCHAR(4000)
 
                     WHILE 1=1
                     BEGIN
-                        SET @sql = (SELECT TOP 1 'ALTER TABLE ticket DROP CONSTRAINT [' + constraint_name + ']'
+                        SET @sqlticketfreetext12 = (SELECT TOP 1 'ALTER TABLE ticket DROP CONSTRAINT [' + constraint_name + ']'
                         -- SELECT *
                         FROM information_schema.CONSTRAINT_COLUMN_USAGE where table_name='ticket' and column_name='freetext12'
                         )
-                        IF @sql IS NULL BREAK
-                        EXEC (@sql)
+                        IF @sqlticketfreetext12 IS NULL BREAK
+                        EXEC (@sqlticketfreetext12)
                     END
 ;
 -- ----------------------------------------------------------
 --  alter table ticket
 -- ----------------------------------------------------------
 ALTER TABLE ticket DROP COLUMN freetext12;
-                DECLARE @defname VARCHAR(200), @cmd VARCHAR(2000)
-                SET @defname = (
+                DECLARE @defnameticketfreetext13 VARCHAR(200), @cmdticketfreetext13 VARCHAR(2000)
+                SET @defnameticketfreetext13 = (
                     SELECT name FROM sysobjects so JOIN sysconstraints sc ON so.id = sc.constid
                     WHERE object_name(so.parent_obj) = 'ticket' AND so.xtype = 'D' AND sc.colid = (
                         SELECT colid FROM syscolumns WHERE id = object_id('ticket') AND name = 'freetext13'
                     )
                 )
-                SET @cmd = 'ALTER TABLE ticket DROP CONSTRAINT ' + @defname
-                EXEC(@cmd)
+                SET @cmdticketfreetext13 = 'ALTER TABLE ticket DROP CONSTRAINT ' + @defnameticketfreetext13
+                EXEC(@cmdticketfreetext13)
 ;
-                    DECLARE @sql NVARCHAR(4000)
+                    DECLARE @sqlticketfreetext13 NVARCHAR(4000)
 
                     WHILE 1=1
                     BEGIN
-                        SET @sql = (SELECT TOP 1 'ALTER TABLE ticket DROP CONSTRAINT [' + constraint_name + ']'
+                        SET @sqlticketfreetext13 = (SELECT TOP 1 'ALTER TABLE ticket DROP CONSTRAINT [' + constraint_name + ']'
                         -- SELECT *
                         FROM information_schema.CONSTRAINT_COLUMN_USAGE where table_name='ticket' and column_name='freetext13'
                         )
-                        IF @sql IS NULL BREAK
-                        EXEC (@sql)
+                        IF @sqlticketfreetext13 IS NULL BREAK
+                        EXEC (@sqlticketfreetext13)
                     END
 ;
 -- ----------------------------------------------------------
 --  alter table ticket
 -- ----------------------------------------------------------
 ALTER TABLE ticket DROP COLUMN freetext13;
-                DECLARE @defname VARCHAR(200), @cmd VARCHAR(2000)
-                SET @defname = (
+                DECLARE @defnameticketfreetext14 VARCHAR(200), @cmdticketfreetext14 VARCHAR(2000)
+                SET @defnameticketfreetext14 = (
                     SELECT name FROM sysobjects so JOIN sysconstraints sc ON so.id = sc.constid
                     WHERE object_name(so.parent_obj) = 'ticket' AND so.xtype = 'D' AND sc.colid = (
                         SELECT colid FROM syscolumns WHERE id = object_id('ticket') AND name = 'freetext14'
                     )
                 )
-                SET @cmd = 'ALTER TABLE ticket DROP CONSTRAINT ' + @defname
-                EXEC(@cmd)
+                SET @cmdticketfreetext14 = 'ALTER TABLE ticket DROP CONSTRAINT ' + @defnameticketfreetext14
+                EXEC(@cmdticketfreetext14)
 ;
-                    DECLARE @sql NVARCHAR(4000)
+                    DECLARE @sqlticketfreetext14 NVARCHAR(4000)
 
                     WHILE 1=1
                     BEGIN
-                        SET @sql = (SELECT TOP 1 'ALTER TABLE ticket DROP CONSTRAINT [' + constraint_name + ']'
+                        SET @sqlticketfreetext14 = (SELECT TOP 1 'ALTER TABLE ticket DROP CONSTRAINT [' + constraint_name + ']'
                         -- SELECT *
                         FROM information_schema.CONSTRAINT_COLUMN_USAGE where table_name='ticket' and column_name='freetext14'
                         )
-                        IF @sql IS NULL BREAK
-                        EXEC (@sql)
+                        IF @sqlticketfreetext14 IS NULL BREAK
+                        EXEC (@sqlticketfreetext14)
                     END
 ;
 -- ----------------------------------------------------------
 --  alter table ticket
 -- ----------------------------------------------------------
 ALTER TABLE ticket DROP COLUMN freetext14;
-                DECLARE @defname VARCHAR(200), @cmd VARCHAR(2000)
-                SET @defname = (
+                DECLARE @defnameticketfreetext15 VARCHAR(200), @cmdticketfreetext15 VARCHAR(2000)
+                SET @defnameticketfreetext15 = (
                     SELECT name FROM sysobjects so JOIN sysconstraints sc ON so.id = sc.constid
                     WHERE object_name(so.parent_obj) = 'ticket' AND so.xtype = 'D' AND sc.colid = (
                         SELECT colid FROM syscolumns WHERE id = object_id('ticket') AND name = 'freetext15'
                     )
                 )
-                SET @cmd = 'ALTER TABLE ticket DROP CONSTRAINT ' + @defname
-                EXEC(@cmd)
+                SET @cmdticketfreetext15 = 'ALTER TABLE ticket DROP CONSTRAINT ' + @defnameticketfreetext15
+                EXEC(@cmdticketfreetext15)
 ;
-                    DECLARE @sql NVARCHAR(4000)
+                    DECLARE @sqlticketfreetext15 NVARCHAR(4000)
 
                     WHILE 1=1
                     BEGIN
-                        SET @sql = (SELECT TOP 1 'ALTER TABLE ticket DROP CONSTRAINT [' + constraint_name + ']'
+                        SET @sqlticketfreetext15 = (SELECT TOP 1 'ALTER TABLE ticket DROP CONSTRAINT [' + constraint_name + ']'
                         -- SELECT *
                         FROM information_schema.CONSTRAINT_COLUMN_USAGE where table_name='ticket' and column_name='freetext15'
                         )
-                        IF @sql IS NULL BREAK
-                        EXEC (@sql)
+                        IF @sqlticketfreetext15 IS NULL BREAK
+                        EXEC (@sqlticketfreetext15)
                     END
 ;
 -- ----------------------------------------------------------
 --  alter table ticket
 -- ----------------------------------------------------------
 ALTER TABLE ticket DROP COLUMN freetext15;
-                DECLARE @defname VARCHAR(200), @cmd VARCHAR(2000)
-                SET @defname = (
+                DECLARE @defnameticketfreetext16 VARCHAR(200), @cmdticketfreetext16 VARCHAR(2000)
+                SET @defnameticketfreetext16 = (
                     SELECT name FROM sysobjects so JOIN sysconstraints sc ON so.id = sc.constid
                     WHERE object_name(so.parent_obj) = 'ticket' AND so.xtype = 'D' AND sc.colid = (
                         SELECT colid FROM syscolumns WHERE id = object_id('ticket') AND name = 'freetext16'
                     )
                 )
-                SET @cmd = 'ALTER TABLE ticket DROP CONSTRAINT ' + @defname
-                EXEC(@cmd)
+                SET @cmdticketfreetext16 = 'ALTER TABLE ticket DROP CONSTRAINT ' + @defnameticketfreetext16
+                EXEC(@cmdticketfreetext16)
 ;
-                    DECLARE @sql NVARCHAR(4000)
+                    DECLARE @sqlticketfreetext16 NVARCHAR(4000)
 
                     WHILE 1=1
                     BEGIN
-                        SET @sql = (SELECT TOP 1 'ALTER TABLE ticket DROP CONSTRAINT [' + constraint_name + ']'
+                        SET @sqlticketfreetext16 = (SELECT TOP 1 'ALTER TABLE ticket DROP CONSTRAINT [' + constraint_name + ']'
                         -- SELECT *
                         FROM information_schema.CONSTRAINT_COLUMN_USAGE where table_name='ticket' and column_name='freetext16'
                         )
-                        IF @sql IS NULL BREAK
-                        EXEC (@sql)
+                        IF @sqlticketfreetext16 IS NULL BREAK
+                        EXEC (@sqlticketfreetext16)
                     END
 ;
 -- ----------------------------------------------------------
 --  alter table ticket
 -- ----------------------------------------------------------
 ALTER TABLE ticket DROP COLUMN freetext16;
-                DECLARE @defname VARCHAR(200), @cmd VARCHAR(2000)
-                SET @defname = (
+                DECLARE @defnameticketfreekey1 VARCHAR(200), @cmdticketfreekey1 VARCHAR(2000)
+                SET @defnameticketfreekey1 = (
                     SELECT name FROM sysobjects so JOIN sysconstraints sc ON so.id = sc.constid
                     WHERE object_name(so.parent_obj) = 'ticket' AND so.xtype = 'D' AND sc.colid = (
                         SELECT colid FROM syscolumns WHERE id = object_id('ticket') AND name = 'freekey1'
                     )
                 )
-                SET @cmd = 'ALTER TABLE ticket DROP CONSTRAINT ' + @defname
-                EXEC(@cmd)
+                SET @cmdticketfreekey1 = 'ALTER TABLE ticket DROP CONSTRAINT ' + @defnameticketfreekey1
+                EXEC(@cmdticketfreekey1)
 ;
-                    DECLARE @sql NVARCHAR(4000)
+                    DECLARE @sqlticketfreekey1 NVARCHAR(4000)
 
                     WHILE 1=1
                     BEGIN
-                        SET @sql = (SELECT TOP 1 'ALTER TABLE ticket DROP CONSTRAINT [' + constraint_name + ']'
+                        SET @sqlticketfreekey1 = (SELECT TOP 1 'ALTER TABLE ticket DROP CONSTRAINT [' + constraint_name + ']'
                         -- SELECT *
                         FROM information_schema.CONSTRAINT_COLUMN_USAGE where table_name='ticket' and column_name='freekey1'
                         )
-                        IF @sql IS NULL BREAK
-                        EXEC (@sql)
+                        IF @sqlticketfreekey1 IS NULL BREAK
+                        EXEC (@sqlticketfreekey1)
                     END
 ;
 -- ----------------------------------------------------------
 --  alter table ticket
 -- ----------------------------------------------------------
 ALTER TABLE ticket DROP COLUMN freekey1;
-                DECLARE @defname VARCHAR(200), @cmd VARCHAR(2000)
-                SET @defname = (
+                DECLARE @defnameticketfreekey2 VARCHAR(200), @cmdticketfreekey2 VARCHAR(2000)
+                SET @defnameticketfreekey2 = (
                     SELECT name FROM sysobjects so JOIN sysconstraints sc ON so.id = sc.constid
                     WHERE object_name(so.parent_obj) = 'ticket' AND so.xtype = 'D' AND sc.colid = (
                         SELECT colid FROM syscolumns WHERE id = object_id('ticket') AND name = 'freekey2'
                     )
                 )
-                SET @cmd = 'ALTER TABLE ticket DROP CONSTRAINT ' + @defname
-                EXEC(@cmd)
+                SET @cmdticketfreekey2 = 'ALTER TABLE ticket DROP CONSTRAINT ' + @defnameticketfreekey2
+                EXEC(@cmdticketfreekey2)
 ;
-                    DECLARE @sql NVARCHAR(4000)
+                    DECLARE @sqlticketfreekey2 NVARCHAR(4000)
 
                     WHILE 1=1
                     BEGIN
-                        SET @sql = (SELECT TOP 1 'ALTER TABLE ticket DROP CONSTRAINT [' + constraint_name + ']'
+                        SET @sqlticketfreekey2 = (SELECT TOP 1 'ALTER TABLE ticket DROP CONSTRAINT [' + constraint_name + ']'
                         -- SELECT *
                         FROM information_schema.CONSTRAINT_COLUMN_USAGE where table_name='ticket' and column_name='freekey2'
                         )
-                        IF @sql IS NULL BREAK
-                        EXEC (@sql)
+                        IF @sqlticketfreekey2 IS NULL BREAK
+                        EXEC (@sqlticketfreekey2)
                     END
 ;
 -- ----------------------------------------------------------
 --  alter table ticket
 -- ----------------------------------------------------------
 ALTER TABLE ticket DROP COLUMN freekey2;
-                DECLARE @defname VARCHAR(200), @cmd VARCHAR(2000)
-                SET @defname = (
+                DECLARE @defnameticketfreekey3 VARCHAR(200), @cmdticketfreekey3 VARCHAR(2000)
+                SET @defnameticketfreekey3 = (
                     SELECT name FROM sysobjects so JOIN sysconstraints sc ON so.id = sc.constid
                     WHERE object_name(so.parent_obj) = 'ticket' AND so.xtype = 'D' AND sc.colid = (
                         SELECT colid FROM syscolumns WHERE id = object_id('ticket') AND name = 'freekey3'
                     )
                 )
-                SET @cmd = 'ALTER TABLE ticket DROP CONSTRAINT ' + @defname
-                EXEC(@cmd)
+                SET @cmdticketfreekey3 = 'ALTER TABLE ticket DROP CONSTRAINT ' + @defnameticketfreekey3
+                EXEC(@cmdticketfreekey3)
 ;
-                    DECLARE @sql NVARCHAR(4000)
+                    DECLARE @sqlticketfreekey3 NVARCHAR(4000)
 
                     WHILE 1=1
                     BEGIN
-                        SET @sql = (SELECT TOP 1 'ALTER TABLE ticket DROP CONSTRAINT [' + constraint_name + ']'
+                        SET @sqlticketfreekey3 = (SELECT TOP 1 'ALTER TABLE ticket DROP CONSTRAINT [' + constraint_name + ']'
                         -- SELECT *
                         FROM information_schema.CONSTRAINT_COLUMN_USAGE where table_name='ticket' and column_name='freekey3'
                         )
-                        IF @sql IS NULL BREAK
-                        EXEC (@sql)
+                        IF @sqlticketfreekey3 IS NULL BREAK
+                        EXEC (@sqlticketfreekey3)
                     END
 ;
 -- ----------------------------------------------------------
 --  alter table ticket
 -- ----------------------------------------------------------
 ALTER TABLE ticket DROP COLUMN freekey3;
-                DECLARE @defname VARCHAR(200), @cmd VARCHAR(2000)
-                SET @defname = (
+                DECLARE @defnameticketfreekey4 VARCHAR(200), @cmdticketfreekey4 VARCHAR(2000)
+                SET @defnameticketfreekey4 = (
                     SELECT name FROM sysobjects so JOIN sysconstraints sc ON so.id = sc.constid
                     WHERE object_name(so.parent_obj) = 'ticket' AND so.xtype = 'D' AND sc.colid = (
                         SELECT colid FROM syscolumns WHERE id = object_id('ticket') AND name = 'freekey4'
                     )
                 )
-                SET @cmd = 'ALTER TABLE ticket DROP CONSTRAINT ' + @defname
-                EXEC(@cmd)
+                SET @cmdticketfreekey4 = 'ALTER TABLE ticket DROP CONSTRAINT ' + @defnameticketfreekey4
+                EXEC(@cmdticketfreekey4)
 ;
-                    DECLARE @sql NVARCHAR(4000)
+                    DECLARE @sqlticketfreekey4 NVARCHAR(4000)
 
                     WHILE 1=1
                     BEGIN
-                        SET @sql = (SELECT TOP 1 'ALTER TABLE ticket DROP CONSTRAINT [' + constraint_name + ']'
+                        SET @sqlticketfreekey4 = (SELECT TOP 1 'ALTER TABLE ticket DROP CONSTRAINT [' + constraint_name + ']'
                         -- SELECT *
                         FROM information_schema.CONSTRAINT_COLUMN_USAGE where table_name='ticket' and column_name='freekey4'
                         )
-                        IF @sql IS NULL BREAK
-                        EXEC (@sql)
+                        IF @sqlticketfreekey4 IS NULL BREAK
+                        EXEC (@sqlticketfreekey4)
                     END
 ;
 -- ----------------------------------------------------------
 --  alter table ticket
 -- ----------------------------------------------------------
 ALTER TABLE ticket DROP COLUMN freekey4;
-                DECLARE @defname VARCHAR(200), @cmd VARCHAR(2000)
-                SET @defname = (
+                DECLARE @defnameticketfreekey5 VARCHAR(200), @cmdticketfreekey5 VARCHAR(2000)
+                SET @defnameticketfreekey5 = (
                     SELECT name FROM sysobjects so JOIN sysconstraints sc ON so.id = sc.constid
                     WHERE object_name(so.parent_obj) = 'ticket' AND so.xtype = 'D' AND sc.colid = (
                         SELECT colid FROM syscolumns WHERE id = object_id('ticket') AND name = 'freekey5'
                     )
                 )
-                SET @cmd = 'ALTER TABLE ticket DROP CONSTRAINT ' + @defname
-                EXEC(@cmd)
+                SET @cmdticketfreekey5 = 'ALTER TABLE ticket DROP CONSTRAINT ' + @defnameticketfreekey5
+                EXEC(@cmdticketfreekey5)
 ;
-                    DECLARE @sql NVARCHAR(4000)
+                    DECLARE @sqlticketfreekey5 NVARCHAR(4000)
 
                     WHILE 1=1
                     BEGIN
-                        SET @sql = (SELECT TOP 1 'ALTER TABLE ticket DROP CONSTRAINT [' + constraint_name + ']'
+                        SET @sqlticketfreekey5 = (SELECT TOP 1 'ALTER TABLE ticket DROP CONSTRAINT [' + constraint_name + ']'
                         -- SELECT *
                         FROM information_schema.CONSTRAINT_COLUMN_USAGE where table_name='ticket' and column_name='freekey5'
                         )
-                        IF @sql IS NULL BREAK
-                        EXEC (@sql)
+                        IF @sqlticketfreekey5 IS NULL BREAK
+                        EXEC (@sqlticketfreekey5)
                     END
 ;
 -- ----------------------------------------------------------
 --  alter table ticket
 -- ----------------------------------------------------------
 ALTER TABLE ticket DROP COLUMN freekey5;
-                DECLARE @defname VARCHAR(200), @cmd VARCHAR(2000)
-                SET @defname = (
+                DECLARE @defnameticketfreekey6 VARCHAR(200), @cmdticketfreekey6 VARCHAR(2000)
+                SET @defnameticketfreekey6 = (
                     SELECT name FROM sysobjects so JOIN sysconstraints sc ON so.id = sc.constid
                     WHERE object_name(so.parent_obj) = 'ticket' AND so.xtype = 'D' AND sc.colid = (
                         SELECT colid FROM syscolumns WHERE id = object_id('ticket') AND name = 'freekey6'
                     )
                 )
-                SET @cmd = 'ALTER TABLE ticket DROP CONSTRAINT ' + @defname
-                EXEC(@cmd)
+                SET @cmdticketfreekey6 = 'ALTER TABLE ticket DROP CONSTRAINT ' + @defnameticketfreekey6
+                EXEC(@cmdticketfreekey6)
 ;
-                    DECLARE @sql NVARCHAR(4000)
+                    DECLARE @sqlticketfreekey6 NVARCHAR(4000)
 
                     WHILE 1=1
                     BEGIN
-                        SET @sql = (SELECT TOP 1 'ALTER TABLE ticket DROP CONSTRAINT [' + constraint_name + ']'
+                        SET @sqlticketfreekey6 = (SELECT TOP 1 'ALTER TABLE ticket DROP CONSTRAINT [' + constraint_name + ']'
                         -- SELECT *
                         FROM information_schema.CONSTRAINT_COLUMN_USAGE where table_name='ticket' and column_name='freekey6'
                         )
-                        IF @sql IS NULL BREAK
-                        EXEC (@sql)
+                        IF @sqlticketfreekey6 IS NULL BREAK
+                        EXEC (@sqlticketfreekey6)
                     END
 ;
 -- ----------------------------------------------------------
 --  alter table ticket
 -- ----------------------------------------------------------
 ALTER TABLE ticket DROP COLUMN freekey6;
-                DECLARE @defname VARCHAR(200), @cmd VARCHAR(2000)
-                SET @defname = (
+                DECLARE @defnameticketfreekey7 VARCHAR(200), @cmdticketfreekey7 VARCHAR(2000)
+                SET @defnameticketfreekey7 = (
                     SELECT name FROM sysobjects so JOIN sysconstraints sc ON so.id = sc.constid
                     WHERE object_name(so.parent_obj) = 'ticket' AND so.xtype = 'D' AND sc.colid = (
                         SELECT colid FROM syscolumns WHERE id = object_id('ticket') AND name = 'freekey7'
                     )
                 )
-                SET @cmd = 'ALTER TABLE ticket DROP CONSTRAINT ' + @defname
-                EXEC(@cmd)
+                SET @cmdticketfreekey7 = 'ALTER TABLE ticket DROP CONSTRAINT ' + @defnameticketfreekey7
+                EXEC(@cmdticketfreekey7)
 ;
-                    DECLARE @sql NVARCHAR(4000)
+                    DECLARE @sqlticketfreekey7 NVARCHAR(4000)
 
                     WHILE 1=1
                     BEGIN
-                        SET @sql = (SELECT TOP 1 'ALTER TABLE ticket DROP CONSTRAINT [' + constraint_name + ']'
+                        SET @sqlticketfreekey7 = (SELECT TOP 1 'ALTER TABLE ticket DROP CONSTRAINT [' + constraint_name + ']'
                         -- SELECT *
                         FROM information_schema.CONSTRAINT_COLUMN_USAGE where table_name='ticket' and column_name='freekey7'
                         )
-                        IF @sql IS NULL BREAK
-                        EXEC (@sql)
+                        IF @sqlticketfreekey7 IS NULL BREAK
+                        EXEC (@sqlticketfreekey7)
                     END
 ;
 -- ----------------------------------------------------------
 --  alter table ticket
 -- ----------------------------------------------------------
 ALTER TABLE ticket DROP COLUMN freekey7;
-                DECLARE @defname VARCHAR(200), @cmd VARCHAR(2000)
-                SET @defname = (
+                DECLARE @defnameticketfreekey8 VARCHAR(200), @cmdticketfreekey8 VARCHAR(2000)
+                SET @defnameticketfreekey8 = (
                     SELECT name FROM sysobjects so JOIN sysconstraints sc ON so.id = sc.constid
                     WHERE object_name(so.parent_obj) = 'ticket' AND so.xtype = 'D' AND sc.colid = (
                         SELECT colid FROM syscolumns WHERE id = object_id('ticket') AND name = 'freekey8'
                     )
                 )
-                SET @cmd = 'ALTER TABLE ticket DROP CONSTRAINT ' + @defname
-                EXEC(@cmd)
+                SET @cmdticketfreekey8 = 'ALTER TABLE ticket DROP CONSTRAINT ' + @defnameticketfreekey8
+                EXEC(@cmdticketfreekey8)
 ;
-                    DECLARE @sql NVARCHAR(4000)
+                    DECLARE @sqlticketfreekey8 NVARCHAR(4000)
 
                     WHILE 1=1
                     BEGIN
-                        SET @sql = (SELECT TOP 1 'ALTER TABLE ticket DROP CONSTRAINT [' + constraint_name + ']'
+                        SET @sqlticketfreekey8 = (SELECT TOP 1 'ALTER TABLE ticket DROP CONSTRAINT [' + constraint_name + ']'
                         -- SELECT *
                         FROM information_schema.CONSTRAINT_COLUMN_USAGE where table_name='ticket' and column_name='freekey8'
                         )
-                        IF @sql IS NULL BREAK
-                        EXEC (@sql)
+                        IF @sqlticketfreekey8 IS NULL BREAK
+                        EXEC (@sqlticketfreekey8)
                     END
 ;
 -- ----------------------------------------------------------
 --  alter table ticket
 -- ----------------------------------------------------------
 ALTER TABLE ticket DROP COLUMN freekey8;
-                DECLARE @defname VARCHAR(200), @cmd VARCHAR(2000)
-                SET @defname = (
+                DECLARE @defnameticketfreekey9 VARCHAR(200), @cmdticketfreekey9 VARCHAR(2000)
+                SET @defnameticketfreekey9 = (
                     SELECT name FROM sysobjects so JOIN sysconstraints sc ON so.id = sc.constid
                     WHERE object_name(so.parent_obj) = 'ticket' AND so.xtype = 'D' AND sc.colid = (
                         SELECT colid FROM syscolumns WHERE id = object_id('ticket') AND name = 'freekey9'
                     )
                 )
-                SET @cmd = 'ALTER TABLE ticket DROP CONSTRAINT ' + @defname
-                EXEC(@cmd)
+                SET @cmdticketfreekey9 = 'ALTER TABLE ticket DROP CONSTRAINT ' + @defnameticketfreekey9
+                EXEC(@cmdticketfreekey9)
 ;
-                    DECLARE @sql NVARCHAR(4000)
+                    DECLARE @sqlticketfreekey9 NVARCHAR(4000)
 
                     WHILE 1=1
                     BEGIN
-                        SET @sql = (SELECT TOP 1 'ALTER TABLE ticket DROP CONSTRAINT [' + constraint_name + ']'
+                        SET @sqlticketfreekey9 = (SELECT TOP 1 'ALTER TABLE ticket DROP CONSTRAINT [' + constraint_name + ']'
                         -- SELECT *
                         FROM information_schema.CONSTRAINT_COLUMN_USAGE where table_name='ticket' and column_name='freekey9'
                         )
-                        IF @sql IS NULL BREAK
-                        EXEC (@sql)
+                        IF @sqlticketfreekey9 IS NULL BREAK
+                        EXEC (@sqlticketfreekey9)
                     END
 ;
 -- ----------------------------------------------------------
 --  alter table ticket
 -- ----------------------------------------------------------
 ALTER TABLE ticket DROP COLUMN freekey9;
-                DECLARE @defname VARCHAR(200), @cmd VARCHAR(2000)
-                SET @defname = (
+                DECLARE @defnameticketfreekey10 VARCHAR(200), @cmdticketfreekey10 VARCHAR(2000)
+                SET @defnameticketfreekey10 = (
                     SELECT name FROM sysobjects so JOIN sysconstraints sc ON so.id = sc.constid
                     WHERE object_name(so.parent_obj) = 'ticket' AND so.xtype = 'D' AND sc.colid = (
                         SELECT colid FROM syscolumns WHERE id = object_id('ticket') AND name = 'freekey10'
                     )
                 )
-                SET @cmd = 'ALTER TABLE ticket DROP CONSTRAINT ' + @defname
-                EXEC(@cmd)
+                SET @cmdticketfreekey10 = 'ALTER TABLE ticket DROP CONSTRAINT ' + @defnameticketfreekey10
+                EXEC(@cmdticketfreekey10)
 ;
-                    DECLARE @sql NVARCHAR(4000)
+                    DECLARE @sqlticketfreekey10 NVARCHAR(4000)
 
                     WHILE 1=1
                     BEGIN
-                        SET @sql = (SELECT TOP 1 'ALTER TABLE ticket DROP CONSTRAINT [' + constraint_name + ']'
+                        SET @sqlticketfreekey10 = (SELECT TOP 1 'ALTER TABLE ticket DROP CONSTRAINT [' + constraint_name + ']'
                         -- SELECT *
                         FROM information_schema.CONSTRAINT_COLUMN_USAGE where table_name='ticket' and column_name='freekey10'
                         )
-                        IF @sql IS NULL BREAK
-                        EXEC (@sql)
+                        IF @sqlticketfreekey10 IS NULL BREAK
+                        EXEC (@sqlticketfreekey10)
                     END
 ;
 -- ----------------------------------------------------------
 --  alter table ticket
 -- ----------------------------------------------------------
 ALTER TABLE ticket DROP COLUMN freekey10;
-                DECLARE @defname VARCHAR(200), @cmd VARCHAR(2000)
-                SET @defname = (
+                DECLARE @defnameticketfreekey11 VARCHAR(200), @cmdticketfreekey11 VARCHAR(2000)
+                SET @defnameticketfreekey11 = (
                     SELECT name FROM sysobjects so JOIN sysconstraints sc ON so.id = sc.constid
                     WHERE object_name(so.parent_obj) = 'ticket' AND so.xtype = 'D' AND sc.colid = (
                         SELECT colid FROM syscolumns WHERE id = object_id('ticket') AND name = 'freekey11'
                     )
                 )
-                SET @cmd = 'ALTER TABLE ticket DROP CONSTRAINT ' + @defname
-                EXEC(@cmd)
+                SET @cmdticketfreekey11 = 'ALTER TABLE ticket DROP CONSTRAINT ' + @defnameticketfreekey11
+                EXEC(@cmdticketfreekey11)
 ;
-                    DECLARE @sql NVARCHAR(4000)
+                    DECLARE @sqlticketfreekey11 NVARCHAR(4000)
 
                     WHILE 1=1
                     BEGIN
-                        SET @sql = (SELECT TOP 1 'ALTER TABLE ticket DROP CONSTRAINT [' + constraint_name + ']'
+                        SET @sqlticketfreekey11 = (SELECT TOP 1 'ALTER TABLE ticket DROP CONSTRAINT [' + constraint_name + ']'
                         -- SELECT *
                         FROM information_schema.CONSTRAINT_COLUMN_USAGE where table_name='ticket' and column_name='freekey11'
                         )
-                        IF @sql IS NULL BREAK
-                        EXEC (@sql)
+                        IF @sqlticketfreekey11 IS NULL BREAK
+                        EXEC (@sqlticketfreekey11)
                     END
 ;
 -- ----------------------------------------------------------
 --  alter table ticket
 -- ----------------------------------------------------------
 ALTER TABLE ticket DROP COLUMN freekey11;
-                DECLARE @defname VARCHAR(200), @cmd VARCHAR(2000)
-                SET @defname = (
+                DECLARE @defnameticketfreekey12 VARCHAR(200), @cmdticketfreekey12 VARCHAR(2000)
+                SET @defnameticketfreekey12 = (
                     SELECT name FROM sysobjects so JOIN sysconstraints sc ON so.id = sc.constid
                     WHERE object_name(so.parent_obj) = 'ticket' AND so.xtype = 'D' AND sc.colid = (
                         SELECT colid FROM syscolumns WHERE id = object_id('ticket') AND name = 'freekey12'
                     )
                 )
-                SET @cmd = 'ALTER TABLE ticket DROP CONSTRAINT ' + @defname
-                EXEC(@cmd)
+                SET @cmdticketfreekey12 = 'ALTER TABLE ticket DROP CONSTRAINT ' + @defnameticketfreekey12
+                EXEC(@cmdticketfreekey12)
 ;
-                    DECLARE @sql NVARCHAR(4000)
+                    DECLARE @sqlticketfreekey12 NVARCHAR(4000)
 
                     WHILE 1=1
                     BEGIN
-                        SET @sql = (SELECT TOP 1 'ALTER TABLE ticket DROP CONSTRAINT [' + constraint_name + ']'
+                        SET @sqlticketfreekey12 = (SELECT TOP 1 'ALTER TABLE ticket DROP CONSTRAINT [' + constraint_name + ']'
                         -- SELECT *
                         FROM information_schema.CONSTRAINT_COLUMN_USAGE where table_name='ticket' and column_name='freekey12'
                         )
-                        IF @sql IS NULL BREAK
-                        EXEC (@sql)
+                        IF @sqlticketfreekey12 IS NULL BREAK
+                        EXEC (@sqlticketfreekey12)
                     END
 ;
 -- ----------------------------------------------------------
 --  alter table ticket
 -- ----------------------------------------------------------
 ALTER TABLE ticket DROP COLUMN freekey12;
-                DECLARE @defname VARCHAR(200), @cmd VARCHAR(2000)
-                SET @defname = (
+                DECLARE @defnameticketfreekey13 VARCHAR(200), @cmdticketfreekey13 VARCHAR(2000)
+                SET @defnameticketfreekey13 = (
                     SELECT name FROM sysobjects so JOIN sysconstraints sc ON so.id = sc.constid
                     WHERE object_name(so.parent_obj) = 'ticket' AND so.xtype = 'D' AND sc.colid = (
                         SELECT colid FROM syscolumns WHERE id = object_id('ticket') AND name = 'freekey13'
                     )
                 )
-                SET @cmd = 'ALTER TABLE ticket DROP CONSTRAINT ' + @defname
-                EXEC(@cmd)
+                SET @cmdticketfreekey13 = 'ALTER TABLE ticket DROP CONSTRAINT ' + @defnameticketfreekey13
+                EXEC(@cmdticketfreekey13)
 ;
-                    DECLARE @sql NVARCHAR(4000)
+                    DECLARE @sqlticketfreekey13 NVARCHAR(4000)
 
                     WHILE 1=1
                     BEGIN
-                        SET @sql = (SELECT TOP 1 'ALTER TABLE ticket DROP CONSTRAINT [' + constraint_name + ']'
+                        SET @sqlticketfreekey13 = (SELECT TOP 1 'ALTER TABLE ticket DROP CONSTRAINT [' + constraint_name + ']'
                         -- SELECT *
                         FROM information_schema.CONSTRAINT_COLUMN_USAGE where table_name='ticket' and column_name='freekey13'
                         )
-                        IF @sql IS NULL BREAK
-                        EXEC (@sql)
+                        IF @sqlticketfreekey13 IS NULL BREAK
+                        EXEC (@sqlticketfreekey13)
                     END
 ;
 -- ----------------------------------------------------------
 --  alter table ticket
 -- ----------------------------------------------------------
 ALTER TABLE ticket DROP COLUMN freekey13;
-                DECLARE @defname VARCHAR(200), @cmd VARCHAR(2000)
-                SET @defname = (
+                DECLARE @defnameticketfreekey14 VARCHAR(200), @cmdticketfreekey14 VARCHAR(2000)
+                SET @defnameticketfreekey14 = (
                     SELECT name FROM sysobjects so JOIN sysconstraints sc ON so.id = sc.constid
                     WHERE object_name(so.parent_obj) = 'ticket' AND so.xtype = 'D' AND sc.colid = (
                         SELECT colid FROM syscolumns WHERE id = object_id('ticket') AND name = 'freekey14'
                     )
                 )
-                SET @cmd = 'ALTER TABLE ticket DROP CONSTRAINT ' + @defname
-                EXEC(@cmd)
+                SET @cmdticketfreekey14 = 'ALTER TABLE ticket DROP CONSTRAINT ' + @defnameticketfreekey14
+                EXEC(@cmdticketfreekey14)
 ;
-                    DECLARE @sql NVARCHAR(4000)
+                    DECLARE @sqlticketfreekey14 NVARCHAR(4000)
 
                     WHILE 1=1
                     BEGIN
-                        SET @sql = (SELECT TOP 1 'ALTER TABLE ticket DROP CONSTRAINT [' + constraint_name + ']'
+                        SET @sqlticketfreekey14 = (SELECT TOP 1 'ALTER TABLE ticket DROP CONSTRAINT [' + constraint_name + ']'
                         -- SELECT *
                         FROM information_schema.CONSTRAINT_COLUMN_USAGE where table_name='ticket' and column_name='freekey14'
                         )
-                        IF @sql IS NULL BREAK
-                        EXEC (@sql)
+                        IF @sqlticketfreekey14 IS NULL BREAK
+                        EXEC (@sqlticketfreekey14)
                     END
 ;
 -- ----------------------------------------------------------
 --  alter table ticket
 -- ----------------------------------------------------------
 ALTER TABLE ticket DROP COLUMN freekey14;
-                DECLARE @defname VARCHAR(200), @cmd VARCHAR(2000)
-                SET @defname = (
+                DECLARE @defnameticketfreekey15 VARCHAR(200), @cmdticketfreekey15 VARCHAR(2000)
+                SET @defnameticketfreekey15 = (
                     SELECT name FROM sysobjects so JOIN sysconstraints sc ON so.id = sc.constid
                     WHERE object_name(so.parent_obj) = 'ticket' AND so.xtype = 'D' AND sc.colid = (
                         SELECT colid FROM syscolumns WHERE id = object_id('ticket') AND name = 'freekey15'
                     )
                 )
-                SET @cmd = 'ALTER TABLE ticket DROP CONSTRAINT ' + @defname
-                EXEC(@cmd)
+                SET @cmdticketfreekey15 = 'ALTER TABLE ticket DROP CONSTRAINT ' + @defnameticketfreekey15
+                EXEC(@cmdticketfreekey15)
 ;
-                    DECLARE @sql NVARCHAR(4000)
+                    DECLARE @sqlticketfreekey15 NVARCHAR(4000)
 
                     WHILE 1=1
                     BEGIN
-                        SET @sql = (SELECT TOP 1 'ALTER TABLE ticket DROP CONSTRAINT [' + constraint_name + ']'
+                        SET @sqlticketfreekey15 = (SELECT TOP 1 'ALTER TABLE ticket DROP CONSTRAINT [' + constraint_name + ']'
                         -- SELECT *
                         FROM information_schema.CONSTRAINT_COLUMN_USAGE where table_name='ticket' and column_name='freekey15'
                         )
-                        IF @sql IS NULL BREAK
-                        EXEC (@sql)
+                        IF @sqlticketfreekey15 IS NULL BREAK
+                        EXEC (@sqlticketfreekey15)
                     END
 ;
 -- ----------------------------------------------------------
 --  alter table ticket
 -- ----------------------------------------------------------
 ALTER TABLE ticket DROP COLUMN freekey15;
-                DECLARE @defname VARCHAR(200), @cmd VARCHAR(2000)
-                SET @defname = (
+                DECLARE @defnameticketfreekey16 VARCHAR(200), @cmdticketfreekey16 VARCHAR(2000)
+                SET @defnameticketfreekey16 = (
                     SELECT name FROM sysobjects so JOIN sysconstraints sc ON so.id = sc.constid
                     WHERE object_name(so.parent_obj) = 'ticket' AND so.xtype = 'D' AND sc.colid = (
                         SELECT colid FROM syscolumns WHERE id = object_id('ticket') AND name = 'freekey16'
                     )
                 )
-                SET @cmd = 'ALTER TABLE ticket DROP CONSTRAINT ' + @defname
-                EXEC(@cmd)
+                SET @cmdticketfreekey16 = 'ALTER TABLE ticket DROP CONSTRAINT ' + @defnameticketfreekey16
+                EXEC(@cmdticketfreekey16)
 ;
-                    DECLARE @sql NVARCHAR(4000)
+                    DECLARE @sqlticketfreekey16 NVARCHAR(4000)
 
                     WHILE 1=1
                     BEGIN
-                        SET @sql = (SELECT TOP 1 'ALTER TABLE ticket DROP CONSTRAINT [' + constraint_name + ']'
+                        SET @sqlticketfreekey16 = (SELECT TOP 1 'ALTER TABLE ticket DROP CONSTRAINT [' + constraint_name + ']'
                         -- SELECT *
                         FROM information_schema.CONSTRAINT_COLUMN_USAGE where table_name='ticket' and column_name='freekey16'
                         )
-                        IF @sql IS NULL BREAK
-                        EXEC (@sql)
+                        IF @sqlticketfreekey16 IS NULL BREAK
+                        EXEC (@sqlticketfreekey16)
                     END
 ;
 -- ----------------------------------------------------------
 --  alter table ticket
 -- ----------------------------------------------------------
 ALTER TABLE ticket DROP COLUMN freekey16;
-                DECLARE @defname VARCHAR(200), @cmd VARCHAR(2000)
-                SET @defname = (
+                DECLARE @defnameticketfreetime1 VARCHAR(200), @cmdticketfreetime1 VARCHAR(2000)
+                SET @defnameticketfreetime1 = (
                     SELECT name FROM sysobjects so JOIN sysconstraints sc ON so.id = sc.constid
                     WHERE object_name(so.parent_obj) = 'ticket' AND so.xtype = 'D' AND sc.colid = (
                         SELECT colid FROM syscolumns WHERE id = object_id('ticket') AND name = 'freetime1'
                     )
                 )
-                SET @cmd = 'ALTER TABLE ticket DROP CONSTRAINT ' + @defname
-                EXEC(@cmd)
+                SET @cmdticketfreetime1 = 'ALTER TABLE ticket DROP CONSTRAINT ' + @defnameticketfreetime1
+                EXEC(@cmdticketfreetime1)
 ;
-                    DECLARE @sql NVARCHAR(4000)
+                    DECLARE @sqlticketfreetime1 NVARCHAR(4000)
 
                     WHILE 1=1
                     BEGIN
-                        SET @sql = (SELECT TOP 1 'ALTER TABLE ticket DROP CONSTRAINT [' + constraint_name + ']'
+                        SET @sqlticketfreetime1 = (SELECT TOP 1 'ALTER TABLE ticket DROP CONSTRAINT [' + constraint_name + ']'
                         -- SELECT *
                         FROM information_schema.CONSTRAINT_COLUMN_USAGE where table_name='ticket' and column_name='freetime1'
                         )
-                        IF @sql IS NULL BREAK
-                        EXEC (@sql)
+                        IF @sqlticketfreetime1 IS NULL BREAK
+                        EXEC (@sqlticketfreetime1)
                     END
 ;
 -- ----------------------------------------------------------
 --  alter table ticket
 -- ----------------------------------------------------------
 ALTER TABLE ticket DROP COLUMN freetime1;
-                DECLARE @defname VARCHAR(200), @cmd VARCHAR(2000)
-                SET @defname = (
+                DECLARE @defnameticketfreetime2 VARCHAR(200), @cmdticketfreetime2 VARCHAR(2000)
+                SET @defnameticketfreetime2 = (
                     SELECT name FROM sysobjects so JOIN sysconstraints sc ON so.id = sc.constid
                     WHERE object_name(so.parent_obj) = 'ticket' AND so.xtype = 'D' AND sc.colid = (
                         SELECT colid FROM syscolumns WHERE id = object_id('ticket') AND name = 'freetime2'
                     )
                 )
-                SET @cmd = 'ALTER TABLE ticket DROP CONSTRAINT ' + @defname
-                EXEC(@cmd)
+                SET @cmdticketfreetime2 = 'ALTER TABLE ticket DROP CONSTRAINT ' + @defnameticketfreetime2
+                EXEC(@cmdticketfreetime2)
 ;
-                    DECLARE @sql NVARCHAR(4000)
+                    DECLARE @sqlticketfreetime2 NVARCHAR(4000)
 
                     WHILE 1=1
                     BEGIN
-                        SET @sql = (SELECT TOP 1 'ALTER TABLE ticket DROP CONSTRAINT [' + constraint_name + ']'
+                        SET @sqlticketfreetime2 = (SELECT TOP 1 'ALTER TABLE ticket DROP CONSTRAINT [' + constraint_name + ']'
                         -- SELECT *
                         FROM information_schema.CONSTRAINT_COLUMN_USAGE where table_name='ticket' and column_name='freetime2'
                         )
-                        IF @sql IS NULL BREAK
-                        EXEC (@sql)
+                        IF @sqlticketfreetime2 IS NULL BREAK
+                        EXEC (@sqlticketfreetime2)
                     END
 ;
 -- ----------------------------------------------------------
 --  alter table ticket
 -- ----------------------------------------------------------
 ALTER TABLE ticket DROP COLUMN freetime2;
-                DECLARE @defname VARCHAR(200), @cmd VARCHAR(2000)
-                SET @defname = (
+                DECLARE @defnameticketfreetime3 VARCHAR(200), @cmdticketfreetime3 VARCHAR(2000)
+                SET @defnameticketfreetime3 = (
                     SELECT name FROM sysobjects so JOIN sysconstraints sc ON so.id = sc.constid
                     WHERE object_name(so.parent_obj) = 'ticket' AND so.xtype = 'D' AND sc.colid = (
                         SELECT colid FROM syscolumns WHERE id = object_id('ticket') AND name = 'freetime3'
                     )
                 )
-                SET @cmd = 'ALTER TABLE ticket DROP CONSTRAINT ' + @defname
-                EXEC(@cmd)
+                SET @cmdticketfreetime3 = 'ALTER TABLE ticket DROP CONSTRAINT ' + @defnameticketfreetime3
+                EXEC(@cmdticketfreetime3)
 ;
-                    DECLARE @sql NVARCHAR(4000)
+                    DECLARE @sqlticketfreetime3 NVARCHAR(4000)
 
                     WHILE 1=1
                     BEGIN
-                        SET @sql = (SELECT TOP 1 'ALTER TABLE ticket DROP CONSTRAINT [' + constraint_name + ']'
+                        SET @sqlticketfreetime3 = (SELECT TOP 1 'ALTER TABLE ticket DROP CONSTRAINT [' + constraint_name + ']'
                         -- SELECT *
                         FROM information_schema.CONSTRAINT_COLUMN_USAGE where table_name='ticket' and column_name='freetime3'
                         )
-                        IF @sql IS NULL BREAK
-                        EXEC (@sql)
+                        IF @sqlticketfreetime3 IS NULL BREAK
+                        EXEC (@sqlticketfreetime3)
                     END
 ;
 -- ----------------------------------------------------------
 --  alter table ticket
 -- ----------------------------------------------------------
 ALTER TABLE ticket DROP COLUMN freetime3;
-                DECLARE @defname VARCHAR(200), @cmd VARCHAR(2000)
-                SET @defname = (
+                DECLARE @defnameticketfreetime4 VARCHAR(200), @cmdticketfreetime4 VARCHAR(2000)
+                SET @defnameticketfreetime4 = (
                     SELECT name FROM sysobjects so JOIN sysconstraints sc ON so.id = sc.constid
                     WHERE object_name(so.parent_obj) = 'ticket' AND so.xtype = 'D' AND sc.colid = (
                         SELECT colid FROM syscolumns WHERE id = object_id('ticket') AND name = 'freetime4'
                     )
                 )
-                SET @cmd = 'ALTER TABLE ticket DROP CONSTRAINT ' + @defname
-                EXEC(@cmd)
+                SET @cmdticketfreetime4 = 'ALTER TABLE ticket DROP CONSTRAINT ' + @defnameticketfreetime4
+                EXEC(@cmdticketfreetime4)
 ;
-                    DECLARE @sql NVARCHAR(4000)
+                    DECLARE @sqlticketfreetime4 NVARCHAR(4000)
 
                     WHILE 1=1
                     BEGIN
-                        SET @sql = (SELECT TOP 1 'ALTER TABLE ticket DROP CONSTRAINT [' + constraint_name + ']'
+                        SET @sqlticketfreetime4 = (SELECT TOP 1 'ALTER TABLE ticket DROP CONSTRAINT [' + constraint_name + ']'
                         -- SELECT *
                         FROM information_schema.CONSTRAINT_COLUMN_USAGE where table_name='ticket' and column_name='freetime4'
                         )
-                        IF @sql IS NULL BREAK
-                        EXEC (@sql)
+                        IF @sqlticketfreetime4 IS NULL BREAK
+                        EXEC (@sqlticketfreetime4)
                     END
 ;
 -- ----------------------------------------------------------
 --  alter table ticket
 -- ----------------------------------------------------------
 ALTER TABLE ticket DROP COLUMN freetime4;
-                DECLARE @defname VARCHAR(200), @cmd VARCHAR(2000)
-                SET @defname = (
+                DECLARE @defnameticketfreetime5 VARCHAR(200), @cmdticketfreetime5 VARCHAR(2000)
+                SET @defnameticketfreetime5 = (
                     SELECT name FROM sysobjects so JOIN sysconstraints sc ON so.id = sc.constid
                     WHERE object_name(so.parent_obj) = 'ticket' AND so.xtype = 'D' AND sc.colid = (
                         SELECT colid FROM syscolumns WHERE id = object_id('ticket') AND name = 'freetime5'
                     )
                 )
-                SET @cmd = 'ALTER TABLE ticket DROP CONSTRAINT ' + @defname
-                EXEC(@cmd)
+                SET @cmdticketfreetime5 = 'ALTER TABLE ticket DROP CONSTRAINT ' + @defnameticketfreetime5
+                EXEC(@cmdticketfreetime5)
 ;
-                    DECLARE @sql NVARCHAR(4000)
+                    DECLARE @sqlticketfreetime5 NVARCHAR(4000)
 
                     WHILE 1=1
                     BEGIN
-                        SET @sql = (SELECT TOP 1 'ALTER TABLE ticket DROP CONSTRAINT [' + constraint_name + ']'
+                        SET @sqlticketfreetime5 = (SELECT TOP 1 'ALTER TABLE ticket DROP CONSTRAINT [' + constraint_name + ']'
                         -- SELECT *
                         FROM information_schema.CONSTRAINT_COLUMN_USAGE where table_name='ticket' and column_name='freetime5'
                         )
-                        IF @sql IS NULL BREAK
-                        EXEC (@sql)
+                        IF @sqlticketfreetime5 IS NULL BREAK
+                        EXEC (@sqlticketfreetime5)
                     END
 ;
 -- ----------------------------------------------------------
 --  alter table ticket
 -- ----------------------------------------------------------
 ALTER TABLE ticket DROP COLUMN freetime5;
-                DECLARE @defname VARCHAR(200), @cmd VARCHAR(2000)
-                SET @defname = (
+                DECLARE @defnameticketfreetime6 VARCHAR(200), @cmdticketfreetime6 VARCHAR(2000)
+                SET @defnameticketfreetime6 = (
                     SELECT name FROM sysobjects so JOIN sysconstraints sc ON so.id = sc.constid
                     WHERE object_name(so.parent_obj) = 'ticket' AND so.xtype = 'D' AND sc.colid = (
                         SELECT colid FROM syscolumns WHERE id = object_id('ticket') AND name = 'freetime6'
                     )
                 )
-                SET @cmd = 'ALTER TABLE ticket DROP CONSTRAINT ' + @defname
-                EXEC(@cmd)
+                SET @cmdticketfreetime6 = 'ALTER TABLE ticket DROP CONSTRAINT ' + @defnameticketfreetime6
+                EXEC(@cmdticketfreetime6)
 ;
-                    DECLARE @sql NVARCHAR(4000)
+                    DECLARE @sqlticketfreetime6 NVARCHAR(4000)
 
                     WHILE 1=1
                     BEGIN
-                        SET @sql = (SELECT TOP 1 'ALTER TABLE ticket DROP CONSTRAINT [' + constraint_name + ']'
+                        SET @sqlticketfreetime6 = (SELECT TOP 1 'ALTER TABLE ticket DROP CONSTRAINT [' + constraint_name + ']'
                         -- SELECT *
                         FROM information_schema.CONSTRAINT_COLUMN_USAGE where table_name='ticket' and column_name='freetime6'
                         )
-                        IF @sql IS NULL BREAK
-                        EXEC (@sql)
+                        IF @sqlticketfreetime6 IS NULL BREAK
+                        EXEC (@sqlticketfreetime6)
                     END
 ;
 -- ----------------------------------------------------------
 --  alter table ticket
 -- ----------------------------------------------------------
 ALTER TABLE ticket DROP COLUMN freetime6;
-                DECLARE @defname VARCHAR(200), @cmd VARCHAR(2000)
-                SET @defname = (
+                DECLARE @defnamearticlea_freetext1 VARCHAR(200), @cmdarticlea_freetext1 VARCHAR(2000)
+                SET @defnamearticlea_freetext1 = (
                     SELECT name FROM sysobjects so JOIN sysconstraints sc ON so.id = sc.constid
                     WHERE object_name(so.parent_obj) = 'article' AND so.xtype = 'D' AND sc.colid = (
                         SELECT colid FROM syscolumns WHERE id = object_id('article') AND name = 'a_freetext1'
                     )
                 )
-                SET @cmd = 'ALTER TABLE article DROP CONSTRAINT ' + @defname
-                EXEC(@cmd)
+                SET @cmdarticlea_freetext1 = 'ALTER TABLE article DROP CONSTRAINT ' + @defnamearticlea_freetext1
+                EXEC(@cmdarticlea_freetext1)
 ;
-                    DECLARE @sql NVARCHAR(4000)
+                    DECLARE @sqlarticlea_freetext1 NVARCHAR(4000)
 
                     WHILE 1=1
                     BEGIN
-                        SET @sql = (SELECT TOP 1 'ALTER TABLE article DROP CONSTRAINT [' + constraint_name + ']'
+                        SET @sqlarticlea_freetext1 = (SELECT TOP 1 'ALTER TABLE article DROP CONSTRAINT [' + constraint_name + ']'
                         -- SELECT *
                         FROM information_schema.CONSTRAINT_COLUMN_USAGE where table_name='article' and column_name='a_freetext1'
                         )
-                        IF @sql IS NULL BREAK
-                        EXEC (@sql)
+                        IF @sqlarticlea_freetext1 IS NULL BREAK
+                        EXEC (@sqlarticlea_freetext1)
                     END
 ;
 -- ----------------------------------------------------------
 --  alter table article
 -- ----------------------------------------------------------
 ALTER TABLE article DROP COLUMN a_freetext1;
-                DECLARE @defname VARCHAR(200), @cmd VARCHAR(2000)
-                SET @defname = (
+                DECLARE @defnamearticlea_freetext2 VARCHAR(200), @cmdarticlea_freetext2 VARCHAR(2000)
+                SET @defnamearticlea_freetext2 = (
                     SELECT name FROM sysobjects so JOIN sysconstraints sc ON so.id = sc.constid
                     WHERE object_name(so.parent_obj) = 'article' AND so.xtype = 'D' AND sc.colid = (
                         SELECT colid FROM syscolumns WHERE id = object_id('article') AND name = 'a_freetext2'
                     )
                 )
-                SET @cmd = 'ALTER TABLE article DROP CONSTRAINT ' + @defname
-                EXEC(@cmd)
+                SET @cmdarticlea_freetext2 = 'ALTER TABLE article DROP CONSTRAINT ' + @defnamearticlea_freetext2
+                EXEC(@cmdarticlea_freetext2)
 ;
-                    DECLARE @sql NVARCHAR(4000)
+                    DECLARE @sqlarticlea_freetext2 NVARCHAR(4000)
 
                     WHILE 1=1
                     BEGIN
-                        SET @sql = (SELECT TOP 1 'ALTER TABLE article DROP CONSTRAINT [' + constraint_name + ']'
+                        SET @sqlarticlea_freetext2 = (SELECT TOP 1 'ALTER TABLE article DROP CONSTRAINT [' + constraint_name + ']'
                         -- SELECT *
                         FROM information_schema.CONSTRAINT_COLUMN_USAGE where table_name='article' and column_name='a_freetext2'
                         )
-                        IF @sql IS NULL BREAK
-                        EXEC (@sql)
+                        IF @sqlarticlea_freetext2 IS NULL BREAK
+                        EXEC (@sqlarticlea_freetext2)
                     END
 ;
 -- ----------------------------------------------------------
 --  alter table article
 -- ----------------------------------------------------------
 ALTER TABLE article DROP COLUMN a_freetext2;
-                DECLARE @defname VARCHAR(200), @cmd VARCHAR(2000)
-                SET @defname = (
+                DECLARE @defnamearticlea_freetext3 VARCHAR(200), @cmdarticlea_freetext3 VARCHAR(2000)
+                SET @defnamearticlea_freetext3 = (
                     SELECT name FROM sysobjects so JOIN sysconstraints sc ON so.id = sc.constid
                     WHERE object_name(so.parent_obj) = 'article' AND so.xtype = 'D' AND sc.colid = (
                         SELECT colid FROM syscolumns WHERE id = object_id('article') AND name = 'a_freetext3'
                     )
                 )
-                SET @cmd = 'ALTER TABLE article DROP CONSTRAINT ' + @defname
-                EXEC(@cmd)
+                SET @cmdarticlea_freetext3 = 'ALTER TABLE article DROP CONSTRAINT ' + @defnamearticlea_freetext3
+                EXEC(@cmdarticlea_freetext3)
 ;
-                    DECLARE @sql NVARCHAR(4000)
+                    DECLARE @sqlarticlea_freetext3 NVARCHAR(4000)
 
                     WHILE 1=1
                     BEGIN
-                        SET @sql = (SELECT TOP 1 'ALTER TABLE article DROP CONSTRAINT [' + constraint_name + ']'
+                        SET @sqlarticlea_freetext3 = (SELECT TOP 1 'ALTER TABLE article DROP CONSTRAINT [' + constraint_name + ']'
                         -- SELECT *
                         FROM information_schema.CONSTRAINT_COLUMN_USAGE where table_name='article' and column_name='a_freetext3'
                         )
-                        IF @sql IS NULL BREAK
-                        EXEC (@sql)
+                        IF @sqlarticlea_freetext3 IS NULL BREAK
+                        EXEC (@sqlarticlea_freetext3)
                     END
 ;
 -- ----------------------------------------------------------
 --  alter table article
 -- ----------------------------------------------------------
 ALTER TABLE article DROP COLUMN a_freetext3;
-                DECLARE @defname VARCHAR(200), @cmd VARCHAR(2000)
-                SET @defname = (
+                DECLARE @defnamearticlea_freekey1 VARCHAR(200), @cmdarticlea_freekey1 VARCHAR(2000)
+                SET @defnamearticlea_freekey1 = (
                     SELECT name FROM sysobjects so JOIN sysconstraints sc ON so.id = sc.constid
                     WHERE object_name(so.parent_obj) = 'article' AND so.xtype = 'D' AND sc.colid = (
                         SELECT colid FROM syscolumns WHERE id = object_id('article') AND name = 'a_freekey1'
                     )
                 )
-                SET @cmd = 'ALTER TABLE article DROP CONSTRAINT ' + @defname
-                EXEC(@cmd)
+                SET @cmdarticlea_freekey1 = 'ALTER TABLE article DROP CONSTRAINT ' + @defnamearticlea_freekey1
+                EXEC(@cmdarticlea_freekey1)
 ;
-                    DECLARE @sql NVARCHAR(4000)
+                    DECLARE @sqlarticlea_freekey1 NVARCHAR(4000)
 
                     WHILE 1=1
                     BEGIN
-                        SET @sql = (SELECT TOP 1 'ALTER TABLE article DROP CONSTRAINT [' + constraint_name + ']'
+                        SET @sqlarticlea_freekey1 = (SELECT TOP 1 'ALTER TABLE article DROP CONSTRAINT [' + constraint_name + ']'
                         -- SELECT *
                         FROM information_schema.CONSTRAINT_COLUMN_USAGE where table_name='article' and column_name='a_freekey1'
                         )
-                        IF @sql IS NULL BREAK
-                        EXEC (@sql)
+                        IF @sqlarticlea_freekey1 IS NULL BREAK
+                        EXEC (@sqlarticlea_freekey1)
                     END
 ;
 -- ----------------------------------------------------------
 --  alter table article
 -- ----------------------------------------------------------
 ALTER TABLE article DROP COLUMN a_freekey1;
-                DECLARE @defname VARCHAR(200), @cmd VARCHAR(2000)
-                SET @defname = (
+                DECLARE @defnamearticlea_freekey2 VARCHAR(200), @cmdarticlea_freekey2 VARCHAR(2000)
+                SET @defnamearticlea_freekey2 = (
                     SELECT name FROM sysobjects so JOIN sysconstraints sc ON so.id = sc.constid
                     WHERE object_name(so.parent_obj) = 'article' AND so.xtype = 'D' AND sc.colid = (
                         SELECT colid FROM syscolumns WHERE id = object_id('article') AND name = 'a_freekey2'
                     )
                 )
-                SET @cmd = 'ALTER TABLE article DROP CONSTRAINT ' + @defname
-                EXEC(@cmd)
+                SET @cmdarticlea_freekey2 = 'ALTER TABLE article DROP CONSTRAINT ' + @defnamearticlea_freekey2
+                EXEC(@cmdarticlea_freekey2)
 ;
-                    DECLARE @sql NVARCHAR(4000)
+                    DECLARE @sqlarticlea_freekey2 NVARCHAR(4000)
 
                     WHILE 1=1
                     BEGIN
-                        SET @sql = (SELECT TOP 1 'ALTER TABLE article DROP CONSTRAINT [' + constraint_name + ']'
+                        SET @sqlarticlea_freekey2 = (SELECT TOP 1 'ALTER TABLE article DROP CONSTRAINT [' + constraint_name + ']'
                         -- SELECT *
                         FROM information_schema.CONSTRAINT_COLUMN_USAGE where table_name='article' and column_name='a_freekey2'
                         )
-                        IF @sql IS NULL BREAK
-                        EXEC (@sql)
+                        IF @sqlarticlea_freekey2 IS NULL BREAK
+                        EXEC (@sqlarticlea_freekey2)
                     END
 ;
 -- ----------------------------------------------------------
 --  alter table article
 -- ----------------------------------------------------------
 ALTER TABLE article DROP COLUMN a_freekey2;
-                DECLARE @defname VARCHAR(200), @cmd VARCHAR(2000)
-                SET @defname = (
+                DECLARE @defnamearticlea_freekey3 VARCHAR(200), @cmdarticlea_freekey3 VARCHAR(2000)
+                SET @defnamearticlea_freekey3 = (
                     SELECT name FROM sysobjects so JOIN sysconstraints sc ON so.id = sc.constid
                     WHERE object_name(so.parent_obj) = 'article' AND so.xtype = 'D' AND sc.colid = (
                         SELECT colid FROM syscolumns WHERE id = object_id('article') AND name = 'a_freekey3'
                     )
                 )
-                SET @cmd = 'ALTER TABLE article DROP CONSTRAINT ' + @defname
-                EXEC(@cmd)
+                SET @cmdarticlea_freekey3 = 'ALTER TABLE article DROP CONSTRAINT ' + @defnamearticlea_freekey3
+                EXEC(@cmdarticlea_freekey3)
 ;
-                    DECLARE @sql NVARCHAR(4000)
+                    DECLARE @sqlarticlea_freekey3 NVARCHAR(4000)
 
                     WHILE 1=1
                     BEGIN
-                        SET @sql = (SELECT TOP 1 'ALTER TABLE article DROP CONSTRAINT [' + constraint_name + ']'
+                        SET @sqlarticlea_freekey3 = (SELECT TOP 1 'ALTER TABLE article DROP CONSTRAINT [' + constraint_name + ']'
                         -- SELECT *
                         FROM information_schema.CONSTRAINT_COLUMN_USAGE where table_name='article' and column_name='a_freekey3'
                         )
-                        IF @sql IS NULL BREAK
-                        EXEC (@sql)
+                        IF @sqlarticlea_freekey3 IS NULL BREAK
+                        EXEC (@sqlarticlea_freekey3)
                     END
 ;
 -- ----------------------------------------------------------

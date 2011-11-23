@@ -2,7 +2,7 @@
 # Kernel/System/DB/mssql.pm - mssql database backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: mssql.pm,v 1.61 2011-09-21 15:12:21 mb Exp $
+# $Id: mssql.pm,v 1.62 2011-11-23 22:55:32 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.61 $) [1];
+$VERSION = qw($Revision: 1.62 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -471,35 +471,38 @@ sub TableAlter {
             # remove possible default
             push @SQL, sprintf(
                 <<END
-                DECLARE \@defname VARCHAR(200), \@cmd VARCHAR(2000)
-                SET \@defname = (
+                DECLARE \@defname%s VARCHAR(200), \@cmd%s VARCHAR(2000)
+                SET \@defname%s = (
                     SELECT name FROM sysobjects so JOIN sysconstraints sc ON so.id = sc.constid
                     WHERE object_name(so.parent_obj) = '%s' AND so.xtype = 'D' AND sc.colid = (
                         SELECT colid FROM syscolumns WHERE id = object_id('%s') AND name = '%s'
                     )
                 )
-                SET \@cmd = 'ALTER TABLE %s DROP CONSTRAINT ' + \@defname
-                EXEC(\@cmd)
+                SET \@cmd%s = 'ALTER TABLE %s DROP CONSTRAINT ' + \@defname%s
+                EXEC(\@cmd%s)
 END
-                , $Table, $Table, $Tag->{Name}, $Table
+                , $Table . $Tag->{Name}, $Table . $Tag->{Name}, $Table . $Tag->{Name}, $Table,
+                $Table, $Tag->{Name}, $Table . $Tag->{Name}, $Table, $Table . $Tag->{Name},
+                $Table . $Tag->{Name},
             );
 
             # remove all possible constrains
             push @SQL, sprintf(
                 <<HEREDOC
-                    DECLARE \@sql NVARCHAR(4000)
+                    DECLARE \@sql%s NVARCHAR(4000)
 
                     WHILE 1=1
                     BEGIN
-                        SET \@sql = (SELECT TOP 1 'ALTER TABLE %s DROP CONSTRAINT [' + constraint_name + ']'
+                        SET \@sql%s = (SELECT TOP 1 'ALTER TABLE %s DROP CONSTRAINT [' + constraint_name + ']'
                         -- SELECT *
                         FROM information_schema.CONSTRAINT_COLUMN_USAGE where table_name='%s' and column_name='%s'
                         )
-                        IF \@sql IS NULL BREAK
-                        EXEC (\@sql)
+                        IF \@sql%s IS NULL BREAK
+                        EXEC (\@sql%s)
                     END
 HEREDOC
-                , $Table, $Table, $Tag->{Name}
+                , $Table . $Tag->{Name}, $Table . $Tag->{Name}, $Table, $Table, $Tag->{Name},
+                $Table . $Tag->{Name}, $Table . $Tag->{Name},
             );
 
             push @SQL, $SQLStart . " DROP COLUMN $Tag->{Name}";
