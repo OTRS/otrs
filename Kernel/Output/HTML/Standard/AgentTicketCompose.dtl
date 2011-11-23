@@ -2,7 +2,7 @@
 # AgentTicketCompose.dtl - provides HTML form for AgentTicketCompose
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.dtl,v 1.95 2011-11-22 19:51:00 cg Exp $
+# $Id: AgentTicketCompose.dtl,v 1.96 2011-11-23 04:36:54 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -361,6 +361,13 @@ $Include{"RichTextEditor"}
                     <label for="StateID">$Text{"Next ticket state"}:</label>
                     <div class="Field">
                         $Data{"NextStatesStrg"}
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+    $('#StateID').bind('change', function (Event) {
+        Core.AJAX.FormUpdate($('#ComposeTicket'), 'AJAXUpdate', 'StateID', [ $Data{"DynamicFieldNamesStrg"} ]);
+    });
+//]]></script>
+<!--dtl:js_on_document_complete-->
                     </div>
                     <div class="Clear"></div>
 
