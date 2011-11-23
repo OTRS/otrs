@@ -2,7 +2,7 @@
 # AgentTicketForward.dtl - provides HTML form for AgentTicketForward
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketForward.dtl,v 1.92 2011-11-01 16:38:15 cr Exp $
+# $Id: AgentTicketForward.dtl,v 1.93 2011-11-23 04:10:19 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,7 +10,7 @@
 # --
 
 $Include{"AgentCustomerSearch"}
-<form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose" id="Compose" class="Validate PreventMultipleSubmits">
+<form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="Compose" id="Compose" class="Validate PreventMultipleSubmits">
     <input type="hidden" name="Action" value="$Env{"Action"}"/>
     <input type="hidden" name="Subaction" value="SendEmail"/>
     <input type="hidden" name="TicketID" value="$QData{"TicketID"}"/>
@@ -158,6 +158,13 @@ $Include{"RichTextEditor"}
                 <label for="ComposeStateID">$Text{"Next ticket state"}:</label>
                 <div class="Field">
                     $Data{"NextStatesStrg"}
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+    $('#ComposeStateID').bind('change', function (Event) {
+        Core.AJAX.FormUpdate($('#Compose'), 'AJAXUpdate', 'ComposeStateID', [ $Data{"DynamicFieldNamesStrg"} ]);
+    });
+//]]></script>
+<!--dtl:js_on_document_complete-->
                 </div>
                 <div class="Clear"></div>
 

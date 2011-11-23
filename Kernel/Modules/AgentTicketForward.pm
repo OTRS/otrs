@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketForward.pm - to forward a message
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketForward.pm,v 1.119 2011-11-15 10:21:22 des Exp $
+# $Id: AgentTicketForward.pm,v 1.120 2011-11-23 04:10:19 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,7 +26,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.119 $) [1];
+$VERSION = qw($Revision: 1.120 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -65,6 +65,9 @@ sub new {
         }
     }
 
+    # ACL compatibility translation
+    $Self->{GetParam}->{NextStateID} = $Self->{StateID}->{ComposeStateID};
+
     # create form id
     if ( !$Self->{GetParam}->{FormID} ) {
         $Self->{GetParam}->{FormID} = $Self->{UploadCacheObject}->FormIDCreate();
@@ -94,6 +97,9 @@ sub Run {
         $Self->{LayoutObject}->ChallengeTokenCheck();
 
         $Output = $Self->SendEmail();
+    }
+    elsif ( $Self->{Subaction} eq 'AJAXUpdate' ) {
+        $Output = $Self->AjaxUpdate();
     }
     else {
         $Output = $Self->Form();
@@ -361,6 +367,7 @@ sub Form {
 
             # set possible values filter from ACLs
             my $ACL = $Self->{TicketObject}->TicketAcl(
+                %GetParam,
                 Action        => $Self->{Action},
                 TicketID      => $Self->{TicketID},
                 Type          => 'DynamicField_' . $DynamicFieldConfig->{Name},
@@ -394,11 +401,10 @@ sub Form {
             Value                => $Value,
             Mandatory =>
                 $Self->{Config}->{DynamicField}->{ $DynamicFieldConfig->{Name} } == 2,
-            LayoutObject => $Self->{LayoutObject},
-            ParamObject  => $Self->{ParamObject},
-
-            # AgentTicketForward does not support AJAXUpdate
-            AJAXUpdate => 0,
+            LayoutObject    => $Self->{LayoutObject},
+            ParamObject     => $Self->{ParamObject},
+            AJAXUpdate      => 1,
+            UpdatableFields => $Self->_GetFieldsToUpdate(),
             );
     }
 
@@ -409,10 +415,12 @@ sub Form {
         Type  => 'Small',
     );
     $Output .= $Self->_Mask(
-        TicketNumber      => $Ticket{TicketNumber},
-        TicketID          => $Self->{TicketID},
-        QueueID           => $Ticket{QueueID},
-        NextStates        => $Self->_GetNextStates(),
+        TicketNumber => $Ticket{TicketNumber},
+        TicketID     => $Self->{TicketID},
+        QueueID      => $Ticket{QueueID},
+        NextStates   => $Self->_GetNextStates(
+            %GetParam,
+        ),
         TimeUnitsRequired => (
             $Self->{ConfigObject}->Get('Ticket::Frontend::NeedAccountedTime')
             ? 'Validate_Required'
@@ -454,6 +462,18 @@ sub SendEmail {
             LayoutObject       => $Self->{LayoutObject},
             );
     }
+
+    # convert dynamic field values into a structure for ACLs
+    my %DynamicFieldACLParameters;
+    DYNAMICFIELD:
+    for my $DynamcField ( keys %DynamicFieldValues ) {
+        next DYNAMICFIELD if !$DynamcField;
+        next DYNAMICFIELD if !$DynamicFieldValues{$DynamcField};
+
+        $DynamicFieldACLParameters{ 'DynamicField_' . $DynamcField }
+            = $DynamicFieldValues{$DynamcField};
+    }
+    $GetParam{DynamicField} = \%DynamicFieldACLParameters;
 
     my $QueueID   = $Self->{QueueID};
     my %StateData = ();
@@ -527,6 +547,7 @@ sub SendEmail {
 
             # set possible values filter from ACLs
             my $ACL = $Self->{TicketObject}->TicketAcl(
+                %GetParam,
                 Action        => $Self->{Action},
                 TicketID      => $Self->{TicketID},
                 Type          => 'DynamicField_' . $DynamicFieldConfig->{Name},
@@ -573,9 +594,8 @@ sub SendEmail {
             ErrorMessage => $ValidationResult->{ErrorMessage} || '',
             LayoutObject => $Self->{LayoutObject},
             ParamObject  => $Self->{ParamObject},
-
-            # AgentTicketForward does not support AJAXUpdate
-            AJAXUpdate => 0,
+            AJAXUpdate   => 1,
+            UpdatableFields => $Self->_GetFieldsToUpdate(),
             );
     }
 
@@ -683,10 +703,12 @@ sub SendEmail {
             Type  => 'Small',
         );
         $Output .= $Self->_Mask(
-            TicketNumber     => $TicketNumber,
-            TicketID         => $Self->{TicketID},
-            QueueID          => $QueueID,
-            NextStates       => $Self->_GetNextStates(),
+            TicketNumber => $TicketNumber,
+            TicketID     => $Self->{TicketID},
+            QueueID      => $QueueID,
+            NextStates   => $Self->_GetNextStates(
+                %GetParam,
+            ),
             Errors           => \%Error,
             Attachments      => \@Attachments,
             DynamicFieldHTML => \%DynamicFieldHTML,
@@ -857,11 +879,113 @@ sub SendEmail {
     );
 }
 
+sub AjaxUpdate {
+    my ( $Self, %Param ) = @_;
+
+    my %Error;
+    my %GetParam = %{ $Self->{GetParam} };
+
+    my %DynamicFieldValues;
+
+    # cycle trough the activated Dynamic Fields for this screen
+    DYNAMICFIELD:
+    for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
+        next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+
+        # extract the dynamic field value form the web request
+        $DynamicFieldValues{ $DynamicFieldConfig->{Name} } =
+            $Self->{BackendObject}->EditFieldValueGet(
+            DynamicFieldConfig => $DynamicFieldConfig,
+            ParamObject        => $Self->{ParamObject},
+            LayoutObject       => $Self->{LayoutObject},
+            );
+    }
+
+    # convert dynamic field values into a structure for ACLs
+    my %DynamicFieldACLParameters;
+    DYNAMICFIELD:
+    for my $DynamcField ( keys %DynamicFieldValues ) {
+        next DYNAMICFIELD if !$DynamcField;
+        next DYNAMICFIELD if !$DynamicFieldValues{$DynamcField};
+
+        $DynamicFieldACLParameters{ 'DynamicField_' . $DynamcField }
+            = $DynamicFieldValues{$DynamcField};
+    }
+    $GetParam{DynamicField} = \%DynamicFieldACLParameters;
+
+    my $NextStates = $Self->_GetNextStates(
+        %GetParam,
+    );
+
+    # update Dynamc Fields Possible Values via AJAX
+    my @DynamicFieldAJAX;
+
+    # cycle trough the activated Dynamic Fields for this screen
+    DYNAMICFIELD:
+    for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
+        next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+        next DYNAMICFIELD
+            if !IsHashRefWithData( $DynamicFieldConfig->{Config}->{PossibleValues} );
+
+        my $PossibleValues = $DynamicFieldConfig->{Config}->{PossibleValues};
+
+        # set possible values filter from ACLs
+        my $ACL = $Self->{TicketObject}->TicketAcl(
+            %GetParam,
+            Action        => $Self->{Action},
+            TicketID      => $Self->{TicketID},
+            QueueID       => $Self->{QueueID},
+            Type          => 'DynamicField_' . $DynamicFieldConfig->{Name},
+            ReturnType    => 'Ticket',
+            ReturnSubType => 'DynamicField_' . $DynamicFieldConfig->{Name},
+            Data          => $DynamicFieldConfig->{Config}->{PossibleValues},
+            UserID        => $Self->{UserID},
+        );
+        if ($ACL) {
+            my %Filter = $Self->{TicketObject}->TicketAclData();
+            $PossibleValues = \%Filter;
+        }
+
+        # add dynamic field to the list of fields to update
+        push(
+            @DynamicFieldAJAX,
+            {
+                Name        => 'DynamicField_' . $DynamicFieldConfig->{Name},
+                Data        => $PossibleValues,
+                SelectedID  => $DynamicFieldValues{ $DynamicFieldConfig->{Name} },
+                Translation => $DynamicFieldConfig->{Config}->{TranslatableValues} || 0,
+                Max         => 100,
+            }
+        );
+    }
+
+    my $JSON = $Self->{LayoutObject}->BuildSelectionJSON(
+        [
+            {
+                Name         => 'ComposeStateID',
+                Data         => $NextStates,
+                SelectedID   => $GetParam{ComposeStateID},
+                Translation  => 1,
+                PossibleNone => 1,
+                Max          => 100,
+            },
+            @DynamicFieldAJAX,
+        ],
+    );
+    return $Self->{LayoutObject}->Attachment(
+        ContentType => 'application/json; charset=' . $Self->{LayoutObject}->{Charset},
+        Content     => $JSON,
+        Type        => 'inline',
+        NoCache     => 1,
+    );
+}
+
 sub _GetNextStates {
     my ( $Self, %Param ) = @_;
 
     # get next states
     my %NextStates = $Self->{TicketObject}->TicketStateList(
+        %Param,
         Action   => $Self->{Action},
         TicketID => $Self->{TicketID},
         UserID   => $Self->{UserID},
@@ -872,8 +996,24 @@ sub _GetNextStates {
 sub _Mask {
     my ( $Self, %Param ) = @_;
 
-    # add none selection to the list
-    $Param{NextStates}->{''} = '-';
+    my $DynamicFieldNames = $Self->_GetFieldsToUpdate(
+        OnlyDynamicFields => 1
+    );
+
+    # create a string with the quoted dynamic field names separated by a commas
+    if ( IsArrayRefWithData($DynamicFieldNames) ) {
+        my $FirstItem = 1;
+        FIELD:
+        for my $Field ( @{$DynamicFieldNames} ) {
+            if ($FirstItem) {
+                $FirstItem = 0;
+            }
+            else {
+                $Param{DynamicFieldNamesStrg} .= ', ';
+            }
+            $Param{DynamicFieldNamesStrg} .= "'" . $Field . "'";
+        }
+    }
 
     # build next states string
     my %State;
@@ -885,8 +1025,9 @@ sub _Mask {
     }
 
     $Param{NextStatesStrg} = $Self->{LayoutObject}->BuildSelection(
-        Data => $Param{NextStates},
-        Name => 'ComposeStateID',
+        Data         => $Param{NextStates},
+        Name         => 'ComposeStateID',
+        PossibleNone => 1,
         %State,
     );
     my %ArticleTypes;
@@ -1064,6 +1205,33 @@ sub _Mask {
 
     # create & return output
     return $Self->{LayoutObject}->Output( TemplateFile => 'AgentTicketForward', Data => \%Param );
+}
+
+sub _GetFieldsToUpdate {
+    my ( $Self, %Param ) = @_;
+
+    my @UpdatableFields;
+
+    # set the fields that can be updatable via AJAXUpdate
+    if ( !$Param{OnlyDynamicFields} ) {
+        @UpdatableFields = qw( ComposeStateID );
+    }
+
+    # cycle trough the activated Dynamic Fields for this screen
+    DYNAMICFIELD:
+    for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
+        next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+
+        my $Updateable = $Self->{BackendObject}->IsAJAXUpdateable(
+            DynamicFieldConfig => $DynamicFieldConfig,
+        );
+
+        next DYNAMICFIELD if !$Updateable;
+
+        push @UpdatableFields, 'DynamicField_' . $DynamicFieldConfig->{Name};
+    }
+
+    return \@UpdatableFields;
 }
 
 1;
