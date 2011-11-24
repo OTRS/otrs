@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.208 2011-11-24 12:25:55 cr Exp $
+# $Id: AgentTicketPhone.pm,v 1.209 2011-11-24 12:40:19 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,7 +26,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.208 $) [1];
+$VERSION = qw($Revision: 1.209 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -214,7 +214,8 @@ sub Run {
 
         # store last queue screen
         if (
-            $Self->{LastScreenOverview} !~ /Action=AgentTicketPhone/
+            $Self->{LastScreenOverview}
+            && $Self->{LastScreenOverview} !~ /Action=AgentTicketPhone/
             && $Self->{RequestedURL} !~ /Action=AgentTicketPhone.*LinkTicketID=/
             )
         {
