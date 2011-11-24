@@ -2,7 +2,7 @@
 # AgentTicketActionCommon.dtl - provides common HTML form for several masks
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketActionCommon.dtl,v 1.63 2011-11-21 22:56:31 cr Exp $
+# $Id: AgentTicketActionCommon.dtl,v 1.64 2011-11-24 12:45:07 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -90,6 +90,13 @@
                     $Data{"TypeStrg"}
                     <div id="TypeIDError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
                     <div id="TypeIDServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+$('#TypeID').bind('change', function (Event) {
+    Core.AJAX.FormUpdate($('#Compose'), 'AJAXUpdate', 'TypeID', [ 'ServiceID', 'SLAID', 'NewOwnerID', 'OldOwnerID', 'NewResponsibleID', 'NewStateID', 'NewPriorityID', $Data{"DynamicFieldNamesStrg"} ]);
+});
+//]]></script>
+<!--dtl:js_on_document_complete-->
                 </div>
                 <div class="Clear"></div>
 <!-- dtl:block:Type -->
