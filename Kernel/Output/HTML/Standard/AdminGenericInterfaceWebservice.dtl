@@ -2,7 +2,7 @@
 # AdminGenericInterfaceWebservice.dtl - provides HTML form for AdminGenericInterfaceWebservice
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceWebservice.dtl,v 1.38 2011-11-21 12:20:20 mg Exp $
+# $Id: AdminGenericInterfaceWebservice.dtl,v 1.39 2011-11-24 06:55:22 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -347,12 +347,32 @@
 <!-- dtl:block:DetailsActionsRow -->
                                     <tr>
                                         <td>
+<!-- dtl:block:DetailsActionsRowLink -->
                                             <a class="AsBlock HideLinkOnChange" href="$Env{"Baselink"}Action=$LQData{"Module"};$LQData{"ActionType"}=$LQData{"Name"};Subaction=Change;WebserviceID=$LQData{"WebserviceID"};Nav=$LQData{"Nav"}">
                                                 $QData{"Name"}
                                             </a>
+<!-- dtl:block:DetailsActionsRowLink -->
+<!-- dtl:block:DetailsActionsRowDelete -->
+                                            <a id="Delete$QData{"ActionType"}$QData{"Name"}" class="TrashCan Delete$QData{"ActionType"}" href="#" title="$Text{"Delete this action"}">
+                                                $Text{"Delete this action"}
+                                            </a>
+                                            <span>
+                                                $QData{"Name"}
+                                            </span>
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+    Core.Agent.Admin.GenericInterfaceWebservice.BindDeleteActiontDialog({
+        ElementID:                  'Delete$QData{"ActionType"}$QData{"Name"}',
+        ActionName:                 '$QData{"Name"}',
+        ActionType:                 '$QData{"ActionType"}',
+        ElementSelector:            '#Delete$QData{"ActionType"}$QData{"Name"}'
+    });
+//]]></script>
+<!--dtl:js_on_document_complete-->
+<!-- dtl:block:DetailsActionsRowDelete -->
                                         </td>
                                         <td>$Text{"$Data{"Description"}"}</td>
-                                        <td>$QData{"Controller"}</td>
+                                        <td class="$QData{"ControllerClass"}">$QData{"Controller"}</td>
                                         <td>$Text{"$Data{"MappingInbound"}"}</td>
                                         <td>$Text{"$Data{"MappingOutbound"}"}</td>
                                     </tr>
@@ -366,6 +386,12 @@
 <!-- dtl:block:DetailsActionsNoDataFoundMsg -->
                                 </tbody>
                             </table>
+<!-- dtl:block:DetailsActionsNoControllerFoundMsg -->
+                            <div class="SpacingTop"></div>
+                            <p class="Error">
+                                $Text{"At least one %s has a controller that is either not active or not present, please check the controller registration or delete the %s", "$Data{"ActionType"}", "$Data{"ActionType"}"}
+                            </p>
+<!-- dtl:block:DetailsActionsNoControllerFoundMsg -->
                             <div class="SpacingTop"></div>
                             <fieldset class="TableLike">
                                 <label class="HideOnChange" for="$QData{"ActionType"}List">$Text{"Add"} $Text{"$Data{"ActionType"}"}:</label>
@@ -401,6 +427,21 @@ $('#SaveAndFinishButton').bind('click', function(){
             </div>
         </div>
 
+        <div class="Hidden" id="DeleteOperationDialogContainer">
+            <div id ="DeleteOperationDialog" class="InnerContent GenericInterfaceDialog">
+                <span class="WarningDialog ">&nbsp;</span>
+                <p class="Center Warning">$Text{"Do you really want to delete this operation?"}</p>
+                <div class="SpacingTop"></div>
+            </div>
+        </div>
+
+        <div class="Hidden" id="DeleteInvokerDialogContainer">
+            <div id ="DeleteInvokerDialog" class="InnerContent GenericInterfaceDialog">
+                <span class="WarningDialog ">&nbsp;</span>
+                <p class="Center Warning">$Text{"Do you really want to delete this invoker?"}</p>
+                <div class="SpacingTop"></div>
+            </div>
+        </div>
 
 <!-- dtl:block:Details -->
     </div>
@@ -415,6 +456,8 @@ Core.Agent.Admin.GenericInterfaceWebservice.Init({
     Localization: {
         CommunicationErrorMsg: '$JSText{"An error occurred during communication."}',
         DeleteWebserviceMsg: '$JSText{"Delete webservice"}',
+        DeleteOperationMsg: '$JSText{"Delete operation"}',
+        DeleteInvokerMsg: '$JSText{"Delete invoker"}',
         CloneWebserviceMsg: '$JSText{"Clone webservice"}',
         ImportWebserviceMsg: '$JSText{"Import webservice"}',
         DeleteMsg: '$JSText{"Delete"}',

@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericInterfaceWebservice.pm - provides a webservice view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceWebservice.pm,v 1.32 2011-11-21 12:20:20 mg Exp $
+# $Id: AdminGenericInterfaceWebservice.pm,v 1.33 2011-11-24 06:55:22 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.32 $) [1];
+$VERSION = qw($Revision: 1.33 $) [1];
 
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::GenericInterface::Webservice;
@@ -570,6 +570,16 @@ sub Run {
     }
 
     # ------------------------------------------------------------ #
+    # subaction DeleteAction: delete an operation or invoker
+    # ------------------------------------------------------------ #
+    elsif ( $Self->{Subaction} eq 'DeleteAction' ) {
+
+        return $Self->_DeleteAction(
+            WebserviceID => $WebserviceID,
+        );
+    }
+
+    # ------------------------------------------------------------ #
     # default: show start screen
     # ------------------------------------------------------------ #
 
@@ -956,6 +966,9 @@ sub _ShowEdit {
             Name => 'DetailsCommunicationTypeActionsExplanation' . $CommunicationType,
         );
 
+        # flag to display a message if at leat one controller was not found
+        my $NoControllerFound;
+
         if ( !IsHashRefWithData( $CommTypeConfig{$CommunicationType}->{ActionsConfig} ) ) {
             $Self->{LayoutObject}->Block(
                 Name => 'DetailsActionsNoDataFoundMsg',
@@ -965,7 +978,10 @@ sub _ShowEdit {
         else {
 
             # output Opertions and Invokers tables
-            for my $ActionName ( keys %{ $CommTypeConfig{$CommunicationType}->{ActionsConfig} } ) {
+            for my $ActionName (
+                sort keys %{ $CommTypeConfig{$CommunicationType}->{ActionsConfig} }
+                )
+            {
 
                 # get control information
                 my $ActionDetails
@@ -982,15 +998,52 @@ sub _ShowEdit {
                     ActionType      => $CommTypeConfig{$CommunicationType}->{ActionType},
                 );
 
+                my $ControllerClass = '';
+                if ( !$GIControllers{ $ActionData{Controller} } ) {
+                    $NoControllerFound = 1;
+                    $ControllerClass   = 'Error',
+                }
+
                 $Self->{LayoutObject}->Block(
                     Name => 'DetailsActionsRow',
                     Data => {
                         %Param,
                         %ActionData,
+                        ControllerClass => $ControllerClass,
                     },
                 );
+
+                if ( !$GIControllers{ $ActionData{Controller} } ) {
+                    $Self->{LayoutObject}->Block(
+                        Name => 'DetailsActionsRowDelete',
+                        Data => {
+                            %Param,
+                            %ActionData,
+                        },
+                    );
+                }
+                else {
+                    $Self->{LayoutObject}->Block(
+                        Name => 'DetailsActionsRowLink',
+                        Data => {
+                            %Param,
+                            %ActionData,
+                        },
+                    );
+                }
             }
         }
+
+        if ($NoControllerFound) {
+            $Self->{LayoutObject}->Block(
+                Name => 'DetailsActionsNoControllerFoundMsg',
+                Data => {
+                    %Param,
+                    ActionType => lc $CommTypeConfig{$CommunicationType}->{ActionType},
+                },
+            );
+        }
+
     }
 
     $Output .= $Self->{LayoutObject}->Output(
@@ -1063,6 +1116,58 @@ sub _UpdateConfiguration {
     # it could be that newwer otrs versions has different configuration options
     # migration from previos version sould be automatic and needs to be done here
     return $Configuration;
+}
+
+sub _DeleteAction {
+    my ( $Self, %Param ) = @_;
+
+    # get webserice configuration
+    my $WebserviceData = $Self->{WebserviceObject}->WebserviceGet( ID => $Param{WebserviceID} );
+
+    # get needed params
+    my $ActionType = $Self->{ParamObject}->GetParam( Param => 'ActionType' );
+    my $ActionName = $Self->{ParamObject}->GetParam( Param => 'ActionName' );
+
+    # set the communication type to Provider or Requester
+    my $CommunicationType = $ActionType eq 'Operation' ? 'Provider' : 'Requester';
+
+    return if !$WebserviceData->{Config}->{$CommunicationType}->{$ActionType};
+
+    # get the configuration config for the comunnication type (all operations or all invokers)
+    my %ActionTypeConfig = %{ $WebserviceData->{Config}->{$CommunicationType}->{$ActionType} };
+
+    my $Success;
+
+    # delete communication type
+    if ( $ActionTypeConfig{$ActionName} ) {
+        delete $ActionTypeConfig{$ActionName};
+
+        # update webservice configuration
+        my %Config = %{ $WebserviceData->{Config} };
+        $Config{$CommunicationType}->{$ActionType} = \%ActionTypeConfig;
+
+        # update webservice
+        $Success = $Self->{WebserviceObject}->WebserviceUpdate(
+            %{$WebserviceData},
+            Config => \%Config,
+            UserID => $Self->{UserID},
+        );
+    }
+
+    # build JSON output
+    my $JSON = $Self->{LayoutObject}->JSONEncode(
+        Data => {
+            Success => $Success,
+        },
+    );
+
+    # send JSON response
+    return $Self->{LayoutObject}->Attachment(
+        ContentType => 'application/json; charset=' . $Self->{LayoutObject}->{Charset},
+        Content     => $JSON,
+        Type        => 'inline',
+        NoCache     => 1,
+    );
 }
 
 1;

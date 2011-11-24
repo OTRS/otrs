@@ -2,7 +2,7 @@
 // Core.Agent.Admin.SysGenericInterfaceWebservice.js - provides the special module functions for the GenericInterface webservice.
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.GenericInterfaceWebservice.js,v 1.12 2011-07-27 16:07:39 cr Exp $
+// $Id: Core.Agent.Admin.GenericInterfaceWebservice.js,v 1.13 2011-11-24 06:55:22 cr Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -22,6 +22,13 @@ Core.Agent.Admin = Core.Agent.Admin || {};
  *      This namespace contains the special module functions for the GenericInterface webservice module.
  */
 Core.Agent.Admin.GenericInterfaceWebservice = (function (TargetNS) {
+
+    /**
+     * @variable
+     * @private
+     *     This variable stores the parameters that are passed from the DTL and contain all the data that the dialog needs.
+     */
+    var DialogData = [];
 
     TargetNS.HideElements = function(){
         $('button.HideActionOnChange').parent().hide();
@@ -181,6 +188,87 @@ Core.Agent.Admin.GenericInterfaceWebservice = (function (TargetNS) {
             window.location.href = Core.Config.Get('Baselink') + 'Action=' + Action + ';Subaction=Add' + Parameters + ';WebserviceID=' + TargetNS.WebserviceID;
 
         }
+    };
+
+
+    /**
+     * @function
+     * @param {EventObject} event object of the clicked element.
+     * @return nothing
+     *      This function shows a confirmation dialog with 2 buttons
+     */
+    TargetNS.ShowDeleteActionDialog = function(Event){
+        var LocalDialogData, ActionType, DialogTitle;
+
+        // get global saved DialogData for this function
+        LocalDialogData = DialogData[$(Event.target).attr('id')];
+        if ($(Event.target).hasClass('DeleteOperation')) {
+            ActionType = 'Operation';
+            DialogTitle = TargetNS.Localization.DeleteOperationMsg
+        }
+        else {
+            ActionType = 'Invoker';
+            DialogTitle = TargetNS.Localization.DeleteInvokerMsg
+        }
+
+        Core.UI.Dialog.ShowContentDialog(
+            $('#Delete'+ ActionType + 'DialogContainer'),
+            DialogTitle,
+            '240px',
+            'Center',
+            true,
+            [
+               {
+                   Label: TargetNS.Localization.CancelMsg,
+                   Class: 'Primary',
+                   Function: function () {
+                       Core.UI.Dialog.CloseDialog($('#Delete' + ActionType + 'Dialog'));
+                   }
+               },
+               {
+                   Label: TargetNS.Localization.DeleteMsg,
+                   Function: function () {
+                       var Data = {
+                            Action: 'AdminGenericInterfaceWebservice',
+                            Subaction: 'DeleteAction',
+                            WebserviceID: TargetNS.WebserviceID,
+                            ActionType: LocalDialogData.ActionType,
+                            ActionName: LocalDialogData.ActionName
+                        };
+                        Core.AJAX.FunctionCall(Core.Config.Get('CGIHandle'), Data, function (Response) {
+                            if (!Response || !Response.Success) {
+                                alert(TargetNS.Localization.CommunicationErrorMsg);
+                                return;
+                            }
+
+                          //  window.location.href =Core.Config.Get('Baselink') + 'Action=' + Data.Action + ';Subaction=' + Data.Subaction + ';ActionType=' + Data.ActionType + ';ActionName=' + Data.ActionName + ';WebserviceID=' + TargetNS.WebserviceID;
+                           window.location.href =Core.Config.Get('Baselink') + 'Action=' + Data.Action + ';Subaction=Change;WebserviceID=' + TargetNS.WebserviceID;
+
+                        }, 'json');
+
+                       Core.UI.Dialog.CloseDialog($('#Delete' + ActionType + 'Dialog'));
+                   }
+               }
+           ]
+        );
+
+        Event.stopPropagation();
+        Event.preventDefault();
+    };
+
+    /**
+     * @function
+     * @param {Object} Data a control structure that contains the jQueryObjectID,
+     * jQueryObjectSelector the ActionType and the ActionName.
+     * @return nothing
+     *      This function binds a "trash can" link from the action table to the
+     *      function that opens a dialog to delete the action
+     */
+    TargetNS.BindDeleteActiontDialog = function (Data) {
+        DialogData[Data.ElementID] = Data;
+
+        // binding a click event to the defined element
+        $(DialogData[Data.ElementID].ElementSelector).bind('click', TargetNS.ShowDeleteActionDialog);
     };
 
     return TargetNS;
