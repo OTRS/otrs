@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/DashboardTicketStatsGeneric.pm
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardTicketStatsGeneric.pm,v 1.18 2010-11-01 15:41:28 mb Exp $
+# $Id: DashboardTicketStatsGeneric.pm,v 1.19 2011-11-24 10:22:50 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -106,7 +106,7 @@ sub Run {
             Permission => $Self->{Config}->{Permission} || 'ro',
             UserID => $Self->{UserID},
         );
-        if ( $CountCreated > $Max ) {
+        if ( $CountCreated && $CountCreated > $Max ) {
             $Max = $CountCreated;
         }
         push @TicketsCreated, [ 6 - $Key, $CountCreated ];
@@ -129,7 +129,7 @@ sub Run {
             Permission => $Self->{Config}->{Permission} || 'ro',
             UserID => $Self->{UserID},
         );
-        if ( $CountClosed > $Max ) {
+        if ( $CountClosed && $CountClosed > $Max ) {
             $Max = $CountClosed;
         }
         push @TicketsClosed, [ 6 - $Key, $CountClosed ];
