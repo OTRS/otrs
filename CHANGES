@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2045 2011-11-24 06:58:18 cr Exp $
+# $Id: CHANGES,v 1.2046 2011-11-24 07:02:37 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.1.0 beta2 ????-??-??
+ - 2011-11-23 Fixed bug#7926 - AJAX refresh does not work on some fields.
  - 2011-11-24 Fixed bug#7931 - Operations and Invokers can't be deleted from web service if the
     Controller is not present or not  registered.
  - 2011-11-23 Fixed bug#7921 - Running DBUpdate-to-3.1-post.mssql.sql on Microsoft SQL Server
