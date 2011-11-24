@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/TicketOverviewPreview.pm
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketOverviewPreview.pm,v 1.61 2011-11-06 15:36:28 cr Exp $
+# $Id: TicketOverviewPreview.pm,v 1.62 2011-11-24 15:56:03 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.61 $) [1];
+$VERSION = qw($Revision: 1.62 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -244,10 +244,11 @@ sub _Show {
 
     # collect params for ArticleGet
     my %ArticleGetParams = (
-        TicketID => $Param{TicketID},
-        UserID   => $Self->{UserID},
-        Order    => 'DESC',
-        Limit    => 5,
+        TicketID      => $Param{TicketID},
+        UserID        => $Self->{UserID},
+        DynamicFields => 0,
+        Order         => 'DESC',
+        Limit         => 5,
     );
 
     # check if certain article sender types should be excluded from preview
@@ -265,8 +266,10 @@ sub _Show {
     }
 
     # get last 5 articles
-    my @ArticleBody  = $Self->{TicketObject}->ArticleGet(%ArticleGetParams);
-    my %Article      = %{ $ArticleBody[0] || {} };
+    my @ArticleBody = $Self->{TicketObject}->ArticleGet(
+        %ArticleGetParams
+    );
+    my %Article = %{ $ArticleBody[0] || {} };
     my $ArticleCount = scalar @ArticleBody;
 
     # user info

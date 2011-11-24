@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/TicketOverviewSmall.pm
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketOverviewSmall.pm,v 1.48 2011-11-06 15:36:28 cr Exp $
+# $Id: TicketOverviewSmall.pm,v 1.49 2011-11-24 15:56:03 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.48 $) [1];
+$VERSION = qw($Revision: 1.49 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -151,7 +151,8 @@ sub Run {
 
             # get last customer article
             my %Article = $Self->{TicketObject}->ArticleLastCustomerArticle(
-                TicketID => $TicketID,
+                TicketID      => $TicketID,
+                DynamicFields => 0,
             );
 
             # prepare subject
