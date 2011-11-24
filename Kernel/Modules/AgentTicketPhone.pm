@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.207 2011-11-23 18:12:46 cr Exp $
+# $Id: AgentTicketPhone.pm,v 1.208 2011-11-24 12:25:55 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,7 +26,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.207 $) [1];
+$VERSION = qw($Revision: 1.208 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -92,7 +92,8 @@ sub Run {
     }
 
     # ACL compatibility translation
-    $GetParam{OwnerID} = $GetParam{NewUserID};
+    my %ACLCompatGetParam;
+    $ACLCompatGetParam{OwnerID} = $GetParam{NewUserID};
 
     # If is an action about attachments
     my $IsUpload = ( $Self->{ParamObject}->GetParam( Param => 'AttachmentUpload' ) ? 1 : 0 );
@@ -321,6 +322,7 @@ sub Run {
                 # set possible values filter from ACLs
                 my $ACL = $Self->{TicketObject}->TicketAcl(
                     %GetParam,
+                    %ACLCompatGetParam,
                     Action        => $Self->{Action},
                     Type          => 'DynamicField_' . $DynamicFieldConfig->{Name},
                     ReturnType    => 'Ticket',
@@ -407,11 +409,13 @@ sub Run {
         # html output
         my $Services = $Self->_GetServices(
             %GetParam,
+            %ACLCompatGetParam,
             CustomerUserID => $CustomerData{UserLogin} || '',
             QueueID        => $Self->{QueueID}         || 1,
         );
         my $SLAs = $Self->_GetSLAs(
             %GetParam,
+            %ACLCompatGetParam,
             CustomerUserID => $CustomerData{UserLogin} || '',
             QueueID        => $Self->{QueueID}         || 1,
             Services       => $Services,
@@ -420,16 +424,19 @@ sub Run {
             QueueID    => $Self->{QueueID},
             NextStates => $Self->_GetNextStates(
                 %GetParam,
+                %ACLCompatGetParam,
                 CustomerUserID => $CustomerData{UserLogin} || '',
                 QueueID        => $Self->{QueueID}         || 1,
             ),
             Priorities => $Self->_GetPriorities(
                 %GetParam,
+                %ACLCompatGetParam,
                 CustomerUserID => $CustomerData{UserLogin} || '',
                 QueueID        => $Self->{QueueID}         || 1,
             ),
             Types => $Self->_GetTypes(
                 %GetParam,
+                %ACLCompatGetParam,
                 CustomerUserID => $CustomerData{UserLogin} || '',
                 QueueID        => $Self->{QueueID}         || 1,
             ),
@@ -437,14 +444,17 @@ sub Run {
             SLAs     => $SLAs,
             Users    => $Self->_GetUsers(
                 %GetParam,
+                %ACLCompatGetParam,
                 QueueID => $Self->{QueueID}
             ),
             ResponsibleUsers => $Self->_GetResponsibles(
                 %GetParam,
+                %ACLCompatGetParam,
                 QueueID => $Self->{QueueID}
             ),
             To => $Self->_GetTos(
                 %GetParam,
+                %ACLCompatGetParam,
                 CustomerUserID => $CustomerData{UserLogin} || '',
                 QueueID => $Self->{QueueID},
             ),
@@ -790,6 +800,7 @@ sub Run {
             # get services
             my $Services = $Self->_GetServices(
                 %GetParam,
+                %ACLCompatGetParam,
                 CustomerUserID => $CustomerUser || '',
                 QueueID        => $NewQueueID   || 1,
             );
@@ -801,6 +812,7 @@ sub Run {
 
             my $SLAs = $Self->_GetSLAs(
                 %GetParam,
+                %ACLCompatGetParam,
                 CustomerUserID => $CustomerUser || $SelectedCustomerUser || '',
                 QueueID        => $NewQueueID   || 1,
                 Services       => $Services,
@@ -815,29 +827,34 @@ sub Run {
                 QueueID => $Self->{QueueID},
                 Users   => $Self->_GetUsers(
                     %GetParam,
+                    %ACLCompatGetParam,
                     QueueID  => $NewQueueID,
                     AllUsers => $GetParam{OwnerAll},
                 ),
                 UserSelected     => $GetParam{NewUserID},
                 ResponsibleUsers => $Self->_GetResponsibles(
                     %GetParam,
+                    %ACLCompatGetParam,
                     QueueID  => $NewQueueID,
                     AllUsers => $GetParam{ResponsibleAll}
                 ),
                 ResponsibleUserSelected => $GetParam{NewResponsibleID},
                 NextStates              => $Self->_GetNextStates(
                     %GetParam,
+                    %ACLCompatGetParam,
                     CustomerUserID => $CustomerUser || $SelectedCustomerUser || '',
                     QueueID => $NewQueueID || 1,
                 ),
                 NextState  => $NextState,
                 Priorities => $Self->_GetPriorities(
                     %GetParam,
+                    %ACLCompatGetParam,
                     CustomerUserID => $CustomerUser || $SelectedCustomerUser || '',
                     QueueID => $NewQueueID || 1,
                 ),
                 Types => $Self->_GetTypes(
                     %GetParam,
+                    %ACLCompatGetParam,
                     CustomerUserID => $CustomerUser || $SelectedCustomerUser || '',
                     QueueID => $NewQueueID || 1,
                 ),
@@ -848,6 +865,7 @@ sub Run {
                 CustomerData => \%CustomerData,
                 To           => $Self->_GetTos(
                     %GetParam,
+                    %ACLCompatGetParam,
                     QueueID => $NewQueueID
                 ),
                 ToSelected  => $Dest,
@@ -1123,31 +1141,37 @@ sub Run {
 
         my $Users = $Self->_GetUsers(
             %GetParam,
+            %ACLCompatGetParam,
             QueueID  => $QueueID,
             AllUsers => $GetParam{OwnerAll},
         );
         my $ResponsibleUsers = $Self->_GetResponsibles(
             %GetParam,
+            %ACLCompatGetParam,
             QueueID  => $QueueID,
             AllUsers => $GetParam{ResponsibleAll},
         );
         my $NextStates = $Self->_GetNextStates(
             %GetParam,
+            %ACLCompatGetParam,
             CustomerUserID => $CustomerUser || '',
             QueueID        => $QueueID      || 1,
         );
         my $Priorities = $Self->_GetPriorities(
             %GetParam,
+            %ACLCompatGetParam,
             CustomerUserID => $CustomerUser || '',
             QueueID        => $QueueID      || 1,
         );
         my $Services = $Self->_GetServices(
             %GetParam,
+            %ACLCompatGetParam,
             CustomerUserID => $CustomerUser || '',
             QueueID        => $QueueID      || 1,
         );
         my $SLAs = $Self->_GetSLAs(
             %GetParam,
+            %ACLCompatGetParam,
             CustomerUserID => $CustomerUser || '',
             QueueID        => $QueueID      || 1,
             Services       => $Services,
@@ -1169,6 +1193,7 @@ sub Run {
             # set possible values filter from ACLs
             my $ACL = $Self->{TicketObject}->TicketAcl(
                 %GetParam,
+                %ACLCompatGetParam,
                 Action        => $Self->{Action},
                 QueueID       => $QueueID || 0,
                 Type          => 'DynamicField_' . $DynamicFieldConfig->{Name},

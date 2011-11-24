@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMove.pm - move tickets to queues
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMove.pm,v 1.102 2011-11-22 23:04:38 cr Exp $
+# $Id: AgentTicketMove.pm,v 1.103 2011-11-24 12:25:55 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.102 $) [1];
+$VERSION = qw($Revision: 1.103 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -140,11 +140,12 @@ sub Run {
     }
 
     # ACL compatibility translations
-    $GetParam{NewOwnerType} = $GetParam{UserSelection};
-    $GetParam{NewOwnerID}   = $GetParam{NewUserID};
-    $GetParam{OldOwnerID}   = $GetParam{OldUserID};
-    $GetParam{QueueID}      = $GetParam{DestQueueID};
-    $GetParam{Queue}        = $GetParam{DestQueue};
+    my %ACLCompatGetParam;
+    $ACLCompatGetParam{NewOwnerType} = $GetParam{UserSelection};
+    $ACLCompatGetParam{NewOwnerID}   = $GetParam{NewUserID};
+    $ACLCompatGetParam{OldOwnerID}   = $GetParam{OldUserID};
+    $ACLCompatGetParam{QueueID}      = $GetParam{DestQueueID};
+    $ACLCompatGetParam{Queue}        = $GetParam{DestQueue};
 
     # get Dynamic fields form ParamObject
     my %DynamicFieldValues;
@@ -230,21 +231,25 @@ sub Run {
 
         my $NewUsers = $Self->_GetUsers(
             %GetParam,
+            %ACLCompatGetParam,
             QueueID  => $GetParam{DestQueueID},
             AllUsers => $GetParam{OwnerAll},
         );
         my $OldOwners = $Self->_GetOldOwners(
             %GetParam,
+            %ACLCompatGetParam,
             QueueID  => $GetParam{DestQueueID},
             AllUsers => $GetParam{OwnerAll},
         );
         my $NextStates = $Self->_GetNextStates(
             %GetParam,
+            %ACLCompatGetParam,
             TicketID => $Self->{TicketID},
             QueueID => $GetParam{DestQueueID} || 1,
         );
         my $NextPriorities = $Self->_GetPriorities(
             %GetParam,
+            %ACLCompatGetParam,
             TicketID => $Self->{TicketID},
             QueueID => $GetParam{DestQueueID} || 1,
         );
@@ -264,6 +269,7 @@ sub Run {
             # set possible values filter from ACLs
             my $ACL = $Self->{TicketObject}->TicketAcl(
                 %GetParam,
+                %ACLCompatGetParam,
                 Action        => $Self->{Action},
                 TicketID      => $Self->{TicketID},
                 QueueID       => $GetParam{DestQueueID} || 0,
@@ -379,6 +385,7 @@ sub Run {
             # set possible values filter from ACLs
             my $ACL = $Self->{TicketObject}->TicketAcl(
                 %GetParam,
+                %ACLCompatGetParam,
                 Action        => $Self->{Action},
                 TicketID      => $Self->{TicketID},
                 Type          => 'DynamicField_' . $DynamicFieldConfig->{Name},
@@ -490,6 +497,7 @@ sub Run {
                 # set possible values filter from ACLs
                 my $ACL = $Self->{TicketObject}->TicketAcl(
                     %GetParam,
+                    %ACLCompatGetParam,
                     Action        => $Self->{Action},
                     TicketID      => $Self->{TicketID},
                     Type          => 'DynamicField_' . $DynamicFieldConfig->{Name},
@@ -607,6 +615,7 @@ sub Run {
         # fetch all queues
         my %MoveQueues = $Self->{TicketObject}->MoveList(
             %GetParam,
+            %ACLCompatGetParam,
             TicketID => $Self->{TicketID},
             UserID   => $Self->{UserID},
             Action   => $Self->{Action},
@@ -616,6 +625,7 @@ sub Run {
         # get next states
         my $NextStates = $Self->_GetNextStates(
             %GetParam,
+            %ACLCompatGetParam,
             TicketID => $Self->{TicketID},
             QueueID => $GetParam{DestQueueID} || 1,
         );
@@ -623,12 +633,17 @@ sub Run {
         # get next priorities
         my $NextPriorities = $Self->_GetPriorities(
             %GetParam,
+            %ACLCompatGetParam,
             TicketID => $Self->{TicketID},
             QueueID => $GetParam{DestQueueID} || 1,
         );
 
         # get old owners
-        my @OldUserInfo = $Self->{TicketObject}->TicketOwnerList( TicketID => $Self->{TicketID} );
+        my @OldUserInfo = $Self->{TicketObject}->TicketOwnerList(
+            %GetParam,
+            %ACLCompatGetParam,
+            TicketID => $Self->{TicketID}
+        );
 
         # get all attachments meta data
         my @Attachments = $Self->{UploadCacheObject}->FormIDGetAllFilesMeta(

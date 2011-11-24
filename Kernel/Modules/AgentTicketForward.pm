@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketForward.pm - to forward a message
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketForward.pm,v 1.121 2011-11-23 18:13:12 cr Exp $
+# $Id: AgentTicketForward.pm,v 1.122 2011-11-24 12:25:55 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,7 +26,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.121 $) [1];
+$VERSION = qw($Revision: 1.122 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -66,7 +66,7 @@ sub new {
     }
 
     # ACL compatibility translation
-    $Self->{GetParam}->{NextStateID} = $Self->{GetParam}->{ComposeStateID};
+    $Self->{ACLCompatGetParam}->{NextStateID} = $Self->{GetParam}->{ComposeStateID};
 
     # create form id
     if ( !$Self->{GetParam}->{FormID} ) {
@@ -111,7 +111,8 @@ sub Form {
     my ( $Self, %Param ) = @_;
 
     my %Error;
-    my %GetParam = %{ $Self->{GetParam} };
+    my %GetParam          = %{ $Self->{GetParam} };
+    my %ACLCompatGetParam = %{ $Self->{ACLCompatGetParam} };
 
     # check needed stuff
     if ( !$Self->{TicketID} ) {
@@ -368,6 +369,7 @@ sub Form {
             # set possible values filter from ACLs
             my $ACL = $Self->{TicketObject}->TicketAcl(
                 %GetParam,
+                %ACLCompatGetParam,
                 Action        => $Self->{Action},
                 TicketID      => $Self->{TicketID},
                 Type          => 'DynamicField_' . $DynamicFieldConfig->{Name},
@@ -420,6 +422,7 @@ sub Form {
         QueueID      => $Ticket{QueueID},
         NextStates   => $Self->_GetNextStates(
             %GetParam,
+            %ACLCompatGetParam,
         ),
         TimeUnitsRequired => (
             $Self->{ConfigObject}->Get('Ticket::Frontend::NeedAccountedTime')
@@ -445,7 +448,8 @@ sub SendEmail {
     my ( $Self, %Param ) = @_;
 
     my %Error;
-    my %GetParam = %{ $Self->{GetParam} };
+    my %GetParam          = %{ $Self->{GetParam} };
+    my %ACLCompatGetParam = %{ $Self->{ACLCompatGetParam} };
 
     my %DynamicFieldValues;
 
@@ -548,6 +552,7 @@ sub SendEmail {
             # set possible values filter from ACLs
             my $ACL = $Self->{TicketObject}->TicketAcl(
                 %GetParam,
+                %ACLCompatGetParam,
                 Action        => $Self->{Action},
                 TicketID      => $Self->{TicketID},
                 Type          => 'DynamicField_' . $DynamicFieldConfig->{Name},
@@ -708,6 +713,7 @@ sub SendEmail {
             QueueID      => $QueueID,
             NextStates   => $Self->_GetNextStates(
                 %GetParam,
+                %ACLCompatGetParam,
             ),
             Errors           => \%Error,
             Attachments      => \@Attachments,
@@ -883,7 +889,8 @@ sub AjaxUpdate {
     my ( $Self, %Param ) = @_;
 
     my %Error;
-    my %GetParam = %{ $Self->{GetParam} };
+    my %GetParam          = %{ $Self->{GetParam} };
+    my %ACLCompatGetParam = %{ $Self->{ACLCompatGetParam} };
 
     my %DynamicFieldValues;
 
@@ -915,6 +922,7 @@ sub AjaxUpdate {
 
     my $NextStates = $Self->_GetNextStates(
         %GetParam,
+        %ACLCompatGetParam,
     );
 
     # update Dynamc Fields Possible Values via AJAX
@@ -932,6 +940,7 @@ sub AjaxUpdate {
         # set possible values filter from ACLs
         my $ACL = $Self->{TicketObject}->TicketAcl(
             %GetParam,
+            %ACLCompatGetParam,
             Action        => $Self->{Action},
             TicketID      => $Self->{TicketID},
             QueueID       => $Self->{QueueID},
