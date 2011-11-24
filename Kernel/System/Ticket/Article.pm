@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.296 2011-11-21 08:22:05 mab Exp $
+# $Id: Article.pm,v 1.297 2011-11-24 15:55:05 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::VariableCheck qw(:all);
 use MIME::Base64;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.296 $) [1];
+$VERSION = qw($Revision: 1.297 $) [1];
 
 =head1 NAME
 
@@ -1254,7 +1254,9 @@ sub ArticleFreeTextSet {
 get last customer article
 
     my %Article = $TicketObject->ArticleLastCustomerArticle(
-        TicketID => 123,
+        TicketID      => 123,
+        Extended      => 1,      # 0 or 1, see ArticleGet(),
+        DynamicFields => 1,      # 0 or 1, see ArticleGet(),
     );
 
 =cut
@@ -1273,7 +1275,11 @@ sub ArticleLastCustomerArticle {
 
     # get article data
     if (@Index) {
-        return $Self->ArticleGet( ArticleID => $Index[-1], Extended => $Param{Extended} );
+        return $Self->ArticleGet(
+            ArticleID     => $Index[-1],
+            Extended      => $Param{Extended},
+            DynamicFields => $Param{DynamicFields},
+        );
     }
 
     # get whole article index
@@ -1288,14 +1294,22 @@ sub ArticleLastCustomerArticle {
 
     # second try, return latest non internal article
     for my $ArticleID ( reverse @Index ) {
-        my %Article = $Self->ArticleGet( ArticleID => $ArticleID );
+        my %Article = $Self->ArticleGet(
+            ArticleID     => $ArticleID,
+            Extended      => $Param{Extended},
+            DynamicFields => $Param{DynamicFields},
+        );
         if ( $Article{StateType} eq 'merged' || $Article{ArticleType} !~ /int/ ) {
             return %Article;
         }
     }
 
     # third try, if we got no internal article, return the latest one
-    return $Self->ArticleGet( ArticleID => $Index[-1] );
+    return $Self->ArticleGet(
+        ArticleID     => $Index[-1],
+        Extended      => $Param{Extended},
+        DynamicFields => $Param{DynamicFields},
+    );
 }
 
 =item ArticleFirstArticle()
@@ -3568,6 +3582,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.296 $ $Date: 2011-11-21 08:22:05 $
+$Revision: 1.297 $ $Date: 2011-11-24 15:55:05 $
 
 =cut
