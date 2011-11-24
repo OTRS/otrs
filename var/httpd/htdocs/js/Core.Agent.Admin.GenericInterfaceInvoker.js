@@ -2,7 +2,7 @@
 // Core.Agent.Admin.GenericInterfaceInvoker.js - provides the special module functions for the GenericInterface invoker.
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.GenericInterfaceInvoker.js,v 1.4 2011-07-08 18:09:36 cr Exp $
+// $Id: Core.Agent.Admin.GenericInterfaceInvoker.js,v 1.5 2011-11-24 06:44:09 cr Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -153,7 +153,6 @@ Core.Agent.Admin.GenericInterfaceInvoker = (function (TargetNS) {
                             Invoker: TargetNS.Invoker,
                             EventName: LocalDialogData.EventName
                         };
-                        console.log(Data);
                         Core.AJAX.FunctionCall(Core.Config.Get('CGIHandle'), Data, function (Response) {
                             if (!Response || !Response.Success) {
                                 alert(TargetNS.Localization.CommunicationErrorMsg);
