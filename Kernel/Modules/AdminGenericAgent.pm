@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericAgent.pm - admin generic agent interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.pm,v 1.100 2011-11-01 03:09:44 cr Exp $
+# $Id: AdminGenericAgent.pm,v 1.101 2011-11-25 09:35:58 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.100 $) [1];
+$VERSION = qw($Revision: 1.101 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -432,7 +432,8 @@ sub Run {
 
                     # get first article data
                     my %Data = $Self->{TicketObject}->ArticleFirstArticle(
-                        TicketID => $TicketID,
+                        TicketID      => $TicketID,
+                        DynamicFields => 0,
                     );
                     $Data{Age}
                         = $Self->{LayoutObject}->CustomerAge( Age => $Data{Age}, Space => ' ' );

@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.298 2011-11-25 09:26:48 mg Exp $
+# $Id: Article.pm,v 1.299 2011-11-25 09:35:58 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::VariableCheck qw(:all);
 use MIME::Base64;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.298 $) [1];
+$VERSION = qw($Revision: 1.299 $) [1];
 
 =head1 NAME
 
@@ -1152,7 +1152,10 @@ sub ArticleFreeTextSet {
     }
 
     # check if update is needed
-    my %Article = $Self->ArticleGet( ArticleID => $Param{ArticleID} );
+    my %Article = $Self->ArticleGet(
+        ArticleID     => $Param{ArticleID},
+        DynamicFields => 1,
+    );
 
     my $Value = '';
     my $Key   = '';
@@ -1317,7 +1320,8 @@ sub ArticleLastCustomerArticle {
 get first article
 
     my %Article = $TicketObject->ArticleFirstArticle(
-        TicketID => 123,
+        TicketID      => 123,
+        DynamicFields => 1,     # 0 or 1, see ArticleGet()
     );
 
 =cut
@@ -1342,7 +1346,11 @@ sub ArticleFirstArticle {
         );
         return;
     }
-    return $Self->ArticleGet( ArticleID => $Index[0], Extended => $Param{Extended} );
+    return $Self->ArticleGet(
+        ArticleID     => $Index[0],
+        Extended      => $Param{Extended},
+        DynamicFields => $Param{DynamicFields},
+    );
 }
 
 =item ArticleIndex()
@@ -3584,6 +3592,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.298 $ $Date: 2011-11-25 09:26:48 $
+$Revision: 1.299 $ $Date: 2011-11-25 09:35:58 $
 
 =cut
