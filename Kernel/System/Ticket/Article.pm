@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.297 2011-11-24 15:55:05 mg Exp $
+# $Id: Article.pm,v 1.298 2011-11-25 09:26:48 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::VariableCheck qw(:all);
 use MIME::Base64;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.297 $) [1];
+$VERSION = qw($Revision: 1.298 $) [1];
 
 =head1 NAME
 
@@ -3122,8 +3122,9 @@ sub ArticleFlagSet {
 
     # event
     my %Article = $Self->ArticleGet(
-        ArticleID => $Param{ArticleID},
-        UserID    => $Param{UserID},
+        ArticleID     => $Param{ArticleID},
+        UserID        => $Param{UserID},
+        DynamicFields => 0,
     );
     $Self->EventHandler(
         Event => 'ArticleFlagSet',
@@ -3175,8 +3176,9 @@ sub ArticleFlagDelete {
 
     # event
     my %Article = $Self->ArticleGet(
-        ArticleID => $Param{ArticleID},
-        UserID    => $Param{UserID},
+        ArticleID     => $Param{ArticleID},
+        UserID        => $Param{UserID},
+        DynamicFields => 0,
     );
     $Self->EventHandler(
         Event => 'ArticleFlagDelete',
@@ -3582,6 +3584,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.297 $ $Date: 2011-11-24 15:55:05 $
+$Revision: 1.298 $ $Date: 2011-11-25 09:26:48 $
 
 =cut
