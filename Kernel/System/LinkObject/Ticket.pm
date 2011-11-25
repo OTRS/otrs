@@ -1,8 +1,8 @@
 # --
 # Kernel/System/LinkObject/Ticket.pm - to link ticket objects
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.36 2009-10-07 13:19:33 martin Exp $
+# $Id: Ticket.pm,v 1.37 2011-11-25 10:23:24 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Ticket;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.36 $) [1];
+$VERSION = qw($Revision: 1.37 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -78,8 +78,9 @@ sub LinkListWithData {
 
                 # get ticket data
                 my %TicketData = $Self->{TicketObject}->TicketGet(
-                    TicketID => $TicketID,
-                    UserID   => $Param{UserID},
+                    TicketID      => $TicketID,
+                    UserID        => $Param{UserID},
+                    DynamicFields => 0,
                 );
 
                 # remove id from hash if ticket can not get
@@ -139,8 +140,9 @@ sub ObjectDescriptionGet {
 
     # get ticket
     my %Ticket = $Self->{TicketObject}->TicketGet(
-        TicketID => $Param{Key},
-        UserID   => 1,
+        TicketID      => $Param{Key},
+        UserID        => 1,
+        DynamicFields => 0,
     );
 
     return if !%Ticket;
@@ -229,8 +231,9 @@ sub ObjectSearch {
 
         # get ticket data
         my %TicketData = $Self->{TicketObject}->TicketGet(
-            TicketID => $TicketID,
-            UserID   => $Param{UserID},
+            TicketID      => $TicketID,
+            UserID        => $Param{UserID},
+            DynamicFields => 0,
         );
 
         next TICKETID if !%TicketData;

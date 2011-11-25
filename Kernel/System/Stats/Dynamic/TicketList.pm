@@ -2,7 +2,7 @@
 # Kernel/System/Stats/Dynamic/TicketList.pm - reporting via ticket lists
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketList.pm,v 1.17 2011-11-02 18:04:12 cr Exp $
+# $Id: TicketList.pm,v 1.18 2011-11-25 10:26:02 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,7 +25,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.17 $) [1];
+$VERSION = qw($Revision: 1.18 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -648,9 +648,10 @@ sub GetStatTable {
     for my $TicketID (@TicketIDs) {
         my @ResultRow;
         my %Ticket = $Self->{TicketObject}->TicketGet(
-            TicketID => $TicketID,
-            UserID   => 1,
-            Extended => $Extended,
+            TicketID      => $TicketID,
+            UserID        => 1,
+            Extended      => $Extended,
+            DynamicFields => 1,
         );
 
         # add the accounted time if needed
@@ -674,7 +675,7 @@ sub GetStatTable {
         for my $ParameterName ( keys %Ticket ) {
             if ( $ParameterName =~ m{\A DynamicField_ ( [a-zA-Z\d]+ ) \z}xms ) {
 
-                # loop over the dyanmic fields configured
+                # loop over the dynamic fields configured
                 DYNAMICFIELD:
                 for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
                     next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);

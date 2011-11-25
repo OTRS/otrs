@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/Reject.pm - the sub part of PostMaster.pm
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Reject.pm,v 1.22 2011-11-11 18:20:18 cr Exp $
+# $Id: Reject.pm,v 1.23 2011-11-25 10:23:24 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.22 $) [1];
+$VERSION = qw($Revision: 1.23 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -47,7 +47,10 @@ sub Run {
     my %GetParam = %{ $Param{GetParam} };
 
     # get ticket data
-    my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Param{TicketID} );
+    my %Ticket = $Self->{TicketObject}->TicketGet(
+        TicketID      => $Param{TicketID},
+        DynamicFields => 0,
+    );
 
     my $Comment          = $Param{Comment}          || '';
     my $Lock             = $Param{Lock}             || '';

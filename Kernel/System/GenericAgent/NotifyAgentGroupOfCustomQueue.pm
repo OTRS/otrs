@@ -1,8 +1,8 @@
 # --
 # Kernel/System/GenericAgent/NotifyAgentGroupOfCustomQueue.pm - generic agent notifications
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: NotifyAgentGroupOfCustomQueue.pm,v 1.23 2009-12-23 22:56:20 martin Exp $
+# $Id: NotifyAgentGroupOfCustomQueue.pm,v 1.24 2011-11-25 10:19:42 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Email;
 use Kernel::System::Queue;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.23 $) [1];
+$VERSION = qw($Revision: 1.24 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -47,7 +47,10 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     # get ticket data
-    my %Ticket = $Self->{TicketObject}->TicketGet(%Param);
+    my %Ticket = $Self->{TicketObject}->TicketGet(
+        %Param,
+        DynamicFields => 0,
+    );
 
     # check if bussines hours is, then send escalation info
     my $CountedTime = $Self->{TimeObject}->WorkingTime(
