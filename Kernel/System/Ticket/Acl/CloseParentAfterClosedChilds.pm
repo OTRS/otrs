@@ -1,9 +1,9 @@
 # --
 # Kernel/System/Ticket/Acl/CloseParentAfterClosedChilds.pm - acl module
 # - allow no parent close till all clients are closed -
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CloseParentAfterClosedChilds.pm,v 1.14 2009-04-07 11:57:50 martin Exp $
+# $Id: CloseParentAfterClosedChilds.pm,v 1.15 2011-11-25 09:55:58 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use warnings;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -52,11 +52,6 @@ sub Run {
     # check if child tickets are not closed
     return 1 if !$Param{TicketID} || !$Param{UserID};
 
-    # get ticket
-    my %Ticket = $Self->{TicketObject}->TicketGet(
-        TicketID => $Param{TicketID},
-    );
-
     # create new instance of the link object
     if ( !$Self->{LinkObject} ) {
         $Self->{LinkObject} = Kernel::System::LinkObject->new(
@@ -89,7 +84,8 @@ sub Run {
 
         # get ticket
         my %Ticket = $Self->{TicketObject}->TicketGet(
-            TicketID => $TicketID,
+            TicketID      => $TicketID,
+            DynamicFields => 0,
         );
 
         if ( $Ticket{StateType} !~ m{ \A (close|merge|remove) }xms ) {
