@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketBulk.pm - to do bulk actions on tickets
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBulk.pm,v 1.91 2011-06-01 15:22:13 mb Exp $
+# $Id: AgentTicketBulk.pm,v 1.92 2011-11-25 10:44:57 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::TemplateGenerator;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.91 $) [1];
+$VERSION = qw($Revision: 1.92 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -230,7 +230,10 @@ sub Run {
 
     TICKET_ID:
     for my $TicketID (@TicketIDs) {
-        my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $TicketID );
+        my %Ticket = $Self->{TicketObject}->TicketGet(
+            TicketID      => $TicketID,
+            DynamicFields => 0,
+        );
 
         # check permissions
         my $Access = $Self->{TicketObject}->TicketPermission(
@@ -476,7 +479,10 @@ sub Run {
                     State    => $GetParam{'State'},
                     UserID   => $Self->{UserID},
                 );
-                my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $TicketID );
+                my %Ticket = $Self->{TicketObject}->TicketGet(
+                    TicketID      => $TicketID,
+                    DynamicFields => 0,
+                );
                 my %StateData = $Self->{TicketObject}->{StateObject}->StateGet(
                     ID => $Ticket{StateID},
                 );
@@ -571,7 +577,10 @@ sub Run {
                 my $TicketIDOldest;
                 my $TicketIDOldestID;
                 for my $TicketIDCheck (@TicketIDs) {
-                    my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $TicketIDCheck );
+                    my %Ticket = $Self->{TicketObject}->TicketGet(
+                        TicketID      => $TicketIDCheck,
+                        DynamicFields => 0,
+                    );
                     if ( !defined $TicketIDOldest ) {
                         $TicketIDOldest   = $Ticket{CreateTimeUnix};
                         $TicketIDOldestID = $TicketIDCheck;
@@ -796,7 +805,10 @@ sub _Mask {
         if ( !$Self->{ConfigObject}->Get('Ticket::ChangeOwnerToEveryone') ) {
             my %AllGroupsMembersNew;
             for my $TicketID ( @{ $Param{TicketIDs} } ) {
-                my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $TicketID );
+                my %Ticket = $Self->{TicketObject}->TicketGet(
+                    TicketID      => $TicketID,
+                    DynamicFields => 0,
+                );
                 my $GroupID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Ticket{QueueID} );
                 my %GroupMember = $Self->{GroupObject}->GroupMemberList(
                     GroupID => $GroupID,
@@ -831,7 +843,10 @@ sub _Mask {
         if ( !$Self->{ConfigObject}->Get('Ticket::ChangeOwnerToEveryone') ) {
             my %AllGroupsMembersNew;
             for my $TicketID ( @{ $Param{TicketIDs} } ) {
-                my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $TicketID );
+                my %Ticket = $Self->{TicketObject}->TicketGet(
+                    TicketID      => $TicketID,
+                    DynamicFields => 0,
+                );
                 my $GroupID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Ticket{QueueID} );
                 my %GroupMember = $Self->{GroupObject}->GroupMemberList(
                     GroupID => $GroupID,
