@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Event/NotificationEvent.pm - a event module to send notifications
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: NotificationEvent.pm,v 1.34 2011-11-15 02:35:04 cr Exp $
+# $Id: NotificationEvent.pm,v 1.35 2011-11-25 10:14:18 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.34 $) [1];
+$VERSION = qw($Revision: 1.35 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -94,8 +94,9 @@ sub Run {
 
     # get ticket attribute matches
     my %Ticket = $Self->{TicketObject}->TicketGet(
-        TicketID => $Param{Data}->{TicketID},
-        UserID   => $Param{UserID},
+        TicketID      => $Param{Data}->{TicketID},
+        UserID        => $Param{UserID},
+        DynamicFields => 1,
     );
 
     NOTIFICATION:
@@ -534,7 +535,10 @@ sub _SendNotification {
     $Notification{Body} =~ s/<OTRS_TICKET_NUMBER>/$Article{TicketNumber}/gi;
 
     # ticket data
-    my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Param{TicketID} );
+    my %Ticket = $Self->{TicketObject}->TicketGet(
+        TicketID      => $Param{TicketID},
+        DynamicFields => 1,
+    );
     for my $Key ( keys %Ticket ) {
         next if !defined $Ticket{$Key};
 

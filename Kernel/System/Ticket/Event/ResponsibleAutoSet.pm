@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Ticket/Event/ResponsibleAutoSet.pm - a event module for auto set of responible
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ResponsibleAutoSet.pm,v 1.4 2010-05-19 07:08:18 mb Exp $
+# $Id: ResponsibleAutoSet.pm,v 1.5 2011-11-25 10:14:18 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -53,8 +53,9 @@ sub Run {
 
     # get current ticket data
     my %Ticket = $Self->{TicketObject}->TicketGet(
-        TicketID => $Param{Data}->{TicketID},
-        UserID   => $Param{UserID},
+        TicketID      => $Param{Data}->{TicketID},
+        UserID        => $Param{UserID},
+        DynamicFields => 0,
     );
 
     # check responible update

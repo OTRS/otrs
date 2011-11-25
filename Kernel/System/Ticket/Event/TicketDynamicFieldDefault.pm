@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Event/TicketDynamicFieldDefault.pm - a event module for default ticket dynamic field settings
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketDynamicFieldDefault.pm,v 1.3 2011-11-08 20:39:08 cr Exp $
+# $Id: TicketDynamicFieldDefault.pm,v 1.4 2011-11-25 10:14:18 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -83,11 +83,15 @@ sub Run {
     # get settings from sysconfig
     my $ConfigSettings = $Self->{ConfigObject}->Get('Ticket::TicketDynamicFieldDefault');
 
+    my %Ticket = $Self->{TicketObject}->TicketGet(
+        TicketID      => $Param{Data}->{TicketID},
+        DynamicFields => 1,
+    );
+
     ELEMENT:
     for my $ElementName ( keys %{$ConfigSettings} ) {
         my $Element = $ConfigSettings->{$ElementName};
         if ( $Param{Event} eq $Element->{Event} ) {
-            my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Param{Data}->{TicketID} );
 
             # do not set default dynamic field if already set
             next ELEMENT if $Ticket{ 'DynamicField_' . $Element->{Name} };

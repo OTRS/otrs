@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Ticket/Event/ForceState.pm - set state
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ForceState.pm,v 1.11 2010-05-19 07:08:18 mb Exp $
+# $Id: ForceState.pm,v 1.12 2011-11-25 10:14:19 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -53,8 +53,9 @@ sub Run {
     }
 
     my %Ticket = $Self->{TicketObject}->TicketGet(
-        TicketID => $Param{Data}->{TicketID},
-        UserID   => $Param{UserID},
+        TicketID      => $Param{Data}->{TicketID},
+        UserID        => $Param{UserID},
+        DynamicFields => 0,
     );
 
     # should I unlock a ticket after move?
