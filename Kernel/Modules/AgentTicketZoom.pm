@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.162 2011-11-23 22:08:33 mb Exp $
+# $Id: AgentTicketZoom.pm,v 1.163 2011-11-25 09:26:05 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.162 $) [1];
+$VERSION = qw($Revision: 1.163 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -116,7 +116,10 @@ sub Run {
     }
 
     # get ticket attributes
-    my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Self->{TicketID} );
+    my %Ticket = $Self->{TicketObject}->TicketGet(
+        TicketID     => $Self->{TicketID},
+        DynamicField => 1,
+    );
 
     # get acl actions
     $Self->{TicketObject}->TicketAcl(
@@ -383,6 +386,7 @@ sub MaskAgentZoom {
         TicketID                   => $Self->{TicketID},
         StripPlainBodyAsAttachment => $Self->{StripPlainBodyAsAttachment},
         UserID                     => $Self->{UserID},
+        DynamicFields => 0,    # fetch later only for the article(s) to display
     );
 
     # add counter
@@ -1774,13 +1778,16 @@ sub _ArticleItem {
     DYNAMICFIELD:
     for my $DynamicFieldConfig ( @{$DynamicField} ) {
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
-        next DYNAMICFIELD if !defined $Article{ 'DynamicField_' . $DynamicFieldConfig->{Name} };
-        next DYNAMICFIELD if $Article{ 'DynamicField_' . $DynamicFieldConfig->{Name} } eq '';
+
+        my $Value = $Self->{BackendObject}->ValueGet(
+            DynamicFieldConfig => $DynamicFieldConfig,
+            ObjectID           => $Article{ArticleID},
+        );
 
         # get print string for this dynamic field
         my $ValueStrg = $Self->{BackendObject}->DisplayValueRender(
             DynamicFieldConfig => $DynamicFieldConfig,
-            Value              => $Article{ 'DynamicField_' . $DynamicFieldConfig->{Name} },
+            Value              => $Value,
             ValueMaxChars      => 160,
             LayoutObject       => $Self->{LayoutObject},
         );
@@ -1898,7 +1905,10 @@ sub _ArticleItem {
         }
     }
 
-    %Article = $Self->{TicketObject}->ArticleGet( ArticleID => $Article{ArticleID} );
+    %Article = $Self->{TicketObject}->ArticleGet(
+        ArticleID     => $Article{ArticleID},
+        DynamicFields => 0,
+    );
 
     # get attachment index (without attachments)
     my %AtmIndex = $Self->{TicketObject}->ArticleAttachmentIndex(
