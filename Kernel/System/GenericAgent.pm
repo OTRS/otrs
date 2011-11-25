@@ -2,7 +2,7 @@
 # Kernel/System/GenericAgent.pm - generic agent system module
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: GenericAgent.pm,v 1.78 2011-11-07 23:29:46 cr Exp $
+# $Id: GenericAgent.pm,v 1.79 2011-11-25 10:33:22 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.78 $) [1];
+$VERSION = qw($Revision: 1.79 $) [1];
 
 =head1 NAME
 
@@ -340,7 +340,10 @@ sub JobRun {
                 $Tickets{$_} = $Self->{TicketObject}->TicketNumberLookup( TicketID => $_ );
             }
             else {
-                my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $_ );
+                my %Ticket = $Self->{TicketObject}->TicketGet(
+                    TicketID      => $_,
+                    DynamicFields => 0,
+                );
                 if ( $Ticket{Queue} eq $Job{Queue} ) {
                     $Tickets{$_} = $Ticket{TicketNumber};
                 }
@@ -404,7 +407,10 @@ sub JobRun {
             );
         }
         for ( keys %Tickets ) {
-            my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $_ );
+            my %Ticket = $Self->{TicketObject}->TicketGet(
+                TicketID      => $_,
+                DynamicFields => 0,
+            );
             if ( $Ticket{UntilTime} > 1 ) {
                 delete $Tickets{$_};
             }
@@ -1272,6 +1278,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.78 $ $Date: 2011-11-07 23:29:46 $
+$Revision: 1.79 $ $Date: 2011-11-25 10:33:22 $
 
 =cut

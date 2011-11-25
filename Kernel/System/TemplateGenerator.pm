@@ -2,7 +2,7 @@
 # Kernel/System/TemplateGenerator.pm - generate salutations, signatures and responses
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TemplateGenerator.pm,v 1.57 2011-11-03 23:51:58 cg Exp $
+# $Id: TemplateGenerator.pm,v 1.58 2011-11-25 10:33:22 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.57 $) [1];
+$VERSION = qw($Revision: 1.58 $) [1];
 
 =head1 NAME
 
@@ -197,7 +197,10 @@ sub Salutation {
     }
 
     # get  queue
-    my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Param{TicketID} );
+    my %Ticket = $Self->{TicketObject}->TicketGet(
+        TicketID      => $Param{TicketID},
+        DynamicFields => 0,
+    );
 
     # get salutation
     my %Queue = $Self->{QueueObject}->QueueGet(
@@ -284,7 +287,10 @@ sub Signature {
     # get salutation ticket based
     my %Queue;
     if ( $Param{TicketID} ) {
-        my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Param{TicketID} );
+        my %Ticket = $Self->{TicketObject}->TicketGet(
+            TicketID      => $Param{TicketID},
+            DynamicFields => 0,
+        );
         %Queue = $Self->{QueueObject}->QueueGet(
             ID => $Ticket{QueueID},
         );
@@ -525,7 +531,10 @@ sub Attributes {
     }
 
     # get queue
-    my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Param{TicketID} );
+    my %Ticket = $Self->{TicketObject}->TicketGet(
+        TicketID      => $Param{TicketID},
+        DynamicFields => 0,
+    );
 
     # prepare subject ...
     $Param{Data}->{Subject} = $Self->{TicketObject}->TicketSubjectBuild(
@@ -584,7 +593,10 @@ sub AutoResponse {
     }
 
     # get ticket
-    my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Param{TicketID} );
+    my %Ticket = $Self->{TicketObject}->TicketGet(
+        TicketID      => $Param{TicketID},
+        DynamicFields => 0,
+    );
 
     # get auto default responses
     my %AutoResponse = $Self->{AutoResponseObject}->AutoResponseGetByTypeQueueID(
@@ -596,7 +608,8 @@ sub AutoResponse {
 
     # get old article for quoting
     my %Article = $Self->{TicketObject}->ArticleLastCustomerArticle(
-        TicketID => $Param{TicketID},
+        TicketID      => $Param{TicketID},
+        DynamicFields => 0,
     );
 
     for (qw(From To Cc Subject Body)) {
@@ -745,10 +758,16 @@ sub NotificationAgent {
     }
 
     # get ticket
-    my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Param{TicketID} );
+    my %Ticket = $Self->{TicketObject}->TicketGet(
+        TicketID      => $Param{TicketID},
+        DynamicFields => 0,
+    );
 
     # get old article for quoting
-    my %Article = $Self->{TicketObject}->ArticleLastCustomerArticle( TicketID => $Param{TicketID} );
+    my %Article = $Self->{TicketObject}->ArticleLastCustomerArticle(
+        TicketID      => $Param{TicketID},
+        DynamicFields => 0,
+    );
 
     for (qw(From To Cc Subject Body)) {
         if ( !$Param{CustomerMessageParams}->{$_} ) {
@@ -906,7 +925,10 @@ sub NotificationCustomer {
         }
     }
 
-    my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Param{TicketID} );
+    my %Ticket = $Self->{TicketObject}->TicketGet(
+        TicketID      => $Param{TicketID},
+        DynamicFields => 0,
+    );
 
     my %Queue;
     if ( $Param{QueueID} ) {
@@ -976,7 +998,10 @@ sub _Replace {
 
     my %Ticket;
     if ( $Param{TicketID} ) {
-        %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Param{TicketID} );
+        %Ticket = $Self->{TicketObject}->TicketGet(
+            TicketID      => $Param{TicketID},
+            DynamicFields => 1,
+        );
     }
 
     # translate ticket values if needed
@@ -1394,6 +1419,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.57 $ $Date: 2011-11-03 23:51:58 $
+$Revision: 1.58 $ $Date: 2011-11-25 10:33:22 $
 
 =cut

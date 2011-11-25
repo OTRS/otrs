@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster.pm - the global PostMaster module for OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: PostMaster.pm,v 1.86 2011-09-01 10:14:48 mb Exp $
+# $Id: PostMaster.pm,v 1.87 2011-11-25 10:33:22 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,7 +26,7 @@ use Kernel::System::PostMaster::DestQueue;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = qw($Revision: 1.86 $) [1];
+$VERSION = qw($Revision: 1.87 $) [1];
 
 =head1 NAME
 
@@ -246,7 +246,10 @@ sub Run {
     if ( $Tn && $TicketID ) {
 
         # get ticket data
-        my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $TicketID );
+        my %Ticket = $Self->{TicketObject}->TicketGet(
+            TicketID      => $TicketID,
+            DynamicFields => 0,
+        );
 
         # check if it is possible to do the follow up
         # get follow up option (possible or not)
@@ -425,7 +428,10 @@ sub CheckFollowUp {
         my $TicketID = $Self->{TicketObject}->TicketCheckNumber( Tn => $Tn );
         return if !$TicketID;
 
-        my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $TicketID );
+        my %Ticket = $Self->{TicketObject}->TicketGet(
+            TicketID      => $TicketID,
+            DynamicFields => 0,
+        );
         if ( $Self->{Debug} > 1 ) {
             $Self->{LogObject}->Log(
                 Priority => 'debug',
@@ -459,7 +465,10 @@ sub CheckFollowUp {
         if ($Tn) {
             my $TicketID = $Self->{TicketObject}->TicketCheckNumber( Tn => $Tn );
             if ($TicketID) {
-                my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $TicketID );
+                my %Ticket = $Self->{TicketObject}->TicketGet(
+                    TicketID      => $TicketID,
+                    DynamicFields => 0,
+                );
                 if ( $Self->{Debug} > 1 ) {
                     $Self->{LogObject}->Log(
                         Priority => 'debug',
@@ -479,7 +488,10 @@ sub CheckFollowUp {
             if ($Tn) {
                 my $TicketID = $Self->{TicketObject}->TicketCheckNumber( Tn => $Tn );
                 if ($TicketID) {
-                    my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $TicketID );
+                    my %Ticket = $Self->{TicketObject}->TicketGet(
+                        TicketID      => $TicketID,
+                        DynamicFields => 0,
+                    );
                     if ( $Self->{Debug} > 1 ) {
                         $Self->{LogObject}->Log(
                             Priority => 'debug',
@@ -499,7 +511,10 @@ sub CheckFollowUp {
         if ($Tn) {
             my $TicketID = $Self->{TicketObject}->TicketCheckNumber( Tn => $Tn );
             if ($TicketID) {
-                my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $TicketID );
+                my %Ticket = $Self->{TicketObject}->TicketGet(
+                    TicketID      => $TicketID,
+                    DynamicFields => 0,
+                );
                 if ( $Self->{Debug} > 1 ) {
                     $Self->{LogObject}->Log(
                         Priority => 'debug',
@@ -639,6 +654,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.86 $ $Date: 2011-09-01 10:14:48 $
+$Revision: 1.87 $ $Date: 2011-11-25 10:33:22 $
 
 =cut
