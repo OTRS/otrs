@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.299 2011-11-25 09:35:58 mg Exp $
+# $Id: Article.pm,v 1.300 2011-11-25 09:38:14 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::VariableCheck qw(:all);
 use MIME::Base64;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.299 $) [1];
+$VERSION = qw($Revision: 1.300 $) [1];
 
 =head1 NAME
 
@@ -1459,17 +1459,11 @@ sub ArticleContentIndex {
         }
     }
 
-    # check if dynamic fields are required
-    my $FetchDynamicFields = 1;
-    if ( defined $Param{DynamicFields} && $Param{DynamicFields} eq '0' ) {
-        $FetchDynamicFields = 0;
-    }
-
     my @ArticleBox = $Self->ArticleGet(
         TicketID      => $Param{TicketID},
         ArticleType   => $Param{ArticleType},
         UserID        => $Param{UserID},
-        DynamicFields => $FetchDynamicFields,
+        DynamicFields => $Param{DynamicFields},
     );
 
     # article attachments of each article
@@ -3592,6 +3586,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.299 $ $Date: 2011-11-25 09:35:58 $
+$Revision: 1.300 $ $Date: 2011-11-25 09:38:14 $
 
 =cut
