@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.300 2011-11-25 09:38:14 mg Exp $
+# $Id: Article.pm,v 1.301 2011-11-25 10:04:28 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::VariableCheck qw(:all);
 use MIME::Base64;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.300 $) [1];
+$VERSION = qw($Revision: 1.301 $) [1];
 
 =head1 NAME
 
@@ -156,7 +156,10 @@ sub ArticleCreate {
     }
 
     # for the event handler, before any actions have taken place
-    my %OldTicketData = $Self->TicketGet( TicketID => $Param{TicketID} );
+    my %OldTicketData = $Self->TicketGet(
+        TicketID      => $Param{TicketID},
+        DynamicFields => 1,
+    );
 
     # add 'no body' if there is no body there!
     my @AttachmentConvert;
@@ -397,7 +400,10 @@ sub ArticleCreate {
     # send no agent notification!?
     return $ArticleID if $Param{NoAgentNotify};
 
-    my %Ticket = $Self->TicketGet( TicketID => $Param{TicketID} );
+    my %Ticket = $Self->TicketGet(
+        TicketID      => $Param{TicketID},
+        DynamicFields => 0,
+    );
 
     # remember already sent agent notifications
     my %AlreadySent;
@@ -2437,7 +2443,8 @@ sub SendAgentNotification {
 
     # get ticket object to check state
     my %Ticket = $Self->TicketGet(
-        TicketID => $Param{TicketID},
+        TicketID      => $Param{TicketID},
+        DynamicFields => 0,
     );
 
     if (
@@ -2667,7 +2674,10 @@ sub SendCustomerNotification {
     $Notification{Body} =~ s/<OTRS_QUEUE>/$Param{Queue}/gi if ( $Param{Queue} );
 
     # ticket data
-    my %Ticket = $Self->TicketGet( TicketID => $Param{TicketID} );
+    my %Ticket = $Self->TicketGet(
+        TicketID      => $Param{TicketID},
+        DynamicFields => 1,
+    );
     for ( keys %Ticket ) {
         if ( defined $Ticket{$_} ) {
             $Notification{Body}    =~ s/<OTRS_TICKET_$_>/$Ticket{$_}/gi;
@@ -2866,7 +2876,10 @@ sub SendAutoResponse {
     my %OrigHeader = %{ $Param{OrigHeader} };
 
     # get ticket
-    my %Ticket = $Self->TicketGet( TicketID => $Param{TicketID} );
+    my %Ticket = $Self->TicketGet(
+        TicketID => $Param{TicketID},
+        DynamicFields => 0,    # not needed here, TemplateGenerator will fetch the ticket on its own
+    );
 
     # get auto default responses
     my $TemplateGeneratorObject = Kernel::System::TemplateGenerator->new(
@@ -3586,6 +3599,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.300 $ $Date: 2011-11-25 09:38:14 $
+$Revision: 1.301 $ $Date: 2011-11-25 10:04:28 $
 
 =cut
