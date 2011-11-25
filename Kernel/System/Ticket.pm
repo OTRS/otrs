@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.532 2011-11-25 01:52:53 cg Exp $
+# $Id: Ticket.pm,v 1.533 2011-11-25 09:53:42 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -40,7 +40,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.532 $) [1];
+$VERSION = qw($Revision: 1.533 $) [1];
 
 =head1 NAME
 
@@ -286,7 +286,8 @@ sub TicketCheckNumber {
     return if !$TicketID;
 
     my %Ticket = $Self->TicketGet(
-        TicketID => $TicketID,
+        TicketID      => $TicketID,
+        DynamicFields => 0,
     );
 
     return $TicketID if $Ticket{StateType} ne 'merged';
@@ -1453,8 +1454,9 @@ sub TicketTitleUpdate {
 
     # check if update is needed
     my %Ticket = $Self->TicketGet(
-        TicketID => $Param{TicketID},
-        UserID   => $Param{UserID},
+        TicketID      => $Param{TicketID},
+        UserID        => $Param{UserID},
+        DynamicFields => 0,
     );
 
     return 1 if defined $Ticket{Title} && $Ticket{Title} eq $Param{Title};
@@ -1508,7 +1510,10 @@ sub TicketUnlockTimeoutUpdate {
     }
 
     # check if update is needed
-    my %Ticket = $Self->TicketGet(%Param);
+    my %Ticket = $Self->TicketGet(
+        %Param,
+        DynamicFields => 0,
+    );
 
     return 1 if $Ticket{UnlockTimeout} eq $Param{UnlockTimeout};
 
@@ -1688,7 +1693,10 @@ sub TicketQueueSet {
     }
 
     # get current ticket
-    my %Ticket = $Self->TicketGet(%Param);
+    my %Ticket = $Self->TicketGet(
+        %Param,
+        DynamicFields => 0,
+    );
 
     # move needed?
     if ( $Param{QueueID} == $Ticket{QueueID} && !$Param{Comment} ) {
@@ -1939,7 +1947,10 @@ sub TicketTypeSet {
     }
 
     # get current ticket
-    my %Ticket = $Self->TicketGet(%Param);
+    my %Ticket = $Self->TicketGet(
+        %Param,
+        DynamicFields => 0,
+    );
 
     # update needed?
     return 1 if $Param{TypeID} == $Ticket{TypeID};
@@ -1964,7 +1975,10 @@ sub TicketTypeSet {
     delete $Self->{ 'Cache::GetTicket' . $Param{TicketID} };
 
     # get new ticket data
-    my %TicketNew = $Self->TicketGet(%Param);
+    my %TicketNew = $Self->TicketGet(
+        %Param,
+        DynamicFields => 0,
+    );
     $TicketNew{Type} = $TicketNew{Type} || 'NULL';
     $Param{TypeID}   = $Param{TypeID}   || '';
     $Ticket{Type}    = $Ticket{Type}    || 'NULL';
@@ -2101,7 +2115,10 @@ sub TicketServiceSet {
     }
 
     # get current ticket
-    my %Ticket = $Self->TicketGet(%Param);
+    my %Ticket = $Self->TicketGet(
+        %Param,
+        DynamicFields => 0,
+    );
 
     # update needed?
     return 1 if $Param{ServiceID} eq $Ticket{ServiceID};
@@ -2133,7 +2150,10 @@ sub TicketServiceSet {
     delete $Self->{ 'Cache::GetTicket' . $Param{TicketID} };
 
     # get new ticket data
-    my %TicketNew = $Self->TicketGet(%Param);
+    my %TicketNew = $Self->TicketGet(
+        %Param,
+        DynamicFields => 0,
+    );
     $TicketNew{Service} = $TicketNew{Service} || 'NULL';
     $Param{ServiceID}   = $Param{ServiceID}   || '';
     $Ticket{Service}    = $Ticket{Service}    || 'NULL';
@@ -2387,8 +2407,9 @@ sub TicketEscalationIndexBuild {
     }
 
     my %Ticket = $Self->TicketGet(
-        TicketID => $Param{TicketID},
-        UserID   => $Param{UserID},
+        TicketID      => $Param{TicketID},
+        UserID        => $Param{UserID},
+        DynamicFields => 0,
     );
 
     # do no escalations on (merge|close|remove) tickets
@@ -2762,7 +2783,10 @@ sub TicketSLASet {
     }
 
     # get current ticket
-    my %Ticket = $Self->TicketGet(%Param);
+    my %Ticket = $Self->TicketGet(
+        %Param,
+        DynamicFields => 0,
+    );
 
     # update needed?
     return 1 if ( $Param{SLAID} eq $Ticket{SLAID} );
@@ -2798,7 +2822,10 @@ sub TicketSLASet {
     delete $Self->{ 'Cache::GetTicket' . $Param{TicketID} };
 
     # get new ticket data
-    my %TicketNew = $Self->TicketGet(%Param);
+    my %TicketNew = $Self->TicketGet(
+        %Param,
+        DynamicFields => 0,
+    );
     $TicketNew{SLA} = $TicketNew{SLA} || 'NULL';
     $Param{SLAID}   = $Param{SLAID}   || '';
     $Ticket{SLA}    = $Ticket{SLA}    || 'NULL';
@@ -3078,7 +3105,10 @@ sub TicketFreeTextSet {
     }
 
     # check if update is needed
-    my %Ticket = $Self->TicketGet( TicketID => $Param{TicketID} );
+    my %Ticket = $Self->TicketGet(
+        TicketID      => $Param{TicketID},
+        DynamicFields => 1,
+    );
 
     my $Value = '';
     my $Key   = '';
@@ -3248,7 +3278,10 @@ sub TicketFreeTimeSet {
     }
 
     # check if update is needed
-    my %Ticket = $Self->TicketGet( TicketID => $Param{TicketID} );
+    my %Ticket = $Self->TicketGet(
+        TicketID      => $Param{TicketID},
+        DynamicFields => 1,
+    );
     my $TicketFreeTime = $Ticket{"TicketFreeTime$Param{Counter}"} || '';
 
     if ( $TimeStamp eq $TicketFreeTime ) {
@@ -3826,7 +3859,10 @@ sub TicketLockSet {
 
     # send unlock notify
     if ( lc $Param{Lock} eq 'unlock' ) {
-        my %Ticket = $Self->TicketGet(%Param);
+        my %Ticket = $Self->TicketGet(
+            %Param,
+            DynamicFields => 0,
+        );
 
         # check if the current user is the current owner, if not send a notify
         my $To = '';
@@ -3911,7 +3947,10 @@ sub TicketArchiveFlagSet {
     }
 
     # check if update is needed
-    my %Ticket = $Self->TicketGet(%Param);
+    my %Ticket = $Self->TicketGet(
+        %Param,
+        DynamicFields => 0,
+    );
 
     # return if no update is needed
     return 1 if $Ticket{ArchiveFlag} && $Ticket{ArchiveFlag} eq $Param{ArchiveFlag};
@@ -4011,7 +4050,10 @@ sub TicketStateSet {
     }
 
     # check if update is needed
-    my %Ticket = $Self->TicketGet( TicketID => $Param{TicketID} );
+    my %Ticket = $Self->TicketGet(
+        TicketID      => $Param{TicketID},
+        DynamicFields => 0,
+    );
     if ( $State{Name} eq $Ticket{State} ) {
 
         # update is not needed
@@ -4462,7 +4504,11 @@ sub TicketResponsibleSet {
     }
 
     # check if update is needed!
-    my %Ticket = $Self->TicketGet( TicketID => $Param{TicketID}, UserID => $Param{NewUserID} );
+    my %Ticket = $Self->TicketGet(
+        TicketID      => $Param{TicketID},
+        UserID        => $Param{NewUserID},
+        DynamicFields => 0,
+    );
     if ( $Ticket{ResponsibleID} eq $Param{NewUserID} ) {
 
         # update is "not" needed!
@@ -4715,7 +4761,10 @@ sub TicketPrioritySet {
             return;
         }
     }
-    my %Ticket = $Self->TicketGet(%Param);
+    my %Ticket = $Self->TicketGet(
+        %Param,
+        DynamicFields => 0,
+    );
 
     # check if update is needed
     if ( $Ticket{Priority} eq $Param{Priority} ) {
@@ -5129,7 +5178,10 @@ sub HistoryTicketGet {
     }
 
     # update old ticket info
-    my %CurrentTicketData = $Self->TicketGet( TicketID => $Ticket{TicketID} );
+    my %CurrentTicketData = $Self->TicketGet(
+        TicketID      => $Ticket{TicketID},
+        DynamicFields => 0,
+    );
     for my $TicketAttribute (qw(State Priority Queue TicketNumber)) {
         if ( !$Ticket{$TicketAttribute} ) {
             $Ticket{$TicketAttribute} = $CurrentTicketData{$TicketAttribute};
@@ -5265,25 +5317,37 @@ sub HistoryAdd {
 
     # get type
     if ( !$Param{TypeID} ) {
-        my %Ticket = $Self->TicketGet(%Param);
+        my %Ticket = $Self->TicketGet(
+            %Param,
+            DynamicFields => 0,
+        );
         $Param{TypeID} = $Ticket{TypeID};
     }
 
     # get owner
     if ( !$Param{OwnerID} ) {
-        my %Ticket = $Self->TicketGet(%Param);
+        my %Ticket = $Self->TicketGet(
+            %Param,
+            DynamicFields => 0,
+        );
         $Param{OwnerID} = $Ticket{OwnerID};
     }
 
     # get priority
     if ( !$Param{PriorityID} ) {
-        my %Ticket = $Self->TicketGet(%Param);
+        my %Ticket = $Self->TicketGet(
+            %Param,
+            DynamicFields => 0,
+        );
         $Param{PriorityID} = $Ticket{PriorityID};
     }
 
     # get state
     if ( !$Param{StateID} ) {
-        my %Ticket = $Self->TicketGet(%Param);
+        my %Ticket = $Self->TicketGet(
+            %Param,
+            DynamicFields => 0,
+        );
         $Param{StateID} = $Ticket{StateID};
     }
 
@@ -5595,8 +5659,14 @@ sub TicketMerge {
         Bind => [ \$Param{MainTicketID}, \$Param{UserID}, \$Param{MergeTicketID} ],
     );
 
-    my %MainTicket  = $Self->TicketGet( TicketID => $Param{MainTicketID} );
-    my %MergeTicket = $Self->TicketGet( TicketID => $Param{MergeTicketID} );
+    my %MainTicket = $Self->TicketGet(
+        TicketID      => $Param{MainTicketID},
+        DynamicFields => 0,
+    );
+    my %MergeTicket = $Self->TicketGet(
+        TicketID      => $Param{MergeTicketID},
+        DynamicFields => 0,
+    );
 
     my $Body = $Self->{ConfigObject}->Get('Ticket::Frontend::AutomaticMergeText');
     $Body =~ s{<OTRS_TICKET>}{$MergeTicket{TicketNumber}}xms;
@@ -7350,6 +7420,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.532 $ $Date: 2011-11-25 01:52:53 $
+$Revision: 1.533 $ $Date: 2011-11-25 09:53:42 $
 
 =cut

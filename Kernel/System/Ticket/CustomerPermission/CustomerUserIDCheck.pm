@@ -1,9 +1,9 @@
 # --
 # Kernel/System/Ticket/CustomerPermission/CustomerUserIDCheck.pm - the sub
 # module of the global ticket handle
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerUserIDCheck.pm,v 1.8 2009-02-17 00:07:24 martin Exp $
+# $Id: CustomerUserIDCheck.pm,v 1.9 2011-11-25 09:57:17 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -45,7 +45,10 @@ sub Run {
     }
 
     # get ticket data
-    my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Param{TicketID} );
+    my %Ticket = $Self->{TicketObject}->TicketGet(
+        TicketID      => $Param{TicketID},
+        DynamicFields => 0,
+    );
 
     # get user data
     my %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet( User => $Param{UserID} );
