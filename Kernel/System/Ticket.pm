@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.533 2011-11-25 09:53:42 mg Exp $
+# $Id: Ticket.pm,v 1.534 2011-11-25 15:08:04 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -40,7 +40,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.533 $) [1];
+$VERSION = qw($Revision: 1.534 $) [1];
 
 =head1 NAME
 
@@ -2933,145 +2933,6 @@ sub TicketCustomerSet {
     );
 
     return 1;
-}
-
-=item TicketFreeTextGet()
-
-get _possible_ ticket free text options
-
-Note: the current value is accessible over TicketGet()
-
-    my $HashRef = $TicketObject->TicketFreeTextGet(
-        Type     => 'TicketFreeText3',
-        TicketID => 123,
-        UserID   => 123, # or CustomerUserID
-    );
-
-    my $HashRef = $TicketObject->TicketFreeTextGet(
-        Type   => 'TicketFreeText3',
-        UserID => 123, # or CustomerUserID
-    );
-
-    # fill up with existing values
-    my $HashRef = $TicketObject->TicketFreeTextGet(
-        Type   => 'TicketFreeText3',
-        FillUp => 1,
-        UserID => 123, # or CustomerUserID
-    );
-
-Returns:
-
-    $HashRef = {
-        'Storage Value A' => 'Display Value A',
-        'Storage Value B' => 'Display Value B',
-        'Storage Value C' => 'Display Value C',
-        'Storage Value D' => 'Display Value D',
-        'Storage Value E' => 'Display Value E',
-    };
-
-=cut
-
-sub TicketFreeTextGet {
-    my ( $Self, %Param ) = @_;
-
-    my $Value = $Param{Value} || '';
-    my $Key   = $Param{Key}   || '';
-
-    # check needed stuff
-    if ( !$Param{Type} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need Type!" );
-        return;
-    }
-    if ( !$Param{UserID} && !$Param{CustomerUserID} ) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => 'Need UserID or CustomerUserID!',
-        );
-        return;
-    }
-
-    # get config
-    my %Data;
-    if ( ref $Self->{ConfigObject}->Get( $Param{Type} ) eq 'HASH' ) {
-        %Data = %{ $Self->{ConfigObject}->Get( $Param{Type} ) };
-    }
-
-    # check existing
-    if ( $Param{FillUp} && %Data ) {
-
-        my $TimeStart = $Self->{TimeObject}->SystemTime();
-        my $Counter   = $Param{Type};
-        $Counter =~ s/^.+?(\d+?)$/$1/;
-
-        # check cache
-        my $CacheObject = Kernel::System::Cache->new( %{$Self} );
-        my $CacheData   = $CacheObject->Get(
-            Type => 'TicketFreeTextLookup',
-            Key  => $Param{Type},
-        );
-
-        # do cache lookup
-        if ( $CacheData && ref $CacheData eq 'HASH' ) {
-            %Data = ( %{$CacheData}, %Data );
-        }
-
-        # do database lookup
-        elsif ( $Param{Type} =~ /text/i ) {
-            return if !$Self->{DBObject}->Prepare(
-                SQL => "SELECT distinct(freetext$Counter) FROM ticket",
-            );
-            while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-                if ( $Row[0] && !$Data{ $Row[0] } ) {
-                    $Data{ $Row[0] } = $Row[0];
-                }
-            }
-        }
-        else {
-            return if !$Self->{DBObject}->Prepare(
-                SQL => "SELECT distinct(freekey$Counter) FROM ticket",
-            );
-            while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-                if ( $Row[0] && !$Data{ $Row[0] } ) {
-                    $Data{ $Row[0] } = $Row[0];
-                }
-            }
-        }
-
-        # fill cache
-        if ( !$CacheData && %Data ) {
-            my $TimeEnd = $Self->{TimeObject}->SystemTime();
-            my $TTL     = 10 * 60;
-            if ( $TimeEnd - $TimeStart > 2 ) {
-                $TTL = 8 * 60 * 60;
-            }
-            elsif ( $TimeEnd - $TimeStart > 1 ) {
-                $TTL = 4 * 60 * 60;
-            }
-            elsif ( $TimeEnd - $TimeStart > 0 ) {
-                $TTL = 2 * 60 * 60;
-            }
-            $CacheObject->Set(
-                Type  => 'TicketFreeTextLookup',
-                Key   => $Param{Type},
-                Value => \%Data,
-                TTL   => $TTL,
-            );
-        }
-    }
-
-    # workflow
-    my $ACL = $Self->TicketAcl(
-        %Param,
-        ReturnType    => 'Ticket',
-        ReturnSubType => $Param{Type},
-        Data          => \%Data,
-    );
-    if ($ACL) {
-        my %Hash = $Self->TicketAclData();
-        return \%Hash;
-    }
-    return if !%Data;
-    return \%Data;
 }
 
 =item TicketFreeTextSet()
@@ -7420,6 +7281,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.533 $ $Date: 2011-11-25 09:53:42 $
+$Revision: 1.534 $ $Date: 2011-11-25 15:08:04 $
 
 =cut

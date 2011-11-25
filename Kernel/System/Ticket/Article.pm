@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.301 2011-11-25 10:04:28 mg Exp $
+# $Id: Article.pm,v 1.302 2011-11-25 15:08:04 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::VariableCheck qw(:all);
 use MIME::Base64;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.301 $) [1];
+$VERSION = qw($Revision: 1.302 $) [1];
 
 =head1 NAME
 
@@ -1035,95 +1035,6 @@ sub ArticleTypeList {
         return %Hash;
     }
     return @Array;
-}
-
-=item ArticleFreeTextGet()
-
-get _possible_ article free text options
-
-Note: the current value is accessible using ArticleGet()
-
-    my $HashRef = $TicketObject->ArticleFreeTextGet(
-        Type      => 'ArticleFreeText3',
-        ArticleID => 123,
-        UserID    => 123, # or CustomerUserID
-    );
-
-    my $HashRef = $TicketObject->ArticleFreeTextGet(
-        Type   => 'ArticleFreeText3',
-        UserID => 123, # or CustomerUserID
-    );
-
-    # fill up with existing values
-    my $HashRef = $TicketObject->ArticleFreeTextGet(
-        Type   => 'ArticleFreeText3',
-        FillUp => 1,
-        UserID => 123, # or CustomerUserID
-    );
-
-=cut
-
-sub ArticleFreeTextGet {
-    my ( $Self, %Param ) = @_;
-
-    my $Value = $Param{Value} || '';
-    my $Key   = $Param{Key}   || '';
-
-    # check needed stuff
-    for (qw(Type)) {
-        if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
-            return;
-        }
-    }
-    if ( !$Param{UserID} && !$Param{CustomerUserID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need UserID or CustomerUserID!" );
-        return;
-    }
-
-    # get config
-    my %Data;
-    if ( ref $Self->{ConfigObject}->Get( $Param{Type} ) eq 'HASH' ) {
-        %Data = %{ $Self->{ConfigObject}->Get( $Param{Type} ) };
-    }
-
-    # check existing
-    if ( $Param{FillUp} ) {
-        my $Counter = $Param{Type};
-        $Counter =~ s/^.*(\d)$/$1/;
-        if ( %Data && $Param{Type} =~ /text/i ) {
-            $Self->{DBObject}->Prepare( SQL => "SELECT distinct(a_freetext$Counter) FROM article" );
-            while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-                if ( $Row[0] && !$Data{ $Row[0] } ) {
-                    $Data{ $Row[0] } = $Row[0];
-                }
-            }
-        }
-        elsif (%Data) {
-            $Self->{DBObject}->Prepare( SQL => "SELECT distinct(a_freekey$Counter) FROM article" );
-            while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-                if ( $Row[0] && !$Data{ $Row[0] } ) {
-                    $Data{ $Row[0] } = $Row[0];
-                }
-            }
-        }
-    }
-
-    # workflow
-    my $ACL = $Self->TicketAcl(
-        %Param,
-        ReturnType    => 'Ticket',
-        ReturnSubType => $Param{Type},
-        Data          => \%Data,
-    );
-    if ($ACL) {
-        my %Hash = $Self->TicketAclData();
-        return \%Hash;
-    }
-
-    # /workflow
-    return if !%Data;
-    return \%Data;
 }
 
 =item ArticleFreeTextSet()
@@ -3599,6 +3510,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.301 $ $Date: 2011-11-25 10:04:28 $
+$Revision: 1.302 $ $Date: 2011-11-25 15:08:04 $
 
 =cut
