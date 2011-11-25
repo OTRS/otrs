@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.531 2011-11-21 13:37:43 cr Exp $
+# $Id: Ticket.pm,v 1.532 2011-11-25 01:52:53 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -40,7 +40,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.531 $) [1];
+$VERSION = qw($Revision: 1.532 $) [1];
 
 =head1 NAME
 
@@ -6168,9 +6168,14 @@ sub TicketAcl {
         $Checks{Frontend} = { Action => $Param{Action}, };
     }
 
+    my $RetrieveDynamicFields = ( IsHashRefWithData( $Param{DynamicField} ) ? 1 : 0 );
+
     # use ticket data if ticket id is given
     if ( $Param{TicketID} ) {
-        my %Ticket = $Self->TicketGet(%Param);
+        my %Ticket = $Self->TicketGet(
+            %Param,
+            DynamicFields => $RetrieveDynamicFields,
+        );
         $Checks{Ticket} = \%Ticket;
     }
 
@@ -7345,6 +7350,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.531 $ $Date: 2011-11-21 13:37:43 $
+$Revision: 1.532 $ $Date: 2011-11-25 01:52:53 $
 
 =cut
