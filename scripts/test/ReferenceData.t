@@ -2,7 +2,7 @@
 # ReferenceData.t - ReferenceData module tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ReferenceData.t,v 1.1 2011-11-26 16:57:20 mb Exp $
+# $Id: ReferenceData.t,v 1.2 2011-11-26 18:17:01 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,18 +20,12 @@ use Kernel::Config;
 # create local object
 my $ConfigObject = Kernel::Config->new();
 
-# get configuration
-my $Countries = $ConfigObject->Get('ReferenceData::OwnCountryList');
-use Data::Dumper;
-print Dumper($Countries);
+# use ReferenceData ISO list
+$ConfigObject->Set(
+    Key   => 'ReferenceData::OwnCountryList',
+    Value => undef,
+);
 
-# set configuration to invalid
-if ( keys %$Countries ) {
-    $ConfigObject->Set(
-        Key   => 'ReferenceData::OwnCountryList',
-        Value => undef,
-    );
-}
 my $ReferenceDataObject = Kernel::System::ReferenceData->new(
     %{ $Self, },
     ConfigObject => $ConfigObject,
@@ -86,15 +80,6 @@ for my $Country (@CountryList) {
     $Self->True(
         $$CountryList{$Country},
         "OwnCountryList: Testing existence of country ($Country)",
-    );
-}
-
-# restore configuration
-if ( keys %$Countries ) {
-    $ConfigObject->Set(
-        Key   => 'ReferenceData::OwnCountryList',
-        Value => $Countries,
-        Valid => 1,
     );
 }
 
