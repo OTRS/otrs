@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerCompany.pm - to add/update/delete customer companies
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerCompany.pm,v 1.23 2011-03-20 08:40:44 mb Exp $
+# $Id: AdminCustomerCompany.pm,v 1.24 2011-11-26 16:57:49 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,10 +15,11 @@ use strict;
 use warnings;
 
 use Kernel::System::CustomerCompany;
+use Kernel::System::ReferenceData;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.23 $) [1];
+$VERSION = qw($Revision: 1.24 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -34,6 +35,7 @@ sub new {
         }
     }
     $Self->{CustomerCompanyObject} = Kernel::System::CustomerCompany->new(%Param);
+    $Self->{ReferenceDataObject}   = Kernel::System::ReferenceData->new(%Param);
     $Self->{ValidObject}           = Kernel::System::Valid->new(%Param);
 
     return $Self;
@@ -309,6 +311,26 @@ sub _Edit {
                     Max         => 35,
                 );
 
+            }
+            elsif ( $Entry->[0] =~ /^CustomerCompanyCountry/i ) {
+                my $OptionRequired = '';
+                if ( $Entry->[4] ) {
+                    $OptionRequired = 'Validate_Required';
+                }
+
+                # build Country string
+                my $CountryList = $Self->{ReferenceDataObject}->CountryList();
+
+                $Block = 'Option';
+                $Param{Option} = $Self->{LayoutObject}->BuildSelection(
+                    Data         => { %$CountryList, },
+                    PossibleNone => 1,
+                    Sort         => 'AlphanumericValue',
+                    Name         => $Entry->[0],
+                    Class        => $OptionRequired . ' ' .
+                        ( $Param{Errors}->{ $Entry->[0] . 'Invalid' } || '' ),
+                    SelectedID => defined( $Param{ $Entry->[0] } ) ? $Param{ $Entry->[0] } : 1,
+                );
             }
             elsif ( $Entry->[0] =~ /^ValidID/i ) {
                 my $OptionRequired = '';
