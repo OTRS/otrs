@@ -2,7 +2,7 @@
 # Kernel/Modules/Installer.pm - provides the DB installer
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Installer.pm,v 1.90 2011-11-22 09:53:40 mab Exp $
+# $Id: Installer.pm,v 1.91 2011-11-26 18:15:07 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Email;
 use Kernel::System::MailAccount;
 
 use vars qw($VERSION %INC);
-$VERSION = qw($Revision: 1.90 $) [1];
+$VERSION = qw($Revision: 1.91 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -796,37 +796,18 @@ sub Run {
             },
         );
 
-        # check if we have our list of countries available
-        my $CustomerCompanyConfig =
-            $Self->{ConfigObject}->Get('CustomerCompany');
-        if (
-            $CustomerCompanyConfig
-            && %{$CustomerCompanyConfig}
-            && %{
-                $CustomerCompanyConfig->{Selections}
-                    ->{CustomerCompanyCountry}
-            }
-            )
-        {
+        my $CountryList = $Self->{ReferenceDataObject}->CountryList();
+        my $CountryStr  = $Self->{LayoutObject}->BuildSelection(
+            Data => { %$CountryList, },
+            Name => 'Country',
+            ID   => 'Country',
+            Sort => 'AlphanumericValue',
+        );
 
-            my $CountryStr = $Self->{LayoutObject}->BuildSelection(
-                Data => $CustomerCompanyConfig->{Selections}
-                    ->{CustomerCompanyCountry},
-                Name => 'Country',
-                ID   => 'Country',
-                Sort => 'AlphanumericValue',
-            );
-
-            $Self->{LayoutObject}->Block(
-                Name => 'CountryStr',
-                Data => { CountryStr => $CountryStr, },
-            );
-        }
-        else {
-
-            $Self->{LayoutObject}->Block( Name => 'CountryInput', );
-        }
-
+        $Self->{LayoutObject}->Block(
+            Name => 'CountryStr',
+            Data => { CountryStr => $CountryStr, },
+        );
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'Installer',
             Data         => {},
