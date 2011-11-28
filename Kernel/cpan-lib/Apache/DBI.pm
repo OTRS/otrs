@@ -1,4 +1,4 @@
-# $Id: DBI.pm,v 1.1 2011-01-20 13:34:19 mb Exp $
+# $Id: DBI.pm,v 1.1.2.1 2011-11-28 12:27:45 mb Exp $
 package Apache::DBI;
 use strict;
 
@@ -22,7 +22,7 @@ use Carp ();
 
 require_version DBI 1.00;
 
-$Apache::DBI::VERSION = '1.09';
+$Apache::DBI::VERSION = '1.11';
 
 # 1: report about new connect
 # 2: full debug output
@@ -297,7 +297,7 @@ sub set_startup_state {
     }
 
     if ($TaintInOut) {
-        foreach my $key qw{ TaintIn TaintOut } {
+        foreach my $key ( qw{ TaintIn TaintOut } ) {
             $Connected{$Idx}->{private_Apache_DBI}{$key} = 
                 $Connected{$Idx}->{$key};
         }
@@ -321,7 +321,7 @@ sub reset_startup_state {
     }
 
     if ($TaintInOut) {
-        foreach my $key qw{ TaintIn TaintOut } {
+        foreach my $key ( qw{ TaintIn TaintOut } ) {
             $Connected{$Idx}->{$key} =
                 $Connected{$Idx}->{private_Apache_DBI}{$key};
         }
