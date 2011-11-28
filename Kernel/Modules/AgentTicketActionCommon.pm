@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketActionCommon.pm - common file for several modules
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketActionCommon.pm,v 1.64 2011-11-22 21:56:40 ub Exp $
+# $Id: AgentTicketActionCommon.pm,v 1.65 2011-11-28 19:39:12 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -874,9 +874,9 @@ sub Run {
                     Max          => 100,
                 },
                 {
-                    Name        => 'NextStateID',
+                    Name        => 'NewStateID',
                     Data        => $NextStates,
-                    SelectedID  => $GetParam{NextStateID},
+                    SelectedID  => $GetParam{NewStateID},
                     Translation => 1,
                     Max         => 100,
                 },
