@@ -2,7 +2,7 @@
 # TicketDynamicFieldSearchPerformance.t - ticket module testscript
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketDynamicFieldSearchPerformance.t,v 1.3 2011-11-11 10:07:09 mg Exp $
+# $Id: TicketDynamicFieldSearchPerformance.t,v 1.4 2011-11-28 14:35:38 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -29,7 +29,8 @@ my $RandomID = int rand 1_000_000_000;
 #   A search will be executed in all fields at once (causing a JOIN for each
 #   field, so be careful with this number.
 
-my $FieldCount = 10;    # Limit to 10 because of the UT servers.
+my $FieldCount = 5;                     # Limit to 5 because of the UT servers.
+my @SearchSteps = ( 1, 2, 3, 4, 5 );    # Steps at which to check search performance
 
 my $ConfigObject = Kernel::Config->new();
 my $UserObject   = Kernel::System::User->new(
@@ -138,7 +139,7 @@ for my $Counter ( 1 .. $FieldCount ) {
         Like => "ticket1_%",
     };
 
-    if ( grep { $_ == $Counter } ( 5, 10, 20, 50, 100, 200 ) ) {
+    if ( grep { $_ == $Counter } @SearchSteps ) {
 
         my $Start = [ Time::HiRes::gettimeofday() ];
 
@@ -158,7 +159,7 @@ for my $Counter ( 1 .. $FieldCount ) {
         );
 
         my $TimeTaken    = Time::HiRes::tv_interval($Start);
-        my $TimeExpected = $Counter / 5;
+        my $TimeExpected = $Counter / 2;
 
         $Self->True(
             $TimeTaken < $TimeExpected,
