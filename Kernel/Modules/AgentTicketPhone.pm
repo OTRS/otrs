@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.210 2011-11-28 23:10:16 cg Exp $
+# $Id: AgentTicketPhone.pm,v 1.211 2011-11-28 23:33:20 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,7 +26,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.210 $) [1];
+$VERSION = qw($Revision: 1.211 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -153,7 +153,7 @@ sub Run {
     }
 
     # get FromCustomer value
-    $GetParam{From} .= $Self->{ParamObject}->GetParam( Param => 'FromCustomer' );
+    $GetParam{From} .= $Self->{ParamObject}->GetParam( Param => 'FromCustomer' ) || '';
 
     # get Dynamic fields form ParamObject
     my %DynamicFieldValues;
@@ -1650,7 +1650,14 @@ sub _MaskPhoneNew {
         defined $Param{FromExternalCustomer}->{Email}
         )
     {
-        $ShowErrors = 0;
+        if (
+            defined $Param{FromExternalCustomer}->{Customer}
+            &&
+            $Param{FromExternalCustomer}->{Customer} ne ''
+            )
+        {
+            $ShowErrors = 0;
+        }
         $Self->{LayoutObject}->Block(
             Name => 'FromExternalCustomer',
             Data => $Param{FromExternalCustomer},
