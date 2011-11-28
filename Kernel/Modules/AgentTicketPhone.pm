@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.209 2011-11-24 12:40:19 ub Exp $
+# $Id: AgentTicketPhone.pm,v 1.210 2011-11-28 23:10:16 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,7 +26,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.209 $) [1];
+$VERSION = qw($Revision: 1.210 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -151,6 +151,9 @@ sub Run {
             }
         }
     }
+
+    # get FromCustomer value
+    $GetParam{From} .= $Self->{ParamObject}->GetParam( Param => 'FromCustomer' );
 
     # get Dynamic fields form ParamObject
     my %DynamicFieldValues;
@@ -502,6 +505,9 @@ sub Run {
         $FromExternalCustomer{Customer}
             = $Self->{ParamObject}->GetParam( Param => 'PreSelectedCustomerUser' )
             || $Self->{ParamObject}->GetParam( Param => 'CustomerUser' )
+            || '';
+        $FromExternalCustomer{Email}
+            = $Self->{ParamObject}->GetParam( Param => 'FromCustomer' )
             || '';
 
         if ( $Self->{ParamObject}->GetParam( Param => 'OwnerAllRefresh' ) ) {
@@ -1640,10 +1646,8 @@ sub _MaskPhoneNew {
     # From external
     my $ShowErrors = 1;
     if (
-        defined $Param{FromExternalCustomer}
-        &&
-        defined $Param{FromExternalCustomer}->{Email} &&
-        defined $Param{FromExternalCustomer}->{Customer}
+        defined $Param{FromExternalCustomer} &&
+        defined $Param{FromExternalCustomer}->{Email}
         )
     {
         $ShowErrors = 0;
