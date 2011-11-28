@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Checkbox.pm - Delegate for DynamicField Checkbox backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Checkbox.pm,v 1.45 2011-11-14 22:56:07 cr Exp $
+# $Id: Checkbox.pm,v 1.46 2011-11-28 07:56:48 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::DynamicFieldValue;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.45 $) [1];
+$VERSION = qw($Revision: 1.46 $) [1];
 
 =head1 NAME
 
@@ -355,7 +355,11 @@ sub DisplayValueRender {
 
     # check for Null value
     if ( !defined $Param{Value} ) {
-        $Param{Value} = 0;
+        return {
+            Value => '',
+            Title => '',
+            Link  => '',
+        };
     }
 
     # convert value to user frendly string
