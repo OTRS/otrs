@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/TicketOverviewMedium.pm
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketOverviewMedium.pm,v 1.50 2011-11-24 15:56:03 mg Exp $
+# $Id: TicketOverviewMedium.pm,v 1.51 2011-11-28 07:57:29 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.50 $) [1];
+$VERSION = qw($Revision: 1.51 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -631,9 +631,16 @@ sub _Show {
         $Counter++;
 
         # get field value
+        my $Value = $Self->{BackendObject}->ValueGet(
+            DynamicFieldConfig => $DynamicFieldConfig,
+            ObjectID           => $Param{TicketID},
+        );
+
+        next DYNAMICFIELD if ( !defined $Value );
+
         my $ValueStrg = $Self->{BackendObject}->DisplayValueRender(
             DynamicFieldConfig => $DynamicFieldConfig,
-            Value              => $Article{ 'DynamicField_' . $DynamicFieldConfig->{Name} },
+            Value              => $Value,
             ValueMaxChars      => 20,
             LayoutObject       => $Self->{LayoutObject},
         );
