@@ -1,5 +1,5 @@
 # --
-# $Id: COPYING-Third-Party,v 1.25 2011-06-13 17:24:18 cr Exp $
+# $Id: COPYING-Third-Party,v 1.26 2011-11-28 12:20:00 mb Exp $
 # --
 # A list of all included third party libraries.
 # --
@@ -93,6 +93,14 @@ o Name:    CPAN IO::Lines
   License: GNU v2 - http://www.gnu.org/licenses/gpl.html
   Note:    # Copyright (c) 1996 by Eryq.  All rights reserved.
            # Copyright (c) 1999,2001 by ZeeGee Software Inc. All rights reserved.
+
+o Name:    CPAN Locale::Codes
+  Web:     n/a
+  License: GNU v2 - http://www.gnu.org/licenses/gpl.html
+  Note:    # Copyright (c) 1997-2001 Canon Research Centre Europe (CRE).
+           # Copyright (c) 2001      Michael Hennecke (Locale::Currency)
+           # Copyright (c) 2001-2010 Neil Bowers
+           # Copyright (c) 2010-2011 Sullivan Beck
 
 o Name:    CPAN MIME::Tools
   Web:     n/a

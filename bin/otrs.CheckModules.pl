@@ -3,7 +3,7 @@
 # bin/otrs.CheckModules.pl - to check needed cpan framework modules
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.CheckModules.pl,v 1.33 2011-11-17 08:52:02 mb Exp $
+# $Id: otrs.CheckModules.pl,v 1.34 2011-11-28 12:20:00 mb Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -159,6 +159,10 @@ my @NeededModules = (
                 Comment  => 'Install it for faster AJAX/JavaScript handling.',
             },
         ],
+    },
+    {
+        Module   => 'Locale::Codes',
+        Required => 1,
     },
     {
         Module   => 'LWP::UserAgent',
