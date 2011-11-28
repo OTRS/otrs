@@ -2,7 +2,7 @@
 # Kernel/System/Main.pm - main core components
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Main.pm,v 1.60 2011-11-21 12:26:46 mh Exp $
+# $Id: Main.pm,v 1.61 2011-11-28 16:44:14 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Unicode::Normalize;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.60 $) [1];
+$VERSION = qw($Revision: 1.61 $) [1];
 
 =head1 NAME
 
@@ -333,7 +333,7 @@ sub FileRead {
     }
 
     # return if file can not open
-    if ( !open( $FH, $Mode, $Param{Location} ) ) {
+    if ( !open $FH, $Mode, $Param{Location} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "Can't open '$Param{Location}': $!",
@@ -342,7 +342,7 @@ sub FileRead {
     }
 
     # lock file (Shared Lock)
-    if ( !flock( $FH, 1 ) ) {
+    if ( !flock $FH, 1 ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "Can't lock '$Param{Location}': $!",
@@ -351,7 +351,7 @@ sub FileRead {
 
     # enable binmode
     if ( !$Param{Mode} || $Param{Mode} =~ m{ \A binmode }xmsi ) {
-        binmode($FH);
+        binmode $FH;
     }
 
     # read file as array
@@ -440,7 +440,7 @@ sub FileWrite {
 
     # return if file can not open
     my $FH;
-    if ( !open( $FH, $Mode, $Param{Location} ) ) {
+    if ( !open $FH, $Mode, $Param{Location} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "Can't write '$Param{Location}': $!",
@@ -449,7 +449,7 @@ sub FileWrite {
     }
 
     # lock file (Exclusive Lock)
-    if ( !flock( $FH, 2 ) ) {
+    if ( !flock $FH, 2 ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "Can't lock '$Param{Location}': $!",
@@ -457,7 +457,7 @@ sub FileWrite {
     }
 
     # empty file first (needed if file is open by '+<')
-    truncate( $FH, 0 );
+    truncate $FH, 0;
 
     # enable binmode
     if ( !$Param{Mode} || lc $Param{Mode} eq 'binmode' ) {
@@ -466,18 +466,25 @@ sub FileWrite {
         $Self->{EncodeObject}->EncodeOutput( $Param{Content} );
 
         # set file handle to binmode
-        binmode($FH);
+        binmode $FH;
     }
 
-    ${ $Param{Content} } ||= '';
+    # write file if content is not undef
+    if ( defined ${ $Param{Content} } ) {
+        print $FH ${ $Param{Content} };
+    }
 
-    # write file and close it
-    print $FH ${ $Param{Content} };
-    close($FH);
+    # write empty file if content is undef
+    else {
+        print $FH '';
+    }
+
+    # close the filehandle
+    close $FH;
 
     # set permission
     if ( $Param{Permission} ) {
-        if ( length( $Param{Permission} ) == 3 ) {
+        if ( length $Param{Permission} == 3 ) {
             $Param{Permission} = "0$Param{Permission}";
         }
         chmod( oct( $Param{Permission} ), $Param{Location} );
@@ -660,7 +667,7 @@ sub MD5sum {
 
         # open file
         my $FH;
-        if ( !open( $FH, '<', $Param{Filename} ) ) {
+        if ( !open $FH, '<', $Param{Filename} ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
                 Message  => "Can't read '$Param{Filename}': $!",
@@ -668,9 +675,9 @@ sub MD5sum {
             return;
         }
 
-        binmode($FH);
+        binmode $FH;
         my $MD5sum = Digest::MD5->new()->addfile($FH)->hexdigest();
-        close($FH);
+        close $FH;
 
         return $MD5sum;
     }
@@ -747,8 +754,7 @@ sub Dump {
     # strings as latin1/8bit instead of utf8. Use Storable module used for
     # workaround.
     # -> http://rt.cpan.org/Ticket/Display.html?id=28607
-    if ( $Self->Require('Storable') && $Type eq 'binary' )
-    {
+    if ( $Self->Require('Storable') && $Type eq 'binary' ) {
 
         # Clone the data because we need to disable the utf8 flag in all
         # reference variables and we want not to do this in the orig.
@@ -973,6 +979,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.60 $ $Date: 2011-11-21 12:26:46 $
+$Revision: 1.61 $ $Date: 2011-11-28 16:44:14 $
 
 =cut
