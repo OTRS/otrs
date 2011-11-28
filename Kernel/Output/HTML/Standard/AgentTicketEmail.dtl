@@ -2,7 +2,7 @@
 # AgentTicketEmail.dtl - provides HTML form for agent email
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.dtl,v 1.152 2011-11-24 12:47:05 cr Exp $
+# $Id: AgentTicketEmail.dtl,v 1.153 2011-11-28 22:22:29 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -178,6 +178,12 @@ $('#Dest').bind('change', function (Event) {
     $('#AddTicketCustomer').bind('click', function () {
         Core.Agent.CustomerSearch.AddTicketCustomer( 'ToCustomer', $('#ToCustomer').val() );
     });
+    $('#ToCustomer').bind('keypress', function (e) {
+        if(e.which == 13){
+            Core.Agent.CustomerSearch.AddTicketCustomer( 'ToCustomer', $('#ToCustomer').val() );
+            return false;
+        }
+    });
 //]]></script>
 <!--dtl:js_on_document_complete-->
 
@@ -239,6 +245,12 @@ $('#Dest').bind('change', function (Event) {
     $('#CcAddTicketCustomer').bind('click', function () {
         Core.Agent.CustomerSearch.AddTicketCustomer( 'CcCustomer', $('#CcCustomer').val() );
     });
+    $('#CcCustomer').bind('keypress', function (e) {
+        if(e.which == 13){
+            Core.Agent.CustomerSearch.AddTicketCustomer( 'CcCustomer', $('#CcCustomer').val() );
+            return false;
+        }
+    });
 //]]></script>
 <!--dtl:js_on_document_complete-->
 
@@ -299,6 +311,12 @@ $('#Dest').bind('change', function (Event) {
 <script type="text/javascript">//<![CDATA[
     $('#BccAddTicketCustomer').bind('click', function () {
         Core.Agent.CustomerSearch.AddTicketCustomer( 'BccCustomer', $('#BccCustomer').val() );
+    });
+    $('#BccCustomer').bind('keypress', function (e) {
+        if(e.which == 13){
+            Core.Agent.CustomerSearch.AddTicketCustomer( 'BccCustomer', $('#BccCustomer').val() );
+            return false;
+        }
     });
 //]]></script>
 <!--dtl:js_on_document_complete-->
