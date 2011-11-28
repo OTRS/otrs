@@ -2,7 +2,7 @@
 # Kernel/System/DB.pm - the global database wrapper to support different databases
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.142 2011-11-22 10:46:09 jp Exp $
+# $Id: DB.pm,v 1.143 2011-11-28 13:33:26 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,9 +17,10 @@ use warnings;
 use DBI;
 
 use Kernel::System::Time;
+use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.142 $) [1];
+$VERSION = qw($Revision: 1.143 $) [1];
 
 =head1 NAME
 
@@ -184,6 +185,41 @@ sub new {
     {
         if ( defined $Param{$_} ) {
             $Self->{Backend}->{"DB::$_"} = $Param{$_};
+        }
+    }
+
+    # Check for registered listener objects
+    $Self->{DBListeners} = [];
+
+    my $DBListeners = $Self->{ConfigObject}->Get('DB::DBListener');
+
+    if ( IsHashRefWithData($DBListeners) ) {
+
+        KEY:
+        for my $Key ( sort keys %{$DBListeners} ) {
+
+            if ( IsHashRefWithData( $DBListeners->{$Key} ) && $DBListeners->{$Key}->{Object} ) {
+                my $Object = $DBListeners->{$Key}->{Object};
+                if ( !$Self->{MainObject}->Require($Object) ) {
+                    $Self->{'LogObject'}->Log(
+                        'Priority' => 'error',
+                        'Message'  => "Could not load module $Object",
+                    );
+
+                    next KEY;
+                }
+                my $Instance = $Object->new(%Param);
+                if ( ref $Instance ne $Object ) {
+                    $Self->{'LogObject'}->Log(
+                        'Priority' => 'error',
+                        'Message'  => "Could not instantiate module $Object",
+                    );
+
+                    next KEY;
+                }
+
+                push @{ $Self->{DBListeners} }, $Instance;
+            }
         }
     }
 
@@ -434,6 +470,10 @@ sub Do {
         );
     }
 
+    for my $DBListener ( @{ $Self->{DBListeners} } ) {
+        $DBListener->PreDo( SQL => $Param{SQL}, Bind => \@Array );
+    }
+
     # send sql to database
     if ( !$Self->{dbh}->do( $Param{SQL}, undef, @Array ) ) {
         $Self->{LogObject}->Log(
@@ -442,6 +482,10 @@ sub Do {
             Message  => "$DBI::errstr, SQL: '$Param{SQL}'",
         );
         return;
+    }
+
+    for my $DBListener ( @{ $Self->{DBListeners} } ) {
+        $DBListener->PostDo( SQL => $Param{SQL}, Bind => \@Array );
     }
 
     return 1;
@@ -557,6 +601,10 @@ sub Prepare {
         }
     }
 
+    for my $DBListener ( @{ $Self->{DBListeners} } ) {
+        $DBListener->PrePrepare( SQL => $SQL, Bind => \@Array );
+    }
+
     # do
     if ( !( $Self->{Cursor} = $Self->{dbh}->prepare($SQL) ) ) {
         $Self->{LogObject}->Log(
@@ -574,6 +622,10 @@ sub Prepare {
             Message  => "$DBI::errstr, SQL: '$SQL'",
         );
         return;
+    }
+
+    for my $DBListener ( @{ $Self->{DBListeners} } ) {
+        $DBListener->PostPrepare( SQL => $SQL, Bind => \@Array );
     }
 
     # slow log feature
@@ -1379,6 +1431,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.142 $ $Date: 2011-11-22 10:46:09 $
+$Revision: 1.143 $ $Date: 2011-11-28 13:33:26 $
 
 =cut
