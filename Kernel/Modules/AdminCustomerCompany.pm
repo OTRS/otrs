@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerCompany.pm - to add/update/delete customer companies
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerCompany.pm,v 1.24 2011-11-26 16:57:49 mb Exp $
+# $Id: AdminCustomerCompany.pm,v 1.25 2011-11-28 09:40:30 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::ReferenceData;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.24 $) [1];
+$VERSION = qw($Revision: 1.25 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -323,7 +323,7 @@ sub _Edit {
 
                 $Block = 'Option';
                 $Param{Option} = $Self->{LayoutObject}->BuildSelection(
-                    Data         => { %$CountryList, },
+                    Data         => $CountryList,
                     PossibleNone => 1,
                     Sort         => 'AlphanumericValue',
                     Name         => $Entry->[0],
