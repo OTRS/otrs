@@ -2,7 +2,7 @@
 # AgentTicketPhone.dtl - provides HTML form for phone
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.dtl,v 1.137 2011-11-28 22:21:28 cg Exp $
+# $Id: AgentTicketPhone.dtl,v 1.138 2011-11-29 20:07:02 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -134,7 +134,6 @@ $Include{"AgentCustomerSearch"}
                     <label for="FromCustomer">$Text{"From customer"}:</label>
                     <div class="Field">
                         <input id="FromCustomer" type="text" name="FromCustomer" value="" class="CustomerAutoComplete W75pc AutocompleteOff $QData{"FromInvalid"}"/>
-                        <button type="button" id="AddTicketCustomer" name="AddTicketCustomer" value="$Text{"Add"}">$Text{"Add"}</button>
                         <div id="FromCustomerServerError" class="TooltipErrorMessage">
 <!-- dtl:block:FromServerErrorMsg -->
                             <p>$Text{"Please include at least one customer for the ticket."}</p>
@@ -144,8 +143,10 @@ $Include{"AgentCustomerSearch"}
                     <div class="Clear"></div>
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
-    $('#AddTicketCustomer').bind('click', function () {
-        Core.Agent.CustomerSearch.AddTicketCustomer( 'FromCustomer', $('#FromCustomer').val() );
+    $('#FromCustomer').bind('change', function () {
+        if ( $('#FromCustomer').val() !== '' ){
+            Core.Agent.CustomerSearch.AddTicketCustomer( 'FromCustomer', $('#FromCustomer').val() );
+        }
     });
     $('#FromCustomer').bind('keypress', function (e) {
         if(e.which == 13){
