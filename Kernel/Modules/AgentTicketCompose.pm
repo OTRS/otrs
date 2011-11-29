@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.pm,v 1.149 2011-11-23 04:36:54 cr Exp $
+# $Id: AgentTicketCompose.pm,v 1.150 2011-11-29 23:48:29 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.149 $) [1];
+$VERSION = qw($Revision: 1.150 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1421,6 +1421,11 @@ sub _Mask {
     $Param{To} = ( scalar @{ $Param{MultipleCustomer} } ? '' : $Param{To} );
     if ( defined $Param{To} && $Param{To} ne '' ) {
         $Param{ToInvalid} = ''
+    }
+
+    $Param{Cc} = ( scalar @{ $Param{MultipleCustomerCc} } ? '' : $Param{Cc} );
+    if ( defined $Param{Cc} && $Param{Cc} ne '' ) {
+        $Param{CcInvalid} = ''
     }
 
     $Self->{LayoutObject}->Block(
