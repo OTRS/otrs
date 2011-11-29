@@ -3,7 +3,7 @@
 # DBUpdate-to-3.1.pl - update script to migrate OTRS 3.0.x to 3.1.x
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-3.1.pl,v 1.66 2011-11-28 02:28:31 cg Exp $
+# $Id: DBUpdate-to-3.1.pl,v 1.67 2011-11-29 14:46:57 cg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.66 $) [1];
+$VERSION = qw($Revision: 1.67 $) [1];
 
 use Getopt::Std qw();
 use Kernel::Config;
@@ -113,7 +113,7 @@ EOF
 
     # verify ticket migration
     my $VerificationTicketData = 1;
-    print "Step 7 of $Steps: Verify if ticket data was successfully migrated... ";
+    print "Step 7 of $Steps: Verify if ticket data was successfully migrated... \n";
     if ( !_IsFreefieldsMigrationAlreadyDone($CommonObject) ) {
         $VerificationTicketData = _VerificationTicketData($CommonObject);
     }
@@ -819,11 +819,19 @@ sub _VerificationTicketData {
     my $SuccessFields = $CommonObject->{DBObject}->Prepare(
         SQL => 'SELECT id, name FROM dynamic_field ' .
             'WHERE name in (' . $FreeFieldsTicketDB . ')',
-
-        #        Bind => [\$FreeFieldsTicket],
     );
     while ( my @Row = $CommonObject->{DBObject}->FetchrowArray() ) {
         $DynamicFieldIDs{ $Row[1] } = $Row[0];
+    }
+
+    # get how much tickets
+    my $HowMuchTickets        = 0;
+    my $SuccessHowMuchTickets = $CommonObject->{DBObject}->Prepare(
+        SQL => 'SELECT count(id) FROM ticket ' .
+            'WHERE ' . $TicketCondition,
+    );
+    while ( my @Row = $CommonObject->{DBObject}->FetchrowArray() ) {
+        $HowMuchTickets = $Row[0] || 0;
     }
 
     # select dynamic field entries
@@ -886,7 +894,15 @@ sub _VerificationTicketData {
                 }
             }
         }
+
+        # ticket counter
+        $MigratedTicketCounter++;
+        print "   Verified ticket $MigratedTicketCounter of $HowMuchTickets"
+            . " (with Free fields data). \n" if ( $MigratedTicketCounter % 100 ) == 0;
     }
+
+    print "\n Verified $MigratedTicketCounter tickets of $HowMuchTickets"
+        . " (with Free fields data). \n";
 
     return 1;
 }
@@ -934,11 +950,19 @@ sub _VerificationArticleData {
     my $SuccessFields = $CommonObject->{DBObject}->Prepare(
         SQL => 'SELECT id, name FROM dynamic_field ' .
             'WHERE name in (' . $FreeFieldsArticleDB . ')',
-
-        #        Bind => [\$FreeFieldsArticle],
     );
     while ( my @Row = $CommonObject->{DBObject}->FetchrowArray() ) {
         $DynamicFieldIDs{ $Row[1] } = $Row[0];
+    }
+
+    # select how much articles
+    my $HowMuchArticles        = 0;
+    my $SuccessHowMuchArticles = $CommonObject->{DBObject}->Prepare(
+        SQL => 'SELECT count(id) FROM article ' .
+            'WHERE ' . $ArticleCondition,
+    );
+    while ( my @Row = $CommonObject->{DBObject}->FetchrowArray() ) {
+        $HowMuchArticles = $Row[0] || 0;
     }
 
     # select dynamic field entries
@@ -1000,7 +1024,15 @@ sub _VerificationArticleData {
                 }
             }
         }
+
+        # article counter
+        $MigratedArticleCounter++;
+        print "   Verified article $MigratedArticleCounter of $HowMuchArticles"
+            . " (with Free fields data). \n" if ( $MigratedArticleCounter % 100 ) == 0;
     }
+
+    print "\n Verified $MigratedArticleCounter articles of $HowMuchArticles"
+        . " (with Free fields data). \n";
 
     return 1;
 }
