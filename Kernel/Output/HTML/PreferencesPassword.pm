@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/PreferencesPassword.pm
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: PreferencesPassword.pm,v 1.27 2010-09-06 07:23:05 mg Exp $
+# $Id: PreferencesPassword.pm,v 1.28 2011-11-29 13:27:14 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.27 $) [1];
+$VERSION = qw($Revision: 1.28 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -37,35 +37,32 @@ sub Param {
     my ( $Self, %Param ) = @_;
 
     # check if we need to show password change option
-    if ( $Self->{ConfigItem}->{Area} eq 'Agent' ) {
 
-        # get auth module
-        my $Module      = $Self->{ConfigObject}->Get('AuthModule');
-        my $AuthBackend = $Param{UserData}->{UserAuthBackend};
-        if ($AuthBackend) {
-            $Module = $Self->{ConfigObject}->Get( 'AuthModule' . $AuthBackend );
-        }
+    # define AuthModule for frontend
+    my $AuthModule
+        = $Self->{ConfigItem}->{Area} eq 'Agent'
+        ? 'AuthModule'
+        : 'Customer::AuthModule';
 
-        # return on no pw reset backends
-        return if $Module =~ /(LDAP|HTTPBasicAuth|Radius)/i;
+    # get auth module
+    my $Module      = $Self->{ConfigObject}->Get($AuthModule);
+    my $AuthBackend = $Param{UserData}->{UserAuthBackend};
+    if ($AuthBackend) {
+        $Module = $Self->{ConfigObject}->Get( $AuthModule . $AuthBackend );
     }
 
-    # check if we need to show password change option
-    elsif ( $Self->{ConfigItem}->{Area} eq 'Customer' ) {
+    # return on no pw reset backends
+    return if $Module =~ /(LDAP|HTTPBasicAuth|Radius)/i;
 
-        # get auth module
-        my $Module      = $Self->{ConfigObject}->Get('Customer::AuthModule');
-        my $AuthBackend = $Param{UserData}->{UserAuthBackend};
-        if ($AuthBackend) {
-            $Module = $Self->{ConfigObject}->Get( 'Customer::AuthModule' . $AuthBackend );
-        }
-
-        # return on no pw reset backends
-        return if $Module =~ /(LDAP|HTTPBasicAuth|Radius)/i;
-    }
     my @Params;
     push(
         @Params,
+        {
+            %Param,
+            Key   => 'Current password',
+            Name  => 'CurPw',
+            Block => 'Password'
+        },
         {
             %Param,
             Key   => 'New password',
@@ -89,6 +86,10 @@ sub Run {
     return 1 if $Self->{ConfigObject}->Get('DemoSystem');
 
     # get password from form
+    my $CurPw;
+    if ( $Param{GetParam}->{CurPw} && $Param{GetParam}->{CurPw}->[0] ) {
+        $CurPw = $Param{GetParam}->{CurPw}->[0];
+    }
     my $Pw;
     if ( $Param{GetParam}->{NewPw} && $Param{GetParam}->{NewPw}->[0] ) {
         $Pw = $Param{GetParam}->{NewPw}->[0];
@@ -96,6 +97,32 @@ sub Run {
     my $Pw1;
     if ( $Param{GetParam}->{NewPw1} && $Param{GetParam}->{NewPw1}->[0] ) {
         $Pw1 = $Param{GetParam}->{NewPw1}->[0];
+    }
+
+    # define AuthModule for frontend
+    my $AuthModule
+        = $Self->{ConfigItem}->{Area} eq 'Agent'
+        ? 'Kernel::System::Auth'
+        : 'Kernel::System::CustomerAuth';
+
+    # create authentication object
+    my $AuthObject = $AuthModule->new(
+        ConfigObject => $Self->{ConfigObject},
+        EncodeObject => $Self->{EncodeObject},
+        LogObject    => $Self->{LogObject},
+        UserObject   => $Self->{UserObject},
+        GroupObject  => $Self->{GroupObject},
+        DBObject     => $Self->{DBObject},
+        MainObject   => $Self->{MainObject},
+        TimeObject   => $Self->{TimeObject},
+    );
+    return 1 if !$AuthObject;
+
+    # validate current password
+    if ( !$AuthObject->Auth( User => $Param{UserData}->{UserLogin}, Pw => $CurPw ) ) {
+        $Self->{Error}
+            = 'The current password is not correct. Please try again!';
+        return;
     }
 
     # compare pws
