@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSysConfig.pm - to change, import, export ConfigParameters
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSysConfig.pm,v 1.118 2011-11-23 20:14:55 mb Exp $
+# $Id: AdminSysConfig.pm,v 1.119 2011-11-29 13:13:26 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::SysConfig;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.118 $) [1];
+$VERSION = qw($Revision: 1.119 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -712,9 +712,6 @@ sub Run {
 
         # get the config level of the admin user
         my $ConfigLevel = $Self->{ConfigObject}->Get('ConfigLevel') || 0;
-
-        # Language
-        my $UserLang = $Self->{UserLanguage} || $Self->{ConfigObject}->Get('DefaultLanguage');
 
         # list all Items
         for (@List) {
