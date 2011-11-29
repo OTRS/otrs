@@ -2,7 +2,7 @@
 # AgentTicketEmail.dtl - provides HTML form for agent email
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.dtl,v 1.153 2011-11-28 22:22:29 cg Exp $
+# $Id: AgentTicketEmail.dtl,v 1.154 2011-11-29 20:16:09 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -163,9 +163,6 @@ $('#Dest').bind('change', function (Event) {
                     <label for="ToCustomer">$Text{"To customer"}:</label>
                     <div class="Field">
                         <input id="ToCustomer" type="text" name="ToCustomer" value="" class="CustomerAutoComplete W75pc AutocompleteOff $QData{"ToInvalid"}"/>
-
-                        <button type="button" id="AddTicketCustomer" name="AddTicketCustomer" value="$Text{"Add"}">$Text{"Add"}</button>
-
                         <div id="ToCustomerServerError" class="TooltipErrorMessage">
 <!-- dtl:block:ToServerErrorMsg -->
                             <p>$Text{"Please include at least one customer for the ticket."}</p>
@@ -175,8 +172,10 @@ $('#Dest').bind('change', function (Event) {
                     <div class="Clear"></div>
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
-    $('#AddTicketCustomer').bind('click', function () {
-        Core.Agent.CustomerSearch.AddTicketCustomer( 'ToCustomer', $('#ToCustomer').val() );
+    $('#ToCustomer').bind('change', function () {
+        if ( $('#ToCustomer').val() !== '' ) {
+            Core.Agent.CustomerSearch.AddTicketCustomer( 'ToCustomer', $('#ToCustomer').val() );
+        }
     });
     $('#ToCustomer').bind('keypress', function (e) {
         if(e.which == 13){
@@ -236,14 +235,14 @@ $('#Dest').bind('change', function (Event) {
                     <label for="CcCustomer">$Text{"Cc"}:</label>
                     <div class="Field">
                         <input id="CcCustomer" type="text" name="CcCustomer" value="" class="CustomerAutoComplete W75pc AutocompleteOff $QData{"CcInvalid"}"/>
-                        <button type="button" id="CcAddTicketCustomer" name="CcAddTicketCustomer" value="$Text{"Add"}">$Text{"Add"}</button>
-
                     </div>
                     <div class="Clear"></div>
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
-    $('#CcAddTicketCustomer').bind('click', function () {
-        Core.Agent.CustomerSearch.AddTicketCustomer( 'CcCustomer', $('#CcCustomer').val() );
+    $('#CcCustomer').bind('change', function () {
+        if ( $('#CcCustomer').val() !== '' ) {
+            Core.Agent.CustomerSearch.AddTicketCustomer( 'CcCustomer', $('#CcCustomer').val() );
+        }
     });
     $('#CcCustomer').bind('keypress', function (e) {
         if(e.which == 13){
@@ -303,14 +302,14 @@ $('#Dest').bind('change', function (Event) {
                     <label for="BccCustomer">$Text{"Bcc"}:</label>
                     <div class="Field">
                         <input id="BccCustomer" type="text" name="BccCustomer" value="" class="CustomerAutoComplete W75pc AutocompleteOff $QData{"BccInvalid"}"/>
-                        <button type="button" id="BccAddTicketCustomer" name="BccAddTicketCustomer" value="$Text{"Add"}">$Text{"Add"}</button>
-
                     </div>
                     <div class="Clear"></div>
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
-    $('#BccAddTicketCustomer').bind('click', function () {
-        Core.Agent.CustomerSearch.AddTicketCustomer( 'BccCustomer', $('#BccCustomer').val() );
+    $('#BccCustomer').bind('change', function () {
+        if ( $('#BccCustomer').val() !== '' ) {
+            Core.Agent.CustomerSearch.AddTicketCustomer( 'BccCustomer', $('#BccCustomer').val() );
+        }
     });
     $('#BccCustomer').bind('keypress', function (e) {
         if(e.which == 13){
