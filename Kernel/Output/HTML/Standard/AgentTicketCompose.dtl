@@ -2,7 +2,7 @@
 # AgentTicketCompose.dtl - provides HTML form for AgentTicketCompose
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.dtl,v 1.96 2011-11-23 04:36:54 cr Exp $
+# $Id: AgentTicketCompose.dtl,v 1.97 2011-11-29 22:18:31 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -109,8 +109,6 @@ $Include{"AgentCustomerSearch"}
                     <div class="Field">
                         <input id="ToCustomer" type="text" name="ToCustomer" value="" class="CustomerAutoComplete W75pc AutocompleteOff $QData{"ToInvalid"}"/>
 
-                        <button type="button" id="AddTicketCustomer" name="AddTicketCustomer" value="$Text{"Add"}">$Text{"Add"}</button>
-
                         <div id="ToCustomerServerError" class="TooltipErrorMessage">
 <!-- dtl:block:ToServerErrorMsg -->
                             <p>$Text{"Please include at least one recipient"}</p>
@@ -120,8 +118,16 @@ $Include{"AgentCustomerSearch"}
                     <div class="Clear"></div>
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
-    $('#AddTicketCustomer').bind('click', function () {
-        Core.Agent.CustomerSearch.AddTicketCustomer( 'ToCustomer', $('#ToCustomer').val() );
+    $('#ToCustomer').bind('change', function () {
+        if ( $('#ToCustomer').val() !== '' ) {
+            Core.Agent.CustomerSearch.AddTicketCustomer( 'ToCustomer', $('#ToCustomer').val() );
+        }
+    });
+    $('#ToCustomer').bind('keypress', function (e) {
+        if(e.which == 13){
+            Core.Agent.CustomerSearch.AddTicketCustomer( 'ToCustomer', $('#ToCustomer').val() );
+            return false;
+        }
     });
 //]]></script>
 <!--dtl:js_on_document_complete-->
@@ -187,14 +193,20 @@ $Include{"AgentCustomerSearch"}
                     <label for="CcCustomer">$Text{"Cc"}:</label>
                     <div class="Field">
                         <input id="CcCustomer" type="text" name="CcCustomer" value="" class="CustomerAutoComplete W75pc AutocompleteOff $QData{"CcInvalid"}"/>
-                        <button type="button" id="CcAddTicketCustomer" name="CcAddTicketCustomer" value="$Text{"Add"}">$Text{"Add"}</button>
-
                     </div>
                     <div class="Clear"></div>
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
-    $('#CcAddTicketCustomer').bind('click', function () {
-        Core.Agent.CustomerSearch.AddTicketCustomer( 'CcCustomer', $('#CcCustomer').val() );
+    $('#CcCustomer').bind('change', function () {
+        if ( $('#CcCustomer').val() !== '' ) {
+            Core.Agent.CustomerSearch.AddTicketCustomer( 'CcCustomer', $('#CcCustomer').val() );
+        }
+    });
+    $('#CcCustomer').bind('keypress', function (e) {
+        if(e.which == 13){
+            Core.Agent.CustomerSearch.AddTicketCustomer( 'CcCustomer', $('#CcCustomer').val() );
+            return false;
+        }
     });
 //]]></script>
 <!--dtl:js_on_document_complete-->
@@ -260,19 +272,21 @@ $Include{"AgentCustomerSearch"}
                     <label for="BccCustomer">$Text{"Bcc"}:</label>
                     <div class="Field">
                         <input id="BccCustomer" type="text" name="BccCustomer" value="" class="CustomerAutoComplete W75pc AutocompleteOff $QData{"BccInvalid"}"/>
-                        <button type="button" id="BccAddTicketCustomer" name="BccAddTicketCustomer" value="$Text{"Add"}">$Text{"Add"}</button>
-
                     </div>
                     <div class="Clear"></div>
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
-    $('#BccAddTicketCustomer').bind('click', function () {
-        Core.Agent.CustomerSearch.AddTicketCustomer( 'BccCustomer', $('#BccCustomer').val() );
+    $('#BccCustomer').bind('change', function () {
+        if ( $('#BccCustomer').val() !== '' ) {
+            Core.Agent.CustomerSearch.AddTicketCustomer( 'BccCustomer', $('#BccCustomer').val() );
+        }
     });
-    var InitialBcc = $('#BccCustomerInitialValue').val();
-    if (InitialBcc !== '' && !$('#BccCustomerTicketText_1').val()) {
-        Core.Agent.CustomerSearch.AddTicketCustomer( 'BccCustomer', InitialBcc );
-    }
+    $('#BccCustomer').bind('keypress', function (e) {
+        if(e.which == 13){
+            Core.Agent.CustomerSearch.AddTicketCustomer( 'BccCustomer', $('#BccCustomer').val() );
+            return false;
+        }
+    });
 //]]></script>
 <!--dtl:js_on_document_complete-->
 
