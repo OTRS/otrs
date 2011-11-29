@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2051 2011-11-29 13:27:14 mb Exp $
+# $Id: CHANGES,v 1.2052 2011-11-29 16:21:02 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.1.0 beta2 ????-??-??
+ - 2011-11-29 Fixed bug#7719 - Agent login page does not offer user to save password
+    with Firefox browser.
  - 2011-11-29 Fixed bug#4957 - Password Change dialog misses "Current Password" option.
  - 2011-11-29 Show Article Creator in article view, similar to Idea#378.
  - 2011-11-28 Updated CPAN module Apache::DBI to version 1.11.
