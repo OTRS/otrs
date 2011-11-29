@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2049 2011-11-28 12:28:37 mb Exp $
+# $Id: CHANGES,v 1.2050 2011-11-29 07:23:01 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.1.0 beta2 ????-??-??
+ - 2011-11-29 Show Article Creator in article view, similar to Idea#378.
  - 2011-11-28 Updated CPAN module Apache::DBI to version 1.11.
  - 2011-11-28 Updated CPAN module Mozilla::CA to version 20111025.
  - 2011-11-26 Added ReferenceData object that provides ISO-3166 country codes.

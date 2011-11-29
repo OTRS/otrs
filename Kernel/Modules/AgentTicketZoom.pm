@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.163 2011-11-25 09:26:05 mg Exp $
+# $Id: AgentTicketZoom.pm,v 1.164 2011-11-29 07:23:01 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.163 $) [1];
+$VERSION = qw($Revision: 1.164 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1304,6 +1304,15 @@ sub _ArticleItem {
         Name => 'ArticleItem',
         Data => { %Param, %Article, %AclAction },
     );
+
+    # show created by if different from User ID 1
+    if ( $Article{CreatedBy} > 1 ) {
+        $Article{CreatedByUser} = $Self->{UserObject}->UserName( UserID => $Article{CreatedBy} );
+        $Self->{LayoutObject}->Block(
+            Name => 'ArticleCreatedBy',
+            Data => {%Article},
+        );
+    }
 
     # mark shown article as seen
     if ( $Param{Type} eq 'OnLoad' ) {
