@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPackageManager.pm - manage software packages
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPackageManager.pm,v 1.103 2011-07-29 11:34:15 martin Exp $
+# $Id: AdminPackageManager.pm,v 1.104 2011-11-29 13:19:29 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Package;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.103 $) [1];
+$VERSION = qw($Revision: 1.104 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1251,6 +1251,10 @@ sub _MessageGet {
     my $Title       = '';
     my $Description = '';
     my $Use         = 0;
+
+    my $Language = $Self->{LayoutObject}->{UserLanguage}
+        || $Self->{ConfigObject}->Get('DefaultLanguage');
+
     if ( $Param{Info} ) {
         for my $Tag ( @{ $Param{Info} } ) {
             if ( $Param{Type} ) {
@@ -1264,14 +1268,8 @@ sub _MessageGet {
                 $Description = $Tag->{Content};
                 $Title       = $Tag->{Title};
             }
-            if (
-                ( $Self->{UserLanguage} && $Tag->{Lang} eq $Self->{UserLanguage} )
-                || (
-                    !$Self->{UserLanguage}
-                    && $Tag->{Lang} eq $Self->{ConfigObject}->Get('DefaultLanguage')
-                )
-                )
-            {
+
+            if ( $Tag->{Lang} eq $Language ) {
                 $Description = $Tag->{Content};
                 $Title       = $Tag->{Title};
             }
