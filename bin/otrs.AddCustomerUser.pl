@@ -2,7 +2,6 @@
 # --
 # bin/otrs.AddCustomerUser.pl - Add User from CLI
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,10 +29,10 @@ use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw (%opts);
 use Getopt::Std;
-getopt( 'flpge', \%opts );
+getopt( 'flpgec', \%opts );
 unless ( $ARGV[0] ) {
     print
-        "$FindBin::Script [-f firstname] [-l lastname] [-p password] [-g groupname] [-e email] username\n";
+        "$FindBin::Script [-f firstname] [-l lastname] [-p password] [-g groupname] [-e email] [-c CustomerID] username\n";
     print "\tif you define -g with a valid group name then the user will be added that group\n";
     print "\n";
     exit;
@@ -70,7 +69,7 @@ $Param{ValidID} = '1';
 $Param{Source}         = 'CustomerUser';
 $Param{UserFirstname}  = $opts{f};
 $Param{UserLastname}   = $opts{l};
-$Param{UserCustomerID} = $ARGV[0];
+$Param{UserCustomerID} = defined $opts{c} ? $opts{c} : $ARGV[0];
 $Param{UserLogin}      = $ARGV[0];
 $Param{UserPassword}   = $opts{p};
 $Param{UserEmail}      = $opts{e};

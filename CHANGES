@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2052 2011-11-29 16:21:02 mb Exp $
+# $Id: CHANGES,v 1.2053 2011-11-30 09:11:35 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.1.0 beta2 ????-??-??
+ - 2011-11-30 Fixed bug#6715 - Setting CustomerID with otrs.AddCustomerUser.pl.
  - 2011-11-29 Fixed bug#7719 - Agent login page does not offer user to save password
     with Firefox browser.
  - 2011-11-29 Fixed bug#4957 - Password Change dialog misses "Current Password" option.
@@ -166,6 +167,7 @@
      of > 70 characters exists.
 
 3.0.12 ????-??-??
+ - 2011-11-30 Fixed bug#6715 - Setting CustomerID with otrs.AddCustomerUser.pl.
  - 2011-11-28 Updated CPAN module Apache::DBI to version 1.11.
  - 2011-11-23 Fixed bug#7930 - Depreciation warnings in error log when running OTRS on
     Perl 5.14.
