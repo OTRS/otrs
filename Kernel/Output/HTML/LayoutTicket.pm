@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.136 2011-11-25 14:41:54 mg Exp $
+# $Id: LayoutTicket.pm,v 1.137 2011-11-30 08:25:36 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.136 $) [1];
+$VERSION = qw($Revision: 1.137 $) [1];
 
 sub AgentCustomerViewTable {
     my ( $Self, %Param ) = @_;
@@ -168,16 +168,17 @@ sub AgentCustomerViewTable {
 # !! DONT USE THIS FUNCTION !! Use BuildSelection() instead.
 #
 # Due to compatibility reason this function is still in use and will be removed
-# in a further release.
+# in a future release.
 
 sub AgentQueueListOption {
     my ( $Self, %Param ) = @_;
 
-    my $Size       = $Param{Size}                  ? "size='$Param{Size}'" : '';
-    my $MaxLevel   = defined( $Param{MaxLevel} )   ? $Param{MaxLevel}      : 10;
-    my $SelectedID = defined( $Param{SelectedID} ) ? $Param{SelectedID}    : '';
-    my $Selected   = defined( $Param{Selected} )   ? $Param{Selected}      : '';
-    my $Class      = defined( $Param{Class} )      ? $Param{Class}         : '';
+    my $Size           = $Param{Size}                      ? "size='$Param{Size}'"  : '';
+    my $MaxLevel       = defined( $Param{MaxLevel} )       ? $Param{MaxLevel}       : 10;
+    my $SelectedID     = defined( $Param{SelectedID} )     ? $Param{SelectedID}     : '';
+    my $Selected       = defined( $Param{Selected} )       ? $Param{Selected}       : '';
+    my $CurrentQueueID = defined( $Param{CurrentQueueID} ) ? $Param{CurrentQueueID} : '';
+    my $Class          = defined( $Param{Class} )          ? $Param{Class}          : '';
     my $SelectedIDRefArray = $Param{SelectedIDRefArray} || '';
     my $Multiple       = $Param{Multiple}                  ? 'multiple = "multiple"' : '';
     my $OptionTitle    = defined( $Param{OptionTitle} )    ? $Param{OptionTitle}     : 0;
@@ -322,6 +323,14 @@ sub AgentQueueListOption {
                 $Param{MoveQueuesStrg}
                     .= '<option selected="selected" value="'
                     . $_ . '"'
+                    . $OptionTitleHTMLValue . '>'
+                    . $String
+                    . "</option>\n";
+            }
+            elsif ( $CurrentQueueID eq $_ )
+            {
+                $Param{MoveQueuesStrg}
+                    .= '<option value="-" disabled="disabled"'
                     . $OptionTitleHTMLValue . '>'
                     . $String
                     . "</option>\n";
