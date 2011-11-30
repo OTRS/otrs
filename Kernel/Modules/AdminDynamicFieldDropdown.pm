@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminDynamicFieldDropdown.pm - provides a dynamic fields text config view for admins
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminDynamicFieldDropdown.pm,v 1.12 2011-11-04 03:00:28 cr Exp $
+# $Id: AdminDynamicFieldDropdown.pm,v 1.13 2011-11-30 00:50:28 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::DynamicField;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -199,7 +199,7 @@ sub _AddAction {
         }
 
         # check for empty new values
-        if ( !$PossibleValues->{$Key} ) {
+        if ( !defined $PossibleValues->{$Key} ) {
 
             # set a true entry in NewValueEmptyError
             $Errors{'PossibleValueErrors'}->{'ValueEmptyError'}->{$Key} = 1;
@@ -437,7 +437,7 @@ sub _ChangeAction {
         }
 
         # check for empty new values
-        if ( !$PossibleValues->{$Key} ) {
+        if ( !defined $PossibleValues->{$Key} ) {
 
             # set a true entry in NewValueEmptyError
             $Errors{'PossibleValueErrors'}->{'ValueEmptyError'}->{$Key} = 1;
@@ -631,12 +631,12 @@ sub _ShowScreen {
     my %DefaultValuesList;
     POSSIBLEVALUE:
     for my $ValueItem ( keys %PossibleValues ) {
-        next POSSIBLEVALUE if !$ValueItem;
-        next POSSIBLEVALUE if !$PossibleValues{$ValueItem};
+        next POSSIBLEVALUE if !defined $ValueItem;
+        next POSSIBLEVALUE if !defined $PossibleValues{$ValueItem};
         $DefaultValuesList{$ValueItem} = $PossibleValues{$ValueItem}
     }
 
-    my $DefaultValue = $Param{DefaultValue} || '';
+    my $DefaultValue = ( defined $Param{DefaultValue} ? $Param{DefaultValue} : '' );
 
     # create the default value select
     my $DefaultValueStrg = $Self->{LayoutObject}->BuildSelection(
@@ -717,7 +717,8 @@ sub _GetPossibleValues {
     my $Values;
     VALUEINDEX:
     for my $ValueIndex ( 1 .. $ValueCounter ) {
-        my $Key = $Self->{ParamObject}->GetParam( Param => 'Key' . '_' . $ValueIndex ) || '';
+        my $Key = $Self->{ParamObject}->GetParam( Param => 'Key' . '_' . $ValueIndex );
+        $Key = ( defined $Key ? $Key : '' );
 
         # check if key was deleted by the user and skip it
         next VALUEINDEX if $Key eq $Self->{DeletedString};
@@ -738,7 +739,8 @@ sub _GetPossibleValues {
             $DuplicateValueCounter++;
         }
 
-        my $Value = $Self->{ParamObject}->GetParam( Param => 'Value' . '_' . $ValueIndex ) || '';
+        my $Value = $Self->{ParamObject}->GetParam( Param => 'Value' . '_' . $ValueIndex );
+        $Value = ( defined $Value ? $Value : '' );
         $PossibleValueConfig->{$Key} = $Value;
     }
     return $PossibleValueConfig;
