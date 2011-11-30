@@ -3,7 +3,7 @@
 # Copyright (C) 2006 Stelios Maistros <smaistros aegean.gr>
 # Copyright (C) 2006 George Thomas <gthomas aegean.gr>
 # --
-# $Id: el.pm,v 1.84 2011-11-18 08:08:44 mb Exp $
+# $Id: el.pm,v 1.85 2011-11-30 11:24:42 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.84 $) [1];
+$VERSION = qw($Revision: 1.85 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -416,7 +416,7 @@ sub Data {
         'Email Settings' => '',
         'Other Settings' => '',
         'Change Password' => 'Αλλαγή Κωδικού',
-        'Current Password' => '',
+        'Current password' => '',
         'New password' => 'Νέος Κωδικός',
         'Verify password' => '',
         'Spelling Dictionary' => 'Ορθογραφικό Λεξικό',

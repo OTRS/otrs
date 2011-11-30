@@ -3,7 +3,7 @@
 # Copyright (C) 2003-2010 Tomasz Melissa <janek at rumianek.com>
 # Copyright (C) 2009 Artur Skalski <skal.ar at wp.pl>
 # --
-# $Id: pl.pm,v 1.114 2011-11-18 08:10:34 mb Exp $
+# $Id: pl.pm,v 1.115 2011-11-30 11:29:51 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.114 $) [1];
+$VERSION = qw($Revision: 1.115 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -415,7 +415,7 @@ sub Data {
         'Email Settings' => 'Ustawienia poczty email',
         'Other Settings' => 'Inne ustawienia',
         'Change Password' => 'Zmień hasło',
-        'Current Password' => 'Aktualne hasło',
+        'Current password' => 'Aktualne hasło',
         'New password' => 'Nowe hasło',
         'Verify password' => '',
         'Spelling Dictionary' => 'Słownik pisowni',

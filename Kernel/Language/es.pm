@@ -6,7 +6,7 @@
 # Copyright (C) 2009 Gustavo Azambuja <gazambuja at gmail.com>
 # Copyright (C) 2009 Emiliano Gonzalez <egonzalez@ergio.com.ar>
 # --
-# $Id: es.pm,v 1.135 2011-11-18 08:11:25 mb Exp $
+# $Id: es.pm,v 1.136 2011-11-30 11:24:42 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.135 $) [1];
+$VERSION = qw($Revision: 1.136 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -418,7 +418,7 @@ sub Data {
         'Email Settings' => '',
         'Other Settings' => '',
         'Change Password' => 'Cambiar contraseña',
-        'Current Password' => '',
+        'Current password' => '',
         'New password' => 'Nueva contraseña',
         'Verify password' => '',
         'Spelling Dictionary' => 'Diccionario Ortográfico',

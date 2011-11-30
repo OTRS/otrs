@@ -4,7 +4,7 @@
 # Copyright (C) 2011 Chetan Nagaonkar <Chetan_Nagaonkar at OptForOPS.com>
 # Copyright (C) 2011 Chetan Nagaonkar <ChetanNagaonkar at yahoo.com>
 # --
-# $Id: hi.pm,v 1.11 2011-11-18 08:08:44 mb Exp $
+# $Id: hi.pm,v 1.12 2011-11-30 11:28:14 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -416,7 +416,7 @@ sub Data {
         'Email Settings' => 'ईमेल व्यवस्थाऐं',
         'Other Settings' => 'अन्य व्यवस्थाऐं',
         'Change Password' => 'कूटशब्द बदलें',
-        'Current Password' => 'वर्तमान कूटशब्द',
+        'Current password' => 'वर्तमान कूटशब्द',
         'New password' => 'नया कूटशब्द',
         'Verify password' => 'कूटशब्द सत्यापित करें',
         'Spelling Dictionary' => 'वर्तनी शब्दकोश',

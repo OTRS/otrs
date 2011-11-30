@@ -6,7 +6,7 @@
 # Copyright (C) 2007 Aron Ujvari <ujvari@hungary.com>
 # Copyright (C) 2009 Arnold Matyasi <arn@webma.hu>
 # --
-# $Id: hu.pm,v 1.100 2011-11-18 08:08:44 mb Exp $
+# $Id: hu.pm,v 1.101 2011-11-30 11:28:14 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.100 $) [1];
+$VERSION = qw($Revision: 1.101 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -418,7 +418,7 @@ sub Data {
         'Email Settings' => '',
         'Other Settings' => '',
         'Change Password' => 'Jelszó megváltoztatása',
-        'Current Password' => '',
+        'Current password' => '',
         'New password' => 'Új jelszó',
         'Verify password' => '',
         'Spelling Dictionary' => 'Helyesírás-ellenőrző szótár',

@@ -8,7 +8,7 @@
 # Copyright (C) 2004-2008 Yann Richard <ze at nbox.org>
 # Copyright (C) 2009-2010 Olivier Sallou <olivier.sallou at irisa.fr>
 # --
-# $Id: fr.pm,v 1.152 2011-11-18 08:10:34 mb Exp $
+# $Id: fr.pm,v 1.153 2011-11-30 11:28:14 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.152 $) [1];
+$VERSION = qw($Revision: 1.153 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -420,7 +420,7 @@ sub Data {
         'Email Settings' => 'Paramétrage email',
         'Other Settings' => 'Autres paramétrages',
         'Change Password' => 'Changer de mot de passe',
-        'Current Password' => 'Mot de passe actuel',
+        'Current password' => 'Mot de passe actuel',
         'New password' => 'Nouveau mot de passe',
         'Verify password' => '',
         'Spelling Dictionary' => 'Correcteur orthographique',

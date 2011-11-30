@@ -9,7 +9,7 @@
 # Copyright (C) 2010-2011 Eugene Kungurov <ekungurov83 at ya.ru>
 # Copyright (C) 2010 Sergey Romanov <romanov_s at mail.ru>
 # --
-# $Id: ru.pm,v 1.124 2011-11-18 08:08:44 mb Exp $
+# $Id: ru.pm,v 1.125 2011-11-30 11:31:21 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.124 $) [1];
+$VERSION = qw($Revision: 1.125 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -421,7 +421,7 @@ sub Data {
         'Email Settings' => 'Настройки почты',
         'Other Settings' => 'Прочие настройки',
         'Change Password' => 'Сменить пароль',
-        'Current Password' => 'Текущий пароль',
+        'Current password' => 'Текущий пароль',
         'New password' => 'Новый пароль',
         'Verify password' => 'Подтвердите пароль',
         'Spelling Dictionary' => 'Словарь',

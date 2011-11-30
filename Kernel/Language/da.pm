@@ -4,7 +4,7 @@
 # Copyright (C) 2007-2008 Mads N. Vestergaard <mnv[at]timmy.dk>
 # Copyright (C) 2010 Lars Jørgensen <lajo[at]kb.dk>
 # --
-# $Id: da.pm,v 1.93 2011-11-18 08:05:23 mb Exp $
+# $Id: da.pm,v 1.94 2011-11-30 11:24:42 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 
 use vars qw($VERSION);
 
-$VERSION = qw($Revision: 1.93 $) [1];
+$VERSION = qw($Revision: 1.94 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -416,7 +416,7 @@ sub Data {
         'Email Settings' => 'Email-indstillinger',
         'Other Settings' => 'Andre Indstillinger',
         'Change Password' => 'Skift adgangskode',
-        'Current Password' => 'Nuværende adgangskode',
+        'Current password' => 'Nuværende adgangskode',
         'New password' => 'Ny adgangskode',
         'Verify password' => 'Gentag adgangskode',
         'Spelling Dictionary' => 'Ordbog til stavekontrol',

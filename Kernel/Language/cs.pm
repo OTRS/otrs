@@ -6,7 +6,7 @@
 # Copyright (C) 2010 O2BS.com, s r.o. Jakub Hanus
 # Copyright (C) 2010 Pavel <pavel.vilim at kodys.cz>
 # --
-# $Id: cs.pm,v 1.11 2011-11-18 08:05:23 mb Exp $
+# $Id: cs.pm,v 1.12 2011-11-30 11:24:42 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -418,7 +418,7 @@ sub Data {
         'Email Settings' => 'Nastavení emailu',
         'Other Settings' => 'Ostatní nastavení',
         'Change Password' => 'Změna hesla',
-        'Current Password' => 'Stávající heslo',
+        'Current password' => 'Stávající heslo',
         'New password' => 'Nové Heslo',
         'Verify password' => '',
         'Spelling Dictionary' => 'Slovník pro kontrolu pravopisu',

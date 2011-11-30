@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # Copyright (C) 2010-2011 Kaz Kamimura <kamypus at yahoo.co.jp>
 # --
-# $Id: ja.pm,v 1.19 2011-11-18 08:05:23 mb Exp $
+# $Id: ja.pm,v 1.20 2011-11-30 11:29:50 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.19 $) [1];
+$VERSION = qw($Revision: 1.20 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -414,7 +414,7 @@ sub Data {
         'Email Settings' => 'メール設定',
         'Other Settings' => 'その他の設定',
         'Change Password' => 'パスワード変更',
-        'Current Password' => '現在のパスワード',
+        'Current password' => '現在のパスワード',
         'New password' => '新規パスワード',
         'Verify password' => '確認パスワード',
         'Spelling Dictionary' => 'スペルチェック辞書',

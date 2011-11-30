@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # Copyright (C) 2011 Edgaras Luko�evi�ius <edgaras[eta]kauko.lt or admin[eta]sysadmin.lt>
 # --
-# $Id: lt.pm,v 1.9 2011-11-18 08:05:23 mb Exp $
+# $Id: lt.pm,v 1.10 2011-11-30 11:29:50 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -414,7 +414,7 @@ sub Data {
         'Email Settings' => 'Elektroninio pa�to nustatymai',
         'Other Settings' => 'Kiti nustatymai',
         'Change Password' => 'Pakeisti slapta�od�',
-        'Current Password' => 'Dabartinis slapta�odis',
+        'Current password' => 'Dabartinis slapta�odis',
         'New password' => 'Naujas slapta�odis',
         'Verify password' => 'Patikrinti slapta�od�',
         'Spelling Dictionary' => 'Ra�ybos �odynas',

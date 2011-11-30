@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Thomas Kaltenbrunner <tkaltenbrunner at opc.de>
 # --
-# $Id: de.pm,v 1.296 2011-11-28 09:52:33 mg Exp $
+# $Id: de.pm,v 1.297 2011-11-30 11:24:42 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.296 $) [1];
+$VERSION = qw($Revision: 1.297 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -414,7 +414,7 @@ sub Data {
         'Email Settings' => 'E-Mail-Einstellungen',
         'Other Settings' => 'Andere Einstellungen',
         'Change Password' => 'Passwort ändern',
-        'Current Password' => 'Akutelles Passwort',
+        'Current password' => 'Akutelles Passwort',
         'New password' => 'Neues Passwort',
         'Verify password' => 'Passwort verifizieren',
         'Spelling Dictionary' => 'Rechtschreib-Wörterbuch',

@@ -7,7 +7,7 @@
 # Copyright (C) 2009 Qingjiu Jia <jiaqj at yahoo.com>
 # Copyright (C) 2011 Martin Liu <liuzh66 at gmail.com> http://martinliu.cn
 # --
-# $Id: zh_CN.pm,v 1.100 2011-11-18 08:10:34 mb Exp $
+# $Id: zh_CN.pm,v 1.101 2011-11-30 11:31:21 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.100 $) [1];
+$VERSION = qw($Revision: 1.101 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -419,7 +419,7 @@ sub Data {
         'Email Settings' => '通知邮件设置',
         'Other Settings' => '其它设置',
         'Change Password' => '修改密码',
-        'Current Password' => '当前密码',
+        'Current password' => '当前密码',
         'New password' => '新密码',
         'Verify password' => '重复新密码',
         'Spelling Dictionary' => '拼写检查字典',

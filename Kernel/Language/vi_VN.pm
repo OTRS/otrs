@@ -2,7 +2,7 @@
 # Kernel/Language/vi_VN.pm - provides Vietnamese language translation
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: vi_VN.pm,v 1.56 2011-11-18 08:05:23 mb Exp $
+# $Id: vi_VN.pm,v 1.57 2011-11-30 11:31:21 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.56 $) [1];
+$VERSION = qw($Revision: 1.57 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -413,7 +413,7 @@ sub Data {
         'Email Settings' => '',
         'Other Settings' => '',
         'Change Password' => 'Đổi mật khẩu',
-        'Current Password' => '',
+        'Current password' => '',
         'New password' => 'Mật khẩu mới',
         'Verify password' => '',
         'Spelling Dictionary' => 'Từ điển chính tả',

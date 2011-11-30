@@ -6,7 +6,7 @@
 # Copyright (C) 2007-2010 Fabricio Luiz Machado <soprobr gmail.com>
 # Copyright (C) 2010-2011 Murilo Moreira de Oliveira <murilo.moreira gmail.com>
 # --
-# $Id: pt_BR.pm,v 1.119 2011-11-18 08:11:25 mb Exp $
+# $Id: pt_BR.pm,v 1.120 2011-11-30 11:29:51 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.119 $) [1];
+$VERSION = qw($Revision: 1.120 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -417,7 +417,7 @@ sub Data {
         'Email Settings' => 'Configurações de E-mail',
         'Other Settings' => 'Outras Configurações',
         'Change Password' => 'Trocar senha',
-        'Current Password' => 'Senha atual',
+        'Current password' => 'Senha atual',
         'New password' => 'Nova senha',
         'Verify password' => 'Verificar senha',
         'Spelling Dictionary' => 'Dicionário de ortografia',

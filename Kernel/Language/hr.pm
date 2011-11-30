@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # Copyright (C) 2011 Damir Dzeko <damir punkt dzeko masterspace inet.hr>
 # --
-# $Id: hr.pm,v 1.9 2011-11-18 08:11:25 mb Exp $
+# $Id: hr.pm,v 1.10 2011-11-30 11:28:14 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -418,7 +418,7 @@ sub Data {
         'Email Settings' => 'Postavke E-pošte',
         'Other Settings' => 'Druge postavke',
         'Change Password' => 'Promjena lozinke',
-        'Current Password' => 'Sadašnja lozinka',
+        'Current password' => 'Sadašnja lozinka',
         'New password' => 'Nova lozinka',
         'Verify password' => 'Potvrdi lozinku',
         'Spelling Dictionary' => 'Pravopisni rječnik',

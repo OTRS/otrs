@@ -2,7 +2,7 @@
 # Kernel/Language/es_MX.pm - provides Spanish language translation for Mexico
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: es_MX.pm,v 1.49 2011-11-18 08:10:34 mb Exp $
+# $Id: es_MX.pm,v 1.50 2011-11-30 11:24:42 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.49 $) [1];
+$VERSION = qw($Revision: 1.50 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -414,7 +414,7 @@ sub Data {
         'Email Settings' => 'Configuración del Correo Electrónico',
         'Other Settings' => 'Otras Configuraciones',
         'Change Password' => 'Cambiar Contraseña',
-        'Current Password' => 'Contraseña actual',
+        'Current password' => 'Contraseña actual',
         'New password' => 'Nueva contraseña',
         'Verify password' => 'Verificar contraseña',
         'Spelling Dictionary' => 'Diccionario Ortográfico',

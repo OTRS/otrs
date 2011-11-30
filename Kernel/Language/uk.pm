@@ -2,7 +2,7 @@
 # Kernel/Language/uk.pm - provides ru language translation
 # Copyright (C) 2010 Бельский Артем
 # --
-# $Id: uk.pm,v 1.25 2011-11-18 08:08:44 mb Exp $
+# $Id: uk.pm,v 1.26 2011-11-30 11:31:21 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.25 $) [1];
+$VERSION = qw($Revision: 1.26 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -414,7 +414,7 @@ sub Data {
         'Email Settings' => 'Настроювання пошти',
         'Other Settings' => 'Інші настроювання',
         'Change Password' => 'Перемінити пароль',
-        'Current Password' => 'Поточний пароль',
+        'Current password' => 'Поточний пароль',
         'New password' => 'Новий пароль',
         'Verify password' => 'Повторіть пароль',
         'Spelling Dictionary' => 'Словник',

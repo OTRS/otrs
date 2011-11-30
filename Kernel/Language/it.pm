@@ -8,7 +8,7 @@
 # Copyright (C) 2009 Alessandro Faraldi <faraldia at gmail.com>
 # Copyright (C) 2010 Alessandro Grassi <alessandro.grassi at devise.it>
 # --
-# $Id: it.pm,v 1.119 2011-11-18 08:12:27 mb Exp $
+# $Id: it.pm,v 1.120 2011-11-30 11:29:50 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.119 $) [1];
+$VERSION = qw($Revision: 1.120 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -420,7 +420,7 @@ sub Data {
         'Email Settings' => 'Impsotazioni email',
         'Other Settings' => 'Altre impostazioni',
         'Change Password' => 'Cambia Password',
-        'Current Password' => 'Password attuale',
+        'Current password' => 'Password attuale',
         'New password' => 'Nuova Password',
         'Verify password' => 'Verifica password',
         'Spelling Dictionary' => 'Dizionario',

@@ -3,7 +3,7 @@
 # Copyright (C) 2004 Vladimir Gerdjikov <gerdjikov at gerdjikovs.net>
 # Copyright (C) 2007 Alex Kantchev <ak at otrs.org>
 # --
-# $Id: bg.pm,v 1.122 2011-11-18 08:05:23 mb Exp $
+# $Id: bg.pm,v 1.123 2011-11-30 11:24:42 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.122 $) [1];
+$VERSION = qw($Revision: 1.123 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -415,7 +415,7 @@ sub Data {
         'Email Settings' => '',
         'Other Settings' => '',
         'Change Password' => 'Смяна на паролата',
-        'Current Password' => '',
+        'Current password' => '',
         'New password' => 'Нова парола',
         'Verify password' => '',
         'Spelling Dictionary' => 'Речик за проверка на правописа',

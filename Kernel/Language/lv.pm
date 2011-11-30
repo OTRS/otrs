@@ -2,7 +2,7 @@
 # Kernel/Language/lv.pm - provides Latvian language translation
 # Copyright (C) 2009 Ivars Strazdins <ivars.strazdins at gmail.com>
 # --
-# $Id: lv.pm,v 1.33 2011-11-18 08:05:23 mb Exp $
+# $Id: lv.pm,v 1.34 2011-11-30 11:29:50 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.33 $) [1];
+$VERSION = qw($Revision: 1.34 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -413,7 +413,7 @@ sub Data {
         'Email Settings' => '',
         'Other Settings' => '',
         'Change Password' => 'Paroles maiņa',
-        'Current Password' => '',
+        'Current password' => '',
         'New password' => 'Jaunā parole',
         'Verify password' => '',
         'Spelling Dictionary' => 'Pareizrakstības vārdnīca',

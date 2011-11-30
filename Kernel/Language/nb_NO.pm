@@ -8,7 +8,7 @@
 # Copyright (C) 2011 Lars Erik Utsi Gullerud <lerik at nolink.net>
 # Copyright (C) 2011 Espen Stefansen <espen.stefansen at imr.no>
 # --
-# $Id: nb_NO.pm,v 1.117 2011-11-18 08:11:25 mb Exp $
+# $Id: nb_NO.pm,v 1.118 2011-11-30 11:29:51 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.117 $;
+$VERSION = q$Revision: 1.118 $;
 
 sub Data {
     my $Self = shift;
@@ -420,7 +420,7 @@ sub Data {
         'Email Settings' => 'E-postinnstillinger',
         'Other Settings' => 'Andre innstillinger',
         'Change Password' => 'Endre passord',
-        'Current Password' => 'Nåværende passord',
+        'Current password' => 'Nåværende passord',
         'New password' => 'Nytt passord',
         'Verify password' => 'Gjenta passord',
         'Spelling Dictionary' => 'Ordbok for stavekontroll',

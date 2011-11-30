@@ -2,7 +2,7 @@
 # Kernel/Language/pt.pm - provides pt language translation
 # Copyright (C) 2004-2007 CAT - Filipe Henriques <filipehenriques at ip.pt>
 # --
-# $Id: pt.pm,v 1.110 2011-11-18 08:10:34 mb Exp $
+# $Id: pt.pm,v 1.111 2011-11-30 11:29:51 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.110 $) [1];
+$VERSION = qw($Revision: 1.111 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -414,7 +414,7 @@ sub Data {
         'Email Settings' => '',
         'Other Settings' => '',
         'Change Password' => 'Mudar a Palavra-passe',
-        'Current Password' => '',
+        'Current password' => '',
         'New password' => 'Nova palavra-passe',
         'Verify password' => '',
         'Spelling Dictionary' => 'Dicionário Ortográfico',

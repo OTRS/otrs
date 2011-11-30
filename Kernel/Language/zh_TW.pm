@@ -4,7 +4,7 @@
 # Copyright (C) 2009 Yiye Huang <yiyehuang at gmail.com>
 # Copyright (C) 2009 Qingjiu Jia <jiaqj at yahoo.com>
 # --
-# $Id: zh_TW.pm,v 1.30 2011-11-18 08:08:44 mb Exp $
+# $Id: zh_TW.pm,v 1.31 2011-11-30 11:31:48 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.30 $) [1];
+$VERSION = qw($Revision: 1.31 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -416,7 +416,7 @@ sub Data {
         'Email Settings' => '',
         'Other Settings' => '',
         'Change Password' => '修改密碼',
-        'Current Password' => '',
+        'Current password' => '',
         'New password' => '新密碼',
         'Verify password' => '',
         'Spelling Dictionary' => '拼寫檢查字典',

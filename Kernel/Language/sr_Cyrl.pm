@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Milorad Jovanovic <j.milorad at gmail.com>
 # --
-# $Id: sr_Cyrl.pm,v 1.19 2011-11-18 08:11:25 mb Exp $
+# $Id: sr_Cyrl.pm,v 1.20 2011-11-30 11:31:21 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.19 $) [1];
+$VERSION = qw($Revision: 1.20 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -414,7 +414,7 @@ sub Data {
         'Email Settings' => 'Е-мејл подешавања',
         'Other Settings' => 'Друга подешавања',
         'Change Password' => 'Промена лозинке',
-        'Current Password' => 'Садашња лозинка',
+        'Current password' => 'Садашња лозинка',
         'New password' => 'Нова лозинка',
         'Verify password' => 'Потврди лозинку',
         'Spelling Dictionary' => 'Правописни речник',

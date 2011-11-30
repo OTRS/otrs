@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Antti Kämäräinen <antti at seu.net>
 # Copyright (C) 2007-2008 Mikko Hynninen <first.last at tietokartano.fi>
 # --
-# $Id: fi.pm,v 1.122 2011-11-18 08:12:27 mb Exp $
+# $Id: fi.pm,v 1.123 2011-11-30 11:28:14 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.122 $) [1];
+$VERSION = qw($Revision: 1.123 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -415,7 +415,7 @@ sub Data {
         'Email Settings' => '',
         'Other Settings' => '',
         'Change Password' => 'Vaihda salasana',
-        'Current Password' => '',
+        'Current password' => '',
         'New password' => 'Uusi salasana',
         'Verify password' => '',
         'Spelling Dictionary' => 'Oikolukusanasto',

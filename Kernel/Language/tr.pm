@@ -2,7 +2,7 @@
 # Kernel/Language/tr.pm - provides Turkish language translation
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: tr.pm,v 1.57 2011-11-18 08:10:34 mb Exp $
+# $Id: tr.pm,v 1.58 2011-11-30 11:31:21 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.57 $)[1];
+$VERSION = qw($Revision: 1.58 $)[1];
 
 sub Data {
     my $Self = shift;
@@ -413,7 +413,7 @@ sub Data {
         'Email Settings' => '',
         'Other Settings' => '',
         'Change Password' => 'Parola Değiştir',
-        'Current Password' => '',
+        'Current password' => '',
         'New password' => 'Yeni parola',
         'Verify password' => '',
         'Spelling Dictionary' => 'Sözdizim Sözlüğü',
