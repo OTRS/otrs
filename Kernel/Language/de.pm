@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Thomas Kaltenbrunner <tkaltenbrunner at opc.de>
 # --
-# $Id: de.pm,v 1.298 2011-11-30 11:32:22 mb Exp $
+# $Id: de.pm,v 1.299 2011-12-01 15:21:54 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.298 $) [1];
+$VERSION = qw($Revision: 1.299 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -2372,7 +2372,7 @@ sub Data {
         'Create and manage responses that are automatically sent.' => 'Vorlagen für automatische Antworten erzeugen und verwalten.',
         'Create and manage roles.' => 'Rollen erzeugen und verwalten.',
         'Create and manage salutations.' => 'Anreden erzeugen und verwalten.',
-        'Create and manage services.' => 'Sevices erzeugen und verwalten.',
+        'Create and manage services.' => 'Services erzeugen und verwalten.',
         'Create and manage signatures.' => 'Signaturen erzeugen und verwalten.',
         'Create and manage ticket priorities.' => 'Ticket-Prioritäten erzeugen und verwalten.',
         'Create and manage ticket states.' => 'Ticket-Status  erzeugen und verwalten.',
