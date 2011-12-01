@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Customer Frontend
- * @version     $Revision: 1.14 $
+ * @version     $Revision: 1.15 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -290,7 +290,7 @@ fieldset .RichTextHolder {
 }
 
 .Box fieldset {
-    height: 125px;
+    min-height: 125px;
     margin-bottom: 0;
 }
 
