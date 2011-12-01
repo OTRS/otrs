@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/DashboardRSS.pm
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardRSS.pm,v 1.14 2010-04-02 20:13:18 martin Exp $
+# $Id: DashboardRSS.pm,v 1.15 2011-12-01 10:50:58 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use XML::FeedPP;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -55,6 +55,24 @@ sub Config {
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    # Default URL
+    my $FeedURL = $Self->{Config}->{URL};
+
+    my $Language = $Self->{LayoutObject}->{UserLanguage};
+
+    # Check if URL for UserLanguage is available
+    if ( $Self->{Config}->{"URL_$Language"} ) {
+        $FeedURL = $Self->{Config}->{"URL_$Language"};
+    }
+    else {
+
+        # Check for main language for languages like es_MX (es in this case)
+        ($Language) = split /_/, $Language;
+        if ( $Self->{Config}->{"URL_$Language"} ) {
+            $FeedURL = $Self->{Config}->{"URL_$Language"};
+        }
+    }
+
     # set proxy settings can't use Kernel::System::WebAgent because of used
     # XML::FeedPP to get RSS files
     my $Proxy = $Self->{ConfigObject}->Get('WebUserAgent::Proxy');
@@ -63,11 +81,16 @@ sub Run {
     }
 
     # get content
-    my $Feed
-        = eval { XML::FeedPP->new( $Self->{Config}->{URL}, 'xml_deref' => 1, 'utf8_flag' => 1 ) };
+    my $Feed = eval {
+        XML::FeedPP->new(
+            $FeedURL,
+            'xml_deref' => 1,
+            'utf8_flag' => 1,
+        );
+    };
 
     if ( !$Feed ) {
-        my $Content = "Can't connect to " . $Self->{Config}->{URL};
+        my $Content = "Can't connect to $FeedURL";
         return $Content;
     }
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.457 2011-11-26 16:57:00 mb Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.458 2011-12-01 10:50:59 mg Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box (to avoid the use of destructive queries, such as DROP DATABASE, and also to steal user passwords).</Description>
         <Group>Framework</Group>
@@ -5217,7 +5217,9 @@ via the Preferences button after logging in.
                 <Item Key="Module">Kernel::Output::HTML::DashboardRSS</Item>
                 <Item Key="Title">OTRS News</Item>
                 <Item Key="Description"></Item>
-                <Item Key="URL">http://otrs.org/rss/</Item>
+                <Item Key="URL">http://www.otrs.com/en/rss.xml</Item>
+                <Item Key="URL_de">http://www.otrs.com/de/rss.xml</Item>
+                <Item Key="URL_es">http://www.otrs.com/es/rss.xml</Item>
                 <Item Key="Block">ContentSmall</Item>
                 <Item Key="Limit">6</Item>
                 <Item Key="Group"></Item>
