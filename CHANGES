@@ -2,12 +2,15 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2054 2011-12-02 07:33:23 mg Exp $
+# $Id: CHANGES,v 1.2055 2011-12-02 13:56:02 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
+
+3.1.0.beta3 2011-12-??
+ - 2011-12-02 Fixed bug#4548 - 'Ajax overwrites OnChange' in BuildSelection().
 
 3.1.0.beta2 2011-12-06
  - 2011-11-30 Fixed bug#6715 - Setting CustomerID with otrs.AddCustomerUser.pl.

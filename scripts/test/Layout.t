@@ -2,7 +2,7 @@
 # scripts/test/Layout.t - layout module testscript
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.t,v 1.55 2011-07-28 07:55:06 mg Exp $
+# $Id: Layout.t,v 1.56 2011-12-02 13:56:03 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -578,6 +578,23 @@ if ( $HTMLCode =~ m{ value="0" \s selected}smx ) {
 $Self->True(
     $SelectedTest,
     "Layout.t - zero test for SelectedID attribute in BuildSelection().",
+);
+
+# Ajax and OnChange exclude each other
+$HTMLCode = $LayoutObject->BuildSelection(
+    Data => {
+        0 => 'zero',
+        1 => 'one',
+        2 => 'two',
+    },
+    Name     => 'test',
+    OnChange => q{alert('just testing')},
+    Ajax     => {},
+);
+
+$Self->False(
+    $HTMLCode,
+    q{Layout.t - 'Ajax' and 'OnChange' exclude each other in BuildSelection().},
 );
 
 # test quoting and cutting of strings for $Quote, $QData and $QEnv
