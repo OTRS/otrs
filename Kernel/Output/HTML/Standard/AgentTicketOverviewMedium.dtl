@@ -2,7 +2,7 @@
 # AgentTicketOverviewMedium.dtl - provides HTML Ticket Overview
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewMedium.dtl,v 1.68 2011-11-21 19:21:32 mb Exp $
+# $Id: AgentTicketOverviewMedium.dtl,v 1.69 2011-12-02 12:04:42 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -175,7 +175,7 @@
                             <label>$Text{"Owner"}</label><div title="$QData{"UserFirstname"} $QData{"UserLastname"} ($QData{"Owner"})">$QData{"UserFirstname","15"} $QData{"UserLastname","15"}</div>
                         </td>
                         <td>
-                            <label>$Text{"Lock"}</label><div title="$Text{"$Data{"Lock"}"}">$Text{"$Data{"Lock"}","26"}</div>
+                            <label>$Text{"Lock"}</label><div title="$Text{"$Data{"Lock"}"}">$Text{"$Data{"Lock"}"}</div>
                         </td>
                         <td>
 <!-- dtl:block:Service -->
