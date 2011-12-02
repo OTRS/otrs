@@ -2,14 +2,14 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2053 2011-11-30 09:11:35 mb Exp $
+# $Id: CHANGES,v 1.2054 2011-12-02 07:33:23 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-3.1.0 beta2 ????-??-??
+3.1.0.beta2 2011-12-06
  - 2011-11-30 Fixed bug#6715 - Setting CustomerID with otrs.AddCustomerUser.pl.
  - 2011-11-29 Fixed bug#7719 - Agent login page does not offer user to save password
     with Firefox browser.
@@ -30,7 +30,7 @@
     is set to 'By Mail'.
  - 2011-11-23 Fixed bug#7930 - Depreciation warnings in error log when running OTRS on
     Perl 5.14.
- - 2011-11-21 Fixed bug#7914 - DynamicField Value Storage on AgentTicketActionCommon.pm and
+ - 2011-11-21 Fixed bug#7914 - DynamicField value Storage on AgentTicketActionCommon.pm and
     AgentTicketPhoneCommon.pm.
  - 2011-11-21 Fixed bug#7923 - Free field value not correctly migrated error on DBUpdate-to-3.1.pl.
  - 2011-11-21 Fixed bug#3804 - Stats in Bar or Pie chart formats don't display non-
@@ -43,7 +43,7 @@
  - 2011-11-19 Fixed bug#7917 - New ACL mechanism does not generate DynamicField hash check when
     only TicketID is given.
 
-3.1.0 beta1 2011-11-22
+3.1.0.beta1 2011-11-22
  - 2011-11-15 Added IE7 to browser blacklist.
  - 2011-11-15 Updated German translation.
  - 2011-11-14 Added Idea#724 - Connect to IMAP servers using TLS encryption.
