@@ -8,7 +8,7 @@
 # Copyright (C) 2011 Lars Erik Utsi Gullerud <lerik at nolink.net>
 # Copyright (C) 2011 Espen Stefansen <espen.stefansen at imr.no>
 # --
-# $Id: nb_NO.pm,v 1.118 2011-11-30 11:29:51 mb Exp $
+# $Id: nb_NO.pm,v 1.119 2011-12-02 07:30:48 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,13 +21,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.118 $;
+$VERSION = q$Revision: 1.119 $;
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2011-11-18 08:59:25
+    # Last translation file sync: 2011-12-02 08:27:14
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1066,7 +1066,7 @@ sub Data {
         'Refresh' => 'Oppdater',
         'Request Details' => '',
         'An error occurred during communication.' => '',
-        'Show or hide the content.' => 'Vis eller skjul innhold.',
+        'Show or hide the content' => 'Vis eller skjul innholdet',
         'Clear debug log' => '',
 
         # Template: AdminGenericInterfaceInvokerDefault
@@ -1111,7 +1111,6 @@ sub Data {
         'This rule will apply for all values with no mapping rule.' => '',
         'New key map' => '',
         'Add key mapping' => '',
-        'Show or hide the content' => 'Vis eller skjul innholdet',
         'Mapping for Key ' => '',
         'Remove key mapping' => '',
         'Key mapping' => '',
@@ -1201,7 +1200,11 @@ sub Data {
         'Controller' => '',
         'Inbound mapping' => '',
         'Outbound mapping' => '',
+        'Delete this action' => '',
+        'At least one %s has a controller that is either not active or not present, please check the controller registration or delete the %s' => '',
         'Delete webservice' => '',
+        'Delete operation' => '',
+        'Delete invoker' => '',
         'Clone webservice' => '',
         'Import webservice' => '',
 
@@ -1217,6 +1220,7 @@ sub Data {
         'Restore web service configuration' => '',
         'Do you really want to restore this version of the web service configuration?' => '',
         'Your current web service configuration will be overwritten.' => '',
+        'Show or hide the content.' => 'Vis eller skjul innhold.',
         'Restore' => '',
 
         # Template: AdminGroup
@@ -1890,8 +1894,8 @@ sub Data {
         'No ticket data found.' => 'Ingen saker ble funnet',
         'First Response Time' => 'Første responstid',
         'Service Time' => 'Tjenestetid',
-        '","26' => '',
         'Update Time' => 'Oppdateringstid',
+        '","26' => '',
         'Solution Time' => 'Løsningstid',
         'Move ticket to a different queue' => 'Flytt saker til annen kø',
         'Change queue' => 'Endre kø',
@@ -1972,7 +1976,6 @@ sub Data {
         'Sender Type' => 'Sendertype',
         'Save filter settings as default' => 'Lagre filter som standard',
         'Ticket Information' => 'Saksinformasjon',
-        '","18' => '',
         'Linked Objects' => 'Lenkede objekter',
         'Article(s)' => 'Innlegg',
         'Change Queue' => 'Bytt kø',
@@ -2042,6 +2045,7 @@ sub Data {
         'Service level agreement' => 'Tjenestenivåavtale',
 
         # Template: CustomerTicketOverview
+        '","18' => '',
         'Welcome!' => 'Velkommen!',
         'Please click the button below to create your first ticket.' => 'Vennligst klikk på knappen under for å opprette din første sak.',
         'Create your first ticket' => 'Opprett din første sak',
@@ -3235,6 +3239,7 @@ sub Data {
         'The text at the beginning of the subject in an email reply, e.g. RE, AW, or AS.' => 'Teksten i begynnelsen av emnet på et e-post-svar, f.eks. RE, SV',
         'The text at the beginning of the subject when an email is forwarded, e.g. FW, Fwd, or WG.' => 'Teksten i begynnelsen av emnet på en e-post som er videresendt, f.eks. VS, FW',
         'This module and its PreRun() function will be executed, if defined, for every request. This module is useful to check some user options or to display news about new applications.' => 'Denne modulen og dens PreRun()-funksjon vil, hvis satt, bli kjørt ved hver forespørsel. Denne modulen er nyttig for å sjekke brukerinnstillinger eller for å vise nyheter om nye programmer el.l.',
+        'This setting allows you to override the built-in country list with your own list of countries. This is particularly handy if you just want to use a small select group of countries.' => '',
         'Ticket event module that triggers the escalation stop events.' => '',
         'Ticket overview' => 'Saksoversikt',
         'Tickets' => 'Saker',

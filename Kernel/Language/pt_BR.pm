@@ -6,7 +6,7 @@
 # Copyright (C) 2007-2010 Fabricio Luiz Machado <soprobr gmail.com>
 # Copyright (C) 2010-2011 Murilo Moreira de Oliveira <murilo.moreira gmail.com>
 # --
-# $Id: pt_BR.pm,v 1.120 2011-11-30 11:29:51 mb Exp $
+# $Id: pt_BR.pm,v 1.121 2011-12-02 07:32:41 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,13 +18,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.120 $) [1];
+$VERSION = qw($Revision: 1.121 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2011-11-18 08:59:38
+    # Last translation file sync: 2011-12-02 08:27:18
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1063,7 +1063,7 @@ sub Data {
         'Refresh' => 'Atualizar',
         'Request Details' => '',
         'An error occurred during communication.' => '',
-        'Show or hide the content.' => '',
+        'Show or hide the content' => 'Mostrar ou esconder o conteúdo',
         'Clear debug log' => '',
 
         # Template: AdminGenericInterfaceInvokerDefault
@@ -1108,7 +1108,6 @@ sub Data {
         'This rule will apply for all values with no mapping rule.' => '',
         'New key map' => '',
         'Add key mapping' => '',
-        'Show or hide the content' => 'Mostrar ou esconder o conteúdo',
         'Mapping for Key ' => '',
         'Remove key mapping' => '',
         'Key mapping' => '',
@@ -1198,7 +1197,11 @@ sub Data {
         'Controller' => '',
         'Inbound mapping' => '',
         'Outbound mapping' => '',
+        'Delete this action' => '',
+        'At least one %s has a controller that is either not active or not present, please check the controller registration or delete the %s' => '',
         'Delete webservice' => '',
+        'Delete operation' => '',
+        'Delete invoker' => '',
         'Clone webservice' => '',
         'Import webservice' => '',
 
@@ -1214,6 +1217,7 @@ sub Data {
         'Restore web service configuration' => '',
         'Do you really want to restore this version of the web service configuration?' => '',
         'Your current web service configuration will be overwritten.' => '',
+        'Show or hide the content.' => '',
         'Restore' => '',
 
         # Template: AdminGroup
@@ -1887,8 +1891,8 @@ sub Data {
         'No ticket data found.' => 'Nenhum dado de chamado encontrado.',
         'First Response Time' => 'Primeiro Tempo de Resposta',
         'Service Time' => 'Tempo de Serviço',
-        '","26' => '',
         'Update Time' => 'Tempo de Atualizaçao',
+        '","26' => '',
         'Solution Time' => 'Tempo de Solução',
         'Move ticket to a different queue' => 'Mover chamado para uma fila diferente',
         'Change queue' => 'Modificar fila',
@@ -1969,7 +1973,6 @@ sub Data {
         'Sender Type' => 'Tipo de Remetente',
         'Save filter settings as default' => 'Salvar configurações de filtro como padrão',
         'Ticket Information' => 'Informação do Chamado',
-        '","18' => '',
         'Linked Objects' => 'Objetos Associados',
         'Article(s)' => 'Artigo(s)',
         'Change Queue' => 'Modificar Fila',
@@ -2039,6 +2042,7 @@ sub Data {
         'Service level agreement' => 'Acordo de nível de serviço',
 
         # Template: CustomerTicketOverview
+        '","18' => '',
         'Welcome!' => 'Bem-vindo!',
         'Please click the button below to create your first ticket.' => 'Por favor, clique no botão abaixo para criar o seu primeiro chamado.',
         'Create your first ticket' => 'Criar seu primeiro chamado',
@@ -3232,6 +3236,7 @@ sub Data {
         'The text at the beginning of the subject in an email reply, e.g. RE, AW, or AS.' => '',
         'The text at the beginning of the subject when an email is forwarded, e.g. FW, Fwd, or WG.' => '',
         'This module and its PreRun() function will be executed, if defined, for every request. This module is useful to check some user options or to display news about new applications.' => '',
+        'This setting allows you to override the built-in country list with your own list of countries. This is particularly handy if you just want to use a small select group of countries.' => '',
         'Ticket event module that triggers the escalation stop events.' => '',
         'Ticket overview' => 'Visão geral de chamados',
         'Tickets' => 'Chamados',

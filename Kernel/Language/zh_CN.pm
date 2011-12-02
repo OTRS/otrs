@@ -7,7 +7,7 @@
 # Copyright (C) 2009 Qingjiu Jia <jiaqj at yahoo.com>
 # Copyright (C) 2011 Martin Liu <liuzh66 at gmail.com> http://martinliu.cn
 # --
-# $Id: zh_CN.pm,v 1.101 2011-11-30 11:31:21 mb Exp $
+# $Id: zh_CN.pm,v 1.102 2011-12-02 07:30:50 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,13 +20,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.101 $) [1];
+$VERSION = qw($Revision: 1.102 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2011-11-18 09:00:05
+    # Last translation file sync: 2011-12-02 08:27:27
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1065,7 +1065,7 @@ sub Data {
         'Refresh' => '刷新',
         'Request Details' => '',
         'An error occurred during communication.' => '',
-        'Show or hide the content.' => '显示或隐藏该内容.',
+        'Show or hide the content' => '显示或隐藏内容',
         'Clear debug log' => '',
 
         # Template: AdminGenericInterfaceInvokerDefault
@@ -1110,7 +1110,6 @@ sub Data {
         'This rule will apply for all values with no mapping rule.' => '',
         'New key map' => '',
         'Add key mapping' => '',
-        'Show or hide the content' => '显示或隐藏内容',
         'Mapping for Key ' => '',
         'Remove key mapping' => '',
         'Key mapping' => '',
@@ -1200,7 +1199,11 @@ sub Data {
         'Controller' => '',
         'Inbound mapping' => '',
         'Outbound mapping' => '',
+        'Delete this action' => '',
+        'At least one %s has a controller that is either not active or not present, please check the controller registration or delete the %s' => '',
         'Delete webservice' => '',
+        'Delete operation' => '',
+        'Delete invoker' => '',
         'Clone webservice' => '',
         'Import webservice' => '',
 
@@ -1216,6 +1219,7 @@ sub Data {
         'Restore web service configuration' => '',
         'Do you really want to restore this version of the web service configuration?' => '',
         'Your current web service configuration will be overwritten.' => '',
+        'Show or hide the content.' => '显示或隐藏该内容.',
         'Restore' => '',
 
         # Template: AdminGroup
@@ -1889,8 +1893,8 @@ sub Data {
         'No ticket data found.' => '没有找到票单数据。',
         'First Response Time' => '首次报告时间',
         'Service Time' => '服务时间',
-        '","26' => '',
         'Update Time' => '更新时间',
+        '","26' => '',
         'Solution Time' => '解决时间',
         'Move ticket to a different queue' => '移动票单到不同的队列',
         'Change queue' => '改变队列',
@@ -1971,7 +1975,6 @@ sub Data {
         'Sender Type' => '发送人类别',
         'Save filter settings as default' => '保存过滤设置为缺省值',
         'Ticket Information' => '票单详情',
-        '","18' => '',
         'Linked Objects' => '已连接的对象',
         'Article(s)' => '文章',
         'Change Queue' => '改变队列',
@@ -2041,6 +2044,7 @@ sub Data {
         'Service level agreement' => '服务级别协议',
 
         # Template: CustomerTicketOverview
+        '","18' => '',
         'Welcome!' => '欢迎！',
         'Please click the button below to create your first ticket.' => '请点击下面的按钮创建第一个票单。',
         'Create your first ticket' => '创建第一个票单',
@@ -3234,6 +3238,7 @@ sub Data {
         'The text at the beginning of the subject in an email reply, e.g. RE, AW, or AS.' => '',
         'The text at the beginning of the subject when an email is forwarded, e.g. FW, Fwd, or WG.' => '',
         'This module and its PreRun() function will be executed, if defined, for every request. This module is useful to check some user options or to display news about new applications.' => '',
+        'This setting allows you to override the built-in country list with your own list of countries. This is particularly handy if you just want to use a small select group of countries.' => '',
         'Ticket event module that triggers the escalation stop events.' => '',
         'Ticket overview' => '票单一览',
         'Tickets' => '票单',

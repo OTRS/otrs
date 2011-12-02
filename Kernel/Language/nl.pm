@@ -8,7 +8,7 @@
 # Copyright (C) 2010 Ton van Boven <ton 'at' avebo.nl>
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: nl.pm,v 1.168 2011-11-30 11:29:51 mb Exp $
+# $Id: nl.pm,v 1.169 2011-12-02 07:32:41 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -28,13 +28,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.168 $) [1];
+$VERSION = qw($Revision: 1.169 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2011-11-18 08:59:29
+    # Last translation file sync: 2011-12-02 08:27:15
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1073,7 +1073,7 @@ sub Data {
         'Refresh' => 'Vernieuwen',
         'Request Details' => 'Details verzoek',
         'An error occurred during communication.' => 'Er is een fout opgetreden tijdens de communicatie.',
-        'Show or hide the content.' => 'Toon of verberg de inhoud.',
+        'Show or hide the content' => 'Toon of verberg de inhoud',
         'Clear debug log' => 'Leeg debug-log.',
 
         # Template: AdminGenericInterfaceInvokerDefault
@@ -1118,7 +1118,6 @@ sub Data {
         'This rule will apply for all values with no mapping rule.' => '',
         'New key map' => 'Nieuwe sleutelkoppeling',
         'Add key mapping' => 'Voeg sleutelkoppeling toe',
-        'Show or hide the content' => 'Toon of verberg de inhoud',
         'Mapping for Key ' => 'Koppeling voor sleutel',
         'Remove key mapping' => 'Verwijder sleutelkoppeling',
         'Key mapping' => 'Sleutelkoppeling',
@@ -1208,7 +1207,11 @@ sub Data {
         'Controller' => '',
         'Inbound mapping' => 'Inkomende koppeling',
         'Outbound mapping' => 'Uitgaande koppeling',
+        'Delete this action' => '',
+        'At least one %s has a controller that is either not active or not present, please check the controller registration or delete the %s' => '',
         'Delete webservice' => 'Verwijder webservice',
+        'Delete operation' => '',
+        'Delete invoker' => '',
         'Clone webservice' => 'Kloon webservice',
         'Import webservice' => 'Importeer webservice',
 
@@ -1224,6 +1227,7 @@ sub Data {
         'Restore web service configuration' => 'Herstel webserviceconfiguratie',
         'Do you really want to restore this version of the web service configuration?' => 'Wilt u echt deze versie van de webservice-configuratie herstellen?',
         'Your current web service configuration will be overwritten.' => 'De huidige webservice-configuratie zal worden overschreven.',
+        'Show or hide the content.' => 'Toon of verberg de inhoud.',
         'Restore' => 'Herstellen',
 
         # Template: AdminGroup
@@ -1897,8 +1901,8 @@ sub Data {
         'No ticket data found.' => 'Geen tickets gevonden.',
         'First Response Time' => 'Eerste reactie',
         'Service Time' => 'Service tijd',
-        '","26' => '',
         'Update Time' => 'Vervolg tijd',
+        '","26' => '',
         'Solution Time' => 'Oplossingstijd',
         'Move ticket to a different queue' => 'Verplaats naar nieuwe wachtrij',
         'Change queue' => 'Verplaats naar wachtrij',
@@ -1979,7 +1983,6 @@ sub Data {
         'Sender Type' => 'Soort verzender',
         'Save filter settings as default' => 'Sla filter op als standaard',
         'Ticket Information' => 'Ticket informatie',
-        '","18' => '',
         'Linked Objects' => 'Gekoppelde objecten',
         'Article(s)' => 'Interactie(s)',
         'Change Queue' => 'Wijzig wachtrij',
@@ -2049,6 +2052,7 @@ sub Data {
         'Service level agreement' => 'Service level agreement',
 
         # Template: CustomerTicketOverview
+        '","18' => '',
         'Welcome!' => 'Welkom!',
         'Please click the button below to create your first ticket.' => 'Klik op de button om uw eerste ticket aan te maken.',
         'Create your first ticket' => 'Maak uw eerste ticket aan',
@@ -3242,6 +3246,7 @@ sub Data {
         'The text at the beginning of the subject in an email reply, e.g. RE, AW, or AS.' => '',
         'The text at the beginning of the subject when an email is forwarded, e.g. FW, Fwd, or WG.' => '',
         'This module and its PreRun() function will be executed, if defined, for every request. This module is useful to check some user options or to display news about new applications.' => '',
+        'This setting allows you to override the built-in country list with your own list of countries. This is particularly handy if you just want to use a small select group of countries.' => '',
         'Ticket event module that triggers the escalation stop events.' => '',
         'Ticket overview' => 'Ticketoverzicht',
         'Tickets' => 'Tickets',

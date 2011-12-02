@@ -3,7 +3,7 @@
 # Copyright (C) 2004 Vladimir Gerdjikov <gerdjikov at gerdjikovs.net>
 # Copyright (C) 2007 Alex Kantchev <ak at otrs.org>
 # --
-# $Id: bg.pm,v 1.123 2011-11-30 11:24:42 mb Exp $
+# $Id: bg.pm,v 1.124 2011-12-02 07:30:50 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,13 +16,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.123 $) [1];
+$VERSION = qw($Revision: 1.124 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2011-11-18 08:58:05
+    # Last translation file sync: 2011-12-02 08:26:55
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1061,7 +1061,7 @@ sub Data {
         'Refresh' => 'Опресняване',
         'Request Details' => '',
         'An error occurred during communication.' => '',
-        'Show or hide the content.' => '',
+        'Show or hide the content' => '',
         'Clear debug log' => '',
 
         # Template: AdminGenericInterfaceInvokerDefault
@@ -1106,7 +1106,6 @@ sub Data {
         'This rule will apply for all values with no mapping rule.' => '',
         'New key map' => '',
         'Add key mapping' => '',
-        'Show or hide the content' => '',
         'Mapping for Key ' => '',
         'Remove key mapping' => '',
         'Key mapping' => '',
@@ -1196,7 +1195,11 @@ sub Data {
         'Controller' => '',
         'Inbound mapping' => '',
         'Outbound mapping' => '',
+        'Delete this action' => '',
+        'At least one %s has a controller that is either not active or not present, please check the controller registration or delete the %s' => '',
         'Delete webservice' => '',
+        'Delete operation' => '',
+        'Delete invoker' => '',
         'Clone webservice' => '',
         'Import webservice' => '',
 
@@ -1212,6 +1215,7 @@ sub Data {
         'Restore web service configuration' => '',
         'Do you really want to restore this version of the web service configuration?' => '',
         'Your current web service configuration will be overwritten.' => '',
+        'Show or hide the content.' => '',
         'Restore' => '',
 
         # Template: AdminGroup
@@ -1885,8 +1889,8 @@ sub Data {
         'No ticket data found.' => '',
         'First Response Time' => 'Време на първи отговор',
         'Service Time' => 'Service Time',
-        '","26' => '',
         'Update Time' => 'Време на ъпдейт на статуса',
+        '","26' => '',
         'Solution Time' => 'Време за решаване',
         'Move ticket to a different queue' => '',
         'Change queue' => 'Промяна на опашката',
@@ -1967,7 +1971,6 @@ sub Data {
         'Sender Type' => '',
         'Save filter settings as default' => '',
         'Ticket Information' => '',
-        '","18' => '',
         'Linked Objects' => '',
         'Article(s)' => '',
         'Change Queue' => '',
@@ -2037,6 +2040,7 @@ sub Data {
         'Service level agreement' => '',
 
         # Template: CustomerTicketOverview
+        '","18' => '',
         'Welcome!' => '',
         'Please click the button below to create your first ticket.' => '',
         'Create your first ticket' => '',
@@ -3230,6 +3234,7 @@ sub Data {
         'The text at the beginning of the subject in an email reply, e.g. RE, AW, or AS.' => '',
         'The text at the beginning of the subject when an email is forwarded, e.g. FW, Fwd, or WG.' => '',
         'This module and its PreRun() function will be executed, if defined, for every request. This module is useful to check some user options or to display news about new applications.' => '',
+        'This setting allows you to override the built-in country list with your own list of countries. This is particularly handy if you just want to use a small select group of countries.' => '',
         'Ticket event module that triggers the escalation stop events.' => '',
         'Ticket overview' => '',
         'Tickets' => 'Билети',

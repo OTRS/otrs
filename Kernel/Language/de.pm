@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Thomas Kaltenbrunner <tkaltenbrunner at opc.de>
 # --
-# $Id: de.pm,v 1.299 2011-12-01 15:21:54 mg Exp $
+# $Id: de.pm,v 1.300 2011-12-02 07:30:48 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.299 $) [1];
+$VERSION = qw($Revision: 1.300 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2011-11-18 08:58:22
+    # Last translation file sync: 2011-12-02 08:26:59
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1060,7 +1060,7 @@ sub Data {
         'Refresh' => 'Aktualisieren',
         'Request Details' => '',
         'An error occurred during communication.' => '',
-        'Show or hide the content.' => '',
+        'Show or hide the content' => 'Inhalt anzeigen oder ausblenden',
         'Clear debug log' => '',
 
         # Template: AdminGenericInterfaceInvokerDefault
@@ -1105,7 +1105,6 @@ sub Data {
         'This rule will apply for all values with no mapping rule.' => '',
         'New key map' => '',
         'Add key mapping' => '',
-        'Show or hide the content' => 'Inhalt anzeigen oder ausblenden',
         'Mapping for Key ' => '',
         'Remove key mapping' => '',
         'Key mapping' => '',
@@ -1195,7 +1194,11 @@ sub Data {
         'Controller' => '',
         'Inbound mapping' => '',
         'Outbound mapping' => '',
+        'Delete this action' => '',
+        'At least one %s has a controller that is either not active or not present, please check the controller registration or delete the %s' => '',
         'Delete webservice' => '',
+        'Delete operation' => '',
+        'Delete invoker' => '',
         'Clone webservice' => '',
         'Import webservice' => '',
 
@@ -1211,6 +1214,7 @@ sub Data {
         'Restore web service configuration' => '',
         'Do you really want to restore this version of the web service configuration?' => '',
         'Your current web service configuration will be overwritten.' => '',
+        'Show or hide the content.' => '',
         'Restore' => '',
 
         # Template: AdminGroup
@@ -1884,8 +1888,8 @@ sub Data {
         'No ticket data found.' => 'Keine Ticketdaten gefunden.',
         'First Response Time' => 'Reaktionszeit',
         'Service Time' => 'Service Zeit',
-        '","26' => '',
         'Update Time' => 'Aktualisierungszeit',
+        '","26' => '',
         'Solution Time' => 'Lösungszeit',
         'Move ticket to a different queue' => 'Ticket in eine andere Queue verschieben',
         'Change queue' => 'Queue wechseln',
@@ -1966,7 +1970,6 @@ sub Data {
         'Sender Type' => 'Absender Typ',
         'Save filter settings as default' => 'Filter-Einstellungen als Standard speichern',
         'Ticket Information' => 'Ticket-Informationen',
-        '","18' => '',
         'Linked Objects' => 'Verknüpfte Objekte',
         'Article(s)' => 'Beitrag/Beiträge',
         'Change Queue' => 'Queue ändern',
@@ -2036,6 +2039,7 @@ sub Data {
         'Service level agreement' => 'Service-Level-Vereinbarung',
 
         # Template: CustomerTicketOverview
+        '","18' => '',
         'Welcome!' => 'Willkommen!',
         'Please click the button below to create your first ticket.' => 'Bitte verwenden Sie den Knopf unten zur Erstellung Ihres ersten Tickets.',
         'Create your first ticket' => 'Ihr erstes Ticket erstellen',
@@ -3229,6 +3233,7 @@ sub Data {
         'The text at the beginning of the subject in an email reply, e.g. RE, AW, or AS.' => '',
         'The text at the beginning of the subject when an email is forwarded, e.g. FW, Fwd, or WG.' => '',
         'This module and its PreRun() function will be executed, if defined, for every request. This module is useful to check some user options or to display news about new applications.' => '',
+        'This setting allows you to override the built-in country list with your own list of countries. This is particularly handy if you just want to use a small select group of countries.' => '',
         'Ticket event module that triggers the escalation stop events.' => 'Ticket Event Modul welche die Eskalation-Stop-Ereignisse auslöst.',
         'Ticket overview' => 'Ticket-Übersicht',
         'Tickets' => 'Tickets',

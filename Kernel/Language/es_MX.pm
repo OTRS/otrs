@@ -2,7 +2,7 @@
 # Kernel/Language/es_MX.pm - provides Spanish language translation for Mexico
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: es_MX.pm,v 1.50 2011-11-30 11:24:42 mb Exp $
+# $Id: es_MX.pm,v 1.51 2011-12-02 07:30:50 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.50 $) [1];
+$VERSION = qw($Revision: 1.51 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2011-11-18 08:58:34
+    # Last translation file sync: 2011-12-02 08:27:02
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1060,7 +1060,7 @@ sub Data {
         'Refresh' => 'Refrescar',
         'Request Details' => '',
         'An error occurred during communication.' => '',
-        'Show or hide the content.' => '',
+        'Show or hide the content' => 'Mostrar u ocultar el contenido',
         'Clear debug log' => '',
 
         # Template: AdminGenericInterfaceInvokerDefault
@@ -1105,7 +1105,6 @@ sub Data {
         'This rule will apply for all values with no mapping rule.' => '',
         'New key map' => '',
         'Add key mapping' => '',
-        'Show or hide the content' => 'Mostrar u ocultar el contenido',
         'Mapping for Key ' => '',
         'Remove key mapping' => '',
         'Key mapping' => '',
@@ -1195,7 +1194,11 @@ sub Data {
         'Controller' => '',
         'Inbound mapping' => '',
         'Outbound mapping' => '',
+        'Delete this action' => '',
+        'At least one %s has a controller that is either not active or not present, please check the controller registration or delete the %s' => '',
         'Delete webservice' => '',
+        'Delete operation' => '',
+        'Delete invoker' => '',
         'Clone webservice' => '',
         'Import webservice' => '',
 
@@ -1211,6 +1214,7 @@ sub Data {
         'Restore web service configuration' => '',
         'Do you really want to restore this version of the web service configuration?' => '',
         'Your current web service configuration will be overwritten.' => '',
+        'Show or hide the content.' => '',
         'Restore' => '',
 
         # Template: AdminGroup
@@ -1884,8 +1888,8 @@ sub Data {
         'No ticket data found.' => 'No se encontraron datos de ticket.',
         'First Response Time' => 'Tiempo para Primera Respuesta',
         'Service Time' => 'Tiempo de Servicio',
-        '","26' => '',
         'Update Time' => 'Tiempo para Actualización',
+        '","26' => '',
         'Solution Time' => 'Tiempo para Solución',
         'Move ticket to a different queue' => 'Mover ticket a una fila diferente',
         'Change queue' => 'Modificar fila',
@@ -1966,7 +1970,6 @@ sub Data {
         'Sender Type' => '',
         'Save filter settings as default' => 'Grabar configuración de filtros como defecto',
         'Ticket Information' => 'Información del Ticket',
-        '","18' => '',
         'Linked Objects' => 'Objetos Enlazados',
         'Article(s)' => 'Artículo(s)',
         'Change Queue' => 'Cambiar Fila',
@@ -2036,6 +2039,7 @@ sub Data {
         'Service level agreement' => 'Acuerdo de nivel de servicio',
 
         # Template: CustomerTicketOverview
+        '","18' => '',
         'Welcome!' => '',
         'Please click the button below to create your first ticket.' => '',
         'Create your first ticket' => '',
@@ -3229,6 +3233,7 @@ sub Data {
         'The text at the beginning of the subject in an email reply, e.g. RE, AW, or AS.' => 'El texto para anteponer al asunto en una respuesta de correo electrónico, por ejemplo: RE, AW, o AS.',
         'The text at the beginning of the subject when an email is forwarded, e.g. FW, Fwd, or WG.' => 'El texto para anteponer al asunto cuando un correo electrónico se reenvía, por ejemplo: FW, Fwd, o WG.',
         'This module and its PreRun() function will be executed, if defined, for every request. This module is useful to check some user options or to display news about new applications.' => 'Este módulo y su función PreRun() se ejecutarán, si así se define, por cada petición. Este módulo es útil para verificar algunas opciones de usuario o para desplegar noticias acerca de aplicaciones novedosas.',
+        'This setting allows you to override the built-in country list with your own list of countries. This is particularly handy if you just want to use a small select group of countries.' => '',
         'Ticket event module that triggers the escalation stop events.' => '',
         'Ticket overview' => 'Vista de resumen de los tickets',
         'Tickets' => 'Tickets',

@@ -4,7 +4,7 @@
 # Copyright (C) 2007-2008 Mads N. Vestergaard <mnv[at]timmy.dk>
 # Copyright (C) 2010 Lars Jørgensen <lajo[at]kb.dk>
 # --
-# $Id: da.pm,v 1.94 2011-11-30 11:24:42 mb Exp $
+# $Id: da.pm,v 1.95 2011-12-02 07:30:49 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,13 +17,13 @@ use warnings;
 
 use vars qw($VERSION);
 
-$VERSION = qw($Revision: 1.94 $) [1];
+$VERSION = qw($Revision: 1.95 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2011-11-18 08:58:17
+    # Last translation file sync: 2011-12-02 08:26:58
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1062,7 +1062,7 @@ sub Data {
         'Refresh' => '',
         'Request Details' => '',
         'An error occurred during communication.' => '',
-        'Show or hide the content.' => '',
+        'Show or hide the content' => 'Vis eller skjul indhold',
         'Clear debug log' => '',
 
         # Template: AdminGenericInterfaceInvokerDefault
@@ -1107,7 +1107,6 @@ sub Data {
         'This rule will apply for all values with no mapping rule.' => '',
         'New key map' => '',
         'Add key mapping' => '',
-        'Show or hide the content' => 'Vis eller skjul indhold',
         'Mapping for Key ' => '',
         'Remove key mapping' => '',
         'Key mapping' => '',
@@ -1197,7 +1196,11 @@ sub Data {
         'Controller' => '',
         'Inbound mapping' => '',
         'Outbound mapping' => '',
+        'Delete this action' => '',
+        'At least one %s has a controller that is either not active or not present, please check the controller registration or delete the %s' => '',
         'Delete webservice' => '',
+        'Delete operation' => '',
+        'Delete invoker' => '',
         'Clone webservice' => '',
         'Import webservice' => '',
 
@@ -1213,6 +1216,7 @@ sub Data {
         'Restore web service configuration' => '',
         'Do you really want to restore this version of the web service configuration?' => '',
         'Your current web service configuration will be overwritten.' => '',
+        'Show or hide the content.' => '',
         'Restore' => '',
 
         # Template: AdminGroup
@@ -1886,8 +1890,8 @@ sub Data {
         'No ticket data found.' => 'Ingen sager fundet.',
         'First Response Time' => 'Frist til første svar',
         'Service Time' => 'Servicetid',
-        '","26' => '',
         'Update Time' => 'Opdateringstid',
+        '","26' => '',
         'Solution Time' => 'Løsningstid',
         'Move ticket to a different queue' => 'Flyt sag til anden kø',
         'Change queue' => 'Skift kø',
@@ -1968,7 +1972,6 @@ sub Data {
         'Sender Type' => 'Afsendertype',
         'Save filter settings as default' => 'Gem disse filterinstillinger som standard',
         'Ticket Information' => 'Information om sagen',
-        '","18' => '',
         'Linked Objects' => 'Sammenkædede objekter',
         'Article(s)' => 'Indlæg',
         'Change Queue' => 'Skift kø',
@@ -2038,6 +2041,7 @@ sub Data {
         'Service level agreement' => 'Service level agreement',
 
         # Template: CustomerTicketOverview
+        '","18' => '',
         'Welcome!' => 'Velkommen!',
         'Please click the button below to create your first ticket.' => 'Klik på knappen herunder for at oprette din første sag.',
         'Create your first ticket' => 'Opret din første sag',
@@ -3231,6 +3235,7 @@ sub Data {
         'The text at the beginning of the subject in an email reply, e.g. RE, AW, or AS.' => '',
         'The text at the beginning of the subject when an email is forwarded, e.g. FW, Fwd, or WG.' => '',
         'This module and its PreRun() function will be executed, if defined, for every request. This module is useful to check some user options or to display news about new applications.' => '',
+        'This setting allows you to override the built-in country list with your own list of countries. This is particularly handy if you just want to use a small select group of countries.' => '',
         'Ticket event module that triggers the escalation stop events.' => '',
         'Ticket overview' => 'Sagsoversigt',
         'Tickets' => 'Sager',
