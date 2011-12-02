@@ -2,7 +2,7 @@
 # AgentTicketPhone.dtl - provides HTML form for phone
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.dtl,v 1.138 2011-11-29 20:07:02 cg Exp $
+# $Id: AgentTicketPhone.dtl,v 1.139 2011-12-02 09:15:06 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -144,12 +144,15 @@ $Include{"AgentCustomerSearch"}
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
     $('#FromCustomer').bind('change', function () {
-        if ( $('#FromCustomer').val() !== '' ){
-            Core.Agent.CustomerSearch.AddTicketCustomer( 'FromCustomer', $('#FromCustomer').val() );
-        }
+        // Wait a little to let mouse click events be handled in the meantime.
+        window.setTimeout(function(){
+            if ( $('#FromCustomer').val() !== '' ){
+                Core.Agent.CustomerSearch.AddTicketCustomer( 'FromCustomer', $('#FromCustomer').val() );
+            }
+        }, 100);
     });
     $('#FromCustomer').bind('keypress', function (e) {
-        if(e.which == 13){
+        if (e.which == 13){
             Core.Agent.CustomerSearch.AddTicketCustomer( 'FromCustomer', $('#FromCustomer').val() );
             return false;
         }

@@ -2,7 +2,7 @@
 # AgentTicketEmail.dtl - provides HTML form for agent email
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.dtl,v 1.154 2011-11-29 20:16:09 cg Exp $
+# $Id: AgentTicketEmail.dtl,v 1.155 2011-12-02 09:15:06 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -173,12 +173,15 @@ $('#Dest').bind('change', function (Event) {
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
     $('#ToCustomer').bind('change', function () {
-        if ( $('#ToCustomer').val() !== '' ) {
-            Core.Agent.CustomerSearch.AddTicketCustomer( 'ToCustomer', $('#ToCustomer').val() );
-        }
+        // Wait a little to let mouse click events be handled in the meantime.
+        window.setTimeout(function(){
+            if ( $('#ToCustomer').val() !== '' ) {
+                Core.Agent.CustomerSearch.AddTicketCustomer( 'ToCustomer', $('#ToCustomer').val() );
+            }
+        }, 100);
     });
     $('#ToCustomer').bind('keypress', function (e) {
-        if(e.which == 13){
+        if (e.which == 13){
             Core.Agent.CustomerSearch.AddTicketCustomer( 'ToCustomer', $('#ToCustomer').val() );
             return false;
         }
@@ -240,12 +243,15 @@ $('#Dest').bind('change', function (Event) {
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
     $('#CcCustomer').bind('change', function () {
-        if ( $('#CcCustomer').val() !== '' ) {
-            Core.Agent.CustomerSearch.AddTicketCustomer( 'CcCustomer', $('#CcCustomer').val() );
-        }
+        // Wait a little to let mouse click events be handled in the meantime.
+        window.setTimeout(function(){
+            if ( $('#CcCustomer').val() !== '' ) {
+                Core.Agent.CustomerSearch.AddTicketCustomer( 'CcCustomer', $('#CcCustomer').val() );
+            }
+        }, 100);
     });
     $('#CcCustomer').bind('keypress', function (e) {
-        if(e.which == 13){
+        if (e.which == 13){
             Core.Agent.CustomerSearch.AddTicketCustomer( 'CcCustomer', $('#CcCustomer').val() );
             return false;
         }
@@ -307,12 +313,15 @@ $('#Dest').bind('change', function (Event) {
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
     $('#BccCustomer').bind('change', function () {
-        if ( $('#BccCustomer').val() !== '' ) {
-            Core.Agent.CustomerSearch.AddTicketCustomer( 'BccCustomer', $('#BccCustomer').val() );
-        }
+        // Wait a little to let mouse click events be handled in the meantime.
+        window.setTimeout(function(){
+            if ( $('#BccCustomer').val() !== '' ) {
+                Core.Agent.CustomerSearch.AddTicketCustomer( 'BccCustomer', $('#BccCustomer').val() );
+            }
+        }, 100);
     });
     $('#BccCustomer').bind('keypress', function (e) {
-        if(e.which == 13){
+        if (e.which == 13){
             Core.Agent.CustomerSearch.AddTicketCustomer( 'BccCustomer', $('#BccCustomer').val() );
             return false;
         }
