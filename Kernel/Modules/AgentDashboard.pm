@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentDashboard.pm - a global dashbard
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboard.pm,v 1.26 2011-04-05 12:04:12 mb Exp $
+# $Id: AgentDashboard.pm,v 1.27 2011-12-02 15:28:55 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Cache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.26 $) [1];
+$VERSION = qw($Revision: 1.27 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -255,12 +255,17 @@ sub Run {
 
         # check permissions
         if ( $Config->{$Name}->{Group} ) {
+            my $PermissionOK = 0;
             my @Groups = split /;/, $Config->{$Name}->{Group};
+            GROUP:
             for my $Group (@Groups) {
-                my $Name = 'UserIsGroup[' . $Group . ']';
-                next BACKEND if !$Self->{$Name};
-                next BACKEND if $Self->{$Name} ne 'Yes';
+                my $Permission = 'UserIsGroup[' . $Group . ']';
+                if ( defined $Self->{$Permission} && $Self->{$Permission} eq 'Yes' ) {
+                    $PermissionOK = 1;
+                    last GROUP;
+                }
             }
+            next BACKEND if !$PermissionOK;
         }
 
         my $Key = 'UserDashboard' . $Name;
@@ -402,12 +407,17 @@ sub _Element {
 
     # check permissions
     if ( $Configs->{$Name}->{Group} ) {
+        my $PermissionOK = 0;
         my @Groups = split /;/, $Configs->{$Name}->{Group};
+        GROUP:
         for my $Group (@Groups) {
-            my $Name = 'UserIsGroup[' . $Group . ']';
-            return if !$Self->{$Name};
-            return if $Self->{$Name} ne 'Yes';
+            my $Permission = 'UserIsGroup[' . $Group . ']';
+            if ( defined $Self->{$Permission} && $Self->{$Permission} eq 'Yes' ) {
+                $PermissionOK = 1;
+                last GROUP;
+            }
         }
+        return if !$PermissionOK;
     }
 
     # load backends
