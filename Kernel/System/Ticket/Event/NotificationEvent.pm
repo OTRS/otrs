@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Event/NotificationEvent.pm - a event module to send notifications
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: NotificationEvent.pm,v 1.23.2.2 2011-08-16 14:26:44 mb Exp $
+# $Id: NotificationEvent.pm,v 1.23.2.3 2011-12-05 11:29:10 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::NotificationEvent;
 use Kernel::System::SystemAddress;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.23.2.2 $) [1];
+$VERSION = qw($Revision: 1.23.2.3 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -601,7 +601,7 @@ sub _SendNotification {
 
         if (%Article) {
             if ( $Article{Body} ) {
-                $Article{Body} =~ s/(^>.+|.{4,72})(?:\s|\z)/$1\n/gm;
+                $Article{Body} =~ s/(^>.+|.{4,78})(?:\s|\z)/$1\n/gm;
             }
             for ( keys %Article ) {
                 next if !$Article{$_};
