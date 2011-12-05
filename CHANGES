@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2066 2011-12-05 21:17:55 cr Exp $
+# $Id: CHANGES,v 1.2067 2011-12-05 21:42:53 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,8 +14,6 @@
  - 2011-12-05 Fixed bug#7968 - DynamicField empty value "-" disappears on AJAX reload.
  - 2011-12-05 Fixed bug#3544 - Don't show link to AgentTicketCustomer if agent does not have
     permissions.
- - 2011-12-05 Fixed bug#7971 - ACL to restrict Priority based on Service does not work in Customer
-    interface.
  - 2011-12-05 Fixed bug#7900 - DefaultQueue does not preselect queue in CustomerTicketMessage.
  - 2011-12-05 Fixed bug#7184 - Service catalog is not useable with sophisticated amount of entries.
  - 2011-12-05 Fixed bug#7864 - Inconsequent wrapping of text causes ugly notifications.
@@ -186,6 +184,8 @@
      of > 70 characters exists.
 
 3.0.12 ????-??-??
+ - 2011-12-05 Fixed bug#7971 - ACL to restrict Priority based on Service does not work in Customer
+    interface.
  - 2011-12-02 Fixed bug#7442 - Dashboard permission check for multiple Groups only
     tests first group.
  - 2011-11-29 Fixed bug#7719 - Agent login page does not offer user to save password
