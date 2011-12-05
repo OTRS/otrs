@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhoneCommon.pm - phone calls for existing tickets
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhoneCommon.pm,v 1.16 2011-12-05 20:43:20 cr Exp $
+# $Id: AgentTicketPhoneCommon.pm,v 1.17 2011-12-05 21:11:32 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,7 +25,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -248,7 +248,6 @@ sub Run {
                     %GetParam,
                     Action        => $Self->{Action},
                     TicketID      => $Self->{TicketID},
-                    Type          => 'DynamicField_' . $DynamicFieldConfig->{Name},
                     ReturnType    => 'Ticket',
                     ReturnSubType => 'DynamicField_' . $DynamicFieldConfig->{Name},
                     Data          => $DynamicFieldConfig->{Config}->{PossibleValues},
@@ -420,7 +419,6 @@ sub Run {
                     %GetParam,
                     Action        => $Self->{Action},
                     TicketID      => $Self->{TicketID},
-                    Type          => 'DynamicField_' . $DynamicFieldConfig->{Name},
                     ReturnType    => 'Ticket',
                     ReturnSubType => 'DynamicField_' . $DynamicFieldConfig->{Name},
                     Data          => $DynamicFieldConfig->{Config}->{PossibleValues},
@@ -714,7 +712,6 @@ sub Run {
                 %GetParam,
                 Action        => $Self->{Action},
                 TicketID      => $Self->{TicketID},
-                Type          => 'DynamicField_' . $DynamicFieldConfig->{Name},
                 ReturnType    => 'Ticket',
                 ReturnSubType => 'DynamicField_' . $DynamicFieldConfig->{Name},
                 Data          => $PossibleValues,

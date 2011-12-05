@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketForward.pm - to forward a message
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketForward.pm,v 1.124 2011-12-05 20:43:20 cr Exp $
+# $Id: AgentTicketForward.pm,v 1.125 2011-12-05 21:11:32 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,7 +26,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.124 $) [1];
+$VERSION = qw($Revision: 1.125 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -372,7 +372,6 @@ sub Form {
                 %ACLCompatGetParam,
                 Action        => $Self->{Action},
                 TicketID      => $Self->{TicketID},
-                Type          => 'DynamicField_' . $DynamicFieldConfig->{Name},
                 ReturnType    => 'Ticket',
                 ReturnSubType => 'DynamicField_' . $DynamicFieldConfig->{Name},
                 Data          => $DynamicFieldConfig->{Config}->{PossibleValues},
@@ -555,7 +554,6 @@ sub SendEmail {
                 %ACLCompatGetParam,
                 Action        => $Self->{Action},
                 TicketID      => $Self->{TicketID},
-                Type          => 'DynamicField_' . $DynamicFieldConfig->{Name},
                 ReturnType    => 'Ticket',
                 ReturnSubType => 'DynamicField_' . $DynamicFieldConfig->{Name},
                 Data          => $DynamicFieldConfig->{Config}->{PossibleValues},
@@ -949,7 +947,6 @@ sub AjaxUpdate {
             Action        => $Self->{Action},
             TicketID      => $Self->{TicketID},
             QueueID       => $Self->{QueueID},
-            Type          => 'DynamicField_' . $DynamicFieldConfig->{Name},
             ReturnType    => 'Ticket',
             ReturnSubType => 'DynamicField_' . $DynamicFieldConfig->{Name},
             Data          => $PossibleValues,

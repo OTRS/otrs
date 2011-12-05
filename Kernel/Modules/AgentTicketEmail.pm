@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.195 2011-12-05 20:43:20 cr Exp $
+# $Id: AgentTicketEmail.pm,v 1.196 2011-12-05 21:11:32 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.195 $) [1];
+$VERSION = qw($Revision: 1.196 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -380,7 +380,6 @@ sub Run {
                         %GetParam,
                         %ACLCompatGetParam,
                         Action        => $Self->{Action},
-                        Type          => 'DynamicField_' . $DynamicFieldConfig->{Name},
                         ReturnType    => 'Ticket',
                         ReturnSubType => 'DynamicField_' . $DynamicFieldConfig->{Name},
                         Data          => $DynamicFieldConfig->{Config}->{PossibleValues},
@@ -657,7 +656,6 @@ sub Run {
                     %GetParam,
                     %ACLCompatGetParam,
                     Action        => $Self->{Action},
-                    Type          => 'DynamicField_' . $DynamicFieldConfig->{Name},
                     ReturnType    => 'Ticket',
                     ReturnSubType => 'DynamicField_' . $DynamicFieldConfig->{Name},
                     Data          => $DynamicFieldConfig->{Config}->{PossibleValues},
@@ -1313,7 +1311,6 @@ sub Run {
                 Action        => $Self->{Action},
                 TicketID      => $Self->{TicketID},
                 QueueID       => $QueueID || 0,
-                Type          => 'DynamicField_' . $DynamicFieldConfig->{Name},
                 ReturnType    => 'Ticket',
                 ReturnSubType => 'DynamicField_' . $DynamicFieldConfig->{Name},
                 Data          => $PossibleValues,

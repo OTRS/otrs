@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketMessage.pm - to handle customer messages
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.pm,v 1.96 2011-12-05 18:12:14 cr Exp $
+# $Id: CustomerTicketMessage.pm,v 1.97 2011-12-05 21:11:32 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.96 $) [1];
+$VERSION = qw($Revision: 1.97 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -137,7 +137,6 @@ sub Run {
                     %GetParam,
                     Action         => $Self->{Action},
                     TicketID       => $Self->{TicketID},
-                    Type           => 'DynamicField_' . $DynamicFieldConfig->{Name},
                     ReturnType     => 'Ticket',
                     ReturnSubType  => 'DynamicField_' . $DynamicFieldConfig->{Name},
                     Data           => $DynamicFieldConfig->{Config}->{PossibleValues},
@@ -252,7 +251,6 @@ sub Run {
                     %GetParam,
                     Action         => $Self->{Action},
                     TicketID       => $Self->{TicketID},
-                    Type           => 'DynamicField_' . $DynamicFieldConfig->{Name},
                     ReturnType     => 'Ticket',
                     ReturnSubType  => 'DynamicField_' . $DynamicFieldConfig->{Name},
                     Data           => $DynamicFieldConfig->{Config}->{PossibleValues},
