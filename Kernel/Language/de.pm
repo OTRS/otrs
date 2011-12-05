@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Thomas Kaltenbrunner <tkaltenbrunner at opc.de>
 # --
-# $Id: de.pm,v 1.300 2011-12-02 07:30:48 mg Exp $
+# $Id: de.pm,v 1.301 2011-12-05 08:29:17 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.300 $) [1];
+$VERSION = qw($Revision: 1.301 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -497,7 +497,7 @@ sub Data {
         'Ticket Close Time' => 'Ticket-Schließzeit',
 
         # Template: AAATicket
-        'Status View' => 'Statusansicht',
+        'Status View' => 'Ansicht nach Status',
         'Bulk' => 'Sammelaktion',
         'Lock' => 'Sperren',
         'Unlock' => 'Freigeben',
@@ -573,7 +573,7 @@ sub Data {
         'Escalation' => 'Eskalation',
         'last-search' => 'Letzte Suche',
         'QueueView' => 'Queue-Ansicht',
-        'Ticket Escalation View' => 'Ticket Eskalationsansicht',
+        'Ticket Escalation View' => 'Ansicht nach Ticket-Eskalationen',
         'Message from' => '',
         'End message' => '',
         'Forwarded message from' => '',
@@ -2755,7 +2755,7 @@ sub Data {
         'Enables ticket bulk action feature only for the listed groups.' => '',
         'Enables ticket responsible feature, to keep track of a specific ticket.' => '',
         'Enables ticket watcher feature only for the listed groups.' => '',
-        'Escalation view' => 'Eskalationsansicht',
+        'Escalation view' => 'Ansicht nach Eskalationen',
         'Event list to be displayed on GUI to trigger generic interface invokers.' => '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate). This is only possible if all Ticket dynamic fields need the same event.' => '',
         'Example for dynamic dield' => '',
@@ -2922,7 +2922,7 @@ sub Data {
         'Multiselect' => 'Mehrfachauswahl',
         'My Tickets' => 'Meine Tickets',
         'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.' => '',
-        'New email ticket' => 'Neues Email-Ticket',
+        'New email ticket' => 'Neues E-Mail-Ticket',
         'New phone ticket' => 'Neues Telefon-Ticket',
         'Next possible ticket states after adding a phone note in the ticket phone inbound screen of the agent interface.' => '',
         'Next possible ticket states after adding a phone note in the ticket phone outbound screen of the agent interface.' => '',
@@ -3215,7 +3215,7 @@ sub Data {
         'Start number for statistics counting. Every new stat increments this number.' => '',
         'Starts a wildcard search of the active object after the link object mask is started.' => '',
         'Statistics' => 'Statistiken',
-        'Status view' => 'Statusansicht',
+        'Status view' => 'Ansicht nach Status',
         'Stores cookies after the browser has been closed.' => '',
         'Strips empty lines on the ticket preview in the queue view.' => '',
         'Textarea' => 'Textfeld',
