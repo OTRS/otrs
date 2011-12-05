@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketMessage.pm - to handle customer messages
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.pm,v 1.95 2011-12-05 16:05:22 mb Exp $
+# $Id: CustomerTicketMessage.pm,v 1.96 2011-12-05 18:12:14 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.95 $) [1];
+$VERSION = qw($Revision: 1.96 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -93,6 +93,18 @@ sub Run {
             );
     }
 
+    # convert dynamic field values into a structure for ACLs
+    my %DynamicFieldACLParameters;
+    DYNAMICFIELD:
+    for my $DynamcField ( keys %DynamicFieldValues ) {
+        next DYNAMICFIELD if !$DynamcField;
+        next DYNAMICFIELD if !$DynamicFieldValues{$DynamcField};
+
+        $DynamicFieldACLParameters{ 'DynamicField_' . $DynamcField }
+            = $DynamicFieldValues{$DynamcField};
+    }
+    $GetParam{DynamicField} = \%DynamicFieldACLParameters;
+
     if ( !$Self->{Subaction} ) {
 
         #Get default Queue ID if none is set
@@ -122,6 +134,7 @@ sub Run {
 
                 # set possible values filter from ACLs
                 my $ACL = $Self->{TicketObject}->TicketAcl(
+                    %GetParam,
                     Action         => $Self->{Action},
                     TicketID       => $Self->{TicketID},
                     Type           => 'DynamicField_' . $DynamicFieldConfig->{Name},
@@ -147,7 +160,8 @@ sub Run {
                 ParamObject  => $Self->{ParamObject},
 
                 # CustomerTicketMessage does not support AJAXUpdate
-                AJAXUpdate => 0,
+                AJAXUpdate     => 0,
+                SubmitOnChange => 1,
                 );
         }
 
@@ -235,6 +249,7 @@ sub Run {
 
                 # set possible values filter from ACLs
                 my $ACL = $Self->{TicketObject}->TicketAcl(
+                    %GetParam,
                     Action         => $Self->{Action},
                     TicketID       => $Self->{TicketID},
                     Type           => 'DynamicField_' . $DynamicFieldConfig->{Name},
@@ -290,6 +305,10 @@ sub Run {
                 ErrorMessage => $ValidationResult->{ErrorMessage} || '',
                 LayoutObject => $Self->{LayoutObject},
                 ParamObject  => $Self->{ParamObject},
+
+                # CustomerTicketMessage does not support AJAXUpdate
+                AJAXUpdate     => 0,
+                SubmitOnChange => 1,
                 );
         }
 
@@ -527,7 +546,7 @@ sub _MaskNew {
                     Message  => "Module: $Module loaded!",
                 );
             }
-            %NewTos = ( $Object->Run( Env => $Self ), ( '', => '-' ) );
+            %NewTos = ( $Object->Run( Env => $Self, ACLParams => \%Param ), ( '', => '-' ) );
         }
         else {
             return $Self->{LayoutObject}->FatalError();
@@ -561,6 +580,7 @@ sub _MaskNew {
     # get priority
     if ( $Self->{Config}->{Priority} ) {
         my %Priorities = $Self->{TicketObject}->TicketPriorityList(
+            %Param,
             CustomerUserID => $Self->{UserID},
             Action         => $Self->{Action},
         );

@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/CustomerNewTicketQueueSelectionGeneric.pm
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerNewTicketQueueSelectionGeneric.pm,v 1.9 2009-11-11 09:58:38 martin Exp $
+# $Id: CustomerNewTicketQueueSelectionGeneric.pm,v 1.10 2011-12-05 18:13:48 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -58,6 +58,7 @@ sub Run {
 
         # check create permissions
         my %Queues = $Self->{TicketObject}->MoveList(
+            %{ $Param{ACLParams} },
             CustomerUserID => $Param{Env}->{UserID},
             Type           => 'create',
             Action         => $Param{Env}->{Action},
@@ -74,6 +75,7 @@ sub Run {
         my %Tos;
         if ( $Self->{ConfigObject}->Get('CustomerPanelSelectionType') eq 'Queue' ) {
             %Tos = $Self->{TicketObject}->MoveList(
+                %{ $Param{ACLParams} },
                 CustomerUserID => $Param{Env}->{UserID},
                 Type           => 'create',
                 Action         => $Param{Env}->{Action},
@@ -81,6 +83,7 @@ sub Run {
         }
         else {
             my %Queues = $Self->{TicketObject}->MoveList(
+                %{ $Param{ACLParams} },
                 CustomerUserID => $Param{Env}->{UserID},
                 Type           => 'create',
                 Action         => $Param{Env}->{Action},
