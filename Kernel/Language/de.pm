@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Thomas Kaltenbrunner <tkaltenbrunner at opc.de>
 # --
-# $Id: de.pm,v 1.301 2011-12-05 08:29:17 mg Exp $
+# $Id: de.pm,v 1.302 2011-12-05 08:48:41 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.301 $) [1];
+$VERSION = qw($Revision: 1.302 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -923,7 +923,7 @@ sub Data {
         'Remove value' => 'Wert löschen',
         'Add value' => 'Wert hinzufügen',
         'Add Value' => 'Wert hinzufügen',
-        'Allow empty value' => 'Leeren Wert erlauben',
+        'Add empty value' => 'Leeren Wert hinzufügen',
         'Activate this option to create an empty selectable value.' => 'Aktivieren Sie diese Einstellung, um einen leeren Auswahlwert zu erzeugen.',
         'Translatable values' => 'Wertübersetzung',
         'If you activate this option the values will be translated to the user defined language.' => 'Wenn Sie diese Einstellung aktivieren, werden die Werte in die Sprache des Benutzers übersetzt.',
