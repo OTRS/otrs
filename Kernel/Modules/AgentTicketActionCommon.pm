@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketActionCommon.pm - common file for several modules
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketActionCommon.pm,v 1.67 2011-12-05 20:43:20 cr Exp $
+# $Id: AgentTicketActionCommon.pm,v 1.68 2011-12-05 21:12:14 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -401,7 +401,6 @@ sub Run {
                     %GetParam,
                     Action        => $Self->{Action},
                     TicketID      => $Self->{TicketID},
-                    Type          => 'DynamicField_' . $DynamicFieldConfig->{Name},
                     ReturnType    => 'Ticket',
                     ReturnSubType => 'DynamicField_' . $DynamicFieldConfig->{Name},
                     Data          => $DynamicFieldConfig->{Config}->{PossibleValues},
@@ -826,7 +825,6 @@ sub Run {
                 %GetParam,
                 Action        => $Self->{Action},
                 QueueID       => $QueueID || 0,
-                Type          => 'DynamicField_' . $DynamicFieldConfig->{Name},
                 ReturnType    => 'Ticket',
                 ReturnSubType => 'DynamicField_' . $DynamicFieldConfig->{Name},
                 Data          => $PossibleValues,
@@ -956,7 +954,6 @@ sub Run {
                     %GetParam,
                     Action        => $Self->{Action},
                     TicketID      => $Self->{TicketID},
-                    Type          => 'DynamicField_' . $DynamicFieldConfig->{Name},
                     ReturnType    => 'Ticket',
                     ReturnSubType => 'DynamicField_' . $DynamicFieldConfig->{Name},
                     Data          => $DynamicFieldConfig->{Config}->{PossibleValues},
