@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketMessage.pm - to handle customer messages
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.pm,v 1.94 2011-11-01 18:44:19 cr Exp $
+# $Id: CustomerTicketMessage.pm,v 1.95 2011-12-05 16:05:22 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.94 $) [1];
+$VERSION = qw($Revision: 1.95 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -95,12 +95,15 @@ sub Run {
 
     if ( !$Self->{Subaction} ) {
 
-        #Get QueueID for services
+        #Get default Queue ID if none is set
         my $QueueDefaultID;
-        if ( !$GetParam{Dest} ) {
+        if ( !$GetParam{Dest} && !$Param{ToSelected} ) {
             my $QueueDefault = $Self->{Config}->{'QueueDefault'} || '';
             if ($QueueDefault) {
-                $QueueDefaultID = $Self->{QueueObject}->QueueLookup( Queue => $QueueDefault );
+                my $QueueID = $Self->{QueueObject}->QueueLookup( Queue => $QueueDefault );
+                if ($QueueID) {
+                    $QueueDefaultID = $QueueID . '||' . $QueueDefault;
+                }
             }
         }
 
@@ -543,7 +546,7 @@ sub _MaskNew {
             Size       => 0,
             Name       => 'Dest',
             Class      => "Validate_Required " . $Param{Errors}->{QueueInvalid},
-            SelectedID => $Param{ToSelected},
+            SelectedID => $Param{ToSelected} || $Param{QueueID},
         );
         $Self->{LayoutObject}->Block(
             Name => 'Queue',
