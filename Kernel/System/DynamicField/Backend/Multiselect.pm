@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Multiselect.pm - Delegate for DynamicField Multiselect backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Multiselect.pm,v 1.39 2011-11-30 17:11:13 cg Exp $
+# $Id: Multiselect.pm,v 1.40 2011-12-05 18:14:54 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::DynamicFieldValue;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.39 $) [1];
+$VERSION = qw($Revision: 1.40 $) [1];
 
 =head1 NAME
 
@@ -289,6 +289,25 @@ EOF
 <script type="text/javascript">//<![CDATA[
     \$('$FieldSelector').bind('change', function (Event) {
         Core.AJAX.FormUpdate(\$(this).parents('form'), 'AJAXUpdate', '$FieldName', [ $FieldsToUpdate ]);
+    });
+//]]></script>
+<!--dtl:js_on_document_complete-->
+EOF
+    }
+
+    if ( $Param{SubmitOnChange} ) {
+
+        my $FieldSelector = '#' . $FieldName;
+
+        #add js to disable validation and do submit()
+        $HTMLString .= <<"EOF";
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+    \$('$FieldSelector').bind('change', function (Event) {
+        // make sure the ticket is not yet created on queue change
+        \$('input#Expand').val(1);
+        Core.Form.Validate.DisableValidation(\$(this).closest('form'));
+        \$(this).closest('form').submit();
     });
 //]]></script>
 <!--dtl:js_on_document_complete-->
