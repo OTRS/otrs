@@ -2,7 +2,7 @@
 # ArticleFreeField.t - Article Free Field tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleFreeField.t,v 1.5 2011-11-08 23:29:37 cr Exp $
+# $Id: ArticleFreeField.t,v 1.6 2011-12-05 22:49:33 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -409,12 +409,12 @@ for ( 1 .. 3 ) {
 %ArticleFreeText = $TicketObject->ArticleGet( ArticleID => $ArticleID );
 for ( 1 .. 3 ) {
     $Self->Is(
-        $ArticleFreeText{ 'ArticleFreeKey' . $_ },
+        $ArticleFreeText{ 'ArticleFreeKey' . $_ } || '',
         '',
         "ArticleGet() 5 (ArticleFreeKey$_)",
     );
     $Self->Is(
-        $ArticleFreeText{ 'ArticleFreeText' . $_ },
+        $ArticleFreeText{ 'ArticleFreeText' . $_ } || '',
         '',
         "ArticleGet() 5 (ArticleFreeText$_)",
     );
