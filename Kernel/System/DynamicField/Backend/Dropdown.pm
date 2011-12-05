@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Dropdown.pm - Delegate for DynamicField Dropdown backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Dropdown.pm,v 1.51 2011-12-05 18:14:54 cr Exp $
+# $Id: Dropdown.pm,v 1.52 2011-12-05 20:46:19 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::DynamicFieldValue;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.51 $) [1];
+$VERSION = qw($Revision: 1.52 $) [1];
 
 =head1 NAME
 
@@ -741,6 +741,29 @@ sub ObjectMatch {
     }
 
     return 1;
+}
+
+sub AJAXPossibleValuesGet {
+    my ( $Self, %Param ) = @_;
+
+    # to store the possible values
+    my %PossibleValues;
+
+    # set none value if defined on field config
+    if ( $Param{DynamicFieldConfig}->{Config}->{PossibleNone} ) {
+        %PossibleValues = ( '' => '-' );
+    }
+
+    # set all other possible values if defined on field config
+    if ( IsHashRefWithData( $Param{DynamicFieldConfig}->{Config}->{PossibleValues} ) ) {
+        %PossibleValues = (
+            %PossibleValues,
+            %{ $Param{DynamicFieldConfig}->{Config}->{PossibleValues} },
+        );
+    }
+
+    # retrun the possible values hash as a reference
+    return \%PossibleValues;
 }
 
 1;

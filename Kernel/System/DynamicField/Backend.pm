@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend.pm - Interface for DynamicField backends
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Backend.pm,v 1.59 2011-12-05 18:14:18 cr Exp $
+# $Id: Backend.pm,v 1.60 2011-12-05 20:46:45 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Scalar::Util qw(weaken);
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.59 $) [1];
+$VERSION = qw($Revision: 1.60 $) [1];
 
 =head1 NAME
 
@@ -1821,6 +1821,73 @@ sub ObjectMatch {
         %Param
     );
 }
+
+=item AJAXPossibleValuesGet()
+
+returns the list of possible values for a defined dynamic field (including the "none" value if is defined in
+the dynamic field configuration ). This function is used in AJAX update subactions
+
+    my $PossibleValues = $BackendObject->AJAXPossibleValuesGet(
+        DynamicFieldConfig => $DynamicFieldConfig,       # complete config of the DynamicField
+    );
+
+    Returns:
+
+    $PossibleValues = {
+        ''  => '-',                                     # "none" value
+        '1' => 'Item1',
+        '2' => 'Item2',
+    }
+
+=cut
+
+sub AJAXPossibleValuesGet {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Needed (qw(DynamicFieldConfig)) {
+        if ( !$Param{$Needed} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            return;
+        }
+    }
+
+    # check DynamicFieldConfig (general)
+    if ( !IsHashRefWithData( $Param{DynamicFieldConfig} ) ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "The field configuration is invalid",
+        );
+        return;
+    }
+
+    # check DynamicFieldConfig (internally)
+    for my $Needed (qw(ID FieldType ObjectType)) {
+        if ( !$Param{DynamicFieldConfig}->{$Needed} ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed in DynamicFieldConfig!"
+            );
+            return;
+        }
+    }
+
+    # set the dynamic filed specific backend
+    my $DynamicFieldBackend = 'DynamicField' . $Param{DynamicFieldConfig}->{FieldType} . 'Object';
+
+    if ( !$Self->{$DynamicFieldBackend} ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!"
+        );
+        return;
+    }
+
+    # call AJAXPossibleValuesGet on the specific backend
+    return $Self->{$DynamicFieldBackend}->AJAXPossibleValuesGet(
+        %Param
+    );
+}
 1;
 
 =back
@@ -1837,6 +1904,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.59 $ $Date: 2011-12-05 18:14:18 $
+$Revision: 1.60 $ $Date: 2011-12-05 20:46:45 $
 
 =cut
