@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.165 2011-11-30 08:25:36 mb Exp $
+# $Id: AgentTicketZoom.pm,v 1.166 2011-12-05 20:56:03 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.165 $) [1];
+$VERSION = qw($Revision: 1.166 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -736,6 +736,35 @@ sub MaskAgentZoom {
             Data => { %Ticket, %AclAction },
         );
     }
+
+    # test access to frontend module for Customer
+    my $Access = $Self->{LayoutObject}->Permission(
+        Action => 'AgentTicketCustomer',
+        Type   => 'rw',
+    );
+    if ($Access) {
+
+        # test access to ticket
+        my $Config = $Self->{ConfigObject}->Get('Ticket::Frontend::AgentTicketCustomer');
+        if ( $Config->{Permission} ) {
+            my $OK = $Self->{TicketObject}->Permission(
+                Type     => $Config->{Permission},
+                TicketID => $Ticket{TicketID},
+                UserID   => $Self->{UserID},
+                LogNo    => 1,
+            );
+            if ( !$OK ) {
+                $Access = 0;
+            }
+        }
+    }
+
+    # define proper DTL block based on permissions
+    my $CustomerIDBlock = $Access ? 'CustomerIDRW' : 'CustomerIDRO';
+    $Self->{LayoutObject}->Block(
+        Name => $CustomerIDBlock,
+        Data => \%Ticket,
+    );
 
     # show total accounted time if feature is active:
     if ( $Self->{ConfigObject}->Get('Ticket::Frontend::AccountTime') ) {

@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/TicketOverviewPreview.pm
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketOverviewPreview.pm,v 1.64 2011-11-30 09:59:39 mb Exp $
+# $Id: TicketOverviewPreview.pm,v 1.65 2011-12-05 20:56:04 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.64 $) [1];
+$VERSION = qw($Revision: 1.65 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -586,6 +586,36 @@ sub _Show {
     if ( defined $Article{CustomerID} ) {
         $Self->{LayoutObject}->Block(
             Name => 'CustomerID',
+            Data => { %Param, %Article },
+        );
+
+        # test access to frontend module
+        my $Access = $Self->{LayoutObject}->Permission(
+            Action => 'AgentTicketCustomer',
+            Type   => 'rw',
+        );
+        if ($Access) {
+
+            # test access to ticket
+            my $Config = $Self->{ConfigObject}->Get('Ticket::Frontend::AgentTicketCustomer');
+            if ( $Config->{Permission} ) {
+                my $OK = $Self->{TicketObject}->Permission(
+                    Type     => $Config->{Permission},
+                    TicketID => $Param{TicketID},
+                    UserID   => $Self->{UserID},
+                    LogNo    => 1,
+                );
+                if ( !$OK ) {
+                    $Access = 0;
+                }
+            }
+        }
+
+        # define proper DTL block based on permissions
+        my $CustomerIDBlock = $Access ? 'CustomerIDRW' : 'CustomerIDRO';
+
+        $Self->{LayoutObject}->Block(
+            Name => $CustomerIDBlock,
             Data => { %Param, %Article },
         );
 

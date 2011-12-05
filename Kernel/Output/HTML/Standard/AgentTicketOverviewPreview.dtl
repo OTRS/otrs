@@ -2,7 +2,7 @@
 # AgentTicketOverviewPreview.dtl - provides HTML Ticket Overview
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewPreview.dtl,v 1.75 2011-11-07 08:41:20 mg Exp $
+# $Id: AgentTicketOverviewPreview.dtl,v 1.76 2011-12-05 20:56:03 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -141,9 +141,14 @@
                             <td>
 <!-- dtl:block:CustomerID -->
                                 <label>$Text{"CustomerID"}</label>
+<!-- dtl:block:CustomerIDRW -->
                                 <div title="$QData{"CustomerID"}"><a href="$Config{"CustomerDBLink"}" class="AsPopup PopupType_TicketAction" $Config{"CustomerDBLinkTarget"}>$QData{"CustomerID", "26"}</a></div>
+<!-- dtl:block:CustomerIDRW -->
+<!-- dtl:block:CustomerIDRO -->
+                                <div title="$QData{"CustomerID"}">$QData{"CustomerID", "26"}</div>
+<!-- dtl:block:CustomerIDRO -->
 <!-- dtl:block:CustomerName -->
-                                <div title="$QData{"CustomerName"}">$QData{"CustomerName","15"}</div>
+                                <div title="$QData{"CustomerName"}">$QData{"CustomerName","26"}</div>
 <!-- dtl:block:CustomerName -->
 <!-- dtl:block:CustomerID -->
                             </td>

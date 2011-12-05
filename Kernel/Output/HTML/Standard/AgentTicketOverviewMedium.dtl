@@ -2,7 +2,7 @@
 # AgentTicketOverviewMedium.dtl - provides HTML Ticket Overview
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewMedium.dtl,v 1.69 2011-12-02 12:04:42 mb Exp $
+# $Id: AgentTicketOverviewMedium.dtl,v 1.70 2011-12-05 20:56:03 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -108,7 +108,13 @@
                             <label>$Text{"Queue"}</label><div title="$QData{"Queue"}">$QData{"Queue","26"}</div>
                         </td>
                         <td>
-                            <label>$Text{"CustomerID"}</label><a href="$Config{"CustomerDBLink"}" class="AsPopup PopupType_TicketAction" $Config{"CustomerDBLinkTarget"}>$QData{"CustomerID", "26"}</a><br /><div title="$QData{"CustomerName"}">$QData{"CustomerName","15"}</div>
+<!-- dtl:block:CustomerIDRW -->
+                            <label>$Text{"CustomerID"}</label><a href="$Config{"CustomerDBLink"}" class="AsPopup PopupType_TicketAction" $Config{"CustomerDBLinkTarget"}>$QData{"CustomerID", "26"}</a>
+<!-- dtl:block:CustomerIDRW -->
+<!-- dtl:block:CustomerIDRO -->
+                            <label>$Text{"CustomerID"}</label>$QData{"CustomerID", "26"}
+<!-- dtl:block:CustomerIDRO -->
+                            <br /><div title="$QData{"CustomerName"}">$QData{"CustomerName","26"}</div>
                         </td>
 # example of how to use fixed dynamic field blocks for customizations
 # Note: Field1 is the name of the field and had to be replaced with the actual

@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2063 2011-12-05 18:17:15 cr Exp $
+# $Id: CHANGES,v 1.2064 2011-12-05 20:56:04 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.1.0.beta3 2011-12-??
+ - 2011-12-05 Fixed bug#3544 - Don't show link to AgentTicketCustomer if agent does not have
+    permissions.
  - 2011-12-05 Fixed bug#7971 - ACL to restrict Priority based on Service does not work in Customer
     interface.
  - 2011-12-05 Fixed bug#7900 - DefaultQueue does not preselect queue in CustomerTicketMessage.
