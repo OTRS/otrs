@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2060 2011-12-05 11:28:58 mg Exp $
+# $Id: CHANGES,v 1.2061 2011-12-05 14:21:44 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.1.0.beta3 2011-12-??
+ - 2011-12-05 Fixed bug#7184 - Service catalog is not useable with sophisticated amount of entries.
  - 2011-12-05 Fixed bug#7864 - Inconsequent wrapping of text causes ugly notifications.
  - 2011-12-05 Fixed bug#7967 - Misleading comment on DF Dropdown setup.
  - 2011-12-05 Fixed bug#7966 - Little german translation enhancement.
