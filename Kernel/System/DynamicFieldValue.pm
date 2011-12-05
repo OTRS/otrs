@@ -2,7 +2,7 @@
 # Kernel/System/DynamicFieldValue.pm - DynamicField values backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicFieldValue.pm,v 1.14 2011-10-26 02:14:45 cr Exp $
+# $Id: DynamicFieldValue.pm,v 1.15 2011-12-05 22:41:29 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Time;
 use Kernel::System::Cache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 =head1 NAME
 
@@ -404,7 +404,7 @@ sub HistoricalValueGet {
 
     return if !$Self->{DBObject}->Prepare(
         SQL =>
-            "SELECT DISTINCT($ValueType) FROM dynamic_field_value WHERE field_id = ?",
+            "SELECT $ValueType FROM dynamic_field_value WHERE field_id = ?",
         Bind => [ \$Param{FieldID} ],
     );
 
@@ -456,6 +456,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.14 $ $Date: 2011-10-26 02:14:45 $
+$Revision: 1.15 $ $Date: 2011-12-05 22:41:29 $
 
 =cut
