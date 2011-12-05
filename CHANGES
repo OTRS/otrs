@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2057 2011-12-02 23:25:38 cr Exp $
+# $Id: CHANGES,v 1.2058 2011-12-05 08:34:56 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.1.0.beta3 2011-12-??
+ - 2011-12-05 Fixed bug#7966 - Little german translation enhancement.
  - 2011-12-02 Fixed bug#5437 - Reload of TicketFreeTexFields (now DynamicFields) (for ACL).
  - 2011-12-02 Fixed bug#7056 - AgentTicketMove.pm does not handle TicketFreeText
     (now DynamicFields) correctly.
