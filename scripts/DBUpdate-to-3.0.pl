@@ -3,7 +3,7 @@
 # DBUpdate-to-3.0.pl - update script to migrate OTRS 2.4.x to 3.0.x
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-3.0.pl,v 1.5 2011-01-10 14:54:12 ub Exp $
+# $Id: DBUpdate-to-3.0.pl,v 1.5.2.1 2011-12-05 11:09:17 ub Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.5.2.1 $) [1];
 
 use Getopt::Std qw();
 use Kernel::Config;
@@ -345,7 +345,8 @@ sub CreateVirtualFSTables {
         push @SQLPost, $CommonObject->{DBObject}->SQLProcessorPost();
     }
 
-    # create tables
+    # create tables (continue on error)
+    my $Error;
     for my $SQL (@SQL) {
         my $Success = $CommonObject->{DBObject}->Do( SQL => $SQL );
         if ( !$Success ) {
@@ -353,11 +354,11 @@ sub CreateVirtualFSTables {
                 Priority => 'error',
                 Message  => "Error during table creation!",
             );
-            return;
+            $Error = 1;
         }
     }
 
-    # create foreign keys
+    # create foreign keys (continue on error)
     for my $SQL (@SQLPost) {
         my $Success = $CommonObject->{DBObject}->Do( SQL => $SQL );
         if ( !$Success ) {
@@ -365,10 +366,14 @@ sub CreateVirtualFSTables {
                 Priority => 'error',
                 Message  => "Error during foreign key creation!",
             );
-            return;
+            $Error = 1;
         }
     }
 
+    # error
+    return if $Error;
+
+    # success
     return 1;
 }
 

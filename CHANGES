@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1758.2.199 2011-12-02 15:26:54 mb Exp $
+# $Id: CHANGES,v 1.1758.2.200 2011-12-05 11:09:16 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.0.12 ????-??-??
+ - 2011-12-05 Fixed bug#7338 - Upgrade Script DBUpdate-to-3.0.pl fails to create
+    virtual_fs tables on oracle.
  - 2011-12-02 Fixed bug#7442 - Dashboard permission check for multiple Groups only
     tests first group.
  - 2011-11-29 Fixed bug#7719 - Agent login page does not offer user to save password
