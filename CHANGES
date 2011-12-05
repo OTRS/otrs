@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2067 2011-12-05 21:42:53 cr Exp $
+# $Id: CHANGES,v 1.2068 2011-12-05 22:29:37 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.1.0.beta3 2011-12-??
+ - 2011-12-05 Fixed bug#7923 - Free field value not correctly migrated error on DBUpdate-to-3.1.pl.
  - 2011-12-05 Fixed bug#7975 - Wrong Type parameter is sent on Dynamic Fields ACLs.
  - 2011-12-05 Fixed bug#7968 - DynamicField empty value "-" disappears on AJAX reload.
  - 2011-12-05 Fixed bug#3544 - Don't show link to AgentTicketCustomer if agent does not have
