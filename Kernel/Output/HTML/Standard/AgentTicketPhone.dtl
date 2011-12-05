@@ -2,7 +2,7 @@
 # AgentTicketPhone.dtl - provides HTML form for phone
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.dtl,v 1.139 2011-12-02 09:15:06 mg Exp $
+# $Id: AgentTicketPhone.dtl,v 1.140 2011-12-05 19:30:25 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -143,13 +143,19 @@ $Include{"AgentCustomerSearch"}
                     <div class="Clear"></div>
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
-    $('#FromCustomer').bind('change', function () {
-        // Wait a little to let mouse click events be handled in the meantime.
-        window.setTimeout(function(){
-            if ( $('#FromCustomer').val() !== '' ){
-                Core.Agent.CustomerSearch.AddTicketCustomer( 'FromCustomer', $('#FromCustomer').val() );
+    $('#FromCustomer').bind('change', function (e) {
+        if ( $('#FromCustomer').val() !== ''  && $('.ui-autocomplete').css('display') !== 'block') {
+            Core.Agent.CustomerSearch.AddTicketCustomer( 'FromCustomer', $('#FromCustomer').val() );
+        }
+        else {
+            window.setTimeout(function(){
+                if ( $('#FromCustomer').val() !== ''){
+                    $('#FromCustomer').trigger('change');
+                }
             }
-        }, 100);
+            , 1);
+        }
+        return false;
     });
     $('#FromCustomer').bind('keypress', function (e) {
         if (e.which == 13){
