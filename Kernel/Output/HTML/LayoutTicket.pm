@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.137 2011-11-30 08:25:36 mb Exp $
+# $Id: LayoutTicket.pm,v 1.138 2011-12-06 15:07:17 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.137 $) [1];
+$VERSION = qw($Revision: 1.138 $) [1];
 
 sub AgentCustomerViewTable {
     my ( $Self, %Param ) = @_;
@@ -671,11 +671,12 @@ sub TicketListShow {
         Value     => $View,
     );
 
-    # update preferences
-    if ( !$Self->{ConfigObject}->Get('DemoSystem') ) {
+    # update preferences if needed
+    my $Key = 'UserTicketOverview' . $Env->{Action};
+    if ( !$Self->{ConfigObject}->Get('DemoSystem') && $Self->{$Key} ne $View ) {
         $Self->{UserObject}->SetPreferences(
             UserID => $Self->{UserID},
-            Key    => 'UserTicketOverview' . $Env->{Action},
+            Key    => $Key,
             Value  => $View,
         );
     }

@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2071 2011-12-06 03:11:29 cr Exp $
+# $Id: CHANGES,v 1.2072 2011-12-06 15:07:16 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.1.0.beta3 2011-12-??
+ - 2011-12-06 Fixed bug#5253 - User preferences are updated when displaying an overview.
  - 2011-12-05 Fixed bug#5356 - TicketFreeText (now Dynamic Fields) containing domain name - causes
     Agent interface issues
  - 2011-12-05 Fixed bug#3334 - FreeFields (now Dynamic Fields) with content "0" aren't displayed
