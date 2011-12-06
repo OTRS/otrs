@@ -2,7 +2,7 @@
 // Core.Agent.CustomerSearch.js - provides the special module functions for the customer search
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.CustomerSearch.js,v 1.24 2011-11-15 08:34:56 mg Exp $
+// $Id: Core.Agent.CustomerSearch.js,v 1.25 2011-12-06 20:08:27 cg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -254,6 +254,8 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
 //                if (ActiveAutoComplete && $Element.val() && $Element.val().length && !$('#SelectedCustomerUser').val().length) {
 //                    $($Element).focus().autocomplete('search', $Element.val());
 //                }
+                // initializes the customer fields
+                TargetNS.InitCustomerField();
             }
 
             if (!ActiveAutoComplete) {
@@ -431,6 +433,45 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
 
         // set hidden field SelectedCustomerUser
         $('#SelectedCustomerUser').val(CustomerKey);
+    };
+
+
+    /**
+     * @function
+     * @return nothing
+     *      This function initializes the customer fields
+     */
+    TargetNS.InitCustomerField = function () {
+
+        // loop over the field with CustomerAutoComplete class
+        $('.CustomerAutoComplete').each(function(index) {
+            var ObjectId = $(this).attr('id');
+            $('#' + ObjectId).bind('change', function () {
+                if ( !$('#' + ObjectId).val() || $('#' + ObjectId).val() === '') {
+                    return false;
+                }
+                // If the autocomplete popup window is visible, delay this change event.
+                // It might be caused by clicking with the mouse into the autocomplete list.
+                // Wait until it is closed to be sure that we don't add a customer twice.
+                var ObjectIndex = $('.CustomerAutoComplete').index(this);
+                if ( $('.ui-autocomplete').eq(ObjectIndex).css('display') === 'block' ) {
+                    window.setTimeout(function(){
+                        $('#' + ObjectId).trigger('change');
+                    }, 200);
+                    return false;
+                }
+
+                Core.Agent.CustomerSearch.AddTicketCustomer( ObjectId, $('#' + ObjectId).val() );
+                return false;
+            });
+
+            $('#' + ObjectId).bind('keypress', function (e) {
+                if (e.which == 13){
+                    Core.Agent.CustomerSearch.AddTicketCustomer( ObjectId, $('#' + ObjectId).val() );
+                    return false;
+                }
+            });
+        });
     };
 
     return TargetNS;
