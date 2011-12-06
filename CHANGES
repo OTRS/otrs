@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2073 2011-12-06 15:12:45 mb Exp $
+# $Id: CHANGES,v 1.2074 2011-12-06 16:11:47 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.1.0.beta3 2011-12-??
+ - 2011-12-06 Fixed bug#7981 - Stats sum on X axis does not display total if the total is zero.
  - 2011-12-06 Fixed bug#4740 - HTTP header in Redirect is not syntactically correct.
  - 2011-12-06 Fixed bug#5253 - User preferences are updated when displaying an overview.
  - 2011-12-05 Fixed bug#5356 - TicketFreeText (now Dynamic Fields) containing domain name - causes
