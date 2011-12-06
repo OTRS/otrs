@@ -2,7 +2,7 @@
 # AgentTicketCompose.dtl - provides HTML form for AgentTicketCompose
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.dtl,v 1.98 2011-12-02 09:15:06 mg Exp $
+# $Id: AgentTicketCompose.dtl,v 1.99 2011-12-06 20:04:50 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -116,24 +116,6 @@ $Include{"AgentCustomerSearch"}
                         </div>
                     </div>
                     <div class="Clear"></div>
-<!--dtl:js_on_document_complete-->
-<script type="text/javascript">//<![CDATA[
-    $('#ToCustomer').bind('change', function () {
-        // Wait a little to let mouse click events be handled in the meantime.
-        window.setTimeout(function(){
-            if ( $('#ToCustomer').val() !== '' ) {
-                Core.Agent.CustomerSearch.AddTicketCustomer( 'ToCustomer', $('#ToCustomer').val() );
-            }
-        }, 100);
-    });
-    $('#ToCustomer').bind('keypress', function (e) {
-        if (e.which == 13){
-            Core.Agent.CustomerSearch.AddTicketCustomer( 'ToCustomer', $('#ToCustomer').val() );
-            return false;
-        }
-    });
-//]]></script>
-<!--dtl:js_on_document_complete-->
 
 <!-- dtl:block:PreFilledTo -->
 <!--dtl:js_on_document_complete-->
@@ -198,24 +180,6 @@ $Include{"AgentCustomerSearch"}
                         <input id="CcCustomer" type="text" name="CcCustomer" value="" class="CustomerAutoComplete W75pc AutocompleteOff $QData{"CcInvalid"}"/>
                     </div>
                     <div class="Clear"></div>
-<!--dtl:js_on_document_complete-->
-<script type="text/javascript">//<![CDATA[
-    $('#CcCustomer').bind('change', function () {
-        // Wait a little to let mouse click events be handled in the meantime.
-        window.setTimeout(function(){
-            if ( $('#CcCustomer').val() !== '' ) {
-                Core.Agent.CustomerSearch.AddTicketCustomer( 'CcCustomer', $('#CcCustomer').val() );
-            }
-        }, 100);
-    });
-    $('#CcCustomer').bind('keypress', function (e) {
-        if (e.which == 13){
-            Core.Agent.CustomerSearch.AddTicketCustomer( 'CcCustomer', $('#CcCustomer').val() );
-            return false;
-        }
-    });
-//]]></script>
-<!--dtl:js_on_document_complete-->
 
 <!-- dtl:block:PreFilledCc -->
 <!--dtl:js_on_document_complete-->
@@ -280,24 +244,6 @@ $Include{"AgentCustomerSearch"}
                         <input id="BccCustomer" type="text" name="BccCustomer" value="" class="CustomerAutoComplete W75pc AutocompleteOff $QData{"BccInvalid"}"/>
                     </div>
                     <div class="Clear"></div>
-<!--dtl:js_on_document_complete-->
-<script type="text/javascript">//<![CDATA[
-    $('#BccCustomer').bind('change', function () {
-        // Wait a little to let mouse click events be handled in the meantime.
-        window.setTimeout(function(){
-            if ( $('#BccCustomer').val() !== '' ) {
-                Core.Agent.CustomerSearch.AddTicketCustomer( 'BccCustomer', $('#BccCustomer').val() );
-            }
-        }, 100);
-    });
-    $('#BccCustomer').bind('keypress', function (e) {
-        if (e.which == 13){
-            Core.Agent.CustomerSearch.AddTicketCustomer( 'BccCustomer', $('#BccCustomer').val() );
-            return false;
-        }
-    });
-//]]></script>
-<!--dtl:js_on_document_complete-->
 
                     <label class="Mandatory" for="Subject"><span class="Marker">*</span>$Text{"Subject"}:</label>
                     <div class="Field">
