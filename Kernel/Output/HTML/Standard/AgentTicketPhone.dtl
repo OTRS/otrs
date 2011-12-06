@@ -2,7 +2,7 @@
 # AgentTicketPhone.dtl - provides HTML form for phone
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.dtl,v 1.140 2011-12-05 19:30:25 cg Exp $
+# $Id: AgentTicketPhone.dtl,v 1.141 2011-12-06 14:05:06 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -144,19 +144,24 @@ $Include{"AgentCustomerSearch"}
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
     $('#FromCustomer').bind('change', function (e) {
-        if ( $('#FromCustomer').val() !== ''  && $('.ui-autocomplete').css('display') !== 'block') {
-            Core.Agent.CustomerSearch.AddTicketCustomer( 'FromCustomer', $('#FromCustomer').val() );
+        if ( !$('#FromCustomer').val() || $('#FromCustomer').val() === '') {
+            return false;
         }
-        else {
+
+        // If the autocomplete popup window is visible, delay this change event.
+        // It might be caused by clicking with the mouse into the autocomplete list.
+        // Wait until it is closed to be sure that we don't add a customer twice.
+        if ($('.ui-autocomplete').css('display') === 'block') {
             window.setTimeout(function(){
-                if ( $('#FromCustomer').val() !== ''){
-                    $('#FromCustomer').trigger('change');
-                }
-            }
-            , 1);
+                $('#FromCustomer').trigger('change');
+            }, 200);
+            return false;
         }
+
+        Core.Agent.CustomerSearch.AddTicketCustomer( 'FromCustomer', $('#FromCustomer').val() );
         return false;
     });
+
     $('#FromCustomer').bind('keypress', function (e) {
         if (e.which == 13){
             Core.Agent.CustomerSearch.AddTicketCustomer( 'FromCustomer', $('#FromCustomer').val() );
