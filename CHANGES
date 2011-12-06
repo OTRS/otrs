@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2074 2011-12-06 16:11:47 mb Exp $
+# $Id: CHANGES,v 1.2075 2011-12-06 16:19:39 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -194,6 +194,7 @@
      of > 70 characters exists.
 
 3.0.12 ????-??-??
+ - 2011-12-06 Fixed bug#5253 - User preferences are updated when displaying an overview.
  - 2011-12-05 Fixed bug#7971 - ACL to restrict Priority based on Service does not work in Customer
     interface.
  - 2011-12-02 Fixed bug#7442 - Dashboard permission check for multiple Groups only
