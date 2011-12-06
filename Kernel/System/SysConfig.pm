@@ -2,7 +2,7 @@
 # Kernel/System/SysConfig.pm - all system config tool functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SysConfig.pm,v 1.30 2011-09-08 11:54:56 mg Exp $
+# $Id: SysConfig.pm,v 1.31 2011-12-06 10:30:31 des Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::Config;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.30 $) [1];
+$VERSION = qw($Revision: 1.31 $) [1];
 
 =head1 NAME
 
@@ -1447,6 +1447,9 @@ sub ConfigItemValidate {
         # if the valid param is given, use it, otherwise take valid setting from config item
         my $Valid = defined $Param{Valid} ? $Param{Valid} : $ConfigItem{Valid};
 
+        # skip validation of invalid items
+        return 1 if !$Valid;
+
         # update the config item with the new value
         my $UpdateSuccess = $Self->ConfigItemUpdate(
             Valid        => $Valid,
@@ -2251,6 +2254,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.30 $ $Date: 2011-09-08 11:54:56 $
+$Revision: 1.31 $ $Date: 2011-12-06 10:30:31 $
 
 =cut
