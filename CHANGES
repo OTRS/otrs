@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2069 2011-12-06 00:14:39 cr Exp $
+# $Id: CHANGES,v 1.2070 2011-12-06 02:56:46 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,7 +10,9 @@
 # --
 
 3.1.0.beta3 2011-12-??
- - 2011-12-05 Fixed bug#4032 = TicketFreeText (now Dynamic Fields)- DefaultSelection does not work
+ - 2011-12-05 Fixed bug#3334 - FreeFields (now Dynamic Fields) with content "0" aren't displayed
+    within TicketZoom view
+ - 2011-12-05 Fixed bug#4032 - TicketFreeText (now Dynamic Fields)- DefaultSelection does not work
     for AgentTicketForward
  - 2011-12-05 Fixed bug#7923 - Free field value not correctly migrated error on DBUpdate-to-3.1.pl.
  - 2011-12-05 Fixed bug#7975 - Wrong Type parameter is sent on Dynamic Fields ACLs.
