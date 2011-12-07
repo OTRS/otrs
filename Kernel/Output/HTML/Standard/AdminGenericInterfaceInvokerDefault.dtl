@@ -2,7 +2,7 @@
 # AdminGenericInterfaceInvokerDefault.dtl - provides HTML form for AdminLog
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceInvokerDefault.dtl,v 1.9 2011-11-10 04:37:17 cr Exp $
+# $Id: AdminGenericInterfaceInvokerDefault.dtl,v 1.10 2011-12-07 22:53:37 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -226,7 +226,7 @@ $('#MappingInboundConfigureButton').bind('click', function(){
 <!-- dtl:block:EventAdd -->
                             $Data{"EventStrg"}
 <!-- dtl:block:EventAdd -->
-                            <input type="checkbox" id="Asynchronous" checked="checked" class="GenericInterfaceSpacing" name="Asynchronous"/><span>Asynchronus</span>
+                            <input type="checkbox" id="Asynchronous" checked="checked" class="GenericInterfaceSpacing" name="Asynchronous"/><span>Asynchronous</span>
                             <button type="button" id="AddEvent" class="Add GenericInterfaceSpacing" name="AddEvent" value="Add Event">Add Event</button>
                             <p class="FieldExplanation">
                                 $Text{"To add a new event select the event object and event name and click on the "+" button"}.
