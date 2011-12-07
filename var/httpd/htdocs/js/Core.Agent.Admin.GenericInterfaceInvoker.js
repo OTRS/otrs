@@ -2,7 +2,7 @@
 // Core.Agent.Admin.GenericInterfaceInvoker.js - provides the special module functions for the GenericInterface invoker.
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.GenericInterfaceInvoker.js,v 1.5 2011-11-24 06:44:09 cr Exp $
+// $Id: Core.Agent.Admin.GenericInterfaceInvoker.js,v 1.6 2011-12-07 22:36:23 cg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -61,7 +61,7 @@ Core.Agent.Admin.GenericInterfaceInvoker = (function (TargetNS) {
 
         NewEvent = $('#'+ EventType + 'Event').val();
 
-        if ( $('#Asynchronous').attr('checked') ) {
+        if ( $('#Asynchronous').is(':checked') ) {
             window.location.href =Core.Config.Get('Baselink') + 'Action='+ TargetNS.Action +';Subaction=AddEvent;NewEvent=' + NewEvent + ';Asynchronous=1' + ';WebserviceID=' + TargetNS.WebserviceID + ';Invoker=' + TargetNS.Invoker + ';EventType=' + EventType;
         }
         else {
