@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2075 2011-12-06 16:19:39 mb Exp $
+# $Id: CHANGES,v 1.2076 2011-12-07 22:44:04 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.1.0.beta3 2011-12-??
+ - 2011-12-07 Fixed bug#7976 - Add Event Trigger Asynchronous not correctly displayed in Event Triggers Table.
  - 2011-12-06 Fixed bug#7981 - Stats sum on X axis does not display total if the total is zero.
  - 2011-12-06 Fixed bug#4740 - HTTP header in Redirect is not syntactically correct.
  - 2011-12-06 Fixed bug#5253 - User preferences are updated when displaying an overview.
