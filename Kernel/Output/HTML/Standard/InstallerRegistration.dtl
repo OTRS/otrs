@@ -2,7 +2,7 @@
 # InstallerRegistration.dtl - provides the Installer's form to register as an OTRS user
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: InstallerRegistration.dtl,v 1.1 2011-11-14 09:33:27 mab Exp $
+# $Id: InstallerRegistration.dtl,v 1.2 2011-12-08 07:59:25 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -120,10 +120,11 @@
                 return;
             }
         });
-        if (MandatoryFieldsEmpty === 1) {
+        if ( MandatoryFieldsEmpty === 1 ) {
             alert('$JSText{"Please fill in all fields marked as mandatory."}')
             return false;
         }
+        $('#FormRegistrationSubmit').attr('disabled', 'disabled');
         $('form').submit();
     });
     $('#ButtonSkipRegistration').bind('click', Core.Installer.SkipRegistration);
