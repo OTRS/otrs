@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2011-11-14 13:08:45
+--  driver: oracle, generated: 2011-12-08 11:44:27
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 ALTER TABLE ticket_index MODIFY queue VARCHAR2 (200) DEFAULT NULL;
@@ -167,7 +167,7 @@ CREATE TABLE gi_object_lock_state (
     lock_state_counter NUMBER (12, 0) NOT NULL,
     create_time DATE NOT NULL,
     change_time DATE NOT NULL,
-    CONSTRAINT gi_object_lock_state_U_808 UNIQUE (webservice_id, object_type, object_id)
+    CONSTRAINT gi_object_lock_state_U_622 UNIQUE (webservice_id, object_type, object_id)
 );
 CREATE INDEX FK_gi_object_lock_state_webs55 ON gi_object_lock_state (webservice_id);
 CREATE INDEX object_lock_state_list_state ON gi_object_lock_state (webservice_id, object_type, object_id, lock_state);
@@ -270,7 +270,7 @@ CREATE TABLE dynamic_field_value (
     id NUMBER (12, 0) NOT NULL,
     field_id NUMBER (12, 0) NOT NULL,
     object_id NUMBER (20, 0) NOT NULL,
-    value_text CLOB NULL,
+    value_text VARCHAR2 (3800) NULL,
     value_date DATE NULL,
     value_int NUMBER (20, 0) NULL
 );
@@ -309,7 +309,7 @@ CREATE TABLE dynamic_field (
     create_by NUMBER (12, 0) NOT NULL,
     change_time DATE NOT NULL,
     change_by NUMBER (12, 0) NOT NULL,
-    CONSTRAINT dynamic_field_U_515 UNIQUE (name)
+    CONSTRAINT dynamic_field_U_261 UNIQUE (name)
 );
 ALTER TABLE dynamic_field ADD CONSTRAINT PK_dynamic_field PRIMARY KEY (id);
 DROP SEQUENCE SE_dynamic_field;

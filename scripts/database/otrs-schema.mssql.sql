@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: mssql, generated: 2011-11-14 13:07:19
+--  driver: mssql, generated: 2011-12-08 11:40:33
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -1193,7 +1193,7 @@ CREATE TABLE gi_object_lock_state (
     lock_state_counter INTEGER NOT NULL,
     create_time DATETIME NOT NULL,
     change_time DATETIME NOT NULL,
-    CONSTRAINT gi_object_lock_state_U_556 UNIQUE (webservice_id, object_type, object_id)
+    CONSTRAINT gi_object_lock_state_U_128 UNIQUE (webservice_id, object_type, object_id)
 );
 CREATE INDEX object_lock_state_list_state ON gi_object_lock_state (webservice_id, object_type, object_id, lock_state);
 -- ----------------------------------------------------------
@@ -1218,7 +1218,7 @@ CREATE TABLE dynamic_field_value (
     id INTEGER NOT NULL IDENTITY(1,1) ,
     field_id INTEGER NOT NULL,
     object_id BIGINT NOT NULL,
-    value_text NVARCHAR (MAX) NULL,
+    value_text NVARCHAR (3800) NULL,
     value_date DATETIME NULL,
     value_int BIGINT NULL,
     PRIMARY KEY(id)
@@ -1243,5 +1243,5 @@ CREATE TABLE dynamic_field (
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    CONSTRAINT dynamic_field_U_846 UNIQUE (name)
+    CONSTRAINT dynamic_field_U_69 UNIQUE (name)
 );

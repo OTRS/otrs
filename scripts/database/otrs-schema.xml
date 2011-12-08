@@ -1852,7 +1852,7 @@
     <!-- the current object to link to (e. g. ticket or article ID) -->
     <Column Name="object_id" Required="true" Type="BIGINT"/>
     <!-- for value we have different field types to store data, can be extended in future -->
-    <Column Name="value_text" Required="false" Type="VARCHAR" Size="1800000" />
+    <Column Name="value_text" Required="false" Type="VARCHAR" Size="3800" />
     <Column Name="value_date" Required="false" Type="DATE" />
     <Column Name="value_int" Required="false" Type="BIGINT" />
 

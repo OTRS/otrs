@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: db2, generated: 2011-11-14 13:08:45
+--  driver: db2, generated: 2011-12-08 11:44:26
 -- ----------------------------------------------------------
 ALTER TABLE ticket_index ALTER COLUMN queue SET DEFAULT '';
 
@@ -135,7 +135,7 @@ CREATE TABLE gi_object_lock_state (
     lock_state_counter INTEGER NOT NULL,
     create_time TIMESTAMP NOT NULL,
     change_time TIMESTAMP NOT NULL,
-    CONSTRAINT gi_object_lock_state_U_840 UNIQUE (webservice_id, object_type, object_id)
+    CONSTRAINT gi_object_lock_state_U_167 UNIQUE (webservice_id, object_type, object_id)
 );
 
 CREATE INDEX object_lock_state_list_state ON gi_object_lock_state (webservice_id, object_type, object_id, lock_state);
@@ -239,7 +239,7 @@ CREATE TABLE dynamic_field_value (
     id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
     field_id INTEGER NOT NULL,
     object_id BIGINT NOT NULL,
-    value_text CLOB (14062K),
+    value_text VARCHAR (3800),
     value_date TIMESTAMP,
     value_int BIGINT,
     PRIMARY KEY(id)
@@ -268,7 +268,7 @@ CREATE TABLE dynamic_field (
     change_time TIMESTAMP NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    CONSTRAINT dynamic_field_U_199 UNIQUE (name)
+    CONSTRAINT dynamic_field_U_59 UNIQUE (name)
 );
 
 -- ----------------------------------------------------------

@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: postgresql, generated: 2011-11-14 13:07:22
+--  driver: postgresql, generated: 2011-12-08 11:40:34
 -- ----------------------------------------------------------
 SET standard_conforming_strings TO ON;
 -- ----------------------------------------------------------
@@ -1193,7 +1193,7 @@ CREATE TABLE gi_object_lock_state (
     lock_state_counter INTEGER NOT NULL,
     create_time timestamp(0) NOT NULL,
     change_time timestamp(0) NOT NULL,
-    CONSTRAINT gi_object_lock_state_U_715 UNIQUE (webservice_id, object_type, object_id)
+    CONSTRAINT gi_object_lock_state_U_474 UNIQUE (webservice_id, object_type, object_id)
 );
 CREATE INDEX object_lock_state_list_state ON gi_object_lock_state (webservice_id, object_type, object_id, lock_state);
 -- ----------------------------------------------------------
@@ -1218,7 +1218,7 @@ CREATE TABLE dynamic_field_value (
     id serial NOT NULL,
     field_id INTEGER NOT NULL,
     object_id INTEGER NOT NULL,
-    value_text VARCHAR NULL,
+    value_text VARCHAR (3800) NULL,
     value_date timestamp(0) NULL,
     value_int INTEGER NULL,
     PRIMARY KEY(id)
@@ -1243,5 +1243,5 @@ CREATE TABLE dynamic_field (
     change_time timestamp(0) NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    CONSTRAINT dynamic_field_U_763 UNIQUE (name)
+    CONSTRAINT dynamic_field_U_499 UNIQUE (name)
 );

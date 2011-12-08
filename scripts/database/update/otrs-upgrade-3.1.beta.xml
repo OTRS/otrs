@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<database Name="otrs">
+
+<TableAlter Name="dynamic_field_value">
+    <ColumnChange NameOld="value_text" NameNew="value_text" Required="false" Type="VARCHAR" Size="3800" />
+</TableAlter>
+
+</database>
