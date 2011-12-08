@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Event/NotificationEvent.pm - a event module to send notifications
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: NotificationEvent.pm,v 1.36 2011-12-08 14:06:44 mg Exp $
+# $Id: NotificationEvent.pm,v 1.37 2011-12-08 14:35:40 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.36 $) [1];
+$VERSION = qw($Revision: 1.37 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -249,7 +249,8 @@ sub _SendNotificationToRecipients {
 
     # get old article for quoting
     my %Article = $Self->{TicketObject}->ArticleLastCustomerArticle(
-        TicketID => $Param{TicketID},
+        TicketID      => $Param{TicketID},
+        DynamicFields => 0,
     );
 
     # get recipients by Recipients
@@ -509,7 +510,8 @@ sub _SendNotification {
 
     # get old article for quoting
     my %Article = $Self->{TicketObject}->ArticleLastCustomerArticle(
-        TicketID => $Param{TicketID},
+        TicketID      => $Param{TicketID},
+        DynamicFields => 1,
     );
 
     # get notification texts

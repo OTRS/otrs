@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.303 2011-12-06 19:18:26 mb Exp $
+# $Id: Article.pm,v 1.304 2011-12-08 14:35:40 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::VariableCheck qw(:all);
 use MIME::Base64;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.303 $) [1];
+$VERSION = qw($Revision: 1.304 $) [1];
 
 =head1 NAME
 
@@ -2459,7 +2459,10 @@ sub SendCustomerNotification {
     return 1 if $Self->{SendNoNotification};
 
     # get old article for quoteing
-    my %Article = $Self->ArticleLastCustomerArticle( TicketID => $Param{TicketID} );
+    my %Article = $Self->ArticleLastCustomerArticle(
+        TicketID      => $Param{TicketID},
+        DynamicFields => 1,
+    );
 
     # check if notification should be send
     my %Queue = $Self->{QueueObject}->QueueGet( ID => $Article{QueueID} );
@@ -3510,6 +3513,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.303 $ $Date: 2011-12-06 19:18:26 $
+$Revision: 1.304 $ $Date: 2011-12-08 14:35:40 $
 
 =cut

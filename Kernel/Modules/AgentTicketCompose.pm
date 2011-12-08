@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.pm,v 1.153 2011-12-05 21:11:32 cr Exp $
+# $Id: AgentTicketCompose.pm,v 1.154 2011-12-08 14:35:40 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.153 $) [1];
+$VERSION = qw($Revision: 1.154 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -928,17 +928,18 @@ sub Run {
             FormID => $Self->{FormID},
         );
 
-        # get last customer article or selecte article ...
+        # get last customer article or selected article ...
         my %Data;
         if ( $GetParam{ArticleID} ) {
             %Data = $Self->{TicketObject}->ArticleGet(
                 ArticleID     => $GetParam{ArticleID},
-                DynamicFields => 0,
+                DynamicFields => 1,
             );
         }
         else {
             %Data = $Self->{TicketObject}->ArticleLastCustomerArticle(
-                TicketID => $Self->{TicketID}
+                TicketID      => $Self->{TicketID},
+                DynamicFields => 1,
             );
         }
 

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketBulk.pm - to do bulk actions on tickets
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBulk.pm,v 1.92 2011-11-25 10:44:57 mg Exp $
+# $Id: AgentTicketBulk.pm,v 1.93 2011-12-08 14:35:40 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::TemplateGenerator;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.92 $) [1];
+$VERSION = qw($Revision: 1.93 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -395,7 +395,8 @@ sub Run {
                 # check if we have an address, otherwise deduct it from the articles
                 if ( !$Customer ) {
                     my %Data = $Self->{TicketObject}->ArticleLastCustomerArticle(
-                        TicketID => $TicketID,
+                        TicketID      => $TicketID,
+                        DynamicFields => 0,
                     );
 
                     # check article type and replace To with From (in case)
