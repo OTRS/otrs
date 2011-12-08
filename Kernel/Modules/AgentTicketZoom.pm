@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.166 2011-12-05 20:56:03 mb Exp $
+# $Id: AgentTicketZoom.pm,v 1.167 2011-12-08 14:06:41 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.166 $) [1];
+$VERSION = qw($Revision: 1.167 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -159,7 +159,10 @@ sub Run {
     # article update
     elsif ( $Self->{Subaction} eq 'ArticleUpdate' ) {
         my $Count = $Self->{ParamObject}->GetParam( Param => 'Count' );
-        my %Article = $Self->{TicketObject}->ArticleGet( ArticleID => $Self->{ArticleID} );
+        my %Article = $Self->{TicketObject}->ArticleGet(
+            ArticleID     => $Self->{ArticleID},
+            DynamicFields => 0,
+        );
         $Article{Count} = $Count;
 
         # get attachment index (without attachments)
@@ -322,7 +325,10 @@ sub Run {
         }
 
         # get article data
-        my %Article = $Self->{TicketObject}->ArticleGet( ArticleID => $Self->{ArticleID} );
+        my %Article = $Self->{TicketObject}->ArticleGet(
+            ArticleID     => $Self->{ArticleID},
+            DynamicFields => 0,
+        );
 
         # check if article data exists
         if ( !%Article ) {

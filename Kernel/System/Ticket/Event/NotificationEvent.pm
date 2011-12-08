@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Event/NotificationEvent.pm - a event module to send notifications
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: NotificationEvent.pm,v 1.35 2011-11-25 10:14:18 mg Exp $
+# $Id: NotificationEvent.pm,v 1.36 2011-12-08 14:06:44 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.35 $) [1];
+$VERSION = qw($Revision: 1.36 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -165,8 +165,9 @@ sub Run {
         my @Attachments;
         if ( $Param{Event} eq 'ArticleCreate' && $Param{Data}->{ArticleID} ) {
             my %Article = $Self->{TicketObject}->ArticleGet(
-                ArticleID => $Param{Data}->{ArticleID},
-                UserID    => $Param{UserID},
+                ArticleID     => $Param{Data}->{ArticleID},
+                UserID        => $Param{UserID},
+                DynamicFields => 0,
             );
 
             # check article type
@@ -643,8 +644,9 @@ sub _SendNotification {
 
     # latest customer and agent article
     my @ArticleBoxAgent = $Self->{TicketObject}->ArticleGet(
-        TicketID => $Param{TicketID},
-        UserID   => $Param{UserID},
+        TicketID      => $Param{TicketID},
+        UserID        => $Param{UserID},
+        DynamicFields => 0,
     );
     my %ArticleAgent;
     for my $Article ( reverse @ArticleBoxAgent ) {

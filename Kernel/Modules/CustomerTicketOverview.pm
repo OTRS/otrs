@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketOverview.pm - status for all open tickets
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketOverview.pm,v 1.2 2011-07-20 05:05:49 mp Exp $
+# $Id: CustomerTicketOverview.pm,v 1.3 2011-12-08 14:06:41 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -389,7 +389,10 @@ sub ShowTicketStatus {
 
         my @Index = $Self->{TicketObject}->ArticleIndex( TicketID => $Param{TicketID} );
 
-        %Article = $Self->{TicketObject}->ArticleGet( ArticleID => $Index[0] );
+        %Article = $Self->{TicketObject}->ArticleGet(
+            ArticleID     => $Index[0],
+            DynamicFields => 0,
+        );
     }
 
     # condense down the subject

@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/CustomerTicketAttachment.pm - to get the attachments
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketAttachment.pm,v 1.29 2010-09-03 13:41:20 mb Exp $
+# $Id: CustomerTicketAttachment.pm,v 1.30 2011-12-08 14:06:42 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.29 $) [1];
+$VERSION = qw($Revision: 1.30 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -62,7 +62,11 @@ sub Run {
     }
 
     # check permissions
-    my %Article = $Self->{TicketObject}->ArticleGet( ArticleID => $Self->{ArticleID} );
+    my %Article = $Self->{TicketObject}->ArticleGet(
+        ArticleID     => $Self->{ArticleID},
+        DynamicFields => 0,
+    );
+
     if ( !$Article{TicketID} ) {
         my $Output = $Self->{LayoutObject}->CustomerHeader( Title => 'Error' );
         $Output .= $Self->{LayoutObject}->CustomerError(

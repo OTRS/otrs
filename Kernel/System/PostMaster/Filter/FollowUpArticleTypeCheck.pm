@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/Filter/FollowUpArticleTypeCheck.pm - sub part of PostMaster.pm
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: FollowUpArticleTypeCheck.pm,v 1.6 2011-10-10 13:54:52 ep Exp $
+# $Id: FollowUpArticleTypeCheck.pm,v 1.7 2011-12-08 14:06:42 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -47,7 +47,8 @@ sub Run {
 
     # get all article
     my @ArticleIndex = $Self->{TicketObject}->ArticleGet(
-        TicketID => $Param{TicketID},
+        TicketID      => $Param{TicketID},
+        DynamicFields => 0,
     );
     return if !@ArticleIndex;
 

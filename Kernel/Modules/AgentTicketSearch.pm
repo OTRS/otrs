@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.pm,v 1.135 2011-11-25 09:35:58 mg Exp $
+# $Id: AgentTicketSearch.pm,v 1.136 2011-12-08 14:06:41 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.135 $) [1];
+$VERSION = qw($Revision: 1.136 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -743,7 +743,8 @@ sub Run {
                 # get whole article (if configured!)
                 if ( $Self->{Config}->{SearchArticleCSVTree} ) {
                     my @Article = $Self->{TicketObjectSearch}->ArticleGet(
-                        TicketID => $_,
+                        TicketID      => $_,
+                        DynamicFields => 0,
                     );
                     for my $Articles (@Article) {
                         if ( $Articles->{Body} ) {

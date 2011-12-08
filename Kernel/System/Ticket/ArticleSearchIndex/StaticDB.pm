@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/ArticleSearchIndex/StaticDB.pm - article search index backend static
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: StaticDB.pm,v 1.20 2011-09-02 15:09:49 mg Exp $
+# $Id: StaticDB.pm,v 1.21 2011-12-08 14:06:42 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.20 $) [1];
+$VERSION = qw($Revision: 1.21 $) [1];
 
 sub ArticleIndexBuild {
     my ( $Self, %Param ) = @_;
@@ -29,8 +29,9 @@ sub ArticleIndexBuild {
     }
 
     my %Article = $Self->ArticleGet(
-        ArticleID => $Param{ArticleID},
-        UserID    => $Param{UserID},
+        ArticleID     => $Param{ArticleID},
+        UserID        => $Param{UserID},
+        DynamicFields => 0,
     );
 
     for my $Key (qw(From To Cc Subject)) {
