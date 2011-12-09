@@ -1,8 +1,8 @@
 # --
 # scripts/test/Stats.t - stats module testscript
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Stats.t,v 1.27 2010-10-29 22:16:59 en Exp $
+# $Id: Stats.t,v 1.28 2011-12-09 14:30:12 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -161,10 +161,10 @@ my @StatArray = @{
     $StatsObject->SumBuild(
         Array => [
             ['Title'],
-            [ 'SomeText', 'Column1', 'Column2', 'Column3', 'Column4', 'Column5' ],
-            [ 'Row1',     1,         1,         1,         1,         1 ],
-            [ 'Row1',     2,         2,         2,         2,         2 ],
-            [ 'Row1',     3,         3,         3,         3,         3 ],
+            [ 'SomeText', 'Column1', 'Column2', 'Column3', 'Column4', 'Column5', 'Column6', ],
+            [ 'Row1',     1,         1,         1,         0,         1,         undef, ],
+            [ 'Row2',     2,         2,         2,         0,         2,         undef, ],
+            [ 'Row3',     3,         undef,     3,         0,         3,         undef, ],
         ],
         SumRow => 1,
         SumCol => 1,
@@ -175,8 +175,32 @@ my @SubStatArray = @{ $StatArray[-1] };
 $Counter = $SubStatArray[-1];
 $Self->Is(
     $Counter,
-    '30',
-    'GetStatsList() check if StatID1 and StatID2 available in the statslist',
+    '21',
+    'SumBuild() check total',
+);
+
+$Self->Is(
+    $SubStatArray[1],
+    '6',
+    'SumBuild() check x total',
+);
+
+$Self->Is(
+    $SubStatArray[2],
+    '3',
+    'SumBuild() check x total w/undefined value',
+);
+
+$Self->Is(
+    $SubStatArray[4],
+    '0',
+    'SumBuild() check x total w/0 value',
+);
+
+$Self->Is(
+    $SubStatArray[6],
+    '0',
+    'SumBuild() check x total w/all undef values',
 );
 
 # export StatID 1
