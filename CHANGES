@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2083 2011-12-09 15:45:52 mg Exp $
+# $Id: CHANGES,v 1.2084 2011-12-09 17:54:47 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.1.0.beta3 2011-12-??
+ - 2011-12-09 Fixed bug#7014 - Inline article gets bigger than Ticket::Frontend::HTMLArticleHeightMax.
  - 2011-12-09 Removed compatibility modules AgentTicketMailbox and CustomerZoom
     (these only performed redirects to newer screens).
  - 2011-12-09 Fixed bug#7997 - POP3 does not work anymore.
