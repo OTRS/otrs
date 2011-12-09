@@ -2,7 +2,7 @@
 # Kernel/System/Stats.pm - all stats core functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Stats.pm,v 1.109 2011-12-06 16:13:54 mb Exp $
+# $Id: Stats.pm,v 1.110 2011-12-09 14:31:25 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Date::Pcalc qw(:all);
 use Kernel::System::XML;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.109 $) [1];
+$VERSION = qw($Revision: 1.110 $) [1];
 
 =head1 NAME
 
@@ -710,6 +710,9 @@ sub SumBuild {
 
             INDEX2:
             for my $Index2 ( 1 .. $#{ $Data[$Index1] } ) {
+
+                # make sure we have a value to add
+                $Data[$Index1][$Index2] = 0 unless defined $Data[$Index1][$Index2];
 
                 # extract the value
                 my $Value = $Data[$Index1][$Index2];
@@ -3349,6 +3352,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.109 $ $Date: 2011-12-06 16:13:54 $
+$Revision: 1.110 $ $Date: 2011-12-09 14:31:25 $
 
 =cut
