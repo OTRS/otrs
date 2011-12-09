@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.218 2011-12-09 02:50:26 cr Exp $
+# $Id: AgentTicketPhone.pm,v 1.219 2011-12-09 22:23:23 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Mail::Address;
 use Kernel::System::Service;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.218 $) [1];
+$VERSION = qw($Revision: 1.219 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1512,9 +1512,6 @@ sub _GetServices {
 sub _GetSLAs {
     my ( $Self, %Param ) = @_;
 
-    # get sla
-    my %SLA;
-
     # convert service ArrayHashRef to hashref
     my %Services;
     SERVICE:
@@ -1524,6 +1521,8 @@ sub _GetSLAs {
     }
     $Param{Services} = \%Services;
 
+    # get sla
+    my %SLA;
     if ( $Param{ServiceID} && $Param{Services} && %{ $Param{Services} } ) {
         if ( $Param{Services}->{ $Param{ServiceID} } ) {
             %SLA = $Self->{TicketObject}->TicketSLAList(
