@@ -2,7 +2,7 @@
 // Core.Agent.CustomerSearch.js - provides the special module functions for the customer search
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.CustomerSearch.js,v 1.26 2011-12-06 22:03:18 cg Exp $
+// $Id: Core.Agent.CustomerSearch.js,v 1.27 2011-12-09 23:42:39 cg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -294,8 +294,14 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
         // clone customer entry
         var $Clone = $('.CustomerTicketTemplate' + Field).clone(),
             CustomerTicketCounter = $('#CustomerTicketCounter' + Field).val(),
+            IsDuplicated = TargetNS.IsDuplicated(CustomerValue),
             TicketCustomerIDs = 0,
             Sufix;
+
+        if ( IsDuplicated ) {
+            alert('The address "' + CustomerValue + '" already exists in one of the addresses list.');
+            return false;
+        }
 
         // get number of how much customer ticket are present
         TicketCustomerIDs = $('.CustomerContainer input:radio').length;
@@ -437,7 +443,6 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
         $('#SelectedCustomerUser').val(CustomerKey);
     };
 
-
     /**
      * @function
      * @return nothing
@@ -475,6 +480,25 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
                 }
             });
         });
+    };
+
+    /**
+     * @function
+     * @param {String} CustomerValue An email address.
+     * @return nothing
+     *      This function check if an address already exists for addresses list
+     */
+    TargetNS.IsDuplicated = function (CustomerValue) {
+
+        var Duplicated = false;
+        // loop over all rows for addresses list
+        $('.CustomerTicketText:input').each(function(index) {
+            if ( $(this).val() == CustomerValue ) {
+                Duplicated = true;
+            }
+        });
+        // return result
+        return Duplicated;
     };
 
     return TargetNS;
