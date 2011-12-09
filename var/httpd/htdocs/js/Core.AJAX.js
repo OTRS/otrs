@@ -2,7 +2,7 @@
 // Core.AJAX.js - provides the funcionality for AJAX calls
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.AJAX.js,v 1.28 2011-11-11 19:21:47 cg Exp $
+// $Id: Core.AJAX.js,v 1.29 2011-12-09 02:50:26 cr Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -148,6 +148,11 @@ Core.AJAX = (function (TargetNS) {
                     // needed for IE
                     NewOption.innerHTML = Value[1];
                     $Element.append(NewOption);
+
+                    // check if option must be disabled
+                    if (Value[4]) {
+                        $Element.children('option[value=' + Value[0] + ']').attr('disabled', "disabled");
+                    }
                 });
                 return;
             }

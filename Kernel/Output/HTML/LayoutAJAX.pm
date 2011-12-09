@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/LayoutAJAX.pm - provides generic HTML output
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutAJAX.pm,v 1.28 2010-08-31 09:26:00 mg Exp $
+# $Id: LayoutAJAX.pm,v 1.29 2011-12-09 02:50:26 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.28 $) [1];
+$VERSION = qw($Revision: 1.29 $) [1];
 
 =item BuildSelectionJSON()
 
@@ -88,15 +88,24 @@ sub BuildSelectionJSON {
                     if ( defined $Row->{Value} ) {
                         $Value = $Row->{Value};
                     }
-                    my $SelectedDisabled = Kernel::System::JSON::False();
+
+                    # DefaultSelected parameter for JavaScript New Option
+                    my $DefaultSelected = Kernel::System::JSON::False();
+
+                    # to set a disabled option (Disabled is not included in JavaScript New Option)
+                    my $Disabled = Kernel::System::JSON::False();
+
                     if ( $Row->{Selected} ) {
-                        $SelectedDisabled = Kernel::System::JSON::True();
+                        $DefaultSelected = Kernel::System::JSON::True();
                     }
                     elsif ( $Row->{Disabled} ) {
-                        $SelectedDisabled = Kernel::System::JSON::False();
+                        $DefaultSelected = Kernel::System::JSON::False();
+                        $Disabled        = Kernel::System::JSON::True();
                     }
 
-                    push @DataArray, [ $Key, $Value, $SelectedDisabled, $SelectedDisabled ];
+                    # Selected parameter for JavaScript NewOption
+                    my $Selected = $DefaultSelected;
+                    push @DataArray, [ $Key, $Value, $DefaultSelected, $Selected, $Disabled ];
                 }
                 $DataHash{ $AttributeRef->{name} } = \@DataArray;
             }
