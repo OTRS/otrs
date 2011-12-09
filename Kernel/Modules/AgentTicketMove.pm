@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMove.pm - move tickets to queues
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMove.pm,v 1.106 2011-12-05 21:11:32 cr Exp $
+# $Id: AgentTicketMove.pm,v 1.107 2011-12-09 13:28:51 des Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.106 $) [1];
+$VERSION = qw($Revision: 1.107 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -926,14 +926,11 @@ sub AgentMove {
     my %UsedData;
     my %UserHash;
     if ( $Param{OldUser} ) {
-        my $Counter = 0;
+        my $Counter = 1;
         for my $User ( reverse @{ $Param{OldUser} } ) {
-            if ($Counter) {
-                if ( !$UserHash{ $User->{UserID} } ) {
-                    $UserHash{ $User->{UserID} } = "$Counter: $User->{UserLastname} "
-                        . "$User->{UserFirstname} ($User->{UserLogin})";
-                }
-            }
+            next if $UserHash{ $User->{UserID} };
+            $UserHash{ $User->{UserID} } = "$Counter: $User->{UserLastname} "
+                . "$User->{UserFirstname} ($User->{UserLogin})";
             $Counter++;
         }
     }
