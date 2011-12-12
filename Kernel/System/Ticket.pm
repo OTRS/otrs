@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.534 2011-11-25 15:08:04 mg Exp $
+# $Id: Ticket.pm,v 1.535 2011-12-12 11:15:33 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -40,7 +40,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.534 $) [1];
+$VERSION = qw($Revision: 1.535 $) [1];
 
 =head1 NAME
 
@@ -918,7 +918,7 @@ Get ticket info
 
     my %Ticket = $TicketObject->TicketGet(
         TicketID      => 123,
-        DynamicFields => 1,         # 0 or 1, default 1. To include or not the dynamic field values on the return structure.
+        DynamicFields => 1,         # Optional. To include the dynamic field values for this ticket on the return structure.
         UserID        => 123,
     );
 
@@ -957,7 +957,7 @@ Returns:
         ChangeBy           => 123,
         ArchiveFlag        => 'y',
 
-        # For each configured ticket dynamic field, you'll get an entry like this:
+        # If DynamicFields => 1 was passed, you'll get an entry like this for each dynamic field:
         DynamicField_X     => 'value_x',
 
         # (time stamps of expected escalations)
@@ -1030,10 +1030,7 @@ sub TicketGet {
     $Param{Extended} ||= '';
 
     # check cache
-    my $FetchDynamicFields = 1;
-    if ( defined $Param{DynamicFields} && $Param{DynamicFields} eq '0' ) {
-        $FetchDynamicFields = 0;
-    }
+    my $FetchDynamicFields = $Param{DynamicFields} ? 1 : 0;
 
     my $CacheKey = 'Cache::GetTicket' . $Param{TicketID};
 
@@ -7281,6 +7278,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.534 $ $Date: 2011-11-25 15:08:04 $
+$Revision: 1.535 $ $Date: 2011-12-12 11:15:33 $
 
 =cut

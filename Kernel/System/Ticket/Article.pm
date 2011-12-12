@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.304 2011-12-08 14:35:40 mg Exp $
+# $Id: Article.pm,v 1.305 2011-12-12 11:15:33 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::VariableCheck qw(:all);
 use MIME::Base64;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.304 $) [1];
+$VERSION = qw($Revision: 1.305 $) [1];
 
 =head1 NAME
 
@@ -1405,7 +1405,7 @@ returns article data
 
     my %Article = $TicketObject->ArticleGet(
         ArticleID     => 123,
-        DynamicFields => 1,      # 0 or 1, default 1. To include or not the dynamic field values on the return structure.
+        DynamicFields => 1,      # Optional. To include the dynamic field values for this article on the return structure.
         UserID        => 123,
     );
 
@@ -1430,6 +1430,9 @@ Article:
     IncomingTime
     ArticleFreeKey1-3
     ArticleFreeText-3
+
+    # If DynamicFields => 1 was passed, you'll get an entry like this for each dynamic field:
+    DynamicField_X     => 'value_x',
 
 Ticket:
     - see TicketGet() for ticket attributes -
@@ -1489,10 +1492,7 @@ sub ArticleGet {
         return;
     }
 
-    my $FetchDynamicFields = 1;
-    if ( defined $Param{DynamicFields} && $Param{DynamicFields} eq '0' ) {
-        $FetchDynamicFields = 0;
-    }
+    my $FetchDynamicFields = $Param{DynamicFields} ? 1 : 0;
 
     # article type lookup
     my $ArticleTypeSQL = '';
@@ -3513,6 +3513,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.304 $ $Date: 2011-12-08 14:35:40 $
+$Revision: 1.305 $ $Date: 2011-12-12 11:15:33 $
 
 =cut
