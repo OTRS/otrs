@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.168 2011-12-09 17:54:47 cg Exp $
+# $Id: AgentTicketZoom.pm,v 1.169 2011-12-12 10:43:35 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.168 $) [1];
+$VERSION = qw($Revision: 1.169 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1822,7 +1822,7 @@ sub _ArticleItem {
         FieldFilter => $Self->{DynamicFieldFilter} || {},
     );
 
-    # cycle trough the activated Dynamic Fields for ticket object
+    # cycle trough the activated Dynamic Fields
     DYNAMICFIELD:
     for my $DynamicFieldConfig ( @{$DynamicField} ) {
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
@@ -1831,6 +1831,9 @@ sub _ArticleItem {
             DynamicFieldConfig => $DynamicFieldConfig,
             ObjectID           => $Article{ArticleID},
         );
+
+        next if !$Value;
+        next if $Value eq '';
 
         # get print string for this dynamic field
         my $ValueStrg = $Self->{BackendObject}->DisplayValueRender(
