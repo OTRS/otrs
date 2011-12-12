@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2086 2011-12-12 16:23:14 jp Exp $
+# $Id: CHANGES,v 1.2087 2011-12-12 17:44:33 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.1.0.beta3 2011-12-??
+ - 2011-12-12 Fixed bug#8009 - Statistic overview does not show the statistic object name
+    for static statistics.
  - 2011-12-12 Changed the default behaviour of TicketGet() and ArticleGet() to NOT return the
     dynamic field values for performance reasons. If you need them, pass DynamicFields => 1.
  - 2011-12-09 Fixed bug#7014 - Inline article gets bigger than Ticket::Frontend::HTMLArticleHeightMax.
@@ -208,8 +210,6 @@
      of > 70 characters exists.
 
 3.0.12 ????-??-??
- - 2011-12-12 Fixed bug#7020 - TicketSearch for special characters &, - fails.
- - 2011-12-12 Improved #7526 - Automatic TicketSearch for special characters (, ), &, - fails.
  - 2011-12-06 Fixed bug#5253 - User preferences are updated when displaying an overview.
  - 2011-12-05 Fixed bug#7971 - ACL to restrict Priority based on Service does not work in Customer
     interface.
