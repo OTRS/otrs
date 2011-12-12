@@ -2,7 +2,7 @@
 # PostMaster.t - PostMaster tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: PostMaster.t,v 1.32 2011-12-12 17:48:30 cg Exp $
+# $Id: PostMaster.t,v 1.33 2011-12-12 18:18:10 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -523,8 +523,7 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                     ConfigObject => $ConfigObject,
                 );
                 %Ticket = $TicketObject->TicketGet(
-                    \
-                        TicketID => $Return[1],
+                    TicketID      => $Return[1],
                     DynamicFields => 1,
                 );
                 $Self->Is(
