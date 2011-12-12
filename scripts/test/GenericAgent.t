@@ -2,7 +2,7 @@
 # GenericAgent.t - GenericAgent tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: GenericAgent.t,v 1.13 2011-11-07 23:30:48 cr Exp $
+# $Id: GenericAgent.t,v 1.14 2011-12-12 19:18:14 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -362,7 +362,10 @@ $Self->True(
     'JobRun() Run the UnitTest GenericAgent job',
 );
 
-my %Ticket = $TicketObject->TicketGet( TicketID => $TicketID );
+my %Ticket = $TicketObject->TicketGet(
+    TicketID      => $TicketID,
+    DynamicFields => 1,
+);
 
 # more change checks are useful!!
 $Self->Is(
