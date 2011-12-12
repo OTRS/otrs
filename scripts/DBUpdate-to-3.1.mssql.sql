@@ -1,6 +1,8 @@
 -- ----------------------------------------------------------
---  driver: mssql, generated: 2011-12-08 11:44:26
+--  driver: mssql, generated: 2011-12-12 09:16:32
 -- ----------------------------------------------------------
+GO
+ALTER TABLE ticket_index ALTER COLUMN queue NVARCHAR (200) NULL;
 GO
 IF EXISTS (SELECT * FROM dbo.sysobjects WHERE name = 'DF_ticket_index_queue' )
 ALTER TABLE ticket_index DROP CONSTRAINT DF_ticket_index_queue;
@@ -9,12 +11,16 @@ UPDATE ticket_index SET queue = '' WHERE queue IS NULL;
 GO
 ALTER TABLE ticket_index ALTER COLUMN queue NVARCHAR (200) NOT NULL;
 GO
+ALTER TABLE ticket_index ALTER COLUMN s_state NVARCHAR (200) NULL;
+GO
 IF EXISTS (SELECT * FROM dbo.sysobjects WHERE name = 'DF_ticket_index_s_state' )
 ALTER TABLE ticket_index DROP CONSTRAINT DF_ticket_index_s_state;
 GO
 UPDATE ticket_index SET s_state = '' WHERE s_state IS NULL;
 GO
 ALTER TABLE ticket_index ALTER COLUMN s_state NVARCHAR (200) NOT NULL;
+GO
+ALTER TABLE ticket_index ALTER COLUMN s_lock NVARCHAR (200) NULL;
 GO
 IF EXISTS (SELECT * FROM dbo.sysobjects WHERE name = 'DF_ticket_index_s_lock' )
 ALTER TABLE ticket_index DROP CONSTRAINT DF_ticket_index_s_lock;
@@ -106,7 +112,7 @@ CREATE TABLE gi_object_lock_state (
     lock_state_counter INTEGER NOT NULL,
     create_time DATETIME NOT NULL,
     change_time DATETIME NOT NULL,
-    CONSTRAINT gi_object_lock_state_U_285 UNIQUE (webservice_id, object_type, object_id)
+    CONSTRAINT gi_object_lock_state_U_472 UNIQUE (webservice_id, object_type, object_id)
 );
 CREATE INDEX object_lock_state_list_state ON gi_object_lock_state (webservice_id, object_type, object_id, lock_state);
 -- ----------------------------------------------------------
@@ -219,7 +225,7 @@ CREATE TABLE dynamic_field (
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    CONSTRAINT dynamic_field_U_498 UNIQUE (name)
+    CONSTRAINT dynamic_field_U_869 UNIQUE (name)
 );
 -- ----------------------------------------------------------
 --  alter table mail_account

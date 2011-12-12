@@ -2,7 +2,7 @@
 # Kernel/System/DB/mssql.pm - mssql database backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: mssql.pm,v 1.62 2011-11-23 22:55:32 mb Exp $
+# $Id: mssql.pm,v 1.63 2011-12-12 08:19:14 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.62 $) [1];
+$VERSION = qw($Revision: 1.63 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -417,7 +417,7 @@ sub TableAlter {
             if ( !$Tag->{Name} && $Tag->{NameOld} ) {
                 $Tag->{Name} = $Tag->{NameOld};
             }
-            my $SQLEnd = $SQLStart . " ALTER COLUMN $Tag->{Name} $Tag->{Type} NULL";
+            push @SQL, $Start . "ALTER TABLE $Table ALTER COLUMN $Tag->{Name} $Tag->{Type} NULL";
 
             # create the default name
             my $DefaultName = 'DF_' . $Table . '_' . $Tag->{Name};
