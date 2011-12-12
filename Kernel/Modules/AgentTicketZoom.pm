@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.169 2011-12-12 10:43:35 mg Exp $
+# $Id: AgentTicketZoom.pm,v 1.170 2011-12-12 11:12:05 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.169 $) [1];
+$VERSION = qw($Revision: 1.170 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -117,8 +117,8 @@ sub Run {
 
     # get ticket attributes
     my %Ticket = $Self->{TicketObject}->TicketGet(
-        TicketID     => $Self->{TicketID},
-        DynamicField => 1,
+        TicketID      => $Self->{TicketID},
+        DynamicFields => 1,
     );
 
     # get acl actions
