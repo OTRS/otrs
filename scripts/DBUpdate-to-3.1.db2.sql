@@ -1,6 +1,14 @@
 -- ----------------------------------------------------------
---  driver: db2, generated: 2011-12-08 11:44:26
+--  driver: db2, generated: 2011-12-12 10:02:56
 -- ----------------------------------------------------------
+ALTER TABLE ticket_index ALTER COLUMN queue DROP NOT NULL;
+
+CALL SYSPROC.ADMIN_CMD ('REORG TABLE ticket_index');
+
+ALTER TABLE ticket_index ALTER COLUMN queue SET DATA TYPE VARCHAR (200);
+
+CALL SYSPROC.ADMIN_CMD ('REORG TABLE ticket_index');
+
 ALTER TABLE ticket_index ALTER COLUMN queue SET DEFAULT '';
 
 CALL SYSPROC.ADMIN_CMD ('REORG TABLE ticket_index');
@@ -15,6 +23,14 @@ ALTER TABLE ticket_index ALTER COLUMN queue SET NOT NULL;
 
 CALL SYSPROC.ADMIN_CMD ('REORG TABLE ticket_index');
 
+ALTER TABLE ticket_index ALTER COLUMN s_state DROP NOT NULL;
+
+CALL SYSPROC.ADMIN_CMD ('REORG TABLE ticket_index');
+
+ALTER TABLE ticket_index ALTER COLUMN s_state SET DATA TYPE VARCHAR (200);
+
+CALL SYSPROC.ADMIN_CMD ('REORG TABLE ticket_index');
+
 ALTER TABLE ticket_index ALTER COLUMN s_state SET DEFAULT '';
 
 CALL SYSPROC.ADMIN_CMD ('REORG TABLE ticket_index');
@@ -26,6 +42,14 @@ CALL SYSPROC.ADMIN_CMD ('REORG TABLE ticket_index');
 UPDATE ticket_index SET s_state = '' WHERE s_state IS NULL;
 
 ALTER TABLE ticket_index ALTER COLUMN s_state SET NOT NULL;
+
+CALL SYSPROC.ADMIN_CMD ('REORG TABLE ticket_index');
+
+ALTER TABLE ticket_index ALTER COLUMN s_lock DROP NOT NULL;
+
+CALL SYSPROC.ADMIN_CMD ('REORG TABLE ticket_index');
+
+ALTER TABLE ticket_index ALTER COLUMN s_lock SET DATA TYPE VARCHAR (200);
 
 CALL SYSPROC.ADMIN_CMD ('REORG TABLE ticket_index');
 
@@ -135,7 +159,7 @@ CREATE TABLE gi_object_lock_state (
     lock_state_counter INTEGER NOT NULL,
     create_time TIMESTAMP NOT NULL,
     change_time TIMESTAMP NOT NULL,
-    CONSTRAINT gi_object_lock_state_U_167 UNIQUE (webservice_id, object_type, object_id)
+    CONSTRAINT gi_object_lock_state_U_390 UNIQUE (webservice_id, object_type, object_id)
 );
 
 CREATE INDEX object_lock_state_list_state ON gi_object_lock_state (webservice_id, object_type, object_id, lock_state);
@@ -268,7 +292,7 @@ CREATE TABLE dynamic_field (
     change_time TIMESTAMP NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    CONSTRAINT dynamic_field_U_59 UNIQUE (name)
+    CONSTRAINT dynamic_field_U_278 UNIQUE (name)
 );
 
 -- ----------------------------------------------------------

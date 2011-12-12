@@ -2,7 +2,7 @@
 # Kernel/System/DB/db2.pm - db2 database backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: db2.pm,v 1.61 2011-08-12 09:06:16 mg Exp $
+# $Id: db2.pm,v 1.62 2011-12-12 09:04:47 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.61 $) [1];
+$VERSION = qw($Revision: 1.62 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -391,7 +391,14 @@ sub TableAlter {
                 $Default = defined $Tag->{Default} ? "'$Tag->{Default}'" : "''";
             }
 
+        # Not sure if this might cause problems if the column does not have a NOT NULL constraint...
+            push @SQL, "ALTER TABLE $Table ALTER COLUMN $Tag->{NameNew} DROP NOT NULL";
+            push @SQL, "CALL SYSPROC.ADMIN_CMD ('REORG TABLE $Table')";
+            push @SQL, "ALTER TABLE $Table ALTER COLUMN $Tag->{NameNew} SET DATA TYPE $Tag->{Type}";
+            push @SQL, "CALL SYSPROC.ADMIN_CMD ('REORG TABLE $Table')";
+
             # remove possible default
+            # First set a default value, to be able to always drop it afterwards.
             push @SQL, "ALTER TABLE $Table ALTER COLUMN $Tag->{NameNew} SET DEFAULT $Default";
             push @SQL, "CALL SYSPROC.ADMIN_CMD ('REORG TABLE $Table')";
             push @SQL, "ALTER TABLE $Table ALTER COLUMN $Tag->{NameNew} DROP DEFAULT";
