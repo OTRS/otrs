@@ -2,7 +2,7 @@
 # PostMaster.t - PostMaster tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: PostMaster.t,v 1.31 2011-11-09 22:49:49 cg Exp $
+# $Id: PostMaster.t,v 1.32 2011-12-12 17:48:30 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -301,7 +301,10 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                     %{$Self},
                     ConfigObject => $ConfigObject,
                 );
-                my %Ticket = $TicketObject->TicketGet( TicketID => $Return[1] );
+                my %Ticket = $TicketObject->TicketGet(
+                    TicketID      => $Return[1],
+                    DynamicFields => 1,
+                );
                 my @ArticleIDs = $TicketObject->ArticleIndex(
                     TicketID => $Return[1],
                 );
@@ -350,7 +353,8 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
 
                     # check body
                     my %Article = $TicketObject->ArticleGet(
-                        ArticleID => $ArticleIDs[0],
+                        ArticleID     => $ArticleIDs[0],
+                        DynamicFields => 1,
                     );
                     my $MD5 = $Self->{MainObject}->MD5sum( String => $Article{Body} ) || '';
                     $Self->Is(
@@ -382,7 +386,8 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
 
                     # check body
                     my %Article = $TicketObject->ArticleGet(
-                        ArticleID => $ArticleIDs[0],
+                        ArticleID     => $ArticleIDs[0],
+                        DynamicFields => 1,
                     );
                     my @Tests = (
                         {
@@ -439,7 +444,8 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
 
                     # check body
                     my %Article = $TicketObject->ArticleGet(
-                        ArticleID => $ArticleIDs[0],
+                        ArticleID     => $ArticleIDs[0],
+                        DynamicFields => 1,
                     );
                     my $MD5 = $Self->{MainObject}->MD5sum( String => $Article{Body} ) || '';
                     $Self->Is(
@@ -470,7 +476,8 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
 
                     # check body
                     my %Article = $TicketObject->ArticleGet(
-                        ArticleID => $ArticleIDs[0],
+                        ArticleID     => $ArticleIDs[0],
+                        DynamicFields => 1,
                     );
                     my $MD5 = $Self->{MainObject}->MD5sum( String => $Article{Body} ) || '';
 
@@ -515,7 +522,11 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                     %{$Self},
                     ConfigObject => $ConfigObject,
                 );
-                %Ticket = $TicketObject->TicketGet( TicketID => $Return[1] );
+                %Ticket = $TicketObject->TicketGet(
+                    \
+                        TicketID => $Return[1],
+                    DynamicFields => 1,
+                );
                 $Self->Is(
                     $Ticket{State} || 0,
                     'new',
@@ -652,7 +663,10 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                     %{$Self},
                     ConfigObject => $ConfigObject,
                 );
-                %Ticket = $TicketObject->TicketGet( TicketID => $Return[1] );
+                %Ticket = $TicketObject->TicketGet(
+                    TicketID      => $Return[1],
+                    DynamicFields => 1,
+                );
                 $Self->Is(
                     $Ticket{State} || 0,
                     'open',
@@ -708,7 +722,10 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                     %{$Self},
                     ConfigObject => $ConfigObject,
                 );
-                %Ticket = $TicketObject->TicketGet( TicketID => $Return[1] );
+                %Ticket = $TicketObject->TicketGet(
+                    TicketID      => $Return[1],
+                    DynamicFields => 1,
+                );
                 $Self->Is(
                     $Ticket{State} || 0,
                     'new',
@@ -842,7 +859,10 @@ Some Content in Body
         %{$Self},
         ConfigObject => $ConfigObject,
     );
-    my %Ticket = $TicketObject->TicketGet( TicketID => $Return[1] );
+    my %Ticket = $TicketObject->TicketGet(
+        TicketID      => $Return[1],
+        DynamicFields => 1,
+    );
     for my $Test (@Tests) {
         next if !$Test->{Check};
         for my $Key ( sort keys %{ $Test->{Check} } ) {
