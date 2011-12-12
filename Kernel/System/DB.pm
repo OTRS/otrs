@@ -2,7 +2,7 @@
 # Kernel/System/DB.pm - the global database wrapper to support different databases
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.143 2011-11-28 13:33:26 mg Exp $
+# $Id: DB.pm,v 1.144 2011-12-12 16:23:14 jp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Time;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.143 $) [1];
+$VERSION = qw($Revision: 1.144 $) [1];
 
 =head1 NAME
 
@@ -1137,6 +1137,8 @@ sub QueryCondition {
     my $Word  = '';
     my $Not   = 0;
 
+    my $SpecialCharacters = $Self->_SpecialCharactersGet();
+
     POSITION:
     for my $Position ( 0 .. $#Array ) {
 
@@ -1148,10 +1150,7 @@ sub QueryCondition {
             (
                 $Position > 0
                 && $Array[ $Position - 1 ] eq '\\'
-                && (
-                    $Array[$Position] eq '('
-                    || $Array[$Position] eq ')'
-                )
+                && $SpecialCharacters->{ $Array[$Position] }
             )
 
             # "default" case: don't add brackets, etc. to a word being searched for
@@ -1330,6 +1329,42 @@ sub QueryCondition {
     return $SQL;
 }
 
+=item QueryStringEscape()
+
+escapes special characters within a query string
+
+    my $QueryStringEscaped = $DBObject->QueryStringEscape(
+        QueryString => 'customer with (brackets) and & and -',
+    );
+
+    Result would be a string in which all special characters are escaped.
+    Special characters are those which are returned by _SpecialCharactersGet().
+
+    $QueryStringEscaped = 'customer with \(brackets\) and \& and \-';
+
+=cut
+
+sub QueryStringEscape {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Key (qw(QueryString)) {
+        if ( !defined $Param{$Key} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            return;
+        }
+    }
+
+    # Merge all special characters into one string, separated by \\
+    my $SpecialCharacters = '\\' . join '\\', keys %{ $Self->_SpecialCharactersGet() };
+
+    # Use above string of special characters as character class
+    # note: already escaped special characters won't be escaped again
+    $Param{QueryString} =~ s{(?<!\\)([$SpecialCharacters])}{\\$1}smxg;
+
+    return $Param{QueryString};
+}
+
 =begin Internal:
 
 =cut
@@ -1401,6 +1436,19 @@ sub _NameCheck {
     return 1;
 }
 
+sub _SpecialCharactersGet {
+    my ( $Self, %Param ) = @_;
+
+    my %SpecialCharacter = (
+        '(' => 1,
+        ')' => 1,
+        '&' => 1,
+        '-' => 1,
+    );
+
+    return \%SpecialCharacter;
+}
+
 sub DESTROY {
     my $Self = shift;
 
@@ -1431,6 +1479,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.143 $ $Date: 2011-11-28 13:33:26 $
+$Revision: 1.144 $ $Date: 2011-12-12 16:23:14 $
 
 =cut

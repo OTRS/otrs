@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2085 2011-12-12 11:15:33 mg Exp $
+# $Id: CHANGES,v 1.2086 2011-12-12 16:23:14 jp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -208,6 +208,8 @@
      of > 70 characters exists.
 
 3.0.12 ????-??-??
+ - 2011-12-12 Fixed bug#7020 - TicketSearch for special characters &, - fails.
+ - 2011-12-12 Improved #7526 - Automatic TicketSearch for special characters (, ), &, - fails.
  - 2011-12-06 Fixed bug#5253 - User preferences are updated when displaying an overview.
  - 2011-12-05 Fixed bug#7971 - ACL to restrict Priority based on Service does not work in Customer
     interface.

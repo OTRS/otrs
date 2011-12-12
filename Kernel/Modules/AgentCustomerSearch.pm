@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentCustomerSearch.pm - a module used for the autocomplete feature
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentCustomerSearch.pm,v 1.28 2010-11-02 10:43:23 mg Exp $
+# $Id: AgentCustomerSearch.pm,v 1.29 2011-12-12 16:23:14 jp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.28 $) [1];
+$VERSION = qw($Revision: 1.29 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -154,12 +154,18 @@ sub Run {
 
         my @ViewableTickets;
         if (@CustomerIDs) {
+            my @CustomerIDsEscaped;
+            foreach my $CustomerID (@CustomerIDs) {
+                push @CustomerIDsEscaped,
+                    $Self->{DBObject}->QueryStringEscape( QueryString => $CustomerID );
+            }
+
             @ViewableTickets = $Self->{TicketObject}->TicketSearch(
                 Result     => 'ARRAY',
                 Limit      => 250,
                 SortBy     => [$SortBy],
                 OrderBy    => [$OrderBy],
-                CustomerID => \@CustomerIDs,
+                CustomerID => \@CustomerIDsEscaped,
                 UserID     => $Self->{UserID},
                 Permission => 'ro',
             );
