@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/CustomerUserGenericTicket.pm
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerUserGenericTicket.pm,v 1.16 2010-09-06 11:22:58 mg Exp $
+# $Id: CustomerUserGenericTicket.pm,v 1.16.2.1 2011-12-12 16:20:20 jp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.16.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -124,10 +124,16 @@ sub Run {
     }
 
     # build url
+
+    # note:
+    # "special characters" in customer id have to be escaped, so that DB::QueryCondition works
+    my $CustomerIDEscaped
+        = $Self->{DBObject}->QueryStringEscape( QueryString => $Param{Data}->{UserCustomerID} );
+
     my $Action    = $Param{Config}->{Action};
     my $Subaction = $Param{Config}->{Subaction};
     my $URL       = $Self->{LayoutObject}->{Baselink} . "Action=$Action;Subaction=$Subaction";
-    $URL .= ';CustomerID=' . $Self->{LayoutObject}->LinkEncode( $Param{Data}->{UserCustomerID} );
+    $URL .= ';CustomerID=' . $Self->{LayoutObject}->LinkEncode($CustomerIDEscaped);
     for my $Key ( sort keys %TicketSearch ) {
         if ( ref $TicketSearch{$Key} eq 'ARRAY' ) {
             for my $Value ( @{ $TicketSearch{$Key} } ) {
@@ -143,7 +149,7 @@ sub Run {
 
         # result (required)
         %TicketSearch,
-        CustomerID => $Param{Data}->{UserCustomerID},
+        CustomerID => $CustomerIDEscaped,
         CacheTTL   => 60 * 2,
         Result     => 'COUNT',
         Permission => 'ro',

@@ -2,7 +2,7 @@
 # DB.t - database tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.t,v 1.77.2.5 2011-11-15 08:59:47 jp Exp $
+# $Id: DB.t,v 1.77.2.6 2011-12-12 16:20:21 jp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -1952,6 +1952,7 @@ my %Fill = (
     Some4 => 'Franz Ferdinand Smith',
     Some5 => 'customer_id_with_underscores',
     Some6 => 'Test (with) (brackets)',
+    Some7 => 'Test (with) (brackets) and & and -',
 
 );
 for my $Key ( sort keys %Fill ) {
@@ -1974,6 +1975,7 @@ my @Queries = (
             Some4 => 1,
             Some5 => 0,
             Some6 => 0,
+            Some7 => 0,
             }
     },
     {
@@ -1985,6 +1987,7 @@ my @Queries = (
             Some4 => 0,
             Some5 => 0,
             Some6 => 0,
+            Some7 => 0,
         },
     },
     {
@@ -1996,6 +1999,7 @@ my @Queries = (
             Some4 => 0,
             Some5 => 0,
             Some6 => 0,
+            Some7 => 0,
         },
     },
     {
@@ -2007,6 +2011,7 @@ my @Queries = (
             Some4 => 0,
             Some5 => 0,
             Some6 => 0,
+            Some7 => 0,
         },
     },
     {
@@ -2018,6 +2023,7 @@ my @Queries = (
             Some4 => 0,
             Some5 => 0,
             Some6 => 0,
+            Some7 => 0,
         },
     },
     {
@@ -2029,6 +2035,7 @@ my @Queries = (
             Some4 => 0,
             Some5 => 0,
             Some6 => 0,
+            Some7 => 0,
         },
     },
     {
@@ -2040,6 +2047,7 @@ my @Queries = (
             Some4 => 0,
             Some5 => 0,
             Some6 => 0,
+            Some7 => 0,
         },
     },
     {
@@ -2051,6 +2059,7 @@ my @Queries = (
             Some4 => 0,
             Some5 => 0,
             Some6 => 0,
+            Some7 => 0,
         },
     },
     {
@@ -2062,6 +2071,7 @@ my @Queries = (
             Some4 => 0,
             Some5 => 0,
             Some6 => 0,
+            Some7 => 0,
         },
     },
     {
@@ -2073,6 +2083,7 @@ my @Queries = (
             Some4 => 0,
             Some5 => 0,
             Some6 => 0,
+            Some7 => 0,
         },
     },
     {
@@ -2084,6 +2095,7 @@ my @Queries = (
             Some4 => 0,
             Some5 => 0,
             Some6 => 0,
+            Some7 => 0,
         },
     },
     {
@@ -2095,6 +2107,7 @@ my @Queries = (
             Some4 => 1,
             Some5 => 0,
             Some6 => 0,
+            Some7 => 0,
         },
     },
     {
@@ -2106,6 +2119,7 @@ my @Queries = (
             Some4 => 1,
             Some5 => 0,
             Some6 => 0,
+            Some7 => 0,
         },
     },
     {
@@ -2117,6 +2131,7 @@ my @Queries = (
             Some4 => 1,
             Some5 => 0,
             Some6 => 0,
+            Some7 => 0,
         },
     },
     {
@@ -2128,6 +2143,7 @@ my @Queries = (
             Some4 => 0,
             Some5 => 0,
             Some6 => 0,
+            Some7 => 0,
         },
     },
     {
@@ -2139,6 +2155,7 @@ my @Queries = (
             Some4 => 0,
             Some5 => 0,
             Some6 => 0,
+            Some7 => 0,
         },
     },
     {
@@ -2150,6 +2167,7 @@ my @Queries = (
             Some4 => 0,
             Some5 => 0,
             Some6 => 0,
+            Some7 => 0,
         },
     },
     {
@@ -2161,6 +2179,7 @@ my @Queries = (
             Some4 => 1,
             Some5 => 0,
             Some6 => 0,
+            Some7 => 0,
         },
     },
     {
@@ -2172,6 +2191,7 @@ my @Queries = (
             Some4 => 0,
             Some5 => 0,
             Some6 => 0,
+            Some7 => 0,
         },
     },
     {
@@ -2183,6 +2203,7 @@ my @Queries = (
             Some4 => 0,
             Some5 => 0,
             Some6 => 0,
+            Some7 => 0,
         },
     },
     {
@@ -2194,6 +2215,7 @@ my @Queries = (
             Some4 => 0,
             Some5 => 0,
             Some6 => 0,
+            Some7 => 0,
         },
     },
     {
@@ -2205,6 +2227,7 @@ my @Queries = (
             Some4 => 1,
             Some5 => 1,
             Some6 => 1,
+            Some7 => 1,
         },
     },
     {
@@ -2216,6 +2239,7 @@ my @Queries = (
             Some4 => 0,
             Some5 => 1,
             Some6 => 1,
+            Some7 => 1,
         },
     },
     {
@@ -2227,6 +2251,7 @@ my @Queries = (
             Some4 => 0,
             Some5 => 1,
             Some6 => 1,
+            Some7 => 1,
         },
     },
     {
@@ -2249,6 +2274,7 @@ my @Queries = (
             Some4 => 0,
             Some5 => 1,
             Some6 => 1,
+            Some7 => 1,
         },
     },
     {
@@ -2260,6 +2286,7 @@ my @Queries = (
             Some4 => 0,
             Some5 => 1,
             Some6 => 1,
+            Some7 => 1,
         },
     },
     {
@@ -2271,6 +2298,7 @@ my @Queries = (
             Some4 => 1,
             Some5 => 1,
             Some6 => 1,
+            Some7 => 1,
         },
     },
     {
@@ -2282,6 +2310,7 @@ my @Queries = (
             Some4 => 1,
             Some5 => 1,
             Some6 => 1,
+            Some7 => 1,
         },
     },
     {
@@ -2293,6 +2322,7 @@ my @Queries = (
             Some4 => 0,
             Some5 => 0,
             Some6 => 0,
+            Some7 => 0,
         },
     },
     {
@@ -2304,6 +2334,7 @@ my @Queries = (
             Some4 => 0,
             Some5 => 0,
             Some6 => 0,
+            Some7 => 0,
         },
     },
     {
@@ -2315,6 +2346,7 @@ my @Queries = (
             Some4 => 0,
             Some5 => 0,
             Some6 => 0,
+            Some7 => 0,
         },
     },
     {
@@ -2326,6 +2358,7 @@ my @Queries = (
             Some4 => 0,
             Some5 => 0,
             Some6 => 0,
+            Some7 => 0,
         },
     },
     {
@@ -2337,6 +2370,7 @@ my @Queries = (
             Some4 => 0,
             Some5 => 0,
             Some6 => 0,
+            Some7 => 0,
         },
     },
     {
@@ -2348,6 +2382,7 @@ my @Queries = (
             Some4 => 0,
             Some5 => 0,
             Some6 => 0,
+            Some7 => 0,
         },
     },
     {
@@ -2359,6 +2394,7 @@ my @Queries = (
             Some4 => 0,
             Some5 => 0,
             Some6 => 0,
+            Some7 => 0,
         },
     },
     {
@@ -2370,6 +2406,7 @@ my @Queries = (
             Some4 => 0,
             Some5 => 0,
             Some6 => 0,
+            Some7 => 0,
         },
     },
     {
@@ -2381,6 +2418,7 @@ my @Queries = (
             Some4 => 0,
             Some5 => 0,
             Some6 => 0,
+            Some7 => 0,
         },
     },
     {
@@ -2392,6 +2430,7 @@ my @Queries = (
             Some4 => 0,
             Some5 => 0,
             Some6 => 0,
+            Some7 => 0,
         },
     },
     {
@@ -2403,6 +2442,7 @@ my @Queries = (
             Some4 => 0,
             Some5 => 0,
             Some6 => 0,
+            Some7 => 0,
         },
     },
     {
@@ -2414,6 +2454,7 @@ my @Queries = (
             Some4 => 1,
             Some5 => 1,
             Some6 => 1,
+            Some7 => 1,
         },
     },
     {
@@ -2425,6 +2466,7 @@ my @Queries = (
             Some4 => 1,
             Some5 => 0,
             Some6 => 0,
+            Some7 => 0,
         },
     },
     {
@@ -2436,6 +2478,7 @@ my @Queries = (
             Some4 => 1,
             Some5 => 0,
             Some6 => 0,
+            Some7 => 0,
         },
     },
     {
@@ -2447,6 +2490,7 @@ my @Queries = (
             Some4 => 1,
             Some5 => 0,
             Some6 => 0,
+            Some7 => 0,
         },
     },
     {
@@ -2458,6 +2502,7 @@ my @Queries = (
             Some4 => 1,
             Some5 => 0,
             Some6 => 0,
+            Some7 => 0,
         },
     },
     {
@@ -2469,6 +2514,7 @@ my @Queries = (
             Some4 => 0,
             Some5 => 1,
             Some6 => 0,
+            Some7 => 0,
         },
     },
     {
@@ -2480,6 +2526,7 @@ my @Queries = (
             Some4 => 0,
             Some5 => 1,
             Some6 => 0,
+            Some7 => 0,
         },
     },
     {
@@ -2491,6 +2538,7 @@ my @Queries = (
             Some4 => 0,
             Some5 => 1,
             Some6 => 0,
+            Some7 => 0,
         },
     },
     {
@@ -2502,6 +2550,7 @@ my @Queries = (
             Some4 => 0,
             Some5 => 1,
             Some6 => 0,
+            Some7 => 0,
         },
     },
     {
@@ -2513,6 +2562,7 @@ my @Queries = (
             Some4 => 1,
             Some5 => 0,
             Some6 => 1,
+            Some7 => 1,
         },
     },
     {
@@ -2524,6 +2574,7 @@ my @Queries = (
             Some4 => 0,
             Some5 => 0,
             Some6 => 1,
+            Some7 => 1,
         },
     },
     {
@@ -2535,6 +2586,19 @@ my @Queries = (
             Some4 => 0,
             Some5 => 0,
             Some6 => 1,
+            Some7 => 1,
+        },
+    },
+    {
+        Query  => 'Test AND ( \(with\) OR \(brackets\) ) AND \& AND \-',
+        Result => {
+            Some1 => 0,
+            Some2 => 0,
+            Some3 => 0,
+            Some4 => 0,
+            Some5 => 0,
+            Some6 => 0,
+            Some7 => 1,
         },
     },
 );
