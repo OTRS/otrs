@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketPrint.pm - print layout for customer interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketPrint.pm,v 1.47 2011-10-24 21:47:16 cr Exp $
+# $Id: CustomerTicketPrint.pm,v 1.48 2011-12-12 10:52:00 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.47 $) [1];
+$VERSION = qw($Revision: 1.48 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -87,13 +87,17 @@ sub Run {
     }
 
     # get content
-    my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Self->{TicketID} );
+    my %Ticket = $Self->{TicketObject}->TicketGet(
+        TicketID      => $Self->{TicketID},
+        DynamicFields => 0,
+    );
     my @CustomerArticleTypes = $Self->{TicketObject}->ArticleTypeList( Type => 'Customer' );
     my @ArticleBox = $Self->{TicketObject}->ArticleContentIndex(
         TicketID                   => $Self->{TicketID},
         ArticleType                => \@CustomerArticleTypes,
         StripPlainBodyAsAttachment => 1,
         UserID                     => $Self->{UserID},
+        DynamicFields              => 0,
     );
 
     # customer info
@@ -446,13 +450,19 @@ sub _PDFOutputTicketDynamicFields {
     DYNAMICFIELD:
     for my $DynamicFieldConfig ( @{$DynamicField} ) {
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
-        next DYNAMICFIELD if !$Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} };
-        next DYNAMICFIELD if $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} } eq "";
+
+        my $Value = $Self->{BackendObject}->ValueGet(
+            DynamicFieldConfig => $DynamicFieldConfig,
+            ObjectID           => $Ticket{TicketID},
+        );
+
+        next DYNAMICFIELD if !$Value;
+        next DYNAMICFIELD if $Value eq "";
 
         # get print string for this dynamic field
         my $ValueStrg = $Self->{BackendObject}->DisplayValueRender(
             DynamicFieldConfig => $DynamicFieldConfig,
-            Value              => $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} },
+            Value              => $Value,
             HTMLOutput         => 0,
             LayoutObject       => $Self->{LayoutObject},
         );
@@ -721,13 +731,19 @@ sub _PDFOutputArticles {
         DYNAMICFIELD:
         for my $DynamicFieldConfig ( @{$DynamicField} ) {
             next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
-            next DYNAMICFIELD if !$Article{ 'DynamicField_' . $DynamicFieldConfig->{Name} };
-            next DYNAMICFIELD if $Article{ 'DynamicField_' . $DynamicFieldConfig->{Name} } eq "";
+
+            my $Value = $Self->{BackendObject}->ValueGet(
+                DynamicFieldConfig => $DynamicFieldConfig,
+                ObjectID           => $Article{ArticleID},
+            );
+
+            next DYNAMICFIELD if !$Value;
+            next DYNAMICFIELD if $Value eq "";
 
             # get print string for this dynamic field
             my $ValueStrg = $Self->{BackendObject}->DisplayValueRender(
                 DynamicFieldConfig => $DynamicFieldConfig,
-                Value              => $Article{ 'DynamicField_' . $DynamicFieldConfig->{Name} },
+                Value              => $Value,
                 HTMLOutput         => 0,
                 LayoutObject       => $Self->{LayoutObject},
             );
@@ -912,13 +928,19 @@ sub _HTMLMask {
     DYNAMICFIELD:
     for my $DynamicFieldConfig ( @{$DynamicField} ) {
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
-        next DYNAMICFIELD if !$Param{ 'DynamicField_' . $DynamicFieldConfig->{Name} };
-        next DYNAMICFIELD if $Param{ 'DynamicField_' . $DynamicFieldConfig->{Name} } eq "";
+
+        my $Value = $Self->{BackendObject}->ValueGet(
+            DynamicFieldConfig => $DynamicFieldConfig,
+            ObjectID           => $Param{TicketID},
+        );
+
+        next DYNAMICFIELD if !$Value;
+        next DYNAMICFIELD if $Value eq "";
 
         # get print string for this dynamic field
         my $ValueStrg = $Self->{BackendObject}->DisplayValueRender(
             DynamicFieldConfig => $DynamicFieldConfig,
-            Value              => $Param{ 'DynamicField_' . $DynamicFieldConfig->{Name} },
+            Value              => $Value,
             HTMLOutput         => 1,
             ValueMaxChars      => 20,
             LayoutObject       => $Self->{LayoutObject},
@@ -1034,13 +1056,19 @@ sub _HTMLMask {
         DYNAMICFIELD:
         for my $DynamicFieldConfig ( @{$DynamicField} ) {
             next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
-            next DYNAMICFIELD if !$Article{ 'DynamicField_' . $DynamicFieldConfig->{Name} };
-            next DYNAMICFIELD if $Article{ 'DynamicField_' . $DynamicFieldConfig->{Name} } eq "";
+
+            my $Value = $Self->{BackendObject}->ValueGet(
+                DynamicFieldConfig => $DynamicFieldConfig,
+                ObjectID           => $Article{ArticleID},
+            );
+
+            next DYNAMICFIELD if !$Value;
+            next DYNAMICFIELD if $Value eq "";
 
             # get print string for this dynamic field
             my $ValueStrg = $Self->{BackendObject}->DisplayValueRender(
                 DynamicFieldConfig => $DynamicFieldConfig,
-                Value              => $Article{ 'DynamicField_' . $DynamicFieldConfig->{Name} },
+                Value              => $Value,
                 HTMLOutput         => 1,
                 ValueMaxChars      => 20,
                 LayoutObject       => $Self->{LayoutObject},
