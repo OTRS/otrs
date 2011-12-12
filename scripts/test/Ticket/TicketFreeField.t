@@ -2,7 +2,7 @@
 # TicketFreeField.t - Ticket Free Field tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketFreeField.t,v 1.5 2011-11-11 20:45:34 cr Exp $
+# $Id: TicketFreeField.t,v 1.6 2011-12-12 17:38:24 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -227,7 +227,11 @@ for my $Counter ( 1 .. 6 ) {
 }
 
 # get the ticket
-my %Ticket = $TicketObject->TicketGet( TicketID => $TicketID, UserID => 1 );
+my %Ticket = $TicketObject->TicketGet(
+    TicketID      => $TicketID,
+    UserID        => 1,
+    DynamicFields => 1,
+);
 
 for my $Counter ( 1 .. 16 ) {
 
@@ -262,7 +266,10 @@ for ( 1 .. 16 ) {
     );
 }
 
-%TicketFreeText = $TicketObject->TicketGet( TicketID => $TicketID );
+%TicketFreeText = $TicketObject->TicketGet(
+    TicketID      => $TicketID,
+    DynamicFields => 1,
+);
 for ( 1 .. 16 ) {
     $Self->Is(
         $TicketFreeText{ 'TicketFreeKey' . $_ },
@@ -290,7 +297,10 @@ for ( 1 .. 16 ) {
     );
 }
 
-%TicketFreeText = $TicketObject->TicketGet( TicketID => $TicketID );
+%TicketFreeText = $TicketObject->TicketGet(
+    TicketID      => $TicketID,
+    DynamicFields => 1,
+);
 
 for ( 1 .. 16 ) {
     $Self->Is(
@@ -319,7 +329,10 @@ for ( 1 .. 16 ) {
     );
 }
 
-%TicketFreeText = $TicketObject->TicketGet( TicketID => $TicketID );
+%TicketFreeText = $TicketObject->TicketGet(
+    TicketID      => $TicketID,
+    DynamicFields => 1,
+);
 
 for ( 1 .. 16 ) {
     $Self->Is(
@@ -347,7 +360,10 @@ for ( 1 .. 16 ) {
     );
 }
 
-%TicketFreeText = $TicketObject->TicketGet( TicketID => $TicketID );
+%TicketFreeText = $TicketObject->TicketGet(
+    TicketID      => $TicketID,
+    DynamicFields => 1,
+);
 for ( 1 .. 16 ) {
     $Self->Is(
         $TicketFreeText{ 'TicketFreeKey' . $_ },
@@ -376,7 +392,10 @@ for ( 1 .. 16 ) {
     );
 }
 
-%TicketFreeText = $TicketObject->TicketGet( TicketID => $TicketID );
+%TicketFreeText = $TicketObject->TicketGet(
+    TicketID      => $TicketID,
+    DynamicFields => 1,
+);
 for ( 1 .. 16 ) {
 
     #workaround oracle
@@ -483,7 +502,10 @@ for ( 1 .. 5 ) {
     );
 }
 
-%TicketFreeTime = $TicketObject->TicketGet( TicketID => $TicketID );
+%TicketFreeTime = $TicketObject->TicketGet(
+    TicketID      => $TicketID,
+    DynamicFields => 1,
+);
 for ( 1 .. 5 ) {
     $Self->Is(
         $TicketFreeTime{ 'TicketFreeTime' . $_ },
@@ -492,7 +514,10 @@ for ( 1 .. 5 ) {
     );
 }
 
-my @ArticleFreeTime = $TicketObject->ArticleGet( TicketID => $TicketID );
+my @ArticleFreeTime = $TicketObject->ArticleGet(
+    TicketID      => $TicketID,
+    DynamicFields => 1,
+);
 for ( 1 .. 5 ) {
     $Self->Is(
         $ArticleFreeTime[0]->{ 'TicketFreeTime' . $_ },
@@ -520,7 +545,10 @@ for ( 1 .. 5 ) {
     );
 }
 
-%TicketFreeTime = $TicketObject->TicketGet( TicketID => $TicketID );
+%TicketFreeTime = $TicketObject->TicketGet(
+    TicketID      => $TicketID,
+    DynamicFields => 1,
+);
 for ( 1 .. 5 ) {
     $Self->Is(
         $TicketFreeTime{ 'TicketFreeTime' . $_ },
