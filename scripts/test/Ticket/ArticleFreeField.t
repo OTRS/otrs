@@ -2,7 +2,7 @@
 # ArticleFreeField.t - Article Free Field tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleFreeField.t,v 1.6 2011-12-05 22:49:33 cg Exp $
+# $Id: ArticleFreeField.t,v 1.7 2011-12-12 17:30:11 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -254,7 +254,10 @@ for my $Counter ( 1 .. 3 ) {
     );
 }
 
-my %Article = $TicketObject->ArticleGet( ArticleID => $ArticleID );
+my %Article = $TicketObject->ArticleGet(
+    ArticleID     => $ArticleID,
+    DynamicFields => 1,
+);
 for my $Counter ( 1 .. 3 ) {
 
     # check each legacy FreeText field for Text and Key
@@ -288,7 +291,10 @@ for ( 1 .. 3 ) {
     );
 }
 
-%ArticleFreeText = $TicketObject->ArticleGet( ArticleID => $ArticleID );
+%ArticleFreeText = $TicketObject->ArticleGet(
+    ArticleID     => $ArticleID,
+    DynamicFields => 1,
+);
 for ( 1 .. 3 ) {
     $Self->Is(
         $ArticleFreeText{ 'ArticleFreeKey' . $_ },
@@ -317,7 +323,10 @@ for ( 1 .. 3 ) {
     );
 }
 
-%ArticleFreeText = $TicketObject->ArticleGet( ArticleID => $ArticleID );
+%ArticleFreeText = $TicketObject->ArticleGet(
+    ArticleID     => $ArticleID,
+    DynamicFields => 1,
+);
 
 for ( 1 .. 3 ) {
     $Self->Is(
@@ -347,7 +356,10 @@ for ( 1 .. 3 ) {
     );
 }
 
-%ArticleFreeText = $TicketObject->ArticleGet( ArticleID => $ArticleID );
+%ArticleFreeText = $TicketObject->ArticleGet(
+    ArticleID     => $ArticleID,
+    DynamicFields => 1,
+);
 
 for ( 1 .. 3 ) {
     $Self->Is(
@@ -376,7 +388,10 @@ for ( 1 .. 3 ) {
     );
 }
 
-%ArticleFreeText = $TicketObject->ArticleGet( ArticleID => $ArticleID );
+%ArticleFreeText = $TicketObject->ArticleGet(
+    ArticleID     => $ArticleID,
+    DynamicFields => 1,
+);
 for ( 1 .. 3 ) {
     $Self->Is(
         $ArticleFreeText{ 'ArticleFreeKey' . $_ },
@@ -406,7 +421,10 @@ for ( 1 .. 3 ) {
     );
 }
 
-%ArticleFreeText = $TicketObject->ArticleGet( ArticleID => $ArticleID );
+%ArticleFreeText = $TicketObject->ArticleGet(
+    ArticleID     => $ArticleID,
+    DynamicFields => 1,
+);
 for ( 1 .. 3 ) {
     $Self->Is(
         $ArticleFreeText{ 'ArticleFreeKey' . $_ } || '',
@@ -435,7 +453,10 @@ for ( 1 .. 3 ) {
     );
 }
 
-%ArticleFreeText = $TicketObject->ArticleGet( ArticleID => $ArticleID );
+%ArticleFreeText = $TicketObject->ArticleGet(
+    ArticleID     => $ArticleID,
+    DynamicFields => 1,
+);
 for ( 1 .. 16 ) {
     $Self->Is(
         $ArticleFreeText{ 'TicketFreeKey' . $_ },
