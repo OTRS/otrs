@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2093 2011-12-13 16:32:54 cr Exp $
+# $Id: CHANGES,v 1.2094 2011-12-13 21:52:16 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,10 +10,11 @@
 # --
 
 3.1.0.beta3 2011-12-??
+ - 2011-12-13 Fixed bug#8020 - Queue list in new move window has the current queue enabled.
  - 2011-12-13 Fixed bug#8017 - After first AJAXUpdate call, MultiSelect DynamicFields gets empty.
- - 2011-12-13 Fixed bug#7999 - Uncheck all Service for one Customer doesn't work.
+ - 2011-12-13 Fixed bug#7999 - Uncheck all services for a customer doesn't work.
  - 2011-12-13 Fixed bug#7005 - JavaScript Init function is executed more than once in TicketZoom.
- - 2011-12-13 Fixed bug#7020 - Error in MYSQL Syntax when CustomerID contains special characters.
+ - 2011-12-13 Fixed bug#7020 - Error in MySQL Syntax when CustomerID contains special characters.
  - 2011-12-12 Improved #7526 - Automatic TicketSearch for special characters (, ), &, - fails.
  - 2011-12-12 Fixed bug#8009 - Statistic overview does not show the statistic object name
     for static statistics.
@@ -22,7 +23,7 @@
  - 2011-12-09 Fixed bug#7014 - Inline article gets bigger than Ticket::Frontend::HTMLArticleHeightMax.
  - 2011-12-09 Removed compatibility modules AgentTicketMailbox and CustomerZoom
     (these only performed redirects to newer screens).
- - 2011-12-09 Fixed bug#7997 - POP3 does not work anymore.
+ - 2011-12-09 Fixed bug#7997 - Fetching mail via AdminMailAccount does not work.
  - 2011-12-09 Fixed bug#7991 - Locale::Codes is not bundled in 3.1.0beta2 tarball, breaking Customer Cumpany
     screen.
  - 2011-12-09 Fixed bug#7995 - Previous owner is missing in AgentTicketMove.
