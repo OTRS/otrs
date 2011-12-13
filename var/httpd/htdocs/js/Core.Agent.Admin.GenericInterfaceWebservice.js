@@ -2,7 +2,7 @@
 // Core.Agent.Admin.SysGenericInterfaceWebservice.js - provides the special module functions for the GenericInterface webservice.
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.GenericInterfaceWebservice.js,v 1.13 2011-11-24 06:55:22 cr Exp $
+// $Id: Core.Agent.Admin.GenericInterfaceWebservice.js,v 1.14 2011-12-13 17:52:29 cr Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -102,7 +102,7 @@ Core.Agent.Admin.GenericInterfaceWebservice = (function (TargetNS) {
                          }, 'json');
 
                      }
-                },
+                }
             ]
         );
 
@@ -204,11 +204,11 @@ Core.Agent.Admin.GenericInterfaceWebservice = (function (TargetNS) {
         LocalDialogData = DialogData[$(Event.target).attr('id')];
         if ($(Event.target).hasClass('DeleteOperation')) {
             ActionType = 'Operation';
-            DialogTitle = TargetNS.Localization.DeleteOperationMsg
+            DialogTitle = TargetNS.Localization.DeleteOperationMsg;
         }
         else {
             ActionType = 'Invoker';
-            DialogTitle = TargetNS.Localization.DeleteInvokerMsg
+            DialogTitle = TargetNS.Localization.DeleteInvokerMsg;
         }
 
         Core.UI.Dialog.ShowContentDialog(
