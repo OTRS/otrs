@@ -2,7 +2,7 @@
 // Core.Agent.CustomerSearch.js - provides the special module functions for the customer search
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.CustomerSearch.js,v 1.27 2011-12-09 23:42:39 cg Exp $
+// $Id: Core.Agent.CustomerSearch.js,v 1.28 2011-12-13 14:05:00 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -184,10 +184,10 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
                     });
                 },
                 select: function (Event, UI) {
-                    var CustomerKey = UI.item.label.replace(/.*\((.*)\)$/, '$1'),
-                    CustomerValue = UI.item.value;
-                    BackupData.CustomerKey = CustomerKey;
-                    BackupData.CustomerEmail = UI.item.value;
+                    var CustomerKey = UI.item.label.replace(/.*?\((.*)\)$/, '$1'),
+                        CustomerValue = UI.item.value;
+                        BackupData.CustomerKey = CustomerKey;
+                        BackupData.CustomerEmail = UI.item.value;
 
                     if (Core.Config.Get('Action') === 'AgentBook') {
                         $('#' + $(this).attr('id')).val(UI.item.value);
