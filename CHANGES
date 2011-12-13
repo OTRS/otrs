@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1758.2.206 2011-12-13 14:24:31 mg Exp $
+# $Id: CHANGES,v 1.1758.2.207 2011-12-13 14:39:02 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -11,7 +11,6 @@
 
 3.0.12 ????-??-??
  - 2011-12-13 Fixed bug#7020 - Error in MYSQL Syntax when CustomerID contains special characters.
- - 2011-12-12 Fixed bug#7020 - TicketSearch for special characters &, - fails.
  - 2011-12-12 Improved #7526 - Automatic TicketSearch for special characters (, ), &, - fails.
  - 2011-12-09 Fixed bug#7995 - Previous owner is missing in AgentTicketMove.
  - 2011-12-06 Fixed bug#5253 - User preferences are updated when displaying an overview.
