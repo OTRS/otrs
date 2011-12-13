@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2090 2011-12-13 14:28:39 mg Exp $
+# $Id: CHANGES,v 1.2091 2011-12-13 14:38:55 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,8 +10,8 @@
 # --
 
 3.1.0.beta3 2011-12-??
- - 2011-12-13 Fixed bug#7020 - Error in MYSQL Syntax when CustomerID contains special characters.
  - 2011-12-13 Fixed bug#7005 - JavaScript Init function is executed more than once in TicketZoom.
+ - 2011-12-13 Fixed bug#7020 - Error in MYSQL Syntax when CustomerID contains special characters.
  - 2011-12-12 Improved #7526 - Automatic TicketSearch for special characters (, ), &, - fails.
  - 2011-12-12 Fixed bug#8009 - Statistic overview does not show the statistic object name
     for static statistics.
@@ -92,6 +92,7 @@
 3.1.0.beta1 2011-11-22
  - 2011-11-15 Added IE7 to browser blacklist.
  - 2011-11-15 Updated German translation.
+ - 2011-11-14 Fixed bug#7526 - OTRS Ticket Search not working with ( or ).
  - 2011-11-14 Added Idea#724 - Connect to IMAP servers using TLS encryption.
  - 2011-11-14 Fixed bug#7879 - Add the option to get mail from a specified IMAP folder.
  - 2011-11-14 Added new 'registration' mask to install process.
@@ -238,7 +239,6 @@
  - 2011-11-15 Fixed bug#7901 - Package Manager does not clear the cache.
  - 2011-11-15 Fixed bug#7120 - Inline images from Lotus Notes do not show in
     AgentTicketCompose interface.
- - 2011-11-14 Fixed bug#7526 - OTRS Ticket Search not working with ( or ).
  - 2011-11-10 Fixed bug#7879 - Ticket forward not working if content-id exists.
  - 2011-11-07 Fixed bug#7887 - Type based ACLs do not match if Type (Name) is sent.
  - 2011-11-05 Fixed bug#7876 - NewTicketReject Postmaster module uses Admin Address
