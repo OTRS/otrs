@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMove.pm - move tickets to queues
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMove.pm,v 1.107 2011-12-09 13:28:51 des Exp $
+# $Id: AgentTicketMove.pm,v 1.108 2011-12-13 21:52:04 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.107 $) [1];
+$VERSION = qw($Revision: 1.108 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -943,7 +943,7 @@ sub AgentMove {
         OnlyDynamicFields => 1
     );
 
-    # create a string with the quoted dynamic field names separated by a commas
+    # create a string with the quoted dynamic field names separated by commas
     if ( IsArrayRefWithData($DynamicFieldNames) ) {
         my $FirstItem = 1;
         FIELD:
@@ -1044,6 +1044,7 @@ sub AgentMove {
         Class          => 'Validate_Required' . ' ' . $Param{DestQueueIDInvalid},
         Name           => 'DestQueueID',
         SelectedID     => $Param{DestQueueID},
+        CurrentQueueID => $Param{QueueID},
         OnChangeSubmit => 0,
     );
 
