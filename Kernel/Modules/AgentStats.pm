@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentStats.pm - stats module
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStats.pm,v 1.120 2011-12-12 17:43:40 ub Exp $
+# $Id: AgentStats.pm,v 1.121 2011-12-13 11:21:39 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::CSV;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.120 $) [1];
+$VERSION = qw($Revision: 1.121 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -135,10 +135,12 @@ sub Run {
             );
 
             # get the object name
-            $Stat->{ObjectName} = $Stat->{StatType} eq 'static'
-                ? $Stat->{File}
-                : $Stat->{StatType} eq 'dynamic' ? $Stat->{ObjectName}
-                :                                  '';
+            if ( $Stat->{StatType} eq 'static' ) {
+                $Stat->{ObjectName} = $Stat->{File};
+            }
+
+            # if no object name is defined use an empty string
+            $Stat->{ObjectName} ||= '';
 
             $Self->{LayoutObject}->Block(
                 Name => 'Result',
@@ -193,10 +195,12 @@ sub Run {
         my $Stat = $Self->{StatsObject}->StatsGet( StatID => $StatID );
 
         # get the object name
-        $Stat->{ObjectName} = $Stat->{StatType} eq 'static'
-            ? $Stat->{File}
-            : $Stat->{StatType} eq 'dynamic' ? $Stat->{ObjectName}
-            :                                  '';
+        if ( $Stat->{StatType} eq 'static' ) {
+            $Stat->{ObjectName} = $Stat->{File};
+        }
+
+        # if no object name is defined use an empty string
+        $Stat->{ObjectName} ||= '';
 
         $Stat->{Description} = $Self->{LayoutObject}->Ascii2Html(
             Text           => $Stat->{Description},
@@ -845,12 +849,15 @@ sub Run {
                 StatData => \%Data,
                 Section  => 'Specification'
             );
-
-            $Subaction
-                = @Notify
-                ? 'EditSpecification'
-                : $Data{StatType} eq 'static' ? 'View'
-                :                               'EditXaxis';
+            if (@Notify) {
+                $Subaction = 'EditSpecification';
+            }
+            elsif ( $Data{StatType} eq 'static' ) {
+                $Subaction = 'View';
+            }
+            else {
+                $Subaction = 'EditXaxis';
+            }
 
         }
 
@@ -945,12 +952,15 @@ sub Run {
                 StatData => \%Data,
                 Section  => 'Xaxis'
             );
-
-            $Subaction
-                = @Notify
-                ? 'EditXaxis'
-                : $Param{Back} ? 'EditSpecification'
-                :                'EditValueSeries';
+            if (@Notify) {
+                $Subaction = 'EditXaxis';
+            }
+            elsif ( $Param{Back} ) {
+                $Subaction = 'EditSpecification';
+            }
+            else {
+                $Subaction = 'EditValueSeries';
+            }
         }
 
         # save EditValueSeries
@@ -1007,11 +1017,15 @@ sub Run {
                 StatData => \%Data,
                 Section  => 'ValueSeries'
             );
-            $Subaction
-                = @Notify
-                ? 'EditValueSeries'
-                : $Param{Back} ? 'EditXaxis'
-                :                'EditRestrictions';
+            if (@Notify) {
+                $Subaction = 'EditValueSeries';
+            }
+            elsif ( $Param{Back} ) {
+                $Subaction = 'EditXaxis';
+            }
+            else {
+                $Subaction = 'EditRestrictions';
+            }
         }
 
         # save EditRestrictions
@@ -1108,12 +1122,15 @@ sub Run {
                 StatData => \%Data,
                 Section  => 'Restrictions'
             );
-
-            $Subaction
-                = ( @Notify || $SelectFieldError )
-                ? 'EditRestrictions'
-                : $Param{Back} ? 'EditValueSeries'
-                :                'View';
+            if ( @Notify || $SelectFieldError ) {
+                $Subaction = 'EditRestrictions';
+            }
+            elsif ( $Param{Back} ) {
+                $Subaction = 'EditValueSeries';
+            }
+            else {
+                $Subaction = 'View';
+            }
         }
         else {
             return $Self->{LayoutObject}->ErrorScreen(
@@ -1245,7 +1262,7 @@ sub Run {
                         Data => {
                             Name      => 'Static-File',
                             StateType => 'static',
-                            }
+                        },
                     );
                 }
 
@@ -1258,7 +1275,9 @@ sub Run {
                     );
                     $Self->{LayoutObject}->Block(
                         Name => 'SelectField',
-                        Data => { SelectField => $Frontend{SelectField}, },
+                        Data => {
+                            SelectField => $Frontend{SelectField},
+                        },
                     );
                 }
 
@@ -1284,7 +1303,7 @@ sub Run {
                 Data => {
                     Name      => 'Dynamic-Object',
                     StateType => 'dynamic',
-                    }
+                },
             );
             $Self->{LayoutObject}->Block(
                 Name => 'Selected',
@@ -1305,7 +1324,7 @@ sub Run {
                 Data => {
                     Name      => 'Static-File',
                     StateType => 'static',
-                    }
+                },
             );
             $Self->{LayoutObject}->Block(
                 Name => 'Selected',
@@ -1332,7 +1351,7 @@ sub Run {
         $Frontend{SelectValid} = $Self->{LayoutObject}->BuildSelection(
             Data => {
                 0 => 'invalid',
-                1 => 'valid'
+                1 => 'valid',
             },
             SelectedID => $Stat->{Valid},
             Name       => 'Valid',
