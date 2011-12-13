@@ -2,7 +2,7 @@
 // Core.Agent.CustomerSearch.js - provides the special module functions for the customer search
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.CustomerSearch.js,v 1.29 2011-12-13 20:18:44 cg Exp $
+// $Id: Core.Agent.CustomerSearch.js,v 1.30 2011-12-13 21:48:30 cg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -299,7 +299,7 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
             Sufix;
 
         // check for duplicated entries
-        $('.CustomerTicketText:input').each(function(index) {
+        $('[class*=CustomerTicketText]').each(function(index) {
             if ( $(this).val() === CustomerValue ) {
                 IsDuplicated = true;
             }
