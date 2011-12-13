@@ -2,7 +2,7 @@
 # AdminGenericInterfaceInvokerDefault.dtl - provides HTML form for AdminLog
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceInvokerDefault.dtl,v 1.10 2011-12-07 22:53:37 cg Exp $
+# $Id: AdminGenericInterfaceInvokerDefault.dtl,v 1.11 2011-12-13 22:58:14 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -108,7 +108,7 @@
                         <div class="Field">
                             <input type="text" readonly="readonly" class="W50pc" id="InvokerTypeDisplay" value="$QData{"InvokerType"}" />
                             <p class="FieldExplanation">
-                                $Text{"This OTRS invoker backend module will be called to prepare the data to be sent to the remote system, and to process it's response data."}
+                                $Text{"This OTRS invoker backend module will be called to prepare the data to be sent to the remote system, and to process its response data."}
                             </p>
                         </div>
                         <div class="Clear"></div>
@@ -252,7 +252,7 @@ $('#SaveAndFinishButton').bind('click', function(){
 //]]></script>
 <!-- dtl:js_on_document_complete -->
 <!-- dtl:block:SaveAndFinishButton -->
-                            or
+                            $Text{"or"}
                             <a href="$Env{"Baselink"}Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=$QData{"WebserviceID"}">$Text{"Cancel"}</a>
                         </div>
                         <div class="Clear"></div>

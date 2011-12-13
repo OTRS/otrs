@@ -2,7 +2,7 @@
 # AdminGenericInterfaceWebservice.dtl - provides HTML form for AdminGenericInterfaceWebservice
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceWebservice.dtl,v 1.39 2011-11-24 06:55:22 cr Exp $
+# $Id: AdminGenericInterfaceWebservice.dtl,v 1.40 2011-12-13 22:58:14 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -329,7 +329,7 @@
 <!-- dtl:block:DetailsCommunicationTypeActionsExplanationProvider -->
 <!-- dtl:block:DetailsCommunicationTypeActionsExplanationRequester -->
                             <p class="FieldExplanation">
-                                $Text{"Invokers prepare data for a request on a remote web service, and process it's response data."}
+                                $Text{"Invokers prepare data for a request to a remote web service, and process its response data."}
                             </p>
 <!-- dtl:block:DetailsCommunicationTypeActionsExplanationRequester -->
 
@@ -418,7 +418,7 @@ $('#SaveAndFinishButton').bind('click', function(){
 //]]></script>
 <!-- dtl:js_on_document_complete -->
 <!-- dtl:block:SaveAndFinishButton -->
-                            or
+                            $Text{"or"}
                             <a href="$Env{"Baselink"}Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=$QData{"WebserviceID"}">$Text{"Cancel"}</a>
                         </div>
                         <div class="Clear"></div>
