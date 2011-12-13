@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.171 2011-12-13 08:07:31 mab Exp $
+# $Id: AgentTicketZoom.pm,v 1.172 2011-12-13 10:34:03 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.171 $) [1];
+$VERSION = qw($Revision: 1.172 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1017,12 +1017,6 @@ sub MaskAgentZoom {
         Name => 'TicketZoomInit',
         Data => {%Param},
     );
-
-    # comment
-    $Param{HTMLArticleHeightDefault} =
-        $Self->{ConfigObject}->Get('Ticket::Frontend::HTMLArticleHeightDefault') || '100';
-    $Param{HTMLArticleHeightMax} =
-        $Self->{ConfigObject}->Get('Ticket::Frontend::HTMLArticleHeightMax') || '2500';
 
     # return output
     return $Self->{LayoutObject}->Output(
