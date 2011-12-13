@@ -2,7 +2,7 @@
 // Core.Agent.CustomerSearch.js - provides the special module functions for the customer search
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.CustomerSearch.js,v 1.28 2011-12-13 14:05:00 mg Exp $
+// $Id: Core.Agent.CustomerSearch.js,v 1.29 2011-12-13 20:18:44 cg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -294,12 +294,18 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
         // clone customer entry
         var $Clone = $('.CustomerTicketTemplate' + Field).clone(),
             CustomerTicketCounter = $('#CustomerTicketCounter' + Field).val(),
-            IsDuplicated = TargetNS.IsDuplicated(CustomerValue),
             TicketCustomerIDs = 0,
+            IsDuplicated = false,
             Sufix;
 
-        if ( IsDuplicated ) {
-            alert('The address "' + CustomerValue + '" already exists in one of the addresses list.');
+        // check for duplicated entries
+        $('.CustomerTicketText:input').each(function(index) {
+            if ( $(this).val() === CustomerValue ) {
+                IsDuplicated = true;
+            }
+        });
+        if (IsDuplicated) {
+            TargetNS.ShowDuplicatedDialog(Field);
             return false;
         }
 
@@ -484,21 +490,20 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
 
     /**
      * @function
-     * @param {String} CustomerValue An email address.
+     * @param {string} Field ID object of the element should receive the focus on close event.
      * @return nothing
-     *      This function check if an address already exists for addresses list
+     *      This function shows an alert dialog for duplicated entries.
      */
-    TargetNS.IsDuplicated = function (CustomerValue) {
-
-        var Duplicated = false;
-        // loop over all rows for addresses list
-        $('.CustomerTicketText:input').each(function(index) {
-            if ( $(this).val() == CustomerValue ) {
-                Duplicated = true;
+    TargetNS.ShowDuplicatedDialog = function(Field){
+        Core.UI.Dialog.ShowAlert(
+            Core.Config.Get('Duplicated.TitleText'),
+            Core.Config.Get('Duplicated.ContentText'),
+            function () {
+                Core.UI.Dialog.CloseDialog($('.Alert'));
+                $('#' + Field).focus();
+                return false;
             }
-        });
-        // return result
-        return Duplicated;
+        );
     };
 
     return TargetNS;
