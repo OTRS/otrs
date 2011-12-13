@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2089 2011-12-13 14:23:53 mg Exp $
+# $Id: CHANGES,v 1.2090 2011-12-13 14:28:39 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,6 +12,7 @@
 3.1.0.beta3 2011-12-??
  - 2011-12-13 Fixed bug#7020 - Error in MYSQL Syntax when CustomerID contains special characters.
  - 2011-12-13 Fixed bug#7005 - JavaScript Init function is executed more than once in TicketZoom.
+ - 2011-12-12 Improved #7526 - Automatic TicketSearch for special characters (, ), &, - fails.
  - 2011-12-12 Fixed bug#8009 - Statistic overview does not show the statistic object name
     for static statistics.
  - 2011-12-12 Changed the default behaviour of TicketGet() and ArticleGet() to NOT return the
