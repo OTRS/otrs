@@ -3,7 +3,7 @@
 # bin/otrs.FillDB.pl - fill db with demo data
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.FillDB.pl,v 1.6 2011-11-14 16:53:23 cr Exp $
+# $Id: otrs.FillDB.pl,v 1.7 2011-12-13 08:38:39 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use lib dirname($RealBin) . "/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Getopt::Std;
@@ -263,7 +263,10 @@ foreach ( keys %Priorities ) {
 }
 
 foreach my $TicketID (@TicketIDs) {
-    my %Ticket = $CommonObject{TicketObject}->TicketGet( TicketID => $TicketID );
+    my %Ticket = $CommonObject{TicketObject}->TicketGet(
+        TicketID      => $TicketID,
+        DynamicFields => 0,
+    );
 
     # add email
     my @Files = glob $CommonObject{ConfigObject}->Get('Home')
