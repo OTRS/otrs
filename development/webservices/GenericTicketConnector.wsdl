@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<CVS>$Id: GenericTicketConnector.wsdl,v 1.2 2011-12-14 16:42:29 cr Exp $</CVS>
 <wsdl:definitions
     name="GenericTicketConnector"
     targetNamespace="http://www.otrs.org/TicketConnector/"
