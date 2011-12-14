@@ -2,7 +2,7 @@
 # AgentTicketCompose.dtl - provides HTML form for AgentTicketCompose
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.dtl,v 1.99 2011-12-06 20:04:50 cg Exp $
+# $Id: AgentTicketCompose.dtl,v 1.100 2011-12-14 20:59:36 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -408,9 +408,6 @@ $Include{"RichTextEditor"}
 <script type="text/javascript">//<![CDATA[
     Core.Agent.TicketAction.Init();
 
-    $('#CustomerAutoComplete').bind('change', function (Event) {
-        Core.AJAX.FormUpdate($('#ComposeTicket'), 'AJAXUpdate', 'To', ['SignKeyID', 'CryptKeyID']);
-    });
-//]]></script>
+    //]]></script>
 <!--dtl:js_on_document_complete-->
 <!-- dtl:block:Content -->
