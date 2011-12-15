@@ -2,7 +2,7 @@
 # AgentTicketPhone.dtl - provides HTML form for phone
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.dtl,v 1.142 2011-12-06 20:04:50 cg Exp $
+# $Id: AgentTicketPhone.dtl,v 1.143 2011-12-15 14:27:40 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -101,6 +101,9 @@ $Include{"AgentCustomerSearch"}
 <!-- dtl:block:InvalidSyntaxServerErrorMsg -->
                                     <p>$Text{"The syntax of this email address is incorrect."}</p>
 <!-- dtl:block:InvalidSyntaxServerErrorMsg -->
+<!-- dtl:block:IsDuplicatedServerErrorMsg -->
+                                    <p>$Text{"This address already exists on the address list."}</p>
+<!-- dtl:block:IsDuplicatedServerErrorMsg -->
                                 </div>
                             </div>
 <!-- dtl:block:MultipleCustomer -->
