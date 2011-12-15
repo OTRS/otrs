@@ -3,7 +3,7 @@
 # bin/otrs.CreateTranslationFile.pl - create new translation file
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.CreateTranslationFile.pl,v 1.27 2011-01-24 19:51:23 ub Exp $
+# $Id: otrs.CreateTranslationFile.pl,v 1.28 2011-12-15 11:23:57 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.27 $) [1];
+$VERSION = qw($Revision: 1.28 $) [1];
 
 use Getopt::Std qw();
 use Kernel::Config;
@@ -84,6 +84,8 @@ $CommonObject{DBObject}        = Kernel::System::DB->new(%CommonObject);
 $CommonObject{SysConfigObject} = Kernel::System::SysConfig->new(%CommonObject);
 
 my $Home = $CommonObject{ConfigObject}->Get('Home');
+
+my $BreakLineAfterChars = 60;
 
 {
     my @Languages;
@@ -267,7 +269,13 @@ sub HandleLanguage {
                     my $Key = $Word;
                     $Key =~ s/'/\\'/g;
                     if ($Key !~ /(a href|\$(Text|Quote)\{")/i) {
-                        $Data .= $Indent . "\$Self->{Translation}->{'$Key'} = '$Translation';\n";
+                        if (length($Key) < $BreakLineAfterChars) {
+                            $Data .= $Indent . "\$Self->{Translation}->{'$Key'} = '$Translation';\n";
+                        }
+                        else {
+                            $Data .= $Indent . "\$Self->{Translation}->{'$Key'} =\n";
+                            $Data .= $Indent . '    ' . "'$Translation';\n";
+                        }
                     }
                 }
             }
@@ -285,7 +293,13 @@ sub HandleLanguage {
                     my $Key = $Word;
                     $Key =~ s/'/\\'/g;
                     if ($Key !~ /(a href|\$(Text|Quote)\{")/i) {
-                        $Data .= $Indent . "'$Key' => '$Translation',\n";
+                        if (length($Key) < $BreakLineAfterChars) {
+                            $Data .= $Indent . "'$Key' => '$Translation',\n";
+                        }
+                        else {
+                            $Data .= $Indent . "'$Key' =>\n";
+                            $Data .= $Indent . '    ' . "'$Translation',\n";
+                        }
                     }
                 }
             }
@@ -326,10 +340,22 @@ sub HandleLanguage {
         my $Key = $String;
         $Key =~ s/'/\\'/g;
         if ($IsSubTranslation) {
-            $Data .= $Indent . "\$Self->{Translation}->{'$Key'} = '$Translation';\n";
+            if ( length($Key) < $BreakLineAfterChars ) {
+                $Data .= $Indent . "\$Self->{Translation}->{'$Key'} = '$Translation';\n";
+            }
+            else {
+                $Data .= $Indent . "\$Self->{Translation}->{'$Key'} =\n";
+                $Data .= $Indent . '    ' . "'$Translation';\n";
+            }
         }
         else {
-            $Data .= $Indent . "'$Key' => '$Translation',\n";
+            if ( length($Key) < $BreakLineAfterChars ) {
+                $Data .= $Indent . "'$Key' => '$Translation',\n";
+            }
+            else {
+                $Data .= $Indent . "'$Key' =>\n";
+                $Data .= $Indent . '    ' . "'$Translation',\n";
+            }
         }
     }
 
@@ -362,10 +388,22 @@ sub HandleLanguage {
         next KEY if $Key =~ /(a href|\$(Text|Quote)\{")/i;
 
         if ($IsSubTranslation) {
-            $Data .= $Indent . "\$Self->{Translation}->{'$Key'} = '$Translation';\n";
+            if ( length($Key) < $BreakLineAfterChars ) {
+                $Data .= $Indent . "\$Self->{Translation}->{'$Key'} = '$Translation';\n";
+            }
+            else {
+                $Data .= $Indent . "\$Self->{Translation}->{'$Key'} =\n";
+                $Data .= $Indent . '    ' . "'$Translation';\n";
+            }
         }
         else {
-            $Data .= $Indent . "'$Key' => '$Translation',\n";
+            if ( length($Key) < $BreakLineAfterChars ) {
+                $Data .= $Indent . "'$Key' => '$Translation',\n";
+            }
+            else {
+                $Data .= $Indent . "'$Key' =>\n";
+                $Data .= $Indent . '    ' . "'$Translation',\n";
+            }
         }
     }
 
