@@ -8,7 +8,7 @@
 # Copyright (C) 2011 Lars Erik Utsi Gullerud <lerik at nolink.net>
 # Copyright (C) 2011 Espen Stefansen <espen.stefansen at imr.no>
 # --
-# $Id: nb_NO.pm,v 1.119 2011-12-02 07:30:48 mg Exp $
+# $Id: nb_NO.pm,v 1.120 2011-12-15 11:08:50 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,13 +21,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.119 $;
+$VERSION = q$Revision: 1.120 $;
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2011-12-02 08:27:14
+    # Last translation file sync: 2011-12-15 12:06:59
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -387,6 +387,12 @@ sub Data {
         'First Christmas Day' => '',
         'Second Christmas Day' => '',
         'New Year\'s Eve' => '',
+
+        # Template: AAAGenericInterface
+        'OTRS as requester' => '',
+        'OTRS as provider' => '',
+        'Webservice "%s" created!' => '',
+        'Webservice "%s" updated!' => '',
 
         # Template: AAAMonth
         'Jan' => 'jan',
@@ -929,7 +935,7 @@ sub Data {
         'Remove value' => '',
         'Add value' => '',
         'Add Value' => '',
-        'Allow empty value' => '',
+        'Add empty value' => '',
         'Activate this option to create an empty selectable value.' => '',
         'Translatable values' => '',
         'If you activate this option the values will be translated to the user defined language.' => '',
@@ -1045,7 +1051,6 @@ sub Data {
         'Edit job' => 'Endre jobb',
         'Run job' => 'Kjør jobb',
         'Affected Tickets' => 'Antall saker påvirket',
-        '","30' => '',
 
         # Template: AdminGenericInterfaceDebugger
         'GenericInterface Debugger for Web Service %s' => '',
@@ -1081,7 +1086,7 @@ sub Data {
         'Please provide a unique name for this web service invoker.' => '',
         'The name you entered already exists.' => '',
         'Invoker backend' => '',
-        'This OTRS invoker backend module will be called to prepare the data to be sent to the remote system, and to process it\'s response data.' => '',
+        'This OTRS invoker backend module will be called to prepare the data to be sent to the remote system, and to process its response data.' => '',
         'Mapping for outgoing request data' => '',
         'Configure' => '',
         'The data from the invoker of OTRS will be processed by this mapping, to transform it to the kind of data the remote system expects.' => '',
@@ -1196,7 +1201,7 @@ sub Data {
         'In provider mode, OTRS offers web services which are used by remote systems.' => '',
         'In requester mode, OTRS uses web services of remote systems.' => '',
         'Operations are individual system functions which remote systems can request.' => '',
-        'Invokers prepare data for a request on a remote web service, and process it\'s response data.' => '',
+        'Invokers prepare data for a request to a remote web service, and process its response data.' => '',
         'Controller' => '',
         'Inbound mapping' => '',
         'Outbound mapping' => '',
@@ -1660,6 +1665,8 @@ sub Data {
 
         # Template: AgentCustomerSearch
         'Search Customer' => 'Kundesøk',
+        'Duplicated entry' => '',
+        'This address already exists on the address list.' => '',
 
         # Template: AgentCustomerTableView
 
@@ -1895,7 +1902,6 @@ sub Data {
         'First Response Time' => 'Første responstid',
         'Service Time' => 'Tjenestetid',
         'Update Time' => 'Oppdateringstid',
-        '","26' => '',
         'Solution Time' => 'Løsningstid',
         'Move ticket to a different queue' => 'Flytt saker til annen kø',
         'Change queue' => 'Endre kø',
@@ -1905,10 +1911,12 @@ sub Data {
         'Tickets per page' => 'Saker per side',
 
         # Template: AgentTicketOverviewPreview
+        '","26' => '',
 
         # Template: AgentTicketOverviewSmall
         'Escalation in' => 'Eskalering om',
         'Locked' => 'Tilgjenglighet',
+        '","30' => '',
 
         # Template: AgentTicketOwner
 
@@ -2045,7 +2053,6 @@ sub Data {
         'Service level agreement' => 'Tjenestenivåavtale',
 
         # Template: CustomerTicketOverview
-        '","18' => '',
         'Welcome!' => 'Velkommen!',
         'Please click the button below to create your first ticket.' => 'Vennligst klikk på knappen under for å opprette din første sak.',
         'Create your first ticket' => 'Opprett din første sak',
@@ -2080,6 +2087,7 @@ sub Data {
         'of' => 'av',
         'Page' => 'Side',
         'Search Results for' => 'Søkeresultater for',
+        '","18' => '',
 
         # Template: CustomerTicketZoom
         'Expand article' => 'Utvid artikkel',
@@ -2391,7 +2399,8 @@ sub Data {
         'Create new email ticket and send this out (outbound)' => 'Opprett en ny e-post-sak og send (utgående)',
         'Create new phone ticket (inbound)' => 'Opprett en ny telefonhenvendelse (innkommende)',
         'Custom text for the page shown to customers that have no tickets yet.' => 'Tekst som vises for kunder som ikke har noen saker enda.',
-        'Customer item (icon) which shows the open tickets of this customer as info block.' => 'Kunde-element (symbol) som viser de åpne sakene for denne kunden som en infoblokk',
+        'Customer item (icon) which shows the closed tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' => '',
+        'Customer item (icon) which shows the open tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' => '',
         'Customers <-> Groups' => 'Kunder <-> Grupper',
         'Customers <-> Services' => 'Kunder <-> Tjenester',
         'DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.' => '',
@@ -2600,7 +2609,7 @@ sub Data {
         'Defines the maximal valid time (in seconds) for a session id.' => 'Definerer maksimal gyldig tid (i sekunder) for en sesjons-ID.',
         'Defines the maximum number of pages per PDF file.' => 'Definerer maksimalt antall sider per PDF-fil.',
         'Defines the maximum size (in MB) of the log file.' => 'Definerer maksimal størrelse (i MB) for loggfilen.',
-        'Defines the module that shows a generic notify in the agent interface.' => '',
+        'Defines the module that shows a generic notification in the agent interface. Either "Text" - if configured - or the contents of "File" will be displayed.' => '',
         'Defines the module that shows all the currently loged in customers in the agent interface.' => '',
         'Defines the module that shows all the currently logged in agents in the agent interface.' => '',
         'Defines the module that shows the currently loged in agents in the customer interface.' => '',
@@ -3459,6 +3468,7 @@ sub Data {
         'Customer history' => 'Kunde-historikk',
         'Customer history search' => 'Historikk for kunde',
         'Customer history search (e. g. "ID342425").' => 'Søk etter kunde for historikk (f.eks. "ID342425").',
+        'Customer item (icon) which shows the open tickets of this customer as info block.' => 'Kunde-element (symbol) som viser de åpne sakene for denne kunden som en infoblokk',
         'Customer user will be needed to have a customer history and to login via customer panel.' => 'En kundebruker vil trengs for å ha en kundehistorikk og logge inn via kundeportalen.',
         'CustomerID{CustomerUser}' => 'KundeID',
         'CustomerUser' => 'Kundebruker',

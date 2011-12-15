@@ -7,7 +7,7 @@
 # Copyright (C) 2009 Qingjiu Jia <jiaqj at yahoo.com>
 # Copyright (C) 2011 Martin Liu <liuzh66 at gmail.com> http://martinliu.cn
 # --
-# $Id: zh_CN.pm,v 1.102 2011-12-02 07:30:50 mg Exp $
+# $Id: zh_CN.pm,v 1.103 2011-12-15 11:08:51 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,13 +20,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.102 $) [1];
+$VERSION = qw($Revision: 1.103 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2011-12-02 08:27:27
+    # Last translation file sync: 2011-12-15 12:07:13
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -386,6 +386,12 @@ sub Data {
         'First Christmas Day' => '',
         'Second Christmas Day' => '',
         'New Year\'s Eve' => '',
+
+        # Template: AAAGenericInterface
+        'OTRS as requester' => '',
+        'OTRS as provider' => '',
+        'Webservice "%s" created!' => '',
+        'Webservice "%s" updated!' => '',
 
         # Template: AAAMonth
         'Jan' => '一月',
@@ -928,7 +934,7 @@ sub Data {
         'Remove value' => '',
         'Add value' => '',
         'Add Value' => '',
-        'Allow empty value' => '',
+        'Add empty value' => '',
         'Activate this option to create an empty selectable value.' => '',
         'Translatable values' => '',
         'If you activate this option the values will be translated to the user defined language.' => '',
@@ -1044,7 +1050,6 @@ sub Data {
         'Edit job' => '修改任务',
         'Run job' => '执行任务',
         'Affected Tickets' => '受影响的票单',
-        '","30' => '',
 
         # Template: AdminGenericInterfaceDebugger
         'GenericInterface Debugger for Web Service %s' => '',
@@ -1080,7 +1085,7 @@ sub Data {
         'Please provide a unique name for this web service invoker.' => '',
         'The name you entered already exists.' => '',
         'Invoker backend' => '',
-        'This OTRS invoker backend module will be called to prepare the data to be sent to the remote system, and to process it\'s response data.' => '',
+        'This OTRS invoker backend module will be called to prepare the data to be sent to the remote system, and to process its response data.' => '',
         'Mapping for outgoing request data' => '',
         'Configure' => '',
         'The data from the invoker of OTRS will be processed by this mapping, to transform it to the kind of data the remote system expects.' => '',
@@ -1195,7 +1200,7 @@ sub Data {
         'In provider mode, OTRS offers web services which are used by remote systems.' => '',
         'In requester mode, OTRS uses web services of remote systems.' => '',
         'Operations are individual system functions which remote systems can request.' => '',
-        'Invokers prepare data for a request on a remote web service, and process it\'s response data.' => '',
+        'Invokers prepare data for a request to a remote web service, and process its response data.' => '',
         'Controller' => '',
         'Inbound mapping' => '',
         'Outbound mapping' => '',
@@ -1659,6 +1664,8 @@ sub Data {
 
         # Template: AgentCustomerSearch
         'Search Customer' => '搜索客户',
+        'Duplicated entry' => '',
+        'This address already exists on the address list.' => '',
 
         # Template: AgentCustomerTableView
 
@@ -1894,7 +1901,6 @@ sub Data {
         'First Response Time' => '首次报告时间',
         'Service Time' => '服务时间',
         'Update Time' => '更新时间',
-        '","26' => '',
         'Solution Time' => '解决时间',
         'Move ticket to a different queue' => '移动票单到不同的队列',
         'Change queue' => '改变队列',
@@ -1904,10 +1910,12 @@ sub Data {
         'Tickets per page' => '票单/页',
 
         # Template: AgentTicketOverviewPreview
+        '","26' => '',
 
         # Template: AgentTicketOverviewSmall
         'Escalation in' => '限时',
         'Locked' => '锁定状态',
+        '","30' => '',
 
         # Template: AgentTicketOwner
 
@@ -2044,7 +2052,6 @@ sub Data {
         'Service level agreement' => '服务级别协议',
 
         # Template: CustomerTicketOverview
-        '","18' => '',
         'Welcome!' => '欢迎！',
         'Please click the button below to create your first ticket.' => '请点击下面的按钮创建第一个票单。',
         'Create your first ticket' => '创建第一个票单',
@@ -2079,6 +2086,7 @@ sub Data {
         'of' => '在',
         'Page' => '页',
         'Search Results for' => '搜索结果',
+        '","18' => '',
 
         # Template: CustomerTicketZoom
         'Expand article' => '展开文章',
@@ -2390,7 +2398,8 @@ sub Data {
         'Create new email ticket and send this out (outbound)' => '创建新的邮件 Ticket 并发送给用户 (内)',
         'Create new phone ticket (inbound)' => '创建新的电话 Ticket (外)',
         'Custom text for the page shown to customers that have no tickets yet.' => '',
-        'Customer item (icon) which shows the open tickets of this customer as info block.' => '',
+        'Customer item (icon) which shows the closed tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' => '',
+        'Customer item (icon) which shows the open tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' => '',
         'Customers <-> Groups' => '客户 <-> 群组',
         'Customers <-> Services' => '客户 <-> 服务',
         'DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.' => '',
@@ -2599,7 +2608,7 @@ sub Data {
         'Defines the maximal valid time (in seconds) for a session id.' => '',
         'Defines the maximum number of pages per PDF file.' => '',
         'Defines the maximum size (in MB) of the log file.' => '',
-        'Defines the module that shows a generic notify in the agent interface.' => '',
+        'Defines the module that shows a generic notification in the agent interface. Either "Text" - if configured - or the contents of "File" will be displayed.' => '',
         'Defines the module that shows all the currently loged in customers in the agent interface.' => '',
         'Defines the module that shows all the currently logged in agents in the agent interface.' => '',
         'Defines the module that shows the currently loged in agents in the customer interface.' => '',

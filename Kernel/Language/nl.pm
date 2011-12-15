@@ -8,7 +8,7 @@
 # Copyright (C) 2010 Ton van Boven <ton 'at' avebo.nl>
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: nl.pm,v 1.169 2011-12-02 07:32:41 mg Exp $
+# $Id: nl.pm,v 1.170 2011-12-15 11:08:52 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -28,13 +28,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.169 $) [1];
+$VERSION = qw($Revision: 1.170 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2011-12-02 08:27:15
+    # Last translation file sync: 2011-12-15 12:07:00
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -394,6 +394,12 @@ sub Data {
         'First Christmas Day' => 'Eerste Kerstdag',
         'Second Christmas Day' => 'Tweede Kerstdag',
         'New Year\'s Eve' => 'Oudjaarsdag',
+
+        # Template: AAAGenericInterface
+        'OTRS as requester' => '',
+        'OTRS as provider' => '',
+        'Webservice "%s" created!' => '',
+        'Webservice "%s" updated!' => '',
 
         # Template: AAAMonth
         'Jan' => 'jan',
@@ -936,7 +942,7 @@ sub Data {
         'Remove value' => 'Waarde verwijderen',
         'Add value' => 'Waarde toevoegen',
         'Add Value' => 'Waarde toevoegen',
-        'Allow empty value' => 'Lege waarden zijn toegestaan',
+        'Add empty value' => '',
         'Activate this option to create an empty selectable value.' => 'Activeer deze optie om een lege selecteerbare waarde toe te voeten.',
         'Translatable values' => 'Waarden zijn vertaalbaar',
         'If you activate this option the values will be translated to the user defined language.' => 'Als u deze optie activeerd zullen de waarden vertaald worden in de taal van de eindgebruiker.',
@@ -1052,7 +1058,6 @@ sub Data {
         'Edit job' => 'Bewerk taak',
         'Run job' => 'Voer taak uit',
         'Affected Tickets' => 'Gevonden tickets',
-        '","30' => '',
 
         # Template: AdminGenericInterfaceDebugger
         'GenericInterface Debugger for Web Service %s' => 'GenericInterface Debugger voor webservice %s',
@@ -1088,7 +1093,7 @@ sub Data {
         'Please provide a unique name for this web service invoker.' => 'Geef een unieke naam voor deze web service invoker.',
         'The name you entered already exists.' => 'De naam die u hebt opgegeven bestaat al.',
         'Invoker backend' => 'Invoker backend',
-        'This OTRS invoker backend module will be called to prepare the data to be sent to the remote system, and to process it\'s response data.' => 'Deze OTRS invoker module wordt aangeroepen om de data te verwerken die verstuurd wordt, en om de response te verwerken.',
+        'This OTRS invoker backend module will be called to prepare the data to be sent to the remote system, and to process its response data.' => '',
         'Mapping for outgoing request data' => 'Mapping voor uitgaande data.',
         'Configure' => 'Configureer',
         'The data from the invoker of OTRS will be processed by this mapping, to transform it to the kind of data the remote system expects.' => 'De data van de invoker van OTRS wordt verwerkt door deze mapping om het om te zetten in het formaat wat het communicerende systeem verwacht.',
@@ -1203,7 +1208,7 @@ sub Data {
         'In provider mode, OTRS offers web services which are used by remote systems.' => '',
         'In requester mode, OTRS uses web services of remote systems.' => '',
         'Operations are individual system functions which remote systems can request.' => '',
-        'Invokers prepare data for a request on a remote web service, and process it\'s response data.' => '',
+        'Invokers prepare data for a request to a remote web service, and process its response data.' => '',
         'Controller' => '',
         'Inbound mapping' => 'Inkomende koppeling',
         'Outbound mapping' => 'Uitgaande koppeling',
@@ -1667,6 +1672,8 @@ sub Data {
 
         # Template: AgentCustomerSearch
         'Search Customer' => 'Klanten zoeken',
+        'Duplicated entry' => '',
+        'This address already exists on the address list.' => '',
 
         # Template: AgentCustomerTableView
 
@@ -1902,7 +1909,6 @@ sub Data {
         'First Response Time' => 'Eerste reactie',
         'Service Time' => 'Service tijd',
         'Update Time' => 'Vervolg tijd',
-        '","26' => '',
         'Solution Time' => 'Oplossingstijd',
         'Move ticket to a different queue' => 'Verplaats naar nieuwe wachtrij',
         'Change queue' => 'Verplaats naar wachtrij',
@@ -1912,10 +1918,12 @@ sub Data {
         'Tickets per page' => 'Tickets per pagina',
 
         # Template: AgentTicketOverviewPreview
+        '","26' => '',
 
         # Template: AgentTicketOverviewSmall
         'Escalation in' => 'Escalatie om',
         'Locked' => 'Vergrendeling',
+        '","30' => '',
 
         # Template: AgentTicketOwner
 
@@ -2052,7 +2060,6 @@ sub Data {
         'Service level agreement' => 'Service level agreement',
 
         # Template: CustomerTicketOverview
-        '","18' => '',
         'Welcome!' => 'Welkom!',
         'Please click the button below to create your first ticket.' => 'Klik op de button om uw eerste ticket aan te maken.',
         'Create your first ticket' => 'Maak uw eerste ticket aan',
@@ -2087,6 +2094,7 @@ sub Data {
         'of' => 'van',
         'Page' => 'Pagina',
         'Search Results for' => 'Zoekresultaat voor',
+        '","18' => '',
 
         # Template: CustomerTicketZoom
         'Expand article' => 'Toon interactie',
@@ -2398,7 +2406,8 @@ sub Data {
         'Create new email ticket and send this out (outbound)' => 'Maak een nieuw ticket en verstuur hiervan een mail (uitgaand)',
         'Create new phone ticket (inbound)' => 'Maak een nieuw telefoon ticket aan (inkomend)',
         'Custom text for the page shown to customers that have no tickets yet.' => '',
-        'Customer item (icon) which shows the open tickets of this customer as info block.' => '',
+        'Customer item (icon) which shows the closed tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' => '',
+        'Customer item (icon) which shows the open tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' => '',
         'Customers <-> Groups' => 'Klanten <-> Groepen',
         'Customers <-> Services' => 'Klanten <-> Services',
         'DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.' => '',
@@ -2607,7 +2616,7 @@ sub Data {
         'Defines the maximal valid time (in seconds) for a session id.' => '',
         'Defines the maximum number of pages per PDF file.' => '',
         'Defines the maximum size (in MB) of the log file.' => '',
-        'Defines the module that shows a generic notify in the agent interface.' => '',
+        'Defines the module that shows a generic notification in the agent interface. Either "Text" - if configured - or the contents of "File" will be displayed.' => '',
         'Defines the module that shows all the currently loged in customers in the agent interface.' => '',
         'Defines the module that shows all the currently logged in agents in the agent interface.' => '',
         'Defines the module that shows the currently loged in agents in the customer interface.' => '',
@@ -3343,6 +3352,7 @@ sub Data {
         'Allocate %s to' => 'Wijs %s toe aan',
         'Allocate CustomerUser to service' => 'Koppel klanten aan service',
         'Allocate services to CustomerUser' => 'Koppel services aan klant',
+        'Allow empty value' => 'Lege waarden zijn toegestaan',
         'An' => 'een',
         'Answer' => 'Antwoord',
         'Article Create Times' => 'Aanmaakdatum interacties',
@@ -3743,6 +3753,7 @@ sub Data {
         'The text is required.' => 'Tekst is verplicht.',
         'These values are read-only.' => 'Deze waarden kunt u alleen lezen.',
         'These values are required.' => 'Deze waarden zijn verplicht.',
+        'This OTRS invoker backend module will be called to prepare the data to be sent to the remote system, and to process it\'s response data.' => 'Deze OTRS invoker module wordt aangeroepen om de data te verwerken die verstuurd wordt, en om de response te verwerken.',
         'This account exists.' => 'Dit account bestaat al. ',
         'This is useful if you want that no one can get the result of the stat or the stat isn\'t ready configurated.' => 'Dit is handig als het rapport nog niet gereed is.',
         'This value is required' => 'Deze waarde is verplicht',

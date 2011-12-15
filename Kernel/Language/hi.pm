@@ -4,7 +4,7 @@
 # Copyright (C) 2011 Chetan Nagaonkar <Chetan_Nagaonkar at OptForOPS.com>
 # Copyright (C) 2011 Chetan Nagaonkar <ChetanNagaonkar at yahoo.com>
 # --
-# $Id: hi.pm,v 1.13 2011-12-02 07:30:49 mg Exp $
+# $Id: hi.pm,v 1.14 2011-12-15 11:08:50 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,13 +17,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2011-12-02 08:27:07
+    # Last translation file sync: 2011-12-15 12:06:52
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -383,6 +383,12 @@ sub Data {
         'First Christmas Day' => '',
         'Second Christmas Day' => '',
         'New Year\'s Eve' => '',
+
+        # Template: AAAGenericInterface
+        'OTRS as requester' => '',
+        'OTRS as provider' => '',
+        'Webservice "%s" created!' => '',
+        'Webservice "%s" updated!' => '',
 
         # Template: AAAMonth
         'Jan' => 'जनवरी',
@@ -925,7 +931,7 @@ sub Data {
         'Remove value' => '',
         'Add value' => '',
         'Add Value' => '',
-        'Allow empty value' => '',
+        'Add empty value' => '',
         'Activate this option to create an empty selectable value.' => '',
         'Translatable values' => '',
         'If you activate this option the values will be translated to the user defined language.' => '',
@@ -1041,7 +1047,6 @@ sub Data {
         'Edit job' => 'काम संपादित करें',
         'Run job' => 'काम चलाएँ',
         'Affected Tickets' => 'प्रभावित टिकट',
-        '","30' => '',
 
         # Template: AdminGenericInterfaceDebugger
         'GenericInterface Debugger for Web Service %s' => '',
@@ -1077,7 +1082,7 @@ sub Data {
         'Please provide a unique name for this web service invoker.' => '',
         'The name you entered already exists.' => '',
         'Invoker backend' => '',
-        'This OTRS invoker backend module will be called to prepare the data to be sent to the remote system, and to process it\'s response data.' => '',
+        'This OTRS invoker backend module will be called to prepare the data to be sent to the remote system, and to process its response data.' => '',
         'Mapping for outgoing request data' => '',
         'Configure' => '',
         'The data from the invoker of OTRS will be processed by this mapping, to transform it to the kind of data the remote system expects.' => '',
@@ -1192,7 +1197,7 @@ sub Data {
         'In provider mode, OTRS offers web services which are used by remote systems.' => '',
         'In requester mode, OTRS uses web services of remote systems.' => '',
         'Operations are individual system functions which remote systems can request.' => '',
-        'Invokers prepare data for a request on a remote web service, and process it\'s response data.' => '',
+        'Invokers prepare data for a request to a remote web service, and process its response data.' => '',
         'Controller' => '',
         'Inbound mapping' => '',
         'Outbound mapping' => '',
@@ -1656,6 +1661,8 @@ sub Data {
 
         # Template: AgentCustomerSearch
         'Search Customer' => 'ग्राहक खोजें',
+        'Duplicated entry' => '',
+        'This address already exists on the address list.' => '',
 
         # Template: AgentCustomerTableView
 
@@ -1891,7 +1898,6 @@ sub Data {
         'First Response Time' => 'पहला प्रतिक्रिया समय',
         'Service Time' => 'सेवा समय',
         'Update Time' => 'अद्यतन समय',
-        '","26' => '',
         'Solution Time' => 'समाधान समय',
         'Move ticket to a different queue' => 'एक अलग श्रेणी में टिकट को ले जाएँ',
         'Change queue' => 'श्रेणी बदलें',
@@ -1901,10 +1907,12 @@ sub Data {
         'Tickets per page' => 'टिकट प्रति पृष्ठ',
 
         # Template: AgentTicketOverviewPreview
+        '","26' => '',
 
         # Template: AgentTicketOverviewSmall
         'Escalation in' => 'में संवर्धित',
         'Locked' => 'लॉकड',
+        '","30' => '',
 
         # Template: AgentTicketOwner
 
@@ -2041,7 +2049,6 @@ sub Data {
         'Service level agreement' => 'सेवा स्तर अनुबंध',
 
         # Template: CustomerTicketOverview
-        '","18' => '',
         'Welcome!' => 'आपका स्वागत है',
         'Please click the button below to create your first ticket.' => 'अपना पहला टिकट बनाने के लिए कृपया नीचे दिए गए बटन को दबाऐ।',
         'Create your first ticket' => 'अपना पहला टिकट बनाएँ',
@@ -2076,6 +2083,7 @@ sub Data {
         'of' => 'की',
         'Page' => 'पृष्ठ',
         'Search Results for' => 'के लिए परिणाम खोजें',
+        '","18' => '',
 
         # Template: CustomerTicketZoom
         'Expand article' => 'अनुच्छेद का विस्तार करें',
@@ -2387,7 +2395,8 @@ sub Data {
         'Create new email ticket and send this out (outbound)' => 'नया ईमेल टिकट बनाएँ और इस बाहर (आउटबाउंड) भेजें',
         'Create new phone ticket (inbound)' => 'नया फोन टिकट (इनबाउंड)बनाएँ',
         'Custom text for the page shown to customers that have no tickets yet.' => 'कस्टम पाठ जो उन ग्राहकों को दिखाया जाएगा जिनके पास अभी तक कोई टिकट नहीं है।',
-        'Customer item (icon) which shows the open tickets of this customer as info block.' => 'ग्राहक वस्तु (चिह्न) जो जानकारी ब्लॉक के रूप में इस ग्राहक के खुले टिकटों को दिखाता है।',
+        'Customer item (icon) which shows the closed tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' => '',
+        'Customer item (icon) which shows the open tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' => '',
         'Customers <-> Groups' => 'ग्राहकों<->समूहों',
         'Customers <-> Services' => 'ग्राहकों<->सेवाएँ',
         'DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.' => '',
@@ -2596,7 +2605,7 @@ sub Data {
         'Defines the maximal valid time (in seconds) for a session id.' => 'सत्र के लिए अधिकतम मान्य समय (सेकेंड में) पहचान को परिभाषित करता है।',
         'Defines the maximum number of pages per PDF file.' => 'PDF फ़ाइल के अनुसार पृष्ठों की अधिकतम संख्या को परिभाषित करता है।',
         'Defines the maximum size (in MB) of the log file.' => 'अभिलेख फ़ाइल के अधिकतम आकार(MB में) को परिभाषित करता है।',
-        'Defines the module that shows a generic notify in the agent interface.' => '',
+        'Defines the module that shows a generic notification in the agent interface. Either "Text" - if configured - or the contents of "File" will be displayed.' => '',
         'Defines the module that shows all the currently loged in customers in the agent interface.' => 'प्रतिनिधि अंतरफलक में वर्तमान में सभी प्रवॆशित ग्राहकों को दिखाने वाले मॉड्यूल को परिभाषित करता है।',
         'Defines the module that shows all the currently logged in agents in the agent interface.' => 'प्रतिनिधि अंतरफलक में वर्तमान में सभी प्रवॆशित प्रतिनिधियॊ को दिखाने वाले मॉड्यूल को परिभाषित करता है।',
         'Defines the module that shows the currently loged in agents in the customer interface.' => 'ग्राहक अंतरफलक में वर्तमान में सभी प्रवॆशित प्रतिनिधियॊ को दिखाने वाले मॉड्यूल को परिभाषित करता है।',
@@ -3298,6 +3307,7 @@ sub Data {
         'Configures a default TicketFreeField setting. "Counter" defines the free text field which should be used, "Key" is the TicketFreeKey, "Value" is the TicketFreeText and "Event" defines the trigger event.' => 'टिकट स्वतंत्र क्षेत्र तयशुदा व्यवस्थाऐं विन्यस्त करें। "काउंटर"मुक्त पाठ फ़ील्ड जो प्रयोग किया जाना चाहिए को परिभाषित करता है,"कुंजी" मुक्त फ़ील्ड कुंजी है,"मान" टिकट मुक्त पाठ है और ट्रिगर घटना "घटना" को परिभाषित करता है।',
         'Configures a default TicketFreeField setting. "Counter" defines the free text field which should be used, "Key" is the TicketFreeKey, "Value" is the TicketFreeText and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".' => 'टिकट स्वतंत्र क्षेत्र तयशुदा व्यवस्थाऐं विन्यस्त करें। "काउंटर"मुक्त पाठ फ़ील्ड जो प्रयोग किया जाना चाहिए को परिभाषित करता है,"कुंजी" मुक्त फ़ील्ड कुंजी है,"मान" टिकट मुक्त पाठ है और ट्रिगर घटना "घटना" को परिभाषित करता है। विकासकर्ता पुस्तिका(http://doc.otrs.org/) अध्याय "टिकट घटना मॉड्यूल " की जाँच करें।',
         'Create/Expires' => 'बनाना/समाप्त होना',
+        'Customer item (icon) which shows the open tickets of this customer as info block.' => 'ग्राहक वस्तु (चिह्न) जो जानकारी ब्लॉक के रूप में इस ग्राहक के खुले टिकटों को दिखाता है।',
         'Defines the default selection of the free key field number 1 for articles (if more than one option is provided).' => 'अनुच्छेदों के लिए मुक्त कुंजी क्षेत्र संख्या 1 के तयशुदा चुनाव को परिभाषित करता है(यदि एक से अधिक विकल्प प्रदान की जाती है)।',
         'Defines the default selection of the free key field number 1 for tickets (if more than one option is provided).' => 'टिकटों के लिए मुक्त कुंजी क्षेत्र संख्या 1 के तयशुदा चुनाव को परिभाषित करता है(यदि एक से अधिक विकल्प प्रदान की जाती है)।',
         'Defines the default selection of the free key field number 10 for tickets (if more than one option is provided).' => 'टिकटों के लिए मुक्त कुंजी क्षेत्र संख्या 10 के तयशुदा चुनाव को परिभाषित करता है(यदि एक से अधिक विकल्प प्रदान की जाती है)।',

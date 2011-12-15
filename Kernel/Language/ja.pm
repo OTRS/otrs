@@ -4,7 +4,7 @@
 # Copyright (C) 2010-2011 Kaz Kamimura <kamypus at yahoo.co.jp>
 # Copyright (C) 2011/12/08 Kaoru Hayama TIS Inc.
 # --
-# $Id: ja.pm,v 1.22 2011-12-09 13:19:45 mg Exp $
+# $Id: ja.pm,v 1.23 2011-12-15 11:08:51 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,13 +16,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.22 $) [1];
+$VERSION = qw($Revision: 1.23 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2011-12-09 11:55:07
+    # Last translation file sync: 2011-12-15 12:06:56
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -382,6 +382,12 @@ sub Data {
         'First Christmas Day' => '',
         'Second Christmas Day' => '',
         'New Year\'s Eve' => '',
+
+        # Template: AAAGenericInterface
+        'OTRS as requester' => '',
+        'OTRS as provider' => '',
+        'Webservice "%s" created!' => '',
+        'Webservice "%s" updated!' => '',
 
         # Template: AAAMonth
         'Jan' => '1月',
@@ -1075,7 +1081,7 @@ sub Data {
         'Please provide a unique name for this web service invoker.' => '',
         'The name you entered already exists.' => '',
         'Invoker backend' => '',
-        'This OTRS invoker backend module will be called to prepare the data to be sent to the remote system, and to process it\'s response data.' => '',
+        'This OTRS invoker backend module will be called to prepare the data to be sent to the remote system, and to process its response data.' => '',
         'Mapping for outgoing request data' => '',
         'Configure' => '',
         'The data from the invoker of OTRS will be processed by this mapping, to transform it to the kind of data the remote system expects.' => '',
@@ -1190,7 +1196,7 @@ sub Data {
         'In provider mode, OTRS offers web services which are used by remote systems.' => '',
         'In requester mode, OTRS uses web services of remote systems.' => '',
         'Operations are individual system functions which remote systems can request.' => '',
-        'Invokers prepare data for a request on a remote web service, and process it\'s response data.' => '',
+        'Invokers prepare data for a request to a remote web service, and process its response data.' => '',
         'Controller' => '',
         'Inbound mapping' => '',
         'Outbound mapping' => '',
@@ -1654,6 +1660,8 @@ sub Data {
 
         # Template: AgentCustomerSearch
         'Search Customer' => '顧客検索',
+        'Duplicated entry' => '',
+        'This address already exists on the address list.' => '',
 
         # Template: AgentCustomerTableView
 
@@ -2386,7 +2394,8 @@ sub Data {
         'Create new email ticket and send this out (outbound)' => '新規メールチケットと外部送信の作成',
         'Create new phone ticket (inbound)' => '新規受信電話チケットの作成',
         'Custom text for the page shown to customers that have no tickets yet.' => '顧客に対して表示されるチケットがまだ無いページのための、カスタム・テキストです。',
-        'Customer item (icon) which shows the open tickets of this customer as info block.' => 'その顧客のオープンのチケットをinfo blockとして表示するための、顧客アイテム（アイコン）です。',
+        'Customer item (icon) which shows the closed tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' => '',
+        'Customer item (icon) which shows the open tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' => '',
         'Customers <-> Groups' => '顧客 <-> グループ',
         'Customers <-> Services' => '顧客 <-> サービス',
         'DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.' => '',
@@ -3486,6 +3495,7 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         'Customer history' => '顧客履歴',
         'Customer history search' => '顧客履歴検索',
         'Customer history search (e. g. "ID342425").' => '顧客履歴検索 (例 "ID342425").',
+        'Customer item (icon) which shows the open tickets of this customer as info block.' => 'その顧客のオープンのチケットをinfo blockとして表示するための、顧客アイテム（アイコン）です。',
         'Customer user will be needed to have a customer history and to login via customer panel.' => '顧客ユーザーは顧客履歴と顧客パネルからログインするために必要です。',
         'CustomerID{CustomerUser}' => 'Customer ID',
         'CustomerUser' => '顧客ユーザー',

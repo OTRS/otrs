@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Milorad Jovanovic <j.milorad at gmail.com>
 # --
-# $Id: sr_Cyrl.pm,v 1.21 2011-12-02 07:30:50 mg Exp $
+# $Id: sr_Cyrl.pm,v 1.22 2011-12-15 11:08:51 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
+$VERSION = qw($Revision: 1.22 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2011-12-02 08:27:21
+    # Last translation file sync: 2011-12-15 12:07:06
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -381,6 +381,12 @@ sub Data {
         'First Christmas Day' => '',
         'Second Christmas Day' => '',
         'New Year\'s Eve' => '',
+
+        # Template: AAAGenericInterface
+        'OTRS as requester' => '',
+        'OTRS as provider' => '',
+        'Webservice "%s" created!' => '',
+        'Webservice "%s" updated!' => '',
 
         # Template: AAAMonth
         'Jan' => 'јан',
@@ -923,7 +929,7 @@ sub Data {
         'Remove value' => '',
         'Add value' => '',
         'Add Value' => '',
-        'Allow empty value' => '',
+        'Add empty value' => '',
         'Activate this option to create an empty selectable value.' => '',
         'Translatable values' => '',
         'If you activate this option the values will be translated to the user defined language.' => '',
@@ -1039,7 +1045,6 @@ sub Data {
         'Edit job' => 'Уреди посао',
         'Run job' => 'Покрени посао',
         'Affected Tickets' => 'Обухваћени тикети',
-        '","30' => '',
 
         # Template: AdminGenericInterfaceDebugger
         'GenericInterface Debugger for Web Service %s' => '',
@@ -1075,7 +1080,7 @@ sub Data {
         'Please provide a unique name for this web service invoker.' => '',
         'The name you entered already exists.' => '',
         'Invoker backend' => '',
-        'This OTRS invoker backend module will be called to prepare the data to be sent to the remote system, and to process it\'s response data.' => '',
+        'This OTRS invoker backend module will be called to prepare the data to be sent to the remote system, and to process its response data.' => '',
         'Mapping for outgoing request data' => '',
         'Configure' => '',
         'The data from the invoker of OTRS will be processed by this mapping, to transform it to the kind of data the remote system expects.' => '',
@@ -1190,7 +1195,7 @@ sub Data {
         'In provider mode, OTRS offers web services which are used by remote systems.' => '',
         'In requester mode, OTRS uses web services of remote systems.' => '',
         'Operations are individual system functions which remote systems can request.' => '',
-        'Invokers prepare data for a request on a remote web service, and process it\'s response data.' => '',
+        'Invokers prepare data for a request to a remote web service, and process its response data.' => '',
         'Controller' => '',
         'Inbound mapping' => '',
         'Outbound mapping' => '',
@@ -1654,6 +1659,8 @@ sub Data {
 
         # Template: AgentCustomerSearch
         'Search Customer' => 'Тражи корисника',
+        'Duplicated entry' => '',
+        'This address already exists on the address list.' => '',
 
         # Template: AgentCustomerTableView
 
@@ -1889,7 +1896,6 @@ sub Data {
         'First Response Time' => 'Време првог одговора',
         'Service Time' => 'Сервисно време',
         'Update Time' => 'Време ажурирања',
-        '","26' => '',
         'Solution Time' => 'Време решења',
         'Move ticket to a different queue' => 'Премести тикет у други ред',
         'Change queue' => 'Промени ред',
@@ -1899,10 +1905,12 @@ sub Data {
         'Tickets per page' => '',
 
         # Template: AgentTicketOverviewPreview
+        '","26' => '',
 
         # Template: AgentTicketOverviewSmall
         'Escalation in' => 'Ескалација у',
         'Locked' => 'Закључано',
+        '","30' => '',
 
         # Template: AgentTicketOwner
 
@@ -2039,7 +2047,6 @@ sub Data {
         'Service level agreement' => 'Споразум о нивоу услуге',
 
         # Template: CustomerTicketOverview
-        '","18' => '',
         'Welcome!' => '',
         'Please click the button below to create your first ticket.' => '',
         'Create your first ticket' => '',
@@ -2074,6 +2081,7 @@ sub Data {
         'of' => 'од',
         'Page' => 'Страна',
         'Search Results for' => 'Резултати претраживања за',
+        '","18' => '',
 
         # Template: CustomerTicketZoom
         'Expand article' => '',
@@ -2385,7 +2393,8 @@ sub Data {
         'Create new email ticket and send this out (outbound)' => 'Отвори нови имејл тикет и пошаљи ово (одлазни)',
         'Create new phone ticket (inbound)' => 'Креирај нови телефонски тикет (долазни позив)',
         'Custom text for the page shown to customers that have no tickets yet.' => '',
-        'Customer item (icon) which shows the open tickets of this customer as info block.' => 'Корисничка ставка (икона) која показује отворене тикете овог корисника као инфо блок.',
+        'Customer item (icon) which shows the closed tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' => '',
+        'Customer item (icon) which shows the open tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' => '',
         'Customers <-> Groups' => 'Корисици <-> Групе',
         'Customers <-> Services' => 'Корисници <-> Сервиси',
         'DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.' => '',
@@ -2594,7 +2603,7 @@ sub Data {
         'Defines the maximal valid time (in seconds) for a session id.' => 'Одређује максимално време важења (у секундама) за ИД сесије.',
         'Defines the maximum number of pages per PDF file.' => 'Одређује максимални број страна по "PDF" датотеци.',
         'Defines the maximum size (in MB) of the log file.' => 'Одређује максималну величину датотеке дневника (у мегабајтима).',
-        'Defines the module that shows a generic notify in the agent interface.' => '',
+        'Defines the module that shows a generic notification in the agent interface. Either "Text" - if configured - or the contents of "File" will be displayed.' => '',
         'Defines the module that shows all the currently loged in customers in the agent interface.' => '',
         'Defines the module that shows all the currently logged in agents in the agent interface.' => '',
         'Defines the module that shows the currently loged in agents in the customer interface.' => '',
@@ -3422,6 +3431,7 @@ sub Data {
         'Customer history' => 'Историјат корисника',
         'Customer history search' => 'Претраживање историјата за корисника',
         'Customer history search (e. g. "ID342425").' => 'Претрага историјата корисника (нпр. "ID342425").',
+        'Customer item (icon) which shows the open tickets of this customer as info block.' => 'Корисничка ставка (икона) која показује отворене тикете овог корисника као инфо блок.',
         'CustomerID{CustomerUser}' => 'ИД корисника.',
         'CustomerUser' => 'Корисник',
         'D' => 'D',

@@ -2,7 +2,7 @@
 # Kernel/Language/es_MX.pm - provides Spanish language translation for Mexico
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: es_MX.pm,v 1.51 2011-12-02 07:30:50 mg Exp $
+# $Id: es_MX.pm,v 1.52 2011-12-15 11:08:51 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.51 $) [1];
+$VERSION = qw($Revision: 1.52 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2011-12-02 08:27:02
+    # Last translation file sync: 2011-12-15 12:06:46
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -381,6 +381,12 @@ sub Data {
         'First Christmas Day' => 'Navidad',
         'Second Christmas Day' => 'Segundo día de navidad',
         'New Year\'s Eve' => 'Víspera de año nuevo',
+
+        # Template: AAAGenericInterface
+        'OTRS as requester' => '',
+        'OTRS as provider' => '',
+        'Webservice "%s" created!' => '',
+        'Webservice "%s" updated!' => '',
 
         # Template: AAAMonth
         'Jan' => 'Ene',
@@ -923,7 +929,7 @@ sub Data {
         'Remove value' => '',
         'Add value' => '',
         'Add Value' => '',
-        'Allow empty value' => '',
+        'Add empty value' => '',
         'Activate this option to create an empty selectable value.' => '',
         'Translatable values' => '',
         'If you activate this option the values will be translated to the user defined language.' => '',
@@ -1039,7 +1045,6 @@ sub Data {
         'Edit job' => 'Modificar tarea',
         'Run job' => 'Ejecutar tarea',
         'Affected Tickets' => 'Tickets Afectados',
-        '","30' => '',
 
         # Template: AdminGenericInterfaceDebugger
         'GenericInterface Debugger for Web Service %s' => '',
@@ -1075,7 +1080,7 @@ sub Data {
         'Please provide a unique name for this web service invoker.' => '',
         'The name you entered already exists.' => '',
         'Invoker backend' => '',
-        'This OTRS invoker backend module will be called to prepare the data to be sent to the remote system, and to process it\'s response data.' => '',
+        'This OTRS invoker backend module will be called to prepare the data to be sent to the remote system, and to process its response data.' => '',
         'Mapping for outgoing request data' => '',
         'Configure' => '',
         'The data from the invoker of OTRS will be processed by this mapping, to transform it to the kind of data the remote system expects.' => '',
@@ -1190,7 +1195,7 @@ sub Data {
         'In provider mode, OTRS offers web services which are used by remote systems.' => '',
         'In requester mode, OTRS uses web services of remote systems.' => '',
         'Operations are individual system functions which remote systems can request.' => '',
-        'Invokers prepare data for a request on a remote web service, and process it\'s response data.' => '',
+        'Invokers prepare data for a request to a remote web service, and process its response data.' => '',
         'Controller' => '',
         'Inbound mapping' => '',
         'Outbound mapping' => '',
@@ -1654,6 +1659,8 @@ sub Data {
 
         # Template: AgentCustomerSearch
         'Search Customer' => 'Búsqueda de cliente',
+        'Duplicated entry' => '',
+        'This address already exists on the address list.' => '',
 
         # Template: AgentCustomerTableView
 
@@ -1889,7 +1896,6 @@ sub Data {
         'First Response Time' => 'Tiempo para Primera Respuesta',
         'Service Time' => 'Tiempo de Servicio',
         'Update Time' => 'Tiempo para Actualización',
-        '","26' => '',
         'Solution Time' => 'Tiempo para Solución',
         'Move ticket to a different queue' => 'Mover ticket a una fila diferente',
         'Change queue' => 'Modificar fila',
@@ -1899,10 +1905,12 @@ sub Data {
         'Tickets per page' => '',
 
         # Template: AgentTicketOverviewPreview
+        '","26' => '',
 
         # Template: AgentTicketOverviewSmall
         'Escalation in' => 'Escalado en',
         'Locked' => 'Bloqueado',
+        '","30' => '',
 
         # Template: AgentTicketOwner
 
@@ -2039,7 +2047,6 @@ sub Data {
         'Service level agreement' => 'Acuerdo de nivel de servicio',
 
         # Template: CustomerTicketOverview
-        '","18' => '',
         'Welcome!' => '',
         'Please click the button below to create your first ticket.' => '',
         'Create your first ticket' => '',
@@ -2074,6 +2081,7 @@ sub Data {
         'of' => 'de',
         'Page' => 'Página',
         'Search Results for' => 'Buscar Resultados para',
+        '","18' => '',
 
         # Template: CustomerTicketZoom
         'Expand article' => '',
@@ -2385,7 +2393,8 @@ sub Data {
         'Create new email ticket and send this out (outbound)' => 'Crear un ticket de correo electrónico nuevo y mandarlo (saliente)',
         'Create new phone ticket (inbound)' => 'Crear un ticket telefónico nuevo (entrante)',
         'Custom text for the page shown to customers that have no tickets yet.' => '',
-        'Customer item (icon) which shows the open tickets of this customer as info block.' => 'Artículo del cliente (ícono) que muestra los tickets abiertos de dicho cliente como bloque de información.',
+        'Customer item (icon) which shows the closed tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' => '',
+        'Customer item (icon) which shows the open tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' => '',
         'Customers <-> Groups' => 'Clientes <-> Grupos',
         'Customers <-> Services' => 'Clientes <-> Servicios',
         'DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.' => '',
@@ -2594,7 +2603,7 @@ sub Data {
         'Defines the maximal valid time (in seconds) for a session id.' => 'Define el tiempo máximo (en segundos) válido para un id de sesión.',
         'Defines the maximum number of pages per PDF file.' => 'Define el número máximo de páginas por archivo PDF.',
         'Defines the maximum size (in MB) of the log file.' => 'Define el tamaño máximo (en MG) del archivo log.',
-        'Defines the module that shows a generic notify in the agent interface.' => '',
+        'Defines the module that shows a generic notification in the agent interface. Either "Text" - if configured - or the contents of "File" will be displayed.' => '',
         'Defines the module that shows all the currently loged in customers in the agent interface.' => 'Define el módulo que muestra, en la interfaz del agente, una lista de todos los clientes con sesión activa.',
         'Defines the module that shows all the currently logged in agents in the agent interface.' => 'Define el módulo que muestra, en la interfaz del agente, una lista de todos los agentes con sesión activa.',
         'Defines the module that shows the currently loged in agents in the customer interface.' => 'Define el módulo que muestra, en la interfaz del cliente, una lista de todos los agentes con sesión activa.',
@@ -3428,6 +3437,7 @@ sub Data {
         'Customer history' => 'Historia del cliente',
         'Customer history search' => 'Historia de búsquedas del cliente',
         'Customer history search (e. g. "ID342425").' => 'Historia de búsquedas del cliente (ej: "ID342425")',
+        'Customer item (icon) which shows the open tickets of this customer as info block.' => 'Artículo del cliente (ícono) que muestra los tickets abiertos de dicho cliente como bloque de información.',
         'Customer user will be needed to have a customer history and to login via customer panel.' => 'El cliente se necesita para tener un historial e iniciar sesión a través del panel de clientes.',
         'CustomerID{CustomerUser}' => 'Identificador del cliente',
         'CustomerUser' => 'Cliente',
