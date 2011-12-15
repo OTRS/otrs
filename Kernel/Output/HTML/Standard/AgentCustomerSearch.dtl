@@ -2,7 +2,7 @@
 # AgentCustomerSearch.dtl - provides autocomplete feature for customer search
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentCustomerSearch.dtl,v 1.32 2011-12-13 20:19:46 cg Exp $
+# $Id: AgentCustomerSearch.dtl,v 1.33 2011-12-15 10:07:25 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,8 +18,8 @@
     Core.Config.Set('Autocomplete.DynamicWidth', "$Config{"Ticket::Frontend::CustomerSearchAutoComplete::DynamicWidth"}");
     Core.Config.Set('Autocomplete.ShowCustomerTickets', "$Config{"Ticket::Frontend::ShowCustomerTickets"}");
     Core.Config.Set('Autocomplete.SearchButtonText', "$JSText{"Search Customer"}");
-    Core.Config.Set('Duplicated.TitleText', "$JSText{"Duplicated entry."}");
-    Core.Config.Set('Duplicated.ContentText', "$JSText{"The address you want to add, already exists on one of the addresses list."}");
+    Core.Config.Set('Duplicated.TitleText', "$JSText{"Duplicated entry"}");
+    Core.Config.Set('Duplicated.ContentText', "$JSText{"This address already exists on the address list."}");
     Core.Agent.CustomerSearch.Init($("#CustomerAutoComplete, .CustomerAutoComplete"), $QData{"ActiveAutoComplete"});
 //]]></script>
 <!-- dtl:js_on_document_complete -->
