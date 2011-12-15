@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Antti Kämäräinen <antti at seu.net>
 # Copyright (C) 2007-2008 Mikko Hynninen <first.last at tietokartano.fi>
 # --
-# $Id: fi.pm,v 1.126 2011-12-15 11:23:55 mg Exp $
+# $Id: fi.pm,v 1.127 2011-12-15 15:42:29 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,13 +16,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.126 $) [1];
+$VERSION = qw($Revision: 1.127 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2011-12-15 12:18:44
+    # Last translation file sync: 2011-12-15 16:38:40
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -56,7 +56,7 @@ sub Data {
         'before' => 'edellinen',
         'Today' => 'Tänään',
         'Tomorrow' => 'Huomenna',
-        'Next Week' => 'Seuraavalla viikolla',
+        'Next week' => '',
         'day' => 'päivä',
         'days' => 'päivää',
         'day(s)' => 'päivä(ä)',
@@ -600,7 +600,7 @@ sub Data {
         'Watched Tickets New' => '',
         'Watched Tickets Reminder Reached' => '',
         'All tickets' => 'Tikettejä yhteensä',
-        'Tickets available' => 'Tikettejä avoinna',
+        'Available tickets' => '',
         'Escalation' => 'Käsittely',
         'last-search' => '',
         'QueueView' => 'Jonotuslistanäkymä',
@@ -612,8 +612,10 @@ sub Data {
         'new' => 'uusi',
         'open' => 'avoin',
         'Open' => '',
+        'Open tickets' => '',
         'closed' => 'suljettu',
         'Closed' => '',
+        'Closed tickets' => '',
         'removed' => 'poistettu',
         'pending reminder' => 'Muistutus',
         'pending auto' => 'odottava autom.',
@@ -1083,7 +1085,7 @@ sub Data {
         'New customer ID' => '',
         'New title' => '',
         'New type' => '',
-        'New Dynamic Fields' => '',
+        'New Dynamic Field Values' => '',
         'Archive selected tickets' => '',
         'Add Note' => 'Lisää huomautus',
         'Time units' => 'Työaika',
@@ -1815,6 +1817,10 @@ sub Data {
         'Posted %s ago.' => '',
 
         # Template: AgentDashboardTicketGeneric
+        'My locked tickets' => '',
+        'My watched tickets' => '',
+        'My responsibilites' => '',
+        'Tickets in My Queues' => '',
 
         # Template: AgentDashboardTicketStats
 
@@ -4389,6 +4395,7 @@ sub Data {
         'New account created. Sent Login-Account to %s.' => 'Uusi tunnus lisätty. LÄhetä kirjautumistunnus osoitteeseen %s.',
         'New messages' => 'Uusia viestejä',
         'New password again' => 'Salasana uudestaan',
+        'Next Week' => 'Seuraavalla viikolla',
         'No * possible!' => 'Jokerimerkki (*) ei käytössä !',
         'No Packages or no new Packages in selected Online Repository!' =>
             'Ei asennettavia paketteja valittuna online ohjelmistojakelusta!',
@@ -4543,6 +4550,7 @@ sub Data {
         'TicketFreeFields' => 'Tiketin vapaakentät',
         'TicketFreeText' => 'Vapaakenttä',
         'TicketID' => 'TikettiID',
+        'Tickets available' => 'Tikettejä avoinna',
         'Tickets shown' => 'Näkyvissä tiketit',
         'Timeover' => 'Vanhentuu',
         'Times' => 'Ajat',

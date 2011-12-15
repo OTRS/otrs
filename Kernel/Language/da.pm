@@ -4,7 +4,7 @@
 # Copyright (C) 2007-2008 Mads N. Vestergaard <mnv[at]timmy.dk>
 # Copyright (C) 2010 Lars Jørgensen <lajo[at]kb.dk>
 # --
-# $Id: da.pm,v 1.97 2011-12-15 11:23:54 mg Exp $
+# $Id: da.pm,v 1.98 2011-12-15 15:42:28 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,13 +17,13 @@ use warnings;
 
 use vars qw($VERSION);
 
-$VERSION = qw($Revision: 1.97 $) [1];
+$VERSION = qw($Revision: 1.98 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2011-12-15 12:18:37
+    # Last translation file sync: 2011-12-15 16:38:33
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -57,7 +57,7 @@ sub Data {
         'before' => 'før',
         'Today' => 'I dag',
         'Tomorrow' => 'I morgen',
-        'Next Week' => 'Næste uge',
+        'Next week' => '',
         'day' => 'dag',
         'days' => 'dage',
         'day(s)' => 'dag(e)',
@@ -601,7 +601,7 @@ sub Data {
         'Watched Tickets New' => 'Nye fulgte sager',
         'Watched Tickets Reminder Reached' => 'Fulgte sager, hvor påmindelsesfristen er nået',
         'All tickets' => 'Alle sager',
-        'Tickets available' => 'Frie sager',
+        'Available tickets' => '',
         'Escalation' => 'Eskalation',
         'last-search' => 'sidste søgning',
         'QueueView' => 'Køer',
@@ -613,8 +613,10 @@ sub Data {
         'new' => 'ny',
         'open' => 'åben',
         'Open' => 'Åben',
+        'Open tickets' => '',
         'closed' => 'lukket',
         'Closed' => 'Lukket',
+        'Closed tickets' => '',
         'removed' => 'fjernet',
         'pending reminder' => 'afventer påmindelse',
         'pending auto' => 'afventer auto',
@@ -1084,7 +1086,7 @@ sub Data {
         'New customer ID' => 'Nyt kunde-ID',
         'New title' => 'Ny titel',
         'New type' => 'Ny type',
-        'New Dynamic Fields' => '',
+        'New Dynamic Field Values' => '',
         'Archive selected tickets' => 'Arkiver valgte sager',
         'Add Note' => 'Tilføj Bemærkning',
         'Time units' => 'Tidsenheder',
@@ -1816,6 +1818,10 @@ sub Data {
         'Posted %s ago.' => 'Offentliggjort %s siden.',
 
         # Template: AgentDashboardTicketGeneric
+        'My locked tickets' => '',
+        'My watched tickets' => '',
+        'My responsibilites' => '',
+        'Tickets in My Queues' => '',
 
         # Template: AgentDashboardTicketStats
 
@@ -4194,6 +4200,7 @@ sub Data {
         'Max. shown Tickets a page' => 'Max. viste sager på en side',
         'Multiplier' => 'Multiplikationsfaktor',
         'New TicketFreeFields' => 'Nye SagsFriFelter',
+        'Next Week' => 'Næste uge',
         'No, I\'m not yet an ((otrs)) \'Enterprise Subscription\' or \'Enterprise Support\' customer. Please review my support package without any commitment and send me information only and without responsibility, about the different ((otrs)) Enterprise packages' =>
             'Nej, jeg er endnu ikke en ((otrs)) \'Enterprise Subscription\'- eller \'Enterprise Support\'-kunde. Vurder venligst min support-pakke uden prioritet, og send mig information om de forskellige ((otrs)) Enterprise-pakker',
         'Ok' => 'Ok',
@@ -4220,6 +4227,7 @@ sub Data {
         'This should not be done on production systems!' => 'Bør ikke køres på produktionssystemer!',
         'Ticket moved into Queue %s from Queue %s' => 'Sag flyttet til kø %s fra kø %s',
         'TicketFreeFields' => 'SagsFriFelter',
+        'Tickets available' => 'Frie sager',
         'Time1' => 'Tid1',
         'Time2' => 'Tid2',
         'Time3' => 'Tid3',

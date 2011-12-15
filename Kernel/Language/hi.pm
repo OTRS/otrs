@@ -4,7 +4,7 @@
 # Copyright (C) 2011 Chetan Nagaonkar <Chetan_Nagaonkar at OptForOPS.com>
 # Copyright (C) 2011 Chetan Nagaonkar <ChetanNagaonkar at yahoo.com>
 # --
-# $Id: hi.pm,v 1.15 2011-12-15 11:23:54 mg Exp $
+# $Id: hi.pm,v 1.16 2011-12-15 15:42:27 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,13 +17,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2011-12-15 12:18:46
+    # Last translation file sync: 2011-12-15 16:38:43
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -57,7 +57,7 @@ sub Data {
         'before' => 'से पहले',
         'Today' => 'आज',
         'Tomorrow' => 'कल',
-        'Next Week' => 'अगले हफ्ते',
+        'Next week' => '',
         'day' => 'दिन',
         'days' => 'दिनों',
         'day(s)' => 'दिनों',
@@ -601,7 +601,7 @@ sub Data {
         'Watched Tickets New' => 'नए ध्यानाधीन टिकट',
         'Watched Tickets Reminder Reached' => 'ध्यानाधीन टिकट अनुस्मारक आ गया',
         'All tickets' => 'सभी टिकट',
-        'Tickets available' => 'उपलब्ध टिकटें',
+        'Available tickets' => '',
         'Escalation' => 'संवर्धित',
         'last-search' => 'पिछली खोज',
         'QueueView' => 'श्रेणी दृश्य',
@@ -613,8 +613,10 @@ sub Data {
         'new' => 'नया',
         'open' => 'खुला',
         'Open' => 'खुला',
+        'Open tickets' => '',
         'closed' => 'बंद',
         'Closed' => 'बंद',
+        'Closed tickets' => '',
         'removed' => 'हटा दिया',
         'pending reminder' => 'विचाराधीन चेतावनी',
         'pending auto' => 'विचाराधीन स्वत',
@@ -1084,7 +1086,7 @@ sub Data {
         'New customer ID' => 'नया ग्राहक ID',
         'New title' => 'नया शीर्षक',
         'New type' => 'नए प्रकार',
-        'New Dynamic Fields' => '',
+        'New Dynamic Field Values' => '',
         'Archive selected tickets' => 'संग्रह टिकट चयनित',
         'Add Note' => 'टिप्पणी जोड़ें',
         'Time units' => 'समय इकाइयों',
@@ -1816,6 +1818,10 @@ sub Data {
         'Posted %s ago.' => '%s पहले प्रस्तुत।',
 
         # Template: AgentDashboardTicketGeneric
+        'My locked tickets' => '',
+        'My watched tickets' => '',
+        'My responsibilites' => '',
+        'Tickets in My Queues' => '',
 
         # Template: AgentDashboardTicketStats
 
@@ -4526,6 +4532,7 @@ sub Data {
         'Module to inform agents, via the agent interface, about the used charset. A notification is displayed, if the default charset is not used, e.g. in tickets.' =>
             'प्रतिनिधि को सूचित करने के लिए मॉड्यूल,प्रतिनिधि अंतरफलक के द्वारा,प्रयुक्त वर्णसमूह के बारे में। एक अधिसूचना प्रदर्शित होता है,यदि मूलभूत वर्णसमूह का प्रयोग नहीं किया है,उदा. टिकट में।',
         'New TicketFreeFields' => 'नई टिकट स्वतंत्र क्षेत्र',
+        'Next Week' => 'अगले हफ्ते',
         'Package not correctly deployed! You should reinstall the Package again!' =>
             'पैकेज सही तरीके से तैयार नहीं है। पुनः स्थापित करें।',
         'Package not correctly deployed! You should reinstall the package again!' =>
@@ -4612,6 +4619,7 @@ sub Data {
         'Ticket free time options shown in the ticket search screen in the customer interface. Possible settings: 0 = Disabled and 1 = Enabled.' =>
             'प्रतिनिधि अंतरफलक के टिकट खोजें स्क्रीन में दिखाए गए टिकट मुक्त समय विकल्प। संभावित व्यवस्थाऐं:0=निष्क्रिय,1=सक्रिय,2=सक्रिय और आवश्यक।',
         'TicketFreeFields' => 'टिकट स्वतंत्र क्षेत्र',
+        'Tickets available' => 'उपलब्ध टिकटें',
         'Unlock to give it back to the queue!' => 'श्रेणी में वापस देने के लिए इसे अनलॉक करें।',
         'Wildcards are allowed.' => 'वाइल्डकार्ड की अनुमति है।',
 

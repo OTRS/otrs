@@ -6,7 +6,7 @@
 # Copyright (C) 2007-2010 Fabricio Luiz Machado <soprobr gmail.com>
 # Copyright (C) 2010-2011 Murilo Moreira de Oliveira <murilo.moreira gmail.com>
 # --
-# $Id: pt_BR.pm,v 1.123 2011-12-15 11:23:57 mg Exp $
+# $Id: pt_BR.pm,v 1.124 2011-12-15 15:42:31 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,13 +18,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.123 $) [1];
+$VERSION = qw($Revision: 1.124 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2011-12-15 12:19:00
+    # Last translation file sync: 2011-12-15 16:38:55
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -58,7 +58,7 @@ sub Data {
         'before' => 'antes',
         'Today' => 'Hoje',
         'Tomorrow' => 'Amanhã',
-        'Next Week' => 'Próxima Semana',
+        'Next week' => '',
         'day' => 'dia',
         'days' => 'dias',
         'day(s)' => 'dia(s)',
@@ -602,7 +602,7 @@ sub Data {
         'Watched Tickets New' => 'Novos Chamados Monitorados',
         'Watched Tickets Reminder Reached' => 'Lembrete de Chamados Monitorados Atingido',
         'All tickets' => 'Todos os chamados',
-        'Tickets available' => 'Chamados disponíveis',
+        'Available tickets' => '',
         'Escalation' => 'Escalação',
         'last-search' => 'última-pesquisa',
         'QueueView' => 'Fila',
@@ -614,8 +614,10 @@ sub Data {
         'new' => 'novo',
         'open' => 'aberto',
         'Open' => 'Aberto',
+        'Open tickets' => '',
         'closed' => 'fechado',
         'Closed' => 'Fechado',
+        'Closed tickets' => '',
         'removed' => 'removido',
         'pending reminder' => 'lembrete de pendente',
         'pending auto' => 'pendente automático',
@@ -1085,7 +1087,7 @@ sub Data {
         'New customer ID' => 'Novo ID de cliente',
         'New title' => 'Novo Título',
         'New type' => 'Novo Tipo',
-        'New Dynamic Fields' => '',
+        'New Dynamic Field Values' => '',
         'Archive selected tickets' => 'Arquivar chamados selecionados',
         'Add Note' => 'Adicionar Nota',
         'Time units' => 'Unidades de tempo',
@@ -1817,6 +1819,10 @@ sub Data {
         'Posted %s ago.' => 'Postado há %s atrás.',
 
         # Template: AgentDashboardTicketGeneric
+        'My locked tickets' => '',
+        'My watched tickets' => '',
+        'My responsibilites' => '',
+        'Tickets in My Queues' => '',
 
         # Template: AgentDashboardTicketStats
 
@@ -4549,6 +4555,7 @@ sub Data {
         'New account created. Sent Login-Account to %s.' => 'Nova conta criada. Enviado Login para %s.',
         'New messages' => 'Mensagens novas',
         'New password again' => 'Repita sua nova senha',
+        'Next Week' => 'Próxima Semana',
         'No * possible!' => 'Não são possíveis *!',
         'No Permission' => 'Sem Permissão',
         'No matches found' => 'Keine Treffer gefunden',
@@ -4757,6 +4764,7 @@ sub Data {
         'TicketFreeFields' => 'Campos livres do chamado',
         'TicketFreeText' => 'Texto livre Chamado',
         'TicketZoom' => 'Detalhe do chamado',
+        'Tickets available' => 'Chamados disponíveis',
         'Tickets shown' => 'Chamados mostrados',
         'Tickets which need to be answered!' => 'Chamados que precisam ser respondidos!',
         'Time units is a required field!' => 'Zeiteinheiten ist eine erforderliche Eingabe.',

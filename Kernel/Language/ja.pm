@@ -4,7 +4,7 @@
 # Copyright (C) 2010-2011 Kaz Kamimura <kamypus at yahoo.co.jp>
 # Copyright (C) 2011/12/08 Kaoru Hayama TIS Inc.
 # --
-# $Id: ja.pm,v 1.24 2011-12-15 11:23:56 mg Exp $
+# $Id: ja.pm,v 1.25 2011-12-15 15:42:30 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,13 +16,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.24 $) [1];
+$VERSION = qw($Revision: 1.25 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2011-12-15 12:18:51
+    # Last translation file sync: 2011-12-15 16:38:47
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -56,7 +56,7 @@ sub Data {
         'before' => '以前',
         'Today' => '今日',
         'Tomorrow' => '明日',
-        'Next Week' => '次週',
+        'Next week' => '',
         'day' => '日',
         'days' => '日',
         'day(s)' => '日',
@@ -600,7 +600,7 @@ sub Data {
         'Watched Tickets New' => '監視チケット新規',
         'Watched Tickets Reminder Reached' => '監視チケット時間切れ',
         'All tickets' => '全てのチケット',
-        'Tickets available' => 'チケット利用可能',
+        'Available tickets' => '',
         'Escalation' => 'エスカレーション',
         'last-search' => '',
         'QueueView' => 'キュー一覧',
@@ -612,8 +612,10 @@ sub Data {
         'new' => '新規',
         'open' => '対応中',
         'Open' => '対応中',
+        'Open tickets' => '',
         'closed' => '完了',
         'Closed' => '完了',
+        'Closed tickets' => '',
         'removed' => '削除',
         'pending reminder' => '保留 (期限付)',
         'pending auto' => '保留 (自動)',
@@ -1083,7 +1085,7 @@ sub Data {
         'New customer ID' => '新規顧客ID',
         'New title' => '新規タイトル',
         'New type' => '新規タイプ',
-        'New Dynamic Fields' => '',
+        'New Dynamic Field Values' => '',
         'Archive selected tickets' => '書庫の選択済みチケット',
         'Add Note' => '新規注釈',
         'Time units' => '時間単位',
@@ -1815,6 +1817,10 @@ sub Data {
         'Posted %s ago.' => '%s の前の投稿',
 
         # Template: AgentDashboardTicketGeneric
+        'My locked tickets' => '',
+        'My watched tickets' => '',
+        'My responsibilites' => '',
+        'Tickets in My Queues' => '',
 
         # Template: AgentDashboardTicketStats
 
@@ -5004,6 +5010,7 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         'New messages' => '新着メッセージ',
         'New password again' => '新規確認パスワード',
         'New time' => '新規の日時',
+        'Next Week' => '次週',
         'No * possible!' => '"*" は使えません',
         'No FAQ Journal data found.' => 'FAQ ジャーナルは未登録です。',
         'No FAQ data found. ' => 'FAQデータがない。',
@@ -5394,6 +5401,7 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         'TicketFreeFields' => 'チケット自由領域',
         'TicketFreeText' => 'チケット自由入力',
         'TicketZoom' => 'チケット拡大',
+        'Tickets available' => 'チケット利用可能',
         'Tickets shown' => 'チケットを見る',
         'Tickets which need to be answered!' => 'チケットは回答する必要があります！',
         'Time type' => '設定日時のタイプ',

@@ -2,7 +2,7 @@
 # Kernel/Language/sk_SK.pm - provides Slovak language translation
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: sk_SK.pm,v 1.87 2011-12-15 11:23:56 mg Exp $
+# $Id: sk_SK.pm,v 1.88 2011-12-15 15:42:30 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.87 $) [1];
+$VERSION = qw($Revision: 1.88 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2011-12-15 12:19:03
+    # Last translation file sync: 2011-12-15 16:38:57
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -55,7 +55,7 @@ sub Data {
         'before' => 'pred',
         'Today' => '',
         'Tomorrow' => '',
-        'Next Week' => '',
+        'Next week' => '',
         'day' => 'deň',
         'days' => 'dni',
         'day(s)' => 'deň/dni',
@@ -599,7 +599,7 @@ sub Data {
         'Watched Tickets New' => '',
         'Watched Tickets Reminder Reached' => '',
         'All tickets' => '',
-        'Tickets available' => '',
+        'Available tickets' => '',
         'Escalation' => '',
         'last-search' => '',
         'QueueView' => '',
@@ -611,8 +611,10 @@ sub Data {
         'new' => 'nový',
         'open' => 'otvoriť',
         'Open' => '',
+        'Open tickets' => '',
         'closed' => 'zatvorený',
         'Closed' => '',
+        'Closed tickets' => '',
         'removed' => 'odstránený',
         'pending reminder' => 'nevybavená pripomienka',
         'pending auto' => '',
@@ -1082,7 +1084,7 @@ sub Data {
         'New customer ID' => '',
         'New title' => '',
         'New type' => '',
-        'New Dynamic Fields' => '',
+        'New Dynamic Field Values' => '',
         'Archive selected tickets' => '',
         'Add Note' => '',
         'Time units' => '',
@@ -1814,6 +1816,10 @@ sub Data {
         'Posted %s ago.' => '',
 
         # Template: AgentDashboardTicketGeneric
+        'My locked tickets' => '',
+        'My watched tickets' => '',
+        'My responsibilites' => '',
+        'Tickets in My Queues' => '',
 
         # Template: AgentDashboardTicketStats
 

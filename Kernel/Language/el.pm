@@ -3,7 +3,7 @@
 # Copyright (C) 2006 Stelios Maistros <smaistros aegean.gr>
 # Copyright (C) 2006 George Thomas <gthomas aegean.gr>
 # --
-# $Id: el.pm,v 1.88 2011-12-15 11:23:55 mg Exp $
+# $Id: el.pm,v 1.89 2011-12-15 15:42:29 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,13 +16,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.88 $) [1];
+$VERSION = qw($Revision: 1.89 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2011-12-15 12:18:39
+    # Last translation file sync: 2011-12-15 16:38:35
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -56,7 +56,7 @@ sub Data {
         'before' => 'πρίν',
         'Today' => '',
         'Tomorrow' => '',
-        'Next Week' => '',
+        'Next week' => '',
         'day' => 'ημέρα',
         'days' => 'ημέρες',
         'day(s)' => 'ημέρα(ες)',
@@ -601,7 +601,7 @@ sub Data {
         'Watched Tickets New' => '',
         'Watched Tickets Reminder Reached' => '',
         'All tickets' => 'Συνολικά Δελτία',
-        'Tickets available' => 'Διαθέσιμα Δελτία',
+        'Available tickets' => '',
         'Escalation' => '',
         'last-search' => '',
         'QueueView' => 'Ουρές',
@@ -613,8 +613,10 @@ sub Data {
         'new' => 'Νέο',
         'open' => 'Ανοικτό',
         'Open' => '',
+        'Open tickets' => '',
         'closed' => 'Κλειστό',
         'Closed' => '',
+        'Closed tickets' => '',
         'removed' => 'Αποσύρθηκε',
         'pending reminder' => 'Υπενθύμιση Εκρεμότητας',
         'pending auto' => '',
@@ -1086,7 +1088,7 @@ sub Data {
         'New customer ID' => '',
         'New title' => '',
         'New type' => '',
-        'New Dynamic Fields' => '',
+        'New Dynamic Field Values' => '',
         'Archive selected tickets' => '',
         'Add Note' => 'Προσθήκη Σημείωσης',
         'Time units' => 'Μονάδες Χρόνου',
@@ -1823,6 +1825,10 @@ sub Data {
         'Posted %s ago.' => '',
 
         # Template: AgentDashboardTicketGeneric
+        'My locked tickets' => '',
+        'My watched tickets' => '',
+        'My responsibilites' => '',
+        'Tickets in My Queues' => '',
 
         # Template: AgentDashboardTicketStats
 
@@ -4485,6 +4491,7 @@ anyway.' =>
         'TicketFreeText' => 'Πεδία Ελεύθερου Κειμένου',
         'TicketID' => 'Αναγνωριστίκό (ID) Δελτίου',
         'TicketZoom' => 'Ανοιγμα Δελτίου',
+        'Tickets available' => 'Διαθέσιμα Δελτία',
         'Tickets shown' => 'Εμφανή Δελτία',
         'Times' => 'Φορές',
         'Top of Page' => 'Αρχή Σελίδας',

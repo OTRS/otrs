@@ -2,7 +2,7 @@
 # Kernel/Language/lv.pm - provides Latvian language translation
 # Copyright (C) 2009 Ivars Strazdins <ivars.strazdins at gmail.com>
 # --
-# $Id: lv.pm,v 1.37 2011-12-15 11:23:53 mg Exp $
+# $Id: lv.pm,v 1.38 2011-12-15 15:42:26 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,13 +14,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.37 $) [1];
+$VERSION = qw($Revision: 1.38 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2011-12-15 12:18:54
+    # Last translation file sync: 2011-12-15 16:38:50
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -54,7 +54,7 @@ sub Data {
         'before' => 'pirms',
         'Today' => 'Šodien',
         'Tomorrow' => 'Rīt',
-        'Next Week' => 'nākamā nedēļa',
+        'Next week' => '',
         'day' => 'diena',
         'days' => 'dienas',
         'day(s)' => 'diena(s)',
@@ -598,7 +598,7 @@ sub Data {
         'Watched Tickets New' => '',
         'Watched Tickets Reminder Reached' => '',
         'All tickets' => 'Visi pieteikumi',
-        'Tickets available' => 'Pieejamie pieteikumi',
+        'Available tickets' => '',
         'Escalation' => 'Eskalācija',
         'last-search' => '',
         'QueueView' => 'Rindas skats',
@@ -610,8 +610,10 @@ sub Data {
         'new' => 'jauna',
         'open' => 'atvērta',
         'Open' => 'Atvērta',
+        'Open tickets' => '',
         'closed' => 'aizvērta',
         'Closed' => 'Aizvērta',
+        'Closed tickets' => '',
         'removed' => 'aizvākta',
         'pending reminder' => 'neizlemts - gaida atgādinājumu',
         'pending auto' => 'gaida automātisku darbību',
@@ -1081,7 +1083,7 @@ sub Data {
         'New customer ID' => '',
         'New title' => '',
         'New type' => '',
-        'New Dynamic Fields' => '',
+        'New Dynamic Field Values' => '',
         'Archive selected tickets' => '',
         'Add Note' => 'Pievienot piezīmi',
         'Time units' => 'Laika vienības',
@@ -1813,6 +1815,10 @@ sub Data {
         'Posted %s ago.' => 'Ievietots %s atpakaļ.',
 
         # Template: AgentDashboardTicketGeneric
+        'My locked tickets' => '',
+        'My watched tickets' => '',
+        'My responsibilites' => '',
+        'Tickets in My Queues' => '',
 
         # Template: AgentDashboardTicketStats
 
@@ -4434,6 +4440,7 @@ sub Data {
         'New account created. Sent Login-Account to %s.' => 'Izveidots jauns lietotāja konts. Konta dati nosūtīti uz %s.',
         'New messages' => 'Jauni ziņojumi',
         'New password again' => 'Jaunā parole vēlreiz',
+        'Next Week' => 'nākamā nedēļa',
         'No * possible!' => '"*" nav iespējama!',
         'No Packages for requested Framework in this Online Repository, but Packages for other Frameworks!' =>
             'Pieprasītajai struktūrai (framework) nav pakotņu šajā tiešsaistes repozitorijā, bet ir pakotnes citām struktūrām.',
@@ -4599,6 +4606,7 @@ sub Data {
         'TicketFreeFields' => 'Pieteikuma neaizpildītie lauki',
         'TicketFreeText' => 'Pieteikuma brīvais teksts',
         'TicketZoom' => 'Atvērt pieteikumu',
+        'Tickets available' => 'Pieejamie pieteikumi',
         'Tickets shown' => 'Parādītie pieteikumi',
         'Tickets which need to be answered!' => 'Pieteikumi, uz kuriem nepieciešams atbildēt',
         'Timeover' => 'Laika periods',

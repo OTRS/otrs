@@ -2,7 +2,7 @@
 # Kernel/Language/es_MX.pm - provides Spanish language translation for Mexico
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: es_MX.pm,v 1.53 2011-12-15 11:23:56 mg Exp $
+# $Id: es_MX.pm,v 1.54 2011-12-15 15:42:31 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.53 $) [1];
+$VERSION = qw($Revision: 1.54 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2011-12-15 12:18:41
+    # Last translation file sync: 2011-12-15 16:38:37
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -55,7 +55,7 @@ sub Data {
         'before' => 'antes',
         'Today' => 'Hoy',
         'Tomorrow' => 'Mañana',
-        'Next Week' => 'Próxima semana',
+        'Next week' => '',
         'day' => 'día',
         'days' => 'días',
         'day(s)' => 'día(s)',
@@ -599,7 +599,7 @@ sub Data {
         'Watched Tickets New' => 'Ticket a Monitorear Nuevo',
         'Watched Tickets Reminder Reached' => 'Recordatorio Alcanzado de Tickets Monitoreados',
         'All tickets' => 'Todos los tickets',
-        'Tickets available' => 'Tickets disponibles',
+        'Available tickets' => '',
         'Escalation' => 'Escalado',
         'last-search' => '',
         'QueueView' => 'Ver la fila',
@@ -611,8 +611,10 @@ sub Data {
         'new' => 'nuevo',
         'open' => 'abierto',
         'Open' => 'Abierto',
+        'Open tickets' => '',
         'closed' => 'cerrado',
         'Closed' => 'Cerrado',
+        'Closed tickets' => '',
         'removed' => 'eliminado',
         'pending reminder' => 'recordatorio pendiente',
         'pending auto' => 'pendiente automático',
@@ -1082,7 +1084,7 @@ sub Data {
         'New customer ID' => 'ID de cliente nuevo',
         'New title' => 'Título nuevo',
         'New type' => 'Tipo nuevo',
-        'New Dynamic Fields' => '',
+        'New Dynamic Field Values' => '',
         'Archive selected tickets' => 'Tickets seleccionados del archivo',
         'Add Note' => 'Añadir Nota',
         'Time units' => 'Unidades de tiempo',
@@ -1814,6 +1816,10 @@ sub Data {
         'Posted %s ago.' => 'Enviado hace %s.',
 
         # Template: AgentDashboardTicketGeneric
+        'My locked tickets' => '',
+        'My watched tickets' => '',
+        'My responsibilites' => '',
+        'Tickets in My Queues' => '',
 
         # Template: AgentDashboardTicketStats
 
@@ -4801,6 +4807,7 @@ sub Data {
         'New account created. Sent Login-Account to %s.' => 'Cuenta nueva creada. Cuenta de inicio de sesión enviada a %s.',
         'New messages' => 'Nuevos mensajes',
         'New password again' => 'Repetir Contraseña',
+        'Next Week' => 'Próxima semana',
         'No * possible!' => 'No * posible!',
         'No Packages for requested Framework in this Online Repository, but Packages for other Frameworks!' =>
             'No hay paquetes para el Framework solicitado en este Repositorio en Línea, pero hay paquetes para otros Frameworks',
@@ -5062,6 +5069,7 @@ sub Data {
         'TicketFreeText' => 'TextoLibreTicket',
         'TicketID' => 'Identificador de Ticket',
         'TicketZoom' => 'Detalle del Ticket',
+        'Tickets available' => 'Tickets disponibles',
         'Tickets shown' => 'Tickets mostrados',
         'Tickets which need to be answered!' => 'Tickets que necesitan ser respondidos',
         'Time1' => 'Tiempo1',

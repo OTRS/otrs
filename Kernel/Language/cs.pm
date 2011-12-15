@@ -6,7 +6,7 @@
 # Copyright (C) 2010 O2BS.com, s r.o. Jakub Hanus
 # Copyright (C) 2010 Pavel <pavel.vilim at kodys.cz>
 # --
-# $Id: cs.pm,v 1.15 2011-12-15 11:23:57 mg Exp $
+# $Id: cs.pm,v 1.16 2011-12-15 15:42:31 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,13 +19,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2011-12-15 12:18:35
+    # Last translation file sync: 2011-12-15 16:38:31
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -59,7 +59,7 @@ sub Data {
         'before' => 'před',
         'Today' => '',
         'Tomorrow' => 'Zítra',
-        'Next Week' => 'Další Týden',
+        'Next week' => '',
         'day' => 'den',
         'days' => 'dní(dny)',
         'day(s)' => 'den(dní)',
@@ -603,7 +603,7 @@ sub Data {
         'Watched Tickets New' => '',
         'Watched Tickets Reminder Reached' => '',
         'All tickets' => 'Všechny tikety',
-        'Tickets available' => 'Tiketů k dispozici',
+        'Available tickets' => '',
         'Escalation' => 'Eskalace',
         'last-search' => '',
         'QueueView' => 'Náhled fronty',
@@ -615,8 +615,10 @@ sub Data {
         'new' => 'nová',
         'open' => 'otevřít',
         'Open' => 'Otevřít',
+        'Open tickets' => '',
         'closed' => 'uzavřeno',
         'Closed' => 'Uzavřeno',
+        'Closed tickets' => '',
         'removed' => 'odstraněno',
         'pending reminder' => 'upomínka při čekání na vyřízení',
         'pending auto' => 'auto čekání na vyřízení',
@@ -1086,7 +1088,7 @@ sub Data {
         'New customer ID' => '',
         'New title' => '',
         'New type' => '',
-        'New Dynamic Fields' => '',
+        'New Dynamic Field Values' => '',
         'Archive selected tickets' => '',
         'Add Note' => 'Přidat poznámku',
         'Time units' => 'Jednotky času',
@@ -1818,6 +1820,10 @@ sub Data {
         'Posted %s ago.' => 'Odesláno před %s',
 
         # Template: AgentDashboardTicketGeneric
+        'My locked tickets' => '',
+        'My watched tickets' => '',
+        'My responsibilites' => '',
+        'Tickets in My Queues' => '',
 
         # Template: AgentDashboardTicketStats
 
@@ -4410,6 +4416,7 @@ sub Data {
         'New account created. Sent Login-Account to %s.' => 'Nový účet vytvořen. Přihlašovací údaje odeslány na %s.',
         'New messages' => 'Nové zprávy',
         'New password again' => 'Potvrdit Nové Heslo',
+        'Next Week' => 'Další Týden',
         'No * possible!' => 'Žádná * možná!',
         'No Packages for requested Framework in this Online Repository, but Packages for other Frameworks!' =>
             'Žádné balíčky pro požadovaný rámec v tomto online úložišti, než pro jiné rámce!',
@@ -4562,6 +4569,7 @@ sub Data {
         'TicketFreeText' => 'Volný text tiketu',
         'TicketID' => 'ID tiketu',
         'TicketZoom' => 'Zobrazení tiketu',
+        'Tickets available' => 'Tiketů k dispozici',
         'Tickets shown' => 'Zobrazené tikety',
         'Tickets which need to be answered!' => 'Tikety na které je třeba odpovědět!',
         'Times' => 'Doba',

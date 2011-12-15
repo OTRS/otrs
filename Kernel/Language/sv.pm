@@ -3,7 +3,7 @@
 # Copyright (C) 2004 Mats Eric Olausson <mats at synergy.se>
 # Copyright (C) 2009 Mikael Mattsson" <Mikael.Mattsson at konsumvarmland.se>
 # --
-# $Id: sv.pm,v 1.104 2011-12-15 11:23:55 mg Exp $
+# $Id: sv.pm,v 1.105 2011-12-15 15:42:28 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,13 +16,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.104 $) [1];
+$VERSION = qw($Revision: 1.105 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2011-12-15 12:19:06
+    # Last translation file sync: 2011-12-15 16:39:00
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -56,7 +56,7 @@ sub Data {
         'before' => 'före',
         'Today' => 'Idag',
         'Tomorrow' => 'Imorgon',
-        'Next Week' => 'Nästa Vecka',
+        'Next week' => '',
         'day' => 'dag',
         'days' => 'dagar',
         'day(s)' => 'dag(ar)',
@@ -600,7 +600,7 @@ sub Data {
         'Watched Tickets New' => '',
         'Watched Tickets Reminder Reached' => '',
         'All tickets' => 'Alla ärenden',
-        'Tickets available' => 'Tillgängliga ärenden',
+        'Available tickets' => '',
         'Escalation' => 'Eskalering',
         'last-search' => '',
         'QueueView' => 'Köer',
@@ -612,8 +612,10 @@ sub Data {
         'new' => 'ny',
         'open' => 'öppen',
         'Open' => 'Öppen',
+        'Open tickets' => '',
         'closed' => 'stängt',
         'Closed' => 'Stängt',
+        'Closed tickets' => '',
         'removed' => 'borttagen',
         'pending reminder' => 'väntar på påminnelse',
         'pending auto' => 'väntar på auto',
@@ -1083,7 +1085,7 @@ sub Data {
         'New customer ID' => '',
         'New title' => '',
         'New type' => '',
-        'New Dynamic Fields' => '',
+        'New Dynamic Field Values' => '',
         'Archive selected tickets' => '',
         'Add Note' => 'Lägg till anteckning',
         'Time units' => 'Tidsenheter',
@@ -1815,6 +1817,10 @@ sub Data {
         'Posted %s ago.' => 'Postad för %s sedan.',
 
         # Template: AgentDashboardTicketGeneric
+        'My locked tickets' => '',
+        'My watched tickets' => '',
+        'My responsibilites' => '',
+        'Tickets in My Queues' => '',
 
         # Template: AgentDashboardTicketStats
 
@@ -4389,6 +4395,7 @@ sub Data {
         'New account created. Sent Login-Account to %s.' => 'Nytt konto skapat. Skickade inloggningsuppgifter till %s',
         'New messages' => 'Nya meddelanden',
         'New password again' => 'Nytt lösenord (igen)',
+        'Next Week' => 'Nästa Vecka',
         'No * possible!' => 'Wildcards * inte tillåtna!',
         'No Packages for requested Framework in this Online Repository, but Packages for other Frameworks!' =>
             'Inga Paket för valt Ramverk i det här Online-Repositoryt, men paket för andra Ramverk!',
@@ -4545,6 +4552,7 @@ sub Data {
         'TicketFreeFields' => 'ÄrendeFriaFält',
         'TicketFreeText' => 'ÄrendeFriText',
         'TicketZoom' => 'Ärende Zoom',
+        'Tickets available' => 'Tillgängliga ärenden',
         'Tickets shown' => 'Ärenden som visas',
         'Tickets which need to be answered!' => 'Ärenden som måste besvaras!',
         'TimeAccounting' => 'Tidsredovisning',

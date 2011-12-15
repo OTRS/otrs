@@ -8,7 +8,7 @@
 # Copyright (C) 2011 Lars Erik Utsi Gullerud <lerik at nolink.net>
 # Copyright (C) 2011 Espen Stefansen <espen.stefansen at imr.no>
 # --
-# $Id: nb_NO.pm,v 1.121 2011-12-15 11:23:54 mg Exp $
+# $Id: nb_NO.pm,v 1.122 2011-12-15 15:42:27 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,13 +21,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.121 $;
+$VERSION = q$Revision: 1.122 $;
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2011-12-15 12:18:55
+    # Last translation file sync: 2011-12-15 16:38:51
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -61,7 +61,7 @@ sub Data {
         'before' => 'før',
         'Today' => 'Idag',
         'Tomorrow' => 'I morgen',
-        'Next Week' => 'Neste Uke',
+        'Next week' => '',
         'day' => 'dag',
         'days' => 'dager',
         'day(s)' => 'dag(er)',
@@ -605,7 +605,7 @@ sub Data {
         'Watched Tickets New' => 'Nye overvåkede saker',
         'Watched Tickets Reminder Reached' => 'Overvåkede saker med påminnelser',
         'All tickets' => 'Alle saker',
-        'Tickets available' => 'Tilgjengelige saker',
+        'Available tickets' => '',
         'Escalation' => 'Eskalering',
         'last-search' => 'siste søk',
         'QueueView' => 'Køer',
@@ -617,8 +617,10 @@ sub Data {
         'new' => 'ny',
         'open' => 'åpen',
         'Open' => 'Åpen',
+        'Open tickets' => '',
         'closed' => 'avsluttet',
         'Closed' => 'Avsluttet',
+        'Closed tickets' => '',
         'removed' => 'fjernet',
         'pending reminder' => 'venter på påminnelse',
         'pending auto' => 'venter på automatisk endring',
@@ -1088,7 +1090,7 @@ sub Data {
         'New customer ID' => 'Ny Kunde-ID',
         'New title' => 'Nytt emne',
         'New type' => 'Ny type',
-        'New Dynamic Fields' => '',
+        'New Dynamic Field Values' => '',
         'Archive selected tickets' => 'Arkiver valgte saker',
         'Add Note' => 'Legg til notis',
         'Time units' => 'Tidsenheter',
@@ -1820,6 +1822,10 @@ sub Data {
         'Posted %s ago.' => 'Postet for %s siden',
 
         # Template: AgentDashboardTicketGeneric
+        'My locked tickets' => '',
+        'My watched tickets' => '',
+        'My responsibilites' => '',
+        'Tickets in My Queues' => '',
 
         # Template: AgentDashboardTicketStats
 
@@ -4775,6 +4781,7 @@ sub Data {
         'New account created. Sent Login-Account to %s.' => 'Ny konto opprettet. Login-konto sendt til %s',
         'New messages' => 'Ny melding',
         'New password again' => 'Nytt passord igjen',
+        'Next Week' => 'Neste Uke',
         'No * possible!' => 'Jokertegn ikke tillatt!',
         'No Packages for requested Framework in this Online Repository, but Packages for other Frameworks!' =>
             'Ingen pakker ble funnet for det ønskede rammeverket i online-bibliotek, men pakker for andre rammeverk ble funnet!',
@@ -5017,6 +5024,7 @@ sub Data {
         'TicketFreeFields' => 'Frifelter for Sak',
         'TicketFreeText' => 'Stikkordssøk',
         'TicketID' => 'Sak-ID',
+        'Tickets available' => 'Tilgjengelige saker',
         'Tickets shown' => 'Saker vist',
         'Tickets which need to be answered!' => 'Saker som må å besvares',
         'Time units is a required field!' => 'Tidsenhet er et obligatorisk felt!',

@@ -2,7 +2,7 @@
 # Kernel/Language/ar_SA.pm - provides ar_SA language translation
 # Copyright (C) 2007 Mohammad Saleh <maoaf at yahoo.com>
 # --
-# $Id: ar_SA.pm,v 1.70 2011-12-15 11:23:55 mg Exp $
+# $Id: ar_SA.pm,v 1.71 2011-12-15 15:42:28 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,13 +14,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.70 $) [1];
+$VERSION = qw($Revision: 1.71 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2011-12-15 12:18:33
+    # Last translation file sync: 2011-12-15 16:38:29
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -57,7 +57,7 @@ sub Data {
         'before' => 'قبل',
         'Today' => '',
         'Tomorrow' => '',
-        'Next Week' => '',
+        'Next week' => '',
         'day' => 'يوم',
         'days' => 'أيام',
         'day(s)' => 'يوم/أيام',
@@ -601,7 +601,7 @@ sub Data {
         'Watched Tickets New' => '',
         'Watched Tickets Reminder Reached' => '',
         'All tickets' => 'جميع البطاقات',
-        'Tickets available' => 'البطاقات المتوفرة',
+        'Available tickets' => '',
         'Escalation' => '',
         'last-search' => '',
         'QueueView' => 'عرض القائمة',
@@ -613,8 +613,10 @@ sub Data {
         'new' => 'جديد',
         'open' => 'فتح',
         'Open' => '',
+        'Open tickets' => '',
         'closed' => 'تم إقفاله',
         'Closed' => '',
+        'Closed tickets' => '',
         'removed' => 'تم حذغه',
         'pending reminder' => '',
         'pending auto' => '',
@@ -1084,7 +1086,7 @@ sub Data {
         'New customer ID' => '',
         'New title' => '',
         'New type' => '',
-        'New Dynamic Fields' => '',
+        'New Dynamic Field Values' => '',
         'Archive selected tickets' => '',
         'Add Note' => 'إضافة ملاحظة',
         'Time units' => 'وحدات الوقت',
@@ -1816,6 +1818,10 @@ sub Data {
         'Posted %s ago.' => '',
 
         # Template: AgentDashboardTicketGeneric
+        'My locked tickets' => '',
+        'My watched tickets' => '',
+        'My responsibilites' => '',
+        'Tickets in My Queues' => '',
 
         # Template: AgentDashboardTicketStats
 
@@ -4326,6 +4332,7 @@ sub Data {
         'Ticket-Area' => 'منطقة-البطاقة',
         'TicketFreeFields' => 'الخانات الإضافية للبطاقة',
         'TicketZoom' => 'تكبير البطاقة',
+        'Tickets available' => 'البطاقات المتوفرة',
         'Tickets shown' => 'عرض البطاقات',
         'Times' => 'الأوقات',
         'Top of Page' => 'أعلى الصفحة',

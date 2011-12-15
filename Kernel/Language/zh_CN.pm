@@ -7,7 +7,7 @@
 # Copyright (C) 2009 Qingjiu Jia <jiaqj at yahoo.com>
 # Copyright (C) 2011 Martin Liu <liuzh66 at gmail.com> http://martinliu.cn
 # --
-# $Id: zh_CN.pm,v 1.104 2011-12-15 11:23:56 mg Exp $
+# $Id: zh_CN.pm,v 1.105 2011-12-15 15:42:31 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,13 +20,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.104 $) [1];
+$VERSION = qw($Revision: 1.105 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2011-12-15 12:19:11
+    # Last translation file sync: 2011-12-15 16:39:05
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -60,7 +60,7 @@ sub Data {
         'before' => '早于',
         'Today' => '今天',
         'Tomorrow' => '明天',
-        'Next Week' => '下周',
+        'Next week' => '',
         'day' => '天',
         'days' => '天',
         'day(s)' => '天',
@@ -604,7 +604,7 @@ sub Data {
         'Watched Tickets New' => '关注的新票单',
         'Watched Tickets Reminder Reached' => '关注新票单提醒',
         'All tickets' => '所有票单',
-        'Tickets available' => '可用的票单',
+        'Available tickets' => '',
         'Escalation' => '升级',
         'last-search' => '上次搜索',
         'QueueView' => '队列视图',
@@ -616,8 +616,10 @@ sub Data {
         'new' => '新建',
         'open' => '打开',
         'Open' => '打开',
+        'Open tickets' => '',
         'closed' => '已关闭',
         'Closed' => '已关闭',
+        'Closed tickets' => '',
         'removed' => '已删除',
         'pending reminder' => '等待提醒',
         'pending auto' => '自动等待',
@@ -1087,7 +1089,7 @@ sub Data {
         'New customer ID' => '指定客户ID',
         'New title' => '指定称谓',
         'New type' => '指定类型',
-        'New Dynamic Fields' => '',
+        'New Dynamic Field Values' => '',
         'Archive selected tickets' => '归档选中的票单',
         'Add Note' => '添加注解',
         'Time units' => '时间单元',
@@ -1819,6 +1821,10 @@ sub Data {
         'Posted %s ago.' => '发布于 %s 之前',
 
         # Template: AgentDashboardTicketGeneric
+        'My locked tickets' => '',
+        'My watched tickets' => '',
+        'My responsibilites' => '',
+        'Tickets in My Queues' => '',
 
         # Template: AgentDashboardTicketStats
 
@@ -4448,6 +4454,7 @@ sub Data {
         'New account created. Sent Login-Account to %s.' => '新的帐号已创建, 并寄送通知给 %s.',
         'New messages' => '新消息',
         'New password again' => '重复新密码',
+        'Next Week' => '下周',
         'No * possible!' => '不可使用通配符 "*" !',
         'No Packages for requested Framework in this Online Repository, but Packages for other Frameworks!' =>
             '在线资源中没有软件包对应需要的框架，但有其他的框架所需软件包',
@@ -4646,6 +4653,7 @@ sub Data {
         'TicketFreeFields' => '票单自定义字段',
         'TicketFreeText' => 'Ticket 额外信息',
         'TicketZoom' => 'Ticket 展开',
+        'Tickets available' => '可用的票单',
         'Tickets shown' => '显示 Ticket',
         'Tickets which need to be answered!' => '需要回答的 Ticket',
         'Time units is a required field.' => '时间单位为必须的字段.',

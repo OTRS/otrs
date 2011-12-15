@@ -2,7 +2,7 @@
 # Kernel/Language/pt.pm - provides pt language translation
 # Copyright (C) 2004-2007 CAT - Filipe Henriques <filipehenriques at ip.pt>
 # --
-# $Id: pt.pm,v 1.114 2011-12-15 11:23:54 mg Exp $
+# $Id: pt.pm,v 1.115 2011-12-15 15:42:27 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.114 $) [1];
+$VERSION = qw($Revision: 1.115 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2011-12-15 12:18:59
+    # Last translation file sync: 2011-12-15 16:38:54
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -55,7 +55,7 @@ sub Data {
         'before' => 'há mais de',
         'Today' => '',
         'Tomorrow' => '',
-        'Next Week' => '',
+        'Next week' => '',
         'day' => 'dia',
         'days' => 'dias',
         'day(s)' => 'dia(s)',
@@ -599,7 +599,7 @@ sub Data {
         'Watched Tickets New' => '',
         'Watched Tickets Reminder Reached' => '',
         'All tickets' => 'Todos os tickets',
-        'Tickets available' => 'Tickets disponíveis',
+        'Available tickets' => '',
         'Escalation' => '',
         'last-search' => '',
         'QueueView' => 'Filas',
@@ -611,8 +611,10 @@ sub Data {
         'new' => 'novo',
         'open' => 'aberto',
         'Open' => '',
+        'Open tickets' => '',
         'closed' => 'fechado',
         'Closed' => '',
+        'Closed tickets' => '',
         'removed' => 'removido',
         'pending reminder' => 'pendente com lembrete',
         'pending auto' => 'pendente com fecho automático',
@@ -1082,7 +1084,7 @@ sub Data {
         'New customer ID' => '',
         'New title' => '',
         'New type' => '',
-        'New Dynamic Fields' => '',
+        'New Dynamic Field Values' => '',
         'Archive selected tickets' => '',
         'Add Note' => 'Adicionar Nota',
         'Time units' => 'Unidades de tempo',
@@ -1814,6 +1816,10 @@ sub Data {
         'Posted %s ago.' => '',
 
         # Template: AgentDashboardTicketGeneric
+        'My locked tickets' => '',
+        'My watched tickets' => '',
+        'My responsibilites' => '',
+        'Tickets in My Queues' => '',
 
         # Template: AgentDashboardTicketStats
 
@@ -4543,6 +4549,7 @@ sub Data {
         'TicketID' => 'ID de Ticket',
         'TicketZoom' => 'DetalhesDoTicket',
         'Ticket\#' => 'No. de Ticket',
+        'Tickets available' => 'Tickets disponíveis',
         'Tickets shown' => 'Tickets mostrados',
         'Timeover' => 'Tempo a mais',
         'Times' => 'Tempos',

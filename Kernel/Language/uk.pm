@@ -2,7 +2,7 @@
 # Kernel/Language/uk.pm - provides ru language translation
 # Copyright (C) 2010 Бельский Артем
 # --
-# $Id: uk.pm,v 1.29 2011-12-15 11:23:55 mg Exp $
+# $Id: uk.pm,v 1.30 2011-12-15 15:42:29 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.29 $) [1];
+$VERSION = qw($Revision: 1.30 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2011-12-15 12:19:09
+    # Last translation file sync: 2011-12-15 16:39:03
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -55,7 +55,7 @@ sub Data {
         'before' => 'перш',
         'Today' => 'Сьогодні',
         'Tomorrow' => 'Завтра',
-        'Next Week' => ' Наступного тижня',
+        'Next week' => '',
         'day' => 'день',
         'days' => 'днів',
         'day(s)' => 'днів',
@@ -599,7 +599,7 @@ sub Data {
         'Watched Tickets New' => '',
         'Watched Tickets Reminder Reached' => '',
         'All tickets' => 'Усі заявки',
-        'Tickets available' => 'Доступні заявки',
+        'Available tickets' => '',
         'Escalation' => 'Ескалація',
         'last-search' => '',
         'QueueView' => '',
@@ -611,8 +611,10 @@ sub Data {
         'new' => 'нова',
         'open' => 'відкриті',
         'Open' => 'Відкриті',
+        'Open tickets' => '',
         'closed' => 'закриті',
         'Closed' => 'Закриті',
+        'Closed tickets' => '',
         'removed' => 'вилучені',
         'pending reminder' => 'відкладене нагадування',
         'pending auto' => 'черга на автозакрытие',
@@ -1082,7 +1084,7 @@ sub Data {
         'New customer ID' => 'ID нового клієнта',
         'New title' => 'Новий заголовок',
         'New type' => 'Новий тип',
-        'New Dynamic Fields' => '',
+        'New Dynamic Field Values' => '',
         'Archive selected tickets' => '',
         'Add Note' => 'Додати замітку',
         'Time units' => 'Одиниці часу',
@@ -1814,6 +1816,10 @@ sub Data {
         'Posted %s ago.' => 'Опубліковане %s',
 
         # Template: AgentDashboardTicketGeneric
+        'My locked tickets' => '',
+        'My watched tickets' => '',
+        'My responsibilites' => '',
+        'Tickets in My Queues' => '',
 
         # Template: AgentDashboardTicketStats
 
@@ -4490,6 +4496,7 @@ sub Data {
         'New account created. Sent Login-Account to %s.' => 'Створений новий обліковий запис. Дані для входу в систему відправлені за адресою: %s.',
         'New messages' => 'Нові повідомлення',
         'New password again' => 'Повторите новий пароль',
+        'Next Week' => ' Наступного тижня',
         'No * possible!' => ' Не можна використовувати символ «*» !',
         'No Packages for requested Framework in this Online Repository, but Packages for other Frameworks!' =>
             'Немає пакетів для запитаного середовища в цьому мережному репозитории, але є пакети для інших середовищ!',
@@ -4708,6 +4715,7 @@ sub Data {
         'Ticketfreefields' => 'Вільні поля заявки',
         'Ticketfreetext' => 'Вільні поля заявки',
         'Ticketid' => 'ID заявки',
+        'Tickets available' => 'Доступні заявки',
         'Tickets shown' => 'Показані заявки',
         'Tickets which need to be answered!' => 'Заявки, що вимагають відповіді',
         'Ticketzoom' => 'Перегляд заявки',

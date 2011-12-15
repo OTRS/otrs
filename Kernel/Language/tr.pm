@@ -2,7 +2,7 @@
 # Kernel/Language/tr.pm - provides Turkish language translation
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: tr.pm,v 1.61 2011-12-15 11:23:57 mg Exp $
+# $Id: tr.pm,v 1.62 2011-12-15 15:42:31 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,13 +14,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.61 $)[1];
+$VERSION = qw($Revision: 1.62 $)[1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2011-12-15 12:19:08
+    # Last translation file sync: 2011-12-15 16:39:01
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -54,7 +54,7 @@ sub Data {
         'before' => 'önce',
         'Today' => '',
         'Tomorrow' => '',
-        'Next Week' => '',
+        'Next week' => '',
         'day' => 'gün',
         'days' => 'gün',
         'day(s)' => 'gün',
@@ -598,7 +598,7 @@ sub Data {
         'Watched Tickets New' => '',
         'Watched Tickets Reminder Reached' => '',
         'All tickets' => 'Tüm biletler',
-        'Tickets available' => 'Uygun biletler',
+        'Available tickets' => '',
         'Escalation' => '',
         'last-search' => '',
         'QueueView' => 'Kuyruk Görünümü',
@@ -610,8 +610,10 @@ sub Data {
         'new' => 'yeni',
         'open' => 'aç',
         'Open' => '',
+        'Open tickets' => '',
         'closed' => 'kapalı',
         'Closed' => '',
+        'Closed tickets' => '',
         'removed' => 'kaldırıldı',
         'pending reminder' => 'bekleyen hatırlatıcı',
         'pending auto' => 'bekleyen otomatik',
@@ -1081,7 +1083,7 @@ sub Data {
         'New customer ID' => '',
         'New title' => '',
         'New type' => '',
-        'New Dynamic Fields' => '',
+        'New Dynamic Field Values' => '',
         'Archive selected tickets' => '',
         'Add Note' => 'Not Ekle',
         'Time units' => 'Zaman birimleri',
@@ -1813,6 +1815,10 @@ sub Data {
         'Posted %s ago.' => '',
 
         # Template: AgentDashboardTicketGeneric
+        'My locked tickets' => '',
+        'My watched tickets' => '',
+        'My responsibilites' => '',
+        'Tickets in My Queues' => '',
 
         # Template: AgentDashboardTicketStats
 
@@ -4560,6 +4566,7 @@ sub Data {
         'TicketFreeFields' => 'BiletSerbestAlanları',
         'TicketFreeText' => 'BiletSerbestMetni',
         'TicketZoom' => 'Bilet Detayları',
+        'Tickets available' => 'Uygun biletler',
         'Tickets shown' => 'Gösterilen biletler',
         'Tickets which need to be answered!' => 'cevap bekleyen biletler',
         'Timeover' => 'Süre bitimi',

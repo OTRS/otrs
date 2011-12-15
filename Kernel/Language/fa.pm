@@ -4,7 +4,7 @@
 # Copyright (C) 2008 Hooman Mesgary <info at mesgary.com>
 # Copyright (C) 2009 Afshar Mohebbi <afshar.mohebbi at gmail.com>
 # --
-# $Id: fa.pm,v 1.101 2011-12-15 11:23:54 mg Exp $
+# $Id: fa.pm,v 1.102 2011-12-15 15:42:27 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,13 +17,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.101 $) [1];
+$VERSION = qw($Revision: 1.102 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2011-12-15 12:18:43
+    # Last translation file sync: 2011-12-15 16:38:39
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -60,7 +60,7 @@ sub Data {
         'before' => 'قبل از',
         'Today' => 'امروز ',
         'Tomorrow' => 'فردا ',
-        'Next Week' => 'هفته آینده ',
+        'Next week' => '',
         'day' => 'روز',
         'days' => 'روز',
         'day(s)' => 'روز',
@@ -604,7 +604,7 @@ sub Data {
         'Watched Tickets New' => 'درخواست‌های مشاهده شده جدید',
         'Watched Tickets Reminder Reached' => 'درخواست‌های مشاهده شدهکه زمان یادآوری آن رسیده',
         'All tickets' => 'همه درخواست‌ها',
-        'Tickets available' => 'درخواست‌های در دسترس',
+        'Available tickets' => '',
         'Escalation' => '',
         'last-search' => '',
         'QueueView' => 'نمای صف درخواست',
@@ -616,8 +616,10 @@ sub Data {
         'new' => 'جدید',
         'open' => 'باز',
         'Open' => 'باز',
+        'Open tickets' => '',
         'closed' => 'بسته شده',
         'Closed' => 'بسته شده',
+        'Closed tickets' => '',
         'removed' => 'حذف شده',
         'pending reminder' => 'یادآوری حالت معلق',
         'pending auto' => 'حالت خودکار معلق',
@@ -1087,7 +1089,7 @@ sub Data {
         'New customer ID' => 'شناسه مشترک جدید',
         'New title' => 'عنوان جدید',
         'New type' => 'نوع جدید',
-        'New Dynamic Fields' => '',
+        'New Dynamic Field Values' => '',
         'Archive selected tickets' => 'آرشیو درخواست‌های انتخاب شده',
         'Add Note' => 'افزودن یادداشت',
         'Time units' => 'واحد زمان',
@@ -1819,6 +1821,10 @@ sub Data {
         'Posted %s ago.' => '%s وقت پیش ارسال شد',
 
         # Template: AgentDashboardTicketGeneric
+        'My locked tickets' => '',
+        'My watched tickets' => '',
+        'My responsibilites' => '',
+        'Tickets in My Queues' => '',
 
         # Template: AgentDashboardTicketStats
 
@@ -4493,6 +4499,7 @@ sub Data {
         'New account created. Sent Login-Account to %s.' => 'حساب کاربری جدید ایجاد شد.اطلاعات ورود به سیستم به %s ارسال شد.',
         'New messages' => 'پیام جدید',
         'New password again' => 'تکرار رمز عبور',
+        'Next Week' => 'هفته آینده ',
         'No * possible!' => 'هیچ * ممکن نیست !',
         'No Packages for requested Framework in this Online Repository, but Packages for other Frameworks!' =>
             'برای Framework درخواست شده بسته ای وجود ندارد اما برای سایر Framework‌ها!',
@@ -4681,6 +4688,7 @@ sub Data {
         'TicketFreeText' => 'متن درخواست',
         'TicketID' => 'شناسه درخواست',
         'TicketZoom' => 'نمایش کامل درخواست',
+        'Tickets available' => 'درخواست‌های در دسترس',
         'Tickets shown' => 'نمایش درخواست',
         'Tickets which need to be answered!' => 'درخواست‌هایی که لازم است پاسخ داده شوند',
         'Times' => 'زمان',

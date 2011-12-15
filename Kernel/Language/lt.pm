@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # Copyright (C) 2011 Edgaras Luko�evi�ius <edgaras[eta]kauko.lt or admin[eta]sysadmin.lt>
 # --
-# $Id: lt.pm,v 1.13 2011-12-15 11:23:55 mg Exp $
+# $Id: lt.pm,v 1.14 2011-12-15 15:42:29 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2011-12-15 12:18:52
+    # Last translation file sync: 2011-12-15 16:38:48
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -55,7 +55,7 @@ sub Data {
         'before' => 'prie�',
         'Today' => '�iandien',
         'Tomorrow' => 'Rytoj',
-        'Next Week' => 'Ateinan�i� savait�',
+        'Next week' => '',
         'day' => 'diena',
         'days' => 'dienos',
         'day(s)' => 'Diena(-os)',
@@ -599,7 +599,7 @@ sub Data {
         'Watched Tickets New' => 'Naujos stebimos triktys',
         'Watched Tickets Reminder Reached' => '',
         'All tickets' => 'Visos triktys',
-        'Tickets available' => 'Prieinamos triktys',
+        'Available tickets' => '',
         'Escalation' => 'Eskalavimas',
         'last-search' => 'Paskutin� paie�ka',
         'QueueView' => 'Eili� per�i�ra',
@@ -611,8 +611,10 @@ sub Data {
         'new' => 'naujas',
         'open' => 'atidarytas',
         'Open' => 'Atidarytas',
+        'Open tickets' => '',
         'closed' => 'u�darytas',
         'Closed' => 'U�darytas',
+        'Closed tickets' => '',
         'removed' => 'pa�alintas',
         'pending reminder' => 'laukiantis priminimas',
         'pending auto' => 'laukia auto',
@@ -1082,7 +1084,7 @@ sub Data {
         'New customer ID' => 'Naujo kliento ID',
         'New title' => 'Naujas pavadinimas',
         'New type' => 'Naujas tipas',
-        'New Dynamic Fields' => '',
+        'New Dynamic Field Values' => '',
         'Archive selected tickets' => 'Archyvuoti pasirinktas triktis',
         'Add Note' => 'Prid�ti pastab�',
         'Time units' => 'Laiko vienetai',
@@ -1814,6 +1816,10 @@ sub Data {
         'Posted %s ago.' => 'Paskelbtas prie� %s.',
 
         # Template: AgentDashboardTicketGeneric
+        'My locked tickets' => '',
+        'My watched tickets' => '',
+        'My responsibilites' => '',
+        'Tickets in My Queues' => '',
 
         # Template: AgentDashboardTicketStats
 
@@ -4167,6 +4173,7 @@ sub Data {
         'Lock it to work on it!' => 'U�rakinkite, kad su juo dirbtum�te!',
         'Max. displayed tickets' => 'Daugiausia rodoma trik�i�',
         'New TicketFreeFields' => 'Nauji laisvi trik�i� laukeliai',
+        'Next Week' => 'Ateinan�i� savait�',
         'Online' => 'Prisijung�',
         'Package not correctly deployed! You should reinstall the Package again!' =>
             'Paketas i�skleistas neteisingai! Tur�tum�te i� naujo �diegti �� paket�!',
@@ -4182,6 +4189,7 @@ sub Data {
             'Pasir�pinkite standartini� b�sen� Kernel/Config.pm atnaujinimu!',
         'The User Name you wish to have' => 'J�s� pageidaujamas naudotojo vardas',
         'TicketFreeFields' => 'Trik�i� laisvi laukeliai',
+        'Tickets available' => 'Prieinamos triktys',
         'Unlock to give it back to the queue!' => 'Atrakinkite, kad gra�intum�te j� atgal � eil�!',
         'Wildcards are allowed.' => 'Leid�iamos pakaitos (wildcard).',
 

@@ -8,7 +8,7 @@
 # Copyright (C) 2010 Ton van Boven <ton 'at' avebo.nl>
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: nl.pm,v 1.171 2011-12-15 11:23:57 mg Exp $
+# $Id: nl.pm,v 1.172 2011-12-15 15:42:32 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -28,13 +28,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.171 $) [1];
+$VERSION = qw($Revision: 1.172 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2011-12-15 12:18:57
+    # Last translation file sync: 2011-12-15 16:38:52
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -68,7 +68,7 @@ sub Data {
         'before' => 'voor',
         'Today' => 'Vandaag',
         'Tomorrow' => 'Morgen',
-        'Next Week' => 'Volgende week',
+        'Next week' => '',
         'day' => 'dag',
         'days' => 'dagen',
         'day(s)' => 'dag(en)',
@@ -612,7 +612,7 @@ sub Data {
         'Watched Tickets New' => 'Nieuwe gevolgde tickets',
         'Watched Tickets Reminder Reached' => 'Gevolgde tickets herinnering bereikt',
         'All tickets' => 'Alle tickets',
-        'Tickets available' => 'Tickets beschikbaar',
+        'Available tickets' => '',
         'Escalation' => 'Escalatie',
         'last-search' => 'laatste zoekopdracht',
         'QueueView' => 'Wachtrijoverzicht',
@@ -624,8 +624,10 @@ sub Data {
         'new' => 'nieuw',
         'open' => 'open',
         'Open' => 'Open',
+        'Open tickets' => '',
         'closed' => 'gesloten',
         'Closed' => 'Gesloten',
+        'Closed tickets' => '',
         'removed' => 'verwijderd',
         'pending reminder' => 'wachtend op een herinnering',
         'pending auto' => 'wachtend',
@@ -1095,7 +1097,7 @@ sub Data {
         'New customer ID' => 'Nieuwe klantcode',
         'New title' => 'Nieuwe titel',
         'New type' => 'Nieuw type',
-        'New Dynamic Fields' => 'Nieuwe dynamische velden',
+        'New Dynamic Field Values' => '',
         'Archive selected tickets' => 'Archiveer geselecteerde tickets',
         'Add Note' => 'Notitie toevoegen',
         'Time units' => 'Bestede tijd',
@@ -1827,6 +1829,10 @@ sub Data {
         'Posted %s ago.' => 'Geplaatst %s geleden.',
 
         # Template: AgentDashboardTicketGeneric
+        'My locked tickets' => '',
+        'My watched tickets' => '',
+        'My responsibilites' => '',
+        'Tickets in My Queues' => '',
 
         # Template: AgentDashboardTicketStats
 
@@ -4482,6 +4488,7 @@ sub Data {
         'Need valid email address or don\'t use local address' => 'Het e-mailadres is ongeldig',
         'New Agent' => 'Nieuwe gebruiker',
         'New Customer' => 'Nieuwe klant',
+        'New Dynamic Fields' => 'Nieuwe dynamische velden',
         'New Group' => 'Nieuwe groep',
         'New Group Ro' => 'Nieuwe groep',
         'New Password' => 'Nieuw wachtwoord',
@@ -4496,6 +4503,7 @@ sub Data {
         'New account created. Sent Login-Account to %s.' => 'Nieuw account aangemaakt. De logingegevens zijn verstuurd aan %s.',
         'New messages' => 'Nieuwe berichten',
         'New password again' => 'Bevestig nieuw wachtwoord',
+        'Next Week' => 'Volgende week',
         'No * possible!' => 'Gebruik van een * is niet mogelijk.',
         'No Packages for requested Framework in this Online Repository, but Packages for other Frameworks!' =>
             'Voor het gevraagde framework zijn er geen pakketten gevonden in de Online Repository.',
@@ -4727,6 +4735,7 @@ sub Data {
         'TicketFreeText' => 'Vrije invulvelden van het ticket',
         'TicketID' => 'Ticket ID',
         'TicketZoom' => 'Inhoud ticket',
+        'Tickets available' => 'Tickets beschikbaar',
         'Tickets shown' => 'Tickets getoond',
         'Tickets which need to be answered!' => 'Tickets die moeten worden behandeld.',
         'Time units is a required field!' => 'Bestede tijd is een verplicht veld.',

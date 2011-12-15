@@ -6,7 +6,7 @@
 # Copyright (C) 2007 Aron Ujvari <ujvari@hungary.com>
 # Copyright (C) 2009 Arnold Matyasi <arn@webma.hu>
 # --
-# $Id: hu.pm,v 1.104 2011-12-15 11:23:57 mg Exp $
+# $Id: hu.pm,v 1.105 2011-12-15 15:42:31 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,13 +19,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.104 $) [1];
+$VERSION = qw($Revision: 1.105 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2011-12-15 12:18:49
+    # Last translation file sync: 2011-12-15 16:38:45
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -59,7 +59,7 @@ sub Data {
         'before' => 'legalább ennyi ideje',
         'Today' => 'Ma',
         'Tomorrow' => 'Holnap',
-        'Next Week' => 'Következő Hét',
+        'Next week' => '',
         'day' => 'nap',
         'days' => 'nap',
         'day(s)' => 'nap',
@@ -603,7 +603,7 @@ sub Data {
         'Watched Tickets New' => '',
         'Watched Tickets Reminder Reached' => '',
         'All tickets' => 'Összes jegy',
-        'Tickets available' => 'Elérhető jegyek',
+        'Available tickets' => '',
         'Escalation' => 'Eszkaláció',
         'last-search' => '',
         'QueueView' => 'Várólista nézet',
@@ -615,8 +615,10 @@ sub Data {
         'new' => 'új',
         'open' => 'nyitott',
         'Open' => 'Nyitott',
+        'Open tickets' => '',
         'closed' => 'lezárt',
         'Closed' => 'Lezárt',
+        'Closed tickets' => '',
         'removed' => 'törölt',
         'pending reminder' => 'emlékeztetőre várakozik',
         'pending auto' => 'automatikusra várakozik',
@@ -1086,7 +1088,7 @@ sub Data {
         'New customer ID' => '',
         'New title' => '',
         'New type' => '',
-        'New Dynamic Fields' => '',
+        'New Dynamic Field Values' => '',
         'Archive selected tickets' => '',
         'Add Note' => 'Megjegyzés hozzáadása',
         'Time units' => 'Idő egységek',
@@ -1818,6 +1820,10 @@ sub Data {
         'Posted %s ago.' => 'Beküldve %s ezelőtt.',
 
         # Template: AgentDashboardTicketGeneric
+        'My locked tickets' => '',
+        'My watched tickets' => '',
+        'My responsibilites' => '',
+        'Tickets in My Queues' => '',
 
         # Template: AgentDashboardTicketStats
 
@@ -4435,6 +4441,7 @@ sub Data {
         'New account created. Sent Login-Account to %s.' => 'Új felhasználó létrehozva. Belépési információ %s részére elküldve.',
         'New messages' => 'Új üzenetek',
         'New password again' => 'Új jelszó megismétlése',
+        'Next Week' => 'Következő Hét',
         'No * possible!' => 'A "*" nem lehetséges!',
         'No Packages for requested Framework in this Online Repository, but Packages for other Frameworks!' =>
             'Nincsenek csomagok a kért Keretrendszerhez ebben az on-line csomagtárolóban, viszont vannak más Keretrendszerekhez!',
@@ -4608,6 +4615,7 @@ sub Data {
         'TicketFreeFields' => 'Jegy szabad mezői',
         'TicketFreeText' => 'Jegy szabadszöveg',
         'TicketZoom' => 'JegyRészletek',
+        'Tickets available' => 'Elérhető jegyek',
         'Tickets shown' => 'Mutatott jegyek',
         'Tickets which need to be answered!' => 'Válaszra váró Jegyek!',
         'Timeover' => 'Késés',

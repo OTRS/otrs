@@ -3,7 +3,7 @@
 # Copyright (C) 2004 Vladimir Gerdjikov <gerdjikov at gerdjikovs.net>
 # Copyright (C) 2007 Alex Kantchev <ak at otrs.org>
 # --
-# $Id: bg.pm,v 1.126 2011-12-15 11:23:55 mg Exp $
+# $Id: bg.pm,v 1.127 2011-12-15 15:42:29 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,13 +16,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.126 $) [1];
+$VERSION = qw($Revision: 1.127 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2011-12-15 12:18:34
+    # Last translation file sync: 2011-12-15 16:38:30
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -56,7 +56,7 @@ sub Data {
         'before' => 'преди',
         'Today' => '',
         'Tomorrow' => '',
-        'Next Week' => '',
+        'Next week' => '',
         'day' => 'ден',
         'days' => 'дни',
         'day(s)' => 'ден/дни',
@@ -600,7 +600,7 @@ sub Data {
         'Watched Tickets New' => '',
         'Watched Tickets Reminder Reached' => '',
         'All tickets' => 'Всички билети',
-        'Tickets available' => 'Налични билети',
+        'Available tickets' => '',
         'Escalation' => '',
         'last-search' => '',
         'QueueView' => 'Преглед на опашката',
@@ -612,8 +612,10 @@ sub Data {
         'new' => 'нов',
         'open' => 'отворен',
         'Open' => '',
+        'Open tickets' => '',
         'closed' => 'затворен',
         'Closed' => '',
+        'Closed tickets' => '',
         'removed' => 'премахнат',
         'pending reminder' => 'очаква напомняне',
         'pending auto' => 'очаква авроматично',
@@ -1083,7 +1085,7 @@ sub Data {
         'New customer ID' => '',
         'New title' => '',
         'New type' => '',
-        'New Dynamic Fields' => '',
+        'New Dynamic Field Values' => '',
         'Archive selected tickets' => '',
         'Add Note' => 'Добавяне на бележка',
         'Time units' => 'Мерни единици за времето',
@@ -1815,6 +1817,10 @@ sub Data {
         'Posted %s ago.' => '',
 
         # Template: AgentDashboardTicketGeneric
+        'My locked tickets' => '',
+        'My watched tickets' => '',
+        'My responsibilites' => '',
+        'Tickets in My Queues' => '',
 
         # Template: AgentDashboardTicketStats
 
@@ -4553,6 +4559,7 @@ sub Data {
         'TicketFreeFields' => 'Полета на билета',
         'TicketFreeText' => 'Полета на билета',
         'TicketID' => 'Идентификатор на билет',
+        'Tickets available' => 'Налични билети',
         'Tickets shown' => 'Показани билети',
         'Times' => 'Време',
         'Title of the stat.' => 'Заглавие на статистиката.',

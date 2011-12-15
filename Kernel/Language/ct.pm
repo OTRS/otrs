@@ -2,7 +2,7 @@
 # Kernel/Language/ct.pm - provides ct language translation
 # Copyright (C) 2008 Sistemes OTIC (ibsalut) - Antonio Linde
 # --
-# $Id: ct.pm,v 1.60 2011-12-15 11:23:56 mg Exp $
+# $Id: ct.pm,v 1.61 2011-12-15 15:42:30 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.60 $) [1];
+$VERSION = qw($Revision: 1.61 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2011-12-15 12:18:36
+    # Last translation file sync: 2011-12-15 16:38:32
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -55,7 +55,7 @@ sub Data {
         'before' => 'abans',
         'Today' => 'Avui',
         'Tomorrow' => 'Demà',
-        'Next Week' => 'Pròxima setmana',
+        'Next week' => '',
         'day' => 'dia',
         'days' => 'dias',
         'day(s)' => 'dia(s)',
@@ -599,7 +599,7 @@ sub Data {
         'Watched Tickets New' => '',
         'Watched Tickets Reminder Reached' => '',
         'All tickets' => 'Tots els tiquets',
-        'Tickets available' => 'Tiquets disponibles',
+        'Available tickets' => '',
         'Escalation' => 'Escalat',
         'last-search' => '',
         'QueueView' => 'Veure la cua',
@@ -611,8 +611,10 @@ sub Data {
         'new' => 'nou',
         'open' => 'obert',
         'Open' => '',
+        'Open tickets' => '',
         'closed' => 'tancat',
         'Closed' => '',
+        'Closed tickets' => '',
         'removed' => 'eliminat',
         'pending reminder' => 'recordatori pendent',
         'pending auto' => 'pendent auto',
@@ -1082,7 +1084,7 @@ sub Data {
         'New customer ID' => '',
         'New title' => '',
         'New type' => '',
-        'New Dynamic Fields' => '',
+        'New Dynamic Field Values' => '',
         'Archive selected tickets' => '',
         'Add Note' => 'Afegir Nota',
         'Time units' => 'Unitats de temps',
@@ -1814,6 +1816,10 @@ sub Data {
         'Posted %s ago.' => '',
 
         # Template: AgentDashboardTicketGeneric
+        'My locked tickets' => '',
+        'My watched tickets' => '',
+        'My responsibilites' => '',
+        'Tickets in My Queues' => '',
 
         # Template: AgentDashboardTicketStats
 
@@ -4407,6 +4413,7 @@ sub Data {
         'New account created. Sent Login-Account to %s.' => 'Nou compte creat. Dades d\'inici de sessió enviats a %s.',
         'New messages' => 'Nou missatge',
         'New password again' => 'Repetir Contrasenya',
+        'Next Week' => 'Pròxima setmana',
         'No * possible!' => 'No * possible!',
         'No Packages for requested Framework in this Online Repository, but Packages for other Frameworks!' =>
             'No hi ha paquets per al Framework sol·licitat en aquest repositori en línia, però si hi ha per a altres Frameworks',
@@ -4570,6 +4577,7 @@ sub Data {
         'TicketFreeText' => 'TextLliureTiquet',
         'TicketID' => 'Identificador de Tiquet',
         'TicketZoom' => 'Detall del Tiquet',
+        'Tickets available' => 'Tiquets disponibles',
         'Tickets shown' => 'Tiquets mostrats',
         'Timeover' => 'Vencimient',
         'Times' => 'Vegades',

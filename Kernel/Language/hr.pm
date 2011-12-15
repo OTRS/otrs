@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # Copyright (C) 2011 Damir Dzeko <damir punkt dzeko masterspace inet.hr>
 # --
-# $Id: hr.pm,v 1.13 2011-12-15 11:23:54 mg Exp $
+# $Id: hr.pm,v 1.14 2011-12-15 15:42:28 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,13 +19,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2011-12-15 12:18:48
+    # Last translation file sync: 2011-12-15 16:38:44
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -59,7 +59,7 @@ sub Data {
         'before' => 'prije',
         'Today' => 'danas',
         'Tomorrow' => 'Sutra',
-        'Next Week' => 'Sledeća sedmica',
+        'Next week' => '',
         'day' => 'dan',
         'days' => 'dani',
         'day(s)' => 'dan(i)',
@@ -603,7 +603,7 @@ sub Data {
         'Watched Tickets New' => 'Nove praćene kartice',
         'Watched Tickets Reminder Reached' => 'Dostignut podsjetnik kartica na čekanju',
         'All tickets' => 'Sve kartice',
-        'Tickets available' => 'Dostupne kartice',
+        'Available tickets' => '',
         'Escalation' => 'Eskalacija',
         'last-search' => '',
         'QueueView' => 'Pregled repa',
@@ -615,8 +615,10 @@ sub Data {
         'new' => 'novo',
         'open' => 'otvoreni',
         'Open' => 'Otvoreni',
+        'Open tickets' => '',
         'closed' => 'zatvoreni',
         'Closed' => 'Zatvoreni',
+        'Closed tickets' => '',
         'removed' => 'uklonjeni',
         'pending reminder' => 'podsjetnik čekanja',
         'pending auto' => 'automatsko čekanje',
@@ -1086,7 +1088,7 @@ sub Data {
         'New customer ID' => 'Novi ID korisnika',
         'New title' => 'Novi naslov',
         'New type' => 'Novi tip',
-        'New Dynamic Fields' => '',
+        'New Dynamic Field Values' => '',
         'Archive selected tickets' => 'Arhiviraj izabrane karticue',
         'Add Note' => 'Dodaj napomenu',
         'Time units' => 'Vremenske jedinice',
@@ -1818,6 +1820,10 @@ sub Data {
         'Posted %s ago.' => 'Poslano prije %s.',
 
         # Template: AgentDashboardTicketGeneric
+        'My locked tickets' => '',
+        'My watched tickets' => '',
+        'My responsibilites' => '',
+        'Tickets in My Queues' => '',
 
         # Template: AgentDashboardTicketStats
 
@@ -4716,6 +4722,7 @@ sub Data {
         'New account created. Sent Login-Account to %s.' => 'Napravljen novi nalog. Podaci za prijavu poslati %s.',
         'New messages' => 'Nove poruke',
         'New password again' => 'Nova lozinka (ponovo)',
+        'Next Week' => 'Sledeća sedmica',
         'No * possible!' => 'Nije "*" moguće!',
         'No Packages for requested Framework in this Online Repository, but Packages for other Frameworks!' =>
             'U mrežnom spremištu nema paketa za traženi sistem, tu su samo paketi za druge verzije.',
@@ -4912,6 +4919,7 @@ sub Data {
         'TicketFreeFields' => 'Slobodna polja u kartici',
         'TicketFreeText' => 'TicketFreeText',
         'TicketZoom' => 'Sadržaj kartice',
+        'Tickets available' => 'Dostupne kartice',
         'Tickets shown' => 'Prikazani kartice',
         'Tickets which need to be answered!' => 'kartice na koje treba odgovoriti!',
         'Time units is a required field!' => 'Vremenske jedinice su obavezno polje.',

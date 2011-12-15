@@ -2,7 +2,7 @@
 # Kernel/Language/et.pm - provides Estonian language translation
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: et.pm,v 1.59 2011-12-15 11:23:55 mg Exp $
+# $Id: et.pm,v 1.60 2011-12-15 15:42:29 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,13 +14,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.59 $) [1];
+$VERSION = qw($Revision: 1.60 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2011-12-15 12:18:42
+    # Last translation file sync: 2011-12-15 16:38:38
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -54,7 +54,7 @@ sub Data {
         'before' => 'enne',
         'Today' => '',
         'Tomorrow' => '',
-        'Next Week' => '',
+        'Next week' => '',
         'day' => 'päev',
         'days' => 'päeva',
         'day(s)' => 'päev(a)',
@@ -598,7 +598,7 @@ sub Data {
         'Watched Tickets New' => '',
         'Watched Tickets Reminder Reached' => '',
         'All tickets' => 'Kõik intsidendid',
-        'Tickets available' => 'Saadaval intsidente',
+        'Available tickets' => '',
         'Escalation' => '',
         'last-search' => '',
         'QueueView' => 'Järjekorrad',
@@ -610,8 +610,10 @@ sub Data {
         'new' => 'uus',
         'open' => 'avatud',
         'Open' => '',
+        'Open tickets' => '',
         'closed' => 'suletud',
         'Closed' => '',
+        'Closed tickets' => '',
         'removed' => 'kustutatud',
         'pending reminder' => 'ootab meeldetuletust',
         'pending auto' => 'sulgub ise',
@@ -1081,7 +1083,7 @@ sub Data {
         'New customer ID' => '',
         'New title' => '',
         'New type' => '',
-        'New Dynamic Fields' => '',
+        'New Dynamic Field Values' => '',
         'Archive selected tickets' => '',
         'Add Note' => 'Lisa märkus',
         'Time units' => 'tööühikuid',
@@ -1813,6 +1815,10 @@ sub Data {
         'Posted %s ago.' => '',
 
         # Template: AgentDashboardTicketGeneric
+        'My locked tickets' => '',
+        'My watched tickets' => '',
+        'My responsibilites' => '',
+        'Tickets in My Queues' => '',
 
         # Template: AgentDashboardTicketStats
 
@@ -4553,6 +4559,7 @@ sub Data {
         'TicketFreeFields' => 'Intsidendi muud väljad',
         'TicketFreeText' => 'TicketFreeText',
         'TicketZoom' => 'Vaata täpsemalt',
+        'Tickets available' => 'Saadaval intsidente',
         'Tickets shown' => 'Nähtaval intsidendid',
         'Timeover' => 'Aeg läbi',
         'Times' => 'Aeg',

@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Thomas Kaltenbrunner <tkaltenbrunner at opc.de>
 # --
-# $Id: de.pm,v 1.305 2011-12-15 14:13:43 mg Exp $
+# $Id: de.pm,v 1.306 2011-12-15 15:42:27 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.305 $) [1];
+$VERSION = qw($Revision: 1.306 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2011-12-15 12:18:38
+    # Last translation file sync: 2011-12-15 16:38:34
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -55,7 +55,7 @@ sub Data {
         'before' => 'vor',
         'Today' => 'Heute',
         'Tomorrow' => 'Morgen',
-        'Next Week' => 'Nächste Woche',
+        'Next week' => 'Nächste Woche',
         'day' => 'Tag',
         'days' => 'Tage',
         'day(s)' => 'Tag(e)',
@@ -599,7 +599,7 @@ sub Data {
         'Watched Tickets New' => 'Neue beobachtete Tickets',
         'Watched Tickets Reminder Reached' => 'Beobachtete Tickets, Erinnerungszeit erreicht',
         'All tickets' => 'Alle Tickets',
-        'Tickets available' => 'Tickets verfügbar',
+        'Available tickets' => 'Verfügbare Tickets',
         'Escalation' => 'Eskalation',
         'last-search' => 'Letzte Suche',
         'QueueView' => 'Queue-Ansicht',
@@ -611,8 +611,10 @@ sub Data {
         'new' => 'neu',
         'open' => 'offen',
         'Open' => 'Offen',
+        'Open tickets' => 'Offene Tickets',
         'closed' => 'geschlossen',
         'Closed' => 'Geschlossen',
+        'Closed tickets' => 'Geschlossene Tickets',
         'removed' => 'entfernt',
         'pending reminder' => 'warten zur Erinnerung',
         'pending auto' => 'warten auto',
@@ -1814,6 +1816,10 @@ sub Data {
         'Posted %s ago.' => 'Veröffentlicht vor %s.',
 
         # Template: AgentDashboardTicketGeneric
+        'My locked tickets' => 'Meine gesperrten Tickets',
+        'My watched tickets' => 'Meine beobachteten Tickets',
+        'My responsibilites' => 'Meine Verantwortlichkeiten',
+        'Tickets in My Queues' => 'Tickets in meinen Queues',
 
         # Template: AgentDashboardTicketStats
 
@@ -4485,6 +4491,7 @@ sub Data {
         'New account created. Sent Login-Account to %s.' => 'Neuen Account erstellt. Login-Daten an %s gesendet.',
         'New messages' => 'Neue Nachrichten',
         'New password again' => 'Neues Passwort (wiederholen)',
+        'Next Week' => 'Nächste Woche',
         'No * possible!' => 'Kein "*" möglich!',
         'No Packages for requested Framework in this Online Repository, but Packages for other Frameworks!' =>
             'Kein Paket für den benötigten Framework vorhanden, aber für andere Frameworks.',
@@ -4704,6 +4711,7 @@ sub Data {
         'TicketFreeFields' => 'TicketFreiFelder',
         'TicketFreeText' => 'TicketFreeText',
         'TicketZoom' => 'Ticket Inhalt',
+        'Tickets available' => 'Tickets verfügbar',
         'Tickets shown' => 'Tickets angezeigt',
         'Tickets which need to be answered!' => 'Tickets welche beantwortet werden müssen!',
         'Time units is a required field!' => 'Zeiteinheiten ist eine erforderliche Eingabe.',

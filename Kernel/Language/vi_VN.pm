@@ -2,7 +2,7 @@
 # Kernel/Language/vi_VN.pm - provides Vietnamese language translation
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: vi_VN.pm,v 1.60 2011-12-15 11:23:55 mg Exp $
+# $Id: vi_VN.pm,v 1.61 2011-12-15 15:42:29 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,13 +14,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.60 $) [1];
+$VERSION = qw($Revision: 1.61 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2011-12-15 12:19:10
+    # Last translation file sync: 2011-12-15 16:39:04
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -54,7 +54,7 @@ sub Data {
         'before' => 'Trước',
         'Today' => '',
         'Tomorrow' => '',
-        'Next Week' => '',
+        'Next week' => '',
         'day' => 'ngày',
         'days' => 'ngày',
         'day(s)' => 'ngày',
@@ -598,7 +598,7 @@ sub Data {
         'Watched Tickets New' => '',
         'Watched Tickets Reminder Reached' => '',
         'All tickets' => 'Tất cả các thẻ',
-        'Tickets available' => 'Các thẻ sẵn sàng sử dụng',
+        'Available tickets' => '',
         'Escalation' => '',
         'last-search' => '',
         'QueueView' => 'Xem hàng đợi',
@@ -610,8 +610,10 @@ sub Data {
         'new' => 'mới',
         'open' => 'mở',
         'Open' => '',
+        'Open tickets' => '',
         'closed' => 'đóng',
         'Closed' => '',
+        'Closed tickets' => '',
         'removed' => 'gỡ bỏ',
         'pending reminder' => 'đang treo nhắc nhở',
         'pending auto' => 'đang treo tự động',
@@ -1081,7 +1083,7 @@ sub Data {
         'New customer ID' => '',
         'New title' => '',
         'New type' => '',
-        'New Dynamic Fields' => '',
+        'New Dynamic Field Values' => '',
         'Archive selected tickets' => '',
         'Add Note' => 'Thêm lưu ý',
         'Time units' => 'Các đơn vị thời gian',
@@ -1813,6 +1815,10 @@ sub Data {
         'Posted %s ago.' => '',
 
         # Template: AgentDashboardTicketGeneric
+        'My locked tickets' => '',
+        'My watched tickets' => '',
+        'My responsibilites' => '',
+        'Tickets in My Queues' => '',
 
         # Template: AgentDashboardTicketStats
 
@@ -4549,6 +4555,7 @@ sub Data {
         'TicketFreeFields' => 'Các trường không thẻ',
         'TicketFreeText' => 'Nội dung thẻ',
         'TicketZoom' => 'Phóng đại thẻ',
+        'Tickets available' => 'Các thẻ sẵn sàng sử dụng',
         'Tickets shown' => 'Các thẻ hiển thị',
         'Timeover' => 'Hết thời gian',
         'Times' => 'Lần',

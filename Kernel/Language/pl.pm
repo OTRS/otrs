@@ -3,7 +3,7 @@
 # Copyright (C) 2003-2010 Tomasz Melissa <janek at rumianek.com>
 # Copyright (C) 2009 Artur Skalski <skal.ar at wp.pl>
 # --
-# $Id: pl.pm,v 1.118 2011-12-15 11:23:57 mg Exp $
+# $Id: pl.pm,v 1.119 2011-12-15 15:42:31 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,13 +16,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.118 $) [1];
+$VERSION = qw($Revision: 1.119 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2011-12-15 12:18:58
+    # Last translation file sync: 2011-12-15 16:38:53
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -56,7 +56,7 @@ sub Data {
         'before' => 'przed',
         'Today' => 'Dziś',
         'Tomorrow' => 'Jutro',
-        'Next Week' => 'Następny tydzień',
+        'Next week' => '',
         'day' => 'dzień',
         'days' => 'dni',
         'day(s)' => 'dzień(dni)',
@@ -600,7 +600,7 @@ sub Data {
         'Watched Tickets New' => '',
         'Watched Tickets Reminder Reached' => '',
         'All tickets' => 'Wszystkie zgłoszenia',
-        'Tickets available' => 'Dostępne zgłoszenia',
+        'Available tickets' => '',
         'Escalation' => 'Eskalacja',
         'last-search' => '',
         'QueueView' => 'Przegląd kolejki',
@@ -612,8 +612,10 @@ sub Data {
         'new' => 'nowe',
         'open' => 'otwarte',
         'Open' => 'Otwarte',
+        'Open tickets' => '',
         'closed' => 'zamknięte',
         'Closed' => 'Zamknięte',
+        'Closed tickets' => '',
         'removed' => 'usunięte',
         'pending reminder' => 'oczekujące przypomnienie',
         'pending auto' => 'oczekujące auto',
@@ -1083,7 +1085,7 @@ sub Data {
         'New customer ID' => '',
         'New title' => '',
         'New type' => '',
-        'New Dynamic Fields' => '',
+        'New Dynamic Field Values' => '',
         'Archive selected tickets' => '',
         'Add Note' => 'Dodaj notatkę',
         'Time units' => 'Jednostek czasu',
@@ -1815,6 +1817,10 @@ sub Data {
         'Posted %s ago.' => '',
 
         # Template: AgentDashboardTicketGeneric
+        'My locked tickets' => '',
+        'My watched tickets' => '',
+        'My responsibilites' => '',
+        'Tickets in My Queues' => '',
 
         # Template: AgentDashboardTicketStats
 
@@ -4433,6 +4439,7 @@ sub Data {
         'New account created. Sent Login-Account to %s.' => 'Konto zostało utworzone. Wysłano informacje dotyczące logowania do %s.',
         'New messages' => 'Nowe wiadomości',
         'New password again' => 'Ponownie nowe hasło',
+        'Next Week' => 'Następny tydzień',
         'No * possible!' => 'Nie używaj znaku "*"!',
         'No Packages for requested Framework in this Online Repository, but Packages for other Frameworks!' =>
             'Brak pakietów dla używanej wersji Frameworka w tym repozytorium, ale są pakiety dla innych wersji!',
@@ -4624,6 +4631,7 @@ sub Data {
         'TicketFreeText' => 'Dodatkowe informacje o zgłoszeniu',
         'TicketID' => 'ID Zgłoszenia',
         'TicketZoom' => 'Podgląd zgłoszenia',
+        'Tickets available' => 'Dostępne zgłoszenia',
         'Tickets shown' => 'Pokazane zgłoszenia',
         'Tickets which need to be answered!' => 'Zgłoszenia, na które należy odpowiedzieć!',
         'Timeover' => 'Przekroczenie czasu',
