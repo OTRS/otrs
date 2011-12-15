@@ -2,7 +2,7 @@
 # AdminGenericAgent.dtl - provides HTML form for AdminGenericAgent.pm
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.dtl,v 1.91 2011-12-02 12:04:42 mb Exp $
+# $Id: AdminGenericAgent.dtl,v 1.92 2011-12-15 14:13:44 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -562,7 +562,7 @@
                         <div class="Clear"></div>
 <!-- dtl:block:NewTicketType -->
 <!-- dtl:block:NewDynamicField -->
-                        <label>$Text{"New Dynamic Fields"}</label>
+                        <label>$Text{"New Dynamic Field Values"}</label>
                         <div class="Clear"></div>
 <!-- dtl:block:NewDynamicFieldElement -->
                         $Data{"Label"}

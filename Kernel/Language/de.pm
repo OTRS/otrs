@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Thomas Kaltenbrunner <tkaltenbrunner at opc.de>
 # --
-# $Id: de.pm,v 1.304 2011-12-15 11:23:53 mg Exp $
+# $Id: de.pm,v 1.305 2011-12-15 14:13:43 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.304 $) [1];
+$VERSION = qw($Revision: 1.305 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -272,7 +272,7 @@ sub Data {
         'Cannot create %s!' => '%s kann nicht erzeugt werden!',
         'Check to activate this date' => 'Auswählen, um dieses Datum zu aktivieren',
         'You have Out of Office enabled, would you like to disable it?' =>
-            '',
+            'Sie haben die Abwesenheitszeit eingeschaltet, möchten Sie diese deaktiveren?',
         'Customer %s added' => 'Kunde %s hinzugefügt',
         'Role added!' => 'Rolle hinzugefügt!',
         'Role updated!' => 'Rolle aktualisiert!',
@@ -290,10 +290,10 @@ sub Data {
         'Customer updated!' => 'Kunde aktualisiert!',
         'Customer company added!' => 'Kundenfirma hinzugefügt!',
         'Customer company updated!' => 'Kundenfirma aktualisiert!',
-        'Mail account added!' => '',
-        'Mail account updated!' => '',
-        'System e-mail address added!' => '',
-        'System e-mail address updated!' => '',
+        'Mail account added!' => 'E-Mail-Konto hinzugefügt!',
+        'Mail account updated!' => 'E-Mail-Konto aktualisiert!',
+        'System e-mail address added!' => 'E-Mail-Adresse hinzugefügt!',
+        'System e-mail address updated!' => 'E-Mail-Adresse aktualisiert!',
         'Contract' => 'Vertrag',
         'Online Customer: %s' => 'Online Kunde: %s',
         'Online Agent: %s' => 'Online Agent: %s',
@@ -381,8 +381,8 @@ sub Data {
         'SHIFT' => 'Umschalt',
         'Undo' => 'Rückgängig',
         'Redo' => 'Wiederholen',
-        'Scheduler process is registered but might not be running.' => '',
-        'Scheduler is not running.' => '',
+        'Scheduler process is registered but might not be running.' => 'Scheduler-Prozess ist registriert, scheint aber nicht zu laufen.',
+        'Scheduler is not running.' => 'Scheduler läuft nicht.',
 
         # Template: AAACalendar
         'New Year\'s Day' => 'Neujahr',
@@ -393,10 +393,10 @@ sub Data {
         'New Year\'s Eve' => 'Silvester',
 
         # Template: AAAGenericInterface
-        'OTRS as requester' => '',
-        'OTRS as provider' => '',
-        'Webservice "%s" created!' => '',
-        'Webservice "%s" updated!' => '',
+        'OTRS as requester' => 'OTRS als Requester',
+        'OTRS as provider' => 'OTRS als Provider',
+        'Webservice "%s" created!' => 'Webservice "%s" erstellt!',
+        'Webservice "%s" updated!' => 'Webservice "%s" aktualisiert!',
 
         # Template: AAAMonth
         'Jan' => 'Jan',
@@ -546,10 +546,10 @@ sub Data {
         'Priority' => 'Priorität',
         'Priorities' => 'Prioritäten',
         'Priority Update' => 'Priorität aktualisieren',
-        'Priority added!' => '',
-        'Priority updated!' => '',
-        'Signature added!' => '',
-        'Signature updated!' => '',
+        'Priority added!' => 'Priorität hinzugefügt!',
+        'Priority updated!' => 'Priorität aktualisiert!',
+        'Signature added!' => 'Signatur hinzugefügt!',
+        'Signature updated!' => 'Signatur aktualisiert!',
         'SLA' => 'SLA',
         'Service Level Agreement' => 'Service-Level-Vereinbarung',
         'Service Level Agreements' => 'Service-Level-Vereinbarungen',
@@ -604,10 +604,10 @@ sub Data {
         'last-search' => 'Letzte Suche',
         'QueueView' => 'Queue-Ansicht',
         'Ticket Escalation View' => 'Ansicht nach Ticket-Eskalationen',
-        'Message from' => '',
-        'End message' => '',
-        'Forwarded message from' => '',
-        'End forwarded message' => '',
+        'Message from' => 'Nachricht von',
+        'End message' => 'Ende der Nachricht',
+        'Forwarded message from' => 'Weitergeleitete Nachricht von',
+        'End forwarded message' => 'Ende der weitergeleiteten Nachricht',
         'new' => 'neu',
         'open' => 'offen',
         'Open' => 'Offen',
@@ -647,12 +647,12 @@ sub Data {
         'Ticket Number' => 'Ticket Nummer',
         'Ticket Object' => 'Ticket Objekt',
         'No such Ticket Number "%s"! Can\'t link it!' => 'Ticketnummer "%s" nicht gefunden! Ticket konnte nicht verknüpft werden!',
-        'You don\'t have write access to this ticket.' => '',
+        'You don\'t have write access to this ticket.' => 'Sie haben keinen Schreibzugriff auf dieses Ticket.',
         'Sorry, you need to be the ticket owner to perform this action.' =>
-            '',
-        'Ticket selected.' => '',
+            'Entschuldigung, Sie müssen Ticketbesitzer sein, um diese Aktion ausführen zu können.',
+        'Ticket selected.' => 'Ticket ausgewählt.',
         'Ticket is locked by another agent.' => 'Das Ticket ist für einen anderen Agenten gesperrt!',
-        'Ticket locked.' => '',
+        'Ticket locked.' => 'Ticket gesperrt.',
         'Don\'t show closed Tickets' => 'Geschlossene Tickets nicht zeigen',
         'Show closed Tickets' => 'Geschlossene Tickets anzeigen',
         'New Article' => 'Neuer Artikel',
@@ -679,8 +679,8 @@ sub Data {
         'Watched' => 'Beobachtet',
         'Watch' => 'Beobachten',
         'Unwatch' => 'Nicht beobachten',
-        'Lock it to work on it' => '',
-        'Unlock to give it back to the queue' => '',
+        'Lock it to work on it' => 'Zur Bearbeitung sperren',
+        'Unlock to give it back to the queue' => 'Zur Rückgabe and die Queue entsperren',
         'Shows the ticket history!' => 'Ticket Historie anzeigen!',
         'Print this ticket!' => 'Ticket drucken!',
         'Change the ticket priority!' => 'Ändern der Ticket-Priorität',
@@ -765,8 +765,8 @@ sub Data {
         'All escalated tickets' => 'Alle eskalierten Tickets',
         'All tickets with a reminder set where the reminder date has been reached' =>
             'Alle Tickets, deren Erinnerungszeit erreicht ist',
-        'Archived tickets' => '',
-        'Unarchived tickets' => '',
+        'Archived tickets' => 'Archivierte Tickets',
+        'Unarchived tickets' => 'Nicht archivierte Tickets',
         'History::Move' => 'Ticket verschoben in Queue "%s" (%s) von Queue "%s" (%s).',
         'History::TypeUpdate' => 'Typ aktualisiert "%s" (ID=%s).',
         'History::ServiceUpdate' => 'Service aktualisiert "%s" (ID=%s).',
@@ -822,7 +822,7 @@ sub Data {
         'Go to overview' => 'Zurück zur Übersicht',
         'Add attachment' => 'Anlage hinzufügen',
         'List' => 'Liste',
-        'Validity' => '',
+        'Validity' => 'Gültigkeit',
         'No data found.' => 'Keine Daten gefunden.',
         'Download file' => 'Datei herunterladen',
         'Delete this attachment' => 'Diesen Anhang entfernen',
@@ -855,7 +855,7 @@ sub Data {
 
         # Template: AdminCustomerCompany
         'Customer Company Management' => 'Kunden-Firma-Verwaltung',
-        'Wildcards like \'*\' are allowed.' => '',
+        'Wildcards like \'*\' are allowed.' => 'Platzhalter wie \'*\' sind erlaubt.',
         'Add customer company' => 'Firma hinzufügen',
         'Please enter a search term to look for customer companies.' => 'Bitte geben Sie einen Suchbegriff ein, um nach einer Firma zu suchen.',
         'Add Customer Company' => 'Firma hinzufügen',
@@ -887,7 +887,7 @@ sub Data {
         'Just use this feature if you want to define group permissions for customers.' =>
             'Benutzen Sie diese Programmfunktion, wenn Sie Gruppen-Erlaubnisse für Kunden definieren möchten.',
         'Enable it here!' => 'Hier aktivieren!',
-        'Search for customers.' => '',
+        'Search for customers.' => 'Kundensuche.',
         'Edit Customer Default Groups' => 'Standardgruppen für Kunden bearbeiten',
         'These groups are automatically assigned to all customers.' => 'Diese Gruppen werden allen Kunden automatisch zugewiesen.',
         'You can manage these groups via the configuration setting "CustomerGroupAlwaysGroups".' =>
@@ -1042,7 +1042,7 @@ sub Data {
         'No create time settings.' => 'Keine Erstell-Zeiten',
         'Ticket created' => 'Ticket erstellt',
         'Ticket created between' => 'Ticket erstellt zwischen',
-        'Change times' => '',
+        'Change times' => 'Änderungs-Zeiten',
         'No change time settings.' => 'Keine Änderungs-Zeiten',
         'Ticket changed' => 'Ticket geändert',
         'Ticket changed between' => 'Ticket geändert zwischen',
@@ -1076,13 +1076,13 @@ sub Data {
         'Set new state' => 'Neuen Status setzen',
         'Set new agent' => 'Neuen Agenten setzen',
         'new owner' => 'Neuer Besitzer',
-        'new responsible' => '',
+        'new responsible' => 'Neuer Verantwortlicher',
         'Set new ticket lock' => 'Neue Ticketsperre setzen',
         'New customer' => 'Neuer Kunde',
         'New customer ID' => 'Neue Kundennummer',
         'New title' => 'Neuer Titel',
         'New type' => 'Neuer Typ',
-        'New Dynamic Fields' => '',
+        'New Dynamic Field Values' => 'Neue Werte für dynamische Felder',
         'Archive selected tickets' => 'Ausgewählte Tickets archivieren',
         'Add Note' => 'Notiz hinzufügen',
         'Time units' => 'Zeiteinheiten',
