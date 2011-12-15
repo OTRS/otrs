@@ -2,7 +2,7 @@
 # AgentDashboardTicketGeneric.dtl - provides HTML for global dashboard
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboardTicketGeneric.dtl,v 1.41 2011-07-18 13:44:46 mb Exp $
+# $Id: AgentDashboardTicketGeneric.dtl,v 1.42 2011-12-15 15:03:05 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -11,7 +11,7 @@
 
 <!-- dtl:block:ContentLargeTicketGenericFilter -->
 <ul class="Tab Actions">
-    <li class="$QData{"Locked::Selected"}"><a href="#" id="Dashboard$QData{"Name"}Locked">$Text{"Locked Tickets"} ($QData{"Locked"})</a></li>
+    <li class="$QData{"Locked::Selected"}"><a href="#" id="Dashboard$QData{"Name"}Locked">$Text{"My locked tickets"} ($QData{"Locked"})</a></li>
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
     $('#Dashboard$QData{"Name"}Locked').unbind('click').bind('click', function(){
@@ -26,7 +26,7 @@
 <!-- dtl:js_on_document_complete -->
 
 <!-- dtl:block:ContentLargeTicketGenericFilterWatcher -->
-    <li class="$QData{"Watcher::Selected"}"><a href="#" id="Dashboard$QData{"Name"}Watcher">$Text{"Watched"} ($QData{"Watcher"})</a></li>
+    <li class="$QData{"Watcher::Selected"}"><a href="#" id="Dashboard$QData{"Name"}Watcher">$Text{"My watched tickets"} ($QData{"Watcher"})</a></li>
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
     $('#Dashboard$QData{"Name"}Watcher').unbind('click').bind('click', function(){
@@ -42,7 +42,7 @@
 <!-- dtl:block:ContentLargeTicketGenericFilterWatcher -->
 
 <!-- dtl:block:ContentLargeTicketGenericFilterResponsible -->
-    <li class="$QData{"Responsible::Selected"}"><a href="#" id="Dashboard$QData{"Name"}Responsible">$Text{"Responsible"} ($QData{"Responsible"})</a></li>
+    <li class="$QData{"Responsible::Selected"}"><a href="#" id="Dashboard$QData{"Name"}Responsible">$Text{"My responsibilites"} ($QData{"Responsible"})</a></li>
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
     $('#Dashboard$QData{"Name"}Responsible').unbind('click').bind('click', function(){
@@ -58,9 +58,9 @@
 
 <!-- dtl:block:ContentLargeTicketGenericFilterResponsible -->
 <!-- dtl:block:ContentLargeTicketGenericFilterMyQueues -->
-    <li class="$QData{"MyQueues::Selected"}"><a href="#" id="Dashboard$QData{"Name"}MyQueues">$Text{"My Queues"} ($QData{"MyQueues"})</a></li>
+    <li class="$QData{"MyQueues::Selected"}"><a href="#" id="Dashboard$QData{"Name"}MyQueues">$Text{"Tickets in My Queues"} ($QData{"MyQueues"})</a></li>
 <!-- dtl:block:ContentLargeTicketGenericFilterMyQueues -->
-    <li class="$QData{"All::Selected"} Last"><a href="#" id="Dashboard$QData{"Name"}All">$Text{"All"} ($QData{"All"})</a></li>
+    <li class="$QData{"All::Selected"} Last"><a href="#" id="Dashboard$QData{"Name"}All">$Text{"All tickets"} ($QData{"All"})</a></li>
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
     $('#Dashboard$QData{"Name"}MyQueues').unbind('click').bind('click', function(){
