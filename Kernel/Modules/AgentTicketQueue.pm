@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketQueue.pm - the queue view of all tickets
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketQueue.pm,v 1.78 2010-11-09 15:23:18 martin Exp $
+# $Id: AgentTicketQueue.pm,v 1.79 2011-12-15 15:10:29 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Lock;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.78 $) [1];
+$VERSION = qw($Revision: 1.79 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -170,7 +170,7 @@ sub Run {
             },
         },
         Unlocked => {
-            Name   => 'Tickets available',
+            Name   => 'Available tickets',
             Prio   => 1001,
             Search => {
                 LockIDs  => \@ViewableLockIDs,
