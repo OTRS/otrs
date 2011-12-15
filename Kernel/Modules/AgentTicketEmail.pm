@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.197 2011-12-09 22:29:45 cr Exp $
+# $Id: AgentTicketEmail.pm,v 1.198 2011-12-15 19:20:59 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -28,7 +28,7 @@ use Mail::Address;
 use Kernel::System::Service;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.197 $) [1];
+$VERSION = qw($Revision: 1.198 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -114,6 +114,9 @@ sub Run {
     # If is an action about attachments
     my $IsUpload = ( $Self->{ParamObject}->GetParam( Param => 'AttachmentUpload' ) ? 1 : 0 );
 
+    # hash for check duplicated entries
+    my %AddressesList;
+
     # MultipleCustomer To-field
     my @MultipleCustomer;
     my $CustomersNumber
@@ -150,6 +153,12 @@ sub Run {
                         }
                     }
 
+                    # check for duplicated entries
+                    if ( defined $AddressesList{$CustomerElement} && $CustomerError eq '' ) {
+                        $CustomerErrorMsg = 'IsDuplicatedServerErrorMsg';
+                        $CustomerError    = 'ServerError';
+                    }
+
                     if ( $CustomerError ne '' ) {
                         $CustomerDisabled = 'disabled="disabled"';
                         $CountAux         = $Count . 'Error';
@@ -165,6 +174,7 @@ sub Run {
                     CustomerErrorMsg => $CustomerErrorMsg,
                     CustomerDisabled => $CustomerDisabled,
                 };
+                $AddressesList{$CustomerElement} = 1;
             }
         }
     }
@@ -200,6 +210,12 @@ sub Run {
                         }
                     }
 
+                    # check for duplicated entries
+                    if ( defined $AddressesList{$CustomerElementCc} && $CustomerErrorCc eq '' ) {
+                        $CustomerErrorMsgCc = 'IsDuplicatedServerErrorMsg';
+                        $CustomerErrorCc    = 'ServerError';
+                    }
+
                     if ( $CustomerErrorCc ne '' ) {
                         $CustomerDisabledCc = 'disabled="disabled"';
                         $CountAuxCc         = $Count . 'Error';
@@ -214,6 +230,7 @@ sub Run {
                     CustomerErrorMsg => $CustomerErrorMsgCc,
                     CustomerDisabled => $CustomerDisabledCc,
                 };
+                $AddressesList{$CustomerElementCc} = 1;
             }
         }
     }
@@ -250,6 +267,12 @@ sub Run {
                         }
                     }
 
+                    # check for duplicated entries
+                    if ( defined $AddressesList{$CustomerElementBcc} && $CustomerErrorBcc eq '' ) {
+                        $CustomerErrorMsgBcc = 'IsDuplicatedServerErrorMsg';
+                        $CustomerErrorBcc    = 'ServerError';
+                    }
+
                     if ( $CustomerErrorBcc ne '' ) {
                         $CustomerDisabledBcc = 'disabled="disabled"';
                         $CountAuxBcc         = $Count . 'Error';
@@ -264,6 +287,7 @@ sub Run {
                     CustomerErrorMsg => $CustomerErrorMsgBcc,
                     CustomerDisabled => $CustomerDisabledBcc,
                 };
+                $AddressesList{$CustomerElementBcc} = 1;
             }
         }
     }
