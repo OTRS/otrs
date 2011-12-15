@@ -2,7 +2,7 @@
 # AAATicket.dtl - $Text variable file
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AAATicket.dtl,v 1.76 2011-12-15 15:10:29 mg Exp $
+# $Id: AAATicket.dtl,v 1.77 2011-12-15 15:12:59 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -98,8 +98,10 @@ $Text{"End forwarded message"}
 $Text{"new"}
 $Text{"open"}
 $Text{"Open"}
+$Text{"Open tickets"}
 $Text{"closed"}
 $Text{"Closed"}
+$Text{"Closed tickets"}
 $Text{"removed"}
 $Text{"pending reminder"}
 $Text{"pending auto"}
