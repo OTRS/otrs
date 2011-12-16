@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # Copyright (C) 2011 Edgaras Lukoðevièius <edgaras[eta]kauko.lt or admin[eta]sysadmin.lt>
 # --
-# $Id: lt.pm,v 1.1.2.3 2011-09-07 21:01:29 en Exp $
+# $Id: lt.pm,v 1.1.2.4 2011-12-16 11:58:19 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1.2.3 $) [1];
+$VERSION = qw($Revision: 1.1.2.4 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -24,7 +24,7 @@ sub Data {
     # Last translation file sync: 2011-06-14 12:57:47
 
     # possible charsets
-    $Self->{Charset} = ['iso-8859-13', 'utf-8', ];
+    $Self->{Charset} = ['iso-8859-13' ];
     # date formats (%A=WeekDay;%B=LongMonth;%T=Time;%D=Day;%M=Month;%Y=Year;)
     $Self->{DateFormat}          = '%Y-%M-%D %T';
     $Self->{DateFormatLong}      = '%Y-%M-%D - %T';
