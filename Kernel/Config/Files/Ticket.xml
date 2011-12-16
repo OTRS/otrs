@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.492 2011-12-13 23:23:59 mb Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.493 2011-12-16 14:38:23 mg Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Translatable="1">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Group>Ticket</Group>
@@ -637,6 +637,17 @@ Description>
     </ConfigItem>
     <ConfigItem Name="Ticket::ZoomTimeDisplay" Required="0" Valid="0">
         <Description Translatable="1">Displays the accounted time for an article in the ticket zoom view.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewZoom</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::UseArticleColors" Required="0" Valid="0">
+        <Description Translatable="1">Shows colors for different article types in the article table.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewZoom</SubGroup>
         <Setting>

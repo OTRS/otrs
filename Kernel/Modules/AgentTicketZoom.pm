@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.172 2011-12-13 10:34:03 mg Exp $
+# $Id: AgentTicketZoom.pm,v 1.173 2011-12-16 14:38:24 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.172 $) [1];
+$VERSION = qw($Revision: 1.173 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1033,10 +1033,18 @@ sub _ArticleTree {
     my $ArticleMaxLimit = $Param{ArticleMaxLimit};
     my $ArticleID       = $Param{ArticleID};
 
+    my $TableClasses;
+    if ( $Self->{ConfigObject}->Get('Ticket::UseArticleColors') ) {
+        $TableClasses .= 'UseArticleColors';
+    }
+
     # build thread string
     $Self->{LayoutObject}->Block(
         Name => 'Tree',
-        Data => {%Param},
+        Data => {
+            %Param,
+            TableClasses => $TableClasses,
+        },
     );
 
     # check if expand/collapse view is usable (only for less then 300 articles)

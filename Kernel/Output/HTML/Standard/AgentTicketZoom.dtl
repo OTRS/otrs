@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.204 2011-12-13 10:34:04 mg Exp $
+# $Id: AgentTicketZoom.dtl,v 1.205 2011-12-16 14:38:24 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -360,7 +360,7 @@ $Data{"ArticleItems"}
     </div>
     <div id="ArticleTableBody" class="ActionRow">
         <div class="Scroller">
-            <table id="FixedTable" class="TableSmall NoCellspacing">
+            <table id="FixedTable" class="TableSmall NoCellspacing $QData{"TableClasses"}">
                 <thead>
                     <tr>
                         <th class="UnreadArticles"><a class="UnreadArticles" href="#" title="$Text{"Unread articles"}"><span class="UnreadArticles"></span></a></th>

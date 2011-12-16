@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.21 $
+ * @version     $Revision: 1.22 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -240,5 +240,100 @@ div.Headline .Flag {
 .ItemRow a:hover {
     color: #666;
 }
+
+/**
+ * @subsection  ArticleColors
+ * @note        article colors
+ */
+
+/*
+* Customer artcle types
+*/
+.UseArticleColors .customer-webrequest > td {
+    background: white url(../img/gradient_light.png) repeat-x !important;
+}
+.UseArticleColors .customer-email-external > td {
+    background: white url(../img/gradient_light.png) repeat-x !important;
+}
+.UseArticleColors .customer-note-external > td {
+    background: white url(../img/gradient_light.png) repeat-x !important;
+}
+.UseArticleColors .customer-phone > td {
+    background: white url(../img/gradient_light.png) repeat-x !important;
+}
+
+/*
+* Agent article types
+*/
+.UseArticleColors .agent-phone > td {
+    background: green url(../img/gradient_light.png) repeat-x !important;
+}
+.UseArticleColors .agent-email-external > td {
+    background: green url(../img/gradient_light.png) repeat-x !important;
+}
+.UseArticleColors .agent-email-internal > td {
+    background: red url(../img/gradient_light.png) repeat-x !important;
+}
+.UseArticleColors .agent-note-external > td {
+    background: black url(../img/gradient_light.png) repeat-x !important;
+}
+.UseArticleColors .agent-note-internal > td {
+    background: red url(../img/gradient_light.png) repeat-x !important;
+}
+
+/*
+* System article types
+*/
+.UseArticleColors .system-note-internal > td {
+    background: yellow url(../img/gradient_light.png) repeat-x !important;
+}
+.UseArticleColors .system-note-external > td {
+    background: yellow url(../img/gradient_light.png) repeat-x !important;
+}
+.UseArticleColors .system-note-report > td {
+    background: yellow url(../img/gradient_light.png) repeat-x !important;
+}
+.UseArticleColors .system-email-external > td {
+    background: yellow url(../img/gradient_light.png) repeat-x !important;
+}
+.UseArticleColors .system-email-internal > td {
+    background: yellow url(../img/gradient_light.png) repeat-x !important;
+}
+
+.UseArticleColors .customer-webrequest > td {
+    background: white url(../img/gradient_light.png) repeat-x !important;
+}
+.UseArticleColors .customer-email-external > td {
+    background: white url(../img/gradient_light.png) repeat-x !important;
+}
+.UseArticleColors .customer-note-external > td {
+    background: white url(../img/gradient_light.png) repeat-x !important;
+}
+.UseArticleColors .customer-phone > td {
+    background: white url(../img/gradient_light.png) repeat-x !important;
+}
+
+.UseArticleColors .agent-phone:hover > td,
+.UseArticleColors .agent-email-external:hover > td,
+.UseArticleColors .agent-email-internal:hover > td,
+.UseArticleColors .agent-note-external:hover > td,
+.UseArticleColors .agent-note-internal:hover > td,
+.UseArticleColors .system-note-internal:hover > td,
+.UseArticleColors .system-note-external:hover > td,
+.UseArticleColors .system-note-report:hover > td,
+.UseArticleColors .system-email-external:hover > td,
+.UseArticleColors .system-email-internal:hover > td,
+.UseArticleColors .customer-webrequest:hover > td,
+.UseArticleColors .customer-email-external:hover > td,
+.UseArticleColors .customer-note-external:hover > td,
+.UseArticleColors .customer-phone:hover > td {
+    background: url(../img/table_small_hover_bg.png) repeat-x center !important;
+    background: -moz-linear-gradient(center top, #FFE7BD, #FBBA49 20%, #F6AD3E 51%, #F3960D 51%, #E98207 95%, #E07006) !important;
+    background: -webkit-gradient(linear, left top, left bottom, from(#FFE7BD), to(#E07006), color-stop(20%, #FBBA49), color-stop(51%, #F6AD3E), color-stop(51%, #F3960D), color-stop(95%, #E98207)) !important;
+    -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.3) !important;
+    -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.3) !important;
+    box-shadow: 0 1px 0 rgba(0,0,0,0.3) !important;
+}
+
 
 } /* end @media */
