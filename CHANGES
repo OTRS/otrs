@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1758.2.208 2011-12-14 19:02:25 mb Exp $
+# $Id: CHANGES,v 1.1758.2.209 2011-12-16 12:04:00 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.12 ????-??-??
+ - 2011-12-16 Fixed Lithuanian language file encoding.
  - 2011-12-14 Fixed bug#8000 - Queues are translated if are displayed in list-style.
  - 2011-12-13 Fixed bug#7020 - Error in MYSQL Syntax when CustomerID contains special characters.
  - 2011-12-12 Improved #7526 - Automatic TicketSearch for special characters (, ), &, - fails.
