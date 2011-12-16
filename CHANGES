@@ -2,14 +2,14 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2097 2011-12-15 15:03:53 mg Exp $
+# $Id: CHANGES,v 1.2098 2011-12-16 07:46:10 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-3.1.0.beta3 2011-12-??
+3.1.0.beta3 2011-12-20
  - 2011-12-15 Fixed bug#8012 - Confusing dashboard filter names.
  - 2011-12-14 Fixed bug#8000 - Queues are translated if are displayed in list-style.
  - 2011-12-13 Added feature bug#7893 - Customer Info in TicketZoom can now also list open tickets
