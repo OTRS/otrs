@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Thomas Kaltenbrunner <tkaltenbrunner at opc.de>
 # --
-# $Id: de.pm,v 1.306 2011-12-15 15:42:27 mg Exp $
+# $Id: de.pm,v 1.307 2011-12-19 12:00:03 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.306 $) [1];
+$VERSION = qw($Revision: 1.307 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2011-12-15 16:38:34
+    # Last translation file sync: 2011-12-19 12:58:40
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2579,6 +2579,7 @@ sub Data {
         'Checks the SystemID in ticket number detection for follow-ups (use "No" if SystemID has been changed after using the system).' =>
             '',
         'Close this ticket' => '',
+        'Closed tickets of customer' => 'Geschlossene Tickets des Kunden',
         'Comment for new history entries in the customer interface.' => '',
         'Companies' => 'Firmen',
         'Company Tickets' => '',
@@ -3580,6 +3581,7 @@ sub Data {
             '',
         'Number of tickets to be displayed in each page of a search result in the customer interface.' =>
             '',
+        'Open tickets of customer' => 'Offene Tickets des Kunden',
         'Overloads (redefines) existing functions in Kernel::System::Ticket. Used to easily add customizations.' =>
             '',
         'Overview Escalated Tickets' => 'Übersicht eskalierte Tickets',
@@ -3984,6 +3986,8 @@ sub Data {
         'Shows all the customer identifiers in a multi-select field (not useful if you have a lot of customer identifiers).' =>
             '',
         'Shows an owner selection in phone and email tickets in the agent interface.' =>
+            '',
+        'Shows colors for different article types in the article table.' =>
             '',
         'Shows customer history tickets in AgentTicketPhone, AgentTicketEmail and AgentTicketCustomer.' =>
             '',
