@@ -2,7 +2,7 @@
 # README - readme file of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: README,v 1.44 2011-12-19 09:32:15 mg Exp $
+# $Id: README,v 1.45 2011-12-19 12:40:55 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -84,10 +84,14 @@ $HOME (e. g. /opt/otrs/)
 |   |      |----- /Customer*   (all modules for the customer interface)
 |   |
 |   |---- /System/         (back-end API modules, selection below)
-|           |--- /DB.pm          (central DB interface)
-|           |--- /DB/*.pm        (DB drivers)
 |           |--- /Auth.pm        (authentication module)
 |           |--- /AuthSession.pm (session authentication module)
+|           |--- /DB.pm          (central DB interface)
+|           |--- /DB/*.pm        (DB drivers)
+|           |--- /DynamicField.pm (Interface to the DynamicField configuration)
+|           |--- /DynamicField
+|                 |--- /Backend.pm (Interface for using the dynamic fields)
+|                 |--- /Backend/*.pm (DynamicField backend implementations)
 |           |--- /Email.pm       (create and send e-mail)
 |           |--- /EmailParser.pm (parsing e-mail)
 |           |--- /GenericInterface (GenericInterface framework)
@@ -102,7 +106,7 @@ $HOME (e. g. /opt/otrs/)
 |                 |--- /TaskHandler/ (task handler backends for the Scheduler)
 |           |--- /Ticket.pm      (ticket and article functions)
 |           |--- /User.pm        (user module)
-|           |--- /WebParam.pm    (HTTP/CGI abstraction module)
+|           |--- /Request.pm    (HTTP/CGI abstraction module)
 |
 |  (data stuff)
 |--/var/
