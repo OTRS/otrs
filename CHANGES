@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1758.2.210 2011-12-16 19:58:00 cg Exp $
+# $Id: CHANGES,v 1.1758.2.211 2011-12-19 09:25:13 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,7 +10,8 @@
 # --
 
 3.0.12 ????-??-??
- - 2011-12-14 Fixed bug#7014: Inline article gets bigger than Ticket::Frontend::HTMLArticleHeightMax.
+ - 2011-12-19 Fixed bug#7005 - JavaScript Init function is executed more than once in TicketZoom
+ - 2011-12-14 Fixed bug#7014 - Inline article gets bigger than Ticket::Frontend::HTMLArticleHeightMax.
  - 2011-12-16 Fixed Lithuanian language file encoding.
  - 2011-12-14 Fixed bug#8000 - Queues are translated if are displayed in list-style.
  - 2011-12-13 Fixed bug#7020 - Error in MYSQL Syntax when CustomerID contains special characters.
