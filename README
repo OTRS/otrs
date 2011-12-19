@@ -2,7 +2,7 @@
 # README - readme file of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: README,v 1.43 2011-11-18 08:15:26 mg Exp $
+# $Id: README,v 1.44 2011-12-19 09:32:15 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,83 +18,8 @@ What is OTRS?
   Windows, FreeBSD, OpenBSD and Mac OS 10.x. Do you receive many e-mails and
   want to answer them with a team of agents? You're going to love OTRS!
 
-
-  Feature list:
-
-   Web Interface:
-    - Agent web interface for viewing and working on all customer requests
-    - Admin web interface for changing system configuration
-    - Customer web interface for viewing and sending information to the agents
-    - Web interface with themes support
-    - Web interface with Single sign on (e. g. HTTPBasicAuth)
-    - Multi-language support (Arabic, Brazilian Portuguese, Bulgarian, Catalan,
-      Chinese Simple, Chinese Traditional, Croatian, Czech, Danish, Dutch,
-      English, Estonian, Finnish, French, German, Greek, Hindi, Hungarian,
-      Italian, Japanese, Latvian, Lithuanian, Norwegian, Persian (Farsi),
-      Polish, Portuguese, Russian, Serbian, Slovak, Spanish, Swedish, Turkish,
-      Ukrainian, and Vietnamese built in and easy to add your own if needed)
-    - customize the output templates (dtl) release independently
-    - Web interface with attachment support
-    - Support for ITIL processes via additional packages, passed PinkVerify(TM)
-      for 6 processes.
-    - Knowledge Base module (FAQ) via additional package
-    - easy and logical to use
-
-   Email Interface:
-    - dispatching of incoming email via email address or email headers
-    - autoresponders for customers by incoming e-mails (per queue)
-    - email-notification to the agent by new tickets, follow ups or lock timeouts
-    - Rich Text support
-    - MIME support (attachments)
-    - PGP support
-    - SMIME support
-
-   Tickets:
-    - custom queue view and queue view of all requests
-    - Ticket locking
-    - Ticket replies (standard responses)
-    - Ticket autoresponders per queue
-    - Ticket history, evolution of ticket status and actions taken on ticket
-    - Ability to add notes (with different note types) to a ticket
-    - Ticket zoom feature
-    - Tickets can be bounced or forwarded to other email addresses
-    - Ticket can be moved to a different queue (this is helpful if e-mails are
-       for a specific subject)
-    - Ticket priority
-    - Ticket time accounting
-    - Ticket print view
-    - Ticket pending feature
-    - Ticket merge feature
-    - Ticket ACL support
-    - Content full text search
-
-   System:
-    - Customer Source can be used from a SQL databases or LDAP
-        (e. g. eDirectory, AD, OpenLDAP)
-    - TicketHook free configurable like 'Call#', 'MyTicket#', 'Request#' or 'Ticket#'
-    - Ticket number format free configurable
-    - utf-8 support for front end and back end
-    - creation and configuration of user accounts, and groups
-    - creation of standard responses
-    - creation of sub queue
-    - signature configuration per queue
-    - salutation configuration per queue
-    - email-notification of administrators
-    - email-notification sent to problem reporter (by create, locked, deleted,
-       moved and closed)
-    - submitting update-info (via email or web interface)
-    - deadlines for trouble tickets
-    - different levels of permissions/access-rights
-    - central database, support for different SQL databases (MySQL, PostgreSQL, Oracle, MS-SQL, and DB2)
-    - user authentication against database or LDAP directory
-    - easy to develop you own add-ons (OTRS API)
-    - easy to write different front-ends (e. g. X11, console, ...)
-    - package manager (e. g. for application modules like web mail, calendar, FAQ or
-       file manager)
-    - a fast and useful application
-    - SOAP interface for integration with other applications
-    - built-in capabilities to connect with network monitoring such as Nagios and OpenNMS
-    - iPhone App available
+  You can find a list of features at:
+  http://doc.otrs.org/3.1/en/html/features-of-otrs.html
 
 
 License:
@@ -138,6 +63,7 @@ $HOME (e. g. /opt/otrs/)
 |   |   |----- /customer.pl     (Global Customer handle)
 |   |   |----- /public.pl       (Global Public handle)
 |   |   |----- /installer.pl    (Global Installer handle)
+|   |   |----- /nph-genericinterface.pl (Global GenericInterface handle)
 |   |--/fcgi-bin/               (If you're using FastCGI)
 |
 |  (all modules)
@@ -153,23 +79,30 @@ $HOME (e. g. /opt/otrs/)
 |   |---- /Language/      (all translation files)
 |   |
 |   |---- /Modules/        (all action modules e. g. QueueView, Move, ...)
-|   |      |----- /Agent*      (all modules for the agent interface)
 |   |      |----- /Admin*      (all modules for the admin interface)
+|   |      |----- /Agent*      (all modules for the agent interface)
 |   |      |----- /Customer*   (all modules for the customer interface)
 |   |
 |   |---- /System/         (back-end API modules, selection below)
 |           |--- /DB.pm          (central DB interface)
-|                 |--- /DB/*.pm  (DB drivers)
+|           |--- /DB/*.pm        (DB drivers)
 |           |--- /Auth.pm        (authentication module)
 |           |--- /AuthSession.pm (session authentication module)
 |           |--- /Email.pm       (create and send e-mail)
 |           |--- /EmailParser.pm (parsing e-mail)
-|           |--- /Log.pm         (log module)
-|           |--- /User.pm        (user module)
+|           |--- /GenericInterface (GenericInterface framework)
+|                 |--- /Invoker/ (invoker backends)
+|                 |--- /Mapping/ (data mapping backends)
+|                 |--- /Operation/ (operation backends)
+|                 |--- /Transport/ (network transport backends)
 |           |--- /Group.pm       (group module)
-|           |--- /WebParam.pm    (e. g. get params)
+|           |--- /Log.pm         (log module)
 |           |--- /Queue.pm       (information about queues. e. g. responses, ...)
+|           |--- /Scheduler      (Scheduler files)
+|                 |--- /TaskHandler/ (task handler backends for the Scheduler)
 |           |--- /Ticket.pm      (ticket and article functions)
+|           |--- /User.pm        (user module)
+|           |--- /WebParam.pm    (HTTP/CGI abstraction module)
 |
 |  (data stuff)
 |--/var/
