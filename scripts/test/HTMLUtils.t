@@ -2,7 +2,7 @@
 # HTMLUtils.t - HTMLUtils tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: HTMLUtils.t,v 1.37 2011-09-20 12:22:21 mh Exp $
+# $Id: HTMLUtils.t,v 1.38 2011-12-19 08:53:20 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -679,33 +679,33 @@ for my $Test (@Tests) {
     },
     {
         Input =>
-            'Test http://example.example.local/example/index.pl?Action=AgentZoom&TicketID=2 link with &',
+            'Test http://example.example.local/example/index.pl?Action=AgentTicketZoom&TicketID=2 link with &',
         Result =>
-            'Test <a href="http://example.example.local/example/index.pl?Action=AgentZoom&TicketID=2" title="http://example.example.local/example/index.pl?Action=AgentZoom&TicketID=2">http://example.example.local/example/index.pl?Action=AgentZoom&TicketID=2</a> link with &',
+            'Test <a href="http://example.example.local/example/index.pl?Action=AgentTicketZoom&TicketID=2" title="http://example.example.local/example/index.pl?Action=AgentTicketZoom&TicketID=2">http://example.example.local/example/index.pl?Action=AgentTicketZoom&TicketID=2</a> link with &',
         Name   => 'LinkQuote - link params with &',
         Target => '',
     },
     {
         Input =>
-            'Test http://example.example.local/example/index.pl?Action=AgentZoom&amp;TicketID=2 link with &amp;',
+            'Test http://example.example.local/example/index.pl?Action=AgentTicketZoom&amp;TicketID=2 link with &amp;',
         Result =>
-            'Test <a href="http://example.example.local/example/index.pl?Action=AgentZoom&amp;TicketID=2" title="http://example.example.local/example/index.pl?Action=AgentZoom&amp;TicketID=2">http://example.example.local/example/index.pl?Action=AgentZoom&amp;TicketID=2</a> link with &amp;',
+            'Test <a href="http://example.example.local/example/index.pl?Action=AgentTicketZoom&amp;TicketID=2" title="http://example.example.local/example/index.pl?Action=AgentTicketZoom&amp;TicketID=2">http://example.example.local/example/index.pl?Action=AgentTicketZoom&amp;TicketID=2</a> link with &amp;',
         Name   => 'LinkQuote - link params with &amp;',
         Target => '',
     },
     {
         Input =>
-            'Test http://example.example.local/example/index.pl?Action=AgentZoom;TicketID=2 link with ;',
+            'Test http://example.example.local/example/index.pl?Action=AgentTicketZoom;TicketID=2 link with ;',
         Result =>
-            'Test <a href="http://example.example.local/example/index.pl?Action=AgentZoom;TicketID=2" title="http://example.example.local/example/index.pl?Action=AgentZoom;TicketID=2">http://example.example.local/example/index.pl?Action=AgentZoom;TicketID=2</a> link with ;',
+            'Test <a href="http://example.example.local/example/index.pl?Action=AgentTicketZoom;TicketID=2" title="http://example.example.local/example/index.pl?Action=AgentTicketZoom;TicketID=2">http://example.example.local/example/index.pl?Action=AgentTicketZoom;TicketID=2</a> link with ;',
         Name   => 'LinkQuote - link params with ;',
         Target => '',
     },
     {
         Input =>
-            '<br />http://cuba/otrs/index.pl?Action=AgentZoom&amp;TicketID=4348<br /><br />Your OTRS Notification Master',
+            '<br />http://cuba/otrs/index.pl?Action=AgentTicketZoom&amp;TicketID=4348<br /><br />Your OTRS Notification Master',
         Result =>
-            '<br /><a href="http://cuba/otrs/index.pl?Action=AgentZoom&amp;TicketID=4348" title="http://cuba/otrs/index.pl?Action=AgentZoom&amp;TicketID=4348">http://cuba/otrs/index.pl?Action=AgentZoom&amp;TicketID=4348</a><br /><br />Your OTRS Notification Master',
+            '<br /><a href="http://cuba/otrs/index.pl?Action=AgentTicketZoom&amp;TicketID=4348" title="http://cuba/otrs/index.pl?Action=AgentTicketZoom&amp;TicketID=4348">http://cuba/otrs/index.pl?Action=AgentTicketZoom&amp;TicketID=4348</a><br /><br />Your OTRS Notification Master',
         Name   => 'LinkQuote - just TLD given;',
         Target => '',
     },
