@@ -1,8 +1,8 @@
 # --
 # Kernel/System/AuthSession.pm - provides session check and session data
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AuthSession.pm,v 1.45 2010-06-17 21:39:40 cr Exp $
+# $Id: AuthSession.pm,v 1.46 2011-12-19 14:48:02 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.45 $) [1];
+$VERSION = qw($Revision: 1.46 $) [1];
 
 =head1 NAME
 
@@ -220,7 +220,7 @@ sub UpdateSessionID {
     if ( $Param{Key} && $Param{Key} =~ /:/ ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Can't Update Key: '$Param{Key}' because of ':' is not alown!",
+            Message  => "Can't update key: '$Param{Key}' because ':' is not allowed!",
         );
         return;
     }
@@ -307,6 +307,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.45 $ $Date: 2010-06-17 21:39:40 $
+$Revision: 1.46 $ $Date: 2011-12-19 14:48:02 $
 
 =cut
