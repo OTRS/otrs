@@ -2,14 +2,15 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2101 2011-12-16 14:38:24 mg Exp $
+# $Id: CHANGES,v 1.2102 2011-12-19 12:29:08 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-3.1.0.beta4 2011-01-??
+3.1.0.beta4 2012-01-??
+ - 2011-12-19 Updated Polish translation file, thanks to Pawel!
  - 2011-12-16 Fixed Lithuanian language file encoding.
  - 2011-12-16 Added OTRS 2.4-style article colors to the article list in AgentTicketZoom.
     This is disabled by default, enable 'Ticket::UseArticleColors' in SysConfig to use it.
