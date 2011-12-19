@@ -55,7 +55,6 @@
 
 %doc /opt/otrs/INSTAL*
 %doc /opt/otrs/UPGRADING
-%doc /opt/otrs/TODO
 %doc /opt/otrs/COPYING
 %doc /opt/otrs/COPYING-Third-Party
 %doc /opt/otrs/CHANGES

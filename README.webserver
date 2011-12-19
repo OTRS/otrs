@@ -2,7 +2,7 @@
 # README.web server - web server configuration for OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: README.webserver,v 1.23 2011-01-17 14:10:22 mb Exp $
+# $Id: README.webserver,v 1.24 2011-12-19 09:10:22 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -98,28 +98,6 @@ b)
     </Location>
   [...]
 
-  Edit the scripts/apache2-perl-startup.pl script:
-
-   - Establish database connections on process startup (httpd).
-
-     [...]
-     use Apache::DBI ();
-     Apache::DBI->connect_on_init('DBI:mysql:otrs', 'otrs', 'some-pass');
-     # Apache::DBI->connect_on_init($data_source, $username, $auth, \%attr)
-     [...]
-
-   - Change the otrs lib dir (if needed)!
-
-     [...]
-     # ----------------------------------------
-     # set otrs lib path!
-     # ----------------------------------------
-     use lib "/path/to/otrs/";
-     use lib "/path/to/otrs/Kernel/cpan-lib";
-     [...]
-
-  Nice! You will love mod_perl! ,-)
-
 c)
   Restart the web server
   ======================
@@ -134,5 +112,3 @@ d)
    http://yourhost/otrs/index.pl
    User: root@localhost
    Password: root
-
-EOF
