@@ -1439,7 +1439,7 @@ There is a new ticket in &lt;OTRS_TICKET_Queue&gt;!
 &lt;OTRS_CUSTOMER_EMAIL[30]&gt;
 &lt;snip&gt;
 
-&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
+&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
 Your OTRS Notification Master</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
@@ -1463,7 +1463,7 @@ You've got a follow up!
 &lt;OTRS_CUSTOMER_EMAIL[30]&gt;
 &lt;snip&gt;
 
-&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
+&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
 Your OTRS Notification Master</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
@@ -1487,7 +1487,7 @@ The lock timeout period on [&lt;OTRS_TICKET_TicketNumber&gt;] has been reached, 
 &lt;OTRS_CUSTOMER_EMAIL[30]&gt;
 &lt;snip&gt;
 
-&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
+&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
 Your OTRS Notification Master</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
@@ -1509,7 +1509,7 @@ Comment:
 
 &lt;OTRS_COMMENT&gt;
 
-&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
+&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
 Your OTRS Notification Master</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
@@ -1531,7 +1531,7 @@ Comment:
 
 &lt;OTRS_COMMENT&gt;
 
-&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
+&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
 Your OTRS Notification Master</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
@@ -1552,7 +1552,7 @@ Your OTRS Notification Master</Data>
 Note:
 &lt;OTRS_CUSTOMER_BODY&gt;
 
-&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
+&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
 Your OTRS Notification Master</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
@@ -1574,7 +1574,7 @@ Your OTRS Notification Master</Data>
 &lt;OTRS_CUSTOMER_EMAIL[30]&gt;
 &lt;snip&gt;
 
-&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
+&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
 Your OTRS Notification Master</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
@@ -1601,7 +1601,7 @@ wrote:
 
 Please have a look at:
 
-&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
+&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
 Your OTRS Notification Master</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
@@ -1631,7 +1631,7 @@ wrote:
 
 Please have a look at:
 
-&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
+&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
 Your OTRS Notification Master</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
@@ -1661,7 +1661,7 @@ wrote:
 
 Please have a look at:
 
-&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
+&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
 Your OTRS Notification Master</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
@@ -1687,7 +1687,7 @@ es ist ein neues Ticket in &lt;OTRS_TICKET_Queue&gt;!
 &lt;OTRS_CUSTOMER_EMAIL[30]&gt;
 &lt;snip&gt;
 
-&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
+&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
 Ihr OTRS Benachrichtigungs-Master</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
@@ -1711,7 +1711,7 @@ Sie haben eine Nachfrage bekommen!
 &lt;OTRS_CUSTOMER_EMAIL[30]&gt;
 &lt;snip&gt;
 
-&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
+&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
 Ihr OTRS Benachrichtigungs-Master</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
@@ -1735,7 +1735,7 @@ Aufhebung der Sperre auf Dein gesperrtes Ticket [&lt;OTRS_TICKET_TicketNumber&gt
 &lt;OTRS_CUSTOMER_EMAIL[30]&gt;
 &lt;snip&gt;
 
-&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
+&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
 Ihr OTRS Benachrichtigungs-Master</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
@@ -1757,7 +1757,7 @@ Kommentar:
 
 &lt;OTRS_COMMENT&gt;
 
-&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
+&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
 Ihr OTRS Benachrichtigungs-Master</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
@@ -1779,7 +1779,7 @@ Kommentar:
 
 &lt;OTRS_COMMENT&gt;
 
-&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
+&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
 Ihr OTRS Benachrichtigungs-Master</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
@@ -1800,7 +1800,7 @@ Ihr OTRS Benachrichtigungs-Master</Data>
 Notiz:
 &lt;OTRS_CUSTOMER_BODY&gt;
 
-&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
+&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
 Ihr OTRS Benachrichtigungs-Master</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
@@ -1822,7 +1822,7 @@ Ihr OTRS Benachrichtigungs-Master</Data>
 &lt;OTRS_CUSTOMER_EMAIL[30]&gt;
 &lt;snip&gt;
 
-&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
+&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
 Ihr OTRS Benachrichtigungs-Master</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
@@ -1849,7 +1849,7 @@ schrieb:
 
 Bitte um weitere Bearbeitung:
 
-&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
+&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
 Ihr OTRS Benachrichtigungs-Master</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
@@ -1879,7 +1879,7 @@ schrieb:
 
 Bitte um Bearbeitung:
 
-&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
+&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
 Ihr OTRS Benachrichtigungs-Master</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
@@ -1909,7 +1909,7 @@ schrieb:
 
 Bitte um Bearbeitung:
 
-&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
+&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
 Ihr OTRS Benachrichtigungs-Master</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
@@ -1934,7 +1934,7 @@ Er is een nieuw ticket aangemaakt in &lt;OTRS_TICKET_Queue&gt;!
 &lt;OTRS_CUSTOMER_EMAIL[30]&gt;
 (eerste 30 regels zijn weergegeven)
 
-&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;</Data>
+&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="create_by">1</Data>
         <Data Key="create_time">current_timestamp</Data>
@@ -1955,7 +1955,7 @@ Er is een reactie ontvangen op onderstaand ticket.
 &lt;OTRS_CUSTOMER_EMAIL[30]&gt;
 (eerste 30 regels zijn weergegeven)
 
-&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
+&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 </Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="create_by">1</Data>
@@ -1977,7 +1977,7 @@ De bewerkingstijd van ticket [&lt;OTRS_TICKET_TicketNumber&gt;] is overschreden,
 &lt;OTRS_CUSTOMER_EMAIL[30]&gt;
 (eerste 30 regels zijn weergegeven)
 
-&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
+&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 </Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="create_by">1</Data>
@@ -1998,7 +1998,7 @@ Opmerking:
 
 &lt;OTRS_COMMENT&gt;
 
-&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
+&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 </Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="create_by">1</Data>
@@ -2019,7 +2019,7 @@ Opmerking:
 
 &lt;OTRS_COMMENT&gt;
 
-&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
+&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 </Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="create_by">1</Data>
@@ -2039,7 +2039,7 @@ Opmerking:
 Notitie:
 &lt;OTRS_CUSTOMER_BODY&gt;
 
-&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
+&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 </Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="create_by">1</Data>
@@ -2059,7 +2059,7 @@ Notitie:
 &lt;OTRS_CUSTOMER_EMAIL[30]&gt;
 (eerste 30 regels zijn weergegeven)
 
-&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
+&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 </Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="create_by">1</Data>
@@ -2081,7 +2081,7 @@ Het herinnermoment voor ticket [&lt;OTRS_TICKET_TicketNumber&gt;] is bereikt.
 &lt;OTRS_CUSTOMER_EMAIL[30]&gt;
 (eerste 30 regels zijn weergegeven)
 
-&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
+&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 </Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="create_by">1</Data>
@@ -2106,7 +2106,7 @@ Geëscaleerd sinds: &lt;OTRS_TICKET_EscalationDestinationIn&gt;
 &lt;OTRS_CUSTOMER_EMAIL[30]&gt;
 (eerste 30 regels zijn weergegeven)
 
-&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
+&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 </Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="create_by">1</Data>
@@ -2131,7 +2131,7 @@ Escalatie over: &lt;OTRS_TICKET_EscalationDestinationIn&gt;
 &lt;OTRS_CUSTOMER_EMAIL[30]&gt;
 (eerste 30 regels zijn weergegeven)
 
-&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
+&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 </Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="create_by">1</Data>
