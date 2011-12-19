@@ -2,7 +2,7 @@
 # Kernel/System/Queue.pm - lib for queue functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Queue.pm,v 1.130 2011-03-16 01:42:07 ep Exp $
+# $Id: Queue.pm,v 1.131 2011-12-19 18:57:29 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::Time;
 use Kernel::System::SysConfig;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.130 $) [1];
+$VERSION = qw($Revision: 1.131 $) [1];
 
 =head1 NAME
 
@@ -120,7 +120,10 @@ sub new {
     my $GeneratorModule = $Self->{ConfigObject}->Get('Queue::PreferencesModule')
         || 'Kernel::System::Queue::PreferencesDB';
     if ( $Self->{MainObject}->Require($GeneratorModule) ) {
-        $Self->{PreferencesObject} = $GeneratorModule->new(%Param);
+        $Self->{PreferencesObject} = $GeneratorModule->new(
+            %Param,
+            CacheInternalObject => $Self->{CacheInternalObject},
+        );
     }
 
     # --------------------------------------------------- #
@@ -1162,6 +1165,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.130 $ $Date: 2011-03-16 01:42:07 $
+$Revision: 1.131 $ $Date: 2011-12-19 18:57:29 $
 
 =cut

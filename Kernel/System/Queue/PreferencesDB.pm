@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Queue/PreferencesDB.pm - some user functions
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: PreferencesDB.pm,v 1.5 2009-02-16 11:47:34 tr Exp $
+# $Id: PreferencesDB.pm,v 1.6 2011-12-19 18:57:07 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -25,7 +25,7 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for (qw(DBObject ConfigObject LogObject)) {
+    for (qw(DBObject ConfigObject LogObject CacheInternalObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
@@ -57,12 +57,18 @@ sub QueuePreferencesSet {
     );
 
     # insert new data
-    return $Self->{DBObject}->Do(
+    return if !$Self->{DBObject}->Do(
         SQL => "INSERT INTO $Self->{PreferencesTable} ($Self->{PreferencesTableQueueID}, "
             . " $Self->{PreferencesTableKey}, $Self->{PreferencesTableValue}) "
             . " VALUES (?, ?, ?)",
         Bind => [ \$Param{QueueID}, \$Param{Key}, \$Param{Value} ],
     );
+
+    # delete cache
+    my $CacheKey = 'QueuePreferences::' . $Param{QueueID};
+    $Self->{CacheInternalObject}->Delete( Key => $CacheKey );
+
+    return 1;
 }
 
 sub QueuePreferencesGet {
@@ -81,6 +87,11 @@ sub QueuePreferencesGet {
         return;
     }
 
+    # check cache
+    my $CacheKey = 'QueuePreferences::' . $Param{QueueID};
+    my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+    return %{$Cache} if $Cache;
+
     # get preferences
     return if !$Self->{DBObject}->Prepare(
         SQL => "SELECT $Self->{PreferencesTableKey}, $Self->{PreferencesTableValue} "
@@ -91,6 +102,9 @@ sub QueuePreferencesGet {
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Data{ $Row[0] } = $Row[1];
     }
+
+    # set cache
+    $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => \%Data );
 
     # return data
     return %Data;
