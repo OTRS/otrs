@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2105 2011-12-20 10:20:09 mg Exp $
+# $Id: CHANGES,v 1.2106 2011-12-20 12:32:21 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.1.0.beta4 2012-01-??
+ - 2011-12-20 Fixed bug#8035 - SOAP interface does not allow to create/update
+    CustomerCompany records.
  - 2011-12-20 Fixed bug#8027 - Duplicated slash in cache subdirectory names.
  - 2011-12-20 Make sure the customer is being returned to ticket search result after using
     'back' link from a ticket he has reached from the search result page.
@@ -231,6 +233,8 @@
      of > 70 characters exists.
 
 3.0.12 ????-??-??
+ - 2011-12-20 Fixed bug#8035 - SOAP interface does not allow to create/update
+    CustomerCompany records.
  - 2011-12-14 Fixed bug#8000 - Queues are translated if are displayed in list-style.
  - 2011-12-06 Fixed bug#5253 - User preferences are updated when displaying an overview.
  - 2011-12-05 Fixed bug#7971 - ACL to restrict Priority based on Service does not work in Customer
