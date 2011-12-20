@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2107 2011-12-20 12:40:45 mb Exp $
+# $Id: CHANGES,v 1.2108 2011-12-20 20:17:44 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.1.0.beta4 2012-01-??
+ - 2011-12-20 Fixed bug#4239 - Include ticket number in Fulltext search.
  - 2011-12-20 Fixed bug#7955 - Customer identity is not displayed on Customer Interface.
  - 2011-12-20 Fixed bug#8035 - SOAP interface does not allow to create/update
     CustomerCompany records.

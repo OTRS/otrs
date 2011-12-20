@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.pm,v 1.136 2011-12-08 14:06:41 mg Exp $
+# $Id: AgentTicketSearch.pm,v 1.137 2011-12-20 20:17:44 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.136 $) [1];
+$VERSION = qw($Revision: 1.137 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -653,7 +653,26 @@ sub Run {
             }
         }
 
-        # prepare fulltext search
+        # check full text string to see if contents is a ticket number
+        # if exists and not in print or CSV mode, redirect to this screen
+        if (
+            $GetParam{Fulltext}
+            && $GetParam{ResultForm} ne 'Normal'
+            && $GetParam{ResultForm} ne 'Print'
+            )
+        {
+            my $TicketID = $Self->{TicketObjectSearch}->TicketIDLookup(
+                TicketNumber => $GetParam{Fulltext},
+                UserID       => $Self->{UserID},
+            );
+            if ($TicketID) {
+                return $Self->{LayoutObject}->Redirect(
+                    OP => "Action=AgentTicketZoom;TicketID=$TicketID",
+                );
+            }
+        }
+
+        # prepare full text search
         if ( $GetParam{Fulltext} ) {
             $GetParam{ContentSearch} = 'OR';
             for (qw(From To Cc Subject Body)) {
@@ -1108,7 +1127,7 @@ sub Run {
             $Self->{Filter} = $Self->{ParamObject}->GetParam( Param => 'Filter' ) || '';
             $Self->{View}   = $Self->{ParamObject}->GetParam( Param => 'View' )   || '';
 
-            # show ticket's
+            # show tickets
             my $LinkPage = 'Filter='
                 . $Self->{LayoutObject}->LinkEncode( $Self->{Filter} )
                 . ';View=' . $Self->{LayoutObject}->LinkEncode( $Self->{View} )
