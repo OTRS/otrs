@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2103 2011-12-19 18:56:19 cg Exp $
+# $Id: CHANGES,v 1.2104 2011-12-20 10:14:44 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.1.0.beta4 2012-01-??
+ - 2011-12-20 Make sure the customer is being returned to ticket search result after using
+    'back' link from a ticket he has reached from the search result page.
  - 2011-12-19 Fixed bug#7666 - Queue Preferences potentially slow, thanks to Stefan Bedorf for the patch.
  - 2011-12-19 Updated Polish translation file, thanks to Pawel!
  - 2011-12-16 Fixed Lithuanian language file encoding.
