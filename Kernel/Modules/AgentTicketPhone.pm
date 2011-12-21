@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.222 2011-12-21 05:49:04 cg Exp $
+# $Id: AgentTicketPhone.pm,v 1.223 2011-12-21 17:08:13 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Mail::Address;
 use Kernel::System::Service;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.222 $) [1];
+$VERSION = qw($Revision: 1.223 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -643,10 +643,6 @@ sub Run {
                     $Error{DateInvalid} = ' ServerError';
                 }
             }
-            my %ExternalCustomerUserData = $Self->{CustomerUserObject}->CustomerUserDataGet(
-                User => $FromExternalCustomer{Customer},
-            );
-            $FromExternalCustomer{Email} = $ExternalCustomerUserData{UserEmail};
         }
 
         # create html strings for all dynamic fields
@@ -658,10 +654,6 @@ sub Run {
             next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
 
             my $PossibleValuesFilter;
-            my %ExternalCustomerUserData = $Self->{CustomerUserObject}->CustomerUserDataGet(
-                User => $FromExternalCustomer{Customer},
-            );
-            $FromExternalCustomer{Email} = $ExternalCustomerUserData{UserEmail};
 
             # check if field has PossibleValues property in its configuration
             if ( IsHashRefWithData( $DynamicFieldConfig->{Config}->{PossibleValues} ) ) {
@@ -1772,7 +1764,6 @@ sub _MaskPhoneNew {
     my $CustomerCounter = 0;
     if ( $Param{MultipleCustomer} ) {
         for my $Item ( @{ $Param{MultipleCustomer} } ) {
-
             if ( !$ShowErrors ) {
 
                 # set empty values for errors
