@@ -1,8 +1,8 @@
 # --
 # PrintHeader.dtl - provides global print header
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: PrintHeader.dtl,v 1.29 2010-10-06 10:50:46 mg Exp $
+# $Id: PrintHeader.dtl,v 1.30 2011-12-21 06:51:33 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -286,7 +286,7 @@ fieldset.TableLike.FixedLabelSmall > .Value {
                             <table border="0" cellspacing="1" cellpadding="0" width="100%">
                                 <tr>
                                     <td align="right" valign="top">
-                                        <font size="-2">$Text{"printed by"} $Env{"UserFirstname"} $Env{"UserLastname"} ($Env{"UserEmail"}) $Env{"Time"}</font>
+                                        <font size="-2">$Text{"printed by"} $QEnv{"UserFirstname"} $QEnv{"UserLastname"} ($QEnv{"UserEmail"}) $QEnv{"Time"}</font>
                                     </td>
                                 </tr>
                             </table>

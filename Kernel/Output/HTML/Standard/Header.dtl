@@ -1,8 +1,8 @@
 # --
 # Header.dtl - provides global HTML header
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Header.dtl,v 1.105 2010-12-29 14:44:59 martin Exp $
+# $Id: Header.dtl,v 1.106 2011-12-21 06:51:34 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -72,7 +72,7 @@ $Include{"HTMLHead"}
 <!-- dtl:block:DebugRTLButton -->
 <!-- dtl:block:Login -->
             $Text{"You are logged in as"}
-            <a href="$Env{"Baselink"}Action=AgentPreferences" title="$Text{"Edit personal preferences"}">$Env{"UserFirstname"} $Env{"UserLastname"}</a>
+            <a href="$Env{"Baselink"}Action=AgentPreferences" title="$Text{"Edit personal preferences"}">$QEnv{"UserFirstname"} $Q/Env{"UserLastname"}</a>
 <!-- dtl:block:Login -->
 <!-- dtl:block:LoginWithoutLink -->
             $Text{"You are logged in as"} $Env{"UserFirstname"} $Env{"UserLastname"}
