@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminCustomerUserService.pm - to add/update/delete customerusers <-> services
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUserService.pm,v 1.24 2010-11-10 11:04:28 mg Exp $
+# $Id: AdminCustomerUserService.pm,v 1.25 2011-12-21 14:19:46 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Service;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.24 $) [1];
+$VERSION = qw($Revision: 1.25 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -175,6 +175,9 @@ sub Run {
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'AllocateCustomerUserSave' ) {
 
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
+
         # get params
         $Param{CustomerUserLogin} = $Self->{ParamObject}->GetParam( Param => 'ID' );
 
@@ -211,6 +214,9 @@ sub Run {
     # allocate service save
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'AllocateServiceSave' ) {
+
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
 
         # get params
         $Param{ServiceID} = $Self->{ParamObject}->GetParam( Param => "ID" );

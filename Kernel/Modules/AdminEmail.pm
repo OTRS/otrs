@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminEmail.pm - to send a email to all agents
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminEmail.pm,v 1.49 2011-04-05 12:43:42 mb Exp $
+# $Id: AdminEmail.pm,v 1.50 2011-12-21 14:25:56 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Email;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.49 $) [1];
+$VERSION = qw($Revision: 1.50 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -59,6 +59,9 @@ sub Run {
     # send email
     # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'Send' ) {
+
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
 
         # check needed stuff
         for my $Needed (qw(From Subject Body GroupPermission)) {
