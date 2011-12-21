@@ -2,7 +2,7 @@
 # Header.dtl - provides global HTML header
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Header.dtl,v 1.107 2011-12-21 06:52:29 mb Exp $
+# $Id: Header.dtl,v 1.108 2011-12-21 08:12:22 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -72,7 +72,7 @@ $Include{"HTMLHead"}
 <!-- dtl:block:DebugRTLButton -->
 <!-- dtl:block:Login -->
             $Text{"You are logged in as"}
-            <a href="$Env{"Baselink"}Action=AgentPreferences" title="$Text{"Edit personal preferences"}">$QEnv{"UserFirstname"} $Q/Env{"UserLastname"}</a>
+            <a href="$Env{"Baselink"}Action=AgentPreferences" title="$Text{"Edit personal preferences"}">$QEnv{"UserFirstname"} $QEnv{"UserLastname"}</a>
 <!-- dtl:block:Login -->
 <!-- dtl:block:LoginWithoutLink -->
             $Text{"You are logged in as"} $QEnv{"UserFirstname"} $QEnv{"UserLastname"}
