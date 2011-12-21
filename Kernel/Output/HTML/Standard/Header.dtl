@@ -2,7 +2,7 @@
 # Header.dtl - provides global HTML header
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Header.dtl,v 1.108 2011-12-21 08:12:22 mg Exp $
+# $Id: Header.dtl,v 1.109 2011-12-21 12:39:48 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -78,7 +78,7 @@ $Include{"HTMLHead"}
             $Text{"You are logged in as"} $QEnv{"UserFirstname"} $QEnv{"UserLastname"}
 <!-- dtl:block:LoginWithoutLink -->
 <!-- dtl:block:Logout -->
-            <a class="LogoutButton" id="LogoutButton" href="$Env{"Baselink"}Action=Logout" title="$Text{"Logout"}"></a>
+            <a class="LogoutButton" id="LogoutButton" href="$Env{"Baselink"}Action=Logout;$Env{"ChallengeTokenParam"}" title="$Text{"Logout"}"></a>
 <!-- dtl:block:Logout -->
         </div>
     </div>
