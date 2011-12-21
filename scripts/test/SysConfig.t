@@ -2,7 +2,7 @@
 # SysConfig.t - SysConfig tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: SysConfig.t,v 1.12 2011-09-08 11:54:56 mg Exp $
+# $Id: SysConfig.t,v 1.13 2011-12-21 09:52:28 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,9 +15,85 @@ use vars (qw($Self));
 use utf8;
 
 use Kernel::System::SysConfig;
+use Kernel::System::UnitTest::Helper;
+
+# Create Helper instance which will restore system configuration in destructor
+my $HelperObject = Kernel::System::UnitTest::Helper->new(
+    %{$Self},
+    UnitTestObject             => $Self,
+    RestoreSystemConfiguration => 1,
+);
 
 my $SysConfigObject = Kernel::System::SysConfig->new( %{$Self} );
 
+#
+# ConfigItemUpdate
+#
+
+my @Tests = (
+    {
+        Value => 'some string',
+        Name  => 'Simple string',
+    },
+    {
+        Value => 'some unicode string Россия',
+        Name  => 'String with unicode',
+    },
+    {
+        Value => {
+            String => 'Simple hash',
+        },
+        Name => 'Simple hash',
+    },
+    {
+        Value => {
+            String => 'some unicode string Россия',
+            Hash   => {
+                ''    => 'some unicode string Россия',
+                Empty => undef,
+                List  => [
+                    Hash => {
+                        Value => 123,
+                    },
+                    456,
+                    ]
+                }
+        },
+        Name => 'Complex structure with unicode data',
+    }
+);
+
+for my $Test (@Tests) {
+
+    # We 'abuse' the setting Frontend::DebugMode. It will be
+    #   restored to the original value in the destructor by
+    #   the HelperObject.
+
+    $SysConfigObject->ConfigItemUpdate(
+        Valid => 1,
+        Key   => 'Frontend::DebugMode',
+        Value => $Test->{Value},
+    );
+
+    # Force a reload of ZZZAuto.pm to get the new value
+    for my $Module ( keys %INC ) {
+        if ( $Module =~ m/ZZZAuto\.pm$/ ) {
+            delete $INC{$Module};
+        }
+    }
+
+    my $ConfigObject = Kernel::Config->new();
+
+    $Self->IsDeeply(
+        $ConfigObject->Get('Frontend::DebugMode'),
+        $Test->{Value},
+        "ConfigItemUdpate() - $Test->{Name}",
+    );
+}
+
+#
+# _XML2Perl()
+#
 my %Config = $SysConfigObject->ConfigItemGet(
     Name    => 'FQDN',
     Default => 1,
@@ -29,6 +105,9 @@ $Self->Is(
     '_XML2Perl() SCALAR',
 );
 
+#
+# _DataDiff()
+#
 my $A    = 'Test';
 my $B    = 'Test';
 my $Diff = $SysConfigObject->_DataDiff(
