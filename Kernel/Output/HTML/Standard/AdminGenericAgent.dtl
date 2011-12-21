@@ -2,7 +2,7 @@
 # AdminGenericAgent.dtl - provides HTML form for AdminGenericAgent.pm
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.dtl,v 1.92 2011-12-15 14:13:44 mg Exp $
+# $Id: AdminGenericAgent.dtl,v 1.93 2011-12-21 14:53:25 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -71,12 +71,12 @@
                             <td>$TimeLong{"$QData{"ScheduleLastRun"}"}</td>
                             <td>$Text{"$Data{"ShownValid"}"}</td>
                             <td class="Center">
-                                <a class="TrashCan" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Delete;Profile=$LQData{"Name"}" title="$Text{"Delete this task"}">
+                                <a class="TrashCan" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Delete;Profile=$LQData{"Name"};$QEnv{"ChallengeTokenParam"}" title="$Text{"Delete this task"}">
                                     $Text{"Delete this task"}
                                 </a>
                             </td>
                             <td>
-                                <a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=RunNow;Profile=$LQData{"Name"}">
+                                <a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=RunNow;Profile=$LQData{"Name"};$QEnv{"ChallengeTokenParam"}">
                                     $Text{"Run this task"}
                                 </a>
                             </td>
@@ -756,7 +756,7 @@
                     <a class="CallForAction" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Update;Profile=$LQData{"Name"}">
                         <span>$Text{"Edit job"}</span>
                     </a>
-                    <a class="CallForAction" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=RunNow;Profile=$LQData{"Name"}">
+                    <a class="CallForAction" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=RunNow;Profile=$LQData{"Name"};$QEnv{"ChallengeTokenParam"}">
                         <span>$Text{"Run job"}</span>
                     </a>
                     $Text{"or"}

@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericAgent.pm - admin generic agent interface
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.pm,v 1.101 2011-11-25 09:35:58 mg Exp $
+# $Id: AdminGenericAgent.pm,v 1.102 2011-12-21 14:53:25 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.101 $) [1];
+$VERSION = qw($Revision: 1.102 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -82,6 +82,10 @@ sub Run {
     # run a generic agent job -> "run now"
     # ---------------------------------------------------------- #
     if ( $Self->{Subaction} eq 'RunNow' ) {
+
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
+
         my $Run = $Self->{GenericAgentObject}->JobRun(
             Job    => $Self->{Profile},
             UserID => 1,
@@ -101,6 +105,9 @@ sub Run {
     # --------------------------------------------------------------- #
     # show result site
     if ( $Self->{Subaction} eq 'UpdateAction' ) {
+
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
 
         my ( %GetParam, %Errors );
 
@@ -511,6 +518,10 @@ sub Run {
     # delete an generic agent job
     # ---------------------------------------------------------- #
     if ( $Self->{Subaction} eq 'Delete' && $Self->{Profile} ) {
+
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
+
         if ( $Self->{Profile} ) {
             $Self->{GenericAgentObject}->JobDelete(
                 Name   => $Self->{Profile},
