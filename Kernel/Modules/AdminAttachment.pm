@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminAttachment.pm - provides admin std response module
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminAttachment.pm,v 1.38 2010-11-20 00:03:07 en Exp $
+# $Id: AdminAttachment.pm,v 1.39 2011-12-21 12:40:15 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::StdAttachment;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.38 $) [1];
+$VERSION = qw($Revision: 1.39 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -225,6 +225,9 @@ sub Run {
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'Delete' ) {
 
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
+
         my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' );
 
         my $Delete = $Self->{StdAttachmentObject}->StdAttachmentDelete(
@@ -241,6 +244,9 @@ sub Run {
     # download action
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'Download' ) {
+
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
 
         my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' );
 

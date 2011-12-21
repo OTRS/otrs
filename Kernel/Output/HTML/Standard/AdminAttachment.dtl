@@ -2,7 +2,7 @@
 # AdminAttachment.dtl - provides HTML form for AdminAttachment
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminAttachment.dtl,v 1.25 2011-05-16 17:01:28 mp Exp $
+# $Id: AdminAttachment.dtl,v 1.26 2011-12-21 12:40:15 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -72,13 +72,17 @@
 <!-- dtl:block:OverviewResultRow -->
                         <tr class="$QData{"Invalid"}">
                             <td><a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Change;ID=$LQData{"ID"}">$QData{"Name"}</a></td>
-                            <td title="$Text{"Download file"}: $QData{"Filename"}"><a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Download;ID=$LQData{"ID"}">$QData{"Filename","30"}</a></td>
+                            <td title="$Text{"Download file"}: $QData{"Filename"}">
+                                <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Download;ID=$LQData{"ID"};$Env{"ChallengeTokenParam"}">
+                                    $QData{"Filename","30"}
+                                </a>
+                            </td>
                             <td title="$QData{"Comment"}">$QData{"Comment","20"}</td>
                             <td>$Text{"$Data{"Valid"}"}</td>
                             <td>$TimeShort{"$QData{"ChangeTime"}"}</td>
                             <td>$TimeShort{"$QData{"CreateTime"}"}</td>
                             <td class="Center">
-                                <a class="TrashCan" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Delete;ID=$LQData{"ID"}" title="$Text{"Delete this attachment"}">
+                                <a class="TrashCan" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Delete;ID=$LQData{"ID"};$Env{"ChallengeTokenParam"}" title="$Text{"Delete this attachment"}">
                                     $Text{"Delete this attachment"}
                                 </a>
                             </td>
