@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminAutoResponse.pm - provides admin std response module
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminAutoResponse.pm,v 1.47 2011-04-05 12:22:34 mb Exp $
+# $Id: AdminAutoResponse.pm,v 1.48 2011-12-21 12:44:35 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Valid;
 use Kernel::System::HTMLUtils;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.47 $) [1];
+$VERSION = qw($Revision: 1.48 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -221,23 +221,6 @@ sub Run {
         );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
-    }
-
-    # ------------------------------------------------------------ #
-    # delete action
-    # ------------------------------------------------------------ #
-    elsif ( $Self->{Subaction} eq 'Delete' ) {
-
-        my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' );
-
-        my $Delete = $Self->{AutoResponseObject}->AutoResponseDelete(
-            ID => $ID,
-        );
-        if ( !$Delete ) {
-            return $Self->{LayoutObject}->ErrorScreen();
-        }
-
-        return $Self->{LayoutObject}->Redirect( OP => "Action=$Self->{Action}" );
     }
 
     # ------------------------------------------------------------
