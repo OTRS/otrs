@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.221 2011-12-15 19:47:03 cg Exp $
+# $Id: AgentTicketPhone.pm,v 1.222 2011-12-21 05:49:04 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Mail::Address;
 use Kernel::System::Service;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.221 $) [1];
+$VERSION = qw($Revision: 1.222 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -288,6 +288,55 @@ sub Run {
                     $Article{From} = $CustomerUserList{$KeyCustomerUserList};
                 }
             }
+        }
+
+        # multiple addresses list
+        # check email address
+        my $CountFrom = scalar @MultipleCustomer || 1;
+        my %CustomerDataFrom = $Self->{CustomerUserObject}->CustomerUserDataGet(
+            User => $Article{CustomerUserID},
+        );
+
+        for my $Email ( Mail::Address->parse( $Article{From} ) ) {
+
+            my $CountAux         = $CountFrom;
+            my $CustomerError    = '';
+            my $CustomerErrorMsg = 'CustomerGenericServerErrorMsg';
+            my $CustomerDisabled = '';
+            my $CustomerSelected = ( $CountFrom eq '1' ? 'checked="checked"' : '' );
+            my $EmailAddress     = $Email->address();
+            if ( !$Self->{CheckItemObject}->CheckEmail( Address => $EmailAddress ) )
+            {
+                $CustomerErrorMsg = $Self->{CheckItemObject}->CheckErrorType()
+                    . 'ServerErrorMsg';
+                $CustomerError = 'ServerError';
+            }
+
+            # check for duplicated entries
+            if ( defined $AddressesList{$Email} && $CustomerError eq '' ) {
+                $CustomerErrorMsg = 'IsDuplicatedServerErrorMsg';
+                $CustomerError    = 'ServerError';
+            }
+
+            if ( $CustomerError ne '' ) {
+                $CustomerDisabled = 'disabled="disabled"';
+                $CountAux         = $CountFrom . 'Error';
+            }
+
+            my $CustomerKey
+                = ( $CustomerDataFrom{UserEmail} eq $EmailAddress ? $Article{CustomerUserID} : '' );
+
+            push @MultipleCustomer, {
+                Count            => $CountAux,
+                CustomerElement  => $Email->address(),
+                CustomerSelected => $CustomerSelected,
+                CustomerKey      => $CustomerKey,
+                CustomerError    => $CustomerError,
+                CustomerErrorMsg => $CustomerErrorMsg,
+                CustomerDisabled => $CustomerDisabled,
+            };
+            $AddressesList{$EmailAddress} = 1;
+            $CountFrom++;
         }
 
         # get user preferences
@@ -594,6 +643,10 @@ sub Run {
                     $Error{DateInvalid} = ' ServerError';
                 }
             }
+            my %ExternalCustomerUserData = $Self->{CustomerUserObject}->CustomerUserDataGet(
+                User => $FromExternalCustomer{Customer},
+            );
+            $FromExternalCustomer{Email} = $ExternalCustomerUserData{UserEmail};
         }
 
         # create html strings for all dynamic fields
@@ -605,6 +658,10 @@ sub Run {
             next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
 
             my $PossibleValuesFilter;
+            my %ExternalCustomerUserData = $Self->{CustomerUserObject}->CustomerUserDataGet(
+                User => $FromExternalCustomer{Customer},
+            );
+            $FromExternalCustomer{Email} = $ExternalCustomerUserData{UserEmail};
 
             # check if field has PossibleValues property in its configuration
             if ( IsHashRefWithData( $DynamicFieldConfig->{Config}->{PossibleValues} ) ) {
@@ -1715,6 +1772,7 @@ sub _MaskPhoneNew {
     my $CustomerCounter = 0;
     if ( $Param{MultipleCustomer} ) {
         for my $Item ( @{ $Param{MultipleCustomer} } ) {
+
             if ( !$ShowErrors ) {
 
                 # set empty values for errors
