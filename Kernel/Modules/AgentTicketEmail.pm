@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.198 2011-12-15 19:20:59 cg Exp $
+# $Id: AgentTicketEmail.pm,v 1.199 2011-12-22 23:23:48 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -28,7 +28,7 @@ use Mail::Address;
 use Kernel::System::Service;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.198 $) [1];
+$VERSION = qw($Revision: 1.199 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1670,7 +1670,61 @@ sub _GetServices {
             UserID            => 1,
         );
 
+        # get all services
+        my $ServiceList = $Self->{ServiceObject}->ServiceListGet(
+            Valid  => 0,
+            UserID => 1,
+        );
+
+        # get a service lookup table
+        my %ServiceLoockup;
+        SERVICE:
+        for my $ServiceData ( @{$ServiceList} ) {
+            next SERVICE if !$ServiceData;
+            next SERVICE if !IsHashRefWithData($ServiceData);
+            next SERVICE if !$ServiceData->{ServiceID};
+
+            $ServiceLoockup{ $ServiceData->{ServiceID} } = $ServiceData;
+        }
+
+        # to store all ready printed ServiceIDs
+        my %AddedServices;
+
         for my $ServiceKey ( sort { $OrigService{$a} cmp $OrigService{$b} } keys %OrigService ) {
+
+            # get the service parent
+            my $ServiceParentID = $ServiceLoockup{$ServiceKey}->{ParentID} || 0;
+
+            # check if direct parent is not listed as printed
+            if ( $ServiceParentID && !defined $AddedServices{$ServiceParentID} ) {
+
+                # get all parent IDs
+                my $ServiceParents = $Self->{ServiceObject}->ServiceParentsGet(
+                    ServiceID => $ServiceKey,
+                    UserID    => $Self->{UserID},
+                );
+
+                SERVICEID:
+                for my $ServiceID ( @{$ServiceParents} ) {
+                    next SERVICEID if !$ServiceID;
+                    next SERVICEID if $AddedServices{$ServiceID};
+
+                    my $ServiceParent = $ServiceLoockup{$ServiceID};
+                    next SERVICEID if !IsHashRefWithData($ServiceParent);
+
+                    # create a new register for each parent as disabled
+                    my %ParentServiceRegister = (
+                        Key      => $ServiceID,
+                        Value    => $ServiceParent->{Name},
+                        Selected => 0,
+                        Disabled => 1,
+                    );
+                    push @ServiceList, \%ParentServiceRegister;
+
+                    # set service as printed
+                    $AddedServices{$ServiceID} = 1;
+                }
+            }
 
             # set default service structure
             my %ServiceRegister = (
@@ -1688,6 +1742,9 @@ sub _GetServices {
                 $ServiceRegister{Disabled} = 1;
             }
             push @ServiceList, \%ServiceRegister;
+
+            # set service as printed
+            $AddedServices{$ServiceKey} = 1;
         }
     }
     return \@ServiceList;
