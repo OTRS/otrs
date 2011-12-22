@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.223 2011-12-21 17:08:13 cg Exp $
+# $Id: AgentTicketPhone.pm,v 1.224 2011-12-22 06:05:28 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Mail::Address;
 use Kernel::System::Service;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.223 $) [1];
+$VERSION = qw($Revision: 1.224 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -470,16 +470,26 @@ sub Run {
             );
         }
 
+        my %SplitTicketParam;
+
+        # in case of split a TicketID and ArticleID are always given, send the TicketID to calculate
+        # ACLs based on parent information
+        if ( $Self->{TicketID} && $Article{ArticleID} ) {
+            $SplitTicketParam{TicketID} = $Self->{TicketID};
+        }
+
         # html output
         my $Services = $Self->_GetServices(
             %GetParam,
             %ACLCompatGetParam,
+            %SplitTicketParam,
             CustomerUserID => $CustomerData{UserLogin} || '',
             QueueID        => $Self->{QueueID}         || 1,
         );
         my $SLAs = $Self->_GetSLAs(
             %GetParam,
             %ACLCompatGetParam,
+            %SplitTicketParam,
             CustomerUserID => $CustomerData{UserLogin} || '',
             QueueID        => $Self->{QueueID}         || 1,
             Services       => $Services,
@@ -489,18 +499,21 @@ sub Run {
             NextStates => $Self->_GetNextStates(
                 %GetParam,
                 %ACLCompatGetParam,
+                %SplitTicketParam,
                 CustomerUserID => $CustomerData{UserLogin} || '',
                 QueueID        => $Self->{QueueID}         || 1,
             ),
             Priorities => $Self->_GetPriorities(
                 %GetParam,
                 %ACLCompatGetParam,
+                %SplitTicketParam,
                 CustomerUserID => $CustomerData{UserLogin} || '',
                 QueueID        => $Self->{QueueID}         || 1,
             ),
             Types => $Self->_GetTypes(
                 %GetParam,
                 %ACLCompatGetParam,
+                %SplitTicketParam,
                 CustomerUserID => $CustomerData{UserLogin} || '',
                 QueueID        => $Self->{QueueID}         || 1,
             ),
@@ -509,16 +522,19 @@ sub Run {
             Users    => $Self->_GetUsers(
                 %GetParam,
                 %ACLCompatGetParam,
+                %SplitTicketParam,
                 QueueID => $Self->{QueueID}
             ),
             ResponsibleUsers => $Self->_GetResponsibles(
                 %GetParam,
                 %ACLCompatGetParam,
+                %SplitTicketParam,
                 QueueID => $Self->{QueueID}
             ),
             To => $Self->_GetTos(
                 %GetParam,
                 %ACLCompatGetParam,
+                %SplitTicketParam,
                 CustomerUserID => $CustomerData{UserLogin} || '',
                 QueueID => $Self->{QueueID},
             ),
