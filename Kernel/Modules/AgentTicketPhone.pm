@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.224 2011-12-22 06:05:28 cr Exp $
+# $Id: AgentTicketPhone.pm,v 1.225 2011-12-22 20:53:25 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Mail::Address;
 use Kernel::System::Service;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.224 $) [1];
+$VERSION = qw($Revision: 1.225 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -242,6 +242,7 @@ sub Run {
         # get ArticleID
         my %Article;
         my %CustomerData;
+        my $ArticleFrom = '';
         if ( $GetParam{ArticleID} ) {
             %Article = $Self->{TicketObject}->ArticleGet(
                 ArticleID     => $GetParam{ArticleID},
@@ -251,6 +252,9 @@ sub Run {
                 TicketNumber => $Article{TicketNumber},
                 Subject => $Article{Subject} || '',
             );
+
+            # save article from for addresses list
+            $ArticleFrom = $Article{From};
 
             # body preparation for plain text processing
             $Article{Body} = $Self->{LayoutObject}->ArticleQuote(
@@ -297,7 +301,7 @@ sub Run {
             User => $Article{CustomerUserID},
         );
 
-        for my $Email ( Mail::Address->parse( $Article{From} ) ) {
+        for my $Email ( Mail::Address->parse($ArticleFrom) ) {
 
             my $CountAux         = $CountFrom;
             my $CustomerError    = '';
