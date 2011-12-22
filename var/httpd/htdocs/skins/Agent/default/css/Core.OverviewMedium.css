@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.23 $
+ * @version     $Revision: 1.24 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -16,7 +16,7 @@
  * @subsection  Medium View Overview
  */
 #TicketOverviewMedium {
-    margin-top: 64px;
+    margin-top: 56px;
 }
 
 .OverviewMedium {
