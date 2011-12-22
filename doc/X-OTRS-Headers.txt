@@ -1,8 +1,8 @@
 # --
 # X-OTRS-Headers.txt - X-headers for use in mail
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: X-OTRS-Headers.txt,v 1.18 2009-06-23 00:01:38 martin Exp $
+# $Id: X-OTRS-Headers.txt,v 1.19 2011-12-22 18:41:52 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -53,16 +53,6 @@ X-OTRS-CustomerNo: [CustomerNo]
 -------------------------------
 Set customer id.
 
-X-OTRS-ArticleKey(1|2|3): [additional info key]
------------------------------------------------
-Save additional info "key" to the incoming article (email).
-For FollowUps use X-OTRS-FollowUp-ArticleKey.
-
-X-OTRS-ArticleValue(1|2|3): [additional info value]
----------------------------------------------------
-Save additional info "value" to the incoming article (email).
-For FollowUps use X-OTRS-FollowUp-ArticleValue.
-
 X-OTRS-SenderType: (agent|system|customer)
 ------------------------------------------
 Info about the sender. For FollowUps use X-OTRS-FollowUp-SenderType.
@@ -73,21 +63,14 @@ note-report)
 ----------------------------------------------------------------------------
 Article type. For FollowUps use X-OTRS-FollowUp-ArticleType.
 
-X-OTRS-TicketKey(1|2|...|16): [additional info key]
----------------------------------------------------
-Save additional info "key" to the incoming ticket.
-For FollowUps use X-OTRS-FollowUp-TicketKey.
-
-X-OTRS-TicketValue(1|2|...|16): [additional info value]
+X-OTRS-DynamicField-<DynamicFieldName>: [additional info value]
 -------------------------------------------------------
-Save additional info "value" to the incoming ticket.
-For FollowUps use X-OTRS-FollowUp-TicketValue.
+Depends on Dynamic Field configuration (Text: Notebook, Date: 2010-11-20 00:00:00, Integer: 1)
+Saves an additional info value for the ticket on <DynamicFieldName>; Dynamic Field.
+For Date type the format need to be: yyyy-mm-dd hh:mm:ss.
 
-X-OTRS-TicketTime(1|2|3|4|5|6): [additional info time]
--------------------------------------------------------
-Save additional "TicketFreeTime" to the incoming ticket.
-Format need to be: yyyy-mm-dd hh:mm:ss.
-For FollowUps use X-OTRS-FollowUp-TicketTime.
+For FollowUps use X-OTRS-FollowUp-DynamicField-<DynamicFieldName>.
+
 
 X-OTRS-Loop: True
 -----------------

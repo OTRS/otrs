@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2112 2011-12-22 06:05:28 cr Exp $
+# $Id: CHANGES,v 1.2113 2011-12-22 18:41:51 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.1.0.beta4 2012-01-??
+ - 2011-12-22 Fixed bug#8049 - TicketFreeText X-Headers should not exist on new installations.
  - 2011-12-22 Fixed bug#8043 - Ticket Split does not use default ACLs from parent.
  - 2011-12-21 Fixed bug#8044 - TicketACL does not get dynamic fields as ticket attributes always.
  - 2011-12-21 Fixed bug#8039 - SysConfig writes files in a non-atomic way.

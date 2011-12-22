@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.494 2011-12-19 11:58:02 mg Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.495 2011-12-22 18:41:52 cr Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Translatable="1">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Group>Ticket</Group>
@@ -6942,52 +6942,8 @@ $QData{"Body"}
                 <Item>X-OTRS-SLA</Item>
                 <Item>X-OTRS-CustomerNo</Item>
                 <Item>X-OTRS-CustomerUser</Item>
-                <Item>X-OTRS-ArticleKey1</Item>
-                <Item>X-OTRS-ArticleKey2</Item>
-                <Item>X-OTRS-ArticleKey3</Item>
-                <Item>X-OTRS-ArticleValue1</Item>
-                <Item>X-OTRS-ArticleValue2</Item>
-                <Item>X-OTRS-ArticleValue3</Item>
                 <Item>X-OTRS-SenderType</Item>
                 <Item>X-OTRS-ArticleType</Item>
-                <Item>X-OTRS-TicketKey1</Item>
-                <Item>X-OTRS-TicketKey2</Item>
-                <Item>X-OTRS-TicketKey3</Item>
-                <Item>X-OTRS-TicketKey4</Item>
-                <Item>X-OTRS-TicketKey5</Item>
-                <Item>X-OTRS-TicketKey6</Item>
-                <Item>X-OTRS-TicketKey7</Item>
-                <Item>X-OTRS-TicketKey8</Item>
-                <Item>X-OTRS-TicketKey9</Item>
-                <Item>X-OTRS-TicketKey10</Item>
-                <Item>X-OTRS-TicketKey11</Item>
-                <Item>X-OTRS-TicketKey12</Item>
-                <Item>X-OTRS-TicketKey13</Item>
-                <Item>X-OTRS-TicketKey14</Item>
-                <Item>X-OTRS-TicketKey15</Item>
-                <Item>X-OTRS-TicketKey16</Item>
-                <Item>X-OTRS-TicketValue1</Item>
-                <Item>X-OTRS-TicketValue2</Item>
-                <Item>X-OTRS-TicketValue3</Item>
-                <Item>X-OTRS-TicketValue4</Item>
-                <Item>X-OTRS-TicketValue5</Item>
-                <Item>X-OTRS-TicketValue6</Item>
-                <Item>X-OTRS-TicketValue7</Item>
-                <Item>X-OTRS-TicketValue8</Item>
-                <Item>X-OTRS-TicketValue9</Item>
-                <Item>X-OTRS-TicketValue10</Item>
-                <Item>X-OTRS-TicketValue11</Item>
-                <Item>X-OTRS-TicketValue12</Item>
-                <Item>X-OTRS-TicketValue13</Item>
-                <Item>X-OTRS-TicketValue14</Item>
-                <Item>X-OTRS-TicketValue15</Item>
-                <Item>X-OTRS-TicketValue16</Item>
-                <Item>X-OTRS-TicketTime1</Item>
-                <Item>X-OTRS-TicketTime2</Item>
-                <Item>X-OTRS-TicketTime3</Item>
-                <Item>X-OTRS-TicketTime4</Item>
-                <Item>X-OTRS-TicketTime5</Item>
-                <Item>X-OTRS-TicketTime6</Item>
                 <Item>X-OTRS-FollowUp-Priority</Item>
                 <Item>X-OTRS-FollowUp-Queue</Item>
                 <Item>X-OTRS-FollowUp-Lock</Item>
@@ -6996,52 +6952,8 @@ $QData{"Body"}
                 <Item>X-OTRS-FollowUp-Type</Item>
                 <Item>X-OTRS-FollowUp-Service</Item>
                 <Item>X-OTRS-FollowUp-SLA</Item>
-                <Item>X-OTRS-FollowUp-ArticleKey1</Item>
-                <Item>X-OTRS-FollowUp-ArticleKey2</Item>
-                <Item>X-OTRS-FollowUp-ArticleKey3</Item>
-                <Item>X-OTRS-FollowUp-ArticleValue1</Item>
-                <Item>X-OTRS-FollowUp-ArticleValue2</Item>
-                <Item>X-OTRS-FollowUp-ArticleValue3</Item>
                 <Item>X-OTRS-FollowUp-SenderType</Item>
                 <Item>X-OTRS-FollowUp-ArticleType</Item>
-                <Item>X-OTRS-FollowUp-TicketKey1</Item>
-                <Item>X-OTRS-FollowUp-TicketKey2</Item>
-                <Item>X-OTRS-FollowUp-TicketKey3</Item>
-                <Item>X-OTRS-FollowUp-TicketKey4</Item>
-                <Item>X-OTRS-FollowUp-TicketKey5</Item>
-                <Item>X-OTRS-FollowUp-TicketKey6</Item>
-                <Item>X-OTRS-FollowUp-TicketKey7</Item>
-                <Item>X-OTRS-FollowUp-TicketKey8</Item>
-                <Item>X-OTRS-FollowUp-TicketKey9</Item>
-                <Item>X-OTRS-FollowUp-TicketKey10</Item>
-                <Item>X-OTRS-FollowUp-TicketKey11</Item>
-                <Item>X-OTRS-FollowUp-TicketKey12</Item>
-                <Item>X-OTRS-FollowUp-TicketKey13</Item>
-                <Item>X-OTRS-FollowUp-TicketKey14</Item>
-                <Item>X-OTRS-FollowUp-TicketKey15</Item>
-                <Item>X-OTRS-FollowUp-TicketKey16</Item>
-                <Item>X-OTRS-FollowUp-TicketValue1</Item>
-                <Item>X-OTRS-FollowUp-TicketValue2</Item>
-                <Item>X-OTRS-FollowUp-TicketValue3</Item>
-                <Item>X-OTRS-FollowUp-TicketValue4</Item>
-                <Item>X-OTRS-FollowUp-TicketValue5</Item>
-                <Item>X-OTRS-FollowUp-TicketValue6</Item>
-                <Item>X-OTRS-FollowUp-TicketValue7</Item>
-                <Item>X-OTRS-FollowUp-TicketValue8</Item>
-                <Item>X-OTRS-FollowUp-TicketValue9</Item>
-                <Item>X-OTRS-FollowUp-TicketValue10</Item>
-                <Item>X-OTRS-FollowUp-TicketValue11</Item>
-                <Item>X-OTRS-FollowUp-TicketValue12</Item>
-                <Item>X-OTRS-FollowUp-TicketValue13</Item>
-                <Item>X-OTRS-FollowUp-TicketValue14</Item>
-                <Item>X-OTRS-FollowUp-TicketValue15</Item>
-                <Item>X-OTRS-FollowUp-TicketValue16</Item>
-                <Item>X-OTRS-FollowUp-TicketTime1</Item>
-                <Item>X-OTRS-FollowUp-TicketTime2</Item>
-                <Item>X-OTRS-FollowUp-TicketTime3</Item>
-                <Item>X-OTRS-FollowUp-TicketTime4</Item>
-                <Item>X-OTRS-FollowUp-TicketTime5</Item>
-                <Item>X-OTRS-FollowUp-TicketTime6</Item>
             </Array>
         </Setting>
     </ConfigItem>
