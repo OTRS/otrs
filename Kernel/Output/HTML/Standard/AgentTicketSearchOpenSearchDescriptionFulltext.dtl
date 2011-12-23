@@ -2,7 +2,7 @@
 # AgentTicketSearchOpenSearchDescriptionFulltext.dtl - provides opensearch form for AgentTicketSearch
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearchOpenSearchDescriptionFulltext.dtl,v 1.8 2011-08-23 12:31:24 mb Exp $
+# $Id: AgentTicketSearchOpenSearchDescriptionFulltext.dtl,v 1.9 2011-12-23 11:21:44 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,6 +13,6 @@
 <ShortName>$QData{"Title", "11"}</ShortName>
 <Description>$QData{"Title"}</Description>
 <InputEncoding>$Env{"UserCharset"}</InputEncoding>
-<Url type="text/html" template="$Config{"HttpType"}://$Env{"HTTP_HOST"}$Env{"Baselink"}Action=AgentTicketSearch;Subaction=Search;Fulltext={searchTerms}" />
+<Url type="text/html" template="$Config{"HttpType"}://$Env{"HTTP_HOST"}$Env{"Baselink"}Action=AgentTicketSearch;Subaction=Search;Fulltext={searchTerms};CheckTicketNumberAndRedirect=1" />
 <Image height="16" width="16" type="image/x-icon">$Config{"HttpType"}://$Env{"HTTP_HOST"}$Config{"Frontend::ImagePath"}icons/product.ico</Image>
 </OpenSearchDescription>
