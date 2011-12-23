@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2115 2011-12-23 10:56:02 mg Exp $
+# $Id: CHANGES,v 1.2116 2011-12-23 16:23:38 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.1.0.beta4 2012-01-??
+ - 2011-12-23 Fixed bug#8037 - Registration screen in web installer produces HTTP 500 error.
  - 2011-12-22 Fixed bug#7947 - Service list can be made useless with simple ACL And/Or Disabling
     services.
  - 2011-12-22 Fixed bug#8049 - TicketFreeText X-Headers should not exist on new installations.

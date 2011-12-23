@@ -2,7 +2,7 @@
 # Kernel/Modules/Installer.pm - provides the DB installer
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Installer.pm,v 1.91 2011-11-26 18:15:07 mb Exp $
+# $Id: Installer.pm,v 1.92 2011-12-23 16:23:38 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,9 +18,10 @@ use DBI;
 use Kernel::System::SysConfig;
 use Kernel::System::Email;
 use Kernel::System::MailAccount;
+use Kernel::System::ReferenceData
 
-use vars qw($VERSION %INC);
-$VERSION = qw($Revision: 1.91 $) [1];
+    use vars qw($VERSION %INC);
+$VERSION = qw($Revision: 1.92 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -796,6 +797,7 @@ sub Run {
             },
         );
 
+        $Self->{ReferenceDataObject} = Kernel::System::ReferenceData->new( %{$Self} );
         my $CountryList = $Self->{ReferenceDataObject}->CountryList();
         my $CountryStr  = $Self->{LayoutObject}->BuildSelection(
             Data => { %$CountryList, },
