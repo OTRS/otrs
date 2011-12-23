@@ -2,7 +2,7 @@
 # AdminMailAccount.dtl - provides HTML form for AdminMailAccount
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminMailAccount.dtl,v 1.37 2011-11-23 19:31:51 mb Exp $
+# $Id: AdminMailAccount.dtl,v 1.38 2011-12-23 13:55:31 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -89,10 +89,10 @@
                             <td>$TimeShort{"$QData{"ChangeTime"}"}</td>
                             <td>$TimeShort{"$QData{"CreateTime"}"}</td>
                             <td class="Center">
-                                <a class="TrashCan" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Delete;ID=$LQData{"ID"}" title="$Text{"Delete account"}">$Text{"Delete account"}</a>
+                                <a class="TrashCan" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Delete;ID=$LQData{"ID"};$QEnv{"ChallengeTokenParam"}" title="$Text{"Delete account"}">$Text{"Delete account"}</a>
                             </td>
                             <td>
-                                <a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Run;ID=$LQData{"ID"}">$Text{"Fetch mail"}</a>
+                                <a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Run;ID=$LQData{"ID"};$QEnv{"ChallengeTokenParam"}">$Text{"Fetch mail"}</a>
                             </td>
                         </tr>
 <!-- dtl:block:OverviewResultRow -->
