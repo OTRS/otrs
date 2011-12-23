@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminUserGroup.pm - to add/update/delete groups <-> users
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminUserGroup.pm,v 1.55 2010-11-10 11:04:28 mg Exp $
+# $Id: AdminUserGroup.pm,v 1.56 2011-12-23 13:37:00 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.55 $) [1];
+$VERSION = qw($Revision: 1.56 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -118,6 +118,9 @@ sub Run {
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'ChangeGroup' ) {
 
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
+
         my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' ) || '';
 
         # get new groups
@@ -154,6 +157,9 @@ sub Run {
     # groups to user
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'ChangeUser' ) {
+
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
 
         my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' );
 
