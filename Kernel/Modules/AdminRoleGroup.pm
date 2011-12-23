@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminRoleGroup.pm - to add/update/delete groups <-> users
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminRoleGroup.pm,v 1.31 2010-11-10 11:04:28 mg Exp $
+# $Id: AdminRoleGroup.pm,v 1.32 2011-12-23 13:29:10 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.31 $) [1];
+$VERSION = qw($Revision: 1.32 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -111,6 +111,9 @@ sub Run {
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'ChangeGroup' ) {
 
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
+
         my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' ) || '';
 
         # get new groups
@@ -147,6 +150,9 @@ sub Run {
     # groups to user
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'ChangeRole' ) {
+
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
 
         my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' );
 
