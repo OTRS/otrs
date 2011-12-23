@@ -2,7 +2,7 @@
 # Kernel/System/Stats.pm - all stats core functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Stats.pm,v 1.111 2011-12-09 14:45:03 mb Exp $
+# $Id: Stats.pm,v 1.112 2011-12-23 14:37:19 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Date::Pcalc qw(:all);
 use Kernel::System::XML;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.111 $) [1];
+$VERSION = qw($Revision: 1.112 $) [1];
 
 =head1 NAME
 
@@ -2131,7 +2131,7 @@ sub _GenerateStaticStats {
         return;
     }
 
-    # load static modul
+    # load static module
     my $ObjectModule = $Param{ObjectModule};
     return if !$Self->{MainObject}->Require($ObjectModule);
     my $StatObject = $ObjectModule->new( %{$Self} );
@@ -3352,6 +3352,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.111 $ $Date: 2011-12-09 14:45:03 $
+$Revision: 1.112 $ $Date: 2011-12-23 14:37:19 $
 
 =cut
