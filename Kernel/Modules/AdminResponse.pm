@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminResponse.pm - provides admin std response module
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminResponse.pm,v 1.52 2010-11-19 22:28:58 en Exp $
+# $Id: AdminResponse.pm,v 1.53 2011-12-23 14:26:57 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Valid;
 use Kernel::System::HTMLUtils;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.52 $) [1];
+$VERSION = qw($Revision: 1.53 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -242,6 +242,9 @@ sub Run {
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'Delete' ) {
 
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
+
         my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' );
 
         my $Delete = $Self->{StandardResponseObject}->StandardResponseDelete(
@@ -268,7 +271,6 @@ sub Run {
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }
-
 }
 
 sub _Edit {

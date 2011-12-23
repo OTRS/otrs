@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminQueueAutoResponse.pm - to add/update/delete QueueAutoResponses
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminQueueAutoResponse.pm,v 1.34 2010-11-22 09:32:07 mg Exp $
+# $Id: AdminQueueAutoResponse.pm,v 1.35 2011-12-23 14:22:03 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::AutoResponse;
 use Kernel::System::Queue;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.34 $) [1];
+$VERSION = qw($Revision: 1.35 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -112,6 +112,10 @@ sub Run {
 
     # queues to queue_auto_responses
     elsif ( $Self->{Subaction} eq 'ChangeAction' ) {
+
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
+
         my @NewIDs = ();
 
         # get Type Auto Responses data

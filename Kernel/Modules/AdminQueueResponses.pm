@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminQueueResponses.pm - to manage queue <-> responses assignments
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminQueueResponses.pm,v 1.46 2011-11-14 07:36:44 mb Exp $
+# $Id: AdminQueueResponses.pm,v 1.47 2011-12-23 14:23:11 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Queue;
 use Kernel::System::StandardResponse;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.46 $) [1];
+$VERSION = qw($Revision: 1.47 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -110,6 +110,9 @@ sub Run {
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'ChangeQueue' ) {
 
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
+
         # get new queues
         my @IDs = $Self->{ParamObject}->GetArray( Param => 'Queue' );
 
@@ -136,6 +139,9 @@ sub Run {
     # add queues to response
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'ChangeResponse' ) {
+
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
 
         # get new queues
         my @IDs = $Self->{ParamObject}->GetArray( Param => 'Response' );
