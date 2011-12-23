@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Ticket/Common.pm - Ticket common operation functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.2 2011-12-23 18:43:08 cr Exp $
+# $Id: Common.pm,v 1.3 2011-12-23 20:18:08 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,6 +14,7 @@ package Kernel::GenericInterface::Operation::Ticket::Common;
 use strict;
 use warnings;
 
+use Kernel::System::GenericInterface::Webservice;
 use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData IsStringWithData);
 
 =head1 NAME
@@ -96,6 +97,10 @@ sub new {
         $Self->{$Needed} = $Param{$Needed};
     }
 
+    # create additional objects
+    $Self->{WebserviceObject} = Kernel::System::GenericInterface::Webservice->new( %{$Self} );
+
+    # get webservice configuration
     $Self->{Webservice} = $Self->{WebserviceObject}->WebserviceGet(
         ID => $Param{WebserviceID},
     );
@@ -110,6 +115,29 @@ sub new {
     }
 
     return $Self;
+}
+
+=item AuthUser()
+
+performs user authenrication
+
+    my $Success = $CommonObject->AuthUser(
+        UserLogin => 'Agent',
+        Password  => 'some password',           # plain text password
+        CrypPaswd => '50/\/\3 p455\/\/0rd',     # cripted password with the current crypt algorithm
+    );
+
+    returns
+
+    $Success = 1;                               # || 0
+
+=cut
+
+sub AuthUser {
+    my ( $Self, %Param ) = @_;
+
+    #TODO Implement
+    return 1;
 }
 
 =begin Internal:
@@ -161,6 +189,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.2 $ $Date: 2011-12-23 18:43:08 $
+$Revision: 1.3 $ $Date: 2011-12-23 20:18:08 $
 
 =cut
