@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.pm,v 1.139 2011-12-23 10:56:02 mg Exp $
+# $Id: AgentTicketSearch.pm,v 1.140 2011-12-23 11:06:00 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.139 $) [1];
+$VERSION = qw($Revision: 1.140 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -653,8 +653,13 @@ sub Run {
             }
         }
 
-        # check full text string to see if contents is a ticket number
-        # if exists and not in print or CSV mode, redirect to this screen
+        # Special behaviour for the fulltext search toolbar module:
+        # - Check full text string to see if contents is a ticket number.
+        # - If exists and not in print or CSV mode, redirect to the ticket.
+        # See http://bugs.otrs.org/show_bug.cgi?id=4238 for details.
+        #   The original problem was that tickets with customer reply will be
+        #   found by a fulltext search (ticket number is in the subjects), but
+        #   'new' tickets will not be found.
         if (
             $GetParam{Fulltext}
             && $Self->{ParamObject}->GetParam( Param => 'CheckTicketNumberAndRedirect' )
