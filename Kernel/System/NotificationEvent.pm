@@ -1,8 +1,8 @@
 # --
 # Kernel/System/NotificationEvent.pm - notification system module
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: NotificationEvent.pm,v 1.6 2010-06-17 21:39:40 cr Exp $
+# $Id: NotificationEvent.pm,v 1.7 2011-12-23 14:08:54 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 =head1 NAME
 
@@ -388,11 +388,11 @@ sub NotificationDelete {
 
     # delete notification
     $Self->{DBObject}->Do(
-        SQL  => 'DELETE FROM notification_event WHERE id = ?',
+        SQL  => 'DELETE FROM notification_event_item WHERE notification_id = ?',
         Bind => [ \$Param{ID} ],
     );
     $Self->{DBObject}->Do(
-        SQL  => 'DELETE FROM notification_event_item WHERE notification_id = ?',
+        SQL  => 'DELETE FROM notification_event WHERE id = ?',
         Bind => [ \$Param{ID} ],
     );
     $Self->{LogObject}->Log(
@@ -450,6 +450,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.6 $ $Date: 2010-06-17 21:39:40 $
+$Revision: 1.7 $ $Date: 2011-12-23 14:08:54 $
 
 =cut
