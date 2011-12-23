@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.537 2011-12-23 10:06:23 mg Exp $
+# $Id: Ticket.pm,v 1.538 2011-12-23 17:23:53 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -40,7 +40,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.537 $) [1];
+$VERSION = qw($Revision: 1.538 $) [1];
 
 =head1 NAME
 
@@ -6084,11 +6084,10 @@ sub TicketAcl {
     # do not execute acls it userid 1 is used
     return if $Param{UserID} && $Param{UserID} == 1;
 
-    # only execute acls if ACL or ACL module is configured or event module is used
+    # only execute acls if ACL or ACL module is configured
     if (
         !$Self->{ConfigObject}->Get('TicketAcl')
         && !$Self->{ConfigObject}->Get('Ticket::Acl::Module')
-        && !$Self->{ConfigObject}->Get('Ticket::EventModulePost')
         )
     {
         return;
@@ -7281,6 +7280,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.537 $ $Date: 2011-12-23 10:06:23 $
+$Revision: 1.538 $ $Date: 2011-12-23 17:23:53 $
 
 =cut
