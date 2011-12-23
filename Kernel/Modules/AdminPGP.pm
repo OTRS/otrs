@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminPGP.pm - to add/update/delete pgp keys
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPGP.pm,v 1.32 2010-11-23 17:49:42 dz Exp $
+# $Id: AdminPGP.pm,v 1.33 2011-12-23 14:13:43 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.32 $) [1];
+$VERSION = qw($Revision: 1.33 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -76,6 +76,9 @@ sub Run {
     # delete key
     # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'Delete' ) {
+
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
 
         $Self->{LayoutObject}->Block( Name => 'Overview' );
         $Self->{LayoutObject}->Block( Name => 'ActionList' );
@@ -229,6 +232,10 @@ sub Run {
     # download key
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'Download' ) {
+
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
+
         my $Key  = $Self->{ParamObject}->GetParam( Param => 'Key' )  || '';
         my $Type = $Self->{ParamObject}->GetParam( Param => 'Type' ) || '';
         if ( !$Key ) {
@@ -253,6 +260,10 @@ sub Run {
     # download fingerprint
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'DownloadFingerprint' ) {
+
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
+
         my $Key  = $Self->{ParamObject}->GetParam( Param => 'Key' )  || '';
         my $Type = $Self->{ParamObject}->GetParam( Param => 'Type' ) || '';
         if ( !$Key ) {

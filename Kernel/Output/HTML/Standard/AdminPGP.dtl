@@ -1,8 +1,8 @@
 # --
 # AdminPGP.dtl - provides HTML form for AdminPGP html
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPGP.dtl,v 1.21 2010-11-23 23:18:35 dz Exp $
+# $Id: AdminPGP.dtl,v 1.22 2011-12-23 14:13:43 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -133,15 +133,15 @@
                             <td>$QData{"Identifier","80"}</td>
                             <td>$QData{"Bit"}</td>
                             <td>
-                                <a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Download;Type=$LQData{"Type"};Key=$LQData{"Key"}">$QData{"Key"}</a>
+                                <a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Download;Type=$LQData{"Type"};Key=$LQData{"Key"};$QEnv{"ChallengeTokenParam"}">$QData{"Key"}</a>
                             </td>
                             <td>
-                                <a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=DownloadFingerprint;Type=$LQData{"Type"};Key=$LQData{"Key"}"><span title="$QData{"Fingerprint"}">$QData{"Fingerprint","10"}</span></a>
+                                <a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=DownloadFingerprint;Type=$LQData{"Type"};Key=$LQData{"Key"};$QEnv{"ChallengeTokenParam"}"><span title="$QData{"Fingerprint"}">$QData{"Fingerprint","10"}</span></a>
                             </td>
                             <td>$QData{"Created"}</td>
                             <td>$QData{"Expires"}</td>
                             <td class="Center">
-                                <a class="TrashCan" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Delete;Type=$LQData{"Type"};Key=$LQData{"FingerprintShort"}" title="$Text{"Delete this key"}">$Text{"Delete this key"}</a>
+                                <a class="TrashCan" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Delete;Type=$LQData{"Type"};Key=$LQData{"FingerprintShort"};$QEnv{"ChallengeTokenParam"}" title="$Text{"Delete this key"}">$Text{"Delete this key"}</a>
                             </td>
                         </tr>
 <!-- dtl:block:Row -->

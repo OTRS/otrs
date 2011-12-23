@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminNotificationEvent.pm - to manage event-based notifications
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNotificationEvent.pm,v 1.36 2011-11-15 02:37:02 cr Exp $
+# $Id: AdminNotificationEvent.pm,v 1.37 2011-12-23 14:09:31 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.36 $) [1];
+$VERSION = qw($Revision: 1.37 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -95,7 +95,7 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'ChangeAction' ) {
 
         # challenge token check for write action
-        #        $Self->{LayoutObject}->ChallengeTokenCheck();
+        $Self->{LayoutObject}->ChallengeTokenCheck();
 
         my %GetParam;
         for my $Parameter (qw(ID Name Subject Body Type Charset Comment ValidID Events)) {
@@ -219,7 +219,7 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'AddAction' ) {
 
         # challenge token check for write action
-        #        $Self->{LayoutObject}->ChallengeTokenCheck();
+        $Self->{LayoutObject}->ChallengeTokenCheck();
 
         my %GetParam;
         for my $Parameter (qw(Name Subject Body Comment ValidID Events)) {
@@ -322,6 +322,9 @@ sub Run {
     # delete
     # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'Delete' ) {
+
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
 
         my %GetParam;
         for my $Parameter (qw(ID)) {
