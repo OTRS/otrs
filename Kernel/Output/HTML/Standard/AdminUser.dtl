@@ -2,7 +2,7 @@
 # AdminUser.dtl - provides HTML form for AdminUser
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminUser.dtl,v 1.39 2011-09-15 00:51:35 sb Exp $
+# $Id: AdminUser.dtl,v 1.40 2011-12-23 13:47:18 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -116,7 +116,7 @@
                             <td>$TimeShort{"$QData{"UserLastLoginTimestamp"}"}</td>
 <!-- dtl:block:OverviewResultRowSwitchToUser -->
                             <td>
-                                <a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Switch;UserID=$LQData{"UserID"}">$Text{"Switch to agent"}</a>
+                                <a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Switch;UserID=$LQData{"UserID"};$QEnv{"ChallengeTokenParam"}">$Text{"Switch to agent"}</a>
                             </td>
 <!-- dtl:block:OverviewResultRowSwitchToUser -->
                             <td>$Text{"$Data{"Valid"}"}</td>

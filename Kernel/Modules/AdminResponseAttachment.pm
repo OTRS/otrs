@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminResponseAttachment.pm - to add/update/delete groups <-> users
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminResponseAttachment.pm,v 1.39 2010-11-10 11:04:28 mg Exp $
+# $Id: AdminResponseAttachment.pm,v 1.40 2011-12-23 13:49:08 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::StdAttachment;
 use Kernel::System::StandardResponse;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.39 $) [1];
+$VERSION = qw($Revision: 1.40 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -116,6 +116,9 @@ sub Run {
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'ChangeAttachment' ) {
 
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
+
         # get new role member
         my @IDs = $Self->{ParamObject}->GetArray( Param => 'Attachment' );
 
@@ -153,6 +156,9 @@ sub Run {
     # groups to user
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'ChangeResponse' ) {
+
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
 
         # get new role member
         my @IDs = $Self->{ParamObject}->GetArray( Param => 'Response' );

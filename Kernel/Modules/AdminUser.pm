@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminUser.pm - to add/update/delete user and preferences
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminUser.pm,v 1.81 2011-09-12 08:36:17 mg Exp $
+# $Id: AdminUser.pm,v 1.82 2011-12-23 13:47:18 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Valid;
 use Kernel::System::CheckItem;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.81 $) [1];
+$VERSION = qw($Revision: 1.82 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -54,6 +54,10 @@ sub Run {
         && $Self->{ConfigObject}->Get('SwitchToUser')
         )
     {
+
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
+
         my $UserID = $Self->{ParamObject}->GetParam( Param => 'UserID' ) || '';
         my %UserData = $Self->{UserObject}->GetUserData(
             UserID        => $UserID,
@@ -146,6 +150,10 @@ sub Run {
     # change action
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'ChangeAction' ) {
+
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
+
         my $Note = '';
         my ( %GetParam, %Errors );
         for my $Parameter (
@@ -290,6 +298,10 @@ sub Run {
     # add action
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'AddAction' ) {
+
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
+
         my $Note = '';
         my ( %GetParam, %Errors );
         for my $Parameter (
