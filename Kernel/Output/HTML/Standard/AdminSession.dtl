@@ -2,7 +2,7 @@
 # AdminSession.dtl - provides global HTML AdminSession
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSession.dtl,v 1.38 2011-04-05 12:38:52 mb Exp $
+# $Id: AdminSession.dtl,v 1.39 2011-12-23 14:36:07 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -52,13 +52,13 @@
                             <div class="Value">$QData{"CustomerSessionUniq"}</div>
                             <div class="Clear"></div>
                         </fieldset>
-                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=KillAll;WantSessionID=$Env{"SessionID"}" id="KillAllSessions" class="CallForAction"><span>$Text{"Kill all sessions"}</span></a>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=KillAll;WantSessionID=$Env{"SessionID"};$QEnv{"ChallengeTokenParam"}" id="KillAllSessions" class="CallForAction"><span>$Text{"Kill all sessions"}</span></a>
                     </li>
 <!-- dtl:block:ActionSummary -->
 
 <!-- dtl:block:ActionKillSession -->
                     <li>
-                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Kill;WantSessionID=$Data{"SessionID"}" id="KillThisSession" class="CallForAction"><span>$Text{"Kill this session"}</span></a>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Kill;WantSessionID=$Data{"SessionID"};$QEnv{"ChallengeTokenParam"}" id="KillThisSession" class="CallForAction"><span>$Text{"Kill this session"}</span></a>
                     </li>
 <!-- dtl:block:ActionKillSession -->
 
@@ -95,7 +95,7 @@
                             <td>$QData{"UserType"}</td>
                             <td>$QData{"UserFirstname"} $Data{"UserLastname"}</td>
                             <td>
-                                <a class="AsBlock" href="$Env{"Baselink"}Action=AdminSession;Subaction=Kill;WantSessionID=$LQData{"SessionID"}">$Text{"Kill this session"}</a>
+                                <a class="AsBlock" href="$Env{"Baselink"}Action=AdminSession;Subaction=Kill;WantSessionID=$LQData{"SessionID"};$QEnv{"ChallengeTokenParam"}">$Text{"Kill this session"}</a>
                             </td>
                         </tr>
 <!-- dtl:block:Session -->
