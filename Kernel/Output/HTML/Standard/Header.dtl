@@ -2,7 +2,7 @@
 # Header.dtl - provides global HTML header
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Header.dtl,v 1.110 2011-12-21 14:34:22 mg Exp $
+# $Id: Header.dtl,v 1.111 2011-12-23 10:56:02 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -58,6 +58,7 @@ $Include{"HTMLHead"}
                     <input type="hidden" name="Action" value="AgentTicketSearch"/>
                     <input type="hidden" name="Subaction" value="Search"/>
                     <input type="hidden" name="SearchTemplate" value="$Text{"Search"}"/>
+                    <input type="hidden" name="CheckTicketNumberAndRedirect" value="1"/>
                     <input type="text" size="$QData{"Size"}" name="Fulltext" id="Fulltext" value="$QData{"Fulltext"}" title="$Text{"Fulltext Search"}"/>
 #                    <a href="#" id="ToolbarFulltextSearch" title="$Text{"$Data{"Description"}"} ($QData{"AccessKey"})" accesskey="$QData{"AccessKey"}" $Data{"LinkOption"}>$Text{"$Data{"Name"}"}<span class="Gloss"></span></a>
                 </form>

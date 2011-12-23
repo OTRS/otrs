@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2114 2011-12-22 23:33:18 cr Exp $
+# $Id: CHANGES,v 1.2115 2011-12-23 10:56:02 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,6 +16,7 @@
  - 2011-12-22 Fixed bug#8043 - Ticket Split does not use default ACLs from parent.
  - 2011-12-21 Fixed bug#8044 - TicketACL does not get dynamic fields as ticket attributes always.
  - 2011-12-21 Fixed bug#8039 - SysConfig writes files in a non-atomic way.
+ - 2011-12-20 Fixed bug#4239 - Include ticket number in toolbar fulltext search.
  - 2011-12-20 Fixed bug#7955 - Customer identity is not displayed on Customer Interface.
  - 2011-12-20 Fixed bug#8035 - SOAP interface does not allow to create/update
     CustomerCompany records.
