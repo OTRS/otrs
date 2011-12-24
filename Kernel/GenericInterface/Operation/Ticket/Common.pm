@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Ticket/Common.pm - Ticket common operation functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.4 2011-12-24 00:41:20 cr Exp $
+# $Id: Common.pm,v 1.5 2011-12-24 01:44:31 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,8 +14,12 @@ package Kernel::GenericInterface::Operation::Ticket::Common;
 use strict;
 use warnings;
 
+use Kernel::System::Queue;
 use Kernel::System::GenericInterface::Webservice;
 use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData IsStringWithData);
+
+use vars qw(@ISA $VERSION);
+$VERSION = qw($Revision: 1.5 $) [1];
 
 =head1 NAME
 
@@ -98,6 +102,7 @@ sub new {
     }
 
     # create additional objects
+    $Self->{QueueObject}      = Kernel::System::Queue->new( %{$Self} );
     $Self->{WebserviceObject} = Kernel::System::GenericInterface::Webservice->new( %{$Self} );
 
     # get webservice configuration
@@ -140,8 +145,6 @@ sub AuthUser {
     return 1;
 }
 
-=begin Internal:
-
 =item ReturnError()
 
 helper function to return an error message.
@@ -174,6 +177,63 @@ sub ReturnError {
     };
 }
 
+=item ValidateQueue()
+
+checks if the given queue or queue id is valid.
+
+    my $Sucess = $CommonObject->ValidateQueue(
+        QueueID => 123,
+    );
+
+    my $Sucess = $CommonObject->ValidateQueue(
+        Queue   => 'some queue',
+    );
+
+    returns
+    $Success = 1            # or 0
+
+=cut
+
+sub ValidateQueue {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    return if !$Param{QueueID} && !$Param{Queue};
+
+    my %Queue;
+
+    # check for Queue name sent
+    if (
+        $Param{Queue}
+        && $Param{Queue} ne ''
+        && !$Param{QueueID}
+        )
+    {
+        %Queue = $Self->{QueueObject}->QueueGet(
+            Name => $Param{Queue},
+        );
+
+    }
+
+    # otherwise use QueueID
+    elsif ( $Param{QueueID} ) {
+        %Queue = $Self->{QueueObject}->QueueGet(
+            ID => $Param{QueueID},
+        );
+    }
+    else {
+        return
+    }
+
+    return if !IsHashRefWithData( \%Queue );
+
+    #TODO check for validity
+
+    return 1;
+}
+
+=begin Internal:
+
 1;
 
 =end Internal:
@@ -192,6 +252,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.4 $ $Date: 2011-12-24 00:41:20 $
+$Revision: 1.5 $ $Date: 2011-12-24 01:44:31 $
 
 =cut
