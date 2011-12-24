@@ -2,7 +2,7 @@
 # TicketGet.t - GenericInterface transport interface tests for TicketConnector backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketGet.t,v 1.1 2011-12-24 00:06:36 cg Exp $
+# $Id: TicketGet.t,v 1.2 2011-12-24 00:07:03 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
