@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Ticket/Common.pm - Ticket common operation functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.3 2011-12-23 20:18:08 cr Exp $
+# $Id: Common.pm,v 1.4 2011-12-24 00:41:20 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -142,21 +142,24 @@ sub AuthUser {
 
 =begin Internal:
 
-=item _ReturnError()
+=item ReturnError()
 
 helper function to return an error message.
 
-    my $Return = $CommonObject->_ReturnError(
+    my $Return = $CommonObject->ReturnError(
         ErrorCode    => Ticket.AccessDenied,
         ErrorMessage => 'You dont have rights to access this ticket',
     );
 
 =cut
 
-sub _ReturnError {
+sub ReturnError {
     my ( $Self, %Param ) = @_;
 
-    $Self->{DebuggerObject}->Error( Summary => "$Param{ErrorCode}: $Param{ErrorMessage}" );
+    $Self->{DebuggerObject}->Error(
+        Summary => $Param{ErrorCode},
+        Data    => $Param{ErrorMessage},
+    );
 
     # return structure
     return {
@@ -189,6 +192,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.3 $ $Date: 2011-12-23 20:18:08 $
+$Revision: 1.4 $ $Date: 2011-12-24 00:41:20 $
 
 =cut
