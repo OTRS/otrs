@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Ticket/TicketCreate.pm - GenericInterface Ticket TicketCreate operation backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketCreate.pm,v 1.1 2011-12-24 00:39:50 cr Exp $
+# $Id: TicketCreate.pm,v 1.2 2011-12-24 01:45:01 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::GenericInterface::Operation::Ticket::Common;
 use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 =head1 NAME
 
@@ -135,13 +135,39 @@ sub Run {
         }
     }
 
+    # isolate tiket parameter
+    my $Ticket = $Param{Data}->{Ticket};
+
+    # check ticket internally
+    for my $Needed (qw(Title)) {
+        if ( !$Ticket->{$Needed} ) {
+            return $Self->{TicketCommonObject}->ReturnError(
+                ErrorCode    => 'TicketCreate.MissingParameter',
+                ErrorMessage => "TicketCreate: Ticket->$Needed parameter is missing!",
+            );
+        }
+    }
+
+    # check Ticket->Queue
+    if ( !$Ticket->{QueueID} && !$Ticket->{Queue} ) {
+        return $Self->{TicketCommonObject}->ReturnError(
+            ErrorCode    => 'TicketCreate.MissingParameter',
+            ErrorMessage => "TicketCreate: Ticket->QueueID or Ticket->Queue parameter is required!",
+        );
+    }
+    if ( !$Self->{TicketCommonObject}->ValidateQueue( %{$Ticket} ) ) {
+        return $Self->{TicketCommonObject}->ReturnError(
+            ErrorCode    => 'TicketCreate.InvalidParameter',
+            ErrorMessage => "TicketCreate: Ticket->QueueID or Ticket->Queue parameter is invalid!",
+        );
+    }
+
     return {
         Success => 1,
         Data    => {
             Test => 'Test OK',
         },
-        }
-
+    };
 }
 
 1;
@@ -160,6 +186,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2011-12-24 00:39:50 $
+$Revision: 1.2 $ $Date: 2011-12-24 01:45:01 $
 
 =cut
