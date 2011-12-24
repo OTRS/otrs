@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: GenericTicketConnector.wsdl,v 1.4 2011-12-24 01:45:48 cr Exp $ -->
 <wsdl:definitions
     name="GenericTicketConnector"
     targetNamespace="http://www.otrs.org/TicketConnector/"
@@ -7,7 +8,6 @@
     xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
     xmlns:tns="http://www.otrs.org/TicketConnector/">
     <wsdl:documentation></wsdl:documentation>
-    <CVS>$Id: GenericTicketConnector.wsdl,v 1.3 2011-12-14 23:24:58 cr Exp $</CVS>
     <!-- Warning: This WSDL file is for Development and Test purposes ONLY! -->
     <wsdl:types>
         <xsd:schema
@@ -354,19 +354,19 @@
                         maxOccurs="1"
                         minOccurs="1">
                         <xsd:element
-                            name="Value"
+                            name="ValueInt"
                             type="xsd:int"
                             maxOccurs="1"
                             minOccurs="0">
                         </xsd:element>
                         <xsd:element
-                            name="Value"
+                            name="ValueStr"
                             type="xsd:string"
                             maxOccurs="1"
                             minOccurs="0">
                         </xsd:element>
                         <xsd:element
-                            name="Value"
+                            name="ValueDate"
                             type="xsd:dateTime"
                             maxOccurs="1"
                             minOccurs="0">
@@ -454,7 +454,7 @@
     </wsdl:types>
     <wsdl:message name="TicketCreateRequest">
         <wsdl:part
-            name="TicketCreateRequest"
+            name="TicketCreate"
             type="tns:OTRS_TicketCreate">
         </wsdl:part>
     </wsdl:message>
