@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Ticket/Common.pm - Ticket common operation functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.7 2011-12-26 18:26:26 cr Exp $
+# $Id: Common.pm,v 1.8 2011-12-26 20:00:35 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,12 +17,14 @@ use warnings;
 use Kernel::System::Queue;
 use Kernel::System::Lock;
 use Kernel::System::Type;
+use Kernel::System::CustomerUser;
+use Kernel::System::Service;
 use Kernel::System::Valid;
 use Kernel::System::GenericInterface::Webservice;
 use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 =head1 NAME
 
@@ -105,11 +107,13 @@ sub new {
     }
 
     # create additional objects
-    $Self->{QueueObject}      = Kernel::System::Queue->new( %{$Self} );
-    $Self->{LockObject}       = Kernel::System::Lock->new( %{$Self} );
-    $Self->{TypeObject}       = Kernel::System::Type->new( %{$Self} );
-    $Self->{ValidObject}      = Kernel::System::Valid->new( %{$Self} );
-    $Self->{WebserviceObject} = Kernel::System::GenericInterface::Webservice->new( %{$Self} );
+    $Self->{QueueObject}        = Kernel::System::Queue->new( %{$Self} );
+    $Self->{LockObject}         = Kernel::System::Lock->new( %{$Self} );
+    $Self->{TypeObject}         = Kernel::System::Type->new( %{$Self} );
+    $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new( %{$Self} );
+    $Self->{ServiceObject}      = Kernel::System::Service->new( %{$Self} );
+    $Self->{ValidObject}        = Kernel::System::Valid->new( %{$Self} );
+    $Self->{WebserviceObject}   = Kernel::System::GenericInterface::Webservice->new( %{$Self} );
 
     # get webservice configuration
     $Self->{Webservice} = $Self->{WebserviceObject}->WebserviceGet(
@@ -347,6 +351,123 @@ sub ValidateType {
     return 1;
 }
 
+=item ValidateCustomer()
+
+checks if the given customer user or customer ID is valid.
+
+    my $Sucess = $CommonObject->ValidateCustomer(
+        CustomerID => 123,
+    );
+
+    my $Sucess = $CommonObject->ValidateCustomer(
+        CustomerUser   => 'some type',
+    );
+
+    returns
+    $Success = 1            # or 0
+
+=cut
+
+sub ValidateCustomer {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    return if !$Param{CustomerUser};
+
+    my %CustomerData;
+
+    # check for customer user sent
+    if (
+        $Param{CustomerUser}
+        && $Param{CustomerUser} ne ''
+        )
+    {
+        %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
+            User => $Param{CustomerUser},
+        );
+    }
+
+    else {
+        return;
+    }
+
+    # return false if customer data is empty
+    return if !IsHashRefWithData( \%CustomerData );
+
+    # return false if type is not valid
+    return if $Self->{ValidObject}->ValidLookup( ValidID => $CustomerData{ValidID} ) ne 'valid';
+
+    return 1;
+}
+
+=item ValidateService()
+
+checks if the given service or service ID is valid.
+
+    my $Sucess = $CommonObject->ValidateService(
+        ServiceID => 123,
+    );
+
+    my $Sucess = $CommonObject->ValidateService(
+        Service   => 'some service',
+    );
+
+    returns
+    $Success = 1            # or 0
+
+=cut
+
+sub ValidateService {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    return if !$Param{ServiceID} && !$Param{Service};
+
+    my %ServiceData;
+
+    # check for Service name sent
+    if (
+        $Param{Service}
+        && $Param{Service} ne ''
+        && !$Param{ServiceID}
+        )
+    {
+        %ServiceData = $Self->{ServiceObject}->ServiceGet(
+            Name   => $Param{Service},
+            UserID => 1,
+        );
+    }
+
+    # otherwise use ServiceID
+    elsif ( $Param{ServiceID} ) {
+        %ServiceData = $Self->{ServiceObject}->ServiceGet(
+            ServiceID => $Param{ServiceID},
+            UserID    => 1,
+        );
+    }
+    else {
+        return;
+    }
+
+    # return false if service data is empty
+    return if !IsHashRefWithData( \%ServiceData );
+
+    # return false if service is not valid
+    return if $Self->{ValidObject}->ValidLookup( ValidID => $ServiceData{ValidID} ) ne 'valid';
+
+    # get customer services
+    my %CustomerServices = $Self->{ServiceObject}->CustomerUserServiceMemberList(
+        CustomerUserLogin => $Param{CustomerUser},
+        Result            => 'HASH',
+        DefaultServices   => 1,
+    );
+
+    # return if user does not have pemission to use the service
+    return if !$CustomerServices{ $ServiceData{ServiceID} };
+
+    return 1;
+}
+
 =begin Internal:
 
 1;
@@ -367,6 +488,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.7 $ $Date: 2011-12-26 18:26:26 $
+$Revision: 1.8 $ $Date: 2011-12-26 20:00:35 $
 
 =cut
