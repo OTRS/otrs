@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Ticket/Common.pm - Ticket common operation functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.8 2011-12-26 20:00:35 cr Exp $
+# $Id: Common.pm,v 1.9 2011-12-26 20:55:22 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,12 +19,14 @@ use Kernel::System::Lock;
 use Kernel::System::Type;
 use Kernel::System::CustomerUser;
 use Kernel::System::Service;
+use Kernel::System::SLA;
+use Kernel::System::State;
 use Kernel::System::Valid;
 use Kernel::System::GenericInterface::Webservice;
 use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 =head1 NAME
 
@@ -112,6 +114,8 @@ sub new {
     $Self->{TypeObject}         = Kernel::System::Type->new( %{$Self} );
     $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new( %{$Self} );
     $Self->{ServiceObject}      = Kernel::System::Service->new( %{$Self} );
+    $Self->{SLAObject}          = Kernel::System::SLA->new( %{$Self} );
+    $Self->{StateObject}        = Kernel::System::State->new( %{$Self} );
     $Self->{ValidObject}        = Kernel::System::Valid->new( %{$Self} );
     $Self->{WebserviceObject}   = Kernel::System::GenericInterface::Webservice->new( %{$Self} );
 
@@ -405,11 +409,13 @@ sub ValidateCustomer {
 checks if the given service or service ID is valid.
 
     my $Sucess = $CommonObject->ValidateService(
-        ServiceID => 123,
+        ServiceID    => 123,
+        CustomerUser => 'Test',
     );
 
     my $Sucess = $CommonObject->ValidateService(
-        Service   => 'some service',
+        Service      => 'some service',
+        CustomerUser => 'Test',
     );
 
     returns
@@ -422,6 +428,7 @@ sub ValidateService {
 
     # check needed stuff
     return if !$Param{ServiceID} && !$Param{Service};
+    return if !$Param{CustomerUser};
 
     my %ServiceData;
 
@@ -468,6 +475,158 @@ sub ValidateService {
     return 1;
 }
 
+=item ValidateSLA()
+
+checks if the given service or service ID is valid.
+
+    my $Sucess = $CommonObject->ValidateSLA(
+        SLAID     => 12,
+        ServiceID => 123,       # || Service => 'some service'
+    );
+
+    my $Sucess = $CommonObject->ValidateService(
+        SLA       => 'some SLA',
+        ServiceID => 123,       # || Service => 'some service'
+    );
+
+    returns
+    $Success = 1            # or 0
+
+=cut
+
+sub ValidateSLA {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    return if !$Param{SLAID}     && !$Param{SLA};
+    return if !$Param{ServiceID} && !$Param{Service};
+
+    my %SLAData;
+
+    # check for SLA name sent
+    if (
+        $Param{SLA}
+        && $Param{SLA} ne ''
+        && !$Param{SLAID}
+        )
+    {
+        my $SLAID = $Self->{SLAObject}->SLALookup(
+            Name => $Param{SLA},
+        );
+        %SLAData = $Self->{SLAObject}->SLAGet(
+            SLAID  => $SLAID,
+            UserID => 1,
+        );
+    }
+
+    # otherwise use SLAID
+    elsif ( $Param{SLAID} ) {
+        %SLAData = $Self->{SLAObject}->SLAGet(
+            SLAID  => $Param{SLAID},
+            UserID => 1,
+        );
+    }
+    else {
+        return;
+    }
+
+    # return false if SLA data is empty
+    return if !IsHashRefWithData( \%SLAData );
+
+    # return false if SLA is not valid
+    return if $Self->{ValidObject}->ValidLookup( ValidID => $SLAData{ValidID} ) ne 'valid';
+
+    # get Sservice ID
+    my $ServiceID;
+    if (
+        $Param{Service}
+        && $Param{Service} ne ''
+        && !$Param{ServiceID}
+        )
+    {
+        $ServiceID = $Self->{ServiceObject}->ServiceLookup( Name => $Param{Service} ) || 0;
+    }
+    else {
+        $ServiceID = $Param{ServiceID} || 0;
+    }
+
+    return if !$ServiceID;
+
+    # check if SLA belogns to service
+    my $SLABelongsToService;
+
+    SERVICEID:
+    for my $SLAServiceID ( @{ $SLAData{ServiceIDs} } ) {
+        next SERVICEID if !$SLAServiceID;
+        if ( $SLAServiceID eq $ServiceID ) {
+            $SLABelongsToService = 1;
+            last SERVICEID;
+        }
+    }
+
+    # return if SLA does not beong to the service
+    return if !$SLABelongsToService;
+
+    return 1;
+}
+
+=item ValidateState()
+
+checks if the given state or state ID is valid.
+
+    my $Sucess = $CommonObject->ValidateState(
+        StateID => 123,
+    );
+
+    my $Sucess = $CommonObject->ValidateState(
+        State   => 'some state',
+    );
+
+    returns
+    $Success = 1            # or 0
+
+=cut
+
+sub ValidateState {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    return if !$Param{StateID} && !$Param{State};
+
+    my %StateData;
+
+    # check for State name sent
+    if (
+        $Param{State}
+        && $Param{State} ne ''
+        && !$Param{StateID}
+        )
+    {
+        %StateData = $Self->{StateObject}->StateGet(
+            Name => $Param{State},
+        );
+
+    }
+
+    # otherwise use StateID
+    elsif ( $Param{StateID} ) {
+        %StateData = $Self->{StateObject}->StateGet(
+            ID => $Param{StateID},
+        );
+    }
+    else {
+        return;
+    }
+
+    # return false if state data is empty
+    return if !IsHashRefWithData( \%StateData );
+
+    # return false if queue is not valid
+    return if $Self->{ValidObject}->ValidLookup( ValidID => $StateData{ValidID} ) ne 'valid';
+
+    return 1;
+}
+
 =begin Internal:
 
 1;
@@ -488,6 +647,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.8 $ $Date: 2011-12-26 20:00:35 $
+$Revision: 1.9 $ $Date: 2011-12-26 20:55:22 $
 
 =cut
