@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Ticket/TicketCreate.pm - GenericInterface Ticket TicketCreate operation backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketCreate.pm,v 1.2 2011-12-24 01:45:01 cr Exp $
+# $Id: TicketCreate.pm,v 1.3 2011-12-26 17:56:39 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::GenericInterface::Operation::Ticket::Common;
 use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 =head1 NAME
 
@@ -162,6 +162,20 @@ sub Run {
         );
     }
 
+    # check Ticket->Lock
+    if ( !$Ticket->{LockID} && !$Ticket->{Lock} ) {
+        return $Self->{TicketCommonObject}->ReturnError(
+            ErrorCode    => 'TicketCreate.MissingParameter',
+            ErrorMessage => "TicketCreate: Ticket->LockID or Ticket->Lock parameter is required!",
+        );
+    }
+    if ( !$Self->{TicketCommonObject}->ValidateLock( %{$Ticket} ) ) {
+        return $Self->{TicketCommonObject}->ReturnError(
+            ErrorCode    => 'TicketCreate.InvalidParameter',
+            ErrorMessage => "TicketCreate: Ticket->LockID or Ticket->Lock parameter is invalid!",
+        );
+    }
+
     return {
         Success => 1,
         Data    => {
@@ -186,6 +200,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.2 $ $Date: 2011-12-24 01:45:01 $
+$Revision: 1.3 $ $Date: 2011-12-26 17:56:39 $
 
 =cut
