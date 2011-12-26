@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Ticket/Common.pm - Ticket common operation functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.6 2011-12-26 17:56:21 cr Exp $
+# $Id: Common.pm,v 1.7 2011-12-26 18:26:26 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,12 +16,13 @@ use warnings;
 
 use Kernel::System::Queue;
 use Kernel::System::Lock;
+use Kernel::System::Type;
 use Kernel::System::Valid;
 use Kernel::System::GenericInterface::Webservice;
 use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 =head1 NAME
 
@@ -106,6 +107,7 @@ sub new {
     # create additional objects
     $Self->{QueueObject}      = Kernel::System::Queue->new( %{$Self} );
     $Self->{LockObject}       = Kernel::System::Lock->new( %{$Self} );
+    $Self->{TypeObject}       = Kernel::System::Type->new( %{$Self} );
     $Self->{ValidObject}      = Kernel::System::Valid->new( %{$Self} );
     $Self->{WebserviceObject} = Kernel::System::GenericInterface::Webservice->new( %{$Self} );
 
@@ -204,7 +206,7 @@ sub ValidateQueue {
     # check needed stuff
     return if !$Param{QueueID} && !$Param{Queue};
 
-    my %Queue;
+    my %QueueData;
 
     # check for Queue name sent
     if (
@@ -213,7 +215,7 @@ sub ValidateQueue {
         && !$Param{QueueID}
         )
     {
-        %Queue = $Self->{QueueObject}->QueueGet(
+        %QueueData = $Self->{QueueObject}->QueueGet(
             Name => $Param{Queue},
         );
 
@@ -221,19 +223,19 @@ sub ValidateQueue {
 
     # otherwise use QueueID
     elsif ( $Param{QueueID} ) {
-        %Queue = $Self->{QueueObject}->QueueGet(
+        %QueueData = $Self->{QueueObject}->QueueGet(
             ID => $Param{QueueID},
         );
     }
     else {
-        return
+        return;
     }
 
     # return false if queue data is empty
-    return if !IsHashRefWithData( \%Queue );
+    return if !IsHashRefWithData( \%QueueData );
 
     # return false if queue is not valid
-    return if $Self->{ValidObject}->ValidLookup( ValidID => $Queue{ValidID} ) ne 'valid';
+    return if $Self->{ValidObject}->ValidLookup( ValidID => $QueueData{ValidID} ) ne 'valid';
 
     return 1;
 }
@@ -289,6 +291,62 @@ sub ValidateLock {
     return 1;
 }
 
+=item ValidateType()
+
+checks if the given type or type ID is valid.
+
+    my $Sucess = $CommonObject->ValidateType(
+        TypeID => 123,
+    );
+
+    my $Sucess = $CommonObject->ValidateType(
+        Type   => 'some type',
+    );
+
+    returns
+    $Success = 1            # or 0
+
+=cut
+
+sub ValidateType {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    return if !$Param{TypeID} && !$Param{Type};
+
+    my %TypeData;
+
+    # check for Type name sent
+    if (
+        $Param{Type}
+        && $Param{Type} ne ''
+        && !$Param{TypeID}
+        )
+    {
+        %TypeData = $Self->{TypeObject}->TypeGet(
+            Name => $Param{Type},
+        );
+    }
+
+    # otherwise use TypeID
+    elsif ( $Param{TypeID} ) {
+        %TypeData = $Self->{TypeObject}->TypeGet(
+            ID => $Param{TypeID},
+        );
+    }
+    else {
+        return;
+    }
+
+    # return false if type data is empty
+    return if !IsHashRefWithData( \%TypeData );
+
+    # return false if type is not valid
+    return if $Self->{ValidObject}->ValidLookup( ValidID => $TypeData{ValidID} ) ne 'valid';
+
+    return 1;
+}
+
 =begin Internal:
 
 1;
@@ -309,6 +367,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.6 $ $Date: 2011-12-26 17:56:21 $
+$Revision: 1.7 $ $Date: 2011-12-26 18:26:26 $
 
 =cut
