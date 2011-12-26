@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Ticket/TicketCreate.pm - GenericInterface Ticket TicketCreate operation backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketCreate.pm,v 1.4 2011-12-26 18:26:57 cr Exp $
+# $Id: TicketCreate.pm,v 1.5 2011-12-26 20:01:11 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::GenericInterface::Operation::Ticket::Common;
 use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 =head1 NAME
 
@@ -139,13 +139,22 @@ sub Run {
     my $Ticket = $Param{Data}->{Ticket};
 
     # check ticket internally
-    for my $Needed (qw(Title)) {
+    for my $Needed (qw(Title CustomerUser)) {
         if ( !$Ticket->{$Needed} ) {
             return $Self->{TicketCommonObject}->ReturnError(
                 ErrorCode    => 'TicketCreate.MissingParameter',
                 ErrorMessage => "TicketCreate: Ticket->$Needed parameter is missing!",
             );
         }
+    }
+
+    # check Ticket->CustomerUser
+    if ( !$Self->{TicketCommonObject}->ValidateCustomer( %{$Ticket} ) ) {
+        return $Self->{TicketCommonObject}->ReturnError(
+            ErrorCode => 'TicketCreate.InvalidParameter',
+            ErrorMessage =>
+                "TicketCreate: Ticket->CustomerUser parameter is invalid!",
+        );
     }
 
     # check Ticket->Queue
@@ -200,7 +209,29 @@ sub Run {
         }
     }
 
-    # check for not required parameters
+    # check Ticket->Service
+    # Ticket service could be required or not depending on sysconfig option
+    if (
+        !$Ticket->{ServiceID}
+        && !$Ticket->{Service}
+        && $Self->{ConfigObject}->Get('Ticket::Service')
+        )
+    {
+        return $Self->{TicketCommonObject}->ReturnError(
+            ErrorCode    => 'TicketCreate.MissingParameter',
+            ErrorMessage => "TicketCreate: Ticket->ServiceID or Ticket->Service parameter is"
+                . "  required by sysconfig option!",
+        );
+    }
+    if ( $Ticket->{ServiceID} || $Ticket->{Service} ) {
+        if ( !$Self->{TicketCommonObject}->ValidateService( %{$Ticket} ) ) {
+            return $Self->{TicketCommonObject}->ReturnError(
+                ErrorCode => 'TicketCreate.InvalidParameter',
+                ErrorMessage =>
+                    "TicketCreate: Ticket->ServiceID or Ticket->Service parameter is invalid!",
+            );
+        }
+    }
 
     return {
         Success => 1,
@@ -226,6 +257,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.4 $ $Date: 2011-12-26 18:26:57 $
+$Revision: 1.5 $ $Date: 2011-12-26 20:01:11 $
 
 =cut
