@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Ticket/Common.pm - Ticket common operation functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.5 2011-12-24 01:44:31 cr Exp $
+# $Id: Common.pm,v 1.6 2011-12-26 17:56:21 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,11 +15,13 @@ use strict;
 use warnings;
 
 use Kernel::System::Queue;
+use Kernel::System::Lock;
+use Kernel::System::Valid;
 use Kernel::System::GenericInterface::Webservice;
 use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 =head1 NAME
 
@@ -103,6 +105,8 @@ sub new {
 
     # create additional objects
     $Self->{QueueObject}      = Kernel::System::Queue->new( %{$Self} );
+    $Self->{LockObject}       = Kernel::System::Lock->new( %{$Self} );
+    $Self->{ValidObject}      = Kernel::System::Valid->new( %{$Self} );
     $Self->{WebserviceObject} = Kernel::System::GenericInterface::Webservice->new( %{$Self} );
 
     # get webservice configuration
@@ -179,7 +183,7 @@ sub ReturnError {
 
 =item ValidateQueue()
 
-checks if the given queue or queue id is valid.
+checks if the given queue or queue ID is valid.
 
     my $Sucess = $CommonObject->ValidateQueue(
         QueueID => 123,
@@ -225,9 +229,62 @@ sub ValidateQueue {
         return
     }
 
+    # return false if queue data is empty
     return if !IsHashRefWithData( \%Queue );
 
-    #TODO check for validity
+    # return false if queue is not valid
+    return if $Self->{ValidObject}->ValidLookup( ValidID => $Queue{ValidID} ) ne 'valid';
+
+    return 1;
+}
+
+=item ValidateLock()
+
+checks if the given lock or lock ID is valid.
+
+    my $Sucess = $CommonObject->ValidateLock(
+        LockID => 123,
+    );
+
+    my $Sucess = $CommonObject->ValidateLock(
+        Lock   => 'some lock',
+    );
+
+    returns
+    $Success = 1            # or 0
+
+=cut
+
+sub ValidateLock {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    return if !$Param{LockID} && !$Param{Lock};
+
+    # check for Lock name sent
+    if (
+        $Param{Lock}
+        && $Param{Lock} ne ''
+        && !$Param{LockID}
+        )
+    {
+        my $LockID = $Self->{LockObject}->LockLookup(
+            Lock => $Param{Lock},
+        );
+        return if !$LockID;
+    }
+
+    # otherwise use LockID
+    elsif ( $Param{LockID} ) {
+        my $Lock = $Self->{LockObject}->LockLookup(
+            LockID => $Param{LockID},
+        );
+        use Data::Dumper;
+        return if !$Lock;
+    }
+    else {
+        return;
+    }
 
     return 1;
 }
@@ -252,6 +309,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.5 $ $Date: 2011-12-24 01:44:31 $
+$Revision: 1.6 $ $Date: 2011-12-26 17:56:21 $
 
 =cut
