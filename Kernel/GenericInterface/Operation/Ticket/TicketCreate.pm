@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Ticket/TicketCreate.pm - GenericInterface Ticket TicketCreate operation backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketCreate.pm,v 1.11 2011-12-27 19:21:57 cr Exp $
+# $Id: TicketCreate.pm,v 1.12 2011-12-27 21:36:49 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::GenericInterface::Operation::Ticket::Common;
 use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 =head1 NAME
 
@@ -135,7 +135,7 @@ sub Run {
         }
     }
 
-    # isolate tiket parameter
+    # isolate ticket parameter
     my $Ticket = $Param{Data}->{Ticket};
 
     # remove leading and trailing spaces
@@ -169,6 +169,40 @@ sub Run {
         return $Self->{TicketCommonObject}->ReturnError( %{$TicketCheck} );
     }
 
+    # isolate Article parameter
+    my $Article = $Param{Data}->{Article};
+
+    # remove leading and trailing spaces
+    for my $Attribute ( keys %{$Article} ) {
+        if ( ref $Attribute ne 'HASH' && ref $Attribute ne 'ARRAY' ) {
+
+            #remove leading spaces
+            $Article->{$Attribute} =~ s{\A\s+}{};
+
+            #remove trailing spaces
+            $Article->{$Attribute} =~ s{\s+\z}{};
+        }
+    }
+    if ( IsHashRefWithData( $Article->{OrigHeader} ) ) {
+        for my $Attribute ( keys %{ $Article->{OrigHeader} } ) {
+            if ( ref $Attribute ne 'HASH' && ref $Attribute ne 'ARRAY' ) {
+
+                #remove leading spaces
+                $Article->{OrigHeader}->{$Attribute} =~ s{\A\s+}{};
+
+                #remove trailing spaces
+                $Article->{OrigHeader}->{$Attribute} =~ s{\s+\z}{};
+            }
+        }
+    }
+
+    # check Article attribute values
+    my $ArticleCheck = $Self->_CheckArticle( Article => $Article );
+
+    if ( !$ArticleCheck->{Success} ) {
+        return $Self->{TicketCommonObject}->ReturnError( %{$ArticleCheck} );
+    }
+
     return {
         Success => 1,
         Data    => {
@@ -181,7 +215,7 @@ sub Run {
 
 =item _CheckTicket()
 
-checks if the given state or state ID is valid.
+checks if the given ticket parameters are valid.
 
     my $TicketCheck = $OperationObject->_CheckTicket(
         Ticket => $Ticket,                          # all ticket parameters
@@ -382,6 +416,80 @@ sub _CheckTicket {
         }
 }
 
+=item _CheckArticle()
+
+checks if the given article parameters valid.
+
+    my $ArticleCheck = $OperationObject->_CheckArticle(
+        Article => $Article,                        # all article parameters
+    );
+
+    returns:
+
+    $ArticleCheck = {
+        Success => 1,                               # if everething is OK
+    }
+
+    $ArticleCheck = {
+        ErrorCode    => 'Function.Error',           # if error
+        ErrorMessage => 'Error description',
+    }
+
+=cut
+
+sub _CheckArticle {
+    my ( $Self, %Param ) = @_;
+
+    my $Article = $Param{Article};
+
+    # check ticket internally
+    for my $Needed (qw(Subject Body HistoryType HistoryComment AutoResponseType)) {
+        if ( !$Article->{$Needed} ) {
+            return {
+                ErrorCode    => 'TicketCreate.MissingParameter',
+                ErrorMessage => "TicketCreate: Article->$Needed parameter is missing!",
+            };
+        }
+    }
+
+    # check Article->ArticleType
+    if ( !$Article->{ArticleTypeID} && !$Article->{ArticleType} ) {
+        return {
+            ErrorCode    => 'TicketCreate.MissingParameter',
+            ErrorMessage => "TicketCreate: Ticket->ArticleTypeID or Ticket->ArticleType parameter"
+                . " is required!",
+        };
+    }
+    if ( !$Self->{TicketCommonObject}->ValidateArticleType( %{$Article} ) ) {
+        return {
+            ErrorCode    => 'TicketCreate.InvalidParameter',
+            ErrorMessage => "TicketCreate: Ticket->ArticleTypeID or Ticket->ArticleType parameter"
+                . " is invalid!",
+        };
+    }
+
+    # check Article->SenderType
+    if ( !$Article->{SenderTypeID} && !$Article->{SenderType} ) {
+        return {
+            ErrorCode    => 'TicketCreate.MissingParameter',
+            ErrorMessage => "TicketCreate: Ticket->SenderTypeID or Ticket->SenderType parameter"
+                . " is required!",
+        };
+    }
+    if ( !$Self->{TicketCommonObject}->ValidateSenderType( %{$Article} ) ) {
+        return {
+            ErrorCode    => 'TicketCreate.InvalidParameter',
+            ErrorMessage => "TicketCreate: Ticket->SenderTypeID or Ticket->SenderType parameter"
+                . " is invalid!",
+        };
+    }
+
+    # if everything is OK then return Success
+    return {
+        Success => 1,
+        }
+}
+
 1;
 
 =end Internal:
@@ -400,6 +508,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.11 $ $Date: 2011-12-27 19:21:57 $
+$Revision: 1.12 $ $Date: 2011-12-27 21:36:49 $
 
 =cut

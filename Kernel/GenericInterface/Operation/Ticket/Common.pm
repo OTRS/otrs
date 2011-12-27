@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Ticket/Common.pm - Ticket common operation functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.12 2011-12-27 19:21:57 cr Exp $
+# $Id: Common.pm,v 1.13 2011-12-27 21:36:49 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,12 +23,13 @@ use Kernel::System::SLA;
 use Kernel::System::State;
 use Kernel::System::Priority;
 use Kernel::System::User;
+use Kernel::System::Ticket;
 use Kernel::System::Valid;
 use Kernel::System::GenericInterface::Webservice;
 use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 =head1 NAME
 
@@ -120,6 +121,7 @@ sub new {
     $Self->{StateObject}        = Kernel::System::State->new( %{$Self} );
     $Self->{PriorityObject}     = Kernel::System::Priority->new( %{$Self} );
     $Self->{UserObject}         = Kernel::System::User->new( %{$Self} );
+    $Self->{TicketObject}       = Kernel::System::Ticket->new( %{$Self} );
     $Self->{ValidObject}        = Kernel::System::Valid->new( %{$Self} );
     $Self->{WebserviceObject}   = Kernel::System::GenericInterface::Webservice->new( %{$Self} );
 
@@ -792,6 +794,133 @@ sub ValidatePendingTime {
     return 1;
 }
 
+=item ValidateArticleType()
+
+checks if the given ArticleType or ArticleType ID is valid.
+
+    my $Sucess = $CommonObject->ValidateArticleType(
+        ArticleTypeID => 123,
+    );
+
+    my $Sucess = $CommonObject->ValidateArticleType(
+        ArticleType => 'some ArticleType',
+    );
+
+    returns
+    $Success = 1            # or 0
+
+=cut
+
+sub ValidateArticleType {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    return if !$Param{ArticleTypeID} && !$Param{ArticleType};
+
+    my %ArticleTypeList = $Self->{TicketObject}->ArticleTypeList(
+        Result => 'HASH',
+
+        # add type parameter for customer interface
+        # Type   => 'Customer',
+    );
+
+    # check for ArticleType name sent
+    if (
+        $Param{ArticleType}
+        && $Param{ArticleType} ne ''
+        && !$Param{ArticleTypeID}
+        )
+    {
+        my $ArticleTypeID = $Self->{TicketObject}->ArticleTypeLookup(
+            ArticleType => $Param{ArticleType},
+        );
+
+        return if !$ArticleTypeID;
+
+        # check if $ArticleType is valid
+        return if !$ArticleTypeList{$ArticleTypeID};
+    }
+
+    # otherwise use ArticleTypeID
+    elsif ( $Param{ArticleTypeID} ) {
+        my $ArticleType = $Self->{TicketObject}->ArticleTypeLookup(
+            ArticleTypeID => $Param{ArticleTypeID},
+        );
+
+        return if !$ArticleType;
+
+        # check if $ArticleType is valid
+        return if !$ArticleTypeList{ $Param{ArticleTypeID} };
+    }
+    else {
+        return;
+    }
+
+    return 1;
+}
+
+=item ValidateSenderType()
+
+checks if the given SenderType or SenderType ID is valid.
+
+    my $Sucess = $CommonObject->ValidateSenderType(
+        SenderTypeID => 123,
+    );
+
+    my $Sucess = $CommonObject->ValidateenderType(
+        SenderType => 'some SenderType',
+    );
+
+    returns
+    $Success = 1            # or 0
+
+=cut
+
+sub ValidateSenderType {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    return if !$Param{SenderTypeID} && !$Param{SenderType};
+
+    my %SenderTypeList = $Self->{TicketObject}->ArticleSenderTypeList(
+        Result => 'HASH',
+    );
+
+    # check for SenderType name sent
+    if (
+        $Param{SenderType}
+        && $Param{SenderType} ne ''
+        && !$Param{SenderTypeID}
+        )
+    {
+        my $SenderTypeID = $Self->{TicketObject}->ArticleSenderTypeLookup(
+            SenderType => $Param{SenderType},
+        );
+
+        return if !$SenderTypeID;
+
+        # check if $SenderType is valid
+        return if !$SenderTypeList{$SenderTypeID};
+    }
+
+    # otherwise use SenderTypeID
+    elsif ( $Param{SenderTypeID} ) {
+        my $SenderType = $Self->{TicketObject}->ArticleSenderTypeLookup(
+            SenderTypeID => $Param{SenderTypeID},
+        );
+
+        return if !$SenderType;
+
+        # check if $SenderType is valid
+        return if !$SenderTypeList{ $Param{SenderTypeID} };
+    }
+    else {
+        return;
+    }
+
+    return 1;
+}
+
 =begin Internal:
 
 =item _ValidateUser()
@@ -867,6 +996,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.12 $ $Date: 2011-12-27 19:21:57 $
+$Revision: 1.13 $ $Date: 2011-12-27 21:36:49 $
 
 =cut
