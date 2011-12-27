@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Ticket/TicketCreate.pm - GenericInterface Ticket TicketCreate operation backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketCreate.pm,v 1.8 2011-12-27 06:08:48 cr Exp $
+# $Id: TicketCreate.pm,v 1.9 2011-12-27 13:06:32 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::GenericInterface::Operation::Ticket::Common;
 use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 =head1 NAME
 
@@ -138,6 +138,31 @@ sub Run {
     # isolate tiket parameter
     my $Ticket = $Param{Data}->{Ticket};
 
+    # remove leading and trailing spaces
+    for my $Attribute ( keys %{$Ticket} ) {
+        if ( ref $Attribute ne 'HASH' && ref $Attribute ne 'ARRAY' ) {
+
+            #remove leading spaces
+            $Ticket->{$Attribute} =~ s{\A\s+}{};
+
+            #remove trailing spaces
+            $Ticket->{$Attribute} =~ s{\s+\z}{};
+        }
+    }
+    if ( IsHashRefWithData( $Ticket->{PendingTime} ) ) {
+        for my $Attribute ( keys %{ $Ticket->{PendingTime} } ) {
+            if ( ref $Attribute ne 'HASH' && ref $Attribute ne 'ARRAY' ) {
+
+                #remove leading spaces
+                $Ticket->{PendingTime}->{$Attribute} =~ s{\A\s+}{};
+
+                #remove trailing spaces
+                $Ticket->{PendingTime}->{$Attribute} =~ s{\s+\z}{};
+            }
+        }
+    }
+
+    # check Ticket attribute values
     my $TicketCheck = $Self->_CheckTicket( Ticket => $Ticket );
 
     if ( !$TicketCheck->{Success} ) {
@@ -300,6 +325,22 @@ sub _CheckTicket {
         };
     }
 
+    # check Ticket->Priority
+    if ( !$Ticket->{PriorityID} && !$Ticket->{Priority} ) {
+        return {
+            ErrorCode    => 'TicketCreate.MissingParameter',
+            ErrorMessage => "TicketCreate: Ticket->PriorityID or Ticket->Priority parameter is"
+                . " required!",
+        };
+    }
+    if ( !$Self->{TicketCommonObject}->ValidatePriority( %{$Ticket} ) ) {
+        return {
+            ErrorCode    => 'TicketCreate.InvalidParameter',
+            ErrorMessage => "TicketCreate: Ticket->PriorityID or Ticket->Priority parameter is"
+                . " invalid!",
+        };
+    }
+
     # if everything is OK then return Success
     return {
         Success => 1,
@@ -324,6 +365,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.8 $ $Date: 2011-12-27 06:08:48 $
+$Revision: 1.9 $ $Date: 2011-12-27 13:06:32 $
 
 =cut
