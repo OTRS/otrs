@@ -3,7 +3,7 @@
 # bin/cgi-bin/nph-genericinterface.pl - the global generic interface handle file
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: nph-genericinterface.pl,v 1.3 2011-03-08 14:11:25 mb Exp $
+# $Id: nph-genericinterface.pl,v 1.4 2011-12-27 14:36:38 mb Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,9 +31,9 @@ use lib "$Bin/../../Kernel/cpan-lib";
 use lib "$Bin/../../Custom";
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
-# load agent web interface
+# load generic interface
 use Kernel::GenericInterface::Provider;
 
 # create new object
