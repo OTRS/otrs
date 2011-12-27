@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Ticket/TicketCreate.pm - GenericInterface Ticket TicketCreate operation backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketCreate.pm,v 1.12 2011-12-27 21:36:49 cr Exp $
+# $Id: TicketCreate.pm,v 1.13 2011-12-27 23:54:48 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::GenericInterface::Operation::Ticket::Common;
 use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 =head1 NAME
 
@@ -484,6 +484,91 @@ sub _CheckArticle {
         };
     }
 
+    # check Article->ContentType vs Article->MimeType and Article->Charset
+    if ( !$Article->{ContentType} && !$Article->{MimeType} && !$Article->{Charset} ) {
+        return {
+            ErrorCode    => 'TicketCreate.MissingParameter',
+            ErrorMessage => "TicketCreate: Ticket->ContentType or Ticket->MimeType and"
+                . " Ticket->Charset parameters are required!",
+        };
+    }
+
+    if ( $Article->{MimeType} && !$Article->{Charset} ) {
+        return {
+            ErrorCode    => 'TicketCreate.MissingParameter',
+            ErrorMessage => "TicketCreate: Ticket->Charset is required!",
+        };
+    }
+
+    if ( $Article->{Charset} && !$Article->{MimeType} ) {
+        return {
+            ErrorCode    => 'TicketCreate.MissingParameter',
+            ErrorMessage => "TicketCreate: Ticket->MimeType is required!",
+        };
+    }
+
+    # check Article->MimeType
+    if ( $Article->{MimeType} ) {
+
+        $Article->{MimeType} = lc $Article->{MimeType};
+
+        if ( !$Self->{TicketCommonObject}->ValidateMimeType( %{$Article} ) ) {
+            return {
+                ErrorCode    => 'TicketCreate.InvalidParameter',
+                ErrorMessage => "TicketCreate: Ticket->MimeType is invalid!",
+            };
+        }
+    }
+
+    # check Article->MimeType
+    if ( $Article->{Charset} ) {
+
+        $Article->{Charset} = lc $Article->{Charset};
+
+        if ( !$Self->{TicketCommonObject}->ValidateCharset( %{$Article} ) ) {
+            return {
+                ErrorCode    => 'TicketCreate.InvalidParameter',
+                ErrorMessage => "TicketCreate: Ticket->Charset is invalid!",
+            };
+        }
+    }
+
+    # check Article->ContentType
+    if ( $Article->{ContentType} ) {
+
+        $Article->{ContentType} = lc $Article->{ContentType};
+
+        # check Charset part
+        my $Charset = '';
+        if ( $Article->{ContentType} =~ /charset=/i ) {
+            $Charset = $Article->{ContentType};
+            $Charset =~ s/.+?charset=("|'|)(\w+)/$2/gi;
+            $Charset =~ s/"|'//g;
+            $Charset =~ s/(.+?);.*/$1/g;
+        }
+
+        if ( !$Self->{TicketCommonObject}->ValidateCharset( Charset => $Charset ) ) {
+            return {
+                ErrorCode    => 'TicketCreate.InvalidParameter',
+                ErrorMessage => "TicketCreate: Ticket->ContentType is invalid!",
+            };
+        }
+
+        # check MimeType part
+        my $MimeType = '';
+        if ( $Article->{ContentType} =~ /^(\w+\/\w+)/i ) {
+            $MimeType = $1;
+            $MimeType =~ s/"|'//g;
+        }
+
+        if ( !$Self->{TicketCommonObject}->ValidateMimeType( MimeType => $MimeType ) ) {
+            return {
+                ErrorCode    => 'TicketCreate.InvalidParameter',
+                ErrorMessage => "TicketCreate: Ticket->ContentType is invalid!",
+            };
+        }
+    }
+
     # if everything is OK then return Success
     return {
         Success => 1,
@@ -508,6 +593,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.12 $ $Date: 2011-12-27 21:36:49 $
+$Revision: 1.13 $ $Date: 2011-12-27 23:54:48 $
 
 =cut
