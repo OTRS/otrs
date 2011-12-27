@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Ticket/Common.pm - Ticket common operation functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.9 2011-12-26 20:55:22 cr Exp $
+# $Id: Common.pm,v 1.10 2011-12-27 13:05:04 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,12 +21,13 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Service;
 use Kernel::System::SLA;
 use Kernel::System::State;
+use Kernel::System::Priority;
 use Kernel::System::Valid;
 use Kernel::System::GenericInterface::Webservice;
 use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 =head1 NAME
 
@@ -116,6 +117,7 @@ sub new {
     $Self->{ServiceObject}      = Kernel::System::Service->new( %{$Self} );
     $Self->{SLAObject}          = Kernel::System::SLA->new( %{$Self} );
     $Self->{StateObject}        = Kernel::System::State->new( %{$Self} );
+    $Self->{PriorityObject}     = Kernel::System::Priority->new( %{$Self} );
     $Self->{ValidObject}        = Kernel::System::Valid->new( %{$Self} );
     $Self->{WebserviceObject}   = Kernel::System::GenericInterface::Webservice->new( %{$Self} );
 
@@ -627,6 +629,67 @@ sub ValidateState {
     return 1;
 }
 
+=item ValidatePriority()
+
+checks if the given priority or priority ID is valid.
+
+    my $Sucess = $CommonObject->ValidatePriority(
+        PriorityID => 123,
+    );
+
+    my $Sucess = $CommonObject->ValidatePriority(
+        Priority   => 'some priority',
+    );
+
+    returns
+    $Success = 1            # or 0
+
+=cut
+
+sub ValidatePriority {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    return if !$Param{PriorityID} && !$Param{Priority};
+
+    my %PriorityData;
+
+    # check for Priority name sent
+    if (
+        $Param{Priority}
+        && $Param{Priority} ne ''
+        && !$Param{PriorityID}
+        )
+    {
+        my $PriorityID = $Self->{PriorityObject}->PriorityLookup(
+            Priority => $Param{Priority},
+        );
+        %PriorityData = $Self->{PriorityObject}->PriorityGet(
+            PriorityID => $PriorityID,
+            UserID     => 1,
+        );
+    }
+
+    # otherwise use PriorityID
+    elsif ( $Param{PriorityID} ) {
+        %PriorityData = $Self->{PriorityObject}->PriorityGet(
+            PriorityID => $Param{PriorityID},
+            UserID     => 1,
+        );
+    }
+    else {
+        return;
+    }
+
+    # return false if priority data is empty
+    return if !IsHashRefWithData( \%PriorityData );
+
+    # return false if priority is not valid
+    return if $Self->{ValidObject}->ValidLookup( ValidID => $PriorityData{ValidID} ) ne 'valid';
+
+    return 1;
+}
+
 =begin Internal:
 
 1;
@@ -647,6 +710,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.9 $ $Date: 2011-12-26 20:55:22 $
+$Revision: 1.10 $ $Date: 2011-12-27 13:05:04 $
 
 =cut
