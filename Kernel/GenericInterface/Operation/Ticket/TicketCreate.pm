@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Ticket/TicketCreate.pm - GenericInterface Ticket TicketCreate operation backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketCreate.pm,v 1.10 2011-12-27 13:53:36 cr Exp $
+# $Id: TicketCreate.pm,v 1.11 2011-12-27 19:21:57 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::GenericInterface::Operation::Ticket::Common;
 use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 =head1 NAME
 
@@ -355,6 +355,27 @@ sub _CheckTicket {
         };
     }
 
+    # check Ticket->Responsible
+    if ( $Ticket->{ResponsibleID} || $Ticket->{Responsible} ) {
+        if ( !$Self->{TicketCommonObject}->ValidateResponsible( %{$Ticket} ) ) {
+            return {
+                ErrorCode    => 'TicketCreate.InvalidParameter',
+                ErrorMessage => "TicketCreate: Ticket->ResponsibleID or Ticket->Responsible"
+                    . " parameter is invalid!",
+            };
+        }
+    }
+
+    # check Ticket->PendingTime
+    if ( $Ticket->{PendingTime} ) {
+        if ( !$Self->{TicketCommonObject}->ValidatePendingTime( %{$Ticket} ) ) {
+            return {
+                ErrorCode    => 'TicketCreate.InvalidParameter',
+                ErrorMessage => "TicketCreate: Ticket->PendingTimne parameter is invalid!",
+            };
+        }
+    }
+
     # if everything is OK then return Success
     return {
         Success => 1,
@@ -379,6 +400,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.10 $ $Date: 2011-12-27 13:53:36 $
+$Revision: 1.11 $ $Date: 2011-12-27 19:21:57 $
 
 =cut

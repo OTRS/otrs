@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Ticket/Common.pm - Ticket common operation functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.11 2011-12-27 13:53:36 cr Exp $
+# $Id: Common.pm,v 1.12 2011-12-27 19:21:57 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -28,7 +28,7 @@ use Kernel::System::GenericInterface::Webservice;
 use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 =head1 NAME
 
@@ -721,6 +721,77 @@ sub ValidateOwner {
     );
 }
 
+=item ValidateResponsible()
+
+checks if the given responsible or responsible ID is valid.
+
+    my $Sucess = $CommonObject->ValidateResponsible(
+        ResponsibleID => 123,
+    );
+
+    my $Sucess = $CommonObject->ValidateResponsible(
+        Responsible   => 'some user',
+    );
+
+    returns
+    $Success = 1            # or 0
+
+=cut
+
+sub ValidateResponsible {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    return if !$Param{ResponsibleID} && !$Param{Responsible};
+
+    return $Self->_ValidateUser(
+        UserID => $Param{ResponsibleID} || '',
+        User   => $Param{Responsible}   || '',
+    );
+}
+
+=item ValidatePendingTime()
+
+checks if the given pending time is valid.
+
+    my $Sucess = $CommonObject->ValidatePendingTime(
+        PendingTime => {
+            Year   => 2011,
+            Month  => 12,
+            Day    => 23,
+            Hour   => 15,
+            Minute => 0,
+        },
+    );
+
+    returns
+    $Success = 1            # or 0
+
+=cut
+
+sub ValidatePendingTime {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    return if !$Param{PendingTime};
+    return if !IsHashRefWithData( $Param{PendingTime} );
+
+    # check that no time attibute is empty or negative
+    for my $TimeAttribute ( keys %{ $Param{PendingTime} } ) {
+        return if $Param{PendingTime}->{$TimeAttribute} eq '';
+        return if int $Param{PendingTime}->{$TimeAttribute} < 0,
+    }
+
+    # try to convert pending time to a SystemTime
+    my $SystemTime = $Self->{TimeObject}->Date2SystemTime(
+        %{ $Param{PendingTime} },
+        Second => 0,
+    );
+    return if !$SystemTime;
+
+    return 1;
+}
+
 =begin Internal:
 
 =item _ValidateUser()
@@ -796,6 +867,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.11 $ $Date: 2011-12-27 13:53:36 $
+$Revision: 1.12 $ $Date: 2011-12-27 19:21:57 $
 
 =cut
