@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Ticket/Common.pm - Ticket common operation functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.10 2011-12-27 13:05:04 cr Exp $
+# $Id: Common.pm,v 1.11 2011-12-27 13:53:36 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,12 +22,13 @@ use Kernel::System::Service;
 use Kernel::System::SLA;
 use Kernel::System::State;
 use Kernel::System::Priority;
+use Kernel::System::User;
 use Kernel::System::Valid;
 use Kernel::System::GenericInterface::Webservice;
 use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 =head1 NAME
 
@@ -118,6 +119,7 @@ sub new {
     $Self->{SLAObject}          = Kernel::System::SLA->new( %{$Self} );
     $Self->{StateObject}        = Kernel::System::State->new( %{$Self} );
     $Self->{PriorityObject}     = Kernel::System::Priority->new( %{$Self} );
+    $Self->{UserObject}         = Kernel::System::User->new( %{$Self} );
     $Self->{ValidObject}        = Kernel::System::Valid->new( %{$Self} );
     $Self->{WebserviceObject}   = Kernel::System::GenericInterface::Webservice->new( %{$Self} );
 
@@ -690,7 +692,91 @@ sub ValidatePriority {
     return 1;
 }
 
+=item ValidateOwner()
+
+checks if the given owner or owner ID is valid.
+
+    my $Sucess = $CommonObject->ValidateOwner(
+        OwnerID => 123,
+    );
+
+    my $Sucess = $CommonObject->ValidateOwner(
+        Owner   => 'some user',
+    );
+
+    returns
+    $Success = 1            # or 0
+
+=cut
+
+sub ValidateOwner {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    return if !$Param{OwnerID} && !$Param{Owner};
+
+    return $Self->_ValidateUser(
+        UserID => $Param{OwnerID} || '',
+        User   => $Param{Owner}   || '',
+    );
+}
+
 =begin Internal:
+
+=item _ValidateUser()
+
+checks if the given user or user ID is valid.
+
+    my $Sucess = $CommonObject->_ValidateUser(
+        UserID => 123,
+    );
+
+    my $Sucess = $CommonObject->_ValidateUser(
+        User   => 'some user',
+    );
+
+    returns
+    $Success = 1            # or 0
+
+=cut
+
+sub _ValidateUser {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    return if !$Param{UserID} && !$Param{User};
+
+    my %UserData;
+
+    # check for User name sent
+    if (
+        $Param{User}
+        && $Param{User} ne ''
+        && !$Param{UserID}
+        )
+    {
+        %UserData = $Self->{UserObject}->GetUserData(
+            User  => $Param{User},
+            Valid => 1,
+        );
+    }
+
+    # otherwise use UserID
+    elsif ( $Param{UserID} ) {
+        %UserData = $Self->{UserObject}->GetUserData(
+            UserID => $Param{UserID},
+            Valid  => 1,
+        );
+    }
+    else {
+        return;
+    }
+
+    # return false if priority data is empty
+    return if !IsHashRefWithData( \%UserData );
+
+    return 1;
+}
 
 1;
 
@@ -710,6 +796,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.10 $ $Date: 2011-12-27 13:05:04 $
+$Revision: 1.11 $ $Date: 2011-12-27 13:53:36 $
 
 =cut

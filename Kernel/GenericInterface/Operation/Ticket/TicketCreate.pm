@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Ticket/TicketCreate.pm - GenericInterface Ticket TicketCreate operation backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketCreate.pm,v 1.9 2011-12-27 13:06:32 cr Exp $
+# $Id: TicketCreate.pm,v 1.10 2011-12-27 13:53:36 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::GenericInterface::Operation::Ticket::Common;
 use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 =head1 NAME
 
@@ -341,6 +341,20 @@ sub _CheckTicket {
         };
     }
 
+    # check Ticket->Owner
+    if ( !$Ticket->{OwnerID} && !$Ticket->{Owner} ) {
+        return {
+            ErrorCode    => 'TicketCreate.MissingParameter',
+            ErrorMessage => "TicketCreate: Ticket->OwnerID or Ticket->Owner parameter is required!",
+        };
+    }
+    if ( !$Self->{TicketCommonObject}->ValidateOwner( %{$Ticket} ) ) {
+        return {
+            ErrorCode    => 'TicketCreate.InvalidParameter',
+            ErrorMessage => "TicketCreate: Ticket->OwnerID or Ticket->Owner parameter is invalid!",
+        };
+    }
+
     # if everything is OK then return Success
     return {
         Success => 1,
@@ -365,6 +379,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.9 $ $Date: 2011-12-27 13:06:32 $
+$Revision: 1.10 $ $Date: 2011-12-27 13:53:36 $
 
 =cut
