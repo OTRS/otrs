@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Ticket/TicketCreate.pm - GenericInterface Ticket TicketCreate operation backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketCreate.pm,v 1.7 2011-12-27 06:02:49 cr Exp $
+# $Id: TicketCreate.pm,v 1.8 2011-12-27 06:08:48 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::GenericInterface::Operation::Ticket::Common;
 use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 =head1 NAME
 
@@ -152,6 +152,29 @@ sub Run {
     };
 }
 
+=begin Internal:
+
+=item _CheckTicket()
+
+checks if the given state or state ID is valid.
+
+    my $TicketCheck = $OperationObject->_CheckTicket(
+        Ticket => $Ticket,                          # all ticket parameters
+    );
+
+    returns:
+
+    $TicketCheck = {
+        Success => 1,                               # if everething is OK
+    }
+
+    $TicketCheck = {
+        ErrorCode    => 'Function.Error',           # if error
+        ErrorMessage => 'Error description',
+    }
+
+=cut
+
 sub _CheckTicket {
     my ( $Self, %Param ) = @_;
 
@@ -281,10 +304,11 @@ sub _CheckTicket {
     return {
         Success => 1,
         }
-
 }
 
 1;
+
+=end Internal:
 
 =back
 
@@ -300,6 +324,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.7 $ $Date: 2011-12-27 06:02:49 $
+$Revision: 1.8 $ $Date: 2011-12-27 06:08:48 $
 
 =cut
