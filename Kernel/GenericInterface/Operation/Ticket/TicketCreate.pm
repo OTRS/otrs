@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Ticket/TicketCreate.pm - GenericInterface Ticket TicketCreate operation backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketCreate.pm,v 1.6 2011-12-26 20:56:04 cr Exp $
+# $Id: TicketCreate.pm,v 1.7 2011-12-27 06:02:49 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::GenericInterface::Operation::Ticket::Common;
 use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 =head1 NAME
 
@@ -138,51 +138,70 @@ sub Run {
     # isolate tiket parameter
     my $Ticket = $Param{Data}->{Ticket};
 
+    my $TicketCheck = $Self->_CheckTicket( Ticket => $Ticket );
+
+    if ( !$TicketCheck->{Success} ) {
+        return $Self->{TicketCommonObject}->ReturnError( %{$TicketCheck} );
+    }
+
+    return {
+        Success => 1,
+        Data    => {
+            Test => 'Test OK',
+        },
+    };
+}
+
+sub _CheckTicket {
+    my ( $Self, %Param ) = @_;
+
+    my $Ticket = $Param{Ticket};
+
     # check ticket internally
     for my $Needed (qw(Title CustomerUser)) {
         if ( !$Ticket->{$Needed} ) {
-            return $Self->{TicketCommonObject}->ReturnError(
+            return {
                 ErrorCode    => 'TicketCreate.MissingParameter',
                 ErrorMessage => "TicketCreate: Ticket->$Needed parameter is missing!",
-            );
+            };
         }
     }
 
     # check Ticket->CustomerUser
     if ( !$Self->{TicketCommonObject}->ValidateCustomer( %{$Ticket} ) ) {
-        return $Self->{TicketCommonObject}->ReturnError(
+        return {
             ErrorCode => 'TicketCreate.InvalidParameter',
             ErrorMessage =>
                 "TicketCreate: Ticket->CustomerUser parameter is invalid!",
-        );
+        };
     }
 
     # check Ticket->Queue
     if ( !$Ticket->{QueueID} && !$Ticket->{Queue} ) {
-        return $Self->{TicketCommonObject}->ReturnError(
+        return {
             ErrorCode    => 'TicketCreate.MissingParameter',
             ErrorMessage => "TicketCreate: Ticket->QueueID or Ticket->Queue parameter is required!",
-        );
+        };
     }
     if ( !$Self->{TicketCommonObject}->ValidateQueue( %{$Ticket} ) ) {
-        return $Self->{TicketCommonObject}->ReturnError(
+        return {
             ErrorCode    => 'TicketCreate.InvalidParameter',
             ErrorMessage => "TicketCreate: Ticket->QueueID or Ticket->Queue parameter is invalid!",
-        );
+        };
     }
 
     # check Ticket->Lock
     if ( !$Ticket->{LockID} && !$Ticket->{Lock} ) {
-        return $Self->{TicketCommonObject}->ReturnError(
+        return {
             ErrorCode    => 'TicketCreate.MissingParameter',
             ErrorMessage => "TicketCreate: Ticket->LockID or Ticket->Lock parameter is required!",
-        );
+        };
     }
     if ( !$Self->{TicketCommonObject}->ValidateLock( %{$Ticket} ) ) {
-        return $Self->{TicketCommonObject}->ReturnError(
+        return {
             ErrorCode    => 'TicketCreate.InvalidParameter',
             ErrorMessage => "TicketCreate: Ticket->LockID or Ticket->Lock parameter is invalid!",
-        );
+        };
     }
 
     # check Ticket->Type
@@ -193,19 +212,19 @@ sub Run {
         && $Self->{ConfigObject}->Get('Ticket::Type')
         )
     {
-        return $Self->{TicketCommonObject}->ReturnError(
+        return {
             ErrorCode    => 'TicketCreate.MissingParameter',
             ErrorMessage => "TicketCreate: Ticket->TypeID or Ticket->Type parameter is required"
                 . " by sysconfig option!",
-        );
+        };
     }
     if ( $Ticket->{TypeID} || $Ticket->{Type} ) {
         if ( !$Self->{TicketCommonObject}->ValidateType( %{$Ticket} ) ) {
-            return $Self->{TicketCommonObject}->ReturnError(
+            return {
                 ErrorCode => 'TicketCreate.InvalidParameter',
                 ErrorMessage =>
                     "TicketCreate: Ticket->TypeID or Ticket->Type parameter is invalid!",
-            );
+            };
         }
     }
 
@@ -217,53 +236,52 @@ sub Run {
         && $Self->{ConfigObject}->Get('Ticket::Service')
         )
     {
-        return $Self->{TicketCommonObject}->ReturnError(
+        return {
             ErrorCode    => 'TicketCreate.MissingParameter',
             ErrorMessage => "TicketCreate: Ticket->ServiceID or Ticket->Service parameter is"
                 . "  required by sysconfig option!",
-        );
+        };
     }
     if ( $Ticket->{ServiceID} || $Ticket->{Service} ) {
         if ( !$Self->{TicketCommonObject}->ValidateService( %{$Ticket} ) ) {
-            return $Self->{TicketCommonObject}->ReturnError(
+            return {
                 ErrorCode => 'TicketCreate.InvalidParameter',
                 ErrorMessage =>
                     "TicketCreate: Ticket->ServiceID or Ticket->Service parameter is invalid!",
-            );
+            };
         }
     }
 
     # check Ticket->SLA
     if ( $Ticket->{SLAID} || $Ticket->{SLA} ) {
         if ( !$Self->{TicketCommonObject}->ValidateSLA( %{$Ticket} ) ) {
-            return $Self->{TicketCommonObject}->ReturnError(
+            return {
                 ErrorCode => 'TicketCreate.InvalidParameter',
                 ErrorMessage =>
                     "TicketCreate: Ticket->SLAID or Ticket->SLA parameter is invalid!",
-            );
+            };
         }
     }
 
     # check Ticket->State
     if ( !$Ticket->{StateID} && !$Ticket->{State} ) {
-        return $Self->{TicketCommonObject}->ReturnError(
+        return {
             ErrorCode    => 'TicketCreate.MissingParameter',
             ErrorMessage => "TicketCreate: Ticket->StateID or Ticket->State parameter is required!",
-        );
+        };
     }
     if ( !$Self->{TicketCommonObject}->ValidateState( %{$Ticket} ) ) {
-        return $Self->{TicketCommonObject}->ReturnError(
+        return {
             ErrorCode    => 'TicketCreate.InvalidParameter',
             ErrorMessage => "TicketCreate: Ticket->StateID or Ticket->State parameter is invalid!",
-        );
+        };
     }
 
+    # if everything is OK then return Success
     return {
         Success => 1,
-        Data    => {
-            Test => 'Test OK',
-        },
-    };
+        }
+
 }
 
 1;
@@ -282,6 +300,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.6 $ $Date: 2011-12-26 20:56:04 $
+$Revision: 1.7 $ $Date: 2011-12-27 06:02:49 $
 
 =cut
