@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Ticket/TicketCreate.pm - GenericInterface Ticket TicketCreate operation backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketCreate.pm,v 1.14 2011-12-28 02:32:45 cr Exp $
+# $Id: TicketCreate.pm,v 1.15 2011-12-28 14:39:46 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::GenericInterface::Operation::Ticket::Common;
 use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 =head1 NAME
 
@@ -607,6 +607,67 @@ sub _CheckArticle {
         };
     }
 
+    # check Article->TimeUnit
+    # TimeUnit could be required or not depending on sysconfig option
+    if (
+        !$Article->{TimeUnit}
+        && $Self->{ConfigObject}->{'Ticket::Frontend::AccountTime'}
+        && $Self->{ConfigObject}->{'Ticket::Frontend::NeedAccountedTime'}
+        )
+    {
+        return {
+            ErrorCode    => 'TicketCreate.MissingParameter',
+            ErrorMessage => "TicketCreate: Article->TimeUnit is required by sysconfig option!",
+        };
+    }
+    if ( $Article->{TimeUnit} ) {
+        if ( !$Self->{TicketCommonObject}->ValidateTimeUnit( %{$Article} ) ) {
+            return {
+                ErrorCode    => 'TicketCreate.InvalidParameter',
+                ErrorMessage => "TicketCreate: Article->TimeUnit parameter is invalid!",
+            };
+        }
+    }
+
+    # check Article->NoAgentNotify
+    if ( $Article->{NoAgentNotify} && $Article->{NoAgentNotify} ne '1' ) {
+        return {
+            ErrorCode    => 'TicketCreate.InvalidParameter',
+            ErrorMessage => "TicketCreate: Article->NoAgent parameter is invalid!",
+        };
+    }
+
+    # check Article array parameters
+    for my $Attribute (
+        qw( ForceNotificationToUserID ExcludeNotificationToUserID ExcludeMuteNotificationToUserID )
+        )
+    {
+        if ( defined $Article->{$Attribute} ) {
+
+            # check structure
+            if ( IsHashRefWithData( $Article->{$Attribute} ) ) {
+                return {
+                    ErrorCode    => 'TicketCreate.InvalidParameter',
+                    ErrorMessage => "TicketCreate: Article->$Attribute parameter is invalid!",
+                };
+            }
+            else {
+                if ( !IsArrayRefWithData( $Article->{$Attribute} ) ) {
+                    $Article->{$Attribute} = [ $Article->{$Attribute} ];
+                }
+                for my $UserID ( @{ $Article->{$Attribute} } ) {
+                    if ( !$Self->{TicketCommonObject}->ValidateUserID( UserID => $UserID ) ) {
+                        return {
+                            ErrorCode    => 'TicketCreate.InvalidParameter',
+                            ErrorMessage => "TicketCreate: Article->$Attribute UserID=$UserID"
+                                . " parameter is invalid!",
+                        };
+                    }
+                }
+            }
+        }
+    }
+
     # if everything is OK then return Success
     return {
         Success => 1,
@@ -631,6 +692,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.14 $ $Date: 2011-12-28 02:32:45 $
+$Revision: 1.15 $ $Date: 2011-12-28 14:39:46 $
 
 =cut

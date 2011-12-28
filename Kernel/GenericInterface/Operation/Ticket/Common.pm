@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Ticket/Common.pm - Ticket common operation functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.15 2011-12-28 02:31:18 cr Exp $
+# $Id: Common.pm,v 1.16 2011-12-28 14:39:46 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -29,7 +29,7 @@ use Kernel::System::GenericInterface::Webservice;
 use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 =head1 NAME
 
@@ -1008,6 +1008,55 @@ sub ValidateHistoryType {
     return 1;
 }
 
+=item ValidateTimeUnit()
+
+checks if the given TimeUnit is valid.
+
+    my $Sucess = $CommonObject->ValidateTimeUnit(
+        TimeUnit => 1,
+    );
+
+    returns
+    $Success = 1            # or 0
+
+=cut
+
+sub ValidateTimeUnit {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    return if !$Param{TimeUnit};
+
+    # TimeUnit must be possitive
+    return if int $Param{TimeUnit} < 0;
+
+    return 1;
+}
+
+=item ValidateUserID()
+
+checks if the given user ID is valid.
+
+    my $Sucess = $CommonObject->ValidateUserID(
+        UserIDID => 123,
+    );
+
+    returns
+    $Success = 1            # or 0
+
+=cut
+
+sub ValidateUserID {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    return if !$Param{UserID};
+
+    return $Self->_ValidateUser(
+        UserID => $Param{UserID} || '',
+    );
+}
+
 =begin Internal:
 
 =item _ValidateUser()
@@ -1120,6 +1169,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.15 $ $Date: 2011-12-28 02:31:18 $
+$Revision: 1.16 $ $Date: 2011-12-28 14:39:46 $
 
 =cut
