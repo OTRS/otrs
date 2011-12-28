@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Ticket/TicketCreate.pm - GenericInterface Ticket TicketCreate operation backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketCreate.pm,v 1.13 2011-12-27 23:54:48 cr Exp $
+# $Id: TicketCreate.pm,v 1.14 2011-12-28 02:32:45 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::GenericInterface::Operation::Ticket::Common;
 use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 =head1 NAME
 
@@ -65,6 +65,8 @@ sub new {
 
     $Self->{TicketCommonObject}
         = Kernel::GenericInterface::Operation::Ticket::Common->new( %{$Self} );
+
+    $Self->{Config} = $Self->{ConfigObject}->Get('GenericInterface::Operation::TicketCreate');
 
     return $Self;
 }
@@ -200,6 +202,12 @@ sub Run {
     my $ArticleCheck = $Self->_CheckArticle( Article => $Article );
 
     if ( !$ArticleCheck->{Success} ) {
+        if ( !$ArticleCheck->{ErrorCode} ) {
+            return {
+                Success => 0,
+                %{$ArticleCheck},
+                }
+        }
         return $Self->{TicketCommonObject}->ReturnError( %{$ArticleCheck} );
     }
 
@@ -443,7 +451,7 @@ sub _CheckArticle {
     my $Article = $Param{Article};
 
     # check ticket internally
-    for my $Needed (qw(Subject Body HistoryType HistoryComment AutoResponseType)) {
+    for my $Needed (qw(Subject Body AutoResponseType)) {
         if ( !$Article->{$Needed} ) {
             return {
                 ErrorCode    => 'TicketCreate.MissingParameter',
@@ -569,6 +577,36 @@ sub _CheckArticle {
         }
     }
 
+    # check Article->HistoryType
+    if ( !$Article->{HistoryType} ) {
+        $Article->{HistoryType} = $Self->{Config}->{HistoryType} || '';
+    }
+    if ( !$Article->{HistoryType} ) {
+
+        # return internal server error
+        return {
+            ErrorMessage => "TicketCreate: Sysconfig HistoryType setting could not be read!"
+        };
+    }
+    if ( !$Self->{TicketCommonObject}->ValidateHistoryType( %{$Article} ) ) {
+        return {
+            ErrorCode    => 'TicketCreate.InvalidParameter',
+            ErrorMessage => "TicketCreate: Ticket->HistoryType parameter is invalid!",
+        };
+    }
+
+    # check Article->HistoryComment
+    if ( !$Article->{HistoryComment} ) {
+        $Article->{HistoryComment} = $Self->{Config}->{HistoryComment} || '';
+    }
+    if ( !$Article->{HistoryComment} ) {
+
+        # return internal server error
+        return {
+            ErrorMessage => "TicketCreate: Sysconfig HistoryComment setting could not be read!"
+        };
+    }
+
     # if everything is OK then return Success
     return {
         Success => 1,
@@ -593,6 +631,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.13 $ $Date: 2011-12-27 23:54:48 $
+$Revision: 1.14 $ $Date: 2011-12-28 02:32:45 $
 
 =cut
