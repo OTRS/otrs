@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Ticket/Common.pm - Ticket common operation functions
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.14 2011-12-27 23:54:48 cr Exp $
+# $Id: Common.pm,v 1.15 2011-12-28 02:31:18 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -29,7 +29,7 @@ use Kernel::System::GenericInterface::Webservice;
 use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 =head1 NAME
 
@@ -971,6 +971,43 @@ sub ValidateCharset {
     return 1;
 }
 
+=item ValidateHistoryType()
+
+checks if the given HistoryType is valid.
+
+    my $Sucess = $CommonObject->ValidateHistoryType(
+        HistoryType => 'some HostoryType',
+    );
+
+    returns
+    $Success = 1            # or 0
+
+=cut
+
+sub ValidateHistoryType {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    return if !$Param{HistoryType};
+
+    # check for HistoryType name sent
+    if (
+        $Param{HistoryType}
+        && $Param{HistoryType} ne ''
+        )
+    {
+        my $HistoryTypeID = $Self->{TicketObject}->HistoryTypeLookup(
+            Type => $Param{HistoryType},
+        );
+
+        return if !$HistoryTypeID;
+    }
+    else {
+        return;
+    }
+    return 1;
+}
+
 =begin Internal:
 
 =item _ValidateUser()
@@ -1083,6 +1120,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.14 $ $Date: 2011-12-27 23:54:48 $
+$Revision: 1.15 $ $Date: 2011-12-28 02:31:18 $
 
 =cut
