@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Ticket/TicketGet.pm - GenericInterface Ticket Get operation backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketGet.pm,v 1.2 2011-12-24 00:05:44 cg Exp $
+# $Id: TicketGet.pm,v 1.3 2011-12-28 18:44:35 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Ticket;
 use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 =head1 NAME
 
@@ -152,10 +152,35 @@ sub Run {
         # get content
         my @ArticleBox = $Self->{TicketObject}->ArticleContentIndex(
             TicketID                   => $TicketID,
-            StripPlainBodyAsAttachment => 3,                 #$Self->{StripPlainBodyAsAttachment},
+            StripPlainBodyAsAttachment => 3,
             UserID                     => $Self->{UserID},
             DynamicFields              => $DynamicFields,
         );
+
+        ARTICLE:
+        for my $Article (@ArticleBox) {
+            if ( !IsHashRefWithData( $Article->{Atms} ) ) {
+                $Article->{Atms} = undef;
+                next ARTICLE;
+            }
+
+            my @Attachments;
+            for my $FileID ( %{ $Article->{Atms} } ) {
+                my %Attachment = $Self->{TicketObject}->ArticleAttachment(
+                    ArticleID => $Article->{ArticleID},
+                    FileID    => $FileID,                 # as returned by ArticleAttachmentIndex
+                    UserID    => $Self->{UserID},
+                );
+
+                # convert content to base64
+                $Attachment{Content} = encode_base64( $Attachment{Content} );
+                push @Attachments, {%Attachment};
+            }
+
+            # set Attachments data
+            $Article->{Atms} = \@Attachments;
+
+        }
 
         # set Ticket entry data
         $TicketBundle->{Articles} = \@ArticleBox;
@@ -203,6 +228,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.2 $ $Date: 2011-12-24 00:05:44 $
+$Revision: 1.3 $ $Date: 2011-12-28 18:44:35 $
 
 =cut
