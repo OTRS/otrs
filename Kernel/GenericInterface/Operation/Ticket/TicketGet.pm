@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Ticket/TicketGet.pm - GenericInterface Ticket Get operation backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketGet.pm,v 1.3 2011-12-28 18:44:35 cg Exp $
+# $Id: TicketGet.pm,v 1.4 2011-12-29 00:50:43 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Ticket;
 use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 =head1 NAME
 
@@ -72,11 +72,18 @@ sub new {
 
 =item Run()
 
-perform TicketGet Operation. This will return a Public Ticket entry.
+perform TicketGet Operation. This will return a Ticket entry.
 
     my $Result = $OperationObject->Run(
         Data => {
-            TicketID = 32,33;
+            TicketID => '32,33',
+            DynamicFields     => 0, # Optional, 0 as default
+            Extended          => 1, # Optional 0 as default
+            AllArticles       => 1, # Optional 0 as default
+            ArticleSenderType => [ $ArticleSenderType1, $ArticleSenderType2 ], # Optional, only requested article sender types
+            ArticleOrder      => 'DESC', # Optional, DESC,ASC - default is ASC
+            ArticleLimit      => 5, # Optional
+            Attachments       => 1, # Optional, 1 as default
         },
     );
 
@@ -109,20 +116,29 @@ sub Run {
         };
     }
 
-    my $ReturnData = {
+    # all needed vairables
+    my @TicketIDs = split( /,/, $Param{Data}->{TicketID} );
+    my $DynamicFields     = $Param{Data}->{DynamicFields}     || 0;
+    my $Extended          = $Param{Data}->{Extended}          || 0;
+    my $AllArticles       = $Param{Data}->{AllArticles}       || 0;
+    my $ArticleSenderType = $Param{Data}->{ArticleSenderType} || '';
+    my $ArticleOrder      = $Param{Data}->{ArticleOrder}      || 'ASC';
+    my $ArticleLimit      = $Param{Data}->{ArticleLimit}      || 0;
+    my $Attachments       = $Param{Data}->{Attachments}       || 0;
+    my $ReturnData        = {
         Success => 1,
     };
-    my @TicketIDs = split( /,/, $Param{Data}->{TicketID} );
-    my $DynamicFields = $Param{Data}->{DynamicFields} || 1;
     my @Item;
 
-    # start main loop
+    # start ticket loop
+    TICKET:
     for my $TicketID (@TicketIDs) {
 
         # get the Ticket entry
         my %TicketEntry = $Self->{TicketObject}->TicketGet(
             TicketID      => $TicketID,
             DynamicFields => $DynamicFields,
+            Extended      => $Extended,
             UserID        => $Self->{UserID},
         );
 
@@ -149,28 +165,52 @@ sub Run {
             Ticket => \%TicketEntry,
         };
 
-        # get content
-        my @ArticleBox = $Self->{TicketObject}->ArticleContentIndex(
-            TicketID                   => $TicketID,
-            StripPlainBodyAsAttachment => 3,
-            UserID                     => $Self->{UserID},
-            DynamicFields              => $DynamicFields,
+        if ( !$AllArticles ) {
+            push @Item, $TicketBundle;
+            next TICKET;
+        }
+
+        my @ArticleBox = $Self->{TicketObject}->ArticleGet(
+            TicketID          => $TicketID,
+            ArticleSenderType => $ArticleSenderType,
+            DynamicFields     => $DynamicFields,
+            Extended          => $Extended,
+            Order             => $ArticleOrder,
+            Limit             => $ArticleLimit,
+            UserID            => $Self->{UserID},
         );
 
+        # start article loop
         ARTICLE:
         for my $Article (@ArticleBox) {
-            if ( !IsHashRefWithData( $Article->{Atms} ) ) {
-                $Article->{Atms} = undef;
-                next ARTICLE;
-            }
+
+            # next if not attachments required
+            next ARTICLE if !$Attachments;
+
+            # get attachment index (without attachments)
+            my %AtmIndex = $Self->{TicketObject}->ArticleAttachmentIndex(
+                ContentPath                => $Article->{ContentPath},
+                ArticleID                  => $Article->{ArticleID},
+                StripPlainBodyAsAttachment => 3,
+                Article                    => $Article,
+                UserID                     => $Self->{UserID},
+            );
+
+            # next if not attachments
+            next ARTICLE if !IsHashRefWithData( \%AtmIndex );
 
             my @Attachments;
-            for my $FileID ( %{ $Article->{Atms} } ) {
+            ATTACHMENT:
+            for my $FileID (%AtmIndex) {
+                next ATTACHMENT if !$FileID;
                 my %Attachment = $Self->{TicketObject}->ArticleAttachment(
                     ArticleID => $Article->{ArticleID},
                     FileID    => $FileID,                 # as returned by ArticleAttachmentIndex
                     UserID    => $Self->{UserID},
                 );
+
+                # next if not attachment
+                next ATTACHMENT if !IsHashRefWithData( \%Attachment );
 
                 # convert content to base64
                 $Attachment{Content} = encode_base64( $Attachment{Content} );
@@ -180,14 +220,14 @@ sub Run {
             # set Attachments data
             $Article->{Atms} = \@Attachments;
 
-        }
+        }    # finish article loop
 
         # set Ticket entry data
         $TicketBundle->{Articles} = \@ArticleBox;
 
         # add
         push @Item, $TicketBundle;
-    }    # finish main loop
+    }    # finish ticket loop
 
     if ( !scalar @Item ) {
         $ErrorMessage = 'Could not get Ticket data'
@@ -206,6 +246,7 @@ sub Run {
         };
     }
 
+    # set ticket data into return structure
     $ReturnData->{Data}->{Item} = \@Item;
 
     # return result
@@ -228,6 +269,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.3 $ $Date: 2011-12-28 18:44:35 $
+$Revision: 1.4 $ $Date: 2011-12-29 00:50:43 $
 
 =cut
