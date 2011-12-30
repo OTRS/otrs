@@ -2,7 +2,7 @@
 # TicketGet.t - GenericInterface transport interface tests for TicketConnector backend
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketGet.t,v 1.2 2011-12-24 00:07:03 cg Exp $
+# $Id: TicketGet.t,v 1.3 2011-12-30 05:08:41 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,6 +23,53 @@ use Kernel::GenericInterface::Requester;
 use Kernel::System::GenericInterface::Webservice;
 use Kernel::System::UnitTest::Helper;
 use Kernel::GenericInterface::Operation::Ticket::TicketGet;
+use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData IsStringWithData);
+
+# set UserID to root because in public interface there is no user
+$Self->{UserID} = 1;
+
+# create ticket object
+my $TicketObject = Kernel::System::Ticket->new( %{$Self} );
+
+# create a ticket
+my $TicketID = $TicketObject->TicketCreate(
+    Title        => 'Some Ticket Title',
+    Queue        => 'Raw',
+    Lock         => 'unlock',
+    Priority     => '3 normal',
+    State        => 'new',
+    CustomerID   => '123465',
+    CustomerUser => 'customer@example.com',
+    OwnerID      => 1,
+    UserID       => 1,
+);
+
+# sanity check
+$Self->True(
+    $TicketID,
+    "TicketCreate() successful for Ticket ID $TicketID",
+);
+
+# get the Ticket entry
+my %TicketEntry = $TicketObject->TicketGet(
+    TicketID      => $TicketID,
+    DynamicFields => 0,
+    UserID        => $Self->{UserID},
+);
+
+$Self->True(
+    IsHashRefWithData( \%TicketEntry ),
+    "TicketGet() successful for Local TicketGet ID $TicketID",
+);
+
+for my $Key ( keys %TicketEntry ) {
+    if ( !$TicketEntry{$Key} ) {
+        $TicketEntry{$Key} = '';
+    }
+    if ( $Key eq 'Age' ) {
+        delete $TicketEntry{$Key};
+    }
+}
 
 # helper object
 my $HelperObject = Kernel::System::UnitTest::Helper->new(
@@ -140,26 +187,48 @@ $Self->True(
 
 my @Tests = (
     {
-        Name                     => 'Test 1',
-        SuccessRequest           => '0',
-        RequestData              => {},
-        ExpectedReturnRemoteData => {
+        Name                    => 'Test 1',
+        SuccessRequest          => '0',
+        RequestData             => {},
+        ExpectedReturnLocalData => {
             Data    => {},
-            Success => 0,
+            Success => 0
+        },
+        ExpectedReturnRemoteData => {
+            ErrorMessage => 'faultcode: Server, faultstring: Got no TicketID!',
+            Success      => 0
         },
         Operation => 'TicketGet',
     },
     {
         Name           => 'Test 2',
+        SuccessRequest => '0',
+        RequestData    => {
+            Data => {
+                TicketID => 'NoTicketID',
+                }
+        },
+        ExpectedReturnLocalData => {
+            Data    => {},
+            Success => 0
+        },
+        ExpectedReturnRemoteData => {
+            ErrorMessage => 'faultcode: Server, faultstring: Got no TicketID!',
+            Success      => 0
+        },
+        Operation => 'TicketGet',
+    },
+    {
+        Name           => 'Test 3',
         SuccessRequest => '1',
         RequestData    => {
-            TicketID => 1,
+            TicketID => $TicketID,
         },
         ExpectedReturnRemoteData => {
             Success => 1,
             Data    => {
                 Item => {
-                    Article => {},
+                    Ticket => {%TicketEntry},
                 },
             },
         },
@@ -168,7 +237,7 @@ my @Tests = (
             Data    => {
                 Item => [
                     {
-                        Article => {},
+                        Ticket => {%TicketEntry},
                     }
                 ],
             },
@@ -251,6 +320,81 @@ for my $Test (@Tests) {
         "$Test->{Name} - Requester successful result",
     );
 
+    # workaround because results from direct call and
+    # from SOAP call are a little bit different
+    if ( $Test->{Operation} eq 'TicketGet' ) {
+
+        if ( ref $LocalResult->{Data}->{Item} eq 'ARRAY' ) {
+            for my $Item ( @{ $LocalResult->{Data}->{Item} } ) {
+                for my $Key ( keys %{ $Item->{Ticket} } ) {
+                    if ( !$Item->{Ticket}->{$Key} ) {
+                        $Item->{Ticket}->{$Key} = '';
+                    }
+                    if ( $Key eq 'Age' ) {
+                        delete $Item->{Ticket}->{$Key};
+                    }
+                }
+            }
+        }
+
+        if (
+            defined $RequesterResult->{Data}
+            && defined $RequesterResult->{Data}->{Item}
+            )
+        {
+            if ( ref $RequesterResult->{Data}->{Item} eq 'ARRAY' ) {
+                for my $Item ( @{ $RequesterResult->{Data}->{Item} } ) {
+                    for my $Key ( keys %{ $Item->{Ticket} } ) {
+                        if ( !$Item->{Ticket}->{$Key} ) {
+                            $Item->{Ticket}->{$Key} = '';
+                        }
+                        if ( $Key eq 'Age' ) {
+                            delete $Item->{Ticket}->{$Key};
+                        }
+                    }
+                }
+            }
+            elsif ( ref $RequesterResult->{Data}->{Item} eq 'HASH' ) {
+                for my $Key ( keys %{ $RequesterResult->{Data}->{Item}->{Ticket} } ) {
+                    if ( !$RequesterResult->{Data}->{Item}->{Ticket}->{$Key} ) {
+                        $RequesterResult->{Data}->{Item}->{Ticket}->{$Key} = '';
+                    }
+                    if ( $Key eq 'Age' ) {
+                        delete $RequesterResult->{Data}->{Item}->{Ticket}->{$Key};
+                    }
+                }
+            }
+        }
+
+    }
+
+    # remove ErrorMessage parameter from direct call
+    # result to be consistent with SOAP call result
+    if ( $LocalResult->{ErrorMessage} ) {
+        delete $LocalResult->{ErrorMessage};
+    }
+
+    $Self->IsDeeply(
+        $RequesterResult,
+        $Test->{ExpectedReturnRemoteData},
+        "$Test->{Name} - Requester success status (needs configured and running webserver)",
+    );
+
+    if ( $Test->{ExpectedReturnLocalData} ) {
+        $Self->IsDeeply(
+            $LocalResult,
+            $Test->{ExpectedReturnLocalData},
+            "$Test->{Name} - Local result matched with expected local call result.",
+        );
+    }
+    else {
+        $Self->IsDeeply(
+            $LocalResult,
+            $Test->{ExpectedReturnRemoteData},
+            "$Test->{Name} - Local result matched with remote result.",
+        );
+    }
+
 }    #end loop
 
 # clean up webservice
@@ -261,6 +405,18 @@ my $WebserviceDelete = $WebserviceObject->WebserviceDelete(
 $Self->True(
     $WebserviceDelete,
     "Deleted Webservice $WebserviceID",
+);
+
+# delete the ticket
+my $TicketDelete = $TicketObject->TicketDelete(
+    TicketID => $TicketID,
+    UserID   => 1,
+);
+
+# sanity check
+$Self->True(
+    $TicketDelete,
+    "TicketDelete() successful for Ticket ID $TicketID",
 );
 
 1;
