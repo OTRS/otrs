@@ -1,8 +1,8 @@
 # --
 # Kernel/System/DynamicField/Backend.pm - Interface for DynamicField backends
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Backend.pm,v 1.60 2011-12-05 20:46:45 cr Exp $
+# $Id: Backend.pm,v 1.61 2012-01-02 16:44:33 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Scalar::Util qw(weaken);
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.60 $) [1];
+$VERSION = qw($Revision: 1.61 $) [1];
 
 =head1 NAME
 
@@ -1689,7 +1689,7 @@ sub RandomValueSet {
 
 =item IsMatchable()
 
-returns if the current field backend value can be matched win am object attribute list or not.
+returns if the current field backend value can be matched with an object attribute list or not.
 
     my $Matchable = $BackendObject->IsMatchable(
         DynamicFieldConfig => $DynamicFieldConfig,       # complete config of the DynamicField
@@ -1751,7 +1751,8 @@ sub IsMatchable {
 
 =item ObjectMatch()
 
-returns if the current field backend value can be matched win am object attribute list or not.
+return if the current field values matches with the value got in an objects attribute structure (
+like the result of a TicketGet() )
 
     my $Match = $BackendObject->ObjectMatch(
         DynamicFieldConfig => $DynamicFieldConfig,       # complete config of the DynamicField
@@ -1904,6 +1905,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.60 $ $Date: 2011-12-05 20:46:45 $
+$Revision: 1.61 $ $Date: 2012-01-02 16:44:33 $
 
 =cut
