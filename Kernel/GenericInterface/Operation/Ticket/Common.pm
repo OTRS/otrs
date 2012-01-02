@@ -1,8 +1,8 @@
 # --
 # Kernel/GenericInterface/Operation/Ticket/Common.pm - Ticket common operation functions
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.16 2011-12-28 14:39:46 cr Exp $
+# $Id: Common.pm,v 1.17 2012-01-02 20:28:02 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,11 +25,13 @@ use Kernel::System::Priority;
 use Kernel::System::User;
 use Kernel::System::Ticket;
 use Kernel::System::Valid;
+use Kernel::System::DynamicField;
+use Kernel::System::DynamicField::Backend;
 use Kernel::System::GenericInterface::Webservice;
-use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData IsStringWithData);
+use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 =head1 NAME
 
@@ -124,6 +126,8 @@ sub new {
     $Self->{TicketObject}       = Kernel::System::Ticket->new( %{$Self} );
     $Self->{ValidObject}        = Kernel::System::Valid->new( %{$Self} );
     $Self->{WebserviceObject}   = Kernel::System::GenericInterface::Webservice->new( %{$Self} );
+    $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new(%Param);
+    $Self->{DFBackendObject}    = Kernel::System::DynamicField::Backend->new(%Param);
 
     # get webservice configuration
     $Self->{Webservice} = $Self->{WebserviceObject}->WebserviceGet(
@@ -137,6 +141,21 @@ sub new {
                 'Could not determine Web service configuration'
                 . ' in Kernel::GenericInterface::Operation::Ticket::Common::new()',
         );
+    }
+
+    # get the dynamic fields
+    $Self->{DynamicField} = $Self->{DynamicFieldObject}->DynamicFieldListGet(
+        Valid => 1,
+        ObjectType => [ 'Ticket', 'Article' ],
+    );
+
+    # create a Dynamic Fields lookup table (by name)
+    DYNAMICFIELD:
+    for my $DynamicField ( @{ $Self->{DynamicField} } ) {
+        next DYNAMICFIELD if !$DynamicField;
+        next DYNAMICFIELD if !IsHashRefWithData($DynamicField);
+        next DYNAMICFIELD if !$DynamicField->{Name};
+        $Self->{DynamicFieldLookup}->{ $DynamicField->{Name} } = $DynamicField;
     }
 
     return $Self;
@@ -1057,6 +1076,63 @@ sub ValidateUserID {
     );
 }
 
+sub ValidateDynamicFieldName {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    return if !IsHashRefWithData( $Self->{DynamicFieldLookup} );
+    return if !$Param{Name};
+
+    return if !$Self->{DynamicFieldLookup}->{ $Param{Name} };
+    return if !IsHashRefWithData( $Self->{DynamicFieldLookup}->{ $Param{Name} } );
+
+    return 1;
+}
+
+sub ValidateDynamicFieldValue {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    return if !IsHashRefWithData( $Self->{DynamicFieldLookup} );
+    return if !$Param{Value};
+
+    # get dynamic field config
+    my $DynamicFieldConfig = $Self->{DynamicFieldLookup}->{ $Param{Name} };
+
+    # get the value type
+    my $ValueType = $Self->{DFBackendObject}->ValueTypeGet(
+        DynamicFieldConfig => $DynamicFieldConfig,
+    );
+
+    return if !$ValueType;
+
+    # check for multiple values (i.e. MultiSelect)
+    my @ValueList;
+    if ( IsArrayRefWithData( $Param{Value} ) ) {
+        @ValueList = @{ $Param{Value} };
+    }
+    else {
+        push @ValueList, $Param{Value};
+    }
+
+    for my $Value (@ValueList) {
+
+        # call internal function to validate the date on the correct value type
+        if ( $ValueType eq 'STRING' ) {
+            return $Self->_ValidateString( Value => $Value );
+        }
+        elsif ( $ValueType eq 'INTEGER' ) {
+            return $Self->_ValidateInteger( Value => $Value );
+        }
+        elsif ( $ValueType eq 'DATETIME' ) {
+            return $Self->_ValidateDateTime( Value => $Value );
+        }
+        else {
+            return;
+        }
+    }
+}
+
 =begin Internal:
 
 =item _ValidateUser()
@@ -1151,6 +1227,90 @@ sub _CharsetList {
     return \%CharsetHash;
 }
 
+=item _ValidateString()
+
+checks if the value is a string.
+
+    my $Success = $CommonObject->_ValidateString(
+        Value => 'some text',
+    );
+
+    returns
+    $Success = 1            # or 0
+
+=cut
+
+sub _ValidateString {
+    my ( $Self, %Param ) = @_;
+
+    return if !IsString( $Param{Value} );
+
+    return 1
+}
+
+=item _ValidateInteger()
+
+checks if the value is an integer.
+
+    my $Success = $CommonObject->_ValidateInteger(
+        Value => 1,
+    );
+
+    returns
+    $Success = 1            # or 0
+
+=cut
+
+sub _ValidateInteger {
+    my ( $Self, %Param ) = @_;
+
+    return if !IsInteger( $Param{Value} );
+
+    return 1
+}
+
+=item _ValidateDateTime()
+
+checks if the value is a string.
+
+    my $Success = $CommonObject->_ValidateDateTime(
+        Value => '1977-12-12 12:00:00',
+    );
+
+    my $Success = $CommonObject->_ValidateDateTime(
+        Value => '1983-04-16',
+    );
+
+    returns
+    $Success = 1            # or 0
+
+=cut
+
+sub _ValidateDateTime {
+    my ( $Self, %Param ) = @_;
+
+    my $String;
+
+    # check if value is DateTime
+    if ( $Param{Value} =~ m{\A \d{4} - \d{2} -\d{2} [ ] \d{2} : \d{2} : \d{2} \z}xms ) {
+        $String = $Param{Value};
+    }
+
+    # check if value is only Date
+    elsif ( $Param{Value} =~ m{\A \d{4} - \d{2} -\d{2}\z}xms ) {
+        $String = $Param{Value} . ' 00:00:00'
+    }
+    else {
+        return;
+    }
+
+    my $SystemTime = $Self->{TimeObject}->TimeStamp2SystemTime( String => $String );
+
+    return if !$SystemTime;
+
+    return 1
+}
+
 1;
 
 =end Internal:
@@ -1169,6 +1329,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.16 $ $Date: 2011-12-28 14:39:46 $
+$Revision: 1.17 $ $Date: 2012-01-02 20:28:02 $
 
 =cut
