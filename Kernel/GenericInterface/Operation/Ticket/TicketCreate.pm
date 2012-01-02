@@ -1,8 +1,8 @@
 # --
 # Kernel/GenericInterface/Operation/Ticket/TicketCreate.pm - GenericInterface Ticket TicketCreate operation backend
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketCreate.pm,v 1.15 2011-12-28 14:39:46 cr Exp $
+# $Id: TicketCreate.pm,v 1.16 2012-01-02 20:28:43 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::GenericInterface::Operation::Ticket::Common;
 use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 =head1 NAME
 
@@ -86,13 +86,9 @@ perform TicketCreate Operation. This will return the created ticket number.
         Data            => {                        # result data payload after Operation
             TicketID    => 123,                     # Ticket  ID number in OTRS (help desk system)
             ArticleID   => 43,                      # Article ID number in OTRS (help desk system)
-            Errors => {                         # should not return errors
-                item => {
-                    ErrorCode1   => 1
-                    ErrorCode2   => 32
-                    ErrorCode3   => undef
+            Error => {                              # should not return errors
+                    ErrorCode    => 'Ticket.Create.ErrorCode'
                     ErrorMessage => 'Error Description'
-                },
             },
         },
     };
@@ -209,6 +205,48 @@ sub Run {
                 }
         }
         return $Self->{TicketCommonObject}->ReturnError( %{$ArticleCheck} );
+    }
+
+    # isolate DynamicField parameter
+    my $DynamicField = $Param{Data}->{DynamicField};
+
+    # homologate imput to array
+    my @DynamicFieldList;
+    if ( ref $DynamicField eq 'HASH' ) {
+        push @DynamicFieldList, $DynamicField;
+    }
+    else {
+        @DynamicFieldList = @{$DynamicField};
+    }
+
+    # check DynamicField internal structure
+    for my $DynamicFieldItem (@DynamicFieldList) {
+        if ( !IsHashRefWithData($DynamicFieldItem) ) {
+            return {
+                ErrorCode => 'TicketCreate.InvalidParameter',
+                ErrorMessage =>
+                    "TicketCreate: Ticket->DynamicField parameter is invalid!",
+            };
+        }
+
+        # remove leading and trailing spaces
+        for my $Attribute ( keys %{$DynamicFieldItem} ) {
+            if ( ref $Attribute ne 'HASH' && ref $Attribute ne 'ARRAY' ) {
+
+                #remove leading spaces
+                $DynamicFieldItem->{$Attribute} =~ s{\A\s+}{};
+
+                #remove trailing spaces
+                $DynamicFieldItem->{$Attribute} =~ s{\s+\z}{};
+            }
+        }
+
+        # check DynamicField attribute values
+        my $DynamicFieldCheck = $Self->_CheckDynamicField( DynamicField => $DynamicFieldItem );
+
+        if ( !$DynamicFieldCheck->{Success} ) {
+            return $Self->{TicketCommonObject}->ReturnError( %{$DynamicFieldCheck} );
+        }
     }
 
     return {
@@ -426,7 +464,7 @@ sub _CheckTicket {
 
 =item _CheckArticle()
 
-checks if the given article parameters valid.
+checks if the given article parameter is valid.
 
     my $ArticleCheck = $OperationObject->_CheckArticle(
         Article => $Article,                        # all article parameters
@@ -671,7 +709,65 @@ sub _CheckArticle {
     # if everything is OK then return Success
     return {
         Success => 1,
+    };
+}
+
+=item _CheckDynamicField()
+
+checks if the given dynamic field parameter is valid.
+
+    my $DynamicFieldCheck = $OperationObject->_CheckDynamicField(
+        DynamicField => $DynamicField,              # all article parameters
+    );
+
+    returns:
+
+    $DynamicFieldCheck = {
+        Success => 1,                               # if everething is OK
+    }
+
+    $DynamicFieldCheck = {
+        ErrorCode    => 'Function.Error',           # if error
+        ErrorMessage => 'Error description',
+    }
+
+=cut
+
+sub _CheckDynamicField {
+    my ( $Self, %Param ) = @_;
+
+    my $DynamicField = $Param{DynamicField};
+
+    # check DynamicField itm internally
+    for my $Needed (qw(Name Value)) {
+        if ( !$DynamicField->{$Needed} ) {
+            return {
+                ErrorCode    => 'TicketCreate.MissingParameter',
+                ErrorMessage => "TicketCreate: DynamicField->$Needed  parameter is missing!",
+            };
         }
+    }
+
+    # check DynamicField->Name
+    if ( !$Self->{TicketCommonObject}->ValidateDynamicFieldName( %{$DynamicField} ) ) {
+        return {
+            ErrorCode    => 'TicketCreate.InvalidParameter',
+            ErrorMessage => "TicketCreate: DynamicField->Name parameter is invalid!",
+        };
+    }
+
+    # check DynamicField->Value
+    if ( !$Self->{TicketCommonObject}->ValidateDynamicFieldValue( %{$DynamicField} ) ) {
+        return {
+            ErrorCode    => 'TicketCreate.InvalidParameter',
+            ErrorMessage => "TicketCreate: DynamicField->Value parameter is invalid!",
+        };
+    }
+
+    # if everything is OK then return Success
+    return {
+        Success => 1,
+    };
 }
 
 1;
@@ -692,6 +788,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.15 $ $Date: 2011-12-28 14:39:46 $
+$Revision: 1.16 $ $Date: 2012-01-02 20:28:43 $
 
 =cut
