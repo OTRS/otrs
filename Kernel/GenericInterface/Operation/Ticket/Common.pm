@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Ticket/Common.pm - Ticket common operation functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.17 2012-01-02 20:28:02 cr Exp $
+# $Id: Common.pm,v 1.18 2012-01-02 23:25:59 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,13 +25,14 @@ use Kernel::System::Priority;
 use Kernel::System::User;
 use Kernel::System::Ticket;
 use Kernel::System::Valid;
+use Kernel::System::AutoResponse;
 use Kernel::System::DynamicField;
 use Kernel::System::DynamicField::Backend;
 use Kernel::System::GenericInterface::Webservice;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.17 $) [1];
+$VERSION = qw($Revision: 1.18 $) [1];
 
 =head1 NAME
 
@@ -124,6 +125,7 @@ sub new {
     $Self->{PriorityObject}     = Kernel::System::Priority->new( %{$Self} );
     $Self->{UserObject}         = Kernel::System::User->new( %{$Self} );
     $Self->{TicketObject}       = Kernel::System::Ticket->new( %{$Self} );
+    $Self->{AutoResponseObject} = Kernel::System::AutoResponse->new( %{$Self} );
     $Self->{ValidObject}        = Kernel::System::Valid->new( %{$Self} );
     $Self->{WebserviceObject}   = Kernel::System::GenericInterface::Webservice->new( %{$Self} );
     $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new(%Param);
@@ -813,6 +815,35 @@ sub ValidatePendingTime {
     return 1;
 }
 
+=item ValidateAutoResponseType()
+
+checks if the given AutoResponseType is valid.
+
+    my $Sucess = $CommonObject->ValidateAutoResponseType(
+        AutoResponseType => 'Some AutoRespobse',
+    );
+
+    returns
+    $Success = 1            # or 0
+
+=cut
+
+sub ValidateAutoResponseType {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    return if !$Param{AutoResponseType};
+
+    # get all AutoResponse Types
+    my %AutoResponseType = $Self->{AutoResponseObject}->AutoResponseTypeList();
+
+    return if !%AutoResponseType;
+
+    for my $AutoResponseType ( values %AutoResponseType ) {
+        return 1 if $AutoResponseType eq $Param{AutoResponseType}
+    }
+}
+
 =item ValidateArticleType()
 
 checks if the given ArticleType or ArticleType ID is valid.
@@ -1329,6 +1360,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.17 $ $Date: 2012-01-02 20:28:02 $
+$Revision: 1.18 $ $Date: 2012-01-02 23:25:59 $
 
 =cut
