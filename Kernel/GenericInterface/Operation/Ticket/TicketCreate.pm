@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Ticket/TicketCreate.pm - GenericInterface Ticket TicketCreate operation backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketCreate.pm,v 1.17 2012-01-02 22:08:28 cr Exp $
+# $Id: TicketCreate.pm,v 1.18 2012-01-02 23:27:14 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::GenericInterface::Operation::Ticket::Common;
 use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.17 $) [1];
+$VERSION = qw($Revision: 1.18 $) [1];
 
 =head1 NAME
 
@@ -192,6 +192,23 @@ sub Run {
                 $Article->{OrigHeader}->{$Attribute} =~ s{\s+\z}{};
             }
         }
+    }
+
+    # check attributes that can be gather by sysconfig
+    if ( !$Article->{AutoResponseType} ) {
+        $Article->{AutoResponseType} = $Self->{Config}->{AutoResponseType} || '';
+    }
+    if ( !$Article->{ArticleTypeID} && !$Article->{ArticleType} ) {
+        $Article->{ArticleType} = $Self->{Config}->{ArticleType} || '';
+    }
+    if ( !$Article->{SenderTypeID} && !$Article->{SenderType} ) {
+        $Article->{SenderType} = $Self->{Config}->{SenderType} || '';
+    }
+    if ( !$Article->{HistoryType} ) {
+        $Article->{HistoryType} = $Self->{Config}->{HistoryType} || '';
+    }
+    if ( !$Article->{HistoryComment} ) {
+        $Article->{HistoryComment} = $Self->{Config}->{HistoryComment} || '';
     }
 
     # check Article attribute values
@@ -540,28 +557,46 @@ sub _CheckArticle {
         }
     }
 
+    # check Article->AutoResponseType
+    if ( !$Article->{AutoResponseType} ) {
+
+        # return internal server error
+        return {
+            ErrorMessage => "TicketCreate: Article->AutoResponseType parameter is required and"
+                . " Sysconfig ArticleTypeID setting could not be read!"
+        };
+    }
+    if ( !$Self->{TicketCommonObject}->ValidateAutoResponseType( %{$Article} ) ) {
+        return {
+            ErrorCode    => 'TicketCreate.InvalidParameter',
+            ErrorMessage => "TicketCreate: Article->AutoResponseType parameter is invalid!",
+        };
+    }
+
     # check Article->ArticleType
     if ( !$Article->{ArticleTypeID} && !$Article->{ArticleType} ) {
+
+        # return internal server error
         return {
-            ErrorCode    => 'TicketCreate.MissingParameter',
-            ErrorMessage => "TicketCreate: Article->ArticleTypeID or Ticket->ArticleType parameter"
-                . " is required!",
+            ErrorMessage => "TicketCreate: Article->ArticleTypeID or Article->ArticleType parameter"
+                . " is required and Sysconfig ArticleTypeID setting could not be read!"
         };
     }
     if ( !$Self->{TicketCommonObject}->ValidateArticleType( %{$Article} ) ) {
         return {
             ErrorCode    => 'TicketCreate.InvalidParameter',
-            ErrorMessage => "TicketCreate: Article->ArticleTypeID or Ticket->ArticleType parameter"
+            ErrorMessage => "TicketCreate: Article->ArticleTypeID or Article->ArticleType parameter"
                 . " is invalid!",
         };
     }
 
     # check Article->SenderType
     if ( !$Article->{SenderTypeID} && !$Article->{SenderType} ) {
+
+        # return internal server error
         return {
-            ErrorCode    => 'TicketCreate.MissingParameter',
-            ErrorMessage => "TicketCreate: Article->SenderTypeID or Ticket->SenderType parameter"
-                . " is required!",
+            ErrorMessage => "TicketCreate: Article->SenderTypeID or Article->SenderType parameter"
+                . " is required and Sysconfig SenderTypeID setting could not be read!"
         };
     }
     if ( !$Self->{TicketCommonObject}->ValidateSenderType( %{$Article} ) ) {
@@ -659,13 +694,11 @@ sub _CheckArticle {
 
     # check Article->HistoryType
     if ( !$Article->{HistoryType} ) {
-        $Article->{HistoryType} = $Self->{Config}->{HistoryType} || '';
-    }
-    if ( !$Article->{HistoryType} ) {
 
         # return internal server error
         return {
-            ErrorMessage => "TicketCreate: Sysconfig HistoryType setting could not be read!"
+            ErrorMessage => "TicketCreate: Article-> HistoryType is required and Sysconfig"
+                . " HistoryType setting could not be read!"
         };
     }
     if ( !$Self->{TicketCommonObject}->ValidateHistoryType( %{$Article} ) ) {
@@ -677,13 +710,11 @@ sub _CheckArticle {
 
     # check Article->HistoryComment
     if ( !$Article->{HistoryComment} ) {
-        $Article->{HistoryComment} = $Self->{Config}->{HistoryComment} || '';
-    }
-    if ( !$Article->{HistoryComment} ) {
 
         # return internal server error
         return {
-            ErrorMessage => "TicketCreate: Sysconfig HistoryComment setting could not be read!"
+            ErrorMessage => "TicketCreate: Article->HistoryComment is required and Sysconfig"
+                . " HistoryComment setting could not be read!"
         };
     }
 
@@ -908,6 +939,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.17 $ $Date: 2012-01-02 22:08:28 $
+$Revision: 1.18 $ $Date: 2012-01-02 23:27:14 $
 
 =cut
