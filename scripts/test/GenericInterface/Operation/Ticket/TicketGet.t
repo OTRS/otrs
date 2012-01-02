@@ -1,8 +1,8 @@
 # --
 # TicketGet.t - GenericInterface transport interface tests for TicketConnector backend
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketGet.t,v 1.3 2011-12-30 05:08:41 cg Exp $
+# $Id: TicketGet.t,v 1.4 2012-01-02 17:57:48 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -188,33 +188,53 @@ $Self->True(
 my @Tests = (
     {
         Name                    => 'Test 1',
-        SuccessRequest          => '0',
+        SuccessRequest          => 1,
         RequestData             => {},
         ExpectedReturnLocalData => {
-            Data    => {},
-            Success => 0
+            Data => {
+                Error => {
+                    ErrorCode    => 'TicketGet.MissingParameter',
+                    ErrorMessage => 'TicketGet: TicketID parameter is missing!'
+                    }
+            },
+            Success => 1
         },
         ExpectedReturnRemoteData => {
-            ErrorMessage => 'faultcode: Server, faultstring: Got no TicketID!',
-            Success      => 0
+            Data => {
+                Error => {
+                    ErrorCode    => 'TicketGet.MissingParameter',
+                    ErrorMessage => 'TicketGet: TicketID parameter is missing!'
+                    }
+            },
+            Success => 1
         },
         Operation => 'TicketGet',
     },
     {
         Name           => 'Test 2',
-        SuccessRequest => '0',
+        SuccessRequest => 1,
         RequestData    => {
             Data => {
                 TicketID => 'NoTicketID',
                 }
         },
         ExpectedReturnLocalData => {
-            Data    => {},
-            Success => 0
+            Data => {
+                Error => {
+                    ErrorCode    => 'TicketGet.MissingParameter',
+                    ErrorMessage => 'TicketGet: TicketID parameter is missing!'
+                    }
+            },
+            Success => 1
         },
         ExpectedReturnRemoteData => {
-            ErrorMessage => 'faultcode: Server, faultstring: Got no TicketID!',
-            Success      => 0
+            Data => {
+                Error => {
+                    ErrorCode    => 'TicketGet.MissingParameter',
+                    ErrorMessage => 'TicketGet: TicketID parameter is missing!'
+                    }
+            },
+            Success => 1
         },
         Operation => 'TicketGet',
     },

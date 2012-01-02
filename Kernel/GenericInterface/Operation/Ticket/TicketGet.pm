@@ -1,8 +1,8 @@
 # --
 # Kernel/GenericInterface/Operation/Ticket/TicketGet.pm - GenericInterface Ticket Get operation backend
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketGet.pm,v 1.4 2011-12-29 00:50:43 cg Exp $
+# $Id: TicketGet.pm,v 1.5 2012-01-02 17:57:13 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,10 +16,11 @@ use warnings;
 
 use MIME::Base64;
 use Kernel::System::Ticket;
+use Kernel::GenericInterface::Operation::Ticket::Common;
 use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 =head1 NAME
 
@@ -62,10 +63,9 @@ sub new {
     }
 
     # create additional objects
-    $Self->{TicketObject} = Kernel::System::Ticket->new(%Param);
-
-    # set UserID to root because in public interface there is no user
-    $Self->{UserID} = 1;
+    $Self->{TicketCommonObject}
+        = Kernel::GenericInterface::Operation::Ticket::Common->new( %{$Self} );
+    $Self->{TicketObject} = Kernel::System::Ticket->new( %{$Self} );
 
     return $Self;
 }
@@ -98,23 +98,19 @@ perform TicketGet Operation. This will return a Ticket entry.
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    # check needed stuff
+    for my $Needed (qw(TicketID)) {
+        if ( !$Param{Data}->{$Needed} ) {
+            return $Self->{TicketCommonObject}->ReturnError(
+                ErrorCode    => 'TicketGet.MissingParameter',
+                ErrorMessage => "TicketGet: $Needed parameter is missing!",
+            );
+        }
+    }
     my $ErrorMessage = '';
 
-    if ( !$Param{Data}->{TicketID} ) {
-        $ErrorMessage = 'Got no TicketID!';
-
-        # write in debug log
-        $Self->{DebuggerObject}->Error(
-            Summary => "Required parameter is missing!",
-            Data    => $ErrorMessage,
-        );
-
-        # return error
-        return {
-            Success      => 0,
-            ErrorMessage => $ErrorMessage,
-        };
-    }
+    # set UserID to root because in public interface there is no user
+    my $UserID = 1;    #(Temporal)
 
     # all needed vairables
     my @TicketIDs = split( /,/, $Param{Data}->{TicketID} );
@@ -139,7 +135,7 @@ sub Run {
             TicketID      => $TicketID,
             DynamicFields => $DynamicFields,
             Extended      => $Extended,
-            UserID        => $Self->{UserID},
+            UserID        => $UserID,
         );
 
         if ( !IsHashRefWithData( \%TicketEntry ) ) {
@@ -147,17 +143,10 @@ sub Run {
             $ErrorMessage = 'Could not get Ticket data'
                 . ' in Kernel::GenericInterface::Operation::Ticket::TicketGet::Run()';
 
-            # write in debug log
-            $Self->{DebuggerObject}->Error(
-                Summary => "TicketGet return error",
-                Data    => $ErrorMessage,
+            return $Self->{TicketCommonObject}->ReturnError(
+                ErrorCode    => 'TicketGet.NotValidTicketID',
+                ErrorMessage => "TicketGet: $ErrorMessage",
             );
-
-            # return error
-            return {
-                Success      => 0,
-                ErrorMessage => $ErrorMessage,
-            };
         }
 
         # set Ticket entry data
@@ -177,7 +166,7 @@ sub Run {
             Extended          => $Extended,
             Order             => $ArticleOrder,
             Limit             => $ArticleLimit,
-            UserID            => $Self->{UserID},
+            UserID            => $UserID,
         );
 
         # start article loop
@@ -193,7 +182,7 @@ sub Run {
                 ArticleID                  => $Article->{ArticleID},
                 StripPlainBodyAsAttachment => 3,
                 Article                    => $Article,
-                UserID                     => $Self->{UserID},
+                UserID                     => $UserID,
             );
 
             # next if not attachments
@@ -206,7 +195,7 @@ sub Run {
                 my %Attachment = $Self->{TicketObject}->ArticleAttachment(
                     ArticleID => $Article->{ArticleID},
                     FileID    => $FileID,                 # as returned by ArticleAttachmentIndex
-                    UserID    => $Self->{UserID},
+                    UserID    => $UserID,
                 );
 
                 # next if not attachment
@@ -233,17 +222,11 @@ sub Run {
         $ErrorMessage = 'Could not get Ticket data'
             . ' in Kernel::GenericInterface::Operation::Ticket::TicketGet::Run()';
 
-        # write in debug log
-        $Self->{DebuggerObject}->Error(
-            Summary => "TicketGet return error",
-            Data    => $ErrorMessage,
+        return $Self->{TicketCommonObject}->ReturnError(
+            ErrorCode    => 'TicketGet.NotTicketData',
+            ErrorMessage => "TicketGet: $ErrorMessage",
         );
 
-        # return error
-        return {
-            Success      => 0,
-            ErrorMessage => $ErrorMessage,
-        };
     }
 
     # set ticket data into return structure
@@ -269,6 +252,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.4 $ $Date: 2011-12-29 00:50:43 $
+$Revision: 1.5 $ $Date: 2012-01-02 17:57:13 $
 
 =cut
