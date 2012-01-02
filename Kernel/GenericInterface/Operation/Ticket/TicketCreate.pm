@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Ticket/TicketCreate.pm - GenericInterface Ticket TicketCreate operation backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketCreate.pm,v 1.16 2012-01-02 20:28:43 cr Exp $
+# $Id: TicketCreate.pm,v 1.17 2012-01-02 22:08:28 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::GenericInterface::Operation::Ticket::Common;
 use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 =head1 NAME
 
@@ -246,6 +246,48 @@ sub Run {
 
         if ( !$DynamicFieldCheck->{Success} ) {
             return $Self->{TicketCommonObject}->ReturnError( %{$DynamicFieldCheck} );
+        }
+    }
+
+    # isolate Attachment parameter
+    my $Attachment = $Param{Data}->{Attachment};
+
+    # homologate imput to array
+    my @AttachmentList;
+    if ( ref $Attachment eq 'HASH' ) {
+        push @AttachmentList, $Attachment;
+    }
+    else {
+        @AttachmentList = @{$Attachment};
+    }
+
+    # check Attachment internal structure
+    for my $AttachmentItem (@AttachmentList) {
+        if ( !IsHashRefWithData($AttachmentItem) ) {
+            return {
+                ErrorCode => 'TicketCreate.InvalidParameter',
+                ErrorMessage =>
+                    "TicketCreate: Ticket->Attachment parameter is invalid!",
+            };
+        }
+
+        # remove leading and trailing spaces
+        for my $Attribute ( keys %{$AttachmentItem} ) {
+            if ( ref $Attribute ne 'HASH' && ref $Attribute ne 'ARRAY' ) {
+
+                #remove leading spaces
+                $AttachmentItem->{$Attribute} =~ s{\A\s+}{};
+
+                #remove trailing spaces
+                $AttachmentItem->{$Attribute} =~ s{\s+\z}{};
+            }
+        }
+
+        # check Attachment attribute values
+        my $AttachmentCheck = $Self->_CheckAttachment( Attachment => $AttachmentItem );
+
+        if ( !$AttachmentCheck->{Success} ) {
+            return $Self->{TicketCommonObject}->ReturnError( %{$AttachmentCheck} );
         }
     }
 
@@ -502,14 +544,14 @@ sub _CheckArticle {
     if ( !$Article->{ArticleTypeID} && !$Article->{ArticleType} ) {
         return {
             ErrorCode    => 'TicketCreate.MissingParameter',
-            ErrorMessage => "TicketCreate: Ticket->ArticleTypeID or Ticket->ArticleType parameter"
+            ErrorMessage => "TicketCreate: Article->ArticleTypeID or Ticket->ArticleType parameter"
                 . " is required!",
         };
     }
     if ( !$Self->{TicketCommonObject}->ValidateArticleType( %{$Article} ) ) {
         return {
             ErrorCode    => 'TicketCreate.InvalidParameter',
-            ErrorMessage => "TicketCreate: Ticket->ArticleTypeID or Ticket->ArticleType parameter"
+            ErrorMessage => "TicketCreate: Article->ArticleTypeID or Ticket->ArticleType parameter"
                 . " is invalid!",
         };
     }
@@ -518,14 +560,14 @@ sub _CheckArticle {
     if ( !$Article->{SenderTypeID} && !$Article->{SenderType} ) {
         return {
             ErrorCode    => 'TicketCreate.MissingParameter',
-            ErrorMessage => "TicketCreate: Ticket->SenderTypeID or Ticket->SenderType parameter"
+            ErrorMessage => "TicketCreate: Article->SenderTypeID or Ticket->SenderType parameter"
                 . " is required!",
         };
     }
     if ( !$Self->{TicketCommonObject}->ValidateSenderType( %{$Article} ) ) {
         return {
             ErrorCode    => 'TicketCreate.InvalidParameter',
-            ErrorMessage => "TicketCreate: Ticket->SenderTypeID or Ticket->SenderType parameter"
+            ErrorMessage => "TicketCreate: Article->SenderTypeID or Ticket->SenderType parameter"
                 . " is invalid!",
         };
     }
@@ -534,22 +576,22 @@ sub _CheckArticle {
     if ( !$Article->{ContentType} && !$Article->{MimeType} && !$Article->{Charset} ) {
         return {
             ErrorCode    => 'TicketCreate.MissingParameter',
-            ErrorMessage => "TicketCreate: Ticket->ContentType or Ticket->MimeType and"
-                . " Ticket->Charset parameters are required!",
+            ErrorMessage => "TicketCreate: Article->ContentType or Ticket->MimeType and"
+                . " Article->Charset parameters are required!",
         };
     }
 
     if ( $Article->{MimeType} && !$Article->{Charset} ) {
         return {
             ErrorCode    => 'TicketCreate.MissingParameter',
-            ErrorMessage => "TicketCreate: Ticket->Charset is required!",
+            ErrorMessage => "TicketCreate: Article->Charset is required!",
         };
     }
 
     if ( $Article->{Charset} && !$Article->{MimeType} ) {
         return {
             ErrorCode    => 'TicketCreate.MissingParameter',
-            ErrorMessage => "TicketCreate: Ticket->MimeType is required!",
+            ErrorMessage => "TicketCreate: Article->MimeType is required!",
         };
     }
 
@@ -561,7 +603,7 @@ sub _CheckArticle {
         if ( !$Self->{TicketCommonObject}->ValidateMimeType( %{$Article} ) ) {
             return {
                 ErrorCode    => 'TicketCreate.InvalidParameter',
-                ErrorMessage => "TicketCreate: Ticket->MimeType is invalid!",
+                ErrorMessage => "TicketCreate: Article->MimeType is invalid!",
             };
         }
     }
@@ -574,7 +616,7 @@ sub _CheckArticle {
         if ( !$Self->{TicketCommonObject}->ValidateCharset( %{$Article} ) ) {
             return {
                 ErrorCode    => 'TicketCreate.InvalidParameter',
-                ErrorMessage => "TicketCreate: Ticket->Charset is invalid!",
+                ErrorMessage => "TicketCreate: Article->Charset is invalid!",
             };
         }
     }
@@ -596,7 +638,7 @@ sub _CheckArticle {
         if ( !$Self->{TicketCommonObject}->ValidateCharset( Charset => $Charset ) ) {
             return {
                 ErrorCode    => 'TicketCreate.InvalidParameter',
-                ErrorMessage => "TicketCreate: Ticket->ContentType is invalid!",
+                ErrorMessage => "TicketCreate: Article->ContentType is invalid!",
             };
         }
 
@@ -610,7 +652,7 @@ sub _CheckArticle {
         if ( !$Self->{TicketCommonObject}->ValidateMimeType( MimeType => $MimeType ) ) {
             return {
                 ErrorCode    => 'TicketCreate.InvalidParameter',
-                ErrorMessage => "TicketCreate: Ticket->ContentType is invalid!",
+                ErrorMessage => "TicketCreate: Article->ContentType is invalid!",
             };
         }
     }
@@ -629,7 +671,7 @@ sub _CheckArticle {
     if ( !$Self->{TicketCommonObject}->ValidateHistoryType( %{$Article} ) ) {
         return {
             ErrorCode    => 'TicketCreate.InvalidParameter',
-            ErrorMessage => "TicketCreate: Ticket->HistoryType parameter is invalid!",
+            ErrorMessage => "TicketCreate: Article->HistoryType parameter is invalid!",
         };
     }
 
@@ -717,7 +759,7 @@ sub _CheckArticle {
 checks if the given dynamic field parameter is valid.
 
     my $DynamicFieldCheck = $OperationObject->_CheckDynamicField(
-        DynamicField => $DynamicField,              # all article parameters
+        DynamicField => $DynamicField,              # all dynamic field parameters
     );
 
     returns:
@@ -770,6 +812,84 @@ sub _CheckDynamicField {
     };
 }
 
+=item _CheckAttachment()
+
+checks if the given attachment parameter is valid.
+
+    my $AttachmentCheck = $OperationObject->_CheckAttachment(
+        Attachment => $Attachment,                  # all attachment parameters
+    );
+
+    returns:
+
+    $AttachmentCheck = {
+        Success => 1,                               # if everething is OK
+    }
+
+    $AttachmentCheck = {
+        ErrorCode    => 'Function.Error',           # if error
+        ErrorMessage => 'Error description',
+    }
+
+=cut
+
+sub _CheckAttachment {
+    my ( $Self, %Param ) = @_;
+
+    my $Attachment = $Param{Attachment};
+
+    # check DynamicField itm internally
+    for my $Needed (qw(Content ContentType Filename)) {
+        if ( !$Attachment->{$Needed} ) {
+            return {
+                ErrorCode    => 'TicketCreate.MissingParameter',
+                ErrorMessage => "TicketCreate: Attachment->$Needed  parameter is missing!",
+            };
+        }
+    }
+
+    # check Article->ContentType
+    if ( $Attachment->{ContentType} ) {
+
+        $Attachment->{ContentType} = lc $Attachment->{ContentType};
+
+        # check Charset part
+        my $Charset = '';
+        if ( $Attachment->{ContentType} =~ /charset=/i ) {
+            $Charset = $Attachment->{ContentType};
+            $Charset =~ s/.+?charset=("|'|)(\w+)/$2/gi;
+            $Charset =~ s/"|'//g;
+            $Charset =~ s/(.+?);.*/$1/g;
+        }
+
+        if ( !$Self->{TicketCommonObject}->ValidateCharset( Charset => $Charset ) ) {
+            return {
+                ErrorCode    => 'TicketCreate.InvalidParameter',
+                ErrorMessage => "TicketCreate: Attahcment->ContentType is invalid!",
+            };
+        }
+
+        # check MimeType part
+        my $MimeType = '';
+        if ( $Attachment->{ContentType} =~ /^(\w+\/\w+)/i ) {
+            $MimeType = $1;
+            $MimeType =~ s/"|'//g;
+        }
+
+        if ( !$Self->{TicketCommonObject}->ValidateMimeType( MimeType => $MimeType ) ) {
+            return {
+                ErrorCode    => 'TicketCreate.InvalidParameter',
+                ErrorMessage => "TicketCreate: Attachment->ContentType is invalid!",
+            };
+        }
+    }
+
+    # if everything is OK then return Success
+    return {
+        Success => 1,
+    };
+}
+
 1;
 
 =end Internal:
@@ -788,6 +908,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.16 $ $Date: 2012-01-02 20:28:43 $
+$Revision: 1.17 $ $Date: 2012-01-02 22:08:28 $
 
 =cut
