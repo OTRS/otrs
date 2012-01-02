@@ -1,8 +1,8 @@
 # --
 # Kernel/System/DynamicField/Backend/Date.pm - Delegate for DynamicField Date backend
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Date.pm,v 1.42 2011-12-05 20:46:19 cr Exp $
+# $Id: Date.pm,v 1.43 2012-01-02 20:22:10 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Time;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.42 $) [1];
+$VERSION = qw($Revision: 1.43 $) [1];
 
 =head1 NAME
 
@@ -799,6 +799,12 @@ sub AJAXPossibleValuesGet {
 
     # not supported
     return;
+}
+
+sub ValueTypeGet {
+    my ( $Self, %Param ) = @_;
+
+    return 'DATETIME';
 }
 
 1;
