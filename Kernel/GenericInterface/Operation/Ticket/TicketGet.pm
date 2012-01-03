@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Ticket/TicketGet.pm - GenericInterface Ticket Get operation backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketGet.pm,v 1.5 2012-01-02 17:57:13 cg Exp $
+# $Id: TicketGet.pm,v 1.6 2012-01-03 04:20:11 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::GenericInterface::Operation::Ticket::Common;
 use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 =head1 NAME
 
@@ -98,6 +98,15 @@ perform TicketGet Operation. This will return a Ticket entry.
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    my $UserID = $Self->{TicketCommonObject}->AuthUser(
+        %Param
+    );
+
+    return $Self->{TicketCommonObject}->ReturnError(
+        ErrorCode    => 'TicketGet.AuthFail',
+        ErrorMessage => "TicketGet: Authorization failing!",
+    ) if !$UserID;
+
     # check needed stuff
     for my $Needed (qw(TicketID)) {
         if ( !$Param{Data}->{$Needed} ) {
@@ -108,9 +117,6 @@ sub Run {
         }
     }
     my $ErrorMessage = '';
-
-    # set UserID to root because in public interface there is no user
-    my $UserID = 1;    #(Temporal)
 
     # all needed vairables
     my @TicketIDs = split( /,/, $Param{Data}->{TicketID} );
@@ -252,6 +258,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.5 $ $Date: 2012-01-02 17:57:13 $
+$Revision: 1.6 $ $Date: 2012-01-03 04:20:11 $
 
 =cut
