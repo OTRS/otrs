@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Ticket/Common.pm - Ticket common operation functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.18 2012-01-02 23:25:59 cr Exp $
+# $Id: Common.pm,v 1.19 2012-01-03 04:18:02 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,6 +25,9 @@ use Kernel::System::Priority;
 use Kernel::System::User;
 use Kernel::System::Ticket;
 use Kernel::System::Valid;
+use Kernel::System::Auth;
+use Kernel::System::AuthSession;
+use Kernel::System::Group;
 use Kernel::System::AutoResponse;
 use Kernel::System::DynamicField;
 use Kernel::System::DynamicField::Backend;
@@ -32,7 +35,7 @@ use Kernel::System::GenericInterface::Webservice;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 =head1 NAME
 
@@ -127,6 +130,9 @@ sub new {
     $Self->{TicketObject}       = Kernel::System::Ticket->new( %{$Self} );
     $Self->{AutoResponseObject} = Kernel::System::AutoResponse->new( %{$Self} );
     $Self->{ValidObject}        = Kernel::System::Valid->new( %{$Self} );
+    $Self->{SessionObject}      = Kernel::System::AuthSession->new( %{$Self} );
+    $Self->{GroupObject}        = Kernel::System::Group->new( %{$Self} );
+    $Self->{AuthObject}         = Kernel::System::Auth->new( %{$Self} );
     $Self->{WebserviceObject}   = Kernel::System::GenericInterface::Webservice->new( %{$Self} );
     $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new(%Param);
     $Self->{DFBackendObject}    = Kernel::System::DynamicField::Backend->new(%Param);
@@ -165,9 +171,9 @@ sub new {
 
 =item AuthUser()
 
-performs user authenrication
+performs user authentication
 
-    my $Success = $CommonObject->AuthUser(
+    my $UserID = $CommonObject->AuthUser(
         UserLogin => 'Agent',
         Password  => 'some password',           # plain text password
         CrypPaswd => '50/\/\3 p455\/\/0rd',     # cripted password with the current crypt algorithm
@@ -175,15 +181,96 @@ performs user authenrication
 
     returns
 
-    $Success = 1;                               # || 0
+    $UserID = 1;                               # the UserID from login or session data
 
 =cut
 
 sub AuthUser {
     my ( $Self, %Param ) = @_;
 
-    #TODO Implement
-    return 1;
+    my $ReturnData = 0;
+    my $SessionID = $Param{Data}->{SessionID} || '';
+
+    # check if a valid SessionID is present
+    if ( !$Self->{SessionObject}->CheckSessionID( SessionID => $SessionID ) ) {
+
+        # get params
+        my $PostUser = $Param{Data}->{UserLogin} || '';
+        my $PostPw   = $Param{Data}->{Password}  || '';
+
+        # check submitted data
+        my $User = $Self->{AuthObject}->Auth( User => $PostUser, Pw => $PostPw );
+
+        # login is invalid
+        if ($User) {
+
+            # get UserID
+            my $UserID = $Self->{UserObject}->UserLookup(
+                UserLogin => $User,
+            );
+            $ReturnData = $UserID;
+        }
+
+        return $ReturnData;
+    }
+
+    # get session data
+    my %UserData = $Self->{SessionObject}->GetSessionIDData(
+        SessionID => $SessionID,
+    );
+
+    # get UserID from SessionIDData
+    if ( defined $UserData{UserID} && $UserData{UserID} ) {
+        $ReturnData = $UserData{UserID};
+    }
+
+    return $ReturnData;
+}
+
+=item GetSessionID()
+
+performs user authentication and return a new SessionID value
+
+    my $SessionID = $CommonObject->GetSessionID(
+        UserLogin => 'Agent',
+        Password  => 'some password',           # plain text password
+    );
+
+    returns
+
+    $SessionID = 'AValidSessionIDValue';                # the new session id value
+
+=cut
+
+sub GetSessionID {
+    my ( $Self, %Param ) = @_;
+
+    my $ReturnData = 0;
+
+    # get params
+    my $PostUser = $Param{Data}->{UserLogin} || '';
+    my $PostPw   = $Param{Data}->{Password}  || '';
+
+    # check submitted data
+    my $User = $Self->{AuthObject}->Auth( User => $PostUser, Pw => $PostPw );
+
+    # login is invalid
+    return $ReturnData if !$User;
+
+    my %UserData = $Self->{UserObject}->GetUserData( User => $User, Valid => 1 );
+
+    # create new session id
+    my $NewSessionID = $Self->{SessionObject}->CreateSessionID(
+        %UserData,
+        UserLastRequest => $Self->{TimeObject}->SystemTime(),
+        UserType        => 'User',
+    );
+
+    if ($NewSessionID) {
+        $ReturnData = $NewSessionID;
+    }
+
+    return $ReturnData;
 }
 
 =item ReturnError()
@@ -1360,6 +1447,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.18 $ $Date: 2012-01-02 23:25:59 $
+$Revision: 1.19 $ $Date: 2012-01-03 04:18:02 $
 
 =cut
