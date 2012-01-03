@@ -2,7 +2,7 @@
 # TicketGet.t - GenericInterface transport interface tests for TicketConnector backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketGet.t,v 1.4 2012-01-02 17:57:48 cg Exp $
+# $Id: TicketGet.t,v 1.5 2012-01-03 04:19:02 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,6 +23,7 @@ use Kernel::GenericInterface::Requester;
 use Kernel::System::GenericInterface::Webservice;
 use Kernel::System::UnitTest::Helper;
 use Kernel::GenericInterface::Operation::Ticket::TicketGet;
+use Kernel::GenericInterface::Operation::Ticket::SessionIDGet;
 use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData IsStringWithData);
 
 # set UserID to root because in public interface there is no user
@@ -153,6 +154,9 @@ my $WebserviceConfig = {
             TicketGet => {
                 Type => 'Ticket::TicketGet',
             },
+            SessionIDGet => {
+                Type => 'Ticket::SessionIDGet',
+            },
         },
     },
     Requester => {
@@ -166,6 +170,9 @@ my $WebserviceConfig = {
         },
         Invoker => {
             TicketGet => {
+                Type => 'Test::TestSimple',
+            },
+            SessionIDGet => {
                 Type => 'Test::TestSimple',
             },
         },
@@ -185,11 +192,33 @@ $Self->True(
     "Updated Webservice $WebserviceID - $WebserviceName",
 );
 
-my @Tests = (
+# Get SessionID
+# create requester object
+my $RequesterSessionObject = Kernel::GenericInterface::Requester->new( %{$Self} );
+$Self->Is(
+    'Kernel::GenericInterface::Requester',
+    ref $RequesterSessionObject,
+    "SessionID - Create requester object",
+);
+
+# start requester with our webservice
+my $RequesterSessionResult = $RequesterSessionObject->Run(
+    WebserviceID => $WebserviceID,
+    Invoker      => 'SessionIDGet',
+    Data         => {
+        UserLogin => 'root@localhost',
+        Password  => 'root',
+    },
+);
+
+my $NewSessionID = $RequesterSessionResult->{Data}->{SessionID};
+my @Tests        = (
     {
-        Name                    => 'Test 1',
-        SuccessRequest          => 1,
-        RequestData             => {},
+        Name           => 'Test 1',
+        SuccessRequest => 1,
+        RequestData    => {
+            SessionID => $NewSessionID,
+        },
         ExpectedReturnLocalData => {
             Data => {
                 Error => {
@@ -214,15 +243,15 @@ my @Tests = (
         Name           => 'Test 2',
         SuccessRequest => 1,
         RequestData    => {
-            Data => {
-                TicketID => 'NoTicketID',
-                }
+            SessionID => $NewSessionID,
+            TicketID  => 'NotTicketID',
         },
         ExpectedReturnLocalData => {
             Data => {
                 Error => {
-                    ErrorCode    => 'TicketGet.MissingParameter',
-                    ErrorMessage => 'TicketGet: TicketID parameter is missing!'
+                    ErrorCode => 'TicketGet.NotValidTicketID',
+                    ErrorMessage =>
+                        'TicketGet: Could not get Ticket data in Kernel::GenericInterface::Operation::Ticket::TicketGet::Run()'
                     }
             },
             Success => 1
@@ -230,8 +259,9 @@ my @Tests = (
         ExpectedReturnRemoteData => {
             Data => {
                 Error => {
-                    ErrorCode    => 'TicketGet.MissingParameter',
-                    ErrorMessage => 'TicketGet: TicketID parameter is missing!'
+                    ErrorCode => 'TicketGet.NotValidTicketID',
+                    ErrorMessage =>
+                        'TicketGet: Could not get Ticket data in Kernel::GenericInterface::Operation::Ticket::TicketGet::Run()'
                     }
             },
             Success => 1
@@ -242,7 +272,8 @@ my @Tests = (
         Name           => 'Test 3',
         SuccessRequest => '1',
         RequestData    => {
-            TicketID => $TicketID,
+            TicketID  => $TicketID,
+            SessionID => $NewSessionID,
         },
         ExpectedReturnRemoteData => {
             Success => 1,
