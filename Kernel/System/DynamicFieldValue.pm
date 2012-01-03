@@ -1,8 +1,8 @@
 # --
 # Kernel/System/DynamicFieldValue.pm - DynamicField values backend
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicFieldValue.pm,v 1.17 2011-12-06 13:20:14 mg Exp $
+# $Id: DynamicFieldValue.pm,v 1.18 2012-01-03 22:45:37 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Time;
 use Kernel::System::Cache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.17 $) [1];
+$VERSION = qw($Revision: 1.18 $) [1];
 
 =head1 NAME
 
@@ -167,48 +167,19 @@ sub ValueSet {
             ValueDateTime => scalar $Param{Value}->[$Counter]->{ValueDateTime},
         );
 
-        if ( exists $Value{ValueDateTime} ) {
+        # data validation
+        my $Success = $Self->ValueValidate( Value => \%Value );
 
-            # validate date
-            if ( $Value{ValueDateTime} ) {
+        return if !$Success;
 
-                # convert the DateTime value to system time to check errors
-                my $SystemTime = $Self->{TimeObject}->TimeStamp2SystemTime(
-                    String => $Value{ValueDateTime},
-                );
+        # data conversions
 
-                return if !$SystemTime;
-
-                # convert back to time stamp to check errors
-                my $TimeStamp = $Self->{TimeObject}->SystemTime2TimeStamp(
-                    SystemTime => $SystemTime,
-                );
-
-                return if !$TimeStamp;
-
-                # compare if the date is the same
-                return if !( $Value{ValueDateTime} eq $TimeStamp )
-            }
-            else {
-
-                # set ValueDateTime column to NULL
-                $Value{ValueDateTime} = undef;
-            }
+        # set ValueDateTime column to NULL
+        if ( exists $Value{ValueDateTime} && !$Value{ValueDateTime} ) {
+            $Value{ValueDateTime} = undef;
         }
 
-        # validate integer
-        if ( $Value{ValueInt} ) {
-
-            if ( $Value{ValueInt} !~ m{\A  -? \d+ \z}smx ) {
-                $Self->{LogObject}->Log(
-                    Priority => 'error', Message => "Invalid Integer '$Value{ValueInt}'!"
-                );
-
-                return;
-            }
-        }
-
-        # validate Int Zero
+        # set Int Zero
         if ( defined $Value{ValueInt} && !$Value{ValueInt} ) {
             $Value{ValueInt} = '0';
         }
@@ -352,6 +323,64 @@ sub ValueDelete {
     return 1;
 }
 
+=item ValueValidate()
+
+checks if the given value is valid for the value type.
+
+    my $Success = $DynamicFieldValueObject->ValueValidate(
+        Value    =>  {
+                ValueText          => 'some text',            # optional, one of these fields must be provided
+                ValueDateTime      => '1977-12-12 12:00:00',  # optional
+                ValueInt           => 123,                    # optional
+            },
+        UserID   => $UserID,
+    );
+
+=cut
+
+sub ValueValidate {
+    my ( $Self, %Param ) = @_;
+
+    return if !IsHashRefWithData( $Param{Value} );
+
+    my %Value = %{ $Param{Value} };
+
+    # validate date
+    if ( $Value{ValueDateTime} ) {
+
+        # convert the DateTime value to system time to check errors
+        my $SystemTime = $Self->{TimeObject}->TimeStamp2SystemTime(
+            String => $Value{ValueDateTime},
+        );
+
+        return if !$SystemTime;
+
+        # convert back to time stamp to check errors
+        my $TimeStamp = $Self->{TimeObject}->SystemTime2TimeStamp(
+            SystemTime => $SystemTime,
+        );
+
+        return if !$TimeStamp;
+
+        # compare if the date is the same
+        return if !( $Value{ValueDateTime} eq $TimeStamp )
+    }
+
+    # validate integer
+    if ( $Value{ValueInt} ) {
+
+        if ( $Value{ValueInt} !~ m{\A  -? \d+ \z}smx ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error', Message => "Invalid Integer '$Value{ValueInt}'!"
+            );
+
+            return;
+        }
+    }
+
+    return 1;
+}
+
 =item HistoricalValueGet()
 
 get all distinct values from a field stored on the database
@@ -456,6 +485,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.17 $ $Date: 2011-12-06 13:20:14 $
+$Revision: 1.18 $ $Date: 2012-01-03 22:45:37 $
 
 =cut
