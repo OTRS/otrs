@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Ticket/Common.pm - Ticket common operation functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.19 2012-01-03 04:18:02 cg Exp $
+# $Id: Common.pm,v 1.20 2012-01-03 05:13:37 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,6 +14,7 @@ package Kernel::GenericInterface::Operation::Ticket::Common;
 use strict;
 use warnings;
 
+use MIME::Base64();
 use Kernel::System::Queue;
 use Kernel::System::Lock;
 use Kernel::System::Type;
@@ -35,7 +36,7 @@ use Kernel::System::GenericInterface::Webservice;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.19 $) [1];
+$VERSION = qw($Revision: 1.20 $) [1];
 
 =head1 NAME
 
@@ -996,6 +997,35 @@ sub ValidateArticleType {
     return 1;
 }
 
+=item ValidateFrom()
+
+checks if the given from is valid.
+
+    my $Sucess = $CommonObject->ValidateFrom(
+        From => 'user@domain.com',
+    );
+
+    returns
+    $Success = 1            # or 0
+
+=cut
+
+sub ValidateFrom {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    return if !$Param{From};
+
+    # check email address
+    for my $Email ( Mail::Address->parse( $Param{From} ) ) {
+        if ( !$Self->{CheckItemObject}->CheckEmail( Address => $Email->address() ) ) {
+            return;
+        }
+    }
+
+    return 1;
+}
+
 =item ValidateSenderType()
 
 checks if the given SenderType or SenderType ID is valid.
@@ -1175,7 +1205,7 @@ sub ValidateTimeUnit {
 checks if the given user ID is valid.
 
     my $Sucess = $CommonObject->ValidateUserID(
-        UserIDID => 123,
+        UserID => 123,
     );
 
     returns
@@ -1194,6 +1224,19 @@ sub ValidateUserID {
     );
 }
 
+=item ValidateDynamicFieldName()
+
+checks if the given dynamic field name is valid.
+
+    my $Sucess = $CommonObject->ValidateDynamicFieldName(
+        Name => 'some name',
+    );
+
+    returns
+    $Success = 1            # or 0
+
+=cut
+
 sub ValidateDynamicFieldName {
     my ( $Self, %Param ) = @_;
 
@@ -1206,6 +1249,26 @@ sub ValidateDynamicFieldName {
 
     return 1;
 }
+
+=item ValidateDynamicFieldValue()
+
+checks if the given dynamic field value is valid.
+
+    my $Sucess = $CommonObject->ValidateDynamicFieldValue(
+        Value => 'some value',          # String or Integer or DateTime format
+    );
+
+    my $Sucess = $CommonObject->ValidateDynamicFieldValue(
+        Value => [
+            'some value',
+            'some other value',
+        ],
+    );
+
+    returns
+    $Success = 1                        # or 0
+
+=cut
 
 sub ValidateDynamicFieldValue {
     my ( $Self, %Param ) = @_;
@@ -1249,6 +1312,132 @@ sub ValidateDynamicFieldValue {
             return;
         }
     }
+}
+
+=item SetDynamicFieldValue()
+
+sets the value of a dynamic filed.
+
+    my $Result = $CommonObject->SetDynamicFieldValue(
+        Name   => 'some name',           # the name of the dynamic field
+        Value  => 'some value',          # String or Integer or DateTime format
+        UserID => 123,
+    );
+
+    my $Result = $CommonObject->SetDynamicFieldValue(
+        Name   => 'some name',           # the name of the dynamic field
+        Value => [
+            'some value',
+            'some other value',
+        ],
+        UserID => 123,
+    );
+
+    returns
+    $Result = {
+        Success => 1,                        # if everything is ok
+    }
+
+    $Result = {
+        Success      => 0,
+        ErrorMessage => 'Error description'
+    }
+
+=cut
+
+sub SetDynamicFieldValue {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Needed (qw(Value Name UserID)) {
+        if ( !$Param{$Needed} ) {
+            return {
+                Success      => 0,
+                ErrorMessage => "SetDynamicFieldValue() Got no $Needed!"
+            };
+        }
+    }
+
+    return if !IsHashRefWithData( $Self->{DynamicFieldLookup} );
+
+    # get dynamic field config
+    my $DynamicFieldConfig = $Self->{DynamicFieldLookup}->{ $Param{Name} };
+
+    my $ObjectID;
+    if ( $DynamicFieldConfig->{ObjectType} eq 'Ticket' ) {
+        $ObjectID = $Param{TicketID} || '';
+    }
+    else {
+        $ObjectID = $Param{ArticleID} || '';
+    }
+
+    if ( !$ObjectID ) {
+        return {
+            Success      => 0,
+            ErrorMessage => "SetDynamicFieldValue() Could not set $ObjectID!",
+        };
+    }
+
+    my $Success = $Self->{DFBackendObject}->ValueSet(
+        DynamicFieldConfig => $DynamicFieldConfig,
+        ObjectID           => $ObjectID,
+        Value              => $Param{Value},
+        UserID             => $Param{UserID},
+    );
+
+    return {
+        Success => $Success,
+        }
+}
+
+=item CreateAttachment()
+
+cretes a new attachment for the given article.
+
+    my $Result = $CommonObject->CreateAttachment(
+        Content     => $Data,                   # file content (Base64 encoded)
+        ContentType => 'some content type',
+        Filename    => 'some filename',
+        ArticleID   => 456,
+        UserID      => 123.
+    );
+
+    returns
+    $Result = {
+        Success => 1,                        # if everything is ok
+    }
+
+    $Result = {
+        Success      => 0,
+        ErrorMessage => 'Error description'
+    }
+
+=cut
+
+sub CreateAttachment {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Needed (qw(Attachment ArticleID UserID)) {
+        if ( !$Param{$Needed} ) {
+            return {
+                Success      => 0,
+                ErrorMessage => "CreateAttachment() Got no $Needed!"
+            };
+        }
+    }
+
+    # write attachment
+    my $Success = $Self->{TicketObject}->ArticleWriteAttachment(
+        %{ $Param{Attachment} },
+        Content   => MIME::Base64::decode_base64( $Param{Attachment}->{Content} ),
+        ArticleID => $Param{ArticleID},
+        UserID    => $Param{UserID},
+    );
+
+    return {
+        Success => $Success,
+        }
 }
 
 =begin Internal:
@@ -1447,6 +1636,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.19 $ $Date: 2012-01-03 04:18:02 $
+$Revision: 1.20 $ $Date: 2012-01-03 05:13:37 $
 
 =cut
