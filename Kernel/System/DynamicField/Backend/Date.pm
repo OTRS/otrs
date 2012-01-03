@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Date.pm - Delegate for DynamicField Date backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Date.pm,v 1.43 2012-01-02 20:22:10 cr Exp $
+# $Id: Date.pm,v 1.44 2012-01-03 22:49:44 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Time;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.43 $) [1];
+$VERSION = qw($Revision: 1.44 $) [1];
 
 =head1 NAME
 
@@ -104,6 +104,29 @@ sub ValueSet {
             },
         ],
         UserID => $Param{UserID},
+    );
+
+    return $Success;
+}
+
+sub ValueValidate {
+    my ( $Self, %Param ) = @_;
+
+    # check for no time in date fields
+    if ( $Param{Value} && $Param{Value} !~ m{\A \d{4}-\d{2}-\d{2}\s00:00:00 \z}xms ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "The value for the field Date is invalid!\n"
+                . "The date must be valid and the time must be 00:00:00",
+        );
+        return;
+    }
+
+    my $Success = $Self->{DynamicFieldValueObject}->ValueValidate(
+        Value => {
+            ValueDateTime => $Param{Value},
+        },
+        UserID => $Param{UserID}
     );
 
     return $Success;
@@ -799,12 +822,6 @@ sub AJAXPossibleValuesGet {
 
     # not supported
     return;
-}
-
-sub ValueTypeGet {
-    my ( $Self, %Param ) = @_;
-
-    return 'DATETIME';
 }
 
 1;
