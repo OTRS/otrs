@@ -1,8 +1,8 @@
 # --
 # AdminSMIME.dtl - provides HTML form for AdminSMIME html
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSMIME.dtl,v 1.27 2011-06-03 03:39:00 dz Exp $
+# $Id: AdminSMIME.dtl,v 1.28 2012-01-03 14:58:17 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -148,7 +148,7 @@
                             <td>$QData{"ShortStartDate"}</td>
                             <td>$QData{"ShortEndDate"}</td>
                             <td class="Center">
-                                <a class="TrashCan" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Delete;Type=$LQData{"Type"};Filename=$LQData{"Filename"}" title="$Text{"Delete this certificate"}">$Text{"Delete this certificate"}</a>
+                                <a class="TrashCan" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Delete;Type=$LQData{"Type"};Filename=$LQData{"Filename"};$QEnv{"ChallengeTokenParam"}" title="$Text{"Delete this certificate"}">$Text{"Delete this certificate"}</a>
                             </td>
                         </tr>
 <!-- dtl:block:Row -->
@@ -251,7 +251,7 @@
 <!-- dtl:block:RelatedCertsRow -->
                     <tr>
                         <td class="Center">
-                            <a class="Remove" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=SignerRelationDelete;CertFingerprint=$QData{"CertFingerprint"};CAFingerprint=$QData{"Fingerprint"}" title="$Text{"Delete this relation"}">
+                            <a class="Remove" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=SignerRelationDelete;CertFingerprint=$QData{"CertFingerprint"};CAFingerprint=$QData{"Fingerprint"};$QEnv{"ChallengeTokenParam"}" title="$Text{"Delete this relation"}">
                                 $Text{"Delete this relation"}
                             </a>
                         </td>
@@ -305,7 +305,7 @@
 <!-- dtl:block:AvailableCertsRow -->
                     <tr>
                         <td>
-                            <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=SignerRelationAdd;CertFingerprint=$QData{"CertFingerprint"};CAFingerprint=$QData{"Fingerprint"}" class="Add" title="$Text{"Relate this certificate"}">
+                            <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=SignerRelationAdd;CertFingerprint=$QData{"CertFingerprint"};CAFingerprint=$QData{"Fingerprint"};$QEnv{"ChallengeTokenParam"}" class="Add" title="$Text{"Relate this certificate"}">
                                 $Text{"Relate this certificate"}
                             </a>
                         </td>

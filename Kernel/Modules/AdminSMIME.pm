@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminSMIME.pm - to add/update/delete smime keys
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSMIME.pm,v 1.41 2011-06-03 03:38:01 dz Exp $
+# $Id: AdminSMIME.pm,v 1.42 2012-01-03 14:58:17 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.41 $) [1];
+$VERSION = qw($Revision: 1.42 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -61,6 +61,10 @@ sub Run {
     # delete cert
     # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'Delete' ) {
+
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
+
         my $Filename = $Self->{ParamObject}->GetParam( Param => 'Filename' ) || '';
         my $Type     = $Self->{ParamObject}->GetParam( Param => 'Type' )     || '';
         if ( !$Filename ) {
@@ -316,6 +320,9 @@ sub Run {
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'SignerRelationAdd' ) {
 
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
+
         # look for needed parameters
         my $CertFingerprint = $Self->{ParamObject}->GetParam( Param => 'CertFingerprint' ) || '';
         my $CAFingerprint   = $Self->{ParamObject}->GetParam( Param => 'CAFingerprint' )   || '';
@@ -380,6 +387,9 @@ sub Run {
     # SignerRelationDelete
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'SignerRelationDelete' ) {
+
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
 
         # look for needed parameters
         my $CertFingerprint = $Self->{ParamObject}->GetParam( Param => 'CertFingerprint' ) || '';

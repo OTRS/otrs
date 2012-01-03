@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminPerformanceLog.pm - provides a log view for admins
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPerformanceLog.pm,v 1.21 2010-11-03 09:10:55 mg Exp $
+# $Id: AdminPerformanceLog.pm,v 1.22 2012-01-03 15:01:35 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
+$VERSION = qw($Revision: 1.22 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -62,6 +62,10 @@ sub Run {
 
     # reset log file
     if ( $Self->{Subaction} eq 'Reset' ) {
+
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
+
         if ( !$Self->_DatabaseReset() ) {
             $Self->{LayoutObject}->FatalError();
         }
