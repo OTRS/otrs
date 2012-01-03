@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Ticket/TicketCreate.pm - GenericInterface Ticket TicketCreate operation backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketCreate.pm,v 1.18 2012-01-02 23:27:14 cr Exp $
+# $Id: TicketCreate.pm,v 1.19 2012-01-03 05:16:07 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,11 +14,19 @@ package Kernel::GenericInterface::Operation::Ticket::TicketCreate;
 use strict;
 use warnings;
 
+use Kernel::System::Queue;
+use Kernel::System::State;
+use Kernel::System::CustomerUser;
+use Kernel::System::User;
+use Kernel::System::Ticket;
+use Kernel::System::DynamicField;
+use Kernel::System::DynamicField::Backend;
+
 use Kernel::GenericInterface::Operation::Ticket::Common;
 use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 =head1 NAME
 
@@ -63,6 +71,13 @@ sub new {
         $Self->{$Needed} = $Param{$Needed};
     }
 
+    $Self->{QueueObject}        = Kernel::System::Queue->new( %{$Self} );
+    $Self->{StateObject}        = Kernel::System::State->new( %{$Self} );
+    $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new( %{$Self} );
+    $Self->{UserObject}         = Kernel::System::User->new( %{$Self} );
+    $Self->{TicketObject}       = Kernel::System::Ticket->new( %{$Self} );
+    $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new(%Param);
+    $Self->{DFBackendObject}    = Kernel::System::DynamicField::Backend->new(%Param);
     $Self->{TicketCommonObject}
         = Kernel::GenericInterface::Operation::Ticket::Common->new( %{$Self} );
 
@@ -132,6 +147,10 @@ sub Run {
             );
         }
     }
+
+    #TODO Auth user
+    #TODO Check for user create permissions
+    my $UserID = 1;
 
     # isolate ticket parameter
     my $Ticket = $Param{Data}->{Ticket};
@@ -308,12 +327,13 @@ sub Run {
         }
     }
 
-    return {
-        Success => 1,
-        Data    => {
-            Test => 'Test OK',
-        },
-    };
+    return $Self->_TicketCreate(
+        Ticket           => $Ticket,
+        Article          => $Article,
+        DynamicFieldList => \@DynamicFieldList,
+        AttachmentList   => \@AttachmentList,
+        UserID           => $UserID,
+    );
 }
 
 =begin Internal:
@@ -605,6 +625,16 @@ sub _CheckArticle {
             ErrorMessage => "TicketCreate: Article->SenderTypeID or Ticket->SenderType parameter"
                 . " is invalid!",
         };
+    }
+
+    # check Article->From
+    if ( $Article->{From} ) {
+        if ( !$Self->{TicketCommonObject}->ValidateFrom( %{$Article} ) ) {
+            return {
+                ErrorCode    => 'TicketCreate.InvalidParameter',
+                ErrorMessage => "TicketCreate: Article->From parameter is invalid!",
+            };
+        }
     }
 
     # check Article->ContentType vs Article->MimeType and Article->Charset
@@ -921,6 +951,324 @@ sub _CheckAttachment {
     };
 }
 
+=item _TicketCreate()
+
+creates a ticket with its article and sets dynamic fields and attachments if specified.
+
+    my $Response = $OperationObject->_TicketCreate(
+        Ticket       => $Ticket,                  # all ticket parameters
+        Article      => $Ticket,                  # all attachment parameters
+        DynamicField => $Ticket,                  # all dynamic field parameters
+        Attachment   => $Ticket,                  # all attachment parameters
+        UserID       => 123,
+    );
+
+    returns:
+
+    $Response = {
+        Success => 1,                               # if everething is OK
+        Data => {
+            TicketID     => 123,
+            TicketNumber => 'TN3422332',
+            ArticleID    => 123,
+        }
+    }
+
+    $Response = {
+        Success      => 0,                         # if unexpected error
+        ErrorMessage => "$Param{ErrorCode}: $Param{ErrorMessage}",
+    }
+=cut
+
+sub _TicketCreate {
+    my ( $Self, %Param ) = @_;
+
+    my $Ticket           = $Param{Ticket};
+    my $Article          = $Param{Article};
+    my $DynamicFieldList = $Param{DynamicFieldList};
+    my $AttachmentList   = $Param{AttachmentList};
+
+    # get customer information
+    my %CustomerUserData = $Self->{CustomerUserObject}->CustomerUserDataGet(
+        User => $Ticket->{CustomerUser},
+    );
+
+    my $OwnerID;
+    if ( $Ticket->{Owner} && !$Ticket->{OwnerID} ) {
+        my %OwnerData = $Self->{UserObject}->GetUserData(
+            User => $Ticket->{Owner},
+        );
+        $OwnerID = $OwnerData{UserID};
+    }
+    elsif ( defined $Ticket->{OwnerID} ) {
+        $OwnerID = $Ticket->{UserID};
+    }
+
+    my $ResponsibleID;
+    if ( $Ticket->{Responsible} && !$Ticket->{ResponsibleID} ) {
+        my %ResponsibleData = $Self->{UserObject}->GetUserData(
+            User => $Ticket->{Responsible},
+        );
+        $ResponsibleID = $ResponsibleData{ResponsibleID};
+    }
+    elsif ( defined $Ticket->{ResponsibleID} ) {
+        $ResponsibleID = $Ticket->{ResponsibleID};
+    }
+
+    # create new ticket
+    my $TicketID = $Self->{TicketObject}->TicketCreate(
+        Title        => $Ticket->{Subject},
+        QueueID      => $Ticket->{QueueID} || '',
+        Queue        => $Ticket->{Queue} || '',
+        Subject      => $Ticket->{Subject},
+        Lock         => 'unlock',
+        TypeID       => $Ticket->{TypeID} || '',
+        Type         => $Ticket->{Type} || '',
+        ServiceID    => $Ticket->{ServiceID} || '',
+        Service      => $Ticket->{Service} || '',
+        SLAID        => $Ticket->{SLAID} || '',
+        SLA          => $Ticket->{SLA} || '',
+        StateID      => $Ticket->{StateID} || '',
+        State        => $Ticket->{State} || '',
+        PriorityID   => $Ticket->{PriorityID} || '',
+        Priority     => $Ticket->{Priority} || '',
+        OwnerID      => 1,
+        CustomerNo   => $CustomerUserData{UserCustomerID},
+        CustomerUser => $Ticket->{CustomerUser},
+        UserID       => $Param{UserID},
+    );
+
+    if ( !$TicketID ) {
+        return {
+            Success      => 0,
+            ErrorMessage => 'Ticket could not be created, please contact the system administrator'
+            }
+    }
+
+    # set owner (if owner or owner id is given)
+    if ($OwnerID) {
+        $Self->{TicketObject}->TicketOwnerSet(
+            TicketID  => $TicketID,
+            NewUserID => $OwnerID,
+            UserID    => $Param{UserID},
+        );
+
+        # set lock if no lock was defined
+        if ( !$Ticket->{Lock} && !$Ticket->{LockID} ) {
+            $Self->{TicketObject}->TicketLockSet(
+                TicketID => $TicketID,
+                Lock     => 'lock',
+                UserID   => $Param{UserID},
+            );
+        }
+    }
+
+    # else set owner to current agent but do not lock it
+    else {
+        $Self->{TicketObject}->TicketOwnerSet(
+            TicketID           => $TicketID,
+            NewUserID          => $Param{UserID},
+            SendNoNotification => 1,
+            UserID             => $Param{UserID},
+        );
+    }
+
+    # set lock if specified
+    if ( $Ticket->{Lock} || !$Ticket->{LockID} ) {
+        $Self->{TicketObject}->TicketLockSet(
+            TicketID => $TicketID,
+            LockID   => $Ticket->{LockID} || '',
+            Lock     => $Ticket->{Lock} || '',
+            UserID   => $Param{UserID},
+        );
+    }
+
+    # set responsible
+    if ($ResponsibleID) {
+        $Self->{TicketObject}->TicketResponsibleSet(
+            TicketID  => $TicketID,
+            NewUserID => $ResponsibleID,
+            UserID    => $Param{UserID},
+        );
+    }
+
+    # get State Data
+    my %StateData;
+    my $StateID;
+    if ( $Ticket->{StateID} ) {
+        $StateID = $Ticket->{StateID};
+    }
+    else {
+        $StateID = $Self->{StateObject}->StateLookup(
+            State => $Ticket->{State},
+        );
+    }
+
+    %StateData = $Self->{TicketObject}->{StateObject}->StateGet(
+        ID => $StateID,
+    );
+
+    # forse unlock if state type is close
+    if ( $StateData{TypeName} =~ /^close/i ) {
+
+        # set lock
+        $Self->{TicketObject}->TicketLockSet(
+            TicketID => $TicketID,
+            Lock     => 'unlock',
+            UserID   => $Param{UserID},
+        );
+    }
+
+    # set pending time
+    elsif ( $StateData{TypeName} =~ /^pending/i ) {
+
+        # set pending time
+        $Self->{TicketObject}->TicketPendingTimeSet(
+            UserID   => $Param{UserID},
+            TicketID => $TicketID,
+            %{ $Ticket->{PendingTime} },
+        );
+    }
+
+    if ( !defined $Article->{NoAgentNotify} ) {
+
+        # check if new owner is given (then send no agent notify)
+        $Article->{NoAgentNotify} = 0;
+        if ($OwnerID) {
+            $Article->{NoAgentNotify} = 1;
+        }
+    }
+
+    # set Article From
+    my $From;
+    if ( $Article->{From} ) {
+        $From = $Article->{From};
+    }
+    else {
+        $From = '"' . $CustomerUserData{UserFirstname} . ' ' . $CustomerUserData{UserLastname} . '"'
+            . ' <' . $CustomerUserData{UserEmail} . '>';
+    }
+
+    # set Article To
+    my $To;
+    if ( $Ticket->{Queue} ) {
+        $To = $Ticket->{Queue};
+    }
+    else {
+        $To = $Self->{QueueObject}->QueueLookup( QueueID => $Ticket->{QueueID} );
+    }
+
+    # create article
+    my $ArticleID = $Self->{TicketObject}->ArticleCreate(
+        NoAgentNotify  => $Article->{NoAgentNotify}  || 0,
+        TicketID       => $TicketID,
+        ArticleTypeID  => $Article->{ArticleTypeID}  || '',
+        ArticleType    => $Article->{ArticleType}    || '',
+        SenderTypeID   => $Article->{SenderTypeID}   || '',
+        SenderType     => $Article->{SenderType}     || '',
+        From           => $From,
+        To             => $To,
+        Subject        => $Article->{Subject},
+        Body           => $Article->{Body},
+        MimeType       => $Article->{MimeType}       || '',
+        Charset        => $Article->{Charset}        || '',
+        ContentType    => $Article->{ContentType}    || '',
+        UserID         => $Param{UserID},
+        HistoryType    => $Article->{HistoryType},
+        HistoryComment => $Article->{HistoryComment} || '%%',
+        AutoResponseType => $Article->{AutoResponseType},
+        OrigHeader       => {
+            From    => $From,
+            To      => $To,
+            Subject => $Article->{Subject},
+            Body    => $Article->{Body},
+
+        },
+    );
+
+    if ( !$ArticleID ) {
+        return {
+            Success      => 0,
+            ErrorMessage => 'Article could not be created, please contact the system administrator'
+            }
+    }
+
+    # time accounting
+    if ( $Article->{TimeUnit} ) {
+        $Self->{TicketObject}->TicketAccountTime(
+            TicketID  => $TicketID,
+            ArticleID => $ArticleID,
+            TimeUnit  => $Article->{TimeUnit},
+            UserID    => $Param{UserID},
+        );
+    }
+
+    # set dynamic fields
+    for my $DynamicField ( @{$DynamicFieldList} ) {
+        my $Result = $Self->{TicketCommonObject}->SetDynamicFieldValue(
+            %{$DynamicField},
+            TicketID  => $TicketID,
+            ArticleID => $ArticleID,
+            UserID    => $Param{UserID},
+        );
+
+        if ( !$Result->{Success} ) {
+            my $ErrorMessage =
+                $Result->{ErrorMessage} || "Dynamic Field $DynamicField->{Name} could not be set,"
+                . " please contact the system administrator";
+
+            return {
+                Success      => 0,
+                ErrorMessage => $ErrorMessage,
+            };
+        }
+    }
+
+    # set attachments
+    for my $Attachment ( @{$AttachmentList} ) {
+        my $Result = $Self->{TicketCommonObject}->CreateAttachment(
+            Attachment => $Attachment,
+            ArticleID  => $ArticleID,
+            UserID     => $Param{UserID}
+        );
+
+        if ( !$Result->{Success} ) {
+            my $ErrorMessage =
+                $Result->{ErrorMessage} || "Attachment could not be created, please contact the "
+                . " system administrator";
+
+            return {
+                Success      => 0,
+                ErrorMessage => $ErrorMessage,
+            };
+        }
+    }
+
+    # get ticket data
+    my %TicketData = $Self->{TicketObject}->TicketGet(
+        TicketID      => $TicketID,
+        DynamicFields => 0,
+        UserID        => $Param{UserId},
+    );
+
+    if ( !IsHashRefWithData( \%TicketData ) ) {
+        return {
+            Success      => 0,
+            ErrorMessage => 'Could not get new ticket information, please contact the system'
+                . ' administrator',
+            }
+    }
+
+    return {
+        Success => 1,
+        Data    => {
+            TicketID     => $TicketID,
+            TicketNumber => $TicketData{TicketNumber},
+            ArticleID    => $ArticleID,
+        },
+    };
+}
+
 1;
 
 =end Internal:
@@ -939,6 +1287,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.18 $ $Date: 2012-01-02 23:27:14 $
+$Revision: 1.19 $ $Date: 2012-01-03 05:16:07 $
 
 =cut
