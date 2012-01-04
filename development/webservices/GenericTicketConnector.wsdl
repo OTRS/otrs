@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- $Id: GenericTicketConnector.wsdl,v 1.4 2011-12-24 01:45:48 cr Exp $ -->
+<!-- $Id: GenericTicketConnector.wsdl,v 1.5 2012-01-04 16:27:21 cr Exp $ -->
 <wsdl:definitions
     name="GenericTicketConnector"
     targetNamespace="http://www.otrs.org/TicketConnector/"
@@ -22,9 +22,39 @@
             <xsd:complexType name="TicketCreate"></xsd:complexType>
             <xsd:complexType name="OTRS_TicketCreate">
                 <xsd:sequence>
+                    <xsd:choice
+                        minOccurs="1"
+                        maxOccurs="1">
+                        <xsd:element
+                            name="UserLogin"
+                            type="xsd:string"
+                            minOccurs="0">
+                        </xsd:element>
+                        <xsd:element
+                            name="CustomerUserLogin"
+                            type="xsd:string"
+                            minOccurs="0">
+                        </xsd:element>
+                        <xsd:element
+                            name="SessionID"
+                            type="xsd:string"
+                            minOccurs="0">
+                        </xsd:element>
+                    </xsd:choice>
+                    <xsd:choice minOccurs="0" maxOccurs="1">
+                        <xsd:element
+                            name="Password"
+                            type="xsd:string"
+                            minOccurs="0">
+                        </xsd:element>
+                        <xsd:element
+                            name="CrypPaswd"
+                            type="xsd:string" minOccurs="0">
+                        </xsd:element>
+                    </xsd:choice>
                     <xsd:element
                         name="Ticket"
-                        type="tns:OTRS_Ticket"
+                        type="tns:OTRS_TicketCreate_Ticket"
                         maxOccurs="1"
                         minOccurs="1">
                     </xsd:element>
@@ -46,19 +76,9 @@
                         maxOccurs="unbounded"
                         minOccurs="0">
                     </xsd:element>
-                    <xsd:element
-                        name="PendigTime"
-                        type="tns:OTRS_PendingTime"
-                        maxOccurs="1"
-                        minOccurs="0">
-                    </xsd:element>
-                    <xsd:element
-                        name="UserLogin"
-                        type="xsd:string" maxOccurs="1" minOccurs="1">
-                    </xsd:element>
                 </xsd:sequence>
             </xsd:complexType>
-            <xsd:complexType name="OTRS_Ticket">
+            <xsd:complexType name="OTRS_TicketCreate_Ticket">
                 <xsd:sequence>
                     <xsd:element
                         name="Title"
@@ -68,7 +88,7 @@
                     </xsd:element>
                     <xsd:choice
                         maxOccurs="1"
-                        minOccurs="1">
+                        minOccurs="0">
                         <xsd:element
                             name="QueueID"
                             type="xsd:positiveInteger"
@@ -84,7 +104,7 @@
                     </xsd:choice>
                     <xsd:choice
                         maxOccurs="1"
-                        minOccurs="1">
+                        minOccurs="0">
                         <xsd:element
                             name="TypeID"
                             type="xsd:positiveInteger"
@@ -164,7 +184,7 @@
                     </xsd:choice>
                     <xsd:choice
                         maxOccurs="1"
-                        minOccurs="1">
+                        minOccurs="0">
                         <xsd:element
                             name="OwnerID"
                             type="xsd:positiveInteger"
@@ -180,7 +200,7 @@
                     </xsd:choice>
                     <xsd:choice
                         maxOccurs="1"
-                        minOccurs="1">
+                        minOccurs="0">
                         <xsd:element
                             name="ResponsibleID"
                             type="xsd:positiveInteger"
@@ -195,16 +215,14 @@
                         </xsd:element>
                     </xsd:choice>
                     <xsd:element
-                        name="CustomerNo"
-                        type="xsd:string"
-                        maxOccurs="1"
-                        minOccurs="0">
-                    </xsd:element>
-                    <xsd:element
                         name="CustomerUser"
                         type="xsd:string"
                         maxOccurs="1"
-                        minOccurs="0">
+                        minOccurs="1">
+                    </xsd:element>
+                    <xsd:element
+                        name="PendigTime"
+                        type="tns:OTRS_PendingTime" minOccurs="0">
                     </xsd:element>
                 </xsd:sequence>
             </xsd:complexType>
@@ -213,7 +231,7 @@
                 <xsd:sequence>
                     <xsd:choice
                         maxOccurs="1"
-                        minOccurs="1">
+                        minOccurs="0">
                         <xsd:element
                             name="ArticleTypeID"
                             type="xsd:positiveInteger"
@@ -229,7 +247,7 @@
                     </xsd:choice>
                     <xsd:choice
                         maxOccurs="1"
-                        minOccurs="1">
+                        minOccurs="0">
                         <xsd:element
                             name="SenderTypeID"
                             type="xsd:positiveInteger"
@@ -250,12 +268,6 @@
                         minOccurs="0">
                     </xsd:element>
                     <xsd:element
-                        name="To"
-                        type="xsd:string"
-                        maxOccurs="1"
-                        minOccurs="0">
-                    </xsd:element>
-                    <xsd:element
                         name="Subject"
                         type="xsd:string"
                         maxOccurs="1"
@@ -267,80 +279,75 @@
                         maxOccurs="1"
                         minOccurs="1">
                     </xsd:element>
-                    <xsd:element
-                        name="MimeType"
-                        type="xsd:string"
-                        maxOccurs="1"
-                        minOccurs="0">
-                    </xsd:element>
-                    <xsd:element
-                        name="Charset"
-                        type="xsd:string"
-                        maxOccurs="1"
-                        minOccurs="0">
-                    </xsd:element>
-                    <xsd:element
-                        name="UserID"
-                        type="xsd:positiveInteger"
-                        maxOccurs="1"
-                        minOccurs="1">
-                    </xsd:element>
+                    <xsd:choice
+                        minOccurs="1"
+                        maxOccurs="1">
+                        <xsd:element
+                            name="ContentType"
+                            type="xsd:string"
+                            minOccurs="0">
+                        </xsd:element>
+                        <xsd:sequence
+                            minOccurs="0"
+                            maxOccurs="1">
+                            <xsd:element
+                                name="Charset"
+                                type="xsd:string"
+                                maxOccurs="1"
+                                minOccurs="1">
+                            </xsd:element>
+                            <xsd:element
+                                name="MimeType"
+                                type="xsd:string"
+                                maxOccurs="1"
+                                minOccurs="1">
+                            </xsd:element>
+                        </xsd:sequence>
+                    </xsd:choice>
                     <xsd:element
                         name="HistoryType"
                         type="xsd:string"
                         maxOccurs="1"
-                        minOccurs="1">
+                        minOccurs="0">
                     </xsd:element>
                     <xsd:element
                         name="HistoryComment"
                         type="xsd:string"
                         maxOccurs="1"
-                        minOccurs="1">
+                        minOccurs="0">
                     </xsd:element>
                     <xsd:element
                         name="AutoResponseType"
                         type="xsd:string"
                         maxOccurs="1"
-                        minOccurs="1">
+                        minOccurs="0">
                     </xsd:element>
 
                     <xsd:element
-                        name="OrigHeader"
-                        type="tns:OTRS_OrigHeader"
-                        maxOccurs="1"
+                        name="TimeUnit"
+                        type="xsd:positiveInteger"
                         minOccurs="0">
+                    </xsd:element>
+                    <xsd:element
+                        name="NoAgentNotify"
+                        type="xsd:positiveInteger"
+                        minOccurs="0">
+                    </xsd:element>
+                    <xsd:element
+                        name="ForceNotificationToUserID"
+                        type="xsd:positiveInteger" maxOccurs="unbounded" minOccurs="0">
+                    </xsd:element>
+                    <xsd:element
+                        name="ExcludeNotificationToUserID"
+                        type="xsd:positiveInteger" maxOccurs="unbounded" minOccurs="0">
+                    </xsd:element>
+                    <xsd:element
+                        name="ExcludeMuteNotificationToUserID"
+                        type="xsd:positiveInteger" maxOccurs="unbounded" minOccurs="0">
                     </xsd:element>
                 </xsd:sequence>
             </xsd:complexType>
 
-            <xsd:complexType name="OTRS_OrigHeader">
-                <xsd:sequence>
-                    <xsd:element
-                        name="From"
-                        type="xsd:string"
-                        maxOccurs="1"
-                        minOccurs="0">
-                    </xsd:element>
-                    <xsd:element
-                        name="To"
-                        type="xsd:string"
-                        maxOccurs="1"
-                        minOccurs="0">
-                    </xsd:element>
-                    <xsd:element
-                        name="Subject"
-                        type="xsd:string"
-                        maxOccurs="1"
-                        minOccurs="1">
-                    </xsd:element>
-                    <xsd:element
-                        name="Body"
-                        type="xsd:string"
-                        maxOccurs="1"
-                        minOccurs="1">
-                    </xsd:element>
-                </xsd:sequence>
-            </xsd:complexType>
 
             <xsd:complexType name="OTRS_DynamicField">
                 <xsd:sequence>
@@ -350,36 +357,18 @@
                         maxOccurs="1"
                         minOccurs="1">
                     </xsd:element>
-                    <xsd:choice
-                        maxOccurs="1"
-                        minOccurs="1">
-                        <xsd:element
-                            name="ValueInt"
-                            type="xsd:int"
-                            maxOccurs="1"
-                            minOccurs="0">
-                        </xsd:element>
-                        <xsd:element
-                            name="ValueStr"
-                            type="xsd:string"
-                            maxOccurs="1"
-                            minOccurs="0">
-                        </xsd:element>
-                        <xsd:element
-                            name="ValueDate"
-                            type="xsd:dateTime"
-                            maxOccurs="1"
-                            minOccurs="0">
-                        </xsd:element>
-                    </xsd:choice>
+                    <xsd:element
+                        name="Value"
+                        type="xsd:string" maxOccurs="unbounded">
+                    </xsd:element>
                 </xsd:sequence>
             </xsd:complexType>
 
             <xsd:complexType name="OTRS_Attachment">
                 <xsd:sequence>
                     <xsd:element
-                        name="Filesize"
-                        type="xsd:long"
+                        name="Content"
+                        type="xsd:base64Binary"
                         maxOccurs="1"
                         minOccurs="1">
                     </xsd:element>
@@ -392,12 +381,6 @@
                     <xsd:element
                         name="Filename"
                         type="xsd:string"
-                        maxOccurs="1"
-                        minOccurs="1">
-                    </xsd:element>
-                    <xsd:element
-                        name="Content"
-                        type="xsd:base64Binary"
                         maxOccurs="1"
                         minOccurs="1">
                     </xsd:element>
@@ -437,16 +420,35 @@
                         minOccurs="1">
                     </xsd:element>
                     <xsd:element
-                        name="NewElement"
+                        name="TicketNumber"
+                        type="xsd:string" minOccurs="1">
+                    </xsd:element>
+                    <xsd:element
+                        name="ArticleID"
                         type="xsd:positiveInteger"
                         maxOccurs="1"
                         minOccurs="1">
                     </xsd:element>
                     <xsd:element
                         name="Error"
-                        type="xsd:string"
+                        type="tns:OTRS_Error"
                         maxOccurs="1"
                         minOccurs="0">
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:complexType>
+        
+            <xsd:complexType name="OTRS_Error">
+                <xsd:sequence>
+                    <xsd:element
+                        name="ErrorCode"
+                        type="xsd:string"
+                        minOccurs="1"
+                        maxOccurs="1">
+                    </xsd:element>
+                    <xsd:element
+                        name="ErrorMessage"
+                        type="xsd:string" minOccurs="1">
                     </xsd:element>
                 </xsd:sequence>
             </xsd:complexType>
