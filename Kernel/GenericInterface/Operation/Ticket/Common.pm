@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Ticket/Common.pm - Ticket common operation functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.22 2012-01-04 05:01:36 cg Exp $
+# $Id: Common.pm,v 1.23 2012-01-04 15:58:47 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -39,7 +39,7 @@ use Kernel::System::GenericInterface::Webservice;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.22 $) [1];
+$VERSION = qw($Revision: 1.23 $) [1];
 
 =head1 NAME
 
@@ -197,7 +197,6 @@ performs user or customer user authorization
 sub Auth {
     my ( $Self, %Param ) = @_;
 
-    my $ReturnData = 0;
     my $SessionID = $Param{Data}->{SessionID} || '';
 
     # check if a valid SessionID is present
@@ -206,14 +205,15 @@ sub Auth {
         if ( defined $Param{Data}->{UserLogin} && $Param{Data}->{UserLogin} ) {
 
             # if UserLogin
-            return $Self->AuthUser(%Param);
+            return ( $Self->AuthUser(%Param), 'Agent' );
         }
         elsif ( defined $Param{Data}->{CustomerUserLogin} && $Param{Data}->{CustomerUserLogin} ) {
 
             # if UserCustomerLogin
-            return $Self->AuthCustomerUser(%Param);
+            return ( $Self->AuthCustomerUser(%Param), 'Customer' );
         }
 
+        return 0;
     }
 
     # get session data
@@ -223,15 +223,15 @@ sub Auth {
 
     # get UserID from SessionIDData
     if ( $UserData{UserType} ne 'Customer' ) {
-        $ReturnData = $UserData{UserID};
+        return ( $UserData{UserID}, 'Agent' );
     }
     else {
 
         # if UserCustomerLogin
-        $ReturnData = $UserData{UserLogin};
+        return ( $UserData{UserLogin}, 'Customer' );
     }
 
-    return $ReturnData;
+    return 0;
 }
 
 =item AuthUser()
@@ -1659,6 +1659,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.22 $ $Date: 2012-01-04 05:01:36 $
+$Revision: 1.23 $ $Date: 2012-01-04 15:58:47 $
 
 =cut
