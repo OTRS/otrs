@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Ticket/TicketCreate.pm - GenericInterface Ticket TicketCreate operation backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketCreate.pm,v 1.20 2012-01-04 03:45:21 cr Exp $
+# $Id: TicketCreate.pm,v 1.21 2012-01-04 04:49:47 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,7 +26,7 @@ use Kernel::GenericInterface::Operation::Ticket::Common;
 use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.20 $) [1];
+$VERSION = qw($Revision: 1.21 $) [1];
 
 =head1 NAME
 
@@ -92,6 +92,100 @@ perform TicketCreate Operation. This will return the created ticket number.
 
     my $Result = $OperationObject->Run(
         Data => {
+            UserLogin         => 'some agent login',                            # UserLogin or CustomerUserLogin or SessionID is
+                                                                                #   required
+            CustomerUserLogin => 'some customer login',
+            SessionID         => 123,
+
+            Password  => 'some password',                                       # if UserLogin or customerUserLogin is sent then
+                                                                                #   Password or CrypPaswd is required
+            CrypPaswd => 'some crypted password',
+
+            Ticket {
+                Title      => 'some ticket title',
+
+                QueueID       => 123,                                           # QueueID or Queue is required
+                Queue         => 'some queue name',
+
+                LockID        => 123,                                           # optional
+                Lock          => 'some lock name',                              # optional
+                TypeID        => 123,                                           # optional
+                Type          => 'some type name',                              # optional
+                ServiceID     => 123,                                           # optional
+                Service       => 'some service name',                           # optional
+                SLAID         => 123,                                           # optional
+                SLA           => 'some SLA name',                               # optional
+
+                StateID       => 123,                                           # StateID or State is required
+                State         => 'some state name',
+
+                PriorityID    => 123,                                           # PrioriyID or Priority is required
+                Priority      => 'some priority name',
+
+                OwnerID       => 123,                                           # optional
+                Owner         => 'some user login',                             # optional
+                ResponsibleID => 123,                                           # optional
+                Responsible   => 'some user login',                             # optioanl
+                CustomerUser  => 'some customer user login',
+
+                PendingTime {       # optional
+                    Year   => 2011,
+                    Month  => 12
+                    Day    => 03,
+                    Hour   => 23,
+                    Minute => 05,
+                },
+            },
+            Article {
+                ArticleTypeID                   => 123,                        # optional
+                ArticleType                     => 'some article type name',   # optional
+                SenderTypeID                    => 123,                        # optional
+                SenderType                      => 'some sender type name',    # optional
+                AutoResponseType                => 'some auto response type',  # optional
+                From                            => 'some from string',         # optional
+                Subject                         => 'some subject',
+                Body                            => 'some body'
+
+                ContentType                     => 'some content type',        # ContentType or MimeType and Charset is requieed
+                MimeType                        => 'some mime type',
+                Charset                         => 'some charset',
+
+                HistoryType                     => 'some history type',        # optional
+                HistoryComment                  => 'Some  history comment',    # optional
+                TimeUnit                        => 123,                        # optional
+                NoAgentNotify                   => 1,                          # optional
+                ForceNotificationToUserID       => [1, 2, 3]                   # optional
+                ExcludeNotificationToUserID     => [1, 2, 3]                   # optional
+                ExcludeMuteNotificationToUserID => [1, 2, 3]                   # optional
+            },
+
+            DynamicField => [                                                  # optional
+                {
+                    Name   => 'some name',
+                    Value  => $Value,                                          # value type depends on the dynamic field
+                },
+                # ...
+            ],
+            # or
+            # DynamicField {
+            #    Name   => 'some name',
+            #    Value  => $Value,
+            #},
+
+            Attachment [
+                {
+                    Content     => 'content'                                 # base64 encoded
+                    ContentType => 'some content type'
+                    Filename    => 'some fine name'
+                },
+                # ...
+            ],
+            #or
+            #Attachment {
+            #    Content     => 'content'
+            #    ContentType => 'some content type'
+            #    Filename    => 'some fine name'
+            #},
         },
     );
 
@@ -100,6 +194,7 @@ perform TicketCreate Operation. This will return the created ticket number.
         ErrorMessage    => '',                      # in case of error
         Data            => {                        # result data payload after Operation
             TicketID    => 123,                     # Ticket  ID number in OTRS (help desk system)
+            TicketNumber => 2324454323322           # Ticket Number in OTRS (Help desk system)
             ArticleID   => 43,                      # Article ID number in OTRS (help desk system)
             Error => {                              # should not return errors
                     ErrorCode    => 'Ticket.Create.ErrorCode'
@@ -537,17 +632,14 @@ sub _CheckTicket {
     }
 
     # check Ticket->Owner
-    if ( !$Ticket->{OwnerID} && !$Ticket->{Owner} ) {
-        return {
-            ErrorCode    => 'TicketCreate.MissingParameter',
-            ErrorMessage => "TicketCreate: Ticket->OwnerID or Ticket->Owner parameter is required!",
-        };
-    }
-    if ( !$Self->{TicketCommonObject}->ValidateOwner( %{$Ticket} ) ) {
-        return {
-            ErrorCode    => 'TicketCreate.InvalidParameter',
-            ErrorMessage => "TicketCreate: Ticket->OwnerID or Ticket->Owner parameter is invalid!",
-        };
+    if ( $Ticket->{OwnerID} || $Ticket->{Owner} ) {
+        if ( !$Self->{TicketCommonObject}->ValidateOwner( %{$Ticket} ) ) {
+            return {
+                ErrorCode => 'TicketCreate.InvalidParameter',
+                ErrorMessage =>
+                    "TicketCreate: Ticket->OwnerID or Ticket->Owner parameter is invalid!",
+            };
+        }
     }
 
     # check Ticket->Responsible
@@ -1323,6 +1415,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.20 $ $Date: 2012-01-04 03:45:21 $
+$Revision: 1.21 $ $Date: 2012-01-04 04:49:47 $
 
 =cut
