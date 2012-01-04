@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Ticket/TicketCreate.pm - GenericInterface Ticket TicketCreate operation backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketCreate.pm,v 1.21 2012-01-04 04:49:47 cr Exp $
+# $Id: TicketCreate.pm,v 1.22 2012-01-04 16:20:42 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,7 +26,7 @@ use Kernel::GenericInterface::Operation::Ticket::Common;
 use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
+$VERSION = qw($Revision: 1.22 $) [1];
 
 =head1 NAME
 
@@ -236,7 +236,7 @@ sub Run {
     }
 
     # authenticate user
-    my $UserID = $Self->{TicketCommonObject}->AuthUser(%Param);
+    my ( $UserID, $UserType ) = $Self->{TicketCommonObject}->Auth(%Param);
 
     if ( !$UserID ) {
         return $Self->{TicketCommonObject}->ReturnError(
@@ -306,8 +306,9 @@ sub Run {
 
     # check create permissions
     my $Permission = $Self->{TicketCommonObject}->CheckCreatePermissions(
-        Ticket => $Ticket,
-        UserID => $UserID,
+        Ticket   => $Ticket,
+        UserID   => $UserID,
+        UserType => $UserType,
     );
 
     if ( !$Permission ) {
@@ -319,6 +320,9 @@ sub Run {
 
     # isolate Article parameter
     my $Article = $Param{Data}->{Article};
+
+    # add UserType to Validate ArticleType
+    $Article->{UserType} = $UserType;
 
     # remove leading and trailing spaces
     for my $Attribute ( keys %{$Article} ) {
@@ -1415,6 +1419,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.21 $ $Date: 2012-01-04 04:49:47 $
+$Revision: 1.22 $ $Date: 2012-01-04 16:20:42 $
 
 =cut
