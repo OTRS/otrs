@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Ticket/SessionIDGet.pm - GenericInterface Ticket Get operation backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: SessionIDGet.pm,v 1.2 2012-01-03 04:24:32 cg Exp $
+# $Id: SessionIDGet.pm,v 1.3 2012-01-04 05:02:26 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::GenericInterface::Operation::Ticket::Common;
 use Kernel::System::VariableCheck qw(IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 =head1 NAME
 
@@ -96,7 +96,7 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for my $Needed (qw( UserLogin Password )) {
+    for my $Needed (qw( Password )) {
         if ( !$Param{Data}->{$Needed} ) {
             return $Self->{TicketCommonObject}->ReturnError(
                 ErrorCode    => 'SessionIDGet.MissingParameter',
@@ -141,6 +141,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.2 $ $Date: 2012-01-03 04:24:32 $
+$Revision: 1.3 $ $Date: 2012-01-04 05:02:26 $
 
 =cut
