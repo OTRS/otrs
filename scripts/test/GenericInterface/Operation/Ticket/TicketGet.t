@@ -2,7 +2,7 @@
 # TicketGet.t - GenericInterface transport interface tests for TicketConnector backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketGet.t,v 1.5 2012-01-03 04:19:02 cg Exp $
+# $Id: TicketGet.t,v 1.6 2012-01-04 23:38:46 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -202,12 +202,14 @@ $Self->Is(
 );
 
 # start requester with our webservice
+my $UserLogin              = 'root@localhost';
+my $Password               = 'root';
 my $RequesterSessionResult = $RequesterSessionObject->Run(
     WebserviceID => $WebserviceID,
     Invoker      => 'SessionIDGet',
     Data         => {
-        UserLogin => 'root@localhost',
-        Password  => 'root',
+        UserLogin => $UserLogin,
+        Password  => $Password,
     },
 );
 
@@ -218,6 +220,8 @@ my @Tests        = (
         SuccessRequest => 1,
         RequestData    => {
             SessionID => $NewSessionID,
+            UserLogin => $UserLogin,
+            Password  => $Password,
         },
         ExpectedReturnLocalData => {
             Data => {
@@ -245,6 +249,8 @@ my @Tests        = (
         RequestData    => {
             SessionID => $NewSessionID,
             TicketID  => 'NotTicketID',
+            UserLogin => $UserLogin,
+            Password  => $Password,
         },
         ExpectedReturnLocalData => {
             Data => {
@@ -274,6 +280,8 @@ my @Tests        = (
         RequestData    => {
             TicketID  => $TicketID,
             SessionID => $NewSessionID,
+            UserLogin => $UserLogin,
+            Password  => $Password,
         },
         ExpectedReturnRemoteData => {
             Success => 1,
