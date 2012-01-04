@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Ticket/TicketCreate.pm - GenericInterface Ticket TicketCreate operation backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketCreate.pm,v 1.19 2012-01-03 05:16:07 cr Exp $
+# $Id: TicketCreate.pm,v 1.20 2012-01-04 03:45:21 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,7 +26,7 @@ use Kernel::GenericInterface::Operation::Ticket::Common;
 use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.19 $) [1];
+$VERSION = qw($Revision: 1.20 $) [1];
 
 =head1 NAME
 
@@ -114,13 +114,40 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for my $Needed (qw(UserLogin)) {
-        if ( !$Param{Data}->{$Needed} ) {
+    if (
+        !$Param{Data}->{UserLogin}
+        && !$Param{Data}->{CustomerUserLogin}
+        && !$Param{Data}->{SessionID}
+        )
+    {
+        return $Self->{TicketCommonObject}->ReturnError(
+            ErrorCode    => 'TicketCreate.MissingParameter',
+            ErrorMessage => "TicketCreate: UserLogin, CustomerUserLogin or SessionID is required!",
+        );
+    }
+
+    if ( $Param{Data}->{UserLogin} || $Param{Data}->{CustomerUserLogin} ) {
+
+        if (
+            !$Param{Data}->{Password}
+            && !$Param{Data}->{CrypPaswd}
+            )
+        {
             return $Self->{TicketCommonObject}->ReturnError(
                 ErrorCode    => 'TicketCreate.MissingParameter',
-                ErrorMessage => "TicketCreate: $Needed parameter is missing!",
+                ErrorMessage => "TicketCreate: Password, CrypPaswd, SessionID is required!",
             );
         }
+    }
+
+    # authenticate user
+    my $UserID = $Self->{TicketCommonObject}->AuthUser(%Param);
+
+    if ( !$UserID ) {
+        return $Self->{TicketCommonObject}->ReturnError(
+            ErrorCode    => 'TicketCreate.AuthFail',
+            ErrorMessage => "TicketCreate: User could not be authenticated!",
+        );
     }
 
     # check needed hashes
@@ -147,10 +174,6 @@ sub Run {
             );
         }
     }
-
-    #TODO Auth user
-    #TODO Check for user create permissions
-    my $UserID = 1;
 
     # isolate ticket parameter
     my $Ticket = $Param{Data}->{Ticket};
@@ -184,6 +207,19 @@ sub Run {
 
     if ( !$TicketCheck->{Success} ) {
         return $Self->{TicketCommonObject}->ReturnError( %{$TicketCheck} );
+    }
+
+    # check create permissions
+    my $Permission = $Self->{TicketCommonObject}->CheckCreatePermissions(
+        Ticket => $Ticket,
+        UserID => $UserID,
+    );
+
+    if ( !$Permission ) {
+        return $Self->{TicketCommonObject}->ReturnError(
+            ErrorCode    => 'TicketCreate.AccessDenied',
+            ErrorMessage => "TicketCreate: Can not create tickets in given Queue or QueueID!",
+        );
     }
 
     # isolate Article parameter
@@ -1287,6 +1323,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.19 $ $Date: 2012-01-03 05:16:07 $
+$Revision: 1.20 $ $Date: 2012-01-04 03:45:21 $
 
 =cut
