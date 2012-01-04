@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Auth/DB.pm - provides the db authentication
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.30 2010-08-02 16:53:02 cr Exp $
+# $Id: DB.pm,v 1.31 2012-01-04 22:02:17 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Digest::SHA::PurePerl qw(sha1_hex sha256_hex);
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.30 $) [1];
+$VERSION = qw($Revision: 1.31 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -107,6 +107,12 @@ sub Auth {
         )
     {
         $CryptedPw = $Pw;
+    }
+
+    # pre-crypted password
+    elsif ( defined $Param{CrypPaswd} && $Param{CrypPaswd} ne '' ) {
+        $CryptedPw = $Param{CrypPaswd};
+        $Pw        = $CryptedPw;
     }
 
     # md5 or sha pw
