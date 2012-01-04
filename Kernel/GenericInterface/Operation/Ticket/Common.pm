@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Ticket/Common.pm - Ticket common operation functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.23 2012-01-04 15:58:47 cg Exp $
+# $Id: Common.pm,v 1.24 2012-01-04 16:19:37 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -39,7 +39,7 @@ use Kernel::System::GenericInterface::Webservice;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.23 $) [1];
+$VERSION = qw($Revision: 1.24 $) [1];
 
 =head1 NAME
 
@@ -223,12 +223,12 @@ sub Auth {
 
     # get UserID from SessionIDData
     if ( $UserData{UserType} ne 'Customer' ) {
-        return ( $UserData{UserID}, 'Agent' );
+        return ( $UserData{UserID}, $UserData{UserType} );
     }
     else {
 
         # if UserCustomerLogin
-        return ( $UserData{UserLogin}, 'Customer' );
+        return ( $UserData{UserLogin}, $UserData{UserType} );
     }
 
     return 0;
@@ -1057,8 +1057,9 @@ sub ValidateArticleType {
     my %ArticleTypeList = $Self->{TicketObject}->ArticleTypeList(
         Result => 'HASH',
 
-        # add type parameter for customer interface
-        # Type   => 'Customer',
+        # add type parameter for customer as requester with UserType parameter, if is not set
+        # to  'Customer' the Type parameter is ignored
+        Type => $Param{UserType} || '',
     );
 
     # check for ArticleType name sent
@@ -1520,18 +1521,29 @@ sub CheckCreatePermissions {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for my $Needed (qw(Ticket UserID)) {
+    for my $Needed (qw(Ticket UserID UserType)) {
         if ( !$Param{$Needed} ) {
             return;
         }
     }
 
-    # get create permission queues
-    my %UserGroups = $Self->{GroupObject}->GroupMemberList(
-        UserID => $Param{UserID},
-        Type   => 'create',
-        Result => 'HASH',
-    );
+    # get create permission groups
+    my %UserGroups;
+
+    if ( $Param{UserType} ne 'Customer' ) {
+        %UserGroups = $Self->{GroupObject}->GroupMemberList(
+            UserID => $Param{UserID},
+            Type   => 'create',
+            Result => 'HASH',
+        );
+    }
+    else {
+        %UserGroups = $Self->{CustomerGroupObject}->GroupMemberList(
+            UserID => $Param{UserID},
+            Type   => 'create',
+            Result => 'HASH',
+        );
+    }
 
     my %QueueData;
     if ( defined $Param{Ticket}->{Queue} && $Param{Ticket}->{Queue} ne '' ) {
@@ -1659,6 +1671,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.23 $ $Date: 2012-01-04 15:58:47 $
+$Revision: 1.24 $ $Date: 2012-01-04 16:19:37 $
 
 =cut
