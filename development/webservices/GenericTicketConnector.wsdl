@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- $Id: GenericTicketConnector.wsdl,v 1.5 2012-01-04 16:27:21 cr Exp $ -->
+<!-- $Id: GenericTicketConnector.wsdl,v 1.6 2012-01-04 16:48:37 cr Exp $ -->
 <wsdl:definitions
     name="GenericTicketConnector"
     targetNamespace="http://www.otrs.org/TicketConnector/"
@@ -348,7 +348,6 @@
                 </xsd:sequence>
             </xsd:complexType>
 
-
             <xsd:complexType name="OTRS_DynamicField">
                 <xsd:sequence>
                     <xsd:element
@@ -437,7 +436,7 @@
                     </xsd:element>
                 </xsd:sequence>
             </xsd:complexType>
-        
+
             <xsd:complexType name="OTRS_Error">
                 <xsd:sequence>
                     <xsd:element
@@ -452,8 +451,31 @@
                     </xsd:element>
                 </xsd:sequence>
             </xsd:complexType>
+            <xsd:complexType name="OTRS_TicketUpdate"></xsd:complexType>
+            <xsd:complexType name="OTRS_TicketUpdateResponse"></xsd:complexType>
         </xsd:schema>
     </wsdl:types>
+    <wsdl:types><xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.otrs.org/TicketConnector/">
+    <xsd:element name="TicketUpdate">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element
+                    name="in"
+                    type="xsd:string">
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="TicketUpdateResponse">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element
+                    name="out"
+                    type="xsd:string">
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element></xsd:schema></wsdl:types>
     <wsdl:message name="TicketCreateRequest">
         <wsdl:part
             name="TicketCreate"
@@ -465,12 +487,60 @@
             name="TicketCreateResponse" type="tns:OTRS_TicketCreateResponse">
         </wsdl:part>
     </wsdl:message>
+    <wsdl:message name="TicketUpdateRequest">
+        <wsdl:part
+            name="TicketUpdate"
+            type="tns:OTRS_TicketUpdate">
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="TicketUpdateResponse">
+        <wsdl:part
+            name="TicketUpdateResponse"
+            type="tns:OTRS_TicketUpdateResponse">
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="TicketGetRequest">
+        <wsdl:part
+            name="TicketGet"
+            type="xsd:string">
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="TicketGetResponse">
+        <wsdl:part
+            name="TicketGetResponse"
+            type="xsd:string">
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="TicketSearchRequest">
+        <wsdl:part
+            name="TicketSearch"
+            type="xsd:string">
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="TicketSearchResponse">
+        <wsdl:part
+            name="TicketSearchResponse"
+            type="xsd:string">
+        </wsdl:part>
+    </wsdl:message>
     <wsdl:portType name="GenericTicketConnector_Interface">
         <wsdl:documentation>Warning: This WSDL file is for Development and Test purposes ONLY!
 </wsdl:documentation>
         <wsdl:operation name="TicketCreate">
             <wsdl:input message="tns:TicketCreateRequest"></wsdl:input>
             <wsdl:output message="tns:TicketCreateResponse"></wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="TicketUpdate">
+            <wsdl:input message="tns:TicketUpdateRequest"></wsdl:input>
+            <wsdl:output message="tns:TicketUpdateResponse"></wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="TicketGet">
+            <wsdl:input message="tns:TicketGetRequest"></wsdl:input>
+            <wsdl:output message="tns:TicketGetResponse"></wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="TicketSearch">
+            <wsdl:input message="tns:TicketSearchRequest"></wsdl:input>
+            <wsdl:output message="tns:TicketSearchResponse"></wsdl:output>
         </wsdl:operation>
     </wsdl:portType>
     <wsdl:binding
@@ -489,7 +559,38 @@
                 <soap:body use="literal" />
             </wsdl:output>
         </wsdl:operation>
+        <wsdl:operation name="TicketUpdate">
+            <soap:operation
+                soapAction="http://www.otrs.org/TicketConnector/TicketUpdate" />
+            <wsdl:input>
+                <soap:body use="literal" />
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" />
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="TicketGet">
+            <soap:operation
+                soapAction="http://www.otrs.org/TicketConnector/TicketGet" />
+            <wsdl:input>
+                <soap:body use="literal" />
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" />
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="TicketSearch">
+            <soap:operation
+                soapAction="http://www.otrs.org/TicketConnector/TicketSearch" />
+            <wsdl:input>
+                <soap:body use="literal" />
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" />
+            </wsdl:output>
+        </wsdl:operation>
     </wsdl:binding>
+
     <wsdl:service name="GenericTicketConnector">
         <wsdl:port name="GenericTicketConnector_endPoint" binding="tns:GenericTicketConnector_Service">
             <soap:address location="http://localhost/otrs/nph-genericinterface.pl/Webservice/GenericTicketConnector" />
