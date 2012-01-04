@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Ticket/Common.pm - Ticket common operation functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.20 2012-01-03 05:13:37 cr Exp $
+# $Id: Common.pm,v 1.21 2012-01-04 03:44:09 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -36,7 +36,7 @@ use Kernel::System::GenericInterface::Webservice;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.20 $) [1];
+$VERSION = qw($Revision: 1.21 $) [1];
 
 =head1 NAME
 
@@ -1259,8 +1259,8 @@ checks if the given dynamic field value is valid.
     );
 
     my $Sucess = $CommonObject->ValidateDynamicFieldValue(
-        Value => [
-            'some value',
+        Value => [                      # Only for fields that can handle multiple values like
+            'some value',               #   Miltiselect
             'some other value',
         ],
     );
@@ -1280,38 +1280,11 @@ sub ValidateDynamicFieldValue {
     # get dynamic field config
     my $DynamicFieldConfig = $Self->{DynamicFieldLookup}->{ $Param{Name} };
 
-    # get the value type
-    my $ValueType = $Self->{DFBackendObject}->ValueTypeGet(
+    my $ValueType = $Self->{DFBackendObject}->ValueValidate(
         DynamicFieldConfig => $DynamicFieldConfig,
+        Value              => $Param{Value},
+        UserID             => 1,
     );
-
-    return if !$ValueType;
-
-    # check for multiple values (i.e. MultiSelect)
-    my @ValueList;
-    if ( IsArrayRefWithData( $Param{Value} ) ) {
-        @ValueList = @{ $Param{Value} };
-    }
-    else {
-        push @ValueList, $Param{Value};
-    }
-
-    for my $Value (@ValueList) {
-
-        # call internal function to validate the date on the correct value type
-        if ( $ValueType eq 'STRING' ) {
-            return $Self->_ValidateString( Value => $Value );
-        }
-        elsif ( $ValueType eq 'INTEGER' ) {
-            return $Self->_ValidateInteger( Value => $Value );
-        }
-        elsif ( $ValueType eq 'DATETIME' ) {
-            return $Self->_ValidateDateTime( Value => $Value );
-        }
-        else {
-            return;
-        }
-    }
 }
 
 =item SetDynamicFieldValue()
@@ -1440,6 +1413,41 @@ sub CreateAttachment {
         }
 }
 
+=item CheckCreatePermissions ()
+
+=cut
+
+sub CheckCreatePermissions {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Needed (qw(Ticket UserID)) {
+        if ( !$Param{$Needed} ) {
+            return;
+        }
+    }
+
+    # get create permission queues
+    my %UserGroups = $Self->{GroupObject}->GroupMemberList(
+        UserID => $Param{UserID},
+        Type   => 'create',
+        Result => 'HASH',
+    );
+
+    my %QueueData;
+    if ( defined $Param{Ticket}->{Queue} && $Param{Ticket}->{Queue} ne '' ) {
+        %QueueData = $Self->{QueueObject}->QueueGet( Name => $Param{Ticket}->{Queue} );
+    }
+    else {
+        %QueueData = $Self->{QueueObject}->QueueGet( ID => $Param{Ticket}->{QueueID} );
+    }
+
+    # permission check, can we create new tickets in queue
+    return if !$UserGroups{ $QueueData{GroupID} };
+
+    return 1;
+}
+
 =begin Internal:
 
 =item _ValidateUser()
@@ -1534,90 +1542,6 @@ sub _CharsetList {
     return \%CharsetHash;
 }
 
-=item _ValidateString()
-
-checks if the value is a string.
-
-    my $Success = $CommonObject->_ValidateString(
-        Value => 'some text',
-    );
-
-    returns
-    $Success = 1            # or 0
-
-=cut
-
-sub _ValidateString {
-    my ( $Self, %Param ) = @_;
-
-    return if !IsString( $Param{Value} );
-
-    return 1
-}
-
-=item _ValidateInteger()
-
-checks if the value is an integer.
-
-    my $Success = $CommonObject->_ValidateInteger(
-        Value => 1,
-    );
-
-    returns
-    $Success = 1            # or 0
-
-=cut
-
-sub _ValidateInteger {
-    my ( $Self, %Param ) = @_;
-
-    return if !IsInteger( $Param{Value} );
-
-    return 1
-}
-
-=item _ValidateDateTime()
-
-checks if the value is a string.
-
-    my $Success = $CommonObject->_ValidateDateTime(
-        Value => '1977-12-12 12:00:00',
-    );
-
-    my $Success = $CommonObject->_ValidateDateTime(
-        Value => '1983-04-16',
-    );
-
-    returns
-    $Success = 1            # or 0
-
-=cut
-
-sub _ValidateDateTime {
-    my ( $Self, %Param ) = @_;
-
-    my $String;
-
-    # check if value is DateTime
-    if ( $Param{Value} =~ m{\A \d{4} - \d{2} -\d{2} [ ] \d{2} : \d{2} : \d{2} \z}xms ) {
-        $String = $Param{Value};
-    }
-
-    # check if value is only Date
-    elsif ( $Param{Value} =~ m{\A \d{4} - \d{2} -\d{2}\z}xms ) {
-        $String = $Param{Value} . ' 00:00:00'
-    }
-    else {
-        return;
-    }
-
-    my $SystemTime = $Self->{TimeObject}->TimeStamp2SystemTime( String => $String );
-
-    return if !$SystemTime;
-
-    return 1
-}
-
 1;
 
 =end Internal:
@@ -1636,6 +1560,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.20 $ $Date: 2012-01-03 05:13:37 $
+$Revision: 1.21 $ $Date: 2012-01-04 03:44:09 $
 
 =cut
