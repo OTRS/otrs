@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- $Id: GenericTicketConnector.wsdl,v 1.6 2012-01-04 16:48:37 cr Exp $ -->
+<!-- $Id: GenericTicketConnector.wsdl,v 1.7 2012-01-04 16:52:00 cr Exp $ -->
 <wsdl:definitions
     name="GenericTicketConnector"
     targetNamespace="http://www.otrs.org/TicketConnector/"
@@ -13,12 +13,6 @@
         <xsd:schema
             xmlns:xsd="http://www.w3.org/2001/XMLSchema"
             targetNamespace="http://www.otrs.org/TicketConnector/">
-            <xsd:element
-                name="in"
-                type="xsd:string"></xsd:element>
-            <xsd:element
-                name="out"
-                type="xsd:string"></xsd:element>
             <xsd:complexType name="TicketCreate"></xsd:complexType>
             <xsd:complexType name="OTRS_TicketCreate">
                 <xsd:sequence>
