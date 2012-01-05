@@ -2,7 +2,7 @@
 # TicketGet.t - GenericInterface transport interface tests for TicketConnector backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketGet.t,v 1.6 2012-01-04 23:38:46 cg Exp $
+# $Id: TicketGet.t,v 1.7 2012-01-05 03:11:42 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -216,13 +216,9 @@ my $RequesterSessionResult = $RequesterSessionObject->Run(
 my $NewSessionID = $RequesterSessionResult->{Data}->{SessionID};
 my @Tests        = (
     {
-        Name           => 'Test 1',
-        SuccessRequest => 1,
-        RequestData    => {
-            SessionID => $NewSessionID,
-            UserLogin => $UserLogin,
-            Password  => $Password,
-        },
+        Name                    => 'Test 1',
+        SuccessRequest          => 1,
+        RequestData             => {},
         ExpectedReturnLocalData => {
             Data => {
                 Error => {
@@ -247,10 +243,7 @@ my @Tests        = (
         Name           => 'Test 2',
         SuccessRequest => 1,
         RequestData    => {
-            SessionID => $NewSessionID,
-            TicketID  => 'NotTicketID',
-            UserLogin => $UserLogin,
-            Password  => $Password,
+            TicketID => 'NotTicketID',
         },
         ExpectedReturnLocalData => {
             Data => {
@@ -278,10 +271,7 @@ my @Tests        = (
         Name           => 'Test 3',
         SuccessRequest => '1',
         RequestData    => {
-            TicketID  => $TicketID,
-            SessionID => $NewSessionID,
-            UserLogin => $UserLogin,
-            Password  => $Password,
+            TicketID => $TicketID,
         },
         ExpectedReturnRemoteData => {
             Success => 1,
@@ -341,7 +331,11 @@ for my $Test (@Tests) {
     my $LocalResult = $LocalObject->Run(
         WebserviceID => $WebserviceID,
         Invoker      => $Test->{Operation},
-        Data         => $Test->{RequestData},
+        Data         => {
+            UserLogin => $UserLogin,
+            Password  => $Password,
+            %{ $Test->{RequestData} },
+            }
     );
 
     # check result
@@ -363,7 +357,10 @@ for my $Test (@Tests) {
     my $RequesterResult = $RequesterObject->Run(
         WebserviceID => $WebserviceID,
         Invoker      => $Test->{Operation},
-        Data         => $Test->{RequestData},
+        Data         => {
+            SessionID => $NewSessionID,
+            %{ $Test->{RequestData} },
+            }
     );
 
     # check result
