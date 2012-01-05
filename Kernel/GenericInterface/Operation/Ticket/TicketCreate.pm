@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Ticket/TicketCreate.pm - GenericInterface Ticket TicketCreate operation backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketCreate.pm,v 1.23 2012-01-05 04:49:10 cr Exp $
+# $Id: TicketCreate.pm,v 1.24 2012-01-05 18:07:13 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,7 +26,7 @@ use Kernel::GenericInterface::Operation::Ticket::Common;
 use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.23 $) [1];
+$VERSION = qw($Revision: 1.24 $) [1];
 
 =head1 NAME
 
@@ -98,8 +98,7 @@ perform TicketCreate Operation. This will return the created ticket number.
             SessionID         => 123,
 
             Password  => 'some password',                                       # if UserLogin or customerUserLogin is sent then
-                                                                                #   Password or CrypPaswd is required
-            CrypPaswd => 'some crypted password',
+                                                                                #   Password is required
 
             Ticket {
                 Title      => 'some ticket title',
@@ -223,14 +222,11 @@ sub Run {
 
     if ( $Param{Data}->{UserLogin} || $Param{Data}->{CustomerUserLogin} ) {
 
-        if (
-            !$Param{Data}->{Password}
-            && !$Param{Data}->{CrypPaswd}
-            )
+        if ( !$Param{Data}->{Password} )
         {
             return $Self->{TicketCommonObject}->ReturnError(
                 ErrorCode    => 'TicketCreate.MissingParameter',
-                ErrorMessage => "TicketCreate: Password, CrypPaswd, SessionID is required!",
+                ErrorMessage => "TicketCreate: Password or SessionID is required!",
             );
         }
     }
@@ -1432,6 +1428,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.23 $ $Date: 2012-01-05 04:49:10 $
+$Revision: 1.24 $ $Date: 2012-01-05 18:07:13 $
 
 =cut
