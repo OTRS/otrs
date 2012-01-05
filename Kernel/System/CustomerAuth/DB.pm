@@ -2,7 +2,7 @@
 # Kernel/System/CustomerAuth/DB.pm - provides the db authentication
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.33 2012-01-04 22:25:26 cg Exp $
+# $Id: DB.pm,v 1.34 2012-01-05 17:15:32 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Crypt::PasswdMD5 qw(unix_md5_crypt);
 use Digest::SHA::PurePerl qw(sha1_hex sha256_hex);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.33 $) [1];
+$VERSION = qw($Revision: 1.34 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -130,12 +130,6 @@ sub Auth {
 
     if ( $Self->{CryptType} eq 'plain' ) {
         $CryptedPw = $Pw;
-    }
-
-    # pre-crypted password
-    elsif ( defined $Param{CrypPaswd} && $Param{CrypPaswd} ne '' ) {
-        $CryptedPw = $Param{CrypPaswd};
-        $Pw        = $CryptedPw;
     }
 
     # md5 or sha pw
