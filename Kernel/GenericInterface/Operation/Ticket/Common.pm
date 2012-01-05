@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Ticket/Common.pm - Ticket common operation functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.24 2012-01-04 16:19:37 cr Exp $
+# $Id: Common.pm,v 1.25 2012-01-05 03:10:38 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -39,7 +39,7 @@ use Kernel::System::GenericInterface::Webservice;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.24 $) [1];
+$VERSION = qw($Revision: 1.25 $) [1];
 
 =head1 NAME
 
@@ -200,35 +200,37 @@ sub Auth {
     my $SessionID = $Param{Data}->{SessionID} || '';
 
     # check if a valid SessionID is present
-    if ( !$Self->{SessionObject}->CheckSessionID( SessionID => $SessionID ) ) {
+    if ($SessionID) {
+        my $ValidSessionID =
+            $Self->{SessionObject}->CheckSessionID( SessionID => $SessionID ) if $SessionID;
+        return if !$ValidSessionID;
 
-        if ( defined $Param{Data}->{UserLogin} && $Param{Data}->{UserLogin} ) {
+        # get session data
+        my %UserData = $Self->{SessionObject}->GetSessionIDData(
+            SessionID => $SessionID,
+        );
 
-            # if UserLogin
-            return ( $Self->AuthUser(%Param), 'Agent' );
+        # get UserID from SessionIDData
+        if ( $UserData{UserType} ne 'Customer' ) {
+            return ( $UserData{UserID}, $UserData{UserType} );
         }
-        elsif ( defined $Param{Data}->{CustomerUserLogin} && $Param{Data}->{CustomerUserLogin} ) {
+        else {
 
             # if UserCustomerLogin
-            return ( $Self->AuthCustomerUser(%Param), 'Customer' );
+            return ( $UserData{UserLogin}, $UserData{UserType} );
         }
-
         return 0;
     }
 
-    # get session data
-    my %UserData = $Self->{SessionObject}->GetSessionIDData(
-        SessionID => $SessionID,
-    );
+    if ( defined $Param{Data}->{UserLogin} && $Param{Data}->{UserLogin} ) {
 
-    # get UserID from SessionIDData
-    if ( $UserData{UserType} ne 'Customer' ) {
-        return ( $UserData{UserID}, $UserData{UserType} );
+        # if UserLogin
+        return ( $Self->AuthUser(%Param), 'Agent' );
     }
-    else {
+    elsif ( defined $Param{Data}->{CustomerUserLogin} && $Param{Data}->{CustomerUserLogin} ) {
 
         # if UserCustomerLogin
-        return ( $UserData{UserLogin}, $UserData{UserType} );
+        return ( $Self->AuthCustomerUser(%Param), 'Customer' );
     }
 
     return 0;
@@ -256,13 +258,18 @@ sub AuthUser {
     my $ReturnData = 0;
 
     # get params
-    my $PostUser = $Param{Data}->{UserLogin} || '';
-    my $PostPw   = $Param{Data}->{Password}  || '';
+    my $PostUser   = $Param{Data}->{UserLogin} || '';
+    my $PostPw     = $Param{Data}->{Password}  || '';
+    my $PostCrypPw = $Param{Data}->{CrypPaswd} || '';
 
     # check submitted data
-    my $User = $Self->{AuthObject}->Auth( User => $PostUser, Pw => $PostPw );
+    my $User = $Self->{AuthObject}->Auth(
+        User      => $PostUser,
+        Pw        => $PostPw,
+        CrypPaswd => $PostCrypPw
+    );
 
-    # login is invalid
+    # login is valid
     if ($User) {
 
         # get UserID
@@ -297,11 +304,16 @@ sub AuthCustomerUser {
     my $ReturnData = $Param{Data}->{CustomerUserLogin} || 0;
 
     # get params
-    my $PostUser = $Param{Data}->{CustomerUserLogin} || '';
-    my $PostPw   = $Param{Data}->{Password}          || '';
+    my $PostUser   = $Param{Data}->{CustomerUserLogin} || '';
+    my $PostPw     = $Param{Data}->{Password}          || '';
+    my $PostCrypPw = $Param{Data}->{CrypPaswd}         || '';
 
     # check submitted data
-    my $User = $Self->{CustomerAuthObject}->Auth( User => $PostUser, Pw => $PostPw );
+    my $User = $Self->{CustomerAuthObject}->Auth(
+        User      => $PostUser,
+        Pw        => $PostPw,
+        CrypPaswd => $PostCrypPw,
+    );
 
     # login is invalid
     if ( !$User ) {
@@ -334,7 +346,8 @@ sub GetSessionID {
     my %UserData;
 
     # get params
-    my $PostPw = $Param{Data}->{Password} || '';
+    my $PostPw     = $Param{Data}->{Password}  || '';
+    my $PostCrypPw = $Param{Data}->{CrypPaswd} || '';
 
     if ( defined $Param{Data}->{UserLogin} && $Param{Data}->{UserLogin} ) {
 
@@ -342,7 +355,11 @@ sub GetSessionID {
         my $PostUser = $Param{Data}->{UserLogin} || $Param{Data}->{UserLogin} || '';
 
         # check submitted data
-        $User = $Self->{AuthObject}->Auth( User => $PostUser, Pw => $PostPw );
+        $User = $Self->{AuthObject}->Auth(
+            User      => $PostUser,
+            Pw        => $PostPw,
+            CrypPaswd => $PostCrypPw,
+        );
         %UserData = $Self->{UserObject}->GetUserData( User => $User, Valid => 1 );
     }
     elsif ( defined $Param{Data}->{CustomerUserLogin} && $Param{Data}->{CustomerUserLogin} ) {
@@ -351,7 +368,11 @@ sub GetSessionID {
         my $PostUser = $Param{Data}->{CustomerUserLogin} || $Param{Data}->{CustomerUserLogin} || '';
 
         # check submitted data
-        $User = $Self->{CustomerAuthObject}->Auth( User => $PostUser, Pw => $PostPw );
+        $User = $Self->{CustomerAuthObject}->Auth(
+            User      => $PostUser,
+            Pw        => $PostPw,
+            CrypPaswd => $PostCrypPw,
+        );
         %UserData
             = $Self->{CustomerUserObject}->CustomerUserDataGet( User => $PostUser, Valid => 1 );
     }
@@ -1671,6 +1692,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.24 $ $Date: 2012-01-04 16:19:37 $
+$Revision: 1.25 $ $Date: 2012-01-05 03:10:38 $
 
 =cut
