@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Ticket/TicketGet.pm - GenericInterface Ticket Get operation backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketGet.pm,v 1.7 2012-01-04 05:03:32 cg Exp $
+# $Id: TicketGet.pm,v 1.8 2012-01-05 03:30:31 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::GenericInterface::Operation::Ticket::Common;
 use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 =head1 NAME
 
@@ -98,7 +98,7 @@ perform TicketGet Operation. This will return a Ticket entry.
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $UserID = $Self->{TicketCommonObject}->Auth(
+    my ( $UserID, $UserType ) = $Self->{TicketCommonObject}->Auth(
         %Param
     );
 
@@ -258,6 +258,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.7 $ $Date: 2012-01-04 05:03:32 $
+$Revision: 1.8 $ $Date: 2012-01-05 03:30:31 $
 
 =cut
