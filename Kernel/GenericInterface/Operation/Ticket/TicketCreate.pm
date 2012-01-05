@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Ticket/TicketCreate.pm - GenericInterface Ticket TicketCreate operation backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketCreate.pm,v 1.24 2012-01-05 18:07:13 cr Exp $
+# $Id: TicketCreate.pm,v 1.25 2012-01-05 18:33:52 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,7 +26,7 @@ use Kernel::GenericInterface::Operation::Ticket::Common;
 use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.24 $) [1];
+$VERSION = qw($Revision: 1.25 $) [1];
 
 =head1 NAME
 
@@ -1152,10 +1152,9 @@ sub _TicketCreate {
 
     # create new ticket
     my $TicketID = $Self->{TicketObject}->TicketCreate(
-        Title        => $Ticket->{Subject},
+        Title        => $Ticket->{Title},
         QueueID      => $Ticket->{QueueID} || '',
         Queue        => $Ticket->{Queue} || '',
-        Subject      => $Ticket->{Subject},
         Lock         => 'unlock',
         TypeID       => $Ticket->{TypeID} || '',
         Type         => $Ticket->{Type} || '',
@@ -1428,6 +1427,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.24 $ $Date: 2012-01-05 18:07:13 $
+$Revision: 1.25 $ $Date: 2012-01-05 18:33:52 $
 
 =cut
