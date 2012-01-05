@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Ticket/TicketCreate.pm - GenericInterface Ticket TicketCreate operation backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketCreate.pm,v 1.22 2012-01-04 16:20:42 cr Exp $
+# $Id: TicketCreate.pm,v 1.23 2012-01-05 04:49:10 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,7 +26,7 @@ use Kernel::GenericInterface::Operation::Ticket::Common;
 use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.22 $) [1];
+$VERSION = qw($Revision: 1.23 $) [1];
 
 =head1 NAME
 
@@ -378,87 +378,97 @@ sub Run {
         return $Self->{TicketCommonObject}->ReturnError( %{$ArticleCheck} );
     }
 
-    # isolate DynamicField parameter
-    my $DynamicField = $Param{Data}->{DynamicField};
-
-    # homologate imput to array
+    my $DynamicField;
     my @DynamicFieldList;
-    if ( ref $DynamicField eq 'HASH' ) {
-        push @DynamicFieldList, $DynamicField;
-    }
-    else {
-        @DynamicFieldList = @{$DynamicField};
-    }
 
-    # check DynamicField internal structure
-    for my $DynamicFieldItem (@DynamicFieldList) {
-        if ( !IsHashRefWithData($DynamicFieldItem) ) {
-            return {
-                ErrorCode => 'TicketCreate.InvalidParameter',
-                ErrorMessage =>
-                    "TicketCreate: Ticket->DynamicField parameter is invalid!",
-            };
+    if ( defined $Param{Data}->{DynamicField} ) {
+
+        # isolate DynamicField parameter
+        $DynamicField = $Param{Data}->{DynamicField};
+
+        # homologate imput to array
+        if ( ref $DynamicField eq 'HASH' ) {
+            push @DynamicFieldList, $DynamicField;
+        }
+        else {
+            @DynamicFieldList = @{$DynamicField};
         }
 
-        # remove leading and trailing spaces
-        for my $Attribute ( keys %{$DynamicFieldItem} ) {
-            if ( ref $Attribute ne 'HASH' && ref $Attribute ne 'ARRAY' ) {
+        # check DynamicField internal structure
+        for my $DynamicFieldItem (@DynamicFieldList) {
+            if ( !IsHashRefWithData($DynamicFieldItem) ) {
+                return {
+                    ErrorCode => 'TicketCreate.InvalidParameter',
+                    ErrorMessage =>
+                        "TicketCreate: Ticket->DynamicField parameter is invalid!",
+                };
+            }
 
-                #remove leading spaces
-                $DynamicFieldItem->{$Attribute} =~ s{\A\s+}{};
+            # remove leading and trailing spaces
+            for my $Attribute ( keys %{$DynamicFieldItem} ) {
+                if ( ref $Attribute ne 'HASH' && ref $Attribute ne 'ARRAY' ) {
 
-                #remove trailing spaces
-                $DynamicFieldItem->{$Attribute} =~ s{\s+\z}{};
+                    #remove leading spaces
+                    $DynamicFieldItem->{$Attribute} =~ s{\A\s+}{};
+
+                    #remove trailing spaces
+                    $DynamicFieldItem->{$Attribute} =~ s{\s+\z}{};
+                }
+            }
+
+            # check DynamicField attribute values
+            my $DynamicFieldCheck = $Self->_CheckDynamicField( DynamicField => $DynamicFieldItem );
+
+            if ( !$DynamicFieldCheck->{Success} ) {
+                return $Self->{TicketCommonObject}->ReturnError( %{$DynamicFieldCheck} );
             }
         }
-
-        # check DynamicField attribute values
-        my $DynamicFieldCheck = $Self->_CheckDynamicField( DynamicField => $DynamicFieldItem );
-
-        if ( !$DynamicFieldCheck->{Success} ) {
-            return $Self->{TicketCommonObject}->ReturnError( %{$DynamicFieldCheck} );
-        }
     }
 
-    # isolate Attachment parameter
-    my $Attachment = $Param{Data}->{Attachment};
-
-    # homologate imput to array
+    my $Attachment;
     my @AttachmentList;
-    if ( ref $Attachment eq 'HASH' ) {
-        push @AttachmentList, $Attachment;
-    }
-    else {
-        @AttachmentList = @{$Attachment};
-    }
 
-    # check Attachment internal structure
-    for my $AttachmentItem (@AttachmentList) {
-        if ( !IsHashRefWithData($AttachmentItem) ) {
-            return {
-                ErrorCode => 'TicketCreate.InvalidParameter',
-                ErrorMessage =>
-                    "TicketCreate: Ticket->Attachment parameter is invalid!",
-            };
+    if ( defined $Param{Data}->{Attachment} ) {
+
+        # isolate Attachment parameter
+        $Attachment = $Param{Data}->{Attachment};
+
+        # homologate imput to array
+        if ( ref $Attachment eq 'HASH' ) {
+            push @AttachmentList, $Attachment;
+        }
+        else {
+            @AttachmentList = @{$Attachment};
         }
 
-        # remove leading and trailing spaces
-        for my $Attribute ( keys %{$AttachmentItem} ) {
-            if ( ref $Attribute ne 'HASH' && ref $Attribute ne 'ARRAY' ) {
-
-                #remove leading spaces
-                $AttachmentItem->{$Attribute} =~ s{\A\s+}{};
-
-                #remove trailing spaces
-                $AttachmentItem->{$Attribute} =~ s{\s+\z}{};
+        # check Attachment internal structure
+        for my $AttachmentItem (@AttachmentList) {
+            if ( !IsHashRefWithData($AttachmentItem) ) {
+                return {
+                    ErrorCode => 'TicketCreate.InvalidParameter',
+                    ErrorMessage =>
+                        "TicketCreate: Ticket->Attachment parameter is invalid!",
+                };
             }
-        }
 
-        # check Attachment attribute values
-        my $AttachmentCheck = $Self->_CheckAttachment( Attachment => $AttachmentItem );
+            # remove leading and trailing spaces
+            for my $Attribute ( keys %{$AttachmentItem} ) {
+                if ( ref $Attribute ne 'HASH' && ref $Attribute ne 'ARRAY' ) {
 
-        if ( !$AttachmentCheck->{Success} ) {
-            return $Self->{TicketCommonObject}->ReturnError( %{$AttachmentCheck} );
+                    #remove leading spaces
+                    $AttachmentItem->{$Attribute} =~ s{\A\s+}{};
+
+                    #remove trailing spaces
+                    $AttachmentItem->{$Attribute} =~ s{\s+\z}{};
+                }
+            }
+
+            # check Attachment attribute values
+            my $AttachmentCheck = $Self->_CheckAttachment( Attachment => $AttachmentItem );
+
+            if ( !$AttachmentCheck->{Success} ) {
+                return $Self->{TicketCommonObject}->ReturnError( %{$AttachmentCheck} );
+            }
         }
     }
 
@@ -533,17 +543,14 @@ sub _CheckTicket {
     }
 
     # check Ticket->Lock
-    if ( !$Ticket->{LockID} && !$Ticket->{Lock} ) {
-        return {
-            ErrorCode    => 'TicketCreate.MissingParameter',
-            ErrorMessage => "TicketCreate: Ticket->LockID or Ticket->Lock parameter is required!",
-        };
-    }
-    if ( !$Self->{TicketCommonObject}->ValidateLock( %{$Ticket} ) ) {
-        return {
-            ErrorCode    => 'TicketCreate.InvalidParameter',
-            ErrorMessage => "TicketCreate: Ticket->LockID or Ticket->Lock parameter is invalid!",
-        };
+    if ( $Ticket->{LockID} || $Ticket->{Lock} ) {
+        if ( !$Self->{TicketCommonObject}->ValidateLock( %{$Ticket} ) ) {
+            return {
+                ErrorCode    => 'TicketCreate.InvalidParameter',
+                ErrorMessage => "TicketCreate: Ticket->LockID or Ticket->Lock parameter is"
+                    . " invalid!",
+            };
+        }
     }
 
     # check Ticket->Type
@@ -1336,43 +1343,49 @@ sub _TicketCreate {
     }
 
     # set dynamic fields
-    for my $DynamicField ( @{$DynamicFieldList} ) {
-        my $Result = $Self->{TicketCommonObject}->SetDynamicFieldValue(
-            %{$DynamicField},
-            TicketID  => $TicketID,
-            ArticleID => $ArticleID,
-            UserID    => $Param{UserID},
-        );
+    if ( IsArrayRefWithData($DynamicFieldList) ) {
 
-        if ( !$Result->{Success} ) {
-            my $ErrorMessage =
-                $Result->{ErrorMessage} || "Dynamic Field $DynamicField->{Name} could not be set,"
-                . " please contact the system administrator";
+        for my $DynamicField ( @{$DynamicFieldList} ) {
+            my $Result = $Self->{TicketCommonObject}->SetDynamicFieldValue(
+                %{$DynamicField},
+                TicketID  => $TicketID,
+                ArticleID => $ArticleID,
+                UserID    => $Param{UserID},
+            );
 
-            return {
-                Success      => 0,
-                ErrorMessage => $ErrorMessage,
-            };
+            if ( !$Result->{Success} ) {
+                my $ErrorMessage =
+                    $Result->{ErrorMessage} || "Dynamic Field $DynamicField->{Name} could not be"
+                    . " set, please contact the system administrator";
+
+                return {
+                    Success      => 0,
+                    ErrorMessage => $ErrorMessage,
+                };
+            }
         }
     }
 
     # set attachments
-    for my $Attachment ( @{$AttachmentList} ) {
-        my $Result = $Self->{TicketCommonObject}->CreateAttachment(
-            Attachment => $Attachment,
-            ArticleID  => $ArticleID,
-            UserID     => $Param{UserID}
-        );
+    if ( IsArrayRefWithData($AttachmentList) ) {
 
-        if ( !$Result->{Success} ) {
-            my $ErrorMessage =
-                $Result->{ErrorMessage} || "Attachment could not be created, please contact the "
-                . " system administrator";
+        for my $Attachment ( @{$AttachmentList} ) {
+            my $Result = $Self->{TicketCommonObject}->CreateAttachment(
+                Attachment => $Attachment,
+                ArticleID  => $ArticleID,
+                UserID     => $Param{UserID}
+            );
 
-            return {
-                Success      => 0,
-                ErrorMessage => $ErrorMessage,
-            };
+            if ( !$Result->{Success} ) {
+                my $ErrorMessage =
+                    $Result->{ErrorMessage} || "Attachment could not be created, please contact"
+                    . " the system administrator";
+
+                return {
+                    Success      => 0,
+                    ErrorMessage => $ErrorMessage,
+                };
+            }
         }
     }
 
@@ -1419,6 +1432,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.22 $ $Date: 2012-01-04 16:20:42 $
+$Revision: 1.23 $ $Date: 2012-01-05 04:49:10 $
 
 =cut
