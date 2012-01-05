@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Ticket/Common.pm - Ticket common operation functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.25 2012-01-05 03:10:38 cg Exp $
+# $Id: Common.pm,v 1.26 2012-01-05 17:45:50 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -39,7 +39,7 @@ use Kernel::System::GenericInterface::Webservice;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.25 $) [1];
+$VERSION = qw($Revision: 1.26 $) [1];
 
 =head1 NAME
 
@@ -243,7 +243,6 @@ performs user authentication
     my $UserID = $CommonObject->AuthUser(
         UserLogin => 'Agent',
         Password  => 'some password',           # plain text password
-        CrypPaswd => '50/\/\3 p455\/\/0rd',     # cripted password with the current crypt algorithm
     );
 
     returns
@@ -258,15 +257,13 @@ sub AuthUser {
     my $ReturnData = 0;
 
     # get params
-    my $PostUser   = $Param{Data}->{UserLogin} || '';
-    my $PostPw     = $Param{Data}->{Password}  || '';
-    my $PostCrypPw = $Param{Data}->{CrypPaswd} || '';
+    my $PostUser = $Param{Data}->{UserLogin} || '';
+    my $PostPw   = $Param{Data}->{Password}  || '';
 
     # check submitted data
     my $User = $Self->{AuthObject}->Auth(
-        User      => $PostUser,
-        Pw        => $PostPw,
-        CrypPaswd => $PostCrypPw
+        User => $PostUser,
+        Pw   => $PostPw,
     );
 
     # login is valid
@@ -289,7 +286,6 @@ performs customer user authentication
     my $UserID = $CommonObject->AuthCustomerUser(
         UserLogin => 'Agent',
         Password  => 'some password',           # plain text password
-        CrypPaswd => '50/\/\3 p455\/\/0rd',     # cripted password with the current crypt algorithm
     );
 
     returns
@@ -304,15 +300,13 @@ sub AuthCustomerUser {
     my $ReturnData = $Param{Data}->{CustomerUserLogin} || 0;
 
     # get params
-    my $PostUser   = $Param{Data}->{CustomerUserLogin} || '';
-    my $PostPw     = $Param{Data}->{Password}          || '';
-    my $PostCrypPw = $Param{Data}->{CrypPaswd}         || '';
+    my $PostUser = $Param{Data}->{CustomerUserLogin} || '';
+    my $PostPw   = $Param{Data}->{Password}          || '';
 
     # check submitted data
     my $User = $Self->{CustomerAuthObject}->Auth(
-        User      => $PostUser,
-        Pw        => $PostPw,
-        CrypPaswd => $PostCrypPw,
+        User => $PostUser,
+        Pw   => $PostPw,
     );
 
     # login is invalid
@@ -346,8 +340,7 @@ sub GetSessionID {
     my %UserData;
 
     # get params
-    my $PostPw     = $Param{Data}->{Password}  || '';
-    my $PostCrypPw = $Param{Data}->{CrypPaswd} || '';
+    my $PostPw = $Param{Data}->{Password} || '';
 
     if ( defined $Param{Data}->{UserLogin} && $Param{Data}->{UserLogin} ) {
 
@@ -356,9 +349,8 @@ sub GetSessionID {
 
         # check submitted data
         $User = $Self->{AuthObject}->Auth(
-            User      => $PostUser,
-            Pw        => $PostPw,
-            CrypPaswd => $PostCrypPw,
+            User => $PostUser,
+            Pw   => $PostPw,
         );
         %UserData = $Self->{UserObject}->GetUserData( User => $User, Valid => 1 );
     }
@@ -369,9 +361,8 @@ sub GetSessionID {
 
         # check submitted data
         $User = $Self->{CustomerAuthObject}->Auth(
-            User      => $PostUser,
-            Pw        => $PostPw,
-            CrypPaswd => $PostCrypPw,
+            User => $PostUser,
+            Pw   => $PostPw,
         );
         %UserData
             = $Self->{CustomerUserObject}->CustomerUserDataGet( User => $PostUser, Valid => 1 );
@@ -1692,6 +1683,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.25 $ $Date: 2012-01-05 03:10:38 $
+$Revision: 1.26 $ $Date: 2012-01-05 17:45:50 $
 
 =cut
