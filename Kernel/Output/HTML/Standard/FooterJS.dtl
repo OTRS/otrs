@@ -1,8 +1,8 @@
 # --
 # FooterJS.dtl - provides global HTML footer JavaScript
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: FooterJS.dtl,v 1.30 2011-12-13 10:34:04 mg Exp $
+# $Id: FooterJS.dtl,v 1.31 2012-01-06 12:32:06 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -29,6 +29,7 @@ Core.App.Ready(function () {
         SessionIDCookie: '$QEnv{"SessionIDCookie"}',
         SessionName: '$Config{"SessionName"}',
         SessionID: '$QEnv{"SessionID"}',
+        ChallengeToken: '$QEnv{"UserChallengeToken"}',
         CustomerPanelSessionName: '$Config{"CustomerPanelSessionName"}',
         Images: '$Config{"Frontend::ImagePath"}',
         UserLanguage: '$QEnv{"UserLanguage"}',

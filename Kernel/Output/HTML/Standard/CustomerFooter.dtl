@@ -1,8 +1,8 @@
 # --
 # CustomerFooter.dtl - provides global HTML footer
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerFooter.dtl,v 1.42 2011-03-16 11:14:14 mg Exp $
+# $Id: CustomerFooter.dtl,v 1.43 2012-01-06 12:33:49 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -39,6 +39,7 @@ Core.App.Ready(function() {
         SessionIDCookie: '$QEnv{"SessionIDCookie"}',
         SessionName: '$Config{"SessionName"}',
         SessionID: '$QEnv{"SessionID"}',
+        ChallengeToken: '$QEnv{"UserChallengeToken"}',
         CustomerPanelSessionName: '$Config{"CustomerPanelSessionName"}',
         Images: '$Config{"Frontend::ImagePath"}',
         UserLanguage: '$QEnv{"UserLanguage"}',
