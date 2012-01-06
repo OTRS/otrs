@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentLinkObject.pm - to link objects
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentLinkObject.pm,v 1.61 2011-11-21 01:45:32 sb Exp $
+# $Id: AgentLinkObject.pm,v 1.62 2012-01-06 13:00:04 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.61 $) [1];
+$VERSION = qw($Revision: 1.62 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -114,6 +114,9 @@ sub Run {
         my $Output = $Self->{LayoutObject}->Header( Type => 'Small' );
 
         if ( $Self->{ParamObject}->GetParam( Param => 'SubmitDelete' ) ) {
+
+            # challenge token check for write action
+            $Self->{LayoutObject}->ChallengeTokenCheck();
 
             # delete all temporary links older than one day
             $Self->{LinkObject}->LinkCleanup(
@@ -230,6 +233,9 @@ sub Run {
 
         # add new links
         if ( $Self->{ParamObject}->GetParam( Param => 'SubmitLink' ) ) {
+
+            # challenge token check for write action
+            $Self->{LayoutObject}->ChallengeTokenCheck();
 
             # get the link target keys
             my @LinkTargetKeys = $Self->{ParamObject}->GetArray( Param => 'LinkTargetKeys' );
