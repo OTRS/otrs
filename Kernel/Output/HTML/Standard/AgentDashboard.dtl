@@ -1,8 +1,8 @@
 # --
 # AgentDashboard.dtl - provides HTML for global dashboard
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboard.dtl,v 1.57 2010-11-11 09:48:38 mg Exp $
+# $Id: AgentDashboard.dtl,v 1.58 2012-01-06 12:34:19 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -60,7 +60,7 @@ Core.UI.RegisterToggleTwoContainer($('#Dashboard$QData{"Name"}-toggle'), $('#Das
 <!-- dtl:js_on_document_complete -->
 <!-- dtl:block:ContentSmallPreferences -->
                     <div class="WidgetAction Close">
-                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=UpdateRemove;Name=$LQData{"Name"}" title="$Text{"Close"}"></a>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=UpdateRemove;Name=$LQData{"Name"};$QEnv{"ChallengeTokenParam"}" title="$Text{"Close"}"></a>
                     </div>
                     <div class="Clear"></div>
                 </div>
@@ -134,7 +134,7 @@ Core.UI.RegisterToggleTwoContainer($('#Dashboard$QData{"Name"}-toggle'), $('#Das
 <!-- dtl:js_on_document_complete -->
 <!-- dtl:block:ContentLargePreferences -->
                     <div class="WidgetAction Close">
-                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=UpdateRemove;Name=$LQData{"Name"}" title="$Text{"Close"}"></a>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=UpdateRemove;Name=$LQData{"Name"};$QEnv{"ChallengeTokenParam"}" title="$Text{"Close"}"></a>
                     </div>
                     <div class="Clear"></div>
                 </div>

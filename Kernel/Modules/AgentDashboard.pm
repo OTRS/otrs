@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentDashboard.pm - a global dashbard
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboard.pm,v 1.27 2011-12-02 15:28:55 mb Exp $
+# $Id: AgentDashboard.pm,v 1.28 2012-01-06 12:34:19 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Cache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.27 $) [1];
+$VERSION = qw($Revision: 1.28 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -51,6 +51,10 @@ sub Run {
 
     # update/close item
     if ( $Self->{Subaction} eq 'UpdateRemove' ) {
+
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
+
         my $Name = $Self->{ParamObject}->GetParam( Param => 'Name' );
         my $Key = 'UserDashboard' . $Name;
 
@@ -79,6 +83,9 @@ sub Run {
 
     # update preferences
     elsif ( $Self->{Subaction} eq 'UpdatePreferences' ) {
+
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
 
         my $Name = $Self->{ParamObject}->GetParam( Param => 'Name' );
 
@@ -138,6 +145,9 @@ sub Run {
     # update settings
     elsif ( $Self->{Subaction} eq 'UpdateSettings' ) {
 
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
+
         my @Backends = $Self->{ParamObject}->GetArray( Param => 'Backend' );
         for my $Name ( sort keys %{$Config} ) {
             my $Active = 0;
@@ -173,6 +183,9 @@ sub Run {
 
     # update position
     elsif ( $Self->{Subaction} eq 'UpdatePosition' ) {
+
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
 
         my @Backends = $Self->{ParamObject}->GetArray( Param => 'Backend' );
 

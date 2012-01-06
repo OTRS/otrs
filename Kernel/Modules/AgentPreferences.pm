@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentPreferences.pm - provides agent preferences
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentPreferences.pm,v 1.52 2011-05-02 09:35:15 mg Exp $
+# $Id: AgentPreferences.pm,v 1.53 2012-01-06 12:38:40 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.52 $) [1];
+$VERSION = qw($Revision: 1.53 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -44,6 +44,10 @@ sub Run {
     # update preferences via AJAX
     # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'UpdateAJAX' ) {
+
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
+
         my $Key   = $Self->{ParamObject}->GetParam( Param => 'Key' );
         my $Value = $Self->{ParamObject}->GetParam( Param => 'Value' );
 
