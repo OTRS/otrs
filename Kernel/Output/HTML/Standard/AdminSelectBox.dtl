@@ -1,8 +1,8 @@
 # --
 # AdminSelectBox.dtl - provides HTML form for SelectBox
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSelectBox.dtl,v 1.11 2011-01-05 10:37:27 mg Exp $
+# $Id: AdminSelectBox.dtl,v 1.12 2012-01-06 10:40:17 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -106,7 +106,7 @@ Core.Form.Validate.SetSubmitFunction($('#AdminSelectBoxForm'), function (Form) {
 <!-- dtl:block:Row -->
                         <tr>
 <!-- dtl:block:Cell -->
-                            <td title="$QData{"Content", "80"}">$QData{"Content", "12"}</td>
+                            <td title="$QData{"Content", "80"}">$QData{"Content", "80"}</td>
 <!-- dtl:block:Cell -->
                         </tr>
 <!-- dtl:block:Row -->
