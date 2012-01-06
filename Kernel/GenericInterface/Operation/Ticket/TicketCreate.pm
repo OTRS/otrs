@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Ticket/TicketCreate.pm - GenericInterface Ticket TicketCreate operation backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketCreate.pm,v 1.25 2012-01-05 18:33:52 cr Exp $
+# $Id: TicketCreate.pm,v 1.26 2012-01-06 03:59:34 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,7 +26,7 @@ use Kernel::GenericInterface::Operation::Ticket::Common;
 use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.25 $) [1];
+$VERSION = qw($Revision: 1.26 $) [1];
 
 =head1 NAME
 
@@ -1092,9 +1092,9 @@ creates a ticket with its article and sets dynamic fields and attachments if spe
 
     my $Response = $OperationObject->_TicketCreate(
         Ticket       => $Ticket,                  # all ticket parameters
-        Article      => $Ticket,                  # all attachment parameters
-        DynamicField => $Ticket,                  # all dynamic field parameters
-        Attachment   => $Ticket,                  # all attachment parameters
+        Article      => $Article,                 # all attachment parameters
+        DynamicField => $DynamicField,            # all dynamic field parameters
+        Attachment   => $Attachment,             # all attachment parameters
         UserID       => 123,
     );
 
@@ -1167,7 +1167,7 @@ sub _TicketCreate {
         PriorityID   => $Ticket->{PriorityID} || '',
         Priority     => $Ticket->{Priority} || '',
         OwnerID      => 1,
-        CustomerNo   => $CustomerUserData{UserCustomerID},
+        CustomerNo   => $CustomerUserData{UserCustomerID} || '',
         CustomerUser => $Ticket->{CustomerUser},
         UserID       => $Param{UserID},
     );
@@ -1257,11 +1257,13 @@ sub _TicketCreate {
     elsif ( $StateData{TypeName} =~ /^pending/i ) {
 
         # set pending time
-        $Self->{TicketObject}->TicketPendingTimeSet(
-            UserID   => $Param{UserID},
-            TicketID => $TicketID,
-            %{ $Ticket->{PendingTime} },
-        );
+        if ( defined $Ticket->{PendingTime} ) {
+            $Self->{TicketObject}->TicketPendingTimeSet(
+                UserID   => $Param{UserID},
+                TicketID => $TicketID,
+                %{ $Ticket->{PendingTime} },
+            );
+        }
     }
 
     if ( !defined $Article->{NoAgentNotify} ) {
@@ -1427,6 +1429,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.25 $ $Date: 2012-01-05 18:33:52 $
+$Revision: 1.26 $ $Date: 2012-01-06 03:59:34 $
 
 =cut
