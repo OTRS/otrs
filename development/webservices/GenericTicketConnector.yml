@@ -1,0 +1,27 @@
+---
+Debugger:
+  DebugThreshold: debug
+  TestMode: 0
+Description: Ticket Connector Sample
+FrameworkVersion: 3.1.x CVS
+Provider:
+  Operation:
+    TicketCreate:
+      Description: Creates a ticket
+      MappingInbound: {}
+      MappingOutbound: {}
+      Type: Ticket::TicketCreate
+    TicketUpdate:
+      Description: Updates a Ticket
+      MappingInbound: {}
+      MappingOutbound: {}
+      Type: Ticket::TicketUpdate
+  Transport:
+    Config:
+      MaxLength: 100000000
+      NameSpace: http://www.otrs.org/TicketConnector/
+    Type: HTTP::SOAP
+RemoteSystem: ''
+Requester:
+  Transport:
+    Type: ''
