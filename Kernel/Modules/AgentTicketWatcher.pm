@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketWatcher.pm - a ticketwatcher module
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketWatcher.pm,v 1.15 2010-07-19 13:07:24 ub Exp $
+# $Id: AgentTicketWatcher.pm,v 1.16 2012-01-06 14:58:05 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -69,6 +69,9 @@ sub Run {
     # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'Subscribe' ) {
 
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
+
         # set subscribe
         my $Subscribe = $Self->{TicketObject}->TicketWatchSubscribe(
             TicketID    => $Self->{TicketID},
@@ -88,6 +91,10 @@ sub Run {
     # unsubscribe a ticket
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'Unsubscribe' ) {
+
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
+
         my $Unsubscribe = $Self->{TicketObject}->TicketWatchUnsubscribe(
             TicketID    => $Self->{TicketID},
             WatchUserID => $Self->{UserID},

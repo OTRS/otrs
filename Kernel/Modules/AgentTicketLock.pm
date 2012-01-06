@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketLock.pm - to set or unset a lock for tickets
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketLock.pm,v 1.15 2011-02-17 10:07:36 mb Exp $
+# $Id: AgentTicketLock.pm,v 1.16 2012-01-06 14:54:46 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -60,6 +60,9 @@ sub Run {
     # start with actions
     if ( $Self->{Subaction} eq 'Unlock' ) {
 
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
+
         # check if I'm the owner
         my ( $OwnerID, $OwnerLogin ) = $Self->{TicketObject}->OwnerCheck(
             TicketID => $Self->{TicketID},
@@ -89,14 +92,11 @@ sub Run {
         if ( !$Lock ) {
             return $Self->{LayoutObject}->ErrorScreen();
         }
-
-        # redirect
-        if ( $Self->{QueueID} ) {
-            return $Self->{LayoutObject}->Redirect( OP => "QueueID=$Self->{QueueID}" );
-        }
-        return $Self->{LayoutObject}->Redirect( OP => $Self->{LastScreenView} );
     }
     else {
+
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
 
         # check if the agent is able to lock the ticket
         if ( $Self->{TicketObject}->TicketLockGet( TicketID => $Self->{TicketID} ) ) {
@@ -136,13 +136,13 @@ sub Run {
         {
             return $Self->{LayoutObject}->ErrorScreen();
         }
-
-        # redirect
-        if ( $Self->{QueueID} ) {
-            return $Self->{LayoutObject}->Redirect( OP => ";QueueID=$Self->{QueueID}" );
-        }
-        return $Self->{LayoutObject}->Redirect( OP => $Self->{LastScreenView} );
     }
+
+    # redirect
+    if ( $Self->{QueueID} ) {
+        return $Self->{LayoutObject}->Redirect( OP => ";QueueID=$Self->{QueueID}" );
+    }
+    return $Self->{LayoutObject}->Redirect( OP => $Self->{LastScreenView} );
 }
 
 1;
