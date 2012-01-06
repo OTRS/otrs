@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Ticket/Common.pm - Ticket common operation functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.26 2012-01-05 17:45:50 cg Exp $
+# $Id: Common.pm,v 1.27 2012-01-06 03:58:21 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -39,7 +39,7 @@ use Kernel::System::GenericInterface::Webservice;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.26 $) [1];
+$VERSION = qw($Revision: 1.27 $) [1];
 
 =head1 NAME
 
@@ -1367,6 +1367,7 @@ sub ValidateDynamicFieldName {
 checks if the given dynamic field value is valid.
 
     my $Sucess = $CommonObject->ValidateDynamicFieldValue(
+        Name  => 'some name',
         Value => 'some value',          # String or Integer or DateTime format
     );
 
@@ -1399,13 +1400,45 @@ sub ValidateDynamicFieldValue {
     );
 }
 
+=item ValidateDynamicFieldObjectType()
+
+checks if the given dynamic field name is valid.
+
+    my $Sucess = $CommonObject->ValidateDynamicFieldObjectType(
+        Name    => 'some name',
+        Article => 1,               # if article exists
+    );
+
+    returns
+    $Success = 1            # or 0
+
+=cut
+
+sub ValidateDynamicFieldObjectType {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    return if !IsHashRefWithData( $Self->{DynamicFieldLookup} );
+    return if !$Param{Name};
+
+    return if !$Self->{DynamicFieldLookup}->{ $Param{Name} };
+    return if !IsHashRefWithData( $Self->{DynamicFieldLookup}->{ $Param{Name} } );
+
+    my $DynamicFieldConfg = $Self->{DynamicFieldLookup}->{ $Param{Name} };
+    return if $DynamicFieldConfg->{ObjectType} eq 'Article' && !$Param{Article};
+
+    return 1;
+}
+
 =item SetDynamicFieldValue()
 
 sets the value of a dynamic filed.
 
     my $Result = $CommonObject->SetDynamicFieldValue(
-        Name   => 'some name',           # the name of the dynamic field
-        Value  => 'some value',          # String or Integer or DateTime format
+        Name      => 'some name',           # the name of the dynamic field
+        Value     => 'some value',          # String or Integer or DateTime format
+        TicketID  => 123
+        ArticleID => 123
         UserID => 123,
     );
 
@@ -1683,6 +1716,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.26 $ $Date: 2012-01-05 17:45:50 $
+$Revision: 1.27 $ $Date: 2012-01-06 03:58:21 $
 
 =cut
