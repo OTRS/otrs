@@ -1,8 +1,8 @@
 // --
 // Core.Agent.Search.js - provides the special module functions for the global search
-// Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+// Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Search.js,v 1.46 2011-10-31 11:10:06 mg Exp $
+// $Id: Core.Agent.Search.js,v 1.47 2012-01-08 11:28:58 jh Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -136,6 +136,43 @@ Core.Agent.Search = (function (TargetNS) {
     /**
      * @function
      * @private
+     * @return 0 if no values were found, 1 if values where there
+     * @description Checks if any values were entered in the search. 
+     *              If nothing at all exists, it alerts with translated:
+     *              "Please enter at least one search value or * to find anything"
+     */
+    function CheckForSearchedValues() {
+        // loop through the SerachForm labels
+        var SearchValueFlag = false;
+        $('#SearchForm label').each(function () {
+            // those with ID's are used for searching
+            if ( $(this).attr('id') ) {
+                    // substring "Label" (e.g. first five characters ) from the 
+                    // label id, use the remaining name as name string for accessing
+                    // the form input's value
+                    var ElementName = $(this).attr('id').substring(5);
+                    var $Element = $('#SearchForm input[name='+ElementName+']');
+                    // If there's no input element with the selected name
+                    // find the next "select" element and use that one for checking
+                    if (!$Element.length) {
+                        $Element = $(this).next().find('select');
+                    }
+                    if ($Element.length) {
+                        if ( $Element.val() && $Element.val() != '' ) {
+                            SearchValueFlag = true;
+                        } 
+                    }
+            }
+        });
+        if (!SearchValueFlag) {
+           alert(Core.Config.Get('EmtySearchMsg'));
+        }
+        return SearchValueFlag;
+    }
+
+    /**
+     * @function
+     * @private
      * @return nothing
      * @description Shows waiting dialog until search screen is ready.
      */
@@ -216,7 +253,12 @@ Core.Agent.Search = (function (TargetNS) {
                 // register return key
                 $('#SearchForm').unbind('keypress.FilterInput').bind('keypress.FilterInput', function (Event) {
                     if ((Event.charCode || Event.keyCode) === 13) {
-                        $('#SearchForm').submit();
+                        if (!CheckForSearchedValues()) {
+                            return false;
+                        }
+                        else {
+                           $('#SearchForm').submit(); 
+                        }
                         return false;
                     }
                 });
@@ -236,13 +278,23 @@ Core.Agent.Search = (function (TargetNS) {
                     // Normal results mode will return HTML in the same window
                     if ($('#SearchForm #ResultForm').val() === 'Normal') {
 
-                        $('#SearchForm').submit();
-                        ShowWaitingDialog();
+                        if (!CheckForSearchedValues()) {
+                            return false;
+                        }
+                        else {
+                           $('#SearchForm').submit(); 
+                           ShowWaitingDialog();
+                        }
                     }
                     else { // Print and CSV should open in a new window, no waiting dialog
                         $('#SearchForm').attr('target', 'SearchResultPage');
-                        $('#SearchForm').submit();
-                        $('#SearchForm').attr('target', '');
+                        if (!CheckForSearchedValues()) {
+                            return false;
+                        }
+                        else {
+                           $('#SearchForm').submit(); 
+                           $('#SearchForm').attr('target', '');
+                        }
                     }
                     return false;
                 });

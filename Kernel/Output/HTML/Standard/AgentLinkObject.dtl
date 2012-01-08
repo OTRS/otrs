@@ -1,8 +1,8 @@
 # --
 # AgentLinkObject.dtl - provides HTML for AgentLinkObject mask
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentLinkObject.dtl,v 1.49 2011-02-14 11:15:45 ub Exp $
+# $Id: AgentLinkObject.dtl,v 1.50 2012-01-08 11:28:58 jh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -41,7 +41,7 @@
     </div>
 
     <div class="Content">
-        <form action="$Env{"CGIHandle"}" method="post" name="compose">
+        <form action="$Env{"CGIHandle"}" method="post" name="compose" id="SearchForm">
             <input type="hidden" name="Action" value="$Env{"Action"}" />
             <input type="hidden" name="Mode" value="$QData{"Mode"}" />
             <input type="hidden" name="SourceObject" value="$QData{"SourceObject"}" />
@@ -62,6 +62,20 @@
 <script type="text/javascript">//<![CDATA[
     $('#TargetIdentifier').bind('change', function (Event) {
         $(this).closest('form').submit();
+    });
+    $('#SearchForm').submit(function () {
+        var SearchValueFlag = false;
+        $('#SearchForm input').each(function () {
+            if ( $(this).attr('name') && $(this).attr('name').match(/^SEARCH\:\:/) ) {
+                if ( $(this).val() != '' ) {
+                    SearchValueFlag = true;
+                }
+            }
+        });
+        if (SearchValueFlag == false) {
+           alert(Core.Config.Get('EmtySearchMsg'));
+           return false;
+        }
     });
 //]]></script>
 <!--dtl:js_on_document_complete-->

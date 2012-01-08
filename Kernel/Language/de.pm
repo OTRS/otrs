@@ -1,9 +1,9 @@
 # --
 # Kernel/Language/de.pm - provides German language translation
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Thomas Kaltenbrunner <tkaltenbrunner at opc.de>
 # --
-# $Id: de.pm,v 1.308 2011-12-21 08:16:13 mg Exp $
+# $Id: de.pm,v 1.309 2012-01-08 11:28:58 jh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.308 $) [1];
+$VERSION = qw($Revision: 1.309 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -335,6 +335,7 @@ sub Data {
         'Edit the system configuration settings.' => 'Systemeinstellungen bearbeiten',
         'printed at' => 'gedruckt am',
         'Loading...' => 'Laden...',
+        'Please enter at least one search value or * to find anything' => 'Bitte geben Sie zumindest einen Suchbegriff ein oder * als Platzhalter um nach allem zu suchen',
         'Dear Mr. %s,' => 'Sehr geehrter Herr %s,',
         'Dear Mrs. %s,' => 'Sehr geehrte Frau %s,',
         'Dear %s,' => 'Lieber %s,',
