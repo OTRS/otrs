@@ -1,8 +1,8 @@
 // --
 // Core.Agent.Admin.SysGenericInterfaceWebservice.js - provides the special module functions for the GenericInterface webservice.
-// Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+// Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.GenericInterfaceWebservice.js,v 1.14 2011-12-13 17:52:29 cr Exp $
+// $Id: Core.Agent.Admin.GenericInterfaceWebservice.js,v 1.15 2012-01-09 09:50:41 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -264,7 +264,7 @@ Core.Agent.Admin.GenericInterfaceWebservice = (function (TargetNS) {
      *      This function binds a "trash can" link from the action table to the
      *      function that opens a dialog to delete the action
      */
-    TargetNS.BindDeleteActiontDialog = function (Data) {
+    TargetNS.BindDeleteActionDialog = function (Data) {
         DialogData[Data.ElementID] = Data;
 
         // binding a click event to the defined element

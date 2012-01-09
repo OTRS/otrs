@@ -1,8 +1,8 @@
 # --
 # AdminGenericInterfaceWebservice.dtl - provides HTML form for AdminGenericInterfaceWebservice
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceWebservice.dtl,v 1.40 2011-12-13 22:58:14 mb Exp $
+# $Id: AdminGenericInterfaceWebservice.dtl,v 1.41 2012-01-09 09:50:41 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -361,7 +361,7 @@
                                             </span>
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
-    Core.Agent.Admin.GenericInterfaceWebservice.BindDeleteActiontDialog({
+    Core.Agent.Admin.GenericInterfaceWebservice.BindDeleteActionDialog({
         ElementID:                  'Delete$QData{"ActionType"}$QData{"Name"}',
         ActionName:                 '$QData{"Name"}',
         ActionType:                 '$QData{"ActionType"}',
