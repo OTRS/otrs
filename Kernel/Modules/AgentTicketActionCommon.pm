@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketActionCommon.pm - common file for several modules
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketActionCommon.pm,v 1.70 2011-12-22 23:23:48 cr Exp $
+# $Id: AgentTicketActionCommon.pm,v 1.71 2012-01-09 13:24:23 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -118,7 +118,6 @@ sub Run {
     # show right header
     $Self->{LayoutObject}->Block(
         Name => 'Header' . $Self->{Action},
-        Data => {},
     );
 
     # get lock state
@@ -139,7 +138,10 @@ sub Run {
             if ($Success) {
                 $Self->{LayoutObject}->Block(
                     Name => 'PropertiesLock',
-                    Data => { %Param, TicketID => $Self->{TicketID} },
+                    Data => {
+                        %Param,
+                        TicketID => $Self->{TicketID},
+                    },
                 );
             }
         }
@@ -166,14 +168,20 @@ sub Run {
             # show back link
             $Self->{LayoutObject}->Block(
                 Name => 'TicketBack',
-                Data => { %Param, TicketID => $Self->{TicketID} },
+                Data => {
+                    %Param,
+                    TicketID => $Self->{TicketID},
+                },
             );
         }
     }
     else {
         $Self->{LayoutObject}->Block(
             Name => 'TicketBack',
-            Data => { %Param, %Ticket },
+            Data => {
+                %Param,
+                %Ticket,
+            },
         );
     }
 
@@ -199,8 +207,8 @@ sub Run {
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
 
         # extract the dynamic field value form the web request
-        $DynamicFieldValues{ $DynamicFieldConfig->{Name} } =
-            $Self->{BackendObject}->EditFieldValueGet(
+        $DynamicFieldValues{ $DynamicFieldConfig->{Name} }
+            = $Self->{BackendObject}->EditFieldValueGet(
             DynamicFieldConfig => $DynamicFieldConfig,
             ParamObject        => $Self->{ParamObject},
             LayoutObject       => $Self->{LayoutObject},
@@ -251,9 +259,10 @@ sub Run {
         my $IsUpload = 0;
 
         # attachment delete
+        COUNT:
         for my $Count ( 1 .. 32 ) {
             my $Delete = $Self->{ParamObject}->GetParam( Param => "AttachmentDelete$Count" );
-            next if !$Delete;
+            next COUNT if !$Delete;
             %Error = ();
             $Error{AttachmentDelete} = 1;
             $Self->{UploadCacheObject}->FormIDRemoveFile(
@@ -644,6 +653,7 @@ sub Run {
             }
 
             # write attachments
+            ATTACHMENT:
             for my $Attachment (@Attachments) {
 
                 # skip, deleted not used inline images
@@ -658,7 +668,8 @@ sub Run {
                     $GetParam{Body} =~ s/(ContentID=)$ContentIDLinkEncode/$1$ContentID/g;
 
                     # ignore attachment if not linked in body
-                    next if $GetParam{Body} !~ /(\Q$ContentIDHTMLQuote\E|\Q$ContentID\E)/i;
+                    next ATTACHMENT
+                        if $GetParam{Body} !~ /(\Q$ContentIDHTMLQuote\E|\Q$ContentID\E)/i;
                 }
 
                 # write existing file to backend
@@ -907,7 +918,7 @@ sub Run {
                     Translation  => 0,
                     Max          => 100,
                 },
-                @DynamicFieldAJAX
+                @DynamicFieldAJAX,
             ],
         );
         return $Self->{LayoutObject}->Attachment(
@@ -1033,7 +1044,7 @@ sub _Mask {
     }
 
     my $DynamicFieldNames = $Self->_GetFieldsToUpdate(
-        OnlyDynamicFields => 1
+        OnlyDynamicFields => 1,
     );
 
     # create a string with the quoted dynamic field names separated by a commas
@@ -1258,27 +1269,35 @@ sub _Mask {
             Name => 'State',
             Data => \%Param,
         );
+
+        STATEID:
         for my $StateID ( sort keys %StateList ) {
-            next if !$StateID;
+
+            next STATEID if !$StateID;
+
+            # get state data
             my %StateData = $Self->{TicketObject}->{StateObject}->StateGet( ID => $StateID );
-            if ( $StateData{TypeName} =~ /pending/i ) {
-                $Param{DateString} = $Self->{LayoutObject}->BuildDateSelection(
-                    Format           => 'DateInputFormatLong',
-                    YearPeriodPast   => 0,
-                    YearPeriodFuture => 5,
-                    DiffTime => $Self->{ConfigObject}->Get('Ticket::Frontend::PendingDiffTime')
-                        || 0,
-                    %Param,
-                    Class => $Param{DateInvalid} || ' ',
-                    Validate             => 1,
-                    ValidateDateInFuture => 1,
-                );
-                $Self->{LayoutObject}->Block(
-                    Name => 'StatePending',
-                    Data => \%Param,
-                );
-                last;
-            }
+
+            next STATEID if $StateData{TypeName} !~ /pending/i;
+
+            $Param{DateString} = $Self->{LayoutObject}->BuildDateSelection(
+                %Param,
+                Format           => 'DateInputFormatLong',
+                YearPeriodPast   => 0,
+                YearPeriodFuture => 5,
+                DiffTime         => $Self->{ConfigObject}->Get('Ticket::Frontend::PendingDiffTime')
+                    || 0,
+                Class => $Param{DateInvalid} || ' ',
+                Validate             => 1,
+                ValidateDateInFuture => 1,
+            );
+
+            $Self->{LayoutObject}->Block(
+                Name => 'StatePending',
+                Data => \%Param,
+            );
+
+            last STATEID;
         }
     }
 
@@ -1311,6 +1330,7 @@ sub _Mask {
             Data => \%Param,
         );
     }
+
     if ( $Self->{Config}->{Note} ) {
         $Self->{LayoutObject}->Block(
             Name => 'Note',
@@ -1357,16 +1377,26 @@ sub _Mask {
 
         # get involved
         if ( $Self->{Config}->{InvolvedAgent} ) {
-            my @UserIDs
-                = $Self->{TicketObject}->TicketInvolvedAgentsList( TicketID => $Self->{TicketID} );
+
+            my @UserIDs = $Self->{TicketObject}->TicketInvolvedAgentsList(
+                TicketID => $Self->{TicketID},
+            );
+
             my %UserHash;
-            my $Counter = 0;
+            my $Counter = 1;
+
+            USER:
             for my $User ( reverse @UserIDs ) {
-                $Counter++;
-                next if $UserHash{ $User->{UserID} };
-                $UserHash{ $User->{UserID} } = "$Counter: $User->{UserLastname} "
-                    . "$User->{UserFirstname} ($User->{UserLogin})";
+
+                next USER if $UserHash{ $User->{UserID} };
+
+                $UserHash{ $User->{UserID} }
+                    = "$Counter: $User->{UserLastname} $User->{UserFirstname} ($User->{UserLogin})";
             }
+            continue {
+                $Counter++;
+            }
+
             $Param{InvolvedAgentStrg} = $Self->{LayoutObject}->BuildSelection(
                 Data       => \%UserHash,
                 SelectedID => $Self->{InvolvedUserID},
@@ -1384,17 +1414,18 @@ sub _Mask {
         if ( $Self->{LayoutObject}->{BrowserSpellChecker} ) {
             $Self->{LayoutObject}->Block(
                 Name => 'TicketOptions',
-                Data => {},
             );
             $Self->{LayoutObject}->Block(
                 Name => 'SpellCheck',
-                Data => {},
             );
         }
 
         # show attachments
+        ATTACHMENT:
         for my $Attachment ( @{ $Param{Attachments} } ) {
-            next if $Attachment->{ContentID} && $Self->{LayoutObject}->{BrowserRichText};
+
+            next ATTACHMENT if $Attachment->{ContentID} && $Self->{LayoutObject}->{BrowserRichText};
+
             $Self->{LayoutObject}->Block(
                 Name => 'Attachment',
                 Data => $Attachment,
@@ -1453,6 +1484,7 @@ sub _Mask {
     # cycle trough the activated Dynamic Fields for this screen
     DYNAMICFIELD:
     for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
+
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
 
         # skip fields that HTML could not be retrieved
@@ -1496,6 +1528,7 @@ sub _GetNextStates {
         UserID   => $Self->{UserID},
         %Param,
     );
+
     return \%NextStates;
 }
 
@@ -1573,10 +1606,15 @@ sub _GetOldOwners {
     my %UserHash;
     if (@OldUserInfo) {
         my $Counter = 1;
+        USER:
         for my $User ( reverse @OldUserInfo ) {
-            next if $UserHash{ $User->{UserID} };
-            $UserHash{ $User->{UserID} } = "$Counter: $User->{UserLastname} "
-                . "$User->{UserFirstname} ($User->{UserLogin})";
+
+            next USER if $UserHash{ $User->{UserID} };
+
+            $UserHash{ $User->{UserID} }
+                = "$Counter: $User->{UserLastname} $User->{UserFirstname} ($User->{UserLogin})";
+        }
+        continue {
             $Counter++;
         }
     }
