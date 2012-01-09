@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminGenericInterfaceInvokerDefault.pm - provides a log view for admins
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceInvokerDefault.pm,v 1.4 2011-08-05 19:09:59 cr Exp $
+# $Id: AdminGenericInterfaceInvokerDefault.pm,v 1.5 2012-01-09 09:31:15 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 use Kernel::System::GenericInterface::Webservice;
 
@@ -64,6 +64,10 @@ sub Run {
         );
     }
     elsif ( $Self->{Subaction} eq 'AddAction' ) {
+
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
+
         return $Self->_AddAction(
             %Param,
             WebserviceID   => $WebserviceID,
@@ -78,6 +82,10 @@ sub Run {
         );
     }
     elsif ( $Self->{Subaction} eq 'ChangeAction' ) {
+
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
+
         return $Self->_ChangeAction(
             %Param,
             WebserviceID   => $WebserviceID,
@@ -85,6 +93,10 @@ sub Run {
         );
     }
     elsif ( $Self->{Subaction} eq 'DeleteAction' ) {
+
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
+
         return $Self->_DeleteAction(
             %Param,
             WebserviceID   => $WebserviceID,
@@ -92,6 +104,10 @@ sub Run {
         );
     }
     elsif ( $Self->{Subaction} eq 'AddEvent' ) {
+
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
+
         return $Self->_AddEvent(
             %Param,
             WebserviceID   => $WebserviceID,
@@ -99,6 +115,10 @@ sub Run {
         );
     }
     elsif ( $Self->{Subaction} eq 'DeleteEvent' ) {
+
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
+
         return $Self->_DeleteEvent(
             %Param,
             WebserviceID   => $WebserviceID,
