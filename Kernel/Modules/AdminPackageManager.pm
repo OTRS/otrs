@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminPackageManager.pm - manage software packages
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPackageManager.pm,v 1.104 2011-11-29 13:19:29 mg Exp $
+# $Id: AdminPackageManager.pm,v 1.105 2012-01-09 08:58:18 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Package;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.104 $) [1];
+$VERSION = qw($Revision: 1.105 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -643,6 +643,10 @@ sub Run {
     # change repository
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'ChangeRepository' ) {
+
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
+
         my $Source = $Self->{ParamObject}->GetParam( Param => 'Source' ) || '';
         $Self->{SessionObject}->UpdateSessionID(
             SessionID => $Self->{SessionID},
@@ -656,6 +660,10 @@ sub Run {
     # install package
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'Install' ) {
+
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
+
         my $Name    = $Self->{ParamObject}->GetParam( Param => 'Name' )    || '';
         my $Version = $Self->{ParamObject}->GetParam( Param => 'Version' ) || '';
 
@@ -673,6 +681,10 @@ sub Run {
     # install remote package
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'InstallRemote' ) {
+
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
+
         my $File = $Self->{ParamObject}->GetParam( Param => 'File' ) || '';
 
         # download package
@@ -692,6 +704,10 @@ sub Run {
     # upgrade remote package
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'UpgradeRemote' ) {
+
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
+
         my $File = $Self->{ParamObject}->GetParam( Param => 'File' ) || '';
 
         # download package
@@ -711,6 +727,10 @@ sub Run {
     # reinstall package
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'Reinstall' ) {
+
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
+
         my $Name    = $Self->{ParamObject}->GetParam( Param => 'Name' )    || '';
         my $Version = $Self->{ParamObject}->GetParam( Param => 'Version' ) || '';
         my $IntroReinstallPre = $Self->{ParamObject}->GetParam( Param => 'IntroReinstallPre' )
@@ -783,6 +803,10 @@ sub Run {
     # reinstall action package
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'ReinstallAction' ) {
+
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
+
         my $Name    = $Self->{ParamObject}->GetParam( Param => 'Name' )    || '';
         my $Version = $Self->{ParamObject}->GetParam( Param => 'Version' ) || '';
         my $IntroReinstallPost = $Self->{ParamObject}->GetParam( Param => 'IntroReinstallPost' )
@@ -837,6 +861,10 @@ sub Run {
     # uninstall package
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'Uninstall' ) {
+
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
+
         my $Name    = $Self->{ParamObject}->GetParam( Param => 'Name' )    || '';
         my $Version = $Self->{ParamObject}->GetParam( Param => 'Version' ) || '';
         my $IntroUninstallPre = $Self->{ParamObject}->GetParam( Param => 'IntroUninstallPre' )
@@ -908,6 +936,10 @@ sub Run {
     # uninstall action package
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'UninstallAction' ) {
+
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
+
         my $Name    = $Self->{ParamObject}->GetParam( Param => 'Name' )    || '';
         my $Version = $Self->{ParamObject}->GetParam( Param => 'Version' ) || '';
         my $IntroUninstallPost = $Self->{ParamObject}->GetParam( Param => 'IntroUninstallPost' )
@@ -965,6 +997,10 @@ sub Run {
     # install package
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'InstallUpload' ) {
+
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
+
         my $FormID = $Self->{ParamObject}->GetParam( Param => 'FormID' ) || '';
         my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
             Param  => 'FileUpload',
@@ -1018,6 +1054,10 @@ sub Run {
     # rebuild package
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'RebuildPackage' ) {
+
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
+
         my $Name    = $Self->{ParamObject}->GetParam( Param => 'Name' )    || '';
         my $Version = $Self->{ParamObject}->GetParam( Param => 'Version' ) || '';
 
