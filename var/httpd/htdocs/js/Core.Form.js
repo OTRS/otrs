@@ -1,8 +1,8 @@
 // --
 // Core.Form.js - provides functions for form handling
-// Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+// Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Form.js,v 1.14 2011-10-28 08:55:38 mg Exp $
+// $Id: Core.Form.js,v 1.15 2012-01-09 11:16:46 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -127,17 +127,17 @@ Core.Form = (function (TargetNS) {
             var ElementName = $ClickedBox.attr('name'),
                 SelectAllID = $SelectAllCheckbox.attr('id'),
                 $Elements = $('input:checkbox[name=' + ElementName + ']').filter('[id!=' + SelectAllID + ']'),
-                Status = $ClickedBox.attr('checked'),
+                Status = $ClickedBox.prop('checked'),
                 CountCheckboxes,
                 CountSelectedCheckboxes;
             if ($ClickedBox.attr('id') && $ClickedBox.attr('id') === SelectAllID) {
-                $Elements.attr('checked', Status).triggerHandler('click');
+                $Elements.prop('checked', Status).triggerHandler('click');
             }
             else {
                 CountCheckboxes = $Elements.length;
                 CountSelectedCheckboxes = $Elements.filter(':checked').length;
                 if (CountCheckboxes === CountSelectedCheckboxes) {
-                    $SelectAllCheckbox.attr('checked', 'checked');
+                    $SelectAllCheckbox.prop('checked', true);
                 }
                 else {
                     $SelectAllCheckbox.removeAttr('checked');
@@ -157,7 +157,7 @@ Core.Form = (function (TargetNS) {
     TargetNS.InitSelectAllCheckboxes = function ($Checkboxes, $SelectAllCheckbox) {
         if (isJQueryObject($Checkboxes, $SelectAllCheckbox)) {
             if ($Checkboxes.filter('[id!=' + $SelectAllCheckbox.attr('id') + ']').length === $Checkboxes.filter(':checked').length) {
-                $SelectAllCheckbox.attr('checked', 'checked');
+                $SelectAllCheckbox.prop('checked', true);
             }
         }
     };

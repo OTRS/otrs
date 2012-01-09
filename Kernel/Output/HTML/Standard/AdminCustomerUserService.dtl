@@ -1,8 +1,8 @@
 # --
 # AdminCustomerUserService.dtl - provides HTML form for AdminInterface
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUserService.dtl,v 1.42 2011-12-13 15:36:59 mg Exp $
+# $Id: AdminCustomerUserService.dtl,v 1.43 2012-01-09 11:16:46 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -145,13 +145,13 @@
 <!-- dtl:block:AllocateItemCountLimit -->
                                 </th>
                                 <th>
-                                    <input type="checkbox" id="ItemsSelected" name="" title="$Text{"Toggle active state for all"}" value="" />
+                                    <input type="checkbox" id="SelectAllItemsSelected" name="ItemsSelected" title="$Text{"Toggle active state for all"}" value="" />
                                     $Text{"Active"}
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
-Core.Form.InitSelectAllCheckboxes($('input[name=ItemsSelected]'), $('#ItemsSelected'));
-$('#ItemsSelected').bind('click', function () {
-    Core.Form.SelectAllCheckboxes($(this), $('input[name=ItemsSelected]'));
+Core.Form.InitSelectAllCheckboxes($('table td input:checkbox[name=ItemsSelected]'), $('#SelectAllItemsSelected'));
+$('input:checkbox[name=ItemsSelected]').bind('click', function () {
+    Core.Form.SelectAllCheckboxes($(this), $('#SelectAllItemsSelected'));
 });
 //]]></script>
 <!--dtl:js_on_document_complete-->
