@@ -2,7 +2,7 @@
 // Core.Agent.Search.js - provides the special module functions for the global search
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Search.js,v 1.47 2012-01-08 11:28:58 jh Exp $
+// $Id: Core.Agent.Search.js,v 1.48 2012-01-09 11:50:43 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -137,7 +137,7 @@ Core.Agent.Search = (function (TargetNS) {
      * @function
      * @private
      * @return 0 if no values were found, 1 if values where there
-     * @description Checks if any values were entered in the search. 
+     * @description Checks if any values were entered in the search.
      *              If nothing at all exists, it alerts with translated:
      *              "Please enter at least one search value or * to find anything"
      */
@@ -145,22 +145,25 @@ Core.Agent.Search = (function (TargetNS) {
         // loop through the SerachForm labels
         var SearchValueFlag = false;
         $('#SearchForm label').each(function () {
+            var ElementName,
+                $Element;
+
             // those with ID's are used for searching
             if ( $(this).attr('id') ) {
-                    // substring "Label" (e.g. first five characters ) from the 
+                    // substring "Label" (e.g. first five characters ) from the
                     // label id, use the remaining name as name string for accessing
                     // the form input's value
-                    var ElementName = $(this).attr('id').substring(5);
-                    var $Element = $('#SearchForm input[name='+ElementName+']');
+                    ElementName = $(this).attr('id').substring(5);
+                    $Element = $('#SearchForm input[name='+ElementName+']');
                     // If there's no input element with the selected name
                     // find the next "select" element and use that one for checking
                     if (!$Element.length) {
                         $Element = $(this).next().find('select');
                     }
                     if ($Element.length) {
-                        if ( $Element.val() && $Element.val() != '' ) {
+                        if ( $Element.val() && $Element.val() !== '' ) {
                             SearchValueFlag = true;
-                        } 
+                        }
                     }
             }
         });
@@ -257,7 +260,7 @@ Core.Agent.Search = (function (TargetNS) {
                             return false;
                         }
                         else {
-                           $('#SearchForm').submit(); 
+                           $('#SearchForm').submit();
                         }
                         return false;
                     }
@@ -282,7 +285,7 @@ Core.Agent.Search = (function (TargetNS) {
                             return false;
                         }
                         else {
-                           $('#SearchForm').submit(); 
+                           $('#SearchForm').submit();
                            ShowWaitingDialog();
                         }
                     }
@@ -292,7 +295,7 @@ Core.Agent.Search = (function (TargetNS) {
                             return false;
                         }
                         else {
-                           $('#SearchForm').submit(); 
+                           $('#SearchForm').submit();
                            $('#SearchForm').attr('target', '');
                         }
                     }
