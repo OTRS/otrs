@@ -2,7 +2,7 @@
 // Core.App.js - provides the application functions
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.App.js,v 1.6 2012-01-09 11:44:55 mg Exp $
+// $Id: Core.App.js,v 1.7 2012-01-09 11:48:29 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -56,7 +56,7 @@ Core.App = (function (TargetNS) {
             Data[Core.Config.Get('SessionName')] = Core.Config.Get('SessionID');
             Data[Core.Config.Get('CustomerPanelSessionName')] = Core.Config.Get('SessionID');
         }
-        Data['ChallengeToken'] = Core.Config.Get('ChallengeToken');
+        Data.ChallengeToken = Core.Config.Get('ChallengeToken');
         return Data;
     };
 

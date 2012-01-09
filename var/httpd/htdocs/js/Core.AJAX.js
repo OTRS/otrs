@@ -2,7 +2,7 @@
 // Core.AJAX.js - provides the funcionality for AJAX calls
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.AJAX.js,v 1.31 2012-01-06 12:32:06 mg Exp $
+// $Id: Core.AJAX.js,v 1.32 2012-01-09 11:48:29 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -104,7 +104,7 @@ Core.AJAX = (function (TargetNS) {
             Data[Core.Config.Get('SessionName')] = Core.Config.Get('SessionID');
             Data[Core.Config.Get('CustomerPanelSessionName')] = Core.Config.Get('SessionID');
         }
-        Data['ChallengeToken'] = Core.Config.Get('ChallengeToken');
+        Data.ChallengeToken = Core.Config.Get('ChallengeToken');
         return Data;
     }
 
