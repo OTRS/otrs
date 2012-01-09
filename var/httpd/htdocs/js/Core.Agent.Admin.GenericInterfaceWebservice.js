@@ -2,7 +2,7 @@
 // Core.Agent.Admin.SysGenericInterfaceWebservice.js - provides the special module functions for the GenericInterface webservice.
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.GenericInterfaceWebservice.js,v 1.15 2012-01-09 09:50:41 mg Exp $
+// $Id: Core.Agent.Admin.GenericInterfaceWebservice.js,v 1.16 2012-01-09 11:45:44 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -48,19 +48,19 @@ Core.Agent.Admin.GenericInterfaceWebservice = (function (TargetNS) {
         $('#ImportButton').bind('click', TargetNS.ShowImportDialog);
 
         $('#ProviderTransportProperties').bind('click', function() {
-            TargetNS.Redirect('Webservice.Transport', 'ProviderTransportList', ';CommunicationType=Provider');
+            TargetNS.Redirect('Webservice.Transport', 'ProviderTransportList', {CommunicationType: 'Provider'});
         });
 
         $('#RequesterTransportProperties').bind('click', function() {
-            TargetNS.Redirect('Webservice.Transport', 'RequesterTransportList', ';CommunicationType=Requester');
+            TargetNS.Redirect('Webservice.Transport', 'RequesterTransportList', {CommunicationType: 'Requester'});
         });
 
         $('#OperationList').bind('change', function() {
-            TargetNS.Redirect('Webservice.Operation', 'OperationList', ';OperationType=' + $(this).val());
+            TargetNS.Redirect('Webservice.Operation', 'OperationList', {OperationType: $(this).val()});
         });
 
         $('#InvokerList').bind('change', function() {
-            TargetNS.Redirect('Webservice.Invoker', 'InvokerList', ';InvokerType=' + $(this).val());
+            TargetNS.Redirect('Webservice.Invoker', 'InvokerList', {InvokerType: $(this).val()});
         });
 
         $('.HideTrigger').bind('change', function(){
@@ -98,7 +98,11 @@ Core.Agent.Admin.GenericInterfaceWebservice = (function (TargetNS) {
                                  alert(TargetNS.Localization.CommunicationErrorMsg);
                                  return;
                              }
-                            window.location.href = Core.Config.Get('Baselink') + 'Action=' + Data.Action + ';DeletedWebservice=' + Response.DeletedWebservice;
+
+                             Core.App.InternalRedirect({
+                                 Action: Data.Action,
+                                 DeletedWebservice: Response.DeletedWebservice
+                             });
                          }, 'json');
 
                      }
@@ -169,7 +173,7 @@ Core.Agent.Admin.GenericInterfaceWebservice = (function (TargetNS) {
         Event.stopPropagation();
     };
 
-    TargetNS.Redirect = function( ConfigKey, DataSource, Parameters ) {
+    TargetNS.Redirect = function( ConfigKey, DataSource, Data ) {
         var WebserviceConfigPart, Action, ConfigElement;
 
         // get configuration
@@ -184,9 +188,14 @@ Core.Agent.Admin.GenericInterfaceWebservice = (function (TargetNS) {
             // get action
             Action = WebserviceConfigPart[ ConfigElement ];
 
-            // redirect to correct url
-            window.location.href = Core.Config.Get('Baselink') + 'Action=' + Action + ';Subaction=Add' + Parameters + ';WebserviceID=' + TargetNS.WebserviceID;
+            $.extend(Data, {
+                Action: Action,
+                Subaction: 'Add',
+                WebserviceID: TargetNS.WebserviceID
+            });
 
+            // redirect to correct url
+            Core.App.InternalRedirect(Data);
         }
     };
 
@@ -241,8 +250,11 @@ Core.Agent.Admin.GenericInterfaceWebservice = (function (TargetNS) {
                                 return;
                             }
 
-                          //  window.location.href =Core.Config.Get('Baselink') + 'Action=' + Data.Action + ';Subaction=' + Data.Subaction + ';ActionType=' + Data.ActionType + ';ActionName=' + Data.ActionName + ';WebserviceID=' + TargetNS.WebserviceID;
-                           window.location.href =Core.Config.Get('Baselink') + 'Action=' + Data.Action + ';Subaction=Change;WebserviceID=' + TargetNS.WebserviceID;
+                            Core.App.InternalRedirect({
+                                Action: Data.Action,
+                                Subaction: 'Change',
+                                WebserviceID: TargetNS.WebserviceID
+                            });
 
                         }, 'json');
 

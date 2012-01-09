@@ -2,7 +2,7 @@
 // Core.Agent.Admin.GenericInterfaceInvoker.js - provides the special module functions for the GenericInterface invoker.
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.GenericInterfaceInvoker.js,v 1.7 2012-01-09 09:31:15 mg Exp $
+// $Id: Core.Agent.Admin.GenericInterfaceInvoker.js,v 1.8 2012-01-09 11:45:44 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -57,31 +57,20 @@ Core.Agent.Admin.GenericInterfaceInvoker = (function (TargetNS) {
      *      This function calls the AddEvent action on the server
      */
     TargetNS.AddEvent = function (EventType) {
-        var NewEvent;
-
-        NewEvent = $('#'+ EventType + 'Event').val();
+        var Data = {
+                Action: TargetNS.Action,
+                Subaction: 'AddEvent',
+                NewEvent: $('#'+ EventType + 'Event').val(),
+                WebserviceID: TargetNS.WebserviceID,
+                Invoker: TargetNS.Invoker,
+                EventType: EventType
+        };
 
         if ( $('#Asynchronous').is(':checked') ) {
-            window.location.href =
-                Core.Config.Get('Baselink')
-                + 'Action='+ TargetNS.Action
-                +';Subaction=AddEvent;NewEvent=' + NewEvent
-                + ';Asynchronous=1'
-                + ';WebserviceID=' + TargetNS.WebserviceID
-                + ';Invoker=' + TargetNS.Invoker
-                + ';EventType=' + EventType
-                + ';ChallengeToken=' + Core.Config.Get('ChallengeToken');
+            Data.Asynchronous = 1;
         }
-        else {
-            window.location.href =
-                Core.Config.Get('Baselink')
-                + 'Action='+ TargetNS.Action
-                + ';Subaction=AddEvent;NewEvent=' + NewEvent
-                + ';WebserviceID=' + TargetNS.WebserviceID
-                + ';Invoker=' + TargetNS.Invoker
-                + ';EventType=' + EventType
-                + ';ChallengeToken=' + Core.Config.Get('ChallengeToken');
-        }
+
+        Core.App.InternalRedirect(Data);
     };
 
     /**
@@ -121,7 +110,11 @@ Core.Agent.Admin.GenericInterfaceInvoker = (function (TargetNS) {
                                 return;
                             }
 
-                            window.location.href =Core.Config.Get('Baselink') + 'Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=' + TargetNS.WebserviceID;
+                            Core.App.InternalRedirect({
+                                Action: 'AdminGenericInterfaceWebservice',
+                                Subaction: 'Change',
+                                WebserviceID: TargetNS.WebserviceID
+                            });
 
                         }, 'json');
 
@@ -174,7 +167,13 @@ Core.Agent.Admin.GenericInterfaceInvoker = (function (TargetNS) {
                                 return;
                             }
 
-                            window.location.href =Core.Config.Get('Baselink') + 'Action=' + Data.Action + ';Subaction=Change'+ ';Invoker='+ Data.Invoker + ';WebserviceID=' + TargetNS.WebserviceID + ';EventType=' + $('#EventType').val();
+                            Core.App.InternalRedirect({
+                                Action: Data.Action,
+                                Subaction: 'Change',
+                                Invoker: Data.Invoker,
+                                WebserviceID: TargetNS.WebserviceID,
+                                EventType: $('#EventType').val()
+                            });
 
                         }, 'json');
 
