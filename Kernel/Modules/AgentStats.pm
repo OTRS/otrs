@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentStats.pm - stats module
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStats.pm,v 1.121 2011-12-13 11:21:39 ub Exp $
+# $Id: AgentStats.pm,v 1.122 2012-01-09 08:34:17 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::CSV;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.121 $) [1];
+$VERSION = qw($Revision: 1.122 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -662,6 +662,10 @@ sub Run {
 
         # delete Stat
         if ( $Param{Status} && $Param{Status} eq 'Action' ) {
+
+            # challenge token check for write action
+            $Self->{LayoutObject}->ChallengeTokenCheck();
+
             if ( $Param{Yes} ) {
                 $Self->{StatsObject}->StatsDelete( StatID => $StatID );
             }
@@ -712,6 +716,7 @@ sub Run {
     # show import screen
     # ---------------------------------------------------------- #
     elsif ( $Self->{Subaction} eq 'Import' ) {
+
         my $Error = 0;
 
         # permission check
@@ -722,6 +727,10 @@ sub Run {
 
         # importing
         if ( $Param{Status} && $Param{Status} eq 'Action' ) {
+
+            # challenge token check for write action
+            $Self->{LayoutObject}->ChallengeTokenCheck();
+
             my $Uploadfile = '';
             if ( $Uploadfile = $Self->{ParamObject}->GetParam( Param => 'file_upload' ) ) {
                 my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
@@ -776,6 +785,9 @@ sub Run {
     # action after edit of Stats
     # ---------------------------------------------------------- #
     elsif ( $Self->{Subaction} eq 'Action' ) {
+
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
 
         # permission check
         $Self->{AccessRw} || return $Self->{LayoutObject}->NoPermission( WithHeader => 'yes' );
