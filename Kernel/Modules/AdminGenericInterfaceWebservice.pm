@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminGenericInterfaceWebservice.pm - provides a webservice view for admins
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceWebservice.pm,v 1.33 2011-11-24 06:55:22 cr Exp $
+# $Id: AdminGenericInterfaceWebservice.pm,v 1.34 2012-01-09 09:50:53 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.33 $) [1];
+$VERSION = qw($Revision: 1.34 $) [1];
 
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::GenericInterface::Webservice;
@@ -97,6 +97,9 @@ sub Run {
     #                         the configuration
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'ChangeAction' ) {
+
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
 
         # check for WebserviceID
         if ( !$WebserviceID ) {
@@ -237,6 +240,9 @@ sub Run {
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'AddAction' ) {
 
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
+
         # get webserice configuration
         my $WebserviceData;
 
@@ -366,6 +372,9 @@ sub Run {
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'Delete' ) {
 
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
+
         # get webserice configuration
         my $WebserviceData = $Self->{WebserviceObject}->WebserviceGet( ID => $WebserviceID );
 
@@ -395,6 +404,9 @@ sub Run {
     # subaction Clone: clone webservice and return value to dialog
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'Clone' ) {
+
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
 
         # check for WebserviceID
         if ( !$WebserviceID ) {
@@ -465,6 +477,9 @@ sub Run {
     #                   if name errors return to add screen
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'Import' ) {
+
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
 
         # get the webservice config file from the http request
         my %ConfigFile = $Self->{ParamObject}->GetUploadAll(
@@ -573,6 +588,9 @@ sub Run {
     # subaction DeleteAction: delete an operation or invoker
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'DeleteAction' ) {
+
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
 
         return $Self->_DeleteAction(
             WebserviceID => $WebserviceID,
