@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Ticket/TicketSearch.pm - GenericInterface Ticket Get operation backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketSearch.pm,v 1.2 2012-01-07 00:06:37 cg Exp $
+# $Id: TicketSearch.pm,v 1.3 2012-01-10 05:54:49 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,13 +14,14 @@ package Kernel::GenericInterface::Operation::Ticket::TicketSearch;
 use strict;
 use warnings;
 
-use MIME::Base64;
 use Kernel::System::Ticket;
+use Kernel::System::DynamicField;
+use Kernel::System::DynamicField::Backend;
+use Kernel::System::VariableCheck qw( :all );
 use Kernel::GenericInterface::Operation::Ticket::Common;
-use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 =head1 NAME
 
@@ -63,9 +64,13 @@ sub new {
     }
 
     # create additional objects
+    $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new(%Param);
+    $Self->{DFBackendObject}    = Kernel::System::DynamicField::Backend->new(%Param);
     $Self->{TicketCommonObject}
         = Kernel::GenericInterface::Operation::Ticket::Common->new( %{$Self} );
     $Self->{TicketObject} = Kernel::System::Ticket->new( %{$Self} );
+
+    $Self->{Config} = $Self->{ConfigObject}->Get('GenericInterface::Operation::TicketCreate');
 
     return $Self;
 }
@@ -122,7 +127,7 @@ sub Run {
     my $ReturnData = {
         Success => 1,
     };
-    my @Item;
+
     $Self->{SearchLimit} = $Self->{Config}->{SearchLimit} || 500;
     $Self->{SortBy} = $Param{Data}->{SortBy}
         || $Self->{Config}->{'SortBy::Default'}
@@ -130,6 +135,7 @@ sub Run {
     $Self->{OrderBy} = $Param{Data}->{OrderBy}
         || $Self->{Config}->{'Order::Default'}
         || 'Down';
+    $Self->{FullTextIndex} = $Param{Data}->{FullTextIndex} || 0;
 
     # get parameter from data
     my %GetParam = $Self->_GetParams( %{ $Param{Data} } );
@@ -137,38 +143,8 @@ sub Run {
     # create time settings
     %GetParam = $Self->_CreateTimeSettings(%GetParam);
 
-    my %AttributeLookup;
-
-    # create attibute lookup table
-    for my $Attribute ( @{ $GetParam{ShownAttributes} || [] } ) {
-        $AttributeLookup{$Attribute} = 1;
-    }
-
-    # dynamic fields search parameters for ticket search
-    my %DynamicFieldSearchParameters;
-
-    # cycle trough the activated Dynamic Fields for this screen
-    DYNAMICFIELD:
-    for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
-        next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
-        next DYNAMICFIELD
-            if !$AttributeLookup{ 'LabelSearch_DynamicField_' . $DynamicFieldConfig->{Name} };
-
-        # extract the dynamic field value form the profile
-        my $SearchParameter = $Self->{BackendObject}->SearchFieldParameterBuild(
-            DynamicFieldConfig => $DynamicFieldConfig,
-            Profile            => \%GetParam,
-            LayoutObject       => $Self->{LayoutObject},
-        );
-
-        # set search parameter
-        if ( defined $SearchParameter ) {
-            $DynamicFieldSearchParameters{ 'DynamicField_' . $DynamicFieldConfig->{Name} }
-                = $SearchParameter->{Parameter};
-        }
-
-        # set value to display
-    }
+    # get dynamic fields
+    my %DynamicFieldSearchParameters = $Self->_GetDynamicFields(%GetParam);
 
     # perform ticket search
     my @TicketIDs = $Self->{TicketObject}->TicketSearch(
@@ -262,10 +238,11 @@ sub _GetParams {
     {
 
         # get search string params (get submitted params)
-        $GetParam{$Item} = $Param{$Item};
+        if ( IsStringWithData( $Param{$Item} ) ) {
 
-        # remove white space on the start and end
-        if ( $GetParam{$Item} ) {
+            $GetParam{$Item} = $Param{$Item};
+
+            # remove white space on the start and end
             $GetParam{$Item} =~ s/\s+$//g;
             $GetParam{$Item} =~ s/^\s+//g;
         }
@@ -273,9 +250,13 @@ sub _GetParams {
 
     # get array params
     for my $Item (
-        qw(StateIDs StateTypeIDs QueueIDs PriorityIDs OwnerIDs
+        qw( StateIDs StateTypeIDs QueueIDs PriorityIDs OwnerIDs
         CreatedQueueIDs CreatedUserIDs WatchUserIDs ResponsibleIDs
-        TypeIDs ServiceIDs SLAIDs LockIDs)
+        TypeIDs ServiceIDs SLAIDs LockIDs Queues Types States
+        Priorities Services SLAs Locks CreatedTypes CreatedUserIDs
+        CreatedTypes CreatedTypeIDs CreatedPriorities
+        CreatedPriorityIDs CreatedStates CreatedStateIDs
+        CreatedQueues CreatedQueueIDs )
         )
     {
 
@@ -284,13 +265,81 @@ sub _GetParams {
         if ( IsArrayRefWithData( $Param{$Item} ) ) {
             @Values = @{ $Param{$Item} };
         }
-        elsif ( IsStringWithData() ) {
+        elsif ( IsStringWithData( $Param{$Item} ) ) {
             @Values = ( $Param{$Item} );
         }
         $GetParam{$Item} = \@Values if scalar @Values;
     }
 
     return %GetParam;
+
+}
+
+=item _GetDynamicFields()
+
+get search parameters.
+
+    my %DynamicFieldSearchParameters = _GetDynamicFields(
+        %Params,                          # all ticket parameters
+    );
+
+    returns:
+
+    %DynamicFieldSearchParameters = {
+        Success => 1,                               # if everething is OK
+    }
+
+=cut
+
+sub _GetDynamicFields {
+    my ( $Self, %Param ) = @_;
+
+    # dynamic fields search parameters for ticket search
+    my %DynamicFieldSearchParameters;
+
+    # get single params
+    my %GetParam = %Param;
+    my %AttributeLookup;
+
+    # get dynamic field config for frontend module
+    my $DynamicFieldFilter = $Self->{Config}->{DynamicField};
+
+    # get the dynamic fields for ticket object
+    $Self->{DynamicField} = $Self->{DynamicFieldObject}->DynamicFieldListGet(
+        Valid       => 1,
+        ObjectType  => ['Ticket'],
+        FieldFilter => $Self->{DynamicFieldFilter} || {},
+    );
+
+    # create attibute lookup table
+    for my $Attribute ( @{ $GetParam{ShownAttributes} || [] } ) {
+        $AttributeLookup{$Attribute} = 1;
+    }
+
+    # cycle trough the activated Dynamic Fields for this screen
+    DYNAMICFIELD:
+    for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
+        next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+        next DYNAMICFIELD
+            if !$AttributeLookup{ 'LabelSearch_DynamicField_' . $DynamicFieldConfig->{Name} };
+
+        # extract the dynamic field value form the profile
+        my $SearchParameter = $Self->{DFBackendObject}->SearchFieldParameterBuild(
+            DynamicFieldConfig => $DynamicFieldConfig,
+            Profile            => \%GetParam,
+            LayoutObject       => $Self->{LayoutObject},
+        );
+
+        # set search parameter
+        if ( defined $SearchParameter ) {
+            $DynamicFieldSearchParameters{ 'DynamicField_' . $DynamicFieldConfig->{Name} }
+                = $SearchParameter->{Parameter};
+        }
+
+        # set value to display
+    }
+
+    return %DynamicFieldSearchParameters;
 
 }
 
@@ -533,6 +582,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.2 $ $Date: 2012-01-07 00:06:37 $
+$Revision: 1.3 $ $Date: 2012-01-10 05:54:49 $
 
 =cut
