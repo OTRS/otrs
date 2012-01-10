@@ -2,7 +2,7 @@
 # AgentLinkObject.dtl - provides HTML for AgentLinkObject mask
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentLinkObject.dtl,v 1.51 2012-01-09 11:54:22 mg Exp $
+# $Id: AgentLinkObject.dtl,v 1.52 2012-01-10 14:35:00 jh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -61,25 +61,42 @@
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
     $('#TargetIdentifier').bind('change', function (Event) {
+        $('#SubmitSelect').addClass('gotclicked');
         $(this).closest('form').submit();
     });
+    // Two submits in this form
+    // if SubmitSelect button was clicked,
+    // add "gotclicked" class to this button
+    $('#SubmitSelect').bind('click.Submit', function () {
+       $('#SubmitSelect').addClass('gotclicked');
+    });
+
     $('#SearchForm').submit(function () {
+        // If SubmitSelect button was clicked,
+        // "gotclicked" was added as class to the button
+        // remove the class and do the search
+        if ($('#SubmitSelect').attr('class') == 'gotclicked') {
+            $('#SubmitSelect').removeClass('gotclicked');
+            return true;
+        }
+
         var SearchValueFlag = false;
-        $('#SearchForm input').each(function () {
+        $('#SearchForm input, #SearchForm select').each(function () {
             if ( $(this).attr('name') && $(this).attr('name').match(/^SEARCH\:\:/) ) {
-                if ( $(this).val() !== '' ) {
+                if ( $(this).val() && $(this).val() != '' ) {
                     SearchValueFlag = true;
                 }
             }
         });
-        if (!SearchValueFlag) {
+
+        if (SearchValueFlag == false) {
            alert(Core.Config.Get('EmtySearchMsg'));
            return false;
         }
     });
 //]]></script>
 <!--dtl:js_on_document_complete-->
-                            <button type="submit" value="$Text{"Select"}">$Text{"Select"}</button>
+                            <button type="submit" id="SubmitSelect" name="SubmitSelect" value="$Text{"Select"}">$Text{"Select"}</button>
                         </div>
                     </fieldset>
                 </div>
@@ -100,7 +117,7 @@
                         </div>
 <!-- dtl:block:LinkSearchRow -->
                         <div class="Field">
-                            <button type="submit" name="SubmitSearch" value="$Text{"Search"}">$Text{"Search"}</button>
+                            <button type="submit" id="SubmitSearch" name="SubmitSearch" value="$Text{"Search"}">$Text{"Search"}</button>
                         </div>
                     </fieldset>
                 </div>
