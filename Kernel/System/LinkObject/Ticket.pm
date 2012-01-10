@@ -1,8 +1,8 @@
 # --
 # Kernel/System/LinkObject/Ticket.pm - to link ticket objects
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.37 2011-11-25 10:23:24 mg Exp $
+# $Id: Ticket.pm,v 1.38 2012-01-10 14:44:27 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,8 +16,71 @@ use warnings;
 
 use Kernel::System::Ticket;
 
+=head1 NAME
+
+Kernel::System::LinkObject::Ticket
+
+=head1 SYNOPSIS
+
+Ticket backend for the ticket link object.
+
+=head1 PUBLIC INTERFACE
+
+=over 4
+
+=cut
+
+=item new()
+
+create an object
+
+    use Kernel::Config;
+    use Kernel::System::Encode;
+    use Kernel::System::Log;
+    use Kernel::System::Time;
+    use Kernel::System::Main;
+    use Kernel::System::DB;
+    use Kernel::System::LinkObject::Ticket;
+
+    my $ConfigObject = Kernel::Config->new();
+    my $EncodeObject = Kernel::System::Encode->new(
+        ConfigObject => $ConfigObject,
+    );
+    my $LogObject = Kernel::System::Log->new(
+        ConfigObject => $ConfigObject,
+        EncodeObject => $EncodeObject,
+    );
+    my $TimeObject = Kernel::System::Time->new(
+        ConfigObject => $ConfigObject,
+        LogObject    => $LogObject,
+    );
+    my $MainObject = Kernel::System::Main->new(
+        ConfigObject => $ConfigObject,
+        EncodeObject => $EncodeObject,
+        LogObject    => $LogObject,
+    );
+    my $DBObject = Kernel::System::DB->new(
+        ConfigObject => $ConfigObject,
+        EncodeObject => $EncodeObject,
+        LogObject    => $LogObject,
+        MainObject   => $MainObject,
+    );
+    my $TicketObject = Kernel::System::LinkObject::Ticket->new(
+        ConfigObject       => $ConfigObject,
+        LogObject          => $LogObject,
+        DBObject           => $DBObject,
+        MainObject         => $MainObject,
+        TimeObject         => $TimeObject,
+        EncodeObject       => $EncodeObject,
+        GroupObject        => $GroupObject,        # if given
+        CustomerUserObject => $CustomerUserObject, # if given
+        QueueObject        => $QueueObject,        # if given
+    );
+
+=cut
+
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.37 $) [1];
+$VERSION = qw($Revision: 1.38 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -538,3 +601,19 @@ sub LinkDeletePost {
 }
 
 1;
+
+=back
+
+=head1 TERMS AND CONDITIONS
+
+This software is part of the OTRS project (L<http://otrs.org/>).
+
+This software comes with ABSOLUTELY NO WARRANTY. For details, see
+the enclosed file COPYING for license information (AGPL). If you
+did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
+
+=head1 VERSION
+
+$Revision: 1.38 $ $Date: 2012-01-10 14:44:27 $
+
+=cut
