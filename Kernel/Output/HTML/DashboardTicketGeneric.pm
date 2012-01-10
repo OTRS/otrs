@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/DashboardTicketGeneric.pm
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardTicketGeneric.pm,v 1.42 2011-11-24 15:56:03 mg Exp $
+# $Id: DashboardTicketGeneric.pm,v 1.43 2012-01-10 23:50:08 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.42 $) [1];
+$VERSION = qw($Revision: 1.43 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -129,6 +129,7 @@ sub Run {
 
     # get all search base attributes
     my %TicketSearch;
+    my %DynamicFieldsParameters;
     my @Params = split /;/, $Self->{Config}->{Attributes};
     for my $String (@Params) {
         next if !$String;
@@ -142,6 +143,13 @@ sub Run {
         {
             push @{ $TicketSearch{$Key} }, $Value;
         }
+
+        # check if parameter is a dynamic field and capture dynamic filed name (with DyanmicField_)
+        # in $1 and the Operator in $2
+        elsif ( $Key =~ m{\A (DynamicField_.+?) _ (.+?) \z}sxm ) {
+            $DynamicFieldsParameters{$1}->{$2} = $Value;
+        }
+
         elsif ( !defined $TicketSearch{$Key} ) {
             $TicketSearch{$Key} = $Value;
         }
@@ -156,6 +164,7 @@ sub Run {
     }
     %TicketSearch = (
         %TicketSearch,
+        %DynamicFieldsParameters,
         Permission => $Self->{Config}->{Permission} || 'ro',
         UserID => $Self->{UserID},
     );
