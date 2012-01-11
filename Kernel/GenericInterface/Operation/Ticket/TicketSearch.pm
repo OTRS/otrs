@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Ticket/TicketSearch.pm - GenericInterface Ticket Get operation backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketSearch.pm,v 1.3 2012-01-10 05:54:49 cg Exp $
+# $Id: TicketSearch.pm,v 1.4 2012-01-11 00:23:44 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::VariableCheck qw( :all );
 use Kernel::GenericInterface::Operation::Ticket::Common;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 =head1 NAME
 
@@ -271,6 +271,29 @@ sub _GetParams {
         $GetParam{$Item} = \@Values if scalar @Values;
     }
 
+    # get escalation times
+    my %EscalationTimes = (
+        1 => '',
+        2 => 'Update',
+        3 => 'Response',
+        4 => 'Solution',
+    );
+
+    for my $Index ( sort keys %EscalationTimes ) {
+        for my $PostFix (qw( OlderMinutes NewerMinutes NewerDate OlderDate )) {
+            my $Item = 'TicketEscalation' . $EscalationTimes{$Index} . $PostFix;
+
+            # get search string params (get submitted params)
+            if ( IsStringWithData( $Param{$Item} ) ) {
+                $GetParam{$Item} = $Param{$Item};
+
+                # remove white space on the start and end
+                $GetParam{$Item} =~ s/\s+$//g;
+                $GetParam{$Item} =~ s/^\s+//g;
+            }
+        }
+    }
+
     return %GetParam;
 
 }
@@ -298,7 +321,6 @@ sub _GetDynamicFields {
     my %DynamicFieldSearchParameters;
 
     # get single params
-    my %GetParam = %Param;
     my %AttributeLookup;
 
     # get dynamic field config for frontend module
@@ -311,32 +333,34 @@ sub _GetDynamicFields {
         FieldFilter => $Self->{DynamicFieldFilter} || {},
     );
 
-    # create attibute lookup table
-    for my $Attribute ( @{ $GetParam{ShownAttributes} || [] } ) {
-        $AttributeLookup{$Attribute} = 1;
-    }
+    for my $ParameterName ( keys %Param ) {
+        if ( $ParameterName =~ m{\A DynamicField_ ( [a-zA-Z\d]+ ) \z}xms ) {
 
-    # cycle trough the activated Dynamic Fields for this screen
-    DYNAMICFIELD:
-    for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
-        next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
-        next DYNAMICFIELD
-            if !$AttributeLookup{ 'LabelSearch_DynamicField_' . $DynamicFieldConfig->{Name} };
+            # loop over the dyanmic fields configured
+            DYNAMICFIELD:
+            for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
+                next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+                next DYNAMICFIELD if !$DynamicFieldConfig->{Name};
 
-        # extract the dynamic field value form the profile
-        my $SearchParameter = $Self->{DFBackendObject}->SearchFieldParameterBuild(
-            DynamicFieldConfig => $DynamicFieldConfig,
-            Profile            => \%GetParam,
-            LayoutObject       => $Self->{LayoutObject},
-        );
+                # skip all fields that does not match with current field name ($1)
+                # without the 'DynamicField_' prefix
+                next DYNAMICFIELD if $DynamicFieldConfig->{Name} ne $1;
 
-        # set search parameter
-        if ( defined $SearchParameter ) {
-            $DynamicFieldSearchParameters{ 'DynamicField_' . $DynamicFieldConfig->{Name} }
-                = $SearchParameter->{Parameter};
+                # get new search parameter
+                my $SearchParameter
+                    = $Self->{BackendObject}->CommonSearchFieldParameterBuild(
+                    DynamicFieldConfig => $DynamicFieldConfig,
+                    Value              => $Param{$ParameterName},
+                    );
+
+                # add new search parameter
+                # set search parameter
+                if ( defined $SearchParameter ) {
+                    $DynamicFieldSearchParameters{ 'DynamicField_' . $DynamicFieldConfig->{Name} }
+                        = $SearchParameter->{Parameter};
+                }
+            }
         }
-
-        # set value to display
     }
 
     return %DynamicFieldSearchParameters;
@@ -369,7 +393,6 @@ sub _CreateTimeSettings {
     if ( !$GetParam{ChangeTimeSearchType} ) {
 
         # do nothing on time stuff
-        return %GetParam;
     }
     elsif ( $GetParam{ChangeTimeSearchType} eq 'TimeSlot' ) {
         for (qw(Month Day)) {
@@ -514,31 +537,6 @@ sub _CreateTimeSettings {
         }
     }
 
-    # Special behaviour for the fulltext search toolbar module:
-    # - Check full text string to see if contents is a ticket number.
-    # - If exists and not in print or CSV mode, redirect to the ticket.
-    # See http://bugs.otrs.org/show_bug.cgi?id=4238 for details.
-    #   The original problem was that tickets with customer reply will be
-    #   found by a fulltext search (ticket number is in the subjects), but
-    #   'new' tickets will not be found.
-    if (
-        $GetParam{Fulltext}
-        && $Self->{ParamObject}->GetParam( Param => 'CheckTicketNumberAndRedirect' )
-        && $GetParam{ResultForm} ne 'Normal'
-        && $GetParam{ResultForm} ne 'Print'
-        )
-    {
-        my $TicketID = $Self->{TicketObjectSearch}->TicketIDLookup(
-            TicketNumber => $GetParam{Fulltext},
-            UserID       => $Self->{UserID},
-        );
-        if ($TicketID) {
-            return $Self->{LayoutObject}->Redirect(
-                OP => "Action=AgentTicketZoom;TicketID=$TicketID",
-            );
-        }
-    }
-
     # prepare full text search
     if ( $GetParam{Fulltext} ) {
         $GetParam{ContentSearch} = 'OR';
@@ -582,6 +580,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.3 $ $Date: 2012-01-10 05:54:49 $
+$Revision: 1.4 $ $Date: 2012-01-11 00:23:44 $
 
 =cut
