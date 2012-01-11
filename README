@@ -1,8 +1,8 @@
 # --
 # README - readme file of OTRS
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: README,v 1.45 2011-12-19 12:40:55 mg Exp $
+# $Id: README,v 1.46 2012-01-11 23:23:23 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -76,6 +76,12 @@ $HOME (e. g. /opt/otrs/)
 |   |      |---- /HTML/
 |   |             |--- /Standard/*.dtl (all dtl files for Standard theme)
 |   |
+|   |--- /GenericInterface (GenericInterface framework)
+|          |--- /Invoker/ (invoker backends)
+|          |--- /Mapping/ (data mapping backends)
+|          |--- /Operation/ (operation backends)
+|          |--- /Transport/ (network transport backends)
+|   |
 |   |---- /Language/      (all translation files)
 |   |
 |   |---- /Modules/        (all action modules e. g. QueueView, Move, ...)
@@ -92,13 +98,10 @@ $HOME (e. g. /opt/otrs/)
 |           |--- /DynamicField
 |                 |--- /Backend.pm (Interface for using the dynamic fields)
 |                 |--- /Backend/*.pm (DynamicField backend implementations)
+|                 |--- /ObjectType/*.pm (DynamicField object type implementations)
 |           |--- /Email.pm       (create and send e-mail)
 |           |--- /EmailParser.pm (parsing e-mail)
-|           |--- /GenericInterface (GenericInterface framework)
-|                 |--- /Invoker/ (invoker backends)
-|                 |--- /Mapping/ (data mapping backends)
-|                 |--- /Operation/ (operation backends)
-|                 |--- /Transport/ (network transport backends)
+|           |--- /GenericInterface/*.pm (all DB related GenericInterface modules)
 |           |--- /Group.pm       (group module)
 |           |--- /Log.pm         (log module)
 |           |--- /Queue.pm       (information about queues. e. g. responses, ...)
