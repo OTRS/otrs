@@ -1,13 +1,14 @@
-package YAML::Node;
-
 use strict;
 use warnings;
+package YAML::Node;
 
-use YAML::Base;
+our $VERSION = '0.78';
+
 use YAML::Tag;
+require YAML::Mo;
 
-our $VERSION = '0.72';
-our @ISA     = 'YAML::Base';
+use Exporter;
+our @ISA     = 'Exporter';
 our @EXPORT  = qw(ynode);
 
 sub ynode {
@@ -28,7 +29,7 @@ sub new {
     my ($class, $node, $tag) = @_;
     my $self;
     $self->{NODE} = $node;
-    my (undef, $type) = $class->node_info($node);
+    my (undef, $type) = YAML::Mo::Object->node_info($node);
     $self->{KIND} = (not defined $type) ? 'scalar' :
                     ($type eq 'ARRAY') ? 'sequence' :
 		    ($type eq 'HASH') ? 'mapping' :

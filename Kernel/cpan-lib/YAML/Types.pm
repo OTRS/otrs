@@ -1,24 +1,20 @@
 package YAML::Types;
+use YAML::Mo;
 
-use strict;
-use warnings;
-use YAML::Base;
+our $VERSION = '0.78';
+
 use YAML::Node;
-
-our $VERSION = '0.72';
-our @ISA     = 'YAML::Base';
 
 # XXX These classes and their APIs could still use some refactoring,
 # but at least they work for now.
 #-------------------------------------------------------------------------------
 package YAML::Type::blessed;
-
-use YAML::Base; # XXX
+use YAML::Mo; # XXX
 
 sub yaml_dump {
     my $self = shift;
     my ($value) = @_;
-    my ($class, $type) = YAML::Base->node_info($value);
+    my ($class, $type) = YAML::Mo::Object->node_info($value);
     no strict 'refs';
     my $kind = lc($type) . ':';
     my $tag = ${$class . '::ClassTag'} ||
@@ -126,7 +122,7 @@ sub yaml_dump {
     my $self = shift;
     my $code;
     my ($dumpflag, $value) = @_;
-    my ($class, $type) = YAML::Base->node_info($value);
+    my ($class, $type) = YAML::Mo::Object->node_info($value);
     my $tag = "!perl/code";
     $tag .= ":$class" if defined $class;
     if (not $dumpflag) {

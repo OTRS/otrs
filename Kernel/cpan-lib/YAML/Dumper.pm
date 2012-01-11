@@ -1,14 +1,12 @@
 package YAML::Dumper;
+use YAML::Mo;
+extends 'YAML::Dumper::Base';
 
-use strict;
-use warnings;
-use YAML::Base;
+our $VERSION = '0.78';
+
 use YAML::Dumper::Base;
 use YAML::Node;
 use YAML::Types;
-
-our $VERSION = '0.72';
-our @ISA     = 'YAML::Dumper::Base';
 
 # Context constants
 use constant KEY       => 3;

@@ -1,29 +1,25 @@
 package YAML::Loader::Base;
+use YAML::Mo;
 
-use strict;
-use warnings;
-use YAML::Base;
+our $VERSION = '0.78';
 
-our $VERSION = '0.72';
-our @ISA     = 'YAML::Base';
-
-field load_code     => 0;
-field stream        => '';
-field document      => 0;
-field line          => 0;
-field documents     => [];
-field lines         => [];
-field eos           => 0;
-field done          => 0;
-field anchor2node   => {};
-field level         => 0;
-field offset        => [];
-field preface       => '';
-field content       => '';
-field indent        => 0;
-field major_version => 0;
-field minor_version => 0;
-field inline        => '';
+has load_code     => default => sub {0};
+has stream        => default => sub {''};
+has document      => default => sub {0};
+has line          => default => sub {0};
+has documents     => default => sub {[]};
+has lines         => default => sub {[]};
+has eos           => default => sub {0};
+has done          => default => sub {0};
+has anchor2node   => default => sub {{}};
+has level         => default => sub {0};
+has offset        => default => sub {[]};
+has preface       => default => sub {''};
+has content       => default => sub {''};
+has indent        => default => sub {0};
+has major_version => default => sub {0};
+has minor_version => default => sub {0};
+has inline        => default => sub {''};
 
 sub set_global_options {
     my $self = shift;

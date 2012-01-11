@@ -1,10 +1,10 @@
 package YAML::Any;
 
-use 5.005003;
+our $VERSION = '0.78';
+
 use strict;
 use Exporter ();
 
-$YAML::Any::VERSION   = '0.72';
 @YAML::Any::ISA       = 'Exporter';
 @YAML::Any::EXPORT    = qw(Dump Load);
 @YAML::Any::EXPORT_OK = qw(DumpFile LoadFile);

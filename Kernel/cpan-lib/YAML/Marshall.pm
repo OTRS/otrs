@@ -1,10 +1,10 @@
-package YAML::Marshall;
-
 use strict;
 use warnings;
-use YAML::Node ();
+package YAML::Marshall;
 
-our $VERSION = '0.72';
+our $VERSION = '0.78';
+
+use YAML::Node ();
 
 sub import {
     my $class = shift;

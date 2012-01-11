@@ -1,17 +1,13 @@
 package YAML::Error;
+use YAML::Mo;
 
-use strict;
-use warnings;
-use YAML::Base;
+our $VERSION = '0.78';
 
-our $VERSION = '0.72';
-our @ISA     = 'YAML::Base';
-
-field 'code';
-field 'type' => 'Error';
-field 'line';
-field 'document';
-field 'arguments' => [];
+has 'code';
+has 'type' => default => sub {'Error'};
+has 'line';
+has 'document';
+has 'arguments' => default => sub {[]};
 
 my ($error_messages, %line_adjust);
 
