@@ -1,8 +1,8 @@
 # --
-# Kernel/GenericInterface/Operation/Ticket/TicketSearch.pm - GenericInterface Ticket Get operation backend
+# Kernel/GenericInterface/Operation/Ticket/TicketSearch.pm - GenericInterface Ticket Search operation backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketSearch.pm,v 1.4 2012-01-11 00:23:44 cg Exp $
+# $Id: TicketSearch.pm,v 1.5 2012-01-11 05:57:56 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,11 +21,11 @@ use Kernel::System::VariableCheck qw( :all );
 use Kernel::GenericInterface::Operation::Ticket::Common;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 =head1 NAME
 
-Kernel::GenericInterface::Operation::Ticket::TicketSearch - GenericInterface Ticket Get Operation backend
+Kernel::GenericInterface::Operation::Ticket::TicketSearch - GenericInterface Ticket Search Operation backend
 
 =head1 SYNOPSIS
 
@@ -70,6 +70,7 @@ sub new {
         = Kernel::GenericInterface::Operation::Ticket::Common->new( %{$Self} );
     $Self->{TicketObject} = Kernel::System::Ticket->new( %{$Self} );
 
+    # get config for this screen
     $Self->{Config} = $Self->{ConfigObject}->Get('GenericInterface::Operation::TicketCreate');
 
     return $Self;
@@ -77,7 +78,7 @@ sub new {
 
 =item Run()
 
-perform TicketSearch Operation. This will return a Ticket entry.
+perform TicketSearch Operation. This will return a Ticket ID list.
 
     my $Result = $OperationObject->Run(
         Data => {
@@ -121,13 +122,8 @@ sub Run {
             );
         }
     }
-    my $ErrorMessage = '';
 
     # all needed variables
-    my $ReturnData = {
-        Success => 1,
-    };
-
     $Self->{SearchLimit} = $Self->{Config}->{SearchLimit} || 500;
     $Self->{SortBy} = $Param{Data}->{SortBy}
         || $Self->{Config}->{'SortBy::Default'}
@@ -136,6 +132,10 @@ sub Run {
         || $Self->{Config}->{'Order::Default'}
         || 'Down';
     $Self->{FullTextIndex} = $Param{Data}->{FullTextIndex} || 0;
+
+    my $ReturnData = {
+        Success => 1,
+    };
 
     # get parameter from data
     my %GetParam = $Self->_GetParams( %{ $Param{Data} } );
@@ -163,7 +163,7 @@ sub Run {
 
     if ( !IsArrayRefWithData( \@TicketIDs ) ) {
 
-        $ErrorMessage = 'Could not get Ticket data'
+        my $ErrorMessage = 'Could not get Ticket data'
             . ' in Kernel::GenericInterface::Operation::Ticket::TicketSearch::Run()';
 
         return $Self->{TicketCommonObject}->ReturnError(
@@ -186,14 +186,14 @@ sub Run {
 
 get search parameters.
 
-    my %GetParam = GetParams(
+    my %GetParam = _GetParams(
         %Params,                          # all ticket parameters
     );
 
     returns:
 
     %GetParam = {
-        Success => 1,                               # if everething is OK
+        AllowedParams => 'WithContent', # return not empty parameters for search
     }
 
 =cut
@@ -309,7 +309,7 @@ get search parameters.
     returns:
 
     %DynamicFieldSearchParameters = {
-        Success => 1,                               # if everething is OK
+        'AllAllowedDF' => 'WithData',   # return not empty parameters for search
     }
 
 =cut
@@ -363,6 +363,8 @@ sub _GetDynamicFields {
         }
     }
 
+    # allow free fields
+
     return %DynamicFieldSearchParameters;
 
 }
@@ -378,7 +380,7 @@ get search parameters.
     returns:
 
     %GetParam = {
-        Success => 1,                               # if everething is OK
+        AllowedTimeSettings => 'WithData',   # return not empty parameters for search
     }
 
 =cut
@@ -561,7 +563,6 @@ sub _CreateTimeSettings {
     }
 
     return %GetParam;
-
 }
 
 1;
@@ -580,6 +581,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.4 $ $Date: 2012-01-11 00:23:44 $
+$Revision: 1.5 $ $Date: 2012-01-11 05:57:56 $
 
 =cut
