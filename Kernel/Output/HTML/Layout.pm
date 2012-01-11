@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.377 2011-12-21 12:39:49 mg Exp $
+# $Id: Layout.pm,v 1.378 2012-01-11 15:43:07 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Mail::Address;
 use URI::Escape qw();
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.377 $) [1];
+$VERSION = qw($Revision: 1.378 $) [1];
 
 =head1 NAME
 
@@ -4119,68 +4119,62 @@ sub _Output {
         Template => \$TemplateString,
         TemplateFile => $Param{TemplateFile} || '',
     );
-    my $ID = 0;
-    my %LayerHash;
-    my $OldLayer = 1;
-    for my $Block (@BR) {
 
-        # reset layer counter if we switched on layer lower
-        if ( $Block->{Layer} > $OldLayer ) {
-            $LayerHash{ $Block->{Layer} } = 0;
-        }
+    # check if a block structure exists
+    if ( scalar @BR ) {
 
-        # count current layer
-        $LayerHash{ $Block->{Layer} }++;
+        # process structure
+        my $BlockStructure;
+        my $LastLayer = $BR[-1]->{Layer};
+        for my $Block (
+            reverse
+            {
+                Data  => $TemplateString,
+                Layer => 0,
+                Name  => 'TemplateString',
+            },
+            @BR
+            )
+        {
 
-        # create current id (1:2:3)
-        undef $ID;
-        for ( my $i = 1; $i <= $Block->{Layer}; $i++ ) {
-            if ( defined $ID ) {
-                $ID .= ':';
+            # process and remove substructure (if exists)
+            if (
+                $Block->{Layer} < $LastLayer
+                && ref $BlockStructure->{ $Block->{Layer} + 1 } eq 'HASH'
+                )
+            {
+                for my $SubLayer ( keys %{ $BlockStructure->{ $Block->{Layer} + 1 } } ) {
+                    my $SubLayerString = join '',
+                        @{ $BlockStructure->{ $Block->{Layer} + 1 }->{$SubLayer} };
+                    $Block->{Data}
+                        =~ s{ <!-- [ ] dtl:place_block: $SubLayer [ ] --> }{$SubLayerString}xms;
+                }
+                undef $BlockStructure->{ $Block->{Layer} + 1 };
             }
-            if ( defined $LayerHash{$i} ) {
-                $ID .= $LayerHash{$i};
+
+            # for safety - clean up old same-level structures
+            elsif ( $Block->{Layer} > $LastLayer ) {
+                undef $BlockStructure->{ $Block->{Layer} };
             }
+
+            # add to structure
+            unshift @{ $BlockStructure->{ $Block->{Layer} }->{ $Block->{Name} } }, $Block->{Data};
+            $LastLayer = $Block->{Layer};
         }
 
-        # add block counter to template blocks
-        if ( $Block->{Layer} == 1 ) {
-            $TemplateString =~ s{
-                <!-- [ ] dtl:place_block:($Block->{Name}) [ ] -->
-            }
-            {<!-- dtl:place_block:$1:$LayerHash{$Block->{Layer}} -->}sgxm;
-        }
+        # assign result
+        $TemplateString = $BlockStructure->{0}->{TemplateString}->[0];
 
-        # add block counter to in block blocks
-        $Block->{Data} =~ s{
-            <!-- [ ] dtl:place_block:(.+?) [ ] -->
-        }
-        {<!-- dtl:place_block:$1:$ID:- -->}sgxm;
-
-        # count up place_block counter
-        $ID =~ s/^(.*:)(\d+)$/$1-/;
-
-        my $NewID = '';
-        if ( $ID =~ /^(.*:)(\d+)$/ ) {
-            $NewID = $1 . ( $2 + 1 );
-        }
-        elsif ( $ID =~ /^(\d+)$/ ) {
-            $NewID = ( $1 + 1 );
-        }
-        elsif ( $ID =~ /^(.*:)-$/ ) {
-            $NewID = $ID;
-        }
-
-        $TemplateString =~ s{
-            <!-- [ ] dtl:place_block:$Block->{Name}:$ID [ ] -->
-        }
-        {$Block->{Data}<!-- dtl:place_block:$Block->{Name}:$NewID -->}sxm;
-        $OldLayer = $Block->{Layer};
     }
 
     # remove empty blocks and block preferences
     if ( $Param{BlockReplace} ) {
-        $TemplateString =~ s{<!-- [ ] dtl:place_block:.+? [ ] --> }{}sgxm;
+        my @TemplateBlocks = split '<!-- dtl:place_block:', $TemplateString;
+        $TemplateString = shift @TemplateBlocks;
+        for my $TemplateBlock (@TemplateBlocks) {
+            $TemplateBlock =~ s{ \A .+? [ ] --> }{}xms;
+            $TemplateString .= $TemplateBlock;
+        }
     }
 
     # process template
@@ -4911,6 +4905,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.377 $ $Date: 2011-12-21 12:39:49 $
+$Revision: 1.378 $ $Date: 2012-01-11 15:43:07 $
 
 =cut
