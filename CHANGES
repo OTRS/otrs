@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2121 2012-01-10 23:50:08 cr Exp $
+# $Id: CHANGES,v 1.2122 2012-01-11 14:17:08 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.1.0.beta4 2012-01-??
+ - 2012-01-11 Updated CPAN module CGI to version 3.59.
  - 2012-01-10 Fixed bug#8095 - DashboardTicketGeneric does not support dynamic fields.
  - 2012-01-10 Ticket search and ticket link requires at least one search parameter.
  - 2012-01-09 Improved consistency of ChallengeToken checks in the agent and admin interface.

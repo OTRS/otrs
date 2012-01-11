@@ -19,8 +19,8 @@ use Carp 'croak';
 #   http://search.cpan.org/dist/CGI.pm
 
 # The revision is no longer being updated since moving to git. 
-$CGI::revision = '$Id: CGI.pm,v 1.23 2011-08-30 09:46:06 mh Exp $';
-$CGI::VERSION='3.55';
+$CGI::revision = '$Id: CGI.pm,v 1.24 2012-01-11 14:17:08 mh Exp $';
+$CGI::VERSION='3.59';
 
 # HARD-CODED LOCATION FOR FILE UPLOAD TEMPORARY FILES.
 # UNCOMMENT THIS ONLY IF YOU KNOW WHAT YOU'RE DOING.
@@ -386,7 +386,7 @@ sub new {
 # user is still holding any reference to them as well.
 sub DESTROY {
   my $self = shift;
-  if ($OS eq 'WINDOWS') {
+  if ($OS eq 'WINDOWS' || $OS eq 'VMS') {
     for my $href (values %{$self->{'.tmpfiles'}}) {
       $href->{hndl}->DESTROY if defined $href->{hndl};
       $href->{name}->DESTROY if defined $href->{name};
@@ -525,7 +525,7 @@ sub init {
     # if we get called more than once, we want to initialize
     # ourselves from the original query (which may be gone
     # if it was read from STDIN originally.)
-    if (defined(@QUERY_PARAM) && !defined($initializer)) {
+    if (@QUERY_PARAM && !defined($initializer)) {
         for my $name (@QUERY_PARAM) {
             my $val = $QUERY_PARAM{$name}; # always an arrayref;
             $self->param('-name'=>$name,'-value'=> $val);
@@ -663,14 +663,6 @@ sub init {
       if ($meth eq 'POST' || $meth eq 'PUT') {
 	  if ( $content_length > 0 ) {
 	    $self->read_from_client(\$query_string,$content_length,0);
-	  }
-	  elsif (not defined $ENV{CONTENT_LENGTH}) {
-	    $self->read_from_stdin(\$query_string);
-	    # should this be PUTDATA in case of PUT ?
-	    my($param) = $meth . 'DATA' ;
-	    $self->add_parameter($param) ;
-	    push (@{$self->{param}{$param}},$query_string);
-	    undef $query_string ;
 	  }
 	  # Some people want to have their cake and eat it too!
 	  # Uncomment this line to have the contents of the query string
@@ -1021,47 +1013,6 @@ sub read_from_client {
     return $MOD_PERL
         ? $self->r->read($$buff, $len, $offset)
         : read(\*STDIN, $$buff, $len, $offset);
-}
-END_OF_FUNC
-
-'read_from_stdin' => <<'END_OF_FUNC',
-# Read data from stdin until all is read
-sub read_from_stdin {
-    my($self, $buff) = @_;
-    local $^W=0;                # prevent a warning
-
-    #
-    # TODO: loop over STDIN until all is read
-    #
-
-    my($eoffound) = 0;
-    my($localbuf) = '';
-    my($tempbuf) = '';
-    my($bufsiz) = 1024;
-    my($res);
-    while ($eoffound == 0) {
-	if ( $MOD_PERL ) {
-	    $res = $self->r->read($tempbuf, $bufsiz, 0)
-	}
-	else {
-	    $res = read(\*STDIN, $tempbuf, $bufsiz);
-	}
-
-	if ( !defined($res) ) {
-	    # TODO: how to do error reporting ?
-	    $eoffound = 1;
-	    last;
-	}
-	if ( $res == 0 ) {
-	    $eoffound = 1;
-	    last;
-	}
-	$localbuf .= $tempbuf;
-    }
-
-    $$buff = $localbuf;
-
-    return $res;
 }
 END_OF_FUNC
 
@@ -3530,11 +3481,11 @@ sub read_from_cmdline {
     if ($DEBUG && @ARGV) {
 	@words = @ARGV;
     } elsif ($DEBUG > 1) {
-	require "shellwords.pl";
+	require Text::ParseWords;
 	print STDERR "(offline mode: enter name=value pairs on standard input; press ^D or ^Z when done)\n";
 	chomp(@lines = <STDIN>); # remove newlines
 	$input = join(" ",@lines);
-	@words = &shellwords($input);    
+	@words = &Text::ParseWords::old_shellwords($input);    
     }
     for (@words) {
 	s/\\=/%3D/g;
@@ -5565,13 +5516,13 @@ place to put HTML extensions, such as colors and wallpaper patterns.
 
 =head2 ENDING THE HTML DOCUMENT:
 
-	print end_html
+	print $q->end_html;
 
 This ends an HTML document by printing the </body></html> tags.
 
 =head2 CREATING A SELF-REFERENCING URL THAT PRESERVES STATE INFORMATION:
 
-    $myself = self_url;
+    $myself = $q->self_url;
     print q(<a href="$myself">I'm talking to myself.</a>);
 
 self_url() will return a URL, that, when selected, will reinvoke
@@ -5580,7 +5531,7 @@ useful when you want to jump around within the document using
 internal anchors but you don't want to disrupt the current contents
 of the form(s).  Something like this will do the trick.
 
-     $myself = self_url;
+     $myself = $q->self_url;
      print "<a href=\"$myself#table1\">See table 1</a>";
      print "<a href=\"$myself#table2\">See table 2</a>";
      print "<a href=\"$myself#yourself\">See for yourself</a>";
@@ -5590,7 +5541,10 @@ method instead.
 
 You can also retrieve the unprocessed query string with query_string():
 
-    $the_string = query_string;
+    $the_string = $q->query_string();
+
+The behavior of calling query_string is currently undefined when the HTTP method is
+something other than GET.
 
 =head2 OBTAINING THE SCRIPT'S URL
 
@@ -7947,7 +7901,7 @@ C<:cgi-lib> and C<:standard> method:
 
 =head2 Cgi-lib functions that are available in CGI.pm
 
-In compatability mode, the following cgi-lib.pl functions are
+In compatibility mode, the following cgi-lib.pl functions are
 available for your use:
 
  ReadParse()
@@ -7988,15 +7942,15 @@ available for your use:
 
 =head1 AUTHOR INFORMATION
 
-The CGI.pm distribution is copyright 1995-2007, Lincoln D. Stein.  It is
-distributed under GPL and the Artistic License 2.0.
+The CGI.pm distribution is copyright 1995-2007, Lincoln D. Stein. It is
+distributed under GPL and the Artistic License 2.0. It is currently
+maintained by Mark Stosberg with help from many contributors.
 
-Address bug reports and comments to: lstein@cshl.org.  When sending
-bug reports, please provide the version of CGI.pm, the version of
-Perl, the name and version of your Web server, and the name and
-version of the operating system you are using.  If the problem is even
-remotely browser dependent, please provide information about the
-affected browsers as well.
+Address bug reports and comments to: https://rt.cpan.org/Public/Dist/Display.html?Queue=CGI.pm
+When sending bug reports, please provide the version of CGI.pm, the version of
+Perl, the name and version of your Web server, and the name and version of the
+operating system you are using.  If the problem is even remotely browser
+dependent, please provide information about the affected browsers as well.
 
 =head1 CREDITS
 
