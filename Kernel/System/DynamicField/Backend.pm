@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend.pm - Interface for DynamicField backends
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Backend.pm,v 1.63 2012-01-03 22:52:48 cr Exp $
+# $Id: Backend.pm,v 1.64 2012-01-11 17:28:26 jh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Scalar::Util qw(weaken);
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.63 $) [1];
+$VERSION = qw($Revision: 1.64 $) [1];
 
 =head1 NAME
 
@@ -749,7 +749,7 @@ extracts the value of a dynamic field from the param object.
         DynamicFieldConfig   => $DynamicFieldConfig,    # complete config of the DynamicField
         ParamObject          => $ParamObject,           # the current request data
         LayoutObject         => $LayoutObject,          # used to transform dates to user time zone
-        TransformDates       => 1                       # 1 || 0, default 1, to transform the dyanmic fields that
+        TransformDates       => 1                       # 1 || 0, default 1, to transform the dynamic fields that
                                                         #   use dates to the user time zone (i.e. Date, DateTime
                                                         #   dynamic fields)
         Template             => $Template,
@@ -768,7 +768,7 @@ extracts the value of a dynamic field from the param object.
     my $Value = $BackendObject->EditFieldValueGet(
         DynamicFieldConfig   => $DynamicFieldConfig,    # complete config of the DynamicField
         ParamObject          => $ParamObject,           # the current request data
-        TransformDates       => 0                       # 1 || 0, default 1, to transform the dyanmic fields that
+        TransformDates       => 0                       # 1 || 0, default 1, to transform the dynamic fields that
                                                         #   use dates to the user time zone (i.e. Date, DateTime
                                                         #   dynamic fields)
 
@@ -1963,6 +1963,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.63 $ $Date: 2012-01-03 22:52:48 $
+$Revision: 1.64 $ $Date: 2012-01-11 17:28:26 $
 
 =cut

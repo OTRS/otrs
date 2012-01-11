@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Stats/Dynamic/Ticket.pm - all advice functions
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.36 2011-10-31 20:24:32 cr Exp $
+# $Id: Ticket.pm,v 1.37 2012-01-11 17:28:26 jh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.36 $) [1];
+$VERSION = qw($Revision: 1.37 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -525,7 +525,7 @@ sub GetStatElement {
     for my $ParameterName ( keys %Param ) {
         if ( $ParameterName =~ m{\A DynamicField_ ( [a-zA-Z\d]+ ) \z}xms ) {
 
-            # loop over the dyanmic fields configured
+            # loop over the dynamic fields configured
             DYNAMICFIELD:
             for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
                 next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);

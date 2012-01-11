@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Ticket/TicketSearch.pm - GenericInterface Ticket Search operation backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketSearch.pm,v 1.5 2012-01-11 05:57:56 cg Exp $
+# $Id: TicketSearch.pm,v 1.6 2012-01-11 17:28:26 jh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::VariableCheck qw( :all );
 use Kernel::GenericInterface::Operation::Ticket::Common;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 =head1 NAME
 
@@ -336,7 +336,7 @@ sub _GetDynamicFields {
     for my $ParameterName ( keys %Param ) {
         if ( $ParameterName =~ m{\A DynamicField_ ( [a-zA-Z\d]+ ) \z}xms ) {
 
-            # loop over the dyanmic fields configured
+            # loop over the dynamic fields configured
             DYNAMICFIELD:
             for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
                 next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
@@ -581,6 +581,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.5 $ $Date: 2012-01-11 05:57:56 $
+$Revision: 1.6 $ $Date: 2012-01-11 17:28:26 $
 
 =cut

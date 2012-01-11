@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Stats/Dynamic/TicketAccountedTime.pm - stats for accounted ticket time
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketAccountedTime.pm,v 1.13 2011-10-31 20:24:32 cr Exp $
+# $Id: TicketAccountedTime.pm,v 1.14 2012-01-11 17:28:26 jh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -801,7 +801,7 @@ sub _ReportingValues {
     for my $ParameterName ( keys %TicketSearch ) {
         if ( $ParameterName =~ m{\A DynamicField_ ( [a-zA-Z\d]+ ) \z}xms ) {
 
-            # loop over the dyanmic fields configured
+            # loop over the dynamic fields configured
             DYNAMICFIELD:
             for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
                 next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
@@ -1039,7 +1039,7 @@ sub _AllowedTicketSearchAttributes {
         TicketEscalationSolutionTimeOlderDate
     );
 
-    # loop over the dyanmic fields configured
+    # loop over the dynamic fields configured
     DYNAMICFIELD:
     for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);

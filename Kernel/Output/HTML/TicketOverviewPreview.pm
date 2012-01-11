@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/TicketOverviewPreview.pm
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketOverviewPreview.pm,v 1.66 2011-12-08 14:06:42 mg Exp $
+# $Id: TicketOverviewPreview.pm,v 1.67 2012-01-11 17:28:26 jh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.66 $) [1];
+$VERSION = qw($Revision: 1.67 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -799,7 +799,7 @@ sub _Show {
         }
     }
 
-    # fill the rest of the Dyanmic Fields row with empty cells, this will look better
+    # fill the rest of the Dynamic Fields row with empty cells, this will look better
     if ( $Counter > 0 && $Counter < 2 ) {
 
         for ( $Counter + 1 ... 2 ) {
