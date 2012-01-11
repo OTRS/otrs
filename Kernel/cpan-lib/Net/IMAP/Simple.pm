@@ -9,7 +9,7 @@ use IO::Socket;
 use IO::Select;
 use Net::IMAP::Simple::PipeSocket;
 
-our $VERSION = "1.2024";
+our $VERSION = "1.20271";
 
 BEGIN {
     # I'd really rather the pause/cpan indexers miss this "package"
@@ -525,7 +525,7 @@ sub search {
     # add rfc5256 sort, requires charset :(
     if ($sort) {
         $sort = uc $sort;
-        $cmd = "SORT ($sort) \"$charset\"";
+        $cmd = ($uidm ? "UID ": "") . "SORT ($sort) \"$charset\"";
     }
 
     my @seq;
@@ -604,12 +604,42 @@ sub get {
     my $arg = $part ? "BODY[$part]" : 'RFC822';
 
     my @lines;
+    my $fetching;
 
     return $self->_process_cmd(
         cmd => [ FETCH => qq[$number $arg] ],
-        final => sub { pop @lines; wantarray ? @lines : Net::IMAP::Simple::_message->new(\@lines) },
+        final => sub {
+            if( $fetching ) {
+                $lines[-1] =~ s/\)[\x0d\x0a]*\z//;
+                return  wantarray ? @lines : Net::IMAP::Simple::_message->new(\@lines)
+            }
+
+            if( defined $fetching and $fetching == 0 ) {
+                return "\n"; # XXX: Your 0 byte message is incorrectly returned as a newline.  Meh.
+            }
+
+            # NOTE: There is not supposed to be an error if you ask for a
+            # message that's not there, but this is a rather confusing
+            # notion … so we generate an error here.
+
+            $self->{_errstr} = "message not found";
+            return;
+        },
         process => sub {
-            if ( $_[0] !~ /^\* \d+ FETCH/ ) {
+            if ( $_[0] =~ /^\*\s+\d+\s+FETCH\s+\(.+?\{(\d+)\}\E/ ) {
+                $fetching = $1;
+
+            } elsif( $_[0] =~ /^\*\s+\d+\s+FETCH\s+\(.+?\"(.*)\"\s*\)\E/ ) {
+                # XXX: this is not tested because Net::IMAP::Server doesn't do
+                # this type of string result (that I know of) for this it might
+                # work, ... frog knows.  Not likely to come up very often, if
+                # ever; although you do sometimes see the occasional 0byte
+                # message.  Valid really.
+
+                $fetching = -1;
+                @lines = ($1);
+
+            } elsif( $fetching ) {
                 push @lines, join( ' ', @_ );
             }
         },
@@ -641,16 +671,18 @@ sub put {
         cmd   => [ APPEND => _escape($mailbox_name) ." (@flags) {$size}" ],
         final => sub { $self->_clear_cache },
         process => sub {
-            if ($size) {
-                my $sock = $self->_sock;
-                if ( ref $msg eq "ARRAY" ) {
-                    print $sock $_ for @$msg;
+            if( $_[0] =~ m/^\+\s+/ ) { # + continue (or go ahead, or whatever)
+                if ($size) {
+                    my $sock = $self->_sock;
+                    if ( ref $msg eq "ARRAY" ) {
+                        print $sock $_ for @$msg;
 
-                } else {
-                    print $sock $msg;
+                    } else {
+                        print $sock $msg;
+                    }
+                    $size = undef;
+                    print $sock "\r\n";
                 }
-                $size = undef;
-                print $sock "\r\n";
             }
         },
 

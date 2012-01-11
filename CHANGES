@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2125 2012-01-11 14:36:32 mh Exp $
+# $Id: CHANGES,v 1.2126 2012-01-11 14:47:32 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.1.0.beta4 2012-01-??
+ - 2012-01-11 Updated CPAN module Net::IMAP::Simple to version 1.20271.
  - 2012-01-11 Updated CPAN module Local::Codes to version 3.20.
  - 2012-01-11 Updated CPAN module LWP::UserAgent to version 6.03.
  - 2012-01-11 Updated CPAN module Digest::SHA::PurePerl to version 5.70.
