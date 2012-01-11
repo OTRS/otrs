@@ -5,7 +5,7 @@ use vars qw(@ISA $VERSION);
 
 require LWP::MemberMixin;
 @ISA = qw(LWP::MemberMixin);
-$VERSION = "6.02";
+$VERSION = "6.03";
 
 use HTTP::Request ();
 use HTTP::Response ();
@@ -31,10 +31,9 @@ sub new
     my $timeout = delete $cnf{timeout};
     $timeout = 3*60 unless defined $timeout;
     my $local_address = delete $cnf{local_address};
-    my $ssl_opts = delete $cnf{ssl_opts};
-    unless ($ssl_opts) {
+    my $ssl_opts = delete $cnf{ssl_opts} || {};
+    unless (exists $ssl_opts->{verify_hostname}) {
 	# The processing of HTTPS_CA_* below is for compatiblity with Crypt::SSLeay
-	$ssl_opts = {};
 	if (exists $ENV{PERL_LWP_SSL_VERIFY_HOSTNAME}) {
 	    $ssl_opts->{verify_hostname} = $ENV{PERL_LWP_SSL_VERIFY_HOSTNAME};
 	}
@@ -65,7 +64,7 @@ sub new
     my $max_size = delete $cnf{max_size};
     my $max_redirect = delete $cnf{max_redirect};
     $max_redirect = 7 unless defined $max_redirect;
-    my $env_proxy = delete $cnf{env_proxy};
+    my $env_proxy = exists $cnf{env_proxy} ? delete $cnf{env_proxy} : $ENV{PERL_LWP_ENV_PROXY};
 
     my $cookie_jar = delete $cnf{cookie_jar};
     my $conn_cache = delete $cnf{conn_cache};
@@ -1098,13 +1097,13 @@ The following options correspond to attribute methods described below:
    requests_redirectable   ['GET', 'HEAD']
    timeout                 180
 
-The following additional options are also accepted: If the
-C<env_proxy> option is passed in with a TRUE value, then proxy
-settings are read from environment variables (see env_proxy() method
-below).  If the C<keep_alive> option is passed in, then a
-C<LWP::ConnCache> is set up (see conn_cache() method below).  The
-C<keep_alive> value is passed on as the C<total_capacity> for the
-connection cache.
+The following additional options are also accepted: If the C<env_proxy> option
+is passed in with a TRUE value, then proxy settings are read from environment
+variables (see env_proxy() method below).  If C<env_proxy> isn't provided the
+C<PERL_LWP_ENV_PROXY> envirionment variable controls if env_proxy() is called
+during initalization.  If the C<keep_alive> option is passed in, then a
+C<LWP::ConnCache> is set up (see conn_cache() method below).  The C<keep_alive>
+value is passed on as the C<total_capacity> for the connection cache.
 
 =item $ua->clone
 
@@ -1469,13 +1468,13 @@ certain headers to specific requests.
 The method can assign a new request object to $_[0] to replace the
 request that is sent fully.
 
-The return value from the callback is ignored.  If an exceptions is
+The return value from the callback is ignored.  If an exception is
 raised it will abort the request and make the request method return a
 "400 Bad request" response.
 
 =item request_send => sub { my($request, $ua, $h) = @_; ... }
 
-This handler get a chance of handling requests before it's sent to the
+This handler gets a chance of handling requests before they're sent to the
 protocol handlers.  It should return an HTTP::Response object if it
 wishes to terminate the processing; otherwise it should return nothing.
 
@@ -1495,10 +1494,10 @@ was called with a $content_file or $content_cb argument; otherwise true.
 
 =item response_data => sub { my($response, $ua, $h, $data) = @_; ... }
 
-This handlers is called for each chunk of data received for the
+This handler is called for each chunk of data received for the
 response.  The handler might croak to abort the request.
 
-This handler need to return a TRUE value to be called again for
+This handler needs to return a TRUE value to be called again for
 subsequent chunks for the same request.
 
 =item response_done => sub { my($response, $ua, $h) = @_; ... }
@@ -1510,7 +1509,7 @@ extract information or modify the response.
 =item response_redirect => sub { my($response, $ua, $h) = @_; ... }
 
 The handler is called in $ua->request after C<response_done>.  If the
-handler return an HTTP::Request object we'll start over with processing
+handler returns an HTTP::Request object we'll start over with processing
 this request instead.
 
 =back

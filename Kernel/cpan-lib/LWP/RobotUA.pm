@@ -2,7 +2,7 @@ package LWP::RobotUA;
 
 require LWP::UserAgent;
 @ISA = qw(LWP::UserAgent);
-$VERSION = "6.00";
+$VERSION = "6.03";
 
 require WWW::RobotRules;
 require HTTP::Request;
@@ -126,21 +126,16 @@ sub simple_request
 	$self->{'rules'}->parse($robot_url, ""); 
 
 	my $robot_req = HTTP::Request->new('GET', $robot_url);
+	my $parse_head = $self->parse_head(0);
 	my $robot_res = $self->request($robot_req);
+	$self->parse_head($parse_head);
 	my $fresh_until = $robot_res->fresh_until;
-	if ($robot_res->is_success) {
-	    my $c = $robot_res->content;
-	    if ($robot_res->content_type =~ m,^text/, && $c =~ /^\s*Disallow\s*:/mi) {
-		$self->{'rules'}->parse($robot_url, $c, $fresh_until);
-	    }
-	    else {
-		$self->{'rules'}->parse($robot_url, "", $fresh_until);
-	    }
-
+	my $content = "";
+	if ($robot_res->is_success && $robot_res->content_is_text) {
+	    $content = $robot_res->decoded_content;
+	    $content = "" unless $content && $content =~ /^\s*Disallow\s*:/mi;
 	}
-	else {
-	    $self->{'rules'}->parse($robot_url, "", $fresh_until);
-	}
+	$self->{'rules'}->parse($robot_url, $content, $fresh_until);
 
 	# recalculate allowed...
 	$allowed = $self->{'rules'}->allowed($request->uri);
