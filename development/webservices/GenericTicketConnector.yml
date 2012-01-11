@@ -16,6 +16,16 @@ Provider:
       MappingInbound: {}
       MappingOutbound: {}
       Type: Ticket::TicketUpdate
+    TicketGet:
+      Description: Retrieve ticket data
+      MappingInbound: {}
+      MappingOutbound: {}
+      Type: Ticket::TicketGet
+    TicketSearch:
+      Description: Search Tickets
+      MappingInbound: {}
+      MappingOutbound: {}
+      Type: Ticket::TicketSearch
   Transport:
     Config:
       MaxLength: 100000000
