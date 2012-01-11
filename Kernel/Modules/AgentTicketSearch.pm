@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.pm,v 1.140 2011-12-23 11:06:00 mg Exp $
+# $Id: AgentTicketSearch.pm,v 1.141 2012-01-11 17:34:07 jh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.140 $) [1];
+$VERSION = qw($Revision: 1.141 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -823,7 +823,7 @@ sub Run {
                     # backend
                     if ( $_ =~ m{\A DynamicField_ ( [a-zA-Z\d]+ ) \z}xms ) {
 
-                        # loop over the dyanmic fields configured for CSV output
+                        # loop over the dynamic fields configured for CSV output
                         DYNAMICFIELD:
                         for my $DynamicFieldConfig ( @{ $Self->{CSVDynamicField} } ) {
                             next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);

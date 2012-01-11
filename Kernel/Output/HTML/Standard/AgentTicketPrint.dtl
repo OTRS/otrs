@@ -1,8 +1,8 @@
 # --
 # AgentTicketPrint.dtl - provides HTML print view
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPrint.dtl,v 1.34 2011-09-27 22:41:01 cr Exp $
+# $Id: AgentTicketPrint.dtl,v 1.35 2012-01-11 17:34:07 jh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -204,7 +204,7 @@
                                             <td class="contentkey">$Text{"Created"}:</td>
                                             <td class="contentvalue"> $TimeLong{"$Data{"Created"}"} $Text{"by"} $Text{"$Data{"SenderType"}"}</td>
                                         </tr>
-# show Dyanmic Fields for each Article
+# show Dynamic Fields for each Article
 <!-- dtl:block:ArticleDynamicField -->
                                         <tr>
                                             <td class="contentkey" width="15%">$Text{"$Data{"Label"}"}:</td>

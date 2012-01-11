@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/DashboardTicketGeneric.pm
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardTicketGeneric.pm,v 1.43 2012-01-10 23:50:08 cr Exp $
+# $Id: DashboardTicketGeneric.pm,v 1.44 2012-01-11 17:34:07 jh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.43 $) [1];
+$VERSION = qw($Revision: 1.44 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -144,7 +144,7 @@ sub Run {
             push @{ $TicketSearch{$Key} }, $Value;
         }
 
-        # check if parameter is a dynamic field and capture dynamic filed name (with DyanmicField_)
+        # check if parameter is a dynamic field and capture dynamic filed name (with DynamicField_)
         # in $1 and the Operator in $2
         elsif ( $Key =~ m{\A (DynamicField_.+?) _ (.+?) \z}sxm ) {
             $DynamicFieldsParameters{$1}->{$2} = $Value;
