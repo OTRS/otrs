@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketActionCommon.pm - common file for several modules
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketActionCommon.pm,v 1.71 2012-01-09 13:24:23 mh Exp $
+# $Id: AgentTicketActionCommon.pm,v 1.72 2012-01-12 05:13:46 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -105,7 +105,10 @@ sub Run {
             WithHeader => 'yes',
         );
     }
-    my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Self->{TicketID} );
+    my %Ticket = $Self->{TicketObject}->TicketGet(
+        TicketID      => $Self->{TicketID},
+        DynamicFields => 1,
+    );
     $Self->{LayoutObject}->Block(
         Name => 'Properties',
         Data => {
