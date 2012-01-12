@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.495 2011-12-22 18:41:52 cr Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.496 2012-01-12 10:23:09 mb Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Translatable="1">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Group>Ticket</Group>
@@ -1819,6 +1819,7 @@ Description>
         <Description Translatable="1">Sets the default priority for new phone tickets in the agent interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewPhoneNew</SubGroup>
+        <ValidateModule>Kernel::System::SysConfig::PriorityValidate</ValidateModule>
         <Setting>
             <String Regex="">3 normal</String>
         </Setting>
@@ -1910,6 +1911,7 @@ Description>
         <Description Translatable="1">Sets the default priority for new email tickets in the agent interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewEmailNew</SubGroup>
+        <ValidateModule>Kernel::System::SysConfig::PriorityValidate</ValidateModule>
         <Setting>
             <String Regex="">3 normal</String>
         </Setting>
@@ -6850,6 +6852,7 @@ $QData{"Body"}
         <Description Translatable="1">Defines the default priority of new tickets.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::PostMaster</SubGroup>
+        <ValidateModule>Kernel::System::SysConfig::PriorityValidate</ValidateModule>
         <Setting>
             <String Regex="">3 normal</String>
         </Setting>
