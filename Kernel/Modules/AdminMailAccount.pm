@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminMailAccount.pm - to add/update/delete MailAccount acounts
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminMailAccount.pm,v 1.23 2010-11-19 22:28:58 en Exp $
+# $Id: AdminMailAccount.pm,v 1.23.2.1 2012-01-12 15:07:20 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::MailAccount;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.23 $) [1];
+$VERSION = qw($Revision: 1.23.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -68,7 +68,7 @@ sub Run {
         if ( !$Ok ) {
             return $Self->{LayoutObject}->ErrorScreen();
         }
-        return $Self->{LayoutObject}->Redirect( OP => 'Action=$Env{"Action"};Ok=1' );
+        return $Self->{LayoutObject}->Redirect( OP => 'Action=AdminMailAccount;Ok=1' );
     }
 
     # ------------------------------------------------------------ #
@@ -79,7 +79,7 @@ sub Run {
         if ( !$Delete ) {
             return $Self->{LayoutObject}->ErrorScreen();
         }
-        return $Self->{LayoutObject}->Redirect( OP => 'Action=$Env{"Action"}' );
+        return $Self->{LayoutObject}->Redirect( OP => 'Action=AdminMailAccount' );
     }
 
     # ------------------------------------------------------------ #
