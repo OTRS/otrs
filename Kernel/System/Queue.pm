@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Queue.pm - lib for queue functions
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Queue.pm,v 1.131 2011-12-19 18:57:29 cg Exp $
+# $Id: Queue.pm,v 1.132 2012-01-12 07:48:21 ep Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::Time;
 use Kernel::System::SysConfig;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.131 $) [1];
+$VERSION = qw($Revision: 1.132 $) [1];
 
 =head1 NAME
 
@@ -1001,8 +1001,8 @@ sub QueueUpdate {
         'QueueList::0',
         'QueueList::1',
     );
-    for my $CachKey (@CacheKeys) {
-        $Self->{CacheInternalObject}->Delete( Key => $CachKey );
+    for my $CacheKey (@CacheKeys) {
+        $Self->{CacheInternalObject}->Delete( Key => $CacheKey );
     }
 
     # updated all sub queue names
@@ -1165,6 +1165,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.131 $ $Date: 2011-12-19 18:57:29 $
+$Revision: 1.132 $ $Date: 2012-01-12 07:48:21 $
 
 =cut
