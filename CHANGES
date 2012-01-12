@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2130 2012-01-12 10:23:09 mb Exp $
+# $Id: CHANGES,v 1.2131 2012-01-12 11:11:12 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -11,6 +11,8 @@
 
 3.1.0.beta4 2012-01-??
  - 2012-01-12 Fixed bug#8105 - Changing Priority does not update all relevant SysConfig fields.
+ - 2012-01-11 Dramatically improved HTML rendering performance for pages with a large
+    amount of data, thanks to Stefan Bedorf!
  - 2012-01-11 Fixed bug#8103 - Edit screens does not get Dynamic Field values from selected ticket.
  - 2012-01-11 Fixed bug#8070 - Date Dynamic Fields ranges don't apply.
  - 2012-01-11 Updated CPAN module YAML to version 0.78.
