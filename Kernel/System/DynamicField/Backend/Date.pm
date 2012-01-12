@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Date.pm - Delegate for DynamicField Date backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Date.pm,v 1.45 2012-01-11 22:10:07 cr Exp $
+# $Id: Date.pm,v 1.46 2012-01-12 13:04:03 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Time;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.45 $) [1];
+$VERSION = qw($Revision: 1.46 $) [1];
 
 =head1 NAME
 
@@ -235,7 +235,7 @@ sub EditFieldRender {
     my %YearsPeriodRange;
     if ( defined $FieldConfig->{YearsPeriod} && $FieldConfig->{YearsPeriod} eq '1' ) {
         %YearsPeriodRange = (
-            YearPeriodPast   => $FieldConfig->{YearsInFuture} || 0,
+            YearPeriodPast   => $FieldConfig->{YearsInPast}   || 0,
             YearPeriodFuture => $FieldConfig->{YearsInFuture} || 0,
         );
     }

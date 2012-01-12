@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminDynamicFieldDateTime.pm - provides a dynamic fields Date Time config view for admins
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminDynamicFieldDateTime.pm,v 1.12 2011-12-21 14:24:04 mg Exp $
+# $Id: AdminDynamicFieldDateTime.pm,v 1.13 2012-01-12 13:04:04 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::DynamicField;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -367,6 +367,19 @@ sub _ChangeAction {
         }
     }
 
+    # accept negative numbers for YearsInFuture and YearsInPast but convert them to possitive
+    # before store
+    for my $DateConfigParam (qw(YearsInFuture YearsInPast)) {
+
+        # check if numeric values has the '-' sing, capture only the numbers without the sing in
+        # $1
+        if ( $GetParam{$DateConfigParam} =~ m{\A - ([\d]+) \Z}xms ) {
+
+            # set the parameter number without the '-' sing
+            $GetParam{$DateConfigParam} = $1;
+        }
+    }
+
     for my $ConfigParam (
         qw(ObjectType ObjectTypeName FieldType FieldTypeName YearsPeriod ValidID Link)
         )
@@ -494,11 +507,19 @@ sub _ShowScreen {
     );
 
     # define config field specific settings
-    my $DefaultValue  = $Param{DefaultValue}  || 0;
-    my $YearsPeriod   = $Param{YearsPeriod}   || 0;
-    my $YearsInFuture = $Param{YearsInFuture} || 5;
-    my $YearsInPast   = $Param{YearsInPast}   || 5;
-    my $Link          = $Param{Link}          || '';
+    my $DefaultValue = $Param{DefaultValue} || 0;
+    my $YearsPeriod  = $Param{YearsPeriod}  || 0;
+    my $Link         = $Param{Link}         || '';
+
+    my $YearsInFuture = 5;
+    if ( defined $Param{YearsInFuture} ) {
+        $YearsInFuture = $Param{YearsInFuture};
+    }
+
+    my $YearsInPast = 5;
+    if ( defined $Param{YearsInPast} ) {
+        $YearsInPast = $Param{YearsInPast};
+    }
 
     # create the Default Value Type select
     my $YearsPeriodStrg = $Self->{LayoutObject}->BuildSelection(
