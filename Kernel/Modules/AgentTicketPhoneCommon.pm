@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhoneCommon.pm - phone calls for existing tickets
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhoneCommon.pm,v 1.18 2012-01-06 13:58:55 mg Exp $
+# $Id: AgentTicketPhoneCommon.pm,v 1.19 2012-01-12 05:22:06 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,7 +25,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -88,7 +88,10 @@ sub Run {
     }
 
     # get ticket data
-    my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Self->{TicketID} );
+    my %Ticket = $Self->{TicketObject}->TicketGet(
+        TicketID      => $Self->{TicketID},
+        DynamicFields => 1,
+    );
 
     # check permissions
     my $Access = $Self->{TicketObject}->TicketPermission(
