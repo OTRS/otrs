@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2131 2012-01-12 11:11:12 mg Exp $
+# $Id: CHANGES,v 1.2132 2012-01-12 13:08:20 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,6 @@
  - 2012-01-11 Fixed bug#8070 - Date Dynamic Fields ranges don't apply.
  - 2012-01-11 Updated CPAN module YAML to version 0.78.
  - 2012-01-11 Updated CPAN module Net::IMAP::Simple to version 1.20271.
- - 2012-01-11 Updated CPAN module Local::Codes to version 3.20.
  - 2012-01-11 Updated CPAN module LWP::UserAgent to version 6.03.
  - 2012-01-11 Updated CPAN module Digest::SHA::PurePerl to version 5.70.
  - 2012-01-11 Updated CPAN module CGI to version 3.59.
