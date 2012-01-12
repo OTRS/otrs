@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2132 2012-01-12 13:08:20 mg Exp $
+# $Id: CHANGES,v 1.2133 2012-01-12 17:44:33 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.1.0.beta4 2012-01-??
+ - 2012-01-12 Fixed bug#8107 - Ticket State is not set as default on AgentTicketActionCommon based
+    screens.
  - 2012-01-12 Fixed bug#8105 - Changing Priority does not update all relevant SysConfig fields.
  - 2012-01-11 Dramatically improved HTML rendering performance for pages with a large
     amount of data, thanks to Stefan Bedorf!
