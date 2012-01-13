@@ -2,7 +2,7 @@
 # Kernel/System/Service.pm - all service function
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Service.pm,v 1.49 2012-01-13 08:15:46 ub Exp $
+# $Id: Service.pm,v 1.50 2012-01-13 08:16:55 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Cache;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.49 $) [1];
+$VERSION = qw($Revision: 1.50 $) [1];
 
 =head1 NAME
 
@@ -1160,6 +1160,7 @@ sub ServiceParentsGet {
 
     return \@ReversedServiceParents;
 }
+
 1;
 
 =back
@@ -1176,6 +1177,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.49 $ $Date: 2012-01-13 08:15:46 $
+$Revision: 1.50 $ $Date: 2012-01-13 08:16:55 $
 
 =cut
