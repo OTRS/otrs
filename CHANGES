@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2134 2012-01-13 06:43:15 mg Exp $
+# $Id: CHANGES,v 1.2135 2012-01-13 07:16:04 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,28 +10,27 @@
 # --
 
 3.1.0.beta4 2012-01-17
- - 2012-01-12 Fixed bug#8107 - Ticket State is not set as default on AgentTicketActionCommon based
-    screens.
+ - 2012-01-12 Fixed bug#8107 - Ticket state is not set as default on ticket edit screens.
  - 2012-01-12 Fixed bug#8105 - Changing Priority does not update all relevant SysConfig fields.
  - 2012-01-11 Dramatically improved HTML rendering performance for pages with a large
     amount of data, thanks to Stefan Bedorf!
  - 2012-01-11 Fixed bug#8103 - Edit screens does not get Dynamic Field values from selected ticket.
- - 2012-01-11 Fixed bug#8070 - Date Dynamic Fields ranges don't apply.
+ - 2012-01-11 Fixed bug#8070 - Configured year ranges do not apply for date DynamicFields.
  - 2012-01-11 Updated CPAN module YAML to version 0.78.
  - 2012-01-11 Updated CPAN module Net::IMAP::Simple to version 1.20271.
  - 2012-01-11 Updated CPAN module LWP::UserAgent to version 6.03.
  - 2012-01-11 Updated CPAN module Digest::SHA::PurePerl to version 5.70.
  - 2012-01-11 Updated CPAN module CGI to version 3.59.
- - 2012-01-10 Fixed bug#8095 - DashboardTicketGeneric does not support dynamic fields.
- - 2012-01-10 Ticket search and ticket link requires at least one search parameter.
+ - 2012-01-10 Fixed bug#8095 - Dashboard ticket list does not support DynamicFields.
+ - 2012-01-10 Ticket search and ticket link should require at least one search parameter.
  - 2012-01-09 Improved consistency of ChallengeToken checks in the agent and admin interface.
  - 2012-01-03 Updated Serbian translation, thanks to Milorad Jovanovic!
  - 2011-12-23 Fixed bug#8052 - ACLs code is called even when there is no defined ACL or ACL module.
  - 2011-12-23 Fixed bug#8037 - Registration screen in web installer produces HTTP 500 error.
- - 2011-12-22 Fixed bug#7947 - Service list can be made useless with simple ACL And/Or Disabling
+ - 2011-12-22 Fixed bug#7947 - Service list can be made useless with simple ACL and/or disabling
     services.
- - 2011-12-22 Fixed bug#8049 - TicketFreeText X-Headers should not exist on new installations.
- - 2011-12-22 Fixed bug#8043 - Ticket Split does not use default ACLs from parent.
+ - 2011-12-22 Fixed bug#8049 - TicketFreeText X-headers should not exist on new installations.
+ - 2011-12-22 Fixed bug#8043 - TicketSplit does not use default ACLs from parent.
  - 2011-12-21 Fixed bug#8044 - TicketACL does not get dynamic fields as ticket attributes always.
  - 2011-12-21 Fixed bug#8039 - SysConfig writes files in a non-atomic way.
  - 2011-12-20 Fixed bug#4239 - Include ticket number in toolbar fulltext search.
@@ -41,7 +40,7 @@
  - 2011-12-20 Fixed bug#8027 - Duplicated slash in cache subdirectory names.
  - 2011-12-20 Make sure the customer is being returned to ticket search result after using
     'back' link from a ticket he has reached from the search result page.
- - 2011-12-19 Fixed bug#7666 - Queue Preferences potentially slow, thanks to Stefan Bedorf for the patch.
+ - 2011-12-19 Fixed bug#7666 - Queue Preferences potentially slow.
  - 2011-12-19 Updated Polish translation file, thanks to Pawel!
  - 2011-12-16 Fixed Lithuanian language file encoding.
  - 2011-12-16 Added OTRS 2.4-style article colors to the article list in AgentTicketZoom.
