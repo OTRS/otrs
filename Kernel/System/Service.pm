@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Service.pm - all service function
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Service.pm,v 1.48 2011-12-22 23:23:48 cr Exp $
+# $Id: Service.pm,v 1.49 2012-01-13 08:15:46 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Cache;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.48 $) [1];
+$VERSION = qw($Revision: 1.49 $) [1];
 
 =head1 NAME
 
@@ -1091,7 +1091,7 @@ sub ServicePreferencesGet {
 =item ServiceParentsGet()
 
 return an ordered list all parent service IDs for the given service from the root parent to the
-current serice parent
+current service parent
 
     my $ServiceParentsList = $ServiceObject->ServiceParentsGet(
         ServiceID => 123,
@@ -1176,6 +1176,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.48 $ $Date: 2011-12-22 23:23:48 $
+$Revision: 1.49 $ $Date: 2012-01-13 08:15:46 $
 
 =cut
