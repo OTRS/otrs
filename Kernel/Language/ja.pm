@@ -1,10 +1,10 @@
 # --
 # Kernel/Language/ja.pm - provides Japanese language translation
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # Copyright (C) 2010-2011 Kaz Kamimura <kamypus at yahoo.co.jp>
 # Copyright (C) 2011/12/08 Kaoru Hayama TIS Inc.
 # --
-# $Id: ja.pm,v 1.25 2011-12-15 15:42:30 mg Exp $
+# $Id: ja.pm,v 1.26 2012-01-13 06:46:48 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,13 +16,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.25 $) [1];
+$VERSION = qw($Revision: 1.26 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2011-12-15 16:38:47
+    # Last translation file sync: 2012-01-13 07:44:36
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -968,10 +968,10 @@ sub Data {
         'Define years period' => '',
         'Activate this feature to define a fixed range of years (in the future and in the past) to be displayed on the year part of the field.' =>
             '',
-        'Years in the future' => '',
-        'Years in the future to display (default: 5 years).' => '',
         'Years in the past' => '',
         'Years in the past to display (default: 5 years).' => '',
+        'Years in the future' => '',
+        'Years in the future to display (default: 5 years).' => '',
         'Show link' => '',
         'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
             '',
@@ -2191,6 +2191,7 @@ sub Data {
 
         # Template: CustomerNavigationBar
         'Edit personal preferences' => '個人設定の編集',
+        'Logout %s' => '',
 
         # Template: CustomerPreferences
 
@@ -2277,6 +2278,8 @@ sub Data {
             'このページから移動します。全てのポップアップウィンドウを閉じてもよろしいですか？',
         'A popup of this screen is already open. Do you want to close it and load this one instead?' =>
             '既にポップアップウィンドウを開いています。開いているウィンドウを閉じて新しく開きますか？',
+        'Please enter at least one search value or * to find anything.' =>
+            '',
 
         # Template: FooterSmall
 
@@ -2580,6 +2583,7 @@ sub Data {
         'Checks the SystemID in ticket number detection for follow-ups (use "No" if SystemID has been changed after using the system).' =>
             'チケット番号ディテクションの中のシステムIDを、フォロー・アップのために確認します（もし、システムIDがシステム利用後に変更されていた場合は“No”を使用してください）。',
         'Close this ticket' => '',
+        'Closed tickets of customer' => '',
         'Comment for new history entries in the customer interface.' => '顧客インタフェースの新規履歴エントリーのためのコメントです。',
         'Companies' => '企業',
         'Company Tickets' => '企業チケット',
@@ -2761,6 +2765,8 @@ sub Data {
         'Defines the date input format used in forms (option or input fields).' =>
             'フォームで使用されるデータ・インプット・フォーマットを定義します（オプションまたはインプット・フィールド）。',
         'Defines the default CSS used in rich text editors.' => 'リッチテキスト・エディターで使用されるデフォルトCSSを定義します。',
+        'Defines the default auto response type of the article for this operation.' =>
+            '',
         'Defines the default body of a note in the ticket free text screen of the agent interface.' =>
             '担当者インタフェースのチケット・フリー・テキスト・スクリーンで、ノートのデフォルトの本文を定義します。',
         'Defines the default front-end (HTML) theme to be used by the agents and customers. The default themes are Standard and Lite. If you like, you can add your own theme. Please refer the administrator manual located at http://doc.otrs.org/.' =>
@@ -2819,6 +2825,8 @@ sub Data {
             '担当者インタフェースのチケット電話アウトバウンド画面で、電話チケットに関するデフォルトの送信者タイプを設定します。',
         'Defines the default sender type for tickets in the ticket zoom screen of the customer interface.' =>
             '顧客インタフェースのチケット・ズーム画面の、チケットに関するデフォルトの送信者タイプを定義します。',
+        'Defines the default sender type of the article for this operation.' =>
+            '',
         'Defines the default shown ticket search attribute for ticket search screen.' =>
             'チケット検索画面で、デフォルトの表示されるチケット検索属性を定義します。',
         'Defines the default shown ticket search attribute for ticket search screen. Example: a text, 1, DynamicField_Field1StartYear=2002;DynamicField_Field1StartMonth=12;DynamicField_Field1StartDay=12;DynamicField_Field1StartHour=00;DynamicField_Field1StartMinute=00;DynamicField_Field1StartSecond=00;DynamicField_Field1StopYear=2009;DynamicField_Field1StopMonth=02;DynamicField_Field1StopDay=10;DynamicField_Field1StopHour=23;DynamicField_Field1StopMinute=59;DynamicField_Field1StopSecond=59;.' =>
@@ -2891,6 +2899,7 @@ sub Data {
             '顧客インタフェースで、項目のデフォルトのタイプを定義します。',
         'Defines the default type of forwarded message in the ticket forward screen of the agent interface.' =>
             '担当者インタフェースのチケット転送画面で、転送されたメッセージのデフォルトのタイプを定義します。',
+        'Defines the default type of the article for this operation.' => '',
         'Defines the default type of the note in the close ticket screen of the agent interface.' =>
             '担当者インタフェースのクローズ・チケット画面で、ノートのデフォルトのタイプを定義します。',
         'Defines the default type of the note in the ticket bulk screen of the agent interface.' =>
@@ -2954,6 +2963,8 @@ sub Data {
             '担当者インタフェースでチケット履歴のために使用される、チケット責任者画面のアクションのための履歴コメントを定義します。',
         'Defines the history comment for the ticket zoom action, which gets used for ticket history in the customer interface.' =>
             '顧客インタフェースでチケット履歴のために使用される、チケット・ズーム・アクションのため履歴コメントを定義します。',
+        'Defines the history comment for this operation, which gets used for ticket history in the agent interface.' =>
+            '',
         'Defines the history type for the close ticket screen action, which gets used for ticket history in the agent interface.' =>
             '担当者インタフェースでチケット履歴のために使用される、クローズ・チケット画面アクションの履歴タイプを定義します。',
         'Defines the history type for the email ticket screen action, which gets used for ticket history in the agent interface.' =>
@@ -2978,6 +2989,8 @@ sub Data {
             '担当者インタフェースでチケット履歴のために使用される、チケット責任者画面のアクションのための履歴タイプを定義します。',
         'Defines the history type for the ticket zoom action, which gets used for ticket history in the customer interface.' =>
             '顧客インタフェースでチケット履歴のために使用される、チケット・ズーム・アクションのための履歴タイプを定義します。',
+        'Defines the history type for this operation, which gets used for ticket history in the agent interface.' =>
+            '',
         'Defines the hours and week days of the indicated calendar, to count the working time.' =>
             '',
         'Defines the hours and week days to count the working time.' => '業務時間とカウントする時間と週の平日数を定義します。',
@@ -3584,6 +3597,7 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
             '担当者インタフェースの検索結果の各ページで、表示されるチケットの数です。',
         'Number of tickets to be displayed in each page of a search result in the customer interface.' =>
             '顧客インタフェースの検索結果の各ページで表示される、チケット数です。',
+        'Open tickets of customer' => '',
         'Overloads (redefines) existing functions in Kernel::System::Ticket. Used to easily add customizations.' =>
             'Kernel::System::Ticketに既に存在している機能を多重定義（再定義）します。簡単にカスタマイズを追加したい場合に使用されます。',
         'Overview Escalated Tickets' => 'エスカレーション済チケット一覧',
@@ -3989,6 +4003,8 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
             '全ての顧客識別子をマルチ・セレクトのフィールドに表示します（顧客識別子を多く抱えている場合は利便性が低いです）。',
         'Shows an owner selection in phone and email tickets in the agent interface.' =>
             '担当者インタフェースにおいて、電話およびEメールのチケットにおける所有者のセレクションを表示します。',
+        'Shows colors for different article types in the article table.' =>
+            '',
         'Shows customer history tickets in AgentTicketPhone, AgentTicketEmail and AgentTicketCustomer.' =>
             'AgentTicketPhone、AgentTicketEmail、AgentTicketCustomerにおいて、顧客履歴チケットを表示します。',
         'Shows either the last customer article\'s subject or the ticket title in the small format overview.' =>

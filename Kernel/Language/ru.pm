@@ -9,7 +9,7 @@
 # Copyright (C) 2010-2011 Eugene Kungurov <ekungurov83 at ya.ru>
 # Copyright (C) 2010 Sergey Romanov <romanov_s at mail.ru>
 # --
-# $Id: ru.pm,v 1.129 2011-12-15 15:42:27 mg Exp $
+# $Id: ru.pm,v 1.130 2012-01-13 06:46:45 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,13 +22,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.129 $) [1];
+$VERSION = qw($Revision: 1.130 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2011-12-15 16:38:56
+    # Last translation file sync: 2012-01-13 07:44:44
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -974,10 +974,10 @@ sub Data {
         'Define years period' => '',
         'Activate this feature to define a fixed range of years (in the future and in the past) to be displayed on the year part of the field.' =>
             '',
-        'Years in the future' => '',
-        'Years in the future to display (default: 5 years).' => '',
         'Years in the past' => '',
         'Years in the past to display (default: 5 years).' => '',
+        'Years in the future' => '',
+        'Years in the future to display (default: 5 years).' => '',
         'Show link' => '',
         'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
             '',
@@ -2197,6 +2197,7 @@ sub Data {
 
         # Template: CustomerNavigationBar
         'Edit personal preferences' => '',
+        'Logout %s' => '',
 
         # Template: CustomerPreferences
 
@@ -2282,6 +2283,8 @@ sub Data {
         'If you now leave this page, all open popup windows will be closed, too!' =>
             '',
         'A popup of this screen is already open. Do you want to close it and load this one instead?' =>
+            '',
+        'Please enter at least one search value or * to find anything.' =>
             '',
 
         # Template: FooterSmall
@@ -2586,6 +2589,7 @@ sub Data {
         'Checks the SystemID in ticket number detection for follow-ups (use "No" if SystemID has been changed after using the system).' =>
             '',
         'Close this ticket' => '',
+        'Closed tickets of customer' => '',
         'Comment for new history entries in the customer interface.' => '',
         'Companies' => '',
         'Company Tickets' => 'Заявки компании',
@@ -2767,6 +2771,8 @@ sub Data {
         'Defines the date input format used in forms (option or input fields).' =>
             '',
         'Defines the default CSS used in rich text editors.' => '',
+        'Defines the default auto response type of the article for this operation.' =>
+            '',
         'Defines the default body of a note in the ticket free text screen of the agent interface.' =>
             '',
         'Defines the default front-end (HTML) theme to be used by the agents and customers. The default themes are Standard and Lite. If you like, you can add your own theme. Please refer the administrator manual located at http://doc.otrs.org/.' =>
@@ -2824,6 +2830,8 @@ sub Data {
         'Defines the default sender type for phone tickets in the ticket phone outbound screen of the agent interface.' =>
             '',
         'Defines the default sender type for tickets in the ticket zoom screen of the customer interface.' =>
+            '',
+        'Defines the default sender type of the article for this operation.' =>
             '',
         'Defines the default shown ticket search attribute for ticket search screen.' =>
             '',
@@ -2897,6 +2905,7 @@ sub Data {
             '',
         'Defines the default type of forwarded message in the ticket forward screen of the agent interface.' =>
             '',
+        'Defines the default type of the article for this operation.' => '',
         'Defines the default type of the note in the close ticket screen of the agent interface.' =>
             '',
         'Defines the default type of the note in the ticket bulk screen of the agent interface.' =>
@@ -2960,6 +2969,8 @@ sub Data {
             '',
         'Defines the history comment for the ticket zoom action, which gets used for ticket history in the customer interface.' =>
             '',
+        'Defines the history comment for this operation, which gets used for ticket history in the agent interface.' =>
+            '',
         'Defines the history type for the close ticket screen action, which gets used for ticket history in the agent interface.' =>
             '',
         'Defines the history type for the email ticket screen action, which gets used for ticket history in the agent interface.' =>
@@ -2983,6 +2994,8 @@ sub Data {
         'Defines the history type for the ticket responsible screen action, which gets used for ticket history in the agent interface.' =>
             '',
         'Defines the history type for the ticket zoom action, which gets used for ticket history in the customer interface.' =>
+            '',
+        'Defines the history type for this operation, which gets used for ticket history in the agent interface.' =>
             '',
         'Defines the hours and week days of the indicated calendar, to count the working time.' =>
             '',
@@ -3587,6 +3600,7 @@ sub Data {
             '',
         'Number of tickets to be displayed in each page of a search result in the customer interface.' =>
             '',
+        'Open tickets of customer' => '',
         'Overloads (redefines) existing functions in Kernel::System::Ticket. Used to easily add customizations.' =>
             '',
         'Overview Escalated Tickets' => 'Обзор эскалированных заявок',
@@ -3991,6 +4005,8 @@ sub Data {
         'Shows all the customer identifiers in a multi-select field (not useful if you have a lot of customer identifiers).' =>
             '',
         'Shows an owner selection in phone and email tickets in the agent interface.' =>
+            '',
+        'Shows colors for different article types in the article table.' =>
             '',
         'Shows customer history tickets in AgentTicketPhone, AgentTicketEmail and AgentTicketCustomer.' =>
             '',

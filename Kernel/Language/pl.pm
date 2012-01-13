@@ -4,7 +4,7 @@
 # Copyright (C) 2009 Artur Skalski <skal.ar at wp.pl>
 # Copyright (C) 2011 Informatyka Boguslawski sp. z o.o. sp.k., http://www.ib.pl/
 # --
-# $Id: pl.pm,v 1.121 2011-12-19 12:34:04 mg Exp $
+# $Id: pl.pm,v 1.122 2012-01-13 06:46:49 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,13 +17,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.121 $) [1];
+$VERSION = qw($Revision: 1.122 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2011-12-19 13:33:21
+    # Last translation file sync: 2012-01-13 07:44:41
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -969,10 +969,10 @@ sub Data {
         'Define years period' => '',
         'Activate this feature to define a fixed range of years (in the future and in the past) to be displayed on the year part of the field.' =>
             '',
-        'Years in the future' => '',
-        'Years in the future to display (default: 5 years).' => '',
         'Years in the past' => '',
         'Years in the past to display (default: 5 years).' => '',
+        'Years in the future' => '',
+        'Years in the future to display (default: 5 years).' => '',
         'Show link' => '',
         'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
             '',
@@ -2192,6 +2192,7 @@ sub Data {
 
         # Template: CustomerNavigationBar
         'Edit personal preferences' => 'Edytuj ustawienia osobiste',
+        'Logout %s' => '',
 
         # Template: CustomerPreferences
 
@@ -2278,6 +2279,8 @@ sub Data {
             'Jeśli opuścisz tę stronę, wszystkie okna popup będą również zamknięte!',
         'A popup of this screen is already open. Do you want to close it and load this one instead?' =>
             'Okno popup tej strony jest wciąż otwarte. Czy chcesz je zamknąć i załadować zamiast niego to okno?',
+        'Please enter at least one search value or * to find anything.' =>
+            '',
 
         # Template: FooterSmall
 
@@ -2763,6 +2766,8 @@ sub Data {
         'Defines the date input format used in forms (option or input fields).' =>
             '',
         'Defines the default CSS used in rich text editors.' => '',
+        'Defines the default auto response type of the article for this operation.' =>
+            '',
         'Defines the default body of a note in the ticket free text screen of the agent interface.' =>
             '',
         'Defines the default front-end (HTML) theme to be used by the agents and customers. The default themes are Standard and Lite. If you like, you can add your own theme. Please refer the administrator manual located at http://doc.otrs.org/.' =>
@@ -2820,6 +2825,8 @@ sub Data {
         'Defines the default sender type for phone tickets in the ticket phone outbound screen of the agent interface.' =>
             '',
         'Defines the default sender type for tickets in the ticket zoom screen of the customer interface.' =>
+            '',
+        'Defines the default sender type of the article for this operation.' =>
             '',
         'Defines the default shown ticket search attribute for ticket search screen.' =>
             '',
@@ -2893,6 +2900,7 @@ sub Data {
             '',
         'Defines the default type of forwarded message in the ticket forward screen of the agent interface.' =>
             '',
+        'Defines the default type of the article for this operation.' => '',
         'Defines the default type of the note in the close ticket screen of the agent interface.' =>
             '',
         'Defines the default type of the note in the ticket bulk screen of the agent interface.' =>
@@ -2956,6 +2964,8 @@ sub Data {
             '',
         'Defines the history comment for the ticket zoom action, which gets used for ticket history in the customer interface.' =>
             '',
+        'Defines the history comment for this operation, which gets used for ticket history in the agent interface.' =>
+            '',
         'Defines the history type for the close ticket screen action, which gets used for ticket history in the agent interface.' =>
             '',
         'Defines the history type for the email ticket screen action, which gets used for ticket history in the agent interface.' =>
@@ -2979,6 +2989,8 @@ sub Data {
         'Defines the history type for the ticket responsible screen action, which gets used for ticket history in the agent interface.' =>
             '',
         'Defines the history type for the ticket zoom action, which gets used for ticket history in the customer interface.' =>
+            '',
+        'Defines the history type for this operation, which gets used for ticket history in the agent interface.' =>
             '',
         'Defines the hours and week days of the indicated calendar, to count the working time.' =>
             '',

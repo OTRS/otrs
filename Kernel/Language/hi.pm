@@ -4,7 +4,7 @@
 # Copyright (C) 2011 Chetan Nagaonkar <Chetan_Nagaonkar at OptForOPS.com>
 # Copyright (C) 2011 Chetan Nagaonkar <ChetanNagaonkar at yahoo.com>
 # --
-# $Id: hi.pm,v 1.16 2011-12-15 15:42:27 mg Exp $
+# $Id: hi.pm,v 1.17 2012-01-13 06:46:46 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,13 +17,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2011-12-15 16:38:43
+    # Last translation file sync: 2012-01-13 07:44:31
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -969,10 +969,10 @@ sub Data {
         'Define years period' => '',
         'Activate this feature to define a fixed range of years (in the future and in the past) to be displayed on the year part of the field.' =>
             '',
-        'Years in the future' => '',
-        'Years in the future to display (default: 5 years).' => '',
         'Years in the past' => '',
         'Years in the past to display (default: 5 years).' => '',
+        'Years in the future' => '',
+        'Years in the future to display (default: 5 years).' => '',
         'Show link' => '',
         'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
             '',
@@ -2192,6 +2192,7 @@ sub Data {
 
         # Template: CustomerNavigationBar
         'Edit personal preferences' => 'व्यक्तिगत वरीयताएँ संपादित करें',
+        'Logout %s' => '',
 
         # Template: CustomerPreferences
 
@@ -2278,6 +2279,8 @@ sub Data {
             'यदि अब आप इस पृष्ठ को छॊडॆंगॆ,सभी खुले पॉपअप विंडोज़ भी बंद हो जायेंगे।',
         'A popup of this screen is already open. Do you want to close it and load this one instead?' =>
             'इस स्क्रीन का एक पॉपअप पहले से ही खुला है। क्या आप उसे बंद करके उसकी बजाय इसे लोड करना चाहते हैं?',
+        'Please enter at least one search value or * to find anything.' =>
+            '',
 
         # Template: FooterSmall
 
@@ -2581,6 +2584,7 @@ sub Data {
         'Checks the SystemID in ticket number detection for follow-ups (use "No" if SystemID has been changed after using the system).' =>
             'टिकट की अनुवर्ती संख्या का पता लगाने के लिए यह प्रणाली ID की जाँच करता है(प्रयोग "नहीं" अगर प्रणाली ID प्रणाली का उपयोग करने के बाद बदल दिया गया है)।',
         'Close this ticket' => '',
+        'Closed tickets of customer' => '',
         'Comment for new history entries in the customer interface.' => 'ग्राहक अंतरफलक में इतिहास नई प्रविष्टियों के लिए टिप्पणी।',
         'Companies' => 'कंपनियां',
         'Company Tickets' => 'कंपनी के टिकट',
@@ -2762,6 +2766,8 @@ sub Data {
         'Defines the date input format used in forms (option or input fields).' =>
             'तारीख निवेश रूपों में उपयोग प्रारूप को परिभाषित करता है(विकल्प या निवेश क्षेत्र)।',
         'Defines the default CSS used in rich text editors.' => 'समृद्ध पाठ संपादकों में प्रयुक्त तयशुदा CSS को परिभाषित करता है।',
+        'Defines the default auto response type of the article for this operation.' =>
+            '',
         'Defines the default body of a note in the ticket free text screen of the agent interface.' =>
             'प्रतिनिधि अग्रांत से टिकट मुक्त पाठ स्क्रीन में एक टिप्पणी के तयशुदा मुख्य-भाग को परिभाषित करता है।',
         'Defines the default front-end (HTML) theme to be used by the agents and customers. The default themes are Standard and Lite. If you like, you can add your own theme. Please refer the administrator manual located at http://doc.otrs.org/.' =>
@@ -2820,6 +2826,8 @@ sub Data {
             'प्रतिनिधि अंतरफलक के टिकट की फोन आउटबाउंड स्क्रीन में फोन टिकटों के लिए तयशुदा प्रेषक प्रकार को परिभाषित करता है।',
         'Defines the default sender type for tickets in the ticket zoom screen of the customer interface.' =>
             'ग्राहक अंतरफलक के टिकट की ज़ूम स्क्रीन में फोन टिकटों के लिए तयशुदा प्रेषक प्रकार को परिभाषित करता है।',
+        'Defines the default sender type of the article for this operation.' =>
+            '',
         'Defines the default shown ticket search attribute for ticket search screen.' =>
             'टिकट की खोज स्क्रीन के लिए दिखाई टिकट की तयशुदा खोज विशेषता को परिभाषित करता है।',
         'Defines the default shown ticket search attribute for ticket search screen. Example: a text, 1, DynamicField_Field1StartYear=2002;DynamicField_Field1StartMonth=12;DynamicField_Field1StartDay=12;DynamicField_Field1StartHour=00;DynamicField_Field1StartMinute=00;DynamicField_Field1StartSecond=00;DynamicField_Field1StopYear=2009;DynamicField_Field1StopMonth=02;DynamicField_Field1StopDay=10;DynamicField_Field1StopHour=23;DynamicField_Field1StopMinute=59;DynamicField_Field1StopSecond=59;.' =>
@@ -2892,6 +2900,7 @@ sub Data {
             'ग्राहक अंतरफलक में तयशुदा अनुच्छेद प्रकार के लिए को परिभाषित करता है।',
         'Defines the default type of forwarded message in the ticket forward screen of the agent interface.' =>
             'प्रतिनिधि अंतरफलक के टिकट अग्रेषित स्क्रीन में तयशुदा अग्रेषित संदेश के प्रकार को परिभाषित करता है।',
+        'Defines the default type of the article for this operation.' => '',
         'Defines the default type of the note in the close ticket screen of the agent interface.' =>
             'प्रतिनिधि अंतरफलक के टिकट बंद स्क्रीन में तयशुदा टिप्पणी के प्रकार को परिभाषित करता है।',
         'Defines the default type of the note in the ticket bulk screen of the agent interface.' =>
@@ -2955,6 +2964,8 @@ sub Data {
             'टिकट उत्तरदायी स्क्रीन कार्रवाई के लिए इतिहास समीक्षा को परिभाषित करता है,जो टिकट इतिहास के लिए प्रतिनिधि अंतरफलक में इस्तेमाल किया जाता है।',
         'Defines the history comment for the ticket zoom action, which gets used for ticket history in the customer interface.' =>
             'टिकट ज़ूम कार्रवाई के लिए इतिहास समीक्षा को परिभाषित करता है,जो टिकट इतिहास के लिए ग्राहक अंतरफलक में प्रयोग किया जाता है।',
+        'Defines the history comment for this operation, which gets used for ticket history in the agent interface.' =>
+            '',
         'Defines the history type for the close ticket screen action, which gets used for ticket history in the agent interface.' =>
             'बंद टिकट स्क्रीन कार्रवाई के लिए इतिहास के प्रकार को परिभाषित करता है,जो टिकट इतिहास के लिए प्रतिनिधि अंतरफलक में इस्तेमाल किया जाता है।',
         'Defines the history type for the email ticket screen action, which gets used for ticket history in the agent interface.' =>
@@ -2979,6 +2990,8 @@ sub Data {
             'टिकट उत्तरदायी स्क्रीन कार्रवाई के लिए इतिहास के प्रकार को परिभाषित करता है,जो टिकट इतिहास के लिए प्रतिनिधि अंतरफलक में इस्तेमाल किया जाता है।',
         'Defines the history type for the ticket zoom action, which gets used for ticket history in the customer interface.' =>
             'टिकट ज़ूम कार्रवाई के लिए इतिहास के प्रकार को परिभाषित करता है,जो टिकट इतिहास के लिए ग्राहक अंतरफलक में प्रयोग किया जाता है।',
+        'Defines the history type for this operation, which gets used for ticket history in the agent interface.' =>
+            '',
         'Defines the hours and week days of the indicated calendar, to count the working time.' =>
             '',
         'Defines the hours and week days to count the working time.' => 'कार्य समय की गणना करने के लिए घंटे और सप्ताह के दिनों को परिभाषित करता है।',
@@ -3582,6 +3595,7 @@ sub Data {
             'प्रतिनिधि अंतरफलक में एक खोज परिणाम के प्रत्येक पृष्ठ में प्रदर्शित होने के लिए टिकटों की संख्या।',
         'Number of tickets to be displayed in each page of a search result in the customer interface.' =>
             'ग्राहक अंतरफलक में एक खोज परिणाम के प्रत्येक पृष्ठ में प्रदर्शित होने के लिए टिकटों की संख्या।',
+        'Open tickets of customer' => '',
         'Overloads (redefines) existing functions in Kernel::System::Ticket. Used to easily add customizations.' =>
             'अधिभार(पुनर्व्याख्या) मौजूदा कार्य Kernel::System::Ticket में। आसानी से अनुकूलन जोड़ने के लिए। ',
         'Overview Escalated Tickets' => 'अवलोकन संवर्धित टिकट',
@@ -3987,6 +4001,8 @@ sub Data {
             'बहु चयन क्षेत्र में सभी ग्राहक पहचानकर्ताओं को दिखाता है(उपयोगी नहीं यदि आपके पास ग्राहक पहचानकर्ता बहुत है)।',
         'Shows an owner selection in phone and email tickets in the agent interface.' =>
             'प्रतिनिधि अंतरफलक में फोन और ईमेल टिकट में एक स्वामी चयन को दिखाता है।',
+        'Shows colors for different article types in the article table.' =>
+            '',
         'Shows customer history tickets in AgentTicketPhone, AgentTicketEmail and AgentTicketCustomer.' =>
             'प्रतिनिधि टिकट फोन,प्रतिनिधि टिकट ईमेल,और प्रतिनिधि टिकट ग्राहक में ग्राहक इतिहास टिकट दिखाता है।',
         'Shows either the last customer article\'s subject or the ticket title in the small format overview.' =>

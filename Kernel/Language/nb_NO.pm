@@ -8,7 +8,7 @@
 # Copyright (C) 2011 Lars Erik Utsi Gullerud <lerik at nolink.net>
 # Copyright (C) 2011 Espen Stefansen <espen.stefansen at imr.no>
 # --
-# $Id: nb_NO.pm,v 1.122 2011-12-15 15:42:27 mg Exp $
+# $Id: nb_NO.pm,v 1.123 2012-01-13 06:46:45 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,13 +21,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.122 $;
+$VERSION = q$Revision: 1.123 $;
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2011-12-15 16:38:51
+    # Last translation file sync: 2012-01-13 07:44:39
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -973,10 +973,10 @@ sub Data {
         'Define years period' => '',
         'Activate this feature to define a fixed range of years (in the future and in the past) to be displayed on the year part of the field.' =>
             '',
-        'Years in the future' => '',
-        'Years in the future to display (default: 5 years).' => '',
         'Years in the past' => '',
         'Years in the past to display (default: 5 years).' => '',
+        'Years in the future' => '',
+        'Years in the future to display (default: 5 years).' => '',
         'Show link' => '',
         'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
             '',
@@ -2196,6 +2196,7 @@ sub Data {
 
         # Template: CustomerNavigationBar
         'Edit personal preferences' => 'Endre personlige innstillinger',
+        'Logout %s' => '',
 
         # Template: CustomerPreferences
 
@@ -2282,6 +2283,8 @@ sub Data {
             'Hvis du forlater denne siden vil også alle åpne sprettopp-vinduer bli lukket.',
         'A popup of this screen is already open. Do you want to close it and load this one instead?' =>
             'En sprettoppvindu med denne skjermen er allerede åpen. Vil du stenge vinduet og laste det inn her i stedet?',
+        'Please enter at least one search value or * to find anything.' =>
+            '',
 
         # Template: FooterSmall
 
@@ -2585,6 +2588,7 @@ sub Data {
         'Checks the SystemID in ticket number detection for follow-ups (use "No" if SystemID has been changed after using the system).' =>
             'Sjekker SystemID i saksnummer-generatorern for oppfølginger (bruk "Nei" hvis SystemID har blitt endret etter å ha brukt systemet.',
         'Close this ticket' => '',
+        'Closed tickets of customer' => '',
         'Comment for new history entries in the customer interface.' => 'Kommentar for nye historiske innlegg i kundeportalen.',
         'Companies' => 'Kundefirma',
         'Company Tickets' => 'Firmasaker',
@@ -2766,6 +2770,8 @@ sub Data {
         'Defines the date input format used in forms (option or input fields).' =>
             'Spesifiserer datoformat på skjema (valg- eller tekstfelter).',
         'Defines the default CSS used in rich text editors.' => 'Spesifiserer standard CSS til bruk i rik-tekst-redigering.',
+        'Defines the default auto response type of the article for this operation.' =>
+            '',
         'Defines the default body of a note in the ticket free text screen of the agent interface.' =>
             'Spesifiserer standardinnholdet for notiser i sakens fritekstdel for saksbehandlere.',
         'Defines the default front-end (HTML) theme to be used by the agents and customers. The default themes are Standard and Lite. If you like, you can add your own theme. Please refer the administrator manual located at http://doc.otrs.org/.' =>
@@ -2824,6 +2830,8 @@ sub Data {
             'Setter standard sendertype for utgående telefonsaker i agentdelen',
         'Defines the default sender type for tickets in the ticket zoom screen of the customer interface.' =>
             'Setter standard sendertype for saker i saksvisningen i kundeportalen',
+        'Defines the default sender type of the article for this operation.' =>
+            '',
         'Defines the default shown ticket search attribute for ticket search screen.' =>
             '',
         'Defines the default shown ticket search attribute for ticket search screen. Example: a text, 1, DynamicField_Field1StartYear=2002;DynamicField_Field1StartMonth=12;DynamicField_Field1StartDay=12;DynamicField_Field1StartHour=00;DynamicField_Field1StartMinute=00;DynamicField_Field1StartSecond=00;DynamicField_Field1StopYear=2009;DynamicField_Field1StopMonth=02;DynamicField_Field1StopDay=10;DynamicField_Field1StopHour=23;DynamicField_Field1StopMinute=59;DynamicField_Field1StopSecond=59;.' =>
@@ -2896,6 +2904,7 @@ sub Data {
             'Definerer standard type for innlegg i kundebildet.',
         'Defines the default type of forwarded message in the ticket forward screen of the agent interface.' =>
             '',
+        'Defines the default type of the article for this operation.' => '',
         'Defines the default type of the note in the close ticket screen of the agent interface.' =>
             'Definerer standard type notis i "Avslutt sak" bildet.',
         'Defines the default type of the note in the ticket bulk screen of the agent interface.' =>
@@ -2959,6 +2968,8 @@ sub Data {
             '',
         'Defines the history comment for the ticket zoom action, which gets used for ticket history in the customer interface.' =>
             '',
+        'Defines the history comment for this operation, which gets used for ticket history in the agent interface.' =>
+            '',
         'Defines the history type for the close ticket screen action, which gets used for ticket history in the agent interface.' =>
             '',
         'Defines the history type for the email ticket screen action, which gets used for ticket history in the agent interface.' =>
@@ -2982,6 +2993,8 @@ sub Data {
         'Defines the history type for the ticket responsible screen action, which gets used for ticket history in the agent interface.' =>
             '',
         'Defines the history type for the ticket zoom action, which gets used for ticket history in the customer interface.' =>
+            '',
+        'Defines the history type for this operation, which gets used for ticket history in the agent interface.' =>
             '',
         'Defines the hours and week days of the indicated calendar, to count the working time.' =>
             '',
@@ -3586,6 +3599,7 @@ sub Data {
             'Antall saker som vises per side i et søkeresultat.',
         'Number of tickets to be displayed in each page of a search result in the customer interface.' =>
             'Antall saker som vises per side i et søkeresultat i kundeportalen.',
+        'Open tickets of customer' => '',
         'Overloads (redefines) existing functions in Kernel::System::Ticket. Used to easily add customizations.' =>
             '',
         'Overview Escalated Tickets' => 'Oversikt over eskalerte saker',
@@ -3991,6 +4005,8 @@ sub Data {
             'Viser alle kunde-identifikatorer i et multivalg-felt (ikke brukbart hvis du har mange identifikatorer)',
         'Shows an owner selection in phone and email tickets in the agent interface.' =>
             'Viser et eier-valg i telefon- og e-post-saker i agentdelen',
+        'Shows colors for different article types in the article table.' =>
+            '',
         'Shows customer history tickets in AgentTicketPhone, AgentTicketEmail and AgentTicketCustomer.' =>
             'Viser kundehistorikk i agentdelen.',
         'Shows either the last customer article\'s subject or the ticket title in the small format overview.' =>

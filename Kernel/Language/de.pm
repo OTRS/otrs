@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Thomas Kaltenbrunner <tkaltenbrunner at opc.de>
 # --
-# $Id: de.pm,v 1.310 2012-01-09 11:54:54 mg Exp $
+# $Id: de.pm,v 1.311 2012-01-13 06:46:45 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.310 $) [1];
+$VERSION = qw($Revision: 1.311 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2011-12-21 09:15:06
+    # Last translation file sync: 2012-01-13 07:44:08
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -335,7 +335,6 @@ sub Data {
         'Edit the system configuration settings.' => 'Systemeinstellungen bearbeiten',
         'printed at' => 'gedruckt am',
         'Loading...' => 'Laden...',
-        'Please enter at least one search value or * to find anything.' => 'Bitte geben Sie zumindest einen Suchbegriff ein oder * um nach Allem zu suchen.',
         'Dear Mr. %s,' => 'Sehr geehrter Herr %s,',
         'Dear Mrs. %s,' => 'Sehr geehrte Frau %s,',
         'Dear %s,' => 'Lieber %s,',
@@ -968,10 +967,10 @@ sub Data {
         'Define years period' => 'Jahresbereich angeben',
         'Activate this feature to define a fixed range of years (in the future and in the past) to be displayed on the year part of the field.' =>
             'Aktivieren Sie diese Funktion, um für die Datumsauswahl einen festen Jahresbereich anzugeben (Jahre in der Vergangenheit und Zukunft).',
-        'Years in the future' => 'Jahre in der Zukunft',
-        'Years in the future to display (default: 5 years).' => 'Jahre in der Zukunft, die angezeigt werden (Standard: 5).',
         'Years in the past' => 'Jahre in der Vergangenheit',
         'Years in the past to display (default: 5 years).' => 'Jahre in der Vergangenheit, die angezeigt werden (Standard: 5).',
+        'Years in the future' => 'Jahre in der Zukunft',
+        'Years in the future to display (default: 5 years).' => 'Jahre in der Zukunft, die angezeigt werden (Standard: 5).',
         'Show link' => 'Link anzeigen',
         'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
             'Hier können Sie einen optionalen link für die Felddarstellung in Übersichten und Ansichtsseiten angeben.',
@@ -2278,6 +2277,8 @@ sub Data {
             'Wenn Sie diese Seite verlassen, werden auch alle geöffneten Dialoge geschlossen!',
         'A popup of this screen is already open. Do you want to close it and load this one instead?' =>
             'Auf diesem Bildschirm ist bereits ein Popup-Fenster geöffnet. Möchten Sie dieses schließen und dieses stattdessen öffnen?',
+        'Please enter at least one search value or * to find anything.' =>
+            'Bitte geben Sie zumindest einen Suchbegriff ein oder * um nach Allem zu suchen.',
 
         # Template: FooterSmall
 
@@ -2763,6 +2764,8 @@ sub Data {
         'Defines the date input format used in forms (option or input fields).' =>
             '',
         'Defines the default CSS used in rich text editors.' => '',
+        'Defines the default auto response type of the article for this operation.' =>
+            '',
         'Defines the default body of a note in the ticket free text screen of the agent interface.' =>
             '',
         'Defines the default front-end (HTML) theme to be used by the agents and customers. The default themes are Standard and Lite. If you like, you can add your own theme. Please refer the administrator manual located at http://doc.otrs.org/.' =>
@@ -2820,6 +2823,8 @@ sub Data {
         'Defines the default sender type for phone tickets in the ticket phone outbound screen of the agent interface.' =>
             '',
         'Defines the default sender type for tickets in the ticket zoom screen of the customer interface.' =>
+            '',
+        'Defines the default sender type of the article for this operation.' =>
             '',
         'Defines the default shown ticket search attribute for ticket search screen.' =>
             '',
@@ -2893,6 +2898,7 @@ sub Data {
             '',
         'Defines the default type of forwarded message in the ticket forward screen of the agent interface.' =>
             '',
+        'Defines the default type of the article for this operation.' => '',
         'Defines the default type of the note in the close ticket screen of the agent interface.' =>
             '',
         'Defines the default type of the note in the ticket bulk screen of the agent interface.' =>
@@ -2956,6 +2962,8 @@ sub Data {
             '',
         'Defines the history comment for the ticket zoom action, which gets used for ticket history in the customer interface.' =>
             '',
+        'Defines the history comment for this operation, which gets used for ticket history in the agent interface.' =>
+            '',
         'Defines the history type for the close ticket screen action, which gets used for ticket history in the agent interface.' =>
             '',
         'Defines the history type for the email ticket screen action, which gets used for ticket history in the agent interface.' =>
@@ -2979,6 +2987,8 @@ sub Data {
         'Defines the history type for the ticket responsible screen action, which gets used for ticket history in the agent interface.' =>
             '',
         'Defines the history type for the ticket zoom action, which gets used for ticket history in the customer interface.' =>
+            '',
+        'Defines the history type for this operation, which gets used for ticket history in the agent interface.' =>
             '',
         'Defines the hours and week days of the indicated calendar, to count the working time.' =>
             '',

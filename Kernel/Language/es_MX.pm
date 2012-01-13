@@ -1,8 +1,8 @@
 # --
 # Kernel/Language/es_MX.pm - provides Spanish language translation for Mexico
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: es_MX.pm,v 1.54 2011-12-15 15:42:31 mg Exp $
+# $Id: es_MX.pm,v 1.55 2012-01-13 06:46:49 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.54 $) [1];
+$VERSION = qw($Revision: 1.55 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2011-12-15 16:38:37
+    # Last translation file sync: 2012-01-13 07:44:18
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -967,10 +967,10 @@ sub Data {
         'Define years period' => '',
         'Activate this feature to define a fixed range of years (in the future and in the past) to be displayed on the year part of the field.' =>
             '',
-        'Years in the future' => '',
-        'Years in the future to display (default: 5 years).' => '',
         'Years in the past' => '',
         'Years in the past to display (default: 5 years).' => '',
+        'Years in the future' => '',
+        'Years in the future to display (default: 5 years).' => '',
         'Show link' => '',
         'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
             '',
@@ -2190,6 +2190,7 @@ sub Data {
 
         # Template: CustomerNavigationBar
         'Edit personal preferences' => 'Modificar preferencias presonales',
+        'Logout %s' => '',
 
         # Template: CustomerPreferences
 
@@ -2276,6 +2277,8 @@ sub Data {
             'Si sale de esta página ahora, todas las ventanas pop-up también se cerrarán.',
         'A popup of this screen is already open. Do you want to close it and load this one instead?' =>
             'Ya hay una pop-up abierta de esta pantalla. ¿Desea cerrarla y cargar esta en su lugar?',
+        'Please enter at least one search value or * to find anything.' =>
+            '',
 
         # Template: FooterSmall
 
@@ -2579,6 +2582,7 @@ sub Data {
         'Checks the SystemID in ticket number detection for follow-ups (use "No" if SystemID has been changed after using the system).' =>
             'Verifica el ID del sistema en la detección de números de tickets para los seguimientos (use "No" si el ID del sistema se cambió después de empezar a utilizar OTRS).',
         'Close this ticket' => '',
+        'Closed tickets of customer' => '',
         'Comment for new history entries in the customer interface.' => 'Comentario para entradas nuevas en la historia, en la interfaz del cliente.',
         'Companies' => 'Compañías',
         'Company Tickets' => 'Tickets de la Compañía',
@@ -2760,6 +2764,8 @@ sub Data {
         'Defines the date input format used in forms (option or input fields).' =>
             'Define el formato de entrada de las fechas, usado en los formularios (opción o campos de entrada).',
         'Defines the default CSS used in rich text editors.' => 'Define valor por defecto para el CSS de los editores de texto enriquecidos.',
+        'Defines the default auto response type of the article for this operation.' =>
+            '',
         'Defines the default body of a note in the ticket free text screen of the agent interface.' =>
             'Define el contenido por defecto del cuerpo de una nota, en la ventana de campos libres de ticket de la interfaz del agente.',
         'Defines the default front-end (HTML) theme to be used by the agents and customers. The default themes are Standard and Lite. If you like, you can add your own theme. Please refer the administrator manual located at http://doc.otrs.org/.' =>
@@ -2818,6 +2824,8 @@ sub Data {
             'Define el tipo de remitente por defecto para los tickets telefónicos, en la ventana de ticket telefónico saliente de la interfaz del agente.',
         'Defines the default sender type for tickets in the ticket zoom screen of the customer interface.' =>
             'Define el tipo de remitente por defecto para tickets, en la ventana de vista detallada del ticket de la interfaz del agente.',
+        'Defines the default sender type of the article for this operation.' =>
+            '',
         'Defines the default shown ticket search attribute for ticket search screen.' =>
             'Define el atributo mostrado por defecto para la búsqueda de tickets, en la ventana de búsqueda.',
         'Defines the default shown ticket search attribute for ticket search screen. Example: a text, 1, DynamicField_Field1StartYear=2002;DynamicField_Field1StartMonth=12;DynamicField_Field1StartDay=12;DynamicField_Field1StartHour=00;DynamicField_Field1StartMinute=00;DynamicField_Field1StartSecond=00;DynamicField_Field1StopYear=2009;DynamicField_Field1StopMonth=02;DynamicField_Field1StopDay=10;DynamicField_Field1StopHour=23;DynamicField_Field1StopMinute=59;DynamicField_Field1StopSecond=59;.' =>
@@ -2890,6 +2898,7 @@ sub Data {
             'Define el tipo por defecto para los artículos, en la interfaz del cliente.',
         'Defines the default type of forwarded message in the ticket forward screen of the agent interface.' =>
             'Define el tipo por defecto de un mensaje reenviado, en la ventana de reenvío de tickets de la interfaz del agente.',
+        'Defines the default type of the article for this operation.' => '',
         'Defines the default type of the note in the close ticket screen of the agent interface.' =>
             'Define el tipo de nota por defecto, en la ventana para cerrar un ticket de la interfaz del agente.',
         'Defines the default type of the note in the ticket bulk screen of the agent interface.' =>
@@ -2953,6 +2962,8 @@ sub Data {
             'Define el comentario histórico para la acción de la ventana para cambiar el responsable de un ticket. Dicho comentario es usado para la historia del ticket, en la interfaz del agente.',
         'Defines the history comment for the ticket zoom action, which gets used for ticket history in the customer interface.' =>
             'Define el comentario histórico para la acción de la ventana de vista detallada de un ticket. Dicho comentario es usado para la historia del ticket, en la interfaz del agente.',
+        'Defines the history comment for this operation, which gets used for ticket history in the agent interface.' =>
+            '',
         'Defines the history type for the close ticket screen action, which gets used for ticket history in the agent interface.' =>
             'Define el tipo histórico para la acción de la ventana de cerrar un ticket. Dicho comentario es usado para la historia del ticket, en la interfaz del agente.',
         'Defines the history type for the email ticket screen action, which gets used for ticket history in the agent interface.' =>
@@ -2977,6 +2988,8 @@ sub Data {
             'Define el tipo histórico para la acción de la ventana para cambiar el responsable de un ticket. Dicho comentario es usado para la historia del ticket, en la interfaz del agente.',
         'Defines the history type for the ticket zoom action, which gets used for ticket history in the customer interface.' =>
             'Define el tipo histórico para la acción de la ventana de vista detallada de un ticket. Dicho comentario es usado para la historia del ticket, en la interfaz del agente.',
+        'Defines the history type for this operation, which gets used for ticket history in the agent interface.' =>
+            '',
         'Defines the hours and week days of the indicated calendar, to count the working time.' =>
             '',
         'Defines the hours and week days to count the working time.' => 'Define las horas y los días laborales de la semana.',
@@ -3580,6 +3593,7 @@ sub Data {
             'Número de tickets desplegados en cada página del resultado de una búsqueda, en la interfaz del agente.',
         'Number of tickets to be displayed in each page of a search result in the customer interface.' =>
             'Número de tickets desplegados en cada página del resultado de una búsqueda, en la interfaz del cliente.',
+        'Open tickets of customer' => '',
         'Overloads (redefines) existing functions in Kernel::System::Ticket. Used to easily add customizations.' =>
             'Sobrecarga (redefine) funciones existentes en Kernel::System::Ticket. Útil para añadir personalizaciones fácilmente.',
         'Overview Escalated Tickets' => 'Resumen de Tickets Escalados',
@@ -3985,6 +3999,8 @@ sub Data {
             'Muestra todos los identificadores de clientes en un campo de selección múltiple (no es útil si existen muchos identificadores).',
         'Shows an owner selection in phone and email tickets in the agent interface.' =>
             'Muestra una selección de propietario en los tickets telefónico y de correo electrónico de la interfaz del agente.',
+        'Shows colors for different article types in the article table.' =>
+            '',
         'Shows customer history tickets in AgentTicketPhone, AgentTicketEmail and AgentTicketCustomer.' =>
             'Muestra tickets del historial del cliente en los tickets telefónico y de correo electrónico, en la interfaz del agente; y en la ventana para añadir un ticket, en la interfaz del cliente.',
         'Shows either the last customer article\'s subject or the ticket title in the small format overview.' =>
