@@ -1,8 +1,8 @@
 # --
 # PostMaster.t - PostMaster tests
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: PostMaster.t,v 1.33 2011-12-12 18:18:10 cg Exp $
+# $Id: PostMaster.t,v 1.34 2012-01-13 13:13:47 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -277,6 +277,11 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                     push @ContentNew, $Line;
                 }
                 my @Return;
+
+                $ConfigObject->Set(
+                    Key   => 'PostmasterDefaultState',
+                    Value => 'new'
+                );
                 {
                     my $PostMasterObject = Kernel::System::PostMaster->new(
                         %{$Self},
@@ -499,6 +504,10 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                     }
                     push @Content, $Line;
                 }
+                $ConfigObject->Set(
+                    Key   => 'PostmasterFollowUp',
+                    Value => 'new'
+                );
                 {
                     my $PostMasterObject = Kernel::System::PostMaster->new(
                         %{$Self},
