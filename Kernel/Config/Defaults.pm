@@ -1,8 +1,8 @@
 # --
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.399 2011-11-26 16:58:39 mb Exp $
+# $Id: Defaults.pm,v 1.400 2012-01-13 09:00:33 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -29,7 +29,7 @@ use warnings;
 use 5.008_006;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.399 $) [1];
+$VERSION = qw($Revision: 1.400 $) [1];
 
 # prepend '../Custom', '../Kernel/cpan-lib' and '../' to the module search path @INC
 use File::Basename;
@@ -913,10 +913,10 @@ sub LoadDefaults {
       'thirdparty/stacktrace-0.3/stacktrace.js',
       'Core.Debug.js',
       'Core.Exception.js',
+      'Core.Config.js',
       'Core.App.js',
       'Core.Customer.js',
       'Core.JavaScriptEnhancements.js',
-      'Core.Config.js',
       'Core.UI.RichTextEditor.js'
     ];
 
@@ -1961,6 +1961,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.399 $ $Date: 2011-11-26 16:58:39 $
+$Revision: 1.400 $ $Date: 2012-01-13 09:00:33 $
 
 =cut
