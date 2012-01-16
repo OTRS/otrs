@@ -2,7 +2,7 @@
 # SMIME.t - SMIME tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: SMIME.t,v 1.22 2012-01-16 10:46:29 mg Exp $
+# $Id: SMIME.t,v 1.23 2012-01-16 12:17:31 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -499,7 +499,7 @@ XgLpk1hOJqMI3lGeiFINPcGWCQW8l6/wqiRZHqM/wdXXoNzvLLayIQ==
 
     # sign a message with smimeuser1
     my $Message =
-        'This is a signed message to sign, and verification must pass a certificate chain validation. -dz';
+        'This is a signed message to sign, and verification must pass a certificate chain validation.';
 
     my $Sign = $CryptObject->Sign(
         Message     => $Message,
@@ -513,7 +513,7 @@ XgLpk1hOJqMI3lGeiFINPcGWCQW8l6/wqiRZHqM/wdXXoNzvLLayIQ==
     # it must fail
     $Self->False(
         $Data{Successful},
-        'Sign(), failed certificate chain verification, not needed CA certificates embedded',
+        'Sign(), failed certificate chain verification, needed CA certificates not embedded',
     );
 
     my %Certificates;
@@ -630,10 +630,10 @@ XLDWddmyvARs76znW/E85MA1qzWuTdj/o2dTRwkJ1cacuQu48N49
         Certificate => "$CertPath/8b0cc41f.0",
     );
 
-    # it must works
+    # it must work
     $Self->True(
         $Data{Successful},
-        'Sign(), successful certificate chain verification, installed CA root certificate and embedded CA certs',
+        'Verify(), successful certificate chain verification, installed CA root certificate and embedded CA certs',
     );
 
     # testing relations between certificates
