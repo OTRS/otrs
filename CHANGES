@@ -2,12 +2,15 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2135 2012-01-13 07:16:04 mg Exp $
+# $Id: CHANGES,v 1.2136 2012-01-16 12:33:24 jp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
+
+3.1.0.beta5 ????-??-??
+ - 2012-01-16 Creation of QueueObject was not possible because of missing EncodeObject in CustomerUserGenericTicket.pm
 
 3.1.0.beta4 2012-01-17
  - 2012-01-12 Fixed bug#8107 - Ticket state is not set as default on ticket edit screens.
