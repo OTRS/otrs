@@ -1,8 +1,8 @@
 # --
 # Kernel/GenericInterface/Operation.pm - GenericInterface operation interface
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Operation.pm,v 1.14 2011-04-14 11:58:18 mg Exp $
+# $Id: Operation.pm,v 1.15 2012-01-16 15:09:02 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,10 +15,9 @@ use strict;
 use warnings;
 
 use Kernel::System::VariableCheck qw(IsStringWithData);
-use Kernel::GenericInterface::Operation::Common;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 =head1 NAME
 
@@ -112,8 +111,6 @@ sub new {
         );
     }
 
-    my $OperationCommonObject = Kernel::GenericInterface::Operation::Common->new( %{$Self} );
-
     # load backend module
     my $GenericModule = 'Kernel::GenericInterface::Operation::' . $Param{OperationType};
     if ( !$Self->{MainObject}->Require($GenericModule) ) {
@@ -122,7 +119,6 @@ sub new {
     }
     $Self->{BackendObject} = $GenericModule->new(
         %{$Self},
-        OperationCommonObject => $OperationCommonObject,
     );
 
     # pass back error message from backend if backend module could not be executed
@@ -174,6 +170,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.14 $ $Date: 2011-04-14 11:58:18 $
+$Revision: 1.15 $ $Date: 2012-01-16 15:09:02 $
 
 =cut
