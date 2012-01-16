@@ -1,8 +1,8 @@
 # --
 # ObjectLockStatePerformance.t - ObjectLockState performance tests
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: ObjectLockStatePerformance.t,v 1.1 2011-02-28 14:46:41 mg Exp $
+# $Id: ObjectLockStatePerformance.t,v 1.2 2012-01-16 15:08:39 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -63,10 +63,12 @@ for my $Count ( 1 .. $TestDataCount ) {
         LockStateCounter => 0,
     );
 
-    $Self->True(
-        $Success,
-        "ObjectLockStateSet() for entry $Count",
-    );
+    if ( !$Success ) {
+        $Self->True(
+            $Success,
+            "ObjectLockStateSet() for entry $Count",
+        );
+    }
 }
 
 for my $Count ( 1 .. 100 ) {
