@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Crypt/SMIME.pm - the main crypt module
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: SMIME.pm,v 1.54 2011-06-03 03:38:01 dz Exp $
+# $Id: SMIME.pm,v 1.55 2012-01-16 11:30:23 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.54 $) [1];
+$VERSION = qw($Revision: 1.55 $) [1];
 
 =head1 NAME
 
@@ -300,7 +300,9 @@ sub Sign {
     my @RelatedCertificates
         = $Self->SignerCertRelationGet( CertFingerprint => $Attributes{Fingerprint} );
 
+    my $FHCACertFileActive;
     my ( $FHCACertFile, $CAFileName ) = $Self->{FileTempObject}->TempFile();
+
     my $CertFileCommand = '';
 
     # get every related cert
@@ -310,9 +312,12 @@ sub Sign {
             Fingerprint => $Cert->{CAFingerprint},
         );
         print $FHCACertFile $Self->CertificateGet( Filename => $CAFilename ) . "\n";
+        $FHCACertFileActive = 1;
     }
 
-    $CertFileCommand = " -certfile $CAFileName ";
+    if ($FHCACertFileActive) {
+        $CertFileCommand = " -certfile $CAFileName ";
+    }
     close $FHCACertFile;
 
     my ( $FH, $PlainFile ) = $Self->{FileTempObject}->TempFile();
@@ -1693,6 +1698,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.54 $ $Date: 2011-06-03 03:38:01 $
+$Revision: 1.55 $ $Date: 2012-01-16 11:30:23 $
 
 =cut
