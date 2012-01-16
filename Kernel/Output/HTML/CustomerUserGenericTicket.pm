@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/CustomerUserGenericTicket.pm
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerUserGenericTicket.pm,v 1.18 2011-12-13 23:23:59 mb Exp $
+# $Id: CustomerUserGenericTicket.pm,v 1.19 2012-01-16 12:07:42 jp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -25,7 +25,10 @@ sub new {
     bless( $Self, $Type );
 
     # get needed objects
-    for (qw(ConfigObject LogObject DBObject LayoutObject TicketObject MainObject UserID)) {
+    for (
+        qw(ConfigObject LogObject DBObject LayoutObject TicketObject MainObject EncodeObject UserID)
+        )
+    {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
