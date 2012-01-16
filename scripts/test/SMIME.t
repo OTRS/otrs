@@ -1,8 +1,8 @@
 # --
 # SMIME.t - SMIME tests
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: SMIME.t,v 1.21 2011-06-03 03:38:01 dz Exp $
+# $Id: SMIME.t,v 1.22 2012-01-16 10:46:29 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,6 +12,7 @@
 use strict;
 use warnings;
 use vars (qw($Self));
+use utf8;
 
 use Kernel::System::Crypt;
 
@@ -157,7 +158,7 @@ if ( $^O =~ m{Win}i ) {
     $Check{'cert-2'} =~ tr{\r}{}d;
 }
 
-my $TestText = 'hello1234567890öäüß';
+my $TestText = 'hello1234567890Ã¶Ã¤Ã¼ÃŸ';
 
 for my $Count ( 1 .. 2 ) {
     my @Certs = $CryptObject->Search( Search => $Search{$Count} );
