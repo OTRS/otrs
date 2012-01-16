@@ -1,8 +1,8 @@
 # --
 # CHANGES - change log of OTRS
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1758.2.212 2011-12-20 12:25:04 mb Exp $
+# $Id: CHANGES,v 1.1758.2.213 2012-01-16 12:34:21 jp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.12 ????-??-??
+ - 2012-01-16 Creation of QueueObject was not possible because of missing EncodeObject in CustomerUserGenericTicket.pm
  - 2011-12-20 Fixed bug#8035 - SOAP interface does not allow to create/update
     CustomerCompany records.
  - 2011-12-19 Fixed bug#7005 - JavaScript Init function is executed more than once in TicketZoom
