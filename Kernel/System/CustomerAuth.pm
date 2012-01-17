@@ -1,8 +1,8 @@
 # --
 # Kernel/System/CustomerAuth.pm - provides the authentication
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerAuth.pm,v 1.34 2010-06-17 21:39:40 cr Exp $
+# $Id: CustomerAuth.pm,v 1.35 2012-01-17 16:14:47 te Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.34 $) [1];
+$VERSION = qw($Revision: 1.35 $) [1];
 
 =head1 NAME
 
@@ -140,6 +140,50 @@ The authentication function.
 sub Auth {
     my ( $Self, %Param ) = @_;
 
+    # brutforce prevention
+    my %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet( User => $Param{User} );
+    if ( !%CustomerData ) {
+        return;
+    }
+    else {
+        my $Config     = $Self->{ConfigObject}->Get('PreferencesGroups');
+        my $SystemTime = $Self->{TimeObject}->SystemTime();
+        my $PasswordMaxLoginFailed;
+        my $NextPossibleLoginTime;
+
+        if (
+            $CustomerData{UserLoginFailed}
+            && $CustomerData{UserLastLoginFailed}
+            && $Config
+            && $Config->{Password}
+            && $Config->{Password}->{PasswordMaxLoginFailed}
+            && $Config->{Password}->{PasswordMaxLoginFailedTimeout}
+            )
+        {
+            $PasswordMaxLoginFailed = $Config->{Password}->{PasswordMaxLoginFailed};
+            $NextPossibleLoginTime  = $CustomerData{UserLastLoginFailed}
+                + $Config->{Password}->{PasswordMaxLoginFailedTimeout};
+        }
+        if (
+            $PasswordMaxLoginFailed
+            && $NextPossibleLoginTime
+            && $CustomerData{UserLoginFailed} >= $PasswordMaxLoginFailed
+            && $NextPossibleLoginTime >= $SystemTime
+            )
+        {
+            my $TimeStamp = $Self->{TimeObject}->SystemTime2TimeStamp(
+                SystemTime => $NextPossibleLoginTime,
+                Type       => 'Short',
+            );
+            $Self->{LogObject}->Log(
+                Priority => 'Info',
+                Message =>
+                    "BruteForce attack for user '$Param{User}' detected. Next possible login at $TimeStamp!",
+            );
+            return;
+        }
+    }
+
     # use all 11 backends and return on first auth
     my $User;
     for ( '', 1 .. 10 ) {
@@ -163,7 +207,6 @@ sub Auth {
 
     # check if record exists
     if ( !$User ) {
-        my %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet( User => $Param{User} );
         if (%CustomerData) {
             my $Count = $CustomerData{UserLoginFailed} || 0;
             $Count++;
@@ -172,12 +215,18 @@ sub Auth {
                 Value  => $Count,
                 UserID => $CustomerData{UserLogin},
             );
+
+            # last login failed preferences update
+            $Self->{CustomerUserObject}->SetPreferences(
+                Key    => 'UserLastLoginFailed',
+                Value  => $Self->{TimeObject}->SystemTime(),
+                UserID => $CustomerData{UserLogin},
+            );
         }
         return;
     }
 
     # check if user is vaild
-    my %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet( User => $User );
     if ( defined $CustomerData{ValidID} && $CustomerData{ValidID} ne 1 ) {
         $Self->{LogObject}->Log(
             Priority => 'notice',
@@ -231,6 +280,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.34 $ $Date: 2010-06-17 21:39:40 $
+$Revision: 1.35 $ $Date: 2012-01-17 16:14:47 $
 
 =cut

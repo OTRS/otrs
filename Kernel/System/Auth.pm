@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Auth.pm - provides the authentication
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Auth.pm,v 1.52 2011-11-15 10:29:03 des Exp $
+# $Id: Auth.pm,v 1.53 2012-01-17 16:14:47 te Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.52 $) [1];
+$VERSION = qw($Revision: 1.53 $) [1];
 
 =head1 NAME
 
@@ -170,6 +170,64 @@ The authentication function.
 sub Auth {
     my ( $Self, %Param ) = @_;
 
+    # brutforce prevention
+    my $UserID = $Self->{UserObject}->UserLookup(
+        UserLogin => $Param{User},
+    );
+
+    if ( !$UserID ) {
+        return;
+    }
+
+    my %User = $Self->{UserObject}->GetUserData(
+        UserID => $UserID,
+        Valid  => 1,
+        Cached => 1,
+    );
+
+    if ( !%User ) {
+        return;
+    }
+    else {
+        my $Config     = $Self->{ConfigObject}->Get('PreferencesGroups');
+        my $SystemTime = $Self->{TimeObject}->SystemTime();
+        my $PasswordMaxLoginFailed;
+        my $NextPossibleLoginTime;
+
+        if (
+            $User{UserLoginFailed}
+            && $User{UserLastLoginFailed}
+            && $Config
+            && $Config->{Password}
+            && $Config->{Password}->{PasswordMaxLoginFailed}
+            && $Config->{Password}->{PasswordMaxLoginFailedTimeout}
+            )
+        {
+            $PasswordMaxLoginFailed = $Config->{Password}->{PasswordMaxLoginFailed};
+            $NextPossibleLoginTime
+                = $User{UserLastLoginFailed} + $Config->{Password}->{PasswordMaxLoginFailedTimeout};
+        }
+
+        if (
+            $PasswordMaxLoginFailed
+            && $NextPossibleLoginTime
+            && $User{UserLoginFailed} >= $PasswordMaxLoginFailed
+            && $NextPossibleLoginTime >= $SystemTime
+            )
+        {
+            my $TimeStamp = $Self->{TimeObject}->SystemTime2TimeStamp(
+                SystemTime => $NextPossibleLoginTime,
+                Type       => 'Short',
+            );
+            $Self->{LogObject}->Log(
+                Priority => 'Info',
+                Message =>
+                    "BruteForce attack for user '$Param{User}' detected. Next possible login at $TimeStamp!",
+            );
+            return;
+        }
+    }
+
     # use all 11 auth backends and return on first true
     my $User;
     for my $Count ( '', 1 .. 10 ) {
@@ -229,14 +287,7 @@ sub Auth {
     if ( !$User ) {
 
         # remember failed logins
-        my $UserID = $Self->{UserObject}->UserLookup(
-            UserLogin => $Param{User},
-        );
         if ($UserID) {
-            my %User = $Self->{UserObject}->GetUserData(
-                UserID => $UserID,
-                Valid  => 1,
-            );
             my $Count = $User{UserLoginFailed} || 0;
             $Count++;
             $Self->{UserObject}->SetPreferences(
@@ -245,35 +296,17 @@ sub Auth {
                 UserID => $UserID,
             );
 
-            # set agent to invalid-temporarily if max failed logins reached
-            my $Config = $Self->{ConfigObject}->Get('PreferencesGroups');
-            my $PasswordMaxLoginFailed;
-            if ( $Config && $Config->{Password} && $Config->{Password}->{PasswordMaxLoginFailed} ) {
-                $PasswordMaxLoginFailed = $Config->{Password}->{PasswordMaxLoginFailed};
-            }
-            if ( %User && $PasswordMaxLoginFailed && $Count >= $PasswordMaxLoginFailed ) {
-                my $ValidID = $Self->{ValidObject}->ValidLookup( Valid => 'invalid-temporarily' );
-                my $Update = $Self->{UserObject}->UserUpdate(
-                    %User,
-                    ValidID      => $ValidID,
-                    ChangeUserID => 1,
-                );
-                if ($Update) {
-                    $Self->{LogObject}->Log(
-                        Priority => 'notice',
-                        Message  => "Login failed $Count times. Set $User{UserLogin} to "
-                            . "'invalid-temporarily'.",
-                    );
-                }
-            }
+            # last login failed preferences update
+            $Self->{UserObject}->SetPreferences(
+                Key    => 'UserLastLoginFailed',
+                Value  => $Self->{TimeObject}->SystemTime(),
+                UserID => $UserID,
+            );
         }
         return;
     }
 
     # remember login attributes
-    my $UserID = $Self->{UserObject}->UserLookup(
-        UserLogin => $User,
-    );
     if ($UserID) {
 
         # reset failed logins
@@ -318,6 +351,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.52 $ $Date: 2011-11-15 10:29:03 $
+$Revision: 1.53 $ $Date: 2012-01-17 16:14:47 $
 
 =cut
