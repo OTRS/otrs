@@ -1,8 +1,8 @@
 # --
-# TicketGet.t - GenericInterface transport interface tests for TicketConnector backend
+# TicketGet.t - TicketConnector interface tests for TicketConnector backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketGet.t,v 1.7 2012-01-05 03:11:42 cg Exp $
+# $Id: TicketGet.t,v 1.8 2012-01-17 18:24:18 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,9 +14,7 @@ use warnings;
 use utf8;
 use vars (qw($Self));
 
-use Socket;
-use YAML;
-use MIME::Base64;
+use Kernel::System::User;
 use Kernel::System::Ticket;
 use Kernel::GenericInterface::Debugger;
 use Kernel::GenericInterface::Requester;
@@ -24,53 +22,7 @@ use Kernel::System::GenericInterface::Webservice;
 use Kernel::System::UnitTest::Helper;
 use Kernel::GenericInterface::Operation::Ticket::TicketGet;
 use Kernel::GenericInterface::Operation::Ticket::SessionIDGet;
-use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData IsStringWithData);
-
-# set UserID to root because in public interface there is no user
-$Self->{UserID} = 1;
-
-# create ticket object
-my $TicketObject = Kernel::System::Ticket->new( %{$Self} );
-
-# create a ticket
-my $TicketID = $TicketObject->TicketCreate(
-    Title        => 'Some Ticket Title',
-    Queue        => 'Raw',
-    Lock         => 'unlock',
-    Priority     => '3 normal',
-    State        => 'new',
-    CustomerID   => '123465',
-    CustomerUser => 'customer@example.com',
-    OwnerID      => 1,
-    UserID       => 1,
-);
-
-# sanity check
-$Self->True(
-    $TicketID,
-    "TicketCreate() successful for Ticket ID $TicketID",
-);
-
-# get the Ticket entry
-my %TicketEntry = $TicketObject->TicketGet(
-    TicketID      => $TicketID,
-    DynamicFields => 0,
-    UserID        => $Self->{UserID},
-);
-
-$Self->True(
-    IsHashRefWithData( \%TicketEntry ),
-    "TicketGet() successful for Local TicketGet ID $TicketID",
-);
-
-for my $Key ( keys %TicketEntry ) {
-    if ( !$TicketEntry{$Key} ) {
-        $TicketEntry{$Key} = '';
-    }
-    if ( $Key eq 'Age' ) {
-        delete $TicketEntry{$Key};
-    }
-}
+use Kernel::System::VariableCheck qw(:all);
 
 # helper object
 my $HelperObject = Kernel::System::UnitTest::Helper->new(
@@ -78,11 +30,167 @@ my $HelperObject = Kernel::System::UnitTest::Helper->new(
     UnitTestObject => $Self,
 );
 
-# set webservice name
-my $WebserviceName = '-Test-' . $HelperObject->GetRandomID();
+#get a random id
+my $RandomID = $HelperObject->GetRandomID();
 
-# set UserID on 1
-my $UserID = 1;
+# create local config object
+my $ConfigObject = Kernel::Config->new();
+
+# disable CheckEmailInvalidAddress setting
+$ConfigObject->Set(
+    Key   => 'CheckEmailInvalidAddress',
+    Value => 0,
+);
+
+# new user object
+my $UserObject = Kernel::System::User->new(
+    %{$Self},
+    ConfigObject => $ConfigObject,
+);
+
+# create a new user for current test
+$Self->{UserID} = $UserObject->UserAdd(
+    UserFirstname => 'Test',
+    UserLastname  => 'User',
+    UserLogin     => 'TestUser' . $RandomID,
+    UserPw        => 'some-pass',
+    UserEmail     => 'test' . $RandomID . 'email@example.com',
+    ValidID       => 1,
+    ChangeUserID  => 1,
+);
+
+$Self->True(
+    $Self->{UserID},
+    'User Add ()',
+);
+
+# create ticket object
+my $TicketObject = Kernel::System::Ticket->new( %{$Self} );
+
+# create 3 tickets
+
+# create ticket 1
+my $TicketIDOne = $TicketObject->TicketCreate(
+    Title        => 'Ticket One Title',
+    Queue        => 'Raw',
+    Lock         => 'unlock',
+    Priority     => '3 normal',
+    State        => 'new',
+    CustomerID   => '123465',
+    CustomerUser => 'customerOne@example.com',
+    OwnerID      => 1,
+    UserID       => 1,
+);
+
+# sanity check
+$Self->True(
+    $TicketIDOne,
+    "TicketCreate() successful for Ticket One ID $TicketIDOne",
+);
+
+# get the Ticket entry
+my %TicketEntryOne = $TicketObject->TicketGet(
+    TicketID      => $TicketIDOne,
+    DynamicFields => 0,
+    UserID        => $Self->{UserID},
+);
+
+$Self->True(
+    IsHashRefWithData( \%TicketEntryOne ),
+    "TicketGet() successful for Local TicketGet One ID $TicketIDOne",
+);
+
+for my $Key ( keys %TicketEntryOne ) {
+    if ( !$TicketEntryOne{$Key} ) {
+        $TicketEntryOne{$Key} = '';
+    }
+    if ( $Key eq 'Age' ) {
+        delete $TicketEntryOne{$Key};
+    }
+}
+
+# create ticket 2
+my $TicketIDTwo = $TicketObject->TicketCreate(
+    Title        => 'Ticket Two Title',
+    Queue        => 'Raw',
+    Lock         => 'unlock',
+    Priority     => '3 normal',
+    State        => 'new',
+    CustomerID   => '123465',
+    CustomerUser => 'customerTwo@example.com',
+    OwnerID      => 1,
+    UserID       => 1,
+);
+
+# sanity check
+$Self->True(
+    $TicketIDTwo,
+    "TicketCreate() successful for Ticket Two ID $TicketIDTwo",
+);
+
+# get the Ticket entry
+my %TicketEntryTwo = $TicketObject->TicketGet(
+    TicketID      => $TicketIDTwo,
+    DynamicFields => 0,
+    UserID        => $Self->{UserID},
+);
+
+$Self->True(
+    IsHashRefWithData( \%TicketEntryTwo ),
+    "TicketGet() successful for Local TicketGet Two ID $TicketIDTwo",
+);
+
+for my $Key ( keys %TicketEntryTwo ) {
+    if ( !$TicketEntryTwo{$Key} ) {
+        $TicketEntryTwo{$Key} = '';
+    }
+    if ( $Key eq 'Age' ) {
+        delete $TicketEntryTwo{$Key};
+    }
+}
+
+# create ticket 3
+my $TicketIDThree = $TicketObject->TicketCreate(
+    Title        => 'Ticket Three Title',
+    Queue        => 'Raw',
+    Lock         => 'unlock',
+    Priority     => '3 normal',
+    State        => 'new',
+    CustomerID   => '123465',
+    CustomerUser => 'customerThree@example.com',
+    OwnerID      => 1,
+    UserID       => 1,
+);
+
+# sanity check
+$Self->True(
+    $TicketIDThree,
+    "TicketCreate() successful for Ticket Three ID $TicketIDThree",
+);
+
+# get the Ticket entry
+my %TicketEntryThree = $TicketObject->TicketGet(
+    TicketID      => $TicketIDThree,
+    DynamicFields => 0,
+    UserID        => $Self->{UserID},
+);
+
+$Self->True(
+    IsHashRefWithData( \%TicketEntryThree ),
+    "TicketGet() successful for Local TicketGet Three ID $TicketIDThree",
+);
+
+for my $Key ( keys %TicketEntryThree ) {
+    if ( !$TicketEntryThree{$Key} ) {
+        $TicketEntryThree{$Key} = '';
+    }
+    if ( $Key eq 'Age' ) {
+        delete $TicketEntryThree{$Key};
+    }
+}
+
+# set webservice name
+my $WebserviceName = '-Test-' . $RandomID;
 
 # create webservice object
 my $WebserviceObject = Kernel::System::GenericInterface::Webservice->new( %{$Self} );
@@ -180,12 +288,14 @@ my $WebserviceConfig = {
 };
 
 # update webservice with real config
+# the update is needed because we are using
+# the WebserviceID for the Endpoint in config
 my $WebserviceUpdate = $WebserviceObject->WebserviceUpdate(
     ID      => $WebserviceID,
     Name    => $WebserviceName,
     Config  => $WebserviceConfig,
     ValidID => 1,
-    UserID  => $UserID,
+    UserID  => $Self->{UserID},
 );
 $Self->True(
     $WebserviceUpdate,
@@ -202,8 +312,8 @@ $Self->Is(
 );
 
 # start requester with our webservice
-my $UserLogin              = 'root@localhost';
-my $Password               = 'root';
+my $UserLogin              = 'TestUser' . $RandomID;
+my $Password               = 'some-pass';
 my $RequesterSessionResult = $RequesterSessionObject->Run(
     WebserviceID => $WebserviceID,
     Invoker      => 'SessionIDGet',
@@ -271,13 +381,13 @@ my @Tests        = (
         Name           => 'Test 3',
         SuccessRequest => '1',
         RequestData    => {
-            TicketID => $TicketID,
+            TicketID => $TicketIDOne,
         },
         ExpectedReturnRemoteData => {
             Success => 1,
             Data    => {
                 Item => {
-                    Ticket => {%TicketEntry},
+                    Ticket => {%TicketEntryOne},
                 },
             },
         },
@@ -286,7 +396,59 @@ my @Tests        = (
             Data    => {
                 Item => [
                     {
-                        Ticket => {%TicketEntry},
+                        Ticket => {%TicketEntryOne},
+                    }
+                ],
+            },
+        },
+        Operation => 'TicketGet',
+    },
+    {
+        Name           => 'Test 4',
+        SuccessRequest => '1',
+        RequestData    => {
+            TicketID => $TicketIDTwo,
+        },
+        ExpectedReturnRemoteData => {
+            Success => 1,
+            Data    => {
+                Item => {
+                    Ticket => {%TicketEntryTwo},
+                },
+            },
+        },
+        ExpectedReturnLocalData => {
+            Success => 1,
+            Data    => {
+                Item => [
+                    {
+                        Ticket => {%TicketEntryTwo},
+                    }
+                ],
+            },
+        },
+        Operation => 'TicketGet',
+    },
+    {
+        Name           => 'Test 4',
+        SuccessRequest => '1',
+        RequestData    => {
+            TicketID => $TicketIDThree,
+        },
+        ExpectedReturnRemoteData => {
+            Success => 1,
+            Data    => {
+                Item => {
+                    Ticket => {%TicketEntryThree},
+                },
+            },
+        },
+        ExpectedReturnLocalData => {
+            Success => 1,
+            Data    => {
+                Item => [
+                    {
+                        Ticket => {%TicketEntryThree},
                     }
                 ],
             },
@@ -456,23 +618,47 @@ for my $Test (@Tests) {
 # clean up webservice
 my $WebserviceDelete = $WebserviceObject->WebserviceDelete(
     ID     => $WebserviceID,
-    UserID => $UserID,
+    UserID => $Self->{UserID},
 );
 $Self->True(
     $WebserviceDelete,
     "Deleted Webservice $WebserviceID",
 );
 
-# delete the ticket
+# delete the ticket One
 my $TicketDelete = $TicketObject->TicketDelete(
-    TicketID => $TicketID,
-    UserID   => 1,
+    TicketID => $TicketIDOne,
+    UserID   => $Self->{UserID},
 );
 
 # sanity check
 $Self->True(
     $TicketDelete,
-    "TicketDelete() successful for Ticket ID $TicketID",
+    "TicketDelete() successful for Ticket One ID $TicketIDOne",
+);
+
+# delete the ticket Two
+$TicketDelete = $TicketObject->TicketDelete(
+    TicketID => $TicketIDTwo,
+    UserID   => $Self->{UserID},
+);
+
+# sanity check
+$Self->True(
+    $TicketDelete,
+    "TicketDelete() successful for Ticket Two ID $TicketIDTwo",
+);
+
+# delete the ticket Three
+$TicketDelete = $TicketObject->TicketDelete(
+    TicketID => $TicketIDThree,
+    UserID   => $Self->{UserID},
+);
+
+# sanity check
+$Self->True(
+    $TicketDelete,
+    "TicketDelete() successful for Ticket Three ID $TicketIDThree",
 );
 
 1;
