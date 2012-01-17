@@ -2,7 +2,7 @@
 # TicketGet.t - TicketConnector interface tests for TicketConnector backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketGet.t,v 1.8 2012-01-17 18:24:18 cg Exp $
+# $Id: TicketGet.t,v 1.9 2012-01-17 23:42:39 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,22 +16,17 @@ use vars (qw($Self));
 
 use Kernel::System::User;
 use Kernel::System::Ticket;
+use Kernel::System::DynamicField;
+use Kernel::System::DynamicField::Backend;
 use Kernel::GenericInterface::Debugger;
 use Kernel::GenericInterface::Requester;
 use Kernel::System::GenericInterface::Webservice;
-use Kernel::System::UnitTest::Helper;
 use Kernel::GenericInterface::Operation::Ticket::TicketGet;
 use Kernel::GenericInterface::Operation::Ticket::SessionIDGet;
 use Kernel::System::VariableCheck qw(:all);
 
-# helper object
-my $HelperObject = Kernel::System::UnitTest::Helper->new(
-    %{$Self},
-    UnitTestObject => $Self,
-);
-
 #get a random id
-my $RandomID = $HelperObject->GetRandomID();
+my $RandomID = int rand 1_000_000_000;
 
 # create local config object
 my $ConfigObject = Kernel::Config->new();
@@ -64,13 +59,154 @@ $Self->True(
     'User Add ()',
 );
 
+# start DynamicFields
+
+my $DynamicFieldObject = Kernel::System::DynamicField->new(
+    %{$Self},
+    ConfigObject => $ConfigObject,
+);
+
+# create backend object and delegates
+my $BackendObject = Kernel::System::DynamicField::Backend->new(
+    %{$Self},
+    ConfigObject => $ConfigObject,
+);
+$Self->Is(
+    ref $BackendObject,
+    'Kernel::System::DynamicField::Backend',
+    'Backend object was created successfuly',
+);
+
+my @TestDynamicFields;
+
+# create a dynamic field
+my $FieldID1 = $DynamicFieldObject->DynamicFieldAdd(
+    Name       => "DFT1$RandomID",
+    Label      => 'Description',
+    FieldOrder => 9991,
+    FieldType  => 'Text',
+    ObjectType => 'Ticket',
+    Config     => {
+        DefaultValue => 'Default',
+    },
+    ValidID => 1,
+    UserID  => 1,
+    Reorder => 0,
+);
+
+push @TestDynamicFields, $FieldID1;
+
+my $Field1Config = $DynamicFieldObject->DynamicFieldGet(
+    ID => $FieldID1,
+);
+
+# create a dynamic field
+my $FieldID2 = $DynamicFieldObject->DynamicFieldAdd(
+    Name       => "DFT2$RandomID",
+    Label      => 'Description',
+    FieldOrder => 9992,
+    FieldType  => 'Dropdown',
+    ObjectType => 'Ticket',
+    Config     => {
+        DefaultValue   => 'Default',
+        PossibleValues => {
+            ticket1_field2 => 'ticket1_field2',
+            ticket2_field2 => 'ticket2_field2',
+        },
+    },
+    ValidID => 1,
+    UserID  => 1,
+    Reorder => 0,
+);
+
+my $Field2Config = $DynamicFieldObject->DynamicFieldGet(
+    ID => $FieldID2,
+);
+
+push @TestDynamicFields, $FieldID2;
+
+# create a dynamic field
+my $FieldID3 = $DynamicFieldObject->DynamicFieldAdd(
+    Name       => "DFT3$RandomID",
+    Label      => 'Description',
+    FieldOrder => 9993,
+    FieldType  => 'DateTime',        # mandatory, selects the DF backend to use for this field
+    ObjectType => 'Ticket',
+    Config     => {
+        DefaultValue => 'Default',
+    },
+    ValidID => 1,
+    UserID  => 1,
+    Reorder => 0,
+);
+
+my $Field3Config = $DynamicFieldObject->DynamicFieldGet(
+    ID => $FieldID3,
+);
+
+push @TestDynamicFields, $FieldID3;
+
+# create a dynamic field
+my $FieldID4 = $DynamicFieldObject->DynamicFieldAdd(
+    Name       => "DFT4$RandomID",
+    Label      => 'Description',
+    FieldOrder => 9993,
+    FieldType  => 'Checkbox',        # mandatory, selects the DF backend to use for this field
+    ObjectType => 'Ticket',
+    Config     => {
+        DefaultValue => 'Default',
+    },
+    ValidID => 1,
+    UserID  => 1,
+    Reorder => 0,
+);
+
+my $Field4Config = $DynamicFieldObject->DynamicFieldGet(
+    ID => $FieldID4,
+);
+
+push @TestDynamicFields, $FieldID4;
+
+# create a dynamic field
+my $FieldID5 = $DynamicFieldObject->DynamicFieldAdd(
+    Name       => "DFT5$RandomID",
+    Label      => 'Description',
+    FieldOrder => 9995,
+    FieldType  => 'Multiselect',     # mandatory, selects the DF backend to use for this field
+    ObjectType => 'Ticket',
+    Config     => {
+        DefaultValue => [ 'ticket2_field5', 'ticket4_field5' ],
+        PossibleValues => {
+            ticket1_field5 => 'ticket1_field51',
+            ticket2_field5 => 'ticket2_field52',
+            ticket3_field5 => 'ticket2_field53',
+            ticket4_field5 => 'ticket2_field54',
+            ticket5_field5 => 'ticket2_field55',
+        },
+    },
+    ValidID => 1,
+    UserID  => 1,
+    Reorder => 0,
+);
+
+my $Field5Config = $DynamicFieldObject->DynamicFieldGet(
+    ID => $FieldID5,
+);
+
+push @TestDynamicFields, $FieldID5;
+
+# finish DynamicFields
+
 # create ticket object
 my $TicketObject = Kernel::System::Ticket->new( %{$Self} );
 
 # create 3 tickets
 
+#ticket id container
+my @TicketIDs;
+
 # create ticket 1
-my $TicketIDOne = $TicketObject->TicketCreate(
+my $TicketID1 = $TicketObject->TicketCreate(
     Title        => 'Ticket One Title',
     Queue        => 'Raw',
     Lock         => 'unlock',
@@ -84,20 +220,56 @@ my $TicketIDOne = $TicketObject->TicketCreate(
 
 # sanity check
 $Self->True(
-    $TicketIDOne,
-    "TicketCreate() successful for Ticket One ID $TicketIDOne",
+    $TicketID1,
+    "TicketCreate() successful for Ticket One ID $TicketID1",
+);
+
+$BackendObject->ValueSet(
+    DynamicFieldConfig => $Field1Config,
+    ObjectID           => $TicketID1,
+    Value              => 'ticket1_field1',
+    UserID             => 1,
+);
+
+$BackendObject->ValueSet(
+    DynamicFieldConfig => $Field2Config,
+    ObjectID           => $TicketID1,
+    Value              => 'ticket1_field2',
+    UserID             => 1,
+);
+
+$BackendObject->ValueSet(
+    DynamicFieldConfig => $Field3Config,
+    ObjectID           => $TicketID1,
+    Value              => '2001-01-01 01:01:01',
+    UserID             => 1,
+);
+
+$BackendObject->ValueSet(
+    DynamicFieldConfig => $Field4Config,
+    ObjectID           => $TicketID1,
+    Value              => '0',
+    UserID             => 1,
+);
+
+$BackendObject->ValueSet(
+    DynamicFieldConfig => $Field5Config,
+    ObjectID           => $TicketID1,
+    Value              => [ 'ticket1_field51', 'ticket1_field52', 'ticket1_field53' ],
+    UserID             => 1,
 );
 
 # get the Ticket entry
+# without dynamic fields
 my %TicketEntryOne = $TicketObject->TicketGet(
-    TicketID      => $TicketIDOne,
+    TicketID      => $TicketID1,
     DynamicFields => 0,
     UserID        => $Self->{UserID},
 );
 
 $Self->True(
     IsHashRefWithData( \%TicketEntryOne ),
-    "TicketGet() successful for Local TicketGet One ID $TicketIDOne",
+    "TicketGet() successful for Local TicketGet One ID $TicketID1",
 );
 
 for my $Key ( keys %TicketEntryOne ) {
@@ -109,8 +281,33 @@ for my $Key ( keys %TicketEntryOne ) {
     }
 }
 
+# get the Ticket entry
+# with dynamic fields
+my %TicketEntryOneDF = $TicketObject->TicketGet(
+    TicketID      => $TicketID1,
+    DynamicFields => 1,
+    UserID        => $Self->{UserID},
+);
+
+$Self->True(
+    IsHashRefWithData( \%TicketEntryOneDF ),
+    "TicketGet() successful with DF for Local TicketGet One ID $TicketID1",
+);
+
+for my $Key ( keys %TicketEntryOneDF ) {
+    if ( !$TicketEntryOneDF{$Key} ) {
+        $TicketEntryOneDF{$Key} = '';
+    }
+    if ( $Key eq 'Age' ) {
+        delete $TicketEntryOneDF{$Key};
+    }
+}
+
+# add ticket id
+push @TicketIDs, $TicketID1;
+
 # create ticket 2
-my $TicketIDTwo = $TicketObject->TicketCreate(
+my $TicketID2 = $TicketObject->TicketCreate(
     Title        => 'Ticket Two Title',
     Queue        => 'Raw',
     Lock         => 'unlock',
@@ -124,20 +321,61 @@ my $TicketIDTwo = $TicketObject->TicketCreate(
 
 # sanity check
 $Self->True(
-    $TicketIDTwo,
-    "TicketCreate() successful for Ticket Two ID $TicketIDTwo",
+    $TicketID2,
+    "TicketCreate() successful for Ticket Two ID $TicketID2",
+);
+
+# set dynamic field values
+$BackendObject->ValueSet(
+    DynamicFieldConfig => $Field1Config,
+    ObjectID           => $TicketID2,
+    Value              => 'ticket2_field1',
+    UserID             => 1,
+);
+
+$BackendObject->ValueSet(
+    DynamicFieldConfig => $Field2Config,
+    ObjectID           => $TicketID2,
+    Value              => 'ticket2_field2',
+    UserID             => 1,
+);
+
+$BackendObject->ValueSet(
+    DynamicFieldConfig => $Field3Config,
+    ObjectID           => $TicketID2,
+    Value              => '2011-11-11 11:11:11',
+    UserID             => 1,
+);
+
+$BackendObject->ValueSet(
+    DynamicFieldConfig => $Field4Config,
+    ObjectID           => $TicketID2,
+    Value              => '1',
+    UserID             => 1,
+);
+
+$BackendObject->ValueSet(
+    DynamicFieldConfig => $Field5Config,
+    ObjectID           => $TicketID2,
+    Value              => [
+        'ticket1_field5',
+        'ticket2_field5',
+        'ticket4_field5',
+    ],
+    UserID => 1,
 );
 
 # get the Ticket entry
+# withpout DF
 my %TicketEntryTwo = $TicketObject->TicketGet(
-    TicketID      => $TicketIDTwo,
+    TicketID      => $TicketID2,
     DynamicFields => 0,
     UserID        => $Self->{UserID},
 );
 
 $Self->True(
     IsHashRefWithData( \%TicketEntryTwo ),
-    "TicketGet() successful for Local TicketGet Two ID $TicketIDTwo",
+    "TicketGet() successful for Local TicketGet Two ID $TicketID2",
 );
 
 for my $Key ( keys %TicketEntryTwo ) {
@@ -149,8 +387,33 @@ for my $Key ( keys %TicketEntryTwo ) {
     }
 }
 
+# get the Ticket entry
+# with DF
+my %TicketEntryTwoDF = $TicketObject->TicketGet(
+    TicketID      => $TicketID2,
+    DynamicFields => 1,
+    UserID        => $Self->{UserID},
+);
+
+$Self->True(
+    IsHashRefWithData( \%TicketEntryTwoDF ),
+    "TicketGet() successful for Local TicketGet Two ID $TicketID2",
+);
+
+for my $Key ( keys %TicketEntryTwoDF ) {
+    if ( !$TicketEntryTwoDF{$Key} ) {
+        $TicketEntryTwoDF{$Key} = '';
+    }
+    if ( $Key eq 'Age' ) {
+        delete $TicketEntryTwoDF{$Key};
+    }
+}
+
+# add ticket id
+push @TicketIDs, $TicketID2;
+
 # create ticket 3
-my $TicketIDThree = $TicketObject->TicketCreate(
+my $TicketID3 = $TicketObject->TicketCreate(
     Title        => 'Ticket Three Title',
     Queue        => 'Raw',
     Lock         => 'unlock',
@@ -164,20 +427,20 @@ my $TicketIDThree = $TicketObject->TicketCreate(
 
 # sanity check
 $Self->True(
-    $TicketIDThree,
-    "TicketCreate() successful for Ticket Three ID $TicketIDThree",
+    $TicketID3,
+    "TicketCreate() successful for Ticket Three ID $TicketID3",
 );
 
 # get the Ticket entry
 my %TicketEntryThree = $TicketObject->TicketGet(
-    TicketID      => $TicketIDThree,
+    TicketID      => $TicketID3,
     DynamicFields => 0,
     UserID        => $Self->{UserID},
 );
 
 $Self->True(
     IsHashRefWithData( \%TicketEntryThree ),
-    "TicketGet() successful for Local TicketGet Three ID $TicketIDThree",
+    "TicketGet() successful for Local TicketGet Three ID $TicketID3",
 );
 
 for my $Key ( keys %TicketEntryThree ) {
@@ -188,6 +451,9 @@ for my $Key ( keys %TicketEntryThree ) {
         delete $TicketEntryThree{$Key};
     }
 }
+
+# add ticket id
+push @TicketIDs, $TicketID3;
 
 # set webservice name
 my $WebserviceName = '-Test-' . $RandomID;
@@ -381,7 +647,7 @@ my @Tests        = (
         Name           => 'Test 3',
         SuccessRequest => '1',
         RequestData    => {
-            TicketID => $TicketIDOne,
+            TicketID => $TicketID1,
         },
         ExpectedReturnRemoteData => {
             Success => 1,
@@ -407,7 +673,7 @@ my @Tests        = (
         Name           => 'Test 4',
         SuccessRequest => '1',
         RequestData    => {
-            TicketID => $TicketIDTwo,
+            TicketID => $TicketID2,
         },
         ExpectedReturnRemoteData => {
             Success => 1,
@@ -430,10 +696,10 @@ my @Tests        = (
         Operation => 'TicketGet',
     },
     {
-        Name           => 'Test 4',
+        Name           => 'Test 5',
         SuccessRequest => '1',
         RequestData    => {
-            TicketID => $TicketIDThree,
+            TicketID => $TicketID3,
         },
         ExpectedReturnRemoteData => {
             Success => 1,
@@ -449,6 +715,60 @@ my @Tests        = (
                 Item => [
                     {
                         Ticket => {%TicketEntryThree},
+                    }
+                ],
+            },
+        },
+        Operation => 'TicketGet',
+    },
+    {
+        Name           => 'Test 6',
+        SuccessRequest => '1',
+        RequestData    => {
+            TicketID      => $TicketID1,
+            DynamicFields => 1,
+        },
+        ExpectedReturnRemoteData => {
+            Success => 1,
+            Data    => {
+                Item => {
+                    Ticket => {%TicketEntryOneDF},
+                },
+            },
+        },
+        ExpectedReturnLocalData => {
+            Success => 1,
+            Data    => {
+                Item => [
+                    {
+                        Ticket => {%TicketEntryOneDF},
+                    }
+                ],
+            },
+        },
+        Operation => 'TicketGet',
+    },
+    {
+        Name           => 'Test 7',
+        SuccessRequest => '1',
+        RequestData    => {
+            TicketID      => $TicketID2,
+            DynamicFields => 1,
+        },
+        ExpectedReturnRemoteData => {
+            Success => 1,
+            Data    => {
+                Item => {
+                    Ticket => {%TicketEntryTwoDF},
+                },
+            },
+        },
+        ExpectedReturnLocalData => {
+            Success => 1,
+            Data    => {
+                Item => [
+                    {
+                        Ticket => {%TicketEntryTwoDF},
                     }
                 ],
             },
@@ -615,6 +935,8 @@ for my $Test (@Tests) {
 
 }    #end loop
 
+# clean up
+
 # clean up webservice
 my $WebserviceDelete = $WebserviceObject->WebserviceDelete(
     ID     => $WebserviceID,
@@ -625,40 +947,51 @@ $Self->True(
     "Deleted Webservice $WebserviceID",
 );
 
-# delete the ticket One
-my $TicketDelete = $TicketObject->TicketDelete(
-    TicketID => $TicketIDOne,
-    UserID   => $Self->{UserID},
+for my $FieldID (@TestDynamicFields) {
+
+    # delete the dynamic field
+    my $DFDelete = $DynamicFieldObject->DynamicFieldDelete(
+        ID      => $FieldID,
+        UserID  => 1,
+        Reorder => 0,
+    );
+
+    # sanity check
+    $Self->True(
+        $DFDelete,
+        "DynamicFieldDelete() successful for Field ID $FieldID",
+    );
+}
+
+for my $TicketID (@TicketIDs) {
+
+    # delete the ticket Three
+    my $TicketDelete = $TicketObject->TicketDelete(
+        TicketID => $TicketID,
+        UserID   => $Self->{UserID},
+    );
+
+    # sanity check
+    $Self->True(
+        $TicketDelete,
+        "TicketDelete() successful for Ticket ID $TicketID",
+    );
+}
+
+my $UpdateUser = $UserObject->UserUpdate(
+    UserID        => $Self->{UserID},
+    UserFirstname => 'TestModified',
+    UserLastname  => 'UserModified',
+    UserLogin     => 'TestUser' . $RandomID,
+    UserEmail     => 'testmodified' . $RandomID . 'email@example.com',
+    ValidID       => 2,
+    ChangeUserID  => $Self->{UserID},
 );
 
 # sanity check
 $Self->True(
-    $TicketDelete,
-    "TicketDelete() successful for Ticket One ID $TicketIDOne",
-);
-
-# delete the ticket Two
-$TicketDelete = $TicketObject->TicketDelete(
-    TicketID => $TicketIDTwo,
-    UserID   => $Self->{UserID},
-);
-
-# sanity check
-$Self->True(
-    $TicketDelete,
-    "TicketDelete() successful for Ticket Two ID $TicketIDTwo",
-);
-
-# delete the ticket Three
-$TicketDelete = $TicketObject->TicketDelete(
-    TicketID => $TicketIDThree,
-    UserID   => $Self->{UserID},
-);
-
-# sanity check
-$Self->True(
-    $TicketDelete,
-    "TicketDelete() successful for Ticket Three ID $TicketIDThree",
+    $UpdateUser,
+    "UserUpdate() successful for User ID $Self->{UserID}",
 );
 
 1;
