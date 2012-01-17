@@ -1,8 +1,8 @@
 // --
 // Core.UI.Table.js - Table specific functions
-// Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+// Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.UI.Table.js,v 1.5.2.3 2011-03-22 15:26:06 mb Exp $
+// $Id: Core.UI.Table.js,v 1.5.2.4 2012-01-17 13:54:09 mab Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -56,11 +56,10 @@ Core.UI.Table = (function (TargetNS) {
             }
 
             // comma-seperated selectors have performance issues, so we add the different selectors after each other
-            $('tr:last-child', $Context)
-                .add('th:last-child', $Context)
-                .add('td:last-child', $Context)
-                .add('li:last-child', $Context)
-                .addClass('Last');
+            $('tr:last-child', $Context).addClass('Last');
+            $('th:last-child', $Context).addClass('Last');
+            $('td:last-child', $Context).addClass('Last');
+            $('li:last-child', $Context).addClass('Last');
         }
     };
 
