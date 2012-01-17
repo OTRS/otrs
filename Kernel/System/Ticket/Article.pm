@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.305 2011-12-12 11:15:33 mg Exp $
+# $Id: Article.pm,v 1.306 2012-01-17 14:04:03 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::VariableCheck qw(:all);
 use MIME::Base64;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.305 $) [1];
+$VERSION = qw($Revision: 1.306 $) [1];
 
 =head1 NAME
 
@@ -161,6 +161,13 @@ sub ArticleCreate {
         DynamicFields => 1,
     );
 
+    my $HTMLUtilsObject = Kernel::System::HTMLUtils->new(
+        LogObject    => $Self->{LogObject},
+        ConfigObject => $Self->{ConfigObject},
+        MainObject   => $Self->{MainObject},
+        EncodeObject => $Self->{EncodeObject},
+    );
+
     # add 'no body' if there is no body there!
     my @AttachmentConvert;
     if ( !$Param{Body} ) {
@@ -181,12 +188,6 @@ sub ArticleCreate {
         # get ascii body
         $Param{MimeType} = 'text/plain';
         $Param{ContentType} =~ s/html/plain/i;
-        my $HTMLUtilsObject = Kernel::System::HTMLUtils->new(
-            LogObject    => $Self->{LogObject},
-            ConfigObject => $Self->{ConfigObject},
-            MainObject   => $Self->{MainObject},
-            EncodeObject => $Self->{EncodeObject},
-        );
         $Param{Body} = $HTMLUtilsObject->ToAscii(
             String => $Param{Body},
         );
@@ -276,28 +277,10 @@ sub ArticleCreate {
             && $Attachment->{Filename} eq 'file-2'
             )
         {
-
-            my $FQDN = $Self->{ConfigObject}->Get('FQDN');
-            $Attachment->{Content} =~ s{(src=")(data:image/)(png|gif|jpg|bmp)(;base64,)(.+?)(")}{
-
-                my $Base64String = $5;
-
-                my $FileName     = 'pasted-' . time() . '-' . int(rand(1000000)) . '-' . $Param{UserID} . '.' . $3;
-                my $ContentType  = "image/$3; name=\"$FileName\"";
-                my $ContentID    = 'pasted.' . time() . '.' . int(rand(1000000)) . '.' . $Param{UserID} . '@' . $FQDN;
-
-                my $AttachmentData = {
-                    Content     => decode_base64($Base64String),
-                    ContentType => $ContentType,
-                    ContentID   => $ContentID,
-                    Filename    => $FileName,
-                };
-                push @AttachmentConvert, $AttachmentData;
-
-                # compose new image tag
-                $1 . "cid:$ContentID" . $6
-
-            }egxi;
+            $HTMLUtilsObject->EmbeddedImagesExtract(
+                DocumentRef    => \$Attachment->{Content},
+                AttachmentsRef => @AttachmentConvert,
+            );
         }
     }
 
@@ -3513,6 +3496,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.305 $ $Date: 2011-12-12 11:15:33 $
+$Revision: 1.306 $ $Date: 2012-01-17 14:04:03 $
 
 =cut

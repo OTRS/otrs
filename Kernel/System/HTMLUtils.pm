@@ -1,8 +1,8 @@
 # --
 # Kernel/System/HTMLUtils.pm - creating and modifying html strings
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: HTMLUtils.pm,v 1.28 2011-10-24 12:21:19 mg Exp $
+# $Id: HTMLUtils.pm,v 1.29 2012-01-17 14:04:03 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.28 $) [1];
+$VERSION = qw($Revision: 1.29 $) [1];
 
 =head1 NAME
 
@@ -1037,6 +1037,56 @@ sub Safety {
     return %Safety;
 }
 
+=item EmbeddedImagesExtract()
+
+extracts embedded images with data-URLs from an HTML document.
+
+    $HTMLUtilsObject->EmbeddedImagesExtract(
+        DocumentRef    => \$Body,
+        AttachmentsRef => \@Attachments,
+    );
+
+Returns nothing. If embedded images were found, these will be appended
+to the attachments list, and the image data URL will be replaced with a
+cid: URL in the document.
+
+=cut
+
+sub EmbeddedImagesExtract {
+    my ( $Self, %Param ) = @_;
+
+    if ( ref $Param{DocumentRef} ne 'SCALAR' ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => "Need DocumentRef!" );
+        return;
+    }
+    if ( ref $Param{AttachmentsRef} ne 'ARRAY' ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => "Need DocumentRef!" );
+        return;
+    }
+
+    my $FQDN = $Self->{ConfigObject}->Get('FQDN');
+    ${ $Param{DocumentRef} } =~ s{(src=")(data:image/)(png|gif|jpg|bmp)(;base64,)(.+?)(")}{
+
+        my $Base64String = $5;
+
+        my $FileName     = 'pasted-' . time() . '-' . int(rand(1000000)) . '-' . $Param{UserID} . '.' . $3;
+        my $ContentType  = "image/$3; name=\"$FileName\"";
+        my $ContentID    = 'pasted.' . time() . '.' . int(rand(1000000)) . '.' . $Param{UserID} . '@' . $FQDN;
+
+        my $AttachmentData = {
+            Content     => decode_base64($Base64String),
+            ContentType => $ContentType,
+            ContentID   => $ContentID,
+            Filename    => $FileName,
+        };
+        push @{$Param{AttachmentsRef}}, $AttachmentData;
+
+        # compose new image tag
+        $1 . "cid:$ContentID" . $6
+
+    }egxi;
+}
+
 1;
 
 =back
@@ -1051,6 +1101,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.28 $ $Date: 2011-10-24 12:21:19 $
+$Revision: 1.29 $ $Date: 2012-01-17 14:04:03 $
 
 =cut
