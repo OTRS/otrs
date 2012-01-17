@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminCustomerUser.pm - to add/update/delete customer user and preferences
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUser.pm,v 1.98 2011-12-21 13:37:22 mg Exp $
+# $Id: AdminCustomerUser.pm,v 1.99 2012-01-17 10:02:51 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Valid;
 use Kernel::System::CheckItem;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.98 $) [1];
+$VERSION = qw($Revision: 1.99 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -410,7 +410,7 @@ sub Run {
                     my $UserQuote     = $Self->{LayoutObject}->Ascii2Html( Text => $User );
                     if ( $Self->{ConfigObject}->Get('Frontend::Module')->{AgentTicketPhone} ) {
                         $URL
-                            .= "<a href=\"\$Env{\"CGIHandle\"}?Action=AgentTicketPhone;Subaction=StoreNew;ExpandCustomerName=2;CustomerUser=$UserHTMLQuote\">"
+                            .= "<a href=\"\$Env{\"CGIHandle\"}?Action=AgentTicketPhone;Subaction=StoreNew;ExpandCustomerName=2;CustomerUser=$UserHTMLQuote;\$QEnv{\"ChallengeTokenParam\"}\">"
                             . $Self->{LayoutObject}->{LanguageObject}->Get('New phone ticket')
                             . "</a>";
                     }
@@ -419,7 +419,7 @@ sub Run {
                             $URL .= " - ";
                         }
                         $URL
-                            .= "<a href=\"\$Env{\"CGIHandle\"}?Action=AgentTicketEmail;Subaction=StoreNew;ExpandCustomerName=2;CustomerUser=$UserHTMLQuote\">"
+                            .= "<a href=\"\$Env{\"CGIHandle\"}?Action=AgentTicketEmail;Subaction=StoreNew;ExpandCustomerName=2;CustomerUser=$UserHTMLQuote;\$QEnv{\"ChallengeTokenParam\"}\">"
                             . $Self->{LayoutObject}->{LanguageObject}->Get('New email ticket')
                             . "</a>";
                     }

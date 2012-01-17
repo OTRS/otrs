@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2137 2012-01-16 14:22:00 mg Exp $
+# $Id: CHANGES,v 1.2138 2012-01-17 10:02:52 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.1.0.beta5 ????-??-??
+ - 2012-01-17 Fixed bug#8117 - Can't create ticket for newly created customer user.
  - 2012-01-16 Fixed bug#8094 - Typo In Ticket.pm.
  - 2012-01-16 Creation of QueueObject was not possible because of missing EncodeObject in CustomerUserGenericTicket.pm.
 
