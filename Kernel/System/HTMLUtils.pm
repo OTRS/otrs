@@ -2,7 +2,7 @@
 # Kernel/System/HTMLUtils.pm - creating and modifying html strings
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: HTMLUtils.pm,v 1.29 2012-01-17 14:04:03 mg Exp $
+# $Id: HTMLUtils.pm,v 1.30 2012-01-17 14:10:21 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.29 $) [1];
+$VERSION = qw($Revision: 1.30 $) [1];
 
 =head1 NAME
 
@@ -1085,6 +1085,8 @@ sub EmbeddedImagesExtract {
         $1 . "cid:$ContentID" . $6
 
     }egxi;
+
+    return 1;
 }
 
 1;
@@ -1101,6 +1103,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.29 $ $Date: 2012-01-17 14:04:03 $
+$Revision: 1.30 $ $Date: 2012-01-17 14:10:21 $
 
 =cut
