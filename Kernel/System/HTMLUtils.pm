@@ -2,7 +2,7 @@
 # Kernel/System/HTMLUtils.pm - creating and modifying html strings
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: HTMLUtils.pm,v 1.31 2012-01-17 14:31:28 mg Exp $
+# $Id: HTMLUtils.pm,v 1.32 2012-01-17 14:47:35 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use MIME::Base64;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.31 $) [1];
+$VERSION = qw($Revision: 1.32 $) [1];
 
 =head1 NAME
 
@@ -1057,7 +1057,7 @@ cid: URL in the document.
 sub EmbeddedImagesExtract {
     my ( $Self, %Param ) = @_;
 
-    if ( ref $Param{DocumentRef} ne 'SCALAR' ) {
+    if ( ref $Param{DocumentRef} ne 'SCALAR' || !defined ${ $Param{DocumentRef} } ) {
         $Self->{LogObject}->Log( Priority => 'error', Message => "Need DocumentRef!" );
         return;
     }
@@ -1071,9 +1071,9 @@ sub EmbeddedImagesExtract {
 
         my $Base64String = $5;
 
-        my $FileName     = 'pasted-' . time() . '-' . int(rand(1000000)) . '-' . $Param{UserID} . '.' . $3;
+        my $FileName     = 'pasted-' . time() . '-' . int(rand(1000000)) . '.' . $3;
         my $ContentType  = "image/$3; name=\"$FileName\"";
-        my $ContentID    = 'pasted.' . time() . '.' . int(rand(1000000)) . '.' . $Param{UserID} . '@' . $FQDN;
+        my $ContentID    = 'pasted.' . time() . '.' . int(rand(1000000)) . '@' . $FQDN;
 
         my $AttachmentData = {
             Content     => decode_base64($Base64String),
@@ -1105,6 +1105,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.31 $ $Date: 2012-01-17 14:31:28 $
+$Revision: 1.32 $ $Date: 2012-01-17 14:47:35 $
 
 =cut
