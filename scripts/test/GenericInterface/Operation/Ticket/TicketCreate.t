@@ -2,7 +2,7 @@
 # TicketCreate.t - GenericInterface TicketCreate tests for TicketConnector backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketCreate.t,v 1.1 2012-01-16 18:50:15 cr Exp $
+# $Id: TicketCreate.t,v 1.2 2012-01-18 06:03:32 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,56 +26,266 @@ use Kernel::GenericInterface::Operation::Ticket::TicketCreate;
 use Kernel::GenericInterface::Operation::Ticket::SessionIDGet;
 use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData IsStringWithData);
 
+use Kernel::System::SysConfig;
+use Kernel::System::Queue;
+use Kernel::System::Type;
+use Kernel::System::Service;
+use Kernel::System::SLA;
+use Kernel::System::State;
+use Kernel::System::DynamicField;
+use Kernel::System::User;
+
 # set UserID to root because in public interface there is no user
 $Self->{UserID} = 1;
 
 # create ticket object
 my $TicketObject = Kernel::System::Ticket->new( %{$Self} );
 
-# TODO remove or use this code elsewhere
-# # create a ticket
-#my $TicketID = $TicketObject->TicketCreate(
-#    Title        => 'Some Ticket Title',
-#    Queue        => 'Raw',
-#    Lock         => 'unlock',
-#    Priority     => '3 normal',
-#    State        => 'new',
-#    CustomerID   => '123465',
-#    CustomerUser => 'customer@example.com',
-#    OwnerID      => 1,
-#    UserID       => 1,
-#);
-#
-# # sanity check
-#$Self->True(
-#    $TicketID,
-#    "TicketCreate() successful for Ticket ID $TicketID",
-#);
-#
-# # get the Ticket entry
-#my %TicketEntry = $TicketObject->TicketGet(
-#    TicketID      => $TicketID,
-#    DynamicFields => 0,
-#    UserID        => $Self->{UserID},
-#);
-#
-#$Self->True(
-#    IsHashRefWithData( \%TicketEntry ),
-#    "TicketGet() successful for Local TicketGet ID $TicketID",
-#);
-#
-
 # helper object
 my $HelperObject = Kernel::System::UnitTest::Helper->new(
     %{$Self},
     UnitTestObject => $Self,
 );
+my $RandomID = $HelperObject->GetRandomID();
+
+# all other objects
+my $SysConfigObject    = Kernel::System::SysConfig->new( %{$Self} );
+my $QueueObject        = Kernel::System::Queue->new( %{$Self} );
+my $TypeObject         = Kernel::System::Type->new( %{$Self} );
+my $ServiceObject      = Kernel::System::Service->new( %{$Self} );
+my $SLAObject          = Kernel::System::SLA->new( %{$Self} );
+my $StateObject        = Kernel::System::State->new( %{$Self} );
+my $PriorityObject     = Kernel::System::Priority->new( %{$Self} );
+my $DynamicFieldObject = Kernel::System::DynamicField->new( %{$Self} );
+my $UserObject         = Kernel::System::User->new( %{$Self} );
+
+# get config settings
+my $TicketTypeSetting        = $Self->{ConfigObject}->Get('Ticket::Type');
+my $AccountTimeSetting       = $Self->{ConfigObject}->Get('Ticket::Frontend::AccountTime');
+my $NeedAccountedTimeSetting = $Self->{ConfigObject}->Get('Ticket::Frontend::NeedAccountedTime');
+
+# update sysconfig if needed
+if ( $TicketTypeSetting eq '0' ) {
+    $SysConfigObject->ConfigItemUpdate(
+        Valid => 1,
+        Key   => 'Ticket::Type',
+        Value => '1',
+    );
+}
+if ( $AccountTimeSetting eq '0' ) {
+    $SysConfigObject->ConfigItemUpdate(
+        Valid => 1,
+        Key   => 'Ticket::Frontend::AccountTime',
+        Value => '1',
+    );
+}
+if ( $NeedAccountedTimeSetting eq '0' ) {
+    $SysConfigObject->ConfigItemUpdate(
+        Valid => 1,
+        Key   => 'Ticket::Frontend::NeedAccountedTime',
+        Value => '1',
+    );
+}
 
 # set webservice name
-my $WebserviceName = '-Test-' . $HelperObject->GetRandomID();
+my $WebserviceName = '-Test-' . $RandomID;
 
-# set UserID on 1
-my $UserID = 1;
+my $TestOwnerLogin        = $HelperObject->TestUserCreate();
+my $TestResponsibleLogin  = $HelperObject->TestUserCreate();
+my $TestCustomerUserLogin = $HelperObject->TestCustomerUserCreate();
+my $OwnerID               = $UserObject->UserLookup(
+    UserLogin => $TestOwnerLogin,
+);
+my $ResponsibleID = $UserObject->UserLookup(
+    UserLogin => $TestResponsibleLogin,
+);
+
+# create new queue
+my $QueueID = $QueueObject->QueueAdd(
+    Name            => 'TestQueue' . $RandomID,
+    ValidID         => 1,
+    GroupID         => 1,
+    SystemAddressID => 1,
+    SalutationID    => 1,
+    SignatureID     => 1,
+    Comment         => 'Some comment',
+    UserID          => 1,
+);
+
+# sanity check
+$Self->True(
+    $QueueID,
+    "QueueAdd() - create testing queue",
+);
+
+my %QueueData = $QueueObject->QueueGet( ID => $QueueID );
+
+# sanity check
+$Self->True(
+    IsHashRefWithData( \%QueueData ),
+    "QueueGet() - for testing queue",
+);
+
+# create new type
+my $TypeID = $TypeObject->TypeAdd(
+    Name    => 'TestType' . $RandomID,
+    ValidID => 1,
+    UserID  => 1,
+);
+
+# sanity check
+$Self->True(
+    $TypeID,
+    "TypeAdd() - create testing type",
+);
+
+my %TypeData = $TypeObject->TypeGet(
+    ID => $TypeID,
+);
+
+# sanity check
+$Self->True(
+    IsHashRefWithData( \%TypeData ),
+    "QueueGet() - for testing type",
+);
+
+# create new service
+my $ServiceID = $ServiceObject->ServiceAdd(
+    Name    => 'TestService' . $RandomID,
+    ValidID => 1,
+    UserID  => 1,
+);
+
+# sanity check
+$Self->True(
+    $ServiceID,
+    "ServiceAdd() - create testing service",
+);
+
+my %ServiceData = $ServiceObject->ServiceGet(
+    ServiceID => $ServiceID,
+    UserID    => 1,
+);
+
+# sanity check
+$Self->True(
+    IsHashRefWithData( \%ServiceData ),
+    "ServiceGet() - for testing service",
+);
+
+# set service for the customer
+$ServiceObject->CustomerUserServiceMemberAdd(
+    CustomerUserLogin => $TestCustomerUserLogin,
+    ServiceID         => $ServiceID,
+    Active            => 1,
+    UserID            => 1,
+);
+
+# create new SLA
+my $SLAID = $SLAObject->SLAAdd(
+    Name       => 'TestSLA' . $RandomID,
+    ServiceIDs => [$ServiceID],
+    ValidID    => 1,
+    UserID     => 1,
+);
+
+# sanity check
+$Self->True(
+    $SLAID,
+    "SLAAdd() - create testing SLA",
+);
+
+my %SLAData = $SLAObject->SLAGet(
+    SLAID  => $SLAID,
+    UserID => 1,
+);
+
+# sanity check
+$Self->True(
+    IsHashRefWithData( \%SLAData ),
+    "SLAGet() - for testing SLA",
+);
+
+# create new state
+my $StateID = $StateObject->StateAdd(
+    Name    => 'TestState' . $RandomID,
+    TypeID  => 2,
+    ValidID => 1,
+    UserID  => 1,
+);
+
+# sanity check
+$Self->True(
+    $StateID,
+    "StateAdd() - create testing state",
+);
+
+my %StateData = $StateObject->StateGet(
+    ID => $StateID,
+);
+
+# sanity check
+$Self->True(
+    IsHashRefWithData( \%StateData ),
+    "StateGet() - for testing state",
+);
+
+# create new priority
+my $PriorityID = $PriorityObject->PriorityAdd(
+    Name    => 'TestPriority' . $RandomID,
+    ValidID => 1,
+    UserID  => 1,
+);
+
+# sanity check
+$Self->True(
+    $PriorityID,
+    "PriorityAdd() - create testing priority",
+);
+
+my %PriorityData = $PriorityObject->PriorityGet(
+    PriorityID => $PriorityID,
+    UserID     => 1,
+);
+
+# sanity check
+$Self->True(
+    IsHashRefWithData( \%PriorityData ),
+    "PriorityGet() - for testing priority",
+);
+
+# create new dynamic field
+my $DynamicFieldID = $DynamicFieldObject->DynamicFieldAdd(
+    Name       => 'TestDynamicFieldGI' . int rand(1000),
+    Label      => 'GI Test Field',
+    FieldOrder => 9991,
+    FieldType  => 'DateTime',
+    ObjectType => 'Ticket',
+    Config     => {
+        DefaultValue  => 0,
+        YearsInFuture => 0,
+        YearsInPast   => 0,
+        YearsPeriod   => 0,
+    },
+    ValidID => 1,
+    UserID  => 1,
+);
+
+# sanity check
+$Self->True(
+    $DynamicFieldID,
+    "DynamicFieldAdd() - create testing dynamic field",
+);
+
+my $DynamicFieldData = $DynamicFieldObject->DynamicFieldGet(
+    ID => $DynamicFieldID,
+);
+
+# sanity check
+$Self->True(
+    IsHashRefWithData($DynamicFieldData),
+    "DynamicFieldGet() - for testing dynamic field",
+);
 
 # create webservice object
 my $WebserviceObject = Kernel::System::GenericInterface::Webservice->new( %{$Self} );
@@ -178,7 +388,7 @@ my $WebserviceUpdate = $WebserviceObject->WebserviceUpdate(
     Name    => $WebserviceName,
     Config  => $WebserviceConfig,
     ValidID => 1,
-    UserID  => $UserID,
+    UserID  => 1,
 );
 $Self->True(
     $WebserviceUpdate,
@@ -359,6 +569,2448 @@ my @Tests        = (
         },
         Operation => 'TicketCreate',
     },
+    {
+        Name           => 'Missing CustomerUser',
+        SuccessRequest => 1,
+        SuccessCreate  => 0,
+        RequestData    => {
+            Ticket => {
+                Title => 'Ticket Title',
+            },
+            Article => {
+                Test => 1,
+            },
+            DynamicField => {
+                Test => 1,
+            },
+            Attachment => {
+                Test => 1,
+            },
+        },
+        ExpectedData => {
+            Data => {
+                Error => {
+                    ErrorCode => 'TicketCreate.MissingParameter',
+                    }
+            },
+            Success => 1
+        },
+        Operation => 'TicketCreate',
+    },
+    {
+        Name           => 'Invalid CustomerUser',
+        SuccessRequest => 1,
+        SuccessCreate  => 0,
+        RequestData    => {
+            Ticket => {
+                Title        => 'Ticket Title',
+                CustomerUser => 'Invalid' . $RandomID,
+            },
+            Article => {
+                Test => 1,
+            },
+            DynamicField => {
+                Test => 1,
+            },
+            Attachment => {
+                Test => 1,
+            },
+        },
+        ExpectedData => {
+            Data => {
+                Error => {
+                    ErrorCode => 'TicketCreate.InvalidParameter',
+                    }
+            },
+            Success => 1
+        },
+        Operation => 'TicketCreate',
+    },
+    {
+        Name           => 'Missing Queue or QueueID',
+        SuccessRequest => 1,
+        SuccessCreate  => 0,
+        RequestData    => {
+            Ticket => {
+                Title        => 'Ticket Title',
+                CustomerUser => $TestCustomerUserLogin,
+            },
+            Article => {
+                Test => 1,
+            },
+            DynamicField => {
+                Test => 1,
+            },
+            Attachment => {
+                Test => 1,
+            },
+        },
+        ExpectedData => {
+            Data => {
+                Error => {
+                    ErrorCode => 'TicketCreate.MissingParameter',
+                    }
+            },
+            Success => 1
+        },
+        Operation => 'TicketCreate',
+    },
+    {
+        Name           => 'Invalid Queue',
+        SuccessRequest => 1,
+        SuccessCreate  => 0,
+        RequestData    => {
+            Ticket => {
+                Title        => 'Ticket Title',
+                CustomerUser => $TestCustomerUserLogin,
+                Queue        => 'Invalid' . $RandomID,
+            },
+            Article => {
+                Test => 1,
+            },
+            DynamicField => {
+                Test => 1,
+            },
+            Attachment => {
+                Test => 1,
+            },
+        },
+        ExpectedData => {
+            Data => {
+                Error => {
+                    ErrorCode => 'TicketCreate.InvalidParameter',
+                    }
+            },
+            Success => 1
+        },
+        Operation => 'TicketCreate',
+    },
+    {
+        Name           => 'Invalid QueueID',
+        SuccessRequest => 1,
+        SuccessCreate  => 0,
+        RequestData    => {
+            Ticket => {
+                Title        => 'Ticket Title',
+                CustomerUser => $TestCustomerUserLogin,
+                QueueID      => 'Invalid' . $RandomID,
+            },
+            Article => {
+                Test => 1,
+            },
+            DynamicField => {
+                Test => 1,
+            },
+            Attachment => {
+                Test => 1,
+            },
+        },
+        ExpectedData => {
+            Data => {
+                Error => {
+                    ErrorCode => 'TicketCreate.InvalidParameter',
+                    }
+            },
+            Success => 1
+        },
+        Operation => 'TicketCreate',
+    },
+    {
+        Name           => 'Invalid Lock',
+        SuccessRequest => 1,
+        SuccessCreate  => 0,
+        RequestData    => {
+            Ticket => {
+                Title        => 'Ticket Title',
+                CustomerUser => $TestCustomerUserLogin,
+                QueueID      => $QueueID,
+                Lock         => 'Invalid' . $RandomID,
+            },
+            Article => {
+                Test => 1,
+            },
+            DynamicField => {
+                Test => 1,
+            },
+            Attachment => {
+                Test => 1,
+            },
+        },
+        ExpectedData => {
+            Data => {
+                Error => {
+                    ErrorCode => 'TicketCreate.InvalidParameter',
+                    }
+            },
+            Success => 1
+        },
+        Operation => 'TicketCreate',
+    },
+    {
+        Name           => 'Invalid LockID',
+        SuccessRequest => 1,
+        SuccessCreate  => 0,
+        RequestData    => {
+            Ticket => {
+                Title        => 'Ticket Title',
+                CustomerUser => $TestCustomerUserLogin,
+                QueueID      => $QueueID,
+                LockID       => 'Invalid' . $RandomID,
+            },
+            Article => {
+                Test => 1,
+            },
+            DynamicField => {
+                Test => 1,
+            },
+            Attachment => {
+                Test => 1,
+            },
+        },
+        ExpectedData => {
+            Data => {
+                Error => {
+                    ErrorCode => 'TicketCreate.InvalidParameter',
+                    }
+            },
+            Success => 1
+        },
+        Operation => 'TicketCreate',
+    },
+    {
+        Name           => 'Missing Type or TypeID',
+        SuccessRequest => 1,
+        SuccessCreate  => 0,
+        RequestData    => {
+            Ticket => {
+                Title        => 'Ticket Title',
+                CustomerUser => $TestCustomerUserLogin,
+                QueueID      => $QueueID,
+            },
+            Article => {
+                Test => 1,
+            },
+            DynamicField => {
+                Test => 1,
+            },
+            Attachment => {
+                Test => 1,
+            },
+        },
+        ExpectedData => {
+            Data => {
+                Error => {
+                    ErrorCode => 'TicketCreate.MissingParameter',
+                    }
+            },
+            Success => 1
+        },
+        Operation => 'TicketCreate',
+    },
+    {
+        Name           => 'Invalid Type',
+        SuccessRequest => 1,
+        SuccessCreate  => 0,
+        RequestData    => {
+            Ticket => {
+                Title        => 'Ticket Title',
+                CustomerUser => $TestCustomerUserLogin,
+                QueueID      => $QueueID,
+                Type         => 'Invalid' . $RandomID,
+            },
+            Article => {
+                Test => 1,
+            },
+            DynamicField => {
+                Test => 1,
+            },
+            Attachment => {
+                Test => 1,
+            },
+        },
+        ExpectedData => {
+            Data => {
+                Error => {
+                    ErrorCode => 'TicketCreate.InvalidParameter',
+                    }
+            },
+            Success => 1
+        },
+        Operation => 'TicketCreate',
+    },
+    {
+        Name           => 'Invalid TypeID',
+        SuccessRequest => 1,
+        SuccessCreate  => 0,
+        RequestData    => {
+            Ticket => {
+                Title        => 'Ticket Title',
+                CustomerUser => $TestCustomerUserLogin,
+                QueueID      => $QueueID,
+                TypeID       => 'Invalid' . $RandomID,
+            },
+            Article => {
+                Test => 1,
+            },
+            DynamicField => {
+                Test => 1,
+            },
+            Attachment => {
+                Test => 1,
+            },
+        },
+        ExpectedData => {
+            Data => {
+                Error => {
+                    ErrorCode => 'TicketCreate.InvalidParameter',
+                    }
+            },
+            Success => 1
+        },
+        Operation => 'TicketCreate',
+    },
+    {
+        Name           => 'Invalid Service',
+        SuccessRequest => 1,
+        SuccessCreate  => 0,
+        RequestData    => {
+            Ticket => {
+                Title        => 'Ticket Title',
+                CustomerUser => $TestCustomerUserLogin,
+                QueueID      => $QueueID,
+                TypeID       => $TypeID,
+                Service      => 'Invalid' . $RandomID,
+            },
+            Article => {
+                Test => 1,
+            },
+            DynamicField => {
+                Test => 1,
+            },
+            Attachment => {
+                Test => 1,
+            },
+        },
+        ExpectedData => {
+            Data => {
+                Error => {
+                    ErrorCode => 'TicketCreate.InvalidParameter',
+                    }
+            },
+            Success => 1
+        },
+        Operation => 'TicketCreate',
+    },
+    {
+        Name           => 'Invalid Service',
+        SuccessRequest => 1,
+        SuccessCreate  => 0,
+        RequestData    => {
+            Ticket => {
+                Title        => 'Ticket Title',
+                CustomerUser => $TestCustomerUserLogin,
+                QueueID      => $QueueID,
+                TypeID       => $TypeID,
+                ServiceID    => 'Invalid' . $RandomID,
+            },
+            Article => {
+                Test => 1,
+            },
+            DynamicField => {
+                Test => 1,
+            },
+            Attachment => {
+                Test => 1,
+            },
+        },
+        ExpectedData => {
+            Data => {
+                Error => {
+                    ErrorCode => 'TicketCreate.InvalidParameter',
+                    }
+            },
+            Success => 1
+        },
+        Operation => 'TicketCreate',
+    },
+    {
+        Name           => 'Invalid SLA',
+        SuccessRequest => 1,
+        SuccessCreate  => 0,
+        RequestData    => {
+            Ticket => {
+                Title        => 'Ticket Title',
+                CustomerUser => $TestCustomerUserLogin,
+                QueueID      => $QueueID,
+                TypeID       => $TypeID,
+                ServiceID    => $ServiceID,
+                SLA          => 'Invalid' . $RandomID,
+            },
+            Article => {
+                Test => 1,
+            },
+            DynamicField => {
+                Test => 1,
+            },
+            Attachment => {
+                Test => 1,
+            },
+        },
+        ExpectedData => {
+            Data => {
+                Error => {
+                    ErrorCode => 'TicketCreate.InvalidParameter',
+                    }
+            },
+            Success => 1
+        },
+        Operation => 'TicketCreate',
+    },
+    {
+        Name           => 'Invalid SLAID',
+        SuccessRequest => 1,
+        SuccessCreate  => 0,
+        RequestData    => {
+            Ticket => {
+                Title        => 'Ticket Title',
+                CustomerUser => $TestCustomerUserLogin,
+                QueueID      => $QueueID,
+                TypeID       => $TypeID,
+                ServiceID    => $ServiceID,
+                SLAID        => 'Invalid' . $RandomID,
+            },
+            Article => {
+                Test => 1,
+            },
+            DynamicField => {
+                Test => 1,
+            },
+            Attachment => {
+                Test => 1,
+            },
+        },
+        ExpectedData => {
+            Data => {
+                Error => {
+                    ErrorCode => 'TicketCreate.InvalidParameter',
+                    }
+            },
+            Success => 1
+        },
+        Operation => 'TicketCreate',
+    },
+    {
+        Name           => 'Missing State or StateID',
+        SuccessRequest => 1,
+        SuccessCreate  => 0,
+        RequestData    => {
+            Ticket => {
+                Title        => 'Ticket Title',
+                CustomerUser => $TestCustomerUserLogin,
+                QueueID      => $QueueID,
+                TypeID       => $TypeID,
+                ServiceID    => $ServiceID,
+                SLAID        => $SLAID,
+            },
+            Article => {
+                Test => 1,
+            },
+            DynamicField => {
+                Test => 1,
+            },
+            Attachment => {
+                Test => 1,
+            },
+        },
+        ExpectedData => {
+            Data => {
+                Error => {
+                    ErrorCode => 'TicketCreate.MissingParameter',
+                    }
+            },
+            Success => 1
+        },
+        Operation => 'TicketCreate',
+    },
+    {
+        Name           => 'Invalid State',
+        SuccessRequest => 1,
+        SuccessCreate  => 0,
+        RequestData    => {
+            Ticket => {
+                Title        => 'Ticket Title',
+                CustomerUser => $TestCustomerUserLogin,
+                QueueID      => $QueueID,
+                TypeID       => $TypeID,
+                ServiceID    => $ServiceID,
+                SLAID        => $SLAID,
+                State        => 'Invalid' . $RandomID,
+            },
+            Article => {
+                Test => 1,
+            },
+            DynamicField => {
+                Test => 1,
+            },
+            Attachment => {
+                Test => 1,
+            },
+        },
+        ExpectedData => {
+            Data => {
+                Error => {
+                    ErrorCode => 'TicketCreate.InvalidParameter',
+                    }
+            },
+            Success => 1
+        },
+        Operation => 'TicketCreate',
+    },
+    {
+        Name           => 'Invalid StateID',
+        SuccessRequest => 1,
+        SuccessCreate  => 0,
+        RequestData    => {
+            Ticket => {
+                Title        => 'Ticket Title',
+                CustomerUser => $TestCustomerUserLogin,
+                QueueID      => $QueueID,
+                TypeID       => $TypeID,
+                ServiceID    => $ServiceID,
+                SLAID        => $SLAID,
+                StateID      => 'Invalid' . $RandomID,
+            },
+            Article => {
+                Test => 1,
+            },
+            DynamicField => {
+                Test => 1,
+            },
+            Attachment => {
+                Test => 1,
+            },
+        },
+        ExpectedData => {
+            Data => {
+                Error => {
+                    ErrorCode => 'TicketCreate.InvalidParameter',
+                    }
+            },
+            Success => 1
+        },
+        Operation => 'TicketCreate',
+    },
+    {
+        Name           => 'Missing Priority or PriorityID',
+        SuccessRequest => 1,
+        SuccessCreate  => 0,
+        RequestData    => {
+            Ticket => {
+                Title        => 'Ticket Title',
+                CustomerUser => $TestCustomerUserLogin,
+                QueueID      => $QueueID,
+                TypeID       => $TypeID,
+                ServiceID    => $ServiceID,
+                SLAID        => $SLAID,
+                StateID      => $StateID,
+            },
+            Article => {
+                Test => 1,
+            },
+            DynamicField => {
+                Test => 1,
+            },
+            Attachment => {
+                Test => 1,
+            },
+        },
+        ExpectedData => {
+            Data => {
+                Error => {
+                    ErrorCode => 'TicketCreate.MissingParameter',
+                    }
+            },
+            Success => 1
+        },
+        Operation => 'TicketCreate',
+    },
+    {
+        Name           => 'Invalid Priority',
+        SuccessRequest => 1,
+        SuccessCreate  => 0,
+        RequestData    => {
+            Ticket => {
+                Title        => 'Ticket Title',
+                CustomerUser => $TestCustomerUserLogin,
+                QueueID      => $QueueID,
+                TypeID       => $TypeID,
+                ServiceID    => $ServiceID,
+                SLAID        => $SLAID,
+                StateID      => $StateID,
+                Priority     => 'Invalid' . $RandomID,
+            },
+            Article => {
+                Test => 1,
+            },
+            DynamicField => {
+                Test => 1,
+            },
+            Attachment => {
+                Test => 1,
+            },
+        },
+        ExpectedData => {
+            Data => {
+                Error => {
+                    ErrorCode => 'TicketCreate.InvalidParameter',
+                    }
+            },
+            Success => 1
+        },
+        Operation => 'TicketCreate',
+    },
+    {
+        Name           => 'Invalid PriorityID',
+        SuccessRequest => 1,
+        SuccessCreate  => 0,
+        RequestData    => {
+            Ticket => {
+                Title        => 'Ticket Title',
+                CustomerUser => $TestCustomerUserLogin,
+                QueueID      => $QueueID,
+                TypeID       => $TypeID,
+                ServiceID    => $ServiceID,
+                SLAID        => $SLAID,
+                StateID      => $StateID,
+                PriorityID   => 'Invalid' . $RandomID,
+            },
+            Article => {
+                Test => 1,
+            },
+            DynamicField => {
+                Test => 1,
+            },
+            Attachment => {
+                Test => 1,
+            },
+        },
+        ExpectedData => {
+            Data => {
+                Error => {
+                    ErrorCode => 'TicketCreate.InvalidParameter',
+                    }
+            },
+            Success => 1
+        },
+        Operation => 'TicketCreate',
+    },
+    {
+        Name           => 'Invalid Owner',
+        SuccessRequest => 1,
+        SuccessCreate  => 0,
+        RequestData    => {
+            Ticket => {
+                Title        => 'Ticket Title',
+                CustomerUser => $TestCustomerUserLogin,
+                QueueID      => $QueueID,
+                TypeID       => $TypeID,
+                ServiceID    => $ServiceID,
+                SLAID        => $SLAID,
+                StateID      => $StateID,
+                PriorityID   => $PriorityID,
+                Owner        => 'Invalid' . $RandomID,
+            },
+            Article => {
+                Test => 1,
+            },
+            DynamicField => {
+                Test => 1,
+            },
+            Attachment => {
+                Test => 1,
+            },
+        },
+        ExpectedData => {
+            Data => {
+                Error => {
+                    ErrorCode => 'TicketCreate.InvalidParameter',
+                    }
+            },
+            Success => 1
+        },
+        Operation => 'TicketCreate',
+    },
+    {
+        Name           => 'Invalid OwnerID',
+        SuccessRequest => 1,
+        SuccessCreate  => 0,
+        RequestData    => {
+            Ticket => {
+                Title        => 'Ticket Title',
+                CustomerUser => $TestCustomerUserLogin,
+                QueueID      => $QueueID,
+                TypeID       => $TypeID,
+                ServiceID    => $ServiceID,
+                SLAID        => $SLAID,
+                StateID      => $StateID,
+                PriorityID   => $PriorityID,
+                OwnerID      => 'Invalid' . $RandomID,
+            },
+            Article => {
+                Test => 1,
+            },
+            DynamicField => {
+                Test => 1,
+            },
+            Attachment => {
+                Test => 1,
+            },
+        },
+        ExpectedData => {
+            Data => {
+                Error => {
+                    ErrorCode => 'TicketCreate.InvalidParameter',
+                    }
+            },
+            Success => 1
+        },
+        Operation => 'TicketCreate',
+    },
+    {
+        Name           => 'Invalid Responsibe',
+        SuccessRequest => 1,
+        SuccessCreate  => 0,
+        RequestData    => {
+            Ticket => {
+                Title        => 'Ticket Title',
+                CustomerUser => $TestCustomerUserLogin,
+                QueueID      => $QueueID,
+                TypeID       => $TypeID,
+                ServiceID    => $ServiceID,
+                SLAID        => $SLAID,
+                StateID      => $StateID,
+                PriorityID   => $PriorityID,
+                OwnerID      => $OwnerID,
+                Responsible  => 'Invalid' . $RandomID,
+            },
+            Article => {
+                Test => 1,
+            },
+            DynamicField => {
+                Test => 1,
+            },
+            Attachment => {
+                Test => 1,
+            },
+        },
+        ExpectedData => {
+            Data => {
+                Error => {
+                    ErrorCode => 'TicketCreate.InvalidParameter',
+                    }
+            },
+            Success => 1
+        },
+        Operation => 'TicketCreate',
+    },
+    {
+        Name           => 'Invalid ResponsibeID',
+        SuccessRequest => 1,
+        SuccessCreate  => 0,
+        RequestData    => {
+            Ticket => {
+                Title         => 'Ticket Title',
+                CustomerUser  => $TestCustomerUserLogin,
+                QueueID       => $QueueID,
+                TypeID        => $TypeID,
+                ServiceID     => $ServiceID,
+                SLAID         => $SLAID,
+                StateID       => $StateID,
+                PriorityID    => $PriorityID,
+                OwnerID       => $OwnerID,
+                ResponsibleID => 'Invalid' . $RandomID,
+            },
+            Article => {
+                Test => 1,
+            },
+            DynamicField => {
+                Test => 1,
+            },
+            Attachment => {
+                Test => 1,
+            },
+        },
+        ExpectedData => {
+            Data => {
+                Error => {
+                    ErrorCode => 'TicketCreate.InvalidParameter',
+                    }
+            },
+            Success => 1
+        },
+        Operation => 'TicketCreate',
+    },
+    {
+        Name           => 'Invalid PendingTime',
+        SuccessRequest => 1,
+        SuccessCreate  => 0,
+        RequestData    => {
+            Ticket => {
+                Title         => 'Ticket Title',
+                CustomerUser  => $TestCustomerUserLogin,
+                QueueID       => $QueueID,
+                TypeID        => $TypeID,
+                ServiceID     => $ServiceID,
+                SLAID         => $SLAID,
+                StateID       => $StateID,
+                PriorityID    => $PriorityID,
+                OwnerID       => $OwnerID,
+                ResponsibleID => $ResponsibleID,
+                PendingTime   => {
+                    Year   => 2012,
+                    Month  => 13,
+                    Day    => 16,
+                    Hour   => 20,
+                    Minute => 48,
+                },
+            },
+            Article => {
+                Test => 1,
+            },
+            DynamicField => {
+                Test => 1,
+            },
+            Attachment => {
+                Test => 1,
+            },
+        },
+        ExpectedData => {
+            Data => {
+                Error => {
+                    ErrorCode => 'TicketCreate.InvalidParameter',
+                    }
+            },
+            Success => 1
+        },
+        Operation => 'TicketCreate',
+    },
+    {
+        Name           => 'Missing Subject',
+        SuccessRequest => 1,
+        SuccessCreate  => 0,
+        RequestData    => {
+            Ticket => {
+                Title         => 'Ticket Title',
+                CustomerUser  => $TestCustomerUserLogin,
+                QueueID       => $QueueID,
+                TypeID        => $TypeID,
+                ServiceID     => $ServiceID,
+                SLAID         => $SLAID,
+                StateID       => $StateID,
+                PriorityID    => $PriorityID,
+                OwnerID       => $OwnerID,
+                ResponsibleID => $ResponsibleID,
+                PendingTime   => {
+                    Year   => 2012,
+                    Month  => 12,
+                    Day    => 16,
+                    Hour   => 20,
+                    Minute => 48,
+                },
+            },
+            Article => {
+                Test => 1,
+            },
+            DynamicField => {
+                Test => 1,
+            },
+            Attachment => {
+                Test => 1,
+            },
+        },
+        ExpectedData => {
+            Data => {
+                Error => {
+                    ErrorCode => 'TicketCreate.MissingParameter',
+                    }
+            },
+            Success => 1
+        },
+        Operation => 'TicketCreate',
+    },
+    {
+        Name           => 'Missing Body',
+        SuccessRequest => 1,
+        SuccessCreate  => 0,
+        RequestData    => {
+            Ticket => {
+                Title         => 'Ticket Title',
+                CustomerUser  => $TestCustomerUserLogin,
+                QueueID       => $QueueID,
+                TypeID        => $TypeID,
+                ServiceID     => $ServiceID,
+                SLAID         => $SLAID,
+                StateID       => $StateID,
+                PriorityID    => $PriorityID,
+                OwnerID       => $OwnerID,
+                ResponsibleID => $ResponsibleID,
+                PendingTime   => {
+                    Year   => 2012,
+                    Month  => 12,
+                    Day    => 16,
+                    Hour   => 20,
+                    Minute => 48,
+                },
+            },
+            Article => {
+                Subject => 'Article subject',
+            },
+            DynamicField => {
+                Test => 1,
+            },
+            Attachment => {
+                Test => 1,
+            },
+        },
+        ExpectedData => {
+            Data => {
+                Error => {
+                    ErrorCode => 'TicketCreate.MissingParameter',
+                    }
+            },
+            Success => 1
+        },
+        Operation => 'TicketCreate',
+    },
+    {
+        Name           => 'Missing AutoResponseType',
+        SuccessRequest => 1,
+        SuccessCreate  => 0,
+        RequestData    => {
+            Ticket => {
+                Title         => 'Ticket Title',
+                CustomerUser  => $TestCustomerUserLogin,
+                QueueID       => $QueueID,
+                TypeID        => $TypeID,
+                ServiceID     => $ServiceID,
+                SLAID         => $SLAID,
+                StateID       => $StateID,
+                PriorityID    => $PriorityID,
+                OwnerID       => $OwnerID,
+                ResponsibleID => $ResponsibleID,
+                PendingTime   => {
+                    Year   => 2012,
+                    Month  => 12,
+                    Day    => 16,
+                    Hour   => 20,
+                    Minute => 48,
+                },
+            },
+            Article => {
+                Subject => 'Article subject',
+                Body    => 'Article body',
+            },
+            DynamicField => {
+                Test => 1,
+            },
+            Attachment => {
+                Test => 1,
+            },
+        },
+        ExpectedData => {
+            Data => {
+                Error => {
+                    ErrorCode => 'TicketCreate.MissingParameter',
+                    }
+            },
+            Success => 1
+        },
+        Operation => 'TicketCreate',
+    },
+    {
+        Name           => 'Invalid AutoResponseType',
+        SuccessRequest => 1,
+        SuccessCreate  => 0,
+        RequestData    => {
+            Ticket => {
+                Title         => 'Ticket Title',
+                CustomerUser  => $TestCustomerUserLogin,
+                QueueID       => $QueueID,
+                TypeID        => $TypeID,
+                ServiceID     => $ServiceID,
+                SLAID         => $SLAID,
+                StateID       => $StateID,
+                PriorityID    => $PriorityID,
+                OwnerID       => $OwnerID,
+                ResponsibleID => $ResponsibleID,
+                PendingTime   => {
+                    Year   => 2012,
+                    Month  => 12,
+                    Day    => 16,
+                    Hour   => 20,
+                    Minute => 48,
+                },
+            },
+            Article => {
+                Subject          => 'Article subject',
+                Body             => 'Article body',
+                AutoResponseType => 'Invalid' . $RandomID,
+            },
+            DynamicField => {
+                Test => 1,
+            },
+            Attachment => {
+                Test => 1,
+            },
+        },
+        ExpectedData => {
+            Data => {
+                Error => {
+                    ErrorCode => 'TicketCreate.InvalidParameter',
+                    }
+            },
+            Success => 1
+        },
+        Operation => 'TicketCreate',
+    },
+    {
+        Name           => 'Invalid ArticleType',
+        SuccessRequest => 1,
+        SuccessCreate  => 0,
+        RequestData    => {
+            Ticket => {
+                Title         => 'Ticket Title',
+                CustomerUser  => $TestCustomerUserLogin,
+                QueueID       => $QueueID,
+                TypeID        => $TypeID,
+                ServiceID     => $ServiceID,
+                SLAID         => $SLAID,
+                StateID       => $StateID,
+                PriorityID    => $PriorityID,
+                OwnerID       => $OwnerID,
+                ResponsibleID => $ResponsibleID,
+                PendingTime   => {
+                    Year   => 2012,
+                    Month  => 12,
+                    Day    => 16,
+                    Hour   => 20,
+                    Minute => 48,
+                },
+            },
+            Article => {
+                Subject          => 'Article subject',
+                Body             => 'Article body',
+                AutoResponseType => 'auto reply',
+                ArticleType      => 'Invalid' . $RandomID,
+            },
+            DynamicField => {
+                Test => 1,
+            },
+            Attachment => {
+                Test => 1,
+            },
+        },
+        ExpectedData => {
+            Data => {
+                Error => {
+                    ErrorCode => 'TicketCreate.InvalidParameter',
+                    }
+            },
+            Success => 1
+        },
+        Operation => 'TicketCreate',
+    },
+    {
+        Name           => 'Invalid ArticleTypeID',
+        SuccessRequest => 1,
+        SuccessCreate  => 0,
+        RequestData    => {
+            Ticket => {
+                Title         => 'Ticket Title',
+                CustomerUser  => $TestCustomerUserLogin,
+                QueueID       => $QueueID,
+                TypeID        => $TypeID,
+                ServiceID     => $ServiceID,
+                SLAID         => $SLAID,
+                StateID       => $StateID,
+                PriorityID    => $PriorityID,
+                OwnerID       => $OwnerID,
+                ResponsibleID => $ResponsibleID,
+                PendingTime   => {
+                    Year   => 2012,
+                    Month  => 12,
+                    Day    => 16,
+                    Hour   => 20,
+                    Minute => 48,
+                },
+            },
+            Article => {
+                Subject          => 'Article subject',
+                Body             => 'Article body',
+                AutoResponseType => 'auto reply',
+                ArticleTypeID    => 'Invalid' . $RandomID,
+            },
+            DynamicField => {
+                Test => 1,
+            },
+            Attachment => {
+                Test => 1,
+            },
+        },
+        ExpectedData => {
+            Data => {
+                Error => {
+                    ErrorCode => 'TicketCreate.InvalidParameter',
+                    }
+            },
+            Success => 1
+        },
+        Operation => 'TicketCreate',
+    },
+    {
+        Name           => 'Invalid SenderType',
+        SuccessRequest => 1,
+        SuccessCreate  => 0,
+        RequestData    => {
+            Ticket => {
+                Title         => 'Ticket Title',
+                CustomerUser  => $TestCustomerUserLogin,
+                QueueID       => $QueueID,
+                TypeID        => $TypeID,
+                ServiceID     => $ServiceID,
+                SLAID         => $SLAID,
+                StateID       => $StateID,
+                PriorityID    => $PriorityID,
+                OwnerID       => $OwnerID,
+                ResponsibleID => $ResponsibleID,
+                PendingTime   => {
+                    Year   => 2012,
+                    Month  => 12,
+                    Day    => 16,
+                    Hour   => 20,
+                    Minute => 48,
+                },
+            },
+            Article => {
+                Subject          => 'Article subject',
+                Body             => 'Article body',
+                AutoResponseType => 'auto reply',
+                ArticleTypeID    => 1,
+                SenderType       => 'Invalid' . $RandomID,
+            },
+            DynamicField => {
+                Test => 1,
+            },
+            Attachment => {
+                Test => 1,
+            },
+        },
+        ExpectedData => {
+            Data => {
+                Error => {
+                    ErrorCode => 'TicketCreate.InvalidParameter',
+                    }
+            },
+            Success => 1
+        },
+        Operation => 'TicketCreate',
+    },
+    {
+        Name           => 'Invalid SenderTypeID',
+        SuccessRequest => 1,
+        SuccessCreate  => 0,
+        RequestData    => {
+            Ticket => {
+                Title         => 'Ticket Title',
+                CustomerUser  => $TestCustomerUserLogin,
+                QueueID       => $QueueID,
+                TypeID        => $TypeID,
+                ServiceID     => $ServiceID,
+                SLAID         => $SLAID,
+                StateID       => $StateID,
+                PriorityID    => $PriorityID,
+                OwnerID       => $OwnerID,
+                ResponsibleID => $ResponsibleID,
+                PendingTime   => {
+                    Year   => 2012,
+                    Month  => 12,
+                    Day    => 16,
+                    Hour   => 20,
+                    Minute => 48,
+                },
+            },
+            Article => {
+                Subject          => 'Article subject',
+                Body             => 'Article body',
+                AutoResponseType => 'auto reply',
+                ArticleTypeID    => 1,
+                SenderTypeID     => 'Invalid' . $RandomID,
+            },
+            DynamicField => {
+                Test => 1,
+            },
+            Attachment => {
+                Test => 1,
+            },
+        },
+        ExpectedData => {
+            Data => {
+                Error => {
+                    ErrorCode => 'TicketCreate.InvalidParameter',
+                    }
+            },
+            Success => 1
+        },
+        Operation => 'TicketCreate',
+    },
+    {
+        Name           => 'Invalid From',
+        SuccessRequest => 1,
+        SuccessCreate  => 0,
+        RequestData    => {
+            Ticket => {
+                Title         => 'Ticket Title',
+                CustomerUser  => $TestCustomerUserLogin,
+                QueueID       => $QueueID,
+                TypeID        => $TypeID,
+                ServiceID     => $ServiceID,
+                SLAID         => $SLAID,
+                StateID       => $StateID,
+                PriorityID    => $PriorityID,
+                OwnerID       => $OwnerID,
+                ResponsibleID => $ResponsibleID,
+                PendingTime   => {
+                    Year   => 2012,
+                    Month  => 12,
+                    Day    => 16,
+                    Hour   => 20,
+                    Minute => 48,
+                },
+            },
+            Article => {
+                Subject          => 'Article subject',
+                Body             => 'Article body',
+                AutoResponseType => 'auto reply',
+                ArticleTypeID    => 1,
+                SenderTypeID     => 1,
+                From             => 'Invalid' . $RandomID,
+            },
+            DynamicField => {
+                Test => 1,
+            },
+            Attachment => {
+                Test => 1,
+            },
+        },
+        ExpectedData => {
+            Data => {
+                Error => {
+                    ErrorCode => 'TicketCreate.InvalidParameter',
+                    }
+            },
+            Success => 1
+        },
+        Operation => 'TicketCreate',
+    },
+    {
+        Name           => 'Missing ContentType or MIMEType and Charset',
+        SuccessRequest => 1,
+        SuccessCreate  => 0,
+        RequestData    => {
+            Ticket => {
+                Title         => 'Ticket Title',
+                CustomerUser  => $TestCustomerUserLogin,
+                QueueID       => $QueueID,
+                TypeID        => $TypeID,
+                ServiceID     => $ServiceID,
+                SLAID         => $SLAID,
+                StateID       => $StateID,
+                PriorityID    => $PriorityID,
+                OwnerID       => $OwnerID,
+                ResponsibleID => $ResponsibleID,
+                PendingTime   => {
+                    Year   => 2012,
+                    Month  => 12,
+                    Day    => 16,
+                    Hour   => 20,
+                    Minute => 48,
+                },
+            },
+            Article => {
+                Subject          => 'Article subject',
+                Body             => 'Article body',
+                AutoResponseType => 'auto reply',
+                ArticleTypeID    => 1,
+                SenderTypeID     => 1,
+                From             => 'enjoy@otrs.com',
+            },
+            DynamicField => {
+                Test => 1,
+            },
+            Attachment => {
+                Test => 1,
+            },
+        },
+        ExpectedData => {
+            Data => {
+                Error => {
+                    ErrorCode => 'TicketCreate.MissingParameter',
+                    }
+            },
+            Success => 1
+        },
+        Operation => 'TicketCreate',
+    },
+    {
+        Name           => 'Invalid ContentType',
+        SuccessRequest => 1,
+        SuccessCreate  => 0,
+        RequestData    => {
+            Ticket => {
+                Title         => 'Ticket Title',
+                CustomerUser  => $TestCustomerUserLogin,
+                QueueID       => $QueueID,
+                TypeID        => $TypeID,
+                ServiceID     => $ServiceID,
+                SLAID         => $SLAID,
+                StateID       => $StateID,
+                PriorityID    => $PriorityID,
+                OwnerID       => $OwnerID,
+                ResponsibleID => $ResponsibleID,
+                PendingTime   => {
+                    Year   => 2012,
+                    Month  => 12,
+                    Day    => 16,
+                    Hour   => 20,
+                    Minute => 48,
+                },
+            },
+            Article => {
+                Subject          => 'Article subject',
+                Body             => 'Article body',
+                AutoResponseType => 'auto reply',
+                ArticleTypeID    => 1,
+                SenderTypeID     => 1,
+                From             => 'enjoy@otrs.com',
+                ContentType      => 'Invalid' . $RandomID,
+            },
+            DynamicField => {
+                Test => 1,
+            },
+            Attachment => {
+                Test => 1,
+            },
+        },
+        ExpectedData => {
+            Data => {
+                Error => {
+                    ErrorCode => 'TicketCreate.InvalidParameter',
+                    }
+            },
+            Success => 1
+        },
+        Operation => 'TicketCreate',
+    },
+    {
+        Name           => 'Missing ContentType or MIMEType and Charset',
+        SuccessRequest => 1,
+        SuccessCreate  => 0,
+        RequestData    => {
+            Ticket => {
+                Title         => 'Ticket Title',
+                CustomerUser  => $TestCustomerUserLogin,
+                QueueID       => $QueueID,
+                TypeID        => $TypeID,
+                ServiceID     => $ServiceID,
+                SLAID         => $SLAID,
+                StateID       => $StateID,
+                PriorityID    => $PriorityID,
+                OwnerID       => $OwnerID,
+                ResponsibleID => $ResponsibleID,
+                PendingTime   => {
+                    Year   => 2012,
+                    Month  => 12,
+                    Day    => 16,
+                    Hour   => 20,
+                    Minute => 48,
+                },
+            },
+            Article => {
+                Subject          => 'Article subject',
+                Body             => 'Article body',
+                AutoResponseType => 'auto reply',
+                ArticleTypeID    => 1,
+                SenderTypeID     => 1,
+                From             => 'enjoy@otrs.com',
+            },
+            DynamicField => {
+                Test => 1,
+            },
+            Attachment => {
+                Test => 1,
+            },
+        },
+        ExpectedData => {
+            Data => {
+                Error => {
+                    ErrorCode => 'TicketCreate.MissingParameter',
+                    }
+            },
+            Success => 1
+        },
+        Operation => 'TicketCreate',
+    },
+    {
+        Name           => 'Invalid HistoryType',
+        SuccessRequest => 1,
+        SuccessCreate  => 0,
+        RequestData    => {
+            Ticket => {
+                Title         => 'Ticket Title',
+                CustomerUser  => $TestCustomerUserLogin,
+                QueueID       => $QueueID,
+                TypeID        => $TypeID,
+                ServiceID     => $ServiceID,
+                SLAID         => $SLAID,
+                StateID       => $StateID,
+                PriorityID    => $PriorityID,
+                OwnerID       => $OwnerID,
+                ResponsibleID => $ResponsibleID,
+                PendingTime   => {
+                    Year   => 2012,
+                    Month  => 12,
+                    Day    => 16,
+                    Hour   => 20,
+                    Minute => 48,
+                },
+            },
+            Article => {
+                Subject          => 'Article subject',
+                Body             => 'Article body',
+                AutoResponseType => 'auto reply',
+                ArticleTypeID    => 1,
+                SenderTypeID     => 1,
+                From             => 'enjoy@otrs.com',
+                ContentType      => 'text/plain; charset=UTF8',
+                HistoryType      => 'Invalid' . $RandomID,
+            },
+            DynamicField => {
+                Test => 1,
+            },
+            Attachment => {
+                Test => 1,
+            },
+        },
+        ExpectedData => {
+            Data => {
+                Error => {
+                    ErrorCode => 'TicketCreate.InvalidParameter',
+                    }
+            },
+            Success => 1
+        },
+        Operation => 'TicketCreate',
+    },
+    {
+        Name           => 'Missing TimeUnit',
+        SuccessRequest => 1,
+        SuccessCreate  => 0,
+        RequestData    => {
+            Ticket => {
+                Title         => 'Ticket Title',
+                CustomerUser  => $TestCustomerUserLogin,
+                QueueID       => $QueueID,
+                TypeID        => $TypeID,
+                ServiceID     => $ServiceID,
+                SLAID         => $SLAID,
+                StateID       => $StateID,
+                PriorityID    => $PriorityID,
+                OwnerID       => $OwnerID,
+                ResponsibleID => $ResponsibleID,
+                PendingTime   => {
+                    Year   => 2012,
+                    Month  => 12,
+                    Day    => 16,
+                    Hour   => 20,
+                    Minute => 48,
+                },
+            },
+            Article => {
+                Subject          => 'Article subject',
+                Body             => 'Article body',
+                AutoResponseType => 'auto reply',
+                ArticleTypeID    => 1,
+                SenderTypeID     => 1,
+                From             => 'enjoy@otrs.com',
+                ContentType      => 'text/plain; charset=UTF8',
+                HistoryType      => 'NewTicket',
+                HistoryComment   => '% % ',
+            },
+            DynamicField => {
+                Test => 1,
+            },
+            Attachment => {
+                Test => 1,
+            },
+        },
+        ExpectedData => {
+            Data => {
+                Error => {
+                    ErrorCode => 'TicketCreate.MissingParameter',
+                    }
+            },
+            Success => 1
+        },
+        Operation => 'TicketCreate',
+    },
+    {
+        Name           => 'Invalid TimeUnit',
+        SuccessRequest => 1,
+        SuccessCreate  => 0,
+        RequestData    => {
+            Ticket => {
+                Title         => 'Ticket Title',
+                CustomerUser  => $TestCustomerUserLogin,
+                QueueID       => $QueueID,
+                TypeID        => $TypeID,
+                ServiceID     => $ServiceID,
+                SLAID         => $SLAID,
+                StateID       => $StateID,
+                PriorityID    => $PriorityID,
+                OwnerID       => $OwnerID,
+                ResponsibleID => $ResponsibleID,
+                PendingTime   => {
+                    Year   => 2012,
+                    Month  => 12,
+                    Day    => 16,
+                    Hour   => 20,
+                    Minute => 48,
+                },
+            },
+            Article => {
+                Subject          => 'Article subject',
+                Body             => 'Article body',
+                AutoResponseType => 'auto reply',
+                ArticleTypeID    => 1,
+                SenderTypeID     => 1,
+                From             => 'enjoy@otrs.com',
+                ContentType      => 'text/plain; charset=UTF8',
+                HistoryType      => 'NewTicket',
+                HistoryComment   => '% % ',
+                TimeUnit         => 'Invalid' . $RandomID,
+            },
+            DynamicField => {
+                Test => 1,
+            },
+            Attachment => {
+                Test => 1,
+            },
+        },
+        ExpectedData => {
+            Data => {
+                Error => {
+                    ErrorCode => 'TicketCreate.InvalidParameter',
+                    }
+            },
+            Success => 1
+        },
+        Operation => 'TicketCreate',
+    },
+    {
+        Name           => 'Invalid ForceNotificationToUserID',
+        SuccessRequest => 1,
+        SuccessCreate  => 0,
+        RequestData    => {
+            Ticket => {
+                Title         => 'Ticket Title',
+                CustomerUser  => $TestCustomerUserLogin,
+                QueueID       => $QueueID,
+                TypeID        => $TypeID,
+                ServiceID     => $ServiceID,
+                SLAID         => $SLAID,
+                StateID       => $StateID,
+                PriorityID    => $PriorityID,
+                OwnerID       => $OwnerID,
+                ResponsibleID => $ResponsibleID,
+                PendingTime   => {
+                    Year   => 2012,
+                    Month  => 12,
+                    Day    => 16,
+                    Hour   => 20,
+                    Minute => 48,
+                },
+            },
+            Article => {
+                Subject                   => 'Article subject',
+                Body                      => 'Article body',
+                AutoResponseType          => 'auto reply',
+                ArticleTypeID             => 1,
+                SenderTypeID              => 1,
+                From                      => 'enjoy@otrs.com',
+                ContentType               => 'text/plain; charset=UTF8',
+                HistoryType               => 'NewTicket',
+                HistoryComment            => '% % ',
+                TimeUnit                  => 25,
+                ForceNotificationToUserID => {
+                    Item => 1,
+                },
+            },
+            DynamicField => {
+                Test => 1,
+            },
+            Attachment => {
+                Test => 1,
+            },
+        },
+        ExpectedData => {
+            Data => {
+                Error => {
+                    ErrorCode => 'TicketCreate.InvalidParameter',
+                    }
+            },
+            Success => 1
+        },
+        Operation => 'TicketCreate',
+    },
+    {
+        Name           => 'Invalid ForceNotificationToUserID Internal',
+        SuccessRequest => 1,
+        SuccessCreate  => 0,
+        RequestData    => {
+            Ticket => {
+                Title         => 'Ticket Title',
+                CustomerUser  => $TestCustomerUserLogin,
+                QueueID       => $QueueID,
+                TypeID        => $TypeID,
+                ServiceID     => $ServiceID,
+                SLAID         => $SLAID,
+                StateID       => $StateID,
+                PriorityID    => $PriorityID,
+                OwnerID       => $OwnerID,
+                ResponsibleID => $ResponsibleID,
+                PendingTime   => {
+                    Year   => 2012,
+                    Month  => 12,
+                    Day    => 16,
+                    Hour   => 20,
+                    Minute => 48,
+                },
+            },
+            Article => {
+                Subject                   => 'Article subject',
+                Body                      => 'Article body',
+                AutoResponseType          => 'auto reply',
+                ArticleTypeID             => 1,
+                SenderTypeID              => 1,
+                From                      => 'enjoy@otrs.com',
+                ContentType               => 'text/plain; charset=UTF8',
+                HistoryType               => 'NewTicket',
+                HistoryComment            => '% % ',
+                TimeUnit                  => 25,
+                ForceNotificationToUserID => [ 'Invalid' . $RandomID ],
+            },
+            DynamicField => {
+                Test => 1,
+            },
+            Attachment => {
+                Test => 1,
+            },
+        },
+        ExpectedData => {
+            Data => {
+                Error => {
+                    ErrorCode => 'TicketCreate.InvalidParameter',
+                    }
+            },
+            Success => 1
+        },
+        Operation => 'TicketCreate',
+    },
+    {
+        Name           => 'Invalid ExcludeNotificationToUserID',
+        SuccessRequest => 1,
+        SuccessCreate  => 0,
+        RequestData    => {
+            Ticket => {
+                Title         => 'Ticket Title',
+                CustomerUser  => $TestCustomerUserLogin,
+                QueueID       => $QueueID,
+                TypeID        => $TypeID,
+                ServiceID     => $ServiceID,
+                SLAID         => $SLAID,
+                StateID       => $StateID,
+                PriorityID    => $PriorityID,
+                OwnerID       => $OwnerID,
+                ResponsibleID => $ResponsibleID,
+                PendingTime   => {
+                    Year   => 2012,
+                    Month  => 12,
+                    Day    => 16,
+                    Hour   => 20,
+                    Minute => 48,
+                },
+            },
+            Article => {
+                Subject                     => 'Article subject',
+                Body                        => 'Article body',
+                AutoResponseType            => 'auto reply',
+                ArticleTypeID               => 1,
+                SenderTypeID                => 1,
+                From                        => 'enjoy@otrs.com',
+                ContentType                 => 'text/plain; charset=UTF8',
+                HistoryType                 => 'NewTicket',
+                HistoryComment              => '% % ',
+                TimeUnit                    => 25,
+                ForceNotificationToUserID   => [1],
+                ExcludeNotificationToUserID => {
+                    Item => 1,
+                },
+            },
+            DynamicField => {
+                Test => 1,
+            },
+            Attachment => {
+                Test => 1,
+            },
+        },
+        ExpectedData => {
+            Data => {
+                Error => {
+                    ErrorCode => 'TicketCreate.InvalidParameter',
+                    }
+            },
+            Success => 1
+        },
+        Operation => 'TicketCreate',
+    },
+    {
+        Name           => 'Invalid ExcludeNotificationToUserID internal',
+        SuccessRequest => 1,
+        SuccessCreate  => 0,
+        RequestData    => {
+            Ticket => {
+                Title         => 'Ticket Title',
+                CustomerUser  => $TestCustomerUserLogin,
+                QueueID       => $QueueID,
+                TypeID        => $TypeID,
+                ServiceID     => $ServiceID,
+                SLAID         => $SLAID,
+                StateID       => $StateID,
+                PriorityID    => $PriorityID,
+                OwnerID       => $OwnerID,
+                ResponsibleID => $ResponsibleID,
+                PendingTime   => {
+                    Year   => 2012,
+                    Month  => 12,
+                    Day    => 16,
+                    Hour   => 20,
+                    Minute => 48,
+                },
+            },
+            Article => {
+                Subject                     => 'Article subject',
+                Body                        => 'Article body',
+                AutoResponseType            => 'auto reply',
+                ArticleTypeID               => 1,
+                SenderTypeID                => 1,
+                From                        => 'enjoy@otrs.com',
+                ContentType                 => 'text/plain; charset=UTF8',
+                HistoryType                 => 'NewTicket',
+                HistoryComment              => '% % ',
+                TimeUnit                    => 25,
+                ForceNotificationToUserID   => [1],
+                ExcludeNotificationToUserID => [ 'Invalid' . $RandomID ],
+            },
+            DynamicField => {
+                Test => 1,
+            },
+            Attachment => {
+                Test => 1,
+            },
+        },
+        ExpectedData => {
+            Data => {
+                Error => {
+                    ErrorCode => 'TicketCreate.InvalidParameter',
+                    }
+            },
+            Success => 1
+        },
+        Operation => 'TicketCreate',
+    },
+    {
+        Name           => 'Invalid ExcludeMuteNotificationToUserID',
+        SuccessRequest => 1,
+        SuccessCreate  => 0,
+        RequestData    => {
+            Ticket => {
+                Title         => 'Ticket Title',
+                CustomerUser  => $TestCustomerUserLogin,
+                QueueID       => $QueueID,
+                TypeID        => $TypeID,
+                ServiceID     => $ServiceID,
+                SLAID         => $SLAID,
+                StateID       => $StateID,
+                PriorityID    => $PriorityID,
+                OwnerID       => $OwnerID,
+                ResponsibleID => $ResponsibleID,
+                PendingTime   => {
+                    Year   => 2012,
+                    Month  => 12,
+                    Day    => 16,
+                    Hour   => 20,
+                    Minute => 48,
+                },
+            },
+            Article => {
+                Subject                         => 'Article subject',
+                Body                            => 'Article body',
+                AutoResponseType                => 'auto reply',
+                ArticleTypeID                   => 1,
+                SenderTypeID                    => 1,
+                From                            => 'enjoy@otrs.com',
+                ContentType                     => 'text/plain; charset=UTF8',
+                HistoryType                     => 'NewTicket',
+                HistoryComment                  => '% % ',
+                TimeUnit                        => 25,
+                ForceNotificationToUserID       => [1],
+                ExcludeNotificationToUserID     => [1],
+                ExcludeMuteNotificationToUserID => {
+                    Item => 1,
+                },
+            },
+            DynamicField => {
+                Test => 1,
+            },
+            Attachment => {
+                Test => 1,
+            },
+        },
+        ExpectedData => {
+            Data => {
+                Error => {
+                    ErrorCode => 'TicketCreate.InvalidParameter',
+                    }
+            },
+            Success => 1
+        },
+        Operation => 'TicketCreate',
+    },
+    {
+        Name           => 'Invalid ExcludeMuteNotificationToUserID internal',
+        SuccessRequest => 1,
+        SuccessCreate  => 0,
+        RequestData    => {
+            Ticket => {
+                Title         => 'Ticket Title',
+                CustomerUser  => $TestCustomerUserLogin,
+                QueueID       => $QueueID,
+                TypeID        => $TypeID,
+                ServiceID     => $ServiceID,
+                SLAID         => $SLAID,
+                StateID       => $StateID,
+                PriorityID    => $PriorityID,
+                OwnerID       => $OwnerID,
+                ResponsibleID => $ResponsibleID,
+                PendingTime   => {
+                    Year   => 2012,
+                    Month  => 12,
+                    Day    => 16,
+                    Hour   => 20,
+                    Minute => 48,
+                },
+            },
+            Article => {
+                Subject                         => 'Article subject',
+                Body                            => 'Article body',
+                AutoResponseType                => 'auto reply',
+                ArticleTypeID                   => 1,
+                SenderTypeID                    => 1,
+                From                            => 'enjoy@otrs.com',
+                ContentType                     => 'text/plain; charset=UTF8',
+                HistoryType                     => 'NewTicket',
+                HistoryComment                  => '% % ',
+                TimeUnit                        => 25,
+                ForceNotificationToUserID       => [1],
+                ExcludeNotificationToUserID     => [1],
+                ExcludeMuteNotificationToUserID => [ 'Invalid' . $RandomID ],
+            },
+            DynamicField => {
+                Test => 1,
+            },
+            Attachment => {
+                Test => 1,
+            },
+        },
+        ExpectedData => {
+            Data => {
+                Error => {
+                    ErrorCode => 'TicketCreate.InvalidParameter',
+                    }
+            },
+            Success => 1
+        },
+        Operation => 'TicketCreate',
+    },
+    {
+        Name           => 'Missing DynamicField name',
+        SuccessRequest => 1,
+        SuccessCreate  => 0,
+        RequestData    => {
+            Ticket => {
+                Title         => 'Ticket Title',
+                CustomerUser  => $TestCustomerUserLogin,
+                QueueID       => $QueueID,
+                TypeID        => $TypeID,
+                ServiceID     => $ServiceID,
+                SLAID         => $SLAID,
+                StateID       => $StateID,
+                PriorityID    => $PriorityID,
+                OwnerID       => $OwnerID,
+                ResponsibleID => $ResponsibleID,
+                PendingTime   => {
+                    Year   => 2012,
+                    Month  => 12,
+                    Day    => 16,
+                    Hour   => 20,
+                    Minute => 48,
+                },
+            },
+            Article => {
+                Subject                         => 'Article subject',
+                Body                            => 'Article body',
+                AutoResponseType                => 'auto reply',
+                ArticleTypeID                   => 1,
+                SenderTypeID                    => 1,
+                From                            => 'enjoy@otrs.com',
+                ContentType                     => 'text/plain; charset=UTF8',
+                HistoryType                     => 'NewTicket',
+                HistoryComment                  => '% % ',
+                TimeUnit                        => 25,
+                ForceNotificationToUserID       => [1],
+                ExcludeNotificationToUserID     => [1],
+                ExcludeMuteNotificationToUserID => [1],
+            },
+            DynamicField => {
+                Test => 1,
+            },
+            Attachment => {
+                Test => 1,
+            },
+        },
+        ExpectedData => {
+            Data => {
+                Error => {
+                    ErrorCode => 'TicketCreate.MissingParameter',
+                    }
+            },
+            Success => 1
+        },
+        Operation => 'TicketCreate',
+    },
+    {
+        Name           => 'Missing DynamicField value',
+        SuccessRequest => 1,
+        SuccessCreate  => 0,
+        RequestData    => {
+            Ticket => {
+                Title         => 'Ticket Title',
+                CustomerUser  => $TestCustomerUserLogin,
+                QueueID       => $QueueID,
+                TypeID        => $TypeID,
+                ServiceID     => $ServiceID,
+                SLAID         => $SLAID,
+                StateID       => $StateID,
+                PriorityID    => $PriorityID,
+                OwnerID       => $OwnerID,
+                ResponsibleID => $ResponsibleID,
+                PendingTime   => {
+                    Year   => 2012,
+                    Month  => 12,
+                    Day    => 16,
+                    Hour   => 20,
+                    Minute => 48,
+                },
+            },
+            Article => {
+                Subject                         => 'Article subject',
+                Body                            => 'Article body',
+                AutoResponseType                => 'auto reply',
+                ArticleTypeID                   => 1,
+                SenderTypeID                    => 1,
+                From                            => 'enjoy@otrs.com',
+                ContentType                     => 'text/plain; charset=UTF8',
+                HistoryType                     => 'NewTicket',
+                HistoryComment                  => '% % ',
+                TimeUnit                        => 25,
+                ForceNotificationToUserID       => [1],
+                ExcludeNotificationToUserID     => [1],
+                ExcludeMuteNotificationToUserID => [1],
+            },
+            DynamicField => {
+                Name => 'Invalid' . $RandomID,
+            },
+            Attachment => {
+                Test => 1,
+            },
+        },
+        ExpectedData => {
+            Data => {
+                Error => {
+                    ErrorCode => 'TicketCreate.MissingParameter',
+                    }
+            },
+            Success => 1
+        },
+        Operation => 'TicketCreate',
+    },
+    {
+        Name           => 'Invalid DynamicField name',
+        SuccessRequest => 1,
+        SuccessCreate  => 0,
+        RequestData    => {
+            Ticket => {
+                Title         => 'Ticket Title',
+                CustomerUser  => $TestCustomerUserLogin,
+                QueueID       => $QueueID,
+                TypeID        => $TypeID,
+                ServiceID     => $ServiceID,
+                SLAID         => $SLAID,
+                StateID       => $StateID,
+                PriorityID    => $PriorityID,
+                OwnerID       => $OwnerID,
+                ResponsibleID => $ResponsibleID,
+                PendingTime   => {
+                    Year   => 2012,
+                    Month  => 12,
+                    Day    => 16,
+                    Hour   => 20,
+                    Minute => 48,
+                },
+            },
+            Article => {
+                Subject                         => 'Article subject',
+                Body                            => 'Article body',
+                AutoResponseType                => 'auto reply',
+                ArticleTypeID                   => 1,
+                SenderTypeID                    => 1,
+                From                            => 'enjoy@otrs.com',
+                ContentType                     => 'text/plain; charset=UTF8',
+                HistoryType                     => 'NewTicket',
+                HistoryComment                  => '% % ',
+                TimeUnit                        => 25,
+                ForceNotificationToUserID       => [1],
+                ExcludeNotificationToUserID     => [1],
+                ExcludeMuteNotificationToUserID => [1],
+            },
+            DynamicField => {
+                Name  => 'Invalid' . $RandomID,
+                Value => 'Invalid' . $RandomID,
+            },
+            Attachment => {
+                Test => 1,
+            },
+        },
+        ExpectedData => {
+            Data => {
+                Error => {
+                    ErrorCode => 'TicketCreate.InvalidParameter',
+                    }
+            },
+            Success => 1
+        },
+        Operation => 'TicketCreate',
+    },
+    {
+        Name           => 'Invalid DynamicField value',
+        SuccessRequest => 1,
+        SuccessCreate  => 0,
+        RequestData    => {
+            Ticket => {
+                Title         => 'Ticket Title',
+                CustomerUser  => $TestCustomerUserLogin,
+                QueueID       => $QueueID,
+                TypeID        => $TypeID,
+                ServiceID     => $ServiceID,
+                SLAID         => $SLAID,
+                StateID       => $StateID,
+                PriorityID    => $PriorityID,
+                OwnerID       => $OwnerID,
+                ResponsibleID => $ResponsibleID,
+                PendingTime   => {
+                    Year   => 2012,
+                    Month  => 12,
+                    Day    => 16,
+                    Hour   => 20,
+                    Minute => 48,
+                },
+            },
+            Article => {
+                Subject                         => 'Article subject',
+                Body                            => 'Article body',
+                AutoResponseType                => 'auto reply',
+                ArticleTypeID                   => 1,
+                SenderTypeID                    => 1,
+                From                            => 'enjoy@otrs.com',
+                ContentType                     => 'text/plain; charset=UTF8',
+                HistoryType                     => 'NewTicket',
+                HistoryComment                  => '% % ',
+                TimeUnit                        => 25,
+                ForceNotificationToUserID       => [1],
+                ExcludeNotificationToUserID     => [1],
+                ExcludeMuteNotificationToUserID => [1],
+            },
+            DynamicField => {
+                Name  => $DynamicFieldData->{Name},
+                Value => 'Invalid' . $RandomID,
+            },
+            Attachment => {
+                Test => 1,
+            },
+        },
+        ExpectedData => {
+            Data => {
+                Error => {
+                    ErrorCode => 'TicketCreate.InvalidParameter',
+                    }
+            },
+            Success => 1
+        },
+        Operation => 'TicketCreate',
+    },
+    {
+        Name           => 'Missing attachment Content',
+        SuccessRequest => 1,
+        SuccessCreate  => 0,
+        RequestData    => {
+            Ticket => {
+                Title         => 'Ticket Title',
+                CustomerUser  => $TestCustomerUserLogin,
+                QueueID       => $QueueID,
+                TypeID        => $TypeID,
+                ServiceID     => $ServiceID,
+                SLAID         => $SLAID,
+                StateID       => $StateID,
+                PriorityID    => $PriorityID,
+                OwnerID       => $OwnerID,
+                ResponsibleID => $ResponsibleID,
+                PendingTime   => {
+                    Year   => 2012,
+                    Month  => 12,
+                    Day    => 16,
+                    Hour   => 20,
+                    Minute => 48,
+                },
+            },
+            Article => {
+                Subject                         => 'Article subject',
+                Body                            => 'Article body',
+                AutoResponseType                => 'auto reply',
+                ArticleTypeID                   => 1,
+                SenderTypeID                    => 1,
+                From                            => 'enjoy@otrs.com',
+                ContentType                     => 'text/plain; charset=UTF8',
+                HistoryType                     => 'NewTicket',
+                HistoryComment                  => '% % ',
+                TimeUnit                        => 25,
+                ForceNotificationToUserID       => [1],
+                ExcludeNotificationToUserID     => [1],
+                ExcludeMuteNotificationToUserID => [1],
+            },
+            DynamicField => {
+                Name  => $DynamicFieldData->{Name},
+                Value => '2012-01-17 12:40:00',
+            },
+            Attachment => {
+                Test => 1,
+            },
+        },
+        ExpectedData => {
+            Data => {
+                Error => {
+                    ErrorCode => 'TicketCreate.MissingParameter',
+                    }
+            },
+            Success => 1
+        },
+        Operation => 'TicketCreate',
+    },
+    {
+        Name           => 'Missing attachment ContentType',
+        SuccessRequest => 1,
+        SuccessCreate  => 0,
+        RequestData    => {
+            Ticket => {
+                Title         => 'Ticket Title',
+                CustomerUser  => $TestCustomerUserLogin,
+                QueueID       => $QueueID,
+                TypeID        => $TypeID,
+                ServiceID     => $ServiceID,
+                SLAID         => $SLAID,
+                StateID       => $StateID,
+                PriorityID    => $PriorityID,
+                OwnerID       => $OwnerID,
+                ResponsibleID => $ResponsibleID,
+                PendingTime   => {
+                    Year   => 2012,
+                    Month  => 12,
+                    Day    => 16,
+                    Hour   => 20,
+                    Minute => 48,
+                },
+            },
+            Article => {
+                Subject                         => 'Article subject',
+                Body                            => 'Article body',
+                AutoResponseType                => 'auto reply',
+                ArticleTypeID                   => 1,
+                SenderTypeID                    => 1,
+                From                            => 'enjoy@otrs.com',
+                ContentType                     => 'text/plain; charset=UTF8',
+                HistoryType                     => 'NewTicket',
+                HistoryComment                  => '% % ',
+                TimeUnit                        => 25,
+                ForceNotificationToUserID       => [1],
+                ExcludeNotificationToUserID     => [1],
+                ExcludeMuteNotificationToUserID => [1],
+            },
+            DynamicField => {
+                Name  => $DynamicFieldData->{Name},
+                Value => '2012-01-17 12:40:00',
+            },
+            Attachment => {
+                Content => 'VGhpcyBpcyBhIHRlc3QgdGV4dC4=',
+            },
+        },
+        ExpectedData => {
+            Data => {
+                Error => {
+                    ErrorCode => 'TicketCreate.MissingParameter',
+                    }
+            },
+            Success => 1
+        },
+        Operation => 'TicketCreate',
+    },
+    {
+        Name           => 'Missing attachment Filename',
+        SuccessRequest => 1,
+        SuccessCreate  => 0,
+        RequestData    => {
+            Ticket => {
+                Title         => 'Ticket Title',
+                CustomerUser  => $TestCustomerUserLogin,
+                QueueID       => $QueueID,
+                TypeID        => $TypeID,
+                ServiceID     => $ServiceID,
+                SLAID         => $SLAID,
+                StateID       => $StateID,
+                PriorityID    => $PriorityID,
+                OwnerID       => $OwnerID,
+                ResponsibleID => $ResponsibleID,
+                PendingTime   => {
+                    Year   => 2012,
+                    Month  => 12,
+                    Day    => 16,
+                    Hour   => 20,
+                    Minute => 48,
+                },
+            },
+            Article => {
+                Subject                         => 'Article subject',
+                Body                            => 'Article body',
+                AutoResponseType                => 'auto reply',
+                ArticleTypeID                   => 1,
+                SenderTypeID                    => 1,
+                From                            => 'enjoy@otrs.com',
+                ContentType                     => 'text/plain; charset=UTF8',
+                HistoryType                     => 'NewTicket',
+                HistoryComment                  => '% % ',
+                TimeUnit                        => 25,
+                ForceNotificationToUserID       => [1],
+                ExcludeNotificationToUserID     => [1],
+                ExcludeMuteNotificationToUserID => [1],
+            },
+            DynamicField => {
+                Name  => $DynamicFieldData->{Name},
+                Value => '2012-01-17 12:40:00',
+            },
+            Attachment => {
+                Content     => 'VGhpcyBpcyBhIHRlc3QgdGV4dC4=',
+                ContentType => 'Invalid' . $RandomID,
+            },
+        },
+        ExpectedData => {
+            Data => {
+                Error => {
+                    ErrorCode => 'TicketCreate.MissingParameter',
+                    }
+            },
+            Success => 1
+        },
+        Operation => 'TicketCreate',
+    },
+    {
+        Name           => 'Invalid attachment ContentType',
+        SuccessRequest => 1,
+        SuccessCreate  => 0,
+        RequestData    => {
+            Ticket => {
+                Title         => 'Ticket Title',
+                CustomerUser  => $TestCustomerUserLogin,
+                QueueID       => $QueueID,
+                TypeID        => $TypeID,
+                ServiceID     => $ServiceID,
+                SLAID         => $SLAID,
+                StateID       => $StateID,
+                PriorityID    => $PriorityID,
+                OwnerID       => $OwnerID,
+                ResponsibleID => $ResponsibleID,
+                PendingTime   => {
+                    Year   => 2012,
+                    Month  => 12,
+                    Day    => 16,
+                    Hour   => 20,
+                    Minute => 48,
+                },
+            },
+            Article => {
+                Subject                         => 'Article subject',
+                Body                            => 'Article body',
+                AutoResponseType                => 'auto reply',
+                ArticleTypeID                   => 1,
+                SenderTypeID                    => 1,
+                From                            => 'enjoy@otrs.com',
+                ContentType                     => 'text/plain; charset=UTF8',
+                HistoryType                     => 'NewTicket',
+                HistoryComment                  => '% % ',
+                TimeUnit                        => 25,
+                ForceNotificationToUserID       => [1],
+                ExcludeNotificationToUserID     => [1],
+                ExcludeMuteNotificationToUserID => [1],
+            },
+            DynamicField => {
+                Name  => $DynamicFieldData->{Name},
+                Value => '2012-01-17 12:40:00',
+            },
+            Attachment => {
+                Content     => 'VGhpcyBpcyBhIHRlc3QgdGV4dC4=',
+                ContentType => 'Invalid' . $RandomID,
+                Filename    => 'Test.txt',
+            },
+        },
+        ExpectedData => {
+            Data => {
+                Error => {
+                    ErrorCode => 'TicketCreate.InvalidParameter',
+                    }
+            },
+            Success => 1
+        },
+        Operation => 'TicketCreate',
+    },
+    {
+        Name           => 'Ticket with IDs',
+        SuccessRequest => 1,
+        SuccessCreate  => 1,
+        RequestData    => {
+            Ticket => {
+                Title         => 'Ticket Title',
+                CustomerUser  => $TestCustomerUserLogin,
+                QueueID       => $QueueID,
+                TypeID        => $TypeID,
+                ServiceID     => $ServiceID,
+                SLAID         => $SLAID,
+                StateID       => $StateID,
+                PriorityID    => $PriorityID,
+                OwnerID       => $OwnerID,
+                ResponsibleID => $ResponsibleID,
+                PendingTime   => {
+                    Year   => 2012,
+                    Month  => 12,
+                    Day    => 16,
+                    Hour   => 20,
+                    Minute => 48,
+                },
+            },
+            Article => {
+                Subject                         => 'Article subject',
+                Body                            => 'Article body',
+                AutoResponseType                => 'auto reply',
+                ArticleTypeID                   => 1,
+                SenderTypeID                    => 1,
+                From                            => 'enjoy@otrs.com',
+                ContentType                     => 'text/plain; charset=UTF8',
+                HistoryType                     => 'NewTicket',
+                HistoryComment                  => '% % ',
+                TimeUnit                        => 25,
+                ForceNotificationToUserID       => [1],
+                ExcludeNotificationToUserID     => [1],
+                ExcludeMuteNotificationToUserID => [1],
+            },
+            DynamicField => {
+                Name  => $DynamicFieldData->{Name},
+                Value => '2012-01-17 12:40:00',
+            },
+            Attachment => {
+                Content     => 'VGhpcyBpcyBhIHRlc3QgdGV4dC4=',
+                ContentType => 'text/plain; charset=UTF8',
+                Filename    => 'Test.txt',
+            },
+        },
+        Operation => 'TicketCreate',
+    },
+    {
+        Name           => 'Ticket with Names',
+        SuccessRequest => 1,
+        SuccessCreate  => 1,
+        RequestData    => {
+            Ticket => {
+                Title        => 'Ticket Title',
+                CustomerUser => $TestCustomerUserLogin,
+                Queue        => $QueueData{Name},
+                Type         => $TypeData{Name},
+                Service      => $ServiceData{Name},
+                SLA          => $SLAData{Name},
+                State        => $StateData{Name},
+                Priority     => $PriorityData{Name},
+                Owner        => $TestOwnerLogin,
+                Responsible  => $TestResponsibleLogin,
+                PendingTime  => {
+                    Year   => 2012,
+                    Month  => 12,
+                    Day    => 16,
+                    Hour   => 20,
+                    Minute => 48,
+                },
+            },
+            Article => {
+                Subject                     => 'Article subject äöüßÄÖÜ€ис',
+                Body                        => 'Article body !"Â§$%&/()=?Ã*ÃÃL:L@,.-',
+                AutoResponseType            => 'auto reply',
+                ArticleType                 => 'email-external',
+                SenderType                  => 'agent',
+                From                        => 'enjoy@otrs.com',
+                ContentType                 => 'text/plain; charset=UTF8',
+                HistoryType                 => 'NewTicket',
+                HistoryComment              => '% % ',
+                TimeUnit                    => 25,
+                ForceNotificationToUserID   => [1],
+                ExcludeNotificationToUserID => [1],
+                ExcludeMuteNotificationToUserID => [1],
+            },
+            DynamicField => {
+                Name  => $DynamicFieldData->{Name},
+                Value => '2012-01-17 12:40:00',
+            },
+            Attachment => {
+                Content     => 'VGhpcyBpcyBhIHRlc3QgdGV4dC4=',
+                ContentType => 'text/plain; charset=UTF8',
+                Filename    => 'Test.txt',
+            },
+        },
+        Operation => 'TicketCreate',
+    },
 
 #TODO remove this commented code
 #    {
@@ -498,9 +3150,259 @@ for my $Test (@Tests) {
         "$Test->{Name} - Requester successful result",
     );
 
+    # tests supposed to succeed
     if ( $Test->{SuccessCreate} ) {
 
+        # local resutls
+        $Self->True(
+            $LocalResult->{Data}->{TicketID},
+            "$Test->{Name} - Local result TicketID with True.",
+        );
+        $Self->True(
+            $LocalResult->{Data}->{TicketNumber},
+            "$Test->{Name} - Local result TicketNumber with True.",
+        );
+        $Self->True(
+            $LocalResult->{Data}->{ArticleID},
+            "$Test->{Name} - Local result ArticleID with True.",
+        );
+        $Self->Is(
+            $LocalResult->{Data}->{Error},
+            undef,
+            "$Test->{Name} - Local result Error is undefined.",
+        );
+
+        # requester results
+        $Self->True(
+            $RequesterResult->{Data}->{TicketID},
+            "$Test->{Name} - Requester result TicketID with True.",
+        );
+        $Self->True(
+            $RequesterResult->{Data}->{TicketNumber},
+            "$Test->{Name} - Requester result TicketNumber with True.",
+        );
+        $Self->True(
+            $RequesterResult->{Data}->{ArticleID},
+            "$Test->{Name} - Requester result ArticleID with True.",
+        );
+        $Self->Is(
+            $RequesterResult->{Data}->{Error},
+            undef,
+            "$Test->{Name} - Requester result Error is undefined.",
+        );
+
+        # get the Ticket entry (from local result)
+        my %LocalTicketData = $TicketObject->TicketGet(
+            TicketID      => $LocalResult->{Data}->{TicketID},
+            DynamicFields => 1,
+            UserID        => 1,
+        );
+
+        $Self->True(
+            IsHashRefWithData( \%LocalTicketData ),
+            "$Test->{Name} - created local ticket strcture with True.",
+        );
+
+        # get the Ticket entry (from requester result)
+        my %RequesterTicketData = $TicketObject->TicketGet(
+            TicketID      => $RequesterResult->{Data}->{TicketID},
+            DynamicFields => 1,
+            UserID        => 1,
+        );
+
+        $Self->True(
+            IsHashRefWithData( \%RequesterTicketData ),
+            "$Test->{Name} - created requester ticket strcture with True.",
+        );
+
+        # check ticket attributes as defined in the test
+        $Self->Is(
+            $LocalTicketData{Title},
+            $Test->{RequestData}->{Ticket}->{Title},
+            "$Test->{Name} - local Ticket->Title match test definition.",
+
+        );
+
+        $Self->Is(
+            $LocalTicketData{CustomerUserID},
+            $Test->{RequestData}->{Ticket}->{CustomerUser},
+            "$Test->{Name} - local Ticket->CustomerUser match test definition.",
+        );
+
+        for my $Attribute (qw(Queue Type Serrvice SLA State Priority Owner Responsible)) {
+            if ( $Test->{RequestData}->{Ticket}->{ $Attribute . 'ID' } ) {
+                $Self->Is(
+                    $LocalTicketData{ $Attribute . 'ID' },
+                    $Test->{RequestData}->{Ticket}->{ $Attribute . 'ID' },
+                    "$Test->{Name} - local Ticket->$Attribute" . 'ID' . " match test definition.",
+                );
+            }
+            else {
+                $Self->Is(
+                    $LocalTicketData{$Attribute},
+                    $Test->{RequestData}->{Ticket}->{$Attribute},
+                    "$Test->{Name} - local Ticket->$Attribute match test definition.",
+                );
+            }
+        }
+
+        # get local article information
+        my %LocalArticleData = $TicketObject->ArticleGet(
+            ArticleID     => $LocalResult->{Data}->{ArticleID},
+            DynamicFields => 1,
+            UserID        => 1,
+        );
+
+        # get requester article information
+        my %RequesterArticleData = $TicketObject->ArticleGet(
+            ArticleID     => $RequesterResult->{Data}->{ArticleID},
+            DynamicFields => 1,
+            UserID        => 1,
+        );
+
+        for my $Attribute (qw(Subject Body ContentType MimeType Charset From)) {
+            if ( $Test->{RequestData}->{Article}->{$Attribute} ) {
+                $Self->Is(
+                    $LocalArticleData{$Attribute},
+                    $Test->{RequestData}->{Article}->{$Attribute},
+                    "$Test->{Name} - local Article->$Attribute match test definition.",
+                );
+            }
+        }
+
+        for my $Attribute (qw(ArticleType SenderType)) {
+            if ( $Test->{RequestData}->{Article}->{ $Attribute . 'ID' } ) {
+                $Self->Is(
+                    $LocalArticleData{ $Attribute . 'ID' },
+                    $Test->{RequestData}->{Article}->{ $Attribute . 'ID' },
+                    "$Test->{Name} - local Article->$Attribute" . 'ID' . " match test definition.",
+                );
+            }
+            else {
+                $Self->Is(
+                    $LocalArticleData{$Attribute},
+                    $Test->{RequestData}->{Article}->{$Attribute},
+                    "$Test->{Name} - local Article->$Attribute match test definition.",
+                );
+            }
+        }
+
+        # check dynamic fields
+        my @RequestedDynamicFields;
+        if ( ref $Test->{RequestData}->{DynamicField} eq 'HASH' ) {
+            push @RequestedDynamicFields, $Test->{RequestData}->{DynamicField};
+        }
+        else {
+            @RequestedDynamicFields = @{ $Test->{RequestData}->{DynamicField} };
+        }
+        for my $DynamicField (@RequestedDynamicFields) {
+            $Self->Is(
+                $LocalTicketData{ 'DynamicField_' . $DynamicField->{Name} },
+                $DynamicField->{Value},
+                "$Test->{Name} - local Ticket->DynamicField_"
+                    . $DynamicField->{Name}
+                    . " match test definition.",
+            );
+        }
+
+        # check attachments
+        my %AttachmentIndex = $TicketObject->ArticleAttachmentIndex(
+            ArticleID                  => $LocalResult->{Data}->{ArticleID},
+            StripPlainBodyAsAttachment => 3,
+            Article                    => \%LocalArticleData,
+            UserID                     => 1,
+        );
+
+        my @Attachments;
+        ATTACHMENT:
+        for my $FileID (%AttachmentIndex) {
+            next ATTACHMENT if !$FileID;
+            my %Attachment = $TicketObject->ArticleAttachment(
+                ArticleID => $LocalResult->{Data}->{ArticleID},
+                FileID    => $FileID,
+                UserID    => 1,
+            );
+
+            # next if not attachment
+            next ATTACHMENT if !IsHashRefWithData( \%Attachment );
+
+            # convert content to base64
+            $Attachment{Content} = encode_base64( $Attachment{Content}, '' );
+
+            # delete not needed attibutes
+            for my $Attribute (qw(ContentAlternative ContentID Filesize FilesizeRaw)) {
+                delete $Attachment{$Attribute};
+            }
+            push @Attachments, {%Attachment};
+        }
+
+        my @RequestedAttachments;
+        if ( ref $Test->{RequestData}->{Attachment} eq 'HASH' ) {
+            push @RequestedAttachments, $Test->{RequestData}->{Attachment};
+        }
+        else {
+            @RequestedAttachments = @{ $Test->{RequestData}->{Attachment} };
+        }
+
+        $Self->IsDeeply(
+            \@Attachments,
+            \@RequestedAttachments,
+            "$Test->{Name} - local Ticket->Attachment match test definition.",
+        );
+
+        # remove attributes that might be different from local and requester responses
+        for my $Attribute (
+            qw(TicketID TicketNumber Created Changed Age CreateTimeUnix UnlockTimeout)
+            )
+        {
+            delete $LocalTicketData{$Attribute};
+            delete $RequesterTicketData{$Attribute};
+        }
+
+        $Self->IsDeeply(
+            \%LocalTicketData,
+            \%RequesterTicketData,
+            "$Test->{Name} - Local ticket result matched with remote result.",
+        );
+
+        # remove attributes that might be different from local and requester responses
+        for my $Attribute (
+            qw( Age AgeTimeUnix ArticleID TicketID Created Changed IncomingTime TicketNumber
+            CreateTimeUnix
+            )
+            )
+        {
+            delete $LocalArticleData{$Attribute};
+            delete $RequesterArticleData{$Attribute};
+        }
+
+        $Self->IsDeeply(
+            \%LocalArticleData,
+            \%RequesterArticleData,
+            "$Test->{Name} - Local article result matched with remote result.",
+        );
+
+        # delete the tickets
+        for my $TicketID (
+            $LocalResult->{Data}->{TicketID},
+            $RequesterResult->{Data}->{TicketID}
+            )
+        {
+
+            my $TicketDelete = $TicketObject->TicketDelete(
+                TicketID => $TicketID,
+                UserID   => 1,
+            );
+
+            # sanity check
+            $Self->True(
+                $TicketDelete,
+                "TicketDelete() successful for Ticket ID $TicketID",
+            );
+        }
     }
+
+    # tests supposed to fail
     else {
         $Self->False(
             $LocalResult->{TicketID},
@@ -558,26 +3460,142 @@ for my $Test (@Tests) {
     }
 }
 
+# restore original configuration is needed
+if ( $TicketTypeSetting eq '0' ) {
+    $SysConfigObject->ConfigItemUpdate(
+        Valid => 1,
+        Key   => 'Ticket::Type',
+        Value => '0',
+    );
+}
+if ( $AccountTimeSetting eq '0' ) {
+    $SysConfigObject->ConfigItemUpdate(
+        Valid => 1,
+        Key   => 'Ticket::Frontend::AccountTime',
+        Value => '0',
+    );
+}
+if ( $NeedAccountedTimeSetting eq '0' ) {
+    $SysConfigObject->ConfigItemUpdate(
+        Valid => 1,
+        Key   => 'Ticket::Frontend::NeedAccountedTime',
+        Value => '0',
+    );
+}
+
 # clean up webservice
 my $WebserviceDelete = $WebserviceObject->WebserviceDelete(
     ID     => $WebserviceID,
-    UserID => $UserID,
+    UserID => 1,
 );
 $Self->True(
     $WebserviceDelete,
     "Deleted Webservice $WebserviceID",
 );
 
-# delete the ticket
-#my $TicketDelete = $TicketObject->TicketDelete(
-#    TicketID => $TicketID,
-#    UserID   => 1,
-#);
-#
-# # sanity check
-#$Self->True(
-#    $TicketDelete,
-#    "TicketDelete() successful for Ticket ID $TicketID",
-#);
+# invalidate queue
+{
+    my $Success = $QueueObject->QueueUpdate(
+        %QueueData,
+        ValidID => 1,
+        UserID  => 1,
+    );
+
+    # sanity check
+    $Self->True(
+        $Success,
+        "QueueUpdate() set queue $QueueData{Name} to invalid",
+    );
+}
+
+# invalidate type
+{
+    my $Success = $TypeObject->TypeUpdate(
+        %TypeData,
+        ValidID => 1,
+        UserID  => 1,
+    );
+
+    # sanity check
+    $Self->True(
+        $Success,
+        "TypeUpdate() set type $TypeData{Name} to invalid",
+    );
+}
+
+# invalidate service
+{
+    my $Success = $ServiceObject->ServiceUpdate(
+        %ServiceData,
+        ValidID => 1,
+        UserID  => 1,
+    );
+
+    # sanity check
+    $Self->True(
+        $Success,
+        "ServiceUpdate() set service $ServiceData{Name} to invalid",
+    );
+}
+
+# invalidate SLA
+{
+    my $Success = $SLAObject->SLAUpdate(
+        %SLAData,
+        ValidID => 1,
+        UserID  => 1,
+    );
+
+    # sanity check
+    $Self->True(
+        $Success,
+        "SLAUpdate() set SLA $SLAData{Name} to invalid",
+    );
+}
+
+# invalidate state
+{
+    my $Success = $StateObject->StateUpdate(
+        %StateData,
+        ValidID => 1,
+        UserID  => 1,
+    );
+
+    # sanity check
+    $Self->True(
+        $Success,
+        "StateUpdate() set state $StateData{Name} to invalid",
+    );
+}
+
+# invalidate type
+{
+    my $Success = $PriorityObject->PriorityUpdate(
+        %PriorityData,
+        PriorityID => $PriorityID,
+        ValidID    => 1,
+        UserID     => 1,
+    );
+
+    # sanity check
+    $Self->True(
+        $Success,
+        "PriorityUpdate() set priority $PriorityData{Name} to invalid",
+    );
+}
+
+# remove DynamicFields
+{
+    my $Success = $DynamicFieldObject->DynamicFieldDelete(
+        ID     => $DynamicFieldID,
+        UserID => 1,
+    );
+
+    # sanity check
+    $Self->True(
+        $Success,
+        "DynamicFieldDelete() for DynamicField $DynamicFieldData->{Name}"
+    );
+}
 
 1;
