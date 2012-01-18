@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.pm,v 1.141 2012-01-11 17:34:07 jh Exp $
+# $Id: AgentTicketSearch.pm,v 1.142 2012-01-18 17:06:19 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.141 $) [1];
+$VERSION = qw($Revision: 1.142 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -505,7 +505,7 @@ sub Run {
             }
         }
 
-        # get close time settings
+        # get change time settings
         if ( !$GetParam{ChangeTimeSearchType} ) {
 
             # do nothing on time stuff
