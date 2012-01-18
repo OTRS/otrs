@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/TicketOverviewPreview.pm
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketOverviewPreview.pm,v 1.67 2012-01-11 17:28:26 jh Exp $
+# $Id: TicketOverviewPreview.pm,v 1.68 2012-01-18 01:15:17 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.67 $) [1];
+$VERSION = qw($Revision: 1.68 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -850,16 +850,13 @@ sub _Show {
         }
     }
 
+    # otherwise display the last article in the list as expanded (default)
+    else {
+        $ArticleBody[0]->{Class} = 'Active';
+    }
+
     # show inline article
-    my $Count = 0;
     for my $ArticleItem ( reverse @ArticleBody ) {
-        next if !$ArticleItem;
-        if ( !$PreviewArticleTypeExpanded ) {
-            if ( $Count == $#ArticleBody ) {
-                $ArticleItem->{Class} = 'Active';
-            }
-            $Count++;
-        }
 
         # check if just a only html email
         my $MimeTypeText = $Self->{LayoutObject}->CheckMimeType(
