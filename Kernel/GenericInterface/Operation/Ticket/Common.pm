@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Ticket/Common.pm - Ticket common operation functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.27 2012-01-06 03:58:21 cr Exp $
+# $Id: Common.pm,v 1.28 2012-01-18 05:58:40 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -33,13 +33,14 @@ use Kernel::System::CustomerAuth;
 use Kernel::System::CustomerUser;
 use Kernel::System::CustomerGroup;
 use Kernel::System::AutoResponse;
+use Kernel::System::CheckItem;
 use Kernel::System::DynamicField;
 use Kernel::System::DynamicField::Backend;
 use Kernel::System::GenericInterface::Webservice;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.27 $) [1];
+$VERSION = qw($Revision: 1.28 $) [1];
 
 =head1 NAME
 
@@ -137,6 +138,7 @@ sub new {
     $Self->{SessionObject}      = Kernel::System::AuthSession->new( %{$Self} );
     $Self->{GroupObject}        = Kernel::System::Group->new( %{$Self} );
     $Self->{AuthObject}         = Kernel::System::Auth->new( %{$Self} );
+    $Self->{CheckItemObject}    = Kernel::System::CheckItem->new( %{$Self} );
 
     $Self->{CustomerAuthObject}  = Kernel::System::CustomerAuth->new( %{$Self} );
     $Self->{CustomerGroupObject} = Kernel::System::CustomerGroup->new( %{$Self} );
@@ -1307,7 +1309,7 @@ sub ValidateTimeUnit {
     return if !$Param{TimeUnit};
 
     # TimeUnit must be possitive
-    return if int $Param{TimeUnit} < 0;
+    return if $Param{TimeUnit} !~ m{\A \d+? \z}xms;
 
     return 1;
 }
@@ -1716,6 +1718,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.27 $ $Date: 2012-01-06 03:58:21 $
+$Revision: 1.28 $ $Date: 2012-01-18 05:58:40 $
 
 =cut
