@@ -2,7 +2,7 @@
 # TicketCreate.t - GenericInterface TicketCreate tests for TicketConnector backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketCreate.t,v 1.2 2012-01-18 06:03:32 cr Exp $
+# $Id: TicketCreate.t,v 1.3 2012-01-18 13:06:25 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -86,9 +86,6 @@ if ( $NeedAccountedTimeSetting eq '0' ) {
         Value => '1',
     );
 }
-
-# set webservice name
-my $WebserviceName = '-Test-' . $RandomID;
 
 my $TestOwnerLogin        = $HelperObject->TestUserCreate();
 my $TestResponsibleLogin  = $HelperObject->TestUserCreate();
@@ -294,6 +291,9 @@ $Self->Is(
     ref $WebserviceObject,
     "Create webservice object",
 );
+
+# set webservice name
+my $WebserviceName = '-Test-' . $RandomID;
 
 my $WebserviceID = $WebserviceObject->WebserviceAdd(
     Name    => $WebserviceName,
@@ -3011,63 +3011,6 @@ my @Tests        = (
         },
         Operation => 'TicketCreate',
     },
-
-#TODO remove this commented code
-#    {
-#        Name           => 'Test 2',
-#        SuccessRequest => 1,
-#        RequestData    => {
-#            TicketID => 'NotTicketID',
-#        },
-#        ExpectedReturnLocalData => {
-#            Data => {
-#                Error => {
-#                    ErrorCode => 'TicketGet.NotValidTicketID',
-#                    ErrorMessage =>
-#                        'TicketGet: Could not get Ticket data in Kernel::GenericInterface::Operation::Ticket::TicketGet::Run()'
-#                    }
-#            },
-#            Success => 1
-#        },
-#        ExpectedReturnRemoteData => {
-#            Data => {
-#                Error => {
-#                    ErrorCode => 'TicketGet.NotValidTicketID',
-#                    ErrorMessage =>
-#                        'TicketGet: Could not get Ticket data in Kernel::GenericInterface::Operation::Ticket::TicketGet::Run()'
-#                    }
-#            },
-#            Success => 1
-#        },
-#        Operation => 'TicketGet',
-#    },
-#    {
-#        Name           => 'Test 3',
-#        SuccessRequest => '1',
-#        RequestData    => {
-#            TicketID => $TicketID,
-#        },
-#        ExpectedReturnRemoteData => {
-#            Success => 1,
-#            Data    => {
-#                Item => {
-#                    Ticket => {%TicketEntry},
-#                },
-#            },
-#        },
-#        ExpectedReturnLocalData => {
-#            Success => 1,
-#            Data    => {
-#                Item => [
-#                    {
-#                        Ticket => {%TicketEntry},
-#                    }
-#                ],
-#            },
-#        },
-#        Operation => 'TicketGet',
-#    },
-
 );
 
 # debugger object
