@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Ticket/TicketCreate.pm - GenericInterface Ticket TicketCreate operation backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketCreate.pm,v 1.26 2012-01-06 03:59:34 cr Exp $
+# $Id: TicketCreate.pm,v 1.27 2012-01-18 06:02:33 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,7 +26,7 @@ use Kernel::GenericInterface::Operation::Ticket::Common;
 use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.26 $) [1];
+$VERSION = qw($Revision: 1.27 $) [1];
 
 =head1 NAME
 
@@ -574,19 +574,6 @@ sub _CheckTicket {
     }
 
     # check Ticket->Service
-    # Ticket service could be required or not depending on sysconfig option
-    if (
-        !$Ticket->{ServiceID}
-        && !$Ticket->{Service}
-        && $Self->{ConfigObject}->Get('Ticket::Service')
-        )
-    {
-        return {
-            ErrorCode    => 'TicketCreate.MissingParameter',
-            ErrorMessage => "TicketCreate: Ticket->ServiceID or Ticket->Service parameter is"
-                . "  required by sysconfig option!",
-        };
-    }
     if ( $Ticket->{ServiceID} || $Ticket->{Service} ) {
         if ( !$Self->{TicketCommonObject}->ValidateService( %{$Ticket} ) ) {
             return {
@@ -976,7 +963,7 @@ sub _CheckDynamicField {
 
     my $DynamicField = $Param{DynamicField};
 
-    # check DynamicField itm internally
+    # check DynamicField item internally
     for my $Needed (qw(Name Value)) {
         if ( !$DynamicField->{$Needed} ) {
             return {
@@ -1034,7 +1021,7 @@ sub _CheckAttachment {
 
     my $Attachment = $Param{Attachment};
 
-    # check DynamicField itm internally
+    # check attachment item internally
     for my $Needed (qw(Content ContentType Filename)) {
         if ( !$Attachment->{$Needed} ) {
             return {
@@ -1136,7 +1123,7 @@ sub _TicketCreate {
         $OwnerID = $OwnerData{UserID};
     }
     elsif ( defined $Ticket->{OwnerID} ) {
-        $OwnerID = $Ticket->{UserID};
+        $OwnerID = $Ticket->{OwnerID};
     }
 
     my $ResponsibleID;
@@ -1144,7 +1131,7 @@ sub _TicketCreate {
         my %ResponsibleData = $Self->{UserObject}->GetUserData(
             User => $Ticket->{Responsible},
         );
-        $ResponsibleID = $ResponsibleData{ResponsibleID};
+        $ResponsibleID = $ResponsibleData{UserID};
     }
     elsif ( defined $Ticket->{ResponsibleID} ) {
         $ResponsibleID = $Ticket->{ResponsibleID};
@@ -1179,50 +1166,13 @@ sub _TicketCreate {
             }
     }
 
-    # set owner (if owner or owner id is given)
-    if ($OwnerID) {
-        $Self->{TicketObject}->TicketOwnerSet(
-            TicketID  => $TicketID,
-            NewUserID => $OwnerID,
-            UserID    => $Param{UserID},
-        );
-
-        # set lock if no lock was defined
-        if ( !$Ticket->{Lock} && !$Ticket->{LockID} ) {
-            $Self->{TicketObject}->TicketLockSet(
-                TicketID => $TicketID,
-                Lock     => 'lock',
-                UserID   => $Param{UserID},
-            );
-        }
-    }
-
-    # else set owner to current agent but do not lock it
-    else {
-        $Self->{TicketObject}->TicketOwnerSet(
-            TicketID           => $TicketID,
-            NewUserID          => $Param{UserID},
-            SendNoNotification => 1,
-            UserID             => $Param{UserID},
-        );
-    }
-
     # set lock if specified
-    if ( $Ticket->{Lock} || !$Ticket->{LockID} ) {
+    if ( $Ticket->{Lock} || $Ticket->{LockID} ) {
         $Self->{TicketObject}->TicketLockSet(
             TicketID => $TicketID,
             LockID   => $Ticket->{LockID} || '',
             Lock     => $Ticket->{Lock} || '',
             UserID   => $Param{UserID},
-        );
-    }
-
-    # set responsible
-    if ($ResponsibleID) {
-        $Self->{TicketObject}->TicketResponsibleSet(
-            TicketID  => $TicketID,
-            NewUserID => $ResponsibleID,
-            UserID    => $Param{UserID},
         );
     }
 
@@ -1329,6 +1279,43 @@ sub _TicketCreate {
             }
     }
 
+    # set owner (if owner or owner id is given)
+    if ($OwnerID) {
+        $Self->{TicketObject}->TicketOwnerSet(
+            TicketID  => $TicketID,
+            NewUserID => $OwnerID,
+            UserID    => $Param{UserID},
+        );
+
+        # set lock if no lock was defined
+        if ( !$Ticket->{Lock} && !$Ticket->{LockID} ) {
+            $Self->{TicketObject}->TicketLockSet(
+                TicketID => $TicketID,
+                Lock     => 'lock',
+                UserID   => $Param{UserID},
+            );
+        }
+    }
+
+    # else set owner to current agent but do not lock it
+    else {
+        $Self->{TicketObject}->TicketOwnerSet(
+            TicketID           => $TicketID,
+            NewUserID          => $Param{UserID},
+            SendNoNotification => 1,
+            UserID             => $Param{UserID},
+        );
+    }
+
+    # set responsible
+    if ($ResponsibleID) {
+        $Self->{TicketObject}->TicketResponsibleSet(
+            TicketID  => $TicketID,
+            NewUserID => $ResponsibleID,
+            UserID    => $Param{UserID},
+        );
+    }
+
     # time accounting
     if ( $Article->{TimeUnit} ) {
         $Self->{TicketObject}->TicketAccountTime(
@@ -1429,6 +1416,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.26 $ $Date: 2012-01-06 03:59:34 $
+$Revision: 1.27 $ $Date: 2012-01-18 06:02:33 $
 
 =cut
