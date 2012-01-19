@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.462 2012-01-17 16:14:47 te Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.463 2012-01-19 08:30:35 mg Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box (to avoid the use of destructive queries, such as DROP DATABASE, and also to steal user passwords).</Description>
         <Group>Framework</Group>
@@ -3055,7 +3055,6 @@ You can log in via the following URL:
                 <Item Key="PasswordMin2Characters">0</Item>
                 <Item Key="PasswordNeedDigit">0</Item>
                 <Item Key="PasswordMaxLoginFailed">0</Item>
-                <Item Key="PasswordMaxLoginFailedTimeout">0</Item>
                 <Item Key="Active">1</Item>
             </Hash>
         </Setting>
