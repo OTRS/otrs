@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Ticket/TicketGet.pm - GenericInterface Ticket Get operation backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketGet.pm,v 1.8 2012-01-05 03:30:31 cg Exp $
+# $Id: TicketGet.pm,v 1.9 2012-01-19 06:18:43 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::GenericInterface::Operation::Ticket::Common;
 use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 =head1 NAME
 
@@ -119,7 +119,19 @@ sub Run {
     my $ErrorMessage = '';
 
     # all needed vairables
-    my @TicketIDs = split( /,/, $Param{Data}->{TicketID} );
+    my @TicketIDs;
+    if ( IsStringWithData( $Param{Data}->{TicketID} ) ) {
+        @TicketIDs = split( /,/, $Param{Data}->{TicketID} );
+    }
+    elsif ( IsArrayRefWithData( $Param{Data}->{TicketID} ) ) {
+        @TicketIDs = @{ $Param{Data}->{TicketID} };
+    }
+    else {
+        return $Self->{TicketCommonObject}->ReturnError(
+            ErrorCode    => 'TicketGet.WrongStructure',
+            ErrorMessage => "TicketGet: Structure for TicketID is not correct!",
+        );
+    }
     my $DynamicFields     = $Param{Data}->{DynamicFields}     || 0;
     my $Extended          = $Param{Data}->{Extended}          || 0;
     my $AllArticles       = $Param{Data}->{AllArticles}       || 0;
@@ -258,6 +270,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.8 $ $Date: 2012-01-05 03:30:31 $
+$Revision: 1.9 $ $Date: 2012-01-19 06:18:43 $
 
 =cut
