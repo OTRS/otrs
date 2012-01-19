@@ -2,7 +2,7 @@
 # TicketGet.t - TicketConnector interface tests for TicketConnector backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketGet.t,v 1.9 2012-01-17 23:42:39 cg Exp $
+# $Id: TicketGet.t,v 1.10 2012-01-19 06:17:40 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,6 +14,7 @@ use warnings;
 use utf8;
 use vars (qw($Self));
 
+use MIME::Base64;
 use Kernel::System::User;
 use Kernel::System::Ticket;
 use Kernel::System::DynamicField;
@@ -455,6 +456,164 @@ for my $Key ( keys %TicketEntryThree ) {
 # add ticket id
 push @TicketIDs, $TicketID3;
 
+# create ticket 3
+my $TicketID4 = $TicketObject->TicketCreate(
+    Title        => 'Ticket Four Title äöüßÄÖÜ€ис',
+    Queue        => 'Junk',
+    Lock         => 'lock',
+    Priority     => '3 normal',
+    State        => 'new',
+    CustomerID   => '654321',
+    CustomerUser => 'customerFour@example.com',
+    OwnerID      => 1,
+    UserID       => 1,
+);
+
+# sanity check
+$Self->True(
+    $TicketID4,
+    "TicketCreate() successful for Ticket Four ID $TicketID4",
+);
+
+# first article
+my $ArticleID41 = $TicketObject->ArticleCreate(
+    TicketID       => $TicketID4,
+    ArticleType    => 'phone',
+    SenderType     => 'agent',
+    From           => 'Agent Some Agent Some Agent <email@example.com>',
+    To             => 'Customer A <customer-a@example.com>',
+    Cc             => 'Customer B <customer-b@example.com>',
+    ReplyTo        => 'Customer B <customer-b@example.com>',
+    Subject        => 'first article',
+    Body           => 'A text for the body, Title äöüßÄÖÜ€ис',
+    ContentType    => 'text/plain; charset=ISO-8859-15',
+    HistoryType    => 'OwnerUpdate',
+    HistoryComment => 'first article',
+    UserID         => 1,
+    NoAgentNotify  => 1,
+);
+
+# second article
+my $ArticleID42 = $TicketObject->ArticleCreate(
+    TicketID    => $TicketID4,
+    ArticleType => 'phone',
+    SenderType  => 'agent',
+    From        => 'Anot Real Agent <email@example.com>',
+    To          => 'Customer A <customer-a@example.com>',
+    Cc          => 'Customer B <customer-b@example.com>',
+    ReplyTo     => 'Customer B <customer-b@example.com>',
+    Subject     => 'second article',
+    Body        => 'A text for the body, not too long',
+    ContentType => 'text/plain; charset=ISO-8859-15',
+
+    #    Attachment     => \@Attachments,
+    HistoryType    => 'OwnerUpdate',
+    HistoryComment => 'second article',
+    UserID         => 1,
+    NoAgentNotify  => 1,
+);
+
+# file checks
+for my $File (qw(xls txt doc png pdf)) {
+    my $Location = $Self->{ConfigObject}->Get('Home')
+        . "/scripts/test/sample/StdAttachment/StdAttachment-Test1.$File";
+
+    my $ContentRef = $Self->{MainObject}->FileRead(
+        Location => $Location,
+        Mode     => 'binmode',
+        Type     => 'Local',
+    );
+
+    my $ArticleWriteAttachment = $TicketObject->ArticleWriteAttachment(
+        Content     => ${$ContentRef},
+        Filename    => "StdAttachment-Test1.$File",
+        ContentType => $File,
+        ArticleID   => $ArticleID42,
+        UserID      => 1,
+    );
+}
+
+# get articles and attachments
+my @ArticleBox = $TicketObject->ArticleGet(
+    TicketID => $TicketID4,
+    UserID   => 1,
+);
+
+# save articles without attachments
+my @ArticleWithoutAttachments = @ArticleBox;
+
+# start article loop
+ARTICLE:
+for my $Article (@ArticleBox) {
+
+    for my $Key ( keys %{$Article} ) {
+        if ( !$Article->{$Key} ) {
+            $Article->{$Key} = '';
+        }
+        if ( $Key eq 'Age' || $Key eq 'AgeTimeUnix' ) {
+            delete $Article->{$Key};
+        }
+    }
+
+    # get attachment index (without attachments)
+    my %AtmIndex = $TicketObject->ArticleAttachmentIndex(
+        ContentPath                => $Article->{ContentPath},
+        ArticleID                  => $Article->{ArticleID},
+        StripPlainBodyAsAttachment => 3,
+        Article                    => $Article,
+        UserID                     => 1,
+    );
+
+    # next if not attachments
+    next ARTICLE if !IsHashRefWithData( \%AtmIndex );
+
+    my @Attachments;
+    ATTACHMENT:
+    for my $FileID (%AtmIndex) {
+        next ATTACHMENT if !$FileID;
+        my %Attachment = $TicketObject->ArticleAttachment(
+            ArticleID => $Article->{ArticleID},
+            FileID    => $FileID,
+            UserID    => 1,
+        );
+
+        # next if not attachment
+        next ATTACHMENT if !IsHashRefWithData( \%Attachment );
+
+        # convert content to base64
+        $Attachment{Content} = encode_base64( $Attachment{Content} );
+        push @Attachments, {%Attachment};
+    }
+
+    # set Attachments data
+    $Article->{Atms} = \@Attachments;
+
+}    # finish article loop
+
+# get the Ticket entry
+my %TicketEntryFour = $TicketObject->TicketGet(
+    TicketID      => $TicketID4,
+    DynamicFields => 0,
+    UserID        => $Self->{UserID},
+);
+
+$Self->True(
+    IsHashRefWithData( \%TicketEntryFour ),
+    "TicketGet() successful for Local TicketGet Four ID $TicketID4",
+);
+
+for my $Key ( keys %TicketEntryFour ) {
+    if ( !$TicketEntryFour{$Key} ) {
+        $TicketEntryFour{$Key} = '';
+    }
+    if ( $Key eq 'Age' ) {
+        delete $TicketEntryFour{$Key};
+    }
+}
+
+# add ticket id
+push @TicketIDs, $TicketID4;
+
 # set webservice name
 my $WebserviceName = '-Test-' . $RandomID;
 
@@ -725,6 +884,32 @@ my @Tests        = (
         Name           => 'Test 6',
         SuccessRequest => '1',
         RequestData    => {
+            TicketID => $TicketID4,
+        },
+        ExpectedReturnRemoteData => {
+            Success => 1,
+            Data    => {
+                Item => {
+                    Ticket => {%TicketEntryFour},
+                },
+            },
+        },
+        ExpectedReturnLocalData => {
+            Success => 1,
+            Data    => {
+                Item => [
+                    {
+                        Ticket => {%TicketEntryFour},
+                    }
+                ],
+            },
+        },
+        Operation => 'TicketGet',
+    },
+    {
+        Name           => 'Test 7',
+        SuccessRequest => '1',
+        RequestData    => {
             TicketID      => $TicketID1,
             DynamicFields => 1,
         },
@@ -749,7 +934,7 @@ my @Tests        = (
         Operation => 'TicketGet',
     },
     {
-        Name           => 'Test 7',
+        Name           => 'Test 8',
         SuccessRequest => '1',
         RequestData    => {
             TicketID      => $TicketID2,
@@ -775,6 +960,71 @@ my @Tests        = (
         },
         Operation => 'TicketGet',
     },
+    {
+        Name           => 'Test 9',
+        SuccessRequest => '1',
+        RequestData    => {
+            TicketID      => "$TicketID1, $TicketID2",
+            DynamicFields => 1,
+        },
+        ExpectedReturnRemoteData => {
+            Success => 1,
+            Data    => {
+                Item => [
+                    {
+                        Ticket => {%TicketEntryOneDF},
+                    },
+                    {
+                        Ticket => {%TicketEntryTwoDF},
+                    },
+                    ]
+            },
+        },
+        ExpectedReturnLocalData => {
+            Success => 1,
+            Data    => {
+                Item => [
+                    {
+                        Ticket => {%TicketEntryOneDF},
+                    },
+                    {
+                        Ticket => {%TicketEntryTwoDF},
+                    },
+                    ]
+            },
+        },
+        Operation => 'TicketGet',
+    },
+
+    #    {
+    #        Name           => 'Test 10',
+    #        SuccessRequest => '1',
+    #        RequestData    => {
+    #            TicketID    => $TicketID4,
+    #            AllArticles => 1,
+    #        },
+    #        ExpectedReturnRemoteData => {
+    #            Success => 1,
+    #            Data    => {
+    #                Item => {
+    #                    Ticket   => {%TicketEntryFour},
+    #                    Articles => @ArticleWithoutAttachments,
+    #                },
+    #            },
+    #        },
+    #        ExpectedReturnLocalData => {
+    #            Success => 1,
+    #            Data    => {
+    #                Item => [
+    #                    {
+    #                    Ticket   => {%TicketEntryFour},
+    #                    Articles => @ArticleWithoutAttachments,
+    #                    }
+    #                ],
+    #            },
+    #        },
+    #        Operation => 'TicketGet',
+    #    },
 
 );
 
