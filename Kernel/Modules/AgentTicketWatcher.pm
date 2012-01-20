@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketWatcher.pm - a ticketwatcher module
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketWatcher.pm,v 1.16 2012-01-06 14:58:05 mg Exp $
+# $Id: AgentTicketWatcher.pm,v 1.17 2012-01-20 10:30:32 jh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -119,10 +119,8 @@ sub Run {
                 # generate output
                 return $Self->{LayoutObject}->Redirect( OP => $Self->{LastScreenOverview} );
             }
-            else {
-                return $Self->{LayoutObject}->Redirect( OP => $Self->{LastScreenView} );
-            }
         }
+        return $Self->{LayoutObject}->Redirect( OP => $Self->{LastScreenView} );
     }
 }
 

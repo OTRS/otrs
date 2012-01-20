@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2139 2012-01-20 10:04:05 mg Exp $
+# $Id: CHANGES,v 1.2140 2012-01-20 10:30:32 jh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.1.0.beta5 ????-??-??
+ - 2012-01-20 Fixed bug#8129 - Ticket Unwatch may lead to errorscreen.
  - 2012-01-20 Updated Finnish translation file, thanks to Mikko Hynninen!
  - 2012-01-17 Fixed bug#8117 - Can't create ticket for newly created customer user.
  - 2012-01-16 Fixed bug#8094 - Typo In Ticket.pm.
