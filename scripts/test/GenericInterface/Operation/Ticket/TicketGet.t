@@ -2,7 +2,7 @@
 # TicketGet.t - TicketConnector interface tests for TicketConnector backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketGet.t,v 1.10 2012-01-19 06:17:40 cg Exp $
+# $Id: TicketGet.t,v 1.11 2012-01-20 02:30:54 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -513,6 +513,24 @@ my $ArticleID42 = $TicketObject->ArticleCreate(
     NoAgentNotify  => 1,
 );
 
+# save articles without attachments
+my @ArticleWithoutAttachments = $TicketObject->ArticleGet(
+    TicketID => $TicketID4,
+    UserID   => 1,
+);
+
+for my $Article (@ArticleWithoutAttachments) {
+
+    for my $Key ( keys %{$Article} ) {
+        if ( !$Article->{$Key} ) {
+            $Article->{$Key} = '';
+        }
+        if ( $Key eq 'Age' || $Key eq 'AgeTimeUnix' ) {
+            delete $Article->{$Key};
+        }
+    }
+}
+
 # file checks
 for my $File (qw(xls txt doc png pdf)) {
     my $Location = $Self->{ConfigObject}->Get('Home')
@@ -538,9 +556,6 @@ my @ArticleBox = $TicketObject->ArticleGet(
     TicketID => $TicketID4,
     UserID   => 1,
 );
-
-# save articles without attachments
-my @ArticleWithoutAttachments = @ArticleBox;
 
 # start article loop
 ARTICLE:
@@ -581,7 +596,9 @@ for my $Article (@ArticleBox) {
         next ATTACHMENT if !IsHashRefWithData( \%Attachment );
 
         # convert content to base64
-        $Attachment{Content} = encode_base64( $Attachment{Content} );
+        $Attachment{Content}            = encode_base64( $Attachment{Content} );
+        $Attachment{ContentID}          = '';
+        $Attachment{ContentAlternative} = '';
         push @Attachments, {%Attachment};
     }
 
@@ -995,37 +1012,65 @@ my @Tests        = (
         },
         Operation => 'TicketGet',
     },
-
-    #    {
-    #        Name           => 'Test 10',
-    #        SuccessRequest => '1',
-    #        RequestData    => {
-    #            TicketID    => $TicketID4,
-    #            AllArticles => 1,
-    #        },
-    #        ExpectedReturnRemoteData => {
-    #            Success => 1,
-    #            Data    => {
-    #                Item => {
-    #                    Ticket   => {%TicketEntryFour},
-    #                    Articles => @ArticleWithoutAttachments,
-    #                },
-    #            },
-    #        },
-    #        ExpectedReturnLocalData => {
-    #            Success => 1,
-    #            Data    => {
-    #                Item => [
-    #                    {
-    #                    Ticket   => {%TicketEntryFour},
-    #                    Articles => @ArticleWithoutAttachments,
-    #                    }
-    #                ],
-    #            },
-    #        },
-    #        Operation => 'TicketGet',
-    #    },
-
+    {
+        Name           => 'Test 10',
+        SuccessRequest => '1',
+        RequestData    => {
+            TicketID    => $TicketID4,
+            AllArticles => 1,
+        },
+        ExpectedReturnRemoteData => {
+            Success => 1,
+            Data    => {
+                Item => {
+                    Ticket   => {%TicketEntryFour},
+                    Articles => \@ArticleWithoutAttachments,
+                },
+            },
+        },
+        ExpectedReturnLocalData => {
+            Success => 1,
+            Data    => {
+                Item => [
+                    {
+                        Ticket   => {%TicketEntryFour},
+                        Articles => \@ArticleWithoutAttachments,
+                    }
+                ],
+            },
+        },
+        Operation => 'TicketGet',
+    },
+    {
+        Name           => 'Test 11',
+        SuccessRequest => '1',
+        RequestData    => {
+            TicketID    => $TicketID4,
+            AllArticles => 1,
+            Attachments => 1,
+        },
+        ExpectedReturnRemoteData => {
+            Success => 1,
+            Data    => {
+                Item => {
+                    Ticket   => {%TicketEntryFour},
+                    Articles => \@ArticleBox,
+                },
+            },
+        },
+        ExpectedReturnLocalData => {
+            Success => 1,
+            Data    => {
+                Item => [
+                    {
+                        Ticket   => {%TicketEntryFour},
+                        Articles => \@ArticleBox,
+                    }
+                ],
+            },
+        },
+        Operation => 'TicketGet',
+    },
 );
 
 # debugger object
@@ -1122,7 +1167,29 @@ for my $Test (@Tests) {
                         delete $Item->{Ticket}->{$Key};
                     }
                 }
+
+                # Articles
+                if ( defined $Item->{Articles} ) {
+                    for my $Article ( @{ $Item->{Articles} } ) {
+                        for my $Key ( keys %{$Article} ) {
+                            if ( !$Article->{$Key} ) {
+                                $Article->{$Key} = '';
+                            }
+                            if ( $Key eq 'Age' || $Key eq 'AgeTimeUnix' ) {
+                                delete $Article->{$Key};
+                            }
+
+                            if ( $Key eq 'Atms' ) {
+                                for my $Atm ( @{ $Article->{$Key} } ) {
+                                    $Atm->{ContentID}          = '';
+                                    $Atm->{ContentAlternative} = '';
+                                }
+                            }
+                        }
+                    }
+                }
             }
+
         }
 
         if (
@@ -1149,6 +1216,26 @@ for my $Test (@Tests) {
                     }
                     if ( $Key eq 'Age' ) {
                         delete $RequesterResult->{Data}->{Item}->{Ticket}->{$Key};
+                    }
+                }
+
+                # Articles
+                if ( defined $RequesterResult->{Data}->{Item}->{Articles} ) {
+                    for my $Article ( @{ $RequesterResult->{Data}->{Item}->{Articles} } ) {
+                        for my $Key ( keys %{$Article} ) {
+                            if ( !$Article->{$Key} ) {
+                                $Article->{$Key} = '';
+                            }
+                            if ( $Key eq 'Age' || $Key eq 'AgeTimeUnix' ) {
+                                delete $Article->{$Key};
+                            }
+                            if ( $Key eq 'Atms' ) {
+                                for my $Atm ( @{ $Article->{$Key} } ) {
+                                    $Atm->{ContentID}          = '';
+                                    $Atm->{ContentAlternative} = '';
+                                }
+                            }
+                        }
                     }
                 }
             }
