@@ -1,9 +1,9 @@
 # --
 # Kernel/Language/fi.pm - provides Finnish language translation
 # Copyright (C) 2002 Antti Kämäräinen <antti at seu.net>
-# Copyright (C) 2007-2008 Mikko Hynninen <first.last at tietokartano.fi>
+# Copyright (C) 2007-2012 Mikko Hynninen <first.last at tietokartano.fi>
 # --
-# $Id: fi.pm,v 1.128 2012-01-13 06:46:47 mg Exp $
+# $Id: fi.pm,v 1.129 2012-01-20 10:04:05 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,13 +16,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.128 $) [1];
+$VERSION = qw($Revision: 1.129 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-01-13 07:44:28
+    # Last translation file sync: 2012-01-20 11:02:31
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -64,12 +64,12 @@ sub Data {
         'hour' => 'tunti',
         'hours' => 'tuntia',
         'hour(s)' => 'tunti(a)',
-        'Hours' => '',
+        'Hours' => 'tuntia',
         'h' => '',
         'minute' => 'minuutti',
         'minutes' => 'minuuttia',
         'minute(s)' => 'minuutti(a)',
-        'Minutes' => '',
+        'Minutes' => 'minuuttia',
         'm' => '',
         'month' => 'kuukausi',
         'months' => 'kuukautta',
@@ -93,8 +93,8 @@ sub Data {
         'Modulefile' => 'Moduulitiedosto',
         'Subfunction' => 'Alifunktio',
         'Line' => 'Rivi',
-        'Setting' => '',
-        'Settings' => '',
+        'Setting' => 'Asetus',
+        'Settings' => 'Asetukset',
         'Example' => 'Esimerkki',
         'Examples' => 'Esimerkit',
         'valid' => 'Kelvollinen',
@@ -115,9 +115,9 @@ sub Data {
         'Next...' => 'Seuraava...',
         '...Back' => '...Edellinen',
         '-none-' => '-tyhjä-',
-        'none' => 'ei mitään',
-        'none!' => 'ei mitään!',
-        'none - answered' => 'ei mitään - vastattu',
+        'none' => 'tyhjä',
+        'none!' => 'yhjä!',
+        'none - answered' => 'tyhjä - vastattu',
         'please do not edit!' => 'Älä muokkaa, kiitos!',
         'Need Action' => '',
         'AddLink' => 'Lisää linkki',
@@ -133,7 +133,7 @@ sub Data {
         'Hit' => 'Osuma',
         'Hits' => 'Osumat',
         'Text' => 'Teksti',
-        'Standard' => '',
+        'Standard' => 'Vakio',
         'Lite' => 'Kevyt',
         'User' => 'Käyttäjä',
         'Username' => 'Käyttäjänimi',
@@ -152,9 +152,9 @@ sub Data {
         'agent' => 'agentti',
         'system' => 'järjestelmä',
         'Customer Info' => 'Tietoa asiakkaasta',
-        'Customer Information' => '',
+        'Customer Information' => 'Asiakastiedot',
         'Customer Company' => 'Asiakasyritys',
-        'Customer Companies' => '',
+        'Customer Companies' => 'Asiakasyritykset',
         'Company' => 'Yritys',
         'go!' => 'mene!',
         'go' => 'mene',
@@ -163,8 +163,8 @@ sub Data {
         'Sorry' => 'Anteeksi',
         'update!' => 'päivitä!',
         'update' => 'päivitä',
-        'Update' => 'Päivätä',
-        'Updated!' => '',
+        'Update' => 'Päivitä',
+        'Updated!' => 'Päivitetty',
         'submit!' => 'lähetä!',
         'submit' => 'lähetä',
         'Submit' => 'Lähetä',
@@ -204,13 +204,13 @@ sub Data {
         'Up' => 'Ylös',
         'Down' => 'Alas',
         'Add' => 'Lisää',
-        'Added!' => '',
+        'Added!' => 'Lisätty!',
         'Category' => 'Kategoria',
         'Viewer' => 'Katselija',
-        'Expand' => '',
-        'Small' => '',
-        'Medium' => '',
-        'Large' => '',
+        'Expand' => 'Laajenna',
+        'Small' => 'Pieni',
+        'Medium' => 'Keskikokoinen',
+        'Large' => 'Suuri',
         'Date picker' => '',
         'New message' => 'Uusi viesti',
         'New message!' => 'Uusi viesti!',
@@ -219,7 +219,7 @@ sub Data {
         'You have %s new message(s)!' => 'Sinulla on %s kpl uusia viestiä!',
         'You have %s reminder ticket(s)!' => 'Sinulla on %s muistutettavaa viestiä!',
         'The recommended charset for your language is %s!' => 'Suositeltava merkistö kielellesi on %s',
-        'Change your password.' => '',
+        'Change your password.' => 'Vaihda salasanasi.',
         'Please activate %s first!' => '',
         'No suggestions' => 'Ei ehdotusta',
         'Word' => 'Sana',
@@ -234,10 +234,10 @@ sub Data {
         'Logout successful. Thank you for using OTRS!' => 'Uloskirjautuminen onnistui. Kiitos kun käytit OTRS-järjestelmää',
         'Invalid SessionID!' => 'Virheellinen istuntotunnus',
         'Feature not active!' => 'Ominaisuus ei käytössä!',
-        'Agent updated!' => '',
+        'Agent updated!' => 'Agentti päivitetty!',
         'Create Database' => 'Luo tietokanta',
         'System Settings' => 'Järjestelmäasetukset',
-        'Mail Configuration' => '',
+        'Mail Configuration' => 'Sähköpostiasetukset',
         'Finished' => 'Valmis',
         'Install OTRS' => '',
         'Intro' => '',
@@ -254,7 +254,7 @@ sub Data {
         'reject' => 'Hylkää',
         'reverse' => 'käänteinen',
         'Facility' => 'Valmius',
-        'Time Zone' => '',
+        'Time Zone' => 'Aikavyöhyke',
         'Pending till' => 'Odottaa',
         'Don\'t use the Superuser account to work with OTRS! Create new Agents and work with these accounts instead.' =>
             '',
@@ -274,21 +274,21 @@ sub Data {
         'Check to activate this date' => '',
         'You have Out of Office enabled, would you like to disable it?' =>
             '',
-        'Customer %s added' => '',
-        'Role added!' => '',
-        'Role updated!' => '',
-        'Attachment added!' => '',
-        'Attachment updated!' => '',
-        'Response added!' => '',
-        'Response updated!' => '',
-        'Group updated!' => '',
-        'Queue added!' => '',
-        'Queue updated!' => '',
-        'State added!' => '',
-        'State updated!' => '',
-        'Type added!' => '',
-        'Type updated!' => '',
-        'Customer updated!' => '',
+        'Customer %s added' => 'Asiakas %s lisätty',
+        'Role added!' => 'Rooli lisätty!',
+        'Role updated!' => 'Roolia päivitetty!',
+        'Attachment added!' => 'Liite lisätty!',
+        'Attachment updated!' => 'Liitettä päivitetty!',
+        'Response added!' => 'Vastaus lisätty!',
+        'Response updated!' => 'Vastausta päivitetty!',
+        'Group updated!' => 'Ryhmä lisätty!',
+        'Queue added!' => 'Jono lisätty!',
+        'Queue updated!' => 'Jonoa päivitetty!',
+        'State added!' => 'Tila lisätty!',
+        'State updated!' => 'Tilaa päivitetty!',
+        'Type added!' => 'Tyyppi lisätty!',
+        'Type updated!' => 'Tyyppiä päivitetty!',
+        'Customer updated!' => 'Asiakasta pävitetty!',
         'Customer company added!' => '',
         'Customer company updated!' => '',
         'Mail account added!' => '',
@@ -323,7 +323,7 @@ sub Data {
         'City' => 'Kaupunki',
         'Street' => 'Katuosoite',
         'Country' => 'Maa',
-        'Location' => '',
+        'Location' => 'Sijainti',
         'installed' => 'asennettu',
         'uninstalled' => 'poistettu',
         'Security Note: You should activate %s because application is already running!' =>
@@ -335,53 +335,53 @@ sub Data {
             '',
         'Edit the system configuration settings.' => '',
         'printed at' => 'tulostettu',
-        'Loading...' => '',
+        'Loading...' => 'Ladataan...',
         'Dear Mr. %s,' => 'Arvon Hra. %s,',
         'Dear Mrs. %s,' => 'Arvon Rva. %s',
         'Dear %s,' => 'Arvon %s,',
         'Hello %s,' => 'Hei %s,',
         'This email address already exists. Please log in or reset your password.' =>
-            '',
+            'Tämä sähköpostiosoite on jo lisätty. Kirjaudu sisään, tai pyydä uusi salasana.',
         'New account created. Sent login information to %s. Please check your email.' =>
-            '',
+            'Uusi tunnus lisätty. Lähetetty kirjautumistiedot osoitteeseen %s. Ole hyvä ja tarkasta postisi. ',
         'Please press Back and try again.' => 'Klikkaa Takaisin ja yritä uudestaan.',
-        'Sent password reset instructions. Please check your email.' => '',
-        'Sent new password to %s. Please check your email.' => '',
-        'Upcoming Events' => '',
-        'Event' => 'Tapahtyma',
-        'Events' => '',
+        'Sent password reset instructions. Please check your email.' => 'Lähetetty salasanan vaihtamisohjeet. Tarkasta sähköpostisi.',
+        'Sent new password to %s. Please check your email.' => 'Lähetetty uusi salasana osoitteeseen %s. Tarkasta sähköpostisi.',
+        'Upcoming Events' => 'Tulevat tapahtumat',
+        'Event' => 'Tapahtuma',
+        'Events' => 'Tapahtumat',
         'Invalid Token!' => 'Virheellinen valtuutusavain!',
-        'more' => '',
-        'For more info see:' => '',
+        'more' => 'lisää',
+        'For more info see:' => 'Katso lisätietoa:',
         'Package verification failed!' => '',
-        'Collapse' => '',
-        'Shown' => '',
-        'News' => '',
-        'Product News' => '',
-        'OTRS News' => '',
-        '7 Day Stats' => '',
-        'Bold' => '',
-        'Italic' => '',
-        'Underline' => '',
-        'Font Color' => '',
-        'Background Color' => '',
-        'Remove Formatting' => '',
-        'Show/Hide Hidden Elements' => '',
-        'Align Left' => '',
-        'Align Center' => '',
-        'Align Right' => '',
-        'Justify' => '',
+        'Collapse' => 'Piilotettu',
+        'Shown' => 'Näytetty',
+        'News' => 'Uutiset',
+        'Product News' => 'Tuoteuutiset',
+        'OTRS News' => 'OTRS uutiset',
+        '7 Day Stats' => '7 päivän tilastot',
+        'Bold' => 'Lihavoitu',
+        'Italic' => 'Kursivoitu',
+        'Underline' => 'Alleviivattu',
+        'Font Color' => 'Fontin väri',
+        'Background Color' => 'Taustan väri',
+        'Remove Formatting' => 'Poista muotoilut',
+        'Show/Hide Hidden Elements' => 'Näytä/Piilota piiloelementit',
+        'Align Left' => 'Tasaa vasemmalle',
+        'Align Center' => 'Keskitä',
+        'Align Right' => 'Tasaa oikealle',
+        'Justify' => 'Tasaa molemmat reunat',
         'Header' => 'Otsikko',
-        'Indent' => '',
-        'Outdent' => '',
-        'Create an Unordered List' => '',
-        'Create an Ordered List' => '',
-        'HTML Link' => '',
-        'Insert Image' => '',
+        'Indent' => 'Pienennä sisennystä',
+        'Outdent' => 'Suurenna sisennystä',
+        'Create an Unordered List' => 'Lisää luettelomerkittu lista',
+        'Create an Ordered List' => 'Lisää numeroitu lista',
+        'HTML Link' => 'HTML linkki',
+        'Insert Image' => 'Lisää kuva',
         'CTRL' => '',
         'SHIFT' => '',
-        'Undo' => '',
-        'Redo' => '',
+        'Undo' => 'Kumoa',
+        'Redo' => 'Tee uudelleen',
         'Scheduler process is registered but might not be running.' => '',
         'Scheduler is not running.' => '',
 
@@ -427,36 +427,36 @@ sub Data {
 
         # Template: AAAPreferences
         'Preferences updated successfully!' => 'Asetukset tallennettu onnistuneesti!',
-        'User Profile' => '',
-        'Email Settings' => '',
-        'Other Settings' => '',
+        'User Profile' => 'Käyttäjäprofiili',
+        'Email Settings' => 'Sähköpostiasetukset',
+        'Other Settings' => 'Muut asetukset',
         'Change Password' => 'Vaihda salasana',
         'Current password' => '',
         'New password' => 'Uusi salasana',
-        'Verify password' => '',
+        'Verify password' => 'Salasana uudestaan',
         'Spelling Dictionary' => 'Oikolukusanasto',
-        'Default spelling dictionary' => '',
-        'Max. shown Tickets a page in Overview.' => 'Näytä maks. tikettiä yleisnäkymässä',
+        'Default spelling dictionary' => 'Oletus oikolukusanasto',
+        'Max. shown Tickets a page in Overview.' => 'Näytä maks. tikettiä yleisnäkymässä.',
         'The current password is not correct. Please try again!' => '',
         'Can\'t update password, your new passwords do not match. Please try again!' =>
-            '',
-        'Can\'t update password, it contains invalid characters!' => '',
+            'Salasanan päivitys ei onnistunut, antamasi uudet salasanat eivät täsmänneet. Yritä uudelleen!',
+        'Can\'t update password, it contains invalid characters!' => 'Salasanan päivitys ei onnistunut, se sisälsi virheellisiä merkkejä!',
         'Can\'t update password, it must be at least %s characters long!' =>
-            '',
+            'Salasanan päivitys ei onnistunut, sen tulee sisältää vähintään %s merkkiä!',
         'Can\'t update password, it must contain at least 2 lowercase  and 2 uppercase characters!' =>
-            '',
-        'Can\'t update password, it must contain at least 1 digit!' => '',
+            'Salasanan päivitys ei onnistunut, sen tulee sisältää vähintään 2 pientä ja 2 isoa kirjainta!',
+        'Can\'t update password, it must contain at least 1 digit!' => 'Salasanan päivitys ei onnistunut, sen tulee sisältää vähintään 1 numero!',
         'Can\'t update password, it must contain at least 2 characters!' =>
-            '',
+            'Salasanan päivitys ei onnistunut, sen tulee sisältää vähintään 2 kirjainta',
         'Can\'t update password, this password has already been used. Please choose a new one!' =>
-            '',
+            'Salasanan päivitys ei onnistunut, tätä salasanaa on jo käytetty. Valitse toinen!',
         'Select the separator character used in CSV files (stats and searches). If you don\'t select a separator here, the default separator for your language will be used.' =>
             '',
         'CSV Separator' => '',
 
         # Template: AAAStats
         'Stat' => 'Tilasto',
-        'Sum' => '',
+        'Sum' => 'Summa',
         'Please fill out the required fields!' => 'Ole hyvä ja täytä vaaditut kentät!',
         'Please select a file!' => 'Valitse tiedosto!',
         'Please select an object!' => 'Valitse objekti!',
@@ -504,31 +504,31 @@ sub Data {
         'TicketAccumulation' => '',
         'Attributes to be printed' => '',
         'Sort sequence' => '',
-        'Order by' => '',
+        'Order by' => 'Järjestä',
         'Limit' => 'Rajoitus',
-        'Ticketlist' => '',
-        'ascending' => '',
-        'descending' => '',
+        'Ticketlist' => 'Tikettilista',
+        'ascending' => 'nouseva',
+        'descending' => 'laskeva',
         'First Lock' => '',
         'Evaluation by' => '',
-        'Total Time' => '',
-        'Ticket Average' => '',
-        'Ticket Min Time' => '',
-        'Ticket Max Time' => '',
-        'Number of Tickets' => '',
-        'Article Average' => '',
-        'Article Min Time' => '',
-        'Article Max Time' => '',
-        'Number of Articles' => '',
-        'Accounted time by Agent' => '',
-        'Ticket/Article Accounted Time' => '',
-        'TicketAccountedTime' => '',
-        'Ticket Create Time' => '',
-        'Ticket Close Time' => '',
+        'Total Time' => 'Kokonaisaika',
+        'Ticket Average' => 'Tiketit keskiarvo',
+        'Ticket Min Time' => 'Tiketit minimiaika',
+        'Ticket Max Time' => 'Tiketit maks. aika',
+        'Number of Tickets' => 'Tikettien määrä',
+        'Article Average' => 'Artikkelit keskiarvo',
+        'Article Min Time' => 'Artikkelit minimiaika',
+        'Article Max Time' => 'Artikkelit maks. aika',
+        'Number of Articles' => 'Artikkelien määrä',
+        'Accounted time by Agent' => 'Käytetty aika agenteittain',
+        'Ticket/Article Accounted Time' => 'Tiketti/Artikkeli käytetty aika',
+        'TicketAccountedTime' => 'KäytettyAika',
+        'Ticket Create Time' => 'Tiketti luotu',
+        'Ticket Close Time' => 'Tiketti suljettu',
 
         # Template: AAATicket
-        'Status View' => '',
-        'Bulk' => '',
+        'Status View' => 'Tilanäkymä',
+        'Bulk' => 'Massa',
         'Lock' => 'Lukitse',
         'Unlock' => 'Poista lukitus',
         'History' => 'Historia',
@@ -545,23 +545,23 @@ sub Data {
         'Queue' => 'Jonotuslista',
         'Queues' => 'Jonotuslistat',
         'Priority' => 'Prioriteetti',
-        'Priorities' => '',
+        'Priorities' => 'Prioriteetit',
         'Priority Update' => 'Prioriteetin päivitys',
         'Priority added!' => '',
         'Priority updated!' => '',
         'Signature added!' => '',
         'Signature updated!' => '',
         'SLA' => 'SLA',
-        'Service Level Agreement' => '',
-        'Service Level Agreements' => '',
+        'Service Level Agreement' => 'Palvelutasosopimus',
+        'Service Level Agreements' => 'Palvelutasosopimukset',
         'Service' => 'Palvelu',
-        'Services' => '',
+        'Services' => 'Palvelut',
         'State' => 'Tila',
-        'States' => '',
+        'States' => 'Tilat',
         'Status' => 'Tila',
         'Statuses' => '',
-        'Ticket Type' => '',
-        'Ticket Types' => '',
+        'Ticket Type' => 'Tiketin tyyppi',
+        'Ticket Types' => 'Tikettien tyypit',
         'Compose' => 'uusia viesti',
         'Pending' => 'Odottaa',
         'Owner' => 'Omistaja',
@@ -590,31 +590,31 @@ sub Data {
         'merged' => 'liitetty',
         'closed successful' => 'Valmistui - Sulje',
         'closed unsuccessful' => 'Keskeneräinen - Sulje',
-        'Locked Tickets Total' => '',
-        'Locked Tickets Reminder Reached' => '',
+        'Locked Tickets Total' => 'Lukittuja tikettejä yhteensä',
+        'Locked Tickets Reminder Reached' => 'Lukittujen tikettien huomautusraja saavutettu',
         'Locked Tickets New' => '',
-        'Responsible Tickets Total' => '',
-        'Responsible Tickets New' => '',
-        'Responsible Tickets Reminder Reached' => '',
-        'Watched Tickets Total' => '',
-        'Watched Tickets New' => '',
-        'Watched Tickets Reminder Reached' => '',
+        'Responsible Tickets Total' => 'Vastaava yhteensä tiketissä',
+        'Responsible Tickets New' => 'Vastaavana uudessa tiketissä',
+        'Responsible Tickets Reminder Reached' => 'Huomautusraja saavutettu tiketeissä joissa vastaavana',
+        'Watched Tickets Total' => 'Seuraajana yhteensä tiketissä',
+        'Watched Tickets New' => 'Seuraajana uudessa tiketissä',
+        'Watched Tickets Reminder Reached' => 'Huomautusraja saavutettu tiketeissä joissa seuraajana',
         'All tickets' => 'Tikettejä yhteensä',
         'Available tickets' => '',
-        'Escalation' => 'Käsittely',
+        'Escalation' => 'Eskaloituminen',
         'last-search' => '',
         'QueueView' => 'Jonotuslistanäkymä',
-        'Ticket Escalation View' => 'Tiketin käsittelynäkymä',
+        'Ticket Escalation View' => 'Tiketin eskaloitumisnäkymä',
         'Message from' => '',
         'End message' => '',
         'Forwarded message from' => '',
         'End forwarded message' => '',
         'new' => 'uusi',
         'open' => 'avoin',
-        'Open' => '',
+        'Open' => 'Avoin',
         'Open tickets' => '',
         'closed' => 'suljettu',
-        'Closed' => '',
+        'Closed' => 'Suljettu',
         'Closed tickets' => '',
         'removed' => 'poistettu',
         'pending reminder' => 'Muistutus',
@@ -659,29 +659,29 @@ sub Data {
         'Don\'t show closed Tickets' => 'Älä näytä suljettuja tikettejä',
         'Show closed Tickets' => 'Näytä suljetut tiketit',
         'New Article' => 'Uusi artikkeli',
-        'Unread article(s) available' => '',
-        'Remove from list of watched tickets' => '',
-        'Add to list of watched tickets' => '',
+        'Unread article(s) available' => 'Artikkeleja joita ei luettu',
+        'Remove from list of watched tickets' => 'Poista seurattavien tikettien listalta',
+        'Add to list of watched tickets' => 'Lisää seurattavien tikettien listalle',
         'Email-Ticket' => 'Sähköposti',
         'Create new Email Ticket' => 'Luo uusi sähköpostitiketti',
         'Phone-Ticket' => 'Puhelin',
         'Search Tickets' => 'Etsi tikettejä',
         'Edit Customer Users' => 'Muokkaa asiakaskäyttäjää',
         'Edit Customer Company' => 'Muokkaa asiakasyritystä',
-        'Bulk Action' => 'Massatoimenpide',
+        'Bulk Action' => 'Massa-ajo',
         'Bulk Actions on Tickets' => 'Messatoimenpide tiketeille',
         'Send Email and create a new Ticket' => 'Lähetä sähklöposti ja luo uusi tiketti',
         'Create new Email Ticket and send this out (Outbound)' => 'Luo uusi sähköpostitiketti ja lähetä se eteenpäin',
         'Create new Phone Ticket (Inbound)' => 'Luo uusi puhelimitse tullut tiketti',
         'Overview of all open Tickets' => 'Yleisnäkymä kaikista avoimista tiketeistä',
         'Locked Tickets' => 'Lukitut tiketit',
-        'My Locked Tickets' => '',
-        'My Watched Tickets' => '',
-        'My Responsible Tickets' => '',
-        'Watched Tickets' => 'Valvotut tiketit',
-        'Watched' => 'Valvotut',
-        'Watch' => '',
-        'Unwatch' => '',
+        'My Locked Tickets' => 'Minun lukitut tiketit',
+        'My Watched Tickets' => 'Minun seuraamani tiketit',
+        'My Responsible Tickets' => 'Minun vastuulla olevat tiketit',
+        'Watched Tickets' => 'Seuratut tiketit',
+        'Watched' => 'Seuratut',
+        'Watch' => 'Seuraa',
+        'Unwatch' => 'Älä seuraa',
         'Lock it to work on it' => '',
         'Unlock to give it back to the queue' => '',
         'Shows the ticket history!' => 'Näytä tiketin historia!',
@@ -709,16 +709,16 @@ sub Data {
         'Ticket %s: solution time is over (%s)!' => 'Tiketti %s: Ratkaisuaika ylittynyt (%s)!',
         'Ticket %s: solution time will be over in %s!' => 'Tiketti %s: Ratkaisuaika päättyy %s!',
         'There are more escalated tickets!' => 'Useampia käsiteltäviä tikettejä!',
-        'Plain Format' => '',
-        'Reply All' => '',
-        'Direction' => '',
+        'Plain Format' => 'Viestin lähde',
+        'Reply All' => 'Vastaa kaikille',
+        'Direction' => 'Suunta',
         'Agent (All with write permissions)' => '',
-        'Agent (Owner)' => '',
-        'Agent (Responsible)' => '',
+        'Agent (Owner)' => 'Agentti (Omistaja)',
+        'Agent (Responsible)' => 'Agentti (Vastaava)',
         'New ticket notification' => 'Ilmoitus uusista viesteistä',
         'Send me a notification if there is a new ticket in "My Queues".' =>
             'Lähetä minulle ilmoitus jos minun jonoihini saapuu uusi tiketti',
-        'Send new ticket notifications' => '',
+        'Send new ticket notifications' => 'Lähetä uusi tikettihuomautus',
         'Ticket follow up notification' => '',
         'Ticket lock timeout notification' => 'Ilmoitus tiketin lukituksen vanhenemisesta',
         'Send me a notification if a ticket is unlocked by the system.' =>
@@ -729,7 +729,7 @@ sub Data {
             'Lähetä minulle ilmoitus jos tiketti siirretään minun jonoihini',
         'Send ticket move notifications' => '',
         'Your queue selection of your favourite queues. You also get notified about those queues via email if enabled.' =>
-            '',
+            'Suosikkijonojen valinta. Saat sähköpostiilmoituksen näihin jonoihin saapuneista tiketeistä, jos niin asetettu.',
         'Custom Queue' => 'Valitsemasi jonotuslistat',
         'QueueView refresh time' => 'Jonotusnäkymän päivitysaika',
         'If enabled, the QueueView will automatically refresh after the specified time.' =>
@@ -746,26 +746,26 @@ sub Data {
         'Ticket limit per page for Ticket Overview "Medium"' => '',
         'Ticket Overview "Preview" Limit' => '',
         'Ticket limit per page for Ticket Overview "Preview"' => '',
-        'Ticket watch notification' => '',
+        'Ticket watch notification' => 'Ilmoitukset seurattavista tiketeistä',
         'Send me the same notifications for my watched tickets that the ticket owners will get.' =>
-            '',
-        'Send ticket watch notifications' => '',
-        'Out Of Office Time' => '',
+            'Lähetä minulle samat ilmoitukset seuraamistani tiketeistä jotka tiketin omistaja saa.',
+        'Send ticket watch notifications' => 'Lähetä seurattavista tiketeistä ilmoitukset',
+        'Out Of Office Time' => 'Poissa toimistolta asetus',
         'New Ticket' => 'Uusi tiketti',
         'Create new Ticket' => 'Luo uusi tiketti',
         'Customer called' => 'Asiakas otti yhteyttä',
         'phone call' => 'puhelu',
-        'Phone Call Outbound' => '',
+        'Phone Call Outbound' => 'Yhteys puhelimitse',
         'Phone Call Inbound' => '',
-        'Reminder Reached' => '',
-        'Reminder Tickets' => '',
-        'Escalated Tickets' => '',
-        'New Tickets' => '',
-        'Open Tickets / Need to be answered' => '',
+        'Reminder Reached' => 'Muistutus saavutettu',
+        'Reminder Tickets' => 'Muistuttavat tiketit',
+        'Escalated Tickets' => 'Eskaloituneet tiketit',
+        'New Tickets' => 'Uudet tiketit',
+        'Open Tickets / Need to be answered' => 'Avoimet tiketit / Odottaa vastausta',
         'All open tickets, these tickets have already been worked on, but need a response' =>
             '',
         'All new tickets, these tickets have not been worked on yet' => '',
-        'All escalated tickets' => '',
+        'All escalated tickets' => 'Kaikki eskaloituneet tiketit',
         'All tickets with a reminder set where the reminder date has been reached' =>
             '',
         'Archived tickets' => '',
@@ -800,7 +800,7 @@ sub Data {
         'History::Misc' => '%s',
         'History::SetPendingTime' => 'Päivitetty: %s',
         'History::StateUpdate' => 'Vanha: "%s" Uusi: "%s"',
-        'History::TicketDynamicFieldUpdate' => 'Päivitetty: %s=%s;%s=%s;',
+        'History::TicketDynamicFieldUpdate' => '',
         'History::WebRequestCustomer' => 'Asiakaspyyntö webin kautta.',
         'History::TicketLinkAdd' => 'Lisätty linkki tikettiin "%s".',
         'History::TicketLinkDelete' => 'Poistettu linkki tikettiin "%s".',
@@ -821,67 +821,67 @@ sub Data {
 
         # Template: AdminAttachment
         'Attachment Management' => 'Liitetiedostojen hallinta',
-        'Actions' => '',
-        'Go to overview' => '',
-        'Add attachment' => '',
+        'Actions' => 'Toimenpiteet',
+        'Go to overview' => 'Mene yleisnäkymään',
+        'Add attachment' => 'Lisää liite',
         'List' => 'Listaa',
         'Validity' => '',
-        'No data found.' => '',
-        'Download file' => '',
+        'No data found.' => 'Tietoa ei löytynyt.',
+        'Download file' => 'Lataa tiedosto',
         'Delete this attachment' => '',
-        'Add Attachment' => '',
-        'Edit Attachment' => '',
-        'This field is required.' => '',
+        'Add Attachment' => 'Lisää liite',
+        'Edit Attachment' => 'Muokkaa liitettä',
+        'This field is required.' => 'Tämä kenttä on pakollinen.',
         'or' => 'tai',
 
         # Template: AdminAutoResponse
         'Auto Response Management' => 'Automaattivastausten hallinta',
-        'Add auto response' => '',
-        'Add Auto Response' => '',
-        'Edit Auto Response' => '',
-        'Response' => 'Vastaa',
-        'Auto response from' => '',
+        'Add auto response' => 'Lisää automaattivastaus',
+        'Add Auto Response' => 'Lisää automaattivastaus',
+        'Edit Auto Response' => 'Muokkaa automaattivastausta',
+        'Response' => 'Vastaus',
+        'Auto response from' => 'Autom. vastaus lähettäjä',
         'Reference' => '',
-        'You can use the following tags' => '',
+        'You can use the following tags' => 'Voit käyttää seuraavia tageja',
         'To get the first 20 character of the subject.' => 'Saadaksesi ensimmäiset 20 merkkiä otsikosta.',
         'To get the first 5 lines of the email.' => 'Saadaksesi viisi riviä viestistä.',
         'To get the realname of the sender (if given).' => 'Saadaksesi lähettäjän nimitieto (jos asetettu).',
         'To get the article attribute' => '',
-        ' e. g.' => '',
+        ' e. g.' => 'esim.',
         'Options of the current customer user data' => '',
-        'Ticket owner options' => '',
-        'Ticket responsible options' => '',
+        'Ticket owner options' => 'Tiketin omistusasetukset',
+        'Ticket responsible options' => 'Tiketin vastaava-asetukset',
         'Options of the current user who requested this action' => '',
         'Options of the ticket data' => '',
         'Config options' => '',
-        'Example response' => '',
+        'Example response' => 'Esimerkkivastaus',
 
         # Template: AdminCustomerCompany
         'Customer Company Management' => 'Asiakasyrityksien hallinta',
         'Wildcards like \'*\' are allowed.' => '',
-        'Add customer company' => '',
+        'Add customer company' => 'Lisää asiakasyritys',
         'Please enter a search term to look for customer companies.' => '',
         'Add Customer Company' => 'Lisää asiakasyritys',
 
         # Template: AdminCustomerUser
-        'Customer Management' => '',
-        'Add customer' => '',
+        'Customer Management' => 'Asiakashallinta',
+        'Add customer' => 'Lisää asiakas',
         'Select' => 'Valitse',
         'Hint' => '',
         'Customer will be needed to have a customer history and to login via customer panel.' =>
             '',
         'Please enter a search term to look for customers.' => '',
-        'Last Login' => '',
-        'Add Customer' => '',
-        'Edit Customer' => '',
+        'Last Login' => 'Edellinen kirjautuminen',
+        'Add Customer' => 'Lisää asiakas',
+        'Edit Customer' => 'Muokkaa asiakasta',
         'This field is required and needs to be a valid email address.' =>
-            '',
+            'Tämä kenttä on pakollinen ja sen tulee sisältää kelvollinen sähköpostiosoite.',
         'This email address is not allowed due to the system configuration.' =>
-            '',
-        'This email address failed MX check.' => '',
+            'Tämä sähköpostiosoite ei ole sallittu johtuen järjestelmäasetuksista.',
+        'This email address failed MX check.' => 'Sähköpostiosoitteen MX-tarkistus ei onnistunut',
         'DNS problem, please check your configuration and the error log.' =>
             '',
-        'The syntax of this email address is incorrect.' => '',
+        'The syntax of this email address is incorrect.' => 'Sähköpostiosoitteen muotoilu on virheellinen.',
 
         # Template: AdminCustomerUserGroup
         'Manage Customer-Group Relations' => '',
@@ -899,10 +899,10 @@ sub Data {
         'Select the customer:group permissions.' => '',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer).' =>
             '',
-        'Search Result:' => '',
-        'Customers' => '',
+        'Search Result:' => 'Hakutulos:',
+        'Customers' => 'Asiakkaat',
         'Groups' => 'Ryhmät',
-        'No matches found.' => '',
+        'No matches found.' => 'Haku ei palauttanut tuloksia.',
         'Change Group Relations for Customer' => '',
         'Change Customer Relations for Group' => '',
         'Toggle %s Permission for all' => '',
@@ -1007,24 +1007,24 @@ sub Data {
         'With this module, administrators can send messages to agents, group or role members.' =>
             '',
         'Create Administrative Message' => '',
-        'Your message was sent to' => '',
-        'Send message to users' => '',
-        'Send message to group members' => '',
-        'Group members need to have permission' => '',
-        'Send message to role members' => '',
-        'Also send to customers in groups' => '',
+        'Your message was sent to' => 'Viestisi lähetettiin',
+        'Send message to users' => 'Lähetä viesti käyttäjille',
+        'Send message to group members' => 'Lähetä viesti käyttäjäryhmille',
+        'Group members need to have permission' => 'Ryhmän jäsenillä tulee olla oikeudet',
+        'Send message to role members' => 'Lähetä viesti roolin jäsenille',
+        'Also send to customers in groups' => 'Lähetä myös asiakkaille ryhmissä',
         'Body' => 'Runko-osa',
         'Send' => 'Lähetä',
 
         # Template: AdminGenericAgent
         'Generic Agent' => '',
-        'Add job' => '',
+        'Add job' => 'Lisää tehtävä',
         'Last run' => 'Edellinen ajo',
         'Run Now!' => 'Aja',
         'Delete this task' => '',
-        'Run this task' => '',
-        'Job Settings' => '',
-        'Job name' => '',
+        'Run this task' => 'Suorita tehtävä',
+        'Job Settings' => 'Tehtävän asetukset',
+        'Job name' => 'Tehtävän nimi',
         'Currently this generic agent job will not run automatically.' =>
             '',
         'To enable automatic execution select at least one value from minutes, hours and days!' =>
@@ -1057,19 +1057,19 @@ sub Data {
         'No pending time settings.' => 'Ei odotusaika-asetusta.',
         'Ticket pending time reached' => 'Tiketin odotusaika saavutettu',
         'Ticket pending time reached between' => 'Tiketin odotusaika saavutettu välillä',
-        'Escalation times' => '',
-        'No escalation time settings.' => '',
-        'Ticket escalation time reached' => '',
-        'Ticket escalation time reached between' => '',
-        'Escalation - first response time' => '',
-        'Ticket first response time reached' => '',
-        'Ticket first response time reached between' => '',
-        'Escalation - update time' => '',
-        'Ticket update time reached' => '',
-        'Ticket update time reached between' => '',
-        'Escalation - solution time' => '',
-        'Ticket solution time reached' => '',
-        'Ticket solution time reached between' => '',
+        'Escalation times' => 'Eskaloitumisaikarajat',
+        'No escalation time settings.' => 'Ei eskaloitumisaika-asetuksia.',
+        'Ticket escalation time reached' => 'Tiketin eskaloitumisaikaraja saavutettu',
+        'Ticket escalation time reached between' => 'Tiketin eskaloitumisaikaraja saavutettu välillä',
+        'Escalation - first response time' => 'Eskaloituminen - ensimmäinen vastausaika',
+        'Ticket first response time reached' => 'Tiketin ensimäinen vastausaikaraja saavutettu',
+        'Ticket first response time reached between' => 'Tiketin ensimäinen vastausaikaraja saavutettu välillä',
+        'Escalation - update time' => 'Eskaloituminen - päivitysaika',
+        'Ticket update time reached' => 'Tiketin päivitysaikaraja saavutettu',
+        'Ticket update time reached between' => 'Tiketin päivitysaikaraja saavutettu välillä',
+        'Escalation - solution time' => 'Eskaloituminen - ratkaisuaika',
+        'Ticket solution time reached' => 'Tiketin ratkaisuaikaraja saavutettu',
+        'Ticket solution time reached between' => 'Tiketin ratkaisuaikaraja saavutettu välillä',
         'Archive search option' => '',
         'Ticket Action' => '',
         'Set new service' => '',
@@ -1121,7 +1121,7 @@ sub Data {
         'Request List' => '',
         'Time' => 'Aika',
         'Remote IP' => '',
-        'Loading' => '',
+        'Loading' => 'Ladataan',
         'Select a single request to see its details.' => '',
         'Filter by type' => '',
         'Filter from' => '',
@@ -1316,14 +1316,14 @@ sub Data {
         'WARNING: When you change the name of the group \'admin\', before making the appropriate changes in the SysConfig, you will be locked out of the administrations panel! If this happens, please rename the group back to admin per SQL statement.' =>
             '',
         'Group Management' => 'Ryhmien hallinta',
-        'Add group' => '',
+        'Add group' => 'Lisää ryhmä',
         'The admin group is to get in the admin area and the stats group to get stats area.' =>
             'Admin-ryhmän jäsenet pääsevät ylläpito- ja tilasto ryhmän tilastoalueille.',
         'Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...). ' =>
             '',
         'It\'s useful for ASP solutions. ' => '',
         'Add Group' => 'Lisää ryhmä',
-        'Edit Group' => '',
+        'Edit Group' => 'Muokkaa ryhmää',
 
         # Template: AdminLog
         'System Log' => 'Järjestelmälogi',
@@ -1333,29 +1333,29 @@ sub Data {
 
         # Template: AdminMailAccount
         'Mail Account Management' => 'Sähköpostitunnusten hallinta',
-        'Add mail account' => '',
+        'Add mail account' => 'Lisää sähköpostitunnus',
         'All incoming emails with one account will be dispatched in the selected queue!' =>
             'Kaikki saapuvat sähköpostit lähetetään valitulle jonotuslistalle',
         'If your account is trusted, the already existing X-OTRS header at arrival time (for priority, ...) will be used! PostMaster filter will be used anyway.' =>
             'Jos tilisi on luotettu, jo aijemmin lisättyjä X-OTRS viestin otsikkotietoja (prioriteetti jne.) käytetään!',
         'Host' => 'Palvelin',
-        'Delete account' => '',
-        'Fetch mail' => '',
-        'Add Mail Account' => '',
-        'Example: mail.example.com' => '',
+        'Delete account' => 'Poista tunnus',
+        'Fetch mail' => 'Hae postit',
+        'Add Mail Account' => 'Lisää sähköpostitunnus',
+        'Example: mail.example.com' => 'Esim: mail.yritys.fi',
         'IMAP Folder' => '',
         'Only modify this if you need to fetch mail from a different folder than INBOX.' =>
             '',
         'Trusted' => 'Luotettu',
         'Dispatching' => 'Lähetä',
-        'Edit Mail Account' => '',
+        'Edit Mail Account' => 'Muokkaa sähköpostitunnusta',
 
         # Template: AdminNavigationBar
         'Admin' => 'Ylläpito',
-        'Agent Management' => '',
-        'Queue Settings' => '',
-        'Ticket Settings' => '',
-        'System Administration' => '',
+        'Agent Management' => 'Agenttien hallinta',
+        'Queue Settings' => 'Jonoasetukset',
+        'Ticket Settings' => 'Tikettiasetukset',
+        'System Administration' => 'Järjestelmän ylläpito',
 
         # Template: AdminNotification
         'Notification Management' => 'Huomautusten hallinta',
@@ -1364,7 +1364,7 @@ sub Data {
         'Notifications are sent to an agent or a customer.' => 'Huomautukset lähetetään joko agentille tai asiakkaalle.',
         'Notification' => 'Huomautus',
         'Edit Notification' => '',
-        'e. g.' => '',
+        'e. g.' => 'esim.',
         'Options of the current customer data' => '',
 
         # Template: AdminNotificationEvent
@@ -1409,30 +1409,30 @@ sub Data {
 
         # Template: AdminPackageManager
         'Package Manager' => 'Pakettien hallinta',
-        'Uninstall package' => '',
+        'Uninstall package' => 'Poista paketti',
         'Do you really want to uninstall this package?' => 'Haluatko varmasti poistaa paketin asennuksen?',
-        'Reinstall package' => '',
+        'Reinstall package' => 'Asenna uudestaan',
         'Do you really want to reinstall this package? Any manual changes will be lost.' =>
-            '',
+            'Haluatko varmasti asentaa tämän paketin uudestaan? Kaikki asetukset poistuvat samalla.',
         'Continue' => 'Jatka',
         'Install' => 'Asenna',
-        'Install Package' => '',
-        'Update repository information' => '',
+        'Install Package' => 'Asenna paketti',
+        'Update repository information' => 'Päivitä',
         'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' =>
             '',
         'Online Repository' => 'Online ohjelmistojakelu',
         'Vendor' => 'Valmistaja',
-        'Module documentation' => '',
+        'Module documentation' => 'Moduulin ohjeet',
         'Upgrade' => 'Päivitä',
         'Local Repository' => 'Paikallinen ohjelmistojakelu',
         'Uninstall' => 'Poista',
-        'Reinstall' => 'Uudelleen asenna',
-        'Download package' => '',
+        'Reinstall' => 'Asenna uudestaan',
+        'Download package' => 'Lataa paketti',
         'Rebuild package' => '',
-        'Metadata' => '',
-        'Change Log' => '',
+        'Metadata' => 'Metatiedot',
+        'Change Log' => 'Muutokset',
         'Date' => 'Päiväys',
-        'List of Files' => '',
+        'List of Files' => 'Tiedostolista',
         'Permission' => 'Käyttöoikeus',
         'Download' => 'Lataa',
         'Download file from package!' => 'Lataa tiedosto paketista!',
@@ -1447,10 +1447,10 @@ sub Data {
         'This feature is enabled!' => 'Tämä ominaisuus on käytössä!',
         'Just use this feature if you want to log each request.' => 'Käytä tätä ominaisuutta jos haluat kirjata ylös kaikki pyynnöt.',
         'Activating this feature might affect your system performance!' =>
-            '',
+            'Tämän ominaisuuden käyttöönotto voi vaikuttaa järjestelmän suorituskykyyn!',
         'Disable it here!' => 'Poista käytöstä tästä!',
         'Logfile too large!' => 'Lokitiedosto liian iso!',
-        'The logfile is too large, you need to reset it' => '',
+        'The logfile is too large, you need to reset it' => 'Logitiedosto on liian iso, se tulee tyhjentää',
         'Overview' => 'Yleisnäkymä',
         'Range' => 'Väli',
         'Interface' => 'Liittymä',
@@ -1491,11 +1491,11 @@ sub Data {
         'Edit Priority' => '',
 
         # Template: AdminQueue
-        'Manage Queues' => '',
-        'Add queue' => '',
-        'Add Queue' => '',
-        'Edit Queue' => '',
-        'Sub-queue of' => '',
+        'Manage Queues' => 'Hallitse jonoja',
+        'Add queue' => 'Lisää jono',
+        'Add Queue' => 'Lisää jono',
+        'Edit Queue' => 'Muokkaa jonoa',
+        'Sub-queue of' => 'Alijono jonolle',
         'Unlock timeout' => 'Aika lukituksen poistumiseen',
         '0 = no unlock' => '0 = ei lukituksen poistumista',
         'Only business hours are counted.' => 'Vain työaika huomioidaan',
@@ -1588,7 +1588,7 @@ sub Data {
         # Template: AdminRoleUser
         'Manage Agent-Role Relations' => '',
         'Filter for Agents' => '',
-        'Agents' => '',
+        'Agents' => 'Agentit',
         'Manage Role-Agent Relations' => '',
         'Change Role Relations for Agent' => '',
         'Change Agent Relations for Role' => '',
@@ -1597,7 +1597,7 @@ sub Data {
         'SLA Management' => 'SLA hallinta',
         'Add SLA' => 'Lisää SLA',
         'Edit SLA' => '',
-        'Please write only numbers!' => '',
+        'Please write only numbers!' => 'Käytä vain numeroita!',
 
         # Template: AdminSMIME
         'S/MIME Management' => 'S/MIME hallinta',
@@ -1624,10 +1624,10 @@ sub Data {
 
         # Template: AdminSalutation
         'Salutation Management' => 'Tervehdysten hallinta',
-        'Add salutation' => '',
+        'Add salutation' => 'Lisää tervehdys',
         'Add Salutation' => 'Lisää tervehdys',
-        'Edit Salutation' => '',
-        'Example salutation' => '',
+        'Edit Salutation' => 'Muokkaa tervehdystä',
+        'Example salutation' => 'Esimerkkitervehdys',
 
         # Template: AdminScheduler
         'This option will force Scheduler to start even if the process is still registered in the database' =>
@@ -1658,14 +1658,14 @@ sub Data {
 
         # Template: AdminService
         'Service Management' => 'Palveluhallinta',
-        'Add service' => '',
+        'Add service' => 'Lisää palvelu',
         'Add Service' => 'Lisää palvelu',
-        'Edit Service' => '',
-        'Sub-service of' => '',
+        'Edit Service' => 'Muokkaa palvelua',
+        'Sub-service of' => 'Alipalvelu palvelulle',
 
         # Template: AdminSession
         'Session Management' => 'Istuntojen hallinta',
-        'All sessions' => '',
+        'All sessions' => 'Kaikki istunnot',
         'Agent sessions' => '',
         'Customer sessions' => '',
         'Unique agents' => '',
@@ -1678,18 +1678,18 @@ sub Data {
 
         # Template: AdminSignature
         'Signature Management' => 'Allekirjoitusten hallinta',
-        'Add signature' => '',
+        'Add signature' => 'Lisää allekirjoitus',
         'Add Signature' => 'Lisää allekirjoitus',
-        'Edit Signature' => '',
-        'Example signature' => '',
+        'Edit Signature' => 'Muokkaa allekirjoitusta',
+        'Example signature' => 'Esimerkkiallekirjoitus',
 
         # Template: AdminState
         'State Management' => 'Tilahallinta',
-        'Add state' => '',
+        'Add state' => 'Lisää tila',
         'Please also update the states in SysConfig where needed.' => '',
         'Add State' => 'Lisää tila',
-        'Edit State' => '',
-        'State type' => '',
+        'Edit State' => 'Muokkaa tilaa',
+        'State type' => 'Tilan tyyppi',
 
         # Template: AdminSysConfig
         'SysConfig' => 'Hallinta',
@@ -1798,7 +1798,7 @@ sub Data {
         # Template: AgentCustomerTableView
 
         # Template: AgentDashboard
-        'Dashboard' => '',
+        'Dashboard' => 'Paneeli',
 
         # Template: AgentDashboardCalendarOverview
         'in' => '',
@@ -1971,7 +1971,7 @@ sub Data {
         # Template: AgentTicketBounce
         'Bounce Ticket' => '',
         'Bounce to' => 'Delekoi',
-        'You need a email address.' => '',
+        'You need a email address.' => 'Tarvitset sähköpostiosoitteen.',
         'Need a valid email address or don\'t use a local email address.' =>
             '',
         'Next ticket state' => 'Uusi tiketin status',
@@ -1981,12 +1981,12 @@ sub Data {
         # Template: AgentTicketBulk
         'Ticket Bulk Action' => 'Tikettien massatoimenpide',
         'Send Email' => '',
-        'Merge to' => 'Kohde',
-        'Invalid ticket identifier!' => '',
-        'Merge to oldest' => '',
-        'Link together' => '',
-        'Link to parent' => '',
-        'Unlock tickets' => '',
+        'Merge to' => 'Liitoskohde',
+        'Invalid ticket identifier!' => 'Virheellinen tiketintunniste!',
+        'Merge to oldest' => 'Liitä vanhimpaan',
+        'Link together' => 'Linkitä keskenään',
+        'Link to parent' => 'Linkitä vanhempaan',
+        'Unlock tickets' => 'Poista lukitus',
 
         # Template: AgentTicketClose
 
@@ -1998,29 +1998,29 @@ sub Data {
         'Please include at least one recipient' => '',
         'Remove Cc' => '',
         'Remove Bcc' => '',
-        'Address book' => '',
+        'Address book' => 'Osoitekirja',
         'Pending Date' => 'Odotuspäivä',
         'for pending* states' => 'Automaattisulkeminen tai muistutus',
-        'Date Invalid!' => '',
+        'Date Invalid!' => 'Virheellinen päiväys!',
 
         # Template: AgentTicketCustomer
         'Change customer of ticket' => 'Vaihda tiketin asiakasta',
         'Customer Data' => 'Asiakastieto',
-        'Customer user' => '',
+        'Customer user' => 'Asiakaskäyttäjä',
 
         # Template: AgentTicketEmail
-        'Create New Email Ticket' => '',
-        'From queue' => '',
+        'Create New Email Ticket' => 'Lisää uusi sähköpostitiketti',
+        'From queue' => 'Jonosta',
         'To customer' => '',
         'Please include at least one customer for the ticket.' => '',
-        'Get all' => '',
+        'Get all' => 'Näytä kaikki',
 
         # Template: AgentTicketEscalation
 
         # Template: AgentTicketForward
         'Forward ticket: %s - %s' => '',
         'Need a valid email address or don\'t use a local email address' =>
-            '',
+            'Syötä kelvollinen sähköpostiosoite. Älä käytä paikallista sähköpostiosoitetta',
 
         # Template: AgentTicketFreeText
 
@@ -2033,7 +2033,7 @@ sub Data {
         'Ticket Merge' => 'Liitä tiketti',
         'You need to use a ticket number!' => 'Sinun tulee käyttää tikettinumeroa!',
         'A valid ticket number is required.' => '',
-        'Need a valid email address.' => '',
+        'Need a valid email address.' => 'Anna kelvollinen sähköpostiosoite.',
 
         # Template: AgentTicketMove
         'Move Ticket' => 'Siirrä tiketti',
@@ -2042,8 +2042,8 @@ sub Data {
         # Template: AgentTicketNote
 
         # Template: AgentTicketOverviewMedium
-        'Select all' => '',
-        'No ticket data found.' => '',
+        'Select all' => 'Valitse kaikki',
+        'No ticket data found.' => 'Tikettejä ei löytynyt.',
         'First Response Time' => 'Ensimmäinen vastausaika',
         'Service Time' => 'Palveluaika',
         'Update Time' => 'Päivitysaika',
@@ -2059,7 +2059,7 @@ sub Data {
         '","26' => '',
 
         # Template: AgentTicketOverviewSmall
-        'Escalation in' => 'Vanhenee',
+        'Escalation in' => 'Eskaloituu',
         'Locked' => 'Lukitut',
         '","30' => '',
 
@@ -2068,9 +2068,9 @@ sub Data {
         # Template: AgentTicketPending
 
         # Template: AgentTicketPhone
-        'Create New Phone Ticket' => '',
-        'From customer' => '',
-        'To queue' => '',
+        'Create New Phone Ticket' => 'Lisää uusi puhelintiketti',
+        'From customer' => 'Lähettänyt asiakas',
+        'To queue' => 'Jonoon',
 
         # Template: AgentTicketPhoneCommon
         'Phone call' => 'Puhelut',
@@ -2078,7 +2078,7 @@ sub Data {
         # Template: AgentTicketPlain
         'Email Text Plain View' => '',
         'Plain' => 'Pelkkä teksti',
-        'Download this email' => '',
+        'Download this email' => 'Lataa tämä sähköposti',
 
         # Template: AgentTicketPrint
         'Ticket-Info' => 'Tikettitieto',
@@ -2094,27 +2094,27 @@ sub Data {
 
         # Template: AgentTicketSearch
         'Search template' => 'Hakupohja',
-        'Create Template' => '',
-        'Create New' => '',
+        'Create Template' => 'Luo pohja',
+        'Create New' => 'Luo uusi',
         'Profile link' => '',
-        'Save changes in template' => '',
-        'Add another attribute' => '',
+        'Save changes in template' => 'Tallenna muutokset pohjaan',
+        'Add another attribute' => 'Lisää haku',
         'Output' => 'Vastausmuoto',
         'Fulltext' => 'Kokosana',
-        'Remove' => '',
+        'Remove' => 'Poista',
         'Customer User Login' => 'Asiakkaan kirjautumistunnus',
         'Created in Queue' => 'Luotu jonossa',
-        'Lock state' => '',
-        'Watcher' => '',
-        'Article Create Time (before/after)' => '',
-        'Article Create Time (between)' => '',
-        'Ticket Create Time (before/after)' => '',
-        'Ticket Create Time (between)' => '',
-        'Ticket Change Time (before/after)' => '',
-        'Ticket Change Time (between)' => '',
-        'Ticket Close Time (before/after)' => '',
-        'Ticket Close Time (between)' => '',
-        'Archive Search' => '',
+        'Lock state' => 'Lukitustila',
+        'Watcher' => 'Seuraaja',
+        'Article Create Time (before/after)' => 'Artikkeli luotu (ennen/jälkeen)',
+        'Article Create Time (between)' => 'Artikkeli luotu (välillä)',
+        'Ticket Create Time (before/after)' => 'Tiketti luotu (ennen/jälkeen)',
+        'Ticket Create Time (between)' => 'Tiketti luotu (välillä)',
+        'Ticket Change Time (before/after)' => 'Tikettiä muokattu (ennen/jälkeen)',
+        'Ticket Change Time (between)' => 'Tikettiä muokattu (välillä)',
+        'Ticket Close Time (before/after)' => 'Tiketti suljettu (ennen/jälkeen)',
+        'Ticket Close Time (between)' => 'Tiketti suljettu (välillä)',
+        'Archive Search' => 'Arkistohaku',
         'Run search' => '',
 
         # Template: AgentTicketSearchOpenSearchDescriptionFulltext
@@ -2124,26 +2124,26 @@ sub Data {
         # Template: AgentTicketSearchResultPrint
 
         # Template: AgentTicketZoom
-        'Article filter' => '',
+        'Article filter' => 'Artikkelisuodatus',
         'Article Type' => '',
         'Sender Type' => '',
         'Save filter settings as default' => '',
-        'Ticket Information' => '',
-        'Linked Objects' => '',
-        'Article(s)' => '',
-        'Change Queue' => '',
-        'Article Filter' => '',
-        'Add Filter' => '',
+        'Ticket Information' => 'Tiketin tiedot',
+        'Linked Objects' => 'Aiheeseen liittyvät',
+        'Article(s)' => 'Artikkelit',
+        'Change Queue' => 'Vaihda jonoa',
+        'Article Filter' => 'Artikkelisuodatin',
+        'Add Filter' => 'Lisää suodatin',
         'Set' => 'Aseta',
-        'Reset Filter' => '',
-        'Show one article' => '',
-        'Show all articles' => '',
-        'Unread articles' => '',
-        'No.' => '',
+        'Reset Filter' => 'Tyhjennä suodatin',
+        'Show one article' => 'Näytä yksi artikkeli',
+        'Show all articles' => 'Näytä kaikki artikkelit',
+        'Unread articles' => 'Lukemattomat artikkelit',
+        'No.' => 'Nro.',
         'Unread Article!' => '',
-        'Incoming message' => '',
-        'Outgoing message' => '',
-        'Internal message' => '',
+        'Incoming message' => 'Saapunut viesti',
+        'Outgoing message' => 'Lähetetty viesti',
+        'Internal message' => 'Sisäinen viesto',
         'Resize' => '',
 
         # Template: AttachmentBlocker
@@ -2160,37 +2160,37 @@ sub Data {
 
         # Template: CustomerFooter
         'Powered by' => 'Järjestelmä',
-        'One or more errors occurred!' => '',
-        'Close this dialog' => '',
+        'One or more errors occurred!' => 'Tapahtui yksi tai useampi virhe!',
+        'Close this dialog' => 'Sulje tämä ruutu',
         'Could not open popup window. Please disable any popup blockers for this application.' =>
-            '',
+            'Popup ikkunan avaaminen ei onnistunut. Poista popup esti tältä sivustolta.',
 
         # Template: CustomerHeader
 
         # Template: CustomerLogin
         'Login' => 'Käyttäjätunnus',
-        'User name' => '',
-        'Your user name' => '',
-        'Your password' => '',
-        'Forgot password?' => '',
-        'Log In' => '',
-        'Not yet registered?' => '',
-        'Sign up now' => '',
+        'User name' => 'Käyttäjänimi',
+        'Your user name' => 'Sinun käyttäjänimi',
+        'Your password' => 'Sinun salasanasi',
+        'Forgot password?' => 'Unohditko salasanasi?',
+        'Log In' => 'Kirjaudu',
+        'Not yet registered?' => 'Etkö ole vielä rekisteröitynyt?',
+        'Sign up now' => 'Luo tunnus nyt',
         'Request new password' => 'Pyydä uutta salasanaa',
-        'Your User Name' => '',
+        'Your User Name' => 'Sinun käyttäjänimi',
         'A new password will be sent to your email address.' => '',
         'Create Account' => 'Luo tunnus',
         'Please fill out this form to receive login credentials.' => '',
         'How we should address you' => '',
-        'Your First Name' => '',
-        'Please supply a first name' => '',
-        'Your Last Name' => '',
-        'Please supply a last name' => '',
+        'Your First Name' => 'Etunimesi',
+        'Please supply a first name' => 'Ole hyvä ja anna etunimesi',
+        'Your Last Name' => 'Sukunimesi',
+        'Please supply a last name' => 'Ole hyvä ja anna sukunimesi',
         'Your email address (this will become your username)' => '',
-        'Please supply a' => '',
+        'Please supply a' => 'Ole hyvä ja kirjoita',
 
         # Template: CustomerNavigationBar
-        'Edit personal preferences' => '',
+        'Edit personal preferences' => 'Muokkaa henkilökohtaisia asetuksia',
         'Logout %s' => '',
 
         # Template: CustomerPreferences
@@ -2198,7 +2198,7 @@ sub Data {
         # Template: CustomerRichTextEditor
 
         # Template: CustomerTicketMessage
-        'Service level agreement' => '',
+        'Service level agreement' => 'Palvelutasosopimus',
 
         # Template: CustomerTicketOverview
         'Welcome!' => '',
@@ -2210,22 +2210,22 @@ sub Data {
 
         # Template: CustomerTicketSearch
         'Profile' => 'Profiili',
-        'e. g. 10*5155 or 105658*' => '',
-        'Customer ID' => '',
-        'Fulltext search in tickets (e. g. "John*n" or "Will*")' => '',
-        'Recipient' => '',
-        'Carbon Copy' => '',
-        'Time restrictions' => '',
+        'e. g. 10*5155 or 105658*' => 'esim. 10*5155 tai 10568*',
+        'Customer ID' => 'AsiakasID',
+        'Fulltext search in tickets (e. g. "John*n" or "Will*")' => 'Kokosanahaku tiketeistä (esim. "Mei*nen" tai "Matti*"',
+        'Recipient' => 'Vastaanottaja',
+        'Carbon Copy' => 'Kopio',
+        'Time restrictions' => 'Aikarajoitus',
         'No time settings' => '',
-        'Only tickets created' => '',
-        'Only tickets created between' => '',
+        'Only tickets created' => 'Vain tiketit luotu',
+        'Only tickets created between' => 'Vain tiketit luotu välillä',
         'Ticket archive system' => '',
         'Save search as template?' => '',
-        'Save as Template?' => '',
+        'Save as Template?' => 'Tallenna pohjaksi?',
         'Save as Template' => '',
-        'Template Name' => '',
+        'Template Name' => 'Pohjan nimi',
         'Pick a profile name' => '',
-        'Output to' => '',
+        'Output to' => 'Tulokset',
 
         # Template: CustomerTicketSearchOpenSearchDescription
 
@@ -2234,50 +2234,50 @@ sub Data {
         # Template: CustomerTicketSearchResultShort
         'of' => '/',
         'Page' => 'Sivu',
-        'Search Results for' => '',
+        'Search Results for' => 'Hakutulokset',
         '","18' => '',
 
         # Template: CustomerTicketZoom
         'Expand article' => '',
-        'Reply' => '',
+        'Reply' => 'Vastaus',
 
         # Template: CustomerWarning
 
         # Template: Datepicker
-        'Invalid date (need a future date)!' => '',
-        'Previous' => '',
-        'Sunday' => '',
-        'Monday' => '',
-        'Tuesday' => '',
-        'Wednesday' => '',
-        'Thursday' => '',
-        'Friday' => '',
-        'Saturday' => '',
-        'Su' => '',
-        'Mo' => '',
-        'Tu' => '',
-        'We' => '',
-        'Th' => '',
-        'Fr' => '',
-        'Sa' => '',
-        'Open date selection' => '',
+        'Invalid date (need a future date)!' => 'Virheellinen päiväys (päiväys oltava tulevaisuudessa)!',
+        'Previous' => 'Edellinen',
+        'Sunday' => 'Sunnuntai',
+        'Monday' => 'Maanantai',
+        'Tuesday' => 'Tiistai',
+        'Wednesday' => 'Keskiviikko',
+        'Thursday' => 'Torstai',
+        'Friday' => 'Perjantai',
+        'Saturday' => 'Lauantai',
+        'Su' => 'Su',
+        'Mo' => 'Ma',
+        'Tu' => 'Ti',
+        'We' => 'Ke',
+        'Th' => 'To',
+        'Fr' => 'Pe',
+        'Sa' => 'La',
+        'Open date selection' => 'Avaa päivän valitsin',
 
         # Template: Error
-        'Oops! An Error occurred.' => '',
-        'Error Message' => '',
-        'You can' => '',
-        'Send a bugreport' => '',
-        'go back to the previous page' => '',
-        'Error Details' => '',
+        'Oops! An Error occurred.' => 'Hups! Tapahtui virhe.',
+        'Error Message' => 'Vikailmoitus',
+        'You can' => 'Voit',
+        'Send a bugreport' => 'Lähetä bugiraportti',
+        'go back to the previous page' => 'palata edelliselle sivulle',
+        'Error Details' => 'Virheen tarkemmat tiedot',
 
         # Template: Footer
-        'Top of page' => '',
+        'Top of page' => 'Sivun alkuun',
 
         # Template: FooterJS
         'If you now leave this page, all open popup windows will be closed, too!' =>
-            '',
+            'Jos poistut tältä sivulta kaikki popup ikkunatkin suljetaan!',
         'A popup of this screen is already open. Do you want to close it and load this one instead?' =>
-            '',
+            'Popupikkuna on jo avattu. Haluatko varmasti sulkea sen ja avata tämän tilalle?',
         'Please enter at least one search value or * to find anything.' =>
             '',
 
@@ -2288,22 +2288,22 @@ sub Data {
         # Template: HTMLHeadBlockEvents
 
         # Template: Header
-        'You are logged in as' => '',
+        'You are logged in as' => 'Olet kirjautunut käyttäjänä',
 
         # Template: HeaderSmall
 
         # Template: Installer
-        'JavaScript not available' => '',
+        'JavaScript not available' => 'JavaScript ei toiminnassa',
         'In order to experience OTRS, you\'ll need to enable JavaScript in your browser.' =>
-            '',
-        'Database Settings' => '',
+            'Jotta voisit käyttää OTRS-järjestelmää tulee selaimesi tukea JavaScriptiä.',
+        'Database Settings' => 'Tietokanta-asetukset',
         'General Specifications and Mail Settings' => '',
         'Registration' => '',
-        'Welcome to %s' => 'Tervetuloa käyttämään %s',
-        'Web site' => '',
-        'Database check successful.' => '',
-        'Mail check successful.' => '',
-        'Error in the mail settings. Please correct and try again.' => '',
+        'Welcome to %s' => 'Tervetuloa %s järjestelmään',
+        'Web site' => 'Kotisivu',
+        'Database check successful.' => 'Tietokannan tarkistus onnistunut.',
+        'Mail check successful.' => 'Sähköpostin tarkastus onnistunut.',
+        'Error in the mail settings. Please correct and try again.' => 'Virhe sähköpostiasetuksissa. Tarkista asetukset ja kokeile uudestaan.',
 
         # Template: InstallerConfigureMail
         'Configure Outbound Mail' => '',
@@ -2311,9 +2311,9 @@ sub Data {
         'Select outbound mail type.' => '',
         'Outbound mail port' => '',
         'Select outbound mail port.' => '',
-        'SMTP host' => '',
-        'SMTP host.' => '',
-        'SMTP authentication' => '',
+        'SMTP host' => 'SMTP palvelin',
+        'SMTP host.' => 'SMTP palvelin.',
+        'SMTP authentication' => 'SMTP tunnistautuminen',
         'Does your SMTP host need authentication?' => '',
         'SMTP auth user' => '',
         'Username for SMTP auth.' => '',
@@ -2335,22 +2335,22 @@ sub Data {
             '',
 
         # Template: InstallerDBResult
-        'False' => '',
+        'False' => 'Virhe',
 
         # Template: InstallerDBStart
         'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
             '',
-        'Currently only MySQL is supported in the web installer.' => '',
+        'Currently only MySQL is supported in the web installer.' => 'Voit asentaa järjestelmän web näkymästä vain MySQL-tietokantaan.',
         'If you want to install OTRS on another database type, please refer to the file README.database.' =>
-            '',
+            'Jos haluat käyttää jotain muuta tietokantatyyppiä tutustu README.database-tiedostoon.',
         'Database-User' => 'Tietokantakäyttäjä',
         'New' => 'Uusi',
         'A new database user with limited rights will be created for this OTRS system.' =>
             '',
         'default \'hot\'' => 'oletuspalvelin',
         'DB--- host' => '',
-        'Check database settings' => '',
-        'Result of database check' => '',
+        'Check database settings' => 'Tarkista tietokanta-asetukset',
+        'Result of database check' => 'Tietokannan tarkistuksen tulos',
 
         # Template: InstallerFinish
         'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' =>
@@ -2375,59 +2375,59 @@ sub Data {
         # Template: InstallerSystem
         'SystemID' => 'JärjestelmäID',
         'The identifier of the system. Each ticket number and each HTTP session ID contain this number.' =>
-            '',
+            'Järjestelmän tunniste. Tunniste lisätään tiketin numeroon sekä HTTP istunnon tunnisteeseen.',
         'System FQDN' => 'Järjestelmän isäntänimi',
         'Fully qualified domain name of your system.' => '',
         'AdminEmail' => 'Ylläpidon sähköposti',
-        'Email address of the system administrator.' => '',
+        'Email address of the system administrator.' => 'Järjestelmän ylläpitäjän sähköpostiosoite.',
         'Log' => 'Loki',
         'LogModule' => 'LokiModuuli',
-        'Log backend to use.' => '',
-        'LogFile' => '',
+        'Log backend to use.' => 'Käytettävä logijärjestelmä.',
+        'LogFile' => 'Logitiedosto',
         'Log file location is only needed for File-LogModule!' => '',
         'Webfrontend' => 'Webnäkymä',
-        'Default language' => '',
-        'Default language.' => '',
-        'CheckMXRecord' => 'TarkastaMXTieto',
+        'Default language' => 'Oletuskieli',
+        'Default language.' => 'Oletuskieli.',
+        'CheckMXRecord' => 'TarkastaMXTietue',
         'Email addresses that are manually entered are checked against the MX records found in DNS. Don\'t use this option if your DNS is slow or does not resolve public addresses.' =>
             '',
 
         # Template: LinkObject
-        'Object#' => '',
-        'Add links' => '',
-        'Delete links' => '',
+        'Object#' => 'Objekti#',
+        'Add links' => 'Lisää linkkejä',
+        'Delete links' => 'Poista linkkejä',
 
         # Template: Login
-        'JavaScript Not Available' => '',
-        'Browser Warning' => '',
-        'The browser you are using is too old.' => '',
+        'JavaScript Not Available' => 'JavaScript ei saatavilla',
+        'Browser Warning' => 'Selainvirhe',
+        'The browser you are using is too old.' => 'Käyttämäsi selain on liian vanha.',
         'OTRS runs with a huge lists of browsers, please upgrade to one of these.' =>
-            '',
+            'OTRS toimii usealla eri selaimella, ole hyvä ja päivitä tuettuun selaimeen.',
         'Please see the documentation or ask your admin for further information.' =>
-            '',
+            'Ole hyvä ja tutustu ohjeisiin tai kysy lisätietoa järjestelmätuestasi.',
         'Lost your password?' => 'Unohditko salasanan?',
-        'Request New Password' => '',
-        'Back to login' => '',
+        'Request New Password' => 'Pyydä uusi salasana',
+        'Back to login' => 'Takaisin kirjautumiseen',
 
         # Template: Motd
-        'Message of the Day' => '',
+        'Message of the Day' => 'Päivän viesti',
 
         # Template: NoPermission
-        'Insufficient Rights' => '',
-        'Back to the previous page' => '',
+        'Insufficient Rights' => 'Ei riittäviä oikeuksia',
+        'Back to the previous page' => 'Takaisin edelliselle sivulle',
 
         # Template: Notify
 
         # Template: Pagination
-        'Show first page' => '',
-        'Show previous pages' => '',
-        'Show page %s' => '',
-        'Show next pages' => '',
-        'Show last page' => '',
+        'Show first page' => 'Näytä ensimmäinen sivu',
+        'Show previous pages' => 'Näytä edellinen sivu',
+        'Show page %s' => 'Näytä sivu %s',
+        'Show next pages' => 'Näytä seuraava sivu',
+        'Show last page' => 'Näytä viimeinen sivu',
 
         # Template: PictureUpload
-        'Need FormID!' => '',
-        'No file found!' => '',
+        'Need FormID!' => 'Tarvitaan FormID!',
+        'No file found!' => 'Tiedostoa ei löytynyt!',
         'The file is not an image that can be shown inline!' => '',
 
         # Template: PrintFooter
@@ -2450,7 +2450,7 @@ sub Data {
         'Counter' => 'Laskuri',
 
         # Template: Warning
-        'Go back to the previous page' => '',
+        'Go back to the previous page' => 'Mene takaisin edelliselle sivulle',
 
         # SysConfig
         'ACL module that allows closing parent tickets only if all its children are already closed ("State" shows which states are not available for the parent ticket until all child tickets are closed).' =>
@@ -2549,7 +2549,7 @@ sub Data {
         'Allows to set a new ticket state in the move ticket screen of the agent interface.' =>
             '',
         'Attachments <-> Responses' => 'Liitteet <-> Vastaukset',
-        'Auto Responses <-> Queues' => '',
+        'Auto Responses <-> Queues' => 'Autom. vastaukset <-> Jonot',
         'Automated line break in text messages after x number of chars.' =>
             '',
         'Automatically lock and set owner to current Agent after selecting for an Bulk Action.' =>
@@ -2570,8 +2570,8 @@ sub Data {
         'Cache time in seconds for customer authentication in the GenericInterface.' =>
             '',
         'Cache time in seconds for the web service config backend.' => '',
-        'Change password' => '',
-        'Change queue!' => '',
+        'Change password' => 'Vaihda salasana',
+        'Change queue!' => 'Vaihda jonoa!',
         'Change the customer for this ticket' => '',
         'Change the free fields for this ticket' => '',
         'Change the owner for this ticket' => '',
@@ -2585,8 +2585,8 @@ sub Data {
         'Close this ticket' => '',
         'Closed tickets of customer' => '',
         'Comment for new history entries in the customer interface.' => '',
-        'Companies' => '',
-        'Company Tickets' => '',
+        'Companies' => 'Yritykset',
+        'Company Tickets' => 'Yrityksen tiketit',
         'Company name for the customer web interface. Will also be included in emails as an X-Header.' =>
             '',
         'Configure your own log text for PGP.' => '',
@@ -2617,8 +2617,8 @@ sub Data {
         'Create and manage ticket states.' => '',
         'Create and manage ticket types.' => '',
         'Create and manage web services.' => '',
-        'Create new email ticket and send this out (outbound)' => '',
-        'Create new phone ticket (inbound)' => '',
+        'Create new email ticket and send this out (outbound)' => 'Lisää uusi sähköpostitiketti ja lähetä se (lähtevä)',
+        'Create new phone ticket (inbound)' => 'Lisää uusi puhelintiketti (saapuva)',
         'Custom text for the page shown to customers that have no tickets yet.' =>
             '',
         'Customer item (icon) which shows the closed tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
@@ -2730,8 +2730,6 @@ sub Data {
         'Defines scheduler PID update time in seconds (floating point number).' =>
             '',
         'Defines scheduler sleep time in seconds after processing all available tasks (floating point number).' =>
-            '',
-        'Defines the =hHeight for the rich text editor component. Enter number (pixels) or percent value (relative).' =>
             '',
         'Defines the IP regular expression for accessing the local repository. You need to enable this to have access to your local repository and the package::RepositoryList is required on the remote host.' =>
             '',
@@ -2937,6 +2935,8 @@ sub Data {
         'Defines the fully qualified domain name of the system. This setting is used as a variable, OTRS_CONFIG_FQDN which is found in all forms of messaging used by the application, to build links to the tickets within your system.' =>
             '',
         'Defines the groups every customer user will be in (if CustomerGroupSupport is enabled and you don\'t want to manage every user for these groups).' =>
+            '',
+        'Defines the height for the rich text editor component. Enter number (pixels) or percent value (relative).' =>
             '',
         'Defines the height of the legend.' => '',
         'Defines the history comment for the close ticket screen action, which gets used for ticket history in the agent interface.' =>
@@ -3300,7 +3300,7 @@ sub Data {
         'Enables ticket responsible feature, to keep track of a specific ticket.' =>
             '',
         'Enables ticket watcher feature only for the listed groups.' => '',
-        'Escalation view' => '',
+        'Escalation view' => 'Eskaloitumisnäkymä',
         'Event list to be displayed on GUI to trigger generic interface invokers.' =>
             '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate). This is only possible if all Ticket dynamic fields need the same event.' =>
@@ -3332,12 +3332,12 @@ sub Data {
             '',
         'Forces to unlock tickets after being moved to another queue.' =>
             '',
-        'Frontend language' => '',
+        'Frontend language' => 'Liittymän kieliasetus',
         'Frontend module registration (disable company link if no company feature is used).' =>
             '',
         'Frontend module registration for the agent interface.' => '',
         'Frontend module registration for the customer interface.' => '',
-        'Frontend theme' => '',
+        'Frontend theme' => 'Liittymän teema',
         'GenericAgent' => '',
         'GenericInterface Debugger GUI' => '',
         'GenericInterface Invoker GUI' => '',
@@ -3577,17 +3577,17 @@ sub Data {
             '',
         'Module to use database filter storage.' => '',
         'Multiselect' => '',
-        'My Tickets' => '',
+        'My Tickets' => 'Omat tiketit',
         'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.' =>
             '',
-        'New email ticket' => '',
-        'New phone ticket' => '',
+        'New email ticket' => 'Uusi sähköpostitiketti',
+        'New phone ticket' => 'Uusi puhelintiketti',
         'Next possible ticket states after adding a phone note in the ticket phone inbound screen of the agent interface.' =>
             '',
         'Next possible ticket states after adding a phone note in the ticket phone outbound screen of the agent interface.' =>
             '',
         'Notifications (Event)' => 'Huomautus (Event)',
-        'Number of displayed tickets' => '',
+        'Number of displayed tickets' => 'Näytettyjen tikettien määrä',
         'Number of lines (per ticket) that are shown by the search utility in the agent interface.' =>
             '',
         'Number of tickets to be displayed in each page of a search result in the agent interface.' =>
@@ -3661,9 +3661,9 @@ sub Data {
         'Print this ticket' => '',
         'Protection against CSRF (Cross Site Request Forgery) exploits (for more info see http://en.wikipedia.org/wiki/Cross-site_request_forgery).' =>
             '',
-        'Queue view' => '',
+        'Queue view' => 'Jononäkymä',
         'Refresh Overviews after' => '',
-        'Refresh interval' => '',
+        'Refresh interval' => 'Päivitysväli',
         'Replaces the original sender with current customer\'s email address on compose answer in the ticket compose screen of the agent interface.' =>
             '',
         'Required permissions to change the customer of a ticket in the agent interface.' =>
@@ -4110,8 +4110,8 @@ sub Data {
             '',
         'Starts a wildcard search of the active object after the link object mask is started.' =>
             '',
-        'Statistics' => '',
-        'Status view' => '',
+        'Statistics' => 'Tilastot',
+        'Status view' => 'Tilanäkymä',
         'Stores cookies after the browser has been closed.' => '',
         'Strips empty lines on the ticket preview in the queue view.' => '',
         'Textarea' => '',
@@ -4146,7 +4146,7 @@ sub Data {
             '',
         'Ticket event module that triggers the escalation stop events.' =>
             '',
-        'Ticket overview' => '',
+        'Ticket overview' => 'Tiketin yleisnäkymä',
         'Tickets' => 'Tiketit',
         'Time in seconds that gets added to the actual time if setting a pending-state (default: 86400 = 1 day).' =>
             '',
@@ -4155,7 +4155,7 @@ sub Data {
             '',
         'Turns on the remote ip address check. It should be set to "No" if the application is used, for example, via a proxy farm or a dialup connection, because the remote ip address is mostly different for the requests.' =>
             '',
-        'Types' => '',
+        'Types' => 'Tyypit',
         'Update Ticket "Seen" flag if every article got seen or a new Article got created.' =>
             '',
         'Update and extend your system with software packages.' => '',
@@ -4174,9 +4174,9 @@ sub Data {
             '',
         'When tickets are merged, the customer can be informed per email by setting the check box "Inform Sender". In this text area, you can define a pre-formatted text which can later be modified by the agents.' =>
             '',
-        'Your language' => '',
+        'Your language' => 'Kielesi',
         'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' =>
-            'Suosikkijonojen valinta. Saat sähköpostiilmoituksen näihin jonoihin saapuneista tiketeistä, jos niin asetettu.',
+            '',
 
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
@@ -4262,7 +4262,8 @@ sub Data {
         'Change owner of ticket' => 'Muuta tämän tiketin omistajaa',
         'Change priority of ticket' => 'Muuta prioriteettiä',
         'Change responsible of ticket' => 'Vaihda tiketistä vastaavan tieto',
-        'Change user <-> group settings' => 'Vaihda käyttäjä <-> Ryhmähallinta',
+        'Change the ticket responsible!' => 'Vaihda tiketistä vastaava!',
+        'Change user <-> group settings' => 'Vaihda käyttäjä <-> Ryhmäasetuksia',
         'ChangeLog' => 'Muutokset',
         'Child-Object' => 'Alempi',
         'Clear From' => 'Puhdista Lähettäjä',
@@ -4287,6 +4288,8 @@ sub Data {
         'Create new Phone Ticket' => 'Luo uusi puhelintiketti',
         'Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...).' =>
             'Lisää uusi käyttäjäryhmä voidaksesi määritellä käyttöoikeuksia useammille eri tukiryhmille (Huolto, Ostot, Markkinointi jne.)',
+        'Create your first Ticket' => 'Lisää ensimmäinen tikettisi',
+        'Current Password' => 'Nykyinen salasana',
         'Customer Move Notify' => 'Siirto ilmoitukset asiakkaalle',
         'Customer Owner Notify' => 'Omistajan muutokset asiakkaalle',
         'Customer State Notify' => 'Tilailmoitukset asiakkaalle',
@@ -4325,20 +4328,22 @@ sub Data {
         'Dynamic-Object' => 'Dynaaminen-Objekti',
         'Edit Article' => 'Muokkaa artikkelia',
         'Edit default services.' => 'Muokkaa oletuspalveluita.',
-        'Escalation - First Response Time' => 'Käsittely - ensimmäinen vastaus',
-        'Escalation - Solution Time' => 'Käsittely - Ratkaisuaika',
-        'Escalation - Update Time' => 'Käsittely - Päivitysaika',
-        'Escalation time' => 'Maksimi käsittelyaika',
+        'Escalation - First Response Time' => 'Eskaloituminen - ensimmäinen vastausaikaraja',
+        'Escalation - Solution Time' => 'Eskaloituminen - Ratkaisuaikaraja',
+        'Escalation - Update Time' => 'Eskaloituminen - Päivitysaikaraja',
+        'Escalation time' => 'Eskaloitumisaikaraja',
         'Expand View' => 'Laajenna näkymä',
         'Explanation' => 'Selitys',
         'Export Config' => 'Vie asetukset',
         'FileManager' => 'Tiedostohallinta',
         'Filelist' => 'Tiedostot',
+        'Filter for Language' => 'Suodata kielelle',
         'Filtername' => 'Suodattimen nimi',
         'Follow up' => 'Vastaukset',
         'Follow up notification' => 'Ilmoitus jatkokysymyksistä',
         'For very complex stats it is possible to include a hardcoded file.' =>
             'Monimutkaisissa tilastointimäärityksissä on mahdollista käyttää erillistä tiedostoa.',
+        'Forward ticket: ' => 'Välitä tiketti:',
         'Frontend' => 'Käyttöliittymä',
         'Fulltext-Search in Article (e. g. "Mar*in" or "Baue*")' => 'Kokosanahaku artikkeleista (esim. "Mar*ku tai "Penti*")',
         'Go' => 'SUORITA',
@@ -4347,6 +4352,7 @@ sub Data {
         'Have a lot of fun!' => 'Pidä hauskaa!',
         'Here you can insert a description of the stat.' => 'Voit lisätä tähän kuvaus tilastolle.',
         'Here you can select the dynamic object you want to use.' => 'Tässä voit valita käytettävän dynaamisen objektin.',
+        'History::TicketFreeTextUpdate' => 'Päivitetty: %s=%s;%s=%s;',
         'Home' => 'Etusivu',
         'IMAPS' => 'IMAPS',
         'If a new hardcoded file is available this attribute will be shown and you can select one.' =>
@@ -4388,6 +4394,7 @@ sub Data {
         'Mailbox' => 'Saapuneet',
         'Management Summary' => 'Hallinnan yhteenveto',
         'Match' => 'Asetukset',
+        'Max. shown Tickets a page' => 'Näytä max. tikettiä sivulla',
         'Message for new Owner' => 'Viesti uudelle omistajalle',
         'Message sent to' => 'Viesti lähetetty, vastaanottaja: ',
         'Misc' => 'Muut',
@@ -4479,6 +4486,7 @@ sub Data {
         'Problem' => 'Ongelma',
         'Queue <-> Auto Responses Management' => 'Jono <-> Autom. vastaustenhallinta',
         'Queue Management' => 'Jonotuslistojen hallinta',
+        'QueueView Refresh Time' => 'Jononäkymän päivitysväli',
         'Queues <-> Auto Responses' => 'Jono <-> Autom. vastaukset',
         'Realname' => 'Nimi',
         'Rebuild' => 'Rakenna uudelleen',
@@ -4494,11 +4502,13 @@ sub Data {
         'Roles <-> Groups Management' => 'Roolit <-> Ryhmienhallinta',
         'Roles <-> Users' => 'Roolit <-> Käyttäjät',
         'Roles <-> Users Management' => 'Rooli <-> Käyttäjähallinta',
+        'Run Search' => 'Suorita haku',
         'Save Job as?' => 'Tallenna nimellä',
         'Save Search-Profile as Template?' => 'Tallenna haku pohjaksi?',
         'Schedule' => 'Aikataulu',
         'Search Result' => 'Hakutulos',
         'Search for' => 'Etsi',
+        'Search-Profile as Template?' => 'Hakuprofiili pohjaksi?',
         'Select Box' => 'Suodatus',
         'Select Box Result' => 'Suodatustuloksia',
         'Select Source (for add)' => 'Lisää lähde (lisäykselle)',
@@ -4514,6 +4524,7 @@ sub Data {
         'Select your frontend language.' => 'Valitse käyttöliittymän kieli.',
         'Select your screen after creating a new ticket.' => 'Valitse näkymä uuden tiketin luonnin jälkeen.',
         'Selection needed' => 'Valinta pakollinen',
+        'Send Administrative Message to Agents' => 'Lähetä viesti ylläpidolta agenteille',
         'Send Notification' => 'Lähetä huomautus',
         'Send me a notification if a customer sends a follow up and I\'m the owner of this ticket.' =>
             'Lähetä ilmoitus jatkokysymyksistä, jos olen kyseisen tiketin omistaja',
@@ -4541,6 +4552,8 @@ sub Data {
         'Systemaddress' => 'Järjestelmän osoite',
         'Take care that you also updated the default states in you Kernel/Config.pm!' =>
             'Muista päivittää oletusstatukset myös Kernel/Config.pm tiedostoon!',
+        'The Ticket was locked' => 'Tiketti lukittiin',
+        'The User Name you wish to have' => 'Minkä käyttäjätunnuksen haluat',
         'The message being composed has been closed.  Exiting.' => 'Kirjoittamasi viesti on suljettu.  Poistutaan.',
         'These values are read-only.' => 'Tämä kenttä on lukutyyppinen',
         'These values are required.' => 'Pakollinen tieto.',
@@ -4568,6 +4581,12 @@ sub Data {
         'TicketID' => 'TikettiID',
         'Tickets available' => 'Tikettejä avoinna',
         'Tickets shown' => 'Näkyvissä tiketit',
+        'Time1' => 'Aika1',
+        'Time2' => 'Aika2',
+        'Time3' => 'Aika3',
+        'Time4' => 'Aika4',
+        'Time5' => 'Aika5',
+        'Time6' => 'Aika6',
         'Timeover' => 'Vanhentuu',
         'Times' => 'Ajat',
         'Title of the stat.' => 'Tilaston otsikko.',
@@ -4599,6 +4618,7 @@ sub Data {
             'Kyllä tarkoittaa, älä lähetä agentille ja asiakkaalle ilmoitusta muutoksista.',
         'Yes, save it with name' => 'Kyllä, tallenna nimellä',
         'You got new message!' => 'Sinulla on uusi viesti!',
+        'You have not created a ticket yet.' => 'Et ole vielä luonut tikettiä.',
         'You have to select two or more attributes from the select field!' =>
             'Sinun tulee valita yksi tai useampi arvo valintakentässä!',
         'You need a email address (e. g. customer@example.com) in To:!' =>
