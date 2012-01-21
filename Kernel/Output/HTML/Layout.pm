@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.378 2012-01-11 15:43:07 sb Exp $
+# $Id: Layout.pm,v 1.379 2012-01-21 20:32:52 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Mail::Address;
 use URI::Escape qw();
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.378 $) [1];
+$VERSION = qw($Revision: 1.379 $) [1];
 
 =head1 NAME
 
@@ -4170,7 +4170,7 @@ sub _Output {
     # remove empty blocks and block preferences
     if ( $Param{BlockReplace} ) {
         my @TemplateBlocks = split '<!-- dtl:place_block:', $TemplateString;
-        $TemplateString = shift @TemplateBlocks;
+        $TemplateString = shift @TemplateBlocks || '';
         for my $TemplateBlock (@TemplateBlocks) {
             $TemplateBlock =~ s{ \A .+? [ ] --> }{}xms;
             $TemplateString .= $TemplateBlock;
@@ -4905,6 +4905,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.378 $ $Date: 2012-01-11 15:43:07 $
+$Revision: 1.379 $ $Date: 2012-01-21 20:32:52 $
 
 =cut
