@@ -1,8 +1,8 @@
 // --
 // Core.Agent.TicketAction.js - provides functions for all ticket action popups
-// Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+// Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.TicketAction.js,v 1.12 2011-11-10 08:55:39 mab Exp $
+// $Id: Core.Agent.TicketAction.js,v 1.13 2012-01-23 11:38:33 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -117,19 +117,44 @@ Core.Agent.TicketAction = (function (TargetNS) {
         // Register Apply button event
         $('#Apply').bind('click', function (Event) {
             // Update ticket action popup fields
-            var $To = $('#ToCustomer', parent.document),
-                $Cc = $('#CcCustomer', parent.document),
-                $Bcc = $('#BccCustomer', parent.document);
-
-            $To.val($('#ToCustomer').val());
-            $Cc.val($('#CcCustomer').val());
-            $Bcc.val($('#BccCustomer').val());
+            var $To, $Cc, $Bcc;
 
             // Because we are in an iframe, we need to call the parent frames javascript function
             // with a jQuery object which is in the parent frames context
-            parent.Core.Agent.CustomerSearch.AddTicketCustomer( 'ToCustomer', $('#ToCustomer').val() );
-            parent.Core.Agent.CustomerSearch.AddTicketCustomer( 'CcCustomer', $('#CcCustomer').val() );
-            parent.Core.Agent.CustomerSearch.AddTicketCustomer( 'BccCustomer', $('#BccCustomer').val() );
+
+            // check if the multi selection feature is present
+            if ($('#CustomerAutoComplete', parent.document).length) {
+                // no multi select (AgentTicketForward)
+                $To = $('#CustomerAutoComplete', parent.document),
+                $Cc = $('#Cc', parent.document),
+                $Bcc = $('#Bcc', parent.document);
+
+                $To.val($('#ToCustomer').val());
+                $Cc.val($('#CcCustomer').val());
+                $Bcc.val($('#BccCustomer').val());
+            }
+            else {
+                // multi select is present
+                $To = $('#ToCustomer', parent.document),
+                $Cc = $('#CcCustomer', parent.document),
+                $Bcc = $('#BccCustomer', parent.document);
+
+                $.each($('#ToCustomer').val().split(/, ?/), function(Index, Value){
+                    $To.val(Value);
+                    parent.Core.Agent.CustomerSearch.AddTicketCustomer( 'ToCustomer', Value );
+                });
+
+                $.each($('#CcCustomer').val().split(/, ?/), function(Index, Value){
+                    $Cc.val(Value);
+                    parent.Core.Agent.CustomerSearch.AddTicketCustomer( 'CcCustomer', Value );
+                });
+
+                $.each($('#BccCustomer').val().split(/, ?/), function(Index, Value){
+                    $Bcc.val(Value);
+                    parent.Core.Agent.CustomerSearch.AddTicketCustomer( 'BccCustomer', Value );
+                });
+            }
+
             parent.Core.UI.Dialog.CloseDialog($('.Dialog', parent.document));
         });
 
