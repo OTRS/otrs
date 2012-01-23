@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Web/InterfaceAgent.pm - the agent interface file (incl. auth)
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: InterfaceAgent.pm,v 1.63 2011-12-21 12:39:48 mg Exp $
+# $Id: InterfaceAgent.pm,v 1.64 2012-01-23 15:12:16 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION @INC);
-$VERSION = qw($Revision: 1.63 $) [1];
+$VERSION = qw($Revision: 1.64 $) [1];
 
 # all framework needed modules
 use Kernel::Config;
@@ -307,7 +307,7 @@ sub Run {
             && $LayoutObject->{BrowserJavaScriptSupport}
             )
         {
-            my $TimeOffset = $Self->{ParamObject}->GetParam( Param => 'TimeOffset' ) || '';
+            my $TimeOffset = $Self->{ParamObject}->GetParam( Param => 'TimeOffset' ) || 0;
             if ( $TimeOffset > 0 ) {
                 $TimeOffset = '-' . ( $TimeOffset / 60 );
             }
@@ -938,6 +938,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.63 $ $Date: 2011-12-21 12:39:48 $
+$Revision: 1.64 $ $Date: 2012-01-23 15:12:16 $
 
 =cut

@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Web/InterfaceCustomer.pm - the customer interface file (incl. auth)
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: InterfaceCustomer.pm,v 1.62 2011-11-21 10:29:13 mg Exp $
+# $Id: InterfaceCustomer.pm,v 1.63 2012-01-23 15:12:17 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION @INC);
-$VERSION = qw($Revision: 1.62 $) [1];
+$VERSION = qw($Revision: 1.63 $) [1];
 
 # all framework needed modules
 use Kernel::Config;
@@ -310,7 +310,7 @@ sub Run {
             && $LayoutObject->{BrowserJavaScriptSupport}
             )
         {
-            my $TimeOffset = $Self->{ParamObject}->GetParam( Param => 'TimeOffset' ) || '';
+            my $TimeOffset = $Self->{ParamObject}->GetParam( Param => 'TimeOffset' ) || 0;
             if ( $TimeOffset > 0 ) {
                 $TimeOffset = '-' . ( $TimeOffset / 60 );
             }
@@ -1067,6 +1067,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.62 $ $Date: 2011-11-21 10:29:13 $
+$Revision: 1.63 $ $Date: 2012-01-23 15:12:17 $
 
 =cut

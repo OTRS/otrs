@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2146 2012-01-23 13:10:57 mg Exp $
+# $Id: CHANGES,v 1.2147 2012-01-23 15:12:17 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.1.0.beta5 ????-??-??
+ - 2012-01-23 Fixed bug#8136 - Browser Time Detection and time zone UTC generates warning in
+    web server error log.
  - 2012-01-23 Fixed bug#8132 - Browser version message misleading when 'compatibility mode'
     is enabled in Internet Explorer.
  - 2012-01-23 Fixed bug#7916 - Address Book doesn't work correctly.
