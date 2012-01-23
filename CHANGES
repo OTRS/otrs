@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2143 2012-01-23 11:03:53 mab Exp $
+# $Id: CHANGES,v 1.2144 2012-01-23 11:42:12 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -151,7 +151,8 @@
  - 2011-11-14 Fixed bug#7879 - Add the option to get mail from a specified IMAP folder.
  - 2011-11-14 Added new 'registration' mask to install process.
  - 2011-11-10 Fixed bug#5863 - Added autocomplete for Cc and Bcc in AgentTicketCompose
- - 2011-11-10 Added autocomplete to AgentBook (addressbook)
+ - 2011-11-10 Fixed AgentBook (addressbook) to cooperate with the new autocomplete handling
+    in the ticket screens.
  - 2011-11-08 Fixed correct validation handling of RTE.
  - 2011-11-07 Fixed spelling mistake in README.
  - 2011-11-04 Removed 'address' and 'div' style formats from CKEditor.
