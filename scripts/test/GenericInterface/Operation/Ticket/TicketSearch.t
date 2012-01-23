@@ -2,7 +2,7 @@
 # TicketSearch.t - GenericInterface transport interface tests for TicketConnector backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketSearch.t,v 1.2 2012-01-11 22:50:07 cg Exp $
+# $Id: TicketSearch.t,v 1.3 2012-01-23 04:41:11 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,69 +14,625 @@ use warnings;
 use utf8;
 use vars (qw($Self));
 
+use MIME::Base64;
+use Kernel::System::User;
 use Kernel::System::Ticket;
+use Kernel::System::DynamicField;
+use Kernel::System::DynamicField::Backend;
 use Kernel::GenericInterface::Debugger;
 use Kernel::GenericInterface::Requester;
 use Kernel::System::GenericInterface::Webservice;
-use Kernel::System::UnitTest::Helper;
 use Kernel::GenericInterface::Operation::Ticket::TicketSearch;
 use Kernel::GenericInterface::Operation::Ticket::SessionIDGet;
 use Kernel::System::VariableCheck qw(:all);
 
-# set UserID to root because in public interface there is no user
-$Self->{UserID} = 1;
+#get a random id
+my $RandomID = int rand 1_000_000_000;
+
+# create local config object
+my $ConfigObject = Kernel::Config->new();
+
+# disable CheckEmailInvalidAddress setting
+$ConfigObject->Set(
+    Key   => 'CheckEmailInvalidAddress',
+    Value => 0,
+);
+
+# new user object
+my $UserObject = Kernel::System::User->new(
+    %{$Self},
+    ConfigObject => $ConfigObject,
+);
+
+# create a new user for current test
+$Self->{UserID} = $UserObject->UserAdd(
+    UserFirstname => 'Test',
+    UserLastname  => 'User',
+    UserLogin     => 'TestUser' . $RandomID,
+    UserPw        => 'some-pass',
+    UserEmail     => 'test' . $RandomID . 'email@example.com',
+    ValidID       => 1,
+    ChangeUserID  => 1,
+);
+
+$Self->True(
+    $Self->{UserID},
+    'User Add ()',
+);
+
+# start DynamicFields
+
+my $DynamicFieldObject = Kernel::System::DynamicField->new(
+    %{$Self},
+    ConfigObject => $ConfigObject,
+);
+
+# create backend object and delegates
+my $BackendObject = Kernel::System::DynamicField::Backend->new(
+    %{$Self},
+    ConfigObject => $ConfigObject,
+);
+$Self->Is(
+    ref $BackendObject,
+    'Kernel::System::DynamicField::Backend',
+    'Backend object was created successfuly',
+);
+
+my @TestDynamicFields;
+
+# create a dynamic field
+my $FieldID1 = $DynamicFieldObject->DynamicFieldAdd(
+    Name       => "DFT1$RandomID",
+    Label      => 'Description',
+    FieldOrder => 9991,
+    FieldType  => 'Text',
+    ObjectType => 'Ticket',
+    Config     => {
+        DefaultValue => 'Default',
+    },
+    ValidID => 1,
+    UserID  => 1,
+    Reorder => 0,
+);
+
+push @TestDynamicFields, $FieldID1;
+
+my $Field1Config = $DynamicFieldObject->DynamicFieldGet(
+    ID => $FieldID1,
+);
+
+# create a dynamic field
+my $FieldID2 = $DynamicFieldObject->DynamicFieldAdd(
+    Name       => "DFT2$RandomID",
+    Label      => 'Description',
+    FieldOrder => 9992,
+    FieldType  => 'Dropdown',
+    ObjectType => 'Ticket',
+    Config     => {
+        DefaultValue   => 'Default',
+        PossibleValues => {
+            ticket1_field2 => 'ticket1_field2',
+            ticket2_field2 => 'ticket2_field2',
+        },
+    },
+    ValidID => 1,
+    UserID  => 1,
+    Reorder => 0,
+);
+
+my $Field2Config = $DynamicFieldObject->DynamicFieldGet(
+    ID => $FieldID2,
+);
+
+push @TestDynamicFields, $FieldID2;
+
+# create a dynamic field
+my $FieldID3 = $DynamicFieldObject->DynamicFieldAdd(
+    Name       => "DFT3$RandomID",
+    Label      => 'Description',
+    FieldOrder => 9993,
+    FieldType  => 'DateTime',        # mandatory, selects the DF backend to use for this field
+    ObjectType => 'Ticket',
+    Config     => {
+        DefaultValue => 'Default',
+    },
+    ValidID => 1,
+    UserID  => 1,
+    Reorder => 0,
+);
+
+my $Field3Config = $DynamicFieldObject->DynamicFieldGet(
+    ID => $FieldID3,
+);
+
+push @TestDynamicFields, $FieldID3;
+
+# create a dynamic field
+my $FieldID4 = $DynamicFieldObject->DynamicFieldAdd(
+    Name       => "DFT4$RandomID",
+    Label      => 'Description',
+    FieldOrder => 9993,
+    FieldType  => 'Checkbox',        # mandatory, selects the DF backend to use for this field
+    ObjectType => 'Ticket',
+    Config     => {
+        DefaultValue => 'Default',
+    },
+    ValidID => 1,
+    UserID  => 1,
+    Reorder => 0,
+);
+
+my $Field4Config = $DynamicFieldObject->DynamicFieldGet(
+    ID => $FieldID4,
+);
+
+push @TestDynamicFields, $FieldID4;
+
+# create a dynamic field
+my $FieldID5 = $DynamicFieldObject->DynamicFieldAdd(
+    Name       => "DFT5$RandomID",
+    Label      => 'Description',
+    FieldOrder => 9995,
+    FieldType  => 'Multiselect',     # mandatory, selects the DF backend to use for this field
+    ObjectType => 'Ticket',
+    Config     => {
+        DefaultValue => [ 'ticket2_field5', 'ticket4_field5' ],
+        PossibleValues => {
+            ticket1_field5 => 'ticket1_field51',
+            ticket2_field5 => 'ticket2_field52',
+            ticket3_field5 => 'ticket2_field53',
+            ticket4_field5 => 'ticket2_field54',
+            ticket5_field5 => 'ticket2_field55',
+        },
+    },
+    ValidID => 1,
+    UserID  => 1,
+    Reorder => 0,
+);
+
+my $Field5Config = $DynamicFieldObject->DynamicFieldGet(
+    ID => $FieldID5,
+);
+
+push @TestDynamicFields, $FieldID5;
+
+# finish DynamicFields
 
 # create ticket object
 my $TicketObject = Kernel::System::Ticket->new( %{$Self} );
 
-# create a ticket
-my $TicketID = $TicketObject->TicketCreate(
-    Title        => 'Some Ticket Title',
+# create 3 tickets
+
+#ticket id container
+my @TicketIDs;
+
+# create ticket 1
+my $TicketID1 = $TicketObject->TicketCreate(
+    Title        => 'Ticket One Title',
     Queue        => 'Raw',
     Lock         => 'unlock',
     Priority     => '3 normal',
     State        => 'new',
     CustomerID   => '123465',
-    CustomerUser => 'customer@example.com',
+    CustomerUser => 'customerOne@example.com',
     OwnerID      => 1,
     UserID       => 1,
 );
 
 # sanity check
 $Self->True(
-    $TicketID,
-    "TicketCreate() successful for Ticket ID $TicketID",
+    $TicketID1,
+    "TicketCreate() successful for Ticket One ID $TicketID1",
+);
+
+$BackendObject->ValueSet(
+    DynamicFieldConfig => $Field1Config,
+    ObjectID           => $TicketID1,
+    Value              => 'ticket1_field1',
+    UserID             => 1,
+);
+
+$BackendObject->ValueSet(
+    DynamicFieldConfig => $Field2Config,
+    ObjectID           => $TicketID1,
+    Value              => 'ticket1_field2',
+    UserID             => 1,
+);
+
+$BackendObject->ValueSet(
+    DynamicFieldConfig => $Field3Config,
+    ObjectID           => $TicketID1,
+    Value              => '2001-01-01 01:01:01',
+    UserID             => 1,
+);
+
+$BackendObject->ValueSet(
+    DynamicFieldConfig => $Field4Config,
+    ObjectID           => $TicketID1,
+    Value              => '0',
+    UserID             => 1,
+);
+
+$BackendObject->ValueSet(
+    DynamicFieldConfig => $Field5Config,
+    ObjectID           => $TicketID1,
+    Value              => [ 'ticket1_field51', 'ticket1_field52', 'ticket1_field53' ],
+    UserID             => 1,
 );
 
 # get the Ticket entry
-my %TicketEntry = $TicketObject->TicketSearch(
-    TicketID      => $TicketID,
+# without dynamic fields
+my %TicketEntryOne = $TicketObject->TicketGet(
+    TicketID      => $TicketID1,
     DynamicFields => 0,
     UserID        => $Self->{UserID},
 );
 
 $Self->True(
-    IsHashRefWithData( \%TicketEntry ),
-    "TicketSearch() successful for Local TicketSearch ID $TicketID",
+    IsHashRefWithData( \%TicketEntryOne ),
+    "TicketGet() successful for Local TicketGet One ID $TicketID1",
 );
 
-for my $Key ( keys %TicketEntry ) {
-    if ( !$TicketEntry{$Key} ) {
-        $TicketEntry{$Key} = '';
+for my $Key ( keys %TicketEntryOne ) {
+    if ( !$TicketEntryOne{$Key} ) {
+        $TicketEntryOne{$Key} = '';
     }
     if ( $Key eq 'Age' ) {
-        delete $TicketEntry{$Key};
+        delete $TicketEntryOne{$Key};
     }
 }
 
-# helper object
-my $HelperObject = Kernel::System::UnitTest::Helper->new(
-    %{$Self},
-    UnitTestObject => $Self,
+# get the Ticket entry
+# with dynamic fields
+my %TicketEntryOneDF = $TicketObject->TicketGet(
+    TicketID      => $TicketID1,
+    DynamicFields => 1,
+    UserID        => $Self->{UserID},
 );
 
+$Self->True(
+    IsHashRefWithData( \%TicketEntryOneDF ),
+    "TicketGet() successful with DF for Local TicketGet One ID $TicketID1",
+);
+
+for my $Key ( keys %TicketEntryOneDF ) {
+    if ( !$TicketEntryOneDF{$Key} ) {
+        $TicketEntryOneDF{$Key} = '';
+    }
+    if ( $Key eq 'Age' ) {
+        delete $TicketEntryOneDF{$Key};
+    }
+}
+
+# add ticket id
+push @TicketIDs, $TicketID1;
+
+# create ticket 2
+my $TicketID2 = $TicketObject->TicketCreate(
+    Title        => 'Ticket Two Title',
+    Queue        => 'Raw',
+    Lock         => 'unlock',
+    Priority     => '3 normal',
+    State        => 'new',
+    CustomerID   => '123465',
+    CustomerUser => 'customerTwo@example.com',
+    OwnerID      => 1,
+    UserID       => 1,
+);
+
+# sanity check
+$Self->True(
+    $TicketID2,
+    "TicketCreate() successful for Ticket Two ID $TicketID2",
+);
+
+# set dynamic field values
+$BackendObject->ValueSet(
+    DynamicFieldConfig => $Field1Config,
+    ObjectID           => $TicketID2,
+    Value              => 'ticket2_field1',
+    UserID             => 1,
+);
+
+$BackendObject->ValueSet(
+    DynamicFieldConfig => $Field2Config,
+    ObjectID           => $TicketID2,
+    Value              => 'ticket2_field2',
+    UserID             => 1,
+);
+
+$BackendObject->ValueSet(
+    DynamicFieldConfig => $Field3Config,
+    ObjectID           => $TicketID2,
+    Value              => '2011-11-11 11:11:11',
+    UserID             => 1,
+);
+
+$BackendObject->ValueSet(
+    DynamicFieldConfig => $Field4Config,
+    ObjectID           => $TicketID2,
+    Value              => '1',
+    UserID             => 1,
+);
+
+$BackendObject->ValueSet(
+    DynamicFieldConfig => $Field5Config,
+    ObjectID           => $TicketID2,
+    Value              => [
+        'ticket1_field5',
+        'ticket2_field5',
+        'ticket4_field5',
+    ],
+    UserID => 1,
+);
+
+# get the Ticket entry
+# withpout DF
+my %TicketEntryTwo = $TicketObject->TicketGet(
+    TicketID      => $TicketID2,
+    DynamicFields => 0,
+    UserID        => $Self->{UserID},
+);
+
+$Self->True(
+    IsHashRefWithData( \%TicketEntryTwo ),
+    "TicketGet() successful for Local TicketGet Two ID $TicketID2",
+);
+
+for my $Key ( keys %TicketEntryTwo ) {
+    if ( !$TicketEntryTwo{$Key} ) {
+        $TicketEntryTwo{$Key} = '';
+    }
+    if ( $Key eq 'Age' ) {
+        delete $TicketEntryTwo{$Key};
+    }
+}
+
+# get the Ticket entry
+# with DF
+my %TicketEntryTwoDF = $TicketObject->TicketGet(
+    TicketID      => $TicketID2,
+    DynamicFields => 1,
+    UserID        => $Self->{UserID},
+);
+
+$Self->True(
+    IsHashRefWithData( \%TicketEntryTwoDF ),
+    "TicketGet() successful for Local TicketGet Two ID $TicketID2",
+);
+
+for my $Key ( keys %TicketEntryTwoDF ) {
+    if ( !$TicketEntryTwoDF{$Key} ) {
+        $TicketEntryTwoDF{$Key} = '';
+    }
+    if ( $Key eq 'Age' ) {
+        delete $TicketEntryTwoDF{$Key};
+    }
+}
+
+# add ticket id
+push @TicketIDs, $TicketID2;
+
+# create ticket 3
+my $TicketID3 = $TicketObject->TicketCreate(
+    Title        => 'Ticket Three Title',
+    Queue        => 'Raw',
+    Lock         => 'unlock',
+    Priority     => '3 normal',
+    State        => 'new',
+    CustomerID   => '123465',
+    CustomerUser => 'customerThree@example.com',
+    OwnerID      => 1,
+    UserID       => 1,
+);
+
+# sanity check
+$Self->True(
+    $TicketID3,
+    "TicketCreate() successful for Ticket Three ID $TicketID3",
+);
+
+# get the Ticket entry
+my %TicketEntryThree = $TicketObject->TicketGet(
+    TicketID      => $TicketID3,
+    DynamicFields => 0,
+    UserID        => $Self->{UserID},
+);
+
+$Self->True(
+    IsHashRefWithData( \%TicketEntryThree ),
+    "TicketGet() successful for Local TicketGet Three ID $TicketID3",
+);
+
+for my $Key ( keys %TicketEntryThree ) {
+    if ( !$TicketEntryThree{$Key} ) {
+        $TicketEntryThree{$Key} = '';
+    }
+    if ( $Key eq 'Age' ) {
+        delete $TicketEntryThree{$Key};
+    }
+}
+
+# add ticket id
+push @TicketIDs, $TicketID3;
+
+# create ticket 3
+my $TicketID4 = $TicketObject->TicketCreate(
+    Title        => 'Ticket Four Title äöüßÄÖÜ€ис',
+    Queue        => 'Junk',
+    Lock         => 'lock',
+    Priority     => '3 normal',
+    State        => 'new',
+    CustomerID   => '654321',
+    CustomerUser => 'customerFour@example.com',
+    OwnerID      => 1,
+    UserID       => 1,
+);
+
+# sanity check
+$Self->True(
+    $TicketID4,
+    "TicketCreate() successful for Ticket Four ID $TicketID4",
+);
+
+# first article
+my $ArticleID41 = $TicketObject->ArticleCreate(
+    TicketID       => $TicketID4,
+    ArticleType    => 'phone',
+    SenderType     => 'agent',
+    From           => 'Agent Some Agent Some Agent <email@example.com>',
+    To             => 'Customer A <customer-a@example.com>',
+    Cc             => 'Customer B <customer-b@example.com>',
+    ReplyTo        => 'Customer B <customer-b@example.com>',
+    Subject        => 'first article',
+    Body           => 'A text for the body, Title äöüßÄÖÜ€ис',
+    ContentType    => 'text/plain; charset=ISO-8859-15',
+    HistoryType    => 'OwnerUpdate',
+    HistoryComment => 'first article',
+    UserID         => 1,
+    NoAgentNotify  => 1,
+);
+
+# second article
+my $ArticleID42 = $TicketObject->ArticleCreate(
+    TicketID    => $TicketID4,
+    ArticleType => 'phone',
+    SenderType  => 'agent',
+    From        => 'Anot Real Agent <email@example.com>',
+    To          => 'Customer A <customer-a@example.com>',
+    Cc          => 'Customer B <customer-b@example.com>',
+    ReplyTo     => 'Customer B <customer-b@example.com>',
+    Subject     => 'second article',
+    Body        => 'A text for the body, not too long',
+    ContentType => 'text/plain; charset=ISO-8859-15',
+
+    #    Attachment     => \@Attachments,
+    HistoryType    => 'OwnerUpdate',
+    HistoryComment => 'second article',
+    UserID         => 1,
+    NoAgentNotify  => 1,
+);
+
+# save articles without attachments
+my @ArticleWithoutAttachments = $TicketObject->ArticleGet(
+    TicketID => $TicketID4,
+    UserID   => 1,
+);
+
+for my $Article (@ArticleWithoutAttachments) {
+
+    for my $Key ( keys %{$Article} ) {
+        if ( !$Article->{$Key} ) {
+            $Article->{$Key} = '';
+        }
+        if ( $Key eq 'Age' || $Key eq 'AgeTimeUnix' ) {
+            delete $Article->{$Key};
+        }
+    }
+}
+
+# file checks
+for my $File (qw(xls txt doc png pdf)) {
+    my $Location = $Self->{ConfigObject}->Get('Home')
+        . "/scripts/test/sample/StdAttachment/StdAttachment-Test1.$File";
+
+    my $ContentRef = $Self->{MainObject}->FileRead(
+        Location => $Location,
+        Mode     => 'binmode',
+        Type     => 'Local',
+    );
+
+    my $ArticleWriteAttachment = $TicketObject->ArticleWriteAttachment(
+        Content     => ${$ContentRef},
+        Filename    => "StdAttachment-Test1.$File",
+        ContentType => $File,
+        ArticleID   => $ArticleID42,
+        UserID      => 1,
+    );
+}
+
+# get articles and attachments
+my @ArticleBox = $TicketObject->ArticleGet(
+    TicketID => $TicketID4,
+    UserID   => 1,
+);
+
+# start article loop
+ARTICLE:
+for my $Article (@ArticleBox) {
+
+    for my $Key ( keys %{$Article} ) {
+        if ( !$Article->{$Key} ) {
+            $Article->{$Key} = '';
+        }
+        if ( $Key eq 'Age' || $Key eq 'AgeTimeUnix' ) {
+            delete $Article->{$Key};
+        }
+    }
+
+    # get attachment index (without attachments)
+    my %AtmIndex = $TicketObject->ArticleAttachmentIndex(
+        ContentPath                => $Article->{ContentPath},
+        ArticleID                  => $Article->{ArticleID},
+        StripPlainBodyAsAttachment => 3,
+        Article                    => $Article,
+        UserID                     => 1,
+    );
+
+    # next if not attachments
+    next ARTICLE if !IsHashRefWithData( \%AtmIndex );
+
+    my @Attachments;
+    ATTACHMENT:
+    for my $FileID (%AtmIndex) {
+        next ATTACHMENT if !$FileID;
+        my %Attachment = $TicketObject->ArticleAttachment(
+            ArticleID => $Article->{ArticleID},
+            FileID    => $FileID,
+            UserID    => 1,
+        );
+
+        # next if not attachment
+        next ATTACHMENT if !IsHashRefWithData( \%Attachment );
+
+        # convert content to base64
+        $Attachment{Content}            = encode_base64( $Attachment{Content} );
+        $Attachment{ContentID}          = '';
+        $Attachment{ContentAlternative} = '';
+        push @Attachments, {%Attachment};
+    }
+
+    # set Attachments data
+    $Article->{Atms} = \@Attachments;
+
+}    # finish article loop
+
+# get the Ticket entry
+my %TicketEntryFour = $TicketObject->TicketGet(
+    TicketID      => $TicketID4,
+    DynamicFields => 0,
+    UserID        => $Self->{UserID},
+);
+
+$Self->True(
+    IsHashRefWithData( \%TicketEntryFour ),
+    "TicketGet() successful for Local TicketGet Four ID $TicketID4",
+);
+
+for my $Key ( keys %TicketEntryFour ) {
+    if ( !$TicketEntryFour{$Key} ) {
+        $TicketEntryFour{$Key} = '';
+    }
+    if ( $Key eq 'Age' ) {
+        delete $TicketEntryFour{$Key};
+    }
+}
+
+# add ticket id
+push @TicketIDs, $TicketID4;
+
 # set webservice name
-my $WebserviceName = '-Test-' . $HelperObject->GetRandomID();
+my $WebserviceName = '-Test-' . $RandomID;
 
 # set UserID on 1
 my $UserID = 1;
@@ -211,7 +767,8 @@ my $RequesterSessionResult = $RequesterSessionObject->Run(
 );
 
 my $NewSessionID = $RequesterSessionResult->{Data}->{SessionID};
-my @Tests        = (
+
+my @Tests = (
     {
         Name           => 'Test 1',
         SuccessRequest => 1,
@@ -242,6 +799,141 @@ my @Tests        = (
     },
 
 );
+
+# Add a wrong value test for each posible parameter on direct search
+
+for my $Item (
+    qw(TicketNumber Title From To Cc Subject Body CustomerID CustomerUserLogin StateType
+    Fulltext
+    )
+    )
+{
+    my $FailTest = {
+        Name           => "Test $Item",
+        SuccessRequest => 1,
+        RequestData    => {
+            $Item => 'NotAReal' . $Item,
+        },
+        ExpectedReturnLocalData => {
+            Data => {
+                Error => {
+                    ErrorCode => 'TicketSearch.NotTicketData',
+                    ErrorMessage =>
+                        'TicketSearch: Could not get Ticket data in Kernel::GenericInterface::Operation::Ticket::TicketSearch::Run()'
+                },
+            },
+            Success => 1
+        },
+        ExpectedReturnRemoteData => {
+            Data => {
+                Error => {
+                    ErrorCode => 'TicketSearch.NotTicketData',
+                    ErrorMessage =>
+                        'TicketSearch: Could not get Ticket data in Kernel::GenericInterface::Operation::Ticket::TicketSearch::Run()'
+                    }
+            },
+            Success => 1
+        },
+        Operation => 'TicketSearch',
+    };
+
+    # push test
+    push @Tests, $FailTest;
+}
+
+# Arrays as strings
+for my $Item (
+    qw(StateIDs StateTypeIDs QueueIDs PriorityIDs OwnerIDs
+    CreatedQueueIDs CreatedUserIDs WatchUserIDs ResponsibleIDs
+    TypeIDs ServiceIDs SLAIDs LockIDs Queues Types States
+    Priorities Services SLAs Locks CreatedTypes CreatedUserIDs
+    CreatedTypes CreatedTypeIDs CreatedPriorities
+    CreatedPriorityIDs CreatedStates CreatedStateIDs
+    CreatedQueues CreatedQueueIDs
+    )
+    )
+{
+    my $FailTest = {
+        Name           => "Test $Item",
+        SuccessRequest => 1,
+        RequestData    => {
+            $Item => 'NotAReal' . $Item,
+        },
+        ExpectedReturnLocalData => {
+            Data => {
+                Error => {
+                    ErrorCode => 'TicketSearch.NotTicketData',
+                    ErrorMessage =>
+                        'TicketSearch: Could not get Ticket data in Kernel::GenericInterface::Operation::Ticket::TicketSearch::Run()'
+                },
+            },
+            Success => 1
+        },
+        ExpectedReturnRemoteData => {
+            Data => {
+                Error => {
+                    ErrorCode => 'TicketSearch.NotTicketData',
+                    ErrorMessage =>
+                        'TicketSearch: Could not get Ticket data in Kernel::GenericInterface::Operation::Ticket::TicketSearch::Run()'
+                    }
+            },
+            Success => 1
+        },
+        Operation => 'TicketSearch',
+    };
+
+    # push test
+    push @Tests, $FailTest;
+}
+
+# Arrays
+for my $Item (
+    qw(StateIDs StateTypeIDs QueueIDs PriorityIDs OwnerIDs
+    CreatedQueueIDs CreatedUserIDs WatchUserIDs ResponsibleIDs
+    TypeIDs ServiceIDs SLAIDs LockIDs Queues Types States
+    Priorities Services SLAs Locks CreatedTypes CreatedUserIDs
+    CreatedTypes CreatedTypeIDs CreatedPriorities
+    CreatedPriorityIDs CreatedStates CreatedStateIDs
+    CreatedQueues CreatedQueueIDs
+    )
+    )
+{
+    my $FailTest = {
+        Name           => "Test $Item",
+        SuccessRequest => 1,
+        RequestData    => {
+            $Item => [
+                'NotAReal' . $Item . 'One',
+                'NotAReal' . $Item . 'Two',
+                'NotAReal' . $Item . 'Three',
+            ],
+        },
+        ExpectedReturnLocalData => {
+            Data => {
+                Error => {
+                    ErrorCode => 'TicketSearch.NotTicketData',
+                    ErrorMessage =>
+                        'TicketSearch: Could not get Ticket data in Kernel::GenericInterface::Operation::Ticket::TicketSearch::Run()'
+                },
+            },
+            Success => 1
+        },
+        ExpectedReturnRemoteData => {
+            Data => {
+                Error => {
+                    ErrorCode => 'TicketSearch.NotTicketData',
+                    ErrorMessage =>
+                        'TicketSearch: Could not get Ticket data in Kernel::GenericInterface::Operation::Ticket::TicketSearch::Run()'
+                    }
+            },
+            Success => 1
+        },
+        Operation => 'TicketSearch',
+    };
+
+    # push test
+    push @Tests, $FailTest;
+}
 
 # debugger object
 my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
@@ -323,53 +1015,95 @@ for my $Test (@Tests) {
         "$Test->{Name} - Requester successful result",
     );
 
-    #    # workaround because results from direct call and
-    #    # from SOAP call are a little bit different
-    #    if ( $Test->{Operation} eq 'TicketSearch' ) {
-    #
-    #        if ( ref $LocalResult->{Data}->{Item} eq 'ARRAY' ) {
-    #            for my $Item ( @{ $LocalResult->{Data}->{Item} } ) {
-    #                for my $Key ( keys %{ $Item->{Ticket} } ) {
-    #                    if ( !$Item->{Ticket}->{$Key} ) {
-    #                        $Item->{Ticket}->{$Key} = '';
-    #                    }
-    #                    if ( $Key eq 'Age' ) {
-    #                        delete $Item->{Ticket}->{$Key};
-    #                    }
-    #                }
-    #            }
-    #        }
-    #
-    #        if (
-    #            defined $RequesterResult->{Data}
-    #            && defined $RequesterResult->{Data}->{Item}
-    #            )
-    #        {
-    #            if ( ref $RequesterResult->{Data}->{Item} eq 'ARRAY' ) {
-    #                for my $Item ( @{ $RequesterResult->{Data}->{Item} } ) {
-    #                    for my $Key ( keys %{ $Item->{Ticket} } ) {
-    #                        if ( !$Item->{Ticket}->{$Key} ) {
-    #                            $Item->{Ticket}->{$Key} = '';
-    #                        }
-    #                        if ( $Key eq 'Age' ) {
-    #                            delete $Item->{Ticket}->{$Key};
-    #                        }
-    #                    }
-    #                }
-    #            }
-    #            elsif ( ref $RequesterResult->{Data}->{Item} eq 'HASH' ) {
-    #                for my $Key ( keys %{ $RequesterResult->{Data}->{Item}->{Ticket} } ) {
-    #                    if ( !$RequesterResult->{Data}->{Item}->{Ticket}->{$Key} ) {
-    #                        $RequesterResult->{Data}->{Item}->{Ticket}->{$Key} = '';
-    #                    }
-    #                    if ( $Key eq 'Age' ) {
-    #                        delete $RequesterResult->{Data}->{Item}->{Ticket}->{$Key};
-    #                    }
-    #                }
-    #            }
-    #        }
-    #
-    #    }
+    # workaround because results from direct call and
+    # from SOAP call are a little bit different
+    if ( $Test->{Operation} eq 'TicketGet' ) {
+
+        if ( ref $LocalResult->{Data}->{Item} eq 'ARRAY' ) {
+            for my $Item ( @{ $LocalResult->{Data}->{Item} } ) {
+                for my $Key ( keys %{ $Item->{Ticket} } ) {
+                    if ( !$Item->{Ticket}->{$Key} ) {
+                        $Item->{Ticket}->{$Key} = '';
+                    }
+                    if ( $Key eq 'Age' ) {
+                        delete $Item->{Ticket}->{$Key};
+                    }
+                }
+
+                # Articles
+                if ( defined $Item->{Articles} ) {
+                    for my $Article ( @{ $Item->{Articles} } ) {
+                        for my $Key ( keys %{$Article} ) {
+                            if ( !$Article->{$Key} ) {
+                                $Article->{$Key} = '';
+                            }
+                            if ( $Key eq 'Age' || $Key eq 'AgeTimeUnix' ) {
+                                delete $Article->{$Key};
+                            }
+
+                            if ( $Key eq 'Atms' ) {
+                                for my $Atm ( @{ $Article->{$Key} } ) {
+                                    $Atm->{ContentID}          = '';
+                                    $Atm->{ContentAlternative} = '';
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+        }
+
+        if (
+            defined $RequesterResult->{Data}
+            && defined $RequesterResult->{Data}->{Item}
+            )
+        {
+            if ( ref $RequesterResult->{Data}->{Item} eq 'ARRAY' ) {
+                for my $Item ( @{ $RequesterResult->{Data}->{Item} } ) {
+                    for my $Key ( keys %{ $Item->{Ticket} } ) {
+                        if ( !$Item->{Ticket}->{$Key} ) {
+                            $Item->{Ticket}->{$Key} = '';
+                        }
+                        if ( $Key eq 'Age' ) {
+                            delete $Item->{Ticket}->{$Key};
+                        }
+                    }
+                }
+            }
+            elsif ( ref $RequesterResult->{Data}->{Item} eq 'HASH' ) {
+                for my $Key ( keys %{ $RequesterResult->{Data}->{Item}->{Ticket} } ) {
+                    if ( !$RequesterResult->{Data}->{Item}->{Ticket}->{$Key} ) {
+                        $RequesterResult->{Data}->{Item}->{Ticket}->{$Key} = '';
+                    }
+                    if ( $Key eq 'Age' ) {
+                        delete $RequesterResult->{Data}->{Item}->{Ticket}->{$Key};
+                    }
+                }
+
+                # Articles
+                if ( defined $RequesterResult->{Data}->{Item}->{Articles} ) {
+                    for my $Article ( @{ $RequesterResult->{Data}->{Item}->{Articles} } ) {
+                        for my $Key ( keys %{$Article} ) {
+                            if ( !$Article->{$Key} ) {
+                                $Article->{$Key} = '';
+                            }
+                            if ( $Key eq 'Age' || $Key eq 'AgeTimeUnix' ) {
+                                delete $Article->{$Key};
+                            }
+                            if ( $Key eq 'Atms' ) {
+                                for my $Atm ( @{ $Article->{$Key} } ) {
+                                    $Atm->{ContentID}          = '';
+                                    $Atm->{ContentAlternative} = '';
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+    }
 
     # remove ErrorMessage parameter from direct call
     # result to be consistent with SOAP call result
@@ -400,26 +1134,63 @@ for my $Test (@Tests) {
 
 }    #end loop
 
+# clean up
+
 # clean up webservice
 my $WebserviceDelete = $WebserviceObject->WebserviceDelete(
     ID     => $WebserviceID,
-    UserID => $UserID,
+    UserID => $Self->{UserID},
 );
 $Self->True(
     $WebserviceDelete,
     "Deleted Webservice $WebserviceID",
 );
 
-# delete the ticket
-my $TicketDelete = $TicketObject->TicketDelete(
-    TicketID => $TicketID,
-    UserID   => 1,
+for my $FieldID (@TestDynamicFields) {
+
+    # delete the dynamic field
+    my $DFDelete = $DynamicFieldObject->DynamicFieldDelete(
+        ID      => $FieldID,
+        UserID  => 1,
+        Reorder => 0,
+    );
+
+    # sanity check
+    $Self->True(
+        $DFDelete,
+        "DynamicFieldDelete() successful for Field ID $FieldID",
+    );
+}
+
+for my $TicketID (@TicketIDs) {
+
+    # delete the ticket Three
+    my $TicketDelete = $TicketObject->TicketDelete(
+        TicketID => $TicketID,
+        UserID   => $Self->{UserID},
+    );
+
+    # sanity check
+    $Self->True(
+        $TicketDelete,
+        "TicketDelete() successful for Ticket ID $TicketID",
+    );
+}
+
+my $UpdateUser = $UserObject->UserUpdate(
+    UserID        => $Self->{UserID},
+    UserFirstname => 'TestModified',
+    UserLastname  => 'UserModified',
+    UserLogin     => 'TestUser' . $RandomID,
+    UserEmail     => 'testmodified' . $RandomID . 'email@example.com',
+    ValidID       => 2,
+    ChangeUserID  => $Self->{UserID},
 );
 
 # sanity check
 $Self->True(
-    $TicketDelete,
-    "TicketDelete() successful for Ticket ID $TicketID",
+    $UpdateUser,
+    "UserUpdate() successful for User ID $Self->{UserID}",
 );
 
 1;
