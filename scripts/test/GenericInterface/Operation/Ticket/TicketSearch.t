@@ -2,7 +2,7 @@
 # TicketSearch.t - GenericInterface transport interface tests for TicketConnector backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketSearch.t,v 1.3 2012-01-23 04:41:11 cg Exp $
+# $Id: TicketSearch.t,v 1.4 2012-01-23 13:29:38 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -309,13 +309,13 @@ push @TicketIDs, $TicketID1;
 
 # create ticket 2
 my $TicketID2 = $TicketObject->TicketCreate(
-    Title        => 'Ticket Two Title',
+    Title        => 'Ticket Two Title ' . $RandomID,
     Queue        => 'Raw',
     Lock         => 'unlock',
     Priority     => '3 normal',
     State        => 'new',
     CustomerID   => '123465',
-    CustomerUser => 'customerTwo@example.com',
+    CustomerUser => 'customerTwo' . $RandomID . '@example.com',
     OwnerID      => 1,
     UserID       => 1,
 );
@@ -768,9 +768,11 @@ my $RequesterSessionResult = $RequesterSessionObject->Run(
 
 my $NewSessionID = $RequesterSessionResult->{Data}->{SessionID};
 
+my $TestCounter = 1;
+
 my @Tests = (
     {
-        Name           => 'Test 1',
+        Name           => "Test " . $TestCounter++,
         SuccessRequest => 1,
         RequestData    => {
             TicketNumber => 'NotARealTicketNumber',
@@ -797,7 +799,152 @@ my @Tests = (
         },
         Operation => 'TicketSearch',
     },
-
+    {
+        Name           => "Test " . $TestCounter++,
+        SuccessRequest => 1,
+        RequestData    => {
+            Title => 'Ticket Two Title ' . $RandomID,
+        },
+        ExpectedReturnLocalData => {
+            Data => {
+                Item => [$TicketID2],
+            },
+            Success => 1
+        },
+        ExpectedReturnRemoteData => {
+            Data => {
+                Item => $TicketID2,
+            },
+            Success => 1,
+        },
+        Operation => 'TicketSearch',
+    },
+    {
+        Name           => "Test " . $TestCounter++,
+        SuccessRequest => 1,
+        RequestData    => {
+            Title  => 'Ticket Two Title ' . $RandomID,
+            Queues => 'Raw'
+        },
+        ExpectedReturnLocalData => {
+            Data => {
+                Item => [$TicketID2],
+            },
+            Success => 1
+        },
+        ExpectedReturnRemoteData => {
+            Data => {
+                Item => $TicketID2,
+            },
+            Success => 1,
+        },
+        Operation => 'TicketSearch',
+    },
+    {
+        Name           => "Test " . $TestCounter++,
+        SuccessRequest => 1,
+        RequestData    => {
+            Title  => 'Ticket Two Title ' . $RandomID,
+            Queues => 'Raw',
+        },
+        ExpectedReturnLocalData => {
+            Data => {
+                Item => [$TicketID2],
+            },
+            Success => 1
+        },
+        ExpectedReturnRemoteData => {
+            Data => {
+                Item => $TicketID2,
+            },
+            Success => 1,
+        },
+        Operation => 'TicketSearch',
+    },
+    {
+        Name           => "Test " . $TestCounter++,
+        SuccessRequest => 1,
+        RequestData    => {
+            Title => 'Ticket Two Title ' . $RandomID,
+            Locks => 'Unlock',
+        },
+        ExpectedReturnLocalData => {
+            Data => {
+                Item => [$TicketID2],
+            },
+            Success => 1
+        },
+        ExpectedReturnRemoteData => {
+            Data => {
+                Item => $TicketID2,
+            },
+            Success => 1,
+        },
+        Operation => 'TicketSearch',
+    },
+    {
+        Name           => "Test " . $TestCounter++,
+        SuccessRequest => 1,
+        RequestData    => {
+            Title  => 'Ticket Two Title ' . $RandomID,
+            States => 'new',
+        },
+        ExpectedReturnLocalData => {
+            Data => {
+                Item => [$TicketID2],
+            },
+            Success => 1
+        },
+        ExpectedReturnRemoteData => {
+            Data => {
+                Item => $TicketID2,
+            },
+            Success => 1,
+        },
+        Operation => 'TicketSearch',
+    },
+    {
+        Name           => "Test " . $TestCounter++,
+        SuccessRequest => 1,
+        RequestData    => {
+            Title      => 'Ticket Two Title ' . $RandomID,
+            Priorities => '3 normal',
+        },
+        ExpectedReturnLocalData => {
+            Data => {
+                Item => [$TicketID2],
+            },
+            Success => 1
+        },
+        ExpectedReturnRemoteData => {
+            Data => {
+                Item => $TicketID2,
+            },
+            Success => 1,
+        },
+        Operation => 'TicketSearch',
+    },
+    {
+        Name           => "Test " . $TestCounter++,
+        SuccessRequest => 1,
+        RequestData    => {
+            Title      => 'Ticket Two Title ' . $RandomID,
+            CustomerID => '123465',
+        },
+        ExpectedReturnLocalData => {
+            Data => {
+                Item => [$TicketID2],
+            },
+            Success => 1
+        },
+        ExpectedReturnRemoteData => {
+            Data => {
+                Item => $TicketID2,
+            },
+            Success => 1,
+        },
+        Operation => 'TicketSearch',
+    },
 );
 
 # Add a wrong value test for each posible parameter on direct search
@@ -1043,8 +1190,8 @@ for my $Test (@Tests) {
 
                             if ( $Key eq 'Atms' ) {
                                 for my $Atm ( @{ $Article->{$Key} } ) {
-                                    $Atm->{ContentID}          = '';
                                     $Atm->{ContentAlternative} = '';
+                                    $Atm->{ContentID}          = '';
                                 }
                             }
                         }
