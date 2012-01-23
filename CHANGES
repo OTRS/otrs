@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2142 2012-01-23 10:32:59 mg Exp $
+# $Id: CHANGES,v 1.2143 2012-01-23 11:03:53 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.1.0.beta5 ????-??-??
+ - 2012-01-23 Fixed bug#8019 - Ticket customer info widget has scroll bars
  - 2012-01-23 Fixed bug#8066 - TicketAcl with empy possible List for DynamicFields crashes.
  - 2012-01-20 Fixed bug#7495 - Cursor stands still in editor in IE 9.
  - 2012-01-20 Fixed bug#8129 - Ticket Unwatch may lead to errorscreen.
