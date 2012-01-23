@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend.pm - Interface for DynamicField backends
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Backend.pm,v 1.64 2012-01-11 17:28:26 jh Exp $
+# $Id: Backend.pm,v 1.65 2012-01-23 10:32:58 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Scalar::Util qw(weaken);
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.64 $) [1];
+$VERSION = qw($Revision: 1.65 $) [1];
 
 =head1 NAME
 
@@ -292,7 +292,7 @@ sub EditFieldRender {
     # check PossibleValuesFilter (general)
     if (
         defined $Param{PossibleValuesFilter}
-        && !IsHashRefWithData( $Param{PossibleValuesFilter} )
+        && ref $Param{PossibleValuesFilter} ne 'HASH'
         )
     {
         $Self->{LogObject}->Log(
@@ -911,7 +911,7 @@ sub EditFieldValueValidate {
     # check PossibleValuesFilter (general)
     if (
         defined $Param{PossibleValuesFilter}
-        && !IsHashRefWithData( $Param{PossibleValuesFilter} )
+        && ref $Param{PossibleValuesFilter} ne 'HASH'
         )
     {
         $Self->{LogObject}->Log(
@@ -1963,6 +1963,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.64 $ $Date: 2012-01-11 17:28:26 $
+$Revision: 1.65 $ $Date: 2012-01-23 10:32:58 $
 
 =cut
