@@ -1,8 +1,8 @@
 // --
 // Core.Config.js - provides the JS config
-// Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+// Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Config.js,v 1.5 2011-11-15 15:36:01 mab Exp $
+// $Id: Core.Config.js,v 1.6 2012-01-23 13:08:00 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -142,7 +142,7 @@ Core.Config = (function (TargetNS) {
     /**
      * @field
      * @description This variable contains a hash of blacklisted browsers and their recognition functions.
-     * Each function returns true, if the browsers is detected
+     * Each function returns true, if the browser is detected.
      */
     TargetNS.AddConfig({
         'Microsoft Internet Explorer 5.5': function () {
@@ -152,7 +152,19 @@ Core.Config = (function (TargetNS) {
             return ($.browser.msie && $.browser.version === '6.0');
         },
         'Microsoft Internet Explorer 7': function () {
-            return ($.browser.msie && $.browser.version === '7.0');
+            var detected = ($.browser.msie && $.browser.version === '7.0');
+
+            // IE8 in Compatibility Mode will claim to be IE7.
+            if (detected && navigator && navigator.userAgent && navigator.userAgent.match(/Trident\/4.0/)) {
+                alert('Please turn off Compatibility Mode in Internet Explorer!');
+            }
+
+            // IE9 in Compatibility Mode will claim to be IE7.
+            if (detected && navigator && navigator.userAgent && navigator.userAgent.match(/Trident\/5.0/)) {
+                alert('Please turn off Compatibility Mode in Internet Explorer!');
+            }
+
+            return detected;
         },
         'Konqueror (without WebKit engine)': function () {
             return ($.browser.webkit && navigator.vendor === 'KDE');
