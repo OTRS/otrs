@@ -2,7 +2,7 @@
 // Core.Config.js - provides the JS config
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Config.js,v 1.6 2012-01-23 13:08:00 mg Exp $
+// $Id: Core.Config.js,v 1.7 2012-01-23 13:08:55 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -155,6 +155,7 @@ Core.Config = (function (TargetNS) {
             var detected = ($.browser.msie && $.browser.version === '7.0');
 
             // IE8 in Compatibility Mode will claim to be IE7.
+            // See also http://msdn.microsoft.com/en-us/library/ms537503%28v=VS.85%29.aspx
             if (detected && navigator && navigator.userAgent && navigator.userAgent.match(/Trident\/4.0/)) {
                 alert('Please turn off Compatibility Mode in Internet Explorer!');
             }
