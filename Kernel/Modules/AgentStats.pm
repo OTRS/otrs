@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentStats.pm - stats module
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStats.pm,v 1.122 2012-01-09 08:34:17 mg Exp $
+# $Id: AgentStats.pm,v 1.123 2012-01-23 19:39:23 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::CSV;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.122 $) [1];
+$VERSION = qw($Revision: 1.123 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -220,7 +220,7 @@ sub Run {
         }
         my $CounterII = 0;
         for my $Value ( @{ $Stat->{Format} } ) {
-            if ( $Counter == 0 && $Value ne 'GD::Graph::pie' ) {
+            if ( $Counter == 0 || $Value ne 'GD::Graph::pie' ) {
                 $SelectFormat{$Value} = $Format->{$Value};
                 $CounterII++;
             }
