@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.228 2012-01-16 22:32:07 cg Exp $
+# $Id: AgentTicketPhone.pm,v 1.229 2012-01-24 17:53:07 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Mail::Address;
 use Kernel::System::Service;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.228 $) [1];
+$VERSION = qw($Revision: 1.229 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -482,6 +482,41 @@ sub Run {
             $SplitTicketParam{TicketID} = $Self->{TicketID};
         }
 
+        # fix to bug# 8068 Field & DynamicField preselection on TicketSplit
+        # when splitting a ticket the selected attributes must remain in the new ticket screen
+        # this information will be available in the SplitTicketParam hash
+        if ( $SplitTicketParam{TicketID} ) {
+
+            # get information from original ticket (SplitTicket)
+            my %SplitTicketData = $Self->{TicketObject}->TicketGet(
+                TicketID      => $SplitTicketParam{TicketID},
+                DynamicFields => 0,
+                UserID        => $Self->{UserID},
+            );
+
+            # set simple IDs to pass them to the mask
+            for my $SplitedParam (qw(TypeID ServiceID SLAID PriorityID)) {
+                $SplitTicketParam{$SplitedParam} = $SplitTicketData{$SplitedParam};
+            }
+
+            # set StateID as NextStateID
+            $SplitTicketParam{NextStateID} = $SplitTicketData{StateID};
+
+            # set Onwer an Responsible
+            $SplitTicketParam{UserSelected}            = $SplitTicketData{OwnerID};
+            $SplitTicketParam{ResponsibleUserSelected} = $SplitTicketData{ResponsibleID};
+
+            # set additional information needed for Owner and Responsible
+            if ( $SplitTicketData{QueueID} ) {
+                $SplitTicketParam{QueueID} = $SplitTicketData{QueueID};
+            }
+            $SplitTicketParam{AllUsers} = 1;
+
+            # set the selected queue in format ID||Name
+            $SplitTicketParam{ToSelected}
+                = $SplitTicketData{QueueID} . '||' . $SplitTicketData{Queue};
+        }
+
         # html output
         my $Services = $Self->_GetServices(
             %GetParam,
@@ -526,14 +561,14 @@ sub Run {
             Users    => $Self->_GetUsers(
                 %GetParam,
                 %ACLCompatGetParam,
+                QueueID => $Self->{QueueID},
                 %SplitTicketParam,
-                QueueID => $Self->{QueueID}
             ),
             ResponsibleUsers => $Self->_GetResponsibles(
                 %GetParam,
                 %ACLCompatGetParam,
+                QueueID => $Self->{QueueID},
                 %SplitTicketParam,
-                QueueID => $Self->{QueueID}
             ),
             To => $Self->_GetTos(
                 %GetParam,
@@ -552,6 +587,7 @@ sub Run {
             LinkTicketID => $GetParam{LinkTicketID} || '',
 
             #            %GetParam,
+            %SplitTicketParam,
             DynamicFieldHTML => \%DynamicFieldHTML,
             MultipleCustomer => \@MultipleCustomer,
         );
@@ -1367,7 +1403,7 @@ sub Run {
                     Translation  => 0,
                     Max          => 100,
                 },
-                @DynamicFieldAJAX
+                @DynamicFieldAJAX,
             ],
         );
         return $Self->{LayoutObject}->Attachment(
