@@ -2,7 +2,7 @@
 # TicketSearch.t - GenericInterface transport interface tests for TicketConnector backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketSearch.t,v 1.4 2012-01-23 13:29:38 cg Exp $
+# $Id: TicketSearch.t,v 1.5 2012-01-24 10:37:32 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -199,7 +199,10 @@ push @TestDynamicFields, $FieldID5;
 # finish DynamicFields
 
 # create ticket object
-my $TicketObject = Kernel::System::Ticket->new( %{$Self} );
+my $TicketObject = Kernel::System::Ticket->new(
+    %{$Self},
+    ConfigObject => $ConfigObject,
+);
 
 # create 3 tickets
 
@@ -638,7 +641,10 @@ my $WebserviceName = '-Test-' . $RandomID;
 my $UserID = 1;
 
 # create webservice object
-my $WebserviceObject = Kernel::System::GenericInterface::Webservice->new( %{$Self} );
+my $WebserviceObject = Kernel::System::GenericInterface::Webservice->new(
+    %{$Self},
+    ConfigObject => $ConfigObject,
+);
 $Self->Is(
     'Kernel::System::GenericInterface::Webservice',
     ref $WebserviceObject,
@@ -747,7 +753,10 @@ $Self->True(
 
 # Get SessionID
 # create requester object
-my $RequesterSessionObject = Kernel::GenericInterface::Requester->new( %{$Self} );
+my $RequesterSessionObject = Kernel::GenericInterface::Requester->new(
+    %{$Self},
+    ConfigObject => $ConfigObject,
+);
 $Self->Is(
     'Kernel::GenericInterface::Requester',
     ref $RequesterSessionObject,
@@ -866,7 +875,7 @@ my @Tests = (
         SuccessRequest => 1,
         RequestData    => {
             Title => 'Ticket Two Title ' . $RandomID,
-            Locks => 'Unlock',
+            Locks => 'unlock',
         },
         ExpectedReturnLocalData => {
             Data => {
@@ -1085,6 +1094,7 @@ for my $Item (
 # debugger object
 my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
     %{$Self},
+    ConfigObject   => $ConfigObject,
     DebuggerConfig => {
         DebugThreshold => 'debug',
         TestMode       => 1,
@@ -1103,6 +1113,7 @@ for my $Test (@Tests) {
     # create local object
     my $LocalObject = "Kernel::GenericInterface::Operation::Ticket::$Test->{Operation}"->new(
         %{$Self},
+        ConfigObject   => $ConfigObject,
         DebuggerObject => $DebuggerObject,
         WebserviceID   => $WebserviceID,
     );
@@ -1132,7 +1143,10 @@ for my $Test (@Tests) {
     );
 
     # create requester object
-    my $RequesterObject = Kernel::GenericInterface::Requester->new( %{$Self} );
+    my $RequesterObject = Kernel::GenericInterface::Requester->new(
+        %{$Self},
+        ConfigObject => $ConfigObject,
+    );
     $Self->Is(
         'Kernel::GenericInterface::Requester',
         ref $RequesterObject,
