@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Ticket/Common.pm - Ticket common operation functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.28 2012-01-18 05:58:40 cr Exp $
+# $Id: Common.pm,v 1.29 2012-01-24 10:52:15 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -40,7 +40,7 @@ use Kernel::System::GenericInterface::Webservice;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.28 $) [1];
+$VERSION = qw($Revision: 1.29 $) [1];
 
 =head1 NAME
 
@@ -324,11 +324,12 @@ sub AuthCustomerUser {
 performs user authentication and return a new SessionID value
 
     my $SessionID = $CommonObject->GetSessionID(
-        UserLogin => 'Agent',
-        Password  => 'some password',           # plain text password
+        UserLogin         => 'Agent1',
+        CustomerUserLogin => 'Customer1',       # optional, provide UserLogin or CustomerUserLogin
+        Password          => 'some password',   # plain text password
     );
 
-    returns
+Returns undef on failure or
 
     $SessionID = 'AValidSessionIDValue';                # the new session id value
 
@@ -337,7 +338,6 @@ performs user authentication and return a new SessionID value
 sub GetSessionID {
     my ( $Self, %Param ) = @_;
 
-    my $ReturnData = 0;
     my $User;
     my %UserData;
 
@@ -371,7 +371,7 @@ sub GetSessionID {
     }
 
     # login is invalid
-    return $ReturnData if !$User;
+    return if !$User;
 
     # create new session id
     my $NewSessionID = $Self->{SessionObject}->CreateSessionID(
@@ -380,11 +380,9 @@ sub GetSessionID {
         UserType        => 'User',
     );
 
-    if ($NewSessionID) {
-        $ReturnData = $NewSessionID;
-    }
+    return $NewSessionID if ($NewSessionID);
 
-    return $ReturnData;
+    return;
 }
 
 =item ReturnError()
@@ -1718,6 +1716,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.28 $ $Date: 2012-01-18 05:58:40 $
+$Revision: 1.29 $ $Date: 2012-01-24 10:52:15 $
 
 =cut

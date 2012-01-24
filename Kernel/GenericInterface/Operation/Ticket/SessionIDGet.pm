@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Ticket/SessionIDGet.pm - GenericInterface Ticket Get operation backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: SessionIDGet.pm,v 1.3 2012-01-04 05:02:26 cg Exp $
+# $Id: SessionIDGet.pm,v 1.4 2012-01-24 10:52:15 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::GenericInterface::Operation::Ticket::Common;
 use Kernel::System::VariableCheck qw(IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 =head1 NAME
 
@@ -73,21 +73,18 @@ Retrieve a new session id value.
 
     my $Result = $OperationObject->Run(
         Data => {
-            TicketID => '32,33',
-            DynamicFields     => 0, # Optional, 0 as default
-            Extended          => 1, # Optional 0 as default
-            AllArticles       => 1, # Optional 0 as default
-            ArticleSenderType => [ $ArticleSenderType1, $ArticleSenderType2 ], # Optional, only requested article sender types
-            ArticleOrder      => 'DESC', # Optional, DESC,ASC - default is ASC
-            ArticleLimit      => 5, # Optional
-            Attachments       => 1, # Optional, 1 as default
+            UserLogin         => 'Agent1',
+            CustomerUserLogin => 'Customer1',       # optional, provide UserLogin or CustomerUserLogin
+            Password          => 'some password',   # plain text password
         },
     );
 
     $Result = {
         Success      => 1,                                # 0 or 1
         ErrorMessage => '',                               # In case of an error
-        Data         => {},
+        Data         => {
+            SessionID => $SessionID,
+        },
     };
 
 =cut
@@ -106,23 +103,22 @@ sub Run {
     }
 
     my $SessionID = $Self->{TicketCommonObject}->GetSessionID(
-        %Param
+        %Param,
     );
 
-    return $Self->{TicketCommonObject}->ReturnError(
-        ErrorCode    => 'SessionIDGet.AuthFail',
-        ErrorMessage => "SessionIDGet: Authorization failing!",
-    ) if !$SessionID;
+    if ( !$SessionID ) {
+        return $Self->{TicketCommonObject}->ReturnError(
+            ErrorCode    => 'SessionIDGet.AuthFail',
+            ErrorMessage => "SessionIDGet: Authorization failing!",
+        );
+    }
 
-    my $ReturnData = {
+    return {
         Success => 1,
         Data    => {
             SessionID => $SessionID,
         },
     };
-
-    # return result
-    return $ReturnData;
 }
 
 1;
@@ -141,6 +137,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.3 $ $Date: 2012-01-04 05:02:26 $
+$Revision: 1.4 $ $Date: 2012-01-24 10:52:15 $
 
 =cut
