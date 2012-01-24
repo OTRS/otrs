@@ -2,7 +2,7 @@
 # TicketGet.t - TicketConnector interface tests for TicketConnector backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketGet.t,v 1.12 2012-01-24 10:20:36 mg Exp $
+# $Id: TicketGet.t,v 1.13 2012-01-24 22:35:24 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::GenericInterface::Debugger;
 use Kernel::GenericInterface::Requester;
 use Kernel::System::GenericInterface::Webservice;
 use Kernel::GenericInterface::Operation::Ticket::TicketGet;
-use Kernel::GenericInterface::Operation::Ticket::SessionIDGet;
+use Kernel::GenericInterface::Operation::Session::SessionIDGet;
 use Kernel::System::VariableCheck qw(:all);
 
 #get a random id
@@ -711,7 +711,7 @@ my $WebserviceConfig = {
                 Type => 'Ticket::TicketGet',
             },
             SessionIDGet => {
-                Type => 'Ticket::SessionIDGet',
+                Type => 'Session::SessionIDGet',
             },
         },
     },

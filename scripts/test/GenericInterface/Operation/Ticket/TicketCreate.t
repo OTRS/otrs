@@ -2,7 +2,7 @@
 # TicketCreate.t - GenericInterface TicketCreate tests for TicketConnector backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketCreate.t,v 1.4 2012-01-24 10:04:02 mg Exp $
+# $Id: TicketCreate.t,v 1.5 2012-01-24 22:35:24 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -395,7 +395,7 @@ my $WebserviceConfig = {
                 Type => 'Ticket::TicketCreate',
             },
             SessionIDGet => {
-                Type => 'Ticket::SessionIDGet',
+                Type => 'Session::SessionIDGet',
             },
         },
     },
