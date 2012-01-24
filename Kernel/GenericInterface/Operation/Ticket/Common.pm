@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Ticket/Common.pm - Ticket common operation functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.29 2012-01-24 10:52:15 mg Exp $
+# $Id: Common.pm,v 1.30 2012-01-24 22:31:10 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -40,7 +40,7 @@ use Kernel::System::GenericInterface::Webservice;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.29 $) [1];
+$VERSION = qw($Revision: 1.30 $) [1];
 
 =head1 NAME
 
@@ -178,211 +178,6 @@ sub new {
     }
 
     return $Self;
-}
-
-=item Auth()
-
-performs user or customer user authorization
-
-    my $UserID = $CommonObject->Auth(
-        UserLogin => 'Agent',
-        Password  => 'some password',           # plain text password
-        CrypPaswd => '50/\/\3 p455\/\/0rd',     # cripted password with the current crypt algorithm
-    );
-
-    returns
-
-    $UserID = 1;                               # the UserID from login or session data
-
-=cut
-
-sub Auth {
-    my ( $Self, %Param ) = @_;
-
-    my $SessionID = $Param{Data}->{SessionID} || '';
-
-    # check if a valid SessionID is present
-    if ($SessionID) {
-        my $ValidSessionID =
-            $Self->{SessionObject}->CheckSessionID( SessionID => $SessionID ) if $SessionID;
-        return if !$ValidSessionID;
-
-        # get session data
-        my %UserData = $Self->{SessionObject}->GetSessionIDData(
-            SessionID => $SessionID,
-        );
-
-        # get UserID from SessionIDData
-        if ( $UserData{UserType} ne 'Customer' ) {
-            return ( $UserData{UserID}, $UserData{UserType} );
-        }
-        else {
-
-            # if UserCustomerLogin
-            return ( $UserData{UserLogin}, $UserData{UserType} );
-        }
-        return 0;
-    }
-
-    if ( defined $Param{Data}->{UserLogin} && $Param{Data}->{UserLogin} ) {
-
-        # if UserLogin
-        return ( $Self->AuthUser(%Param), 'Agent' );
-    }
-    elsif ( defined $Param{Data}->{CustomerUserLogin} && $Param{Data}->{CustomerUserLogin} ) {
-
-        # if UserCustomerLogin
-        return ( $Self->AuthCustomerUser(%Param), 'Customer' );
-    }
-
-    return 0;
-}
-
-=item AuthUser()
-
-performs user authentication
-
-    my $UserID = $CommonObject->AuthUser(
-        UserLogin => 'Agent',
-        Password  => 'some password',           # plain text password
-    );
-
-    returns
-
-    $UserID = 1;                               # the UserID from login or session data
-
-=cut
-
-sub AuthUser {
-    my ( $Self, %Param ) = @_;
-
-    my $ReturnData = 0;
-
-    # get params
-    my $PostUser = $Param{Data}->{UserLogin} || '';
-    my $PostPw   = $Param{Data}->{Password}  || '';
-
-    # check submitted data
-    my $User = $Self->{AuthObject}->Auth(
-        User => $PostUser,
-        Pw   => $PostPw,
-    );
-
-    # login is valid
-    if ($User) {
-
-        # get UserID
-        my $UserID = $Self->{UserObject}->UserLookup(
-            UserLogin => $User,
-        );
-        $ReturnData = $UserID;
-    }
-
-    return $ReturnData;
-}
-
-=item AuthCustomerUser()
-
-performs customer user authentication
-
-    my $UserID = $CommonObject->AuthCustomerUser(
-        UserLogin => 'Agent',
-        Password  => 'some password',           # plain text password
-    );
-
-    returns
-
-    $UserID = 1;                               # the UserID from login or session data
-
-=cut
-
-sub AuthCustomerUser {
-    my ( $Self, %Param ) = @_;
-
-    my $ReturnData = $Param{Data}->{CustomerUserLogin} || 0;
-
-    # get params
-    my $PostUser = $Param{Data}->{CustomerUserLogin} || '';
-    my $PostPw   = $Param{Data}->{Password}          || '';
-
-    # check submitted data
-    my $User = $Self->{CustomerAuthObject}->Auth(
-        User => $PostUser,
-        Pw   => $PostPw,
-    );
-
-    # login is invalid
-    if ( !$User ) {
-        $ReturnData = 0;
-    }
-
-    return $ReturnData;
-}
-
-=item GetSessionID()
-
-performs user authentication and return a new SessionID value
-
-    my $SessionID = $CommonObject->GetSessionID(
-        UserLogin         => 'Agent1',
-        CustomerUserLogin => 'Customer1',       # optional, provide UserLogin or CustomerUserLogin
-        Password          => 'some password',   # plain text password
-    );
-
-Returns undef on failure or
-
-    $SessionID = 'AValidSessionIDValue';                # the new session id value
-
-=cut
-
-sub GetSessionID {
-    my ( $Self, %Param ) = @_;
-
-    my $User;
-    my %UserData;
-
-    # get params
-    my $PostPw = $Param{Data}->{Password} || '';
-
-    if ( defined $Param{Data}->{UserLogin} && $Param{Data}->{UserLogin} ) {
-
-        # if UserLogin
-        my $PostUser = $Param{Data}->{UserLogin} || $Param{Data}->{UserLogin} || '';
-
-        # check submitted data
-        $User = $Self->{AuthObject}->Auth(
-            User => $PostUser,
-            Pw   => $PostPw,
-        );
-        %UserData = $Self->{UserObject}->GetUserData( User => $User, Valid => 1 );
-    }
-    elsif ( defined $Param{Data}->{CustomerUserLogin} && $Param{Data}->{CustomerUserLogin} ) {
-
-        # if UserCustomerLogin
-        my $PostUser = $Param{Data}->{CustomerUserLogin} || $Param{Data}->{CustomerUserLogin} || '';
-
-        # check submitted data
-        $User = $Self->{CustomerAuthObject}->Auth(
-            User => $PostUser,
-            Pw   => $PostPw,
-        );
-        %UserData
-            = $Self->{CustomerUserObject}->CustomerUserDataGet( User => $PostUser, Valid => 1 );
-    }
-
-    # login is invalid
-    return if !$User;
-
-    # create new session id
-    my $NewSessionID = $Self->{SessionObject}->CreateSessionID(
-        %UserData,
-        UserLastRequest => $Self->{TimeObject}->SystemTime(),
-        UserType        => 'User',
-    );
-
-    return $NewSessionID if ($NewSessionID);
-
-    return;
 }
 
 =item ReturnError()
@@ -1716,6 +1511,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.29 $ $Date: 2012-01-24 10:52:15 $
+$Revision: 1.30 $ $Date: 2012-01-24 22:31:10 $
 
 =cut
