@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Ticket/TicketCreate.pm - GenericInterface Ticket TicketCreate operation backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketCreate.pm,v 1.27 2012-01-18 06:02:33 cr Exp $
+# $Id: TicketCreate.pm,v 1.28 2012-01-24 22:33:48 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,11 +22,12 @@ use Kernel::System::Ticket;
 use Kernel::System::DynamicField;
 use Kernel::System::DynamicField::Backend;
 
+use Kernel::GenericInterface::Operation::Common;
 use Kernel::GenericInterface::Operation::Ticket::Common;
 use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.27 $) [1];
+$VERSION = qw($Revision: 1.28 $) [1];
 
 =head1 NAME
 
@@ -78,6 +79,7 @@ sub new {
     $Self->{TicketObject}       = Kernel::System::Ticket->new( %{$Self} );
     $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new(%Param);
     $Self->{DFBackendObject}    = Kernel::System::DynamicField::Backend->new(%Param);
+    $Self->{CommonObject}       = Kernel::GenericInterface::Operation::Common->new( %{$Self} );
     $Self->{TicketCommonObject}
         = Kernel::GenericInterface::Operation::Ticket::Common->new( %{$Self} );
 
@@ -232,7 +234,7 @@ sub Run {
     }
 
     # authenticate user
-    my ( $UserID, $UserType ) = $Self->{TicketCommonObject}->Auth(%Param);
+    my ( $UserID, $UserType ) = $Self->{CommonObject}->Auth(%Param);
 
     if ( !$UserID ) {
         return $Self->{TicketCommonObject}->ReturnError(
@@ -1416,6 +1418,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.27 $ $Date: 2012-01-18 06:02:33 $
+$Revision: 1.28 $ $Date: 2012-01-24 22:33:48 $
 
 =cut
