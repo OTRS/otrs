@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2149 2012-01-24 00:08:45 cr Exp $
+# $Id: CHANGES,v 1.2150 2012-01-24 08:41:20 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.1.0.beta5 ????-??-??
+ - 2012-01-24 Fixed bug#8115 - Richtext editor not show in customer interface after switching
+    to Catalan frontend language.
  - 2012-01-23 Fixed bug#7994 - ACL: action-restrictions not possible for all ticket actions.
  - 2012-01-23 Fixed bug#7984 - Unable to select the output format of statistics.
  - 2012-01-23 Fixed bug#8136 - Browser Time Detection and time zone UTC generates warning in

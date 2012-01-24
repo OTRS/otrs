@@ -1,21 +1,21 @@
 # --
-# Kernel/Language/ct.pm - provides ct language translation
+# Kernel/Language/ca.pm - provides Catalan language translation
 # Copyright (C) 2008 Sistemes OTIC (ibsalut) - Antonio Linde
 # --
-# $Id: ct.pm,v 1.62 2012-01-13 06:46:49 mg Exp $
+# $Id: ca.pm,v 1.1 2012-01-24 08:41:19 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::Language::ct;
+package Kernel::Language::ca;
 
 use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.62 $) [1];
+$VERSION = qw($Revision: 1.1 $) [1];
 
 sub Data {
     my $Self = shift;
