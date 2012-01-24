@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend.pm - Interface for DynamicField backends
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Backend.pm,v 1.66 2012-01-23 19:02:28 cr Exp $
+# $Id: Backend.pm,v 1.67 2012-01-24 07:45:17 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Scalar::Util qw(weaken);
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.66 $) [1];
+$VERSION = qw($Revision: 1.67 $) [1];
 
 =head1 NAME
 
@@ -864,9 +864,10 @@ validate the current value for the dynamic field
 
     my $Result = $BackendObject->EditFieldValueValidate(
         DynamicFieldConfig   => $DynamicFieldConfig,      # complete config of the DynamicField
-        PossibleValuesFilter => ['value1', 'value2'],     # Optional. Some backends may support this.
-                                                          #     This may be needed to realize ACL support for ticket masks,
-                                                          #     where the possible values can be limited with and ACL.
+        PossibleValuesFilter => {                         # Optional. Some backends may support this.
+            'Key1' => 'Value1',                           #     This may be needed to realize ACL support for ticket masks,
+            'Key2' => 'Value2',                           #     where the possible values can be limited with and ACL.
+        },
         ParamObject          => $Self->{ParamObject}      # To get the values directly from the web request
         Mandatory            => 1,                        # 0 or 1,
     );
@@ -1964,6 +1965,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.66 $ $Date: 2012-01-23 19:02:28 $
+$Revision: 1.67 $ $Date: 2012-01-24 07:45:17 $
 
 =cut
