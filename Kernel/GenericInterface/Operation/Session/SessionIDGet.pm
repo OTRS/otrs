@@ -1,24 +1,24 @@
 # --
-# Kernel/GenericInterface/Operation/Ticket/SessionIDGet.pm - GenericInterface Ticket Get operation backend
+# Kernel/GenericInterface/Operation/Session/SessionIDGet.pm - GenericInterface SessionIDGet operation backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: SessionIDGet.pm,v 1.4 2012-01-24 10:52:15 mg Exp $
+# $Id: SessionIDGet.pm,v 1.1 2012-01-24 22:29:14 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::GenericInterface::Operation::Ticket::SessionIDGet;
+package Kernel::GenericInterface::Operation::Session::SessionIDGet;
 
 use strict;
 use warnings;
 
-use Kernel::GenericInterface::Operation::Ticket::Common;
-use Kernel::System::VariableCheck qw(IsStringWithData);
+use Kernel::GenericInterface::Operation::Common;
+use Kernel::System::VariableCheck qw(IsStringWithData IsHashRefWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.1 $) [1];
 
 =head1 NAME
 
@@ -61,8 +61,7 @@ sub new {
     }
 
     # create additional objects
-    $Self->{TicketCommonObject}
-        = Kernel::GenericInterface::Operation::Ticket::Common->new( %{$Self} );
+    $Self->{CommonObject} = Kernel::GenericInterface::Operation::Common->new( %{$Self} );
 
     return $Self;
 }
@@ -93,21 +92,28 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
+    if ( !IsHashRefWithData( $Param{Data} ) ) {
+        return $Self->{CommonObject}->ReturnError(
+            ErrorCode    => 'SessionIDGet.MissingParameter',
+            ErrorMessage => "SessionIDGet: The request is empty!",
+        );
+    }
+
     for my $Needed (qw( Password )) {
         if ( !$Param{Data}->{$Needed} ) {
-            return $Self->{TicketCommonObject}->ReturnError(
+            return $Self->{CommonObject}->ReturnError(
                 ErrorCode    => 'SessionIDGet.MissingParameter',
                 ErrorMessage => "SessionIDGet: $Needed parameter is missing!",
             );
         }
     }
 
-    my $SessionID = $Self->{TicketCommonObject}->GetSessionID(
+    my $SessionID = $Self->{CommonObject}->GetSessionID(
         %Param,
     );
 
     if ( !$SessionID ) {
-        return $Self->{TicketCommonObject}->ReturnError(
+        return $Self->{CommonObject}->ReturnError(
             ErrorCode    => 'SessionIDGet.AuthFail',
             ErrorMessage => "SessionIDGet: Authorization failing!",
         );
@@ -137,6 +143,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.4 $ $Date: 2012-01-24 10:52:15 $
+$Revision: 1.1 $ $Date: 2012-01-24 22:29:14 $
 
 =cut
