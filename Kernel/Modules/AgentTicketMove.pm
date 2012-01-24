@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMove.pm - move tickets to queues
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMove.pm,v 1.110 2012-01-12 05:13:46 cr Exp $
+# $Id: AgentTicketMove.pm,v 1.111 2012-01-24 00:08:45 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.110 $) [1];
+$VERSION = qw($Revision: 1.111 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -91,6 +91,25 @@ sub Run {
             Message    => "You need move permissions!",
             WithHeader => 'yes',
         );
+    }
+
+    # get ACL restrictions
+    $Self->{TicketObject}->TicketAcl(
+        Data          => '-',
+        TicketID      => $Self->{TicketID},
+        ReturnType    => 'Action',
+        ReturnSubType => '-',
+        UserID        => $Self->{UserID},
+    );
+    my %AclAction = $Self->{TicketObject}->TicketAclActionData();
+
+    # check if ACL resctictions if exist
+    if ( IsHashRefWithData( \%AclAction ) ) {
+
+        # show error screen if ACL prohibits this action
+        if ( defined $AclAction{ $Self->{Action} } && $AclAction{ $Self->{Action} } eq '0' ) {
+            return $Self->{LayoutObject}->NoPermission( WithHeader => 'yes' );
+        }
     }
 
     # check if ticket is locked

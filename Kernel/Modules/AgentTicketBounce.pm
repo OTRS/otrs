@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketBounce.pm - to bounce articles of tickets
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBounce.pm,v 1.53 2011-12-08 14:06:41 mg Exp $
+# $Id: AgentTicketBounce.pm,v 1.54 2012-01-24 00:08:45 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,10 +18,11 @@ use Kernel::System::State;
 use Kernel::System::SystemAddress;
 use Kernel::System::CustomerUser;
 use Kernel::System::TemplateGenerator;
+use Kernel::System::VariableCheck qw(:all);
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.53 $) [1];
+$VERSION = qw($Revision: 1.54 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -76,6 +77,25 @@ sub Run {
     # error screen, don't show ticket
     if ( !$Access ) {
         return $Self->{LayoutObject}->NoPermission( WithHeader => 'yes' );
+    }
+
+    # get ACL restrictions
+    $Self->{TicketObject}->TicketAcl(
+        Data          => '-',
+        TicketID      => $Self->{TicketID},
+        ReturnType    => 'Action',
+        ReturnSubType => '-',
+        UserID        => $Self->{UserID},
+    );
+    my %AclAction = $Self->{TicketObject}->TicketAclActionData();
+
+    # check if ACL resctictions if exist
+    if ( IsHashRefWithData( \%AclAction ) ) {
+
+        # show error screen if ACL prohibits this action
+        if ( defined $AclAction{ $Self->{Action} } && $AclAction{ $Self->{Action} } eq '0' ) {
+            return $Self->{LayoutObject}->NoPermission( WithHeader => 'yes' );
+        }
     }
 
     # get lock state && write (lock) permissions

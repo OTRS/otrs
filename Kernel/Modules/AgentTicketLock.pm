@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketLock.pm - to set or unset a lock for tickets
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketLock.pm,v 1.16 2012-01-06 14:54:46 mg Exp $
+# $Id: AgentTicketLock.pm,v 1.17 2012-01-24 00:08:45 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,9 +13,10 @@ package Kernel::Modules::AgentTicketLock;
 
 use strict;
 use warnings;
+use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -55,6 +56,25 @@ sub Run {
     # error screen, don't show ticket
     if ( !$Access ) {
         return $Self->{LayoutObject}->NoPermission( WithHeader => 'yes' );
+    }
+
+    # get ACL restrictions
+    $Self->{TicketObject}->TicketAcl(
+        Data          => '-',
+        TicketID      => $Self->{TicketID},
+        ReturnType    => 'Action',
+        ReturnSubType => '-',
+        UserID        => $Self->{UserID},
+    );
+    my %AclAction = $Self->{TicketObject}->TicketAclActionData();
+
+    # check if ACL resctictions if exist
+    if ( IsHashRefWithData( \%AclAction ) ) {
+
+        # show error screen if ACL prohibits this action
+        if ( defined $AclAction{ $Self->{Action} } && $AclAction{ $Self->{Action} } eq '0' ) {
+            return $Self->{LayoutObject}->NoPermission( WithHeader => 'yes' );
+        }
     }
 
     # start with actions

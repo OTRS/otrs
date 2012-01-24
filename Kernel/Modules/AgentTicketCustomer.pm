@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketCustomer.pm - to set the ticket customer and show the customer history
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCustomer.pm,v 1.41 2011-05-18 07:22:36 mg Exp $
+# $Id: AgentTicketCustomer.pm,v 1.42 2012-01-24 00:08:45 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,9 +15,10 @@ use strict;
 use warnings;
 
 use Kernel::System::CustomerUser;
+use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.41 $) [1];
+$VERSION = qw($Revision: 1.42 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -88,6 +89,25 @@ sub Run {
         {
 
             # no permission screen, don't show ticket
+            return $Self->{LayoutObject}->NoPermission( WithHeader => 'yes' );
+        }
+    }
+
+    # get ACL restrictions
+    $Self->{TicketObject}->TicketAcl(
+        Data          => '-',
+        TicketID      => $Self->{TicketID},
+        ReturnType    => 'Action',
+        ReturnSubType => '-',
+        UserID        => $Self->{UserID},
+    );
+    my %AclAction = $Self->{TicketObject}->TicketAclActionData();
+
+    # check if ACL resctictions if exist
+    if ( IsHashRefWithData( \%AclAction ) ) {
+
+        # show error screen if ACL prohibits this action
+        if ( defined $AclAction{ $Self->{Action} } && $AclAction{ $Self->{Action} } eq '0' ) {
             return $Self->{LayoutObject}->NoPermission( WithHeader => 'yes' );
         }
     }
