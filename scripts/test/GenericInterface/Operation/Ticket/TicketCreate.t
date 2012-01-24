@@ -2,7 +2,7 @@
 # TicketCreate.t - GenericInterface TicketCreate tests for TicketConnector backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketCreate.t,v 1.3 2012-01-18 13:06:25 cr Exp $
+# $Id: TicketCreate.t,v 1.4 2012-01-24 10:04:02 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -38,54 +38,88 @@ use Kernel::System::User;
 # set UserID to root because in public interface there is no user
 $Self->{UserID} = 1;
 
-# create ticket object
-my $TicketObject = Kernel::System::Ticket->new( %{$Self} );
-
 # helper object
 my $HelperObject = Kernel::System::UnitTest::Helper->new(
     %{$Self},
-    UnitTestObject => $Self,
+    UnitTestObject             => $Self,
+    RestoreSystemConfiguration => 1,
 );
 my $RandomID = $HelperObject->GetRandomID();
 
+my $ConfigObject = Kernel::Config->new();
+
+my $SysConfigObject = Kernel::System::SysConfig->new(
+    %{$Self},
+    ConfigObject => $ConfigObject,
+);
+
+$SysConfigObject->ConfigItemUpdate(
+    Valid => 1,
+    Key   => 'Ticket::Type',
+    Value => '1',
+);
+$ConfigObject->Set(
+    Key   => 'Ticket::Type',
+    Value => 1,
+);
+$SysConfigObject->ConfigItemUpdate(
+    Valid => 1,
+    Key   => 'Ticket::Frontend::AccountTime',
+    Value => '1',
+);
+$ConfigObject->Set(
+    Key   => 'Ticket::Frontend::AccountTime',
+    Value => 1,
+);
+$SysConfigObject->ConfigItemUpdate(
+    Valid => 1,
+    Key   => 'Ticket::Frontend::NeedAccountedTime',
+    Value => '1',
+);
+$ConfigObject->Set(
+    Key   => 'Ticket::Frontend::NeedAccountedTime',
+    Value => 1,
+);
+
+# create ticket object
+my $TicketObject = Kernel::System::Ticket->new(
+    %{$Self},
+    ConfigObject => $ConfigObject,
+);
+
 # all other objects
-my $SysConfigObject    = Kernel::System::SysConfig->new( %{$Self} );
-my $QueueObject        = Kernel::System::Queue->new( %{$Self} );
-my $TypeObject         = Kernel::System::Type->new( %{$Self} );
-my $ServiceObject      = Kernel::System::Service->new( %{$Self} );
-my $SLAObject          = Kernel::System::SLA->new( %{$Self} );
-my $StateObject        = Kernel::System::State->new( %{$Self} );
-my $PriorityObject     = Kernel::System::Priority->new( %{$Self} );
-my $DynamicFieldObject = Kernel::System::DynamicField->new( %{$Self} );
-my $UserObject         = Kernel::System::User->new( %{$Self} );
-
-# get config settings
-my $TicketTypeSetting        = $Self->{ConfigObject}->Get('Ticket::Type');
-my $AccountTimeSetting       = $Self->{ConfigObject}->Get('Ticket::Frontend::AccountTime');
-my $NeedAccountedTimeSetting = $Self->{ConfigObject}->Get('Ticket::Frontend::NeedAccountedTime');
-
-# update sysconfig if needed
-if ( $TicketTypeSetting eq '0' ) {
-    $SysConfigObject->ConfigItemUpdate(
-        Valid => 1,
-        Key   => 'Ticket::Type',
-        Value => '1',
-    );
-}
-if ( $AccountTimeSetting eq '0' ) {
-    $SysConfigObject->ConfigItemUpdate(
-        Valid => 1,
-        Key   => 'Ticket::Frontend::AccountTime',
-        Value => '1',
-    );
-}
-if ( $NeedAccountedTimeSetting eq '0' ) {
-    $SysConfigObject->ConfigItemUpdate(
-        Valid => 1,
-        Key   => 'Ticket::Frontend::NeedAccountedTime',
-        Value => '1',
-    );
-}
+my $QueueObject = Kernel::System::Queue->new(
+    %{$Self},
+    ConfigObject => $ConfigObject,
+);
+my $TypeObject = Kernel::System::Type->new(
+    %{$Self},
+    ConfigObject => $ConfigObject,
+);
+my $ServiceObject = Kernel::System::Service->new(
+    %{$Self},
+    ConfigObject => $ConfigObject,
+);
+my $SLAObject = Kernel::System::SLA->new(
+    %{$Self},
+    ConfigObject => $ConfigObject,
+);
+my $StateObject = Kernel::System::State->new(
+    %{$Self},
+    ConfigObject => $ConfigObject,
+);
+my $PriorityObject = Kernel::System::Priority->new(
+    %{$Self},
+    ConfigObject => $ConfigObject,
+);
+my $DynamicFieldObject = Kernel::System::DynamicField->new(
+    %{$Self},
+    ConfigObject => $ConfigObject,
+);
+my $UserObject = Kernel::System::User->new(
+    %{$Self},
+    ConfigObject => $ConfigObject,
+);
 
 my $TestOwnerLogin        = $HelperObject->TestUserCreate();
 my $TestResponsibleLogin  = $HelperObject->TestUserCreate();
@@ -285,7 +319,10 @@ $Self->True(
 );
 
 # create webservice object
-my $WebserviceObject = Kernel::System::GenericInterface::Webservice->new( %{$Self} );
+my $WebserviceObject = Kernel::System::GenericInterface::Webservice->new(
+    %{$Self},
+    ConfigObject => $ConfigObject,
+);
 $Self->Is(
     'Kernel::System::GenericInterface::Webservice',
     ref $WebserviceObject,
@@ -3016,6 +3053,7 @@ my @Tests        = (
 # debugger object
 my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
     %{$Self},
+    ConfigObject   => $ConfigObject,
     DebuggerConfig => {
         DebugThreshold => 'debug',
         TestMode       => 1,
@@ -3034,6 +3072,7 @@ for my $Test (@Tests) {
     # create local object
     my $LocalObject = "Kernel::GenericInterface::Operation::Ticket::$Test->{Operation}"->new(
         %{$Self},
+        ConfigObject   => $ConfigObject,
         DebuggerObject => $DebuggerObject,
         WebserviceID   => $WebserviceID,
     );
@@ -3063,7 +3102,10 @@ for my $Test (@Tests) {
     );
 
     # create requester object
-    my $RequesterObject = Kernel::GenericInterface::Requester->new( %{$Self} );
+    my $RequesterObject = Kernel::GenericInterface::Requester->new(
+        %{$Self},
+        ConfigObject => $ConfigObject,
+    );
     $Self->Is(
         'Kernel::GenericInterface::Requester',
         ref $RequesterObject,
@@ -3401,29 +3443,6 @@ for my $Test (@Tests) {
             "$Test->{Name} - Local result matched with remote result.",
         );
     }
-}
-
-# restore original configuration is needed
-if ( $TicketTypeSetting eq '0' ) {
-    $SysConfigObject->ConfigItemUpdate(
-        Valid => 1,
-        Key   => 'Ticket::Type',
-        Value => '0',
-    );
-}
-if ( $AccountTimeSetting eq '0' ) {
-    $SysConfigObject->ConfigItemUpdate(
-        Valid => 1,
-        Key   => 'Ticket::Frontend::AccountTime',
-        Value => '0',
-    );
-}
-if ( $NeedAccountedTimeSetting eq '0' ) {
-    $SysConfigObject->ConfigItemUpdate(
-        Valid => 1,
-        Key   => 'Ticket::Frontend::NeedAccountedTime',
-        Value => '0',
-    );
 }
 
 # clean up webservice
