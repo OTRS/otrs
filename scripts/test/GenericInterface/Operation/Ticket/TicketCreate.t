@@ -2,7 +2,7 @@
 # TicketCreate.t - GenericInterface TicketCreate tests for TicketConnector backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketCreate.t,v 1.6 2012-01-25 02:51:13 cr Exp $
+# $Id: TicketCreate.t,v 1.7 2012-01-25 03:00:52 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -177,7 +177,7 @@ my %TypeData = $TypeObject->TypeGet(
 # sanity check
 $Self->True(
     IsHashRefWithData( \%TypeData ),
-    "QueueGet() - for testing type",
+    "TypeGet() - for testing type",
 );
 
 # create new service
