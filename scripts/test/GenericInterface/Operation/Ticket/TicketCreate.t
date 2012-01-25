@@ -2,7 +2,7 @@
 # TicketCreate.t - GenericInterface TicketCreate tests for TicketConnector backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketCreate.t,v 1.5 2012-01-24 22:35:24 cr Exp $
+# $Id: TicketCreate.t,v 1.6 2012-01-25 02:51:13 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::GenericInterface::Requester;
 use Kernel::System::GenericInterface::Webservice;
 use Kernel::System::UnitTest::Helper;
 use Kernel::GenericInterface::Operation::Ticket::TicketCreate;
-use Kernel::GenericInterface::Operation::Ticket::SessionIDGet;
+use Kernel::GenericInterface::Operation::Session::SessionIDGet;
 use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData IsStringWithData);
 
 use Kernel::System::SysConfig;
