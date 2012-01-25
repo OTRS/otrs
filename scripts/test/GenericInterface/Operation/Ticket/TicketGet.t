@@ -2,7 +2,7 @@
 # TicketGet.t - TicketConnector interface tests for TicketConnector backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketGet.t,v 1.13 2012-01-24 22:35:24 cr Exp $
+# $Id: TicketGet.t,v 1.14 2012-01-25 18:01:43 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::GenericInterface::Debugger;
 use Kernel::GenericInterface::Requester;
 use Kernel::System::GenericInterface::Webservice;
 use Kernel::GenericInterface::Operation::Ticket::TicketGet;
-use Kernel::GenericInterface::Operation::Session::SessionIDGet;
+use Kernel::GenericInterface::Operation::Session::SessionCreate;
 use Kernel::System::VariableCheck qw(:all);
 
 #get a random id
@@ -710,8 +710,8 @@ my $WebserviceConfig = {
             TicketGet => {
                 Type => 'Ticket::TicketGet',
             },
-            SessionIDGet => {
-                Type => 'Session::SessionIDGet',
+            SessionCreate => {
+                Type => 'Session::SessionCreate',
             },
         },
     },
@@ -728,7 +728,7 @@ my $WebserviceConfig = {
             TicketGet => {
                 Type => 'Test::TestSimple',
             },
-            SessionIDGet => {
+            SessionCreate => {
                 Type => 'Test::TestSimple',
             },
         },
@@ -767,7 +767,7 @@ my $UserLogin              = 'TestUser' . $RandomID;
 my $Password               = 'some-pass';
 my $RequesterSessionResult = $RequesterSessionObject->Run(
     WebserviceID => $WebserviceID,
-    Invoker      => 'SessionIDGet',
+    Invoker      => 'SessionCreate',
     Data         => {
         UserLogin => $UserLogin,
         Password  => $Password,

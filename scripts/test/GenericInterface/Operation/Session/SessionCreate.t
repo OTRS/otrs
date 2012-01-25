@@ -1,8 +1,8 @@
 # --
-# SessionIDGet.t - GenericInterface SessionIDGet tests for SessionConnector backend
+# SessionCreate.t - GenericInterface SessionCreate tests for SessionConnector backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: SessionIDGet.t,v 1.1 2012-01-25 03:37:16 cr Exp $
+# $Id: SessionCreate.t,v 1.1 2012-01-25 18:01:44 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::GenericInterface::Debugger;
 use Kernel::GenericInterface::Requester;
 use Kernel::System::GenericInterface::Webservice;
 use Kernel::System::UnitTest::Helper;
-use Kernel::GenericInterface::Operation::Session::SessionIDGet;
+use Kernel::GenericInterface::Operation::Session::SessionCreate;
 
 use Kernel::System::User;
 
@@ -126,8 +126,8 @@ my $WebserviceConfig = {
             },
         },
         Operation => {
-            SessionIDGet => {
-                Type => 'Session::SessionIDGet',
+            SessionCreate => {
+                Type => 'Session::SessionCreate',
             },
         },
     },
@@ -141,7 +141,7 @@ my $WebserviceConfig = {
             },
         },
         Invoker => {
-            SessionIDGet => {
+            SessionCreate => {
                 Type => 'Test::TestSimple',
             },
         },
@@ -175,7 +175,7 @@ my @Tests = (
             },
             Success => 1
         },
-        Operation => 'SessionIDGet',
+        Operation => 'SessionCreate',
     },
     {
         Name           => 'UserLogin No Password',
@@ -192,7 +192,7 @@ my @Tests = (
             },
             Success => 1
         },
-        Operation => 'SessionIDGet',
+        Operation => 'SessionCreate',
     },
     {
         Name           => 'CustomerUserLogin No Password',
@@ -209,7 +209,7 @@ my @Tests = (
             },
             Success => 1
         },
-        Operation => 'SessionIDGet',
+        Operation => 'SessionCreate',
     },
     {
         Name           => 'Password No UserLogin',
@@ -226,7 +226,7 @@ my @Tests = (
             },
             Success => 1
         },
-        Operation => 'SessionIDGet',
+        Operation => 'SessionCreate',
     },
     {
         Name           => 'UserLogin Invalid Password',
@@ -244,7 +244,7 @@ my @Tests = (
             },
             Success => 1
         },
-        Operation => 'SessionIDGet',
+        Operation => 'SessionCreate',
     },
     {
         Name           => 'CustomerUserLogin Invalid Password',
@@ -262,7 +262,7 @@ my @Tests = (
             },
             Success => 1
         },
-        Operation => 'SessionIDGet',
+        Operation => 'SessionCreate',
     },
     {
         Name           => 'Invalid UserLogin Correct Password',
@@ -280,7 +280,7 @@ my @Tests = (
             },
             Success => 1
         },
-        Operation => 'SessionIDGet',
+        Operation => 'SessionCreate',
     },
     {
         Name           => 'Invalid CustomerUserLogin Correct Password',
@@ -298,7 +298,7 @@ my @Tests = (
             },
             Success => 1
         },
-        Operation => 'SessionIDGet',
+        Operation => 'SessionCreate',
     },
     {
         Name           => 'Correct UserLogin and Password',
@@ -308,7 +308,7 @@ my @Tests = (
             UserLogin => $UserLogin,
             Password  => $UserPassword,
         },
-        Operation => 'SessionIDGet',
+        Operation => 'SessionCreate',
     },
     {
         Name           => 'Correct CustomerUserLogin and Password',
@@ -318,7 +318,7 @@ my @Tests = (
             CustomerUserLogin => $CustomerUserLogin,
             Password          => $CustomerUserPassword,
         },
-        Operation => 'SessionIDGet',
+        Operation => 'SessionCreate',
     },
 );
 
@@ -421,7 +421,7 @@ for my $Test (@Tests) {
             "$Test->{Name} - Requester result SessonID",
         );
 
-        # local and remote request shoudl be different since each time the SessionIDGet is called
+        # local and remote request shoudl be different since each time the SessionCreate is called
         # shold return different SessionID
         $Self->IsNotDeeply(
             $LocalResult,
