@@ -2,7 +2,7 @@
 # Common.t - Operation tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.t,v 1.4 2012-01-25 02:47:50 cr Exp $
+# $Id: Common.t,v 1.5 2012-01-25 03:04:41 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -383,5 +383,15 @@ for my $Test (@Tests) {
         );
     }
 }
+
+# clean up webservice
+my $WebserviceDelete = $WebserviceObject->WebserviceDelete(
+    ID     => $WebserviceID,
+    UserID => 1,
+);
+$Self->True(
+    $WebserviceDelete,
+    "Deleted Webservice $WebserviceID",
+);
 
 1;
