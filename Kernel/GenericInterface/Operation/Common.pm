@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Common.pm - common operation functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.6 2012-01-25 02:45:42 cr Exp $
+# $Id: Common.pm,v 1.7 2012-01-25 17:02:08 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 use Kernel::System::User;
 use Kernel::System::Auth;
@@ -153,83 +153,6 @@ sub Auth {
     return 0;
 }
 
-=item GetSessionID()
-
-performs user authentication and return a new SessionID value
-
-    my $SessionID = $CommonObject->GetSessionID(
-        Data {
-            UserLogin         => 'Agent1',
-            CustomerUserLogin => 'Customer1',       # optional, provide UserLogin or
-                                                    #   CustomerUserLogin
-            Password          => 'some password',   # plain text password
-        }
-    );
-
-Returns undef on failure or
-
-    $SessionID = 'AValidSessionIDValue';         # the new session id value
-
-=cut
-
-sub GetSessionID {
-    my ( $Self, %Param ) = @_;
-
-    my $User;
-    my %UserData;
-    my $UserType;
-
-    # get params
-    my $PostPw = $Param{Data}->{Password} || '';
-
-    if ( defined $Param{Data}->{UserLogin} && $Param{Data}->{UserLogin} ) {
-
-        # if UserLogin
-        my $PostUser = $Param{Data}->{UserLogin} || $Param{Data}->{UserLogin} || '';
-
-        # check submitted data
-        $User = $Self->{AuthObject}->Auth(
-            User => $PostUser,
-            Pw   => $PostPw,
-        );
-        %UserData = $Self->{UserObject}->GetUserData(
-            User  => $User,
-            Valid => 1,
-        );
-        $UserType = 'Agent';
-    }
-    elsif ( defined $Param{Data}->{CustomerUserLogin} && $Param{Data}->{CustomerUserLogin} ) {
-
-        # if UserCustomerLogin
-        my $PostUser = $Param{Data}->{CustomerUserLogin} || $Param{Data}->{CustomerUserLogin} || '';
-
-        # check submitted data
-        $User = $Self->{CustomerAuthObject}->Auth(
-            User => $PostUser,
-            Pw   => $PostPw,
-        );
-        %UserData = $Self->{CustomerUserObject}->CustomerUserDataGet(
-            User  => $PostUser,
-            Valid => 1,
-        );
-        $UserType = 'Customer';
-    }
-
-    # login is invalid
-    return if !$User;
-
-    # create new session id
-    my $NewSessionID = $Self->{SessionObject}->CreateSessionID(
-        %UserData,
-        UserLastRequest => $Self->{TimeObject}->SystemTime(),
-        UserType        => $UserType,
-    );
-
-    return $NewSessionID if ($NewSessionID);
-
-    return;
-}
-
 =item ReturnError()
 
 helper function to return an error message.
@@ -261,6 +184,8 @@ sub ReturnError {
         },
     };
 }
+
+=begin Internal:
 
 =item _AuthUser()
 
@@ -304,8 +229,6 @@ sub _AuthUser {
 
     return $ReturnData;
 }
-
-=begin Internal:
 
 =item _AuthCustomerUser()
 
@@ -363,6 +286,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.6 $ $Date: 2012-01-25 02:45:42 $
+$Revision: 1.7 $ $Date: 2012-01-25 17:02:08 $
 
 =cut

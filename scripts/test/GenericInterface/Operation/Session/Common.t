@@ -2,7 +2,7 @@
 # Common.t - Operation tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.t,v 1.7 2012-01-25 17:03:31 cr Exp $
+# $Id: Common.t,v 1.1 2012-01-25 17:03:31 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,6 @@ use warnings;
 use vars (qw($Self));
 
 use Kernel::System::User;
-use Kernel::GenericInterface::Operation::Common;
 use Kernel::GenericInterface::Operation::Session::Common;
 
 use Kernel::System::UnitTest::Helper;
@@ -84,17 +83,6 @@ my $GroupObject = Kernel::System::Group->new(
     %{$Self},
     ConfigObject => $ConfigObject,
 );
-my $CommonObject = Kernel::GenericInterface::Operation::Common->new(
-    %{$Self},
-    DebuggerObject => $DebuggerObject,
-    ConfigObject   => $ConfigObject,
-);
-$Self->Is(
-    ref $CommonObject,
-    'Kernel::GenericInterface::Operation::Common',
-    'CommonObject instanciate correctly',
-);
-
 my $SessionCommonObject = Kernel::GenericInterface::Operation::Session::Common->new(
     %{$Self},
     DebuggerObject => $DebuggerObject,
@@ -112,53 +100,17 @@ my $UserPassword = $UserLogin;
 my $UserID       = $UserObject->UserLookup(
     UserLogin => $UserLogin,
 );
-my $UserSessionID = $SessionCommonObject->GetSessionID(
-    Data => {
-        UserLogin => $UserLogin,
-        Password  => $UserPassword,
-    },
-);
 
 # set customer user details
-my $CustomerUserLogin     = $HelperObject->TestCustomerUserCreate();
-my $CustomerUserPassword  = $CustomerUserLogin;
-my $CustomerUserID        = $CustomerUserLogin;
-my $CustomerUserSessionID = $SessionCommonObject->GetSessionID(
-    Data => {
-        CustomerUserLogin => $CustomerUserLogin,
-        Password          => $CustomerUserPassword,
-    },
-);
+my $CustomerUserLogin    = $HelperObject->TestCustomerUserCreate();
+my $CustomerUserPassword = $CustomerUserLogin;
+my $CustomerUserID       = $CustomerUserLogin;
 
-# sanity checks
-$Self->IsNot(
-    $UserSessionID,
-    undef,
-    "GetSessionID() for User"
-);
-$Self->IsNot(
-    $CustomerUserSessionID,
-    undef,
-    "GetSessionID() for CustomerUser"
-);
-
-# Tests for Auth()
+# Tests for GetSessionID
 my @Tests = (
     {
         Name    => 'Empty',
         Data    => {},
-        Success => 0,
-    },
-    {
-        Name    => 'No SessionID',
-        Data    => {},
-        Success => 0,
-    },
-    {
-        Name => 'Invalid SessionID',
-        Data => {
-            SessionID => $RandomID,
-        },
         Success => 0,
     },
     {
@@ -215,36 +167,10 @@ my @Tests = (
         Success => 0,
     },
     {
-        Name => 'Correct User SessionID',
-        Data => {
-            SessionID => $UserSessionID,
-        },
-        ExpectedResult => {
-            User     => $UserID,
-            UserType => 'Agent',
-        },
-        Success => 1,
-    },
-    {
-        Name => 'Correct CustomerSessionID',
-        Data => {
-            SessionID => $CustomerUserSessionID,
-        },
-        ExpectedResult => {
-            User     => $CustomerUserID,
-            UserType => 'Customer',
-        },
-        Success => 1,
-    },
-    {
         Name => 'Correct UserLogin and Password',
         Data => {
             UserLogin => $UserLogin,
             Password  => $UserPassword,
-        },
-        ExpectedResult => {
-            User     => $UserID,
-            UserType => 'Agent',
         },
         Success => 1,
     },
@@ -254,42 +180,28 @@ my @Tests = (
             CustomerUserLogin => $CustomerUserLogin,
             Password          => $CustomerUserPassword,
         },
-        ExpectedResult => {
-            User     => $CustomerUserID,
-            UserType => 'Customer',
-        },
         Success => 1,
     },
 );
 
 for my $Test (@Tests) {
-    my ( $User, $UserType ) = $CommonObject->Auth(
+    my $SessionID = $SessionCommonObject->GetSessionID(
         Data => $Test->{Data},
     );
 
     if ( $Test->{Success} ) {
-        $Self->Is(
-            $User,
-            $Test->{ExpectedResult}->{User},
-            "Auth() - $Test->{Name}: User",
-        );
-        $Self->Is(
-            $UserType,
-            $Test->{ExpectedResult}->{UserType},
-            "Auth() - $Test->{Name}: UserType",
+        $Self->IsNot(
+            $SessionID,
+            undef,
+            "GerSessionID() - $Test->{Name}",
         );
     }
 
     else {
         $Self->Is(
-            $User,
-            0,
-            "Auth() - $Test->{Name}: User",
-        );
-        $Self->Is(
-            $UserType,
+            $SessionID,
             undef,
-            "Auth() - $Test->{Name}: UserType",
+            "GerSessionID() - $Test->{Name}",
         );
     }
 }
