@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.466 2012-01-24 08:41:20 mg Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.467 2012-01-25 20:32:37 jb Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box (to avoid the use of destructive queries, such as DROP DATABASE, and also to steal user passwords).</Description>
         <Group>Framework</Group>
@@ -552,7 +552,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SendmailNotificationEnvelopeFrom" Required="0" Valid="0" ConfigLevel="200">
-        <Description Translatable="1">If set, this address is used as envelope from header in outgoing notifications. If no address is specified, the envelope from header is empty.</Description>
+        <Description Translatable="1">If set, this address is used as envelope sender header in outgoing notifications. If no address is specified, the envelope sender header is empty.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Sendmail</SubGroup>
         <Setting>
