@@ -1,8 +1,8 @@
 # --
 # Kernel/GenericInterface/Operation/Test/Test.pm - GenericInterface test operation backend
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Test.pm,v 1.9 2011-06-27 20:05:11 cg Exp $
+# $Id: Test.pm,v 1.10 2012-01-25 07:33:15 ep Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::VariableCheck qw(IsHashRefWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 =head1 NAME
 
@@ -63,7 +63,7 @@ sub new {
 
 perform the selected test Operation. This will return the data that
 was handed to the function or return a variable data if 'TestError' and
-'ErrorData' params are sended.
+'ErrorData' params are sent.
 
     my $Result = $OperationObject->Run(
         Data => {                               # data payload before Operation
@@ -92,7 +92,7 @@ was handed to the function or return a variable data if 'TestError' and
         Success         => 0,                                   # it always return 0
         ErrorMessage    => 'Error message for error code: 1',   # including the 'TestError' param
         Data            => {
-            ErrorData   => {                                    # same data was sended as
+            ErrorData   => {                                    # same data was sent as
                                                                 # 'ErrorData' param
 
             },
@@ -155,6 +155,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.9 $ $Date: 2011-06-27 20:05:11 $
+$Revision: 1.10 $ $Date: 2012-01-25 07:33:15 $
 
 =cut
