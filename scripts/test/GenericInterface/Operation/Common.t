@@ -2,7 +2,7 @@
 # Common.t - Operation tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.t,v 1.7 2012-01-25 17:03:31 cr Exp $
+# $Id: Common.t,v 1.8 2012-01-25 17:29:13 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -112,7 +112,7 @@ my $UserPassword = $UserLogin;
 my $UserID       = $UserObject->UserLookup(
     UserLogin => $UserLogin,
 );
-my $UserSessionID = $SessionCommonObject->GetSessionID(
+my $UserSessionID = $SessionCommonObject->CreateSessionID(
     Data => {
         UserLogin => $UserLogin,
         Password  => $UserPassword,
@@ -123,7 +123,7 @@ my $UserSessionID = $SessionCommonObject->GetSessionID(
 my $CustomerUserLogin     = $HelperObject->TestCustomerUserCreate();
 my $CustomerUserPassword  = $CustomerUserLogin;
 my $CustomerUserID        = $CustomerUserLogin;
-my $CustomerUserSessionID = $SessionCommonObject->GetSessionID(
+my $CustomerUserSessionID = $SessionCommonObject->CreateSessionID(
     Data => {
         CustomerUserLogin => $CustomerUserLogin,
         Password          => $CustomerUserPassword,
@@ -134,12 +134,12 @@ my $CustomerUserSessionID = $SessionCommonObject->GetSessionID(
 $Self->IsNot(
     $UserSessionID,
     undef,
-    "GetSessionID() for User"
+    "CreateSessionID() for User"
 );
 $Self->IsNot(
     $CustomerUserSessionID,
     undef,
-    "GetSessionID() for CustomerUser"
+    "CreateSessionID() for CustomerUser"
 );
 
 # Tests for Auth()

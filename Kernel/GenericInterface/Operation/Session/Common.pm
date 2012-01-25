@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Session/Common.pm - common operation functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.1 2012-01-25 17:02:08 cr Exp $
+# $Id: Common.pm,v 1.2 2012-01-25 17:29:13 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 use Kernel::System::User;
 use Kernel::System::Auth;
@@ -79,11 +79,11 @@ sub new {
     return $Self;
 }
 
-=item GetSessionID()
+=item CreateSessionID()
 
 performs user authentication and return a new SessionID value
 
-    my $SessionID = $CommonObject->GetSessionID(
+    my $SessionID = $CommonObject->CreateSessionID(
         Data {
             UserLogin         => 'Agent1',
             CustomerUserLogin => 'Customer1',       # optional, provide UserLogin or
@@ -98,7 +98,7 @@ Returns undef on failure or
 
 =cut
 
-sub GetSessionID {
+sub CreateSessionID {
     my ( $Self, %Param ) = @_;
 
     my $User;
@@ -172,6 +172,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2012-01-25 17:02:08 $
+$Revision: 1.2 $ $Date: 2012-01-25 17:29:13 $
 
 =cut

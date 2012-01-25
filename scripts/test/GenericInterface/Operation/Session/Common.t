@@ -2,7 +2,7 @@
 # Common.t - Operation tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.t,v 1.1 2012-01-25 17:03:31 cr Exp $
+# $Id: Common.t,v 1.2 2012-01-25 17:29:13 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -106,7 +106,7 @@ my $CustomerUserLogin    = $HelperObject->TestCustomerUserCreate();
 my $CustomerUserPassword = $CustomerUserLogin;
 my $CustomerUserID       = $CustomerUserLogin;
 
-# Tests for GetSessionID
+# Tests for CreateSessionID
 my @Tests = (
     {
         Name    => 'Empty',
@@ -185,7 +185,7 @@ my @Tests = (
 );
 
 for my $Test (@Tests) {
-    my $SessionID = $SessionCommonObject->GetSessionID(
+    my $SessionID = $SessionCommonObject->CreateSessionID(
         Data => $Test->{Data},
     );
 

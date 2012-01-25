@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Session/SessionIDGet.pm - GenericInterface SessionIDGet operation backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: SessionIDGet.pm,v 1.2 2012-01-25 17:02:47 cr Exp $
+# $Id: SessionIDGet.pm,v 1.3 2012-01-25 17:29:13 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::GenericInterface::Operation::Session::Common;
 use Kernel::System::VariableCheck qw(IsStringWithData IsHashRefWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 =head1 NAME
 
@@ -111,7 +111,7 @@ sub Run {
         }
     }
 
-    my $SessionID = $Self->{SessionCommonObject}->GetSessionID(
+    my $SessionID = $Self->{SessionCommonObject}->CreateSessionID(
         %Param,
     );
 
@@ -146,6 +146,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.2 $ $Date: 2012-01-25 17:02:47 $
+$Revision: 1.3 $ $Date: 2012-01-25 17:29:13 $
 
 =cut
