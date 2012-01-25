@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # DBUpdate-to-3.1.pl - update script to migrate OTRS 3.0.x to 3.1.x
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-3.1.pl,v 1.67 2011-11-29 14:46:57 cg Exp $
+# $Id: DBUpdate-to-3.1.pl,v 1.68 2012-01-25 05:57:39 cg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.67 $) [1];
+$VERSION = qw($Revision: 1.68 $) [1];
 
 use Getopt::Std qw();
 use Kernel::Config;
@@ -816,13 +816,18 @@ sub _VerificationTicketData {
 
     # get dynamic field ids and names
     my %DynamicFieldIDs;
+    my @DynamicFieldKeys;
     my $SuccessFields = $CommonObject->{DBObject}->Prepare(
         SQL => 'SELECT id, name FROM dynamic_field ' .
             'WHERE name in (' . $FreeFieldsTicketDB . ')',
     );
     while ( my @Row = $CommonObject->{DBObject}->FetchrowArray() ) {
         $DynamicFieldIDs{ $Row[1] } = $Row[0];
+        push @DynamicFieldKeys, $Row[0];
     }
+
+    # get dinamic fields ids
+    my $DynamicFieldIdentifiers = join ',', @DynamicFieldKeys;
 
     # get how much tickets
     my $HowMuchTickets        = 0;
@@ -849,21 +854,20 @@ sub _VerificationTicketData {
         # select dynamic field entries
         my $SuccessDynamicField = $SecondDBObject->Prepare(
             SQL =>
-                "SELECT dfv.id, dfv.field_id, df.object_type, dfv.object_id,
-                    dfv.value_text, dfv.value_int, dfv.value_date
-                FROM dynamic_field_value dfv, dynamic_field df
-                WHERE df.object_type ='$ObjectType'
-                    AND dfv.object_id = $Row[0]
-                    AND df.id = dfv.field_id
-                ORDER BY dfv.id",
+                "SELECT id, field_id,object_id,
+                    value_text, value_int, value_date
+                FROM dynamic_field_value
+                WHERE object_id = $Row[0]
+                    AND field_id in ($DynamicFieldIdentifiers)
+                ORDER BY field_id",
         );
 
         my %DynamicFieldValue;
         while ( my @DFVRow = $SecondDBObject->FetchrowArray() ) {
-            my $TextValue = defined $DFVRow[4] ? $DFVRow[4] : '';
-            my $IntValue  = defined $DFVRow[5] ? $DFVRow[5] : '';
-            my $DateValue = defined $DFVRow[6] ? $DFVRow[6] : '';
-            $DynamicFieldValue{ $DFVRow[1] . $DFVRow[2] . $DFVRow[3] }
+            my $TextValue = defined $DFVRow[3] ? $DFVRow[3] : '';
+            my $IntValue  = defined $DFVRow[4] ? $DFVRow[4] : '';
+            my $DateValue = defined $DFVRow[5] ? $DFVRow[5] : '';
+            $DynamicFieldValue{ $DFVRow[1] . $ObjectType . $DFVRow[2] }
                 = $TextValue . $IntValue . $DateValue;
         }
 
@@ -881,6 +885,7 @@ sub _VerificationTicketData {
                     my $FieldValue = $Row[$FieldCounter];
                     my $ValueType  = ( $FreeField eq 'FreeTime' ? 'date' : 'text' );
                     my $ObjectID   = $Row[0];
+
                     if ( $DynamicFieldValue{ $FieldID . $ObjectType . $ObjectID } ne $FieldValue ) {
                         print STDERR
                             "A field was not correctly migrated: Field ID $FieldID "
@@ -947,13 +952,18 @@ sub _VerificationArticleData {
 
     # get dynamic field ids and names
     my %DynamicFieldIDs;
+    my @DynamicFieldKeys;
     my $SuccessFields = $CommonObject->{DBObject}->Prepare(
         SQL => 'SELECT id, name FROM dynamic_field ' .
             'WHERE name in (' . $FreeFieldsArticleDB . ')',
     );
     while ( my @Row = $CommonObject->{DBObject}->FetchrowArray() ) {
         $DynamicFieldIDs{ $Row[1] } = $Row[0];
+        push @DynamicFieldKeys, $Row[0];
     }
+
+    # get dinamic fields ids
+    my $DynamicFieldIdentifiers = join ',', @DynamicFieldKeys;
 
     # select how much articles
     my $HowMuchArticles        = 0;
@@ -979,21 +989,21 @@ sub _VerificationArticleData {
 
         # select dynamic field entries
         my $SuccessDynamicField = $SecondDBObject->Prepare(
-            SQL => "SELECT dfv.id, dfv.field_id, df.object_type, dfv.object_id,
-                    dfv.value_text, dfv.value_int, dfv.value_date
-                FROM dynamic_field_value dfv, dynamic_field df
-                WHERE df.object_type ='$ObjectType'
-                    AND dfv.object_id = $Row[0]
-                    AND df.id = dfv.field_id
-                ORDER BY dfv.id",
+            SQL =>
+                "SELECT id, field_id,object_id,
+                    value_text, value_int, value_date
+                FROM dynamic_field_value
+                WHERE object_id = $Row[0]
+                    AND field_id in ($DynamicFieldIdentifiers)
+                ORDER BY field_id",
         );
 
         my %DynamicFieldValue;
         while ( my @DFVRow = $SecondDBObject->FetchrowArray() ) {
-            my $TextValue = defined $DFVRow[4] ? $DFVRow[4] : '';
-            my $IntValue  = defined $DFVRow[5] ? $DFVRow[5] : '';
-            my $DateValue = defined $DFVRow[6] ? $DFVRow[6] : '';
-            $DynamicFieldValue{ $DFVRow[1] . $DFVRow[2] . $DFVRow[3] }
+            my $TextValue = defined $DFVRow[3] ? $DFVRow[3] : '';
+            my $IntValue  = defined $DFVRow[4] ? $DFVRow[4] : '';
+            my $DateValue = defined $DFVRow[5] ? $DFVRow[5] : '';
+            $DynamicFieldValue{ $DFVRow[1] . $ObjectType . $DFVRow[2] }
                 = $TextValue . $IntValue . $DateValue;
         }
 
