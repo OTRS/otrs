@@ -2,7 +2,7 @@
 # Common.t - Operation tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.t,v 1.5 2012-01-25 03:04:41 cr Exp $
+# $Id: Common.t,v 1.6 2012-01-25 03:06:58 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,8 +24,7 @@ use Kernel::System::GenericInterface::Webservice;
 # helper object
 my $HelperObject = Kernel::System::UnitTest::Helper->new(
     %{$Self},
-    UnitTestObject             => $Self,
-    RestoreSystemConfiguration => 1,
+    UnitTestObject => $Self,
 );
 
 my $RandomID = $HelperObject->GetRandomID();
