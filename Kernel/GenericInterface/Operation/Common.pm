@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Common.pm - common operation functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.5 2012-01-24 22:31:10 cr Exp $
+# $Id: Common.pm,v 1.6 2012-01-25 02:45:42 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 use Kernel::System::User;
 use Kernel::System::Auth;
@@ -85,11 +85,13 @@ sub new {
 performs user or customer user authorization
 
     my ( $UserID, $UserType ) = $CommonObject->Auth(
-        SessionID         => 'AValidSessionIDValue'     # the ID of the user session
-        UserLogin         => 'Agent',                   # if no SessionID is given UserLogin or
-                                                        #   CustomerUserLogin is required
-        CustomerUserLogin => 'Customer',
-        Password  => 'some password',                   # user password
+        Data => {
+            SessionID         => 'AValidSessionIDValue'     # the ID of the user session
+            UserLogin         => 'Agent',                   # if no SessionID is given UserLogin or
+                                                            #   CustomerUserLogin is required
+            CustomerUserLogin => 'Customer',
+            Password  => 'some password',                   # user password
+        },
     );
 
     returns
@@ -110,7 +112,7 @@ sub Auth {
     if ($SessionID) {
         my $ValidSessionID =
             $Self->{SessionObject}->CheckSessionID( SessionID => $SessionID ) if $SessionID;
-        return if !$ValidSessionID;
+        return 0 if !$ValidSessionID;
 
         # get session data
         my %UserData = $Self->{SessionObject}->GetSessionIDData(
@@ -118,10 +120,10 @@ sub Auth {
         );
 
         # get UserID from SessionIDData
-        if ( $UserData{UserType} ne 'Customer' ) {
+        if ( $UserData{UserID} && $UserData{UserType} ne 'Customer' ) {
             return ( $UserData{UserID}, $UserData{UserType} );
         }
-        else {
+        elsif ( $UserData{UserLogin} && $UserData{UserType} eq 'Customer' ) {
 
             # if UserCustomerLogin
             return ( $UserData{UserLogin}, $UserData{UserType} );
@@ -131,13 +133,21 @@ sub Auth {
 
     if ( defined $Param{Data}->{UserLogin} && $Param{Data}->{UserLogin} ) {
 
+        my $UserID = $Self->_AuthUser(%Param);
+
         # if UserLogin
-        return ( $Self->_AuthUser(%Param), 'Agent' );
+        if ($UserID) {
+            return ( $UserID, 'Agent' );
+        }
     }
     elsif ( defined $Param{Data}->{CustomerUserLogin} && $Param{Data}->{CustomerUserLogin} ) {
 
+        my $CustomerUserID = $Self->_AuthCustomerUser(%Param);
+
         # if UserCustomerLogin
-        return ( $Self->_AuthCustomerUser(%Param), 'Customer' );
+        if ($CustomerUserID) {
+            return ( $CustomerUserID, 'Customer' );
+        }
     }
 
     return 0;
@@ -148,9 +158,12 @@ sub Auth {
 performs user authentication and return a new SessionID value
 
     my $SessionID = $CommonObject->GetSessionID(
-        UserLogin         => 'Agent1',
-        CustomerUserLogin => 'Customer1',       # optional, provide UserLogin or CustomerUserLogin
-        Password          => 'some password',   # plain text password
+        Data {
+            UserLogin         => 'Agent1',
+            CustomerUserLogin => 'Customer1',       # optional, provide UserLogin or
+                                                    #   CustomerUserLogin
+            Password          => 'some password',   # plain text password
+        }
     );
 
 Returns undef on failure or
@@ -164,6 +177,7 @@ sub GetSessionID {
 
     my $User;
     my %UserData;
+    my $UserType;
 
     # get params
     my $PostPw = $Param{Data}->{Password} || '';
@@ -178,7 +192,11 @@ sub GetSessionID {
             User => $PostUser,
             Pw   => $PostPw,
         );
-        %UserData = $Self->{UserObject}->GetUserData( User => $User, Valid => 1 );
+        %UserData = $Self->{UserObject}->GetUserData(
+            User  => $User,
+            Valid => 1,
+        );
+        $UserType = 'Agent';
     }
     elsif ( defined $Param{Data}->{CustomerUserLogin} && $Param{Data}->{CustomerUserLogin} ) {
 
@@ -190,8 +208,11 @@ sub GetSessionID {
             User => $PostUser,
             Pw   => $PostPw,
         );
-        %UserData
-            = $Self->{CustomerUserObject}->CustomerUserDataGet( User => $PostUser, Valid => 1 );
+        %UserData = $Self->{CustomerUserObject}->CustomerUserDataGet(
+            User  => $PostUser,
+            Valid => 1,
+        );
+        $UserType = 'Customer';
     }
 
     # login is invalid
@@ -201,7 +222,7 @@ sub GetSessionID {
     my $NewSessionID = $Self->{SessionObject}->CreateSessionID(
         %UserData,
         UserLastRequest => $Self->{TimeObject}->SystemTime(),
-        UserType        => 'User',
+        UserType        => $UserType,
     );
 
     return $NewSessionID if ($NewSessionID);
@@ -342,6 +363,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.5 $ $Date: 2012-01-24 22:31:10 $
+$Revision: 1.6 $ $Date: 2012-01-25 02:45:42 $
 
 =cut
