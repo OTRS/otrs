@@ -1360,14 +1360,14 @@ Your OTRS Team
 
 Thank you for installing OTRS.
 
-You will find updates and patches at http://otrs.org/. Online
-documentation is available at http://doc.otrs.org/. You can also
-use our mailing lists http://lists.otrs.org/ or our forums at
-http://forums.otrs.org/
+You will find updates and patches at http://www.otrs.com/open-source/.
+Online documentation is available at http://doc.otrs.org/.
+You can also use our mailing lists http://lists.otrs.org/
+or our forums at http://forums.otrs.org/
 
 Regards,
 
-The OTRS.org Project
+The OTRS Project
 </Data>
         <Data Key="a_message_id" Type="Quote">&lt;007@localhost&gt;</Data>
         <Data Key="incoming_time">1280750400</Data>
@@ -1390,14 +1390,14 @@ Welcome!
 
 Thank you for installing OTRS.
 
-You will find updates and patches at http://otrs.org/. Online
-documentation is available at http://doc.otrs.org/. You can also
-use our mailing lists http://lists.otrs.org/ or our forums at
-http://forums.otrs.org/
+You will find updates and patches at http://www.otrs.com/open-source/.
+Online documentation is available at http://doc.otrs.org/.
+You can also use our mailing lists http://lists.otrs.org/
+or our forums at http://forums.otrs.org/
 
 Regards,
 
-The OTRS.org Project
+The OTRS Project
 </Data>
         <Data Key="create_by">1</Data>
         <Data Key="create_time">current_timestamp</Data>

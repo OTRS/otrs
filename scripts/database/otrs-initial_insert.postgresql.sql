@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: postgresql, generated: 2011-12-19 09:58:18
+--  driver: postgresql, generated: 2012-01-26 13:53:55
 -- ----------------------------------------------------------
 SET standard_conforming_strings TO ON;
 -- ----------------------------------------------------------
@@ -775,13 +775,13 @@ INSERT INTO ticket (tn, queue_id, ticket_lock_id, ticket_answered, user_id, resp
 -- ----------------------------------------------------------
 INSERT INTO article (ticket_id, article_type_id, article_sender_type_id, a_from, a_to, a_subject, a_body, a_message_id, incoming_time, content_path, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (1, 1, 3, 'OTRS Feedback <feedback@otrs.org>', 'Your OTRS System <otrs@localhost>', 'Welcome to OTRS!', 'Welcome!Thank you for installing OTRS.You will find updates and patches at http://otrs.org/. Onlinedocumentation is available at http://doc.otrs.org/. You can alsouse our mailing lists http://lists.otrs.org/ or our forums athttp://forums.otrs.org/Regards,The OTRS.org Project', '<007@localhost>', 1280750400, '2010/08/02', 1, 1, current_timestamp, 1, current_timestamp);
+    (1, 1, 3, 'OTRS Feedback <feedback@otrs.org>', 'Your OTRS System <otrs@localhost>', 'Welcome to OTRS!', 'Welcome!Thank you for installing OTRS.You will find updates and patches at http://www.otrs.com/open-source/.Online documentation is available at http://doc.otrs.org/.You can also use our mailing lists http://lists.otrs.org/or our forums at http://forums.otrs.org/Regards,The OTRS Project', '<007@localhost>', 1280750400, '2010/08/02', 1, 1, current_timestamp, 1, current_timestamp);
 -- ----------------------------------------------------------
 --  insert into table article_plain
 -- ----------------------------------------------------------
 INSERT INTO article_plain (article_id, body, create_by, create_time, change_by, change_time)
     VALUES
-    (1, 'From: OTRS Feedback <feedback@otrs.org>To: Your OTRS System <otrs@localhost>Subject: Welcome to OTRS!Welcome!Thank you for installing OTRS.You will find updates and patches at http://otrs.org/. Onlinedocumentation is available at http://doc.otrs.org/. You can alsouse our mailing lists http://lists.otrs.org/ or our forums athttp://forums.otrs.org/Regards,The OTRS.org Project', 1, current_timestamp, 1, current_timestamp);
+    (1, 'From: OTRS Feedback <feedback@otrs.org>To: Your OTRS System <otrs@localhost>Subject: Welcome to OTRS!Welcome!Thank you for installing OTRS.You will find updates and patches at http://www.otrs.com/open-source/.Online documentation is available at http://doc.otrs.org/.You can also use our mailing lists http://lists.otrs.org/or our forums at http://forums.otrs.org/Regards,The OTRS Project', 1, current_timestamp, 1, current_timestamp);
 -- ----------------------------------------------------------
 --  insert into table ticket_history
 -- ----------------------------------------------------------
