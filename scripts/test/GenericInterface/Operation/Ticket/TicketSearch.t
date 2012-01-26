@@ -2,7 +2,7 @@
 # TicketSearch.t - GenericInterface transport interface tests for TicketConnector backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketSearch.t,v 1.7 2012-01-25 18:01:43 cr Exp $
+# $Id: TicketSearch.t,v 1.8 2012-01-26 04:48:00 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,6 +25,13 @@ use Kernel::System::GenericInterface::Webservice;
 use Kernel::GenericInterface::Operation::Ticket::TicketSearch;
 use Kernel::GenericInterface::Operation::Session::SessionCreate;
 use Kernel::System::VariableCheck qw(:all);
+
+use Kernel::System::Type;
+use Kernel::System::Service;
+
+# extra needed objects
+my $TypeObject    = Kernel::System::Type->new( %{$Self} );
+my $ServiceObject = Kernel::System::Service->new( %{$Self} );
 
 #get a random id
 my $RandomID = int rand 1_000_000_000;
@@ -58,6 +65,53 @@ $Self->{UserID} = $UserObject->UserAdd(
 $Self->True(
     $Self->{UserID},
     'User Add ()',
+);
+
+# create new type
+my $TypeID = $TypeObject->TypeAdd(
+    Name    => 'TestType' . $RandomID,
+    ValidID => 1,
+    UserID  => 1,
+);
+
+# sanity check
+$Self->True(
+    $TypeID,
+    "TypeAdd() - create testing type",
+);
+
+my %TypeData = $TypeObject->TypeGet(
+    ID => $TypeID,
+);
+
+# sanity check
+$Self->True(
+    IsHashRefWithData( \%TypeData ),
+    "QueueGet() - for testing type",
+);
+
+# create new service
+my $ServiceID = $ServiceObject->ServiceAdd(
+    Name    => 'TestService' . $RandomID,
+    ValidID => 1,
+    UserID  => 1,
+);
+
+# sanity check
+$Self->True(
+    $ServiceID,
+    "ServiceAdd() - create testing service",
+);
+
+my %ServiceData = $ServiceObject->ServiceGet(
+    ServiceID => $ServiceID,
+    UserID    => 1,
+);
+
+# sanity check
+$Self->True(
+    IsHashRefWithData( \%ServiceData ),
+    "ServiceGet() - for testing service",
 );
 
 # start DynamicFields
@@ -216,8 +270,9 @@ my $TicketID1 = $TicketObject->TicketCreate(
     Lock         => 'unlock',
     Priority     => '3 normal',
     State        => 'new',
-    CustomerID   => '123465',
+    CustomerID   => '123465' . $RandomID,
     CustomerUser => 'customerOne@example.com',
+    Service      => 'TestService' . $RandomID,
     OwnerID      => 1,
     UserID       => 1,
 );
@@ -317,7 +372,7 @@ my $TicketID2 = $TicketObject->TicketCreate(
     Lock         => 'unlock',
     Priority     => '3 normal',
     State        => 'new',
-    CustomerID   => '123465',
+    CustomerID   => '123465' . $RandomID,
     CustomerUser => 'customerTwo' . $RandomID . '@example.com',
     OwnerID      => 1,
     UserID       => 1,
@@ -421,10 +476,11 @@ my $TicketID3 = $TicketObject->TicketCreate(
     Title        => 'Ticket Three Title',
     Queue        => 'Raw',
     Lock         => 'unlock',
-    Priority     => '3 normal',
+    Priority     => '1 very low',
     State        => 'new',
-    CustomerID   => '123465',
+    CustomerID   => '123465' . $RandomID,
     CustomerUser => 'customerThree@example.com',
+    Type         => 'TestType' . $RandomID,
     OwnerID      => 1,
     UserID       => 1,
 );
@@ -459,7 +515,7 @@ for my $Key ( keys %TicketEntryThree ) {
 # add ticket id
 push @TicketIDs, $TicketID3;
 
-# create ticket 3
+# create ticket 4
 my $TicketID4 = $TicketObject->TicketCreate(
     Title        => 'Ticket Four Title äöüßÄÖÜ€ис',
     Queue        => 'Junk',
@@ -875,7 +931,7 @@ my @Tests = (
         SuccessRequest => 1,
         RequestData    => {
             Title => 'Ticket Two Title ' . $RandomID,
-            Locks => 'unlock',
+            Locks => 'Unlock',
         },
         ExpectedReturnLocalData => {
             Data => {
@@ -937,8 +993,69 @@ my @Tests = (
         Name           => "Test " . $TestCounter++,
         SuccessRequest => 1,
         RequestData    => {
-            Title      => 'Ticket Two Title ' . $RandomID,
-            CustomerID => '123465',
+            CustomerID => '123465' . $RandomID,
+        },
+        ExpectedReturnLocalData => {
+            Data => {
+                Item => [ $TicketID3, $TicketID2, $TicketID1 ],
+            },
+            Success => 1
+        },
+        ExpectedReturnRemoteData => {
+            Data => {
+                Item => [ $TicketID3, $TicketID2, $TicketID1 ],
+            },
+            Success => 1,
+        },
+        Operation => 'TicketSearch',
+    },
+    {
+        Name           => "Test " . $TestCounter++,
+        SuccessRequest => 1,
+        RequestData    => {
+            Queues     => ['Junk'],
+            CustomerID => '654321',
+        },
+        ExpectedReturnLocalData => {
+            Data => {
+                Item => [$TicketID4],
+            },
+            Success => 1
+        },
+        ExpectedReturnRemoteData => {
+            Data => {
+                Item => $TicketID4,
+            },
+            Success => 1,
+        },
+        Operation => 'TicketSearch',
+    },
+    {
+        Name           => "Test " . $TestCounter++,
+        SuccessRequest => 1,
+        RequestData    => {
+            Types => [ 'TestType' . $RandomID ],
+        },
+        ExpectedReturnLocalData => {
+            Data => {
+                Item => [$TicketID3],
+            },
+            Success => 1
+        },
+        ExpectedReturnRemoteData => {
+            Data => {
+                Item => $TicketID3,
+            },
+            Success => 1,
+        },
+        Operation => 'TicketSearch',
+    },
+    {
+        Name           => "Test " . $TestCounter++,
+        SuccessRequest => 1,
+        RequestData    => {
+            States => ['new'],
+            Title  => 'Ticket Two Title ' . $RandomID,
         },
         ExpectedReturnLocalData => {
             Data => {
@@ -954,6 +1071,89 @@ my @Tests = (
         },
         Operation => 'TicketSearch',
     },
+    {
+        Name           => "Test " . $TestCounter++,
+        SuccessRequest => 1,
+        RequestData    => {
+            States => ['new'],
+            Title  => '*' . $RandomID,
+        },
+        ExpectedReturnLocalData => {
+            Data => {
+                Item => [$TicketID2],
+            },
+            Success => 1
+        },
+        ExpectedReturnRemoteData => {
+            Data => {
+                Item => $TicketID2,
+            },
+            Success => 1,
+        },
+        Operation => 'TicketSearch',
+    },
+    {
+        Name           => "Test " . $TestCounter++,
+        SuccessRequest => 1,
+        RequestData    => {
+            StateType => ['Open'],
+            Title     => '* äöüßÄÖÜ€ис',
+        },
+        ExpectedReturnLocalData => {
+            Data => {
+                Item => [$TicketID4],
+            },
+            Success => 1
+        },
+        ExpectedReturnRemoteData => {
+            Data => {
+                Item => $TicketID4,
+            },
+            Success => 1,
+        },
+        Operation => 'TicketSearch',
+    },
+    {
+        Name           => "Test " . $TestCounter++,
+        SuccessRequest => 1,
+        RequestData    => {
+            Priorities => ['1 very low'],
+        },
+        ExpectedReturnLocalData => {
+            Data => {
+                Item => [$TicketID3],
+            },
+            Success => 1
+        },
+        ExpectedReturnRemoteData => {
+            Data => {
+                Item => $TicketID3,
+            },
+            Success => 1,
+        },
+        Operation => 'TicketSearch',
+    },
+    {
+        Name           => "Test " . $TestCounter++,
+        SuccessRequest => 1,
+        RequestData    => {
+            Services => [ 'TestService' . $RandomID ],
+        },
+        ExpectedReturnLocalData => {
+            Data => {
+                Item => [$TicketID1],
+            },
+            Success => 1
+        },
+        ExpectedReturnRemoteData => {
+            Data => {
+                Item => $TicketID1,
+            },
+            Success => 1,
+        },
+        Operation => 'TicketSearch',
+    },
+
 );
 
 # Add a wrong value test for each posible parameter on direct search
@@ -1352,6 +1552,18 @@ my $UpdateUser = $UserObject->UserUpdate(
 $Self->True(
     $UpdateUser,
     "UserUpdate() successful for User ID $Self->{UserID}",
+);
+
+my $Success = $TypeObject->TypeUpdate(
+    %TypeData,
+    ValidID => 2,
+    UserID  => 1,
+);
+
+# sanity check
+$Self->True(
+    $Success,
+    "TypeUpdate() set type $TypeData{Name} to invalid",
 );
 
 1;
