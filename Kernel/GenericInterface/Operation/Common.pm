@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Common.pm - common operation functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.7 2012-01-25 17:02:08 cr Exp $
+# $Id: Common.pm,v 1.8 2012-01-26 17:02:00 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 use Kernel::System::User;
 use Kernel::System::Auth;
@@ -40,9 +40,64 @@ Kernel::GenericInterface::Operation::Common - common operation functions
 
 =item new()
 
-usually, you do not need to instantiate this object directly.
-It will be passed to all Operation backends so that they can
-take advantage of it.
+create an object
+
+    use Kernel::Config;
+    use Kernel::System::Encode;
+    use Kernel::System::Log;
+    use Kernel::System::Time;
+    use Kernel::System::Main;
+    use Kernel::System::DB;
+    use Kernel::GenericInterface::Debugger;
+    use Kernel::GenericInterface::Operation::Common;
+
+    my $ConfigObject = Kernel::Config->new();
+    my $EncodeObject = Kernel::System::Encode->new(
+        ConfigObject => $ConfigObject,
+    );
+    my $LogObject = Kernel::System::Log->new(
+        ConfigObject => $ConfigObject,
+        EncodeObject => $EncodeObject,
+    );
+    my $TimeObject = Kernel::System::Time->new(
+        ConfigObject => $ConfigObject,
+        LogObject    => $LogObject,
+    );
+    my $MainObject = Kernel::System::Main->new(
+        ConfigObject => $ConfigObject,
+        EncodeObject => $EncodeObject,
+        LogObject    => $LogObject,
+    );
+    my $DBObject = Kernel::System::DB->new(
+        ConfigObject => $ConfigObject,
+        EncodeObject => $EncodeObject,
+        LogObject    => $LogObject,
+        MainObject   => $MainObject,
+    );
+    my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
+        ConfigObject       => $ConfigObject,
+        LogObject          => $LogObject,
+        DBObject           => $DBObject,
+        MainObject         => $MainObject,
+        TimeObject         => $TimeObject,
+        EncodeObject       => $EncodeObject,
+
+        DebuggerConfig   => {
+            DebugThreshold  => 'debug',
+            TestMode        => 0,           # optional, in testing mode the data will not be
+                                            #   written to the DB
+            ...
+        },
+    my $CommonObject = Kernel::GenericInterface::Operation::Common->new(
+        ConfigObject       => $ConfigObject,
+        LogObject          => $LogObject,
+        DBObject           => $DBObject,
+        MainObject         => $MainObject,
+        TimeObject         => $TimeObject,
+        EncodeObject       => $EncodeObject,
+        DebuggerObject     => $DebuggerObject,
+        WebserviceID       => $WebserviceID,             # ID of the currently used web service
+    );
 
 =cut
 
@@ -286,6 +341,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.7 $ $Date: 2012-01-25 17:02:08 $
+$Revision: 1.8 $ $Date: 2012-01-26 17:02:00 $
 
 =cut

@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Ticket/Common.pm - Ticket common operation functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.30 2012-01-24 22:31:10 cr Exp $
+# $Id: Common.pm,v 1.31 2012-01-26 17:02:00 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -40,7 +40,7 @@ use Kernel::System::GenericInterface::Webservice;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.30 $) [1];
+$VERSION = qw($Revision: 1.31 $) [1];
 
 =head1 NAME
 
@@ -64,6 +64,7 @@ create an object
     use Kernel::System::Time;
     use Kernel::System::Main;
     use Kernel::System::DB;
+    use Kernel::GenericInterface::Debugger;
     use Kernel::GenericInterface::Operation::Ticket::Common;
 
     my $ConfigObject = Kernel::Config->new();
@@ -89,13 +90,29 @@ create an object
         LogObject    => $LogObject,
         MainObject   => $MainObject,
     );
-    my $SolManCommonObject = Kernel::GenericInterface::Operation::Ticket::Common->new(
+    my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
         ConfigObject       => $ConfigObject,
         LogObject          => $LogObject,
         DBObject           => $DBObject,
         MainObject         => $MainObject,
         TimeObject         => $TimeObject,
         EncodeObject       => $EncodeObject,
+
+        DebuggerConfig   => {
+            DebugThreshold  => 'debug',
+            TestMode        => 0,           # optional, in testing mode the data will not be
+                                            #   written to the DB
+            ...
+        },
+    my $TicketCommonObject = Kernel::GenericInterface::Operation::Ticket::Common->new(
+        ConfigObject       => $ConfigObject,
+        LogObject          => $LogObject,
+        DBObject           => $DBObject,
+        MainObject         => $MainObject,
+        TimeObject         => $TimeObject,
+        EncodeObject       => $EncodeObject,
+        DebuggerObject     => $DebuggerObject,
+        WebserviceID       => $WebserviceID,             # ID of the currently used web service
     );
 
 =cut
@@ -1511,6 +1528,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.30 $ $Date: 2012-01-24 22:31:10 $
+$Revision: 1.31 $ $Date: 2012-01-26 17:02:00 $
 
 =cut
