@@ -8,7 +8,7 @@
 # Copyright (C) 2011 Lars Erik Utsi Gullerud <lerik at nolink.net>
 # Copyright (C) 2011 Espen Stefansen <espen.stefansen at imr.no>
 # --
-# $Id: nb_NO.pm,v 1.123 2012-01-13 06:46:45 mg Exp $
+# $Id: nb_NO.pm,v 1.124 2012-01-26 20:43:22 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,13 +21,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.123 $;
+$VERSION = q$Revision: 1.124 $;
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-01-13 07:44:39
+    # Last translation file sync: 2012-01-26 21:37:51
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2736,8 +2736,6 @@ sub Data {
             '',
         'Defines scheduler sleep time in seconds after processing all available tasks (floating point number).' =>
             '',
-        'Defines the =hHeight for the rich text editor component. Enter number (pixels) or percent value (relative).' =>
-            'Definerer høyden for Rik Tekst-redigereren. Skriv inn tall (punkter) eller prosentverdi (relativ)',
         'Defines the IP regular expression for accessing the local repository. You need to enable this to have access to your local repository and the package::RepositoryList is required on the remote host.' =>
             'Spesifiserer RegEx-uttrykk for IPen til lokalt pakkelager. Du må slå dette på for å ha tilgang til ditt lokale pakkelager. I tillegg er package::RepositoryList påkrevd på andre tjenere.',
         'Defines the URL CSS path.' => 'Definerer URL til CSS',
@@ -2942,6 +2940,8 @@ sub Data {
         'Defines the fully qualified domain name of the system. This setting is used as a variable, OTRS_CONFIG_FQDN which is found in all forms of messaging used by the application, to build links to the tickets within your system.' =>
             '',
         'Defines the groups every customer user will be in (if CustomerGroupSupport is enabled and you don\'t want to manage every user for these groups).' =>
+            '',
+        'Defines the height for the rich text editor component. Enter number (pixels) or percent value (relative).' =>
             '',
         'Defines the height of the legend.' => 'Definerer høyden på symbolforklaringen.',
         'Defines the history comment for the close ticket screen action, which gets used for ticket history in the agent interface.' =>
@@ -3467,8 +3467,8 @@ sub Data {
             '',
         'If enabled, the first level of the main menu opens on mouse hover (instead of click only).' =>
             '',
-        'If set, this address is used as envelope from header in outgoing notifications. If no address is specified, the envelope from header is empty.' =>
-            'Hvis satt vil denne adressen brukes i e-postfeltet Envelope From på utgående meldinger. Hvis ingen adresse er satt opp vil feltet stå tomt.',
+        'If set, this address is used as envelope sender header in outgoing notifications. If no address is specified, the envelope sender header is empty.' =>
+            '',
         'If this regex matches, no message will be send by the autoresponder.' =>
             'Hvis denne RegEx-setningen slår til vil ikke autosvar bli sendt.',
         'If you want to use a mirror database for agent ticket fulltext search or to generate stats, specify the DSN to this database.' =>
@@ -4448,6 +4448,8 @@ sub Data {
         'Defines a regular expression that filters all e-mail addresses that should not be used in the application.' =>
             'Definerer et RegEx-uttrykk som filtrerer bort e-postadresser som ikke skal brukes i OTRS.',
         'Defines key of the free time field number 6 for tickets.' => 'Definerer nøkkelen for fritid-felt nr 6 for saker.',
+        'Defines the =hHeight for the rich text editor component. Enter number (pixels) or percent value (relative).' =>
+            'Definerer høyden for Rik Tekst-redigereren. Skriv inn tall (punkter) eller prosentverdi (relativ)',
         'Defines the configuration of a dedicated DNS server, if necessary, for the "CheckMXRecord" look-ups.' =>
             'Peker til en dedikert DNS-tjener, hvis nødvendig, for å sjekke MX-records.',
         'Defines the default front-end (HTML) theme to be used by the agents and customers. The default themes are Standard and Lite. If you like, you can add your own theme. Please refer the the administrator manual located at http://doc.otrs.org/.' =>
@@ -4705,6 +4707,8 @@ sub Data {
             'Hvis slått på vil versjonsnummeret til OTRS bli fjernet fra HTML-hodet',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the user).' =>
             'Hvis ingen punkter er valgt, er ingen rettigheter tildelt (saker i denne gruppen vil ikke være tilgjengelig for brukeren).',
+        'If set, this address is used as envelope from header in outgoing notifications. If no address is specified, the envelope from header is empty.' =>
+            'Hvis satt vil denne adressen brukes i e-postfeltet Envelope From på utgående meldinger. Hvis ingen adresse er satt opp vil feltet stå tomt.',
         'If there is an article added, such as a follow-up via e-mail or the customer portal, the escalation update time is reset. If there is no customer contact, either email-external or phone, added to a ticket before the time defined here expires, the ticket is escalated.' =>
             'Hvis et innlegg blir lagt til, f.eks. en oppfølging fra e-post eller kundeweben, vil eskaleringstiden bli nullstilt. Hvis det ikke forekommer noen kundekontakt på saken via e-post eller telefon innen fristen vil saken bli eskalert.',
         'If you need the sum of every column select yes.' => 'Dersom du trenger å summere kolonnene, velg ja.',

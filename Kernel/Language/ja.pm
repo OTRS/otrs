@@ -4,7 +4,7 @@
 # Copyright (C) 2010-2011 Kaz Kamimura <kamypus at yahoo.co.jp>
 # Copyright (C) 2011/12/08 Kaoru Hayama TIS Inc.
 # --
-# $Id: ja.pm,v 1.26 2012-01-13 06:46:48 mg Exp $
+# $Id: ja.pm,v 1.27 2012-01-26 20:43:24 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,13 +16,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.26 $) [1];
+$VERSION = qw($Revision: 1.27 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-01-13 07:44:36
+    # Last translation file sync: 2012-01-26 21:37:48
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2731,8 +2731,6 @@ sub Data {
             '',
         'Defines scheduler sleep time in seconds after processing all available tasks (floating point number).' =>
             '',
-        'Defines the =hHeight for the rich text editor component. Enter number (pixels) or percent value (relative).' =>
-            'リッチテキスト・エディター・コンポーネントのための=hHeighｔを定義します。数字（ピクセル）またはパーセント値（相対的）を入力します。',
         'Defines the IP regular expression for accessing the local repository. You need to enable this to have access to your local repository and the package::RepositoryList is required on the remote host.' =>
             'ローカル・レポジトリにアクセスするための、IPの正規表現を定義します。ローカル・レポジトリにアクセスするために、これを有効にする必要があり、またpackage::RepositoryListはリモート・ホストにおいて必要とされます。',
         'Defines the URL CSS path.' => 'URL・CSパスを定義します。',
@@ -2938,6 +2936,8 @@ sub Data {
             'フルに認定されたシステムのドメイン名を定義します。この設定は変数OTRS_CONFIG_FQDNとして使用され、アプリケーションによって使用されるメッセージングの全てのフォームに存在し、ご利用のシステム内のチケットへのリンクを作成することとなります。',
         'Defines the groups every customer user will be in (if CustomerGroupSupport is enabled and you don\'t want to manage every user for these groups).' =>
             '全顧客が所属するグループを定義します（CustomerGroupSupportが有効であり、全ユーザをこれらのグループで管理したくない場合）。',
+        'Defines the height for the rich text editor component. Enter number (pixels) or percent value (relative).' =>
+            '',
         'Defines the height of the legend.' => '凡例の高さを定義します。',
         'Defines the history comment for the close ticket screen action, which gets used for ticket history in the agent interface.' =>
             '担当者インタフェースでチケット履歴のために使用される、クローズ・チケット画面アクションの履歴コメントを定義します。',
@@ -3464,8 +3464,8 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
             '',
         'If enabled, the first level of the main menu opens on mouse hover (instead of click only).' =>
             '有効にした場合、メイン・メニューの1つめのレベルのものが、マウスを乗せるだけで開きます（1回クリックの代わりに）。',
-        'If set, this address is used as envelope from header in outgoing notifications. If no address is specified, the envelope from header is empty.' =>
-            '設定されると、送信される通知においてヘッダーからエンベロープとして使用されます。もし、アドレスが特定されていない場合、ヘッダーからのエンベロープは空になります。',
+        'If set, this address is used as envelope sender header in outgoing notifications. If no address is specified, the envelope sender header is empty.' =>
+            '',
         'If this regex matches, no message will be send by the autoresponder.' =>
             'ここで指定した文言（正規表現）にマッチした場合、オート・レスポンダーによりメッセージは送られません。',
         'If you want to use a mirror database for agent ticket fulltext search or to generate stats, specify the DSN to this database.' =>
@@ -4484,6 +4484,8 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
             '担当者インタフェースにおける追加ITSMフィールド画面で、チケット・ロックが必要とされるかどうかを定義します（もしチケットが未だロックされていない場合、チケットはロックされ、現在の担当者が自動的にその所有者として設定されます）。',
         'Defines if a ticket lock is required in the decision screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
             '担当者インタフェースのクローズ・チケット画面で、チケット・ロックが必要とされるかどうかを定義します（チケットがまだロックされていない場合、チケットはロックされ現在の担当者が自動的に所有者に設定されます）。',
+        'Defines the =hHeight for the rich text editor component. Enter number (pixels) or percent value (relative).' =>
+            'リッチテキスト・エディター・コンポーネントのための=hHeighｔを定義します。数字（ピクセル）またはパーセント値（相対的）を入力します。',
         'Defines the default body of a note in the additional ITSM field screen of the agent interface.' =>
             '担当者インタフェースにおける追加ITSMフィールド画面で、注釈のデフォルトの本文を定義します。',
         'Defines the default body of a note in the decision screen of the agent interface.' =>
@@ -4905,6 +4907,8 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
             'もし注釈が担当者によって追加された場合、担当者インタフェースにおける決定画面で、チケットの状態を設定します。',
         'If configured, all emails sent by the application will contain an X-Header with this organization or company name.' =>
             '設定した場合、アプリケーションによって送信される全Eメールに、組織または会社名に関するXヘッダーが含まれます。',
+        'If set, this address is used as envelope from header in outgoing notifications. If no address is specified, the envelope from header is empty.' =>
+            '設定されると、送信される通知においてヘッダーからエンベロープとして使用されます。もし、アドレスが特定されていない場合、ヘッダーからのエンベロープは空になります。',
         'If you need the sum of every column select yes.' => '全ての列の合計が必要な場合',
         'If you need the sum of every row select yes' => '全ての行の合計が必要な場合',
         'If you use RegExp, you also can use the matched value in () as [***] in \'Set\'.' =>

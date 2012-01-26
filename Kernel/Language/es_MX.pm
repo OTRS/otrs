@@ -2,7 +2,7 @@
 # Kernel/Language/es_MX.pm - provides Spanish language translation for Mexico
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: es_MX.pm,v 1.55 2012-01-13 06:46:49 mg Exp $
+# $Id: es_MX.pm,v 1.56 2012-01-26 20:43:24 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.55 $) [1];
+$VERSION = qw($Revision: 1.56 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-01-13 07:44:18
+    # Last translation file sync: 2012-01-26 21:37:37
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2730,8 +2730,6 @@ sub Data {
             '',
         'Defines scheduler sleep time in seconds after processing all available tasks (floating point number).' =>
             '',
-        'Defines the =hHeight for the rich text editor component. Enter number (pixels) or percent value (relative).' =>
-            'Define la altura del editor de texto enriquecido. Proporcione un número (pixeles) o un porcentaje (relativo).',
         'Defines the IP regular expression for accessing the local repository. You need to enable this to have access to your local repository and the package::RepositoryList is required on the remote host.' =>
             'Define la expresión regular IP para acceder al repositorio local. Es necesario que esto se habilite para tener acceso al repositorio local y el paquete::ListaRepositorio se requiere en el host remoto.',
         'Defines the URL CSS path.' => 'Define la URL de la ruta CSS.',
@@ -2937,6 +2935,8 @@ sub Data {
             'Define el nombre del dominio totalmente calificado del sistema. Esta configuración es usada como la variable OTRS_CONFIG_FQDN, misma que se encuentra en todos los tipos de mensajes usados en la aplicación, para construir vínculos a los tickets del sistema.',
         'Defines the groups every customer user will be in (if CustomerGroupSupport is enabled and you don\'t want to manage every user for these groups).' =>
             'Define los grupos en los que estarán todos los clientes (si CustomerGroupSupport está habilitado y se desea evitar el gestionar cada usuario para estos grupos).',
+        'Defines the height for the rich text editor component. Enter number (pixels) or percent value (relative).' =>
+            '',
         'Defines the height of the legend.' => 'Define la longitur de la leyenda.',
         'Defines the history comment for the close ticket screen action, which gets used for ticket history in the agent interface.' =>
             'Define el comentario histórico para la acción de la ventana de cerrar un ticket. Dicho comentario es usado para la historia del ticket, en la interfaz del agente.',
@@ -3461,8 +3461,8 @@ sub Data {
             '',
         'If enabled, the first level of the main menu opens on mouse hover (instead of click only).' =>
             'Si se habilita, el primer nivel del menú principal se abre al posicionar el cursor sobre él (en lugar de hacer click).',
-        'If set, this address is used as envelope from header in outgoing notifications. If no address is specified, the envelope from header is empty.' =>
-            'Si se define, esta dirección se usa como sobre para el encabezado de las notificaciones salientes.',
+        'If set, this address is used as envelope sender header in outgoing notifications. If no address is specified, the envelope sender header is empty.' =>
+            '',
         'If this regex matches, no message will be send by the autoresponder.' =>
             'Si esta expresión regular coincide, ningún mensaje se mandará por el contestador automático.',
         'If you want to use a mirror database for agent ticket fulltext search or to generate stats, specify the DSN to this database.' =>
@@ -4406,6 +4406,8 @@ sub Data {
         'Default' => 'Por Defecto',
         'Default Charset' => 'Juego de caracteres por defecto',
         'Default Language' => 'Lenguaje por defecto',
+        'Defines the =hHeight for the rich text editor component. Enter number (pixels) or percent value (relative).' =>
+            'Define la altura del editor de texto enriquecido. Proporcione un número (pixeles) o un porcentaje (relativo).',
         'Defines the default selection of the free key field number 1 for articles (if more than one option is provided).' =>
             'Define el valor seleccionado por defecto en el campo de llave libre número 1 para artículos (si es que hay más de una opción).',
         'Defines the default selection of the free key field number 1 for tickets (if more than one option is provided).' =>
@@ -4758,6 +4760,8 @@ sub Data {
             'Si se configura, todos los correos electrónicos enviados por la aplicación contendrán una Cabecera-X con el nombre de compañía que se especique aquí.',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the user).' =>
             'Si no se selecciona algo, no habrá permisos en este grupo (los tickets no estarán disponibles para el cliente).',
+        'If set, this address is used as envelope from header in outgoing notifications. If no address is specified, the envelope from header is empty.' =>
+            'Si se define, esta dirección se usa como sobre para el encabezado de las notificaciones salientes.',
         'If you need the sum of every column select yes.' => 'Si necesita las suma de cada columna seleccione Sí',
         'If you need the sum of every row select yes' => 'Si necesita la suma de cada fila seleccione Sí',
         'If you use RegExp, you also can use the matched value in () as [***] in \'Set\'.' =>

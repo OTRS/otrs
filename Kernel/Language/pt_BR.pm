@@ -6,7 +6,7 @@
 # Copyright (C) 2007-2010 Fabricio Luiz Machado <soprobr gmail.com>
 # Copyright (C) 2010-2011 Murilo Moreira de Oliveira <murilo.moreira gmail.com>
 # --
-# $Id: pt_BR.pm,v 1.125 2012-01-13 06:46:49 mg Exp $
+# $Id: pt_BR.pm,v 1.126 2012-01-26 20:43:25 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,13 +18,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.125 $) [1];
+$VERSION = qw($Revision: 1.126 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-01-13 07:44:43
+    # Last translation file sync: 2012-01-26 21:37:56
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2733,8 +2733,6 @@ sub Data {
             '',
         'Defines scheduler sleep time in seconds after processing all available tasks (floating point number).' =>
             '',
-        'Defines the =hHeight for the rich text editor component. Enter number (pixels) or percent value (relative).' =>
-            'Define o =hHeight para o componente editor de texto rico. Digite o número (pixels) ou o valor percentual (relativo).',
         'Defines the IP regular expression for accessing the local repository. You need to enable this to have access to your local repository and the package::RepositoryList is required on the remote host.' =>
             'Define a expressão regular IP para acessar o repositório local. Você precisa habilitar isso para ter acesso ao seu repositório local e o pacote: RepositoryList é requerido na máquina remota.',
         'Defines the URL CSS path.' => 'Define o caminho URL CSS.',
@@ -2939,6 +2937,8 @@ sub Data {
         'Defines the fully qualified domain name of the system. This setting is used as a variable, OTRS_CONFIG_FQDN which is found in all forms of messaging used by the application, to build links to the tickets within your system.' =>
             '',
         'Defines the groups every customer user will be in (if CustomerGroupSupport is enabled and you don\'t want to manage every user for these groups).' =>
+            '',
+        'Defines the height for the rich text editor component. Enter number (pixels) or percent value (relative).' =>
             '',
         'Defines the height of the legend.' => '',
         'Defines the history comment for the close ticket screen action, which gets used for ticket history in the agent interface.' =>
@@ -3464,7 +3464,7 @@ sub Data {
             '',
         'If enabled, the first level of the main menu opens on mouse hover (instead of click only).' =>
             '',
-        'If set, this address is used as envelope from header in outgoing notifications. If no address is specified, the envelope from header is empty.' =>
+        'If set, this address is used as envelope sender header in outgoing notifications. If no address is specified, the envelope sender header is empty.' =>
             '',
         'If this regex matches, no message will be send by the autoresponder.' =>
             '',
@@ -4410,6 +4410,8 @@ sub Data {
         'Default' => 'Padrão',
         'Default Charset' => 'Conjunto de Caracteres Padrão',
         'Default Language' => 'Idioma Padrão',
+        'Defines the =hHeight for the rich text editor component. Enter number (pixels) or percent value (relative).' =>
+            'Define o =hHeight para o componente editor de texto rico. Digite o número (pixels) ou o valor percentual (relativo).',
         'Defines the name of the calendar number 1.' => 'Define o nome do calendário número 1.',
         'Defines the name of the calendar number 2.' => 'Define o nome do calendário número 2.',
         'Defines the name of the calendar number 3.' => 'Define o nome do calendário número 3.',

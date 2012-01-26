@@ -4,7 +4,7 @@
 # Copyright (C) 2011 Chetan Nagaonkar <Chetan_Nagaonkar at OptForOPS.com>
 # Copyright (C) 2011 Chetan Nagaonkar <ChetanNagaonkar at yahoo.com>
 # --
-# $Id: hi.pm,v 1.17 2012-01-13 06:46:46 mg Exp $
+# $Id: hi.pm,v 1.18 2012-01-26 20:43:22 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,13 +17,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.17 $) [1];
+$VERSION = qw($Revision: 1.18 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-01-13 07:44:31
+    # Last translation file sync: 2012-01-26 21:37:43
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2732,8 +2732,6 @@ sub Data {
             '',
         'Defines scheduler sleep time in seconds after processing all available tasks (floating point number).' =>
             '',
-        'Defines the =hHeight for the rich text editor component. Enter number (pixels) or percent value (relative).' =>
-            'समृद्ध पाठ संपादक घटक के लिए = hHeight परिभाषित करें। संख्या(पिक्सेल) या प्रतिशत मान (सापेक्ष) को लिखें।',
         'Defines the IP regular expression for accessing the local repository. You need to enable this to have access to your local repository and the package::RepositoryList is required on the remote host.' =>
             'स्थानीय भंडार तक पहुँचने के लिए आईपी नियमित अभिव्यक्ति परिभाषित करें। आपको अपनी स्थानीय भंडार का उपयोग करने के लिए यह सक्षम करने आवश्यकता है और पैकेज:: स्रोत सूची दूरस्थ मेजबान पर आवश्यक है।',
         'Defines the URL CSS path.' => 'URL CSS पथ को परिभाषित करता है।',
@@ -2939,6 +2937,8 @@ sub Data {
             'पूरी तरह से योग्य प्रणाली के डोमेन नाम को परिभाषित करता है। यह व्यवस्था किसी परिवर्तनीय के रूप में प्रयोग की जाती है, OTRS_CONFIG_FQDN जो अनुप्रयोग द्वारा उपयोग संदेश प्रेषण के सभी रूपों में पाया जाता है,आपकी प्रणाली में टिकटों के लिए लिंक बनाने के लिए।',
         'Defines the groups every customer user will be in (if CustomerGroupSupport is enabled and you don\'t want to manage every user for these groups).' =>
             'प्रत्येक ग्राहक उपयोगकर्ता जिन समूहों में होगा को परिभाषित करता है(यदि CustomerGroupSupport सक्षम है और आप इन समूहों के लिए प्रत्येक उपयोगकर्ता का प्रबंधन नहीं करना चाहते हैं)। ',
+        'Defines the height for the rich text editor component. Enter number (pixels) or percent value (relative).' =>
+            '',
         'Defines the height of the legend.' => 'किंवदंती की ऊँचाई को परिभाषित करता है।',
         'Defines the history comment for the close ticket screen action, which gets used for ticket history in the agent interface.' =>
             'बंद टिकट स्क्रीन कार्रवाई के लिए इतिहास समीक्षा को परिभाषित करता है,जो टिकट इतिहास के लिए प्रतिनिधि अंतरफलक में इस्तेमाल किया जाता है।',
@@ -3463,8 +3463,8 @@ sub Data {
             '',
         'If enabled, the first level of the main menu opens on mouse hover (instead of click only).' =>
             'यदि सक्रिय है,मुख्य मेनू के पहले के स्तर को माउस मंडराना खोलता है(के बजाय केवल क्लिक से)।',
-        'If set, this address is used as envelope from header in outgoing notifications. If no address is specified, the envelope from header is empty.' =>
-            'यदि निर्धारित है,इस पते के रूप में लिफाफा शीर्षक से बाहर जाने वाले सूचनाओं में प्रयोग किया जाता है। यदि कोई पता निर्दिष्ट नहीं है,शीर्षक से लिफाफा खाली है।',
+        'If set, this address is used as envelope sender header in outgoing notifications. If no address is specified, the envelope sender header is empty.' =>
+            '',
         'If this regex matches, no message will be send by the autoresponder.' =>
             'यदि यह नियमित अभिव्यक्ति से मेल खाता है,स्वतःप्रत्युत्तर से कोई संदेश नहीं भेजें।',
         'If you want to use a mirror database for agent ticket fulltext search or to generate stats, specify the DSN to this database.' =>
@@ -4253,6 +4253,8 @@ sub Data {
         'Create/Expires' => 'बनाना/समाप्त होना',
         'Customer item (icon) which shows the open tickets of this customer as info block.' =>
             'ग्राहक वस्तु (चिह्न) जो जानकारी ब्लॉक के रूप में इस ग्राहक के खुले टिकटों को दिखाता है।',
+        'Defines the =hHeight for the rich text editor component. Enter number (pixels) or percent value (relative).' =>
+            'समृद्ध पाठ संपादक घटक के लिए = hHeight परिभाषित करें। संख्या(पिक्सेल) या प्रतिशत मान (सापेक्ष) को लिखें।',
         'Defines the default selection of the free key field number 1 for articles (if more than one option is provided).' =>
             'अनुच्छेदों के लिए मुक्त कुंजी क्षेत्र संख्या 1 के तयशुदा चुनाव को परिभाषित करता है(यदि एक से अधिक विकल्प प्रदान की जाती है)।',
         'Defines the default selection of the free key field number 1 for tickets (if more than one option is provided).' =>
@@ -4538,6 +4540,8 @@ sub Data {
         'Hash/Fingerprint' => 'द्रुतान्वेषण/अंगुली-चिह्न',
         'If configured, all emails sent by the application will contain an X-Header with this organization or company name.' =>
             'यदि विन्यस्त है,सभी आवेदन द्वारा भेजे गए ईमेल के इस संगठन या कंपनी के नाम के साथ एक एक्स शीर्षक शामिल होंगे।',
+        'If set, this address is used as envelope from header in outgoing notifications. If no address is specified, the envelope from header is empty.' =>
+            'यदि निर्धारित है,इस पते के रूप में लिफाफा शीर्षक से बाहर जाने वाले सूचनाओं में प्रयोग किया जाता है। यदि कोई पता निर्दिष्ट नहीं है,शीर्षक से लिफाफा खाली है।',
         'Link this ticket to other objects!' => 'अन्य वस्तुओं से यह टिकट जोडें।',
         'Lock it to work on it!' => 'काम करने के लिए इसे लॉक करें।',
         'Max. displayed tickets' => 'अधिकतम प्रदर्शित टिकट',
