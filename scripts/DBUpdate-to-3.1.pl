@@ -3,7 +3,7 @@
 # DBUpdate-to-3.1.pl - update script to migrate OTRS 3.0.x to 3.1.x
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-3.1.pl,v 1.68 2012-01-25 05:57:39 cg Exp $
+# $Id: DBUpdate-to-3.1.pl,v 1.69 2012-01-26 20:04:47 cg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.68 $) [1];
+$VERSION = qw($Revision: 1.69 $) [1];
 
 use Getopt::Std qw();
 use Kernel::Config;
@@ -1076,9 +1076,15 @@ sub _MigrateFreeFieldsConfiguration {
 
     $DynamicFields = { reverse %{$DynamicFields} };
 
+    # get valid fields
+    my $ValidFreeFields = _GetValidFreefields($CommonObject);
+
     for my $Index ( 1 .. 16 ) {
         FIELD:
         for my $FreeField ( 'TicketFreeKey', 'TicketFreeText' ) {
+
+            # default field type
+            my $FieldType = 'Dropdown';
 
             my $FieldName = $FreeField . $Index;
 
@@ -1086,7 +1092,7 @@ sub _MigrateFreeFieldsConfiguration {
 
                 my $FieldConfig = $DynamicFieldObject->DynamicFieldGet(
                     ID => $DynamicFields->{$FieldName},
-                );
+                ) || {};
 
                 # Get all Attributes from Item
                 my $PossibleValues = $CommonObject->{ConfigObject}->Get($FieldName);
@@ -1094,23 +1100,8 @@ sub _MigrateFreeFieldsConfiguration {
 
                 if ( !$PossibleValues || !%{$PossibleValues} ) {
 
-                    # Leave this a text field. If the config setting was disabled,
-                    #   disable this field.
-                    if ( !defined $PossibleValues ) {
-
-                        my $SuccessTicketField = $DynamicFieldObject->DynamicFieldUpdate(
-                            %{$FieldConfig},
-                            Reorder => 0,
-                            ValidID => 2,
-                            UserID  => 1,
-                        );
-
-                        if ( !$SuccessTicketField ) {
-                            die "Could not migrate configuration for dynamic field: $FieldName";
-                        }
-                    }
-
-                    next FIELD;
+                    # Leave it as text field. If the config setting was disabled,
+                    $FieldType = 'Text';
                 }
 
                 if ( $FreeField eq 'TicketFreeText' ) {
@@ -1118,8 +1109,7 @@ sub _MigrateFreeFieldsConfiguration {
                     # If the corresponding key has only one possible value for this entry,
                     # use it as the label.
                     my $KeyName      = 'TicketFreeKey' . $Index;
-                    my $PossibleKeys = my $PossibleValues
-                        = $CommonObject->{ConfigObject}->Get($KeyName);
+                    my $PossibleKeys = $CommonObject->{ConfigObject}->Get($KeyName);
 
                     if ( ref $PossibleKeys eq 'HASH' && scalar keys %{$PossibleKeys} == 1 ) {
                         for my $Key ( keys %{$PossibleKeys} ) {
@@ -1135,14 +1125,14 @@ sub _MigrateFreeFieldsConfiguration {
                 # migrate free text link setting
                 my $Link
                     = $CommonObject->{ConfigObject}->Get( $FieldName . "::Link" );
-                $FieldConfig->{Config}->{Link} = $Link;
+                $FieldConfig->{Config}->{Link} = $Link if $Link;
 
                 # set new values
                 my $SuccessTicketField = $DynamicFieldObject->DynamicFieldUpdate(
                     %{$FieldConfig},
-                    FieldType => 'Dropdown',
+                    FieldType => $FieldType,
                     Reorder   => 0,
-                    ValidID   => 1,
+                    ValidID   => $ValidFreeFields->{$FieldName},
                     UserID    => 1,
                 );
 
@@ -1165,21 +1155,6 @@ sub _MigrateFreeFieldsConfiguration {
             # Get all Attributes from Item
             my $TimeKey = $CommonObject->{ConfigObject}->Get( 'TicketFreeTimeKey' . $Index );
             $FieldConfig->{Label} = $TimeKey;
-            if ( !$TimeKey ) {
-
-                my $SuccessTicketField = $DynamicFieldObject->DynamicFieldUpdate(
-                    %{$FieldConfig},
-                    Reorder => 0,
-                    ValidID => 2,
-                    UserID  => 1,
-                );
-
-                if ( !$SuccessTicketField ) {
-                    die "Could not migrate configuration for dynamic field: $FieldName";
-                }
-
-                next FIELD;
-            }
 
             $FieldConfig->{Config}->{DefaultValue}
                 = $CommonObject->{ConfigObject}->Get( 'TicketFreeTimeDiff' . $Index );
@@ -1198,7 +1173,7 @@ sub _MigrateFreeFieldsConfiguration {
                 %{$FieldConfig},
                 FieldType => 'DateTime',
                 Reorder   => 0,
-                ValidID   => 1,
+                ValidID   => $ValidFreeFields->{$FieldName},
                 UserID    => 1,
             );
 
@@ -1213,7 +1188,11 @@ sub _MigrateFreeFieldsConfiguration {
         FIELD:
         for my $FreeField ( 'ArticleFreeKey', 'ArticleFreeText' ) {
 
+            # default field type
+            my $FieldType = 'Dropdown';
+
             my $FieldName = $FreeField . $Index;
+
             if ( defined $DynamicFields->{$FieldName} ) {
                 my $FieldConfig = $DynamicFieldObject->DynamicFieldGet(
                     ID => $DynamicFields->{$FieldName},
@@ -1240,21 +1219,7 @@ sub _MigrateFreeFieldsConfiguration {
                 if ( !$PossibleValues || !%{$PossibleValues} ) {
 
                     # Leave this a text field. If the config setting was disabled,
-                    #   disable this field.
-                    if ( !defined $PossibleValues ) {
-                        my $SuccessTicketField = $DynamicFieldObject->DynamicFieldUpdate(
-                            %{$FieldConfig},
-                            Reorder => 0,
-                            ValidID => 2,
-                            UserID  => 1,
-                        );
-
-                        if ( !$SuccessTicketField ) {
-                            die "Could not migrate configuration for dynamic field: $FieldName";
-                        }
-                    }
-
-                    next FIELD;
+                    $FieldType = 'Text';
                 }
 
                 if ( $FreeField eq 'ArticleFreeText' ) {
@@ -1262,8 +1227,7 @@ sub _MigrateFreeFieldsConfiguration {
                     # If the corresponding key has only one possible value for this entry,
                     # use it as the label.
                     my $KeyName      = 'ArticleFreeKey' . $Index;
-                    my $PossibleKeys = my $PossibleValues
-                        = $CommonObject->{ConfigObject}->Get($KeyName);
+                    my $PossibleKeys = $CommonObject->{ConfigObject}->Get($KeyName);
 
                     if ( ref $PossibleKeys eq 'HASH' && scalar keys %{$PossibleKeys} == 1 ) {
                         for my $Key ( keys %{$PossibleKeys} ) {
@@ -1279,9 +1243,9 @@ sub _MigrateFreeFieldsConfiguration {
                 # set new values
                 my $SuccessTicketField = $DynamicFieldObject->DynamicFieldUpdate(
                     %{$FieldConfig},
-                    FieldType => 'Dropdown',
+                    FieldType => $FieldType,
                     Reorder   => 0,
-                    ValidID   => 1,
+                    ValidID   => $ValidFreeFields->{$FieldName},
                     UserID    => 1,
                 );
 
@@ -2887,6 +2851,145 @@ sub _MigrateNotificationEventConfiguration {
         }
     }
     return 1;
+}
+
+=item _GetValidFreefields($CommonObject)
+
+it returns a structure with the information about which
+dynamic fields should be enabled or not.
+
+    _GetValidFreefields($CommonObject);
+
+=cut
+
+sub _GetValidFreefields {
+    my $CommonObject = shift;
+
+    # Purge cache first to make sure that the DF API works correctly
+    #   after we made inserts by hand.
+    my $CacheObject = Kernel::System::Cache->new( %{$CommonObject} );
+    $CacheObject->CleanUp(
+        Type => 'DynamicField',
+    );
+
+    my %ValidFreeFields;
+    my %FreeFields = (
+        TicketFreeKey   => 16,
+        TicketFreeText  => 16,
+        TicketFreeTime  => 6,
+        ArticleFreeKey  => 3,
+        ArticleFreeText => 3,
+    );
+
+    for my $Field ( sort keys %FreeFields ) {
+        for my $Index ( 1 .. $FreeFields{$Field} ) {
+            my $FieldName = $Field . $Index;
+            $ValidFreeFields{$FieldName} = '2';
+        }
+    }
+
+    my @Windows = (
+        'CustomerTicketMessage',
+        'CustomerTicketSearch',
+        'AgentTicketResponsible',
+        'AgentTicketPriority',
+        'AgentTicketPhoneOutbound',
+        'AgentTicketPhoneInbound',
+        'AgentTicketPhone',
+        'AgentTicketPending',
+        'AgentTicketOwner',
+        'AgentTicketNote',
+        'AgentTicketMove',
+        'AgentTicketForward',
+        'AgentTicketFreeText',
+        'AgentTicketEmail',
+        'AgentTicketCompose',
+        'AgentTicketClose',
+    );
+
+    for my $Window (@Windows) {
+
+        my $WindowConfig = $CommonObject->{ConfigObject}->Get("Ticket::Frontend::$Window");
+
+        for my $FreeField ( sort keys %FreeFields ) {
+
+            if ( defined $WindowConfig->{$FreeField} ) {
+
+                my $Config = $WindowConfig->{$FreeField};
+
+                for my $Index ( 1 .. $FreeFields{$FreeField} ) {
+
+                    my $FreeFieldName = $FreeField . $Index;
+                    if ( defined $Config->{$Index} && $Config->{$Index} ) {
+                        $ValidFreeFields{$FreeFieldName} = '1';
+
+                        # enable its own key field
+                        if ( $FreeField eq 'TicketFreeText' ) {
+                            $ValidFreeFields{ 'TicketFreeKey' . $Index } = '1';
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    # AgentTicketSearch configuration
+
+    my $WindowConfig =
+        $CommonObject->{ConfigObject}->Get('Ticket::Frontend::AgentTicketSearch');
+
+    if ( defined $WindowConfig->{Defaults} ) {
+
+        my $Config = $WindowConfig->{Defaults};
+
+        for my $FreeField ( sort keys %FreeFields ) {
+
+            for my $Index ( 1 .. $FreeFields{$FreeField} ) {
+
+                my $FreeFieldName = $FreeField . $Index;
+                if ( defined $Config->{$FreeFieldName} && $Config->{$FreeFieldName} ) {
+                    $ValidFreeFields{$FreeFieldName} = '1';
+
+                    # enable its own key field
+                    if ( $FreeField eq 'TicketFreeText' ) {
+                        $ValidFreeFields{ 'TicketFreeKey' . $Index } = '1';
+                    }
+                }
+            }
+        }
+    }
+
+    # CustomerTicketZoom configuration
+
+    $WindowConfig = $CommonObject->{ConfigObject}->Get('Ticket::Frontend::CustomerTicketZoom')
+        || {};
+    my %ValuesToSetZoom;
+    my $Config;
+    if ( defined $WindowConfig->{AttributesView} && ref $WindowConfig->{AttributesView} eq 'HASH' )
+    {
+
+        $Config = $WindowConfig->{AttributesView};
+
+        for my $FreeField ( sort keys %FreeFields ) {
+            for my $Index ( 1 .. $FreeFields{$FreeField} ) {
+                my $FreeFieldName = $FreeField . $Index;
+                if ( defined $Config->{$FreeFieldName} && $Config->{$FreeFieldName} ) {
+                    $ValidFreeFields{$FreeFieldName} = '1';
+
+                    # enable its own key field
+                    if ( $FreeField eq 'TicketFreeText' ) {
+                        $ValidFreeFields{ 'TicketFreeKey' . $Index } = '1';
+                    }
+                }
+            }
+        }
+    }
+
+    # avoided configuration for
+    # AgentTicketPrint configuration
+    # CustomerTicketPrint configuration
+
+    return \%ValidFreeFields;
 }
 
 1;
