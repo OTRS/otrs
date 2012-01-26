@@ -3,7 +3,7 @@
 # DBUpdate-to-3.1.pl - update script to migrate OTRS 3.0.x to 3.1.x
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-3.1.pl,v 1.69 2012-01-26 20:04:47 cg Exp $
+# $Id: DBUpdate-to-3.1.pl,v 1.70 2012-01-26 22:02:55 cg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.69 $) [1];
+$VERSION = qw($Revision: 1.70 $) [1];
 
 use Getopt::Std qw();
 use Kernel::Config;
@@ -1077,7 +1077,7 @@ sub _MigrateFreeFieldsConfiguration {
     $DynamicFields = { reverse %{$DynamicFields} };
 
     # get valid fields
-    my $ValidFreeFields = _GetValidFreefields($CommonObject);
+    my $ValidFreeFields = _GetValidFreeFields($CommonObject);
 
     for my $Index ( 1 .. 16 ) {
         FIELD:
@@ -2853,16 +2853,16 @@ sub _MigrateNotificationEventConfiguration {
     return 1;
 }
 
-=item _GetValidFreefields($CommonObject)
+=item _GetValidFreeFields($CommonObject)
 
 it returns a structure with the information about which
 dynamic fields should be enabled or not.
 
-    _GetValidFreefields($CommonObject);
+    _GetValidFreeFields($CommonObject);
 
 =cut
 
-sub _GetValidFreefields {
+sub _GetValidFreeFields {
     my $CommonObject = shift;
 
     # Purge cache first to make sure that the DF API works correctly
@@ -2894,7 +2894,6 @@ sub _GetValidFreefields {
         'AgentTicketResponsible',
         'AgentTicketPriority',
         'AgentTicketPhoneOutbound',
-        'AgentTicketPhoneInbound',
         'AgentTicketPhone',
         'AgentTicketPending',
         'AgentTicketOwner',
