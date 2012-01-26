@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Ticket/TicketSearch.pm - GenericInterface Ticket Search operation backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketSearch.pm,v 1.11 2012-01-26 14:25:16 mg Exp $
+# $Id: TicketSearch.pm,v 1.12 2012-01-26 15:01:09 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::GenericInterface::Operation::Common;
 use Kernel::GenericInterface::Operation::Ticket::Common;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 =head1 NAME
 
@@ -125,10 +125,6 @@ sub Run {
         || 'Down';
     $Self->{FullTextIndex} = $Param{Data}->{FullTextIndex} || 0;
 
-    my $ReturnData = {
-        Success => 1,
-    };
-
     # get parameter from data
     my %GetParam = $Self->_GetParams( %{ $Param{Data} } );
 
@@ -153,23 +149,21 @@ sub Run {
         FullTextIndex       => $Self->{FullTextIndex},
     );
 
-    if ( !IsArrayRefWithData( \@TicketIDs ) ) {
+    if (@TicketIDs) {
 
-        my $ErrorMessage = 'Could not get Ticket data'
-            . ' in Kernel::GenericInterface::Operation::Ticket::TicketSearch::Run()';
-
-        return $Self->{TicketCommonObject}->ReturnError(
-            ErrorCode    => 'TicketSearch.NoTicketData',
-            ErrorMessage => "TicketSearch: $ErrorMessage",
-        );
-
+        return {
+            Success => 1,
+            Data    => {
+                Item => \@TicketIDs,
+            },
+        };
     }
 
-    # set ticket data into return structure
-    $ReturnData->{Data}->{Item} = \@TicketIDs;
-
     # return result
-    return $ReturnData;
+    return {
+        Success => 1,
+        Data    => {},
+    };
 }
 
 =begin Internal:
@@ -573,6 +567,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.11 $ $Date: 2012-01-26 14:25:16 $
+$Revision: 1.12 $ $Date: 2012-01-26 15:01:09 $
 
 =cut

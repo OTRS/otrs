@@ -2,7 +2,7 @@
 # TicketSearch.t - GenericInterface transport interface tests for TicketConnector backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketSearch.t,v 1.11 2012-01-26 14:25:16 mg Exp $
+# $Id: TicketSearch.t,v 1.12 2012-01-26 15:01:09 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -843,23 +843,11 @@ my @Tests = (
             TicketNumber => 'NotARealTicketNumber',
         },
         ExpectedReturnLocalData => {
-            Data => {
-                Error => {
-                    ErrorCode => 'TicketSearch.NoTicketData',
-                    ErrorMessage =>
-                        'TicketSearch: Could not get Ticket data in Kernel::GenericInterface::Operation::Ticket::TicketSearch::Run()'
-                },
-            },
+            Data    => {},
             Success => 1
         },
         ExpectedReturnRemoteData => {
-            Data => {
-                Error => {
-                    ErrorCode => 'TicketSearch.NoTicketData',
-                    ErrorMessage =>
-                        'TicketSearch: Could not get Ticket data in Kernel::GenericInterface::Operation::Ticket::TicketSearch::Run()'
-                    }
-            },
+            Data    => undef,
             Success => 1
         },
         Operation => 'TicketSearch',
@@ -1173,23 +1161,11 @@ for my $Item (
             $Item => 'NotAReal' . $Item,
         },
         ExpectedReturnLocalData => {
-            Data => {
-                Error => {
-                    ErrorCode => 'TicketSearch.NoTicketData',
-                    ErrorMessage =>
-                        'TicketSearch: Could not get Ticket data in Kernel::GenericInterface::Operation::Ticket::TicketSearch::Run()'
-                },
-            },
+            Data    => {},
             Success => 1
         },
         ExpectedReturnRemoteData => {
-            Data => {
-                Error => {
-                    ErrorCode => 'TicketSearch.NoTicketData',
-                    ErrorMessage =>
-                        'TicketSearch: Could not get Ticket data in Kernel::GenericInterface::Operation::Ticket::TicketSearch::Run()'
-                    }
-            },
+            Data    => undef,
             Success => 1
         },
         Operation => 'TicketSearch',
@@ -1218,23 +1194,11 @@ for my $Item (
             $Item => 'NotAReal' . $Item,
         },
         ExpectedReturnLocalData => {
-            Data => {
-                Error => {
-                    ErrorCode => 'TicketSearch.NoTicketData',
-                    ErrorMessage =>
-                        'TicketSearch: Could not get Ticket data in Kernel::GenericInterface::Operation::Ticket::TicketSearch::Run()'
-                },
-            },
+            Data    => {},
             Success => 1
         },
         ExpectedReturnRemoteData => {
-            Data => {
-                Error => {
-                    ErrorCode => 'TicketSearch.NoTicketData',
-                    ErrorMessage =>
-                        'TicketSearch: Could not get Ticket data in Kernel::GenericInterface::Operation::Ticket::TicketSearch::Run()'
-                    }
-            },
+            Data    => undef,
             Success => 1
         },
         Operation => 'TicketSearch',
@@ -1267,23 +1231,11 @@ for my $Item (
             ],
         },
         ExpectedReturnLocalData => {
-            Data => {
-                Error => {
-                    ErrorCode => 'TicketSearch.NoTicketData',
-                    ErrorMessage =>
-                        'TicketSearch: Could not get Ticket data in Kernel::GenericInterface::Operation::Ticket::TicketSearch::Run()'
-                },
-            },
+            Data    => {},
             Success => 1
         },
         ExpectedReturnRemoteData => {
-            Data => {
-                Error => {
-                    ErrorCode => 'TicketSearch.NoTicketData',
-                    ErrorMessage =>
-                        'TicketSearch: Could not get Ticket data in Kernel::GenericInterface::Operation::Ticket::TicketSearch::Run()'
-                    }
-            },
+            Data    => undef,
             Success => 1
         },
         Operation => 'TicketSearch',
@@ -1334,7 +1286,7 @@ for my $Test (@Tests) {
             UserLogin => $UserLogin,
             Password  => $Password,
             %{ $Test->{RequestData} },
-            }
+        },
     );
 
     # check result
@@ -1382,7 +1334,7 @@ for my $Test (@Tests) {
     # from SOAP call are a little bit different
     if ( $Test->{Operation} eq 'TicketGet' ) {
 
-        if ( ref $LocalResult->{Data}->{Item} eq 'ARRAY' ) {
+        if ( ref $LocalResult->{Data} && ref $LocalResult->{Data}->{Item} eq 'ARRAY' ) {
             for my $Item ( @{ $LocalResult->{Data}->{Item} } ) {
                 for my $Key ( keys %{ $Item->{Ticket} } ) {
                     if ( !$Item->{Ticket}->{$Key} ) {
