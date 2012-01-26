@@ -1,8 +1,8 @@
 # --
 # Kernel/System/PostMaster/NewTicket.pm - sub part of PostMaster.pm
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: NewTicket.pm,v 1.84 2011-11-11 02:30:54 cr Exp $
+# $Id: NewTicket.pm,v 1.85 2012-01-26 11:18:54 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::AutoResponse;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.84 $) [1];
+$VERSION = qw($Revision: 1.85 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -227,7 +227,7 @@ sub Run {
         );
 
     # set dynamic fields for Ticket object type
-    DYNAMICFILEDID:
+    DYNAMICFIELDID:
     for my $DynamicFieldID ( sort keys %{$DynamicFieldList} ) {
         next DYNAMICFIELDID if !$DynamicFieldID;
         next DYNAMICFIELDID if !$DynamicFieldList->{$DynamicFieldID};
