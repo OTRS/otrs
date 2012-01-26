@@ -2,7 +2,7 @@
 # TicketSearch.t - GenericInterface transport interface tests for TicketConnector backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketSearch.t,v 1.9 2012-01-26 11:29:32 mg Exp $
+# $Id: TicketSearch.t,v 1.10 2012-01-26 11:37:33 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -994,6 +994,8 @@ my @Tests = (
         SuccessRequest => 1,
         RequestData    => {
             CustomerID => '123465' . $RandomID,
+            SortBy  => 'Ticket',    # force order, because the Age (default) can be the same
+            OrderBy => 'Down',
         },
         ExpectedReturnLocalData => {
             Data => {
