@@ -8,7 +8,7 @@
 # Copyright (C) 2010 Ton van Boven <ton 'at' avebo.nl>
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: nl.pm,v 1.174 2012-01-26 20:43:25 mg Exp $
+# $Id: nl.pm,v 1.175 2012-01-27 12:08:25 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -28,7 +28,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.174 $) [1];
+$VERSION = qw($Revision: 1.175 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -697,7 +697,8 @@ sub Data {
         'Lock it to work on it' => 'Vergrendel dit ticket',
         'Unlock to give it back to the queue' => 'Ontgrendelen om het ticket vrij te geven',
         'Shows the ticket history!' => 'Laat de geschiedenis van het ticket zien.',
-        'Print this ticket!' => 'Print het ticket.',
+        'Print this ticket' => 'Print dit ticket.',
+        'Print this article' => 'Print deze interactie.',
         'Change the ticket priority!' => 'Wijzig de prioriteit van het ticket.',
         'Change the ticket free fields!' => 'Wijzig de vrije invulvelden van het ticket.',
         'Link this ticket to an other objects!' => 'Koppel het ticket met andere items.',
@@ -1829,10 +1830,10 @@ sub Data {
         'Posted %s ago.' => 'Geplaatst %s geleden.',
 
         # Template: AgentDashboardTicketGeneric
-        'My locked tickets' => '',
-        'My watched tickets' => '',
-        'My responsibilites' => '',
-        'Tickets in My Queues' => '',
+        'My locked tickets' => 'Mijn vergrendelde tickets',
+        'My watched tickets' => 'Mijn gevolgde tickets',
+        'My responsibilites' => 'Tickets waarvoor ik verantwoordelijk ben',
+        'Tickets in My Queues' => 'Tickets in mijn wachtrijen',
 
         # Template: AgentDashboardTicketStats
 
@@ -2291,7 +2292,7 @@ sub Data {
         'A popup of this screen is already open. Do you want to close it and load this one instead?' =>
             'Er is al een popup open voor dit ticket. Wilt u deze sluiten en de nieuwe laden?',
         'Please enter at least one search value or * to find anything.' =>
-            '',
+            'Geef één of meerdere tekens of een wildcard als * op om een zoekopdracht uit te voeren.',
 
         # Template: FooterSmall
 
@@ -2594,7 +2595,7 @@ sub Data {
         'Checkbox' => '',
         'Checks the SystemID in ticket number detection for follow-ups (use "No" if SystemID has been changed after using the system).' =>
             '',
-        'Close this ticket' => '',
+        'Close this ticket' => 'Sluit dit ticket',
         'Closed tickets of customer' => '',
         'Comment for new history entries in the customer interface.' => '',
         'Companies' => 'Bedrijven',
@@ -3670,7 +3671,6 @@ sub Data {
         'Picture-Upload' => '',
         'PostMaster Filters' => 'E-mail filters',
         'PostMaster Mail Accounts' => 'E-mail accounts',
-        'Print this ticket' => '',
         'Protection against CSRF (Cross Site Request Forgery) exploits (for more info see http://en.wikipedia.org/wiki/Cross-site_request_forgery).' =>
             '',
         'Queue view' => 'Wachtrijoverzicht',
