@@ -1,8 +1,8 @@
 # --
 # TicketFlags.t - ticket module testscript
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketFlags.t,v 1.1 2011-04-12 12:23:11 mg Exp $
+# $Id: TicketFlags.t,v 1.2 2012-01-27 12:04:19 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,9 +20,7 @@ use Time::HiRes qw( usleep );
 
 use Kernel::Config;
 use Kernel::System::Ticket;
-use Kernel::System::Queue;
 use Kernel::System::User;
-use Kernel::System::PostMaster;
 
 # create local objects
 my $ConfigObject = Kernel::Config->new();
