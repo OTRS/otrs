@@ -3,7 +3,7 @@
 # DBUpdate-to-3.1.pl - update script to migrate OTRS 3.0.x to 3.1.x
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-3.1.pl,v 1.70 2012-01-26 22:02:55 cg Exp $
+# $Id: DBUpdate-to-3.1.pl,v 1.71 2012-01-27 23:37:27 cg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.70 $) [1];
+$VERSION = qw($Revision: 1.71 $) [1];
 
 use Getopt::Std qw();
 use Kernel::Config;
@@ -1362,6 +1362,25 @@ sub _MigrateWindowConfiguration {
                     if ( defined $DynamicFields->{$FieldName} && $Config->{$Index} ) {
 
                         $ValuesToSet{$FieldName} = $Config->{$Index};
+
+                        if ( $FreeField eq 'TicketFreeText' ) {
+
+                    # If the corresponding key has only more than one possible value for this entry,
+                    # enable it.
+                            my $KeyName      = 'TicketFreeKey' . $Index;
+                            my $PossibleKeys = $CommonObject->{ConfigObject}->Get($KeyName);
+
+                            if (
+                                ref $PossibleKeys eq 'HASH' &&
+                                scalar keys %{$PossibleKeys} > 1 &&
+                                defined $DynamicFields->{$KeyName} &&
+                                !$ValuesToSet{$KeyName}
+                                )
+                            {
+
+                                $ValuesToSet{$KeyName} = $Config->{$Index};
+                            }
+                        }
                     }
                 }
             }
@@ -1396,6 +1415,25 @@ sub _MigrateWindowConfiguration {
                     if ( defined $DynamicFields->{$FieldName} && $Config->{$Index} ) {
 
                         $ValuesToSet{$FieldName} = $Config->{$Index};
+
+                        if ( $FreeField eq 'ArticleFreeText' ) {
+
+                    # If the corresponding key has only more than one possible value for this entry,
+                    # enable it.
+                            my $KeyName      = 'ArticleFreeKey' . $Index;
+                            my $PossibleKeys = $CommonObject->{ConfigObject}->Get($KeyName);
+
+                            if (
+                                ref $PossibleKeys eq 'HASH' &&
+                                scalar keys %{$PossibleKeys} > 1 &&
+                                defined $DynamicFields->{$KeyName} &&
+                                !$ValuesToSet{$KeyName}
+                                )
+                            {
+
+                                $ValuesToSet{$KeyName} = $Config->{$Index};
+                            }
+                        }
                     }
                 }
 
@@ -2481,8 +2519,15 @@ sub _MigrateSearchProfilesConfiguration {
     PROFILEFIELDCONFIG:
     for my $ProfileRecordConfig (@ProfileRecordsToChange) {
 
+        # check profile entry
+        next PROFILEFIELDCONFIG if !$ProfileRecordConfig->{ProfileKey};
+
+        # clean up profile key
+        my $ProfileKey = $ProfileRecordConfig->{ProfileKey};
+        $ProfileKey =~ s/(Start|Stop)(Year|Day|Month)$//g;
+
         # check if the migrated dynamic field is available
-        next PROFILEFIELDCONFIG if !$DynamicFields->{ $ProfileRecordConfig->{ProfileKey} };
+        next PROFILEFIELDCONFIG if !$DynamicFields->{$ProfileKey};
 
         # append search prefix to search profile free fields
         $ProfileRecordConfig->{ProfileKeyNew} = $SearchPrefix . $ProfileRecordConfig->{ProfileKey};
