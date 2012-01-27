@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.pm,v 1.159 2012-01-24 00:08:45 cr Exp $
+# $Id: AgentTicketCompose.pm,v 1.160 2012-01-27 12:27:35 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.159 $) [1];
+$VERSION = qw($Revision: 1.160 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -998,7 +998,7 @@ sub Run {
             my $To   = $Data{To};
             my $From = $Data{From};
 
-            # set OrigFrom for correct email quoteing (xxxx wrote)
+            # set OrigFrom for correct email quoting (xxxx wrote)
             $Data{OrigFrom} = $Data{From};
 
             # replace From/To, To/From because sender is agent
@@ -1008,7 +1008,7 @@ sub Run {
         }
         else {
 
-            # set OrigFrom for correct email quoteing (xxxx wrote)
+            # set OrigFrom for correct email quoting (xxxx wrote)
             $Data{OrigFrom} = $Data{From};
         }
 
