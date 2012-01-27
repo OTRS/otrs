@@ -1,8 +1,8 @@
 # --
 # Kernel/System/TicketSearch.pm - all ticket search functions
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketSearch.pm,v 1.11 2011-10-24 10:46:12 ep Exp $
+# $Id: TicketSearch.pm,v 1.12 2012-01-27 14:20:58 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 use Kernel::System::DynamicField;
 use Kernel::System::DynamicField::Backend;
@@ -122,19 +122,6 @@ To find tickets in your system.
             LowerThan         => '2002-02-02 02:02:02',
             LowerThanEquals   => '2002-02-02 02:02:02',
         }
-
-        # 1..16 (optional)
-        TicketFreeKey1  => 'Product',
-        TicketFreeText1 => 'adasd',
-        # or with multi options as array ref or string possible
-        TicketFreeKey2  => ['Product', 'Product2'],
-        TicketFreeText2 => ['Browser', 'Sound', 'Mouse'],
-
-        # 1..6 (optional)
-        # tickets with free time after ... (optional)
-        TicketFreeTime1NewerDate => '2006-01-09 00:00:01',
-        # tickets with free time before ... (optional)
-        TicketFreeTime1OlderDate => '2006-01-19 23:59:59',
 
         # search for ticket flags
         TicketFlag => {
@@ -310,44 +297,6 @@ sub TicketSearch {
         EscalationUpdateTime   => 'st.escalation_update_time',
         EscalationResponseTime => 'st.escalation_response_time',
         EscalationSolutionTime => 'st.escalation_solution_time',
-        TicketFreeTime1        => 'st.freetime1',
-        TicketFreeTime2        => 'st.freetime2',
-        TicketFreeTime3        => 'st.freetime3',
-        TicketFreeTime4        => 'st.freetime4',
-        TicketFreeTime5        => 'st.freetime5',
-        TicketFreeTime6        => 'st.freetime6',
-        TicketFreeKey1         => 'st.freekey1',
-        TicketFreeText1        => 'st.freetext1',
-        TicketFreeKey2         => 'st.freekey2',
-        TicketFreeText2        => 'st.freetext2',
-        TicketFreeKey3         => 'st.freekey3',
-        TicketFreeText3        => 'st.freetext3',
-        TicketFreeKey4         => 'st.freekey4',
-        TicketFreeText4        => 'st.freetext4',
-        TicketFreeKey5         => 'st.freekey5',
-        TicketFreeText5        => 'st.freetext5',
-        TicketFreeKey6         => 'st.freekey6',
-        TicketFreeText6        => 'st.freetext6',
-        TicketFreeKey7         => 'st.freekey7',
-        TicketFreeText7        => 'st.freetext7',
-        TicketFreeKey8         => 'st.freekey8',
-        TicketFreeText8        => 'st.freetext8',
-        TicketFreeKey9         => 'st.freekey9',
-        TicketFreeText9        => 'st.freetext9',
-        TicketFreeKey10        => 'st.freekey10',
-        TicketFreeText10       => 'st.freetext10',
-        TicketFreeKey11        => 'st.freekey11',
-        TicketFreeText11       => 'st.freetext11',
-        TicketFreeKey12        => 'st.freekey12',
-        TicketFreeText12       => 'st.freetext12',
-        TicketFreeKey13        => 'st.freekey13',
-        TicketFreeText13       => 'st.freetext13',
-        TicketFreeKey14        => 'st.freekey14',
-        TicketFreeText14       => 'st.freetext14',
-        TicketFreeKey15        => 'st.freekey15',
-        TicketFreeText15       => 'st.freetext15',
-        TicketFreeKey16        => 'st.freekey16',
-        TicketFreeText16       => 'st.freetext16',
     );
 
     # check required params
@@ -1032,42 +981,6 @@ sub TicketSearch {
     my $ArticleIndexSQLExt = $Self->_ArticleIndexQuerySQLExt( Data => \%Param );
     $SQLExt .= $ArticleIndexSQLExt;
 
-    # ticket free text
-    for my $Number ( 1 .. 16 ) {
-        if ( $Param{"TicketFreeKey$Number"} && ref $Param{"TicketFreeKey$Number"} eq '' ) {
-            $Param{"TicketFreeKey$Number"} =~ s/\*/%/gi;
-
-            # check search attribute, we do not need to search for *
-            next if $Param{"TicketFreeKey$Number"} =~ /^\%{1,3}$/;
-
-            $SQLExt .= " AND LOWER(st.freekey$Number) LIKE LOWER('"
-                . $Self->{DBObject}->Quote( $Param{"TicketFreeKey$Number"}, 'Like' ) . "')";
-            $SQLExt .= ' ' . $Self->{DBObject}->GetDatabaseFunction('LikeEscapeString');
-        }
-        elsif ( $Param{"TicketFreeKey$Number"} && ref $Param{"TicketFreeKey$Number"} eq 'ARRAY' ) {
-            my $SQLExtSub = ' AND (';
-            my $Counter   = 0;
-            for my $Key ( @{ $Param{"TicketFreeKey$Number"} } ) {
-                if ( defined $Key && $Key ne '' ) {
-                    $Key =~ s/\*/%/gi;
-
-                    # check search attribute, we do not need to search for *
-                    next if $Key =~ /^\%{1,3}$/;
-
-                    $SQLExtSub .= ' OR ' if ($Counter);
-                    $SQLExtSub .= " LOWER(st.freekey$Number) LIKE LOWER('"
-                        . $Self->{DBObject}->Quote( $Key, 'Like' ) . "')";
-                    $SQLExtSub .= ' ' . $Self->{DBObject}->GetDatabaseFunction('LikeEscapeString');
-                    $Counter++;
-                }
-            }
-            $SQLExtSub .= ')';
-            if ($Counter) {
-                $SQLExt .= $SQLExtSub;
-            }
-        }
-    }
-
     # Remember already joined tables for sorting.
     my %DynamicFieldJoinTables;
     my $DynamicFieldJoinCounter = 1;
@@ -1142,84 +1055,6 @@ sub TicketSearch {
             $DynamicFieldJoinTables{ $DynamicField->{Name} } = "dfv$DynamicFieldJoinCounter";
 
             $DynamicFieldJoinCounter++;
-        }
-    }
-
-    for my $Number ( 1 .. 16 ) {
-        if ( $Param{"TicketFreeText$Number"} && ref $Param{"TicketFreeText$Number"} eq '' ) {
-            $Param{"TicketFreeText$Number"} =~ s/\*/%/gi;
-
-            # check search attribute, we do not need to search for *
-            next if $Param{"TicketFreeText$Number"} =~ /^\%{1,3}$/;
-
-            $SQLExt .= " AND LOWER(st.freetext$Number) LIKE LOWER('"
-                . $Self->{DBObject}->Quote( $Param{"TicketFreeText$Number"}, 'Like' ) . "')";
-            $SQLExt .= ' ' . $Self->{DBObject}->GetDatabaseFunction('LikeEscapeString');
-        }
-        elsif ( $Param{"TicketFreeText$Number"} && ref $Param{"TicketFreeText$Number"} eq 'ARRAY' )
-        {
-            my $SQLExtSub = ' AND (';
-            my $Counter   = 0;
-            for my $Text ( @{ $Param{"TicketFreeText$Number"} } ) {
-                if ( defined $Text && $Text ne '' ) {
-                    $Text =~ s/\*/%/gi;
-
-                    # check search attribute, we do not need to search for *
-                    next if $Text =~ /^\%{1,3}$/;
-
-                    $SQLExtSub .= ' OR ' if ($Counter);
-                    $SQLExtSub .= " LOWER(st.freetext$Number) LIKE LOWER('"
-                        . $Self->{DBObject}->Quote( $Text, 'Like' ) . "')";
-                    $SQLExtSub .= ' ' . $Self->{DBObject}->GetDatabaseFunction('LikeEscapeString');
-                    $Counter++;
-                }
-            }
-            $SQLExtSub .= ')';
-            if ($Counter) {
-                $SQLExt .= $SQLExtSub;
-            }
-        }
-    }
-    for my $Number ( 1 .. 6 ) {
-
-        # get free time older than xxxx-xx-xx xx:xx date
-        if ( $Param{ 'TicketFreeTime' . $Number . 'OlderDate' } ) {
-
-            # check time format
-            if (
-                $Param{ 'TicketFreeTime' . $Number . 'OlderDate' }
-                !~ /\d\d\d\d-(\d\d|\d)-(\d\d|\d) (\d\d|\d):(\d\d|\d):(\d\d|\d)/
-                )
-            {
-                $Self->{LogObject}->Log(
-                    Priority => 'error',
-                    Message  => "Invalid time format '"
-                        . $Param{ 'TicketFreeTime' . $Number . 'OlderDate' } . "'!",
-                );
-                return;
-            }
-            $SQLExt .= " AND st.freetime$Number <= '"
-                . $Self->{DBObject}->Quote( $Param{ 'TicketFreeTime' . $Number . 'OlderDate' } )
-                . "'";
-        }
-
-        # get free time newer than xxxx-xx-xx xx:xx date
-        if ( $Param{ 'TicketFreeTime' . $Number . 'NewerDate' } ) {
-            if (
-                $Param{ 'TicketFreeTime' . $Number . 'NewerDate' }
-                !~ /\d\d\d\d-(\d\d|\d)-(\d\d|\d) (\d\d|\d):(\d\d|\d):(\d\d|\d)/
-                )
-            {
-                $Self->{LogObject}->Log(
-                    Priority => 'error',
-                    Message  => "Invalid time format '"
-                        . $Param{ 'TicketFreeTime' . $Number . 'NewerDate' } . "'!",
-                );
-                return;
-            }
-            $SQLExt .= " AND st.freetime$Number >= '"
-                . $Self->{DBObject}->Quote( $Param{ 'TicketFreeTime' . $Number . 'NewerDate' } )
-                . "'";
         }
     }
 
@@ -1883,6 +1718,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.11 $ $Date: 2011-10-24 10:46:12 $
+$Revision: 1.12 $ $Date: 2012-01-27 14:20:58 $
 
 =cut
