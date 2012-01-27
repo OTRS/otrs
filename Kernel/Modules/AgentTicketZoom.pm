@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.174 2012-01-24 18:33:38 cr Exp $
+# $Id: AgentTicketZoom.pm,v 1.175 2012-01-27 12:00:27 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.174 $) [1];
+$VERSION = qw($Revision: 1.175 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1735,7 +1735,7 @@ sub _ArticleItem {
             Name => 'ArticleMenu',
             Data => {
                 %Ticket, %Article, %AclAction,
-                Description => 'Split this Article',
+                Description => 'Split this article',
                 Name        => 'Split',
                 Link =>
                     'Action=AgentTicketPhone;TicketID=$Data{"TicketID"};ArticleID=$Data{"ArticleID"};LinkTicketID=$Data{"TicketID"}'
@@ -1760,7 +1760,7 @@ sub _ArticleItem {
                 Name => 'ArticleMenu',
                 Data => {
                     %Ticket, %Article, %AclAction,
-                    Description => 'Print this Article',
+                    Description => 'Print this article',
                     Name        => 'Print',
                     Class       => 'AsPopup PopupType_TicketAction',
                     Link =>
