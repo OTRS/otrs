@@ -2,12 +2,15 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2153 2012-01-27 07:21:13 mg Exp $
+# $Id: CHANGES,v 1.2154 2012-01-27 14:49:56 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
+
+3.1.0.rc1 2012-02-??
+ - 2012-01-27 Fixed bug#2820 - Wide character in Syslog message causes Perl crash on utf8 systems.
 
 3.1.0.beta5 2012-01-31
  - 2012-01-25 Fixed bug#7890 - Changed wording of config setting for RFC 5321 compliance.
