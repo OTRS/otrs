@@ -8,7 +8,7 @@
 # Copyright (C) 2010 Ton van Boven <ton 'at' avebo.nl>
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: nl.pm,v 1.175 2012-01-27 12:08:25 mb Exp $
+# $Id: nl.pm,v 1.176 2012-01-27 13:10:56 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -28,13 +28,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.175 $) [1];
+$VERSION = qw($Revision: 1.176 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-01-26 21:37:52
+    # Last translation file sync: 2012-01-27 14:02:14
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -612,7 +612,7 @@ sub Data {
         'Watched Tickets New' => 'Nieuwe gevolgde tickets',
         'Watched Tickets Reminder Reached' => 'Gevolgde tickets herinnering bereikt',
         'All tickets' => 'Alle tickets',
-        'Available tickets' => '',
+        'Available tickets' => 'Beschikbare tickets',
         'Escalation' => 'Escalatie',
         'last-search' => 'laatste zoekopdracht',
         'QueueView' => 'Wachtrijoverzicht',
@@ -695,21 +695,23 @@ sub Data {
         'Watch' => 'Volg',
         'Unwatch' => 'Stop met volgen',
         'Lock it to work on it' => 'Vergrendel dit ticket',
-        'Unlock to give it back to the queue' => 'Ontgrendelen om het ticket vrij te geven',
-        'Shows the ticket history!' => 'Laat de geschiedenis van het ticket zien.',
+        'Unlock to give it back to the queue' => 'Ontgrendelen om dit ticket vrij te geven',
+        'Show the ticket history' => 'Laat de geschiedenis van dit ticket zien.',
         'Print this ticket' => 'Print dit ticket.',
-        'Print this article' => 'Print deze interactie.',
-        'Change the ticket priority!' => 'Wijzig de prioriteit van het ticket.',
+        'Print this article' => 'Print deze interactie',
+        'Split this article' => 'Splits deze interactie',
+        'Forward article via mail' => 'Stuur interactie naar een mailadres',
+        'Change the ticket priority' => 'Wijzig de prioriteit van dit ticket',
         'Change the ticket free fields!' => 'Wijzig de vrije invulvelden van het ticket.',
-        'Link this ticket to an other objects!' => 'Koppel het ticket met andere items.',
-        'Change the ticket owner!' => 'Wijzig de eigenaar van het ticket.',
-        'Change the ticket customer!' => 'Wijzig de klant van het ticket.',
-        'Add a note to this ticket!' => 'Voeg een notitie toe aan het ticket.',
-        'Merge this ticket!' => 'Voeg dit Ticket samen met een ander ticket.',
-        'Set this ticket to pending!' => 'Plaats dit ticket in de wacht.',
-        'Close this ticket!' => 'Sluit dit ticket.',
+        'Link this ticket to other objects' => 'Koppel dit ticket aan andere objecten',
+        'Change the owner for this ticket' => 'Wijzig de eigenaar van dit ticket',
+        'Change the  customer for this ticket' => 'Wijzig de klant voor dit ticket',
+        'Add a note to this ticket' => 'Voeg een notitie toe aan dit ticket',
+        'Merge into a different ticket' => 'Voeg samen met een ander ticket',
+        'Set this ticket to pending' => 'Zet dit ticket in de wacht',
+        'Close this ticket' => 'Sluit dit ticket',
         'Look into a ticket!' => 'Bekijk dit ticket.',
-        'Delete this ticket!' => 'Verwijder dit ticket.',
+        'Delete this ticket' => 'Verwijder dit ticket',
         'Mark as Spam!' => 'Markeer als spam.',
         'My Queues' => 'Mijn wachtrijen',
         'Shown Tickets' => 'Laat tickets zien',
@@ -2483,7 +2485,6 @@ sub Data {
         'Activates the ticket archive system to have a faster system by moving some tickets out of the daily scope. To search for these tickets, the archive flag has to be enabled in the ticket search.' =>
             '',
         'Activates time accounting.' => '',
-        'Add a note to this ticket' => '',
         'Adds a suffix with the actual year and month to the OTRS log file. A logfile for every month will be created.' =>
             '',
         'Adds customers email addresses to recipients in the ticket compose screen of the agent interface.' =>
@@ -2571,6 +2572,8 @@ sub Data {
             '',
         'Automatically sets the responsible of a ticket (if it is not set yet) after the first owner update.' =>
             '',
+        'Automatically sets the ticket state to open if the ticket state is new and the ticket is touched by an agent.' =>
+            '',
         'Balanced white skin by Felix Niklas.' => '',
         'Blocks all the incoming emails that do not have a valid ticket number in subject with From: @example.com address.' =>
             '',
@@ -2585,18 +2588,16 @@ sub Data {
         'Cache time in seconds for the web service config backend.' => '',
         'Change password' => 'Wachtwoord wijzigen',
         'Change queue!' => 'Verander wachtrij.',
-        'Change the customer for this ticket' => '',
-        'Change the free fields for this ticket' => '',
-        'Change the owner for this ticket' => '',
-        'Change the responsible person for this ticket' => '',
-        'Change the ticket priority' => '',
+        'Change the customer for this ticket' => 'Wijzig de klant voor dit ticket',
+        'Change the free fields for this ticket' => 'Wijzig de vrije velden voor dit ticket',
+        'Change the priority for this ticket' => 'Wijzig de prioriteit voor dit ticket',
+        'Change the responsible person for this ticket' => 'Wijzig de verantwoordelijke personen voor dit ticket',
         'Changes the owner of tickets to everyone (useful for ASP). Normally only agent with rw permissions in the queue of the ticket will be shown.' =>
             '',
-        'Checkbox' => '',
+        'Checkbox' => 'Checkbox',
         'Checks the SystemID in ticket number detection for follow-ups (use "No" if SystemID has been changed after using the system).' =>
             '',
-        'Close this ticket' => 'Sluit dit ticket',
-        'Closed tickets of customer' => '',
+        'Closed tickets of customer' => 'Gesloten tickets van klant',
         'Comment for new history entries in the customer interface.' => '',
         'Companies' => 'Bedrijven',
         'Company Tickets' => 'Tickets van groep',
@@ -2615,7 +2616,7 @@ sub Data {
         'Create and manage attachments.' => 'Aanmaken en beheren van bijlagen.',
         'Create and manage companies.' => 'Aanmaken en beheren van bedrijven.',
         'Create and manage customers.' => 'Aanmaken en beheren van klanten.',
-        'Create and manage dynamic fields.' => '',
+        'Create and manage dynamic fields.' => 'Aanmaken en beheren van dynamische velden',
         'Create and manage event based notifications.' => 'Aanmaken en beheren van meldingen door gebeurtenissen.',
         'Create and manage groups.' => 'Aanmaken en beheren van groepen.',
         'Create and manage notifications that are sent to agents.' => 'Aanmaken en beheren van meldingen die naar de gebruikers gestuurd worden.',
@@ -2633,6 +2634,10 @@ sub Data {
         'Create new email ticket and send this out (outbound)' => 'Maak een nieuw ticket en verstuur hiervan een mail (uitgaand)',
         'Create new phone ticket (inbound)' => 'Maak een nieuw telefoon ticket aan (inkomend)',
         'Custom text for the page shown to customers that have no tickets yet.' =>
+            '',
+        'Customer item (icon) which shows the All tickets of this customer as info block.' =>
+            '',
+        'Customer item (icon) which shows the closed tickets of this customer as info block.' =>
             '',
         'Customer item (icon) which shows the closed tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
             '',
@@ -3189,7 +3194,6 @@ sub Data {
         'Defines wich article type should be expanded when entering the overview. If nothing defined, latest article will be expanded.' =>
             '',
         'Delay time between autocomplete queries in milliseconds.' => '',
-        'Delete this ticket' => '',
         'Deletes a session if the session id is used with an invalid remote IP address.' =>
             '',
         'Deletes requested sessions if they have timed out.' => '',
@@ -3350,6 +3354,7 @@ sub Data {
             '',
         'Frontend module registration for the agent interface.' => '',
         'Frontend module registration for the customer interface.' => '',
+        'Frontend module registration for the public interface.' => '',
         'Frontend theme' => 'Thema',
         'GenericAgent' => 'Automatische taken',
         'GenericInterface Debugger GUI' => '',
@@ -3508,7 +3513,6 @@ sub Data {
         'Link queues to auto responses.' => 'Koppel wachtrijen aan automatische antwoorden.',
         'Link responses to queues.' => 'Koppel standaard-antwoorden aan wachtrijen.',
         'Link roles to groups.' => 'Koppel rollen aan groepen.',
-        'Link this ticket to other objects' => '',
         'Links 2 tickets with a "Normal" type link.' => 'Koppelt twee tickets met een "Normaal"-type koppeling.',
         'Links 2 tickets with a "ParentChild" type link.' => 'Koppelt twee tickets met een "vader - zoon"-type koppeling.',
         'List of CSS files to always be loaded for the agent interface.' =>
@@ -3559,7 +3563,6 @@ sub Data {
             '',
         'Maximum size (in characters) of the customer information table in the ticket zoom view.' =>
             '',
-        'Merge into a different ticket' => '',
         'Module for To-selection in new ticket screen in the customer interface.' =>
             '',
         'Module to check customer permissions.' => '',
@@ -3748,7 +3751,6 @@ sub Data {
             '',
         'Set the maximum height (in pixels) of inline HTML articles in AgentTicketZoom.' =>
             '',
-        'Set this ticket to pending' => '',
         'Set this to yes if you trust in all your public and private pgp keys, even if they are not certified with a trusted signature.' =>
             '',
         'Sets if ticket owner must be selected by the agent.' => '',
@@ -4031,7 +4033,6 @@ sub Data {
             '',
         'Shows the message of the day on login screen of the agent interface.' =>
             '',
-        'Shows the ticket history' => '',
         'Shows the ticket history (reverse ordered) in the agent interface.' =>
             '',
         'Shows the ticket priority options in the close ticket screen of the agent interface.' =>
@@ -4305,6 +4306,7 @@ sub Data {
         'Change owner of ticket' => 'Wijzig eigenaar van ticket',
         'Change priority of ticket' => 'Prioriteit wijzigen voor ticket',
         'Change responsible of ticket' => 'Wijzig verantwoordelijke van dit ticket',
+        'Change the ticket priority!' => 'Wijzig de prioriteit van het ticket.',
         'Change the ticket responsible!' => 'Wijzig de verantwoordelijke van het ticket.',
         'Change user <-> group settings' => 'Wijzigen van gebruiker <-> groep toekenning',
         'ChangeLog' => 'Wijziging',
@@ -4314,6 +4316,7 @@ sub Data {
         'Clear To' => '"Aan" leeg maken',
         'Click here to report a bug!' => 'Klik hier om een fout te rapporteren.',
         'Close Times' => 'Zoek op sluitdatum',
+        'Close this ticket!' => 'Sluit dit ticket.',
         'Close ticket' => 'Sluit ticket',
         'Close type' => 'Afsluitcode',
         'Close!' => 'Sluit',
@@ -4365,6 +4368,7 @@ sub Data {
         'Default' => 'Standaard',
         'Default Charset' => 'Standaard karakterset',
         'Default Language' => 'Standaardtaal',
+        'Delete this ticket!' => 'Verwijder dit ticket.',
         'Detail' => 'Detail',
         'Diff' => 'Diff',
         'Discard all changes and return to the compose screen' => 'Veranderingen niet opslaan en ga terug naar het berichtscherm',
@@ -4469,6 +4473,7 @@ sub Data {
         'Link Table' => 'Koppelingen',
         'Link auto responses to queues.' => 'Koppel wachtrijen aan automatische antwoorden.',
         'Link queues to auto responses..' => 'Koppel wachtrijen aan automatische antwoorden.',
+        'Link this ticket to an other objects!' => 'Koppel het ticket met andere items.',
         'Link this ticket to other objects!' => 'Koppel dit ticket aan andere objecten.',
         'Link to Parent' => 'Koppel aan vader-item',
         'Linked as' => 'Gekoppeld als',
@@ -4484,6 +4489,7 @@ sub Data {
         'Match' => 'Zoek eigen',
         'Max. displayed tickets' => 'Maximaal aantal weergegeven tickets',
         'Max. shown Tickets a page' => 'Max. aantal tickets per pagina',
+        'Merge this ticket!' => 'Voeg dit Ticket samen met een ander ticket.',
         'Message for new Owner' => 'Bericht voor nieuwe eigenaar',
         'Message sent to' => 'Bericht verstuurd naar',
         'Misc' => 'Overige',
@@ -4676,6 +4682,7 @@ sub Data {
         'Sent password token to: %s' => 'Wachtwoord verstuurd naar %s',
         'Sessions' => 'Sessies',
         'Set customer user and customer id of a ticket' => 'Wijs de klant en klantID aan een ticket toe',
+        'Set this ticket to pending!' => 'Plaats dit ticket in de wacht.',
         'Show' => 'Toon',
         'Solution' => 'Oplossing',
         'Some result formats are disabled because at least one needed package is not installed. Please contact your administrator.' =>
