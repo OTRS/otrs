@@ -2,16 +2,16 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2152 2012-01-25 20:33:01 jb Exp $
+# $Id: CHANGES,v 1.2153 2012-01-27 07:21:13 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-3.1.0.beta5 ????-??-??
- - 2012-01-25 Fixed bug#7890 - Changed wording to RFC 5321 compliance
- - 2012-01-24 Fixed bug#8068 - Field & DynamicField preselection on TicketSplit.
+3.1.0.beta5 2012-01-31
+ - 2012-01-25 Fixed bug#7890 - Changed wording of config setting for RFC 5321 compliance.
+ - 2012-01-24 Fixed bug#8068 - Corrected field & DynamicField preselection on TicketSplit.
  - 2012-01-24 Fixed bug#8115 - Richtext editor not show in customer interface after switching
     to Catalan frontend language.
  - 2012-01-23 Fixed bug#7994 - ACL: action-restrictions not possible for all ticket actions.
