@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Package.pm,v 1.124 2012-01-30 10:56:03 sb Exp $
+# $Id: Package.pm,v 1.125 2012-01-30 17:08:08 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::Cache;
 use Kernel::System::Loader;
 
 use vars qw($VERSION $S);
-$VERSION = qw($Revision: 1.124 $) [1];
+$VERSION = qw($Revision: 1.125 $) [1];
 
 =head1 NAME
 
@@ -223,7 +223,7 @@ sub RepositoryGet {
     if ( !$Package ) {
         $Self->{LogObject}->Log(
             Priority => 'notice',
-            Message  => "No such package $Param{Name}-$Param{Version}!",
+            Message  => "No such package: $Param{Name}-$Param{Version}!",
         );
         return;
     }
@@ -1161,7 +1161,7 @@ sub DeployCheck {
             if ( !-e $LocalFile ) {
                 $Self->{LogObject}->Log(
                     Priority => 'error',
-                    Message  => "$Param{Name}-$Param{Version}: No such $LocalFile!"
+                    Message  => "$Param{Name}-$Param{Version}: No such file: $LocalFile!"
                 );
                 $Self->{DeployCheckInfo}->{File}->{ $File->{Location} } = 'No file installed!';
                 $Hit = 1;
@@ -2433,7 +2433,7 @@ sub _ReadDistArchive {
     if ( !-e "$Home/ARCHIVE" ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "No such file $Home/ARCHIVE!",
+            Message  => "No such file: $Home/ARCHIVE!",
         );
         return;
     }
@@ -2528,6 +2528,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.124 $ $Date: 2012-01-30 10:56:03 $
+$Revision: 1.125 $ $Date: 2012-01-30 17:08:08 $
 
 =cut
