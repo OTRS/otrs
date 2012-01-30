@@ -1,8 +1,8 @@
 # --
 # Kernel/System/DynamicField.pm - DynamicFields configuration backend
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicField.pm,v 1.48 2011-09-15 07:28:32 mg Exp $
+# $Id: DynamicField.pm,v 1.49 2012-01-30 11:29:07 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,9 +19,11 @@ use Kernel::System::Valid;
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::Cache;
 use Kernel::System::DynamicField::Backend;
+use Kernel::System::SysConfig;
+use Kernel::System::Time;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.48 $) [1];
+$VERSION = qw($Revision: 1.49 $) [1];
 
 =head1 NAME
 
@@ -139,6 +141,10 @@ sub DynamicFieldAdd {
         }
     }
 
+    # Create SysConfig object locally just for this function, to save some performance.
+    $Self->{TimeObject}      ||= Kernel::System::Time->new( %{$Self} );
+    $Self->{SysConfigObject} ||= Kernel::System::SysConfig->new( %{$Self} );
+
     # check needed structure for some fields
     if ( $Param{Name} !~ m{ \A [a-z|A-Z|\d]+ \z }xms ) {
         $Self->{LogObject}->Log(
@@ -196,8 +202,21 @@ sub DynamicFieldAdd {
         Name => $Param{Name},
     );
 
-    # return ; if no $DynamicField->{ID}
+    # return undef if no $DynamicField->{ID}
     return if !$DynamicField->{ID};
+
+    # Add this field to the list of X-Headers that the postmaster filters should scan.
+    my @PostMasterXHeader = @{ $Self->{ConfigObject}->Get('PostmasterX-Header') || [] };
+    if (@PostMasterXHeader) {
+        push @PostMasterXHeader, "X-OTRS-DynamicField-$Param{Name}";
+        push @PostMasterXHeader, "X-OTRS-FollowUp-DynamicField-$Param{Name}";
+
+        $Self->{SysConfigObject}->ConfigItemUpdate(
+            Valid => 1,
+            Key   => 'PostmasterX-Header',
+            Value => \@PostMasterXHeader,
+        );
+    }
 
     # delete cache
     $Self->{CacheObject}->CleanUp(
@@ -1194,6 +1213,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.48 $ $Date: 2011-09-15 07:28:32 $
+$Revision: 1.49 $ $Date: 2012-01-30 11:29:07 $
 
 =cut

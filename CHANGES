@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2155 2012-01-27 23:37:26 cg Exp $
+# $Id: CHANGES,v 1.2156 2012-01-30 11:29:07 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.1.0.rc1 2012-02-??
+ - 2012-01- Fixed bug#8021 - Creating new Dynamic Field is not adding the field name
+    to the X-OTRS header lists configuration for the PostMaster filters.
  - 2012-01-27 Fixed bug#8145 - TicketFreeTime entries in search profiles don't get updated.
  - 2012-01-27 Fixed bug#2820 - Wide character in Syslog message causes Perl crash on utf8 systems.
 
