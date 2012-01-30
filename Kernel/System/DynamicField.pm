@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField.pm - DynamicFields configuration backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicField.pm,v 1.49 2012-01-30 11:29:07 mg Exp $
+# $Id: DynamicField.pm,v 1.50 2012-01-30 11:37:08 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::SysConfig;
 use Kernel::System::Time;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.49 $) [1];
+$VERSION = qw($Revision: 1.50 $) [1];
 
 =head1 NAME
 
@@ -202,14 +202,19 @@ sub DynamicFieldAdd {
         Name => $Param{Name},
     );
 
-    # return undef if no $DynamicField->{ID}
     return if !$DynamicField->{ID};
 
     # Add this field to the list of X-Headers that the postmaster filters should scan.
     my @PostMasterXHeader = @{ $Self->{ConfigObject}->Get('PostmasterX-Header') || [] };
     if (@PostMasterXHeader) {
-        push @PostMasterXHeader, "X-OTRS-DynamicField-$Param{Name}";
-        push @PostMasterXHeader, "X-OTRS-FollowUp-DynamicField-$Param{Name}";
+
+        # Check if fields are already present.
+        if ( !grep { $_ eq "X-OTRS-DynamicField-$Param{Name}" } @PostMasterXHeader ) {
+            push @PostMasterXHeader, "X-OTRS-DynamicField-$Param{Name}";
+        }
+        if ( !grep { $_ eq "X-OTRS-FollowUp-DynamicField-$Param{Name}" } @PostMasterXHeader ) {
+            push @PostMasterXHeader, "X-OTRS-FollowUp-DynamicField-$Param{Name}";
+        }
 
         $Self->{SysConfigObject}->ConfigItemUpdate(
             Valid => 1,
@@ -1213,6 +1218,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.49 $ $Date: 2012-01-30 11:29:07 $
+$Revision: 1.50 $ $Date: 2012-01-30 11:37:08 $
 
 =cut
