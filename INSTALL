@@ -1,8 +1,8 @@
 # --
 # INSTALL description of OTRS
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: INSTALL,v 1.59 2011-11-11 08:41:01 mg Exp $
+# $Id: INSTALL,v 1.60 2012-01-30 11:52:54 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -206,7 +206,7 @@ directory is /opt/otrs. You can adapt these values as needed.
 
       shell> /opt/otrs/bin/Cron.sh start
 
-      Updating the cronjob schedules if you made changes changes:
+      Updating the cronjob schedules if you made changes:
 
       shell> /opt/otrs/bin/Cron.sh restart
 
