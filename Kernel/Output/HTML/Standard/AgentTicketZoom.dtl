@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.206 2012-01-31 14:14:32 mg Exp $
+# $Id: AgentTicketZoom.dtl,v 1.207 2012-01-31 14:51:46 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -588,17 +588,17 @@ $('#$QData{"FormID"} select[name=ResponseID]').bind('change', function (Event) {
                     <div class="Clear"></div>
 <!-- dtl:block:ArticleOption -->
 
+#                    <!-- Include the full subject so that it can be copied. The one in the title bar is shortened. -->
+                    <label>$Text{"Subject"}:</label>
+                    <p class="Value">$QData{"Subject"}</p>
+                    <div class="Clear"></div>
+
 # show article accounted time
 <!-- dtl:block:ArticleAccountedTime -->
                     <label>$Text{"$Data{"Key"}"}:</label>
                     <p class="Value">$QData{"Value"}</p>
                     <div class="Clear"></div>
 <!-- dtl:block:ArticleAccountedTime -->
-
-#                    <!-- Include the full subject so that it can be copied. The one in the title bar is shortened. -->
-                    <label>$Text{"Subject"}:</label>
-                    <p class="Value">$QData{"Subject"}</p>
-                    <div class="Clear"></div>
 
 # show attachments
 <!-- dtl:block:ArticleAttachment -->
