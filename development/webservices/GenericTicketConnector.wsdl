@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- $Id: GenericTicketConnector.wsdl,v 1.11 2012-01-31 08:12:07 cr Exp $ -->
+<!-- $Id: GenericTicketConnector.wsdl,v 1.12 2012-01-31 08:24:09 cr Exp $ -->
 <wsdl:definitions
     name="GenericTicketConnector"
     targetNamespace="http://www.otrs.org/TicketConnector/"
@@ -1927,6 +1927,45 @@
                     </xsd:element>
                 </xsd:sequence>
             </xsd:complexType>
+            <xsd:complexType name="OTRS_SessionCreate">
+                <xsd:sequence>
+                    <xsd:choice
+                        minOccurs="1"
+                        maxOccurs="1">
+                        <xsd:element
+                            name="UserLogin"
+                            type="xsd:string"
+                            minOccurs="0">
+                        </xsd:element>
+                        <xsd:element
+                            name="CustomerUserLogin"
+                            type="xsd:string"
+                            minOccurs="0">
+                        </xsd:element>
+                    </xsd:choice>
+                    <xsd:element
+                        name="Password"
+                        type="xsd:string"
+                        minOccurs="0">
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="OTRS_SessionCreateResponse">
+                <xsd:sequence>
+                    <xsd:element
+                        name="SessionID"
+                        type="xsd:positiveInteger"
+                        maxOccurs="1"
+                        minOccurs="1">
+                    </xsd:element>
+                    <xsd:element
+                        name="Error"
+                        type="tns:OTRS_Error"
+                        maxOccurs="1"
+                        minOccurs="0">
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:complexType>
         </xsd:schema>
     </wsdl:types>
     <wsdl:types><xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.otrs.org/TicketConnector/">
@@ -1997,6 +2036,18 @@
             type="tns:OTRS_TicketSearchResponse">
         </wsdl:part>
     </wsdl:message>
+    <wsdl:message name="SessionCreateRequest">
+        <wsdl:part
+            name="SessionCreate"
+            type="tns:OTRS_SessionCreate">
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="SessionCreateResponse">
+        <wsdl:part
+            name="SessionCreateResponse"
+            type="tns:OTRS_SessionCreateResponse">
+        </wsdl:part>
+    </wsdl:message>
     <wsdl:portType name="GenericTicketConnector_Interface">
         <wsdl:documentation>Warning: This WSDL file is for Development and Test purposes ONLY!
 </wsdl:documentation>
@@ -2015,6 +2066,10 @@
         <wsdl:operation name="TicketSearch">
             <wsdl:input message="tns:TicketSearchRequest"></wsdl:input>
             <wsdl:output message="tns:TicketSearchResponse"></wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="SessionCreate">
+            <wsdl:input message="tns:SessionCreateRequest"></wsdl:input>
+            <wsdl:output message="tns:SessionCreateResponse"></wsdl:output>
         </wsdl:operation>
     </wsdl:portType>
     <wsdl:binding
@@ -2056,6 +2111,16 @@
         <wsdl:operation name="TicketSearch">
             <soap:operation
                 soapAction="http://www.otrs.org/TicketConnector/TicketSearch" />
+            <wsdl:input>
+                <soap:body use="literal" />
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" />
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="SessionCreate">
+            <soap:operation
+                soapAction="http://www.otrs.org/TicketConnector/SessionCreate" />
             <wsdl:input>
                 <soap:body use="literal" />
             </wsdl:input>
