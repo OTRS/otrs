@@ -6,8 +6,13 @@ Description: Ticket Connector Sample
 FrameworkVersion: 3.1.x CVS
 Provider:
   Operation:
+    SessionCreate:
+      Description: Creates a Session
+      MappingInbound: {}
+      MappingOutbound: {}
+      Type: Session::SessionCreate
     TicketCreate:
-      Description: Creates a ticket
+      Description: Creates a Ticket
       MappingInbound: {}
       MappingOutbound: {}
       Type: Ticket::TicketCreate
@@ -17,12 +22,12 @@ Provider:
       MappingOutbound: {}
       Type: Ticket::TicketUpdate
     TicketGet:
-      Description: Retrieve ticket data
+      Description: Retrieve Ticket data
       MappingInbound: {}
       MappingOutbound: {}
       Type: Ticket::TicketGet
     TicketSearch:
-      Description: Search Tickets
+      Description: Search for Tickets
       MappingInbound: {}
       MappingOutbound: {}
       Type: Ticket::TicketSearch
