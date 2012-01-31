@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Ticket/TicketGet.pm - GenericInterface Ticket Get operation backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketGet.pm,v 1.10 2012-01-24 22:33:48 cr Exp $
+# $Id: TicketGet.pm,v 1.11 2012-01-31 00:20:43 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::GenericInterface::Operation::Ticket::Common;
 use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 =head1 NAME
 
@@ -74,25 +74,165 @@ sub new {
 
 =item Run()
 
-perform TicketGet Operation. This will return a Ticket entry.
+perform TicketGet Operation. This function is able to return
+one or more ticket entries in one call.
 
     my $Result = $OperationObject->Run(
         Data => {
-            TicketID => '32,33',
-            DynamicFields     => 0, # Optional, 0 as default
-            Extended          => 1, # Optional 0 as default
-            AllArticles       => 1, # Optional 0 as default
-            ArticleSenderType => [ $ArticleSenderType1, $ArticleSenderType2 ], # Optional, only requested article sender types
-            ArticleOrder      => 'DESC', # Optional, DESC,ASC - default is ASC
-            ArticleLimit      => 5, # Optional
-            Attachments       => 1, # Optional, 1 as default
+            UserLogin         => 'some agent login',                            # UserLogin or CustomerUserLogin or SessionID is
+                                                                                #   required
+            CustomerUserLogin => 'some customer login',
+            SessionID         => 123,
+
+            Password          => 'some password',                                       # if UserLogin or customerUserLogin is sent then
+                                                                                #   Password is required
+            TicketID          => '32,33',                                       # required, could be coma separated IDs or an Array
+            DynamicFields     => 0,                                             # Optional, 0 as default. Indicate if Dynamic Fields
+                                                                                # should be included or not on the ticket content.
+            Extended          => 1,                                             # Optional, 0 as default
+            AllArticles       => 1,                                             # Optional, 0 as default. Set as 1 will include articles
+                                                                                # for tickets.
+            ArticleSenderType => [ $ArticleSenderType1, $ArticleSenderType2 ],  # Optional, only requested article sender types
+            ArticleOrder      => 'DESC',                                        # Optional, DESC,ASC - default is ASC
+            ArticleLimit      => 5,                                             # Optional
+            Attachments       => 1,                                             # Optional, 1 as default. If it's set with the value 1,
+                                                                                # attachments for articles will be included on ticket data
         },
     );
 
     $Result = {
         Success      => 1,                                # 0 or 1
         ErrorMessage => '',                               # In case of an error
-        Data         => {},
+        Data         => {
+            Ticket => [
+                {
+                    TicketNumber       => '20101027000001',
+                    Title              => 'some title',
+                    TicketID           => 123,
+                    State              => 'some state',
+                    StateID            => 123,
+                    StateType          => 'some state type',
+                    Priority           => 'some priority',
+                    PriorityID         => 123,
+                    Lock               => 'lock',
+                    LockID             => 123,
+                    Queue              => 'some queue',
+                    QueueID            => 123,
+                    CustomerID         => 'customer_id_123',
+                    CustomerUserID     => 'customer_user_id_123',
+                    Owner              => 'some_owner_login',
+                    OwnerID            => 123,
+                    Type               => 'some ticket type',
+                    TypeID             => 123,
+                    SLA                => 'some sla',
+                    SLAID              => 123,
+                    Service            => 'some service',
+                    ServiceID          => 123,
+                    Responsible        => 'some_responsible_login',
+                    ResponsibleID      => 123,
+                    Age                => 3456,
+                    Created            => '2010-10-27 20:15:00'
+                    CreateTimeUnix     => '1231414141',
+                    CreateBy           => 123,
+                    Changed            => '2010-10-27 20:15:15',
+                    ChangeBy           => 123,
+                    ArchiveFlag        => 'y',
+
+                    # If DynamicFields => 1 was passed, you'll get an entry like this for each dynamic field:
+                    DynamicField_X     => 'value_x',
+
+                    # (time stamps of expected escalations)
+                    EscalationResponseTime           (unix time stamp of response time escalation)
+                    EscalationUpdateTime             (unix time stamp of update time escalation)
+                    EscalationSolutionTime           (unix time stamp of solution time escalation)
+
+                    # (general escalation info of nearest escalation type)
+                    EscalationDestinationIn          (escalation in e. g. 1h 4m)
+                    EscalationDestinationTime        (date of escalation in unix time, e. g. 72193292)
+                    EscalationDestinationDate        (date of escalation, e. g. "2009-02-14 18:00:00")
+                    EscalationTimeWorkingTime        (seconds of working/service time till escalation, e. g. "1800")
+                    EscalationTime                   (seconds total till escalation of nearest escalation time type - response, update or solution time, e. g. "3600")
+
+                    # (detailed escalation info about first response, update and solution time)
+                    FirstResponseTimeEscalation      (if true, ticket is escalated)
+                    FirstResponseTimeNotification    (if true, notify - x% of escalation has reached)
+                    FirstResponseTimeDestinationTime (date of escalation in unix time, e. g. 72193292)
+                    FirstResponseTimeDestinationDate (date of escalation, e. g. "2009-02-14 18:00:00")
+                    FirstResponseTimeWorkingTime     (seconds of working/service time till escalation, e. g. "1800")
+                    FirstResponseTime                (seconds total till escalation, e. g. "3600")
+
+                    UpdateTimeEscalation             (if true, ticket is escalated)
+                    UpdateTimeNotification           (if true, notify - x% of escalation has reached)
+                    UpdateTimeDestinationTime        (date of escalation in unix time, e. g. 72193292)
+                    UpdateTimeDestinationDate        (date of escalation, e. g. "2009-02-14 18:00:00")
+                    UpdateTimeWorkingTime            (seconds of working/service time till escalation, e. g. "1800")
+                    UpdateTime                       (seconds total till escalation, e. g. "3600")
+
+                    SolutionTimeEscalation           (if true, ticket is escalated)
+                    SolutionTimeNotification         (if true, notify - x% of escalation has reached)
+                    SolutionTimeDestinationTime      (date of escalation in unix time, e. g. 72193292)
+                    SolutionTimeDestinationDate      (date of escalation, e. g. "2009-02-14 18:00:00")
+                    SolutionTimeWorkingTime          (seconds of working/service time till escalation, e. g. "1800")
+                    SolutionTime                     (seconds total till escalation, e. g. "3600")
+
+                    # if you use param Extended to get extended ticket attributes
+                    FirstResponse                   (timestamp of first response, first contact with customer)
+                    FirstResponseInMin              (minutes till first response)
+                    FirstResponseDiffInMin          (minutes till or over first response)
+
+                    SolutionTime                    (timestamp of solution time, also close time)
+                    SolutionInMin                   (minutes till solution time)
+                    SolutionDiffInMin               (minutes till or over solution time)
+
+                    FirstLock                       (timestamp of first lock)
+
+                    Articles => [
+                        {
+                            ArticleID
+                            From
+                            To
+                            Cc
+                            Subject
+                            Body
+                            ReplyTo
+                            MessageID
+                            InReplyTo
+                            References
+                            SenderType
+                            SenderTypeID
+                            ArticleType
+                            ArticleTypeID
+                            ContentType
+                            Charset
+                            MimeType
+                            IncomingTime
+
+                            # If DynamicFields => 1 was passed, you'll get an entry like this for each dynamic field:
+                            DynamicField_X     => 'value_x',
+
+                            Atms => {
+                                Content            => "xxxx",     # actual attachment contents, base64 enconded
+                                ContentAlternative => "",
+                                ContentID          => "",
+                                ContentType        => "application/pdf",
+                                Filename           => "StdAttachment-Test1.pdf",
+                                Filesize           => "4.6 KBytes",
+                                FilesizeRaw        => 4722,
+                            },
+                            {
+                                . . .
+                            },
+                        },
+                        {
+                            . . .
+                        },
+                    ],
+                },
+                {
+                    . . .
+                },
+            ]
+        },
     };
 
 =cut
@@ -272,6 +412,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.10 $ $Date: 2012-01-24 22:33:48 $
+$Revision: 1.11 $ $Date: 2012-01-31 00:20:43 $
 
 =cut
