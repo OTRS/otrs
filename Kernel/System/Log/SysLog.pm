@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Log/SysLog.pm - a wrapper for Sys::Syslog or xyz::Syslog
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: SysLog.pm,v 1.19 2009-04-06 21:01:34 martin Exp $
+# $Id: SysLog.pm,v 1.19.6.1 2012-01-31 11:05:56 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Sys::Syslog qw(:DEFAULT setlogsock);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.19 $) [1];
+$VERSION = qw($Revision: 1.19.6.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -47,12 +47,17 @@ sub Log {
 
     # convert Message because syslog can't work with utf-8
     if ( $Self->{ConfigObject}->Get('DefaultCharset') =~ /^utf(-8|8)$/i ) {
-        $Param{Message} = $Self->{EncodeObject}->Convert(
-            Text  => $Param{Message},
-            From  => 'utf8',
-            To    => $Self->{ConfigObject}->Get('LogModule::SysLog::Charset') || 'iso-8859-15',
-            Force => 1,
-        );
+        if ( $Self->{ConfigObject}->Get('LogModule::SysLog::Charset') =~ m/^utf-?8$/ ) {
+            $Self->{EncodeObject}->EncodeOutput( \$Param{Message} );
+        }
+        else {
+            $Param{Message} = $Self->{EncodeObject}->Convert(
+                Text  => $Param{Message},
+                From  => 'utf8',
+                To    => $Self->{ConfigObject}->Get('LogModule::SysLog::Charset') || 'iso-8859-15',
+                Force => 1,
+            );
+        }
     }
 
     # start syslog connect
