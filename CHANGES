@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2158 2012-01-31 13:39:46 mg Exp $
+# $Id: CHANGES,v 1.2159 2012-01-31 14:14:32 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,7 +10,8 @@
 # --
 
 3.1.0.rc1 2012-02-??
- - 2012-01-31 Fixed bug#8161 - HIstory Hover Broken - Missing title attribute.
+ - 2012-01-31 Fixed bug#8163 - Ticket / Article title can't be copied if value is too long.
+ - 2012-01-31 Fixed bug#8161 - History hover broken - missing title attribute.
  - 2012-01-30 Fixed bug#8147 - Possible values for queues not being considered in ACLs.
  - 2012-01-30 Fixed bug#8021 - Creating new Dynamic Field is not adding the field name
     to the X-OTRS header lists configuration for the PostMaster filters.
