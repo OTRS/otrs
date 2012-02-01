@@ -2,7 +2,7 @@
 # TicketSearch.t - GenericInterface transport interface tests for TicketConnector backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketSearch.t,v 1.12 2012-01-26 15:01:09 mg Exp $
+# $Id: TicketSearch.t,v 1.13 2012-02-01 22:42:05 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -1086,8 +1086,7 @@ my @Tests = (
         Name           => "Test " . $TestCounter++,
         SuccessRequest => 1,
         RequestData    => {
-            StateType => ['Open'],
-            Title     => '* äöüßÄÖÜ€ис',
+            Title => '* äöüßÄÖÜ€ис',
         },
         ExpectedReturnLocalData => {
             Data => {
