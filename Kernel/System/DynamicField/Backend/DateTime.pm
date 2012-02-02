@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/DateTime.pm - Delegate for DynamicField DateTime backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DateTime.pm,v 1.56 2012-01-12 13:04:03 cr Exp $
+# $Id: DateTime.pm,v 1.57 2012-02-02 14:03:11 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Time;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.56 $) [1];
+$VERSION = qw($Revision: 1.57 $) [1];
 
 =head1 NAME
 
@@ -403,7 +403,7 @@ sub DisplayValueRender {
     # convert date to localized string
     if ( defined $Param{Value} ) {
         $Value = $Param{LayoutObject}->Output(
-            Template => '$TimeLong{"$Data{"Value"}"}',
+            Template => '$TimeShort{"$Data{"Value"}"}',
             Data => { Value => $Param{Value}, },
         );
     }
@@ -414,7 +414,7 @@ sub DisplayValueRender {
 
     # set field link form config
     my $Link = $Param{DynamicFieldConfig}->{Config}->{Link} || '';
-
+    warn "$Value and $Param{Value}";
     my $Data = {
         Value => $Value,
         Title => $Title,
