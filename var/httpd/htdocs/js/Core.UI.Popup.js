@@ -2,7 +2,7 @@
 // Core.UI.Popup.js - provides functionality to open popup windows
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.UI.Popup.js,v 1.15 2012-01-30 13:21:30 mab Exp $
+// $Id: Core.UI.Popup.js,v 1.16 2012-02-02 11:55:46 mab Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -32,15 +32,8 @@ Core.UI.Popup = (function (TargetNS) {
 
     PopupProfiles = {
         'Default': {
-            'WindowURLParams': "dependent=yes,height=700,left=100,top=100,location=no,menubar=no,resizable=yes,scrollbars=yes,status=no,toolbar=no,width=1000",
-            'AutoResizeHorizontally': false,
-            'AutoResizeVertically': false
+            'WindowURLParams': "dependent=yes,height=700,left=100,top=100,location=no,menubar=no,resizable=yes,scrollbars=yes,status=no,toolbar=no,width=1000"
         },
-        'AutoResize': {
-            'WindowURLParams': "dependent=yes,height=700,left=100,top=100,location=no,menubar=no,resizable=yes,scrollbars=yes,status=no,toolbar=no,width=1000",
-            'AutoResizeHorizontally': true,
-            'AutoResizeVertically': true
-        }
     };
 
     /**
@@ -168,7 +161,7 @@ Core.UI.Popup = (function (TargetNS) {
     /**
      * @function
      * @description
-     *      This function set the type and profile for a popup window.
+     *      This function set the type for a popup window.
      * @param {Object} WindowObject The element is a javascript window object
      * @return nothing
      */
@@ -267,8 +260,8 @@ Core.UI.Popup = (function (TargetNS) {
                  *  by including the current time in the name string. This name is also needed
                  *  to save the Type parameter.
                  */
-                WindowName = 'OTRSPopup_' + Type + '_' + PopupProfile + '_' + Date.parse(new Date());
-                NewWindow = window.open(URL, WindowName, PopupProfiles[PopupProfile].WindowURLParams);
+                WindowName = 'OTRSPopup_' + Type + '_' + Date.parse(new Date());
+                NewWindow = window.open(URL, WindowName, PopupProfiles[PopupProfile]);
 
                 // check for popup blockers.
                 // currently, popup windows cannot easily be detected in chrome, because it will
@@ -317,29 +310,7 @@ Core.UI.Popup = (function (TargetNS) {
 
         // if this window is a popup itself, register another function
         if (window.name.match(/OTRSPopup_.+/) && window.opener !== null) {
-            
             Core.UI.Popup.InitRegisterPopupAtParentWindow();
-
-            // check for the used profile and decide if we need to resize
-            var ProfileRegEx = /OTRSPopup_[^_]+_([^_]+)_.*/.exec(window.name),
-            UsedProfile = RegExp.$1;
-            
-            // resize horizontally
-            if ( PopupProfiles[UsedProfile].AutoResizeHorizontally ) {
-                var NewWidth = $('body').width();
-                if ( NewWidth < screen.width ) {
-                    window.resizeTo(NewWidth, $(window).height());
-                }
-            }
-            
-             // resize vertically
-            if ( PopupProfiles[UsedProfile].AutoResizeVertically ) {
-                var NewHeight = $('body').height() + 100;
-                if ( NewHeight < screen.height ) {
-                    window.resizeTo($(window).width(), NewHeight);
-                }
-            }
-
             $('.CancelClosePopup').bind('click', function () {
                 window.close();
             });
