@@ -8,7 +8,7 @@
 # Copyright (C) 2009 Alessandro Faraldi <faraldia at gmail.com>
 # Copyright (C) 2010 Alessandro Grassi <alessandro.grassi at devise.it>
 # --
-# $Id: it.pm,v 1.126 2012-01-26 20:43:21 mg Exp $
+# $Id: it.pm,v 1.127 2012-02-02 16:11:45 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,13 +21,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.126 $) [1];
+$VERSION = qw($Revision: 1.127 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-01-26 21:37:47
+    # Last translation file sync: 2012-02-02 17:08:31
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -689,19 +689,22 @@ sub Data {
         'Unwatch' => 'Non osservare',
         'Lock it to work on it' => '',
         'Unlock to give it back to the queue' => '',
-        'Shows the ticket history!' => 'Visualizza lo storico della richiesta',
-        'Print this ticket!' => 'Stampa questa richiesta',
-        'Change the ticket priority!' => 'Cambia la priorità della richiesta',
+        'Show the ticket history' => '',
+        'Print this ticket' => '',
+        'Print this article' => '',
+        'Split this article' => '',
+        'Forward article via mail' => '',
+        'Change the ticket priority' => '',
         'Change the ticket free fields!' => 'Cambia i campi liberi della richiesta',
-        'Link this ticket to an other objects!' => 'Collega questa richiesta ad un altro oggetto',
-        'Change the ticket owner!' => 'Cambia il proprietario della richiesta',
-        'Change the ticket customer!' => 'Cambia il cliente della richiesta',
-        'Add a note to this ticket!' => 'Aggiungi una nota a questa richiesta',
-        'Merge this ticket!' => 'Unisci questa richiesta',
-        'Set this ticket to pending!' => 'Imposta questa richiesta come sospesa',
-        'Close this ticket!' => 'Chiudi questa richiesta',
+        'Link this ticket to other objects' => '',
+        'Change the owner for this ticket' => '',
+        'Change the  customer for this ticket' => '',
+        'Add a note to this ticket' => '',
+        'Merge into a different ticket' => '',
+        'Set this ticket to pending' => '',
+        'Close this ticket' => '',
         'Look into a ticket!' => 'Visualizza questa richiesta',
-        'Delete this ticket!' => 'Cancella questa richiesta',
+        'Delete this ticket' => '',
         'Mark as Spam!' => 'Segnala come spam',
         'My Queues' => 'Le mie Code',
         'Shown Tickets' => 'Richieste Visualizzate',
@@ -2475,7 +2478,6 @@ sub Data {
         'Activates the ticket archive system to have a faster system by moving some tickets out of the daily scope. To search for these tickets, the archive flag has to be enabled in the ticket search.' =>
             'Attiva il sistema di archivio dei ticket per avere un sistema più veloce spostando alcuni ticket fuori dallo scopo giornaliero. Per cercare questi ticket, la flag archivio deve essere abilitata nella ricerca dei ticket.',
         'Activates time accounting.' => 'Attiva l\'acconto del tempo.',
-        'Add a note to this ticket' => '',
         'Adds a suffix with the actual year and month to the OTRS log file. A logfile for every month will be created.' =>
             'Aggiunge un suffisso con l\'attuale anno e mese nel log di OTRS. Verrà creato un log per ogni mese.',
         'Adds customers email addresses to recipients in the ticket compose screen of the agent interface.' =>
@@ -2579,15 +2581,13 @@ sub Data {
         'Change queue!' => 'Cambio coda!',
         'Change the customer for this ticket' => '',
         'Change the free fields for this ticket' => '',
-        'Change the owner for this ticket' => '',
+        'Change the priority for this ticket' => '',
         'Change the responsible person for this ticket' => '',
-        'Change the ticket priority' => '',
         'Changes the owner of tickets to everyone (useful for ASP). Normally only agent with rw permissions in the queue of the ticket will be shown.' =>
             'Cambia il proprietario del ticket a tutti (utile per ASP). Normalmente solo gli agenti con permessi R/W sulla coda del ticket verranno mostrati.',
         'Checkbox' => '',
         'Checks the SystemID in ticket number detection for follow-ups (use "No" if SystemID has been changed after using the system).' =>
             'Controlla il SystemID nel rilevamento del numero di ticket per i follow-up (usare "No" se il SystemID è stato cambiato dopo aver usato il sistema).',
-        'Close this ticket' => '',
         'Closed tickets of customer' => '',
         'Comment for new history entries in the customer interface.' => 'Commento per nuove entry nello storico dell\'interfaccia cliente.',
         'Companies' => 'Compagnie',
@@ -3181,7 +3181,6 @@ sub Data {
         'Defines wich article type should be expanded when entering the overview. If nothing defined, latest article will be expanded.' =>
             '',
         'Delay time between autocomplete queries in milliseconds.' => '',
-        'Delete this ticket' => '',
         'Deletes a session if the session id is used with an invalid remote IP address.' =>
             '',
         'Deletes requested sessions if they have timed out.' => '',
@@ -3500,7 +3499,6 @@ sub Data {
         'Link queues to auto responses.' => '',
         'Link responses to queues.' => '',
         'Link roles to groups.' => '',
-        'Link this ticket to other objects' => '',
         'Links 2 tickets with a "Normal" type link.' => '',
         'Links 2 tickets with a "ParentChild" type link.' => '',
         'List of CSS files to always be loaded for the agent interface.' =>
@@ -3551,7 +3549,6 @@ sub Data {
             '',
         'Maximum size (in characters) of the customer information table in the ticket zoom view.' =>
             '',
-        'Merge into a different ticket' => '',
         'Module for To-selection in new ticket screen in the customer interface.' =>
             '',
         'Module to check customer permissions.' => '',
@@ -3663,7 +3660,6 @@ sub Data {
         'Picture-Upload' => '',
         'PostMaster Filters' => '',
         'PostMaster Mail Accounts' => '',
-        'Print this ticket' => '',
         'Protection against CSRF (Cross Site Request Forgery) exploits (for more info see http://en.wikipedia.org/wiki/Cross-site_request_forgery).' =>
             '',
         'Queue view' => '',
@@ -3741,7 +3737,6 @@ sub Data {
             '',
         'Set the maximum height (in pixels) of inline HTML articles in AgentTicketZoom.' =>
             '',
-        'Set this ticket to pending' => '',
         'Set this to yes if you trust in all your public and private pgp keys, even if they are not certified with a trusted signature.' =>
             '',
         'Sets if ticket owner must be selected by the agent.' => '',
@@ -4024,7 +4019,6 @@ sub Data {
             '',
         'Shows the message of the day on login screen of the agent interface.' =>
             '',
-        'Shows the ticket history' => '',
         'Shows the ticket history (reverse ordered) in the agent interface.' =>
             '',
         'Shows the ticket priority options in the close ticket screen of the agent interface.' =>
@@ -4230,6 +4224,7 @@ sub Data {
         'Add a new State.' => 'Aggiungi un nuovo stato',
         'Add a new System Address.' => 'Inserisci nuova Email di sistema',
         'Add a new Type.' => 'Aggiungi nuovo tipo',
+        'Add a note to this ticket!' => 'Aggiungi una nota a questa richiesta',
         'Add note to ticket' => 'Aggiungi una nota alla richiesta',
         'Added User "%s"' => 'Utente "%s" aggiunto',
         'Adds the one time vacation days for the calendar number 1. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' =>
@@ -4340,6 +4335,9 @@ sub Data {
         'Change owner of ticket' => 'Assegna la richiesta ad un altro operatore',
         'Change priority of ticket' => 'Modifica la priorità della richiesta',
         'Change responsible of ticket' => 'Cambia il responsabile del Ticket',
+        'Change the ticket customer!' => 'Cambia il cliente della richiesta',
+        'Change the ticket owner!' => 'Cambia il proprietario della richiesta',
+        'Change the ticket priority!' => 'Cambia la priorità della richiesta',
         'Change the ticket responsible!' => 'Cambio responsabile ticket!',
         'Change user <-> group settings' => 'Modifica impostazioni Utente <-> Gruppo',
         'Child-Object' => 'Oggetto Figlio',
@@ -4347,6 +4345,7 @@ sub Data {
         'Clear To' => 'Cancella destinatario',
         'Click here to report a bug!' => 'Clicca qui per segnalare un bug!',
         'Close Times' => 'data di chiusura',
+        'Close this ticket!' => 'Chiudi questa richiesta',
         'Close ticket' => 'Chiudi richiesta',
         'Close type' => 'Tipologia chiusura',
         'Close!' => 'Chiuso!',
@@ -4401,6 +4400,7 @@ sub Data {
         'Defines the =hHeight for the rich text editor component. Enter number (pixels) or percent value (relative).' =>
             'Definisce il valore =hHeight per il componente Rich Text editor. Inserire il numero (pixel) o la percentuale (relativa).',
         'Delete old database' => 'Cancella il vecchio database',
+        'Delete this ticket!' => 'Cancella questa richiesta',
         'Detail' => 'Dettaglio',
         'Discard all changes and return to the compose screen' => 'Annulla tutte le modifiche e torna alla composizione del messaggio',
         'Do dispatch or filter incoming emails based on email X-Headers! RegExp is also possible.' =>
@@ -4482,6 +4482,7 @@ sub Data {
         'Keyword' => 'Parola chiave',
         'Keywords' => 'Parole chiave',
         'Last update' => 'Ultimo aggiornamento',
+        'Link this ticket to an other objects!' => 'Collega questa richiesta ad un altro oggetto',
         'Link to Parent' => 'Collega a genitore',
         'Linked as' => 'Collegato come',
         'Load Settings' => 'Carica config.',
@@ -4495,6 +4496,7 @@ sub Data {
         'Mailbox' => 'Casella postale',
         'Match' => 'Corrispondenza',
         'Max. shown Tickets a page' => 'Ticket massimi visualizzati in una pagina',
+        'Merge this ticket!' => 'Unisci questa richiesta',
         'Message for new Owner' => 'Messaggio per l\'operatore',
         'Message sent to' => 'Messaggio inviato a',
         'Misc' => 'Varie',
@@ -4590,6 +4592,7 @@ sub Data {
         'Please command us.' => 'Prego ci comandi.',
         'Please contact your admin' => 'Per favore contatta il tuo amministratore',
         'Please fill out this form to recieve login credentials.' => 'Si prega di riempire questo modulo per ricevere le credenziali di accesso.',
+        'Print this ticket!' => 'Stampa questa richiesta',
         'Problem' => 'Problema',
         'Queue <-> Auto Responses Management' => 'Code <-> Risposta automatica ',
         'Queue ID' => 'Identificativo coda',
@@ -4645,7 +4648,9 @@ sub Data {
         'Sent password token to: %s' => 'Inviata password a : %s ',
         'Sessions' => 'Sessioni',
         'Set customer user and customer id of a ticket' => 'Imposta l\'id cliente di una richiesta',
+        'Set this ticket to pending!' => 'Imposta questa richiesta come sospesa',
         'Show' => 'Mostra',
+        'Shows the ticket history!' => 'Visualizza lo storico della richiesta',
         'Site' => 'Pagina',
         'Solution' => 'Soluzione',
         'Sort by' => 'Ordina per',

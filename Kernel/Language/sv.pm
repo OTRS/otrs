@@ -3,7 +3,7 @@
 # Copyright (C) 2004 Mats Eric Olausson <mats at synergy.se>
 # Copyright (C) 2009 Mikael Mattsson" <Mikael.Mattsson at konsumvarmland.se>
 # --
-# $Id: sv.pm,v 1.107 2012-01-26 20:43:23 mg Exp $
+# $Id: sv.pm,v 1.108 2012-02-02 16:11:46 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,13 +16,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.107 $) [1];
+$VERSION = qw($Revision: 1.108 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-01-26 21:38:01
+    # Last translation file sync: 2012-02-02 17:08:46
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -684,19 +684,22 @@ sub Data {
         'Unwatch' => '',
         'Lock it to work on it' => '',
         'Unlock to give it back to the queue' => '',
-        'Shows the ticket history!' => 'Visar ärendehistoriken!',
-        'Print this ticket!' => 'Skriv ut detta ärende!',
-        'Change the ticket priority!' => 'Ändra ärendets prioritet!',
+        'Show the ticket history' => '',
+        'Print this ticket' => '',
+        'Print this article' => '',
+        'Split this article' => '',
+        'Forward article via mail' => '',
+        'Change the ticket priority' => '',
         'Change the ticket free fields!' => 'Ändra ärendets fria fält!',
-        'Link this ticket to an other objects!' => 'Koppla ärendet till andra objekt!',
-        'Change the ticket owner!' => 'Ändra ärendets ägare!',
-        'Change the ticket customer!' => 'Ändra ärendets kund!',
-        'Add a note to this ticket!' => 'Lägg till en notis på ärendet!',
-        'Merge this ticket!' => 'Slå samman ärendet!',
-        'Set this ticket to pending!' => 'Sätt ärendet som väntande!',
-        'Close this ticket!' => 'Stäng ärendet!',
+        'Link this ticket to other objects' => '',
+        'Change the owner for this ticket' => '',
+        'Change the  customer for this ticket' => '',
+        'Add a note to this ticket' => '',
+        'Merge into a different ticket' => '',
+        'Set this ticket to pending' => '',
+        'Close this ticket' => '',
         'Look into a ticket!' => 'Visa ärendet!',
-        'Delete this ticket!' => 'Radera ärendet!',
+        'Delete this ticket' => '',
         'Mark as Spam!' => 'Markera som SPAM!',
         'My Queues' => 'Mina köer',
         'Shown Tickets' => 'Visade Ärenden',
@@ -2470,7 +2473,6 @@ sub Data {
         'Activates the ticket archive system to have a faster system by moving some tickets out of the daily scope. To search for these tickets, the archive flag has to be enabled in the ticket search.' =>
             '',
         'Activates time accounting.' => '',
-        'Add a note to this ticket' => '',
         'Adds a suffix with the actual year and month to the OTRS log file. A logfile for every month will be created.' =>
             '',
         'Adds customers email addresses to recipients in the ticket compose screen of the agent interface.' =>
@@ -2574,15 +2576,13 @@ sub Data {
         'Change queue!' => '',
         'Change the customer for this ticket' => '',
         'Change the free fields for this ticket' => '',
-        'Change the owner for this ticket' => '',
+        'Change the priority for this ticket' => '',
         'Change the responsible person for this ticket' => '',
-        'Change the ticket priority' => '',
         'Changes the owner of tickets to everyone (useful for ASP). Normally only agent with rw permissions in the queue of the ticket will be shown.' =>
             '',
         'Checkbox' => '',
         'Checks the SystemID in ticket number detection for follow-ups (use "No" if SystemID has been changed after using the system).' =>
             '',
-        'Close this ticket' => '',
         'Closed tickets of customer' => '',
         'Comment for new history entries in the customer interface.' => '',
         'Companies' => '',
@@ -3176,7 +3176,6 @@ sub Data {
         'Defines wich article type should be expanded when entering the overview. If nothing defined, latest article will be expanded.' =>
             '',
         'Delay time between autocomplete queries in milliseconds.' => '',
-        'Delete this ticket' => '',
         'Deletes a session if the session id is used with an invalid remote IP address.' =>
             '',
         'Deletes requested sessions if they have timed out.' => '',
@@ -3495,7 +3494,6 @@ sub Data {
         'Link queues to auto responses.' => '',
         'Link responses to queues.' => '',
         'Link roles to groups.' => '',
-        'Link this ticket to other objects' => '',
         'Links 2 tickets with a "Normal" type link.' => '',
         'Links 2 tickets with a "ParentChild" type link.' => '',
         'List of CSS files to always be loaded for the agent interface.' =>
@@ -3546,7 +3544,6 @@ sub Data {
             '',
         'Maximum size (in characters) of the customer information table in the ticket zoom view.' =>
             '',
-        'Merge into a different ticket' => '',
         'Module for To-selection in new ticket screen in the customer interface.' =>
             '',
         'Module to check customer permissions.' => '',
@@ -3658,7 +3655,6 @@ sub Data {
         'Picture-Upload' => '',
         'PostMaster Filters' => '',
         'PostMaster Mail Accounts' => '',
-        'Print this ticket' => '',
         'Protection against CSRF (Cross Site Request Forgery) exploits (for more info see http://en.wikipedia.org/wiki/Cross-site_request_forgery).' =>
             '',
         'Queue view' => '',
@@ -3736,7 +3732,6 @@ sub Data {
             '',
         'Set the maximum height (in pixels) of inline HTML articles in AgentTicketZoom.' =>
             '',
-        'Set this ticket to pending' => '',
         'Set this to yes if you trust in all your public and private pgp keys, even if they are not certified with a trusted signature.' =>
             '',
         'Sets if ticket owner must be selected by the agent.' => '',
@@ -4019,7 +4014,6 @@ sub Data {
             '',
         'Shows the message of the day on login screen of the agent interface.' =>
             '',
-        'Shows the ticket history' => '',
         'Shows the ticket history (reverse ordered) in the agent interface.' =>
             '',
         'Shows the ticket priority options in the close ticket screen of the agent interface.' =>
@@ -4218,6 +4212,7 @@ sub Data {
         'Add a new State.' => 'Lägg till ny Status.',
         'Add a new System Address.' => 'Lägg till ny Systemadress',
         'Add a new Type.' => 'Lägg till ny Typ',
+        'Add a note to this ticket!' => 'Lägg till en notis på ärendet!',
         'Add note to ticket' => 'Lägg till anteckning till ärende',
         'Added User "%s"' => 'La till Användare "%s"',
         'Admin-Area' => 'Administrationsrelaterat',
@@ -4265,6 +4260,9 @@ sub Data {
         'Change owner of ticket' => 'Ändra ett ärendes ägare',
         'Change priority of ticket' => 'Ändra ärendeprioritet',
         'Change responsible of ticket' => 'Ändra ansvarig på ärendet',
+        'Change the ticket customer!' => 'Ändra ärendets kund!',
+        'Change the ticket owner!' => 'Ändra ärendets ägare!',
+        'Change the ticket priority!' => 'Ändra ärendets prioritet!',
         'Change user <-> group settings' => 'Ändra användar- <-> grupp-inställningar',
         'ChangeLog' => 'Ändringslogg',
         'Child-Object' => 'Barn-Objekt',
@@ -4272,6 +4270,7 @@ sub Data {
         'Clear To' => 'Rensa Till',
         'Click here to report a bug!' => 'Klicka här för att rapportera ett fel!',
         'Close Times' => 'Stängt-Tider',
+        'Close this ticket!' => 'Stäng ärendet!',
         'Close ticket' => 'Stäng ärende',
         'Close type' => 'Stängningstyp',
         'Close!' => 'Stäng!',
@@ -4316,6 +4315,7 @@ sub Data {
         'Default Charset' => 'Standard teckenuppsättning',
         'Default Language' => 'Standardspråk',
         'Delete old database' => 'Radera gammal databas',
+        'Delete this ticket!' => 'Radera ärendet!',
         'Detail' => 'Detalj',
         'Diff' => 'Diff',
         'Discard all changes and return to the compose screen' => 'Bortse från ändringarna och stäng fönstret',
@@ -4379,6 +4379,7 @@ sub Data {
         'Keyword' => 'Nyckelord',
         'Keywords' => 'Nyckelord',
         'Last update' => 'Senast ändrat',
+        'Link this ticket to an other objects!' => 'Koppla ärendet till andra objekt!',
         'Link to Parent' => 'Länka med Förälder',
         'Load Settings' => 'Ladda Inställningar',
         'Lock it to work on it!' => 'Lås ärende för att arbeta med det!',
@@ -4389,6 +4390,7 @@ sub Data {
         'Lookup' => 'Slå upp',
         'Mail Management' => 'Eposthantering',
         'Match' => 'Träff',
+        'Merge this ticket!' => 'Slå samman ärendet!',
         'Message for new Owner' => 'Meddelande till ny ägare',
         'Message sent to' => 'Meddelande skickat till',
         'Misc' => 'Div',
@@ -4477,6 +4479,7 @@ sub Data {
         'PhoneView' => 'Tel.samtal',
         'Please contact your admin' => 'Vänligen kontakta administratören',
         'Port' => 'Port',
+        'Print this ticket!' => 'Skriv ut detta ärende!',
         'Prio' => 'Prioritet',
         'Problem' => 'Problem',
         'Queue <-> Auto Responses Management' => 'Kö <-> Autosvar',
@@ -4523,7 +4526,9 @@ sub Data {
         'Sent password token to: %s' => 'Skickade lösenordsinfo till: %s',
         'Sessions' => 'Sessioner',
         'Set customer user and customer id of a ticket' => 'Ange kundanvändare och organisations-id för ett ärende',
+        'Set this ticket to pending!' => 'Sätt ärendet som väntande!',
         'Show' => 'Visa',
+        'Shows the ticket history!' => 'Visar ärendehistoriken!',
         'Site' => 'Plats',
         'Solution' => 'Lösning',
         'Sort by' => 'Sortera efter',

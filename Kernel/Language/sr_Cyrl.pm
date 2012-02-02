@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Milorad Jovanovic <j.milorad at gmail.com>
 # --
-# $Id: sr_Cyrl.pm,v 1.27 2012-01-26 20:43:24 mg Exp $
+# $Id: sr_Cyrl.pm,v 1.28 2012-02-02 16:11:46 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.27 $) [1];
+$VERSION = qw($Revision: 1.28 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-01-26 21:37:59
+    # Last translation file sync: 2012-02-02 17:08:44
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -683,19 +683,22 @@ sub Data {
         'Unwatch' => 'Прекини посматрање',
         'Lock it to work on it' => 'Закључајте за рад на тикету',
         'Unlock to give it back to the queue' => 'Откључајте за враћање у ред',
-        'Shows the ticket history!' => 'Прикажи историјат тикета!',
-        'Print this ticket!' => 'Штампај овај тикет!',
-        'Change the ticket priority!' => 'Промени приоритет тикета',
+        'Show the ticket history' => '',
+        'Print this ticket' => '',
+        'Print this article' => '',
+        'Split this article' => '',
+        'Forward article via mail' => '',
+        'Change the ticket priority' => 'Промени приоритет тикета',
         'Change the ticket free fields!' => 'Промени слободна поља тикета',
-        'Link this ticket to an other objects!' => 'Повежи овај тикет са другим објектима!',
-        'Change the ticket owner!' => 'Промени власника тикета!',
-        'Change the ticket customer!' => 'Промени корисника за тикет!',
-        'Add a note to this ticket!' => 'Додај напомену овом тикету!',
-        'Merge this ticket!' => 'Споји овај тикет!',
-        'Set this ticket to pending!' => 'Стави овај тикет на чекање!',
-        'Close this ticket!' => 'Затвори овај тикет!',
+        'Link this ticket to other objects' => '',
+        'Change the owner for this ticket' => 'Промени власника овог тикета',
+        'Change the  customer for this ticket' => '',
+        'Add a note to this ticket' => 'Додај напомену овом тикету',
+        'Merge into a different ticket' => '',
+        'Set this ticket to pending' => '',
+        'Close this ticket' => 'Затвори овај тикет',
         'Look into a ticket!' => 'Погледај садржај тикета!',
-        'Delete this ticket!' => 'Обриши овај тикет!',
+        'Delete this ticket' => 'Обришите овај тикет',
         'Mark as Spam!' => 'Означи као "Spam"!',
         'My Queues' => 'Моји редови',
         'Shown Tickets' => 'приказани тикети',
@@ -2469,7 +2472,6 @@ sub Data {
         'Activates the ticket archive system to have a faster system by moving some tickets out of the daily scope. To search for these tickets, the archive flag has to be enabled in the ticket search.' =>
             'Активира архивски систем ради убрзања рада, тако што ћете неке тикетеуклонити ван дневног праћења. Да бисте пронашли ове тикете, маркер архиве мора бити омогућен за претрагу тикета.',
         'Activates time accounting.' => 'Активира мерење времена.',
-        'Add a note to this ticket' => 'Додај напомену овом тикету',
         'Adds a suffix with the actual year and month to the OTRS log file. A logfile for every month will be created.' =>
             'Додаје текућу годину и месец као суфикс у "OTRS" дневнику. Биће креирана датотека дневника за сваки месец.',
         'Adds customers email addresses to recipients in the ticket compose screen of the agent interface.' =>
@@ -2573,15 +2575,13 @@ sub Data {
         'Change queue!' => 'Промена реда!',
         'Change the customer for this ticket' => 'Промени корисника за овај тикет',
         'Change the free fields for this ticket' => 'Промени слободна поља овог тикета',
-        'Change the owner for this ticket' => 'Промени власника овог тикета',
+        'Change the priority for this ticket' => '',
         'Change the responsible person for this ticket' => 'Промени одговорну особу за овај тикет',
-        'Change the ticket priority' => 'Промени приоритет тикета',
         'Changes the owner of tickets to everyone (useful for ASP). Normally only agent with rw permissions in the queue of the ticket will be shown.' =>
             '',
         'Checkbox' => 'Поље за потврду',
         'Checks the SystemID in ticket number detection for follow-ups (use "No" if SystemID has been changed after using the system).' =>
             '',
-        'Close this ticket' => 'Затвори овај тикет',
         'Closed tickets of customer' => '',
         'Comment for new history entries in the customer interface.' => 'Коментар за нове ставке историјата у корисничком интерфејсу.',
         'Companies' => 'Фирме',
@@ -3175,7 +3175,6 @@ sub Data {
         'Defines wich article type should be expanded when entering the overview. If nothing defined, latest article will be expanded.' =>
             '',
         'Delay time between autocomplete queries in milliseconds.' => '',
-        'Delete this ticket' => 'Обришите овај тикет',
         'Deletes a session if the session id is used with an invalid remote IP address.' =>
             '',
         'Deletes requested sessions if they have timed out.' => '',
@@ -3494,7 +3493,6 @@ sub Data {
         'Link queues to auto responses.' => 'Повежи редове са аутоманским одковорима.',
         'Link responses to queues.' => 'Повежи одговоре са редовима.',
         'Link roles to groups.' => 'Повежи улоге са групама.',
-        'Link this ticket to other objects' => '',
         'Links 2 tickets with a "Normal" type link.' => '',
         'Links 2 tickets with a "ParentChild" type link.' => '',
         'List of CSS files to always be loaded for the agent interface.' =>
@@ -3545,7 +3543,6 @@ sub Data {
             '',
         'Maximum size (in characters) of the customer information table in the ticket zoom view.' =>
             '',
-        'Merge into a different ticket' => '',
         'Module for To-selection in new ticket screen in the customer interface.' =>
             '',
         'Module to check customer permissions.' => 'Модул за проверу корисничких дозвола.',
@@ -3657,7 +3654,6 @@ sub Data {
         'Picture-Upload' => '',
         'PostMaster Filters' => '"PostMaster" филтери',
         'PostMaster Mail Accounts' => '"PostMaster" мејл налози',
-        'Print this ticket' => '',
         'Protection against CSRF (Cross Site Request Forgery) exploits (for more info see http://en.wikipedia.org/wiki/Cross-site_request_forgery).' =>
             '',
         'Queue view' => 'Преглед реда',
@@ -3735,7 +3731,6 @@ sub Data {
             '',
         'Set the maximum height (in pixels) of inline HTML articles in AgentTicketZoom.' =>
             '',
-        'Set this ticket to pending' => '',
         'Set this to yes if you trust in all your public and private pgp keys, even if they are not certified with a trusted signature.' =>
             '',
         'Sets if ticket owner must be selected by the agent.' => '',
@@ -4018,7 +4013,6 @@ sub Data {
             '',
         'Shows the message of the day on login screen of the agent interface.' =>
             '',
-        'Shows the ticket history' => '',
         'Shows the ticket history (reverse ordered) in the agent interface.' =>
             '',
         'Shows the ticket priority options in the close ticket screen of the agent interface.' =>
@@ -4221,6 +4215,7 @@ sub Data {
         'Add a new System Address.' => 'Додај нову системску адресу.',
         'Add a new Type.' => 'Додај нови тип.',
         'Add a new salutation' => 'Додај нови поздрав',
+        'Add a note to this ticket!' => 'Додај напомену овом тикету!',
         'Add new attachment' => 'Додај нови прилог',
         'Add new field for object:' => 'Додај ново поље за објект:',
         'Add note to ticket' => 'Додај тикету напомену',
@@ -4337,6 +4332,9 @@ sub Data {
         'Change owner of ticket' => 'Промени власника тикета',
         'Change priority of ticket' => 'Промени приоритет тикета',
         'Change responsible of ticket' => 'Промени одговорног за тикет',
+        'Change the ticket customer!' => 'Промени корисника за тикет!',
+        'Change the ticket owner!' => 'Промени власника тикета!',
+        'Change the ticket priority!' => 'Промени приоритет тикета',
         'Change the ticket responsible!' => 'Промена одговорног за тикет!',
         'Change user <-> group settings' => 'Промена корисника <-> Подешавање групе',
         'ChangeLog' => 'Дневник промена',
@@ -4350,6 +4348,7 @@ sub Data {
         'Clear To' => 'Обриши За:',
         'Click here to report a bug!' => 'Кликните овде за пријаву грешке!',
         'Close Times' => 'Времена затварања',
+        'Close this ticket!' => 'Затвори овај тикет!',
         'Close ticket' => 'Затвори тикет',
         'Close type' => 'Тип затварања',
         'Close!' => 'Затвори!',
@@ -4590,6 +4589,7 @@ sub Data {
             'Одређује да ли је слободно поље времена број 6 опционо или не.',
         'Delay time between autocomplete queries.' => 'Време задржавања између самокомплетирајућих упита.',
         'Delete old database' => 'Обриши стару базу података',
+        'Delete this ticket!' => 'Обриши овај тикет!',
         'Detail' => 'Детаљи',
         'Diff' => 'Разлике',
         'Discard all changes and return to the compose screen' => 'Одустаните од свих промена и вратите се на прозор за писање.',
@@ -4687,6 +4687,7 @@ sub Data {
         'Last update' => 'Последње ажурирање',
         'Lastname{CustomerUser}' => 'Презиме (корисник)',
         'Link Table' => 'Табела веза',
+        'Link this ticket to an other objects!' => 'Повежи овај тикет са другим објектима!',
         'Link this ticket to other objects!' => 'Повежи овај тикет са другим објектима!',
         'Link to Parent' => 'Повежи са родитељем',
         'LinkType' => 'Тип везе',
@@ -4705,6 +4706,7 @@ sub Data {
         'Match' => 'Поклапање',
         'Max. displayed tickets' => 'Максимални број приказаних тикета',
         'Max. shown Tickets a page' => 'Максимални број тикета по страни',
+        'Merge this ticket!' => 'Споји овај тикет!',
         'Message for new Owner' => 'Порука за новог власника',
         'Message sent to' => 'Порука послата за',
         'Misc' => 'Остало',
@@ -4800,6 +4802,7 @@ sub Data {
         'Please contact your admin' => 'Молимо контактирајте вашег администратора',
         'Please enter subject.' => 'Молимо унесите предмет поруке.',
         'Please fill out this form to recieve login credentials.' => 'Молимо, попуните овај формулар како би сте добили податке за пријаву.',
+        'Print this ticket!' => 'Штампај овај тикет!',
         'Prio' => 'Приоритет',
         'Process-Path' => 'Prozess-Path',
         'Product' => 'Производ',
@@ -4866,7 +4869,9 @@ sub Data {
         'Service-Name' => 'Назив сервиса',
         'Sessions' => 'Сесије',
         'Set customer user and customer id of a ticket' => 'Подеси корисника и кориснички ИД за тикет',
+        'Set this ticket to pending!' => 'Стави овај тикет на чекање!',
         'Show' => 'Прикажи',
+        'Shows the ticket history!' => 'Прикажи историјат тикета!',
         'Site' => 'Страна',
         'Solution' => 'Решење',
         'Sort by' => 'Сортирано по',

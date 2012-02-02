@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Antti Kämäräinen <antti at seu.net>
 # Copyright (C) 2007-2012 Mikko Hynninen <first.last at tietokartano.fi>
 # --
-# $Id: fi.pm,v 1.130 2012-01-26 20:43:23 mg Exp $
+# $Id: fi.pm,v 1.131 2012-02-02 16:11:46 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,13 +16,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.130 $) [1];
+$VERSION = qw($Revision: 1.131 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-01-26 21:37:41
+    # Last translation file sync: 2012-02-02 17:08:25
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -684,19 +684,22 @@ sub Data {
         'Unwatch' => 'Älä seuraa',
         'Lock it to work on it' => '',
         'Unlock to give it back to the queue' => '',
-        'Shows the ticket history!' => 'Näytä tiketin historia!',
-        'Print this ticket!' => 'Tulosta tämä tiketti!',
-        'Change the ticket priority!' => 'Muuta tiketin prioriteettiä!',
+        'Show the ticket history' => '',
+        'Print this ticket' => '',
+        'Print this article' => '',
+        'Split this article' => '',
+        'Forward article via mail' => '',
+        'Change the ticket priority' => '',
         'Change the ticket free fields!' => 'Muuta tiketin vapaakenttiä!',
-        'Link this ticket to an other objects!' => 'Liitä tiketti toiseen objektiin!',
-        'Change the ticket owner!' => 'Vaihda tiketin omistaja!',
-        'Change the ticket customer!' => 'Vaihda tiketin asiakas!',
-        'Add a note to this ticket!' => 'Lisää huomautus tähän tikettiin!',
-        'Merge this ticket!' => 'Liitä tämä tiketti!',
-        'Set this ticket to pending!' => 'Aseta tiketti odottamaan!',
-        'Close this ticket!' => 'Sulje tiketti!',
+        'Link this ticket to other objects' => '',
+        'Change the owner for this ticket' => '',
+        'Change the  customer for this ticket' => '',
+        'Add a note to this ticket' => '',
+        'Merge into a different ticket' => '',
+        'Set this ticket to pending' => '',
+        'Close this ticket' => '',
         'Look into a ticket!' => 'Tarkastele tikettiä!',
-        'Delete this ticket!' => 'Poista tämä tiketti!',
+        'Delete this ticket' => '',
         'Mark as Spam!' => 'Merkitse roskapostiksi!',
         'My Queues' => 'Jononi',
         'Shown Tickets' => 'Näytetyt tiketit',
@@ -2470,7 +2473,6 @@ sub Data {
         'Activates the ticket archive system to have a faster system by moving some tickets out of the daily scope. To search for these tickets, the archive flag has to be enabled in the ticket search.' =>
             '',
         'Activates time accounting.' => '',
-        'Add a note to this ticket' => '',
         'Adds a suffix with the actual year and month to the OTRS log file. A logfile for every month will be created.' =>
             '',
         'Adds customers email addresses to recipients in the ticket compose screen of the agent interface.' =>
@@ -2574,15 +2576,13 @@ sub Data {
         'Change queue!' => 'Vaihda jonoa!',
         'Change the customer for this ticket' => '',
         'Change the free fields for this ticket' => '',
-        'Change the owner for this ticket' => '',
+        'Change the priority for this ticket' => '',
         'Change the responsible person for this ticket' => '',
-        'Change the ticket priority' => '',
         'Changes the owner of tickets to everyone (useful for ASP). Normally only agent with rw permissions in the queue of the ticket will be shown.' =>
             '',
         'Checkbox' => '',
         'Checks the SystemID in ticket number detection for follow-ups (use "No" if SystemID has been changed after using the system).' =>
             '',
-        'Close this ticket' => '',
         'Closed tickets of customer' => '',
         'Comment for new history entries in the customer interface.' => '',
         'Companies' => 'Yritykset',
@@ -3176,7 +3176,6 @@ sub Data {
         'Defines wich article type should be expanded when entering the overview. If nothing defined, latest article will be expanded.' =>
             '',
         'Delay time between autocomplete queries in milliseconds.' => '',
-        'Delete this ticket' => '',
         'Deletes a session if the session id is used with an invalid remote IP address.' =>
             '',
         'Deletes requested sessions if they have timed out.' => '',
@@ -3495,7 +3494,6 @@ sub Data {
         'Link queues to auto responses.' => '',
         'Link responses to queues.' => '',
         'Link roles to groups.' => '',
-        'Link this ticket to other objects' => '',
         'Links 2 tickets with a "Normal" type link.' => '',
         'Links 2 tickets with a "ParentChild" type link.' => '',
         'List of CSS files to always be loaded for the agent interface.' =>
@@ -3546,7 +3544,6 @@ sub Data {
             '',
         'Maximum size (in characters) of the customer information table in the ticket zoom view.' =>
             '',
-        'Merge into a different ticket' => '',
         'Module for To-selection in new ticket screen in the customer interface.' =>
             '',
         'Module to check customer permissions.' => '',
@@ -3658,7 +3655,6 @@ sub Data {
         'Picture-Upload' => '',
         'PostMaster Filters' => '',
         'PostMaster Mail Accounts' => '',
-        'Print this ticket' => '',
         'Protection against CSRF (Cross Site Request Forgery) exploits (for more info see http://en.wikipedia.org/wiki/Cross-site_request_forgery).' =>
             '',
         'Queue view' => 'Jononäkymä',
@@ -3736,7 +3732,6 @@ sub Data {
             '',
         'Set the maximum height (in pixels) of inline HTML articles in AgentTicketZoom.' =>
             '',
-        'Set this ticket to pending' => '',
         'Set this to yes if you trust in all your public and private pgp keys, even if they are not certified with a trusted signature.' =>
             '',
         'Sets if ticket owner must be selected by the agent.' => '',
@@ -4019,7 +4014,6 @@ sub Data {
             '',
         'Shows the message of the day on login screen of the agent interface.' =>
             '',
-        'Shows the ticket history' => '',
         'Shows the ticket history (reverse ordered) in the agent interface.' =>
             '',
         'Shows the ticket priority options in the close ticket screen of the agent interface.' =>
@@ -4222,6 +4216,7 @@ sub Data {
         'Add a new State.' => 'Lisää uusi tila.',
         'Add a new System Address.' => 'Lisää uusi järjestelmäosoite.',
         'Add a new Type.' => 'Lisää uusi tyyppi.',
+        'Add a note to this ticket!' => 'Lisää huomautus tähän tikettiin!',
         'Add note to ticket' => 'Lisää huomautus tähän tikettiin',
         'Added User "%s"' => 'Käyttäjä %s lisätty',
         'Admin-Area' => 'Ylläpito',
@@ -4262,6 +4257,9 @@ sub Data {
         'Change owner of ticket' => 'Muuta tämän tiketin omistajaa',
         'Change priority of ticket' => 'Muuta prioriteettiä',
         'Change responsible of ticket' => 'Vaihda tiketistä vastaavan tieto',
+        'Change the ticket customer!' => 'Vaihda tiketin asiakas!',
+        'Change the ticket owner!' => 'Vaihda tiketin omistaja!',
+        'Change the ticket priority!' => 'Muuta tiketin prioriteettiä!',
         'Change the ticket responsible!' => 'Vaihda tiketistä vastaava!',
         'Change user <-> group settings' => 'Vaihda käyttäjä <-> Ryhmäasetuksia',
         'ChangeLog' => 'Muutokset',
@@ -4270,6 +4268,7 @@ sub Data {
         'Clear To' => 'Puhdista vastaanottaja',
         'Click here to report a bug!' => 'Klikkaa tästä lähettääksesi bugiraportti!',
         'Close Times' => 'Sulkemisajat',
+        'Close this ticket!' => 'Sulje tiketti!',
         'Close ticket' => 'Sulje tiketti',
         'Close type' => 'Sulkemisen syy',
         'Close!' => 'Sulje!',
@@ -4310,6 +4309,7 @@ sub Data {
         'Default' => 'Oletus',
         'Default Charset' => 'Oletusmerkistö',
         'Default Language' => 'Oletuskieli',
+        'Delete this ticket!' => 'Poista tämä tiketti!',
         'Detail' => 'Tiedot',
         'Diff' => 'Diff',
         'Discard all changes and return to the compose screen' => 'Hylkää muutokset ja palaa viestin kirjoitusikkunaan',
@@ -4382,6 +4382,7 @@ sub Data {
         'Keyword' => 'Avainsanat',
         'Keywords' => 'Avainsanat',
         'Last update' => 'Edellinen päivitys',
+        'Link this ticket to an other objects!' => 'Liitä tiketti toiseen objektiin!',
         'Linked as' => 'Linkitetty',
         'Load Settings' => 'Lataa asetukset',
         'Lock it to work on it!' => 'Tee lukitus käsitelläksesi',
@@ -4395,6 +4396,7 @@ sub Data {
         'Management Summary' => 'Hallinnan yhteenveto',
         'Match' => 'Asetukset',
         'Max. shown Tickets a page' => 'Näytä max. tikettiä sivulla',
+        'Merge this ticket!' => 'Liitä tämä tiketti!',
         'Message for new Owner' => 'Viesti uudelle omistajalle',
         'Message sent to' => 'Viesti lähetetty, vastaanottaja: ',
         'Misc' => 'Muut',
@@ -4482,6 +4484,7 @@ sub Data {
         'Permissions to change the ticket owner in this group/queue.' => 'Oikeus muuttaa tiketin omistajaa tässä ryhmässä/jonossa.',
         'PhoneView' => 'Puhelu / Uusi tiketti',
         'Please contact your admin' => 'Ota yhteyttä ylläpitoon',
+        'Print this ticket!' => 'Tulosta tämä tiketti!',
         'Prio' => 'Prio',
         'Problem' => 'Ongelma',
         'Queue <-> Auto Responses Management' => 'Jono <-> Autom. vastaustenhallinta',
@@ -4533,7 +4536,9 @@ sub Data {
         'Sent password token to: %s' => 'Lähetä valtuutusavain osoitteeseen: %s',
         'Sessions' => 'Istunnot',
         'Set customer user and customer id of a ticket' => 'Aseta tiketin asiakaskäyttäjä ja asiakas id',
+        'Set this ticket to pending!' => 'Aseta tiketti odottamaan!',
         'Show' => 'Näytä',
+        'Shows the ticket history!' => 'Näytä tiketin historia!',
         'Site' => 'Palvelin',
         'Solution' => 'Ratkaisu',
         'Sort by' => 'Järjestä',

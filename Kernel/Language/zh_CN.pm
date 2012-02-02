@@ -7,7 +7,7 @@
 # Copyright (C) 2009 Qingjiu Jia <jiaqj at yahoo.com>
 # Copyright (C) 2011 Martin Liu <liuzh66 at gmail.com> http://martinliu.cn
 # --
-# $Id: zh_CN.pm,v 1.107 2012-01-26 20:43:24 mg Exp $
+# $Id: zh_CN.pm,v 1.108 2012-02-02 16:11:48 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,13 +20,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.107 $) [1];
+$VERSION = qw($Revision: 1.108 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-01-26 21:38:06
+    # Last translation file sync: 2012-02-02 17:08:51
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -688,19 +688,22 @@ sub Data {
         'Unwatch' => '不关注',
         'Lock it to work on it' => '',
         'Unlock to give it back to the queue' => '',
-        'Shows the ticket history!' => '显示处理历史!',
-        'Print this ticket!' => '打印票单!',
-        'Change the ticket priority!' => '修改优先级',
+        'Show the ticket history' => '',
+        'Print this ticket' => '',
+        'Print this article' => '',
+        'Split this article' => '',
+        'Forward article via mail' => '',
+        'Change the ticket priority' => '',
         'Change the ticket free fields!' => '修改自定义字段',
-        'Link this ticket to an other objects!' => '链接到其他对象!',
-        'Change the ticket owner!' => '变更所有者!',
-        'Change the ticket customer!' => '修改客户!',
-        'Add a note to this ticket!' => '添加注解!',
-        'Merge this ticket!' => '合并票单!',
-        'Set this ticket to pending!' => '转入等待状态',
-        'Close this ticket!' => '关闭票单!',
+        'Link this ticket to other objects' => '',
+        'Change the owner for this ticket' => '',
+        'Change the  customer for this ticket' => '',
+        'Add a note to this ticket' => '',
+        'Merge into a different ticket' => '',
+        'Set this ticket to pending' => '',
+        'Close this ticket' => '',
         'Look into a ticket!' => '查看票单内容',
-        'Delete this ticket!' => '删除票单!',
+        'Delete this ticket' => '',
         'Mark as Spam!' => '标记为垃圾!',
         'My Queues' => '我的队列',
         'Shown Tickets' => '显示票单',
@@ -2474,7 +2477,6 @@ sub Data {
         'Activates the ticket archive system to have a faster system by moving some tickets out of the daily scope. To search for these tickets, the archive flag has to be enabled in the ticket search.' =>
             '',
         'Activates time accounting.' => '',
-        'Add a note to this ticket' => '',
         'Adds a suffix with the actual year and month to the OTRS log file. A logfile for every month will be created.' =>
             '',
         'Adds customers email addresses to recipients in the ticket compose screen of the agent interface.' =>
@@ -2578,15 +2580,13 @@ sub Data {
         'Change queue!' => '',
         'Change the customer for this ticket' => '',
         'Change the free fields for this ticket' => '',
-        'Change the owner for this ticket' => '',
+        'Change the priority for this ticket' => '',
         'Change the responsible person for this ticket' => '',
-        'Change the ticket priority' => '',
         'Changes the owner of tickets to everyone (useful for ASP). Normally only agent with rw permissions in the queue of the ticket will be shown.' =>
             '',
         'Checkbox' => '',
         'Checks the SystemID in ticket number detection for follow-ups (use "No" if SystemID has been changed after using the system).' =>
             '',
-        'Close this ticket' => '',
         'Closed tickets of customer' => '',
         'Comment for new history entries in the customer interface.' => '',
         'Companies' => '',
@@ -3180,7 +3180,6 @@ sub Data {
         'Defines wich article type should be expanded when entering the overview. If nothing defined, latest article will be expanded.' =>
             '',
         'Delay time between autocomplete queries in milliseconds.' => '',
-        'Delete this ticket' => '',
         'Deletes a session if the session id is used with an invalid remote IP address.' =>
             '',
         'Deletes requested sessions if they have timed out.' => '',
@@ -3499,7 +3498,6 @@ sub Data {
         'Link queues to auto responses.' => '',
         'Link responses to queues.' => '链接回复模板到队列',
         'Link roles to groups.' => '',
-        'Link this ticket to other objects' => '',
         'Links 2 tickets with a "Normal" type link.' => '',
         'Links 2 tickets with a "ParentChild" type link.' => '',
         'List of CSS files to always be loaded for the agent interface.' =>
@@ -3550,7 +3548,6 @@ sub Data {
             '',
         'Maximum size (in characters) of the customer information table in the ticket zoom view.' =>
             '',
-        'Merge into a different ticket' => '',
         'Module for To-selection in new ticket screen in the customer interface.' =>
             '',
         'Module to check customer permissions.' => '',
@@ -3662,7 +3659,6 @@ sub Data {
         'Picture-Upload' => '',
         'PostMaster Filters' => '收件过滤器',
         'PostMaster Mail Accounts' => '邮件帐号管理',
-        'Print this ticket' => '',
         'Protection against CSRF (Cross Site Request Forgery) exploits (for more info see http://en.wikipedia.org/wiki/Cross-site_request_forgery).' =>
             '',
         'Queue view' => '队列视图',
@@ -3740,7 +3736,6 @@ sub Data {
             '',
         'Set the maximum height (in pixels) of inline HTML articles in AgentTicketZoom.' =>
             '',
-        'Set this ticket to pending' => '',
         'Set this to yes if you trust in all your public and private pgp keys, even if they are not certified with a trusted signature.' =>
             '',
         'Sets if ticket owner must be selected by the agent.' => '',
@@ -4023,7 +4018,6 @@ sub Data {
             '',
         'Shows the message of the day on login screen of the agent interface.' =>
             '',
-        'Shows the ticket history' => '',
         'Shows the ticket history (reverse ordered) in the agent interface.' =>
             '',
         'Shows the ticket priority options in the close ticket screen of the agent interface.' =>
@@ -4227,6 +4221,7 @@ sub Data {
         'Add a new State.' => '增加一个新的状态',
         'Add a new System Address.' => '增加一个新的系统邮件地址.',
         'Add a new Type.' => '增加一个新的类型',
+        'Add a note to this ticket!' => '添加注解!',
         'Add new attachment' => '增加新的附件',
         'Add note to ticket' => '增加注解到 Ticket',
         'Added User "%s"' => '增加用户 "%s".',
@@ -4280,6 +4275,9 @@ sub Data {
         'Change owner of ticket' => '修改 Ticket 所有者',
         'Change priority of ticket' => '调整 Ticket 优先级',
         'Change responsible of ticket' => '更改 Ticket 的负责人',
+        'Change the ticket customer!' => '修改客户!',
+        'Change the ticket owner!' => '变更所有者!',
+        'Change the ticket priority!' => '修改优先级',
         'Change user <-> group settings' => '修改 用户 <-> 组 设置',
         'ChangeLog' => '改变记录',
         'Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behind a dial-up line!' =>
@@ -4289,6 +4287,7 @@ sub Data {
         'Clear To' => '清空',
         'Click here to report a bug!' => '点击这里报告一个 Bug!',
         'Close Times' => '关闭时间',
+        'Close this ticket!' => '关闭票单!',
         'Close ticket' => '关闭 Ticket',
         'Close type' => '关闭类型',
         'Close!' => '关闭!',
@@ -4337,6 +4336,7 @@ sub Data {
         'Default Charset' => '缺省字符集',
         'Default Language' => '缺省语言',
         'Delete old database' => '删除旧数据库',
+        'Delete this ticket!' => '删除票单!',
         'Detail' => '细节',
         'Diff' => '比较',
         'Discard all changes and return to the compose screen' => '放弃所有修改,回到撰写页面',
@@ -4432,6 +4432,7 @@ sub Data {
         'Last update' => '最后更新于',
         'Link auto responses to queues.' => '链接自动回复到队列.',
         'Link groups to roles.' => '链接群组到角色.',
+        'Link this ticket to an other objects!' => '链接到其他对象!',
         'Link to Parent' => '合并到上一级',
         'LinkType' => '连接类型',
         'Linked as' => '已连接为',
@@ -4445,6 +4446,7 @@ sub Data {
         'Mail Management' => '邮件相关设置',
         'Mailbox' => '邮箱',
         'Match' => '匹配',
+        'Merge this ticket!' => '合并票单!',
         'Message for new Owner' => '给所有者的消息',
         'Message sent to' => '消息发送给',
         'Misc' => '综合',
@@ -4545,6 +4547,7 @@ sub Data {
         'Please provide a name.' => '请提供一个任务',
         'PostMaster Filter' => '邮件内容过滤',
         'PostMaster Mail Account' => '邮件帐号管理',
+        'Print this ticket!' => '打印票单!',
         'Prio' => '优先级',
         'Problem' => '问题',
         'Queue <-> Auto Responses Management' => '队列 <-> 自动回复管理',
@@ -4608,7 +4611,9 @@ sub Data {
         'Sent password token to: %s' => '发送密码到: %s',
         'Sessions' => '会话',
         'Set customer user and customer id of a ticket' => '设置 Ticket 所属客户用户',
+        'Set this ticket to pending!' => '转入等待状态',
         'Show' => '显示',
+        'Shows the ticket history!' => '显示处理历史!',
         'Site' => '站点',
         'Solution' => '解决方案',
         'Sort by' => '排序',

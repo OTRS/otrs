@@ -3,7 +3,7 @@
 # Copyright (C) 2004 Vladimir Gerdjikov <gerdjikov at gerdjikovs.net>
 # Copyright (C) 2007 Alex Kantchev <ak at otrs.org>
 # --
-# $Id: bg.pm,v 1.129 2012-01-26 20:43:24 mg Exp $
+# $Id: bg.pm,v 1.130 2012-02-02 16:11:47 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,13 +16,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.129 $) [1];
+$VERSION = qw($Revision: 1.130 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-01-26 21:37:29
+    # Last translation file sync: 2012-02-02 17:08:13
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -684,19 +684,22 @@ sub Data {
         'Unwatch' => '',
         'Lock it to work on it' => '',
         'Unlock to give it back to the queue' => '',
-        'Shows the ticket history!' => 'Показва историята на билета!',
-        'Print this ticket!' => 'Печат на билета!',
-        'Change the ticket priority!' => 'Смяна на приоритета на билета!',
+        'Show the ticket history' => '',
+        'Print this ticket' => '',
+        'Print this article' => '',
+        'Split this article' => '',
+        'Forward article via mail' => '',
+        'Change the ticket priority' => '',
         'Change the ticket free fields!' => 'Смяна на полетата на билета!',
-        'Link this ticket to an other objects!' => 'Свързване на билета с други обекти!',
-        'Change the ticket owner!' => 'Смяна на собственика на билета!',
-        'Change the ticket customer!' => 'Смяна на клиент-потребителя на билета!',
-        'Add a note to this ticket!' => 'Добавяне на бележка към билета!',
-        'Merge this ticket!' => 'Изравняване на билета!',
-        'Set this ticket to pending!' => 'Смяна на статуса на билета в очакван',
-        'Close this ticket!' => 'Затваряне на билета!',
+        'Link this ticket to other objects' => '',
+        'Change the owner for this ticket' => '',
+        'Change the  customer for this ticket' => '',
+        'Add a note to this ticket' => '',
+        'Merge into a different ticket' => '',
+        'Set this ticket to pending' => '',
+        'Close this ticket' => '',
         'Look into a ticket!' => 'Подробен преглед на билета!',
-        'Delete this ticket!' => 'Изтриване на този билет!',
+        'Delete this ticket' => '',
         'Mark as Spam!' => 'Отбележи като спам',
         'My Queues' => 'Собствени опашки',
         'Shown Tickets' => 'Показани билети',
@@ -2470,7 +2473,6 @@ sub Data {
         'Activates the ticket archive system to have a faster system by moving some tickets out of the daily scope. To search for these tickets, the archive flag has to be enabled in the ticket search.' =>
             '',
         'Activates time accounting.' => '',
-        'Add a note to this ticket' => '',
         'Adds a suffix with the actual year and month to the OTRS log file. A logfile for every month will be created.' =>
             '',
         'Adds customers email addresses to recipients in the ticket compose screen of the agent interface.' =>
@@ -2574,15 +2576,13 @@ sub Data {
         'Change queue!' => '',
         'Change the customer for this ticket' => '',
         'Change the free fields for this ticket' => '',
-        'Change the owner for this ticket' => '',
+        'Change the priority for this ticket' => '',
         'Change the responsible person for this ticket' => '',
-        'Change the ticket priority' => '',
         'Changes the owner of tickets to everyone (useful for ASP). Normally only agent with rw permissions in the queue of the ticket will be shown.' =>
             '',
         'Checkbox' => '',
         'Checks the SystemID in ticket number detection for follow-ups (use "No" if SystemID has been changed after using the system).' =>
             '',
-        'Close this ticket' => '',
         'Closed tickets of customer' => '',
         'Comment for new history entries in the customer interface.' => '',
         'Companies' => '',
@@ -3176,7 +3176,6 @@ sub Data {
         'Defines wich article type should be expanded when entering the overview. If nothing defined, latest article will be expanded.' =>
             '',
         'Delay time between autocomplete queries in milliseconds.' => '',
-        'Delete this ticket' => '',
         'Deletes a session if the session id is used with an invalid remote IP address.' =>
             '',
         'Deletes requested sessions if they have timed out.' => '',
@@ -3495,7 +3494,6 @@ sub Data {
         'Link queues to auto responses.' => '',
         'Link responses to queues.' => '',
         'Link roles to groups.' => '',
-        'Link this ticket to other objects' => '',
         'Links 2 tickets with a "Normal" type link.' => '',
         'Links 2 tickets with a "ParentChild" type link.' => '',
         'List of CSS files to always be loaded for the agent interface.' =>
@@ -3546,7 +3544,6 @@ sub Data {
             '',
         'Maximum size (in characters) of the customer information table in the ticket zoom view.' =>
             '',
-        'Merge into a different ticket' => '',
         'Module for To-selection in new ticket screen in the customer interface.' =>
             '',
         'Module to check customer permissions.' => '',
@@ -3658,7 +3655,6 @@ sub Data {
         'Picture-Upload' => '',
         'PostMaster Filters' => '',
         'PostMaster Mail Accounts' => '',
-        'Print this ticket' => '',
         'Protection against CSRF (Cross Site Request Forgery) exploits (for more info see http://en.wikipedia.org/wiki/Cross-site_request_forgery).' =>
             '',
         'Queue view' => '',
@@ -3736,7 +3732,6 @@ sub Data {
             '',
         'Set the maximum height (in pixels) of inline HTML articles in AgentTicketZoom.' =>
             '',
-        'Set this ticket to pending' => '',
         'Set this to yes if you trust in all your public and private pgp keys, even if they are not certified with a trusted signature.' =>
             '',
         'Sets if ticket owner must be selected by the agent.' => '',
@@ -4019,7 +4014,6 @@ sub Data {
             '',
         'Shows the message of the day on login screen of the agent interface.' =>
             '',
-        'Shows the ticket history' => '',
         'Shows the ticket history (reverse ordered) in the agent interface.' =>
             '',
         'Shows the ticket priority options in the close ticket screen of the agent interface.' =>
@@ -4220,6 +4214,7 @@ sub Data {
         'Add a new State.' => 'Добавяне на нов статус',
         'Add a new System Address.' => 'Добавяне на нов системен адрес.',
         'Add a new Type.' => 'Добавяне на нов тип',
+        'Add a note to this ticket!' => 'Добавяне на бележка към билета!',
         'Add note to ticket' => 'Добавяне на бележка към билета',
         'Added User "%s"' => 'Добавен портребител "%s" ',
         'Admin-Area' => 'Административна част',
@@ -4259,12 +4254,16 @@ sub Data {
         'Change owner of ticket' => 'Промяна собственикън на билета',
         'Change priority of ticket' => 'Промяна на приоритета на билета',
         'Change responsible of ticket' => 'Промяна на отговорника на билет',
+        'Change the ticket customer!' => 'Смяна на клиент-потребителя на билета!',
+        'Change the ticket owner!' => 'Смяна на собственика на билета!',
+        'Change the ticket priority!' => 'Смяна на приоритета на билета!',
         'Change user <-> group settings' => 'Промяна на потребител <-> Настройки за група',
         'ChangeLog' => 'ChangeLog',
         'Child-Object' => 'Обект-дете',
         'Clear From' => 'Изчистете формата',
         'Clear To' => 'Изчистване на полето: to',
         'Click here to report a bug!' => 'Натиснете тук, за да изпратите отчет за грешката!',
+        'Close this ticket!' => 'Затваряне на билета!',
         'Close ticket' => 'Затваряне на билета',
         'Close type' => 'Тип затваряне',
         'Close!' => 'Затворете!',
@@ -4307,6 +4306,7 @@ sub Data {
         'Default Charset' => 'Символен набор по подразбиране',
         'Default Language' => 'Език по подразбиране',
         'Delete old database' => 'Изтриване на стара база данни',
+        'Delete this ticket!' => 'Изтриване на този билет!',
         'Detail' => 'Подробности',
         'Diff' => 'Разлики',
         'Discard all changes and return to the compose screen' => 'Отказвате се от всички промени и се връщате към екрана за създаване',
@@ -4382,6 +4382,7 @@ sub Data {
         'Keyword' => 'Ключова дума',
         'Keywords' => 'Ключови думи',
         'Last update' => 'Последно обновление',
+        'Link this ticket to an other objects!' => 'Свързване на билета с други обекти!',
         'Load Settings' => 'Зареждане на настройки',
         'Lock it to work on it!' => 'Заключете билета за да работите в/у него!',
         'Logfile' => 'Журнален файл',
@@ -4393,6 +4394,7 @@ sub Data {
         'Mailbox' => 'Пощенска кутия',
         'Management Summary' => 'Обзор за мениджмънта',
         'Match' => 'Съвпадение',
+        'Merge this ticket!' => 'Изравняване на билета!',
         'Message for new Owner' => 'Съобщение за нов собственик',
         'Message sent to' => 'Съобщението е изпратено до',
         'Misc' => 'Добавки',
@@ -4485,6 +4487,7 @@ sub Data {
         'Please select only one element or turn of the button \'Fixed\'.' =>
             'Моля изберете само един елемент или изключете опцията \'Fixed\'.',
         'Port' => 'Порт',
+        'Print this ticket!' => 'Печат на билета!',
         'Prio' => 'Приоритет',
         'Problem' => 'Проблем',
         'Queue <-> Auto Responses Management' => 'Управление на опашка <-> Авто отговори',
@@ -4529,7 +4532,9 @@ sub Data {
         'Send no notifications' => 'Да не се изпращат уведомления',
         'Sessions' => 'Сессии',
         'Set customer user and customer id of a ticket' => 'Задайте потребител и потребителски идентификатор за билета',
+        'Set this ticket to pending!' => 'Смяна на статуса на билета в очакван',
         'Show' => 'Покажи',
+        'Shows the ticket history!' => 'Показва историята на билета!',
         'Site' => 'Място',
         'Solution' => 'Решение',
         'Sort by' => 'Сортиране по',

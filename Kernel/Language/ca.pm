@@ -2,7 +2,7 @@
 # Kernel/Language/ca.pm - provides Catalan language translation
 # Copyright (C) 2008 Sistemes OTIC (ibsalut) - Antonio Linde
 # --
-# $Id: ca.pm,v 1.2 2012-01-26 20:43:25 mg Exp $
+# $Id: ca.pm,v 1.3 2012-02-02 16:11:49 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-01-26 21:37:30
+    # Last translation file sync: 2012-02-02 17:08:15
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -683,19 +683,22 @@ sub Data {
         'Unwatch' => '',
         'Lock it to work on it' => '',
         'Unlock to give it back to the queue' => '',
-        'Shows the ticket history!' => 'Mostrar la història del tiquet!',
-        'Print this ticket!' => 'Imprimir aquest tiquet!',
-        'Change the ticket priority!' => 'Canviar la prioritat del tiquet!',
+        'Show the ticket history' => '',
+        'Print this ticket' => '',
+        'Print this article' => '',
+        'Split this article' => '',
+        'Forward article via mail' => '',
+        'Change the ticket priority' => '',
         'Change the ticket free fields!' => 'Canviar els camps lliures del tiquet!',
-        'Link this ticket to an other objects!' => 'Enllaçar aquest tiquet a altres objectes',
-        'Change the ticket owner!' => 'Canviar el propietari del tiquet!',
-        'Change the ticket customer!' => 'Canviar el client del tiquet!',
-        'Add a note to this ticket!' => 'Afegir una nota a aquest tiquet!',
-        'Merge this ticket!' => 'Unir aquest tiquet!',
-        'Set this ticket to pending!' => 'Col·locar aquest tiquet com pendent!',
-        'Close this ticket!' => 'Tancar aquest tiquet!',
+        'Link this ticket to other objects' => '',
+        'Change the owner for this ticket' => '',
+        'Change the  customer for this ticket' => '',
+        'Add a note to this ticket' => '',
+        'Merge into a different ticket' => '',
+        'Set this ticket to pending' => '',
+        'Close this ticket' => '',
         'Look into a ticket!' => 'Revisar un tiquet',
-        'Delete this ticket!' => 'Eliminar aquest tiquet!',
+        'Delete this ticket' => '',
         'Mark as Spam!' => 'Marcar com correu no desitjat!',
         'My Queues' => 'Les meves Cues',
         'Shown Tickets' => 'Mostrar tiquets',
@@ -2469,7 +2472,6 @@ sub Data {
         'Activates the ticket archive system to have a faster system by moving some tickets out of the daily scope. To search for these tickets, the archive flag has to be enabled in the ticket search.' =>
             '',
         'Activates time accounting.' => '',
-        'Add a note to this ticket' => '',
         'Adds a suffix with the actual year and month to the OTRS log file. A logfile for every month will be created.' =>
             '',
         'Adds customers email addresses to recipients in the ticket compose screen of the agent interface.' =>
@@ -2573,15 +2575,13 @@ sub Data {
         'Change queue!' => '',
         'Change the customer for this ticket' => '',
         'Change the free fields for this ticket' => '',
-        'Change the owner for this ticket' => '',
+        'Change the priority for this ticket' => '',
         'Change the responsible person for this ticket' => '',
-        'Change the ticket priority' => '',
         'Changes the owner of tickets to everyone (useful for ASP). Normally only agent with rw permissions in the queue of the ticket will be shown.' =>
             '',
         'Checkbox' => '',
         'Checks the SystemID in ticket number detection for follow-ups (use "No" if SystemID has been changed after using the system).' =>
             '',
-        'Close this ticket' => '',
         'Closed tickets of customer' => '',
         'Comment for new history entries in the customer interface.' => '',
         'Companies' => '',
@@ -3175,7 +3175,6 @@ sub Data {
         'Defines wich article type should be expanded when entering the overview. If nothing defined, latest article will be expanded.' =>
             '',
         'Delay time between autocomplete queries in milliseconds.' => '',
-        'Delete this ticket' => '',
         'Deletes a session if the session id is used with an invalid remote IP address.' =>
             '',
         'Deletes requested sessions if they have timed out.' => '',
@@ -3494,7 +3493,6 @@ sub Data {
         'Link queues to auto responses.' => '',
         'Link responses to queues.' => '',
         'Link roles to groups.' => '',
-        'Link this ticket to other objects' => '',
         'Links 2 tickets with a "Normal" type link.' => '',
         'Links 2 tickets with a "ParentChild" type link.' => '',
         'List of CSS files to always be loaded for the agent interface.' =>
@@ -3545,7 +3543,6 @@ sub Data {
             '',
         'Maximum size (in characters) of the customer information table in the ticket zoom view.' =>
             '',
-        'Merge into a different ticket' => '',
         'Module for To-selection in new ticket screen in the customer interface.' =>
             '',
         'Module to check customer permissions.' => '',
@@ -3657,7 +3654,6 @@ sub Data {
         'Picture-Upload' => '',
         'PostMaster Filters' => '',
         'PostMaster Mail Accounts' => '',
-        'Print this ticket' => '',
         'Protection against CSRF (Cross Site Request Forgery) exploits (for more info see http://en.wikipedia.org/wiki/Cross-site_request_forgery).' =>
             '',
         'Queue view' => '',
@@ -3735,7 +3731,6 @@ sub Data {
             '',
         'Set the maximum height (in pixels) of inline HTML articles in AgentTicketZoom.' =>
             '',
-        'Set this ticket to pending' => '',
         'Set this to yes if you trust in all your public and private pgp keys, even if they are not certified with a trusted signature.' =>
             '',
         'Sets if ticket owner must be selected by the agent.' => '',
@@ -4018,7 +4013,6 @@ sub Data {
             '',
         'Shows the message of the day on login screen of the agent interface.' =>
             '',
-        'Shows the ticket history' => '',
         'Shows the ticket history (reverse ordered) in the agent interface.' =>
             '',
         'Shows the ticket priority options in the close ticket screen of the agent interface.' =>
@@ -4222,6 +4216,7 @@ sub Data {
         'Add a new State.' => 'Afegir un estat nou',
         'Add a new System Address.' => 'Afegir una adreça del sistema nova',
         'Add a new Type.' => 'Afegir un tipus nou',
+        'Add a note to this ticket!' => 'Afegir una nota a aquest tiquet!',
         'Add note to ticket' => 'Afegir nota al tiquet',
         'Added User "%s"' => 'Afegit Usuari "%s"',
         'Admin-Area' => 'Area d\'administració',
@@ -4266,6 +4261,9 @@ sub Data {
         'Change owner of ticket' => 'Canviar el propietari del tiquet',
         'Change priority of ticket' => 'Canviar la prioritat del tiquet',
         'Change responsible of ticket' => 'Canviar responsable del tiquet',
+        'Change the ticket customer!' => 'Canviar el client del tiquet!',
+        'Change the ticket owner!' => 'Canviar el propietari del tiquet!',
+        'Change the ticket priority!' => 'Canviar la prioritat del tiquet!',
         'Change users <-> roles settings' => 'Canviar Usuaris <-> Configuració de Rols',
         'ChangeLog' => 'CanviLog',
         'Child-Object' => 'Objecte-fill',
@@ -4273,6 +4271,7 @@ sub Data {
         'Clear To' => 'Còpia Oculta a',
         'Click here to report a bug!' => 'Faci clic aqui per a reportar un error!',
         'Close Times' => 'Temps tancats',
+        'Close this ticket!' => 'Tancar aquest tiquet!',
         'Close ticket' => 'Tancar el tiquet',
         'Close type' => 'Tipus de tancament',
         'Close!' => 'Tancar!',
@@ -4318,6 +4317,7 @@ sub Data {
         'Default Charset' => 'Joc de caràcters per defecte',
         'Default Language' => 'Idioma per defecte',
         'Delete old database' => 'Eliminar la base de dades antiga',
+        'Delete this ticket!' => 'Eliminar aquest tiquet!',
         'Detail' => 'Detall',
         'Diff' => 'Diff',
         'Discard all changes and return to the compose screen' => 'Descartar tots els canvis i tornar a la pantalla de redacció',
@@ -4394,6 +4394,7 @@ sub Data {
         'Keyword' => 'paraula clau',
         'Keywords' => 'Paraules clau',
         'Last update' => 'Darrera actualització',
+        'Link this ticket to an other objects!' => 'Enllaçar aquest tiquet a altres objectes',
         'Linked as' => 'Enllaçat com',
         'Load Settings' => 'Carregar Configuració',
         'Lock it to work on it!' => 'Bloquejar-lo per a treballar en ell!',
@@ -4405,6 +4406,7 @@ sub Data {
         'Mail Management' => 'Gestió de Correus',
         'Mailbox' => 'Bústia',
         'Match' => 'Coincidir',
+        'Merge this ticket!' => 'Unir aquest tiquet!',
         'Message for new Owner' => 'Missatge per al nou propietari',
         'Message sent to' => 'Missatge enviat a',
         'Misc' => 'Miscel·lànies',
@@ -4501,6 +4503,7 @@ sub Data {
         'Permissions to change the ticket owner in this group/queue.' => 'Permís per a canviar el propietari del tiquet en aquest grup/cua',
         'PhoneView' => 'Vista telefònica',
         'Please contact your admin' => 'Per favor contacti amb ladministrador',
+        'Print this ticket!' => 'Imprimir aquest tiquet!',
         'Prio' => 'Prio',
         'Problem' => 'Problema',
         'Queue <-> Auto Responses Management' => 'Cua <-> Gestió de respostes automàtiques',
@@ -4547,7 +4550,9 @@ sub Data {
         'Sent password token to: %s' => 'Enviar el \'token\' de la contrasenya a: %s ',
         'Sessions' => 'Sessions',
         'Set customer user and customer id of a ticket' => 'Assignar agent i client d\'un tiquet',
+        'Set this ticket to pending!' => 'Col·locar aquest tiquet com pendent!',
         'Show' => 'Mostrar',
+        'Shows the ticket history!' => 'Mostrar la història del tiquet!',
         'Site' => 'Ubicació',
         'Solution' => 'Solució',
         'Sort by' => 'Ordenat per',

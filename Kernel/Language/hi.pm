@@ -4,7 +4,7 @@
 # Copyright (C) 2011 Chetan Nagaonkar <Chetan_Nagaonkar at OptForOPS.com>
 # Copyright (C) 2011 Chetan Nagaonkar <ChetanNagaonkar at yahoo.com>
 # --
-# $Id: hi.pm,v 1.18 2012-01-26 20:43:22 mg Exp $
+# $Id: hi.pm,v 1.19 2012-02-02 16:11:45 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,13 +17,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-01-26 21:37:43
+    # Last translation file sync: 2012-02-02 17:08:27
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -685,19 +685,22 @@ sub Data {
         'Unwatch' => 'अनदॆखॆ',
         'Lock it to work on it' => '',
         'Unlock to give it back to the queue' => '',
-        'Shows the ticket history!' => 'टिकट इतिहास दिखाता है।',
-        'Print this ticket!' => 'इस टिकट को प्रिंट करें।',
-        'Change the ticket priority!' => 'टिकट की प्राथमिकता बदलें।',
+        'Show the ticket history' => '',
+        'Print this ticket' => '',
+        'Print this article' => '',
+        'Split this article' => '',
+        'Forward article via mail' => '',
+        'Change the ticket priority' => '',
         'Change the ticket free fields!' => 'टिकट के स्वतंत्र क्षेत्र बदलें।',
-        'Link this ticket to an other objects!' => 'इस टिकट को दूसरे वस्तु से लिंक करें।',
-        'Change the ticket owner!' => 'टिकट के स्वामी बदलें',
-        'Change the ticket customer!' => 'टिकट के ग्राहक बदलें',
-        'Add a note to this ticket!' => 'इस टिकट के लिए टिप्पणी जोड़ें',
-        'Merge this ticket!' => 'इस टिप्पणी को मिलाएं ',
-        'Set this ticket to pending!' => 'इस टिकट को विचाराधीन स्थापित करें',
-        'Close this ticket!' => 'इस टिकट को बंद करें',
+        'Link this ticket to other objects' => '',
+        'Change the owner for this ticket' => '',
+        'Change the  customer for this ticket' => '',
+        'Add a note to this ticket' => '',
+        'Merge into a different ticket' => '',
+        'Set this ticket to pending' => '',
+        'Close this ticket' => '',
         'Look into a ticket!' => 'टिकट में देखें',
-        'Delete this ticket!' => 'इस टिकट को नष्ट करें',
+        'Delete this ticket' => '',
         'Mark as Spam!' => 'अवांछनीय मार्क करें',
         'My Queues' => 'मेरी श्रेणी',
         'Shown Tickets' => 'दिखाए गए टिकट',
@@ -2471,7 +2474,6 @@ sub Data {
         'Activates the ticket archive system to have a faster system by moving some tickets out of the daily scope. To search for these tickets, the archive flag has to be enabled in the ticket search.' =>
             'प्रणाली तेज बनाने के लिए टिकटों को दैनिक दायरे से बाहर ले जाने वाले टिकट संग्रह प्रणाली को सक्रिय करता है। इन टिकटों को खोजने के लिए,संग्रह चिह्नक को टिकट खोज में सक्रिय किया जाना चाहिए।',
         'Activates time accounting.' => 'समय लेखाकरण सक्रिय करता है।',
-        'Add a note to this ticket' => '',
         'Adds a suffix with the actual year and month to the OTRS log file. A logfile for every month will be created.' =>
             'वास्तविक वर्ष और महीने के साथ OTRS अभिलेख फ़ाइल को एक प्रत्यय जोड़ता है।हर महीने के लिए एक अभिलेख फ़ाइल बनाया जाएगा।',
         'Adds customers email addresses to recipients in the ticket compose screen of the agent interface.' =>
@@ -2575,15 +2577,13 @@ sub Data {
         'Change queue!' => 'श्रेणी बदलें',
         'Change the customer for this ticket' => '',
         'Change the free fields for this ticket' => '',
-        'Change the owner for this ticket' => '',
+        'Change the priority for this ticket' => '',
         'Change the responsible person for this ticket' => '',
-        'Change the ticket priority' => '',
         'Changes the owner of tickets to everyone (useful for ASP). Normally only agent with rw permissions in the queue of the ticket will be shown.' =>
             'टिकट का स्वामी सभी को करने के लिए बदलें(ASP के लिए उपयोगी)। आम तौर पर टिकट की श्रेणी में ही पढ़ने और लिखने की अनुमति के साथ प्रतिनिधि दिखाया जाएगा।',
         'Checkbox' => '',
         'Checks the SystemID in ticket number detection for follow-ups (use "No" if SystemID has been changed after using the system).' =>
             'टिकट की अनुवर्ती संख्या का पता लगाने के लिए यह प्रणाली ID की जाँच करता है(प्रयोग "नहीं" अगर प्रणाली ID प्रणाली का उपयोग करने के बाद बदल दिया गया है)।',
-        'Close this ticket' => '',
         'Closed tickets of customer' => '',
         'Comment for new history entries in the customer interface.' => 'ग्राहक अंतरफलक में इतिहास नई प्रविष्टियों के लिए टिप्पणी।',
         'Companies' => 'कंपनियां',
@@ -3177,7 +3177,6 @@ sub Data {
         'Defines wich article type should be expanded when entering the overview. If nothing defined, latest article will be expanded.' =>
             '',
         'Delay time between autocomplete queries in milliseconds.' => '',
-        'Delete this ticket' => '',
         'Deletes a session if the session id is used with an invalid remote IP address.' =>
             'एक सत्र यदि सत्र पहचान अवैध दूरदराज के IP पते के साथ इस्तेमाल किया जाता है को नष्ट कर देता है।',
         'Deletes requested sessions if they have timed out.' => 'अनुरोध सत्र को नष्ट कर देता है यदि उनका समय समाप्त हो गया है।',
@@ -3496,7 +3495,6 @@ sub Data {
         'Link queues to auto responses.' => 'श्रेणीयों को स्वत प्रतिक्रियाओं से जोडें।',
         'Link responses to queues.' => 'प्रतिक्रियाओं को श्रेणीयों से जोडें।',
         'Link roles to groups.' => 'भूमिकाओं को समूहों से जोडें।',
-        'Link this ticket to other objects' => '',
         'Links 2 tickets with a "Normal" type link.' => '2 टिकटों को "सामान्य"प्रकार के लिंक के साथ जोडें।',
         'Links 2 tickets with a "ParentChild" type link.' => '2 टिकटों को "ParentChild"प्रकार के लिंक के साथ जोडें।',
         'List of CSS files to always be loaded for the agent interface.' =>
@@ -3547,7 +3545,6 @@ sub Data {
             'श्रेणीं दृश्य में ग्राहक जानकारी तालिका का अधिकतम आकार(अक्षरों में)।',
         'Maximum size (in characters) of the customer information table in the ticket zoom view.' =>
             'टिकट ज़ूम दृश्य में ग्राहक जानकारी तालिका का अधिकतम आकार(अक्षरों में)।',
-        'Merge into a different ticket' => '',
         'Module for To-selection in new ticket screen in the customer interface.' =>
             'ग्राहक अंतरफलक में नई टिकट स्क्रीन में चयन के लिए माड्यूल।',
         'Module to check customer permissions.' => 'ग्राहक अनुमतियाँ जाँच करने के लिए मॉड्यूल।',
@@ -3659,7 +3656,6 @@ sub Data {
         'Picture-Upload' => '',
         'PostMaster Filters' => 'डाकपाल निस्पादक',
         'PostMaster Mail Accounts' => 'डाकपाल मेल खाते',
-        'Print this ticket' => '',
         'Protection against CSRF (Cross Site Request Forgery) exploits (for more info see http://en.wikipedia.org/wiki/Cross-site_request_forgery).' =>
             'CSRF(क्रॉस साइट अनुरोध जालसाजी) के खिलाफ संरक्षण,कारनामे(अधिक जानकारी के लिए http://en.wikipedia.org/wiki/Cross-site_request_forgery देखें)।',
         'Queue view' => 'श्रेणी दृश्य',
@@ -3737,7 +3733,6 @@ sub Data {
             'AgentTicketZoom में इनलाइन HTML अनुच्छेद की तयशुदा ऊंचाई(पिक्सेल में) निर्धारित करें।',
         'Set the maximum height (in pixels) of inline HTML articles in AgentTicketZoom.' =>
             'AgentTicketZoom में इनलाइन HTML अनुच्छेद की अधिकतम ऊंचाई(पिक्सेल में) निर्धारित करें।',
-        'Set this ticket to pending' => '',
         'Set this to yes if you trust in all your public and private pgp keys, even if they are not certified with a trusted signature.' =>
             'यदि आपको आपकी सभी सार्वजनिक और निजी PGP कुंजी में विश्वास है तो हाँ स्थापित करें,भले ही वे एक विश्वसनीय हस्ताक्षर के साथ प्रमाणित नहीं किया हैं।',
         'Sets if ticket owner must be selected by the agent.' => 'स्थापित करता है,यदि टिकट स्वामी प्रतिनिधि के द्वारा चुना जाना चाहिए।',
@@ -4020,7 +4015,6 @@ sub Data {
             'प्रतिनिधि पटल में दिन का संदेश दिखाता है। "समूह" प्लगइन का उपयोग प्रतिबंधित करने के लिए प्रयोग किया जाता है(उदाहरण के लिए समूह: व्यवस्थापक, समूह 1; समूह 2;)।"तयशुदा" निर्धारित करता है,यदि प्लगइन तयशुदा रूप से सक्षम है या उपयोगकर्ता के लिए यह नियमावली रूप से सक्षम करने की जरूरत है।',
         'Shows the message of the day on login screen of the agent interface.' =>
             'प्रतिनिधि अंतरफलक के प्रवेश स्क्रीन में दिन के संदेश दिखाता है।',
-        'Shows the ticket history' => '',
         'Shows the ticket history (reverse ordered) in the agent interface.' =>
             'प्रतिनिधि अंतरफलक में टिकट इतिहास(विपरीत आदेश) दिखाता है।',
         'Shows the ticket priority options in the close ticket screen of the agent interface.' =>
@@ -4184,6 +4178,7 @@ sub Data {
         #
         'Activates TypeAhead for the autocomplete feature, that enables users to type in whatever speed they desire, without losing any information. Often this means that keystrokes entered will not be displayed on the screen immediately.' =>
             'स्वचालित पूर्ण की सुविधा के लिए TypeAhead सक्रिय करें,जो की उपयोगकर्ताओं को उनकी इच्छानुसार लिखने में सक्षम बनाता हैं,किसी भी जानकारी के खोए बिना। इसका मतलब है कि कीस्ट्रोक्स प्रवेश स्क्रीन पर तुरंत प्रदर्शित नहीं किया जाएगा।',
+        'Add a note to this ticket!' => 'इस टिकट के लिए टिप्पणी जोड़ें',
         'Adds the one time vacation days for the calendar number 1. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' =>
             'पंचांग संख्या 1 के लिए एक बार अवकाश के दिन जोड़ता हैं। 1 से 9 की संख्या के लिए एकल अंक स्वरूप का उपयोग करें(01 - 09 के बजाय )।',
         'Adds the one time vacation days for the calendar number 2. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' =>
@@ -4245,7 +4240,11 @@ sub Data {
         'Article free text options shown in the ticket responsible screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' =>
             'प्रतिनिधि अंतरफलक के टिकट उत्तरदायी स्क्रीन में अनुच्छेद मुक्त पाठ विकल्प में दिखाया गया है। संभव व्यवस्थाऐं: 0 = अक्षम, 1 = सक्रिय, 2 = सक्रिय और आवश्यक।',
         'Bounce Ticket: ' => 'फलांग टिकट',
+        'Change the ticket customer!' => 'टिकट के ग्राहक बदलें',
+        'Change the ticket owner!' => 'टिकट के स्वामी बदलें',
+        'Change the ticket priority!' => 'टिकट की प्राथमिकता बदलें।',
         'Change the ticket responsible!' => 'टिकट की उत्तरदायी बदलें',
+        'Close this ticket!' => 'इस टिकट को बंद करें',
         'Configures a default TicketFreeField setting. "Counter" defines the free text field which should be used, "Key" is the TicketFreeKey, "Value" is the TicketFreeText and "Event" defines the trigger event.' =>
             'टिकट स्वतंत्र क्षेत्र तयशुदा व्यवस्थाऐं विन्यस्त करें। "काउंटर"मुक्त पाठ फ़ील्ड जो प्रयोग किया जाना चाहिए को परिभाषित करता है,"कुंजी" मुक्त फ़ील्ड कुंजी है,"मान" टिकट मुक्त पाठ है और ट्रिगर घटना "घटना" को परिभाषित करता है।',
         'Configures a default TicketFreeField setting. "Counter" defines the free text field which should be used, "Key" is the TicketFreeKey, "Value" is the TicketFreeText and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".' =>
@@ -4529,6 +4528,7 @@ sub Data {
         'Defines whether the free time field number 6 is optional or not.' =>
             'खाली समय क्षेत्र क्रमांक 6 वैकल्पिक है या नहीं को परिभाषित करता है।',
         'Delay time between autocomplete queries.' => 'स्वत:पूर्ण क्वेरी के बीच विलंबित समय।',
+        'Delete this ticket!' => 'इस टिकट को नष्ट करें',
         'Determines if the statatistics module may generate ticket lists.' =>
             'यदि सांख्यिकी मॉड्यूल टिकटों सूची उत्पन्न कर सकता है तो निर्धारित करता है।',
         'Don\'t work with UserID 1 (System account)! Create new users!' =>
@@ -4542,9 +4542,11 @@ sub Data {
             'यदि विन्यस्त है,सभी आवेदन द्वारा भेजे गए ईमेल के इस संगठन या कंपनी के नाम के साथ एक एक्स शीर्षक शामिल होंगे।',
         'If set, this address is used as envelope from header in outgoing notifications. If no address is specified, the envelope from header is empty.' =>
             'यदि निर्धारित है,इस पते के रूप में लिफाफा शीर्षक से बाहर जाने वाले सूचनाओं में प्रयोग किया जाता है। यदि कोई पता निर्दिष्ट नहीं है,शीर्षक से लिफाफा खाली है।',
+        'Link this ticket to an other objects!' => 'इस टिकट को दूसरे वस्तु से लिंक करें।',
         'Link this ticket to other objects!' => 'अन्य वस्तुओं से यह टिकट जोडें।',
         'Lock it to work on it!' => 'काम करने के लिए इसे लॉक करें।',
         'Max. displayed tickets' => 'अधिकतम प्रदर्शित टिकट',
+        'Merge this ticket!' => 'इस टिप्पणी को मिलाएं ',
         'Module to genetare accounted time ticket statistics.' => 'समय के हिसाब से टिकट आँकड़े उत्पन्न करने के लिए मॉड्यूल।',
         'Module to genetare ticket solution and response time statistics.' =>
             'टिकट समाधान और प्रतिक्रिया समय आँकड़े उत्पन्न करने के लिए मॉड्यूल।',
@@ -4558,15 +4560,18 @@ sub Data {
         'Package not correctly deployed! You should reinstall the package again!' =>
             'पैकेज सही तरीके से तैयार नहीं है। पुनः स्थापित करें।',
         'Please fill out this form to recieve login credentials.' => 'प्रवेश प्रपत्र की जानकारी कॆ लिए इस प्रपत्र को भरॆ।',
+        'Print this ticket!' => 'इस टिकट को प्रिंट करें।',
         'QueueView Refresh Time' => 'श्रेणीदृश्य ताज़ाकरण समय',
         'Run Search' => 'खोज चलाएँ',
         'Search Ticket' => 'टिकट खोजें',
         'Search for customers (wildcards are allowed).' => 'ग्राहकों के लिए खोजें(वाइल्डकार्ड की अनुमति है)।',
         'Search-Profile as Template?' => 'टेम्पलेट के रूप में वर्णन खोजें ',
+        'Set this ticket to pending!' => 'इस टिकट को विचाराधीन स्थापित करें',
         'Sets the default charset for the web interface to use (should represent the charset used to create the database or, in some cases, the database management system being used). "utf-8" is a good choice for environments expecting many charsets. You can specify another charset here (i.e. "iso-8859-1"). Please be sure that you will not be receiving foreign emails, or text, otherwise this could lead to problems.' =>
             'वेब अंतरफलक के लिए उपयोग करने के लिए तयशुदा वर्णसमूह स्थापित करता है(आंकड़ाकोष बनाने के लिए वर्णसमूह का प्रतिनिधित्व करना चाहिए या,कुछ मामलों में,आंकड़ाकोष प्रबंधन प्रणाली का इस्तेमाल किया जा रहा है)। "utf-8" कई वर्णसमूह वातावरण के लिए एक अच्छा विकल्प है। आप अन्य वर्णसमूह यहाँ निर्दिष्ट कर सकते हैं(जैसे "iso-8859-1")। कृपया सुनिश्चित करें कि आप विदेशी ईमेल नहीं प्राप्त करेंगे,या पाठ,अन्यथा यह समस्या हो सकती है।',
         'Sets the number of lines that are displayed in the preview of messages (e.g. for tickets in the QueueView).' =>
             'पंक्तियों की संख्या जो संदेशों के पूर्वावलोकन में प्रदर्शित किए जाते हैं को स्थापित करता है(उदा. QueueView में टिकटों के लिए)।',
+        'Shows the ticket history!' => 'टिकट इतिहास दिखाता है।',
         'Take care that you also updated the default states in you Kernel/Config.pm!' =>
             'ध्यान रखॆ कि अपने कर्नेल/विन्यास.pm में तयशुदा स्थितियो को अद्यतन कर दिया है ',
         'The User Name you wish to have' => 'जो उपयोगकर्ता नाम आप चाहते है',

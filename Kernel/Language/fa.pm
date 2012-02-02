@@ -4,7 +4,7 @@
 # Copyright (C) 2008 Hooman Mesgary <info at mesgary.com>
 # Copyright (C) 2009 Afshar Mohebbi <afshar.mohebbi at gmail.com>
 # --
-# $Id: fa.pm,v 1.104 2012-01-26 20:43:22 mg Exp $
+# $Id: fa.pm,v 1.105 2012-02-02 16:11:45 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,13 +17,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.104 $) [1];
+$VERSION = qw($Revision: 1.105 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-01-26 21:37:40
+    # Last translation file sync: 2012-02-02 17:08:24
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -688,19 +688,22 @@ sub Data {
         'Unwatch' => 'عدم پیگیری',
         'Lock it to work on it' => '',
         'Unlock to give it back to the queue' => '',
-        'Shows the ticket history!' => 'نمایش سابقه درخواست',
-        'Print this ticket!' => 'این درخواست را چاپ کن',
-        'Change the ticket priority!' => 'ویرایش اولویت درخواست',
+        'Show the ticket history' => '',
+        'Print this ticket' => '',
+        'Print this article' => '',
+        'Split this article' => '',
+        'Forward article via mail' => '',
+        'Change the ticket priority' => '',
         'Change the ticket free fields!' => 'تغییر فیلدهای خالی درخواست',
-        'Link this ticket to an other objects!' => 'این درخواست را به مورد دیگری لینک کن',
-        'Change the ticket owner!' => 'تغییر صاحب درخواست',
-        'Change the ticket customer!' => 'تغییر مشترک درخواست',
-        'Add a note to this ticket!' => 'افزودن یادداشت به درخواست',
-        'Merge this ticket!' => 'ادغام این درخواست',
-        'Set this ticket to pending!' => 'این درخواست را به حال معلق ببر',
-        'Close this ticket!' => 'درخواست را ببند',
+        'Link this ticket to other objects' => '',
+        'Change the owner for this ticket' => '',
+        'Change the  customer for this ticket' => '',
+        'Add a note to this ticket' => '',
+        'Merge into a different ticket' => '',
+        'Set this ticket to pending' => '',
+        'Close this ticket' => '',
         'Look into a ticket!' => 'مشاهده درخواست',
-        'Delete this ticket!' => 'حذف درخواست',
+        'Delete this ticket' => '',
         'Mark as Spam!' => 'به‌عنوان هرزنامه علامت بزن',
         'My Queues' => 'لیست درخواست‌های من',
         'Shown Tickets' => 'درخواست‌های نمایش داده شده',
@@ -2474,7 +2477,6 @@ sub Data {
         'Activates the ticket archive system to have a faster system by moving some tickets out of the daily scope. To search for these tickets, the archive flag has to be enabled in the ticket search.' =>
             'سیستم آرشیو درخواست را با انتقال برخی درخواست‌ها به خارج از ناحیه روزانه به منظور داشتن سیستمی سریع‌تر، فعال می‌کند. برای جستجوی این درخواست‌ها باید چک آرشیو در جستجوی درخواست انتخاب شده باشد.',
         'Activates time accounting.' => 'محاسبه زمان را فعال می‌کند.',
-        'Add a note to this ticket' => '',
         'Adds a suffix with the actual year and month to the OTRS log file. A logfile for every month will be created.' =>
             'پسوند سال و ماه به فایل ثبت وقایع می‌افزاید. برای هر ماه یک فایل ساخته خواهد شد.',
         'Adds customers email addresses to recipients in the ticket compose screen of the agent interface.' =>
@@ -2578,15 +2580,13 @@ sub Data {
         'Change queue!' => 'تغییر صف درخواست!',
         'Change the customer for this ticket' => '',
         'Change the free fields for this ticket' => '',
-        'Change the owner for this ticket' => '',
+        'Change the priority for this ticket' => '',
         'Change the responsible person for this ticket' => '',
-        'Change the ticket priority' => '',
         'Changes the owner of tickets to everyone (useful for ASP). Normally only agent with rw permissions in the queue of the ticket will be shown.' =>
             '',
         'Checkbox' => '',
         'Checks the SystemID in ticket number detection for follow-ups (use "No" if SystemID has been changed after using the system).' =>
             '',
-        'Close this ticket' => '',
         'Closed tickets of customer' => '',
         'Comment for new history entries in the customer interface.' => '',
         'Companies' => 'سازمان‌ها',
@@ -3180,7 +3180,6 @@ sub Data {
         'Defines wich article type should be expanded when entering the overview. If nothing defined, latest article will be expanded.' =>
             '',
         'Delay time between autocomplete queries in milliseconds.' => '',
-        'Delete this ticket' => '',
         'Deletes a session if the session id is used with an invalid remote IP address.' =>
             '',
         'Deletes requested sessions if they have timed out.' => '',
@@ -3499,7 +3498,6 @@ sub Data {
         'Link queues to auto responses.' => 'برقراری ارتباط بین صف‌های درخواست و پاسخ‌های خودکار',
         'Link responses to queues.' => 'برقراری ارتباط بین پاسخ‌ها و صف‌های درخواست',
         'Link roles to groups.' => 'برقراری ارتباط بین نقش‌ها و گروه‌ها',
-        'Link this ticket to other objects' => '',
         'Links 2 tickets with a "Normal" type link.' => '',
         'Links 2 tickets with a "ParentChild" type link.' => '',
         'List of CSS files to always be loaded for the agent interface.' =>
@@ -3550,7 +3548,6 @@ sub Data {
             '',
         'Maximum size (in characters) of the customer information table in the ticket zoom view.' =>
             '',
-        'Merge into a different ticket' => '',
         'Module for To-selection in new ticket screen in the customer interface.' =>
             '',
         'Module to check customer permissions.' => '',
@@ -3662,7 +3659,6 @@ sub Data {
         'Picture-Upload' => '',
         'PostMaster Filters' => 'فیلترهای پستی',
         'PostMaster Mail Accounts' => 'حساب‌های ایمیل پستی',
-        'Print this ticket' => '',
         'Protection against CSRF (Cross Site Request Forgery) exploits (for more info see http://en.wikipedia.org/wiki/Cross-site_request_forgery).' =>
             '',
         'Queue view' => 'نمای صف درخواست',
@@ -3740,7 +3736,6 @@ sub Data {
             '',
         'Set the maximum height (in pixels) of inline HTML articles in AgentTicketZoom.' =>
             '',
-        'Set this ticket to pending' => '',
         'Set this to yes if you trust in all your public and private pgp keys, even if they are not certified with a trusted signature.' =>
             '',
         'Sets if ticket owner must be selected by the agent.' => '',
@@ -4023,7 +4018,6 @@ sub Data {
             '',
         'Shows the message of the day on login screen of the agent interface.' =>
             '',
-        'Shows the ticket history' => '',
         'Shows the ticket history (reverse ordered) in the agent interface.' =>
             '',
         'Shows the ticket priority options in the close ticket screen of the agent interface.' =>
@@ -4230,6 +4224,7 @@ sub Data {
         'Add a new State.' => 'افزودن وضعیت جدید',
         'Add a new System Address.' => ' افزودن آدرس سیستم  جدید',
         'Add a new Type.' => 'افزودن نوع جدید',
+        'Add a note to this ticket!' => 'افزودن یادداشت به درخواست',
         'Add note to ticket' => 'افزودن یادداشت به درخواست',
         'Added User "%s"' => 'کاربر اضافه شده "%s"',
         'Adds the one time vacation days for the calendar number 1. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' =>
@@ -4332,6 +4327,9 @@ sub Data {
         'Change priority of ticket' => 'تغییر اولویت درخواست',
         'Change responsible of ticket' => 'تغییر مسئول درخواست',
         'Change roles <-> groups settings' => 'تغییر تنظیمات نقش <-> گروه',
+        'Change the ticket customer!' => 'تغییر مشترک درخواست',
+        'Change the ticket owner!' => 'تغییر صاحب درخواست',
+        'Change the ticket priority!' => 'ویرایش اولویت درخواست',
         'Change user <-> group settings' => 'تغییر تنظیمات کاربر <-> گروه',
         'Change users <-> roles settings' => 'تغییر تنظیمات کاربر <-> نقش',
         'ChangeLog' => 'گزارش تغیرات',
@@ -4340,6 +4338,7 @@ sub Data {
         'Clear To' => 'تحویل بده به',
         'Click here to report a bug!' => 'برای گزارش یک اشکال اینجا کلیک کنید !',
         'Close Times' => 'زمان بستن',
+        'Close this ticket!' => 'درخواست را ببند',
         'Close ticket' => 'بستن درخواست',
         'Close type' => 'نوع بستن',
         'Close!' => 'بستن!',
@@ -4389,6 +4388,7 @@ sub Data {
         'Default Charset' => 'Charset پیشفرض',
         'Default Language' => 'زبان پیش فرض',
         'Delete old database' => 'حذف بانک قبلی',
+        'Delete this ticket!' => 'حذف درخواست',
         'Detail' => 'جزئیات',
         'Diff' => 'Diff',
         'Discard all changes and return to the compose screen' => 'همه تغییرات را نادیده بگیر و به صفحه ارسال بازگرد',
@@ -4476,6 +4476,7 @@ sub Data {
         'Keyword' => 'کلید واژه',
         'Keywords' => 'کلید واژه‌ها',
         'Last update' => 'آخرین بروزرسانی',
+        'Link this ticket to an other objects!' => 'این درخواست را به مورد دیگری لینک کن',
         'Link this ticket to other objects!' => 'برقراری ارتباط بین این درخواست و آبجکت‌های دیگر',
         'Link to Parent' => 'ارتباط با والد',
         'Linked as' => 'مرتبط شده به عنوان',
@@ -4491,6 +4492,7 @@ sub Data {
         'Mailbox' => 'صندوق نامه‌ها',
         'Match' => 'مطابقت',
         'Max. displayed tickets' => 'حداکثر درخواست‌های نمایش داده شده',
+        'Merge this ticket!' => 'ادغام این درخواست',
         'Message for new Owner' => 'پیام برای صاحب جدید درخواست',
         'Message sent to' => 'پیام ارسال شد به',
         'Misc' => 'سایر',
@@ -4596,6 +4598,7 @@ sub Data {
         'Please fill out this form to recieve login credentials.' => 'لطفا این فرم را برای دریافت جزئیات ورود تکمیل نمایید.',
         'PostMaster Filter' => 'فیلتر Email سیستم',
         'PostMaster Mail Account' => 'حساب Email سیستم',
+        'Print this ticket!' => 'این درخواست را چاپ کن',
         'Prio' => 'اولویت',
         'Problem' => 'مسئله',
         'Queue <-> Auto Responses Management' => 'مدیریت لیست <-> پاسخ خودکار',
@@ -4653,7 +4656,9 @@ sub Data {
         'Sent password token to: %s' => 'کد بازیابی رمز عبور به آدرس %s ارسال شد.',
         'Sessions' => 'Session‌ها',
         'Set customer user and customer id of a ticket' => 'ثبت نام و کد مشترک در درخواست.',
+        'Set this ticket to pending!' => 'این درخواست را به حال معلق ببر',
         'Show' => 'نمایش',
+        'Shows the ticket history!' => 'نمایش سابقه درخواست',
         'Site' => 'سایت',
         'Solution' => 'راهکار',
         'Sort by' => 'مرتب سازی بر حسب',

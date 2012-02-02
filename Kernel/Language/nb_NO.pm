@@ -8,7 +8,7 @@
 # Copyright (C) 2011 Lars Erik Utsi Gullerud <lerik at nolink.net>
 # Copyright (C) 2011 Espen Stefansen <espen.stefansen at imr.no>
 # --
-# $Id: nb_NO.pm,v 1.124 2012-01-26 20:43:22 mg Exp $
+# $Id: nb_NO.pm,v 1.125 2012-02-02 16:11:45 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,13 +21,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.124 $;
+$VERSION = q$Revision: 1.125 $;
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-01-26 21:37:51
+    # Last translation file sync: 2012-02-02 17:08:35
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -689,19 +689,22 @@ sub Data {
         'Unwatch' => 'Ikke overvåk',
         'Lock it to work on it' => '',
         'Unlock to give it back to the queue' => '',
-        'Shows the ticket history!' => 'Se på historikken til saken!',
-        'Print this ticket!' => 'Skriv ut denne saken!',
-        'Change the ticket priority!' => 'Endre prioritet på saken!',
+        'Show the ticket history' => '',
+        'Print this ticket' => '',
+        'Print this article' => '',
+        'Split this article' => '',
+        'Forward article via mail' => '',
+        'Change the ticket priority' => '',
         'Change the ticket free fields!' => 'Endre stikkordene!',
-        'Link this ticket to an other objects!' => 'Lenk denne saken til andre objekter',
-        'Change the ticket owner!' => 'Endre agent for saken!',
-        'Change the ticket customer!' => 'Endre kunde til saken!',
-        'Add a note to this ticket!' => 'Legg til notis på saken!',
-        'Merge this ticket!' => 'Flett denne saken',
-        'Set this ticket to pending!' => 'Sett saken på vent!',
-        'Close this ticket!' => 'Avslutt denne saken!',
+        'Link this ticket to other objects' => '',
+        'Change the owner for this ticket' => '',
+        'Change the  customer for this ticket' => '',
+        'Add a note to this ticket' => '',
+        'Merge into a different ticket' => '',
+        'Set this ticket to pending' => '',
+        'Close this ticket' => '',
         'Look into a ticket!' => 'Se på sak!',
-        'Delete this ticket!' => 'Slett denne saken',
+        'Delete this ticket' => '',
         'Mark as Spam!' => 'Marker som spam',
         'My Queues' => 'Mine køer',
         'Shown Tickets' => 'Viste saker',
@@ -2475,7 +2478,6 @@ sub Data {
         'Activates the ticket archive system to have a faster system by moving some tickets out of the daily scope. To search for these tickets, the archive flag has to be enabled in the ticket search.' =>
             'Slår på arkiveringssystemet for saker. Dette øker hastigheten på systemet ved å fjerne noen av sakene ut av den daglige bruken. For å søke etter slike saker må man søke etter arkiverte saker.',
         'Activates time accounting.' => 'Slår på tidskontering',
-        'Add a note to this ticket' => '',
         'Adds a suffix with the actual year and month to the OTRS log file. A logfile for every month will be created.' =>
             'Legger til år og måned på loggfilens navn. Dette gjør at man får én loggfil per måned.',
         'Adds customers email addresses to recipients in the ticket compose screen of the agent interface.' =>
@@ -2579,15 +2581,13 @@ sub Data {
         'Change queue!' => 'Endre kø!',
         'Change the customer for this ticket' => '',
         'Change the free fields for this ticket' => '',
-        'Change the owner for this ticket' => '',
+        'Change the priority for this ticket' => '',
         'Change the responsible person for this ticket' => '',
-        'Change the ticket priority' => '',
         'Changes the owner of tickets to everyone (useful for ASP). Normally only agent with rw permissions in the queue of the ticket will be shown.' =>
             'Endrer eier på saker til "alle" (brukbart for ASP). Normalt vil kun saksbehandlere med Les/skriv-tilgang til køen bli vist.',
         'Checkbox' => '',
         'Checks the SystemID in ticket number detection for follow-ups (use "No" if SystemID has been changed after using the system).' =>
             'Sjekker SystemID i saksnummer-generatorern for oppfølginger (bruk "Nei" hvis SystemID har blitt endret etter å ha brukt systemet.',
-        'Close this ticket' => '',
         'Closed tickets of customer' => '',
         'Comment for new history entries in the customer interface.' => 'Kommentar for nye historiske innlegg i kundeportalen.',
         'Companies' => 'Kundefirma',
@@ -3181,7 +3181,6 @@ sub Data {
         'Defines wich article type should be expanded when entering the overview. If nothing defined, latest article will be expanded.' =>
             '',
         'Delay time between autocomplete queries in milliseconds.' => '',
-        'Delete this ticket' => '',
         'Deletes a session if the session id is used with an invalid remote IP address.' =>
             '',
         'Deletes requested sessions if they have timed out.' => '',
@@ -3500,7 +3499,6 @@ sub Data {
         'Link queues to auto responses.' => 'Koble køer til autosvar',
         'Link responses to queues.' => 'Koble svar til køer',
         'Link roles to groups.' => 'Koble roller til grupper.',
-        'Link this ticket to other objects' => '',
         'Links 2 tickets with a "Normal" type link.' => 'Koble 2 saker med en "normal" lenke',
         'Links 2 tickets with a "ParentChild" type link.' => 'Koble 2 saker med en hierarkisk lenke',
         'List of CSS files to always be loaded for the agent interface.' =>
@@ -3551,7 +3549,6 @@ sub Data {
             'Maks. størrelse (antall tegn) i kundeinfo-tabellen i kølisten.',
         'Maximum size (in characters) of the customer information table in the ticket zoom view.' =>
             'Maks. størrelse (antall tegn) i kundeinfo-tabellen i saksdetaljer-visningen.',
-        'Merge into a different ticket' => '',
         'Module for To-selection in new ticket screen in the customer interface.' =>
             'Modul for valg av mottaker når man oppretter ny sak i kundeportalen.',
         'Module to check customer permissions.' => 'Modul som sjekker kunders rettigheter.',
@@ -3663,7 +3660,6 @@ sub Data {
         'Picture-Upload' => '',
         'PostMaster Filters' => 'Postmaster-filtre',
         'PostMaster Mail Accounts' => 'Postmaster e-postkontoer',
-        'Print this ticket' => '',
         'Protection against CSRF (Cross Site Request Forgery) exploits (for more info see http://en.wikipedia.org/wiki/Cross-site_request_forgery).' =>
             '',
         'Queue view' => 'Køvisning',
@@ -3741,7 +3737,6 @@ sub Data {
             '',
         'Set the maximum height (in pixels) of inline HTML articles in AgentTicketZoom.' =>
             '',
-        'Set this ticket to pending' => '',
         'Set this to yes if you trust in all your public and private pgp keys, even if they are not certified with a trusted signature.' =>
             '',
         'Sets if ticket owner must be selected by the agent.' => 'Angir om sakseier må velges av saksbehandleren.',
@@ -4024,7 +4019,6 @@ sub Data {
             'Viser Dagens Melding (MOTD) i agent-kontrollpanelet. "Gruppe" brukes til å begrense tilgang til innstikket (f.eks. Gruppe: admin;gruppe1;gruppe2). "Standard" betyr at innstikket er slått på som standard, hvis ikke må saksbehandleren selv slå det på under Innstillinger',
         'Shows the message of the day on login screen of the agent interface.' =>
             'Viser Dagens Melding på innloggingsskjermen til agentdelen',
-        'Shows the ticket history' => '',
         'Shows the ticket history (reverse ordered) in the agent interface.' =>
             'Viser sakshistorikken (nyeste først) i agentdelen.',
         'Shows the ticket priority options in the close ticket screen of the agent interface.' =>
@@ -4244,6 +4238,7 @@ sub Data {
         'Add a new System Address.' => 'Legg til en ny systemadresse',
         'Add a new Type.' => 'Legg til en ny type.',
         'Add a new salutation' => 'Ny hilsning',
+        'Add a note to this ticket!' => 'Legg til notis på saken!',
         'Add mail adress %s to the Bcc field' => 'Legg til e-postadressen %s i Bcc-feltet',
         'Add mail adress %s to the Cc field' => 'Legg til e-postadressen %s i Cc-feltet',
         'Add mail adress %s to the To field' => 'Legg til e-postadressen %s i To-feltet',
@@ -4374,6 +4369,9 @@ sub Data {
         'Change owner of ticket' => 'Endre eier for sak',
         'Change priority of ticket' => 'Endre prioritet for sak',
         'Change responsible of ticket' => 'Endre ansvarlig for saken',
+        'Change the ticket customer!' => 'Endre kunde til saken!',
+        'Change the ticket owner!' => 'Endre agent for saken!',
+        'Change the ticket priority!' => 'Endre prioritet på saken!',
         'Change the ticket responsible!' => 'Endre ansvarlig for saken!',
         'Change user <-> group settings' => 'Endre bruker <-> gruppe-instillinger',
         'ChangeLog' => 'Endringslogg',
@@ -4385,6 +4383,7 @@ sub Data {
         'Clear To' => 'Nullstill "Til"',
         'Click here to report a bug!' => 'Klikk her for å rapportere en feil!',
         'Close Times' => 'Stengetider',
+        'Close this ticket!' => 'Avslutt denne saken!',
         'Close ticket' => 'Avslutt sak',
         'Close type' => 'Lukketilstand',
         'Close!' => 'Lukk!',
@@ -4610,6 +4609,7 @@ sub Data {
         'Defines the time zone of the calendar number 9, which can be assigned later to a specific queue.' =>
             'Definerer tidssonen for kalender 9, som senere kan tilordnes en spesifikk kø.',
         'Delete old database' => 'Slett gammel database',
+        'Delete this ticket!' => 'Slett denne saken',
         'Detail' => 'Detalj',
         'Diff' => 'Forskjell',
         'Discard all changes and return to the compose screen' => 'Forkast endringer og lukk vindu',
@@ -4743,6 +4743,7 @@ sub Data {
         'Link Table' => 'Lenk tabell',
         'Link auto responses to queues.' => 'Kople autosvar til køer',
         'Link groups to roles.' => 'Kople grupper til roller',
+        'Link this ticket to an other objects!' => 'Lenk denne saken til andre objekter',
         'Link this ticket to other objects!' => 'Koble denne saken til andre objekter!',
         'Link to Parent' => 'Link til Forelder',
         'LinkType' => 'Lenketype',
@@ -4763,6 +4764,7 @@ sub Data {
         'Match' => 'Treff',
         'Max. displayed tickets' => 'Maks. antall viste saker',
         'Max. shown Tickets a page' => 'Maks. viste saker per side',
+        'Merge this ticket!' => 'Flett denne saken',
         'Message for new Owner' => 'Melding til ny eier',
         'Message sent to' => 'Melding sendt til',
         'Misc' => 'Diverse',
@@ -4895,6 +4897,7 @@ sub Data {
         'Please select only one element or turn of the button \'Fixed\' where the select field is marked!' =>
             'Vennligst velg kun ett element, eller skru av \'Fast\' knappen der valgt felt er markert!',
         'Port' => 'Port',
+        'Print this ticket!' => 'Skriv ut denne saken!',
         'Prio' => 'Pri',
         'Problem' => 'Problem',
         'Queue <-> Auto Responses Management' => 'Administrasjon: Kø <-> Autosvar',
@@ -4963,7 +4966,9 @@ sub Data {
         'Sessions' => 'Sesjoner',
         'Set customer user and customer id of a ticket' => 'Sett kundebruker og kunde-id for sak',
         'Set new SLA' => 'Sett ny SLA',
+        'Set this ticket to pending!' => 'Sett saken på vent!',
         'Show' => 'Vis',
+        'Shows the ticket history!' => 'Se på historikken til saken!',
         'Site' => 'side',
         'Solution' => 'Løsning',
         'Sort by' => 'Sorter etter',

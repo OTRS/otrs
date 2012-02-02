@@ -6,7 +6,7 @@
 # Copyright (C) 2007 Aron Ujvari <ujvari@hungary.com>
 # Copyright (C) 2009 Arnold Matyasi <arn@webma.hu>
 # --
-# $Id: hu.pm,v 1.107 2012-01-26 20:43:25 mg Exp $
+# $Id: hu.pm,v 1.108 2012-02-02 16:11:49 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,13 +19,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.107 $) [1];
+$VERSION = qw($Revision: 1.108 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-01-26 21:37:45
+    # Last translation file sync: 2012-02-02 17:08:30
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -687,19 +687,22 @@ sub Data {
         'Unwatch' => '',
         'Lock it to work on it' => '',
         'Unlock to give it back to the queue' => '',
-        'Shows the ticket history!' => 'Jegy előzményeinek megjelenítése!',
-        'Print this ticket!' => 'Jegy nyomtatása!',
-        'Change the ticket priority!' => 'Jegy prioritásának módosítása!',
+        'Show the ticket history' => '',
+        'Print this ticket' => '',
+        'Print this article' => '',
+        'Split this article' => '',
+        'Forward article via mail' => '',
+        'Change the ticket priority' => '',
         'Change the ticket free fields!' => 'Jegy szabad mezőinek módosítása!',
-        'Link this ticket to an other objects!' => 'Összekapcsolja a jegyet egy másik objektummal!',
-        'Change the ticket owner!' => 'Jegy tulajdonosának módosítása!',
-        'Change the ticket customer!' => 'Jegyhez tartozó ügyfél módosítása!',
-        'Add a note to this ticket!' => 'Megjegyzés írása a jegyhez!',
-        'Merge this ticket!' => 'Egyesíti a jegyet egy másikkal!',
-        'Set this ticket to pending!' => 'Jegy várakozó állapotba helyezése!',
-        'Close this ticket!' => 'Jegy lezárása!',
+        'Link this ticket to other objects' => '',
+        'Change the owner for this ticket' => '',
+        'Change the  customer for this ticket' => '',
+        'Add a note to this ticket' => '',
+        'Merge into a different ticket' => '',
+        'Set this ticket to pending' => '',
+        'Close this ticket' => '',
         'Look into a ticket!' => 'Jegy részletesebb megtekintése!',
-        'Delete this ticket!' => 'Jegy törlése!',
+        'Delete this ticket' => '',
         'Mark as Spam!' => 'Jegy spamnek jelölése!',
         'My Queues' => 'Saját várólistáim',
         'Shown Tickets' => 'Megjelenített jegyek',
@@ -2473,7 +2476,6 @@ sub Data {
         'Activates the ticket archive system to have a faster system by moving some tickets out of the daily scope. To search for these tickets, the archive flag has to be enabled in the ticket search.' =>
             '',
         'Activates time accounting.' => '',
-        'Add a note to this ticket' => '',
         'Adds a suffix with the actual year and month to the OTRS log file. A logfile for every month will be created.' =>
             '',
         'Adds customers email addresses to recipients in the ticket compose screen of the agent interface.' =>
@@ -2577,15 +2579,13 @@ sub Data {
         'Change queue!' => '',
         'Change the customer for this ticket' => '',
         'Change the free fields for this ticket' => '',
-        'Change the owner for this ticket' => '',
+        'Change the priority for this ticket' => '',
         'Change the responsible person for this ticket' => '',
-        'Change the ticket priority' => '',
         'Changes the owner of tickets to everyone (useful for ASP). Normally only agent with rw permissions in the queue of the ticket will be shown.' =>
             '',
         'Checkbox' => '',
         'Checks the SystemID in ticket number detection for follow-ups (use "No" if SystemID has been changed after using the system).' =>
             '',
-        'Close this ticket' => '',
         'Closed tickets of customer' => '',
         'Comment for new history entries in the customer interface.' => '',
         'Companies' => '',
@@ -3179,7 +3179,6 @@ sub Data {
         'Defines wich article type should be expanded when entering the overview. If nothing defined, latest article will be expanded.' =>
             '',
         'Delay time between autocomplete queries in milliseconds.' => '',
-        'Delete this ticket' => '',
         'Deletes a session if the session id is used with an invalid remote IP address.' =>
             '',
         'Deletes requested sessions if they have timed out.' => '',
@@ -3498,7 +3497,6 @@ sub Data {
         'Link queues to auto responses.' => '',
         'Link responses to queues.' => '',
         'Link roles to groups.' => '',
-        'Link this ticket to other objects' => '',
         'Links 2 tickets with a "Normal" type link.' => '',
         'Links 2 tickets with a "ParentChild" type link.' => '',
         'List of CSS files to always be loaded for the agent interface.' =>
@@ -3549,7 +3547,6 @@ sub Data {
             '',
         'Maximum size (in characters) of the customer information table in the ticket zoom view.' =>
             '',
-        'Merge into a different ticket' => '',
         'Module for To-selection in new ticket screen in the customer interface.' =>
             '',
         'Module to check customer permissions.' => '',
@@ -3661,7 +3658,6 @@ sub Data {
         'Picture-Upload' => '',
         'PostMaster Filters' => '',
         'PostMaster Mail Accounts' => '',
-        'Print this ticket' => '',
         'Protection against CSRF (Cross Site Request Forgery) exploits (for more info see http://en.wikipedia.org/wiki/Cross-site_request_forgery).' =>
             '',
         'Queue view' => '',
@@ -3739,7 +3735,6 @@ sub Data {
             '',
         'Set the maximum height (in pixels) of inline HTML articles in AgentTicketZoom.' =>
             '',
-        'Set this ticket to pending' => '',
         'Set this to yes if you trust in all your public and private pgp keys, even if they are not certified with a trusted signature.' =>
             '',
         'Sets if ticket owner must be selected by the agent.' => '',
@@ -4022,7 +4017,6 @@ sub Data {
             '',
         'Shows the message of the day on login screen of the agent interface.' =>
             '',
-        'Shows the ticket history' => '',
         'Shows the ticket history (reverse ordered) in the agent interface.' =>
             '',
         'Shows the ticket priority options in the close ticket screen of the agent interface.' =>
@@ -4224,6 +4218,7 @@ sub Data {
         'Add a new State.' => 'Új állapot hozzáadása',
         'Add a new System Address.' => 'Új rendszer cím hozzáadása',
         'Add a new Type.' => 'Új típus hozzáadása',
+        'Add a note to this ticket!' => 'Megjegyzés írása a jegyhez!',
         'Add note to ticket' => 'Megjegyzés hozzáadása a jegyhez',
         'Added User "%s"' => 'A "%s" felhasználó hozzáadva',
         'Admin-Area' => 'Adminisztrációs-terület',
@@ -4277,6 +4272,9 @@ sub Data {
         'Change owner of ticket' => 'Jegy tulajdonosának módosítása',
         'Change priority of ticket' => 'Jegy prioritásának módosítása',
         'Change responsible of ticket' => 'Jegy felelősének megváltoztatása',
+        'Change the ticket customer!' => 'Jegyhez tartozó ügyfél módosítása!',
+        'Change the ticket owner!' => 'Jegy tulajdonosának módosítása!',
+        'Change the ticket priority!' => 'Jegy prioritásának módosítása!',
         'Change user <-> group settings' => 'A felhasználó <-> csoport beállítások megváltoztatása',
         'ChangeLog' => 'Változtatások',
         'Child-Object' => 'Gyerek objektum',
@@ -4285,6 +4283,7 @@ sub Data {
         'Clear To' => 'Mező törlése',
         'Click here to report a bug!' => 'Kattintson ide új hiba bejelentéséhez!',
         'Close Times' => 'Lezárás ideje',
+        'Close this ticket!' => 'Jegy lezárása!',
         'Close ticket' => 'Jegy lezárása',
         'Close type' => 'Típus lezárása',
         'Close!' => 'Lezár!',
@@ -4331,6 +4330,7 @@ sub Data {
         'Default Language' => 'Alapértelmezett nyelv',
         'Default Sign Key' => 'Alapértelmezett aláíró kulcs',
         'Delete old database' => 'Régi adatbázis törlése',
+        'Delete this ticket!' => 'Jegy törlése!',
         'Detail' => 'Részletek',
         'Diff' => 'Különbség',
         'Discard all changes and return to the compose screen' => 'Minden változtatás megsemmisítése és visszatérés a szerkesztőképernyőre',
@@ -4419,6 +4419,7 @@ sub Data {
         'Keyword' => 'Kulcsszó',
         'Keywords' => 'Kulcsszó',
         'Last update' => 'Utolsó frissítés',
+        'Link this ticket to an other objects!' => 'Összekapcsolja a jegyet egy másik objektummal!',
         'Link to Parent' => 'Szülőhöz kapcsol',
         'Linked as' => 'Kapcsolva mint',
         'Load' => 'Betöltés',
@@ -4432,6 +4433,7 @@ sub Data {
         'Mail Management' => 'E-mail kezelés',
         'Mailbox' => 'Postafiók',
         'Match' => 'Egyezés',
+        'Merge this ticket!' => 'Egyesíti a jegyet egy másikkal!',
         'Message for new Owner' => 'Üzenet az új tulajdonosnak',
         'Message sent to' => 'Üzenet elküldve',
         'Misc' => 'Egyéb',
@@ -4529,6 +4531,7 @@ sub Data {
         'Please contact your admin' => 'Kérjük vegye fel a kapcsolatot a rendszergazdájával',
         'PostMaster Filter' => 'Levelezési szűrők',
         'PostMaster POP3 Account' => 'Levelezési fiókok (POP3)',
+        'Print this ticket!' => 'Jegy nyomtatása!',
         'Prio' => 'Prio',
         'Process-Path' => 'Process-útvonal',
         'Product' => 'Termék',
@@ -4586,7 +4589,9 @@ sub Data {
         'SessionID invalid! Need user data!' => 'Hibás folyamat azonosító! Felhasználói adatok megadása szükséges!',
         'Sessions' => 'Folyamat',
         'Set customer user and customer id of a ticket' => 'A jegyhez tartozó ügyfél felhasználónak és ügyfél azonosítónak beállítása',
+        'Set this ticket to pending!' => 'Jegy várakozó állapotba helyezése!',
         'Show' => 'Megjelenítés',
+        'Shows the ticket history!' => 'Jegy előzményeinek megjelenítése!',
         'Site' => 'Gép',
         'Solution' => 'Megoldás',
         'Sort by' => 'Rendezés így',

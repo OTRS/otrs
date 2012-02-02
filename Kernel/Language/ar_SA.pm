@@ -2,7 +2,7 @@
 # Kernel/Language/ar_SA.pm - provides ar_SA language translation
 # Copyright (C) 2007 Mohammad Saleh <maoaf at yahoo.com>
 # --
-# $Id: ar_SA.pm,v 1.73 2012-01-26 20:43:23 mg Exp $
+# $Id: ar_SA.pm,v 1.74 2012-02-02 16:11:46 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,13 +14,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.73 $) [1];
+$VERSION = qw($Revision: 1.74 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-01-26 21:37:28
+    # Last translation file sync: 2012-02-02 17:08:12
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -685,19 +685,22 @@ sub Data {
         'Unwatch' => '',
         'Lock it to work on it' => '',
         'Unlock to give it back to the queue' => '',
-        'Shows the ticket history!' => 'أظهر تاريخ البطاقة!',
-        'Print this ticket!' => 'طباعة البطاقة!',
-        'Change the ticket priority!' => 'تغيير أولوية البطاقة!',
+        'Show the ticket history' => '',
+        'Print this ticket' => '',
+        'Print this article' => '',
+        'Split this article' => '',
+        'Forward article via mail' => '',
+        'Change the ticket priority' => '',
         'Change the ticket free fields!' => '',
-        'Link this ticket to an other objects!' => 'أربط هذه البطاقة مع الكائن  آخر',
-        'Change the ticket owner!' => 'تغيير مالك البطاقة',
-        'Change the ticket customer!' => 'تغيير عميل البطاقة!',
-        'Add a note to this ticket!' => 'أضف ملاحظة لهذه البطاقة!',
-        'Merge this ticket!' => 'أدمج هذه البطاقة!',
-        'Set this ticket to pending!' => 'أضف هذه البطاقة لقائمة الإنتظار!',
-        'Close this ticket!' => 'أقفل هذه البطاقة!',
+        'Link this ticket to other objects' => '',
+        'Change the owner for this ticket' => '',
+        'Change the  customer for this ticket' => '',
+        'Add a note to this ticket' => '',
+        'Merge into a different ticket' => '',
+        'Set this ticket to pending' => '',
+        'Close this ticket' => '',
         'Look into a ticket!' => 'أحتكر هذه البطاقة!',
-        'Delete this ticket!' => 'أحذف هذه البطاقة!',
+        'Delete this ticket' => '',
         'Mark as Spam!' => 'حددها كرساله مزعجة',
         'My Queues' => 'بطاقاتي',
         'Shown Tickets' => 'البطاقات المعروضة',
@@ -2471,7 +2474,6 @@ sub Data {
         'Activates the ticket archive system to have a faster system by moving some tickets out of the daily scope. To search for these tickets, the archive flag has to be enabled in the ticket search.' =>
             '',
         'Activates time accounting.' => '',
-        'Add a note to this ticket' => '',
         'Adds a suffix with the actual year and month to the OTRS log file. A logfile for every month will be created.' =>
             '',
         'Adds customers email addresses to recipients in the ticket compose screen of the agent interface.' =>
@@ -2575,15 +2577,13 @@ sub Data {
         'Change queue!' => '',
         'Change the customer for this ticket' => '',
         'Change the free fields for this ticket' => '',
-        'Change the owner for this ticket' => '',
+        'Change the priority for this ticket' => '',
         'Change the responsible person for this ticket' => '',
-        'Change the ticket priority' => '',
         'Changes the owner of tickets to everyone (useful for ASP). Normally only agent with rw permissions in the queue of the ticket will be shown.' =>
             '',
         'Checkbox' => '',
         'Checks the SystemID in ticket number detection for follow-ups (use "No" if SystemID has been changed after using the system).' =>
             '',
-        'Close this ticket' => '',
         'Closed tickets of customer' => '',
         'Comment for new history entries in the customer interface.' => '',
         'Companies' => '',
@@ -3177,7 +3177,6 @@ sub Data {
         'Defines wich article type should be expanded when entering the overview. If nothing defined, latest article will be expanded.' =>
             '',
         'Delay time between autocomplete queries in milliseconds.' => '',
-        'Delete this ticket' => '',
         'Deletes a session if the session id is used with an invalid remote IP address.' =>
             '',
         'Deletes requested sessions if they have timed out.' => '',
@@ -3496,7 +3495,6 @@ sub Data {
         'Link queues to auto responses.' => '',
         'Link responses to queues.' => '',
         'Link roles to groups.' => '',
-        'Link this ticket to other objects' => '',
         'Links 2 tickets with a "Normal" type link.' => '',
         'Links 2 tickets with a "ParentChild" type link.' => '',
         'List of CSS files to always be loaded for the agent interface.' =>
@@ -3547,7 +3545,6 @@ sub Data {
             '',
         'Maximum size (in characters) of the customer information table in the ticket zoom view.' =>
             '',
-        'Merge into a different ticket' => '',
         'Module for To-selection in new ticket screen in the customer interface.' =>
             '',
         'Module to check customer permissions.' => '',
@@ -3659,7 +3656,6 @@ sub Data {
         'Picture-Upload' => '',
         'PostMaster Filters' => '',
         'PostMaster Mail Accounts' => '',
-        'Print this ticket' => '',
         'Protection against CSRF (Cross Site Request Forgery) exploits (for more info see http://en.wikipedia.org/wiki/Cross-site_request_forgery).' =>
             '',
         'Queue view' => '',
@@ -3737,7 +3733,6 @@ sub Data {
             '',
         'Set the maximum height (in pixels) of inline HTML articles in AgentTicketZoom.' =>
             '',
-        'Set this ticket to pending' => '',
         'Set this to yes if you trust in all your public and private pgp keys, even if they are not certified with a trusted signature.' =>
             '',
         'Sets if ticket owner must be selected by the agent.' => '',
@@ -4020,7 +4015,6 @@ sub Data {
             '',
         'Shows the message of the day on login screen of the agent interface.' =>
             '',
-        'Shows the ticket history' => '',
         'Shows the ticket history (reverse ordered) in the agent interface.' =>
             '',
         'Shows the ticket priority options in the close ticket screen of the agent interface.' =>
@@ -4187,6 +4181,7 @@ sub Data {
         'A message should have a To: recipient!' => 'الرسالة يجب أن يكون لها: متلقي!',
         'A message should have a body!' => 'الرسالة يجب أن يكون لها نص',
         'A message should have a subject!' => 'الرسالة يجب أن يكون لها موضوع!',
+        'Add a note to this ticket!' => 'أضف ملاحظة لهذه البطاقة!',
         'Add note to ticket' => 'إضافة ملاحظة إلى البطاقة',
         'Added User "%s"' => 'أضيف المستخدم"%s"',
         'Admin-Area' => 'منطقة-مدير النظام',
@@ -4209,10 +4204,14 @@ sub Data {
         'Change owner of ticket' => 'تغيير مالك البطاقة',
         'Change priority of ticket' => 'تغيير أولوية البطاقة',
         'Change responsible of ticket' => 'تغيير المسؤول عن البطاقة',
+        'Change the ticket customer!' => 'تغيير عميل البطاقة!',
+        'Change the ticket owner!' => 'تغيير مالك البطاقة',
+        'Change the ticket priority!' => 'تغيير أولوية البطاقة!',
         'Child-Object' => 'الكائن-الفرعي',
         'Clear From' => 'مسح النموذج',
         'Clear To' => 'مسح إلى',
         'Click here to report a bug!' => 'أضغط هنا للتبليغ عن مشكلة',
+        'Close this ticket!' => 'أقفل هذه البطاقة!',
         'Close ticket' => 'إقفال البطاقة',
         'Close!' => 'إقفال!',
         'CompanyTickets' => 'بطاقات الإدارة',
@@ -4234,6 +4233,7 @@ sub Data {
         'D' => 'أقل',
         'Days' => 'أيام',
         'Delete old database' => 'حذف قاعدة البيانات القديمة',
+        'Delete this ticket!' => 'أحذف هذه البطاقة!',
         'Detail' => 'التفاصيل',
         'Discard all changes and return to the compose screen' => 'إلغاء جميع التغييرات و العودة إلى شاشة الإرسال',
         'Do you really want to delete this Object?' => 'ها تريد فعلاً حذف هذا الكائن؟',
@@ -4254,12 +4254,14 @@ sub Data {
         'Imported by' => 'تم إستيراده من خلال',
         'Information about the Stat' => 'معلومات عن الإحصائات',
         'Instance' => 'نسخة',
+        'Link this ticket to an other objects!' => 'أربط هذه البطاقة مع الكائن  آخر',
         'Lock it to work on it!' => 'أقفلها عن البقية للعمل عليها',
         'Login failed! Your username or password was entered incorrectly.' =>
             'فشل تسجيل الدخول! الرجاء التأكد من اسم المستخدم أو كلمة المرور.',
         'Lookup' => 'بحث عن',
         'Mail Management' => 'إدارة البريد',
         'Mailbox' => 'صندوق الرسائل',
+        'Merge this ticket!' => 'أدمج هذه البطاقة!',
         'Message for new Owner' => 'رسالة إلى المالك الجديد',
         'Message sent to' => 'الرسالة أرسلت إلى',
         'Misc' => 'منوع',
@@ -4297,6 +4299,7 @@ sub Data {
         'Passwords doesn\'t match! Please try it again!' => 'كلمتي المرور غير متطابقتان! الرجاء التجربة مرة أخرى!',
         'Pending messages' => 'رسائل الإنتظار',
         'Please contact your admin' => 'الرجاء الإتصال بمدير النظام',
+        'Print this ticket!' => 'طباعة البطاقة!',
         'Queue <-> Auto Responses Management' => 'قائمة البطاقات <=> إدارة الردود الآلية',
         'Queue ID' => 'رقم القائمة',
         'Queue Management' => 'إدارة قوائم البطاقات',
@@ -4325,6 +4328,8 @@ sub Data {
         'Send no notifications' => 'لا ترسل أي تنبيهات',
         'Service-Name' => 'اسم الخدمة',
         'Set customer user and customer id of a ticket' => 'كتابة إسم العميل ورقم العميل للبطاقة',
+        'Set this ticket to pending!' => 'أضف هذه البطاقة لقائمة الإنتظار!',
+        'Shows the ticket history!' => 'أظهر تاريخ البطاقة!',
         'Solution' => 'الحل',
         'Sort by' => 'ترتيب بـ',
         'Source' => 'المصدر',

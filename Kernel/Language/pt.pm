@@ -2,7 +2,7 @@
 # Kernel/Language/pt.pm - provides pt language translation
 # Copyright (C) 2004-2007 CAT - Filipe Henriques <filipehenriques at ip.pt>
 # --
-# $Id: pt.pm,v 1.117 2012-01-26 20:43:22 mg Exp $
+# $Id: pt.pm,v 1.118 2012-02-02 16:11:45 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.117 $) [1];
+$VERSION = qw($Revision: 1.118 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-01-26 21:37:54
+    # Last translation file sync: 2012-02-02 17:08:39
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -683,19 +683,22 @@ sub Data {
         'Unwatch' => '',
         'Lock it to work on it' => '',
         'Unlock to give it back to the queue' => '',
-        'Shows the ticket history!' => 'Mostra o histórico do ticket!',
-        'Print this ticket!' => 'Imprime o ticket!',
-        'Change the ticket priority!' => 'Muda a prioridade do ticket!',
+        'Show the ticket history' => '',
+        'Print this ticket' => '',
+        'Print this article' => '',
+        'Split this article' => '',
+        'Forward article via mail' => '',
+        'Change the ticket priority' => '',
         'Change the ticket free fields!' => 'Alterar os campos livres do ticket!',
-        'Link this ticket to an other objects!' => 'Liga este ticket a outros objectos!',
-        'Change the ticket owner!' => 'Muda o proprietário do ticket!',
-        'Change the ticket customer!' => 'Muda o cliente do ticket!',
-        'Add a note to this ticket!' => 'Acrescentar uma nota ao ticket!',
-        'Merge this ticket!' => 'Juntar este ticket a outro!',
-        'Set this ticket to pending!' => 'Tornar o ticket pendente!',
-        'Close this ticket!' => 'Fechar este ticket!',
+        'Link this ticket to other objects' => '',
+        'Change the owner for this ticket' => '',
+        'Change the  customer for this ticket' => '',
+        'Add a note to this ticket' => '',
+        'Merge into a different ticket' => '',
+        'Set this ticket to pending' => '',
+        'Close this ticket' => '',
         'Look into a ticket!' => 'Ver um ticket!',
-        'Delete this ticket!' => 'Remover este ticket!',
+        'Delete this ticket' => '',
         'Mark as Spam!' => 'Marcar como Spam!',
         'My Queues' => 'As Minhas Filas',
         'Shown Tickets' => 'Mostrar Tickets',
@@ -2469,7 +2472,6 @@ sub Data {
         'Activates the ticket archive system to have a faster system by moving some tickets out of the daily scope. To search for these tickets, the archive flag has to be enabled in the ticket search.' =>
             '',
         'Activates time accounting.' => '',
-        'Add a note to this ticket' => '',
         'Adds a suffix with the actual year and month to the OTRS log file. A logfile for every month will be created.' =>
             '',
         'Adds customers email addresses to recipients in the ticket compose screen of the agent interface.' =>
@@ -2573,15 +2575,13 @@ sub Data {
         'Change queue!' => '',
         'Change the customer for this ticket' => '',
         'Change the free fields for this ticket' => '',
-        'Change the owner for this ticket' => '',
+        'Change the priority for this ticket' => '',
         'Change the responsible person for this ticket' => '',
-        'Change the ticket priority' => '',
         'Changes the owner of tickets to everyone (useful for ASP). Normally only agent with rw permissions in the queue of the ticket will be shown.' =>
             '',
         'Checkbox' => '',
         'Checks the SystemID in ticket number detection for follow-ups (use "No" if SystemID has been changed after using the system).' =>
             '',
-        'Close this ticket' => '',
         'Closed tickets of customer' => '',
         'Comment for new history entries in the customer interface.' => '',
         'Companies' => '',
@@ -3175,7 +3175,6 @@ sub Data {
         'Defines wich article type should be expanded when entering the overview. If nothing defined, latest article will be expanded.' =>
             '',
         'Delay time between autocomplete queries in milliseconds.' => '',
-        'Delete this ticket' => '',
         'Deletes a session if the session id is used with an invalid remote IP address.' =>
             '',
         'Deletes requested sessions if they have timed out.' => '',
@@ -3494,7 +3493,6 @@ sub Data {
         'Link queues to auto responses.' => '',
         'Link responses to queues.' => '',
         'Link roles to groups.' => '',
-        'Link this ticket to other objects' => '',
         'Links 2 tickets with a "Normal" type link.' => '',
         'Links 2 tickets with a "ParentChild" type link.' => '',
         'List of CSS files to always be loaded for the agent interface.' =>
@@ -3545,7 +3543,6 @@ sub Data {
             '',
         'Maximum size (in characters) of the customer information table in the ticket zoom view.' =>
             '',
-        'Merge into a different ticket' => '',
         'Module for To-selection in new ticket screen in the customer interface.' =>
             '',
         'Module to check customer permissions.' => '',
@@ -3657,7 +3654,6 @@ sub Data {
         'Picture-Upload' => '',
         'PostMaster Filters' => '',
         'PostMaster Mail Accounts' => '',
-        'Print this ticket' => '',
         'Protection against CSRF (Cross Site Request Forgery) exploits (for more info see http://en.wikipedia.org/wiki/Cross-site_request_forgery).' =>
             '',
         'Queue view' => '',
@@ -3735,7 +3731,6 @@ sub Data {
             '',
         'Set the maximum height (in pixels) of inline HTML articles in AgentTicketZoom.' =>
             '',
-        'Set this ticket to pending' => '',
         'Set this to yes if you trust in all your public and private pgp keys, even if they are not certified with a trusted signature.' =>
             '',
         'Sets if ticket owner must be selected by the agent.' => '',
@@ -4018,7 +4013,6 @@ sub Data {
             '',
         'Shows the message of the day on login screen of the agent interface.' =>
             '',
-        'Shows the ticket history' => '',
         'Shows the ticket history (reverse ordered) in the agent interface.' =>
             '',
         'Shows the ticket priority options in the close ticket screen of the agent interface.' =>
@@ -4216,6 +4210,7 @@ sub Data {
         'Add a new Signature.' => 'Adicionar nova assinatura',
         'Add a new State.' => 'Adicionar novo estado',
         'Add a new System Address.' => 'Adicionar novo endereço de sistema',
+        'Add a note to this ticket!' => 'Acrescentar uma nota ao ticket!',
         'Add note to ticket' => 'Adicionar nota ao ticket',
         'Added User "%s"' => 'Acrescentado Utilizador "%s"',
         'Admin-Area' => 'Área de Administração',
@@ -4255,12 +4250,16 @@ sub Data {
         'Change owner of ticket' => 'Modificar o proprietário do ticket',
         'Change priority of ticket' => 'Modificar a prioridade do ticket',
         'Change responsible of ticket' => 'Mudar responsavel do ticket',
+        'Change the ticket customer!' => 'Muda o cliente do ticket!',
+        'Change the ticket owner!' => 'Muda o proprietário do ticket!',
+        'Change the ticket priority!' => 'Muda a prioridade do ticket!',
         'Change user <-> group settings' => 'Modificar users <-> configurações de grupos',
         'ChangeLog' => 'Mudança de Log',
         'Child-Object' => 'Objecto-Descendente',
         'Clear From' => 'Limpar De',
         'Clear To' => 'Clear para',
         'Click here to report a bug!' => 'Clique aqui para reportar um erro!',
+        'Close this ticket!' => 'Fechar este ticket!',
         'Close ticket' => 'Fechar ticket',
         'Close type' => 'Tipo de fecho',
         'Close!' => 'Fechar!',
@@ -4300,6 +4299,7 @@ sub Data {
         'Default Charset' => 'Codificação por Omissão',
         'Default Language' => 'Idioma por Omissão',
         'Delete old database' => 'Eliminar base de dados antiga',
+        'Delete this ticket!' => 'Remover este ticket!',
         'Detail' => 'Pormenor',
         'Discard all changes and return to the compose screen' => 'Descartar todas as modificações e retornar para o ecrã de composição',
         'Do dispatch or filter incoming emails based on email X-Headers! RegExp is also possible.' =>
@@ -4369,6 +4369,7 @@ sub Data {
         'Keyword' => 'Palavra-chave',
         'Keywords' => 'Palavras-chave',
         'Last update' => 'Última actualização',
+        'Link this ticket to an other objects!' => 'Liga este ticket a outros objectos!',
         'Load Settings' => 'Carregar Configuração',
         'Lock it to work on it!' => 'Bloqueie-o para trabalhar nele!',
         'Logfile' => 'Ficheiro de Log',
@@ -4379,6 +4380,7 @@ sub Data {
         'Mail Management' => 'Gestão de Correio Electrónico',
         'Mailbox' => 'Caixa de Entrada',
         'Match' => 'Corresponde',
+        'Merge this ticket!' => 'Juntar este ticket a outro!',
         'Message for new Owner' => 'Mensagem para o novo Proprietário',
         'Message sent to' => 'Mensagem enviada para',
         'Misc' => 'Vários',
@@ -4465,6 +4467,7 @@ sub Data {
         'Please contact your admin' => 'Por favor contactar o seu administrador de sistemas',
         'PostMaster Filter' => 'Filtros do Chefe do Correio',
         'PostMaster POP3 Account' => 'Conta do Chefe do Correio',
+        'Print this ticket!' => 'Imprime o ticket!',
         'Problem' => 'Problema',
         'Queue <-> Auto Responses Management' => 'Fila <-> Gestão de Respostas Automáticas',
         'Queue ID' => 'ID da Queue',
@@ -4516,7 +4519,9 @@ sub Data {
         'Send no notifications' => 'Nao enviar notificação',
         'Sessions' => 'Sessões',
         'Set customer user and customer id of a ticket' => 'Atribua o nome de utilizador e o ID do cliente do ticket',
+        'Set this ticket to pending!' => 'Tornar o ticket pendente!',
         'Show' => 'Mostrar',
+        'Shows the ticket history!' => 'Mostra o histórico do ticket!',
         'Site' => 'Página',
         'Solution' => 'Solução',
         'Sorry, feature not active!' => 'Lamentamos, característica não activa!',

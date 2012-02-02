@@ -2,7 +2,7 @@
 # Kernel/Language/vi_VN.pm - provides Vietnamese language translation
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: vi_VN.pm,v 1.63 2012-01-26 20:43:23 mg Exp $
+# $Id: vi_VN.pm,v 1.64 2012-02-02 16:11:46 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,13 +14,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.63 $) [1];
+$VERSION = qw($Revision: 1.64 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-01-26 21:38:04
+    # Last translation file sync: 2012-02-02 17:08:50
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -682,19 +682,22 @@ sub Data {
         'Unwatch' => '',
         'Lock it to work on it' => '',
         'Unlock to give it back to the queue' => '',
-        'Shows the ticket history!' => 'Xem lịch sử thẻ!',
-        'Print this ticket!' => 'In thẻ này!',
-        'Change the ticket priority!' => 'Thay đổi ưu tiên thẻ',
+        'Show the ticket history' => '',
+        'Print this ticket' => '',
+        'Print this article' => '',
+        'Split this article' => '',
+        'Forward article via mail' => '',
+        'Change the ticket priority' => '',
         'Change the ticket free fields!' => 'Thay đổi các trường tự do của thẻ',
-        'Link this ticket to an other objects!' => 'Liên kết thẻ này với các đối tượng khác!',
-        'Change the ticket owner!' => 'Thay đổi phụ trách thẻ!',
-        'Change the ticket customer!' => 'Thay đổi khách hàng thẻ!',
-        'Add a note to this ticket!' => 'Thêm lưu ý đối với thẻ này!',
-        'Merge this ticket!' => 'Trộn thẻ này!',
-        'Set this ticket to pending!' => 'Thiết đặt treo thẻ này!',
-        'Close this ticket!' => 'Đóng thẻ này!',
+        'Link this ticket to other objects' => '',
+        'Change the owner for this ticket' => '',
+        'Change the  customer for this ticket' => '',
+        'Add a note to this ticket' => '',
+        'Merge into a different ticket' => '',
+        'Set this ticket to pending' => '',
+        'Close this ticket' => '',
         'Look into a ticket!' => 'Xem xét một thẻ!',
-        'Delete this ticket!' => 'Xóa thẻ này!',
+        'Delete this ticket' => '',
         'Mark as Spam!' => 'Đánh dấu là thư rác!',
         'My Queues' => 'Hàng đợi của tôi',
         'Shown Tickets' => 'Các thẻ được hiển thị',
@@ -2468,7 +2471,6 @@ sub Data {
         'Activates the ticket archive system to have a faster system by moving some tickets out of the daily scope. To search for these tickets, the archive flag has to be enabled in the ticket search.' =>
             '',
         'Activates time accounting.' => '',
-        'Add a note to this ticket' => '',
         'Adds a suffix with the actual year and month to the OTRS log file. A logfile for every month will be created.' =>
             '',
         'Adds customers email addresses to recipients in the ticket compose screen of the agent interface.' =>
@@ -2572,15 +2574,13 @@ sub Data {
         'Change queue!' => '',
         'Change the customer for this ticket' => '',
         'Change the free fields for this ticket' => '',
-        'Change the owner for this ticket' => '',
+        'Change the priority for this ticket' => '',
         'Change the responsible person for this ticket' => '',
-        'Change the ticket priority' => '',
         'Changes the owner of tickets to everyone (useful for ASP). Normally only agent with rw permissions in the queue of the ticket will be shown.' =>
             '',
         'Checkbox' => '',
         'Checks the SystemID in ticket number detection for follow-ups (use "No" if SystemID has been changed after using the system).' =>
             '',
-        'Close this ticket' => '',
         'Closed tickets of customer' => '',
         'Comment for new history entries in the customer interface.' => '',
         'Companies' => '',
@@ -3174,7 +3174,6 @@ sub Data {
         'Defines wich article type should be expanded when entering the overview. If nothing defined, latest article will be expanded.' =>
             '',
         'Delay time between autocomplete queries in milliseconds.' => '',
-        'Delete this ticket' => '',
         'Deletes a session if the session id is used with an invalid remote IP address.' =>
             '',
         'Deletes requested sessions if they have timed out.' => '',
@@ -3493,7 +3492,6 @@ sub Data {
         'Link queues to auto responses.' => '',
         'Link responses to queues.' => '',
         'Link roles to groups.' => '',
-        'Link this ticket to other objects' => '',
         'Links 2 tickets with a "Normal" type link.' => '',
         'Links 2 tickets with a "ParentChild" type link.' => '',
         'List of CSS files to always be loaded for the agent interface.' =>
@@ -3544,7 +3542,6 @@ sub Data {
             '',
         'Maximum size (in characters) of the customer information table in the ticket zoom view.' =>
             '',
-        'Merge into a different ticket' => '',
         'Module for To-selection in new ticket screen in the customer interface.' =>
             '',
         'Module to check customer permissions.' => '',
@@ -3656,7 +3653,6 @@ sub Data {
         'Picture-Upload' => '',
         'PostMaster Filters' => '',
         'PostMaster Mail Accounts' => '',
-        'Print this ticket' => '',
         'Protection against CSRF (Cross Site Request Forgery) exploits (for more info see http://en.wikipedia.org/wiki/Cross-site_request_forgery).' =>
             '',
         'Queue view' => '',
@@ -3734,7 +3730,6 @@ sub Data {
             '',
         'Set the maximum height (in pixels) of inline HTML articles in AgentTicketZoom.' =>
             '',
-        'Set this ticket to pending' => '',
         'Set this to yes if you trust in all your public and private pgp keys, even if they are not certified with a trusted signature.' =>
             '',
         'Sets if ticket owner must be selected by the agent.' => '',
@@ -4017,7 +4012,6 @@ sub Data {
             '',
         'Shows the message of the day on login screen of the agent interface.' =>
             '',
-        'Shows the ticket history' => '',
         'Shows the ticket history (reverse ordered) in the agent interface.' =>
             '',
         'Shows the ticket priority options in the close ticket screen of the agent interface.' =>
@@ -4215,6 +4209,7 @@ sub Data {
         'Add a new State.' => 'Thêm trạng thái mới.',
         'Add a new System Address.' => 'Thêm địa chỉ hệ thống mới.',
         'Add a new Type.' => 'Thêm loại mới.',
+        'Add a note to this ticket!' => 'Thêm lưu ý đối với thẻ này!',
         'Add note to ticket' => 'Thêm lưu ý cho thẻ',
         'Added User "%s"' => 'Người dùng "%s" đã được thêm.',
         'Admin-Area' => 'Khu vực dành cho quản trị',
@@ -4254,6 +4249,9 @@ sub Data {
         'Change owner of ticket' => 'Thay đổi phụ trách thẻ',
         'Change priority of ticket' => 'Thay đổi mức độ ưu tiên của thẻ',
         'Change responsible of ticket' => 'Thay đổi người chịu trách nhiệm của thẻ',
+        'Change the ticket customer!' => 'Thay đổi khách hàng thẻ!',
+        'Change the ticket owner!' => 'Thay đổi phụ trách thẻ!',
+        'Change the ticket priority!' => 'Thay đổi ưu tiên thẻ',
         'Change user <-> group settings' => 'Thay đổi người dùng <-> các thiết đặt nhóm',
         'ChangeLog' => 'Bản ghi thay đổi',
         'Child-Object' => 'Đối tượng con',
@@ -4261,6 +4259,7 @@ sub Data {
         'Clear From' => 'Xóa từ',
         'Clear To' => 'Xóa tới',
         'Click here to report a bug!' => 'Nhấn chuột vào đây để gửi báo cáo lỗi!',
+        'Close this ticket!' => 'Đóng thẻ này!',
         'Close ticket' => 'Đóng thẻ',
         'Close type' => 'Đóng loại',
         'Close!' => 'Đóng!',
@@ -4305,6 +4304,7 @@ sub Data {
         'Default Charset' => 'Mã ký tự mặc định',
         'Default Language' => 'Ngôn ngữ mặc định',
         'Delete old database' => 'Xóa cơ sở dữ liệu cũ',
+        'Delete this ticket!' => 'Xóa thẻ này!',
         'Detail' => 'Chi tiết',
         'Diff' => 'Khác nhau',
         'Discard all changes and return to the compose screen' => 'Từ bỏ mọi thay đổi và trở lại màn hình soạn',
@@ -4383,6 +4383,7 @@ sub Data {
         'Keyword' => 'Từ khóa',
         'Keywords' => 'Từ khóa',
         'Last update' => 'Lần cập nhật trước',
+        'Link this ticket to an other objects!' => 'Liên kết thẻ này với các đối tượng khác!',
         'Load' => 'Tải',
         'Load Settings' => 'Các thiết đặt tải',
         'Lock it to work on it!' => 'Khóa để làm việc trên đó!',
@@ -4394,6 +4395,7 @@ sub Data {
         'Mail Management' => 'Quản trị mail',
         'Mailbox' => 'Hộp mail',
         'Match' => 'Kết hợp',
+        'Merge this ticket!' => 'Trộn thẻ này!',
         'Message for new Owner' => 'Tin nhắn cho phụ trách mới',
         'Message sent to' => 'Tin nhắn được gửi tới',
         'Misc' => 'Khác',
@@ -4480,6 +4482,7 @@ sub Data {
         'Permissions to change the ticket owner in this group/queue.' => 'Các quyền để thay đổi phụ trách thẻ trong nhóm/hàng đợi này.',
         'PhoneView' => 'Xem số điện thoại',
         'Please contact your admin' => 'Hãy liên hệ với quản trị hệ thống của bạn',
+        'Print this ticket!' => 'In thẻ này!',
         'Prio' => 'Ưu tiên',
         'Process-Path' => 'Đường dẫn quy trình',
         'Product' => 'Sản phẩm',
@@ -4528,7 +4531,9 @@ sub Data {
         'Service-Name' => 'Tên dịch vụ',
         'Sessions' => 'Các phiên',
         'Set customer user and customer id of a ticket' => 'Thiết đặt mã khách hàng và người dùng khách hàng của thẻ',
+        'Set this ticket to pending!' => 'Thiết đặt treo thẻ này!',
         'Show' => 'Hiển thị',
+        'Shows the ticket history!' => 'Xem lịch sử thẻ!',
         'Site' => 'Site',
         'Solution' => 'Giải pháp',
         'Sort by' => 'Sắp xếp theo',

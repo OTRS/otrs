@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # Copyright (C) 2011 Damir Dzeko <damir punkt dzeko masterspace inet.hr>
 # --
-# $Id: hr.pm,v 1.16 2012-01-26 20:43:22 mg Exp $
+# $Id: hr.pm,v 1.17 2012-02-02 16:11:46 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,13 +19,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-01-26 21:37:44
+    # Last translation file sync: 2012-02-02 17:08:28
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -687,19 +687,22 @@ sub Data {
         'Unwatch' => 'Prekini promatranje',
         'Lock it to work on it' => '',
         'Unlock to give it back to the queue' => '',
-        'Shows the ticket history!' => 'Prikaži dnevnik kartice!',
-        'Print this ticket!' => 'Tiskaj ovau karticu!',
-        'Change the ticket priority!' => 'Promijeni prioritet kartice',
+        'Show the ticket history' => '',
+        'Print this ticket' => '',
+        'Print this article' => '',
+        'Split this article' => '',
+        'Forward article via mail' => '',
+        'Change the ticket priority' => '',
         'Change the ticket free fields!' => 'Promijeni slobodna polja kartice',
-        'Link this ticket to an other objects!' => 'Poveži ovu karticu sa drugim objektima!',
-        'Change the ticket owner!' => 'Promijeni vlasnika kartice!',
-        'Change the ticket customer!' => 'Promijeni korisnika za karticu!',
-        'Add a note to this ticket!' => 'Dodaj napomenu ovoj kartici!',
-        'Merge this ticket!' => 'Spoji ovu karticu!',
-        'Set this ticket to pending!' => 'Stavi ovu karticu na čekanje!',
-        'Close this ticket!' => 'Zatvori ovu karticu!',
+        'Link this ticket to other objects' => '',
+        'Change the owner for this ticket' => '',
+        'Change the  customer for this ticket' => '',
+        'Add a note to this ticket' => '',
+        'Merge into a different ticket' => '',
+        'Set this ticket to pending' => '',
+        'Close this ticket' => '',
         'Look into a ticket!' => 'Pogledaj sadržaj kartice!',
-        'Delete this ticket!' => 'Obriši ovu karticu!',
+        'Delete this ticket' => '',
         'Mark as Spam!' => 'Označi kao SPAM!',
         'My Queues' => 'Moji repovi',
         'Shown Tickets' => 'prikazane kartice',
@@ -2473,7 +2476,6 @@ sub Data {
         'Activates the ticket archive system to have a faster system by moving some tickets out of the daily scope. To search for these tickets, the archive flag has to be enabled in the ticket search.' =>
             'Aktivira arhivski sustav radi ubrzanja rada, uklanjanjem nekih kartica iz dnevnog praćenja. Za pronalazak kartica, označena arhiva mora biti omogućena za pretragu kartica.',
         'Activates time accounting.' => 'Aktivira mjerenje vremena.',
-        'Add a note to this ticket' => '',
         'Adds a suffix with the actual year and month to the OTRS log file. A logfile for every month will be created.' =>
             '',
         'Adds customers email addresses to recipients in the ticket compose screen of the agent interface.' =>
@@ -2577,15 +2579,13 @@ sub Data {
         'Change queue!' => 'Promjena repa!',
         'Change the customer for this ticket' => '',
         'Change the free fields for this ticket' => '',
-        'Change the owner for this ticket' => '',
+        'Change the priority for this ticket' => '',
         'Change the responsible person for this ticket' => '',
-        'Change the ticket priority' => '',
         'Changes the owner of tickets to everyone (useful for ASP). Normally only agent with rw permissions in the queue of the ticket will be shown.' =>
             '',
         'Checkbox' => '',
         'Checks the SystemID in ticket number detection for follow-ups (use "No" if SystemID has been changed after using the system).' =>
             '',
-        'Close this ticket' => '',
         'Closed tickets of customer' => '',
         'Comment for new history entries in the customer interface.' => 'Komentar za nove povijesne unose u korisničkom sučelju.',
         'Companies' => 'Tvrtke',
@@ -3179,7 +3179,6 @@ sub Data {
         'Defines wich article type should be expanded when entering the overview. If nothing defined, latest article will be expanded.' =>
             '',
         'Delay time between autocomplete queries in milliseconds.' => '',
-        'Delete this ticket' => '',
         'Deletes a session if the session id is used with an invalid remote IP address.' =>
             '',
         'Deletes requested sessions if they have timed out.' => '',
@@ -3498,7 +3497,6 @@ sub Data {
         'Link queues to auto responses.' => 'Poveži repove s automatskim odgovorima.',
         'Link responses to queues.' => 'Poveži odgovore s repovima.',
         'Link roles to groups.' => 'Poveži uloge sa grupama.',
-        'Link this ticket to other objects' => '',
         'Links 2 tickets with a "Normal" type link.' => '',
         'Links 2 tickets with a "ParentChild" type link.' => '',
         'List of CSS files to always be loaded for the agent interface.' =>
@@ -3549,7 +3547,6 @@ sub Data {
             '',
         'Maximum size (in characters) of the customer information table in the ticket zoom view.' =>
             '',
-        'Merge into a different ticket' => '',
         'Module for To-selection in new ticket screen in the customer interface.' =>
             '',
         'Module to check customer permissions.' => 'Modul za proveru korisničkih dozvola.',
@@ -3661,7 +3658,6 @@ sub Data {
         'Picture-Upload' => '',
         'PostMaster Filters' => 'PostMaster filtri',
         'PostMaster Mail Accounts' => 'PostMaster računi E-pošte',
-        'Print this ticket' => '',
         'Protection against CSRF (Cross Site Request Forgery) exploits (for more info see http://en.wikipedia.org/wiki/Cross-site_request_forgery).' =>
             '',
         'Queue view' => 'Pregled repa',
@@ -3739,7 +3735,6 @@ sub Data {
             '',
         'Set the maximum height (in pixels) of inline HTML articles in AgentTicketZoom.' =>
             '',
-        'Set this ticket to pending' => '',
         'Set this to yes if you trust in all your public and private pgp keys, even if they are not certified with a trusted signature.' =>
             '',
         'Sets if ticket owner must be selected by the agent.' => '',
@@ -4022,7 +4017,6 @@ sub Data {
             '',
         'Shows the message of the day on login screen of the agent interface.' =>
             '',
-        'Shows the ticket history' => '',
         'Shows the ticket history (reverse ordered) in the agent interface.' =>
             '',
         'Shows the ticket priority options in the close ticket screen of the agent interface.' =>
@@ -4225,6 +4219,7 @@ sub Data {
         'Add a new System Address.' => 'Dodaj novu sistemsku adresu.',
         'Add a new Type.' => 'Dodaj novi tip.',
         'Add a new salutation' => 'Dodaj novi pozdrav',
+        'Add a note to this ticket!' => 'Dodaj napomenu ovoj kartici!',
         'Add new attachment' => 'Dodaj novi prilog',
         'Add note to ticket' => 'Dodaj kartici napomenu',
         'Add to list of subscribed tickets' => 'Dodaj na listu pretplate',
@@ -4342,6 +4337,9 @@ sub Data {
         'Change owner of ticket' => 'Promeni vlasnika kartice',
         'Change priority of ticket' => 'Promeni prioritet kartice',
         'Change responsible of ticket' => 'Promeni odgovornog za karticu',
+        'Change the ticket customer!' => 'Promijeni korisnika za karticu!',
+        'Change the ticket owner!' => 'Promijeni vlasnika kartice!',
+        'Change the ticket priority!' => 'Promijeni prioritet kartice',
         'Change the ticket responsible!' => 'Promjena odgovornog za karticu!',
         'Change user <-> group settings' => 'Promena korisnika <-> Podešavanje grupe',
         'ChangeLog' => 'Dnevnik promena',
@@ -4355,6 +4353,7 @@ sub Data {
         'Clear To' => 'Obriši Za:',
         'Click here to report a bug!' => 'Kliknite ovde za prijavu greške!',
         'Close Times' => 'Vremena zatvaranja',
+        'Close this ticket!' => 'Zatvori ovu karticu!',
         'Close ticket' => 'Zatvori karticu',
         'Close type' => 'Tip zatvaranja',
         'Close!' => 'Zatvori!',
@@ -4595,6 +4594,7 @@ sub Data {
             'Određuje da li je slobodno polje vremena broj 6 opciono ili ne.',
         'Delay time between autocomplete queries.' => 'Vreme zadržavanja između samokompletirajućih upita.',
         'Delete old database' => 'Obriši staru bazu podataka',
+        'Delete this ticket!' => 'Obriši ovu karticu!',
         'Detail' => 'Detalji',
         'Diff' => 'Razlike',
         'Discard all changes and return to the compose screen' => 'Odustanite od svih promena i vratite se na prozor za pisanje.',
@@ -4692,6 +4692,7 @@ sub Data {
         'Last update' => 'Poslednje ažuriranje',
         'Lastname{CustomerUser}' => 'Prezime (korisnik)',
         'Link Table' => 'Tabela veza',
+        'Link this ticket to an other objects!' => 'Poveži ovu karticu sa drugim objektima!',
         'Link this ticket to other objects!' => 'Poveži ovu karticu sa drugim objektima!',
         'Link to Parent' => 'Poveži sa roditeljem',
         'LinkType' => 'Tip veze',
@@ -4710,6 +4711,7 @@ sub Data {
         'Match' => 'Poklapanje',
         'Max. displayed tickets' => 'Maksimalni broj prikazanih kartica',
         'Max. shown Tickets a page' => 'Maksimalni broj kartice po strani',
+        'Merge this ticket!' => 'Spoji ovu karticu!',
         'Message for new Owner' => 'Poruka za novog vlasnika',
         'Message sent to' => 'Poruka poslata za',
         'Misc' => 'Ostalo',
@@ -4806,6 +4808,7 @@ sub Data {
         'Please contact your admin' => 'Molimo kontaktirajte vašeg administratora',
         'Please enter subject.' => 'Molimo unesite predmet poruke.',
         'Please fill out this form to recieve login credentials.' => 'Molimo, popunite ovaj obrazac kako bi ste dobili podatke za prijavu.',
+        'Print this ticket!' => 'Tiskaj ovau karticu!',
         'Prio' => 'Prioritet',
         'Process-Path' => 'Proces-staza',
         'Product' => 'Proizvod',
@@ -4872,7 +4875,9 @@ sub Data {
         'Service-Name' => 'Naziv servisa',
         'Sessions' => 'Sesije',
         'Set customer user and customer id of a ticket' => 'Podesi korisnika i korisnički ID za karticu',
+        'Set this ticket to pending!' => 'Stavi ovu karticu na čekanje!',
         'Show' => 'Prikaži',
+        'Shows the ticket history!' => 'Prikaži dnevnik kartice!',
         'Site' => 'Stranica',
         'Solution' => 'Rješenje',
         'Some result formats are disabled because at least one needed package is not installed. Please contact your administrator.' =>

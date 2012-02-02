@@ -2,7 +2,7 @@
 # Kernel/Language/uk.pm - provides ru language translation
 # Copyright (C) 2010 Бельский Артем
 # --
-# $Id: uk.pm,v 1.32 2012-01-26 20:43:24 mg Exp $
+# $Id: uk.pm,v 1.33 2012-02-02 16:11:46 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.32 $) [1];
+$VERSION = qw($Revision: 1.33 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-01-26 21:38:03
+    # Last translation file sync: 2012-02-02 17:08:49
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -683,19 +683,22 @@ sub Data {
         'Unwatch' => '',
         'Lock it to work on it' => '',
         'Unlock to give it back to the queue' => '',
-        'Shows the ticket history!' => 'Показати історію заявки!',
-        'Print this ticket!' => 'Друк заявки!',
-        'Change the ticket priority!' => 'Змінити пріоритет!',
+        'Show the ticket history' => '',
+        'Print this ticket' => '',
+        'Print this article' => '',
+        'Split this article' => '',
+        'Forward article via mail' => '',
+        'Change the ticket priority' => '',
         'Change the ticket free fields!' => 'Змінити вільні поля заявки!',
-        'Link this ticket to an other objects!' => 'Зв\'язати заявку з іншими об\'єктами!',
-        'Change the ticket owner!' => 'Змінити власника!',
-        'Change the ticket customer!' => 'Змінити клієнта!',
-        'Add a note to this ticket!' => 'Додати замітку до заявки!',
-        'Merge this ticket!' => 'Об\'єднати заявку',
-        'Set this ticket to pending!' => 'Поставити цю заявку в режим очікування!',
-        'Close this ticket!' => 'Закрити заявку!',
+        'Link this ticket to other objects' => '',
+        'Change the owner for this ticket' => '',
+        'Change the  customer for this ticket' => '',
+        'Add a note to this ticket' => '',
+        'Merge into a different ticket' => '',
+        'Set this ticket to pending' => '',
+        'Close this ticket' => '',
         'Look into a ticket!' => 'Переглянути заявку!',
-        'Delete this ticket!' => 'Вилучити заявку!',
+        'Delete this ticket' => '',
         'Mark as Spam!' => 'Позначити як спам!',
         'My Queues' => 'Мої черги',
         'Shown Tickets' => 'Показувані заявки',
@@ -2469,7 +2472,6 @@ sub Data {
         'Activates the ticket archive system to have a faster system by moving some tickets out of the daily scope. To search for these tickets, the archive flag has to be enabled in the ticket search.' =>
             '',
         'Activates time accounting.' => '',
-        'Add a note to this ticket' => '',
         'Adds a suffix with the actual year and month to the OTRS log file. A logfile for every month will be created.' =>
             '',
         'Adds customers email addresses to recipients in the ticket compose screen of the agent interface.' =>
@@ -2573,15 +2575,13 @@ sub Data {
         'Change queue!' => '',
         'Change the customer for this ticket' => '',
         'Change the free fields for this ticket' => '',
-        'Change the owner for this ticket' => '',
+        'Change the priority for this ticket' => '',
         'Change the responsible person for this ticket' => '',
-        'Change the ticket priority' => '',
         'Changes the owner of tickets to everyone (useful for ASP). Normally only agent with rw permissions in the queue of the ticket will be shown.' =>
             '',
         'Checkbox' => '',
         'Checks the SystemID in ticket number detection for follow-ups (use "No" if SystemID has been changed after using the system).' =>
             '',
-        'Close this ticket' => '',
         'Closed tickets of customer' => '',
         'Comment for new history entries in the customer interface.' => '',
         'Companies' => '',
@@ -3175,7 +3175,6 @@ sub Data {
         'Defines wich article type should be expanded when entering the overview. If nothing defined, latest article will be expanded.' =>
             '',
         'Delay time between autocomplete queries in milliseconds.' => '',
-        'Delete this ticket' => '',
         'Deletes a session if the session id is used with an invalid remote IP address.' =>
             '',
         'Deletes requested sessions if they have timed out.' => '',
@@ -3494,7 +3493,6 @@ sub Data {
         'Link queues to auto responses.' => '',
         'Link responses to queues.' => 'Зв\'язати відповіді із чергами.',
         'Link roles to groups.' => '',
-        'Link this ticket to other objects' => '',
         'Links 2 tickets with a "Normal" type link.' => '',
         'Links 2 tickets with a "ParentChild" type link.' => '',
         'List of CSS files to always be loaded for the agent interface.' =>
@@ -3545,7 +3543,6 @@ sub Data {
             '',
         'Maximum size (in characters) of the customer information table in the ticket zoom view.' =>
             '',
-        'Merge into a different ticket' => '',
         'Module for To-selection in new ticket screen in the customer interface.' =>
             '',
         'Module to check customer permissions.' => 'Модуль для перевірки прав клієнта.',
@@ -3657,7 +3654,6 @@ sub Data {
         'Picture-Upload' => '',
         'PostMaster Filters' => '',
         'PostMaster Mail Accounts' => '',
-        'Print this ticket' => '',
         'Protection against CSRF (Cross Site Request Forgery) exploits (for more info see http://en.wikipedia.org/wiki/Cross-site_request_forgery).' =>
             '',
         'Queue view' => 'Перегляд черги',
@@ -3735,7 +3731,6 @@ sub Data {
             '',
         'Set the maximum height (in pixels) of inline HTML articles in AgentTicketZoom.' =>
             '',
-        'Set this ticket to pending' => '',
         'Set this to yes if you trust in all your public and private pgp keys, even if they are not certified with a trusted signature.' =>
             '',
         'Sets if ticket owner must be selected by the agent.' => '',
@@ -4018,7 +4013,6 @@ sub Data {
             '',
         'Shows the message of the day on login screen of the agent interface.' =>
             '',
-        'Shows the ticket history' => '',
         'Shows the ticket history (reverse ordered) in the agent interface.' =>
             '',
         'Shows the ticket priority options in the close ticket screen of the agent interface.' =>
@@ -4227,6 +4221,7 @@ sub Data {
         'Add a new System Address.' => 'Додати нову системну адресу',
         'Add a new Type.' => 'Додати тип',
         'Add a new salutation' => 'Додати нове вітання',
+        'Add a note to this ticket!' => 'Додати замітку до заявки!',
         'Add new attachment' => 'Додати нове вкладення',
         'Add note to ticket' => 'Додати замітку до заявки',
         'Add to list of subscribed tickets' => 'Додати до списку подписки заявок',
@@ -4286,6 +4281,9 @@ sub Data {
         'Change priority of ticket' => 'Змінити пріоритет заявки',
         'Change responsible of ticket' => 'Перемінити відповідального за заявку',
         'Change setting' => 'Змінити параметри',
+        'Change the ticket customer!' => 'Змінити клієнта!',
+        'Change the ticket owner!' => 'Змінити власника!',
+        'Change the ticket priority!' => 'Змінити пріоритет!',
         'Change user <-> group settings' => 'Групи користувачів',
         'Change users <-> roles settings' => 'Змінити розподілу ролей по користувачах',
         'Changelog' => 'Журнал змін',
@@ -4295,6 +4293,7 @@ sub Data {
         'Clear To' => 'Очистити',
         'Click here to report a bug!' => 'Відправити повідомлення про помилку!',
         'Close Times' => 'Час закриття',
+        'Close this ticket!' => 'Закрити заявку!',
         'Close ticket' => 'Закрити заявку',
         'Close type' => 'Тип закриття',
         'Close!' => 'Закрити!',
@@ -4341,6 +4340,7 @@ sub Data {
         'Default' => ' За замовчуванням',
         'Default Charset' => 'Кодування за замовчуванням',
         'Default Language' => 'Мова за замовчуванням',
+        'Delete this ticket!' => 'Вилучити заявку!',
         'Detail' => 'Докладно',
         'Diff' => 'Diff',
         'Discard all changes and return to the compose screen' => 'Відмовитися від усіх змін і повернутися у вікно складання листа',
@@ -4466,6 +4466,7 @@ sub Data {
         'Last update' => 'Остання зміна',
         'Link auto responses to queues.' => 'Зв\'язати автовідповіді із чергами.',
         'Link groups to roles.' => 'Зв\'язати групи з ролями',
+        'Link this ticket to an other objects!' => 'Зв\'язати заявку з іншими об\'єктами!',
         'Link to Parent' => 'Зв\'язати з батьківським об\'єктом',
         'Linked as' => 'Зв\'язаний як',
         'Load Settings' => 'Застосувати конфігурацію з файлу',
@@ -4485,6 +4486,7 @@ sub Data {
         'Max. displayed tickets' => 'Заявок на сторінку',
         'Max. shown Tickets a page' => 'Заявок на сторінку',
         'Max. shown Tickets a page in Queueview.' => 'Максимальна кількість заявок при перегляді черги',
+        'Merge this ticket!' => 'Об\'єднати заявку',
         'Message for new Owner' => 'Повідомлення для нового власника',
         'Message sent to' => 'Повідомлення відправлене для',
         'Misc' => 'Додатково',
@@ -4593,6 +4595,7 @@ sub Data {
         'Postmaster Filters' => 'Фільтри постмайстру',
         'Postmaster Mail Accounts' => 'Поштові аккаунти постмайстру',
         'Primarykey' => 'Первинний ключ',
+        'Print this ticket!' => 'Друк заявки!',
         'Prio' => 'Пріоритет',
         'Problem' => 'Проблема',
         'Queue <-> Auto Responses Management' => 'Автовідповіді в черзі',
@@ -4661,7 +4664,9 @@ sub Data {
         'Sessions' => 'Сеанси',
         'Set customer user and customer id of a ticket' => 'Указати користувача клієнта й ідентифікатор користувача заявки',
         'Set new SLA' => 'Установити новий SLA',
+        'Set this ticket to pending!' => 'Поставити цю заявку в режим очікування!',
         'Show' => 'Показати',
+        'Shows the ticket history!' => 'Показати історію заявки!',
         'Site' => 'Місце',
         'Solution' => 'Розв\'язок',
         'Sort by' => 'Сортування по',

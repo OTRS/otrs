@@ -8,7 +8,7 @@
 # Copyright (C) 2010 Ton van Boven <ton 'at' avebo.nl>
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: nl.pm,v 1.176 2012-01-27 13:10:56 mb Exp $
+# $Id: nl.pm,v 1.177 2012-02-02 16:11:50 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -28,13 +28,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.176 $) [1];
+$VERSION = qw($Revision: 1.177 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-01-27 14:02:14
+    # Last translation file sync: 2012-02-02 17:08:36
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2572,8 +2572,6 @@ sub Data {
             '',
         'Automatically sets the responsible of a ticket (if it is not set yet) after the first owner update.' =>
             '',
-        'Automatically sets the ticket state to open if the ticket state is new and the ticket is touched by an agent.' =>
-            '',
         'Balanced white skin by Felix Niklas.' => '',
         'Blocks all the incoming emails that do not have a valid ticket number in subject with From: @example.com address.' =>
             '',
@@ -2634,10 +2632,6 @@ sub Data {
         'Create new email ticket and send this out (outbound)' => 'Maak een nieuw ticket en verstuur hiervan een mail (uitgaand)',
         'Create new phone ticket (inbound)' => 'Maak een nieuw telefoon ticket aan (inkomend)',
         'Custom text for the page shown to customers that have no tickets yet.' =>
-            '',
-        'Customer item (icon) which shows the All tickets of this customer as info block.' =>
-            '',
-        'Customer item (icon) which shows the closed tickets of this customer as info block.' =>
             '',
         'Customer item (icon) which shows the closed tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
             '',
@@ -3354,7 +3348,6 @@ sub Data {
             '',
         'Frontend module registration for the agent interface.' => '',
         'Frontend module registration for the customer interface.' => '',
-        'Frontend module registration for the public interface.' => '',
         'Frontend theme' => 'Thema',
         'GenericAgent' => 'Automatische taken',
         'GenericInterface Debugger GUI' => '',
