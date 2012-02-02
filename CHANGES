@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1758.2.216 2012-01-31 11:05:56 mg Exp $
+# $Id: CHANGES,v 1.1758.2.217 2012-02-02 21:34:03 des Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.12 ????-??-??
+ - 2012-02-02 Fixed bug#7972 - Some mails may not present HTML part when using rich viewing.
  - 2012-01-27 Fixed bug#2820 - Wide character in Syslog message causes Perl crash on utf8 systems.
  - 2012-01-23 Fixed bug#8019 - Ticket customer info widget has scroll bars
  - 2012-01-20 Fixed bug#8128 - Ticket Unwatch may lead to errorscreen.
