@@ -1,8 +1,8 @@
 # --
 # Kernel/System/HTMLUtils.pm - creating and modifying html strings
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: HTMLUtils.pm,v 1.27 2011-01-04 16:07:50 mg Exp $
+# $Id: HTMLUtils.pm,v 1.27.2.1 2012-02-02 21:23:25 des Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.27 $) [1];
+$VERSION = qw($Revision: 1.27.2.1 $) [1];
 
 =head1 NAME
 
@@ -957,7 +957,7 @@ sub Safety {
     # remove style/javascript parts
     if ( $Param{NoJavaScript} ) {
         $Safety{Replace} ||= ${$String} =~ s{
-            <style.+?javascript(.+?|)>(.*)</style>
+            <style[^>]+?javascript(.+?|)>(.*)</style>
         }
         {}sgxim;
     }
@@ -1051,6 +1051,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.27 $ $Date: 2011-01-04 16:07:50 $
+$Revision: 1.27.2.1 $ $Date: 2012-02-02 21:23:25 $
 
 =cut
