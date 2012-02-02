@@ -2,7 +2,7 @@
 # README - readme file of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: README,v 1.46 2012-01-11 23:23:23 cr Exp $
+# $Id: README,v 1.47 2012-02-02 16:02:34 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -32,7 +32,7 @@ Documentation:
   You can find quick documentation in README.* and the long version online at
   http://doc.otrs.org/.
 
-Software requirements?
+Software requirements:
 ======================
 
   Perl
@@ -47,7 +47,6 @@ Software requirements?
     * MySQL 4.1 or higher
     * PostgreSQL 8.0 or higher
     * Oracle 10g or higher
-    * DB2 8 or higher
     * Microsoft SQL Server 2005 or higher
 
 Directories & Files:
