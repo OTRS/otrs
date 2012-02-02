@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Thomas Kaltenbrunner <tkaltenbrunner at opc.de>
 # --
-# $Id: de.pm,v 1.313 2012-02-02 16:11:45 mg Exp $
+# $Id: de.pm,v 1.314 2012-02-02 16:31:00 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.313 $) [1];
+$VERSION = qw($Revision: 1.314 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -640,11 +640,11 @@ sub Data {
         '3 normal' => '3 normal',
         '4 high' => '4 hoch',
         '5 very high' => '5 sehr hoch',
-        'auto follow up' => '',
-        'auto reject' => '',
-        'auto remove' => '',
-        'auto reply' => '',
-        'auto reply/new ticket' => '',
+        'auto follow up' => 'automatische Rückfrage',
+        'auto reject' => 'automatische Ablehnung',
+        'auto remove' => 'automatisches Entfernen',
+        'auto reply' => 'automatische Antwort',
+        'auto reply/new ticket' => 'automatische Antwort / neues Ticket',
         'Ticket "%s" created!' => 'Ticket "%s" erstellt!',
         'Ticket Number' => 'Ticket Nummer',
         'Ticket Object' => 'Ticket Objekt',
@@ -683,22 +683,22 @@ sub Data {
         'Unwatch' => 'Nicht beobachten',
         'Lock it to work on it' => 'Zur Bearbeitung sperren',
         'Unlock to give it back to the queue' => 'Zur Rückgabe and die Queue entsperren',
-        'Show the ticket history' => '',
-        'Print this ticket' => '',
-        'Print this article' => '',
-        'Split this article' => '',
-        'Forward article via mail' => '',
-        'Change the ticket priority' => '',
+        'Show the ticket history' => 'Ticket-Historie anzeigen',
+        'Print this ticket' => 'Dieses Ticket drucken',
+        'Print this article' => 'Diesen Artikel drucken',
+        'Split this article' => 'Diesen Artikel teilen',
+        'Forward article via mail' => 'Artikel per E-Mail weiterleiten',
+        'Change the ticket priority' => 'Ticket-Priorität ändern',
         'Change the ticket free fields!' => 'Ändern der Ticket-Frei-Felder',
-        'Link this ticket to other objects' => '',
-        'Change the owner for this ticket' => '',
-        'Change the  customer for this ticket' => '',
-        'Add a note to this ticket' => '',
-        'Merge into a different ticket' => '',
-        'Set this ticket to pending' => '',
-        'Close this ticket' => '',
+        'Link this ticket to other objects' => 'Dieses Ticket mit anderen Objekten verknüpfen',
+        'Change the owner for this ticket' => 'Besitzer dieses Tickets ändern',
+        'Change the  customer for this ticket' => 'Kunden dieses Tickets ändern',
+        'Add a note to this ticket' => 'Eine Notiz zu diesem Ticket hinzufügen',
+        'Merge into a different ticket' => 'Mit einem anderen Ticket zusammenfassen',
+        'Set this ticket to pending' => 'Ticket auf "warten" setzen',
+        'Close this ticket' => 'Dieses Ticket schließen',
         'Look into a ticket!' => 'Ticket genauer ansehen!',
-        'Delete this ticket' => '',
+        'Delete this ticket' => 'Dieses Ticket löschen!',
         'Mark as Spam!' => 'Als Spam makieren!',
         'My Queues' => 'Meine Queues',
         'Shown Tickets' => 'Gezeigte Tickets',
@@ -731,7 +731,7 @@ sub Data {
             'Zusenden einer Mitteilung beim Verschieben eines Tickets in "Meine Queues".',
         'Send ticket move notifications' => 'Benachrichtigung beim Verschieben eines Tickets',
         'Your queue selection of your favourite queues. You also get notified about those queues via email if enabled.' =>
-            '',
+            'Die Auswahl ihrer favorisierten Queues. Sie werden auch per E-Mail über diese Queues benachrichtigt, wenn die Einstellung aktiv ist.',
         'Custom Queue' => 'Bevorzugte Queue',
         'QueueView refresh time' => 'Queue-Ansicht Aktualisierungszeit',
         'If enabled, the QueueView will automatically refresh after the specified time.' =>
@@ -882,7 +882,7 @@ sub Data {
             'Diese E-Mail-Adresse wird von der aktuellen Systemkonfiguration nicht zugelassen.',
         'This email address failed MX check.' => 'Für diese E-Mail-Adresse ist die MX-Prüfung fehlgeschlagen.',
         'DNS problem, please check your configuration and the error log.' =>
-            '',
+            'DNS-Problem, bitte prüfen Sie ihre Konfiguration und das Fehlerprotokoll.',
         'The syntax of this email address is incorrect.' => 'Die Syntax dieser E-Mail-Adresse ist fehlerhaft.',
 
         # Template: AdminCustomerUserGroup
@@ -1482,9 +1482,9 @@ sub Data {
         'Stop after match' => 'Stoppen nach Treffer',
         'Filter Condition' => 'Filterbedingung',
         'The field needs to be a valid regular expression or a literal word.' =>
-            '',
+            'Dieses Feld sollte einen gültigen regulären Ausdruck oder ein Wort enthalten.',
         'Set Email Headers' => 'E-Mail-Kopfzeilen setzen',
-        'The field needs to be a literal word.' => '',
+        'The field needs to be a literal word.' => 'Dieses Feld sollte ein Wort enthalten.',
 
         # Template: AdminPriority
         'Priority Management' => 'Priorität-Verwaltung',
@@ -1605,8 +1605,8 @@ sub Data {
         'S/MIME Management' => 'S/MIME-Verwaltung',
         'Add certificate' => 'Zertifikat hinzufügen',
         'Add private key' => 'Privaten Schlüssel hinzufügen',
-        'Filter for certificates' => '',
-        'Filter for SMIME certs' => '',
+        'Filter for certificates' => 'Filter für Zertifikate',
+        'Filter for SMIME certs' => 'Filter für SMIME-Zertifikate',
         'Here you can add relations to your private certificate, these will be embedded to the SMIME signature every time you use this certificate to sign an email.' =>
             '',
         'See also' => 'Siehe auch',
@@ -1770,7 +1770,7 @@ sub Data {
         'Edit Agent' => 'Agent bearbeiten',
         'Firstname' => 'Vorname',
         'Lastname' => 'Nachname',
-        'Password is required.' => '',
+        'Password is required.' => 'Das Passwort ist erforderlich.',
         'Start' => 'Start',
         'End' => 'Ende',
 
@@ -1794,8 +1794,8 @@ sub Data {
 
         # Template: AgentCustomerSearch
         'Search Customer' => 'Kunden suchen',
-        'Duplicated entry' => '',
-        'This address already exists on the address list.' => '',
+        'Duplicated entry' => 'Doppelter Eintrag',
+        'This address already exists on the address list.' => 'Dieser Eintrag existiert bereits in der Adressliste',
 
         # Template: AgentCustomerTableView
 
@@ -1971,7 +1971,7 @@ sub Data {
         # Template: AgentTicketActionPopupClose
 
         # Template: AgentTicketBounce
-        'Bounce Ticket' => '',
+        'Bounce Ticket' => 'Ticket umleiten',
         'Bounce to' => 'Umleiten an',
         'You need a email address.' => 'Sie benötigen eine E-Mail-Adresse',
         'Need a valid email address or don\'t use a local email address.' =>
@@ -1982,7 +1982,7 @@ sub Data {
 
         # Template: AgentTicketBulk
         'Ticket Bulk Action' => 'Ticket Sammelaktion',
-        'Send Email' => '',
+        'Send Email' => 'E-Mail versenden',
         'Merge to' => 'Zusammenfassen zu',
         'Invalid ticket identifier!' => 'Ungültiger Ticket-Identifizierer!',
         'Merge to oldest' => 'Zusammenfassen zu Ältestem',
@@ -1994,12 +1994,12 @@ sub Data {
 
         # Template: AgentTicketCompose
         'Compose answer for ticket' => 'Antwort erstellen für',
-        'Remove Ticket Customer' => '',
+        'Remove Ticket Customer' => 'Ticket-Kunden entfernen',
         'Please remove this entry and enter a new one with the correct value.' =>
-            '',
-        'Please include at least one recipient' => '',
-        'Remove Cc' => '',
-        'Remove Bcc' => '',
+            'Bitte entfernen Sie diesen Eintrag und geben Sie einen gültigen an.',
+        'Please include at least one recipient' => 'Bitte geben sie mindestens einen Empfänger an',
+        'Remove Cc' => 'Cc entfernen',
+        'Remove Bcc' => 'Bcc entfernen',
         'Address book' => 'Adressbuch',
         'Pending Date' => 'Warten bis',
         'for pending* states' => 'für warten* Status',
@@ -2013,14 +2013,14 @@ sub Data {
         # Template: AgentTicketEmail
         'Create New Email Ticket' => 'Neues E-Mail-Ticket anlegen',
         'From queue' => 'aus Queue',
-        'To customer' => '',
-        'Please include at least one customer for the ticket.' => '',
+        'To customer' => 'An Kunden',
+        'Please include at least one customer for the ticket.' => 'Bitte geben Sie mindestens einen Kunden für das Ticket an.',
         'Get all' => 'Alles holen',
 
         # Template: AgentTicketEscalation
 
         # Template: AgentTicketForward
-        'Forward ticket: %s - %s' => '',
+        'Forward ticket: %s - %s' => 'Ticket weiterleiten:  %s - %s',
         'Need a valid email address or don\'t use a local email address' =>
             'Benötige eine gültige E-Mail-Adresse, verwenden Sie keine lokale Adresse.',
 
@@ -2098,7 +2098,7 @@ sub Data {
         'Search template' => 'Suchvorlage',
         'Create Template' => 'Vorlage anlegen',
         'Create New' => 'Neue anlegen',
-        'Profile link' => '',
+        'Profile link' => 'Profil-Link',
         'Save changes in template' => 'Änderungen in der Vorlage speichern',
         'Add another attribute' => 'Ein weiteres Attribut hinzufügen',
         'Output' => 'Ausgabe',
@@ -2117,7 +2117,7 @@ sub Data {
         'Ticket Close Time (before/after)' => 'Ticket-Schließzeit (vor/nach)',
         'Ticket Close Time (between)' => 'Ticket-Schließzeit (zwischen)',
         'Archive Search' => 'Archivsuche',
-        'Run search' => '',
+        'Run search' => 'Suche starten',
 
         # Template: AgentTicketSearchOpenSearchDescriptionFulltext
 
@@ -2182,13 +2182,13 @@ sub Data {
         'Your User Name' => 'Ihr Benutzername',
         'A new password will be sent to your email address.' => 'Ein neues Passwort wird an Ihre E-Mail-Adresse gesendet.',
         'Create Account' => 'Konto erstellen',
-        'Please fill out this form to receive login credentials.' => '',
+        'Please fill out this form to receive login credentials.' => 'Bitte füllen Sie dieses Formular aus, um Ihre Anmeldedaten zu erhalten.',
         'How we should address you' => 'Wie sollen wir Sie ansprechen?',
         'Your First Name' => 'Ihr Vorname',
         'Please supply a first name' => 'Bitte geben Sie einen Vornamen an',
         'Your Last Name' => 'Ihr Nachname',
         'Please supply a last name' => 'Bitte geben Sie einen Nachnamen an',
-        'Your email address (this will become your username)' => '',
+        'Your email address (this will become your username)' => 'Ihre E-Mail-Adresse (das wird Ihr Benutzername)',
         'Please supply a' => 'Angabe notwendig:',
 
         # Template: CustomerNavigationBar
@@ -2218,15 +2218,15 @@ sub Data {
         'Recipient' => 'Empfänger',
         'Carbon Copy' => 'Kopie an',
         'Time restrictions' => 'Zeitbeschränkungen',
-        'No time settings' => '',
+        'No time settings' => 'Keine Zeiteinstellungen',
         'Only tickets created' => 'Nur Tickets, die erstellt wurden',
         'Only tickets created between' => 'Nur Tickets, die erstellt wurden zwischen',
-        'Ticket archive system' => '',
-        'Save search as template?' => '',
+        'Ticket archive system' => 'Ticket-Archivsystem',
+        'Save search as template?' => 'Suche als Vorlage speichern?',
         'Save as Template?' => 'Als Vorlage speichern?',
-        'Save as Template' => '',
+        'Save as Template' => 'Als Vorlage speichern',
         'Template Name' => 'Name der Vorlage',
-        'Pick a profile name' => '',
+        'Pick a profile name' => 'Profilnamen auswählen',
         'Output to' => 'Ausgabe nach',
 
         # Template: CustomerTicketSearchOpenSearchDescription
@@ -2370,7 +2370,7 @@ sub Data {
 
         # Template: InstallerRegistration
         'Organization' => 'Organisation',
-        'Position' => '',
+        'Position' => 'Position',
         'Complete registration and continue' => 'Registrierung abschließen und fortfahren',
         'Please fill in all fields marked as mandatory.' => 'Bitte füllen Sie alle Pflichtfelder aus.',
 
