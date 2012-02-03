@@ -2,15 +2,15 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2163 2012-02-03 07:15:14 mab Exp $
+# $Id: CHANGES,v 1.2164 2012-02-03 07:33:59 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-3.1.0.rc1 2012-02-??
- - 2012-02-03 Fixed bug#8171 - Table rows have different heights
+3.1.0.rc1 2012-02-07
+ - 2012-02-03 Fixed bug#8171 - Table rows have different heights.
  - 2012-02-02 Fixed bug#7937 - HTMLUtils.pm ignore to much of e-mail source code.
  - 2012-02-02 Fixed bug#7972 - Some mails may not present HTML part when using rich viewing.
  - 2012-02-02 Fixed bug#8179 - DynamicField backend DateTime renders timestamps with seconds.
