@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.140 2011-12-14 19:03:14 mb Exp $
+# $Id: LayoutTicket.pm,v 1.141 2012-02-03 18:30:00 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.140 $) [1];
+$VERSION = qw($Revision: 1.141 $) [1];
 
 sub AgentCustomerViewTable {
     my ( $Self, %Param ) = @_;
@@ -285,7 +285,20 @@ sub AgentQueueListOption {
                 # integrate the not selectable parent and root queues of this queue
                 # useful for ACLs and complex permission settings
                 for my $Index ( 0 .. ( scalar @Queue - 2 ) ) {
-                    if ( !$DisabledQueueAlreadyUsed{ $Queue[$Index] } ) {
+
+                    # get the Full Queue Name (with all it's parents separed by '::') this will
+                    # make a unique name and will be used to set the %DisabledQueueAlreadyUsed
+                    # using unique names will prevent erroneous hide of Sub-Queues with the
+                    # same name, refer to bug#8148
+                    my $FullQueueName;
+                    for my $Counter ( 0 .. $Index ) {
+                        $FullQueueName .= $Queue[$Counter];
+                        if ( int $Counter < int $Index ) {
+                            $FullQueueName .= '::';
+                        }
+                    }
+
+                    if ( !$DisabledQueueAlreadyUsed{$FullQueueName} ) {
                         my $DSpace               = '&nbsp;&nbsp;' x $Index;
                         my $OptionTitleHTMLValue = '';
                         if ($OptionTitle) {
@@ -301,7 +314,7 @@ sub AgentQueueListOption {
                             . $DSpace
                             . $Queue[$Index]
                             . "</option>\n";
-                        $DisabledQueueAlreadyUsed{ $Queue[$Index] } = 1;
+                        $DisabledQueueAlreadyUsed{$FullQueueName} = 1;
                     }
                 }
             }
