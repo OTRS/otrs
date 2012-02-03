@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.LoaderCache.pl - the global test handle
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.LoaderCache.pl,v 1.3 2011-03-25 13:53:58 ep Exp $
+# $Id: otrs.LoaderCache.pl,v 1.4 2012-02-03 14:26:37 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -83,10 +83,10 @@ if ( $Opts{o} && lc( $Opts{o} ) eq 'delete' ) {
     else {
         print "No file was deleted.\n";
     }
-    exit 1;
+    exit 0;
 }
 else {
     PrintHelp();
 }
 
-exit(0);
+exit 1;
