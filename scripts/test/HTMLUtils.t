@@ -2,7 +2,7 @@
 # HTMLUtils.t - HTMLUtils tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: HTMLUtils.t,v 1.40 2012-02-07 12:11:10 des Exp $
+# $Id: HTMLUtils.t,v 1.41 2012-02-07 13:17:22 des Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -1147,6 +1147,17 @@ PT
         },
         Name =>
             'Safety - Test for bug#7972 - Some mails may not present HTML part when using rich viewing.'
+    },
+    {
+        Input =>
+            '<html><head><style type="text/javascript"> alert("some evil stuff!);</style><body>Important Text about "javascript"!<style type="text/css"> #some_more_css{ color: #00FF00 } </style> Some more text.</body></html>',
+        Result => {
+            Output =>
+                '<html><head><body>Important Text about "javascript"!<style type="text/css"> #some_more_css{ color: #00FF00 } </style> Some more text.</body></html>',
+            Replace => 1,
+        },
+        Name =>
+            'Safety - Additional test for bug#7972 - Some mails may not present HTML part when using rich viewing.'
     },
 );
 
