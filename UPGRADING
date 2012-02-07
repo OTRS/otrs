@@ -1,8 +1,8 @@
 # --
 # UPGRADING - Upgrading Instructions for OTRS
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: UPGRADING,v 1.65 2011-12-08 11:09:33 mg Exp $
+# $Id: UPGRADING,v 1.66 2012-02-07 14:10:57 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -171,6 +171,25 @@ how to upgrade the data types used by OTRS
 
     Please see the file /opt/otrs/scripts/apache2-httpd.include.conf for an example of
     where this new option needs to be added (inside the <IfModule mod_perl.c> block).
+
+    In this file, you will also note a new section on caching:
+
+    <IfModule mod_headers.c>
+        <Directory "/opt/otrs/var/httpd/htdocs/skins/*/*/css-cache">
+            <FilesMatch "\.(css|CSS)$">
+                Header set Cache-Control "max-age=2592000 must-revalidate"
+            </FilesMatch>
+        </Directory>
+
+        <Directory "/opt/otrs/var/httpd/htdocs/js/js-cache">
+            <FilesMatch "\.(js|JS)$">
+                Header set Cache-Control "max-age=2592000 must-revalidate"
+            </FilesMatch>
+        </Directory>
+    </IfModule>
+
+    Please activate this in your local installation too, and make sure that mod_headers
+    is installed and active.
 
 
 11) Restart your services
