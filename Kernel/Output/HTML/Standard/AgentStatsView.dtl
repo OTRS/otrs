@@ -1,8 +1,8 @@
 # --
 # AgentStatsView.dtl - provides HTML form for view stat screen
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStatsView.dtl,v 1.32.2.3 2011-03-17 15:12:18 ub Exp $
+# $Id: AgentStatsView.dtl,v 1.32.2.4 2012-02-09 19:00:42 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -57,7 +57,7 @@
             </div>
             <div class="Content">
 
-                <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
+                <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose" id="compose">
                     <input type="hidden" name="Action"    value="$Env{"Action"}"/>
                     <input type="hidden" name="Subaction" value="Run"/>
                     <input type="hidden" name="StatID"    value="$QData{"StatID"}"/>
@@ -249,7 +249,8 @@ $('#StartStatistic').bind('click', function (Event) {
         URL;
 
     if (Format === 'Print' && !PDFUsable) {
-        URL = '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Run;StatID=$QData{"StatID"};Format=' + $('#Format').val();
+        var Data = Core.AJAX.SerializeForm($('#compose'));
+        URL = '$Env{"Baselink"}' + Data;
         Core.UI.Popup.OpenPopup(URL, 'Statistic', 'Default');
         return false;
     }
