@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Ticket/TicketGet.pm - GenericInterface Ticket Get operation backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketGet.pm,v 1.11 2012-01-31 00:20:43 cg Exp $
+# $Id: TicketGet.pm,v 1.12 2012-02-09 03:03:34 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::GenericInterface::Operation::Ticket::Common;
 use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 =head1 NAME
 
@@ -186,7 +186,7 @@ one or more ticket entries in one call.
 
                     FirstLock                       (timestamp of first lock)
 
-                    Articles => [
+                    Article => [
                         {
                             ArticleID
                             From
@@ -210,26 +210,28 @@ one or more ticket entries in one call.
                             # If DynamicFields => 1 was passed, you'll get an entry like this for each dynamic field:
                             DynamicField_X     => 'value_x',
 
-                            Atms => {
-                                Content            => "xxxx",     # actual attachment contents, base64 enconded
-                                ContentAlternative => "",
-                                ContentID          => "",
-                                ContentType        => "application/pdf",
-                                Filename           => "StdAttachment-Test1.pdf",
-                                Filesize           => "4.6 KBytes",
-                                FilesizeRaw        => 4722,
-                            },
-                            {
-                                . . .
-                            },
+                            Attachment => [
+                                {
+                                    Content            => "xxxx",     # actual attachment contents, base64 enconded
+                                    ContentAlternative => "",
+                                    ContentID          => "",
+                                    ContentType        => "application/pdf",
+                                    Filename           => "StdAttachment-Test1.pdf",
+                                    Filesize           => "4.6 KBytes",
+                                    FilesizeRaw        => 4722,
+                                },
+                                {
+                                   # . . .
+                                },
+                            ]
                         },
                         {
-                            . . .
+                            #. . .
                         },
                     ],
                 },
                 {
-                    . . .
+                    #. . .
                 },
             ]
         },
@@ -311,7 +313,7 @@ sub Run {
 
         # set Ticket entry data
         my $TicketBundle = {
-            Ticket => \%TicketEntry,
+            %TicketEntry,
         };
 
         if ( !$AllArticles ) {
@@ -367,12 +369,12 @@ sub Run {
             }
 
             # set Attachments data
-            $Article->{Atms} = \@Attachments;
+            $Article->{Attachment} = \@Attachments;
 
         }    # finish article loop
 
         # set Ticket entry data
-        $TicketBundle->{Articles} = \@ArticleBox;
+        $TicketBundle->{Article} = \@ArticleBox;
 
         # add
         push @Item, $TicketBundle;
@@ -390,7 +392,7 @@ sub Run {
     }
 
     # set ticket data into return structure
-    $ReturnData->{Data}->{Item} = \@Item;
+    $ReturnData->{Data}->{Ticket} = \@Item;
 
     # return result
     return $ReturnData;
@@ -412,6 +414,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.11 $ $Date: 2012-01-31 00:20:43 $
+$Revision: 1.12 $ $Date: 2012-02-09 03:03:34 $
 
 =cut

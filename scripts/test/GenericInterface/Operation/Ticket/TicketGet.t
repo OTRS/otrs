@@ -2,7 +2,7 @@
 # TicketGet.t - TicketConnector interface tests for TicketConnector backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketGet.t,v 1.14 2012-01-25 18:01:43 cr Exp $
+# $Id: TicketGet.t,v 1.15 2012-02-09 03:03:34 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -606,7 +606,7 @@ for my $Article (@ArticleBox) {
     }
 
     # set Attachments data
-    $Article->{Atms} = \@Attachments;
+    $Article->{Attachment} = \@Attachments;
 
 }    # finish article loop
 
@@ -837,17 +837,17 @@ my @Tests        = (
         ExpectedReturnRemoteData => {
             Success => 1,
             Data    => {
-                Item => {
-                    Ticket => {%TicketEntryOne},
+                Ticket => {
+                    %TicketEntryOne,
                 },
             },
         },
         ExpectedReturnLocalData => {
             Success => 1,
             Data    => {
-                Item => [
+                Ticket => [
                     {
-                        Ticket => {%TicketEntryOne},
+                        %TicketEntryOne,
                     }
                 ],
             },
@@ -863,17 +863,17 @@ my @Tests        = (
         ExpectedReturnRemoteData => {
             Success => 1,
             Data    => {
-                Item => {
-                    Ticket => {%TicketEntryTwo},
+                Ticket => {
+                    %TicketEntryTwo,
                 },
             },
         },
         ExpectedReturnLocalData => {
             Success => 1,
             Data    => {
-                Item => [
+                Ticket => [
                     {
-                        Ticket => {%TicketEntryTwo},
+                        %TicketEntryTwo,
                     }
                 ],
             },
@@ -889,17 +889,17 @@ my @Tests        = (
         ExpectedReturnRemoteData => {
             Success => 1,
             Data    => {
-                Item => {
-                    Ticket => {%TicketEntryThree},
+                Ticket => {
+                    %TicketEntryThree,
                 },
             },
         },
         ExpectedReturnLocalData => {
             Success => 1,
             Data    => {
-                Item => [
+                Ticket => [
                     {
-                        Ticket => {%TicketEntryThree},
+                        %TicketEntryThree,
                     }
                 ],
             },
@@ -915,17 +915,17 @@ my @Tests        = (
         ExpectedReturnRemoteData => {
             Success => 1,
             Data    => {
-                Item => {
-                    Ticket => {%TicketEntryFour},
+                Ticket => {
+                    %TicketEntryFour,
                 },
             },
         },
         ExpectedReturnLocalData => {
             Success => 1,
             Data    => {
-                Item => [
+                Ticket => [
                     {
-                        Ticket => {%TicketEntryFour},
+                        %TicketEntryFour,
                     }
                 ],
             },
@@ -942,17 +942,17 @@ my @Tests        = (
         ExpectedReturnRemoteData => {
             Success => 1,
             Data    => {
-                Item => {
-                    Ticket => {%TicketEntryOneDF},
+                Ticket => {
+                    %TicketEntryOneDF,
                 },
             },
         },
         ExpectedReturnLocalData => {
             Success => 1,
             Data    => {
-                Item => [
+                Ticket => [
                     {
-                        Ticket => {%TicketEntryOneDF},
+                        %TicketEntryOneDF,
                     }
                 ],
             },
@@ -969,17 +969,17 @@ my @Tests        = (
         ExpectedReturnRemoteData => {
             Success => 1,
             Data    => {
-                Item => {
-                    Ticket => {%TicketEntryTwoDF},
+                Ticket => {
+                    %TicketEntryTwoDF,
                 },
             },
         },
         ExpectedReturnLocalData => {
             Success => 1,
             Data    => {
-                Item => [
+                Ticket => [
                     {
-                        Ticket => {%TicketEntryTwoDF},
+                        %TicketEntryTwoDF,
                     }
                 ],
             },
@@ -996,25 +996,25 @@ my @Tests        = (
         ExpectedReturnRemoteData => {
             Success => 1,
             Data    => {
-                Item => [
+                Ticket => [
                     {
-                        Ticket => {%TicketEntryOneDF},
+                        %TicketEntryOneDF,
                     },
                     {
-                        Ticket => {%TicketEntryTwoDF},
+                        %TicketEntryTwoDF,
                     },
-                    ]
+                ],
             },
         },
         ExpectedReturnLocalData => {
             Success => 1,
             Data    => {
-                Item => [
+                Ticket => [
                     {
-                        Ticket => {%TicketEntryOneDF},
+                        %TicketEntryOneDF,
                     },
                     {
-                        Ticket => {%TicketEntryTwoDF},
+                        %TicketEntryTwoDF,
                     },
                     ]
             },
@@ -1031,19 +1031,19 @@ my @Tests        = (
         ExpectedReturnRemoteData => {
             Success => 1,
             Data    => {
-                Item => {
-                    Ticket   => {%TicketEntryFour},
-                    Articles => \@ArticleWithoutAttachments,
+                Ticket => {
+                    %TicketEntryFour,
+                    Article => \@ArticleWithoutAttachments,
                 },
             },
         },
         ExpectedReturnLocalData => {
             Success => 1,
             Data    => {
-                Item => [
+                Ticket => [
                     {
-                        Ticket   => {%TicketEntryFour},
-                        Articles => \@ArticleWithoutAttachments,
+                        %TicketEntryFour,
+                        Article => \@ArticleWithoutAttachments,
                     }
                 ],
             },
@@ -1061,19 +1061,19 @@ my @Tests        = (
         ExpectedReturnRemoteData => {
             Success => 1,
             Data    => {
-                Item => {
-                    Ticket   => {%TicketEntryFour},
-                    Articles => \@ArticleBox,
+                Ticket => {
+                    %TicketEntryFour,
+                    Article => \@ArticleBox,
                 },
             },
         },
         ExpectedReturnLocalData => {
             Success => 1,
             Data    => {
-                Item => [
+                Ticket => [
                     {
-                        Ticket   => {%TicketEntryFour},
-                        Articles => \@ArticleBox,
+                        %TicketEntryFour,
+                        Article => \@ArticleBox,
                     }
                 ],
             },
@@ -1171,20 +1171,20 @@ for my $Test (@Tests) {
     # from SOAP call are a little bit different
     if ( $Test->{Operation} eq 'TicketGet' ) {
 
-        if ( ref $LocalResult->{Data}->{Item} eq 'ARRAY' ) {
-            for my $Item ( @{ $LocalResult->{Data}->{Item} } ) {
-                for my $Key ( keys %{ $Item->{Ticket} } ) {
-                    if ( !$Item->{Ticket}->{$Key} ) {
-                        $Item->{Ticket}->{$Key} = '';
+        if ( ref $LocalResult->{Data}->{Ticket} eq 'ARRAY' ) {
+            for my $Item ( @{ $LocalResult->{Data}->{Ticket} } ) {
+                for my $Key ( keys %{$Item} ) {
+                    if ( !$Item->{$Key} ) {
+                        $Item->{$Key} = '';
                     }
                     if ( $Key eq 'Age' ) {
-                        delete $Item->{Ticket}->{$Key};
+                        delete $Item->{$Key};
                     }
                 }
 
                 # Articles
-                if ( defined $Item->{Articles} ) {
-                    for my $Article ( @{ $Item->{Articles} } ) {
+                if ( defined $Item->{Article} ) {
+                    for my $Article ( @{ $Item->{Article} } ) {
                         for my $Key ( keys %{$Article} ) {
                             if ( !$Article->{$Key} ) {
                                 $Article->{$Key} = '';
@@ -1193,7 +1193,7 @@ for my $Test (@Tests) {
                                 delete $Article->{$Key};
                             }
 
-                            if ( $Key eq 'Atms' ) {
+                            if ( $Key eq 'Attachment' ) {
                                 for my $Atm ( @{ $Article->{$Key} } ) {
                                     $Atm->{ContentID}          = '';
                                     $Atm->{ContentAlternative} = '';
@@ -1208,34 +1208,34 @@ for my $Test (@Tests) {
 
         if (
             defined $RequesterResult->{Data}
-            && defined $RequesterResult->{Data}->{Item}
+            && defined $RequesterResult->{Data}->{Ticket}
             )
         {
-            if ( ref $RequesterResult->{Data}->{Item} eq 'ARRAY' ) {
-                for my $Item ( @{ $RequesterResult->{Data}->{Item} } ) {
-                    for my $Key ( keys %{ $Item->{Ticket} } ) {
-                        if ( !$Item->{Ticket}->{$Key} ) {
-                            $Item->{Ticket}->{$Key} = '';
+            if ( ref $RequesterResult->{Data}->{Ticket} eq 'ARRAY' ) {
+                for my $Item ( @{ $RequesterResult->{Data}->{Ticket} } ) {
+                    for my $Key ( keys %{$Item} ) {
+                        if ( !$Item->{$Key} ) {
+                            $Item->{$Key} = '';
                         }
                         if ( $Key eq 'Age' ) {
-                            delete $Item->{Ticket}->{$Key};
+                            delete $Item->{$Key};
                         }
                     }
                 }
             }
-            elsif ( ref $RequesterResult->{Data}->{Item} eq 'HASH' ) {
-                for my $Key ( keys %{ $RequesterResult->{Data}->{Item}->{Ticket} } ) {
-                    if ( !$RequesterResult->{Data}->{Item}->{Ticket}->{$Key} ) {
-                        $RequesterResult->{Data}->{Item}->{Ticket}->{$Key} = '';
+            elsif ( ref $RequesterResult->{Data}->{Ticket} eq 'HASH' ) {
+                for my $Key ( keys %{ $RequesterResult->{Data}->{Ticket} } ) {
+                    if ( !$RequesterResult->{Data}->{Ticket}->{$Key} ) {
+                        $RequesterResult->{Data}->{Ticket}->{$Key} = '';
                     }
                     if ( $Key eq 'Age' ) {
-                        delete $RequesterResult->{Data}->{Item}->{Ticket}->{$Key};
+                        delete $RequesterResult->{Data}->{Ticket}->{$Key};
                     }
                 }
 
                 # Articles
-                if ( defined $RequesterResult->{Data}->{Item}->{Articles} ) {
-                    for my $Article ( @{ $RequesterResult->{Data}->{Item}->{Articles} } ) {
+                if ( defined $RequesterResult->{Data}->{Ticket}->{Article} ) {
+                    for my $Article ( @{ $RequesterResult->{Data}->{Ticket}->{Article} } ) {
                         for my $Key ( keys %{$Article} ) {
                             if ( !$Article->{$Key} ) {
                                 $Article->{$Key} = '';
@@ -1243,7 +1243,7 @@ for my $Test (@Tests) {
                             if ( $Key eq 'Age' || $Key eq 'AgeTimeUnix' ) {
                                 delete $Article->{$Key};
                             }
-                            if ( $Key eq 'Atms' ) {
+                            if ( $Key eq 'Attachment' ) {
                                 for my $Atm ( @{ $Article->{$Key} } ) {
                                     $Atm->{ContentID}          = '';
                                     $Atm->{ContentAlternative} = '';
