@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # otrs.ArticleStorageSwitch.pl - to move stored attachments from one backend to other
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.ArticleStorageSwitch.pl,v 1.15 2011-07-06 13:57:13 martin Exp $
+# $Id: otrs.ArticleStorageSwitch.pl,v 1.16 2012-02-09 14:44:13 mb Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -47,7 +47,7 @@ my %Opts;
 getopt( 'hsdcCf', \%Opts );
 if ( $Opts{h} ) {
     print "otrs.ArticleStorageSwitch.pl <Revision $VERSION> - to move storage content\n";
-    print "Copyright (C) 2001-2011 OTRS AG, http://otrs.org/\n";
+    print "Copyright (C) 2001-2012 OTRS AG, http://otrs.org/\n";
     print
         "usage: otrs.ArticleStorageSwitch.pl -s ArticleStorageDB -d ArticleStorageFS [-c <JUST_SELECT_WHERE_CLOSE_DATE_IS_BEFORE> e. g. -c '2011-06-29 14:00:00' -C <JUST_SELECT_WHERE_CLOSE_IS_OLDER_IN_DAYS] e. g. -C '5'  [-f force]\n";
     exit 1;
@@ -97,7 +97,7 @@ elsif ( $Opts{f} && !$CommonObject{PIDObject}->PIDCreate( Name => 'ArticleStorag
     print "NOTICE: otrs.ArticleStorageSwitch.pl is already running but is starting again!\n";
 }
 
-# extended imput validation
+# extended input validation
 my %SearchParams;
 if ( $Opts{c} ) {
 

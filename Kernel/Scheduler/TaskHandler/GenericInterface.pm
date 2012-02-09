@@ -1,8 +1,8 @@
 # --
 # Kernel/Scheduler/TaskHandler/GenericInterface.pm - Scheduler task handler Generic Interface backend
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: GenericInterface.pm,v 1.9 2011-03-10 13:55:51 mg Exp $
+# $Id: GenericInterface.pm,v 1.10 2012-02-09 14:42:08 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::VariableCheck qw(IsHashRefWithData IsStringWithData);
 use Kernel::GenericInterface::Requester;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 =head1 NAME
 
@@ -95,7 +95,7 @@ sub Run {
     # to store task data locally
     my %TaskData = %{ $Param{Data} };
 
-    # check needed paramters inside task data
+    # check needed parameters inside task data
     for my $Needed (qw(WebserviceID Invoker Data)) {
         if ( !$TaskData{$Needed} ) {
             $Self->{LogObject}->Log(
@@ -132,7 +132,7 @@ sub Run {
     # log and exit succesfully
     $Self->{LogObject}->Log(
         Priority => 'notice',
-        Message  => 'GenericInterface task execuded correctly!',
+        Message  => 'GenericInterface task executed correctly!',
     );
 
     return {
@@ -157,6 +157,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.9 $ $Date: 2011-03-10 13:55:51 $
+$Revision: 1.10 $ $Date: 2012-02-09 14:42:08 $
 
 =cut
