@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- $Id: GenericTicketConnector.wsdl,v 1.13 2012-02-09 03:05:35 cr Exp $ -->
+<!-- $Id: GenericTicketConnector.wsdl,v 1.14 2012-02-09 22:44:33 cr Exp $ -->
 <wsdl:definitions
     name="GenericTicketConnector"
     targetNamespace="http://www.otrs.org/TicketConnector/"
@@ -19,6 +19,9 @@
                     <xsd:choice
                         minOccurs="1"
                         maxOccurs="1">
+                        <xsd:annotation>
+                            <xsd:documentation>UserLogin CustomerUserLogin or SessionID is mandatory</xsd:documentation>
+                        </xsd:annotation>
                         <xsd:element
                             name="UserLogin"
                             type="xsd:string"
@@ -76,7 +79,10 @@
                     </xsd:element>
                     <xsd:choice
                         maxOccurs="1"
-                        minOccurs="0">
+                        minOccurs="1">
+                        <xsd:annotation>
+                            <xsd:documentation>Queue or QueueID is mandatory</xsd:documentation>
+                        </xsd:annotation>
                         <xsd:element
                             name="QueueID"
                             type="xsd:positiveInteger"
@@ -141,6 +147,9 @@
                     <xsd:choice
                         maxOccurs="1"
                         minOccurs="1">
+                        <xsd:annotation>
+                            <xsd:documentation>State or StateID is mandatory</xsd:documentation>
+                        </xsd:annotation>
                         <xsd:element
                             name="StateID"
                             type="xsd:positiveInteger"
@@ -157,6 +166,9 @@
                     <xsd:choice
                         maxOccurs="1"
                         minOccurs="1">
+                        <xsd:annotation>
+                            <xsd:documentation>Priority or PriorityID is mandatory</xsd:documentation>
+                        </xsd:annotation>
                         <xsd:element
                             name="PriorityID"
                             type="xsd:positiveInteger"
@@ -445,6 +457,9 @@
                     <xsd:choice
                         minOccurs="1"
                         maxOccurs="1">
+                        <xsd:annotation>
+                            <xsd:documentation>UserLogin CustomerUserLogin or SessionID is mandatory</xsd:documentation>
+                        </xsd:annotation>
                         <xsd:element
                             name="UserLogin"
                             type="xsd:string"
@@ -682,6 +697,9 @@
                     <xsd:choice
                         minOccurs="1"
                         maxOccurs="1">
+                        <xsd:annotation>
+                            <xsd:documentation>UserLogin CustomerUserLogin or SessionID is mandatory</xsd:documentation>
+                        </xsd:annotation>
                         <xsd:element
                             name="UserLogin"
                             type="xsd:string"
@@ -1404,6 +1422,9 @@
                     <xsd:choice
                         minOccurs="1"
                         maxOccurs="1">
+                        <xsd:annotation>
+                            <xsd:documentation>UserLogin CustomerUserLogin or SessionID is mandatory</xsd:documentation>
+                        </xsd:annotation>
                         <xsd:element
                             name="UserLogin"
                             type="xsd:string"
@@ -1877,7 +1898,10 @@
 
             <xsd:complexType name="OTRS_TicketSeach_DynamicField">
                 <xsd:sequence>
-                    <xsd:choice>
+                    <xsd:choice minOccurs="1" maxOccurs="1">
+                        <xsd:annotation>
+                            <xsd:documentation>Equals, Like, GraterThan, GraterThanEquals, LowerThan or LowerThanEqueals is mandatory</xsd:documentation>
+                        </xsd:annotation>
                         <xsd:element
                             name="Equals"
                             type="xsd:string"
@@ -1925,6 +1949,9 @@
                     <xsd:choice
                         minOccurs="1"
                         maxOccurs="1">
+                        <xsd:annotation>
+                            <xsd:documentation>UserLogin or CustomerUserLogin is mandatory</xsd:documentation>
+                        </xsd:annotation>
                         <xsd:element
                             name="UserLogin"
                             type="xsd:string"
