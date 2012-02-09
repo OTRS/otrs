@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2167 2012-02-03 18:30:00 cr Exp $
+# $Id: CHANGES,v 1.2168 2012-02-09 11:20:24 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.1.1 2012-02-??
+ - 2012-02-09 Fixed bug#8199 - Linked tickets open only in tabs.
  - 2012-02-03 Fixed bug#8148 - Wrong presentation of queue structure in CustomerTicketMessage.
  - 2012-02-03 Fixed bug#8137 - Issues with Owner list refresh when selecting a new Owner.
  - 2012-02-03 Fixed bug#8180 - bin/otrs.LoaderCache.pl exit code is wrong.
