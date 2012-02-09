@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1758.2.219 2012-02-03 14:26:45 mg Exp $
+# $Id: CHANGES,v 1.1758.2.220 2012-02-09 11:20:11 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.12 ????-??-??
+ - 2012-02-09 Fixed bug#8199 - Linked tickets open only in tabs.
  - 2012-02-03 Fixed bug#8180 - bin/otrs.LoaderCache.pl exit code is wrong.
  - 2012-02-02 Fixed bug#7937 - HTMLUtils.pm ignore to much of e-mail source code.
  - 2012-02-02 Fixed bug#7972 - Some mails may not present HTML part when using rich viewing.

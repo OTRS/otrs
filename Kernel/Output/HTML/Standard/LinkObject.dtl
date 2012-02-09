@@ -1,8 +1,8 @@
 # --
 # LinkObject.dtl - provides HTML elements for link object lists
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: LinkObject.dtl,v 1.29.2.3 2011-02-16 23:15:56 mp Exp $
+# $Id: LinkObject.dtl,v 1.29.2.4 2012-02-09 11:20:12 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,8 +22,17 @@ $Data{"Content"}
 <!-- dtl:block:TextTranslate -->
 
 <!-- dtl:block:Link -->
-<a class="AsBlock" href="$Data{"Link"}" target="_blank" title="$QData{"Title"}" >$Quote{"$Data{"Content"}","$QData{"MaxLength"}"}</a>
+<a class="AsBlock LinkObjectLink" href="$Data{"Link"}" title="$QData{"Title"}" >$Quote{"$Data{"Content"}","$QData{"MaxLength"}"}</a>
 <!-- dtl:block:Link -->
+
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+// Make sure that (only!) from a popup window, links are always opened in a new tab of the main window.
+if (window.opener) {
+    $('a.LinkObjectLink').attr('target', '_blank');
+}
+//]]></script>
+<!--dtl:js_on_document_complete-->
 
 <!-- dtl:block:TimeLong -->
 $TimeLong{"$Data{"Content"}"}
