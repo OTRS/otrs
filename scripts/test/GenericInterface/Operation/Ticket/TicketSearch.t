@@ -2,7 +2,7 @@
 # TicketSearch.t - GenericInterface transport interface tests for TicketConnector backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketSearch.t,v 1.13 2012-02-01 22:42:05 cg Exp $
+# $Id: TicketSearch.t,v 1.14 2012-02-09 03:04:29 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -860,13 +860,13 @@ my @Tests = (
         },
         ExpectedReturnLocalData => {
             Data => {
-                Item => [$TicketID2],
+                TicketID => [$TicketID2],
             },
             Success => 1
         },
         ExpectedReturnRemoteData => {
             Data => {
-                Item => $TicketID2,
+                TicketID => $TicketID2,
             },
             Success => 1,
         },
@@ -881,13 +881,13 @@ my @Tests = (
         },
         ExpectedReturnLocalData => {
             Data => {
-                Item => [$TicketID2],
+                TicketID => [$TicketID2],
             },
             Success => 1
         },
         ExpectedReturnRemoteData => {
             Data => {
-                Item => $TicketID2,
+                TicketID => $TicketID2,
             },
             Success => 1,
         },
@@ -902,13 +902,13 @@ my @Tests = (
         },
         ExpectedReturnLocalData => {
             Data => {
-                Item => [$TicketID2],
+                TicketID => [$TicketID2],
             },
             Success => 1
         },
         ExpectedReturnRemoteData => {
             Data => {
-                Item => $TicketID2,
+                TicketID => $TicketID2,
             },
             Success => 1,
         },
@@ -923,13 +923,13 @@ my @Tests = (
         },
         ExpectedReturnLocalData => {
             Data => {
-                Item => [$TicketID2],
+                TicketID => [$TicketID2],
             },
             Success => 1
         },
         ExpectedReturnRemoteData => {
             Data => {
-                Item => $TicketID2,
+                TicketID => $TicketID2,
             },
             Success => 1,
         },
@@ -944,13 +944,13 @@ my @Tests = (
         },
         ExpectedReturnLocalData => {
             Data => {
-                Item => [$TicketID2],
+                TicketID => [$TicketID2],
             },
             Success => 1
         },
         ExpectedReturnRemoteData => {
             Data => {
-                Item => $TicketID2,
+                TicketID => $TicketID2,
             },
             Success => 1,
         },
@@ -965,13 +965,13 @@ my @Tests = (
         },
         ExpectedReturnLocalData => {
             Data => {
-                Item => [$TicketID2],
+                TicketID => [$TicketID2],
             },
             Success => 1
         },
         ExpectedReturnRemoteData => {
             Data => {
-                Item => $TicketID2,
+                TicketID => $TicketID2,
             },
             Success => 1,
         },
@@ -987,13 +987,13 @@ my @Tests = (
         },
         ExpectedReturnLocalData => {
             Data => {
-                Item => [ $TicketID3, $TicketID2, $TicketID1 ],
+                TicketID => [ $TicketID3, $TicketID2, $TicketID1 ],
             },
             Success => 1
         },
         ExpectedReturnRemoteData => {
             Data => {
-                Item => [ $TicketID3, $TicketID2, $TicketID1 ],
+                TicketID => [ $TicketID3, $TicketID2, $TicketID1 ],
             },
             Success => 1,
         },
@@ -1008,13 +1008,13 @@ my @Tests = (
         },
         ExpectedReturnLocalData => {
             Data => {
-                Item => [$TicketID4],
+                TicketID => [$TicketID4],
             },
             Success => 1
         },
         ExpectedReturnRemoteData => {
             Data => {
-                Item => $TicketID4,
+                TicketID => $TicketID4,
             },
             Success => 1,
         },
@@ -1028,13 +1028,13 @@ my @Tests = (
         },
         ExpectedReturnLocalData => {
             Data => {
-                Item => [$TicketID3],
+                TicketID => [$TicketID3],
             },
             Success => 1
         },
         ExpectedReturnRemoteData => {
             Data => {
-                Item => $TicketID3,
+                TicketID => $TicketID3,
             },
             Success => 1,
         },
@@ -1049,13 +1049,13 @@ my @Tests = (
         },
         ExpectedReturnLocalData => {
             Data => {
-                Item => [$TicketID2],
+                TicketID => [$TicketID2],
             },
             Success => 1
         },
         ExpectedReturnRemoteData => {
             Data => {
-                Item => $TicketID2,
+                TicketID => $TicketID2,
             },
             Success => 1,
         },
@@ -1070,13 +1070,13 @@ my @Tests = (
         },
         ExpectedReturnLocalData => {
             Data => {
-                Item => [$TicketID2],
+                TicketID => [$TicketID2],
             },
             Success => 1
         },
         ExpectedReturnRemoteData => {
             Data => {
-                Item => $TicketID2,
+                TicketID => $TicketID2,
             },
             Success => 1,
         },
@@ -1090,13 +1090,13 @@ my @Tests = (
         },
         ExpectedReturnLocalData => {
             Data => {
-                Item => [$TicketID4],
+                TicketID => [$TicketID4],
             },
             Success => 1
         },
         ExpectedReturnRemoteData => {
             Data => {
-                Item => $TicketID4,
+                TicketID => $TicketID4,
             },
             Success => 1,
         },
@@ -1110,13 +1110,13 @@ my @Tests = (
         },
         ExpectedReturnLocalData => {
             Data => {
-                Item => [$TicketID3],
+                TicketID => [$TicketID3],
             },
             Success => 1
         },
         ExpectedReturnRemoteData => {
             Data => {
-                Item => $TicketID3,
+                TicketID => $TicketID3,
             },
             Success => 1,
         },
@@ -1130,13 +1130,13 @@ my @Tests = (
         },
         ExpectedReturnLocalData => {
             Data => {
-                Item => [$TicketID1],
+                TicketID => [$TicketID1],
             },
             Success => 1
         },
         ExpectedReturnRemoteData => {
             Data => {
-                Item => $TicketID1,
+                TicketID => $TicketID1,
             },
             Success => 1,
         },
