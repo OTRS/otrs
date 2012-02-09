@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- $Id: GenericTicketConnector.wsdl,v 1.12 2012-01-31 08:24:09 cr Exp $ -->
+<!-- $Id: GenericTicketConnector.wsdl,v 1.13 2012-02-09 03:05:35 cr Exp $ -->
 <wsdl:definitions
     name="GenericTicketConnector"
     targetNamespace="http://www.otrs.org/TicketConnector/"
@@ -753,24 +753,12 @@
             <xsd:complexType name="OTRS_TicketGetResponse">
                 <xsd:sequence>
                     <xsd:element
-                        name="Item"
-                        type="tns:OTRS_TicketGetResponse_Item" maxOccurs="unbounded">
+                        name="Ticket"
+                        type="tns:OTRS_TicketGetResponse_Ticket" maxOccurs="unbounded">
                     </xsd:element>
                 </xsd:sequence>
             </xsd:complexType>
 
-            <xsd:complexType name="OTRS_TicketGetResponse_Item">
-                <xsd:sequence>
-                    <xsd:element
-                        name="Ticket"
-                        type="tns:OTRS_TicketGetResponse_Ticket" maxOccurs="1" minOccurs="1">
-                    </xsd:element>
-                    <xsd:element
-                        name="Aticles"
-                        type="tns:OTRS_TicketGetResponse_Article" maxOccurs="unbounded" minOccurs="1">
-                    </xsd:element>
-                </xsd:sequence>
-            </xsd:complexType>
 
             <xsd:complexType name="OTRS_TicketGetResponse_Ticket">
                 <xsd:sequence>
@@ -834,7 +822,8 @@
                     <xsd:element
                         name="EscalationResponseTime"
                         type="xsd:dateTime"
-                        maxOccurs="1" minOccurs="0">
+                        maxOccurs="1"
+                        minOccurs="0">
                     </xsd:element>
                     <xsd:element
                         name="EscalationSolutionTime"
@@ -1020,6 +1009,10 @@
                         type="xsd:positiveInteger"
                         ninOccurs="1"
                         maxOccurs="1">
+                    </xsd:element>
+                    <xsd:element
+                        name="Article"
+                        type="tns:OTRS_TicketGetResponse_Article" maxOccurs="unbounded">
                     </xsd:element>
                 </xsd:sequence>
             </xsd:complexType>
@@ -1353,7 +1346,7 @@
                         maxOccurs="1">
                     </xsd:element>
                     <xsd:element
-                        name="Atms"
+                        name="Attachment"
                         type="tns:OTRS_TicketGet_Attachment" maxOccurs="unbounded" minOccurs="0">
                     </xsd:element>
                 </xsd:sequence>
@@ -1401,8 +1394,8 @@
             <xsd:complexType name="OTRS_TicketSearchResponse">
                 <xsd:sequence>
                     <xsd:element
-                        name="Item"
-                        type="xsd:positiveInteger">
+                        name="TicketID"
+                        type="xsd:positiveInteger" minOccurs="0" maxOccurs="unbounded">
                     </xsd:element>
                 </xsd:sequence>
             </xsd:complexType>
