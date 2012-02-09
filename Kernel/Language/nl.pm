@@ -8,7 +8,7 @@
 # Copyright (C) 2010 Ton van Boven <ton 'at' avebo.nl>
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: nl.pm,v 1.177 2012-02-02 16:11:50 mg Exp $
+# $Id: nl.pm,v 1.178 2012-02-09 14:43:50 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -28,7 +28,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.177 $) [1];
+$VERSION = qw($Revision: 1.178 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -624,10 +624,10 @@ sub Data {
         'new' => 'nieuw',
         'open' => 'open',
         'Open' => 'Open',
-        'Open tickets' => '',
+        'Open tickets' => 'Open tickets',
         'closed' => 'gesloten',
         'Closed' => 'Gesloten',
-        'Closed tickets' => '',
+        'Closed tickets' => 'Gesloten tickets',
         'removed' => 'verwijderd',
         'pending reminder' => 'wachtend op een herinnering',
         'pending auto' => 'wachtend',
@@ -696,13 +696,13 @@ sub Data {
         'Unwatch' => 'Stop met volgen',
         'Lock it to work on it' => 'Vergrendel dit ticket',
         'Unlock to give it back to the queue' => 'Ontgrendelen om dit ticket vrij te geven',
-        'Show the ticket history' => 'Laat de geschiedenis van dit ticket zien.',
-        'Print this ticket' => 'Print dit ticket.',
+        'Shows the ticket history' => 'Laat de geschiedenis van dit ticket zien',
+        'Print this ticket' => 'Print dit ticket',
         'Print this article' => 'Print deze interactie',
         'Split this article' => 'Splits deze interactie',
         'Forward article via mail' => 'Stuur interactie naar een mailadres',
         'Change the ticket priority' => 'Wijzig de prioriteit van dit ticket',
-        'Change the ticket free fields!' => 'Wijzig de vrije invulvelden van het ticket.',
+        'Change the ticket free fields!' => 'Wijzig de vrije invulvelden van het ticket',
         'Link this ticket to other objects' => 'Koppel dit ticket aan andere objecten',
         'Change the owner for this ticket' => 'Wijzig de eigenaar van dit ticket',
         'Change the  customer for this ticket' => 'Wijzig de klant voor dit ticket',
@@ -712,7 +712,7 @@ sub Data {
         'Close this ticket' => 'Sluit dit ticket',
         'Look into a ticket!' => 'Bekijk dit ticket.',
         'Delete this ticket' => 'Verwijder dit ticket',
-        'Mark as Spam!' => 'Markeer als spam.',
+        'Mark as Spam!' => 'Markeer als spam',
         'My Queues' => 'Mijn wachtrijen',
         'Shown Tickets' => 'Laat tickets zien',
         'Your email with ticket number "<OTRS_TICKET>" is merged to "<OTRS_MERGE_TO_TICKET>".' =>
@@ -2206,7 +2206,7 @@ sub Data {
 
         # Template: CustomerNavigationBar
         'Edit personal preferences' => 'Voorkeuren bewerken',
-        'Logout %s' => '',
+        'Logout %s' => 'Uitloggen %s',
 
         # Template: CustomerPreferences
 
@@ -2628,7 +2628,7 @@ sub Data {
         'Create and manage ticket priorities.' => 'Aanmaken en beheren van prioriteiten.',
         'Create and manage ticket states.' => 'Aanmaken en beheren van statussen.',
         'Create and manage ticket types.' => 'Aanmaken en beheren van typen.',
-        'Create and manage web services.' => '',
+        'Create and manage web services.' => 'Aanmaken en beheren van webservices.',
         'Create new email ticket and send this out (outbound)' => 'Maak een nieuw ticket en verstuur hiervan een mail (uitgaand)',
         'Create new phone ticket (inbound)' => 'Maak een nieuw telefoon ticket aan (inkomend)',
         'Custom text for the page shown to customers that have no tickets yet.' =>
@@ -3470,7 +3470,7 @@ sub Data {
         'If enabled, the OTRS version tag will be removed from the HTTP headers.' =>
             '',
         'If enabled, the different overviews (Dashboard, LockedView, QueueView) will automatically refresh after the specified time.' =>
-            '',
+            'Indien geactiveerd worden de verschillende overzichten (Dashboard, vergrendelde tickets, wachtrijoverzicht) automatisch ververst na de ingestelde tijd.',
         'If enabled, the first level of the main menu opens on mouse hover (instead of click only).' =>
             '',
         'If set, this address is used as envelope sender header in outgoing notifications. If no address is specified, the envelope sender header is empty.' =>
@@ -3603,11 +3603,11 @@ sub Data {
             '',
         'Number of tickets to be displayed in each page of a search result in the customer interface.' =>
             '',
-        'Open tickets of customer' => '',
+        'Open tickets of customer' => 'Open tickets van klant',
         'Overloads (redefines) existing functions in Kernel::System::Ticket. Used to easily add customizations.' =>
             '',
         'Overview Escalated Tickets' => 'Overzicht geëscaleerde tickets',
-        'Overview Refresh Time' => '',
+        'Overview Refresh Time' => 'Verversingsinterval overzichten',
         'Overview of all open Tickets.' => 'Overzicht van alle openstaande tickets',
         'PGP Key Management' => '',
         'PGP Key Upload' => 'PGP sleutel upload',
@@ -3670,7 +3670,7 @@ sub Data {
         'Protection against CSRF (Cross Site Request Forgery) exploits (for more info see http://en.wikipedia.org/wiki/Cross-site_request_forgery).' =>
             '',
         'Queue view' => 'Wachtrijoverzicht',
-        'Refresh Overviews after' => '',
+        'Refresh Overviews after' => 'Ververs Overzichten na',
         'Refresh interval' => 'Interval',
         'Replaces the original sender with current customer\'s email address on compose answer in the ticket compose screen of the agent interface.' =>
             '',
