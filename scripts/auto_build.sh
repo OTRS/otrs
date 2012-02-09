@@ -1,9 +1,9 @@
 #!/bin/sh
 # --
 # auto_build.sh - build automatically OTRS tar, rpm and src-rpm
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: auto_build.sh,v 1.107 2011-12-02 07:43:49 mg Exp $
+# $Id: auto_build.sh,v 1.108 2012-02-09 12:33:29 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -21,8 +21,8 @@
 # or see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-echo "auto_build.sh - build automatically OTRS tar, rpm and src-rpm <\$Revision: 1.107 $>"
-echo "Copyright (C) 2001-2011 OTRS AG, http://otrs.org/\n";
+echo "auto_build.sh - build automatically OTRS tar, rpm and src-rpm <\$Revision: 1.108 $>"
+echo "Copyright (C) 2001-2012 OTRS AG, http://otrs.org/\n";
 
 PATH_TO_CVS_SRC=$1
 PRODUCT=OTRS
@@ -36,7 +36,7 @@ PACKAGE_TMP_SPEC="/tmp/$PACKAGE.spec"
 RPM_BUILD="rpmbuild"
 #RPM_BUILD="rpm"
 
-SUPPORT_PACKAGE="http://ftp.otrs.org/pub/otrs/packages/Support-1.3.2.opm"
+SUPPORT_PACKAGE="http://ftp.otrs.org/pub/otrs/packages/Support-1.3.3.opm"
 #IPHONE_PACKAGE="http://ftp.otrs.org/pub/otrs/packages/iPhoneHandle-1.0.3.opm"
 MANUAL_EN="http://ftp.otrs.org/pub/otrs/doc/doc-admin/3.1/en/pdf/otrs_admin_book.pdf"
 MANUAL_DE="http://ftp.otrs.org/pub/otrs/doc/doc-admin/3.1/de/pdf/otrs_admin_book.pdf"
