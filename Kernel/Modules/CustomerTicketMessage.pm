@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketMessage.pm - to handle customer messages
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.pm,v 1.98 2012-01-23 20:39:17 cr Exp $
+# $Id: CustomerTicketMessage.pm,v 1.99 2012-02-10 13:39:09 ep Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.98 $) [1];
+$VERSION = qw($Revision: 1.99 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -365,7 +365,7 @@ sub Run {
             return $Output;
         }
 
-        # if customer is not alowed to set priority, set it to default
+        # if customer is not allowed to set priority, set it to default
         if ( !$Self->{Config}->{Priority} ) {
             $GetParam{PriorityID} = '';
             $GetParam{Priority}   = $Self->{Config}->{PriorityDefault};
