@@ -2,14 +2,14 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2172 2012-02-10 08:43:24 mg Exp $
+# $Id: CHANGES,v 1.2173 2012-02-10 09:05:44 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-3.1.1 2012-03-??
+3.1.2 2012-03-??
  - 2012-02-09 Fixed bug#7109 - Statistics error when PDF support is not active.
 
 3.1.1 2012-02-14
