@@ -2,7 +2,7 @@
 # Package.t - Package tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Package.t,v 1.36 2012-02-02 10:17:20 mg Exp $
+# $Id: Package.t,v 1.37 2012-02-10 00:27:45 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -890,9 +890,9 @@ my $FilesNotAllowed = [
     'var/tmp/Cache/Tmp.cache',
     'var/log/some_log',
     '../../etc/passwd',
+    '/etc/shadow',
 ];
-for my $FileNotAllowed ( @{$FilesNotAllowed} ) {
-    my $String = "<?xml version=\"1.0\" encoding=\"utf-8\" ?>
+my $FileNotAllowedString = "<?xml version=\"1.0\" encoding=\"utf-8\" ?>
 <otrs_package version=\"1.0\">
   <Name>FilesNotAllowed</Name>
   <Version>0.0.1</Version>
@@ -905,18 +905,48 @@ for my $FileNotAllowed ( @{$FilesNotAllowed} ) {
   <Framework>3.0.x</Framework>
   <BuildDate>2005-11-10 21:17:16</BuildDate>
   <BuildHost>yourhost.example.com</BuildHost>
-  <Filelist>
-    <File Location=\"$FileNotAllowed\" Permission=\"644\" Encode=\"Base64\">aGVsbG8K</File>
-  </Filelist>
-</otrs_package>
-";
-    my $PackageInstall = $PackageObject->PackageInstall( String => $String );
+  <Filelist>\n";
+for my $FileNotAllowed ( @{$FilesNotAllowed} ) {
+    $FileNotAllowedString .=
+        "    <File Location=\"$FileNotAllowed\" Permission=\"644\" Encode=\"Base64\">aGVsbG8K</File>\n";
+}
+$FileNotAllowedString .= "  </Filelist>
+</otrs_package>\n";
+
+$PackageInstall = $PackageObject->PackageInstall( String => $FileNotAllowedString );
+
+$Self->True(
+    $PackageInstall,
+    "#11 PackageInstall() - File not allowed",
+);
+
+# check content of not allowed files for match against files from package
+for my $FileNotAllowed ( @{$FilesNotAllowed} ) {
+    my $Readfile = $Self->{MainObject}->FileRead(
+        Location => $Home . '/' . $FileNotAllowed,
+        Mode     => 'binmode',
+    );
+
+    my $Content;
+    if ( ref $Readfile eq 'SCALAR' ) {
+        $Content = ${$Readfile} || '';
+    }
+    else {
+        $Content = '';
+    }
 
     $Self->False(
-        $PackageInstall,
-        "#11 PackageInstall() - File not allowed - $FileNotAllowed",
+        $Content eq 'hello',
+        '#11 - check on filesystem - $FileNotAllowed',
     );
 }
+
+# uninstall package
+$PackageUninstall = $PackageObject->PackageUninstall( String => $FileNotAllowedString );
+$Self->True(
+    $PackageUninstall,
+    '#11 PackageUninstall()',
+);
 
 # find out if it is an developer installation with files
 # from the version control system.
@@ -987,9 +1017,9 @@ if ( !$DeveloperSystem ) {
         '#12 PackageInstall() - save file bin/otrs.CheckDB.pl.save does not exists',
     );
 
-    # unistall package
+    # uninstall package
     $PackageUninstall = $PackageObject->PackageUninstall( String => $String );
-    $Self->False(
+    $Self->True(
         $PackageUninstall,
         '#12 PackageUninstall()',
     );
@@ -1044,7 +1074,7 @@ if ( !$DeveloperSystem ) {
     ';
     $PackageInstall = $PackageObject->PackageInstall( String => $String );
 
-    $Self->False(
+    $Self->True(
         $PackageInstall,
         '#13 PackageInstall() - TestFrameworkFileCheck installed',
     );
@@ -1072,7 +1102,7 @@ if ( !$DeveloperSystem ) {
 
     # check if save file exists (should not anymore)
     my $SaveFileUnlink = unlink $SaveFile;
-    $Self->False(
+    $Self->True(
         $SaveFileUnlink,
         '#13 PackageInstall() - save file bin/otrs.CheckDB.pl.save got removed',
     );
@@ -1100,7 +1130,7 @@ if ( !$DeveloperSystem ) {
         '#13 PackageReinstall() - save file bin/otrs.CheckDB.pl.save exists',
     );
 
-    # unistall package
+    # uninstall package
     $PackageUninstall = $PackageObject->PackageUninstall( String => $String );
     $Self->True(
         $PackageUninstall,
