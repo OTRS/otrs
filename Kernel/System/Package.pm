@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Package.pm,v 1.126 2012-02-02 10:17:20 mg Exp $
+# $Id: Package.pm,v 1.127 2012-02-10 00:27:45 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::Cache;
 use Kernel::System::Loader;
 
 use vars qw($VERSION $S);
-$VERSION = qw($Revision: 1.126 $) [1];
+$VERSION = qw($Revision: 1.127 $) [1];
 
 =head1 NAME
 
@@ -223,7 +223,7 @@ sub RepositoryGet {
     if ( !$Package ) {
         $Self->{LogObject}->Log(
             Priority => 'notice',
-            Message  => "No such package $Param{Name}-$Param{Version}!",
+            Message  => "No such package: $Param{Name}-$Param{Version}!",
         );
         return;
     }
@@ -428,7 +428,7 @@ sub PackageInstall {
     # install files
     if ( $Structure{Filelist} && ref $Structure{Filelist} eq 'ARRAY' ) {
         for my $File ( @{ $Structure{Filelist} } ) {
-            return if !$Self->_FileInstall( File => $File );
+            $Self->_FileInstall( File => $File );
         }
     }
 
@@ -513,7 +513,7 @@ sub PackageReinstall {
         for my $File ( @{ $Structure{Filelist} } ) {
 
             # install file
-            return if !$Self->_FileInstall( File => $File, Reinstall => 1 );
+            $Self->_FileInstall( File => $File, Reinstall => 1 );
         }
     }
 
@@ -723,7 +723,7 @@ sub PackageUpgrade {
         for my $File ( @{ $InstalledStructure{Filelist} } ) {
 
             # remove file
-            return if !$Self->_FileRemove( File => $File );
+            $Self->_FileRemove( File => $File );
         }
     }
 
@@ -732,7 +732,7 @@ sub PackageUpgrade {
         for my $File ( @{ $Structure{Filelist} } ) {
 
             # install file
-            return if !$Self->_FileInstall( File => $File );
+            $Self->_FileInstall( File => $File );
         }
     }
 
@@ -855,7 +855,7 @@ sub PackageUninstall {
         for my $File ( @{ $Structure{Filelist} } ) {
 
             # remove file
-            return if !$Self->_FileRemove( File => $File );
+            $Self->_FileRemove( File => $File );
         }
     }
 
@@ -1161,7 +1161,7 @@ sub DeployCheck {
             if ( !-e $LocalFile ) {
                 $Self->{LogObject}->Log(
                     Priority => 'error',
-                    Message  => "$Param{Name}-$Param{Version}: No such $LocalFile!"
+                    Message  => "$Param{Name}-$Param{Version}: No such file: $LocalFile!"
                 );
                 $Self->{DeployCheckInfo}->{File}->{ $File->{Location} } = 'No file installed!';
                 $Hit = 1;
@@ -1615,7 +1615,20 @@ sub PackageParse {
             push( @{ $Self->{Package}->{ $Tag->{Tag} } }, $Tag );
         }
     }
+
+    # define names and locations that are not allowed for files in a package
+    my $FilesNotAllowed = [
+        'Kernel/Config.pm$',
+        'Kernel/Config/Files/ZZZAuto.pm$',
+        'Kernel/Config/Files/ZZZAAuto.pm$',
+        'var/tmp/Cache',
+        'var/log/',
+        '\.\./',
+        '^/',
+    ];
+
     my $Open = 0;
+    TAG:
     for my $Tag (@XMLARRAY) {
         if ( $Open && $Tag->{Tag} eq 'Filelist' ) {
             $Open = 0;
@@ -1625,6 +1638,19 @@ sub PackageParse {
             next;
         }
         if ( $Open && $Tag->{TagType} eq 'Start' ) {
+
+            # check for allowed file names and locations
+            FILECHECK:
+            for my $FileNotAllowed ( @{$FilesNotAllowed} ) {
+                next FILECHECK if $Tag->{Location} !~ m{ $FileNotAllowed }xms;
+
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message  => "Invalid file/location '$Tag->{Location}' in PackageParse()!",
+                );
+
+                next TAG;
+            }
 
             # get attachment size
             {
@@ -1695,7 +1721,7 @@ sub PackageExport {
         for my $File ( @{ $Structure{Filelist} } ) {
 
             # install file
-            return if !$Self->_FileInstall( File => $File, Home => $Param{Home} );
+            $Self->_FileInstall( File => $File, Home => $Param{Home} );
         }
     }
     return 1;
@@ -2234,25 +2260,6 @@ sub _FileInstall {
     my $RealFile = $Home . '/' . $Param{File}->{Location};
     $RealFile =~ s/\/\//\//g;
 
-    # check not allowed files
-    my $FilesNotAllowed = [
-        'Kernel/Config.pm$',
-        'Kernel/Config/Files/ZZZAuto.pm$',
-        'Kernel/Config/Files/ZZZAAuto.pm$',
-        'var/tmp/Cache.*',
-        'var/log/.*',
-        '\.\./',
-    ];
-
-    for my $FileNotAllowed ( @{$FilesNotAllowed} ) {
-        next if $RealFile !~ /$FileNotAllowed/;
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => "Not allowed to overwrite $RealFile via package manager!",
-        );
-        return;
-    }
-
     # backup old file (if reinstall, don't overwrite .backup and .save files)
     if ( -e $RealFile ) {
         if ( $Param{File}->{Type} && $Param{File}->{Type} =~ /^replace$/i ) {
@@ -2426,7 +2433,7 @@ sub _ReadDistArchive {
     if ( !-e "$Home/ARCHIVE" ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "No such file $Home/ARCHIVE!",
+            Message  => "No such file: $Home/ARCHIVE!",
         );
         return;
     }
@@ -2521,6 +2528,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.126 $ $Date: 2012-02-02 10:17:20 $
+$Revision: 1.127 $ $Date: 2012-02-10 00:27:45 $
 
 =cut
