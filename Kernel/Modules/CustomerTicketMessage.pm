@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/CustomerTicketMessage.pm - to handle customer messages
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.pm,v 1.83.2.2 2011-12-05 21:40:27 cr Exp $
+# $Id: CustomerTicketMessage.pm,v 1.83.2.3 2012-02-12 20:16:06 ep Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Queue;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.83.2.2 $) [1];
+$VERSION = qw($Revision: 1.83.2.3 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -832,7 +832,7 @@ sub _MaskNew {
                 ArticleFreeKeyField  => $Param{ 'ArticleFreeKeyField' . $Count },
                 ArticleFreeTextField => $Param{ 'ArticleFreeTextField' . $Count },
                 Count                => $Count,
-                ServerError          => $Param{Errors}->{ 'ArticletFreeText' . $Count },
+                ServerError          => $Param{Errors}->{ 'ArticleFreeText' . $Count },
                 %Param,
             },
         );
