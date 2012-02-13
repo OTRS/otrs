@@ -1,8 +1,8 @@
 # --
 # scripts/test/JSON.t - JSON module testscript
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: JSON.t,v 1.8 2010-10-29 05:03:20 en Exp $
+# $Id: JSON.t,v 1.9 2012-02-13 12:31:08 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -94,6 +94,75 @@ for my $Test (@Tests) {
     $Self->Is(
         $JSON,
         $Test->{Result},
+        $Test->{Name},
+    );
+}
+
+# JSON::Decode()
+
+@Tests = (
+    {
+        Result      => undef,
+        InputDecode => undef,
+        Name        => 'JSON - undef test',
+    },
+    {
+        Result      => undef,
+        InputDecode => '" bla blubb',
+        Name        => 'JSON - malformed data test',
+    },
+    {
+        Result      => 'Some Text',
+        InputDecode => '"Some Text"',
+        Name        => 'JSON - simple'
+    },
+    {
+        Result      => 42,
+        InputDecode => '42',
+        Name        => 'JSON - simple'
+    },
+    {
+        Result => [ 1, 2, "3", "Foo", 5 ],
+        InputDecode => '[1,2,"3","Foo",5]',
+        Name        => 'JSON - simple'
+    },
+    {
+        Result => {
+            Key1   => "Value1",
+            Key2   => 42,
+            "Key3" => "Another Value"
+        },
+        InputDecode => '{"Key1":"Value1","Key2":42,"Key3":"Another Value"}',
+        Name        => 'JSON - simple'
+    },
+    {
+        Result => [
+            [ 1, 2, "Foo", "Bar" ],
+            {
+                Key1 => 'Something',
+                Key2 => [ "Foo", "Bar" ],
+                Key3 => {
+                    Foo => 'Bar',
+                },
+                Key4 => {
+                    Bar => [ "f", "o", "o" ]
+                    }
+            },
+        ],
+        InputDecode =>
+            '[[1,2,"Foo","Bar"],{"Key1":"Something","Key2":["Foo","Bar"],"Key3":{"Foo":"Bar"},"Key4":{"Bar":["f","o","o"]}}]',
+        Name => 'JSON - complex structure'
+    },
+);
+
+for my $Test (@Tests) {
+    my $JSON = $JSONObject->Decode(
+        Data => $Test->{InputDecode},
+    );
+
+    $Self->IsDeeply(
+        scalar $JSON,
+        scalar $Test->{Result},
         $Test->{Name},
     );
 }
