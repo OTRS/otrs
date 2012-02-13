@@ -1,8 +1,8 @@
 # --
 # Kernel/System/JSON.pm - Wrapper functions for encoding and decoding JSON
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: JSON.pm,v 1.7 2010-08-31 09:26:00 mg Exp $
+# $Id: JSON.pm,v 1.8 2012-02-13 12:20:00 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use JSON;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 =head1 NAME
 
@@ -116,7 +116,7 @@ sub Encode {
 
 Decode a JSON string to a perl data structure.
 
-    my $PerlStructurScalar = $JSONObject->Decode(
+    my $PerlStructureScalar = $JSONObject->Decode(
         Data => $JSONString,
     );
 
@@ -129,7 +129,16 @@ sub Decode {
     return if !defined $Param{Data};
 
     # decode JSON encoded to perl structure
-    my $Scalar = $Self->{JSONObject}->decode( $Param{Data} );
+    my $Scalar;
+
+    # use eval here, as JSON::XS->decode() dies when providing a malformed JSON string
+    if ( !eval { $Scalar = $Self->{JSONObject}->decode( $Param{Data} ) } ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Decoding the JSON string failed: ' . $@,
+        );
+        return;
+    }
 
     return $Scalar;
 }
@@ -179,6 +188,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.7 $ $Date: 2010-08-31 09:26:00 $
+$Revision: 1.8 $ $Date: 2012-02-13 12:20:00 $
 
 =cut
