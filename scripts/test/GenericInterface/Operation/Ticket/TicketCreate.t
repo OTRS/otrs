@@ -2,7 +2,7 @@
 # TicketCreate.t - GenericInterface TicketCreate tests for TicketConnector backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketCreate.t,v 1.9 2012-02-13 21:35:45 cr Exp $
+# $Id: TicketCreate.t,v 1.10 2012-02-13 22:27:38 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -3284,7 +3284,7 @@ for my $Test (@Tests) {
         if ( $Test->{ExternalCustomer} ) {
             $Self->Is(
                 $LocalTicketData{CustomerUserID},
-                '',
+                undef,
                 "$Test->{Name} - local Ticket->CustomerUser is empty.",
             );
         }
