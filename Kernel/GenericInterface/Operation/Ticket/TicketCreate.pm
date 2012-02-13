@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Ticket/TicketCreate.pm - GenericInterface Ticket TicketCreate operation backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketCreate.pm,v 1.28 2012-01-24 22:33:48 cr Exp $
+# $Id: TicketCreate.pm,v 1.29 2012-02-13 21:35:45 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Kernel::GenericInterface::Operation::Ticket::Common;
 use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.28 $) [1];
+$VERSION = qw($Revision: 1.29 $) [1];
 
 =head1 NAME
 
@@ -1113,6 +1113,8 @@ sub _TicketCreate {
     my $AttachmentList   = $Param{AttachmentList};
 
     # get customer information
+    # with information will be used to create the ticket if customer is not defined in the
+    # database, customer ticket information need to be empty strings
     my %CustomerUserData = $Self->{CustomerUserObject}->CustomerUserDataGet(
         User => $Ticket->{CustomerUser},
     );
@@ -1157,7 +1159,7 @@ sub _TicketCreate {
         Priority     => $Ticket->{Priority} || '',
         OwnerID      => 1,
         CustomerNo   => $CustomerUserData{UserCustomerID} || '',
-        CustomerUser => $Ticket->{CustomerUser},
+        CustomerUser => $CustomerUserData{UserLogin} || '',
         UserID       => $Param{UserID},
     );
 
@@ -1232,9 +1234,16 @@ sub _TicketCreate {
     if ( $Article->{From} ) {
         $From = $Article->{From};
     }
-    else {
+
+    # use data from customer user (if customer user is in database)
+    elsif ( IsHashRefWithData( \%CustomerUserData ) ) {
         $From = '"' . $CustomerUserData{UserFirstname} . ' ' . $CustomerUserData{UserLastname} . '"'
             . ' <' . $CustomerUserData{UserEmail} . '>';
+    }
+
+    # otherwise use customer user as sent from the request (it should be an email)
+    else {
+        $From = $Ticket->{CustomerUser};
     }
 
     # set Article To
@@ -1418,6 +1427,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.28 $ $Date: 2012-01-24 22:33:48 $
+$Revision: 1.29 $ $Date: 2012-02-13 21:35:45 $
 
 =cut

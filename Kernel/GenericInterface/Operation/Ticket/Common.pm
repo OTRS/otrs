@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Ticket/Common.pm - Ticket common operation functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.31 2012-01-26 17:02:00 cr Exp $
+# $Id: Common.pm,v 1.32 2012-02-13 21:35:45 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -40,7 +40,7 @@ use Kernel::System::GenericInterface::Webservice;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.31 $) [1];
+$VERSION = qw($Revision: 1.32 $) [1];
 
 =head1 NAME
 
@@ -433,11 +433,10 @@ sub ValidateCustomer {
         return;
     }
 
-    # return false if customer data is empty
-    return if !IsHashRefWithData( \%CustomerData );
-
-    # return false if type is not valid
-    return if $Self->{ValidObject}->ValidLookup( ValidID => $CustomerData{ValidID} ) ne 'valid';
+    # if customer is not registered in the database, check if email is valid
+    if ( !IsHashRefWithData( \%CustomerData ) ) {
+        return $Self->ValidateFrom( From => $Param{CustomerUser} )
+    }
 
     return 1;
 }
@@ -1528,6 +1527,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.31 $ $Date: 2012-01-26 17:02:00 $
+$Revision: 1.32 $ $Date: 2012-02-13 21:35:45 $
 
 =cut
