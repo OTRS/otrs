@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.499 2012-01-27 13:01:25 mb Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.500 2012-02-14 08:59:22 mg Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Translatable="1">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Group>Ticket</Group>
@@ -5768,7 +5768,7 @@ $QData{"Body"}
                     <NavBar>Ticket</NavBar>
                     <Type></Type>
                     <Block></Block>
-                    <AccessKey>e</AccessKey>
+                    <AccessKey>m</AccessKey>
                     <Prio>210</Prio>
                 </NavBar>
                 <Loader>
