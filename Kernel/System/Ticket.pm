@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Ticket.pm - all ticket functions
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.416.2.16 2011-12-02 07:26:26 mb Exp $
+# $Id: Ticket.pm,v 1.416.2.17 2012-02-14 13:57:04 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -36,7 +36,7 @@ use Kernel::System::Valid;
 use Kernel::System::HTMLUtils;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.416.2.16 $) [1];
+$VERSION = qw($Revision: 1.416.2.17 $) [1];
 
 =head1 NAME
 
@@ -7397,6 +7397,7 @@ sub TicketArticleStorageSwitch {
         TicketID => $Param{TicketID},
         UserID   => $Param{UserID},
     );
+    ARTICLEID:
     for my $ArticleID (@ArticleIndex) {
 
         # create source object
@@ -7442,11 +7443,11 @@ sub TicketArticleStorageSwitch {
             my $MD5Sum = $Self->{MainObject}->MD5sum(
                 String => $Attachment{Content},
             );
-            $MD5Sums{$MD5Sum} = 1;
+            $MD5Sums{$MD5Sum}++;
         }
 
         # nothing to transfer
-        return 1 if !@Attachments && !$Plain;
+        next ARTICLEID if !@Attachments && !$Plain;
 
         # write target attachments
         $Self->{ConfigObject}->Set(
@@ -7467,9 +7468,10 @@ sub TicketArticleStorageSwitch {
         if (%Index) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message  => "Attachments already in $Param{Destination}!"
+                Message =>
+                    "Attachments of TicketID:$Param{TicketID}/ArticleID:$ArticleID already in $Param{Destination}!"
             );
-            return 1;
+            next ARTICLEID;
         }
 
         # write attachments to destination
@@ -7509,7 +7511,10 @@ sub TicketArticleStorageSwitch {
                 String => \$Attachment{Content},
             );
             if ( $MD5Sums{$MD5Sum} ) {
-                delete $MD5Sums{$MD5Sum};
+                $MD5Sums{$MD5Sum}--;
+                if ( !$MD5Sums{$MD5Sum} ) {
+                    delete $MD5Sums{$MD5Sum};
+                }
             }
             else {
                 $Self->{LogObject}->Log(
@@ -7636,6 +7641,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.416.2.16 $ $Date: 2011-12-02 07:26:26 $
+$Revision: 1.416.2.17 $ $Date: 2012-02-14 13:57:04 $
 
 =cut
