@@ -1,8 +1,8 @@
 # --
 # AgentTicketCompose.dtl - provides HTML form for AgentTicketCompose
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.dtl,v 1.101 2011-12-15 19:37:48 cg Exp $
+# $Id: AgentTicketCompose.dtl,v 1.102 2012-02-14 08:28:08 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -32,7 +32,7 @@ $Include{"AgentCustomerSearch"}
 <!-- dtl:block:TicketBackUndo -->
             <p>
                 $Text{"The ticket has been locked"}.
-                <a class="UndoClosePopup" href="$Env{"Baselink"}Action=AgentTicketLock;Subaction=Unlock;TicketID=$Data{"TicketID"}">
+                <a class="UndoClosePopup" href="$Env{"Baselink"}Action=AgentTicketLock;Subaction=Unlock;TicketID=$Data{"TicketID"};$QEnv{"ChallengeTokenParam"}">
                     $Text{"Undo & close window"}
                 </a>
             </p>

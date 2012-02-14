@@ -1,8 +1,8 @@
 # --
 # AgentTicketMerge.dtl - provides HTML form for ticket merge mask
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMerge.dtl,v 1.52 2010-12-14 12:42:20 mb Exp $
+# $Id: AgentTicketMerge.dtl,v 1.53 2012-02-14 08:28:08 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@
 <!-- dtl:block:PropertiesLock -->
             <p>
                 $Text{"The ticket has been locked"}.
-                <a class="UndoClosePopup" href="$Env{"Baselink"}Action=AgentTicketLock;Subaction=Unlock;TicketID=$LQData{"TicketID"}">
+                <a class="UndoClosePopup" href="$Env{"Baselink"}Action=AgentTicketLock;Subaction=Unlock;TicketID=$LQData{"TicketID"};$QEnv{"ChallengeTokenParam"}">
                     $Text{"Undo & close window"}
                 </a>
             </p>
