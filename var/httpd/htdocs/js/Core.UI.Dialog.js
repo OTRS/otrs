@@ -1,8 +1,8 @@
 // --
 // Core.UI.Dialog.js - Dialogs
-// Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+// Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.UI.Dialog.js,v 1.34 2011-05-24 11:56:21 mg Exp $
+// $Id: Core.UI.Dialog.js,v 1.35 2012-02-14 14:24:46 ep Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -137,10 +137,10 @@ Core.UI.Dialog = (function (TargetNS) {
      *               Headline: string (default: undefined) Defines a special headline within the dialog window
      *               Text: string (default: undefined) The text which is outputtet in the dialog window
      *               HTML: string (default: undefined) Used for content dialog windows. Contains a complete HTML snippet or an jQuery object with containing HTML
-     *               PositionTop: value (default: undefined) Defines the top position of the dilaog window
-     *               PositionBottom: value (default: undefined) Defines the bottom position of the dilaog window
-     *               PositionLeft: value|Center (default: undefined) Defines the left position of the dilaog window. Center centers the window
-     *               PositionRight: value (default: undefined) Defines the right position of the dilaog window
+     *               PositionTop: value (default: undefined) Defines the top position of the dialog window
+     *               PositionBottom: value (default: undefined) Defines the bottom position of the dialog window
+     *               PositionLeft: value|Center (default: undefined) Defines the left position of the dialog window. Center centers the window
+     *               PositionRight: value (default: undefined) Defines the right position of the dialog window
      *               CloseOnClickOutside true|false (default: false) If true, clicking outside the dialog closes the dialog
      *               CloseOnEscape true|false (default: false) If true, pressing escape key closes the dialog
      *               NotDraggableIE7: true|false (default: false) If true, the dialog is not draggable in IE7 (due to performance reasons)
