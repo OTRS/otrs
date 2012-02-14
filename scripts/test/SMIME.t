@@ -2,7 +2,7 @@
 # SMIME.t - SMIME tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: SMIME.t,v 1.23 2012-01-16 12:17:31 mg Exp $
+# $Id: SMIME.t,v 1.24 2012-02-14 23:59:43 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -698,8 +698,8 @@ XLDWddmyvARs76znW/E85MA1qzWuTdj/o2dTRwkJ1cacuQu48N49
 
     # verify now must works
     %Data = $CryptObject->Verify(
-        Message     => $Sign,
-        Certificate => "$CertPath/8b0cc41f.0",
+        Message => $Sign,
+        CACert  => "$CertPath/8b0cc41f.0",
     );
 
     # it must works
