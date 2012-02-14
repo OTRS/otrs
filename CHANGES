@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2180 2012-02-14 08:59:22 mg Exp $
+# $Id: CHANGES,v 1.2181 2012-02-14 16:52:00 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.1.2 2012-03-??
+ - 2012-02-14 Fixed bug#7652 - OpenSearch providers are served with wrong mime type.
+    Follow-up fix.
  - 2012-02-14 Fixed bug#8140 - Shortcut for creating new e-mail ticket doesn't work.
     The hotkey for "new email ticket" was changed from e to m to avoid a collision.
  - 2012-02-14 Fixed bug#8144 - Typo and improved logging in GenericAgent.pm.
