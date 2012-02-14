@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1758.2.222 2012-02-09 19:00:42 cg Exp $
+# $Id: CHANGES,v 1.1758.2.223 2012-02-14 16:51:52 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.0.12 ????-??-??
+ - 2012-02-14 Fixed bug#7652 - OpenSearch providers are served with wrong mime type.
+    Follow-up fix.
  - 2012-02-09 Fixed bug#7109 - no one statistic is working with your selected.
  - 2012-02-09 Fixed bug#8199 - Linked tickets open only in tabs.
  - 2012-02-03 Fixed bug#8180 - bin/otrs.LoaderCache.pl exit code is wrong.
