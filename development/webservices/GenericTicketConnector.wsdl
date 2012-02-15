@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- $Id: GenericTicketConnector.wsdl,v 1.14 2012-02-09 22:44:33 cr Exp $ -->
+<!-- $Id: GenericTicketConnector.wsdl,v 1.15 2012-02-15 20:51:02 cr Exp $ -->
 <wsdl:definitions
     name="GenericTicketConnector"
     targetNamespace="http://www.otrs.org/TicketConnector/"
@@ -1950,7 +1950,7 @@
                         minOccurs="1"
                         maxOccurs="1">
                         <xsd:annotation>
-                            <xsd:documentation>UserLogin or CustomerUserLogin is mandatory</xsd:documentation>
+                            <xsd:documentation>UserLogin or CustomerUserLogin is mandatory.</xsd:documentation>
                         </xsd:annotation>
                         <xsd:element
                             name="UserLogin"
