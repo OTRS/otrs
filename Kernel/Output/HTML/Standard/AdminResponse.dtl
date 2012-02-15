@@ -1,8 +1,8 @@
 # --
 # AdminResponse.dtl - provides HTML form for AdminResponse
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminResponse.dtl,v 1.35 2011-12-23 14:26:57 mg Exp $
+# $Id: AdminResponse.dtl,v 1.36 2012-02-15 11:27:57 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -32,6 +32,16 @@
                 </ul>
             </div>
         </div>
+<!-- dtl:block:Filter -->
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2><label for="Filter">$Text{"Filter"}</label></h2>
+            </div>
+            <div class="Content">
+                <input type="text" id="Filter" class="W50pc" name="Filter" value="" title="$Text{"Filter"}" />
+            </div>
+        </div>
+<!-- dtl:block:Filter -->
 <!-- dtl:block:ActionList -->
 
         <div class="WidgetSimple">
@@ -41,11 +51,11 @@
             <div class="Content">
 
                 <p class="FieldExplanation">
-                    $Text{"A response is default text to write faster answer (with default text) to customers."}
+                    $Text{"A response is a default text which helps your agents to write faster answers to customers."}
                 </p>
                 <p>
                     $Text{"Attention"}:
-                    <a href="$Env{"Baselink"}Action=AdminQueueResponses">$Text{"Don't forget to add a new response a queue!"}</a>
+                    <a href="$Env{"Baselink"}Action=AdminQueueResponses">$Text{"Don't forget to add new responses to queues."}</a>
                 </p>
             </div>
         </div>
@@ -58,7 +68,7 @@
                 <h2>$Text{"List"}</h2>
             </div>
             <div class="Content">
-                <table class="DataTable">
+                <table class="DataTable" id="Responses">
                     <thead>
                         <tr>
                             <th>$Text{"Name"}</th>
@@ -99,6 +109,11 @@
                 </table>
             </div>
         </div>
+<!-- dtl:js_on_document_complete -->
+<script type="text/javascript">//<![CDATA[
+    Core.UI.Table.InitTableFilter($('#Filter'), $('#Responses'));
+//]]></script>
+<!-- dtl:js_on_document_complete -->
 <!-- dtl:block:OverviewResult -->
 <!-- dtl:block:OverviewUpdate -->
 
