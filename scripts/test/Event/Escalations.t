@@ -1,8 +1,8 @@
 # --
 # Escalations.t - escalation event tests
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Escalations.t,v 1.7 2011-12-23 04:02:28 cg Exp $
+# $Id: Escalations.t,v 1.8 2012-02-15 19:53:07 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -179,6 +179,9 @@ my $CheckNumEvents = sub {
     my (%Param) = @_;
 
     my $JobName = $Param{JobName} || '';
+
+    # wait a bit before to execute the job
+    sleep 3;
 
     if ($JobName) {
         my $JobRun = $Param{GenericAgentObject}->JobRun(
