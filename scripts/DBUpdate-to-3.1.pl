@@ -3,7 +3,7 @@
 # DBUpdate-to-3.1.pl - update script to migrate OTRS 3.0.x to 3.1.x
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-3.1.pl,v 1.71 2012-01-27 23:37:27 cg Exp $
+# $Id: DBUpdate-to-3.1.pl,v 1.72 2012-02-16 20:22:57 cr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.71 $) [1];
+$VERSION = qw($Revision: 1.72 $) [1];
 
 use Getopt::Std qw();
 use Kernel::Config;
@@ -1658,12 +1658,16 @@ sub _MigrateStatsConfiguration {
     my $DynamicFieldObject = Kernel::System::DynamicField->new( %{$CommonObject} );
 
     # find all statistics parts that need to be updated
+
+    # Oracle data type for xml_content_value might prevent comparisons like
+    # " AND xml_content_value like 'TicketFree%', " it has been tested in this query and apparently
+    # works with that line, but still this line was removed from the SQL statement in order to
+    # prevent errors new perl code was added to filter the value. Bug#8233.
     return if !$CommonObject->{DBObject}->Prepare(
         SQL => "SELECT xml_type, xml_key, xml_content_key, xml_content_value
             FROM xml_storage
             WHERE xml_type = 'Stats'
                 AND xml_content_key like '%UseAs%'
-                AND xml_content_value like 'TicketFree%'
             ORDER BY xml_key",
     );
 
@@ -1679,6 +1683,9 @@ sub _MigrateStatsConfiguration {
             XMLContentKey   => $Row[2],
             XMLContentValue => $Row[3],
         );
+
+        # skip all registers where XMLContentValue does not start with TicketFree
+        next if $StatRecordConfig{XMLContentValue} !~ m{\A TicketFree }xms;
 
         # save field details
         push @StatRecordsToChange, \%StatRecordConfig;
@@ -1704,20 +1711,22 @@ sub _MigrateStatsConfiguration {
             = 'DynamicField_' . $StatRecordConfig->{XMLContentValue};
 
         # update database
+
+        # Oracle data type for xml_content_value prevents comparisons like
+        # AND xml_content_value = ?, so this line was removed from the SQL statement
+        # and new perl code was added to filter the value. Bug#8233.
         my $SuccessStatsUpdate = $CommonObject->{DBObject}->Do(
             SQL =>
                 'UPDATE xml_storage
                 SET xml_content_value = ?
                 WHERE xml_type = ?
                     AND xml_key = ?
-                    AND xml_content_key = ?
-                    AND xml_content_value = ?',
+                    AND xml_content_key = ?',
             Bind => [
                 \$StatRecordConfig->{XMLContentValueNew},
                 \$StatRecordConfig->{XMLType},
                 \$StatRecordConfig->{XMLKey},
                 \$StatRecordConfig->{XMLContentKey},
-                \$StatRecordConfig->{XMLContentValue},
             ],
         );
 

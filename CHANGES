@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2182 2012-02-15 11:27:57 mb Exp $
+# $Id: CHANGES,v 1.2183 2012-02-16 20:22:57 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.1.2 2012-03-??
+ - 2012-02-16 Fixed bug#8233 - DB error migrating stats on Oracle.
  - 2012-02-14 Fixed bug#8224 - Admin Responses screen does not allow to filter responses.
  - 2012-02-14 Fixed bug#7652 - OpenSearch providers are served with wrong mime type.
     Follow-up fix.
