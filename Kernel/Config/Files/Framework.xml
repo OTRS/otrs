@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.467 2012-01-25 20:32:37 jb Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.468 2012-02-16 23:59:15 cr Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box (to avoid the use of destructive queries, such as DROP DATABASE, and also to steal user passwords).</Description>
         <Group>Framework</Group>
@@ -3128,11 +3128,11 @@ You can log in via the following URL:
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::PreferencesGeneric</Item>
                 <Item Key="Column">Other Settings</Item>
-                <Item Key="Label" Translatable="1">Example for dynamic dield</Item>
-                <Item Key="Key" Translatable="1">Example for dynamic field</Item>
+                <Item Key="Label" Translatable="1">NameX</Item>
+                <Item Key="Key" Translatable="1">Default value for NameX</Item>
                 <Item Key="Block">Input</Item>
-                <Item Key="Data">$Env{"UserDynamicField_DynamicField"}</Item>
-                <Item Key="PrefKey">UserDynamicField_DynamicField</Item>
+                <Item Key="Data">$Env{"UserDynamicField_NameX"}</Item>
+                <Item Key="PrefKey">UserDynamicField_NameX</Item>
                 <Item Key="Prio">7000</Item>
                 <Item Key="Active">1</Item>
             </Hash>
