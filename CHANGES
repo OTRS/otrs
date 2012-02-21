@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2184 2012-02-16 23:54:41 cr Exp $
+# $Id: CHANGES,v 1.2185 2012-02-21 20:36:33 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.1.2 2012-03-??
+ - 2012-02-21 Fixed bug#8252 - Small typo in German translation of AgentTicketZoom.
  - 2012-02-16 Fixed bug#8226 - Problem with Customized DynamicFields in TicketOverviewSmall.
  - 2012-02-16 Fixed bug#8233 - DB error migrating stats on Oracle.
  - 2012-02-14 Fixed bug#8224 - Admin Responses screen does not allow to filter responses.
@@ -392,7 +393,7 @@
  - 2011-08-15 Fixed bug#6263 - RPM upgrade should run otrs.RebuildConfig.pl and
     otrs.DeleteCache.pl.
  - 2011-08-12 Updated Simplified Chinese Translation, thanks to Martin Liu!
- - 2011-08-12 Updated Danish translation, thanks to Lars Jørgensen!
+ - 2011-08-12 Updated Danish translation, thanks to Lars JÃ¸rgensen!
  - 2011-08-10 Fixed bug#7550 - SLA and Service is not written to history.
  - 2011-08-10 Fixed bug#7549 - Missing mandatory class and * identifier in AgentTicketMove.
 
@@ -535,7 +536,7 @@
  - 2011-02-14 Fixed bug#6869 - ITSM 3 Link Object "close window" refreshes and settings lost
  - 2011-02-09 Fixed bug#6878 - Agent and customer usernames and passwords stored plaintext
     in database and session.
- - 2011-02-09 Updated French translation, thanks to R�mi Seguy!
+ - 2011-02-09 Updated French translation, thanks to Rï¿½mi Seguy!
  - 2011-02-08 Fixed bug#6808 - change queue with note destroyes rich text in note
     when file is attached.
  - 2011-02-04 Fixed bug#4350 - Time_accounting not merged when merging ticket.
@@ -619,7 +620,7 @@
  - 2010-12-30 Updated CPAN module JSON to version 2.50.
  - 2010-12-30 Updated CPAN module JSON::PP to version 2.27103.
  - 2010-12-30 Updated CPAN module Text::CSV to version 1.21.
- - 2010-12-28 Fixed bug#6595 - umleiten != Zur�ckweisen an.
+ - 2010-12-28 Fixed bug#6595 - umleiten != Zurï¿½ckweisen an.
  - 2010-12-28 Fixed bug#6057 - Some action buttons don't have tooltips.
  - 2010-12-27 Fixed bug#6606 - Login screen in area of ticket details.
  - 2010-12-27 Fixed bug#6609 - Created date in article is overlapping the Loader icon.
@@ -836,7 +837,7 @@
  - 2010-11-04 Fixed bug#5937 - Large overview data presentation issues.
  - 2010-11-04 Fixed bug#6203 - Rich Text Editor - right click on misspelled words in Firefox does not work as expected.
  - 2010-11-03 Fixed bug#4273 - No required fields indication in AdminUser screen.
- - 2010-11-03 Added Serbian translation, thanks to Milorad Jovanović!
+ - 2010-11-03 Added Serbian translation, thanks to Milorad JovanoviÄ‡!
  - 2010-11-03 Fixed bug#6073 - Search window does not resize to selected content.
  - 2010-11-03 Fixed bug#6122 - TicketZoom Scroller Height is calculation is broken.
  - 2010-11-03 Fixed bug#5649 - Changing owner in M and S views opens in same tab instead of popup.
@@ -930,7 +931,7 @@
     The submenus in the agent main menu open on click by default. With the new
     config "OpenMainMenuOnHover" setting it can be specified that they should
     also open on mouse hover.
- - 2010-09-30 Updated Ukrainian translation file, thanks to Бельский Артем!
+ - 2010-09-30 Updated Ukrainian translation file, thanks to Ð‘ÐµÐ»ÑŒÑ�ÐºÐ¸Ð¹ Ð�Ñ€Ñ‚ÐµÐ¼!
  - 2010-09-30 Fixed bug#5979 - IE8 - articles for a ticket doesn't switch
  - 2010-09-29 Fixed bug#6017 - QueueLookup function returns wrong QueueID if a
     queue name was updated.
@@ -1005,7 +1006,7 @@
  - 2010-09-08 Fixed bug#5846 - Missing error message if tickets pending time gets
     set to an invalid time.
  - 2010-09-08 Fixed bug#5651 - Spellcheck can't be disabled.
- - 2010-09-08 Updated Danish translation file, thanks to Mads N�shauge Vestergaard!
+ - 2010-09-08 Updated Danish translation file, thanks to Mads Nï¿½shauge Vestergaard!
  - 2010-09-08 Fixed bug#5668 - Dashboard Widgets "Agents Online" shows pagination
    links even if no pagination is needed.
  - 2010-09-08 Fixed bug#5882 - ArticleBox 'Direction' is not implemented.
@@ -1570,7 +1571,7 @@
  - 2010-07-13 Fixed bug#5550 - Broken linebreaks in textareas of Google Chrome.
  - 2010-07-07 Fixed bug#5541 - Dashboard Chart generates error in webserver log.
  - 2010-07-01 Fixed bug#5512 - Bulk Action No Access is displayed incorrectly.
- - 2010-06-25 Updated Danish translation, thanks to Jesper R�nnov,
+ - 2010-06-25 Updated Danish translation, thanks to Jesper Rï¿½nnov,
     Faaborg-Midtfyn Kommune!
  - 2010-06-24 Fixed bug#5445 - Reflected XSS vulnerability.
  - 2010-06-16 Fixed bug#5488 - AutoPriorityIncrease runs into failures.
@@ -1848,7 +1849,7 @@
  - 2009-09-08 Fixed bug#4248 - follow up email contains the ticket number two
     times.
  - 2009-09-07 Fixed bug#4253 - No customer get found by using german umlaut
-    "e. g. m�ller".
+    "e. g. mï¿½ller".
  - 2009-09-02 Fixed bug#4186 - Customer search autocomplete result field is
     sometimes too small to show complete customer entry.
  - 2009-09-02 Fixed bug#4234 - Typo in german update message.
@@ -3337,7 +3338,7 @@
     type is email-internal which is set via a postmaster filter.
  - 2007-10-02 Fixed bug# 2346 - Emty entries are shown in the responsible
     option list in TicketSearch mask.
- - 2007-09-24 Fixed bug# 2321 - It's not possible to use � or � in
+ - 2007-09-24 Fixed bug# 2321 - It's not possible to use ï¿½ or ï¿½ in
     description tag of .sopm file -> leading to perl syntax error!
  - 2007-09-17 Fixed bug# 2291 - Only include/use PDF::API2 in
     Kernel/Modules/AgentTicketSearch.pm and Kernel/Modules/AgentStats.pm
@@ -4821,7 +4822,7 @@
     (show just user with rw permission to selected queue)
  - 2004-11-07 fixed utf8-problem with postgres and non utf-8 emails in
     article_plain
- - 2004-11-05 updated Kernel/Language/hu.pm Thanks to Czak� Kriszti�n!
+ - 2004-11-05 updated Kernel/Language/hu.pm Thanks to Czakï¿½ Krisztiï¿½n!
  - 2004-11-04 fixed loop if now theme directory is found
  - 2004-11-04 fixed upper queue rename with () or + chars
  - 2004-11-04 fixed bug 604 - Typo in AgentStatusView.pm
@@ -5010,7 +5011,7 @@
 1.2.4 2004-07-07
  - 2004-06-29 fixed bug [456] not existing queue_auto_response
     references in scripts/database/initial_insert.sql
- - 2004-06-11 added Hungarian translation. Thanks to G�ncs G�bor!
+ - 2004-06-11 added Hungarian translation. Thanks to Gï¿½ncs Gï¿½bor!
  - 2004-04-10 fixed not shown "this message is written in an
     other charset as your own" link in agent zoom
  - 2004-04-08 fixed performance problem in Kernel::Language
@@ -5045,7 +5046,7 @@
  - 2004-02-14 updated spanish translation. Thanks to Jorge Becerra!
  - 2004-02-14 updated czech translation. Thanks to Petr Ocasek
     (BENETA.cz, s.r.o.)!
- - 2004-02-14 added Norwegian language translation (bokm�l)
+ - 2004-02-14 added Norwegian language translation (bokmï¿½l)
     Thanks to Arne Georg Gleditsch!
  - 2004-02-12 fixed security bugs ins SQL quote()
  - 2004-02-12 fixed bin/PendingJobs.pl bug (Need User)
@@ -5311,7 +5312,7 @@
     datatypes (DATETIME instead of TIMESTAMP)
  - 2003-07-06 fixed bug 165 - Pop3 change - does not show the queue
  - 2003-07-03 fixed bug 178 - Authenticated customer LDAP requests don't work
- - 2003-07-02 updated Finnish translation, thanks to Antti K�m�r�inen
+ - 2003-07-02 updated Finnish translation, thanks to Antti Kï¿½mï¿½rï¿½inen
  - 2003-07-01 added SMTP module port patch of Jeroen Boomgaardt
  - 2003-06-22 fixed bug 144 - PostMasterPOP3.pl is exiting
     "Attached .eml file causes bug in EmailParser.pm"
@@ -5514,7 +5515,7 @@
     http://bugs.otrs.org/show_bug.cgi?id=62
  - 2003-01-16 added bin/otrs.checkModules to check installed and
     required cpan modules
- - 2003-01-15 updated finnish translation! Thanks to Antti K�m�r�inen!
+ - 2003-01-15 updated finnish translation! Thanks to Antti Kï¿½mï¿½rï¿½inen!
  - 2003-01-15 added CheckMXRecord option to webinstaller
  - 2003-01-14 fixed typos "preferneces != preferences typo"
     http://lists.otrs.org/pipermail/dev/2003-January/000074.html
@@ -5558,7 +5559,7 @@
  - 2002-12-18 added more error handling to AgentPhone
  - 2002-12-15 added bin/PostMasterPOP3.pl and AdminPOP3 interface for
     fetching emails without procmail, fetchmail and MDA
- - 2002-12-12 added finnish translation - Thanks to Antti K�m�r�inen!
+ - 2002-12-12 added finnish translation - Thanks to Antti Kï¿½mï¿½rï¿½inen!
  - 2002-12-08 added working PostMasterDaemon.pl and PostMasterClient.pl,
     alternative to PostMaster.pl. How it works: If the PostMasterDaemon.pl
     is running, pipe email through PostMasterClient.pl like (PostMaster.pl)
