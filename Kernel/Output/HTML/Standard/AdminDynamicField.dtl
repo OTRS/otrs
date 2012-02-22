@@ -1,8 +1,8 @@
 # --
 # AdminDynamicField.dtl - provides HTML form for DynamicFields
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminDynamicField.dtl,v 1.18 2011-11-28 17:34:12 cg Exp $
+# $Id: AdminDynamicField.dtl,v 1.19 2012-02-22 13:12:45 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -11,7 +11,7 @@
 
 <!-- dtl:block:Main -->
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
-    <h1>$Text{"Dynamic Fields Management"} - $QData{"Action"}</h1>
+    <h1>$Text{"Dynamic Fields Management"} - $Text{"$Data{"Action"}"}</h1>
 
     <div class="Clear"></div>
 
