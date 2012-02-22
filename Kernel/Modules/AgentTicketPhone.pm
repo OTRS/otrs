@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.230 2012-01-30 19:54:45 cr Exp $
+# $Id: AgentTicketPhone.pm,v 1.231 2012-02-22 10:52:05 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Mail::Address;
 use Kernel::System::Service;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.230 $) [1];
+$VERSION = qw($Revision: 1.231 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -735,7 +735,7 @@ sub Run {
             my $ValidationResult;
 
             # do not validate on attachment upload
-            if ( !$IsUpload ) {
+            if ( !$IsUpload && !$ExpandCustomerName ) {
 
                 $ValidationResult = $Self->{BackendObject}->EditFieldValueValidate(
                     DynamicFieldConfig   => $DynamicFieldConfig,

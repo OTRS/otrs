@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.202 2012-02-02 16:55:21 cg Exp $
+# $Id: AgentTicketEmail.pm,v 1.203 2012-02-22 10:52:05 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -28,7 +28,7 @@ use Mail::Address;
 use Kernel::System::Service;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.202 $) [1];
+$VERSION = qw($Revision: 1.203 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -703,7 +703,7 @@ sub Run {
             my $ValidationResult;
 
             # do not validate on attachment upload
-            if ( !$IsUpload ) {
+            if ( !$IsUpload && !$ExpandCustomerName ) {
 
                 $ValidationResult = $Self->{BackendObject}->EditFieldValueValidate(
                     DynamicFieldConfig   => $DynamicFieldConfig,
