@@ -1,7 +1,7 @@
 #!/bin/sh
 # --
 # redhat-rcotrs - rc script of otrs for RedHat Linux
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -98,7 +98,10 @@ case "$1" in
       # OTRS Scheduler Service
       # --
       echo -n " Checking OTRS Scheduler Service... "
-      if ! $OTRS_SCHEDULER_TEST >/dev/null 2>&1; then
+      $OTRS_SCHEDULER -a status |grep 'Running' > /dev/null 2>&1
+      TEST_STATUS=$?
+      echo $TEST_STATUS
+      if  test $TEST_STATUS -ne 0; then
           echo " Error! "
       echo "  This can happen if your database is not configured yet. "
           exit 1;
@@ -248,9 +251,12 @@ case "$1" in
       # scheduler check
       # --
       echo -n "Checking OTRS Scheduler service.... "
-      if ! $OTRS_CHECKSCHEDULER -s 1; then
+      $OTRS_SCHEDULER -a status |grep 'Running' > /dev/null 2>&1
+      TEST_STATUS=$?
+      echo $TEST_STATUS
+      if  test $TEST_STATUS -ne 0; then
           echo " Error! "
-      echo " Maybe your database isn't configured yet? "
+          echo " Maybe your database isn't configured yet? "
       else
           echo "done."
       fi
