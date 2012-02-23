@@ -2,7 +2,7 @@
 # INSTALL description of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: INSTALL,v 1.61 2012-02-22 13:29:09 mb Exp $
+# $Id: INSTALL,v 1.62 2012-02-23 09:22:44 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -59,11 +59,11 @@ directory is /opt/otrs. You can adapt these values as needed.
 
    a) Install the packages via the package manager of your Linux distribution.
 
-      - For RedHat, CentOS, Fedora or compatible systems:
+      - For Red Hat, CentOS, Fedora or compatible systems:
 
         shell> yum install "perl(Digest::MD5)"
 
-      - For Suse Enterprise Linux, openSUSE or compatible systems:
+      - For SUSE Linux Enterprise Server, openSUSE or compatible systems:
         first determine the name of the package the module is shipped in.
         Usually the package for My::Module would be called "perl-My-Module".
 
@@ -91,7 +91,7 @@ directory is /opt/otrs. You can adapt these values as needed.
 
    b) Install the required modules via the CPAN shell
 
-      note that when you're on Unix you should run CPAN as your superuser
+      note that when you're on Linux you should run CPAN as your superuser
       account because the modules should be accessible both by the OTRS
       account and the account under which the web server is running.
 
@@ -115,7 +115,7 @@ directory is /opt/otrs. You can adapt these values as needed.
 
     shell> usermod -G www otrs
 
-    (SuSE=www, Red Hat/CentOS/Fedora=apache, Debian/Ubuntu=www-data)
+    (SUSE=www, Red Hat/CentOS/Fedora=apache, Debian/Ubuntu=www-data)
 
 4) Activate Default Config Files:
    ------------------------------
@@ -145,7 +145,7 @@ directory is /opt/otrs. You can adapt these values as needed.
 
     "syntax OK" tells you all mandatory perl modules are installed.
 
-6) Webserver:
+6) Web Server:
    ----------
    [follow README.webserver]
 
@@ -156,15 +156,15 @@ directory is /opt/otrs. You can adapt these values as needed.
    shell> bin/otrs.SetPermissions.pl --otrs-user=<OTRS_USER> --web-user=<WEBSERVER_USER> [--otrs-group=<OTRS_GROUP>] [--web-group=<WEB_GROUP>] <OTRS_HOME>
 
    For example:
-     Webserver with OTRS user:
+     Web server which runs as the OTRS user:
 
        shell> bin/otrs.SetPermissions.pl --otrs-user=otrs --web-user=otrs /opt/otrs
 
-     Webserver with wwwrun user (e. g. SuSE):
+     Webserver with wwwrun user (e. g. SUSE):
 
        shell> bin/otrs.SetPermissions.pl --otrs-user=otrs --web-user=wwwrun /opt/otrs
 
-     Webserver with apache user (e. g. Redhat, CentOS):
+     Webserver with apache user (e. g. Red Hat, CentOS):
 
        shell> bin/otrs.SetPermissions.pl --otrs-user=otrs --web-user=apache --otrs-group=apache --web-group=apache /opt/otrs
 
@@ -219,11 +219,13 @@ directory is /opt/otrs. You can adapt these values as needed.
    This step is optional. OTRS comes with a scheduler service. You'll only need 
    to set up the scheduler service if you're using the Generic Interface with
    web services that need polling (OTRS as a consumer) or with web services
-   where requests are sent asynchronously.  
+   where requests are sent asynchronously.
    
-   The OTRS RPMs will set up the Scheduler Service automatically. 
-   If you install from source, you can install the service by using the 
-   scripts/
+   The OTRS RPMs will set up the Scheduler Service automatically.
+   If you install from source, you can install the service by copying the 
+   scripts/otrs-scheduler-linux file to /etc/init.d and give it the appropriate
+   permissions. This will make sure the scheduler service starts when the system
+   starts up.
 
 Notes:
 ======
