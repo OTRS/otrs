@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.pm,v 1.142 2012-01-18 17:06:19 sb Exp $
+# $Id: AgentTicketSearch.pm,v 1.143 2012-02-23 11:07:06 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.142 $) [1];
+$VERSION = qw($Revision: 1.143 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -232,25 +232,25 @@ sub Run {
                 $GetParam{$_} = \@Array;
             }
         }
-    }
 
-    # get Dynamic fields form param object
-    # cycle trough the activated Dynamic Fields for this screen
-    DYNAMICFIELD:
-    for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
-        next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+        # get Dynamic fields form param object
+        # cycle trough the activated Dynamic Fields for this screen
+        DYNAMICFIELD:
+        for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
+            next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
 
-        # extract the dynamic field value form the web request
-        my $DynamicFieldValue = $Self->{BackendObject}->SearchFieldValueGet(
-            DynamicFieldConfig     => $DynamicFieldConfig,
-            ParamObject            => $Self->{ParamObject},
-            ReturnProfileStructure => 1,
-            LayoutObject           => $Self->{LayoutObject},
-        );
+            # extract the dynamic field value form the web request
+            my $DynamicFieldValue = $Self->{BackendObject}->SearchFieldValueGet(
+                DynamicFieldConfig     => $DynamicFieldConfig,
+                ParamObject            => $Self->{ParamObject},
+                ReturnProfileStructure => 1,
+                LayoutObject           => $Self->{LayoutObject},
+            );
 
-        # set the comple value structure in GetParam to store it later in the search profile
-        if ( IsHashRefWithData($DynamicFieldValue) ) {
-            %GetParam = ( %GetParam, %{$DynamicFieldValue} );
+            # set the comple value structure in GetParam to store it later in the search profile
+            if ( IsHashRefWithData($DynamicFieldValue) ) {
+                %GetParam = ( %GetParam, %{$DynamicFieldValue} );
+            }
         }
     }
 
