@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/TicketOverviewMedium.pm
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketOverviewMedium.pm,v 1.52 2011-12-05 20:56:04 mb Exp $
+# $Id: TicketOverviewMedium.pm,v 1.53 2012-02-24 14:32:36 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.52 $) [1];
+$VERSION = qw($Revision: 1.53 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -249,6 +249,14 @@ sub _Show {
         TicketID      => $Param{TicketID},
         DynamicFields => 0,
     );
+
+    # Fallback for tickets without articles: get at least basic ticket data
+    if ( !%Article ) {
+        %Article = $Self->{TicketObject}->TicketGet(
+            TicketID      => $Param{TicketID},
+            DynamicFields => 0,
+        );
+    }
 
     # user info
     my %UserInfo = $Self->{UserObject}->GetUserData(
