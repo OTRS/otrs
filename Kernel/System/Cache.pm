@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Cache.pm - all cache functions
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Cache.pm,v 1.20 2010-05-06 18:33:12 mb Exp $
+# $Id: Cache.pm,v 1.20.2.1 2012-02-26 01:35:48 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.20 $) [1];
+$VERSION = qw($Revision: 1.20.2.1 $) [1];
 
 =head1 NAME
 
@@ -82,7 +82,6 @@ sub new {
     my $CacheModule = $Self->{ConfigObject}->Get('Cache::Module')
         || 'Kernel::System::Cache::FileStorable';
 
-    #        || 'Kernel::System::Cache::Memcached';
     if ( !$Self->{MainObject}->Require($CacheModule) ) {
         die "Can't load backend module $CacheModule! $@";
     }
@@ -251,6 +250,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.20 $ $Date: 2010-05-06 18:33:12 $
+$Revision: 1.20.2.1 $ $Date: 2012-02-26 01:35:48 $
 
 =cut
