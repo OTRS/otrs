@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Multiselect.pm - Delegate for DynamicField Multiselect backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Multiselect.pm,v 1.44 2012-01-03 22:49:44 cr Exp $
+# $Id: Multiselect.pm,v 1.45 2012-02-27 13:06:10 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::DynamicFieldValue;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.44 $) [1];
+$VERSION = qw($Revision: 1.45 $) [1];
 
 =head1 NAME
 
@@ -166,9 +166,12 @@ sub SearchSQLGet {
     }
 
     if ( $Param{Operator} eq 'Like' ) {
-        my $SQL = " LOWER($Param{TableAlias}.value_text) LIKE LOWER('";
-        $SQL .= $Self->{DBObject}->Quote( $Param{SearchTerm}, 'Like' );
-        $SQL .= "') " . $Self->{DBObject}->GetDatabaseFunction('LikeEscapeString') . ' ';
+
+        my $SQL = $Self->{DBObject}->QueryCondition(
+            Key   => "$Param{TableAlias}.value_text",
+            Value => $Param{SearchTerm},
+        );
+
         return $SQL;
     }
 
