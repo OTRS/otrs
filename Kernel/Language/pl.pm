@@ -4,7 +4,7 @@
 # Copyright (C) 2009 Artur Skalski <skal.ar at wp.pl>
 # Copyright (C) 2011 Informatyka Boguslawski sp. z o.o. sp.k., http://www.ib.pl/
 # --
-# $Id: pl.pm,v 1.124 2012-02-02 16:11:49 mg Exp $
+# $Id: pl.pm,v 1.125 2012-02-27 08:26:14 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.124 $) [1];
+$VERSION = qw($Revision: 1.125 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1823,7 +1823,7 @@ sub Data {
         # Template: AgentDashboardTicketGeneric
         'My locked tickets' => '',
         'My watched tickets' => '',
-        'My responsibilites' => '',
+        'My responsibilities' => '',
         'Tickets in My Queues' => '',
 
         # Template: AgentDashboardTicketStats

@@ -2,7 +2,7 @@
 # Kernel/Language/sk_SK.pm - provides Slovak language translation
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: sk_SK.pm,v 1.91 2012-02-02 16:11:48 mg Exp $
+# $Id: sk_SK.pm,v 1.92 2012-02-27 08:26:13 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.91 $) [1];
+$VERSION = qw($Revision: 1.92 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1821,7 +1821,7 @@ sub Data {
         # Template: AgentDashboardTicketGeneric
         'My locked tickets' => '',
         'My watched tickets' => '',
-        'My responsibilites' => '',
+        'My responsibilities' => '',
         'Tickets in My Queues' => '',
 
         # Template: AgentDashboardTicketStats

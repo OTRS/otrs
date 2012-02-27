@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Milorad Jovanovic <j.milorad at gmail.com>
 # --
-# $Id: sr_Cyrl.pm,v 1.28 2012-02-02 16:11:46 mg Exp $
+# $Id: sr_Cyrl.pm,v 1.29 2012-02-27 08:26:11 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.28 $) [1];
+$VERSION = qw($Revision: 1.29 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1821,7 +1821,7 @@ sub Data {
         # Template: AgentDashboardTicketGeneric
         'My locked tickets' => 'Моји закључани тикети',
         'My watched tickets' => 'Моји праћени тикети',
-        'My responsibilites' => 'Одговоран сам за',
+        'My responsibilities' => 'Одговоран сам за',
         'Tickets in My Queues' => 'Тикети у мојим редовима',
 
         # Template: AgentDashboardTicketStats

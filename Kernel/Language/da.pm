@@ -4,7 +4,7 @@
 # Copyright (C) 2007-2008 Mads N. Vestergaard <mnv[at]timmy.dk>
 # Copyright (C) 2010 Lars Jørgensen <lajo[at]kb.dk>
 # --
-# $Id: da.pm,v 1.101 2012-02-02 16:11:46 mg Exp $
+# $Id: da.pm,v 1.102 2012-02-27 08:26:10 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 
 use vars qw($VERSION);
 
-$VERSION = qw($Revision: 1.101 $) [1];
+$VERSION = qw($Revision: 1.102 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1823,7 +1823,7 @@ sub Data {
         # Template: AgentDashboardTicketGeneric
         'My locked tickets' => '',
         'My watched tickets' => '',
-        'My responsibilites' => '',
+        'My responsibilities' => '',
         'Tickets in My Queues' => '',
 
         # Template: AgentDashboardTicketStats

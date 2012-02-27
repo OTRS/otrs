@@ -8,7 +8,7 @@
 # Copyright (C) 2010 Ton van Boven <ton 'at' avebo.nl>
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: nl.pm,v 1.178 2012-02-09 14:43:50 mb Exp $
+# $Id: nl.pm,v 1.179 2012-02-27 08:26:14 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -28,7 +28,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.178 $) [1];
+$VERSION = qw($Revision: 1.179 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1834,7 +1834,7 @@ sub Data {
         # Template: AgentDashboardTicketGeneric
         'My locked tickets' => 'Mijn vergrendelde tickets',
         'My watched tickets' => 'Mijn gevolgde tickets',
-        'My responsibilites' => 'Tickets waarvoor ik verantwoordelijk ben',
+        'My responsibilities' => 'Tickets waarvoor ik verantwoordelijk ben',
         'Tickets in My Queues' => 'Tickets in mijn wachtrijen',
 
         # Template: AgentDashboardTicketStats

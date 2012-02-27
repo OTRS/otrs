@@ -2,7 +2,7 @@
 # Kernel/Language/ar_SA.pm - provides ar_SA language translation
 # Copyright (C) 2007 Mohammad Saleh <maoaf at yahoo.com>
 # --
-# $Id: ar_SA.pm,v 1.74 2012-02-02 16:11:46 mg Exp $
+# $Id: ar_SA.pm,v 1.75 2012-02-27 08:26:11 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.74 $) [1];
+$VERSION = qw($Revision: 1.75 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1823,7 +1823,7 @@ sub Data {
         # Template: AgentDashboardTicketGeneric
         'My locked tickets' => '',
         'My watched tickets' => '',
-        'My responsibilites' => '',
+        'My responsibilities' => '',
         'Tickets in My Queues' => '',
 
         # Template: AgentDashboardTicketStats
