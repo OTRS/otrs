@@ -1,6 +1,6 @@
 # --
 # AdminRoleGroup.dtl - provides HTML form for AdminInterface
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
 # $Id: AdminRoleGroup.dtl,v 1.13 2010/02/05 13:58:23 mn Exp $
 # --
@@ -19,7 +19,7 @@
                 <h2><label for="FilterRoles">$Text{"Filter for Roles"}</label></h2>
             </div>
             <div class="Content">
-                <input type="text" id="FilterRoles" class="W50pc" name="FilterUser" value="" title="$Text{"Filter for Roles"}"/>
+                <input type="text" id="FilterRoles" class="W50pc" name="FilterRoles" value="" title="$Text{"Filter for Roles"}"/>
             </div>
         </div>
         <div class="WidgetSimple">
