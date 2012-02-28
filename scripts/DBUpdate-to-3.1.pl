@@ -3,7 +3,7 @@
 # DBUpdate-to-3.1.pl - update script to migrate OTRS 3.0.x to 3.1.x
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-3.1.pl,v 1.72 2012-02-16 20:22:57 cr Exp $
+# $Id: DBUpdate-to-3.1.pl,v 1.73 2012-02-28 13:59:52 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.72 $) [1];
+$VERSION = qw($Revision: 1.73 $) [1];
 
 use Getopt::Std qw();
 use Kernel::Config;
@@ -290,6 +290,15 @@ sub RebuildConfig {
     if ( !$SysConfigObject->WriteDefault() ) {
         die "ERROR: Can't write default config files!";
     }
+
+    # Rebuild ZZZAAuto.pm with current values
+    if ( !$SysConfigObject->WriteDefault() ) {
+        die "ERROR: Can't write default config files!";
+    }
+
+    # Also rebuild ZZZAuto.pm to avoid possible encoding errors with
+    #   the old Main::Dump() in ascii mode.
+    $SysConfigObject->CreateConfig();
 
     # reload config object
     $CommonObject->{ConfigObject} = Kernel::Config->new( %{$CommonObject} );
