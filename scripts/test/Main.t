@@ -2,7 +2,7 @@
 # Main.t - Main tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Main.t,v 1.26 2012-02-28 08:39:27 mg Exp $
+# $Id: Main.t,v 1.27 2012-02-28 11:17:12 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -461,19 +461,28 @@ for my $Directory ( $DirectoryWithFiles, $DirectoryWithoutFiles ) {
 #
 @Tests = (
     {
-        Name   => 'Unicode dump',
-        Source => 'é',
-        Result => "\$VAR1 = 'é';\n",
+        Name         => 'Unicode dump',
+        Source       => 'é',
+        ResultBinary => "\$VAR1 = 'é';\n",
+        ResultAscii  => "\$VAR1 = \"\\x{e9}\";\n",
     }
 );
 
 for my $Test (@Tests) {
-    my $Result = $Self->{MainObject}->Dump( $Test->{Source} );
+    my $ResultBinary = $Self->{MainObject}->Dump( $Test->{Source}, 'binary' );
 
     $Self->Is(
-        $Result,
-        $Test->{Result},
-        "$Test->{Name} - Dump() result"
+        $ResultBinary,
+        $Test->{ResultBinary},
+        "$Test->{Name} - Dump() result binary"
+    );
+
+    my $ResultAscii = $Self->{MainObject}->Dump( $Test->{Source}, 'ascii' );
+
+    $Self->Is(
+        $ResultAscii,
+        $Test->{ResultAscii},
+        "$Test->{Name} - Dump() result ascii"
     );
 }
 
