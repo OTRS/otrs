@@ -2,7 +2,7 @@
 # Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm - stats about ticket solution and response time
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketSolutionResponseTime.pm,v 1.12 2012-01-11 17:28:26 jh Exp $
+# $Id: TicketSolutionResponseTime.pm,v 1.13 2012-02-28 10:38:01 jp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -766,12 +766,37 @@ sub _ReportingValues {
     my ( $Self, %Param ) = @_;
     my $SearchAttributes = $Param{SearchAttributes};
 
+    #
+    # escape search attributes for ticket search
+    #
+    my %AttributesToEscape = (
+        'CustomerID' => 1,
+        'Title'      => 1,
+    );
+
     # get ticket search relevant attributes
     my %TicketSearch;
     ATTRIBUTE:
     for my $Attribute ( @{ $Self->_AllowedTicketSearchAttributes() } ) {
         next ATTRIBUTE if !$SearchAttributes->{$Attribute};
         $TicketSearch{$Attribute} = $SearchAttributes->{$Attribute};
+
+        next ATTRIBUTE if !$AttributesToEscape{$Attribute};
+
+        # escape search parameters for ticket search
+        if ( ref $TicketSearch{$Attribute} ) {
+            if ( ref $TicketSearch{$Attribute} eq 'ARRAY' ) {
+                $TicketSearch{$Attribute} = [
+                    map { $Self->{DBObject}->QueryStringEscape( QueryString => $_ ) }
+                        @{ $TicketSearch{$Attribute} }
+                ];
+            }
+        }
+        else {
+            $TicketSearch{$Attribute} = $Self->{DBObject}->QueryStringEscape(
+                QueryString => $TicketSearch{$Attribute}
+            );
+        }
     }
 
     # do nothing, if there are no search attributes

@@ -2,7 +2,7 @@
 # Kernel/System/Stats/Dynamic/Ticket.pm - all advice functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.37 2012-01-11 17:28:26 jh Exp $
+# $Id: Ticket.pm,v 1.38 2012-02-28 10:38:01 jp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.37 $) [1];
+$VERSION = qw($Revision: 1.38 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -522,6 +522,14 @@ sub GetObjectAttributes {
 sub GetStatElement {
     my ( $Self, %Param ) = @_;
 
+    #
+    # escape search attributes for ticket search
+    #
+    my %AttributesToEscape = (
+        'CustomerID' => 1,
+        'Title'      => 1,
+    );
+
     for my $ParameterName ( keys %Param ) {
         if ( $ParameterName =~ m{\A DynamicField_ ( [a-zA-Z\d]+ ) \z}xms ) {
 
@@ -544,6 +552,20 @@ sub GetStatElement {
 
                 # add new search parameter
                 $Param{$ParameterName} = $DynamicFieldStatsSearchParameter;
+            }
+        }
+        elsif ( $AttributesToEscape{$ParameterName} ) {
+            if ( ref $Param{$ParameterName} ) {
+                if ( ref $Param{$ParameterName} eq 'ARRAY' ) {
+                    $Param{$ParameterName} = [
+                        map { $Self->{DBObject}->QueryStringEscape( QueryString => $_ ) }
+                            @{ $Param{$ParameterName} }
+                    ];
+                }
+            }
+            else {
+                $Param{$ParameterName}
+                    = $Self->{DBObject}->QueryStringEscape( QueryString => $Param{$ParameterName} );
             }
         }
     }
