@@ -1,8 +1,8 @@
 # --
 # Kernel/System/SysConfig.pm - all system config tool functions
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: SysConfig.pm,v 1.32 2011-12-21 09:52:28 mg Exp $
+# $Id: SysConfig.pm,v 1.33 2012-02-28 14:15:32 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::Config;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.32 $) [1];
+$VERSION = qw($Revision: 1.33 $) [1];
 
 =head1 NAME
 
@@ -492,7 +492,7 @@ sub ConfigItemUpdate {
         $Option = "delete \$Self->{'$Param{Key}'};\n";
     }
     else {
-        $Option = $Self->{MainObject}->Dump( $Param{Value}, 'ascii' );
+        $Option = $Self->{MainObject}->Dump( $Param{Value} );
         $Option =~ s/\$VAR1/\$Self->{'$Param{Key}'}/;
     }
 
@@ -573,7 +573,7 @@ sub ConfigItemGet {
     return if !$Self->{Config}->{ $Param{Name} };
 
     # copy config and store it as default
-    my $Dump = $Self->{MainObject}->Dump( $Self->{Config}->{ $Param{Name} }, 'ascii' );
+    my $Dump = $Self->{MainObject}->Dump( $Self->{Config}->{ $Param{Name} } );
     $Dump =~ s/\$VAR1 =/\$ConfigItem =/;
 
     # rh as 8 bug fix
@@ -1598,7 +1598,7 @@ sub _Init {
                 if ( !$CacheFileUsed ) {
                     my @XMLHash = $Self->{XMLObject}->XMLParse2XMLHash( String => $ConfigFile );
                     $Data{$File} = \@XMLHash;
-                    my $Dump = $Self->{MainObject}->Dump( \@XMLHash, 'ascii' );
+                    my $Dump = $Self->{MainObject}->Dump( \@XMLHash );
                     $Dump =~ s/\$VAR1/\$XMLHashRef/;
                     my $Out;
 
@@ -1971,7 +1971,7 @@ sub _XML2Perl {
         $Data = $D;
 
         # store in config
-        my $Dump = $Self->{MainObject}->Dump( $Data, 'ascii' );
+        my $Dump = $Self->{MainObject}->Dump($Data);
         $Dump =~ s/\$VAR1 =//;
         $Data = $Dump;
     }
@@ -1981,7 +1981,7 @@ sub _XML2Perl {
         $Data = $D;
 
         # store in config
-        my $Dump = $Self->{MainObject}->Dump( $Data, 'ascii' );
+        my $Dump = $Self->{MainObject}->Dump($Data);
         $Dump =~ s/\$VAR1 =//;
         $Data = $Dump;
     }
@@ -1992,7 +1992,7 @@ sub _XML2Perl {
         $Data = $D;
 
         # store in config
-        my $Dump = $Self->{MainObject}->Dump( $Data, 'ascii' );
+        my $Dump = $Self->{MainObject}->Dump($Data);
         $Dump =~ s/\$VAR1 =//;
         $Data = $Dump;
     }
@@ -2038,7 +2038,7 @@ sub _XML2Perl {
         }
 
         # store in config
-        my $Dump = $Self->{MainObject}->Dump( \%Hash, 'ascii' );
+        my $Dump = $Self->{MainObject}->Dump( \%Hash );
         $Dump =~ s/\$VAR1 =//;
         $Data = $Dump;
     }
@@ -2053,7 +2053,7 @@ sub _XML2Perl {
         }
 
         # store in config
-        my $Dump = $Self->{MainObject}->Dump( \@ArrayNew, 'ascii' );
+        my $Dump = $Self->{MainObject}->Dump( \@ArrayNew );
         $Dump =~ s/\$VAR1 =//;
         $Data = $Dump;
     }
@@ -2151,7 +2151,7 @@ sub _XML2Perl {
         }
 
         # store in config
-        my $Dump = $Self->{MainObject}->Dump( \%Hash, 'ascii' );
+        my $Dump = $Self->{MainObject}->Dump( \%Hash );
         $Dump =~ s/\$VAR1 =//;
         $Data = $Dump;
     }
@@ -2170,7 +2170,7 @@ sub _XML2Perl {
         }
 
         # store in config
-        my $Dump = $Self->{MainObject}->Dump( \%Days, 'ascii' );
+        my $Dump = $Self->{MainObject}->Dump( \%Days );
         $Dump =~ s/\$VAR1 =//;
         $Data = $Dump;
     }
@@ -2182,7 +2182,7 @@ sub _XML2Perl {
         }
 
         # store in config
-        my $Dump = $Self->{MainObject}->Dump( \%Hash, 'ascii' );
+        my $Dump = $Self->{MainObject}->Dump( \%Hash );
         $Dump =~ s/\$VAR1 =//;
         $Data = $Dump;
     }
@@ -2195,7 +2195,7 @@ sub _XML2Perl {
         }
 
         # store in config
-        my $Dump = $Self->{MainObject}->Dump( \%Hash, 'ascii' );
+        my $Dump = $Self->{MainObject}->Dump( \%Hash );
         $Dump =~ s/\$VAR1 =//;
         $Data = $Dump;
     }
@@ -2283,6 +2283,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.32 $ $Date: 2011-12-21 09:52:28 $
+$Revision: 1.33 $ $Date: 2012-02-28 14:15:32 $
 
 =cut
