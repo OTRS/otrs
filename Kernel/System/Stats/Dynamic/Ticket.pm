@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Stats/Dynamic/Ticket.pm - all advice functions
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.32 2010-03-15 08:17:14 reb Exp $
+# $Id: Ticket.pm,v 1.32.4.1 2012-02-28 09:55:07 jp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Ticket;
 use Kernel::System::Type;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.32 $) [1];
+$VERSION = qw($Revision: 1.32.4.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -523,6 +523,48 @@ sub GetObjectAttributes {
 
 sub GetStatElement {
     my ( $Self, %Param ) = @_;
+
+    #
+    # escape search attributes for ticket search
+    #
+    my %AttributesToEscape = (
+        'CustomerID'       => 1,
+        'Title'            => 1,
+        'TicketFreeText1'  => 1,
+        'TicketFreeText2'  => 1,
+        'TicketFreeText3'  => 1,
+        'TicketFreeText4'  => 1,
+        'TicketFreeText5'  => 1,
+        'TicketFreeText6'  => 1,
+        'TicketFreeText7'  => 1,
+        'TicketFreeText8'  => 1,
+        'TicketFreeText9'  => 1,
+        'TicketFreeText10' => 1,
+        'TicketFreeText11' => 1,
+        'TicketFreeText12' => 1,
+        'TicketFreeText13' => 1,
+        'TicketFreeText14' => 1,
+        'TicketFreeText15' => 1,
+        'TicketFreeText16' => 1,
+    );
+
+    ATTRIBUTE:
+    for my $Key ( keys %Param ) {
+
+        next ATTRIBUTE if !$AttributesToEscape{$Key};
+
+        if ( ref $Param{$Key} ) {
+            if ( ref $Param{$Key} eq 'ARRAY' ) {
+                $Param{$Key} = [
+                    map { $Self->{DBObject}->QueryStringEscape( QueryString => $_ ) }
+                        @{ $Param{$Key} }
+                ];
+            }
+        }
+        else {
+            $Param{$Key} = $Self->{DBObject}->QueryStringEscape( QueryString => $Param{$Key} );
+        }
+    }
 
     # search tickets
     return $Self->{TicketObject}->TicketSearch(

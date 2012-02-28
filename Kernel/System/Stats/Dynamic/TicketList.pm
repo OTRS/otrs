@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Stats/Dynamic/TicketList.pm - reporting via ticket lists
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketList.pm,v 1.13 2009-11-26 10:37:29 bes Exp $
+# $Id: TicketList.pm,v 1.13.4.1 2012-02-28 09:55:07 jp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::Ticket;
 use Kernel::System::Type;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.13.4.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -597,6 +597,50 @@ sub GetStatTable {
     my $OrderByIsValueOfTicketSearchSort = $Self->_OrderByIsValueOfTicketSearchSort(
         OrderBy => $OrderBy,
     );
+
+    #
+    # escape search attributes for ticket search
+    #
+    my %AttributesToEscape = (
+        'CustomerID'       => 1,
+        'Title'            => 1,
+        'TicketFreeText1'  => 1,
+        'TicketFreeText2'  => 1,
+        'TicketFreeText3'  => 1,
+        'TicketFreeText4'  => 1,
+        'TicketFreeText5'  => 1,
+        'TicketFreeText6'  => 1,
+        'TicketFreeText7'  => 1,
+        'TicketFreeText8'  => 1,
+        'TicketFreeText9'  => 1,
+        'TicketFreeText10' => 1,
+        'TicketFreeText11' => 1,
+        'TicketFreeText12' => 1,
+        'TicketFreeText13' => 1,
+        'TicketFreeText14' => 1,
+        'TicketFreeText15' => 1,
+        'TicketFreeText16' => 1,
+    );
+
+    ATTRIBUTE:
+    for my $Key ( keys %{ $Param{Restrictions} } ) {
+
+        next ATTRIBUTE if !$AttributesToEscape{$Key};
+
+        if ( ref $Param{Restrictions}->{$Key} ) {
+            if ( ref $Param{Restrictions}->{$Key} eq 'ARRAY' ) {
+                $Param{Restrictions}->{$Key} = [
+                    map { $Self->{DBObject}->QueryStringEscape( QueryString => $_ ) }
+                        @{ $Param{Restrictions}->{$Key} }
+                ];
+            }
+        }
+        else {
+            $Param{Restrictions}->{$Key} = $Self->{DBObject}->QueryStringEscape(
+                QueryString => $Param{Restrictions}->{$Key}
+            );
+        }
+    }
 
     if ($OrderByIsValueOfTicketSearchSort) {
 

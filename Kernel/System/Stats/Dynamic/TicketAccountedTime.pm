@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Stats/Dynamic/TicketAccountedTime.pm - stats for accounted ticket time
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketAccountedTime.pm,v 1.9 2009-11-26 10:37:29 bes Exp $
+# $Id: TicketAccountedTime.pm,v 1.9.4.1 2012-02-28 09:55:07 jp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Ticket;
 use Kernel::System::Type;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.9.4.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -792,12 +792,53 @@ sub _ReportingValues {
     my $SearchAttributes = $Param{SearchAttributes};
     my @Where;
 
+    #
+    # escape search attributes for ticket search
+    #
+    my %AttributesToEscape = (
+        'CustomerID'       => 1,
+        'Title'            => 1,
+        'TicketFreeText1'  => 1,
+        'TicketFreeText2'  => 1,
+        'TicketFreeText3'  => 1,
+        'TicketFreeText4'  => 1,
+        'TicketFreeText5'  => 1,
+        'TicketFreeText6'  => 1,
+        'TicketFreeText7'  => 1,
+        'TicketFreeText8'  => 1,
+        'TicketFreeText9'  => 1,
+        'TicketFreeText10' => 1,
+        'TicketFreeText11' => 1,
+        'TicketFreeText12' => 1,
+        'TicketFreeText13' => 1,
+        'TicketFreeText14' => 1,
+        'TicketFreeText15' => 1,
+        'TicketFreeText16' => 1,
+    );
+
     # get ticket search relevant attributes
     my %TicketSearch;
     ATTRIBUTE:
     for my $Attribute ( @{ $Self->_AllowedTicketSearchAttributes() } ) {
         next ATTRIBUTE if !$SearchAttributes->{$Attribute};
         $TicketSearch{$Attribute} = $SearchAttributes->{$Attribute};
+
+        next ATTRIBUTE if !$AttributesToEscape{$Attribute};
+
+        # escape search parameters for ticket search
+        if ( ref $TicketSearch{$Attribute} ) {
+            if ( ref $TicketSearch{$Attribute} eq 'ARRAY' ) {
+                $TicketSearch{$Attribute} = [
+                    map { $Self->{DBObject}->QueryStringEscape( QueryString => $_ ) }
+                        @{ $TicketSearch{$Attribute} }
+                ];
+            }
+        }
+        else {
+            $TicketSearch{$Attribute} = $Self->{DBObject}->QueryStringEscape(
+                QueryString => $TicketSearch{$Attribute}
+            );
+        }
     }
 
     if (%TicketSearch) {
