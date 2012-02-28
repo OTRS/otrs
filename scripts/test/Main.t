@@ -1,8 +1,8 @@
 # --
 # Main.t - Main tests
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Main.t,v 1.25 2011-08-12 09:06:15 mg Exp $
+# $Id: Main.t,v 1.26 2012-02-28 08:39:27 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -454,6 +454,27 @@ for my $Directory ( $DirectoryWithFiles, $DirectoryWithoutFiles ) {
             "DirectoryRead() - delete '$Directory'",
         );
     }
+}
+
+#
+# Dump()
+#
+@Tests = (
+    {
+        Name   => 'Unicode dump',
+        Source => 'é',
+        Result => "\$VAR1 = 'é';\n",
+    }
+);
+
+for my $Test (@Tests) {
+    my $Result = $Self->{MainObject}->Dump( $Test->{Source} );
+
+    $Self->Is(
+        $Result,
+        $Test->{Result},
+        "$Test->{Name} - Dump() result"
+    );
 }
 
 1;
