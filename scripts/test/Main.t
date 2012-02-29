@@ -2,7 +2,7 @@
 # Main.t - Main tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Main.t,v 1.28 2012-02-28 13:49:54 mg Exp $
+# $Id: Main.t,v 1.29 2012-02-29 06:38:43 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -461,9 +461,30 @@ for my $Directory ( $DirectoryWithFiles, $DirectoryWithoutFiles ) {
 #
 @Tests = (
     {
-        Name   => 'Unicode dump',
+        Name   => 'Unicode dump 1',
         Source => 'é',
         Result => "\$VAR1 = 'é';\n",
+    },
+    {
+        Name   => 'Unicode dump 2',
+        Source => 'äöüßÄÖÜ€ис é í  ó',
+        Result => "\$VAR1 = 'äöüßÄÖÜ€ис é í  ó';\n",
+    },
+    {
+        Name => 'Unicode dump 3',
+        Source =>
+            "\x{e4}\x{f6}\x{fc}\x{df}\x{c4}\x{d6}\x{dc}\x{20ac}\x{438}\x{441} \x{e9} \x{ed}  \x{f3}",
+        Result => "\$VAR1 = 'äöüßÄÖÜ€ис é í  ó';\n",
+    },
+    {
+        Name   => 'Unicode dump 4',
+        Source => "Mus\x{e9}e royal de l\x{2019}Arm\x{e9}e et d\x{2019}histoire militaire",
+        Result => "\$VAR1 = 'Musée royal de l’Armée et d’histoire militaire';\n",
+    },
+    {
+        Name   => 'Unicode dump 5',
+        Source => "Antonín Dvořák",
+        Result => "\$VAR1 = 'Antonín Dvořák';\n",
     }
 );
 
