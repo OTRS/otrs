@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Thomas Kaltenbrunner <tkaltenbrunner at opc.de>
 # --
-# $Id: de.pm,v 1.316 2012-02-27 08:26:09 mg Exp $
+# $Id: de.pm,v 1.317 2012-02-29 14:21:03 des Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.316 $) [1];
+$VERSION = qw($Revision: 1.317 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -3457,7 +3457,7 @@ sub Data {
         'If enabled, the OTRS version tag will be removed from the HTTP headers.' =>
             '',
         'If enabled, the different overviews (Dashboard, LockedView, QueueView) will automatically refresh after the specified time.' =>
-            '',
+            'Wenn diese Option aktiviert ist, werden die verschiedenen Übersichts-Seiten (Dashboard, LockedView, QueueView) automatisch nach der angegebenen Zeit aktualisiert.',
         'If enabled, the first level of the main menu opens on mouse hover (instead of click only).' =>
             '',
         'If set, this address is used as envelope sender header in outgoing notifications. If no address is specified, the envelope sender header is empty.' =>
@@ -3594,9 +3594,9 @@ sub Data {
         'Overloads (redefines) existing functions in Kernel::System::Ticket. Used to easily add customizations.' =>
             '',
         'Overview Escalated Tickets' => 'Übersicht eskalierte Tickets',
-        'Overview Refresh Time' => '',
+        'Overview Refresh Time' => 'Aktualisierungszeiten der Übersichten',
         'Overview of all open Tickets.' => 'Übersicht über alle offenen Tickets.',
-        'PGP Key Management' => '',
+        'PGP Key Management' => 'PGP Schlüssel Verwaltung',
         'PGP Key Upload' => 'PGP Schlüssel hochladen',
         'Parameters for the CreateNextMask object in the preference view of the agent interface.' =>
             '',
@@ -3657,7 +3657,7 @@ sub Data {
         'Protection against CSRF (Cross Site Request Forgery) exploits (for more info see http://en.wikipedia.org/wiki/Cross-site_request_forgery).' =>
             '',
         'Queue view' => 'Ansicht nach Queues',
-        'Refresh Overviews after' => '',
+        'Refresh Overviews after' => 'Übersichten aktualisieren nach',
         'Refresh interval' => 'Aktualisierungsintervall',
         'Replaces the original sender with current customer\'s email address on compose answer in the ticket compose screen of the agent interface.' =>
             '',
