@@ -2,7 +2,7 @@
 # AdminResponse.dtl - provides HTML form for AdminResponse
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminResponse.dtl,v 1.36 2012-02-15 11:27:57 mb Exp $
+# $Id: AdminResponse.dtl,v 1.37 2012-03-01 12:50:13 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -81,6 +81,9 @@
                         </tr>
                     </thead>
                     <tbody>
+                        <tr class="FilterMessage Hidden">
+                            <td colspan="7">$Text{"No matches found."}</td>
+                        </tr>
 <!-- dtl:block:NoDataFoundMsg -->
                         <tr>
                             <td colspan="7">
