@@ -4,7 +4,7 @@
 # Copyright (C) 2011 Chetan Nagaonkar <Chetan_Nagaonkar at OptForOPS.com>
 # Copyright (C) 2011 Chetan Nagaonkar <ChetanNagaonkar at yahoo.com>
 # --
-# $Id: hi.pm,v 1.20 2012-02-27 08:26:10 mg Exp $
+# $Id: hi.pm,v 1.21 2012-03-01 13:25:09 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,13 +17,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.20 $) [1];
+$VERSION = qw($Revision: 1.21 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-02-02 17:08:27
+    # Last translation file sync: 2012-03-01 14:20:02
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1544,9 +1544,9 @@ sub Data {
         # Template: AdminResponse
         'Manage Responses' => 'प्रतिक्रियाओं का प्रबंधन करें',
         'Add response' => 'प्रतिक्रिया जोड़ें',
-        'A response is default text to write faster answer (with default text) to customers.' =>
-            'प्रतिक्रिया एक तयशुदा टेक्स्ट है ग्राहकों को जल्दी जवाब(तयशुदा टेक्स्ट के साथ)लिखने के लिए।',
-        'Don\'t forget to add a new response a queue!' => 'श्रेणी को एक प्रतिक्रिया जोड़ना मत भूलना',
+        'A response is a default text which helps your agents to write faster answers to customers.' =>
+            '',
+        'Don\'t forget to add new responses to queues.' => '',
         'Delete this entry' => 'इस प्रविष्टि को हटाएँ',
         'Add Response' => 'प्रतिक्रिया जोड़ें',
         'Edit Response' => 'प्रतिक्रिया संपादित करें',
@@ -2647,6 +2647,7 @@ sub Data {
             'प्रतिनिधि अंतरफलक में सिस्टम के द्वारा प्रयुक्त तयशुदा टिकटID।',
         'Default ticket ID used by the system in the customer interface.' =>
             'ग्राहक अंतरफलक में सिस्टम के द्वारा प्रयुक्त तयशुदा टिकटID।',
+        'Default value for NameX' => '',
         'Define a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
             'HTML उत्पादन को  परिभाषित स्ट्रिंग के पीछे की लिंक जोड़ने के लिए एक निस्पादक परिभाषित करे। तत्व छवि दो इनपुट प्रकार की अनुमति देता है। एक बार एक छवि के नाम से(उदा.faq.png)। ऐसी स्थिति में OTRS छवि के पथ का उपयोग किया जाएगा। दूसरी संभावना छवि को कड़ी सम्मिलित करने की है।',
         'Define the start day of the week for the date picker.' => 'दिनांक पिकर के लिए सप्ताह की शुरुआत के दिन निर्धारित करें।',
@@ -3305,8 +3306,6 @@ sub Data {
             '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate). This is only possible if all Ticket dynamic fields need the same event.' =>
             '',
-        'Example for dynamic dield' => '',
-        'Example for dynamic field' => '',
         'Example for free text' => 'मुक्त पाठ के लिए उदाहरण',
         'Execute SQL statements.' => 'SQL बयान चलाएँ।',
         'Executes follow up checks on In-Reply-To or References headers for mails that don\'t have a ticket number in the subject.' =>
@@ -3578,6 +3577,7 @@ sub Data {
         'My Tickets' => 'मेरे टिकट',
         'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.' =>
             'अनुकूलित श्रेणी के नाम। अनुकूलित कतार एक कतार चयन है,आपकी वरीयता श्रेणीयों का और चयनित किया जा सकता है वरीयता व्यवस्थाओ में।',
+        'NameX' => '',
         'New email ticket' => 'नया ईमेल टिकट',
         'New phone ticket' => 'नया फोन टिकट',
         'Next possible ticket states after adding a phone note in the ticket phone inbound screen of the agent interface.' =>
@@ -4176,6 +4176,8 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        'A response is default text to write faster answer (with default text) to customers.' =>
+            'प्रतिक्रिया एक तयशुदा टेक्स्ट है ग्राहकों को जल्दी जवाब(तयशुदा टेक्स्ट के साथ)लिखने के लिए।',
         'Activates TypeAhead for the autocomplete feature, that enables users to type in whatever speed they desire, without losing any information. Often this means that keystrokes entered will not be displayed on the screen immediately.' =>
             'स्वचालित पूर्ण की सुविधा के लिए TypeAhead सक्रिय करें,जो की उपयोगकर्ताओं को उनकी इच्छानुसार लिखने में सक्षम बनाता हैं,किसी भी जानकारी के खोए बिना। इसका मतलब है कि कीस्ट्रोक्स प्रवेश स्क्रीन पर तुरंत प्रदर्शित नहीं किया जाएगा।',
         'Add a note to this ticket!' => 'इस टिकट के लिए टिप्पणी जोड़ें',
@@ -4531,6 +4533,7 @@ sub Data {
         'Delete this ticket!' => 'इस टिकट को नष्ट करें',
         'Determines if the statatistics module may generate ticket lists.' =>
             'यदि सांख्यिकी मॉड्यूल टिकटों सूची उत्पन्न कर सकता है तो निर्धारित करता है।',
+        'Don\'t forget to add a new response a queue!' => 'श्रेणी को एक प्रतिक्रिया जोड़ना मत भूलना',
         'Don\'t work with UserID 1 (System account)! Create new users!' =>
             'उपयोगकर्ता id 1(प्रणाली खाता) के साथ न काम करें । नए उपयोगकर्ता बनाऐ।',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate). This is only possible if all TicketFreeField elements need the same event.' =>

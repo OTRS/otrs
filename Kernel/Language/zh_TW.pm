@@ -4,7 +4,7 @@
 # Copyright (C) 2009 Yiye Huang <yiyehuang at gmail.com>
 # Copyright (C) 2009 Qingjiu Jia <jiaqj at yahoo.com>
 # --
-# $Id: zh_TW.pm,v 1.39 2012-02-27 08:26:10 mg Exp $
+# $Id: zh_TW.pm,v 1.40 2012-03-01 13:25:09 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,13 +17,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.39 $) [1];
+$VERSION = qw($Revision: 1.40 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-02-02 17:08:52
+    # Last translation file sync: 2012-03-01 14:20:30
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1544,9 +1544,9 @@ sub Data {
         # Template: AdminResponse
         'Manage Responses' => '',
         'Add response' => '',
-        'A response is default text to write faster answer (with default text) to customers.' =>
-            '為了快速回復，回復內容定義了每個回復中重復的內容.',
-        'Don\'t forget to add a new response a queue!' => '不要忘記增加一個新的回復內容到隊列!',
+        'A response is a default text which helps your agents to write faster answers to customers.' =>
+            '',
+        'Don\'t forget to add new responses to queues.' => '',
         'Delete this entry' => '',
         'Add Response' => '',
         'Edit Response' => '',
@@ -2647,6 +2647,7 @@ sub Data {
             '',
         'Default ticket ID used by the system in the customer interface.' =>
             '',
+        'Default value for NameX' => '',
         'Define a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
             '',
         'Define the start day of the week for the date picker.' => '',
@@ -3305,8 +3306,6 @@ sub Data {
             '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate). This is only possible if all Ticket dynamic fields need the same event.' =>
             '',
-        'Example for dynamic dield' => '',
-        'Example for dynamic field' => '',
         'Example for free text' => '',
         'Execute SQL statements.' => '',
         'Executes follow up checks on In-Reply-To or References headers for mails that don\'t have a ticket number in the subject.' =>
@@ -3578,6 +3577,7 @@ sub Data {
         'My Tickets' => '',
         'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.' =>
             '',
+        'NameX' => '',
         'New email ticket' => '',
         'New phone ticket' => '',
         'Next possible ticket states after adding a phone note in the ticket phone inbound screen of the agent interface.' =>
@@ -4196,6 +4196,8 @@ sub Data {
         'A message should have a body!' => '郵件必須包含內容!',
         'A message should have a subject!' => '郵件必須有標題!',
         'A required field is:' => '必須的字段是',
+        'A response is default text to write faster answer (with default text) to customers.' =>
+            '為了快速回復，回復內容定義了每個回復中重復的內容.',
         'A web calendar' => 'Web 日歷',
         'A web file manager' => 'Web 文件管理器',
         'A web mail client' => 'WebMail 客戶端',
@@ -4329,6 +4331,7 @@ sub Data {
         'Do you really want to delete this Object?' => '您是否確認刪除該對象?',
         'Do you really want to reinstall this package (all manual changes get lost)?' =>
             '您是否准備好重新安裝這些軟件包 (所有手工設置將會不見)?',
+        'Don\'t forget to add a new response a queue!' => '不要忘記增加一個新的回復內容到隊列!',
         'Don\'t forget to add a new user to groups and/or roles!' => '不要忘記增加一個用戶到組和角色!',
         'Don\'t forget to add a new user to groups!' => '不要忘記增加新的用戶到組!',
         'Don\'t work with UserID 1 (System account)! Create new users!' =>

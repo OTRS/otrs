@@ -2,7 +2,7 @@
 # Kernel/Language/uk.pm - provides ru language translation
 # Copyright (C) 2010 Бельский Артем
 # --
-# $Id: uk.pm,v 1.34 2012-02-27 08:26:12 mg Exp $
+# $Id: uk.pm,v 1.35 2012-03-01 13:25:10 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.34 $) [1];
+$VERSION = qw($Revision: 1.35 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-02-02 17:08:49
+    # Last translation file sync: 2012-03-01 14:20:26
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1542,9 +1542,9 @@ sub Data {
         # Template: AdminResponse
         'Manage Responses' => '',
         'Add response' => 'Додати відповідь',
-        'A response is default text to write faster answer (with default text) to customers.' =>
-            'Відповідь — шаблон відповіді клієнтові',
-        'Don\'t forget to add a new response a queue!' => 'Не забудьте додати відповідь для черги!',
+        'A response is a default text which helps your agents to write faster answers to customers.' =>
+            '',
+        'Don\'t forget to add new responses to queues.' => '',
         'Delete this entry' => '',
         'Add Response' => 'Додати відповідь',
         'Edit Response' => 'Змінити відповідь',
@@ -2645,6 +2645,7 @@ sub Data {
             '',
         'Default ticket ID used by the system in the customer interface.' =>
             '',
+        'Default value for NameX' => '',
         'Define a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
             '',
         'Define the start day of the week for the date picker.' => '',
@@ -3303,8 +3304,6 @@ sub Data {
             '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate). This is only possible if all Ticket dynamic fields need the same event.' =>
             '',
-        'Example for dynamic dield' => '',
-        'Example for dynamic field' => '',
         'Example for free text' => '',
         'Execute SQL statements.' => '',
         'Executes follow up checks on In-Reply-To or References headers for mails that don\'t have a ticket number in the subject.' =>
@@ -3576,6 +3575,7 @@ sub Data {
         'My Tickets' => 'Мої заявки',
         'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.' =>
             '',
+        'NameX' => '',
         'New email ticket' => 'Нова e-mail заявка',
         'New phone ticket' => 'Нова телефонна заявка',
         'Next possible ticket states after adding a phone note in the ticket phone inbound screen of the agent interface.' =>
@@ -4197,6 +4197,8 @@ sub Data {
         'A message should have a subject!' => 'Повідомлення повинне мати поле теми!',
         'A new password will be sent to your e-mail adress.' => 'Новий пароль буде відісланий на зазначений e-mail.',
         'A required field is:' => 'Необхідне поле:',
+        'A response is default text to write faster answer (with default text) to customers.' =>
+            'Відповідь — шаблон відповіді клієнтові',
         'A ticket should be associated with a queue!' => 'Заявка повинні бути пов\'язана із чергою!',
         'A web calendar' => 'Календар',
         'A web mail client' => 'Поштовий веб-клієнт',
@@ -4349,6 +4351,7 @@ sub Data {
         'Do you really want to delete this Object?' => 'Вилучити цей об\'єкт?',
         'Do you really want to reinstall this package (all manual changes get lost)?' =>
             'Переустановити цей пакет (усі зміни, зроблені вручну, будуть загублені)?',
+        'Don\'t forget to add a new response a queue!' => 'Не забудьте додати відповідь для черги!',
         'Don\'t forget to add a new user to groups and/or roles!' => 'Не забудьте додати нового користувача в групи й ролі!',
         'Don\'t forget to add a new user to groups!' => 'Не забудьте додати нового користувача в групи!',
         'Don\'t work with UserID 1 (System account)! Create new users!' =>

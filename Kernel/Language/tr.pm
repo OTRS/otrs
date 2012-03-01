@@ -2,7 +2,7 @@
 # Kernel/Language/tr.pm - provides Turkish language translation
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: tr.pm,v 1.66 2012-02-27 08:26:14 mg Exp $
+# $Id: tr.pm,v 1.67 2012-03-01 13:25:10 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,13 +14,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.66 $)[1];
+$VERSION = qw($Revision: 1.67 $)[1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-02-02 17:08:47
+    # Last translation file sync: 2012-03-01 14:20:24
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1541,9 +1541,9 @@ sub Data {
         # Template: AdminResponse
         'Manage Responses' => '',
         'Add response' => '',
-        'A response is default text to write faster answer (with default text) to customers.' =>
-            'Bir yanıt, müşterilere daha hızlı cevap yazabilmek için önceden hazırlanan metindir.',
-        'Don\'t forget to add a new response a queue!' => 'Yeni bir yanıtı bir kuyruğa eklemeyi unutmayın!',
+        'A response is a default text which helps your agents to write faster answers to customers.' =>
+            '',
+        'Don\'t forget to add new responses to queues.' => '',
         'Delete this entry' => '',
         'Add Response' => '',
         'Edit Response' => '',
@@ -2644,6 +2644,7 @@ sub Data {
             '',
         'Default ticket ID used by the system in the customer interface.' =>
             '',
+        'Default value for NameX' => '',
         'Define a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
             '',
         'Define the start day of the week for the date picker.' => '',
@@ -3302,8 +3303,6 @@ sub Data {
             '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate). This is only possible if all Ticket dynamic fields need the same event.' =>
             '',
-        'Example for dynamic dield' => '',
-        'Example for dynamic field' => '',
         'Example for free text' => '',
         'Execute SQL statements.' => '',
         'Executes follow up checks on In-Reply-To or References headers for mails that don\'t have a ticket number in the subject.' =>
@@ -3575,6 +3574,7 @@ sub Data {
         'My Tickets' => '',
         'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.' =>
             '',
+        'NameX' => '',
         'New email ticket' => '',
         'New phone ticket' => '',
         'Next possible ticket states after adding a phone note in the ticket phone inbound screen of the agent interface.' =>
@@ -4194,6 +4194,8 @@ sub Data {
         'A message should have a To: recipient!' => 'Bir mesajın alıcısı olmalıdır!',
         'A message should have a body!' => 'Mesajın bir gövdesi olmalıdır!',
         'A message should have a subject!' => 'Bir mesajın bir konusu olmalıdır!',
+        'A response is default text to write faster answer (with default text) to customers.' =>
+            'Bir yanıt, müşterilere daha hızlı cevap yazabilmek için önceden hazırlanan metindir.',
         'Absolut Period' => 'Belirli Süre',
         'Add Customer User' => 'Müşteri Kullanıcı Ekle',
         'Add System Address' => 'Sistem Adresi Ekle',
@@ -4318,6 +4320,7 @@ sub Data {
         'Do you really want to delete this Object?' => 'Gerçekten bu nesneyi silmek istiyor musunuz?',
         'Do you really want to reinstall this package (all manual changes get lost)?' =>
             'Gerçekten bu paketi yeniden yüklemek istiyor musunuz (elle yaptığınız tüm değişiklikler gider)?',
+        'Don\'t forget to add a new response a queue!' => 'Yeni bir yanıtı bir kuyruğa eklemeyi unutmayın!',
         'Don\'t forget to add a new user to groups and/or roles!' => 'Yeni kullanıcıları gruplara ve/veya rollere eklemeyi unutmayın!',
         'Don\'t forget to add a new user to groups!' => 'Yeni kullanıcıyı gruplara atamayı unutmayın!',
         'Don\'t work with UserID 1 (System account)! Create new users!' =>

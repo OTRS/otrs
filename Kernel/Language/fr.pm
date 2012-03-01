@@ -8,7 +8,7 @@
 # Copyright (C) 2004-2008 Yann Richard <ze at nbox.org>
 # Copyright (C) 2009-2010 Olivier Sallou <olivier.sallou at irisa.fr>
 # --
-# $Id: fr.pm,v 1.161 2012-02-27 08:26:13 mg Exp $
+# $Id: fr.pm,v 1.162 2012-03-01 13:25:10 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,13 +21,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.161 $) [1];
+$VERSION = qw($Revision: 1.162 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-02-02 17:08:26
+    # Last translation file sync: 2012-03-01 14:20:00
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1548,9 +1548,9 @@ sub Data {
         # Template: AdminResponse
         'Manage Responses' => 'Gérer les Réponses',
         'Add response' => 'Ajouter réponse',
-        'A response is default text to write faster answer (with default text) to customers.' =>
-            'Une réponse est un texte par défaut destiné à rédiger plus rapidement des réponses standards aux clients.',
-        'Don\'t forget to add a new response a queue!' => 'Ne pas oublier d\'affecter une file à une nouvelle réponse !',
+        'A response is a default text which helps your agents to write faster answers to customers.' =>
+            '',
+        'Don\'t forget to add new responses to queues.' => '',
         'Delete this entry' => 'Supprimer cette entrée',
         'Add Response' => 'Ajouter Réponse',
         'Edit Response' => 'Editer Réponse',
@@ -2651,6 +2651,7 @@ sub Data {
             'ID de ticket par défaut utilisé par le système dans l\'interface opérateur.',
         'Default ticket ID used by the system in the customer interface.' =>
             'ID de ticket par défaut utilisé par le système dans l\'interface client.',
+        'Default value for NameX' => '',
         'Define a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
             '',
         'Define the start day of the week for the date picker.' => '',
@@ -3309,8 +3310,6 @@ sub Data {
             '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate). This is only possible if all Ticket dynamic fields need the same event.' =>
             '',
-        'Example for dynamic dield' => '',
-        'Example for dynamic field' => '',
         'Example for free text' => '',
         'Execute SQL statements.' => '',
         'Executes follow up checks on In-Reply-To or References headers for mails that don\'t have a ticket number in the subject.' =>
@@ -3582,6 +3581,7 @@ sub Data {
         'My Tickets' => '',
         'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.' =>
             '',
+        'NameX' => '',
         'New email ticket' => '',
         'New phone ticket' => '',
         'Next possible ticket states after adding a phone note in the ticket phone inbound screen of the agent interface.' =>
@@ -4212,6 +4212,8 @@ sub Data {
         'A message should have a subject! .' => 'Un message doit avoir un sujet',
         'A new password will be sent to your e-mail adress.' => 'Un nouveau mot de passe sera envoyé à votre adresse email.',
         'A required field is:' => 'Un champ requis est:',
+        'A response is default text to write faster answer (with default text) to customers.' =>
+            'Une réponse est un texte par défaut destiné à rédiger plus rapidement des réponses standards aux clients.',
         'A ticket should be associated with a queue!' => 'Un ticket doit être associé à une file',
         'A ticket should have a type!' => 'Un ticket devrait avoir un type',
         'A web calendar' => 'Un calendrier Web',
@@ -4487,6 +4489,7 @@ sub Data {
         'Do you really want to delete this Object?' => 'Voulez vous vraiment effacer cet objet ?',
         'Do you really want to reinstall this package (all manual changes get lost)?' =>
             'Voulez-vous vraiment réinstaller ce paquet (Tous les changements manuels seront perdus) ?',
+        'Don\'t forget to add a new response a queue!' => 'Ne pas oublier d\'affecter une file à une nouvelle réponse !',
         'Don\'t forget to add a new user to groups and/or roles!' => 'N\'oubliez pas d\'ajouter un nouvel utilisateur à des groupes et/ou des rôles !',
         'Don\'t forget to add a new user to groups!' => 'Ne pas oublier d\'ajouter un nouvel utilisateur aux groupes !',
         'Don\'t work with UserID 1 (System account)! Create new users!' =>

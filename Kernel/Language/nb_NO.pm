@@ -8,7 +8,7 @@
 # Copyright (C) 2011 Lars Erik Utsi Gullerud <lerik at nolink.net>
 # Copyright (C) 2011 Espen Stefansen <espen.stefansen at imr.no>
 # --
-# $Id: nb_NO.pm,v 1.126 2012-02-27 08:26:09 mg Exp $
+# $Id: nb_NO.pm,v 1.127 2012-03-01 13:25:09 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,13 +21,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.126 $;
+$VERSION = q$Revision: 1.127 $;
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-02-02 17:08:35
+    # Last translation file sync: 2012-03-01 14:20:11
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1548,9 +1548,9 @@ sub Data {
         # Template: AdminResponse
         'Manage Responses' => 'Administrering av Ferdigsvar',
         'Add response' => 'Nytt ferdigsvar',
-        'A response is default text to write faster answer (with default text) to customers.' =>
-            'Et ferdigsvar er en forhåndsdefinert tekst for å lette skriving av svar på vanlige henvendelser.',
-        'Don\'t forget to add a new response a queue!' => 'Husk å tilordne nye ferdigsvar til en kø!',
+        'A response is a default text which helps your agents to write faster answers to customers.' =>
+            '',
+        'Don\'t forget to add new responses to queues.' => '',
         'Delete this entry' => 'Slett denne posten',
         'Add Response' => 'Legg til Ferdigsvar',
         'Edit Response' => 'Endre Ferdigsvar',
@@ -2651,6 +2651,7 @@ sub Data {
             'Standard Saksnr brukt av systemet i saksbehandler-delen',
         'Default ticket ID used by the system in the customer interface.' =>
             'Standard Saksnr brukt av systemet i kundeportalen.',
+        'Default value for NameX' => '',
         'Define a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
             'Sett et filter for HTML-visning som legger til lenker bak en gitt tekst. Bildeelementet tillater to typer inn-data. For det første navnet på et bilde (f.eks. bilde01.png). I det tilfellet vil OTRS sin bildesti brukes. Den andre muligheten er å skrive inn URL til bildet',
         'Define the start day of the week for the date picker.' => 'Setter dag for ukestart i datovelgeren.',
@@ -3309,8 +3310,6 @@ sub Data {
             '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate). This is only possible if all Ticket dynamic fields need the same event.' =>
             '',
-        'Example for dynamic dield' => '',
-        'Example for dynamic field' => '',
         'Example for free text' => 'Eksempel på fritekst',
         'Execute SQL statements.' => 'Kjør SQL-spørringer',
         'Executes follow up checks on In-Reply-To or References headers for mails that don\'t have a ticket number in the subject.' =>
@@ -3582,6 +3581,7 @@ sub Data {
         'My Tickets' => 'Mine saker',
         'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.' =>
             '',
+        'NameX' => '',
         'New email ticket' => 'Ny e-postsak',
         'New phone ticket' => 'Ny telefonsak',
         'Next possible ticket states after adding a phone note in the ticket phone inbound screen of the agent interface.' =>
@@ -4211,6 +4211,8 @@ sub Data {
         'A message should have a subject!' => 'En melding må ha et emne!',
         'A message should have a subject! .' => 'Meldingen må ha et emne!',
         'A required field is:' => 'Et påkrevd felt er:',
+        'A response is default text to write faster answer (with default text) to customers.' =>
+            'Et ferdigsvar er en forhåndsdefinert tekst for å lette skriving av svar på vanlige henvendelser.',
         'A ticket should be associated with a queue!' => 'En sak må assosieres med en kø!',
         'A ticket should have a type!' => 'En sak må ha en sakstype',
         'A web calendar' => 'En web-kalender',
@@ -4618,6 +4620,7 @@ sub Data {
         'Do you really want to delete this Object?' => 'Vil du virkelig slette dette objektet?',
         'Do you really want to reinstall this package (all manual changes get lost)?' =>
             'Vil du virkelig reinstallere pakken (alle manuelle endringer vil bli tapt)?',
+        'Don\'t forget to add a new response a queue!' => 'Husk å tilordne nye ferdigsvar til en kø!',
         'Don\'t forget to add a new user to groups and/or roles!' => 'Ikke glem å legge til nye brukere til grupper og/eller roller!',
         'Don\'t forget to add a new user to groups!' => 'Ikke glem å gi nye brukere en gruppe!',
         'Don\'t work with UserID 1 (System account)! Create new users!' =>

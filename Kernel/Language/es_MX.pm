@@ -2,7 +2,7 @@
 # Kernel/Language/es_MX.pm - provides Spanish language translation for Mexico
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: es_MX.pm,v 1.58 2012-02-27 08:26:13 mg Exp $
+# $Id: es_MX.pm,v 1.59 2012-03-01 13:25:10 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.58 $) [1];
+$VERSION = qw($Revision: 1.59 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-02-02 17:08:21
+    # Last translation file sync: 2012-03-01 14:19:55
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1542,9 +1542,9 @@ sub Data {
         # Template: AdminResponse
         'Manage Responses' => 'Gestionar Respuestas',
         'Add response' => 'Añadir respuesta',
-        'A response is default text to write faster answer (with default text) to customers.' =>
-            'Una respuesta es el texto por defecto para responder más rápido (con el texto por defecto) a los clientes.',
-        'Don\'t forget to add a new response a queue!' => 'No olvide incluir una nueva respuesta en la fila',
+        'A response is a default text which helps your agents to write faster answers to customers.' =>
+            '',
+        'Don\'t forget to add new responses to queues.' => '',
         'Delete this entry' => 'Eliminar esta entrada',
         'Add Response' => 'Añadir Respuesta',
         'Edit Response' => 'Modificar Respuesta',
@@ -2645,6 +2645,7 @@ sub Data {
             'ID de ticket usado por defecto por el sistema, en la interfaz del agente.',
         'Default ticket ID used by the system in the customer interface.' =>
             'ID de ticket usado por defecto por el sistema, en la interfaz del cliente.',
+        'Default value for NameX' => '',
         'Define a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
             'Define un filtro para la salida html para añadir vínculos a ciertas cadenas. El elemento Imagen permite dos tipos de entrada: un nombre de imagen (por ejemplo: faq.png). En este caso, se usa la ruta de imágenes de OTRS. La otra posibilidad es insertar el vínculo a la imagen.',
         'Define the start day of the week for the date picker.' => 'Define el día inicial de la para el selector de fecha.',
@@ -3303,8 +3304,6 @@ sub Data {
             '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate). This is only possible if all Ticket dynamic fields need the same event.' =>
             '',
-        'Example for dynamic dield' => '',
-        'Example for dynamic field' => '',
         'Example for free text' => 'Ejemplo de texto libre',
         'Execute SQL statements.' => 'Ejecutar sentencias SQL.',
         'Executes follow up checks on In-Reply-To or References headers for mails that don\'t have a ticket number in the subject.' =>
@@ -3576,6 +3575,7 @@ sub Data {
         'My Tickets' => 'Mis Tickets',
         'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.' =>
             'Nombre de fila personalizada, misma que es una selección de sus filas de preferencia y puede elegirse en las configuraciones de sus preferencias.',
+        'NameX' => '',
         'New email ticket' => 'Ticket de correo electrónico nuevo',
         'New phone ticket' => 'Ticket telefónico nuevo',
         'Next possible ticket states after adding a phone note in the ticket phone inbound screen of the agent interface.' =>
@@ -4196,6 +4196,8 @@ sub Data {
         'A message should have a body!' => 'Los mensajes deben tener contenido',
         'A message should have a subject!' => 'Los mensajes deben tener asunto.',
         'A required field is:' => 'Un campo requerido es:',
+        'A response is default text to write faster answer (with default text) to customers.' =>
+            'Una respuesta es el texto por defecto para responder más rápido (con el texto por defecto) a los clientes.',
         'A web calendar' => 'Calendario Web',
         'A web file manager' => 'Administrador web de archivos',
         'A web mail client' => 'Un cliente de correo Web',
@@ -4692,6 +4694,7 @@ sub Data {
         'Do you really want to delete this Object?' => 'Seguro que desea eliminar este objeto?',
         'Do you really want to reinstall this package (all manual changes get lost)?' =>
             'Realmente desea reinstalar este paquete (todos los cambios manuales se perderán)?',
+        'Don\'t forget to add a new response a queue!' => 'No olvide incluir una nueva respuesta en la fila',
         'Don\'t forget to add a new user to groups and/or roles!' => 'No olvide añadir los nuevos usuarios a grupos y/o roles',
         'Don\'t forget to add a new user to groups!' => 'No olvide incluir un nuevo usuario a los grupos',
         'Don\'t work with UserID 1 (System account)! Create new users!' =>

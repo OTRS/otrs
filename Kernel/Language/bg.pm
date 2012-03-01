@@ -3,7 +3,7 @@
 # Copyright (C) 2004 Vladimir Gerdjikov <gerdjikov at gerdjikovs.net>
 # Copyright (C) 2007 Alex Kantchev <ak at otrs.org>
 # --
-# $Id: bg.pm,v 1.131 2012-02-27 08:26:13 mg Exp $
+# $Id: bg.pm,v 1.132 2012-03-01 13:25:10 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,13 +16,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.131 $) [1];
+$VERSION = qw($Revision: 1.132 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-02-02 17:08:13
+    # Last translation file sync: 2012-03-01 14:19:46
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1543,9 +1543,9 @@ sub Data {
         # Template: AdminResponse
         'Manage Responses' => '',
         'Add response' => '',
-        'A response is default text to write faster answer (with default text) to customers.' =>
-            'Отговорът е текст по подразбиране, създанен предварително, с цел по-бърз отговор към клиента',
-        'Don\'t forget to add a new response a queue!' => 'Не забравяйте да добавите новият отговор към дадена опашка!',
+        'A response is a default text which helps your agents to write faster answers to customers.' =>
+            '',
+        'Don\'t forget to add new responses to queues.' => '',
         'Delete this entry' => '',
         'Add Response' => '',
         'Edit Response' => '',
@@ -2646,6 +2646,7 @@ sub Data {
             '',
         'Default ticket ID used by the system in the customer interface.' =>
             '',
+        'Default value for NameX' => '',
         'Define a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
             '',
         'Define the start day of the week for the date picker.' => '',
@@ -3304,8 +3305,6 @@ sub Data {
             '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate). This is only possible if all Ticket dynamic fields need the same event.' =>
             '',
-        'Example for dynamic dield' => '',
-        'Example for dynamic field' => '',
         'Example for free text' => '',
         'Execute SQL statements.' => '',
         'Executes follow up checks on In-Reply-To or References headers for mails that don\'t have a ticket number in the subject.' =>
@@ -3577,6 +3576,7 @@ sub Data {
         'My Tickets' => '',
         'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.' =>
             '',
+        'NameX' => '',
         'New email ticket' => '',
         'New phone ticket' => '',
         'Next possible ticket states after adding a phone note in the ticket phone inbound screen of the agent interface.' =>
@@ -4197,6 +4197,8 @@ sub Data {
         'A message should have a To: recipient!' => 'Съобщението трябва да има ДО: т.е. адресант!',
         'A message should have a body!' => 'Съобщението трябва да има текст',
         'A message should have a subject!' => 'Съобщението трябва да има текст в поле "относно"!',
+        'A response is default text to write faster answer (with default text) to customers.' =>
+            'Отговорът е текст по подразбиране, създанен предварително, с цел по-бърз отговор към клиента',
         'A web calendar' => 'Календар',
         'A web file manager' => 'Web-базиран файлов менаджер',
         'A web mail client' => 'Web-базиран e-mail клиент',
@@ -4315,6 +4317,7 @@ sub Data {
         'Do you really want to delete this Object?' => 'Сигурни ли сте че искате да изтриете този обект?',
         'Do you really want to reinstall this package (all manual changes get lost)?' =>
             'Сигурни ли сте че искате да реинсталирате този софтуерен пакет (всички допълнителни промени се губят)?',
+        'Don\'t forget to add a new response a queue!' => 'Не забравяйте да добавите новият отговор към дадена опашка!',
         'Don\'t forget to add a new user to groups and/or roles!' => 'Не забравяйте да добавите новия агент потребител към групи и/или роли!',
         'Don\'t forget to add a new user to groups!' => 'Не забравяйте да добавите новият потребител в някаква група!',
         'Don\'t work with UserID 1 (System account)! Create new users!' =>

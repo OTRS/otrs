@@ -2,7 +2,7 @@
 # Kernel/Language/ca.pm - provides Catalan language translation
 # Copyright (C) 2008 Sistemes OTIC (ibsalut) - Antonio Linde
 # --
-# $Id: ca.pm,v 1.4 2012-02-27 08:26:14 mg Exp $
+# $Id: ca.pm,v 1.5 2012-03-01 13:25:10 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-02-02 17:08:15
+    # Last translation file sync: 2012-03-01 14:19:47
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1542,9 +1542,9 @@ sub Data {
         # Template: AdminResponse
         'Manage Responses' => '',
         'Add response' => '',
-        'A response is default text to write faster answer (with default text) to customers.' =>
-            'Una resposta és el text per defecte per a escriure respostes més ràpid (amb el text per defecte) als clients.',
-        'Don\'t forget to add a new response a queue!' => 'No oblidi incloure una nova resposta en la cua!',
+        'A response is a default text which helps your agents to write faster answers to customers.' =>
+            '',
+        'Don\'t forget to add new responses to queues.' => '',
         'Delete this entry' => '',
         'Add Response' => '',
         'Edit Response' => '',
@@ -2645,6 +2645,7 @@ sub Data {
             '',
         'Default ticket ID used by the system in the customer interface.' =>
             '',
+        'Default value for NameX' => '',
         'Define a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
             '',
         'Define the start day of the week for the date picker.' => '',
@@ -3303,8 +3304,6 @@ sub Data {
             '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate). This is only possible if all Ticket dynamic fields need the same event.' =>
             '',
-        'Example for dynamic dield' => '',
-        'Example for dynamic field' => '',
         'Example for free text' => '',
         'Execute SQL statements.' => '',
         'Executes follow up checks on In-Reply-To or References headers for mails that don\'t have a ticket number in the subject.' =>
@@ -3576,6 +3575,7 @@ sub Data {
         'My Tickets' => '',
         'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.' =>
             '',
+        'NameX' => '',
         'New email ticket' => '',
         'New phone ticket' => '',
         'Next possible ticket states after adding a phone note in the ticket phone inbound screen of the agent interface.' =>
@@ -4196,6 +4196,8 @@ sub Data {
         'A message should have a To: recipient!' => 'El missatge ha de tenes el destinatari To: !',
         'A message should have a body!' => 'Els missatges han de tenir contingut',
         'A message should have a subject!' => 'Els missatges han de tenir assumpte!',
+        'A response is default text to write faster answer (with default text) to customers.' =>
+            'Una resposta és el text per defecte per a escriure respostes més ràpid (amb el text per defecte) als clients.',
         'A web calendar' => 'Calendari Web',
         'A web file manager' => 'Administrador web d\'arxius',
         'A web mail client' => 'Un client de correu web',
@@ -4326,6 +4328,7 @@ sub Data {
         'Do you really want to delete this Object?' => 'Segur que desitja eliminar aquest objecte?',
         'Do you really want to reinstall this package (all manual changes get lost)?' =>
             'Realment desitja reinstal·lar aquest paquet (tots els canvis manuals es perdran)?',
+        'Don\'t forget to add a new response a queue!' => 'No oblidi incloure una nova resposta en la cua!',
         'Don\'t forget to add a new user to groups and/or roles!' => 'No oblidi afegir els nous usuaris als grups i/o rols',
         'Don\'t forget to add a new user to groups!' => 'No oblidi incloure l\'usuari en grups!',
         'Don\'t work with UserID 1 (System account)! Create new users!' =>

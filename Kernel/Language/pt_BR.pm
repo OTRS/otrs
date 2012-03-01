@@ -6,7 +6,7 @@
 # Copyright (C) 2007-2010 Fabricio Luiz Machado <soprobr gmail.com>
 # Copyright (C) 2010-2011 Murilo Moreira de Oliveira <murilo.moreira gmail.com>
 # --
-# $Id: pt_BR.pm,v 1.128 2012-02-27 08:26:14 mg Exp $
+# $Id: pt_BR.pm,v 1.129 2012-03-01 13:25:10 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,13 +18,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.128 $) [1];
+$VERSION = qw($Revision: 1.129 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-02-02 17:08:40
+    # Last translation file sync: 2012-03-01 14:20:16
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1545,9 +1545,9 @@ sub Data {
         # Template: AdminResponse
         'Manage Responses' => 'Gerenciar Respostas',
         'Add response' => 'Adicionar resposta',
-        'A response is default text to write faster answer (with default text) to customers.' =>
-            'Uma resposta padrão é um texto para responder mais rapidamente aos clientes.',
-        'Don\'t forget to add a new response a queue!' => 'Não se esqueça de adicionar a nova resposta a uma fila!',
+        'A response is a default text which helps your agents to write faster answers to customers.' =>
+            '',
+        'Don\'t forget to add new responses to queues.' => '',
         'Delete this entry' => 'Excluir esta entrada',
         'Add Response' => 'Adicionar Resposta',
         'Edit Response' => 'Alterar Resposta',
@@ -2648,6 +2648,7 @@ sub Data {
             'ID de chamado padrão usado pelo sistema na interface de atendente.',
         'Default ticket ID used by the system in the customer interface.' =>
             'ID de chamado padrão usado pelo sistema na interface de cliente.',
+        'Default value for NameX' => '',
         'Define a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
             'Definir um filtro para a saída HTML para adicionar links por trás de uma sequência definida. O elemento Imagem permite dois tipos de entrada. Em primeiro lugar o nome de uma imagem (faq.png, por exemplo). Neste caso, o caminho de imagem OTRS será usado. A segunda possibilidade é inserir o link para a imagem.',
         'Define the start day of the week for the date picker.' => 'Defina o dia de início da semana para o selecionador de data.',
@@ -3306,8 +3307,6 @@ sub Data {
             '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate). This is only possible if all Ticket dynamic fields need the same event.' =>
             '',
-        'Example for dynamic dield' => '',
-        'Example for dynamic field' => '',
         'Example for free text' => '',
         'Execute SQL statements.' => 'Executar consultas SQL.',
         'Executes follow up checks on In-Reply-To or References headers for mails that don\'t have a ticket number in the subject.' =>
@@ -3579,6 +3578,7 @@ sub Data {
         'My Tickets' => 'Meus Chamados',
         'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.' =>
             '',
+        'NameX' => '',
         'New email ticket' => 'Novo Chamado E-mail',
         'New phone ticket' => 'Novo Chamado Fone',
         'Next possible ticket states after adding a phone note in the ticket phone inbound screen of the agent interface.' =>
@@ -4200,6 +4200,8 @@ sub Data {
         'A message should have a customer!' => 'Eine Nachtricht sollte einen Kunden haben!',
         'A message should have a subject!' => 'Uma mensagem deve conter um assunto!',
         'A required field is:' => 'Campo requerido é:',
+        'A response is default text to write faster answer (with default text) to customers.' =>
+            'Uma resposta padrão é um texto para responder mais rapidamente aos clientes.',
         'A ticket should be associated with a queue!' => 'Ein Ticket sollte mit einer Queue assoziert sein.',
         'A ticket should have a type!' => 'Ein Ticket sollte einen Typ haben!',
         'About OTRS' => 'Über OTRS',
@@ -4429,6 +4431,7 @@ sub Data {
         'Do you really want to delete this Object?' => 'Você quer realmente remover este objeto?',
         'Do you really want to reinstall this package (all manual changes get lost)?' =>
             'Você quer realmente reinstalar este pacote?',
+        'Don\'t forget to add a new response a queue!' => 'Não se esqueça de adicionar a nova resposta a uma fila!',
         'Don\'t forget to add a new user to groups and/or roles!' => 'Não se esqueça de adicionar o novo usuário em grupos e/ou papéis!',
         'Don\'t forget to add a new user to groups!' => 'Não se esqueça de adicionar o novo usuário a grupos!',
         'Don\'t work with UserID 1 (System account)! Create new users!' =>

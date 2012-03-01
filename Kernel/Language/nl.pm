@@ -8,7 +8,7 @@
 # Copyright (C) 2010 Ton van Boven <ton 'at' avebo.nl>
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: nl.pm,v 1.179 2012-02-27 08:26:14 mg Exp $
+# $Id: nl.pm,v 1.180 2012-03-01 13:25:10 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -28,13 +28,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.179 $) [1];
+$VERSION = qw($Revision: 1.180 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-02-02 17:08:36
+    # Last translation file sync: 2012-03-01 14:20:13
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -696,7 +696,7 @@ sub Data {
         'Unwatch' => 'Stop met volgen',
         'Lock it to work on it' => 'Vergrendel dit ticket',
         'Unlock to give it back to the queue' => 'Ontgrendelen om dit ticket vrij te geven',
-        'Shows the ticket history' => 'Laat de geschiedenis van dit ticket zien',
+        'Show the ticket history' => '',
         'Print this ticket' => 'Print dit ticket',
         'Print this article' => 'Print deze interactie',
         'Split this article' => 'Splits deze interactie',
@@ -1555,9 +1555,9 @@ sub Data {
         # Template: AdminResponse
         'Manage Responses' => 'Beheer Antwoorden',
         'Add response' => 'Nieuw antwoord',
-        'A response is default text to write faster answer (with default text) to customers.' =>
-            'Een antwoord is een standaard tekst om sneller berichten te kunnen opstellen naar klanten.',
-        'Don\'t forget to add a new response a queue!' => 'vergeet niet om een antwoord aan een wachtrij te koppelen.',
+        'A response is a default text which helps your agents to write faster answers to customers.' =>
+            '',
+        'Don\'t forget to add new responses to queues.' => '',
         'Delete this entry' => 'Verwijder antwoord',
         'Add Response' => 'Nieuw antwoord',
         'Edit Response' => 'Bewerk antwoord',
@@ -2658,6 +2658,7 @@ sub Data {
             '',
         'Default ticket ID used by the system in the customer interface.' =>
             '',
+        'Default value for NameX' => '',
         'Define a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
             '',
         'Define the start day of the week for the date picker.' => '',
@@ -3316,8 +3317,6 @@ sub Data {
             '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate). This is only possible if all Ticket dynamic fields need the same event.' =>
             '',
-        'Example for dynamic dield' => '',
-        'Example for dynamic field' => '',
         'Example for free text' => '',
         'Execute SQL statements.' => 'Voer SQL statements uit op de database.',
         'Executes follow up checks on In-Reply-To or References headers for mails that don\'t have a ticket number in the subject.' =>
@@ -3589,6 +3588,7 @@ sub Data {
         'My Tickets' => 'Mijn tickets',
         'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.' =>
             '',
+        'NameX' => '',
         'New email ticket' => 'Nieuw e-mail ticket',
         'New phone ticket' => 'Nieuw telefoon ticket',
         'Next possible ticket states after adding a phone note in the ticket phone inbound screen of the agent interface.' =>
@@ -4211,6 +4211,8 @@ sub Data {
         'A message should have a subject!' => 'Geef een onderwerp op voor dit bericht.',
         'A message should have a subject! .' => 'Onderwerp is verplicht',
         'A required field is:' => 'Verplicht veld:',
+        'A response is default text to write faster answer (with default text) to customers.' =>
+            'Een antwoord is een standaard tekst om sneller berichten te kunnen opstellen naar klanten.',
         'A ticket should be associated with a queue!' => 'Een ticket moet in een wachtrij geplaatst worden.',
         'A ticket should have a type!' => 'Type is verplicht.',
         'A web calendar' => 'Kalender',
@@ -4371,6 +4373,7 @@ sub Data {
         'Do you really want to delete this Object?' => 'Weet u zeker dat u dit item wilt verwijderen?',
         'Do you really want to reinstall this package (all manual changes get lost)?' =>
             'Wilt u dit pakket echt herinstalleren? Alle handmatige wijzigingen gaan verloren.',
+        'Don\'t forget to add a new response a queue!' => 'vergeet niet om een antwoord aan een wachtrij te koppelen.',
         'Don\'t forget to add a new user to groups and/or roles!' => 'vergeet niet om een nieuwe gebruiker te koppelen aan de benodigde groepen en/of rollen.',
         'Don\'t forget to add a new user to groups!' => 'vergeet niet om groepen aan deze gebruiker toe te kennen.',
         'Don\'t work with UserID 1 (System account)! Create new users!' =>
@@ -4677,6 +4680,7 @@ sub Data {
         'Set customer user and customer id of a ticket' => 'Wijs de klant en klantID aan een ticket toe',
         'Set this ticket to pending!' => 'Plaats dit ticket in de wacht.',
         'Show' => 'Toon',
+        'Shows the ticket history' => 'Laat de geschiedenis van dit ticket zien',
         'Solution' => 'Oplossing',
         'Some result formats are disabled because at least one needed package is not installed. Please contact your administrator.' =>
             'Sommige formaten worden niet getoond omdat de juiste bibliotheken niet zijn geïnstalleerd. Vraag uw beheerder.',

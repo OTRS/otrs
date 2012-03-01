@@ -3,7 +3,7 @@
 # Copyright (C) 2004 Mats Eric Olausson <mats at synergy.se>
 # Copyright (C) 2009 Mikael Mattsson" <Mikael.Mattsson at konsumvarmland.se>
 # --
-# $Id: sv.pm,v 1.109 2012-02-27 08:26:11 mg Exp $
+# $Id: sv.pm,v 1.110 2012-03-01 13:25:09 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,13 +16,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.109 $) [1];
+$VERSION = qw($Revision: 1.110 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-02-02 17:08:46
+    # Last translation file sync: 2012-03-01 14:20:23
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1543,9 +1543,9 @@ sub Data {
         # Template: AdminResponse
         'Manage Responses' => '',
         'Add response' => '',
-        'A response is default text to write faster answer (with default text) to customers.' =>
-            'Ett svar är en standardtext för att underlätta besvarandet av vanliga kundfrågor.',
-        'Don\'t forget to add a new response a queue!' => 'Kom ihåg att lägga till ett nytt svar till en kö!',
+        'A response is a default text which helps your agents to write faster answers to customers.' =>
+            '',
+        'Don\'t forget to add new responses to queues.' => '',
         'Delete this entry' => '',
         'Add Response' => '',
         'Edit Response' => '',
@@ -2646,6 +2646,7 @@ sub Data {
             '',
         'Default ticket ID used by the system in the customer interface.' =>
             '',
+        'Default value for NameX' => '',
         'Define a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
             '',
         'Define the start day of the week for the date picker.' => '',
@@ -3304,8 +3305,6 @@ sub Data {
             '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate). This is only possible if all Ticket dynamic fields need the same event.' =>
             '',
-        'Example for dynamic dield' => '',
-        'Example for dynamic field' => '',
         'Example for free text' => '',
         'Execute SQL statements.' => '',
         'Executes follow up checks on In-Reply-To or References headers for mails that don\'t have a ticket number in the subject.' =>
@@ -3577,6 +3576,7 @@ sub Data {
         'My Tickets' => '',
         'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.' =>
             '',
+        'NameX' => '',
         'New email ticket' => '',
         'New phone ticket' => '',
         'Next possible ticket states after adding a phone note in the ticket phone inbound screen of the agent interface.' =>
@@ -4193,6 +4193,8 @@ sub Data {
         'A message should have a body!' => 'Ett meddelande måste innehålla en meddelandetext!',
         'A message should have a subject!' => 'Ett meddelande måste ha en Ämnesrad!',
         'A required field is:' => 'Ett tvingande fält är:',
+        'A response is default text to write faster answer (with default text) to customers.' =>
+            'Ett svar är en standardtext för att underlätta besvarandet av vanliga kundfrågor.',
         'A web calendar' => 'En webbkalender',
         'Absolut Period' => 'Absolut period',
         'Account Type' => 'Kontotyp',
@@ -4324,6 +4326,7 @@ sub Data {
         'Do you really want to delete this Object?' => 'Vll du verkligen radera detta Objekt?',
         'Do you really want to reinstall this package (all manual changes get lost)?' =>
             'Vill du verligen ominstallera detta paket (Alla manuella ändringar försvinner)?',
+        'Don\'t forget to add a new response a queue!' => 'Kom ihåg att lägga till ett nytt svar till en kö!',
         'Don\'t forget to add a new user to groups and/or roles!' => 'Glöm inte att lägga nya användare i grupper och/eller roller!',
         'Don\'t forget to add a new user to groups!' => 'Glöm inte att lägga in en ny användare i en grupp!',
         'Don\'t work with UserID 1 (System account)! Create new users!' =>

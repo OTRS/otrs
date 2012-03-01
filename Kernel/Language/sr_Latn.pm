@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Milorad Jovanovic <j.milorad at gmail.com>
 # --
-# $Id: sr_Latn.pm,v 1.29 2012-02-27 08:26:13 mg Exp $
+# $Id: sr_Latn.pm,v 1.30 2012-03-01 13:25:10 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.29 $) [1];
+$VERSION = qw($Revision: 1.30 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-02-02 17:08:45
+    # Last translation file sync: 2012-03-01 14:20:22
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1542,9 +1542,9 @@ sub Data {
         # Template: AdminResponse
         'Manage Responses' => 'Upravljanje odgovorima',
         'Add response' => 'Dodaj odgovor',
-        'A response is default text to write faster answer (with default text) to customers.' =>
-            'Odgovor je podrazumevani tekst za brže pisanje (pomoću podrazumevanog teksta) odgovora korisnicima.',
-        'Don\'t forget to add a new response a queue!' => 'Ne zaboravite da novi odgovor dodate u red!',
+        'A response is a default text which helps your agents to write faster answers to customers.' =>
+            '',
+        'Don\'t forget to add new responses to queues.' => '',
         'Delete this entry' => 'Obriši ovaj unos',
         'Add Response' => 'Dodaj odgovor',
         'Edit Response' => 'Uredi odgovor',
@@ -2645,6 +2645,7 @@ sub Data {
             'Podrazumevani ID tiketa koji koristi sistem u interfejsu operatera.',
         'Default ticket ID used by the system in the customer interface.' =>
             'Podrazumevani ID tiketa koji koristi sistem u korisničkom interfejsu.',
+        'Default value for NameX' => '',
         'Define a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
             '',
         'Define the start day of the week for the date picker.' => 'Definišite prvi dan u nedelji za izbor datuma.',
@@ -3303,8 +3304,6 @@ sub Data {
             '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate). This is only possible if all Ticket dynamic fields need the same event.' =>
             '',
-        'Example for dynamic dield' => '',
-        'Example for dynamic field' => '',
         'Example for free text' => 'Primer slobodnog teksta',
         'Execute SQL statements.' => 'Izvrši "SQL" naredbe.',
         'Executes follow up checks on In-Reply-To or References headers for mails that don\'t have a ticket number in the subject.' =>
@@ -3576,6 +3575,7 @@ sub Data {
         'My Tickets' => 'Moji tiketi',
         'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.' =>
             '',
+        'NameX' => '',
         'New email ticket' => 'Novi imejl tiket',
         'New phone ticket' => 'Novi telefonski tiket',
         'Next possible ticket states after adding a phone note in the ticket phone inbound screen of the agent interface.' =>
@@ -4192,6 +4192,8 @@ sub Data {
         'A message should have a customer!' => 'Poruka mora da ima korisnika!',
         'A message should have a subject!' => 'Poruka mora da ima predmet!',
         'A required field is:' => 'Obavezno polje je:',
+        'A response is default text to write faster answer (with default text) to customers.' =>
+            'Odgovor je podrazumevani tekst za brže pisanje (pomoću podrazumevanog teksta) odgovora korisnicima.',
         'A ticket should be associated with a queue!' => 'Tiket bi trebalo da bude u nekom redu.',
         'A ticket should have a type!' => 'Tiket mora da bude dodeljen tip!',
         'About OTRS' => 'O "OTRS"',
@@ -4598,6 +4600,7 @@ sub Data {
         'Do you really want to delete this Object?' => 'Da li stvarno želite da obrišete ovaj objekt?',
         'Do you really want to reinstall this package (all manual changes get lost)?' =>
             'Da li stvarno želite da reinstalirate ovaj paket (sve ručne promene će biti izgubljene)?',
+        'Don\'t forget to add a new response a queue!' => 'Ne zaboravite da novi odgovor dodate u red!',
         'Don\'t forget to add a new user to groups and/or roles!' => 'Ne zaboravite da dodate novog korisnika u grupe i uloge!',
         'Don\'t forget to add a new user to groups!' => 'Ne zaboravite da dodate novog korisnika nekoj grupi!',
         'Don\'t work with UserID 1 (System account)! Create new users!' =>

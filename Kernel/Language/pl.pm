@@ -4,7 +4,7 @@
 # Copyright (C) 2009 Artur Skalski <skal.ar at wp.pl>
 # Copyright (C) 2011 Informatyka Boguslawski sp. z o.o. sp.k., http://www.ib.pl/
 # --
-# $Id: pl.pm,v 1.125 2012-02-27 08:26:14 mg Exp $
+# $Id: pl.pm,v 1.126 2012-03-01 13:25:10 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,13 +17,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.125 $) [1];
+$VERSION = qw($Revision: 1.126 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-02-02 17:08:38
+    # Last translation file sync: 2012-03-01 14:20:14
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1544,9 +1544,9 @@ sub Data {
         # Template: AdminResponse
         'Manage Responses' => 'Zarządzaj odpowiedziami',
         'Add response' => 'Dodaj odpowiedź',
-        'A response is default text to write faster answer (with default text) to customers.' =>
-            'Odpowiedź to domyślny tekst wstawiany do odpowiedzi klientowi, dzięki czemu agent może szybciej odpowiedzieć na zgłoszenie.',
-        'Don\'t forget to add a new response a queue!' => 'Nie zapomnij powiązać nowej odpowiedzi z jakąś kolejką!',
+        'A response is a default text which helps your agents to write faster answers to customers.' =>
+            '',
+        'Don\'t forget to add new responses to queues.' => '',
         'Delete this entry' => 'Usuń tę pozycję',
         'Add Response' => 'Dodaj odpowiedź',
         'Edit Response' => 'Edytuj odpowiedź',
@@ -2647,6 +2647,7 @@ sub Data {
             '',
         'Default ticket ID used by the system in the customer interface.' =>
             '',
+        'Default value for NameX' => '',
         'Define a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
             '',
         'Define the start day of the week for the date picker.' => '',
@@ -3305,8 +3306,6 @@ sub Data {
             '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate). This is only possible if all Ticket dynamic fields need the same event.' =>
             '',
-        'Example for dynamic dield' => '',
-        'Example for dynamic field' => '',
         'Example for free text' => '',
         'Execute SQL statements.' => 'Wykonaj polecenia SQL',
         'Executes follow up checks on In-Reply-To or References headers for mails that don\'t have a ticket number in the subject.' =>
@@ -3578,6 +3577,7 @@ sub Data {
         'My Tickets' => 'Moje zgłoszenia',
         'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.' =>
             '',
+        'NameX' => '',
         'New email ticket' => 'Nowe zgłoszenie e-mail',
         'New phone ticket' => 'Nowe zgłoszenie telefoniczne',
         'Next possible ticket states after adding a phone note in the ticket phone inbound screen of the agent interface.' =>
@@ -4200,6 +4200,8 @@ sub Data {
         'A message should have a customer!' => 'Należy wskazać klienta!',
         'A message should have a subject!' => 'Wiadomosc powinna posiadać temat!',
         'A required field is:' => 'Wymagane pole to:',
+        'A response is default text to write faster answer (with default text) to customers.' =>
+            'Odpowiedź to domyślny tekst wstawiany do odpowiedzi klientowi, dzięki czemu agent może szybciej odpowiedzieć na zgłoszenie.',
         'A ticket should be associated with a queue!' => 'Zgłoszenie musi zostać powiązanie z kolejką',
         'A web calendar' => 'Kalendarz',
         'A web file manager' => 'Menedżer plików przez www ',
@@ -4351,6 +4353,7 @@ sub Data {
         'Do you really want to delete this Object?' => 'Na pewno chcesz usunąć ten obiekt?',
         'Do you really want to reinstall this package (all manual changes get lost)?' =>
             'Czy chcesz przeinstalować pakiet (wszystkie zmiany ręczne zostaną utracone)?',
+        'Don\'t forget to add a new response a queue!' => 'Nie zapomnij powiązać nowej odpowiedzi z jakąś kolejką!',
         'Don\'t forget to add a new user to groups and/or roles!' => 'Nie zapomnij dodać użytkownika do grup i/lub ról!',
         'Don\'t forget to add a new user to groups!' => 'Nie zapomnij dodać użytkownika do grup!',
         'Download Settings' => 'Pobierz ustawienia',

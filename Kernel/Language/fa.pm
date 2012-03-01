@@ -4,7 +4,7 @@
 # Copyright (C) 2008 Hooman Mesgary <info at mesgary.com>
 # Copyright (C) 2009 Afshar Mohebbi <afshar.mohebbi at gmail.com>
 # --
-# $Id: fa.pm,v 1.106 2012-02-27 08:26:10 mg Exp $
+# $Id: fa.pm,v 1.107 2012-03-01 13:25:09 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,13 +17,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.106 $) [1];
+$VERSION = qw($Revision: 1.107 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-02-02 17:08:24
+    # Last translation file sync: 2012-03-01 14:19:58
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1547,9 +1547,9 @@ sub Data {
         # Template: AdminResponse
         'Manage Responses' => 'مدیریت پاسخ‌ها',
         'Add response' => 'افزودن پاسخ',
-        'A response is default text to write faster answer (with default text) to customers.' =>
-            'یک پاسخ متنی است که برای تسریع در پاسخگویی به مشترکین ارسال میشود.',
-        'Don\'t forget to add a new response a queue!' => 'فراموش نکنید که یک پاسخ به لیست اضافه کنید !',
+        'A response is a default text which helps your agents to write faster answers to customers.' =>
+            '',
+        'Don\'t forget to add new responses to queues.' => '',
         'Delete this entry' => 'حذف این ورودی',
         'Add Response' => 'افزودن پاسخ',
         'Edit Response' => 'ویرایش پاسخ',
@@ -2650,6 +2650,7 @@ sub Data {
             '',
         'Default ticket ID used by the system in the customer interface.' =>
             '',
+        'Default value for NameX' => '',
         'Define a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
             '',
         'Define the start day of the week for the date picker.' => '',
@@ -3308,8 +3309,6 @@ sub Data {
             '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate). This is only possible if all Ticket dynamic fields need the same event.' =>
             '',
-        'Example for dynamic dield' => '',
-        'Example for dynamic field' => '',
         'Example for free text' => 'مثال برای متن آزاد',
         'Execute SQL statements.' => 'اجرای عبارات SQL',
         'Executes follow up checks on In-Reply-To or References headers for mails that don\'t have a ticket number in the subject.' =>
@@ -3581,6 +3580,7 @@ sub Data {
         'My Tickets' => 'درخواست‌های من',
         'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.' =>
             '',
+        'NameX' => '',
         'New email ticket' => 'درخواست ایمیلی جدید',
         'New phone ticket' => 'درخواست تلفنی جدید',
         'Next possible ticket states after adding a phone note in the ticket phone inbound screen of the agent interface.' =>
@@ -4202,6 +4202,8 @@ sub Data {
         'A message should have a body!' => 'پیام میبایست دارای متن باشد !',
         'A message should have a subject!' => 'یک پیام میبایست دارای عنوان باشد',
         'A required field is:' => 'یک فیلد مورد نیاز:',
+        'A response is default text to write faster answer (with default text) to customers.' =>
+            'یک پاسخ متنی است که برای تسریع در پاسخگویی به مشترکین ارسال میشود.',
         'A web calendar' => 'یک تقویم تحت وب',
         'A web file manager' => 'یک محیط مدیریت فایل تحت وب',
         'A web mail client' => 'یک محیط پست الکترونیکی',
@@ -4397,6 +4399,7 @@ sub Data {
         'Do you really want to delete this Object?' => 'آیا واقعا قصد حذف این مورد را دارید؟',
         'Do you really want to reinstall this package (all manual changes get lost)?' =>
             ' آیا از نصب مجدد این بسته اطمینان دارید. همه تغیرات دستی رونویسی خواهد شد ',
+        'Don\'t forget to add a new response a queue!' => 'فراموش نکنید که یک پاسخ به لیست اضافه کنید !',
         'Don\'t forget to add a new user to groups and/or roles!' => 'فراموش نکنید که کاربر میبایست به گروه و نقش مربوطه مرتبط شود',
         'Don\'t forget to add a new user to groups!' => 'فراموش نکنید که کاربرجدید را به گروه‌ها اضافه کنید!',
         'Don\'t work with UserID 1 (System account)! Create new users!' =>

@@ -7,7 +7,7 @@
 # Copyright (C) 2009 Qingjiu Jia <jiaqj at yahoo.com>
 # Copyright (C) 2011 Martin Liu <liuzh66 at gmail.com> http://martinliu.cn
 # --
-# $Id: zh_CN.pm,v 1.109 2012-02-27 08:26:13 mg Exp $
+# $Id: zh_CN.pm,v 1.110 2012-03-01 13:25:10 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,13 +20,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.109 $) [1];
+$VERSION = qw($Revision: 1.110 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-02-02 17:08:51
+    # Last translation file sync: 2012-03-01 14:20:28
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1547,9 +1547,9 @@ sub Data {
         # Template: AdminResponse
         'Manage Responses' => '管理回复',
         'Add response' => '新增回复',
-        'A response is default text to write faster answer (with default text) to customers.' =>
-            '为了快速回复，回复内容定义了每个回复中重复的内容.',
-        'Don\'t forget to add a new response a queue!' => '不要忘记增加一个新的回复内容到队列!',
+        'A response is a default text which helps your agents to write faster answers to customers.' =>
+            '',
+        'Don\'t forget to add new responses to queues.' => '',
         'Delete this entry' => '删除该条目',
         'Add Response' => '新增回复',
         'Edit Response' => '修改回复',
@@ -2650,6 +2650,7 @@ sub Data {
             '',
         'Default ticket ID used by the system in the customer interface.' =>
             '',
+        'Default value for NameX' => '',
         'Define a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
             '',
         'Define the start day of the week for the date picker.' => '',
@@ -3308,8 +3309,6 @@ sub Data {
             '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate). This is only possible if all Ticket dynamic fields need the same event.' =>
             '',
-        'Example for dynamic dield' => '',
-        'Example for dynamic field' => '',
         'Example for free text' => '',
         'Execute SQL statements.' => '执行 SQL 命令',
         'Executes follow up checks on In-Reply-To or References headers for mails that don\'t have a ticket number in the subject.' =>
@@ -3581,6 +3580,7 @@ sub Data {
         'My Tickets' => '',
         'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.' =>
             '',
+        'NameX' => '',
         'New email ticket' => '新的邮件 Ticket',
         'New phone ticket' => '新的电话 Ticket',
         'Next possible ticket states after adding a phone note in the ticket phone inbound screen of the agent interface.' =>
@@ -4200,6 +4200,8 @@ sub Data {
         'A message should have a subject!' => '邮件必须有标题!',
         'A new password will be sent to your e-mail adress.' => '一个新密码已经发送到你的邮箱',
         'A required field is:' => '必须的字段是',
+        'A response is default text to write faster answer (with default text) to customers.' =>
+            '为了快速回复，回复内容定义了每个回复中重复的内容.',
         'A web calendar' => 'Web 日历',
         'A web file manager' => 'Web 文件管理器',
         'A web mail client' => 'WebMail 客户端',
@@ -4345,6 +4347,7 @@ sub Data {
         'Do you really want to delete this Object?' => '您是否确认删除该对象?',
         'Do you really want to reinstall this package (all manual changes get lost)?' =>
             '您是否准备好重新安装这些软件包 (所有手工设置将会不见)?',
+        'Don\'t forget to add a new response a queue!' => '不要忘记增加一个新的回复内容到队列!',
         'Don\'t forget to add a new user to groups and/or roles!' => '不要忘记增加一个用户到组和角色!',
         'Don\'t forget to add a new user to groups!' => '不要忘记增加新的用户到组!',
         'Don\'t work with UserID 1 (System account)! Create new users!' =>

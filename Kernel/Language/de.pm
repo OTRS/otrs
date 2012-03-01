@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Thomas Kaltenbrunner <tkaltenbrunner at opc.de>
 # --
-# $Id: de.pm,v 1.317 2012-02-29 14:21:03 des Exp $
+# $Id: de.pm,v 1.318 2012-03-01 13:25:08 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.317 $) [1];
+$VERSION = qw($Revision: 1.318 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-02-02 17:08:18
+    # Last translation file sync: 2012-03-01 14:19:51
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1542,9 +1542,9 @@ sub Data {
         # Template: AdminResponse
         'Manage Responses' => 'Antworten verwalten',
         'Add response' => 'Antwort hinzufügen',
-        'A response is default text to write faster answer (with default text) to customers.' =>
-            'Eine Antwort ist ein vordefinierter Text, um Kunden schneller antworten zu können.',
-        'Don\'t forget to add a new response a queue!' => 'Eine neue Antwort muss einer Queue zugewiesen werden!',
+        'A response is a default text which helps your agents to write faster answers to customers.' =>
+            'Eine Antwort ist ein vordefinierter Text, mit dem Ihre Agenten den Kunden schneller antworten zu können.',
+        'Don\'t forget to add new responses to queues.' => 'Neue Antworten müssen einer Queue zugewiesen werden!',
         'Delete this entry' => 'Diesen Eintrag löschen',
         'Add Response' => 'Antwort hinzufügen',
         'Edit Response' => 'Antwort bearbeiten',
@@ -2645,6 +2645,7 @@ sub Data {
             '',
         'Default ticket ID used by the system in the customer interface.' =>
             '',
+        'Default value for NameX' => '',
         'Define a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
             '',
         'Define the start day of the week for the date picker.' => '',
@@ -3303,8 +3304,6 @@ sub Data {
             '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate). This is only possible if all Ticket dynamic fields need the same event.' =>
             '',
-        'Example for dynamic dield' => '',
-        'Example for dynamic field' => '',
         'Example for free text' => '',
         'Execute SQL statements.' => 'Einen SQL-Befehl ausführen',
         'Executes follow up checks on In-Reply-To or References headers for mails that don\'t have a ticket number in the subject.' =>
@@ -3576,6 +3575,7 @@ sub Data {
         'My Tickets' => 'Meine Tickets',
         'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.' =>
             '',
+        'NameX' => '',
         'New email ticket' => 'Neues E-Mail-Ticket',
         'New phone ticket' => 'Neues Telefon-Ticket',
         'Next possible ticket states after adding a phone note in the ticket phone inbound screen of the agent interface.' =>
@@ -4197,6 +4197,8 @@ sub Data {
         'A message should have a customer!' => 'Eine Nachtricht sollte einen Kunden haben!',
         'A message should have a subject!' => 'Eine Nachricht sollte einen Betreff haben!',
         'A required field is:' => 'Bitte füllen Sie das Pflichtfeld aus:',
+        'A response is default text to write faster answer (with default text) to customers.' =>
+            'Eine Antwort ist ein vordefinierter Text, um Kunden schneller antworten zu können.',
         'A ticket should be associated with a queue!' => 'Ein Ticket sollte mit einer Queue assoziert sein.',
         'A ticket should have a type!' => 'Ein Ticket sollte einen Typ haben!',
         'About OTRS' => 'Über OTRS',
@@ -4351,6 +4353,7 @@ sub Data {
         'Do you really want to delete this Object?' => 'Soll das Objekt wirklich gelöscht werden?',
         'Do you really want to reinstall this package (all manual changes get lost)?' =>
             'Soll das Paket wirklich erneut installiert werden (manuelle Änderungen gehen verloren)?',
+        'Don\'t forget to add a new response a queue!' => 'Eine neue Antwort muss einer Queue zugewiesen werden!',
         'Don\'t forget to add a new user to groups and/or roles!' => 'Ein neuer Benutzer muss einer Gruppe und/oder Rollen zugewiesen werden!',
         'Don\'t forget to add a new user to groups!' => 'Ein neuer Benutzer muss einer Gruppe zugewiesen werden!',
         'Don\'t work with UserID 1 (System account)! Create new users!' =>

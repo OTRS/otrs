@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # Copyright (C) 2011 Edgaras Lukoševičius <edgaras[eta]kauko.lt or admin[eta]sysadmin.lt>
 # --
-# $Id: lt.pm,v 1.19 2012-02-27 08:26:11 mg Exp $
+# $Id: lt.pm,v 1.20 2012-03-01 13:25:10 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.19 $) [1];
+$VERSION = qw($Revision: 1.20 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-02-02 17:08:33
+    # Last translation file sync: 2012-03-01 14:20:09
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1542,9 +1542,9 @@ sub Data {
         # Template: AdminResponse
         'Manage Responses' => 'Valdyti atsakymus',
         'Add response' => 'Pridėti atsakymą',
-        'A response is default text to write faster answer (with default text) to customers.' =>
-            'Atsakymas yra standartinis tekstas skirtas greitesniems atsakymams klientams rašyti.',
-        'Don\'t forget to add a new response a queue!' => 'Nepamirškite kiekvienai eilei pridėti po atsakymą!',
+        'A response is a default text which helps your agents to write faster answers to customers.' =>
+            '',
+        'Don\'t forget to add new responses to queues.' => '',
         'Delete this entry' => 'Ištrinti šį įrašą',
         'Add Response' => 'Pridėti atsakymą',
         'Edit Response' => 'Redaguoti atsakymą',
@@ -2645,6 +2645,7 @@ sub Data {
             '',
         'Default ticket ID used by the system in the customer interface.' =>
             '',
+        'Default value for NameX' => '',
         'Define a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
             '',
         'Define the start day of the week for the date picker.' => '',
@@ -3303,8 +3304,6 @@ sub Data {
             '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate). This is only possible if all Ticket dynamic fields need the same event.' =>
             '',
-        'Example for dynamic dield' => '',
-        'Example for dynamic field' => '',
         'Example for free text' => '',
         'Execute SQL statements.' => 'Vykdyti SQL sakinius',
         'Executes follow up checks on In-Reply-To or References headers for mails that don\'t have a ticket number in the subject.' =>
@@ -3576,6 +3575,7 @@ sub Data {
         'My Tickets' => 'Mano triktys',
         'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.' =>
             '',
+        'NameX' => '',
         'New email ticket' => 'Naujas panešimas el. paštu',
         'New phone ticket' => 'Naujas panešimas telefonu',
         'Next possible ticket states after adding a phone note in the ticket phone inbound screen of the agent interface.' =>
@@ -4174,6 +4174,8 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        'A response is default text to write faster answer (with default text) to customers.' =>
+            'Atsakymas yra standartinis tekstas skirtas greitesniems atsakymams klientams rašyti.',
         'Add a note to this ticket!' => 'Pridėti pastabą šiam triktimi!',
         'Bounce Ticket: ' => 'Nukreipti triktį:',
         'Change the ticket customer!' => 'Pakeisti trikties klientą!',
@@ -4183,6 +4185,7 @@ sub Data {
         'Create/Expires' => 'Sukurti/Baigiasi galiojimas',
         'Current Password' => 'Dabartinis slaptažodis',
         'Delete this ticket!' => 'Ištrinti triktį!',
+        'Don\'t forget to add a new response a queue!' => 'Nepamirškite kiekvienai eilei pridėti po atsakymą!',
         'Filter for Language' => 'Filtruoti kalbas',
         'Forward ticket: ' => 'Persiųsti triktį:',
         'Hash/Fingerprint' => 'Hešas (hash)/ Piršto atspaudas',

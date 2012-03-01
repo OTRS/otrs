@@ -4,7 +4,7 @@
 # Copyright (C) 2010-2011 Kaz Kamimura <kamypus at yahoo.co.jp>
 # Copyright (C) 2011/12/08 Kaoru Hayama TIS Inc.
 # --
-# $Id: ja.pm,v 1.29 2012-02-27 08:26:13 mg Exp $
+# $Id: ja.pm,v 1.30 2012-03-01 13:25:10 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,13 +16,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.29 $) [1];
+$VERSION = qw($Revision: 1.30 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-02-02 17:08:32
+    # Last translation file sync: 2012-03-01 14:20:07
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1543,9 +1543,9 @@ sub Data {
         # Template: AdminResponse
         'Manage Responses' => '応答管理',
         'Add response' => '応答を追加',
-        'A response is default text to write faster answer (with default text) to customers.' =>
-            '応答は顧客に迅速に回答するために書いておく規定の文章です。',
-        'Don\'t forget to add a new response a queue!' => '新規応答をキューに追加してください',
+        'A response is a default text which helps your agents to write faster answers to customers.' =>
+            '',
+        'Don\'t forget to add new responses to queues.' => '',
         'Delete this entry' => 'この登録を削除',
         'Add Response' => '応答を登録',
         'Edit Response' => '応答を編集',
@@ -2646,6 +2646,7 @@ sub Data {
             '担当者インタフェースにおいて、システムによって使用されるデフォルトのチケットIDです。',
         'Default ticket ID used by the system in the customer interface.' =>
             '顧客インタフェースで、システムによって使用されるデフォルトのチケットIDです。',
+        'Default value for NameX' => '',
         'Define a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
             '定義された文字列（string）の後ろにリンクを追加するhtmlアウトプットのための、フィルタを定義します。エレメント・イメージは、2種類のインプットを許可します。すぐに、イメージの名前です（つまりfaq.png）。この場合、OTRSイメージ・パスが使用されます。2つめの可能性は、イメージにリンクを挿入することです。',
         'Define the start day of the week for the date picker.' => '日付ピッカーにおける週の開始曜日を設定します。',
@@ -3306,8 +3307,6 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
             '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate). This is only possible if all Ticket dynamic fields need the same event.' =>
             '',
-        'Example for dynamic dield' => '',
-        'Example for dynamic field' => '',
         'Example for free text' => '自由入力の例',
         'Execute SQL statements.' => 'SQL文の実行',
         'Executes follow up checks on In-Reply-To or References headers for mails that don\'t have a ticket number in the subject.' =>
@@ -3580,6 +3579,7 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         'My Tickets' => '担当チケット',
         'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.' =>
             'カスタム・キューの名前です。カスタム・キューとは、利用者が特に優先するキューの一覧であり、プレファレンス設定から選択できます。',
+        'NameX' => '',
         'New email ticket' => '新規メールチケットの作成',
         'New phone ticket' => '新規電話チケットの作成',
         'Next possible ticket states after adding a phone note in the ticket phone inbound screen of the agent interface.' =>
@@ -4201,6 +4201,8 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         'A message should have a customer!' => 'メッセージに顧客がありません！',
         'A message should have a subject!' => 'メッセージに表題がありません！',
         'A required field is:' => 'この領域が必要です: ',
+        'A response is default text to write faster answer (with default text) to customers.' =>
+            '応答は顧客に迅速に回答するために書いておく規定の文章です。',
         'A ticket should be associated with a queue!' => 'チケットがキューに関連付けられていません！',
         'A ticket should have a type!' => 'チケットにタイプがありません！',
         'About OTRS' => 'OTRSとは',
@@ -4811,6 +4813,7 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         'Do you really want to delete this Object?' => 'この対象を削除しますか？',
         'Do you really want to reinstall this package (all manual changes get lost)?' =>
             'このパッケージを再インストールしますか？ (全ての手動での変更点は失われます)',
+        'Don\'t forget to add a new response a queue!' => '新規応答をキューに追加してください',
         'Don\'t forget to add a new user to groups and/or roles!' => '新規ユーザーをグループや役割に追加してください！',
         'Don\'t forget to add a new user to groups!' => '新規ユーザーをグループに追加してください！',
         'Don\'t work with UserID 1 (System account)! Create new users!' =>

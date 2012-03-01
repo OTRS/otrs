@@ -4,7 +4,7 @@
 # Copyright (C) 2007-2008 Mads N. Vestergaard <mnv[at]timmy.dk>
 # Copyright (C) 2010 Lars Jørgensen <lajo[at]kb.dk>
 # --
-# $Id: da.pm,v 1.102 2012-02-27 08:26:10 mg Exp $
+# $Id: da.pm,v 1.103 2012-03-01 13:25:09 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,13 +17,13 @@ use warnings;
 
 use vars qw($VERSION);
 
-$VERSION = qw($Revision: 1.102 $) [1];
+$VERSION = qw($Revision: 1.103 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-02-02 17:08:17
+    # Last translation file sync: 2012-03-01 14:19:50
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1544,9 +1544,9 @@ sub Data {
         # Template: AdminResponse
         'Manage Responses' => 'Administrer svar',
         'Add response' => 'Tilføj svar',
-        'A response is default text to write faster answer (with default text) to customers.' =>
-            'Et Svar er en standardtekst, der bruges til at skrive et hurtigere svar (med standardtekst) til kunderne.',
-        'Don\'t forget to add a new response a queue!' => 'Glem ikke at tilføje et nyt svar pr. kø!',
+        'A response is a default text which helps your agents to write faster answers to customers.' =>
+            '',
+        'Don\'t forget to add new responses to queues.' => '',
         'Delete this entry' => 'Slet dette svar',
         'Add Response' => 'Tilføj svar',
         'Edit Response' => 'Rediger svar',
@@ -2647,6 +2647,7 @@ sub Data {
             '',
         'Default ticket ID used by the system in the customer interface.' =>
             '',
+        'Default value for NameX' => '',
         'Define a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
             '',
         'Define the start day of the week for the date picker.' => 'Definer ugens første dag for datovælgeren.',
@@ -3305,8 +3306,6 @@ sub Data {
             '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate). This is only possible if all Ticket dynamic fields need the same event.' =>
             '',
-        'Example for dynamic dield' => '',
-        'Example for dynamic field' => '',
         'Example for free text' => 'Eksempel for fritekst',
         'Execute SQL statements.' => 'Udfør SQL-kommandoer.',
         'Executes follow up checks on In-Reply-To or References headers for mails that don\'t have a ticket number in the subject.' =>
@@ -3578,6 +3577,7 @@ sub Data {
         'My Tickets' => 'Mine Sager',
         'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.' =>
             '',
+        'NameX' => '',
         'New email ticket' => 'Opret ny sag ved at sende mail',
         'New phone ticket' => 'Opret ny sag',
         'Next possible ticket states after adding a phone note in the ticket phone inbound screen of the agent interface.' =>
@@ -4176,6 +4176,8 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        'A response is default text to write faster answer (with default text) to customers.' =>
+            'Et Svar er en standardtekst, der bruges til at skrive et hurtigere svar (med standardtekst) til kunderne.',
         'Activates TypeAhead for the autocomplete feature, that enables users to type in whatever speed they desire, without losing any information. Often this means that keystrokes entered will not be displayed on the screen immediately.' =>
             'Aktiverer TypeAhead for autofuldførelses-funktionen, der tillader brugere at skrive i deres egen hastighed, uden at de mister information. Det betyder ofte, at tastetryk ikke vises på skærmen øjeblikkeligt.',
         'Add a note to this ticket!' => 'Tilføj en bemærkning til denne sag.',
@@ -4195,6 +4197,7 @@ sub Data {
         'Customer item (icon) which shows the open tickets of this customer as info block.' =>
             'Kunde-ikon, der viser åbne sager for denne kunde som en info-blok.',
         'Delete this ticket!' => 'Slet denne sag.',
+        'Don\'t forget to add a new response a queue!' => 'Glem ikke at tilføje et nyt svar pr. kø!',
         'Don\'t work with UserID 1 (System account)! Create new users!' =>
             'Arbejd ikke med bruger-ID 1 (systemkonto)! Opret nye brugere!',
         'Enterprise Support and Enterprise Subscription information' => 'Information om Enterprise Support og Enterprise Subscription',

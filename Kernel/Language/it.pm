@@ -8,7 +8,7 @@
 # Copyright (C) 2009 Alessandro Faraldi <faraldia at gmail.com>
 # Copyright (C) 2010 Alessandro Grassi <alessandro.grassi at devise.it>
 # --
-# $Id: it.pm,v 1.128 2012-02-27 08:26:09 mg Exp $
+# $Id: it.pm,v 1.129 2012-03-01 13:25:08 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,13 +21,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.128 $) [1];
+$VERSION = qw($Revision: 1.129 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-02-02 17:08:31
+    # Last translation file sync: 2012-03-01 14:20:06
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1548,9 +1548,9 @@ sub Data {
         # Template: AdminResponse
         'Manage Responses' => 'Gestione risposte',
         'Add response' => 'Aggiungi risposta',
-        'A response is default text to write faster answer (with default text) to customers.' =>
-            'Una risposta è un testo predefinito usato per compilare più rapidamente le risposte per i clienti.',
-        'Don\'t forget to add a new response a queue!' => 'Non dimenticare di aggiungere una risposta per ogni coda!',
+        'A response is a default text which helps your agents to write faster answers to customers.' =>
+            '',
+        'Don\'t forget to add new responses to queues.' => '',
         'Delete this entry' => 'Elimina',
         'Add Response' => 'Aggiungi risposta',
         'Edit Response' => 'Modifica risposta',
@@ -2651,6 +2651,7 @@ sub Data {
             'Ticked ID di default usato dal sistema nell\'interfaccia agenti.',
         'Default ticket ID used by the system in the customer interface.' =>
             'Ticked ID di default usato dal sistema nell\'interfaccia clienti.',
+        'Default value for NameX' => '',
         'Define a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
             'Definisce un filtro per l\'output HTML per aggiungere link dietro una determinata stringa. L\'elemento Image permette due tipi di input. Uno è il nome di una certa immagine (ad es. faq.png). In questo caso verrà usata la path delle immagini di OTRS. La seconda possibilità è inserire un link all\'immagine.',
         'Define the start day of the week for the date picker.' => 'Definire il giorno di inizio settimana per il selezionatore di date.',
@@ -3309,8 +3310,6 @@ sub Data {
             '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate). This is only possible if all Ticket dynamic fields need the same event.' =>
             '',
-        'Example for dynamic dield' => '',
-        'Example for dynamic field' => '',
         'Example for free text' => '',
         'Execute SQL statements.' => '',
         'Executes follow up checks on In-Reply-To or References headers for mails that don\'t have a ticket number in the subject.' =>
@@ -3582,6 +3581,7 @@ sub Data {
         'My Tickets' => 'I miei ticket',
         'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.' =>
             '',
+        'NameX' => '',
         'New email ticket' => '',
         'New phone ticket' => '',
         'Next possible ticket states after adding a phone note in the ticket phone inbound screen of the agent interface.' =>
@@ -4202,6 +4202,8 @@ sub Data {
         'A message should have a body!' => 'Un messaggio deve avere un contenuto!',
         'A message should have a subject!' => 'Il messaggio deve avere un oggetto!',
         'A required field is:' => 'Un campo richiesto :',
+        'A response is default text to write faster answer (with default text) to customers.' =>
+            'Una risposta è un testo predefinito usato per compilare più rapidamente le risposte per i clienti.',
         'A web calendar' => 'Calendario web',
         'A web file manager' => 'Un gestore dei file via web',
         'A web mail client' => 'Un client di web mail',
@@ -4408,6 +4410,7 @@ sub Data {
         'Do you really want to delete this Object?' => 'Vuoi davvero cancellare questo oggetto?',
         'Do you really want to reinstall this package (all manual changes get lost)?' =>
             'Vuoi veramente reinstallare questo Package (tutte i relativi settaggi manuali saranno persi) ? ',
+        'Don\'t forget to add a new response a queue!' => 'Non dimenticare di aggiungere una risposta per ogni coda!',
         'Don\'t forget to add a new user to groups and/or roles!' => 'Non dimenticare di inserire anche il gruppo e/o regole ',
         'Don\'t forget to add a new user to groups!' => 'Non dimenticare di aggiungere i nuovi operatori ad un gruppo!',
         'Don\'t work with UserID 1 (System account)! Create new users!' =>

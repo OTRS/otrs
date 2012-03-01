@@ -2,7 +2,7 @@
 # Kernel/Language/pt.pm - provides pt language translation
 # Copyright (C) 2004-2007 CAT - Filipe Henriques <filipehenriques at ip.pt>
 # --
-# $Id: pt.pm,v 1.119 2012-02-27 08:26:10 mg Exp $
+# $Id: pt.pm,v 1.120 2012-03-01 13:25:09 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.119 $) [1];
+$VERSION = qw($Revision: 1.120 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-02-02 17:08:39
+    # Last translation file sync: 2012-03-01 14:20:15
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -1542,9 +1542,9 @@ sub Data {
         # Template: AdminResponse
         'Manage Responses' => '',
         'Add response' => '',
-        'A response is default text to write faster answer (with default text) to customers.' =>
-            'Uma resposta é um texto padrão para compôr respostas rápidas (com texto padrão) para clientes.',
-        'Don\'t forget to add a new response a queue!' => 'Não se esqueça de adicionar a nova resposta a uma fila!',
+        'A response is a default text which helps your agents to write faster answers to customers.' =>
+            '',
+        'Don\'t forget to add new responses to queues.' => '',
         'Delete this entry' => '',
         'Add Response' => '',
         'Edit Response' => '',
@@ -2645,6 +2645,7 @@ sub Data {
             '',
         'Default ticket ID used by the system in the customer interface.' =>
             '',
+        'Default value for NameX' => '',
         'Define a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
             '',
         'Define the start day of the week for the date picker.' => '',
@@ -3303,8 +3304,6 @@ sub Data {
             '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate). This is only possible if all Ticket dynamic fields need the same event.' =>
             '',
-        'Example for dynamic dield' => '',
-        'Example for dynamic field' => '',
         'Example for free text' => '',
         'Execute SQL statements.' => '',
         'Executes follow up checks on In-Reply-To or References headers for mails that don\'t have a ticket number in the subject.' =>
@@ -3576,6 +3575,7 @@ sub Data {
         'My Tickets' => '',
         'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.' =>
             '',
+        'NameX' => '',
         'New email ticket' => '',
         'New phone ticket' => '',
         'Next possible ticket states after adding a phone note in the ticket phone inbound screen of the agent interface.' =>
@@ -4195,6 +4195,8 @@ sub Data {
         'A message should have a To: recipient!' => 'Uma mensagem deve possuir um Para: destinatário!',
         'A message should have a body!' => 'A mensagem deve conter um texto!',
         'A message should have a subject!' => 'A mensagem deve conter um assunto!',
+        'A response is default text to write faster answer (with default text) to customers.' =>
+            'Uma resposta é um texto padrão para compôr respostas rápidas (com texto padrão) para clientes.',
         'A web calendar' => 'Um calendário na Web',
         'A web file manager' => 'Um gestor de ficheiros na Web',
         'A web mail client' => 'Um cliente de correio electrónico na Web',
@@ -4307,6 +4309,7 @@ sub Data {
         'Do you really want to delete this Object?' => 'Deseja realmente remover este Objecto?',
         'Do you really want to reinstall this package (all manual changes get lost)?' =>
             'Tem a certeza que pretende reinstalar este pacote ?(todas as alterações manuais vao ser perdidas)',
+        'Don\'t forget to add a new response a queue!' => 'Não se esqueça de adicionar a nova resposta a uma fila!',
         'Don\'t forget to add a new user to groups and/or roles!' => 'Não se esqueça de adicionar um novo utilizador a grupos e/ou papeis!',
         'Don\'t forget to add a new user to groups!' => 'Não esqueça de adicionar um novo user nos grupos!',
         'Don\'t work with UserID 1 (System account)! Create new users!' =>
