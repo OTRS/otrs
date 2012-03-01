@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.541 2012-02-13 11:33:37 mg Exp $
+# $Id: Ticket.pm,v 1.542 2012-03-01 11:34:05 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -40,7 +40,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.541 $) [1];
+$VERSION = qw($Revision: 1.542 $) [1];
 
 =head1 NAME
 
@@ -647,6 +647,28 @@ sub TicketDelete {
         return if !$Self->ArticleDelete(
             ArticleID => $ArticleID,
             %Param,
+        );
+    }
+
+    # get all dynamic fields for the object type Ticket
+    my $DynamicFieldListTicket = $Self->{DynamicFieldObject}->DynamicFieldListGet(
+        ObjectType => 'Ticket',
+        Valid      => 0,
+    );
+
+    # delete dynamicfield values for this ticket
+    DYNAMICFIELD:
+    for my $DynamicFieldConfig ( @{$DynamicFieldListTicket} ) {
+
+        next DYNAMICFIELD if !$DynamicFieldConfig;
+        next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+        next DYNAMICFIELD if !$DynamicFieldConfig->{Name};
+        next DYNAMICFIELD if !IsHashRefWithData( $DynamicFieldConfig->{Config} );
+
+        $Self->{DynamicFieldBackendObject}->ValueDelete(
+            DynamicFieldConfig => $DynamicFieldConfig,
+            ObjectID           => $Param{TicketID},
+            UserID             => $Param{UserID},
         );
     }
 
@@ -7290,6 +7312,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.541 $ $Date: 2012-02-13 11:33:37 $
+$Revision: 1.542 $ $Date: 2012-03-01 11:34:05 $
 
 =cut

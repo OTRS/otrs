@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Checkbox.pm - Delegate for DynamicField Checkbox backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Checkbox.pm,v 1.49 2012-01-03 22:49:44 cr Exp $
+# $Id: Checkbox.pm,v 1.50 2012-03-01 11:34:05 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::DynamicFieldValue;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.49 $) [1];
+$VERSION = qw($Revision: 1.50 $) [1];
 
 =head1 NAME
 
@@ -104,6 +104,18 @@ sub ValueSet {
             },
         ],
         UserID => $Param{UserID},
+    );
+
+    return $Success;
+}
+
+sub ValueDelete {
+    my ( $Self, %Param ) = @_;
+
+    my $Success = $Self->{DynamicFieldValueObject}->ValueDelete(
+        FieldID  => $Param{DynamicFieldConfig}->{ID},
+        ObjectID => $Param{ObjectID},
+        UserID   => $Param{UserID},
     );
 
     return $Success;

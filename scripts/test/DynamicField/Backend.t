@@ -1,8 +1,8 @@
 # --
 # Backend.t - DynamicFieldValue backend tests
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Backend.t,v 1.18 2011-10-26 21:54:09 cg Exp $
+# $Id: Backend.t,v 1.19 2012-03-01 11:34:05 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -781,16 +781,33 @@ for my $Test (@Tests) {
 
 }
 
-# delete the dynamic field
-my $FieldDelete = $DynamicFieldObject->DynamicFieldDelete(
-    ID     => $FieldID,
-    UserID => 1,
+# specific tests for TicketDelete, it must clean up the dynamic field values()
+my $Value = 123;
+
+$BackendObject->ValueSet(
+    DynamicFieldConfig => {
+        ID         => $FieldID,
+        ObjectType => 'Ticket',
+        FieldType  => 'Text',
+    },
+    ObjectID => $TicketID,
+    Value    => $Value,
+    UserID   => 1,
+);
+my $ReturnValue1 = $BackendObject->ValueGet(
+    DynamicFieldConfig => {
+        ID         => $FieldID,
+        ObjectType => 'Ticket',
+        FieldType  => 'Text',
+    },
+    ObjectID => $TicketID,
+    UserID   => 1,
 );
 
-# sanity check
-$Self->True(
-    $FieldDelete,
-    "DynamicFieldDelete() successful for Field ID $FieldID",
+$Self->Is(
+    $ReturnValue1,
+    $Value,
+    'TicketDelete() DF value correctly set',
 );
 
 # delete the ticket
@@ -803,6 +820,34 @@ my $TicketDelete = $TicketObject->TicketDelete(
 $Self->True(
     $TicketDelete,
     "TicketDelete() successful for Ticket ID $TicketID",
+);
+
+my $ReturnValue2 = $BackendObject->ValueGet(
+    DynamicFieldConfig => {
+        ID         => $FieldID,
+        ObjectType => 'Ticket',
+        FieldType  => 'Text',
+    },
+    ObjectID => $TicketID,
+    UserID   => 1,
+);
+
+$Self->Is(
+    $ReturnValue2,
+    scalar undef,
+    'TicketDelete() DF value was deleted by ticket delete',
+);
+
+# delete the dynamic field
+my $FieldDelete = $DynamicFieldObject->DynamicFieldDelete(
+    ID     => $FieldID,
+    UserID => 1,
+);
+
+# sanity check
+$Self->True(
+    $FieldDelete,
+    "DynamicFieldDelete() successful for Field ID $FieldID",
 );
 
 1;

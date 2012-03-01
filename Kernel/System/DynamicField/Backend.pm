@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend.pm - Interface for DynamicField backends
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Backend.pm,v 1.67 2012-01-24 07:45:17 mg Exp $
+# $Id: Backend.pm,v 1.68 2012-03-01 11:34:05 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Scalar::Util qw(weaken);
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.67 $) [1];
+$VERSION = qw($Revision: 1.68 $) [1];
 
 =head1 NAME
 
@@ -501,6 +501,64 @@ sub ValueSet {
     }
 
     return 1;
+}
+
+=item ValueDelete()
+
+deletes a dynamic field value.
+
+    my $Success = $BackendObject->ValueDelete(
+        DynamicFieldConfig => $DynamicFieldConfig,      # complete config of the DynamicField
+        ObjectID           => $ObjectID,                # ID of the current object that the field
+                                                        # must be linked to, e. g. TicketID
+        UserID             => 123,
+    );
+
+=cut
+
+sub ValueDelete {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Needed (qw(DynamicFieldConfig ObjectID UserID)) {
+        if ( !$Param{$Needed} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            return;
+        }
+    }
+
+    # check DynamicFieldConfig (general)
+    if ( !IsHashRefWithData( $Param{DynamicFieldConfig} ) ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "The field configuration is invalid",
+        );
+        return;
+    }
+
+    # check DynamicFieldConfig (internally)
+    for my $Needed (qw(ID FieldType ObjectType)) {
+        if ( !$Param{DynamicFieldConfig}->{$Needed} ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed in DynamicFieldConfig!"
+            );
+            return;
+        }
+    }
+
+    # set the dynamic filed specific backend
+    my $DynamicFieldBackend = 'DynamicField' . $Param{DynamicFieldConfig}->{FieldType} . 'Object';
+
+    if ( !$Self->{$DynamicFieldBackend} ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!"
+        );
+        return;
+    }
+
+    return $Self->{$DynamicFieldBackend}->ValueDelete(%Param);
 }
 
 =item ValueValidate()
@@ -1965,6 +2023,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.67 $ $Date: 2012-01-24 07:45:17 $
+$Revision: 1.68 $ $Date: 2012-03-01 11:34:05 $
 
 =cut

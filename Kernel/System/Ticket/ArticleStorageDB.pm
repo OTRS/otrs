@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Ticket/ArticleStorageDB.pm - article storage module for OTRS kernel
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleStorageDB.pm,v 1.78 2010-12-10 13:03:31 martin Exp $
+# $Id: ArticleStorageDB.pm,v 1.79 2012-03-01 11:34:05 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,8 +17,10 @@ use warnings;
 use MIME::Base64;
 use MIME::Words qw(:all);
 
+use Kernel::System::VariableCheck qw(:all);
+
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.78 $) [1];
+$VERSION = qw($Revision: 1.79 $) [1];
 
 sub ArticleStorageInit {
     my ( $Self, %Param ) = @_;
@@ -45,6 +47,27 @@ sub ArticleDelete {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
+    }
+
+    my $DynamicFieldListArticle = $Self->{DynamicFieldObject}->DynamicFieldListGet(
+        ObjectType => 'Article',
+        Valid      => 0,
+    );
+
+    # delete dynamicfield values for this article
+    DYNAMICFIELD:
+    for my $DynamicFieldConfig ( @{$DynamicFieldListArticle} ) {
+
+        next DYNAMICFIELD if !$DynamicFieldConfig;
+        next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+        next DYNAMICFIELD if !$DynamicFieldConfig->{Name};
+        next DYNAMICFIELD if !IsHashRefWithData( $DynamicFieldConfig->{Config} );
+
+        $Self->{DynamicFieldBackendObject}->ValueDelete(
+            DynamicFieldConfig => $DynamicFieldConfig,
+            ObjectID           => $Param{ArticleID},
+            UserID             => $Param{UserID},
+        );
     }
 
     # delete index
