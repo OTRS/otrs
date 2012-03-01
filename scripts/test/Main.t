@@ -2,7 +2,7 @@
 # Main.t - Main tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Main.t,v 1.29 2012-02-29 06:38:43 cg Exp $
+# $Id: Main.t,v 1.30 2012-03-01 17:11:54 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -485,7 +485,21 @@ for my $Directory ( $DirectoryWithFiles, $DirectoryWithoutFiles ) {
         Name   => 'Unicode dump 5',
         Source => "Antonín Dvořák",
         Result => "\$VAR1 = 'Antonín Dvořák';\n",
-    }
+    },
+
+    # Strange things happen here. \x{e9} is not valid UTF8, but instead Latin1.
+    # The first test works, the second doesn't...
+    #    {
+    #        Name => 'Invalid UTF8',
+    #        Source =>
+    #            "ä \x{e9}",
+    #        Result => "\$VAR1 = 'ä é';\n",
+    #    },
+    #    {
+    #        Name   => 'Invalid UTF8',
+    #        Source => "\x{e9}",
+    #        Result => "\$VAR1 = 'é';",
+    #    },
 );
 
 for my $Test (@Tests) {
