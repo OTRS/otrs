@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.308 2012-02-13 11:33:37 mg Exp $
+# $Id: Article.pm,v 1.309 2012-03-01 13:40:57 ep Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::EmailParser;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.308 $) [1];
+$VERSION = qw($Revision: 1.309 $) [1];
 
 =head1 NAME
 
@@ -2318,7 +2318,7 @@ sub SendAgentNotification {
     # return if no notification is active
     return 1 if $Self->{SendNoNotification};
 
-    # Check if agent recevies notifications for actions done by himself.
+    # Check if agent receives notifications for actions done by himself.
     if (
         !$Self->{ConfigObject}->Get('AgentSelfNotifyOnAction')
         && ( $Param{RecipientID} eq $Param{UserID} )
@@ -3507,6 +3507,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.308 $ $Date: 2012-02-13 11:33:37 $
+$Revision: 1.309 $ $Date: 2012-03-01 13:40:57 $
 
 =cut
