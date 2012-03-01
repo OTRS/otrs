@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2194 2012-03-01 14:26:46 mg Exp $
+# $Id: CHANGES,v 1.2195 2012-03-01 17:03:36 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.1.2 2012-03-06
+ - 2012-03-01 Fixed bug#8282 - Dropdown and Multiselect Dynamic Fields without Possible values
+    causes errors with LayoutObject BuildSelection function.
  - 2012-03-01 Fixed bug#8277 - DynamicField Values not deleted when ticket is deleted.
  - 2012-02-28 Fixed bug#8274 - Dynamic Fields ACLs does not work correctly at Ticket Split.
  - 2012-02-28 Improved #7526 - Fixed handling of special characters (, ), &, - within statistics.
