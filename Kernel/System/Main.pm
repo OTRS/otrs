@@ -2,7 +2,7 @@
 # Kernel/System/Main.pm - main core components
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Main.pm,v 1.62 2012-02-28 13:49:54 mg Exp $
+# $Id: Main.pm,v 1.63 2012-03-01 18:04:44 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,12 +18,11 @@ use Digest::MD5 qw(md5_hex);
 use Data::Dumper;
 use File::stat;
 use Unicode::Normalize;
-use Storable;
 
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.62 $) [1];
+$VERSION = qw($Revision: 1.63 $) [1];
 
 =head1 NAME
 
@@ -717,14 +716,30 @@ dump variable to an string
         },
     );
 
+    dump only in ascii characters (> 128 will be marked as \x{..})
+
+    my $Dump = $MainObject->Dump(
+        $SomeVariable,
+        'ascii', # ascii|binary - default is binary
+    );
+
 =cut
 
 sub Dump {
-    my ( $Self, $Data ) = @_;
+    my ( $Self, $Data, $Type ) = @_;
 
     # check needed data
     if ( !defined $Data ) {
         $Self->{LogObject}->Log( Priority => 'error', Message => "Need \$String in Dump()!" );
+        return;
+    }
+
+    # check type
+    if ( !$Type ) {
+        $Type = 'binary';
+    }
+    if ( $Type ne 'ascii' && $Type ne 'binary' ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => "Invalid Type '$Type'!" );
         return;
     }
 
@@ -739,22 +754,28 @@ sub Dump {
     # strings as latin1/8bit instead of utf8. Use Storable module used for
     # workaround.
     # -> http://rt.cpan.org/Ticket/Display.html?id=28607
+    if ( $Self->Require('Storable') && $Type eq 'binary' ) {
 
-    # Clone the data because we need to disable the utf8 flag in all
-    # reference variables and we want not to do this in the orig.
-    # variables because this will still used in the system.
-    my $DataNew = Storable::dclone( \$Data );
+        # Clone the data because we need to disable the utf8 flag in all
+        # reference variables and we want not to do this in the orig.
+        # variables because this will still used in the system.
+        my $DataNew = Storable::dclone( \$Data );
 
-    # Disable utf8 flag.
-    $Self->_Dump($DataNew);
+        # Disable utf8 flag.
+        $Self->_Dump($DataNew);
 
-    # Dump it as binary strings.
-    my $String = Data::Dumper::Dumper( ${$DataNew} );
+        # Dump it as binary strings.
+        my $String = Data::Dumper::Dumper( ${$DataNew} );
 
-    # Enable utf8 flag.
-    Encode::_utf8_on($String);
+        # Enable utf8 flag.
+        Encode::_utf8_on($String);
 
-    return $String;
+        return $String;
+    }
+
+    # fallback if Storable can not be loaded
+    return Data::Dumper::Dumper($Data);
+
 }
 
 =begin Internal:
@@ -958,6 +979,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.62 $ $Date: 2012-02-28 13:49:54 $
+$Revision: 1.63 $ $Date: 2012-03-01 18:04:44 $
 
 =cut
