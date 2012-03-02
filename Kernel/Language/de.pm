@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Thomas Kaltenbrunner <tkaltenbrunner at opc.de>
 # --
-# $Id: de.pm,v 1.318 2012-03-01 13:25:08 mg Exp $
+# $Id: de.pm,v 1.319 2012-03-02 01:02:43 ep Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.318 $) [1];
+$VERSION = qw($Revision: 1.319 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -848,7 +848,7 @@ sub Data {
         'To get the first 20 character of the subject.' => 'Die ersten 20 Zeichen des Betreffs',
         'To get the first 5 lines of the email.' => 'Die ersten fünf Zeilen der Nachricht',
         'To get the realname of the sender (if given).' => 'Der Name des Benutzers (wenn angegeben)',
-        'To get the article attribute' => 'Das Artikel-Attriute',
+        'To get the article attribute' => 'Die Artikel-Attribute',
         ' e. g.' => 'z. B.',
         'Options of the current customer user data' => 'Attribute des aktuellen Kunden',
         'Ticket owner options' => 'Attribute des Ticketbesitzers',
