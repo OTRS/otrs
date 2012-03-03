@@ -1,8 +1,8 @@
 # --
 # Kernel/System/EventHandler.pm - global object events
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: EventHandler.pm,v 1.9 2011-02-23 11:52:52 mg Exp $
+# $Id: EventHandler.pm,v 1.10 2012-03-03 01:34:31 ep Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 =head1 NAME
 
@@ -80,8 +80,7 @@ Example 1:
 Example 1 XML config:
 
     <ConfigItem Name="Example::EventModule###99-EscalationIndex" Required="0" Valid="1">
-        <Description Lang="en">Example event module updates the example escalation index.</Description>
-        <Description Lang="de">Example Event Modul aktualisiert den Example Eskalations-Index.</Description>
+        <Description Translatable="1">Example event module updates the example escalation index.</Description>
         <Group>Example</Group>
         <SubGroup>Core::Example</SubGroup>
         <Setting>
@@ -105,8 +104,7 @@ Example 2:
 Example 2 XML config:
 
     <ConfigItem Name="ITSM::EventModule###01-HistoryAdd" Required="0" Valid="1">
-        <Description Lang="en">ITSM event module updates the history for Change and WorkOrder objects..</Description>
-        <Description Lang="de">ITSM Event Modul aktualisiert die History von Change und WorkOrder Objekten.</Description>
+        <Description Translatable="1">ITSM event module updates the history for Change and WorkOrder objects..</Description>
         <Group>ITSM Change Management</Group>
         <SubGroup>Core::ITSMEvent</SubGroup>
         <Setting>
@@ -119,8 +117,7 @@ Example 2 XML config:
         </Setting>
     </ConfigItem>
     <ConfigItem Name="ITSM::EventModule###02-HistoryAdd" Required="0" Valid="1">
-        <Description Lang="en">ITSM event module updates the ConfigItem History.</Description>
-        <Description Lang="de">ITSM Event Modul aktualisiert ConfigItem History.</Description>
+        <Description Translatable="1">ITSM event module updates the ConfigItem History.</Description>
         <Group>ITSM Configuration Management</Group>
         <SubGroup>Core::ITSMEvent</SubGroup>
         <Setting>
@@ -302,6 +299,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.9 $ $Date: 2011-02-23 11:52:52 $
+$Revision: 1.10 $ $Date: 2012-03-03 01:34:31 $
 
 =cut
