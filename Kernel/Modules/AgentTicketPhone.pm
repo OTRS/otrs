@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.178.2.6 2011-07-22 12:49:48 en Exp $
+# $Id: AgentTicketPhone.pm,v 1.178.2.7 2012-03-05 09:48:08 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::LinkObject;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.178.2.6 $) [1];
+$VERSION = qw($Revision: 1.178.2.7 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -176,6 +176,14 @@ sub Run {
         my %CustomerData;
         if ( $GetParam{ArticleID} ) {
             %Article = $Self->{TicketObject}->ArticleGet( ArticleID => $GetParam{ArticleID} );
+
+            # Check if article is from the same TicketID as we checked permissions for.
+            if ( $Article{TicketID} ne $Self->{TicketID} ) {
+                return $Self->{LayoutObject}->ErrorScreen(
+                    Message => "Article does not belong to ticket $Self->{TicketID}!",
+                );
+            }
+
             $Article{Subject} = $Self->{TicketObject}->TicketSubjectClean(
                 TicketNumber => $Article{TicketNumber},
                 Subject => $Article{Subject} || '',
