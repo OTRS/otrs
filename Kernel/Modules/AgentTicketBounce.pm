@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketBounce.pm - to bounce articles of tickets
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBounce.pm,v 1.35 2009-07-20 10:36:04 mh Exp $
+# $Id: AgentTicketBounce.pm,v 1.35.2.1 2012-03-05 09:47:47 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.35 $) [1];
+$VERSION = qw($Revision: 1.35.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -140,6 +140,13 @@ sub Run {
 
         # get article data
         my %Article = $Self->{TicketObject}->ArticleGet( ArticleID => $Self->{ArticleID}, );
+
+        # Check if article is from the same TicketID as we checked permissions for.
+        if ( $Article{TicketID} ne $Self->{TicketID} ) {
+            return $Self->{LayoutObject}->ErrorScreen(
+                Message => "Article does not belong to ticket $Param{TicketID}!",
+            );
+        }
 
         # prepare to (ReplyTo!) ...
         if ( $Article{ReplyTo} ) {
