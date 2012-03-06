@@ -3,7 +3,7 @@
 # DBUpdate-to-3.1.pl - update script to migrate OTRS 3.0.x to 3.1.x
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-3.1.pl,v 1.74 2012-03-01 18:09:15 mg Exp $
+# $Id: DBUpdate-to-3.1.pl,v 1.75 2012-03-06 09:09:26 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.74 $) [1];
+$VERSION = qw($Revision: 1.75 $) [1];
 
 use Getopt::Std qw();
 use Kernel::Config;
@@ -304,7 +304,16 @@ sub RebuildConfig {
     #   the old Main::Dump() in ascii mode.
     $SysConfigObject->CreateConfig();
 
+    # Force a reload of ZZZAuto.pm and ZZZAAuto.pm to get the new value
+    for my $Module ( keys %INC ) {
+        if ( $Module =~ m/ZZZAA?uto\.pm$/ ) {
+            delete $INC{$Module};
+        }
+    }
+
     # reload config object
+    print
+        "\nIf you see warnings about 'Subroutine Load redefined', that's fine, no need to worry!\n";
     $CommonObject->{ConfigObject} = Kernel::Config->new( %{$CommonObject} );
 
     return 1;
