@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPackageManager.pm - manage software packages
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPackageManager.pm,v 1.105 2012-01-09 08:58:18 mg Exp $
+# $Id: AdminPackageManager.pm,v 1.106 2012-03-06 13:38:36 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,11 +14,14 @@ package Kernel::Modules::AdminPackageManager;
 use strict;
 use warnings;
 
+use XML::FeedPP;
+
 use Kernel::System::Package;
 use Kernel::System::Web::UploadCache;
+use Kernel::System::Cache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.105 $) [1];
+$VERSION = qw($Revision: 1.106 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -36,6 +39,7 @@ sub new {
 
     $Self->{PackageObject}     = Kernel::System::Package->new(%Param);
     $Self->{UploadCacheObject} = Kernel::System::Web::UploadCache->new(%Param);
+    $Self->{CacheObject}       = Kernel::System::Cache->new(%Param);
 
     return $Self;
 }
@@ -1264,6 +1268,24 @@ sub Run {
         );
     }
 
+    # FeatureAddons
+    if ( $Self->{ConfigObject}->Get('Package::ShowFeatureAddons') ) {
+        my $FeatureAddonData = $Self->_GetFeatureAddonData();
+
+        if ( ref $FeatureAddonData eq 'ARRAY' && scalar @{$FeatureAddonData} > 0 ) {
+            $Self->{LayoutObject}->Block(
+                Name => 'FeatureAddonList',
+            );
+
+            for my $Item ( @{$FeatureAddonData} ) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'FeatureAddonData',
+                    Data => $Item,
+                );
+            }
+        }
+    }
+
     my $Output = $Self->{LayoutObject}->Header();
     $Output .= $Self->{LayoutObject}->NavigationBar();
     $Output .= $OutputNotify;
@@ -1598,6 +1620,92 @@ sub _UpgradeHandling {
         return $Self->{LayoutObject}->Redirect( OP => "Action=$Self->{Action}" );
     }
     return $Self->{LayoutObject}->ErrorScreen();
+}
+
+sub _GetFeatureAddonData {
+    my ( $Self, %Param ) = @_;
+
+    # Default URL
+    my $FeedURL = 'http://www.otrs.com/en/?type=104';
+
+    my $Language = $Self->{LayoutObject}->{UserLanguage};
+
+    # Check if URL for UserLanguage is available
+    if ( $Language =~ m/^de/ ) {
+        $FeedURL = 'http://www.otrs.com/de/?type=104';
+    }
+
+    if ( $Language =~ m/^es/ ) {
+        $FeedURL = 'http://www.otrs.com/es/?type=104';
+    }
+
+    my $CacheKey  = "FeatureAddonData::$FeedURL";
+    my $CacheTTL  = 60 * 60 * 24;                   # 1 day
+    my $CacheType = 'PackageManager';
+
+    my $CacheResult = $Self->{CacheObject}->Get(
+        Type => $CacheType,
+        Key  => $CacheKey,
+    );
+
+    return $CacheResult if ref $CacheResult eq 'ARRAY';
+
+    # set proxy settings can't use Kernel::System::WebAgent because of used
+    # XML::FeedPP to get RSS files
+    my $Proxy = $Self->{ConfigObject}->Get('WebUserAgent::Proxy');
+    if ($Proxy) {
+        $ENV{CGI_HTTP_PROXY} = $Proxy;
+    }
+
+    # get content
+    my $Feed = eval {
+        XML::FeedPP->new(
+            $FeedURL,
+            'xml_deref' => 1,
+            'utf8_flag' => 1,
+        );
+    };
+
+    if ( !$Feed ) {
+        return;
+    }
+
+    my @Result;
+
+    my $Count = 0;
+    for my $Item ( $Feed->get_item() ) {
+        $Count++;
+        last if $Count > 100;
+
+        #        my $Time = $Item->pubDate();
+        #        my $Ago;
+        #        if ($Time) {
+        #            my $SystemTime = $Self->{TimeObject}->TimeStamp2SystemTime(
+        #                String => $Time,
+        #            );
+        #            $Ago = $Self->{TimeObject}->SystemTime() - $SystemTime;
+        #            $Ago = $Self->{LayoutObject}->CustomerAge(
+        #                Age   => $Ago,
+        #                Space => ' ',
+        #            );
+        #        }
+
+        push @Result, {
+            Title       => $Item->title(),
+            Link        => $Item->link(),
+            Description => $Item->description(),
+        };
+    }
+
+    $Self->{CacheObject}->Set(
+        Type  => $CacheType,
+        Key   => $CacheKey,
+        Value => \@Result,
+        TTL   => $CacheTTL,
+    );
+
+    return \@Result;
+
 }
 
 1;

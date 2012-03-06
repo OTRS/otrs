@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.468 2012-02-16 23:59:15 cr Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.469 2012-03-06 13:38:36 mg Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box (to avoid the use of destructive queries, such as DROP DATABASE, and also to steal user passwords).</Description>
         <Group>Framework</Group>
@@ -2618,6 +2618,17 @@
         <SubGroup>Core::Package</SubGroup>
         <Setting>
             <String Regex="">http://proxy.sn.no:8001/</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Package::ShowFeatureAddons" Required="0" Valid="1" ConfigLevel="200">
+        <Description Translatable="1">Toggles display of OTRS FeatureAddons list in PackageManager.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Package</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SOAP::User" Required="0" Valid="0" ConfigLevel="200">

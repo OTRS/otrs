@@ -2,7 +2,7 @@
 # AdminPackageManager.dtl - provides global HTML AdminPackageManager
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPackageManager.dtl,v 1.80 2012-01-09 08:58:18 mg Exp $
+# $Id: AdminPackageManager.dtl,v 1.81 2012-03-06 13:38:36 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -184,6 +184,8 @@
         <div class="Clear"></div>
     </div>
 <!-- dtl:block:Intro -->
+
+
 <!-- dtl:block:Overview -->
     <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
         <h1>$Text{"Package Manager"}</h1>
@@ -357,11 +359,41 @@
                     </table>
                 </div>
             </div>
+
+<!-- dtl:block:FeatureAddonList -->
+            <div class="WidgetSimple">
+
+                <div class="Header">
+                    <h2>$Text{"FeatureAddons"}</h2>
+                </div>
+                <div class="Content ">
+                    <table class="DataTable">
+                        <thead>
+                            <tr>
+                                <th>$Text{"Name"}</th>
+                                <th>$Text{"Description"}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+<!-- dtl:block:FeatureAddonData -->
+                            <tr>
+                                <td><a href="$QData{"Link"}" target="_feature_addon_details">$QData{"Title"}</a></td>
+                                <td>$QData{"Description"}</td>
+                            </tr>
+<!-- dtl:block:FeatureAddonData -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+<!-- dtl:block:FeatureAddonList -->
+
         </div>
         <div class="Clear"></div>
     </div>
 
 <!-- dtl:block:Overview -->
+
+
 <!-- dtl:block:Package -->
     <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
         <h1>$Text{"Package Manager"}</h1>
