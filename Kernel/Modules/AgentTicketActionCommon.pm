@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketActionCommon.pm - common file for several modules
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketActionCommon.pm,v 1.76 2012-02-29 14:36:19 ep Exp $
+# $Id: AgentTicketActionCommon.pm,v 1.77 2012-03-07 14:31:47 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -1183,7 +1183,7 @@ sub _Mask {
             SelectedID => $Param{NewOwnerID},
             Name       => 'NewOwnerID',
             Class      => $Param{NewOwnerInvalid} || ' ',
-            Size       => 10,
+            Size       => 1,
 
         );
         my %UserHash;
