@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketActionCommon.pm - common file for several modules
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketActionCommon.pm,v 1.77 2012-03-07 14:31:47 mab Exp $
+# $Id: AgentTicketActionCommon.pm,v 1.78 2012-03-07 19:09:19 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -1256,7 +1256,7 @@ sub _Mask {
             Data       => \%ShownUsers,
             SelectedID => $Param{NewResponsibleID} || $Ticket{ResponsibleID},
             Name       => 'NewResponsibleID',
-            Size       => 10,
+            Size       => 1,
         );
         $Self->{LayoutObject}->Block(
             Name => 'Responsible',
