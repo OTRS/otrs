@@ -1,8 +1,8 @@
 # --
 # Kernel/System/NotificationEvent.pm - notification system module
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: NotificationEvent.pm,v 1.7 2011-12-23 14:08:54 mg Exp $
+# $Id: NotificationEvent.pm,v 1.8 2012-03-07 22:47:55 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 =head1 NAME
 
@@ -381,7 +381,7 @@ sub NotificationDelete {
     if ( !%Check ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Can't delete notification '$Check{Name}', notification dosn't exists!",
+            Message  => "Can't delete notification '$Check{Name}', notification does not exist",
         );
         return;
     }
@@ -450,6 +450,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.7 $ $Date: 2011-12-23 14:08:54 $
+$Revision: 1.8 $ $Date: 2012-03-07 22:47:55 $
 
 =cut
