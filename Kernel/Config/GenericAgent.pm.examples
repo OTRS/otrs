@@ -1,8 +1,8 @@
 # --
 # Kernel/Config/GenericAgent.pm - config file of generic agent
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: GenericAgent.pm.examples,v 1.24 2010-12-03 09:58:02 bes Exp $
+# $Id: GenericAgent.pm.examples,v 1.25 2012-03-07 19:51:26 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use vars qw($VERSION @ISA @EXPORT %Jobs);
 require Exporter;
 @ISA     = qw(Exporter);
 @EXPORT  = qw(%Jobs);
-$VERSION = qw($Revision: 1.24 $)[1];
+$VERSION = qw($Revision: 1.25 $)[1];
 
 # -----------------------------------------------------------------------
 # config options
@@ -80,7 +80,7 @@ $VERSION = qw($Revision: 1.24 $)[1];
             Note => {
                 From => 'GenericAgent',
                 Subject => 'Moved!',
-                Body => 'Moved from "tricky" to "experts" because it was not possible to find a sollution!',
+                Body => 'Moved from "tricky" to "experts" because it was not possible to find a solution!',
                 ArticleType => 'note-internal', # note-internal|note-external|note-report
             },
         },
@@ -115,7 +115,7 @@ $VERSION = qw($Revision: 1.24 $)[1];
         },
     },
     # --
-    # [name of job] -> move all tickets from abc to experts and change priority
+    # [name of job] -> move all tickets from abc to experts and change priority, set dynamic field
     # --
     'move all priority "3 normal" tickets from abc to experts and set priority to "4 high"' => {
         # get all tickets with these properties
@@ -125,8 +125,7 @@ $VERSION = qw($Revision: 1.24 $)[1];
         New => {
             Queue => 'experts',
             Priority => '4 high',
-            TicketFreeKey1 => 'ProductSkill',
-            TicketFreeText1 => 'Expert required!',
+            DynamicField_ProductSkill => 'Expert required',
         },
     },
     # --
@@ -142,6 +141,7 @@ $VERSION = qw($Revision: 1.24 $)[1];
 #        Cc => '%Feedback%',
         Subject => '%VIRUS%',
 #        Body => '%installing%',
+#        Search_DynamicField_ProductSkill => 'Expert required',
          # new ticket properties
         New => {
             # DELETE!
