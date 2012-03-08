@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: postgresql, generated: 2011-05-19 10:41:14
+--  driver: postgresql, generated: 2009-07-13 14:35:40
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table notification_event
@@ -136,26 +136,9 @@ ALTER TABLE notifications ADD content_type VARCHAR (250) NULL;
 --  alter table web_upload_cache
 -- ----------------------------------------------------------
 ALTER TABLE web_upload_cache ADD content_id VARCHAR (250) NULL;
--- ----------------------------------------------------------
---  create table smime_signer_cert_relations
--- ----------------------------------------------------------
-CREATE TABLE smime_signer_cert_relations (
-    id serial NOT NULL,
-    cert_hash VARCHAR (8) NOT NULL,
-    cert_fingerprint VARCHAR (59) NOT NULL,
-    ca_hash VARCHAR (8) NOT NULL,
-    ca_fingerprint VARCHAR (59) NOT NULL,
-    create_time timestamp(0) NOT NULL,
-    create_by INTEGER NOT NULL,
-    change_time timestamp(0) NOT NULL,
-    change_by INTEGER NOT NULL,
-    PRIMARY KEY(id)
-);
 ALTER TABLE notification_event ADD CONSTRAINT FK_notification_event_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
 ALTER TABLE notification_event ADD CONSTRAINT FK_notification_event_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
 ALTER TABLE notification_event ADD CONSTRAINT FK_notification_event_valid_id_id FOREIGN KEY (valid_id) REFERENCES valid (id);
 ALTER TABLE notification_event_item ADD CONSTRAINT FK_notification_event_item_notification_id_id FOREIGN KEY (notification_id) REFERENCES notification_event (id);
 ALTER TABLE service_preferences ADD CONSTRAINT FK_service_preferences_service_id_id FOREIGN KEY (service_id) REFERENCES service (id);
 ALTER TABLE sla_preferences ADD CONSTRAINT FK_sla_preferences_sla_id_id FOREIGN KEY (sla_id) REFERENCES sla (id);
-ALTER TABLE smime_signer_cert_relations ADD CONSTRAINT FK_smime_signer_cert_relations_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
-ALTER TABLE smime_signer_cert_relations ADD CONSTRAINT FK_smime_signer_cert_relations_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);

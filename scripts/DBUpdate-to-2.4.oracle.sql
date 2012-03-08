@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2011-05-19 10:41:10
+--  driver: oracle, generated: 2009-07-13 14:35:40
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 -- ----------------------------------------------------------
@@ -146,37 +146,6 @@ ALTER TABLE notifications ADD content_type VARCHAR2 (250) NULL;
 --  alter table web_upload_cache
 -- ----------------------------------------------------------
 ALTER TABLE web_upload_cache ADD content_id VARCHAR2 (250) NULL;
--- ----------------------------------------------------------
---  create table smime_signer_cert_relations
--- ----------------------------------------------------------
-CREATE TABLE smime_signer_cert_relations (
-    id NUMBER (12, 0) NOT NULL,
-    cert_hash VARCHAR2 (8) NOT NULL,
-    cert_fingerprint VARCHAR2 (59) NOT NULL,
-    ca_hash VARCHAR2 (8) NOT NULL,
-    ca_fingerprint VARCHAR2 (59) NOT NULL,
-    create_time DATE NOT NULL,
-    create_by NUMBER (12, 0) NOT NULL,
-    change_time DATE NOT NULL,
-    change_by NUMBER (12, 0) NOT NULL
-);
-ALTER TABLE smime_signer_cert_relations ADD CONSTRAINT PK_smime_signer_cert_relations PRIMARY KEY (id);
-DROP SEQUENCE SE_smime_signer_cert_relatef;
-CREATE SEQUENCE SE_smime_signer_cert_relatef;
-CREATE OR REPLACE TRIGGER SE_smime_signer_cert_relatef_t
-before insert on smime_signer_cert_relations
-for each row
-begin
-  if :new.id IS NULL then
-    select SE_smime_signer_cert_relatef.nextval
-    into :new.id
-    from dual;
-  end if;
-end;
-/
---;
-CREATE INDEX FK_smime_signer_cert_relatiob7 ON smime_signer_cert_relations (change_by);
-CREATE INDEX FK_smime_signer_cert_relatiobb ON smime_signer_cert_relations (create_by);
 SET DEFINE OFF;
 ALTER TABLE notification_event ADD CONSTRAINT FK_notification_event_create23 FOREIGN KEY (create_by) REFERENCES users (id);
 ALTER TABLE notification_event ADD CONSTRAINT FK_notification_event_changefb FOREIGN KEY (change_by) REFERENCES users (id);
@@ -184,5 +153,3 @@ ALTER TABLE notification_event ADD CONSTRAINT FK_notification_event_valid_51 FOR
 ALTER TABLE notification_event_item ADD CONSTRAINT FK_notification_event_item_nf6 FOREIGN KEY (notification_id) REFERENCES notification_event (id);
 ALTER TABLE service_preferences ADD CONSTRAINT FK_service_preferences_servi62 FOREIGN KEY (service_id) REFERENCES service (id);
 ALTER TABLE sla_preferences ADD CONSTRAINT FK_sla_preferences_sla_id_id FOREIGN KEY (sla_id) REFERENCES sla (id);
-ALTER TABLE smime_signer_cert_relations ADD CONSTRAINT FK_smime_signer_cert_relatio60 FOREIGN KEY (create_by) REFERENCES users (id);
-ALTER TABLE smime_signer_cert_relations ADD CONSTRAINT FK_smime_signer_cert_relatio77 FOREIGN KEY (change_by) REFERENCES users (id);

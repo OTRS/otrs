@@ -1,9 +1,9 @@
 -- ----------------------------------------------------------
---  driver: ingres, generated: 2011-05-19 10:40:58
+--  driver: ingres, generated: 2009-07-13 14:35:40
 -- ----------------------------------------------------------
-CREATE SEQUENCE notification_event_125;\g
+CREATE SEQUENCE notification_event_231;\g
 CREATE TABLE notification_event (
-    id INTEGER NOT NULL DEFAULT notification_event_125.NEXTVAL,
+    id INTEGER NOT NULL DEFAULT notification_event_231.NEXTVAL,
     name VARCHAR(200) NOT NULL,
     subject VARCHAR(200) NOT NULL,
     text VARCHAR(4000) NOT NULL,
@@ -121,25 +121,9 @@ ALTER TABLE notifications ADD COLUMN content_type VARCHAR(250);\g
 --  alter table web_upload_cache
 -- ----------------------------------------------------------
 ALTER TABLE web_upload_cache ADD COLUMN content_id VARCHAR(250);\g
-CREATE SEQUENCE smime_signer_cert_relations_106;\g
-CREATE TABLE smime_signer_cert_relations (
-    id INTEGER NOT NULL DEFAULT smime_signer_cert_relations_106.NEXTVAL,
-    cert_hash VARCHAR(8) NOT NULL,
-    cert_fingerprint VARCHAR(59) NOT NULL,
-    ca_hash VARCHAR(8) NOT NULL,
-    ca_fingerprint VARCHAR(59) NOT NULL,
-    create_time TIMESTAMP NOT NULL,
-    create_by INTEGER NOT NULL,
-    change_time TIMESTAMP NOT NULL,
-    change_by INTEGER NOT NULL
-);\g
-MODIFY smime_signer_cert_relations TO btree unique ON id WITH unique_scope = statement;\g
-ALTER TABLE smime_signer_cert_relations ADD PRIMARY KEY ( id ) WITH index = base table structure;\g
 ALTER TABLE notification_event ADD FOREIGN KEY (create_by) REFERENCES users(id);\g
 ALTER TABLE notification_event ADD FOREIGN KEY (change_by) REFERENCES users(id);\g
 ALTER TABLE notification_event ADD FOREIGN KEY (valid_id) REFERENCES valid(id);\g
 ALTER TABLE notification_event_item ADD FOREIGN KEY (notification_id) REFERENCES notification_event(id);\g
 ALTER TABLE service_preferences ADD FOREIGN KEY (service_id) REFERENCES service(id);\g
 ALTER TABLE sla_preferences ADD FOREIGN KEY (sla_id) REFERENCES sla(id);\g
-ALTER TABLE smime_signer_cert_relations ADD FOREIGN KEY (create_by) REFERENCES users(id);\g
-ALTER TABLE smime_signer_cert_relations ADD FOREIGN KEY (change_by) REFERENCES users(id);\g
