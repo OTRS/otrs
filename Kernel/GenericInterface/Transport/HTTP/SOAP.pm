@@ -1,8 +1,8 @@
 # --
 # Kernel/GenericInterface/Transport/HTTP/SOAP.pm - GenericInterface network transport interface for HTTP::SOAP
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: SOAP.pm,v 1.41 2011-07-07 21:53:20 cr Exp $
+# $Id: SOAP.pm,v 1.42 2012-03-09 23:23:39 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Encode;
 use PerlIO;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.41 $) [1];
+$VERSION = qw($Revision: 1.42 $) [1];
 
 =head1 NAME
 
@@ -466,6 +466,23 @@ sub RequesterPerformRequest {
             if ( IsStringWithData($User) && IsStringWithData($Password) ) {
                 $URL =~ s{ ( http s? :// ) }{$1$User:$Password@}xmsi;
             }
+        }
+    }
+
+    # add SSL options if configured
+    if ( IsHashRefWithData( $Config->{SSL} ) ) {
+
+        # use SSL options
+        if (
+            IsStringWithData( $Config->{SSL}->{UseSSL} )
+            && $Config->{SSL}->{UseSSL} eq 'Yes'
+            )
+        {
+            $ENV{HTTPS_CERT_FILE} = $Config->{SSL}->{SSLCertificate};
+            $ENV{HTTPS_KEY_FILE}  = $Config->{SSL}->{SSLKey};
+            $ENV{HTTPS_CERT_PASS} = $Config->{SSL}->{SSLPassword};
+            $ENV{HTTPS_CA_FILE}   = $Config->{SSL}->{SSLCAFile};
+            $ENV{HTTPS_CA_DIR}    = $Config->{SSL}->{SSLCADir};
         }
     }
 
@@ -1125,6 +1142,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.41 $ $Date: 2011-07-07 21:53:20 $
+$Revision: 1.42 $ $Date: 2012-03-09 23:23:39 $
 
 =cut

@@ -1,8 +1,8 @@
 # --
 # AdminGenericInterfaceTransportHTTPSOAP.dtl - provides HTML form for AdminLog
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceTransportHTTPSOAP.dtl,v 1.15 2011-12-13 22:58:14 mb Exp $
+# $Id: AdminGenericInterfaceTransportHTTPSOAP.dtl,v 1.16 2012-03-09 23:23:03 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -168,14 +168,14 @@ $('#SOAPAction').bind('change', function(){
 <script type="text/javascript">//<![CDATA[
 $('#Authentication').bind('change', function(){
     if ( $(this).val() === 'BasicAuth') {
-        $('.AuthField').removeClass('Hidden');
-        $('.AuthField').find('#UserName').each(function(){
+        $('.BasicAuthField').removeClass('Hidden');
+        $('.BasicAuthField').find('#UserName').each(function(){
             $(this).addClass('Validate_Required');
         });
     }
     else {
-        $('.AuthField').addClass('Hidden');
-        $('.AuthField').find('#User').each(function(){
+        $('.BasicAuthField').addClass('Hidden');
+        $('.BasicAuthField').find('#User').each(function(){
             $(this).removeClass('Validate_Required');
         });
     }
@@ -184,9 +184,8 @@ $('#Authentication').bind('change', function(){
 <!-- dtl:js_on_document_complete -->
                             <div class="Clear"></div>
 
-                            <div class="AuthField $QData{"BasicAuthHidden"}">
+                            <div class="BasicAuthField $QData{"BasicAuthHidden"}">
                                 <fieldset class="TableLike">
-
 
                                     <label class="Mandatory" for="User"><span class="Marker">*</span> $Text{"User"}:</label>
                                     <div class="Field">
@@ -209,6 +208,105 @@ $('#Authentication').bind('change', function(){
                                     <div class="Clear"></div>
                                 </fieldset>
                             </div>
+
+                            <label  for="UseSSL">$Text{"Use SSL"}:</label>
+                            <div class="Field">
+                                $Data{"UseSSLStrg"}
+                                <p class="FieldExplanation">
+                                    $Text{"Show or hide SSL options to connect to the remote system."}
+                                </p>
+                            </div>
+<!-- dtl:js_on_document_complete -->
+<script type="text/javascript">//<![CDATA[
+$('#UseSSL').bind('change', function(){
+    if ( $(this).val() === 'Yes') {
+        $('.SSLField').removeClass('Hidden');
+        $('.SSLField').find('#SSLCertificate').each(function(){
+            $(this).addClass('Validate_Required');
+        });
+        $('.SSLField').find('#SSLKey').each(function(){
+            $(this).addClass('Validate_Required');
+        });
+    }
+
+    else {
+        $('.SSLField').addClass('Hidden');
+        $('.SSLField').find('#SSLCertificate').each(function(){
+            $(this).removeClass('Validate_Required');
+        });
+        $('.SSLField').find('#SSLKey').each(function(){
+            $(this).removeClass('Validate_Required');
+        });
+    }
+});
+//]]></script>
+<!-- dtl:js_on_document_complete -->
+
+                            <div class="SSLField $QData{"SSLHidden"}">
+                                <fieldset class="TableLike">
+
+                                    <label class="Mandatory" for="SSLCertificate"><span class="Marker">*</span> $Text{"Certificate File"}:</label>
+                                    <div class="Field">
+                                        <input id="SSLCertificate" class="W50pc $QData{"SSLCertificateValidateRequired"} $QData{"SSLCertificateServerError"}" type="text" maxlength="250" value="$QData{"SSLCertificate"}" name="SSLCertificate"/>
+                                        <div id="SSLCertificateError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
+                                        <div id="SSLCertificateServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
+                                        <p class="FieldExplanation">
+                                            $Text{"The full path and name of the SSL certificate file (must be in .pem format)."}
+                                            <br/>
+                                            $Text{"Example: /opt/otrs/var/certificates/SOAP/certificate.pem"}
+                                        </p>
+                                    </div>
+                                    <div class="Clear"></div>
+
+                                    <label class="Mandatory" for="SSLKey"><span class="Marker">*</span> $Text{"Certificate Key File"}:</label>
+                                    <div class="Field">
+                                        <input id="SSLKey" class="W50pc $QData{"SSLKeyValidateRequired"} $QData{"SSLKeyError"}" type="text" maxlength="250" value="$QData{"SSLKey"}" name="SSLKey"/>
+                                        <div id="SSLKeyError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
+                                        <div id="SSLKeyServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
+                                        <p class="FieldExplanation">
+                                            $Text{"The full path and name of the SSL certificate key file (must be in .pem format)."}
+                                            <br/>
+                                            $Text{"Example: /opt/otrs/var/certificates/SOAP/key.pem"}
+                                        </p>
+                                    </div>
+                                    <div class="Clear"></div>
+
+                                    <label for="SSLPassword">$Text{"Certificate Password File"}:</label>
+                                    <div class="Field">
+                                        <input id="SSLPassword" class="W50pc " type="text" maxlength="250" value="$QData{"SSLPassword"}" name="SSLPassword"/>
+                                        <p class="FieldExplanation">
+                                            $Text{"The full path and name of the password file to open the SSL certificate."}
+                                            <br/>
+                                            $Text{"Example: /opt/otrs/var/certificates/SOAP/password.pem"}
+                                        </p>
+                                    </div>
+                                    <div class="Clear"></div>
+
+                                    <label for="SSLCAFile">$Text{"Certification Authority (CA) File"}:</label>
+                                    <div class="Field">
+                                        <input id="SSLCAFile" class="W50pc " type="text" maxlength="250" value="$QData{"SSLCAFile"}" name="SSLCAFile"/>
+                                        <p class="FieldExplanation">
+                                            $Text{"The full path and name of the certification authority certificate file that validates SSL certificate."}
+                                            <br/>
+                                            $Text{"Example: /opt/otrs/var/certificates/SOAP/CA/ca.pem"}
+                                        </p>
+                                    </div>
+                                    <div class="Clear"></div>
+
+                                    <label for="SSLCADir">$Text{"Certification Authority (CA) Directory"}:</label>
+                                    <div class="Field">
+                                        <input id="SSLCADir" class="W50pc " type="text" maxlength="250" value="$QData{"SSLCADir"}" name="SSLCADir"/>
+                                        <p class="FieldExplanation">
+                                            $Text{"The full path of the certification authority directory where the CA certificates are stored in the file system."}
+                                            <br/>
+                                            $Text{"Example: /opt/otrs/var/certificates/SOAP/CA"}
+                                        </p>
+                                    </div>
+                                    <div class="Clear"></div>
+
+                                </fieldset>
+                            </div>
+
 <!-- dtl:block:TransportRequester -->
 
                             <div class="Field SpacingTop">

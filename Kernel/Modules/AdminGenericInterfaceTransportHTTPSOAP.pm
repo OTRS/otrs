@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericInterfaceTransportHTTPSOAP.pm - provides a TransportHTTPSOAP view for admins
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceTransportHTTPSOAP.pm,v 1.8 2012-01-09 09:40:07 mg Exp $
+# $Id: AdminGenericInterfaceTransportHTTPSOAP.pm,v 1.9 2012-03-09 23:22:16 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::GenericInterface::Webservice;
@@ -172,6 +172,30 @@ sub Run {
                     $Error{'UserServerError'} = 'ServerError';
                 }
             }
+
+            # check SSL options
+            if ( $GetParam->{UseSSL} && $GetParam->{UseSSL} eq 'Yes' ) {
+
+                # get SSL auth settings
+                $TransportConfig->{SSL}->{UseSSL}         = $GetParam->{UseSSL};
+                $TransportConfig->{SSL}->{SSLCertificate} = $GetParam->{SSLCertificate};
+                $TransportConfig->{SSL}->{SSLKey}         = $GetParam->{SSLKey};
+                $TransportConfig->{SSL}->{SSLPassword}    = $GetParam->{SSLPassword};
+                $TransportConfig->{SSL}->{SSLCAFile}      = $GetParam->{SSLCAFile};
+                $TransportConfig->{SSL}->{SSLCADir}       = $GetParam->{SSLCADir};
+
+                if ( !$GetParam->{SSLCertificate} ) {
+
+                    # add server error error class
+                    $Error{'SSLCertificateServerError'} = 'ServerError';
+                }
+
+                if ( !$GetParam->{SSLKey} ) {
+
+                    # add server error error class
+                    $Error{'SSLKeyServerError'} = 'ServerError';
+                }
+            }
         }
 
         # otherwise is provider
@@ -253,6 +277,12 @@ sub _ShowEdit {
     $Param{Authentication}      = $TransportConfig->{Authentication}->{Type};
     $Param{User}                = $TransportConfig->{Authentication}->{User};
     $Param{Password}            = $TransportConfig->{Authentication}->{Password};
+    $Param{UseSSL}              = $TransportConfig->{SSL}->{UseSSL};
+    $Param{SSLCertificate}      = $TransportConfig->{SSL}->{SSLCertificate};
+    $Param{SSLKey}              = $TransportConfig->{SSL}->{SSLKey};
+    $Param{SSLPassword}         = $TransportConfig->{SSL}->{SSLPassword};
+    $Param{SSLCAFile}           = $TransportConfig->{SSL}->{SSLCAFile};
+    $Param{SSLCADir}            = $TransportConfig->{SSL}->{SSLCADir};
 
     # call bread crumbs blocks
     $Self->{LayoutObject}->Block(
@@ -323,12 +353,30 @@ sub _ShowEdit {
             Sort          => 'AlphanumericValue',
         );
 
-        # hide and disable BasicAuth if BasicAuth is not selected
+        # hide and disable authentication methods if they are not selected
         $Param{BasicAuthHidden} = 'Hidden';
         if ( $Param{Authentication} && $Param{Authentication} eq 'BasicAuth' )
         {
             $Param{BasicAuthHidden}      = '';
             $Param{UserValidateRequired} = 'Validate_Required';
+        }
+
+        # create use SSL select
+        $Param{UseSSLStrg} = $Self->{LayoutObject}->BuildSelection(
+            Data => [ 'No', 'Yes' ],
+            Name => 'UseSSL',
+            SelectedValue => $Param{UseSSL} || 'No',
+            PossibleNone  => 0,
+            Sort          => 'AlphanumericValue',
+        );
+
+        # hide and disable SSL options if they are not selected
+        $Param{SSLHidden} = 'Hidden';
+        if ( $Param{UseSSL} && $Param{UseSSL} eq 'Yes' )
+        {
+            $Param{SSLHidden}                      = '';
+            $Param{SSLCertificateValidateRequired} = 'Validate_Required';
+            $Param{SSLKeyValidateRequired}         = 'Validate_Required';
         }
 
         # call Endpoint block
@@ -370,7 +418,7 @@ sub _GetParams {
     for my $ParamName (
         qw(
         Endpoint NameSpace Encoding SOAPAction MaxLength Authentication User Password
-        SOAPAction SOAPActionSeparator
+        SOAPAction SOAPActionSeparator UseSSL SSLCertificate SSLKey SSLPassword SSLCAFile SSLCADir
         )
         )
     {
