@@ -1,9 +1,9 @@
 #!/bin/sh
 # --
 # auto_build.sh - build automatically OTRS tar, rpm and src-rpm
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: auto_build.sh,v 1.87.2.9 2011-11-10 12:45:26 mg Exp $
+# $Id: auto_build.sh,v 1.87.2.10 2012-03-09 07:43:06 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -21,17 +21,14 @@
 # or see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-echo "auto_build.sh - build automatically OTRS tar, rpm and src-rpm <\$Revision: 1.87.2.9 $>"
-echo "Copyright (C) 2001-2011 OTRS AG, http://otrs.org/\n";
+echo "auto_build.sh - build automatically OTRS tar, rpm and src-rpm <\$Revision: 1.87.2.10 $>"
+echo "Copyright (C) 2001-2012 OTRS AG, http://otrs.org/\n";
 
 PATH_TO_CVS_SRC=$1
 PRODUCT=OTRS
 VERSION=$2
 RELEASE=$3
-#RELEASE=01
-#ARCHIVE_DIR="otrs-$VERSION-$RELEASE"
 ARCHIVE_DIR="otrs-$VERSION"
-#ARCHIVE_DIR="otrs"
 PACKAGE=otrs
 PACKAGE_BUILD_DIR="/tmp/$PACKAGE-build"
 PACKAGE_DEST_DIR="/tmp/$PACKAGE-packages"
@@ -40,8 +37,7 @@ RPM_BUILD="rpmbuild"
 #RPM_BUILD="rpm"
 
 SUPPORT_PACKAGE="http://ftp2.otrs.org/pub/otrs/packages/Support-1.2.8.opm"
-#IPHONE_PACKAGE="http://ftp.otrs.org/pub/otrs/packages/iPhoneHandle-1.0.2.opm"
-IPHONE_PACKAGE="http://users.otrs.com/~me/iPhoneHandle-1.0.3.opm"
+IPHONE_PACKAGE="http://ftp.otrs.org/pub/otrs/packages/iPhoneHandle-1.0.3.opm"
 MANUAL_EN="http://ftp.otrs.org/pub/otrs/doc/doc-admin/3.0/en/pdf/otrs_admin_book.pdf"
 MANUAL_DE="http://ftp.otrs.org/pub/otrs/doc/doc-admin/3.0/de/pdf/otrs_admin_book.pdf"
 
@@ -52,7 +48,7 @@ if ! test $PATH_TO_CVS_SRC || ! test $VERSION || ! test $RELEASE; then
     echo ""
     echo "Usage: auto_build.sh <PATH_TO_CVS_SRC> <VERSION> <BUILD>"
     echo ""
-    echo "  Try: auto_build.sh /home/ernie/src/otrs 1.0.2 01"
+    echo "  Try: auto_build.sh /home/ernie/src/otrs 3.1.0.beta1 01"
     echo ""
     exit 1;
 else
@@ -130,7 +126,6 @@ cp -a $PATH_TO_CVS_SRC/* $PACKAGE_BUILD_DIR/$ARCHIVE_DIR/ || exit 1;
 RELEASEFILE=$PACKAGE_BUILD_DIR/$ARCHIVE_DIR/RELEASE
 echo "PRODUCT = $PRODUCT" > $RELEASEFILE
 echo "VERSION = $VERSION" >> $RELEASEFILE
-#echo "VERSION = $VERSION $RELEASE" >> $RELEASEFILE
 echo "BUILDDATE = `date`" >> $RELEASEFILE
 echo "BUILDHOST = `hostname -f`" >> $RELEASEFILE
 
@@ -151,9 +146,13 @@ find -name ".cvsignore" | xargs rm -rf
 rm -f var/sessions/*
 rm -rf var/article/*
 rm -rf var/spool/*
+rm -rf Kernel/Config.pm
+
+# remove development content
+rm -rf development
+
 # remove swap stuff
 find -name ".#*" | xargs rm -rf
-rm -rf Kernel/Config.pm
 
 # include pdf docs
 mkdir -p doc/manual/en
@@ -169,11 +168,16 @@ bin/otrs.CheckSum.pl -a create
 
 # add pre installed packages
 mkdir var/packages/
-wget "$SUPPORT_PACKAGE"
-mv Support*.opm var/packages/
 
-wget "$IPHONE_PACKAGE"
-mv iPhoneHandle*.opm var/packages/
+if test $SUPPORT_PACKAGE; then
+    wget "$SUPPORT_PACKAGE" || exit 1;
+    mv Support*.opm var/packages/
+fi
+
+if test $IPHONE_PACKAGE; then
+    wget "$IPHONE_PACKAGE" || exit 1;
+    mv iPhoneHandle*.opm var/packages/
+fi
 
 # --
 # create tar
@@ -215,6 +219,7 @@ FILES=$PATH_TO_CVS_SRC/scripts/auto_build/files.txt
 # --
 # build SuSE 11.0 rpm
 # --
+echo "Building SuSE 11.0 rpm..."
 specfile=$PACKAGE_TMP_SPEC
 # replace version and release
 cat $ARCHIVE_DIR/scripts/suse-otrs-11.0.spec | sed "s/^Version:.*/Version:      $VERSION/" | sed "s/^Release:.*/Release:      $RELEASE/" > $specfile.tmp
@@ -231,6 +236,7 @@ mv $SYSTEM_SRPM_DIR/$PACKAGE*$VERSION*$RELEASE*.src.rpm $PACKAGE_DEST_DIR/SRPMS/
 # --
 # build SuSE 10.0 rpm
 # --
+echo "Building SuSE 10.0 rpm..."
 specfile=$PACKAGE_TMP_SPEC
 # replace version and release
 cat $ARCHIVE_DIR/scripts/suse-otrs-10.0.spec | sed "s/^Version:.*/Version:      $VERSION/" | sed "s/^Release:.*/Release:      $RELEASE/" > $specfile.tmp
@@ -246,6 +252,7 @@ mv $SYSTEM_SRPM_DIR/$PACKAGE*$VERSION*$RELEASE*.src.rpm $PACKAGE_DEST_DIR/SRPMS/
 # --
 # build SuSE 9.1 rpm
 # --
+echo "Building SuSE 9.1 rpm..."
 specfile=$PACKAGE_TMP_SPEC
 # replace version and release
 cat $ARCHIVE_DIR/scripts/suse-otrs-9.1.spec | sed "s/^Version:.*/Version:      $VERSION/" | sed "s/^Release:.*/Release:      $RELEASE/" > $specfile.tmp
@@ -277,6 +284,7 @@ mv $SYSTEM_SRPM_DIR/$PACKAGE*$VERSION*$RELEASE*.src.rpm $PACKAGE_DEST_DIR/SRPMS/
 # --
 # build Fedora rpm
 # --
+echo "Building Fedora rpm..."
 cp $ARCHIVE_DIR/scripts/redhat-rpmmacros ~/.rpmmacros || exit 1
 specfile=$PACKAGE_TMP_SPEC
 cat $ARCHIVE_DIR/scripts/fedora-otrs-4.spec | sed "s/^Version:.*/Version:      $VERSION/" | sed "s/^Release:.*/Release:      $RELEASE/" > $specfile.tmp
@@ -324,9 +332,9 @@ else
 fi
 echo "-----------------------------------------------------------------";
 echo "Note: You may have to tag your cvs tree:     cvs tag rel-2_x_x";
-echo "Note: You may have to braunch your cvs tree: cvs tag -b rel-2_x";
+echo "Note: You may have to branch your cvs tree:  cvs tag -b rel-2_x";
 echo "Note: To delete a tag:                       cvs tag -d rel-2_x_x";
-echo "Note: To check out by an timestamp:          cvs co -r rel-2_x -D \"2008-10-02 17:00\" otrs";
+echo "Note: To check out by timestamp:             cvs co -r rel-2_x -D \"2008-10-02 17:00\" otrs";
 echo "-----------------------------------------------------------------";
 
 # --
