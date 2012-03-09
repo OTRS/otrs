@@ -2,7 +2,7 @@
 // Core.Agent.TicketAction.js - provides functions for all ticket action popups
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.TicketAction.js,v 1.13 2012-01-23 11:38:33 mg Exp $
+// $Id: Core.Agent.TicketAction.js,v 1.14 2012-03-09 12:21:37 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -125,8 +125,8 @@ Core.Agent.TicketAction = (function (TargetNS) {
             // check if the multi selection feature is present
             if ($('#CustomerAutoComplete', parent.document).length) {
                 // no multi select (AgentTicketForward)
-                $To = $('#CustomerAutoComplete', parent.document),
-                $Cc = $('#Cc', parent.document),
+                $To = $('#CustomerAutoComplete', parent.document);
+                $Cc = $('#Cc', parent.document);
                 $Bcc = $('#Bcc', parent.document);
 
                 $To.val($('#ToCustomer').val());
@@ -135,8 +135,8 @@ Core.Agent.TicketAction = (function (TargetNS) {
             }
             else {
                 // multi select is present
-                $To = $('#ToCustomer', parent.document),
-                $Cc = $('#CcCustomer', parent.document),
+                $To = $('#ToCustomer', parent.document);
+                $Cc = $('#CcCustomer', parent.document);
                 $Bcc = $('#BccCustomer', parent.document);
 
                 $.each($('#ToCustomer').val().split(/, ?/), function(Index, Value){
