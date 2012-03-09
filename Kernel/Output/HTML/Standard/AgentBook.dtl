@@ -1,8 +1,8 @@
 # --
 # AgentBook.dtl - provides HTML form for AgentBook
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentBook.dtl,v 1.25 2011-11-10 08:55:39 mab Exp $
+# $Id: AgentBook.dtl,v 1.26 2012-03-09 13:00:30 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -50,17 +50,17 @@ $Include{"AgentCustomerSearch"}
             <fieldset class="TableLike FixedLabel SpacingTop">
                 <label for="To">$Text{"To"}:</label>
                 <div class="Field">
-                    <input type="text" name="ToCustomer" id="ToCustomer" value="$QData{"To"}" class="W75pc CustomerAutoComplete" />
+                    <input type="text" name="ToCustomer" id="ToCustomer" value="$QData{"ToCustomer"}" class="W75pc CustomerAutoComplete" />
                 </div>
                 <div class="Clear"></div>
                 <label for="Cc">$Text{"Cc"}:</label>
                 <div class="Field">
-                    <input type="text" name="CcCustomer" id="CcCustomer" value="$QData{"Cc"}" class="W75pc CustomerAutoComplete" />
+                    <input type="text" name="CcCustomer" id="CcCustomer" value="$QData{"CcCustomer"}" class="W75pc CustomerAutoComplete" />
                 </div>
                 <div class="Clear"></div>
                 <label for="Bcc">$Text{"Bcc"}:</label>
                 <div class="Field">
-                    <input type="text" name="BccCustomer" id="BccCustomer" value="$QData{"Bcc"}" class="W75pc CustomerAutoComplete" />
+                    <input type="text" name="BccCustomer" id="BccCustomer" value="$QData{"BccCustomer"}" class="W75pc CustomerAutoComplete" />
                 </div>
             </fieldset>
         </form>
