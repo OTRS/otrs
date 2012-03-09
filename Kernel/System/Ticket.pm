@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Ticket.pm - all ticket functions
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.488.2.19 2011-11-08 05:37:13 cr Exp $
+# $Id: Ticket.pm,v 1.488.2.20 2012-03-09 12:04:28 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -35,7 +35,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::EventHandler;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.488.2.19 $) [1];
+$VERSION = qw($Revision: 1.488.2.20 $) [1];
 
 =head1 NAME
 
@@ -8247,34 +8247,36 @@ sub TicketArticleStorageSwitch {
                 Message =>
                     "Attachments of TicketID:$Param{TicketID}/ArticleID:$ArticleID already in $Param{Destination}!"
             );
-            next ARTICLEID;
         }
+        else {
 
-        # write attachments to destination
-        for my $Attachment (@Attachments) {
-            $TicketObjectDestination->ArticleWriteAttachment(
-                %{$Attachment},
-                ArticleID => $ArticleID,
-                UserID    => $Param{UserID},
-                Force     => 1,
+            # write attachments to destination
+            for my $Attachment (@Attachments) {
+                $TicketObjectDestination->ArticleWriteAttachment(
+                    %{$Attachment},
+                    ArticleID => $ArticleID,
+                    UserID    => $Param{UserID},
+                    Force     => 1,
+                );
+            }
+
+            # write destination plain
+            if ($Plain) {
+                $TicketObjectDestination->ArticleWritePlain(
+                    Email     => $Plain,
+                    ArticleID => $ArticleID,
+                    UserID    => $Param{UserID},
+                );
+            }
+
+            # verify destination attachments
+            %Index = $TicketObjectDestination->ArticleAttachmentIndex(
+                ArticleID     => $ArticleID,
+                UserID        => $Param{UserID},
+                OnlyMyBackend => 1,
             );
         }
 
-        # write destination plain
-        if ($Plain) {
-            $TicketObjectDestination->ArticleWritePlain(
-                Email     => $Plain,
-                ArticleID => $ArticleID,
-                UserID    => $Param{UserID},
-            );
-        }
-
-        # verify destination attachments
-        %Index = $TicketObjectDestination->ArticleAttachmentIndex(
-            ArticleID     => $ArticleID,
-            UserID        => $Param{UserID},
-            OnlyMyBackend => 1,
-        );
         for my $FileID ( keys %Index ) {
             my %Attachment = $TicketObjectDestination->ArticleAttachment(
                 ArticleID     => $ArticleID,
@@ -8299,6 +8301,13 @@ sub TicketArticleStorageSwitch {
                         "Corrupt file: $Attachment{Filename} (TicketID:$Param{TicketID}/ArticleID:$ArticleID)!",
                 );
 
+                # delete corrupt attachments from destination
+                $TicketObjectDestination->ArticleDeleteAttachment(
+                    ArticleID     => $ArticleID,
+                    UserID        => 1,
+                    OnlyMyBackend => 1,
+                );
+
                 # set events
                 $Self->{ConfigObject}->{'Ticket::EventModulePost'} = $EventConfig;
                 return;
@@ -8311,6 +8320,13 @@ sub TicketArticleStorageSwitch {
                 Priority => 'error',
                 Message =>
                     "Not all files are moved! (TicketID:$Param{TicketID}/ArticleID:$ArticleID)!",
+            );
+
+            # delete incomplete attachments from destination
+            $TicketObjectDestination->ArticleDeleteAttachment(
+                ArticleID     => $ArticleID,
+                UserID        => 1,
+                OnlyMyBackend => 1,
             );
 
             # set events
@@ -8335,6 +8351,13 @@ sub TicketArticleStorageSwitch {
                     Priority => 'error',
                     Message =>
                         "Corrupt plain file: ArticleID: $ArticleID ($PlainMD5Sum/$PlainMD5SumVerify)",
+                );
+
+                # delete corrupt plain file from destination
+                $TicketObjectDestination->ArticleDeletePlain(
+                    ArticleID     => $ArticleID,
+                    UserID        => 1,
+                    OnlyMyBackend => 1,
                 );
 
                 # set events
@@ -8495,6 +8518,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.488.2.19 $ $Date: 2011-11-08 05:37:13 $
+$Revision: 1.488.2.20 $ $Date: 2012-03-09 12:04:28 $
 
 =cut
