@@ -7,7 +7,7 @@
 # Copyright (C) 2009 Qingjiu Jia <jiaqj at yahoo.com>
 # Copyright (C) 2011 Martin Liu <liuzh66 at gmail.com> http://martinliu.cn
 # --
-# $Id: zh_CN.pm,v 1.88.2.6 2011-09-07 21:01:29 en Exp $
+# $Id: zh_CN.pm,v 1.88.2.7 2012-03-09 07:37:05 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,13 +20,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.88.2.6 $) [1];
+$VERSION = qw($Revision: 1.88.2.7 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2011-08-12 11:28:30
+    # Last translation file sync: 2012-03-09 08:32:13
 
     # possible charsets
     $Self->{Charset} = ['GBK', 'GB2312', ];
@@ -264,6 +264,7 @@ sub Data {
         'Package not correctly deployed! You should reinstall the Package again!' => '软件包展开不正常! 您需要重新安装这个软件包',
         '%s is not writable!' => '%s 是不可写的!',
         'Cannot create %s!' => '无法创建 %s!',
+        'Check to activate this date' => '',
         'Customer %s added' => '客户 %s 已增加',
         'Role added!' => '角色已增加!',
         'Role updated!' => '角色已更新',
@@ -798,8 +799,8 @@ sub Data {
         'This field is required and needs to be a valid email address.' => '该栏位必须输入有效的邮件地址。',
         'This email address is not allowed due to the system configuration.' => '该邮件地址不符合系统配置要求。',
         'This email address failed MX check.' => '该邮件地址MX检查无效。',
-        'The syntax of this email address is incorrect.' => '该邮件地址语法错误。',
         'DNS problem, please check your configuration and the error log.' => '',
+        'The syntax of this email address is incorrect.' => '该邮件地址语法错误。',
 
         # Template: AdminCustomerUserGroup
         'Manage Customer-Group Relations' => '管理客户与群组的对应关系',
@@ -1033,6 +1034,7 @@ sub Data {
         'Install' => '安装',
         'Install Package' => '安装软件包',
         'Update repository information' => '更新软件仓库信息',
+        'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' => '',
         'Online Repository' => '在线软件仓库',
         'Vendor' => '提供者',
         'Module documentation' => '模块文档',
@@ -1249,9 +1251,9 @@ sub Data {
         'Unique agents' => '实际服务人员',
         'Unique customers' => '实际在线客户',
         'Kill all sessions' => '终止所有会话',
+        'Kill this session' => '终止该会话',
         'Session' => '会话',
         'Kill' => '终止',
-        'Kill this session' => '终止该会话',
         'Detail View for SessionID' => '该会话的详细记录',
 
         # Template: AdminSignature
@@ -1771,7 +1773,9 @@ sub Data {
         'Only tickets created between' => '票单创建自',
         'Search-Profile as Template?' => '保持当前搜索条件为模板',
         'Save as Template?' => '保存为模板',
+        'Save as Template' => '',
         'Template Name' => '模板名称',
+        'Pick a profile name' => '',
         'Output to' => '输出为',
 
         # Template: CustomerTicketSearchOpenSearchDescription
@@ -1807,38 +1811,6 @@ sub Data {
         'Fr' => '五',
         'Sa' => '六',
         'Open date selection' => '打开日历',
-
-        # Template: DevelFredBenchmark
-
-        # Template: DevelFredCommonCSS
-
-        # Template: DevelFredConfigLog
-
-        # Template: DevelFredConsole
-
-        # Template: DevelFredContainer
-
-        # Template: DevelFredCover
-
-        # Template: DevelFredEnvDump
-
-        # Template: DevelFredHTMLCheck
-
-        # Template: DevelFredJSLint
-
-        # Template: DevelFredNYTProf
-
-        # Template: DevelFredSQLLog
-
-        # Template: DevelFredSTDERRLog
-
-        # Template: DevelFredSessionDump
-
-        # Template: DevelFredSetting
-        'Config' => '',
-        'Attention: You can\'t use Devel::NYTProf and Devel::Cover at the same time!' => '',
-
-        # Template: DevelFredTranslationDebug
 
         # Template: Error
         'Oops! An Error occurred.' => '糟, 发生一个错误.',
@@ -2504,6 +2476,7 @@ sub Data {
         'Defines the receipent target of the phone ticket and the sender of the email ticket ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the agent interface.' => '',
         'Defines the receipent target of the tickets ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the customer interface.' => '',
         'Defines the search limit for the stats.' => '',
+        'Defines the sender for rejected emails.' => '',
         'Defines the separator between the agents real name and the given queue email address.' => '',
         'Defines the spacing of the legends.' => '',
         'Defines the standard permissions available for customers within the application. If more permissions are needed, you can enter them here. Permissions must be hard coded to be effective. Please ensure, when adding any of the afore mentioned permissions, that the "rw" permission remains the last entry.' => '',
@@ -2606,7 +2579,6 @@ sub Data {
         'Frontend module registration (disable company link if no company feature is used).' => '',
         'Frontend module registration for the agent interface.' => '',
         'Frontend module registration for the customer interface.' => '',
-        'Frontend module registration for the public interface.' => '',
         'Frontend theme' => '介面风格',
         'GenericAgent' => '计划任务',
         'Gives end users the possibility to override the separator character for CSV files, defined in the translation files.' => '',
@@ -2865,7 +2837,6 @@ sub Data {
         'Sets the minimal ticket counter size (if "AutoIncrement" was selected as TicketNumberGenerator). Default is 5, this means the counter starts from 10000.' => '',
         'Sets the minimum number of characters before autocomplete query is sent.' => '',
         'Sets the number of lines that are displayed in text messages (e.g. ticket lines in the QueueZoom).' => '',
-        'Sets the number of lines that are displayed in the preview of messages (e.g. for tickets in the QueueView).' => '',
         'Sets the number of search results to be displayed for the autocomplete feature.' => '',
         'Sets the options for PGP binary.' => '',
         'Sets the order of the different items in the customer preferences view.' => '',

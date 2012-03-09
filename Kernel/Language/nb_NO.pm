@@ -8,7 +8,7 @@
 # Copyright (C) 2011 Lars Erik Utsi Gullerud <lerik at nolink.net>
 # Copyright (C) 2011 Espen Stefansen <espen.stefansen at imr.no>
 # --
-# $Id: nb_NO.pm,v 1.107.2.4 2011-09-07 21:04:33 en Exp $
+# $Id: nb_NO.pm,v 1.107.2.5 2012-03-09 07:37:02 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,13 +21,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.107.2.4 $;
+$VERSION = q$Revision: 1.107.2.5 $;
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2011-03-21 17:28:44
+    # Last translation file sync: 2012-03-09 08:32:00
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -252,7 +252,7 @@ sub Data {
         'Facility' => 'Innretning',
         'Time Zone' => 'Tidssone',
         'Pending till' => 'Utsatt til',
-        'Don\'t work with UserID 1 (System account)! Create new users!' => 'Det er ikke anbefalt å arbeide som userid 1 (systemkonto)! Opprett heller nye brukere!',
+        'Don\'t use the Superuser account to work with OTRS! Create new Agents and work with these accounts instead.' => '',
         'Dispatching by email To: field.' => 'Utsending etter oppføringer i To:-felt.',
         'Dispatching by selected Queue.' => 'Utsending etter valgt kø.',
         'No entry found!' => 'Ingen oppføringer funnet!',
@@ -265,6 +265,7 @@ sub Data {
         'Package not correctly deployed! You should reinstall the Package again!' => 'Pakken er ikke installert korrekt! Du bør reinstallere pakken igjen!',
         '%s is not writable!' => '%s er ikke skrivbar!',
         'Cannot create %s!' => 'Kan ikke opprette %s!',
+        'Check to activate this date' => '',
         'Customer %s added' => 'Kunde %s lagt til',
         'Role added!' => 'Rollen ble lagt til!',
         'Role updated!' => 'Rolle oppdatert!',
@@ -551,6 +552,10 @@ sub Data {
         'last-search' => 'siste søk',
         'QueueView' => 'Køer',
         'Ticket Escalation View' => 'Eskaleringsvisning',
+        'Message from' => '',
+        'End message' => '',
+        'Forwarded message from' => '',
+        'End forwarded message' => '',
         'new' => 'ny',
         'open' => 'åpen',
         'Open' => 'Åpen',
@@ -643,6 +648,7 @@ sub Data {
         'Agent (All with write permissions)' => 'Saksbehandler (Alle med skriverettigheter)',
         'Agent (Owner)' => 'Saksbehandler (Eier)',
         'Agent (Responsible)' => 'Saksbehandler (Ansvarlig)',
+        'Ticket is locked by another agent.' => '',
         'New ticket notification' => 'Varsling ved ny sak',
         'Send me a notification if there is a new ticket in "My Queues".' => 'Send meg en varsling dersom det kommer en ny sak i mine utvalgte køer.',
         'Send new ticket notifications' => 'Send varsling om nye saker',
@@ -727,6 +733,7 @@ sub Data {
         'History::Unsubscribe' => 'Fjernet abonnement for brukeren «%s».',
         'History::SystemRequest' => 'Systemspørring (%s).',
         'History::ResponsibleUpdate' => 'Ny ansvarlig er «%s» (ID=%s).',
+        'History::ArchiveFlagUpdate' => '',
 
         # Template: AAAWeekDay
         'Sun' => 'søn',
@@ -775,7 +782,7 @@ sub Data {
 
         # Template: AdminCustomerCompany
         'Customer Company Management' => 'Administrasjon av kundebedrifter',
-        'Wildcards are allowed.' => 'Du kan bruke "*" o.l.',
+        'Wildcards like \'*\' are allowed.' => '',
         'Add customer company' => 'Legg til kundebedrift',
         'Please enter a search term to look for customer companies.' => 'Skriv inn et søk for å lete etter kundebedrifter',
         'Add Customer Company' => 'Legg til kundebedrift',
@@ -793,8 +800,8 @@ sub Data {
         'This field is required and needs to be a valid email address.' => 'Dette feltet er påkrevd og trenger å være en gyldig e-postadresse',
         'This email address is not allowed due to the system configuration.' => 'Denne e-postadressen er ikke tillatt i systemkonfigurasjonen',
         'This email address failed MX check.' => 'Denne e-postadressen feilet i en DNS-test (ingen MX)',
-        'The syntax of this email address is incorrect.' => 'Syntaksen på denne e-postadressen er feil.',
         'DNS problem, please check your configuration and the error log.' => '',
+        'The syntax of this email address is incorrect.' => 'Syntaksen på denne e-postadressen er feil.',
 
         # Template: AdminCustomerUserGroup
         'Manage Customer-Group Relations' => 'Adminstrere forhold mellom Kunde og Gruppe',
@@ -802,7 +809,7 @@ sub Data {
         'This feature is disabled!' => 'Denne funksjonen er deaktivert!',
         'Just use this feature if you want to define group permissions for customers.' => 'Bruk denne funksjonen kun dersom du vil definere grupperettigheter for kunder.',
         'Enable it here!' => 'Aktiver denne her!',
-        'Search for customers (wildcards are allowed).' => 'Søk etter kunder (du kan bruke "*" o.l.)',
+        'Search for customers.' => '',
         'Edit Customer Default Groups' => 'Endre standardgrupper for kunder',
         'These groups are automatically assigned to all customers.' => 'Disse gruppene blir automatisk tildelt alle nye kunder',
         'You can manage these groups via the configuration setting "CustomerGroupAlwaysGroups".' => 'Du kan styre disse gruppene gjennom innstillingen "CustomerGroupAlwaysGroups"',
@@ -1028,6 +1035,7 @@ sub Data {
         'Install' => 'Installer',
         'Install Package' => 'Installer pakke',
         'Update repository information' => 'Oppdater pakkelager-informasjon',
+        'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' => '',
         'Online Repository' => 'Pakkelager på nettet',
         'Vendor' => 'Forhandler',
         'Module documentation' => 'Modul-dokumentasjon',
@@ -1197,10 +1205,12 @@ sub Data {
         'S/MIME Management' => 'Administrasjon: S/MIME',
         'Add certificate' => 'Legg til sertifikat',
         'Add private key' => 'Legg til privat nøkkel',
+        'Filter for certificates' => '',
+        'Filter for SMIME certs' => '',
         'In this way you can directly edit the certification and private keys in file system.' => 'På denne måten kan du direkte redigere sertifikatet og private nøkler i filsystemet. ',
         'See also' => 'Se også',
-        'Hash/Fingerprint' => 'Hash/fingeravtrykk',
-        'Create/Expires' => 'Opprettet/Utgår',
+        'Hash' => 'Hash',
+        'Create' => 'Opprett',
         'Delete this certificate' => 'Slett dette sertifikatet',
         'Add Certificate' => 'Legg til sertifikat',
         'Add Private Key' => 'Legg til privat nøkkel',
@@ -1242,9 +1252,9 @@ sub Data {
         'Unique agents' => 'Unike saksbehandlere',
         'Unique customers' => 'Unike kunder',
         'Kill all sessions' => 'Terminer alle sesjoner',
+        'Kill this session' => 'Terminer denne sesjonen',
         'Session' => 'Sesjon',
         'Kill' => 'Terminer',
-        'Kill this session' => 'Terminer denne sesjonen',
         'Detail View for SessionID' => 'Detaljert visning av SesjonsID',
 
         # Template: AdminSignature
@@ -1612,7 +1622,6 @@ sub Data {
         'Create New Phone Ticket' => 'Lag ny Telefon-sak',
         'From customer' => 'Fra kunde',
         'To queue' => 'Til kø',
-        'Create' => 'Opprett',
 
         # Template: AgentTicketPhoneOutbound
         'Phone call' => 'Telefonanrop',
@@ -1636,8 +1645,9 @@ sub Data {
 
         # Template: AgentTicketSearch
         'Search template' => 'Bruk mal',
-        'Create New' => 'Ny',
         'Create Template' => 'Ny mal',
+        'Create New' => 'Ny',
+        'Profile link' => '',
         'Save changes in template' => 'Lagre endringer i mal',
         'Add another attribute' => 'Legg til attributt',
         'Output' => 'Resultat',
@@ -1764,7 +1774,9 @@ sub Data {
         'Only tickets created between' => 'Kun saker opprettet mellom',
         'Search-Profile as Template?' => 'Søke-profil som mal?',
         'Save as Template?' => 'Lagre som mal?',
+        'Save as Template' => '',
         'Template Name' => 'Navn på mal',
+        'Pick a profile name' => '',
         'Output to' => 'Skriv ut til',
 
         # Template: CustomerTicketSearchOpenSearchDescription
@@ -2066,6 +2078,7 @@ sub Data {
         'Change the ticket responsible!' => 'Endre ansvarlig for saken!',
         'Changes the owner of tickets to everyone (useful for ASP). Normally only agent with rw permissions in the queue of the ticket will be shown.' => 'Endrer eier på saker til "alle" (brukbart for ASP). Normalt vil kun saksbehandlere med Les/skriv-tilgang til køen bli vist.',
         'Checks the SystemID in ticket number detection for follow-ups (use "No" if SystemID has been changed after using the system).' => 'Sjekker SystemID i saksnummer-generatorern for oppfølginger (bruk "Nei" hvis SystemID har blitt endret etter å ha brukt systemet.',
+        'Christmas Eve' => '',
         'Comment for new history entries in the customer interface.' => 'Kommentar for nye historiske innlegg i kundeportalen.',
         'Companies' => 'Kundefirma',
         'Company Tickets' => 'Firmasaker',
@@ -2464,6 +2477,7 @@ sub Data {
         'Defines the receipent target of the phone ticket and the sender of the email ticket ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the agent interface.' => '',
         'Defines the receipent target of the tickets ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the customer interface.' => '',
         'Defines the search limit for the stats.' => '',
+        'Defines the sender for rejected emails.' => '',
         'Defines the separator between the agents real name and the given queue email address.' => '',
         'Defines the spacing of the legends.' => 'Definerer avstand mellom symbolforklaringer.',
         'Defines the standard permissions available for customers within the application. If more permissions are needed, you can enter them here. Permissions must be hard coded to be effective. Please ensure, when adding any of the afore mentioned permissions, that the "rw" permission remains the last entry.' => '',
@@ -2511,7 +2525,7 @@ sub Data {
         'Defines whether the free time field number 5 is optional or not.' => '',
         'Defines whether the free time field number 6 is optional or not.' => '',
         'Defines which states should be set automatically (Content), after the pending time of state (Key) has been reached.' => '',
-        'Delay time between autocomplete queries.' => '',
+        'Delay time between autocomplete queries in milliseconds.' => '',
         'Deletes a session if the session id is used with an invalid remote IP address.' => '',
         'Deletes requested sessions if they have timed out.' => '',
         'Determines if the list of possible queues to move to ticket into should be displayed in a dropdown list or in a new window in the agent interface. If "New Window" is set you can add a move note to the ticket.' => '',
@@ -2558,6 +2572,7 @@ sub Data {
         'Fetches packages via proxy. Overwrites "WebUserAgent::Proxy".' => '',
         'File that is displayed in the Kernel::Modules::AgentInfo module, if located under Kernel/Output/HTML/Standard/AgentInfo.dtl.' => '',
         'Filter incoming emails.' => 'Filtrering av innkommende e-poster',
+        'First Christmas Day' => '',
         'Forces encoding of outgoing emails (7bit|8bit|quoted-printable|base64).' => '',
         'Forces to choose a different ticket state (from current) after lock action. Define the current state as key, and the next state after lock action as content.' => '',
         'Forces to unlock tickets after being moved to another queue.' => 'Tvinger opplåsing av saker ved flytting til ny kø',
@@ -2632,6 +2647,7 @@ sub Data {
         'IndexAccelerator: to choose your backend TicketViewAccelerator module. "RuntimeDB" generates each queue view on the fly from ticket table (no performance problems up to approx. 60.000 tickets in total and 6.000 open tickets in the system). "StaticDB" is the most powerful module, it uses an extra ticket-index table that works like a view (recommended if more than 80.000 and 6.000 open tickets are stored in the system). Use the script "bin/otrs.RebuildTicketIndex.pl" for initial index update.' => '',
         'Install ispell or aspell on the system, if you want to use a spell checker. Please specify the path to the aspell or ispell binary on your operating system.' => '',
         'Interface language' => 'Språk for grensesnittet',
+        'International Workers\' Day' => '',
         'It is possible to configure different skins, for example to distinguish between diferent agents, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in "Key" should match the domain, and the value in "Content" should be a valid skin on your system. Please see the example entries for the proper form of the regex.' => '',
         'It is possible to configure different skins, for example to distinguish between diferent customers, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in "Key" should match the domain, and the value in "Content" should be a valid skin on your system. Please see the example entries for the proper form of the regex.' => '',
         'It is possible to configure different themes, for example to distinguish between agents and customers, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in "Key" should match the domain, and the value in "Content" should be a valid theme on your system. Please see the example entries for the proper form of the regex.' => '',
@@ -2667,7 +2683,6 @@ sub Data {
         'Manage periodic tasks.' => 'Administrasjon av periodiske oppgaver.',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' => 'Maks. størrelse (antall tegn) for kundelisten (telefon og e-post) i opprett-skjermen.',
         'Max size of the subjects in an email reply.' => 'Maks. størrelse (antall tegn) for emner i e-post-svar.',
-        'Max. displayed tickets' => 'Maks. antall viste saker',
         'Maximal auto email responses to own email-address a day (Loop-Protection).' => 'Maksimum antall autosvar til egne e-postadresser per dag (beskyttelse mot e-post-looping)',
         'Maximal size in KBytes for mails that can be fetched via POP3/POP3S/IMAP/IMAPS (KBytes).' => 'Maks. størrelse (i kilobytes) på e-post som kan hentes via POP3/IMAP',
         'Maximum number of tickets to be displayed in the result of a search in the agent interface.' => 'Maks. antall viste saker i søkeresultater (agentdelen)',
@@ -2696,6 +2711,8 @@ sub Data {
         'Module to use database filter storage.' => 'Modul for å bruke databaselagring av filtre.',
         'My Tickets' => 'Mine saker',
         'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.' => '',
+        'New Year\'s Day' => '',
+        'New Year\'s Eve' => '',
         'New email ticket' => 'Ny e-postsak',
         'New phone ticket' => 'Ny telefonsak',
         'Next possible ticket states after adding a phone note in the ticket phone outbound screen of the agent interface.' => '',
@@ -2766,6 +2783,7 @@ sub Data {
         'Saves the login and password on the session table in the database, if "DB" was selected for SessionModule.' => '',
         'Search backend default router.' => '',
         'Search backend router.' => '',
+        'Second Christmas Day' => '',
         'Select your frontend Theme.' => 'Velg tema for webvisningen.',
         'Selects the module to handle uploads via the web interface. "DB" stores all uploads in the database, "FS" uses the file system.' => '',
         'Selects the ticket number generator module. "AutoIncrement" increments the ticket number, the SystemID and the counter are used with SystemID.counter format (e.g. 1010138, 1010139). With "Date" the ticket numbers will be generated by the current date, the SystemID and the counter. The format looks like Year.Month.Day.SystemID.counter (e.g. 200206231010138, 200206231010139). With "DateChecksum"  the counter will be appended as checksum to the string of date and SystemID. The checksum will be rotated on a daily basis. The format looks like Year.Month.Day.SystemID.Counter.CheckSum (e.g. 2002070110101520, 2002070110101535). "Random" generates randomized ticket numbers in the format "SystemID.Random" (e.g. 100057866352, 103745394596).' => '',
@@ -2820,7 +2838,6 @@ sub Data {
         'Sets the minimal ticket counter size (if "AutoIncrement" was selected as TicketNumberGenerator). Default is 5, this means the counter starts from 10000.' => '',
         'Sets the minimum number of characters before autocomplete query is sent.' => '',
         'Sets the number of lines that are displayed in text messages (e.g. ticket lines in the QueueZoom).' => '',
-        'Sets the number of lines that are displayed in the preview of messages (e.g. for tickets in the QueueView).' => '',
         'Sets the number of search results to be displayed for the autocomplete feature.' => '',
         'Sets the options for PGP binary.' => '',
         'Sets the order of the different items in the customer preferences view.' => '',
@@ -3046,12 +3063,6 @@ sub Data {
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. In this text area you can define this text (This text cannot be changed by the agent).' => '',
         'When tickets are merged, the customer can be informed per email by setting the check box "Inform Sender". In this text area, you can define a pre-formatted text which can later be modified by the agents.' => '',
         'Your language' => 'Ditt språk',
-        'New Year\'s Day' => '',
-        'International Workers\' Day' => '',
-        'Christmas Eve' => '',
-        'First Christmas Day' => '',
-        'Second Christmas Day' => '',
-        'New Year\'s Eve' => '',
 
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
@@ -3201,6 +3212,7 @@ sub Data {
         'Create new Phone Ticket' => 'Opprett ny henvendelse',
         'Create new database' => 'Opprett ny database',
         'Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...).' => 'Opprett nye grupper for å kunne håndtere forskjellige rettigheter for forskjellige grupper av saksbehandlere (f.eks. innkjøpsavdeling, supportavdeling, salgsavdeling, ...).',
+        'Create/Expires' => 'Opprettet/Utgår',
         'CreateTicket' => 'Opprettet sak',
         'Customer Move Notify' => 'Kundenotifikasjon ved flytting',
         'Customer Owner Notify' => 'Kundenotifikasjon ved skifte av Eier',
@@ -3244,6 +3256,7 @@ sub Data {
         'Do you really want to reinstall this package (all manual changes get lost)?' => 'Vil du virkelig reinstallere pakken (alle manuelle endringer vil bli tapt)?',
         'Don\'t forget to add a new user to groups and/or roles!' => 'Ikke glem å legge til nye brukere til grupper og/eller roller!',
         'Don\'t forget to add a new user to groups!' => 'Ikke glem å gi nye brukere en gruppe!',
+        'Don\'t work with UserID 1 (System account)! Create new users!' => 'Det er ikke anbefalt å arbeide som userid 1 (systemkonto)! Opprett heller nye brukere!',
         'Download Settings' => 'Last ned innstillinger',
         'Download all system config changes.' => 'Last ned alle endringer i systemkonfigurasjon.',
         'Drop Database' => 'Slett database',
@@ -3285,7 +3298,7 @@ sub Data {
         'Group Ro' => 'Gruppe lesetilgang',
         'Group based' => 'Gruppebasert',
         'Group selection' => 'Valg av gruppe',
-        'Hash' => 'Hash',
+        'Hash/Fingerprint' => 'Hash/fingeravtrykk',
         'Have a lot of fun!' => 'Ha det gøy!',
         'Have you lost your password?' => 'Har du mistet passordet ditt?',
         'Help' => 'Hjelp',
@@ -3352,6 +3365,7 @@ sub Data {
         'Makes the application check the MX record of e-mail addresses before sending an e-mail or submitting a telephone or e-mail ticket.' => 'Gjør at OTRS sjekker MX-posten for e-postadresser (i DNS) før den sender en e-post eller oppretter en telefon- eller e-postsak',
         'Makes the application check the syntax of e-mail addresses.' => 'Gjør at OTRS sjekker syntaksen på e-postadresser.',
         'Match' => 'Treff',
+        'Max. displayed tickets' => 'Maks. antall viste saker',
         'Max. shown Tickets a page' => 'Maks. viste saker per side',
         'Message for new Owner' => 'Melding til ny eier',
         'Message sent to' => 'Melding sendt til',
@@ -3489,6 +3503,7 @@ sub Data {
         'Search Result' => 'Søkeresultat',
         'Search Ticket' => 'Søk etter Sak',
         'Search for' => 'Søk etter',
+        'Search for customers (wildcards are allowed).' => 'Søk etter kunder (du kan bruke "*" o.l.)',
         'Search-Template' => 'Søkemal',
         'Secure Mode need to be enabled!' => 'Sikkermodus må aktiveres!',
         'Select Box' => 'SQL-tilgang',
@@ -3628,6 +3643,7 @@ sub Data {
         'WebMail' => 'Webmail',
         'WebWatcher' => 'Webovervåker',
         'Welcome to OTRS' => 'Velkommen til OTRS',
+        'Wildcards are allowed.' => 'Du kan bruke "*" o.l.',
         'With an invalid stat it isn\'t feasible to generate a stat.' => 'Med en ugyldig statistikk kan man ikke generere en statistikk.',
         'With the input and select fields you can configurate the stat at your needs. Which elements of a stat you can edit depends on your stats administrator who configurated the stat.' => 'Med tekst- og valgfeltene kan man konfigurere statistikken til å fylle dine behov. Hvilke elementer til en statistikk man kan endre avhenger av hvilke elementer den som opprettet statistikken har satt til å kunne endres.',
         'Xaxis' => 'X-akse',

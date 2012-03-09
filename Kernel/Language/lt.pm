@@ -1,9 +1,9 @@
 # --
 # Kernel/Language/lt.pm - provides Lithuanian language translation
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # Copyright (C) 2011 Edgaras Lukoðevièius <edgaras[eta]kauko.lt or admin[eta]sysadmin.lt>
 # --
-# $Id: lt.pm,v 1.1.2.4 2011-12-16 11:58:19 mg Exp $
+# $Id: lt.pm,v 1.1.2.5 2012-03-09 07:37:05 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,16 +15,16 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1.2.4 $) [1];
+$VERSION = qw($Revision: 1.1.2.5 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2011-06-14 12:57:47
+    # Last translation file sync: 2012-03-09 08:31:58
 
     # possible charsets
-    $Self->{Charset} = ['iso-8859-13' ];
+    $Self->{Charset} = ['iso-8859-13', ];
     # date formats (%A=WeekDay;%B=LongMonth;%T=Time;%D=Day;%M=Month;%Y=Year;)
     $Self->{DateFormat}          = '%Y-%M-%D %T';
     $Self->{DateFormatLong}      = '%Y-%M-%D - %T';
@@ -259,6 +259,7 @@ sub Data {
         'Package not correctly deployed! You should reinstall the Package again!' => 'Paketas iðskleistas neteisingai! Turëtumëte ið naujo ádiegti ðá paketà!',
         '%s is not writable!' => 'Negalima áraðyti á %s!',
         'Cannot create %s!' => 'Nepavyksta sukurti %s!',
+        'Check to activate this date' => '',
         'Customer %s added' => 'Klientas %s pridëtas',
         'Role added!' => 'Rolë pridëta!',
         'Role updated!' => 'Rolë atnaujinta!',
@@ -545,6 +546,10 @@ sub Data {
         'last-search' => 'Paskutinë paieðka',
         'QueueView' => 'Eiliø perþiûra',
         'Ticket Escalation View' => 'Trikèiø eskalavimo perþiûra',
+        'Message from' => '',
+        'End message' => '',
+        'Forwarded message from' => '',
+        'End forwarded message' => '',
         'new' => 'naujas',
         'open' => 'atidarytas',
         'Open' => 'Atidarytas',
@@ -789,8 +794,8 @@ sub Data {
         'This field is required and needs to be a valid email address.' => 'Ðis laukelis yra bûtinas ir turi bûti galiojontis paðto adresas.',
         'This email address is not allowed due to the system configuration.' => 'Dël sistemos konfigûracijos ðis el. paðto adresas yra neleidþiamas.',
         'This email address failed MX check.' => 'Nepavyko ðio el. paðto adreso MX patikrinimas.',
-        'The syntax of this email address is incorrect.' => 'Ðio el. paðto adreso sintaksë yra neteisinga.',
         'DNS problem, please check your configuration and the error log.' => '',
+        'The syntax of this email address is incorrect.' => 'Ðio el. paðto adreso sintaksë yra neteisinga.',
 
         # Template: AdminCustomerUserGroup
         'Manage Customer-Group Relations' => 'Valdyti klientas-grupë sàsajas',
@@ -1024,6 +1029,7 @@ sub Data {
         'Install' => 'Ádiegti',
         'Install Package' => 'Ádiegti paketà',
         'Update repository information' => 'Atnaujinti saugyklos informacijà',
+        'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' => '',
         'Online Repository' => 'Prieinamos (ájungtos) saugyklos',
         'Vendor' => 'Tiekëjas/pardavëjas',
         'Module documentation' => 'Modulio dokumentacija',
@@ -1240,9 +1246,9 @@ sub Data {
         'Unique agents' => 'Unikalûs agentai',
         'Unique customers' => 'Unikalûs klientai',
         'Kill all sessions' => 'Nutraukti visas sesijas',
+        'Kill this session' => 'Nutraukti ðià sesijà',
         'Session' => 'Sesija',
         'Kill' => 'Nutraukti',
-        'Kill this session' => 'Nutraukti ðià sesijà',
         'Detail View for SessionID' => 'Detali Sesijos ID perþiûra',
 
         # Template: AdminSignature
@@ -1762,7 +1768,9 @@ sub Data {
         'Only tickets created between' => 'Tik triktys sukurti tarp',
         'Search-Profile as Template?' => 'Paieðkos profilis kaip ðablonas?',
         'Save as Template?' => 'Iðsaugoti kaip ðablonà?',
+        'Save as Template' => '',
         'Template Name' => 'Ðablono pavadinimas',
+        'Pick a profile name' => '',
         'Output to' => 'Rezultato iðvedimas: ',
 
         # Template: CustomerTicketSearchOpenSearchDescription
@@ -2463,6 +2471,7 @@ sub Data {
         'Defines the receipent target of the phone ticket and the sender of the email ticket ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the agent interface.' => '',
         'Defines the receipent target of the tickets ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the customer interface.' => '',
         'Defines the search limit for the stats.' => '',
+        'Defines the sender for rejected emails.' => '',
         'Defines the separator between the agents real name and the given queue email address.' => '',
         'Defines the spacing of the legends.' => '',
         'Defines the standard permissions available for customers within the application. If more permissions are needed, you can enter them here. Permissions must be hard coded to be effective. Please ensure, when adding any of the afore mentioned permissions, that the "rw" permission remains the last entry.' => '',
@@ -2668,7 +2677,6 @@ sub Data {
         'Manage periodic tasks.' => 'Valdyti periodines uþduotis.',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' => '',
         'Max size of the subjects in an email reply.' => '',
-        'Max. displayed tickets' => 'Daugiausia rodoma trikèiø',
         'Maximal auto email responses to own email-address a day (Loop-Protection).' => '',
         'Maximal size in KBytes for mails that can be fetched via POP3/POP3S/IMAP/IMAPS (KBytes).' => '',
         'Maximum number of tickets to be displayed in the result of a search in the agent interface.' => '',
@@ -2711,7 +2719,6 @@ sub Data {
         'Overview Escalated Tickets' => 'Perþiûrëti eskaluotas triktis',
         'Overview of all open Tickets.' => 'Perþiûrëti visas atviras triktis.',
         'PGP Key Upload' => 'Ákelti PGP raktà',
-        'Pages' => '',
         'Parameters for the CreateNextMask object in the preference view of the agent interface.' => '',
         'Parameters for the CustomQueue object in the preference view of the agent interface.' => '',
         'Parameters for the FollowUpNotify object in the preference view of the agent interface.' => '',
@@ -2825,7 +2832,6 @@ sub Data {
         'Sets the minimal ticket counter size (if "AutoIncrement" was selected as TicketNumberGenerator). Default is 5, this means the counter starts from 10000.' => '',
         'Sets the minimum number of characters before autocomplete query is sent.' => '',
         'Sets the number of lines that are displayed in text messages (e.g. ticket lines in the QueueZoom).' => '',
-        'Sets the number of lines that are displayed in the preview of messages (e.g. for tickets in the QueueView).' => '',
         'Sets the number of search results to be displayed for the autocomplete feature.' => '',
         'Sets the options for PGP binary.' => '',
         'Sets the order of the different items in the customer preferences view.' => '',
@@ -3058,6 +3064,7 @@ sub Data {
         'Create/Expires' => 'Sukurti/Baigiasi galiojimas',
         'Filter for Language' => 'Filtruoti kalbas',
         'Hash/Fingerprint' => 'Heðas (hash)/ Pirðto atspaudas',
+        'Max. displayed tickets' => 'Daugiausia rodoma trikèiø',
         'Note' => 'Pastaba',
         'Online' => 'Prisijungæ',
         'Phone Call Inbound' => 'Áeinantis skambutis telefonu',

@@ -4,7 +4,7 @@
 # Copyright (C) 2011 Chetan Nagaonkar <Chetan_Nagaonkar at OptForOPS.com>
 # Copyright (C) 2011 Chetan Nagaonkar <ChetanNagaonkar at yahoo.com>
 # --
-# $Id: hi.pm,v 1.1.2.5 2011-09-07 20:55:15 en Exp $
+# $Id: hi.pm,v 1.1.2.6 2012-03-09 07:37:05 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,13 +17,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1.2.5 $) [1];
+$VERSION = qw($Revision: 1.1.2.6 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2011-03-21 17:28:40
+    # Last translation file sync: 2012-03-09 08:31:53
 
     # possible charsets
     $Self->{Charset} = ['UTF-8', ];
@@ -248,7 +248,7 @@ sub Data {
         'Facility' => 'सहूलियत',
         'Time Zone' => 'समय क्षेत्र',
         'Pending till' => 'स्थगित जब तक',
-        'Don\'t work with UserID 1 (System account)! Create new users!' => 'उपयोगकर्ता id 1(प्रणाली खाता) के साथ न काम करें । नए उपयोगकर्ता बनाऐ।',
+        'Don\'t use the Superuser account to work with OTRS! Create new Agents and work with these accounts instead.' => '',
         'Dispatching by email To: field.' => 'ईमेल से भेजने के लिए :क्षेत्र',
         'Dispatching by selected Queue.' => 'चयनित श्रेणी से भेजने के लिए।',
         'No entry found!' => 'कोई प्रविष्टि नहीं है।',
@@ -261,6 +261,7 @@ sub Data {
         'Package not correctly deployed! You should reinstall the Package again!' => 'पैकेज सही तरीके से तैयार नहीं है। पुनः स्थापित करें।',
         '%s is not writable!' => '%s लिखने योग्य नहीं है।',
         'Cannot create %s!' => '%s नहीं बन सकता।',
+        'Check to activate this date' => '',
         'Customer %s added' => 'ग्राहक %s जोड़ा गया। ',
         'Role added!' => 'भूमिका जोडी गयी।',
         'Role updated!' => 'भूमिका अद्यतन।',
@@ -547,6 +548,10 @@ sub Data {
         'last-search' => 'पिछली खोज',
         'QueueView' => 'श्रेणी दृश्य',
         'Ticket Escalation View' => 'टिकट संवर्धित दृश्य',
+        'Message from' => '',
+        'End message' => '',
+        'Forwarded message from' => '',
+        'End forwarded message' => '',
         'new' => 'नया',
         'open' => 'खुला',
         'Open' => 'खुला',
@@ -639,6 +644,7 @@ sub Data {
         'Agent (All with write permissions)' => 'प्रतिनिधि (सभी के साथ लिखने की अनुमति)',
         'Agent (Owner)' => 'प्रतिनिधि (स्वामी)',
         'Agent (Responsible)' => 'प्रतिनिधि (उत्तरदायी)',
+        'Ticket is locked by another agent.' => '',
         'New ticket notification' => 'नए टिकट की सूचना',
         'Send me a notification if there is a new ticket in "My Queues".' => 'मुझे अधिसूचना भेजें यदि "मेरी श्रेणी" में नया टिकट आए।',
         'Send new ticket notifications' => 'नये टिकट की अधिसूचना भेजें।',
@@ -723,6 +729,7 @@ sub Data {
         'History::Unsubscribe' => 'सदस्यता रद्द करें "%s"।',
         'History::SystemRequest' => 'प्रणाली आग्रह।',
         'History::ResponsibleUpdate' => 'उत्तरदायी अद्यतन।',
+        'History::ArchiveFlagUpdate' => '',
 
         # Template: AAAWeekDay
         'Sun' => 'रविवार',
@@ -771,7 +778,7 @@ sub Data {
 
         # Template: AdminCustomerCompany
         'Customer Company Management' => 'ग्राहक कंपनी प्रबंधन',
-        'Wildcards are allowed.' => 'वाइल्डकार्ड की अनुमति है।',
+        'Wildcards like \'*\' are allowed.' => '',
         'Add customer company' => 'ग्राहक कंपनी जोड़ें',
         'Please enter a search term to look for customer companies.' => 'कृपया ग्राहक कंपनियों को देखने के लिए एक खोज शब्द दर्ज करें।',
         'Add Customer Company' => 'ग्राहक कंपनी जोड़ें',
@@ -789,8 +796,8 @@ sub Data {
         'This field is required and needs to be a valid email address.' => 'यह क्षेत्र जरूरी है और एक मान्य ईमेल पतॆ की आवश्यकता है।',
         'This email address is not allowed due to the system configuration.' => 'यह ईमेल पता प्रणाली विन्यास की वजह से स्वीकार्य नहीं है।',
         'This email address failed MX check.' => 'यह ईमेल पता MX जांच में विफल रहा।',
-        'The syntax of this email address is incorrect.' => 'इस ईमेल पते के वाक्य रचना ग़लत है।',
         'DNS problem, please check your configuration and the error log.' => '',
+        'The syntax of this email address is incorrect.' => 'इस ईमेल पते के वाक्य रचना ग़लत है।',
 
         # Template: AdminCustomerUserGroup
         'Manage Customer-Group Relations' => 'ग्राहक-समूह संबंधों का प्रबंधन करें',
@@ -798,7 +805,7 @@ sub Data {
         'This feature is disabled!' => 'यह सुविधा निष्क्रिय है।',
         'Just use this feature if you want to define group permissions for customers.' => 'यदि आप ग्राहकों के लिए समूह अनुमतियाँ परिभाषित करना चाहते हैं तो इस सुविधा का उपयोग करें।',
         'Enable it here!' => 'यहाँ सक्रिय करें।',
-        'Search for customers (wildcards are allowed).' => 'ग्राहकों के लिए खोजें(वाइल्डकार्ड की अनुमति है)।',
+        'Search for customers.' => '',
         'Edit Customer Default Groups' => 'ग्राहक तयशुदा समूह संपादित करें',
         'These groups are automatically assigned to all customers.' => 'यह समूह स्वतः सभी ग्राहकों के लिए आवंटित हो जाते हैं।',
         'You can manage these groups via the configuration setting "CustomerGroupAlwaysGroups".' => 'आप विन्यास व्यवस्था "ग्राहक समूह सदैव समूहों" के माध्यम से इन समूहों का प्रबंधन कर सकते हैं।',
@@ -1024,6 +1031,7 @@ sub Data {
         'Install' => 'स्थापित',
         'Install Package' => 'संकुल स्थापित करें',
         'Update repository information' => 'कोष जानकारी अद्यतन करें',
+        'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' => '',
         'Online Repository' => 'ऑनलाइन कोष',
         'Vendor' => 'विक्रेता',
         'Module documentation' => 'मॉड्यूल दस्तावेज',
@@ -1193,10 +1201,12 @@ sub Data {
         'S/MIME Management' => 'S/MIME प्रबंधन',
         'Add certificate' => 'प्रमाणपत्र जोड़ें',
         'Add private key' => 'निजी कुंजी जोड़ें',
+        'Filter for certificates' => '',
+        'Filter for SMIME certs' => '',
         'In this way you can directly edit the certification and private keys in file system.' => 'इस तरह आप सीधे प्रमाणीकरण और फाइल प्रणाली में निजी कुंजी संपादित कर सकते हैं।',
         'See also' => 'यह भी देखें',
-        'Hash/Fingerprint' => 'द्रुतान्वेषण/अंगुली-चिह्न',
-        'Create/Expires' => 'बनाना/समाप्त होना',
+        'Hash' => '',
+        'Create' => 'बनाएँ',
         'Delete this certificate' => 'इस प्रमाणपत्र को हटाएँ',
         'Add Certificate' => 'प्रमाणपत्र जोड़ें',
         'Add Private Key' => 'निजी कुंजी जोड़ें',
@@ -1238,9 +1248,9 @@ sub Data {
         'Unique agents' => 'अद्वितीय प्रतिनिधि',
         'Unique customers' => 'अद्वितीय ग्राहक',
         'Kill all sessions' => 'सभी सत्रों को नष्ट कर दे',
+        'Kill this session' => 'इस सत्र को नष्ट कर दे',
         'Session' => 'सत्र',
         'Kill' => 'नष्ट',
-        'Kill this session' => 'इस सत्र को नष्ट कर दे',
         'Detail View for SessionID' => 'सत्र ID का विस्तार दृश्य',
 
         # Template: AdminSignature
@@ -1608,7 +1618,6 @@ sub Data {
         'Create New Phone Ticket' => 'नया फोन टिकट बनाएँ',
         'From customer' => 'ग्राहक से',
         'To queue' => 'श्रेणी में',
-        'Create' => 'बनाएँ',
 
         # Template: AgentTicketPhoneOutbound
         'Phone call' => 'फोन कॉल',
@@ -1632,8 +1641,9 @@ sub Data {
 
         # Template: AgentTicketSearch
         'Search template' => 'टेम्पलेट खोजें',
-        'Create New' => 'नया बनाएँ',
         'Create Template' => 'टेम्पलेट बनाएँ',
+        'Create New' => 'नया बनाएँ',
+        'Profile link' => '',
         'Save changes in template' => 'टेम्पलेट में बदलाव सुरक्षित करें',
         'Add another attribute' => 'एक और विशेषता जोड़ें',
         'Output' => 'आउटपुट',
@@ -1760,7 +1770,9 @@ sub Data {
         'Only tickets created between' => 'कॆवल वही टिकट जो इस बीच बनाए गए',
         'Search-Profile as Template?' => 'टेम्पलेट के रूप में वर्णन खोजें ',
         'Save as Template?' => 'टेम्पलेट के रूप में सुरक्षित करें ?',
+        'Save as Template' => '',
         'Template Name' => 'टेम्पलेट का नाम',
+        'Pick a profile name' => '',
         'Output to' => 'को आउटपुट',
 
         # Template: CustomerTicketSearchOpenSearchDescription
@@ -2062,6 +2074,7 @@ sub Data {
         'Change the ticket responsible!' => 'टिकट की उत्तरदायी बदलें',
         'Changes the owner of tickets to everyone (useful for ASP). Normally only agent with rw permissions in the queue of the ticket will be shown.' => 'टिकट का स्वामी सभी को करने के लिए बदलें(ASP के लिए उपयोगी)। आम तौर पर टिकट की श्रेणी में ही पढ़ने और लिखने की अनुमति के साथ प्रतिनिधि दिखाया जाएगा।',
         'Checks the SystemID in ticket number detection for follow-ups (use "No" if SystemID has been changed after using the system).' => 'टिकट की अनुवर्ती संख्या का पता लगाने के लिए यह प्रणाली ID की जाँच करता है(प्रयोग "नहीं" अगर प्रणाली ID प्रणाली का उपयोग करने के बाद बदल दिया गया है)।',
+        'Christmas Eve' => '',
         'Comment for new history entries in the customer interface.' => 'ग्राहक अंतरफलक में इतिहास नई प्रविष्टियों के लिए टिप्पणी।',
         'Companies' => 'कंपनियां',
         'Company Tickets' => 'कंपनी के टिकट',
@@ -2460,6 +2473,7 @@ sub Data {
         'Defines the receipent target of the phone ticket and the sender of the email ticket ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the agent interface.' => 'प्रतिनिधि अंतरफलक के फोन टिकट के प्राप्तकर्ता लक्ष्य और ईमेल के प्रेषक टिकट को परिभाषित करता है (सभी श्रेणी को "श्रेणी"दिखाता है,"SystemAddress" सभी प्रणाली पते को प्रदर्शित करता है)।',
         'Defines the receipent target of the tickets ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the customer interface.' => 'प्रतिनिधि अंतरफलक के फोन टिकट के प्राप्तकर्ता लक्ष्य को परिभाषित करता है (सभी श्रेणी को "श्रेणी"दिखाता है,"SystemAddress" सभी प्रणाली पते को प्रदर्शित करता है)।',
         'Defines the search limit for the stats.' => 'आँकड़े के लिए खोज सीमा को परिभाषित करता है।',
+        'Defines the sender for rejected emails.' => '',
         'Defines the separator between the agents real name and the given queue email address.' => 'प्रतिनिधियॊ के असली नाम और कतार के दिए गए ईमेल पते के बीच विभाजक को परिभाषित करता है।',
         'Defines the spacing of the legends.' => 'किंवदंतियों के अंतरालन को परिभाषित करता है।',
         'Defines the standard permissions available for customers within the application. If more permissions are needed, you can enter them here. Permissions must be hard coded to be effective. Please ensure, when adding any of the afore mentioned permissions, that the "rw" permission remains the last entry.' => 'अनुप्रयोग के भीतर ग्राहकों के लिए उपलब्ध मानक अनुमतियों को परिभाषित करता है। यदि अधिक अनुमतियों की आवश्यकता हैं,तो आप उन्हें यहाँ दर्ज कर सकते हैं। अनुमतियाँ प्रभावी होने के लिए कठिन कोडित होना चाहिए। कृपया यह सुनिश्चित करें कि जब सामने दी गई वर्णित अनुमतियाँ को जोडें तो"rw" अनुमति अंतिम प्रविष्टि रहती हैं।',
@@ -2507,7 +2521,7 @@ sub Data {
         'Defines whether the free time field number 5 is optional or not.' => 'खाली समय क्षेत्र क्रमांक 5 वैकल्पिक है या नहीं को परिभाषित करता है।',
         'Defines whether the free time field number 6 is optional or not.' => 'खाली समय क्षेत्र क्रमांक 6 वैकल्पिक है या नहीं को परिभाषित करता है।',
         'Defines which states should be set automatically (Content), after the pending time of state (Key) has been reached.' => 'स्थिति का विचाराधीन समय(कुंजी) पुरा हो जाने के बाद,स्थिति जो स्वचालित रूप से निर्धारित हो जानी चाहिए (सामग्री) को परिभाषित करता है।',
-        'Delay time between autocomplete queries.' => 'स्वत:पूर्ण क्वेरी के बीच विलंबित समय।',
+        'Delay time between autocomplete queries in milliseconds.' => '',
         'Deletes a session if the session id is used with an invalid remote IP address.' => 'एक सत्र यदि सत्र पहचान अवैध दूरदराज के IP पते के साथ इस्तेमाल किया जाता है को नष्ट कर देता है।',
         'Deletes requested sessions if they have timed out.' => 'अनुरोध सत्र को नष्ट कर देता है यदि उनका समय समाप्त हो गया है।',
         'Determines if the list of possible queues to move to ticket into should be displayed in a dropdown list or in a new window in the agent interface. If "New Window" is set you can add a move note to the ticket.' => 'प्रतिनिधि अंतरफलक में संभव श्रेणीयों की सूची जिनमें टिकटों को स्थानांतरित कर सकते है उनको एक ड्रॉपडाउन सूची में या एक नई विंडो में प्रदर्शित किया जाना चाहिए। यदि "नई विंडो" निर्धारित है तो आप टिकटों के लिए एक स्थानांतरित टिप्पणी जोड़ सकते हैं।',
@@ -2554,6 +2568,7 @@ sub Data {
         'Fetches packages via proxy. Overwrites "WebUserAgent::Proxy".' => 'प्रॉक्सी के माध्यम से संकुल को आनयन करता है। "वेब प्रयोक्ता प्रतिनिधि:प्रॉक्सी उपरिलेखन करता है।',
         'File that is displayed in the Kernel::Modules::AgentInfo module, if located under Kernel/Output/HTML/Standard/AgentInfo.dtl.' => 'फ़ाइल जो कर्नेल:मॉड्यूल::एजेंट जानकारी मॉड्यूल में प्रदर्शित की जाती है,यदि Kernel/Output/HTML/Standard/AgentInfo.dtl के अंतर्गत स्थित है।',
         'Filter incoming emails.' => 'आने वाले ईमेल निस्पादक।',
+        'First Christmas Day' => '',
         'Forces encoding of outgoing emails (7bit|8bit|quoted-printable|base64).' => 'बाहर जाने की ईमेल के कूटबन्धन करने के लिए मजबूर करता है(7bit|8bit|quoted-printable|base64)।',
         'Forces to choose a different ticket state (from current) after lock action. Define the current state as key, and the next state after lock action as content.' => 'लॉक कार्रवाई के बाद एक अलग स्थिति(वर्तमान से) चुनने के लिए टिकट को मजबूर करता है। कुंजी के रूप में वर्तमान स्थिति को परिभाषित करें,और सामग्री के रूप में लॉक कार्रवाई के बाद अगली स्थिति को।',
         'Forces to unlock tickets after being moved to another queue.' => 'अन्य कतार में स्थानांतरित होने के बाद टिकटों को अनलॉक करने के लिए मजबूर करता है।',
@@ -2628,6 +2643,7 @@ sub Data {
         'IndexAccelerator: to choose your backend TicketViewAccelerator module. "RuntimeDB" generates each queue view on the fly from ticket table (no performance problems up to approx. 60.000 tickets in total and 6.000 open tickets in the system). "StaticDB" is the most powerful module, it uses an extra ticket-index table that works like a view (recommended if more than 80.000 and 6.000 open tickets are stored in the system). Use the script "bin/otrs.RebuildTicketIndex.pl" for initial index update.' => 'सूचकांक गतिवर्धक:आपके बैकेंड टिकट दृश्य गतिवर्धक मॉड्यूल चुनने के लिए। "RuntimeDB" टिकट तालिका से हर श्रेणीं दृश्य उत्पन्न करता है(लगभग.60.000 टिकटों तक प्रदर्शन में कोई समस्या नहीं और प्रणाली में 6.000 खुले टिकट)। "StaticDB" सबसे शक्तिशाली मॉड्यूल है,यह एक अतिरिक्त टिकट सूचकांक तालिका जो किसी दृश्य की तरह काम करता का उपयोग करता है(अनुशंसित यदि 6.000 से 80.000 अधिक और खुले टिकट प्रणाली में संग्रहीत किया जाता है)। प्रारंभिक सूचकांक अद्यतन करने के लिए स्क्रिप्ट "bin/otrs.RebuildTicketIndex.pl" का उपयोग करें।',
         'Install ispell or aspell on the system, if you want to use a spell checker. Please specify the path to the aspell or ispell binary on your operating system.' => 'यदि आप एक वर्तनी परीक्षक उपयोग करना चाहते हैं, Ispell या aspell सिस्टम पर स्थापित करें। aspell या ispell द्विआधारी के लिए आपकी ऑपरेटिंग सिस्टम पर पथ निर्दिष्ट करें।',
         'Interface language' => 'अंतरफलक भाषा',
+        'International Workers\' Day' => '',
         'It is possible to configure different skins, for example to distinguish between diferent agents, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in "Key" should match the domain, and the value in "Content" should be a valid skin on your system. Please see the example entries for the proper form of the regex.' => 'विभिन्न सतही विन्यस्त करना संभव है,उदाहरण के लिए विभिन्न प्रतिनिधि के बीच भेद करने के लिए,अनुप्रयोग में प्रति एक डोमेन के आधार पर इस्तेमाल किया जा सकता हैं। एक नियमित अभिव्यक्ति(Regex) का उपयोग करना,आप एक कुंजी/सामग्री जोड़ी विन्यस्त करने एक डोमेन मिलान कर सकते हैं। डोमेन में "कुंजी" मान से मेल खाना चाहिए और "सामग्री" में मूल्य अपने प्रणाली पर एक वैध सतही होना चाहिए। regex के उचित रूप के लिए उदाहरण प्रविष्टियों को देखें।',
         'It is possible to configure different skins, for example to distinguish between diferent customers, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in "Key" should match the domain, and the value in "Content" should be a valid skin on your system. Please see the example entries for the proper form of the regex.' => 'विभिन्न सतही विन्यस्त करना संभव है,उदाहरण के लिए विभिन्न ग्राहकों के बीच भेद करने के लिए,अनुप्रयोग में प्रति एक डोमेन के आधार पर इस्तेमाल किया जा सकता हैं। एक नियमित अभिव्यक्ति(Regex) का उपयोग करना,आप एक कुंजी/सामग्री जोड़ी विन्यस्त करने एक डोमेन मिलान कर सकते हैं। डोमेन में "कुंजी" मान से मेल खाना चाहिए और "सामग्री" में मूल्य अपने प्रणाली पर एक वैध सतही होना चाहिए। regex के उचित रूप के लिए उदाहरण प्रविष्टियों को देखें।',
         'It is possible to configure different themes, for example to distinguish between agents and customers, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in "Key" should match the domain, and the value in "Content" should be a valid theme on your system. Please see the example entries for the proper form of the regex.' => 'विभिन्न थीम विन्यस्त करना संभव है,उदाहरण के लिए विभिन्न प्रतिनिधि और ग्राहकों के बीच भेद करने के लिए,अनुप्रयोग में प्रति एक डोमेन के आधार पर इस्तेमाल किया जा सकता हैं। एक नियमित अभिव्यक्ति(Regex) का उपयोग करना,आप एक कुंजी/सामग्री जोड़ी विन्यस्त करने एक डोमेन मिलान कर सकते हैं। डोमेन में "कुंजी" मान से मेल खाना चाहिए और "सामग्री" में मूल्य अपने प्रणाली पर एक वैध थीम होना चाहिए। regex के उचित रूप के लिए उदाहरण प्रविष्टियों को देखें।',
@@ -2663,7 +2679,6 @@ sub Data {
         'Manage periodic tasks.' => 'आवधिक कार्यों का प्रबंधन करें।',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' => 'ग्राहक जानकारी तालिका(फोन और ईमेल) के स्क्रीन रचना में अधिकतम आकार(अक्षरों में)।',
         'Max size of the subjects in an email reply.' => 'ईमेल जवाब में विषय का अधिकतम आकार।',
-        'Max. displayed tickets' => 'अधिकतम प्रदर्शित टिकट',
         'Maximal auto email responses to own email-address a day (Loop-Protection).' => 'अधिकतम स्वत ईमेल प्रतिक्रियाओं जो ईमेल पता एक दिन स्वयं के लिए(लूप-संरक्षण)।',
         'Maximal size in KBytes for mails that can be fetched via POP3/POP3S/IMAP/IMAPS (KBytes).' => 'मेल जोPOP3/POP3S/IMAP/IMAPS के माध्यम से आनयन हूए के अधिकतम आकार Kbytes में।',
         'Maximum number of tickets to be displayed in the result of a search in the agent interface.' => 'टिकटों की अधिकतम संख्या प्रतिनिधि अंतरफलक में एक खोज के परिणाम में प्रदर्शित करने के लिए।',
@@ -2692,6 +2707,8 @@ sub Data {
         'Module to use database filter storage.' => 'आंकड़ाकोष संग्रहण निस्पादक उपयोग करने के लिए मॉड्यूल।',
         'My Tickets' => 'मेरे टिकट',
         'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.' => 'अनुकूलित श्रेणी के नाम। अनुकूलित कतार एक कतार चयन है,आपकी वरीयता श्रेणीयों का और चयनित किया जा सकता है वरीयता व्यवस्थाओ में।',
+        'New Year\'s Day' => '',
+        'New Year\'s Eve' => '',
         'New email ticket' => 'नया ईमेल टिकट',
         'New phone ticket' => 'नया फोन टिकट',
         'Next possible ticket states after adding a phone note in the ticket phone outbound screen of the agent interface.' => 'प्रतिनिधि अंतरफलक के टिकट फोन आउटबाउंड स्क्रीन में एक फोन टिप्पणी जोड़ने के बाद टिकट की अगली संभव स्थिति।',
@@ -2762,6 +2779,7 @@ sub Data {
         'Saves the login and password on the session table in the database, if "DB" was selected for SessionModule.' => '',
         'Search backend default router.' => 'बैकेंड तयशुदा अनुर्मागक खोजें।',
         'Search backend router.' => 'बैकेंड अनुर्मागक खोजें।',
+        'Second Christmas Day' => '',
         'Select your frontend Theme.' => 'आपकी दृश्यपटल थीम चुनें।',
         'Selects the module to handle uploads via the web interface. "DB" stores all uploads in the database, "FS" uses the file system.' => 'वेब अंतरफलक के द्वारा अपलोड संभालने के लिए मॉड्यूल चुनता है। "DB" आंकड़ाकोष में सभी अपलोड को संग्रहीत करता है,"FS" फ़ाइल प्रणाली का उपयोग करता है।',
         'Selects the ticket number generator module. "AutoIncrement" increments the ticket number, the SystemID and the counter are used with SystemID.counter format (e.g. 1010138, 1010139). With "Date" the ticket numbers will be generated by the current date, the SystemID and the counter. The format looks like Year.Month.Day.SystemID.counter (e.g. 200206231010138, 200206231010139). With "DateChecksum"  the counter will be appended as checksum to the string of date and SystemID. The checksum will be rotated on a daily basis. The format looks like Year.Month.Day.SystemID.Counter.CheckSum (e.g. 2002070110101520, 2002070110101535). "Random" generates randomized ticket numbers in the format "SystemID.Random" (e.g. 100057866352, 103745394596).' => 'टिकट संख्या उत्पादक मॉड्यूल चुनता है। "AutoIncrement" टिकट संख्या बढ़ता है,प्रणाली ID और काउंटर SystemID.काउंटर प्रारूप (जैसे. 1010138,1010139) के साथ उपयोग किया जाता है।"दिनांक " के साथ टिकट संख्या वर्तमान दिनांक के आधार पर उत्पन्न किया जाएगा,SystemID और काउंटर।प्रारूप        Year.Month.Day.SystemID.counter की तरह दिखता है(जैसे. 200206231010138, 200206231010139)।"DateChecksum" के साथ काउंटर तारीख और systemid के जाँचयोग स्ट्रिंग के रूप में जुड़ जाएगा।जाँचयोग एक दैनिक आधार पर चलाया जाएगा।प्रारूप Year.Month.Day.SystemID.Counter.CheckSum की तरह दिखता है (जैसे. 2002070110101520,2002070110101535)।"Random" यादृच्छिक टिकट संख्या उत्पन्न करता है "SystemID.Random" प्रारूप में(जैसे. 100057866352, 103745394596)।',
@@ -2816,7 +2834,6 @@ sub Data {
         'Sets the minimal ticket counter size (if "AutoIncrement" was selected as TicketNumberGenerator). Default is 5, this means the counter starts from 10000.' => 'न्यूनतम टिकट काउंटर आकार स्थापित करता है(यदि "AutoIncrement" टिकट संख्या उत्पन्नकर्ता के रूप में चुना गया)। तयशुदा 5 है,इसका मतलब काउंटर 10000 से शुरू होता है।',
         'Sets the minimum number of characters before autocomplete query is sent.' => 'स्वत:पूर्ण क्वेरी से पहले वर्णों की न्यूनतम संख्या भेजी है यह स्थापित करता है।',
         'Sets the number of lines that are displayed in text messages (e.g. ticket lines in the QueueZoom).' => 'पंक्तियों की संख्या जो पाठ संदेश में प्रदर्शित किए जाते हैं को स्थापित करता है(उदा. QueueZoom में टिकट लाइनें)।',
-        'Sets the number of lines that are displayed in the preview of messages (e.g. for tickets in the QueueView).' => 'पंक्तियों की संख्या जो संदेशों के पूर्वावलोकन में प्रदर्शित किए जाते हैं को स्थापित करता है(उदा. QueueView में टिकटों के लिए)।',
         'Sets the number of search results to be displayed for the autocomplete feature.' => 'खोज परिणामों की संख्या स्वत: पूर्ण सुविधा के लिए प्रदर्शित करने के लिए स्थापित करता है।',
         'Sets the options for PGP binary.' => 'PGP द्विआधारी के लिए विकल्प स्थापित करता है।',
         'Sets the order of the different items in the customer preferences view.' => 'ग्राहक प्राथमिकता दृश्य में विभिन्न वस्तुओं के क्रम स्थापित करता है।',
@@ -3042,23 +3059,25 @@ sub Data {
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. In this text area you can define this text (This text cannot be changed by the agent).' => 'जब टिकटों को विलय कर रहे हैं,एक टिप्पणी स्वचालित रूप से जोड़ दी जाएगी उस टिकट को जो अब सक्रिय नहीं है। इस पाठ क्षेत्र में आप इस पाठ को परिभाषित कर सकते हैं(यह पाठ प्रतिनिधि के द्वारा बदला नहीं जा सकता है)।',
         'When tickets are merged, the customer can be informed per email by setting the check box "Inform Sender". In this text area, you can define a pre-formatted text which can later be modified by the agents.' => 'जब टिकटों को विलय कर रहे हैं, चेक बॉक्स "सूचित प्रेषक" निर्धारित करने के बाद ग्राहक को ईमेल द्वारा सूचित किया जा सकता है। इस पाठ क्षेत्र में,आप एक पूर्व स्वरूपित पाठ परिभाषित कर सकते हैं जो बाद में प्रतिनिधियों द्वारा संशोधित किया जा सकता है। ',
         'Your language' => 'आपकी भाषा',
-        'New Year\'s Day' => '',
-        'International Workers\' Day' => '',
-        'Christmas Eve' => '',
-        'First Christmas Day' => '',
-        'Second Christmas Day' => '',
-        'New Year\'s Eve' => '',
 
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
         'Allows defining services and SLAs for tickets (e. g. email, desktop, network, ...), and escalation attribrutes for SLAs (if ticket service/SLA feature is enabled).' => 'टिकटों के लिए सेवाओं और SLAs(उदा. ईमेल,डेस्कटॉप,नेटवर्क,...) और SLAs के लिए संवर्धित विशेषताओं(यदि टिकट सेवा/SLA सुविधा सक्षम है) को परिभाषित करने के लिए की अनुमति देता है।',
+        'Create/Expires' => 'बनाना/समाप्त होना',
         'Defines the list of online repositories. Another installations can be used as repositoriy, for example: Key="http://example.com/otrs/public.pl?Action=PublicRepository;File=" and Content="Some Name".' => 'ऑनलाइन भंडार की सूची को परिभाषित करता है। अन्य स्थापनाओं को भंडार के रूप में इस्तेमाल किया जा सकता है,उदाहरण के लिए: कुंजी = "http://example.com/otrs/public.pl?Action=PublicRepository;फ़ाइल = "और सामग्री =" कुछ नाम "।',
+        'Delay time between autocomplete queries.' => 'स्वत:पूर्ण क्वेरी के बीच विलंबित समय।',
+        'Don\'t work with UserID 1 (System account)! Create new users!' => 'उपयोगकर्ता id 1(प्रणाली खाता) के साथ न काम करें । नए उपयोगकर्ता बनाऐ।',
         'Filter for Language' => 'भाषा के लिए निस्पादक',
+        'Hash/Fingerprint' => 'द्रुतान्वेषण/अंगुली-चिह्न',
+        'Max. displayed tickets' => 'अधिकतम प्रदर्शित टिकट',
         'Module to genetare accounted time ticket statistics.' => 'समय के हिसाब से टिकट आँकड़े उत्पन्न करने के लिए मॉड्यूल।',
         'Module to genetare ticket solution and response time statistics.' => 'टिकट समाधान और प्रतिक्रिया समय आँकड़े उत्पन्न करने के लिए मॉड्यूल।',
         'Module to genetare ticket statistics.' => 'टिकट आँकड़े उत्पन्न करने के लिए मॉड्यूल।',
         'Search Ticket' => 'टिकट खोजें',
+        'Search for customers (wildcards are allowed).' => 'ग्राहकों के लिए खोजें(वाइल्डकार्ड की अनुमति है)।',
+        'Sets the number of lines that are displayed in the preview of messages (e.g. for tickets in the QueueView).' => 'पंक्तियों की संख्या जो संदेशों के पूर्वावलोकन में प्रदर्शित किए जाते हैं को स्थापित करता है(उदा. QueueView में टिकटों के लिए)।',
+        'Wildcards are allowed.' => 'वाइल्डकार्ड की अनुमति है।',
 
     };
     # $$STOP$$

@@ -1,12 +1,12 @@
 # --
 # Kernel/Language/pt_BR.pm - provides Brazilian Portuguese language translation
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # Copyright (C) 2003 Gilberto Cezar de Almeida <gibalmeida at hotmail.com>
 # Copyright (C) 2005 Alterado por Glaucia C. Messina (glauglauu@yahoo.com)
 # Copyright (C) 2007-2010 Fabricio Luiz Machado <soprobr gmail.com>
 # Copyright (C) 2010-2011 Murilo Moreira de Oliveira <murilo.moreira gmail.com>
 # --
-# $Id: pt_BR.pm,v 1.109.2.5 2011-09-07 21:01:28 en Exp $
+# $Id: pt_BR.pm,v 1.109.2.6 2012-03-09 07:37:04 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,13 +18,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.109.2.5 $) [1];
+$VERSION = qw($Revision: 1.109.2.6 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2011-01-13 14:08:54
+    # Last translation file sync: 2012-03-09 08:32:04
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -36,7 +36,7 @@ sub Data {
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
 
     # csv separator
-    $Self->{Separator} = ';',
+    $Self->{Separator} = ';';
 
     $Self->{Translation} = {
 
@@ -262,6 +262,7 @@ sub Data {
         'Package not correctly deployed! You should reinstall the Package again!' => 'O pacote não foi instalado coretamente! Você deve reinstalá-lo!',
         '%s is not writable!' => '%s é somente leitura!',
         'Cannot create %s!' => 'Não foi possível criar %s!',
+        'Check to activate this date' => '',
         'Customer %s added' => 'Cliente %s adicionado',
         'Role added!' => 'Papel adicionado!',
         'Role updated!' => 'Papel atualizado!',
@@ -548,6 +549,10 @@ sub Data {
         'last-search' => 'última-pesquisa',
         'QueueView' => 'Fila',
         'Ticket Escalation View' => 'Visão de Escalação de Chamados',
+        'Message from' => '',
+        'End message' => '',
+        'Forwarded message from' => '',
+        'End forwarded message' => '',
         'new' => 'novo',
         'open' => 'aberto',
         'Open' => 'Aberto',
@@ -640,6 +645,7 @@ sub Data {
         'Agent (All with write permissions)' => 'Atendente (todos com permissão de escrita)',
         'Agent (Owner)' => 'Atendente (Proprietário)',
         'Agent (Responsible)' => 'Atendente (Responsável)',
+        'Ticket is locked by another agent.' => '',
         'New ticket notification' => 'Notificação de novo chamado',
         'Send me a notification if there is a new ticket in "My Queues".' => 'Envie-me uma notificação se há um novo chamado em "Minhas Filas".',
         'Send new ticket notifications' => 'Enviar notificações de novos chamados',
@@ -684,6 +690,8 @@ sub Data {
         'All new tickets, these tickets have not been worked on yet' => 'Todos os chamados novos, estes chamados não foram trabalhados ainda',
         'All escalated tickets' => 'Todos os chamados escalados',
         'All tickets with a reminder set where the reminder date has been reached' => 'Todos os chamados com lembrete cujas datas de lembrete expiraram',
+        'Archived tickets' => '',
+        'Unarchived tickets' => '',
         'History::Move' => 'Chamado foi movido para a Fila "%s" (%s) vindo da Fila "%s" (%s).',
         'History::TypeUpdate' => 'Tipo atualizado para %s (ID=%s).',
         'History::ServiceUpdate' => 'Serviço atualizado para %s (ID=%s).',
@@ -722,6 +730,7 @@ sub Data {
         'History::Unsubscribe' => 'Removida assinatura para o usuário "%s".',
         'History::SystemRequest' => 'Requisição de sistema (%s).',
         'History::ResponsibleUpdate' => 'Novo responsável é "%s" (ID=%s).',
+        'History::ArchiveFlagUpdate' => '',
 
         # Template: AAAWeekDay
         'Sun' => 'Dom',
@@ -770,7 +779,7 @@ sub Data {
 
         # Template: AdminCustomerCompany
         'Customer Company Management' => 'Gerenciamento de Empresa de Clientes',
-        'Wildcards are allowed.' => 'Curingas são permitidos.',
+        'Wildcards like \'*\' are allowed.' => '',
         'Add customer company' => 'Adicionar Empresa de Clientes',
         'Please enter a search term to look for customer companies.' => 'Por favor, insira um termo de pesquisa para procurar uma empresa de clientes.',
         'Add Customer Company' => 'Adicionar Empresa de Clientes',
@@ -788,8 +797,8 @@ sub Data {
         'This field is required and needs to be a valid email address.' => 'Este campo é obrigatório e deve ser um endereço de e-mail válido.',
         'This email address is not allowed due to the system configuration.' => 'Este endereço de e-mail não é permitido devido à configuração do sistema.',
         'This email address failed MX check.' => 'Para este endereço de e-mail, o teste MX falhou.',
-        'The syntax of this email address is incorrect.' => 'A sintaxe deste endereço de e-mail está incorreta.',
         'DNS problem, please check your configuration and the error log.' => '',
+        'The syntax of this email address is incorrect.' => 'A sintaxe deste endereço de e-mail está incorreta.',
 
         # Template: AdminCustomerUserGroup
         'Manage Customer-Group Relations' => 'Gerenciar Relações Clientes-Grupos',
@@ -797,7 +806,7 @@ sub Data {
         'This feature is disabled!' => 'Esta funcionalidade está desabilitada!',
         'Just use this feature if you want to define group permissions for customers.' => 'Utilize esta funcionalidade apenas se desejar definir permissões de grupo para os clientes.',
         'Enable it here!' => 'Habilite-a aqui!',
-        'Search for customers (wildcards are allowed).' => 'Procurar por clientes (curingas são permitidos).',
+        'Search for customers.' => '',
         'Edit Customer Default Groups' => 'Editar os grupos-padrão para clientes',
         'These groups are automatically assigned to all customers.' => 'Estes grupos serão atribuídos automaticamente a todos os clientes.',
         'You can manage these groups via the configuration setting "CustomerGroupAlwaysGroups".' => 'Você pode gerenciar estes grupos através do parâmetro de configuração "CustomerGroupAlwaysGroups".',
@@ -909,6 +918,7 @@ sub Data {
         'Archive selected tickets' => 'Arquivar chamados selecionados',
         'Add Note' => 'Adicionar Nota',
         'Time units' => 'Unidades de tempo',
+        ' (work units)' => ' (unidades de trabalho)',
         'Ticket Commands' => 'Comandos-Chamado',
         'Send agent/customer notifications on changes' => 'Enviar notificações de alterações para atendente/cliente',
         'CMD' => 'Comando',
@@ -967,7 +977,7 @@ sub Data {
 
         # Template: AdminNotification
         'Notification Management' => 'Administração de Notificações',
-        'Filter for Language' => 'Filtro por Idioma',
+        'Select a different language' => '',
         'Filter for Notification' => 'Filtro por Notificação',
         'Notifications are sent to an agent or a customer.' => 'Notificações serão enviadas para um Atedente ou Cliente.',
         'Notification' => 'Notificações',
@@ -1022,6 +1032,7 @@ sub Data {
         'Install' => 'Instalar',
         'Install Package' => 'Instalar Pacote',
         'Update repository information' => 'Atualizar informação de repositório',
+        'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' => '',
         'Online Repository' => 'Repositório Online',
         'Vendor' => 'Fornecedor',
         'Module documentation' => 'Documentação do Módulo',
@@ -1075,10 +1086,13 @@ sub Data {
         'Add PostMaster Filter' => 'Adicionar filtro PostMaster',
         'Edit PostMaster Filter' => 'Alterar filtro PostMaster',
         'Filter name' => 'Nome do filtro',
+        'The name is required.' => '',
         'Stop after match' => 'Parar após encontrar',
         'Filter Condition' => 'Condição do filtro',
         'Value' => 'Valor',
+        'The field needs to be a valid regular expression or a literal word.' => '',
         'Set Email Headers' => 'Configurar cabeçalhos de e-mail',
+        'The field needs to be a literal word.' => '',
 
         # Template: AdminPriority
         'Priority Management' => 'Gerenciamento de Prioridade',
@@ -1188,10 +1202,12 @@ sub Data {
         'S/MIME Management' => 'Gerenciamento S/MIME',
         'Add certificate' => 'Adicionar Certificado',
         'Add private key' => 'Adicionar Chave Privada',
+        'Filter for certificates' => '',
+        'Filter for SMIME certs' => '',
         'In this way you can directly edit the certification and private keys in file system.' => 'Neste caso, você pode editar diretamente a certificação e chaves privadas no sistema de arquivos.',
         'See also' => 'Veja também',
-        'Hash/Fingerprint' => 'Hash/Assinatura',
-        'Create/Expires' => 'Criado/Expira',
+        'Hash' => '',
+        'Create' => 'Criar',
         'Delete this certificate' => 'Excluir este certificado',
         'Add Certificate' => 'Adicionar Certificado',
         'Add Private Key' => 'Adicionar Chave Privada',
@@ -1233,9 +1249,9 @@ sub Data {
         'Unique agents' => 'Atendentes únicos',
         'Unique customers' => 'Clientes únicos',
         'Kill all sessions' => 'Finalizar todas as sessões',
+        'Kill this session' => 'Finalizar esta sessão',
         'Session' => 'Sessão',
         'Kill' => 'Finalizar',
-        'Kill this session' => 'Finalizar esta sessão',
         'Detail View for SessionID' => 'Detalhes da SessãoID',
 
         # Template: AdminSignature
@@ -1329,6 +1345,7 @@ sub Data {
         'Edit Agent' => 'Alterar Atendente',
         'Firstname' => 'Nome',
         'Lastname' => 'Sobrenome',
+        'Password is required.' => '',
         'Start' => 'Início',
         'End' => 'fim',
 
@@ -1414,6 +1431,7 @@ sub Data {
 
         # Template: AgentStatsDelete
         'Delete stat' => 'Escluir estatística',
+        'Stat#' => 'Estatística Nº:.',
         'Do you really want to delete this stat?' => 'Você quer realmente excluir esta estatística?',
 
         # Template: AgentStatsEditRestrictions
@@ -1601,7 +1619,6 @@ sub Data {
         'Create New Phone Ticket' => 'Criar novo Chamado Fone',
         'From customer' => 'Do cliente',
         'To queue' => 'Para a fila',
-        'Create' => 'Criar',
 
         # Template: AgentTicketPhoneOutbound
         'Phone call' => 'Chamada Telefônica',
@@ -1625,14 +1642,21 @@ sub Data {
 
         # Template: AgentTicketSearch
         'Search template' => 'Procurar modelo',
-        'Create New' => 'Criar Novo',
         'Create Template' => 'Criar Modelo',
+        'Create New' => 'Criar Novo',
+        'Profile link' => '',
         'Save changes in template' => 'Salvar mudanças no modelo',
         'Add another attribute' => 'Adicionar outro atributo',
         'Output' => 'Saída',
         'Fulltext' => 'Texto Completo',
         'Remove' => 'Remover',
         'Customer User Login' => 'Login de Cliente',
+        'Time1' => 'Zeit1',
+        'Time2' => 'Zeit2',
+        'Time3' => 'Zeit3',
+        'Time4' => 'Zeit4',
+        'Time5' => 'Zeit5',
+        'Time6' => 'Zeit6',
         'Created in Queue' => 'Criado na Fila',
         'Lock state' => 'Trancar estado',
         'Watcher' => 'Monitorante',
@@ -1747,7 +1771,9 @@ sub Data {
         'Only tickets created between' => 'Apenas chamados criados entre',
         'Search-Profile as Template?' => 'Perfil-Pesquisa como Modelo?',
         'Save as Template?' => 'Salvar como Modelo?',
+        'Save as Template' => '',
         'Template Name' => 'Nome do Modelo',
+        'Pick a profile name' => '',
         'Output to' => 'Saída em',
 
         # Template: CustomerTicketSearchOpenSearchDescription
@@ -2015,7 +2041,7 @@ sub Data {
         'Allows customers to set the ticket queue in the customer interface. If this is set to \'No\', QueueDefault should be configured.' => 'Permite que os clientes configurem a fila do chamado na interface de cliente. Se isso for configurado para Não, o parâmetro QueueDefault deve ser configurado.',
         'Allows customers to set the ticket service in the customer interface.' => 'Permite que os clientes configurem o serviço do chamado na interface de cliente.',
         'Allows defining new types for ticket (if ticket type feature is enabled).' => 'Permite definir novos tipos de chamado (caso a funcionalidade tipo do chamado esteja habilitada).',
-        'Allows defining services and SLAs for tickets (e. g. email, desktop, network, ...), and escalation attribrutes for SLAs (if ticket service/SLA feature is enabled).' => 'Permite definir serviços e SLA para chamados (por exemplo, e-mail, desktop, rede...), e attribrutes de escalação para SLAs (caso a funcionalidade serviço/SLA esteja habilitada).',
+        'Allows defining services and SLAs for tickets (e. g. email, desktop, network, ...), and escalation attributes for SLAs (if ticket service/SLA feature is enabled).' => '',
         'Allows extended search conditions in ticket search of the agent interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' => 'Permite estender condições de pesquisa na tela de busca de chamados da interface de atendente. Com esse recurso, você pode pesquisar fazendo uso de condições como "(chave1 & & chave2) " ou "(chave1 | | chave2)".',
         'Allows extended search conditions in ticket search of the customer interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' => 'Permite estender condições de pesquisa na tela de busca de chamados da interface de cliente. Com esse recurso, você pode pesquisar fazendo uso de condições como "(chave1 & & chave2) " ou "(chave1 | | chave2)".',
         'Allows having a medium format ticket overview (CustomerInfo => 1 - shows also the customer information).' => 'Permite ter uma visão em formato médio do chamado (CustomerInfo => 1 - mostra também as informações do cliente).',
@@ -2049,6 +2075,7 @@ sub Data {
         'Change the ticket responsible!' => 'Alterar o responsável pelo chamado!',
         'Changes the owner of tickets to everyone (useful for ASP). Normally only agent with rw permissions in the queue of the ticket will be shown.' => 'Altera o proprietário de chamados para todos (útil para ASP). Normalmente, apenas atendentes com permissões rw na fila do chamado serão mostrados.',
         'Checks the SystemID in ticket number detection for follow-ups (use "No" if SystemID has been changed after using the system).' => 'Verifica o SystemID na detecção de número de chamado para acompanhamentos (use "Não" se SystemID tiver sido alterado após usar o sistema).',
+        'Christmas Eve' => '',
         'Comment for new history entries in the customer interface.' => 'Comentário para novas entradas de histórico na interface de cliente.',
         'Companies' => 'Empresas',
         'Company Tickets' => 'Chamados de Empresa',
@@ -2085,6 +2112,8 @@ sub Data {
         'Data used to export the search result in CSV format.' => 'Os dados utilizados para exportar o resultado da pesquisa no formato CSV.',
         'Debugs the translation set. If this is set to "Yes" all strings (text) without translations are written to STDERR. This can be helpful when you are creating a new translation file. Otherwise, this option should remain set to "No".' => 'Depura a tradução definida. Se isso for ajustado para "Sim" todas as cadeias (texto), sem traduções são escritas no stderr. Isso pode ser útil quando você está criando um novo arquivo de tradução. Caso contrário, essa opção deve permanecer definida para "Não ".',
         'Default ACL values for ticket actions.' => 'Valores padrão de ACL para as ações de chamado.',
+        'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimePointFormat=year;TicketCreateTimePointStart=Last;TicketCreateTimePoint=2;".' => '',
+        'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimeStartYear=2010;TicketCreateTimeStartMonth=10;TicketCreateTimeStartDay=4;TicketCreateTimeStopYear=2010;TicketCreateTimeStopMonth=11;TicketCreateTimeStopDay=3;".' => '',
         'Default loop protection module.' => 'Módulo padrão de proteção de loop.',
         'Default queue ID used by the system in the agent interface.' => 'ID de fila padrão usado pelo sistema na interface de atendente.',
         'Default skin for OTRS 3.0 interface.' => 'Tema padrão para a interface 3.0 do OTRS.',
@@ -2133,6 +2162,7 @@ sub Data {
         'Defines if a ticket lock is required to change the customer of a ticket in the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' => 'Define se um bloqueio de chamado é requerido para alterar o cliente do chamado na interface de atendente (se o chamado não estiver bloqueado ainda, ele é bloqueado e o atendente atual será definido automaticamente como seu proprietário).',
         'Defines if composed messages have to be spell checked in the agent interface.' => 'Define se mensagens compostas tem que ser verificadas ortograficamente na interface do atendente.',
         'Defines if time accounting is mandatory in the agent interface.' => 'Define se a contabilização do tempo é obrigatória na interface de atendente.',
+        'Defines if time accounting must be set to all tickets in bulk action.' => '',
         'Defines the =hHeight for the rich text editor component. Enter number (pixels) or percent value (relative).' => 'Define o =hHeight para o componente editor de texto rico. Digite o número (pixels) ou o valor percentual (relativo).',
         'Defines the IP regular expression for accessing the local repository. You need to enable this to have access to your local repository and the package::RepositoryList is required on the remote host.' => 'Define a expressão regular IP para acessar o repositório local. Você precisa habilitar isso para ter acesso ao seu repositório local e o pacote: RepositoryList é requerido na máquina remota.',
         'Defines the URL CSS path.' => 'Define o caminho URL CSS.',
@@ -2377,7 +2407,7 @@ sub Data {
         'Defines the link type \'Normal\'. If the source name and the target name contain the same value, the resulting link is a non-directional one; otherwise, the result is a directional link.' => '',
         'Defines the link type \'ParentChild\'. If the source name and the target name contain the same value, the resulting link is a non-directional one; otherwise, the result is a directional link.' => '',
         'Defines the link type groups. The link types of the same group cancel one another. Example: If ticket A is linked per a \'Normal\' link with ticket B, then these tickets could not be additionally linked with link of a \'ParentChild\' relationship.' => '',
-        'Defines the list of online repositories. Another installations can be used as repositoriy, for example: Key="http://example.com/otrs/public.pl?Action=PublicRepository;File=" and Content="Some Name".' => '',
+        'Defines the list of online repositories. Another installations can be used as repository, for example: Key="http://example.com/otrs/public.pl?Action=PublicRepository;File=" and Content="Some Name".' => '',
         'Defines the location to get online repository list for additional packages. The first available result will be used.' => '',
         'Defines the log module for the system. "File" writes all messages in a given logfile, "SysLog" uses the syslog daemon of the system, e.g. syslogd.' => '',
         'Defines the maximal size (in bytes) for file uploads via the browser.' => '',
@@ -2444,6 +2474,7 @@ sub Data {
         'Defines the receipent target of the phone ticket and the sender of the email ticket ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the agent interface.' => '',
         'Defines the receipent target of the tickets ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the customer interface.' => '',
         'Defines the search limit for the stats.' => '',
+        'Defines the sender for rejected emails.' => '',
         'Defines the separator between the agents real name and the given queue email address.' => '',
         'Defines the spacing of the legends.' => '',
         'Defines the standard permissions available for customers within the application. If more permissions are needed, you can enter them here. Permissions must be hard coded to be effective. Please ensure, when adding any of the afore mentioned permissions, that the "rw" permission remains the last entry.' => '',
@@ -2491,7 +2522,7 @@ sub Data {
         'Defines whether the free time field number 5 is optional or not.' => '',
         'Defines whether the free time field number 6 is optional or not.' => '',
         'Defines which states should be set automatically (Content), after the pending time of state (Key) has been reached.' => '',
-        'Delay time between autocomplete queries.' => '',
+        'Delay time between autocomplete queries in milliseconds.' => '',
         'Deletes a session if the session id is used with an invalid remote IP address.' => '',
         'Deletes requested sessions if they have timed out.' => '',
         'Determines if the list of possible queues to move to ticket into should be displayed in a dropdown list or in a new window in the agent interface. If "New Window" is set you can add a move note to the ticket.' => '',
@@ -2538,6 +2569,7 @@ sub Data {
         'Fetches packages via proxy. Overwrites "WebUserAgent::Proxy".' => '',
         'File that is displayed in the Kernel::Modules::AgentInfo module, if located under Kernel/Output/HTML/Standard/AgentInfo.dtl.' => '',
         'Filter incoming emails.' => 'Filtrar e-mails de entrada.',
+        'First Christmas Day' => '',
         'Forces encoding of outgoing emails (7bit|8bit|quoted-printable|base64).' => '',
         'Forces to choose a different ticket state (from current) after lock action. Define the current state as key, and the next state after lock action as content.' => '',
         'Forces to unlock tickets after being moved to another queue.' => '',
@@ -2612,6 +2644,7 @@ sub Data {
         'IndexAccelerator: to choose your backend TicketViewAccelerator module. "RuntimeDB" generates each queue view on the fly from ticket table (no performance problems up to approx. 60.000 tickets in total and 6.000 open tickets in the system). "StaticDB" is the most powerful module, it uses an extra ticket-index table that works like a view (recommended if more than 80.000 and 6.000 open tickets are stored in the system). Use the script "bin/otrs.RebuildTicketIndex.pl" for initial index update.' => '',
         'Install ispell or aspell on the system, if you want to use a spell checker. Please specify the path to the aspell or ispell binary on your operating system.' => '',
         'Interface language' => 'Limguagem da interface',
+        'International Workers\' Day' => '',
         'It is possible to configure different skins, for example to distinguish between diferent agents, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in "Key" should match the domain, and the value in "Content" should be a valid skin on your system. Please see the example entries for the proper form of the regex.' => '',
         'It is possible to configure different skins, for example to distinguish between diferent customers, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in "Key" should match the domain, and the value in "Content" should be a valid skin on your system. Please see the example entries for the proper form of the regex.' => '',
         'It is possible to configure different themes, for example to distinguish between agents and customers, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in "Key" should match the domain, and the value in "Content" should be a valid theme on your system. Please see the example entries for the proper form of the regex.' => '',
@@ -2647,7 +2680,6 @@ sub Data {
         'Manage periodic tasks.' => 'Gerenciar tarefas periódicas.',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' => '',
         'Max size of the subjects in an email reply.' => '',
-        'Max. displayed tickets' => 'Máx. chamados exibidos',
         'Maximal auto email responses to own email-address a day (Loop-Protection).' => '',
         'Maximal size in KBytes for mails that can be fetched via POP3/POP3S/IMAP/IMAPS (KBytes).' => '',
         'Maximum number of tickets to be displayed in the result of a search in the agent interface.' => '',
@@ -2666,9 +2698,9 @@ sub Data {
         'Module to crypt composed messages (PGP or S/MIME).' => '',
         'Module to filter and manipulate incoming messages. Block/ignore all spam email with From: noreply@ address.' => '',
         'Module to filter and manipulate incoming messages. Get a 4 digit number to ticket free text, use regex in Match e. g. From => \'(.+?)@.+?\', and use () as [***] in Set =>.' => '',
+        'Module to generate accounted time ticket statistics.' => '',
         'Module to generate html OpenSearch profile for short ticket search in the agent interface.' => '',
         'Module to generate html OpenSearch profile for short ticket search in the customer interface.' => '',
-        'Module to generate accounted time ticket statistics.' => '',
         'Module to generate ticket solution and response time statistics.' => '',
         'Module to generate ticket statistics.' => '',
         'Module to inform agents, via the agent interface, about the used charset. A notification is displayed, if the default charset is not used, e.g. in tickets.' => '',
@@ -2676,6 +2708,8 @@ sub Data {
         'Module to use database filter storage.' => '',
         'My Tickets' => 'Meus Chamados',
         'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.' => '',
+        'New Year\'s Day' => '',
+        'New Year\'s Eve' => '',
         'New email ticket' => 'Novo Chamado E-mail',
         'New phone ticket' => 'Novo Chamado Fone',
         'Next possible ticket states after adding a phone note in the ticket phone outbound screen of the agent interface.' => '',
@@ -2739,12 +2773,14 @@ sub Data {
         'Responses <-> Queues' => 'Respostas <-> Filas',
         'Restores a ticket from the archive (only if the event is a state change, from closed to any open available state).' => '',
         'Roles <-> Groups' => 'Papéis <-> Grupos',
+        'Runs an initial wildcard search of the existing customer users when accessing the AdminCustomerUser module.' => '',
         'Runs the system in "Demo" mode. If set to "Yes", agents can change preferences, such as selection of language and theme via the agent web interface. These changes are only valid for the current session. It will not be possible for agents to change their passwords.' => '',
         'S/MIME Certificate Upload' => 'Upload de certificado S/MIME',
         'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data.' => '',
-        'Search Ticket' => 'Procurar chamado',
+        'Saves the login and password on the session table in the database, if "DB" was selected for SessionModule.' => '',
         'Search backend default router.' => '',
         'Search backend router.' => '',
+        'Second Christmas Day' => '',
         'Select your frontend Theme.' => 'Selecione seu tema de interface.',
         'Selects the module to handle uploads via the web interface. "DB" stores all uploads in the database, "FS" uses the file system.' => '',
         'Selects the ticket number generator module. "AutoIncrement" increments the ticket number, the SystemID and the counter are used with SystemID.counter format (e.g. 1010138, 1010139). With "Date" the ticket numbers will be generated by the current date, the SystemID and the counter. The format looks like Year.Month.Day.SystemID.counter (e.g. 200206231010138, 200206231010139). With "DateChecksum"  the counter will be appended as checksum to the string of date and SystemID. The checksum will be rotated on a daily basis. The format looks like Year.Month.Day.SystemID.Counter.CheckSum (e.g. 2002070110101520, 2002070110101535). "Random" generates randomized ticket numbers in the format "SystemID.Random" (e.g. 100057866352, 103745394596).' => '',
@@ -2799,7 +2835,6 @@ sub Data {
         'Sets the minimal ticket counter size (if "AutoIncrement" was selected as TicketNumberGenerator). Default is 5, this means the counter starts from 10000.' => '',
         'Sets the minimum number of characters before autocomplete query is sent.' => '',
         'Sets the number of lines that are displayed in text messages (e.g. ticket lines in the QueueZoom).' => '',
-        'Sets the number of lines that are displayed in the preview of messages (e.g. for tickets in the QueueView).' => '',
         'Sets the number of search results to be displayed for the autocomplete feature.' => '',
         'Sets the options for PGP binary.' => '',
         'Sets the order of the different items in the customer preferences view.' => '',
@@ -2845,6 +2880,7 @@ sub Data {
         'Sets the user time zone per user (required a system with UTC as system time and UTC under TimeZone). Otherwise this is a diff time to the local time.' => '',
         'Sets the user time zone per user based on java script / browser time zone offset feature at login time.' => '',
         'Show a responsible selection in phone and email tickets in the agent interface.' => '',
+        'Show article as rich text even if rich text writing is disabled.' => '',
         'Shows a count of icons in the ticket zoom, if the article has attachments.' => '',
         'Shows a link in the menu for subscribing / unsubscribing from a ticket in the ticket zoom view of the agent interface.' => '',
         'Shows a link in the menu that allows linking a ticket with another object in the ticket zoom view of the agent interface.' => '',
@@ -3024,17 +3060,10 @@ sub Data {
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. In this text area you can define this text (This text cannot be changed by the agent).' => '',
         'When tickets are merged, the customer can be informed per email by setting the check box "Inform Sender". In this text area, you can define a pre-formatted text which can later be modified by the agents.' => '',
         'Your language' => 'Seu idioma',
-        'New Year\'s Day' => '',
-        'International Workers\' Day' => '',
-        'Christmas Eve' => '',
-        'First Christmas Day' => '',
-        'Second Christmas Day' => '',
-        'New Year\'s Eve' => '',
 
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => ' (unidades de trabalho)',
         '%s Tickets affected! Do you really want to use this job?' => '%s Chamados afetados! Você quer realmente utilizar este processo?',
         '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' => '(Überprüfen des MX-Eintrags der benutzen E-Mail-Adressen im Verfassen-Fenster. Benutzen Sie CheckMXRecord nicht, wenn Ihr OTRS hinter einer Wählleitung ist!)',
         '(Email of the system admin)' => '(E-Mail des System-Administrators)',
@@ -3099,6 +3128,7 @@ sub Data {
         'All tickets which are escalated!' => 'Todas as olicitações que foram escaladas!',
         'Allocate CustomerUser to service' => 'Alocar usuário cliente a serviço',
         'Allocate services to CustomerUser' => 'Alocar serviços a usuário cliente',
+        'Allows defining services and SLAs for tickets (e. g. email, desktop, network, ...), and escalation attribrutes for SLAs (if ticket service/SLA feature is enabled).' => 'Permite definir serviços e SLA para chamados (por exemplo, e-mail, desktop, rede...), e attribrutes de escalação para SLAs (caso a funcionalidade serviço/SLA esteja habilitada).',
         'Answer' => 'Resposta',
         'Article Create Times' => 'Horário da Criação do Artigo',
         'Article created' => 'Artigo criado',
@@ -3126,11 +3156,9 @@ sub Data {
         'Change priority of ticket' => 'Modificar a prioridade do chamado',
         'Change responsible of ticket' => 'Alterar o responsável pelo chamado',
         'Change user <-> group settings' => 'Modificar configurações de usuários <-> grupos',
-        'ChangeLog' => '',
         'Check Mail Configuration' => 'Mailkonfiguration überprüfen',
         'Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behind a dial-up line!' => 'Aktiviert die Prüfung von MX Records von benutzten Emailadressen beim Erstellen von Antworten. Wenn Sie OTRS nur mit einer Einwahlverbindung ins Internet benutzen, sollten Sie diese Option abschalten.',
         'Child-Object' => 'Objeto Filho',
-        'City{CustomerUser}' => '',
         'Classification' => 'Classificação',
         'Clear From' => 'Limpar',
         'Clear To' => 'Limpar',
@@ -3141,23 +3169,21 @@ sub Data {
         'Close!' => 'Fechar!',
         'Collapse View' => 'Visão Recolhida',
         'Comment (internal)' => 'Comentário (interno)',
-        'Comment{CustomerUser}' => '',
         'CompanyTickets' => 'Chamados da Empresa',
         'Compose Answer' => 'Compor Resposta',
         'Compose Email' => 'E-Mail erstellen',
         'Compose Follow up' => 'Compor Continuação',
         'Config Options' => 'Opções de Configuração',
-        'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => '',
         'Config options (e. g. <OTRS_CONFIG_HttpType>)' => 'Konfig Optionen (z. B. <OTRS_CONFIG_HttpType>)',
         'Config options (e. g. <OTRS_CONFIG_HttpType>).' => 'Opções de Configuração (ex.: <OTRS_CONFIG_HttpType>).',
         'Contact customer' => 'Contatar cliente',
-        'Country{CustomerUser}' => '',
         'Create New Template' => 'Neue Vorlage anlegen',
         'Create Times' => 'Horários de Criação',
         'Create new Phone Ticket' => 'Criar novo Chamado Fone',
         'Create new database' => 'Criar novo banco de dados',
         'Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...).' => 'Crie novos grupos para manipular as permissões de acesso para diferentes grupos de agentes (exemplos: departamento de compras, departamento de suporte, departamento de vendas, etc...).',
         'Create your first Ticket' => 'Erstellen Sie ihr erstes Ticket',
+        'Create/Expires' => 'Criado/Expira',
         'CreateTicket' => 'Criar Chamado',
         'Current Impact Rating' => 'Taxa de Impacto Atual',
         'Customer Move Notify' => 'Cliente Notificar Alteração',
@@ -3174,7 +3200,6 @@ sub Data {
         'Customer history search' => 'Busca no Histórico do cliente',
         'Customer history search (e. g. "ID342425").' => 'Busca no Histórico do cliente (exemplo: "ID342425")',
         'Customer user will be needed to have a customer history and to login via customer panel.' => 'O usuário do cliente será necessário para que exista um histórico do cliente e para login na área de clientes.',
-        'CustomerID{CustomerUser}' => '',
         'CustomerUser' => 'Usuário Cliente',
         'D' => 'D',
         'DB Admin Password' => 'Password de Administrador do DB',
@@ -3185,7 +3210,6 @@ sub Data {
         'Default Language' => 'Idioma Padrão',
         'Delete old database' => 'Alte Datenbank löschen',
         'Detail' => 'Detalhe',
-        'Diff' => '',
         'Discard all changes and return to the compose screen' => 'Descartar todas as modificações e retornar para a tela de composição',
         'Do dispatch or filter incoming emails based on email X-Headers! RegExp is also possible.' => 'Verteilt oder Filtern einkommende E-Mail anhand der X-Headers! RegExp ist auch möglich.',
         'Do you really want to delete this Object?' => 'Você quer realmente remover este objeto?',
@@ -3213,12 +3237,11 @@ sub Data {
         'Export Config' => 'Exportar Configuração',
         'FAQ Search Result' => 'Resultado da procura por FAQ',
         'FAQ System History' => 'Histórico do Sistema de FAQ',
-        'Fax{CustomerUser}' => '',
         'File-Name' => 'Nome do Arquivo',
         'File-Path' => 'Dateipfad',
         'Filelist' => 'Lista de arquivos',
+        'Filter for Language' => 'Filtro por Idioma',
         'Filtername' => 'Nome do Filtro',
-        'Firstname{CustomerUser}' => '',
         'Follow up' => 'Continuação',
         'Follow up notification' => 'Notificação de continuação',
         'For very complex stats it is possible to include a hardcoded file.' => 'Para estatísticas muito complexas é possível incluir um código fonte.',
@@ -3232,7 +3255,7 @@ sub Data {
         'Group Ro' => 'Grupo Somente Leitura',
         'Group based' => 'Baseado em Grupo',
         'Group selection' => 'Seleção de Grupo',
-        'Hash' => '',
+        'Hash/Fingerprint' => 'Hash/Assinatura',
         'Have a lot of fun!' => 'Divirta-se!',
         'Have you lost your password?' => 'Ist Ihnen ihr Passwort abhanden gekommen?',
         'Help' => 'Hilfe',
@@ -3273,7 +3296,6 @@ sub Data {
         'Keywords' => 'Palavras-Chave',
         'Kill session' => 'Finalizar sessão',
         'Last update' => 'Última Atualização',
-        'Lastname{CustomerUser}' => '',
         'Link Table' => 'Verknüpfungstabelle',
         'Link to Parent' => 'Associar a Pai',
         'LinkType' => 'Verbindungstyp',
@@ -3289,11 +3311,11 @@ sub Data {
         'Mail Management' => 'Gerenciamento de E-mail',
         'Mailbox' => 'Caixa de Entrada',
         'Match' => 'Busca',
+        'Max. displayed tickets' => 'Máx. chamados exibidos',
         'Max. shown Tickets a page' => 'Max. Anzahl Tickets pro Seite',
         'Message for new Owner' => 'Mensagem para um novo Proprietário',
         'Message sent to' => 'Mensagem enviada para',
         'Misc' => 'Variedades',
-        'Mobile{CustomerUser}' => '',
         'Modified' => 'modificado',
         'Modules' => 'Módulos',
         'Move notification' => 'Notificação de movimentos',
@@ -3319,8 +3341,6 @@ sub Data {
         'New messages' => 'Mensagens novas',
         'New password again' => 'Repita sua nova senha',
         'No * possible!' => 'Não são possíveis *!',
-        'No Packages for requested Framework in this Online Repository, but Packages for other Frameworks!' => '',
-        'No Packages or no new Packages in selected Online Repository!' => '',
         'No Permission' => 'Sem Permissão',
         'No change time settings.' => 'Ignorar horários de alteração.',
         'No matches found' => 'Keine Treffer gefunden',
@@ -3343,10 +3363,8 @@ sub Data {
         'Options of the current customer user data (e. g. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)' => 'Opções de informações do cliente (ex.: &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)',
         'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>)' => 'Die Daten der Kundenbenutzer (z. B. <OTRS_CUSTOMER_DATA_UserFirstname>)',
         'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>).' => 'Opções de informações do usuário cliente (ex.: <OTRS_CUSTOMER_DATA_UserFirstname>).',
-        'Options of the current user who requested this action (e. g. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)' => '',
         'Options of the current user who requested this action (e. g. <OTRS_CURRENT_UserFirstname>)' => 'Opções do atual usuário que solicitou a ação (e. g. <OTRS_CURRENT_UserFirstname>)',
         'Options of the current user who requested this action (e. g. <OTRS_CURRENT_UserFirstname>).' => 'Opções do usuário atual que requisitou esta ação (ex.: <OTRS_CURRENT_UserFirstname>).',
-        'Options of the ticket data (e. g. &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => '',
         'Options of the ticket data (e. g. <OTRS_TICKET_Number>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'Optionen von Ticket Daten (z. B. <OTRS_TICKET_Number>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'Optionen des Tickets (z. B. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_TicketID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>).' => 'Opções de informação do chamado (ex.: <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_TicketID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>).',
@@ -3374,7 +3392,6 @@ sub Data {
         'Permission settings. You can select one or more groups to make the configurated stat visible for different agents.' => 'Configurações de permissão. Você pode selecionar um ou mais grupos para que as estatísticas configuradas sejam exibidas para agentes diferentes.',
         'Permissions to change the ticket owner in this group/queue.' => 'Permissões para alterar o chamado neste grupo/fila.  ',
         'PhoneView' => 'Chamada',
-        'Phone{CustomerUser}' => '',
         'Please command us.' => 'Bitte geben Sie uns Ihre Order!',
         'Please contact your admin' => 'Por favor, contate administrador do sistema!',
         'Please enter subject.' => 'Bitte den Betreffen eingeben.',
@@ -3413,7 +3430,9 @@ sub Data {
         'Save Search-Profile as Template?' => 'Salvar o Perfil de Busca como Modelo?',
         'Schedule' => 'Agenda',
         'Search Result' => 'Resultado da Busca',
+        'Search Ticket' => 'Procurar chamado',
         'Search for' => 'Pesquisar por',
+        'Search for customers (wildcards are allowed).' => 'Procurar por clientes (curingas são permitidos).',
         'Search-Template' => 'Modelo de Busca',
         'Secure Mode need to be enabled!' => 'Modo de Segurança deve ser ativado!',
         'Select Box' => 'Caixa de Seleção',
@@ -3455,12 +3474,10 @@ sub Data {
         'Source' => 'Origem',
         'Spell Check' => 'Checar Ortografia',
         'Split' => 'Dividir',
-        'Stat#' => 'Estatística Nº:.',
         'State Type' => 'Tipo de Estado',
         'Static-File' => 'Arquivo-Estático',
         'Stats-Area' => 'Área de Estatísticas',
         'Step %s of %s' => 'Schritt %s von %s',
-        'Street{CustomerUser}' => '',
         'Sub-Queue of' => 'Subfila de',
         'Sub-Service of' => 'Subserviço de',
         'Subscribe' => 'Monitorar',
@@ -3509,24 +3526,16 @@ sub Data {
         'Time units is a required field!' => 'Zeiteinheiten ist eine erforderliche Eingabe.',
         'Time units is a required field.' => 'Zeiteinheiten ist eine erforderliche Eingabe.',
         'Time units is required field.' => 'Zeiteinheiten ist eine erforderliche Eingabe.',
-        'Time1' => 'Zeit1',
-        'Time2' => 'Zeit2',
-        'Time3' => 'Zeit3',
-        'Time4' => 'Zeit4',
-        'Time5' => 'Zeit5',
-        'Time6' => 'Zeit6',
         'Timeover' => 'Tempo esgotado',
         'Times' => 'Hora',
         'Title is required.' => 'Ein Titel ist erforderlich',
         'Title of the stat.' => 'Título da estatística.',
-        'Title{CustomerUser}' => '',
         'Title{user}' => 'Anrede',
         'To get the article attribute (e. g. (<OTRS_AGENT_From>, <OTRS_AGENT_To>, <OTRS_AGENT_Cc>, <OTRS_AGENT_Subject> and <OTRS_AGENT_Body>).' => 'Para buscar o atributo do artigo (ex.: (<OTRS_AGENT_From>, <OTRS_AGENT_To>, <OTRS_AGENT_Cc>, <OTRS_AGENT_Subject> and <OTRS_AGENT_Body>).',
         'To get the article attribute (e. g. (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> and <OTRS_CUSTOMER_Body>).' => 'Para buscar o atributo do artigo (ex.: (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> and <OTRS_CUSTOMER_Body>).',
         'Top of Page' => 'Topo da Página',
         'Total hits' => 'Total de acertos',
         'U' => 'C',
-        'Unable to parse Online Repository index document!' => '',
         'Unlock Tickets' => 'Desbloquear Chamados',
         'Unsubscribe' => 'Desmonitorar',
         'Use utf-8 it your database supports it!' => 'Use UTF-8 se sua base de dados suportar!',
@@ -3539,7 +3548,6 @@ sub Data {
         'User-Name' => 'Benutzer-Name',
         'User-Number' => 'Número-Usuário',
         'Username for SMTP Auth' => 'Benutzername für die SMTP-Authentifizierung',
-        'Username{CustomerUser}' => '',
         'Users' => 'Usuários',
         'Users <-> Groups' => 'Usuários <-> Grupos',
         'Users <-> Groups Management' => 'Usuários <-> Gerenciamento de Grupos',
@@ -3549,6 +3557,7 @@ sub Data {
         'We stop eating if you wish us to do.' => 'Wenn Sie wollen, hören wir sogar auf zu essen.',
         'Web-Installer' => 'Instalador Web',
         'Welcome to OTRS' => 'Bem-vindo ao OTRS',
+        'Wildcards are allowed.' => 'Curingas são permitidos.',
         'With an invalid stat it isn\'t feasible to generate a stat.' => 'Com uma estatística no estado de inválida não é possível gerá-la.',
         'With the input and select fields you can configurate the stat at your needs. Which elements of a stat you can edit depends on your stats administrator who configurated the stat.' => 'Com os campos de inserção e seleção, você pode configurar a estatística de acordo com a sua necessidade. Os elementos da estatística que você pode editar dependem das permissões concedidas a você pelo administrador do sistema.',
         'Workflow Groups' => 'Grupos de Fluxo de Trabalho',
@@ -3567,7 +3576,6 @@ sub Data {
         'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' => 'Die E-Mail mit der Ticketnummer "<OTRS_TICKET>" ist an "<OTRS_BOUNCE_TO>" gebounced. Kontaktieren Sie diese Adresse für weitere Nachfragen.',
         'Your own Ticket' => 'Seu próprio chamado',
         'Your way to communicate with us is this thing called \'ticket\'.' => 'Sie können mit uns durch dieses Ding namens "Ticket" kommunizieren.',
-        'Zip{CustomerUser}' => '',
         'customer realname' => 'Nome real do cliente',
         'delete' => 'Excluir',
         'delete links' => 'Verknüpfungen löschen',
@@ -3596,7 +3604,6 @@ sub Data {
         'unknown' => 'desconhecido',
         'unread' => 'não lida',
         'up' => 'Acima',
-        'utf8' => '',
         'verified' => 'verificado',
         'x' => 'x',
 

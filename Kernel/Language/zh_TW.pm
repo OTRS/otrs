@@ -4,7 +4,7 @@
 # Copyright (C) 2009 Yiye Huang <yiyehuang at gmail.com>
 # Copyright (C) 2009 Qingjiu Jia <jiaqj at yahoo.com>
 # --
-# $Id: zh_TW.pm,v 1.21.2.3 2011-09-07 21:04:33 en Exp $
+# $Id: zh_TW.pm,v 1.21.2.4 2012-03-09 07:37:04 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,13 +17,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.21.2.3 $) [1];
+$VERSION = qw($Revision: 1.21.2.4 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2011-03-21 17:28:55
+    # Last translation file sync: 2012-03-09 08:32:14
 
     # possible charsets
     $Self->{Charset} = ['big5', ];
@@ -248,7 +248,7 @@ sub Data {
         'Facility' => '類別',
         'Time Zone' => '',
         'Pending till' => '等待至',
-        'Don\'t work with UserID 1 (System account)! Create new users!' => '不要使用 UserID 1 (系統賬號)! 請創建一個新的用戶!',
+        'Don\'t use the Superuser account to work with OTRS! Create new Agents and work with these accounts instead.' => '',
         'Dispatching by email To: field.' => '分派郵件到: 域.',
         'Dispatching by selected Queue.' => '分派郵件到所選隊列.',
         'No entry found!' => '無內容!',
@@ -261,6 +261,7 @@ sub Data {
         'Package not correctly deployed! You should reinstall the Package again!' => '軟件包展開不正常! 您需要再一次重新安裝這個軟件包',
         '%s is not writable!' => '',
         'Cannot create %s!' => '',
+        'Check to activate this date' => '',
         'Customer %s added' => '',
         'Role added!' => '',
         'Role updated!' => '',
@@ -547,6 +548,10 @@ sub Data {
         'last-search' => '',
         'QueueView' => '隊列視圖',
         'Ticket Escalation View' => '調整查看 Ticket',
+        'Message from' => '',
+        'End message' => '',
+        'Forwarded message from' => '',
+        'End forwarded message' => '',
         'new' => '新建',
         'open' => '打開',
         'Open' => '打開',
@@ -639,6 +644,7 @@ sub Data {
         'Agent (All with write permissions)' => '',
         'Agent (Owner)' => '',
         'Agent (Responsible)' => '',
+        'Ticket is locked by another agent.' => '',
         'New ticket notification' => '新 Ticket 通知',
         'Send me a notification if there is a new ticket in "My Queues".' => '如果我的隊列中有新的 Ticket，請通知我.',
         'Send new ticket notifications' => '',
@@ -723,6 +729,7 @@ sub Data {
         'History::Unsubscribe' => 'Removed subscription for user "%s".',
         'History::SystemRequest' => '',
         'History::ResponsibleUpdate' => '',
+        'History::ArchiveFlagUpdate' => '',
 
         # Template: AAAWeekDay
         'Sun' => '星期日',
@@ -771,7 +778,7 @@ sub Data {
 
         # Template: AdminCustomerCompany
         'Customer Company Management' => '管理客人單位',
-        'Wildcards are allowed.' => '',
+        'Wildcards like \'*\' are allowed.' => '',
         'Add customer company' => '',
         'Please enter a search term to look for customer companies.' => '',
         'Add Customer Company' => '增加客人單位',
@@ -789,8 +796,8 @@ sub Data {
         'This field is required and needs to be a valid email address.' => '',
         'This email address is not allowed due to the system configuration.' => '',
         'This email address failed MX check.' => '',
-        'The syntax of this email address is incorrect.' => '',
         'DNS problem, please check your configuration and the error log.' => '',
+        'The syntax of this email address is incorrect.' => '',
 
         # Template: AdminCustomerUserGroup
         'Manage Customer-Group Relations' => '',
@@ -798,7 +805,7 @@ sub Data {
         'This feature is disabled!' => '該功能已關閉',
         'Just use this feature if you want to define group permissions for customers.' => '',
         'Enable it here!' => '打開該功能',
-        'Search for customers (wildcards are allowed).' => '',
+        'Search for customers.' => '',
         'Edit Customer Default Groups' => '',
         'These groups are automatically assigned to all customers.' => '',
         'You can manage these groups via the configuration setting "CustomerGroupAlwaysGroups".' => '',
@@ -1024,6 +1031,7 @@ sub Data {
         'Install' => '安裝',
         'Install Package' => '',
         'Update repository information' => '',
+        'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' => '',
         'Online Repository' => '在線知識庫',
         'Vendor' => '提供者',
         'Module documentation' => '模塊文檔',
@@ -1193,10 +1201,12 @@ sub Data {
         'S/MIME Management' => 'S/MIME 管理',
         'Add certificate' => '',
         'Add private key' => '',
+        'Filter for certificates' => '',
+        'Filter for SMIME certs' => '',
         'In this way you can directly edit the certification and private keys in file system.' => '用這種方式您可以直接編輯証書和私匙',
         'See also' => '參見',
-        'Hash/Fingerprint' => '',
-        'Create/Expires' => '',
+        'Hash' => 'Hash',
+        'Create' => '創建',
         'Delete this certificate' => '',
         'Add Certificate' => '添加証書',
         'Add Private Key' => '添加私匙',
@@ -1238,9 +1248,9 @@ sub Data {
         'Unique agents' => '',
         'Unique customers' => '',
         'Kill all sessions' => '終止所有會話',
+        'Kill this session' => '',
         'Session' => '會話',
         'Kill' => '',
-        'Kill this session' => '',
         'Detail View for SessionID' => '',
 
         # Template: AdminSignature
@@ -1608,7 +1618,6 @@ sub Data {
         'Create New Phone Ticket' => '',
         'From customer' => '',
         'To queue' => '',
-        'Create' => '創建',
 
         # Template: AgentTicketPhoneOutbound
         'Phone call' => '電話',
@@ -1632,8 +1641,9 @@ sub Data {
 
         # Template: AgentTicketSearch
         'Search template' => '搜索模板',
-        'Create New' => '',
         'Create Template' => '',
+        'Create New' => '',
+        'Profile link' => '',
         'Save changes in template' => '',
         'Add another attribute' => '',
         'Output' => '搜索結果顯示為',
@@ -1760,7 +1770,9 @@ sub Data {
         'Only tickets created between' => '',
         'Search-Profile as Template?' => '',
         'Save as Template?' => '',
+        'Save as Template' => '',
         'Template Name' => '',
+        'Pick a profile name' => '',
         'Output to' => '',
 
         # Template: CustomerTicketSearchOpenSearchDescription
@@ -2062,6 +2074,7 @@ sub Data {
         'Change the ticket responsible!' => '',
         'Changes the owner of tickets to everyone (useful for ASP). Normally only agent with rw permissions in the queue of the ticket will be shown.' => '',
         'Checks the SystemID in ticket number detection for follow-ups (use "No" if SystemID has been changed after using the system).' => '',
+        'Christmas Eve' => '',
         'Comment for new history entries in the customer interface.' => '',
         'Companies' => '',
         'Company Tickets' => '',
@@ -2460,6 +2473,7 @@ sub Data {
         'Defines the receipent target of the phone ticket and the sender of the email ticket ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the agent interface.' => '',
         'Defines the receipent target of the tickets ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the customer interface.' => '',
         'Defines the search limit for the stats.' => '',
+        'Defines the sender for rejected emails.' => '',
         'Defines the separator between the agents real name and the given queue email address.' => '',
         'Defines the spacing of the legends.' => '',
         'Defines the standard permissions available for customers within the application. If more permissions are needed, you can enter them here. Permissions must be hard coded to be effective. Please ensure, when adding any of the afore mentioned permissions, that the "rw" permission remains the last entry.' => '',
@@ -2507,7 +2521,7 @@ sub Data {
         'Defines whether the free time field number 5 is optional or not.' => '',
         'Defines whether the free time field number 6 is optional or not.' => '',
         'Defines which states should be set automatically (Content), after the pending time of state (Key) has been reached.' => '',
-        'Delay time between autocomplete queries.' => '',
+        'Delay time between autocomplete queries in milliseconds.' => '',
         'Deletes a session if the session id is used with an invalid remote IP address.' => '',
         'Deletes requested sessions if they have timed out.' => '',
         'Determines if the list of possible queues to move to ticket into should be displayed in a dropdown list or in a new window in the agent interface. If "New Window" is set you can add a move note to the ticket.' => '',
@@ -2554,6 +2568,7 @@ sub Data {
         'Fetches packages via proxy. Overwrites "WebUserAgent::Proxy".' => '',
         'File that is displayed in the Kernel::Modules::AgentInfo module, if located under Kernel/Output/HTML/Standard/AgentInfo.dtl.' => '',
         'Filter incoming emails.' => '',
+        'First Christmas Day' => '',
         'Forces encoding of outgoing emails (7bit|8bit|quoted-printable|base64).' => '',
         'Forces to choose a different ticket state (from current) after lock action. Define the current state as key, and the next state after lock action as content.' => '',
         'Forces to unlock tickets after being moved to another queue.' => '',
@@ -2628,6 +2643,7 @@ sub Data {
         'IndexAccelerator: to choose your backend TicketViewAccelerator module. "RuntimeDB" generates each queue view on the fly from ticket table (no performance problems up to approx. 60.000 tickets in total and 6.000 open tickets in the system). "StaticDB" is the most powerful module, it uses an extra ticket-index table that works like a view (recommended if more than 80.000 and 6.000 open tickets are stored in the system). Use the script "bin/otrs.RebuildTicketIndex.pl" for initial index update.' => '',
         'Install ispell or aspell on the system, if you want to use a spell checker. Please specify the path to the aspell or ispell binary on your operating system.' => '',
         'Interface language' => '',
+        'International Workers\' Day' => '',
         'It is possible to configure different skins, for example to distinguish between diferent agents, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in "Key" should match the domain, and the value in "Content" should be a valid skin on your system. Please see the example entries for the proper form of the regex.' => '',
         'It is possible to configure different skins, for example to distinguish between diferent customers, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in "Key" should match the domain, and the value in "Content" should be a valid skin on your system. Please see the example entries for the proper form of the regex.' => '',
         'It is possible to configure different themes, for example to distinguish between agents and customers, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in "Key" should match the domain, and the value in "Content" should be a valid theme on your system. Please see the example entries for the proper form of the regex.' => '',
@@ -2663,7 +2679,6 @@ sub Data {
         'Manage periodic tasks.' => '',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' => '',
         'Max size of the subjects in an email reply.' => '',
-        'Max. displayed tickets' => '',
         'Maximal auto email responses to own email-address a day (Loop-Protection).' => '',
         'Maximal size in KBytes for mails that can be fetched via POP3/POP3S/IMAP/IMAPS (KBytes).' => '',
         'Maximum number of tickets to be displayed in the result of a search in the agent interface.' => '',
@@ -2692,6 +2707,8 @@ sub Data {
         'Module to use database filter storage.' => '',
         'My Tickets' => '',
         'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.' => '',
+        'New Year\'s Day' => '',
+        'New Year\'s Eve' => '',
         'New email ticket' => '',
         'New phone ticket' => '',
         'Next possible ticket states after adding a phone note in the ticket phone outbound screen of the agent interface.' => '',
@@ -2762,6 +2779,7 @@ sub Data {
         'Saves the login and password on the session table in the database, if "DB" was selected for SessionModule.' => '',
         'Search backend default router.' => '',
         'Search backend router.' => '',
+        'Second Christmas Day' => '',
         'Select your frontend Theme.' => '界面主題.',
         'Selects the module to handle uploads via the web interface. "DB" stores all uploads in the database, "FS" uses the file system.' => '',
         'Selects the ticket number generator module. "AutoIncrement" increments the ticket number, the SystemID and the counter are used with SystemID.counter format (e.g. 1010138, 1010139). With "Date" the ticket numbers will be generated by the current date, the SystemID and the counter. The format looks like Year.Month.Day.SystemID.counter (e.g. 200206231010138, 200206231010139). With "DateChecksum"  the counter will be appended as checksum to the string of date and SystemID. The checksum will be rotated on a daily basis. The format looks like Year.Month.Day.SystemID.Counter.CheckSum (e.g. 2002070110101520, 2002070110101535). "Random" generates randomized ticket numbers in the format "SystemID.Random" (e.g. 100057866352, 103745394596).' => '',
@@ -2816,7 +2834,6 @@ sub Data {
         'Sets the minimal ticket counter size (if "AutoIncrement" was selected as TicketNumberGenerator). Default is 5, this means the counter starts from 10000.' => '',
         'Sets the minimum number of characters before autocomplete query is sent.' => '',
         'Sets the number of lines that are displayed in text messages (e.g. ticket lines in the QueueZoom).' => '',
-        'Sets the number of lines that are displayed in the preview of messages (e.g. for tickets in the QueueView).' => '',
         'Sets the number of search results to be displayed for the autocomplete feature.' => '',
         'Sets the options for PGP binary.' => '',
         'Sets the order of the different items in the customer preferences view.' => '',
@@ -3042,12 +3059,6 @@ sub Data {
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. In this text area you can define this text (This text cannot be changed by the agent).' => '',
         'When tickets are merged, the customer can be informed per email by setting the check box "Inform Sender". In this text area, you can define a pre-formatted text which can later be modified by the agents.' => '',
         'Your language' => '',
-        'New Year\'s Day' => '',
-        'International Workers\' Day' => '',
-        'Christmas Eve' => '',
-        'First Christmas Day' => '',
-        'Second Christmas Day' => '',
-        'New Year\'s Eve' => '',
 
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
@@ -3189,6 +3200,7 @@ sub Data {
         'Do you really want to reinstall this package (all manual changes get lost)?' => '您是否准備好重新安裝這些軟件包 (所有手工設置將會不見)?',
         'Don\'t forget to add a new user to groups and/or roles!' => '不要忘記增加一個用戶到組和角色!',
         'Don\'t forget to add a new user to groups!' => '不要忘記增加新的用戶到組!',
+        'Don\'t work with UserID 1 (System account)! Create new users!' => '不要使用 UserID 1 (系統賬號)! 請創建一個新的用戶!',
         'Download Settings' => '下載設置',
         'Download all system config changes.' => '下載所有的系統配置變化.',
         'Drop Database' => '刪除數據庫',
@@ -3218,7 +3230,6 @@ sub Data {
         'Group Ro' => '隻讀權限的組',
         'Group based' => '基於組的',
         'Group selection' => '選擇組',
-        'Hash' => 'Hash',
         'Have a lot of fun!' => 'Have a lot of fun!',
         'Here you can define the value series. You have the possibility to select one or two elements. Then you can select the attributes of elements. Each attribute will be shown as single value series. If you don\'t select any attribute all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => '在這裡，您可以定義一系列的值。你有可能選擇一個或兩個因素。然后您可以選擇元素的屬性。每個屬性將顯示為單一的值。如果您不選擇任何屬性, 那麼當您生成一個統計的時候所有元素的屬性將被使用。並且一個新的屬性被更新到上次配置中',
         'Here you can define the x-axis. You can select one element via the radio button. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => '在這裡，您可以定義x軸。您可以選擇的一個因素通過單選按鈕。如果你沒有選擇，所有元素的屬性將被使用當您生成一個統計的時候。並且一個新的屬性被更新到上次配置中',

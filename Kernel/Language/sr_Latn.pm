@@ -1,9 +1,9 @@
 # --
 # Kernel/Language/sr_Latn.pm - provides Serbian language Latin translation
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Milorad Jovanoviæ <j.milorad at gmail.com>
 # --
-# $Id: sr_Latn.pm,v 1.10.2.3 2011-09-07 21:01:28 en Exp $
+# $Id: sr_Latn.pm,v 1.10.2.4 2012-03-09 07:37:05 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.10.2.3 $) [1];
+$VERSION = qw($Revision: 1.10.2.4 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2011-03-21 17:28:50
+    # Last translation file sync: 2012-03-09 08:32:08
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-2', ];
@@ -246,7 +246,7 @@ sub Data {
         'Facility' => 'Instalacija',
         'Time Zone' => 'Vremenska zona',
         'Pending till' => 'Èeka do',
-        'Don\'t work with UserID 1 (System account)! Create new users!' => 'Molimo da ne koristite "UserID 1" (Sistemski nalog) za rad! Napravite nove naloge!',
+        'Don\'t use the Superuser account to work with OTRS! Create new Agents and work with these accounts instead.' => '',
         'Dispatching by email To: field.' => 'Otprema E-mejlom za: Polje.',
         'Dispatching by selected Queue.' => 'Otprema kroz izabrani red.',
         'No entry found!' => 'Unos nije pronaðen!',
@@ -259,6 +259,7 @@ sub Data {
         'Package not correctly deployed! You should reinstall the Package again!' => 'Paket nije korektno instaliran! Trebalo bi ga da ponovo instalirate!',
         '%s is not writable!' => 'Ne mo¾e se upisivati na %s!',
         'Cannot create %s!' => 'Ne mo¾e se kreirati %s!',
+        'Check to activate this date' => '',
         'Customer %s added' => 'Dodan korisnik %s.',
         'Role added!' => 'Dodana uloga!',
         'Role updated!' => 'A¾urirana uloga',
@@ -545,6 +546,10 @@ sub Data {
         'last-search' => '',
         'QueueView' => 'Pregled reda',
         'Ticket Escalation View' => 'Eskalacioni pregled tiketa',
+        'Message from' => '',
+        'End message' => '',
+        'Forwarded message from' => '',
+        'End forwarded message' => '',
         'new' => 'novo',
         'open' => 'otvoreni',
         'Open' => 'Otvoreni',
@@ -637,6 +642,7 @@ sub Data {
         'Agent (All with write permissions)' => 'Zaposleni (svi sa dozvolom za izmene)',
         'Agent (Owner)' => 'Zaposleni (Vlasnik)',
         'Agent (Responsible)' => 'Zaposleni (Odgovoran)',
+        'Ticket is locked by another agent.' => '',
         'New ticket notification' => 'Obave¹tenje o novom tiketu',
         'Send me a notification if there is a new ticket in "My Queues".' => 'Po¹alji mi obave¹tenje za novi tiket u "Mojim Redovima".',
         'Send new ticket notifications' => 'Po¹alji obave¹tenja o novim tiketima',
@@ -721,6 +727,7 @@ sub Data {
         'History::Unsubscribe' => 'Pretplata za korisnika "%s" iskljuèena.',
         'History::SystemRequest' => 'Sistemski zahtev',
         'History::ResponsibleUpdate' => 'Novi odgovorni je "%s" (ID=%s).',
+        'History::ArchiveFlagUpdate' => '',
 
         # Template: AAAWeekDay
         'Sun' => 'ned',
@@ -769,7 +776,7 @@ sub Data {
 
         # Template: AdminCustomerCompany
         'Customer Company Management' => 'Ureðivanje korisnièkih firmi',
-        'Wildcards are allowed.' => 'D¾oker znakovi su dozvoljeni.',
+        'Wildcards like \'*\' are allowed.' => '',
         'Add customer company' => 'Dodaj korisnièku firmu',
         'Please enter a search term to look for customer companies.' => 'Molimo unesite frazu za pronala¾enje korisnièkih firmi.',
         'Add Customer Company' => 'Dodaj korisnièku firmu',
@@ -787,8 +794,8 @@ sub Data {
         'This field is required and needs to be a valid email address.' => 'Ovo je obavezno ponje i mora da bude isparavna mejl adresa.',
         'This email address is not allowed due to the system configuration.' => 'Ova e-mejl adresa nije dozvoljena zbog sistemske konfiguracije.',
         'This email address failed MX check.' => 'Ova e-mejl adresa ne zadovoljava "MX" proveru.',
-        'The syntax of this email address is incorrect.' => 'Sintaksa ove e-mejl adrese je neispravna.',
         'DNS problem, please check your configuration and the error log.' => '',
+        'The syntax of this email address is incorrect.' => 'Sintaksa ove e-mejl adrese je neispravna.',
 
         # Template: AdminCustomerUserGroup
         'Manage Customer-Group Relations' => 'Upravljanje relacijama Korisnik-Grupa',
@@ -796,7 +803,7 @@ sub Data {
         'This feature is disabled!' => 'Ova funkcija je iskljuèena!',
         'Just use this feature if you want to define group permissions for customers.' => 'Upotrebite ovu funkciju ako ¾elite da defini¹ete grupne dozvole za korisnike.',
         'Enable it here!' => 'Aktivirajte je ovde!',
-        'Search for customers (wildcards are allowed).' => 'Naði korisnika (d¾oker znaci su dozvoljeni).',
+        'Search for customers.' => '',
         'Edit Customer Default Groups' => 'Uredi podrazumevane grupe za korisnika',
         'These groups are automatically assigned to all customers.' => 'Ove grupe su automatski dodeljene svim korisnicima',
         'You can manage these groups via the configuration setting "CustomerGroupAlwaysGroups".' => 'Mo¾ete upravljati ovim grupama preko konfiguracionih pode¹avanlja "..."',
@@ -1022,6 +1029,7 @@ sub Data {
         'Install' => 'Instaliraj',
         'Install Package' => 'Instaliraj paket',
         'Update repository information' => 'A¾uriraj informacije o spremi¹tu',
+        'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' => '',
         'Online Repository' => 'Mre¾no spremi¹te',
         'Vendor' => 'Prodavac',
         'Module documentation' => 'Dokumentacija kodula',
@@ -1191,10 +1199,12 @@ sub Data {
         'S/MIME Management' => '"S/MIME" upravljanje',
         'Add certificate' => 'Dodaj sertifikat',
         'Add private key' => 'Dodaj privatni kljuè',
+        'Filter for certificates' => '',
+        'Filter for SMIME certs' => '',
         'In this way you can directly edit the certification and private keys in file system.' => 'Na ovaj naèin mo¾ete direktno da ureðujete certifikate i privatne kljuèeve u sistemu datoteka.',
         'See also' => 'Pogledaj jo¹',
-        'Hash/Fingerprint' => '"Hash"/Otisak',
-        'Create/Expires' => 'Kreiran/Istièe',
+        'Hash' => 'Hash',
+        'Create' => 'Otvori',
         'Delete this certificate' => 'Obri¹i ovaj sertifikat',
         'Add Certificate' => 'Dodaj sertifikat',
         'Add Private Key' => 'Dodaj privatni kljuè',
@@ -1236,9 +1246,9 @@ sub Data {
         'Unique agents' => 'Jedinsveni zapoleni',
         'Unique customers' => 'Jedinstveni korisnici',
         'Kill all sessions' => 'Ugasi sve sesije',
+        'Kill this session' => 'Ugasi ovu sesiju',
         'Session' => 'Sesija',
         'Kill' => 'Ugasi',
-        'Kill this session' => 'Ugasi ovu sesiju',
         'Detail View for SessionID' => 'Detaljni pregled za ID sesije',
 
         # Template: AdminSignature
@@ -1606,7 +1616,6 @@ sub Data {
         'Create New Phone Ticket' => 'Otvori novi telefonski tiket',
         'From customer' => 'Od Korisnika',
         'To queue' => 'U Red',
-        'Create' => 'Otvori',
 
         # Template: AgentTicketPhoneOutbound
         'Phone call' => 'Telefonski poziv',
@@ -1630,8 +1639,9 @@ sub Data {
 
         # Template: AgentTicketSearch
         'Search template' => '©ablon pretrage',
-        'Create New' => 'Napravi nov',
         'Create Template' => 'Napravi ¹ablon',
+        'Create New' => 'Napravi nov',
+        'Profile link' => '',
         'Save changes in template' => 'Saèuvaj promene u ¹ablonu',
         'Add another attribute' => 'Dodaj jo¹ jedan atribut',
         'Output' => 'Pregled rezultata',
@@ -1758,7 +1768,9 @@ sub Data {
         'Only tickets created between' => 'Samo tiketi otvoreni izmeðu',
         'Search-Profile as Template?' => 'Profil pretra¾ivanja kao ¹ablon?',
         'Save as Template?' => 'Saèuvati kao ¹ablon?',
+        'Save as Template' => '',
         'Template Name' => 'Naziv ¹ablona',
+        'Pick a profile name' => '',
         'Output to' => 'Izlaz na',
 
         # Template: CustomerTicketSearchOpenSearchDescription
@@ -2060,6 +2072,7 @@ sub Data {
         'Change the ticket responsible!' => 'Promena odgovornog za tiket!',
         'Changes the owner of tickets to everyone (useful for ASP). Normally only agent with rw permissions in the queue of the ticket will be shown.' => '',
         'Checks the SystemID in ticket number detection for follow-ups (use "No" if SystemID has been changed after using the system).' => '',
+        'Christmas Eve' => '',
         'Comment for new history entries in the customer interface.' => 'Komentar za nove stavke istorijata u korisnièkom interfejsu.',
         'Companies' => 'Firme',
         'Company Tickets' => 'Tiketi firmi',
@@ -2458,6 +2471,7 @@ sub Data {
         'Defines the receipent target of the phone ticket and the sender of the email ticket ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the agent interface.' => '',
         'Defines the receipent target of the tickets ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the customer interface.' => '',
         'Defines the search limit for the stats.' => '',
+        'Defines the sender for rejected emails.' => '',
         'Defines the separator between the agents real name and the given queue email address.' => '',
         'Defines the spacing of the legends.' => 'Odreðuje razmake u legendi.',
         'Defines the standard permissions available for customers within the application. If more permissions are needed, you can enter them here. Permissions must be hard coded to be effective. Please ensure, when adding any of the afore mentioned permissions, that the "rw" permission remains the last entry.' => '',
@@ -2505,7 +2519,7 @@ sub Data {
         'Defines whether the free time field number 5 is optional or not.' => 'Odreðuje da li je slobodno polje vremena broj 5 opciono ili ne.',
         'Defines whether the free time field number 6 is optional or not.' => 'Odreðuje da li je slobodno polje vremena broj 6 opciono ili ne.',
         'Defines which states should be set automatically (Content), after the pending time of state (Key) has been reached.' => '',
-        'Delay time between autocomplete queries.' => 'Vreme zadr¾avanja izmeðu samokompletirajuæih upita.',
+        'Delay time between autocomplete queries in milliseconds.' => '',
         'Deletes a session if the session id is used with an invalid remote IP address.' => '',
         'Deletes requested sessions if they have timed out.' => '',
         'Determines if the list of possible queues to move to ticket into should be displayed in a dropdown list or in a new window in the agent interface. If "New Window" is set you can add a move note to the ticket.' => '',
@@ -2552,6 +2566,7 @@ sub Data {
         'Fetches packages via proxy. Overwrites "WebUserAgent::Proxy".' => '',
         'File that is displayed in the Kernel::Modules::AgentInfo module, if located under Kernel/Output/HTML/Standard/AgentInfo.dtl.' => '',
         'Filter incoming emails.' => 'Filtriranje dolaznih poruka.',
+        'First Christmas Day' => '',
         'Forces encoding of outgoing emails (7bit|8bit|quoted-printable|base64).' => '',
         'Forces to choose a different ticket state (from current) after lock action. Define the current state as key, and the next state after lock action as content.' => '',
         'Forces to unlock tickets after being moved to another queue.' => '',
@@ -2626,6 +2641,7 @@ sub Data {
         'IndexAccelerator: to choose your backend TicketViewAccelerator module. "RuntimeDB" generates each queue view on the fly from ticket table (no performance problems up to approx. 60.000 tickets in total and 6.000 open tickets in the system). "StaticDB" is the most powerful module, it uses an extra ticket-index table that works like a view (recommended if more than 80.000 and 6.000 open tickets are stored in the system). Use the script "bin/otrs.RebuildTicketIndex.pl" for initial index update.' => '',
         'Install ispell or aspell on the system, if you want to use a spell checker. Please specify the path to the aspell or ispell binary on your operating system.' => '',
         'Interface language' => 'Jezik interfejsa',
+        'International Workers\' Day' => '',
         'It is possible to configure different skins, for example to distinguish between diferent agents, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in "Key" should match the domain, and the value in "Content" should be a valid skin on your system. Please see the example entries for the proper form of the regex.' => '',
         'It is possible to configure different skins, for example to distinguish between diferent customers, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in "Key" should match the domain, and the value in "Content" should be a valid skin on your system. Please see the example entries for the proper form of the regex.' => '',
         'It is possible to configure different themes, for example to distinguish between agents and customers, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in "Key" should match the domain, and the value in "Content" should be a valid theme on your system. Please see the example entries for the proper form of the regex.' => '',
@@ -2661,7 +2677,6 @@ sub Data {
         'Manage periodic tasks.' => 'Upravljanje povremenim zadacima.',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' => '',
         'Max size of the subjects in an email reply.' => '',
-        'Max. displayed tickets' => 'Maksimalni broj prikazanih tiketa',
         'Maximal auto email responses to own email-address a day (Loop-Protection).' => '',
         'Maximal size in KBytes for mails that can be fetched via POP3/POP3S/IMAP/IMAPS (KBytes).' => '',
         'Maximum number of tickets to be displayed in the result of a search in the agent interface.' => '',
@@ -2690,6 +2705,8 @@ sub Data {
         'Module to use database filter storage.' => '',
         'My Tickets' => 'Moji tiketi',
         'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.' => '',
+        'New Year\'s Day' => '',
+        'New Year\'s Eve' => '',
         'New email ticket' => 'Novi imejl tiket',
         'New phone ticket' => 'Novi telefonski tiket',
         'Next possible ticket states after adding a phone note in the ticket phone outbound screen of the agent interface.' => '',
@@ -2760,6 +2777,7 @@ sub Data {
         'Saves the login and password on the session table in the database, if "DB" was selected for SessionModule.' => '',
         'Search backend default router.' => '',
         'Search backend router.' => '',
+        'Second Christmas Day' => '',
         'Select your frontend Theme.' => '',
         'Selects the module to handle uploads via the web interface. "DB" stores all uploads in the database, "FS" uses the file system.' => '',
         'Selects the ticket number generator module. "AutoIncrement" increments the ticket number, the SystemID and the counter are used with SystemID.counter format (e.g. 1010138, 1010139). With "Date" the ticket numbers will be generated by the current date, the SystemID and the counter. The format looks like Year.Month.Day.SystemID.counter (e.g. 200206231010138, 200206231010139). With "DateChecksum"  the counter will be appended as checksum to the string of date and SystemID. The checksum will be rotated on a daily basis. The format looks like Year.Month.Day.SystemID.Counter.CheckSum (e.g. 2002070110101520, 2002070110101535). "Random" generates randomized ticket numbers in the format "SystemID.Random" (e.g. 100057866352, 103745394596).' => '',
@@ -2814,7 +2832,6 @@ sub Data {
         'Sets the minimal ticket counter size (if "AutoIncrement" was selected as TicketNumberGenerator). Default is 5, this means the counter starts from 10000.' => '',
         'Sets the minimum number of characters before autocomplete query is sent.' => '',
         'Sets the number of lines that are displayed in text messages (e.g. ticket lines in the QueueZoom).' => '',
-        'Sets the number of lines that are displayed in the preview of messages (e.g. for tickets in the QueueView).' => '',
         'Sets the number of search results to be displayed for the autocomplete feature.' => '',
         'Sets the options for PGP binary.' => '',
         'Sets the order of the different items in the customer preferences view.' => '',
@@ -3040,12 +3057,6 @@ sub Data {
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. In this text area you can define this text (This text cannot be changed by the agent).' => 'Kada su tiketi spojeni, tiketu koji nije aktivan æe automatski biti dodana bele¹ka. U prostoru za tekst mo¾ete da defini¹ete ovaj tekst (Zaposleni ne mogu menjati ovaj tekst).',
         'When tickets are merged, the customer can be informed per email by setting the check box "Inform Sender". In this text area, you can define a pre-formatted text which can later be modified by the agents.' => 'Kada su tiketi spojeni, korisnik mo¾e biti informisan imejlom postavljanjem polje za potvrdu "Obavesti po¹iljaoca". U prostoru za tekst, mo¾ete definisati unapred formatirani tekst koji kasnije biti modifikovan od strane zaposlenih.',
         'Your language' => 'Va¹ jezik',
-        'New Year\'s Day' => '',
-        'International Workers\' Day' => '',
-        'Christmas Eve' => '',
-        'First Christmas Day' => '',
-        'Second Christmas Day' => '',
-        'New Year\'s Eve' => '',
 
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
@@ -3167,6 +3178,7 @@ sub Data {
         'Create new Phone Ticket' => 'Otvori novi telefonski tiket',
         'Create new database' => 'Kreirajte novu bazu podataka',
         'Create your first Ticket' => 'Otvorita va¹ prvi tiket',
+        'Create/Expires' => 'Kreiran/Istièe',
         'CreateTicket' => 'Otvaranje tiketa',
         'Current Impact Rating' => 'Ocena trenutnog uticaja',
         'Customer Move Notify' => 'Obave¹tenje o preme¹tanju korisnika',
@@ -3190,6 +3202,7 @@ sub Data {
         'Default Charset' => 'Podrazumevani karakterset',
         'Default Language' => 'Podrazumevani jezik',
         'Default skin for otrs 3.0 interface.' => 'Podrazumevani izgled "OTRS" 3.0 interfejsa.',
+        'Delay time between autocomplete queries.' => 'Vreme zadr¾avanja izmeðu samokompletirajuæih upita.',
         'Delete old database' => 'Obri¹i staru bazu podataka',
         'Detail' => 'Detalji',
         'Diff' => 'Razlike',
@@ -3199,6 +3212,7 @@ sub Data {
         'Do you really want to reinstall this package (all manual changes get lost)?' => 'Da li stvarno ¾elite da reinstalirate ovaj paket (sve ruène promene æe biti izgubljene)?',
         'Don\'t forget to add a new user to groups and/or roles!' => 'Ne zaboravite da dodate novog korisnika u grupe i uloge!',
         'Don\'t forget to add a new user to groups!' => 'Ne zaboravite da dodate novog korisnika nekoj grupi!',
+        'Don\'t work with UserID 1 (System account)! Create new users!' => 'Molimo da ne koristite "UserID 1" (Sistemski nalog) za rad! Napravite nove naloge!',
         'Download Settings' => 'Preuzmite pode¹avanja',
         'Drop Database' => 'Obri¹i bazu podataka',
         'Dynamic-Object' => 'Dinamièki objekat',
@@ -3235,7 +3249,7 @@ sub Data {
         'Group Ro' => 'Grupa "ro"',
         'Group based' => 'Na osnovu grupe',
         'Group selection' => 'Izbor grupe',
-        'Hash' => 'Hash',
+        'Hash/Fingerprint' => '"Hash"/Otisak',
         'Have a lot of fun!' => 'U¾ivajte!',
         'Have you lost your password?' => 'Da li ste izgubili va¹u lozinku?',
         'Help' => 'Pomoæ',
@@ -3288,6 +3302,7 @@ sub Data {
         'Mail Management' => 'Upravljanje po¹tom',
         'Mailbox' => 'Po¹tansko sanduèe',
         'Match' => 'Poklapanje',
+        'Max. displayed tickets' => 'Maksimalni broj prikazanih tiketa',
         'Max. shown Tickets a page' => 'Maksimalni broj tiketa po strani',
         'Message for new Owner' => 'Poruka za novog vlasnika',
         'Message sent to' => 'Poruka poslata za',
@@ -3400,6 +3415,7 @@ sub Data {
         'Search Result' => 'Rezultat pretrage',
         'Search Ticket' => 'Pretra¾ivanje tiketa',
         'Search for' => 'Potraga za',
+        'Search for customers (wildcards are allowed).' => 'Naði korisnika (d¾oker znaci su dozvoljeni).',
         'Secure Mode need to be enabled!' => 'Potrebno je aktivirati siguran mod!',
         'Select Box' => 'Okvir za izbor',
         'Select Box Result' => 'Select Box Ergebnis',
@@ -3521,6 +3537,7 @@ sub Data {
         'Watch notification' => 'Praæenje obave¹tenja',
         'Web-Installer' => 'Web-Instalacija',
         'Welcome to OTRS' => 'Dobrodo¹li u "OTRS"',
+        'Wildcards are allowed.' => 'D¾oker znakovi su dozvoljeni.',
         'With the input and select fields you can configurate the stat at your needs. Which elements of a stat you can edit depends on your stats administrator who configurated the stat.' => 'Unosom i izborom polja mo¾ete konfigurisati statistiku prema va¹im potreama. Koje elemente statistike mo¾ete menjati zavisi od administratora koji je konfigurisao statistiku.',
         'Workflow Groups' => '"Workflow" Grupe',
         'Yes, save it with name' => 'Da, saèuvaj sa imenom',

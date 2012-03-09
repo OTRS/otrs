@@ -4,7 +4,7 @@
 # Copyright (C) 2008 Hooman Mesgary <info at mesgary.com>
 # Copyright (C) 2009 Afshar Mohebbi <afshar.mohebbi at gmail.com>
 # --
-# $Id: fa.pm,v 1.87.2.4 2011-09-07 21:01:29 en Exp $
+# $Id: fa.pm,v 1.87.2.5 2012-03-09 07:37:04 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,13 +17,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.87.2.4 $) [1];
+$VERSION = qw($Revision: 1.87.2.5 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2010-12-01 16:24:49
+    # Last translation file sync: 2012-03-09 08:31:50
 
     # possible charsets
     $Self->{Charset} = ['utf-8', 'utf-8', ];
@@ -41,6 +41,7 @@ sub Data {
     $Self->{TextDirection} = 'rtl';
 
     $Self->{Translation} = {
+
         # Template: AAABase
         'Yes' => 'بله',
         'No' => 'خیر',
@@ -57,17 +58,23 @@ sub Data {
         'Reset' => 'ورود مجدد',
         'last' => 'آخرین',
         'before' => 'قبل از',
+        'Today' => 'امروز ',
+        'Tomorrow' => 'فردا ',
+        'Next Week' => 'هفته آینده ',
         'day' => 'روز',
         'days' => 'روز',
         'day(s)' => 'روز',
+        'd' => '',
         'hour' => 'ساعت',
         'hours' => 'ساعت',
         'hour(s)' => 'ساعت',
         'Hours' => 'ساعت',
+        'h' => '',
         'minute' => 'دقیقه',
         'minutes' => 'دقیقه',
         'minute(s)' => 'دقیقه',
         'Minutes' => '',
+        'm' => '',
         'month' => 'ماه',
         'months' => 'ماه',
         'month(s)' => 'ماه',
@@ -79,6 +86,7 @@ sub Data {
         'second(s)' => 'ثانیه',
         'seconds' => 'ثانیه',
         'second' => 'ثانیه',
+        's' => '',
         'wrote' => 'نوشته شد',
         'Message' => 'پیام',
         'Error' => 'خطا',
@@ -243,7 +251,7 @@ sub Data {
         'Facility' => 'سهولت',
         'Time Zone' => 'منطقه زمانی',
         'Pending till' => 'تا زمانی که',
-        'Don\'t work with UserID 1 (System account)! Create new users!' => 'با نام کاربری سیستم کار نکنید برای ادامه یک نام کاربری جدید بسازید.!',
+        'Don\'t use the Superuser account to work with OTRS! Create new Agents and work with these accounts instead.' => 'برای کار با سیستم از حساب کاربری پیش‌فرض استفاده ننمایید! لطفا یک کارشناس جدید ساخته و با آن کار نمایید.',
         'Dispatching by email To: field.' => 'ارسال با پست الکترونیکی به:فیلد',
         'Dispatching by selected Queue.' => 'ارسال بوسیله لیست انتخاب شده',
         'No entry found!' => 'موردی پیدا نشد!',
@@ -256,6 +264,7 @@ sub Data {
         'Package not correctly deployed! You should reinstall the Package again!' => 'نرم افزار بدرستی نصب نشده است، شما میبایست عملیات نصب را مجددا اجرا نمائید.',
         '%s is not writable!' => '%s قابل نوشتن نمی‌باشد!',
         'Cannot create %s!' => '%s نمی‌تواند ساخته شود!',
+        'Check to activate this date' => '',
         'Customer %s added' => 'مشترک %s افزوده شد',
         'Role added!' => 'نقش افزوده شد!',
         'Role updated!' => 'نقش به روزرسانی شد!',
@@ -536,6 +545,16 @@ sub Data {
         'Watched Tickets Total' => 'تمامی درخواست‌های مشاهده شده',
         'Watched Tickets New' => 'درخواست‌های مشاهده شده جدید',
         'Watched Tickets Reminder Reached' => 'درخواست‌های مشاهده شدهکه زمان یادآوری آن رسیده',
+        'All tickets' => 'همه درخواست‌ها',
+        'Tickets available' => 'درخواست‌های در دسترس',
+        'Escalation' => '',
+        'last-search' => '',
+        'QueueView' => 'نمای صف درخواست',
+        'Ticket Escalation View' => 'نمای درخواست‌های خیلی مهم',
+        'Message from' => '',
+        'End message' => '',
+        'Forwarded message from' => '',
+        'End forwarded message' => '',
         'new' => 'جدید',
         'open' => 'باز',
         'Open' => 'باز',
@@ -628,6 +647,7 @@ sub Data {
         'Agent (All with write permissions)' => 'کاربر (همه با درسترسی‌های نوشتن)',
         'Agent (Owner)' => 'کاربر (صاحب)',
         'Agent (Responsible)' => 'کاربر (مسئول)',
+        'Ticket is locked by another agent.' => '',
         'New ticket notification' => 'اعلام درخواست جدید',
         'Send me a notification if there is a new ticket in "My Queues".' => 'دریافت درخواست جدید را به من اطلاع بده.',
         'Send new ticket notifications' => 'ارسال اعلان‌های درخواست جدید',
@@ -672,6 +692,8 @@ sub Data {
         'All new tickets, these tickets have not been worked on yet' => 'تمام درخواست‌های جدید، روی این درخواست‌ها هنوز کاری انجام شده',
         'All escalated tickets' => 'تمام درخواست‌هایی که زمان پاسخگویی آن‌ها رو به پایان است',
         'All tickets with a reminder set where the reminder date has been reached' => 'تمام درخواست‌هایی که برای آن‌ها یک یادآوری تنظیم شده و زمان یادآوری فرا رسیده است',
+        'Archived tickets' => '',
+        'Unarchived tickets' => '',
         'History::Move' => 'سابقه::انتقال',
         'History::TypeUpdate' => 'نوع بروز شده به %s (ID=%s).',
         'History::ServiceUpdate' => ' خدمات بروز شده به %s (ID=%s).',
@@ -710,6 +732,7 @@ sub Data {
         'History::Unsubscribe' => 'عضویت حذف شده برای کاربر"%s".',
         'History::SystemRequest' => 'سابقه::درخواست سیستم',
         'History::ResponsibleUpdate' => 'سابقه::به روزرسانی مسئولیت',
+        'History::ArchiveFlagUpdate' => '',
 
         # Template: AAAWeekDay
         'Sun' => 'یکشنبه',
@@ -719,11 +742,6 @@ sub Data {
         'Thu' => 'پنجشنبه',
         'Fri' => 'جمعه',
         'Sat' => 'شنبه',
-
-        #Template: AgentTicketView
-        'All tickets' => 'همه درخواست‌ها',
-        'Tickets available' => 'درخواست‌های در دسترس',
-        'QueueView' => 'نمای صف درخواست',
 
         # Template: AdminAttachment
         'Attachment Management' => 'مدیریت پیوست‌ها',
@@ -763,7 +781,7 @@ sub Data {
 
         # Template: AdminCustomerCompany
         'Customer Company Management' => 'مدیریت شرکت مشترک',
-        'Wildcards are allowed.' => 'کاراکترهای عام مجازند.',
+        'Wildcards like \'*\' are allowed.' => '',
         'Add customer company' => 'افزودن شرکت مشترک',
         'Please enter a search term to look for customer companies.' => 'لطفا عبارت جستجو را وارد کنید تا شرکت‌های مشترک را جستجو نمایید.',
         'Add Customer Company' => 'افزودن شرکت مشترک ',
@@ -781,8 +799,8 @@ sub Data {
         'This field is required and needs to be a valid email address.' => 'این گزینه مورد نیاز است و باید یک آدرس ایمیل معتبر باشد.',
         'This email address is not allowed due to the system configuration.' => 'این آدرس ایمیل با توجه به پیکربندی سیستم، نامعتبر است.',
         'This email address failed MX check.' => 'این آدرس ایمیل در چک MX ناموفق بوده است.',
-        'The syntax of this email address is incorrect.' => 'گرامر این آدرس ایمیل نادرست می‌باشد.',
         'DNS problem, please check your configuration and the error log.' => '',
+        'The syntax of this email address is incorrect.' => 'گرامر این آدرس ایمیل نادرست می‌باشد.',
 
         # Template: AdminCustomerUserGroup
         'Manage Customer-Group Relations' => 'مدیریت روابط مشترک-گروه',
@@ -790,7 +808,7 @@ sub Data {
         'This feature is disabled!' => 'این ویژگی غیر فعال است',
         'Just use this feature if you want to define group permissions for customers.' => 'فقط زمانی از این ویژگی استفاده کنید که می‌خواهید از دسترسی‌های گروه برای مشترکین استفاده نمایید.',
         'Enable it here!' => 'از اینجا فعال نمائید',
-        'Search for customers (wildcards are allowed).' => 'جستجوی مشترکین (کاراکترهای عام مجازند)',
+        'Search for customers.' => '',
         'Edit Customer Default Groups' => 'ویرایش گروه‌های پیش‌فرض مشترکین',
         'These groups are automatically assigned to all customers.' => 'این گروه‌ها به صورت خودکار به تمام مشترکین اعمال می‌شوند.',
         'You can manage these groups via the configuration setting "CustomerGroupAlwaysGroups".' => 'شما می‌توانید این گروه‌ها را از طریق تنظیم پیکربندی "CustomerGroupAlwaysGroups" مدیریت نمایید.',
@@ -804,6 +822,7 @@ sub Data {
         'Change Group Relations for Customer' => 'تغییر ارتباطات گروه برای مشترک',
         'Change Customer Relations for Group' => 'تغییر ارتباطات مشترک برای گروه',
         'Toggle %s Permission for all' => 'اعمال دسترسی %s برای همه',
+        'Toggle %s permission for %s' => '',
         'Customer Default Groups:' => 'گروه‌های پیش‌فرض مشترک',
         'No changes can be made to these groups.' => 'هیچ تغییری نمی‌توان به این گروه‌ها اعمال کرد.',
         'ro' => 'فقط خواندنی',
@@ -823,7 +842,8 @@ sub Data {
 
         # Template: AdminEmail
         'Admin Notification' => 'اعلام مدیر سیستم',
-        'Send Administrative Message to Agents' => 'ارسال پیغام مدیریتی به کاربران',
+        'With this module, administrators can send messages to agents, group or role members.' => 'با استفاده از این ماژول، مدیران سیستم می‌توانند پیغام‌ها را به کارشناسان، گروه‌ها و یا اعضای با نقش خاص ارسال کنند.',
+        'Create Administrative Message' => 'ساخت پیغام مدیریتی',
         'Your message was sent to' => 'پیغام شما ارسال شد برای',
         'Send message to users' => 'ارسال پیغام به کاربران',
         'Send message to group members' => 'ارسال پیغام به اعضای گروه',
@@ -832,8 +852,6 @@ sub Data {
         'Also send to customers in groups' => 'برای مشترکین عضو گروه هم ارسال شود',
         'Body' => 'متن نامه',
         'Send' => 'ارسال',
-        'Create Administrative Message' => 'ساخت پیغام مدیریتی',
-        'With this module, administrators can send messages to agents, group or role members.' => 'با استفاده از این ماژول، مدیران سیستم می‌توانند پیغام‌ها را به کارشناسان، گروه‌ها و یا اعضای با نقش خاص ارسال کنند.',
 
         # Template: AdminGenericAgent
         'Generic Agent' => 'کارشناس عمومی',
@@ -920,7 +938,6 @@ sub Data {
         'Edit job' => 'ویرایش کار',
         'Run job' => 'اجرای کار',
         'Affected Tickets' => 'درخواست‌های تاثیر یافته',
-        'Don\'t use the Superuser account to work with OTRS! Create new Agents and work with these accounts instead.' => 'برای کار با سیستم از حساب کاربری پیش‌فرض استفاده ننمایید! لطفا یک کارشناس جدید ساخته و با آن کار نمایید.',
 
         # Template: AdminGroup
         'WARNING: When you change the name of the group \'admin\', before making the appropriate changes in the SysConfig, you will be locked out of the administrations panel! If this happens, please rename the group back to admin per SQL statement.' => 'هشدار: اگر قبل از اعمال تغییرات مناسب در SysConfig نام گروه admin را تغییر دهید، دسترسی‌تان به بخش مدیریت سیستم از بین می‌رود! اگر چنین اتفاقی افتاد، نام آن را از طریق SQL دوباره به admin تغییر دهید.',
@@ -935,9 +952,9 @@ sub Data {
         # Template: AdminLog
         'System Log' => 'وقایع ثبت شده سیستم',
         'Here you will find log information about your system.' => 'در اینجا اطلاعات ثبت شده‌ای در رابطه با سیستم پیدا خواهید کرد.',
-        'Time' => 'زمان',
-        'Recent Log Entries' => 'وقایع ثبت شده جدید',
         'Hide this message' => 'پنهان کردن این پیغام',
+        'Recent Log Entries' => 'وقایع ثبت شده جدید',
+        'Time' => 'زمان',
 
         # Template: AdminMailAccount
         'Mail Account Management' => 'مدیریت حساب‌های ایمیل ',
@@ -962,7 +979,7 @@ sub Data {
 
         # Template: AdminNotification
         'Notification Management' => 'مدیریت اعلان‌ها',
-        'Filter for Language' => 'فیلتر زبان',
+        'Select a different language' => '',
         'Filter for Notification' => 'فیلتر اعلان',
         'Notifications are sent to an agent or a customer.' => 'اعلام به یک کارشناس یا مشترک ارسال شد.',
         'Notification' => 'اعلان',
@@ -1017,6 +1034,7 @@ sub Data {
         'Install' => 'نصب',
         'Install Package' => 'نصب بسته',
         'Update repository information' => 'به‌روز رسانی اطلاعات مخزن',
+        'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' => '',
         'Online Repository' => 'مخزن آنلاین بسته‌ها',
         'Vendor' => 'عرضه‌کننده',
         'Module documentation' => 'مستندات ماژول',
@@ -1070,10 +1088,13 @@ sub Data {
         'Add PostMaster Filter' => 'افزودن فیلتر پستی',
         'Edit PostMaster Filter' => 'ویرایش فیلتر پستی',
         'Filter name' => 'نام فیلتر',
+        'The name is required.' => '',
         'Stop after match' => 'توقف بعد از تطبیق',
         'Filter Condition' => 'شرط تطابق',
         'Value' => 'مقدار',
+        'The field needs to be a valid regular expression or a literal word.' => '',
         'Set Email Headers' => 'تنظیم هدرهای ایمیل',
+        'The field needs to be a literal word.' => '',
 
         # Template: AdminPriority
         'Priority Management' => 'مدیریت اولویت‌ها',
@@ -1162,14 +1183,8 @@ sub Data {
         'Permissions to move tickets into this group/queue.' => 'مجوز انتقال درخواست به این گروه/لیست.',
         'create' => 'ساختن',
         'Permissions to create tickets in this group/queue.' => 'مجوز ایجاد درخواست در این گروه/لیست.',
-        'priority' => 'اولویت',
-        'Permissions to change the ticket priority in this group/queue.' => 'مجوز تغییر اولویت درخواست در این گروه/لیست.',
-        'ro' => 'فقط خواندنی',
-        'create' => 'ساختن',
-        'note' => 'یادداشت',
-        'owner' => 'صاحب',
         'priority' => 'الویت',
-        'rw' => 'خواندنی و نوشتنی',
+        'Permissions to change the ticket priority in this group/queue.' => 'مجوز تغییر اولویت درخواست در این گروه/لیست.',
 
         # Template: AdminRoleUser
         'Manage Agent-Role Relations' => 'مدیریت روابط کارشناس-نقش',
@@ -1189,10 +1204,12 @@ sub Data {
         'S/MIME Management' => 'مدیریت S/MIME',
         'Add certificate' => 'افزودن گواهینامه',
         'Add private key' => 'افزودن کلید خصوصی',
+        'Filter for certificates' => '',
+        'Filter for SMIME certs' => '',
         'In this way you can directly edit the certification and private keys in file system.' => 'از این طریق شما میتوانید کلید‌های رمز خود را برای رمز گذاری نامه‌ها و پیامها به سیستم وارد نمائید',
         'See also' => 'همچنین ببنید',
-        'Hash/Fingerprint' => '',
-        'Create/Expires' => '',
+        'Hash' => 'Hash',
+        'Create' => 'ایجاد',
         'Delete this certificate' => 'حذف این گواهینامه',
         'Add Certificate' => 'افزودن گواهینامه',
         'Add Private Key' => 'افزودن کلید خصوصی',
@@ -1234,9 +1251,9 @@ sub Data {
         'Unique agents' => 'کارشناسان یکه',
         'Unique customers' => 'مشترکین یکه',
         'Kill all sessions' => 'همه Session‌ها را از بین ببر',
+        'Kill this session' => 'از بین بردن session',
         'Session' => 'Session',
         'Kill' => '',
-        'Kill this session' => 'از بین بردن session',
         'Detail View for SessionID' => 'نمای جزئیات برای SessionID',
 
         # Template: AdminSignature
@@ -1385,12 +1402,6 @@ sub Data {
         # Template: AgentHTMLReferenceForms
 
         # Template: AgentHTMLReferenceOverview
-
-        #Template: AgentTicketEscalationView
-        'Today' => 'امروز ',
-        'Tomorrow' => 'فردا ',
-        'Next Week' => 'هفته آینده ',
-        'Ticket Escalation View' => 'نمای درخواست‌های خیلی مهم',
 
         # Template: AgentHTMLReferencePageLayout
         'The ticket has been locked' => 'درخواست تحویل گرفته شده است',
@@ -1610,7 +1621,6 @@ sub Data {
         'Create New Phone Ticket' => 'ساخت درخواست تلفنی جدید',
         'From customer' => 'از مشترک',
         'To queue' => 'به صف درخواست',
-        'Create' => 'ایجاد',
 
         # Template: AgentTicketPhoneOutbound
         'Phone call' => 'تماس تلفنی',
@@ -1628,12 +1638,15 @@ sub Data {
 
         # Template: AgentTicketPriority
 
+        # Template: AgentTicketQueue
+
         # Template: AgentTicketResponsible
 
         # Template: AgentTicketSearch
         'Search template' => 'الگوی جستجو',
-        'Create New' => 'ساخت مورد جدید',
         'Create Template' => 'ساخت قالب',
+        'Create New' => 'ساخت مورد جدید',
+        'Profile link' => '',
         'Save changes in template' => 'ذخیره تغییرات در قالب',
         'Add another attribute' => 'افزودن ویژگی دیگر',
         'Output' => 'نوع نتیجه',
@@ -1760,7 +1773,9 @@ sub Data {
         'Only tickets created between' => 'فقط درخواست‌های ساخته شده بین',
         'Search-Profile as Template?' => 'ذخیره جستجوی مشخصات به عنوان قالب؟',
         'Save as Template?' => 'ذخیره به عنوان قالب؟',
+        'Save as Template' => '',
         'Template Name' => 'نام قالب',
+        'Pick a profile name' => '',
         'Output to' => 'خروجی به',
 
         # Template: CustomerTicketSearchOpenSearchDescription
@@ -2062,6 +2077,7 @@ sub Data {
         'Change the ticket responsible!' => '',
         'Changes the owner of tickets to everyone (useful for ASP). Normally only agent with rw permissions in the queue of the ticket will be shown.' => '',
         'Checks the SystemID in ticket number detection for follow-ups (use "No" if SystemID has been changed after using the system).' => '',
+        'Christmas Eve' => '',
         'Comment for new history entries in the customer interface.' => '',
         'Companies' => 'سازمان‌ها',
         'Company Tickets' => 'درخواست‌های سازمانی/شرکتی',
@@ -2460,6 +2476,7 @@ sub Data {
         'Defines the receipent target of the phone ticket and the sender of the email ticket ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the agent interface.' => '',
         'Defines the receipent target of the tickets ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the customer interface.' => '',
         'Defines the search limit for the stats.' => '',
+        'Defines the sender for rejected emails.' => '',
         'Defines the separator between the agents real name and the given queue email address.' => '',
         'Defines the spacing of the legends.' => '',
         'Defines the standard permissions available for customers within the application. If more permissions are needed, you can enter them here. Permissions must be hard coded to be effective. Please ensure, when adding any of the afore mentioned permissions, that the "rw" permission remains the last entry.' => '',
@@ -2507,7 +2524,7 @@ sub Data {
         'Defines whether the free time field number 5 is optional or not.' => '',
         'Defines whether the free time field number 6 is optional or not.' => '',
         'Defines which states should be set automatically (Content), after the pending time of state (Key) has been reached.' => '',
-        'Delay time between autocomplete queries.' => '',
+        'Delay time between autocomplete queries in milliseconds.' => '',
         'Deletes a session if the session id is used with an invalid remote IP address.' => '',
         'Deletes requested sessions if they have timed out.' => '',
         'Determines if the list of possible queues to move to ticket into should be displayed in a dropdown list or in a new window in the agent interface. If "New Window" is set you can add a move note to the ticket.' => '',
@@ -2554,6 +2571,7 @@ sub Data {
         'Fetches packages via proxy. Overwrites "WebUserAgent::Proxy".' => '',
         'File that is displayed in the Kernel::Modules::AgentInfo module, if located under Kernel/Output/HTML/Standard/AgentInfo.dtl.' => '',
         'Filter incoming emails.' => 'فیلتر ایمیل‌های ورودی',
+        'First Christmas Day' => '',
         'Forces encoding of outgoing emails (7bit|8bit|quoted-printable|base64).' => '',
         'Forces to choose a different ticket state (from current) after lock action. Define the current state as key, and the next state after lock action as content.' => '',
         'Forces to unlock tickets after being moved to another queue.' => '',
@@ -2628,6 +2646,7 @@ sub Data {
         'IndexAccelerator: to choose your backend TicketViewAccelerator module. "RuntimeDB" generates each queue view on the fly from ticket table (no performance problems up to approx. 60.000 tickets in total and 6.000 open tickets in the system). "StaticDB" is the most powerful module, it uses an extra ticket-index table that works like a view (recommended if more than 80.000 and 6.000 open tickets are stored in the system). Use the script "bin/otrs.RebuildTicketIndex.pl" for initial index update.' => '',
         'Install ispell or aspell on the system, if you want to use a spell checker. Please specify the path to the aspell or ispell binary on your operating system.' => '',
         'Interface language' => 'زبان واسط',
+        'International Workers\' Day' => '',
         'It is possible to configure different skins, for example to distinguish between diferent agents, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in "Key" should match the domain, and the value in "Content" should be a valid skin on your system. Please see the example entries for the proper form of the regex.' => '',
         'It is possible to configure different skins, for example to distinguish between diferent customers, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in "Key" should match the domain, and the value in "Content" should be a valid skin on your system. Please see the example entries for the proper form of the regex.' => '',
         'It is possible to configure different themes, for example to distinguish between agents and customers, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in "Key" should match the domain, and the value in "Content" should be a valid theme on your system. Please see the example entries for the proper form of the regex.' => '',
@@ -2663,7 +2682,6 @@ sub Data {
         'Manage periodic tasks.' => 'مدیریت وظایف دوره‌ای',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' => '',
         'Max size of the subjects in an email reply.' => '',
-        'Max. displayed tickets' => 'حداکثر درخواست‌های نمایش داده شده',
         'Maximal auto email responses to own email-address a day (Loop-Protection).' => '',
         'Maximal size in KBytes for mails that can be fetched via POP3/POP3S/IMAP/IMAPS (KBytes).' => '',
         'Maximum number of tickets to be displayed in the result of a search in the agent interface.' => '',
@@ -2692,6 +2710,8 @@ sub Data {
         'Module to use database filter storage.' => '',
         'My Tickets' => 'درخواست‌های من',
         'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.' => '',
+        'New Year\'s Day' => '',
+        'New Year\'s Eve' => '',
         'New email ticket' => 'درخواست ایمیلی جدید',
         'New phone ticket' => 'درخواست تلفنی جدید',
         'Next possible ticket states after adding a phone note in the ticket phone outbound screen of the agent interface.' => '',
@@ -2762,6 +2782,7 @@ sub Data {
         'Saves the login and password on the session table in the database, if "DB" was selected for SessionModule.' => '',
         'Search backend default router.' => '',
         'Search backend router.' => '',
+        'Second Christmas Day' => '',
         'Select your frontend Theme.' => 'الگوی نمایش سیستم را انتخاب نمائید',
         'Selects the module to handle uploads via the web interface. "DB" stores all uploads in the database, "FS" uses the file system.' => '',
         'Selects the ticket number generator module. "AutoIncrement" increments the ticket number, the SystemID and the counter are used with SystemID.counter format (e.g. 1010138, 1010139). With "Date" the ticket numbers will be generated by the current date, the SystemID and the counter. The format looks like Year.Month.Day.SystemID.counter (e.g. 200206231010138, 200206231010139). With "DateChecksum"  the counter will be appended as checksum to the string of date and SystemID. The checksum will be rotated on a daily basis. The format looks like Year.Month.Day.SystemID.Counter.CheckSum (e.g. 2002070110101520, 2002070110101535). "Random" generates randomized ticket numbers in the format "SystemID.Random" (e.g. 100057866352, 103745394596).' => '',
@@ -2816,7 +2837,6 @@ sub Data {
         'Sets the minimal ticket counter size (if "AutoIncrement" was selected as TicketNumberGenerator). Default is 5, this means the counter starts from 10000.' => '',
         'Sets the minimum number of characters before autocomplete query is sent.' => '',
         'Sets the number of lines that are displayed in text messages (e.g. ticket lines in the QueueZoom).' => '',
-        'Sets the number of lines that are displayed in the preview of messages (e.g. for tickets in the QueueView).' => '',
         'Sets the number of search results to be displayed for the autocomplete feature.' => '',
         'Sets the options for PGP binary.' => '',
         'Sets the order of the different items in the customer preferences view.' => '',
@@ -3042,19 +3062,6 @@ sub Data {
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. In this text area you can define this text (This text cannot be changed by the agent).' => '',
         'When tickets are merged, the customer can be informed per email by setting the check box "Inform Sender". In this text area, you can define a pre-formatted text which can later be modified by the agents.' => '',
         'Your language' => 'زبان شما',
-        'Support Assessment' => 'ارزیابی پشتیبانی',
-        'Admin-Support Overview' => 'نمای کلی پشتیبانی مدیریت سیستم',
-        'SQL benchmark' => 'آزمون SQL',
-        'Start Support' => 'آغاز پشتیبانی',
-        'Database' => 'پایگاه داده',
-        'OS' => 'سیستم عامل',
-        'Webserver' => 'سرور وب',
-        'New Year\'s Day' => '',
-        'International Workers\' Day' => '',
-        'Christmas Eve' => '',
-        'First Christmas Day' => '',
-        'Second Christmas Day' => '',
-        'New Year\'s Eve' => '',
 
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
@@ -3103,6 +3110,7 @@ sub Data {
         'Admin-Area' => 'بخش مدیریت',
         'Admin-Email' => 'e-mail مدیر سیستم',
         'Admin-Password' => 'رمز عبور',
+        'Admin-Support Overview' => 'نمای کلی پشتیبانی مدیریت سیستم',
         'Admin-User' => 'مدیر سیستم',
         'Advisory' => 'مشورتی',
         'Agent Mailbox' => 'صندوق پستی کارشناس',
@@ -3215,6 +3223,7 @@ sub Data {
         'Do you really want to reinstall this package (all manual changes get lost)?' => ' آیا از نصب مجدد این بسته اطمینان دارید. همه تغیرات دستی رونویسی خواهد شد ',
         'Don\'t forget to add a new user to groups and/or roles!' => 'فراموش نکنید که کاربر میبایست به گروه و نقش مربوطه مرتبط شود',
         'Don\'t forget to add a new user to groups!' => 'فراموش نکنید که کاربرجدید را به گروه‌ها اضافه کنید!',
+        'Don\'t work with UserID 1 (System account)! Create new users!' => 'با نام کاربری سیستم کار نکنید برای ادامه یک نام کاربری جدید بسازید.!',
         'Download Settings' => 'دریافت تنظیمات',
         'Download all system config changes.' => 'دریافت همه تغیرات سیستم',
         'Drop Database' => 'حذف کامل بانک اطلاعاتی',
@@ -3234,6 +3243,7 @@ sub Data {
         'Export Config' => 'دریافت خروجی از تنظیمات',
         'FileManager' => 'میریت فایل',
         'Filelist' => 'لیست فایل‌ها',
+        'Filter for Language' => 'فیلتر زبان',
         'Filtername' => 'نام فیلتر',
         'Follow up' => 'پیگیری',
         'Follow up notification' => 'اعلام پیگیری درخواست',
@@ -3245,7 +3255,6 @@ sub Data {
         'Group based' => 'مبتنی بر گروه',
         'Group selection' => 'انتخاب گروه',
         'HTML' => 'HTML',
-        'Hash' => 'Hash',
         'Have a lot of fun!' => 'موفق و پیروز باشید!',
         'Here you can define the value series. You have the possibility to select one or two elements. Then you can select the attributes of elements. Each attribute will be shown as single value series. If you don\'t select any attribute all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => 'لیست‌ها را در این بخش میتوانید مقداردهی نمائید، یک یا دو گزینه را انتخاب نمائید، خصوصیات گزینه را انتخاب نمائید.هر ویژگی به عنوان یک لیست نمایش داده خواهد شد.اگر هیچ ویژگی انتخاب نشود همه ویژگی‌های گزینه در تهیه گزارش منظور خواهد شد.همینطور ویژگی‌های اضافه شده پس از این تنظیمات ',
         'Here you can define the x-axis. You can select one element via the radio button. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => 'در اینجا می‌توانید محور افقی را تعریف کنید. شما می‌توانید عناصر را از طریق دکمه رادیویی انتخاب کنید. اگر شما هیچ چیزی انتخاب نکنید، همه خواص عنصر مورد نظر در تولید گزارشات مورد استفاده قرار می‌گیرند. این اتفاق در مورد هر خاصیتی که بعد از آخرین تنظیم اضافه شده باشد هم صادق است.',
@@ -3288,6 +3297,7 @@ sub Data {
         'Mail Management' => 'مدیریت نامه‌ها',
         'Mailbox' => 'صندوق نامه‌ها',
         'Match' => 'مطابقت',
+        'Max. displayed tickets' => 'حداکثر درخواست‌های نمایش داده شده',
         'Message for new Owner' => 'پیام برای صاحب جدید درخواست',
         'Message sent to' => 'پیام ارسال شد به',
         'Misc' => 'سایر',
@@ -3322,6 +3332,7 @@ sub Data {
         'Note Text' => 'یادداشت',
         'Notification (Customer)' => 'اعلام(مشترک)',
         'Notifications' => 'اعلام‌ها',
+        'OS' => 'سیستم عامل',
         'OTRS DB Name' => 'نام بانک اطلاعاتی سیستم',
         'OTRS DB Password' => 'رمز عبور بانک اطلاعاتی سیستم
 ',
@@ -3390,11 +3401,13 @@ sub Data {
         'Roles <-> Groups Management' => 'مدیریت نقش <-> گروه',
         'Roles <-> Users' => 'نقش <-> کابر',
         'Roles <-> Users Management' => 'مدیریت کاربران <-> نقش‌ها',
+        'SQL benchmark' => 'آزمون SQL',
         'Save Job as?' => 'کار را ذخیره کن با عنوان',
         'Save Search-Profile as Template?' => 'ذخیره بعنوان الگوی جستجو?',
         'Schedule' => 'زمان بندی',
         'Search Result' => 'نتیجه جستجو',
         'Search for' => 'جستجو برای',
+        'Search for customers (wildcards are allowed).' => 'جستجوی مشترکین (کاراکترهای عام مجازند)',
         'Secure Mode need to be enabled!' => 'باید حالت ایمن فعال گردد',
         'Select Box' => 'جعبه انتخاب.',
         'Select Box Result' => 'نتیجه جعبه انتخاب',
@@ -3412,6 +3425,7 @@ sub Data {
         'Select your out of office time.' => 'زمان بیرون بودن از محل کار را مشخص کنید',
         'Select your screen after creating a new ticket.' => 'وضعیت نمایش را بعد از ایجاد درخواست جدید انتخاب کنید.',
         'Selection needed' => 'انتخاب لازم است',
+        'Send Administrative Message to Agents' => 'ارسال پیغام مدیریتی به کاربران',
         'Send Notification' => 'ارسال اعلام',
         'Send me a notification if a customer sends a follow up and I\'m the owner of this ticket.' => 'در صورت ارسال یک پیگیری از طرف مشترک به من اطلاع بده.',
         'Send me a notification of an watched ticket like an owner of an ticket.' => 'در مورد درخواست‌های تحت نظر گرفته شده من را هم همچون صاحب درخواست در جریان قرار بده.',
@@ -3427,12 +3441,14 @@ sub Data {
         'Source' => 'منبع',
         'Spell Check' => 'غلط یابی',
         'Split' => 'تقسیم درخواست',
+        'Start Support' => 'آغاز پشتیبانی',
         'State Type' => 'نوع وضعیت',
         'Static-File' => 'فایل ثابت',
         'Stats-Area' => 'بخش گزارشات ',
         'Sub-Queue of' => 'لیست فرعی',
         'Sub-Service of' => 'خدمت فرعی',
         'Subscribe' => 'عضویت',
+        'Support Assessment' => 'ارزیابی پشتیبانی',
         'Symptom' => 'نشانه',
         'System History' => 'سوابق سیستم',
         'System State Management' => 'مدیریت وضعیت سیستم',
@@ -3489,7 +3505,9 @@ sub Data {
         'Web-Installer' => 'برنامه نصب تحت وب',
         'WebMail' => 'پست الکترونیکی',
         'WebWatcher' => 'بازرسی وب',
+        'Webserver' => 'سرور وب',
         'Welcome to OTRS' => 'به سیستم پشتیبانی سورس باز (OTRS) خوش آمدید',
+        'Wildcards are allowed.' => 'کاراکترهای عام مجازند.',
         'With an invalid stat it isn\'t feasible to generate a stat.' => 'با یک آمار غیر معتبر امکان تولید گزارش وجود ندارد ',
         'With the input and select fields you can configurate the stat at your needs. Which elements of a stat you can edit depends on your stats administrator who configurated the stat.' => 'با ورود اطلاعات و انتخاب گزینه‌ها میتوانید گزارش آماری خود را بسازید.گزینه‌هایی را میتوانید ویرایش نمائید که مدیر گزارش‌ها برای شما تنظیم کرده است',
         'Yes means, send no agent and customer notifications on changes.' => 'پاسخ بله به معنی عدم ارسال اعلام به کارشناس و مشترک پس از اعمال تغییرات است',

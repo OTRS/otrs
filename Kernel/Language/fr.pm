@@ -8,7 +8,7 @@
 # Copyright (C) 2004-2008 Yann Richard <ze at nbox.org>
 # Copyright (C) 2009-2010 Olivier Sallou <olivier.sallou at irisa.fr>
 # --
-# $Id: fr.pm,v 1.142.2.4 2011-09-07 21:04:33 en Exp $
+# $Id: fr.pm,v 1.142.2.5 2012-03-09 07:37:05 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,13 +21,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.142.2.4 $) [1];
+$VERSION = qw($Revision: 1.142.2.5 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2011-03-21 17:28:39
+    # Last translation file sync: 2012-03-09 08:31:52
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -252,7 +252,7 @@ sub Data {
         'Facility' => 'Service',
         'Time Zone' => 'Fuseau horaire',
         'Pending till' => 'En attendant jusqu\'à',
-        'Don\'t work with UserID 1 (System account)! Create new users!' => 'Cela ne fonctionne pas avec l\'identifiant utilisateur 1 (Compte Système) ! Veuillez créer un nouvel utilisateur !',
+        'Don\'t use the Superuser account to work with OTRS! Create new Agents and work with these accounts instead.' => '',
         'Dispatching by email To: field.' => 'Répartition par le champ \'À:\' du courriel',
         'Dispatching by selected Queue.' => 'Répartition selon la file sélectionnée',
         'No entry found!' => 'Aucun résultat n\'a été trouvé !',
@@ -265,6 +265,7 @@ sub Data {
         'Package not correctly deployed! You should reinstall the Package again!' => 'Le paquet n\'a pas été correctement déployé ! Vous devez l\'installer à nouveau !',
         '%s is not writable!' => '% n\'est pas accessible en écriture',
         'Cannot create %s!' => 'Impossible de créer %s',
+        'Check to activate this date' => '',
         'Customer %s added' => 'Client %s ajouté',
         'Role added!' => 'Rôle ajouté!',
         'Role updated!' => 'Rôle mis à jour!',
@@ -551,6 +552,10 @@ sub Data {
         'last-search' => 'dernière-recherche',
         'QueueView' => 'Vue file',
         'Ticket Escalation View' => 'Vue des remontées du ticket',
+        'Message from' => '',
+        'End message' => '',
+        'Forwarded message from' => '',
+        'End forwarded message' => '',
         'new' => 'nouveau',
         'open' => 'ouvrir',
         'Open' => 'Ouvert',
@@ -643,6 +648,7 @@ sub Data {
         'Agent (All with write permissions)' => '',
         'Agent (Owner)' => '',
         'Agent (Responsible)' => '',
+        'Ticket is locked by another agent.' => '',
         'New ticket notification' => 'Notification de nouveau ticket',
         'Send me a notification if there is a new ticket in "My Queues".' => 'Me prévenir si il y a un nouveau ticket dans une de "Mes files".',
         'Send new ticket notifications' => '',
@@ -727,6 +733,7 @@ sub Data {
         'History::Unsubscribe' => 'Désabonnement pour l\'utilisateur "%s".',
         'History::SystemRequest' => 'Requête système',
         'History::ResponsibleUpdate' => 'Mise à jour du responsable',
+        'History::ArchiveFlagUpdate' => '',
 
         # Template: AAAWeekDay
         'Sun' => 'Dim',
@@ -775,7 +782,7 @@ sub Data {
 
         # Template: AdminCustomerCompany
         'Customer Company Management' => 'Gestion des services clients',
-        'Wildcards are allowed.' => 'Les étoiles sont autorisées',
+        'Wildcards like \'*\' are allowed.' => '',
         'Add customer company' => 'Ajouter une entreprise cliente',
         'Please enter a search term to look for customer companies.' => 'Merci d\'entrer un motif de recherche pour chercher les entreprises clients',
         'Add Customer Company' => 'Ajouter un client au service',
@@ -793,8 +800,8 @@ sub Data {
         'This field is required and needs to be a valid email address.' => '',
         'This email address is not allowed due to the system configuration.' => '',
         'This email address failed MX check.' => '',
-        'The syntax of this email address is incorrect.' => '',
         'DNS problem, please check your configuration and the error log.' => '',
+        'The syntax of this email address is incorrect.' => '',
 
         # Template: AdminCustomerUserGroup
         'Manage Customer-Group Relations' => 'Gérer les relations Client-Group',
@@ -802,7 +809,7 @@ sub Data {
         'This feature is disabled!' => 'Cette fonctionnalité est désactivée !',
         'Just use this feature if you want to define group permissions for customers.' => 'Utiliser cette fonction uniquement si vous shouhaitez définir des permissions de groupe pour les clients',
         'Enable it here!' => 'Activez la ici !',
-        'Search for customers (wildcards are allowed).' => 'Chercher des clients (les étoiles sont autorisées)',
+        'Search for customers.' => '',
         'Edit Customer Default Groups' => 'Editer les groupes par défault client',
         'These groups are automatically assigned to all customers.' => 'Ces groupes sont automatiquement assignés à tous les clients',
         'You can manage these groups via the configuration setting "CustomerGroupAlwaysGroups".' => '',
@@ -1028,6 +1035,7 @@ sub Data {
         'Install' => 'Installation',
         'Install Package' => 'Installer Package',
         'Update repository information' => 'Mettre à jour les informations du dépot',
+        'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' => '',
         'Online Repository' => 'Dépot en ligne',
         'Vendor' => 'Vendeur',
         'Module documentation' => 'Documentation du module',
@@ -1197,10 +1205,12 @@ sub Data {
         'S/MIME Management' => 'Gestion S/MIME',
         'Add certificate' => 'Ajouter certificat',
         'Add private key' => 'Ajouter clé privé',
+        'Filter for certificates' => '',
+        'Filter for SMIME certs' => '',
         'In this way you can directly edit the certification and private keys in file system.' => 'Dans ce cas vous pouvez directement éditer le certificat et la clé privée dans le système de fichier',
         'See also' => 'Voir aussi',
-        'Hash/Fingerprint' => 'Hash/Empreinte',
-        'Create/Expires' => 'Créer/Expirer',
+        'Hash' => 'Hashage',
+        'Create' => 'Création',
         'Delete this certificate' => 'Supprimer ce certificat',
         'Add Certificate' => 'Ajouter un certificat',
         'Add Private Key' => 'Ajouter une clé privée',
@@ -1242,9 +1252,9 @@ sub Data {
         'Unique agents' => 'Opérateurs uniques',
         'Unique customers' => 'Clients uniques',
         'Kill all sessions' => 'Supprimer toutes les sessions',
+        'Kill this session' => 'tuer cette session',
         'Session' => 'Session',
         'Kill' => 'Tuer',
-        'Kill this session' => 'tuer cette session',
         'Detail View for SessionID' => 'Vue détaillée pour SessionID',
 
         # Template: AdminSignature
@@ -1612,7 +1622,6 @@ sub Data {
         'Create New Phone Ticket' => 'Créer un nouveau Ticket téléphonique',
         'From customer' => 'Du client',
         'To queue' => 'Vers la file',
-        'Create' => 'Création',
 
         # Template: AgentTicketPhoneOutbound
         'Phone call' => 'Appel téléphonique',
@@ -1636,8 +1645,9 @@ sub Data {
 
         # Template: AgentTicketSearch
         'Search template' => 'Profil de recherche',
-        'Create New' => 'Créer nouveau',
         'Create Template' => 'Créer Template',
+        'Create New' => 'Créer nouveau',
+        'Profile link' => '',
         'Save changes in template' => '',
         'Add another attribute' => 'Ajouter un autre attribut',
         'Output' => 'Format du résultat',
@@ -1764,7 +1774,9 @@ sub Data {
         'Only tickets created between' => 'Seulement les tickets créés entre',
         'Search-Profile as Template?' => 'Profile de recherche comme Template?',
         'Save as Template?' => 'Sauver comme Template',
+        'Save as Template' => '',
         'Template Name' => 'Nom du Template',
+        'Pick a profile name' => '',
         'Output to' => 'Sortie vers',
 
         # Template: CustomerTicketSearchOpenSearchDescription
@@ -2066,6 +2078,7 @@ sub Data {
         'Change the ticket responsible!' => '',
         'Changes the owner of tickets to everyone (useful for ASP). Normally only agent with rw permissions in the queue of the ticket will be shown.' => '',
         'Checks the SystemID in ticket number detection for follow-ups (use "No" if SystemID has been changed after using the system).' => '',
+        'Christmas Eve' => '',
         'Comment for new history entries in the customer interface.' => '',
         'Companies' => '',
         'Company Tickets' => '',
@@ -2464,6 +2477,7 @@ sub Data {
         'Defines the receipent target of the phone ticket and the sender of the email ticket ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the agent interface.' => '',
         'Defines the receipent target of the tickets ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the customer interface.' => '',
         'Defines the search limit for the stats.' => '',
+        'Defines the sender for rejected emails.' => '',
         'Defines the separator between the agents real name and the given queue email address.' => '',
         'Defines the spacing of the legends.' => '',
         'Defines the standard permissions available for customers within the application. If more permissions are needed, you can enter them here. Permissions must be hard coded to be effective. Please ensure, when adding any of the afore mentioned permissions, that the "rw" permission remains the last entry.' => '',
@@ -2511,7 +2525,7 @@ sub Data {
         'Defines whether the free time field number 5 is optional or not.' => '',
         'Defines whether the free time field number 6 is optional or not.' => '',
         'Defines which states should be set automatically (Content), after the pending time of state (Key) has been reached.' => '',
-        'Delay time between autocomplete queries.' => '',
+        'Delay time between autocomplete queries in milliseconds.' => '',
         'Deletes a session if the session id is used with an invalid remote IP address.' => '',
         'Deletes requested sessions if they have timed out.' => '',
         'Determines if the list of possible queues to move to ticket into should be displayed in a dropdown list or in a new window in the agent interface. If "New Window" is set you can add a move note to the ticket.' => '',
@@ -2558,6 +2572,7 @@ sub Data {
         'Fetches packages via proxy. Overwrites "WebUserAgent::Proxy".' => '',
         'File that is displayed in the Kernel::Modules::AgentInfo module, if located under Kernel/Output/HTML/Standard/AgentInfo.dtl.' => '',
         'Filter incoming emails.' => '',
+        'First Christmas Day' => '',
         'Forces encoding of outgoing emails (7bit|8bit|quoted-printable|base64).' => '',
         'Forces to choose a different ticket state (from current) after lock action. Define the current state as key, and the next state after lock action as content.' => '',
         'Forces to unlock tickets after being moved to another queue.' => '',
@@ -2632,6 +2647,7 @@ sub Data {
         'IndexAccelerator: to choose your backend TicketViewAccelerator module. "RuntimeDB" generates each queue view on the fly from ticket table (no performance problems up to approx. 60.000 tickets in total and 6.000 open tickets in the system). "StaticDB" is the most powerful module, it uses an extra ticket-index table that works like a view (recommended if more than 80.000 and 6.000 open tickets are stored in the system). Use the script "bin/otrs.RebuildTicketIndex.pl" for initial index update.' => '',
         'Install ispell or aspell on the system, if you want to use a spell checker. Please specify the path to the aspell or ispell binary on your operating system.' => '',
         'Interface language' => '',
+        'International Workers\' Day' => '',
         'It is possible to configure different skins, for example to distinguish between diferent agents, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in "Key" should match the domain, and the value in "Content" should be a valid skin on your system. Please see the example entries for the proper form of the regex.' => '',
         'It is possible to configure different skins, for example to distinguish between diferent customers, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in "Key" should match the domain, and the value in "Content" should be a valid skin on your system. Please see the example entries for the proper form of the regex.' => '',
         'It is possible to configure different themes, for example to distinguish between agents and customers, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in "Key" should match the domain, and the value in "Content" should be a valid theme on your system. Please see the example entries for the proper form of the regex.' => '',
@@ -2667,7 +2683,6 @@ sub Data {
         'Manage periodic tasks.' => '',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' => '',
         'Max size of the subjects in an email reply.' => '',
-        'Max. displayed tickets' => '',
         'Maximal auto email responses to own email-address a day (Loop-Protection).' => '',
         'Maximal size in KBytes for mails that can be fetched via POP3/POP3S/IMAP/IMAPS (KBytes).' => '',
         'Maximum number of tickets to be displayed in the result of a search in the agent interface.' => '',
@@ -2696,6 +2711,8 @@ sub Data {
         'Module to use database filter storage.' => '',
         'My Tickets' => '',
         'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.' => '',
+        'New Year\'s Day' => '',
+        'New Year\'s Eve' => '',
         'New email ticket' => '',
         'New phone ticket' => '',
         'Next possible ticket states after adding a phone note in the ticket phone outbound screen of the agent interface.' => '',
@@ -2766,6 +2783,7 @@ sub Data {
         'Saves the login and password on the session table in the database, if "DB" was selected for SessionModule.' => '',
         'Search backend default router.' => '',
         'Search backend router.' => '',
+        'Second Christmas Day' => '',
         'Select your frontend Theme.' => 'Choix du thème de l\'interface',
         'Selects the module to handle uploads via the web interface. "DB" stores all uploads in the database, "FS" uses the file system.' => '',
         'Selects the ticket number generator module. "AutoIncrement" increments the ticket number, the SystemID and the counter are used with SystemID.counter format (e.g. 1010138, 1010139). With "Date" the ticket numbers will be generated by the current date, the SystemID and the counter. The format looks like Year.Month.Day.SystemID.counter (e.g. 200206231010138, 200206231010139). With "DateChecksum"  the counter will be appended as checksum to the string of date and SystemID. The checksum will be rotated on a daily basis. The format looks like Year.Month.Day.SystemID.Counter.CheckSum (e.g. 2002070110101520, 2002070110101535). "Random" generates randomized ticket numbers in the format "SystemID.Random" (e.g. 100057866352, 103745394596).' => '',
@@ -2820,7 +2838,6 @@ sub Data {
         'Sets the minimal ticket counter size (if "AutoIncrement" was selected as TicketNumberGenerator). Default is 5, this means the counter starts from 10000.' => '',
         'Sets the minimum number of characters before autocomplete query is sent.' => '',
         'Sets the number of lines that are displayed in text messages (e.g. ticket lines in the QueueZoom).' => '',
-        'Sets the number of lines that are displayed in the preview of messages (e.g. for tickets in the QueueView).' => '',
         'Sets the number of search results to be displayed for the autocomplete feature.' => '',
         'Sets the options for PGP binary.' => '',
         'Sets the order of the different items in the customer preferences view.' => '',
@@ -3046,12 +3063,6 @@ sub Data {
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. In this text area you can define this text (This text cannot be changed by the agent).' => '',
         'When tickets are merged, the customer can be informed per email by setting the check box "Inform Sender". In this text area, you can define a pre-formatted text which can later be modified by the agents.' => '',
         'Your language' => 'Votre langue',
-        'New Year\'s Day' => '',
-        'International Workers\' Day' => '',
-        'Christmas Eve' => '',
-        'First Christmas Day' => '',
-        'Second Christmas Day' => '',
-        'New Year\'s Eve' => '',
 
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
@@ -3202,6 +3213,7 @@ sub Data {
         'Create new database' => 'Créer une nouvelle base de données',
         'Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...).' => 'Créer de nouveaux groupes permettra de gérer les droits d\'accès pour les différents groupes de l\'opérateur (exemple: achats, comptabilité, support, ventes...).',
         'Create your first Ticket' => 'Créer votre premier Ticket',
+        'Create/Expires' => 'Créer/Expirer',
         'CreateTicket' => 'Créer Ticket',
         'Customer Move Notify' => 'Notification lors d\'un changement de file',
         'Customer Owner Notify' => 'Notification lors d\'un changement de propriétaire',
@@ -3269,6 +3281,7 @@ sub Data {
         'Do you really want to reinstall this package (all manual changes get lost)?' => 'Voulez-vous vraiment réinstaller ce paquet (Tous les changements manuels seront perdus) ?',
         'Don\'t forget to add a new user to groups and/or roles!' => 'N\'oubliez pas d\'ajouter un nouvel utilisateur à des groupes et/ou des rôles !',
         'Don\'t forget to add a new user to groups!' => 'Ne pas oublier d\'ajouter un nouvel utilisateur aux groupes !',
+        'Don\'t work with UserID 1 (System account)! Create new users!' => 'Cela ne fonctionne pas avec l\'identifiant utilisateur 1 (Compte Système) ! Veuillez créer un nouvel utilisateur !',
         'Download Settings' => 'Paramètres de téléchargement',
         'Download all system config changes.' => 'Télécharger tous les changements de la configuration système.',
         'Drop Database' => 'Effacer la base de données',
@@ -3318,7 +3331,7 @@ sub Data {
         'Group based' => 'Basé sur le Groupe',
         'Group selection' => 'Sélection du groupe',
         'HTML' => 'HTML',
-        'Hash' => 'Hashage',
+        'Hash/Fingerprint' => 'Hash/Empreinte',
         'Have a lot of fun!' => 'Amusez vous bien !',
         'Have you lost your password?' => 'Perdu votre mot de passe?',
         'Help' => 'Aide',
@@ -3504,6 +3517,7 @@ sub Data {
         'Schedule' => 'Planifier',
         'Search Result' => 'Résultat de la recherche',
         'Search for' => 'Chercher à',
+        'Search for customers (wildcards are allowed).' => 'Chercher des clients (les étoiles sont autorisées)',
         'Secure Mode need to be enabled!' => 'Le mode sécurisé doit être activé !',
         'Select Box' => 'Requête SQL libre.',
         'Select Box Result' => 'Choisissez le résultat',
@@ -3640,6 +3654,7 @@ sub Data {
         'WebMail' => 'Webmail',
         'WebWatcher' => 'WebWatcher',
         'Welcome to OTRS' => 'Bienvenue dans OTRS',
+        'Wildcards are allowed.' => 'Les étoiles sont autorisées',
         'With an invalid stat it isn\'t feasible to generate a stat.' => 'Il est impossible de produire des statistiques avec des données invalides.',
         'With the input and select fields you can configurate the stat at your needs. Which elements of a stat you can edit depends on your stats administrator who configurated the stat.' => 'Avec les champs de saisies et de sélection vous pouvez configurer les statistiques selon vos besoins. Le fait de pouvoir éditer ou non un élement d\'une requête de statistique dépend de l\'administrateur qui a configuré cette requête.',
         'Yes means, send no agent and customer notifications on changes.' => 'Oui signifie : ne rien envoyer sur changement à l\'opérateur et au client.',

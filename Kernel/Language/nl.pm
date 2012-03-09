@@ -6,9 +6,9 @@
 # Copyright (C) 2005-2007 Jurgen Rutgers <jurgen 'at' besite.nl>
 # Copyright (C) 2005-2007 Richard Hinkamp <richard 'at' besite.nl>
 # Copyright (C) 2010 Ton van Boven <ton 'at' avebo.nl>
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: nl.pm,v 1.152.2.12 2011-11-02 14:00:13 mb Exp $
+# $Id: nl.pm,v 1.152.2.13 2012-03-09 07:37:03 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -28,13 +28,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.152.2.12 $) [1];
+$VERSION = qw($Revision: 1.152.2.13 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2011-11-02 12:14:14
+    # Last translation file sync: 2012-03-09 08:32:01
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -272,6 +272,7 @@ sub Data {
         'Package not correctly deployed! You should reinstall the Package again!' => 'Pakket is niet goed geïnstalleerd! Installeer het pakket opnieuw.',
         '%s is not writable!' => '%s is niet schrijfbaar.',
         'Cannot create %s!' => 'Kan %s niet aanmaken.',
+        'Check to activate this date' => '',
         'Customer %s added' => 'Klant %s toegevoegd.',
         'Role added!' => 'Rol toegevoegd.',
         'Role updated!' => 'Rol bijgewerkt.',
@@ -2483,6 +2484,7 @@ sub Data {
         'Defines the receipent target of the phone ticket and the sender of the email ticket ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the agent interface.' => '',
         'Defines the receipent target of the tickets ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the customer interface.' => '',
         'Defines the search limit for the stats.' => '',
+        'Defines the sender for rejected emails.' => '',
         'Defines the separator between the agents real name and the given queue email address.' => '',
         'Defines the spacing of the legends.' => '',
         'Defines the standard permissions available for customers within the application. If more permissions are needed, you can enter them here. Permissions must be hard coded to be effective. Please ensure, when adding any of the afore mentioned permissions, that the "rw" permission remains the last entry.' => '',
