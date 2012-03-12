@@ -1,8 +1,8 @@
 // --
-// Core.AJAX.js - provides the funcionality for AJAX calls
+// Core.AJAX.js - provides the functionality for AJAX calls
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.AJAX.js,v 1.32 2012-01-09 11:48:29 mg Exp $
+// $Id: Core.AJAX.js,v 1.33 2012-03-12 06:15:22 ep Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -239,7 +239,7 @@ Core.AJAX = (function (TargetNS) {
             dataType: 'json',
             success: function (Response) {
                 if (!Response) {
-                    // We are out of the OTRS App scope, that's why an exception would not be caught. Therefor we handle the error manually.
+                    // We are out of the OTRS App scope, that's why an exception would not be caught. Therefore we handle the error manually.
                     Core.Exception.HandleFinalError(new Core.Exception.ApplicationError("Invalid JSON from: " + URL, 'CommunicationError'));
                 }
                 else {
