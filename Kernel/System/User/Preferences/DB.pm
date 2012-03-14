@@ -1,8 +1,8 @@
 # --
 # Kernel/System/User/Preferences/DB.pm - some user functions
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.19 2009-10-07 17:34:09 martin Exp $
+# $Id: DB.pm,v 1.20 2012-03-14 12:29:47 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.19 $) [1];
+$VERSION = qw($Revision: 1.20 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -25,7 +25,7 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for (qw(DBObject ConfigObject LogObject)) {
+    for (qw(DBObject ConfigObject LogObject CacheInternalObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
@@ -38,6 +38,13 @@ sub new {
         || 'preferences_value';
     $Self->{PreferencesTableUserID} = $Self->{ConfigObject}->Get('PreferencesTableUserID')
         || 'user_id';
+
+    # create cache prefix
+    $Self->{CachePrefix} = 'UserPreferencesDB'
+        . $Self->{PreferencesTable}
+        . $Self->{PreferencesTableKey}
+        . $Self->{PreferencesTableValue}
+        . $Self->{PreferencesTableUserID};
 
     return $Self;
 }
@@ -67,6 +74,12 @@ sub SetPreferences {
             . " VALUES (?, ?, ?)",
         Bind => [ \$Param{UserID}, \$Param{Key}, \$Param{Value} ],
     );
+
+    # delete cache
+    $Self->{CacheInternalObject}->Delete(
+        Key => $Self->{CachePrefix} . 'Preference' . $Param{UserID},
+    );
+
     return 1;
 }
 
@@ -81,25 +94,35 @@ sub GetPreferences {
         }
     }
 
+    # read cache
+    my $CacheKey = $Self->{CachePrefix} . 'Preference' . $Param{UserID};
+    my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+    return %{$Cache} if $Cache;
+
     # get preferences
     return if !$Self->{DBObject}->Prepare(
         SQL => "SELECT $Self->{PreferencesTableKey}, $Self->{PreferencesTableValue} "
             . " FROM $Self->{PreferencesTable} WHERE $Self->{PreferencesTableUserID} = ?",
         Bind => [ \$Param{UserID} ],
     );
+
     my %Data;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Data{ $Row[0] } = $Row[1];
     }
 
-    # return data
+    # set cache
+    $Self->{CacheInternalObject}->Set(
+        Key   => $Self->{CachePrefix} . 'Preference' . $Param{UserID},
+        Value => \%Data,
+    );
+
     return %Data;
 }
 
 sub SearchPreferences {
     my ( $Self, %Param ) = @_;
 
-    my %UserID;
     my $Key   = $Param{Key}   || '';
     my $Value = $Param{Value} || '';
 
@@ -114,11 +137,12 @@ sub SearchPreferences {
         . $Self->{DBObject}->Quote( $Value, 'Like' ) . "')";
 
     return if !$Self->{DBObject}->Prepare( SQL => $SQL );
+
+    my %UserID;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $UserID{ $Row[0] } = $Row[1];
     }
 
-    # return data
     return %UserID;
 }
 
