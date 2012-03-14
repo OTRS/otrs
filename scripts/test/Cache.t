@@ -1,8 +1,8 @@
 # --
 # Cache.t - Cache tests
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Cache.t,v 1.22 2011-08-12 09:06:15 mg Exp $
+# $Id: Cache.t,v 1.23 2012-03-14 13:32:10 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -11,13 +11,19 @@
 
 use strict;
 use warnings;
-use vars (qw($Self));
 use utf8;
+
+use vars qw($Self);
+
+use Data::Dumper;
+
 use Kernel::System::Cache;
 
 my $ConfigObject = Kernel::Config->new();
 
+MODULE:
 for my $Module qw(FileStorable FileRaw) {
+
     $ConfigObject->Set(
         Key   => 'Cache::Module',
         Value => "Kernel::System::Cache::$Module"
@@ -28,15 +34,20 @@ for my $Module qw(FileStorable FileRaw) {
         ConfigObject => $ConfigObject,
     );
 
+    next MODULE if !$CacheObject;
+
+    # flush the cache to have a clear test enviroment
+    $CacheObject->CleanUp();
+
     my $CacheSet = $CacheObject->Set(
         Type  => 'CacheTest2',
         Key   => 'Test',
         Value => '1234',
-        TTL   => 24 * 60 * 60,
+        TTL   => 60 * 24 * 60 * 60,
     );
     $Self->True(
         $CacheSet,
-        "#1 - $Module - CacheSet(), TTL 24*60*60",
+        "#1 - $Module - CacheSet(), TTL 60*24*60*60",
     );
 
     my $CacheGet = $CacheObject->Get(
@@ -46,6 +57,24 @@ for my $Module qw(FileStorable FileRaw) {
     $Self->Is(
         $CacheGet || '',
         '1234',
+        "#1 - $Module - CacheGet()",
+    );
+
+    my $CacheDelete = $CacheObject->Delete(
+        Type => 'CacheTest2',
+        Key  => 'Test',
+    );
+    $Self->True(
+        $CacheDelete,
+        "#1 - $Module - CacheDelete()",
+    );
+
+    $CacheGet = $CacheObject->Get(
+        Type => 'CacheTest2',
+        Key  => 'Test',
+    );
+    $Self->False(
+        $CacheGet || '',
         "#1 - $Module - CacheGet()",
     );
 
@@ -69,7 +98,7 @@ for my $Module qw(FileStorable FileRaw) {
                 },
             ],
         },
-        TTL => 24 * 60 * 60,
+        TTL => 60 * 24 * 60 * 60,
     );
 
     $Self->True(
@@ -169,6 +198,7 @@ for my $Module qw(FileStorable FileRaw) {
         Encode::is_utf8($CacheGet) || '',
         "#4 - $Module - CacheGet() - Encode::is_utf8",
     );
+
     sleep 4;
 
     $CacheGet = $CacheObject->Get(
@@ -178,7 +208,7 @@ for my $Module qw(FileStorable FileRaw) {
 
     $Self->True(
         !$CacheGet || '',
-        "#4 - $Module - CacheGet() - sleep6 - TTL of 5 expired",
+        "#4 - $Module - CacheGet() - sleep4 - TTL of 2 expired",
     );
 
     $CacheSet = $CacheObject->Set(
@@ -203,7 +233,7 @@ for my $Module qw(FileStorable FileRaw) {
         '123456',
         "#5 - $Module - CacheGet()",
     );
-    my $CacheDelete = $CacheObject->Delete(
+    $CacheDelete = $CacheObject->Delete(
         Type => 'CacheTest2',
         Key  => 'Test',
     );
@@ -289,6 +319,212 @@ for my $Module qw(FileStorable FileRaw) {
         $CacheGet,
         "#7 - $Module - CacheGet()",
     );
+
+    my $String1 = '';
+    my $String2 = '';
+    my %KeyList;
+    COUNT:
+    for my $Count ( 1 .. 16 ) {
+
+        $String1
+            .= $String1
+            . $Count
+            . "abcdefghijklmnopqrstuvwxyz1234567890abcdefghijklmnopqrstuvwxyzöäüßЖЛЮѬ ";
+        $String2
+            .= $String2
+            . $Count
+            . "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZöäüßЖЛЮѬ ";
+        my $Size = length $String1;
+
+        if ( $Size > ( 1024 * 1024 ) ) {
+            $Size = sprintf "%.1f MBytes", ( $Size / ( 1024 * 1024 ) );
+        }
+        elsif ( $Size > 1024 ) {
+            $Size = sprintf "%.1f KBytes", ( ( $Size / 1024 ) );
+        }
+        else {
+            $Size = $Size . ' Bytes';
+        }
+
+        # create key
+        my $Key = 'Unittest' . rand 999_999_999;
+
+        # copy strings to safe the reference
+        my $StringRef1 = $String1;
+        my $StringRef2 = $String2;
+
+        # define cachetests 1
+        my %CacheTests1 = (
+
+            HASH => {
+                Test  => 'ABC',
+                Test2 => $String1,
+                Test3 => [ 'AAA', 'BBB' ],
+            },
+
+            ARRAY => [
+                'ABC',
+                $String1,
+                [ 'AAA', 'BBB' ],
+            ],
+
+            SCALAR => \$StringRef1,
+
+            String => $String1,
+        );
+
+        # define cachetests 2
+        my %CacheTests2 = (
+
+            HashRef => {
+                Test  => 'XYZ',
+                Test2 => $String2,
+                Test3 => [ 'CCC', 'DDD' ],
+            },
+
+            ArrayRef => [
+                'XYZ',
+                $String2,
+                [ 'EEE', 'FFF' ],
+            ],
+
+            ScalarRef => \$StringRef2,
+
+            String => $String2,
+        );
+
+        TYPE:
+        for my $Type ( keys %CacheTests1 ) {
+
+            # set cache
+            my $CacheSet = $CacheObject->Set(
+                Type  => 'CacheTestLong1',
+                Key   => $Type . $Key,
+                Value => $CacheTests1{$Type},
+                TTL   => 24 * 60 * 60,
+            );
+
+            $Self->True(
+                $CacheSet,
+                "#8 - $Module - CacheSet1() Size $Size",
+            );
+
+            next TYPE if !$CacheSet;
+
+            $KeyList{1}->{ $Type . $Key } = $CacheTests1{$Type};
+        }
+
+        TYPE:
+        for my $Type ( keys %CacheTests2 ) {
+
+            # set cache
+            my $CacheSet = $CacheObject->Set(
+                Type  => 'CacheTestLong2',
+                Key   => $Type . $Key,
+                Value => $CacheTests2{$Type},
+                TTL   => 24 * 60 * 60,
+            );
+
+            $Self->True(
+                $CacheSet,
+                "#8 - $Module - CacheSet2() Size $Size",
+            );
+
+            next TYPE if !$CacheSet;
+
+            $KeyList{2}->{ $Type . $Key } = $CacheTests2{$Type};
+        }
+    }
+
+    for my $Mode ( 'All', 'One', 'None' ) {
+
+        if ( $Mode eq 'One' ) {
+
+            # invalidate all values of CacheTestLong1
+            my $CleanUp1 = $CacheObject->CleanUp(
+                Type => 'CacheTestLong1',
+            );
+
+            $Self->True(
+                $CleanUp1,
+                "#8 - $Module - CleanUp() - invalidate all values of CacheTestLong1",
+            );
+
+            # unset all values of CacheTestLong1
+            for my $Key ( keys %{ $KeyList{1} } ) {
+                $KeyList{1}->{$Key} = '';
+            }
+        }
+        elsif ( $Mode eq 'None' ) {
+
+            # invalidate all values of CacheTestLong2
+            my $CleanUp2 = $CacheObject->CleanUp(
+                Type => 'CacheTestLong2',
+            );
+
+            $Self->True(
+                $CleanUp2,
+                "#8 - $Module - CleanUp() - invalidate all values of CacheTestLong2",
+            );
+
+            # unset all values of CacheTestLong2
+            for my $Key ( keys %{ $KeyList{2} } ) {
+                $KeyList{2}->{$Key} = '';
+            }
+        }
+
+        for my $Count ( sort keys %KeyList ) {
+
+            for my $Key ( keys %{ $KeyList{$Count} } ) {
+
+                # extract cache item
+                my $CacheItem = $KeyList{$Count}->{$Key};
+
+                # check get
+                my $CacheGet = $CacheObject->Get(
+                    Type => 'CacheTestLong' . $Count,
+                    Key  => $Key,
+                ) || '';
+
+                if (
+                    ref $CacheItem    eq 'HASH'
+                    || ref $CacheItem eq 'ARRAY'
+                    || ref $CacheItem eq 'SCALAR'
+                    )
+                {
+
+                    $Self->True(
+                        ref $CacheGet eq ref $CacheItem,
+                        "CacheGet$Count() - Reference Test",
+                    );
+
+                    # turn off all pretty print
+                    $Data::Dumper::Indent = 0;
+
+                    # dump the cached value
+                    my $CachedValue = Data::Dumper::Dumper($CacheGet);
+
+                    # dump the reference attribute
+                    my $OriginValue = Data::Dumper::Dumper($CacheItem);
+
+                    $Self->True(
+                        $CachedValue eq $OriginValue,
+                        "#8 - $Module - CacheGet$Count() - Content Test",
+                    );
+                }
+                else {
+
+                    $Self->True(
+                        $CacheGet eq $CacheItem,
+                        "#8 - $Module - CacheGet$Count() - Content Test",
+                    );
+                }
+            }
+        }
+    }
+
+    # flush the cache
+    $CacheObject->CleanUp();
 }
 
 1;
