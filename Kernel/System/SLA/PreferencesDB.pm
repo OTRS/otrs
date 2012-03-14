@@ -1,8 +1,8 @@
 # --
 # Kernel/System/SLA/PreferencesDB.pm - some user functions
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: PreferencesDB.pm,v 1.2 2009-02-16 11:47:34 tr Exp $
+# $Id: PreferencesDB.pm,v 1.3 2012-03-14 13:20:35 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,8 +14,10 @@ package Kernel::System::SLA::PreferencesDB;
 use strict;
 use warnings;
 
+use Kernel::System::CacheInternal;
+
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -29,11 +31,24 @@ sub new {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
+    $Self->{CacheInternalObject} = Kernel::System::CacheInternal->new(
+        %{$Self},
+        Type => 'SLAPreferencesDB',
+        TTL  => 60 * 60 * 3,
+    );
+
     # preferences table data
     $Self->{PreferencesTable}      = 'sla_preferences';
     $Self->{PreferencesTableKey}   = 'preferences_key';
     $Self->{PreferencesTableValue} = 'preferences_value';
     $Self->{PreferencesTableSLAID} = 'sla_id';
+
+    # create cache prefix
+    $Self->{CachePrefix} = 'SLAPreferencesDB'
+        . $Self->{PreferencesTable}
+        . $Self->{PreferencesTableKey}
+        . $Self->{PreferencesTableValue}
+        . $Self->{PreferencesTableSLAID};
 
     return $Self;
 }
@@ -43,7 +58,7 @@ sub SLAPreferencesSet {
 
     # check needed stuff
     for (qw(SLAID Key Value)) {
-        if ( !defined( $Param{$_} ) ) {
+        if ( !defined $Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
@@ -57,12 +72,19 @@ sub SLAPreferencesSet {
     );
 
     # insert new data
-    return $Self->{DBObject}->Do(
+    return if !$Self->{DBObject}->Do(
         SQL => "INSERT INTO $Self->{PreferencesTable} ($Self->{PreferencesTableSLAID}, "
             . " $Self->{PreferencesTableKey}, $Self->{PreferencesTableValue}) "
             . " VALUES (?, ?, ?)",
         Bind => [ \$Param{SLAID}, \$Param{Key}, \$Param{Value} ],
     );
+
+    # delete cache
+    $Self->{CacheInternalObject}->Delete(
+        Key => $Self->{CachePrefix} . $Param{SLAID},
+    );
+
+    return 1;
 }
 
 sub SLAPreferencesGet {
@@ -77,9 +99,13 @@ sub SLAPreferencesGet {
     }
 
     # check if service preferences are available
-    if ( !$Self->{ConfigObject}->Get('SLAPreferences') ) {
-        return;
-    }
+    return if !$Self->{ConfigObject}->Get('SLAPreferences');
+
+    # read cache
+    my $Cache = $Self->{CacheInternalObject}->Get(
+        Key => $Self->{CachePrefix} . $Param{SLAID},
+    );
+    return %{$Cache} if $Cache;
 
     # get preferences
     return if !$Self->{DBObject}->Prepare(
@@ -87,12 +113,18 @@ sub SLAPreferencesGet {
             . " FROM $Self->{PreferencesTable} WHERE $Self->{PreferencesTableSLAID} = ?",
         Bind => [ \$Param{SLAID} ],
     );
+
     my %Data;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Data{ $Row[0] } = $Row[1];
     }
 
-    # return data
+    # set cache
+    $Self->{CacheInternalObject}->Set(
+        Key   => $Self->{CachePrefix} . $Param{SLAID},
+        Value => \%Data,
+    );
+
     return %Data;
 }
 

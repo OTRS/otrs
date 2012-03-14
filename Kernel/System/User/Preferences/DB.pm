@@ -2,7 +2,7 @@
 # Kernel/System/User/Preferences/DB.pm - some user functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.20 2012-03-14 12:29:47 mh Exp $
+# $Id: DB.pm,v 1.21 2012-03-14 13:20:35 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.20 $) [1];
+$VERSION = qw($Revision: 1.21 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -60,6 +60,8 @@ sub SetPreferences {
         }
     }
 
+    my $Value = defined $Param{Value} ? $Param{Value} : '';
+
     # delete old data
     return if !$Self->{DBObject}->Do(
         SQL => "DELETE FROM $Self->{PreferencesTable} WHERE "
@@ -72,12 +74,12 @@ sub SetPreferences {
         SQL => "INSERT INTO $Self->{PreferencesTable} ($Self->{PreferencesTableUserID}, "
             . " $Self->{PreferencesTableKey}, $Self->{PreferencesTableValue}) "
             . " VALUES (?, ?, ?)",
-        Bind => [ \$Param{UserID}, \$Param{Key}, \$Param{Value} ],
+        Bind => [ \$Param{UserID}, \$Param{Key}, \$Value ],
     );
 
     # delete cache
     $Self->{CacheInternalObject}->Delete(
-        Key => $Self->{CachePrefix} . 'Preference' . $Param{UserID},
+        Key => $Self->{CachePrefix} . $Param{UserID},
     );
 
     return 1;
@@ -95,8 +97,9 @@ sub GetPreferences {
     }
 
     # read cache
-    my $CacheKey = $Self->{CachePrefix} . 'Preference' . $Param{UserID};
-    my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+    my $Cache = $Self->{CacheInternalObject}->Get(
+        Key => $Self->{CachePrefix} . $Param{UserID},
+    );
     return %{$Cache} if $Cache;
 
     # get preferences
@@ -113,7 +116,7 @@ sub GetPreferences {
 
     # set cache
     $Self->{CacheInternalObject}->Set(
-        Key   => $Self->{CachePrefix} . 'Preference' . $Param{UserID},
+        Key   => $Self->{CachePrefix} . $Param{UserID},
         Value => \%Data,
     );
 

@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2202 2012-03-14 12:29:47 mh Exp $
+# $Id: CHANGES,v 1.2203 2012-03-14 13:21:08 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -11,6 +11,10 @@
 
 3.1.3 2012-??-??
  - 2012-03-14 Added internal cache to user preferences backend to improve performance.
+ - 2012-03-14 Added internal cache to customer user preferences backend to improve performance.
+ - 2012-03-14 Added internal cache to queue preferences backend to improve performance.
+ - 2012-03-14 Added internal cache to service preferences backend to improve performance.
+ - 2012-03-14 Added internal cache to sla preferences backend to improve performance.
  - 2012-03-09 Fixed bug#8286 - Adressbook forgets selected entries.
  - 2012-03-07 Fixed bug#8297 - Selectbox for new owner causes ajax update
     on every change made via keyboard.
