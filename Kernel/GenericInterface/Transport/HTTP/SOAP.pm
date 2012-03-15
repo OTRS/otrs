@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Transport/HTTP/SOAP.pm - GenericInterface network transport interface for HTTP::SOAP
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: SOAP.pm,v 1.43 2012-03-15 02:18:22 cr Exp $
+# $Id: SOAP.pm,v 1.44 2012-03-15 15:41:25 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Encode;
 use PerlIO;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.43 $) [1];
+$VERSION = qw($Revision: 1.44 $) [1];
 
 =head1 NAME
 
@@ -481,10 +481,13 @@ sub RequesterPerformRequest {
 
             # force Net::SSL instead of IO::Socket::SSL, otherwise GI can't connect to certificate
             # authentication restricted servers
-            use Net::SSL ();
-
-            BEGIN {
-                $Net::HTTPS::SSL_SOCKET_CLASS = "Net::SSL";
+            my $SSLModule = 'Net::SSL';
+            if ( !$Self->{MainObject}->Require($SSLModule) ) {
+                return {
+                    Success      => 0,
+                    ErrorMessage => "The perl module \"$SSLModule\" needed to manage SSL"
+                        . " connections with certificates is missing!",
+                };
             }
 
             $ENV{HTTPS_PKCS12_FILE}     = $Config->{SSL}->{SSLP12Certificate};
@@ -1169,6 +1172,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.43 $ $Date: 2012-03-15 02:18:22 $
+$Revision: 1.44 $ $Date: 2012-03-15 15:41:25 $
 
 =cut
