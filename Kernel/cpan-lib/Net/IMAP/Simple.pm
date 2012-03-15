@@ -9,7 +9,7 @@ use IO::Socket;
 use IO::Select;
 use Net::IMAP::Simple::PipeSocket;
 
-our $VERSION = "1.20271";
+our $VERSION = "1.2030";
 
 BEGIN {
     # I'd really rather the pause/cpan indexers miss this "package"
@@ -211,6 +211,18 @@ sub login {
         cmd     => [ LOGIN => qq[$user "$pass"] ],
         final   => sub { 1 },
         process => sub { },
+    );
+}
+
+sub separator {
+    my ( $self, ) = @_;
+    my $sep;
+
+        return $self->_process_cmd (
+        cmd     => [ LIST => qq["" ""]  ],
+        final => sub { $sep },
+        process => sub { (undef,undef,undef,$sep,undef) = split /\s/smx , $_[0];
+                        $sep =~ s/["]//g;  },
     );
 }
 
@@ -610,7 +622,17 @@ sub get {
         cmd => [ FETCH => qq[$number $arg] ],
         final => sub {
             if( $fetching ) {
-                $lines[-1] =~ s/\)[\x0d\x0a]*\z//;
+                if( $fetching > 0 ) {
+                    # XXX: this is just about the least efficient way in the
+                    # world to do this; I should appologize, but really,
+                    # nothing in this module is done particularly well.  I
+                    # doubt anyone will notice this.
+
+                    local $"="";
+                    my $message = "@lines";
+                    @lines = split m/(?<=\x0d\x0a)/, substr($message, 0, $fetching)
+                        if( length $message > $fetching );
+                }
                 return  wantarray ? @lines : Net::IMAP::Simple::_message->new(\@lines)
             }
 
