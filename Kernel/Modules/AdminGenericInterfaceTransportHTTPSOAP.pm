@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericInterfaceTransportHTTPSOAP.pm - provides a TransportHTTPSOAP view for admins
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceTransportHTTPSOAP.pm,v 1.9 2012-03-09 23:22:16 cr Exp $
+# $Id: AdminGenericInterfaceTransportHTTPSOAP.pm,v 1.10 2012-03-15 02:15:26 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::GenericInterface::Webservice;
@@ -177,23 +177,25 @@ sub Run {
             if ( $GetParam->{UseSSL} && $GetParam->{UseSSL} eq 'Yes' ) {
 
                 # get SSL auth settings
-                $TransportConfig->{SSL}->{UseSSL}         = $GetParam->{UseSSL};
-                $TransportConfig->{SSL}->{SSLCertificate} = $GetParam->{SSLCertificate};
-                $TransportConfig->{SSL}->{SSLKey}         = $GetParam->{SSLKey};
-                $TransportConfig->{SSL}->{SSLPassword}    = $GetParam->{SSLPassword};
-                $TransportConfig->{SSL}->{SSLCAFile}      = $GetParam->{SSLCAFile};
-                $TransportConfig->{SSL}->{SSLCADir}       = $GetParam->{SSLCADir};
+                $TransportConfig->{SSL}->{UseSSL}            = $GetParam->{UseSSL};
+                $TransportConfig->{SSL}->{SSLP12Certificate} = $GetParam->{SSLP12Certificate};
+                $TransportConfig->{SSL}->{SSLP12Password}    = $GetParam->{SSLP12Password};
+                $TransportConfig->{SSL}->{SSLCAFile}         = $GetParam->{SSLCAFile};
+                $TransportConfig->{SSL}->{SSLCADir}          = $GetParam->{SSLCADir};
+                $TransportConfig->{SSL}->{SSLProxy}          = $GetParam->{SSLProxy};
+                $TransportConfig->{SSL}->{SSLProxyUser}      = $GetParam->{SSLProxyUser};
+                $TransportConfig->{SSL}->{SSLProxyPassword}  = $GetParam->{SSLProxyPassword};
 
-                if ( !$GetParam->{SSLCertificate} ) {
+                if ( !$GetParam->{SSLP12Certificate} ) {
 
                     # add server error error class
-                    $Error{'SSLCertificateServerError'} = 'ServerError';
+                    $Error{'SSLP12CertificateServerError'} = 'ServerError';
                 }
 
-                if ( !$GetParam->{SSLKey} ) {
+                if ( !$GetParam->{SSLP12Password} ) {
 
                     # add server error error class
-                    $Error{'SSLKeyServerError'} = 'ServerError';
+                    $Error{'SSLP12PasswordServerError'} = 'ServerError';
                 }
             }
         }
@@ -278,11 +280,13 @@ sub _ShowEdit {
     $Param{User}                = $TransportConfig->{Authentication}->{User};
     $Param{Password}            = $TransportConfig->{Authentication}->{Password};
     $Param{UseSSL}              = $TransportConfig->{SSL}->{UseSSL};
-    $Param{SSLCertificate}      = $TransportConfig->{SSL}->{SSLCertificate};
-    $Param{SSLKey}              = $TransportConfig->{SSL}->{SSLKey};
-    $Param{SSLPassword}         = $TransportConfig->{SSL}->{SSLPassword};
+    $Param{SSLP12Certificate}   = $TransportConfig->{SSL}->{SSLP12Certificate};
+    $Param{SSLP12Password}      = $TransportConfig->{SSL}->{SSLP12Password};
     $Param{SSLCAFile}           = $TransportConfig->{SSL}->{SSLCAFile};
     $Param{SSLCADir}            = $TransportConfig->{SSL}->{SSLCADir};
+    $Param{SSLProxy}            = $TransportConfig->{SSL}->{SSLProxy};
+    $Param{SSLProxyUser}        = $TransportConfig->{SSL}->{SSLProxyUser};
+    $Param{SSLProxyPassword}    = $TransportConfig->{SSL}->{SSLProxyPassword};
 
     # call bread crumbs blocks
     $Self->{LayoutObject}->Block(
@@ -374,9 +378,9 @@ sub _ShowEdit {
         $Param{SSLHidden} = 'Hidden';
         if ( $Param{UseSSL} && $Param{UseSSL} eq 'Yes' )
         {
-            $Param{SSLHidden}                      = '';
-            $Param{SSLCertificateValidateRequired} = 'Validate_Required';
-            $Param{SSLKeyValidateRequired}         = 'Validate_Required';
+            $Param{SSLHidden}                         = '';
+            $Param{SSLP12CertificateValidateRequired} = 'Validate_Required';
+            $Param{SSLP12PasswordValidateRequired}    = 'Validate_Required';
         }
 
         # call Endpoint block
@@ -418,7 +422,8 @@ sub _GetParams {
     for my $ParamName (
         qw(
         Endpoint NameSpace Encoding SOAPAction MaxLength Authentication User Password
-        SOAPAction SOAPActionSeparator UseSSL SSLCertificate SSLKey SSLPassword SSLCAFile SSLCADir
+        SOAPAction SOAPActionSeparator UseSSL SSLP12Certificate SSLP12Password SSLCAFile SSLCADir
+        SSLProxy SSLProxyUser SSLProxyPassword
         )
         )
     {
