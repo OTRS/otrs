@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPackageManager.pm - manage software packages
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPackageManager.pm,v 1.106 2012-03-06 13:38:36 mg Exp $
+# $Id: AdminPackageManager.pm,v 1.107 2012-03-16 22:52:38 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Web::UploadCache;
 use Kernel::System::Cache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.106 $) [1];
+$VERSION = qw($Revision: 1.107 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1619,6 +1619,7 @@ sub _UpgradeHandling {
         # redirect
         return $Self->{LayoutObject}->Redirect( OP => "Action=$Self->{Action}" );
     }
+
     return $Self->{LayoutObject}->ErrorScreen();
 }
 
@@ -1666,16 +1667,14 @@ sub _GetFeatureAddonData {
         );
     };
 
-    if ( !$Feed ) {
-        return;
-    }
+    return if !$Feed;
 
     my @Result;
-
     my $Count = 0;
+    ITEM:
     for my $Item ( $Feed->get_item() ) {
         $Count++;
-        last if $Count > 100;
+        last ITEM if $Count > 100;
 
         #        my $Time = $Item->pubDate();
         #        my $Ago;
@@ -1697,6 +1696,7 @@ sub _GetFeatureAddonData {
         };
     }
 
+    # set cache
     $Self->{CacheObject}->Set(
         Type  => $CacheType,
         Key   => $CacheKey,
@@ -1705,7 +1705,6 @@ sub _GetFeatureAddonData {
     );
 
     return \@Result;
-
 }
 
 1;
