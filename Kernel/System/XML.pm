@@ -1,8 +1,8 @@
 # --
 # Kernel/System/XML.pm - lib xml
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: XML.pm,v 1.108 2011-08-12 09:06:15 mg Exp $
+# $Id: XML.pm,v 1.109 2012-03-16 22:55:35 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,10 +14,12 @@ package Kernel::System::XML;
 use strict;
 use warnings;
 
+use Digest::MD5;
+
 use Kernel::System::Cache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.108 $) [1];
+$VERSION = qw($Revision: 1.109 $) [1];
 
 =head1 NAME
 
@@ -118,6 +120,7 @@ sub XMLHashAdd {
             return;
         }
     }
+
     if ( !$Param{Key} && !$Param{KeyAutoIncrement} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
@@ -125,6 +128,7 @@ sub XMLHashAdd {
         );
         return;
     }
+
     my %ValueHASH = $Self->XMLHash2D( XMLHash => $Param{XMLHash} );
     if (%ValueHASH) {
         if ( !$Param{Key} ) {
@@ -160,6 +164,7 @@ sub XMLHashAdd {
         Priority => 'error',
         Message  => 'Got no %ValueHASH from XMLHash2D()',
     );
+
     return;
 }
 
@@ -187,6 +192,7 @@ sub XMLHashUpdate {
             return;
         }
     }
+
     return $Self->XMLHashAdd(%Param);
 }
 
@@ -202,7 +208,7 @@ get an XMLHash from the database
     my @XMLHash = $XMLObject->XMLHashGet(
         Type  => 'SomeType',
         Key   => '123',
-        Cache => 0, # do not use the file system cache
+        Cache => 0,   # (optional) do not use cached data
     );
 
 =cut
@@ -224,15 +230,13 @@ sub XMLHashGet {
         $Param{Cache} = 1;
     }
 
-    # read cache
+    # check cache
     if ( $Param{Cache} ) {
         my $Cache = $Self->{CacheObject}->Get(
             Type => 'XML',
             Key  => "$Param{Type}-$Param{Key}",
         );
-        if ($Cache) {
-            return @{$Cache};
-        }
+        return @{$Cache} if $Cache;
     }
 
     # sql
@@ -256,7 +260,7 @@ sub XMLHashGet {
         print STDERR "ERROR: XML.pm $@\n";
     }
 
-    # write cache file
+    # set cache
     if ( $Param{Cache} && $Content ) {
         $Self->{CacheObject}->Set(
             Type  => 'XML',
@@ -265,6 +269,7 @@ sub XMLHashGet {
             TTL   => 24 * 60 * 60,
         );
     }
+
     return @XMLHash;
 }
 
@@ -300,6 +305,7 @@ sub XMLHashDelete {
         SQL => 'DELETE FROM xml_storage WHERE xml_type = ? AND xml_key = ?',
         Bind => [ \$Param{Type}, \$Param{Key} ],
     );
+
     return 1;
 }
 
@@ -349,6 +355,7 @@ sub XMLHashMove {
             . 'WHERE xml_type = ? AND xml_key = ?',
         Bind => [ \$Param{NewType}, \$Param{NewKey}, \$Param{OldType}, \$Param{OldKey} ],
     );
+
     return 1;
 }
 
@@ -488,6 +495,7 @@ sub XMLHashList {
         SQL  => 'SELECT distinct(xml_key) FROM xml_storage WHERE xml_type = ?',
         Bind => [ \$Param{Type} ],
     );
+
     my @Keys;
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
         push @Keys, $Data[0];
@@ -513,6 +521,7 @@ sub XMLHash2XML {
     for my $Key (@XMLHash) {
         $Output .= $Self->_ElementBuild( %{$Key} );
     }
+
     return $Output;
 }
 
@@ -635,6 +644,7 @@ sub XMLHash2D {
     $Self->{XMLHashReturn} = 1;
     undef $Self->{XMLLevelTag};
     undef $Self->{XMLLevelCount};
+
     my $Count = 0;
     for my $Item ( @{ $Param{XMLHash} } ) {
         if ( ref $Item eq 'HASH' ) {
@@ -679,6 +689,7 @@ sub XMLStructure2XMLHash {
         }
     }
     $Self->{XMLHashReturn} = 0;
+
     return ( \%{ $Self->{XMLHash2} } );
 }
 
@@ -704,6 +715,22 @@ sub XMLParse {
     # check input type
     if ( ref $Param{String} ) {
         $Param{String} = ${ $Param{String} };
+    }
+
+    # create checksum
+    my $CookedString = $Param{String};
+    $Self->{EncodeObject}->EncodeOutput( \$CookedString );
+    my $MD5Object = Digest::MD5->new();
+    $MD5Object->add($CookedString);
+    my $Checksum = $MD5Object->hexdigest();
+
+    # check cache
+    if ($Checksum) {
+        my $Cache = $Self->{CacheObject}->Get(
+            Type => 'XMLParse',
+            Key  => $Checksum,
+        );
+        return @{$Cache} if $Cache;
     }
 
     # cleanup global vars
@@ -774,6 +801,17 @@ sub XMLParse {
     for my $XMLElement ( @{ $Self->{XMLARRAY} } ) {
         $Self->_Decode($XMLElement);
     }
+
+    # set cache
+    if ($Checksum) {
+        $Self->{CacheObject}->Set(
+            Type  => 'XMLParse',
+            Key   => $Checksum,
+            Value => $Self->{XMLARRAY},
+            TTL   => 30 * 24 * 60 * 60,
+        );
+    }
+
     return @{ $Self->{XMLARRAY} };
 }
 
@@ -809,11 +847,13 @@ sub _XMLHashAddAutoIncrement {
         SQL  => 'SELECT DISTINCT(xml_key) FROM xml_storage WHERE xml_type = ?',
         Bind => [ \$Param{Type} ],
     );
+
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
         if ( $Data[0] ) {
             push @KeysExists, $Data[0];
         }
     }
+
     for my $Key (@KeysExists) {
         if ( $Key !~ /^\d{1,99}$/ ) {
             $Self->{LogObject}->Log(
@@ -837,14 +877,12 @@ sub _ElementBuild {
     my @Tag;
     my @Sub;
     my $Output = '';
+
     if ( $Param{Key} ) {
         $Self->{XMLHash2XMLLayer}++;
-        for ( 2 .. $Self->{XMLHash2XMLLayer} ) {
-
-            #            $Output .= "  ";
-        }
         $Output .= "<$Param{Key}";
     }
+
     for ( sort keys %Param ) {
         if ( ref $Param{$_} eq 'ARRAY' ) {
             push @Tag, $_;
@@ -884,15 +922,10 @@ sub _ElementBuild {
     }
 
     if ( $Param{Key} ) {
-
-        #        if (!$Param{Content}) {
-        #            for (2..$Self->{XMLHash2XMLLayer}) {
-        #                $Output .= "  ";
-        #            }
-        #        }
         $Output .= "</$Param{Key}>\n";
         $Self->{XMLHash2XMLLayer} = $Self->{XMLHash2XMLLayer} - 1;
     }
+
     return $Output;
 }
 
@@ -1357,6 +1390,7 @@ sub _XMLStructure2XMLHash {
             }
         }
     }
+
     return 1;
 }
 
@@ -1393,6 +1427,7 @@ sub _Decode {
             );
         }
     }
+
     return 1;
 }
 
@@ -1402,16 +1437,20 @@ sub _HS {
     if ( $Self->{LastTag} ) {
         push @{ $Self->{XMLARRAY} }, { %{ $Self->{LastTag} }, Content => $Self->{C} };
     }
+
     undef $Self->{LastTag};
     undef $Self->{C};
+
     $Self->{XMLLevel}++;
     $Self->{XMLTagCount}++;
     $Self->{XMLLevelTag}->{ $Self->{XMLLevel} } = $Element;
+
     if ( $Self->{Tll} && $Self->{Tll} > $Self->{XMLLevel} ) {
         for ( ( $Self->{XMLLevel} + 1 ) .. 30 ) {
             undef $Self->{XMLLevelCount}->{$_};
         }
     }
+
     $Self->{XMLLevelCount}->{ $Self->{XMLLevel} }->{$Element}++;
 
     # remember old level
@@ -1419,24 +1458,19 @@ sub _HS {
 
     my $Key = '';
     for ( 1 .. ( $Self->{XMLLevel} ) ) {
-        if ($Key) {
-
-            #            $Key .= "->";
-        }
         $Key .= "{'$Self->{XMLLevelTag}->{$_}'}";
         $Key .= "[" . $Self->{XMLLevelCount}->{$_}->{ $Self->{XMLLevelTag}->{$_} } . "]";
     }
 
     $Self->{LastTag} = {
         %Attr,
-        TagType  => 'Start',
-        Tag      => $Element,
-        TagLevel => $Self->{XMLLevel},
-        TagCount => $Self->{XMLTagCount},
-
-        #        TagKey => $Key,
+        TagType      => 'Start',
+        Tag          => $Element,
+        TagLevel     => $Self->{XMLLevel},
+        TagCount     => $Self->{XMLTagCount},
         TagLastLevel => $Self->{XMLLevelTag}->{ ( $Self->{XMLLevel} - 1 ) },
     };
+
     return 1;
 }
 
@@ -1446,6 +1480,7 @@ sub _CS {
     if ( $Self->{LastTag} ) {
         $Self->{C} .= $Element;
     }
+
     return 1;
 }
 
@@ -1453,11 +1488,14 @@ sub _ES {
     my ( $Self, $Expat, $Element ) = @_;
 
     $Self->{XMLTagCount}++;
+
     if ( $Self->{LastTag} ) {
         push @{ $Self->{XMLARRAY} }, { %{ $Self->{LastTag} }, Content => $Self->{C} };
     }
+
     undef $Self->{LastTag};
     undef $Self->{C};
+
     push(
         @{ $Self->{XMLARRAY} },
         {
@@ -1467,7 +1505,9 @@ sub _ES {
             Tag      => $Element
         },
     );
+
     $Self->{XMLLevel} = $Self->{XMLLevel} - 1;
+
     return 1;
 }
 
@@ -1489,6 +1529,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.108 $ $Date: 2011-08-12 09:06:15 $
+$Revision: 1.109 $ $Date: 2012-03-16 22:55:35 $
 
 =cut

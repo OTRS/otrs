@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Package.pm,v 1.127 2012-02-10 00:27:45 sb Exp $
+# $Id: Package.pm,v 1.128 2012-03-16 22:55:35 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,6 +14,7 @@ package Kernel::System::Package;
 use strict;
 use warnings;
 
+use Digest::MD5;
 use MIME::Base64;
 use File::Copy;
 
@@ -24,7 +25,7 @@ use Kernel::System::Cache;
 use Kernel::System::Loader;
 
 use vars qw($VERSION $S);
-$VERSION = qw($Revision: 1.127 $) [1];
+$VERSION = qw($Revision: 1.128 $) [1];
 
 =head1 NAME
 
@@ -165,6 +166,7 @@ sub RepositoryList {
         SQL =>
             'SELECT name, version, install_status, content FROM package_repository ORDER BY name, create_time',
     );
+
     my @Data;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         my %Package = (
@@ -213,13 +215,16 @@ sub RepositoryGet {
 
     # db access
     $Self->{DBObject}->Prepare(
-        SQL => 'SELECT content FROM package_repository WHERE name = ? AND version = ?',
-        Bind => [ \$Param{Name}, \$Param{Version} ],
+        SQL   => 'SELECT content FROM package_repository WHERE name = ? AND version = ?',
+        Bind  => [ \$Param{Name}, \$Param{Version} ],
+        Limit => 1,
     );
+
     my $Package = '';
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Package = $Row[0];
     }
+
     if ( !$Package ) {
         $Self->{LogObject}->Log(
             Priority => 'notice',
@@ -228,10 +233,7 @@ sub RepositoryGet {
         return;
     }
 
-    if ( $Param{Result} && $Param{Result} eq 'SCALAR' ) {
-        return \$Package;
-    }
-
+    return \$Package if $Param{Result} && $Param{Result} eq 'SCALAR';
     return $Package;
 }
 
@@ -271,12 +273,6 @@ sub RepositoryAdd {
     );
 
     if ($PackageExists) {
-
-#        $Self->{LogObject}->Log(
-#            Priority => 'error',
-#            Message => "Package $Structure{Name}->{Content}-$Structure{Version}->{Content} already in local repository!",
-#        );
-#        return;
         $Self->{DBObject}->Do(
             SQL => 'DELETE FROM package_repository WHERE name = ? AND version = ?',
             Bind => [ \$Structure{Name}->{Content}, \$Structure{Version}->{Content} ],
@@ -296,6 +292,7 @@ sub RepositoryAdd {
             \$Structure{Vendor}->{Content}, \$FileName, \$Param{String},
         ],
     );
+
     return 1;
 }
 
@@ -945,6 +942,7 @@ returns a list of available on-line packages
     my @List = $PackageObject->PackageOnlineList(
         URL  => '',
         Lang => 'en',
+        Cache => 0,   # (optional) do not use cached data
     );
 
 =cut
@@ -959,6 +957,20 @@ sub PackageOnlineList {
             return;
         }
     }
+    if ( !defined $Param{Cache} ) {
+        $Param{Cache} = 1;
+    }
+
+    # check cache
+    my $CacheKey = $Param{URL} . '-' . $Param{Lang};
+    if ( $Param{Cache} ) {
+        my $Cache = $Self->{CacheObject}->Get(
+            Type => 'PackageOnlineList',
+            Key  => $CacheKey,
+        );
+        return @{$Cache} if $Cache;
+    }
+
     my $XML = $Self->_Download( URL => $Param{URL} . '/otrs.xml' );
 
     return if !$XML;
@@ -1103,6 +1115,16 @@ sub PackageOnlineList {
     }
     @Packages = @NewPackages;
 
+    # set cache
+    if ( $Param{Cache} ) {
+        $Self->{CacheObject}->Set(
+            Type  => 'PackageOnlineList',
+            Key   => $CacheKey,
+            Value => \@Packages,
+            TTL   => 60 * 60,
+        );
+    }
+
     return @Packages;
 }
 
@@ -1127,6 +1149,7 @@ sub PackageOnlineGet {
             return;
         }
     }
+
     return $Self->_Download( URL => $Param{Source} . '/' . $Param{File} );
 }
 
@@ -1585,6 +1608,23 @@ sub PackageParse {
         return;
     }
 
+    # create checksum
+    my $CookedString = ref $Param{String} ? ${ $Param{String} } : $Param{String};
+
+    $Self->{EncodeObject}->EncodeOutput( \$CookedString );
+    my $MD5Object = Digest::MD5->new();
+    $MD5Object->add($CookedString);
+    my $Checksum = $MD5Object->hexdigest();
+
+    # check cache
+    if ($Checksum) {
+        my $Cache = $Self->{CacheObject}->Get(
+            Type => 'PackageParse',
+            Key  => $Checksum,
+        );
+        return %{$Cache} if $Cache;
+    }
+
     my @XMLARRAY = $Self->{XMLObject}->XMLParse(%Param);
 
     # cleanup global vars
@@ -1688,6 +1728,17 @@ sub PackageParse {
     # return package structur
     my %Return = %{ $Self->{Package} };
     undef $Self->{Package};
+
+    # set cache
+    if ($Checksum) {
+        $Self->{CacheObject}->Set(
+            Type  => 'PackageParse',
+            Key   => $Checksum,
+            Value => \%Return,
+            TTL   => 30 * 24 * 60 * 60,
+        );
+    }
+
     return %Return;
 }
 
@@ -1758,7 +1809,8 @@ sub PackageIsInstalled {
     $Self->{DBObject}->Prepare(
         SQL =>
             "SELECT name FROM package_repository WHERE name = ? AND install_status = 'installed'",
-        Bind => [ \$Param{Name} ],
+        Bind  => [ \$Param{Name} ],
+        Limit => 1,
     );
 
     my $Flag = 0;
@@ -1787,6 +1839,7 @@ sub PackageInstallDefaultFiles {
     );
 
     # read packages and install
+    LOCATION:
     for my $Location (@PackageFiles) {
 
         # read package
@@ -1796,7 +1849,7 @@ sub PackageInstallDefaultFiles {
             Type     => 'Local',
             Result   => 'SCALAR',
         );
-        next if !$ContentSCALARRef;
+        next LOCATION if !$ContentSCALARRef;
 
         # install package (use eval to be save)
         eval {
@@ -1806,6 +1859,7 @@ sub PackageInstallDefaultFiles {
             $Self->{LogObject}->Log( Priority => 'error', Message => $@ );
         }
     }
+
     return 1;
 }
 
@@ -1856,16 +1910,21 @@ sub _Database {
         );
         return;
     }
+
     my @SQL = $Self->{DBObject}->SQLProcessor( Database => $Param{Database} );
+
     for my $SQL (@SQL) {
         print STDERR "Notice: $SQL\n";
         $Self->{DBObject}->Do( SQL => $SQL );
     }
+
     my @SQLPost = $Self->{DBObject}->SQLProcessorPost();
+
     for my $SQL (@SQLPost) {
         print STDERR "Notice: $SQL\n";
         $Self->{DBObject}->Do( SQL => $SQL );
     }
+
     return 1;
 }
 
@@ -1899,6 +1958,7 @@ sub _Code {
             }
         }
     }
+
     return 1;
 }
 
@@ -2528,6 +2588,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.127 $ $Date: 2012-02-10 00:27:45 $
+$Revision: 1.128 $ $Date: 2012-03-16 22:55:35 $
 
 =cut

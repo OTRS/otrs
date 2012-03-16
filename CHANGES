@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2204 2012-03-15 19:13:54 mb Exp $
+# $Id: CHANGES,v 1.2205 2012-03-16 22:56:48 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.1.3 2012-??-??
+ - 2012-03-16 Added cache to Kernel/System/XML.pm to improve performance.
+ - 2012-03-16 Added cache to Kernel/System/Package.pm to improve performance.
  - 2012-03-15 Fixed bug#8320 - IMAP FLAGS (\Seen \Recent) are appended to article body
     by upgrading bundled Net::IMAP::Simple to version 1.2030.
  - 2012-03-14 Added internal cache to user preferences backend to improve performance.
