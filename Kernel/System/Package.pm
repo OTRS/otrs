@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Package.pm,v 1.128 2012-03-16 22:55:35 mh Exp $
+# $Id: Package.pm,v 1.129 2012-03-16 23:13:41 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,7 +25,7 @@ use Kernel::System::Cache;
 use Kernel::System::Loader;
 
 use vars qw($VERSION $S);
-$VERSION = qw($Revision: 1.128 $) [1];
+$VERSION = qw($Revision: 1.129 $) [1];
 
 =head1 NAME
 
@@ -958,7 +958,13 @@ sub PackageOnlineList {
         }
     }
     if ( !defined $Param{Cache} ) {
-        $Param{Cache} = 1;
+
+        if ( $Param{URL} =~ m{ \.otrs\.org\/ }xms ) {
+            $Param{Cache} = 1;
+        }
+        else {
+            $Param{Cache} = 0;
+        }
     }
 
     # check cache
@@ -2588,6 +2594,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.128 $ $Date: 2012-03-16 22:55:35 $
+$Revision: 1.129 $ $Date: 2012-03-16 23:13:41 $
 
 =cut
