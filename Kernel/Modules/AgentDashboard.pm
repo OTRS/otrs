@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentDashboard.pm - a global dashbard
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboard.pm,v 1.28 2012-01-06 12:34:19 mg Exp $
+# $Id: AgentDashboard.pm,v 1.29 2012-03-17 01:58:30 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Cache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.28 $) [1];
+$VERSION = qw($Revision: 1.29 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -27,13 +27,38 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for (qw(ParamObject DBObject LayoutObject LogObject ConfigObject )) {
+    for (qw(ParamObject DBObject LayoutObject LogObject ConfigObject MainObject EncodeObject)) {
         if ( !$Self->{$_} ) {
             $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
         }
     }
 
     $Self->{CacheObject} = Kernel::System::Cache->new(%Param);
+
+    $Self->{SlaveDBObject}     = $Self->{DBObject};
+    $Self->{SlaveTicketObject} = $Self->{TicketObject};
+
+    # use a slave db to search dashboard date
+    if ( $Self->{ConfigObject}->Get('Core::MirrorDB::DSN') ) {
+
+        $Self->{SlaveDBObject} = Kernel::System::DB->new(
+            LogObject    => $Param{LogObject},
+            ConfigObject => $Param{ConfigObject},
+            MainObject   => $Param{MainObject},
+            EncodeObject => $Param{EncodeObject},
+            DatabaseDSN  => $Self->{ConfigObject}->Get('Core::MirrorDB::DSN'),
+            DatabaseUser => $Self->{ConfigObject}->Get('Core::MirrorDB::User'),
+            DatabasePw   => $Self->{ConfigObject}->Get('Core::MirrorDB::Password'),
+        );
+
+        if ( $Self->{SlaveDBObject} ) {
+
+            $Self->{SlaveTicketObject} = Kernel::System::Ticket->new(
+                %Param,
+                DBObject => $Self->{SlaveDBObject},
+            );
+        }
+    }
 
     return $Self;
 }
@@ -438,8 +463,10 @@ sub _Element {
     return if !$Self->{MainObject}->Require($Module);
     my $Object = $Module->new(
         %{$Self},
-        Config => $Configs->{$Name},
-        Name   => $Name,
+        DBObject     => $Self->{SlaveDBObject},
+        TicketObject => $Self->{SlaveTicketObject},
+        Config       => $Configs->{$Name},
+        Name         => $Name,
     );
 
     # get module config
