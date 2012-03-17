@@ -1,8 +1,8 @@
 # --
 # Kernel/System/User.pm - some user functions
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: User.pm,v 1.116 2011-07-01 07:31:04 mg Exp $
+# $Id: User.pm,v 1.117 2012-03-17 01:18:11 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,14 +15,13 @@ use strict;
 use warnings;
 
 use Crypt::PasswdMD5 qw(unix_md5_crypt);
-use Digest::SHA::PurePerl qw(sha1_hex sha256_hex);
 
 use Kernel::System::CheckItem;
 use Kernel::System::Valid;
 use Kernel::System::CacheInternal;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.116 $) [1];
+$VERSION = qw($Revision: 1.117 $) [1];
 
 =head1 NAME
 
@@ -633,7 +632,7 @@ sub SetPassword {
     my $CryptedPw = '';
 
     # get crypt type
-    my $CryptType = $Self->{ConfigObject}->Get('AuthModule::DB::CryptType') || '';
+    my $CryptType = $Self->{ConfigObject}->Get('AuthModule::DB::CryptType') || 'sha256';
 
     # crypt plain (no crypt at all)
     if ( $CryptType eq 'plain' ) {
@@ -663,21 +662,40 @@ sub SetPassword {
     # crypt with sha1
     elsif ( $CryptType eq 'sha1' ) {
 
+        my $SHAObject;
+        if ( !$Self->{MainObject}->Require('Digest::SHA') ) {
+            $SHAObject = Digest::SHA->new('sha1');
+        }
+        else {
+            $Self->{MainObject}->Require('Digest::SHA::PurePerl');
+            $SHAObject = Digest::SHA::PurePerl->new('sha1');
+        }
+
         # encode output, needed by sha1_hex() only non utf8 signs
         $Self->{EncodeObject}->EncodeOutput( \$Pw );
 
-        $CryptedPw = sha1_hex($Pw);
+        $SHAObject->add($Pw);
+        $CryptedPw = $SHAObject->hexdigest();
     }
 
-    # crypt with sha2
-    # if $CryptType is set to anything else icluding sha2
+    # crypt with sha256
+    # if $CryptType is set to anything else including sha2
     else {
+
+        my $SHAObject;
+        if ( !$Self->{MainObject}->Require('Digest::SHA') ) {
+            $SHAObject = Digest::SHA->new('sha256');
+        }
+        else {
+            $Self->{MainObject}->Require('Digest::SHA::PurePerl');
+            $SHAObject = Digest::SHA::PurePerl->new('sha256');
+        }
 
         # encode output, needed by sha256_hex() only non utf8 signs
         $Self->{EncodeObject}->EncodeOutput( \$Pw );
 
-        $CryptedPw = sha256_hex($Pw);
-
+        $SHAObject->add($Pw);
+        $CryptedPw = $SHAObject->hexdigest();
     }
 
     # md5 sum of pw, needed for password history
@@ -699,6 +717,7 @@ sub SetPassword {
         Priority => 'notice',
         Message  => "User: '$Param{UserLogin}' changed password successfully!",
     );
+
     return 1;
 }
 
@@ -1100,6 +1119,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.116 $ $Date: 2011-07-01 07:31:04 $
+$Revision: 1.117 $ $Date: 2012-03-17 01:18:11 $
 
 =cut

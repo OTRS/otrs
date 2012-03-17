@@ -2,7 +2,7 @@
 # Kernel/System/CustomerAuth/DB.pm - provides the db authentication
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.34 2012-01-05 17:15:32 cg Exp $
+# $Id: DB.pm,v 1.35 2012-03-17 01:18:12 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,10 +15,9 @@ use strict;
 use warnings;
 
 use Crypt::PasswdMD5 qw(unix_md5_crypt);
-use Digest::SHA::PurePerl qw(sha1_hex sha256_hex);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.34 $) [1];
+$VERSION = qw($Revision: 1.35 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -149,25 +148,44 @@ sub Auth {
             $Self->{EncodeObject}->EncodeInput( \$CryptedPw );
         }
 
-        # sha2 pw
+        # sha256 pw
         elsif ( $GetPw =~ m{\A .{64} \z}xms ) {
+
+            my $SHAObject;
+            if ( !$Self->{MainObject}->Require('Digest::SHA') ) {
+                $SHAObject = Digest::SHA->new('sha256');
+            }
+            else {
+                $Self->{MainObject}->Require('Digest::SHA::PurePerl');
+                $SHAObject = Digest::SHA::PurePerl->new('sha256');
+            }
 
             # encode output, needed by sha256_hex() only non utf8 signs
             $Self->{EncodeObject}->EncodeOutput( \$Pw );
 
-            $CryptedPw = sha256_hex($Pw);
+            $SHAObject->add($Pw);
+            $CryptedPw = $SHAObject->hexdigest();
             $Self->{EncodeObject}->EncodeInput( \$CryptedPw );
         }
 
         # sha1 pw
         else {
 
+            my $SHAObject;
+            if ( !$Self->{MainObject}->Require('Digest::SHA') ) {
+                $SHAObject = Digest::SHA->new('sha1');
+            }
+            else {
+                $Self->{MainObject}->Require('Digest::SHA::PurePerl');
+                $SHAObject = Digest::SHA::PurePerl->new('sha1');
+            }
+
             # encode output, needed by sha1_hex() only non utf8 signs
             $Self->{EncodeObject}->EncodeOutput( \$Pw );
 
-            $CryptedPw = sha1_hex($Pw);
+            $SHAObject->add($Pw);
+            $CryptedPw = $SHAObject->hexdigest();
             $Self->{EncodeObject}->EncodeInput( \$CryptedPw );
-
         }
     }
 

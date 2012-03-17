@@ -1,8 +1,8 @@
 # --
 # Kernel/System/CustomerUser/DB.pm - some customer user functions
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.86 2010-11-25 11:09:01 mg Exp $
+# $Id: DB.pm,v 1.87 2012-03-17 01:18:12 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,14 +15,13 @@ use strict;
 use warnings;
 
 use Crypt::PasswdMD5 qw(unix_md5_crypt);
-use Digest::SHA::PurePerl qw(sha1_hex sha256_hex);
 
 use Kernel::System::CheckItem;
 use Kernel::System::Valid;
 use Kernel::System::Cache;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.86 $) [1];
+$VERSION = qw($Revision: 1.87 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -846,21 +845,40 @@ sub SetPassword {
     # crypt with sha1
     elsif ( $CryptType eq 'sha1' ) {
 
+        my $SHAObject;
+        if ( !$Self->{MainObject}->Require('Digest::SHA') ) {
+            $SHAObject = Digest::SHA->new('sha1');
+        }
+        else {
+            $Self->{MainObject}->Require('Digest::SHA::PurePerl');
+            $SHAObject = Digest::SHA::PurePerl->new('sha1');
+        }
+
         # encode output, needed by sha1_hex() only non utf8 signs
         $Self->{EncodeObject}->EncodeOutput( \$Pw );
 
-        $CryptedPw = sha1_hex($Pw);
+        $SHAObject->add($Pw);
+        $CryptedPw = $SHAObject->hexdigest();
     }
 
     # crypt with sha2
     # if CrypType is set to anything else, including sha2
     else {
 
+        my $SHAObject;
+        if ( !$Self->{MainObject}->Require('Digest::SHA') ) {
+            $SHAObject = Digest::SHA->new('sha256');
+        }
+        else {
+            $Self->{MainObject}->Require('Digest::SHA::PurePerl');
+            $SHAObject = Digest::SHA::PurePerl->new('sha256');
+        }
+
         # encode output, needed by sha256_hex() only non utf8 signs
         $Self->{EncodeObject}->EncodeOutput( \$Pw );
 
-        $CryptedPw = sha256_hex($Pw);
-
+        $SHAObject->add($Pw);
+        $CryptedPw = $SHAObject->hexdigest();
     }
 
     # update db

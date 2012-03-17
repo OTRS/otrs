@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.CheckModules.pl - to check needed cpan framework modules
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.CheckModules.pl,v 1.34 2011-11-28 12:20:00 mb Exp $
+# $Id: otrs.CheckModules.pl,v 1.35 2012-03-17 01:18:54 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -92,6 +92,11 @@ my @NeededModules = (
         Comment  => 'Required to authenticate users and customers using SHA-1 or SHA-2 methods',
     },
     {
+        Module   => 'Digest::SHA',
+        Required => 0,
+        Comment  => 'Recommended for faster xml handling.',
+    },
+    {
         Module   => 'Encode::HanExtra',
         Version  => '0.23',
         Required => 0,
@@ -156,7 +161,7 @@ my @NeededModules = (
             {
                 Module   => 'JSON::XS',
                 Required => 0,
-                Comment  => 'Install it for faster AJAX/JavaScript handling.',
+                Comment  => 'Recommended for faster AJAX/JavaScript handling.',
             },
         ],
     },
@@ -370,14 +375,14 @@ my @NeededModules = (
             {
                 Module   => 'Text::CSV_XS',
                 Required => 0,
-                Comment  => 'Install it for faster CSV handling.',
+                Comment  => 'Recommended for faster CSV handling.',
             },
         ],
     },
     {
         Module   => 'XML::Parser',
         Required => 0,
-        Comment  => 'Required for faster xml handling.',
+        Comment  => 'Recommended for faster xml handling.',
     },
     {
         Module   => 'HTTP::Message',
