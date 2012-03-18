@@ -2,7 +2,7 @@
 # Kernel/System/Queue.pm - lib for queue functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Queue.pm,v 1.132 2012-01-12 07:48:21 ep Exp $
+# $Id: Queue.pm,v 1.133 2012-03-18 23:36:03 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,16 +14,16 @@ package Kernel::System::Queue;
 use strict;
 use warnings;
 
-use Kernel::System::StandardResponse;
-use Kernel::System::Group;
-use Kernel::System::CustomerGroup;
-use Kernel::System::Valid;
 use Kernel::System::CacheInternal;
-use Kernel::System::Time;
+use Kernel::System::CustomerGroup;
+use Kernel::System::Group;
+use Kernel::System::StandardResponse;
 use Kernel::System::SysConfig;
+use Kernel::System::Time;
+use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.132 $) [1];
+$VERSION = qw($Revision: 1.133 $) [1];
 
 =head1 NAME
 
@@ -98,7 +98,7 @@ sub new {
     $Self->{CacheInternalObject} = Kernel::System::CacheInternal->new(
         %Param,
         Type => 'Queue',
-        TTL  => 60 * 60 * 3,
+        TTL  => 60 * 60 * 24 * 20,
     );
 
     # lib object
@@ -127,7 +127,7 @@ sub new {
     }
 
     # --------------------------------------------------- #
-    #  default queue  settings                            #
+    #  default queue settings                             #
     #  these settings are used by the CLI version         #
     # --------------------------------------------------- #
     $Self->{QueueDefaults} = {
@@ -164,11 +164,14 @@ sub GetSystemAddress {
 
     my %Address;
     my $QueueID = $Param{QueueID} || $Self->{QueueID};
+
     return if !$Self->{DBObject}->Prepare(
         SQL => 'SELECT sa.value0, sa.value1 FROM system_address sa, queue sq '
             . 'WHERE sq.id = ? AND sa.id = sq.system_address_id',
-        Bind => [ \$QueueID ],
+        Bind  => [ \$QueueID ],
+        Limit => 1,
     );
+
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Address{Email}    = $Row[0];
         $Address{RealName} = $Row[1];
@@ -179,6 +182,7 @@ sub GetSystemAddress {
         $Address{RealName} =~ s/"/\"/g;
         $Address{RealName} = '"' . $Address{RealName} . '"';
     }
+
     return %Address;
 }
 
@@ -199,16 +203,19 @@ sub GetSignature {
         return;
     }
 
-    # sql
     return if !$Self->{DBObject}->Prepare(
         SQL => 'SELECT text FROM signature si, queue sq '
             . ' WHERE sq.id = ? AND sq.signature_id = si.id',
-        Bind => [ \$Param{QueueID} ],
+        Bind  => [ \$Param{QueueID} ],
+        Limit => 1,
     );
+
+    # fetch the result
     my $String = '';
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $String = $Row[0];
     }
+
     return $String;
 }
 
@@ -219,7 +226,7 @@ sub SetQueueStandardResponse {
     if ( !$Param{ResponseID} || !$Param{QueueID} || !$Param{UserID} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Need ResponseID, QueueID and UserID!"
+            Message  => 'Need ResponseID, QueueID and UserID!',
         );
         return;
     }
@@ -248,17 +255,18 @@ sub GetStandardResponses {
 
     # check needed stuff
     if ( !$Param{QueueID} && !$Param{StandardResponseID} ) {
-        $Self->{LogObject}
-            ->Log( Priority => 'error', Message => 'Got no StandardResponseID or QueueID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Got no StandardResponseID or QueueID!',
+        );
         return;
     }
 
     if ( $Param{QueueID} ) {
 
         # check if this result is present
-        if ( $Self->{"StandardResponses::$Param{QueueID}"} ) {
-            return %{ $Self->{"StandardResponses::$Param{QueueID}"} };
-        }
+        return %{ $Self->{"StandardResponses::$Param{QueueID}"} }
+            if $Self->{"StandardResponses::$Param{QueueID}"};
 
         # get std. responses
         my $SQL = "SELECT sr.id, sr.name "
@@ -269,9 +277,11 @@ sub GetStandardResponses {
             . " qsr.standard_response_id = sr.id AND "
             . " sr.valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} )"
             . " ORDER BY sr.name";
-        return if !$Self->{DBObject}->Prepare( SQL => $SQL );
-        my %StandardResponses;
 
+        return if !$Self->{DBObject}->Prepare( SQL => $SQL );
+
+        # fetch the result
+        my %StandardResponses;
         while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
             $StandardResponses{ $Row[0] } = $Row[1];
         }
@@ -279,19 +289,16 @@ sub GetStandardResponses {
         # store std responses
         $Self->{"StandardResponses::$Param{QueueID}"} = \%StandardResponses;
 
-        # return responses
         return %StandardResponses;
     }
 
     else {
 
         # check if this result is present
-        if ( $Self->{"Queues::$Param{StandardResponseID}"} ) {
-            return %{ $Self->{"Queues::$Param{StandardResponseID}"} };
-        }
+        return %{ $Self->{"Queues::$Param{StandardResponseID}"} }
+            if $Self->{"Queues::$Param{StandardResponseID}"};
 
         # get queues
-
         my $SQL = "SELECT q.id, q.name "
             . " FROM queue q, queue_standard_response qsr WHERE "
             . " qsr.standard_response_id IN ("
@@ -300,9 +307,11 @@ sub GetStandardResponses {
             . " qsr.queue_id = q.id AND "
             . " q.valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} )"
             . " ORDER BY q.name";
-        return if !$Self->{DBObject}->Prepare( SQL => $SQL );
-        my %Queues;
 
+        return if !$Self->{DBObject}->Prepare( SQL => $SQL );
+
+        # fetch the result
+        my %Queues;
         while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
             $Queues{ $Row[0] } = $Row[1];
         }
@@ -310,9 +319,7 @@ sub GetStandardResponses {
         # store queues
         $Self->{"Queues::$Param{StandardResponseID}"} = \%Queues;
 
-        # return queues
         return %Queues;
-
     }
 }
 
@@ -334,45 +341,69 @@ sub GetAllQueues {
     my $Type = $Param{Type} || 'ro';
 
     # fetch all queues
+    my $CacheKey;
     if ( $Param{UserID} ) {
-        if ( $Self->{"GetAllQueues::UserID::$Param{UserID}"} ) {
-            return %{ $Self->{"GetAllQueues::UserID::$Param{UserID}"} };
-        }
+
+        # get group ids
         my @GroupIDs = $Self->{GroupObject}->GroupMemberList(
             UserID => $Param{UserID},
             Type   => $Type,
             Result => 'ID',
         );
-        if (@GroupIDs) {
-            my $SQL = "SELECT id, name FROM queue WHERE "
-                . " group_id IN ( ${\(join ', ', @GroupIDs)} ) AND "
-                . " valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} )";
-            return if !$Self->{DBObject}->Prepare( SQL => $SQL );
-        }
-        else {
-            return;
-        }
+
+        return if !@GroupIDs;
+
+        my $GroupString = join ', ', sort @GroupIDs;
+        $CacheKey = "GetAllQueues::UserID::$Type::$GroupString::$Param{UserID}";
+
+        # check cache
+        my $Cache = $Self->{CacheInternalObject}->Get(
+            Key => $CacheKey,
+        );
+        return %{$Cache} if $Cache;
+
+        return if !$Self->{DBObject}->Prepare(
+            SQL => "SELECT id, name FROM queue WHERE "
+                . " group_id IN ( $GroupString ) AND "
+                . " valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} )",
+        );
     }
     elsif ( $Param{CustomerUserID} ) {
-        if ( $Self->{"GetAllQueues::CustomerUserID::$Param{CustomerUserID}"} ) {
-            return %{ $Self->{"GetAllQueues::CustomerUserID::$Param{CustomerUserID}"} };
-        }
+
+        # get group ids
         my @GroupIDs = $Self->{CustomerGroupObject}->GroupMemberList(
             UserID => $Param{CustomerUserID},
             Type   => $Type,
             Result => 'ID',
         );
+
         return if !@GroupIDs;
 
-        my $SQL = "SELECT id, name FROM queue WHERE "
-            . " group_id IN ( ${\(join ', ', @GroupIDs)} ) AND "
-            . " valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} )";
-        return if !$Self->{DBObject}->Prepare( SQL => $SQL );
+        my $GroupString = join ', ', sort @GroupIDs;
+        $CacheKey = "GetAllQueues::CustomerUserID::$Type::$Param{CustomerUserID}";
+
+        # check cache
+        my $Cache = $Self->{CacheInternalObject}->Get(
+            Key => $CacheKey,
+        );
+        return %{$Cache} if $Cache;
+
+        return if !$Self->{DBObject}->Prepare(
+            SQL => "SELECT id, name FROM queue WHERE "
+                . " group_id IN ( $GroupString ) AND "
+                . " valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} )",
+        );
     }
     else {
-        if ( $Self->{GetAllQueues} ) {
-            return %{ $Self->{GetAllQueues} };
-        }
+
+        $CacheKey = 'GetAllQueues';
+
+        # check cache
+        my $Cache = $Self->{CacheInternalObject}->Get(
+            Key => $CacheKey,
+        );
+        return %{$Cache} if $Cache;
+
         return if !$Self->{DBObject}->Prepare(
             SQL => "SELECT id, name FROM queue WHERE valid_id IN "
                 . "( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} )",
@@ -384,15 +415,11 @@ sub GetAllQueues {
         $MoveQueues{ $Row[0] } = $Row[1];
     }
 
-    if ( $Param{UserID} ) {
-        $Self->{"GetAllQueues::UserID::$Param{UserID}"} = \%MoveQueues;
-    }
-    elsif ( $Param{CustomerUserID} ) {
-        $Self->{"GetAllQueues::CustomerUserID::$Param{CustomerUserID}"} = \%MoveQueues;
-    }
-    else {
-        $Self->{GetAllQueues} = \%MoveQueues;
-    }
+    # set cache
+    $Self->{CacheInternalObject}->Set(
+        Key   => $CacheKey,
+        Value => \%MoveQueues,
+    );
 
     return %MoveQueues;
 }
@@ -417,21 +444,25 @@ sub GetAllCustomQueues {
     # check cache
     my $CacheKey = 'GetAllCustomQueues::' . $Param{UserID};
     my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+    return @{$Cache} if $Cache;
 
-    #    return @{ $Cache } if $Cache;
-
-    # fetch all queues
+    # search all custom queues
     return if !$Self->{DBObject}->Prepare(
         SQL  => 'SELECT queue_id FROM personal_queues WHERE user_id = ?',
         Bind => [ \$Param{UserID} ],
     );
+
+    # fetch the result
     my @QueueIDs;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         push @QueueIDs, $Row[0];
     }
 
     # set cache
-    $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => \@QueueIDs );
+    $Self->{CacheInternalObject}->Set(
+        Key   => $CacheKey,
+        Value => \@QueueIDs,
+    );
 
     return @QueueIDs;
 }
@@ -455,45 +486,28 @@ sub QueueLookup {
         return;
     }
 
-    # check runtime cache
-    my $CacheKey;
+    # get (already cached) queue data
+    my %QueueList = $Self->QueueList(
+        Valid => 0,
+    );
+
     my $Key;
     my $Value;
+    my $ReturnData;
     if ( $Param{QueueID} ) {
-        $CacheKey = 'QueueLookupName::' . $Param{QueueID};
-        $Key      = 'QueueID';
-        $Value    = $Param{QueueID};
+        $Key        = 'QueueID';
+        $Value      = $Param{QueueID};
+        $ReturnData = $QueueList{ $Param{QueueID} };
     }
     else {
-        $CacheKey = 'QueueLookupID::' . $Param{Queue};
-        $Key      = 'Queue';
-        $Value    = $Param{Queue};
-    }
-
-    # check cache
-    my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
-    return $Cache if $Cache;
-
-    # get data
-    if ( $Param{Queue} ) {
-        return if !$Self->{DBObject}->Prepare(
-            SQL  => 'SELECT id FROM queue WHERE name = ?',
-            Bind => [ \$Param{Queue} ],
-        );
-    }
-    else {
-        return if !$Self->{DBObject}->Prepare(
-            SQL  => 'SELECT name FROM queue WHERE id = ?',
-            Bind => [ \$Param{QueueID} ],
-        );
-    }
-    my $Data;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        $Data = $Row[0];
+        $Key   = 'Queue';
+        $Value = $Param{Queue};
+        my %QueueListReverse = reverse %QueueList;
+        $ReturnData = $QueueListReverse{ $Param{Queue} };
     }
 
     # check if data exists
-    if ( !$Data ) {
+    if ( !$ReturnData ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "Found no $Key for $Value!",
@@ -501,11 +515,7 @@ sub QueueLookup {
         return;
     }
 
-    # set cache
-    $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => $Data );
-
-    # return result
-    return $Data;
+    return $ReturnData;
 }
 
 =item GetFollowUpOption()
@@ -531,12 +541,15 @@ sub GetFollowUpOption {
     return if !$Self->{DBObject}->Prepare(
         SQL => 'SELECT sf.name FROM follow_up_possible sf, queue sq '
             . ' WHERE sq.follow_up_id = sf.id AND sq.id = ?',
-        Bind => [ \$Param{QueueID} ],
+        Bind  => [ \$Param{QueueID} ],
+        Limit => 1,
     );
+
     my $Return = '';
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Return = $Row[0];
     }
+
     return $Return;
 }
 
@@ -559,16 +572,13 @@ sub GetFollowUpLockOption {
         return;
     }
 
-    # fetch queues data
-    return if !$Self->{DBObject}->Prepare(
-        SQL  => 'SELECT sq.follow_up_lock FROM queue sq WHERE sq.id = ?',
-        Bind => [ \$Param{QueueID} ],
+    # get (already cached) queue data
+    my %Queue = $Self->QueueGet(
+        ID => $Param{QueueID},
     );
-    my $Return = 0;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        $Return = $Row[0];
-    }
-    return $Return;
+
+    return if !%Queue;
+    return $Queue{FollowUpLock};
 }
 
 =item GetQueueGroupID()
@@ -588,25 +598,13 @@ sub GetQueueGroupID {
         return;
     }
 
-    # check, if value is cached
-    my $CacheKey = 'QueueGetGetQueueGroupID::' . $Param{QueueID};
-    if ( $Self->{$CacheKey} ) {
-        return $Self->{$CacheKey};
-    }
-
-    # get group id from database
-    return if !$Self->{DBObject}->Prepare(
-        SQL   => 'SELECT group_id FROM queue WHERE id = ?',
-        Bind  => [ \$Param{QueueID} ],
-        Limit => 1,
+    # get (already cached) queue data
+    my %Queue = $Self->QueueGet(
+        ID => $Param{QueueID},
     );
 
-    # fetch the result
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        $Self->{$CacheKey} = $Row[0];
-    }
-
-    return $Self->{$CacheKey};
+    return if !%Queue;
+    return $Queue{GroupID};
 }
 
 =item QueueAdd()
@@ -697,52 +695,64 @@ sub QueueAdd {
 
     # get new id
     return if !$Self->{DBObject}->Prepare(
-        SQL  => 'SELECT id FROM queue WHERE name = ?',
-        Bind => [ \$Param{Name} ],
+        SQL   => 'SELECT id FROM queue WHERE name = ?',
+        Bind  => [ \$Param{Name} ],
+        Limit => 1,
     );
+
+    # fetch the result
     my $QueueID = '';
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $QueueID = $Row[0];
     }
 
-    # delete cache
-    my @CacheKeys = (
-        'QueueGetID::' . $QueueID,
-        'QueueGetName::' . $Param{Name},
-        'QueueLookupID::' . $Param{Name},
-        'QueueLookupName::' . $QueueID,
-        'QueueList::0',
-        'QueueList::1',
-    );
-    for my $CacheKey (@CacheKeys) {
-        $Self->{CacheInternalObject}->Delete( Key => $CacheKey );
-    }
+    # reset cache
+    $Self->{CacheInternalObject}->CleanUp();
+
+    my $StandardResponse2QueueByCreating
+        = $Self->{ConfigObject}->Get('StandardResponse2QueueByCreating');
 
     # add default responses (if needed), add response by name
-    if ( $Self->{ConfigObject}->Get('StandardResponse2QueueByCreating') ) {
-        for ( @{ $Self->{ConfigObject}->{StandardResponse2QueueByCreating} } ) {
-            my $StandardResponseID = $Self->{StandardResponseObject}->StandardResponseLookup(
-                StandardResponse => $_,
-            );
-            if ($StandardResponseID) {
-                $Self->SetQueueStandardResponse(
-                    QueueID    => $QueueID,
-                    ResponseID => $StandardResponseID,
-                    UserID     => $Param{UserID},
-                );
-            }
-        }
-    }
+    if (
+        $StandardResponse2QueueByCreating
+        && ref $StandardResponse2QueueByCreating eq 'ARRAY'
+        && @{$StandardResponse2QueueByCreating}
+        )
+    {
 
-    # add response by id
-    if ( $Self->{ConfigObject}->Get('StandardResponseID2QueueByCreating') ) {
-        for ( @{ $Self->{ConfigObject}->{StandardResponseID2QueueByCreating} } ) {
+        SR:
+        for my $SR ( @{$StandardResponse2QueueByCreating} ) {
+
+            my $StandardResponseID = $Self->{StandardResponseObject}->StandardResponseLookup(
+                StandardResponse => $SR,
+            );
+
+            next SR if !$StandardResponseID;
+
             $Self->SetQueueStandardResponse(
                 QueueID    => $QueueID,
-                ResponseID => $_,
+                ResponseID => $StandardResponseID,
                 UserID     => $Param{UserID},
             );
         }
+    }
+
+    # get standard response id
+    my $StandardResponseID2QueueByCreating
+        = $Self->{ConfigObject}->Get('StandardResponseID2QueueByCreating');
+
+    return $QueueID if !$StandardResponseID2QueueByCreating;
+    return $QueueID if ref $StandardResponseID2QueueByCreating ne 'ARRAY';
+    return $QueueID if !@{$StandardResponseID2QueueByCreating};
+
+    # add response by id
+    for my $ResponseID ( @{$StandardResponseID2QueueByCreating} ) {
+
+        $Self->SetQueueStandardResponse(
+            QueueID    => $QueueID,
+            ResponseID => $ResponseID,
+            UserID     => $Param{UserID},
+        );
     }
 
     return $QueueID;
@@ -808,7 +818,14 @@ sub QueueGet {
         $SQL .= 'q.name = ?';
         push @Bind, \$Param{Name};
     }
-    return if !$Self->{DBObject}->Prepare( SQL => $SQL, Bind => \@Bind );
+
+    return if !$Self->{DBObject}->Prepare(
+        SQL   => $SQL,
+        Bind  => \@Bind,
+        Limit => 1,
+    );
+
+    # fetch the result
     my %Data;
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
         %Data = (
@@ -858,7 +875,6 @@ sub QueueGet {
     # set cache
     $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => \%Data );
 
-    # return result
     return %Data;
 }
 
@@ -923,7 +939,9 @@ sub QueueUpdate {
 
     # content -> time in seconds
     for my $Time (qw( UnlockTimeout FirstResponseTime UpdateTime SolutionTime )) {
+
         $Param{$Time} = $Param{$Time} || 0;
+
         if ( $Param{$Time} !~ m{^\d+$}smx ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "$Time is not numeric!" );
             return;
@@ -932,7 +950,9 @@ sub QueueUpdate {
 
     # content integer from 0 - 99
     for my $Notify (qw(FirstResponseNotify  UpdateNotify  SolutionNotify)) {
+
         $Param{$Notify} = $Param{$Notify} || 0;
+
         if ( $Param{$Notify} !~ m{^\d{1,2}}smx ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
@@ -960,7 +980,9 @@ sub QueueUpdate {
         Table => 'queue',
         What  => 'id, name',
     );
+
     my %OldQueue = $Self->QueueGet( ID => $Param{QueueID} );
+
     for ( keys %AllQueue ) {
         if ( $AllQueue{$_} =~ /^\Q$Param{Name}\E$/i && $_ != $Param{QueueID} ) {
             $Self->{LogObject}->Log(
@@ -992,64 +1014,49 @@ sub QueueUpdate {
         ],
     );
 
-    # delete cache
-    my @CacheKeys = (
-        'QueueGetID::' . $OldQueue{QueueID},
-        'QueueGetName::' . $OldQueue{Name},
-        'QueueLookupID::' . $OldQueue{Name},
-        'QueueLookupName::' . $OldQueue{QueueID},
-        'QueueList::0',
-        'QueueList::1',
-    );
-    for my $CacheKey (@CacheKeys) {
-        $Self->{CacheInternalObject}->Delete( Key => $CacheKey );
-    }
+    # reset cache
+    $Self->{CacheInternalObject}->CleanUp();
 
     # updated all sub queue names
     my @ParentQueue = split( /::/, $OldQueue{Name} );
+
     for my $QueueID ( keys %AllQueue ) {
+
         my @SubQueue = split( /::/, $AllQueue{$QueueID} );
+
         if ( $#SubQueue > $#ParentQueue ) {
+
             if ( $AllQueue{$QueueID} =~ /^\Q$OldQueue{Name}::\E/i ) {
+
                 my $NewQueueName = $AllQueue{$QueueID};
                 $NewQueueName =~ s/\Q$OldQueue{Name}\E/$Param{Name}/;
+
                 return if !$Self->{DBObject}->Do(
                     SQL => 'UPDATE queue SET name = ?, change_time = current_timestamp, '
                         . ' change_by = ? WHERE id = ?',
                     Bind => [ \$NewQueueName, \$Param{UserID}, \$QueueID ],
                 );
 
-                # delete cache
-                my @CacheKeys = (
-                    'QueueGetID::' . $QueueID,
-                    'QueueGetName::' . $NewQueueName,
-                    'QueueLookupID::' . $NewQueueName,
-                    'QueueLookupName::' . $QueueID,
-                    'QueueList::0',
-                    'QueueList::1',
-                );
-                for my $CachKey (@CacheKeys) {
-                    $Self->{CacheInternalObject}->Delete( Key => $CachKey );
-                }
+                # reset cache
+                $Self->{CacheInternalObject}->CleanUp();
             }
         }
     }
 
+    # check all sysconfig options
+    return 1 if !$Param{CheckSysConfig};
+
     # create a time object locally, needed for the local SysConfigObject
     my $TimeObject = Kernel::System::Time->new( %{$Self} );
 
-    # check all sysconfig options
-    if ( $Param{CheckSysConfig} ) {
+    # create a sysconfig object locally for performance reasons
+    my $SysConfigObject = Kernel::System::SysConfig->new(
+        %{$Self},
+        TimeObject => $TimeObject,
+    );
 
-        # create a sysconfig object locally for performance reasons
-        my $SysConfigObject = Kernel::System::SysConfig->new(
-            %{$Self},
-            TimeObject => $TimeObject,
-        );
-
-        # check all sysconfig options and correct them automatically if neccessary
-        $SysConfigObject->ConfigItemCheckAll();
-    }
+    # check all sysconfig options and correct them automatically if neccessary
+    $SysConfigObject->ConfigItemCheckAll();
 
     return 1;
 }
@@ -1076,9 +1083,12 @@ sub QueueList {
         $Valid = 0;
     }
 
-    if ( $Self->{ 'QueueList::' . $Valid } ) {
-        return %{ $Self->{ 'QueueList::' . $Valid } };
-    }
+    # check cache
+    my $CacheKey = 'QueueList::' . $Valid;
+    my $Cache    = $Self->{CacheInternalObject}->Get(
+        Key => $CacheKey,
+    );
+    return %{$Cache} if $Cache;
 
     # sql query
     if ($Valid) {
@@ -1092,13 +1102,18 @@ sub QueueList {
             SQL => 'SELECT id, name FROM queue',
         );
     }
+
+    # fetch the result
     my %Queues;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Queues{ $Row[0] } = $Row[1];
     }
 
-    # cache result
-    $Self->{ 'QueueList::' . $Valid } = \%Queues;
+    # set cache
+    $Self->{CacheInternalObject}->Set(
+        Key   => $CacheKey,
+        Value => \%Queues,
+    );
 
     return %Queues;
 }
@@ -1165,6 +1180,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.132 $ $Date: 2012-01-12 07:48:21 $
+$Revision: 1.133 $ $Date: 2012-03-18 23:36:03 $
 
 =cut
