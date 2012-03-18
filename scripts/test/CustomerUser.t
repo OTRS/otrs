@@ -1,8 +1,8 @@
 # --
 # CustomerUser.t - CustomerUser tests
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerUser.t,v 1.20 2011-08-15 12:06:18 mg Exp $
+# $Id: CustomerUser.t,v 1.21 2012-03-18 13:50:42 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,9 +12,9 @@ use strict;
 use warnings;
 use vars (qw($Self));
 
+use Kernel::Config;
 use Kernel::System::CustomerUser;
 use Kernel::System::CustomerAuth;
-use Kernel::Config;
 
 # create local objects
 my $ConfigObject = Kernel::Config->new();
