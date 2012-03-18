@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField.pm - DynamicFields configuration backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicField.pm,v 1.50 2012-01-30 11:37:08 mg Exp $
+# $Id: DynamicField.pm,v 1.51 2012-03-18 23:59:22 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,15 +15,16 @@ use strict;
 use warnings;
 
 use YAML;
-use Kernel::System::Valid;
-use Kernel::System::VariableCheck qw(:all);
+
 use Kernel::System::Cache;
 use Kernel::System::DynamicField::Backend;
 use Kernel::System::SysConfig;
 use Kernel::System::Time;
+use Kernel::System::Valid;
+use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.50 $) [1];
+$VERSION = qw($Revision: 1.51 $) [1];
 
 =head1 NAME
 
@@ -154,15 +155,14 @@ sub DynamicFieldAdd {
         return;
     }
 
-    my $NameExists;
-
     # check if Name already exists
     return if !$Self->{DBObject}->Prepare(
         SQL   => 'SELECT id FROM dynamic_field WHERE LOWER(name) = LOWER(?)',
         Bind  => [ \$Param{Name} ],
-        LIMIT => 1,
+        Limit => 1,
     );
 
+    my $NameExists;
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
         $NameExists = 1;
     }
@@ -278,7 +278,6 @@ sub DynamicFieldGet {
 
     # check cache
     my $CacheKey;
-
     if ( $Param{ID} ) {
         $CacheKey = 'DynamicFieldGet::ID::' . $Param{ID};
     }
@@ -290,13 +289,7 @@ sub DynamicFieldGet {
         Type => 'DynamicField',
         Key  => $CacheKey,
     );
-
-    # get data from cache
-    if ($Cache) {
-        return $Cache;
-    }
-
-    my %Data;
+    return $Cache if $Cache;
 
     # sql
     if ( $Param{ID} ) {
@@ -318,6 +311,7 @@ sub DynamicFieldGet {
         );
     }
 
+    my %Data;
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
         my $Config = YAML::Load( $Data[6] ) || {};
 
@@ -392,12 +386,10 @@ sub DynamicFieldUpdate {
     if ( $Param{Name} !~ m{ \A [a-z|A-Z|\d]+ \z }xms ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Not valid letters on Name:$Param{Name} or ObjectType:$Param{ObjectType}!"
+            Message  => "Not valid letters on Name:$Param{Name} or ObjectType:$Param{ObjectType}!",
         );
         return;
     }
-
-    my $NameExists;
 
     # check if Name already exists
     return if !$Self->{DBObject}->Prepare(
@@ -409,6 +401,7 @@ sub DynamicFieldUpdate {
         LIMIT => 1,
     );
 
+    my $NameExists;
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
         $NameExists = 1;
     }
@@ -416,7 +409,7 @@ sub DynamicFieldUpdate {
     if ($NameExists) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "The name $Param{Name} already exists for a dynamic field!"
+            Message  => "The name $Param{Name} already exists for a dynamic field!",
         );
         return;
     }
@@ -424,7 +417,7 @@ sub DynamicFieldUpdate {
     if ( $Param{FieldOrder} !~ m{ \A [\d]+ \z }xms ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Not valid number on FieldOrder:$Param{FieldOrder}!"
+            Message  => "Not valid number on FieldOrder:$Param{FieldOrder}!",
         );
         return;
     }
@@ -434,9 +427,8 @@ sub DynamicFieldUpdate {
         ID => $Param{ID},
     );
 
-    my $ChangedOrder;
-
     # check if FieldOrder is changed
+    my $ChangedOrder;
     if ( $DynamicField->{FieldOrder} ne $Param{FieldOrder} ) {
         $ChangedOrder = 1;
     }
@@ -466,6 +458,7 @@ sub DynamicFieldUpdate {
             OldFieldOrder => $DynamicField->{FieldOrder},
         );
     }
+
     return 1;
 }
 
@@ -515,7 +508,7 @@ sub DynamicFieldDelete {
         Bind => [ \$Param{ID} ],
     );
 
-    # delete Dynamic field
+    # delete dynamic field
     return if !$Self->{DBObject}->Do(
         SQL  => 'DELETE FROM dynamic_field WHERE id = ?',
         Bind => [ \$Param{ID} ],
@@ -632,7 +625,7 @@ sub DynamicFieldList {
         elsif ( ref $Param{FieldFilter} ne 'HASH' ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message  => 'FieldFilter must be a HASH reference!'
+                Message  => 'FieldFilter must be a HASH reference!',
             );
             return;
         }
@@ -739,7 +732,7 @@ sub DynamicFieldList {
             elsif ( ref $Param{FieldFilter} ne 'HASH' ) {
                 $Self->{LogObject}->Log(
                     Priority => 'error',
-                    Message  => 'FieldFilter must be a HASH reference!'
+                    Message  => 'FieldFilter must be a HASH reference!',
                 );
                 return;
             }
@@ -783,7 +776,7 @@ sub DynamicFieldList {
             elsif ( ref $Param{FieldFilter} ne 'HASH' ) {
                 $Self->{LogObject}->Log(
                     Priority => 'error',
-                    Message  => 'FieldFilter must be a HASH reference!'
+                    Message  => 'FieldFilter must be a HASH reference!',
                 );
                 return;
             }
@@ -893,7 +886,7 @@ sub DynamicFieldListGet {
         elsif ( ref $Param{FieldFilter} ne 'HASH' ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message  => 'FieldFilter must be a HASH reference!'
+                Message  => 'FieldFilter must be a HASH reference!',
             );
             return;
         }
@@ -987,7 +980,7 @@ sub DynamicFieldListGet {
     elsif ( ref $Param{FieldFilter} ne 'HASH' ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => 'FieldFilter must be a HASH reference!'
+            Message  => 'FieldFilter must be a HASH reference!',
         );
         return;
     }
@@ -1218,6 +1211,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.50 $ $Date: 2012-01-30 11:37:08 $
+$Revision: 1.51 $ $Date: 2012-03-18 23:59:22 $
 
 =cut
