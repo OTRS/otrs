@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPackageManager.pm - manage software packages
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPackageManager.pm,v 1.107 2012-03-16 22:52:38 mh Exp $
+# $Id: AdminPackageManager.pm,v 1.108 2012-03-18 20:12:48 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Web::UploadCache;
 use Kernel::System::Cache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.107 $) [1];
+$VERSION = qw($Revision: 1.108 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1175,15 +1175,16 @@ sub Run {
         );
     }
 
+    my @RepositoryList = $Self->{PackageObject}->RepositoryList();
+
     # if there are no local packages to show, a msg is displayed
-    if ( !$Self->{PackageObject}->RepositoryList() ) {
+    if ( !@RepositoryList ) {
         $Self->{LayoutObject}->Block(
             Name => 'NoDataFoundMsg2',
-            Data => {},
         );
     }
 
-    for my $Package ( $Self->{PackageObject}->RepositoryList() ) {
+    for my $Package (@RepositoryList) {
 
         my %Data = $Self->_MessageGet( Info => $Package->{Description} );
 
