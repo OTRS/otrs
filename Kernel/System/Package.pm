@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Package.pm,v 1.129 2012-03-16 23:13:41 mh Exp $
+# $Id: Package.pm,v 1.130 2012-03-18 20:19:13 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,18 +14,17 @@ package Kernel::System::Package;
 use strict;
 use warnings;
 
-use Digest::MD5;
 use MIME::Base64;
 use File::Copy;
 
-use Kernel::System::XML;
-use Kernel::System::SysConfig;
-use Kernel::System::WebUserAgent;
 use Kernel::System::Cache;
 use Kernel::System::Loader;
+use Kernel::System::SysConfig;
+use Kernel::System::WebUserAgent;
+use Kernel::System::XML;
 
 use vars qw($VERSION $S);
-$VERSION = qw($Revision: 1.129 $) [1];
+$VERSION = qw($Revision: 1.130 $) [1];
 
 =head1 NAME
 
@@ -162,11 +161,20 @@ returns a list of repository packages
 sub RepositoryList {
     my ( $Self, %Param ) = @_;
 
+    # check cache
+    my $Cache = $Self->{CacheObject}->Get(
+        Type => 'RepositoryList',
+        Key  => 'NoKey',
+    );
+    return @{$Cache} if $Cache;
+
+    # get repository list
     $Self->{DBObject}->Prepare(
-        SQL =>
-            'SELECT name, version, install_status, content FROM package_repository ORDER BY name, create_time',
+        SQL => 'SELECT name, version, install_status, content '
+            . 'FROM package_repository ORDER BY name, create_time',
     );
 
+    # fetch the data
     my @Data;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         my %Package = (
@@ -181,6 +189,14 @@ sub RepositoryList {
             push @Data, { %Package, %Structure };
         }
     }
+
+    # set cache
+    $Self->{CacheObject}->Set(
+        Type  => 'RepositoryList',
+        Key   => 'NoKey',
+        Value => \@Data,
+        TTL   => 30 * 24 * 60 * 60,
+    );
 
     return @Data;
 }
@@ -213,13 +229,23 @@ sub RepositoryGet {
         }
     }
 
-    # db access
+    # check cache
+    my $CacheKey = $Param{Name} . $Param{Version};
+    my $Cache    = $Self->{CacheObject}->Get(
+        Type => 'RepositoryGet',
+        Key  => $CacheKey,
+    );
+    return $Cache if $Cache && $Param{Result} && $Param{Result} eq 'SCALAR';
+    return ${$Cache} if $Cache;
+
+    # get repository
     $Self->{DBObject}->Prepare(
         SQL   => 'SELECT content FROM package_repository WHERE name = ? AND version = ?',
         Bind  => [ \$Param{Name}, \$Param{Version} ],
         Limit => 1,
     );
 
+    # fetch data
     my $Package = '';
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Package = $Row[0];
@@ -232,6 +258,14 @@ sub RepositoryGet {
         );
         return;
     }
+
+    # set cache
+    $Self->{CacheObject}->Set(
+        Type  => 'RepositoryGet',
+        Key   => $CacheKey,
+        Value => \$Package,
+        TTL   => 30 * 24 * 60 * 60,
+    );
 
     return \$Package if $Param{Result} && $Param{Result} eq 'SCALAR';
     return $Package;
@@ -293,6 +327,11 @@ sub RepositoryAdd {
         ],
     );
 
+    # cleanup cache
+    $Self->{CacheObject}->CleanUp(
+        Type => 'RepositoryList',
+    );
+
     return 1;
 }
 
@@ -316,7 +355,7 @@ sub RepositoryRemove {
         return;
     }
 
-    # sql
+    # create sql
     my @Bind = ( \$Param{Name} );
     my $SQL  = 'DELETE FROM package_repository WHERE name = ?';
     if ( $Param{Version} ) {
@@ -325,6 +364,15 @@ sub RepositoryRemove {
     }
 
     return if !$Self->{DBObject}->Do( SQL => $SQL, Bind => \@Bind );
+
+    # cleanup cache
+    $Self->{CacheObject}->CleanUp(
+        Type => 'RepositoryList',
+    );
+    $Self->{CacheObject}->CleanUp(
+        Type => 'RepositoryGet',
+    );
+
     return 1;
 }
 
@@ -607,16 +655,17 @@ sub PackageUpgrade {
         Version2 => $InstalledVersion,
         Type     => 'Max'
     );
+
     if ( !$CheckVersion ) {
+
         if ( $Structure{Version}->{Content} eq $InstalledVersion ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
                 Message =>
                     "Can't upgrade, package '$Structure{Name}->{Content}-$InstalledVersion' already installed!",
             );
-            if ( !$Param{Force} ) {
-                return;
-            }
+
+            return if !$Param{Force};
         }
         else {
             $Self->{LogObject}->Log(
@@ -624,9 +673,8 @@ sub PackageUpgrade {
                 Message =>
                     "Can't upgrade, installed package '$InstalledVersion' is newer as '$Structure{Version}->{Content}'!",
             );
-            if ( !$Param{Force} ) {
-                return;
-            }
+
+            return if !$Param{Force};
         }
     }
 
@@ -654,9 +702,11 @@ sub PackageUpgrade {
 
     # upgrade code (pre)
     if ( $Structure{CodeUpgrade} && ref $Structure{CodeUpgrade} eq 'ARRAY' ) {
+
         my @Parts;
         PART:
         for my $Part ( @{ $Structure{CodeUpgrade} } ) {
+
             if ( $Part->{Version} ) {
 
                 # skip code upgrade block if its version is bigger than the new package version
@@ -665,6 +715,7 @@ sub PackageUpgrade {
                     Version2 => $Structure{Version}->{Content},
                     Type     => 'Max'
                 );
+
                 next PART if $CheckVersion;
 
                 $CheckVersion = $Self->_CheckVersion(
@@ -672,6 +723,7 @@ sub PackageUpgrade {
                     Version2 => $InstalledVersion,
                     Type     => 'Min'
                 );
+
                 if ( !$CheckVersion ) {
                     push @Parts, $Part;
                 }
@@ -680,6 +732,7 @@ sub PackageUpgrade {
                 push @Parts, $Part;
             }
         }
+
         $Self->_Code(
             Code      => \@Parts,
             Type      => 'pre',
@@ -689,15 +742,19 @@ sub PackageUpgrade {
 
     # upgrade database (pre)
     if ( $Structure{DatabaseUpgrade}->{pre} && ref $Structure{DatabaseUpgrade}->{pre} eq 'ARRAY' ) {
+
         my @Parts;
         my $Use = 0;
         for my $Part ( @{ $Structure{DatabaseUpgrade}->{pre} } ) {
+
             if ( $Part->{TagLevel} == 3 && $Part->{Version} ) {
+
                 my $CheckVersion = $Self->_CheckVersion(
                     Version1 => $Part->{Version},
                     Version2 => $InstalledVersion,
                     Type     => 'Min'
                 );
+
                 if ( !$CheckVersion ) {
                     $Use   = 1;
                     @Parts = ();
@@ -740,15 +797,19 @@ sub PackageUpgrade {
     # upgrade database (post)
     if ( $Structure{DatabaseUpgrade}->{post} && ref $Structure{DatabaseUpgrade}->{post} eq 'ARRAY' )
     {
+
         my @Parts;
         my $Use = 0;
         for my $Part ( @{ $Structure{DatabaseUpgrade}->{post} } ) {
+
             if ( $Part->{TagLevel} == 3 && $Part->{Version} ) {
+
                 my $CheckVersion = $Self->_CheckVersion(
                     Version1 => $Part->{Version},
                     Version2 => $InstalledVersion,
                     Type     => 'Min'
                 );
+
                 if ( !$CheckVersion ) {
                     $Use   = 1;
                     @Parts = ();
@@ -756,6 +817,7 @@ sub PackageUpgrade {
                 }
             }
             elsif ( $Use && $Part->{TagLevel} == 3 && $Part->{TagType} eq 'End' ) {
+
                 $Use = 0;
                 push @Parts, $Part;
                 $Self->_Database( Database => \@Parts );
@@ -768,9 +830,11 @@ sub PackageUpgrade {
 
     # upgrade code (post)
     if ( $Structure{CodeUpgrade} && ref $Structure{CodeUpgrade} eq 'ARRAY' ) {
+
         my @Parts;
         PART:
         for my $Part ( @{ $Structure{CodeUpgrade} } ) {
+
             if ( $Part->{Version} ) {
 
                 # skip code upgrade block if its version is bigger than the new package version
@@ -779,6 +843,7 @@ sub PackageUpgrade {
                     Version2 => $Structure{Version}->{Content},
                     Type     => 'Max'
                 );
+
                 next PART if $CheckVersion;
 
                 $CheckVersion = $Self->_CheckVersion(
@@ -786,6 +851,7 @@ sub PackageUpgrade {
                     Version2 => $InstalledVersion,
                     Type     => 'Min'
                 );
+
                 if ( !$CheckVersion ) {
                     push @Parts, $Part;
                 }
@@ -794,6 +860,7 @@ sub PackageUpgrade {
                 push @Parts, $Part;
             }
         }
+
         $Self->_Code(
             Code      => \@Parts,
             Type      => 'post',
@@ -898,20 +965,22 @@ sub PackageOnlineRepositories {
     my ( $Self, %Param ) = @_;
 
     # check if online repository should be fetched
-    if ( !$Self->{ConfigObject}->Get('Package::RepositoryRoot') ) {
-        return ();
-    }
+    return () if !$Self->{ConfigObject}->Get('Package::RepositoryRoot');
 
     # get repository list
     my $XML = '';
+    URL:
     for my $URL ( @{ $Self->{ConfigObject}->Get('Package::RepositoryRoot') } ) {
+
         $XML = $Self->_Download( URL => $URL );
 
-        last if $XML;
+        last URL if $XML;
     }
+
     return if !$XML;
 
     my @XMLARRAY = $Self->{XMLObject}->XMLParse( String => $XML );
+
     my %List;
     my $Name = '';
     for my $Tag (@XMLARRAY) {
@@ -932,6 +1001,7 @@ sub PackageOnlineRepositories {
             }
         }
     }
+
     return %List;
 }
 
@@ -982,6 +1052,7 @@ sub PackageOnlineList {
     return if !$XML;
 
     my @XMLARRAY = $Self->{XMLObject}->XMLParse( String => $XML );
+
     if ( !@XMLARRAY ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
@@ -989,9 +1060,11 @@ sub PackageOnlineList {
         );
         return;
     }
+
     my @Packages;
     my %Package;
     my $Filelist;
+    TAG:
     for my $Tag (@XMLARRAY) {
 
         # remember package
@@ -999,13 +1072,11 @@ sub PackageOnlineList {
             if (%Package) {
                 push @Packages, {%Package};
             }
-            next;
+            next TAG;
         }
 
         # just use start tags
-        if ( $Tag->{TagType} ne 'Start' ) {
-            next;
-        }
+        next TAG if $Tag->{TagType} ne 'Start';
 
         # reset package data
         if ( $Tag->{Tag} eq 'Package' ) {
@@ -1038,13 +1109,17 @@ sub PackageOnlineList {
     my @NewPackages;
     my $PackageForRequestedFramework = 0;
     for my $Package (@Packages) {
+
         my $FWCheckOk = 0;
+
         if ( $Package->{Framework} ) {
+
             if ( $Self->_CheckFramework( Framework => $Package->{Framework}, NoLog => 1 ) ) {
                 $FWCheckOk                    = 1;
                 $PackageForRequestedFramework = 1;
             }
         }
+
         if ($FWCheckOk) {
             push @NewPackages, $Package;
         }
@@ -1063,15 +1138,18 @@ sub PackageOnlineList {
     # just the newest packages
     my %Newest;
     for my $Package (@Packages) {
+
         if ( !$Newest{ $Package->{Name} } ) {
             $Newest{ $Package->{Name} } = $Package;
         }
         else {
+
             my $CheckVersion = $Self->_CheckVersion(
                 Version1 => $Package->{Version},
                 Version2 => $Newest{ $Package->{Name} }->{Version},
-                Type     => 'Min'
+                Type     => 'Min',
             );
+
             if ( !$CheckVersion ) {
                 $Newest{ $Package->{Name} } = $Package;
             }
@@ -1081,36 +1159,43 @@ sub PackageOnlineList {
     # get possible actions
     @NewPackages = ();
     my @LocalList = $Self->RepositoryList();
-    for my $Data ( sort keys %Newest ) {
-        my $InstalledSameVersion = 0;
-        for my $Package (@LocalList) {
-            if ( $Newest{$Data}->{Name} eq $Package->{Name}->{Content} ) {
-                $Newest{$Data}->{Local} = 1;
-                if ( $Package->{Status} eq 'installed' ) {
-                    $Newest{$Data}->{Installed} = 1;
-                    if (
-                        !$Self->_CheckVersion(
-                            Version1 => $Newest{$Data}->{Version},
-                            Version2 => $Package->{Version}->{Content},
-                            Type     => 'Min'
-                        )
-                        )
-                    {
-                        $Newest{$Data}->{Upgrade} = 1;
-                    }
 
-                    # check if version or lower is already installed
-                    elsif (
-                        !$Self->_CheckVersion(
-                            Version1 => $Newest{$Data}->{Version},
-                            Version2 => $Package->{Version}->{Content},
-                            Type     => 'Max'
-                        )
-                        )
-                    {
-                        $InstalledSameVersion = 1;
-                    }
-                }
+    for my $Data ( sort keys %Newest ) {
+
+        my $InstalledSameVersion = 0;
+
+        PACKAGE:
+        for my $Package (@LocalList) {
+
+            next PACKAGE if $Newest{$Data}->{Name} ne $Package->{Name}->{Content};
+
+            $Newest{$Data}->{Local} = 1;
+
+            next PACKAGE if $Package->{Status} ne 'installed';
+
+            $Newest{$Data}->{Installed} = 1;
+
+            if (
+                !$Self->_CheckVersion(
+                    Version1 => $Newest{$Data}->{Version},
+                    Version2 => $Package->{Version}->{Content},
+                    Type     => 'Min',
+                )
+                )
+            {
+                $Newest{$Data}->{Upgrade} = 1;
+            }
+
+            # check if version or lower is already installed
+            elsif (
+                !$Self->_CheckVersion(
+                    Version1 => $Newest{$Data}->{Version},
+                    Version2 => $Package->{Version}->{Content},
+                    Type     => 'Max',
+                )
+                )
+            {
+                $InstalledSameVersion = 1;
             }
         }
 
@@ -1119,6 +1204,7 @@ sub PackageOnlineList {
             push @NewPackages, $Newest{$Data};
         }
     }
+
     @Packages = @NewPackages;
 
     # set cache
@@ -1180,59 +1266,72 @@ sub DeployCheck {
             return;
         }
     }
+
     my $Package = $Self->RepositoryGet( %Param, Result => 'SCALAR' );
     my %Structure = $Self->PackageParse( String => $Package );
-    $Self->{DeployCheckInfo} = undef;
-    if ( $Structure{Filelist} && ref $Structure{Filelist} eq 'ARRAY' ) {
-        my $Hit = 0;
-        for my $File ( @{ $Structure{Filelist} } ) {
-            my $LocalFile = $Self->{Home} . '/' . $File->{Location};
-            if ( !-e $LocalFile ) {
-                $Self->{LogObject}->Log(
-                    Priority => 'error',
-                    Message  => "$Param{Name}-$Param{Version}: No such file: $LocalFile!"
-                );
-                $Self->{DeployCheckInfo}->{File}->{ $File->{Location} } = 'No file installed!';
-                $Hit = 1;
-            }
-            elsif ( -e $LocalFile ) {
 
-                # md5 alternative for file deploy check (may will have better performance?)
-                #                my $MD5File = $Self->{MainObject}->MD5sum(
-                #                    Filename => $LocalFile,
-                #                );
-                #                if ($MD5File) {
-                #                    my $MD5Package = $Self->{MainObject}->MD5sum(
-                #                        String => \$File->{Content},
-                #                    );
-                #                    if ( $MD5File ne $MD5Package ) {
-                my $Content = $Self->{MainObject}->FileRead(
-                    Location => $Self->{Home} . '/' . $File->{Location},
-                    Mode     => 'binmode',
-                );
-                if ($Content) {
-                    if ( ${$Content} ne $File->{Content} ) {
-                        $Self->{LogObject}->Log(
-                            Priority => 'error',
-                            Message  => "$Param{Name}-$Param{Version}: $LocalFile is different!",
-                        );
-                        $Hit = 1;
-                        $Self->{DeployCheckInfo}->{File}->{ $File->{Location} }
-                            = 'File is different!';
-                    }
-                }
-                else {
+    $Self->{DeployCheckInfo} = undef;
+
+    return 1 if !$Structure{Filelist};
+    return 1 if ref $Structure{Filelist} ne 'ARRAY';
+
+    my $Hit = 0;
+    for my $File ( @{ $Structure{Filelist} } ) {
+
+        my $LocalFile = $Self->{Home} . '/' . $File->{Location};
+
+        if ( !-e $LocalFile ) {
+
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "$Param{Name}-$Param{Version}: No such file: $LocalFile!"
+            );
+
+            $Self->{DeployCheckInfo}->{File}->{ $File->{Location} } = 'No file installed!';
+            $Hit = 1;
+        }
+        elsif ( -e $LocalFile ) {
+
+            # md5 alternative for file deploy check (may will have better performance?)
+            #                my $MD5File = $Self->{MainObject}->MD5sum(
+            #                    Filename => $LocalFile,
+            #                );
+            #                if ($MD5File) {
+            #                    my $MD5Package = $Self->{MainObject}->MD5sum(
+            #                        String => \$File->{Content},
+            #                    );
+            #                    if ( $MD5File ne $MD5Package ) {
+            my $Content = $Self->{MainObject}->FileRead(
+                Location => $Self->{Home} . '/' . $File->{Location},
+                Mode     => 'binmode',
+            );
+
+            if ($Content) {
+
+                if ( ${$Content} ne $File->{Content} ) {
+
                     $Self->{LogObject}->Log(
                         Priority => 'error',
-                        Message  => "Can't read $LocalFile!",
+                        Message  => "$Param{Name}-$Param{Version}: $LocalFile is different!",
                     );
-                    $Self->{DeployCheckInfo}->{File}->{ $File->{Location} }
-                        = 'Can\' read File!';
+
+                    $Hit = 1;
+                    $Self->{DeployCheckInfo}->{File}->{ $File->{Location} } = 'File is different!';
                 }
             }
+            else {
+
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message  => "Can't read $LocalFile!",
+                );
+
+                $Self->{DeployCheckInfo}->{File}->{ $File->{Location} } = 'Can\' read File!';
+            }
         }
-        return if $Hit;
     }
+
+    return if $Hit;
     return 1;
 }
 
@@ -1247,9 +1346,9 @@ returns the info of the latest DeployCheck(), what's not deployed correctly
 sub DeployCheckInfo {
     my ( $Self, %Param ) = @_;
 
-    if ( $Self->{DeployCheckInfo} ) {
-        return %{ $Self->{DeployCheckInfo} };
-    }
+    return %{ $Self->{DeployCheckInfo} }
+        if $Self->{DeployCheckInfo};
+
     return ();
 }
 
@@ -1323,9 +1422,9 @@ returns the info of the latest PackageVerify(), what's not correctly
 sub PackageVerifyInfo {
     my ( $Self, %Param ) = @_;
 
-    if ( $Self->{PackageVerifyInfo} ) {
-        return %{ $Self->{PackageVerifyInfo} };
-    }
+    return %{ $Self->{PackageVerifyInfo} }
+        if $Self->{PackageVerifyInfo};
+
     return ();
 }
 
@@ -1392,10 +1491,15 @@ sub PackageBuild {
     # find framework, may we need do some things different to be compat. to 2.2
     my $Framework;
     if ( $Param{Framework} ) {
+
+        FW:
         for my $FW ( @{ $Param{Framework} } ) {
-            if ( $FW->{Content} =~ /2\.2\./ ) {
-                $Framework = '2.2';
-            }
+
+            next FW if $FW->{Content} !~ /2\.2\./;
+
+            $Framework = '2.2';
+
+            last FW;
         }
     }
 
@@ -1406,6 +1510,7 @@ sub PackageBuild {
         $XML .= '<otrs_package version="1.1">';
         $XML .= "\n";
     }
+
     for my $Tag (
         qw(Name Version Vendor URL License ChangeLog Description Framework OS
         IntroInstall IntroUninstall IntroReinstall IntroUpgrade
@@ -1417,24 +1522,32 @@ sub PackageBuild {
         if ( $Param{Type} && $Tag =~ /(Code|Intro)(Install|Upgrade|Uninstall|Reinstall)/ ) {
             next;
         }
+
         if ( ref $Param{$Tag} eq 'HASH' ) {
+
             my %OldParam;
             for (qw(Content Encode TagType Tag TagLevel TagCount TagKey TagLastLevel)) {
                 $OldParam{$_} = $Param{$Tag}->{$_};
                 delete $Param{$Tag}->{$_};
             }
+
             $XML .= "    <$Tag";
+
             for ( sort keys %{ $Param{$Tag} } ) {
                 $XML .= " $_=\"" . $Self->_Encode( $Param{$Tag}->{$_} ) . "\"";
             }
+
             $XML .= ">";
             $XML .= $Self->_Encode( $OldParam{Content} ) . "</$Tag>\n";
         }
         elsif ( ref $Param{$Tag} eq 'ARRAY' ) {
+
             for ( @{ $Param{$Tag} } ) {
+
                 my $TagSub = $Tag;
                 my %Hash   = %{$_};
                 my %OldParam;
+
                 for (qw(Content Encode TagType Tag TagLevel TagCount TagKey TagLastLevel)) {
                     $OldParam{$_} = $Hash{$_};
                     delete $Hash{$_};
@@ -1457,6 +1570,7 @@ sub PackageBuild {
                 for ( keys %Hash ) {
                     $XML .= " $_=\"" . $Self->_Encode( $Hash{$_} ) . "\"";
                 }
+
                 $XML .= ">";
                 $XML .= $Self->_Encode( $OldParam{Content} ) . "</$TagSub>\n";
             }
@@ -1471,16 +1585,22 @@ sub PackageBuild {
 
     # don't use Build* in index mode
     if ( !$Param{Type} ) {
+
         my $Time = $Self->{TimeObject}->SystemTime2TimeStamp(
             SystemTime => $Self->{TimeObject}->SystemTime(),
         );
+
         $XML .= "    <BuildDate>" . $Time . "</BuildDate>\n";
         $XML .= "    <BuildHost>" . $Self->{ConfigObject}->Get('FQDN') . "</BuildHost>\n";
     }
     if ( $Param{Filelist} ) {
+
         $XML .= "    <Filelist>\n";
+
         for my $File ( @{ $Param{Filelist} } ) {
+
             my %OldParam;
+
             for (qw(Content Encode TagType Tag TagLevel TagCount TagKey TagLastLevel)) {
                 $OldParam{$_} = $File->{$_} || '';
                 delete $File->{$_};
@@ -1526,24 +1646,34 @@ sub PackageBuild {
     return $XML if $Param{Type};
 
     for (qw(DatabaseInstall DatabaseUpgrade DatabaseReinstall DatabaseUninstall)) {
+
         if ( ref $Param{$_} ne 'HASH' ) {
             next;
         }
+
         for my $Type ( sort %{ $Param{$_} } ) {
+
             if ( $Param{$_}->{$Type} ) {
+
                 my $Counter = 1;
                 for my $Tag ( @{ $Param{$_}->{$Type} } ) {
+
                     if ( $Tag->{TagType} eq 'Start' ) {
+
                         my $Space = '';
                         for ( 1 .. $Counter ) {
                             $Space .= '    ';
                         }
+
                         $Counter++;
                         $XML .= $Space . "<$Tag->{Tag}";
+
                         if ( $Tag->{TagLevel} == 3 ) {
                             $XML .= " Type=\"$Type\"";
                         }
+
                         for ( sort keys %{$Tag} ) {
+
                             if (
                                 $_    ne 'Tag'
                                 && $_ ne 'Content'
@@ -1561,7 +1691,9 @@ sub PackageBuild {
                                 }
                             }
                         }
+
                         $XML .= ">";
+
                         if ( $Tag->{TagLevel} <= 3 || $Tag->{Tag} =~ /(Foreign|Reference|Index)/ ) {
                             $XML .= "\n";
                         }
@@ -1575,25 +1707,29 @@ sub PackageBuild {
                         $XML .= $Self->_Encode( $Tag->{Content} );
                     }
                     if ( $Tag->{TagType} eq 'End' ) {
+
                         $Counter = $Counter - 1;
                         if ( $Tag->{TagLevel} > 3 && $Tag->{Tag} !~ /(Foreign|Reference|Index)/ ) {
                             $XML .= "</$Tag->{Tag}>\n";
                         }
                         else {
+
                             my $Space = '';
+
                             for ( 1 .. $Counter ) {
                                 $Space .= '    ';
                             }
+
                             $XML .= $Space . "</$Tag->{Tag}>\n";
                         }
                     }
                 }
-
-                #            $XML .= "    </$_>\n";
             }
         }
     }
+
     $XML .= '</otrs_package>';
+
     return $XML;
 }
 
@@ -1618,9 +1754,11 @@ sub PackageParse {
     my $CookedString = ref $Param{String} ? ${ $Param{String} } : $Param{String};
 
     $Self->{EncodeObject}->EncodeOutput( \$CookedString );
-    my $MD5Object = Digest::MD5->new();
-    $MD5Object->add($CookedString);
-    my $Checksum = $MD5Object->hexdigest();
+
+    # create cecksum
+    my $Checksum = $Self->{MainObject}->MD5sum(
+        String => \$CookedString,
+    );
 
     # check cache
     if ($Checksum) {
@@ -1638,10 +1776,12 @@ sub PackageParse {
 
     # parse package
     my %PackageMap = %{ $Self->{PackageMap} };
+
+    TAG:
     for my $Tag (@XMLARRAY) {
-        if ( $Tag->{TagType} ne 'Start' ) {
-            next;
-        }
+
+        next TAG if $Tag->{TagType} ne 'Start';
+
         if ( $PackageMap{ $Tag->{Tag} } && $PackageMap{ $Tag->{Tag} } eq 'SCALAR' ) {
             $Self->{Package}->{ $Tag->{Tag} } = $Tag;
         }
@@ -1658,7 +1798,8 @@ sub PackageParse {
             elsif ( $Tag->{Tag} =~ /^(Code|Intro)/ && !$Tag->{Type} ) {
                 $Tag->{Type} = 'post';
             }
-            push( @{ $Self->{Package}->{ $Tag->{Tag} } }, $Tag );
+
+            push @{ $Self->{Package}->{ $Tag->{Tag} } }, $Tag;
         }
     }
 
@@ -1676,18 +1817,21 @@ sub PackageParse {
     my $Open = 0;
     TAG:
     for my $Tag (@XMLARRAY) {
+
         if ( $Open && $Tag->{Tag} eq 'Filelist' ) {
             $Open = 0;
         }
         elsif ( !$Open && $Tag->{Tag} eq 'Filelist' ) {
             $Open = 1;
-            next;
+            next TAG;
         }
+
         if ( $Open && $Tag->{TagType} eq 'Start' ) {
 
             # check for allowed file names and locations
             FILECHECK:
             for my $FileNotAllowed ( @{$FilesNotAllowed} ) {
+
                 next FILECHECK if $Tag->{Location} !~ m{ $FileNotAllowed }xms;
 
                 $Self->{LogObject}->Log(
@@ -1701,33 +1845,45 @@ sub PackageParse {
             # get attachment size
             {
                 if ( $Tag->{Content} ) {
+
                     my $ContentPlain = 0;
+
                     if ( $Tag->{Encode} && $Tag->{Encode} eq 'Base64' ) {
                         $Tag->{Encode}  = '';
                         $Tag->{Content} = decode_base64( $Tag->{Content} );
                     }
+
                     $Tag->{Size} = bytes::length( $Tag->{Content} );
                 }
             }
-            push( @{ $Self->{Package}->{Filelist} }, $Tag );
+
+            push @{ $Self->{Package}->{Filelist} }, $Tag;
         }
     }
+
     for my $Key (qw(DatabaseInstall DatabaseUpgrade DatabaseReinstall DatabaseUninstall)) {
+
         my $Type = 'post';
+
+        TAG:
         for my $Tag (@XMLARRAY) {
+
             if ( $Open && $Tag->{Tag} eq $Key ) {
                 $Open = 0;
                 push( @{ $Self->{Package}->{$Key}->{$Type} }, $Tag );
             }
             elsif ( !$Open && $Tag->{Tag} eq $Key ) {
+
                 $Open = 1;
+
                 if ( $Tag->{Type} ) {
                     $Type = $Tag->{Type};
                 }
             }
-            if ($Open) {
-                push( @{ $Self->{Package}->{$Key}->{$Type} }, $Tag );
-            }
+
+            next TAG if !$Open;
+
+            push @{ $Self->{Package}->{$Key}->{$Type} }, $Tag;
         }
     }
 
@@ -1773,14 +1929,18 @@ sub PackageExport {
     # parse source file
     my %Structure = $Self->PackageParse(%Param);
 
-    # install files
-    if ( $Structure{Filelist} && ref $Structure{Filelist} eq 'ARRAY' ) {
-        for my $File ( @{ $Structure{Filelist} } ) {
+    return 1 if !$Structure{Filelist};
+    return 1 if $Structure{Filelist} ne 'ARRAY';
 
-            # install file
-            $Self->_FileInstall( File => $File, Home => $Param{Home} );
-        }
+    # install files
+    for my $File ( @{ $Structure{Filelist} } ) {
+
+        $Self->_FileInstall(
+            File => $File,
+            Home => $Param{Home},
+        );
     }
+
     return 1;
 }
 
@@ -1813,8 +1973,8 @@ sub PackageIsInstalled {
     }
 
     $Self->{DBObject}->Prepare(
-        SQL =>
-            "SELECT name FROM package_repository WHERE name = ? AND install_status = 'installed'",
+        SQL => "SELECT name FROM package_repository "
+            . "WHERE name = ? AND install_status = 'installed'",
         Bind  => [ \$Param{Name} ],
         Limit => 1,
     );
@@ -1855,15 +2015,17 @@ sub PackageInstallDefaultFiles {
             Type     => 'Local',
             Result   => 'SCALAR',
         );
+
         next LOCATION if !$ContentSCALARRef;
 
         # install package (use eval to be save)
         eval {
             $Self->PackageInstall( String => ${$ContentSCALARRef} );
         };
-        if ($@) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => $@ );
-        }
+
+        next LOCATION if !$@;
+
+        $Self->{LogObject}->Log( Priority => 'error', Message => $@ );
     }
 
     return 1;
@@ -1896,7 +2058,6 @@ sub _Download {
     );
 
     return if !$Response{Content};
-
     return ${ $Response{Content} };
 }
 
@@ -1917,7 +2078,9 @@ sub _Database {
         return;
     }
 
-    my @SQL = $Self->{DBObject}->SQLProcessor( Database => $Param{Database} );
+    my @SQL = $Self->{DBObject}->SQLProcessor(
+        Database => $Param{Database},
+    );
 
     for my $SQL (@SQL) {
         print STDERR "Notice: $SQL\n";
@@ -1952,16 +2115,20 @@ sub _Code {
     }
 
     # code exec
+    CODE:
     for my $Code ( @{ $Param{Code} } ) {
-        if ( $Code->{Content} && $Param{Type} =~ /^$Code->{Type}$/i ) {
-            print STDERR "Code: $Code->{Content}\n";
-            if ( !eval $Code->{Content} . "\n1;" ) {
-                $Self->{LogObject}->Log(
-                    Priority => 'error',
-                    Message  => "Code: $@",
-                );
-                return;
-            }
+
+        next CODE if !$Code->{Content};
+        next CODE if $Param{Type} !~ /^$Code->{Type}$/i;
+
+        print STDERR "Code: $Code->{Content}\n";
+
+        if ( !eval $Code->{Content} . "\n1;" ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Code: $@",
+            );
+            return;
         }
     }
 
@@ -1987,28 +2154,34 @@ sub _OSCheck {
     my $OSCheck    = 0;
     my $CurrentOS  = $^O;
     my $PossibleOS = '';
+
     if ( ref $Param{OS} eq 'ARRAY' ) {
+
+        OS:
         for my $OS ( @{ $Param{OS} } ) {
-            next if !$OS;
+
+            next OS if !$OS;
+
             $PossibleOS .= $OS->{Content} . ';';
-            if ( $CurrentOS =~ /^$OS$/i ) {
-                $OSCheck = 1;
-            }
+
+            next OS if $CurrentOS !~ /^$OS$/i;
+
+            $OSCheck = 1;
+
+            last OS;
         }
     }
 
-    if ( !$OSCheck ) {
-        if ( !$Param{NoLog} ) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message  => "Sorry, can't install/upgrade package, because OS of package "
-                    . "($PossibleOS) does not match your OS ($CurrentOS)!",
-            );
-        }
-        return;
-    }
+    return 1 if $OSCheck;
+    return   if $Param{NoLog};
 
-    return 1;
+    $Self->{LogObject}->Log(
+        Priority => 'error',
+        Message  => "Sorry, can't install/upgrade package, because OS of package "
+            . "($PossibleOS) does not match your OS ($CurrentOS)!",
+    );
+
+    return;
 }
 
 sub _CheckFramework {
@@ -2032,33 +2205,39 @@ sub _CheckFramework {
     my $FWCheck           = 0;
     my $CurrentFramework  = $Self->{ConfigObject}->Get('Version');
     my $PossibleFramework = '';
+
     if ( ref $Param{Framework} eq 'ARRAY' ) {
+
+        FW:
         for my $FW ( @{ $Param{Framework} } ) {
-            next if !$FW;
+
+            next FW if !$FW;
+
             $PossibleFramework .= $FW->{Content} . ';';
 
             # regexp modify
             my $Framework = $FW->{Content};
             $Framework =~ s/\./\\\./g;
             $Framework =~ s/x/.+?/gi;
-            if ( $CurrentFramework =~ /^$Framework$/i ) {
-                $FWCheck = 1;
-            }
+
+            next FW if $CurrentFramework !~ /^$Framework$/i;
+
+            $FWCheck = 1;
+
+            last FW;
         }
-    }
-    if ( !$FWCheck ) {
-        if ( !$Param{NoLog} ) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message =>
-                    "Sorry, can't install/upgrade package, because the framework version required"
-                    . " by the package ($PossibleFramework) does not match your Framework ($CurrentFramework)!",
-            );
-        }
-        return;
     }
 
-    return 1;
+    return 1 if $FWCheck;
+    return   if $Param{NoLog};
+
+    $Self->{LogObject}->Log(
+        Priority => 'error',
+        Message  => "Sorry, can't install/upgrade package, because the framework version required"
+            . " by the package ($PossibleFramework) does not match your Framework ($CurrentFramework)!",
+    );
+
+    return;
 }
 
 =item _CheckVersion()
@@ -2087,9 +2266,12 @@ sub _CheckVersion {
             return;
         }
     }
+
     for my $Type (qw(Version1 Version2)) {
+
         my @Parts = split( /\./, $Param{$Type} );
         $Param{$Type} = 0;
+
         for ( 0 .. 4 ) {
             if ( defined $Parts[$_] ) {
                 $Param{$Type} .= sprintf( "%04d", $Parts[$_] );
@@ -2098,18 +2280,21 @@ sub _CheckVersion {
                 $Param{$Type} .= '0000';
             }
         }
-        $Param{$Type} = int( $Param{$Type} );
+
+        $Param{$Type} = int $Param{$Type};
     }
+
     if ( $Param{Type} eq 'Min' ) {
-        return 1 if ( $Param{Version2} >= $Param{Version1} );
+        return 1 if $Param{Version2} >= $Param{Version1};
         return;
     }
     elsif ( $Param{Type} eq 'Max' ) {
-        return 1 if ( $Param{Version2} < $Param{Version1} );
+        return 1 if $Param{Version2} < $Param{Version1};
         return;
     }
 
     $Self->{LogObject}->Log( Priority => 'error', Message => 'Invalid Type!' );
+
     return;
 }
 
@@ -2122,49 +2307,57 @@ sub _CheckPackageRequired {
         return;
     }
 
-    # check required packages
-    if ( $Param{PackageRequired} && ref $Param{PackageRequired} eq 'ARRAY' ) {
-        for my $Package ( @{ $Param{PackageRequired} } ) {
-            next if !$Package;
-            my $Installed        = 0;
-            my $InstalledVersion = 0;
-            for my $Local ( $Self->RepositoryList() ) {
-                if (
-                    $Local->{Name}->{Content} eq $Package->{Content}
-                    && $Local->{Status} eq 'installed'
-                    )
-                {
-                    $Installed        = 1;
-                    $InstalledVersion = $Local->{Version}->{Content};
-                    last;
-                }
-            }
-            if ( !$Installed ) {
-                $Self->{LogObject}->Log(
-                    Priority => 'error',
-                    Message  => "Sorry, can't install package, because package "
-                        . "$Package->{Content} v$Package->{Version} is required!",
-                );
-                return;
-            }
+    return 1 if !$Param{PackageRequired};
+    return 1 if ref $Param{PackageRequired} ne 'ARRAY';
 
-            if (
-                !$Self->_CheckVersion(
-                    Version1 => $Package->{Version},
-                    Version2 => $InstalledVersion,
-                    Type     => 'Min'
-                )
-                )
-            {
-                $Self->{LogObject}->Log(
-                    Priority => 'error',
-                    Message  => "Sorry, can't install package, because "
-                        . "package $Package->{Content} v$Package->{Version} is required!",
-                );
-                return;
-            }
+    # get repository list
+    my @RepositoryList = $Self->RepositoryList();
+
+    # check required packages
+    PACKAGE:
+    for my $Package ( @{ $Param{PackageRequired} } ) {
+
+        next PACKAGE if !$Package;
+
+        my $Installed        = 0;
+        my $InstalledVersion = 0;
+
+        LOCAL:
+        for my $Local (@RepositoryList) {
+
+            next LOCAL if $Local->{Name}->{Content} ne $Package->{Content};
+            next LOCAL if $Local->{Status} ne 'installed';
+
+            $Installed        = 1;
+            $InstalledVersion = $Local->{Version}->{Content};
+            last LOCAL;
         }
+
+        if ( !$Installed ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Sorry, can't install package, because package "
+                    . "$Package->{Content} v$Package->{Version} is required!",
+            );
+            return;
+        }
+
+        my $VersionCheck = $Self->_CheckVersion(
+            Version1 => $Package->{Version},
+            Version2 => $InstalledVersion,
+            Type     => 'Min'
+        );
+
+        next PACKAGE if $VersionCheck;
+
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Sorry, can't install package, because "
+                . "package $Package->{Content} v$Package->{Version} is required!",
+        );
+        return;
     }
+
     return 1;
 }
 
@@ -2179,8 +2372,12 @@ sub _CheckModuleRequired {
 
     # check required perl modules
     if ( $Param{ModuleRequired} && ref $Param{ModuleRequired} eq 'ARRAY' ) {
+
+        MODULE:
         for my $Module ( @{ $Param{ModuleRequired} } ) {
-            next if !$Module;
+
+            next MODULE if !$Module;
+
             my $Installed        = 0;
             my $InstalledVersion = 0;
 
@@ -2213,6 +2410,7 @@ sub _CheckModuleRequired {
                 Version2 => $InstalledVersion,
                 Type     => 'Min'
             );
+
             if ( !$Ok ) {
                 $Self->{LogObject}->Log(
                     Priority => 'error',
@@ -2225,6 +2423,7 @@ sub _CheckModuleRequired {
             }
         }
     }
+
     return 1;
 }
 
@@ -2238,6 +2437,7 @@ sub _CheckPackageDepends {
     }
 
     for my $Local ( $Self->RepositoryList() ) {
+
         if (
             $Local->{PackageRequired}
             && ref $Local->{PackageRequired} eq 'ARRAY'
@@ -2258,6 +2458,7 @@ sub _CheckPackageDepends {
             }
         }
     }
+
     return 1;
 }
 
@@ -2271,33 +2472,36 @@ sub _PackageFileCheck {
     }
 
     # check if one of this files is already intalled by an other package
+    PACKAGE:
     for my $Package ( $Self->RepositoryList() ) {
-        if ( $Param{Structure}->{Name}->{Content} eq $Package->{Name}->{Content} ) {
-            next;
-        }
+
+        next PACKAGE if $Param{Structure}->{Name}->{Content} eq $Package->{Name}->{Content};
+
         for my $FileNew ( @{ $Param{Structure}->{Filelist} } ) {
+
             for my $FileOld ( @{ $Package->{Filelist} } ) {
+
                 $FileNew->{Location} =~ s/\/\//\//g;
                 $FileOld->{Location} =~ s/\/\//\//g;
-                if ( $FileNew->{Location} ne $FileOld->{Location} ) {
-                    next;
-                }
+
+                next if $FileNew->{Location} ne $FileOld->{Location};
+
                 $Self->{LogObject}->Log(
                     Priority => 'error',
                     Message  => "Can't install/upgrade package, file $FileNew->{Location} already "
                         . "used in package $Package->{Name}->{Content}-$Package->{Version}->{Content}!",
                 );
+
                 return;
             }
         }
     }
+
     return 1;
 }
 
 sub _FileInstall {
     my ( $Self, %Param ) = @_;
-
-    my $Home = $Param{Home} || $Self->{Home};
 
     # check needed stuff
     for (qw(File)) {
@@ -2312,6 +2516,8 @@ sub _FileInstall {
             return;
         }
     }
+
+    my $Home = $Param{Home} || $Self->{Home};
 
     # check Home
     if ( !-e $Home ) {
@@ -2363,21 +2569,26 @@ sub _FileInstall {
 
     # check directory of location (in case create a directory)
     if ( $Param{File}->{Location} =~ /^(.*)\/(.+?|)$/ ) {
+
         my $Directory        = $1;
         my @Directories      = split( /\//, $Directory );
         my $DirectoryCurrent = $Home;
-        for (@Directories) {
-            $DirectoryCurrent .= "/$_";
-            if ( !-d $DirectoryCurrent ) {
-                if ( mkdir $DirectoryCurrent ) {
-                    print STDERR "Notice: Create Directory $DirectoryCurrent!\n";
-                }
-                else {
-                    $Self->{LogObject}->Log(
-                        Priority => 'error',
-                        Message  => "Can't create directory: $DirectoryCurrent: $!",
-                    );
-                }
+
+        DIRECTORY:
+        for my $Directory (@Directories) {
+
+            $DirectoryCurrent .= '/' . $Directory;
+
+            next DIRECTORY if -d $DirectoryCurrent;
+
+            if ( mkdir $DirectoryCurrent ) {
+                print STDERR "Notice: Create Directory $DirectoryCurrent!\n";
+            }
+            else {
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message  => "Can't create directory: $DirectoryCurrent: $!",
+                );
             }
         }
     }
@@ -2391,13 +2602,12 @@ sub _FileInstall {
     );
 
     print STDERR "Notice: Install $RealFile ($Param{File}->{Permission})!\n";
+
     return 1;
 }
 
 sub _FileRemove {
     my ( $Self, %Param ) = @_;
-
-    my $Home = $Param{Home} || $Self->{Home};
 
     # check needed stuff
     for (qw(File)) {
@@ -2412,6 +2622,8 @@ sub _FileRemove {
             return;
         }
     }
+
+    my $Home = $Param{Home} || $Self->{Home};
 
     # check Home
     if ( !-e $Home ) {
@@ -2491,9 +2703,8 @@ sub _ReadDistArchive {
     my $Home = $Param{Home} || $Self->{Home};
 
     # check cache
-    if ( $Self->{Cache}->{DistArchive}->{$Home} ) {
-        return %{ $Self->{Cache}->{DistArchive}->{$Home} };
-    }
+    return %{ $Self->{Cache}->{DistArchive}->{$Home} }
+        if $Self->{Cache}->{DistArchive}->{$Home};
 
     # check if ARCHIVE exists
     if ( !-e "$Home/ARCHIVE" ) {
@@ -2510,12 +2721,16 @@ sub _ReadDistArchive {
         Filename  => 'ARCHIVE',
         Result    => 'ARRAY',
     );
+
     my %File;
     if ($Content) {
-        for ( @{$Content} ) {
-            my @Row = split( /::/, $_ );
+
+        for my $ContentRow ( @{$Content} ) {
+
+            my @Row = split /::/, $ContentRow;
             $Row[1] =~ s/\/\///g;
             $Row[1] =~ s/(\n|\r)//g;
+
             $File{ $Row[1] } = $Row[0];
         }
     }
@@ -2526,7 +2741,7 @@ sub _ReadDistArchive {
         );
     }
 
-    # cache it
+    # set in memory cache
     $Self->{Cache}->{DistArchive}->{$Home} = \%File;
 
     return %File;
@@ -2563,6 +2778,7 @@ sub _FileSystemCheck {
         # delete test file
         $Self->{MainObject}->FileDelete( Location => $Location );
     }
+
     return 1;
 }
 
@@ -2573,6 +2789,7 @@ sub _Encode {
     $Text =~ s/</&lt;/g;
     $Text =~ s/>/&gt;/g;
     $Text =~ s/"/&quot;/g;
+
     return $Text;
 }
 
@@ -2594,6 +2811,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.129 $ $Date: 2012-03-16 23:13:41 $
+$Revision: 1.130 $ $Date: 2012-03-18 20:19:13 $
 
 =cut
