@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Priority.pm - all ticket priority function
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Priority.pm,v 1.32 2010-09-08 16:39:22 ub Exp $
+# $Id: Priority.pm,v 1.33 2012-03-18 21:10:43 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::SysConfig;
 use Kernel::System::CacheInternal;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.32 $) [1];
+$VERSION = qw($Revision: 1.33 $) [1];
 
 =head1 NAME
 
@@ -115,17 +115,41 @@ sub PriorityList {
         $Param{Valid} = 1;
     }
 
-    # sql
+    # create cachekey
+    my $CacheKey;
+    if ( $Param{Valid} ) {
+        $CacheKey = 'PriorityList::Valid';
+    }
+    else {
+        $CacheKey = 'PriorityList::All';
+    }
+
+    # check cache
+    my $Cache = $Self->{CacheInternalObject}->Get(
+        Key => $CacheKey,
+    );
+    return %{$Cache} if $Cache;
+
+    # create sql
     my $SQL = 'SELECT id, name FROM ticket_priority ';
     if ( $Param{Valid} ) {
         $SQL .= "WHERE valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} )";
     }
 
     return if !$Self->{DBObject}->Prepare( SQL => $SQL );
+
+    # fetch the result
     my %Data;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Data{ $Row[0] } = $Row[1];
     }
+
+    # set cache
+    $Self->{CacheInternalObject}->Set(
+        Key   => $CacheKey,
+        Value => \%Data,
+    );
+
     return %Data;
 }
 
@@ -151,12 +175,21 @@ sub PriorityGet {
         }
     }
 
-    # sql
+    # check cache
+    my $Cache = $Self->{CacheInternalObject}->Get(
+        Key => 'PriorityGet' . $Param{PriorityID},
+    );
+    return %{$Cache} if $Cache;
+
+    # ask database
     return if !$Self->{DBObject}->Prepare(
         SQL => 'SELECT id, name, valid_id, create_time, create_by, change_time, change_by '
             . 'FROM ticket_priority WHERE id = ?',
-        Bind => [ \$Param{PriorityID} ],
+        Bind  => [ \$Param{PriorityID} ],
+        Limit => 1,
     );
+
+    # fetch the result
     my %Data;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Data{ID}         = $Row[0];
@@ -167,6 +200,13 @@ sub PriorityGet {
         $Data{ChangeTime} = $Row[5];
         $Data{ChangeBy}   = $Row[6];
     }
+
+    # set cache
+    $Self->{CacheInternalObject}->Set(
+        Key   => 'PriorityGet' . $Param{PriorityID},
+        Value => \%Data,
+    );
+
     return %Data;
 }
 
@@ -204,18 +244,22 @@ sub PriorityAdd {
 
     # get new state id
     return if !$Self->{DBObject}->Prepare(
-        SQL  => 'SELECT id FROM ticket_priority WHERE name = ?',
-        Bind => [ \$Param{Name} ],
+        SQL   => 'SELECT id FROM ticket_priority WHERE name = ?',
+        Bind  => [ \$Param{Name} ],
+        Limit => 1,
     );
+
+    # fetch the result
     my $ID;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $ID = $Row[0];
     }
+
     return if !$ID;
 
     # delete cache
-    $Self->{CacheInternalObject}->Delete( Key => 'PriorityLookup::Name::' . $Param{Name} );
-    $Self->{CacheInternalObject}->Delete( Key => 'PriorityLookup::ID::' . $ID );
+    $Self->{CacheInternalObject}->Delete( Key => 'PriorityList::Valid' );
+    $Self->{CacheInternalObject}->Delete( Key => 'PriorityList::All' );
 
     return $ID;
 }
@@ -259,26 +303,23 @@ sub PriorityUpdate {
     );
 
     # delete cache
-    $Self->{CacheInternalObject}->Delete( Key => 'PriorityLookup::Name::' . $Param{Name} );
-    $Self->{CacheInternalObject}->Delete( Key => 'PriorityLookup::ID::' . $Param{PriorityID} );
+    $Self->{CacheInternalObject}->Delete( Key => 'PriorityList::Valid' );
+    $Self->{CacheInternalObject}->Delete( Key => 'PriorityList::All' );
+
+    # check all sysconfig options
+    return 1 if !$Param{CheckSysConfig};
 
     # create a time object locally, needed for the local SysConfigObject
     my $TimeObject = Kernel::System::Time->new( %{$Self} );
 
-    # check all sysconfig options
-    if ( $Param{CheckSysConfig} ) {
+    # create a sysconfig object locally for performance reasons
+    my $SysConfigObject = Kernel::System::SysConfig->new(
+        %{$Self},
+        TimeObject => $TimeObject,
+    );
 
-        # create a sysconfig object locally for performance reasons
-        my $SysConfigObject = Kernel::System::SysConfig->new(
-            %{$Self},
-            TimeObject => $TimeObject,
-        );
-
-        # check all sysconfig options and correct them automatically if neccessary
-        $SysConfigObject->ConfigItemCheckAll();
-    }
-
-    return 1;
+    # check all sysconfig options and correct them automatically if neccessary
+    $SysConfigObject->ConfigItemCheckAll();
 }
 
 =item PriorityLookup()
@@ -304,46 +345,28 @@ sub PriorityLookup {
         return;
     }
 
-    # check cache
-    my $CacheKey;
+    # get (already cached) priority list
+    my %PriorityList = $Self->PriorityList(
+        Valid => 0,
+    );
+
     my $Key;
     my $Value;
-    if ( $Param{Priority} ) {
-        $Key      = 'Priority';
-        $Value    = $Param{Priority};
-        $CacheKey = 'PriorityLookup::Name::' . $Param{Priority};
+    my $ReturnData;
+    if ( $Param{PriorityID} ) {
+        $Key        = 'PriorityID';
+        $Value      = $Param{PriorityID};
+        $ReturnData = $PriorityList{ $Param{PriorityID} };
     }
     else {
-        $Key      = 'PriorityID';
-        $Value    = $Param{PriorityID};
-        $CacheKey = 'PriorityLookup::ID::' . $Param{PriorityID};
+        $Key   = 'Priority';
+        $Value = $Param{Priority};
+        my %PriorityListReverse = reverse %PriorityList;
+        $ReturnData = $PriorityListReverse{ $Param{Priority} };
     }
-
-    my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
-    return $Cache if $Cache;
-
-    # db query
-    my $SQL;
-    my @Bind;
-    if ( $Param{Priority} ) {
-        $SQL = 'SELECT id FROM ticket_priority WHERE name = ?';
-        push @Bind, \$Param{Priority};
-    }
-    else {
-        $SQL = 'SELECT name FROM ticket_priority WHERE id = ?';
-        push @Bind, \$Param{PriorityID};
-    }
-    return if !$Self->{DBObject}->Prepare( SQL => $SQL, Bind => \@Bind );
-    my $Data;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        $Data = $Row[0];
-    }
-
-    # set cache
-    $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => $Data );
 
     # check if data exists
-    if ( !defined $Data ) {
+    if ( !defined $ReturnData ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "No $Key for $Value found!",
@@ -351,7 +374,7 @@ sub PriorityLookup {
         return;
     }
 
-    return $Data;
+    return $ReturnData;
 }
 
 1;
@@ -370,6 +393,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.32 $ $Date: 2010-09-08 16:39:22 $
+$Revision: 1.33 $ $Date: 2012-03-18 21:10:43 $
 
 =cut
