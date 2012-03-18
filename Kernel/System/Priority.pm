@@ -2,7 +2,7 @@
 # Kernel/System/Priority.pm - all ticket priority function
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Priority.pm,v 1.33 2012-03-18 21:10:43 mh Exp $
+# $Id: Priority.pm,v 1.34 2012-03-18 21:32:39 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::SysConfig;
 use Kernel::System::CacheInternal;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.33 $) [1];
+$VERSION = qw($Revision: 1.34 $) [1];
 
 =head1 NAME
 
@@ -91,7 +91,7 @@ sub new {
     $Self->{CacheInternalObject} = Kernel::System::CacheInternal->new(
         %Param,
         Type => 'Priority',
-        TTL  => 60 * 60 * 3,
+        TTL  => 60 * 60 * 24 * 20,
     );
 
     return $Self;
@@ -393,6 +393,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.33 $ $Date: 2012-03-18 21:10:43 $
+$Revision: 1.34 $ $Date: 2012-03-18 21:32:39 $
 
 =cut
