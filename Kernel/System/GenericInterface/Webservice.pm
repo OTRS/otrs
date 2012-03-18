@@ -1,8 +1,8 @@
 # --
 # Kernel/System/GenericInterface/Webservice.pm - GenericInterface webservice config backend
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Webservice.pm,v 1.25 2011-11-09 18:09:19 cr Exp $
+# $Id: Webservice.pm,v 1.26 2012-03-18 14:09:10 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::Cache;
 use Kernel::System::VariableCheck qw(IsHashRefWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.25 $) [1];
+$VERSION = qw($Revision: 1.26 $) [1];
 
 =head1 NAME
 
@@ -173,6 +173,7 @@ sub WebserviceAdd {
         SQL  => 'SELECT id FROM gi_webservice_config WHERE config_md5 = ?',
         Bind => [ \$MD5 ],
     );
+
     my $ID;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $ID = $Row[0];
@@ -226,7 +227,6 @@ sub WebserviceGet {
 
     # check cache
     my $CacheKey;
-
     if ( $Param{ID} ) {
         $CacheKey = 'WebserviceGet::ID::' . $Param{ID};
     }
@@ -238,30 +238,27 @@ sub WebserviceGet {
         Type => 'Webservice',
         Key  => $CacheKey,
     );
-
-    if ($Cache) {
-
-        # get data from cache
-        return $Cache;
-    }
-
-    my %Data;
+    return $Cache if $Cache;
 
     # sql
     if ( $Param{ID} ) {
         return if !$Self->{DBObject}->Prepare(
             SQL => 'SELECT id, name, config, valid_id, create_time, change_time '
                 . 'FROM gi_webservice_config WHERE id = ?',
-            Bind => [ \$Param{ID} ],
+            Bind  => [ \$Param{ID} ],
+            Limit => 1,
         );
     }
     else {
         return if !$Self->{DBObject}->Prepare(
             SQL => 'SELECT id, name, config, valid_id, create_time, change_time '
                 . 'FROM gi_webservice_config WHERE name = ?',
-            Bind => [ \$Param{Name} ],
+            Bind  => [ \$Param{Name} ],
+            Limit => 1,
         );
     }
+
+    my %Data;
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
         my $Config = YAML::Load( $Data[2] );
 
@@ -323,9 +320,11 @@ sub WebserviceUpdate {
 
     # check if config and valid_id is the same
     return if !$Self->{DBObject}->Prepare(
-        SQL  => 'SELECT config, valid_id, name FROM gi_webservice_config WHERE id = ?',
-        Bind => [ \$Param{ID} ],
+        SQL   => 'SELECT config, valid_id, name FROM gi_webservice_config WHERE id = ?',
+        Bind  => [ \$Param{ID} ],
+        Limit => 1,
     );
+
     my $ConfigCurrent;
     my $ValidIDCurrent;
     my $NameCurrent;
@@ -334,6 +333,7 @@ sub WebserviceUpdate {
         $ValidIDCurrent = $Data[1];
         $NameCurrent    = $Data[2];
     }
+
     return 1 if $ValidIDCurrent eq $Param{ValidID}
             && $Config eq $ConfigCurrent
             && $NameCurrent eq $Param{Name};
@@ -360,6 +360,7 @@ sub WebserviceUpdate {
         Config       => $Param{Config},
         UserID       => $Param{UserID},
     );
+
     return 1;
 }
 
@@ -451,14 +452,8 @@ sub WebserviceList {
         Type => 'Webservice',
         Key  => $CacheKey,
     );
-
-    if ($Cache) {
-
-        # get data from cache
-        return $Cache;
-    }
-
-    my %Data;
+    return {} if $Cache && $Cache eq 'NULL';
+    return $Cache if $Cache;
 
     my $SQL = 'SELECT id, name FROM gi_webservice_config';
 
@@ -468,20 +463,23 @@ sub WebserviceList {
 
     return if !$Self->{DBObject}->Prepare( SQL => $SQL );
 
+    my %Data;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Data{ $Row[0] } = $Row[1];
     }
 
+    my $Value = 'NULL';
     if (%Data) {
-
-        # set cache
-        $Self->{CacheObject}->Set(
-            Type  => 'Webservice',
-            Key   => $CacheKey,
-            Value => \%Data,
-            TTL   => $Self->{CacheTTL},
-        );
+        $Value = \%Data;
     }
+
+    # set cache
+    $Self->{CacheObject}->Set(
+        Type  => 'Webservice',
+        Key   => $CacheKey,
+        Value => $Value,
+        TTL   => $Self->{CacheTTL},
+    );
 
     return \%Data;
 }
@@ -502,6 +500,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.25 $ $Date: 2011-11-09 18:09:19 $
+$Revision: 1.26 $ $Date: 2012-03-18 14:09:10 $
 
 =cut
