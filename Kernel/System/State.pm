@@ -1,8 +1,8 @@
 # --
 # Kernel/System/State.pm - All ticket state related functions
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: State.pm,v 1.54 2011-06-19 20:28:11 mb Exp $
+# $Id: State.pm,v 1.55 2012-03-18 21:34:13 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,13 +14,13 @@ package Kernel::System::State;
 use strict;
 use warnings;
 
-use Kernel::System::Valid;
-use Kernel::System::Time;
-use Kernel::System::SysConfig;
 use Kernel::System::CacheInternal;
+use Kernel::System::SysConfig;
+use Kernel::System::Time;
+use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.54 $) [1];
+$VERSION = qw($Revision: 1.55 $) [1];
 
 =head1 NAME
 
@@ -98,7 +98,7 @@ sub new {
     $Self->{CacheInternalObject} = Kernel::System::CacheInternal->new(
         %Param,
         Type => 'State',
-        TTL  => 60 * 60 * 3,
+        TTL  => 60 * 60 * 24 * 20,
     );
 
     # check needed config options
@@ -147,13 +147,17 @@ sub StateAdd {
 
     # get new state id
     return if !$Self->{DBObject}->Prepare(
-        SQL  => 'SELECT id FROM ticket_state WHERE name = ?',
-        Bind => [ \$Param{Name} ],
+        SQL   => 'SELECT id FROM ticket_state WHERE name = ?',
+        Bind  => [ \$Param{Name} ],
+        Limit => 1,
     );
+
+    # fetch the result
     my $ID;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $ID = $Row[0];
     }
+
     return if !$ID;
 
     # delete cache
@@ -222,7 +226,14 @@ sub StateGet {
         $SQL .= ' ts.id = ?';
         push @Bind, \$Param{ID};
     }
-    return if !$Self->{DBObject}->Prepare( SQL => $SQL, Bind => \@Bind );
+
+    return if !$Self->{DBObject}->Prepare(
+        SQL   => $SQL,
+        Bind  => \@Bind,
+        Limit => 1,
+    );
+
+    # fetch the result
     my %Data;
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
         %Data = (
@@ -247,12 +258,11 @@ sub StateGet {
     if ( !%Data ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "State '$Param{Name}' not found!"
+            Message  => "State '$Param{Name}' not found!",
         );
         return;
     }
 
-    # return data
     return %Data;
 }
 
@@ -302,21 +312,20 @@ sub StateUpdate {
     # delete cache
     $Self->{CacheInternalObject}->CleanUp();
 
+    # check all sysconfig options
+    return 1 if !$Param{CheckSysConfig};
+
     # create a time object locally, needed for the local SysConfigObject
     my $TimeObject = Kernel::System::Time->new( %{$Self} );
 
-    # check all sysconfig options
-    if ( $Param{CheckSysConfig} ) {
+    # create a sysconfig object locally for performance reasons
+    my $SysConfigObject = Kernel::System::SysConfig->new(
+        %{$Self},
+        TimeObject => $TimeObject,
+    );
 
-        # create a sysconfig object locally for performance reasons
-        my $SysConfigObject = Kernel::System::SysConfig->new(
-            %{$Self},
-            TimeObject => $TimeObject,
-        );
-
-        # check all sysconfig options and correct them automatically if neccessary
-        $SysConfigObject->ConfigItemCheckAll();
-    }
+    # check all sysconfig options and correct them automatically if neccessary
+    $SysConfigObject->ConfigItemCheckAll();
 
     return 1;
 }
@@ -411,14 +420,17 @@ sub StateGetStatesByType {
             push @StateType, $Param{StateType};
         }
     }
+
     my $SQL = ''
         . 'SELECT ts.id, ts.name, tst.name'
         . ' FROM ticket_state ts, ticket_state_type tst'
         . ' WHERE tst.id = ts.type_id'
         . " AND tst.name IN ('${\(join '\', \'', sort @StateType)}' )"
         . " AND ts.valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} )";
+
     return if !$Self->{DBObject}->Prepare( SQL => $SQL );
 
+    # fetch the result
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
         push @Name, $Data[1];
         push @ID,   $Data[0];
@@ -444,6 +456,7 @@ sub StateGetStatesByType {
     elsif ( $Param{Result} eq 'HASH' ) {
         return %Data;
     }
+
     return @ID;
 }
 
@@ -484,13 +497,13 @@ returns
 sub StateList {
     my ( $Self, %Param ) = @_;
 
-    my $Valid = 1;
-
     # check needed stuff
     if ( !$Param{UserID} ) {
         $Self->{LogObject}->Log( Priority => 'error', Message => 'UserID!' );
         return;
     }
+
+    my $Valid = 1;
     if ( !$Param{Valid} && defined( $Param{Valid} ) ) {
         $Valid = 0;
     }
@@ -505,14 +518,20 @@ sub StateList {
     if ($Valid) {
         $SQL .= " WHERE valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} )";
     }
+
     return if !$Self->{DBObject}->Prepare( SQL => $SQL );
+
+    # fetch the result
     my %Data;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Data{ $Row[0] } = $Row[1];
     }
 
     # set cache
-    $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => \%Data );
+    $Self->{CacheInternalObject}->Set(
+        Key   => $CacheKey,
+        Value => \%Data,
+    );
 
     return %Data;
 }
@@ -540,54 +559,37 @@ sub StateLookup {
         return;
     }
 
-    # check cache
-    my $CacheKey;
+    # get (already cached) state list
+    my %StateList = $Self->StateList(
+        Valid  => 0,
+        UserID => 1,
+    );
+
     my $Key;
     my $Value;
-    if ( $Param{State} ) {
-        $Key      = 'State';
-        $Value    = $Param{State};
-        $CacheKey = 'StateLookup::Name::' . $Param{State};
+    my $ReturnData;
+    if ( $Param{StateID} ) {
+        $Key        = 'StateID';
+        $Value      = $Param{StateID};
+        $ReturnData = $StateList{ $Param{StateID} };
     }
     else {
-        $Key      = 'StateID';
-        $Value    = $Param{StateID};
-        $CacheKey = 'StateLookup::ID::' . $Param{StateID};
+        $Key   = 'State';
+        $Value = $Param{State};
+        my %StateListReverse = reverse %StateList;
+        $ReturnData = $StateListReverse{ $Param{State} };
     }
-
-    my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
-    return $Cache if $Cache;
-
-    # db query
-    my $SQL;
-    my @Bind;
-    if ( $Param{State} ) {
-        $SQL = 'SELECT id FROM ticket_state WHERE name = ?';
-        push @Bind, \$Param{State};
-    }
-    else {
-        $SQL = 'SELECT name FROM ticket_state WHERE id = ?';
-        push @Bind, \$Param{StateID};
-    }
-    return if !$Self->{DBObject}->Prepare( SQL => $SQL, Bind => \@Bind );
-    my $Data;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        $Data = $Row[0];
-    }
-
-    # set cache
-    $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => $Data );
 
     # check if data exists
-    if ( !defined $Data ) {
+    if ( !defined $ReturnData ) {
         $Self->{LogObject}->Log(
-            State   => 'error',
-            Message => "No $Key for $Value found!",
+            Priority => 'error',
+            Message  => "No $Key for $Value found!",
         );
         return;
     }
 
-    return $Data;
+    return $ReturnData;
 }
 
 =item StateTypeList()
@@ -630,6 +632,8 @@ sub StateTypeList {
     return if !$Self->{DBObject}->Prepare(
         SQL => 'SELECT id, name FROM ticket_state_type',
     );
+
+    # fetch the result
     my %Data;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Data{ $Row[0] } = $Row[1];
@@ -662,59 +666,41 @@ sub StateTypeLookup {
 
     # check needed stuff
     if ( !$Param{StateType} && !$Param{StateTypeID} ) {
-        $Self->{LogObject}
-            ->Log( StateType => 'error', Message => 'Need StateType or StateTypeID!' );
-        return;
-    }
-
-    # check cache
-    my $CacheKey;
-    my $Key;
-    my $Value;
-    if ( $Param{StateType} ) {
-        $Key      = 'StateType';
-        $Value    = $Param{StateType};
-        $CacheKey = 'StateTypeLookup::Name::' . $Param{StateType};
-    }
-    else {
-        $Key      = 'StateTypeID';
-        $Value    = $Param{StateTypeID};
-        $CacheKey = 'StateTypeLookup::ID::' . $Param{StateTypeID};
-    }
-
-    my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
-    return $Cache if $Cache;
-
-    # db query
-    my $SQL;
-    my @Bind;
-    if ( $Param{StateType} ) {
-        $SQL = 'SELECT id FROM ticket_state_type WHERE name = ?';
-        push @Bind, \$Param{StateType};
-    }
-    else {
-        $SQL = 'SELECT name FROM ticket_state_type WHERE id = ?';
-        push @Bind, \$Param{StateTypeID};
-    }
-    return if !$Self->{DBObject}->Prepare( SQL => $SQL, Bind => \@Bind );
-    my $Data;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        $Data = $Row[0];
-    }
-
-    # set cache
-    $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => $Data );
-
-    # check if data exists
-    if ( !defined $Data ) {
         $Self->{LogObject}->Log(
             StateType => 'error',
-            Message   => "No $Key for $Value found!",
+            Message   => 'Need StateType or StateTypeID!',
         );
         return;
     }
 
-    return $Data;
+    # get (already cached) state type list
+    my %StateTypeList = $Self->StateTypeList();
+
+    my $Key;
+    my $Value;
+    my $ReturnData;
+    if ( $Param{StateTypeID} ) {
+        $Key        = 'StateTypeID';
+        $Value      = $Param{StateTypeID};
+        $ReturnData = $StateTypeList{ $Param{StateTypeID} };
+    }
+    else {
+        $Key   = 'StateType';
+        $Value = $Param{StateType};
+        my %StateTypeListReverse = reverse %StateTypeList;
+        $ReturnData = $StateTypeListReverse{ $Param{StateType} };
+    }
+
+    # check if data exists
+    if ( !defined $ReturnData ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "No $Key for $Value found!",
+        );
+        return;
+    }
+
+    return $ReturnData;
 }
 
 1;
@@ -733,6 +719,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.54 $ $Date: 2011-06-19 20:28:11 $
+$Revision: 1.55 $ $Date: 2012-03-18 21:34:13 $
 
 =cut
