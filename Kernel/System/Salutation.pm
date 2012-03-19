@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Salutation.pm - All salutation related function should be here eventually
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Salutation.pm,v 1.16 2010-06-17 21:39:40 cr Exp $
+# $Id: Salutation.pm,v 1.17 2012-03-19 01:09:02 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,10 +14,11 @@ package Kernel::System::Salutation;
 use strict;
 use warnings;
 
+use Kernel::System::CacheInternal;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 =head1 NAME
 
@@ -84,7 +85,12 @@ sub new {
     for (qw(DBObject ConfigObject LogObject MainObject EncodeObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
-    $Self->{ValidObject} = Kernel::System::Valid->new(%Param);
+    $Self->{ValidObject}         = Kernel::System::Valid->new(%Param);
+    $Self->{CacheInternalObject} = Kernel::System::CacheInternal->new(
+        %Param,
+        Type => 'Salutation',
+        TTL  => 60 * 60 * 24 * 20,
+    );
 
     return $Self;
 }
@@ -127,13 +133,21 @@ sub SalutationAdd {
 
     # get new salutation id
     $Self->{DBObject}->Prepare(
-        SQL  => 'SELECT id FROM salutation WHERE name = ?',
-        Bind => [ \$Param{Name} ],
+        SQL   => 'SELECT id FROM salutation WHERE name = ?',
+        Bind  => [ \$Param{Name} ],
+        Limit => 1,
     );
+
     my $ID;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $ID = $Row[0];
     }
+
+    return if !$ID;
+
+    # reset cache
+    $Self->{CacheInternalObject}->CleanUp();
+
     return $ID;
 }
 
@@ -156,12 +170,20 @@ sub SalutationGet {
         return;
     }
 
-    # sql
+    # check cache
+    my $Cache = $Self->{CacheInternalObject}->Get(
+        Key => 'SalutationGet' . $Param{ID},
+    );
+    return %{$Cache} if $Cache;
+
+    # get the salutation
     return if !$Self->{DBObject}->Prepare(
         SQL => 'SELECT id, name, text, content_type, comments, valid_id, change_time, create_time '
             . 'FROM salutation WHERE id = ?',
         Bind => [ \$Param{ID} ],
     );
+
+    # fetch the result
     my %Data;
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
         %Data = (
@@ -180,12 +202,17 @@ sub SalutationGet {
     if ( !%Data ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "SalutationID '$Param{ID}' not found!"
+            Message  => "SalutationID '$Param{ID}' not found!",
         );
         return;
     }
 
-    # return data
+    # set cache
+    $Self->{CacheInternalObject}->Set(
+        Key   => 'SalutationGet' . $Param{ID},
+        Value => \%Data,
+    );
+
     return %Data;
 }
 
@@ -225,6 +252,10 @@ sub SalutationUpdate {
             \$Param{ValidID}, \$Param{UserID}, \$Param{ID},
         ],
     );
+
+    # reset cache
+    $Self->{CacheInternalObject}->CleanUp();
+
     return 1;
 }
 
@@ -243,20 +274,47 @@ get salutation list
 sub SalutationList {
     my ( $Self, %Param ) = @_;
 
-    my $Valid = 1;
-
-    # check needed stuff
-    if ( !$Param{Valid} && defined( $Param{Valid} ) ) {
-        $Valid = 0;
+    # check valid param
+    if ( !defined $Param{Valid} ) {
+        $Param{Valid} = 1;
     }
 
-    # sql
-    return $Self->{DBObject}->GetTableData(
-        What  => 'id, name',
-        Valid => $Valid,
-        Clamp => 1,
-        Table => 'salutation',
+    # create cachekey
+    my $CacheKey;
+    if ( $Param{Valid} ) {
+        $CacheKey = 'SalutationList::Valid';
+    }
+    else {
+        $CacheKey = 'SalutationList::All';
+    }
+
+    # check cache
+    my $Cache = $Self->{CacheInternalObject}->Get(
+        Key => $CacheKey,
     );
+    return %{$Cache} if $Cache;
+
+    # create sql
+    my $SQL = 'SELECT id, name FROM salutation ';
+    if ( $Param{Valid} ) {
+        $SQL .= "WHERE valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} )";
+    }
+
+    return if !$Self->{DBObject}->Prepare( SQL => $SQL );
+
+    # fetch the result
+    my %Data;
+    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        $Data{ $Row[0] } = $Row[1];
+    }
+
+    # set cache
+    $Self->{CacheInternalObject}->Set(
+        Key   => $CacheKey,
+        Value => \%Data,
+    );
+
+    return %Data;
 }
 
 1;
@@ -275,6 +333,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.16 $ $Date: 2010-06-17 21:39:40 $
+$Revision: 1.17 $ $Date: 2012-03-19 01:09:02 $
 
 =cut
