@@ -2,7 +2,7 @@
 # Kernel/System/Queue.pm - lib for queue functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Queue.pm,v 1.133 2012-03-18 23:36:03 mh Exp $
+# $Id: Queue.pm,v 1.134 2012-03-19 00:35:12 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::Time;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.133 $) [1];
+$VERSION = qw($Revision: 1.134 $) [1];
 
 =head1 NAME
 
@@ -976,11 +976,7 @@ sub QueueUpdate {
     }
 
     # check if queue name exists
-    my %AllQueue = $Self->{DBObject}->GetTableData(
-        Table => 'queue',
-        What  => 'id, name',
-    );
-
+    my %AllQueue = $Self->QueueList( Valid => 0 );
     my %OldQueue = $Self->QueueGet( ID => $Param{QueueID} );
 
     for ( keys %AllQueue ) {
@@ -1180,6 +1176,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.133 $ $Date: 2012-03-18 23:36:03 $
+$Revision: 1.134 $ $Date: 2012-03-19 00:35:12 $
 
 =cut
