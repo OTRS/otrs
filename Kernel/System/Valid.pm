@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Valid.pm - all valid functions
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Valid.pm,v 1.22 2010-06-17 21:39:40 cr Exp $
+# $Id: Valid.pm,v 1.23 2012-03-19 00:36:58 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CacheInternal;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.22 $) [1];
+$VERSION = qw($Revision: 1.23 $) [1];
 
 =head1 NAME
 
@@ -88,7 +88,7 @@ sub new {
     $Self->{CacheInternalObject} = Kernel::System::CacheInternal->new(
         %{$Self},
         Type => 'Valid',
-        TTL  => 60 * 60 * 3,
+        TTL  => 60 * 60 * 24 * 20,
     );
 
     return $Self;
@@ -148,39 +148,26 @@ sub ValidLookup {
         return;
     }
 
-    # check if we ask the same request?
-    my $CacheKey;
+    # get (already cached) valid list
+    my %ValidList = $Self->ValidList();
+
     my $Key;
     my $Value;
-    if ( $Param{Valid} ) {
-        $Key      = 'Valid';
-        $Value    = $Param{Valid};
-        $CacheKey = 'ValidLookup::' . $Param{Valid};
+    my $ReturnData;
+    if ( $Param{ValidID} ) {
+        $Key        = 'ValidID';
+        $Value      = $Param{ValidID};
+        $ReturnData = $ValidList{ $Param{ValidID} };
     }
     else {
-        $Key      = 'ValidID';
-        $Value    = $Param{ValidID};
-        $CacheKey = 'ValidIDLookup::' . $Param{ValidID};
-    }
-
-    my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
-    return $Cache if $Cache;
-
-    my %List = $Self->ValidList();
-    my $Data;
-    if ( $Param{Valid} ) {
-        for my $ID ( keys %List ) {
-            next if $List{$ID} ne $Param{Valid};
-            $Data = $ID;
-            last;
-        }
-    }
-    else {
-        $Data = $List{ $Param{ValidID} };
+        $Key   = 'Valid';
+        $Value = $Param{Valid};
+        my %ValidListReverse = reverse %ValidList;
+        $ReturnData = $ValidListReverse{ $Param{Valid} };
     }
 
     # check if data exists
-    if ( !defined $Data ) {
+    if ( !defined $ReturnData ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "No $Key for $Value found!",
@@ -188,10 +175,7 @@ sub ValidLookup {
         return;
     }
 
-    # set cache
-    $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => $Data );
-
-    return $Data;
+    return $ReturnData;
 }
 
 =item ValidIDsGet()
@@ -205,28 +189,12 @@ return all valid ids as array
 sub ValidIDsGet {
     my ( $Self, %Param ) = @_;
 
-    # read cache
-    my $CacheKey = 'ValidIDsGet';
-    my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
-    return @{$Cache} if $Cache;
-
-    # get valid ids
-    my $Valid = 'valid';
-    return if !$Self->{DBObject}->Prepare(
-        SQL  => 'SELECT id FROM valid WHERE name = ?',
-        Bind => [ \$Valid ],
+    my $ValidID = $Self->ValidLookup(
+        Valid => 'valid',
     );
 
-    # fetch the results
-    my @ValidIDs;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        push @ValidIDs, $Row[0];
-    }
-
-    # set cache
-    $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => \@ValidIDs );
-
-    return @ValidIDs;
+    return if !$ValidID;
+    return ($ValidID);
 }
 
 1;
@@ -245,6 +213,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.22 $ $Date: 2010-06-17 21:39:40 $
+$Revision: 1.23 $ $Date: 2012-03-19 00:36:58 $
 
 =cut
