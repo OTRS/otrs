@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminDynamicField.pm - provides a dynamic fields view for admins
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminDynamicField.pm,v 1.13 2011-09-27 17:01:22 cg Exp $
+# $Id: AdminDynamicField.pm,v 1.14 2012-03-19 02:29:43 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::DynamicField;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -177,7 +177,7 @@ sub _DynamicFieldsListShow {
 
     # get personal page shown count
     my $PageShownPreferencesKey = 'AdminDynamicFieldsOverviewPageShown';
-    my $PageShown               = $Self->{$PageShownPreferencesKey} || 10;
+    my $PageShown               = $Self->{$PageShownPreferencesKey} || 35;
     my $Group                   = 'DynamicFieldsOverviewPageShown';
 
     # get data selection
