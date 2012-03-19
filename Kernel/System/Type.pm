@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Type.pm - All type related function should be here eventually
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Type.pm,v 1.25 2011-02-11 14:43:01 bes Exp $
+# $Id: Type.pm,v 1.26 2012-03-19 00:43:55 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,11 +14,11 @@ package Kernel::System::Type;
 use strict;
 use warnings;
 
-use Kernel::System::Valid;
 use Kernel::System::CacheInternal;
+use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.25 $) [1];
+$VERSION = qw($Revision: 1.26 $) [1];
 
 =head1 NAME
 
@@ -89,7 +89,7 @@ sub new {
     $Self->{CacheInternalObject} = Kernel::System::CacheInternal->new(
         %{$Self},
         Type => 'Type',
-        TTL  => 60 * 60 * 3,
+        TTL  => 60 * 60 * 24 * 20,
     );
 
     return $Self;
@@ -139,14 +139,8 @@ sub TypeAdd {
     }
     return if !$ID;
 
-    # delete cache
-    my @CacheKeys = ( 'TypeGet::Name::' . $Param{Name}, 'TypeGet::ID::' . $ID );
-    push @CacheKeys, 'TypeLookup::Name::' . $Param{Name}, 'TypeLookup::ID::' . $ID;
-    push @CacheKeys, 'TypeList::Valid::0';
-    push @CacheKeys, 'TypeList::Valid::1';
-    for my $CacheKey (@CacheKeys) {
-        $Self->{CacheInternalObject}->Delete( Key => $CacheKey );
-    }
+    # reset cache
+    $Self->{CacheInternalObject}->CleanUp();
 
     return $ID;
 }
@@ -237,9 +231,6 @@ sub TypeGet {
         $Type{ChangeBy}   = $Data[6];
     }
 
-    # set cache
-    $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => \%Type );
-
     # no data found
     if ( !%Type ) {
         $Self->{LogObject}->Log(
@@ -248,6 +239,9 @@ sub TypeGet {
         );
         return;
     }
+
+    # set cache
+    $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => \%Type );
 
     return %Type;
 }
@@ -285,14 +279,8 @@ sub TypeUpdate {
         ],
     );
 
-    # delete cache
-    my @CacheKeys = ( 'TypeGet::Name::' . $Param{Name}, 'TypeGet::ID::' . $Param{ID} );
-    push @CacheKeys, 'TypeLookup::Name::' . $Param{Name}, 'TypeLookup::ID::' . $Param{ID};
-    push @CacheKeys, 'TypeList::Valid::0';
-    push @CacheKeys, 'TypeList::Valid::1';
-    for my $CacheKey (@CacheKeys) {
-        $Self->{CacheInternalObject}->Delete( Key => $CacheKey );
-    }
+    # reset cache
+    $Self->{CacheInternalObject}->CleanUp();
 
     return 1;
 }
@@ -322,7 +310,6 @@ sub TypeList {
 
     # check cache
     my $CacheKey = "TypeList::Valid::$Valid";
-
     my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
     return %{$Cache} if $Cache;
 
@@ -376,63 +363,36 @@ sub TypeLookup {
         return;
     }
 
-    # check cache
-    my $CacheKey;
-    my $Key;
-    my $Value;
-    if ( $Param{TypeID} ) {
-        $CacheKey = 'TypeLookup::ID::' . $Param{TypeID};
-        $Key      = 'TypeID';
-        $Value    = $Param{TypeID};
-    }
-    else {
-        $CacheKey = 'TypeLookup::Name::' . $Param{Type};
-        $Key      = 'Type';
-        $Value    = $Param{Type};
-    }
-
-    my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
-    return $Cache if $Cache;
-
-    # get data
-    my $SQL;
-    my @Bind;
-    my $Suffix = '';
-    if ( $Param{Type} ) {
-        $SQL = 'SELECT id FROM ticket_type WHERE name = ?';
-        push @Bind, \$Param{Type};
-    }
-    else {
-        $SQL = 'SELECT name FROM ticket_type WHERE id = ?';
-        push @Bind, \$Param{TypeID};
-    }
-
-    # ask the database
-    return if !$Self->{DBObject}->Prepare(
-        SQL   => $SQL,
-        Bind  => \@Bind,
-        Limit => 1,
+    # get (already cached) type list
+    my %TypeList = $Self->TypeList(
+        Valid => 0,
     );
 
-    # fetch the result
-    my $Data;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        $Data = $Row[0];
+    my $Key;
+    my $Value;
+    my $ReturnData;
+    if ( $Param{TypeID} ) {
+        $Key        = 'TypeID';
+        $Value      = $Param{TypeID};
+        $ReturnData = $TypeList{ $Param{TypeID} };
+    }
+    else {
+        $Key   = 'Type';
+        $Value = $Param{Type};
+        my %TypeListReverse = reverse %TypeList;
+        $ReturnData = $TypeListReverse{ $Param{Type} };
     }
 
     # check if data exists
-    if ( !$Data ) {
+    if ( !defined $ReturnData ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Found no $Key for $Value!",
+            Message  => "No $Key for $Value found!",
         );
         return;
     }
 
-    # set cache
-    $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => $Data );
-
-    return $Data;
+    return $ReturnData;
 }
 
 1;
@@ -451,6 +411,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.25 $ $Date: 2011-02-11 14:43:01 $
+$Revision: 1.26 $ $Date: 2012-03-19 00:43:55 $
 
 =cut
