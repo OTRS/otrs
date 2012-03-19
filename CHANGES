@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2216 2012-03-19 11:48:42 mg Exp $
+# $Id: CHANGES,v 1.2217 2012-03-19 11:56:48 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -11,7 +11,7 @@
 
 3.1.3 2012-??-??
  - 2012-03-19 Fixed an issue where DBUpdate-to-3.1.pl would die because
-    of certain free time settings.
+    of certain free text or free time configuration settings.
  - 2012-03-18 Added internal cache to Kernel/System/Lock.pm to improve performance.
  - 2012-03-18 Added internal cache to Kernel/System/Salutation.pm to improve performance.
  - 2012-03-18 Added internal cache to Kernel/System/Type.pm to improve performance.

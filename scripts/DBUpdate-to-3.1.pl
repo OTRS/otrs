@@ -3,7 +3,7 @@
 # DBUpdate-to-3.1.pl - update script to migrate OTRS 3.0.x to 3.1.x
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-3.1.pl,v 1.76 2012-03-19 11:48:07 mg Exp $
+# $Id: DBUpdate-to-3.1.pl,v 1.77 2012-03-19 11:56:48 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.76 $) [1];
+$VERSION = qw($Revision: 1.77 $) [1];
 
 use Getopt::Std qw();
 use Kernel::Config;
@@ -1135,7 +1135,7 @@ sub _MigrateFreeFieldsConfiguration {
 
                     if ( ref $PossibleKeys eq 'HASH' && scalar keys %{$PossibleKeys} == 1 ) {
                         for my $Key ( keys %{$PossibleKeys} ) {
-                            $FieldConfig->{Label} = $PossibleKeys->{$Key};
+                            $FieldConfig->{Label} = $PossibleKeys->{$Key} if $PossibleKeys->{$Key};
                         }
                     }
                 }
@@ -1253,7 +1253,7 @@ sub _MigrateFreeFieldsConfiguration {
 
                     if ( ref $PossibleKeys eq 'HASH' && scalar keys %{$PossibleKeys} == 1 ) {
                         for my $Key ( keys %{$PossibleKeys} ) {
-                            $FieldConfig->{Label} = $PossibleKeys->{$Key};
+                            $FieldConfig->{Label} = $PossibleKeys->{$Key} if $PossibleKeys->{$Key};
                         }
                     }
                 }
