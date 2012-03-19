@@ -1,8 +1,8 @@
 # --
 # Kernel/System/FileTemp.pm - tmp files
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: FileTemp.pm,v 1.16 2010-06-17 21:39:40 cr Exp $
+# $Id: FileTemp.pm,v 1.17 2012-03-19 01:06:38 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use File::Temp qw( tempfile tempdir );
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 =head1 NAME
 
@@ -97,14 +97,16 @@ sub DESTROY {
     my ( $Self, %Param ) = @_;
 
     # close all existing file handles
+    FILEHANDLE:
     for my $FileHandle ( @{ $Self->{FileHandleList} } ) {
-        next if !$FileHandle;
+        next FILEHANDLE if !$FileHandle;
         close $FileHandle;
     }
 
     # remove all existing tmp files
+    FILE:
     for my $File ( @{ $Self->{FileList} } ) {
-        next if !-f $File;
+        next FILE if !-f $File;
         unlink $File;
     }
 
@@ -127,6 +129,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.16 $ $Date: 2010-06-17 21:39:40 $
+$Revision: 1.17 $ $Date: 2012-03-19 01:06:38 $
 
 =cut

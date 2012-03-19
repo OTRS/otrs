@@ -2,7 +2,7 @@
 # Kernel/System/Priority.pm - all ticket priority function
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Priority.pm,v 1.34 2012-03-18 21:32:39 mh Exp $
+# $Id: Priority.pm,v 1.35 2012-03-19 01:07:17 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,13 +14,13 @@ package Kernel::System::Priority;
 use strict;
 use warnings;
 
-use Kernel::System::Valid;
-use Kernel::System::Time;
-use Kernel::System::SysConfig;
 use Kernel::System::CacheInternal;
+use Kernel::System::SysConfig;
+use Kernel::System::Time;
+use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.34 $) [1];
+$VERSION = qw($Revision: 1.35 $) [1];
 
 =head1 NAME
 
@@ -393,6 +393,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.34 $ $Date: 2012-03-18 21:32:39 $
+$Revision: 1.35 $ $Date: 2012-03-19 01:07:17 $
 
 =cut
