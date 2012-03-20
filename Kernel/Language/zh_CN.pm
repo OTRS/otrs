@@ -7,7 +7,7 @@
 # Copyright (C) 2009 Qingjiu Jia <jiaqj at yahoo.com>
 # Copyright (C) 2011 Martin Liu <liuzh66 at gmail.com> http://martinliu.cn
 # --
-# $Id: zh_CN.pm,v 1.110 2012-03-01 13:25:10 mg Exp $
+# $Id: zh_CN.pm,v 1.111 2012-03-20 16:44:48 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,13 +20,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.110 $) [1];
+$VERSION = qw($Revision: 1.111 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-03-01 14:20:28
+    # Last translation file sync: 2012-03-20 17:40:43
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -942,6 +942,10 @@ sub Data {
         'Label' => '',
         'Order' => '次序',
         'Object' => '对象',
+        'Delete this field' => '',
+        'Do you really want to delete this dynamic field? ALL associated data will be LOST!' =>
+            '',
+        'Delete field' => '',
 
         # Template: AdminDynamicFieldCheckbox
         'Dynamic Fields' => '',
@@ -1256,6 +1260,29 @@ sub Data {
         'A "-" value means no authentication.' => '',
         'The user name to be used to access the remote system.' => '',
         'The password for the privileged user.' => '',
+        'Use SSL Options' => '',
+        'Show or hide SSL options to connect to the remote system.' => '',
+        'Certificate File' => '',
+        'The full path and name of the SSL certificate file (must be in .p12 format).' =>
+            '',
+        'e.g. /opt/otrs/var/certificates/SOAP/certificate.p12' => '',
+        'Certificate Password File' => '',
+        'The password to open the SSL certificate.' => '',
+        'Certification Authority (CA) File' => '',
+        'The full path and name of the certification authority certificate file that validates SSL certificate.' =>
+            '',
+        'e.g. /opt/otrs/var/certificates/SOAP/CA/ca.pem' => '',
+        'Certification Authority (CA) Directory' => '',
+        'The full path of the certification authority directory where the CA certificates are stored in the file system.' =>
+            '',
+        'e.g. /opt/otrs/var/certificates/SOAP/CA' => '',
+        'Proxy Server' => '',
+        'URI of a proxy server to be used (if needed).' => '',
+        'e.g. http://proxy_hostname:8080' => '',
+        'Proxy User' => '',
+        'The user name to be used to access the proxy server.' => '',
+        'Proxy Password' => '',
+        'The password for the proxy user.' => '',
 
         # Template: AdminGenericInterfaceWebservice
         'GenericInterface Web Service Management' => '',
@@ -1434,6 +1461,7 @@ sub Data {
         'Local Repository' => '本地软件仓库',
         'Uninstall' => '卸载',
         'Reinstall' => '重新安装',
+        'Feature Add-Ons' => '',
         'Download package' => '下载该软件包',
         'Rebuild package' => '重新编译',
         'Metadata' => '元数据',
@@ -4147,6 +4175,8 @@ sub Data {
         'Ticket overview' => '票单一览',
         'Tickets' => '票单',
         'Time in seconds that gets added to the actual time if setting a pending-state (default: 86400 = 1 day).' =>
+            '',
+        'Toggles display of OTRS FeatureAddons list in PackageManager.' =>
             '',
         'Toolbar Item for a shortcut.' => '',
         'Turns on the animations used in the GUI. If you have problems with these animations (e.g. performance issues), you can turn them off here.' =>
