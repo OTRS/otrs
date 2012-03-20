@@ -3,7 +3,7 @@
 # DBUpdate-to-3.1.pl - update script to migrate OTRS 3.0.x to 3.1.x
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-3.1.pl,v 1.77 2012-03-19 11:56:48 mg Exp $
+# $Id: DBUpdate-to-3.1.pl,v 1.78 2012-03-20 10:30:30 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.77 $) [1];
+$VERSION = qw($Revision: 1.78 $) [1];
 
 use Getopt::Std qw();
 use Kernel::Config;
@@ -1112,6 +1112,8 @@ sub _MigrateFreeFieldsConfiguration {
 
             if ( defined $DynamicFields->{$FieldName} ) {
 
+                my $Valid = $ValidFreeFields->{$FieldName};
+
                 my $FieldConfig = $DynamicFieldObject->DynamicFieldGet(
                     ID => $DynamicFields->{$FieldName},
                 ) || {};
@@ -1140,6 +1142,16 @@ sub _MigrateFreeFieldsConfiguration {
                     }
                 }
 
+                # If the key has only one possible value for this entry, disable this field
+                if (
+                    $FreeField eq 'TicketFreeKey'
+                    && ref $PossibleValues eq 'HASH'
+                    && scalar keys %{$PossibleValues} == 1
+                    )
+                {
+                    $Valid = 2;
+                }
+
                 my $DefaultSelection
                     = $CommonObject->{ConfigObject}->Get( $FieldName . "::DefaultSelection" );
                 $FieldConfig->{Config}->{DefaultValue} = $DefaultSelection;
@@ -1154,7 +1166,7 @@ sub _MigrateFreeFieldsConfiguration {
                     %{$FieldConfig},
                     FieldType => $FieldType,
                     Reorder   => 0,
-                    ValidID   => $ValidFreeFields->{$FieldName},
+                    ValidID   => $Valid,
                     UserID    => 1,
                 );
 
@@ -1216,6 +1228,9 @@ sub _MigrateFreeFieldsConfiguration {
             my $FieldName = $FreeField . $Index;
 
             if ( defined $DynamicFields->{$FieldName} ) {
+
+                my $Valid = $ValidFreeFields->{$FieldName};
+
                 my $FieldConfig = $DynamicFieldObject->DynamicFieldGet(
                     ID => $DynamicFields->{$FieldName},
                 );
@@ -1258,6 +1273,16 @@ sub _MigrateFreeFieldsConfiguration {
                     }
                 }
 
+                # If the key has only one possible value for this entry, disable this field
+                if (
+                    $FreeField eq 'ArticleFreeKey'
+                    && ref $PossibleValues eq 'HASH'
+                    && scalar keys %{$PossibleValues} == 1
+                    )
+                {
+                    $Valid = 2;
+                }
+
                 $FieldConfig->{Config}->{DefaultValue}
                     = $CommonObject->{ConfigObject}->Get( $FieldName . "::DefaultSelection" )
                     ;
@@ -1267,7 +1292,7 @@ sub _MigrateFreeFieldsConfiguration {
                     %{$FieldConfig},
                     FieldType => $FieldType,
                     Reorder   => 0,
-                    ValidID   => $ValidFreeFields->{$FieldName},
+                    ValidID   => $Valid,
                     UserID    => 1,
                 );
 
@@ -3002,6 +3027,9 @@ sub _GetValidFreeFields {
                         if ( $FreeField eq 'TicketFreeText' ) {
                             $ValidFreeFields{ 'TicketFreeKey' . $Index } = '1';
                         }
+                        if ( $FreeField eq 'ArticleFreeText' ) {
+                            $ValidFreeFields{ 'ArticleFreeKey' . $Index } = '1';
+                        }
                     }
                 }
             }
@@ -3029,6 +3057,9 @@ sub _GetValidFreeFields {
                     if ( $FreeField eq 'TicketFreeText' ) {
                         $ValidFreeFields{ 'TicketFreeKey' . $Index } = '1';
                     }
+                    if ( $FreeField eq 'ArticleFreeText' ) {
+                        $ValidFreeFields{ 'ArticleFreeKey' . $Index } = '1';
+                    }
                 }
             }
         }
@@ -3054,6 +3085,9 @@ sub _GetValidFreeFields {
                     # enable its own key field
                     if ( $FreeField eq 'TicketFreeText' ) {
                         $ValidFreeFields{ 'TicketFreeKey' . $Index } = '1';
+                    }
+                    if ( $FreeField eq 'ArticleFreeText' ) {
+                        $ValidFreeFields{ 'ArticleFreeKey' . $Index } = '1';
                     }
                 }
             }
