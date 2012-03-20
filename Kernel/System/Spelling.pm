@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Spelling.pm - the global spelling module
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Spelling.pm,v 1.33 2011-08-12 09:06:15 mg Exp $
+# $Id: Spelling.pm,v 1.34 2012-03-20 08:19:38 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::FileTemp;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.33 $) [1];
+$VERSION = qw($Revision: 1.34 $) [1];
 
 =head1 NAME
 
@@ -25,7 +25,8 @@ Kernel::System::Spelling - spelling lib
 
 =head1 SYNOPSIS
 
-This module is managing spelling functions.
+This module is the spellchecker backend wrapper of OTRS.
+Currently, ispell and aspell are supported as spellchecker backends.
 
 =head1 PUBLIC INTERFACE
 
@@ -298,6 +299,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.33 $ $Date: 2011-08-12 09:06:15 $
+$Revision: 1.34 $ $Date: 2012-03-20 08:19:38 $
 
 =cut
