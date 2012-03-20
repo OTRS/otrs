@@ -1,8 +1,8 @@
 # --
 # DynamicFieldValue.t - DynamicFieldValue backend tests
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicFieldValue.t,v 1.13 2011-10-26 02:14:45 cr Exp $
+# $Id: DynamicFieldValue.t,v 1.14 2012-03-20 16:27:56 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -481,7 +481,18 @@ $Self->True(
     );
 }
 
-# delete the dynamic field
+# delete the dynamic field values
+my $FieldValueDelete = $DynamicFieldValueObject->AllValuesDelete(
+    FieldID => $FieldID,
+    UserID  => 1,
+);
+
+# sanity check
+$Self->True(
+    $FieldValueDelete,
+    "AllValuesDelete() successful for Field ID $FieldID",
+);
+
 my $FieldDelete = $DynamicFieldObject->DynamicFieldDelete(
     ID     => $FieldID,
     UserID => 1,
@@ -698,6 +709,18 @@ $Self->IsDeeply(
     $HistoricalValues,
     \%IntValues,
     "HistoricalValueGet() for Integer data - from Cache"
+);
+
+# delete the dynamic field values
+$FieldValueDelete = $DynamicFieldValueObject->AllValuesDelete(
+    FieldID => $FieldID,
+    UserID  => 1,
+);
+
+# sanity check
+$Self->True(
+    $FieldValueDelete,
+    "AllValuesDelete() successful for Field ID $FieldID",
 );
 
 # delete the dynamic field

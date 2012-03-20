@@ -2,7 +2,7 @@
 # Backend.t - DynamicFieldValue backend tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Backend.t,v 1.19 2012-03-01 11:34:05 mg Exp $
+# $Id: Backend.t,v 1.20 2012-03-20 16:27:57 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -836,6 +836,21 @@ $Self->Is(
     $ReturnValue2,
     scalar undef,
     'TicketDelete() DF value was deleted by ticket delete',
+);
+
+my $ValuesDelete = $BackendObject->AllValuesDelete(
+    DynamicFieldConfig => {
+        ID         => $FieldID,
+        ObjectType => 'Ticket',
+        FieldType  => 'Text',
+    },
+    UserID => 1,
+);
+
+# sanity check
+$Self->True(
+    $ValuesDelete,
+    "AllValuesDelete() successful for Field ID $FieldID",
 );
 
 # delete the dynamic field

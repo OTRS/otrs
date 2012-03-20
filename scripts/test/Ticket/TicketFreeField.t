@@ -1,8 +1,8 @@
 # --
 # TicketFreeField.t - Ticket Free Field tests
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketFreeField.t,v 1.6 2011-12-12 17:38:24 cg Exp $
+# $Id: TicketFreeField.t,v 1.7 2012-03-20 16:27:57 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -592,6 +592,18 @@ else {
     );
 }
 
+# delete the ticket
+my $TicketDelete = $TicketObject->TicketDelete(
+    TicketID => $TicketID,
+    UserID   => 1,
+);
+
+# sanity check
+$Self->True(
+    $TicketDelete,
+    "TicketDelete() successful for Ticket ID $TicketID",
+);
+
 # delete the dynamic fields
 for my $FieldID (@FreeFieldIDs) {
 
@@ -635,17 +647,5 @@ for my $OriginalFreeFieldConfig (@OriginalFreeFields) {
         "The ID of the Original field (DynamicFieldGet by Name) match"
     );
 }
-
-# delete the ticket
-my $TicketDelete = $TicketObject->TicketDelete(
-    TicketID => $TicketID,
-    UserID   => 1,
-);
-
-# sanity check
-$Self->True(
-    $TicketDelete,
-    "TicketDelete() successful for Ticket ID $TicketID",
-);
 
 1;

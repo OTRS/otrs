@@ -2,7 +2,7 @@
 # Kernel/System/DynamicFieldValue.pm - DynamicField values backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicFieldValue.pm,v 1.18 2012-01-03 22:45:37 cr Exp $
+# $Id: DynamicFieldValue.pm,v 1.19 2012-03-20 16:27:56 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Time;
 use Kernel::System::Cache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 =head1 NAME
 
@@ -323,6 +323,44 @@ sub ValueDelete {
     return 1;
 }
 
+=item AllValuesDelete()
+
+delete all entries of a dynamic field .
+
+    my $Success = $DynamicFieldValueObject->AllValuesDelete(
+        FieldID            => $FieldID,                 # ID of the dynamic field
+        UserID  => 123,
+    );
+
+    Returns 1.
+
+=cut
+
+sub AllValuesDelete {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Needed (qw(FieldID UserID)) {
+        if ( !$Param{$Needed} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            return;
+        }
+    }
+
+    # delete dynamic field value
+    return if !$Self->{DBObject}->Do(
+        SQL  => 'DELETE FROM dynamic_field_value WHERE field_id = ?',
+        Bind => [ \$Param{FieldID} ],
+    );
+
+    # delete cache
+    $Self->{CacheObject}->CleanUp(
+        Type => 'DynamicFieldValue',
+    );
+
+    return 1;
+}
+
 =item ValueValidate()
 
 checks if the given value is valid for the value type.
@@ -485,6 +523,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.18 $ $Date: 2012-01-03 22:45:37 $
+$Revision: 1.19 $ $Date: 2012-03-20 16:27:56 $
 
 =cut

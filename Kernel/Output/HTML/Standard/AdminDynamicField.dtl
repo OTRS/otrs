@@ -2,7 +2,7 @@
 # AdminDynamicField.dtl - provides HTML form for DynamicFields
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminDynamicField.dtl,v 1.19 2012-02-22 13:12:45 mb Exp $
+# $Id: AdminDynamicField.dtl,v 1.20 2012-03-20 16:27:57 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -137,6 +137,7 @@ $('#ShowContextSettingsDialog').bind('click', function (Event) {
                             <th>$Text{"Type"}</th>
                             <th>$Text{"Object"}</th>
                             <th>$Text{"Validity"}</th>
+                            <th>$Text{"Delete"}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -167,6 +168,11 @@ $('#ShowContextSettingsDialog').bind('click', function (Event) {
                             <td>
                                 <div>$Text{"$Data{"Valid"}"}</div>
                             </td>
+                            <td class="Center">
+                                <div>
+                                    <a class="TrashCan DynamicFieldDelete" href="#" data-query-string="Action=AdminDynamicField;Subaction=DynamicFieldDelete;ID=$LQData{"ID"};$QEnv{"ChallengeTokenParam"}" title="$Text{"Delete this field"}">$Text{"Delete this field"}</a>
+                                </div>
+                            </td>
                         </tr>
 <!-- dtl:block:DynamicFieldsRow -->
                     </tbody>
@@ -191,6 +197,37 @@ $('.MasterAction').bind('click', function (Event) {
         window.location = $MasterActionLink.attr('href');
         return false;
     }
+});
+
+$('.DynamicFieldDelete').bind('click', function (Event) {
+
+    if (window.confirm('$JSText{"Do you really want to delete this dynamic field? ALL associated data will be LOST!"}')) {
+
+        Core.UI.Dialog.ShowDialog({
+            Title: '$JSText{"Delete field"}',
+            HTML: 'Deleting the field and its data. This may take a while...',
+            Modal: true,
+            CloseOnClickOutside: false,
+            CloseOnEscape: false,
+            PositionTop: '20%',
+            PositionLeft: 'Center',
+            Buttons: [],
+            NotDraggableIE7: true
+        });
+
+        Core.AJAX.FunctionCall(
+            '$Env{"Baselink"}',
+            $(this).data('query-string') + 'Confirmed=1;',
+            function() {
+                window.location.reload();
+            }
+        );
+    }
+
+    // don't interfere with MasterAction
+    Event.stopPropagation();
+    Event.preventDefault();
+    return false;
 });
 //]]></script>
 <!--dtl:js_on_document_complete-->

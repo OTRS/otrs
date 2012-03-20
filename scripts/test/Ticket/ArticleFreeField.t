@@ -1,8 +1,8 @@
 # --
 # ArticleFreeField.t - Article Free Field tests
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleFreeField.t,v 1.7 2011-12-12 17:30:11 cg Exp $
+# $Id: ArticleFreeField.t,v 1.8 2012-03-20 16:27:57 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -496,6 +496,18 @@ for ( 1 .. 3 ) {
 #    'TicketSearch() (HASH:ArticleFreeKey1 and ArticleFreeText1 with _)',
 #);
 
+# delete the ticket
+my $TicketDelete = $TicketObject->TicketDelete(
+    TicketID => $TicketID,
+    UserID   => 1,
+);
+
+# sanity check
+$Self->True(
+    $TicketDelete,
+    "TicketDelete() successful for Ticket ID $TicketID",
+);
+
 # delete the dynamic fields
 for my $FieldID (@FreeFieldIDs) {
 
@@ -539,17 +551,5 @@ for my $OriginalFreeFieldConfig (@OriginalFreeFields) {
         "The ID of the Original field (DynamicFieldGet by Name) match"
     );
 }
-
-# delete the ticket
-my $TicketDelete = $TicketObject->TicketDelete(
-    TicketID => $TicketID,
-    UserID   => 1,
-);
-
-# sanity check
-$Self->True(
-    $TicketDelete,
-    "TicketDelete() successful for Ticket ID $TicketID",
-);
 
 1;

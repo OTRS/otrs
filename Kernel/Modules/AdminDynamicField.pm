@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminDynamicField.pm - provides a dynamic fields view for admins
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminDynamicField.pm,v 1.14 2012-03-19 02:29:43 mh Exp $
+# $Id: AdminDynamicField.pm,v 1.15 2012-03-20 16:27:57 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,9 +18,10 @@ use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::Valid;
 use Kernel::System::CheckItem;
 use Kernel::System::DynamicField;
+use Kernel::System::DynamicField::Backend;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -37,7 +38,8 @@ sub new {
     # create additional objects
     $Self->{ValidObject} = Kernel::System::Valid->new( %{$Self} );
 
-    $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new( %{$Self} );
+    $Self->{DynamicFieldObject}        = Kernel::System::DynamicField->new( %{$Self} );
+    $Self->{DynamicFieldBackendObject} = Kernel::System::DynamicField::Backend->new( %{$Self} );
 
     # get configured object types
     $Self->{ObjectTypeConfig} = $Self->{ConfigObject}->Get('DynamicFields::ObjectType');
@@ -51,9 +53,69 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    if ( $Self->{Subaction} eq 'DynamicFieldDelete' ) {
+
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
+
+        return $Self->_DynamicFieldDelete(
+            %Param,
+        );
+    }
+
     return $Self->_ShowOverview(
         %Param,
         Action => 'Overview',
+    );
+}
+
+# AJAX subaction
+sub _DynamicFieldDelete {
+    my ( $Self, %Param ) = @_;
+
+    my $Confirmed = $Self->{ParamObject}->GetParam( Param => 'Confirmed' );
+
+    if ( !$Confirmed ) {
+        $Self->{'LogObject'}->Log(
+            'Priority' => 'error',
+            'Message'  => "Need 'Confirmed'!",
+        );
+        return;
+    }
+
+    my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' );
+
+    my $DynamicFieldConfig = $Self->{DynamicFieldObject}->DynamicFieldGet(
+        ID => $ID,
+    );
+
+    if ( !IsHashRefWithData($DynamicFieldConfig) ) {
+        $Self->{'LogObject'}->Log(
+            'Priority' => 'error',
+            'Message'  => "Could not find DynamicField $ID!",
+        );
+        return;
+    }
+
+    my $ValuesDeleteSuccess = $Self->{DynamicFieldBackendObject}->AllValuesDelete(
+        DynamicFieldConfig => $DynamicFieldConfig,
+        UserID             => $Self->{UserID},
+    );
+
+    my $Success;
+
+    if ($ValuesDeleteSuccess) {
+        $Success = $Self->{DynamicFieldObject}->DynamicFieldDelete(
+            ID     => $ID,
+            UserID => $Self->{UserID},
+        );
+    }
+
+    return $Self->{LayoutObject}->Attachment(
+        ContentType => 'text/html',
+        Content     => $Success,
+        Type        => 'inline',
+        NoCache     => 1,
     );
 }
 

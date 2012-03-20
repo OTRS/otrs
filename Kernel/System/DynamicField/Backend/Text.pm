@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Text.pm - Delegate for DynamicField Text backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Text.pm,v 1.62 2012-03-01 11:34:05 mg Exp $
+# $Id: Text.pm,v 1.63 2012-03-20 16:27:56 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::DynamicFieldValue;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.62 $) [1];
+$VERSION = qw($Revision: 1.63 $) [1];
 
 =head1 NAME
 
@@ -104,6 +104,17 @@ sub ValueDelete {
         FieldID  => $Param{DynamicFieldConfig}->{ID},
         ObjectID => $Param{ObjectID},
         UserID   => $Param{UserID},
+    );
+
+    return $Success;
+}
+
+sub AllValuesDelete {
+    my ( $Self, %Param ) = @_;
+
+    my $Success = $Self->{DynamicFieldValueObject}->AllValuesDelete(
+        FieldID => $Param{DynamicFieldConfig}->{ID},
+        UserID  => $Param{UserID},
     );
 
     return $Success;

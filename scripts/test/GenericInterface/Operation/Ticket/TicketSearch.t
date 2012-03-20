@@ -2,7 +2,7 @@
 # TicketSearch.t - GenericInterface transport interface tests for TicketConnector backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketSearch.t,v 1.14 2012-02-09 03:04:29 cr Exp $
+# $Id: TicketSearch.t,v 1.15 2012-03-20 16:27:57 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -1460,6 +1460,21 @@ $Self->True(
     "Deleted Webservice $WebserviceID",
 );
 
+for my $TicketID (@TicketIDs) {
+
+    # delete the ticket Three
+    my $TicketDelete = $TicketObject->TicketDelete(
+        TicketID => $TicketID,
+        UserID   => $Self->{UserID},
+    );
+
+    # sanity check
+    $Self->True(
+        $TicketDelete,
+        "TicketDelete() successful for Ticket ID $TicketID",
+    );
+}
+
 for my $FieldID (@TestDynamicFields) {
 
     # delete the dynamic field
@@ -1473,21 +1488,6 @@ for my $FieldID (@TestDynamicFields) {
     $Self->True(
         $DFDelete,
         "DynamicFieldDelete() successful for Field ID $FieldID",
-    );
-}
-
-for my $TicketID (@TicketIDs) {
-
-    # delete the ticket Three
-    my $TicketDelete = $TicketObject->TicketDelete(
-        TicketID => $TicketID,
-        UserID   => $Self->{UserID},
-    );
-
-    # sanity check
-    $Self->True(
-        $TicketDelete,
-        "TicketDelete() successful for Ticket ID $TicketID",
     );
 }
 

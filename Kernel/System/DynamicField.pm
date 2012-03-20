@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField.pm - DynamicFields configuration backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicField.pm,v 1.51 2012-03-18 23:59:22 mh Exp $
+# $Id: DynamicField.pm,v 1.52 2012-03-20 16:27:56 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,14 +17,13 @@ use warnings;
 use YAML;
 
 use Kernel::System::Cache;
-use Kernel::System::DynamicField::Backend;
 use Kernel::System::SysConfig;
 use Kernel::System::Time;
 use Kernel::System::Valid;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.51 $) [1];
+$VERSION = qw($Revision: 1.52 $) [1];
 
 =head1 NAME
 
@@ -464,7 +463,9 @@ sub DynamicFieldUpdate {
 
 =item DynamicFieldDelete()
 
-delete a Dynamic field entry
+delete a Dynamic field entry. You need to make sure that all values are
+deleted before calling this function, otherwise it will fail on DBMS which check
+referential integrity.
 
 returns 1 if successful or undef otherwise
 
@@ -501,12 +502,6 @@ sub DynamicFieldDelete {
             Mode       => 'Delete',
         );
     }
-
-    # delete dynamic field values
-    return if !$Self->{DBObject}->Do(
-        SQL  => 'DELETE FROM dynamic_field_value WHERE field_id = ?',
-        Bind => [ \$Param{ID} ],
-    );
 
     # delete dynamic field
     return if !$Self->{DBObject}->Do(
@@ -1211,6 +1206,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.51 $ $Date: 2012-03-18 23:59:22 $
+$Revision: 1.52 $ $Date: 2012-03-20 16:27:56 $
 
 =cut
