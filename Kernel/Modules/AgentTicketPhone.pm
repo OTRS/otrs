@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.234 2012-03-05 09:47:28 mg Exp $
+# $Id: AgentTicketPhone.pm,v 1.235 2012-03-20 22:41:14 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Mail::Address;
 use Kernel::System::Service;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.234 $) [1];
+$VERSION = qw($Revision: 1.235 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -249,7 +249,7 @@ sub Run {
                 DynamicFields => 0,
             );
 
-            # Check if article is from the same TicketID as we checked permissions for.
+            # check if article is from the same TicketID as we checked permissions for.
             if ( $Article{TicketID} ne $Self->{TicketID} ) {
                 return $Self->{LayoutObject}->ErrorScreen(
                     Message => "Article does not belong to ticket $Self->{TicketID}!",
