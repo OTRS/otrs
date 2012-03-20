@@ -1,8 +1,8 @@
 # --
 # Kernel/System/PID.pm - all system pid functions
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: PID.pm,v 1.27 2011-07-14 20:19:53 cr Exp $
+# $Id: PID.pm,v 1.28 2012-03-20 21:06:32 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.27 $) [1];
+$VERSION = qw($Revision: 1.28 $) [1];
 
 =head1 NAME
 
@@ -122,7 +122,9 @@ sub PIDCreate {
 
     # check if already exists
     my %ProcessID = $Self->PIDGet(%Param);
+
     if ( %ProcessID && !$Param{Force} ) {
+
         my $TTL = $Param{TTL} || 3600;
         if ( $ProcessID{Created} > ( time() - $TTL ) ) {
             $Self->{LogObject}->Log(
@@ -155,6 +157,7 @@ sub PIDCreate {
             . ' VALUES (?, ?, ?, ?, ?)',
         Bind => [ \$Param{Name}, \$PIDCurrent, \$Self->{Host}, \$Time, \$Time ],
     );
+
     return 1;
 }
 
@@ -181,8 +184,11 @@ sub PIDGet {
     return if !$Self->{DBObject}->Prepare(
         SQL => 'SELECT process_name, process_id, process_host, process_create, process_change'
             . ' FROM process_id WHERE process_name = ?',
-        Bind => [ \$Param{Name} ],
+        Bind  => [ \$Param{Name} ],
+        Limit => 1,
     );
+
+    # fetch the result
     my %Data;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         %Data = (
@@ -193,6 +199,7 @@ sub PIDGet {
             Changed => $Row[4],
         );
     }
+
     return %Data;
 }
 
@@ -220,6 +227,7 @@ sub PIDDelete {
         SQL => 'DELETE FROM process_id WHERE process_name = ? AND process_host = ?',
         Bind => [ \$Param{Name}, \$Self->{Host} ],
     );
+
     return 1;
 }
 
@@ -257,6 +265,7 @@ sub PIDUpdate {
             . 'WHERE process_name = ?',
         Bind => [ \$Time, \$Param{Name} ],
     );
+
     return 1;
 }
 
@@ -276,6 +285,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.27 $ $Date: 2011-07-14 20:19:53 $
+$Revision: 1.28 $ $Date: 2012-03-20 21:06:32 $
 
 =cut
