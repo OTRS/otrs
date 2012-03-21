@@ -2,7 +2,7 @@
 # Kernel/System/User.pm - some user functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: User.pm,v 1.117 2012-03-17 01:18:11 mh Exp $
+# $Id: User.pm,v 1.118 2012-03-21 11:52:35 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Valid;
 use Kernel::System::CacheInternal;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.117 $) [1];
+$VERSION = qw($Revision: 1.118 $) [1];
 
 =head1 NAME
 
@@ -663,7 +663,7 @@ sub SetPassword {
     elsif ( $CryptType eq 'sha1' ) {
 
         my $SHAObject;
-        if ( !$Self->{MainObject}->Require('Digest::SHA') ) {
+        if ( $Self->{MainObject}->Require('Digest::SHA') ) {
             $SHAObject = Digest::SHA->new('sha1');
         }
         else {
@@ -683,7 +683,7 @@ sub SetPassword {
     else {
 
         my $SHAObject;
-        if ( !$Self->{MainObject}->Require('Digest::SHA') ) {
+        if ( $Self->{MainObject}->Require('Digest::SHA') ) {
             $SHAObject = Digest::SHA->new('sha256');
         }
         else {
@@ -1119,6 +1119,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.117 $ $Date: 2012-03-17 01:18:11 $
+$Revision: 1.118 $ $Date: 2012-03-21 11:52:35 $
 
 =cut

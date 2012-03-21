@@ -2,7 +2,7 @@
 # Kernel/System/CustomerAuth/DB.pm - provides the db authentication
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.36 2012-03-18 13:51:16 mh Exp $
+# $Id: DB.pm,v 1.37 2012-03-21 11:52:35 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Crypt::PasswdMD5 qw(unix_md5_crypt);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.36 $) [1];
+$VERSION = qw($Revision: 1.37 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -152,7 +152,7 @@ sub Auth {
         elsif ( $GetPw =~ m{\A .{64} \z}xms ) {
 
             my $SHAObject;
-            if ( !$Self->{MainObject}->Require('Digest::SHA') ) {
+            if ( $Self->{MainObject}->Require('Digest::SHA') ) {
                 $SHAObject = Digest::SHA->new('sha256');
             }
             else {
@@ -172,7 +172,7 @@ sub Auth {
         else {
 
             my $SHAObject;
-            if ( !$Self->{MainObject}->Require('Digest::SHA') ) {
+            if ( $Self->{MainObject}->Require('Digest::SHA') ) {
                 $SHAObject = Digest::SHA->new('sha1');
             }
             else {
