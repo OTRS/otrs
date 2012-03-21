@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketActionCommon.pm - common file for several modules
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketActionCommon.pm,v 1.78 2012-03-07 19:09:19 mb Exp $
+# $Id: AgentTicketActionCommon.pm,v 1.79 2012-03-21 20:26:47 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -241,12 +241,12 @@ sub Run {
     # convert dynamic field values into a structure for ACLs
     my %DynamicFieldACLParameters;
     DYNAMICFIELD:
-    for my $DynamicField ( keys %DynamicFieldValues ) {
-        next DYNAMICFIELD if !$DynamicField;
-        next DYNAMICFIELD if !$DynamicFieldValues{$DynamicField};
+    for my $DynamcField ( keys %DynamicFieldValues ) {
+        next DYNAMICFIELD if !$DynamcField;
+        next DYNAMICFIELD if !$DynamicFieldValues{$DynamcField};
 
-        $DynamicFieldACLParameters{ 'DynamicField_' . $DynamicField }
-            = $DynamicFieldValues{$DynamicField};
+        $DynamicFieldACLParameters{ 'DynamicField_' . $DynamcField }
+            = $DynamicFieldValues{$DynamcField};
     }
     $GetParam{DynamicField} = \%DynamicFieldACLParameters;
 
@@ -790,12 +790,12 @@ sub Run {
         # convert dynamic field values into a structure for ACLs
         my %DynamicFieldACLParameters;
         DYNAMICFIELD:
-        for my $DynamicField ( keys %DynamicFieldValues ) {
-            next DYNAMICFIELD if !$DynamicField;
-            next DYNAMICFIELD if !$DynamicFieldValues{$DynamicField};
+        for my $DynamcField ( keys %DynamicFieldValues ) {
+            next DYNAMICFIELD if !$DynamcField;
+            next DYNAMICFIELD if !$DynamicFieldValues{$DynamcField};
 
-            $DynamicFieldACLParameters{ 'DynamicField_' . $DynamicField }
-                = $DynamicFieldValues{$DynamicField};
+            $DynamicFieldACLParameters{ 'DynamicField_' . $DynamcField }
+                = $DynamicFieldValues{$DynamcField};
         }
 
         # get list type
@@ -918,11 +918,12 @@ sub Run {
                     Max         => 100,
                 },
                 {
-                    Name        => 'NewPriorityID',
-                    Data        => $Priorities,
-                    SelectedID  => $GetParam{NewPriorityID},
-                    Translation => 1,
-                    Max         => 100,
+                    Name         => 'NewPriorityID',
+                    Data         => $Priorities,
+                    SelectedID   => $GetParam{NewPriorityID},
+                    PossibleNone => 0,
+                    Translation  => 1,
+                    Max          => 100,
                 },
                 {
                     Name         => 'ServiceID',
@@ -1097,7 +1098,7 @@ sub _Mask {
             Data  => \%Type,
             Name  => 'TypeID',
             SelectedID   => $Param{TypeID},
-            PossibleNone => 1,
+            PossibleNone => 0,
             Sort         => 'AlphanumericValue',
             Translation  => 0,
         );
@@ -1183,7 +1184,7 @@ sub _Mask {
             SelectedID => $Param{NewOwnerID},
             Name       => 'NewOwnerID',
             Class      => $Param{NewOwnerInvalid} || ' ',
-            Size       => 1,
+            Size       => 10,
 
         );
         my %UserHash;
@@ -1256,7 +1257,7 @@ sub _Mask {
             Data       => \%ShownUsers,
             SelectedID => $Param{NewResponsibleID} || $Ticket{ResponsibleID},
             Name       => 'NewResponsibleID',
-            Size       => 1,
+            Size       => 10,
         );
         $Self->{LayoutObject}->Block(
             Name => 'Responsible',
@@ -1694,7 +1695,7 @@ sub _GetServices {
             $ServiceLoockup{ $ServiceData->{ServiceID} } = $ServiceData;
         }
 
-        # to store already printed ServiceIDs
+        # to store all ready printed ServiceIDs
         my %AddedServices;
 
         for my $ServiceKey ( sort { $OrigService{$a} cmp $OrigService{$b} } keys %OrigService ) {
