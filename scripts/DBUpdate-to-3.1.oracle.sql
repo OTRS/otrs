@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2011-12-08 11:44:27
+--  driver: oracle, generated: 2012-03-22 12:00:39
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 ALTER TABLE ticket_index MODIFY queue VARCHAR2 (200) DEFAULT NULL;
@@ -167,7 +167,7 @@ CREATE TABLE gi_object_lock_state (
     lock_state_counter NUMBER (12, 0) NOT NULL,
     create_time DATE NOT NULL,
     change_time DATE NOT NULL,
-    CONSTRAINT gi_object_lock_state_U_622 UNIQUE (webservice_id, object_type, object_id)
+    CONSTRAINT gi_object_lock_state_U_795 UNIQUE (webservice_id, object_type, object_id)
 );
 CREATE INDEX FK_gi_object_lock_state_webs55 ON gi_object_lock_state (webservice_id);
 CREATE INDEX object_lock_state_list_state ON gi_object_lock_state (webservice_id, object_type, object_id, lock_state);
@@ -262,7 +262,6 @@ CREATE INDEX FK_smime_signer_cert_relatiobb ON smime_signer_cert_relations (crea
 ALTER TABLE process_id ADD process_change NUMBER (12, 0) NULL;
 UPDATE process_id SET process_change = 0 WHERE process_change IS NULL;
 ALTER TABLE process_id MODIFY process_change NUMBER (12, 0) NOT NULL;
-ALTER TABLE ticket_flag ADD CONSTRAINT ticket_flag_per_user UNIQUE (ticket_id, ticket_key, create_by);
 -- ----------------------------------------------------------
 --  create table dynamic_field_value
 -- ----------------------------------------------------------
@@ -309,7 +308,7 @@ CREATE TABLE dynamic_field (
     create_by NUMBER (12, 0) NOT NULL,
     change_time DATE NOT NULL,
     change_by NUMBER (12, 0) NOT NULL,
-    CONSTRAINT dynamic_field_U_261 UNIQUE (name)
+    CONSTRAINT dynamic_field_U_323 UNIQUE (name)
 );
 ALTER TABLE dynamic_field ADD CONSTRAINT PK_dynamic_field PRIMARY KEY (id);
 DROP SEQUENCE SE_dynamic_field;

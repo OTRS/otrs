@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: db2, generated: 2011-12-08 11:44:43
+--  driver: db2, generated: 2012-03-22 12:01:09
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  alter table ticket
@@ -308,3 +308,5 @@ CALL SYSPROC.ADMIN_CMD ('REORG TABLE article');
 ALTER TABLE article DROP a_freekey3;
 
 CALL SYSPROC.ADMIN_CMD ('REORG TABLE article');
+
+ALTER TABLE ticket_flag ADD CONSTRAINT ticket_flag_per_user UNIQUE (ticket_id, ticket_key, create_by);

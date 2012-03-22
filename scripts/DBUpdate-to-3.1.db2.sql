@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: db2, generated: 2011-12-12 10:02:56
+--  driver: db2, generated: 2012-03-22 12:00:39
 -- ----------------------------------------------------------
 ALTER TABLE ticket_index ALTER COLUMN queue DROP NOT NULL;
 
@@ -159,7 +159,7 @@ CREATE TABLE gi_object_lock_state (
     lock_state_counter INTEGER NOT NULL,
     create_time TIMESTAMP NOT NULL,
     change_time TIMESTAMP NOT NULL,
-    CONSTRAINT gi_object_lock_state_U_390 UNIQUE (webservice_id, object_type, object_id)
+    CONSTRAINT gi_object_lock_state_U_849 UNIQUE (webservice_id, object_type, object_id)
 );
 
 CREATE INDEX object_lock_state_list_state ON gi_object_lock_state (webservice_id, object_type, object_id, lock_state);
@@ -254,8 +254,6 @@ ALTER TABLE process_id ALTER COLUMN process_change SET NOT NULL;
 
 CALL SYSPROC.ADMIN_CMD ('REORG TABLE process_id');
 
-ALTER TABLE ticket_flag ADD CONSTRAINT ticket_flag_per_user UNIQUE (ticket_id, ticket_key, create_by);
-
 -- ----------------------------------------------------------
 --  create table dynamic_field_value
 -- ----------------------------------------------------------
@@ -292,7 +290,7 @@ CREATE TABLE dynamic_field (
     change_time TIMESTAMP NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    CONSTRAINT dynamic_field_U_278 UNIQUE (name)
+    CONSTRAINT dynamic_field_U_820 UNIQUE (name)
 );
 
 -- ----------------------------------------------------------

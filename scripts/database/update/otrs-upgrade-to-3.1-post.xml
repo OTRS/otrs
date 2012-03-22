@@ -52,4 +52,12 @@
     <ColumnDrop Name="a_freekey3"/>
 </TableAlter>
 
+<TableAlter Name="ticket_flag">
+    <UniqueCreate Name="ticket_flag_per_user">
+        <UniqueColumn Name="ticket_id"/>
+        <UniqueColumn Name="ticket_key"/>
+        <UniqueColumn Name="create_by"/>
+    </UniqueCreate>
+</TableAlter>
+
 </database>

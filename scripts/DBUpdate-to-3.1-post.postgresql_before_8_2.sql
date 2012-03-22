@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: postgresql_before_8_2, generated: 2011-12-08 11:44:43
+--  driver: postgresql_before_8_2, generated: 2012-03-22 12:01:09
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  alter table ticket
@@ -177,3 +177,4 @@ ALTER TABLE article DROP a_freekey2;
 --  alter table article
 -- ----------------------------------------------------------
 ALTER TABLE article DROP a_freekey3;
+ALTER TABLE ticket_flag ADD CONSTRAINT ticket_flag_per_user UNIQUE (ticket_id, ticket_key, create_by);
