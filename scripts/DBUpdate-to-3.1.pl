@@ -3,7 +3,7 @@
 # DBUpdate-to-3.1.pl - update script to migrate OTRS 3.0.x to 3.1.x
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-3.1.pl,v 1.79 2012-03-22 08:08:20 cg Exp $
+# $Id: DBUpdate-to-3.1.pl,v 1.80 2012-03-22 11:04:31 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.79 $) [1];
+$VERSION = qw($Revision: 1.80 $) [1];
 
 use Getopt::Std qw();
 use Kernel::Config;
@@ -3112,7 +3112,10 @@ sub _GetValidFreeFields {
 
 =item _RemoveDuplicatesTicketFlag($CommonObject)
 
-remove the duplicate entries on ticket_flag table.
+remove any duplicate entries on ticket_flag table. This is neccessary because with
+OTRS 3.1, a unique index will be applied to the ticket_flag table to enforce uniqueness.
+On older systems, duplicated entries could be created under some rare circumstances.
+This function deletes these duplicated flags to make the index creation work correctly.
 
     _RemoveDuplicatesTicketFlag($CommonObject);
 
@@ -3124,10 +3127,10 @@ sub _RemoveDuplicatesTicketFlag {
     # find all duplicated entries
     $CommonObject->{DBObject}->Prepare(
         SQL =>
-            "SELECT ticket_id, ticket_key, ticket_value,create_time, create_by, COUNT(*) AS entries
+            "SELECT ticket_id, ticket_key, create_by, COUNT(*) AS entries
                 FROM ticket_flag
-                GROUP BY ticket_id, ticket_key, ticket_value,create_time, create_by
-                HAVING COUNT(*)>1 ",
+                GROUP BY ticket_id, ticket_key, create_by
+                HAVING COUNT(*) >1 ",
     );
 
     my @TicketFlagsToChange;
@@ -3135,13 +3138,11 @@ sub _RemoveDuplicatesTicketFlag {
     # loop through all results
     while ( my @Row = $CommonObject->{DBObject}->FetchrowArray() ) {
 
-        # get signature details
+        # get ticket flag details
         my %TicketFlagEntry = (
-            ticket_id    => $Row[0],
-            ticket_key   => $Row[1],
-            ticket_value => $Row[2],
-            create_time  => $Row[3],
-            create_by    => $Row[4],
+            ticket_id  => $Row[0],
+            ticket_key => $Row[1],
+            create_by  => $Row[2],
         );
 
         # save record details to use it later
@@ -3150,7 +3151,42 @@ sub _RemoveDuplicatesTicketFlag {
 
     for my $TicketFlagEntry (@TicketFlagsToChange) {
 
-        # delete duplicated flags
+        my %CurrentTicketFlagValue;
+
+        # get the full current value of the TF
+        $CommonObject->{DBObject}->Prepare(
+            SQL =>
+                "SELECT ticket_id, ticket_key, ticket_value, create_time, create_by
+                    FROM ticket_flag
+                    WHERE ticket_id = ?
+                        AND ticket_key = ?
+                        AND create_by = ?
+                    ORDER BY create_time ASC",
+            Bind => [
+                \$TicketFlagEntry->{ticket_id},
+                \$TicketFlagEntry->{ticket_key},
+                \$TicketFlagEntry->{create_by},
+            ],
+            Limit => 1,
+        );
+
+        # loop through all results
+        while ( my @Row = $CommonObject->{DBObject}->FetchrowArray() ) {
+
+            # get ticket flag details
+            %CurrentTicketFlagValue = (
+                ticket_id    => $Row[0],
+                ticket_key   => $Row[1],
+                ticket_value => $Row[2],
+                create_time  => $Row[3],
+                create_by    => $Row[4],
+            );
+        }
+
+        print
+            "\nDeleting duplicate ticket_flag entries for ticket $CurrentTicketFlagValue{ticket_id}, key '$CurrentTicketFlagValue{ticket_key}', user $CurrentTicketFlagValue{create_by}";
+
+        # Delete duplicated flags. We'll insert one flag after this.
         my $SuccessFlagDelete = $CommonObject->{DBObject}->Do(
             SQL => "DELETE FROM ticket_Flag
                 WHERE ticket_id = ?
@@ -3170,16 +3206,16 @@ sub _RemoveDuplicatesTicketFlag {
             return 0;
         }
 
-        # insert new dynamic field value
+        # Re-insert the original ticket flag value.
         my $SuccessTicketFlag = $CommonObject->{DBObject}->Do(
             SQL =>
                 'INSERT INTO ticket_Flag (' .
                 'ticket_id, ticket_key, ticket_value,create_time, create_by' .
                 ') VALUES (?, ?, ?, ?, ?)',
             Bind => [
-                \$TicketFlagEntry->{ticket_id},    \$TicketFlagEntry->{ticket_key},
-                \$TicketFlagEntry->{ticket_value}, \$TicketFlagEntry->{create_time},
-                \$TicketFlagEntry->{create_by},
+                \$CurrentTicketFlagValue{ticket_id},    \$CurrentTicketFlagValue{ticket_key},
+                \$CurrentTicketFlagValue{ticket_value}, \$CurrentTicketFlagValue{create_time},
+                \$CurrentTicketFlagValue{create_by},
             ],
         );
 
@@ -3194,13 +3230,13 @@ sub _RemoveDuplicatesTicketFlag {
 
     my @TicketFlagsToVerify;
 
-    # find all duplicated entries
+    # Check again for duplicated entries
     $CommonObject->{DBObject}->Prepare(
         SQL =>
-            "SELECT ticket_id, ticket_key, ticket_value,create_time, create_by, COUNT(*) AS entries
+            "SELECT ticket_id, ticket_key, create_by, COUNT(*) AS entries
                 FROM ticket_flag
-                GROUP BY ticket_id, ticket_key, ticket_value,create_time, create_by
-                HAVING COUNT(*)>1 ",
+                GROUP BY ticket_id, ticket_key, create_by
+                HAVING COUNT(*) > 1 ",
     );
 
     # loop through all results
