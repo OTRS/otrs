@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Thomas Kaltenbrunner <tkaltenbrunner at opc.de>
 # --
-# $Id: de.pm,v 1.320 2012-03-20 16:44:46 mg Exp $
+# $Id: de.pm,v 1.321 2012-03-22 12:58:45 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.320 $) [1];
+$VERSION = qw($Revision: 1.321 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -2599,12 +2599,12 @@ sub Data {
         'Cache time in seconds for customer authentication in the GenericInterface.' =>
             '',
         'Cache time in seconds for the web service config backend.' => '',
-        'Change password' => '',
-        'Change queue!' => '',
-        'Change the customer for this ticket' => '',
-        'Change the free fields for this ticket' => '',
-        'Change the priority for this ticket' => '',
-        'Change the responsible person for this ticket' => '',
+        'Change password' => 'Passwort ändern',
+        'Change queue!' => 'Queue ändern',
+        'Change the customer for this ticket' => 'Ticket-Kunden ändern',
+        'Change the free fields for this ticket' => 'Freie Felder des Tickets ändern',
+        'Change the priority for this ticket' => 'Priorität des Tickets ändern',
+        'Change the responsible person for this ticket' => 'Verantwortlichen des Tickets ändern',
         'Changes the owner of tickets to everyone (useful for ASP). Normally only agent with rw permissions in the queue of the ticket will be shown.' =>
             '',
         'Checkbox' => '',
