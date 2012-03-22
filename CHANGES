@@ -2,14 +2,14 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2224 2012-03-22 14:23:58 mg Exp $
+# $Id: CHANGES,v 1.2225 2012-03-22 15:02:22 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-3.1.3 2012-??-??
+3.1.3 2012-03-27
  - 2012-03-22 Updated Portugese translation, thanks to Rui Francisco!
  - 2012-03-21 Fixed bug#8333 - Type option '-' should not be available in
     ActionTicketCommon screens.
