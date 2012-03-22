@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.469 2012-03-06 13:38:36 mg Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.470 2012-03-22 12:40:08 mg Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box (to avoid the use of destructive queries, such as DROP DATABASE, and also to steal user passwords).</Description>
         <Group>Framework</Group>
@@ -4072,7 +4072,6 @@ via the Preferences button after logging in.
                 </NavBarModule>
                 <Loader>
                     <CSS>Core.Agent.Admin.css</CSS>
-                    <CSS_IE7>Core.Agent.AdminIE7.css</CSS_IE7>
                     <JavaScript>Core.Agent.Admin.SysConfig.js</JavaScript>
                 </Loader>
             </FrontendModuleReg>
@@ -5565,29 +5564,6 @@ via the Preferences button after logging in.
             </Array>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Loader::Agent::CommonCSS::IE7###000-Framework" Required="1" Valid="1">
-        <Description Translatable="1">List of IE7-specific CSS files to always be loaded for the agent interface.</Description>
-        <Group>Framework</Group>
-        <SubGroup>Core::Web</SubGroup>
-        <Setting>
-            <Array>
-                <Item>Core.Default.IE7.css</Item>
-                <Item>Core.Header.IE7.css</Item>
-                <Item>Core.OverviewControl.IE7.css</Item>
-                <Item>Core.OverviewSmall.IE7.css</Item>
-                <Item>Core.OverviewMedium.IE7.css</Item>
-                <Item>Core.OverviewLarge.IE7.css</Item>
-                <Item>Core.PageLayout.IE7.css</Item>
-                <Item>Core.Form.IE7.css</Item>
-                <Item>Core.Widget.IE7.css</Item>
-                <Item>Core.WidgetMenu.IE7.css</Item>
-                <Item>Core.Tooltip.IE7.css</Item>
-                <Item>Core.Dialog.IE7.css</Item>
-                <Item>Core.TicketDetail.IE7.css</Item>
-                <Item>Core.Table.IE7.css</Item>
-            </Array>
-        </Setting>
-    </ConfigItem>
     <ConfigItem Name="Loader::Agent::CommonCSS::IE8###000-Framework" Required="1" Valid="1">
         <Description Translatable="1">List of IE8-specific CSS files to always be loaded for the agent interface.</Description>
         <Group>Framework</Group>
@@ -5617,7 +5593,6 @@ via the Preferences button after logging in.
                 <Item>Core.JSON.js</Item>
                 <Item>Core.AJAX.js</Item>
                 <Item>Core.UI.js</Item>
-                <Item>Core.UI.IE7Fixes.js</Item>
                 <Item>Core.UI.Accordion.js</Item>
                 <Item>Core.UI.Datepicker.js</Item>
                 <Item>Core.UI.Resizable.js</Item>

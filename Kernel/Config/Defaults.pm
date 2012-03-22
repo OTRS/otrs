@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.402 2012-02-23 11:22:18 des Exp $
+# $Id: Defaults.pm,v 1.403 2012-03-22 12:40:09 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -29,7 +29,7 @@ use warnings;
 use 5.008_006;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.402 $) [1];
+$VERSION = qw($Revision: 1.403 $) [1];
 
 # prepend '../Custom', '../Kernel/cpan-lib' and '../' to the module search path @INC
 use File::Basename;
@@ -886,18 +886,6 @@ sub LoadDefaults {
       'Core.Print.css'
     ];
 
-    # Agent Common CSS for IE7
-    $Self->{'Loader::Agent::CommonCSS::IE7'}->{'000-Framework'} =  [
-      'Core.Header.IE7.css',
-      'Core.OverviewControl.IE7.css',
-      'Core.OverviewSmall.IE7.css',
-      'Core.OverviewMedium.IE7.css',
-      'Core.OverviewLarge.IE7.css',
-      'Core.PageLayout.IE7.css',
-      'Core.Form.IE7.css',
-      'Core.Widget.IE7.css',
-      'Core.TicketDetail.IE7.css'
-    ];
     # Agent Common CSS for IE8
     $Self->{'Loader::Agent::CommonCSS::IE8'}->{'000-Framework'} =  [
       'Core.OverviewSmall.IE8.css'
@@ -935,7 +923,6 @@ sub LoadDefaults {
       'Core.JSON.js',
       'Core.AJAX.js',
       'Core.UI.js',
-      'Core.UI.IE7Fixes.js',
       'Core.UI.Accordion.js',
       'Core.UI.Datepicker.js',
       'Core.UI.Resizable.js',
@@ -1961,6 +1948,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.402 $ $Date: 2012-02-23 11:22:18 $
+$Revision: 1.403 $ $Date: 2012-03-22 12:40:09 $
 
 =cut
