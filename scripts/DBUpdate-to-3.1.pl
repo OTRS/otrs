@@ -3,7 +3,7 @@
 # DBUpdate-to-3.1.pl - update script to migrate OTRS 3.0.x to 3.1.x
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-3.1.pl,v 1.78 2012-03-20 10:30:30 mg Exp $
+# $Id: DBUpdate-to-3.1.pl,v 1.79 2012-03-22 08:08:20 cg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.78 $) [1];
+$VERSION = qw($Revision: 1.79 $) [1];
 
 use Getopt::Std qw();
 use Kernel::Config;
@@ -247,13 +247,22 @@ EOF
         print "Error!\n\n";
     }
 
+    # remove duplicate entries on ticket_flag table
+    print "Step 22 of $Steps: Removing duplicate entries on ticket_flag table... ";
+    if ( _RemoveDuplicatesTicketFlag($CommonObject) ) {
+        print "done.\n\n";
+    }
+    else {
+        print "Error!\n\n";
+    }
+
     # Clean up the cache completely at the end.
-    print "Step 22 of $Steps: Clean up the cache... ";
+    print "Step 23 of $Steps: Clean up the cache... ";
     my $CacheObject = Kernel::System::Cache->new( %{$CommonObject} );
     $CacheObject->CleanUp();
     print "done.\n\n";
 
-    print "Step 23 of $Steps: Refresh configuration cache another time... ";
+    print "Step 24 of $Steps: Refresh configuration cache another time... ";
     RebuildConfig($CommonObject);
     print "done.\n\n";
 
@@ -3099,6 +3108,113 @@ sub _GetValidFreeFields {
     # CustomerTicketPrint configuration
 
     return \%ValidFreeFields;
+}
+
+=item _RemoveDuplicatesTicketFlag($CommonObject)
+
+remove the duplicate entries on ticket_flag table.
+
+    _RemoveDuplicatesTicketFlag($CommonObject);
+
+=cut
+
+sub _RemoveDuplicatesTicketFlag {
+    my $CommonObject = shift;
+
+    # find all duplicated entries
+    $CommonObject->{DBObject}->Prepare(
+        SQL =>
+            "SELECT ticket_id, ticket_key, ticket_value,create_time, create_by, COUNT(*) AS entries
+                FROM ticket_flag
+                GROUP BY ticket_id, ticket_key, ticket_value,create_time, create_by
+                HAVING COUNT(*)>1 ",
+    );
+
+    my @TicketFlagsToChange;
+
+    # loop through all results
+    while ( my @Row = $CommonObject->{DBObject}->FetchrowArray() ) {
+
+        # get signature details
+        my %TicketFlagEntry = (
+            ticket_id    => $Row[0],
+            ticket_key   => $Row[1],
+            ticket_value => $Row[2],
+            create_time  => $Row[3],
+            create_by    => $Row[4],
+        );
+
+        # save record details to use it later
+        push @TicketFlagsToChange, \%TicketFlagEntry;
+    }
+
+    for my $TicketFlagEntry (@TicketFlagsToChange) {
+
+        # delete duplicated flags
+        my $SuccessFlagDelete = $CommonObject->{DBObject}->Do(
+            SQL => "DELETE FROM ticket_Flag
+                WHERE ticket_id = ?
+                    AND ticket_key = ?
+                    AND create_by = ?",
+            Bind => [
+                \$TicketFlagEntry->{ticket_id},
+                \$TicketFlagEntry->{ticket_key},
+                \$TicketFlagEntry->{create_by},
+            ],
+        );
+
+        # check for errors
+        if ( !$SuccessFlagDelete ) {
+            print "Could not delete duplicated field $TicketFlagEntry->{ticket_key} from the "
+                . "Ticket Flag\n";
+            return 0;
+        }
+
+        # insert new dynamic field value
+        my $SuccessTicketFlag = $CommonObject->{DBObject}->Do(
+            SQL =>
+                'INSERT INTO ticket_Flag (' .
+                'ticket_id, ticket_key, ticket_value,create_time, create_by' .
+                ') VALUES (?, ?, ?, ?, ?)',
+            Bind => [
+                \$TicketFlagEntry->{ticket_id},    \$TicketFlagEntry->{ticket_key},
+                \$TicketFlagEntry->{ticket_value}, \$TicketFlagEntry->{create_time},
+                \$TicketFlagEntry->{create_by},
+            ],
+        );
+
+        # check for errors
+        if ( !$SuccessTicketFlag ) {
+            print
+                "Could not insert new single entry for ticket flag $TicketFlagEntry->{ticket_key}\n";
+            return 0;
+        }
+
+    }
+
+    my @TicketFlagsToVerify;
+
+    # find all duplicated entries
+    $CommonObject->{DBObject}->Prepare(
+        SQL =>
+            "SELECT ticket_id, ticket_key, ticket_value,create_time, create_by, COUNT(*) AS entries
+                FROM ticket_flag
+                GROUP BY ticket_id, ticket_key, ticket_value,create_time, create_by
+                HAVING COUNT(*)>1 ",
+    );
+
+    # loop through all results
+    while ( my @Row = $CommonObject->{DBObject}->FetchrowArray() ) {
+
+        # save record to use it later
+        push @TicketFlagsToVerify, $Row[0];
+    }
+
+    # verify for not duplicated entries
+    return 0 if scalar @TicketFlagsToVerify;
+
+    # everything ok
+    return 1;
 }
 
 1;
