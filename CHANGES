@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2222 2012-03-21 20:26:46 mb Exp $
+# $Id: CHANGES,v 1.2223 2012-03-22 11:27:37 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,6 +19,7 @@
  - 2012-03-20 Do not show the empty item in dynamic field search fields.
  - 2012-03-19 Fixed an issue where DBUpdate-to-3.1.pl would die because
     of certain free text or free time configuration settings.
+ - 2012-03-19 Fixed bug#8334 migration fails if FreeTime fields are not in use.
  - 2012-03-18 Added internal cache to Kernel/System/Lock.pm to improve performance.
  - 2012-03-18 Added internal cache to Kernel/System/Salutation.pm to improve performance.
  - 2012-03-18 Added internal cache to Kernel/System/Type.pm to improve performance.
