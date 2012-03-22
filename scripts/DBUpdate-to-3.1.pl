@@ -3,7 +3,7 @@
 # DBUpdate-to-3.1.pl - update script to migrate OTRS 3.0.x to 3.1.x
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-3.1.pl,v 1.81 2012-03-22 11:18:05 mg Exp $
+# $Id: DBUpdate-to-3.1.pl,v 1.82 2012-03-22 15:29:22 cg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.81 $) [1];
+$VERSION = qw($Revision: 1.82 $) [1];
 
 use Getopt::Std qw();
 use Kernel::Config;
@@ -3188,7 +3188,7 @@ sub _RemoveDuplicatesTicketFlag {
 
         # Delete duplicated flags. We'll insert one flag after this.
         my $SuccessFlagDelete = $CommonObject->{DBObject}->Do(
-            SQL => "DELETE FROM ticket_Flag
+            SQL => "DELETE FROM ticket_flag
                 WHERE ticket_id = ?
                     AND ticket_key = ?
                     AND create_by = ?",
@@ -3209,7 +3209,7 @@ sub _RemoveDuplicatesTicketFlag {
         # Re-insert the original ticket flag value.
         my $SuccessTicketFlag = $CommonObject->{DBObject}->Do(
             SQL =>
-                'INSERT INTO ticket_Flag (' .
+                'INSERT INTO ticket_flag (' .
                 'ticket_id, ticket_key, ticket_value,create_time, create_by' .
                 ') VALUES (?, ?, ?, ?, ?)',
             Bind => [
