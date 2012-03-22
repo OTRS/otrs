@@ -3,7 +3,7 @@
 # DBUpdate-to-3.1.pl - update script to migrate OTRS 3.0.x to 3.1.x
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-3.1.pl,v 1.80 2012-03-22 11:04:31 mg Exp $
+# $Id: DBUpdate-to-3.1.pl,v 1.81 2012-03-22 11:18:05 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.80 $) [1];
+$VERSION = qw($Revision: 1.81 $) [1];
 
 use Getopt::Std qw();
 use Kernel::Config;
@@ -68,7 +68,7 @@ EOF
     my $CommonObject = _CommonObjectsBase();
 
     # define the number of steps
-    my $Steps = 23;
+    my $Steps = 24;
 
     print "Step 1 of $Steps: Refresh configuration cache... ";
     RebuildConfig($CommonObject);
@@ -248,9 +248,9 @@ EOF
     }
 
     # remove duplicate entries on ticket_flag table
-    print "Step 22 of $Steps: Removing duplicate entries on ticket_flag table... ";
+    print "Step 22 of $Steps: Checking for duplicate entries on ticket_flag table... ";
     if ( _RemoveDuplicatesTicketFlag($CommonObject) ) {
-        print "done.\n\n";
+        print "\ndone.\n\n";
     }
     else {
         print "Error!\n\n";
@@ -3225,7 +3225,6 @@ sub _RemoveDuplicatesTicketFlag {
                 "Could not insert new single entry for ticket flag $TicketFlagEntry->{ticket_key}\n";
             return 0;
         }
-
     }
 
     my @TicketFlagsToVerify;
