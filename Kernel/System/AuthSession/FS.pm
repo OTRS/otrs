@@ -1,8 +1,8 @@
 # --
 # Kernel/System/AuthSession/FS.pm - provides session filesystem backend
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: FS.pm,v 1.43 2010-06-28 08:17:00 mg Exp $
+# $Id: FS.pm,v 1.44 2012-03-23 16:40:46 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,11 +13,12 @@ package Kernel::System::AuthSession::FS;
 
 use strict;
 use warnings;
+
 use Digest::MD5;
 use MIME::Base64;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.43 $) [1];
+$VERSION = qw($Revision: 1.44 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -108,6 +109,7 @@ sub CheckSessionID {
     # check session time
     my $MaxSessionTime = $Self->{ConfigObject}->Get('SessionMaxTime');
     if ( ( $TimeNow - $MaxSessionTime ) >= $Data{UserSessionStart} ) {
+
         $Self->{CheckSessionIDMessage} = 'Session has timed out. Please log in again.';
         my $Timeout = int( ( $TimeNow - $Data{UserSessionStart} ) / ( 60 * 60 ) );
         $Self->{LogObject}->Log(
@@ -121,6 +123,7 @@ sub CheckSessionID {
         }
         return;
     }
+
     return 1;
 }
 
@@ -140,20 +143,19 @@ sub GetSessionIDData {
     }
 
     # check cache
-    if ( $Self->{Cache}->{ $Param{SessionID} } ) {
-        return %{ $Self->{Cache}->{ $Param{SessionID} } };
-    }
+    return %{ $Self->{Cache}->{ $Param{SessionID} } }
+        if $Self->{Cache}->{ $Param{SessionID} };
 
     # read data
     my $ContentRef = $Self->{MainObject}->FileRead(
         Directory => $Self->{SessionSpool},
         Filename  => $Param{SessionID},
-        Mode      => 'utf8',                  # optional - binmode|utf8
+        Mode      => 'utf8',
         Result    => 'ARRAY',
     );
-    if ( !$ContentRef ) {
-        return;
-    }
+
+    return if !$ContentRef;
+
     my %Data;
     for my $Line ( @{$ContentRef} ) {
         chomp $Line;
@@ -173,6 +175,7 @@ sub GetSessionIDData {
 
     # cache result
     $Self->{Cache}->{ $Param{SessionID} } = \%Data;
+
     return %Data;
 }
 
@@ -201,9 +204,12 @@ sub CreateSessionID {
     # data 2 strg
     my $DataToStore = '';
     for my $Key ( keys %Param ) {
+
         next if !defined $Param{$Key};
+
         $DataToStore .= $Self->_Encode( $Key, $Param{$Key} );
     }
+
     $DataToStore .= $Self->_Encode( 'UserSessionStart',    $TimeNow );
     $DataToStore .= $Self->_Encode( 'UserRemoteAddr',      $RemoteAddr );
     $DataToStore .= $Self->_Encode( 'UserRemoteUserAgent', $RemoteUserAgent );
@@ -229,8 +235,9 @@ sub RemoveSessionID {
 
     # delete fs file
     my $Delete = $Self->{MainObject}->FileDelete(
-        Directory => $Self->{SessionSpool},
-        Filename  => $Param{SessionID},
+        Directory       => $Self->{SessionSpool},
+        Filename        => $Param{SessionID},
+        DisableWarnings => 1,
     );
     return if !$Delete;
 
@@ -242,6 +249,7 @@ sub RemoveSessionID {
         Priority => 'notice',
         Message  => "Removed SessionID $Param{SessionID}."
     );
+
     return 1;
 }
 
@@ -281,6 +289,7 @@ sub GetAllSessionIDs {
         $SessionID =~ s!^.*/!!;
         push @SessionIDs, $SessionID;
     }
+
     return @SessionIDs;
 }
 
@@ -292,6 +301,7 @@ sub CleanUp {
     for my $SessionID (@SessionIDs) {
         return if !$Self->RemoveSessionID( SessionID => $SessionID );
     }
+
     return 1;
 }
 
@@ -303,6 +313,7 @@ sub _Encode {
 
     # encode data
     my $Data = "$Key:" . encode_base64( $Value, '' ) . "\n";
+
     return $Data;
 }
 
@@ -316,6 +327,7 @@ sub _Decode {
     # decode and return
     ${$Value} = decode_base64( ${$Value} );
     $Self->{EncodeObject}->EncodeInput($Value);
+
     return $Value;
 }
 
@@ -325,12 +337,15 @@ sub _SyncToStorage {
     return 1 if !$Self->{Cache};
 
     for my $SessionID ( keys %{ $Self->{Cache} } ) {
+
         my %SessionData = %{ $Self->{Cache}->{$SessionID} };
 
         # set new data sting
         my $Data = '';
         for my $Key ( keys %SessionData ) {
+
             next if !defined $SessionData{$Key};
+
             $Data .= $Self->_Encode( $Key, $SessionData{$Key} );
 
             # Debug
@@ -350,6 +365,7 @@ sub _SyncToStorage {
             Mode      => 'utf8',
         );
     }
+
     return 1;
 }
 
