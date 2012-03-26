@@ -2,7 +2,7 @@
 # Kernel/System/User.pm - some user functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: User.pm,v 1.119 2012-03-26 21:47:00 mh Exp $
+# $Id: User.pm,v 1.120 2012-03-26 21:58:54 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,12 +16,12 @@ use warnings;
 
 use Crypt::PasswdMD5 qw(unix_md5_crypt);
 
+use Kernel::System::CacheInternal;
 use Kernel::System::CheckItem;
 use Kernel::System::Valid;
-use Kernel::System::CacheInternal;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.119 $) [1];
+$VERSION = qw($Revision: 1.120 $) [1];
 
 =head1 NAME
 
@@ -195,6 +195,7 @@ sub GetUserData {
     my $SQL = "SELECT $Self->{UserTableUserID}, $Self->{UserTableUser}, "
         . " title, first_name, last_name, $Self->{UserTableUserPW}, valid_id, "
         . " create_time, change_time FROM $Self->{UserTable} WHERE ";
+
     if ( $Param{User} ) {
         my $User = lc $Param{User};
         $SQL .= " $Self->{Lower}($Self->{UserTableUser}) = ?";
@@ -204,7 +205,13 @@ sub GetUserData {
         $SQL .= " $Self->{UserTableUserID} = ?";
         push @Bind, \$Param{UserID};
     }
-    return if !$Self->{DBObject}->Prepare( SQL => $SQL, Bind => \@Bind );
+
+    return if !$Self->{DBObject}->Prepare(
+        SQL   => $SQL,
+        Bind  => \@Bind,
+        Limit => 1,
+    );
+
     my %Data;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Data{UserID}        = $Row[0];
@@ -238,12 +245,15 @@ sub GetUserData {
 
     # check valid, return if there is locked for valid users
     if ( $Param{Valid} ) {
+
         my $Hit = 0;
+
         for ( $Self->{ValidObject}->ValidIDsGet() ) {
             if ( $_ eq $Data{ValidID} ) {
                 $Hit = 1;
             }
         }
+
         if ( !$Hit ) {
 
             # set cache
@@ -289,7 +299,8 @@ sub GetUserData {
 
     # add preferences defaults
     my $Config = $Self->{ConfigObject}->Get('PreferencesGroups');
-    if ($Config) {
+    if ( $Config && ref $Config eq 'HASH' ) {
+
         for my $Key ( keys %{$Config} ) {
 
             # next if no default data exists
@@ -306,7 +317,6 @@ sub GetUserData {
     # set cache
     $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => \%Data );
 
-    # return data
     return %Data;
 }
 
@@ -376,8 +386,11 @@ sub UserAdd {
     return if !$Self->{DBObject}->Prepare(
         SQL => "SELECT $Self->{UserTableUserID} FROM $Self->{UserTable} "
             . " WHERE $Self->{Lower}($Self->{UserTableUser}) = ?",
-        Bind => [ \$UserLogin ],
+        Bind  => [ \$UserLogin ],
+        Limit => 1,
     );
+
+    # fetch the result
     my $UserID;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $UserID = $Row[0];
@@ -566,10 +579,12 @@ sub UserSearch {
         ) . ' ';
     }
     elsif ( $Param{PostMasterSearch} ) {
+
         my %UserID = $Self->SearchPreferences(
             Key   => 'UserEmail',
             Value => $Param{PostMasterSearch},
         );
+
         for ( sort keys %UserID ) {
             my %User = $Self->GetUserData(
                 UserID => $_,
@@ -579,6 +594,7 @@ sub UserSearch {
                 return %UserID;
             }
         }
+
         return;
     }
     elsif ( $Param{UserLogin} ) {
@@ -597,6 +613,8 @@ sub UserSearch {
         SQL => $SQL,
         Limit => $Self->{UserSearchListLimit} || $Param{Limit},
     );
+
+    # fetch the result
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         for ( 1 .. 8 ) {
             if ( $Row[$_] ) {
@@ -605,6 +623,7 @@ sub UserSearch {
         }
         $Users{ $Row[0] } =~ s/^(.*)\s(.+?\@.+?\..+?)(\s|)$/"$1" <$2>/;
     }
+
     return %Users;
 }
 
@@ -621,7 +640,6 @@ to set users passwords
 
 sub SetPassword {
     my ( $Self, %Param ) = @_;
-    my $Pw = $Param{PW} || '';
 
     # check needed stuff
     if ( !$Param{UserLogin} ) {
@@ -635,6 +653,8 @@ sub SetPassword {
         $Self->{LogObject}->Log( Priority => 'error', Message => 'No such User!' );
         return;
     }
+
+    my $Pw = $Param{PW} || '';
     my $CryptedPw = '';
 
     # get crypt type
@@ -749,6 +769,7 @@ sub UserLookup {
         $Self->{LogObject}->Log( Priority => 'error', Message => 'Need UserLogin or UserID!' );
         return;
     }
+
     if ( $Param{UserLogin} ) {
 
         # check cache
@@ -758,15 +779,20 @@ sub UserLookup {
 
         # build sql query
         my $UserLogin = lc $Param{UserLogin};
+
         return if !$Self->{DBObject}->Prepare(
             SQL => "SELECT $Self->{UserTableUserID} FROM $Self->{UserTable} "
                 . " WHERE $Self->{Lower}($Self->{UserTableUser}) = ?",
-            Bind => [ \$UserLogin ],
+            Bind  => [ \$UserLogin ],
+            Limit => 1,
         );
+
+        # fetch the result
         my $ID;
         while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
             $ID = $Row[0];
         }
+
         if ( !$ID ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
@@ -780,6 +806,7 @@ sub UserLookup {
 
         return $ID;
     }
+
     else {
 
         # check cache
@@ -791,12 +818,16 @@ sub UserLookup {
         return if !$Self->{DBObject}->Prepare(
             SQL => "SELECT $Self->{UserTableUser} FROM $Self->{UserTable} "
                 . " WHERE $Self->{UserTableUserID} = ?",
-            Bind => [ \$Param{UserID} ],
+            Bind  => [ \$Param{UserID} ],
+            Limit => 1,
         );
+
+        # fetch the result
         my $Login;
         while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
             $Login = $Row[0];
         }
+
         if ( !$Login ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
@@ -810,6 +841,8 @@ sub UserLookup {
 
         return $Login;
     }
+
+    return;
 }
 
 =item UserName()
@@ -832,6 +865,7 @@ sub UserName {
     my ( $Self, %Param ) = @_;
 
     my %User = $Self->GetUserData(%Param);
+
     return if !%User;
     return "$User{UserFirstname} $User{UserLastname}";
 }
@@ -872,6 +906,7 @@ sub UserList {
             . " last_name, first_name, "
             . " $Self->{ConfigObject}->{DatabaseUserTableUser}";
     }
+
     my %Users = $Self->{DBObject}->GetTableData(
         What  => $Param{What},
         Table => $Self->{ConfigObject}->{DatabaseUserTable},
@@ -1062,7 +1097,6 @@ sub TokenGenerate {
         UserID => $Param{UserID},
     );
 
-    # Return the Token.
     return $Token;
 }
 
@@ -1125,6 +1159,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.119 $ $Date: 2012-03-26 21:47:00 $
+$Revision: 1.120 $ $Date: 2012-03-26 21:58:54 $
 
 =cut
