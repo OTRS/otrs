@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/Preferences/DB.pm - some customer user functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.23 2012-03-26 21:47:00 mh Exp $
+# $Id: DB.pm,v 1.24 2012-03-26 22:00:49 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CacheInternal;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.23 $) [1];
+$VERSION = qw($Revision: 1.24 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -115,6 +115,7 @@ sub GetPreferences {
         Bind => [ \$Param{UserID} ],
     );
 
+    # fetch the result
     my %Data;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Data{ $Row[0] } = $Row[1];
@@ -146,6 +147,7 @@ sub SearchPreferences {
         Bind => [ \$Key, \$Value ],
     );
 
+    # fetch the result
     my %UserID;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $UserID{ $Row[0] } = $Row[1];
