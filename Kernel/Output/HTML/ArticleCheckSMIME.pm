@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/ArticleCheckSMIME.pm
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleCheckSMIME.pm,v 1.20.6.5 2012-03-26 12:10:16 mg Exp $
+# $Id: ArticleCheckSMIME.pm,v 1.20.6.6 2012-03-26 17:06:34 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Crypt;
 use Kernel::System::EmailParser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.20.6.5 $) [1];
+$VERSION = qw($Revision: 1.20.6.6 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -191,7 +191,7 @@ sub Check {
 
             if ( $Decrypt{Successful} ) {
 
-                # parse the decryptet email body
+                # parse the decrypted email body
                 my $ParserObject
                     = Kernel::System::EmailParser->new( %{$Self}, Email => $Decrypt{Data} );
                 my $Body = $ParserObject->GetMessageBody();
@@ -232,19 +232,8 @@ sub Check {
                 );
 
                 %SignCheck = $Self->{CryptObject}->Verify( Message => $Decrypt{Data}, );
+
                 if ( $SignCheck{SignatureFound} ) {
-
-                    if ( $SignCheck{Successful} ) {
-
-                        # updated article body
-                        $Self->{TicketObject}->ArticleUpdate(
-                            TicketID  => $Param{Article}->{TicketID},
-                            ArticleID => $Self->{ArticleID},
-                            Key       => 'Body',
-                            Value     => $SignCheck{Content},
-                            UserID    => $Self->{UserID},
-                        );
-                    }
 
                     push(
                         @Return,
@@ -254,6 +243,7 @@ sub Check {
                             %SignCheck,
                         }
                     );
+
                 }
                 return @Return;
             }
