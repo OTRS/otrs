@@ -1,8 +1,8 @@
 # --
 # Kernel/System/CustomerCompany.pm - All customer company related function should be here eventually
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerCompany.pm,v 1.25 2011-03-15 19:08:35 cg Exp $
+# $Id: CustomerCompany.pm,v 1.26 2012-03-26 21:47:00 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.25 $) [1];
+$VERSION = qw($Revision: 1.26 $) [1];
 
 =head1 NAME
 
@@ -90,7 +90,8 @@ sub new {
     for (qw(DBObject ConfigObject LogObject MainObject EncodeObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
-    $Self->{ValidObject} = Kernel::System::Valid->new(%Param);
+
+    $Self->{ValidObject} = Kernel::System::Valid->new( %{$Self} );
 
     # config options
     $Self->{CustomerCompanyTable} = $Self->{ConfigObject}->Get('CustomerCompany')->{Params}->{Table}
@@ -134,9 +135,16 @@ sub new {
         $Self->{NotParentDBObject} = 1;
     }
 
-# this setting specifies if the table has the create_time, create_by, change_time and change_by fields of OTRS
+    # this setting specifies if the table has the create_time,
+    # create_by, change_time and change_by fields of OTRS
     $Self->{ForeignDB}
         = $Self->{ConfigObject}->Get('CustomerCompany')->{Params}->{ForeignDB} ? 1 : 0;
+
+    # set lower if database is case sensitive
+    $Self->{Lower} = '';
+    if ( !$Self->{DBObject}->GetDatabaseFunction('CaseInsensitive') ) {
+        $Self->{Lower} = 'LOWER';
+    }
 
     return $Self;
 }
@@ -175,46 +183,51 @@ sub CustomerCompanyAdd {
 
     # build insert
     my $SQL = "INSERT INTO $Self->{CustomerCompanyTable} (";
+
     my $FieldInserted;
     for my $Entry ( @{ $Self->{CustomerCompanyMap} } ) {
         $SQL .= ', ' if ($FieldInserted);
         $SQL .= " $Entry->[2] ";
         $FieldInserted = 1;
     }
+
     if ( !$Self->{ForeignDB} ) {
         $SQL .= ', ' if ($FieldInserted);
         $SQL .= 'create_time, create_by, change_time, change_by';
     }
     $SQL .= ") VALUES (";
+
     my $ValueInserted;
     for my $Entry ( @{ $Self->{CustomerCompanyMap} } ) {
+
         $SQL .= ', ' if ($ValueInserted);
+
         if ( $Entry->[5] =~ /^int$/i ) {
             $SQL .= " " . $Self->{DBObject}->Quote( $Param{ $Entry->[0] } );
         }
         else {
             $SQL .= " '" . $Self->{DBObject}->Quote( $Param{ $Entry->[0] } ) . "'";
         }
+
         $ValueInserted = 1;
     }
+
     if ( !$Self->{ForeignDB} ) {
         $SQL .= ', ' if ($ValueInserted);
         $SQL .= "current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID}";
     }
     $SQL .= ")";
-    if ( $Self->{DBObject}->Do( SQL => $SQL ) ) {
 
-        # log notice
-        $Self->{LogObject}->Log(
-            Priority => 'notice',
-            Message =>
-                "CustomerCompany: '$Param{CustomerCompanyName}/$Param{CustomerID}' created successfully ($Param{UserID})!",
-        );
-        return $Param{CustomerID};
-    }
-    else {
-        return;
-    }
+    return if !$Self->{DBObject}->Do( SQL => $SQL );
+
+    # log notice
+    $Self->{LogObject}->Log(
+        Priority => 'notice',
+        Message =>
+            "CustomerCompany: '$Param{CustomerCompanyName}/$Param{CustomerID}' created successfully ($Param{UserID})!",
+    );
+
+    return $Param{CustomerID};
 }
 
 =item CustomerCompanyGet()
@@ -249,8 +262,6 @@ CustomerCompany mapping in your system configuration.
 sub CustomerCompanyGet {
     my ( $Self, %Param ) = @_;
 
-    my %Data = ();
-
     # check needed stuff
     if ( !$Param{CustomerID} ) {
         $Self->{LogObject}->Log( Priority => 'error', Message => "Need CustomerID!" );
@@ -262,6 +273,7 @@ sub CustomerCompanyGet {
     for my $Entry ( @{ $Self->{CustomerCompanyMap} } ) {
         $SQL .= " $Entry->[2], ";
     }
+
     $SQL .= $Self->{CustomerCompanyKey};
 
     if ( !$Self->{ForeignDB} ) {
@@ -270,29 +282,34 @@ sub CustomerCompanyGet {
 
     $SQL .= " FROM $Self->{CustomerCompanyTable} WHERE ";
     if ( $Param{Name} ) {
-        $SQL .= "LOWER($Self->{CustomerCompanyKey}) = LOWER('"
+        $SQL .= "$Self->{Lower}($Self->{CustomerCompanyKey}) = $Self->{Lower}('"
             . $Self->{DBObject}->Quote( $Param{Name} ) . "')";
     }
     elsif ( $Param{CustomerID} ) {
-        $SQL .= "LOWER($Self->{CustomerCompanyKey}) = LOWER('"
+        $SQL .= "$Self->{Lower}($Self->{CustomerCompanyKey}) = $Self->{Lower}('"
             . $Self->{DBObject}->Quote( $Param{CustomerID} ) . "')";
     }
 
     # get initial data
     $Self->{DBObject}->Prepare( SQL => $SQL );
+
+    # fetch the result
+    my %Data;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+
         my $MapCounter = 0;
+
         for my $Entry ( @{ $Self->{CustomerCompanyMap} } ) {
             $Data{ $Entry->[0] } = $Row[$MapCounter];
             $MapCounter++;
         }
+
         $MapCounter++;
         $Data{ChangeTime} = $Row[$MapCounter];
         $MapCounter++;
         $Data{CreateTime} = $Row[$MapCounter];
     }
 
-    # return data
     return %Data;
 }
 
@@ -326,14 +343,14 @@ sub CustomerCompanyUpdate {
         }
     }
 
-    if ( !$Param{CustomerCompanyID} ) {
-        $Param{CustomerCompanyID} = $Param{CustomerID};
-    }
+    $Param{CustomerCompanyID} ||= $Param{CustomerID};
 
     # update db
     my $SQL = "UPDATE $Self->{CustomerCompanyTable} SET ";
     my $FieldInserted;
+
     for my $Entry ( @{ $Self->{CustomerCompanyMap} } ) {
+
         $SQL .= ', ' if $FieldInserted;
         if ( $Entry->[5] =~ /^int$/i ) {
             $SQL .= " $Entry->[2] = " . $Self->{DBObject}->Quote( $Param{ $Entry->[0] } );
@@ -343,30 +360,28 @@ sub CustomerCompanyUpdate {
         }
         $FieldInserted = 1;
     }
+
     if ( !$Self->{ForeignDB} ) {
         $SQL .= ", change_time = current_timestamp, change_by = $Param{UserID} ";
     }
-    $SQL .= " WHERE LOWER($Self->{CustomerCompanyKey}) = LOWER('"
+
+    $SQL .= " WHERE $Self->{Lower}($Self->{CustomerCompanyKey}) = $Self->{Lower}('"
         . $Self->{DBObject}->Quote( $Param{CustomerCompanyID} ) . "')";
 
-    if ( $Self->{DBObject}->Do( SQL => $SQL ) ) {
+    return if !$Self->{DBObject}->Do( SQL => $SQL );
 
-        # log notice
-        $Self->{LogObject}->Log(
-            Priority => 'notice',
-            Message =>
-                "CustomerCompany: '$Param{CustomerCompanyName}/$Param{CustomerID}' updated successfully ($Param{UserID})!",
-        );
+    # log notice
+    $Self->{LogObject}->Log(
+        Priority => 'notice',
+        Message =>
+            "CustomerCompany: '$Param{CustomerCompanyName}/$Param{CustomerID}' updated successfully ($Param{UserID})!",
+    );
 
-        # open question:
-        # should existing customer users and tickets be updated as well?
-        # problem could be solved with a post-company-update-event
+    # open question:
+    # should existing customer users and tickets be updated as well?
+    # problem could be solved with a post-company-update-event
 
-        return 1;
-    }
-    else {
-        return;
-    }
+    return 1;
 }
 
 =item CustomerCompanyList()
@@ -396,9 +411,8 @@ Returns:
 sub CustomerCompanyList {
     my ( $Self, %Param ) = @_;
 
-    my $Valid = 1;
-
     # check needed stuff
+    my $Valid = 1;
     if ( !$Param{Valid} && defined( $Param{Valid} ) ) {
         $Valid = 0;
     }
@@ -406,9 +420,11 @@ sub CustomerCompanyList {
     # what is the result
     my $What = '';
     for ( @{ $Self->{ConfigObject}->Get('CustomerCompany')->{CustomerCompanyListFields} } ) {
+
         if ($What) {
             $What .= ', ';
         }
+
         $What .= "$_";
     }
 
@@ -421,70 +437,92 @@ sub CustomerCompanyList {
 
     # where
     if ( $Param{Search} ) {
+
         my $Count = 0;
-        my @Parts = split( /\+/, $Param{Search}, 6 );
+        my @Parts = split /\+/, $Param{Search}, 6;
+
         for my $Part (@Parts) {
+
             $Part = $Self->{SearchPrefix} . $Part . $Self->{SearchSuffix};
             $Part =~ s/\*/%/g;
             $Part =~ s/%%/%/g;
+
             if ( $Count || $SQL ) {
                 $SQL .= " AND ";
             }
+
             $Count++;
-            if ( $Self->{ConfigObject}->Get('CustomerCompany')->{CustomerCompanySearchFields} ) {
+
+            my $CustomerCompanySearchFields
+                = $Self->{ConfigObject}->Get('CustomerCompany')->{CustomerCompanySearchFields};
+
+            if ( $CustomerCompanySearchFields && ref $CustomerCompanySearchFields eq 'ARRAY' ) {
+
                 my $SQLExt = '';
-                for (
-                    @{
-                        $Self->{ConfigObject}->Get('CustomerCompany')->{CustomerCompanySearchFields}
-                    }
-                    )
-                {
+
+                for ( @{$CustomerCompanySearchFields} ) {
+
                     if ($SQLExt) {
                         $SQLExt .= ' OR ';
                     }
-                    $SQLExt .= " LOWER($_) LIKE LOWER('" . $Self->{DBObject}->Quote($Part) . "') ";
+                    $SQLExt .= " $Self->{Lower}($_) LIKE $Self->{Lower}('"
+                        . $Self->{DBObject}->Quote($Part) . "') ";
                 }
+
                 if ($SQLExt) {
                     $SQL .= "($SQLExt)";
                 }
             }
             else {
-                $SQL .= " LOWER($Self->{CustomerCompanyKey}) LIKE LOWER('"
+                $SQL .= " $Self->{Lower}($Self->{CustomerCompanyKey}) LIKE $Self->{Lower}('"
                     . $Self->{DBObject}->Quote($Part) . "') ";
             }
         }
     }
 
     # sql
-    my %List = ();
     my $CompleteSQL
         = "SELECT $Self->{CustomerCompanyKey}, $What FROM $Self->{CustomerCompanyTable}";
     $CompleteSQL .= $SQL ? " WHERE $SQL" : '';
-    $Self->{DBObject}->Prepare( SQL => $CompleteSQL, Limit => 50000 );
+
+    # ask database
+    $Self->{DBObject}->Prepare(
+        SQL   => $CompleteSQL,
+        Limit => 50000,
+    );
+
+    # fetch the result
+    my %List;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+
         my $Value = '';
+
         for my $Position ( 1 .. 10 ) {
+
             if ($Value) {
                 $Value .= ' ';
             }
+
             if ( defined $Row[$Position] ) {
                 $Value .= $Row[$Position];
             }
         }
+
         $List{ $Row[0] } = $Value;
     }
+
     return %List;
 }
 
 sub DESTROY {
     my $Self = shift;
 
+    return 1 if !$Self->{NotParentDBObject};
+    return 1 if !$Self->{DBObject};
+
     # disconnect if it's not a parent DBObject
-    if ( $Self->{NotParentDBObject} ) {
-        if ( $Self->{DBObject} ) {
-            $Self->{DBObject}->Disconnect();
-        }
-    }
+    $Self->{DBObject}->Disconnect();
+
     return 1;
 }
 
@@ -504,6 +542,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.25 $ $Date: 2011-03-15 19:08:35 $
+$Revision: 1.26 $ $Date: 2012-03-26 21:47:00 $
 
 =cut

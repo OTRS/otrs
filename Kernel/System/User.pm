@@ -2,7 +2,7 @@
 # Kernel/System/User.pm - some user functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: User.pm,v 1.118 2012-03-21 11:52:35 mh Exp $
+# $Id: User.pm,v 1.119 2012-03-26 21:47:00 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Valid;
 use Kernel::System::CacheInternal;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.118 $) [1];
+$VERSION = qw($Revision: 1.119 $) [1];
 
 =head1 NAME
 
@@ -111,6 +111,12 @@ sub new {
         TTL  => 60 * 60 * 3,
     );
 
+    # set lower if database is case sensitive
+    $Self->{Lower} = '';
+    if ( !$Self->{DBObject}->GetDatabaseFunction('CaseInsensitive') ) {
+        $Self->{Lower} = 'LOWER';
+    }
+
     # load generator preferences module
     my $GeneratorModule = $Self->{ConfigObject}->Get('User::PreferencesModule')
         || 'Kernel::System::User::Preferences::DB';
@@ -191,7 +197,7 @@ sub GetUserData {
         . " create_time, change_time FROM $Self->{UserTable} WHERE ";
     if ( $Param{User} ) {
         my $User = lc $Param{User};
-        $SQL .= " LOWER($Self->{UserTableUser}) = ?";
+        $SQL .= " $Self->{Lower}($Self->{UserTableUser}) = ?";
         push @Bind, \$User;
     }
     else {
@@ -369,7 +375,7 @@ sub UserAdd {
     my $UserLogin = lc $Param{UserLogin};
     return if !$Self->{DBObject}->Prepare(
         SQL => "SELECT $Self->{UserTableUserID} FROM $Self->{UserTable} "
-            . " WHERE LOWER($Self->{UserTableUser}) = ?",
+            . " WHERE $Self->{Lower}($Self->{UserTableUser}) = ?",
         Bind => [ \$UserLogin ],
     );
     my $UserID;
@@ -577,7 +583,7 @@ sub UserSearch {
     }
     elsif ( $Param{UserLogin} ) {
         $Param{UserLogin} =~ s/\*/%/g;
-        $SQL .= " LOWER($Self->{UserTableUser}) LIKE LOWER('"
+        $SQL .= " $Self->{Lower}($Self->{UserTableUser}) LIKE $Self->{Lower}('"
             . $Self->{DBObject}->Quote( $Param{UserLogin}, 'Like' ) . "') $LikeEscapeString";
     }
 
@@ -708,7 +714,7 @@ sub SetPassword {
     my $UserLogin = lc $Param{UserLogin};
     return if !$Self->{DBObject}->Do(
         SQL => "UPDATE $Self->{UserTable} SET $Self->{UserTableUserPW} = ? "
-            . " WHERE LOWER($Self->{UserTableUser}) = ?",
+            . " WHERE $Self->{Lower}($Self->{UserTableUser}) = ?",
         Bind => [ \$CryptedPw, \$UserLogin ],
     );
 
@@ -754,7 +760,7 @@ sub UserLookup {
         my $UserLogin = lc $Param{UserLogin};
         return if !$Self->{DBObject}->Prepare(
             SQL => "SELECT $Self->{UserTableUserID} FROM $Self->{UserTable} "
-                . " WHERE LOWER($Self->{UserTableUser}) = ?",
+                . " WHERE $Self->{Lower}($Self->{UserTableUser}) = ?",
             Bind => [ \$UserLogin ],
         );
         my $ID;
@@ -1119,6 +1125,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.118 $ $Date: 2012-03-21 11:52:35 $
+$Revision: 1.119 $ $Date: 2012-03-26 21:47:00 $
 
 =cut

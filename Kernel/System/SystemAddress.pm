@@ -1,8 +1,8 @@
 # --
 # Kernel/System/SystemAddress.pm - lib for system addresses
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: SystemAddress.pm,v 1.34 2011-01-31 07:49:47 mb Exp $
+# $Id: SystemAddress.pm,v 1.35 2012-03-26 21:47:00 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.34 $) [1];
+$VERSION = qw($Revision: 1.35 $) [1];
 
 =head1 NAME
 
@@ -80,7 +80,7 @@ sub new {
     bless( $Self, $Type );
 
     # get needed objects
-    for (qw(ConfigObject LogObject DBObject EncodeObject)) {
+    for (qw(ConfigObject LogObject DBObject MainObject EncodeObject)) {
         if ( $Param{$_} ) {
             $Self->{$_} = $Param{$_};
         }
@@ -89,7 +89,7 @@ sub new {
         }
     }
 
-    $Self->{ValidObject} = Kernel::System::Valid->new(%Param);
+    $Self->{ValidObject} = Kernel::System::Valid->new( %{$Self} );
 
     return $Self;
 }
@@ -120,7 +120,7 @@ sub SystemAddressAdd {
         }
     }
 
-    # sql
+    # insert new system address
     return if !$Self->{DBObject}->Do(
         SQL => 'INSERT INTO system_address (value0, value1, valid_id, comments, queue_id, '
             . ' create_time, create_by, change_time, change_by)'
@@ -130,14 +130,20 @@ sub SystemAddressAdd {
             \$Param{QueueID}, \$Param{UserID}, \$Param{UserID},
         ],
     );
+
+    # get system address id
     $Self->{DBObject}->Prepare(
-        SQL => 'SELECT id FROM system_address WHERE value0 = ? AND value1 = ?',
-        Bind => [ \$Param{Name}, \$Param{Realname}, ],
+        SQL   => 'SELECT id FROM system_address WHERE value0 = ? AND value1 = ?',
+        Bind  => [ \$Param{Name}, \$Param{Realname}, ],
+        Limit => 1,
     );
+
+    # fetch the result
     my $ID;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $ID = $Row[0];
     }
+
     return $ID;
 }
 
@@ -173,12 +179,15 @@ sub SystemAddressGet {
         return;
     }
 
-    # sql
+    # get system address
     return if !$Self->{DBObject}->Prepare(
         SQL => 'SELECT value0, value1, comments, valid_id, queue_id, change_time, create_time '
             . ' FROM system_address WHERE id = ?',
-        Bind => [ \$Param{ID} ],
+        Bind  => [ \$Param{ID} ],
+        Limit => 1,
     );
+
+    # fetch the result
     my %Data;
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
         %Data = (
@@ -192,6 +201,7 @@ sub SystemAddressGet {
             CreateTime => $Data[6],
         );
     }
+
     return %Data;
 }
 
@@ -222,7 +232,7 @@ sub SystemAddressUpdate {
         }
     }
 
-    # sql
+    # update system address
     return if !$Self->{DBObject}->Do(
         SQL => 'UPDATE system_address SET value0 = ?, value1 = ?, comments = ?, valid_id = ?, '
             . ' change_time = current_timestamp, change_by = ?, queue_id = ? WHERE id = ?',
@@ -231,6 +241,7 @@ sub SystemAddressUpdate {
             \$Param{UserID}, \$Param{QueueID}, \$Param{ID},
         ],
     );
+
     return 1;
 }
 
@@ -259,6 +270,7 @@ sub SystemAddressList {
     if ( !$Param{Valid} && defined $Param{Valid} ) {
         $Valid = 0;
     }
+
     return $Self->{DBObject}->GetTableData(
         What  => 'id, value1, value0',
         Valid => $Valid,
@@ -314,21 +326,28 @@ sub SystemAddressQueueID {
         }
     }
 
-    # remove empty spaces
+    # remove spaces
     $Param{Address} =~ s/\s+//g;
+
+    my $Lower = '';
+    if ( !$Self->{DBObject}->GetDatabaseFunction('CaseInsensitive') ) {
+        $Lower = 'LOWER';
+    }
 
     return if !$Self->{DBObject}->Prepare(
         SQL => "SELECT queue_id FROM system_address WHERE "
             . "valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} ) "
-            . "AND LOWER(value0) = LOWER(?)",
-        Bind => [
-            \$Param{Address}
-        ],
+            . "AND $Lower(value0) = $Lower(?)",
+        Bind  => [ \$Param{Address} ],
+        Limit => 1,
     );
+
+    # fetch the result
     my $QueueID;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $QueueID = $Row[0];
     }
+
     return $QueueID;
 }
 
@@ -348,6 +367,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.34 $ $Date: 2011-01-31 07:49:47 $
+$Revision: 1.35 $ $Date: 2012-03-26 21:47:00 $
 
 =cut

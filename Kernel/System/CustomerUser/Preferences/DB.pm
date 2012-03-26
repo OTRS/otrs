@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/Preferences/DB.pm - some customer user functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.22 2012-03-15 20:42:18 mh Exp $
+# $Id: DB.pm,v 1.23 2012-03-26 21:47:00 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CacheInternal;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.22 $) [1];
+$VERSION = qw($Revision: 1.23 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -49,6 +49,12 @@ sub new {
     $Self->{PreferencesTableUserID}
         = $Self->{ConfigObject}->Get('CustomerPreferences')->{Params}->{TableUserID}
         || 'user_id';
+
+    # set lower if database is case sensitive
+    $Self->{Lower} = '';
+    if ( !$Self->{DBObject}->GetDatabaseFunction('CaseInsensitive') ) {
+        $Self->{Lower} = 'LOWER';
+    }
 
     # create cache prefix
     $Self->{CachePrefix} = 'CustomerUserPreferencesDB'
@@ -130,16 +136,15 @@ sub SearchPreferences {
     my $Value = $Param{Value} || '';
 
     # get preferences
-    my $SQL = "SELECT $Self->{PreferencesTableUserID}, $Self->{PreferencesTableValue} "
-        . " FROM "
-        . " $Self->{PreferencesTable} "
-        . " WHERE "
-        . " $Self->{PreferencesTableKey} = '"
-        . $Self->{DBObject}->Quote($Key) . "'" . " AND "
-        . " LOWER($Self->{PreferencesTableValue}) LIKE LOWER('"
-        . $Self->{DBObject}->Quote( $Value, 'Like' ) . "')";
-
-    return if !$Self->{DBObject}->Prepare( SQL => $SQL );
+    return if !$Self->{DBObject}->Prepare(
+        SQL => "SELECT $Self->{PreferencesTableUserID}, $Self->{PreferencesTableValue} "
+            . " FROM "
+            . " $Self->{PreferencesTable} "
+            . " WHERE "
+            . " $Self->{PreferencesTableKey} = ? AND "
+            . " $Self->{Lower}($Self->{PreferencesTableValue}) LIKE $Self->{Lower}(?)",
+        Bind => [ \$Key, \$Value ],
+    );
 
     my %UserID;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {

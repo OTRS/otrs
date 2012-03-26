@@ -2,7 +2,7 @@
 # Kernel/System/TicketSearch.pm - all ticket search functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketSearch.pm,v 1.12 2012-01-27 14:20:58 mg Exp $
+# $Id: TicketSearch.pm,v 1.13 2012-03-26 21:47:00 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 use Kernel::System::DynamicField;
 use Kernel::System::DynamicField::Backend;
@@ -768,17 +768,26 @@ sub TicketSearch {
         my @CustomerIDs = $Self->{CustomerUserObject}->CustomerIDs(
             User => $Param{CustomerUserID},
         );
+
         if (@CustomerIDs) {
-            $SQLExt .= 'LOWER(st.customer_id) IN (';
+
+            my $Lower = '';
+            if ( !$Self->{DBObject}->GetDatabaseFunction('CaseInsensitive') ) {
+                $Lower = 'LOWER';
+            }
+
+            $SQLExt .= "$Lower(st.customer_id) IN (";
             my $Exists = 0;
+
             for (@CustomerIDs) {
+
                 if ($Exists) {
                     $SQLExt .= ', ';
                 }
                 else {
                     $Exists = 1;
                 }
-                $SQLExt .= "LOWER('" . $Self->{DBObject}->Quote($_) . "')";
+                $SQLExt .= "$Lower('" . $Self->{DBObject}->Quote($_) . "')";
             }
             $SQLExt .= ') OR ';
         }
@@ -1718,6 +1727,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.12 $ $Date: 2012-01-27 14:20:58 $
+$Revision: 1.13 $ $Date: 2012-03-26 21:47:00 $
 
 =cut

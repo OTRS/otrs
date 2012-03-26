@@ -1,8 +1,8 @@
 # --
 # Kernel/System/SearchProfile.pm - module to manage search profiles
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: SearchProfile.pm,v 1.18 2010-10-11 16:00:25 martin Exp $
+# $Id: SearchProfile.pm,v 1.19 2012-03-26 21:47:00 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 =head1 NAME
 
@@ -81,6 +81,12 @@ sub new {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
+    # set lower if database is case sensitive
+    $Self->{Lower} = '';
+    if ( !$Self->{DBObject}->GetDatabaseFunction('CaseInsensitive') ) {
+        $Self->{Lower} = 'LOWER';
+    }
+
     return $Self;
 }
 
@@ -110,11 +116,13 @@ sub SearchProfileAdd {
     }
 
     # check value
-    if ( !defined $Param{Value} ) {
-        return 1;
-    }
+    return 1 if !defined $Param{Value};
+
+    # create login string
+    my $Login = $Param{Base} . '::' . $Param{UserLogin};
+
     my @Data;
-    if ( ref( $Param{Value} ) eq 'ARRAY' ) {
+    if ( ref $Param{Value} eq 'ARRAY' ) {
         @Data = @{ $Param{Value} };
         $Param{Type} = 'ARRAY';
     }
@@ -124,16 +132,17 @@ sub SearchProfileAdd {
     }
 
     for my $Value (@Data) {
-        my $Login = "$Param{Base}::$Param{UserLogin}";
+
         return if !$Self->{DBObject}->Do(
-            SQL =>
-                "INSERT INTO search_profile (login, profile_name,  profile_type, profile_key, profile_value)"
-                . " VALUES (?, ?, ?, ?, ?) ",
+            SQL => 'INSERT INTO search_profile'
+                . ' (login, profile_name,  profile_type, profile_key, profile_value)'
+                . ' VALUES (?, ?, ?, ?, ?) ',
             Bind => [
                 \$Login, \$Param{Name}, \$Param{Type}, \$Param{Key}, \$Value,
             ],
         );
     }
+
     return 1;
 }
 
@@ -160,12 +169,14 @@ sub SearchProfileGet {
         }
     }
 
-    # sql
-    my $Login = $Self->{DBObject}->Quote("$Param{Base}::$Param{UserLogin}");
+    # create login string
+    my $Login = $Param{Base} . '::' . $Param{UserLogin};
+
+    # get searech profile
     return if !$Self->{DBObject}->Prepare(
         SQL => "SELECT profile_type, profile_key, profile_value FROM "
-            . "search_profile WHERE profile_name = ? AND LOWER(login) = LOWER('$Login')",
-        Bind => [ \$Param{Name} ],
+            . "search_profile WHERE profile_name = ? AND $Self->{Lower}(login) = $Self->{Lower}(?)",
+        Bind => [ \$Param{Name}, \$Login ],
     );
 
     my %Result;
@@ -177,6 +188,7 @@ sub SearchProfileGet {
             $Result{ $Data[1] } = $Data[2];
         }
     }
+
     return %Result;
 }
 
@@ -203,12 +215,14 @@ sub SearchProfileDelete {
         }
     }
 
-    # sql
-    my $Login = $Self->{DBObject}->Quote("$Param{Base}::$Param{UserLogin}");
+    # create login string
+    my $Login = $Param{Base} . '::' . $Param{UserLogin};
+
+    # delete search profile
     return $Self->{DBObject}->Do(
         SQL => "DELETE FROM search_profile WHERE "
-            . " profile_name = ? AND LOWER(login) = LOWER('$Login')",
-        Bind => [ \$Param{Name} ],
+            . " profile_name = ? AND $Self->{Lower}(login) = $Self->{Lower}(?)",
+        Bind => [ \$Param{Name}, \$Login ],
     );
 }
 
@@ -234,15 +248,22 @@ sub SearchProfileList {
         }
     }
 
-    # sql
-    my $Login = $Self->{DBObject}->Quote("$Param{Base}::$Param{UserLogin}");
+    # create login string
+    my $Login = $Param{Base} . '::' . $Param{UserLogin};
+
+    # get search profile list
     return if !$Self->{DBObject}->Prepare(
-        SQL => "SELECT profile_name FROM search_profile WHERE LOWER(login) = LOWER('$Login')",
+        SQL =>
+            "SELECT profile_name FROM search_profile WHERE $Self->{Lower}(login) = $Self->{Lower}(?)",
+        Bind => [ \$Login ],
     );
+
+    # fetch the result
     my %Result;
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
         $Result{ $Data[0] } = $Data[0];
     }
+
     return %Result;
 }
 
@@ -262,6 +283,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.18 $ $Date: 2010-10-11 16:00:25 $
+$Revision: 1.19 $ $Date: 2012-03-26 21:47:00 $
 
 =cut

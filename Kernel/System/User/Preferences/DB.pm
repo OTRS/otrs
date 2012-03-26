@@ -2,7 +2,7 @@
 # Kernel/System/User/Preferences/DB.pm - some user functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.22 2012-03-15 20:42:18 mh Exp $
+# $Id: DB.pm,v 1.23 2012-03-26 21:47:00 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.22 $) [1];
+$VERSION = qw($Revision: 1.23 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -109,6 +109,7 @@ sub GetPreferences {
         Bind => [ \$Param{UserID} ],
     );
 
+    # fetch the result
     my %Data;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Data{ $Row[0] } = $Row[1];
@@ -129,18 +130,23 @@ sub SearchPreferences {
     my $Key   = $Param{Key}   || '';
     my $Value = $Param{Value} || '';
 
+    my $Lower = '';
+    if ( !$Self->{DBObject}->GetDatabaseFunction('CaseInsensitive') ) {
+        $Lower = 'LOWER';
+    }
+
     # get preferences
-    my $SQL = "SELECT $Self->{PreferencesTableUserID}, $Self->{PreferencesTableValue} "
-        . " FROM "
-        . " $Self->{PreferencesTable} "
-        . " WHERE "
-        . " $Self->{PreferencesTableKey} = '"
-        . $Self->{DBObject}->Quote($Key) . "'" . " AND "
-        . " LOWER($Self->{PreferencesTableValue}) LIKE LOWER('"
-        . $Self->{DBObject}->Quote( $Value, 'Like' ) . "')";
+    return if !$Self->{DBObject}->Prepare(
+        SQL => "SELECT $Self->{PreferencesTableUserID}, $Self->{PreferencesTableValue} "
+            . " FROM "
+            . " $Self->{PreferencesTable} "
+            . " WHERE "
+            . " $Self->{PreferencesTableKey} = ? AND "
+            . " $Lower($Self->{PreferencesTableValue}) LIKE $Lower(?)",
+        Bind => [ \$Key, \$Value ],
+    );
 
-    return if !$Self->{DBObject}->Prepare( SQL => $SQL );
-
+    # fetch the result
     my %UserID;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $UserID{ $Row[0] } = $Row[1];
