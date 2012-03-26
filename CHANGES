@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2228 2012-03-23 16:43:28 mh Exp $
+# $Id: CHANGES,v 1.2229 2012-03-26 17:06:42 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.1.4 2012-??-??
+ - 2012-03-26 Fixed bug#7877 - SMIME emails don't get parsed properly.
  - 2012-03-23 Disabled error message in RemoveSessionID().
  - 2012-03-23 Repaired broken cache handling in DynamicFieldList().
 
