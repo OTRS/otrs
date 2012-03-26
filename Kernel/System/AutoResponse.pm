@@ -1,8 +1,8 @@
 # --
 # Kernel/System/AutoResponse.pm - lib for auto responses
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AutoResponse.pm,v 1.46 2011-08-12 09:06:15 mg Exp $
+# $Id: AutoResponse.pm,v 1.47 2012-03-26 23:16:38 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::SystemAddress;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.46 $) [1];
+$VERSION = qw($Revision: 1.47 $) [1];
 
 =head1 NAME
 
@@ -81,7 +81,7 @@ sub new {
     bless( $Self, $Type );
 
     # get needed objects
-    for (qw(ConfigObject LogObject DBObject EncodeObject)) {
+    for (qw(ConfigObject LogObject DBObject MainObject EncodeObject)) {
         if ( $Param{$_} ) {
             $Self->{$_} = $Param{$_};
         }
@@ -90,9 +90,8 @@ sub new {
         }
     }
 
-    if ( !$Self->{SystemAddressObject} ) {
-        $Self->{SystemAddressObject} = Kernel::System::SystemAddress->new(%Param);
-    }
+    $Self->{SystemAddressObject}
+        = $Param{SystemAddressObject} || Kernel::System::SystemAddress->new( %{$Self} );
 
     return $Self;
 }
@@ -151,11 +150,15 @@ sub AutoResponseAdd {
             \$Param{Name}, \$Param{TypeID}, \$Param{AddressID}, \$Param{Charset},
             \$Param{ContentType}, \$Param{UserID},
         ],
+        Limit => 1,
     );
+
+    # fetch the result
     my $ID;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $ID = $Row[0];
     }
+
     return $ID;
 }
 
@@ -183,7 +186,8 @@ sub AutoResponseGet {
         SQL => 'SELECT name, valid_id, comments, text0, text1, type_id, system_address_id, '
             . ' charset, content_type, create_time, create_by, change_time, change_by'
             . ' FROM auto_response WHERE id = ?',
-        Bind => [ \$Param{ID} ],
+        Bind  => [ \$Param{ID} ],
+        Limit => 1,
     );
 
     my %Data;
@@ -229,6 +233,7 @@ sub AutoResponseGet {
 
     my %Types = $Self->AutoResponseTypeList();
     $Data{Type} = $Types{ $Data{TypeID} };
+
     return %Data;
 }
 
@@ -281,6 +286,7 @@ sub AutoResponseUpdate {
             \$Param{UserID}, \$Param{ID},
         ],
     );
+
     return 1;
 }
 
@@ -337,7 +343,10 @@ sub AutoResponseGetByTypeQueueID {
         Bind => [
             \$Param{QueueID}, \$Param{Type},
         ],
+        Limit => 1,
     );
+
+    # fetch the result
     my %Data;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Data{Text}            = $Row[0];
@@ -448,8 +457,11 @@ sub AutoResponseQueue {
         SQL  => 'DELETE FROM queue_auto_response WHERE queue_id = ?',
         Bind => [ \$Param{QueueID} ],
     );
+
+    NEWID:
     for my $NewID ( @{ $Param{AutoResponseIDs} } ) {
-        next if !$NewID;
+
+        next NEWID if !$NewID;
 
         $Self->{DBObject}->Do(
             SQL => 'INSERT INTO queue_auto_response (queue_id, auto_response_id, '
@@ -460,6 +472,7 @@ sub AutoResponseQueue {
             ],
         );
     }
+
     return 1;
 }
 
@@ -484,6 +497,7 @@ sub _NameExistsCheck {
         Bind => [ \$Param{Name} ],
     );
 
+    # fetch the result
     my $Flag;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         if ( !$Param{ID} || $Param{ID} ne $Row[0] ) {
@@ -498,6 +512,7 @@ sub _NameExistsCheck {
         );
         return;
     }
+
     return 1;
 }
 
@@ -521,6 +536,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.46 $ $Date: 2011-08-12 09:06:15 $
+$Revision: 1.47 $ $Date: 2012-03-26 23:16:38 $
 
 =cut
