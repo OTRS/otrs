@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2230 2012-03-26 21:48:42 mh Exp $
+# $Id: CHANGES,v 1.2231 2012-03-26 22:07:09 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,6 +16,7 @@
  - 2012-03-23 Repaired broken cache handling in DynamicFieldList().
 
 3.1.3 2012-03-27
+ - 2012-03-26 Fixed bug#8341 - Wrong ZZZAuto.pm file is created when upgrading to OTRS 3.1.
  - 2012-03-22 Renamed form id in AgentLinkObject.dtl to make sure it doesn't interfere with wrong CSS
  - 2012-03-22 Updated Portugese translation, thanks to Rui Francisco!
  - 2012-03-21 Fixed bug#8333 - Type option '-' should not be available in
