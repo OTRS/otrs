@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField.pm - DynamicFields configuration backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicField.pm,v 1.53 2012-03-23 13:33:27 mg Exp $
+# $Id: DynamicField.pm,v 1.54 2012-03-27 15:04:07 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::Valid;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.53 $) [1];
+$VERSION = qw($Revision: 1.54 $) [1];
 
 =head1 NAME
 
@@ -184,6 +184,10 @@ sub DynamicFieldAdd {
 
     # dump config as string
     my $Config = YAML::Dump( $Param{Config} );
+
+    # Make sure the resulting string has the UTF-8 flag. YAML only sets it if
+    #   part of the data already had it.
+    utf8::upgrade($Config);
 
     # sql
     return if !$Self->{DBObject}->Do(
@@ -380,6 +384,10 @@ sub DynamicFieldUpdate {
 
     # dump config as string
     my $Config = YAML::Dump( $Param{Config} );
+
+    # Make sure the resulting string has the UTF-8 flag. YAML only sets it if
+    #    part of the data already had it.
+    utf8::upgrade($Config);
 
     # check needed structure for some fields
     if ( $Param{Name} !~ m{ \A [a-z|A-Z|\d]+ \z }xms ) {
@@ -1203,6 +1211,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.53 $ $Date: 2012-03-23 13:33:27 $
+$Revision: 1.54 $ $Date: 2012-03-27 15:04:07 $
 
 =cut
