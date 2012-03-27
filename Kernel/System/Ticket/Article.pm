@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.309 2012-03-01 13:40:57 ep Exp $
+# $Id: Article.pm,v 1.310 2012-03-27 10:13:08 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::EmailParser;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.309 $) [1];
+$VERSION = qw($Revision: 1.310 $) [1];
 
 =head1 NAME
 
@@ -1186,13 +1186,7 @@ sub ArticleLastCustomerArticle {
 
     # get whole article index
     @Index = $Self->ArticleIndex( TicketID => $Param{TicketID} );
-    if ( !@Index ) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => "No article found for TicketID $Param{TicketID}!",
-        );
-        return;
-    }
+    return if !@Index;
 
     # second try, return latest non internal article
     for my $ArticleID ( reverse @Index ) {
@@ -1238,13 +1232,8 @@ sub ArticleFirstArticle {
     my @Index = $Self->ArticleIndex( TicketID => $Param{TicketID} );
 
     # get article data
-    if ( !@Index ) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => "No article found for TicketID $Param{TicketID}!",
-        );
-        return;
-    }
+    return if !@Index;
+
     return $Self->ArticleGet(
         ArticleID     => $Index[0],
         Extended      => $Param{Extended},
@@ -1765,21 +1754,14 @@ sub ArticleGet {
     # return if content is empty
     if ( !@Content ) {
 
-        # log only if there is not article type filter to be sure that there is no article
-        if ( !$ArticleTypeSQL && !$SenderTypeSQL ) {
-            if ( $Param{ArticleID} ) {
-                $Self->{LogObject}->Log(
-                    Priority => 'error',
-                    Message  => "No such article for ArticleID ($Param{ArticleID})!",
-                );
-            }
-            elsif ( $Param{TicketID} ) {
-                $Self->{LogObject}->Log(
-                    Priority => 'error',
-                    Message  => "No such article for TicketID ($Param{TicketID})!",
-                );
-            }
+        # Log an error only if a specific article was requested and there is no filter active.
+        if ( $Param{ArticleID} && !$ArticleTypeSQL && !$SenderTypeSQL ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "No such article for ArticleID ($Param{ArticleID})!",
+            );
         }
+
         return;
     }
 
@@ -3507,6 +3489,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.309 $ $Date: 2012-03-01 13:40:57 $
+$Revision: 1.310 $ $Date: 2012-03-27 10:13:08 $
 
 =cut
