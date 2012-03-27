@@ -3,7 +3,7 @@
 # DBUpdate-to-3.1.pl - update script to migrate OTRS 3.0.x to 3.1.x
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-3.1.pl,v 1.83 2012-03-26 22:07:09 cr Exp $
+# $Id: DBUpdate-to-3.1.pl,v 1.84 2012-03-27 06:39:02 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.83 $) [1];
+$VERSION = qw($Revision: 1.84 $) [1];
 
 use Getopt::Std qw();
 use Kernel::Config;
@@ -298,18 +298,14 @@ after the upgrade.
 sub RebuildConfig {
     my $CommonObject = shift;
 
-    # write now default config options
     my $SysConfigObject = Kernel::System::SysConfig->new( %{$CommonObject} );
-    if ( !$SysConfigObject->WriteDefault() ) {
-        die "ERROR: Can't write default config files!";
-    }
 
     # Rebuild ZZZAAuto.pm with current values
     if ( !$SysConfigObject->WriteDefault() ) {
         die "ERROR: Can't write default config files!";
     }
 
-    # Force a reload of ZZZAuto.pm and ZZZAAuto.pm to get the new value
+    # Force a reload of ZZZAuto.pm and ZZZAAuto.pm to get the new values
     for my $Module ( keys %INC ) {
         if ( $Module =~ m/ZZZAA?uto\.pm$/ ) {
             delete $INC{$Module};
@@ -319,7 +315,7 @@ sub RebuildConfig {
     # reload config object
     print
         "\nIf you see warnings about 'Subroutine Load redefined', that's fine, no need to worry!\n";
-    $CommonObject->{ConfigObject} = Kernel::Config->new( %{$CommonObject} );
+    $CommonObject = _CommonObjectsBase();
 
     # reload sysconfig object to get the new value
     $SysConfigObject = Kernel::System::SysConfig->new( %{$CommonObject} );
@@ -328,7 +324,7 @@ sub RebuildConfig {
     #   the old Main::Dump() in ascii mode.
     $SysConfigObject->CreateConfig();
 
-    # Force a reload of ZZZAuto.pm and ZZZAAuto.pm to get the new value
+    # Force a reload of ZZZAuto.pm and ZZZAAuto.pm to get the new values
     for my $Module ( keys %INC ) {
         if ( $Module =~ m/ZZZAA?uto\.pm$/ ) {
             delete $INC{$Module};
@@ -336,7 +332,7 @@ sub RebuildConfig {
     }
 
     # reload config object
-    $CommonObject->{ConfigObject} = Kernel::Config->new( %{$CommonObject} );
+    $CommonObject = _CommonObjectsBase();
 
     return 1;
 }
