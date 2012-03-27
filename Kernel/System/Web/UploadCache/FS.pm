@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Web/UploadCache/FS.pm - a fs upload cache
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: FS.pm,v 1.25 2011-01-14 09:23:44 martin Exp $
+# $Id: FS.pm,v 1.26 2012-03-27 18:35:26 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.25 $) [1];
+$VERSION = qw($Revision: 1.26 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -59,7 +59,6 @@ sub FormIDRemove {
         Directory => $Self->{TempDir},
         Filter    => "$Param{FormID}.*",
     );
-    my $Counter = 0;
     my @Data;
     for my $File (@List) {
         $Self->{MainObject}->FileDelete( Location => $File, );
@@ -86,7 +85,7 @@ sub FormIDAddFile {
         $ContentID = "$Disposition$Random.$Param{FormID}\@$FQDN";
     }
 
-    # files must readable for creater
+    # files must readable for creator
     return if !$Self->{MainObject}->FileWrite(
         Directory  => $Self->{TempDir},
         Filename   => "$Param{FormID}.$Param{Filename}",
