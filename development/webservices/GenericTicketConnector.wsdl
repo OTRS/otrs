@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- $Id: GenericTicketConnector.wsdl,v 1.15 2012-02-15 20:51:02 cr Exp $ -->
+<!-- $Id: GenericTicketConnector.wsdl,v 1.16 2012-03-27 05:50:56 cr Exp $ -->
 <wsdl:definitions
     name="GenericTicketConnector"
     targetNamespace="http://www.otrs.org/TicketConnector/"
@@ -738,11 +738,6 @@
                     </xsd:element>
                     <xsd:element
                         name="AllArticles"
-                        type="xsd:positiveInteger"
-                        minOccurs="0" maxOccurs="1">
-                    </xsd:element>
-                    <xsd:element
-                        name="DynamicFields"
                         type="xsd:positiveInteger"
                         minOccurs="0" maxOccurs="1">
                     </xsd:element>
