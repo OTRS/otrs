@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField.pm - DynamicFields configuration backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicField.pm,v 1.52 2012-03-20 16:27:56 mg Exp $
+# $Id: DynamicField.pm,v 1.54 2012-03-27 15:04:07 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::Valid;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.52 $) [1];
+$VERSION = qw($Revision: 1.54 $) [1];
 
 =head1 NAME
 
@@ -184,6 +184,10 @@ sub DynamicFieldAdd {
 
     # dump config as string
     my $Config = YAML::Dump( $Param{Config} );
+
+    # Make sure the resulting string has the UTF-8 flag. YAML only sets it if
+    #   part of the data already had it.
+    utf8::upgrade($Config);
 
     # sql
     return if !$Self->{DBObject}->Do(
@@ -380,6 +384,10 @@ sub DynamicFieldUpdate {
 
     # dump config as string
     my $Config = YAML::Dump( $Param{Config} );
+
+    # Make sure the resulting string has the UTF-8 flag. YAML only sets it if
+    #    part of the data already had it.
+    utf8::upgrade($Config);
 
     # check needed structure for some fields
     if ( $Param{Name} !~ m{ \A [a-z|A-Z|\d]+ \z }xms ) {
@@ -600,16 +608,22 @@ sub DynamicFieldList {
         $ObjectType = $Param{ObjectType};
     }
 
-    my $CacheKey = 'DynamicFieldList::Valid::' . $Valid . '::ObjectType::' . $ObjectType;
-    my $Cache    = $Self->{CacheObject}->Get(
+    my $ResultType = $Param{ResultType} || 'ARRAY';
+    $ResultType = $ResultType eq 'HASH' ? 'HASH' : 'ARRAY';
+
+    my $CacheKey
+        = 'DynamicFieldList::Valid::'
+        . $Valid
+        . '::ObjectType::'
+        . $ObjectType
+        . '::ResultType::'
+        . $ResultType;
+    my $Cache = $Self->{CacheObject}->Get(
         Type => 'DynamicField',
         Key  => $CacheKey,
     );
 
-    my $ResultType = $Param{ResultType} || '';
-    $ResultType = ( $ResultType eq 'HASH' ? $ResultType : 'ARRAY' );
-
-    if ( $Cache && $Cache eq $ResultType ) {
+    if ($Cache) {
 
         # check if FieldFilter is not set
         if ( !defined $Param{FieldFilter} ) {
@@ -632,7 +646,7 @@ sub DynamicFieldList {
         if ( $ResultType eq 'ARRAY' ) {
 
             FIELDID:
-            for my $FieldID ($Cache) {
+            for my $FieldID ( @{$Cache} ) {
                 next FIELDID if !$AllowedFieldIDs{$FieldID};
 
                 push @{$FilteredData}, $FieldID;
@@ -707,16 +721,13 @@ sub DynamicFieldList {
                 $Data{ $Row[0] } = $Row[1];
             }
 
-            if (%Data) {
-
-                # set cache
-                $Self->{CacheObject}->Set(
-                    Type  => 'DynamicField',
-                    Key   => $CacheKey,
-                    Value => \%Data,
-                    TTL   => $Self->{CacheTTL},
-                );
-            }
+            # set cache
+            $Self->{CacheObject}->Set(
+                Type  => 'DynamicField',
+                Key   => $CacheKey,
+                Value => \%Data,
+                TTL   => $Self->{CacheTTL},
+            );
 
             # check if FieldFilter is not set
             if ( !defined $Param{FieldFilter} ) {
@@ -751,16 +762,13 @@ sub DynamicFieldList {
                 push @Data, $Row[0];
             }
 
-            if (@Data) {
-
-                # set cache
-                $Self->{CacheObject}->Set(
-                    Type  => 'DynamicField',
-                    Key   => $CacheKey,
-                    Value => \@Data,
-                    TTL   => $Self->{CacheTTL},
-                );
-            }
+            # set cache
+            $Self->{CacheObject}->Set(
+                Type  => 'DynamicField',
+                Key   => $CacheKey,
+                Value => \@Data,
+                TTL   => $Self->{CacheTTL},
+            );
 
             # check if FieldFilter is not set
             if ( !defined $Param{FieldFilter} ) {
@@ -955,16 +963,13 @@ sub DynamicFieldListGet {
         push @Data, $DynamicField;
     }
 
-    if (@Data) {
-
-        # set cache
-        $Self->{CacheObject}->Set(
-            Type  => 'DynamicField',
-            Key   => $CacheKey,
-            Value => \@Data,
-            TTL   => $Self->{CacheTTL},
-        );
-    }
+    # set cache
+    $Self->{CacheObject}->Set(
+        Type  => 'DynamicField',
+        Key   => $CacheKey,
+        Value => \@Data,
+        TTL   => $Self->{CacheTTL},
+    );
 
     # check if FieldFilter is not set
     if ( !defined $Param{FieldFilter} ) {
@@ -1206,6 +1211,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.52 $ $Date: 2012-03-20 16:27:56 $
+$Revision: 1.54 $ $Date: 2012-03-27 15:04:07 $
 
 =cut

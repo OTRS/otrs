@@ -3,7 +3,7 @@
 # DBUpdate-to-3.1.pl - update script to migrate OTRS 3.0.x to 3.1.x
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-3.1.pl,v 1.82 2012-03-22 15:29:22 cg Exp $
+# $Id: DBUpdate-to-3.1.pl,v 1.85 2012-03-27 13:09:11 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.82 $) [1];
+$VERSION = qw($Revision: 1.85 $) [1];
 
 use Getopt::Std qw();
 use Kernel::Config;
@@ -298,22 +298,14 @@ after the upgrade.
 sub RebuildConfig {
     my $CommonObject = shift;
 
-    # write now default config options
     my $SysConfigObject = Kernel::System::SysConfig->new( %{$CommonObject} );
-    if ( !$SysConfigObject->WriteDefault() ) {
-        die "ERROR: Can't write default config files!";
-    }
 
     # Rebuild ZZZAAuto.pm with current values
     if ( !$SysConfigObject->WriteDefault() ) {
         die "ERROR: Can't write default config files!";
     }
 
-    # Also rebuild ZZZAuto.pm to avoid possible encoding errors with
-    #   the old Main::Dump() in ascii mode.
-    $SysConfigObject->CreateConfig();
-
-    # Force a reload of ZZZAuto.pm and ZZZAAuto.pm to get the new value
+    # Force a reload of ZZZAuto.pm and ZZZAAuto.pm to get the new values
     for my $Module ( keys %INC ) {
         if ( $Module =~ m/ZZZAA?uto\.pm$/ ) {
             delete $INC{$Module};
@@ -323,7 +315,7 @@ sub RebuildConfig {
     # reload config object
     print
         "\nIf you see warnings about 'Subroutine Load redefined', that's fine, no need to worry!\n";
-    $CommonObject->{ConfigObject} = Kernel::Config->new( %{$CommonObject} );
+    $CommonObject = _CommonObjectsBase();
 
     return 1;
 }
