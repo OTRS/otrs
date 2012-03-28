@@ -1,8 +1,8 @@
 // --
 // Core.Agent.Admin.GenericInterfaceMapping.js - provides the special module functions for the GenericInterface mapping.
-// Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+// Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.GenericInterfaceMappingSimple.js,v 1.8 2011-07-20 18:01:53 cr Exp $
+// $Id: Core.Agent.Admin.GenericInterfaceMappingSimple.js,v 1.9 2012-03-28 06:24:51 ep Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -187,12 +187,12 @@ Core.Agent.Admin.GenericInterfaceMapping= (function (TargetNS) {
         // clone key dialog
         var $Clone = $('.ValueTemplate').clone(),
             ValueCounter = $('#ValueCounter' + KeyCounter).val(),
-            Sufix;
+            Suffix;
 
         // increment value counter
         ValueCounter ++;
 
-        Sufix = KeyCounter + '_' + ValueCounter;
+        Suffix = KeyCounter + '_' + ValueCounter;
 
         // remove unnecessary classes
         $Clone.removeClass('Hidden ValueTemplate');
@@ -200,8 +200,8 @@ Core.Agent.Admin.GenericInterfaceMapping= (function (TargetNS) {
         // copy values and change ids and names
         $Clone.find(':input').each(function(){
             var ID = $(this).attr('id');
-            $(this).attr('id', ID + Sufix);
-            $(this).attr('name', ID + Sufix);
+            $(this).attr('id', ID + Suffix);
+            $(this).attr('name', ID + Suffix);
             $(this).addClass('Validate_Required');
 
             // add event handler to remove button
@@ -215,11 +215,11 @@ Core.Agent.Admin.GenericInterfaceMapping= (function (TargetNS) {
                 });
             }
 
-            $(this).parent().find('.' + ID + 'Label').attr('for', ID + Sufix);
+            $(this).parent().find('.' + ID + 'Label').attr('for', ID + Suffix);
 
-            $(this).parent().find('#' + ID + 'Error').attr('id', ID + Sufix + 'Error');
+            $(this).parent().find('#' + ID + 'Error').attr('id', ID + Suffix + 'Error');
 
-            $(this).parent().find('#' + ID + 'ServerError').attr('id', ID + Sufix + 'ServerError');
+            $(this).parent().find('#' + ID + 'ServerError').attr('id', ID + Suffix + 'ServerError');
         });
         // append to container
         ValueInsert.append($Clone);

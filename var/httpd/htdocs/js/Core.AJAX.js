@@ -2,7 +2,7 @@
 // Core.AJAX.js - provides the functionality for AJAX calls
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.AJAX.js,v 1.33 2012-03-12 06:15:22 ep Exp $
+// $Id: Core.AJAX.js,v 1.34 2012-03-28 06:24:51 ep Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -257,7 +257,7 @@ Core.AJAX = (function (TargetNS) {
                 }
             },
             error: function () {
-                // We are out of the OTRS App scope, that's why an exception would not be caught. Therefor we handle the error manually.
+                // We are out of the OTRS App scope, that's why an exception would not be caught. Therefore we handle the error manually.
                 Core.Exception.HandleFinalError(new Core.Exception.ApplicationError("Error during AJAX communication", 'CommunicationError'));
             }
         });
@@ -289,14 +289,14 @@ Core.AJAX = (function (TargetNS) {
             dataType: 'html',
             success: function (Response) {
                 if (!Response) {
-                    // We are out of the OTRS App scope, that's why an exception would not be caught. Therefor we handle the error manually.
+                    // We are out of the OTRS App scope, that's why an exception would not be caught. Therefore we handle the error manually.
                     Core.Exception.HandleFinalError(new Core.Exception.ApplicationError("No content from: " + URL, 'CommunicationError'));
                 }
                 else if ($ElementToUpdate && isJQueryObject($ElementToUpdate) && $ElementToUpdate.length) {
                     $ElementToUpdate.html(Response);
                 }
                 else {
-                    // We are out of the OTRS App scope, that's why an exception would not be caught. Therefor we handle the error manually.
+                    // We are out of the OTRS App scope, that's why an exception would not be caught. Therefore we handle the error manually.
                     Core.Exception.HandleFinalError(new Core.Exception.ApplicationError("No such element id: " + $ElementToUpdate.attr('id') + " in page!", 'CommunicationError'));
                 }
             },
@@ -306,7 +306,7 @@ Core.AJAX = (function (TargetNS) {
                 }
             },
             error: function () {
-                // We are out of the OTRS App scope, that's why an exception would not be caught. Therefor we handle the error manually.
+                // We are out of the OTRS App scope, that's why an exception would not be caught. Therefore we handle the error manually.
                 Core.Exception.HandleFinalError(new Core.Exception.ApplicationError("Error during AJAX communication", 'CommunicationError'));
             }
         });
@@ -341,12 +341,12 @@ Core.AJAX = (function (TargetNS) {
                     Callback(Response);
                 }
                 else {
-                    // We are out of the OTRS App scope, that's why an exception would not be caught. Therefor we handle the error manually.
+                    // We are out of the OTRS App scope, that's why an exception would not be caught. Therefore we handle the error manually.
                     Core.Exception.HandleFinalError(new Core.Exception.ApplicationError("Invalid callback method: " + ((typeof Callback === 'undefined') ? 'undefined' : Callback.toString())));
                 }
             },
             error: function () {
-                // We are out of the OTRS App scope, that's why an exception would not be caught. Therefor we handle the error manually.
+                // We are out of the OTRS App scope, that's why an exception would not be caught. Therefore we handle the error manually.
                 Core.Exception.HandleFinalError(new Core.Exception.ApplicationError("Error during AJAX communication", 'CommunicationError'));
             }
         });

@@ -2,7 +2,7 @@
 // Core.UI.Popup.js - provides functionality to open popup windows
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.UI.Popup.js,v 1.18 2012-02-13 14:09:28 mg Exp $
+// $Id: Core.UI.Popup.js,v 1.19 2012-03-28 06:24:51 ep Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -131,7 +131,7 @@ Core.UI.Popup = (function (TargetNS) {
         CheckOpenPopups();
         $.each(OpenPopups, function (Key, Value) {
             // IE(7) treats windows in new tabs (opened with right-click) also as popups
-            // Therefor we check if the popup is a real OTRS popup.
+            // Therefore we check if the popup is a real OTRS popup.
             // IE9 can't read the WindowType property from the window object,
             // so we check for the correct popup window name now.
             if (Value.name.match(/OTRSPopup_.+/)) {
@@ -153,7 +153,7 @@ Core.UI.Popup = (function (TargetNS) {
         CheckOpenPopups();
         $.each(OpenPopups, function (Key, Value) {
             // IE(7) treats windows in new tabs (opened with right-click) also as popups
-            // Therefor we check if the popup is a real OTRS popup.
+            // Therefore we check if the popup is a real OTRS popup.
             // IE9 can't read the WindowType property from the window object,
             // so we check for the correct popup window name now.
             if (Value.name.match(/OTRSPopup_.+/)) {

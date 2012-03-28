@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericInterfaceMappingSimple.pm - provides a TransportHTTPSOAP view for admins
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceMappingSimple.pm,v 1.19 2012-01-09 09:34:38 mg Exp $
+# $Id: AdminGenericInterfaceMappingSimple.pm,v 1.20 2012-03-28 06:24:51 ep Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.19 $) [1];
+$VERSION = qw($Revision: 1.20 $) [1];
 
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::GenericInterface::Webservice;
@@ -620,13 +620,13 @@ sub _GetParams {
         # get params for values
         my $ValueIndex = 0;
         for my $ValueCounter ( 1 .. $GetParam->{ 'ValueCounter' . $KeyIndex } ) {
-            my $Sufix = $KeyCounter . '_' . $ValueCounter;
+            my $Suffix = $KeyCounter . '_' . $ValueCounter;
             next
-                if $Self->{ParamObject}->GetParam( Param => 'ValueName' . $Sufix ) eq
+                if $Self->{ParamObject}->GetParam( Param => 'ValueName' . $Suffix ) eq
                     $Self->{DeletedString};
             $ValueIndex++;
             for my $ValueItem (qw(ValueMapTypeStrg ValueName ValueMapNew)) {
-                my $ValAux = $Self->{ParamObject}->GetParam( Param => $ValueItem . $Sufix ) || '';
+                my $ValAux = $Self->{ParamObject}->GetParam( Param => $ValueItem . $Suffix ) || '';
                 $GetParam->{ $ValueItem . $KeyIndex . '_' . $ValueIndex } = $ValAux;
                 $GetParam->{Error}->{ $ValueItem . $KeyIndex . '_' . $ValueIndex } = 'ServerError'
                     if $ValAux eq '';

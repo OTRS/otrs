@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Ticket/TicketCreate.pm - GenericInterface Ticket TicketCreate operation backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketCreate.pm,v 1.29 2012-02-13 21:35:45 cr Exp $
+# $Id: TicketCreate.pm,v 1.30 2012-03-28 06:24:51 ep Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Kernel::GenericInterface::Operation::Ticket::Common;
 use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.29 $) [1];
+$VERSION = qw($Revision: 1.30 $) [1];
 
 =head1 NAME
 
@@ -99,7 +99,7 @@ perform TicketCreate Operation. This will return the created ticket number.
             CustomerUserLogin => 'some customer login',
             SessionID         => 123,
 
-            Password  => 'some password',                                       # if UserLogin or customerUserLogin is sent then
+            Password  => 'some password',                                       # if UserLogin or CustomerUserLogin is sent then
                                                                                 #   Password is required
 
             Ticket {
@@ -120,13 +120,13 @@ perform TicketCreate Operation. This will return the created ticket number.
                 StateID       => 123,                                           # StateID or State is required
                 State         => 'some state name',
 
-                PriorityID    => 123,                                           # PrioriyID or Priority is required
+                PriorityID    => 123,                                           # PriorityID or Priority is required
                 Priority      => 'some priority name',
 
                 OwnerID       => 123,                                           # optional
                 Owner         => 'some user login',                             # optional
                 ResponsibleID => 123,                                           # optional
-                Responsible   => 'some user login',                             # optioanl
+                Responsible   => 'some user login',                             # optional
                 CustomerUser  => 'some customer user login',
 
                 PendingTime {       # optional
@@ -492,7 +492,7 @@ checks if the given ticket parameters are valid.
     returns:
 
     $TicketCheck = {
-        Success => 1,                               # if everething is OK
+        Success => 1,                               # if everything is OK
     }
 
     $TicketCheck = {
@@ -1427,6 +1427,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.29 $ $Date: 2012-02-13 21:35:45 $
+$Revision: 1.30 $ $Date: 2012-03-28 06:24:51 $
 
 =cut

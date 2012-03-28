@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Ticket/TicketUpdate.pm - GenericInterface Ticket TicketUpdate operation backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketUpdate.pm,v 1.3 2012-02-13 21:35:45 cr Exp $
+# $Id: TicketUpdate.pm,v 1.4 2012-03-28 06:24:51 ep Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Kernel::GenericInterface::Operation::Ticket::Common;
 use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 =head1 NAME
 
@@ -125,7 +125,7 @@ perform TicketCreate Operation. This will return the created ticket number.
                 OwnerID       => 123,                                           # optional
                 Owner         => 'some user login',                             # optional
                 ResponsibleID => 123,                                           # optional
-                Responsible   => 'some user login',                             # optioanl
+                Responsible   => 'some user login',                             # optional
                 CustomerUser  => 'some customer user login',
 
                 PendingTime {       # optional
@@ -2021,6 +2021,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.3 $ $Date: 2012-02-13 21:35:45 $
+$Revision: 1.4 $ $Date: 2012-03-28 06:24:51 $
 
 =cut

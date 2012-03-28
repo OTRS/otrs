@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Ticket/Common.pm - Ticket common operation functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.33 2012-02-16 22:14:27 cr Exp $
+# $Id: Common.pm,v 1.34 2012-03-28 06:24:51 ep Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -40,7 +40,7 @@ use Kernel::System::GenericInterface::Webservice;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.33 $) [1];
+$VERSION = qw($Revision: 1.34 $) [1];
 
 =head1 NAME
 
@@ -576,7 +576,7 @@ sub ValidateSLA {
     # return false if SLA is not valid
     return if $Self->{ValidObject}->ValidLookup( ValidID => $SLAData{ValidID} ) ne 'valid';
 
-    # get Sservice ID
+    # get service ID
     my $ServiceID;
     if (
         $Param{Service}
@@ -592,7 +592,7 @@ sub ValidateSLA {
 
     return if !$ServiceID;
 
-    # check if SLA belogns to service
+    # check if SLA belongs to service
     my $SLABelongsToService;
 
     SERVICEID:
@@ -604,7 +604,7 @@ sub ValidateSLA {
         }
     }
 
-    # return if SLA does not beong to the service
+    # return if SLA does not belong to the service
     return if !$SLABelongsToService;
 
     return 1;
@@ -1530,6 +1530,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.33 $ $Date: 2012-02-16 22:14:27 $
+$Revision: 1.34 $ $Date: 2012-03-28 06:24:51 $
 
 =cut

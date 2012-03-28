@@ -1,8 +1,8 @@
 // --
 // Core.Agent.CustomerSearch.js - provides the special module functions for the customer search
-// Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+// Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.CustomerSearch.js,v 1.31 2011-12-14 21:01:50 cr Exp $
+// $Id: Core.Agent.CustomerSearch.js,v 1.32 2012-03-28 06:24:51 ep Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -296,7 +296,7 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
             CustomerTicketCounter = $('#CustomerTicketCounter' + Field).val(),
             TicketCustomerIDs = 0,
             IsDuplicated = false,
-            Sufix;
+            Suffix;
 
         // check for duplicated entries
         $('[class*=CustomerTicketText]').each(function(index) {
@@ -316,7 +316,7 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
         CustomerTicketCounter ++;
 
         // set sufix
-        Sufix = '_' + CustomerTicketCounter;
+        Suffix = '_' + CustomerTicketCounter;
 
         // remove unnecessary classes
         $Clone.removeClass('Hidden CustomerTicketTemplate' + Field);
@@ -324,10 +324,10 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
         // copy values and change ids and names
         $Clone.find(':input').each(function(){
             var ID = $(this).attr('id');
-            $(this).attr('id', ID + Sufix);
+            $(this).attr('id', ID + Suffix);
             $(this).val(CustomerValue);
             if ( ID !== 'CustomerSelected' ) {
-                $(this).attr('name', ID + Sufix);
+                $(this).attr('name', ID + Suffix);
             }
 
             // add event handler to radio button
