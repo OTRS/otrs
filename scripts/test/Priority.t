@@ -1,8 +1,8 @@
 # --
 # scripts/test/Priority.t - Priority module testscript
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Priority.t,v 1.2 2010-10-29 22:16:59 en Exp $
+# $Id: Priority.t,v 1.3 2012-03-29 11:38:29 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -138,6 +138,17 @@ for my $Test (@Tests) {
         $Update,
         1,
         $Test->{Name} . 'Update - Final result',
+    ) || next;
+
+    my %UpdatedPrio = $PriorityObject->PriorityGet(
+        PriorityID => $PriorityID,
+        UserID     => 1,
+    );
+
+    $Self->Is(
+        $UpdatedPrio{Name},
+        $NewName,
+        $Test->{Name} . 'Update - get after update',
     ) || next;
 
     $FirstPriorityList{$PriorityID} = "$NewName";
