@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.ExportStatsToOPM.pl - export all stats of a system and create a package for the package manager
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.ExportStatsToOPM.pl,v 1.3 2010-08-06 17:49:20 cr Exp $
+# $Id: otrs.ExportStatsToOPM.pl,v 1.4 2012-03-29 12:44:41 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -46,10 +46,11 @@ use Kernel::System::Stats;
 use Kernel::System::Group;
 use Kernel::System::User;
 use Kernel::System::Package;
+use Kernel::System::CSV;
 
 # get file version
 use vars qw($VERSION $Debug);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 # common objects
 my %CommonObject = ();
@@ -60,11 +61,15 @@ $CommonObject{LogObject}    = Kernel::System::Log->new(
     LogPrefix => 'OTRS-otrs.ExportStatsToOPM.pl',
     %CommonObject,
 );
-$CommonObject{MainObject}    = Kernel::System::Main->new(%CommonObject);
-$CommonObject{TimeObject}    = Kernel::System::Time->new(%CommonObject);
-$CommonObject{DBObject}      = Kernel::System::DB->new(%CommonObject);
-$CommonObject{UserObject}    = Kernel::System::User->new(%CommonObject);
-$CommonObject{GroupObject}   = Kernel::System::Group->new(%CommonObject);
+$CommonObject{MainObject}  = Kernel::System::Main->new(%CommonObject);
+$CommonObject{TimeObject}  = Kernel::System::Time->new(%CommonObject);
+$CommonObject{DBObject}    = Kernel::System::DB->new(%CommonObject);
+$CommonObject{UserObject}  = Kernel::System::User->new(%CommonObject);
+$CommonObject{GroupObject} = Kernel::System::Group->new(%CommonObject);
+
+$CommonObject{CSVObject} = Kernel::System::CSV->new(%CommonObject);
+
+# ---
 $CommonObject{StatsObject}   = Kernel::System::Stats->new(%CommonObject);
 $CommonObject{PackageObject} = Kernel::System::Package->new(%CommonObject);
 
@@ -83,7 +88,7 @@ getopt( 'dhvn', \%Opts );
 if ( $Opts{'h'} ) {
     print
         "otrs.ExportStatsToOPM.pl <Revision $VERSION> - export all stats of a system and create a package for the package manager\n";
-    print "Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
+    print "Copyright (C) 2001-2012 OTRS AG, http://otrs.org/\n";
     print "usage: otrs.ExportStatsToOPM.pl [-n <PACKAGE_NAME>] [-v <PACKAGE_VERSION>]\n";
     print
         "       [-d 'yes' for delete existing stats if the opm will be installed] [-h for help]\n";
@@ -185,13 +190,13 @@ my ( $s, $m, $h, $D, $M, $Y )
     SystemTime => $CommonObject{TimeObject}->SystemTime(),
     );
 
-$OPMS{Version}{Content}   = $PackageVersion;
-$OPMS{Name}{Content}      = $PackageName;
-$OPMS{Framework}{Content} = '2.5.x';
-$OPMS{Vendor}{Content}    = 'OTRS AG';
-$OPMS{URL}{Content}       = 'http://otrs.org/';
-$OPMS{License}{Content}   = 'GNU GENERAL PUBLIC LICENSE Version 2, June 1991';
-$OPMS{ChangeLog}{Content} = "$Y-$M-$D Created per otrs.ExportStatsToOPM.pl";
+$OPMS{Version}{Content}      = $PackageVersion;
+$OPMS{Name}{Content}         = $PackageName;
+$OPMS{Framework}[0]{Content} = '3.1.x';
+$OPMS{Vendor}{Content}       = 'OTRS AG';
+$OPMS{URL}{Content}          = 'http://otrs.org/';
+$OPMS{License}{Content}      = 'GNU GENERAL PUBLIC LICENSE Version 2, June 1991';
+$OPMS{ChangeLog}{Content}    = "$Y-$M-$D Created per otrs.ExportStatsToOPM.pl";
 $OPMS{Description}[0]{Content}
     = 'Ein Modul um ein Paket mit allen Statistiken eines Systems zu generieren.';
 $OPMS{Description}[0]{Lang}    = 'de';
@@ -214,12 +219,13 @@ $OPMS{CodeInstall}{Content} = '
 require Kernel::System::Stats;
 require Kernel::System::Group;
 require Kernel::System::User;
+require Kernel::System::CSV;
 
 $Self-&gt;{UserID} = 1;
 $Self-&gt;{GroupObject} = Kernel::System::Group-&gt;new(%{$Self});
 $Self-&gt;{UserObject}  = Kernel::System::User-&gt;new(%{$Self});
 $Self-&gt;{StatsObject} = Kernel::System::Stats-&gt;new(%{$Self});
-
+$Self-&gt;{CSVObject} = Kernel::System::CSV-&gt;new(%{$Self});
 # delete the exitsting stats db
 my $Delete = ' . $DeleteStats . ';
 
@@ -228,7 +234,7 @@ if ($Delete) {
     for my $StatID (@{$StatsListRef}) {
         $Self-&gt;{StatsObject}-&gt;StatsDelete(StatID => $StatID);
     }
-
+}
 for my $FileString (qw(' . $FileListString . ')) {
     my $File = $Self-&gt;{ConfigObject}-&gt;Get(\'Home\')."/var/Stats/$FileString";
     my $Content = \'\';
@@ -247,6 +253,9 @@ for my $FileString (qw(' . $FileListString . ')) {
 }
 
 ';
+
+$OPMS{CodeReinstall}{Content} = $OPMS{CodeInstall}{Content};
+$OPMS{CodeUpgrade}{Content}   = $OPMS{CodeInstall}{Content};
 
 # save the package
 my $File = $CommonObject{ConfigObject}->Get('Home')
