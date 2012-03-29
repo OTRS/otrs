@@ -1,8 +1,8 @@
 # --
 # Kernel/GenericInterface/Event/Handler.pm - event handler module for the GenericInterface
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Handler.pm,v 1.3 2011-02-28 10:02:24 mg Exp $
+# $Id: Handler.pm,v 1.4 2012-03-29 07:29:48 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,12 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
+use Kernel::GenericInterface::Requester;
+use Kernel::Scheduler;
 use Kernel::System::GenericInterface::Webservice;
 use Kernel::System::VariableCheck qw(IsHashRefWithData);
-
-use Kernel::Scheduler;
-use Kernel::GenericInterface::Requester;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -32,7 +31,7 @@ sub new {
 
     # get needed objects
     for (
-        qw(ConfigObject TicketObject LogObject UserObject CustomerUserObject SendmailObject DBObject MainObject EncodeObject TimeObject ValidObject)
+        qw(ConfigObject LogObject DBObject MainObject EncodeObject TimeObject)
         )
     {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
