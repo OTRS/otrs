@@ -1,8 +1,8 @@
 # --
 # AAABase.dtl - $Text variable file
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AAABase.dtl,v 1.110 2011-12-15 15:14:52 mg Exp $
+# $Id: AAABase.dtl,v 1.111 2012-03-29 14:11:54 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -251,8 +251,6 @@ $Text{"Dispatching by selected Queue."}
 $Text{"No entry found!"}
 $Text{"Session has timed out. Please log in again."}
 $Text{"No Permission!"}
-$Text{"To: (%s) replaced with database email!"}
-$Text{"Cc: (%s) added database email!"}
 $Text{"(Click here to add)"}
 $Text{"Normal"}
 $Text{"Preview"}
