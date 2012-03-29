@@ -2,7 +2,7 @@
 # Kernel/System/DynamicFieldValue.pm - DynamicField values backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicFieldValue.pm,v 1.19 2012-03-20 16:27:56 mg Exp $
+# $Id: DynamicFieldValue.pm,v 1.20 2012-03-29 13:36:10 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Time;
 use Kernel::System::Cache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.19 $) [1];
+$VERSION = qw($Revision: 1.20 $) [1];
 
 =head1 NAME
 
@@ -95,7 +95,7 @@ sub new {
 
     # get the cache TTL (in seconds)
     $Self->{CacheTTL}
-        = int( $Self->{ConfigObject}->Get('DynamicField::CacheTTL') || 3600 );
+        = int( $Self->{ConfigObject}->Get('DynamicField::CacheTTL') || 60 * 60 * 12 );
 
     return $Self;
 }
@@ -210,9 +210,7 @@ sub ValueSet {
     }
 
     # delete cache
-    $Self->{CacheObject}->CleanUp(
-        Type => 'DynamicFieldValue',
-    );
+    $Self->_DeleteFromCache(%Param);
 
     return 1;
 }
@@ -250,7 +248,16 @@ sub ValueGet {
         }
     }
 
-    my @Result;
+    # check cache
+    my $CacheKey = 'ValueGet::FieldID::' . $Param{FieldID} . '::ObjectID::' . $Param{ObjectID};
+
+    my $Cache = $Self->{CacheObject}->Get(
+        Type => 'DynamicFieldValue',
+        Key  => $CacheKey,
+    );
+
+    # get data from cache
+    return $Cache if ($Cache);
 
     return if !$Self->{DBObject}->Prepare(
         SQL =>
@@ -260,6 +267,8 @@ sub ValueGet {
             ORDER BY id',
         Bind => [ \$Param{FieldID}, \$Param{ObjectID} ],
     );
+
+    my @Result;
 
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
 
@@ -279,6 +288,14 @@ sub ValueGet {
             ValueInt      => $Data[3],
         };
     }
+
+    # set cache
+    $Self->{CacheObject}->Set(
+        Type  => 'DynamicFieldValue',
+        Key   => $CacheKey,
+        Value => \@Result,
+        TTL   => $Self->{CacheTTL},
+    );
 
     return \@Result;
 }
@@ -316,9 +333,7 @@ sub ValueDelete {
     );
 
     # delete cache
-    $Self->{CacheObject}->CleanUp(
-        Type => 'DynamicFieldValue',
-    );
+    $Self->_DeleteFromCache(%Param);
 
     return 1;
 }
@@ -353,7 +368,7 @@ sub AllValuesDelete {
         Bind => [ \$Param{FieldID} ],
     );
 
-    # delete cache
+    # Cleanup entire cache!
     $Self->{CacheObject}->CleanUp(
         Type => 'DynamicFieldValue',
     );
@@ -425,7 +440,7 @@ get all distinct values from a field stored on the database
 
     my $HistoricalValues = $DynamicFieldValueObject->HistoricalValueGet(
         FieldID   => $FieldID,                  # ID of the dynamic field
-        ValueType => 'Text',                    # or 'Date' or 'Integer'. Default 'Text'
+        ValueType => 'Text',                    # or 'DateTime' or 'Integer'. Default 'Text'
     );
 
     Returns:
@@ -465,9 +480,7 @@ sub HistoricalValueGet {
     );
 
     # get data from cache
-    if ($Cache) {
-        return $Cache;
-    }
+    return $Cache if ($Cache);
 
     return if !$Self->{DBObject}->Prepare(
         SQL =>
@@ -507,6 +520,44 @@ sub HistoricalValueGet {
     return \%Data;
 }
 
+#
+# Deletes all needed cache entries for a given DynamicFieldValue.
+#
+sub _DeleteFromCache {
+
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Needed (qw(FieldID ObjectID)) {
+        if ( !$Param{$Needed} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            return;
+        }
+    }
+
+    # Clear ValueGet cache
+    $Self->{CacheObject}->Delete(
+        Type => 'DynamicFieldValue',
+        Key  => 'ValueGet::FieldID::' . $Param{FieldID} . '::ObjectID::' . $Param{ObjectID},
+    );
+
+    # Clear HistoricalValueGet caches
+    $Self->{CacheObject}->Delete(
+        Type => 'DynamicFieldValue',
+        Key  => 'HistoricalValueGet::FieldID::' . $Param{FieldID} . '::ValueType::Text',
+    );
+    $Self->{CacheObject}->Delete(
+        Type => 'DynamicFieldValue',
+        Key  => 'HistoricalValueGet::FieldID::' . $Param{FieldID} . '::ValueType::DateTime',
+    );
+    $Self->{CacheObject}->Delete(
+        Type => 'DynamicFieldValue',
+        Key  => 'HistoricalValueGet::FieldID::' . $Param{FieldID} . '::ValueType::Integer',
+    );
+
+    return 1;
+}
+
 1;
 
 =back
@@ -523,6 +574,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.19 $ $Date: 2012-03-20 16:27:56 $
+$Revision: 1.20 $ $Date: 2012-03-29 13:36:10 $
 
 =cut

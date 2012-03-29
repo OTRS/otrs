@@ -2,7 +2,7 @@
 # DynamicFieldValue.t - DynamicFieldValue backend tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicFieldValue.t,v 1.14 2012-03-20 16:27:56 mg Exp $
+# $Id: DynamicFieldValue.t,v 1.15 2012-03-29 13:36:10 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -478,6 +478,80 @@ $Self->True(
         $Value->[0]->{ValueText},
         'New Value',
         "ValueGet() - New Value for ValueText - for FieldID $FieldID",
+    );
+
+    # get the value with ValueGet()
+    $Value = $DynamicFieldValueObject->ValueGet(
+        FieldID    => $FieldID,
+        ObjectType => 'Ticket',
+        ObjectID   => $TicketID
+    );
+
+    # sanity check
+    $Self->Is(
+        $Value->[0]->{ValueText},
+        'New Value',
+        "ValueGet() - New Value for ValueText cached - for FieldID $FieldID",
+    );
+
+    # check caching
+    $Success = $DynamicFieldValueObject->ValueSet(
+        FieldID    => $FieldID,
+        ObjectType => 'Ticket',
+        ObjectID   => $TicketID,
+        Value      => [
+            {
+                ValueText => 'New Value2',
+            },
+        ],
+        UserID => 1,
+    );
+
+    # sanity check
+    $Self->True(
+        $Success,
+        "ValueSet() - New Value2 - with True - for FieldID $FieldID",
+    );
+
+    # get the value with ValueGet()
+    $Value = $DynamicFieldValueObject->ValueGet(
+        FieldID    => $FieldID,
+        ObjectType => 'Ticket',
+        ObjectID   => $TicketID
+    );
+
+    # sanity check
+    $Self->Is(
+        $Value->[0]->{ValueText},
+        'New Value2',
+        "ValueGet() - New Value2 for ValueText - for FieldID $FieldID",
+    );
+
+    $Success = $DynamicFieldValueObject->ValueDelete(
+        FieldID    => $FieldID,
+        ObjectType => 'Ticket',
+        ObjectID   => $TicketID,
+        UserID     => 1,
+    );
+
+    # sanity check
+    $Self->True(
+        $Success,
+        "ValueDelete() - for FieldID $FieldID",
+    );
+
+    # get the value with ValueGet()
+    $Value = $DynamicFieldValueObject->ValueGet(
+        FieldID    => $FieldID,
+        ObjectType => 'Ticket',
+        ObjectID   => $TicketID
+    );
+
+    # sanity check
+    $Self->Is(
+        scalar @{$Value},
+        0,
+        "ValueGet() - deleted value - for FieldID $FieldID",
     );
 }
 
