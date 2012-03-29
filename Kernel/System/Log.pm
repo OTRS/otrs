@@ -2,7 +2,7 @@
 # Kernel/System/Log.pm - log wapper
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Log.pm,v 1.66 2012-03-18 20:29:14 mh Exp $
+# $Id: Log.pm,v 1.67 2012-03-29 19:59:23 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.66 $) [1];
+$VERSION = qw($Revision: 1.67 $) [1];
 
 =head1 NAME
 
@@ -126,9 +126,8 @@ sub Log {
     # returns the context of the current subroutine and sub-subroutine!
     my ( $Package1, $Filename1, $Line1, $Subroutine1 ) = caller( $Caller + 0 );
     my ( $Package2, $Filename2, $Line2, $Subroutine2 ) = caller( $Caller + 1 );
-    if ( !$Subroutine2 ) {
-        $Subroutine2 = $0;
-    }
+
+    $Subroutine2 ||= $0;
 
     # log backend
     $Self->{Backend}->Log(
@@ -141,35 +140,43 @@ sub Log {
 
     # if error, write it to STDERR
     if ( $Priority =~ /^error/i ) {
+
         my $Error
             = sprintf "ERROR: $Self->{LogPrefix} Perl: %vd OS: $^O Time: " . localtime() . "\n\n",
             $^V;
+
         $Error .= " Message: $Message\n\n";
         $Error .= " Traceback ($$): \n";
-        for ( my $i = 0; $i < 12; $i++ ) {
-            my ( $Package1, $Filename1, $Line1, $Subroutine1 ) = caller( $Caller + $i );
-            my ( $Package2, $Filename2, $Line2, $Subroutine2 ) = caller( $Caller + 1 + $i );
+
+        COUNT:
+        for ( my $Count = 0; $Count < 30; $Count++ ) {
+
+            my ( $Package1, $Filename1, $Line1, $Subroutine1 ) = caller( $Caller + $Count );
+
+            last COUNT if !$Line1;
+
+            my ( $Package2, $Filename2, $Line2, $Subroutine2 ) = caller( $Caller + 1 + $Count );
 
             # if there is no caller module use the file name
-            if ( !$Subroutine2 ) {
-                $Subroutine2 = $0;
-            }
+            $Subroutine2 ||= $0;
 
             # print line if upper caller module exists
-            if ($Line1) {
-                my $VersionString = '';
-                eval { $VersionString = 'v' . $Package1->VERSION };
-                if ( !$VersionString || $VersionString eq 'v' ) {
-                    $VersionString = 'unknown version';
-                }
-                $Error .= "   Module: $Subroutine2 ($VersionString) Line: $Line1\n";
+            my $VersionString = '';
+
+            eval { $VersionString = $Package1->VERSION || ''; };
+
+            if ($VersionString) {
+                $VersionString = 'v' . $VersionString;
+            }
+            else {
+                $VersionString = 'unknown version';
             }
 
-            # return if there is no upper caller module
-            if ( !$Line2 ) {
-                $i = 12;
-            }
+            $Error .= "   Module: $Subroutine2 ($VersionString) Line: $Line1\n";
+
+            last COUNT if !$Line2;
         }
+
         $Error .= "\n";
         print STDERR $Error;
 
@@ -180,14 +187,17 @@ sub Log {
 
     # remember to info and notice messages
     elsif ( lc $Priority eq 'info' || lc $Priority eq 'notice' ) {
-        $Self->{ lc($Priority) }->{Message} = $Message;
+        $Self->{ lc $Priority }->{Message} = $Message;
     }
 
     # write shm cache log
     if ( lc $Priority ne 'debug' && $Self->{IPC} ) {
-        $Priority = lc($Priority);
+
+        $Priority = lc $Priority;
+
         my $Data   = localtime() . ";;$Priority;;$Self->{LogPrefix};;$Message\n";
         my $String = $Self->GetLog();
+
         shmwrite( $Self->{Key}, $Data . $String, 0, $Self->{IPCSize} ) || die $!;
     }
 
@@ -208,7 +218,7 @@ to get the last log info back
 sub GetLogEntry {
     my ( $Self, %Param ) = @_;
 
-    return $Self->{ lc( $Param{Type} ) }->{ $Param{What} } || '';
+    return $Self->{ lc $Param{Type} }->{ $Param{What} } || '';
 }
 
 =item GetLog()
@@ -278,9 +288,8 @@ sub Dumper {
     # returns the context of the current subroutine and sub-subroutine!
     my ( $Package1, $Filename1, $Line1, $Subroutine1 ) = caller(0);
     my ( $Package2, $Filename2, $Line2, $Subroutine2 ) = caller(1);
-    if ( !$Subroutine2 ) {
-        $Subroutine2 = $0;
-    }
+
+    $Subroutine2 ||= $0;
 
     # log backend
     $Self->{Backend}->Log(
@@ -308,6 +317,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.66 $ $Date: 2012-03-18 20:29:14 $
+$Revision: 1.67 $ $Date: 2012-03-29 19:59:23 $
 
 =cut
