@@ -2,7 +2,7 @@
 # Kernel/System/Priority.pm - all ticket priority function
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Priority.pm,v 1.35 2012-03-19 01:07:17 mh Exp $
+# $Id: Priority.pm,v 1.36 2012-03-29 11:11:55 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Time;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.35 $) [1];
+$VERSION = qw($Revision: 1.36 $) [1];
 
 =head1 NAME
 
@@ -258,8 +258,7 @@ sub PriorityAdd {
     return if !$ID;
 
     # delete cache
-    $Self->{CacheInternalObject}->Delete( Key => 'PriorityList::Valid' );
-    $Self->{CacheInternalObject}->Delete( Key => 'PriorityList::All' );
+    $Self->{CacheInternalObject}->CleanUp();
 
     return $ID;
 }
@@ -303,8 +302,7 @@ sub PriorityUpdate {
     );
 
     # delete cache
-    $Self->{CacheInternalObject}->Delete( Key => 'PriorityList::Valid' );
-    $Self->{CacheInternalObject}->Delete( Key => 'PriorityList::All' );
+    $Self->{CacheInternalObject}->CleanUp();
 
     # check all sysconfig options
     return 1 if !$Param{CheckSysConfig};
@@ -393,6 +391,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.35 $ $Date: 2012-03-19 01:07:17 $
+$Revision: 1.36 $ $Date: 2012-03-29 11:11:55 $
 
 =cut

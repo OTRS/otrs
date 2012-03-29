@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2233 2012-03-29 07:35:48 mg Exp $
+# $Id: CHANGES,v 1.2234 2012-03-29 11:11:55 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,12 +10,13 @@
 # --
 
 3.1.4 2012-??-??
+ - 2012-03-29 Fixed bug#8349 - Caching breaks Admin Frontend.
+
+3.1.3 2012-03-29
  - 2012-03-26 Improved performance on MySQL databases by removing useless LOWER statements.
  - 2012-03-26 Fixed bug#7877 - SMIME emails don't get parsed properly.
  - 2012-03-23 Disabled error message in RemoveSessionID().
  - 2012-03-23 Repaired broken cache handling in DynamicFieldList().
-
-3.1.3 2012-03-29
  - 2012-03-27 Fixed bug#8343 - Configuration of additional modules can be lost during upgrade.
  - 2012-03-22 Renamed form id in AgentLinkObject.dtl to make sure it doesn't interfere with wrong CSS
  - 2012-03-22 Updated Portugese translation, thanks to Rui Francisco!
