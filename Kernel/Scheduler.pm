@@ -1,8 +1,8 @@
 # --
 # Kernel/Scheduler.pm - The otrs Scheduler Daemon
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Scheduler.pm,v 1.19 2011-07-18 19:45:24 cr Exp $
+# $Id: Scheduler.pm,v 1.20 2012-03-29 07:28:47 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::Scheduler::TaskHandler;
 use Kernel::System::PID;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.19 $) [1];
+$VERSION = qw($Revision: 1.20 $) [1];
 
 =head1 NAME
 
@@ -54,6 +54,7 @@ create an object.
     use Kernel::Config;
     use Kernel::System::Encode;
     use Kernel::System::Log;
+    use Kernel::System::Time;
     use Kernel::System::Main;
     use Kernel::System::DB;
     use Kernel::Scheduler;
@@ -65,6 +66,10 @@ create an object.
     my $LogObject = Kernel::System::Log->new(
         ConfigObject => $ConfigObject,
         EncodeObject => $EncodeObject,
+    );
+    my $TimeObject = Kernel::System::Time->new(
+        ConfigObject => $ConfigObject,
+        LogObject    => $LogObject,
     );
     my $MainObject = Kernel::System::Main->new(
         ConfigObject => $ConfigObject,
@@ -80,6 +85,7 @@ create an object.
     my $SchedulerObject = Kernel::Scheduler->new(
         ConfigObject => $ConfigObject,
         LogObject    => $LogObject,
+        TimeObject   => $TimeObject,
         DBObject     => $DBObject,
         MainObject   => $MainObject,
         EncodeObject => $EncodeObject,
@@ -359,6 +365,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.19 $ $Date: 2011-07-18 19:45:24 $
+$Revision: 1.20 $ $Date: 2012-03-29 07:28:47 $
 
 =cut

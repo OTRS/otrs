@@ -2,7 +2,7 @@
 # Kernel/System/GenericInterface/Webservice.pm - GenericInterface webservice config backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Webservice.pm,v 1.29 2012-03-23 15:33:45 mh Exp $
+# $Id: Webservice.pm,v 1.30 2012-03-29 07:29:21 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::Cache;
 use Kernel::System::VariableCheck qw(IsHashRefWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.29 $) [1];
+$VERSION = qw($Revision: 1.30 $) [1];
 
 =head1 NAME
 
@@ -50,7 +50,6 @@ create an object
     use Kernel::System::Time;
     use Kernel::System::Main;
     use Kernel::System::DB;
-    use Kernel::System::GenericInterface::DebugLog;
     use Kernel::System::GenericInterface::Webservice;
 
     my $ConfigObject = Kernel::Config->new();
@@ -76,13 +75,6 @@ create an object
         LogObject    => $LogObject,
         MainObject   => $MainObject,
     );
-    my $DebugLogObject = Kernel::System::GenericInterface::DebugLog->new(
-        ConfigObject        => $ConfigObject,
-        EncodeObject        => $EncodeObject,
-        LogObject           => $LogObject,
-        MainObject          => $MainObject,
-        DBObject            => $DBObject,
-    );
     my $WebserviceObject = Kernel::System::GenericInterface::Webservice->new(
         ConfigObject   => $ConfigObject,
         LogObject      => $LogObject,
@@ -90,7 +82,6 @@ create an object
         MainObject     => $MainObject,
         TimeObject     => $TimeObject,
         EncodeObject   => $EncodeObject,
-        DebugLogObject => $DebugLogObject,
     );
 
 =cut
@@ -500,6 +491,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.29 $ $Date: 2012-03-23 15:33:45 $
+$Revision: 1.30 $ $Date: 2012-03-29 07:29:21 $
 
 =cut
