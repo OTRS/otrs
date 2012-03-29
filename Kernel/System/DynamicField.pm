@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField.pm - DynamicFields configuration backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicField.pm,v 1.54 2012-03-27 15:04:07 mg Exp $
+# $Id: DynamicField.pm,v 1.55 2012-03-29 11:24:28 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::Valid;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.54 $) [1];
+$VERSION = qw($Revision: 1.55 $) [1];
 
 =head1 NAME
 
@@ -101,6 +101,12 @@ sub new {
     $Self->{CacheTTL}
         = int( $Self->{ConfigObject}->Get('DynamicField::CacheTTL') || 3600 );
 
+    # set lower if database is case sensitive
+    $Self->{Lower} = '';
+    if ( !$Self->{DBObject}->GetDatabaseFunction('CaseInsensitive') ) {
+        $Self->{Lower} = 'LOWER';
+    }
+
     return $Self;
 }
 
@@ -156,7 +162,7 @@ sub DynamicFieldAdd {
 
     # check if Name already exists
     return if !$Self->{DBObject}->Prepare(
-        SQL   => 'SELECT id FROM dynamic_field WHERE LOWER(name) = LOWER(?)',
+        SQL   => "SELECT id FROM dynamic_field WHERE $Self->{Lower}(name) = $Self->{Lower}(?)",
         Bind  => [ \$Param{Name} ],
         Limit => 1,
     );
@@ -400,10 +406,9 @@ sub DynamicFieldUpdate {
 
     # check if Name already exists
     return if !$Self->{DBObject}->Prepare(
-        SQL => '
-            SELECT id FROM dynamic_field
-            WHERE LOWER(name) = LOWER(?)
-                AND id != ?',
+        SQL => "SELECT id FROM dynamic_field "
+            . "WHERE $Self->{Lower}(name) = $Self->{Lower}(?) "
+            . "AND id != ?",
         Bind => [ \$Param{Name}, \$Param{ID} ],
         LIMIT => 1,
     );
@@ -1211,6 +1216,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.54 $ $Date: 2012-03-27 15:04:07 $
+$Revision: 1.55 $ $Date: 2012-03-29 11:24:28 $
 
 =cut
