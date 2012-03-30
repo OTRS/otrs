@@ -2,7 +2,7 @@
 // Core.Agent.CustomerSearch.js - provides the special module functions for the customer search
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.CustomerSearch.js,v 1.32 2012-03-28 06:24:51 ep Exp $
+// $Id: Core.Agent.CustomerSearch.js,v 1.33 2012-03-30 13:17:57 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -130,6 +130,33 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
                 ReplaceCustomerTicketLinks();
             }
         });
+    }
+
+    /**
+     * @function
+     *      In AgentTicketPhone, this checks if more than one entry is allowed
+     *      in the customer list and blocks/unblocks the autocomplete field as needed.
+     * @return nothing
+     */
+    function CheckPhoneCustomerCountLimit() {
+
+        // Only operate in AgentTicketPhone
+        if ( Core.Config.Get('Action') !== 'AgentTicketPhone' ) {
+            return;
+        }
+
+        // Check if multiple from entries are allowed
+        if ( Core.Config.Get('Ticket::Frontend::AgentTicketPhone::AllowMultipleFrom') === "1") {
+            return;
+        }
+
+        if ($('#TicketCustomerContentFromCustomer input.CustomerTicketText').length > 0) {
+            $('#FromCustomer').val('').prop('disabled', true).prop('readonly', true);
+            $('#Dest').trigger('focus');
+        }
+        else {
+            $('#FromCustomer').val('').prop('disabled', false).prop('readonly', false);
+        }
     }
 
     /**
@@ -274,6 +301,8 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
         $(window).bind('unload', function () {
            $('#SelectedCustomerUser').val('');
         });
+
+        CheckPhoneCustomerCountLimit();
     };
 
 
@@ -389,6 +418,8 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
         // return value to search field
         $('#' + Field).val('').focus();
 
+        CheckPhoneCustomerCountLimit();
+
         // reload Signature and Crypt options on AgentTicketCompose
         if (Core.Config.Get('Action') === 'AgentTicketCompose') {
             Core.AJAX.FormUpdate( $('#' + Field).closest('form'), 'AJAXUpdate', '', ['CryptKeyID']);
@@ -426,6 +457,8 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
             //set the first one as checked
             $('.CustomerContainer input:radio:first').attr('checked', 'checked').trigger('change');
         }
+
+        CheckPhoneCustomerCountLimit();
     };
 
     /**

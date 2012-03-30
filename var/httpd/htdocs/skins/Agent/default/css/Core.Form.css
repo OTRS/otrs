@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.35 $
+ * @version     $Revision: 1.36 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -57,9 +57,9 @@ textarea {
 /**
  * @subsection  Input Readonly
  */
-input[type=text][readonly=readonly],
-input[type=password][readonly=readonly],
-textarea[readonly=readonly] {
+input[type=text][readonly],
+input[type=password][readonly],
+textarea[readonly] {
     background-color: #DDD;
 }
 
