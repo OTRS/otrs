@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.pm,v 1.143 2012-02-23 11:07:06 mg Exp $
+# $Id: AgentTicketSearch.pm,v 1.144 2012-03-30 16:23:10 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.143 $) [1];
+$VERSION = qw($Revision: 1.144 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1409,11 +1409,45 @@ sub Run {
         for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
             next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
 
+            my $PossibleValuesFilter;
+
+            # check if field has PossibleValues property in its configuration
+            if ( IsHashRefWithData( $DynamicFieldConfig->{Config}->{PossibleValues} ) ) {
+
+                # get historical values from database
+                my $HistoricalValues = $Self->{BackendObject}->HistoricalValuesGet(
+                    DynamicFieldConfig => $DynamicFieldConfig,
+                );
+
+                my $Data = $DynamicFieldConfig->{Config}->{PossibleValues};
+
+                # add historic values to current values (if they don't exist anymore)
+                for my $Key ( keys %{$HistoricalValues} ) {
+                    if ( !$Data->{$Key} ) {
+                        $Data->{$Key} = $HistoricalValues->{$Key}
+                    }
+                }
+
+                # set possible values filter from ACLs
+                my $ACL = $Self->{TicketObject}->TicketAcl(
+                    Action        => $Self->{Action},
+                    ReturnType    => 'Ticket',
+                    ReturnSubType => 'DynamicField_' . $DynamicFieldConfig->{Name},
+                    Data          => $Data,
+                    UserID        => $Self->{UserID},
+                );
+                if ($ACL) {
+                    my %Filter = $Self->{TicketObject}->TicketAclData();
+                    $PossibleValuesFilter = \%Filter;
+                }
+            }
+
             # get field html
             $DynamicFieldHTML{ $DynamicFieldConfig->{Name} } =
                 $Self->{BackendObject}->SearchFieldRender(
-                DynamicFieldConfig => $DynamicFieldConfig,
-                Profile            => \%GetParam,
+                DynamicFieldConfig   => $DynamicFieldConfig,
+                Profile              => \%GetParam,
+                PossibleValuesFilter => $PossibleValuesFilter,
                 DefaultValue =>
                     $Self->{Config}->{Defaults}->{DynamicField}->{ $DynamicFieldConfig->{Name} },
                 LayoutObject => $Self->{LayoutObject},

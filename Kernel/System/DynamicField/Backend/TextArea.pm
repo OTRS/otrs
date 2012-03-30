@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/TextArea.pm - Delegate for DynamicField TextArea backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TextArea.pm,v 1.47 2012-03-20 16:27:56 mg Exp $
+# $Id: TextArea.pm,v 1.48 2012-03-30 16:16:39 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::DynamicFieldValue;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.47 $) [1];
+$VERSION = qw($Revision: 1.48 $) [1];
 
 =head1 NAME
 
@@ -590,6 +590,19 @@ sub AJAXPossibleValuesGet {
 
     # not supported
     return;
+}
+
+sub HistoricalValuesGet {
+    my ( $Self, %Param ) = @_;
+
+    # get historical values from database
+    my $HistoricalValues = $Self->{DynamicFieldValueObject}->HistoricalValueGet(
+        FieldID   => $Param{DynamicFieldConfig}->{ID},
+        ValueType => 'Text',
+    );
+
+    # retrun the historical values from database
+    return $HistoricalValues;
 }
 
 1;

@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend.pm - Interface for DynamicField backends
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Backend.pm,v 1.69 2012-03-20 16:27:56 mg Exp $
+# $Id: Backend.pm,v 1.70 2012-03-30 16:22:00 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Scalar::Util qw(weaken);
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.69 $) [1];
+$VERSION = qw($Revision: 1.70 $) [1];
 
 =head1 NAME
 
@@ -1117,6 +1117,10 @@ creates the field HTML to be used in search masks.
         DynamicFieldConfig   => $DynamicFieldConfig,      # complete config of the DynamicField
         ParamObject          => $ParamObject,
         Profile              => $ProfileData,             # search template data to load
+        PossibleValuesFilter => {                         # optional. Some backends may support this.
+            'Key1' => 'Value1',                           #     This may be needed to realize ACL support for ticket masks,
+            'Key2' => 'Value2',                           #     where the possible values can be limited with and ACL.
+        },
         DefaultValue         => $Value,                   # optional, depending on each field type e.g
                                                           #   $Value = a text';
                                                           #   $Value
@@ -2063,6 +2067,74 @@ sub AJAXPossibleValuesGet {
         %Param
     );
 }
+
+=item HistoricalValuesGet()
+
+returns the list of database values for a defined dynamic field. This function is used to calculate
+ACLs in Search Dialog
+
+    my $HistorialValues = $BackendObject->HistoricalValuesGet(
+        DynamicFieldConfig => $DynamicFieldConfig,       # complete config of the DynamicField
+    );
+
+    Returns:
+
+    $HistoricalValues = {
+        '1'     => '1',
+        'Item1' => 'Item1',
+        'Item2' => 'Item2',
+    }
+
+=cut
+
+sub HistoricalValuesGet {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Needed (qw(DynamicFieldConfig)) {
+        if ( !$Param{$Needed} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            return;
+        }
+    }
+
+    # check DynamicFieldConfig (general)
+    if ( !IsHashRefWithData( $Param{DynamicFieldConfig} ) ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "The field configuration is invalid",
+        );
+        return;
+    }
+
+    # check DynamicFieldConfig (internally)
+    for my $Needed (qw(ID FieldType ObjectType)) {
+        if ( !$Param{DynamicFieldConfig}->{$Needed} ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed in DynamicFieldConfig!"
+            );
+            return;
+        }
+    }
+
+    # set the dynamic filed specific backend
+    my $DynamicFieldBackend = 'DynamicField' . $Param{DynamicFieldConfig}->{FieldType} . 'Object';
+
+    if ( !$Self->{$DynamicFieldBackend} ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!"
+        );
+        return;
+    }
+
+    # call HistorialValuesGet on the specific backend
+    return $Self->{$DynamicFieldBackend}->HistoricalValuesGet(
+        %Param
+    );
+}
+
 1;
 
 =back
@@ -2079,6 +2151,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.69 $ $Date: 2012-03-20 16:27:56 $
+$Revision: 1.70 $ $Date: 2012-03-30 16:22:00 $
 
 =cut
