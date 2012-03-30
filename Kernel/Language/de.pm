@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Thomas Kaltenbrunner <tkaltenbrunner at opc.de>
 # --
-# $Id: de.pm,v 1.321 2012-03-22 12:58:45 mg Exp $
+# $Id: de.pm,v 1.322 2012-03-30 13:35:08 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.321 $) [1];
+$VERSION = qw($Revision: 1.322 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -2613,7 +2613,7 @@ sub Data {
         'Closed tickets of customer' => 'Geschlossene Tickets des Kunden',
         'Comment for new history entries in the customer interface.' => '',
         'Companies' => 'Firmen',
-        'Company Tickets' => '',
+        'Company Tickets' => 'Firmen-Ticket',
         'Company name for the customer web interface. Will also be included in emails as an X-Header.' =>
             '',
         'Configure your own log text for PGP.' => '',
