@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.pm,v 1.144 2012-03-30 16:23:10 cr Exp $
+# $Id: AgentTicketSearch.pm,v 1.145 2012-03-30 17:23:54 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.144 $) [1];
+$VERSION = qw($Revision: 1.145 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1422,9 +1422,11 @@ sub Run {
                 my $Data = $DynamicFieldConfig->{Config}->{PossibleValues};
 
                 # add historic values to current values (if they don't exist anymore)
-                for my $Key ( keys %{$HistoricalValues} ) {
-                    if ( !$Data->{$Key} ) {
-                        $Data->{$Key} = $HistoricalValues->{$Key}
+                if ( IsHashRefWithData($HistoricalValues) ) {
+                    for my $Key ( keys %{$HistoricalValues} ) {
+                        if ( !$Data->{$Key} ) {
+                            $Data->{$Key} = $HistoricalValues->{$Key}
+                        }
                     }
                 }
 
