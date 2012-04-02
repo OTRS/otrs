@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2240 2012-03-30 16:23:30 cr Exp $
+# $Id: CHANGES,v 1.2241 2012-04-02 07:33:02 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.1.4 2012-??-??
+ - 2012-04-02 Updated Italian translation, thanks to Massimo Bianchi!
  - 2012-03-30 Fixed bug#8356 - ACLs for DynamicFields does not work on AgentTicketSearch.
  - 2012-03-30 Added new config feature to limit the number of 'From' entries in
     AgentTicketPhone to 1 (optional). Use the setting
