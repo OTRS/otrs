@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.404 2012-03-22 13:18:19 mg Exp $
+# $Id: Defaults.pm,v 1.405 2012-04-02 07:52:54 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -29,7 +29,7 @@ use warnings;
 use 5.008_006;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.404 $) [1];
+$VERSION = qw($Revision: 1.405 $) [1];
 
 # prepend '../Custom', '../Kernel/cpan-lib' and '../' to the module search path @INC
 use File::Basename;
@@ -184,6 +184,7 @@ sub LoadDefaults {
         pt      => 'Portugu&ecirc;s',
         pl      => 'Polski',
         ru      => 'Russian (&#x0420;&#x0443;&#x0441;&#x0441;&#x043a;&#x0438;&#x0439;)',
+        sl      => 'Slovenian (Sloven&#x0161;&#x010d;ina)',
         sk_SK   => 'Slovak (Sloven&#x010d;ina)',
         sr_Cyrl => 'Serbian Latin (Srpski)',
         sr_Latn => 'Serbian Cyrillic (&#1089;&#1088;&#1087;&#1089;&#1082;&#1080;)',
@@ -197,7 +198,6 @@ sub LoadDefaults {
 #            th => 'Thai (&#x0e44;&#x0e17;&#x0e22;)',
 #            ro => 'Rom&acirc;n&auml;',
 #            hr => 'Croatian',
-#            sl => 'Slovenian (Sloven&#x0161;&#x010d;ina)',
 #            jp => 'Japanese (&#x65e5;&#x672c;&#x8a9e;)',
     };
 
@@ -1949,6 +1949,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.404 $ $Date: 2012-03-22 13:18:19 $
+$Revision: 1.405 $ $Date: 2012-04-02 07:52:54 $
 
 =cut
