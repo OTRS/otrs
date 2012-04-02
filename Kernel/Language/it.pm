@@ -9,7 +9,7 @@
 # Copyright (C) 2010 Alessandro Grassi <alessandro.grassi at devise.it>
 # Copyright (C) 2012 Massimo Bianchi <mxbianchi at tiscali.it>
 # --
-# $Id: it.pm,v 1.131 2012-04-02 07:33:01 mg Exp $
+# $Id: it.pm,v 1.132 2012-04-02 09:44:36 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.131 $) [1];
+$VERSION = qw($Revision: 1.132 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -434,7 +434,7 @@ sub Data {
         # Template: AAAPreferences
         'Preferences updated successfully!' => 'Preferenze modificate con successo!',
         'User Profile' => 'Profilo utente',
-        'Email Settings' => 'Impsotazioni email',
+        'Email Settings' => 'Impostazioni email',
         'Other Settings' => 'Altre impostazioni',
         'Change Password' => 'Cambia Password',
         'Current password' => 'Password attuale',
@@ -1730,7 +1730,7 @@ sub Data {
 
         # Template: AdminSysConfig
         'SysConfig' => 'Configurazione Sistema',
-        'Navigate by searching in %s settings' => 'Naviga cercando nelle impostazioni di %',
+        'Navigate by searching in %s settings' => 'Naviga cercando nelle impostazioni di %s',
         'Navigate by selecting config groups' => 'Naviga selezionando i gruppi di configurazione',
         'Download all system config changes' => 'Scarica tutti i cambiamenti alla configurazione di sistema',
         'Export settings' => 'Esporta impostazioni',
@@ -1744,7 +1744,7 @@ sub Data {
         # Template: AdminSysConfigEdit
         'Edit Config Settings' => 'Modifica impostazioni di configurazione',
         'This config item is only available in a higher config level!' =>
-            'Questa configurazione è solo disponibile a liveli più alti!',
+            'Questa configurazione è solo disponibile a livelli più alti!',
         'Reset this setting' => 'Reimposta questa opzione',
         'Error: this file could not be found.' => 'Errore: Impossibile trovare questo file.',
         'Error: this directory could not be found.' => 'Errore: Impossibile trovare questa directory.',
@@ -2335,7 +2335,7 @@ sub Data {
             'Per poter usare OTRS, è necessario abilitare JavaScript nel browser.',
         'Database Settings' => 'Impostazion Database',
         'General Specifications and Mail Settings' => 'Specifiche generiche ed impostazioni email',
-        'Registration' => '',
+        'Registration' => 'Registrazione',
         'Welcome to %s' => 'Benvenuto in %s',
         'Web site' => '',
         'Database check successful.' => 'Controllo database eseguito con successo.',
@@ -2352,9 +2352,9 @@ sub Data {
         'SMTP host.' => '',
         'SMTP authentication' => 'Autenticazione SMTP',
         'Does your SMTP host need authentication?' => 'Serve autenticazione SMTP per questo host?',
-        'SMTP auth user' => '',
+        'SMTP auth user' => 'Utente per autenticazione SMTP',
         'Username for SMTP auth.' => 'Username per l\'autenticazione SMTP',
-        'SMTP auth password' => '',
+        'SMTP auth password' => 'Password per autenticazione SMTP',
         'Password for SMTP auth.' => 'Password per l\'autenticazione SMTP',
         'Configure Inbound Mail' => 'Configura posta in entrata',
         'Inbound mail type' => 'Tipo posta in entrata',
@@ -2398,16 +2398,16 @@ sub Data {
         'Your OTRS Team' => 'Gruppo di sviluppo di OTRS',
 
         # Template: InstallerLicense
-        'Accept license' => 'accetto ',
-        'Don\'t accept license' => 'non accetto ',
+        'Accept license' => 'Accetto la licenza',
+        'Don\'t accept license' => 'Non accetto la licenza',
 
         # Template: InstallerLicenseText
 
         # Template: InstallerRegistration
         'Organization' => 'Azienda',
-        'Position' => '',
-        'Complete registration and continue' => '',
-        'Please fill in all fields marked as mandatory.' => '',
+        'Position' => 'Ruolo',
+        'Complete registration and continue' => 'Completa la registrazione e prosegui',
+        'Please fill in all fields marked as mandatory.' => 'Completare tutti i campi obbligatori',
 
         # Template: InstallerSystem
         'SystemID' => 'ID del sistema',
@@ -2436,7 +2436,7 @@ sub Data {
 
         # Template: Login
         'JavaScript Not Available' => 'JavaScript non disponibile',
-        'Browser Warning' => '',
+        'Browser Warning' => 'Attenzione: browser non compatibile',
         'The browser you are using is too old.' => 'Il browser in uso è obsoleto.',
         'OTRS runs with a huge lists of browsers, please upgrade to one of these.' =>
             'OTRS funziona con una quantità innumerevole di browser, si prega di utilizzare uno di essi.',
@@ -2608,16 +2608,16 @@ sub Data {
         'Cache time in seconds for the web service config backend.' => '',
         'Change password' => 'Cambio password',
         'Change queue!' => 'Cambio coda!',
-        'Change the customer for this ticket' => '',
-        'Change the free fields for this ticket' => '',
-        'Change the priority for this ticket' => '',
+        'Change the customer for this ticket' => 'Cambia il cliente per questa richiesta',
+        'Change the free fields for this ticket' => 'Cambia i campi liberi per questa richiesta',
+        'Change the priority for this ticket' => 'Cambia la priorità di questa richiesta',
         'Change the responsible person for this ticket' => '',
         'Changes the owner of tickets to everyone (useful for ASP). Normally only agent with rw permissions in the queue of the ticket will be shown.' =>
             'Cambia il proprietario del ticket a tutti (utile per ASP). Normalmente solo gli agenti con permessi R/W sulla coda del ticket verranno mostrati.',
-        'Checkbox' => '',
+        'Checkbox' => 'Caselle a scelta obbligata',
         'Checks the SystemID in ticket number detection for follow-ups (use "No" if SystemID has been changed after using the system).' =>
             'Controlla il SystemID nel rilevamento del numero di ticket per i follow-up (usare "No" se il SystemID è stato cambiato dopo aver usato il sistema).',
-        'Closed tickets of customer' => '',
+        'Closed tickets of customer' => 'Richieste completate per il cliente',
         'Comment for new history entries in the customer interface.' => 'Commento per nuove entry nello storico dell\'interfaccia cliente.',
         'Companies' => 'Compagnie',
         'Company Tickets' => 'Ticket della compagnia',
@@ -3248,7 +3248,7 @@ sub Data {
             '',
         'Displays the accounted time for an article in the ticket zoom view.' =>
             '',
-        'Dropdown' => '',
+        'Dropdown' => 'Menù a tendina',
         'Dynamic Fields Checkbox Backend GUI' => '',
         'Dynamic Fields Date Time Backend GUI' => '',
         'Dynamic Fields Drop-down Backend GUI' => '',
@@ -3316,7 +3316,7 @@ sub Data {
             '',
         'Enables PGP support. When PGP support is enabled for signing and securing mail, it is HIGHLY recommended that the web server be run as the OTRS user. Otherwise, there will be problems with the privileges when accessing .gnupg folder.' =>
             '',
-        'Enables S/MIME support.' => '',
+        'Enables S/MIME support.' => 'Abilita supporto S/MIME',
         'Enables customers to create their own accounts.' => '',
         'Enables file upload in the package manager frontend.' => '',
         'Enables or disable the debug mode over frontend interface.' => '',
@@ -3339,8 +3339,8 @@ sub Data {
             '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate). This is only possible if all Ticket dynamic fields need the same event.' =>
             '',
-        'Example for free text' => '',
-        'Execute SQL statements.' => '',
+        'Example for free text' => 'Esempio di testo libero',
+        'Execute SQL statements.' => 'Esegui statement SQL',
         'Executes follow up checks on In-Reply-To or References headers for mails that don\'t have a ticket number in the subject.' =>
             '',
         'Executes follow up mail attachments checks in  mails that don\'t have a ticket number in the subject.' =>
@@ -3357,7 +3357,7 @@ sub Data {
             '',
         'File that is displayed in the Kernel::Modules::AgentInfo module, if located under Kernel/Output/HTML/Standard/AgentInfo.dtl.' =>
             '',
-        'Filter incoming emails.' => '',
+        'Filter incoming emails.' => 'Filtra email in ingresso',
         'Forces encoding of outgoing emails (7bit|8bit|quoted-printable|base64).' =>
             '',
         'Forces to choose a different ticket state (from current) after lock action. Define the current state as key, and the next state after lock action as content.' =>
@@ -3369,7 +3369,7 @@ sub Data {
             '',
         'Frontend module registration for the agent interface.' => '',
         'Frontend module registration for the customer interface.' => '',
-        'Frontend theme' => '',
+        'Frontend theme' => 'Tema per l\'interfaccia',
         'GenericAgent' => 'OperatoreGenerico',
         'GenericInterface Debugger GUI' => '',
         'GenericInterface Invoker GUI' => '',
@@ -3611,28 +3611,28 @@ sub Data {
         'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.' =>
             '',
         'NameX' => '',
-        'New email ticket' => '',
-        'New phone ticket' => '',
+        'New email ticket' => 'Nuova richiesta da Email',
+        'New phone ticket' => 'Nuova richiesta da telefonata',
         'Next possible ticket states after adding a phone note in the ticket phone inbound screen of the agent interface.' =>
             '',
         'Next possible ticket states after adding a phone note in the ticket phone outbound screen of the agent interface.' =>
             '',
-        'Notifications (Event)' => 'Notifica (Event)',
-        'Number of displayed tickets' => '',
+        'Notifications (Event)' => 'Notifiche (Event)',
+        'Number of displayed tickets' => 'Numero di richieste mostrate',
         'Number of lines (per ticket) that are shown by the search utility in the agent interface.' =>
             '',
         'Number of tickets to be displayed in each page of a search result in the agent interface.' =>
             '',
         'Number of tickets to be displayed in each page of a search result in the customer interface.' =>
             '',
-        'Open tickets of customer' => '',
+        'Open tickets of customer' => 'Richieste aperte per il cliente',
         'Overloads (redefines) existing functions in Kernel::System::Ticket. Used to easily add customizations.' =>
             '',
-        'Overview Escalated Tickets' => '',
-        'Overview Refresh Time' => '',
-        'Overview of all open Tickets.' => '',
-        'PGP Key Management' => '',
-        'PGP Key Upload' => '',
+        'Overview Escalated Tickets' => 'Overview delle richieste escalate',
+        'Overview Refresh Time' => 'Frequenza di aggiornamento dell\'overview',
+        'Overview of all open Tickets.' => 'Overview di tutte le richieste aperte.',
+        'PGP Key Management' => 'Gestione chiavi PGP',
+        'PGP Key Upload' => 'Caricamento chiavi PGP',
         'Parameters for the CreateNextMask object in the preference view of the agent interface.' =>
             '',
         'Parameters for the CustomQueue object in the preference view of the agent interface.' =>
@@ -3686,14 +3686,14 @@ sub Data {
             '',
         'Permitted width for compose email windows.' => '',
         'Permitted width for compose note windows.' => '',
-        'Picture-Upload' => '',
-        'PostMaster Filters' => '',
-        'PostMaster Mail Accounts' => '',
+        'Picture-Upload' => 'Caricamento Immagine',
+        'PostMaster Filters' => 'Filtri per Email',
+        'PostMaster Mail Accounts' => 'Account di Email',
         'Protection against CSRF (Cross Site Request Forgery) exploits (for more info see http://en.wikipedia.org/wiki/Cross-site_request_forgery).' =>
             '',
-        'Queue view' => '',
-        'Refresh Overviews after' => '',
-        'Refresh interval' => '',
+        'Queue view' => 'Vista per Coda',
+        'Refresh Overviews after' => 'Aggiornare Overview dopo',
+        'Refresh interval' => 'Intervallo di aggiornamento',
         'Replaces the original sender with current customer\'s email address on compose answer in the ticket compose screen of the agent interface.' =>
             '',
         'Required permissions to change the customer of a ticket in the agent interface.' =>
@@ -4138,8 +4138,8 @@ sub Data {
             '',
         'Starts a wildcard search of the active object after the link object mask is started.' =>
             '',
-        'Statistics' => '',
-        'Status view' => '',
+        'Statistics' => 'Statistiche',
+        'Status view' => 'Vista di stato',
         'Stores cookies after the browser has been closed.' => '',
         'Strips empty lines on the ticket preview in the queue view.' => '',
         'Textarea' => '',
@@ -4174,7 +4174,7 @@ sub Data {
             '',
         'Ticket event module that triggers the escalation stop events.' =>
             '',
-        'Ticket overview' => '',
+        'Ticket overview' => 'Overview delle richieste',
         'Tickets' => 'Richieste',
         'Time in seconds that gets added to the actual time if setting a pending-state (default: 86400 = 1 day).' =>
             '',
@@ -4185,7 +4185,7 @@ sub Data {
             '',
         'Turns on the remote ip address check. It should be set to "No" if the application is used, for example, via a proxy farm or a dialup connection, because the remote ip address is mostly different for the requests.' =>
             '',
-        'Types' => '',
+        'Types' => 'Tipi',
         'Update Ticket "Seen" flag if every article got seen or a new Article got created.' =>
             '',
         'Update and extend your system with software packages.' => '',
@@ -4196,15 +4196,15 @@ sub Data {
             '',
         'Uses richtext for viewing and editing: articles, salutations, signatures, standard responses, auto responses and notifications.' =>
             '',
-        'View performance benchmark results.' => '',
-        'View system log messages.' => '',
-        'Wear this frontend skin' => '',
-        'Webservice path separator.' => '',
+        'View performance benchmark results.' => 'Visualizza i risultati del test di performance',
+        'View system log messages.' => 'Visualizza SystemLog',
+        'Wear this frontend skin' => 'Mantieni questa interfaccia',
+        'Webservice path separator.' => 'Separatore percorsi dei WebService',
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. In this text area you can define this text (This text cannot be changed by the agent).' =>
             '',
         'When tickets are merged, the customer can be informed per email by setting the check box "Inform Sender". In this text area, you can define a pre-formatted text which can later be modified by the agents.' =>
             '',
-        'Your language' => '',
+        'Your language' => 'Scegli la tua lingua',
         'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' =>
             'La vostra selezione delle code preferite. Se attivato, sarete anche notificati delle modifiche su questa coda',
 
