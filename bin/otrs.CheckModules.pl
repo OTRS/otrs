@@ -3,7 +3,7 @@
 # bin/otrs.CheckModules.pl - to check needed cpan framework modules
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.CheckModules.pl,v 1.35 2012-03-17 01:18:54 mh Exp $
+# $Id: otrs.CheckModules.pl,v 1.36 2012-04-03 18:09:01 cr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -37,6 +37,11 @@ my @NeededModules = (
     {
         Module   => 'Crypt::PasswdMD5',
         Required => 1,
+    },
+    {
+        Module   => 'Crypt::SSLeay',
+        Required => 0,
+        Comment  => 'Required for Generic Interface SOAP SSL connections.',
     },
     {
         Module   => 'CSS::Minifier',
@@ -292,6 +297,11 @@ my @NeededModules = (
         Module   => 'Net::LDAP',
         Required => 0,
         Comment  => 'Required for directory authentication.',
+    },
+    {
+        Module   => 'Net::SSL',
+        Required => 0,
+        Comment  => 'Required for Generic Interface SOAP SSL connections.',
     },
     {
         Module       => 'PDF::API2',
