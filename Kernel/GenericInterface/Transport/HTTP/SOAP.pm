@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Transport/HTTP/SOAP.pm - GenericInterface network transport interface for HTTP::SOAP
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: SOAP.pm,v 1.44 2012-03-15 15:41:25 cr Exp $
+# $Id: SOAP.pm,v 1.45 2012-04-03 17:59:47 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Encode;
 use PerlIO;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.44 $) [1];
+$VERSION = qw($Revision: 1.45 $) [1];
 
 =head1 NAME
 
@@ -1145,7 +1145,7 @@ It contains functions to quote invalid XML characters and encode the string
 sub _SOAPOutputProcessString {
     my ( $Self, %Param ) = @_;
 
-    return '' if !$Param{Data};
+    return '' if !defined $Param{Data};
 
     # escape characters that are invalid in XML
     $Param{Data} =~ s{ & }{&amp;}xmsg;
@@ -1172,6 +1172,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.44 $ $Date: 2012-03-15 15:41:25 $
+$Revision: 1.45 $ $Date: 2012-04-03 17:59:47 $
 
 =cut

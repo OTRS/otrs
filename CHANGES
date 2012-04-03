@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2242 2012-04-02 07:52:54 mg Exp $
+# $Id: CHANGES,v 1.2243 2012-04-03 17:59:47 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.1.4 2012-??-??
+ - 2012-04-03 Fixed bug#8363 - SOAP Transport can't send a 0 value.
  - 2012-04-02 Added new Slovenian translation, thanks to Gorazd Zagar and Andrej Cimerlajt!
  - 2012-04-02 Updated Italian translation, thanks to Massimo Bianchi!
  - 2012-03-30 Fixed bug#8356 - ACLs for DynamicFields does not work on AgentTicketSearch.
