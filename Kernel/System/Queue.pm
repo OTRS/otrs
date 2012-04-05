@@ -2,7 +2,7 @@
 # Kernel/System/Queue.pm - lib for queue functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Queue.pm,v 1.136 2012-03-20 21:06:09 mh Exp $
+# $Id: Queue.pm,v 1.137 2012-04-05 19:24:17 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::Time;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.136 $) [1];
+$VERSION = qw($Revision: 1.137 $) [1];
 
 =head1 NAME
 
@@ -1140,8 +1140,8 @@ sub QueuePreferencesSet {
         'QueueGetID::' . $Param{QueueID},
         'QueueGetName::' . $Name,
     );
-    for my $CachKey (@CacheKeys) {
-        $Self->{CacheInternalObject}->Delete( Key => $CachKey );
+    for my $CacheKey (@CacheKeys) {
+        $Self->{CacheInternalObject}->Delete( Key => $CacheKey );
     }
 
     return $Self->{PreferencesObject}->QueuePreferencesSet(%Param);
@@ -1180,6 +1180,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.136 $ $Date: 2012-03-20 21:06:09 $
+$Revision: 1.137 $ $Date: 2012-04-05 19:24:17 $
 
 =cut
