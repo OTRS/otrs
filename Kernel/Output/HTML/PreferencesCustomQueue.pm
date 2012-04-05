@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/PreferencesCustomQueue.pm
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: PreferencesCustomQueue.pm,v 1.16 2011-03-20 08:59:39 mb Exp $
+# $Id: PreferencesCustomQueue.pm,v 1.17 2012-04-05 19:22:39 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,8 +14,10 @@ package Kernel::Output::HTML::PreferencesCustomQueue;
 use strict;
 use warnings;
 
+use Kernel::System::CacheInternal;
+
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -29,6 +31,12 @@ sub new {
     {
         die "Got no $_!" if ( !$Self->{$_} );
     }
+
+    $Self->{CacheInternalObject} = Kernel::System::CacheInternal->new(
+        %{$Self},
+        Type => 'Queue',
+        TTL  => 60 * 60 * 24 * 20,
+    );
 
     return $Self;
 }
@@ -113,6 +121,10 @@ sub Run {
             }
         }
     }
+
+    my $CacheKey = 'GetAllCustomQueues::' . $Param{UserData}->{UserID};
+    $Self->{CacheInternalObject}->Delete( Key => $CacheKey );
+
     $Self->{Message} = 'Preferences updated successfully!';
     return 1;
 }
