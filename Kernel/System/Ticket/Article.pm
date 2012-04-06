@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.310 2012-03-27 10:13:08 mg Exp $
+# $Id: Article.pm,v 1.311 2012-04-06 12:40:42 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::EmailParser;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.310 $) [1];
+$VERSION = qw($Revision: 1.311 $) [1];
 
 =head1 NAME
 
@@ -232,6 +232,10 @@ sub ArticleCreate {
         $Param{$_} = substr( $Param{$_}, 0, 3800 );
     }
 
+    # check if this is the first article (for notifications)
+    my @Index = $Self->ArticleIndex( TicketID => $Param{TicketID} );
+    my $FirstArticle = scalar @Index ? 0 : 1;
+
     # do db insert
     return if !$Self->{DBObject}->Do(
         SQL => 'INSERT INTO article '
@@ -413,6 +417,7 @@ sub ArticleCreate {
 
     # send agent notification on ticket create
     if (
+        $FirstArticle &&
         $Param{HistoryType}
         =~ /^(EmailAgent|EmailCustomer|PhoneCallCustomer|WebRequestCustomer|SystemRequest)$/i
         )
@@ -422,7 +427,7 @@ sub ArticleCreate {
             # do not send to this user
             next if $DoNotSend{$UserID};
 
-            # check if alreay sent
+            # check if already sent
             next if $AlreadySent{$UserID};
 
             # check personal settings
@@ -3489,6 +3494,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.310 $ $Date: 2012-03-27 10:13:08 $
+$Revision: 1.311 $ $Date: 2012-04-06 12:40:42 $
 
 =cut
