@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/LayoutPopup.pm - provides generic HTML output
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutPopup.pm,v 1.4 2010-11-18 13:47:39 martin Exp $
+# $Id: LayoutPopup.pm,v 1.5 2012-04-06 13:39:42 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 =head1 NAME
 
@@ -58,15 +58,16 @@ sub PopupClose {
         return;
     }
 
-    # add session if if no cookies enabled
-    if ( $Self->{SessionID} && !$Self->{SessionIDCookie} ) {
-        $Param{URL} .= ';' . $Self->{SessionName} . '=' . $Self->{SessionID};
-    }
-
     # Generate the call Header() and Footer(
     my $Output = $Self->Header( Type => 'Small' );
 
     if ( $Param{URL} ) {
+
+        # add session if no cookies are enabled
+        if ( $Self->{SessionID} && !$Self->{SessionIDCookie} ) {
+            $Param{URL} .= ';' . $Self->{SessionName} . '=' . $Self->{SessionID};
+        }
+
         $Self->Block(
             Name => 'LoadParentURLAndClose',
             Data => {
@@ -79,6 +80,7 @@ sub PopupClose {
             Name => 'ReloadParentAndClose',
         );
     }
+
     $Output .= $Self->Output( TemplateFile => 'AgentTicketActionPopupClose' );
     $Output .= $Self->Footer( Type => 'Small' );
     return $Output;
@@ -100,6 +102,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.4 $ $Date: 2010-11-18 13:47:39 $
+$Revision: 1.5 $ $Date: 2012-04-06 13:39:42 $
 
 =cut
