@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2245 2012-04-06 12:13:16 mb Exp $
+# $Id: CHANGES,v 1.2246 2012-04-06 12:24:11 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.1.4 2012-??-??
+ - 2012-04-06 Fixed bug#8353 - Typing error in CSS instruction in
+    var/httpd/htdocs/skins/Agent/default/css/Core.Print.css.
  - 2012-04-06 Fixed bug#8370 - AgentTicketForward does not set pending date for pending states.
  - 2012-04-05 Fixed bug#8368 - Personal Queues update is not reflected in UI.
  - 2012-04-03 Fixed bug#8363 - SOAP Transport can't send a 0 value.
