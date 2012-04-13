@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/DashboardTicketGeneric.pm
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardTicketGeneric.pm,v 1.45 2012-01-12 18:34:21 cr Exp $
+# $Id: DashboardTicketGeneric.pm,v 1.46 2012-04-13 07:23:36 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.45 $) [1];
+$VERSION = qw($Revision: 1.46 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -147,12 +147,12 @@ sub Run {
         # check if parameter is a dynamic field and capture dynamic filed name (with DynamicField_)
         # in $1 and the Operator in $2
         # possible Dynamic Fields options include:
-        #   DyamicField_NameX_Equals=123;
-        #   DyamicField_NameX_Like=value*;
-        #   DyamicField_NameX_GreaterThan=2001-01-01 01:01:01;
-        #   DyamicField_NameX_GreaterThanEquals=2001-01-01 01:01:01;
-        #   DyamicField_NameX_LowerThan=2002-02-02 02:02:02;
-        #   DyamicField_NameX_LowerThanEquals=2002-02-02 02:02:02;
+        #   DynamicField_NameX_Equals=123;
+        #   DynamicField_NameX_Like=value*;
+        #   DynamicField_NameX_GreaterThan=2001-01-01 01:01:01;
+        #   DynamicField_NameX_GreaterThanEquals=2001-01-01 01:01:01;
+        #   DynamicField_NameX_LowerThan=2002-02-02 02:02:02;
+        #   DynamicField_NameX_LowerThanEquals=2002-02-02 02:02:02;
         elsif ( $Key =~ m{\A (DynamicField_.+?) _ (.+?) \z}sxm ) {
             $DynamicFieldsParameters{$1}->{$2} = $Value;
         }
