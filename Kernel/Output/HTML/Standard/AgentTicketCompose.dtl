@@ -2,7 +2,7 @@
 # AgentTicketCompose.dtl - provides HTML form for AgentTicketCompose
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.dtl,v 1.102 2012-02-14 08:28:08 mg Exp $
+# $Id: AgentTicketCompose.dtl,v 1.103 2012-04-16 09:53:04 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -108,7 +108,7 @@ $Include{"AgentCustomerSearch"}
 <!--dtl:js_on_document_complete-->
 
 
-                    <label for="ToCustomer">$Text{"To"}:</label>
+                    <label for="ToCustomer" class="Mandatory"><span class="Marker">*</span>$Text{"To"}:</label>
                     <div class="Field">
                         <input id="ToCustomer" type="text" name="ToCustomer" value="" class="CustomerAutoComplete W75pc AutocompleteOff $QData{"ToInvalid"}"/>
 

@@ -2,7 +2,7 @@
 # AgentTicketPhone.dtl - provides HTML form for phone
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.dtl,v 1.145 2012-01-30 19:54:45 cr Exp $
+# $Id: AgentTicketPhone.dtl,v 1.146 2012-04-16 09:51:17 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -134,7 +134,7 @@ $Include{"AgentCustomerSearch"}
 //]]></script>
 <!--dtl:js_on_document_complete-->
 
-                    <label for="FromCustomer">$Text{"From customer"}:</label>
+                    <label for="FromCustomer" class="Mandatory"><span class="Marker">*</span>$Text{"From customer"}:</label>
                     <div class="Field">
                         <input id="FromCustomer" type="text" name="FromCustomer" value="" class="CustomerAutoComplete W75pc AutocompleteOff $QData{"FromInvalid"}"/>
                         <div id="FromCustomerServerError" class="TooltipErrorMessage">
