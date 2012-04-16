@@ -1,8 +1,8 @@
 # --
 # DynamicField.t - DynamicField tests
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicField.t,v 1.24 2011-09-14 23:05:59 cr Exp $
+# $Id: DynamicField.t,v 1.25 2012-04-16 11:31:07 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -236,6 +236,17 @@ my $OriginalDynamicFields = $DynamicFieldObject->DynamicFieldListGet( Valid => 0
 
 my @DynamicFieldIDs;
 for my $Test (@Tests) {
+
+    # get nonexisting field first
+    my $GetResult = $DynamicFieldObject->DynamicFieldGet(
+        Name => $Test->{Name} . $RandomID,
+    );
+
+    $Self->IsDeeply(
+        $GetResult,
+        {},
+        'Get before Add',
+    );
 
     # add config
     my $DynamicFieldID = $DynamicFieldObject->DynamicFieldAdd(
