@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.pm,v 1.162 2012-03-29 14:11:54 mh Exp $
+# $Id: AgentTicketCompose.pm,v 1.163 2012-04-16 18:23:33 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.162 $) [1];
+$VERSION = qw($Revision: 1.163 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1164,11 +1164,21 @@ sub Run {
 
                 # replace To with customers database address
                 if ( $Self->{ConfigObject}->Get('Ticket::Frontend::ComposeReplaceSenderAddress') ) {
+                    $Output .= $Self->{LayoutObject}->Notify(
+                        Data => $Self->{LayoutObject}->{LanguageObject}->Get(
+                            "Address %s replaced with registered customer address.",
+                            $Data{To}
+                        ),
+
+                    );
                     $Data{To} = $Customer{UserEmail};
                 }
 
                 # add customers database address to Cc
                 else {
+                    $Output .= $Self->{LayoutObject}->Notify(
+                        Info => "Customer automatically added in Cc.",
+                    );
                     if ( $Data{Cc} ) {
                         $Data{Cc} .= ', ' . $Customer{UserEmail};
                     }

@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2252 2012-04-16 11:21:42 mg Exp $
+# $Id: CHANGES,v 1.2253 2012-04-16 18:24:46 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.1.4 2012-??-??
+ - 2012-04-15 Fixed bug#8284 - The text "Cc: (xx@mail.com) added database email!" is confusing.
  - 2012-04-16 Fixed bug#8392 - DynamicFieldAdd returns wrong value.
  - 2012-04-16 Fixed bug#8387 - UseSyncBackend configuration does not conform to OTRS style.
  - 2012-04-16 Fixed bug#8367 - Customer entry not marked as mandatory.
@@ -30,7 +31,6 @@
     AgentTicketPhone to 1 (optional). Use the setting
     'Ticket::Frontend::AgentTicketPhone::AllowMultipleFrom' if you want this.
  - 2012-03-29 Fixed uninitialized value error in Kernel/System/Log.pm.
- - 2012-03-29 Removed useless notify message in AgentTicketCompose.
  - 2012-03-29 Added caching for DynamicFieldValue entries to improve system performance.
  - 2012-03-29 Fixed bug#8336 - otrs.ExportStatsToOPM.pl  broken.
  - 2012-03-29 Fixed bug#8349 - Caching breaks Admin Frontend.
