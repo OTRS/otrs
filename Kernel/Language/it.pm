@@ -9,7 +9,7 @@
 # Copyright (C) 2010 Alessandro Grassi <alessandro.grassi at devise.it>
 # Copyright (C) 2012 Massimo Bianchi <mxbianchi at tiscali.it>
 # --
-# $Id: it.pm,v 1.133 2012-04-16 12:21:14 mg Exp $
+# $Id: it.pm,v 1.134 2012-04-16 12:53:04 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.133 $) [1];
+$VERSION = qw($Revision: 1.134 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -62,7 +62,7 @@ sub Data {
         'before' => 'precedente',
         'Today' => 'Oggi',
         'Tomorrow' => 'Domani',
-        'Next week' => '',
+        'Next week' => 'Settimana Prossima',
         'day' => 'giorno',
         'days' => 'giorni',
         'day(s)' => 'giorno(i)',
@@ -159,9 +159,9 @@ sub Data {
         'system' => 'sistema',
         'Customer Info' => 'Informazioni Cliente',
         'Customer Information' => 'Informazioni Cliente',
-        'Customer Company' => 'Azienda del Cliente',
-        'Customer Companies' => 'Aziende dei Clienti',
-        'Company' => 'Azienda',
+        'Customer Company' => 'Società del Cliente',
+        'Customer Companies' => 'Società dei Clienti',
+        'Company' => 'Società',
         'go!' => 'vai!',
         'go' => 'vai',
         'All' => 'Tutti',
@@ -257,7 +257,7 @@ sub Data {
         'Take this Customer' => 'Prendi questo Cliente',
         'Take this User' => 'Prendi questo Utente',
         'possible' => 'possibile',
-        'reject' => 'respingi',
+        'reject' => 'rifiuta',
         'reverse' => 'inverti',
         'Facility' => 'Funzione',
         'Time Zone' => 'Fuso orario',
@@ -295,8 +295,8 @@ sub Data {
         'Type added!' => 'Tipo aggiunto!',
         'Type updated!' => 'Tipo aggiornato!',
         'Customer updated!' => 'Cliente aggiornato!',
-        'Customer company added!' => 'Azienda cliente aggiunta!',
-        'Customer company updated!' => 'Azienda cliente aggiornata!',
+        'Customer company added!' => 'Società cliente aggiunta!',
+        'Customer company updated!' => 'Società cliente aggiornata!',
         'Mail account added!' => 'Account di posta aggiunto!',
         'Mail account updated!' => 'Account di posta aggiornato!',
         'System e-mail address added!' => 'Account di posta di Sistema aggiunto!',
@@ -388,16 +388,16 @@ sub Data {
         'SHIFT' => '',
         'Undo' => 'Annulla',
         'Redo' => 'Ripeti',
-        'Scheduler process is registered but might not be running.' => '',
-        'Scheduler is not running.' => '',
+        'Scheduler process is registered but might not be running.' => 'Il processo Scheduler è registrato ma potrebbe non essere in funzione',
+        'Scheduler is not running.' => 'Lo Schedulatore non sta funzionando',
 
         # Template: AAACalendar
         'New Year\'s Day' => 'Capodanno',
         'International Workers\' Day' => 'Festa dei Lavoratori',
-        'Christmas Eve' => '',
-        'First Christmas Day' => '',
-        'Second Christmas Day' => '',
-        'New Year\'s Eve' => '',
+        'Christmas Eve' => 'Vigilia di Natale',
+        'First Christmas Day' => 'Natale',
+        'Second Christmas Day' => 'Santo Stefano',
+        'New Year\'s Eve' => 'Vigilia di Capodanno',
 
         # Template: AAAGenericInterface
         'OTRS as requester' => 'OTRS-requester',
@@ -673,9 +673,9 @@ sub Data {
         'Phone-Ticket' => 'Richiesta-Telefonica',
         'Search Tickets' => 'Ricerca Richieste',
         'Edit Customer Users' => 'Modifica Utenti Clienti',
-        'Edit Customer Company' => 'Modifica Azienda Cliente',
+        'Edit Customer Company' => 'Modifica Società Cliente',
         'Bulk Action' => 'Operazioni Multiple',
-        'Bulk Actions on Tickets' => 'Operazione di massa sulle richieste',
+        'Bulk Actions on Tickets' => 'Operazione multipla sulle richieste',
         'Send Email and create a new Ticket' => 'Manda un email e crea una nuova richiesta',
         'Create new Email Ticket and send this out (Outbound)' => 'Crea una nuova e-mail e invio',
         'Create new Phone Ticket (Inbound)' => 'Crea un nuovo Ticket ',
@@ -831,7 +831,7 @@ sub Data {
         # Template: AdminAttachment
         'Attachment Management' => 'Gestione allegati',
         'Actions' => 'Azioni',
-        'Go to overview' => 'Vai a visualizzazione',
+        'Go to overview' => 'Vai a Vista Globale',
         'Add attachment' => 'Aggiungi allegato',
         'List' => 'Lista',
         'Validity' => 'Validità',
@@ -866,11 +866,11 @@ sub Data {
         'Example response' => 'Risposta di esempio',
 
         # Template: AdminCustomerCompany
-        'Customer Company Management' => 'Gestione Azienda Cliente',
+        'Customer Company Management' => 'Gestione Società Cliente',
         'Wildcards like \'*\' are allowed.' => ' Sono permessi i caratteri jolly come \'*\'.',
-        'Add customer company' => 'Aggiungi Azienda Cliente',
+        'Add customer company' => 'Aggiungi Società Cliente',
         'Please enter a search term to look for customer companies.' => 'Inserire una chiave di ricerca per le aziende dei clienti.',
-        'Add Customer Company' => 'Aggiungi Azienda Cliente',
+        'Add Customer Company' => 'Aggiungi Società Cliente',
 
         # Template: AdminCustomerUser
         'Customer Management' => 'Gestione clienti',
@@ -952,7 +952,7 @@ sub Data {
         # Template: AdminDynamicFieldCheckbox
         'Dynamic Fields' => 'Campi Dinamici',
         'Field' => 'Campo',
-        'Go back to overview' => 'Tornare indietro a ovwerview',
+        'Go back to overview' => 'Tornare indietro a Vista Globale',
         'General' => 'Generale',
         'This field is required, and the value should be alphabetic and numeric characters only.' =>
             'Campo obbligatorio. Il valore può contenere solo lettere e numeri.',
@@ -987,7 +987,7 @@ sub Data {
         'Years in the future to display (default: 5 years).' => 'Anni nel futuro da mostrare (default: 5 anni).',
         'Show link' => 'Mostra collegamento',
         'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
-            'Qui puoi specificare un collegamento http per il campo nelle schermate Overview e Zoom.',
+            'Qui puoi specificare un collegamento http per il campo nelle schermate Vista Globale e Zoom.',
 
         # Template: AdminDynamicFieldDropdown
         'Possible values' => 'Valori ammessi',
@@ -1070,17 +1070,17 @@ sub Data {
         'No pending time settings.' => 'Tempo di attesa non selezionato',
         'Ticket pending time reached' => 'Tempo di attesa per Ticket raggiunto',
         'Ticket pending time reached between' => 'Tempo di attesa per Ticket raggiunto fra ',
-        'Escalation times' => 'Tempi di scalo',
+        'Escalation times' => 'Tempi di Escalation',
         'No escalation time settings.' => 'Tempo di gestione non selezionato.',
         'Ticket escalation time reached' => 'Tempo di gestione per Ticket superato',
         'Ticket escalation time reached between' => 'Tempo di gestione per Ticket superato fra',
-        'Escalation - first response time' => 'Scalo - Prima risposta',
+        'Escalation - first response time' => 'Escalation - Prima risposta',
         'Ticket first response time reached' => 'Tempo di prima risposta superato',
         'Ticket first response time reached between' => 'Tempo di prima risposta superato fra',
-        'Escalation - update time' => 'Scalo - Aggiornamento',
+        'Escalation - update time' => 'Escalation - Aggiornamento',
         'Ticket update time reached' => 'Tempo di gestione - Aggiorna scaduto ',
         'Ticket update time reached between' => 'Tempo di gestione - Aggiorna scaduto fra',
-        'Escalation - solution time' => 'Scalo - Soluzione',
+        'Escalation - solution time' => 'Escalation - Soluzione',
         'Ticket solution time reached' => 'Tempo per soluzione scaduto',
         'Ticket solution time reached between' => 'Tempo per soluzione scaduto fra ',
         'Archive search option' => 'Opzione di ricerca in archivio',
@@ -1304,7 +1304,7 @@ sub Data {
         'After you save the configuration you will be redirected again to the edit screen.' =>
             'Dopo aver salvato, sarai rediretto alla schermata di modifica.',
         'If you want to return to overview please click the "Go to overview" button.' =>
-            'Se vuoi ritornare all\'Overview, utilizza il bottone "Vai a Overview".',
+            'Se vuoi ritornare alla Vista Globale, utilizza il bottone "Vai a Vista Globale".',
         'Web Service List' => 'Elenco Web Service',
         'Remote system' => 'Sistema Remoto',
         'Provider transport' => 'Trasporto del Provider',
@@ -1467,7 +1467,7 @@ sub Data {
         'Download package' => 'Scarica pacchetto',
         'Rebuild package' => 'Ricostruisci pacchetto',
         'Metadata' => '',
-        'Change Log' => '',
+        'Change Log' => 'Storia delle Modifiche',
         'Date' => 'Data',
         'List of Files' => 'Lista dei file',
         'Permission' => 'Permessi',
@@ -1488,9 +1488,9 @@ sub Data {
         'Disable it here!' => 'Disabilita funzione qui',
         'Logfile too large!' => 'Log File troppo grande ',
         'The logfile is too large, you need to reset it' => 'Il file di log è troppo grande, è necessario un reset del file',
-        'Overview' => 'Sommario',
-        'Range' => 'intervallo',
-        'Interface' => 'interfaccia',
+        'Overview' => 'Vista Globale',
+        'Range' => 'Intervallo',
+        'Interface' => 'Interfaccia',
         'Requests' => 'Richiesta',
         'Min Response' => 'Minimo per Risposta',
         'Max Response' => 'Massimo per Risposta',
@@ -2006,7 +2006,7 @@ sub Data {
         # Template: AgentTicketActionPopupClose
 
         # Template: AgentTicketBounce
-        'Bounce Ticket' => '',
+        'Bounce Ticket' => 'Rispedici Ticket',
         'Bounce to' => 'Rispedisci a',
         'You need a email address.' => 'E\' necessario un indirizzo email.',
         'Need a valid email address or don\'t use a local email address.' =>
@@ -2016,7 +2016,7 @@ sub Data {
         'Send mail!' => 'Invia messaggio!',
 
         # Template: AgentTicketBulk
-        'Ticket Bulk Action' => 'Azione di massa',
+        'Ticket Bulk Action' => 'Azioni  Multiple',
         'Send Email' => 'Invia Email',
         'Merge to' => 'Unisci a',
         'Invalid ticket identifier!' => 'Identificatore ticket non valido!',
@@ -2064,7 +2064,7 @@ sub Data {
         # Template: AgentTicketHistory
         'History of' => 'Storico di',
         'History Content' => 'Contenuto dello storico',
-        'Zoom view' => '',
+        'Zoom view' => 'Vista di Dettaglio',
 
         # Template: AgentTicketMerge
         'Ticket Merge' => 'Unisci Richiesta',
@@ -2096,7 +2096,7 @@ sub Data {
         '","26' => '',
 
         # Template: AgentTicketOverviewSmall
-        'Escalation in' => 'Scala in',
+        'Escalation in' => 'Escalation in',
         'Locked' => 'In gestione',
         '","30' => '',
 
@@ -2110,11 +2110,11 @@ sub Data {
         'To queue' => 'Alla coda',
 
         # Template: AgentTicketPhoneCommon
-        'Phone call' => 'Chiamata telefonica ',
+        'Phone call' => 'Chiamata telefonica',
 
         # Template: AgentTicketPlain
-        'Email Text Plain View' => 'Visualizzazione plain del corpo dell\'email',
-        'Plain' => '',
+        'Email Text Plain View' => 'Visualizzazione nativa del corpo dell\'email',
+        'Plain' => 'Testo nativo',
         'Download this email' => 'Scarica questa email',
 
         # Template: AgentTicketPrint
@@ -2256,7 +2256,7 @@ sub Data {
         'No time settings' => 'Nessuna impostazione per il tempo',
         'Only tickets created' => 'Solo ticket creati',
         'Only tickets created between' => 'Solo ticket creati tra',
-        'Ticket archive system' => '',
+        'Ticket archive system' => 'Sistema di Archiviazione Ticket',
         'Save search as template?' => 'Salvare la ricerca come modello?',
         'Save as Template?' => 'Salvare come modello?',
         'Save as Template' => 'Salvare come modello',
@@ -2316,7 +2316,7 @@ sub Data {
         'A popup of this screen is already open. Do you want to close it and load this one instead?' =>
             'Un popup di questa schermata è già aperto. Si desidera chiuderlo ed aprire questo invece?',
         'Please enter at least one search value or * to find anything.' =>
-            '',
+            'Inserire almeno un termine o * per cercare tutto.',
 
         # Template: FooterSmall
 
@@ -2404,7 +2404,7 @@ sub Data {
         # Template: InstallerLicenseText
 
         # Template: InstallerRegistration
-        'Organization' => 'Azienda',
+        'Organization' => 'Società',
         'Position' => 'Ruolo',
         'Complete registration and continue' => 'Completa la registrazione e prosegui',
         'Please fill in all fields marked as mandatory.' => 'Completare tutti i campi obbligatori',
@@ -2506,7 +2506,7 @@ sub Data {
             '',
         'Activates the ticket archive system to have a faster system by moving some tickets out of the daily scope. To search for these tickets, the archive flag has to be enabled in the ticket search.' =>
             'Attiva il sistema di archivio dei ticket per avere un sistema più veloce spostando alcuni ticket fuori dallo scopo giornaliero. Per cercare questi ticket, la flag archivio deve essere abilitata nella ricerca dei ticket.',
-        'Activates time accounting.' => 'Attiva l\'acconto del tempo.',
+        'Activates time accounting.' => 'Attiva Rendicontazione Tempo.',
         'Adds a suffix with the actual year and month to the OTRS log file. A logfile for every month will be created.' =>
             'Aggiunge un suffisso con l\'attuale anno e mese nel log di OTRS. Verrà creato un log per ogni mese.',
         'Adds customers email addresses to recipients in the ticket compose screen of the agent interface.' =>
@@ -2589,7 +2589,7 @@ sub Data {
         'Automated line break in text messages after x number of chars.' =>
             'A capo automatico nelle linee dopo X caratteri',
         'Automatically lock and set owner to current Agent after selecting for an Bulk Action.' =>
-            'Prendi in carico automaticamente sull\'agente corrente dopo aver selezionato un\'azione in blocco.',
+            'Prendi in carico automaticamente sull\'agente corrente dopo aver selezionato un\'azione multipla.',
         'Automatically sets the owner of a ticket as the responsible for it (if ticket responsible feature is enabled).' =>
             'Imposta automaticamente il proprietario di un ticket come responsabile del ticket (se la funzione di responsabilità è abilitata).',
         'Automatically sets the responsible of a ticket (if it is not set yet) after the first owner update.' =>
@@ -2619,8 +2619,8 @@ sub Data {
             'Controlla il SystemID nel rilevamento del numero di ticket per i follow-up (usare "No" se il SystemID è stato cambiato dopo aver usato il sistema).',
         'Closed tickets of customer' => 'Richieste completate per il cliente',
         'Comment for new history entries in the customer interface.' => 'Commento per nuove entry nello storico dell\'interfaccia cliente.',
-        'Companies' => 'Compagnie',
-        'Company Tickets' => 'Ticket della compagnia',
+        'Companies' => 'Società',
+        'Company Tickets' => 'Ticket della Società',
         'Company name for the customer web interface. Will also be included in emails as an X-Header.' =>
             '',
         'Configure your own log text for PGP.' => '',
@@ -2650,7 +2650,7 @@ sub Data {
         'Create and manage ticket priorities.' => 'Crea e gestisce le priorità dei ticket.',
         'Create and manage ticket states.' => 'Crea e gestisce gli stati dei ticket.',
         'Create and manage ticket types.' => 'Crea e gestisce i tipi di ticket.',
-        'Create and manage web services.' => '',
+        'Create and manage web services.' => 'Crea e gestisce i web service',
         'Create new email ticket and send this out (outbound)' => 'Crea un nuovo ticket email e invia questo (esternamente)',
         'Create new phone ticket (inbound)' => 'Crea un nuovo ticket telefonico (internamente)',
         'Custom text for the page shown to customers that have no tickets yet.' =>
@@ -2759,9 +2759,9 @@ sub Data {
         'Defines if composed messages have to be spell checked in the agent interface.' =>
             'Definisce se i messaggi composti devono essere controllati ortograficamente nell\'interfaccia degli agenti.',
         'Defines if time accounting is mandatory in the agent interface.' =>
-            'Definisce se l\'acconto del tempo è necessario nell\'interfaccia degli agenti.',
+            'Definisce se la rendicontazione del tempo è necessaria nell\'interfaccia degli agenti.',
         'Defines if time accounting must be set to all tickets in bulk action.' =>
-            '',
+            'Definisce se la rendicontazione del tempo è necessaria per le azioni multiple',
         'Defines scheduler PID update time in seconds (floating point number).' =>
             '',
         'Defines scheduler sleep time in seconds after processing all available tasks (floating point number).' =>
@@ -3628,9 +3628,9 @@ sub Data {
         'Open tickets of customer' => 'Richieste aperte per il cliente',
         'Overloads (redefines) existing functions in Kernel::System::Ticket. Used to easily add customizations.' =>
             '',
-        'Overview Escalated Tickets' => 'Overview delle richieste escalate',
-        'Overview Refresh Time' => 'Frequenza di aggiornamento dell\'overview',
-        'Overview of all open Tickets.' => 'Overview di tutte le richieste aperte.',
+        'Overview Escalated Tickets' => 'Vista Globale delle richieste escalate',
+        'Overview Refresh Time' => 'Frequenza di aggiornamento della Vista Globale',
+        'Overview of all open Tickets.' => 'Vista Globale di tutte le richieste aperte.',
         'PGP Key Management' => 'Gestione chiavi PGP',
         'PGP Key Upload' => 'Caricamento chiavi PGP',
         'Parameters for the CreateNextMask object in the preference view of the agent interface.' =>
@@ -3692,7 +3692,7 @@ sub Data {
         'Protection against CSRF (Cross Site Request Forgery) exploits (for more info see http://en.wikipedia.org/wiki/Cross-site_request_forgery).' =>
             '',
         'Queue view' => 'Vista per Coda',
-        'Refresh Overviews after' => 'Aggiornare Overview dopo',
+        'Refresh Overviews after' => 'Aggiornare Vista Globale dopo',
         'Refresh interval' => 'Intervallo di aggiornamento',
         'Replaces the original sender with current customer\'s email address on compose answer in the ticket compose screen of the agent interface.' =>
             '',
@@ -4174,7 +4174,7 @@ sub Data {
             '',
         'Ticket event module that triggers the escalation stop events.' =>
             '',
-        'Ticket overview' => 'Overview delle richieste',
+        'Ticket overview' => 'Vista Globale delle richieste',
         'Tickets' => 'Richieste',
         'Time in seconds that gets added to the actual time if setting a pending-state (default: 86400 = 1 day).' =>
             '',
@@ -4245,7 +4245,7 @@ sub Data {
         'Add System Address' => 'Inserisci Email di sistema',
         'Add User' => 'inserisci utente ',
         'Add a new Agent.' => 'inserisci nuovo Agente',
-        'Add a new Customer Company.' => 'Aggiungi una nuova Azienda Cliente',
+        'Add a new Customer Company.' => 'Aggiungi una nuova Società Cliente',
         'Add a new Group.' => 'Inserisci un nuovo gruppo',
         'Add a new Notification.' => 'Aggiungi nuova Notifica.',
         'Add a new Priority.' => 'Aggiungi nuova Priorita\' ',
@@ -4384,7 +4384,7 @@ sub Data {
         'Close!' => 'Chiuso!',
         'Collapse View' => 'riduci report',
         'Comment (internal)' => 'Commento (interno)',
-        'CompanyTickets' => 'TicketAzienda',
+        'CompanyTickets' => 'Ticket Societari',
         'Compose Answer' => 'Componi risposta',
         'Compose Email' => 'Componi email',
         'Compose Follow up' => 'Componi risposta',
