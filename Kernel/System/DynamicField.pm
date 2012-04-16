@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField.pm - DynamicFields configuration backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicField.pm,v 1.55 2012-03-29 11:24:28 mh Exp $
+# $Id: DynamicField.pm,v 1.56 2012-04-16 11:21:42 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::Valid;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.55 $) [1];
+$VERSION = qw($Revision: 1.56 $) [1];
 
 =head1 NAME
 
@@ -207,6 +207,11 @@ sub DynamicFieldAdd {
         ],
     );
 
+    # delete cache
+    $Self->{CacheObject}->CleanUp(
+        Type => 'DynamicField',
+    );
+
     my $DynamicField = $Self->DynamicFieldGet(
         Name => $Param{Name},
     );
@@ -231,11 +236,6 @@ sub DynamicFieldAdd {
             Value => \@PostMasterXHeader,
         );
     }
-
-    # delete cache
-    $Self->{CacheObject}->CleanUp(
-        Type => 'DynamicField',
-    );
 
     if ( !exists $Param{Reorder} || $Param{Reorder} ) {
 
@@ -1216,6 +1216,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.55 $ $Date: 2012-03-29 11:24:28 $
+$Revision: 1.56 $ $Date: 2012-04-16 11:21:42 $
 
 =cut
