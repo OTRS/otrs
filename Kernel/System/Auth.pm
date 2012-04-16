@@ -2,7 +2,7 @@
 # Kernel/System/Auth.pm - provides the authentication
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Auth.pm,v 1.55 2012-03-26 23:15:52 mh Exp $
+# $Id: Auth.pm,v 1.56 2012-04-16 11:11:59 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.55 $) [1];
+$VERSION = qw($Revision: 1.56 $) [1];
 
 =head1 NAME
 
@@ -192,7 +192,10 @@ sub Auth {
         next if !$User;
 
         # configured auth sync backend
-        my $AuthSyncBackend = $Self->{ConfigObject}->Get("AuthModule${Count}::UseSyncBackend");
+        my $AuthSyncBackend = $Self->{ConfigObject}->Get("AuthModule::UseSyncBackend${Count}")
+            || $Self->{ConfigObject}->Get("AuthModule${Count}::UseSyncBackend");
+
+    # for backwards compatibility, OTRS 3.1.1, 3.1.2 and 3.1.3 used this wrong format (see bug#8387)
 
         # sync with configured auth backend
         if ( defined $AuthSyncBackend ) {
@@ -336,6 +339,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.55 $ $Date: 2012-03-26 23:15:52 $
+$Revision: 1.56 $ $Date: 2012-04-16 11:11:59 $
 
 =cut
