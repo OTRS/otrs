@@ -9,7 +9,7 @@
 # Copyright (C) 2010 Alessandro Grassi <alessandro.grassi at devise.it>
 # Copyright (C) 2012 Massimo Bianchi <mxbianchi at tiscali.it>
 # --
-# $Id: it.pm,v 1.132 2012-04-02 09:44:36 mg Exp $
+# $Id: it.pm,v 1.133 2012-04-16 12:21:14 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.132 $) [1];
+$VERSION = qw($Revision: 1.133 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -534,13 +534,13 @@ sub Data {
 
         # Template: AAATicket
         'Status View' => 'Visualizzazione Stato',
-        'Bulk' => 'Blocco',
-        'Lock' => 'Preso in gestione',
-        'Unlock' => 'Libero',
+        'Bulk' => 'Aggiornamento Multiplo',
+        'Lock' => 'Gestici',
+        'Unlock' => 'Rilascia',
         'History' => 'Storico',
         'Zoom' => 'Dettagli',
         'Age' => 'Tempo trascorso',
-        'Bounce' => 'Rispedisci al mittente',
+        'Bounce' => 'Rispedisci',
         'Forward' => 'Inoltra',
         'From' => 'Da',
         'To' => 'A',
@@ -550,7 +550,7 @@ sub Data {
         'Move' => 'Sposta',
         'Queue' => 'Coda',
         'Queues' => 'Code',
-        'Priority' => 'Priorità',
+        'Priority' => 'Priorità e Servizi',
         'Priorities' => 'Priorità',
         'Priority Update' => 'Aggiornamento Priorità',
         'Priority added!' => 'Aggiunta Priorità',
@@ -697,15 +697,15 @@ sub Data {
         'Forward article via mail' => 'Inoltra l\'articolo via email',
         'Change the ticket priority' => 'Cambia priorità al ticket',
         'Change the ticket free fields!' => 'Cambia i campi liberi della richiesta',
-        'Link this ticket to other objects' => '',
-        'Change the owner for this ticket' => '',
-        'Change the  customer for this ticket' => '',
-        'Add a note to this ticket' => '',
-        'Merge into a different ticket' => '',
-        'Set this ticket to pending' => '',
-        'Close this ticket' => '',
+        'Link this ticket to other objects' => 'Collega questo Ticket ad un altro oggetto',
+        'Change the owner for this ticket' => 'Cambia operatore per questo Ticket',
+        'Change the  customer for this ticket' => 'Cambia il cliente per questo Ticket',
+        'Add a note to this ticket' => 'Aggiungi una nota a questo Ticket',
+        'Merge into a different ticket' => 'Unisci ad un altro Ticket',
+        'Set this ticket to pending' => 'Metti questo Ticket in attesa',
+        'Close this ticket' => 'Chiudi questo Ticket',
         'Look into a ticket!' => 'Visualizza questa richiesta',
-        'Delete this ticket' => '',
+        'Delete this ticket' => 'Cancella questo Ticket',
         'Mark as Spam!' => 'Segnala come spam',
         'My Queues' => 'Le mie Code',
         'Shown Tickets' => 'Richieste Visualizzate',
@@ -769,7 +769,7 @@ sub Data {
         'Reminder Reached' => 'Promemoria Raggiunti',
         'Reminder Tickets' => 'Tickets di promemoria',
         'Escalated Tickets' => 'Ticket scalati',
-        'New Tickets' => 'Nuovo Ticket',
+        'New Tickets' => 'Nuovi Ticket',
         'Open Tickets / Need to be answered' => 'Tickets Aperti / che richiedono risposta',
         'All open tickets, these tickets have already been worked on, but need a response' =>
             'Tutti i ticket aperti, questi ticket sono in lavorazione ma necessitano di una risposta',
