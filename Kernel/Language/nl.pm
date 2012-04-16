@@ -8,7 +8,7 @@
 # Copyright (C) 2010 Ton van Boven <ton 'at' avebo.nl>
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: nl.pm,v 1.181 2012-03-20 16:44:48 mg Exp $
+# $Id: nl.pm,v 1.182 2012-04-16 18:27:14 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -28,7 +28,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.181 $) [1];
+$VERSION = qw($Revision: 1.182 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -378,6 +378,8 @@ sub Data {
         'Font Color' => 'Tekstkleur',
         'Background Color' => 'Achtergrondkleur',
         'Remove Formatting' => 'Verwijder opmaak',
+        'Customer automatically added in Cc.' => 'Klant automatisch toegevoegd als CC.',
+        'Address %s replaced with registered customer address.' => 'Adres %s vervangen met vastgelegde klant-adres.',
         'Show/Hide Hidden Elements' => 'Toon/verberg verborgen elementen',
         'Align Left' => 'Links uitlijnen',
         'Align Center' => 'Centreren',
@@ -1835,8 +1837,8 @@ sub Data {
 
         # Template: AgentCustomerSearch
         'Search Customer' => 'Klanten zoeken',
-        'Duplicated entry' => '',
-        'This address already exists on the address list.' => '',
+        'Duplicated entry' => 'Dubbel adres',
+        'This address already exists on the address list.' => 'Dit adres is al toegevoegd.',
 
         # Template: AgentCustomerTableView
 
@@ -2623,6 +2625,7 @@ sub Data {
         'Checkbox' => 'Checkbox',
         'Checks the SystemID in ticket number detection for follow-ups (use "No" if SystemID has been changed after using the system).' =>
             '',
+        'Close this ticket' => 'Sluit dit ticket',
         'Closed tickets of customer' => 'Gesloten tickets van klant',
         'Comment for new history entries in the customer interface.' => '',
         'Companies' => 'Bedrijven',
@@ -2642,7 +2645,7 @@ sub Data {
         'Create and manage attachments.' => 'Aanmaken en beheren van bijlagen.',
         'Create and manage companies.' => 'Aanmaken en beheren van bedrijven.',
         'Create and manage customers.' => 'Aanmaken en beheren van klanten.',
-        'Create and manage dynamic fields.' => 'Aanmaken en beheren van dynamische velden',
+        'Create and manage dynamic fields.' => 'Aanmaken en beheren van dynamische velden.',
         'Create and manage event based notifications.' => 'Aanmaken en beheren van meldingen door gebeurtenissen.',
         'Create and manage groups.' => 'Aanmaken en beheren van groepen.',
         'Create and manage notifications that are sent to agents.' => 'Aanmaken en beheren van meldingen die naar de gebruikers gestuurd worden.',
@@ -2670,7 +2673,7 @@ sub Data {
         'DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.' =>
             '',
         'Data used to export the search result in CSV format.' => '',
-        'Date / Time' => '',
+        'Date / Time' => 'Datum / tijd',
         'Debugs the translation set. If this is set to "Yes" all strings (text) without translations are written to STDERR. This can be helpful when you are creating a new translation file. Otherwise, this option should remain set to "No".' =>
             '',
         'Default ACL values for ticket actions.' => '',
