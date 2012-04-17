@@ -2,7 +2,7 @@
 # Kernel/Language/tr.pm - provides Turkish language translation
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: tr.pm,v 1.68 2012-03-20 16:44:48 mg Exp $
+# $Id: tr.pm,v 1.69 2012-04-17 07:11:54 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,13 +14,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.68 $)[1];
+$VERSION = qw($Revision: 1.69 $)[1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-03-20 17:40:39
+    # Last translation file sync: 2012-04-17 09:08:46
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -261,8 +261,6 @@ sub Data {
         'No entry found!' => 'Kayıt bulunamadı!',
         'Session has timed out. Please log in again.' => 'Oturum süresi doldu. Lütfen tekrar oturum açın.',
         'No Permission!' => 'Yasak!',
-        'To: (%s) replaced with database email!' => 'Kime: (%s) veritabanı elektronik postasıyla değiştirildi!',
-        'Cc: (%s) added database email!' => 'Karbon kopya: (%s) veritabanı elektronik postası eklendi!',
         '(Click here to add)' => '(Eklemek için burayı tıklayın)',
         'Preview' => 'Önizleme',
         'Package not correctly deployed! Please reinstall the package.' =>
@@ -671,6 +669,8 @@ sub Data {
         'Send Email and create a new Ticket' => 'E-Postayı gönder ve yeni Bilet oluştur',
         'Create new Email Ticket and send this out (Outbound)' => 'Yeni E-Posta-Bilet oluştur ve bunu gönder (dışarı)',
         'Create new Phone Ticket (Inbound)' => 'Yeni Telefon-Bilet',
+        'Address %s replaced with registered customer address.' => '',
+        'Customer automatically added in Cc.' => '',
         'Overview of all open Tickets' => 'Tüm açık Biletlere genel bakış',
         'Locked Tickets' => 'Kilitli Biletler',
         'My Locked Tickets' => '',
@@ -2622,6 +2622,8 @@ sub Data {
             '',
         'Controls if customers have the ability to sort their tickets.' =>
             '',
+        'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
+            '',
         'Converts HTML mails into text messages.' => '',
         'Create and manage Service Level Agreements (SLAs).' => '',
         'Create and manage agents.' => '',
@@ -3527,8 +3529,6 @@ sub Data {
             '',
         'List of IE6-specific CSS files to always be loaded for the customer interface.' =>
             '',
-        'List of IE7-specific CSS files to always be loaded for the agent interface.' =>
-            '',
         'List of IE7-specific CSS files to always be loaded for the customer interface.' =>
             '',
         'List of IE8-specific CSS files to always be loaded for the agent interface.' =>
@@ -4280,6 +4280,7 @@ sub Data {
         'Can\'t update password, your new passwords do not match! Please try again!' =>
             'Parola güncellenemiyor, parolalar birbirleriyle uyuşmuyor! Lütfen tekrar deneyin!',
         'Category Tree' => 'Kategori Ağacı',
+        'Cc: (%s) added database email!' => 'Karbon kopya: (%s) veritabanı elektronik postası eklendi!',
         'Change %s settings' => '%s ayarlarını değiştir',
         'Change Time' => 'Değişiklik Zamanı',
         'Change free text of ticket' => 'Biletin serbest metnini değiştir',
@@ -4628,6 +4629,7 @@ sub Data {
         'Title of the stat.' => 'İstatistiğin başlığı.',
         'To get the article attribute (e. g. (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> and <OTRS_CUSTOMER_Body>).' =>
             'Yazı niteliklerini al (örneğin (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> ve <OTRS_CUSTOMER_Body>).',
+        'To: (%s) replaced with database email!' => 'Kime: (%s) veritabanı elektronik postasıyla değiştirildi!',
         'Top of Page' => 'Yukarı',
         'Total hits' => 'Toplam isabet',
         'U' => 'U',

@@ -3,7 +3,7 @@
 # Copyright (C) 2006 Stelios Maistros <smaistros aegean.gr>
 # Copyright (C) 2006 George Thomas <gthomas aegean.gr>
 # --
-# $Id: el.pm,v 1.95 2012-03-20 16:44:47 mg Exp $
+# $Id: el.pm,v 1.96 2012-04-17 07:11:53 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,13 +16,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.95 $) [1];
+$VERSION = qw($Revision: 1.96 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-03-20 17:40:06
+    # Last translation file sync: 2012-04-17 09:08:12
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -264,8 +264,6 @@ sub Data {
         'No entry found!' => 'Δεν βρεθηκε εγγραφή',
         'Session has timed out. Please log in again.' => 'Εξαντλήθηκε ο χρόνος τής σύνδεσης. Παρακαλώ συνδεθείτε ξανά.',
         'No Permission!' => 'Απαγορεύεται!',
-        'To: (%s) replaced with database email!' => 'Πρός: (%s) αντικαταστάθηκε με το email της βάσης δεδομένων!',
-        'Cc: (%s) added database email!' => 'Σε: (%s) προστέθηκε το email της βάσης δεδομένων !',
         '(Click here to add)' => '(πατήστε εδώ για προσθήκη)',
         'Preview' => 'Προεπισκόπηση',
         'Package not correctly deployed! Please reinstall the package.' =>
@@ -674,6 +672,8 @@ sub Data {
         'Send Email and create a new Ticket' => 'Αποστολη email και δημιουργια νεου Δελτίου',
         'Create new Email Ticket and send this out (Outbound)' => 'Δημιουργία Νεόυ Δελτίου (email) και αποστολή',
         'Create new Phone Ticket (Inbound)' => 'Δημιουργία νέου δελτίου μέσω τηλέφώνου',
+        'Address %s replaced with registered customer address.' => '',
+        'Customer automatically added in Cc.' => '',
         'Overview of all open Tickets' => 'Έλεγχος όλων των ανοιχτών Δελτίων',
         'Locked Tickets' => 'Κλειδωμένα Δελτία',
         'My Locked Tickets' => '',
@@ -2632,6 +2632,8 @@ sub Data {
             '',
         'Controls if customers have the ability to sort their tickets.' =>
             '',
+        'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
+            '',
         'Converts HTML mails into text messages.' => '',
         'Create and manage Service Level Agreements (SLAs).' => '',
         'Create and manage agents.' => '',
@@ -3537,8 +3539,6 @@ sub Data {
             '',
         'List of IE6-specific CSS files to always be loaded for the customer interface.' =>
             '',
-        'List of IE7-specific CSS files to always be loaded for the agent interface.' =>
-            '',
         'List of IE7-specific CSS files to always be loaded for the customer interface.' =>
             '',
         'List of IE8-specific CSS files to always be loaded for the agent interface.' =>
@@ -4279,6 +4279,7 @@ sub Data {
         'Can\'t update password, your new passwords do not match! Please try again!' =>
             'Δεν μπορεί να γίνει αλλαγή κωδικού,οι κωδικοί δεν ταιριάζουν!',
         'Category Tree' => 'Δέντρο Κατηγοριών',
+        'Cc: (%s) added database email!' => 'Σε: (%s) προστέθηκε το email της βάσης δεδομένων !',
         'Change %s settings' => 'Αλλαγή  %s επιλογών',
         'Change free text of ticket' => 'Αλλαγή ελεύθερου κειμένου του δελτίου',
         'Change owner of ticket' => 'Αλλαγή Ιδιοκτήτη Δελτίου',
@@ -4548,6 +4549,7 @@ anyway.' =>
         'Tickets available' => 'Διαθέσιμα Δελτία',
         'Tickets shown' => 'Εμφανή Δελτία',
         'Times' => 'Φορές',
+        'To: (%s) replaced with database email!' => 'Πρός: (%s) αντικαταστάθηκε με το email της βάσης δεδομένων!',
         'Top of Page' => 'Αρχή Σελίδας',
         'Total hits' => 'Συνολικα hits',
         'Uniq' => 'Μοναδικό',

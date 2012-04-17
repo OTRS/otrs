@@ -2,7 +2,7 @@
 # Kernel/Language/ca.pm - provides Catalan language translation
 # Copyright (C) 2012 Sistemes OTIC (ibsalut) - Antonio Linde
 # --
-# $Id: ca.pm,v 1.7 2012-03-20 16:44:48 mg Exp $
+# $Id: ca.pm,v 1.8 2012-04-17 07:11:54 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-03-20 17:40:01
+    # Last translation file sync: 2012-04-17 09:08:06
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -262,8 +262,6 @@ sub Data {
         'No entry found!' => 'No es va trobar!',
         'Session has timed out. Please log in again.' => 'La sessió ha expirat. Per favor iniciï una sessió novament.',
         'No Permission!' => 'No té Permís!',
-        'To: (%s) replaced with database email!' => 'To: (%s) substituït amb email de la base de dades!',
-        'Cc: (%s) added database email!' => 'Cc: (%s) Afegit a la base de correu!',
         '(Click here to add)' => '(Faci clic aqui per a afegir)',
         'Preview' => 'Vista Prèvia',
         'Package not correctly deployed! Please reinstall the package.' =>
@@ -672,6 +670,8 @@ sub Data {
         'Send Email and create a new Ticket' => 'Enviar un correu i crear un nou tiquet',
         'Create new Email Ticket and send this out (Outbound)' => 'Crea nou tiquet de correu i ho envia (sortida)',
         'Create new Phone Ticket (Inbound)' => 'Crea nou tiquet telefònic (entrada)',
+        'Address %s replaced with registered customer address.' => '',
+        'Customer automatically added in Cc.' => '',
         'Overview of all open Tickets' => 'Resum de tots els tiquets oberts',
         'Locked Tickets' => 'Tiquets bloquejats',
         'My Locked Tickets' => 'Els meus tiquets bloquejats',
@@ -2623,6 +2623,8 @@ sub Data {
             '',
         'Controls if customers have the ability to sort their tickets.' =>
             '',
+        'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
+            '',
         'Converts HTML mails into text messages.' => '',
         'Create and manage Service Level Agreements (SLAs).' => '',
         'Create and manage agents.' => '',
@@ -3528,8 +3530,6 @@ sub Data {
             '',
         'List of IE6-specific CSS files to always be loaded for the customer interface.' =>
             '',
-        'List of IE7-specific CSS files to always be loaded for the agent interface.' =>
-            '',
         'List of IE7-specific CSS files to always be loaded for the customer interface.' =>
             '',
         'List of IE8-specific CSS files to always be loaded for the agent interface.' =>
@@ -4291,6 +4291,7 @@ sub Data {
         'Can\'t update password, your new passwords do not match! Please try again!' =>
             'No es pot actualitzar la contrasenya, no coincideixen! Per favor intenti\'l de nou!',
         'Category Tree' => 'Arbre de categories',
+        'Cc: (%s) added database email!' => 'Cc: (%s) Afegit a la base de correu!',
         'Change %s settings' => 'Canviar %s especificacions',
         'Change free text of ticket' => 'Canviar el text lliure del tiquet',
         'Change owner of ticket' => 'Canviar el propietari del tiquet',
@@ -4643,6 +4644,7 @@ sub Data {
         'To get the article attribute (e. g. (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> and <OTRS_CUSTOMER_Body>).' =>
             'Per a obtenir l\'atribut de l\'article (p.e.,
 (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> i <OTRS_CUSTOMER_Body>).',
+        'To: (%s) replaced with database email!' => 'To: (%s) substituït amb email de la base de dades!',
         'Top of Page' => 'Inici de pàgina',
         'Total hits' => 'Total de coincidències',
         'U' => 'A',

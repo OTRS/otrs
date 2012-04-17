@@ -6,7 +6,7 @@
 # Copyright (C) 2007 Aron Ujvari <ujvari@hungary.com>
 # Copyright (C) 2009 Arnold Matyasi <arn@webma.hu>
 # --
-# $Id: hu.pm,v 1.111 2012-03-20 16:44:48 mg Exp $
+# $Id: hu.pm,v 1.112 2012-04-17 07:11:54 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,13 +19,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.111 $) [1];
+$VERSION = qw($Revision: 1.112 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-03-20 17:40:18
+    # Last translation file sync: 2012-04-17 09:08:24
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -266,8 +266,6 @@ sub Data {
         'No entry found!' => 'Nem található tétel!',
         'Session has timed out. Please log in again.' => 'Az folyamat időtúllépés miatt befejeződött. Kérjük lépjen be újra.',
         'No Permission!' => 'Nincs jogosultság!',
-        'To: (%s) replaced with database email!' => 'Címzett: (%s) felülírva az adatbázis címmel!',
-        'Cc: (%s) added database email!' => 'Másolat: (%s) e-mail címe hozzáadva az adatbázishoz!',
         '(Click here to add)' => '(Kattinston ide a hozzáadáshoz)',
         'Preview' => 'Előnézet',
         'Package not correctly deployed! Please reinstall the package.' =>
@@ -676,6 +674,8 @@ sub Data {
         'Send Email and create a new Ticket' => 'E-mail küldése és új Jegy létrehozása',
         'Create new Email Ticket and send this out (Outbound)' => 'Új E-mail jegy létrehozása és kiküldése (Kimenő)',
         'Create new Phone Ticket (Inbound)' => 'Új Telefon-jegy létrehozása (Bejövő)',
+        'Address %s replaced with registered customer address.' => '',
+        'Customer automatically added in Cc.' => '',
         'Overview of all open Tickets' => 'Összes nyitott jegy áttekintése',
         'Locked Tickets' => 'Zárolt jegyek',
         'My Locked Tickets' => '',
@@ -2627,6 +2627,8 @@ sub Data {
             '',
         'Controls if customers have the ability to sort their tickets.' =>
             '',
+        'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
+            '',
         'Converts HTML mails into text messages.' => '',
         'Create and manage Service Level Agreements (SLAs).' => '',
         'Create and manage agents.' => '',
@@ -3532,8 +3534,6 @@ sub Data {
             '',
         'List of IE6-specific CSS files to always be loaded for the customer interface.' =>
             '',
-        'List of IE7-specific CSS files to always be loaded for the agent interface.' =>
-            '',
         'List of IE7-specific CSS files to always be loaded for the customer interface.' =>
             '',
         'List of IE8-specific CSS files to always be loaded for the agent interface.' =>
@@ -4297,6 +4297,7 @@ sub Data {
         'Can\'t update password, your new passwords do not match! Please try again!' =>
             'Nem sikerült modosítani a jelszót, a jelszavak nem egyeznek! Kérem próbálja újra!',
         'Category Tree' => 'Kategória Fa',
+        'Cc: (%s) added database email!' => 'Másolat: (%s) e-mail címe hozzáadva az adatbázishoz!',
         'Change %s settings' => '%s beállításainak módosítása',
         'Change Time' => 'Idő megváltoztatása',
         'Change Times' => 'Változás ideje',
@@ -4679,6 +4680,7 @@ sub Data {
             'Cikk jellemzői pl. (<OTRS_AGENT_From>, <OTRS_AGENT_To>, <OTRS_AGENT_Cc>, <OTRS_AGENT_Subject> and <OTRS_AGENT_Body>).',
         'To get the article attribute (e. g. (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> and <OTRS_CUSTOMER_Body>).' =>
             'A bejegyzés attributmának használata (pl. <OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> és <OTRS_CUSTOMER_Body>).',
+        'To: (%s) replaced with database email!' => 'Címzett: (%s) felülírva az adatbázis címmel!',
         'Top of Page' => 'Lap teteje',
         'Total hits' => 'Összes találat',
         'U' => 'A',

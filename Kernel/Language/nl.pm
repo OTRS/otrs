@@ -8,7 +8,7 @@
 # Copyright (C) 2010 Ton van Boven <ton 'at' avebo.nl>
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: nl.pm,v 1.182 2012-04-16 18:27:14 mb Exp $
+# $Id: nl.pm,v 1.183 2012-04-17 07:11:54 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -28,13 +28,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.182 $) [1];
+$VERSION = qw($Revision: 1.183 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-03-20 17:40:26
+    # Last translation file sync: 2012-04-17 09:08:32
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -275,8 +275,6 @@ sub Data {
         'No entry found!' => 'Niets gevonden.',
         'Session has timed out. Please log in again.' => 'Uw sessie is verlopen. Meldt u opnieuw aan.',
         'No Permission!' => 'Geen toegang! Onvoldoende permissies.',
-        'To: (%s) replaced with database email!' => 'Aan: e-mail adres (%s) vervangen.',
-        'Cc: (%s) added database email!' => 'Cc: e-mail adres (%s) toegevoegd.',
         '(Click here to add)' => '(Klik hier om toe te voegen)',
         'Preview' => 'Voorbeeld',
         'Package not correctly deployed! Please reinstall the package.' =>
@@ -378,8 +376,6 @@ sub Data {
         'Font Color' => 'Tekstkleur',
         'Background Color' => 'Achtergrondkleur',
         'Remove Formatting' => 'Verwijder opmaak',
-        'Customer automatically added in Cc.' => 'Klant automatisch toegevoegd als CC.',
-        'Address %s replaced with registered customer address.' => 'Adres %s vervangen met vastgelegde klant-adres.',
         'Show/Hide Hidden Elements' => 'Toon/verberg verborgen elementen',
         'Align Left' => 'Links uitlijnen',
         'Align Center' => 'Centreren',
@@ -687,6 +683,8 @@ sub Data {
         'Send Email and create a new Ticket' => 'Verstuur e-mail en maak een nieuw ticket aan',
         'Create new Email Ticket and send this out (Outbound)' => 'Maak een nieuw ticket aan en verstuur per e-mail',
         'Create new Phone Ticket (Inbound)' => 'Maak nieuw ticket aan van telefoongesprek',
+        'Address %s replaced with registered customer address.' => 'Adres %s vervangen met vastgelegde klant-adres.',
+        'Customer automatically added in Cc.' => 'Klant automatisch toegevoegd als CC.',
         'Overview of all open Tickets' => 'Laat alle open tickets zien',
         'Locked Tickets' => 'Vergrendelde tickets',
         'My Locked Tickets' => 'Mijn vergrendelde tickets',
@@ -2625,7 +2623,6 @@ sub Data {
         'Checkbox' => 'Checkbox',
         'Checks the SystemID in ticket number detection for follow-ups (use "No" if SystemID has been changed after using the system).' =>
             '',
-        'Close this ticket' => 'Sluit dit ticket',
         'Closed tickets of customer' => 'Gesloten tickets van klant',
         'Comment for new history entries in the customer interface.' => '',
         'Companies' => 'Bedrijven',
@@ -2638,6 +2635,8 @@ sub Data {
         'Configures the full-text index. Execute "bin/otrs.RebuildFulltextIndex.pl" in order to generate a new index.' =>
             '',
         'Controls if customers have the ability to sort their tickets.' =>
+            '',
+        'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
             '',
         'Converts HTML mails into text messages.' => '',
         'Create and manage Service Level Agreements (SLAs).' => 'Aanmaken en beheren van Service Level Agreements (SLA\'s).',
@@ -3544,8 +3543,6 @@ sub Data {
             '',
         'List of IE6-specific CSS files to always be loaded for the customer interface.' =>
             '',
-        'List of IE7-specific CSS files to always be loaded for the agent interface.' =>
-            '',
         'List of IE7-specific CSS files to always be loaded for the customer interface.' =>
             '',
         'List of IE8-specific CSS files to always be loaded for the agent interface.' =>
@@ -4326,6 +4323,7 @@ sub Data {
         'Can\'t update password, your new passwords do not match! Please try again!' =>
             'Uw wachtwoord kan niet worden gewijzigd, de wachtwoorden komen niet overeen. Probeer het opnieuw.',
         'Category Tree' => 'Categorie-boom',
+        'Cc: (%s) added database email!' => 'Cc: e-mail adres (%s) toegevoegd.',
         'Change %s Relations for' => 'Bewerk gekoppelde %s voor',
         'Change %s Relations for %s' => 'Bewerk %s koppelingen voor %s',
         'Change %s settings' => 'Wijzig instellingen voor %s',
@@ -4811,6 +4809,7 @@ sub Data {
         'To get the article attribute (e. g. (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> and <OTRS_CUSTOMER_Body>).' =>
             'Voor de eigenschappen van de interactie (bijvoorbeeld <OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> and <OTRS_CUSTOMER_Body>).',
         'To is required.' => 'Aan is verplicht.',
+        'To: (%s) replaced with database email!' => 'Aan: e-mail adres (%s) vervangen.',
         'Top of Page' => 'Bovenkant pagina',
         'Total hits' => 'Totaal gevonden',
         'Type:' => 'Type:',

@@ -9,7 +9,7 @@
 # Copyright (C) 2010-2011 Eugene Kungurov <ekungurov83 at ya.ru>
 # Copyright (C) 2010 Sergey Romanov <romanov_s at mail.ru>
 # --
-# $Id: ru.pm,v 1.135 2012-03-20 16:44:46 mg Exp $
+# $Id: ru.pm,v 1.136 2012-04-17 07:11:53 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,13 +22,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.135 $) [1];
+$VERSION = qw($Revision: 1.136 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-03-20 17:40:32
+    # Last translation file sync: 2012-04-17 09:08:37
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -269,8 +269,6 @@ sub Data {
         'No entry found!' => 'Запись не найдена',
         'Session has timed out. Please log in again.' => 'Сеанс завершен. Попробуйте войти заново.',
         'No Permission!' => 'Нет доступа!',
-        'To: (%s) replaced with database email!' => 'To: (%s) заменено на e-mail базы данных!',
-        'Cc: (%s) added database email!' => 'Cc: (%s) добавлен e-mail базы данных!',
         '(Click here to add)' => '(нажмите сюда чтобы добавить)',
         'Preview' => 'Просмотр',
         'Package not correctly deployed! Please reinstall the package.' =>
@@ -679,6 +677,8 @@ sub Data {
         'Send Email and create a new Ticket' => 'Отправить письмо и создать новую заявку',
         'Create new Email Ticket and send this out (Outbound)' => 'Создать новую заявку email и отправить ее',
         'Create new Phone Ticket (Inbound)' => 'Создать новую телефонную заявку',
+        'Address %s replaced with registered customer address.' => '',
+        'Customer automatically added in Cc.' => '',
         'Overview of all open Tickets' => 'Обзор всех открытых заявок',
         'Locked Tickets' => 'Заблокированные заявки',
         'My Locked Tickets' => 'Мои заблокированные заявки',
@@ -2630,6 +2630,8 @@ sub Data {
             '',
         'Controls if customers have the ability to sort their tickets.' =>
             '',
+        'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
+            '',
         'Converts HTML mails into text messages.' => '',
         'Create and manage Service Level Agreements (SLAs).' => 'Создание и управление Соглашениями об Уровне Сервиса (SLA-ми).',
         'Create and manage agents.' => 'Создание и управление агентами.',
@@ -3535,8 +3537,6 @@ sub Data {
             '',
         'List of IE6-specific CSS files to always be loaded for the customer interface.' =>
             '',
-        'List of IE7-specific CSS files to always be loaded for the agent interface.' =>
-            '',
         'List of IE7-specific CSS files to always be loaded for the customer interface.' =>
             '',
         'List of IE8-specific CSS files to always be loaded for the agent interface.' =>
@@ -4309,6 +4309,7 @@ sub Data {
         'Can\'t update password, your new passwords do not match! Please try again!' =>
             'Невозможно сменить пароль, пароли не совпадают!',
         'Category Tree' => 'Иерархия категорий',
+        'Cc: (%s) added database email!' => 'Cc: (%s) добавлен e-mail базы данных!',
         'Change %s settings' => 'Изменить параметры: %s',
         'Change Times' => 'Время изменений',
         'Change free text of ticket' => 'Изменить свободный текст заявки',
@@ -4726,6 +4727,7 @@ sub Data {
             'Поля сообщения (<OTRS_AGENT_From>, <OTRS_AGENT_To>, <OTRS_AGENT_Cc>, <OTRS_AGENT_Subject> and <OTRS_AGENT_Body>)',
         'To get the article attribute (e. g. (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> and <OTRS_CUSTOMER_Body>).' =>
             'Данные сообщения (например, <OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> и <OTRS_CUSTOMER_Body>).',
+        'To: (%s) replaced with database email!' => 'To: (%s) заменено на e-mail базы данных!',
         'Tommorow' => 'Завтра',
         'Top of Page' => 'В начало страницы',
         'Total hits' => 'Найдено вхождений',

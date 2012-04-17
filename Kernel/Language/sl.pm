@@ -4,7 +4,7 @@
 # Copyright (C) 2011 Andrej Cimerlajt, i-Rose d.o.o. <andrej.cimerlajt@i-rose.si>
 # Copyright (C) 2011 Gorazd Žagar, i-Rose d.o.o. <gorazd.zagar@i-rose.si>
 # --
-# $Id: sl.pm,v 1.2 2012-04-02 07:52:54 mg Exp $
+# $Id: sl.pm,v 1.3 2012-04-17 07:11:52 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,13 +19,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-02-10 16:00:00
+    # Last translation file sync: 2012-04-17 09:08:40
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -234,7 +234,7 @@ sub Data {
         'There is no acount with that user name.' => 'Račun s tem uporabniškem imenom ne obstaja.',
         'Please contact your administrator' => 'Prosimo, obrnite se na vašega skrbnika',
         'Logout' => 'Odjava',
-        'Logout successful. Thank you for using OTRS!' => "Odjava uspešna.",
+        'Logout successful. Thank you for using OTRS!' => 'Odjava uspešna.',
         'Invalid SessionID!' => 'Neveljaven ID seje!',
         'Feature not active!' => 'Funkcija ni aktivna!',
         'Agent updated!' => 'Posodobljen zaposlen',
@@ -266,8 +266,6 @@ sub Data {
         'No entry found!' => 'Vnos ni najden!',
         'Session has timed out. Please log in again.' => 'Seja je potekla. Prijavite se še enkrat.',
         'No Permission!' => 'Nimate dovolenja!',
-        'To: (%s) replaced with database email!' => 'Za: (%s) zamenjan naslov E-pošte z onim iz baze!',
-        'Cc: (%s) added database email!' => 'Kk: (%s) dodan naslov E-pošte iz baze!',
         '(Click here to add)' => '(Kliknite tukaj, da dodate)',
         'Preview' => 'Predogled',
         'Package not correctly deployed! Please reinstall the package.' =>
@@ -676,6 +674,8 @@ sub Data {
         'Send Email and create a new Ticket' => 'pošlji E-pošto in kreiraj nov zahtevek',
         'Create new Email Ticket and send this out (Outbound)' => 'Odpri nov zahtevek E-pošte in pošlji to (izhodni)',
         'Create new Phone Ticket (Inbound)' => 'Kreiraj nov telefonski zahtevek (vhodni klic)',
+        'Address %s replaced with registered customer address.' => '',
+        'Customer automatically added in Cc.' => '',
         'Overview of all open Tickets' => 'Pregled vseh odprtih zahtevkov',
         'Locked Tickets' => 'Prevzeti/blokirani',
         'My Locked Tickets' => 'Moji prevzeti zahtevki',
@@ -687,19 +687,22 @@ sub Data {
         'Unwatch' => 'Prekini pregled',
         'Lock it to work on it' => '',
         'Unlock to give it back to the queue' => '',
-        'Shows the ticket history!' => 'Prikaži dnevnik zahtevka!',
-        'Print this ticket!' => 'Natisni zahtevek!',
-        'Change the ticket priority!' => 'Spremeni prioriteto zahtevka',
+        'Show the ticket history' => '',
+        'Print this ticket' => '',
+        'Print this article' => '',
+        'Split this article' => '',
+        'Forward article via mail' => '',
+        'Change the ticket priority' => '',
         'Change the ticket free fields!' => 'Spremeni prosta polja zahtevka',
-        'Link this ticket to an other objects!' => 'Poveži ta zahtevek z drugimi objekti!',
-        'Change the ticket owner!' => 'Spremeni lastnika zahtevka!',
-        'Change the ticket customer!' => 'Spremeni uporabnika za zahtevek!',
-        'Add a note to this ticket!' => 'Dodaj opombo temu zahtevku!',
-        'Merge this ticket!' => 'Spoji ta zahtevek!',
-        'Set this ticket to pending!' => 'Dodaj ta zahtevek na čakanje!',
-        'Close this ticket!' => 'Zapri zahtevek!',
+        'Link this ticket to other objects' => '',
+        'Change the owner for this ticket' => '',
+        'Change the  customer for this ticket' => '',
+        'Add a note to this ticket' => '',
+        'Merge into a different ticket' => '',
+        'Set this ticket to pending' => '',
+        'Close this ticket' => 'Zapri ta zahtevek',
         'Look into a ticket!' => 'Preglej vsebino zahtevka!',
-        'Delete this ticket!' => 'Izbriši ta zahtevek!',
+        'Delete this ticket' => '',
         'Mark as Spam!' => 'Označi kot SPAM!',
         'My Queues' => 'Moje vrste',
         'Shown Tickets' => 'prikazani zahtevki',
@@ -938,6 +941,10 @@ sub Data {
         'Label' => '',
         'Order' => 'Sortiranje',
         'Object' => 'Objekt',
+        'Delete this field' => '',
+        'Do you really want to delete this dynamic field? ALL associated data will be LOST!' =>
+            '',
+        'Delete field' => '',
 
         # Template: AdminDynamicFieldCheckbox
         'Dynamic Fields' => '',
@@ -971,10 +978,10 @@ sub Data {
         'Define years period' => '',
         'Activate this feature to define a fixed range of years (in the future and in the past) to be displayed on the year part of the field.' =>
             '',
-        'Years in the future' => '',
-        'Years in the future to display (default: 5 years).' => '',
         'Years in the past' => '',
         'Years in the past to display (default: 5 years).' => '',
+        'Years in the future' => '',
+        'Years in the future to display (default: 5 years).' => '',
         'Show link' => '',
         'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
             '',
@@ -1092,7 +1099,7 @@ sub Data {
         'Archive selected tickets' => 'Arhiviraj izbrane zahtevke',
         'Add Note' => 'Dodaj opombo',
         'Time units' => 'Časovne enote',
-        '(work units)' => ' (delovne enote)',
+        ' (work units)' => '',
         'Ticket Commands' => 'Ukazi za zahtevek',
         'Send agent/customer notifications on changes' => 'Pošlji obvestilo zaposlenemu/uporabniku o spremembah',
         'CMD' => 'CMD',
@@ -1252,6 +1259,29 @@ sub Data {
         'A "-" value means no authentication.' => '',
         'The user name to be used to access the remote system.' => '',
         'The password for the privileged user.' => '',
+        'Use SSL Options' => '',
+        'Show or hide SSL options to connect to the remote system.' => '',
+        'Certificate File' => '',
+        'The full path and name of the SSL certificate file (must be in .p12 format).' =>
+            '',
+        'e.g. /opt/otrs/var/certificates/SOAP/certificate.p12' => '',
+        'Certificate Password File' => '',
+        'The password to open the SSL certificate.' => '',
+        'Certification Authority (CA) File' => '',
+        'The full path and name of the certification authority certificate file that validates SSL certificate.' =>
+            '',
+        'e.g. /opt/otrs/var/certificates/SOAP/CA/ca.pem' => '',
+        'Certification Authority (CA) Directory' => '',
+        'The full path of the certification authority directory where the CA certificates are stored in the file system.' =>
+            '',
+        'e.g. /opt/otrs/var/certificates/SOAP/CA' => '',
+        'Proxy Server' => '',
+        'URI of a proxy server to be used (if needed).' => '',
+        'e.g. http://proxy_hostname:8080' => '',
+        'Proxy User' => '',
+        'The user name to be used to access the proxy server.' => '',
+        'Proxy Password' => '',
+        'The password for the proxy user.' => '',
 
         # Template: AdminGenericInterfaceWebservice
         'GenericInterface Web Service Management' => '',
@@ -1430,6 +1460,7 @@ sub Data {
         'Local Repository' => 'Lokalno skladišče',
         'Uninstall' => 'Odstrani',
         'Reinstall' => 'Ponovna namestitev',
+        'Feature Add-Ons' => '',
         'Download package' => 'Prenesi paket',
         'Rebuild package' => 'Obnovi paket (rebuild)',
         'Metadata' => 'Meta-podatki',
@@ -1543,9 +1574,9 @@ sub Data {
         # Template: AdminResponse
         'Manage Responses' => 'Upravljanje z odgovori',
         'Add response' => 'Dodaj odgovor',
-        'A response is default text to write faster answer (with default text) to customers.' =>
-            'Odgovor je privzeto besedilo za hitrejše pisanje odgovorov uporabnikom.',
-        'Don\'t forget to add a new response a queue!' => 'Ne pozabite dodati nov odgovor v čakalno vrsto!',
+        'A response is a default text which helps your agents to write faster answers to customers.' =>
+            '',
+        'Don\'t forget to add new responses to queues.' => '',
         'Delete this entry' => 'Izbriši ta vnos',
         'Add Response' => 'Dodaj odgovor',
         'Edit Response' => 'Uredi odgovor',
@@ -1822,7 +1853,7 @@ sub Data {
         # Template: AgentDashboardTicketGeneric
         'My locked tickets' => 'Moji prevzeti zahtevki',
         'My watched tickets' => 'Moji opazovani zahtevki',
-        'My responsibilites' => 'Moja odgovornost',
+        'My responsibilities' => '',
         'Tickets in My Queues' => 'Zahtevki v mojih vrstah',
 
         # Template: AgentDashboardTicketStats
@@ -2194,6 +2225,7 @@ sub Data {
 
         # Template: CustomerNavigationBar
         'Edit personal preferences' => 'Uredite osebne podatke',
+        'Logout %s' => '',
 
         # Template: CustomerPreferences
 
@@ -2280,6 +2312,8 @@ sub Data {
             'Če zapustite to stran, bodo tudi vsa odprta popup okna zaprta!',
         'A popup of this screen is already open. Do you want to close it and load this one instead?' =>
             'Popup tega zaslona je že odprt. Ali ga želite zapreti in odpreti tega namesto njega?',
+        'Please enter at least one search value or * to find anything.' =>
+            '',
 
         # Template: FooterSmall
 
@@ -2470,7 +2504,6 @@ sub Data {
         'Activates the ticket archive system to have a faster system by moving some tickets out of the daily scope. To search for these tickets, the archive flag has to be enabled in the ticket search.' =>
             'Aktiviranje arhiva sistema za pospešitev dela, odstranjevanje nekaterih zahtevkov iz dnevnega spremljanja. Če želite poiskati zahtevek, mora biti označen arhiv omogočen za iskanje zahtevkov.',
         'Activates time accounting.' => 'Aktiviranje časa.',
-        'Add a note to this ticket' => '',
         'Adds a suffix with the actual year and month to the OTRS log file. A logfile for every month will be created.' =>
             '',
         'Adds customers email addresses to recipients in the ticket compose screen of the agent interface.' =>
@@ -2574,15 +2607,14 @@ sub Data {
         'Change queue!' => 'Sprememba vrste!',
         'Change the customer for this ticket' => '',
         'Change the free fields for this ticket' => '',
-        'Change the owner for this ticket' => '',
+        'Change the priority for this ticket' => '',
         'Change the responsible person for this ticket' => '',
-        'Change the ticket priority' => '',
         'Changes the owner of tickets to everyone (useful for ASP). Normally only agent with rw permissions in the queue of the ticket will be shown.' =>
             '',
         'Checkbox' => '',
         'Checks the SystemID in ticket number detection for follow-ups (use "No" if SystemID has been changed after using the system).' =>
             '',
-        'Close this ticket' => 'Zapri ta zahtevek',
+        'Closed tickets of customer' => '',
         'Comment for new history entries in the customer interface.' => 'Komentar za nove zgodovinske vnose v uporabniškem vmesniku.',
         'Companies' => 'Podjetje',
         'Company Tickets' => 'Zahtevek podjetja',
@@ -2595,6 +2627,8 @@ sub Data {
             '',
         'Controls if customers have the ability to sort their tickets.' =>
             'Kontrole, če imajo uporabniki možnost, da razvrstijo svoje zahtevke.',
+        'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
+            '',
         'Converts HTML mails into text messages.' => 'Pretvori HTML sporočila v tekstovna sporočila.',
         'Create and manage Service Level Agreements (SLAs).' => 'Upravljanje in ustvarjanje s SLA.',
         'Create and manage agents.' => 'Upravljanje in ustvarjanje z operaterji.',
@@ -2645,6 +2679,7 @@ sub Data {
             'Privzet ID zahtevka, ki ga uporablja sistem v vmesniku zaposlenega.',
         'Default ticket ID used by the system in the customer interface.' =>
             'Privzeto ID zahtevka, ki ga uporablja sistem v uporabniškem vmesniku.',
+        'Default value for NameX' => '',
         'Define a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
             '',
         'Define the start day of the week for the date picker.' => 'Določi prvi dan v tednu za izbor datuma.',
@@ -2730,8 +2765,6 @@ sub Data {
             '',
         'Defines scheduler sleep time in seconds after processing all available tasks (floating point number).' =>
             '',
-        'Defines the =hHeight for the rich text editor component. Enter number (pixels) or percent value (relative).' =>
-            '',
         'Defines the IP regular expression for accessing the local repository. You need to enable this to have access to your local repository and the package::RepositoryList is required on the remote host.' =>
             '',
         'Defines the URL CSS path.' => 'Določa "URL CSS" pot.',
@@ -2761,9 +2794,11 @@ sub Data {
         'Defines the config parameters of this item, to be shown in the preferences view. Take care to maintain the dictionaries installed in the system in the data section.' =>
             '',
         'Defines the connections for http/ftp, via a proxy.' => 'Privzete povezave za "http/ftp" preko proxy.',
-        'Defines the date input format used in forms (opcija ali vnosna polja).' =>
-            'Določa format vnosa datuma v formularje (opcija za polja za unos).',
+        'Defines the date input format used in forms (option or input fields).' =>
+            '',
         'Defines the default CSS used in rich text editors.' => 'Določa privzet CSS uporabljen v "RTF" urejanju.',
+        'Defines the default auto response type of the article for this operation.' =>
+            '',
         'Defines the default body of a note in the ticket free text screen of the agent interface.' =>
             '',
         'Defines the default front-end (HTML) theme to be used by the agents and customers. The default themes are Standard and Lite. If you like, you can add your own theme. Please refer the administrator manual located at http://doc.otrs.org/.' =>
@@ -2821,6 +2856,8 @@ sub Data {
         'Defines the default sender type for phone tickets in the ticket phone outbound screen of the agent interface.' =>
             '',
         'Defines the default sender type for tickets in the ticket zoom screen of the customer interface.' =>
+            '',
+        'Defines the default sender type of the article for this operation.' =>
             '',
         'Defines the default shown ticket search attribute for ticket search screen.' =>
             '',
@@ -2894,6 +2931,7 @@ sub Data {
             '',
         'Defines the default type of forwarded message in the ticket forward screen of the agent interface.' =>
             '',
+        'Defines the default type of the article for this operation.' => '',
         'Defines the default type of the note in the close ticket screen of the agent interface.' =>
             '',
         'Defines the default type of the note in the ticket bulk screen of the agent interface.' =>
@@ -2932,6 +2970,8 @@ sub Data {
             '',
         'Defines the groups every customer user will be in (if CustomerGroupSupport is enabled and you don\'t want to manage every user for these groups).' =>
             '',
+        'Defines the height for the rich text editor component. Enter number (pixels) or percent value (relative).' =>
+            '',
         'Defines the height of the legend.' => 'Določa višino legende.',
         'Defines the history comment for the close ticket screen action, which gets used for ticket history in the agent interface.' =>
             '',
@@ -2957,6 +2997,8 @@ sub Data {
             '',
         'Defines the history comment for the ticket zoom action, which gets used for ticket history in the customer interface.' =>
             '',
+        'Defines the history comment for this operation, which gets used for ticket history in the agent interface.' =>
+            '',
         'Defines the history type for the close ticket screen action, which gets used for ticket history in the agent interface.' =>
             '',
         'Defines the history type for the email ticket screen action, which gets used for ticket history in the agent interface.' =>
@@ -2980,6 +3022,8 @@ sub Data {
         'Defines the history type for the ticket responsible screen action, which gets used for ticket history in the agent interface.' =>
             '',
         'Defines the history type for the ticket zoom action, which gets used for ticket history in the customer interface.' =>
+            '',
+        'Defines the history type for this operation, which gets used for ticket history in the agent interface.' =>
             '',
         'Defines the hours and week days of the indicated calendar, to count the working time.' =>
             '',
@@ -3166,7 +3210,6 @@ sub Data {
         'Defines wich article type should be expanded when entering the overview. If nothing defined, latest article will be expanded.' =>
             '',
         'Delay time between autocomplete queries in milliseconds.' => '',
-        'Delete this ticket' => '',
         'Deletes a session if the session id is used with an invalid remote IP address.' =>
             '',
         'Deletes requested sessions if they have timed out.' => '',
@@ -3295,8 +3338,6 @@ sub Data {
             '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate). This is only possible if all Ticket dynamic fields need the same event.' =>
             '',
-        'Example for dynamic dield' => '',
-        'Example for dynamic field' => '',
         'Example for free text' => 'Primer za prosto besedilo',
         'Execute SQL statements.' => 'Izvedi SQL ukaze.',
         'Executes follow up checks on In-Reply-To or References headers for mails that don\'t have a ticket number in the subject.' =>
@@ -3452,7 +3493,7 @@ sub Data {
             '',
         'If enabled, the first level of the main menu opens on mouse hover (instead of click only).' =>
             '',
-        'If set, this address is used as envelope from header in outgoing notifications. If no address is specified, the envelope from header is empty.' =>
+        'If set, this address is used as envelope sender header in outgoing notifications. If no address is specified, the envelope sender header is empty.' =>
             '',
         'If this regex matches, no message will be send by the autoresponder.' =>
             '',
@@ -3485,7 +3526,6 @@ sub Data {
         'Link queues to auto responses.' => 'Poveži vrste z avtomatskim odgovorom.',
         'Link responses to queues.' => 'Poveži odgovore z vrsto.',
         'Link roles to groups.' => 'Poveži vloge s skupinama.',
-        'Link this ticket to other objects' => '',
         'Links 2 tickets with a "Normal" type link.' => '',
         'Links 2 tickets with a "ParentChild" type link.' => '',
         'List of CSS files to always be loaded for the agent interface.' =>
@@ -3493,8 +3533,6 @@ sub Data {
         'List of CSS files to always be loaded for the customer interface.' =>
             '',
         'List of IE6-specific CSS files to always be loaded for the customer interface.' =>
-            '',
-        'List of IE7-specific CSS files to always be loaded for the agent interface.' =>
             '',
         'List of IE7-specific CSS files to always be loaded for the customer interface.' =>
             '',
@@ -3536,7 +3574,6 @@ sub Data {
             '',
         'Maximum size (in characters) of the customer information table in the ticket zoom view.' =>
             '',
-        'Merge into a different ticket' => '',
         'Module for To-selection in new ticket screen in the customer interface.' =>
             '',
         'Module to check customer permissions.' => 'Moduli za pregled dovolenj uporabnikov.',
@@ -3570,6 +3607,7 @@ sub Data {
         'My Tickets' => 'Moji zahtevki',
         'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.' =>
             '',
+        'NameX' => '',
         'New email ticket' => 'Nov zahtevek E-pošte',
         'New phone ticket' => 'Nov telefonski zahtevek',
         'Next possible ticket states after adding a phone note in the ticket phone inbound screen of the agent interface.' =>
@@ -3584,6 +3622,7 @@ sub Data {
             '',
         'Number of tickets to be displayed in each page of a search result in the customer interface.' =>
             '',
+        'Open tickets of customer' => '',
         'Overloads (redefines) existing functions in Kernel::System::Ticket. Used to easily add customizations.' =>
             '',
         'Overview Escalated Tickets' => 'Pregled eskaliranih zahtevkov',
@@ -3647,7 +3686,6 @@ sub Data {
         'Picture-Upload' => '',
         'PostMaster Filters' => 'PostMaster filtri',
         'PostMaster Mail Accounts' => 'PostMaster računi E-pošte',
-        'Print this ticket' => '',
         'Protection against CSRF (Cross Site Request Forgery) exploits (for more info see http://en.wikipedia.org/wiki/Cross-site_request_forgery).' =>
             '',
         'Queue view' => 'Pregled po vrstah',
@@ -3725,7 +3763,6 @@ sub Data {
             '',
         'Set the maximum height (in pixels) of inline HTML articles in AgentTicketZoom.' =>
             '',
-        'Set this ticket to pending' => '',
         'Set this to yes if you trust in all your public and private pgp keys, even if they are not certified with a trusted signature.' =>
             '',
         'Sets if ticket owner must be selected by the agent.' => '',
@@ -3989,6 +4026,8 @@ sub Data {
             '',
         'Shows an owner selection in phone and email tickets in the agent interface.' =>
             '',
+        'Shows colors for different article types in the article table.' =>
+            '',
         'Shows customer history tickets in AgentTicketPhone, AgentTicketEmail and AgentTicketCustomer.' =>
             '',
         'Shows either the last customer article\'s subject or the ticket title in the small format overview.' =>
@@ -4006,7 +4045,6 @@ sub Data {
             '',
         'Shows the message of the day on login screen of the agent interface.' =>
             '',
-        'Shows the ticket history' => '',
         'Shows the ticket history (reverse ordered) in the agent interface.' =>
             '',
         'Shows the ticket priority options in the close ticket screen of the agent interface.' =>
@@ -4137,6 +4175,8 @@ sub Data {
         'Tickets' => 'Zahtevki',
         'Time in seconds that gets added to the actual time if setting a pending-state (default: 86400 = 1 day).' =>
             '',
+        'Toggles display of OTRS FeatureAddons list in PackageManager.' =>
+            '',
         'Toolbar Item for a shortcut.' => '',
         'Turns on the animations used in the GUI. If you have problems with these animations (e.g. performance issues), you can turn them off here.' =>
             '',
@@ -4179,6 +4219,7 @@ sub Data {
             '(Identifikacija zahtevka. npr. \'Ticket#\', \'Call#\' ili \'MyTicket#\')',
         '(Used default language)' => '(Privzeti jezik uporabnika)',
         '(Used ticket number format)' => '(Uporabljen format za številko zahtevka)',
+        '(work units)' => ' (delovne enote)',
         'A article should have a title!' => 'Članek mora imeti naslov!',
         'A message must be spell checked!' => 'V besedilu je potrebno preveriti črkovanje!',
         'A message should have a To: recipient!' => 'Sporočilo mora imeti To: prejemnik!',
@@ -4186,6 +4227,8 @@ sub Data {
         'A message should have a customer!' => 'Sporočilo mora imeti uporabnika!',
         'A message should have a subject!' => 'Sporočilo mora imeti predmet!',
         'A required field is:' => 'Obvezno polje je:',
+        'A response is default text to write faster answer (with default text) to customers.' =>
+            'Odgovor je privzeto besedilo za hitrejše pisanje odgovorov uporabnikom.',
         'A ticket should be associated with a queue!' => 'Zahtevek mora biti v neki vrsti!',
         'A ticket should have a type!' => 'Zahtevku mora biti dodeljen tip!',
         'About OTRS' => 'O OTRS-u',
@@ -4209,6 +4252,7 @@ sub Data {
         'Add a new System Address.' => 'Dodaj nov sistemski naslov.',
         'Add a new Type.' => 'Dodaj nov tip.',
         'Add a new salutation' => 'Dodaj nov pozdrav',
+        'Add a note to this ticket!' => 'Dodaj opombo temu zahtevku!',
         'Add new attachment' => 'Dodaj novo prilogo',
         'Add note to ticket' => 'Dodaj opombo zahtevku',
         'Add to list of subscribed tickets' => 'Dodaj na seznam naročenih zahtevkov',
@@ -4319,6 +4363,7 @@ sub Data {
         'Can\'t update password, your new passwords do not match! Please try again!' =>
             'Ne morem posodobiti gesla, vaš novi gesli se ne ujemata! Prosimo, poskusite znova!',
         'Category Tree' => 'Drevesna struktura',
+        'Cc: (%s) added database email!' => 'Kk: (%s) dodan naslov E-pošte iz baze!',
         'Change %s settings' => 'Spremeni %s nastavitve',
         'Change Time' => 'Spremeni čas',
         'Change Times' => 'Spremeni čas',
@@ -4326,6 +4371,9 @@ sub Data {
         'Change owner of ticket' => 'Spremeni lastnika zahtevka',
         'Change priority of ticket' => 'Spremeni prioriteto zahtevka',
         'Change responsible of ticket' => 'Spremeni odgovornega za zahtevek',
+        'Change the ticket customer!' => 'Spremeni uporabnika za zahtevek!',
+        'Change the ticket owner!' => 'Spremeni lastnika zahtevka!',
+        'Change the ticket priority!' => 'Spremeni prioriteto zahtevka',
         'Change the ticket responsible!' => 'Sprememba odgovornega za zahtevek!',
         'Change user <-> group settings' => 'Sprememba uporabnika <-> Nastavitve skupine',
         'ChangeLog' => 'Dnevnik sprememb',
@@ -4339,6 +4387,7 @@ sub Data {
         'Clear To' => 'Izbriši Za:',
         'Click here to report a bug!' => 'Kliknite tukaj za prijavo napake!',
         'Close Times' => 'Čas zapiranja',
+        'Close this ticket!' => 'Zapri zahtevek!',
         'Close ticket' => 'Zapri zahtevek',
         'Close type' => 'Tip zapiranja',
         'Close!' => 'Zapri!',
@@ -4384,6 +4433,8 @@ sub Data {
         'Default Charset' => 'Privzeti nabor znakov',
         'Default Language' => 'Privzeti jezik',
         'Default skin for otrs 3.0 interface.' => 'Osnovni design za vmesnik otrs 3,0.',
+        'Defines the date input format used in forms (opcija ali vnosna polja).' =>
+            'Določa format vnosa datuma v formularje (opcija za polja za unos).',
         'Defines the default selection of the free key field number 1 for articles (if more than one option is provided).' =>
             'Določa privzeto izbiro prostega tekstovnega polja številka 1 za članek (če je na voljo več kot eno možnost).',
         'Defines the default selection of the free key field number 1 for tickets (if more than one option is provided).' =>
@@ -4579,6 +4630,7 @@ sub Data {
             'Določa če je prosto polje časa številka 6 neobvezno ali ne.',
         'Delay time between autocomplete queries.' => 'Zakasnitev med poizvedbami.',
         'Delete old database' => 'Izbriši staro bazo podatkov',
+        'Delete this ticket!' => 'Izbriši ta zahtevek!',
         'Detail' => 'Podrobnosti',
         'Diff' => 'Razlike',
         'Discard all changes and return to the compose screen' => 'Zavrzite vse spremembe in se vrnite na zaslon za sestavljanje.',
@@ -4587,6 +4639,7 @@ sub Data {
         'Do you really want to delete this Object?' => 'Ali res želite izbrisati ta objekt?',
         'Do you really want to reinstall this package (all manual changes get lost)?' =>
             'Ali res želite ponovno namestiti ta paket (vse ročne spremembe bodo izgubljene)?',
+        'Don\'t forget to add a new response a queue!' => 'Ne pozabite dodati nov odgovor v čakalno vrsto!',
         'Don\'t forget to add a new user to groups and/or roles!' => 'Ne pozabite dodati novega uporabnika v skupine in vloge!',
         'Don\'t forget to add a new user to groups!' => 'Ne pozabit dodati novega uporabnika skupini!',
         'Don\'t work with UserID 1 (System account)! Create new users!' =>
@@ -4676,6 +4729,7 @@ sub Data {
         'Last update' => 'Zadnja posodobitev',
         'Lastname{CustomerUser}' => 'Priimek (uporabnik)',
         'Link Table' => 'Tabela povezava',
+        'Link this ticket to an other objects!' => 'Poveži ta zahtevek z drugimi objekti!',
         'Link this ticket to other objects!' => 'Poveži ta zahtevek z drugimi objekti!',
         'Link to Parent' => 'Povezava na Parent',
         'LinkType' => 'Tip povezave',
@@ -4694,6 +4748,7 @@ sub Data {
         'Match' => 'Ujemanje',
         'Max. displayed tickets' => 'Maksimalno število prikazanih zahtevkov',
         'Max. shown Tickets a page' => 'Maksimalni število zahtevkov na stran',
+        'Merge this ticket!' => 'Spoji ta zahtevek!',
         'Message for new Owner' => 'Sporočilo za novega lastnika',
         'Message sent to' => 'Sporočilo poslano za',
         'Misc' => 'Ostalo',
@@ -4703,6 +4758,7 @@ sub Data {
         'Move notification' => 'Premakni obvestila',
         'Multiple selection of the output format.' => 'Možnosti izbire izhodnega formata.',
         'My Queue' => 'Moje vrste',
+        'My responsibilites' => 'Moja odgovornost',
         'MyTickets' => 'Moji zahtevki',
         'Name is required!' => 'Ime je obvezno!',
         'Need a valid email address or don\'t use a local address!' => 'Potrebujete veljaven naslov e-pošte ali pa ne uporabljajte lokalnega naslova!',
@@ -4790,6 +4846,7 @@ sub Data {
         'Please contact your admin' => 'Prosimo kontaktirajte vašega administratorja',
         'Please enter subject.' => 'Prosimo vnesite predmet sporočila.',
         'Please fill out this form to recieve login credentials.' => 'Prosimo, izpolnite ta obrazec, da bi dobili podatke za prijavo.',
+        'Print this ticket!' => 'Natisni zahtevek!',
         'Prio' => 'Prioriteta',
         'Process-Path' => 'Proces-pot',
         'Product' => 'Izdelek',
@@ -4856,7 +4913,9 @@ sub Data {
         'Service-Name' => 'Naziv servisa',
         'Sessions' => 'Seje',
         'Set customer user and customer id of a ticket' => 'Nastavi uporabnika in uporabniški ID za zahtevek',
+        'Set this ticket to pending!' => 'Dodaj ta zahtevek na čakanje!',
         'Show' => 'Prikaži',
+        'Shows the ticket history!' => 'Prikaži dnevnik zahtevka!',
         'Site' => 'Stran',
         'Solution' => 'Rešitev',
         'Some result formats are disabled because at least one needed package is not installed. Please contact your administrator.' =>
@@ -4942,6 +5001,7 @@ sub Data {
             'Da bi dobili atribut/lastnost članka (z. B. (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> and <OTRS_CUSTOMER_Body>).',
         'To get the first 5 lines of the body (poslednjeg članka zaposlenog).' =>
             'Pregled prvih pet linji sporočila (zadnji članek zaposlenega).',
+        'To: (%s) replaced with database email!' => 'Za: (%s) zamenjan naslov E-pošte z onim iz baze!',
         'Top of Page' => 'Vrh strani',
         'Total hits' => 'Skupaj zadetkov',
         'U' => 'U',

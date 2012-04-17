@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Thomas Kaltenbrunner <tkaltenbrunner at opc.de>
 # --
-# $Id: de.pm,v 1.323 2012-04-02 07:28:02 mg Exp $
+# $Id: de.pm,v 1.324 2012-04-17 07:11:52 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.323 $) [1];
+$VERSION = qw($Revision: 1.324 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-03-20 17:40:05
+    # Last translation file sync: 2012-04-17 09:08:10
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -262,8 +262,6 @@ sub Data {
         'No entry found!' => 'Kein Eintrag gefunden!',
         'Session has timed out. Please log in again.' => 'Zeitüberschreitung der Session. Bitte neu anmelden.',
         'No Permission!' => 'Keine Zugriffsrechte!',
-        'To: (%s) replaced with database email!' => 'An: (%s) ersetzt mit Datenbank E-Mail!',
-        'Cc: (%s) added database email!' => 'Cc: (%s) Datenbank E-Mail hinzugefügt!',
         '(Click here to add)' => '(Hier klicken um hinzuzufügen)',
         'Preview' => 'Vorschau',
         'Package not correctly deployed! Please reinstall the package.' =>
@@ -672,6 +670,8 @@ sub Data {
         'Send Email and create a new Ticket' => 'E-Mail senden und neues Ticket erstellen',
         'Create new Email Ticket and send this out (Outbound)' => 'Neues Ticket wird erstellt und E-Mail versendet',
         'Create new Phone Ticket (Inbound)' => 'Neues Ticket wird über einkommenden Anruf erstellt',
+        'Address %s replaced with registered customer address.' => 'Adresse %s wurde durch die Adresse des eingetragenen Kunden ersetzt.',
+        'Customer automatically added in Cc.' => 'Kunde wurde automatisch ins Cc eingetragen.',
         'Overview of all open Tickets' => 'Übersicht über alle offenen Tickets',
         'Locked Tickets' => 'Gesperrte Tickets',
         'My Locked Tickets' => 'Meine gesperrten Tickets',
@@ -2623,6 +2623,8 @@ sub Data {
             '',
         'Controls if customers have the ability to sort their tickets.' =>
             '',
+        'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
+            '',
         'Converts HTML mails into text messages.' => '',
         'Create and manage Service Level Agreements (SLAs).' => 'Service-Level-Abkommen (SLAs) erzeugen und verwalten.',
         'Create and manage agents.' => 'Agents erzeugen und verwalten.',
@@ -3528,8 +3530,6 @@ sub Data {
             '',
         'List of IE6-specific CSS files to always be loaded for the customer interface.' =>
             '',
-        'List of IE7-specific CSS files to always be loaded for the agent interface.' =>
-            '',
         'List of IE7-specific CSS files to always be loaded for the customer interface.' =>
             '',
         'List of IE8-specific CSS files to always be loaded for the agent interface.' =>
@@ -4300,6 +4300,7 @@ sub Data {
         'Can\'t update password, your new passwords do not match! Please try again!' =>
             'Passwörter sind nicht identisch! Bitte erneut versuchen!',
         'Category Tree' => 'Kategorie Baum',
+        'Cc: (%s) added database email!' => 'Cc: (%s) Datenbank E-Mail hinzugefügt!',
         'Change %s settings' => 'Ändern der %s Einstellungen',
         'Change Time' => 'Geändert',
         'Change Times' => 'Änderungs-Zeiten',
@@ -4787,6 +4788,7 @@ sub Data {
             'Die Artikel Attribute (z. B. (<OTRS_AGENT_From>, <OTRS_AGENT_To>, <OTRS_AGENT_Cc>, <OTRS_AGENT_Subject> und <OTRS_AGENT_Body>).',
         'To get the article attribute (e. g. (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> and <OTRS_CUSTOMER_Body>).' =>
             'Die Artikel Attribute (z. B. (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> and <OTRS_CUSTOMER_Body>).',
+        'To: (%s) replaced with database email!' => 'An: (%s) ersetzt mit Datenbank E-Mail!',
         'Top of Page' => 'Seitenanfang',
         'Total hits' => 'Treffer gesamt',
         'U' => 'U',

@@ -6,7 +6,7 @@
 # Copyright (C) 2010 O2BS.com, s r.o. Jakub Hanus
 # Copyright (C) 2010 Pavel <pavel.vilim at kodys.cz>
 # --
-# $Id: cs.pm,v 1.22 2012-03-20 16:44:48 mg Exp $
+# $Id: cs.pm,v 1.23 2012-04-17 07:11:54 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,13 +19,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.22 $) [1];
+$VERSION = qw($Revision: 1.23 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-03-20 17:40:02
+    # Last translation file sync: 2012-04-17 09:08:07
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -266,8 +266,6 @@ sub Data {
         'No entry found!' => 'Nebyl nalezen žádný záznam!',
         'Session has timed out. Please log in again.' => 'Relace vypršela. Prosím, přihlašte se znovu.',
         'No Permission!' => 'Nemáte oprávnění',
-        'To: (%s) replaced with database email!' => 'Komu: (%s) nahrazeno emailem z databáze!',
-        'Cc: (%s) added database email!' => 'Kopie: (%s) doplněno emailem z databáze',
         '(Click here to add)' => '(Pro přidání klikněte zde)',
         'Preview' => 'Zobrazit',
         'Package not correctly deployed! Please reinstall the package.' =>
@@ -676,6 +674,8 @@ sub Data {
         'Send Email and create a new Ticket' => 'Zaslat Email a vytvořit nový tiket',
         'Create new Email Ticket and send this out (Outbound)' => 'Vytvořit nový Email Tiket a odeslat jej (Odchozí)',
         'Create new Phone Ticket (Inbound)' => 'Vytvořit nový Telefonní Tiket (Příchozí)',
+        'Address %s replaced with registered customer address.' => '',
+        'Customer automatically added in Cc.' => '',
         'Overview of all open Tickets' => 'Přehled všech otevřených tiketů',
         'Locked Tickets' => 'Uzamčené tikety',
         'My Locked Tickets' => '',
@@ -2627,6 +2627,8 @@ sub Data {
             '',
         'Controls if customers have the ability to sort their tickets.' =>
             '',
+        'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
+            '',
         'Converts HTML mails into text messages.' => '',
         'Create and manage Service Level Agreements (SLAs).' => '',
         'Create and manage agents.' => '',
@@ -3532,8 +3534,6 @@ sub Data {
             '',
         'List of IE6-specific CSS files to always be loaded for the customer interface.' =>
             '',
-        'List of IE7-specific CSS files to always be loaded for the agent interface.' =>
-            '',
         'List of IE7-specific CSS files to always be loaded for the customer interface.' =>
             '',
         'List of IE8-specific CSS files to always be loaded for the agent interface.' =>
@@ -4290,6 +4290,7 @@ sub Data {
         'Can not create link with %s!' => 'Není možné vytvořit vazbu s %s',
         'Can not delete link with %s!' => 'Nemožné smazat spárování s %s',
         'Category Tree' => 'Strom Kategorií',
+        'Cc: (%s) added database email!' => 'Kopie: (%s) doplněno emailem z databáze',
         'Change %s settings' => 'Změnit nastavení %s',
         'Change Times' => 'Změna časů',
         'Change free text of ticket' => 'Změnit úplný text tiketu',
@@ -4632,6 +4633,7 @@ sub Data {
             'Pro získání atributů článku (příklad (<OTRS_AGENT_From>, <OTRS_AGENT_To>, <OTRS_AGENT_Cc>, <OTRS_AGENT_Subject> and <OTRS_AGENT_Body>).',
         'To get the article attribute (e. g. (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> and <OTRS_CUSTOMER_Body>).' =>
             'Pro získání atributu článku (příklad (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> and <OTRS_CUSTOMER_Body>).',
+        'To: (%s) replaced with database email!' => 'Komu: (%s) nahrazeno emailem z databáze!',
         'Top of Page' => 'Nahoru',
         'Total hits' => 'Celkový počet záznamů',
         'U' => 'Z-A',

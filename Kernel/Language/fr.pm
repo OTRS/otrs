@@ -8,7 +8,7 @@
 # Copyright (C) 2004-2008 Yann Richard <ze at nbox.org>
 # Copyright (C) 2009-2010 Olivier Sallou <olivier.sallou at irisa.fr>
 # --
-# $Id: fr.pm,v 1.163 2012-03-20 16:44:48 mg Exp $
+# $Id: fr.pm,v 1.164 2012-04-17 07:11:54 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,13 +21,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.163 $) [1];
+$VERSION = qw($Revision: 1.164 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-03-20 17:40:14
+    # Last translation file sync: 2012-04-17 09:08:20
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -268,8 +268,6 @@ sub Data {
         'No entry found!' => 'Aucun résultat n\'a été trouvé !',
         'Session has timed out. Please log in again.' => 'Le délai de votre session est dépassé, veuillez vous ré-authentifier.',
         'No Permission!' => 'Pas de permission !',
-        'To: (%s) replaced with database email!' => 'Le champ \'À:\' (%s) a été remplacé avec la valeur de la base de données des adresses électroniques !',
-        'Cc: (%s) added database email!' => 'Cc: (%s) a été ajouté à la base de donnée d\'adresses électroniques !',
         '(Click here to add)' => '(Cliquez içi pour ajouter)',
         'Preview' => 'Aperçu',
         'Package not correctly deployed! Please reinstall the package.' =>
@@ -678,6 +676,8 @@ sub Data {
         'Send Email and create a new Ticket' => 'Envoyer un courriel et créer un nouveau Ticket',
         'Create new Email Ticket and send this out (Outbound)' => 'Créer un ticket Courriel et l\'envoyer (Sortant)',
         'Create new Phone Ticket (Inbound)' => 'Créer un ticket Téléphone (Entrant)',
+        'Address %s replaced with registered customer address.' => '',
+        'Customer automatically added in Cc.' => '',
         'Overview of all open Tickets' => 'Vue de tous les Tickets',
         'Locked Tickets' => 'Tickets verrouillés',
         'My Locked Tickets' => 'Mes tickets vérrouillés',
@@ -2629,6 +2629,8 @@ sub Data {
             '',
         'Controls if customers have the ability to sort their tickets.' =>
             '',
+        'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
+            '',
         'Converts HTML mails into text messages.' => '',
         'Create and manage Service Level Agreements (SLAs).' => 'Créer et gérer les contrats de niveau de support (SLAs).',
         'Create and manage agents.' => 'Créer et gérer les opérateurs.',
@@ -3534,8 +3536,6 @@ sub Data {
             '',
         'List of IE6-specific CSS files to always be loaded for the customer interface.' =>
             '',
-        'List of IE7-specific CSS files to always be loaded for the agent interface.' =>
-            '',
         'List of IE7-specific CSS files to always be loaded for the customer interface.' =>
             '',
         'List of IE8-specific CSS files to always be loaded for the agent interface.' =>
@@ -4368,6 +4368,7 @@ sub Data {
         'Can\'t update password, your new passwords do not match! Please try again!' =>
             'Mise à jour du mot de passe impossible, les mots de passe sont différents ! Essayez à nouveau svp !',
         'Category Tree' => 'Liste des catégories',
+        'Cc: (%s) added database email!' => 'Cc: (%s) a été ajouté à la base de donnée d\'adresses électroniques !',
         'Change %s Relations for' => 'Modifier les Relations %s pour',
         'Change %s Relations for %s' => 'Modifier Relations %s pour %s',
         'Change %s settings' => 'Changer les param&ecirc;tres de %s',
@@ -4932,6 +4933,7 @@ sub Data {
             'Pour avoir l\'attribut d\'article (i.e. (<OTRS_AGENT_From>, <OTRS_AGENT_To>, <OTRS_AGENT_Cc>, <OTRS_AGENT_Subject> and <OTRS_AGENT_Body>).',
         'To get the article attribute (e. g. (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> and <OTRS_CUSTOMER_Body>).' =>
             'pour avoir les attributs de l\'article (par ex. (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> et <OTRS_CUSTOMER_Body>)',
+        'To: (%s) replaced with database email!' => 'Le champ \'À:\' (%s) a été remplacé avec la valeur de la base de données des adresses électroniques !',
         'Top of Page' => 'Haut de page',
         'Total hits' => 'Nombre de résultats trouvés',
         'Type:' => 'Type:',

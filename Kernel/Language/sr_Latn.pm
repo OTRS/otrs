@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Milorad Jovanovic <j.milorad at gmail.com>
 # --
-# $Id: sr_Latn.pm,v 1.31 2012-03-20 16:44:47 mg Exp $
+# $Id: sr_Latn.pm,v 1.32 2012-04-17 07:11:54 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.31 $) [1];
+$VERSION = qw($Revision: 1.32 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-03-20 17:40:36
+    # Last translation file sync: 2012-04-17 09:08:43
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -262,8 +262,6 @@ sub Data {
         'No entry found!' => 'Unos nije pronađen!',
         'Session has timed out. Please log in again.' => 'Vreme sesije je isteklo. Molimo prijavite se ponovo.',
         'No Permission!' => 'Nemate dozvolu!',
-        'To: (%s) replaced with database email!' => 'Za: (%s) zamenjeno imejl adresom iz baze!',
-        'Cc: (%s) added database email!' => 'Kk: (%s) dodana imejl adresa iz baze!',
         '(Click here to add)' => '(Klikni ovde za dodavanje)',
         'Preview' => 'Pregled',
         'Package not correctly deployed! Please reinstall the package.' =>
@@ -672,6 +670,8 @@ sub Data {
         'Send Email and create a new Ticket' => 'Pošanji imejl i kreiraj novi tiket',
         'Create new Email Ticket and send this out (Outbound)' => 'Otvori novi imejl tiket i pošalji ovo (odlazni)',
         'Create new Phone Ticket (Inbound)' => 'Kreiraj novi telefonski tiket (dolazni poziv)',
+        'Address %s replaced with registered customer address.' => '',
+        'Customer automatically added in Cc.' => '',
         'Overview of all open Tickets' => 'Pregled svih otvorenih tiketa',
         'Locked Tickets' => 'Zaključani tiketi',
         'My Locked Tickets' => 'Moji zaključani tiketi',
@@ -2623,6 +2623,8 @@ sub Data {
             '',
         'Controls if customers have the ability to sort their tickets.' =>
             'Kontroliše da li korisnici imaju mogućnost da sortiraju svoje tikete.',
+        'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
+            '',
         'Converts HTML mails into text messages.' => 'Konvertuje "HTML" poruke u tekstualne poruke.',
         'Create and manage Service Level Agreements (SLAs).' => 'Kreira i upravlja sa "SLA".',
         'Create and manage agents.' => 'Kreiranje i upravljanje operaterima.',
@@ -3528,8 +3530,6 @@ sub Data {
             '',
         'List of IE6-specific CSS files to always be loaded for the customer interface.' =>
             '',
-        'List of IE7-specific CSS files to always be loaded for the agent interface.' =>
-            '',
         'List of IE7-specific CSS files to always be loaded for the customer interface.' =>
             '',
         'List of IE8-specific CSS files to always be loaded for the agent interface.' =>
@@ -4357,6 +4357,7 @@ sub Data {
         'Can\'t update password, your new passwords do not match! Please try again!' =>
             'Lozinka se ne može ažurirati, nova lozinka se ne podudara! Molimo pokušajte ponovo!',
         'Category Tree' => 'Stablo kategorija',
+        'Cc: (%s) added database email!' => 'Kk: (%s) dodana imejl adresa iz baze!',
         'Change %s settings' => 'Promeni %s podešavanja',
         'Change Time' => 'Promeni vreme',
         'Change Times' => 'Promeni vremena',
@@ -4988,6 +4989,7 @@ sub Data {
             'Die Artikel Attribute (z. B. (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> and <OTRS_CUSTOMER_Body>).',
         'To get the first 5 lines of the body (poslednjeg članka zaposlenog).' =>
             'Da vidite prvih 5 linija poruke (poslednjeg članka zaposlenog).',
+        'To: (%s) replaced with database email!' => 'Za: (%s) zamenjeno imejl adresom iz baze!',
         'Top of Page' => 'Vrh strane',
         'Total hits' => 'Ukupno pogodaka',
         'U' => 'U',

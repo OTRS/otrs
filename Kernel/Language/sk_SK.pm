@@ -2,7 +2,7 @@
 # Kernel/Language/sk_SK.pm - provides Slovak language translation
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: sk_SK.pm,v 1.94 2012-03-20 16:44:48 mg Exp $
+# $Id: sk_SK.pm,v 1.95 2012-04-17 07:11:54 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.94 $) [1];
+$VERSION = qw($Revision: 1.95 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-03-20 17:40:33
+    # Last translation file sync: 2012-04-17 09:08:39
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -262,8 +262,6 @@ sub Data {
         'No entry found!' => 'Nenájdený žiaden vstup.',
         'Session has timed out. Please log in again.' => 'Relácia timeout. Prosím =>  prihláste sa znova.',
         'No Permission!' => 'Nepovolené!',
-        'To: (%s) replaced with database email!' => 'Príjemca: % je nahradený databázovým emailom!',
-        'Cc: (%s) added database email!' => 'Kópia: % pridaný databázový email.',
         '(Click here to add)' => '(Ak chcete pridať položku =>  kliknete sem.)',
         'Preview' => 'Náhľad',
         'Package not correctly deployed! Please reinstall the package.' =>
@@ -672,6 +670,8 @@ sub Data {
         'Send Email and create a new Ticket' => 'Pošli e-mail a vytvor novú požiadavku',
         'Create new Email Ticket and send this out (Outbound)' => '',
         'Create new Phone Ticket (Inbound)' => '',
+        'Address %s replaced with registered customer address.' => '',
+        'Customer automatically added in Cc.' => '',
         'Overview of all open Tickets' => 'Prehľad všetkých otvorených požiadaviek.',
         'Locked Tickets' => 'Lockované požiadavky',
         'My Locked Tickets' => '',
@@ -2623,6 +2623,8 @@ sub Data {
             '',
         'Controls if customers have the ability to sort their tickets.' =>
             '',
+        'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
+            '',
         'Converts HTML mails into text messages.' => '',
         'Create and manage Service Level Agreements (SLAs).' => '',
         'Create and manage agents.' => '',
@@ -3528,8 +3530,6 @@ sub Data {
             '',
         'List of IE6-specific CSS files to always be loaded for the customer interface.' =>
             '',
-        'List of IE7-specific CSS files to always be loaded for the agent interface.' =>
-            '',
         'List of IE7-specific CSS files to always be loaded for the customer interface.' =>
             '',
         'List of IE8-specific CSS files to always be loaded for the agent interface.' =>
@@ -4256,6 +4256,7 @@ sub Data {
         'Can\'t update password =>  passwords doesn\'t match! Please try it again!' =>
             'Nemožno aktualizovať heslo =>  heslá nezhodujú.',
         'Category Tree' => 'Strom kategórií',
+        'Cc: (%s) added database email!' => 'Kópia: % pridaný databázový email.',
         'Change %s settings' => 'Zmeniť % nastavenia',
         'Change free text of ticket' => 'zmeniť voľný text požiadavky',
         'Change owner of ticket' => 'Zmeň požiadavku majiteľa.',
@@ -4485,6 +4486,7 @@ sub Data {
         'TicketZoom' => 'Zväčšiť požiadavku',
         'Times' => 'čas',
         'Tlačiť' => 'Keywords',
+        'To: (%s) replaced with database email!' => 'Príjemca: % je nahradený databázovým emailom!',
         'Typ zatvorenia' => 'Time units',
         'Týmto spôsobom možene priamo meniť osvedčenie a osobný kľúč v systéme súborov.' =>
             'System State Management',

@@ -4,7 +4,7 @@
 # Copyright (C) 2008 Hooman Mesgary <info at mesgary.com>
 # Copyright (C) 2009 Afshar Mohebbi <afshar.mohebbi at gmail.com>
 # --
-# $Id: fa.pm,v 1.108 2012-03-20 16:44:46 mg Exp $
+# $Id: fa.pm,v 1.109 2012-04-17 07:11:53 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,13 +17,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.108 $) [1];
+$VERSION = qw($Revision: 1.109 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-03-20 17:40:12
+    # Last translation file sync: 2012-04-17 09:08:17
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -267,8 +267,6 @@ sub Data {
         'No entry found!' => 'موردی پیدا نشد!',
         'Session has timed out. Please log in again.' => 'مهلت Session شما به اتمام رسید . لطفا مجددا وارد سیستم شوید..',
         'No Permission!' => 'دسترسی به این قسمت امکانپذیر نیست!',
-        'To: (%s) replaced with database email!' => 'گیرنده: (%s) با آدرس e-mail موجود در بانک جایگزین شد!',
-        'Cc: (%s) added database email!' => 'رونوشت: (%s)آدرس e-mail اضافه شد.',
         '(Click here to add)' => '(برای افزودن کلیک کنید)',
         'Preview' => 'پیش نمایش',
         'Package not correctly deployed! Please reinstall the package.' =>
@@ -677,6 +675,8 @@ sub Data {
         'Send Email and create a new Ticket' => 'ارسال ایمیل و ایجاد درخواست جدید',
         'Create new Email Ticket and send this out (Outbound)' => 'ایجاد درخواست جدید با ایمیل و ارسال - بیرونی',
         'Create new Phone Ticket (Inbound)' => 'ایجاد درخواست جدید تلفنی- داخلی',
+        'Address %s replaced with registered customer address.' => '',
+        'Customer automatically added in Cc.' => '',
         'Overview of all open Tickets' => 'پیش نمایش همه درخواست‌های باز',
         'Locked Tickets' => 'درخواست‌های تحویل گرفته شده',
         'My Locked Tickets' => 'درخواست‌های تحویل گرفته شده من',
@@ -2628,6 +2628,8 @@ sub Data {
             '',
         'Controls if customers have the ability to sort their tickets.' =>
             '',
+        'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
+            '',
         'Converts HTML mails into text messages.' => '',
         'Create and manage Service Level Agreements (SLAs).' => 'ساخت و مدیریت توافقات سطح سرویس (SLA)',
         'Create and manage agents.' => 'ساخت و مدیریت کارشناسان',
@@ -3533,8 +3535,6 @@ sub Data {
             '',
         'List of IE6-specific CSS files to always be loaded for the customer interface.' =>
             '',
-        'List of IE7-specific CSS files to always be loaded for the agent interface.' =>
-            '',
         'List of IE7-specific CSS files to always be loaded for the customer interface.' =>
             '',
         'List of IE8-specific CSS files to always be loaded for the agent interface.' =>
@@ -4352,6 +4352,7 @@ sub Data {
         'Can\'t update password, your new passwords do not match! Please try again!' =>
             'رمز عبور جدید مطابقت ندارد. مجددا تلاش نمائید.',
         'Category Tree' => 'درخت دسته بندی',
+        'Cc: (%s) added database email!' => 'رونوشت: (%s)آدرس e-mail اضافه شد.',
         'Change %s settings' => 'تغییر تنظیمات %s',
         'Change Times' => 'زمان‌های تغییر',
         'Change free text of ticket' => 'تغییر متن درخواست',
@@ -4751,6 +4752,7 @@ sub Data {
             'برای گرفتن خاصیت نوشته (برای مثال <OTRS_AGENT_From>، <OTRS_AGENT_To>، <OTRS_AGENT_Cc>، <OTRS_AGENT_Subject> و <OTRS_AGENT_Body>).',
         'To get the article attribute (e. g. (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> and <OTRS_CUSTOMER_Body>).' =>
             'برای دریافت مشخصات مورد نظیر(<OTRS_CUSTOMER_From>، <OTRS_CUSTOMER_To>، <OTRS_CUSTOMER_Cc>، <OTRS_CUSTOMER_Subject>  و <OTRS_CUSTOMER_Body>)',
+        'To: (%s) replaced with database email!' => 'گیرنده: (%s) با آدرس e-mail موجود در بانک جایگزین شد!',
         'Top of Page' => 'بالای صفحه',
         'Total hits' => 'مجموع بازدید‌ها',
         'U' => 'Z-A, ی-الف',

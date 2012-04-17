@@ -2,7 +2,7 @@
 # Kernel/Language/vi_VN.pm - provides Vietnamese language translation
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: vi_VN.pm,v 1.67 2012-03-20 16:44:47 mg Exp $
+# $Id: vi_VN.pm,v 1.68 2012-04-17 07:11:53 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,13 +14,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.67 $) [1];
+$VERSION = qw($Revision: 1.68 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-03-20 17:40:42
+    # Last translation file sync: 2012-04-17 09:08:48
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -261,8 +261,6 @@ sub Data {
         'No entry found!' => 'Không tìm thấy mục nào!',
         'Session has timed out. Please log in again.' => 'Phiên đã bị gián đoạn. Xin hãy đăng nhập lại.',
         'No Permission!' => 'Không có quyền!',
-        'To: (%s) replaced with database email!' => 'Tới: (%s) được thay thế bởi email cơ sở dữ liệu!',
-        'Cc: (%s) added database email!' => 'Cc: (%s) email cơ sở dữ liệu thêm!',
         '(Click here to add)' => '(Nhấn chuột vào đây để thêm)',
         'Preview' => 'Xem trước',
         'Package not correctly deployed! Please reinstall the package.' =>
@@ -671,6 +669,8 @@ sub Data {
         'Send Email and create a new Ticket' => 'Gửi e-mail và tạo 1 thẻ mới',
         'Create new Email Ticket and send this out (Outbound)' => 'Tạo 1 thẻ e-mail mới và gửi ra ngoài',
         'Create new Phone Ticket (Inbound)' => 'Tạo thẻ cuộc gọi mới (vào trong)',
+        'Address %s replaced with registered customer address.' => '',
+        'Customer automatically added in Cc.' => '',
         'Overview of all open Tickets' => 'Tổng quan tất cả các thẻ mở',
         'Locked Tickets' => 'Các thẻ đã khóa',
         'My Locked Tickets' => '',
@@ -2622,6 +2622,8 @@ sub Data {
             '',
         'Controls if customers have the ability to sort their tickets.' =>
             '',
+        'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
+            '',
         'Converts HTML mails into text messages.' => '',
         'Create and manage Service Level Agreements (SLAs).' => '',
         'Create and manage agents.' => '',
@@ -3527,8 +3529,6 @@ sub Data {
             '',
         'List of IE6-specific CSS files to always be loaded for the customer interface.' =>
             '',
-        'List of IE7-specific CSS files to always be loaded for the agent interface.' =>
-            '',
         'List of IE7-specific CSS files to always be loaded for the customer interface.' =>
             '',
         'List of IE8-specific CSS files to always be loaded for the agent interface.' =>
@@ -4275,6 +4275,7 @@ sub Data {
         'Can\'t update password, your new passwords do not match! Please try again!' =>
             'Không thể cập nhật mật khẩu, các mật khẩu không khớp nhau! Hãy thử lại lần nữa!',
         'Category Tree' => 'Cây thư mục',
+        'Cc: (%s) added database email!' => 'Cc: (%s) email cơ sở dữ liệu thêm!',
         'Change %s settings' => 'Thay đổi %s thiết đặt',
         'Change Time' => 'Thay đổi thời gian',
         'Change free text of ticket' => 'Thay đổi nội dung thẻ',
@@ -4616,6 +4617,7 @@ sub Data {
         'Title of the stat.' => 'Tiêu đề thống kê.',
         'To get the article attribute (e. g. (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> and <OTRS_CUSTOMER_Body>).' =>
             'Lấy thuộc tính bài viết (ví dụ: (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> and <OTRS_CUSTOMER_Body>).',
+        'To: (%s) replaced with database email!' => 'Tới: (%s) được thay thế bởi email cơ sở dữ liệu!',
         'Top of Page' => 'Đầu trang',
         'Total hits' => 'Tổng số lượt bấm',
         'U' => 'U',

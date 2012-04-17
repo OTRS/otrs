@@ -9,7 +9,7 @@
 # Copyright (C) 2010 Alessandro Grassi <alessandro.grassi at devise.it>
 # Copyright (C) 2012 Massimo Bianchi <mxbianchi at tiscali.it>
 # --
-# $Id: it.pm,v 1.134 2012-04-16 12:53:04 mg Exp $
+# $Id: it.pm,v 1.135 2012-04-17 07:11:52 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,13 +22,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.134 $) [1];
+$VERSION = qw($Revision: 1.135 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-03-20 17:40:20
+    # Last translation file sync: 2012-04-17 09:08:25
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -269,8 +269,6 @@ sub Data {
         'No entry found!' => 'Vuoto!',
         'Session has timed out. Please log in again.' => 'Sessione scaduta. Per favore, effettua di nuovo l\'accesso.',
         'No Permission!' => 'Permessi insufficienti',
-        'To: (%s) replaced with database email!' => 'A: (%s) sostituito con l\'indirizzo presente nel database',
-        'Cc: (%s) added database email!' => 'Cc: (%s) aggiunto nel db email!',
         '(Click here to add)' => '(clicca per aggiungere)',
         'Preview' => 'Anteprima',
         'Package not correctly deployed! Please reinstall the package.' =>
@@ -679,6 +677,8 @@ sub Data {
         'Send Email and create a new Ticket' => 'Manda un email e crea una nuova richiesta',
         'Create new Email Ticket and send this out (Outbound)' => 'Crea una nuova e-mail e invio',
         'Create new Phone Ticket (Inbound)' => 'Crea un nuovo Ticket ',
+        'Address %s replaced with registered customer address.' => '',
+        'Customer automatically added in Cc.' => '',
         'Overview of all open Tickets' => 'Vista globale di tutte le richieste aperte',
         'Locked Tickets' => 'Richieste in gestione',
         'My Locked Tickets' => 'Miei ticket presi in carico',
@@ -2630,6 +2630,8 @@ sub Data {
             'Configura l\'indice full-text. Eseguire "bin/otrs.RebuildFulltextIndex.pl" per generare un nuovo indice.',
         'Controls if customers have the ability to sort their tickets.' =>
             'Controlla se i clienti hanno la possibilità di ordinare i loro ticket.',
+        'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
+            '',
         'Converts HTML mails into text messages.' => 'Converte la posta in HTML in messaggi di testo.',
         'Create and manage Service Level Agreements (SLAs).' => 'Crea e gestisce gli SLA',
         'Create and manage agents.' => 'Crea e gestisce gli agenti',
@@ -3535,8 +3537,6 @@ sub Data {
             '',
         'List of IE6-specific CSS files to always be loaded for the customer interface.' =>
             '',
-        'List of IE7-specific CSS files to always be loaded for the agent interface.' =>
-            '',
         'List of IE7-specific CSS files to always be loaded for the customer interface.' =>
             '',
         'List of IE8-specific CSS files to always be loaded for the agent interface.' =>
@@ -4362,6 +4362,7 @@ sub Data {
         'Can\'t update password, your new passwords do not match! Please try again!' =>
             'Non posso aggiornare la password, le password digitate non coincidono',
         'Category Tree' => 'Albero delle Categorie',
+        'Cc: (%s) added database email!' => 'Cc: (%s) aggiunto nel db email!',
         'Change %s settings' => 'Modifica impostazioni di %s',
         'Change Times' => 'modifiche tempo ',
         'Change free text of ticket' => 'Cambia il testo della richiesta',
@@ -4744,6 +4745,7 @@ sub Data {
             'Usa gli attributi presenti nel testo ( esempio  (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> and <OTRS_CUSTOMER_Body>).',
         'To get the article attribute (e. g. <OTRS_AGENT_From>, <OTRS_AGENT_To>, <OTRS_AGENT_Cc>, <OTRS_AGENT_Subject> and <OTRS_AGENT_Body>).' =>
             'Per avere gli attributi Articolo ( es: <OTRS_AGENT_From>, <OTRS_AGENT_To>, <OTRS_AGENT_Cc>, <OTRS_AGENT_Subject> and <OTRS_AGENT_Body>).',
+        'To: (%s) replaced with database email!' => 'A: (%s) sostituito con l\'indirizzo presente nel database',
         'Top of Page' => 'Inizio Pagina',
         'Total hits' => 'Totale risultati',
         'U' => 'C',

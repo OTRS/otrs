@@ -6,7 +6,7 @@
 # Copyright (C) 2009 Gustavo Azambuja <gazambuja at gmail.com>
 # Copyright (C) 2009 Emiliano Gonzalez <egonzalez@ergio.com.ar>
 # --
-# $Id: es.pm,v 1.146 2012-03-20 16:44:47 mg Exp $
+# $Id: es.pm,v 1.147 2012-04-17 07:11:53 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,13 +19,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.146 $) [1];
+$VERSION = qw($Revision: 1.147 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-03-20 17:40:08
+    # Last translation file sync: 2012-04-17 09:08:13
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -266,8 +266,6 @@ sub Data {
         'No entry found!' => '¡No se encontró entrada alguna!',
         'Session has timed out. Please log in again.' => 'La sesión ha caducado. Por favor, conéctese nuevamente.',
         'No Permission!' => '¡No tiene Permiso!',
-        'To: (%s) replaced with database email!' => '¡Para: (%s) sustituido con email de la base de datos!',
-        'Cc: (%s) added database email!' => '¡Cc: (%s) añadido a la base de datos de correo!',
         '(Click here to add)' => '(Haga click aquí para añadir)',
         'Preview' => 'Vista Previa',
         'Package not correctly deployed! Please reinstall the package.' =>
@@ -676,6 +674,8 @@ sub Data {
         'Send Email and create a new Ticket' => 'Enviar un correo y crear un nuevo ticket',
         'Create new Email Ticket and send this out (Outbound)' => 'Crea nuevo Ticket de Email y descartar este (saliente)',
         'Create new Phone Ticket (Inbound)' => 'Crea nuevo Ticket Telefónico (entrante)',
+        'Address %s replaced with registered customer address.' => '',
+        'Customer automatically added in Cc.' => '',
         'Overview of all open Tickets' => 'Resumen de todos los tickets abiertos',
         'Locked Tickets' => 'Tickets Bloqueados',
         'My Locked Tickets' => '',
@@ -2627,6 +2627,8 @@ sub Data {
             '',
         'Controls if customers have the ability to sort their tickets.' =>
             '',
+        'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
+            '',
         'Converts HTML mails into text messages.' => '',
         'Create and manage Service Level Agreements (SLAs).' => '',
         'Create and manage agents.' => '',
@@ -3532,8 +3534,6 @@ sub Data {
             '',
         'List of IE6-specific CSS files to always be loaded for the customer interface.' =>
             '',
-        'List of IE7-specific CSS files to always be loaded for the agent interface.' =>
-            '',
         'List of IE7-specific CSS files to always be loaded for the customer interface.' =>
             '',
         'List of IE8-specific CSS files to always be loaded for the agent interface.' =>
@@ -4305,6 +4305,7 @@ sub Data {
         'Can\'t update password, your new passwords do not match! Please try again!' =>
             '¡No se puede actualizar la contraseña, las contraseñas nuevas no coinciden! ¡Por favor, reinténtelo!',
         'Category Tree' => 'Arbol de categorías',
+        'Cc: (%s) added database email!' => '¡Cc: (%s) añadido a la base de datos de correo!',
         'Change %s settings' => 'Cambiar %s especificaciones',
         'Change Times' => 'Cambio de Tiempo',
         'Change free text of ticket' => 'Cambiar el texto libre del ticket',
@@ -4699,6 +4700,7 @@ sub Data {
             'Para obtener los atributos (ej. <OTRS_AGENT_From>, <OTRS_AGENT_To>, <OTRS_AGENT_Cc>, <OTRS_AGENT_Subject> and <OTRS_AGENT_Body>)',
         'To get the article attribute (e. g. (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> and <OTRS_CUSTOMER_Body>).' =>
             'Para obtener el atributo del artículo (p.e. <OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> y <OTRS_CUSTOMER_Body>).',
+        'To: (%s) replaced with database email!' => '¡Para: (%s) sustituido con email de la base de datos!',
         'Top of Page' => 'Inicio de página',
         'Total hits' => 'Total de coincidencias',
         'U' => 'A',

@@ -3,7 +3,7 @@
 # Copyright (C) 2004 Vladimir Gerdjikov <gerdjikov at gerdjikovs.net>
 # Copyright (C) 2007 Alex Kantchev <ak at otrs.org>
 # --
-# $Id: bg.pm,v 1.133 2012-03-20 16:44:47 mg Exp $
+# $Id: bg.pm,v 1.134 2012-04-17 07:11:54 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,13 +16,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.133 $) [1];
+$VERSION = qw($Revision: 1.134 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-03-20 17:39:59
+    # Last translation file sync: 2012-04-17 09:08:05
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -263,8 +263,6 @@ sub Data {
         'No entry found!' => 'Няма въдедена стойност!',
         'Session has timed out. Please log in again.' => 'Моля, оторизирайте се отново. Тази сесия вече е затворена.',
         'No Permission!' => 'Нямате позволение!',
-        'To: (%s) replaced with database email!' => 'To: (%s) заменено с e-mail адреса от базата данни',
-        'Cc: (%s) added database email!' => 'Cc: (%s) e-mail адреса добавен от базата данни',
         '(Click here to add)' => '(Кликнете тук за добавяне)',
         'Preview' => 'Преглед',
         'Package not correctly deployed! Please reinstall the package.' =>
@@ -673,6 +671,8 @@ sub Data {
         'Send Email and create a new Ticket' => 'Изпращане на е-поща и създаване на нов билет',
         'Create new Email Ticket and send this out (Outbound)' => 'Създаване на нов билет: е-поша и изпращане на този (Изходящ)',
         'Create new Phone Ticket (Inbound)' => 'Създаване на билет: телефонно обаждане (Входящ)',
+        'Address %s replaced with registered customer address.' => '',
+        'Customer automatically added in Cc.' => '',
         'Overview of all open Tickets' => 'Преглед на всички отворени билети',
         'Locked Tickets' => 'Заключени билети',
         'My Locked Tickets' => '',
@@ -2624,6 +2624,8 @@ sub Data {
             '',
         'Controls if customers have the ability to sort their tickets.' =>
             '',
+        'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
+            '',
         'Converts HTML mails into text messages.' => '',
         'Create and manage Service Level Agreements (SLAs).' => '',
         'Create and manage agents.' => '',
@@ -3529,8 +3531,6 @@ sub Data {
             '',
         'List of IE6-specific CSS files to always be loaded for the customer interface.' =>
             '',
-        'List of IE7-specific CSS files to always be loaded for the agent interface.' =>
-            '',
         'List of IE7-specific CSS files to always be loaded for the customer interface.' =>
             '',
         'List of IE8-specific CSS files to always be loaded for the agent interface.' =>
@@ -4281,6 +4281,7 @@ sub Data {
         'Can\'t update password, your new passwords do not match! Please try again!' =>
             'Невъзможно актуализиране на паролата! Паролите не съвпадат! Моля опитайте отново!',
         'Category Tree' => 'Дърво на категориите',
+        'Cc: (%s) added database email!' => 'Cc: (%s) e-mail адреса добавен от базата данни',
         'Change %s settings' => 'Промяна на %s настройки',
         'Change free text of ticket' => 'Променете текста на билета',
         'Change owner of ticket' => 'Промяна собственикън на билета',
@@ -4619,6 +4620,7 @@ sub Data {
         'Title of the stat.' => 'Заглавие на статистиката.',
         'To get the article attribute (e. g. (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> and <OTRS_CUSTOMER_Body>).' =>
             'Да се вземат атрибути на билета/съобщението (Пример: (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> and <OTRS_CUSTOMER_Body>).',
+        'To: (%s) replaced with database email!' => 'To: (%s) заменено с e-mail адреса от базата данни',
         'Top of Page' => 'Начало на страницата',
         'Total hits' => 'Общ брой попадения',
         'U' => 'В',

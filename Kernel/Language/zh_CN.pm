@@ -7,7 +7,7 @@
 # Copyright (C) 2009 Qingjiu Jia <jiaqj at yahoo.com>
 # Copyright (C) 2011 Martin Liu <liuzh66 at gmail.com> http://martinliu.cn
 # --
-# $Id: zh_CN.pm,v 1.111 2012-03-20 16:44:48 mg Exp $
+# $Id: zh_CN.pm,v 1.112 2012-04-17 07:11:54 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,13 +20,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.111 $) [1];
+$VERSION = qw($Revision: 1.112 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-03-20 17:40:43
+    # Last translation file sync: 2012-04-17 09:08:50
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -267,8 +267,6 @@ sub Data {
         'No entry found!' => '无内容!',
         'Session has timed out. Please log in again.' => '会话超时，请重新登录.',
         'No Permission!' => '无权限!',
-        'To: (%s) replaced with database email!' => 'To: (%s) 被数据库邮件地址所替代',
-        'Cc: (%s) added database email!' => 'Cc: (%s) 增加数据库邮件地址!',
         '(Click here to add)' => '(点击此处增加)',
         'Preview' => '预览',
         'Package not correctly deployed! Please reinstall the package.' =>
@@ -677,6 +675,8 @@ sub Data {
         'Send Email and create a new Ticket' => '发送邮件并创建新票单',
         'Create new Email Ticket and send this out (Outbound)' => '创建邮件票单（出栈）',
         'Create new Phone Ticket (Inbound)' => '创建电话票单（入栈）',
+        'Address %s replaced with registered customer address.' => '',
+        'Customer automatically added in Cc.' => '',
         'Overview of all open Tickets' => '所有开放票单概况',
         'Locked Tickets' => '锁定的票单',
         'My Locked Tickets' => '我的锁定票单',
@@ -2628,6 +2628,8 @@ sub Data {
             '',
         'Controls if customers have the ability to sort their tickets.' =>
             '',
+        'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
+            '',
         'Converts HTML mails into text messages.' => '转换 HTML 邮件为文本信息.',
         'Create and manage Service Level Agreements (SLAs).' => '创建和管理服务品质协议 (SLA)',
         'Create and manage agents.' => '创建和管理服务人员.',
@@ -3533,8 +3535,6 @@ sub Data {
             '',
         'List of IE6-specific CSS files to always be loaded for the customer interface.' =>
             '',
-        'List of IE7-specific CSS files to always be loaded for the agent interface.' =>
-            '',
         'List of IE7-specific CSS files to always be loaded for the customer interface.' =>
             '',
         'List of IE8-specific CSS files to always be loaded for the agent interface.' =>
@@ -4301,6 +4301,7 @@ sub Data {
         'Can\'t update password, your new passwords do not match! Please try again!' =>
             '密码两次不符，无法更新，请重新输入',
         'Category Tree' => '目录树',
+        'Cc: (%s) added database email!' => 'Cc: (%s) 增加数据库邮件地址!',
         'Change %s settings' => '修改 %s 设置',
         'Change Times' => '改变时间',
         'Change free text of ticket' => '修改 Ticket 额外信息',
@@ -4722,6 +4723,7 @@ sub Data {
         'Title of the stat.' => '统计的标题',
         'To get the article attribute (e. g. (<OTRS_AGENT_From>, <OTRS_AGENT_To>, <OTRS_AGENT_Cc>, <OTRS_AGENT_Subject> and <OTRS_AGENT_Body>).' =>
             '取得信件的属性 (例如: <OTRS_AGENT_From>, <OTRS_AGENT_To>, <OTRS_AGENT_Cc>, <OTRS_AGENT_Subject> and <OTRS_AGENT_Body>).',
+        'To: (%s) replaced with database email!' => 'To: (%s) 被数据库邮件地址所替代',
         'Top of Page' => '页面顶端',
         'Total hits' => '点击数',
         'U' => '升序',

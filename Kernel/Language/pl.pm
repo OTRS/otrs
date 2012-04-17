@@ -4,7 +4,7 @@
 # Copyright (C) 2009 Artur Skalski <skal.ar at wp.pl>
 # Copyright (C) 2011 Informatyka Boguslawski sp. z o.o. sp.k., http://www.ib.pl/
 # --
-# $Id: pl.pm,v 1.127 2012-03-20 16:44:48 mg Exp $
+# $Id: pl.pm,v 1.128 2012-04-17 07:11:54 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,13 +17,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.127 $) [1];
+$VERSION = qw($Revision: 1.128 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-03-20 17:40:28
+    # Last translation file sync: 2012-04-17 09:08:33
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -264,8 +264,6 @@ sub Data {
         'No entry found!' => 'Nic nie odnaleziono!',
         'Session has timed out. Please log in again.' => 'Sesja wygasła. Zaloguj się ponownie',
         'No Permission!' => 'Brak uprawnień',
-        'To: (%s) replaced with database email!' => 'Do: (%s) zamienione z adresem e-mail z bazy danych!',
-        'Cc: (%s) added database email!' => 'DW: (%s) dodany adres e-mail z bazy danych!',
         '(Click here to add)' => '(Kliknij tutaj aby dodać)',
         'Preview' => 'Podgląd',
         'Package not correctly deployed! Please reinstall the package.' =>
@@ -674,6 +672,8 @@ sub Data {
         'Send Email and create a new Ticket' => 'Wylij e-mail i utwórz nowe zgłoszenie',
         'Create new Email Ticket and send this out (Outbound)' => 'Utwórz nowe zgłoszenie e-mail i wyślij (wychodzące)',
         'Create new Phone Ticket (Inbound)' => 'Utwórz zgłoszenie telefoniczne (przychodzące)',
+        'Address %s replaced with registered customer address.' => '',
+        'Customer automatically added in Cc.' => '',
         'Overview of all open Tickets' => 'Przegląd otwartych zgłoszeń',
         'Locked Tickets' => 'Zablokowane',
         'My Locked Tickets' => 'Moje Zablokowane Zgłoszenia',
@@ -2625,6 +2625,8 @@ sub Data {
             '',
         'Controls if customers have the ability to sort their tickets.' =>
             '',
+        'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
+            '',
         'Converts HTML mails into text messages.' => '',
         'Create and manage Service Level Agreements (SLAs).' => 'Ustawienia Poziomów Serwisu (SLA)',
         'Create and manage agents.' => 'Zarządzanie listą agentów',
@@ -3530,8 +3532,6 @@ sub Data {
             '',
         'List of IE6-specific CSS files to always be loaded for the customer interface.' =>
             '',
-        'List of IE7-specific CSS files to always be loaded for the agent interface.' =>
-            '',
         'List of IE7-specific CSS files to always be loaded for the customer interface.' =>
             '',
         'List of IE8-specific CSS files to always be loaded for the agent interface.' =>
@@ -4304,6 +4304,7 @@ sub Data {
         'Can\'t update password, passwords doesn\'t match! Please try it again!' =>
             'Nie można zmienić hasła, podano różne hasła! Spróbuj ponownie!',
         'Category Tree' => 'Drzewo kategorii',
+        'Cc: (%s) added database email!' => 'DW: (%s) dodany adres e-mail z bazy danych!',
         'Change %s settings' => 'Zmień %s ustawienia',
         'Change Times' => 'Zmień czasy',
         'Change free text of ticket' => 'Dodaj lub zmień dodatkowe informacje o zgłoszeniu',
@@ -4724,6 +4725,7 @@ sub Data {
             'Aby włączyć automatyczne wykonywanie ustaw dni, godziny i minuty!',
         'To get the article attribute (e. g. (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> and <OTRS_CUSTOMER_Body>).' =>
             'Atrybuty artykułu (np. (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> and <OTRS_CUSTOMER_Body>).',
+        'To: (%s) replaced with database email!' => 'Do: (%s) zamienione z adresem e-mail z bazy danych!',
         'Top of Page' => 'Góra strony',
         'Total hits' => 'Wszystkich trafień',
         'Type:' => 'Typ:',

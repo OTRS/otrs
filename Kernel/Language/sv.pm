@@ -3,7 +3,7 @@
 # Copyright (C) 2004 Mats Eric Olausson <mats at synergy.se>
 # Copyright (C) 2009 Mikael Mattsson" <Mikael.Mattsson at konsumvarmland.se>
 # --
-# $Id: sv.pm,v 1.111 2012-03-20 16:44:47 mg Exp $
+# $Id: sv.pm,v 1.112 2012-04-17 07:11:53 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,13 +16,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.111 $) [1];
+$VERSION = qw($Revision: 1.112 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-03-20 17:40:37
+    # Last translation file sync: 2012-04-17 09:08:44
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -263,8 +263,6 @@ sub Data {
         'No entry found!' => 'Ingen inmatning funnen!',
         'Session has timed out. Please log in again.' => 'Sessionstiden har löpt ut.  Vänligen logga på igen.',
         'No Permission!' => 'Ej Behörig!',
-        'To: (%s) replaced with database email!' => 'Till: (%s) ersatt med epost från databas!',
-        'Cc: (%s) added database email!' => 'Cc: (.s) tillagd med epost från databas.',
         '(Click here to add)' => '(Klicka här för att lägga till)',
         'Preview' => 'Forhandsvisning',
         'Package not correctly deployed! Please reinstall the package.' =>
@@ -673,6 +671,8 @@ sub Data {
         'Send Email and create a new Ticket' => 'Skicka Epost och skapa nytt Ärende',
         'Create new Email Ticket and send this out (Outbound)' => 'Skapa nytt Epostärende och skicka detta (Utgående)',
         'Create new Phone Ticket (Inbound)' => 'Skapa nytt Telefonärende (Inkommande)',
+        'Address %s replaced with registered customer address.' => '',
+        'Customer automatically added in Cc.' => '',
         'Overview of all open Tickets' => 'Översikt över alla öppna Ärenden',
         'Locked Tickets' => 'Låsta Ärenden',
         'My Locked Tickets' => 'Mina Låsta Ärenden',
@@ -2624,6 +2624,8 @@ sub Data {
             '',
         'Controls if customers have the ability to sort their tickets.' =>
             '',
+        'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
+            '',
         'Converts HTML mails into text messages.' => '',
         'Create and manage Service Level Agreements (SLAs).' => '',
         'Create and manage agents.' => '',
@@ -3529,8 +3531,6 @@ sub Data {
             '',
         'List of IE6-specific CSS files to always be loaded for the customer interface.' =>
             '',
-        'List of IE7-specific CSS files to always be loaded for the agent interface.' =>
-            '',
         'List of IE7-specific CSS files to always be loaded for the customer interface.' =>
             '',
         'List of IE8-specific CSS files to always be loaded for the agent interface.' =>
@@ -4286,6 +4286,7 @@ sub Data {
         'Can\'t update password, your new passwords do not match! Please try again!' =>
             'Kan inte lösenordet, lösenorden är inte lika! Försök igen!',
         'Category Tree' => 'Kategoriträd',
+        'Cc: (%s) added database email!' => 'Cc: (.s) tillagd med epost från databas.',
         'Change %s settings' => 'Ändra %s-inställningar',
         'Change Times' => 'ÄndringsTider',
         'Change free text of ticket' => 'Ändra friatextfält i ärende',
@@ -4616,6 +4617,7 @@ sub Data {
             'För att få artikelattributen (t.ex. (<OTRS_AGENT_From>, <OTRS_AGENT_To>, <OTRS_AGENT_Cc>, <OTRS_AGENT_Subject> och <OTRS_AGENT_Body>).',
         'To get the article attribute (e. g. (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> and <OTRS_CUSTOMER_Body>).' =>
             'För att få artikelns attribut (t.ex. (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> och <OTRS_CUSTOMER_Body)).',
+        'To: (%s) replaced with database email!' => 'Till: (%s) ersatt med epost från databas!',
         'Top of Page' => 'Början av sidan',
         'Total hits' => 'Totalt hittade',
         'U' => 'U',

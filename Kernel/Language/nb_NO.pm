@@ -8,7 +8,7 @@
 # Copyright (C) 2011 Lars Erik Utsi Gullerud <lerik at nolink.net>
 # Copyright (C) 2011 Espen Stefansen <espen.stefansen at imr.no>
 # --
-# $Id: nb_NO.pm,v 1.128 2012-03-20 16:44:46 mg Exp $
+# $Id: nb_NO.pm,v 1.129 2012-04-17 07:11:53 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,13 +21,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.128 $;
+$VERSION = q$Revision: 1.129 $;
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-03-20 17:40:25
+    # Last translation file sync: 2012-04-17 09:08:31
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -268,8 +268,6 @@ sub Data {
         'No entry found!' => 'Ingen oppføringer funnet!',
         'Session has timed out. Please log in again.' => 'Sesjonen har gått ut på tid.  Vennligst logg inn igjen.',
         'No Permission!' => 'Ingen rettigheter!',
-        'To: (%s) replaced with database email!' => 'Til: (%s) erstattet med mail fra database!',
-        'Cc: (%s) added database email!' => 'Cc: (%s) la til database-epost!',
         '(Click here to add)' => '(Klikk her for å legge til)',
         'Preview' => 'Forhåndsvisning',
         'Package not correctly deployed! Please reinstall the package.' =>
@@ -678,6 +676,8 @@ sub Data {
         'Send Email and create a new Ticket' => 'Send e-post og opprett en ny sak',
         'Create new Email Ticket and send this out (Outbound)' => 'Opprett ny e-post sak, og send denne utgående',
         'Create new Phone Ticket (Inbound)' => 'Opprett ny telefonhenvendelse (inngående)',
+        'Address %s replaced with registered customer address.' => '',
+        'Customer automatically added in Cc.' => '',
         'Overview of all open Tickets' => 'Oversikt over alle tilgjengelige saker',
         'Locked Tickets' => 'Mine private saker',
         'My Locked Tickets' => 'Mine låste saker',
@@ -2629,6 +2629,8 @@ sub Data {
             'Setter opp fulltekstindeksen. Kjør "bin/otrs.RebuildFulltextIndex.pl" for å opprette en ny indeks.',
         'Controls if customers have the ability to sort their tickets.' =>
             'Gir kunder mulighet til å sortere sakene sine.',
+        'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
+            '',
         'Converts HTML mails into text messages.' => 'Konverter HTML-e-post til tekstmeldinger',
         'Create and manage Service Level Agreements (SLAs).' => 'Administrasjon av Tjenestenivåavtaler (SLAer)',
         'Create and manage agents.' => 'Administrasjon av saksbehandlere.',
@@ -3534,8 +3536,6 @@ sub Data {
             'Liste med CSS-filer som alltid skal lastes for kundeportalen',
         'List of IE6-specific CSS files to always be loaded for the customer interface.' =>
             'Liste med IE6-spesifikke CSS-filer som alltid skal lastes for kundeportalen',
-        'List of IE7-specific CSS files to always be loaded for the agent interface.' =>
-            'Liste med IE7-spesifikke CSS-filer som alltid skal lastes for agentdelen',
         'List of IE7-specific CSS files to always be loaded for the customer interface.' =>
             'Liste med IE7-spesifikke CSS-filer som alltid skal lastes for kundeportalen',
         'List of IE8-specific CSS files to always be loaded for the agent interface.' =>
@@ -4393,6 +4393,7 @@ sub Data {
         'Can\'t update password, your new passwords do not match! Please try again!' =>
             'Kan ikke oppdatere passord. Passordene er ikke like, vennligst forsøk igjen!',
         'Category Tree' => 'Kategori-tre',
+        'Cc: (%s) added database email!' => 'Cc: (%s) la til database-epost!',
         'Change %s Relations for' => 'Endre %s-koplinger for',
         'Change %s Relations for %s' => 'Endre %s koplinger for %s',
         'Change %s settings' => 'Endre %s-innstillinger',
@@ -4781,6 +4782,8 @@ sub Data {
         'Link to Parent' => 'Link til Forelder',
         'LinkType' => 'Lenketype',
         'Linked as' => 'Koblet som',
+        'List of IE7-specific CSS files to always be loaded for the agent interface.' =>
+            'Liste med IE7-spesifikke CSS-filer som alltid skal lastes for agentdelen',
         'Load Settings' => 'Last inn innstillinger',
         'Lock it to work on it!' => 'Sett sak som privat eller tilgjengelig!',
         'Logfile' => 'Loggfil',
@@ -5104,6 +5107,7 @@ sub Data {
             'For å få saksattributten (f.eks. (<OTRS_AGENT_From>, <OTRS_AGENT_To>, <OTRS_AGENT_Cc>, <OTRS_AGENT_Subject> og <OTRS_AGENT_Body>).',
         'To get the article attribute (e. g. (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> and <OTRS_CUSTOMER_Body>).' =>
             'For å hente innleggets atributter (f.eks. (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> og <OTRS_CUSTOMER_Body>).',
+        'To: (%s) replaced with database email!' => 'Til: (%s) erstattet med mail fra database!',
         'Top of Page' => 'Toppen av siden',
         'Total hits' => 'Totalt funnet',
         'Type:' => 'Type:',

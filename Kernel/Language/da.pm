@@ -4,7 +4,7 @@
 # Copyright (C) 2007-2008 Mads N. Vestergaard <mnv[at]timmy.dk>
 # Copyright (C) 2010 Lars Jørgensen <lajo[at]kb.dk>
 # --
-# $Id: da.pm,v 1.104 2012-03-20 16:44:46 mg Exp $
+# $Id: da.pm,v 1.105 2012-04-17 07:11:53 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,13 +17,13 @@ use warnings;
 
 use vars qw($VERSION);
 
-$VERSION = qw($Revision: 1.104 $) [1];
+$VERSION = qw($Revision: 1.105 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-03-20 17:40:04
+    # Last translation file sync: 2012-04-17 09:08:09
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -264,8 +264,6 @@ sub Data {
         'No entry found!' => 'Ingen post fundet',
         'Session has timed out. Please log in again.' => 'Sessionens tidsfrist er udløbet. Vær venlig at logge ind igen.',
         'No Permission!' => 'Ingen tilladelse.',
-        'To: (%s) replaced with database email!' => 'Til: (%s) udskiftet med mail fra database.',
-        'Cc: (%s) added database email!' => 'Cc: (%s) tilføjet mail fra database.',
         '(Click here to add)' => '(Klik her for at tilføje)',
         'Preview' => 'Vis udskrift',
         'Package not correctly deployed! Please reinstall the package.' =>
@@ -674,6 +672,8 @@ sub Data {
         'Send Email and create a new Ticket' => 'Send mail og opret en ny sag',
         'Create new Email Ticket and send this out (Outbound)' => 'Opret ny mail-sag, og send den (Outbound)',
         'Create new Phone Ticket (Inbound)' => 'Opret ny telefon-sag (Inbound)',
+        'Address %s replaced with registered customer address.' => '',
+        'Customer automatically added in Cc.' => '',
         'Overview of all open Tickets' => 'Oversigt over alle åbne sager',
         'Locked Tickets' => 'Mine sager',
         'My Locked Tickets' => 'Mine sager',
@@ -2625,6 +2625,8 @@ sub Data {
             '',
         'Controls if customers have the ability to sort their tickets.' =>
             '',
+        'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
+            '',
         'Converts HTML mails into text messages.' => '',
         'Create and manage Service Level Agreements (SLAs).' => 'Administrer Service Level Agreements (SLA\'er).',
         'Create and manage agents.' => 'Administrer agenter.',
@@ -3530,8 +3532,6 @@ sub Data {
             '',
         'List of IE6-specific CSS files to always be loaded for the customer interface.' =>
             '',
-        'List of IE7-specific CSS files to always be loaded for the agent interface.' =>
-            '',
         'List of IE7-specific CSS files to always be loaded for the customer interface.' =>
             '',
         'List of IE8-specific CSS files to always be loaded for the agent interface.' =>
@@ -4217,6 +4217,7 @@ sub Data {
         'Bugzilla ID' => 'Bugzilla-ID',
         'Can\'t create support package, because you work currently with the system user root@localhost and your admin email address is not yet configured. Please define the admin email setting in the SysConfig module and don\'t use the user root@localhost for working with OTRS.' =>
             'Kan ikke lave support-pakke, fordi du i øjeblikket arbejder med systembrugeren root@localhost, og din mail-adresse er endnu ikke konfigureret. Konfigurer venligst admins mail-adresse i SysConfig-modulet, og brug ikke root@localhost til at arbejde i OTRS.',
+        'Cc: (%s) added database email!' => 'Cc: (%s) tilføjet mail fra database.',
         'Change the ticket customer!' => 'Skift sagens kunde.',
         'Change the ticket owner!' => 'Skift sagens ejer.',
         'Change the ticket priority!' => 'Skift sagens prioritet.',
@@ -4288,6 +4289,7 @@ sub Data {
         'Time4' => 'Tid4',
         'Time5' => 'Tid5',
         'Time6' => 'Tid6',
+        'To: (%s) replaced with database email!' => 'Til: (%s) udskiftet med mail fra database.',
         'Unlock to give it back to the queue!' => 'Frigiv den for at give den tilbage til køen.',
         'Vendor Support' => 'Leverandør-support',
         'Wildcards are allowed.' => 'Jokertegn er tilladt',

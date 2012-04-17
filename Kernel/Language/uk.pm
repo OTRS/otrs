@@ -2,7 +2,7 @@
 # Kernel/Language/uk.pm - provides ru language translation
 # Copyright (C) 2010 Бельский Артем
 # --
-# $Id: uk.pm,v 1.36 2012-03-20 16:44:47 mg Exp $
+# $Id: uk.pm,v 1.37 2012-04-17 07:11:54 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.36 $) [1];
+$VERSION = qw($Revision: 1.37 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-03-20 17:40:40
+    # Last translation file sync: 2012-04-17 09:08:47
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -262,8 +262,6 @@ sub Data {
         'No entry found!' => 'Запис не знайдений',
         'Session has timed out. Please log in again.' => 'Сеанс завершений. Будьласка, виконайте вхід повторно.',
         'No Permission!' => 'Немає прав!',
-        'To: (%s) replaced with database email!' => 'То: (%s) замінено на e-mail бази даних',
-        'Cc: (%s) added database email!' => 'Сс: (%s) додан e-mail бази даних',
         '(Click here to add)' => '(Натисніть тут щоб додати)',
         'Preview' => 'Попередній перегляд',
         'Package not correctly deployed! Please reinstall the package.' =>
@@ -672,6 +670,8 @@ sub Data {
         'Send Email and create a new Ticket' => 'Відправити лист і створити нову заявку',
         'Create new Email Ticket and send this out (Outbound)' => 'Створити нову заявку email і відправити її',
         'Create new Phone Ticket (Inbound)' => 'Створити нову телефонну заявку',
+        'Address %s replaced with registered customer address.' => '',
+        'Customer automatically added in Cc.' => '',
         'Overview of all open Tickets' => 'Огляд усіх заявок',
         'Locked Tickets' => 'Заблоковані заявки',
         'My Locked Tickets' => 'Мої заблоковані заявки',
@@ -2623,6 +2623,8 @@ sub Data {
             '',
         'Controls if customers have the ability to sort their tickets.' =>
             '',
+        'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
+            '',
         'Converts HTML mails into text messages.' => '',
         'Create and manage Service Level Agreements (SLAs).' => '',
         'Create and manage agents.' => 'Створення й керування агентами.',
@@ -3528,8 +3530,6 @@ sub Data {
             '',
         'List of IE6-specific CSS files to always be loaded for the customer interface.' =>
             '',
-        'List of IE7-specific CSS files to always be loaded for the agent interface.' =>
-            '',
         'List of IE7-specific CSS files to always be loaded for the customer interface.' =>
             '',
         'List of IE8-specific CSS files to always be loaded for the agent interface.' =>
@@ -4306,6 +4306,7 @@ sub Data {
         'Can\'t update password, your new passwords do not match! Please try again!' =>
             'Неможливо змінити пароль, паролі не збігаються!',
         'Category Tree' => 'Ієрархія категорій',
+        'Cc: (%s) added database email!' => 'Сс: (%s) додан e-mail бази даних',
         'Change %s settings' => 'Змінити параметри: %s',
         'Change Times' => 'Час змін',
         'Change free text of ticket' => 'Змінити вільний текст заявки',
@@ -4780,6 +4781,7 @@ sub Data {
             'Поля повідомлення (<OTRS_AGENT_From>, <OTRS_AGENT_To>, <OTRS_AGENT_Cc>, <OTRS_AGENT_Subject> and <OTRS_AGENT_Body>)',
         'To get the article attribute (e. g. (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> and <OTRS_CUSTOMER_Body>).' =>
             'Дані повідомлення (наприклад, <OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> і <OTRS_CUSTOMER_Body>).',
+        'To: (%s) replaced with database email!' => 'То: (%s) замінено на e-mail бази даних',
         'Tommorow' => 'Завтра',
         'Top of Page' => 'У початок сторінки',
         'Total hits' => 'Знайдене входжень',

@@ -2,7 +2,7 @@
 # Kernel/Language/lv.pm - provides Latvian language translation
 # Copyright (C) 2009 Ivars Strazdins <ivars.strazdins at gmail.com>
 # --
-# $Id: lv.pm,v 1.44 2012-03-20 16:44:45 mg Exp $
+# $Id: lv.pm,v 1.45 2012-04-17 07:11:52 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,13 +14,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.44 $) [1];
+$VERSION = qw($Revision: 1.45 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-03-20 17:40:24
+    # Last translation file sync: 2012-04-17 09:08:29
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -261,8 +261,6 @@ sub Data {
         'No entry found!' => 'Nekas netika atrasts!',
         'Session has timed out. Please log in again.' => 'Sesija ir beigusies. Lūdzu, piesakieties vēlreiz.',
         'No Permission!' => 'Nav atļaujas!',
-        'To: (%s) replaced with database email!' => 'Kam: (%s) tikai aizvietots ar datubāzes e-pastu!',
-        'Cc: (%s) added database email!' => 'Datubāzes e-pasta adrese pievienota Kopija: (%s) laukā!',
         '(Click here to add)' => '(Klikšķiniet šeit, lai pievienotu)',
         'Preview' => 'Priekšapskate',
         'Package not correctly deployed! Please reinstall the package.' =>
@@ -671,6 +669,8 @@ sub Data {
         'Send Email and create a new Ticket' => 'Nosūtīt e-pastu un izveidot jaunu problēmas pieteikumu',
         'Create new Email Ticket and send this out (Outbound)' => 'Izveidot jaunu problēmas pieteikumu ar e-pastu un to izsūtīt (izejošs)',
         'Create new Phone Ticket (Inbound)' => 'Izveidot jaunu telefonisku problēmas pieteikumu (ienākošs)',
+        'Address %s replaced with registered customer address.' => '',
+        'Customer automatically added in Cc.' => '',
         'Overview of all open Tickets' => 'Pārskats par visiem atvērtajiem problēmu pieteikumiem',
         'Locked Tickets' => 'Aizslēgtie pieteikumi',
         'My Locked Tickets' => '',
@@ -2622,6 +2622,8 @@ sub Data {
             '',
         'Controls if customers have the ability to sort their tickets.' =>
             '',
+        'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
+            '',
         'Converts HTML mails into text messages.' => '',
         'Create and manage Service Level Agreements (SLAs).' => '',
         'Create and manage agents.' => '',
@@ -3527,8 +3529,6 @@ sub Data {
             '',
         'List of IE6-specific CSS files to always be loaded for the customer interface.' =>
             '',
-        'List of IE7-specific CSS files to always be loaded for the agent interface.' =>
-            '',
         'List of IE7-specific CSS files to always be loaded for the customer interface.' =>
             '',
         'List of IE8-specific CSS files to always be loaded for the agent interface.' =>
@@ -4300,6 +4300,7 @@ sub Data {
         'Can\'t update password, your new passwords do not match! Please try again!' =>
             'Nav iespējams mainīt paroli, jaunās paroles nesakrīt savā starpā! Lūdzu, mēģiniet vēlreiz',
         'Category Tree' => 'Kategorijas',
+        'Cc: (%s) added database email!' => 'Datubāzes e-pasta adrese pievienota Kopija: (%s) laukā!',
         'Change %s settings' => 'Mainīt %s iestatījumus',
         'Change Time' => 'Mainīt laiku',
         'Change Times' => 'Mainīt laikus',
@@ -4672,6 +4673,7 @@ sub Data {
             'Lai saņemtu ziņojuma atribūtus (piem. <OTRS_AGENT_From>, <OTRS_AGENT_To>, <OTRS_AGENT_Cc>, <OTRS_AGENT_Subject> un <OTRS_AGENT_Body>).',
         'To get the article attribute (e. g. (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> and <OTRS_CUSTOMER_Body>).' =>
             'Lai saņemtu pieteikuma atribūtus (piem. (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> un <OTRS_CUSTOMER_Body>).',
+        'To: (%s) replaced with database email!' => 'Kam: (%s) tikai aizvietots ar datubāzes e-pastu!',
         'Top of Page' => 'Lapas augša',
         'Total hits' => 'Kopējais daudzums',
         'U' => 'U',

@@ -2,7 +2,7 @@
 # Kernel/Language/ar_SA.pm - provides ar_SA language translation
 # Copyright (C) 2007 Mohammad Saleh <maoaf at yahoo.com>
 # --
-# $Id: ar_SA.pm,v 1.77 2012-03-20 16:44:47 mg Exp $
+# $Id: ar_SA.pm,v 1.78 2012-04-17 07:11:53 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,13 +14,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.77 $) [1];
+$VERSION = qw($Revision: 1.78 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-03-20 17:39:58
+    # Last translation file sync: 2012-04-17 09:08:03
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -264,8 +264,6 @@ sub Data {
         'No entry found!' => 'لا توجد نتائج!',
         'Session has timed out. Please log in again.' => '',
         'No Permission!' => 'لا توجد صلاحيات!',
-        'To: (%s) replaced with database email!' => '',
-        'Cc: (%s) added database email!' => '',
         '(Click here to add)' => '(أختر هنا للإضافة)',
         'Preview' => 'استعراض',
         'Package not correctly deployed! Please reinstall the package.' =>
@@ -674,6 +672,8 @@ sub Data {
         'Send Email and create a new Ticket' => 'أرسل البريد و أنشيء بطاقة جديدة',
         'Create new Email Ticket and send this out (Outbound)' => '',
         'Create new Phone Ticket (Inbound)' => '',
+        'Address %s replaced with registered customer address.' => '',
+        'Customer automatically added in Cc.' => '',
         'Overview of all open Tickets' => 'استعرض جميع البطاقات المفتوحة',
         'Locked Tickets' => 'البطاقات المقفلة لي',
         'My Locked Tickets' => '',
@@ -2625,6 +2625,8 @@ sub Data {
             '',
         'Controls if customers have the ability to sort their tickets.' =>
             '',
+        'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
+            '',
         'Converts HTML mails into text messages.' => '',
         'Create and manage Service Level Agreements (SLAs).' => '',
         'Create and manage agents.' => '',
@@ -3529,8 +3531,6 @@ sub Data {
         'List of CSS files to always be loaded for the customer interface.' =>
             '',
         'List of IE6-specific CSS files to always be loaded for the customer interface.' =>
-            '',
-        'List of IE7-specific CSS files to always be loaded for the agent interface.' =>
             '',
         'List of IE7-specific CSS files to always be loaded for the customer interface.' =>
             '',

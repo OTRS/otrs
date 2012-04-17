@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # Copyright (C) 2011 Edgaras Lukoševičius <edgaras[eta]kauko.lt or admin[eta]sysadmin.lt>
 # --
-# $Id: lt.pm,v 1.21 2012-03-20 16:44:47 mg Exp $
+# $Id: lt.pm,v 1.22 2012-04-17 07:11:54 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
+$VERSION = qw($Revision: 1.22 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-03-20 17:40:22
+    # Last translation file sync: 2012-04-17 09:08:28
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -262,8 +262,6 @@ sub Data {
         'No entry found!' => 'Įrašas nerastas!',
         'Session has timed out. Please log in again.' => 'Baigėsi sesijai skirtas laikas. Prisijunkite iš naujo',
         'No Permission!' => 'Nėra leidimo!',
-        'To: (%s) replaced with database email!' => 'Kam: (%s) sukeistas su duomenų bazės el. pašto adresu!',
-        'Cc: (%s) added database email!' => 'Cc: (%s) pridėtas duomenų bazės pašto adresas!',
         '(Click here to add)' => '(Spauskite čia, kad pridėti)',
         'Preview' => 'Peržiūra',
         'Package not correctly deployed! Please reinstall the package.' =>
@@ -672,6 +670,8 @@ sub Data {
         'Send Email and create a new Ticket' => 'Išsiųsti el. laišką ir sukurti naują triktį',
         'Create new Email Ticket and send this out (Outbound)' => 'Sukurti naują el. pašto triktį ir išsiųsti jį (Išorinis)',
         'Create new Phone Ticket (Inbound)' => 'Sukurti naują telefoninį triktį (vidinis)',
+        'Address %s replaced with registered customer address.' => '',
+        'Customer automatically added in Cc.' => '',
         'Overview of all open Tickets' => 'Visų atvirų trikčių apžvalga',
         'Locked Tickets' => 'Užrakintos triktys',
         'My Locked Tickets' => 'Mano užrakintos triktys',
@@ -2623,6 +2623,8 @@ sub Data {
             '',
         'Controls if customers have the ability to sort their tickets.' =>
             '',
+        'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
+            '',
         'Converts HTML mails into text messages.' => '',
         'Create and manage Service Level Agreements (SLAs).' => 'Kurti ir valdyti Aptarnavimo Lygio Sutartis (SLA).',
         'Create and manage agents.' => 'Kurti ir valdyti agentus.',
@@ -3528,8 +3530,6 @@ sub Data {
             '',
         'List of IE6-specific CSS files to always be loaded for the customer interface.' =>
             '',
-        'List of IE7-specific CSS files to always be loaded for the agent interface.' =>
-            '',
         'List of IE7-specific CSS files to always be loaded for the customer interface.' =>
             '',
         'List of IE8-specific CSS files to always be loaded for the agent interface.' =>
@@ -4208,6 +4208,7 @@ sub Data {
             'Atsakymas yra standartinis tekstas skirtas greitesniems atsakymams klientams rašyti.',
         'Add a note to this ticket!' => 'Pridėti pastabą šiam triktimi!',
         'Bounce Ticket: ' => 'Nukreipti triktį:',
+        'Cc: (%s) added database email!' => 'Cc: (%s) pridėtas duomenų bazės pašto adresas!',
         'Change the ticket customer!' => 'Pakeisti trikties klientą!',
         'Change the ticket owner!' => 'Pakeisti trikties savininką!',
         'Change the ticket priority!' => 'Pakeisti trikties prioritetą',
@@ -4246,6 +4247,7 @@ sub Data {
         'The User Name you wish to have' => 'Jūsų pageidaujamas naudotojo vardas',
         'TicketFreeFields' => 'Trikčių laisvi laukeliai',
         'Tickets available' => 'Prieinamos triktys',
+        'To: (%s) replaced with database email!' => 'Kam: (%s) sukeistas su duomenų bazės el. pašto adresu!',
         'Unlock to give it back to the queue!' => 'Atrakinkite, kad gražintumėte jį atgal į eilę!',
         'Wildcards are allowed.' => 'Leidžiamos pakaitos (wildcard).',
 

@@ -4,7 +4,7 @@
 # Copyright (C) 2009 Yiye Huang <yiyehuang at gmail.com>
 # Copyright (C) 2009 Qingjiu Jia <jiaqj at yahoo.com>
 # --
-# $Id: zh_TW.pm,v 1.41 2012-03-20 16:44:46 mg Exp $
+# $Id: zh_TW.pm,v 1.42 2012-04-17 07:11:53 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,13 +17,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.41 $) [1];
+$VERSION = qw($Revision: 1.42 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-03-20 17:40:45
+    # Last translation file sync: 2012-04-17 09:08:51
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -264,8 +264,6 @@ sub Data {
         'No entry found!' => '無內容!',
         'Session has timed out. Please log in again.' => '會話超時，請重新登錄.',
         'No Permission!' => '無權限!',
-        'To: (%s) replaced with database email!' => 'To: (%s) 被數據庫郵件地址所替代',
-        'Cc: (%s) added database email!' => 'Cc: (%s) 增加數據庫郵件地址!',
         '(Click here to add)' => '(點擊此處增加)',
         'Preview' => '預覽',
         'Package not correctly deployed! Please reinstall the package.' =>
@@ -674,6 +672,8 @@ sub Data {
         'Send Email and create a new Ticket' => '發送 Email 並創建一個新的 Ticket',
         'Create new Email Ticket and send this out (Outbound)' => '創建新的 Ticket並發送出去',
         'Create new Phone Ticket (Inbound)' => '創建新的電話Ticket（進來的Ticket）',
+        'Address %s replaced with registered customer address.' => '',
+        'Customer automatically added in Cc.' => '',
         'Overview of all open Tickets' => '所有開放 Tickets 概況',
         'Locked Tickets' => '已鎖定 Ticket',
         'My Locked Tickets' => '',
@@ -2625,6 +2625,8 @@ sub Data {
             '',
         'Controls if customers have the ability to sort their tickets.' =>
             '',
+        'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
+            '',
         'Converts HTML mails into text messages.' => '',
         'Create and manage Service Level Agreements (SLAs).' => '',
         'Create and manage agents.' => '',
@@ -3530,8 +3532,6 @@ sub Data {
             '',
         'List of IE6-specific CSS files to always be loaded for the customer interface.' =>
             '',
-        'List of IE7-specific CSS files to always be loaded for the agent interface.' =>
-            '',
         'List of IE7-specific CSS files to always be loaded for the customer interface.' =>
             '',
         'List of IE8-specific CSS files to always be loaded for the agent interface.' =>
@@ -4290,6 +4290,7 @@ sub Data {
         'Can\'t update password, your new passwords do not match! Please try again!' =>
             '密碼兩次不符，無法更新，請重新輸入',
         'Category Tree' => '目錄樹',
+        'Cc: (%s) added database email!' => 'Cc: (%s) 增加數據庫郵件地址!',
         'Change %s settings' => '修改 %s 設置',
         'Change Times' => '改變時間',
         'Change free text of ticket' => '修改 Ticket 額外信息',
@@ -4635,6 +4636,7 @@ sub Data {
         'Timeover' => '結束',
         'Times' => '時間',
         'Title of the stat.' => '統計的標題',
+        'To: (%s) replaced with database email!' => 'To: (%s) 被數據庫郵件地址所替代',
         'Top of Page' => '頁面頂端',
         'Total hits' => '點擊數',
         'U' => '升序',

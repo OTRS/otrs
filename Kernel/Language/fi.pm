@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Antti Kämäräinen <antti at seu.net>
 # Copyright (C) 2007-2012 Mikko Hynninen <first.last at tietokartano.fi>
 # --
-# $Id: fi.pm,v 1.134 2012-03-20 16:44:47 mg Exp $
+# $Id: fi.pm,v 1.135 2012-04-17 07:11:53 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,13 +16,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.134 $) [1];
+$VERSION = qw($Revision: 1.135 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-03-20 17:40:13
+    # Last translation file sync: 2012-04-17 09:08:18
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -263,8 +263,6 @@ sub Data {
         'No entry found!' => 'Tietoa ei löytynyt!',
         'Session has timed out. Please log in again.' => 'Istuntosi on vanhentunut. Ole hyvä ja kirjaudu uudestaan.',
         'No Permission!' => 'Ei oikeutta!',
-        'To: (%s) replaced with database email!' => 'Vastaanottaja: (%s) korvattu tietokannasta löytyvällä osoitteella!',
-        'Cc: (%s) added database email!' => 'CC: (%s) lisätty tietokannasta löytyä osoite!',
         '(Click here to add)' => '(Paina tästä lisätäksesi)',
         'Preview' => 'Esikatselu',
         'Package not correctly deployed! Please reinstall the package.' =>
@@ -673,6 +671,8 @@ sub Data {
         'Send Email and create a new Ticket' => 'Lähetä sähklöposti ja luo uusi tiketti',
         'Create new Email Ticket and send this out (Outbound)' => 'Luo uusi sähköpostitiketti ja lähetä se eteenpäin',
         'Create new Phone Ticket (Inbound)' => 'Luo uusi puhelimitse tullut tiketti',
+        'Address %s replaced with registered customer address.' => '',
+        'Customer automatically added in Cc.' => '',
         'Overview of all open Tickets' => 'Yleisnäkymä kaikista avoimista tiketeistä',
         'Locked Tickets' => 'Lukitut tiketit',
         'My Locked Tickets' => 'Minun lukitut tiketit',
@@ -2624,6 +2624,8 @@ sub Data {
             '',
         'Controls if customers have the ability to sort their tickets.' =>
             '',
+        'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
+            '',
         'Converts HTML mails into text messages.' => '',
         'Create and manage Service Level Agreements (SLAs).' => '',
         'Create and manage agents.' => '',
@@ -3529,8 +3531,6 @@ sub Data {
             '',
         'List of IE6-specific CSS files to always be loaded for the customer interface.' =>
             '',
-        'List of IE7-specific CSS files to always be loaded for the agent interface.' =>
-            '',
         'List of IE7-specific CSS files to always be loaded for the customer interface.' =>
             '',
         'List of IE8-specific CSS files to always be loaded for the agent interface.' =>
@@ -4284,6 +4284,7 @@ sub Data {
         'Can\'t update password, your new passwords do not match! Please try again!' =>
             'Salasanan päivitys ei onnistunut, salasanat eivät täsmää. Yritä uudestaan.',
         'Category Tree' => 'Kategoriapuu',
+        'Cc: (%s) added database email!' => 'CC: (%s) lisätty tietokannasta löytyä osoite!',
         'Change %s settings' => 'Muuta %s asetuksia',
         'Change free text of ticket' => 'Vaihda tiketin vapaakenttätietoja',
         'Change owner of ticket' => 'Muuta tämän tiketin omistajaa',
@@ -4630,6 +4631,7 @@ sub Data {
         'Title of the stat.' => 'Tilaston otsikko.',
         'To get the article attribute (e. g. (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> and <OTRS_CUSTOMER_Body>).' =>
             'Saadaksesi artikkelin asetukset (esim. <OTRS_CUSTOMER_From, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> ja <OTRS_CUSTOMER_Body>).',
+        'To: (%s) replaced with database email!' => 'Vastaanottaja: (%s) korvattu tietokannasta löytyvällä osoitteella!',
         'Top of Page' => 'Mene ylös',
         'Total hits' => 'Hakutuloksia yhteensä',
         'U' => 'Y',

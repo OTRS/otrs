@@ -3,7 +3,7 @@
 # Copyright (C) 2004-2007 CAT - Filipe Henriques <filipehenriques at ip.pt>viz
 # Copyright (C) 2012 FCCN - Rui Francisco <rui.francisco@fccn.pt>
 # --
-# $Id: pt.pm,v 1.123 2012-03-22 14:35:37 mg Exp $
+# $Id: pt.pm,v 1.124 2012-04-17 07:11:53 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,13 +16,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.123 $) [1];
+$VERSION = qw($Revision: 1.124 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-03-22 15:21:44
+    # Last translation file sync: 2012-04-17 09:08:35
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -263,8 +263,6 @@ sub Data {
         'No entry found!' => 'Não se encontrou nada!',
         'Session has timed out. Please log in again.' => 'A sessão expirou. Por favor autentique-se novamente',
         'No Permission!' => 'Sem Permissão!',
-        'To: (%s) replaced with database email!' => 'Para: (%s) substituído pelo endereço na base de dados!',
-        'Cc: (%s) added database email!' => 'Cc: (%s) acrescentado endereço na base de dados!',
         '(Click here to add)' => '(Clique aqui para adicionar)',
         'Preview' => 'Prever',
         'Package not correctly deployed! Please reinstall the package.' =>
@@ -673,6 +671,8 @@ sub Data {
         'Send Email and create a new Ticket' => 'Enviar mensagem e criar novo Ticket',
         'Create new Email Ticket and send this out (Outbound)' => 'Criar novo Email Ticket e enviar para fora',
         'Create new Phone Ticket (Inbound)' => 'Criar novo Ticket por telefone',
+        'Address %s replaced with registered customer address.' => '',
+        'Customer automatically added in Cc.' => '',
         'Overview of all open Tickets' => 'Vista de todos os tickets abertos',
         'Locked Tickets' => 'Tickets bloqueados',
         'My Locked Tickets' => 'Os meus tickets bloqueados',
@@ -2624,6 +2624,8 @@ sub Data {
             '',
         'Controls if customers have the ability to sort their tickets.' =>
             '',
+        'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
+            '',
         'Converts HTML mails into text messages.' => '',
         'Create and manage Service Level Agreements (SLAs).' => '',
         'Create and manage agents.' => '',
@@ -4203,6 +4205,8 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        'Cc: (%s) added database email!' => 'Cc: (%s) acrescentado endereço na base de dados!',
+        'To: (%s) replaced with database email!' => 'Para: (%s) substituído pelo endereço na base de dados!',
 
     };
     # $$STOP$$

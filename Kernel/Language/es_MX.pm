@@ -2,7 +2,7 @@
 # Kernel/Language/es_MX.pm - provides Spanish language translation for Mexico
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: es_MX.pm,v 1.60 2012-03-20 16:44:48 mg Exp $
+# $Id: es_MX.pm,v 1.61 2012-04-17 07:11:54 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.60 $) [1];
+$VERSION = qw($Revision: 1.61 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-03-20 17:40:09
+    # Last translation file sync: 2012-04-17 09:08:14
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -262,8 +262,6 @@ sub Data {
         'No entry found!' => 'No se encontró entrada alguna.',
         'Session has timed out. Please log in again.' => 'La sesión ha caducado. Por favor, conéctese nuevamente.',
         'No Permission!' => 'No tiene Permiso.',
-        'To: (%s) replaced with database email!' => '¡Para: (%s) se reemplazó con el correo electrónico registrado en la base de datos!',
-        'Cc: (%s) added database email!' => '¡Cc: (%s) se agregó el correo electrónico registrado en la base de datos!',
         '(Click here to add)' => '(Haga click aquí para añadir)',
         'Preview' => 'Vista Previa',
         'Package not correctly deployed! Please reinstall the package.' =>
@@ -672,6 +670,8 @@ sub Data {
         'Send Email and create a new Ticket' => 'Enviar un correo y crear un nuevo ticket',
         'Create new Email Ticket and send this out (Outbound)' => 'Crea nuevo Ticket de Email y descartar este (saliente)',
         'Create new Phone Ticket (Inbound)' => 'Crea nuevo Ticket Telefónico (entrante)',
+        'Address %s replaced with registered customer address.' => '',
+        'Customer automatically added in Cc.' => '',
         'Overview of all open Tickets' => 'Resumen de todos los tickets abiertos',
         'Locked Tickets' => 'Tickets Bloqueados',
         'My Locked Tickets' => 'Mis Tickets Bloqueados',
@@ -2623,6 +2623,8 @@ sub Data {
             'Configura el índice de texto completo. Ejecuta "bin/otrs.RebuildFulltextIndex.pl" para generar un índice nuevo.',
         'Controls if customers have the ability to sort their tickets.' =>
             'Define es posible que los clientes ordenen sus tickets.',
+        'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
+            '',
         'Converts HTML mails into text messages.' => 'Convierte correos HTML en mensajes de texto.',
         'Create and manage Service Level Agreements (SLAs).' => 'Crear y gestionar Acuerdos de Nivel de Servicio (SLAs).',
         'Create and manage agents.' => 'Crear y gestionar agentes.',
@@ -3528,8 +3530,6 @@ sub Data {
             'Lista de archivos CSS que siempre se cargarán para la interfaz del cliente.',
         'List of IE6-specific CSS files to always be loaded for the customer interface.' =>
             'Lista de archivos CSS específicos para IE6 que siempre se cargarán para la interfaz del cliente.',
-        'List of IE7-specific CSS files to always be loaded for the agent interface.' =>
-            'Lista de archivos CSS específicos para IE7 que siempre se cargarán para la interfaz del agente.',
         'List of IE7-specific CSS files to always be loaded for the customer interface.' =>
             'Lista de archivos CSS específicos para IE7 que siempre se cargarán para la interfaz del cliente.',
         'List of IE8-specific CSS files to always be loaded for the agent interface.' =>
@@ -4362,6 +4362,7 @@ sub Data {
             'No se puede actualizar la contraseña, su nueva contraseña no coincide. Por favor reinténtelo.',
         'Category Tree' => 'Arbol de Categorías',
         'Cc: (%s) added database email' => 'Cc: (%s) añadido a la base de datos de correo electrónico',
+        'Cc: (%s) added database email!' => '¡Cc: (%s) se agregó el correo electrónico registrado en la base de datos!',
         'Change %s settings' => 'Cambiar las configuraciones %s',
         'Change Times' => 'Cambio de Tiempo',
         'Change free text of ticket' => 'Cambiar el texto libre del ticket',
@@ -4822,6 +4823,8 @@ sub Data {
         'Link this ticket to other objects!' => '¡Vincular este ticket con otros objetos!',
         'Link to Parent' => 'Enlazar con el padre',
         'Linked as' => 'Vinculado como',
+        'List of IE7-specific CSS files to always be loaded for the agent interface.' =>
+            'Lista de archivos CSS específicos para IE7 que siempre se cargarán para la interfaz del agente.',
         'Load Settings' => 'Cargar Configuración',
         'Lock it to work on it!' => 'Bloquearlo para trabajar en él',
         'Logfile' => 'Archivo de log',
@@ -5145,6 +5148,7 @@ sub Data {
         'To get the article attribute (e. g. (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> and <OTRS_CUSTOMER_Body>).' =>
             'Para obtener el atributo del artículo (ej. <OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> y <OTRS_CUSTOMER_Body>).',
         'To: (%s) replaced with database email' => 'Para: (%s) sustituido con el correo electrónico de la base de datos',
+        'To: (%s) replaced with database email!' => '¡Para: (%s) se reemplazó con el correo electrónico registrado en la base de datos!',
         'Top of Page' => 'Inicio de página',
         'Total hits' => 'Total de coincidencias',
         'U' => 'A',

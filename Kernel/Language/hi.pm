@@ -4,7 +4,7 @@
 # Copyright (C) 2011 Chetan Nagaonkar <Chetan_Nagaonkar at OptForOPS.com>
 # Copyright (C) 2011 Chetan Nagaonkar <ChetanNagaonkar at yahoo.com>
 # --
-# $Id: hi.pm,v 1.22 2012-03-20 16:44:46 mg Exp $
+# $Id: hi.pm,v 1.23 2012-04-17 07:11:53 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,13 +17,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.22 $) [1];
+$VERSION = qw($Revision: 1.23 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-03-20 17:40:16
+    # Last translation file sync: 2012-04-17 09:08:21
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -264,8 +264,6 @@ sub Data {
         'No entry found!' => 'कोई प्रविष्टि नहीं है।',
         'Session has timed out. Please log in again.' => 'सत्र का समय समाप्त हो गया है। कृपया फिर से प्रवेश करें।',
         'No Permission!' => 'अनुमति नहीं है।',
-        'To: (%s) replaced with database email!' => 'को: (%s) आंकड़ाकोष ईमेल के साथ प्रतिस्थापित करें।',
-        'Cc: (%s) added database email!' => 'प्रति: (%s) आंकड़ाकोष ईमेल जोड़ा गया।',
         '(Click here to add)' => '(जोड़ने के लिए यहाँ दबाऐ।)',
         'Preview' => 'पूर्वावलोकन',
         'Package not correctly deployed! Please reinstall the package.' =>
@@ -674,6 +672,8 @@ sub Data {
         'Send Email and create a new Ticket' => 'ईमेल भेजें और नया टिकट बनाएँ',
         'Create new Email Ticket and send this out (Outbound)' => 'नया ईमेल टिकट बनाएँ और बाहर भेजें (आउटबाउंड)',
         'Create new Phone Ticket (Inbound)' => 'नया फोन टिकट बनाएँ (इनबाउंड)',
+        'Address %s replaced with registered customer address.' => '',
+        'Customer automatically added in Cc.' => '',
         'Overview of all open Tickets' => 'सभी खुले टिकटों का अवलोकन',
         'Locked Tickets' => 'लॉकड टिकटें',
         'My Locked Tickets' => 'मेरे लॉकड टिकट',
@@ -2625,6 +2625,8 @@ sub Data {
             'पूर्ण पाठ सूचकांक विन्यस्त करें। नया सूचकांक उत्पन्न करने के लिए "bin/otrs.RebuildFulltextIndex.pl"चलाएँ।',
         'Controls if customers have the ability to sort their tickets.' =>
             'नियंत्रित करता है यदि ग्राहकों को उनके टिकट सॉर्ट करने की क्षमता है।',
+        'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
+            '',
         'Converts HTML mails into text messages.' => 'HTML मेल को पाठ संदेशों में बदलता है। ',
         'Create and manage Service Level Agreements (SLAs).' => 'सेवा स्तर के समझौतों को बनाएँ और प्रबंधन करें।',
         'Create and manage agents.' => 'प्रतिनिधियॊ को बनाएँ और प्रबंधन करें।',
@@ -3530,8 +3532,6 @@ sub Data {
             'ग्राहक इंटरफ़ेस के लिए हमेशा लोड होने वाली सीएसएस फ़ाइलों के सूची।',
         'List of IE6-specific CSS files to always be loaded for the customer interface.' =>
             'ग्राहक इंटरफ़ेस के लिए हमेशा लोड होने वाली IE6 विशिष्ट सीएसएस फ़ाइलों के सूची।',
-        'List of IE7-specific CSS files to always be loaded for the agent interface.' =>
-            'प्रतिनिधि इंटरफ़ेस के लिए हमेशा लोड होने वाली IE7 विशिष्ट सीएसएस फ़ाइलों के सूची।',
         'List of IE7-specific CSS files to always be loaded for the customer interface.' =>
             'ग्राहक इंटरफ़ेस के लिए हमेशा लोड होने वाली IE7 विशिष्ट सीएसएस फ़ाइलों के सूची।',
         'List of IE8-specific CSS files to always be loaded for the agent interface.' =>
@@ -4272,6 +4272,7 @@ sub Data {
         'Article free text options shown in the ticket responsible screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' =>
             'प्रतिनिधि अंतरफलक के टिकट उत्तरदायी स्क्रीन में अनुच्छेद मुक्त पाठ विकल्प में दिखाया गया है। संभव व्यवस्थाऐं: 0 = अक्षम, 1 = सक्रिय, 2 = सक्रिय और आवश्यक।',
         'Bounce Ticket: ' => 'फलांग टिकट',
+        'Cc: (%s) added database email!' => 'प्रति: (%s) आंकड़ाकोष ईमेल जोड़ा गया।',
         'Change the ticket customer!' => 'टिकट के ग्राहक बदलें',
         'Change the ticket owner!' => 'टिकट के स्वामी बदलें',
         'Change the ticket priority!' => 'टिकट की प्राथमिकता बदलें।',
@@ -4577,6 +4578,8 @@ sub Data {
             'यदि निर्धारित है,इस पते के रूप में लिफाफा शीर्षक से बाहर जाने वाले सूचनाओं में प्रयोग किया जाता है। यदि कोई पता निर्दिष्ट नहीं है,शीर्षक से लिफाफा खाली है।',
         'Link this ticket to an other objects!' => 'इस टिकट को दूसरे वस्तु से लिंक करें।',
         'Link this ticket to other objects!' => 'अन्य वस्तुओं से यह टिकट जोडें।',
+        'List of IE7-specific CSS files to always be loaded for the agent interface.' =>
+            'प्रतिनिधि इंटरफ़ेस के लिए हमेशा लोड होने वाली IE7 विशिष्ट सीएसएस फ़ाइलों के सूची।',
         'Lock it to work on it!' => 'काम करने के लिए इसे लॉक करें।',
         'Max. displayed tickets' => 'अधिकतम प्रदर्शित टिकट',
         'Merge this ticket!' => 'इस टिप्पणी को मिलाएं ',
@@ -4678,6 +4681,7 @@ sub Data {
             'प्रतिनिधि अंतरफलक के टिकट खोजें स्क्रीन में दिखाए गए टिकट मुक्त समय विकल्प। संभावित व्यवस्थाऐं:0=निष्क्रिय,1=सक्रिय,2=सक्रिय और आवश्यक।',
         'TicketFreeFields' => 'टिकट स्वतंत्र क्षेत्र',
         'Tickets available' => 'उपलब्ध टिकटें',
+        'To: (%s) replaced with database email!' => 'को: (%s) आंकड़ाकोष ईमेल के साथ प्रतिस्थापित करें।',
         'Unlock to give it back to the queue!' => 'श्रेणी में वापस देने के लिए इसे अनलॉक करें।',
         'Wildcards are allowed.' => 'वाइल्डकार्ड की अनुमति है।',
 

@@ -4,7 +4,7 @@
 # Copyright (C) 2010-2011 Kaz Kamimura <kamypus at yahoo.co.jp>
 # Copyright (C) 2011/12/08 Kaoru Hayama TIS Inc.
 # --
-# $Id: ja.pm,v 1.31 2012-03-20 16:44:47 mg Exp $
+# $Id: ja.pm,v 1.32 2012-04-17 07:11:54 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,13 +16,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.31 $) [1];
+$VERSION = qw($Revision: 1.32 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-03-20 17:40:21
+    # Last translation file sync: 2012-04-17 09:08:27
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -263,8 +263,6 @@ sub Data {
         'No entry found!' => '登録がありません！',
         'Session has timed out. Please log in again.' => '接続が時間切れです。再ログインしてください。',
         'No Permission!' => '権限がありません！',
-        'To: (%s) replaced with database email!' => 'To: (%s) をデータベースEmailに合わせて置き換えました',
-        'Cc: (%s) added database email!' => 'Cc: (%s) をデータベースemailに追加しました！',
         '(Click here to add)' => '(クリックして追加)',
         'Preview' => 'プレビュー',
         'Package not correctly deployed! Please reinstall the package.' =>
@@ -673,6 +671,8 @@ sub Data {
         'Send Email and create a new Ticket' => 'メール送信と新規チケット作成',
         'Create new Email Ticket and send this out (Outbound)' => '新規メールチケットを作成し送信（外部）',
         'Create new Phone Ticket (Inbound)' => '新規電話チケット作成（受信）',
+        'Address %s replaced with registered customer address.' => '',
+        'Customer automatically added in Cc.' => '',
         'Overview of all open Tickets' => '全対応中チケット一覧',
         'Locked Tickets' => 'ロック済チケット',
         'My Locked Tickets' => '担当のロック済チケット',
@@ -2624,6 +2624,8 @@ sub Data {
             'フル・テキストのインデックスを設定します。新しいインデックスを作成するには、"bin/otrs.RebuildFulltextIndex.pl"を実行してください。',
         'Controls if customers have the ability to sort their tickets.' =>
             '顧客が自らのチケットをソートする機能を持つかどうかを、コントロールします。',
+        'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
+            '',
         'Converts HTML mails into text messages.' => 'HTMLメールをテキストメッセージに変換',
         'Create and manage Service Level Agreements (SLAs).' => 'サービスレベル契約 (SLA) の作成と管理',
         'Create and manage agents.' => '担当者の作成と管理',
@@ -3531,8 +3533,6 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
             '顧客インタフェースに対して、常にロードされるCSSファイルのリストです。',
         'List of IE6-specific CSS files to always be loaded for the customer interface.' =>
             '顧客インタフェースに対して、常にロードされるIE6特有のCSSファイルのリストです。',
-        'List of IE7-specific CSS files to always be loaded for the agent interface.' =>
-            '担当者インタフェースに対して、常にロードされるIE7特有のCSSファイルのリストです。',
         'List of IE7-specific CSS files to always be loaded for the customer interface.' =>
             '顧客インタフェースに対して、常にロードされるIE7特有のCSSファイルのリストです。',
         'List of IE8-specific CSS files to always be loaded for the agent interface.' =>
@@ -4403,6 +4403,7 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         'Capacity' => 'キャパシティ',
         'Category <-> Impact <-> Priority' => 'カテゴリ <-> 影響度 <-> 優先度',
         'Category Tree' => 'カテゴリツリー',
+        'Cc: (%s) added database email!' => 'Cc: (%s) をデータベースemailに追加しました！',
         'Change %s settings' => '%sの設定変更',
         'Change Overview "Small" Limit' => '変更管理一覧(S)の表示数',
         'Change Schedule' => 'スケジュールの変更',
@@ -4997,6 +4998,8 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         'Link to Parent' => '親への連結',
         'LinkType' => '連結タイプ',
         'Linked as' => '連結されている: ',
+        'List of IE7-specific CSS files to always be loaded for the agent interface.' =>
+            '担当者インタフェースに対して、常にロードされるIE7特有のCSSファイルのリストです。',
         'Load' => '読み込み',
         'Load Settings' => '設定読み込み',
         'Lock it to work on it!' => 'チケットをロックし作業開始',
@@ -5478,6 +5481,7 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         'Title of the stat.' => '統計のタイトル',
         'Title{CustomerUser}' => 'Title',
         'Title{user}' => 'user',
+        'To: (%s) replaced with database email!' => 'To: (%s) をデータベースEmailに合わせて置き換えました',
         'Top of Page' => 'ページトップ',
         'Top10Items' => 'トップ10項目',
         'Total hits' => '総ヒット数',

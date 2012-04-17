@@ -6,7 +6,7 @@
 # Copyright (C) 2007-2010 Fabricio Luiz Machado <soprobr gmail.com>
 # Copyright (C) 2010-2011 Murilo Moreira de Oliveira <murilo.moreira gmail.com>
 # --
-# $Id: pt_BR.pm,v 1.130 2012-03-20 16:44:48 mg Exp $
+# $Id: pt_BR.pm,v 1.131 2012-04-17 07:11:54 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,13 +18,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.130 $) [1];
+$VERSION = qw($Revision: 1.131 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-03-20 17:40:30
+    # Last translation file sync: 2012-04-17 09:08:36
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -265,8 +265,6 @@ sub Data {
         'No entry found!' => 'Nenhuma entrada encontrada!',
         'Session has timed out. Please log in again.' => 'A sessão expirou. Por favor, autentique novamente.',
         'No Permission!' => 'Sem permissão!',
-        'To: (%s) replaced with database email!' => 'Para: (%s) substituído com e-mail do banco de dados!',
-        'Cc: (%s) added database email!' => 'Cc: (%s) adicionou e-mail do banco de dados!',
         '(Click here to add)' => '(Clique aqui para adicionar)',
         'Preview' => 'Pré-visualizar',
         'Package not correctly deployed! Please reinstall the package.' =>
@@ -675,6 +673,8 @@ sub Data {
         'Send Email and create a new Ticket' => 'Enviar e-mail e criar novo chamado',
         'Create new Email Ticket and send this out (Outbound)' => 'Criar novo chamado e-mail e enviá-lo (saída)',
         'Create new Phone Ticket (Inbound)' => 'Criar novo chamado fone (entrada)',
+        'Address %s replaced with registered customer address.' => '',
+        'Customer automatically added in Cc.' => '',
         'Overview of all open Tickets' => 'Visão geral de todos os chamados abertos',
         'Locked Tickets' => 'Chamados Bloqueados',
         'My Locked Tickets' => 'Meus Chamados Bloqueados',
@@ -2626,6 +2626,8 @@ sub Data {
             'Configura o índice de texto completo. Execute "bin/otrs.RebuildFulltextIndex.pl" de forma a gerar um novo índice.',
         'Controls if customers have the ability to sort their tickets.' =>
             'Controla se os clientes têm a capacidade de classificar os seus chamados.',
+        'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
+            '',
         'Converts HTML mails into text messages.' => 'Converte e-mails HTML em mensagens de texto.',
         'Create and manage Service Level Agreements (SLAs).' => 'Criar e gerenciar Acordos de Nível de Serviço (SLAs).',
         'Create and manage agents.' => 'Criar e gerenciar atendentes.',
@@ -3531,8 +3533,6 @@ sub Data {
             '',
         'List of IE6-specific CSS files to always be loaded for the customer interface.' =>
             '',
-        'List of IE7-specific CSS files to always be loaded for the agent interface.' =>
-            '',
         'List of IE7-specific CSS files to always be loaded for the customer interface.' =>
             '',
         'List of IE8-specific CSS files to always be loaded for the agent interface.' =>
@@ -4367,6 +4367,7 @@ sub Data {
         'Can\'t update password, your new passwords do not match! Please try again!' =>
             'Senha não atualizada, por que estão diferentes! Tente novamente!',
         'Category Tree' => 'Categorias',
+        'Cc: (%s) added database email!' => 'Cc: (%s) adicionou e-mail do banco de dados!',
         'Change %s settings' => 'Modificar %s configurações',
         'Change Time' => 'Horário de Alteração',
         'Change Times' => 'Horário de Alteração',
@@ -4841,6 +4842,7 @@ sub Data {
             'Para buscar o atributo do artigo (ex.: (<OTRS_AGENT_From>, <OTRS_AGENT_To>, <OTRS_AGENT_Cc>, <OTRS_AGENT_Subject> and <OTRS_AGENT_Body>).',
         'To get the article attribute (e. g. (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> and <OTRS_CUSTOMER_Body>).' =>
             'Para buscar o atributo do artigo (ex.: (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> and <OTRS_CUSTOMER_Body>).',
+        'To: (%s) replaced with database email!' => 'Para: (%s) substituído com e-mail do banco de dados!',
         'Top of Page' => 'Topo da Página',
         'Total hits' => 'Total de acertos',
         'U' => 'C',
