@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/TicketMenuLock.pm
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketMenuLock.pm,v 1.20 2012-01-06 14:54:46 mg Exp $
+# $Id: TicketMenuLock.pm,v 1.21 2012-04-17 15:48:19 des Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.20 $) [1];
+$VERSION = qw($Revision: 1.21 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -47,9 +47,9 @@ sub Run {
         return if !$Module;
     }
 
-    # check permission
+    # check lock permission
     my $AccessOk = $Self->{TicketObject}->TicketPermission(
-        Type     => 'rw',
+        Type     => 'lock',
         TicketID => $Param{Ticket}->{TicketID},
         UserID   => $Self->{UserID},
         LogNo    => 1,
