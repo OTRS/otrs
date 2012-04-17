@@ -2,7 +2,7 @@
 # Kernel/System/Queue.pm - lib for queue functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Queue.pm,v 1.137 2012-04-05 19:24:17 mb Exp $
+# $Id: Queue.pm,v 1.138 2012-04-17 19:07:54 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::Time;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.137 $) [1];
+$VERSION = qw($Revision: 1.138 $) [1];
 
 =head1 NAME
 
@@ -354,7 +354,7 @@ sub GetAllQueues {
         return if !@GroupIDs;
 
         my $GroupString = join ', ', sort @GroupIDs;
-        $CacheKey = 'GetAllQueues::UserID::' . $Type . '::' . $GroupString . '::' . $Param{UserID};
+        $CacheKey = "GetAllQueues::UserID::${Type}::${GroupString}::$Param{UserID}";
 
         # check cache
         my $Cache = $Self->{CacheInternalObject}->Get(
@@ -381,10 +381,7 @@ sub GetAllQueues {
 
         my $GroupString = join ', ', sort @GroupIDs;
         $CacheKey
-            = 'GetAllQueues::CustomerUserID::'
-            . $Type . '::'
-            . $GroupString . '::'
-            . $Param{CustomerUserID};
+            = "GetAllQueues::CustomerUserID::${Type}::${GroupString}::$Param{CustomerUserID}";
 
         # check cache
         my $Cache = $Self->{CacheInternalObject}->Get(
@@ -1180,6 +1177,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.137 $ $Date: 2012-04-05 19:24:17 $
+$Revision: 1.138 $ $Date: 2012-04-17 19:07:54 $
 
 =cut
