@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend.pm - Interface for DynamicField backends
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Backend.pm,v 1.70 2012-03-30 16:22:00 cr Exp $
+# $Id: Backend.pm,v 1.71 2012-04-18 19:47:39 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Scalar::Util qw(weaken);
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.70 $) [1];
+$VERSION = qw($Revision: 1.71 $) [1];
 
 =head1 NAME
 
@@ -312,7 +312,7 @@ sub EditFieldRender {
         return;
     }
 
-    # set the dynamic filed specific backend
+    # set the dynamic field specific backend
     my $DynamicFieldBackend = 'DynamicField' . $Param{DynamicFieldConfig}->{FieldType} . 'Object';
 
     if ( !$Self->{$DynamicFieldBackend} ) {
@@ -392,7 +392,7 @@ sub DisplayValueRender {
         }
     }
 
-    # set the dynamic filed specific backend
+    # set the dynamic field specific backend
     my $DynamicFieldBackend = 'DynamicField' . $Param{DynamicFieldConfig}->{FieldType} . 'Object';
 
     if ( !$Self->{$DynamicFieldBackend} ) {
@@ -456,7 +456,7 @@ sub ValueSet {
         }
     }
 
-    # set the dynamic filed specific backend
+    # set the dynamic field specific backend
     my $DynamicFieldBackend = 'DynamicField' . $Param{DynamicFieldConfig}->{FieldType} . 'Object';
 
     if ( !$Self->{$DynamicFieldBackend} ) {
@@ -491,7 +491,7 @@ sub ValueSet {
         return;
     }
 
-    # set the dyanamic filed object handler
+    # set the dyanamic field object handler
     my $DynamicFieldObjectHandler =
         'DynamicField' . $Param{DynamicFieldConfig}->{ObjectType} . 'HandlerObject';
 
@@ -547,7 +547,7 @@ sub ValueDelete {
         }
     }
 
-    # set the dynamic filed specific backend
+    # set the dynamic field specific backend
     my $DynamicFieldBackend = 'DynamicField' . $Param{DynamicFieldConfig}->{FieldType} . 'Object';
 
     if ( !$Self->{$DynamicFieldBackend} ) {
@@ -603,7 +603,7 @@ sub AllValuesDelete {
         }
     }
 
-    # set the dynamic filed specific backend
+    # set the dynamic field specific backend
     my $DynamicFieldBackend = 'DynamicField' . $Param{DynamicFieldConfig}->{FieldType} . 'Object';
 
     if ( !$Self->{$DynamicFieldBackend} ) {
@@ -957,7 +957,7 @@ sub EditFieldValueGet {
         }
     }
 
-    # set the dynamic filed specific backend
+    # set the dynamic field specific backend
     my $DynamicFieldBackend = 'DynamicField' . $Param{DynamicFieldConfig}->{FieldType} . 'Object';
 
     if ( !$Self->{$DynamicFieldBackend} ) {
@@ -1037,7 +1037,7 @@ sub EditFieldValueValidate {
         return;
     }
 
-    # set the dynamic filed specific backend
+    # set the dynamic field specific backend
     my $DynamicFieldBackend = 'DynamicField' . $Param{DynamicFieldConfig}->{FieldType} . 'Object';
 
     if ( !$Self->{$DynamicFieldBackend} ) {
@@ -1092,7 +1092,7 @@ sub IsSortable {
         }
     }
 
-    # set the dynamic filed specific backend
+    # set the dynamic field specific backend
     my $DynamicFieldBackend = 'DynamicField' . $Param{DynamicFieldConfig}->{FieldType} . 'Object';
 
     if ( !$Self->{$DynamicFieldBackend} ) {
@@ -1184,7 +1184,7 @@ sub SearchFieldRender {
         $Param{UseLabelHints} = 1;
     }
 
-    # set the dynamic filed specific backend
+    # set the dynamic field specific backend
     my $DynamicFieldBackend = 'DynamicField' . $Param{DynamicFieldConfig}->{FieldType} . 'Object';
 
     if ( !$Self->{$DynamicFieldBackend} ) {
@@ -1325,7 +1325,7 @@ sub SearchFieldValueGet {
         }
     }
 
-    # set the dynamic filed specific backend
+    # set the dynamic field specific backend
     my $DynamicFieldBackend = 'DynamicField' . $Param{DynamicFieldConfig}->{FieldType} . 'Object';
 
     if ( !$Self->{$DynamicFieldBackend} ) {
@@ -1398,7 +1398,7 @@ sub SearchFieldParameterBuild {
         }
     }
 
-    # set the dynamic filed specific backend
+    # set the dynamic field specific backend
     my $DynamicFieldBackend = 'DynamicField' . $Param{DynamicFieldConfig}->{FieldType} . 'Object';
 
     if ( !$Self->{$DynamicFieldBackend} ) {
@@ -1465,7 +1465,7 @@ sub StatsFieldParameterBuild {
         }
     }
 
-    # set the dynamic filed specific backend
+    # set the dynamic field specific backend
     my $DynamicFieldBackend = 'DynamicField' . $Param{DynamicFieldConfig}->{FieldType} . 'Object';
 
     if ( !$Self->{$DynamicFieldBackend} ) {
@@ -1536,7 +1536,7 @@ sub CommonSearchFieldParameterBuild {
         }
     }
 
-    # set the dynamic filed specific backend
+    # set the dynamic field specific backend
     my $DynamicFieldBackend = 'DynamicField' . $Param{DynamicFieldConfig}->{FieldType} . 'Object';
 
     if ( !$Self->{$DynamicFieldBackend} ) {
@@ -1601,7 +1601,7 @@ sub ReadableValueRender {
         }
     }
 
-    # set the dynamic filed specific backend
+    # set the dynamic field specific backend
     my $DynamicFieldBackend = 'DynamicField' . $Param{DynamicFieldConfig}->{FieldType} . 'Object';
 
     if ( !$Self->{$DynamicFieldBackend} ) {
@@ -1696,7 +1696,7 @@ sub TemplateValueTypeGet {
         $Param{FieldType} = 'All';
     }
 
-    # set the dynamic filed specific backend
+    # set the dynamic field specific backend
     my $DynamicFieldBackend = 'DynamicField' . $Param{DynamicFieldConfig}->{FieldType} . 'Object';
 
     if ( !$Self->{$DynamicFieldBackend} ) {
@@ -1760,7 +1760,7 @@ sub IsAJAXUpdateable {
         }
     }
 
-    # set the dynamic filed specific backend
+    # set the dynamic field specific backend
     my $DynamicFieldBackend = 'DynamicField' . $Param{DynamicFieldConfig}->{FieldType} . 'Object';
 
     if ( !$Self->{$DynamicFieldBackend} ) {
@@ -1827,7 +1827,7 @@ sub RandomValueSet {
         }
     }
 
-    # set the dynamic filed specific backend
+    # set the dynamic field specific backend
     my $DynamicFieldBackend = 'DynamicField' . $Param{DynamicFieldConfig}->{FieldType} . 'Object';
 
     if ( !$Self->{$DynamicFieldBackend} ) {
@@ -1850,7 +1850,7 @@ sub RandomValueSet {
         return;
     }
 
-    # set the dyanamic filed object handler
+    # set the dyanamic field object handler
     my $DynamicFieldObjectHandler =
         'DynamicField' . $Param{DynamicFieldConfig}->{ObjectType} . 'HandlerObject';
 
@@ -1910,7 +1910,7 @@ sub IsMatchable {
         }
     }
 
-    # set the dynamic filed specific backend
+    # set the dynamic field specific backend
     my $DynamicFieldBackend = 'DynamicField' . $Param{DynamicFieldConfig}->{FieldType} . 'Object';
 
     if ( !$Self->{$DynamicFieldBackend} ) {
@@ -1984,7 +1984,7 @@ sub ObjectMatch {
     # do not perfom the action if the ObjectAttributes parameter is empty
     return if !IsHashRefWithData( $Param{ObjectAttributes} );
 
-    # set the dynamic filed specific backend
+    # set the dynamic field specific backend
     my $DynamicFieldBackend = 'DynamicField' . $Param{DynamicFieldConfig}->{FieldType} . 'Object';
 
     if ( !$Self->{$DynamicFieldBackend} ) {
@@ -2051,7 +2051,7 @@ sub AJAXPossibleValuesGet {
         }
     }
 
-    # set the dynamic filed specific backend
+    # set the dynamic field specific backend
     my $DynamicFieldBackend = 'DynamicField' . $Param{DynamicFieldConfig}->{FieldType} . 'Object';
 
     if ( !$Self->{$DynamicFieldBackend} ) {
@@ -2118,7 +2118,7 @@ sub HistoricalValuesGet {
         }
     }
 
-    # set the dynamic filed specific backend
+    # set the dynamic field specific backend
     my $DynamicFieldBackend = 'DynamicField' . $Param{DynamicFieldConfig}->{FieldType} . 'Object';
 
     if ( !$Self->{$DynamicFieldBackend} ) {
@@ -2151,6 +2151,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.70 $ $Date: 2012-03-30 16:22:00 $
+$Revision: 1.71 $ $Date: 2012-04-18 19:47:39 $
 
 =cut
