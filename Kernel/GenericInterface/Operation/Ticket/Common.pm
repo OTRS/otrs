@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Ticket/Common.pm - Ticket common operation functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.34 2012-03-28 06:24:51 ep Exp $
+# $Id: Common.pm,v 1.35 2012-04-18 19:35:40 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -40,7 +40,7 @@ use Kernel::System::GenericInterface::Webservice;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.34 $) [1];
+$VERSION = qw($Revision: 1.35 $) [1];
 
 =head1 NAME
 
@@ -1246,7 +1246,7 @@ sub ValidateDynamicFieldObjectType {
 
 =item SetDynamicFieldValue()
 
-sets the value of a dynamic filed.
+sets the value of a dynamic field.
 
     my $Result = $CommonObject->SetDynamicFieldValue(
         Name      => 'some name',           # the name of the dynamic field
@@ -1530,6 +1530,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.34 $ $Date: 2012-03-28 06:24:51 $
+$Revision: 1.35 $ $Date: 2012-04-18 19:35:40 $
 
 =cut
