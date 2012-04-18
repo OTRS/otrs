@@ -3,7 +3,7 @@
 # bin/otrs.ExportStatsToOPM.pl - export all stats of a system and create a package for the package manager
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.ExportStatsToOPM.pl,v 1.4 2012-03-29 12:44:41 mg Exp $
+# $Id: otrs.ExportStatsToOPM.pl,v 1.5 2012-04-18 19:25:32 cr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -50,7 +50,7 @@ use Kernel::System::CSV;
 
 # get file version
 use vars qw($VERSION $Debug);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 # common objects
 my %CommonObject = ();
@@ -61,15 +61,12 @@ $CommonObject{LogObject}    = Kernel::System::Log->new(
     LogPrefix => 'OTRS-otrs.ExportStatsToOPM.pl',
     %CommonObject,
 );
-$CommonObject{MainObject}  = Kernel::System::Main->new(%CommonObject);
-$CommonObject{TimeObject}  = Kernel::System::Time->new(%CommonObject);
-$CommonObject{DBObject}    = Kernel::System::DB->new(%CommonObject);
-$CommonObject{UserObject}  = Kernel::System::User->new(%CommonObject);
-$CommonObject{GroupObject} = Kernel::System::Group->new(%CommonObject);
-
-$CommonObject{CSVObject} = Kernel::System::CSV->new(%CommonObject);
-
-# ---
+$CommonObject{MainObject}    = Kernel::System::Main->new(%CommonObject);
+$CommonObject{TimeObject}    = Kernel::System::Time->new(%CommonObject);
+$CommonObject{DBObject}      = Kernel::System::DB->new(%CommonObject);
+$CommonObject{UserObject}    = Kernel::System::User->new(%CommonObject);
+$CommonObject{GroupObject}   = Kernel::System::Group->new(%CommonObject);
+$CommonObject{CSVObject}     = Kernel::System::CSV->new(%CommonObject);
 $CommonObject{StatsObject}   = Kernel::System::Stats->new(%CommonObject);
 $CommonObject{PackageObject} = Kernel::System::Package->new(%CommonObject);
 
