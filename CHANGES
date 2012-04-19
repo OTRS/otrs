@@ -2,14 +2,14 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2253 2012-04-16 18:24:46 mb Exp $
+# $Id: CHANGES,v 1.2254 2012-04-19 14:21:29 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-3.1.4 2012-??-??
+3.1.4 2012-04-24
  - 2012-04-15 Fixed bug#8284 - The text "Cc: (xx@mail.com) added database email!" is confusing.
  - 2012-04-16 Fixed bug#8392 - DynamicFieldAdd returns wrong value.
  - 2012-04-16 Fixed bug#8387 - UseSyncBackend configuration does not conform to OTRS style.
@@ -19,11 +19,10 @@
     and SessionUseCookie is set to No.
  - 2012-04-06 Fixed bug#8346 - Incoming phone calls trigger NewTicket
     notification, even for existing tickets.
- - 2012-04-06 Fixed bug#8353 - Typing error in CSS instruction in
-    var/httpd/htdocs/skins/Agent/default/css/Core.Print.css.
+ - 2012-04-06 Fixed bug#8353 - Small typo in print CSS.
  - 2012-04-06 Fixed bug#8370 - AgentTicketForward does not set pending date for pending states.
- - 2012-04-05 Fixed bug#8368 - Personal Queues update is not reflected in UI.
- - 2012-04-03 Fixed bug#8363 - SOAP Transport can't send a 0 value.
+ - 2012-04-05 Fixed bug#8368 - Personal queues update is not reflected in UI.
+ - 2012-04-03 Fixed bug#8363 - SOAP Transport can't send a value '0'.
  - 2012-04-02 Added new Slovenian translation, thanks to Gorazd Zagar and Andrej Cimerlajt!
  - 2012-04-02 Updated Italian translation, thanks to Massimo Bianchi!
  - 2012-03-30 Fixed bug#8356 - ACLs for DynamicFields does not work on AgentTicketSearch.
@@ -33,7 +32,7 @@
  - 2012-03-29 Fixed uninitialized value error in Kernel/System/Log.pm.
  - 2012-03-29 Added caching for DynamicFieldValue entries to improve system performance.
  - 2012-03-29 Fixed bug#8336 - otrs.ExportStatsToOPM.pl  broken.
- - 2012-03-29 Fixed bug#8349 - Caching breaks Admin Frontend.
+ - 2012-03-29 Fixed bug#8349 - Caching breaks Admin frontend.
  - 2012-03-26 Improved performance on MySQL databases by removing useless LOWER statements.
  - 2012-03-26 Fixed bug#7877 - SMIME emails don't get parsed properly.
  - 2012-03-23 Disabled error message in RemoveSessionID().
