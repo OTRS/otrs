@@ -1,8 +1,8 @@
 # --
 # Kernel/System/PostMaster/FollowUp.pm - the sub part of PostMaster.pm
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: FollowUp.pm,v 1.76 2011-11-25 10:23:24 mg Exp $
+# $Id: FollowUp.pm,v 1.77 2012-04-19 21:12:39 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::User;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.76 $) [1];
+$VERSION = qw($Revision: 1.77 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -226,7 +226,7 @@ sub Run {
     # dynamic fields
     my $DynamicFieldList =
         $Self->{TicketObject}->{DynamicFieldObject}->DynamicFieldList(
-        Valid      => 0,
+        Valid      => 1,
         ResultType => 'HASH',
         ObjectType => 'Ticket'
         );
@@ -381,7 +381,7 @@ sub Run {
     # dynamic fields
     $DynamicFieldList =
         $Self->{TicketObject}->{DynamicFieldObject}->DynamicFieldList(
-        Valid      => 0,
+        Valid      => 1,
         ResultType => 'HASH',
         ObjectType => 'Article'
         );

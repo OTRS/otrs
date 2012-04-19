@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/NewTicket.pm - sub part of PostMaster.pm
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: NewTicket.pm,v 1.85 2012-01-26 11:18:54 mg Exp $
+# $Id: NewTicket.pm,v 1.86 2012-04-19 21:12:39 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::AutoResponse;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.85 $) [1];
+$VERSION = qw($Revision: 1.86 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -136,7 +136,7 @@ sub Run {
         if ( $CustomerData{UserLogin} && !$GetParam{'X-OTRS-CustomerUser'} ) {
             $GetParam{'X-OTRS-CustomerUser'} = $CustomerData{UserLogin};
 
-            # notice that UserLogin is form customer source backend
+            # notice that UserLogin is from customer source backend
             $Self->{LogObject}->Log(
                 Priority => 'notice',
                 Message  => "Take UserLogin ($CustomerData{UserLogin}) from "
@@ -146,7 +146,7 @@ sub Run {
         if ( $CustomerData{UserCustomerID} && !$GetParam{'X-OTRS-CustomerNo'} ) {
             $GetParam{'X-OTRS-CustomerNo'} = $CustomerData{UserCustomerID};
 
-            # notice that UserCustomerID is form customer source backend
+            # notice that UserCustomerID is from customer source backend
             $Self->{LogObject}->Log(
                 Priority => 'notice',
                 Message  => "Take UserCustomerID ($CustomerData{UserCustomerID})"
@@ -221,7 +221,7 @@ sub Run {
     # dynamic fields
     my $DynamicFieldList =
         $Self->{TicketObject}->{DynamicFieldObject}->DynamicFieldList(
-        Valid      => 0,
+        Valid      => 1,
         ResultType => 'HASH',
         ObjectType => 'Ticket'
         );
@@ -371,7 +371,7 @@ sub Run {
     # dynamic fields
     $DynamicFieldList =
         $Self->{TicketObject}->{DynamicFieldObject}->DynamicFieldList(
-        Valid      => 0,
+        Valid      => 1,
         ResultType => 'HASH',
         ObjectType => 'Article'
         );
