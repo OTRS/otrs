@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentStats.pm - stats module
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStats.pm,v 1.123 2012-01-23 19:39:23 cr Exp $
+# $Id: AgentStats.pm,v 1.124 2012-04-20 00:22:34 ep Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::CSV;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.123 $) [1];
+$VERSION = qw($Revision: 1.124 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -333,6 +333,7 @@ sub Run {
                     Name => 'Dynamic',
                     Data => { Name => $Name{$Use} },
                 );
+                OBJECTATTRIBUTE:
                 for my $ObjectAttribute ( @{ $Stat->{$Use} } ) {
                     next if !$ObjectAttribute->{Selected};
 
@@ -341,6 +342,16 @@ sub Run {
 
                     # Select All function
                     if ( !$ObjectAttribute->{SelectedValues}[0] ) {
+                        if (
+                            $ObjectAttribute->{Values} && ref $ObjectAttribute->{Values} ne 'HASH'
+                            )
+                        {
+                            $Self->{LogObject}->Log(
+                                Priority => 'error',
+                                Message  => 'Values needs to be a hash reference!'
+                            );
+                            next OBJECTATTRIBUTE;
+                        }
                         my @Values = keys( %{ $ObjectAttribute->{Values} } );
                         $ObjectAttribute->{SelectedValues} = \@Values;
                     }
