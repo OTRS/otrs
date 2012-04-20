@@ -1,8 +1,8 @@
 # --
 # AgentTicketOverviewPreview.dtl - provides HTML Ticket Overview
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewPreview.dtl,v 1.76 2011-12-05 20:56:03 mb Exp $
+# $Id: AgentTicketOverviewPreview.dtl,v 1.77 2012-04-20 12:16:58 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -231,6 +231,8 @@
                     </tbody>
                 </table>
             </div>
+
+<!-- dtl:block:ArticlesPreviewArea -->
             <div class="Preview">
                 <ul class="$QData{"Class"}">
 <!-- dtl:block:ArticlePreview -->
@@ -293,6 +295,8 @@ $Data{"Body"}
 <!-- dtl:block:ArticlePreview -->
                 </ul>
             </div>
+<!-- dtl:block:ArticlesPreviewArea -->
+
             <div class="Shadow"></div>
         </div>
     </li>

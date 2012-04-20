@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/TicketOverviewPreview.pm
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketOverviewPreview.pm,v 1.71 2012-04-20 12:00:31 mg Exp $
+# $Id: TicketOverviewPreview.pm,v 1.72 2012-04-20 12:16:58 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.71 $) [1];
+$VERSION = qw($Revision: 1.72 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -832,36 +832,44 @@ sub _Show {
         }
     }
 
-    # check if a certain article type should be displayed as expanded
-    my $PreviewArticleTypeExpanded
-        = $Self->{ConfigObject}->Get('Ticket::Frontend::Overview::PreviewArticleTypeExpanded')
-        || '';
+    if (@ArticleBody) {
 
-    # if a certain article type should be shown as expanded, set the
-    # last article of this type as active
-    if ($PreviewArticleTypeExpanded) {
+        # check if a certain article type should be displayed as expanded
+        my $PreviewArticleTypeExpanded
+            = $Self->{ConfigObject}->Get('Ticket::Frontend::Overview::PreviewArticleTypeExpanded')
+            || '';
 
-        my $ClassCount = 0;
-        for my $ArticleItem (@ArticleBody) {
-            next if !$ArticleItem;
+        # if a certain article type should be shown as expanded, set the
+        # last article of this type as active
+        if ($PreviewArticleTypeExpanded) {
 
-            # check if current article type should be shown as expanded
-            if ( $ArticleItem->{ArticleType} eq $PreviewArticleTypeExpanded ) {
-                $ArticleItem->{Class} = 'Active';
-                last;
+            my $ClassCount = 0;
+            for my $ArticleItem (@ArticleBody) {
+                next if !$ArticleItem;
+
+                # check if current article type should be shown as expanded
+                if ( $ArticleItem->{ArticleType} eq $PreviewArticleTypeExpanded ) {
+                    $ArticleItem->{Class} = 'Active';
+                    last;
+                }
+
+                # otherwise display the last article in the list as expanded (default)
+                elsif ( $ClassCount == $#ArticleBody ) {
+                    $ArticleBody[0]->{Class} = 'Active';
+                }
+                $ClassCount++;
             }
-
-            # otherwise display the last article in the list as expanded (default)
-            elsif ( $ClassCount == $#ArticleBody ) {
-                $ArticleBody[0]->{Class} = 'Active';
-            }
-            $ClassCount++;
         }
-    }
 
-    # otherwise display the last article in the list as expanded (default)
-    else {
-        $ArticleBody[0]->{Class} = 'Active';
+        # otherwise display the last article in the list as expanded (default)
+        else {
+            $ArticleBody[0]->{Class} = 'Active';
+        }
+
+        $Self->{LayoutObject}->Block(
+            Name => 'ArticlesPreviewArea',
+            Data => { %Param, %Article, %AclAction },
+        );
     }
 
     # show inline article
