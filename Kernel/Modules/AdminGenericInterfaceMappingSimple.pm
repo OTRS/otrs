@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericInterfaceMappingSimple.pm - provides a TransportHTTPSOAP view for admins
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceMappingSimple.pm,v 1.20 2012-03-28 06:24:51 ep Exp $
+# $Id: AdminGenericInterfaceMappingSimple.pm,v 1.21 2012-04-20 00:19:42 ep Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.20 $) [1];
+$VERSION = qw($Revision: 1.21 $) [1];
 
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::GenericInterface::Webservice;
@@ -36,7 +36,7 @@ sub new {
         }
     }
 
-    # create addtional objects
+    # create additional objects
     $Self->{ValidObject} = Kernel::System::Valid->new( %{$Self} );
     $Self->{WebserviceObject} =
         Kernel::System::GenericInterface::Webservice->new( %{$Self} );
@@ -86,7 +86,7 @@ sub Run {
             ->ErrorScreen( Message => "Need WebserviceID!", );
     }
 
-    # get webserice configuration
+    # get webservice configuration
     my $WebserviceData =
         $Self->{WebserviceObject}->WebserviceGet( ID => $WebserviceID );
 
