@@ -1,8 +1,8 @@
 # --
 # TicketACL.t - Ticket Access Control Lists tests
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketACL.t,v 1.3 2011-11-16 20:18:50 cr Exp $
+# $Id: TicketACL.t,v 1.4 2012-04-23 17:42:57 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,18 +13,20 @@ use strict;
 use warnings;
 
 use Kernel::Config;
-use Kernel::System::DB;
-use Kernel::System::Ticket;
-use Kernel::System::User;
 use Kernel::System::CustomerUser;
-use Kernel::System::UnitTest::Helper;
-use Kernel::System::Valid;
+use Kernel::System::DB;
+use Kernel::System::DynamicField;
+use Kernel::System::DynamicFieldValue;
 use Kernel::System::Queue;
-use Kernel::System::Service;
-use Kernel::System::Type;
 use Kernel::System::Priority;
+use Kernel::System::Service;
 use Kernel::System::SLA;
 use Kernel::System::State;
+use Kernel::System::Ticket;
+use Kernel::System::Type;
+use Kernel::System::UnitTest::Helper;
+use Kernel::System::User;
+use Kernel::System::Valid;
 
 use vars qw($Self);
 
@@ -44,12 +46,14 @@ my $CustomerUserObject = Kernel::System::CustomerUser->new(
     %{$Self},
     ConfigObject => $ConfigObject,
 );
-my $QueueObject    = Kernel::System::Queue->new( %{$Self} );
-my $ServiceObject  = Kernel::System::Service->new( %{$Self} );
-my $TypeObject     = Kernel::System::Type->new( %{$Self} );
-my $PriorityObject = Kernel::System::Priority->new( %{$Self} );
-my $SLAObject      = Kernel::System::SLA->new( %{$Self} );
-my $StateObject    = Kernel::System::State->new( %{$Self} );
+my $QueueObject             = Kernel::System::Queue->new( %{$Self} );
+my $ServiceObject           = Kernel::System::Service->new( %{$Self} );
+my $TypeObject              = Kernel::System::Type->new( %{$Self} );
+my $PriorityObject          = Kernel::System::Priority->new( %{$Self} );
+my $SLAObject               = Kernel::System::SLA->new( %{$Self} );
+my $StateObject             = Kernel::System::State->new( %{$Self} );
+my $DynamicFieldObject      = Kernel::System::DynamicField->new( %{$Self} );
+my $DynamicFieldValueObject = Kernel::System::DynamicFieldValue->new( %{$Self} );
 
 # set valid options
 my %ValidList = $ValidObject->ValidList();
@@ -66,6 +70,16 @@ my $UserID = $UserObject->UserLookup(
 my %UserData = $UserObject->GetUserData(
     UserID => $UserID,
 );
+my $NewUserLogin = $HelperObject->TestUserCreate(
+    Groups => ['admin'],
+) || die "Did not get test user";
+
+my $NewUserID = $UserObject->UserLookup(
+    UserLogin => $NewUserLogin,
+);
+my %NewUserData = $UserObject->GetUserData(
+    UserID => $NewUserID,
+);
 
 # set customer user options
 my $CustomerUserLogin = $HelperObject->TestCustomerUserCreate()
@@ -73,6 +87,13 @@ my $CustomerUserLogin = $HelperObject->TestCustomerUserCreate()
 
 my %CustomerUserData = $CustomerUserObject->CustomerUserDataGet(
     User => $CustomerUserLogin,
+);
+
+my $NewCustomerUserLogin = $HelperObject->TestCustomerUserCreate()
+    || die "Did not get test customer user";
+
+my %NewCustomerUserData = $CustomerUserObject->CustomerUserDataGet(
+    User => $NewCustomerUserLogin,
 );
 
 # set helper options
@@ -103,6 +124,29 @@ my %QueueData = $QueueObject->QueueGet(
     UserID => 1,
 );
 
+my $NewQueueName = 'NewQueue_' . $RandomID;
+my $NewQueueID   = $QueueObject->QueueAdd(
+    Name            => $NewQueueName,
+    ValidID         => $ValidList{'valid'},
+    GroupID         => 1,
+    SystemAddressID => 1,
+    SalutationID    => 1,
+    SignatureID     => 1,
+    Comment         => 'Some comment',
+    UserID          => 1,
+);
+
+# sanity check
+$Self->True(
+    $NewQueueID,
+    "QueueAdd() ID ($NewQueueID) added successfully"
+);
+
+my %NewQueueData = $QueueObject->QueueGet(
+    ID     => $NewQueueID,
+    UserID => 1,
+);
+
 # set service options
 my $ServiceName = 'Service_' . $RandomID;
 my $ServiceID   = $ServiceObject->ServiceAdd(
@@ -119,6 +163,24 @@ $Self->True(
 
 my %ServiceData = $ServiceObject->ServiceGet(
     ServiceID => $ServiceID,
+    UserID    => 1,
+);
+
+my $NewServiceName = 'NewService_' . $RandomID;
+my $NewServiceID   = $ServiceObject->ServiceAdd(
+    Name    => $NewServiceName,
+    ValidID => $ValidList{'valid'},
+    UserID  => 1,
+);
+
+# sanity check
+$Self->True(
+    $NewServiceID,
+    "ServiceAdd() ID ($NewServiceID) added successfully"
+);
+
+my %NewServiceData = $ServiceObject->ServiceGet(
+    ServiceID => $NewServiceID,
     UserID    => 1,
 );
 
@@ -141,6 +203,24 @@ my %TypeData = $TypeObject->TypeGet(
     UserID => 1,
 );
 
+my $NewTypeName = 'NewType_' . $RandomID;
+my $NewTypeID   = $TypeObject->TypeAdd(
+    Name    => $NewTypeName,
+    ValidID => $ValidList{'valid'},
+    UserID  => 1,
+);
+
+# sanity check
+$Self->True(
+    $NewTypeID,
+    "TypeAdd() ID ($NewTypeID) added successfully"
+);
+
+my %NewTypeData = $TypeObject->TypeGet(
+    ID     => $NewTypeID,
+    UserID => 1,
+);
+
 # set priority options
 my $PriorityName = 'Priority_' . $RandomID;
 my $PriorityID   = $PriorityObject->PriorityAdd(
@@ -159,6 +239,23 @@ my %PriorityData = $PriorityObject->PriorityGet(
     PriorityID => $PriorityID,
     UserID     => 1,
 );
+my $NewPriorityName = 'NewPriority_' . $RandomID;
+my $NewPriorityID   = $PriorityObject->PriorityAdd(
+    Name    => $NewPriorityName,
+    ValidID => $ValidList{'valid'},
+    UserID  => 1,
+);
+
+# sanity check
+$Self->True(
+    $NewPriorityID,
+    "PriorityAdd() ID ($NewPriorityID) added successfully"
+);
+
+my %NewPriorityData = $PriorityObject->PriorityGet(
+    PriorityID => $NewPriorityID,
+    UserID     => 1,
+);
 
 # set SLA options
 my $SLAName = 'SLA_' . $RandomID;
@@ -175,6 +272,23 @@ $Self->True(
 );
 
 my %SLAData = $SLAObject->SLAGet(
+    SLAID  => $SLAID,
+    UserID => 1,
+);
+my $NewSLAName = 'NewSLA_' . $RandomID;
+my $NewSLAID   = $SLAObject->SLAAdd(
+    Name    => $NewSLAName,
+    ValidID => $ValidList{'valid'},
+    UserID  => 1,
+);
+
+# sanity check
+$Self->True(
+    $NewSLAID,
+    "SLAAdd() ID ($NewSLAID) added successfully"
+);
+
+my %NewSLAData = $SLAObject->SLAGet(
     SLAID  => $SLAID,
     UserID => 1,
 );
@@ -198,7 +312,53 @@ my %StateData = $StateObject->StateGet(
     ID     => $StateID,
     UserID => 1,
 );
+my $NewStateName = 'NewState_' . $RandomID;
+my $NewStateID   = $StateObject->StateAdd(
+    Name    => $NewStateName,
+    ValidID => 1,
+    TypeID  => 1,
+    UserID  => 1,
+);
 
+# sanity check
+$Self->True(
+    $NewStateID,
+    "StateAdd() ID ($NewStateID) added successfully"
+);
+
+my %NewStateData = $StateObject->StateGet(
+    ID     => $NewStateID,
+    UserID => 1,
+);
+
+# set dynamic_field options
+my $DynamicFieldName = 'DynamicField' . $RandomID;
+my $DynamicFieldID   = $DynamicFieldObject->DynamicFieldAdd(
+    Name       => $DynamicFieldName,
+    Label      => 'a description',
+    FieldOrder => 99999,
+    FieldType  => 'Text',
+    ObjectType => 'Ticket',
+    Config     => {
+        DefaultValue => 'Default',
+    },
+    Reorder => 0,
+    ValidID => 1,
+    UserID  => 1,
+);
+
+# sanity check
+$Self->True(
+    $DynamicFieldID,
+    "DynamicFieldAdd() ID ($DynamicFieldID) added successfully"
+);
+
+my $DynamicFieldData = $DynamicFieldObject->DynamicFieldGet(
+    ID     => $DynamicFieldID,
+    UserID => 1,
+);
+
+# TODO integrte this tests with database tests
 # set testig ACLs options
 my %TestACLs = (
     'Queue-1' => {
@@ -325,8 +485,8 @@ my %TestACLs = (
         Properties => {
             Ticket => {
                 Queue    => [$QueueName],
-                Priority => ['3 normal'],
-                State    => ['new'],
+                Priority => [$PriorityName],
+                State    => [$StateName],
             },
         },
         Possible => {
@@ -374,24 +534,47 @@ my $TicketObject = Kernel::System::Ticket->new(
 
 # set ticket options
 my $TicketID = $TicketObject->TicketCreate(
-    Title        => 'Some Ticket Title',
-    Queue        => $QueueName,
-    Lock         => 'unlock',
-    Priority     => '3 normal',
-    State        => 'new',
-    CustomerID   => '123465',
-    CustomerUser => 'customer@example.com',
-    OwnerID      => 1,
-    UserID       => 1,
+    Title         => 'Some Ticket Title',
+    Queue         => $QueueName,
+    Service       => $ServiceName,
+    Type          => $TypeName,
+    Lock          => 'unlock',
+    Priority      => $PriorityName,
+    SLA           => $SLAName,
+    State         => $StateName,
+    CustomerID    => '123465',
+    CustomerUser  => $CustomerUserLogin,
+    OwnerID       => $UserID,
+    ResponsibleID => $UserID,
+    UserID        => 1,
 );
 
 # sanity check
 $Self->True(
     $TicketID,
-    "TicketCreate() ID ($TicketID) created successfully"
+    "TicketCreate() ID ($TicketID) created successfully",
 );
 
-# define the tests
+# set the dynamic field value
+my $DynamicFieldValueSetSuccess = $DynamicFieldValueObject->ValueSet(
+    FieldID  => $DynamicFieldID,
+    ObjectID => $TicketID,
+    Value    => [
+        {
+            ValueText => 'Item1',
+        },
+    ],
+    UserID => $UserID,
+);
+
+# sanity check
+$Self->True(
+    $DynamicFieldValueSetSuccess,
+    "DynamicField ValueSet() for DynamicField ID ($DynamicFieldID), Ticket ID ($TicketID)"
+        . "set successfully",
+);
+
+# define form update based tests
 my @Tests = (
     {
         Name   => 'ACL Queue-1 - wrong Queue',
@@ -800,7 +983,7 @@ my @Tests = (
         },
     },
     {
-        Name   => 'ACL Ticket-1 - correct Action',
+        Name   => 'ACL Ticket-1 - correct Ticket',
         Config => {
             Data          => '-',
             ReturnType    => 'Action',
@@ -877,10 +1060,1718 @@ for my $Test (@Tests) {
             "$Test->{Name} ACL data",
             )
     }
+}
 
+$Self->True(
+    1,
+    "--- Start Database ACL Tests ---",
+);
+
+# define the database tests
+@Tests = (
+
+    # queue based tests
+    {
+        Name => 'ACL DB-Queue-1 - Sent new queue, Wrong PropertiesDatabase: ',
+        ACLs => {
+            'DB-Queue-1-A' => {
+                PropertiesDatabase => {
+                    Queue => {
+                        Name => [$NewQueueName],
+                    },
+                },
+                PossibleNot => {
+                    Ticket => {
+                        State => ['new'],
+                    },
+                },
+            },
+        },
+        Config => {
+            Data => {
+                1 => 'new',
+                2 => 'open',
+            },
+            ReturnType    => 'Ticket',
+            ReturnSubType => 'State',
+            TicketID      => $TicketID,
+            Queue         => $NewQueueName,
+            UserID        => $UserID,
+        },
+        SuccessMatch => 0,
+        ReturnData   => {},
+    },
+    {
+        Name => 'ACL DB-Queue-1 - Sent new queue, Correct PropertiesDatabase: ',
+        ACLs => {
+            'DB-Queue-1-B' => {
+                PropertiesDatabase => {
+                    Queue => {
+                        Name => [$QueueName],
+                    },
+                },
+                PossibleNot => {
+                    Ticket => {
+                        State => ['open'],
+                    },
+                },
+            },
+        },
+        Config => {
+            Data => {
+                1 => 'new',
+                2 => 'open',
+            },
+            ReturnType    => 'Ticket',
+            ReturnSubType => 'State',
+            TicketID      => $TicketID,
+            Queue         => $NewQueueName,
+            UserID        => $UserID,
+        },
+        SuccessMatch => 1,
+        ReturnData   => {
+            1 => 'new',
+        },
+    },
+    {
+        Name => 'ACL DB-Queue-1 - Sent new queue, Wrong Properties, Correct PropertiesDatabase: ',
+        ACLs => {
+            'DB-Queue-1-C' => {
+                Properties => {
+                    Queue => {
+                        Name => [$QueueName],
+                    },
+                },
+                PropertiesDatabase => {
+                    Queue => {
+                        Name => [$QueueName],
+                    },
+                },
+                PossibleNot => {
+                    Ticket => {
+                        State => ['new'],
+                    },
+                },
+            },
+        },
+        Config => {
+            Data => {
+                1 => 'new',
+                2 => 'open',
+            },
+            ReturnType    => 'Ticket',
+            ReturnSubType => 'State',
+            TicketID      => $TicketID,
+            Queue         => $NewQueueName,
+            UserID        => $UserID,
+        },
+        SuccessMatch => 0,
+        ReturnData   => {},
+    },
+    {
+        Name => 'ACL DB-Queue-1 - Sent new queue, Correct Properties,'
+            . ' Correct PropertiesDatabase: ',
+        ACLs => {
+            'DB-Queue-1-D' => {
+                Properties => {
+                    Queue => {
+                        Name => [$NewQueueName],
+                    },
+                },
+                PropertiesDatabase => {
+                    Queue => {
+                        Name => [$QueueName],
+                    },
+                },
+                PossibleNot => {
+                    Ticket => {
+                        State => ['new'],
+                    },
+                },
+            },
+        },
+        Config => {
+            Data => {
+                1 => 'new',
+                2 => 'open',
+            },
+            ReturnType    => 'Ticket',
+            ReturnSubType => 'State',
+            TicketID      => $TicketID,
+            Queue         => $NewQueueName,
+            UserID        => $UserID,
+        },
+        SuccessMatch => 1,
+        ReturnData   => {
+            2 => 'open',
+        },
+    },
+
+    # service based tests
+    {
+        Name => 'ACL DB-Service-1 - Sent new service, Wrong PropertiesDatabase: ',
+        ACLs => {
+            'DB-Service-1-A' => {
+                PropertiesDatabase => {
+                    Service => {
+                        Name => [$NewServiceName],
+                    },
+                },
+                Possible => {
+                    Ticket => {
+                        Priority => [ '1 very low', '3 medium', ],
+                    },
+                },
+            },
+        },
+        Config => {
+            Data => {
+                1 => '1 very low',
+                2 => '2 low',
+                3 => '3 medium',
+                4 => '4 high',
+                5 => '5 very high'
+            },
+            ReturnType    => 'Ticket',
+            ReturnSubType => 'Priority',
+            TicketID      => $TicketID,
+            Service       => $NewServiceName,
+            UserID        => $UserID,
+        },
+        SuccessMatch => 0,
+        ReturnData   => {},
+    },
+    {
+        Name => 'ACL DB-Service-1 - Sent new service, Correct PropertiesDatabase: ',
+        ACLs => {
+            'DB-Service-1-B' => {
+                PropertiesDatabase => {
+                    Service => {
+                        Name => [$ServiceName],
+                    },
+                },
+                Possible => {
+                    Ticket => {
+                        Priority => [ '1 very low', ],
+                    },
+                },
+            },
+        },
+        Config => {
+            Data => {
+                1 => '1 very low',
+                2 => '2 low',
+                3 => '3 medium',
+                4 => '4 high',
+                5 => '5 very high'
+            },
+            ReturnType    => 'Ticket',
+            ReturnSubType => 'Priority',
+            TicketID      => $TicketID,
+            Service       => $NewServiceName,
+            UserID        => $UserID,
+        },
+        SuccessMatch => 1,
+        ReturnData   => {
+            1 => '1 very low',
+        },
+    },
+    {
+        Name => 'ACL DB-Service-1 - Sent new service, Wrong Properties,'
+            . ' Correct PropertiesDatabase: ',
+        ACLs => {
+            'DB-Service-1-C' => {
+                Properties => {
+                    Service => {
+                        Name => [$ServiceName],
+                    },
+                },
+                PropertiesDatabase => {
+                    Service => {
+                        Name => [$ServiceName],
+                    },
+                },
+                Possible => {
+                    Ticket => {
+                        Priority => [ '1 very low', '3 medium', ],
+                    },
+                },
+            },
+        },
+        Config => {
+            Data => {
+                1 => '1 very low',
+                2 => '2 low',
+                3 => '3 medium',
+                4 => '4 high',
+                5 => '5 very high'
+            },
+            ReturnType    => 'Ticket',
+            ReturnSubType => 'Priority',
+            TicketID      => $TicketID,
+            Service       => $NewServiceName,
+            UserID        => $UserID,
+        },
+        SuccessMatch => 0,
+        ReturnData   => {},
+    },
+    {
+        Name => 'ACL DB-Service-1 - Sent new service, Correct Properties,'
+            . ' Correct PropertiesDatabase: ',
+        ACLs => {
+            'DB-Service-1-D' => {
+                Properties => {
+                    Service => {
+                        Name => [$NewServiceName],
+                    },
+                },
+                PropertiesDatabase => {
+                    Service => {
+                        Name => [$ServiceName],
+                    },
+                },
+                Possible => {
+                    Ticket => {
+                        Priority => [ '1 very low', '3 medium', ],
+                    },
+                },
+            },
+        },
+        Config => {
+            Data => {
+                1 => '1 very low',
+                2 => '2 low',
+                3 => '3 medium',
+                4 => '4 high',
+                5 => '5 very high'
+            },
+            ReturnType    => 'Ticket',
+            ReturnSubType => 'Priority',
+            TicketID      => $TicketID,
+            Service       => $NewServiceName,
+            UserID        => $UserID,
+        },
+        SuccessMatch => 1,
+        ReturnData   => {
+            1 => '1 very low',
+            3 => '3 medium',
+        },
+    },
+
+    # type based tests
+    {
+        Name => 'ACL DB-Type-1 - Sent new type, Wrong PropertiesDatabase: ',
+        ACLs => {
+            'DB-Type-1-A' => {
+                PropertiesDatabase => {
+                    Type => {
+                        Name => [$NewTypeName],
+                    },
+                },
+                Possible => {
+                    Ticket => {
+                        Queue => ['Raw'],
+                    },
+                },
+            },
+        },
+        Config => {
+            Data => {
+                1 => 'Raw',
+                2 => 'PostMaster',
+                3 => 'Junk',
+                4 => 'Misc',
+            },
+            ReturnType    => 'Ticket',
+            ReturnSubType => 'Queue',
+            TicketID      => $TicketID,
+            Type          => $NewTypeName,
+            UserID        => $UserID,
+        },
+        SuccessMatch => 0,
+        ReturnData   => {},
+    },
+    {
+        Name => 'ACL DB-Type-1 - Sent new type, Correct PropertiesDatabase:',
+        ACLs => {
+            'DB-Type-1-B' => {
+                PropertiesDatabase => {
+                    Type => {
+                        Name => [$TypeName],
+                    },
+                },
+                Possible => {
+                    Ticket => {
+                        Queue => ['Misc'],
+                    },
+                },
+            },
+        },
+        Config => {
+            Data => {
+                1 => 'Raw',
+                2 => 'PostMaster',
+                3 => 'Junk',
+                4 => 'Misc',
+            },
+            ReturnType    => 'Ticket',
+            ReturnSubType => 'Queue',
+            TicketID      => $TicketID,
+            Type          => $NewTypeName,
+            UserID        => $UserID,
+        },
+        SuccessMatch => 1,
+        ReturnData   => {
+            4 => 'Misc',
+        },
+    },
+    {
+        Name => 'ACL DB-Type-1 - Sent new type, Wrong Properties, Correct PropertiesDatabase:',
+        ACLs => {
+            'DB-Type-1-C' => {
+                Properties => {
+                    Type => {
+                        Name => [$TypeName],
+                    },
+                },
+                PropertiesDatabase => {
+                    Type => {
+                        Name => [$TypeName],
+                    },
+                },
+                Possible => {
+                    Ticket => {
+                        Queue => ['Raw'],
+                    },
+                },
+            },
+        },
+        Config => {
+            Data => {
+                1 => 'Raw',
+                2 => 'PostMaster',
+                3 => 'Junk',
+                4 => 'Misc',
+            },
+            ReturnType    => 'Ticket',
+            ReturnSubType => 'Queue',
+            TicketID      => $TicketID,
+            Type          => $NewTypeName,
+            UserID        => $UserID,
+        },
+        SuccessMatch => 0,
+        ReturnData   => {},
+    },
+    {
+        Name => 'ACL DB-Type-1 - Sent new type, Correct Properties, Correct PropertiesDatabase:',
+        ACLs => {
+            'DB-Type-1-D' => {
+                Properties => {
+                    Type => {
+                        Name => [$NewTypeName],
+                    },
+                },
+                PropertiesDatabase => {
+                    Type => {
+                        Name => [$TypeName],
+                    },
+                },
+                Possible => {
+                    Ticket => {
+                        Queue => ['Raw'],
+                    },
+                },
+            },
+        },
+        Config => {
+            Data => {
+                1 => 'Raw',
+                2 => 'PostMaster',
+                3 => 'Junk',
+                4 => 'Misc',
+            },
+            ReturnType    => 'Ticket',
+            ReturnSubType => 'Queue',
+            TicketID      => $TicketID,
+            Type          => $NewTypeName,
+            UserID        => $UserID,
+        },
+        SuccessMatch => 1,
+        ReturnData   => {
+            1 => 'Raw',
+        },
+    },
+
+    # customer based tests
+    {
+        Name => 'ACL DB-CustomerUser-1 - Set new CustomerUser, Wrong PropertiesDatabase: ',
+        ACLs => {
+            'DB-CustomerUser-1-A' => {
+                PropertiesDatabase => {
+                    CustomerUser => {
+                        UserLogin => [$NewCustomerUserLogin],
+                    },
+                },
+                Possible => {
+                    Ticket => {
+                        State => ['open'],
+                    },
+                },
+            },
+        },
+        Config => {
+            Data => {
+                1 => 'new',
+                2 => 'open',
+            },
+            ReturnType     => 'Ticket',
+            ReturnSubType  => 'State',
+            TicketID       => $TicketID,
+            CustomerUserID => $NewCustomerUserData{UserID},
+        },
+        SuccessMatch => 0,
+        ReturnData   => {},
+    },
+    {
+        Name => 'ACL DB-CustomerUser-1 - Set new CustomerUser, Correct PropertiesDatabase: ',
+        ACLs => {
+            'DB-CustomerUser-1-B' => {
+                PropertiesDatabase => {
+                    CustomerUser => {
+                        UserLogin => [$CustomerUserLogin],
+                    },
+                },
+                Possible => {
+                    Ticket => {
+                        State => ['new'],
+                    },
+                },
+            },
+        },
+        Config => {
+            Data => {
+                1 => 'new',
+                2 => 'open',
+            },
+            ReturnType     => 'Ticket',
+            ReturnSubType  => 'State',
+            TicketID       => $TicketID,
+            CustomerUserID => $NewCustomerUserData{UserID},
+        },
+        SuccessMatch => 1,
+        ReturnData   => {
+            1 => 'new',
+        },
+    },
+    {
+        Name => 'ACL DB-CustomerUser-1 - Set new CustomerUser, Wrong Properies,'
+            . ' Correct PropertiesDatabase: ',
+        ACLs => {
+            'DB-CustomerUser-1-C' => {
+                Properties => {
+                    CustomerUser => {
+                        UserLogin => [$CustomerUserLogin],
+                    },
+                },
+                PropertiesDatabase => {
+                    CustomerUser => {
+                        UserLogin => [$CustomerUserLogin],
+                    },
+                },
+                Possible => {
+                    Ticket => {
+                        State => ['open'],
+                    },
+                },
+            },
+        },
+        Config => {
+            Data => {
+                1 => 'new',
+                2 => 'open',
+            },
+            ReturnType     => 'Ticket',
+            ReturnSubType  => 'State',
+            TicketID       => $TicketID,
+            CustomerUserID => $NewCustomerUserData{UserID},
+        },
+        SuccessMatch => 0,
+        ReturnData   => {},
+    },
+    {
+        Name => 'ACL DB-CustomerUser-1 - Set new CustomerUser, Correct Properties,'
+            . ' Correct PropertiesDatabase: ',
+        ACLs => {
+            'DB-CustomerUser-1-S' => {
+                Properties => {
+                    CustomerUser => {
+                        UserLogin => [$NewCustomerUserLogin],
+                    },
+                },
+                PropertiesDatabase => {
+                    CustomerUser => {
+                        UserLogin => [$CustomerUserLogin],
+                    },
+                },
+                Possible => {
+                    Ticket => {
+                        State => ['open'],
+                    },
+                },
+            },
+        },
+        Config => {
+            Data => {
+                1 => 'new',
+                2 => 'open',
+            },
+            ReturnType     => 'Ticket',
+            ReturnSubType  => 'State',
+            TicketID       => $TicketID,
+            CustomerUserID => $NewCustomerUserData{UserID},
+        },
+        SuccessMatch => 1,
+        ReturnData   => {
+            2 => 'open',
+        },
+    },
+
+    # priority based tests
+    {
+        Name => 'ACL DB-Priority-1 - Sent new priority, Wrong Properties: ',
+        ACLs => {
+            'DB-Priority-1-A' => {
+                PropertiesDatabase => {
+                    Priority => {
+                        Name => [$NewPriorityName],
+                    },
+                },
+                Possible => {
+                    Ticket => {
+                        State => ['open'],
+                    },
+                },
+            },
+        },
+        Config => {
+            Data => {
+                1 => 'new',
+                2 => 'open',
+            },
+            ReturnType    => 'Ticket',
+            ReturnSubType => 'State',
+            TicketID      => $TicketID,
+            Priority      => $NewPriorityName,
+            UserID        => $UserID,
+        },
+        SuccessMatch => 0,
+        ReturnData   => {},
+    },
+    {
+        Name => 'ACL DB-Priority-1 - Sent new priority, Correct PropertiesDatabase: ',
+        ACLs => {
+            'DB-Priority-1-B' => {
+                PropertiesDatabase => {
+                    Priority => {
+                        Name => [$PriorityName],
+                    },
+                },
+                Possible => {
+                    Ticket => {
+                        State => ['new'],
+                    },
+                },
+            },
+        },
+        Config => {
+            Data => {
+                1 => 'new',
+                2 => 'open',
+            },
+            ReturnType    => 'Ticket',
+            ReturnSubType => 'State',
+            TicketID      => $TicketID,
+            Priority      => $NewPriorityName,
+            UserID        => $UserID,
+        },
+        SuccessMatch => 1,
+        ReturnData   => {
+            1 => 'new',
+        },
+    },
+    {
+        Name => 'ACL DB-Priority-1 - Sent new priority, Wrong Properties,'
+            . ' Correct PropertiesDatabase: ',
+        ACLs => {
+            'DB-Priority-1-C' => {
+                Properties => {
+                    Priority => {
+                        Name => [$PriorityName],
+                    },
+                },
+                PropertiesDatabase => {
+                    Priority => {
+                        Name => [$PriorityName],
+                    },
+                },
+                Possible => {
+                    Ticket => {
+                        State => ['open'],
+                    },
+                },
+            },
+        },
+        Config => {
+            Data => {
+                1 => 'new',
+                2 => 'open',
+            },
+            ReturnType    => 'Ticket',
+            ReturnSubType => 'State',
+            TicketID      => $TicketID,
+            Priority      => $NewPriorityName,
+            UserID        => $UserID,
+        },
+        SuccessMatch => 0,
+        ReturnData   => {},
+    },
+    {
+        Name => 'ACL DB-Priority-1 - Sent new priority, Correct Properties,'
+            . ' Correct PropertiesDatabase: ',
+        ACLs => {
+            'DB-Priority-1-D' => {
+                Properties => {
+                    Priority => {
+                        Name => [$NewPriorityName],
+                    },
+                },
+                PropertiesDatabase => {
+                    Priority => {
+                        Name => [$PriorityName],
+                    },
+                },
+                Possible => {
+                    Ticket => {
+                        State => ['open'],
+                    },
+                },
+            },
+        },
+        Config => {
+            Data => {
+                1 => 'new',
+                2 => 'open',
+            },
+            ReturnType    => 'Ticket',
+            ReturnSubType => 'State',
+            TicketID      => $TicketID,
+            Priority      => $NewPriorityName,
+            UserID        => $UserID,
+        },
+        SuccessMatch => 1,
+        ReturnData   => {
+            2 => 'open',
+        },
+    },
+
+    # sla based tests
+    {
+        Name => 'ACL DB-SLA-1 - Sent new SLA, Wrong PropertiesDatabase: ',
+        ACLs => {
+            'DB-SLA-1-A' => {
+                PropertiesDatabase => {
+                    SLA => {
+                        Name => [$NewSLAName],
+                    },
+                },
+                PossibleNot => {
+                    Ticket => {
+                        State => ['open'],
+                    },
+                },
+            },
+        },
+        Config => {
+            Data => {
+                1 => 'new',
+                2 => 'open',
+                3 => 'closed'
+            },
+            ReturnType    => 'Ticket',
+            ReturnSubType => 'State',
+            TicketID      => $TicketID,
+            SLA           => $NewSLAName,
+            UserID        => $UserID,
+        },
+        SuccessMatch => 0,
+        ReturnData   => {},
+    },
+    {
+        Name => 'ACL DB-SLA-1 - Sent new SLA, Correct PropertiesDatabase: ',
+        ACLs => {
+            'DB-SLA-1-B' => {
+                PropertiesDatabase => {
+                    SLA => {
+                        Name => [$SLAName],
+                    },
+                },
+                PossibleNot => {
+                    Ticket => {
+                        State => ['new'],
+                    },
+                },
+            },
+        },
+        Config => {
+            Data => {
+                1 => 'new',
+                2 => 'open',
+                3 => 'closed'
+            },
+            ReturnType    => 'Ticket',
+            ReturnSubType => 'State',
+            TicketID      => $TicketID,
+            SLA           => $NewSLAName,
+            UserID        => $UserID,
+        },
+        SuccessMatch => 1,
+        ReturnData   => {
+            2 => 'open',
+            3 => 'closed',
+        },
+    },
+    {
+        Name => 'ACL DB-SLA-1 - Sent new SLA, Wrong Propeties, Correct PropertiesDatabase: ',
+        ACLs => {
+            'DB-SLA-1-C' => {
+                Properties => {
+                    SLA => {
+                        Name => [$SLAName],
+                    },
+                },
+                PropertiesDatabase => {
+                    SLA => {
+                        Name => [$SLAName],
+                    },
+                },
+                PossibleNot => {
+                    Ticket => {
+                        State => ['open'],
+                    },
+                },
+            },
+        },
+        Config => {
+            Data => {
+                1 => 'new',
+                2 => 'open',
+                3 => 'closed'
+            },
+            ReturnType    => 'Ticket',
+            ReturnSubType => 'State',
+            TicketID      => $TicketID,
+            SLA           => $NewSLAName,
+            UserID        => $UserID,
+        },
+        SuccessMatch => 0,
+        ReturnData   => {},
+    },
+    {
+        Name => 'ACL DB-SLA-1 - Sent new SLA, Correct Properties, Correct PropertiesDatabase:',
+        ACLs => {
+            'DB-SLA-1-D' => {
+                Properties => {
+                    SLA => {
+                        Name => [$NewSLAName],
+                    },
+                },
+                PropertiesDatabase => {
+                    SLA => {
+                        Name => [$SLAName],
+                    },
+                },
+                PossibleNot => {
+                    Ticket => {
+                        State => ['open'],
+                    },
+                },
+            },
+        },
+        Config => {
+            Data => {
+                1 => 'new',
+                2 => 'open',
+                3 => 'closed'
+            },
+            ReturnType    => 'Ticket',
+            ReturnSubType => 'State',
+            TicketID      => $TicketID,
+            SLA           => $NewSLAName,
+            UserID        => $UserID,
+        },
+        SuccessMatch => 1,
+        ReturnData   => {
+            1 => 'new',
+            3 => 'closed',
+        },
+    },
+
+    # state based tests
+    {
+        Name => 'ACL DB-State-1 - Sent new state, Wrong PropertiesDatabase: ',
+        ACLs => {
+            'DB-State-1-A' => {
+                PropertiesDatabase => {
+                    State => {
+                        Name => [$NewStateName],
+                    },
+                },
+                PossibleNot => {
+                    Ticket => {
+                        Queue => ['Raw'],
+                    },
+                },
+            },
+        },
+        Config => {
+            Data => {
+                1 => 'Raw',
+                2 => 'PostMaster',
+                3 => 'Junk',
+                4 => 'Misc',
+            },
+            ReturnType    => 'Ticket',
+            ReturnSubType => 'Queue',
+            TicketID      => $TicketID,
+            State         => $NewStateName,
+            UserID        => $UserID,
+        },
+        SuccessMatch => 0,
+        ReturnData   => {},
+    },
+    {
+        Name => 'ACL DB-State-1 - Sent new state, Correct PropertiesDatabase:',
+        ACLs => {
+            'DB-State-1-B' => {
+                PropertiesDatabase => {
+                    State => {
+                        Name => [$StateName],
+                    },
+                },
+                PossibleNot => {
+                    Ticket => {
+                        Queue => ['Junk'],
+                    },
+                },
+            },
+        },
+        Config => {
+            Data => {
+                1 => 'Raw',
+                2 => 'PostMaster',
+                3 => 'Junk',
+                4 => 'Misc',
+            },
+            ReturnType    => 'Ticket',
+            ReturnSubType => 'Queue',
+            TicketID      => $TicketID,
+            State         => $NewStateName,
+            UserID        => $UserID,
+        },
+        SuccessMatch => 1,
+        ReturnData   => {
+            1 => 'Raw',
+            2 => 'PostMaster',
+            4 => 'Misc',
+        },
+    },
+    {
+        Name => 'ACL DB-State-1 - Sent new state, Wrong Properties, Correct PropertiesDatabase:',
+        ACLs => {
+            'DB-State-1-C' => {
+                Properties => {
+                    State => {
+                        Name => [$StateName],
+                    },
+                },
+                PropertiesDatabase => {
+                    State => {
+                        Name => [$StateName],
+                    },
+                },
+                PossibleNot => {
+                    Ticket => {
+                        Queue => ['Raw'],
+                    },
+                },
+            },
+        },
+        Config => {
+            Data => {
+                1 => 'Raw',
+                2 => 'PostMaster',
+                3 => 'Junk',
+                4 => 'Misc',
+            },
+            ReturnType    => 'Ticket',
+            ReturnSubType => 'Queue',
+            TicketID      => $TicketID,
+            State         => $NewStateName,
+            UserID        => $UserID,
+        },
+        SuccessMatch => 0,
+        ReturnData   => {},
+    },
+    {
+        Name => 'ACL DB-State-1 - Sent new state, Correct Properties,'
+            . ' Correct PropertiesDatabase:',
+        ACLs => {
+            'DB-State-1-D' => {
+                Properties => {
+                    State => {
+                        Name => [$NewStateName],
+                    },
+                },
+                PropertiesDatabase => {
+                    State => {
+                        Name => [$StateName],
+                    },
+                },
+                PossibleNot => {
+                    Ticket => {
+                        Queue => ['Raw'],
+                    },
+                },
+            },
+        },
+        Config => {
+            Data => {
+                1 => 'Raw',
+                2 => 'PostMaster',
+                3 => 'Junk',
+                4 => 'Misc',
+            },
+            ReturnType    => 'Ticket',
+            ReturnSubType => 'Queue',
+            TicketID      => $TicketID,
+            State         => $NewStateName,
+            UserID        => $UserID,
+        },
+        SuccessMatch => 1,
+        ReturnData   => {
+            2 => 'PostMaster',
+            3 => 'Junk',
+            4 => 'Misc',
+        },
+    },
+
+    # owner based tests
+    {
+        Name => 'ACL DB-Owner-1 - Sent new owner, Wrong PropertiesDatabase: ',
+        ACLs => {
+            'DB-Owner-1-A' => {
+                PropertiesDatabase => {
+                    Owner => {
+                        UserLogin => [$NewUserLogin],
+                    },
+                },
+                Possible => {
+                    Ticket => {
+                        State => ['open'],
+                    },
+                },
+            },
+        },
+        Config => {
+            Data => {
+                1 => 'new',
+                2 => 'open',
+                3 => 'closed'
+            },
+            ReturnType    => 'Ticket',
+            ReturnSubType => 'State',
+            TicketID      => $TicketID,
+            Owner         => $NewUserLogin,
+            UserID        => $UserID,
+        },
+        SuccessMatch => 0,
+        ReturnData   => {},
+    },
+    {
+        Name => 'ACL DB-Owner-1 - Sent new owner, Correct PropertiesDatabase: ',
+        ACLs => {
+            'DB-Owner-1-B' => {
+                PropertiesDatabase => {
+                    Owner => {
+                        UserLogin => [$UserLogin],
+                    },
+                },
+                Possible => {
+                    Ticket => {
+                        State => ['closed'],
+                    },
+                },
+            },
+        },
+        Config => {
+            Data => {
+                1 => 'new',
+                2 => 'open',
+                3 => 'closed'
+            },
+            ReturnType    => 'Ticket',
+            ReturnSubType => 'State',
+            TicketID      => $TicketID,
+            Owner         => $NewUserLogin,
+            UserID        => $UserID,
+        },
+        SuccessMatch => 1,
+        ReturnData   => {
+            3 => 'closed',
+        },
+    },
+    {
+        Name => 'ACL DB-Owner-1 - Sent new owner, Wrong Properties, Correct PropertiesDatabase: ',
+        ACLs => {
+            'DB-Owner-1-C' => {
+                Properties => {
+                    Owner => {
+                        UserLogin => [$UserLogin],
+                    },
+                },
+                PropertiesDatabase => {
+                    Owner => {
+                        UserLogin => [$UserLogin],
+                    },
+                },
+                Possible => {
+                    Ticket => {
+                        State => ['open'],
+                    },
+                },
+            },
+        },
+        Config => {
+            Data => {
+                1 => 'new',
+                2 => 'open',
+                3 => 'closed'
+            },
+            ReturnType    => 'Ticket',
+            ReturnSubType => 'State',
+            TicketID      => $TicketID,
+            Owner         => $NewUserLogin,
+            UserID        => $UserID,
+        },
+        SuccessMatch => 0,
+        ReturnData   => {},
+    },
+    {
+        Name => 'ACL DB-Owner-1 - Sent new owner, Correct Properties,'
+            . ' Correct PropertiesDatabase: ',
+        ACLs => {
+            'DB-Owner-1-D' => {
+                Properties => {
+                    Owner => {
+                        UserLogin => [$NewUserLogin],
+                    },
+                },
+                PropertiesDatabase => {
+                    Owner => {
+                        UserLogin => [$UserLogin],
+                    },
+                },
+                Possible => {
+                    Ticket => {
+                        State => ['open'],
+                    },
+                },
+            },
+        },
+        Config => {
+            Data => {
+                1 => 'new',
+                2 => 'open',
+                3 => 'closed'
+            },
+            ReturnType    => 'Ticket',
+            ReturnSubType => 'State',
+            TicketID      => $TicketID,
+            Owner         => $NewUserLogin,
+            UserID        => $UserID,
+        },
+        SuccessMatch => 1,
+        ReturnData   => {
+            2 => 'open',
+        },
+    },
+
+    # responsible based tests
+    {
+        Name => 'ACL DB-Responsible-1 - Sent new responsible, Wrong PropertiesDatabase: ',
+        ACLs => {
+            'DB-Responsible-1-A' => {
+                PropertiesDatabase => {
+                    Responsible => {
+                        UserLogin => [$NewUserLogin],
+                    },
+                },
+                PossibleNot => {
+                    Ticket => {
+                        State => ['open'],
+                    },
+                },
+            },
+        },
+        Config => {
+            Data => {
+                1 => 'new',
+                2 => 'open',
+                3 => 'closed'
+            },
+            ReturnType    => 'Ticket',
+            ReturnSubType => 'State',
+            TicketID      => $TicketID,
+            Responsible   => $NewUserLogin,
+            UserID        => $UserID,
+        },
+        SuccessMatch => 0,
+        ReturnData   => {},
+    },
+    {
+        Name => 'ACL DB-Responsible-1 - Sent new responsible, Correct PropertiesDatabase: ',
+        ACLs => {
+            'DB-Responsible-1-B' => {
+                PropertiesDatabase => {
+                    Responsible => {
+                        UserLogin => [$UserLogin],
+                    },
+                },
+                PossibleNot => {
+                    Ticket => {
+                        State => ['closed'],
+                    },
+                },
+            },
+        },
+        Config => {
+            Data => {
+                1 => 'new',
+                2 => 'open',
+                3 => 'closed'
+            },
+            ReturnType    => 'Ticket',
+            ReturnSubType => 'State',
+            TicketID      => $TicketID,
+            Responsible   => $NewUserLogin,
+            UserID        => $UserID,
+        },
+        SuccessMatch => 1,
+        ReturnData   => {
+            1 => 'new',
+            2 => 'open',
+        },
+    },
+    {
+        Name => 'ACL DB-Responsible-1 - Sent new responsible, Wrong Properties,'
+            . ' Correct PropertiesDatabase: ',
+        ACLs => {
+            'DB-Responsible-1-C' => {
+                Properties => {
+                    Responsible => {
+                        UserLogin => [$UserLogin],
+                    },
+                },
+                PropertiesDatabase => {
+                    Responsible => {
+                        UserLogin => [$UserLogin],
+                    },
+                },
+                PossibleNot => {
+                    Ticket => {
+                        State => ['open'],
+                    },
+                },
+            },
+        },
+        Config => {
+            Data => {
+                1 => 'new',
+                2 => 'open',
+                3 => 'closed'
+            },
+            ReturnType    => 'Ticket',
+            ReturnSubType => 'State',
+            TicketID      => $TicketID,
+            Responsible   => $NewUserLogin,
+            UserID        => $UserID,
+        },
+        SuccessMatch => 0,
+        ReturnData   => {},
+    },
+    {
+        Name => 'ACL DB-Responsible-1 - Sent new responsible, Correct Properties,'
+            . ' Correct PropertiesDatabase:',
+        ACLs => {
+            'DB-Responsible-1-D' => {
+                Properties => {
+                    Responsible => {
+                        UserLogin => [$NewUserLogin],
+                    },
+                },
+                PropertiesDatabase => {
+                    Responsible => {
+                        UserLogin => [$UserLogin],
+                    },
+                },
+                PossibleNot => {
+                    Ticket => {
+                        State => ['open'],
+                    },
+                },
+            },
+        },
+        Config => {
+            Data => {
+                1 => 'new',
+                2 => 'open',
+                3 => 'closed'
+            },
+            ReturnType    => 'Ticket',
+            ReturnSubType => 'State',
+            TicketID      => $TicketID,
+            Responsible   => $NewUserLogin,
+            UserID        => $UserID,
+        },
+        SuccessMatch => 1,
+        ReturnData   => {
+            1 => 'new',
+            3 => 'closed',
+        },
+    },
+
+    # frontend based tests
+    {
+        Name => 'ACL DB-Frontend-1 - correct Action: ',
+        ACLs => {
+            'DB-Frontend-1' => {
+                PropertiesDatabase => {
+                    Frontend => {
+                        Action => [ 'AgentTicketPhone', 'AgentTicketEmail' ],
+                    },
+                },
+                PossibleNot => {
+                    Ticket => {
+                        Priority => [ '1 very low', '3 medium', ],
+                    },
+                },
+            },
+        },
+        Config => {
+            Data => {
+                1 => '1 very low',
+                2 => '2 low',
+                3 => '3 medium',
+                4 => '4 high',
+                5 => '5 very high'
+            },
+            ReturnType    => 'Ticket',
+            ReturnSubType => 'Priority',
+            Action        => 'AgentTicketPhone',
+            UserID        => $UserID,
+        },
+        SuccessMatch => 1,
+        ReturnData   => {
+            2 => '2 low',
+            4 => '4 high',
+            5 => '5 very high'
+        },
+    },
+
+    # ticket based tests
+    {
+        Name => 'ACL DB-Ticket-1 - Sent new params, Wrong PropertiesDatabase :',
+        ACLs => {
+            'DB-Ticket-1-A' => {
+                PropertiesDatabase => {
+                    Ticket => {
+                        Queue    => [$NewQueueName],
+                        Priority => [$NewPriorityName],
+                        State    => [$NewStateName],
+                    },
+                },
+                Possible => {
+                    Action => {
+                        AgentTicketCompose => 1,
+                        AgentTicketEmail   => 0,
+                        AgentTicketPhone   => 0,
+                    },
+                },
+            },
+        },
+        Config => {
+            Data => {
+                '-' => '',
+            },
+            ReturnType    => 'Action',
+            ReturnSubType => '-',
+            TicketID      => $TicketID,
+            Queue         => $NewQueueName,
+            Priority      => $NewPriorityName,
+            State         => $NewStateName,
+            UserID        => $UserID,
+        },
+
+        # Action ACL always return false
+        SuccessMatch     => 0,
+        ReturnActionData => {},
+    },
+    {
+        Name => 'ACL DB-Ticket-1 - Sent new params, Correct PropertiesDatabase: ',
+        ACLs => {
+            'DB-Ticket-1-B' => {
+                PropertiesDatabase => {
+                    Ticket => {
+                        Queue    => [$QueueName],
+                        Priority => [$PriorityName],
+                        State    => [$StateName],
+                    },
+                },
+                Possible => {
+                    Action => {
+                        AgentTicketCompose => 0,
+                        AgentTicketEmail   => 1,
+                        AgentTicketPhone   => 1,
+                    },
+                },
+            },
+        },
+        Config => {
+            Data => {
+                '-' => '',
+            },
+            ReturnType    => 'Action',
+            ReturnSubType => '-',
+            TicketID      => $TicketID,
+            Queue         => $NewQueueName,
+            Priority      => $NewPriorityName,
+            State         => $NewStateName,
+            UserID        => $UserID,
+        },
+
+        # Action ACL always return false
+        SuccessMatch     => 0,
+        ReturnActionData => {
+            AgentTicketCompose => 0,
+            AgentTicketEmail   => 1,
+            AgentTicketPhone   => 1
+        },
+    },
+    {
+        Name => 'ACL DB-Ticket-1 - Sent new params, Wrong Properties,'
+            . ' Correct PropertiesDatabase:',
+        ACLs => {
+            'DB-Ticket-1-C' => {
+                Properties => {
+                    Ticket => {
+                        Queue    => [$QueueName],
+                        Priority => [$PriorityName],
+                        State    => [$StateName],
+                    },
+                },
+                PropertiesDatabase => {
+                    Ticket => {
+                        Queue    => [$QueueName],
+                        Priority => [$PriorityName],
+                        State    => [$StateName],
+                    },
+                },
+                Possible => {
+                    Action => {
+                        AgentTicketCompose => 1,
+                        AgentTicketEmail   => 0,
+                        AgentTicketPhone   => 0,
+                    },
+                },
+            },
+        },
+        Config => {
+            Data => {
+                '-' => '',
+            },
+            ReturnType    => 'Action',
+            ReturnSubType => '-',
+            TicketID      => $TicketID,
+            Queue         => $NewQueueName,
+            Priority      => $NewPriorityName,
+            State         => $NewStateName,
+            UserID        => $UserID,
+        },
+        SuccessMatch     => 0,
+        ReturnActionData => {},
+    },
+    {
+        Name => 'ACL DB-Ticket-1 - Sent new params, Wrong Properties,'
+            . ' Correct PropertiesDatabase:',
+        ACLs => {
+            'DB-Ticket-1-D' => {
+                Properties => {
+                    Ticket => {
+                        Queue    => [$NewQueueName],
+                        Priority => [$NewPriorityName],
+                        State    => [$NewStateName],
+                    },
+                },
+                PropertiesDatabase => {
+                    Ticket => {
+                        Queue    => [$QueueName],
+                        Priority => [$PriorityName],
+                        State    => [$StateName],
+                    },
+                },
+                Possible => {
+                    Action => {
+                        AgentTicketCompose => 1,
+                        AgentTicketEmail   => 0,
+                        AgentTicketPhone   => 0,
+                    },
+                },
+            },
+        },
+        Config => {
+            Data => {
+                '-' => '',
+            },
+            ReturnType    => 'Action',
+            ReturnSubType => '-',
+            TicketID      => $TicketID,
+            Queue         => $NewQueueName,
+            Priority      => $NewPriorityName,
+            State         => $NewStateName,
+            UserID        => $UserID,
+        },
+
+        # Action ACL always return false
+        SuccessMatch     => 0,
+        ReturnActionData => {
+            AgentTicketCompose => 1,
+            AgentTicketEmail   => 0,
+            AgentTicketPhone   => 0,
+        },
+    },
+
+    # dynamic fields based tests
+    {
+        Name => 'ACL DB-DynamicField-1 - Sent new dynamic field value,'
+            . ' Wrong PropertiesDatabase: ',
+        ACLs => {
+            'DB-DynamicField-1-A' => {
+                PropertiesDatabase => {
+                    DynamicField => {
+                        'DynamicField_' . $DynamicFieldName => ['Item2'],
+                    },
+                },
+                PossibleNot => {
+                    Ticket => {
+                        State => ['open'],
+                    },
+                },
+            },
+        },
+        Config => {
+            Data => {
+                1 => 'new',
+                2 => 'open',
+                3 => 'closed',
+            },
+            ReturnType    => 'Ticket',
+            ReturnSubType => 'State',
+            TicketID      => $TicketID,
+            DynamicField  => {
+                'DynamicField_' . $DynamicFieldName => ['Item2']
+            },
+            UserID => $UserID,
+        },
+        SuccessMatch => 0,
+        ReturnData   => {},
+    },
+    {
+        Name => 'ACL DB-DynamicField-1 - Sent new dynamic field value,'
+            . ' Correct PropertiesDatabase: ',
+        ACLs => {
+            'DB-DynamicField-1-B' => {
+                PropertiesDatabase => {
+                    DynamicField => {
+                        'DynamicField_' . $DynamicFieldName => ['Item1'],
+                    },
+                },
+                PossibleNot => {
+                    Ticket => {
+                        State => ['new'],
+                    },
+                },
+            },
+        },
+        Config => {
+            Data => {
+                1 => 'new',
+                2 => 'open',
+                3 => 'closed',
+            },
+            ReturnType    => 'Ticket',
+            ReturnSubType => 'State',
+            TicketID      => $TicketID,
+            DynamicField  => {
+                'DynamicField_' . $DynamicFieldName => ['Item2']
+            },
+            UserID => $UserID,
+        },
+        SuccessMatch => 1,
+        ReturnData   => {
+            2 => 'open',
+            3 => 'closed',
+        },
+    },
+    {
+        Name => 'ACL DB-DynamicField-1 - Sent new dynamic field value, Wrong Properties,'
+            . ' Correct PropertiesDatabase: ',
+        ACLs => {
+            'DB-DynamicField-1-C' => {
+                Properties => {
+                    DynamicField => {
+                        'DynamicField_' . $DynamicFieldName => ['Item1'],
+                    },
+                },
+                PropertiesDatabase => {
+                    DynamicField => {
+                        'DynamicField_' . $DynamicFieldName => ['Item1'],
+                    },
+                },
+                PossibleNot => {
+                    Ticket => {
+                        State => ['open'],
+                    },
+                },
+            },
+        },
+        Config => {
+            Data => {
+                1 => 'new',
+                2 => 'open',
+                3 => 'closed',
+            },
+            ReturnType    => 'Ticket',
+            ReturnSubType => 'State',
+            TicketID      => $TicketID,
+            DynamicField  => {
+                'DynamicField_' . $DynamicFieldName => ['Item2']
+            },
+            UserID => $UserID,
+        },
+        SuccessMatch => 0,
+        ReturnData   => {},
+    },
+    {
+        Name => 'ACL DB-DynamicField-1 - Sent new dynamic field value, Correct Properties,'
+            . ' Correct PropertiesDatabase: ',
+        ACLs => {
+            'DB-DynamicField-1-C' => {
+                Properties => {
+                    DynamicField => {
+                        'DynamicField_' . $DynamicFieldName => ['Item2'],
+                    },
+                },
+                PropertiesDatabase => {
+                    DynamicField => {
+                        'DynamicField_' . $DynamicFieldName => ['Item1'],
+                    },
+                },
+                PossibleNot => {
+                    Ticket => {
+                        State => ['open'],
+                    },
+                },
+            },
+        },
+        Config => {
+            Data => {
+                1 => 'new',
+                2 => 'open',
+                3 => 'closed',
+            },
+            ReturnType    => 'Ticket',
+            ReturnSubType => 'State',
+            TicketID      => $TicketID,
+            DynamicField  => {
+                'DynamicField_' . $DynamicFieldName => ['Item2']
+            },
+            UserID => $UserID,
+        },
+        SuccessMatch => 1,
+        ReturnData   => {
+            1 => 'new',
+            3 => 'closed',
+        },
+    },
+);
+
+for my $Test (@Tests) {
+
+    $ConfigObject->Set(
+        Key   => 'TicketAcl',
+        Value => $Test->{ACLs},
+    );
+
+    $GotACLs = $ConfigObject->Get('TicketAcl');
+
+    # sanity check
+    $Self->IsDeeply(
+        $GotACLs,
+        $Test->{ACLs},
+        "$Test->{Name} ACLs Set and Get from sysconfig",
+    );
+
+    my $Config     = $Test->{Config};
+    my $ACLSuccess = $TicketObject->TicketAcl( %{ $Test->{Config} } );
+
+    if ( !$Test->{SuccessMatch} ) {
+        $Self->False(
+            $ACLSuccess,
+            "$Test->{Name} Executed with False",
+        );
+
+        if ( $Test->{Config}->{ReturnType} eq 'Action' ) {
+
+            # get the action data from ACL
+            # Action ACL always return false
+            my %ACLActionData = $TicketObject->TicketAclActionData();
+
+            $Self->IsDeeply(
+                \%ACLActionData,
+                $Test->{ReturnActionData},
+                "$Test->{Name} ACL action data",
+            );
+        }
+    }
+    else {
+        $Self->True(
+            $ACLSuccess,
+            "$Test->{Name} Executed with True",
+        );
+
+        # get the data from ACL
+        my %ACLData = $TicketObject->TicketAclData();
+
+        $Self->IsDeeply(
+            \%ACLData,
+            $Test->{ReturnData},
+            "$Test->{Name} ACL data",
+        );
+    }
 }
 
 # clean the system
+# clean queues
 my $QueueUpdateSuccess = $QueueObject->QueueUpdate(
     %QueueData,
     ValidID => $ValidList{'invalid'},
@@ -893,6 +2784,19 @@ $Self->True(
     "QueueUpdate() ID ($QueueID) invalidated successfully"
 );
 
+my $NewQueueUpdateSuccess = $QueueObject->QueueUpdate(
+    %NewQueueData,
+    ValidID => $ValidList{'invalid'},
+    UserID  => 1,
+);
+
+# sanity check
+$Self->True(
+    $NewQueueUpdateSuccess,
+    "QueueUpdate() ID ($NewQueueID) invalidated successfully"
+);
+
+# clean services
 my $ServiceUpdateSuccess = $ServiceObject->ServiceUpdate(
     %ServiceData,
     ValidID => $ValidList{'invalid'},
@@ -905,6 +2809,19 @@ $Self->True(
     "ServiceUpdate() ID ($ServiceID) invalidated successfully"
 );
 
+my $NewServiceUpdateSuccess = $ServiceObject->ServiceUpdate(
+    %NewServiceData,
+    ValidID => $ValidList{'invalid'},
+    UserID  => 1,
+);
+
+# sanity check
+$Self->True(
+    $NewServiceUpdateSuccess,
+    "ServiceUpdate() ID ($NewServiceID) invalidated successfully"
+);
+
+# clean types
 my $TypeUpdateSuccess = $TypeObject->TypeUpdate(
     %TypeData,
     ValidID => $ValidList{'invalid'},
@@ -916,7 +2833,19 @@ $Self->True(
     $TypeUpdateSuccess,
     "TypeUpdate() ID ($TypeID) invalidated successfully"
 );
+my $NewTypeUpdateSuccess = $TypeObject->TypeUpdate(
+    %NewTypeData,
+    ValidID => $ValidList{'invalid'},
+    UserID  => 1,
+);
 
+# sanity check
+$Self->True(
+    $NewTypeUpdateSuccess,
+    "TypeUpdate() ID ($NewTypeID) invalidated successfully"
+);
+
+# clean priorities
 my $PriorityUpdateSuccess = $PriorityObject->PriorityUpdate(
     %PriorityData,
     PriorityID => $PriorityData{ID},
@@ -929,7 +2858,20 @@ $Self->True(
     $PriorityUpdateSuccess,
     "PriorityUpdate() ID ($PriorityID) invalidated successfully"
 );
+my $NewPriorityUpdateSuccess = $PriorityObject->PriorityUpdate(
+    %NewPriorityData,
+    PriorityID => $NewPriorityData{ID},
+    ValidID    => $ValidList{'invalid'},
+    UserID     => 1,
+);
 
+# sanity check
+$Self->True(
+    $NewPriorityUpdateSuccess,
+    "PriorityUpdate() ID ($NewPriorityID) invalidated successfully"
+);
+
+# clean SLAs
 my $SLAUpdateSuccess = $SLAObject->SLAUpdate(
     %SLAData,
     ValidID => $ValidList{'invalid'},
@@ -941,7 +2883,19 @@ $Self->True(
     $SLAUpdateSuccess,
     "SLAUpdate() ID ($SLAID) invalidated successfully"
 );
+my $NewSLAUpdateSuccess = $SLAObject->SLAUpdate(
+    %NewSLAData,
+    ValidID => $ValidList{'invalid'},
+    UserID  => 1,
+);
 
+# sanity check
+$Self->True(
+    $NewSLAUpdateSuccess,
+    "SLAUpdate() ID ($NewSLAID) invalidated successfully"
+);
+
+# clean states
 my $StateUpdateSuccess = $StateObject->StateUpdate(
     %StateData,
     ValidID => $ValidList{'invalid'},
@@ -953,7 +2907,43 @@ $Self->True(
     $StateUpdateSuccess,
     "StateUpdate() ID ($StateID) invalidated successfully"
 );
+my $NewStateUpdateSuccess = $StateObject->StateUpdate(
+    %NewStateData,
+    ValidID => $ValidList{'invalid'},
+    UserID  => 1,
+);
 
+# sanity check
+$Self->True(
+    $NewStateUpdateSuccess,
+    "StateUpdate() ID ($NewStateID) invalidated successfully"
+);
+
+# clean dynamic fields
+my $DynamicFieldValueDeleteSuccess = $DynamicFieldValueObject->AllValuesDelete(
+    FieldID => $DynamicFieldID,
+    UserID  => 1,
+);
+
+# sanity check
+$Self->True(
+    $DynamicFieldValueDeleteSuccess,
+    "DynamicFieldValue AllValuesDelete() for DynamicField ($DynamicFieldID) deleted successfully"
+);
+
+my $DynamicFieldDeleteSuccess = $DynamicFieldObject->DynamicFieldDelete(
+    ID      => $DynamicFieldID,
+    Reorder => 0,
+    UserID  => 1,
+);
+
+# sanity check
+$Self->True(
+    $DynamicFieldDeleteSuccess,
+    "DynamicFieldDelete() for DynamicField ($DynamicFieldID) deleted successfully"
+);
+
+# clean tickets
 my $TicketDeleteSuccess = $TicketObject->TicketDelete(
     TicketID => $TicketID,
     UserID   => 1,
@@ -961,7 +2951,7 @@ my $TicketDeleteSuccess = $TicketObject->TicketDelete(
 
 # sanity check
 $Self->True(
-    $TypeUpdateSuccess,
+    $TicketDeleteSuccess,
     "TicketDelete ID ($TicketID) deleted successfully"
 );
 

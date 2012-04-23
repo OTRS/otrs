@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.546 2012-04-23 14:35:55 mb Exp $
+# $Id: Ticket.pm,v 1.547 2012-04-23 17:42:57 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -40,7 +40,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.546 $) [1];
+$VERSION = qw($Revision: 1.547 $) [1];
 
 =head1 NAME
 
@@ -6112,9 +6112,11 @@ sub TicketAcl {
 
     # match also frontend options
     my %Checks;
+    my %ChecksDatabase;
     if ( $Param{Action} ) {
         undef $Self->{TicketAclActionData};
-        $Checks{Frontend} = { Action => $Param{Action}, };
+        $Checks{Frontend}         = { Action => $Param{Action}, };
+        $ChecksDatabase{Frontend} = { Action => $Param{Action}, };
     }
 
     # use ticket data if ticket id is given
@@ -6124,6 +6126,10 @@ sub TicketAcl {
             DynamicFields => 1,
         );
         $Checks{Ticket} = \%Ticket;
+
+        # keep database ticket data separated since the reference is affected below
+        my %TicketDatabase = %Ticket;
+        $ChecksDatabase{Ticket} = \%TicketDatabase;
     }
 
     # check for dynamic fields
@@ -6184,6 +6190,22 @@ sub TicketAcl {
         $Checks{DynamicField}->{$TicketAttribute} = $Checks{Ticket}->{$TicketAttribute};
     }
 
+    # also copy the database information to the appropiate hash
+    TICKETATTRIBUTE:
+    for my $TicketAttribute ( keys %{ $ChecksDatabase{Ticket} } ) {
+        next TICKETATTRIBUTE if !$TicketAttribute;
+
+        # check if is a dynamic field with data
+        next TICKETATTRIBUTE if $TicketAttribute !~ m{ \A DynamicField_ }smx;
+        next TICKETATTRIBUTE if !$ChecksDatabase{Ticket}->{$TicketAttribute};
+        next TICKETATTRIBUTE if
+            ref $ChecksDatabase{Ticket}->{$TicketAttribute} eq 'ARRAY'
+                && !IsArrayRefWithData( $ChecksDatabase{Ticket}->{$TicketAttribute} );
+
+        $ChecksDatabase{DynamicField}->{$TicketAttribute}
+            = $ChecksDatabase{Ticket}->{$TicketAttribute};
+    }
+
     # use user data
     if ( $Param{UserID} ) {
         my %User = $Self->{UserObject}->GetUserData(
@@ -6237,6 +6259,31 @@ sub TicketAcl {
         }
     }
 
+    # create hash with the ticket information stored in the database
+    if ( IsStringWithData( $ChecksDatabase{Ticket}->{CustomerUserID} ) ) {
+
+        # check if database data matches current data (performance)
+        if ( $ChecksDatabase{Ticket}->{CustomerUserID} eq $Checks{CustomerUser}->{UserLogin} ) {
+            $ChecksDatabase{CustomerUser} = $Checks{CustomerUser};
+        }
+
+        # otherwise complete the data quering the database again
+        else {
+            my %CustomerUser = $Self->{CustomerUserObject}->CustomerUserDataGet(
+                User => $ChecksDatabase{Ticket}->{CustomerUserID},
+            );
+            for my $Type ( @{ $Self->{ConfigObject}->Get('System::Customer::Permission') } ) {
+                my @Groups = $Self->{CustomerGroupObject}->GroupMemberList(
+                    UserID => $ChecksDatabase{Ticket}->{CustomerUserID},
+                    Result => 'Name',
+                    Type   => $Type,
+                );
+                $CustomerUser{"Group_$Type"} = \@Groups;
+            }
+            $ChecksDatabase{CustomerUser} = \%CustomerUser;
+        }
+    }
+
     # use queue data (if given)
     if ( $Param{QueueID} ) {
         my %Queue = $Self->{QueueObject}->QueueGet( ID => $Param{QueueID} );
@@ -6260,6 +6307,21 @@ sub TicketAcl {
             # get queue data from the ticket
             my %Queue = $Self->{QueueObject}->QueueGet( ID => $Checks{Ticket}->{QueueID} );
             $Checks{Queue} = \%Queue;
+        }
+    }
+
+    # create hash with the ticket information stored in the database
+    if ( IsPositiveInteger( $ChecksDatabase{Ticket}->{QueueID} ) ) {
+
+        # check if database data matches current data (performance)
+        if ( $ChecksDatabase{Ticket}->{QueueID} eq $Checks{Queue}->{QueueID} ) {
+            $ChecksDatabase{Queue} = $Checks{Queue};
+        }
+
+        # otherwise complete the data quering the database again
+        else {
+            my %Queue = $Self->{QueueObject}->QueueGet( ID => $ChecksDatabase{Ticket}->{QueueID} );
+            $ChecksDatabase{Queue} = \%Queue;
         }
     }
 
@@ -6295,6 +6357,24 @@ sub TicketAcl {
                 UserID    => 1,
             );
             $Checks{Service} = \%Service;
+        }
+    }
+
+    # create hash with the ticket information stored in the database
+    if ( IsPositiveInteger( $ChecksDatabase{Ticket}->{ServiceID} ) ) {
+
+        # check if database data matches current data (performance)
+        if ( $ChecksDatabase{Ticket}->{ServiceID} eq $Checks{Service}->{ServiceID} ) {
+            $ChecksDatabase{Service} = $Checks{Service};
+        }
+
+        # otherwise complete the data quering the database again
+        else {
+            my %Service = $Self->{ServiceObject}->ServiceGet(
+                ServiceID => $ChecksDatabase{Ticket}->{ServiceID},
+                UserID    => 1,
+            );
+            $ChecksDatabase{Service} = \%Service;
         }
     }
 
@@ -6351,6 +6431,24 @@ sub TicketAcl {
         }
     }
 
+    # create hash with the ticket information stored in the database
+    if ( IsPositiveInteger( $ChecksDatabase{Ticket}->{TypeID} ) ) {
+
+        # check if database data matches current data (performance)
+        if ( $ChecksDatabase{Ticket}->{TypeID} eq $Checks{Type}->{ID} ) {
+            $ChecksDatabase{Type} = $Checks{Type};
+        }
+
+        # otherwise complete the data quering the database again
+        else {
+            my %Type = $Self->{TypeObject}->TypeGet(
+                ID     => $ChecksDatabase{Ticket}->{TypeID},
+                UserID => 1,
+            );
+            $ChecksDatabase{Type} = \%Type;
+        }
+    }
+
     # use priority data (if given)
     if ( $Param{NewPriorityID} && !$Param{PriorityID} ) {
         $Param{PriorityID} = $Param{NewPriorityID}
@@ -6392,6 +6490,26 @@ sub TicketAcl {
         }
     }
 
+    # create hash with the ticket information stored in the database
+    if ( IsPositiveInteger( $ChecksDatabase{Ticket}->{PriorityID} ) ) {
+
+        # check if database data matches current data (performance)
+        if ( $ChecksDatabase{Ticket}->{PriorityID} eq $Checks{Priority}->{ID} ) {
+            $ChecksDatabase{Priority} = $Checks{Priority};
+        }
+
+        # otherwise complete the data quering the database again
+        else {
+
+            # get priority data from the ticket
+            my %Priority = $Self->{PriorityObject}->PriorityGet(
+                PriorityID => $ChecksDatabase{Ticket}->{PriorityID},
+                UserID     => 1,
+            );
+            $ChecksDatabase{Priority} = \%Priority;
+        }
+    }
+
     # use SLA data (if given)
     if ( $Param{SLAID} ) {
         my %SLA = $Self->{SLAObject}->SLAGet(
@@ -6427,6 +6545,24 @@ sub TicketAcl {
                 UserID => 1,
             );
             $Checks{SLA} = \%SLA;
+        }
+    }
+
+    # create hash with the ticket information stored in the database
+    if ( IsPositiveInteger( $ChecksDatabase{Ticket}->{SLAID} ) ) {
+
+        # check if database data matches current data (performance)
+        if ( $ChecksDatabase{Ticket}->{SLAID} eq $Checks{SLA}->{SLAID} ) {
+            $ChecksDatabase{SLA} = $Checks{SLA};
+        }
+
+        # otherwise complete the data quering the database again
+        else {
+            my %SLA = $Self->{SLAObject}->SLAGet(
+                SLAID  => $ChecksDatabase{Ticket}->{SLAID},
+                UserID => 1,
+            );
+            $ChecksDatabase{SLA} = \%SLA;
         }
     }
 
@@ -6467,6 +6603,24 @@ sub TicketAcl {
                 UserID => 1,
             );
             $Checks{State} = \%State;
+        }
+    }
+
+    # create hash with the ticket information stored in the database
+    if ( IsPositiveInteger( $ChecksDatabase{Ticket}->{StateID} ) ) {
+
+        # check if database data matches current data (performance)
+        if ( $ChecksDatabase{Ticket}->{StateID} eq $Checks{State}->{ID} ) {
+            $ChecksDatabase{State} = $Checks{State};
+        }
+
+        # otherwise complete the data quering the database again
+        else {
+            my %State = $Self->{StateObject}->StateGet(
+                ID     => $ChecksDatabase{Ticket}->{StateID},
+                UserID => 1,
+            );
+            $ChecksDatabase{State} = \%State;
         }
     }
 
@@ -6548,6 +6702,31 @@ sub TicketAcl {
         }
     }
 
+    # create hash with the ticket information stored in the database
+    if ( IsPositiveInteger( $ChecksDatabase{Ticket}->{OwnerID} ) ) {
+
+        # check if database data matches current data (performance)
+        if ( $ChecksDatabase{Ticket}->{OwnerID} eq $Checks{Owner}->{UserID} ) {
+            $ChecksDatabase{Owner} = $Checks{Owner};
+        }
+
+        # otherwise complete the data quering the database again
+        else {
+            my %Owner = $Self->{UserObject}->GetUserData(
+                UserID => $ChecksDatabase{Ticket}->{OwnerID},
+            );
+            for my $Type ( @{ $Self->{ConfigObject}->Get('System::Permission') } ) {
+                my @Groups = $Self->{GroupObject}->GroupMemberList(
+                    UserID => $ChecksDatabase{Ticket}->{OwnerID},
+                    Result => 'Name',
+                    Type   => $Type,
+                );
+                $Owner{"Group_$Type"} = \@Groups;
+            }
+            $ChecksDatabase{Owner} = \%Owner;
+        }
+    }
+
     # use responsible data (if given)
     if ( $Param{NewResponsibleID} && !$Param{ResponsibleID} )
     {
@@ -6612,6 +6791,31 @@ sub TicketAcl {
         }
     }
 
+    # create hash with the ticket information stored in the database
+    if ( IsPositiveInteger( $ChecksDatabase{Ticket}->{ResponsibleID} ) ) {
+
+        # check if database data matches current data (performance)
+        if ( $ChecksDatabase{Ticket}->{ResponsibleID} eq $Checks{Responsible}->{UserID} ) {
+            $ChecksDatabase{Responsible} = $Checks{Responsible};
+        }
+
+        # otherwise complete the data quering the database again
+        else {
+            my %Responsible = $Self->{UserObject}->GetUserData(
+                UserID => $ChecksDatabase{Ticket}->{ResponsibleID},
+            );
+            for my $Type ( @{ $Self->{ConfigObject}->Get('System::Permission') } ) {
+                my @Groups = $Self->{GroupObject}->GroupMemberList(
+                    UserID => $ChecksDatabase{Ticket}->{ResponsibleID},
+                    Result => 'Name',
+                    Type   => $Type,
+                );
+                $Responsible{"Group_$Type"} = \@Groups;
+            }
+            $ChecksDatabase{Responsible} = \%Responsible;
+        }
+    }
+
     # check acl config
     my %Acls;
     if ( $Self->{ConfigObject}->Get('TicketAcl') ) {
@@ -6650,32 +6854,85 @@ sub TicketAcl {
         my %Step = %{ $Acls{$Acl} };
 
         # check force match
-        my $ForceMatch = 1;
-        for ( keys %{ $Step{Properties} } ) {
-            $ForceMatch = 0;
+        my $ForceMatch;
+        if (
+            !IsHashRefWithData( $Step{Properties} )
+            && !IsHashRefWithData( $Step{PropertiesDatabase} )
+            )
+        {
+            $ForceMatch = 1;
         }
 
-        # set match params
-        my $Match        = 1;
-        my $Match3       = 0;
+        my $PropertiesMatch;
+        my $PropertiesMatch3;
+        my $PropertiesDatabaseMatch;
+        my $PropertiesDatabaseMatch3;
         my $UseNewParams = 0;
-        for my $Key ( keys %{ $Step{Properties} } ) {
-            for my $Data ( keys %{ $Step{Properties}->{$Key} } ) {
-                my $Match2 = 0;
-                for my $Item ( @{ $Step{Properties}->{$Key}->{$Data} } ) {
-                    if ( ref $Checks{$Key}->{$Data} eq 'ARRAY' ) {
-                        my $Match4 = 0;
-                        for my $Array ( @{ $Checks{$Key}->{$Data} } ) {
+
+        for my $PropertiesHash (qw(Properties PropertiesDatabase)) {
+
+            my %UsedChecks = %Checks;
+            if ( $PropertiesHash eq 'PropertiesDatabase' ) {
+                %UsedChecks = %ChecksDatabase;
+            }
+
+            # set match params
+            my $Match  = 1;
+            my $Match3 = 0;
+            for my $Key ( keys %{ $Step{$PropertiesHash} } ) {
+                for my $Data ( keys %{ $Step{$PropertiesHash}->{$Key} } ) {
+                    my $Match2 = 0;
+                    for my $Item ( @{ $Step{$PropertiesHash}->{$Key}->{$Data} } ) {
+                        if ( ref $UsedChecks{$Key}->{$Data} eq 'ARRAY' ) {
+                            my $Match4 = 0;
+                            for my $Array ( @{ $UsedChecks{$Key}->{$Data} } ) {
+
+                                # eq match
+                                if ( $Item eq $Array ) {
+                                    $Match4 = 1;
+                                }
+
+                                # regexp match case-sensitive
+                                elsif ( substr( $Item, 0, 8 ) eq '[RegExp]' ) {
+                                    my $RegExp = substr $Item, 8;
+                                    if ( $Array =~ /$RegExp/ ) {
+                                        $Match4 = 1;
+                                    }
+                                }
+
+                                # regexp match case-insensitive
+                                elsif ( substr( $Item, 0, 8 ) eq '[regexp]' ) {
+                                    my $RegExp = substr $Item, 8;
+                                    if ( $Array =~ /$RegExp/i ) {
+                                        $Match4 = 1;
+                                    }
+                                }
+                                if ($Match4) {
+                                    $Match2 = 1;
+
+                                    # debug log
+                                    if ( $Self->{Debug} > 4 ) {
+                                        $Self->{LogObject}->Log(
+                                            Priority => 'debug',
+                                            Message =>
+                                                "Workflow '$Acl/$Key/$Data' MatchedARRAY ($Item eq $Array)",
+                                        );
+                                    }
+                                }
+                            }
+                        }
+                        elsif ( defined $UsedChecks{$Key}->{$Data} ) {
+                            my $Match4 = 0;
 
                             # eq match
-                            if ( $Item eq $Array ) {
+                            if ( $Item eq $UsedChecks{$Key}->{$Data} ) {
                                 $Match4 = 1;
                             }
 
                             # regexp match case-sensitive
                             elsif ( substr( $Item, 0, 8 ) eq '[RegExp]' ) {
                                 my $RegExp = substr $Item, 8;
-                                if ( $Array =~ /$RegExp/ ) {
+                                if ( $UsedChecks{$Key}->{$Data} =~ /$RegExp/ ) {
                                     $Match4 = 1;
                                 }
                             }
@@ -6683,72 +6940,73 @@ sub TicketAcl {
                             # regexp match case-insensitive
                             elsif ( substr( $Item, 0, 8 ) eq '[regexp]' ) {
                                 my $RegExp = substr $Item, 8;
-                                if ( $Array =~ /$RegExp/i ) {
+                                if ( $UsedChecks{$Key}->{$Data} =~ /$RegExp/i ) {
                                     $Match4 = 1;
                                 }
                             }
+
                             if ($Match4) {
                                 $Match2 = 1;
 
-                                # debug log
+                                # debug
                                 if ( $Self->{Debug} > 4 ) {
                                     $Self->{LogObject}->Log(
                                         Priority => 'debug',
                                         Message =>
-                                            "Workflow '$Acl/$Key/$Data' MatchedARRAY ($Item eq $Array)",
+                                            "Workflow '$Acl/$Key/$Data' Matched ($Item eq $UsedChecks{$Key}->{$Data})",
                                     );
                                 }
                             }
                         }
                     }
-                    elsif ( defined $Checks{$Key}->{$Data} ) {
-                        my $Match4 = 0;
-
-                        # eq match
-                        if ( $Item eq $Checks{$Key}->{$Data} ) {
-                            $Match4 = 1;
-                        }
-
-                        # regexp match case-sensitive
-                        elsif ( substr( $Item, 0, 8 ) eq '[RegExp]' ) {
-                            my $RegExp = substr $Item, 8;
-                            if ( $Checks{$Key}->{$Data} =~ /$RegExp/ ) {
-                                $Match4 = 1;
-                            }
-                        }
-
-                        # regexp match case-insensitive
-                        elsif ( substr( $Item, 0, 8 ) eq '[regexp]' ) {
-                            my $RegExp = substr $Item, 8;
-                            if ( $Checks{$Key}->{$Data} =~ /$RegExp/i ) {
-                                $Match4 = 1;
-                            }
-                        }
-
-                        if ($Match4) {
-                            $Match2 = 1;
-
-                            # debug
-                            if ( $Self->{Debug} > 4 ) {
-                                $Self->{LogObject}->Log(
-                                    Priority => 'debug',
-                                    Message =>
-                                        "Workflow '$Acl/$Key/$Data' Matched ($Item eq $Checks{$Key}->{$Data})",
-                                );
-                            }
-                        }
+                    if ( !$Match2 ) {
+                        $Match = 0;
                     }
+                    $Match3 = 1;
                 }
-                if ( !$Match2 ) {
-                    $Match = 0;
-                }
+            }
+
+            # check force option
+            if ($ForceMatch) {
+                $Match  = 1;
                 $Match3 = 1;
+            }
+
+            if ( $PropertiesHash eq 'Properties' ) {
+                $PropertiesMatch  = $Match;
+                $PropertiesMatch3 = $Match3;
+            }
+            else {
+                $PropertiesDatabaseMatch  = $Match;
+                $PropertiesDatabaseMatch3 = $Match3;
+            }
+
+            # check if properties is missing
+            if ( !IsHashRefWithData( $Step{Properties} ) ) {
+                $PropertiesMatch  = $PropertiesDatabaseMatch;
+                $PropertiesMatch3 = $PropertiesDatabaseMatch3;
+            }
+
+            # check if properties database is missing
+            if ( !IsHashRefWithData( $Step{PropertiesDatabase} ) ) {
+                $PropertiesDatabaseMatch  = $PropertiesMatch;
+                $PropertiesDatabaseMatch3 = $PropertiesMatch3;
             }
         }
 
-        # check force option
-        if ($ForceMatch) {
-            $Match  = 1;
+        # the following logic should be applied to calculate if an ACL matches:
+        # if both Properties and PropertiesDatabase match => match
+        # if Properties matches, and PropertiesDatabase does not match => no match
+        # if PropertiesDatabase matches, but Properties does not match => no match
+        # if PropertiesDatabase matches, and Properties is missing => match
+        # if Properties matches, and PropertiesDatabase is missing => match.
+        my $Match;
+        if ( $PropertiesMatch && $PropertiesDatabaseMatch ) {
+            $Match = 1;
+        }
+
+        my $Match3;
+        if ( $PropertiesMatch3 && $PropertiesDatabaseMatch3 ) {
             $Match3 = 1;
         }
 
@@ -6765,7 +7023,7 @@ sub TicketAcl {
 
         # build new action data hash
         if (
-            %Checks
+            ( %Checks || %ChecksDatabase )
             && $Match
             && $Match3
             && $Param{ReturnType} eq 'Action'
@@ -6779,7 +7037,12 @@ sub TicketAcl {
         }
 
         # build new ticket data hash
-        if ( %Checks && $Match && $Match3 && $Step{Possible}->{Ticket}->{ $Param{ReturnSubType} } )
+        if (
+            ( %Checks || %ChecksDatabase )
+            && $Match
+            && $Match3
+            && $Step{Possible}->{Ticket}->{ $Param{ReturnSubType} }
+            )
         {
             $UseNewParams = 1;
 
@@ -6832,7 +7095,7 @@ sub TicketAcl {
             }
         }
         if (
-            %Checks
+            ( %Checks || %ChecksDatabase )
             && $Match
             && $Match3
             && $Step{PossibleNot}->{Ticket}->{ $Param{ReturnSubType} }
@@ -7320,6 +7583,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.546 $ $Date: 2012-04-23 14:35:55 $
+$Revision: 1.547 $ $Date: 2012-04-23 17:42:57 $
 
 =cut
