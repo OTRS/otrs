@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.547 2012-04-23 17:42:57 cr Exp $
+# $Id: Ticket.pm,v 1.548 2012-04-24 13:26:31 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -40,7 +40,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.547 $) [1];
+$VERSION = qw($Revision: 1.548 $) [1];
 
 =head1 NAME
 
@@ -6219,6 +6219,22 @@ sub TicketAcl {
             );
             $User{"Group_$Type"} = \@Groups;
         }
+
+        my @RoleIDs = $Self->{GroupObject}->GroupUserRoleMemberList(
+            UserID => $Param{UserID},
+            Result => 'ID',
+        );
+        my @Roles;
+        ROLEID:
+        for my $RoleID (@RoleIDs) {
+            my $RoleName = $Self->{GroupObject}->RoleLookup(
+                RoleID => $RoleID,
+            );
+            next ROLEID if !$RoleName;
+            push @Roles, $RoleName;
+        }
+        $User{Role} = \@Roles;
+
         $Checks{User} = \%User;
     }
 
@@ -6656,6 +6672,22 @@ sub TicketAcl {
             );
             $Owner{"Group_$Type"} = \@Groups;
         }
+
+        my @RoleIDs = $Self->{GroupObject}->GroupUserRoleMemberList(
+            UserID => $Param{OwnerID},
+            Result => 'ID',
+        );
+        my @Roles;
+        ROLEID:
+        for my $RoleID (@RoleIDs) {
+            my $RoleName = $Self->{GroupObject}->RoleLookup(
+                RoleID => $RoleID,
+            );
+            next ROLEID if !$RoleName;
+            push @Roles, $RoleName;
+        }
+        $Owner{Role} = \@Roles;
+
         $Checks{Owner} = \%Owner;
 
         # update or add owner information to the ticket check
@@ -6677,6 +6709,22 @@ sub TicketAcl {
             );
             $Owner{"Group_$Type"} = \@Groups;
         }
+
+        my @RoleIDs = $Self->{GroupObject}->GroupUserRoleMemberList(
+            UserID => $OwnerID,
+            Result => 'ID',
+        );
+        my @Roles;
+        ROLEID:
+        for my $RoleID (@RoleIDs) {
+            my $RoleName = $Self->{GroupObject}->RoleLookup(
+                RoleID => $RoleID,
+            );
+            next ROLEID if !$RoleName;
+            push @Roles, $RoleName;
+        }
+        $Owner{Role} = \@Roles;
+
         $Checks{Owner} = \%Owner;
 
         # update or add owner information to the ticket check
@@ -6698,6 +6746,22 @@ sub TicketAcl {
                 );
                 $Owner{"Group_$Type"} = \@Groups;
             }
+
+            my @RoleIDs = $Self->{GroupObject}->GroupUserRoleMemberList(
+                UserID => $Checks{Ticket}->{OwnerID},
+                Result => 'ID',
+            );
+            my @Roles;
+            ROLEID:
+            for my $RoleID (@RoleIDs) {
+                my $RoleName = $Self->{GroupObject}->RoleLookup(
+                    RoleID => $RoleID,
+                );
+                next ROLEID if !$RoleName;
+                push @Roles, $RoleName;
+            }
+            $Owner{Role} = \@Roles;
+
             $Checks{Owner} = \%Owner;
         }
     }
@@ -6723,6 +6787,22 @@ sub TicketAcl {
                 );
                 $Owner{"Group_$Type"} = \@Groups;
             }
+
+            my @RoleIDs = $Self->{GroupObject}->GroupUserRoleMemberList(
+                UserID => $ChecksDatabase{Ticket}->{OwnerID},
+                Result => 'ID',
+            );
+            my @Roles;
+            ROLEID:
+            for my $RoleID (@RoleIDs) {
+                my $RoleName = $Self->{GroupObject}->RoleLookup(
+                    RoleID => $RoleID,
+                );
+                next ROLEID if !$RoleName;
+                push @Roles, $RoleName;
+            }
+            $Owner{Role} = \@Roles;
+
             $ChecksDatabase{Owner} = \%Owner;
         }
     }
@@ -6745,6 +6825,22 @@ sub TicketAcl {
             );
             $Responsible{"Group_$Type"} = \@Groups;
         }
+
+        my @RoleIDs = $Self->{GroupObject}->GroupUserRoleMemberList(
+            UserID => $Param{ResponsibleID},
+            Result => 'ID',
+        );
+        my @Roles;
+        ROLEID:
+        for my $RoleID (@RoleIDs) {
+            my $RoleName = $Self->{GroupObject}->RoleLookup(
+                RoleID => $RoleID,
+            );
+            next ROLEID if !$RoleName;
+            push @Roles, $RoleName;
+        }
+        $Responsible{Role} = \@Roles;
+
         $Checks{Responsible} = \%Responsible;
 
         # update or add responsible information to the ticket check
@@ -6766,6 +6862,22 @@ sub TicketAcl {
             );
             $Responsible{"Group_$Type"} = \@Groups;
         }
+
+        my @RoleIDs = $Self->{GroupObject}->GroupUserRoleMemberList(
+            UserID => $ResponsibleID,
+            Result => 'ID',
+        );
+        my @Roles;
+        ROLEID:
+        for my $RoleID (@RoleIDs) {
+            my $RoleName = $Self->{GroupObject}->RoleLookup(
+                RoleID => $RoleID,
+            );
+            next ROLEID if !$RoleName;
+            push @Roles, $RoleName;
+        }
+        $Responsible{Role} = \@Roles;
+
         $Checks{Responsible} = \%Responsible;
 
         # update or add responsible information to the ticket check
@@ -6787,6 +6899,22 @@ sub TicketAcl {
                 );
                 $Responsible{"Group_$Type"} = \@Groups;
             }
+
+            my @RoleIDs = $Self->{GroupObject}->GroupUserRoleMemberList(
+                UserID => $Checks{Ticket}->{ResponsibleID},
+                Result => 'ID',
+            );
+            my @Roles;
+            ROLEID:
+            for my $RoleID (@RoleIDs) {
+                my $RoleName = $Self->{GroupObject}->RoleLookup(
+                    RoleID => $RoleID,
+                );
+                next ROLEID if !$RoleName;
+                push @Roles, $RoleName;
+            }
+            $Responsible{Role} = \@Roles;
+
             $Checks{Responsible} = \%Responsible;
         }
     }
@@ -6812,6 +6940,22 @@ sub TicketAcl {
                 );
                 $Responsible{"Group_$Type"} = \@Groups;
             }
+
+            my @RoleIDs = $Self->{GroupObject}->GroupUserRoleMemberList(
+                UserID => $ChecksDatabase{Ticket}->{ResponsibleID},
+                Result => 'ID',
+            );
+            my @Roles;
+            ROLEID:
+            for my $RoleID (@RoleIDs) {
+                my $RoleName = $Self->{GroupObject}->RoleLookup(
+                    RoleID => $RoleID,
+                );
+                next ROLEID if !$RoleName;
+                push @Roles, $RoleName;
+            }
+            $Responsible{Role} = \@Roles;
+
             $ChecksDatabase{Responsible} = \%Responsible;
         }
     }
@@ -7583,6 +7727,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.547 $ $Date: 2012-04-23 17:42:57 $
+$Revision: 1.548 $ $Date: 2012-04-24 13:26:31 $
 
 =cut
