@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.176 2012-01-27 12:59:40 mb Exp $
+# $Id: AgentTicketZoom.pm,v 1.177 2012-04-24 09:42:22 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.176 $) [1];
+$VERSION = qw($Revision: 1.177 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -757,6 +757,17 @@ sub MaskAgentZoom {
         Action => 'AgentTicketCustomer',
         Type   => 'rw',
     );
+
+    # acl check
+    if (
+        $Access
+        && defined $AclAction{AgentTicketCustomer}
+        && !$AclAction{AgentTicketCustomer}
+        )
+    {
+        $Access = 0;
+    }
+
     if ($Access) {
 
         # test access to ticket
