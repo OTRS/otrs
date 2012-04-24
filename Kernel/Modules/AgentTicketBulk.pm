@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketBulk.pm - to do bulk actions on tickets
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBulk.pm,v 1.94 2012-01-06 13:18:00 mg Exp $
+# $Id: AgentTicketBulk.pm,v 1.95 2012-04-24 14:56:45 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::TemplateGenerator;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.94 $) [1];
+$VERSION = qw($Revision: 1.95 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -319,7 +319,8 @@ sub Run {
 
             # set responsible
             if (
-                $Self->{Config}->{Responsible}
+                $Self->{ConfigObject}->Get('Ticket::Responsible')
+                && $Self->{Config}->{Responsible}
                 && ( $GetParam{'ResponsibleID'} || $GetParam{'Responsible'} )
                 )
             {

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketActionCommon.pm - common file for several modules
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketActionCommon.pm,v 1.80 2012-03-21 21:06:10 mb Exp $
+# $Id: AgentTicketActionCommon.pm,v 1.81 2012-04-24 14:56:45 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -600,7 +600,7 @@ sub Run {
         }
 
         # set new responsible
-        if ( $Self->{Config}->{Responsible} ) {
+        if ( $Self->{ConfigObject}->Get('Ticket::Responsible') && $Self->{Config}->{Responsible} ) {
             if ( $GetParam{NewResponsibleID} ) {
                 my $BodyText = $Self->{LayoutObject}->RichText2Ascii(
                     String => $GetParam{Body} || '',
@@ -1228,7 +1228,7 @@ sub _Mask {
             Data => \%Param,
         );
     }
-    if ( $Self->{Config}->{Responsible} ) {
+    if ( $Self->{ConfigObject}->Get('Ticket::Responsible') && $Self->{Config}->{Responsible} ) {
 
         # get user of own groups
         my %ShownUsers;

@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2258 2012-04-24 13:39:58 mn Exp $
+# $Id: CHANGES,v 1.2259 2012-04-24 14:56:45 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.1.5 2012-??-??
+ - 2012-04-24 Fixed bug#8415 - Setting Ticket::Responsible ignored by AgentTicketActionCommon.
  - 2012-04-24 Fixed bug#8288 - Autocomplete search results show up in Times font when using Internet Explorer.
  - 2012-04-24 Fixed bug#8414 - ACL for AgentTicketCustomer in AgentTicketZoom doesn't affect
     CustomerID link in ticket information.
