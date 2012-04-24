@@ -2,7 +2,7 @@
 # TicketACL.t - Ticket Access Control Lists tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketACL.t,v 1.4 2012-04-23 17:42:57 cr Exp $
+# $Id: TicketACL.t,v 1.5 2012-04-24 15:10:25 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -2711,6 +2711,151 @@ $Self->True(
         ReturnData   => {
             1 => 'new',
             3 => 'closed',
+        },
+    },
+
+    # user based tests
+    {
+        Name => 'ACL DB-User-1 - Wrong PropertiesDatabase: ',
+        ACLs => {
+            'DB-User-1-A' => {
+                PropertiesDatabase => {
+                    User => {
+                        UserLogin => [$NewUserLogin],
+                    },
+                },
+                PossibleNot => {
+                    Ticket => {
+                        Priority => [ '1 very low', '3 medium', ],
+                    },
+                },
+            },
+        },
+        Config => {
+            Data => {
+                1 => '1 very low',
+                2 => '2 low',
+                3 => '3 medium',
+                4 => '4 high',
+                5 => '5 very high'
+            },
+            ReturnType    => 'Ticket',
+            ReturnSubType => 'Priority',
+            UserID        => $UserID,
+        },
+        SuccessMatch => 0,
+        ReturnData   => {},
+    },
+    {
+        Name => 'ACL DB-User-1 - Correct PropertiesDatabase: ',
+        ACLs => {
+            'DB-User-1-B' => {
+                PropertiesDatabase => {
+                    User => {
+                        UserLogin => [$UserLogin],
+                    },
+                },
+                PossibleNot => {
+                    Ticket => {
+                        Priority => ['2 low'],
+                    },
+                },
+            },
+        },
+        Config => {
+            Data => {
+                1 => '1 very low',
+                2 => '2 low',
+                3 => '3 medium',
+                4 => '4 high',
+                5 => '5 very high'
+            },
+            ReturnType    => 'Ticket',
+            ReturnSubType => 'Priority',
+            UserID        => $UserID,
+        },
+        SuccessMatch => 1,
+        ReturnData   => {
+            1 => '1 very low',
+            3 => '3 medium',
+            4 => '4 high',
+            5 => '5 very high'
+        },
+    },
+    {
+        Name => 'ACL DB-User-1 - Wrong Properties, Correct PropertiesDatabase: ',
+        ACLs => {
+            'DB-User-1-C' => {
+                Properties => {
+                    User => {
+                        UserLogin => [$NewUserLogin],
+                    },
+                },
+                PropertiesDatabase => {
+                    User => {
+                        UserLogin => [$UserLogin],
+                    },
+                },
+                PossibleNot => {
+                    Ticket => {
+                        Priority => ['2 low'],
+                    },
+                },
+            },
+        },
+        Config => {
+            Data => {
+                1 => '1 very low',
+                2 => '2 low',
+                3 => '3 medium',
+                4 => '4 high',
+                5 => '5 very high'
+            },
+            ReturnType    => 'Ticket',
+            ReturnSubType => 'Priority',
+            UserID        => $UserID,
+        },
+        SuccessMatch => 0,
+        ReturnData   => {},
+    },
+    {
+        Name => 'ACL DB-User-1 - Correct Properties, Correct PropertiesDatabase: ',
+        ACLs => {
+            'DB-User-1-D' => {
+                Properties => {
+                    User => {
+                        UserLogin => [$UserLogin],
+                    },
+                },
+                PropertiesDatabase => {
+                    User => {
+                        UserLogin => [$UserLogin],
+                    },
+                },
+                PossibleNot => {
+                    Ticket => {
+                        Priority => [ '1 very low', '3 medium', ],
+                    },
+                },
+            },
+        },
+        Config => {
+            Data => {
+                1 => '1 very low',
+                2 => '2 low',
+                3 => '3 medium',
+                4 => '4 high',
+                5 => '5 very high'
+            },
+            ReturnType    => 'Ticket',
+            ReturnSubType => 'Priority',
+            UserID        => $UserID,
+        },
+        SuccessMatch => 1,
+        ReturnData   => {
+            2 => '2 low',
+            4 => '4 high',
+            5 => '5 very high'
         },
     },
 );
