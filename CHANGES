@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2255 2012-04-23 17:42:57 cr Exp $
+# $Id: CHANGES,v 1.2256 2012-04-24 07:55:08 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.1.5 2012-??-??
+ - 2012-04-24 Updated CKEditor to version 3.6.3.
  - 2012-04-23 Fixed bug#8369 - Wrong handling of Ticket ACL in AJAX Updates.
 
 3.1.4 2012-04-24
