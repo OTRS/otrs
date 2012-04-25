@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.549 2012-04-24 15:10:24 cr Exp $
+# $Id: Ticket.pm,v 1.549.2.1 2012-04-25 23:21:34 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -40,7 +40,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.549 $) [1];
+$VERSION = qw($Revision: 1.549.2.1 $) [1];
 
 =head1 NAME
 
@@ -6059,12 +6059,54 @@ sub TicketFlagGet {
 prepare ACL execution of current state
 
     $TicketObject->TicketAcl(
-        Data          => '-',
-        Action        => 'AgentTicketZoom',
-        TicketID      => 123,
-        ReturnType    => 'Action',
-        ReturnSubType => '-',
-        UserID        => 123,
+        Data          => '-',                         # Values to restrict
+
+        Action        => 'AgentTicketZoom',           # Optional
+        TicketID      => 123,                         # Optional
+        DynamicField  => {                            # Optional
+            DynamicField_NameX => 123,
+            DynamicField_NameZ => 'some value',
+        },
+
+        QueueID          => 123,                      # Optional
+        Queue            => 'some queue name',        # Optional
+
+        ServiceID        => 123,                      # Optional
+        Service          => 'some service name',      # Optional
+
+        TypeID           => 123,
+        Type             => 'some ticket type name',  # Optional
+
+        PriorityID       => 123,                      # Optional
+        NewPriorityID    => 123,                      # Optional, PriorityID or NewPriorityID can be
+                                                      #   used and they both refers to PriorityID
+        Priority         => 'some priority name',     # Optional
+
+        SLAID            => 123,
+        SLA              => 'some SLA name',          # Optional
+
+        StateID          => 123,                      # Optional
+        NextStateID      => 123,                      # Optional, StateID or NextStateID can be
+                                                      #   used and they both refers to StateID
+        State            => 'some ticket state name', # Optional
+
+        OwnerID          => 123,                      # Optional
+        NewOwnerID       => 123,                      # Optional, OwnerID or NewOwnerID can be
+                                                      #   used and they both refers to OwnerID
+        Owner            => 'some user login'         # Optional
+
+        ResponsibleID    => 123,                      # Optional
+        NewResponsibleID => 123,                      # Optional, ResponsibleID or NewResposibleID
+                                                      #   can be used and they both refers to
+                                                      #     ResponsibleID
+        Responsible      => 'some user login'         # Optional
+
+        ReturnType     => 'Action',                   # To match Possible or PossibleNot key in ACL
+        ReturnSubType  => '-',                        # To match Possible or PossibleNot sub-key in
+                                                      #   ACL
+
+        UserID         => 123,                        # UserID => 1 is not affected by this function
+        CustomerUserID => 'customer login',           # UserID or CustomerUserID are mandatory
     );
 
 or
@@ -7009,9 +7051,9 @@ sub TicketAcl {
         }
 
         my $PropertiesMatch;
-        my $PropertiesMatch3;
+        my $PropertiesMatchTry;
         my $PropertiesDatabaseMatch;
-        my $PropertiesDatabaseMatch3;
+        my $PropertiesDatabaseMatchTry;
         my $UseNewParams = 0;
 
         for my $PropertiesHash (qw(Properties PropertiesDatabase)) {
@@ -7022,26 +7064,26 @@ sub TicketAcl {
             }
 
             # set match params
-            my $Match  = 1;
-            my $Match3 = 0;
+            my $Match    = 1;
+            my $MatchTry = 0;
             for my $Key ( keys %{ $Step{$PropertiesHash} } ) {
                 for my $Data ( keys %{ $Step{$PropertiesHash}->{$Key} } ) {
-                    my $Match2 = 0;
+                    my $MatchProperty = 0;
                     for my $Item ( @{ $Step{$PropertiesHash}->{$Key}->{$Data} } ) {
                         if ( ref $UsedChecks{$Key}->{$Data} eq 'ARRAY' ) {
-                            my $Match4 = 0;
+                            my $MatchItem = 0;
                             for my $Array ( @{ $UsedChecks{$Key}->{$Data} } ) {
 
                                 # eq match
                                 if ( $Item eq $Array ) {
-                                    $Match4 = 1;
+                                    $MatchItem = 1;
                                 }
 
                                 # regexp match case-sensitive
                                 elsif ( substr( $Item, 0, 8 ) eq '[RegExp]' ) {
                                     my $RegExp = substr $Item, 8;
                                     if ( $Array =~ /$RegExp/ ) {
-                                        $Match4 = 1;
+                                        $MatchItem = 1;
                                     }
                                 }
 
@@ -7049,11 +7091,11 @@ sub TicketAcl {
                                 elsif ( substr( $Item, 0, 8 ) eq '[regexp]' ) {
                                     my $RegExp = substr $Item, 8;
                                     if ( $Array =~ /$RegExp/i ) {
-                                        $Match4 = 1;
+                                        $MatchItem = 1;
                                     }
                                 }
-                                if ($Match4) {
-                                    $Match2 = 1;
+                                if ($MatchItem) {
+                                    $MatchProperty = 1;
 
                                     # debug log
                                     if ( $Self->{Debug} > 4 ) {
@@ -7067,18 +7109,18 @@ sub TicketAcl {
                             }
                         }
                         elsif ( defined $UsedChecks{$Key}->{$Data} ) {
-                            my $Match4 = 0;
+                            my $MatchItem = 0;
 
                             # eq match
                             if ( $Item eq $UsedChecks{$Key}->{$Data} ) {
-                                $Match4 = 1;
+                                $MatchItem = 1;
                             }
 
                             # regexp match case-sensitive
                             elsif ( substr( $Item, 0, 8 ) eq '[RegExp]' ) {
                                 my $RegExp = substr $Item, 8;
                                 if ( $UsedChecks{$Key}->{$Data} =~ /$RegExp/ ) {
-                                    $Match4 = 1;
+                                    $MatchItem = 1;
                                 }
                             }
 
@@ -7086,12 +7128,12 @@ sub TicketAcl {
                             elsif ( substr( $Item, 0, 8 ) eq '[regexp]' ) {
                                 my $RegExp = substr $Item, 8;
                                 if ( $UsedChecks{$Key}->{$Data} =~ /$RegExp/i ) {
-                                    $Match4 = 1;
+                                    $MatchItem = 1;
                                 }
                             }
 
-                            if ($Match4) {
-                                $Match2 = 1;
+                            if ($MatchItem) {
+                                $MatchProperty = 1;
 
                                 # debug
                                 if ( $Self->{Debug} > 4 ) {
@@ -7104,38 +7146,38 @@ sub TicketAcl {
                             }
                         }
                     }
-                    if ( !$Match2 ) {
+                    if ( !$MatchProperty ) {
                         $Match = 0;
                     }
-                    $Match3 = 1;
+                    $MatchTry = 1;
                 }
             }
 
             # check force option
             if ($ForceMatch) {
-                $Match  = 1;
-                $Match3 = 1;
+                $Match    = 1;
+                $MatchTry = 1;
             }
 
             if ( $PropertiesHash eq 'Properties' ) {
-                $PropertiesMatch  = $Match;
-                $PropertiesMatch3 = $Match3;
+                $PropertiesMatch    = $Match;
+                $PropertiesMatchTry = $MatchTry;
             }
             else {
-                $PropertiesDatabaseMatch  = $Match;
-                $PropertiesDatabaseMatch3 = $Match3;
+                $PropertiesDatabaseMatch    = $Match;
+                $PropertiesDatabaseMatchTry = $MatchTry;
             }
 
             # check if properties is missing
             if ( !IsHashRefWithData( $Step{Properties} ) ) {
-                $PropertiesMatch  = $PropertiesDatabaseMatch;
-                $PropertiesMatch3 = $PropertiesDatabaseMatch3;
+                $PropertiesMatch    = $PropertiesDatabaseMatch;
+                $PropertiesMatchTry = $PropertiesDatabaseMatchTry;
             }
 
             # check if properties database is missing
             if ( !IsHashRefWithData( $Step{PropertiesDatabase} ) ) {
-                $PropertiesDatabaseMatch  = $PropertiesMatch;
-                $PropertiesDatabaseMatch3 = $PropertiesMatch3;
+                $PropertiesDatabaseMatch    = $PropertiesMatch;
+                $PropertiesDatabaseMatchTry = $PropertiesMatchTry;
             }
         }
 
@@ -7150,14 +7192,14 @@ sub TicketAcl {
             $Match = 1;
         }
 
-        my $Match3;
-        if ( $PropertiesMatch3 && $PropertiesDatabaseMatch3 ) {
-            $Match3 = 1;
+        my $MatchTry;
+        if ( $PropertiesMatchTry && $PropertiesDatabaseMatchTry ) {
+            $MatchTry = 1;
         }
 
         # debug log
         my %NewTmpData;
-        if ( $Match && $Match3 ) {
+        if ( $Match && $MatchTry ) {
             if ( $Self->{Debug} > 2 ) {
                 $Self->{LogObject}->Log(
                     Priority => 'debug',
@@ -7170,7 +7212,7 @@ sub TicketAcl {
         if (
             ( %Checks || %ChecksDatabase )
             && $Match
-            && $Match3
+            && $MatchTry
             && $Param{ReturnType} eq 'Action'
             && $Step{Possible}->{ $Param{ReturnType} }
             )
@@ -7185,7 +7227,7 @@ sub TicketAcl {
         if (
             ( %Checks || %ChecksDatabase )
             && $Match
-            && $Match3
+            && $MatchTry
             && $Step{Possible}->{Ticket}->{ $Param{ReturnSubType} }
             )
         {
@@ -7242,7 +7284,7 @@ sub TicketAcl {
         if (
             ( %Checks || %ChecksDatabase )
             && $Match
-            && $Match3
+            && $MatchTry
             && $Step{PossibleNot}->{Ticket}->{ $Param{ReturnSubType} }
             )
         {
@@ -7728,6 +7770,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.549 $ $Date: 2012-04-24 15:10:24 $
+$Revision: 1.549.2.1 $ $Date: 2012-04-25 23:21:34 $
 
 =cut
