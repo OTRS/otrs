@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.DeleteCache.pl - delete all caches
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.DeleteCache.pl,v 1.5 2011-06-14 20:31:11 mb Exp $
+# $Id: otrs.DeleteCache.pl,v 1.6 2012-04-25 09:03:18 sb Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 use Getopt::Long;
 use Kernel::Config;
@@ -48,17 +48,21 @@ GetOptions(
     'expired|e' => \$Opts{e},
     'all|a'     => \$Opts{a},
     'help|h'    => \$Opts{h},
+    'type|t=s'  => \$Opts{t},
 );
 
 if ( $Opts{h} ) {
     print "otrs.DeleteCache.pl <Revision $VERSION> - delete OTRS cache\n";
-    print "Copyright (C) 2001-2011 OTRS AG, http://otrs.org/\n";
-    print "usage: otrs.DeleteCache.pl [--expired]\n";
+    print "Copyright (C) 2001-2012 OTRS AG, http://otrs.org/\n";
+    print "usage: otrs.DeleteCache.pl [--expired] [--type TYPE]\n";
     exit 1;
 }
 my %Options;
 if ( $Opts{e} ) {
     $Options{Expired} = 1;
+}
+if ( $Opts{t} ) {
+    $Options{Type} = $Opts{t};
 }
 
 # ---
