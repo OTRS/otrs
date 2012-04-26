@@ -1,8 +1,8 @@
 // --
 // Core.UI.ActionRow.js - provides all functions for the Action row
-// Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+// Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.UI.ActionRow.js,v 1.6 2011-09-13 17:24:21 mp Exp $
+// $Id: Core.UI.ActionRow.js,v 1.7 2012-04-26 13:56:37 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -165,8 +165,8 @@ Core.UI.ActionRow = (function (TargetNS) {
         }
 
         $('#SelectAllTickets').bind('click', function () {
-            var Status = $(this).attr('checked');
-            $(TicketElementSelectors[TicketView]).attr('checked', Status).triggerHandler('click');
+            var Status = $(this).prop('checked');
+            $(TicketElementSelectors[TicketView]).prop('checked', Status).triggerHandler('click');
         });
 
         $(TicketElementSelectors[TicketView]).bind('click', function (Event) {
