@@ -2,7 +2,7 @@
 # Main.t - Main tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Main.t,v 1.30 2012-03-01 17:11:54 mg Exp $
+# $Id: Main.t,v 1.31 2012-04-26 23:05:22 ep Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -129,35 +129,35 @@ if ( $^O =~ 'MSWin' ) {
     $MD5SumOf{txt} = '930d6f64fb8949ce4ddceb4ab45b1d2e';
 }
 
-for my $Extention (qw(doc pdf png txt xls)) {
+for my $Extension (qw(doc pdf png txt xls)) {
     my $MD5Sum = $Self->{MainObject}->MD5sum(
         Filename => $Self->{ConfigObject}->Get('Home')
-            . "/scripts/test/sample/Main/Main-Test1.$Extention",
+            . "/scripts/test/sample/Main/Main-Test1.$Extension",
     );
     $Self->Is(
         $MD5Sum || '',
-        $MD5SumOf{$Extention},
-        "MD5sum() - Filename - Main-Test1.$Extention",
+        $MD5SumOf{$Extension},
+        "MD5sum() - Filename - Main-Test1.$Extension",
     );
 }
 
 # write & read some files via Directory/Filename
-for my $Extention (qw(doc pdf png txt xls)) {
+for my $Extension (qw(doc pdf png txt xls)) {
     my $MD5Sum = $Self->{MainObject}->MD5sum(
         Filename => $Self->{ConfigObject}->Get('Home')
-            . "/scripts/test/sample/Main/Main-Test1.$Extention",
+            . "/scripts/test/sample/Main/Main-Test1.$Extension",
     );
     my $Content = $Self->{MainObject}->FileRead(
         Directory => $Self->{ConfigObject}->Get('Home') . '/scripts/test/sample/Main/',
-        Filename  => "Main-Test1.$Extention",
+        Filename  => "Main-Test1.$Extension",
     );
     $Self->True(
         ${$Content} || '',
-        "FileRead() - Main-Test1.$Extention",
+        "FileRead() - Main-Test1.$Extension",
     );
     my $FileLocation = $Self->{MainObject}->FileWrite(
         Directory => $Self->{ConfigObject}->Get('TempDir'),
-        Filename  => "me_öüto/al<>?Main-Test1.$Extention",
+        Filename  => "me_öüto/al<>?Main-Test1.$Extension",
         Content   => $Content,
     );
     $Self->True(
@@ -183,22 +183,22 @@ for my $Extention (qw(doc pdf png txt xls)) {
 }
 
 # write & read some files via Location
-for my $Extention (qw(doc pdf png txt xls)) {
+for my $Extension (qw(doc pdf png txt xls)) {
     my $MD5Sum = $Self->{MainObject}->MD5sum(
         Filename => $Self->{ConfigObject}->Get('Home')
-            . "/scripts/test/sample/Main/Main-Test1.$Extention",
+            . "/scripts/test/sample/Main/Main-Test1.$Extension",
     );
     my $Content = $Self->{MainObject}->FileRead(
         Location => $Self->{ConfigObject}->Get('Home')
             . '/scripts/test/sample/Main/'
-            . "Main-Test1.$Extention",
+            . "Main-Test1.$Extension",
     );
     $Self->True(
         ${$Content} || '',
-        "FileRead() - Main-Test1.$Extention",
+        "FileRead() - Main-Test1.$Extension",
     );
     my $FileLocation = $Self->{MainObject}->FileWrite(
-        Location => $Self->{ConfigObject}->Get('TempDir') . "Main-Test1.$Extention",
+        Location => $Self->{ConfigObject}->Get('TempDir') . "Main-Test1.$Extension",
         Content  => $Content,
     );
     $Self->True(

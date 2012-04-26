@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/CustomerUserGenericTicket.pm
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerUserGenericTicket.pm,v 1.20 2012-01-23 14:43:21 mg Exp $
+# $Id: CustomerUserGenericTicket.pm,v 1.21 2012-04-26 23:05:22 ep Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.20 $) [1];
+$VERSION = qw($Revision: 1.21 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -180,7 +180,7 @@ sub Run {
         Data => {
             %{ $Param{Config} },
             CSSClass  => $CSSClass,
-            Extention => " ($Count)",
+            Extension => " ($Count)",
             URL       => $URL,
         },
     );
