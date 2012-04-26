@@ -2,7 +2,7 @@
 # DynamicField.t - DynamicField tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicField.t,v 1.25 2012-04-16 11:31:07 mg Exp $
+# $Id: DynamicField.t,v 1.25.2.1 2012-04-26 21:21:17 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -235,22 +235,38 @@ my @Tests = (
 my $OriginalDynamicFields = $DynamicFieldObject->DynamicFieldListGet( Valid => 0 );
 
 my @DynamicFieldIDs;
+my %FieldNames;
 for my $Test (@Tests) {
+
+    my $FieldName = $Test->{Name} . $RandomID;
 
     # get nonexisting field first
     my $GetResult = $DynamicFieldObject->DynamicFieldGet(
-        Name => $Test->{Name} . $RandomID,
+        Name => $FieldName,
     );
 
-    $Self->IsDeeply(
-        $GetResult,
-        {},
-        'Get before Add',
-    );
+    if (
+        $Self->{DBObject}->GetDatabaseFunction('CaseInsensitive')
+        && $FieldNames{ lc $FieldName }
+        )
+    {
+        $Self->IsNotDeeply(
+            $GetResult,
+            {},
+            "Get before Add for field $FieldName",
+        );
+    }
+    else {
+        $Self->IsDeeply(
+            $GetResult,
+            {},
+            "Get before Add for field $FieldName",
+        );
+    }
 
     # add config
     my $DynamicFieldID = $DynamicFieldObject->DynamicFieldAdd(
-        Name => $Test->{Name} . $RandomID,
+        Name => $FieldName,
         %{ $Test->{Add} },
     );
     if ( !$Test->{SuccessAdd} ) {
@@ -269,6 +285,7 @@ for my $Test (@Tests) {
 
     # remember id to delete it later
     push @DynamicFieldIDs, $DynamicFieldID;
+    $FieldNames{$FieldName} = 1;
 
     # get config
     my $DynamicField = $DynamicFieldObject->DynamicFieldGet(
