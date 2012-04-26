@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.FillDB.pl - fill db with demo data
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.FillDB.pl,v 1.7 2011-12-13 08:38:39 mg Exp $
+# $Id: otrs.FillDB.pl,v 1.8 2012-04-26 12:14:54 mn Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use lib dirname($RealBin) . "/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Getopt::Std;
@@ -91,12 +91,12 @@ my $ArticleDynamicField = $CommonObject{DynamicFieldObject}->DynamicFieldListGet
 
 # get options
 my %Opts = ();
-getopt( 'hqugtr', \%Opts );
+getopt( 'hqugtra', \%Opts );
 if ( $Opts{h} ) {
     print "otrs.FillDB.pl <Revision $VERSION> - OTRS fill db with data\n";
-    print "Copyright (C) 2001-2011 OTRS AG, http://otrs.org/\n";
+    print "Copyright (C) 2001-2012 OTRS AG, http://otrs.org/\n";
     print
-        "usage: otrsFillDB.pl -q <COUNTOFQUEUES> -t <COUNTOFTICKET> -u <COUNTOFUSERS> -g <COUNTOFGROUPS> -r <REALLYDOTHIS>\n";
+        "usage: otrsFillDB.pl -q <COUNTOFQUEUES> -t <COUNTOFTICKET> -a <COUNTOFARTICLES> -u <COUNTOFUSERS> -g <COUNTOFGROUPS> -r <REALLYDOTHIS>\n";
     exit 1;
 }
 if ( !$Opts{g} ) {
@@ -107,6 +107,9 @@ if ( !$Opts{u} ) {
 }
 if ( !$Opts{q} ) {
     print STDERR "NOTICE: No -q <COUNTOFQUEUES> given, take existing queues!\n";
+}
+if ( !$Opts{a} ) {
+    print STDERR "NOTICE: No -a <COUNTOFARTICLES> given, take default number of articles (10)!\n";
 }
 if ( !$Opts{t} ) {
     print STDERR "ERROR: Need -t <COUNTOFTICKET>\n";
@@ -162,6 +165,11 @@ else {
     @QueueIDs = QueueCreate( $Opts{q} );
 }
 
+# articles - use default if not set
+if ( !$Opts{a} ) {
+    $Opts{a} = 10;
+}
+
 # create tickets
 my @TicketIDs = ();
 foreach ( 1 .. $Opts{'t'} ) {
@@ -184,7 +192,7 @@ foreach ( 1 .. $Opts{'t'} ) {
 
         print "NOTICE: Ticket with ID '$TicketID' created.\n";
 
-        foreach ( 1 .. 10 ) {
+        foreach ( 1 .. $Opts{'a'} ) {
             my $ArticleID = $CommonObject{TicketObject}->ArticleCreate(
                 TicketID       => $TicketID,
                 ArticleType    => 'note-external',
