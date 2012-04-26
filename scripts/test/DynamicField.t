@@ -2,7 +2,7 @@
 # DynamicField.t - DynamicField tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicField.t,v 1.26 2012-04-26 21:21:05 cr Exp $
+# $Id: DynamicField.t,v 1.27 2012-04-26 23:02:23 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -1124,19 +1124,19 @@ for my $DynamicField ( @{$OriginalDynamicFields} ) {
 my $RestoredDynamicFields = $DynamicFieldObject->DynamicFieldListGet( Valid => 0 );
 
 # check if fields were restored OK
-for my $Dynamicfield ( @{$OriginalDynamicFields} ) {
-    my $RestoredDynamicField = $DynamicFieldObject->DynamicFieldGet( ID => $Dynamicfield->{ID} );
+for my $DynamicField ( @{$OriginalDynamicFields} ) {
+    my $RestoredDynamicField = $DynamicFieldObject->DynamicFieldGet( ID => $DynamicField->{ID} );
     for my $Parameter (qw(Name Label FieldOrder FieldType ObjectType ValidID)) {
         $Self->Is(
             $RestoredDynamicField->{$Parameter},
-            $Dynamicfield->{$Parameter},
-            "Restored Field matches original field on $Parameter - for FieldID $Dynamicfield->{ID}",
+            $DynamicField->{$Parameter},
+            "Restored Field matches original field on $Parameter - for FieldID $DynamicField->{ID}",
         );
     }
     $Self->IsDeeply(
         $RestoredDynamicField->{Config},
-        $Dynamicfield->{Config},
-        "Restored Field match original field on Config - for FieldID $Dynamicfield->{ID}",
+        $DynamicField->{Config},
+        "Restored Field match original field on Config - for FieldID $DynamicField->{ID}",
     );
 }
 
@@ -1534,6 +1534,125 @@ for my $ObjectType (qw(Ticket Article)) {
         "DynamicFieldListGet() for combined object types"
     );
 }
+
+# begin order check and reset tests
+
+# reset fields order
+my $OrderResetSuccess = $DynamicFieldObject->DynamicFieldOrderReset();
+
+# sanity check (should be success)
+$Self->True(
+    $OrderResetSuccess,
+    'DynamicFieldOrderReset() for initial state, with True',
+);
+
+my $OrderCheckSuccess = $DynamicFieldObject->DynamicFieldOrderCheck();
+
+# sanity check (should be success)
+$Self->True(
+    $OrderCheckSuccess,
+    'DynamicFieldOrderCheck() for initial state, with True',
+);
+
+# create some duplicated orders
+DYNAMICFIELD:
+for my $DynamicFieldID (@AddedFieldIDs) {
+
+    next DYNAMICFIELD if $DynamicFieldID == $AddedFieldIDs[0];
+
+    my $DynamicField = $DynamicFieldObject->DynamicFieldGet(
+        ID     => $DynamicFieldID,
+        UserID => 1,
+    );
+
+    # substract 1 to the field order to get duplicates at the first added field
+    my $FieldOrder = $DynamicField->{FieldOrder} - 1;
+
+    if ( $DynamicFieldID == $AddedFieldIDs[-1] ) {
+
+        # substract an extra one in the last field to also have a duplicate at the last field
+        $FieldOrder--;
+    }
+
+    my $Success = $DynamicFieldObject->DynamicFieldUpdate(
+        ID => $DynamicFieldID,
+        %{$DynamicField},
+        FieldOrder => $FieldOrder,
+        UserID     => 1,
+        Reorder    => 0,
+    );
+}
+
+# check that the order list has duplicates
+$OrderCheckSuccess = $DynamicFieldObject->DynamicFieldOrderCheck();
+
+$Self->False(
+    $OrderCheckSuccess,
+    'DynamicFieldOrderCheck() for duplicates, with Flase',
+);
+
+# reset fields order
+$OrderResetSuccess = $DynamicFieldObject->DynamicFieldOrderReset();
+
+$Self->True(
+    $OrderResetSuccess,
+    'DynamicFieldOrderReset() remove dulicates, with True',
+);
+
+$OrderCheckSuccess = $DynamicFieldObject->DynamicFieldOrderCheck();
+
+$Self->True(
+    $OrderCheckSuccess,
+    'DynamicFieldOrderCheck() after remove duplicates, with True',
+);
+
+# create some gaps in the order
+DYNAMICFIELD:
+for my $DynamicFieldID (@AddedFieldIDs) {
+
+    # create a get at the first and the last added fields
+    next DYNAMICFIELD if $DynamicFieldID ne $AddedFieldIDs[0]
+            && $DynamicFieldID ne $AddedFieldIDs[-2];
+
+    my $DynamicField = $DynamicFieldObject->DynamicFieldGet(
+        ID     => $DynamicFieldID,
+        UserID => 1,
+    );
+
+    # create a gap in the numbering
+    my $FieldOrder = $DynamicField->{FieldOrder} + scalar @AddedFieldIDs + 1;
+
+    my $Success = $DynamicFieldObject->DynamicFieldUpdate(
+        ID => $DynamicFieldID,
+        %{$DynamicField},
+        FieldOrder => $FieldOrder,
+        UserID     => 1,
+        Reorder    => 0,
+    );
+}
+
+# check that the order list has duplicates
+$OrderCheckSuccess = $DynamicFieldObject->DynamicFieldOrderCheck();
+
+$Self->False(
+    $OrderCheckSuccess,
+    'DynamicFieldOrderCheck() for gaps, with Flase',
+);
+
+# reset fields order
+$OrderResetSuccess = $DynamicFieldObject->DynamicFieldOrderReset();
+
+$Self->True(
+    $OrderResetSuccess,
+    'DynamicFieldOrderReset() remove remove gaps, with True',
+);
+
+$OrderCheckSuccess = $DynamicFieldObject->DynamicFieldOrderCheck();
+
+$Self->True(
+    $OrderCheckSuccess,
+    'DynamicFieldOrderCheck() after remove gaps, with True',
+);
 
 # remove DynamicFields
 for my $DynamicFieldID (@AddedFieldIDs) {
