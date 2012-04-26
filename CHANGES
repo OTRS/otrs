@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2260.2.1 2012-04-26 12:23:08 mn Exp $
+# $Id: CHANGES,v 1.2260.2.2 2012-04-26 13:13:58 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.1.5 2012-??-??
+ - 2012-04-26 Updated Hungarian translation, thanks to Csaba Nemeth!
  - 2012-04-26 Fixed bug#8424 - Ticket articles of large tickets cannot be opened.
  - 2012-04-25 Added possibility to specify a cache type for selective cache cleaning
     in bin/otrs.DeleteCache.
