@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField.pm - DynamicFields configuration backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicField.pm,v 1.56 2012-04-16 11:21:42 mg Exp $
+# $Id: DynamicField.pm,v 1.56.2.1 2012-04-26 23:02:46 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::Valid;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.56 $) [1];
+$VERSION = qw($Revision: 1.56.2.1 $) [1];
 
 =head1 NAME
 
@@ -1005,6 +1005,114 @@ sub DynamicFieldListGet {
     return $FilteredData;
 }
 
+=item DynamicFieldOrderReset()
+
+sets the order of all dynamic fields based on a consecutive number list starting with number 1.
+This function will remove duplicate order numbers and gaps in the numbering.
+
+    my $Success = $DynamicFieldObject->DynamicFieldOrderReset();
+
+Returns:
+
+    $Success = 1;                        # or 0 in case of error
+
+=cut
+
+sub DynamicFieldOrderReset {
+    my ( $Self, %Param ) = @_;
+
+    # get all fields
+    my $DynamicFieldList = $Self->DynamicFieldListGet(
+        Valid => 0,
+    );
+
+    # to set the field order
+    my $Counter;
+
+    # loop through all the dynamic fields
+    DYNAMICFIELD:
+    for my $DynamicField ( @{$DynamicFieldList} ) {
+
+        # prepare the new field order
+        $Counter++;
+
+        # skip wrong fields (if any)
+        next DYNAMICFIELD if !IsHashRefWithData($DynamicField);
+
+        # skip fields with the correct order
+        next DYNAMICFIELD if $DynamicField->{FieldOrder} eq $Counter;
+
+        $DynamicField->{FieldOrder} = $Counter;
+
+        # update the database
+        my $Success = $Self->DynamicFieldUpdate(
+            %{$DynamicField},
+            UserID  => 1,
+            Reorder => 0,
+        );
+
+        # check if the update was successful
+        if ( !$Success ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => 'An error was detected while re ordering the field list on field '
+                    . "DynamicField->{Name}!",
+            );
+            return;
+        }
+    }
+
+    return 1;
+}
+
+=item DynamicFieldOrderCheck()
+
+checks for duplicate order numbers and gaps in the numbering.
+
+    my $Success = $DynamicFieldObject->DynamicFieldOrderCheck();
+
+Returns:
+
+    $Success = 1;                       # or 0 in case duplicates or gaps in the dynamic fields
+                                        #    order numbering
+
+=cut
+
+sub DynamicFieldOrderCheck {
+    my ( $Self, %Param ) = @_;
+
+    # get all fields
+    my $DynamicFieldList = $Self->DynamicFieldListGet(
+        Valid => 0,
+    );
+
+    # to had a correct order reference
+    my $Counter;
+
+    # flag to be activated if the order is not correct
+    my $OrderError;
+
+    # loop through all the dynamic fields
+    DYNAMICFIELD:
+    for my $DynamicField ( @{$DynamicFieldList} ) {
+        $Counter++;
+
+        # skip wrong fields (if any)
+        next DYNAMICFIELD if !IsHashRefWithData($DynamicField);
+
+        # skip fields with correct order
+        next DYNAMICFIELD if $DynamicField->{FieldOrder} eq $Counter;
+
+        # when finding a field with wrong order, set OrderError flag and exit loop
+        $OrderError = 1;
+        last DYNAMICFIELD
+    }
+
+    return if $OrderError;
+
+    return 1;
+}
+
 =begin Internal:
 
 =cut
@@ -1079,7 +1187,7 @@ sub _DynamicFieldReorder {
         return if $TriggerFieldOrder eq $OldFieldOrder;
 
         # set subtract mode for selected fields
-        if ( $TriggerFieldOrder gt $OldFieldOrder ) {
+        if ( $TriggerFieldOrder > $OldFieldOrder ) {
             $Substract = 1;
         }
 
@@ -1216,6 +1324,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.56 $ $Date: 2012-04-16 11:21:42 $
+$Revision: 1.56.2.1 $ $Date: 2012-04-26 23:02:46 $
 
 =cut

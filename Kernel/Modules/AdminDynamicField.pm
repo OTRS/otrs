@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminDynamicField.pm - provides a dynamic fields view for admins
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminDynamicField.pm,v 1.15 2012-03-20 16:27:57 mg Exp $
+# $Id: AdminDynamicField.pm,v 1.15.2.1 2012-04-26 23:02:47 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::DynamicField;
 use Kernel::System::DynamicField::Backend;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.15.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -59,6 +59,16 @@ sub Run {
         $Self->{LayoutObject}->ChallengeTokenCheck();
 
         return $Self->_DynamicFieldDelete(
+            %Param,
+        );
+    }
+
+    if ( $Self->{Subaction} eq 'DynamicFieldOrderReset' ) {
+
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
+
+        return $Self->_DynamicFieldOrderReset(
             %Param,
         );
     }
@@ -124,6 +134,19 @@ sub _ShowOverview {
 
     my $Output = $Self->{LayoutObject}->Header();
     $Output .= $Self->{LayoutObject}->NavigationBar();
+
+    # check for posible order collitions or gaps
+    my $OrderSuccess = $Self->{DynamicFieldObject}->DynamicFieldOrderCheck();
+    if ( !$OrderSuccess ) {
+
+        # create notification error
+        $Output .= $Self->{LayoutObject}->Notify(
+            Priority => 'Error',
+            Info     => 'An error in Dynamic Fields order has been detected, click here to reset!',
+            Link     => '$Env{"Baselink"}Action=AdminDynamicField;Subaction=DynamicFieldOrderReset;'
+                . '$Env{"ChallengeTokenParam"}',
+        );
+    }
 
     # call all needed dtl blocks
     $Self->{LayoutObject}->Block(
@@ -364,6 +387,25 @@ sub _DynamicFieldsListShow {
     );
 
     return;
+}
+
+sub _DynamicFieldOrderReset {
+    my ( $Self, %Param ) = @_;
+
+    my $ResetSuccess = $Self->{DynamicFieldObject}->DynamicFieldOrderReset();
+
+    # show error message if the order reset was not successful
+    if ( !$ResetSuccess ) {
+        return $Self->{LayoutObject}->ErrorScreen(
+            Message => "Could not reset Dynamic Field order propertly, please check the error log"
+                . " for more details",
+        );
+    }
+
+    # redirect to main screen
+    return $Self->{LayoutObject}->Redirect(
+        OP => "Action=AdminDynamicField",
+    );
 }
 
 1;
