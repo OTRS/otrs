@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Group.pm - All Groups and Roles related functions should be here eventually
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Group.pm,v 1.91 2010-11-30 13:11:11 mg Exp $
+# $Id: Group.pm,v 1.92 2012-04-26 13:30:39 jh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Valid;
 use Kernel::System::CacheInternal;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.91 $) [1];
+$VERSION = qw($Revision: 1.92 $) [1];
 
 =head1 NAME
 
@@ -541,9 +541,7 @@ sub GroupMemberList {
             );
             if (@Member) {
                 my @ResultGroupRole = $Self->GroupRoleMemberList( %Param, RoleIDs => \@Member, );
-                for (@ResultGroupRole) {
-                    push @Result, $_;
-                }
+                push @Result, @ResultGroupRole;
             }
         }
 
@@ -559,9 +557,7 @@ sub GroupMemberList {
                     %Param,
                     RoleIDs => \@Roles,
                 );
-                for (@ResultGroupUserRole) {
-                    push @Result, $_;
-                }
+                push @Result, @ResultGroupUserRole;
             }
         }
 
@@ -1686,6 +1682,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.91 $ $Date: 2010-11-30 13:11:11 $
+$Revision: 1.92 $ $Date: 2012-04-26 13:30:39 $
 
 =cut
