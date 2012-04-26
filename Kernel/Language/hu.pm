@@ -5,8 +5,9 @@
 # Copyright (C) 2006 Flora Szabo /szaboflora@magicnet.hu/
 # Copyright (C) 2007 Aron Ujvari <ujvari@hungary.com>
 # Copyright (C) 2009 Arnold Matyasi <arn@webma.hu>
+# Copyright (C) 2012 Csaba Németh <csaba@sopron.hu>
 # --
-# $Id: hu.pm,v 1.112 2012-04-17 07:11:54 mg Exp $
+# $Id: hu.pm,v 1.113 2012-04-26 13:14:05 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,13 +20,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.112 $) [1];
+$VERSION = qw($Revision: 1.113 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-04-17 09:08:24
+    # Last translation file sync: 2012-04-26 15:11:31
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -59,21 +60,21 @@ sub Data {
         'before' => 'legalább ennyi ideje',
         'Today' => 'Ma',
         'Tomorrow' => 'Holnap',
-        'Next week' => '',
+        'Next week' => 'Következő hét',
         'day' => 'nap',
         'days' => 'nap',
         'day(s)' => 'nap',
-        'd' => '',
+        'd' => 'n',
         'hour' => 'óra',
         'hours' => 'óra',
         'hour(s)' => 'óra',
         'Hours' => '',
-        'h' => '',
+        'h' => 'ó',
         'minute' => 'Perc',
         'minutes' => 'perc',
         'minute(s)' => 'perc',
         'Minutes' => '',
-        'm' => '',
+        'm' => 'p',
         'month' => 'hónap',
         'months' => 'hónap',
         'month(s)' => 'hónap',
@@ -85,7 +86,7 @@ sub Data {
         'second(s)' => 'mp',
         'seconds' => 'mp',
         'second' => 'mp',
-        's' => '',
+        's' => 'mp',
         'wrote' => 'írta',
         'Message' => 'Üzenet',
         'Error' => 'Hiba',
@@ -103,7 +104,7 @@ sub Data {
         'valid' => 'érvényes',
         'Valid' => 'Érvényesség',
         'invalid' => 'érvénytelen',
-        'Invalid' => '',
+        'Invalid' => 'Érvénytelen',
         '* invalid' => '* érvénytelen',
         'invalid-temporarily' => 'ideiglenesen érvénytelen',
         ' 2 minutes' => ' 2 Perc',
@@ -155,9 +156,9 @@ sub Data {
         'agent' => 'Ügyintéző',
         'system' => 'rendszer',
         'Customer Info' => 'Ügyfél Info',
-        'Customer Information' => '',
+        'Customer Information' => 'Ügyfél információ',
         'Customer Company' => 'Ügyfél cég',
-        'Customer Companies' => '',
+        'Customer Companies' => 'Ügyfél cégek',
         'Company' => 'Cég',
         'go!' => 'Indítás!',
         'go' => 'indítás',
@@ -211,9 +212,9 @@ sub Data {
         'Category' => 'Kategória',
         'Viewer' => 'Néző',
         'Expand' => 'Bővít',
-        'Small' => '',
-        'Medium' => '',
-        'Large' => '',
+        'Small' => 'Kicsi',
+        'Medium' => 'Közepes',
+        'Large' => 'Nagy',
         'Date picker' => '',
         'New message' => 'Új üzenet',
         'New message!' => 'Új üzenet!',
@@ -242,12 +243,12 @@ sub Data {
         'System Settings' => 'Rendszerbeállítások',
         'Mail Configuration' => '',
         'Finished' => 'Befejezve',
-        'Install OTRS' => '',
+        'Install OTRS' => 'OTRS telepítése',
         'Intro' => '',
         'License' => 'Licensz',
         'Database' => 'Adatbázis',
         'Configure Mail' => '',
-        'Database deleted.' => '',
+        'Database deleted.' => 'Adatbázis törölve.',
         'Database setup succesful!' => '',
         'Login is needed!' => 'Belépés szükséges!',
         'Password is needed!' => 'Jelszó szükséges!',
@@ -257,7 +258,7 @@ sub Data {
         'reject' => 'elutasítás',
         'reverse' => 'fordított',
         'Facility' => 'Képesség',
-        'Time Zone' => '',
+        'Time Zone' => 'Időzóna',
         'Pending till' => 'Várakozás eddig',
         'Don\'t use the Superuser account to work with OTRS! Create new Agents and work with these accounts instead.' =>
             '',
@@ -310,12 +311,12 @@ sub Data {
         'Sign' => 'Aláírás',
         'Crypted' => 'Kódolt',
         'Crypt' => 'Kódolás',
-        'PGP' => '',
-        'PGP Key' => '',
-        'PGP Keys' => '',
+        'PGP' => 'PGP',
+        'PGP Key' => 'PGP kulcs',
+        'PGP Keys' => 'PGP kulcsok',
         'S/MIME' => 'S/MIME',
-        'S/MIME Certificate' => '',
-        'S/MIME Certificates' => '',
+        'S/MIME Certificate' => 'S/MIME tanusítvány',
+        'S/MIME Certificates' => 'S/MIME tanusítványok',
         'Office' => 'Iroda',
         'Phone' => 'Telefonszám',
         'Fax' => 'Fax szám',
@@ -336,7 +337,7 @@ sub Data {
             '',
         'Edit the system configuration settings.' => '',
         'printed at' => 'nyomtatva',
-        'Loading...' => '',
+        'Loading...' => 'Betöltés...',
         'Dear Mr. %s,' => 'Kedves %s Úr!',
         'Dear Mrs. %s,' => 'Kedves %s Hölgy',
         'Dear %s,' => 'Kedves %s!',
@@ -360,7 +361,7 @@ sub Data {
         'News' => 'Hírek',
         'Product News' => 'Termék hírek',
         'OTRS News' => '',
-        '7 Day Stats' => '',
+        '7 Day Stats' => '7 napos statisztika',
         'Bold' => 'Kövér',
         'Italic' => 'Dölt',
         'Underline' => 'Aláhúzott',
@@ -384,7 +385,7 @@ sub Data {
         'Undo' => 'Visszavon',
         'Redo' => 'Újravon',
         'Scheduler process is registered but might not be running.' => '',
-        'Scheduler is not running.' => '',
+        'Scheduler is not running.' => 'Az ütemező nem fut.',
 
         # Template: AAACalendar
         'New Year\'s Day' => '',
@@ -429,14 +430,14 @@ sub Data {
         # Template: AAAPreferences
         'Preferences updated successfully!' => 'Beállítások sikeresen frissítve!',
         'User Profile' => '',
-        'Email Settings' => '',
-        'Other Settings' => '',
+        'Email Settings' => 'Email beállítások',
+        'Other Settings' => 'Egyéb beállítások',
         'Change Password' => 'Jelszó megváltoztatása',
-        'Current password' => '',
+        'Current password' => 'Jelenlegi jelszó',
         'New password' => 'Új jelszó',
         'Verify password' => '',
         'Spelling Dictionary' => 'Helyesírás-ellenőrző szótár',
-        'Default spelling dictionary' => '',
+        'Default spelling dictionary' => 'Alapértelmezett helyesírás-ellenőrző szótár',
         'Max. shown Tickets a page in Overview.' => 'Max. megjelenített jegy az áttekintésnél.',
         'The current password is not correct. Please try again!' => '',
         'Can\'t update password, your new passwords do not match. Please try again!' =>
@@ -457,7 +458,7 @@ sub Data {
 
         # Template: AAAStats
         'Stat' => 'Statisztika',
-        'Sum' => '',
+        'Sum' => 'Összesen',
         'Please fill out the required fields!' => 'Kérem töltse ki a kötelező mezőket!',
         'Please select a file!' => 'Kérem válasszon egy fájlt!',
         'Please select an object!' => 'Kérem válasszok egy objektumot!',
@@ -528,8 +529,8 @@ sub Data {
         'Ticket Close Time' => 'Jegy lezárásának ideje',
 
         # Template: AAATicket
-        'Status View' => '',
-        'Bulk' => '',
+        'Status View' => 'Állapot nézet',
+        'Bulk' => 'Tömeges',
         'Lock' => 'Zárolás',
         'Unlock' => 'Feloldás',
         'History' => 'Előzmények',
@@ -546,7 +547,7 @@ sub Data {
         'Queue' => 'Várólista',
         'Queues' => 'Várólisták',
         'Priority' => 'Prioritás',
-        'Priorities' => '',
+        'Priorities' => 'Prioritások',
         'Priority Update' => 'Prioritás módosítása',
         'Priority added!' => '',
         'Priority updated!' => '',
@@ -556,13 +557,13 @@ sub Data {
         'Service Level Agreement' => '',
         'Service Level Agreements' => '',
         'Service' => 'Szolgáltatás',
-        'Services' => '',
+        'Services' => 'Szolgáltatások',
         'State' => 'Állapot',
-        'States' => '',
+        'States' => 'Állapotok',
         'Status' => 'Állapot',
-        'Statuses' => '',
-        'Ticket Type' => '',
-        'Ticket Types' => '',
+        'Statuses' => 'Állapotok',
+        'Ticket Type' => 'Hibajegy típus',
+        'Ticket Types' => 'Hibajegy típusok',
         'Compose' => 'Készít',
         'Pending' => 'Várakozik',
         'Owner' => 'Tulajdonos',
@@ -591,7 +592,7 @@ sub Data {
         'merged' => 'egyesített',
         'closed successful' => 'sikeresen lezárva',
         'closed unsuccessful' => 'sikertelenül lezárva',
-        'Locked Tickets Total' => '',
+        'Locked Tickets Total' => 'Zárolt hibajegyek összesen',
         'Locked Tickets Reminder Reached' => '',
         'Locked Tickets New' => '',
         'Responsible Tickets Total' => '',
@@ -613,10 +614,10 @@ sub Data {
         'new' => 'új',
         'open' => 'nyitott',
         'Open' => 'Nyitott',
-        'Open tickets' => '',
+        'Open tickets' => 'Nyitott hibajegyek',
         'closed' => 'lezárt',
         'Closed' => 'Lezárt',
-        'Closed tickets' => '',
+        'Closed tickets' => 'Lezárt hibajegyek',
         'removed' => 'törölt',
         'pending reminder' => 'emlékeztetőre várakozik',
         'pending auto' => 'automatikusra várakozik',
@@ -761,8 +762,8 @@ sub Data {
         'Create new Ticket' => 'Új jegy létrehozása',
         'Customer called' => 'Ügyfél telefonált',
         'phone call' => 'telefonhívás',
-        'Phone Call Outbound' => '',
-        'Phone Call Inbound' => '',
+        'Phone Call Outbound' => 'Kimenő telefonhívás',
+        'Phone Call Inbound' => 'Bejövő telefonhívás',
         'Reminder Reached' => 'Emlékeztető lejárt',
         'Reminder Tickets' => 'Emlékeztető Jegyek',
         'Escalated Tickets' => 'Eszkalált Jegyek',
@@ -774,8 +775,8 @@ sub Data {
         'All escalated tickets' => '',
         'All tickets with a reminder set where the reminder date has been reached' =>
             '',
-        'Archived tickets' => '',
-        'Unarchived tickets' => '',
+        'Archived tickets' => 'Arhivált hibajegyek',
+        'Unarchived tickets' => 'Arhiválatlan hibajegyek',
         'History::Move' => 'Történet::Mozgat',
         'History::TypeUpdate' => 'Updated Type to %s (ID=%s).',
         'History::ServiceUpdate' => 'Updated Service to %s (ID=%s).',
@@ -831,8 +832,8 @@ sub Data {
         'Go to overview' => '',
         'Add attachment' => '',
         'List' => 'Lista',
-        'Validity' => '',
-        'No data found.' => '',
+        'Validity' => 'Érvényesség',
+        'No data found.' => 'Nem található adat',
         'Download file' => '',
         'Delete this attachment' => '',
         'Add Attachment' => '',
@@ -871,15 +872,15 @@ sub Data {
 
         # Template: AdminCustomerUser
         'Customer Management' => '',
-        'Add customer' => '',
+        'Add customer' => 'Ügyfél hozzáadása',
         'Select' => 'Kiválasztás',
         'Hint' => '',
         'Customer will be needed to have a customer history and to login via customer panel.' =>
             '',
         'Please enter a search term to look for customers.' => '',
-        'Last Login' => '',
-        'Add Customer' => '',
-        'Edit Customer' => '',
+        'Last Login' => 'Utolsó belépés',
+        'Add Customer' => 'Ügyfél hozzáadás',
+        'Edit Customer' => 'Ügyfél szerkesztése',
         'This field is required and needs to be a valid email address.' =>
             '',
         'This email address is not allowed due to the system configuration.' =>
@@ -905,8 +906,8 @@ sub Data {
         'Select the customer:group permissions.' => '',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer).' =>
             '',
-        'Search Result:' => '',
-        'Customers' => '',
+        'Search Result:' => 'Keresési eredmény:',
+        'Customers' => 'Ügyfelek',
         'Groups' => 'Csoportok',
         'No matches found.' => '',
         'Change Group Relations for Customer' => '',
@@ -1131,7 +1132,7 @@ sub Data {
         'Request List' => '',
         'Time' => 'Idő',
         'Remote IP' => '',
-        'Loading' => '',
+        'Loading' => 'Betöltés',
         'Select a single request to see its details.' => '',
         'Filter by type' => '',
         'Filter from' => '',
@@ -1386,8 +1387,8 @@ sub Data {
         # Template: AdminNavigationBar
         'Admin' => 'Adminisztráció',
         'Agent Management' => '',
-        'Queue Settings' => '',
-        'Ticket Settings' => '',
+        'Queue Settings' => 'Várólista beállítások',
+        'Ticket Settings' => 'Hibajegy beállítások',
         'System Administration' => '',
 
         # Template: AdminNotification
@@ -1622,7 +1623,7 @@ sub Data {
         # Template: AdminRoleUser
         'Manage Agent-Role Relations' => '',
         'Filter for Agents' => '',
-        'Agents' => '',
+        'Agents' => 'Munkatársak',
         'Manage Role-Agent Relations' => '',
         'Change Role Relations for Agent' => '',
         'Change Agent Relations for Role' => '',
@@ -1747,8 +1748,8 @@ sub Data {
         'Error: this directory could not be found.' => '',
         'Error: an invalid value was entered.' => '',
         'Content' => 'Tartalom',
-        'Remove this entry' => '',
-        'Add entry' => '',
+        'Remove this entry' => 'Bejegyzés eltávolítása',
+        'Add entry' => 'Bejegyzés hozzáadása',
         'Remove entry' => '',
         'Add new entry' => '',
         'Create new entry' => '',
@@ -1851,10 +1852,10 @@ sub Data {
         'Posted %s ago.' => 'Beküldve %s ezelőtt.',
 
         # Template: AgentDashboardTicketGeneric
-        'My locked tickets' => '',
-        'My watched tickets' => '',
+        'My locked tickets' => 'Zárolt hibajegyeim',
+        'My watched tickets' => 'Figyelt hibajegyeim',
         'My responsibilities' => '',
-        'Tickets in My Queues' => '',
+        'Tickets in My Queues' => 'Hibajegyek a várólistáimban',
 
         # Template: AgentDashboardTicketStats
 
@@ -2032,7 +2033,7 @@ sub Data {
         'Please include at least one recipient' => '',
         'Remove Cc' => '',
         'Remove Bcc' => '',
-        'Address book' => '',
+        'Address book' => 'Címjegyzék',
         'Pending Date' => 'Várakozás dátuma',
         'for pending* states' => 'várakozó* státuszhoz',
         'Date Invalid!' => '',
@@ -2043,10 +2044,10 @@ sub Data {
         'Customer user' => '',
 
         # Template: AgentTicketEmail
-        'Create New Email Ticket' => '',
-        'From queue' => '',
-        'To customer' => '',
-        'Please include at least one customer for the ticket.' => '',
+        'Create New Email Ticket' => 'Új Email hibajegy létrehozása',
+        'From queue' => 'Ebből a várólistából',
+        'To customer' => 'Ennek az ügyfélnek',
+        'Please include at least one customer for the ticket.' => 'Legalább egy ügyfelet adj meg a hibajegyhez!',
         'Get all' => '',
 
         # Template: AgentTicketEscalation
@@ -2076,8 +2077,8 @@ sub Data {
         # Template: AgentTicketNote
 
         # Template: AgentTicketOverviewMedium
-        'Select all' => '',
-        'No ticket data found.' => '',
+        'Select all' => 'Összes kiválasztása',
+        'No ticket data found.' => 'Nem található hibajegy adat',
         'First Response Time' => 'Első válaszidő',
         'Service Time' => 'Szolgáltatás ideje',
         'Update Time' => 'Frissítés ideje',
@@ -2102,9 +2103,9 @@ sub Data {
         # Template: AgentTicketPending
 
         # Template: AgentTicketPhone
-        'Create New Phone Ticket' => '',
-        'From customer' => '',
-        'To queue' => '',
+        'Create New Phone Ticket' => 'Új telefonos hibajegy létrehozása',
+        'From customer' => 'Ettől az ügyféltől',
+        'To queue' => 'Ebbe a várólistba',
 
         # Template: AgentTicketPhoneCommon
         'Phone call' => 'Telefonhívás',
@@ -2129,10 +2130,10 @@ sub Data {
         # Template: AgentTicketSearch
         'Search template' => 'Kereső sablon',
         'Create Template' => '',
-        'Create New' => '',
+        'Create New' => 'Új létrehozása',
         'Profile link' => '',
         'Save changes in template' => '',
-        'Add another attribute' => '',
+        'Add another attribute' => 'További tulajdonság hozzáadása',
         'Output' => 'Eredmény űrlap',
         'Fulltext' => 'Teljes szöveg',
         'Remove' => '',
@@ -2149,7 +2150,7 @@ sub Data {
         'Ticket Close Time (before/after)' => '',
         'Ticket Close Time (between)' => '',
         'Archive Search' => '',
-        'Run search' => '',
+        'Run search' => 'Keresés futtatása',
 
         # Template: AgentTicketSearchOpenSearchDescriptionFulltext
 
@@ -2163,7 +2164,7 @@ sub Data {
         'Sender Type' => '',
         'Save filter settings as default' => 'Szűrő beállítások alapértelmezettkénti mentése',
         'Ticket Information' => '',
-        'Linked Objects' => '',
+        'Linked Objects' => 'Kapcsolt objektumok',
         'Article(s)' => '',
         'Change Queue' => '',
         'Article Filter' => '',
@@ -2273,7 +2274,7 @@ sub Data {
 
         # Template: CustomerTicketZoom
         'Expand article' => '',
-        'Reply' => '',
+        'Reply' => 'Válasz',
 
         # Template: CustomerWarning
 
@@ -2305,7 +2306,7 @@ sub Data {
         'Error Details' => '',
 
         # Template: Footer
-        'Top of page' => '',
+        'Top of page' => 'Az oldal tetejére',
 
         # Template: FooterJS
         'If you now leave this page, all open popup windows will be closed, too!' =>
@@ -2322,7 +2323,7 @@ sub Data {
         # Template: HTMLHeadBlockEvents
 
         # Template: Header
-        'You are logged in as' => '',
+        'You are logged in as' => 'Belépve:',
 
         # Template: HeaderSmall
 
@@ -2532,8 +2533,8 @@ sub Data {
             '',
         'Agent interface notification module to see the number of watched tickets.' =>
             '',
-        'Agents <-> Groups' => '',
-        'Agents <-> Roles' => '',
+        'Agents <-> Groups' => 'Munkatársak <-> Csoportok',
+        'Agents <-> Roles' => 'Munkatársak <-> Szerepek',
         'Allows adding notes in the close ticket screen of the agent interface.' =>
             '',
         'Allows adding notes in the ticket free text screen of the agent interface.' =>
@@ -2658,8 +2659,8 @@ sub Data {
             '',
         'Customer item (icon) which shows the open tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
             '',
-        'Customers <-> Groups' => '',
-        'Customers <-> Services' => '',
+        'Customers <-> Groups' => 'Ügyfelek <-> Csoportok',
+        'Customers <-> Services' => 'Ügyfelek <-> Szolgáltatások',
         'DEPRECATED! This setting is not used any more and will be removed in a future version of OTRS.' =>
             '',
         'Data used to export the search result in CSV format.' => '',
@@ -3333,7 +3334,7 @@ sub Data {
         'Enables ticket responsible feature, to keep track of a specific ticket.' =>
             '',
         'Enables ticket watcher feature only for the listed groups.' => '',
-        'Escalation view' => '',
+        'Escalation view' => 'Eszkalációs nézet',
         'Event list to be displayed on GUI to trigger generic interface invokers.' =>
             '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate). This is only possible if all Ticket dynamic fields need the same event.' =>
@@ -3356,7 +3357,7 @@ sub Data {
             '',
         'File that is displayed in the Kernel::Modules::AgentInfo module, if located under Kernel/Output/HTML/Standard/AgentInfo.dtl.' =>
             '',
-        'Filter incoming emails.' => '',
+        'Filter incoming emails.' => 'Bejövő levelek szűrése',
         'Forces encoding of outgoing emails (7bit|8bit|quoted-printable|base64).' =>
             '',
         'Forces to choose a different ticket state (from current) after lock action. Define the current state as key, and the next state after lock action as content.' =>
@@ -3608,8 +3609,8 @@ sub Data {
         'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.' =>
             '',
         'NameX' => '',
-        'New email ticket' => '',
-        'New phone ticket' => '',
+        'New email ticket' => 'Új email hibajegy',
+        'New phone ticket' => 'Új telefonos hibajegy',
         'Next possible ticket states after adding a phone note in the ticket phone inbound screen of the agent interface.' =>
             '',
         'Next possible ticket states after adding a phone note in the ticket phone outbound screen of the agent interface.' =>
@@ -3688,7 +3689,7 @@ sub Data {
         'PostMaster Mail Accounts' => '',
         'Protection against CSRF (Cross Site Request Forgery) exploits (for more info see http://en.wikipedia.org/wiki/Cross-site_request_forgery).' =>
             '',
-        'Queue view' => '',
+        'Queue view' => 'Várólista nézet',
         'Refresh Overviews after' => '',
         'Refresh interval' => '',
         'Replaces the original sender with current customer\'s email address on compose answer in the ticket compose screen of the agent interface.' =>
@@ -3758,7 +3759,7 @@ sub Data {
             '',
         'Sends the notifications which are configured in the admin interface under "Notfication (Event)".' =>
             '',
-        'Set sender email addresses for this system.' => '',
+        'Set sender email addresses for this system.' => 'Feladó email cím beállítása a rendszerhez.',
         'Set the default height (in pixels) of inline HTML articles in AgentTicketZoom.' =>
             '',
         'Set the maximum height (in pixels) of inline HTML articles in AgentTicketZoom.' =>
@@ -4135,8 +4136,8 @@ sub Data {
             '',
         'Starts a wildcard search of the active object after the link object mask is started.' =>
             '',
-        'Statistics' => '',
-        'Status view' => '',
+        'Statistics' => 'Statisztikák',
+        'Status view' => 'Állapot nézet',
         'Stores cookies after the browser has been closed.' => '',
         'Strips empty lines on the ticket preview in the queue view.' => '',
         'Textarea' => '',
@@ -4182,7 +4183,7 @@ sub Data {
             '',
         'Turns on the remote ip address check. It should be set to "No" if the application is used, for example, via a proxy farm or a dialup connection, because the remote ip address is mostly different for the requests.' =>
             '',
-        'Types' => '',
+        'Types' => 'Típusok',
         'Update Ticket "Seen" flag if every article got seen or a new Article got created.' =>
             '',
         'Update and extend your system with software packages.' => '',
