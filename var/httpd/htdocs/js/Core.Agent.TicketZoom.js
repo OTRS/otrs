@@ -1,8 +1,8 @@
 // --
 // Core.Agent.TicketZoom.js - provides the special module functions for TicketZoom
-// Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+// Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.TicketZoom.js,v 1.34.2.1 2011-03-18 06:35:04 mp Exp $
+// $Id: Core.Agent.TicketZoom.js,v 1.34.2.2 2012-04-26 12:23:01 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -185,11 +185,17 @@ Core.Agent.TicketZoom = (function (TargetNS) {
     TargetNS.Init = function (Options) {
         var $THead = $('#FixedTable thead'),
             $TBody = $('#FixedTable tbody'),
-            ZoomExpand = !$('div.ArticleView a.OneArticle').hasClass('Active'),
+            ZoomExpand = false,
             URLHash,
             $ArticleElement,
             ResizeTimeoutScroller,
             ResizeTimeoutWindow;
+
+        // Check, if ZoomExpand is active or not
+        // Only active on tickets with less than 400 articles (see bug#8424)
+        if ($('div.ArticleView a.OneArticle').length) {
+            ZoomExpand = !$('div.ArticleView a.OneArticle').hasClass('Active');
+        }
 
         Core.UI.Resizable.Init($('#ArticleTableBody'), Options.ArticleTableHeight, function (Event, UI, Height, Width) {
             // remember new height for next reload
