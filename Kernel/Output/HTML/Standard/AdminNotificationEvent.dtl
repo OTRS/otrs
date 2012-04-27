@@ -1,8 +1,8 @@
 # --
 # AdminNotificationEvent.dtl - provides HTML form for AdminNotificationEvent
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNotificationEvent.dtl,v 1.31 2011-12-23 14:09:31 mg Exp $
+# $Id: AdminNotificationEvent.dtl,v 1.32 2012-04-27 06:55:47 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -235,6 +235,13 @@
                         <label for="ArticleTypeID">$Text{"Article type"}: </label>
                         <div class="Field">
                             $Data{"ArticleTypesStrg"}
+                            <p class="FieldExplanation">($Text{"Only for ArticleCreate event"})</p>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="ArticleSenderTypeID">$Text{"Article sender type"}: </label>
+                        <div class="Field">
+                            $Data{"ArticleSenderTypesStrg"}
                             <p class="FieldExplanation">($Text{"Only for ArticleCreate event"})</p>
                         </div>
                         <div class="Clear"></div>

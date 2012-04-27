@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminNotificationEvent.pm - to manage event-based notifications
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNotificationEvent.pm,v 1.37 2011-12-23 14:09:31 mg Exp $
+# $Id: AdminNotificationEvent.pm,v 1.38 2012-04-27 06:55:47 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.37 $) [1];
+$VERSION = qw($Revision: 1.38 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -106,7 +106,7 @@ sub Run {
             Events StateID QueueID PriorityID LockID TypeID ServiceID SLAID
             CustomerID CustomerUserID
             ArticleTypeID ArticleSubjectMatch ArticleBodyMatch ArticleAttachmentInclude
-            NotificationArticleTypeID)
+            ArticleSenderTypeID NotificationArticleTypeID)
             )
         {
             my @Data = $Self->{ParamObject}->GetArray( Param => $Parameter );
@@ -229,7 +229,7 @@ sub Run {
             qw(Recipients RecipientAgents RecipientRoles RecipientGroups RecipientEmail Events StateID QueueID
             PriorityID LockID TypeID ServiceID SLAID CustomerID CustomerUserID
             ArticleTypeID ArticleSubjectMatch ArticleBodyMatch ArticleAttachmentInclude
-            NotificationArticleTypeID)
+            ArticleSenderTypeID NotificationArticleTypeID)
             )
         {
             my @Data = $Self->{ParamObject}->GetArray( Param => $Parameter );
@@ -634,6 +634,16 @@ sub _Edit {
         Data => { $Self->{TicketObject}->ArticleTypeList( Result => 'HASH' ), },
         Name => 'ArticleTypeID',
         SelectedID  => $Param{Data}->{ArticleTypeID},
+        Size        => 5,
+        Multiple    => 1,
+        Translation => 1,
+        Max         => 200,
+    );
+
+    $Param{ArticleSenderTypesStrg} = $Self->{LayoutObject}->BuildSelection(
+        Data => { $Self->{TicketObject}->ArticleSenderTypeList( Result => 'HASH' ), },
+        Name => 'ArticleSenderTypeID',
+        SelectedID  => $Param{Data}->{ArticleSenderTypeID},
         Size        => 5,
         Multiple    => 1,
         Translation => 1,

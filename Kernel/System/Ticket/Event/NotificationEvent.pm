@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Ticket/Event/NotificationEvent.pm - a event module to send notifications
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: NotificationEvent.pm,v 1.37 2011-12-08 14:35:40 mg Exp $
+# $Id: NotificationEvent.pm,v 1.38 2012-04-27 06:55:47 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.37 $) [1];
+$VERSION = qw($Revision: 1.38 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -116,6 +116,7 @@ sub Run {
             next if $Key eq 'RecipientEmail';
             next if $Key eq 'Events';
             next if $Key eq 'ArticleTypeID';
+            next if $Key eq 'ArticleSenderTypeID';
             next if $Key eq 'ArticleSubjectMatch';
             next if $Key eq 'ArticleBodyMatch';
             next if $Key eq 'ArticleAttachmentInclude';
@@ -177,6 +178,20 @@ sub Run {
                 for my $Value ( @{ $Notification{Data}->{ArticleTypeID} } ) {
                     next VALUE if !$Value;
                     if ( $Value == $Article{ArticleTypeID} ) {
+                        $Match = 1;
+                        last;
+                    }
+                }
+                next NOTIFICATION if !$Match;
+            }
+
+            # check article sender type
+            if ( $Notification{Data}->{ArticleSenderTypeID} ) {
+                my $Match = 0;
+                VALUE:
+                for my $Value ( @{ $Notification{Data}->{ArticleSenderTypeID} } ) {
+                    next VALUE if !$Value;
+                    if ( $Value == $Article{SenderTypeID} ) {
                         $Match = 1;
                         last;
                     }
