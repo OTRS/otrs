@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.311 2012-04-06 12:40:42 mb Exp $
+# $Id: Article.pm,v 1.312 2012-04-27 06:41:45 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::EmailParser;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.311 $) [1];
+$VERSION = qw($Revision: 1.312 $) [1];
 
 =head1 NAME
 
@@ -2895,7 +2895,7 @@ sub SendAutoResponse {
         return 1;
     }
 
-    # check if sender is e. g. MAILDER-DAEMON or Postmaster
+    # check if sender is e. g. MAILER-DAEMON or Postmaster
     my $NoAutoRegExp = $Self->{ConfigObject}->Get('SendNoAutoResponseRegExp');
     if ( $OrigHeader{From} =~ /$NoAutoRegExp/i ) {
 
@@ -3494,6 +3494,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.311 $ $Date: 2012-04-06 12:40:42 $
+$Revision: 1.312 $ $Date: 2012-04-27 06:41:45 $
 
 =cut
