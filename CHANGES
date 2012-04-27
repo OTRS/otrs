@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2260.2.4 2012-04-26 23:02:47 cr Exp $
+# $Id: CHANGES,v 1.2260.2.5 2012-04-27 11:22:13 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.1.5 2012-??-??
+ - 2012-04-27 Fixed bug#7168 - Ticket Overview Control Row can only be one line high.
  - 2012-04-26 Fixed bug#8437 - Dynamic Field order duplicated when change the order of a field.
  - 2012-04-26 Fixed bug#8409 - Deselecting 'select all' in queue view does not work.
  - 2012-04-26 Updated Hungarian translation, thanks to Csaba Nemeth!
