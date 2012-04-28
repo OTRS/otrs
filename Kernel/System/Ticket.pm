@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.551 2012-04-26 23:27:49 cr Exp $
+# $Id: Ticket.pm,v 1.552 2012-04-28 01:19:08 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -40,7 +40,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.551 $) [1];
+$VERSION = qw($Revision: 1.552 $) [1];
 
 =head1 NAME
 
@@ -6323,7 +6323,11 @@ sub TicketAcl {
     if ( IsStringWithData( $ChecksDatabase{Ticket}->{CustomerUserID} ) ) {
 
         # check if database data matches current data (performance)
-        if ( $ChecksDatabase{Ticket}->{CustomerUserID} eq $Checks{CustomerUser}->{UserLogin} ) {
+        if (
+            defined $Checks{CustomerUser}->{UserLogin}
+            && $ChecksDatabase{Ticket}->{CustomerUserID} eq $Checks{CustomerUser}->{UserLogin}
+            )
+        {
             $ChecksDatabase{CustomerUser} = $Checks{CustomerUser};
         }
 
@@ -6374,7 +6378,11 @@ sub TicketAcl {
     if ( IsPositiveInteger( $ChecksDatabase{Ticket}->{QueueID} ) ) {
 
         # check if database data matches current data (performance)
-        if ( $ChecksDatabase{Ticket}->{QueueID} eq $Checks{Queue}->{QueueID} ) {
+        if (
+            defined $Checks{Queue}->{QueueID}
+            && $ChecksDatabase{Ticket}->{QueueID} eq $Checks{Queue}->{QueueID}
+            )
+        {
             $ChecksDatabase{Queue} = $Checks{Queue};
         }
 
@@ -6424,7 +6432,11 @@ sub TicketAcl {
     if ( IsPositiveInteger( $ChecksDatabase{Ticket}->{ServiceID} ) ) {
 
         # check if database data matches current data (performance)
-        if ( $ChecksDatabase{Ticket}->{ServiceID} eq $Checks{Service}->{ServiceID} ) {
+        if (
+            defined $Checks{Queue}->{QueueID}
+            && $ChecksDatabase{Ticket}->{ServiceID} eq $Checks{Service}->{ServiceID}
+            )
+        {
             $ChecksDatabase{Service} = $Checks{Service};
         }
 
@@ -6495,7 +6507,11 @@ sub TicketAcl {
     if ( IsPositiveInteger( $ChecksDatabase{Ticket}->{TypeID} ) ) {
 
         # check if database data matches current data (performance)
-        if ( $ChecksDatabase{Ticket}->{TypeID} eq $Checks{Type}->{ID} ) {
+        if (
+            defined $Checks{Type}->{ID}
+            && $ChecksDatabase{Ticket}->{TypeID} eq $Checks{Type}->{ID}
+            )
+        {
             $ChecksDatabase{Type} = $Checks{Type};
         }
 
@@ -6554,7 +6570,11 @@ sub TicketAcl {
     if ( IsPositiveInteger( $ChecksDatabase{Ticket}->{PriorityID} ) ) {
 
         # check if database data matches current data (performance)
-        if ( $ChecksDatabase{Ticket}->{PriorityID} eq $Checks{Priority}->{ID} ) {
+        if (
+            defined $Checks{Priority}->{ID}
+            && $ChecksDatabase{Ticket}->{PriorityID} eq $Checks{Priority}->{ID}
+            )
+        {
             $ChecksDatabase{Priority} = $Checks{Priority};
         }
 
@@ -6612,7 +6632,11 @@ sub TicketAcl {
     if ( IsPositiveInteger( $ChecksDatabase{Ticket}->{SLAID} ) ) {
 
         # check if database data matches current data (performance)
-        if ( $ChecksDatabase{Ticket}->{SLAID} eq $Checks{SLA}->{SLAID} ) {
+        if (
+            defined $Checks{SLA}->{SLAID}
+            && $ChecksDatabase{Ticket}->{SLAID} eq $Checks{SLA}->{SLAID}
+            )
+        {
             $ChecksDatabase{SLA} = $Checks{SLA};
         }
 
@@ -6670,7 +6694,11 @@ sub TicketAcl {
     if ( IsPositiveInteger( $ChecksDatabase{Ticket}->{StateID} ) ) {
 
         # check if database data matches current data (performance)
-        if ( $ChecksDatabase{Ticket}->{StateID} eq $Checks{State}->{ID} ) {
+        if (
+            defined $Checks{State}->{ID}
+            && $ChecksDatabase{Ticket}->{StateID} eq $Checks{State}->{ID}
+            )
+        {
             $ChecksDatabase{State} = $Checks{State};
         }
 
@@ -6814,7 +6842,11 @@ sub TicketAcl {
     if ( IsPositiveInteger( $ChecksDatabase{Ticket}->{OwnerID} ) ) {
 
         # check if database data matches current data (performance)
-        if ( $ChecksDatabase{Ticket}->{OwnerID} eq $Checks{Owner}->{UserID} ) {
+        if (
+            defined $Checks{Owner}->{UserID}
+            && $ChecksDatabase{Ticket}->{OwnerID} eq $Checks{Owner}->{UserID}
+            )
+        {
             $ChecksDatabase{Owner} = $Checks{Owner};
         }
 
@@ -6967,7 +6999,11 @@ sub TicketAcl {
     if ( IsPositiveInteger( $ChecksDatabase{Ticket}->{ResponsibleID} ) ) {
 
         # check if database data matches current data (performance)
-        if ( $ChecksDatabase{Ticket}->{ResponsibleID} eq $Checks{Responsible}->{UserID} ) {
+        if (
+            defined $Checks{Owner}->{UserID}
+            && $ChecksDatabase{Ticket}->{ResponsibleID} eq $Checks{Responsible}->{UserID}
+            )
+        {
             $ChecksDatabase{Responsible} = $Checks{Responsible};
         }
 
@@ -7771,6 +7807,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.551 $ $Date: 2012-04-26 23:27:49 $
+$Revision: 1.552 $ $Date: 2012-04-28 01:19:08 $
 
 =cut
