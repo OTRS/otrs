@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketForward.pm - to forward a message
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketForward.pm,v 1.131.2.1 2012-05-01 05:02:30 mb Exp $
+# $Id: AgentTicketForward.pm,v 1.131.2.2 2012-05-01 05:05:49 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,7 +26,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.131.2.1 $) [1];
+$VERSION = qw($Revision: 1.131.2.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -873,14 +873,6 @@ sub SendEmail {
             UserID             => $Self->{UserID},
         );
     }
-
-    # set state
-    $Self->{TicketObject}->TicketStateSet(
-        TicketID  => $Self->{TicketID},
-        ArticleID => $ArticleID,
-        State     => $NextState,
-        UserID    => $Self->{UserID},
-    );
 
     # set state
     if ($NextState) {
