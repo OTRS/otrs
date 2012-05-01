@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketForward.pm - to forward a message
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketForward.pm,v 1.131 2012-04-06 12:12:49 mb Exp $
+# $Id: AgentTicketForward.pm,v 1.131.2.1 2012-05-01 05:02:30 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,7 +26,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.131 $) [1];
+$VERSION = qw($Revision: 1.131.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -890,20 +890,27 @@ sub SendEmail {
             State     => $NextState,
             UserID    => $Self->{UserID},
         );
-    }
 
-    # set pending time
-    if ( $StateData{TypeName} =~ /^pending/i ) {
+        # should I set an unlock?
+        if ( $StateData{TypeName} =~ /^close/i ) {
+            $Self->{TicketObject}->TicketLockSet(
+                TicketID => $Self->{TicketID},
+                Lock     => 'unlock',
+                UserID   => $Self->{UserID},
+            );
+        }
 
         # set pending time
-        $Self->{TicketObject}->TicketPendingTimeSet(
-            UserID   => $Self->{UserID},
-            TicketID => $Self->{TicketID},
-            %GetParam,
-        );
+        elsif ( $StateData{TypeName} =~ /^pending/i ) {
+            $Self->{TicketObject}->TicketPendingTimeSet(
+                UserID   => $Self->{UserID},
+                TicketID => $Self->{TicketID},
+                %GetParam,
+            );
+        }
     }
 
-    # remove pre submited attachments
+    # remove pre-submitted attachments
     $Self->{UploadCacheObject}->FormIDRemove( FormID => $GetParam{FormID} );
 
     # redirect
