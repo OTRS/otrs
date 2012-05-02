@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Checkbox.pm - Delegate for DynamicField Checkbox backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Checkbox.pm,v 1.52 2012-03-30 16:21:02 cr Exp $
+# $Id: Checkbox.pm,v 1.53 2012-05-02 23:31:06 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::DynamicFieldValue;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.52 $) [1];
+$VERSION = qw($Revision: 1.53 $) [1];
 
 =head1 NAME
 
@@ -615,8 +615,8 @@ sub StatsFieldParameterBuild {
 
     return {
         Values => {
-            '1' => 'Checked',
-            '0' => 'Unchecked',
+            '1'  => 'Checked',
+            '-1' => 'Unchecked',
         },
         Name               => $Param{DynamicFieldConfig}->{Label},
         Element            => 'DynamicField_' . $Param{DynamicFieldConfig}->{Name},
@@ -629,6 +629,24 @@ sub CommonSearchFieldParameterBuild {
 
     my $Operator = 'Equals';
     my $Value    = $Param{Value};
+
+    if ( ref $Value eq "ARRAY" ) {
+        ITEM:
+        for my $Item ( @{$Value} ) {
+
+            # set the correct value for "unchecked" (-1) search options
+            if ( $Item && $Item eq '-1' ) {
+                $Item = '0';
+            }
+        }
+    }
+    else {
+
+        # set the correct value for "unchecked" (-1) search options
+        if ( $Value && $Value eq '-1' ) {
+            $Value = '0';
+        }
+    }
 
     return {
         $Operator => $Value,
