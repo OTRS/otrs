@@ -2,7 +2,7 @@
 # Kernel/System/Stats/Dynamic/TicketList.pm - reporting via ticket lists
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketList.pm,v 1.19 2012-02-28 10:38:01 jp Exp $
+# $Id: TicketList.pm,v 1.20 2012-05-02 23:07:46 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,7 +25,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.19 $) [1];
+$VERSION = qw($Revision: 1.20 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -646,6 +646,33 @@ sub GetStatTable {
         }
     }
 
+    my %DynamiFieldRestrictions;
+    for my $ParameterName ( keys %{ $Param{Restrictions} } ) {
+        if ( $ParameterName =~ m{\A DynamicField_ ( [a-zA-Z\d]+ ) \z}xms ) {
+
+            # loop over the dynamic fields configured
+            DYNAMICFIELD:
+            for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
+                next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+                next DYNAMICFIELD if !$DynamicFieldConfig->{Name};
+
+                # skip all fields that does not match with current field name ($1)
+                # without the 'DynamicField_' prefix
+                next DYNAMICFIELD if $DynamicFieldConfig->{Name} ne $1;
+
+                # get new search parameter
+                my $DynamicFieldStatsSearchParameter
+                    = $Self->{BackendObject}->CommonSearchFieldParameterBuild(
+                    DynamicFieldConfig => $DynamicFieldConfig,
+                    Value              => $Param{Restrictions}->{$ParameterName},
+                    );
+
+                # add new search parameter
+                $DynamiFieldRestrictions{$ParameterName} = $DynamicFieldStatsSearchParameter;
+            }
+        }
+    }
+
     if ($OrderByIsValueOfTicketSearchSort) {
 
         # don't be irritated of the mixture OrderBy <> Sort and SortBy <> OrderBy
@@ -664,6 +691,7 @@ sub GetStatTable {
         Result     => 'ARRAY',
         Permission => 'ro',
         %{ $Param{Restrictions} },
+        %DynamiFieldRestrictions,
     );
 
     # find out if the extended version of TicketGet is needed,
