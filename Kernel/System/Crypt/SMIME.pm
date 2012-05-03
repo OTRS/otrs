@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Crypt/SMIME.pm - the main crypt module
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: SMIME.pm,v 1.43.2.4 2011-05-10 18:11:28 dz Exp $
+# $Id: SMIME.pm,v 1.43.2.5 2012-05-03 12:34:00 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.43.2.4 $) [1];
+$VERSION = qw($Revision: 1.43.2.5 $) [1];
 
 =head1 NAME
 
@@ -422,7 +422,7 @@ sub CertificateSearch {
         my $Hit = 0;
         if ($Search) {
             for ( keys %Attributes ) {
-                if ( eval { $Attributes{$_} =~ /$Search/i } ) {
+                if ( eval { $Attributes{$_} =~ /\Q$Search\E/i } ) {
                     $Hit = 1;
                 }
             }
@@ -601,7 +601,7 @@ sub PrivateSearch {
         my $Hit = 0;
         if ($Search) {
             for ( keys %Attributes ) {
-                if ( $Attributes{$_} =~ /$Search/i ) {
+                if ( $Attributes{$_} =~ /\Q$Search\E/i ) {
                     $Hit = 1;
                 }
             }
@@ -995,6 +995,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.43.2.4 $ $Date: 2011-05-10 18:11:28 $
+$Revision: 1.43.2.5 $ $Date: 2012-05-03 12:34:00 $
 
 =cut
