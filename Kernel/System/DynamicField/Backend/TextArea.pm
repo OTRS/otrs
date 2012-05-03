@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/TextArea.pm - Delegate for DynamicField TextArea backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TextArea.pm,v 1.48 2012-03-30 16:16:39 cr Exp $
+# $Id: TextArea.pm,v 1.48.2.1 2012-05-03 19:32:08 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::DynamicFieldValue;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.48 $) [1];
+$VERSION = qw($Revision: 1.48.2.1 $) [1];
 
 =head1 NAME
 
@@ -201,10 +201,12 @@ sub EditFieldRender {
     }
 
     # set the rows number
-    my $RowsNumber = ( defined $FieldConfig->{Rows} ? $FieldConfig->{Rows} : '7' );
+    my $RowsNumber
+        = defined $FieldConfig->{Rows} && $FieldConfig->{Rows} ? $FieldConfig->{Rows} : '7';
 
     # set the cols number
-    my $ColsNumber = ( defined $FieldConfig->{Cols} ? $FieldConfig->{Cols} : '42' );
+    my $ColsNumber
+        = defined $FieldConfig->{Cols} && $FieldConfig->{Cols} ? $FieldConfig->{Cols} : '42';
 
     # check and set class if necessary
     my $FieldClass = 'DynamicFieldTextArea';
@@ -218,18 +220,30 @@ sub EditFieldRender {
     # set error css class
     $FieldClass .= ' ServerError' if $Param{ServerError};
 
+    # set validation class for maximum 3800 characters
+    $FieldClass .= ' Validate_LengthSearchableText';
+
     my $HTMLString = <<"EOF";
 <textarea class="$FieldClass" id="$FieldName" name="$FieldName" title="$FieldLabel" rows="$RowsNumber" cols="$ColsNumber" >$Value</textarea>
 EOF
 
-    if ( $Param{Mandatory} ) {
-        my $DivID = $FieldName . 'Error';
+    # for client side validation
+    my $DivID = $FieldName . 'Error';
 
-        # for client side validation
+    if ( $Param{Mandatory} ) {
         $HTMLString .= <<"EOF";
     <div id="$DivID" class="TooltipErrorMessage">
         <p>
-            \$Text{"This field is required."}
+            \$Text{"This field is required or The field content is too long! Maximum size is 3800 characters."}
+        </p>
+    </div>
+EOF
+    }
+    else {
+        $HTMLString .= <<"EOF";
+    <div id="$DivID" class="TooltipErrorMessage">
+        <p>
+            \$Text{"The field content is too long! Maximum size is 3800 characters."}
         </p>
     </div>
 EOF
@@ -310,6 +324,11 @@ sub EditFieldValueValidate {
     # perform necessary validations
     if ( $Param{Mandatory} && $Value eq '' ) {
         $ServerError = 1;
+    }
+
+    if ( length $Value > 3800 ) {
+        $ServerError  = 1;
+        $ErrorMessage = 'The field content is too long! Maximum size is 3800 characters.';
     }
 
     # create resulting structure

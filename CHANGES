@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2260.2.8 2012-05-02 23:30:52 cr Exp $
+# $Id: CHANGES,v 1.2260.2.9 2012-05-03 19:32:08 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.1.5 2012-??-??
+ - 2012-05-03 Fixed bug#8446 - Dynamic Field type TextArea missing > 3800 characters validation.
  - 2012-05-02 Fixed bug#8447 - Checkbox Dynamic Field is wrong calculated in statistics.
  - 2012-05-02 Fixed bug#8328 - Statistic containing restriction on dynamic field ignores the
     restriction.
