@@ -1,8 +1,8 @@
 // --
 // Core.Form.Validate.js - provides functions for validating form inputs
-// Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+// Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Form.Validate.js,v 1.34 2011-11-08 12:17:00 mn Exp $
+// $Id: Core.Form.Validate.js,v 1.35 2012-05-03 19:31:27 cr Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -246,6 +246,11 @@ Core.Form.Validate = (function (TargetNS) {
     // If email address should be validated, this function is overwritten in Init method
     $.validator.addMethod("Validate_Email", ValidatorMethodRequired, "");
 
+    // Some databases does not support search on fields with more than 3800 characters
+    $.validator.addMethod("Validate_LengthSearchableText", function (Value, Element) {
+        return (Value.length <= 3800);
+    }, "");
+
     $.validator.addMethod("Validate_DateYear", function (Value, Element) {
         return (parseInt(Value, 10) > 999 && parseInt(Value, 10) < 10000);
     }, "");
@@ -351,6 +356,10 @@ Core.Form.Validate = (function (TargetNS) {
 
     $.validator.addClassRules("Validate_Email", {
         Validate_Email: true
+    });
+
+    $.validator.addClassRules("Validate_LengthSearchableText", {
+        Validate_LengthSearchableText: true
     });
 
     // Backwards compatibility: these methods are deprecated, do not use them!
