@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/TextArea.pm - Delegate for DynamicField TextArea backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TextArea.pm,v 1.49 2012-05-03 19:31:27 cr Exp $
+# $Id: TextArea.pm,v 1.50 2012-05-04 15:42:16 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::DynamicFieldValue;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.49 $) [1];
+$VERSION = qw($Revision: 1.50 $) [1];
 
 =head1 NAME
 
@@ -220,11 +220,20 @@ sub EditFieldRender {
     # set error css class
     $FieldClass .= ' ServerError' if $Param{ServerError};
 
-    # set validation class for maximum 3800 characters
-    $FieldClass .= ' Validate_LengthSearchableText';
+    # set validation class for maximum characters
+    $FieldClass .= ' Validate_MaxLength';
 
+    # create field HTML (set maxlength property to 3800 since is the maximum length of the field
+    # to still be searchable in some databases)
+    # the XHTML definition does not support maxlenght attribute for a textarea field, therefore
+    # is nedded to be set by JS code (otherwise wc3 validator will complaint about it)
     my $HTMLString = <<"EOF";
 <textarea class="$FieldClass" id="$FieldName" name="$FieldName" title="$FieldLabel" rows="$RowsNumber" cols="$ColsNumber" >$Value</textarea>
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+  \$('#$FieldName').attr('maxlength','10');
+//]]></script>
+<!--dtl:js_on_document_complete-->
 EOF
 
     # for client side validation
