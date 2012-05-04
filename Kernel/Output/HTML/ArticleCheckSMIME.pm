@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/ArticleCheckSMIME.pm
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleCheckSMIME.pm,v 1.28 2012-03-26 17:06:42 mg Exp $
+# $Id: ArticleCheckSMIME.pm,v 1.28.2.1 2012-05-04 09:05:18 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Crypt;
 use Kernel::System::EmailParser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.28 $) [1];
+$VERSION = qw($Revision: 1.28.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -170,7 +170,7 @@ sub Check {
                     @Return,
                     {
                         Key   => 'Crypted',
-                        Value => 'Impossible to decrypt: private key for email doesn\'t found!',
+                        Value => 'Impossible to decrypt: private key for email was not found!',
                     }
                 );
                 return @Return;
@@ -189,11 +189,43 @@ sub Check {
                 last PRIVATESEARCH if ( $Decrypt{Successful} );
             }
 
+            # ok, decryption went fine
             if ( $Decrypt{Successful} ) {
+
+                push(
+                    @Return,
+                    {
+                        Key => 'Crypted',
+                        Value => $Decrypt{Message} || 'Successful decryption',
+                        %Decrypt,
+                    }
+                );
+
+                # store decrypted data
+                my $EmailContent = $Decrypt{Data};
+
+                # now check if the data contains a signature too
+                %SignCheck = $Self->{CryptObject}->Verify( Message => $Decrypt{Data}, );
+
+                if ( $SignCheck{SignatureFound} ) {
+
+                  # If the signature was verified well, use the stripped content to store the email.
+                  #   Now it contains only the email without other SMIME generated data.
+                    $EmailContent = $SignCheck{Content} if $SignCheck{Successful};
+
+                    push(
+                        @Return,
+                        {
+                            Key   => 'Signed',
+                            Value => $SignCheck{Message},
+                            %SignCheck,
+                        }
+                    );
+                }
 
                 # parse the decrypted email body
                 my $ParserObject
-                    = Kernel::System::EmailParser->new( %{$Self}, Email => $Decrypt{Data} );
+                    = Kernel::System::EmailParser->new( %{$Self}, Email => $EmailContent );
                 my $Body = $ParserObject->GetMessageBody();
 
                 # updated article body
@@ -222,29 +254,6 @@ sub Check {
                     );
                 }
 
-                push(
-                    @Return,
-                    {
-                        Key => 'Crypted',
-                        Value => $Decrypt{Message} || 'Successfull decryption',
-                        %Decrypt,
-                    }
-                );
-
-                %SignCheck = $Self->{CryptObject}->Verify( Message => $Decrypt{Data}, );
-
-                if ( $SignCheck{SignatureFound} ) {
-
-                    push(
-                        @Return,
-                        {
-                            Key   => 'Signed',
-                            Value => $SignCheck{Message},
-                            %SignCheck,
-                        }
-                    );
-
-                }
                 return @Return;
             }
             else {
