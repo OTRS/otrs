@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Email.pm - the global email send module
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Email.pm,v 1.64.2.2 2010-04-15 19:49:15 mh Exp $
+# $Id: Email.pm,v 1.64.2.3 2012-05-04 04:48:41 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Crypt;
 use Kernel::System::HTMLUtils;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.64.2.2 $) [1];
+$VERSION = qw($Revision: 1.64.2.3 $) [1];
 
 =head1 NAME
 
@@ -373,20 +373,16 @@ sub Send {
                                 && $Upload->{ContentType} =~ /html/i
                                 && $Upload->{Content} eq $Param{HTMLBody};
 
-                        # skip, but remember all attachments except inline images
-                        if (
-                            !defined $Upload->{ContentID}
-                            || $Upload->{ContentID} !~ /^inline/
-                            )
-                        {
-                            push( @NewAttachments, \%{$Upload} );
-                            next ATTACHMENTS;
-                        }
+                       # remember all attachments, force 'related' for content type on inline images
+                        push @NewAttachments, \%{$Upload};
 
-                        # add inline images as related
-                        if ( $PartType ne 'related' ) {
-                            $Entity->make_multipart( 'related;', Force => 1, );
-                            $PartType = 'related';
+                        if ( defined $Upload->{ContentID} ) {
+
+                            # add inline images as related
+                            if ( $PartType ne 'related' ) {
+                                $Entity->make_multipart( 'related;', Force => 1, );
+                                $PartType = 'related';
+                            }
                         }
                     }
                 }
@@ -837,12 +833,12 @@ This software is part of the OTRS project (http://otrs.org/).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (AGPL). If you
-did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
 
 =head1 VERSION
 
-$Revision: 1.64.2.2 $ $Date: 2010-04-15 19:49:15 $
+$Revision: 1.64.2.3 $ $Date: 2012-05-04 04:48:41 $
 
 =cut
