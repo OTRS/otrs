@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/TextArea.pm - Delegate for DynamicField TextArea backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TextArea.pm,v 1.48.2.2 2012-05-04 15:42:26 cr Exp $
+# $Id: TextArea.pm,v 1.48.2.3 2012-05-04 15:48:27 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::DynamicFieldValue;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.48.2.2 $) [1];
+$VERSION = qw($Revision: 1.48.2.3 $) [1];
 
 =head1 NAME
 
@@ -231,7 +231,7 @@ sub EditFieldRender {
 <textarea class="$FieldClass" id="$FieldName" name="$FieldName" title="$FieldLabel" rows="$RowsNumber" cols="$ColsNumber" >$Value</textarea>
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
-  \$('#$FieldName').attr('maxlength','10');
+  \$('#$FieldName').attr('maxlength','3800');
 //]]></script>
 <!--dtl:js_on_document_complete-->
 EOF
