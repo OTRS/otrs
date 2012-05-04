@@ -2,7 +2,7 @@
 // Core.Form.Validate.js - provides functions for validating form inputs
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Form.Validate.js,v 1.34.2.1 2012-05-03 19:32:08 cr Exp $
+// $Id: Core.Form.Validate.js,v 1.34.2.2 2012-05-04 15:42:26 cr Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -246,10 +246,7 @@ Core.Form.Validate = (function (TargetNS) {
     // If email address should be validated, this function is overwritten in Init method
     $.validator.addMethod("Validate_Email", ValidatorMethodRequired, "");
 
-    // Some databases does not support search on fields with more than 3800 characters
-    $.validator.addMethod("Validate_LengthSearchableText", function (Value, Element) {
-        return (Value.length <= 3800);
-    }, "");
+    $.validator.addMethod("Validate_MaxLength", $.validator.methods.maxlength, "");
 
     $.validator.addMethod("Validate_DateYear", function (Value, Element) {
         return (parseInt(Value, 10) > 999 && parseInt(Value, 10) < 10000);
@@ -358,8 +355,11 @@ Core.Form.Validate = (function (TargetNS) {
         Validate_Email: true
     });
 
-    $.validator.addClassRules("Validate_LengthSearchableText", {
-        Validate_LengthSearchableText: true
+    // Use the maxlength attribute to have a dynamic validation
+    // textarea fields will need JS code to set the maxlength attribute since is not supported by
+    // XHTML
+    $.validator.addClassRules("Validate_MaxLength", {
+        Validate_MaxLength: $(Element).attr('maxlength')
     });
 
     // Backwards compatibility: these methods are deprecated, do not use them!
