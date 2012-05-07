@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/TextArea.pm - Delegate for DynamicField TextArea backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TextArea.pm,v 1.48.2.3 2012-05-04 15:48:27 cr Exp $
+# $Id: TextArea.pm,v 1.48.2.4 2012-05-07 21:43:10 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::DynamicFieldValue;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.48.2.3 $) [1];
+$VERSION = qw($Revision: 1.48.2.4 $) [1];
 
 =head1 NAME
 
@@ -61,6 +61,10 @@ sub new {
     $Self->{DynamicFieldValueObject} = Kernel::System::DynamicFieldValue->new( %{$Self} );
     $Self->{BackendCommonObject}
         = Kernel::System::DynamicField::Backend::BackendCommon->new( %{$Self} );
+
+    # set the maximum lenght for the textarea fields to still be a searchable field in some
+    # databases
+    $Self->{MaxLength} = 3800;
 
     return $Self;
 }
@@ -223,15 +227,17 @@ sub EditFieldRender {
     # set validation class for maximum characters
     $FieldClass .= ' Validate_MaxLength';
 
-    # create field HTML (set maxlength property to 3800 since is the maximum length of the field
-    # to still be searchable in some databases)
+    # create field HTML
     # the XHTML definition does not support maxlenght attribute for a textarea field, therefore
     # is nedded to be set by JS code (otherwise wc3 validator will complaint about it)
+    # notice that some browsers count new lines \n\r as only 1 character in this cases the
+    # validation framework might rise an error while the user is still capable to enter text in the
+    # textarea, otherwise the maxlenght property will prevent to enter more text than the maximum
     my $HTMLString = <<"EOF";
 <textarea class="$FieldClass" id="$FieldName" name="$FieldName" title="$FieldLabel" rows="$RowsNumber" cols="$ColsNumber" >$Value</textarea>
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
-  \$('#$FieldName').attr('maxlength','3800');
+  \$('#$FieldName').attr('maxlength','$Self->{MaxLength}');
 //]]></script>
 <!--dtl:js_on_document_complete-->
 EOF
@@ -243,7 +249,7 @@ EOF
         $HTMLString .= <<"EOF";
     <div id="$DivID" class="TooltipErrorMessage">
         <p>
-            \$Text{"This field is required or The field content is too long! Maximum size is 3800 characters."}
+            \$Text{"This field is required or The field content is too long! Maximum size is $Self->{MaxLength} characters."}
         </p>
     </div>
 EOF
@@ -252,7 +258,7 @@ EOF
         $HTMLString .= <<"EOF";
     <div id="$DivID" class="TooltipErrorMessage">
         <p>
-            \$Text{"The field content is too long! Maximum size is 3800 characters."}
+            \$Text{"The field content is too long! Maximum size is $Self->{MaxLength} characters."}
         </p>
     </div>
 EOF
@@ -335,9 +341,10 @@ sub EditFieldValueValidate {
         $ServerError = 1;
     }
 
-    if ( length $Value > 3800 ) {
-        $ServerError  = 1;
-        $ErrorMessage = 'The field content is too long! Maximum size is 3800 characters.';
+    if ( length $Value > $Self->{MaxLength} ) {
+        $ServerError = 1;
+        $ErrorMessage
+            = "The field content is too long! Maximum size is $Self->{MaxLength} characters.";
     }
 
     # create resulting structure
