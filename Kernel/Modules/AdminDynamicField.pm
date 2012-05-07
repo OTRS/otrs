@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminDynamicField.pm - provides a dynamic fields view for admins
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminDynamicField.pm,v 1.16 2012-04-26 23:02:24 cr Exp $
+# $Id: AdminDynamicField.pm,v 1.17 2012-05-07 19:18:04 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::DynamicField;
 use Kernel::System::DynamicField::Backend;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -59,16 +59,6 @@ sub Run {
         $Self->{LayoutObject}->ChallengeTokenCheck();
 
         return $Self->_DynamicFieldDelete(
-            %Param,
-        );
-    }
-
-    if ( $Self->{Subaction} eq 'DynamicFieldOrderReset' ) {
-
-        # challenge token check for write action
-        $Self->{LayoutObject}->ChallengeTokenCheck();
-
-        return $Self->_DynamicFieldOrderReset(
             %Param,
         );
     }
@@ -138,13 +128,8 @@ sub _ShowOverview {
     # check for posible order collitions or gaps
     my $OrderSuccess = $Self->{DynamicFieldObject}->DynamicFieldOrderCheck();
     if ( !$OrderSuccess ) {
-
-        # create notification error
-        $Output .= $Self->{LayoutObject}->Notify(
-            Priority => 'Error',
-            Info     => 'An error in Dynamic Fields order has been detected, click here to reset!',
-            Link     => '$Env{"Baselink"}Action=AdminDynamicField;Subaction=DynamicFieldOrderReset;'
-                . '$Env{"ChallengeTokenParam"}',
+        return $Self->_DynamicFieldOrderReset(
+            %Param,
         );
     }
 
