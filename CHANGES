@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2260.2.10 2012-05-04 09:05:18 mg Exp $
+# $Id: CHANGES,v 1.2260.2.11 2012-05-07 09:12:22 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,6 +24,7 @@
  - 2012-04-26 Fixed bug#8424 - Ticket articles of large tickets cannot be opened.
  - 2012-04-25 Added possibility to specify a cache type for selective cache cleaning
     in bin/otrs.DeleteCache.
+ - 2012-04-24 Added possibility to define ACL rules by user role.
  - 2012-04-24 Fixed bug#8415 - Setting Ticket::Responsible ignored by AgentTicketActionCommon.
  - 2012-04-24 Fixed bug#8288 - Autocomplete search results show up in Times font when using Internet Explorer.
  - 2012-04-24 Fixed bug#8414 - ACL for AgentTicketCustomer in AgentTicketZoom doesn't affect
