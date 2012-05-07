@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2273 2012-05-07 22:08:39 cr Exp $
+# $Id: CHANGES,v 1.2274 2012-05-07 22:41:07 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,6 +15,7 @@
     NotificationEvent definitions.
 
 3.1.5 2012-??-??
+ - 2012-05-08 Fixed bug#8461 - CustomerTicketSearch doesn't use ticket ACL rules.
  - 2012-05-04 Fixed bug#7877 - SMIME emails don't get parsed properly (follow-up fix).
  - 2012-05-03 Fixed bug#8446 - Dynamic Field type TextArea missing > 3800 characters validation.
  - 2012-05-02 Fixed bug#8447 - Checkbox Dynamic Field is wrong calculated in statistics.
