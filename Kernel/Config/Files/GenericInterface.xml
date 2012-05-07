@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: GenericInterface.xml,v 1.41 2012-03-18 14:09:10 mh Exp $</CVS>
+    <CVS>$Id: GenericInterface.xml,v 1.42 2012-05-07 22:08:38 cr Exp $</CVS>
     <ConfigItem Name="Ticket::EventModulePost###1000-GenericInterface" Required="0" Valid="1">
         <Description Translatable="1">Performs the configured action for each event (as an Invoker) for each configured Webservice.</Description>
         <Group>GenericInterface</Group>
@@ -383,14 +383,6 @@
             <String Regex="">webrequest</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="GenericInterface::Operation::TicketCreate###SenderType" Required="1" Valid="1">
-        <Description Translatable="1">Defines the default sender type of the article for this operation.</Description>
-        <Group>GenericInterface</Group>
-        <SubGroup>Ticket::Operation::TicketCreate</SubGroup>
-        <Setting>
-            <String Regex="">agent</String>
-        </Setting>
-    </ConfigItem>
     <ConfigItem Name="GenericInterface::Operation::TicketCreate###HistoryType" Required="1" Valid="1">
         <Description Translatable="1">Defines the history type for this operation, which gets used for ticket history in the agent interface.</Description>
         <Group>GenericInterface</Group>
@@ -422,14 +414,6 @@
         <SubGroup>Ticket::Operation::TicketUpdate</SubGroup>
         <Setting>
             <String Regex="">webrequest</String>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="GenericInterface::Operation::TicketUpdate###SenderType" Required="1" Valid="1">
-        <Description Translatable="1">Defines the default sender type of the article for this operation.</Description>
-        <Group>GenericInterface</Group>
-        <SubGroup>Ticket::Operation::TicketUpdate</SubGroup>
-        <Setting>
-            <String Regex="">agent</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="GenericInterface::Operation::TicketUpdate###HistoryType" Required="1" Valid="1">

@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Ticket/TicketUpdate.pm - GenericInterface Ticket TicketUpdate operation backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketUpdate.pm,v 1.4 2012-03-28 06:24:51 ep Exp $
+# $Id: TicketUpdate.pm,v 1.5 2012-05-07 22:08:39 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Kernel::GenericInterface::Operation::Ticket::Common;
 use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 =head1 NAME
 
@@ -418,7 +418,7 @@ sub Run {
             $Article->{ArticleType} = $Self->{Config}->{ArticleType} || '';
         }
         if ( !$Article->{SenderTypeID} && !$Article->{SenderType} ) {
-            $Article->{SenderType} = $Self->{Config}->{SenderType} || '';
+            $Article->{SenderType} = $UserType eq 'Agent' ? 'agent' : 'customer';
         }
         if ( !$Article->{HistoryType} ) {
             $Article->{HistoryType} = $Self->{Config}->{HistoryType} || '';
@@ -2021,6 +2021,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.4 $ $Date: 2012-03-28 06:24:51 $
+$Revision: 1.5 $ $Date: 2012-05-07 22:08:39 $
 
 =cut
