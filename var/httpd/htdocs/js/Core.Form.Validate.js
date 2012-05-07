@@ -2,7 +2,7 @@
 // Core.Form.Validate.js - provides functions for validating form inputs
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Form.Validate.js,v 1.36 2012-05-04 15:42:17 cr Exp $
+// $Id: Core.Form.Validate.js,v 1.37 2012-05-07 21:43:20 cr Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -246,7 +246,16 @@ Core.Form.Validate = (function (TargetNS) {
     // If email address should be validated, this function is overwritten in Init method
     $.validator.addMethod("Validate_Email", ValidatorMethodRequired, "");
 
-    $.validator.addMethod("Validate_MaxLength", $.validator.methods.maxlength, "");
+    // Use the maxlength attribute to have a dynamic validation
+    // Textarea fields will need JS code to set the maxlength attribute since is not supported by
+    // XHTML
+    $.validator.addMethod("Validate_MaxLength",function (Value, Element) {
+
+        // JS takes new lines '\n\r' in textarea elements as 1 character '\n' for length
+        // calculation purposes therefore is needed to re-add the '\r' to get the correct length
+        // for validation and match to perl and database criteria
+        return ( Value.replace(/\n/g, "\n\r").length <= $(Element).attr('maxlength') );
+    }, "");
 
     $.validator.addMethod("Validate_DateYear", function (Value, Element) {
         return (parseInt(Value, 10) > 999 && parseInt(Value, 10) < 10000);
@@ -355,11 +364,8 @@ Core.Form.Validate = (function (TargetNS) {
         Validate_Email: true
     });
 
-    // Use the maxlength attribute to have a dynamic validation
-    // textarea fields will need JS code to set the maxlength attribute since is not supported by
-    // XHTML
     $.validator.addClassRules("Validate_MaxLength", {
-        Validate_MaxLength: $(Element).attr('maxlength')
+        Validate_MaxLength: true
     });
 
     // Backwards compatibility: these methods are deprecated, do not use them!
