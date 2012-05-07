@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Customer Frontend
- * @version     $Revision: 1.9 $
+ * @version     $Revision: 1.10 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -119,6 +119,34 @@
 }
 
 .RTL #Metadata .Print {
+    margin: -2px 4px 0 0;
+}
+
+#Metadata .ZoomExpandOne {
+    width: 16px;
+    height: 16px;
+    margin: 0 0 0 2px;
+    line-height: 16px;
+    background: url(../img/zoomexpandone.png) no-repeat;
+    text-indent: -9999px;
+    display: block;
+}
+
+.RTL #Metadata .ZoomExpandOne {
+    margin: -2px 4px 0 0;
+}
+
+#Metadata .ZoomExpandAll {
+    width: 16px;
+    height: 16px;
+    margin: 0 0 0 2px;
+    line-height: 16px;
+    background: url(../img/zoomexpandall.png) no-repeat;
+    text-indent: -9999px;
+    display: block;
+}
+
+.RTL #Metadata .ZoomExpandAll {
     margin: -2px 4px 0 0;
 }
 

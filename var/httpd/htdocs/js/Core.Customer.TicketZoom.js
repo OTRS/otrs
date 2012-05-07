@@ -1,8 +1,8 @@
 // --
 // Core.Customer.js - provides functions for the customer login
-// Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+// Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Customer.TicketZoom.js,v 1.11 2011-02-17 21:30:59 en Exp $
+// $Id: Core.Customer.TicketZoom.js,v 1.12 2012-05-07 22:53:54 cg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -186,10 +186,11 @@ Core.Customer.TicketZoom = (function (TargetNS) {
     TargetNS.Init = function(){
         var $Messages = $('#Messages > li'),
             $VisibleMessage = $Messages.last(),
-            $VisibleIframe = $('#VisibleFrame'),
+            $VisibleIframe = $('.VisibleFrame'),
             $MessageHeaders = $('.MessageHeader', $Messages),
             $FollowUp = $('#FollowUp'),
-            $RTE = $('#RichText');
+            $RTE = $('#RichText'),
+            ZoomExpand = $('#ZoomExpand').val();
 
         $MessageHeaders.click(function(Event){
             ToggleMessage($(this).parent());
@@ -206,9 +207,16 @@ Core.Customer.TicketZoom = (function (TargetNS) {
             $FollowUp.removeClass('Visible');
             $('html').css({scrollTop: $('#Body').height()});
         });
-        /* correct the status saved in the hidden field of the initial visible message */
-        $('> input[name=ArticleState]', $VisibleMessage).val("true");
-        HideQuote($VisibleIframe.get(0));
+        /* correct the status saved in the hidden field for all visible messages if ZoomExpand is present*/
+        if (!ZoomExpand || isNaN(ZoomExpand)) {
+            $('> input[name=ArticleState]', $Messages).val("true");
+            HideQuote($VisibleIframe);
+        }
+        else {
+            /* correct the status saved in the hidden field of the initial visible message */
+            $('> input[name=ArticleState]', $VisibleMessage).val("true");
+            HideQuote($VisibleIframe.get(0));
+        }
     };
 
     return TargetNS;

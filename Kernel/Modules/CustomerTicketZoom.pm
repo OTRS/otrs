@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.pm,v 1.88 2012-01-27 12:29:12 mb Exp $
+# $Id: CustomerTicketZoom.pm,v 1.89 2012-05-07 22:52:15 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.88 $) [1];
+$VERSION = qw($Revision: 1.89 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -43,9 +43,14 @@ sub new {
         }
     }
 
-    $Self->{AgentUserObject} = Kernel::System::User->new(%Param);
+    # get params
+    $Self->{ZoomExpand} = $Self->{ParamObject}->GetParam( Param => 'ZoomExpand' );
+    if ( !defined $Self->{ZoomExpand} ) {
+        $Self->{ZoomExpand} = $Self->{ConfigObject}->Get('Ticket::Frontend::ZoomExpand') || '';
+    }
 
     # needed objects
+    $Self->{AgentUserObject}    = Kernel::System::User->new(%Param);
     $Self->{StateObject}        = Kernel::System::State->new(%Param);
     $Self->{UploadCacheObject}  = Kernel::System::Web::UploadCache->new(%Param);
     $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new(%Param);
@@ -606,12 +611,26 @@ sub _Mask {
         );
     }
 
+    # Expand option
+    my $ExpandOption = ( $Self->{ZoomExpand} ? 'One' : 'All' );
+    my $ExpandPlural = ( $ExpandOption eq 'All' ? 's' : '' );
+    $Self->{LayoutObject}->Block(
+        Name => 'Expand',
+        Data => {
+            ZoomExpand   => !$Self->{ZoomExpand},
+            ExpandOption => $ExpandOption,
+            ExpandText   => lc($ExpandOption),
+            ExpandPlural => $ExpandPlural,
+            %Param,
+        },
+    );
+
     my $LastSenderType = '';
     for my $ArticleTmp (@ArticleBox) {
         my %Article = %$ArticleTmp;
 
         # check if article should be expanded (visible)
-        if ( $SelectedArticleID eq $Article{ArticleID} ) {
+        if ( $SelectedArticleID eq $Article{ArticleID} || $Self->{ZoomExpand} ) {
             $Article{Class} = 'Visible';
         }
 
@@ -635,7 +654,7 @@ sub _Mask {
         );
 
         # show the correct title: "expand article..." or the article's subject
-        if ( $SelectedArticleID eq $Article{ArticleID} ) {
+        if ( $SelectedArticleID eq $Article{ArticleID} || $Self->{ZoomExpand} ) {
             $Self->{LayoutObject}->Block(
                 Name => 'ArticleExpanded',
                 Data => \%Article,
@@ -737,7 +756,7 @@ sub _Mask {
         # text is not enabled)
         my $RichText = $Self->{LayoutObject}->{BrowserRichText};
         if ( $RichText && $Article{AttachmentIDOfHTMLBody} ) {
-            if ( $SelectedArticleID eq $Article{ArticleID} ) {
+            if ( $SelectedArticleID eq $Article{ArticleID} || $Self->{ZoomExpand} ) {
                 $Self->{LayoutObject}->Block(
                     Name => 'BodyHTMLLoad',
                     Data => {
