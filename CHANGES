@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2275 2012-05-08 07:46:32 mg Exp $
+# $Id: CHANGES,v 1.2276 2012-05-08 15:42:56 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,6 +15,7 @@
     NotificationEvent definitions.
 
 3.1.5 2012-??-??
+ - 2012-05-08 Fided bug#8465 - Can't create cache for web service debug log on win32 platforms.
  - 2012-05-08 Fixed bug#7919 - Translation of ticket states in CSV Export of CustomerTicketSearch.
  - 2012-05-08 Fixed bug#8461 - CustomerTicketSearch doesn't use ticket ACL rules.
  - 2012-05-04 Fixed bug#7877 - SMIME emails don't get parsed properly (follow-up fix).
