@@ -2,7 +2,7 @@
 // Core.Form.Validate.js - provides functions for validating form inputs
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Form.Validate.js,v 1.37 2012-05-07 21:43:20 cr Exp $
+// $Id: Core.Form.Validate.js,v 1.38 2012-05-08 23:19:17 cr Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -254,7 +254,7 @@ Core.Form.Validate = (function (TargetNS) {
         // JS takes new lines '\n\r' in textarea elements as 1 character '\n' for length
         // calculation purposes therefore is needed to re-add the '\r' to get the correct length
         // for validation and match to perl and database criteria
-        return ( Value.replace(/\n/g, "\n\r").length <= $(Element).attr('maxlength') );
+        return ( Value.replace(/\n\r?/g, "\n\r").length <= $(Element).attr('maxlength') );
     }, "");
 
     $.validator.addMethod("Validate_DateYear", function (Value, Element) {
