@@ -1,8 +1,8 @@
 # --
 # Kernel/System/GenericInterface/DebugLog.pm - log interface for generic interface
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DebugLog.pm,v 1.18 2011-08-09 07:13:27 mb Exp $
+# $Id: DebugLog.pm,v 1.18.2.1 2012-05-08 15:48:20 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CacheInternal;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.18.2.1 $) [1];
 
 =head1 NAME
 
@@ -42,7 +42,6 @@ create a debug log object
     use Kernel::System::Encode;
     use Kernel::System::Log;
     use Kernel::System::Main;
-    use Kernel::System::CacheInternal;
     use Kernel::System::DB;
     use Kernel::System::GenericInterface::DebugLog;
 
@@ -58,12 +57,6 @@ create a debug log object
         ConfigObject => $ConfigObject,
         EncodeObject => $EncodeObject,
         LogObject    => $LogObject,
-    );
-    my $CacheInternalObject = Kernel::System::CacheInternal->new(
-        ConfigObject => $ConfigObject,
-        LogObject    => $LogObject,
-        MainObject   => $MainObject,
-        EncodeObject => $EncodeObject,
     );
     my $DBObject = Kernel::System::DB->new(
         ConfigObject => $ConfigObject,
@@ -99,7 +92,7 @@ sub new {
     # create additional objects
     $Self->{CacheInternalObject} = Kernel::System::CacheInternal->new(
         %Param,
-        Type => 'GenericInterface::DebugLog',
+        Type => 'GenericInterfaceDebugLog',
         TTL  => 60 * 60,
     );
 
@@ -547,9 +540,7 @@ sub LogDelete {
     }
 
     # clean cache
-    $Self->{CacheInternalObject}->CleanUp(
-        Key => 'GenericInterface::DebugLog',
-    );
+    $Self->{CacheInternalObject}->CleanUp();
 
     return 1;
 }
@@ -876,6 +867,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.18 $ $Date: 2011-08-09 07:13:27 $
+$Revision: 1.18.2.1 $ $Date: 2012-05-08 15:48:20 $
 
 =cut
