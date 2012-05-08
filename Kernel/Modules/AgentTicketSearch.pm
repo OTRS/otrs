@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.pm,v 1.145 2012-03-30 17:23:54 cr Exp $
+# $Id: AgentTicketSearch.pm,v 1.146 2012-05-08 07:46:32 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.145 $) [1];
+$VERSION = qw($Revision: 1.146 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -763,6 +763,10 @@ sub Run {
                     DynamicFields => 1,
                 );
 
+                for my $Key (qw(State Lock)) {
+                    $Data{$Key} = $Self->{LayoutObject}->{LanguageObject}->Get( $Data{$Key} );
+                }
+
                 $Data{Age} = $Self->{LayoutObject}->CustomerAge( Age => $Data{Age}, Space => ' ' );
 
                 # get whole article (if configured!)
@@ -862,8 +866,18 @@ sub Run {
                 my %UserData = $Self->{UserObject}->GetUserData( UserID => $Self->{UserID} );
                 $UserCSVSeparator = $UserData{UserCSVSeparator};
             }
+
+            my %HeaderMap = (
+                TicketNumber => 'Ticket Number',
+                CustomerName => 'customer realname',
+            );
+
+            my @CSVHeadTranslated
+                = map { $Self->{LayoutObject}->{LanguageObject}->Get( $HeaderMap{$_} || $_ ); }
+                @CSVHead;
+
             my $CSV = $Self->{CSVObject}->Array2CSV(
-                Head      => \@CSVHead,
+                Head      => \@CSVHeadTranslated,
                 Data      => \@CSVData,
                 Separator => $UserCSVSeparator,
             );
