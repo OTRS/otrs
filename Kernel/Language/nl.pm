@@ -8,19 +8,12 @@
 # Copyright (C) 2010 Ton van Boven <ton 'at' avebo.nl>
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: nl.pm,v 1.183 2012-04-17 07:11:54 mg Exp $
+# $Id: nl.pm,v 1.183.2.1 2012-05-09 08:01:12 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
-
-# Not translated terms / words:
-
-# Agent Area --> it's clear what that does
-# Bounce
-# Contract
-# Upload
 
 package Kernel::Language::nl;
 
@@ -28,7 +21,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.183 $) [1];
+$VERSION = qw($Revision: 1.183.2.1 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -68,7 +61,7 @@ sub Data {
         'before' => 'voor',
         'Today' => 'Vandaag',
         'Tomorrow' => 'Morgen',
-        'Next week' => '',
+        'Next week' => 'Volgende week',
         'day' => 'dag',
         'days' => 'dagen',
         'day(s)' => 'dag(en)',
@@ -161,7 +154,7 @@ sub Data {
         'CustomerID' => 'Klantcode',
         'CustomerIDs' => 'Klantcodes',
         'customer' => 'klant',
-        'agent' => 'gebruiker',
+        'agent' => 'behandelaar',
         'system' => 'systeem',
         'Customer Info' => 'Klantinformatie',
         'Customer Information' => 'Klantinformatie',
@@ -177,9 +170,9 @@ sub Data {
         'update' => 'opslaan',
         'Update' => 'Opslaan',
         'Updated!' => 'Gewijzigd',
-        'submit!' => 'opslaan',
-        'submit' => 'opslaan',
-        'Submit' => 'Opslaan',
+        'submit!' => 'versturen',
+        'submit' => 'versturen',
+        'Submit' => 'Versturen',
         'change!' => 'wijzigen',
         'Change' => 'Wijzigen',
         'change' => 'wijzigen',
@@ -246,7 +239,7 @@ sub Data {
         'Logout successful. Thank you for using OTRS!' => 'U bent afgemeld. Bedankt voor het gebruiken van OTRS.',
         'Invalid SessionID!' => 'Ongeldige SessieID.',
         'Feature not active!' => 'Deze functie is niet actief.',
-        'Agent updated!' => 'Gebruiker aangepast.',
+        'Agent updated!' => 'Behandelaar aangepast.',
         'Create Database' => 'Database aanmaken',
         'System Settings' => 'Systeemconfiguratie',
         'Mail Configuration' => 'E-mailconfiguratie',
@@ -269,7 +262,7 @@ sub Data {
         'Time Zone' => 'Tijdzone',
         'Pending till' => 'In de wacht tot',
         'Don\'t use the Superuser account to work with OTRS! Create new Agents and work with these accounts instead.' =>
-            'Werk niet met het SuperUser account. Maak gebruikersaccounts aan.',
+            'Werk niet met het SuperUser account. Maak andere accounts aan.',
         'Dispatching by email To: field.' => 'Toewijzen gebaseerd op e-mailadres.',
         'Dispatching by selected Queue.' => 'Toewijzen gebaseerd op geselecteerde wachtrij.',
         'No entry found!' => 'Niets gevonden.',
@@ -278,7 +271,7 @@ sub Data {
         '(Click here to add)' => '(Klik hier om toe te voegen)',
         'Preview' => 'Voorbeeld',
         'Package not correctly deployed! Please reinstall the package.' =>
-            'Pakket onjuist geïnstalleerd. Installeer het paket opnieuw.',
+            'Pakket onjuist geïnstalleerd. Installeer het pakket opnieuw.',
         '%s is not writable!' => '%s is niet schrijfbaar.',
         'Cannot create %s!' => 'Kan %s niet aanmaken.',
         'Check to activate this date' => 'Selecteer om deze datum te gebruiken',
@@ -307,7 +300,7 @@ sub Data {
         'System e-mail address updated!' => 'E-mailadres bijgewerkt.',
         'Contract' => 'Contract',
         'Online Customer: %s' => 'Online klanten: %s',
-        'Online Agent: %s' => 'Online gebruikers: %s',
+        'Online Agent: %s' => 'Online behandelaars: %s',
         'Calendar' => 'Kalender',
         'File' => 'Bestand',
         'Filename' => 'Bestandsnaam',
@@ -404,10 +397,10 @@ sub Data {
         'New Year\'s Eve' => 'Oudjaarsdag',
 
         # Template: AAAGenericInterface
-        'OTRS as requester' => '',
-        'OTRS as provider' => '',
-        'Webservice "%s" created!' => '',
-        'Webservice "%s" updated!' => '',
+        'OTRS as requester' => 'OTRS als requester',
+        'OTRS as provider' => 'OTRS als provider',
+        'Webservice "%s" created!' => 'Webservice "%s" is aangemaakt.',
+        'Webservice "%s" updated!' => 'Webservice "%s" is bijgewerkt.',
 
         # Template: AAAMonth
         'Jan' => 'jan',
@@ -504,8 +497,8 @@ sub Data {
         'graph-area' => 'vlakkengrafiek',
         'graph-pie' => 'taartpuntengrafiek',
         'extended' => 'uitgebreid',
-        'Agent/Owner' => 'Gebruiker/eigenaar',
-        'Created by Agent/Owner' => 'Aangemaakt door gebruiker/eigenaar',
+        'Agent/Owner' => 'Behandelaar/eigenaar',
+        'Created by Agent/Owner' => 'Aangemaakt door behandelaar/eigenaar',
         'Created Priority' => 'Aangemaakt met prioriteit',
         'Created State' => 'Aangemaakt met status',
         'Create Time' => 'Aangemaakt op',
@@ -530,7 +523,7 @@ sub Data {
         'Article Min Time' => 'Minimumtijd voor interactie',
         'Article Max Time' => 'Maximumtijd voor interactie',
         'Number of Articles' => 'Aantal interacties',
-        'Accounted time by Agent' => 'Bestede tijd per gebruiker',
+        'Accounted time by Agent' => 'Bestede tijd per behandelaar',
         'Ticket/Article Accounted Time' => 'Bestede tijd voor ticket en interacties',
         'TicketAccountedTime' => 'Bestede tijd voor ticket',
         'Ticket Create Time' => 'Aanmaaktijd ticket',
@@ -664,7 +657,7 @@ sub Data {
         'Sorry, you need to be the ticket owner to perform this action.' =>
             'U moet de eigenaar zijn om deze actie uit te voeren.',
         'Ticket selected.' => 'Ticket geselecteerd.',
-        'Ticket is locked by another agent.' => 'Dit ticket is vergrendeld door een andere gebruiker.',
+        'Ticket is locked by another agent.' => 'Dit ticket is vergrendeld door een andere behandelaar.',
         'Ticket locked.' => 'Ticket vergrendeld.',
         'Don\'t show closed Tickets' => 'Gesloten tickets niet tonen',
         'Show closed Tickets' => 'Gesloten tickets wel tonen',
@@ -696,7 +689,7 @@ sub Data {
         'Unwatch' => 'Stop met volgen',
         'Lock it to work on it' => 'Vergrendel dit ticket',
         'Unlock to give it back to the queue' => 'Ontgrendelen om dit ticket vrij te geven',
-        'Show the ticket history' => '',
+        'Show the ticket history' => 'Toon de ticket-geschiedenis',
         'Print this ticket' => 'Print dit ticket',
         'Print this article' => 'Print deze interactie',
         'Split this article' => 'Splits deze interactie',
@@ -727,9 +720,9 @@ sub Data {
         'Plain Format' => 'Broncode',
         'Reply All' => 'Allen beantwoorden',
         'Direction' => 'Richting',
-        'Agent (All with write permissions)' => 'Gebruikers (met schrijfrechten)',
-        'Agent (Owner)' => 'Gebruiker (eigenaar)',
-        'Agent (Responsible)' => 'Agent (verantwoordelijke)',
+        'Agent (All with write permissions)' => 'Behandelaars (met schrijfrechten)',
+        'Agent (Owner)' => 'Behandelaar (eigenaar)',
+        'Agent (Responsible)' => 'Behandelaar (verantwoordelijke)',
         'New ticket notification' => 'Melding bij een nieuw ticket',
         'Send me a notification if there is a new ticket in "My Queues".' =>
             'Stuur mij een melding als er een nieuw ticket in \'Mijn wachtrijen\' komt.',
@@ -799,7 +792,7 @@ sub Data {
         'History::SendAnswer' => 'E-mail verstuurd aan "%s".',
         'History::SendAgentNotification' => '"%s" melding verstuurd aan "%s".',
         'History::SendCustomerNotification' => 'Melding verstuurd aan "%s".',
-        'History::EmailAgent' => 'E-mail verzonden aan gebruiker.',
+        'History::EmailAgent' => 'E-mail verzonden aan behandelaar.',
         'History::EmailCustomer' => 'E-mail toegevoegd. %s',
         'History::PhoneCallAgent' => 'Klant gebeld.',
         'History::PhoneCallCustomer' => 'Klant heeft gebeld.',
@@ -950,10 +943,10 @@ sub Data {
         'Label' => 'Label',
         'Order' => 'Volgorde',
         'Object' => 'Object',
-        'Delete this field' => '',
+        'Delete this field' => 'Verwijder dit veld',
         'Do you really want to delete this dynamic field? ALL associated data will be LOST!' =>
-            '',
-        'Delete field' => '',
+            'Wilt u dit veld definitief verwijderen? Alle data in dit veld wordt ook verwijderd!',
+        'Delete field' => 'Verwijder veld',
 
         # Template: AdminDynamicFieldCheckbox
         'Dynamic Fields' => 'Dynamische velden',
@@ -1002,7 +995,7 @@ sub Data {
         'Remove value' => 'Waarde verwijderen',
         'Add value' => 'Waarde toevoegen',
         'Add Value' => 'Waarde toevoegen',
-        'Add empty value' => '',
+        'Add empty value' => 'Lege waarde toevoegen',
         'Activate this option to create an empty selectable value.' => 'Activeer deze optie om een lege selecteerbare waarde toe te voeten.',
         'Translatable values' => 'Waarden zijn vertaalbaar',
         'If you activate this option the values will be translated to the user defined language.' =>
@@ -1024,13 +1017,13 @@ sub Data {
         # Template: AdminEmail
         'Admin Notification' => 'Melding van de beheerder',
         'With this module, administrators can send messages to agents, group or role members.' =>
-            'Vanuit dit scherm kunt u een bericht sturen aan gebruikers of klanten.',
+            'Vanuit dit scherm kunt u een bericht sturen aan behandelaars of klanten.',
         'Create Administrative Message' => 'Stuur een bericht',
         'Your message was sent to' => 'Uw bericht is verstuurd aan',
         'Send message to users' => 'Stuur bericht aan gebruikers',
-        'Send message to group members' => 'Stuur bericht aan gebruikers met groep',
+        'Send message to group members' => 'Stuur bericht aan accounts met groep',
         'Group members need to have permission' => 'Leden van de groep moeten permissies hebben',
-        'Send message to role members' => 'Stuur bericht naar gebruikers met rol',
+        'Send message to role members' => 'Stuur bericht naar accounts met rol',
         'Also send to customers in groups' => 'Stuur ook naar klanten in deze groepen',
         'Body' => 'Bericht tekst',
         'Send' => 'Verstuur',
@@ -1058,7 +1051,7 @@ sub Data {
         'Customer login' => 'Klant login',
         '(e. g. U5150)' => '(bijvoorbeeld U5150)',
         'Fulltext-search in article (e. g. "Mar*in" or "Baue*").' => 'Zoek in tekst van een interactie. Gebruik wildcards (bijvoorbeeld "Mar*in" of "Jans*").',
-        'Agent' => 'Gebruiker',
+        'Agent' => 'Behandelaar',
         'Ticket lock' => 'Vergrendeling',
         'Create times' => 'Tijdstip van aanmaken',
         'No create time settings.' => 'Alle',
@@ -1096,7 +1089,7 @@ sub Data {
         'Set new priority' => 'Nieuwe prioriteit',
         'Set new queue' => 'Nieuwe wachtrij',
         'Set new state' => 'Nieuwe status',
-        'Set new agent' => 'Nieuwe gebruiker',
+        'Set new agent' => 'Nieuwe behandelaar',
         'new owner' => 'nieuwe eigenaar',
         'new responsible' => 'nieuwe verantwoordelijke',
         'Set new ticket lock' => 'Nieuwe vergrendeling',
@@ -1104,13 +1097,13 @@ sub Data {
         'New customer ID' => 'Nieuwe klantcode',
         'New title' => 'Nieuwe titel',
         'New type' => 'Nieuw type',
-        'New Dynamic Field Values' => '',
+        'New Dynamic Field Values' => 'Nieuwe dynamische velden',
         'Archive selected tickets' => 'Archiveer geselecteerde tickets',
         'Add Note' => 'Notitie toevoegen',
         'Time units' => 'Bestede tijd',
         ' (work units)' => ' (in minuten)',
         'Ticket Commands' => 'Geavanceerd',
-        'Send agent/customer notifications on changes' => 'Stuur gebruiker/klant een melding bij wijzigingen',
+        'Send agent/customer notifications on changes' => 'Stuur behandelaars / klanten een melding bij wijzigingen',
         'CMD' => 'Commando',
         'This command will be executed. ARG[0] will be the ticket number. ARG[1] the ticket id.' =>
             'Dit commando zal worden uitgevoerd. ARG[0] is het nieuwe ticketnummer. ARG[1] is het nieuwe ticketid.',
@@ -1166,39 +1159,39 @@ sub Data {
         'The name you entered already exists.' => 'De naam die u hebt opgegeven bestaat al.',
         'Invoker backend' => 'Invoker backend',
         'This OTRS invoker backend module will be called to prepare the data to be sent to the remote system, and to process its response data.' =>
-            '',
+            'Deze OTRS invoker module zal worden aangeroepen om de data te formatteren voordat deze naar het andere systeem verstuurd wordt.',
         'Mapping for outgoing request data' => 'Mapping voor uitgaande data.',
         'Configure' => 'Configureer',
         'The data from the invoker of OTRS will be processed by this mapping, to transform it to the kind of data the remote system expects.' =>
             'De data van de invoker van OTRS wordt verwerkt door deze mapping om het om te zetten in het formaat wat het communicerende systeem verwacht.',
         'Mapping for incoming response data' => 'Koppeling voor inkomende response-data',
         'The response data will be processed by this mapping, to transform it to the kind of data the invoker of OTRS expects.' =>
-            '',
+            'De data van het antwoord wordt verwerkt door deze koppeling om dit om te zetten in het formaat wat de OTRS invoker verwacht.',
         'Event Triggers' => 'Event triggers',
         'Asynchronous' => 'Asynchroon',
         'Delete this event' => 'Verwijder dit event',
-        'This invoker will be triggered by the configured events.' => '',
+        'This invoker will be triggered by the configured events.' => 'De invoker wordt aangeroepen door de geconfigureerde events.',
         'Do you really want to delete this event trigger?' => 'Wilt u deze event trigger verwijderen?',
         'Add Event Trigger' => 'Nieuwe event trigger toevoegen',
         'To add a new event select the event object and event name and click on the "+" button' =>
-            '',
+            'Om een nieuw event toe te voegen, selecteer het event object en de naam van het event en klik op de "+".',
         'Asynchronous event triggers are handled by the OTRS Scheduler in background (recommended).' =>
-            '',
+            'Asynchrone event triggers worden afgehandeld door de OTRS Scheduler in de achtergrond (aangeraden).',
         'Synchronous event triggers would be processed directly during the web request.' =>
-            '',
+            'Synchrone event triggers worden afgehandeld direct tijdens het event (blocking).',
         'Save and continue' => 'Opslaan en doorgaan',
         'Save and finish' => 'Opslaan en voltooien',
         'Delete this Invoker' => 'Verwijder deze invoker',
         'Delete this Event Trigger' => 'Verwijder deze event trigger.',
 
         # Template: AdminGenericInterfaceMappingSimple
-        'GenericInterface Mapping Simple for Web Service %s' => '',
+        'GenericInterface Mapping Simple for Web Service %s' => 'GenericInterface Eenvoudige Koppeling voor Web Service %s',
         'Go back to' => 'Ga terug naar',
         'Mapping Simple' => 'Eenvoudige koppeling',
         'Default rule for unmapped keys' => 'Standaardregel voor nietgekoppelde sleutels',
-        'This rule will apply for all keys with no mapping rule.' => '',
+        'This rule will apply for all keys with no mapping rule.' => 'Deze regel geldt voor alle sleutelwaarden zonder koppeling.',
         'Default rule for unmapped values' => 'Standaardregel voor nietgekoppelde waarden',
-        'This rule will apply for all values with no mapping rule.' => '',
+        'This rule will apply for all values with no mapping rule.' => 'Deze regel geldt voor alle waarden zonder koppeling.',
         'New key map' => 'Nieuwe sleutelkoppeling',
         'Add key mapping' => 'Voeg sleutelkoppeling toe',
         'Mapping for Key ' => 'Koppeling voor sleutel',
@@ -1217,100 +1210,100 @@ sub Data {
         'Delete this Key Mapping' => 'Verwijder sleutelkoppeling',
 
         # Template: AdminGenericInterfaceOperationDefault
-        'Add new Operation to Web Service %s' => '',
-        'Change Operation %s of Web Service %s' => '',
+        'Add new Operation to Web Service %s' => 'Voeg nieuwe operatie toe voor Web Service %s',
+        'Change Operation %s of Web Service %s' => 'Wijzig operatie %s voor Web Service %s',
         'Add new operation' => 'Nieuwe operatie toevoegen',
         'Change operation %s' => 'Verander operatie %s',
-        'Do you really want to delete this operation?' => '',
-        'Operation Details' => '',
+        'Do you really want to delete this operation?' => 'Wilt u deze operatie echt verwijderen?',
+        'Operation Details' => 'Operatie-details',
         'The name is typically used to call up this web service operation from a remote system.' =>
-            '',
-        'Please provide a unique name for this web service.' => '',
-        'Mapping for incoming request data' => '',
+            'De naam wordt normaal gesproken gebruikt om deze Web Service aan te roepen vanaf een ander systeem.',
+        'Please provide a unique name for this web service.' => 'Geef een unieke naam op voor deze Web Service.',
+        'Mapping for incoming request data' => 'Koppeling voor inkomende data',
         'The request data will be processed by this mapping, to transform it to the kind of data OTRS expects.' =>
-            '',
+            'De inkomende data wordt verwerkt door deze koppeling, om het om te zetten naar de data die OTRS verwacht.',
         'Operation backend' => 'Operatie-backend',
         'This OTRS operation backend module will be called internally to process the request, generating data for the response.' =>
-            '',
-        'Mapping for outgoing response data' => '',
+            'Deze OTRS operatie-module zal intern worden gebruikt om de data voor de respons te genereren.',
+        'Mapping for outgoing response data' => 'Koppeling voor respons-data',
         'The response data will be processed by this mapping, to transform it to the kind of data the remote system expects.' =>
-            '',
-        'Delete this Operation' => '',
+            'De respons-data wordt verwerkt door deze koppeling, om het om te zetten naar de data die het andere systeem verwacht.',
+        'Delete this Operation' => 'Verwijder deze operatie',
 
         # Template: AdminGenericInterfaceTransportHTTPSOAP
-        'GenericInterface Transport HTTP::SOAP for Web Service %s' => '',
-        'Network transport' => '',
+        'GenericInterface Transport HTTP::SOAP for Web Service %s' => 'GenericInterface Transport HTTP::SOAP voor web service %s',
+        'Network transport' => 'Netwerk-transport',
         'Properties' => 'Eigenschappen',
         'Endpoint' => 'Eindpunt',
         'URI to indicate a specific location for accessing a service.' =>
-            '',
-        'e.g. http://local.otrs.com:8000/Webservice/Example' => '',
-        'Namespace' => '',
-        'URI to give SOAP methods a context, reducing ambiguities.' => '',
+            'URI om de specifieke lokatie van een service te definieren.',
+        'e.g. http://local.otrs.com:8000/Webservice/Example' => 'e.g. http://local.otrs.com:8000/Webservice/Example',
+        'Namespace' => 'Namespace',
+        'URI to give SOAP methods a context, reducing ambiguities.' => 'URI om SOAP methods een context te geven.',
         'e.g urn:otrs-com:soap:functions or http://www.otrs.com/GenericInterface/actions' =>
-            '',
-        'Maximum message length' => '',
-        'This field should be an integer number.' => '',
+            'bijv. urn:otrs-com:soap:functions of http://www.otrs.com/GenericInterface/actions',
+        'Maximum message length' => 'Maximale bericht-lengte',
+        'This field should be an integer number.' => 'Dit veld moet een getal bevatten.',
         'Here you can specify the maximum size (in bytes) of SOAP messages that OTRS will process.' =>
-            '',
-        'Encoding' => '',
-        'The character encoding for the SOAP message contents.' => '',
-        'e.g utf-8, latin1, iso-8859-1, cp1250, Etc.' => '',
-        'SOAPAction' => '',
-        'Set to "Yes" to send a filled SOAPAction header.' => '',
-        'Set to "No" to send an empty SOAPAction header.' => '',
-        'SOAPAction separator' => '',
+            'Hier kunt u de maximale berichtgrootte (in bytes) opgeven van de berichten die OTRS zal verwerken.',
+        'Encoding' => 'Karakterset',
+        'The character encoding for the SOAP message contents.' => 'De karakterset voor de inhoud van het SOAP-bericht.',
+        'e.g utf-8, latin1, iso-8859-1, cp1250, Etc.' => 'bijv. utf-8, latin1, iso-8859-1, cp1250, etc.',
+        'SOAPAction' => 'SOAP-Action',
+        'Set to "Yes" to send a filled SOAPAction header.' => 'Kies "Ja" om een gevulde SOAPAction header te versturen.',
+        'Set to "No" to send an empty SOAPAction header.' => 'Kies "Nee" om een lege SOAPAction header te versturen.',
+        'SOAPAction separator' => 'SOAP-action separator',
         'Character to use as separator between name space and SOAP method.' =>
-            '',
-        'Usually .Net web services uses a "/" as separator.' => '',
-        'Authentication' => '',
-        'The authentication mechanism to access the remote system.' => '',
-        'A "-" value means no authentication.' => '',
-        'The user name to be used to access the remote system.' => '',
-        'The password for the privileged user.' => '',
-        'Use SSL Options' => '',
-        'Show or hide SSL options to connect to the remote system.' => '',
-        'Certificate File' => '',
+            'Karakter om te gebruiken als separator tussen de name-space en SOAP method.',
+        'Usually .Net web services uses a "/" as separator.' => 'Normaal gesproken gebruiken .Net web services de "/" als een separator.',
+        'Authentication' => 'Authenticatie',
+        'The authentication mechanism to access the remote system.' => 'Het authenticatie-mechanisme voor het andere systeem.',
+        'A "-" value means no authentication.' => 'De waarde "-" betekent geen authenticatie.',
+        'The user name to be used to access the remote system.' => 'De gebruikersnaam om toegang te krijgen tot het andere systeem.',
+        'The password for the privileged user.' => 'Wachtwoord',
+        'Use SSL Options' => 'Configureer SSL opties',
+        'Show or hide SSL options to connect to the remote system.' => 'Toon of verberg SSL opties om te verbinden naar het andere systeem',
+        'Certificate File' => 'Certificaat-bestand',
         'The full path and name of the SSL certificate file (must be in .p12 format).' =>
-            '',
-        'e.g. /opt/otrs/var/certificates/SOAP/certificate.p12' => '',
-        'Certificate Password File' => '',
-        'The password to open the SSL certificate.' => '',
-        'Certification Authority (CA) File' => '',
+            'Het volledige pad en de naam van het SSL-certificaat (in .p12 formaat).',
+        'e.g. /opt/otrs/var/certificates/SOAP/certificate.p12' => 'bijv. /opt/otrs/var/certificates/SOAP/certificate.p12',
+        'Certificate Password File' => 'Bestand dat wachtwoord van het certificaaat bevat',
+        'The password to open the SSL certificate.' => 'Het wachtwoord voor het SSL-certificaat',
+        'Certification Authority (CA) File' => 'Certification Authority (CA) bestand',
         'The full path and name of the certification authority certificate file that validates SSL certificate.' =>
-            '',
-        'e.g. /opt/otrs/var/certificates/SOAP/CA/ca.pem' => '',
-        'Certification Authority (CA) Directory' => '',
+            'Het volledige pad en de naam van het CA certificaat dat het SSL certificaat valideert.',
+        'e.g. /opt/otrs/var/certificates/SOAP/CA/ca.pem' => 'Bijvoorbeeld /opt/otrs/var/certificates/SOAP/CA/ca.pem',
+        'Certification Authority (CA) Directory' => 'Certification Authority (CA) directory',
         'The full path of the certification authority directory where the CA certificates are stored in the file system.' =>
-            '',
-        'e.g. /opt/otrs/var/certificates/SOAP/CA' => '',
-        'Proxy Server' => '',
-        'URI of a proxy server to be used (if needed).' => '',
-        'e.g. http://proxy_hostname:8080' => '',
-        'Proxy User' => '',
-        'The user name to be used to access the proxy server.' => '',
-        'Proxy Password' => '',
-        'The password for the proxy user.' => '',
+            'Het volledige pad van de directory waar de CA-certificaten worden opgeslagen.',
+        'e.g. /opt/otrs/var/certificates/SOAP/CA' => 'bijvoorbeeld /opt/otrs/var/certificates/SOAP/CA',
+        'Proxy Server' => 'Proxy-server',
+        'URI of a proxy server to be used (if needed).' => 'URI van de proxy-server (indien nodig).',
+        'e.g. http://proxy_hostname:8080' => 'e.g. http://proxy_hostname:8080',
+        'Proxy User' => 'Proxy-gebruikersnaam',
+        'The user name to be used to access the proxy server.' => 'De gebruikersnaam voor toegang tot de proxy-server.',
+        'Proxy Password' => 'Proxy-wachtwoord',
+        'The password for the proxy user.' => 'Het wachtwoord voor de proxy-gebruiker.',
 
         # Template: AdminGenericInterfaceWebservice
-        'GenericInterface Web Service Management' => '',
+        'GenericInterface Web Service Management' => 'GenericInterface Web Service Beheer',
         'Add web service' => 'Webservice toevoegen',
         'Clone web service' => 'Kloon webservice',
-        'The name must be unique.' => '',
+        'The name must be unique.' => 'De naam moet uniek zijn',
         'Clone' => 'Kloon',
         'Export web service' => 'Exporteer webservice',
         'Import web service' => 'Importeer webservice',
         'Configuration File' => 'Configuratiebestand',
         'The file must be a valid web service configuration YAML file.' =>
-            '',
+            'Het bestand moet een geldig web service YAML bestand zijn.',
         'Import' => 'Importeer',
         'Configuration history' => 'Configuratiegeschiedenis',
         'Delete web service' => 'Verwijder webservice',
         'Do you really want to delete this web service?' => 'Wilt u deze webservice verwijderen?',
         'After you save the configuration you will be redirected again to the edit screen.' =>
-            '',
+            'Na opslaan blijft u in dit scherm.',
         'If you want to return to overview please click the "Go to overview" button.' =>
-            '',
+            'Als u terug wilt na het overzicht klik dan op de "Naar het overzicht" knop.',
         'Web Service List' => 'Webservice-overzicht',
         'Remote system' => 'Ander systeem',
         'Provider transport' => 'Provider-transport',
@@ -1318,22 +1311,22 @@ sub Data {
         'Details' => 'Details',
         'Debug threshold' => 'Debug-niveau',
         'In provider mode, OTRS offers web services which are used by remote systems.' =>
-            '',
+            'In Provider-modus levert OTRS web services die aangeroepen worden door andere systemen.',
         'In requester mode, OTRS uses web services of remote systems.' =>
-            '',
+            'In Requester-modus gebruikt OTRS web services van andere systemen.',
         'Operations are individual system functions which remote systems can request.' =>
-            '',
+            'Operaties zijn individuele systeemfuncties die aangeroepen kunnen worden door andere systemen.',
         'Invokers prepare data for a request to a remote web service, and process its response data.' =>
-            '',
-        'Controller' => '',
+            'Invokers verzamelen data voor een aanroep naar een ander systeem, en om de responsdata van het andere systeem te verwerken.',
+        'Controller' => 'Controller',
         'Inbound mapping' => 'Inkomende koppeling',
         'Outbound mapping' => 'Uitgaande koppeling',
-        'Delete this action' => '',
+        'Delete this action' => 'Verwijder deze actie',
         'At least one %s has a controller that is either not active or not present, please check the controller registration or delete the %s' =>
-            '',
+            'Tenminste een %s heeft een controller die niet actief of beschikbaar is.',
         'Delete webservice' => 'Verwijder webservice',
-        'Delete operation' => '',
-        'Delete invoker' => '',
+        'Delete operation' => 'Verwijder operatie',
+        'Delete invoker' => 'Verwijder invoker',
         'Clone webservice' => 'Kloon webservice',
         'Import webservice' => 'Importeer webservice',
 
@@ -1341,7 +1334,7 @@ sub Data {
         'GenericInterface Configuration History for Web Service %s' => 'GenericInterface Configuratie-geschiedenis voor webservice %s',
         'Go back to Web Service' => 'Ga terug naar webservice',
         'Here you can view older versions of the current web service\'s configuration, export or even restore them.' =>
-            '',
+            'Hier kunt u oudere versies van de huidige web service-configuratie bekijken, exporteren of terugzetten.',
         'Configuration History List' => 'Configuratie-geschiedenis',
         'Version' => 'Versie',
         'Create time' => 'Aanmaaktijd',
@@ -1362,7 +1355,7 @@ sub Data {
         'The admin group is to get in the admin area and the stats group to get stats area.' =>
             'Leden van de groep Admin mogen in het administratie gedeelte, leden van de groep Stats hebben toegang tot het statistieken gedeelte.',
         'Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...). ' =>
-            'Maak nieuwe groepen aan om tickets te kunnen scheiden en wachtrijen aan de juiste gebruikers te tonen (bijv. support, sales, management).',
+            'Maak nieuwe groepen aan om tickets te kunnen scheiden en de juiste wachtrijen aan behandelaars te tonen (bijv. support, sales, management).',
         'It\'s useful for ASP solutions. ' => 'Bruikbaar voor ASP situaties.',
         'Add Group' => 'Groep toevoegen',
         'Edit Group' => 'Bewerk groep',
@@ -1394,7 +1387,7 @@ sub Data {
 
         # Template: AdminNavigationBar
         'Admin' => 'Beheer',
-        'Agent Management' => 'Beheer gebruikers',
+        'Agent Management' => 'Beheer behandelaars',
         'Queue Settings' => 'Wachtrij instellingen',
         'Ticket Settings' => 'Ticket instellingen',
         'System Administration' => 'Beheer systeem',
@@ -1403,7 +1396,7 @@ sub Data {
         'Notification Management' => 'Melding beheer',
         'Select a different language' => 'Kies een andere taal',
         'Filter for Notification' => 'Filter op meldingen',
-        'Notifications are sent to an agent or a customer.' => 'Meldingen worden verstuurd naar een gebruiker.',
+        'Notifications are sent to an agent or a customer.' => 'Meldingen worden verstuurd naar een behandelaar.',
         'Notification' => 'Melding',
         'Edit Notification' => 'Bewerk melding',
         'e. g.' => 'bijv.',
@@ -1414,7 +1407,7 @@ sub Data {
         'Delete this notification' => 'Melding verwijderen',
         'Add Notification' => 'Melding toevoegen',
         'Recipient groups' => 'Ontvanger groepen',
-        'Recipient agents' => 'Ontvanger gebruikers',
+        'Recipient agents' => 'Ontvanger behandelaars',
         'Recipient roles' => 'Ontvanger rollen',
         'Recipient email addresses' => 'Ontvanger e-mailadressen',
         'Article type' => 'Soort interactie',
@@ -1425,9 +1418,9 @@ sub Data {
         'Notification article type' => 'Interactiesoort voor melding',
         'Only for notifications to specified email addresses' => 'Alleen voor meldingen aan een specifiek e-mail adres',
         'To get the first 20 character of the subject (of the latest agent article).' =>
-            'Om de eerste 20 karakters van het onderwerp van de nieuwste gebruikers-interactie te tonen.',
+            'Om de eerste 20 karakters van het onderwerp van de nieuwste behandelaars-interactie te tonen.',
         'To get the first 5 lines of the body (of the latest agent article).' =>
-            'Om de eerste vijf regels van de tekst van de nieuwste gebruikers-interactie te tonen.',
+            'Om de eerste vijf regels van de tekst van de nieuwste behandelaars-interactie te tonen.',
         'To get the first 20 character of the subject (of the latest customer article).' =>
             'Om de eerste 20 karakters van het onderwerp van de nieuwste klant-interactie te tonen.',
         'To get the first 5 lines of the body (of the latest customer article).' =>
@@ -1469,7 +1462,7 @@ sub Data {
         'Local Repository' => 'Lokale Repository',
         'Uninstall' => 'Verwijder',
         'Reinstall' => 'Herinstalleer',
-        'Feature Add-Ons' => '',
+        'Feature Add-Ons' => 'Feature Add-Ons',
         'Download package' => 'Download pakket',
         'Rebuild package' => 'Genereer pakket opnieuw',
         'Metadata' => 'Metadata',
@@ -1543,7 +1536,7 @@ sub Data {
         '0 = no unlock' => '0 = geen ontgrendeling',
         'Only business hours are counted.' => 'Alleen openingstijden tellen mee.',
         'If an agent locks a ticket and does not close it before the unlock timeout has passed, the ticket will unlock and will become available for other agents.' =>
-            'Als een ticket vergrendeld is en de gebruiker handelt het ticket niet af voor het verstrijken van de tijdsoverschrijding, dan wordt het ticket automatisch ontgrendeld en komt deze weer beschikbaar voor andere gebruikers.',
+            'Als een ticket vergrendeld is en de behandelaar handelt het ticket niet af voor het verstrijken van de tijdsoverschrijding, wordt het ticket automatisch ontgrendeld en komt deze weer beschikbaar voor andere gebruikers.',
         'Notify by' => 'Melding bij',
         '0 = no escalation' => '0 = geen escalatie',
         'If there is not added a customer contact, either email-external or phone, to a new ticket before the time defined here expires, the ticket is escalated.' =>
@@ -1584,8 +1577,8 @@ sub Data {
         'Manage Responses' => 'Beheer Antwoorden',
         'Add response' => 'Nieuw antwoord',
         'A response is a default text which helps your agents to write faster answers to customers.' =>
-            '',
-        'Don\'t forget to add new responses to queues.' => '',
+            'Een antwoord is een standaard-tekst die uw behandelaars helpt sneller te reageren op tickets van klanten.',
+        'Don\'t forget to add new responses to queues.' => 'Vergeet niet om antwoorden aan wachtrijen toe te wijzen.',
         'Delete this entry' => 'Verwijder antwoord',
         'Add Response' => 'Nieuw antwoord',
         'Edit Response' => 'Bewerk antwoord',
@@ -1629,12 +1622,12 @@ sub Data {
             'Permissies om de prioriteit van een ticket in deze groep/wachtrij te wijzigen.',
 
         # Template: AdminRoleUser
-        'Manage Agent-Role Relations' => 'Beheer Gebruiker-Rol koppelingen',
-        'Filter for Agents' => 'Filter op gebruikers',
-        'Agents' => 'Gebruikers',
-        'Manage Role-Agent Relations' => 'Beheer Rol-Gebruiker koppelingen',
-        'Change Role Relations for Agent' => 'Bewerk gekoppelde rollen voor gebruiker',
-        'Change Agent Relations for Role' => 'Bewerk gekoppelde gebruikers voor rol',
+        'Manage Agent-Role Relations' => 'Beheer Behandelaar-Rol koppelingen',
+        'Filter for Agents' => 'Filter op behandelaars',
+        'Agents' => 'Behandelaars',
+        'Manage Role-Agent Relations' => 'Beheer Rol-Behandelaar koppelingen',
+        'Change Role Relations for Agent' => 'Bewerk gekoppelde rollen voor behandelaar',
+        'Change Agent Relations for Role' => 'Bewerk gekoppelde behandelaars voor rol',
 
         # Template: AdminSLA
         'SLA Management' => 'SLA beheer',
@@ -1649,21 +1642,21 @@ sub Data {
         'Filter for certificates' => 'Filter op certificaten',
         'Filter for SMIME certs' => 'Filter op SMIME certificaten',
         'Here you can add relations to your private certificate, these will be embedded to the SMIME signature every time you use this certificate to sign an email.' =>
-            '',
+            'Hier kunt u koppelingen naar uw private sleutels toevoegen. Deze worden ingesloten in SMIME handtekeningen iedere keer als u dit certificaat gebruikt om een e-mail te ondertekenen.',
         'See also' => 'Zie voor meer informatie',
         'In this way you can directly edit the certification and private keys in file system.' =>
             'Hier kunt u de certificaten en private sleutels van OTRS beheren.',
         'Hash' => 'Hash',
         'Create' => 'Aanmaken',
-        'Handle related certificates' => '',
+        'Handle related certificates' => 'Beheer gekoppelde certificaten',
         'Delete this certificate' => 'Verwijder certificaat',
         'Add Certificate' => 'Nieuw certificaat',
         'Add Private Key' => 'Nieuwe private sleutel',
         'Secret' => 'Geheim',
-        'Related Certificates for' => '',
-        'Delete this relation' => '',
-        'Available Certificates' => '',
-        'Relate this certificate' => '',
+        'Related Certificates for' => 'Gekoppelde certificaten voor',
+        'Delete this relation' => 'Verwijder deze koppeling',
+        'Available Certificates' => 'Beschikbare certificaten',
+        'Relate this certificate' => 'Koppel dit certificaat',
 
         # Template: AdminSalutation
         'Salutation Management' => 'Beheer aanheffen',
@@ -1709,9 +1702,9 @@ sub Data {
         # Template: AdminSession
         'Session Management' => 'Sessies',
         'All sessions' => 'Alle sessies',
-        'Agent sessions' => 'Gebruiker sessies',
-        'Customer sessions' => 'Klant sessies',
-        'Unique agents' => 'Unieke gebruikers',
+        'Agent sessions' => 'Behandelaar-sessies',
+        'Customer sessions' => 'Klant-sessies',
+        'Unique agents' => 'Unieke behandelaars',
         'Unique customers' => 'Unieke klanten',
         'Kill all sessions' => 'Alle sessies verwijderen',
         'Kill this session' => 'Verwijder deze sessie',
@@ -1720,11 +1713,11 @@ sub Data {
         'Detail View for SessionID' => 'Details',
 
         # Template: AdminSignature
-        'Signature Management' => 'Handtekening beheer',
+        'Signature Management' => 'Handtekening-beheer',
         'Add signature' => 'Nieuwe handtekening',
         'Add Signature' => 'Nieuwe handtekening',
         'Edit Signature' => 'Bewerk handtekening',
-        'Example signature' => 'Handtekening voorbeeld',
+        'Example signature' => 'Handtekening-voorbeeld',
 
         # Template: AdminState
         'State Management' => 'Status beheer',
@@ -1800,15 +1793,15 @@ sub Data {
         'Edit Type' => 'Bewerk type',
 
         # Template: AdminUser
-        'Add agent' => 'Nieuwe gebruiker',
-        'Agents will be needed to handle tickets.' => 'Gebruikers zijn nodig om te kunnen werken in het systeem.',
-        'Don\'t forget to add a new agent to groups and/or roles!' => 'vergeet niet om een gebruiker aan groepen en/of rollen te koppelen.',
-        'Please enter a search term to look for agents.' => 'Typ om te zoeken naar gebruikers.',
+        'Add agent' => 'Nieuwe behandelaar',
+        'Agents will be needed to handle tickets.' => 'Behandelaar-accounts zijn nodig om te kunnen werken in het systeem.',
+        'Don\'t forget to add a new agent to groups and/or roles!' => 'vergeet niet om een behandelaar aan groepen en/of rollen te koppelen.',
+        'Please enter a search term to look for agents.' => 'Typ om te zoeken naar behandelaars.',
         'Last login' => 'Laatst ingelogd',
         'Login as' => 'Inloggen als',
-        'Switch to agent' => 'Omschakelen naar gebruiker',
-        'Add Agent' => 'Nieuwe gebruiker',
-        'Edit Agent' => 'Bewerk gebruiker',
+        'Switch to agent' => 'Omschakelen naar behandelaar',
+        'Add Agent' => 'Nieuwe behandelaar',
+        'Edit Agent' => 'Bewerk behandelaar',
         'Firstname' => 'Voornaam',
         'Lastname' => 'Achternaam',
         'Password is required.' => 'Wachtwoord is verplicht.',
@@ -1816,9 +1809,9 @@ sub Data {
         'End' => 'Einde',
 
         # Template: AdminUserGroup
-        'Manage Agent-Group Relations' => 'Beheer Gebruiker-Groep koppelingen',
-        'Change Group Relations for Agent' => 'Bewerk gekoppelde groepen voor gebruiker',
-        'Change Agent Relations for Group' => 'Bewerk gekoppelde gebruikers voor groep',
+        'Manage Agent-Group Relations' => 'Beheer Behandelaar-Groep koppelingen',
+        'Change Group Relations for Agent' => 'Bewerk gekoppelde groepen voor behandelaar',
+        'Change Agent Relations for Group' => 'Bewerk gekoppelde behandelaars voor groep',
         'note' => 'notitie',
         'Permissions to add notes to tickets in this group/queue.' => 'Permissies om notities aan tickets in de wachtrijen behorende bij deze groep toe te voegen.',
         'owner' => 'eigenaar',
@@ -2000,9 +1993,9 @@ sub Data {
         'New Owner' => 'Nieuwe eigenaar',
         'Please set a new owner!' => 'Kies een nieuwe eigenaar.',
         'Previous Owner' => 'Vorige eigenaar',
-        'Inform Agent' => 'Informeer gebruiker',
+        'Inform Agent' => 'Informeer behandelaar',
         'Optional' => 'Optioneel',
-        'Inform involved Agents' => 'Informeer betrokken gebruikers',
+        'Inform involved Agents' => 'Informeer betrokken behandelaars',
         'Spell check' => 'Spellingscontrole',
         'Note type' => 'Notitiesoort',
         'Next state' => 'Status',
@@ -2525,7 +2518,7 @@ sub Data {
             '',
         'Adds the permanent vacation days. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' =>
             '',
-        'Agent Notifications' => 'Meldingen voor gebruikers',
+        'Agent Notifications' => 'Meldingen voor behandelaars',
         'Agent interface article notification module to check PGP.' => '',
         'Agent interface article notification module to check S/MIME.' =>
             '',
@@ -2541,8 +2534,8 @@ sub Data {
             '',
         'Agent interface notification module to see the number of watched tickets.' =>
             '',
-        'Agents <-> Groups' => 'Gebruikers <-> Groepen',
-        'Agents <-> Roles' => 'Gebruikers <-> Rollen',
+        'Agents <-> Groups' => 'Behandelaars <-> Groepen',
+        'Agents <-> Roles' => 'Behandelaars <-> Rollen',
         'Allows adding notes in the close ticket screen of the agent interface.' =>
             '',
         'Allows adding notes in the ticket free text screen of the agent interface.' =>
@@ -2640,14 +2633,14 @@ sub Data {
             '',
         'Converts HTML mails into text messages.' => '',
         'Create and manage Service Level Agreements (SLAs).' => 'Aanmaken en beheren van Service Level Agreements (SLA\'s).',
-        'Create and manage agents.' => 'Aanmaken en beheren van gebruikers.',
+        'Create and manage agents.' => 'Aanmaken en beheren van behandelaars.',
         'Create and manage attachments.' => 'Aanmaken en beheren van bijlagen.',
         'Create and manage companies.' => 'Aanmaken en beheren van bedrijven.',
         'Create and manage customers.' => 'Aanmaken en beheren van klanten.',
         'Create and manage dynamic fields.' => 'Aanmaken en beheren van dynamische velden.',
         'Create and manage event based notifications.' => 'Aanmaken en beheren van meldingen door gebeurtenissen.',
         'Create and manage groups.' => 'Aanmaken en beheren van groepen.',
-        'Create and manage notifications that are sent to agents.' => 'Aanmaken en beheren van meldingen die naar de gebruikers gestuurd worden.',
+        'Create and manage notifications that are sent to agents.' => 'Aanmaken en beheren van meldingen die naar de behandelaars gestuurd worden.',
         'Create and manage queues.' => 'Aanmaken en beheren van wachtrijen.',
         'Create and manage response templates.' => 'Aanmaken en beheren van voorgedefiniëerde antwoorden.',
         'Create and manage responses that are automatically sent.' => 'Aanmaken en beheren van teksten die automatisch naar de klant worden gestuurd.',
@@ -4205,7 +4198,7 @@ sub Data {
         'View performance benchmark results.' => 'Bekijk resultaten van de performance log.',
         'View system log messages.' => 'Bekijk het OTRS logboek.',
         'Wear this frontend skin' => 'Kies een kleur voor de schermen',
-        'Webservice path separator.' => '',
+        'Webservice path separator.' => 'Webservice-pad separator',
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. In this text area you can define this text (This text cannot be changed by the agent).' =>
             '',
         'When tickets are merged, the customer can be informed per email by setting the check box "Inform Sender". In this text area, you can define a pre-formatted text which can later be modified by the agents.' =>
