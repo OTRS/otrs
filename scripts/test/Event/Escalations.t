@@ -2,7 +2,7 @@
 # Escalations.t - escalation event tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Escalations.t,v 1.8 2012-02-15 19:53:07 cg Exp $
+# $Id: Escalations.t,v 1.9 2012-05-10 18:57:33 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -197,6 +197,8 @@ my $CheckNumEvents = sub {
         );
         $Self->True( $JobRun, "JobRun() $JobName Run the GenericAgent job" );
     }
+
+    sleep 2;
 
     my @Lines = $Param{TicketObject}->HistoryGet(
         TicketID => $Param{TicketID},
