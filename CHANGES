@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2277 2012-05-10 02:46:24 cr Exp $
+# $Id: CHANGES,v 1.2278 2012-05-10 19:18:45 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,10 @@
  - 2012-04-27 Added bug#8075 - Article Sender Type to be added to
     NotificationEvent definitions.
 
-3.1.5 2012-??-??
+3.1.6 2012-??-??
+ - 2012-05-10 Fixed bug#8452 - Dynamic Field Date/Time not working when server runs on UTC.
+
+3.1.5 2012-05-15
  - 2012-05-09 Fixed bug#8466 - On Win32 GenericInterface does not return results properly.
  - 2012-05-08 Fixed bug#8465 - Can't create cache for web service debug log on win32 platforms.
  - 2012-05-08 Fixed bug#7919 - Translation of ticket states in CSV Export of CustomerTicketSearch.
