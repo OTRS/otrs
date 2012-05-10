@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/DateTime.pm - Delegate for DynamicField DateTime backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DateTime.pm,v 1.62 2012-03-30 16:20:11 cr Exp $
+# $Id: DateTime.pm,v 1.62.2.1 2012-05-10 19:19:15 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Time;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.62 $) [1];
+$VERSION = qw($Revision: 1.62.2.1 $) [1];
 
 =head1 NAME
 
@@ -202,7 +202,9 @@ sub EditFieldRender {
     }
 
     # extract the dynamic field value form the web request
+    # TransformDates is always needed from EditFieldRender Bug#8452
     my $FieldValues = $Self->EditFieldValueGet(
+        TransformDates       => 1,
         ReturnValueStructure => 1,
         %Param,
     );
@@ -332,6 +334,17 @@ sub EditFieldValueGet {
             && !$DynamicFieldValues{ $Prefix . 'Hour' }
             && !$DynamicFieldValues{ $Prefix . 'Minute' };
 
+    # check if need and can transform dates
+    # transform the dates early for ReturnValueStructure or ManualTimeStamp Bug#8452
+    if ( $Param{TransformDates} && $Param{LayoutObject} ) {
+
+        # transform time stamp based on user time zone
+        %DynamicFieldValues = $Param{LayoutObject}->TransformDateSelection(
+            %DynamicFieldValues,
+            Prefix => $Prefix,
+        );
+    }
+
     # check if return value structure is nedded
     if ( defined $Param{ReturnValueStructure} && $Param{ReturnValueStructure} eq '1' ) {
         return \%DynamicFieldValues;
@@ -345,16 +358,6 @@ sub EditFieldValueGet {
     my $ManualTimeStamp = '';
 
     if ( $DynamicFieldValues{ $Prefix . 'Used' } ) {
-
-        # check if need and can transform dates
-        if ( $Param{TransformDates} && $Param{LayoutObject} ) {
-
-            # transform time stamp based on user time zone
-            %DynamicFieldValues = $Param{LayoutObject}->TransformDateSelection(
-                %DynamicFieldValues,
-                Prefix => $Prefix,
-            );
-        }
 
         # add a leading zero for date parts that could be less than ten to generate a correct
         # time stamp
@@ -443,6 +446,7 @@ sub DisplayValueRender {
 
     # set field link form config
     my $Link = $Param{DynamicFieldConfig}->{Config}->{Link} || '';
+
     my $Data = {
         Value => $Value,
         Title => $Title,
