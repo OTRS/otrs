@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Transport/HTTP/SOAP.pm - GenericInterface network transport interface for HTTP::SOAP
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: SOAP.pm,v 1.47 2012-05-10 11:03:34 cr Exp $
+# $Id: SOAP.pm,v 1.48 2012-05-10 11:19:14 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Encode;
 use PerlIO;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.47 $) [1];
+$VERSION = qw($Revision: 1.48 $) [1];
 
 =head1 NAME
 
@@ -236,8 +236,8 @@ sub ProviderProcessRequest {
 
     my $OperationData = $Body->{$Operation};
 
-    # remember if utf8 mode is set for stdin
-    # specially for  Windows OS, see bug#8466
+    # remember if utf8 mode is set for stdin specially for Windows OS, see bug#8466
+    # this information is very important later (in the response) to set the binmode in STDOUT
     my @IOLayers = PerlIO::get_layers(STDIN);
     $Self->{LastIOLayerInbound} = $IOLayers[-1];
 
@@ -812,13 +812,18 @@ sub _Output {
     my @IOLayers            = PerlIO::get_layers(STDOUT);
     my $LastIOLayerOutbound = $IOLayers[-1];
 
-    # set binmode if necessary
     my $LayerReset;
+
+    # set binmode if necessary, check if the last layer for inbound and outbound are different
     if ( $LastIOLayerOutbound ne $Self->{LastIOLayerInbound} ) {
+
+        # set the binmode for STOUT to :raw to send the response
         if ( $LastIOLayerOutbound eq 'utf8' ) {
             $LayerReset = ':utf8';
             binmode STDOUT, ':raw';
         }
+
+        # otherwise set it to :utf8 to send the response
         elsif ( $Self->{LastIOLayerInbound} eq 'utf8' ) {
             $LayerReset = ':raw';
             binmode STDOUT, ':utf8';
@@ -1200,6 +1205,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.47 $ $Date: 2012-05-10 11:03:34 $
+$Revision: 1.48 $ $Date: 2012-05-10 11:19:14 $
 
 =cut
