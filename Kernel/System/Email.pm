@@ -2,7 +2,7 @@
 # Kernel/System/Email.pm - the global email send module
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Email.pm,v 1.76 2012-05-02 08:21:59 cg Exp $
+# $Id: Email.pm,v 1.77 2012-05-10 05:48:07 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Crypt;
 use Kernel::System::HTMLUtils;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.76 $) [1];
+$VERSION = qw($Revision: 1.77 $) [1];
 
 =head1 NAME
 
@@ -386,18 +386,17 @@ sub Send {
                             && $Upload->{ContentType} =~ /html/i
                             && $Upload->{Content} eq $Param{HTMLBody};
 
-                    # remember all attachments, force 'related' for content type on inline images
-                    push @NewAttachments, \%{$Upload};
-
-                    if ( defined $Upload->{ContentID} ) {
-
-                        # add inline images as related
-                        if ( $PartType ne 'related' ) {
-                            $Entity->make_multipart( 'related;', Force => 1, );
-                            $PartType = 'related';
-                        }
+                    # skip, but remember all attachments except inline images
+                    if ( !defined $Upload->{ContentID} ) {
+                        push @NewAttachments, \%{$Upload};
+                        next ATTACHMENT;
                     }
 
+                    # add inline images as related
+                    if ( $PartType ne 'related' ) {
+                        $Entity->make_multipart( 'related;', Force => 1, );
+                        $PartType = 'related';
+                    }
                 }
             }
 
@@ -886,6 +885,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.76 $ $Date: 2012-05-02 08:21:59 $
+$Revision: 1.77 $ $Date: 2012-05-10 05:48:07 $
 
 =cut
