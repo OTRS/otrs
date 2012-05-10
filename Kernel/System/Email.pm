@@ -2,7 +2,7 @@
 # Kernel/System/Email.pm - the global email send module
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Email.pm,v 1.64.2.3 2012-05-04 04:48:41 cg Exp $
+# $Id: Email.pm,v 1.64.2.4 2012-05-10 05:54:17 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Crypt;
 use Kernel::System::HTMLUtils;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.64.2.3 $) [1];
+$VERSION = qw($Revision: 1.64.2.4 $) [1];
 
 =head1 NAME
 
@@ -373,16 +373,20 @@ sub Send {
                                 && $Upload->{ContentType} =~ /html/i
                                 && $Upload->{Content} eq $Param{HTMLBody};
 
-                       # remember all attachments, force 'related' for content type on inline images
-                        push @NewAttachments, \%{$Upload};
+                        # skip, but remember all attachments except inline images
+                        if (
+                            !defined $Upload->{ContentID}
+                            || $Upload->{ContentID} !~ /^inline/
+                            )
+                        {
+                            push( @NewAttachments, \%{$Upload} );
+                            next ATTACHMENTS;
+                        }
 
-                        if ( defined $Upload->{ContentID} ) {
-
-                            # add inline images as related
-                            if ( $PartType ne 'related' ) {
-                                $Entity->make_multipart( 'related;', Force => 1, );
-                                $PartType = 'related';
-                            }
+                        # add inline images as related
+                        if ( $PartType ne 'related' ) {
+                            $Entity->make_multipart( 'related;', Force => 1, );
+                            $PartType = 'related';
                         }
                     }
                 }
@@ -839,6 +843,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.64.2.3 $ $Date: 2012-05-04 04:48:41 $
+$Revision: 1.64.2.4 $ $Date: 2012-05-10 05:54:17 $
 
 =cut
