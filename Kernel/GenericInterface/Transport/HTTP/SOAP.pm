@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Transport/HTTP/SOAP.pm - GenericInterface network transport interface for HTTP::SOAP
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: SOAP.pm,v 1.45 2012-04-03 17:59:47 cr Exp $
+# $Id: SOAP.pm,v 1.46 2012-05-10 02:46:24 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Encode;
 use PerlIO;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.45 $) [1];
+$VERSION = qw($Revision: 1.46 $) [1];
 
 =head1 NAME
 
@@ -236,6 +236,11 @@ sub ProviderProcessRequest {
 
     my $OperationData = $Body->{$Operation};
 
+    # remember if utf8 mode is set for stdin
+    # specially for  Windows OS, see bug#8466
+    my @IOLayers = PerlIO::get_layers(STDIN);
+    $Self->{LastIOLayer} = $IOLayers[-1];
+
     # all ok - return data
     return {
         Success   => 1,
@@ -257,7 +262,7 @@ The HTTP code is set accordingly
 - 500 for content syntax errors
 
     my $Result = $TransportObject->ProviderGenerateResponse(
-        Success => 1m
+        Success => 1
         Data    => { # data payload for response, optional
             ...
         },
@@ -802,6 +807,24 @@ sub _Output {
         Data       => $Param{Content},
     );
 
+    # remember if utf8 mode is set for stout
+    # normally Windows OS needs to set the binmode to :raw, see bug#8466
+    my @IOLayers    = PerlIO::get_layers(STDOUT);
+    my $LastIOLayer = $IOLayers[-1];
+
+    # set binmode if necessary
+    my $LayerReset;
+    if ( $LastIOLayer ne $Self->{LastIOLayer} ) {
+        if ( $LastIOLayer eq 'utf8' ) {
+            $LayerReset = ':utf8';
+            binmode STDOUT, ':raw';
+        }
+        elsif ( $Self->{LastIOLayer} eq 'utf8' ) {
+            $LayerReset = ':raw';
+            binmode STDOUT, ':utf8';
+        }
+    }
+
     # print data to http - '\r' is required according to HTTP RFCs
     my $StatusMessage = HTTP::Status::status_message( $Param{HTTPCode} );
     print STDOUT "$Protocol $Param{HTTPCode} $StatusMessage\r\n";
@@ -1172,6 +1195,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.45 $ $Date: 2012-04-03 17:59:47 $
+$Revision: 1.46 $ $Date: 2012-05-10 02:46:24 $
 
 =cut
