@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Transport/HTTP/SOAP.pm - GenericInterface network transport interface for HTTP::SOAP
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: SOAP.pm,v 1.46 2012-05-10 02:46:24 cr Exp $
+# $Id: SOAP.pm,v 1.47 2012-05-10 11:03:34 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Encode;
 use PerlIO;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.46 $) [1];
+$VERSION = qw($Revision: 1.47 $) [1];
 
 =head1 NAME
 
@@ -239,7 +239,7 @@ sub ProviderProcessRequest {
     # remember if utf8 mode is set for stdin
     # specially for  Windows OS, see bug#8466
     my @IOLayers = PerlIO::get_layers(STDIN);
-    $Self->{LastIOLayer} = $IOLayers[-1];
+    $Self->{LastIOLayerInbound} = $IOLayers[-1];
 
     # all ok - return data
     return {
@@ -809,17 +809,17 @@ sub _Output {
 
     # remember if utf8 mode is set for stout
     # normally Windows OS needs to set the binmode to :raw, see bug#8466
-    my @IOLayers    = PerlIO::get_layers(STDOUT);
-    my $LastIOLayer = $IOLayers[-1];
+    my @IOLayers            = PerlIO::get_layers(STDOUT);
+    my $LastIOLayerOutbound = $IOLayers[-1];
 
     # set binmode if necessary
     my $LayerReset;
-    if ( $LastIOLayer ne $Self->{LastIOLayer} ) {
-        if ( $LastIOLayer eq 'utf8' ) {
+    if ( $LastIOLayerOutbound ne $Self->{LastIOLayerInbound} ) {
+        if ( $LastIOLayerOutbound eq 'utf8' ) {
             $LayerReset = ':utf8';
             binmode STDOUT, ':raw';
         }
-        elsif ( $Self->{LastIOLayer} eq 'utf8' ) {
+        elsif ( $Self->{LastIOLayerInbound} eq 'utf8' ) {
             $LayerReset = ':raw';
             binmode STDOUT, ':utf8';
         }
@@ -832,6 +832,11 @@ sub _Output {
     print STDOUT "Content-Length: $ContentLength\r\n";
     print STDOUT "\r\n";
     print STDOUT $Param{Content};
+
+    # reset binmode for stdout
+    if ($LayerReset) {
+        binmode STDOUT, $LayerReset;
+    }
 
     return {
         Success      => $Success,
@@ -1195,6 +1200,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.46 $ $Date: 2012-05-10 02:46:24 $
+$Revision: 1.47 $ $Date: 2012-05-10 11:03:34 $
 
 =cut
