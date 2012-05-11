@@ -1,8 +1,8 @@
 # --
 # AdminGenericInterfaceMappingSimple.dtl - provides HTML form for AdminLog
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericInterfaceMappingSimple.dtl,v 1.24 2011-07-20 18:44:08 cr Exp $
+# $Id: AdminGenericInterfaceMappingSimple.dtl,v 1.25 2012-05-11 12:33:04 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -286,7 +286,7 @@ $('#SaveAndFinishButton').bind('click', function(){
 <script type="text/javascript">//<![CDATA[
 Core.Agent.Admin.GenericInterfaceMapping.Init({
     WebserviceID: $QData{"WebserviceID"},
-    DeletedString: '$QData{"DeletedString"}',
+    DeletedString: "$QData{"DeletedString"}",
     Localization: {
         DeleteKeyMappingMsg: '$JSText{"Delete this Key Mapping"}',
         DeleteMsg: '$JSText{"Delete"}',

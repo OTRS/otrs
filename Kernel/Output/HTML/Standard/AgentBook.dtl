@@ -2,7 +2,7 @@
 # AgentBook.dtl - provides HTML form for AgentBook
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentBook.dtl,v 1.26 2012-03-09 13:00:30 mg Exp $
+# $Id: AgentBook.dtl,v 1.27 2012-05-11 12:33:04 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -39,7 +39,7 @@ $Include{"AgentCustomerSearch"}
                     </tr>
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
-    Core.Data.Set($('#Row$QData{"Count"}'), 'Email', '$QData{"Email"}');
+    Core.Data.Set($('#Row$QData{"Count"}'), 'Email', "$QData{"Email"}");
 //]]></script>
 <!--dtl:js_on_document_complete-->
 <!-- dtl:block:Row -->
