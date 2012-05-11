@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.207 2012-01-31 14:51:46 mg Exp $
+# $Id: AgentTicketZoom.dtl,v 1.207.2.1 2012-05-11 12:32:57 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -37,7 +37,7 @@
         var Data = {
             Action:       'AgentTicketZoom',
             Subaction:    'ArticleFilterSet',
-            TicketID:     '$QData{"TicketID"}',
+            TicketID:     "$QData{"TicketID"}",
             SaveDefaults: 1
         };
         Core.AJAX.FunctionCall(Core.Config.Get('CGIHandle'), Data, function () {
