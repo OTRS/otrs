@@ -1,8 +1,8 @@
 # --
 # Kernel/System/PostMaster.pm - the global PostMaster module for OTRS
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: PostMaster.pm,v 1.87 2011-11-25 10:33:22 mg Exp $
+# $Id: PostMaster.pm,v 1.87.2.1 2012-05-11 08:33:02 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,7 +26,7 @@ use Kernel::System::PostMaster::DestQueue;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = qw($Revision: 1.87 $) [1];
+$VERSION = qw($Revision: 1.87.2.1 $) [1];
 
 =head1 NAME
 
@@ -102,11 +102,6 @@ sub new {
         die "Got no $_" if !$Param{$_};
     }
 
-    # check needed config objects
-    for (qw(PostmasterUserID PostmasterX-Header)) {
-        $Self->{$_} = $Param{ConfigObject}->Get($_) || die "Found no '$_' option in Config.pm!";
-    }
-
     # for debug 0=off; 1=info; 2=on; 3=with GetHeaderParam;
     $Self->{Debug} = $Param{Debug} || 0;
 
@@ -149,8 +144,29 @@ sub new {
         ParserObject         => $Self->{ParserObject},
     );
 
-    # should i use the x-otrs header?
+    # check needed config options
+    for my $Option (qw(PostmasterUserID PostmasterX-Header)) {
+        $Self->{$Option} = $Param{ConfigObject}->Get($Option)
+            || die "Found no '$Option' option in configuration!";
+    }
+
+    # should I use x-otrs headers?
     $Self->{Trusted} = defined $Param{Trusted} ? $Param{Trusted} : 1;
+
+    if ( $Self->{Trusted} ) {
+
+        # add Dynamic Field headers
+        my $DynamicFields = $Self->{TicketObject}->{DynamicFieldObject}->DynamicFieldList(
+            Valid      => 1,
+            ObjectType => [ 'Ticket', 'Article' ],
+            ResultType => 'HASH',
+        );
+        for my $DynamicField ( values %$DynamicFields ) {
+            push @{ $Self->{'PostmasterX-Header'} }, 'X-OTRS-DynamicField-' . $DynamicField;
+            push @{ $Self->{'PostmasterX-Header'} },
+                'X-OTRS-FollowUp-DynamicField-' . $DynamicField;
+        }
+    }
 
     return $Self;
 }
@@ -543,22 +559,18 @@ sub GetEmailParams {
     my %GetParam;
 
     # parse section
-    my $WantParamTmp = $Self->{'PostmasterX-Header'} || die 'Got no @WantParam ref';
-    my @WantParam = @$WantParamTmp;
-    for my $Param (@WantParam) {
-        if ( !$Self->{Trusted} && $Param =~ /^x-otrs/i ) {
+    HEADER:
+    for my $Param ( @{ $Self->{'PostmasterX-Header'} } ) {
 
-            # scan not x-otrs header if it's not trusted
+        # do not scan x-otrs headers if mailbox is not marked as trusted
+        next HEADER if ( !$Self->{Trusted} && $Param =~ /^x-otrs/i );
+        if ( $Self->{Debug} > 2 ) {
+            $Self->{LogObject}->Log(
+                Priority => 'debug',
+                Message => "$Param: " . $Self->{ParserObject}->GetParam( WHAT => $Param ),
+            );
         }
-        else {
-            if ( $Self->{Debug} > 2 ) {
-                $Self->{LogObject}->Log(
-                    Priority => 'debug',
-                    Message => "$Param: " . $Self->{ParserObject}->GetParam( WHAT => $Param ),
-                );
-            }
-            $GetParam{$Param} = $Self->{ParserObject}->GetParam( WHAT => $Param );
-        }
+        $GetParam{$Param} = $Self->{ParserObject}->GetParam( WHAT => $Param );
     }
 
     # set compat. headers
@@ -654,6 +666,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.87 $ $Date: 2011-11-25 10:33:22 $
+$Revision: 1.87.2.1 $ $Date: 2012-05-11 08:33:02 $
 
 =cut
