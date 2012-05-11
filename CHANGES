@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2260.2.19 2012-05-11 08:33:01 mb Exp $
+# $Id: CHANGES,v 1.2260.2.20 2012-05-11 11:49:16 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.1.6 2012-??-??
+ - 2012-05-11 Fixed bug#8352 - Wrong substitution regex in HTMLUtils.pm->ToAscii.
  - 2012-05-11 Fixed bug#8401 - DynamicField Update doesn't update the X-OTRS-DynamicField-XXX
     Fields in Postmaster Filters.
  - 2012-05-11 Fixed bug#5746 - Using PerlEx you have to restart IIS each time a setting is

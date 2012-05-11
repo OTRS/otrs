@@ -2,7 +2,7 @@
 # HTMLUtils.t - HTMLUtils tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: HTMLUtils.t,v 1.41 2012-02-07 13:17:22 des Exp $
+# $Id: HTMLUtils.t,v 1.41.2.1 2012-05-11 11:49:16 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -162,6 +162,16 @@ Fifth Line',
             '<html><head><style type="text/css"> #some_css {color: #FF0000} </style><body>Important Text!<style type="text/css"> #some_more_css{ color: #00FF00 } </style> Some more text.</body></html>',
         Result => 'Important Text! Some more text.',
         Name   => 'ToAscii - Test for bug#7937 - HTMLUtils.pm ignore to much of e-mail source code.'
+    },
+    {
+        Input  => '<td>Test table cell</td><td>Second cell</td>',
+        Result => 'Test table cell Second cell ',
+        Name   => 'ToAscii - Test for bug#8352 - Wrong substitution regex in HTMLUtils.pm->ToAscii.'
+    },
+    {
+        Input  => 'a       b',
+        Result => 'a b',
+        Name   => 'ToAscii - Whitespace removal'
     },
 );
 

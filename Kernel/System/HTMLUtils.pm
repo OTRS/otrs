@@ -2,7 +2,7 @@
 # Kernel/System/HTMLUtils.pm - creating and modifying html strings
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: HTMLUtils.pm,v 1.35 2012-02-02 22:22:50 des Exp $
+# $Id: HTMLUtils.pm,v 1.35.2.1 2012-05-11 11:49:16 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use MIME::Base64;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.35 $) [1];
+$VERSION = qw($Revision: 1.35.2.1 $) [1];
 
 =head1 NAME
 
@@ -187,7 +187,7 @@ sub ToAscii {
     # remove p, table tags and replace it with \n
     $Param{String} =~ s/\<(\/|)(p|p.+?|table|table.+?)\>/\n\n/gsi;
 
-    # remove tr, th tags and replace it with \n
+    # remove opening tr, th tags and replace them with \n
     $Param{String} =~ s/\<(tr|tr.+?|th|th.+?)\>/\n\n/gsi;
 
     # convert li tags to \n -
@@ -196,11 +196,11 @@ sub ToAscii {
     # convert </ul> and </ol> tags to \n\n
     $Param{String} =~ s/\<\/(ul|ol)\>/\n\n/gsi;
 
-    # remove td tags and replace it with \n
-    $Param{String} =~ s/\.+?<\/(td|td.+?)\>/ /gsi;
+    # remove </td> tags and replace them with " "
+    $Param{String} =~ s/<\/td[^>]*>/ /gsi;
 
-    # replace "  " with " " space
-    $Param{String} =~ s/  / /mg;
+    # replace multiple spaces with just one space
+    $Param{String} =~ s/[ ]{2,}/ /mg;
 
     # remember <pre> and <code> tags and replace it
     for my $Key ( keys %One2One ) {
@@ -1105,6 +1105,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.35 $ $Date: 2012-02-02 22:22:50 $
+$Revision: 1.35.2.1 $ $Date: 2012-05-11 11:49:16 $
 
 =cut
