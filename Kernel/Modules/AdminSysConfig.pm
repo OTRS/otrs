@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminSysConfig.pm - to change, import, export ConfigParameters
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSysConfig.pm,v 1.119 2011-11-29 13:13:26 mg Exp $
+# $Id: AdminSysConfig.pm,v 1.119.2.1 2012-05-11 08:22:03 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::SysConfig;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.119 $) [1];
+$VERSION = qw($Revision: 1.119.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -691,6 +691,15 @@ sub Run {
 
         # submit config changes
         $Self->{SysConfigObject}->CreateConfig();
+
+        # if running under PerlEx, reload the application (and thus the configuration)
+        if (
+            exists $ENV{'GATEWAY_INTERFACE'}
+            and $ENV{'GATEWAY_INTERFACE'} eq "CGI-PerlEx"
+            )
+        {
+            PerlEx::ReloadAll();
+        }
 
         # redirect
         return $Self->{LayoutObject}->Redirect(
