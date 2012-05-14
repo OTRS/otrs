@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Stats.pm - all stats core functions
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Stats.pm,v 1.112 2011-12-23 14:37:19 mb Exp $
+# $Id: Stats.pm,v 1.113 2012-05-14 19:19:35 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Date::Pcalc qw(:all);
 use Kernel::System::XML;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.112 $) [1];
+$VERSION = qw($Revision: 1.113 $) [1];
 
 =head1 NAME
 
@@ -1197,6 +1197,7 @@ sub CompletenessCheck {
                 my %TimeInSeconds = (
                     Year   => 31536000,    # 60 * 60 * 60 * 365
                     Month  => 2592000,     # 60 * 60 * 24 * 30
+                    Week   => 604800,      # 60 * 60 * 24 * 7
                     Day    => 86400,       # 60 * 60 * 24
                     Hour   => 3600,        # 60 * 60
                     Minute => 60,
@@ -2269,6 +2270,27 @@ sub _GenerateDynamicStats {
                         ( $Y, $M, $D ) = Add_Delta_YMD( $Y, $M, $D, 0, -$Count, 0 );
                         $Element->{TimeStart}
                             = sprintf( "%04d-%02d-%02d %02d:%02d:%02d", $Y, $M, 1, 0, 0, 0 );
+                        $Self->{LogObject}->Log(
+                            Priority => 'notice',
+                            Message  => "We have $Element->{TimeStop} and $Element->{TimeStart}"
+                        );
+
+                    }
+                    elsif ( $Element->{TimeRelativeUnit} eq 'Week' ) {
+                        ( $Y, $M, $D ) = Add_Delta_YMD( $Y, $M, $D, 0, -1, 0 );
+                        $Element->{TimeStop} = sprintf(
+                            "%04d-%02d-%02d %02d:%02d:%02d",
+                            $Y, $M, Days_in_Month( $Y, $M ),
+                            23, 59, 59
+                        );
+                        ( $Y, $M, $D ) = Add_Delta_YMD( $Y, $M, $D, 0, -$Count, 0 );
+                        $Element->{TimeStart}
+                            = sprintf( "%04d-%02d-%02d %02d:%02d:%02d", $Y, $M, 1, 0, 0, 0 );
+                        $Self->{LogObject}->Log(
+                            Priority => 'notice',
+                            Message  => "We have $Element->{TimeStop} and $Element->{TimeStart}"
+                        );
+
                     }
                     elsif ( $Element->{TimeRelativeUnit} eq 'Day' ) {
                         ( $Y, $M, $D ) = Add_Delta_YMD( $Y, $M, $D, 0, 0, -1 );
@@ -2402,6 +2424,12 @@ sub _GenerateDynamicStats {
             $Minute = 0;
             $Hour   = 0;
         }
+        elsif ( $Element->{SelectedValues}[0] eq 'Week' ) {
+            $Second = 0;
+            $Minute = 0;
+            $Hour   = 0;
+            ( $Year, $Month, $Day ) = Monday_of_Week( Week_of_Year( $Year, $Month, $Day ) )
+        }
         elsif ( $Element->{SelectedValues}[0] eq 'Month' ) {
             $Second = 0;
             $Minute = 0;
@@ -2490,6 +2518,25 @@ sub _GenerateDynamicStats {
                     );
                 }
             }
+            elsif ( $Element->{SelectedValues}[0] eq 'Week' ) {
+                ( $ToYear, $ToMonth, $ToDay )
+                    = Add_Delta_YMD( $Year, $Month, $Day, 0, 0, $Count * 7 );
+                ( $ToYear, $ToMonth, $ToDay, $ToHour, $ToMinute, $ToSecond )
+                    = Add_Delta_DHMS(
+                    $ToYear, $ToMonth, $ToDay, $Hour, $Minute, $Second, 0, 0, 0,
+                    -1
+                    );
+                my %WeekNum;
+                ( $WeekNum{Week}, $WeekNum{Year} ) = Week_of_Year( $Year, $Month, $Day );
+                push(
+                    @HeaderLine,
+                    sprintf( "Week %02d-%04d - ", $WeekNum{Week}, $WeekNum{Year} ) .
+                        sprintf(
+                        "%02d.%02d.%04d - %02d.%02d.%04d",
+                        $Day, $Month, $Year, $ToDay, $ToMonth, $ToYear
+                        )
+                );
+            }
             elsif ( $Element->{SelectedValues}[0] eq 'Month' ) {
                 ( $ToYear, $ToMonth, $ToDay ) = Add_Delta_YMD( $Year, $Month, $Day, 0, $Count, 0 );
                 ( $ToYear, $ToMonth, $ToDay, $ToHour, $ToMinute, $ToSecond )
@@ -2544,8 +2591,6 @@ sub _GenerateDynamicStats {
                 { TimeStart => $TimeStart, TimeStop => $TimeStop }
             );
         }
-
-        # FIXME ENDE TimeHeader zusammenbaen
 
         $Xvalue->{Block}  = 'Time';
         $Xvalue->{Values} = $Element->{Values};
@@ -2616,9 +2661,8 @@ sub _GenerateDynamicStats {
         }
         elsif ( $Ref1->{SelectedValues}[0] eq 'Month' ) {
 
-            $Count = 1;
-            for ( 1 .. 31 ) {
-                push @HeaderLine, $_;
+            for my $Count ( 1 .. 31 ) {
+                push @HeaderLine, $Count;
             }
 
             $VSSecond   = 0;
@@ -2626,6 +2670,18 @@ sub _GenerateDynamicStats {
             $VSHour     = 0;
             $VSDay      = 1;
             $ColumnName = 'Month';
+        }
+        elsif ( $Ref1->{SelectedValues}[0] eq 'Week' ) {
+
+            for my $Count ( 1 .. 7 ) {
+                push @HeaderLine, Day_of_Week_to_Text($Count);
+            }
+
+            $VSSecond   = 0;
+            $VSMinute   = 0;
+            $VSHour     = 0;
+            $ColumnName = 'Week';
+            warn 'foo';
         }
         elsif ( $Ref1->{SelectedValues}[0] eq 'Day' ) {
             for ( my $Hour = 0; $Hour < 24; $Hour += $Count ) {
@@ -2716,6 +2772,36 @@ sub _GenerateDynamicStats {
                 $TimeStop = sprintf( "%04d-%02d-%02d 23:59:59", $ToYear, $ToMonth, $ToDay );
 
                 #                    if ($Count == 1) {
+                $ValueSeries{
+                    $VSYear . '-'
+                        . sprintf( "%02d", $VSMonth ) . ' '
+                        . $MonthArrayRef->[$VSMonth]
+                    }
+                    = {
+                    $Ref1->{Values}{TimeStop}  => $TimeStop,
+                    $Ref1->{Values}{TimeStart} => $TimeStart
+                    };
+
+                ( $VSYear, $VSMonth, $VSDay, $VSHour, $VSMinute, $VSSecond )
+                    = Add_Delta_DHMS(
+                    $ToYear, $ToMonth, $ToDay, $ToHour, $ToMinute, $ToSecond, 0,
+                    0, 0, 1
+                    );
+            }
+        }
+        elsif ( $Ref1->{SelectedValues}[0] eq 'Week' ) {
+            while (
+                $Self->{TimeObject}->TimeStamp2SystemTime( String => $TimeStop )
+                < $TimeAbsolutStopUnixTime
+                )
+            {
+                my @Monday = Monday_of_Week( Week_of_Year( $VSYear, $VSMonth, $VSDay ) );
+
+                $TimeStart = sprintf( "%04d-%02d-%02d 00:00:00", @Monday );
+                ( $ToYear, $ToMonth, $ToDay )
+                    = Add_Delta_Days( @Monday, 6 );
+                $TimeStop = sprintf( "%04d-%02d-%02d 23:59:59", $ToYear, $ToMonth, $ToDay );
+
                 $ValueSeries{
                     $VSYear . '-'
                         . sprintf( "%02d", $VSMonth ) . ' '
@@ -3352,6 +3438,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.112 $ $Date: 2011-12-23 14:37:19 $
+$Revision: 1.113 $ $Date: 2012-05-14 19:19:35 $
 
 =cut

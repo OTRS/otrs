@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentStats.pm - stats module
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStats.pm,v 1.124 2012-04-20 00:22:34 ep Exp $
+# $Id: AgentStats.pm,v 1.125 2012-05-14 19:19:35 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::CSV;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.124 $) [1];
+$VERSION = qw($Revision: 1.125 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -955,6 +955,7 @@ sub Run {
                             "%04d-%02d-%02d %02d:%02d:%02d",
                             $Time{ $Limit . 'Year' },
                             $Time{ $Limit . 'Month' },
+                            $Time{ $Limit . 'Week' },
                             $Time{ $Limit . 'Day' },
                             $Time{ $Limit . 'Hour' },
                             $Time{ $Limit . 'Minute' },
@@ -1627,6 +1628,9 @@ sub Run {
                         }
                         elsif ( $_->{SelectedValues}[0] eq 'Day' ) {
                             $ObjectAttribute->{SelectedValues} = ['Month'];
+                        }
+                        elsif ( $_->{SelectedValues}[0] eq 'Week' ) {
+                            $ObjectAttribute->{SelectedValues} = ['Week'];
                         }
                         elsif ( $_->{SelectedValues}[0] eq 'Month' ) {
                             $ObjectAttribute->{SelectedValues} = ['Year'];
@@ -2370,7 +2374,7 @@ sub _Timeoutput {
     for (qw(Start Stop)) {
         $TimeConfig{Prefix} = $Element . $_;
 
-        # time setting if avialable
+        # time setting if available
         if (
             $Param{ 'Time' . $_ }
             && $Param{ 'Time' . $_ } =~ m{^(\d\d\d\d)-(\d\d)-(\d\d)\s(\d\d):(\d\d):(\d\d)$}xi
@@ -2453,11 +2457,12 @@ sub _TimeScaleBuildSelection {
             Minute => 'minute(s)',
             Hour   => 'hour(s)',
             Day    => 'day(s)',
+            Week   => 'week(s)',
             Month  => 'month(s)',
             Year   => 'year(s)',
         },
         Sort => 'IndividualKey',
-        SortIndividual => [ 'Second', 'Minute', 'Hour', 'Day', 'Month', 'Year' ]
+        SortIndividual => [ 'Second', 'Minute', 'Hour', 'Day', 'Week', 'Month', 'Year' ]
     );
 
     return %TimeScaleBuildSelection;
@@ -2481,12 +2486,16 @@ sub _TimeScale {
             Position => 4,
             Value    => 'day(s)',
         },
-        'Month' => {
+        'Week' => {
             Position => 5,
+            Value    => 'week(s)',
+        },
+        'Month' => {
+            Position => 6,
             Value    => 'month(s)',
         },
         'Year' => {
-            Position => 6,
+            Position => 7,
             Value    => 'year(s)',
         },
     );
@@ -2695,6 +2704,7 @@ sub _TimeInSeconds {
     my %TimeInSeconds = (
         Year   => 31536000,    # 60 * 60 * 60 * 365
         Month  => 2592000,     # 60 * 60 * 24 * 30
+        Week   => 604800,      # 60 * 60 * 24 * 7
         Day    => 86400,       # 60 * 60 * 24
         Hour   => 3600,        # 60 * 60
         Minute => 60,
