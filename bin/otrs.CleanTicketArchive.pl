@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # otrs.CleanTicketArchive.pl - Clean the ticket archive flag
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.CleanTicketArchive.pl,v 1.3 2010-08-06 17:49:20 cr Exp $
+# $Id: otrs.CleanTicketArchive.pl,v 1.4 2012-05-14 18:45:29 mb Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 use Kernel::Config;
 use Kernel::System::Encode;
@@ -55,7 +55,7 @@ $CommonObject{TicketObject} = Kernel::System::Ticket->new(%CommonObject);
 
 # print header
 print STDOUT "otrs.CleanTicketArchive.pl <Revision $VERSION> - clean ticket archive flag\n";
-print STDOUT "Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
+print STDOUT "Copyright (C) 2001-2012 OTRS AG, http://otrs.org/\n";
 
 # check if archive system is activated
 if ( !$CommonObject{ConfigObject}->Get('Ticket::ArchiveSystem') ) {
@@ -87,7 +87,7 @@ for my $TicketID (@TicketIDs) {
     );
 
     # output state
-    if ( ( $Count / 2000 ) == int( $Count / 2000 ) ) {
+    if ( $Count % 2000 == 0 ) {
         my $Percent = int( $Count / ( $TicketNumber / 100 ) );
         print STDOUT "NOTICE: $Count of $TicketNumber processed ($Percent% done).\n";
     }

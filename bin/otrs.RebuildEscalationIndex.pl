@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # otrs.RebuildEscalationIndex.pl - rebuild escalation index
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.RebuildEscalationIndex.pl,v 1.8 2010-11-25 08:48:06 bes Exp $
+# $Id: otrs.RebuildEscalationIndex.pl,v 1.9 2012-05-14 18:45:29 mb Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 use Getopt::Std;
 
@@ -47,7 +47,7 @@ my %Opts;
 getopt( 'h', \%Opts );
 if ( $Opts{h} ) {
     print "otrs.RebuildEscalationIndex.pl <Revision $VERSION> - rebuild escalation index\n";
-    print "Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
+    print "Copyright (C) 2001-2012 OTRS AG, http://otrs.org/\n";
     print "usage: otrs.RebuildEscalationIndex.pl\n";
     exit 1;
 }
@@ -86,7 +86,7 @@ for my $TicketID (@TicketIDs) {
         TicketID => $TicketID,
         UserID   => 1,
     );
-    if ( ( $Count / 2000 ) == int( $Count / 2000 ) ) {
+    if ( $Count % 2000 == 0 ) {
         my $Percent = int( $Count / ( $#TicketIDs / 100 ) );
         print "NOTICE: $Count of $#TicketIDs processed ($Percent% done).\n";
     }

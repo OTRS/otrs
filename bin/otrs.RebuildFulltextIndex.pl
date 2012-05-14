@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # otrs.RebuildFulltextIndex.pl - the global search indexer handle
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.RebuildFulltextIndex.pl,v 1.9 2010-08-06 17:49:20 cr Exp $
+# $Id: otrs.RebuildFulltextIndex.pl,v 1.10 2012-05-14 18:45:29 mb Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -46,7 +46,7 @@ my %Opts = ();
 getopt( 'h', \%Opts );
 if ( $Opts{h} ) {
     print "otrs.RebuildFulltextIndex.pl <Revision $VERSION> - rebuild fulltext index\n";
-    print "Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
+    print "Copyright (C) 2001-2012 OTRS AG, http://otrs.org/\n";
     print "usage: otrs.RebuildFulltextIndex.pl\n";
     exit 1;
 }
@@ -94,7 +94,7 @@ for my $TicketID (@TicketIDs) {
             ArticleID => $ArticleID,
             UserID    => 1,
         );
-        if ( ( $Count / 5000 ) == int( $Count / 5000 ) ) {
+        if ( $Count % 5000 == 0 ) {
             my $Percent = int( $Count / ( $#TicketIDs / 100 ) );
             print "NOTICE: $Count of $#TicketIDs processed ($Percent% done).\n";
         }
