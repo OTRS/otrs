@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2282 2012-05-11 12:12:39 mg Exp $
+# $Id: CHANGES,v 1.2283 2012-05-14 16:19:49 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.2.0 beta1 201?-??-??
+ - 2012-05-14 Added feature Ideascale#896 - Have the ability to set the default ticket type
+    or hide the ticket type in the Customer Interface for new tickets.
  - 2012-05-07 Fixed bug#8196 - Wrong article sender type for web service tickets.
  - 2012-04-27 Added bug#8075 - Article Sender Type to be added to
     NotificationEvent definitions.
