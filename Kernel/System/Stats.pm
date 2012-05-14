@@ -2,7 +2,7 @@
 # Kernel/System/Stats.pm - all stats core functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Stats.pm,v 1.113 2012-05-14 19:19:35 mb Exp $
+# $Id: Stats.pm,v 1.114 2012-05-14 19:25:32 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Date::Pcalc qw(:all);
 use Kernel::System::XML;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.113 $) [1];
+$VERSION = qw($Revision: 1.114 $) [1];
 
 =head1 NAME
 
@@ -2681,7 +2681,6 @@ sub _GenerateDynamicStats {
             $VSMinute   = 0;
             $VSHour     = 0;
             $ColumnName = 'Week';
-            warn 'foo';
         }
         elsif ( $Ref1->{SelectedValues}[0] eq 'Day' ) {
             for ( my $Hour = 0; $Hour < 24; $Hour += $Count ) {
@@ -3438,6 +3437,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.113 $ $Date: 2012-05-14 19:19:35 $
+$Revision: 1.114 $ $Date: 2012-05-14 19:25:32 $
 
 =cut
