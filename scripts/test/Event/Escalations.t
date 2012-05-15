@@ -2,7 +2,7 @@
 # Escalations.t - escalation event tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Escalations.t,v 1.9 2012-05-10 18:57:33 mh Exp $
+# $Id: Escalations.t,v 1.10 2012-05-15 23:25:19 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -179,9 +179,6 @@ my $CheckNumEvents = sub {
     my (%Param) = @_;
 
     my $JobName = $Param{JobName} || '';
-
-    # wait a bit before to execute the job
-    sleep 3;
 
     if ($JobName) {
         my $JobRun = $Param{GenericAgentObject}->JobRun(
@@ -469,5 +466,13 @@ my %NumEvents;
 
     # no need to clean up generic agent job, as it wasn't entered in the database
 }
+
+# remove it, just for testing
+my $FinishSystemTime = $Self->{TimeObject}->SystemTime();
+my $TimeLogString
+    = $StartingSystemTime . '::'
+    . $FinishSystemTime . '::'
+    . ( $FinishSystemTime - $StartingSystemTime );
+$Self->False( $TimeLogString, "TimeLog $TimeLogString" );
 
 1;
