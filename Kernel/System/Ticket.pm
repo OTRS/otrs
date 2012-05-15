@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.553 2012-05-14 07:06:54 mg Exp $
+# $Id: Ticket.pm,v 1.554 2012-05-15 09:11:51 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -40,7 +40,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.553 $) [1];
+$VERSION = qw($Revision: 1.554 $) [1];
 
 =head1 NAME
 
@@ -940,8 +940,9 @@ Get ticket info
 
     my %Ticket = $TicketObject->TicketGet(
         TicketID      => 123,
-        DynamicFields => 1,         # Optional. To include the dynamic field values for this ticket on the return structure.
+        DynamicFields => 0,         # Optional, default 0. To include the dynamic field values for this ticket on the return structure.
         UserID        => 123,
+        Silent        => 0,         # Optional, default 0. To suppress the warning if the ticket does not exist.
     );
 
 Returns:
@@ -1113,10 +1114,12 @@ sub TicketGet {
 
     # check ticket
     if ( !$Ticket{TicketID} ) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => "No such TicketID ($Param{TicketID})!",
-        );
+        if ( !$Param{Silent} ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "No such TicketID ($Param{TicketID})!",
+            );
+        }
         return;
     }
 
@@ -7804,6 +7807,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.553 $ $Date: 2012-05-14 07:06:54 $
+$Revision: 1.554 $ $Date: 2012-05-15 09:11:51 $
 
 =cut
