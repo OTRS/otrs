@@ -2,7 +2,7 @@
 # Kernel/System/Cache.pm - all cache functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Cache.pm,v 1.21 2012-02-26 01:48:32 mh Exp $
+# $Id: Cache.pm,v 1.22 2012-05-15 08:44:29 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
+$VERSION = qw($Revision: 1.22 $) [1];
 
 =head1 NAME
 
@@ -96,7 +96,7 @@ sub new {
 set a new cache
 
     $CacheObject->Set(
-        Type  => 'ObjectName', # only A-z chars usable
+        Type  => 'ObjectName', # only [a-zA-Z0-9_] chars usable
         Key   => 'SomeKey',
         Value => 'Some Value',
         TTL   => 24*60*60,     # in sec. in this case 24h
@@ -113,6 +113,16 @@ sub Set {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
+    }
+
+    # Enforce cache type restriction to make sure it works properly on all file systems.
+    if ( $Param{Type} !~ m{ \A [a-zA-Z0-9_]+ \z}smx ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message =>
+                "Cache Type '$Param{Type}' contains invalid characters, use [a-zA-Z0-9_] only!",
+        );
+        return;
     }
 
     # debug
@@ -250,6 +260,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.21 $ $Date: 2012-02-26 01:48:32 $
+$Revision: 1.22 $ $Date: 2012-05-15 08:44:29 $
 
 =cut

@@ -1,8 +1,8 @@
 # --
 # Kernel/System/CacheInternal.pm - all cache functions
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CacheInternal.pm,v 1.9 2010-11-30 13:11:11 mg Exp $
+# $Id: CacheInternal.pm,v 1.10 2012-05-15 08:44:29 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use warnings;
 use Kernel::System::Cache;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 =head1 NAME
 
@@ -65,7 +65,7 @@ create an object
         LogObject    => $LogObject,
         MainObject   => $MainObject,
         EncodeObject => $EncodeObject,
-        Type         => 'ObjectName', # only A-z chars usable
+        Type         => 'ObjectName', # only [a-zA-Z0-9_] chars usable
         TTL          => 60 * 60 * 24,
     );
 
@@ -88,6 +88,16 @@ sub new {
 
     for (qw(Type TTL)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
+    }
+
+    # Enforce cache type restriction to make sure it works properly on all file systems.
+    if ( $Param{Type} !~ m{ \A [a-zA-Z0-9_]+ \z}smx ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message =>
+                "Cache type '$Param{Type}' contains invalid characters, use [a-zA-Z0-9_] only!",
+        );
+        die "Cache type '$Param{Type}' contains invalid characters, use [a-zA-Z0-9_] only!";
     }
 
     $Self->{Type} = 'CacheInternal' . $Self->{Type};
@@ -278,6 +288,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.9 $ $Date: 2010-11-30 13:11:11 $
+$Revision: 1.10 $ $Date: 2012-05-15 08:44:29 $
 
 =cut

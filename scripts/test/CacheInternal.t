@@ -1,8 +1,8 @@
 # --
 # CacheInternal.t - CacheInternal tests
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CacheInternal.t,v 1.3 2010-11-30 13:11:11 mg Exp $
+# $Id: CacheInternal.t,v 1.4 2012-05-15 08:44:29 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,6 +25,21 @@ my $CacheInternal2 = Kernel::System::CacheInternal->new(
     %{$Self},
     Type => 'UnitTest1',
     TTL  => 60,
+);
+
+my $CacheInternalInvalid;
+
+eval {
+    $CacheInternalInvalid = Kernel::System::CacheInternal->new(
+        %{$Self},
+        Type => 'UnitTest1::invalid::type',
+        TTL  => 60,
+    );
+};
+
+$Self->False(
+    scalar $CacheInternalInvalid,
+    "Could not create CacheInternal with broken type",
 );
 
 my @Tests = (

@@ -2,7 +2,7 @@
 # Cache.t - Cache tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Cache.t,v 1.23 2012-03-14 13:32:10 mh Exp $
+# $Id: Cache.t,v 1.24 2012-05-15 08:44:29 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -76,6 +76,27 @@ for my $Module qw(FileStorable FileRaw) {
     $Self->False(
         $CacheGet || '',
         "#1 - $Module - CacheGet()",
+    );
+
+    # invalid keys
+    $CacheSet = $CacheObject->Set(
+        Type  => 'CacheTest2::invalid::type',
+        Key   => 'Test',
+        Value => '1234',
+        TTL   => 60 * 24 * 60 * 60,
+    );
+    $Self->False(
+        scalar $CacheSet,
+        "#1 - $Module - CacheSet() for invalid type",
+    );
+
+    $CacheGet = $CacheObject->Get(
+        Type => 'CacheTest2::invalid::type',
+        Key  => 'Test',
+    );
+    $Self->False(
+        scalar $CacheGet,
+        "#1 - $Module - CacheGet() for invalid type",
     );
 
     # test charset specific situations
