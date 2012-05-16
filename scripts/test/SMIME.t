@@ -2,7 +2,7 @@
 # SMIME.t - SMIME tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: SMIME.t,v 1.26 2012-05-16 00:17:48 cr Exp $
+# $Id: SMIME.t,v 1.27 2012-05-16 07:43:27 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -1186,6 +1186,8 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
 -----END RSA PRIVATE KEY-----',
     };
 
+    my $OriginalPrivateListCount = $CryptObject->PrivateList();
+
     # test privates
     for my $Number ( 0 .. 3 ) {
         my %Result = $CryptObject->PrivateAdd(
@@ -1223,7 +1225,7 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
         $ResultNumber = scalar @Result;
         $Self->Is(
             $ResultNumber,
-            $Counter,
+            $Counter + $OriginalPrivateListCount,
             "# private list must be return also $Counter",
         );
     }
