@@ -2,7 +2,7 @@
 # Escalations.t - escalation event tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Escalations.t,v 1.10 2012-05-15 23:25:19 cg Exp $
+# $Id: Escalations.t,v 1.11 2012-05-16 21:01:38 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -48,6 +48,12 @@ my $UniqueSignature = sprintf
 my $StartingSystemTime = $Self->{TimeObject}->SystemTime();
 my $StartingTimeStamp
     = $Self->{TimeObject}->SystemTime2TimeStamp( SystemTime => $StartingSystemTime );
+
+# counted time for check if current time is bussiness hours
+my $CountedTime;
+
+# one minute in seconds
+my $OneMinute = 60;
 
 # create a test queue with immediate escalation
 my ( $QueueID, $QueueName );
@@ -249,9 +255,17 @@ my %NumEvents;
 # EscalationResponseTimeStart and EscalationSolutionTimeStart
 {
 
-    # check whether events were triggered: first response escalation, solution time escalation
-    $NumEvents{EscalationSolutionTimeStart}++;
-    $NumEvents{EscalationResponseTimeStart}++;
+    # not allowed trigger escalation start events outside busincess hours
+    $CountedTime = $Self->{TimeObject}->WorkingTime(
+        StartTime => $StartingSystemTime,
+        StopTime  => $Self->{TimeObject}->SystemTime() + $OneMinute,
+    );
+    if ($CountedTime) {
+
+        # check whether events were triggered: first response escalation, solution time escalation
+        $NumEvents{EscalationSolutionTimeStart}++;
+        $NumEvents{EscalationResponseTimeStart}++;
+    }
     $CheckNumEvents->(
         GenericAgentObject => $GenericAgentObject,
         TicketObject       => $TicketObject,
@@ -287,9 +301,17 @@ my %NumEvents;
         Value => 0,
     );
 
-    # check whether events were triggered: first response escalation, solution time escalation
-    $NumEvents{EscalationSolutionTimeStart}++;
-    $NumEvents{EscalationResponseTimeStart}++;
+    # not allowed trigger escalation start events outside busincess hours
+    $CountedTime = $Self->{TimeObject}->WorkingTime(
+        StartTime => $StartingSystemTime,
+        StopTime  => $Self->{TimeObject}->SystemTime() + $OneMinute,
+    );
+    if ($CountedTime) {
+
+        # check whether events were triggered: first response escalation, solution time escalation
+        $NumEvents{EscalationSolutionTimeStart}++;
+        $NumEvents{EscalationResponseTimeStart}++;
+    }
     $CheckNumEvents->(
         GenericAgentObject => $GenericAgentObject,
         TicketObject       => $TicketObject,
@@ -325,10 +347,18 @@ my %NumEvents;
         NoAgentNotify => 1,    # if you don't want to send agent notifications
     );
 
-    # check whether events were triggered
-    # the first response escalation goes away, update time escalation is triggered
-    $NumEvents{EscalationSolutionTimeStart}++;
-    $NumEvents{EscalationUpdateTimeStart}++;
+    # not allowed trigger escalation start events outside busincess hours
+    $CountedTime = $Self->{TimeObject}->WorkingTime(
+        StartTime => $StartingSystemTime,
+        StopTime  => $Self->{TimeObject}->SystemTime() + $OneMinute,
+    );
+    if ($CountedTime) {
+
+        # check whether events were triggered
+        # the first response escalation goes away, update time escalation is triggered
+        $NumEvents{EscalationSolutionTimeStart}++;
+        $NumEvents{EscalationUpdateTimeStart}++;
+    }
     $CheckNumEvents->(
         GenericAgentObject => $GenericAgentObject,
         TicketObject       => $TicketObject,
@@ -440,8 +470,15 @@ my %NumEvents;
     # as TicketEscalationIndexBuild() of OTRS 2.4.7  does not care
     delete $TicketObject->{ 'Cache::GetTicket' . $TicketID };
 
-    $NumEvents{EscalationSolutionTimeNotifyBefore}++;
-    $NumEvents{EscalationUpdateTimeNotifyBefore}++;
+    # not allowed trigger escalation start events outside busincess hours
+    $CountedTime = $Self->{TimeObject}->WorkingTime(
+        StartTime => $StartingSystemTime,
+        StopTime  => $Self->{TimeObject}->SystemTime() + $OneMinute,
+    );
+    if ($CountedTime) {
+        $NumEvents{EscalationSolutionTimeNotifyBefore}++;
+        $NumEvents{EscalationUpdateTimeNotifyBefore}++;
+    }
     $CheckNumEvents->(
         GenericAgentObject => $GenericAgentObject,
         TicketObject       => $TicketObject,
@@ -466,13 +503,5 @@ my %NumEvents;
 
     # no need to clean up generic agent job, as it wasn't entered in the database
 }
-
-# remove it, just for testing
-my $FinishSystemTime = $Self->{TimeObject}->SystemTime();
-my $TimeLogString
-    = $StartingSystemTime . '::'
-    . $FinishSystemTime . '::'
-    . ( $FinishSystemTime - $StartingSystemTime );
-$Self->False( $TimeLogString, "TimeLog $TimeLogString" );
 
 1;
