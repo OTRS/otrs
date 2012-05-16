@@ -1,0 +1,108 @@
+# Useful commands
+# get certificate hash
+openssl x509 -in Certificate.crt -hash
+# get certificate fingerprint
+openssl x509 -in Certificate.crt -fingerprint
+# get certificate basic information
+openssl x509 -in Certificate.crt -text
+# ---
+# ---
+
+# How to create a multi CA environment (Root and 2 Intermediate CAs)
+# OTRSRootCA
+#    -> OTRSRDCA
+#       -> OTRSLabCA
+#---------------------------------------------------
+#          -> smimeuser1  (current user certificate)
+
+#Configure the Root CA
+mkdir OTRSCA
+cd OTRSCA
+mkdir certs crl newcerts private
+echo "01" > serial
+cp /dev/null index.txt
+# beware that the location of the sample file is dependent on your environment
+cp /usr/lib/ssl/openssl.cnf
+# MacOSX
+# /opt/local/etc/openssl/openssl.cnf
+#  modify openssl.cnf as needed dir, default_bits, countryName, stateOrProvinceName, 0.organizationName_default, organizationalUnitName and emailAddress.
+
+# Create the Root CA
+# generate a private key
+openssl genrsa -des3 -out private/SMIMECAPrivateKey-OTRSCARoot.pem 4096
+# create a self-signed certificate valid for 10 years
+openssl req -new -x509 -nodes -sha1 -days 3650 -key private/SMIMECAPrivateKey-OTRSCARoot.pem -out SMIMECACertificate-OTRSRoot.crt
+# go for the default values if you adapted the settings in the openssl.cnf file or enter the values you desire
+#---
+
+# Configure Intermediate (RD) CA
+cd OTRSCA
+mkdir RD
+cd RD
+cp ../openssl.cnf
+mkdir certs crl newcerts private
+echo "01" > serial
+cp /dev/null index.txt
+#  modify openssl.cnf as needed dir, default_bits, countryName, stateOrProvinceName, 0.organizationName_default, organizationalUnitName and emailAddress.
+
+# Create the RD CA
+# generate a key
+openssl genrsa -des3 -out private/SMIMECAPrivateKey-OTRSRD.pem 4096
+# generate a signing request (valid for 10 years)
+openssl req -new -sha1 -key private/SMIMECAPrivateKey-OTRSRD.pem -out SMIMECACertificate-OTRSRD.csr
+# go for the default values if you adapted the settings in the openssl.cnf file or enter the values you desire
+# sing the request to generate the certificate
+mv SMIMECACertificate-OTRSRD.csr ..
+cd ..
+openssl ca -extensions v3_ca -days 3650 -out SMIMECACertificate-OTRSRD.csr.crt -in SMIMECACertificate-OTRSRD.csr -config openssl.cnf
+# if at this point openssl complaints about different country, organization etc, please change the options in [policy_match] section from 'match' to 'supplied' mv SMIMECACertificate-OTRSRD.* RD
+mv SMIMECACertificate-OTRSRD.csr RD
+# ----
+
+# Configure Intermediate (Lab) CA
+cd OTRSCA
+cd RD
+mkdir Lab
+cd Lab
+cp ../openssl.cnf
+mkdir certs crl newcerts private
+echo "01" > serial
+cp /dev/null index.txt
+#  modify openssl.cnf as needed dir, default_bits, countryName, stateOrProvinceName, 0.organizationName_default, organizationalUnitName and emailAddress.
+
+# Create the Lab CA
+# generate a key
+openssl genrsa -des3 -out private/SMIMECAPrivateKey-OTRSLab.pem 4096
+# generate a signing request (valid for 10 years)
+openssl req -new -sha1 -key private/SMIMECAPrivateKey-OTRSLab.pem -out SMIMECACertificate-OTRSLab.csr
+# go for the default values if you adapted the settings in the openssl.cnf file or enter the values you desire
+# sing the request to generate the certificate
+mv SMIMECACertificate-OTRSLab.csr ..
+cd ..
+openssl ca -extensions v3_ca -days 3650 -out SMIMECACertificate-OTRSLab.csr.crt -in SMIMECACertificate-OTRSLab.csr -config openssl.cnf
+# if at this point openssl complaints about different country, organization etc, please change the options in [policy_match] section from 'match' to 'supplied' mv SMIMECACertificate-OTRSLab.* Lab
+mv SMIMECACertificate-OTRSLab.csr Lab
+# ---
+
+# Configure User Certificate
+cd OTRSCA
+cd RD
+cd Lab
+mkdir User
+cd User
+cp ../openssl.cnf
+#  modify openssl.cnf as needed dir, default_bits, countryName, stateOrProvinceName, 0.organizationName_default, organizationalUnitName and emailAddress.
+
+# Create the User Certificate
+# generate a key
+openssl genrsa -des3 -out private/SMIMEPrivateKey-smimeuser1.pem 4096
+# generate a signing request (valid for 10 years)
+openssl req -new -key SMIMEPrivateKey-smimeuser1.pem -out SMIMECertificate-smimeuser1.csr -config openssl.cnf
+# sing the request to generate the certificate
+mv SMIMECertificate-smimeuser1.csr ..
+cd ..
+openssl x509 -req -days 3650 -CA cacert.crt -CAkey private/SMIMECAPrivateKey-OTRSLab.pem -CAcreateserial -in SMIMECertificate-smimeuser1.csr  -out SMIMECertificate-smimeuser1.crt
+# if at this point openssl complaints about different country, organization etc, please change the options in [policy_match] section from 'match' to 'supplied' mv SMIMECertificate-smimeuser1.* UserCertificate
+mv SMIMECertificate-smimeuser1.* User
+# ---
+# ---
