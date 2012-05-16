@@ -1,8 +1,8 @@
 # --
 # Kernel/System/CustomerUser/DB.pm - some customer user functions
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.86 2010-11-25 11:09:01 mg Exp $
+# $Id: DB.pm,v 1.86.2.1 2012-05-16 09:42:14 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::Valid;
 use Kernel::System::Cache;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.86 $) [1];
+$VERSION = qw($Revision: 1.86.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -240,9 +240,12 @@ sub CustomerSearch {
             );
             return;
         }
+
+        my $Search = $Self->{DBObject}->QueryStringEscape( QueryString => $Param{Search} );
+
         $SQL .= $Self->{DBObject}->QueryCondition(
             Key          => $Self->{CustomerUserMap}->{CustomerUserSearchFields},
-            Value        => $Param{Search},
+            Value        => $Search,
             SearchPrefix => $Self->{SearchPrefix},
             SearchSuffix => $Self->{SearchSuffix},
         ) . ' ';
