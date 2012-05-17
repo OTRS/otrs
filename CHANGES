@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2260.2.23 2012-05-16 11:14:23 mg Exp $
+# $Id: CHANGES,v 1.2260.2.24 2012-05-17 22:35:53 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.1.6 2012-??-??
+ - 2012-05-17 Fixed bug#8498 - OpenSSL 1.0.0 does not get the stored SMIME certificates when
+    -CApath is used in the command.
  - 2012-05-16 Fixed bug#8337 - Parentheses in user last_name / first_name are not sanitized.
  - 2012-05-15 Updated French translation, thanks to Romain Monnier!
  - 2012-05-11 Fixed bug#8467 - Reply to an e-mail address with ' not possible.

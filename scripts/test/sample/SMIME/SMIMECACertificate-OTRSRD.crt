@@ -1,0 +1,127 @@
+Certificate:
+    Data:
+        Version: 3 (0x2)
+        Serial Number: 1 (0x1)
+        Signature Algorithm: sha1WithRSAEncryption
+        Issuer: C=DE, ST=Bayern, L=Straubing, O=OTRS AG, OU=Development, CN=OTRS Root CA/emailAddress=otrsroot@example.com
+        Validity
+            Not Before: May 14 23:58:14 2012 GMT
+            Not After : May 12 23:58:14 2022 GMT
+        Subject: C=DE, ST=Bayern, O=OTRS AG, OU=R&D, CN=OTRS R&D/emailAddress=otrsrd@example.com
+        Subject Public Key Info:
+            Public Key Algorithm: rsaEncryption
+            RSA Public Key: (4096 bit)
+                Modulus (4096 bit):
+                    00:cf:e1:cf:8e:62:52:38:36:79:66:79:e5:7a:33:
+                    c8:7a:7a:0b:fc:29:32:ca:1f:1b:b1:78:b3:d4:5f:
+                    da:7d:3d:99:68:03:e6:b8:e9:0a:3f:c2:7a:02:61:
+                    c8:69:6a:5b:41:54:22:4c:4d:be:02:d9:0c:9a:1c:
+                    16:a7:ff:ed:06:e9:d1:91:1b:c5:ed:e0:44:f5:01:
+                    b1:59:1c:cb:37:0a:47:8a:9f:49:22:00:c3:7f:ba:
+                    2d:48:d2:44:a0:80:76:ea:db:f6:02:5e:f2:ad:39:
+                    dd:6c:e8:bf:20:37:9e:6c:c2:02:6e:36:86:1e:12:
+                    eb:9f:0d:fb:7b:68:10:48:2a:11:b1:00:69:44:a2:
+                    5b:1c:90:47:09:8d:90:53:47:e9:bb:1f:92:56:f1:
+                    f1:df:b2:0b:12:fb:95:0b:63:25:3c:6c:36:5f:57:
+                    04:84:54:6b:ac:32:20:fd:c1:bc:16:6e:d3:1e:f8:
+                    7e:1f:a0:62:4a:7a:40:53:19:32:6b:3b:52:d9:19:
+                    6a:09:c2:af:ed:5c:d1:a0:bb:bd:0e:14:90:a1:34:
+                    53:d3:7d:ca:f5:df:a1:9a:fb:f0:48:ed:08:c5:31:
+                    f8:6a:56:c0:35:1f:17:8f:1d:4e:a0:e5:61:a9:97:
+                    3a:f9:f9:e2:aa:ad:52:8f:0c:d6:b0:ba:cc:7d:4d:
+                    17:27:8a:8d:ed:9c:66:a2:c9:da:54:e0:55:6c:a7:
+                    7d:88:6c:36:05:20:26:c1:1a:df:d1:0a:31:f6:23:
+                    86:bf:7b:83:95:78:47:26:30:73:32:98:84:71:df:
+                    48:f2:99:2b:63:97:e9:6c:e3:a8:48:88:1a:1b:87:
+                    b2:3e:e8:6e:b3:d6:46:d6:b7:a7:f2:9c:ec:b4:b2:
+                    22:0a:85:a6:eb:55:31:bb:8a:93:f0:a0:74:49:a5:
+                    df:70:c5:a6:f0:be:12:f8:e5:4d:7b:6a:db:6c:93:
+                    e0:7c:31:0b:23:40:fb:63:a2:89:23:74:9b:d2:43:
+                    62:fe:42:27:db:92:c0:dc:f8:6f:a5:f0:7d:7a:ae:
+                    12:24:51:15:12:27:f5:64:a2:f4:7e:8b:48:c8:43:
+                    86:03:cb:f4:6c:36:61:4e:bf:5f:fc:e5:32:6a:6a:
+                    b8:9f:45:83:b3:f1:9e:a0:b7:30:d1:88:8d:b6:44:
+                    ea:31:83:d2:1c:4e:88:e5:80:de:6b:a3:52:b8:51:
+                    14:94:ab:c4:0b:63:5c:34:fc:79:a9:90:f9:3a:0f:
+                    34:56:d4:7b:a1:e3:38:95:d6:b2:ba:f7:dc:1a:77:
+                    ff:eb:52:07:41:13:e4:9e:14:dc:e7:8d:47:8e:56:
+                    09:f3:29:1c:12:66:d8:71:54:2f:04:d9:58:17:24:
+                    10:38:21
+                Exponent: 65537 (0x10001)
+        X509v3 extensions:
+            X509v3 Subject Key Identifier: 
+                1E:84:61:EF:D9:41:46:38:7A:40:31:85:50:3D:A3:A0:CD:79:0F:9A
+            X509v3 Authority Key Identifier: 
+                keyid:E6:93:90:A2:90:CB:D4:6A:84:1E:38:C1:6D:92:3D:4A:A4:68:CE:7F
+                DirName:/C=DE/ST=Bayern/L=Straubing/O=OTRS AG/OU=Development/CN=OTRS Root CA/emailAddress=otrsroot@example.com
+                serial:D6:FD:7C:65:60:CF:B7:BF
+
+            X509v3 Basic Constraints: 
+                CA:TRUE
+    Signature Algorithm: sha1WithRSAEncryption
+        2f:af:8f:bd:96:d0:f1:85:92:92:18:2b:e1:14:08:e6:d7:c6:
+        e6:8c:b1:f0:86:14:9f:ec:39:e2:1f:9d:de:f1:5e:10:5a:54:
+        38:a7:ca:d6:a1:58:52:60:81:73:a5:98:f1:01:f1:9c:72:f4:
+        48:9a:c3:d0:63:79:fc:92:7a:d9:d3:0b:6d:c7:dd:f9:40:0e:
+        b9:ed:cd:40:91:d4:3e:d2:f6:67:7c:12:4c:41:38:58:89:8f:
+        82:79:f0:2d:8a:b7:75:f0:8b:aa:14:e3:43:61:ac:1b:87:bc:
+        7e:9e:ad:6c:f0:11:0f:1b:7e:c5:cd:cf:40:e1:91:81:46:6e:
+        3f:1d:b4:37:7c:7c:30:2a:e4:6f:1a:6a:93:8d:56:3d:08:f7:
+        0d:88:eb:dd:3b:24:22:cd:ba:4d:50:b1:89:3c:a3:21:2a:af:
+        46:9d:13:19:93:52:41:60:a1:25:19:a2:50:da:79:db:4d:a7:
+        37:7f:f8:06:0e:c9:ab:6c:9d:27:c5:26:db:3e:a0:52:42:27:
+        7e:16:dc:96:2b:b4:7e:5b:d8:2b:01:2c:78:b1:0f:20:f8:5a:
+        51:d5:8a:30:52:81:fc:c6:07:c4:0c:c7:3f:6a:17:d4:7e:0a:
+        54:31:90:ad:7b:7a:02:0c:ba:af:21:7d:0b:2d:13:8e:66:be:
+        84:f2:b4:d6:a3:d8:21:e0:af:dd:56:72:66:f1:5b:f9:77:6f:
+        02:95:09:c6:3a:9b:8d:50:aa:3a:87:bb:c0:b6:f9:40:f2:f5:
+        2e:4a:d1:94:66:89:69:fd:35:41:8b:54:2a:0e:9c:b8:b1:58:
+        74:93:8d:31:f5:ec:02:69:16:48:48:29:d5:88:7a:9c:1c:f2:
+        8a:4a:ce:8a:22:db:7a:63:ab:c9:ae:90:23:50:d4:61:d0:b3:
+        b1:60:de:e8:31:0b:cd:2b:85:8b:73:b4:1a:d9:55:5d:09:2a:
+        80:99:02:38:dd:87:0c:aa:f4:a1:c3:fe:20:38:0c:92:6e:51:
+        eb:d2:38:14:df:bb:05:b0:5d:92:d3:70:0f:94:ff:3c:07:5b:
+        4e:50:96:4e:9a:64:04:71:60:1b:9b:5f:54:30:47:8c:b8:ca:
+        23:ba:34:8a:95:61:e1:b8:0c:03:4a:37:c9:e9:30:f1:cc:53:
+        2f:da:6e:cf:4f:dc:57:27:42:6b:aa:05:30:b8:c3:93:ac:94:
+        a3:3d:f9:9a:07:78:04:3c:0a:49:a2:ee:26:9e:88:4b:c8:f5:
+        f2:7b:3f:ff:ec:80:09:94:d4:9b:45:7b:4e:0f:5e:6b:9e:31:
+        51:e9:be:bd:ce:6b:a2:03:c1:99:19:45:66:81:68:71:59:12:
+        cc:12:6a:40:6a:d3:0b:8a
+-----BEGIN CERTIFICATE-----
+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
+-----END CERTIFICATE-----

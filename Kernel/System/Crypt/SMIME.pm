@@ -2,7 +2,7 @@
 # Kernel/System/Crypt/SMIME.pm - the main crypt module
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: SMIME.pm,v 1.55.2.1 2012-05-03 12:33:52 mg Exp $
+# $Id: SMIME.pm,v 1.55.2.2 2012-05-17 22:32:54 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.55.2.1 $) [1];
+$VERSION = qw($Revision: 1.55.2.2 $) [1];
 
 =head1 NAME
 
@@ -1114,7 +1114,7 @@ sub _Init {
     $Self->{CertPath}    = $Self->{ConfigObject}->Get('SMIME::CertPath');
     $Self->{PrivatePath} = $Self->{ConfigObject}->Get('SMIME::PrivatePath');
 
-    if ( $^O =~ m{Win}i ) {
+    if ( $^O =~ m{mswin}i ) {
 
         # take care to deal properly with paths containing whitespace
         $Self->{Cmd} = qq{"$Self->{Bin}"};
@@ -1150,19 +1150,16 @@ sub _FetchAttributesFromCert {
     # was based on the deprecated MD5 algorithm and the encoding of the distinguished name.
     # In OpenSSL 1.0.0 and later it is based on a canonical version of the DN using SHA1.
     #
-    # output the hash of the certificate subject name using the older algorithm as
-    # used by OpenSSL versions before 1.0.0.
-
-    # hash
-    my $HashAttribute = '-subject_hash';
-
-    if ( $Self->{OpenSSLMajorVersion} >= 1 ) {
-        $HashAttribute = '-subject_hash_old';
-    }
+    # The older algorithm can be used with -subject_hash_old attribute, but doing this will might
+    # cause for openssl 1.0.0 that the -CApath option (e.g. in verify function) will not find the
+    # CA files in the path, due that openssl search for the file names based in current algorithm
+    #
+    # -subject_hash_old was used in otrs in the past (to keep the old hashes style, and perhaps to
+    # ease a migration between openssl versions ) but now is not recommended anymore.
 
     # testing new solution
     my $OptionString = ' '
-        . "$HashAttribute "
+        . '-subject_hash '
         . '-issuer '
         . '-fingerprint -sha1 '
         . '-serial '
@@ -1257,7 +1254,7 @@ sub _CleanOutput {
     my ( $Self, $Output ) = @_;
 
     # remove spurious warnings that appear on Windows
-    if ( $^O =~ m{Win}i ) {
+    if ( $^O =~ m{mswin}i ) {
         $Output =~ s{Loading 'screen' into random state - done\r?\n}{}igms;
     }
 
@@ -1698,6 +1695,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.55.2.1 $ $Date: 2012-05-03 12:33:52 $
+$Revision: 1.55.2.2 $ $Date: 2012-05-17 22:32:54 $
 
 =cut
