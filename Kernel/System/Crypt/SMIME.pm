@@ -2,7 +2,7 @@
 # Kernel/System/Crypt/SMIME.pm - the main crypt module
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: SMIME.pm,v 1.57 2012-05-16 00:12:08 cr Exp $
+# $Id: SMIME.pm,v 1.58 2012-05-17 21:16:15 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.57 $) [1];
+$VERSION = qw($Revision: 1.58 $) [1];
 
 =head1 NAME
 
@@ -1675,6 +1675,612 @@ sub SignerCertRelationDelete {
     return;
 }
 
+sub CheckCertParth {
+    my ( $Self, %Param ) = @_;
+
+    # normalize password file names
+    #
+    # in otrs 3.0 password files are stored in format like 12345678.p, from otrs 3.1 this files
+    # must be in a format like 12345678.0.p where .0 could be from 0 to 9 depending on the
+    # privatekey file name.
+
+    my $NormalizeResult = $Self->_NormalizePasswordFiles();
+
+    if ( !$NormalizeResult->{Success} ) {
+        return {
+            Success => 0,
+            Details => $NormalizeResult->{Details}
+                . "\n**Error in Normalize Password Files.\n\n",
+            ShortDetails => "**Error in Normalize Password Files.\n\n",
+            }
+    }
+
+    # re-calculate certificates hashes using current openssl
+    #
+    # from openssl 1.0.0 a new hash algorithm has been implemented, this new hash is not compatible
+    # with the old hash all stored certificates names must match current hash
+    # all affected certificates, public keys and passwords has to be renamed
+    # all affected relations has to be updated
+    my $ReHashSuccess = $Self->_ReHashCertificates();
+
+    if ( !$ReHashSuccess->{Success} ) {
+        return {
+            Success => 0,
+            Details => $NormalizeResult->{Details} . $ReHashSuccess->{Details}
+                . "\n**Error in Re-Hash Certificate Files.\n\n",
+            ShortDetails => "**Error in Re-Hash Certificate Files.\n\n",
+            }
+    }
+
+    return {
+        Success => 1,
+        Details => $NormalizeResult->{Details} . $ReHashSuccess->{Details}
+            . "\nSuccess.\n\n",
+        ShortDetails => "Success.\n\n",
+        }
+}
+
+sub _NormalizePasswordFiles {
+    my ( $Self, %Param ) = @_;
+
+    # get all files that ends with .P from the private directory
+    my @List = $Self->{MainObject}->DirectoryRead(
+        Directory => "$Self->{PrivatePath}",
+        Filter    => '*.P',
+    );
+
+    my $Details;
+
+    $Details = $Self->_DetailsLog(
+        Message =>
+            "* Normalize Password Files\n"
+            . "- Private path: $Self->{PrivatePath}\n"
+            . "-",
+        Details => $Details,
+    );
+
+    # stop if there are no passwords stored
+    if ( scalar @List == 0 ) {
+        $Details = $Self->_DetailsLog(
+            Message => "No password files found, nothing to do!... OK",
+            Details => $Details,
+        );
+
+        return {
+            Success => 1,
+            Details => $Details,
+            }
+    }
+
+    my @WrongPasswordList;
+
+    # exclude the password files that has a correct name format
+    FILENAME:
+    for my $File (@List) {
+        $File =~ s{^.*/}{}xms;
+        next FILENAME if ( $File =~ m{.+ \. \d \. P}smxi );
+        push @WrongPasswordList, $File;
+    }
+
+    # stop if the are no wrong files to normalize
+    if ( scalar @WrongPasswordList == 0 ) {
+        $Details = $Self->_DetailsLog(
+            Message => "Stored passwords found, but they are all corect, nothing to do... OK",
+            Details => $Details,
+        );
+
+        return {
+            Success => 1,
+            Details => $Details,
+            }
+    }
+
+    # check if the file with the correct name already exist in the system
+    FILENAME:
+    for my $File (@WrongPasswordList) {
+
+        # build the correct file name
+        $File =~ m{(.+) \. P}smxi;
+        my $Hash        = $1;
+        my $CorrectFile = "$Self->{PrivatePath}/$Hash.0.P";
+        my $WrongFile   = "$Self->{PrivatePath}/" . $File;
+
+        # check if a exists a file with the correct name
+        if ( -e $CorrectFile ) {
+
+            $Details = $Self->_DetailsLog(
+                Message => "Can't rename password file $File to $Hash.0.P because target file"
+                    . " already exists",
+                Details => $Details,
+            );
+
+            # check if the file contents are the same
+            my $WrongFileContent = $Self->{MainObject}->FileRead(
+                Location => $WrongFile,
+                Result   => 'SCALAR',
+            );
+            my $CorrectFileContent = $Self->{MainObject}->FileRead(
+                Location => $CorrectFile,
+                Result   => 'SCALAR',
+            );
+
+            # safe to delete file wrong file if they are identical
+            if ( ${$WrongFileContent} eq ${$CorrectFileContent} ) {
+
+                $Details = $Self->_DetailsLog(
+                    Message => "The content of both files is the same, is safe to remove"
+                        . " $File",
+                    Details => $Details,
+                );
+
+                my $Success = $Self->{MainObject}->FileDelete(
+                    Location => $WrongFile,
+                );
+
+                if ( !$Success ) {
+                    $Details = $Self->_DetailsLog(
+                        Message => "Could not remove SMIME password file $WrongFile from the"
+                            . "file system!",
+                        Error   => 1,
+                        Details => $Details,
+                    );
+
+                    return {
+                        Success => 0,
+                        Details => $Details,
+                    };
+                }
+                $Details = $Self->_DetailsLog(
+                    Message => "SMIME password file $File was removed from the file"
+                        . " system... OK",
+                    Details => $Details,
+                );
+                next FILENAME;
+            }
+
+            # otherwise leave the file for reference
+            else {
+                $Details = $Self->_DetailsLog(
+                    Message => "The content of both files is different, the SMIME password file"
+                        . " $File will not be deleted... Warning",
+                    Details => $Details,
+                );
+                next FILENAME;
+            }
+        }
+
+        # if do not exist a file, rename it
+        if ( !rename $WrongFile, $CorrectFile ) {
+
+            $Details = $Self->_DetailsLog(
+                Message => "Could not rename SMIME password file $WrongFile to $CorrectFile!",
+                Error   => 1,
+                Details => $Details,
+            );
+
+            return {
+                Success => 0,
+                Details => $Details,
+            };
+        }
+
+        $Details = $Self->_DetailsLog(
+            Message => "Renamed password file $File to $Hash.0.P ... OK",
+            Details => $Details,
+        );
+    }
+
+    return {
+        Success => 1,
+        Details => $Details,
+    };
+}
+
+sub _ReHashCertificates {
+    my ( $Self, %Param ) = @_;
+
+    # get the list of certificates
+    my @CertList = $Self->CertificateList();
+
+    my $Details;
+
+    $Details = $Self->_DetailsLog(
+        Message =>
+            "\n* Re-Hash Certificates\n"
+            . "- Certificate path: $Self->{CertPath}\n"
+            . "- Private path:     $Self->{PrivatePath}\n"
+            . "-",
+        Details => $Details,
+    );
+
+    if ( scalar @CertList == 0 ) {
+        $Details = $Self->_DetailsLog(
+            Message => "No certificate files found, nothing to do... OK\n",
+            Details => $Details,
+        );
+        return {
+            Success => 1,
+            Details => $Details,
+        };
+    }
+
+    my @WrongCertificatesList;
+
+    # exclude the certificate files with correct file name
+    FILENAME:
+    for my $File (@CertList) {
+        $File =~ s{^.*/}{}xms;
+
+        # get certificate attributes with current openssl version
+        my $Certificate = $Self->CertificateGet(
+            Filename => $File,
+        );
+        my %CertificateAttributes = $Self->CertificateAttributes(
+            Certificate => $Certificate,
+        );
+
+        # split filename into Hash.Index (12345678.0 -> 12345678 / 0)
+        $File =~ m{ (.+) \. (\d) }smx;
+        my $Hash  = $1;
+        my $Index = $2;
+
+        # get new hash from certficate attributes
+        my $NewHash     = $CertificateAttributes{Hash};
+        my $Fingerprint = $CertificateAttributes{Fingerprint};
+
+        next FILENAME if $Hash eq $NewHash;
+
+        push @WrongCertificatesList, {
+            Hash        => $Hash,
+            NewHash     => $NewHash,
+            Index       => $Index,
+            Fingerprint => $Fingerprint,
+        };
+    }
+
+    # stop if the are no wrong files to re-hash
+    if ( scalar @WrongCertificatesList == 0 ) {
+        $Details = $Self->_DetailsLog(
+            Message => "Stored certificates found, but they are all corect, nothing to do... OK",
+            Details => $Details,
+        );
+        return {
+            Success => 1,
+            Details => $Details,
+            }
+    }
+
+    # loop over wrong certificates
+    CERTIFICATE:
+    for my $WrongCertificate (@WrongCertificatesList) {
+
+        # recreate the certificate file name
+        my $WrongCertificateFile
+            = "$Self->{CertPath}/$WrongCertificate->{Hash}.$WrongCertificate->{Index}";
+
+        # check if certificate exists
+        if ( !-e $WrongCertificateFile ) {
+            $Details = $Self->_DetailsLog(
+                Message => "SMIME certificate $WrongCertificateFile file does not exist!",
+                Error   => 1,
+                Details => $Details,
+            );
+
+            return {
+                Success => 0,
+                Details $Details,
+                }
+        }
+
+        # look for an available new filename
+        my $NewCertificateFile;
+        my $NewPrivateKeyFile;
+        my $NewIndex;
+        FILENAME:
+        for my $Count ( 0 .. 9 ) {
+            my $CertTestFile = "$Self->{CertPath}/$WrongCertificate->{NewHash}.$Count";
+            if ( -e $CertTestFile ) {
+                next FILENAME;
+            }
+            $NewCertificateFile = $CertTestFile;
+            $NewPrivateKeyFile  = "$Self->{PrivatePath}/$WrongCertificate->{NewHash}.$Count";
+            $NewIndex           = $Count;
+            last FILENAME;
+        }
+
+        if ( !$NewCertificateFile ) {
+            $Details = $Self->_DetailsLog(
+                Message => "No more available filenames for certificate hash:"
+                    . " $WrongCertificate->{NewHash}!",
+                Error   => 1,
+                Details => $Details,
+            );
+
+            return {
+                Success => 0,
+                Details => $Details,
+            };
+
+        }
+
+        # set wrong private key
+        my $WrongPrivateKeyFile
+            = "$Self->{PrivatePath}/$WrongCertificate->{Hash}.$WrongCertificate->{Index}";
+
+        # check if certificate has a private key and password
+        # if has a private key it must have a password
+        my $HasPrivateKey;
+        if ( -e $WrongPrivateKeyFile ) {
+            $HasPrivateKey = 1;
+
+            # check new private key and password files
+            if ( -e $NewPrivateKeyFile ) {
+                $Details = $Self->_DetailsLog(
+                    Message => "Filename for private key: $NewPrivateKeyFile is alredy in use!",
+                    Error   => 1,
+                    Details => $Details,
+                );
+
+                return {
+                    Success => 0,
+                    Details => $Details,
+                    }
+            }
+            if ( -e $NewPrivateKeyFile . '.P' ) {
+                $Details = $Self->_DetailsLog(
+                    Message => "Filename for password: $NewPrivateKeyFile.P is alredy in use!",
+                    Error   => 1,
+                    Details => $Details,
+                );
+
+                return {
+                    Success => 0,
+                    Details => $Details,
+                    }
+            }
+        }
+
+        # rename certificate
+        if ( !rename $WrongCertificateFile, $NewCertificateFile ) {
+            $Details = $Self->_DetailsLog(
+                Message => "Could not rename SMIME certificate file $WrongCertificateFile to"
+                    . " $NewCertificateFile!",
+
+                Error   => 1,
+                Details => $Details,
+            );
+            $Details = $Self->_DetailsLog(
+                Message => "Rename certificate $WrongCertificate->{Hash}.$WrongCertificate->{Index}"
+                    . " to $WrongCertificate->{NewHash}.$NewIndex ... Failed",
+                Details => $Details,
+            );
+            return {
+                Success => 0,
+                Details => $Details,
+            };
+        }
+        $Details = $Self->_DetailsLog(
+            Message => "Rename certificate $WrongCertificate->{Hash}.$WrongCertificate->{Index}"
+                . " to $WrongCertificate->{NewHash}.$NewIndex ... OK",
+            Details => $Details,
+        );
+
+        # update certificate relations
+        # get relations that have this certificate
+        my $DBSuccess = $Self->{DBObject}->Prepare(
+            SQL =>
+                'SELECT id, cert_hash, cert_fingerprint, ca_hash, ca_fingerprint'
+                . ' FROM smime_signer_cert_relations'
+                . ' WHERE cert_hash = ? AND cert_fingerprint =?',
+            Bind => [ \$WrongCertificate->{Hash}, \$WrongCertificate->{Fingerprint} ],
+        );
+
+        my @WrongCertRelations;
+
+        if ($DBSuccess) {
+            while ( my @ResultData = $Self->{DBObject}->FetchrowArray() ) {
+
+                # format date
+                my %Data = (
+                    ID              => $ResultData[0],
+                    CertHash        => $ResultData[1],
+                    CertFingerprint => $ResultData[2],
+                    CAHash          => $ResultData[3],
+                    CAFingerprint   => $ResultData[4],
+                );
+                push @WrongCertRelations, \%Data;
+            }
+        }
+
+        $Details = $Self->_DetailsLog(
+            Message => "\tGet certificate DB relations for $WrongCertificate->{Hash}."
+                . "$WrongCertificate->{Index} as certificate",
+            Details => $Details,
+        );
+
+        # update relations
+        if ( scalar @WrongCertRelations > 0 ) {
+            for my $WrongRelation (@WrongCertRelations) {
+
+                my $Success = $Self->{DBObject}->Do(
+                    SQL =>
+                        'UPDATE smime_signer_cert_relations'
+                        . ' SET cert_hash = ?'
+                        . ' WHERE id = ? AND cert_fingerprint = ?',
+                    Bind => [
+                        \$WrongCertificate->{NewHash},
+                        \$WrongRelation->{ID}, \$WrongCertificate->{Fingerprint}
+                    ],
+                );
+
+                if ($Success) {
+                    $Details = $Self->_DetailsLog(
+                        Message => "\t\tUpdated relation ID: $WrongRelation->{ID} with"
+                            . " CA $WrongRelation->{CAHash} ... OK",
+                        Details => $Details,
+                    );
+                }
+                else {
+                    $Details = $Self->_DetailsLog(
+                        Message => "\t\tUpdated relation ID: $WrongRelation->{ID} with"
+                            . " CA $WrongRelation->{CAHash} ... Failed",
+                        Details => $Details,
+                    );
+                }
+            }
+        }
+        else {
+            $Details = $Self->_DetailsLog(
+                Message => "\t\tNo wrong relations foundm, nothing to do... OK",
+                Details => $Details,
+            );
+        }
+
+        # get relations that have this certificate as a CA
+        $DBSuccess = $Self->{DBObject}->Prepare(
+            SQL =>
+                'SELECT id, cert_hash, cert_fingerprint, ca_hash, ca_fingerprint'
+                . ' FROM smime_signer_cert_relations'
+                . ' WHERE ca_hash = ? AND ca_fingerprint =?',
+            Bind => [ \$WrongCertificate->{Hash}, \$WrongCertificate->{Fingerprint} ],
+        );
+
+        my @WrongCARelations;
+
+        if ($DBSuccess) {
+            while ( my @ResultData = $Self->{DBObject}->FetchrowArray() ) {
+
+                # format date
+                my %Data = (
+                    ID              => $ResultData[0],
+                    CertHash        => $ResultData[1],
+                    CertFingerprint => $ResultData[2],
+                    CAHash          => $ResultData[3],
+                    CAFingerprint   => $ResultData[4],
+                );
+                push @WrongCARelations, \%Data;
+            }
+        }
+
+        $Details = $Self->_DetailsLog(
+            Message => "Get certificate DB relations for $WrongCertificate->{Hash}."
+                . "$WrongCertificate->{Index} as CA",
+            Details => $Details,
+        );
+
+        # update relations (CA)
+        if ( scalar @WrongCertRelations > 0 ) {
+            for my $WrongRelation (@WrongCARelations) {
+
+                my $Success = $Self->{DBObject}->Do(
+                    SQL =>
+                        'UPDATE smime_signer_cert_relations'
+                        . ' SET ca_hash = ?'
+                        . ' WHERE id = ? AND ca_fingerprint = ?',
+                    Bind => [
+                        \$WrongCertificate->{NewHash},
+                        \$WrongRelation->{ID}, \$WrongCertificate->{Fingerprint}
+                    ],
+                );
+
+                if ($Success) {
+                    $Details = $Self->_DetailsLog(
+                        Message => "\t\tUpdated relation ID: $WrongRelation->{ID} with"
+                            . " certificate $WrongRelation->{CertHash} ... OK",
+                        Details => $Details,
+                    );
+                }
+                else {
+                    $Details = $Self->_DetailsLog(
+                        Message => "\t\tUpdated relation ID: $WrongRelation->{ID} with"
+                            . " certificate $WrongRelation->{CertHash} ... Failed",
+                        Details => $Details,
+                    );
+                }
+            }
+        }
+        else {
+            $Details = $Self->_DetailsLog(
+                Message => "\t\tNo wrong relations found, nothing to do... OK",
+                Details => $Details,
+            );
+        }
+
+        # rename private key
+        if ( !rename $WrongPrivateKeyFile, $NewPrivateKeyFile ) {
+            $Details = $Self->_DetailsLog(
+                Message => "Could not rename SMIME private key file $WrongPrivateKeyFile to"
+                    . " $NewPrivateKeyFile!",
+                Error   => 1,
+                Details => $Details,
+            );
+            $Details = $Self->_DetailsLog(
+                Message =>
+                    "Rename private key $WrongCertificate->{Hash}.$WrongCertificate->{Index} to"
+                    . " $WrongCertificate->{NewHash}.$NewIndex ... Failed",
+                Details => $Details,
+            );
+
+            return {
+                Success => 0,
+                Details => $Details,
+            };
+        }
+        $Details = $Self->_DetailsLog(
+            Message => "Rename private key $WrongCertificate->{Hash}.$WrongCertificate->{Index} to"
+                . " $WrongCertificate->{NewHash}.$NewIndex ... OK",
+            Details => $Details,
+        );
+
+        # rename password
+        if ( !rename $WrongPrivateKeyFile . '.P', $NewPrivateKeyFile . '.P' ) {
+            $Details = $Self->_DetailsLog(
+                Message => "Could not rename SMIME password file $WrongPrivateKeyFile.P to"
+                    . " $NewPrivateKeyFile.P!",
+                Error   => 1,
+                Details => $Details,
+            );
+            $Details = $Self->_DetailsLog(
+                Message =>
+                    "Rename password $WrongCertificate->{Hash}.$WrongCertificate->{Index}.P to"
+                    . " $WrongCertificate->{NewHash}.$NewIndex.P ... Failed",
+                Details => $Details,
+            );
+
+            return {
+                Success => 0,
+                Details => $Details,
+            };
+        }
+        $Details = $Self->_DetailsLog(
+            Message => "Rename password $WrongCertificate->{Hash}.$WrongCertificate->{Index}.P to"
+                . " $WrongCertificate->{NewHash}.$NewIndex.P ... OK",
+            Details => $Details,
+        );
+    }
+    return {
+        Success => 1,
+        Details => $Details,
+    };
+}
+
+sub _DetailsLog {
+    my ( $Self, %Param ) = @_;
+
+    my $Message = $Param{Message};
+
+    if ( defined $Param{Error} && $Param{Error} ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => $Message,
+        );
+    }
+
+    $Param{Details} .= "$Message\n";
+
+    return $Param{Details};
+}
+
 1;
 
 =end Internal:
@@ -1695,6 +2301,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.57 $ $Date: 2012-05-16 00:12:08 $
+$Revision: 1.58 $ $Date: 2012-05-17 21:16:15 $
 
 =cut
