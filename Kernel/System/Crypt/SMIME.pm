@@ -2,7 +2,7 @@
 # Kernel/System/Crypt/SMIME.pm - the main crypt module
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: SMIME.pm,v 1.58 2012-05-17 21:16:15 cr Exp $
+# $Id: SMIME.pm,v 1.59 2012-05-18 23:36:51 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.58 $) [1];
+$VERSION = qw($Revision: 1.59 $) [1];
 
 =head1 NAME
 
@@ -1103,240 +1103,6 @@ sub PrivateAttributes {
     return %Attributes;
 }
 
-=begin Internal:
-
-=cut
-
-sub _Init {
-    my ( $Self, %Param ) = @_;
-
-    $Self->{Bin}         = $Self->{ConfigObject}->Get('SMIME::Bin') || '/usr/bin/openssl';
-    $Self->{CertPath}    = $Self->{ConfigObject}->Get('SMIME::CertPath');
-    $Self->{PrivatePath} = $Self->{ConfigObject}->Get('SMIME::PrivatePath');
-
-    if ( $^O =~ m{mswin}i ) {
-
-        # take care to deal properly with paths containing whitespace
-        $Self->{Cmd} = qq{"$Self->{Bin}"};
-    }
-    else {
-
-        # make sure that we are getting POSIX (i.e. english) messages from openssl
-        $Self->{Cmd} = "LC_MESSAGES=POSIX $Self->{Bin}";
-    }
-
-    # ensure that there is a random state file that we can write to (otherwise openssl will bail)
-    $ENV{RANDFILE} = $Self->{ConfigObject}->Get('TempDir') . '/.rnd';
-
-    # prepend RANDFILE declaration to openssl cmd
-    $Self->{Cmd}
-        = "HOME=" . $Self->{ConfigObject}->Get('Home') . " RANDFILE=$ENV{RANDFILE} $Self->{Cmd}";
-
-    # get the openssl version string, e.g. OpenSSL 0.9.8e 23 Feb 2007
-    $Self->{OpenSSLVersionString} = qx{$Self->{Cmd} version};
-
-    # get the openssl major version, e.g. 1 for version 1.0.0
-    if ( $Self->{OpenSSLVersionString} =~ m{ \A (?: OpenSSL )? \s* ( \d )  }xmsi ) {
-        $Self->{OpenSSLMajorVersion} = $1;
-    }
-
-    return $Self;
-}
-
-sub _FetchAttributesFromCert {
-    my ( $Self, $Filename, $AttributesRef ) = @_;
-
-    # The hash algorithm used in the -subject_hash and -issuer_hash options before OpenSSL 1.0.0
-    # was based on the deprecated MD5 algorithm and the encoding of the distinguished name.
-    # In OpenSSL 1.0.0 and later it is based on a canonical version of the DN using SHA1.
-    #
-    # The older algorithm can be used with -subject_hash_old attribute, but doing this will might
-    # cause for openssl 1.0.0 that the -CApath option (e.g. in verify function) will not find the
-    # CA files in the path, due that openssl search for the file names based in current algorithm
-    #
-    # -subject_hash_old was used in otrs in the past (to keep the old hashes style, and perhaps to
-    # ease a migration between openssl versions ) but now is not recommended anymore.
-
-    # testing new solution
-    my $OptionString = ' '
-        . '-subject_hash '
-        . '-issuer '
-        . '-fingerprint -sha1 '
-        . '-serial '
-        . '-subject '
-        . '-startdate '
-        . '-enddate '
-        . '-email '
-        . '-modulus '
-        . ' ';
-
-    # call all attributes at same time
-    my $Options = "x509 -in $Filename -noout $OptionString";
-
-    # get the output string
-    my $Output = qx{$Self->{Cmd} $Options 2>&1};
-
-    # filters
-    my %Filters = (
-        Hash        => '(\w{8})',
-        Issuer      => 'issuer=\s*(.*)',
-        Fingerprint => 'SHA1\sFingerprint=(.*)',
-        Serial      => 'serial=(.*)',
-        Subject     => 'subject=\s*/(.*)',
-        StartDate   => 'notBefore=(.*)',
-        EndDate     => 'notAfter=(.*)',
-        Email       => '([A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4})',
-        Modulus     => 'Modulus=(.*)',
-    );
-
-    # parse output string
-    my @Attributes = split( /\n/, $Output );
-    for my $Line (@Attributes) {
-
-        # clean end spaces
-        $Line =~ tr{\r\n}{}d;
-
-        # look for every attribute by filter
-        for my $Filter ( keys %Filters ) {
-            if ( $Line =~ m{\A $Filters{$Filter} \z}xms ) {
-                $AttributesRef->{$Filter} = $1 || '';
-
-          # delete the match key from filter  to don't search again this value and improve the speed
-                delete $Filters{$Filter};
-                last;
-            }
-        }
-    }
-
-    # prepare attributes data for use
-    $AttributesRef->{Issuer}  =~ s{=}{= }xmsg if $AttributesRef->{Issuer};
-    $AttributesRef->{Subject} =~ s{\/}{ }xmsg if $AttributesRef->{Subject};
-    $AttributesRef->{Subject} =~ s{=}{= }xmsg if $AttributesRef->{Subject};
-
-    my %Month = (
-        Jan => '01',
-        Feb => '02',
-        Mar => '03',
-        Apr => '04',
-        May => '05',
-        Jun => '06',
-        Jul => '07', Aug => '08', Sep => '09', Oct => '10', Nov => '11', Dec => '12',
-    );
-
-    for my $DateType ( 'StartDate', 'EndDate' ) {
-        if (
-            $AttributesRef->{$DateType}
-            &&
-            $AttributesRef->{$DateType} =~ /(.+?)\s(.+?)\s(\d\d:\d\d:\d\d)\s(\d\d\d\d)/
-            )
-        {
-            my $Day   = $2;
-            my $Month = '';
-            my $Year  = $4;
-
-            if ( $Day < 10 ) {
-                $Day = "0" . int($Day);
-            }
-
-            for my $MonthKey ( keys %Month ) {
-                if ( $AttributesRef->{$DateType} =~ /$MonthKey/i ) {
-                    $Month = $Month{$MonthKey};
-                    last;
-                }
-            }
-            $AttributesRef->{"Short$DateType"} = "$Year-$Month-$Day";
-        }
-    }
-    return 1;
-}
-
-sub _CleanOutput {
-    my ( $Self, $Output ) = @_;
-
-    # remove spurious warnings that appear on Windows
-    if ( $^O =~ m{mswin}i ) {
-        $Output =~ s{Loading 'screen' into random state - done\r?\n}{}igms;
-    }
-
-    return $Output;
-}
-
-sub _CertificateFilename {
-    my ( $Self, %Param ) = @_;
-
-    # check needed stuff
-    for my $Needed (qw(Fingerprint Hash)) {
-        if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
-            return;
-        }
-    }
-
-    # get all certificates with hash name
-    my @CertList = $Self->{MainObject}->DirectoryRead(
-        Directory => $Self->{CertPath},
-        Filter    => "$Param{Hash}.*",
-    );
-
-    # open every file, get attributes and compare fingerprint
-    for my $CertFile (@CertList) {
-        my %Attributes;
-        $Self->_FetchAttributesFromCert( $CertFile, \%Attributes );
-
-        # exit and return on first finger print found
-        if ( $Attributes{Fingerprint} && $Attributes{Fingerprint} eq $Param{Fingerprint} ) {
-            $CertFile =~ s{^.*/}{}xms;
-            return $CertFile;
-        }
-    }
-
-    return;
-}
-
-sub _PrivateFilename {
-    my ( $Self, %Param ) = @_;
-
-    # check needed stuff
-    for my $Needed (qw(Hash Modulus)) {
-        if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
-            return;
-        }
-    }
-
-    # get all certificates with hash name
-    my @CertList = $Self->{MainObject}->DirectoryRead(
-        Directory => $Self->{PrivatePath},
-        Filter    => $Param{Hash} . '\.*',
-    );
-
-    # open every file, get attributes and compare modulus
-    CERTFILE:
-    for my $CertFile (@CertList) {
-        my %Attributes;
-        next CERTFILE if $CertFile =~ m{\.P}xms;
-
-        # open secret
-        my $Private = $Self->{MainObject}->FileRead(
-            Location => $CertFile,
-        );
-        my $Secret = $Self->{MainObject}->FileRead(
-            Location => $CertFile . '.P',
-        );
-
-        %Attributes = $Self->PrivateAttributes(
-            Private => $$Private,
-            Secret  => $$Secret,
-        );
-
-        # exit and return on first modulus found
-        if ( $Attributes{Modulus} && $Attributes{Modulus} eq $Param{Modulus} ) {
-            $CertFile =~ s{^.*/}{}xms;
-            return $CertFile;
-        }
-    }
-}
-
 =item SignerCertRelationAdd ()
 
 add a relation between signer certificate and CA certificate to attach to the signature
@@ -1718,6 +1484,240 @@ sub CheckCertParth {
             . "\nSuccess.\n\n",
         ShortDetails => "Success.\n\n",
         }
+}
+
+=begin Internal:
+
+=cut
+
+sub _Init {
+    my ( $Self, %Param ) = @_;
+
+    $Self->{Bin}         = $Self->{ConfigObject}->Get('SMIME::Bin') || '/usr/bin/openssl';
+    $Self->{CertPath}    = $Self->{ConfigObject}->Get('SMIME::CertPath');
+    $Self->{PrivatePath} = $Self->{ConfigObject}->Get('SMIME::PrivatePath');
+
+    if ( $^O =~ m{mswin}i ) {
+
+        # take care to deal properly with paths containing whitespace
+        $Self->{Cmd} = qq{"$Self->{Bin}"};
+    }
+    else {
+
+        # make sure that we are getting POSIX (i.e. english) messages from openssl
+        $Self->{Cmd} = "LC_MESSAGES=POSIX $Self->{Bin}";
+    }
+
+    # ensure that there is a random state file that we can write to (otherwise openssl will bail)
+    $ENV{RANDFILE} = $Self->{ConfigObject}->Get('TempDir') . '/.rnd';
+
+    # prepend RANDFILE declaration to openssl cmd
+    $Self->{Cmd}
+        = "HOME=" . $Self->{ConfigObject}->Get('Home') . " RANDFILE=$ENV{RANDFILE} $Self->{Cmd}";
+
+    # get the openssl version string, e.g. OpenSSL 0.9.8e 23 Feb 2007
+    $Self->{OpenSSLVersionString} = qx{$Self->{Cmd} version};
+
+    # get the openssl major version, e.g. 1 for version 1.0.0
+    if ( $Self->{OpenSSLVersionString} =~ m{ \A (?: OpenSSL )? \s* ( \d )  }xmsi ) {
+        $Self->{OpenSSLMajorVersion} = $1;
+    }
+
+    return $Self;
+}
+
+sub _FetchAttributesFromCert {
+    my ( $Self, $Filename, $AttributesRef ) = @_;
+
+    # The hash algorithm used in the -subject_hash and -issuer_hash options before OpenSSL 1.0.0
+    # was based on the deprecated MD5 algorithm and the encoding of the distinguished name.
+    # In OpenSSL 1.0.0 and later it is based on a canonical version of the DN using SHA1.
+    #
+    # The older algorithm can be used with -subject_hash_old attribute, but doing this will might
+    # cause for openssl 1.0.0 that the -CApath option (e.g. in verify function) will not find the
+    # CA files in the path, due that openssl search for the file names based in current algorithm
+    #
+    # -subject_hash_old was used in otrs in the past (to keep the old hashes style, and perhaps to
+    # ease a migration between openssl versions ) but now is not recommended anymore.
+
+    # testing new solution
+    my $OptionString = ' '
+        . '-subject_hash '
+        . '-issuer '
+        . '-fingerprint -sha1 '
+        . '-serial '
+        . '-subject '
+        . '-startdate '
+        . '-enddate '
+        . '-email '
+        . '-modulus '
+        . ' ';
+
+    # call all attributes at same time
+    my $Options = "x509 -in $Filename -noout $OptionString";
+
+    # get the output string
+    my $Output = qx{$Self->{Cmd} $Options 2>&1};
+
+    # filters
+    my %Filters = (
+        Hash        => '(\w{8})',
+        Issuer      => 'issuer=\s*(.*)',
+        Fingerprint => 'SHA1\sFingerprint=(.*)',
+        Serial      => 'serial=(.*)',
+        Subject     => 'subject=\s*/(.*)',
+        StartDate   => 'notBefore=(.*)',
+        EndDate     => 'notAfter=(.*)',
+        Email       => '([A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4})',
+        Modulus     => 'Modulus=(.*)',
+    );
+
+    # parse output string
+    my @Attributes = split( /\n/, $Output );
+    for my $Line (@Attributes) {
+
+        # clean end spaces
+        $Line =~ tr{\r\n}{}d;
+
+        # look for every attribute by filter
+        for my $Filter ( keys %Filters ) {
+            if ( $Line =~ m{\A $Filters{$Filter} \z}xms ) {
+                $AttributesRef->{$Filter} = $1 || '';
+
+          # delete the match key from filter  to don't search again this value and improve the speed
+                delete $Filters{$Filter};
+                last;
+            }
+        }
+    }
+
+    # prepare attributes data for use
+    $AttributesRef->{Issuer}  =~ s{=}{= }xmsg if $AttributesRef->{Issuer};
+    $AttributesRef->{Subject} =~ s{\/}{ }xmsg if $AttributesRef->{Subject};
+    $AttributesRef->{Subject} =~ s{=}{= }xmsg if $AttributesRef->{Subject};
+
+    my %Month = (
+        Jan => '01',
+        Feb => '02',
+        Mar => '03',
+        Apr => '04',
+        May => '05',
+        Jun => '06',
+        Jul => '07', Aug => '08', Sep => '09', Oct => '10', Nov => '11', Dec => '12',
+    );
+
+    for my $DateType ( 'StartDate', 'EndDate' ) {
+        if (
+            $AttributesRef->{$DateType}
+            &&
+            $AttributesRef->{$DateType} =~ /(.+?)\s(.+?)\s(\d\d:\d\d:\d\d)\s(\d\d\d\d)/
+            )
+        {
+            my $Day   = $2;
+            my $Month = '';
+            my $Year  = $4;
+
+            if ( $Day < 10 ) {
+                $Day = "0" . int($Day);
+            }
+
+            for my $MonthKey ( keys %Month ) {
+                if ( $AttributesRef->{$DateType} =~ /$MonthKey/i ) {
+                    $Month = $Month{$MonthKey};
+                    last;
+                }
+            }
+            $AttributesRef->{"Short$DateType"} = "$Year-$Month-$Day";
+        }
+    }
+    return 1;
+}
+
+sub _CleanOutput {
+    my ( $Self, $Output ) = @_;
+
+    # remove spurious warnings that appear on Windows
+    if ( $^O =~ m{mswin}i ) {
+        $Output =~ s{Loading 'screen' into random state - done\r?\n}{}igms;
+    }
+
+    return $Output;
+}
+
+sub _CertificateFilename {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Needed (qw(Fingerprint Hash)) {
+        if ( !$Param{$Needed} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            return;
+        }
+    }
+
+    # get all certificates with hash name
+    my @CertList = $Self->{MainObject}->DirectoryRead(
+        Directory => $Self->{CertPath},
+        Filter    => "$Param{Hash}.*",
+    );
+
+    # open every file, get attributes and compare fingerprint
+    for my $CertFile (@CertList) {
+        my %Attributes;
+        $Self->_FetchAttributesFromCert( $CertFile, \%Attributes );
+
+        # exit and return on first finger print found
+        if ( $Attributes{Fingerprint} && $Attributes{Fingerprint} eq $Param{Fingerprint} ) {
+            $CertFile =~ s{^.*/}{}xms;
+            return $CertFile;
+        }
+    }
+
+    return;
+}
+
+sub _PrivateFilename {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Needed (qw(Hash Modulus)) {
+        if ( !$Param{$Needed} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            return;
+        }
+    }
+
+    # get all certificates with hash name
+    my @CertList = $Self->{MainObject}->DirectoryRead(
+        Directory => $Self->{PrivatePath},
+        Filter    => $Param{Hash} . '\.*',
+    );
+
+    # open every file, get attributes and compare modulus
+    CERTFILE:
+    for my $CertFile (@CertList) {
+        my %Attributes;
+        next CERTFILE if $CertFile =~ m{\.P}xms;
+
+        # open secret
+        my $Private = $Self->{MainObject}->FileRead(
+            Location => $CertFile,
+        );
+        my $Secret = $Self->{MainObject}->FileRead(
+            Location => $CertFile . '.P',
+        );
+
+        %Attributes = $Self->PrivateAttributes(
+            Private => $$Private,
+            Secret  => $$Secret,
+        );
+
+        # exit and return on first modulus found
+        if ( $Attributes{Modulus} && $Attributes{Modulus} eq $Param{Modulus} ) {
+            $CertFile =~ s{^.*/}{}xms;
+            return $CertFile;
+        }
+    }
 }
 
 sub _NormalizePasswordFiles {
@@ -2301,6 +2301,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.58 $ $Date: 2012-05-17 21:16:15 $
+$Revision: 1.59 $ $Date: 2012-05-18 23:36:51 $
 
 =cut
