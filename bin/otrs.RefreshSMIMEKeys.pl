@@ -3,7 +3,7 @@
 # bin/otrs.RefreshSMIMEKeys.pl - normalize SMIME passwords and rename all certificates to the correct hash
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.RefreshSMIMEKeys.pl,v 1.1.2.3 2012-05-19 22:10:04 cr Exp $
+# $Id: otrs.RefreshSMIMEKeys.pl,v 1.1.2.4 2012-05-19 22:44:08 cr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1.2.3 $) [1];
+$VERSION = qw($Revision: 1.1.2.4 $) [1];
 
 use strict;
 use warnings;
@@ -91,28 +91,28 @@ if ( !$CommonObject{CryptObject} ) {
     my $OpenSSLBin  = $CommonObject{ConfigObject}->Get('SMIME::Bin');
 
     if ( !-e $OpenSSLBin ) {
-        print "No such $OpenSSLBin!";
+        print "No such $OpenSSLBin!\n";
     }
     elsif ( !-x $OpenSSLBin ) {
-        print "$OpenSSLBin not executable!";
+        print "$OpenSSLBin not executable!\n";
     }
     elsif ( !-e $CertPath ) {
-        print "No such $CertPath!";
+        print "No such $CertPath!\n";
     }
     elsif ( !-d $CertPath ) {
-        print "No such $CertPath directory!";
+        print "No such $CertPath directory!\n";
     }
     elsif ( !-w $CertPath ) {
-        print "$CertPath not writable!";
+        print "$CertPath not writable!\n";
     }
     elsif ( !-e $PrivatePath ) {
-        print "No such $PrivatePath!";
+        print "No such $PrivatePath!\n";
     }
-    elsif ( !-d $Self->{PrivatePath} ) {
-        print "No such $PrivatePath directory!";
+    elsif ( !-d $PrivatePath ) {
+        print "No such $PrivatePath directory!\n";
     }
     elsif ( !-w $PrivatePath ) {
-        print "$PrivatePath not writable!";
+        print "$PrivatePath not writable!\n";
     }
     exit 1;
 }
