@@ -3,7 +3,7 @@
 # bin/otrs.RefreshSMIMEKeys.pl - normalize SMIME passwords and rename all certificates to the correct hash
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.RefreshSMIMEKeys.pl,v 1.1 2012-05-17 21:18:46 cr Exp $
+# $Id: otrs.RefreshSMIMEKeys.pl,v 1.2 2012-05-19 22:09:56 cr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 use strict;
 use warnings;
@@ -82,9 +82,39 @@ $CommonObject{CryptObject} = Kernel::System::Crypt->new(
     %CommonObject,
     CryptType => 'SMIME',
 );
+
 if ( !$CommonObject{CryptObject} ) {
     print "NOTICE: No SMIME support!\n";
-    return;
+
+    my $CertPath    = $CommonObject{ConfigObject}->Get('SMIME::CertPath');
+    my $PrivatePath = $CommonObject{ConfigObject}->Get('SMIME::PrivatePath');
+    my $OpenSSLBin  = $CommonObject{ConfigObject}->Get('SMIME::Bin');
+
+    if ( !-e $OpenSSLBin ) {
+        print "No such $OpenSSLBin!";
+    }
+    elsif ( !-x $OpenSSLBin ) {
+        print "$OpenSSLBin not executable!";
+    }
+    elsif ( !-e $CertPath ) {
+        print "No such $CertPath!";
+    }
+    elsif ( !-d $CertPath ) {
+        print "No such $CertPath directory!";
+    }
+    elsif ( !-w $CertPath ) {
+        print "$CertPath not writable!";
+    }
+    elsif ( !-e $PrivatePath ) {
+        print "No such $PrivatePath!";
+    }
+    elsif ( !-d $Self->{PrivatePath} ) {
+        print "No such $PrivatePath directory!";
+    }
+    elsif ( !-w $PrivatePath ) {
+        print "$PrivatePath not writable!";
+    }
+    exit 1;
 }
 
 my $CheckCertPathResult = $CommonObject{CryptObject}->CheckCertParth();
