@@ -2,7 +2,7 @@
 # SMIME.t - SMIME tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: SMIME.t,v 1.24.2.3 2012-05-18 23:09:24 cr Exp $
+# $Id: SMIME.t,v 1.24.2.4 2012-05-19 22:36:29 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,6 +24,7 @@ use Kernel::System::Main;
 my $ConfigObject = Kernel::Config->new();
 my $HomeDir      = $ConfigObject->Get('Home');
 my $CertPath     = $ConfigObject->Get('SMIME::CertPath');
+my $PrivatePath  = $ConfigObject->Get('SMIME::PrivatePath');
 
 my $OpenSSLBin = $ConfigObject->Get('SMIME::Bin');
 
@@ -70,7 +71,56 @@ my $CryptObject = Kernel::System::Crypt->new(
 
 if ( !$CryptObject ) {
     print STDERR "NOTICE: No SMIME support!\n";
-    return;
+
+    if ( !-e $OpenSSLBin ) {
+        $Self->False(
+            1,
+            "No such $OpenSSLBin!",
+        );
+    }
+    elsif ( !-x $OpenSSLBin ) {
+        $Self->False(
+            1,
+            "$OpenSSLBin not executable!",
+        );
+    }
+    elsif ( !-e $CertPath ) {
+        $Self->False(
+            1,
+            "No such $CertPath!",
+        );
+    }
+    elsif ( !-d $CertPath ) {
+        $Self->False(
+            1,
+            "No such $CertPath directory!",
+        );
+    }
+    elsif ( !-w $CertPath ) {
+        $Self->False(
+            1,
+            "$CertPath not writable!",
+        );
+    }
+    elsif ( !-e $PrivatePath ) {
+        $Self->False(
+            1,
+            "No such $PrivatePath!",
+        );
+    }
+    elsif ( !-d $Self->{PrivatePath} ) {
+        $Self->False(
+            1,
+            "No such $PrivatePath directory!",
+        );
+    }
+    elsif ( !-w $PrivatePath ) {
+        $Self->False(
+            1,
+            "$PrivatePath not writable!",
+        );
+    }
+    return 1;
 }
 
 # create main object
@@ -1284,8 +1334,6 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
         );
     }
 
-    my $PrivatePath = $ConfigObject->Get('SMIME::PrivatePath');
-
     # password normalization tests
     {
 
@@ -1391,7 +1439,7 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
 
         $Self->True(
             1,
-            "----Normaize Password duolicated files with same content----"
+            "----Normaize Password duplicated files with same content----"
         );
 
         # create a new password file with a wrong name format
