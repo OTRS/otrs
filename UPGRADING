@@ -2,7 +2,7 @@
 # UPGRADING - Upgrading Instructions for OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: UPGRADING,v 1.69 2012-04-24 09:55:57 mg Exp $
+# $Id: UPGRADING,v 1.70 2012-05-19 14:04:56 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -295,6 +295,30 @@ how to upgrade the data types used by OTRS
     PostgreSQL, older versions:
      shell> cat scripts/DBUpdate-3.1.beta.postgresql_before_8_2.sql | psql otrs
 
+21) SMIME Certificates, Private keys and Passwords (secrets)
+    ----------------------------------
 
-21) Well done!
+    If you use SMIME is strongly recommended to refresh the stored certificate names
+
+    In OTRS 3.0.x the Password (secret) filename format was <CERTIFICATE_HASH>.P, since OTRS 3.1.x
+    the new filename format is <CERTIFICATE_HASH>.[0-9].P where [0-9] must match the Private key
+    filename.
+
+    OpenSSL 0.9.x and 1.0.0 uses a different algorithm to calculate the certificate hash, the
+    resulting hash is used to set the name of the Certificates, Private keys, and Passwords
+    (secrets), This different hashes are not compatible between OpenSSL versions.
+
+    Since OTRS 3.1.6, OpenSSL is not longer forced to use 0.9.x hash style to set filenames, because
+    OpenSSL 1.0.0 is not able to find the certificates using 0.9.x hash style when the attribute
+    -CAPath is used.
+
+    To automate the process of changing the file format of the Passwords (secrets) and re calculate
+    and rename all Certificates, Private keys and Password to the current OpenSSL hash style please
+    execute the following command:
+
+    shell> bin/otrs.RefreshSMIMEKeys.pl
+
+    Notice that also the Certificate relations will be updated during this process.
+
+22) Well done!
     ----------
