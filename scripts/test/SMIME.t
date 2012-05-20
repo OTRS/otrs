@@ -2,7 +2,7 @@
 # SMIME.t - SMIME tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: SMIME.t,v 1.24.2.4 2012-05-19 22:36:29 cr Exp $
+# $Id: SMIME.t,v 1.24.2.5 2012-05-20 14:10:49 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -1403,7 +1403,7 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
 
         $Self->False(
             $FileExists,
-            "NormalizePassword: Corrent password filename: $CorrectPasswordFile exists with false"
+            "NormalizePassword: Correct password filename: $CorrectPasswordFile exists with false"
                 . " (before normalize)",
         );
         $FileExists = 0;
@@ -1484,7 +1484,7 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
 
         $Self->True(
             $FileExists,
-            "NormalizePassword: Corrent password filename: $CorrectPasswordFile exists with true"
+            "NormalizePassword: Correct password filename: $CorrectPasswordFile exists with true"
                 . " (after normalize duplicate file same content)",
         );
         $FileExists = 0;
@@ -1494,7 +1494,7 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
 
         $Self->True(
             1,
-            "----Normaize Password duolicated files with diferent content----"
+            "----Normaize Password duplicated files with diferent content----"
         );
 
         # change the content of the correct passoword file
@@ -1546,7 +1546,7 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
 
         $Self->True(
             $FileExists,
-            "NormalizePassword: Corrent password filename: $CorrectPasswordFile exists with true"
+            "NormalizePassword: Correct password filename: $CorrectPasswordFile exists with true"
                 . " (after normalize duplicate file same content)",
         );
         $FileExists = 0;
