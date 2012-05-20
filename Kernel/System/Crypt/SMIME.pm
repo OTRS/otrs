@@ -2,7 +2,7 @@
 # Kernel/System/Crypt/SMIME.pm - the main crypt module
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: SMIME.pm,v 1.61 2012-05-20 16:40:41 cr Exp $
+# $Id: SMIME.pm,v 1.62 2012-05-20 18:48:15 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.61 $) [1];
+$VERSION = qw($Revision: 1.62 $) [1];
 
 =head1 NAME
 
@@ -2148,7 +2148,7 @@ sub _ReHashCertificates {
         }
         else {
             $Details = $Self->_DetailsLog(
-                Message => "\t\tNo wrong relations foundm, nothing to do... OK",
+                Message => "\t\tNo wrong relations found, nothing to do... OK",
                 Details => $Details,
             );
         }
@@ -2223,57 +2223,68 @@ sub _ReHashCertificates {
             );
         }
 
-        # rename private key
-        if ( !rename $WrongPrivateKeyFile, $NewPrivateKeyFile ) {
+        if ($HasPrivateKey) {
+
+            # rename private key
+            if ( !rename $WrongPrivateKeyFile, $NewPrivateKeyFile ) {
+                $Details = $Self->_DetailsLog(
+                    Message => "Could not rename SMIME private key file $WrongPrivateKeyFile to"
+                        . " $NewPrivateKeyFile!",
+                    Error   => 1,
+                    Details => $Details,
+                );
+                $Details = $Self->_DetailsLog(
+                    Message =>
+                        "Rename private key $WrongCertificate->{Hash}.$WrongCertificate->{Index} to"
+                        . " $WrongCertificate->{NewHash}.$NewIndex ... Failed",
+                    Details => $Details,
+                );
+
+                return {
+                    Success => 0,
+                    Details => $Details,
+                };
+            }
             $Details = $Self->_DetailsLog(
-                Message => "Could not rename SMIME private key file $WrongPrivateKeyFile to"
-                    . " $NewPrivateKeyFile!",
-                Error   => 1,
-                Details => $Details,
-            );
-            $Details = $Self->_DetailsLog(
-                Message =>
-                    "Rename private key $WrongCertificate->{Hash}.$WrongCertificate->{Index} to"
-                    . " $WrongCertificate->{NewHash}.$NewIndex ... Failed",
+                Message => "Rename private key $WrongCertificate->{Hash}.$WrongCertificate->{Index}"
+                    . " to $WrongCertificate->{NewHash}.$NewIndex ... OK",
                 Details => $Details,
             );
 
-            return {
-                Success => 0,
-                Details => $Details,
-            };
-        }
-        $Details = $Self->_DetailsLog(
-            Message => "Rename private key $WrongCertificate->{Hash}.$WrongCertificate->{Index} to"
-                . " $WrongCertificate->{NewHash}.$NewIndex ... OK",
-            Details => $Details,
-        );
+            # rename password
+            if ( !rename $WrongPrivateKeyFile . '.P', $NewPrivateKeyFile . '.P' ) {
+                $Details = $Self->_DetailsLog(
+                    Message => "Could not rename SMIME password file $WrongPrivateKeyFile.P to"
+                        . " $NewPrivateKeyFile.P!",
+                    Error   => 1,
+                    Details => $Details,
+                );
+                $Details = $Self->_DetailsLog(
+                    Message =>
+                        "Rename password $WrongCertificate->{Hash}.$WrongCertificate->{Index}.P to"
+                        . " $WrongCertificate->{NewHash}.$NewIndex.P ... Failed",
+                    Details => $Details,
+                );
 
-        # rename password
-        if ( !rename $WrongPrivateKeyFile . '.P', $NewPrivateKeyFile . '.P' ) {
-            $Details = $Self->_DetailsLog(
-                Message => "Could not rename SMIME password file $WrongPrivateKeyFile.P to"
-                    . " $NewPrivateKeyFile.P!",
-                Error   => 1,
-                Details => $Details,
-            );
+                return {
+                    Success => 0,
+                    Details => $Details,
+                };
+            }
             $Details = $Self->_DetailsLog(
                 Message =>
                     "Rename password $WrongCertificate->{Hash}.$WrongCertificate->{Index}.P to"
-                    . " $WrongCertificate->{NewHash}.$NewIndex.P ... Failed",
+                    . " $WrongCertificate->{NewHash}.$NewIndex.P ... OK",
                 Details => $Details,
             );
-
-            return {
-                Success => 0,
-                Details => $Details,
-            };
         }
-        $Details = $Self->_DetailsLog(
-            Message => "Rename password $WrongCertificate->{Hash}.$WrongCertificate->{Index}.P to"
-                . " $WrongCertificate->{NewHash}.$NewIndex.P ... OK",
-            Details => $Details,
-        );
+        else {
+            $Details = $Self->_DetailsLog(
+                Message => "No Private key found for certificate $WrongCertificate->{Hash}."
+                    . "$WrongCertificate->{Index} ... OK",
+                Details => $Details,
+            );
+        }
     }
     return {
         Success => 1,
@@ -2318,6 +2329,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.61 $ $Date: 2012-05-20 16:40:41 $
+$Revision: 1.62 $ $Date: 2012-05-20 18:48:15 $
 
 =cut
