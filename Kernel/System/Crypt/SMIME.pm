@@ -2,7 +2,7 @@
 # Kernel/System/Crypt/SMIME.pm - the main crypt module
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: SMIME.pm,v 1.60 2012-05-20 16:15:58 cr Exp $
+# $Id: SMIME.pm,v 1.61 2012-05-20 16:40:41 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.60 $) [1];
+$VERSION = qw($Revision: 1.61 $) [1];
 
 =head1 NAME
 
@@ -1441,6 +1441,23 @@ sub SignerCertRelationDelete {
     return;
 }
 
+=item CheckCertPath()
+
+Checks and fixes the password (secret) files that doesnt have an index.
+Checks and fixed certificates, private keys and passwords (secres) files to have a correct name
+depending on the current OpenSSL hash algorithm.
+
+    my $Result = $CryptObject->CheckCertPath ();
+
+    a result could be:
+
+    $Result = {
+        Success => 1                # or 0 if fails
+        Details => $Details         # a string log of all ativities and errors found
+    };
+
+=cut
+
 sub CheckCertPath {
     my ( $Self, %Param ) = @_;
 
@@ -2301,6 +2318,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.60 $ $Date: 2012-05-20 16:15:58 $
+$Revision: 1.61 $ $Date: 2012-05-20 16:40:41 $
 
 =cut
