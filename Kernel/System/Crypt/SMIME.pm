@@ -2,7 +2,7 @@
 # Kernel/System/Crypt/SMIME.pm - the main crypt module
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: SMIME.pm,v 1.55.2.4 2012-05-18 23:36:37 cr Exp $
+# $Id: SMIME.pm,v 1.55.2.5 2012-05-20 16:16:12 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.55.2.4 $) [1];
+$VERSION = qw($Revision: 1.55.2.5 $) [1];
 
 =head1 NAME
 
@@ -1441,7 +1441,7 @@ sub SignerCertRelationDelete {
     return;
 }
 
-sub CheckCertParth {
+sub CheckCertPath {
     my ( $Self, %Param ) = @_;
 
     # normalize password file names
@@ -2301,6 +2301,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.55.2.4 $ $Date: 2012-05-18 23:36:37 $
+$Revision: 1.55.2.5 $ $Date: 2012-05-20 16:16:12 $
 
 =cut
