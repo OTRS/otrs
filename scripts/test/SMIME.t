@@ -2,7 +2,7 @@
 # SMIME.t - SMIME tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: SMIME.t,v 1.24.2.5 2012-05-20 14:10:49 cr Exp $
+# $Id: SMIME.t,v 1.24.2.6 2012-05-20 16:17:21 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -1409,7 +1409,19 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
         $FileExists = 0;
 
         # normalize passwords
-        $CryptObject->CheckCertParth();
+        my $Response = $CryptObject->CheckCertPath();
+        $Self->True(
+            $Response->{Success},
+            "NormalizePassword: CheckCertPath() executed succesfully with true",
+        );
+
+        # output details if process was not succesfull
+        if ( !$Response->{Success} ) {
+            $Self->True(
+                0,
+                $Response->{Details},
+            );
+        }
 
         # by this time after the normalization the file should not exsist
         if ( -e $WrongPasswordFileLocation ) {
@@ -1463,7 +1475,19 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
         );
 
         # normalize passwords
-        $CryptObject->CheckCertParth();
+        $Response = $CryptObject->CheckCertPath();
+        $Self->True(
+            $Response->{Success},
+            "NormalizePassword: CheckCertPath() executed succesfully with true",
+        );
+
+        # output details if process was not succesfull
+        if ( !$Response->{Success} ) {
+            $Self->True(
+                0,
+                $Response->{Details},
+            );
+        }
 
         # by this time after the normalization the file should not exsist (since contents are equal)
         if ( -e $WrongPasswordFileLocation ) {
@@ -1524,7 +1548,19 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
         );
 
         # normalize passwords
-        $CryptObject->CheckCertParth();
+        $Response = $CryptObject->CheckCertPath();
+        $Self->True(
+            $Response->{Success},
+            "NormalizePassword: CheckCertPath() executed succesfully with true",
+        );
+
+        # output details if process was not succesfull
+        if ( !$Response->{Success} ) {
+            $Self->True(
+                0,
+                $Response->{Details},
+            );
+        }
 
         # by this time after the normalization the file should stil exists
         # (since contents are diferent)
@@ -2166,7 +2202,19 @@ k16iU8H6KGGE2c9vRyF146s9ot6FZHLzt9KZN03FWjtda6Z19Q95AZ7hJS40criK
         }
 
         # refresh the hases
-        $CryptObject->CheckCertParth();
+        my $Response = $CryptObject->CheckCertPath();
+        $Self->True(
+            $Response->{Success},
+            "Re-Hash: CheckCertPath() executed succesfully with true",
+        );
+
+        # output details if process was not succesfull
+        if ( !$Response->{Success} ) {
+            $Self->True(
+                0,
+                $Response->{Details},
+            );
+        }
 
         # check certificates with correct names
         for my $CAName ( sort keys %WrongCAs ) {
