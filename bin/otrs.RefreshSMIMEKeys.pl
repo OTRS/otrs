@@ -3,7 +3,7 @@
 # bin/otrs.RefreshSMIMEKeys.pl - normalize SMIME passwords and rename all certificates to the correct hash
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.RefreshSMIMEKeys.pl,v 1.4 2012-05-20 14:11:58 cr Exp $
+# $Id: otrs.RefreshSMIMEKeys.pl,v 1.5 2012-05-20 16:16:28 cr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 use strict;
 use warnings;
@@ -121,7 +121,7 @@ if ( !$CommonObject{CryptObject} ) {
     exit 1;
 }
 
-my $CheckCertPathResult = $CommonObject{CryptObject}->CheckCertParth();
+my $CheckCertPathResult = $CommonObject{CryptObject}->CheckCertPath();
 print $CheckCertPathResult->{ $Options{Details} };
 
 exit !$CheckCertPathResult->{Success};
