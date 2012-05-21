@@ -2,7 +2,7 @@
 # Kernel/System/Crypt/SMIME.pm - the main crypt module
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: SMIME.pm,v 1.62 2012-05-20 18:48:15 cr Exp $
+# $Id: SMIME.pm,v 1.63 2012-05-21 10:45:18 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.62 $) [1];
+$VERSION = qw($Revision: 1.63 $) [1];
 
 =head1 NAME
 
@@ -1766,7 +1766,7 @@ sub _NormalizePasswordFiles {
         return {
             Success => 1,
             Details => $Details,
-            }
+        };
     }
 
     my @WrongPasswordList;
@@ -1789,7 +1789,7 @@ sub _NormalizePasswordFiles {
         return {
             Success => 1,
             Details => $Details,
-            }
+        };
     }
 
     # check if the file with the correct name already exist in the system
@@ -1985,8 +1985,8 @@ sub _ReHashCertificates {
 
             return {
                 Success => 0,
-                Details $Details,
-                }
+                Details => $Details,
+            };
         }
 
         # look for an available new filename
@@ -2053,7 +2053,7 @@ sub _ReHashCertificates {
                 return {
                     Success => 0,
                     Details => $Details,
-                    }
+                };
             }
         }
 
@@ -2329,6 +2329,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.62 $ $Date: 2012-05-20 18:48:15 $
+$Revision: 1.63 $ $Date: 2012-05-21 10:45:18 $
 
 =cut
