@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2260.2.25 2012-05-18 23:10:31 cr Exp $
+# $Id: CHANGES,v 1.2260.2.26 2012-05-21 14:04:48 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.1.6 2012-??-??
+ - 2012-05-20 Fixed bug #7844 Escalation Event does not respect service calendar of ticket/queue.
  - 2012-05-18 Added otrs.RefreshSMIMEKeys.pl to refresh SMIME certificate filenames according to the
     system's current OpenSSL version.
  - 2012-05-17 Fixed bug#8498 - OpenSSL 1.0.0 does not get the stored SMIME certificates when
