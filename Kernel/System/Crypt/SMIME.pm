@@ -2,7 +2,7 @@
 # Kernel/System/Crypt/SMIME.pm - the main crypt module
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: SMIME.pm,v 1.55.2.8 2012-05-21 10:45:06 mg Exp $
+# $Id: SMIME.pm,v 1.55.2.9 2012-05-21 12:32:39 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.55.2.8 $) [1];
+$VERSION = qw($Revision: 1.55.2.9 $) [1];
 
 =head1 NAME
 
@@ -1443,7 +1443,9 @@ sub SignerCertRelationDelete {
 
 =item CheckCertPath()
 
-Checks and fixes the password (secret) files that doesnt have an index.
+Checks and fixes the password (secret) files that do not have an index. (Needed because this
+changed during the migration from OTRS 3.0 to 3.1.)
+
 Checks and fixed certificates, private keys and passwords (secres) files to have a correct name
 depending on the current OpenSSL hash algorithm.
 
@@ -1453,7 +1455,7 @@ depending on the current OpenSSL hash algorithm.
 
     $Result = {
         Success => 1                # or 0 if fails
-        Details => $Details         # a string log of all ativities and errors found
+        Details => $Details         # a readable string log of all activities and errors found
     };
 
 =cut
@@ -1475,7 +1477,7 @@ sub CheckCertPath {
             Details => $NormalizeResult->{Details}
                 . "\n**Error in Normalize Password Files.\n\n",
             ShortDetails => "**Error in Normalize Password Files.\n\n",
-            }
+        };
     }
 
     # re-calculate certificates hashes using current openssl
@@ -1492,7 +1494,7 @@ sub CheckCertPath {
             Details => $NormalizeResult->{Details} . $ReHashSuccess->{Details}
                 . "\n**Error in Re-Hash Certificate Files.\n\n",
             ShortDetails => "**Error in Re-Hash Certificate Files.\n\n",
-            }
+        };
     }
 
     return {
@@ -1500,7 +1502,7 @@ sub CheckCertPath {
         Details => $NormalizeResult->{Details} . $ReHashSuccess->{Details}
             . "\nSuccess.\n\n",
         ShortDetails => "Success.\n\n",
-        }
+    };
 }
 
 =begin Internal:
@@ -1964,7 +1966,7 @@ sub _ReHashCertificates {
         return {
             Success => 1,
             Details => $Details,
-            }
+        };
     }
 
     # loop over wrong certificates
@@ -2329,6 +2331,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.55.2.8 $ $Date: 2012-05-21 10:45:06 $
+$Revision: 1.55.2.9 $ $Date: 2012-05-21 12:32:39 $
 
 =cut
