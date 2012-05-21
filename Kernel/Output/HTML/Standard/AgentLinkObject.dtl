@@ -2,7 +2,7 @@
 # AgentLinkObject.dtl - provides HTML for AgentLinkObject mask
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentLinkObject.dtl,v 1.56 2012-03-22 15:36:34 mab Exp $
+# $Id: AgentLinkObject.dtl,v 1.57 2012-05-21 14:41:46 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -83,7 +83,7 @@
         var SearchValueFlag = false;
         $('#LinkSearchForm input, #LinkSearchForm select').each(function () {
             if ( $(this).attr('name') && $(this).attr('name').match(/^SEARCH\:\:/) ) {
-                if ( $(this).val() && $(this).val() != '' ) {
+                if ( $(this).val() && $(this).val() !== '' ) {
                     SearchValueFlag = true;
                 }
             }
