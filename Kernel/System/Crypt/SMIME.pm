@@ -2,7 +2,7 @@
 # Kernel/System/Crypt/SMIME.pm - the main crypt module
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: SMIME.pm,v 1.64 2012-05-21 12:32:51 mg Exp $
+# $Id: SMIME.pm,v 1.65 2012-05-21 23:44:18 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.64 $) [1];
+$VERSION = qw($Revision: 1.65 $) [1];
 
 =head1 NAME
 
@@ -1800,55 +1800,123 @@ sub _NormalizePasswordFiles {
 
         # build the correct file name
         $File =~ m{(.+) \. P}smxi;
-        my $Hash        = $1;
-        my $CorrectFile = "$Self->{PrivatePath}/$Hash.0.P";
-        my $WrongFile   = "$Self->{PrivatePath}/" . $File;
+        my $Hash = $1;
 
-        # check if a exists a file with the correct name
-        if ( -e $CorrectFile ) {
+        my $CorrectFile;
+        my @UsedPasswordFiles;
 
+        KEYFILENAME:
+        for my $Count ( 0 .. 9 ) {
+            my $PrivateKeyFileLocation = "$Self->{PrivatePath}/$Hash.$Count";
+
+            # get private keys
+            if ( -e $PrivateKeyFileLocation ) {
+                my $PasswordFileLocation = $PrivateKeyFileLocation . '.P';
+
+                # check if password already exists
+                if ( !-e $PasswordFileLocation ) {
+
+                    # use first available
+                    $CorrectFile = "$Hash.$Count.P";
+                    last KEYFILENAME;
+                }
+                else {
+                    push @UsedPasswordFiles, "$Hash.$Count.P";
+                    next KEYFILENAME;
+                }
+            }
+        }
+
+        # if there are no keys for the password, the file could not be renamed
+        if ( !$CorrectFile && scalar @UsedPasswordFiles == 0 ) {
             $Details = $Self->_DetailsLog(
-                Message => "Can't rename password file $File to $Hash.0.P because target file"
-                    . " already exists",
+                Message => "Can't rename password file $File, because there is no Private Key file"
+                    . " for this password... Warning",
                 Details => $Details,
             );
+            next FILENAME;
+        }
 
-            # check if the file contents are the same
-            my $WrongFileContent = $Self->{MainObject}->FileRead(
-                Location => $WrongFile,
-                Result   => 'SCALAR',
-            );
-            my $CorrectFileContent = $Self->{MainObject}->FileRead(
-                Location => $CorrectFile,
-                Result   => 'SCALAR',
-            );
+        my $WrongFileLocation = "$Self->{PrivatePath}/$File";
 
-            # safe to delete file wrong file if they are identical
-            if ( ${$WrongFileContent} eq ${$CorrectFileContent} ) {
+        # if an avaialble file name was found
+        if ($CorrectFile) {
+            my $CorrectFileLocation = "$Self->{PrivatePath}/$CorrectFile";
+            if ( !rename $WrongFileLocation, $CorrectFileLocation ) {
 
                 $Details = $Self->_DetailsLog(
-                    Message => "The content of both files is the same, is safe to remove"
-                        . " $File",
+                    Message => "Could not rename SMIME password file $WrongFileLocation to"
+                        . " $CorrectFileLocation!",
+                    Error   => 1,
                     Details => $Details,
                 );
 
-                my $Success = $Self->{MainObject}->FileDelete(
-                    Location => $WrongFile,
+                return {
+                    Success => 0,
+                    Details => $Details,
+                };
+            }
+
+            $Details = $Self->_DetailsLog(
+                Message => "Renamed password file $File to $CorrectFile ... OK",
+                Details => $Details,
+            );
+            next FILENAME;
+        }
+
+        # otherwise try to find if any of the used files has the same content
+        $Details = $Self->_DetailsLog(
+            Message => "Can't rename SMIME password file: $File\nAll private key files for hash"
+                . " $Hash has already a correct password filename associated!",
+            Details => $Details,
+        );
+
+        # get the contents of the wrong password file
+        my $WrongFileContent = $Self->{MainObject}->FileRead(
+            Location => $WrongFileLocation,
+            Result   => 'SCALAR',
+        );
+
+        # loop over the found password files for the same private key hash
+        PASSWORDFILE:
+        for my $PasswordFile (@UsedPasswordFiles) {
+            my $PasswordFileLocation = "$Self->{PrivatePath}/$PasswordFile";
+
+            # check if the file contents are the same
+            my $PasswordFileContent = $Self->{MainObject}->FileRead(
+                Location => $PasswordFileLocation,
+                Result   => 'SCALAR',
+            );
+
+            # safe to delete wrong file if contents are are identical
+            if ( ${$WrongFileContent} eq ${$PasswordFileContent} ) {
+
+                $Details = $Self->_DetailsLog(
+                    Message => "The content of files $File and $PasswordFile is the same,"
+                        . " it is safe to remove $File",
+                    Details => $Details,
                 );
 
+                # remove file
+                my $Success = $Self->{MainObject}->FileDelete(
+                    Location => $WrongFileLocation,
+                );
+
+                # return error if file was not deleted
                 if ( !$Success ) {
                     $Details = $Self->_DetailsLog(
-                        Message => "Could not remove SMIME password file $WrongFile from the"
-                            . "file system!",
+                        Message => "Could not remove SMIME password file $WrongFileLocation"
+                            . " from the file system!... Failed",
                         Error   => 1,
                         Details => $Details,
                     );
-
                     return {
                         Success => 0,
                         Details => $Details,
                     };
                 }
+
+                # continue to next wrong password file
                 $Details = $Self->_DetailsLog(
                     Message => "SMIME password file $File was removed from the file"
                         . " system... OK",
@@ -1857,36 +1925,22 @@ sub _NormalizePasswordFiles {
                 next FILENAME;
             }
 
-            # otherwise leave the file for reference
-            else {
-                $Details = $Self->_DetailsLog(
-                    Message => "The content of both files is different, the SMIME password file"
-                        . " $File will not be deleted... Warning",
-                    Details => $Details,
-                );
-                next FILENAME;
-            }
-        }
-
-        # if do not exist a file, rename it
-        if ( !rename $WrongFile, $CorrectFile ) {
-
+            # otherwise just log that the contents are diferent, do not delete file
             $Details = $Self->_DetailsLog(
-                Message => "Could not rename SMIME password file $WrongFile to $CorrectFile!",
-                Error   => 1,
+                Message => "The content of files $File and $PasswordFile is diferent",
                 Details => $Details,
             );
-
-            return {
-                Success => 0,
-                Details => $Details,
-            };
         }
 
+        # all password files has differnt content, just log this as a waring and continue to the
+        # next wrong password file
         $Details = $Self->_DetailsLog(
-            Message => "Renamed password file $File to $Hash.0.P ... OK",
+            Message => "The SMIME password file $File has information not stored in any other"
+                . " SMIME password file for hash $Hash\n"
+                . "The file will not be deleted... Warning",
             Details => $Details,
         );
+        next FILENAME;
     }
 
     return {
@@ -2029,6 +2083,7 @@ sub _ReHashCertificates {
         # check if certificate has a private key and password
         # if has a private key it must have a password
         my $HasPrivateKey;
+        my $HasPassword;
         if ( -e $WrongPrivateKeyFile ) {
             $HasPrivateKey = 1;
 
@@ -2043,19 +2098,25 @@ sub _ReHashCertificates {
                 return {
                     Success => 0,
                     Details => $Details,
-                    }
-            }
-            if ( -e $NewPrivateKeyFile . '.P' ) {
-                $Details = $Self->_DetailsLog(
-                    Message => "Filename for password: $NewPrivateKeyFile.P is alredy in use!",
-                    Error   => 1,
-                    Details => $Details,
-                );
-
-                return {
-                    Success => 0,
-                    Details => $Details,
                 };
+            }
+
+            # check password
+            if ( -e "$WrongPrivateKeyFile.P" ) {
+                $HasPassword = 1;
+
+                if ( -e "$NewPrivateKeyFile.P" ) {
+                    $Details = $Self->_DetailsLog(
+                        Message => "Filename for password: $NewPrivateKeyFile.P is alredy in use!",
+                        Error   => 1,
+                        Details => $Details,
+                    );
+
+                    return {
+                        Success => 0,
+                        Details => $Details,
+                    };
+                }
             }
         }
 
@@ -2254,31 +2315,42 @@ sub _ReHashCertificates {
             );
 
             # rename password
-            if ( !rename $WrongPrivateKeyFile . '.P', $NewPrivateKeyFile . '.P' ) {
-                $Details = $Self->_DetailsLog(
-                    Message => "Could not rename SMIME password file $WrongPrivateKeyFile.P to"
-                        . " $NewPrivateKeyFile.P!",
-                    Error   => 1,
-                    Details => $Details,
-                );
+            if ($HasPassword) {
+                if ( !rename $WrongPrivateKeyFile . '.P', $NewPrivateKeyFile . '.P' ) {
+                    $Details = $Self->_DetailsLog(
+                        Message => "Could not rename SMIME password file $WrongPrivateKeyFile.P to"
+                            . " $NewPrivateKeyFile.P!",
+                        Error   => 1,
+                        Details => $Details,
+                    );
+                    $Details = $Self->_DetailsLog(
+                        Message =>
+                            "Rename password $WrongCertificate->{Hash}.$WrongCertificate->{Index}.P to"
+                            . " $WrongCertificate->{NewHash}.$NewIndex.P ... Failed",
+                        Details => $Details,
+                    );
+
+                    return {
+                        Success => 0,
+                        Details => $Details,
+                    };
+                }
                 $Details = $Self->_DetailsLog(
                     Message =>
                         "Rename password $WrongCertificate->{Hash}.$WrongCertificate->{Index}.P to"
-                        . " $WrongCertificate->{NewHash}.$NewIndex.P ... Failed",
+                        . " $WrongCertificate->{NewHash}.$NewIndex.P ... OK",
                     Details => $Details,
                 );
-
-                return {
-                    Success => 0,
-                    Details => $Details,
-                };
             }
-            $Details = $Self->_DetailsLog(
-                Message =>
-                    "Rename password $WrongCertificate->{Hash}.$WrongCertificate->{Index}.P to"
-                    . " $WrongCertificate->{NewHash}.$NewIndex.P ... OK",
-                Details => $Details,
-            );
+            else {
+                $Details = $Self->_DetailsLog(
+                    Message =>
+                        "Private key $WrongCertificate->{Hash}.$WrongCertificate->{Index} found,"
+                        . " but password: $WrongCertificate->{Hash}.$WrongCertificate->{Index}.P"
+                        . " is missing... Warning",
+                    Details => $Details,
+                );
+            }
         }
         else {
             $Details = $Self->_DetailsLog(
@@ -2331,6 +2403,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.64 $ $Date: 2012-05-21 12:32:51 $
+$Revision: 1.65 $ $Date: 2012-05-21 23:44:18 $
 
 =cut
