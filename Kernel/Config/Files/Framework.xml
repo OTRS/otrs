@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.473 2012-04-24 07:44:02 mn Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.474 2012-05-21 07:07:52 mb Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box (to avoid the use of destructive queries, such as DROP DATABASE, and also to steal user passwords).</Description>
         <Group>Framework</Group>
@@ -5195,6 +5195,25 @@ via the Preferences button after logging in.
                 <Item Key="Group">admin</Item>
                 <Item Key="Default">1</Item>
                 <Item Key="CacheTTLLocal">1440</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="DashboardBackend###0390-UserOutOfOffice" Required="0" Valid="1">
+        <Description Translatable="1">Defines the parameters for the dashboard backend. "Limit" defines the number of entries displayed by default. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" defines the cache expiration period in minutes for the plugin.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Agent::Dashboard</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::DashboardUserOutOfOffice</Item>
+                <Item Key="Title">Out Of Office</Item>
+                <Item Key="Description"></Item>
+                <Item Key="IdleMinutes">60</Item>
+                <Item Key="SortBy">UserLastname</Item>
+                <Item Key="Block">ContentSmall</Item>
+                <Item Key="Limit">10</Item>
+                <Item Key="Group"></Item>
+                <Item Key="Default">1</Item>
+                <Item Key="CacheTTLLocal">5</Item>
             </Hash>
         </Setting>
     </ConfigItem>
