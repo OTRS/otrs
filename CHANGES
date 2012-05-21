@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2288 2012-05-18 23:10:42 cr Exp $
+# $Id: CHANGES,v 1.2289 2012-05-21 04:12:17 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.2.0 beta1 201?-??-??
+ - 2012-05-20 Fixed bug #7844 Escalation Event does not respect service calendar of ticket/queue.
  - 2012-05-14 Added feature Ideascale#934 / bug#1682 - Add timescale for Week in Stats.
  - 2012-05-14 Added feature Ideascale#896 - Have the ability to set the default ticket type
     or hide the ticket type in the Customer Interface for new tickets.

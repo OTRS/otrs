@@ -1,8 +1,8 @@
 # --
 # Kernel/System/GenericAgent/TriggerEscalationStartEvents.pm - trigger escalation start events
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TriggerEscalationStartEvents.pm,v 1.3 2011-11-25 10:19:42 mg Exp $
+# $Id: TriggerEscalationStartEvents.pm,v 1.4 2012-05-21 04:12:17 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,9 +15,12 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 use List::Util qw(first);
+
+use Kernel::System::SLA;
+use Kernel::System::Queue;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -27,12 +30,15 @@ sub new {
     bless $Self, $Type;
 
     # check needed objects
-    for (qw(DBObject ConfigObject LogObject TicketObject TimeObject EncodeObject)) {
+    for (qw(DBObject ConfigObject LogObject TicketObject TimeObject EncodeObject MainObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
     # 0=off; 1=on;
     $Self->{Debug} = $Param{Debug} || 0;
+
+    $Self->{SLAObject}   = Kernel::System::SLA->new( %{$Self} );
+    $Self->{QueueObject} = Kernel::System::Queue->new( %{$Self} );
 
     return $Self;
 }
@@ -47,10 +53,38 @@ sub Run {
         DynamicFields => 0,
     );
 
+    my $Calendar;
+
+    # check if ticket has an assigned SLA with a defined calendar
+    if ( $Ticket{SLAID} ) {
+        my %SLAData = $Self->{SLAObject}->SLAGet(
+            SLAID  => $Ticket{SLAID},
+            UserID => 1,
+        );
+
+        # set $Calendar if SLA has a defined calendar
+        $Calendar = $SLAData{Calendar} ? $SLAData{Calendar} : '';
+    }
+
+    # check if there was no $Calendar defined via SLA
+    if ( !$Calendar ) {
+
+        # check if ticket queue has a defined calendar
+        if ( $Ticket{QueueID} ) {
+            my %QueueData = $Self->{QueueObject}->QueueGet(
+                ID => $Ticket{QueueID},
+            );
+
+            # set $Calendar if SLA has a defined calendar
+            $Calendar = $QueueData{Calendar} ? $QueueData{Calendar} : '';
+        }
+    }
+
     # do not trigger escalation start events outside busincess hours
     my $CountedTime = $Self->{TimeObject}->WorkingTime(
         StartTime => $Self->{TimeObject}->SystemTime() - ( 10 * 60 ),
         StopTime => $Self->{TimeObject}->SystemTime(),
+        Calendar => $Calendar || '',
     );
     if ( !$CountedTime ) {
         if ( $Self->{Debug} ) {
@@ -120,6 +154,7 @@ sub Run {
             Data   => {
                 TicketID => $Param{TicketID},
             },
+            UserID => 1,
         );
 
         # log the triggered event in the history
