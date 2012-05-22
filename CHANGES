@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2292 2012-05-22 10:42:01 mab Exp $
+# $Id: CHANGES,v 1.2293 2012-05-22 11:51:43 jp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.2.0 beta1 201?-??-??
+ - 2012-05-22 Fixed bug #8164 - Internal articles are visible within customer ticket overview.
  - 2012-05-22 Fixed bug #8506 - Customer email link won't open in popup as expected.
  - 2012-05-21 Added feature Ideascale#72 / bug#5471 - Out-of-Office dashboard widget.
  - 2012-05-20 Fixed bug #7844 Escalation Event does not respect service calendar of ticket/queue.
