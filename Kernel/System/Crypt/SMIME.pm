@@ -2,7 +2,7 @@
 # Kernel/System/Crypt/SMIME.pm - the main crypt module
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: SMIME.pm,v 1.55.2.10 2012-05-21 23:44:31 cr Exp $
+# $Id: SMIME.pm,v 1.55.2.11 2012-05-22 04:24:01 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.55.2.10 $) [1];
+$VERSION = qw($Revision: 1.55.2.11 $) [1];
 
 =head1 NAME
 
@@ -1443,10 +1443,10 @@ sub SignerCertRelationDelete {
 
 =item CheckCertPath()
 
-Checks and fixes the password (secret) files that do not have an index. (Needed because this
+Checks and fixes the private secret files that do not have an index. (Needed because this
 changed during the migration from OTRS 3.0 to 3.1.)
 
-Checks and fixed certificates, private keys and passwords (secres) files to have a correct name
+Checks and fixed certificates, private keys and secrets files to have a correct name
 depending on the current OpenSSL hash algorithm.
 
     my $Result = $CryptObject->CheckCertPath ();
@@ -1463,20 +1463,20 @@ depending on the current OpenSSL hash algorithm.
 sub CheckCertPath {
     my ( $Self, %Param ) = @_;
 
-    # normalize password file names
+    # normalize private secret file names
     #
-    # in otrs 3.0 password files are stored in format like 12345678.p, from otrs 3.1 this files
-    # must be in a format like 12345678.0.p where .0 could be from 0 to 9 depending on the
-    # privatekey file name.
+    # in otrs 3.0 private secret files are stored in format like 12345678.p, from otrs 3.1 this
+    # files must be in a format like 12345678.0.p where .0 could be from 0 to 9 depending on the
+    # private key file name.
 
-    my $NormalizeResult = $Self->_NormalizePasswordFiles();
+    my $NormalizeResult = $Self->_NormalizePrivateSecretFiles();
 
     if ( !$NormalizeResult->{Success} ) {
         return {
             Success => 0,
             Details => $NormalizeResult->{Details}
-                . "\n**Error in Normalize Password Files.\n\n",
-            ShortDetails => "**Error in Normalize Password Files.\n\n",
+                . "\n**Error in Normalize Private Secret Files.\n\n",
+            ShortDetails => "**Error in Normalize Private Secret Files.\n\n",
         };
     }
 
@@ -1484,7 +1484,7 @@ sub CheckCertPath {
     #
     # from openssl 1.0.0 a new hash algorithm has been implemented, this new hash is not compatible
     # with the old hash all stored certificates names must match current hash
-    # all affected certificates, public keys and passwords has to be renamed
+    # all affected certificates, private keys and private secrets has to be renamed
     # all affected relations has to be updated
     my $ReHashSuccess = $Self->_ReHashCertificates();
 
@@ -1739,7 +1739,7 @@ sub _PrivateFilename {
     }
 }
 
-sub _NormalizePasswordFiles {
+sub _NormalizePrivateSecretFiles {
     my ( $Self, %Param ) = @_;
 
     # get all files that ends with .P from the private directory
@@ -1752,16 +1752,16 @@ sub _NormalizePasswordFiles {
 
     $Details = $Self->_DetailsLog(
         Message =>
-            "* Normalize Password Files\n"
+            "* Normalize Private Secrets Files\n"
             . "- Private path: $Self->{PrivatePath}\n"
             . "-",
         Details => $Details,
     );
 
-    # stop if there are no passwords stored
+    # stop if there are no private secrets stored
     if ( scalar @List == 0 ) {
         $Details = $Self->_DetailsLog(
-            Message => "No password files found, nothing to do!... OK",
+            Message => "No private secret files found, nothing to do!... OK",
             Details => $Details,
         );
 
@@ -1771,20 +1771,20 @@ sub _NormalizePasswordFiles {
         };
     }
 
-    my @WrongPasswordList;
+    my @WrongPrivateSecretList;
 
-    # exclude the password files that has a correct name format
+    # exclude the private secret files that has a correct name format
     FILENAME:
     for my $File (@List) {
         $File =~ s{^.*/}{}xms;
         next FILENAME if ( $File =~ m{.+ \. \d \. P}smxi );
-        push @WrongPasswordList, $File;
+        push @WrongPrivateSecretList, $File;
     }
 
     # stop if the are no wrong files to normalize
-    if ( scalar @WrongPasswordList == 0 ) {
+    if ( scalar @WrongPrivateSecretList == 0 ) {
         $Details = $Self->_DetailsLog(
-            Message => "Stored passwords found, but they are all corect, nothing to do... OK",
+            Message => "Stored private secrets found, but they are all corect, nothing to do... OK",
             Details => $Details,
         );
 
@@ -1796,14 +1796,14 @@ sub _NormalizePasswordFiles {
 
     # check if the file with the correct name already exist in the system
     FILENAME:
-    for my $File (@WrongPasswordList) {
+    for my $File (@WrongPrivateSecretList) {
 
         # build the correct file name
         $File =~ m{(.+) \. P}smxi;
         my $Hash = $1;
 
         my $CorrectFile;
-        my @UsedPasswordFiles;
+        my @UsedPrivateSecretFiles;
 
         KEYFILENAME:
         for my $Count ( 0 .. 9 ) {
@@ -1811,27 +1811,27 @@ sub _NormalizePasswordFiles {
 
             # get private keys
             if ( -e $PrivateKeyFileLocation ) {
-                my $PasswordFileLocation = $PrivateKeyFileLocation . '.P';
+                my $PrivateSecretFileLocation = $PrivateKeyFileLocation . '.P';
 
-                # check if password already exists
-                if ( !-e $PasswordFileLocation ) {
+                # check if private secret already exists
+                if ( !-e $PrivateSecretFileLocation ) {
 
                     # use first available
                     $CorrectFile = "$Hash.$Count.P";
                     last KEYFILENAME;
                 }
                 else {
-                    push @UsedPasswordFiles, "$Hash.$Count.P";
+                    push @UsedPrivateSecretFiles, "$Hash.$Count.P";
                     next KEYFILENAME;
                 }
             }
         }
 
-        # if there are no keys for the password, the file could not be renamed
-        if ( !$CorrectFile && scalar @UsedPasswordFiles == 0 ) {
+        # if there are no keys for the private secret, the file could not be renamed
+        if ( !$CorrectFile && scalar @UsedPrivateSecretFiles == 0 ) {
             $Details = $Self->_DetailsLog(
-                Message => "Can't rename password file $File, because there is no Private Key file"
-                    . " for this password... Warning",
+                Message => "Can't rename private secret file $File, because there is no"
+                    . " private key file for this private secret... Warning",
                 Details => $Details,
             );
             next FILENAME;
@@ -1845,7 +1845,7 @@ sub _NormalizePasswordFiles {
             if ( !rename $WrongFileLocation, $CorrectFileLocation ) {
 
                 $Details = $Self->_DetailsLog(
-                    Message => "Could not rename SMIME password file $WrongFileLocation to"
+                    Message => "Could not rename private secret file $WrongFileLocation to"
                         . " $CorrectFileLocation!",
                     Error   => 1,
                     Details => $Details,
@@ -1858,7 +1858,7 @@ sub _NormalizePasswordFiles {
             }
 
             $Details = $Self->_DetailsLog(
-                Message => "Renamed password file $File to $CorrectFile ... OK",
+                Message => "Renamed private secret file $File to $CorrectFile ... OK",
                 Details => $Details,
             );
             next FILENAME;
@@ -1866,33 +1866,32 @@ sub _NormalizePasswordFiles {
 
         # otherwise try to find if any of the used files has the same content
         $Details = $Self->_DetailsLog(
-            Message => "Can't rename SMIME password file: $File\nAll private key files for hash"
-                . " $Hash has already a correct password filename associated!",
+            Message => "Can't rename private secret file: $File\nAll private key files for hash"
+                . " $Hash has already a correct private secret filename associated!",
             Details => $Details,
         );
 
-        # get the contents of the wrong password file
+        # get the contents of the wrong private secret file
         my $WrongFileContent = $Self->{MainObject}->FileRead(
             Location => $WrongFileLocation,
             Result   => 'SCALAR',
         );
 
-        # loop over the found password files for the same private key hash
-        PASSWORDFILE:
-        for my $PasswordFile (@UsedPasswordFiles) {
-            my $PasswordFileLocation = "$Self->{PrivatePath}/$PasswordFile";
+        # loop over the found private secret files for the same private key hash
+        for my $PrivateSecretFile (@UsedPrivateSecretFiles) {
+            my $PrivateSecretFileLocation = "$Self->{PrivatePath}/$PrivateSecretFile";
 
             # check if the file contents are the same
-            my $PasswordFileContent = $Self->{MainObject}->FileRead(
-                Location => $PasswordFileLocation,
+            my $PrivateSecretFileContent = $Self->{MainObject}->FileRead(
+                Location => $PrivateSecretFileLocation,
                 Result   => 'SCALAR',
             );
 
             # safe to delete wrong file if contents are are identical
-            if ( ${$WrongFileContent} eq ${$PasswordFileContent} ) {
+            if ( ${$WrongFileContent} eq ${$PrivateSecretFileContent} ) {
 
                 $Details = $Self->_DetailsLog(
-                    Message => "The content of files $File and $PasswordFile is the same,"
+                    Message => "The content of files $File and $PrivateSecretFile is the same,"
                         . " it is safe to remove $File",
                     Details => $Details,
                 );
@@ -1905,7 +1904,7 @@ sub _NormalizePasswordFiles {
                 # return error if file was not deleted
                 if ( !$Success ) {
                     $Details = $Self->_DetailsLog(
-                        Message => "Could not remove SMIME password file $WrongFileLocation"
+                        Message => "Could not remove private secret file $WrongFileLocation"
                             . " from the file system!... Failed",
                         Error   => 1,
                         Details => $Details,
@@ -1916,9 +1915,9 @@ sub _NormalizePasswordFiles {
                     };
                 }
 
-                # continue to next wrong password file
+                # continue to next wrong private secret file
                 $Details = $Self->_DetailsLog(
-                    Message => "SMIME password file $File was removed from the file"
+                    Message => "The private secret file $File was removed from the file"
                         . " system... OK",
                     Details => $Details,
                 );
@@ -1927,16 +1926,16 @@ sub _NormalizePasswordFiles {
 
             # otherwise just log that the contents are diferent, do not delete file
             $Details = $Self->_DetailsLog(
-                Message => "The content of files $File and $PasswordFile is diferent",
+                Message => "The content of files $File and $PrivateSecretFile is diferent",
                 Details => $Details,
             );
         }
 
-        # all password files has differnt content, just log this as a waring and continue to the
-        # next wrong password file
+        # all private secret files has differnt content, just log this as a waring and continue to
+        # the next wrong private secret file
         $Details = $Self->_DetailsLog(
-            Message => "The SMIME password file $File has information not stored in any other"
-                . " SMIME password file for hash $Hash\n"
+            Message => "The private secret file $File has information not stored in any other"
+                . " private secret file for hash $Hash\n"
                 . "The file will not be deleted... Warning",
             Details => $Details,
         );
@@ -2080,14 +2079,14 @@ sub _ReHashCertificates {
         my $WrongPrivateKeyFile
             = "$Self->{PrivatePath}/$WrongCertificate->{Hash}.$WrongCertificate->{Index}";
 
-        # check if certificate has a private key and password
-        # if has a private key it must have a password
+        # check if certificate has a private key and secret
+        # if has a private key it must have a private secret
         my $HasPrivateKey;
-        my $HasPassword;
+        my $HasPrivateSecret;
         if ( -e $WrongPrivateKeyFile ) {
             $HasPrivateKey = 1;
 
-            # check new private key and password files
+            # check new private key and secret files
             if ( -e $NewPrivateKeyFile ) {
                 $Details = $Self->_DetailsLog(
                     Message => "Filename for private key: $NewPrivateKeyFile is alredy in use!",
@@ -2101,13 +2100,14 @@ sub _ReHashCertificates {
                 };
             }
 
-            # check password
+            # check private secret
             if ( -e "$WrongPrivateKeyFile.P" ) {
-                $HasPassword = 1;
+                $HasPrivateSecret = 1;
 
                 if ( -e "$NewPrivateKeyFile.P" ) {
                     $Details = $Self->_DetailsLog(
-                        Message => "Filename for password: $NewPrivateKeyFile.P is alredy in use!",
+                        Message => "Filename for private secret: $NewPrivateKeyFile.P is alredy"
+                            . " in use!",
                         Error   => 1,
                         Details => $Details,
                     );
@@ -2314,18 +2314,19 @@ sub _ReHashCertificates {
                 Details => $Details,
             );
 
-            # rename password
-            if ($HasPassword) {
+            # rename private secret
+            if ($HasPrivateSecret) {
                 if ( !rename $WrongPrivateKeyFile . '.P', $NewPrivateKeyFile . '.P' ) {
                     $Details = $Self->_DetailsLog(
-                        Message => "Could not rename SMIME password file $WrongPrivateKeyFile.P to"
-                            . " $NewPrivateKeyFile.P!",
+                        Message => "Could not rename SMIME private secret file"
+                            . " $WrongPrivateKeyFile.P to $NewPrivateKeyFile.P!",
                         Error   => 1,
                         Details => $Details,
                     );
                     $Details = $Self->_DetailsLog(
                         Message =>
-                            "Rename password $WrongCertificate->{Hash}.$WrongCertificate->{Index}.P to"
+                            "Rename private secret "
+                            . " $WrongCertificate->{Hash}.$WrongCertificate->{Index}.P to"
                             . " $WrongCertificate->{NewHash}.$NewIndex.P ... Failed",
                         Details => $Details,
                     );
@@ -2337,7 +2338,8 @@ sub _ReHashCertificates {
                 }
                 $Details = $Self->_DetailsLog(
                     Message =>
-                        "Rename password $WrongCertificate->{Hash}.$WrongCertificate->{Index}.P to"
+                        "Rename private secret"
+                        . " $WrongCertificate->{Hash}.$WrongCertificate->{Index}.P to"
                         . " $WrongCertificate->{NewHash}.$NewIndex.P ... OK",
                     Details => $Details,
                 );
@@ -2346,7 +2348,8 @@ sub _ReHashCertificates {
                 $Details = $Self->_DetailsLog(
                     Message =>
                         "Private key $WrongCertificate->{Hash}.$WrongCertificate->{Index} found,"
-                        . " but password: $WrongCertificate->{Hash}.$WrongCertificate->{Index}.P"
+                        . " but private secret:"
+                        . " $WrongCertificate->{Hash}.$WrongCertificate->{Index}.P"
                         . " is missing... Warning",
                     Details => $Details,
                 );
@@ -2403,6 +2406,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.55.2.10 $ $Date: 2012-05-21 23:44:31 $
+$Revision: 1.55.2.11 $ $Date: 2012-05-22 04:24:01 $
 
 =cut

@@ -2,7 +2,7 @@
 # UPGRADING - Upgrading Instructions for OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: UPGRADING,v 1.69.2.4 2012-05-21 12:24:42 mg Exp $
+# $Id: UPGRADING,v 1.69.2.5 2012-05-22 04:24:01 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -286,9 +286,10 @@ how to upgrade the data types used by OTRS
     step if you upgrade from 3.0.x OR if you upgrade from 3.1.x before 3.1.6 while using OpenSSL 1.x
     to encrypt/sign your emails.
 
-    Between OTRS 3.0.x and 3.1.x, the file naming of password file names changed and need to be
-    updated. In addition, OpenSSL 0.9.x and 1.x use different algorithms to calculate the
-    certificate hash. To update your password and certificate file names, please run this command:
+    Between OTRS 3.0.x and 3.1.x, the file naming of private secret file names changed and need to
+    be updated. In addition, OpenSSL 0.9.x and 1.x use different algorithms to calculate the
+    certificate hash. To update your private secrets and certificate file names, please run this
+    command:
 
     shell> bin/otrs.RefreshSMIMEKeys.pl
 
