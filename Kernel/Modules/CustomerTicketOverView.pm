@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/CustomerTicketOverView.pm - status for all open tickets
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketOverView.pm,v 1.67.2.1 2011-05-09 21:15:56 en Exp $
+# $Id: CustomerTicketOverView.pm,v 1.67.2.2 2012-05-22 11:46:43 jp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.67.2.1 $) [1];
+$VERSION = qw($Revision: 1.67.2.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -370,14 +370,45 @@ sub ShowTicketStatus {
 
     my $TicketID = $Param{TicketID} || return;
 
-    # get last article
-    my %Article = $Self->{TicketObject}->ArticleLastCustomerArticle( TicketID => $TicketID );
+    # contains last article (non-internal)
+    my %Article;
+
+    # get whole article index
+    my @ArticleIDs = $Self->{TicketObject}->ArticleIndex( TicketID => $Param{TicketID} );
+
+    # get article data
+    if (@ArticleIDs) {
+        my %LastNonInternalArticle;
+
+        ARTICLEID:
+        for my $ArticleID ( reverse @ArticleIDs ) {
+            my %CurrentArticle = $Self->{TicketObject}->ArticleGet( ArticleID => $ArticleID );
+
+            # check for non-internal article
+            next ARTICLEID if $CurrentArticle{ArticleType} =~ m{int}smx;
+
+            # check for customer article
+            if ( $CurrentArticle{SenderType} eq 'customer' ) {
+                %Article = %CurrentArticle;
+                last ARTICLEID;
+            }
+
+            # check for last non-internal article (sender type does not matter)
+            if ( !%LastNonInternalArticle ) {
+                %LastNonInternalArticle = %CurrentArticle;
+            }
+        }
+
+        if ( !%Article && %LastNonInternalArticle ) {
+            %Article = %LastNonInternalArticle;
+        }
+    }
 
     if ( !%Article ) {
-
-        my @Index = $Self->{TicketObject}->ArticleIndex( TicketID => $Param{TicketID} );
-
-        %Article = $Self->{TicketObject}->ArticleGet( ArticleID => $Index[0] );
+        $Self->{LayoutObject}->FatalError(
+            Message => "No article found for TicketID $Param{TicketID}!"
+        );
+        return;
     }
 
     # condense down the subject
