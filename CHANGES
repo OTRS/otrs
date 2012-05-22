@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2260.2.27 2012-05-22 10:41:55 mab Exp $
+# $Id: CHANGES,v 1.2260.2.28 2012-05-22 11:50:56 jp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.1.6 2012-??-??
+ - 2012-05-22 Fixed bug #8164 - Internal articles are visible within customer ticket overview.
  - 2012-05-22 Fixed bug #8506 - Customer email link won't open in popup as expected.
  - 2012-05-20 Fixed bug #7844 Escalation Event does not respect service calendar of ticket/queue.
  - 2012-05-18 Added otrs.RefreshSMIMEKeys.pl to refresh SMIME certificate filenames according to the
