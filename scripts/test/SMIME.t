@@ -2,7 +2,7 @@
 # SMIME.t - SMIME tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: SMIME.t,v 1.24.2.7 2012-05-21 23:46:52 cr Exp $
+# $Id: SMIME.t,v 1.24.2.8 2012-05-22 03:08:28 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -1735,6 +1735,8 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
             OTRSRootCA => {
                 WrongCAFile         => 'aaaaaaaa.0',
                 WrongCAFileLocation => "$CertPath/aaaaaaaa.0",
+                WrongCAFileFingerprint =>
+                    'BB:F7:B5:5B:52:AE:2D:4F:5A:B5:BD:E5:56:C5:D0:D9:38:3F:76:18',
                 WrongCAFileContent =>
                     '-----BEGIN CERTIFICATE-----
 MIIGsDCCBJigAwIBAgIJANb9fGVgz7e/MA0GCSqGSIb3DQEBBQUAMIGWMQswCQYD
@@ -1838,6 +1840,8 @@ BaGX8CYCY1k/+LFFxKwYcVJBqW3fzhjR0yk1HUoTJx34qMrXNy47rgd1xQNAwkEL
             OTRSRDCA => {
                 WrongCAFile         => 'bbbbbbbb.0',
                 WrongCAFileLocation => "$CertPath/bbbbbbbb.0",
+                WrongCAFileFingerprint =>
+                    '3F:F1:41:8A:CF:39:30:53:DB:27:B0:08:3A:58:54:ED:31:D2:8A:FC',
                 WrongCAFileContent =>
                     '-----BEGIN CERTIFICATE-----
 MIIGhTCCBG2gAwIBAgIBATANBgkqhkiG9w0BAQUFADCBljELMAkGA1UEBhMCREUx
@@ -1940,6 +1944,8 @@ H65x/ozkvtFB/yWr7kXQ858NiE9TW015lJ6mAMe9Mt61RYoOwRXZQjLiUoEE2Uy7
             OTRSLabCA => {
                 WrongCAFile         => 'cccccccc.0',
                 WrongCAFileLocation => "$CertPath/cccccccc.0",
+                WrongCAFileFingerprint =>
+                    '28:10:65:6D:C7:FD:1B:37:BE:B5:73:44:9F:D9:C8:95:57:34:B0:A1',
                 WrongCAFileContent =>
                     '-----BEGIN CERTIFICATE-----
 MIIGYTCCBEmgAwIBAgIBATANBgkqhkiG9w0BAQUFADB0MQswCQYDVQQGEwJERTEP
@@ -2040,22 +2046,6 @@ k16iU8H6KGGE2c9vRyF146s9ot6FZHLzt9KZN03FWjtda6Z19Q95AZ7hJS40criK
                 WrongCAPasswordFileContent  => 'secret',
             },
         );
-
-        #create new CA file set with wrong names
-        for my $CAName ( sort keys %WrongCAs ) {
-            $CreateWrongCAFiles->(
-                $CAName,
-                $WrongCAs{$CAName}->{WrongCAFile},
-                $WrongCAs{$CAName}->{WrongCAFileContent},
-                $WrongCAs{$CAName}->{WrongCAFileLocation},
-                $WrongCAs{$CAName}->{WrongCAPrivateKeyFile},
-                $WrongCAs{$CAName}->{WrongCAPrivateKeyFileContent},
-                $WrongCAs{$CAName}->{WrongCAPrivateKeyFileLocation},
-                $WrongCAs{$CAName}->{WrongCAPasswordFile},
-                $WrongCAs{$CAName}->{WrongCAPasswordFileContent},
-                $WrongCAs{$CAName}->{WrongCAPasswordFileLocation},
-            );
-        }
 
         # check correct files function
         my $CheckCorrectCAFiles = sub {
@@ -2223,6 +2213,22 @@ k16iU8H6KGGE2c9vRyF146s9ot6FZHLzt9KZN03FWjtda6Z19Q95AZ7hJS40criK
                 }
         }
 
+        #create new CA file set with wrong names
+        for my $CAName ( sort keys %WrongCAs ) {
+            $CreateWrongCAFiles->(
+                $CAName,
+                $WrongCAs{$CAName}->{WrongCAFile},
+                $WrongCAs{$CAName}->{WrongCAFileContent},
+                $WrongCAs{$CAName}->{WrongCAFileLocation},
+                $WrongCAs{$CAName}->{WrongCAPrivateKeyFile},
+                $WrongCAs{$CAName}->{WrongCAPrivateKeyFileContent},
+                $WrongCAs{$CAName}->{WrongCAPrivateKeyFileLocation},
+                $WrongCAs{$CAName}->{WrongCAPasswordFile},
+                $WrongCAs{$CAName}->{WrongCAPasswordFileContent},
+                $WrongCAs{$CAName}->{WrongCAPasswordFileLocation},
+            );
+        }
+
         # refresh the hases
         my $Response = $CryptObject->CheckCertPath();
         $Self->True(
@@ -2260,7 +2266,7 @@ k16iU8H6KGGE2c9vRyF146s9ot6FZHLzt9KZN03FWjtda6Z19Q95AZ7hJS40criK
             );
         }
 
-        # remove certificates, private keys and passwords from the file listem
+        # remove certificates, private keys and passwords from the file system
         for my $CAName ( sort keys %WrongCAs ) {
 
             my $RemoveSuccess = $CryptObject->CertificateRemove(
