@@ -1,8 +1,8 @@
 # --
 # Helper.pm - unit test helper functions
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Helper.pm,v 1.12 2011-04-01 10:41:42 mg Exp $
+# $Id: Helper.pm,v 1.13 2012-05-22 13:12:46 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -37,6 +37,7 @@ construct a helper object.
         %{$Self},
         RestoreSystemConfiguration => 1,        # optional, save ZZZAuto.pm and restore it in the destructor
     );
+
 =cut
 
 sub new {
@@ -115,7 +116,7 @@ creates a test user that can be used in tests. It will
 be set to invalid automatically during the destructor. Returns
 the login name of the new user, the password is the same.
 
-    my $TestUserLogin = $sel->TestUserCreate(
+    my $TestUserLogin = $Helper->TestUserCreate(
         Groups => ['admin', 'users'],           # optional, list of groups to add this user to (rw rights)
     );
 
@@ -176,7 +177,7 @@ creates a test customer user that can be used in tests. It will
 be set to invalid automatically during the destructor. Returns
 the login name of the new customer user, the password is the same.
 
-    my $TestUserLogin = $sel->TestCustomerUserCreate();
+    my $TestUserLogin = $Helper->TestCustomerUserCreate();
 
 =cut
 
@@ -317,6 +318,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.12 $ $Date: 2011-04-01 10:41:42 $
+$Revision: 1.13 $ $Date: 2012-05-22 13:12:46 $
 
 =cut
