@@ -2,7 +2,7 @@
 # SMIME.t - SMIME tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: SMIME.t,v 1.24.2.11 2012-05-22 16:50:04 cr Exp $
+# $Id: SMIME.t,v 1.24.2.12 2012-05-22 17:37:47 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -507,117 +507,115 @@ for my $Count ( 1 .. 2 ) {
     );
 }
 
+# function to retreive the certificate data from test files
+my $GetCertificateDataFromFiles = sub {
+    my ( $CertificateFileName, $PrivateKeyFileName, $PrivateSecretFileName ) = @_;
+
+    # read certificates, private keys and secrets
+    my $CertStringRef = $Self->{MainObject}->FileRead(
+        Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/SMIME/",
+        Filename  => $CertificateFileName,
+    );
+    my $PrivateStringRef = $Self->{MainObject}->FileRead(
+        Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/SMIME/",
+        Filename  => $PrivateKeyFileName,
+    );
+    my $PrivateSecretRef = $Self->{MainObject}->FileRead(
+        Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/SMIME/",
+        Filename  => $PrivateSecretFileName,
+    );
+
+    # return strings instead of references
+    return ( ${$CertStringRef}, ${$PrivateStringRef}, ${$PrivateSecretRef} );
+};
+
+# OpenSSL 0.9.x correct hashes
+my $OTRSRootCAHash   = '1a01713f';
+my $OTRSRDCAHash     = '7807c24e';
+my $OTRSLabCAHash    = '2fc24258';
+my $OTRSUserCertHash = 'eab039b6';
+
+# OpenSSL 1.0.0 correct hashes
+if ($UseNewHashes) {
+    $OTRSRootCAHash   = '7835cf94';
+    $OTRSRDCAHash     = 'b5d19fb9';
+    $OTRSLabCAHash    = '19545811';
+    $OTRSUserCertHash = '4d400195';
+}
+
+# create certificates table
 my %Certificates;
+
+# get data from files
+my ( $CertificateString, $PrivateString, $PrivateSecret ) = $GetCertificateDataFromFiles->(
+    "SMIMECACertificate-OTRSLab.crt",
+    "SMIMECAPrivateKey-OTRSLab.pem",
+    "SMIMECAPrivateKeyPass-OTRSLab.crt",
+);
+
+# fill certificates table
+$Certificates{OTRSLabCA} = {
+    Hash          => $OTRSLabCAHash,
+    Fingerprint   => '28:10:65:6D:C7:FD:1B:37:BE:B5:73:44:9F:D9:C8:95:57:34:B0:A1',
+    String        => $CertificateString,
+    PrivateSecret => $PrivateSecret,
+    PrivateHash   => $OTRSLabCAHash,
+    PrivateString => $PrivateString,
+};
+
+# get data from files
+( $CertificateString, $PrivateString, $PrivateSecret ) = $GetCertificateDataFromFiles->(
+    "SMIMECACertificate-OTRSRD.crt",
+    "SMIMECAPrivateKey-OTRSRD.pem",
+    "SMIMECAPrivateKeyPass-OTRSRD.crt",
+);
+
+# fill certificates table
+$Certificates{OTRSRDCA} = {
+    Hash          => $OTRSRDCAHash,
+    Fingerprint   => '3F:F1:41:8A:CF:39:30:53:DB:27:B0:08:3A:58:54:ED:31:D2:8A:FC',
+    String        => $CertificateString,
+    PrivateSecret => $PrivateSecret,
+    PrivateHash   => $OTRSRDCAHash,
+    PrivateString => $PrivateString,
+};
+
+# get data from files
+( $CertificateString, $PrivateString, $PrivateSecret ) = $GetCertificateDataFromFiles->(
+    "SMIMECACertificate-OTRSRoot.crt",
+    "SMIMECAPrivateKey-OTRSRoot.pem",
+    "SMIMECAPrivateKeyPass-OTRSRoot.crt",
+);
+
+# fill certificates table
+$Certificates{OTRSRootCA} = {
+    Hash          => $OTRSRootCAHash,
+    Fingerprint   => 'BB:F7:B5:5B:52:AE:2D:4F:5A:B5:BD:E5:56:C5:D0:D9:38:3F:76:18',
+    String        => $CertificateString,
+    PrivateSecret => $PrivateSecret,
+    PrivateHash   => $OTRSRootCAHash,
+    PrivateString => $PrivateString,
+};
 
 # adding tests for smime certificate chains
 {
 
-    # 0.9.x hashes
-    my $OTRSRootCAHash   = '1a01713f';
-    my $OTRSRDCAHash     = '7807c24e';
-    my $OTRSLabCAHash    = '2fc24258';
-    my $OTRSUserCertHash = 'eab039b6';
-
-    # 1.0.0 hashes
-    if ($UseNewHashes) {
-        $OTRSRootCAHash   = '7835cf94';
-        $OTRSRDCAHash     = 'b5d19fb9';
-        $OTRSLabCAHash    = '19545811';
-        $OTRSUserCertHash = '4d400195';
-    }
+    # get data from files
+    my ( $CertificateString, $PrivateString, $PrivateSecret ) = $GetCertificateDataFromFiles->(
+        "SMIMECertificate-smimeuser1.crt",
+        "SMIMEPrivateKey-smimeuser1.pem",
+        "SMIMEPrivateKeyPass-smimeuser1.crt",
+    );
 
     # add certificate smimeuser1
     my %SMIMEUser1Certificate;
     %SMIMEUser1Certificate = (
-        Hash        => $OTRSUserCertHash,
-        Fingerprint => 'F1:1F:83:42:14:DB:0F:FD:2E:F7:C5:84:36:8B:07:72:48:2C:C9:C0',
-        String =>
-            '-----BEGIN CERTIFICATE-----
-MIIFjTCCA3UCCQDt3sB/CPz9rjANBgkqhkiG9w0BAQUFADB7MQswCQYDVQQGEwJN
-WDEQMA4GA1UECBMHSmFsaXNjbzEQMA4GA1UEChMHT1RSUyBBRzERMA8GA1UECxMI
-T1RSUyBMYWIxETAPBgNVBAMTCE9UUlMgTGFiMSIwIAYJKoZIhvcNAQkBFhNvdHJz
-bGFiQGV4YW1wbGUuY29tMB4XDTEyMDUxNTAyNTIwNloXDTIyMDUxMzAyNTIwNlow
-gZUxCzAJBgNVBAYTAk1YMRAwDgYDVQQIEwdKYWxpc2NvMRQwEgYDVQQHEwtHdWFk
-YWxhamFyYTEQMA4GA1UEChMHT1RSUyBBRzERMA8GA1UECxMIT1RSUyBMYWIxFTAT
-BgNVBAMTDFNNSU1FIFVzZXIgMTEiMCAGCSqGSIb3DQEJARYTc21pbWV1c2VyMUB0
-ZXN0LmNvbTCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBAJ/cr+sMwWW3
-SWLazwZ9O/dScatebBsQ3zEof/f6rO7zSppCPg/iA69VRZ9/wDJLe815bA9UBFXg
-M+u/gI0Mnm8JPpPxXc+qqiTyWiNF25Tmxh3BWrFEcrx/3IRQ41G+3mbXWe5NcuWZ
-unFbA8OGXW33BqQoV6SZjCxow/uz+YIkNXyNcHYRI87OrvCDhoc7qn7J6RFcDoyb
-Sc8Tc5RasFiNvzE2vjodqKmQt1tpjucv15cBtSDTOwANtYYbcFgcUBqUZbeG2MbJ
-e8791yXw5ZhoOOahroeszzlwk9r/d8x20iMeKm8O8nGq8+EDDPAZPhyzRfFgQexf
-lu34PDGxr8eDniS31ohgMyLx4Kjsl4k5mKk3oxVbc69Y1cRbTbkVOw6gzc+Iyabb
-Kuf+xcZQs/QH0IhKLX8yztW72KQJ0Bu0SS9750gkn2Zg2tEwTRnhvoqfLgcqI9Eb
-vhYPP5vD17bqFYWizFyWCW7hyb9d41SZREzIT+hCSvRNvQY1HCTRk66pMU62ywjM
-1XZmxjiZctQuTlPqHvGU3zF5A2wL4IfnsFGosaQ45nN03tWNfTlpZqHWMEZgmTEq
-NGSjVZZUS8CLPq/YXREcWsXZKTFlY5bMhdPZF/PAgKQzPgC+NIkM2dbQGwK9d8P9
-tOdHM/Qw6x/56P97uWfMOmKIL0pIygtPAgMBAAEwDQYJKoZIhvcNAQEFBQADggIB
-AC32NGijuckU3gSks1pRi2hFzLEmlPcKCyBIjQlylOzUI93v3Bz0DAVcZGb0xw1I
-KhNRL+PSF2X7eZi970CrGk5C1JquyS/khLR1kCqEFJshwCTm8ONMpFwXcMPgbRNQ
-TNcS+OQTFAS2OV8mqAYLSmYL5e8OgxEUG765ORLU+2QHarMtky4VN1bBzpjCYvzU
-UZY1Y3LILjARtJGE5Bl/9/QZTNsUcDKzaxbPT9/SF2JJhM7TkHBcrkm6q+vF3V98
-PxdIj/cRPF8cvm9PGQA5JdnoIERGp4+RV8iuVBUPes4qfjQ8rQ1UHtqgscmVtu40
-vM22tg7IfjZkj/YUbihj7q+D3GaG9G5qZJA6rIm0A4UKka7xBtIWqqVFDTGGkvAi
-hX5OcSIvRiv+l9vBeYs/g4lM1yRLrlD7Zxyj3VdhBm4tJOzWzTp7T12AM9vxtGO7
-T6C6nqSZCjGrZ24p0iQky9BrW49xXbGWu8PhxNwxA7ah9keARaTIyiNYgbT9Ey41
-5oALXeUDVEVKLZpbkbsSaZ/NEQezMOSkeJxN8zhz9XAizykub3qoN1th0gyuX6SB
-cguOn8Sg1O8jzlrZQOT5F6r2BGi4gn/rxIMAOoImAoYyjHZVK0psyGBekh4HYHDl
-wpStC0yiqNRd1/r/wkihHv57xSScBPkpdu2Q9RBY36dJ
------END CERTIFICATE-----',
-        PrivateSecret => 'secret',
+        Hash          => $OTRSUserCertHash,
+        Fingerprint   => 'F1:1F:83:42:14:DB:0F:FD:2E:F7:C5:84:36:8B:07:72:48:2C:C9:C0',
+        String        => $CertificateString,
+        PrivateSecret => $PrivateSecret,
         PrivateHash   => $OTRSUserCertHash,
-        PrivateString =>
-            '-----BEGIN RSA PRIVATE KEY-----
-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
------END RSA PRIVATE KEY-----',
+        PrivateString => $PrivateString,
     );
 
     my %Result = $CryptObject->CertificateAdd(
@@ -652,194 +650,10 @@ phgQwd/x35Aqh8J0reGYC/JM//SKY4RpkIwYI2xQxy/OTcNGSsVB/hON3Fo3
         'Sign(), failed certificate chain verification, needed CA certificates not embedded',
     );
 
-    #    my %Certificates;
-    $Certificates{OTRSLabCA} = {
-        Hash        => $OTRSLabCAHash,
-        Fingerprint => '28:10:65:6D:C7:FD:1B:37:BE:B5:73:44:9F:D9:C8:95:57:34:B0:A1',
-        String =>
-            '-----BEGIN CERTIFICATE-----
-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
-KChKU8c=
------END CERTIFICATE-----',
-        PrivateSecret => 'secret',
-        PrivateHash   => $OTRSLabCAHash,
-        PrivateString =>
-            '-----BEGIN CERTIFICATE-----
-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
-KChKU8c=
------END CERTIFICATE-----',
-    };
-
-    $Certificates{OTRSRDCA} = {
-        Hash        => $OTRSRDCAHash,
-        Fingerprint => '3F:F1:41:8A:CF:39:30:53:DB:27:B0:08:3A:58:54:ED:31:D2:8A:FC',
-        String =>
-            '-----BEGIN CERTIFICATE-----
-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
------END CERTIFICATE-----',
-        PrivateSecret => 'secret',
-        PrivateHash   => $OTRSRDCAHash,
-        PrivateString =>
-            '-----BEGIN RSA PRIVATE KEY-----
-Proc-Type: 4,ENCRYPTED
-DEK-Info: DES-EDE3-CBC,B1A02AF555039CEB
-
-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
------END RSA PRIVATE KEY-----',
-    };
-
-    # add CA certificates to the local cert storage
-    for my $Cert ( values %Certificates ) {
+    # add CA certificates to the local cert storage (OTRSLabCA and OTRSRDCA)
+    for my $Cert (qw( OTRSLabCA OTRSRDCA )) {
         $CryptObject->CertificateAdd(
-            Certificate => $Cert->{String},
+            Certificate => $Certificates{$Cert}->{String},
         );
     }
 
@@ -860,107 +674,6 @@ H65x/ozkvtFB/yWr7kXQ858NiE9TW015lJ6mAMe9Mt61RYoOwRXZQjLiUoEE2Uy7
     );
 
     # add the root CA cert to the trusted certificates path
-    $Certificates{OTRSRootCA} = {
-        Hash        => $OTRSRootCAHash,
-        Fingerprint => 'BB:F7:B5:5B:52:AE:2D:4F:5A:B5:BD:E5:56:C5:D0:D9:38:3F:76:18',
-        String =>
-            '-----BEGIN CERTIFICATE-----
-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
------END CERTIFICATE-----',
-        PrivateSecret => 'secret',
-        PrivateHash   => $OTRSRootCAHash,
-        PrivateString =>
-            '-----BEGIN RSA PRIVATE KEY-----
-Proc-Type: 4,ENCRYPTED
-DEK-Info: DES-EDE3-CBC,E64B439DB6CE2BB8
-
-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
------END RSA PRIVATE KEY-----',
-    };
-
     $CryptObject->CertificateAdd(
         Certificate => $Certificates{OTRSRootCA}->{String},
     );
