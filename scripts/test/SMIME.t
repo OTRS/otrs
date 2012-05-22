@@ -2,7 +2,7 @@
 # SMIME.t - SMIME tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: SMIME.t,v 1.24.2.12 2012-05-22 17:37:47 cr Exp $
+# $Id: SMIME.t,v 1.24.2.13 2012-05-22 21:13:45 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -1774,40 +1774,172 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
             }
         };
 
+        # function to create certificate reations directly into the database
+        my $ManualCertRelationAdd = sub {
+            my ( $CertificateHash, $CertificateFingerprint, $CAHash, $CAFingerprint, $TestName )
+                = @_;
+
+            my $Success = $Self->{DBObject}->Do(
+                SQL => 'INSERT INTO smime_signer_cert_relations'
+                    . ' ( cert_hash, cert_fingerprint, ca_hash, ca_fingerprint, create_time, create_by, change_time, change_by)'
+                    . ' VALUES (?, ?, ?, ?, current_timestamp, 1, current_timestamp, 1)',
+                Bind => [
+                    \$CertificateHash, \$CertificateFingerprint, \$CAHash, \$CAFingerprint,
+                ],
+            );
+
+            $Self->True(
+                $Success,
+                "Re-Hash $TestName: Manual certificate relation added for"
+                    . " Certificate $CertificateHash and CA $CAHash with true",
+            );
+        };
+
+        # set wrong hashes
+        my %WrongHashes = (
+            OTRSRootCA => 'aaaaaaaa',
+            OTRSRDCA   => 'bbbbbbbb',
+            OTRSLabCA  => 'cccccccc',
+        );
+
         my @Tests = (
             {
                 Name     => '3 Certs, PKs and PSs',
                 WrongCAs => {
                     OTRSRootCA => {
-                        WrongCAFile                  => 'aaaaaaaa.0',
+                        WrongCAFile                  => "$WrongHashes{OTRSRootCA}.0",
                         WrongCAFileContent           => $Certificates{OTRSRootCA}->{String},
                         WrongCAPrivateKeyFileContent => $Certificates{OTRSRootCA}->{PrivateString},
                         WrongCAPrivateSecretFileContent =>
                             $Certificates{OTRSRootCA}->{PrivateSecret},
+                        WrongRelations => [
+                            {
+                                CertHash        => $WrongHashes{OTRSRootCA},
+                                CertFingerprint => $Certificates{OTRSRootCA}->{Fingerprint},
+                                CAHash          => $WrongHashes{OTRSRDCA},
+                                CAFingerprint   => $Certificates{OTRSRDCA}->{Fingerprint},
+
+                            },
+                            {
+                                CertHash        => $WrongHashes{OTRSRootCA},
+                                CertFingerprint => $Certificates{OTRSRootCA}->{Fingerprint},
+                                CAHash          => $WrongHashes{OTRSLabCA},
+                                CAFingerprint   => $Certificates{OTRSLabCA}->{Fingerprint},
+
+                            },
+                        ],
                     },
                     OTRSRDCA => {
-                        WrongCAFile                     => 'bbbbbbbb.0',
+                        WrongCAFile                     => "$WrongHashes{OTRSRDCA}.0",
                         WrongCAFileContent              => $Certificates{OTRSRDCA}->{String},
                         WrongCAPrivateKeyFileContent    => $Certificates{OTRSRDCA}->{PrivateString},
                         WrongCAPrivateSecretFileContent => $Certificates{OTRSRDCA}->{PrivateSecret},
+                        WrongRelations                  => [
+                            {
+                                CertHash        => $WrongHashes{OTRSRDCA},
+                                CertFingerprint => $Certificates{OTRSRDCA}->{Fingerprint},
+                                CAHash          => $WrongHashes{OTRSRootCA},
+                                CAFingerprint   => $Certificates{OTRSRootCA}->{Fingerprint},
+
+                            },
+                            {
+                                CertHash        => $WrongHashes{OTRSRDCA},
+                                CertFingerprint => $Certificates{OTRSRDCA}->{Fingerprint},
+                                CAHash          => $WrongHashes{OTRSLabCA},
+                                CAFingerprint   => $Certificates{OTRSLabCA}->{Fingerprint},
+
+                            },
+                        ],
                     },
                     OTRSLabCA => {
-                        WrongCAFile                  => 'cccccccc.0',
+                        WrongCAFile                  => "$WrongHashes{OTRSLabCA}.0",
                         WrongCAFileContent           => $Certificates{OTRSLabCA}->{String},
                         WrongCAPrivateKeyFileContent => $Certificates{OTRSLabCA}->{PrivateString},
                         WrongCAPrivateSecretFileContent =>
                             $Certificates{OTRSRootCA}->{PrivateSecret},
+                        WrongRelations => [
+                            {
+                                CertHash        => $WrongHashes{OTRSLabCA},
+                                CertFingerprint => $Certificates{OTRSLabCA}->{Fingerprint},
+                                CAHash          => $WrongHashes{OTRSRootCA},
+                                CAFingerprint   => $Certificates{OTRSRootCA}->{Fingerprint},
+
+                            },
+                            {
+                                CertHash        => $WrongHashes{OTRSLabCA},
+                                CertFingerprint => $Certificates{OTRSLabCA}->{Fingerprint},
+                                CAHash          => $WrongHashes{OTRSRDCA},
+                                CAFingerprint   => $Certificates{OTRSRDCA}->{Fingerprint},
+
+                            },
+                        ],
+                    },
+                },
+                CorrectCAs => {
+                    OTRSRootCA => {
+                        CorrectRelations => [
+                            {
+                                CertHash        => $Certificates{OTRSRootCA}->{Hash},
+                                CertFingerprint => $Certificates{OTRSRootCA}->{Fingerprint},
+                                CAHash          => $Certificates{OTRSRDCA}->{Hash},
+                                CAFingerprint   => $Certificates{OTRSRDCA}->{Fingerprint},
+
+                            },
+                            {
+                                CertHash        => $Certificates{OTRSRootCA}->{Hash},
+                                CertFingerprint => $Certificates{OTRSRootCA}->{Fingerprint},
+                                CAHash          => $Certificates{OTRSLabCA}->{Hash},
+                                CAFingerprint   => $Certificates{OTRSLabCA}->{Fingerprint},
+
+                            },
+                        ],
+                    },
+                    OTRSRDCA => {
+                        CorrectRelations => [
+                            {
+                                CertHash        => $Certificates{OTRSRDCA}->{Hash},
+                                CertFingerprint => $Certificates{OTRSRDCA}->{Fingerprint},
+                                CAHash          => $Certificates{OTRSRootCA}->{Hash},
+                                CAFingerprint   => $Certificates{OTRSRootCA}->{Fingerprint},
+
+                            },
+                            {
+                                CertHash        => $Certificates{OTRSRDCA}->{Hash},
+                                CertFingerprint => $Certificates{OTRSRDCA}->{Fingerprint},
+                                CAHash          => $Certificates{OTRSLabCA}->{Hash},
+                                CAFingerprint   => $Certificates{OTRSLabCA}->{Fingerprint},
+
+                            },
+                        ],
+                    },
+                    OTRSLabCA => {
+                        CorrectRelations => [
+                            {
+                                CertHash        => $Certificates{OTRSLabCA}->{Hash},
+                                CertFingerprint => $Certificates{OTRSLabCA}->{Fingerprint},
+                                CAHash          => $Certificates{OTRSRootCA}->{Hash},
+                                CAFingerprint   => $Certificates{OTRSRootCA}->{Fingerprint},
+
+                            },
+                            {
+                                CertHash        => $Certificates{OTRSLabCA}->{Hash},
+                                CertFingerprint => $Certificates{OTRSLabCA}->{Fingerprint},
+                                CAHash          => $Certificates{OTRSRDCA}->{Hash},
+                                CAFingerprint   => $Certificates{OTRSRDCA}->{Fingerprint},
+                            },
+                        ],
                     },
                 },
                 UsePrivateKeys    => 1,
                 UsePrivateSecrets => 1,
+                UseRelations      => 1,
                 SuccessReHash     => 1,
             },
             {
                 Name     => '1 Cert, No PKs No PSs',
                 WrongCAs => {
                     OTRSRootCA => {
-                        WrongCAFile                  => 'aaaaaaaa.0',
+                        WrongCAFile                  => "$WrongHashes{OTRSRootCA}.0",
                         WrongCAFileContent           => $Certificates{OTRSRootCA}->{String},
                         WrongCAPrivateKeyFileContent => $Certificates{OTRSRootCA}->{PrivateString},
                         WrongCAPrivateSecretFileContent =>
@@ -1816,13 +1948,14 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
                 },
                 UsePrivateKeys    => 0,
                 UsePrivateSecrets => 0,
+                UseRelations      => 0,
                 SuccessReHash     => 1,
             },
             {
                 Name     => '1 Cert, 1 PKs No PSs',
                 WrongCAs => {
                     OTRSRootCA => {
-                        WrongCAFile                  => 'aaaaaaaa.0',
+                        WrongCAFile                  => "$WrongHashes{OTRSRootCA}.0",
                         WrongCAFileContent           => $Certificates{OTRSRootCA}->{String},
                         WrongCAPrivateKeyFileContent => $Certificates{OTRSRootCA}->{PrivateString},
                         WrongCAPrivateSecretFileContent =>
@@ -1831,13 +1964,14 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
                 },
                 UsePrivateKeys    => 1,
                 UsePrivateSecrets => 0,
+                UseRelations      => 0,
                 SuccessReHash     => 1,
             },
             {
                 Name     => '1 Cert, No PKs 1 PSs',
                 WrongCAs => {
                     OTRSRootCA => {
-                        WrongCAFile                  => 'aaaaaaaa.0',
+                        WrongCAFile                  => "$WrongHashes{OTRSRootCA}.0",
                         WrongCAFileContent           => $Certificates{OTRSRootCA}->{String},
                         WrongCAPrivateKeyFileContent => $Certificates{OTRSRootCA}->{PrivateString},
                         WrongCAPrivateSecretFileContent =>
@@ -1846,6 +1980,7 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
                 },
                 UsePrivateKeys    => 0,
                 UsePrivateSecrets => 1,
+                UseRelations      => 0,
                 SuccessReHash     => 1,
             },
         );
@@ -1877,6 +2012,8 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
                     CorrectCAFileContent              => $Certificates{$CAName}->{String},
                     CorrectCAPrivateKeyFileContent    => $Certificates{$CAName}->{PrivateString},
                     CorrectCAPrivateSecretFileContent => $Certificates{$CAName}->{PrivateSecret},
+                    CorrectRelations
+                        => $Test->{CorrectCAs}->{$CAName}->{CorrectRelations} || '',
                 };
             }
 
@@ -1892,6 +2029,71 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
                     $Test->{UsePrivateSecrets},
                     $Test->{Name},
                 );
+            }
+
+            # create a check wrong DB certificate relations
+            if ( $Test->{UseRelations} ) {
+
+                my $ExpectedRelations = ( scalar keys %WrongCAs ) - 1;
+
+                # create certificates relations manually
+                CERTIFICATE:
+                for my $CertName ( sort keys %WrongCAs ) {
+
+                    my $CertificateHash;
+                    my $CertificateFingerprint;
+                    my $CAHash;
+                    my $CAFingerprint;
+
+                    CA:
+                    for my $CAName ( sort keys %WrongCAs ) {
+                        next CA if $CAName eq $CertName;
+
+                        # set relation data
+                        $CertificateHash        = $WrongHashes{$CertName};
+                        $CertificateFingerprint = $Certificates{$CertName}->{Fingerprint};
+                        $CAHash                 = $WrongHashes{$CAName};
+                        $CAFingerprint          = $Certificates{$CAName}->{Fingerprint};
+
+                        # create relations
+                        $ManualCertRelationAdd->(
+                            $CertificateHash,
+                            $CertificateFingerprint,
+                            $CAHash,
+                            $CAFingerprint,
+                            $Test->{Name},
+                        );
+                    }
+
+                    # get relations
+                    my @RelationsData = $CryptObject->SignerCertRelationGet(
+                        CertFingerprint => $CertificateFingerprint,
+                    );
+
+                    $Self->Is(
+                        scalar @RelationsData,
+                        $ExpectedRelations,
+                        "Re-Hash $Test->{Name}: Manual certificate relations for"
+                            . " Certificate $CertificateHash number (before re-hash)",
+                    );
+
+                    # remove extended information for easy compare
+                    for my $Relation (@RelationsData) {
+                        delete $Relation->{ID};
+                        delete $Relation->{CreatedBy};
+                        delete $Relation->{Changed};
+                        delete $Relation->{ChangedBy};
+                        delete $Relation->{Created};
+                    }
+
+                    # deep compare wrong relations
+                    $Self->IsDeeply(
+                        \@RelationsData,
+                        $Test->{WrongCAs}->{$CertName}->{WrongRelations},
+                        "Re-Hash $Test->{Name}: Manual certificate relations for"
+                            . " Certificate $CertificateHash data (before re-hash)",
+                    );
+                }
             }
 
             # refresh the hases
@@ -1924,7 +2126,52 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
                 );
             }
 
+            # check updated DB certificate relations
+            if ( $Test->{UseRelations} ) {
+
+                my $ExpectedRelations = ( scalar keys %CorrectCAs ) - 1;
+
+                # check updated relations
+                CERTIFICATE:
+                for my $CertName ( sort keys %CorrectCAs ) {
+
+                    my $CertificateFingerprint = $Certificates{$CertName}->{Fingerprint};
+                    my $CertificateHash        = $Certificates{$CertName}->{Hash};
+
+                    # get relations
+                    my @RelationsData = $CryptObject->SignerCertRelationGet(
+                        CertFingerprint => $CertificateFingerprint,
+                    );
+
+                    $Self->Is(
+                        scalar @RelationsData,
+                        $ExpectedRelations,
+                        "Re-Hash $Test->{Name}: Manual certificate relations for"
+                            . " Certificate $CertificateHash number (after re-hash)",
+                    );
+
+                    # remove extended information for easy compare
+                    for my $Relation (@RelationsData) {
+                        delete $Relation->{ID};
+                        delete $Relation->{CreatedBy};
+                        delete $Relation->{Changed};
+                        delete $Relation->{ChangedBy};
+                        delete $Relation->{Created};
+                    }
+
+                    # deep compare wrong relations
+                    $Self->IsDeeply(
+                        \@RelationsData,
+                        $CorrectCAs{$CertName}->{CorrectRelations},
+                        "Re-Hash $Test->{Name}: Manual certificate relations for"
+                            . " Certificate $CertificateHash data (after re-hash)",
+                    );
+                }
+            }
+
             # remove certificates, private keys and secrets from the file system
+            # db relations are deleted automatically when private keys are removed when using
+            # $CryptObject
             for my $CAName ( sort keys %WrongCAs ) {
 
                 my $CorrectCAPrivateKeyFile    = $CorrectCAs{$CAName}->{CorrectCAFile};
@@ -1962,6 +2209,18 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
                         "Re-Hash $Test->{Name}: system cleanup, remove private key"
                             . " $CorrectCAPrivateKeyFile with true",
                     );
+
+                    # remove also certificate relations (if any)
+                    my $Success = $CryptObject->SignerCertRelationDelete(
+                        CertFingerprint => $Certificates{$CAName}->{Fingerprint},
+                        UserID          => 1,
+                    );
+                    $Self->True(
+                        $RemoveSuccess,
+                        "Re-Hash $Test->{Name}: system cleanup, remove certificate relations"
+                            . " for hash $Certificates{$CAName}->{Hash} with true",
+                    );
+
                 }
                 elsif ( $Test->{UsePrivateSecrets} && !$Test->{UsePrivateKeys} ) {
                     my $RemoveSuccess = $MainObject->FileDelete(
@@ -1973,6 +2232,17 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
                             . " $WrongCAPrivateSecretFile with true there was no private key",
                     );
                 }
+
+                # check for certificate relations
+                my @RelationsData = $CryptObject->SignerCertRelationGet(
+                    CertFingerprint => $Certificates{$CAName}->{Fingerprint},
+                );
+                $Self->Is(
+                    scalar @RelationsData,
+                    0,
+                    "Re-Hash $Test->{Name}: system cleanup, certificate relations for hash"
+                        . " $Certificates{$CAName}->{Hash} number",
+                );
             }
         }
     }
