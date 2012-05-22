@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2293 2012-05-22 11:51:43 jp Exp $
+# $Id: CHANGES,v 1.2294 2012-05-22 19:13:39 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,10 +10,11 @@
 # --
 
 3.2.0 beta1 201?-??-??
- - 2012-05-22 Fixed bug #8164 - Internal articles are visible within customer ticket overview.
- - 2012-05-22 Fixed bug #8506 - Customer email link won't open in popup as expected.
+ - 2012-05-22 Fixed bug#8442 - Can not submit tickets in customer interface if Queue selection is
+    disabled and no Default queue is specified.
+ - 2012-05-22 Fixed bug#8164 - Internal articles are visible within customer ticket overview.
+ - 2012-05-22 Fixed bug#8506 - Customer email link won't open in popup as expected.
  - 2012-05-21 Added feature Ideascale#72 / bug#5471 - Out-of-Office dashboard widget.
- - 2012-05-20 Fixed bug #7844 Escalation Event does not respect service calendar of ticket/queue.
  - 2012-05-14 Added feature Ideascale#934 / bug#1682 - Add timescale for Week in Stats.
  - 2012-05-14 Added feature Ideascale#896 - Have the ability to set the default ticket type
     or hide the ticket type in the Customer Interface for new tickets.
@@ -22,7 +23,7 @@
     NotificationEvent definitions.
 
 3.1.6 2012-??-??
- - 2012-05-20 Fixed bug #7844 Escalation Event does not respect service calendar of ticket/queue.
+ - 2012-05-20 Fixed bug#7844 Escalation Event does not respect service calendar of ticket/queue.
  - 2012-05-18 Added otrs.RefreshSMIMEKeys.pl to refresh SMIME certificate filenames according to the
     system's current OpenSSL version.
  - 2012-05-17 Fixed bug#8498 - OpenSSL 1.0.0 does not get the stored SMIME certificates when

@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketMessage.pm - to handle customer messages
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.pm,v 1.102 2012-05-21 06:54:35 mb Exp $
+# $Id: CustomerTicketMessage.pm,v 1.103 2012-05-22 19:13:39 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.102 $) [1];
+$VERSION = qw($Revision: 1.103 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -78,7 +78,7 @@ sub Run {
         $GetParam{$Key} = $Self->{ParamObject}->GetParam( Param => $Key );
     }
 
-    # get Dynamic fields form ParamObject
+    # get Dynamic fields from ParamObject
     my %DynamicFieldValues;
 
     # cycle trough the activated Dynamic Fields for this screen
@@ -118,6 +118,13 @@ sub Run {
                 if ($QueueID) {
                     $QueueDefaultID = $QueueID . '||' . $QueueDefault;
                 }
+            }
+            else {
+                $Self->{LayoutObject}->CustomerFatalError(
+                    Message => 'Check SysConfig setting for ' . $Self->{Action} . '::QueueDefault.',
+                    Comment => 'Please contact your administrator',
+                );
+                return;
             }
         }
 
@@ -201,7 +208,7 @@ sub Run {
             }
         }
 
-        # use default if ticket type is not available in screen but activated on system w
+        # use default if ticket type is not available in screen but activated on system
         if ( $Self->{ConfigObject}->Get('Ticket::Type') && !$Self->{Config}->{'TicketType'} ) {
             my %TypeList = reverse $Self->{TicketObject}->TicketTypeList(
                 %Param,
@@ -209,6 +216,15 @@ sub Run {
                 CustomerUserID => $Self->{UserID},
             );
             $GetParam{TypeID} = $TypeList{ $Self->{Config}->{'TicketTypeDefault'} };
+            if ( !$GetParam{TypeID} ) {
+                $Self->{LayoutObject}->CustomerFatalError(
+                    Message => 'Check SysConfig setting for '
+                        . $Self->{Action}
+                        . '::TicketTypeDefault.',
+                    Comment => 'Please contact your administrator',
+                );
+                return;
+            }
         }
 
         # If is an action about attachments
