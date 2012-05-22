@@ -2,7 +2,7 @@
 # SMIME.t - SMIME tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: SMIME.t,v 1.24.2.8 2012-05-22 03:08:28 cr Exp $
+# $Id: SMIME.t,v 1.24.2.9 2012-05-22 05:12:05 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -507,6 +507,8 @@ for my $Count ( 1 .. 2 ) {
     );
 }
 
+my %Certificates;
+
 # adding tests for smime certificate chains
 {
 
@@ -650,11 +652,51 @@ phgQwd/x35Aqh8J0reGYC/JM//SKY4RpkIwYI2xQxy/OTcNGSsVB/hON3Fo3
         'Sign(), failed certificate chain verification, needed CA certificates not embedded',
     );
 
-    my %Certificates;
+    #    my %Certificates;
     $Certificates{OTRSLabCA} = {
         Hash        => $OTRSLabCAHash,
         Fingerprint => '28:10:65:6D:C7:FD:1B:37:BE:B5:73:44:9F:D9:C8:95:57:34:B0:A1',
         String =>
+            '-----BEGIN CERTIFICATE-----
+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
+KChKU8c=
+-----END CERTIFICATE-----',
+        PrivateSecret => 'secret',
+        PrivateHash   => $OTRSLabCAHash,
+        PrivateString =>
             '-----BEGIN CERTIFICATE-----
 MIIGYTCCBEmgAwIBAgIBATANBgkqhkiG9w0BAQUFADB0MQswCQYDVQQGEwJERTEP
 MA0GA1UECBMGQmF5ZXJuMRAwDgYDVQQKEwdPVFJTIEFHMQwwCgYDVQQLFANSJkQx
@@ -735,6 +777,63 @@ km5R69I4FN+7BbBdktNwD5T/PAdbTlCWTppkBHFgG5tfVDBHjLjKI7o0ipVh4bgM
 A0o3yekw8cxTL9puz0/cVydCa6oFMLjDk6yUoz35mgd4BDwKSaLuJp6IS8j18ns/
 /+yACZTUm0V7Tg9ea54xUem+vc5rogPBmRlFZoFocVkSzBJqQGrTC4o=
 -----END CERTIFICATE-----',
+        PrivateSecret => 'secret',
+        PrivateHash   => $OTRSRDCAHash,
+        PrivateString =>
+            '-----BEGIN RSA PRIVATE KEY-----
+Proc-Type: 4,ENCRYPTED
+DEK-Info: DES-EDE3-CBC,B1A02AF555039CEB
+
+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
+-----END RSA PRIVATE KEY-----',
     };
 
     # add CA certificates to the local cert storage
@@ -803,6 +902,63 @@ mpkDLdRn7yKx0F06IuQvVR4bqApbxXBAP5ZIxvxBS9FeqwovDuxP6zNBytcd9/G/
 WCxbeSMS5vyXg5KcFOhX24OPkqqi/tmk76i64U7qe76j5K3cb9cKgr3Wbe/4sZBK
 qizznJfUtqKhEF/RSElqBdPDKg3IJeEwstqZQIMoWho6uow9
 -----END CERTIFICATE-----',
+        PrivateSecret => 'secret',
+        PrivateHash   => $OTRSRootCAHash,
+        PrivateString =>
+            '-----BEGIN RSA PRIVATE KEY-----
+Proc-Type: 4,ENCRYPTED
+DEK-Info: DES-EDE3-CBC,E64B439DB6CE2BB8
+
+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
+-----END RSA PRIVATE KEY-----',
     };
 
     $CryptObject->CertificateAdd(
@@ -1334,56 +1490,60 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
         );
     }
 
-    # password normalization tests
+    # private secret normalization tests
     {
 
         # function to reuse
-        my $CreateWrongPasswordFile = sub {
-            my ( $WrongPasswordFile, $WrongPasswordFileContent, $WrongPasswordFileLocation ) = @_;
+        my $CreateWrongPrivateSecretFile = sub {
+            my (
+                $WrongPrivateSecretFile, $WrongPrivateSecretFileContent,
+                $WrongPrivateSecretFileLocation
+            ) = @_;
 
-            # create a new password file with the wrong name
+            # create a new private secret file with the wrong name
             my $FileLocation = $MainObject->FileWrite(
-                Location => $WrongPasswordFileLocation,
-                Content  => \$WrongPasswordFileContent,
+                Location => $WrongPrivateSecretFileLocation,
+                Content  => \$WrongPrivateSecretFileContent,
             );
 
             # sanity checks
             $Self->Is(
                 $FileLocation,
-                $WrongPasswordFileLocation,
-                "NormalizePassword: Created wrong password filename: $WrongPasswordFile with wrong"
-                    . " name",
+                $WrongPrivateSecretFileLocation,
+                "NormalizePrivateSecret: Created wrong private secret filename:"
+                    . " $WrongPrivateSecretFile with wrong name",
             );
 
             my $FileExists;
-            if ( -e $WrongPasswordFileLocation ) {
+            if ( -e $WrongPrivateSecretFileLocation ) {
                 $FileExists = 1;
             }
 
             $Self->True(
                 $FileExists,
-                "NormalizePassword: Wrong password filename: $WrongPasswordFile exists with true"
-                    . " (before normalize)",
+                "NormalizePrivateSecret: Wrong private secret filename: $WrongPrivateSecretFile"
+                    . " exists with true (before normalize)",
             );
 
             my $ContentSCALARRef = $MainObject->FileRead(
-                Location => $WrongPasswordFileLocation,
+                Location => $WrongPrivateSecretFileLocation,
             );
 
             $Self->Is(
                 $$ContentSCALARRef,
-                $WrongPasswordFileContent,
-                "NormalizePassword: Read wrong password filename: $WrongPasswordFile content",
+                $WrongPrivateSecretFileContent,
+                "NormalizePrivateSecret: Read wrong private secret filename:"
+                    . " $WrongPrivateSecretFile content",
             );
         };
 
-        my $PrivateKeyHash            = 'aaaaaaaa';
-        my $PrivateKeyFile            = "$PrivateKeyHash.7";
-        my $PrivateKeyFileContent     = 'does not matter fot this test';
-        my $PrivateKeyFileLocation    = "$PrivatePath/$PrivateKeyFile";
-        my $WrongPasswordFile         = "$PrivateKeyHash.P";
-        my $WrongPasswordFileContent  = 'Secret';
-        my $WrongPasswordFileLocation = "$PrivatePath/$WrongPasswordFile";
+        my $PrivateKeyHash                 = 'aaaaaaaa';
+        my $PrivateKeyFile                 = "$PrivateKeyHash.7";
+        my $PrivateKeyFileContent          = 'does not matter fot this test';
+        my $PrivateKeyFileLocation         = "$PrivatePath/$PrivateKeyFile";
+        my $WrongPrivateSecretFile         = "$PrivateKeyHash.P";
+        my $WrongPrivateSecretFileContent  = 'Secret';
+        my $WrongPrivateSecretFileLocation = "$PrivatePath/$WrongPrivateSecretFile";
 
         # create the private key file otherwize test will always fail
         my $FileLocation = $MainObject->FileWrite(
@@ -1395,41 +1555,41 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
         $Self->Is(
             $FileLocation,
             $PrivateKeyFileLocation,
-            "NormalizePassword: Created private key filename: $PrivateKeyFile",
+            "NormalizePrivateSecret: Created private key filename: $PrivateKeyFile",
         );
 
         $Self->True(
             1,
-            "----Normaize Passwords wrong password filename----"
+            "----Normaize Private Secrets wrong private secret filename----"
         );
 
-        # create a new password file with a wrong name format
-        $CreateWrongPasswordFile->(
-            $WrongPasswordFile, $WrongPasswordFileContent, $WrongPasswordFileLocation
+        # create a new private secret file with a wrong name format
+        $CreateWrongPrivateSecretFile->(
+            $WrongPrivateSecretFile, $WrongPrivateSecretFileContent, $WrongPrivateSecretFileLocation
         );
 
-        my $CorrectPasswordFile         = "$PrivateKeyFile.P";
-        my $CorrectPasswordFileLocation = "$PrivatePath/$CorrectPasswordFile";
+        my $CorrectPrivateSecretFile         = "$PrivateKeyFile.P";
+        my $CorrectPrivateSecretFileLocation = "$PrivatePath/$CorrectPrivateSecretFile";
 
         my $FileExists;
 
         # the correct file does not exist at this time
-        if ( -e $CorrectPasswordFileLocation ) {
+        if ( -e $CorrectPrivateSecretFileLocation ) {
             $FileExists = 1;
         }
 
         $Self->False(
             $FileExists,
-            "NormalizePassword: Correct password filename: $CorrectPasswordFile exists with false"
-                . " (before normalize)",
+            "NormalizePrivateSecret: Correct private secret filename: $CorrectPrivateSecretFile"
+                . " exists with false (before normalize)",
         );
         $FileExists = 0;
 
-        # normalize passwords
+        # normalize private secret
         my $Response = $CryptObject->CheckCertPath();
         $Self->True(
             $Response->{Success},
-            "NormalizePassword: CheckCertPath() executed succesfully with true",
+            "NormalizePrivateSecret: CheckCertPath() executed succesfully with true",
         );
 
         # output details if process was not succesfull
@@ -1441,60 +1601,61 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
         }
 
         # by this time after the normalization the file should not exsist
-        if ( -e $WrongPasswordFileLocation ) {
+        if ( -e $WrongPrivateSecretFileLocation ) {
             $FileExists = 1;
         }
 
         $Self->False(
             $FileExists,
-            "NormalizePassword: Wrong password filename: $WrongPasswordFile exists with false"
-                . " (after normalize)",
+            "NormalizePrivateSecret: Wrong private secret filename:"
+                . " $WrongPrivateSecretFile exists with false (after normalize)",
         );
         $FileExists = 0;
 
         # the file shoud be renamed to the correct format at this point
-        if ( -e $CorrectPasswordFileLocation ) {
+        if ( -e $CorrectPrivateSecretFileLocation ) {
             $FileExists = 1;
         }
 
         $Self->True(
             $FileExists,
-            "NormalizePassword: Wrong password filename: $CorrectPasswordFile exists with true"
-                . " (after normalize)",
+            "NormalizePrivateSecret: Wrong private secret filename: $CorrectPrivateSecretFile exists"
+                . " with true (after normalize)",
         );
         $FileExists = 0;
 
-        # leave the correct password file for the next test
+        # leave the correct private secret file for the next test
         $Self->True(
             1,
-            "----Normaize Password duplicated files with same content----"
+            "----Normaize Private Secret duplicated files with same content----"
         );
 
-        # create a new password file with a wrong name format
-        $CreateWrongPasswordFile->(
-            $WrongPasswordFile, $WrongPasswordFileContent, $WrongPasswordFileLocation
+        # create a new private secret file with a wrong name format
+        $CreateWrongPrivateSecretFile->(
+            $WrongPrivateSecretFile, $WrongPrivateSecretFileContent, $WrongPrivateSecretFileLocation
         );
 
-        # get the content od the wrong and the correct passowrd files
-        my $WrongPasswordContent = $MainObject->FileRead(
-            Location => $WrongPasswordFileLocation,
+        # get the content od the wrong and the correct private secret files
+        my $WrongPrivateSecretContent = $MainObject->FileRead(
+            Location => $WrongPrivateSecretFileLocation,
         );
 
-        my $CorrectPasswordContent = $MainObject->FileRead(
-            Location => $CorrectPasswordFileLocation,
+        my $CorrectPrivateSecretContent = $MainObject->FileRead(
+            Location => $CorrectPrivateSecretFileLocation,
         );
 
         $Self->Is(
-            $$WrongPasswordContent,
-            $$CorrectPasswordContent,
-            "NormalizePassword: $WrongPasswordFile and $CorrectPasswordFile has same content",
+            $$WrongPrivateSecretContent,
+            $$CorrectPrivateSecretContent,
+            "NormalizePrivateSecret: $WrongPrivateSecretFile and $CorrectPrivateSecretFile has"
+                . " same content",
         );
 
-        # normalize passwords
+        # normalize private secrets
         $Response = $CryptObject->CheckCertPath();
         $Self->True(
             $Response->{Success},
-            "NormalizePassword: CheckCertPath() executed succesfully with true",
+            "NormalizePrivateSecret: CheckCertPath() executed succesfully with true",
         );
 
         # output details if process was not succesfull
@@ -1506,26 +1667,26 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
         }
 
         # by this time after the normalization the file should not exsist (since contents are equal)
-        if ( -e $WrongPasswordFileLocation ) {
+        if ( -e $WrongPrivateSecretFileLocation ) {
             $FileExists = 1;
         }
 
         $Self->False(
             $FileExists,
-            "NormalizePassword: Wrong password filename: $WrongPasswordFile exists with false"
-                . " (after normalize duplicate file same content)",
+            "NormalizePrivateSecret: Wrong private secret filename: $WrongPrivateSecretFile exists"
+                . " with false (after normalize duplicate file same content)",
         );
         $FileExists = 0;
 
         # the file shoud be renamed to the correct format at this point
-        if ( -e $CorrectPasswordFileLocation ) {
+        if ( -e $CorrectPrivateSecretFileLocation ) {
             $FileExists = 1;
         }
 
         $Self->True(
             $FileExists,
-            "NormalizePassword: Correct password filename: $CorrectPasswordFile exists with true"
-                . " (after normalize duplicate file same content)",
+            "NormalizePrivateSecret: Correct private secret filename: $CorrectPrivateSecretFile"
+                . " exists with true (after normalize duplicate file same content)",
         );
         $FileExists = 0;
 
@@ -1533,40 +1694,41 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
         # at the end
         $Self->True(
             1,
-            "----Normaize Password duplicated files with diferent content----"
+            "----Normaize Private Secret duplicated files with diferent content----"
         );
 
-        # change the content of the correct passoword file
+        # change the content of the correct private secret file
         $FileLocation = $MainObject->FileWrite(
-            Location => $CorrectPasswordFileLocation,
+            Location => $CorrectPrivateSecretFileLocation,
             Content  => \'Not so secret',
         );
 
-        # create a new password file with a wrong name format
-        $CreateWrongPasswordFile->(
-            $WrongPasswordFile, $WrongPasswordFileContent, $WrongPasswordFileLocation
+        # create a new private secret file with a wrong name format
+        $CreateWrongPrivateSecretFile->(
+            $WrongPrivateSecretFile, $WrongPrivateSecretFileContent, $WrongPrivateSecretFileLocation
         );
 
-        # get the content od the wrong and the correct passowrd files
-        $WrongPasswordContent = $MainObject->FileRead(
-            Location => $WrongPasswordFileLocation,
+        # get the content od the wrong and the correct private secret files
+        $WrongPrivateSecretContent = $MainObject->FileRead(
+            Location => $WrongPrivateSecretFileLocation,
         );
 
-        $CorrectPasswordContent = $MainObject->FileRead(
-            Location => $CorrectPasswordFileLocation,
+        $CorrectPrivateSecretContent = $MainObject->FileRead(
+            Location => $CorrectPrivateSecretFileLocation,
         );
 
         $Self->IsNot(
-            $$WrongPasswordContent,
-            $$CorrectPasswordContent,
-            "NormalizePassword: $WrongPasswordFile and $CorrectPasswordFile has different content",
+            $$WrongPrivateSecretContent,
+            $$CorrectPrivateSecretContent,
+            "NormalizePrivateSecret: $WrongPrivateSecretFile and $CorrectPrivateSecretFile has"
+                . " different content",
         );
 
-        # normalize passwords
+        # normalize private secrets
         $Response = $CryptObject->CheckCertPath();
         $Self->True(
             $Response->{Success},
-            "NormalizePassword: CheckCertPath() executed succesfully with true",
+            "NormalizePrivateSecret: CheckCertPath() executed succesfully with true",
         );
 
         # output details if process was not succesfull
@@ -1579,50 +1741,52 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
 
         # by this time after the normalization the file should stil exists
         # (since contents are diferent)
-        if ( -e $WrongPasswordFileLocation ) {
+        if ( -e $WrongPrivateSecretFileLocation ) {
             $FileExists = 1;
         }
 
         $Self->True(
             $FileExists,
-            "NormalizePassword: Wrong password filename: $WrongPasswordFile exists with true"
-                . " (after normalize duplicate file diferent content)",
+            "NormalizePrivateSecret: Wrong private secret filename: $WrongPrivateSecretFile exists"
+                . " with true (after normalize duplicate file diferent content)",
         );
         $FileExists = 0;
 
-        # the corret password file still exists
-        if ( -e $CorrectPasswordFileLocation ) {
+        # the corret private secret file still exists
+        if ( -e $CorrectPrivateSecretFileLocation ) {
             $FileExists = 1;
         }
 
         $Self->True(
             $FileExists,
-            "NormalizePassword: Correct password filename: $CorrectPasswordFile exists with true"
-                . " (after normalize duplicate file same content)",
+            "NormalizePrivateSecret: Correct private secret filename: $CorrectPrivateSecretFile"
+                . " exists with true (after normalize duplicate file same content)",
         );
         $FileExists = 0;
 
         # remove files from file system
         my $FileDeleteSuccess = $MainObject->FileDelete(
-            Location => $WrongPasswordFileLocation,
+            Location => $WrongPrivateSecretFileLocation,
         );
         $Self->True(
             $FileDeleteSuccess,
-            "NormalizePassword: Remove wrong password filename: $WrongPasswordFile with true",
+            "NormalizePrivateSecret: Remove wrong private secret filename: $WrongPrivateSecretFile"
+                . " with true",
         );
         $FileDeleteSuccess = $MainObject->FileDelete(
-            Location => $CorrectPasswordFileLocation,
+            Location => $CorrectPrivateSecretFileLocation,
         );
         $Self->True(
             $FileDeleteSuccess,
-            "NormalizePassword: Remove correct password filename: $WrongPasswordFile with true",
+            "NormalizePrivateSecret: Remove correct private secret filename:"
+                . " $WrongPrivateSecretFile with true",
         );
         $FileDeleteSuccess = $MainObject->FileDelete(
             Location => $PrivateKeyFileLocation,
         );
         $Self->True(
             $FileDeleteSuccess,
-            "NormalizePassword: Remove private key filename: $PrivateKeyFile with true",
+            "NormalizePrivateSecret: Remove private key filename: $PrivateKeyFile with true",
         );
     }
 
@@ -1639,9 +1803,9 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
                 $WrongCAPrivateKeyFile,
                 $WrongCAPrivateKeyFileContent,
                 $WrongCAPrivateKeyFileLocation,
-                $WrongCAPasswordFile,
-                $WrongCAPasswordFileContent,
-                $WrongCAPasswordFileLocation,
+                $WrongCAPrivateSecretFile,
+                $WrongCAPrivateSecretFileContent,
+                $WrongCAPrivateSecretFileLocation,
             ) = @_;
 
             # create new CA certificate with wrong name
@@ -1702,348 +1866,74 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
                     . "content",
             );
 
-            # create new password file for wrong CA certificate
+            # create new private secret file for wrong CA certificate
             $FileLocation = $MainObject->FileWrite(
-                Location => $WrongCAPasswordFileLocation,
-                Content  => \$WrongCAPasswordFileContent,
+                Location => $WrongCAPrivateSecretFileLocation,
+                Content  => \$WrongCAPrivateSecretFileContent,
             );
 
-            if ( -e $WrongCAPasswordFileLocation ) {
+            if ( -e $WrongCAPrivateSecretFileLocation ) {
                 $FileExists = 1;
             }
 
             $Self->True(
                 $FileExists,
-                "Re-Hash: Wrong CA $CAName password filename: $WrongCAPasswordFile exists with true"
-                    . " (before re-hash)",
+                "Re-Hash: Wrong CA $CAName private secret filename: $WrongCAPrivateSecretFile"
+                    . " exists with true (before re-hash)",
             );
             $FileExists = 0;
 
             $ContentSCALARRef = $MainObject->FileRead(
-                Location => $WrongCAPasswordFileLocation,
+                Location => $WrongCAPrivateSecretFileLocation,
             );
 
             $Self->Is(
                 $$ContentSCALARRef,
-                $WrongCAPasswordFileContent,
-                "Re-Hash: Read wrong CA $CAName password filename: $WrongCAPasswordFile content",
+                $WrongCAPrivateSecretFileContent,
+                "Re-Hash: Read wrong CA $CAName private secret filename:"
+                    . " $WrongCAPrivateSecretFile content",
             );
         };
 
-        # define Wrong CA certificates, private keys and passwords
+        # define Wrong CA certificates, private keys and secrets
+        my %WrongCAFilenames = (
+            OTRSRootCA => 'aaaaaaaa.0',
+            OTRSRDCA   => 'bbbbbbbb.0',
+            OTRSLabCA  => 'cccccccc.0',
+        );
         my %WrongCAs = (
             OTRSRootCA => {
-                WrongCAFile         => 'aaaaaaaa.0',
-                WrongCAFileLocation => "$CertPath/aaaaaaaa.0",
-                WrongCAFileFingerprint =>
-                    'BB:F7:B5:5B:52:AE:2D:4F:5A:B5:BD:E5:56:C5:D0:D9:38:3F:76:18',
-                WrongCAFileContent =>
-                    '-----BEGIN CERTIFICATE-----
-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
------END CERTIFICATE-----',
-                WrongCAPrivateKeyFile         => 'aaaaaaaa.0',
-                WrongCAPrivateKeyFileLocation => "$PrivatePath/aaaaaaaa.0",
-                WrongCAPrivateKeyFileContent =>
-                    '-----BEGIN RSA PRIVATE KEY-----
-Proc-Type: 4,ENCRYPTED
-DEK-Info: DES-EDE3-CBC,E64B439DB6CE2BB8
-
-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
------END RSA PRIVATE KEY-----',
-                WrongCAPasswordFile         => 'aaaaaaaa.0.P',
-                WrongCAPasswordFileLocation => "$PrivatePath/aaaaaaaa.0.P",
-                WrongCAPasswordFileContent  => 'secret',
+                WrongCAFile                      => $WrongCAFilenames{OTRSRootCA},
+                WrongCAFileLocation              => "$CertPath/$WrongCAFilenames{OTRSRootCA}",
+                WrongCAFileContent               => $Certificates{OTRSRootCA}->{String},
+                WrongCAPrivateKeyFile            => $WrongCAFilenames{OTRSRootCA},
+                WrongCAPrivateKeyFileLocation    => "$PrivatePath/$WrongCAFilenames{OTRSRootCA}",
+                WrongCAPrivateKeyFileContent     => $Certificates{OTRSRootCA}->{PrivateString},
+                WrongCAPrivateSecretFile         => "$WrongCAFilenames{OTRSRootCA}.P",
+                WrongCAPrivateSecretFileLocation => "$PrivatePath/$WrongCAFilenames{OTRSRootCA}.P",
+                WrongCAPrivateSecretFileContent  => $Certificates{OTRSRootCA}->{PrivateSecret},
             },
             OTRSRDCA => {
-                WrongCAFile         => 'bbbbbbbb.0',
-                WrongCAFileLocation => "$CertPath/bbbbbbbb.0",
-                WrongCAFileFingerprint =>
-                    '3F:F1:41:8A:CF:39:30:53:DB:27:B0:08:3A:58:54:ED:31:D2:8A:FC',
-                WrongCAFileContent =>
-                    '-----BEGIN CERTIFICATE-----
-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
------END CERTIFICATE-----',
-                WrongCAPrivateKeyFile         => 'bbbbbbbb.0',
-                WrongCAPrivateKeyFileLocation => "$PrivatePath/bbbbbbbb.0",
-                WrongCAPrivateKeyFileContent =>
-                    '-----BEGIN RSA PRIVATE KEY-----
-Proc-Type: 4,ENCRYPTED
-DEK-Info: DES-EDE3-CBC,B1A02AF555039CEB
-
-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
------END RSA PRIVATE KEY-----',
-                WrongCAPasswordFile         => 'bbbbbbbb.0.P',
-                WrongCAPasswordFileLocation => "$PrivatePath/bbbbbbbb.0.P",
-                WrongCAPasswordFileContent  => 'secret',
+                WrongCAFile                      => $WrongCAFilenames{OTRSRDCA},
+                WrongCAFileLocation              => "$CertPath/$WrongCAFilenames{OTRSRDCA}",
+                WrongCAFileContent               => $Certificates{OTRSRDCA}->{String},
+                WrongCAPrivateKeyFile            => $WrongCAFilenames{OTRSRDCA},
+                WrongCAPrivateKeyFileLocation    => "$PrivatePath/$WrongCAFilenames{OTRSRDCA}",
+                WrongCAPrivateKeyFileContent     => $Certificates{OTRSRDCA}->{PrivateString},
+                WrongCAPrivateSecretFile         => "$WrongCAFilenames{OTRSRDCA}.P",
+                WrongCAPrivateSecretFileLocation => "$PrivatePath/$WrongCAFilenames{OTRSRDCA}.P",
+                WrongCAPrivateSecretFileContent  => $Certificates{OTRSRDCA}->{PrivateSecret},
             },
             OTRSLabCA => {
-                WrongCAFile         => 'cccccccc.0',
-                WrongCAFileLocation => "$CertPath/cccccccc.0",
-                WrongCAFileFingerprint =>
-                    '28:10:65:6D:C7:FD:1B:37:BE:B5:73:44:9F:D9:C8:95:57:34:B0:A1',
-                WrongCAFileContent =>
-                    '-----BEGIN CERTIFICATE-----
-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
-KChKU8c=
------END CERTIFICATE-----',
-                WrongCAPrivateKeyFile         => 'cccccccc.0',
-                WrongCAPrivateKeyFileLocation => "$PrivatePath/cccccccc.0",
-                WrongCAPrivateKeyFileContent =>
-                    '-----BEGIN RSA PRIVATE KEY-----
-Proc-Type: 4,ENCRYPTED
-DEK-Info: DES-EDE3-CBC,981E94A7FC22D684
-
-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
------END RSA PRIVATE KEY-----',
-                WrongCAPasswordFile         => 'cccccccc.0.P',
-                WrongCAPasswordFileLocation => "$PrivatePath/cccccccc.0.P",
-                WrongCAPasswordFileContent  => 'secret',
+                WrongCAFile                      => $WrongCAFilenames{OTRSLabCA},
+                WrongCAFileLocation              => "$CertPath/$WrongCAFilenames{OTRSLabCA}",
+                WrongCAFileContent               => $Certificates{OTRSLabCA}->{String},
+                WrongCAPrivateKeyFile            => $WrongCAFilenames{OTRSLabCA},
+                WrongCAPrivateKeyFileLocation    => "$PrivatePath/$WrongCAFilenames{OTRSLabCA}",
+                WrongCAPrivateKeyFileContent     => $Certificates{OTRSLabCA}->{PrivateString},
+                WrongCAPrivateSecretFile         => "$WrongCAFilenames{OTRSLabCA}.P",
+                WrongCAPrivateSecretFileLocation => "$PrivatePath/$WrongCAFilenames{OTRSLabCA}.P",
+                WrongCAPrivateSecretFileContent  => $Certificates{OTRSRootCA}->{PrivateSecret},
             },
         );
 
@@ -2055,20 +1945,20 @@ k16iU8H6KGGE2c9vRyF146s9ot6FZHLzt9KZN03FWjtda6Z19Q95AZ7hJS40criK
                 $WrongCAFileLocation,
                 $WrongCAPrivateKeyFile,
                 $WrongCAPrivateKeyFileLocation,
-                $WrongCAPasswordFile,
-                $WrongCAPasswordFileLocation,
+                $WrongCAPrivateSecretFile,
+                $WrongCAPrivateSecretFileLocation,
                 $CorrectCAFile,
                 $CorrectCAFileContent,
                 $CorrectCAFileLocation,
                 $CorrectCAPrivateKeyFile,
                 $CorrectCAPrivateKeyContent,
                 $CorrectCAPrivateKeyFileLocation,
-                $CorrectCAPasswordFile,
-                $CorrectCAPasswordFileContent,
-                $CorrectCAPasswordFileLocation,
+                $CorrectCAPrivateSecretFile,
+                $CorrectCAPrivateSecretFileContent,
+                $CorrectCAPrivateSecretFileLocation,
             ) = @_;
 
-            # check if wrong CA cetificates, private keys and passwords exists
+            # check if wrong CA cetificates, private keys and secrets exists
             {
                 my $FileExists;
                 if ( -e $WrongCAFileLocation ) {
@@ -2093,17 +1983,17 @@ k16iU8H6KGGE2c9vRyF146s9ot6FZHLzt9KZN03FWjtda6Z19Q95AZ7hJS40criK
             }
             {
                 my $FileExists;
-                if ( -e $WrongCAPasswordFileLocation ) {
+                if ( -e $WrongCAPrivateSecretFileLocation ) {
                     $FileExists = 1;
                 }
                 $Self->False(
                     $FileExists,
-                    "Re-Hash: Wrong CA $CAName password filename: $WrongCAPasswordFile"
+                    "Re-Hash: Wrong CA $CAName private secret filename: $WrongCAPrivateSecretFile"
                         . " File exists with false (after re-hash)",
                 );
             }
 
-            # check if crorrect CA certificates, private keys and passwords exists
+            # check if crorrect CA certificates, private keys and secrets exists
             {
                 my $FileExists;
                 if ( -e $CorrectCAFileLocation ) {
@@ -2128,17 +2018,17 @@ k16iU8H6KGGE2c9vRyF146s9ot6FZHLzt9KZN03FWjtda6Z19Q95AZ7hJS40criK
             }
             {
                 my $FileExists;
-                if ( -e $CorrectCAPasswordFileLocation ) {
+                if ( -e $CorrectCAPrivateSecretFileLocation ) {
                     $FileExists = 1;
                 }
                 $Self->True(
                     $FileExists,
-                    "Re-Hash: Correct CA $CAName password filename: $CorrectCAPasswordFile"
-                        . " File exists with true (after re-hash)",
+                    "Re-Hash: Correct CA $CAName private secret filename:"
+                        . " $CorrectCAPrivateSecretFile File exists with true (after re-hash)",
                 );
             }
 
-            # check CA certificates, private keys and passwords contents is correct
+            # check CA certificates, private keys and secrets contents is correct
             my $Certificate = $CryptObject->CertificateGet(
                 Filename => $CorrectCAFile,
             );
@@ -2160,8 +2050,8 @@ k16iU8H6KGGE2c9vRyF146s9ot6FZHLzt9KZN03FWjtda6Z19Q95AZ7hJS40criK
             );
             $Self->Is(
                 $Secret,
-                $CorrectCAPasswordFileContent,
-                "Re-Hash: Correct CA $CAName password filename: $CorrectCAPasswordFile"
+                $CorrectCAPrivateSecretFileContent,
+                "Re-Hash: Correct CA $CAName private secret filename: $CorrectCAPrivateSecretFile"
                     . " File content",
             );
         };
@@ -2206,11 +2096,12 @@ k16iU8H6KGGE2c9vRyF146s9ot6FZHLzt9KZN03FWjtda6Z19Q95AZ7hJS40criK
                 CorrectCAPrivateKeyFileContent =>
                     $WrongCAs{$CAName}->{WrongCAPrivateKeyFileContent},
                 CorrectCAPrivateKeyFileLocation => "$PrivatePath/$CorrectHashes{$CAName}.$Index",
-                CorrectCAPasswordFile           => "$CorrectHashes{$CAName}.$Index.P",
-                CorrectCAPasswordFileContent =>
-                    $WrongCAs{$CAName}->{WrongCAPasswordFileContent},
-                CorrectCAPasswordFileLocation => "$PrivatePath/$CorrectHashes{$CAName}.$Index.P",
-                }
+                CorrectCAPrivateSecretFile      => "$CorrectHashes{$CAName}.$Index.P",
+                CorrectCAPrivateSecretFileContent =>
+                    $WrongCAs{$CAName}->{WrongCAPrivateSecretFileContent},
+                CorrectCAPrivateSecretFileLocation =>
+                    "$PrivatePath/$CorrectHashes{$CAName}.$Index.P",
+            };
         }
 
         #create new CA file set with wrong names
@@ -2223,9 +2114,9 @@ k16iU8H6KGGE2c9vRyF146s9ot6FZHLzt9KZN03FWjtda6Z19Q95AZ7hJS40criK
                 $WrongCAs{$CAName}->{WrongCAPrivateKeyFile},
                 $WrongCAs{$CAName}->{WrongCAPrivateKeyFileContent},
                 $WrongCAs{$CAName}->{WrongCAPrivateKeyFileLocation},
-                $WrongCAs{$CAName}->{WrongCAPasswordFile},
-                $WrongCAs{$CAName}->{WrongCAPasswordFileContent},
-                $WrongCAs{$CAName}->{WrongCAPasswordFileLocation},
+                $WrongCAs{$CAName}->{WrongCAPrivateSecretFile},
+                $WrongCAs{$CAName}->{WrongCAPrivateSecretFileContent},
+                $WrongCAs{$CAName}->{WrongCAPrivateSecretFileLocation},
             );
         }
 
@@ -2252,21 +2143,21 @@ k16iU8H6KGGE2c9vRyF146s9ot6FZHLzt9KZN03FWjtda6Z19Q95AZ7hJS40criK
                 $WrongCAs{$CAName}->{WrongCAFileLocation},
                 $WrongCAs{$CAName}->{WrongCAPrivateKeyFile},
                 $WrongCAs{$CAName}->{WrongCAPrivateKeyFileLocation},
-                $WrongCAs{$CAName}->{WrongCAPasswordFile},
-                $WrongCAs{$CAName}->{WrongCAPasswordFileLocation},
+                $WrongCAs{$CAName}->{WrongCAPrivateSecretFile},
+                $WrongCAs{$CAName}->{WrongCAPrivateSecretFileLocation},
                 $CorrectCAs{$CAName}->{CorrectCAFile},
                 $CorrectCAs{$CAName}->{CorrectCAFileContent},
                 $CorrectCAs{$CAName}->{CorrectCAFileLocation},
                 $CorrectCAs{$CAName}->{CorrectCAPrivateKeyFile},
                 $CorrectCAs{$CAName}->{CorrectCAPrivateKeyFileContent},
                 $CorrectCAs{$CAName}->{CorrectCAPrivateKeyFileLocation},
-                $CorrectCAs{$CAName}->{CorrectCAPasswordFile},
-                $CorrectCAs{$CAName}->{CorrectCAPasswordFileContent},
-                $CorrectCAs{$CAName}->{CorrectCAPasswordFileLocation},
+                $CorrectCAs{$CAName}->{CorrectCAPrivateSecretFile},
+                $CorrectCAs{$CAName}->{CorrectCAPrivateSecretFileContent},
+                $CorrectCAs{$CAName}->{CorrectCAPrivateSecretFileLocation},
             );
         }
 
-        # remove certificates, private keys and passwords from the file system
+        # remove certificates, private keys and secrets from the file system
         for my $CAName ( sort keys %WrongCAs ) {
 
             my $RemoveSuccess = $CryptObject->CertificateRemove(
@@ -2288,7 +2179,7 @@ k16iU8H6KGGE2c9vRyF146s9ot6FZHLzt9KZN03FWjtda6Z19Q95AZ7hJS40criK
             );
         }
 
-        # add a certificate with out private key and password
+        # add a certificate with out private key and secret
         {
 
             # create new CA certificate with wrong name
@@ -2306,7 +2197,7 @@ k16iU8H6KGGE2c9vRyF146s9ot6FZHLzt9KZN03FWjtda6Z19Q95AZ7hJS40criK
             $Self->True(
                 $FileExists,
                 "Re-Hash: Wrong CA OTRSRootCA filename: $WrongCAs{OTRSRootCA}->{WrongCAFile}"
-                    . " exists with true (before re-hash - WO Private Key / Password)",
+                    . " exists with true (before re-hash - WO Private Key / Secret)",
             );
             $FileExists = 0;
 
@@ -2344,7 +2235,7 @@ k16iU8H6KGGE2c9vRyF146s9ot6FZHLzt9KZN03FWjtda6Z19Q95AZ7hJS40criK
                 $FileExists,
                 "Re-Hash: Wrong CA OTRSRootCA certificate filename:"
                     . " $WrongCAs{OTRSRootCA}->{WrongCAFile} File exists with false (after re-hash"
-                    . " WO Private Key / Password)",
+                    . " WO Private Key / Secret)",
             );
             $FileExists = 0;
 
@@ -2356,7 +2247,7 @@ k16iU8H6KGGE2c9vRyF146s9ot6FZHLzt9KZN03FWjtda6Z19Q95AZ7hJS40criK
                 $FileExists,
                 "Re-Hash: Correct CA OTRSRootCA certificate filename:"
                     . " $CorrectCAs{OTRSRootCA}->{CorrectCAFile} File exists with true"
-                    . " (after re-hash WO Private Key / Password)",
+                    . " (after re-hash WO Private Key / Secret)",
             );
             $FileExists = 0;
 
@@ -2371,7 +2262,7 @@ k16iU8H6KGGE2c9vRyF146s9ot6FZHLzt9KZN03FWjtda6Z19Q95AZ7hJS40criK
                     . " $CorrectCAs{OTRSRootCA}->{CorrectCAFile} File content",
             );
 
-            # check that wrong private or password files does not exists
+            # check that wrong private or secret files does not exists
             if ( -e $WrongCAs{OTRSRootCA}->{WrongCAPrivateKeyFileLocation} ) {
                 $FileExists = 1;
             }
@@ -2379,22 +2270,22 @@ k16iU8H6KGGE2c9vRyF146s9ot6FZHLzt9KZN03FWjtda6Z19Q95AZ7hJS40criK
                 $FileExists,
                 "Re-Hash: Wrong CA OTRSRootCA private key filename:"
                     . " $WrongCAs{OTRSRootCA}->{WrongCAPrivateKeyFile} File exists with false"
-                    . " (after re-hash WO Private Key / Password)",
+                    . " (after re-hash WO Private Key / Secret)",
             );
             $FileExists = 0;
 
-            if ( -e $WrongCAs{OTRSRootCA}->{WrongCAPasswordFileLocation} ) {
+            if ( -e $WrongCAs{OTRSRootCA}->{WrongCAPrivateSecretFileLocation} ) {
                 $FileExists = 1;
             }
             $Self->False(
                 $FileExists,
-                "Re-Hash: Wrong CA OTRSRootCA password filename:"
-                    . " $WrongCAs{OTRSRootCA}->{WrongCAPasswordFile} File exists with false"
-                    . " (after re-hash WO Private Key / Password)",
+                "Re-Hash: Wrong CA OTRSRootCA private secret filename:"
+                    . " $WrongCAs{OTRSRootCA}->{WrongCAPrivateSecretFile} File exists with false"
+                    . " (after re-hash WO Private Key / Secret)",
             );
             $FileExists = 0;
 
-            # check that correct private or password files does not exists
+            # check that correct private or secret files does not exists
             if ( -e $CorrectCAs{OTRSRootCA}->{CorrectCAPrivateKeyFileLocation} ) {
                 $FileExists = 1;
             }
@@ -2402,18 +2293,18 @@ k16iU8H6KGGE2c9vRyF146s9ot6FZHLzt9KZN03FWjtda6Z19Q95AZ7hJS40criK
                 $FileExists,
                 "Re-Hash: Correct CA OTRSRootCA private key filename:"
                     . " $CorrectCAs{OTRSRootCA}->{CorrectCAPrivateKeyFile} File exists with false"
-                    . " (after re-hash WO Private Key / Password)",
+                    . " (after re-hash WO Private Key / Secret)",
             );
             $FileExists = 0;
 
-            if ( -e $CorrectCAs{OTRSRootCA}->{CorrectCAPasswordFileLocation} ) {
+            if ( -e $CorrectCAs{OTRSRootCA}->{CorrectCAPrivateSecretFileLocation} ) {
                 $FileExists = 1;
             }
             $Self->False(
                 $FileExists,
-                "Re-Hash: Correct CA OTRSRootCA password filename:"
-                    . " $CorrectCAs{OTRSRootCA}->{CorrectCAPasswordFile} File exists with false"
-                    . " (after re-hash WO Private Key / Password)",
+                "Re-Hash: Correct CA OTRSRootCA private secret filename:"
+                    . " $CorrectCAs{OTRSRootCA}->{CorrectCAPrivateSecretFile} File exists with"
+                    . " false (after re-hash WO Private Key / Secret)",
             );
             $FileExists = 0;
 
