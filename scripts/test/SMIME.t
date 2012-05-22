@@ -2,7 +2,7 @@
 # SMIME.t - SMIME tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: SMIME.t,v 1.34 2012-05-22 05:11:51 cr Exp $
+# $Id: SMIME.t,v 1.35 2012-05-22 12:43:55 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -1794,19 +1794,21 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
     {
 
         # add CA certifictes manually, otherwise the correct hash will be calculated for the name
+        # create wrong file function
         my $CreateWrongCAFiles = sub {
             my (
                 $CAName,
                 $WrongCAFile,
                 $WrongCAFileContent,
-                $WrongCAFileLocation,
-                $WrongCAPrivateKeyFile,
                 $WrongCAPrivateKeyFileContent,
-                $WrongCAPrivateKeyFileLocation,
-                $WrongCAPrivateSecretFile,
                 $WrongCAPrivateSecretFileContent,
-                $WrongCAPrivateSecretFileLocation,
             ) = @_;
+
+            my $WrongCAFileLocation              = "$CertPath/$WrongCAFile";
+            my $WrongCAPrivateKeyFile            = $WrongCAFile;
+            my $WrongCAPrivateKeyFileLocation    = "$PrivatePath/$WrongCAPrivateKeyFile";
+            my $WrongCAPrivateSecretFile         = "$WrongCAPrivateKeyFile.P";
+            my $WrongCAPrivateSecretFileLocation = "$WrongCAPrivateKeyFileLocation.P";
 
             # create new CA certificate with wrong name
             my $FileLocation = $MainObject->FileWrite(
@@ -1895,68 +1897,28 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
             );
         };
 
-        # define Wrong CA certificates, private keys and secrets
-        my %WrongCAFilenames = (
-            OTRSRootCA => 'aaaaaaaa.0',
-            OTRSRDCA   => 'bbbbbbbb.0',
-            OTRSLabCA  => 'cccccccc.0',
-        );
-        my %WrongCAs = (
-            OTRSRootCA => {
-                WrongCAFile                      => $WrongCAFilenames{OTRSRootCA},
-                WrongCAFileLocation              => "$CertPath/$WrongCAFilenames{OTRSRootCA}",
-                WrongCAFileContent               => $Certificates{OTRSRootCA}->{String},
-                WrongCAPrivateKeyFile            => $WrongCAFilenames{OTRSRootCA},
-                WrongCAPrivateKeyFileLocation    => "$PrivatePath/$WrongCAFilenames{OTRSRootCA}",
-                WrongCAPrivateKeyFileContent     => $Certificates{OTRSRootCA}->{PrivateString},
-                WrongCAPrivateSecretFile         => "$WrongCAFilenames{OTRSRootCA}.P",
-                WrongCAPrivateSecretFileLocation => "$PrivatePath/$WrongCAFilenames{OTRSRootCA}.P",
-                WrongCAPrivateSecretFileContent  => $Certificates{OTRSRootCA}->{PrivateSecret},
-            },
-            OTRSRDCA => {
-                WrongCAFile                      => $WrongCAFilenames{OTRSRDCA},
-                WrongCAFileLocation              => "$CertPath/$WrongCAFilenames{OTRSRDCA}",
-                WrongCAFileContent               => $Certificates{OTRSRDCA}->{String},
-                WrongCAPrivateKeyFile            => $WrongCAFilenames{OTRSRDCA},
-                WrongCAPrivateKeyFileLocation    => "$PrivatePath/$WrongCAFilenames{OTRSRDCA}",
-                WrongCAPrivateKeyFileContent     => $Certificates{OTRSRDCA}->{PrivateString},
-                WrongCAPrivateSecretFile         => "$WrongCAFilenames{OTRSRDCA}.P",
-                WrongCAPrivateSecretFileLocation => "$PrivatePath/$WrongCAFilenames{OTRSRDCA}.P",
-                WrongCAPrivateSecretFileContent  => $Certificates{OTRSRDCA}->{PrivateSecret},
-            },
-            OTRSLabCA => {
-                WrongCAFile                      => $WrongCAFilenames{OTRSLabCA},
-                WrongCAFileLocation              => "$CertPath/$WrongCAFilenames{OTRSLabCA}",
-                WrongCAFileContent               => $Certificates{OTRSLabCA}->{String},
-                WrongCAPrivateKeyFile            => $WrongCAFilenames{OTRSLabCA},
-                WrongCAPrivateKeyFileLocation    => "$PrivatePath/$WrongCAFilenames{OTRSLabCA}",
-                WrongCAPrivateKeyFileContent     => $Certificates{OTRSLabCA}->{PrivateString},
-                WrongCAPrivateSecretFile         => "$WrongCAFilenames{OTRSLabCA}.P",
-                WrongCAPrivateSecretFileLocation => "$PrivatePath/$WrongCAFilenames{OTRSLabCA}.P",
-                WrongCAPrivateSecretFileContent  => $Certificates{OTRSRootCA}->{PrivateSecret},
-            },
-        );
-
         # check correct files function
         my $CheckCorrectCAFiles = sub {
             my (
                 $CAName,
                 $WrongCAFile,
-                $WrongCAFileLocation,
-                $WrongCAPrivateKeyFile,
-                $WrongCAPrivateKeyFileLocation,
-                $WrongCAPrivateSecretFile,
-                $WrongCAPrivateSecretFileLocation,
                 $CorrectCAFile,
                 $CorrectCAFileContent,
-                $CorrectCAFileLocation,
-                $CorrectCAPrivateKeyFile,
                 $CorrectCAPrivateKeyContent,
-                $CorrectCAPrivateKeyFileLocation,
-                $CorrectCAPrivateSecretFile,
                 $CorrectCAPrivateSecretFileContent,
-                $CorrectCAPrivateSecretFileLocation,
             ) = @_;
+
+            my $WrongCAFileLocation              = "$CertPath/$WrongCAFile";
+            my $WrongCAPrivateKeyFile            = $WrongCAFile;
+            my $WrongCAPrivateKeyFileLocation    = "$PrivatePath/$WrongCAPrivateKeyFile";
+            my $WrongCAPrivateSecretFile         = "$WrongCAPrivateKeyFile.P";
+            my $WrongCAPrivateSecretFileLocation = "$WrongCAPrivateKeyFileLocation.P";
+
+            my $CorrectCAFileLocation              = "$CertPath/$CorrectCAFile";
+            my $CorrectCAPrivateKeyFile            = $CorrectCAFile;
+            my $CorrectCAPrivateKeyFileLocation    = "$PrivatePath/$CorrectCAPrivateKeyFile";
+            my $CorrectCAPrivateSecretFile         = "$CorrectCAPrivateKeyFile.P";
+            my $CorrectCAPrivateSecretFileLocation = "$CorrectCAPrivateKeyFileLocation.P";
 
             # check if wrong CA cetificates, private keys and secrets exists
             {
@@ -2056,6 +2018,33 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
             );
         };
 
+        # define Wrong CA certificates, private keys and secrets
+        my %WrongCAFilenames = (
+            OTRSRootCA => 'aaaaaaaa.0',
+            OTRSRDCA   => 'bbbbbbbb.0',
+            OTRSLabCA  => 'cccccccc.0',
+        );
+        my %WrongCAs = (
+            OTRSRootCA => {
+                WrongCAFile                     => $WrongCAFilenames{OTRSRootCA},
+                WrongCAFileContent              => $Certificates{OTRSRootCA}->{String},
+                WrongCAPrivateKeyFileContent    => $Certificates{OTRSRootCA}->{PrivateString},
+                WrongCAPrivateSecretFileContent => $Certificates{OTRSRootCA}->{PrivateSecret},
+            },
+            OTRSRDCA => {
+                WrongCAFile                     => $WrongCAFilenames{OTRSRDCA},
+                WrongCAFileContent              => $Certificates{OTRSRDCA}->{String},
+                WrongCAPrivateKeyFileContent    => $Certificates{OTRSRDCA}->{PrivateString},
+                WrongCAPrivateSecretFileContent => $Certificates{OTRSRDCA}->{PrivateSecret},
+            },
+            OTRSLabCA => {
+                WrongCAFile                     => $WrongCAFilenames{OTRSLabCA},
+                WrongCAFileContent              => $Certificates{OTRSLabCA}->{String},
+                WrongCAPrivateKeyFileContent    => $Certificates{OTRSLabCA}->{PrivateString},
+                WrongCAPrivateSecretFileContent => $Certificates{OTRSRootCA}->{PrivateSecret},
+            },
+        );
+
         # 0.9.x hashes
         my %CorrectHashes = (
             OTRSRootCA => '1a01713f',
@@ -2110,13 +2099,8 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
                 $CAName,
                 $WrongCAs{$CAName}->{WrongCAFile},
                 $WrongCAs{$CAName}->{WrongCAFileContent},
-                $WrongCAs{$CAName}->{WrongCAFileLocation},
-                $WrongCAs{$CAName}->{WrongCAPrivateKeyFile},
                 $WrongCAs{$CAName}->{WrongCAPrivateKeyFileContent},
-                $WrongCAs{$CAName}->{WrongCAPrivateKeyFileLocation},
-                $WrongCAs{$CAName}->{WrongCAPrivateSecretFile},
                 $WrongCAs{$CAName}->{WrongCAPrivateSecretFileContent},
-                $WrongCAs{$CAName}->{WrongCAPrivateSecretFileLocation},
             );
         }
 
@@ -2140,20 +2124,10 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
             $CheckCorrectCAFiles->(
                 $CAName,
                 $WrongCAs{$CAName}->{WrongCAFile},
-                $WrongCAs{$CAName}->{WrongCAFileLocation},
-                $WrongCAs{$CAName}->{WrongCAPrivateKeyFile},
-                $WrongCAs{$CAName}->{WrongCAPrivateKeyFileLocation},
-                $WrongCAs{$CAName}->{WrongCAPrivateSecretFile},
-                $WrongCAs{$CAName}->{WrongCAPrivateSecretFileLocation},
                 $CorrectCAs{$CAName}->{CorrectCAFile},
                 $CorrectCAs{$CAName}->{CorrectCAFileContent},
-                $CorrectCAs{$CAName}->{CorrectCAFileLocation},
-                $CorrectCAs{$CAName}->{CorrectCAPrivateKeyFile},
                 $CorrectCAs{$CAName}->{CorrectCAPrivateKeyFileContent},
-                $CorrectCAs{$CAName}->{CorrectCAPrivateKeyFileLocation},
-                $CorrectCAs{$CAName}->{CorrectCAPrivateSecretFile},
                 $CorrectCAs{$CAName}->{CorrectCAPrivateSecretFileContent},
-                $CorrectCAs{$CAName}->{CorrectCAPrivateSecretFileLocation},
             );
         }
 
@@ -2182,33 +2156,47 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
         # add a certificate with out private key and secret
         {
 
+            my $WrongCAFile                      = "$WrongCAs{OTRSRootCA}->{WrongCAFile}";
+            my $WrongCAFileLocation              = "$CertPath/$WrongCAFile";
+            my $WrongCAPrivateKeyFile            = "$WrongCAFile";
+            my $WrongCAPrivateKeyFileLocation    = "$PrivatePath/$WrongCAPrivateKeyFile";
+            my $WrongCAPrivateSecretFile         = "$WrongCAPrivateKeyFile.P";
+            my $WrongCAPrivateSecretFileLocation = "$WrongCAPrivateKeyFileLocation.P";
+
+            my $CorrectCAFile                      = "$CorrectCAs{OTRSRootCA}->{CorrectCAFile}";
+            my $CorrectCAFileLocation              = "$CertPath/$CorrectCAFile";
+            my $CorrectCAPrivateKeyFile            = "$CorrectCAFile";
+            my $CorrectCAPrivateKeyFileLocation    = "$PrivatePath/$CorrectCAPrivateKeyFile";
+            my $CorrectCAPrivateSecretFile         = "$CorrectCAPrivateKeyFile.P";
+            my $CorrectCAPrivateSecretFileLocation = "$CorrectCAPrivateKeyFileLocation.P";
+
             # create new CA certificate with wrong name
             my $FileLocation = $MainObject->FileWrite(
-                Location => $WrongCAs{OTRSRootCA}->{WrongCAFileLocation},
+                Location => $WrongCAFileLocation,
                 Content  => \$WrongCAs{OTRSRootCA}->{WrongCAFileContent},
             );
 
             # sanity checks
             my $FileExists;
-            if ( -e $WrongCAs{OTRSRootCA}->{WrongCAFileLocation} ) {
+            if ( -e $WrongCAFileLocation ) {
                 $FileExists = 1;
             }
 
             $Self->True(
                 $FileExists,
-                "Re-Hash: Wrong CA OTRSRootCA filename: $WrongCAs{OTRSRootCA}->{WrongCAFile}"
+                "Re-Hash: Wrong CA OTRSRootCA filename: $WrongCAFile"
                     . " exists with true (before re-hash - WO Private Key / Secret)",
             );
             $FileExists = 0;
 
             my $ContentSCALARRef = $MainObject->FileRead(
-                Location => $WrongCAs{OTRSRootCA}->{WrongCAFileLocation},
+                Location => $WrongCAFileLocation,
             );
 
             $Self->Is(
                 $$ContentSCALARRef,
                 $WrongCAs{OTRSRootCA}->{WrongCAFileContent},
-                "Re-Hash: Read wrong CA OTRSRootCA filename: $WrongCAs{OTRSRootCA}->{WrongCAFile}"
+                "Re-Hash: Read wrong CA OTRSRootCA filename: $WrongCAFile"
                     . " content",
             );
 
@@ -2228,25 +2216,25 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
             }
 
             # check if wrong certificate still exists after the re-hash
-            if ( -e $WrongCAs{OTRSRootCA}->{WrongCAFileLocation} ) {
+            if ( -e $WrongCAFileLocation ) {
                 $FileExists = 1;
             }
             $Self->False(
                 $FileExists,
                 "Re-Hash: Wrong CA OTRSRootCA certificate filename:"
-                    . " $WrongCAs{OTRSRootCA}->{WrongCAFile} File exists with false (after re-hash"
+                    . " $WrongCAFile File exists with false (after re-hash"
                     . " WO Private Key / Secret)",
             );
             $FileExists = 0;
 
             # check if correct certiticate exists after the re-hash
-            if ( -e $CorrectCAs{OTRSRootCA}->{CorrectCAFileLocation} ) {
+            if ( -e $CorrectCAFileLocation ) {
                 $FileExists = 1;
             }
             $Self->True(
                 $FileExists,
                 "Re-Hash: Correct CA OTRSRootCA certificate filename:"
-                    . " $CorrectCAs{OTRSRootCA}->{CorrectCAFile} File exists with true"
+                    . " $CorrectCAFile File exists with true"
                     . " (after re-hash WO Private Key / Secret)",
             );
             $FileExists = 0;
@@ -2259,40 +2247,40 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
                 $Certificate,
                 $CorrectCAs{OTRSRootCA}->{CorrectCAFileContent},
                 "Re-Hash: Correct CA OTRSRootCA certificate filename:"
-                    . " $CorrectCAs{OTRSRootCA}->{CorrectCAFile} File content",
+                    . " $CorrectCAFile File content",
             );
 
             # check that wrong private or secret files does not exists
-            if ( -e $WrongCAs{OTRSRootCA}->{WrongCAPrivateKeyFileLocation} ) {
+            if ( -e $WrongCAPrivateKeyFileLocation ) {
                 $FileExists = 1;
             }
             $Self->False(
                 $FileExists,
                 "Re-Hash: Wrong CA OTRSRootCA private key filename:"
-                    . " $WrongCAs{OTRSRootCA}->{WrongCAPrivateKeyFile} File exists with false"
+                    . " $WrongCAPrivateKeyFile File exists with false"
                     . " (after re-hash WO Private Key / Secret)",
             );
             $FileExists = 0;
 
-            if ( -e $WrongCAs{OTRSRootCA}->{WrongCAPrivateSecretFileLocation} ) {
+            if ( -e $WrongCAPrivateSecretFileLocation ) {
                 $FileExists = 1;
             }
             $Self->False(
                 $FileExists,
                 "Re-Hash: Wrong CA OTRSRootCA private secret filename:"
-                    . " $WrongCAs{OTRSRootCA}->{WrongCAPrivateSecretFile} File exists with false"
+                    . " $WrongCAPrivateSecretFile File exists with false"
                     . " (after re-hash WO Private Key / Secret)",
             );
             $FileExists = 0;
 
-            # check that correct private or secret files does not exists
-            if ( -e $CorrectCAs{OTRSRootCA}->{CorrectCAPrivateKeyFileLocation} ) {
+            # check that correct private key or secret files does not exists
+            if ( -e $CorrectCAPrivateKeyFileLocation ) {
                 $FileExists = 1;
             }
             $Self->False(
                 $FileExists,
                 "Re-Hash: Correct CA OTRSRootCA private key filename:"
-                    . " $CorrectCAs{OTRSRootCA}->{CorrectCAPrivateKeyFile} File exists with false"
+                    . " $CorrectCAPrivateKeyFile File exists with false"
                     . " (after re-hash WO Private Key / Secret)",
             );
             $FileExists = 0;
@@ -2303,7 +2291,7 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
             $Self->False(
                 $FileExists,
                 "Re-Hash: Correct CA OTRSRootCA private secret filename:"
-                    . " $CorrectCAs{OTRSRootCA}->{CorrectCAPrivateSecretFile} File exists with"
+                    . " $CorrectCAPrivateSecretFile File exists with"
                     . " false (after re-hash WO Private Key / Secret)",
             );
             $FileExists = 0;
@@ -2315,7 +2303,7 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
             $Self->True(
                 $RemoveSuccess,
                 "Re-Hash: system cleanup, CertificateRemove()"
-                    . " $CorrectCAs{OTRSRootCA}->{CorrectCAFile} with true",
+                    . " $CorrectCAFile with true",
             );
         }
     }
