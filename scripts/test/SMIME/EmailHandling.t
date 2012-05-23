@@ -2,7 +2,7 @@
 # EmailHandling.t - SMIME email handling tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: EmailHandling.t,v 1.3 2012-05-23 04:54:28 cr Exp $
+# $Id: EmailHandling.t,v 1.4 2012-05-23 15:44:16 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -158,54 +158,9 @@ my $LayoutObject = Kernel::Output::HTML::Layout->new(
 # Setup environment
 #
 
-# 0.9.x hashes
-my $CheckHash1 = '980a83c7';
-my $CheckHash2 = '999bcb2f';
-
-# 1.0.0 hashes
-if ($UseNewHashes) {
-    $CheckHash1 = 'f62a2257';
-    $CheckHash2 = '35c7d865';
-}
-
-my %Search = (
-    1 => 'unittest@example.org',
-    2 => 'unittest2@example.org',
-);
-
-for my $Count ( 1 .. 2 ) {
-
-    # add certificate ...
-    my $CertString = $Self->{MainObject}->FileRead(
-        Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/SMIME/",
-        Filename  => "SMIMECertificate-$Count.asc",
-    );
-    my %Result = $CryptObject->CertificateAdd( Certificate => ${$CertString} );
-    $Self->True(
-        $Result{Successful} || '',
-        "#$Count CertificateAdd() - $Result{Message}",
-    );
-
-    # and private key
-    my $KeyString = $Self->{MainObject}->FileRead(
-        Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/SMIME/",
-        Filename  => "SMIMEPrivateKey-$Count.asc",
-    );
-    my $Secret = $Self->{MainObject}->FileRead(
-        Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/SMIME/",
-        Filename  => "SMIMEPrivateKeyPass-$Count.asc",
-    );
-    %Result = $CryptObject->PrivateAdd(
-        Private => ${$KeyString},
-        Secret  => ${$Secret},
-    );
-    $Self->True(
-        $Result{Successful} || '',
-        "#$Count PrivateAdd()",
-    );
-}
-
 # OpenSSL 0.9.x hashes
+my $Check1Hash       = '980a83c7';
+my $Check2Hash       = '999bcb2f';
 my $OTRSRootCAHash   = '1a01713f';
 my $OTRSRDCAHash     = '7807c24e';
 my $OTRSLabCAHash    = '2fc24258';
@@ -213,14 +168,30 @@ my $OTRSUserCertHash = 'eab039b6';
 
 # OpenSSL 1.0.0 hashes
 if ($UseNewHashes) {
+    $Check1Hash       = 'f62a2257';
+    $Check2Hash       = '35c7d865';
     $OTRSRootCAHash   = '7835cf94';
     $OTRSRDCAHash     = 'b5d19fb9';
     $OTRSLabCAHash    = '19545811';
     $OTRSUserCertHash = '4d400195';
 }
 
-# chain certificates
-my @ChainCertificates = (
+# certificates
+my @Certificates = (
+    {
+        CertificateName       => 'Check1',
+        CertificateHash       => $Check1Hash,
+        CertificateFileName   => 'SMIMECertificate-1.asc',
+        PrivateKeyFileName    => 'SMIMEPrivateKey-1.asc',
+        PrivateSecretFileName => 'SMIMEPrivateKeyPass-1.asc',
+    },
+    {
+        CertificateName       => 'Check2',
+        CertificateHash       => $Check2Hash,
+        CertificateFileName   => 'SMIMECertificate-2.asc',
+        PrivateKeyFileName    => 'SMIMEPrivateKey-2.asc',
+        PrivateSecretFileName => 'SMIMEPrivateKeyPass-2.asc',
+    },
     {
         CertificateName       => 'OTRSUserCert',
         CertificateHash       => $OTRSUserCertHash,
@@ -252,7 +223,7 @@ my @ChainCertificates = (
 );
 
 # add chain certificates
-for my $Certificate (@ChainCertificates) {
+for my $Certificate (@Certificates) {
 
     # add certificate ...
     my $CertString = $Self->{MainObject}->FileRead(
@@ -361,7 +332,7 @@ for my $Test (@Tests) {
             Sign => {
                 Type    => 'SMIME',
                 SubType => 'Detached',
-                Key     => $CheckHash1 . '.0',
+                Key     => $Check1Hash . '.0',
             },
         },
         VerifySignature  => 1,
@@ -377,7 +348,7 @@ for my $Test (@Tests) {
             To    => 'unittest@example.org',
             Crypt => {
                 Type => 'SMIME',
-                Key  => $CheckHash1 . '.0',
+                Key  => $Check1Hash . '.0',
             },
         },
         VerifySignature  => 0,
@@ -394,11 +365,11 @@ for my $Test (@Tests) {
             Sign => {
                 Type    => 'SMIME',
                 SubType => 'Detached',
-                Key     => $CheckHash1 . '.0',
+                Key     => $Check1Hash . '.0',
             },
             Crypt => {
                 Type => 'SMIME',
-                Key  => $CheckHash1 . '.0',
+                Key  => $Check1Hash . '.0',
             },
         },
         VerifySignature  => 1,
@@ -551,36 +522,7 @@ $TicketObject->TicketDelete(
     UserID   => 1,
 );
 
-# delete keys
-for my $Count ( 1 .. 2 ) {
-    my @Keys = $CryptObject->Search(
-        Search => $Search{$Count},
-    );
-    $Self->True(
-        $Keys[0] || '',
-        "#$Count Search()",
-    );
-
-    my %Result = $CryptObject->PrivateRemove(
-        Hash    => $Keys[0]->{Hash},
-        Modulus => $Keys[0]->{Modulus},
-    );
-    $Self->True(
-        $Result{Successful} || '',
-        "#$Count PrivateRemove() - $Result{Message}",
-    );
-
-    %Result = $CryptObject->CertificateRemove(
-        Hash        => $Keys[0]->{Hash},
-        Fingerprint => $Keys[0]->{Fingerprint},
-    );
-
-    $Self->True(
-        $Result{Successful} || '',
-        "#$Count CertificateRemove()",
-    );
-}
-for my $Certificate (@ChainCertificates) {
+for my $Certificate (@Certificates) {
     my @Keys = $CryptObject->Search(
         Search => $Certificate->{CertificateHash},
     );
