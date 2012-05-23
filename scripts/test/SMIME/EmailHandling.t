@@ -2,7 +2,7 @@
 # EmailHandling.t - SMIME email handling tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: EmailHandling.t,v 1.2 2012-05-22 15:30:31 mg Exp $
+# $Id: EmailHandling.t,v 1.3 2012-05-23 04:54:28 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -205,6 +205,85 @@ for my $Count ( 1 .. 2 ) {
     );
 }
 
+# OpenSSL 0.9.x hashes
+my $OTRSRootCAHash   = '1a01713f';
+my $OTRSRDCAHash     = '7807c24e';
+my $OTRSLabCAHash    = '2fc24258';
+my $OTRSUserCertHash = 'eab039b6';
+
+# OpenSSL 1.0.0 hashes
+if ($UseNewHashes) {
+    $OTRSRootCAHash   = '7835cf94';
+    $OTRSRDCAHash     = 'b5d19fb9';
+    $OTRSLabCAHash    = '19545811';
+    $OTRSUserCertHash = '4d400195';
+}
+
+# chain certificates
+my @ChainCertificates = (
+    {
+        CertificateName       => 'OTRSUserCert',
+        CertificateHash       => $OTRSUserCertHash,
+        CertificateFileName   => 'SMIMECertificate-smimeuser1.crt',
+        PrivateKeyFileName    => 'SMIMEPrivateKey-smimeuser1.pem',
+        PrivateSecretFileName => 'SMIMEPrivateKeyPass-smimeuser1.crt',
+    },
+    {
+        CertificateName       => 'OTRSLabCA',
+        CertificateHash       => $OTRSLabCAHash,
+        CertificateFileName   => 'SMIMECACertificate-OTRSLab.crt',
+        PrivateKeyFileName    => 'SMIMECAPrivateKey-OTRSLab.pem',
+        PrivateSecretFileName => 'SMIMECAPrivateKeyPass-OTRSLab.crt',
+    },
+    {
+        CertificateName       => 'OTRSRDCA',
+        CertificateHash       => $OTRSRDCAHash,
+        CertificateFileName   => 'SMIMECACertificate-OTRSRD.crt',
+        PrivateKeyFileName    => 'SMIMECAPrivateKey-OTRSRD.pem',
+        PrivateSecretFileName => 'SMIMECAPrivateKeyPass-OTRSRD.crt',
+    },
+    {
+        CertificateName       => 'OTRSRootCA',
+        CertificateHash       => $OTRSRootCAHash,
+        CertificateFileName   => 'SMIMECACertificate-OTRSRoot.crt',
+        PrivateKeyFileName    => 'SMIMECAPrivateKey-OTRSRoot.pem',
+        PrivateSecretFileName => 'SMIMECAPrivateKeyPass-OTRSRoot.crt',
+    },
+);
+
+# add chain certificates
+for my $Certificate (@ChainCertificates) {
+
+    # add certificate ...
+    my $CertString = $Self->{MainObject}->FileRead(
+        Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/SMIME/",
+        Filename  => $Certificate->{CertificateFileName},
+    );
+    my %Result = $CryptObject->CertificateAdd( Certificate => ${$CertString} );
+    $Self->True(
+        $Result{Successful} || '',
+        "#$Certificate->{CertificateName} CertificateAdd() - $Result{Message}",
+    );
+
+    # and private key
+    my $KeyString = $Self->{MainObject}->FileRead(
+        Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/SMIME/",
+        Filename  => $Certificate->{PrivateKeyFileName},
+    );
+    my $Secret = $Self->{MainObject}->FileRead(
+        Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/SMIME/",
+        Filename  => $Certificate->{PrivateSecretFileName},
+    );
+    %Result = $CryptObject->PrivateAdd(
+        Private => ${$KeyString},
+        Secret  => ${$Secret},
+    );
+    $Self->True(
+        $Result{Successful} || '',
+        "#$Certificate->{CertificateName} PrivateAdd()",
+    );
+}
+
 my $TicketID = $TicketObject->TicketCreate(
     Title        => 'Some Ticket_Title',
     Queue        => 'Raw',
@@ -277,6 +356,8 @@ for my $Test (@Tests) {
         Name        => $Test->{Name} . " sign only",
         ArticleData => {
             %{ $Test->{ArticleData} },
+            From => 'unittest@example.org',
+            To   => 'unittest@example.org',
             Sign => {
                 Type    => 'SMIME',
                 SubType => 'Detached',
@@ -292,6 +373,8 @@ for my $Test (@Tests) {
         Name        => $Test->{Name} . " crypt only",
         ArticleData => {
             %{ $Test->{ArticleData} },
+            From  => 'unittest@example.org',
+            To    => 'unittest@example.org',
             Crypt => {
                 Type => 'SMIME',
                 Key  => $CheckHash1 . '.0',
@@ -306,6 +389,8 @@ for my $Test (@Tests) {
         Name        => $Test->{Name} . " sign and crypt",
         ArticleData => {
             %{ $Test->{ArticleData} },
+            From => 'unittest@example.org',
+            To   => 'unittest@example.org',
             Sign => {
                 Type    => 'SMIME',
                 SubType => 'Detached',
@@ -319,26 +404,80 @@ for my $Test (@Tests) {
         VerifySignature  => 1,
         VerifyDecryption => 1,
     };
+
+    push @TestVariations, {
+        %{$Test},
+        Name        => $Test->{Name} . " chain CA cert sign only",
+        ArticleData => {
+            %{ $Test->{ArticleData} },
+            From => 'smimeuser1@test.com',
+            To   => 'smimeuser1@test.com',
+            Sign => {
+                Type    => 'SMIME',
+                SubType => 'Detached',
+                Key     => $OTRSUserCertHash . '.0',
+            },
+        },
+        VerifySignature  => 1,
+        VerifyDecryption => 0,
+    };
+
+    push @TestVariations, {
+        %{$Test},
+        Name        => $Test->{Name} . " chain CA cert crypt only",
+        ArticleData => {
+            %{ $Test->{ArticleData} },
+            From  => 'smimeuser1@test.com',
+            To    => 'smimeuser1@test.com',
+            Crypt => {
+                Type => 'SMIME',
+                Key  => $OTRSUserCertHash . '.0',
+            },
+        },
+        VerifySignature  => 0,
+        VerifyDecryption => 1,
+    };
+
+    push @TestVariations, {
+        %{$Test},
+        Name        => $Test->{Name} . " chain CA cert sign and crypt",
+        ArticleData => {
+            %{ $Test->{ArticleData} },
+            From => 'smimeuser1@test.com',
+            To   => 'smimeuser1@test.com',
+            Sign => {
+                Type    => 'SMIME',
+                SubType => 'Detached',
+                Key     => $OTRSUserCertHash . '.0',
+            },
+            Crypt => {
+                Type => 'SMIME',
+                Key  => $OTRSUserCertHash . '.0',
+            },
+        },
+        VerifySignature  => 1,
+        VerifyDecryption => 1,
+    };
 }
 
 for my $Test (@TestVariations) {
 
     my $ArticleID = $TicketObject->ArticleSend(
         TicketID       => $TicketID,
-        From           => 'unittest@example.org',
-        To             => 'unittest@example.org',
+        From           => $Test->{ArticleData}->{From},
+        To             => $Test->{ArticleData}->{To},
         ArticleType    => 'email-external',
         SenderType     => 'customer',
         HistoryType    => 'AddNote',
         HistoryComment => 'note',
         Subject        => 'Unittest data',
         Charset        => 'utf-8',
-        MimeType       => 'text/plain',             # "text/plain" or "text/html"
+        MimeType       => 'text/plain',                   # "text/plain" or "text/html"
         Body           => 'Some nice text\n.',
         Sign           => {
             Type    => 'SMIME',
             SubType => 'Detached',
-            Key     => $CheckHash1 . '.0',
+            Key     => $Test->{ArticleData}->{Sign}->{Key},
         },
         UserID => 1,
         %{ $Test->{ArticleData} },
@@ -439,6 +578,34 @@ for my $Count ( 1 .. 2 ) {
     $Self->True(
         $Result{Successful} || '',
         "#$Count CertificateRemove()",
+    );
+}
+for my $Certificate (@ChainCertificates) {
+    my @Keys = $CryptObject->Search(
+        Search => $Certificate->{CertificateHash},
+    );
+    $Self->True(
+        $Keys[0] || '',
+        "$Certificate->{CertificateName} Search()",
+    );
+
+    my %Result = $CryptObject->PrivateRemove(
+        Hash    => $Keys[0]->{Hash},
+        Modulus => $Keys[0]->{Modulus},
+    );
+    $Self->True(
+        $Result{Successful} || '',
+        "$Certificate->{CertificateName} PrivateRemove() - $Result{Message}",
+    );
+
+    %Result = $CryptObject->CertificateRemove(
+        Hash        => $Keys[0]->{Hash},
+        Fingerprint => $Keys[0]->{Fingerprint},
+    );
+
+    $Self->True(
+        $Result{Successful} || '',
+        "$Certificate->{CertificateName} CertificateRemove()",
     );
 }
 
