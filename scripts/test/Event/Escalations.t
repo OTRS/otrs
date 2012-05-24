@@ -2,7 +2,7 @@
 # Escalations.t - escalation event tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Escalations.t,v 1.14 2012-05-24 05:24:53 cg Exp $
+# $Id: Escalations.t,v 1.15 2012-05-24 16:55:55 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -478,8 +478,10 @@ for my $Hours ( sort keys %WorkingHours ) {
         # make sure that a least a minute is taken off the used up time
         # A timespan of less than 1 minute comes up the 0% reached.
         # However, a NotifyBefore of 0% indicates that no NotifyBefore is emitted.
-        $Self->True( 1, 'sleeping for 41 s, percentage reached should not be 0%' );
-        sleep 41;
+        my $SleepTime = 60 - ( $TimeObject->SystemTime() - $StartingSystemTime );
+        $SleepTime = 10 if $SleepTime lt 1;
+        $Self->True( 1, "sleeping for $SleepTime s, percentage reached should not be 0%" );
+        sleep $SleepTime;
 
         # explicitly invalidate the cache for the next TicketGet(),
         # as TicketEscalationIndexBuild() of OTRS 2.4.7  does not care
