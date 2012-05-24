@@ -2,7 +2,7 @@
 # Kernel/System/TicketSearch.pm - all ticket search functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketSearch.pm,v 1.13 2012-03-26 21:47:00 mh Exp $
+# $Id: TicketSearch.pm,v 1.13.2.1 2012-05-24 23:38:22 ep Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.13.2.1 $) [1];
 
 use Kernel::System::DynamicField;
 use Kernel::System::DynamicField::Backend;
@@ -366,7 +366,13 @@ sub TicketSearch {
 
     # Only fetch DynamicField data if a field was requested for searching or sorting
     my $ParamCheckString = ( join '', keys %Param ) || '';
-    $ParamCheckString .= $Param{SortBy} || '';
+
+    if ( ref $Param{SortBy} eq 'ARRAY' ) {
+        $ParamCheckString .= ( join '', @{ $Param{SortBy} } );
+    }
+    elsif ( ref $Param{SortBy} ne 'HASH' ) {
+        $ParamCheckString .= $Param{SortBy} || '';
+    }
 
     if ( $ParamCheckString =~ m/DynamicField_/smx ) {
 
@@ -1727,6 +1733,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.13 $ $Date: 2012-03-26 21:47:00 $
+$Revision: 1.13.2.1 $ $Date: 2012-05-24 23:38:22 $
 
 =cut
