@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/ArticleComposeCrypt.pm
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleComposeCrypt.pm,v 1.21 2011-06-03 03:38:01 dz Exp $
+# $Id: ArticleComposeCrypt.pm,v 1.22 2012-05-24 23:19:14 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Mail::Address;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
+$VERSION = qw($Revision: 1.22 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -67,30 +67,28 @@ sub Run {
         @SearchAddress = Mail::Address->parse($Recipient);
     }
 
+    my $Class;
+
     # backend currently only supports one recipient
     if ( $#SearchAddress > 0 && $Param{CryptKeyID} ) {
-        $Self->{Error}->{Recipient} = 1;
-        $Self->{LayoutObject}->Block(
-            Name => 'Option',
-            Data => {
-                Key     => 'Crypt',
-                Invalid => '* Just one recipient for crypt possible!',
-            },
-        );
-        return;
+        $Self->{Error}->{CryptMultipleRecipient} = 1;
+        $Class .= ' ServerError';
     }
 
     # add crypt options
     my $List = $Self->{LayoutObject}->BuildSelection(
         Data       => \%KeyList,
         Name       => 'CryptKeyID',
-        SelectedID => $Param{CryptKeyID}
+        SelectedID => $Param{CryptKeyID} || '',
+        Class      => $Class,
     );
     $Self->{LayoutObject}->Block(
         Name => 'Option',
         Data => {
-            Key   => 'Crypt',
-            Value => $List,
+            Name    => 'CryptKeyID',
+            Key     => 'Crypt',
+            Value   => $List,
+            Invalid => 'Just one recipient for crypt is possible!',
         },
     );
     return;
@@ -120,7 +118,11 @@ sub Data {
     # add non crypt option
     $KeyList{''} = '-none-';
 
-    if (@SearchAddress) {
+    # backend currently only supports one recipient
+    if ( $#SearchAddress > 0 ) {
+        return %KeyList;
+    }
+    elsif (@SearchAddress) {
 
         # check pgp backend
         my $CryptObjectPGP = Kernel::System::Crypt->new( %{$Self}, CryptType => 'PGP' );
