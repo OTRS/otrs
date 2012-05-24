@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.554 2012-05-15 09:11:51 mg Exp $
+# $Id: Ticket.pm,v 1.555 2012-05-24 10:33:22 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -40,7 +40,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.554 $) [1];
+$VERSION = qw($Revision: 1.555 $) [1];
 
 =head1 NAME
 
@@ -551,7 +551,7 @@ sub TicketCreate {
 
     # set customer data if given
     if ( $Param{CustomerNo} || $Param{CustomerID} || $Param{CustomerUser} ) {
-        $Self->SetCustomerData(
+        $Self->TicketCustomerSet(
             TicketID => $TicketID,
             No => $Param{CustomerNo} || $Param{CustomerID} || '',
             User => $Param{CustomerUser} || '',
@@ -7807,6 +7807,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.554 $ $Date: 2012-05-15 09:11:51 $
+$Revision: 1.555 $ $Date: 2012-05-24 10:33:22 $
 
 =cut
