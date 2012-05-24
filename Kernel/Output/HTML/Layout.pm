@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.382 2012-05-15 10:40:10 ub Exp $
+# $Id: Layout.pm,v 1.383 2012-05-24 07:35:13 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Mail::Address;
 use URI::Escape qw();
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.382 $) [1];
+$VERSION = qw($Revision: 1.383 $) [1];
 
 =head1 NAME
 
@@ -391,6 +391,9 @@ sub new {
         }
     }
 
+    $Self->{CustomTemplateDir}
+        = $Self->{ConfigObject}->Get('CustomTemplateDir') . '/HTML/' . $Theme;
+
     # load sub layout files
     my $Dir = $Self->{ConfigObject}->Get('TemplateDir') . '/HTML';
     if ( -e $Dir ) {
@@ -527,7 +530,13 @@ sub Output {
     my $TemplateString = '';
     if ( $Param{TemplateFile} ) {
         my $File = '';
-        if ( -f "$Self->{TemplateDir}/$Param{TemplateFile}.dtl" ) {
+        if ( -f "$Self->{CustomTemplateDir}/$Param{TemplateFile}.dtl" ) {
+            $File = "$Self->{CustomTemplateDir}/$Param{TemplateFile}.dtl";
+        }
+        elsif ( -f "$Self->{CustomTemplateDir}/../Standard/$Param{TemplateFile}.dtl" ) {
+            $File = "$Self->{CustomTemplateDir}/../Standard/$Param{TemplateFile}.dtl";
+        }
+        elsif ( -f "$Self->{TemplateDir}/$Param{TemplateFile}.dtl" ) {
             $File = "$Self->{TemplateDir}/$Param{TemplateFile}.dtl";
         }
         else {
@@ -4906,6 +4915,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.382 $ $Date: 2012-05-15 10:40:10 $
+$Revision: 1.383 $ $Date: 2012-05-24 07:35:13 $
 
 =cut
