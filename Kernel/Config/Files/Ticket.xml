@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.502 2012-05-14 16:19:49 mb Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.503 2012-05-24 08:05:59 mb Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Translatable="1">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Group>Ticket</Group>
@@ -5228,12 +5228,13 @@ $QData{"Body"}
             </Option>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::CustomerTicketMessage###TicketTypeDefault" Required="0" Valid="0">
-        <Description Translatable="1">Defines the default ticket type for new customer tickets in the customer interface.</Description>
+    <ConfigItem Name="Ticket::Frontend::CustomerTicketMessage###QueueDefault" Required="0" Valid="0">
+        <Description Translatable="1">Defines the default queue for new customer tickets in the customer interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Customer::Ticket::ViewNew</SubGroup>
+        <ValidateModule>Kernel::System::SysConfig::QueueValidate</ValidateModule>
         <Setting>
-            <String Regex="">default</String>
+            <String Regex="">Postmaster</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::CustomerTicketMessage###TicketType" Required="1" Valid="1">
@@ -5247,13 +5248,12 @@ $QData{"Body"}
             </Option>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::CustomerTicketMessage###QueueDefault" Required="0" Valid="0">
-        <Description Translatable="1">Defines the default queue for new customer tickets in the customer interface.</Description>
+    <ConfigItem Name="Ticket::Frontend::CustomerTicketMessage###TicketTypeDefault" Required="0" Valid="0">
+        <Description Translatable="1">Defines the default ticket type for new customer tickets in the customer interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Customer::Ticket::ViewNew</SubGroup>
-        <ValidateModule>Kernel::System::SysConfig::QueueValidate</ValidateModule>
         <Setting>
-            <String Regex="">Postmaster</String>
+            <String Regex="">default</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::CustomerTicketMessage###Service" Required="1" Valid="1">
