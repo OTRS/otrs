@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2295 2012-05-24 07:35:13 mg Exp $
+# $Id: CHANGES,v 1.2296 2012-05-24 08:01:37 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,8 +10,9 @@
 # --
 
 3.2.0 beta1 201?-??-??
- - 2012-05-24 Added possibility to place customized DTL files in Custom/Kernel/Output/HTML,
-    so that they override the system's default DTL files just like it already works for Perl files.
+ - 2012-05-24 Added feature IdeaScale#925 - possibility to place customized DTL files in
+    Custom/Kernel/Output/HTML, so that they override the system's default DTL files just like
+    it already works for Perl files.
  - 2012-05-22 Fixed bug#8442 - Can not submit tickets in customer interface if Queue selection is
     disabled and no Default queue is specified.
  - 2012-05-22 Fixed bug#8164 - Internal articles are visible within customer ticket overview.
