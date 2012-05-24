@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/ArticleComposeSign.pm
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleComposeSign.pm,v 1.21 2010-09-07 08:53:37 mb Exp $
+# $Id: ArticleComposeSign.pm,v 1.21.2.1 2012-05-24 23:20:05 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Crypt;
 use Kernel::System::Queue;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
+$VERSION = qw($Revision: 1.21.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -78,6 +78,7 @@ sub Run {
     $Self->{LayoutObject}->Block(
         Name => 'Option',
         Data => {
+            Name  => 'SignKeyID',
             Key   => 'Sign',
             Value => $List,
         },

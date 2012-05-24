@@ -1,8 +1,8 @@
 # --
 # AgentTicketCompose.dtl - provides HTML form for AgentTicketCompose
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.dtl,v 1.87.2.1 2011-10-28 16:10:51 en Exp $
+# $Id: AgentTicketCompose.dtl,v 1.87.2.2 2012-05-24 23:21:22 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -63,6 +63,15 @@ $Include{"AgentCustomerSearch"}
                         <div id="CcServerError" class="TooltipErrorMessage"><p>$Text{"Need a valid email address or don't use a local email address."}</p></div>
                     </div>
                     <div class="Clear"></div>
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+if ($('#CryptKeyID').length){
+    $('#Cc').bind('blur', function (Event) {
+        Core.AJAX.FormUpdate($('#ComposeTicket'), 'AJAXUpdate', 'Cc', ['CryptKeyID']);
+    });
+}
+//]]></script>
+<!--dtl:js_on_document_complete-->
 
                     <label for="Bcc">$Text{"Bcc"}:</label>
                     <div class="Field">
@@ -70,6 +79,15 @@ $Include{"AgentCustomerSearch"}
                         <div id="BccServerError" class="TooltipErrorMessage"><p>$Text{"Need a valid email address or don't use a local email address."}</p></div>
                     </div>
                     <div class="Clear"></div>
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+if ($('#CryptKeyID').length){
+    $('#Bcc').bind('blur', function (Event) {
+        Core.AJAX.FormUpdate($('#ComposeTicket'), 'AJAXUpdate', 'Bcc', ['CryptKeyID']);
+    });
+}
+//]]></script>
+<!--dtl:js_on_document_complete-->
 
                     <label class="Mandatory" for="Subject"><span class="Marker">*</span>$Text{"Subject"}:</label>
                     <div class="Field">
@@ -80,10 +98,10 @@ $Include{"AgentCustomerSearch"}
                     <div class="Clear"></div>
 
 <!-- dtl:block:Option -->
-                    <label>$Text{"$Data{"Key"}"}:</label>
+                    <label for="$QData{"Name"}">$Text{"$Data{"Key"}"}:</label>
                     <div class="Field">
                         $Data{"Value"}
-                        <p class="Error">$QData{"Invalid"}</p>
+                        <div id="$QData{"Name"}ServerError" class="TooltipErrorMessage"><p>$QData{"Invalid"}</p></div>
                     </div>
                     <div class="Clear"></div>
 <!-- dtl:block:Option -->
