@@ -2,7 +2,7 @@
 // Core.Agent.CustomerSearch.js - provides the special module functions for the customer search
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.CustomerSearch.js,v 1.33.2.1 2012-05-16 11:14:23 mg Exp $
+// $Id: Core.Agent.CustomerSearch.js,v 1.33.2.2 2012-05-24 23:24:01 cr Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -421,8 +421,8 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
 
         CheckPhoneCustomerCountLimit();
 
-        // reload Signature and Crypt options on AgentTicketCompose
-        if (Core.Config.Get('Action') === 'AgentTicketCompose') {
+        // reload Crypt options on AgentTicketEmail and AgentTicketCompose
+        if ((Core.Config.Get('Action') === 'AgentTicketEmail' || Core.Config.Get('Action') === 'AgentTicketCompose') && $('#CryptKeyID').length) {
             Core.AJAX.FormUpdate( $('#' + Field).closest('form'), 'AJAXUpdate', '', ['CryptKeyID']);
         }
         return false;
@@ -440,7 +440,7 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
         ObjectoToCheck,
         $Form;
 
-        if (Core.Config.Get('Action') === 'AgentTicketCompose') {
+        if (Core.Config.Get('Action') === 'AgentTicketEmail' || Core.Config.Get('Action') === 'AgentTicketCompose') {
             $Form = Object.closest('form');
         }
         Object.parent().remove();
@@ -449,8 +449,8 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
             TargetNS.ResetCustomerInfo();
         }
 
-        // reload Signature and Crypt options on AgentTicketCompose
-        if (Core.Config.Get('Action') === 'AgentTicketCompose') {
+        // reload Crypt options on AgentTicketCompose
+        if ((Core.Config.Get('Action') === 'AgentTicketEmail' || Core.Config.Get('Action') === 'AgentTicketCompose') && $('#CryptKeyID').length) {
             Core.AJAX.FormUpdate($Form, 'AJAXUpdate', '', ['CryptKeyID']);
         }
 

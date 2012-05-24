@@ -2,7 +2,7 @@
 # AgentTicketEmail.dtl - provides HTML form for agent email
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.dtl,v 1.158.2.1 2012-05-11 12:12:51 mg Exp $
+# $Id: AgentTicketEmail.dtl,v 1.158.2.2 2012-05-24 23:22:22 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -362,10 +362,10 @@ $('#NewResponsibleID').bind('change', function (Event) {
 <!-- dtl:block:ResponsibleSelection -->
 
 <!-- dtl:block:Option -->
-                    <label>$Text{"$Data{"Key"}"}:</label>
+                    <label for="$QData{"Name"}">$Text{"$Data{"Key"}"}:</label>
                     <div class="Field">
                         $Data{"Value"}
-                        <p class="Error">$QData{"Invalid"}</p>
+                        <div id="$QData{"Name"}ServerError" class="TooltipErrorMessage"><p>$QData{"Invalid"}</p></div>
                     </div>
                     <div class="Clear"></div>
 <!-- dtl:block:Option -->
