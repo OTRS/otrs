@@ -2,7 +2,7 @@
 # Escalations.t - escalation event tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Escalations.t,v 1.13 2012-05-22 16:32:50 cg Exp $
+# $Id: Escalations.t,v 1.14 2012-05-24 05:24:53 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -68,6 +68,9 @@ my $CheckNumEvents = sub {
         $Self->True( $JobRun, "JobRun() $JobName Run the GenericAgent job" );
     }
 
+    #sleep a bit before to check
+    sleep 3;
+
     my @Lines = $Param{TicketObject}->HistoryGet(
         TicketID => $Param{TicketID},
         UserID   => 1,
@@ -89,7 +92,7 @@ my $CheckNumEvents = sub {
 # One time with the business hours changed to 24x7, and
 # one time with no business hours at all
 my %WorkingHours = (
-    0 => '1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24',
+    0 => '0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23',
     1 => '',
 );
 
@@ -130,9 +133,9 @@ for my $Hours ( sort keys %WorkingHours ) {
             Name                => $QueueName,
             ValidID             => 1,
             GroupID             => 1,
-            FirstResponseTime   => -10,
+            FirstResponseTime   => -20,
             FirstResponseNotify => 80,
-            UpdateTime          => -20,
+            UpdateTime          => -30,
             UpdateNotify        => 80,
             SolutionTime        => -40,
             SolutionNotify      => 80,
