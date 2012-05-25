@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2299 2012-05-25 00:28:02 mh Exp $
+# $Id: CHANGES,v 1.2300 2012-05-25 05:31:23 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.2.0 beta1 201?-??-??
+ - 2012-05-25 Fixed bug#8228 - Ticket::Frontend::AgentTicketNote###StateDefault doesn't work.
  - 2012-05-25 Added template list to all output filter config to improve performance.
  - 2012-05-25 Fixed bug#8519 - Kernel::System::TicketSearch->TicketSearch() doesn't properly handle
      array references in SortBy parameter
@@ -29,6 +30,7 @@
     NotificationEvent definitions.
 
 3.1.6 2012-??-??
+ - 2012-05-25 Fixed bug#8228 - Ticket::Frontend::AgentTicketNote###StateDefault doesn't work.
  - 2012-05-25 Fixed bug#8519 - Kernel::System::TicketSearch->TicketSearch() doesn't properly handle
      array references in SortBy parameter
  - 2012-05-24 Fixed bug#7512 - AJAX-reload of SMIME-fields did not work properly.

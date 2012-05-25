@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketActionCommon.pm - common file for several modules
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketActionCommon.pm,v 1.81 2012-04-24 14:56:45 mg Exp $
+# $Id: AgentTicketActionCommon.pm,v 1.82 2012-05-25 05:31:23 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -1282,7 +1282,6 @@ sub _Mask {
         else {
             $State{SelectedID} = $Param{NewStateID};
         }
-        $State{SelectedID} ||= $Param{StateID};
 
         # build next states string
         $Param{StateStrg} = $Self->{LayoutObject}->BuildSelection(
