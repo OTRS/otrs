@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2260.2.30 2012-05-24 23:49:06 ep Exp $
+# $Id: CHANGES,v 1.2260.2.31 2012-05-25 01:23:06 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.1.6 2012-??-??
+ - 2012-05-25 Added template list to all output filter config to improve performance.
  - 2012-05-25 Fixed bug#8519 - Kernel::System::TicketSearch->TicketSearch() doesn't properly handle
      array references in SortBy parameter
  - 2012-05-24 Fixed bug#7512 - AJAX-reload of SMIME-fields did not work properly.
