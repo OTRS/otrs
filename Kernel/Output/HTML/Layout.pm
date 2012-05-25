@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.381.2.1 2012-05-25 01:16:04 mh Exp $
+# $Id: Layout.pm,v 1.381.2.2 2012-05-25 11:35:41 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Mail::Address;
 use URI::Escape qw();
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.381.2.1 $) [1];
+$VERSION = qw($Revision: 1.381.2.2 $) [1];
 
 =head1 NAME
 
@@ -791,7 +791,7 @@ sub Output {
             if ( !$TemplateList || ref $TemplateList ne 'HASH' || !%{$TemplateList} ) {
 
                 $Self->{LogObject}->Log(
-                    Priority => 'error',
+                    Priority => 'notice',
                     Message =>
                         "Please add a template list to output filter $FilterConfig->{Module} "
                         . "to improve performance. Use ALL if OutputFilter should modify all "
@@ -1635,7 +1635,7 @@ sub Print {
             if ( !$TemplateList || ref $TemplateList ne 'HASH' || !%{$TemplateList} ) {
 
                 $Self->{LogObject}->Log(
-                    Priority => 'error',
+                    Priority => 'notice',
                     Message =>
                         "Please add a template list to output filter $FilterConfig->{Module} "
                         . "to improve performance. Use ALL if OutputFilter should modify all "
@@ -1797,7 +1797,7 @@ sub Ascii2Html {
             if ( !$TemplateList || ref $TemplateList ne 'HASH' || !%{$TemplateList} ) {
 
                 $Self->{LogObject}->Log(
-                    Priority => 'error',
+                    Priority => 'notice',
                     Message =>
                         "Please add a template list to output filter $FilterConfig->{Module} "
                         . "to improve performance. Use ALL if OutputFilter should modify all "
@@ -1958,7 +1958,7 @@ sub LinkQuote {
             if ( !$TemplateList || ref $TemplateList ne 'HASH' || !%{$TemplateList} ) {
 
                 $Self->{LogObject}->Log(
-                    Priority => 'error',
+                    Priority => 'notice',
                     Message =>
                         "Please add a template list to output filter $FilterConfig->{Module} "
                         . "to improve performance. Use ALL if OutputFilter should modify all "
@@ -5075,6 +5075,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.381.2.1 $ $Date: 2012-05-25 01:16:04 $
+$Revision: 1.381.2.2 $ $Date: 2012-05-25 11:35:41 $
 
 =cut
