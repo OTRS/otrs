@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2302 2012-05-25 13:32:13 mg Exp $
+# $Id: CHANGES,v 1.2303 2012-05-25 13:38:32 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,18 +10,12 @@
 # --
 
 3.2.0 beta1 201?-??-??
- - 2012-05-25 Fixed bug#7844 - Escalation Event does not respect service calendar of ticket/queue.
- - 2012-05-25 Fixed bug#8228 - Ticket::Frontend::AgentTicketNote###StateDefault doesn't work.
  - 2012-05-25 Added template list to all output filter config to improve performance.
- - 2012-05-25 Fixed bug#8519 - Kernel::System::TicketSearch->TicketSearch() doesn't properly handle
-     array references in SortBy parameter
  - 2012-05-24 Added feature IdeaScale#925 - possibility to place customized DTL files in
     Custom/Kernel/Output/HTML, so that they override the system's default DTL files just like
     it already works for Perl files.
  - 2012-05-22 Fixed bug#8442 - Can not submit tickets in customer interface if Queue selection is
     disabled and no Default queue is specified.
- - 2012-05-22 Fixed bug#8164 - Internal articles are visible within customer ticket overview.
- - 2012-05-22 Fixed bug#8506 - Customer email link won't open in popup as expected.
  - 2012-05-21 Added feature Ideascale#72 / bug#5471 - Out-of-Office dashboard widget.
  - 2012-05-14 Added feature Ideascale#934 / bug#1682 - Add timescale for Week in Stats.
  - 2012-05-14 Added feature Ideascale#896 - Have the ability to set the default ticket type
@@ -38,6 +32,8 @@
      array references in SortBy parameter
  - 2012-05-24 Fixed bug#7512 - AJAX-reload of SMIME-fields did not work properly.
  - 2012-05-24 Fixed bug#8518 - Crypt on multiple recipients error replaces Crypt selection.
+ - 2012-05-22 Fixed bug#8164 - Internal articles are visible within customer ticket overview.
+ - 2012-05-22 Fixed bug#8506 - Customer email link won't open in popup as expected.
  - 2012-05-20 Fixed bug#7844 - Escalation Event does not respect service calendar of ticket/queue.
  - 2012-05-18 Added otrs.RefreshSMIMEKeys.pl to refresh SMIME certificate filenames according to the
     system's current OpenSSL version.
