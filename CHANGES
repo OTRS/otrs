@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2298 2012-05-24 23:50:03 ep Exp $
+# $Id: CHANGES,v 1.2299 2012-05-25 00:28:02 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.2.0 beta1 201?-??-??
+ - 2012-05-25 Added template list to all output filter config to improve performance.
  - 2012-05-25 Fixed bug#8519 - Kernel::System::TicketSearch->TicketSearch() doesn't properly handle
      array references in SortBy parameter
  - 2012-05-24 Added feature IdeaScale#925 - possibility to place customized DTL files in

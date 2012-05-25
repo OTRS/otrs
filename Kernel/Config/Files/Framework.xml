@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.474 2012-05-21 07:07:52 mb Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.475 2012-05-25 00:28:03 mh Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box (to avoid the use of destructive queries, such as DROP DATABASE, and also to steal user passwords).</Description>
         <Group>Framework</Group>
@@ -2425,11 +2425,16 @@
         <Description Translatable="1">Defines the filter that processes the text in the articles, in order to highlight URLs.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Web</SubGroup>
-            <Setting>
-                <Hash>
-                    <Item Key="Module">Kernel::Output::HTML::OutputFilterTextURL</Item>
-                </Hash>
-            </Setting>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::OutputFilterTextURL</Item>
+                <Item Key="Templates">
+                    <Hash>
+                        <Item Key="AgentTicketZoom">1</Item>
+                    </Hash>
+                </Item>
+            </Hash>
+        </Setting>
     </ConfigItem>
     <ConfigItem Name="LostPassword" Required="1" Valid="1">
         <Description Translatable="1">Activates lost password feature for agents, in the agent interface.</Description>
@@ -5334,11 +5339,16 @@ via the Preferences button after logging in.
         <Description Translatable="1">Defines a filter to process the text in the articles, in order to highlight predefined keywords.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Web</SubGroup>
-            <Setting>
-                <Hash>
-                    <Item Key="Module">Kernel::Output::HTML::OutputFilterTextAutoLink</Item>
-                </Hash>
-            </Setting>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::OutputFilterTextAutoLink</Item>
+                <Item Key="Templates">
+                    <Hash>
+                        <Item Key="AgentTicketZoom">1</Item>
+                    </Hash>
+                </Item>
+            </Hash>
+        </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Output::OutputFilterTextAutoLink###CVE" Required="0" Valid="0">
         <Description Translatable="1">Defines a filter for html output to add links behind CVE numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.</Description>
@@ -5373,6 +5383,11 @@ via the Preferences button after logging in.
                         <Item Key="URL">http://nvd.nist.gov/nvd.cfm?cvename=&lt;MATCH1&gt;-&lt;MATCH2&gt;-&lt;MATCH3&gt;</Item>
                         <Item Key="Image">http://nvd.nist.gov/favicon.ico</Item>
                         <Item Key="Target">_blank</Item>
+                    </Hash>
+                </Item>
+                <Item Key="Templates">
+                    <Hash>
+                        <Item Key="AgentTicketZoom">1</Item>
                     </Hash>
                 </Item>
             </Hash>
@@ -5412,6 +5427,11 @@ via the Preferences button after logging in.
                         <Item Key="Target">_blank</Item>
                     </Hash>
                 </Item>
+                <Item Key="Templates">
+                    <Hash>
+                        <Item Key="AgentTicketZoom">1</Item>
+                    </Hash>
+                </Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -5444,6 +5464,11 @@ via the Preferences button after logging in.
                         <Item Key="Target">_blank</Item>
                     </Hash>
                 </Item>
+                <Item Key="Templates">
+                    <Hash>
+                        <Item Key="AgentTicketZoom">1</Item>
+                    </Hash>
+                </Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -5472,6 +5497,11 @@ via the Preferences button after logging in.
                         <Item Key="URL">URL</Item>
                         <Item Key="Image">Image</Item>
                         <Item Key="Target">_blank</Item>
+                    </Hash>
+                </Item>
+                <Item Key="Templates">
+                    <Hash>
+                        <Item Key="AgentTicketZoom">1</Item>
                     </Hash>
                 </Item>
             </Hash>
@@ -5510,6 +5540,11 @@ via the Preferences button after logging in.
                         <Item Key="URL">URL</Item>
                         <Item Key="Image">Image</Item>
                         <Item Key="Target">_blank</Item>
+                    </Hash>
+                </Item>
+                <Item Key="Templates">
+                    <Hash>
+                        <Item Key="AgentTicketZoom">1</Item>
                     </Hash>
                 </Item>
             </Hash>

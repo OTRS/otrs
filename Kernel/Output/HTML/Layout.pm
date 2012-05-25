@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.383 2012-05-24 07:35:13 mg Exp $
+# $Id: Layout.pm,v 1.384 2012-05-25 00:28:03 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Mail::Address;
 use URI::Escape qw();
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.383 $) [1];
+$VERSION = qw($Revision: 1.384 $) [1];
 
 =head1 NAME
 
@@ -492,18 +492,15 @@ to be replaced. This is important to be able to generate snippets which can be c
 sub Output {
     my ( $Self, %Param ) = @_;
 
+    $Param{Data} ||= {};
+
     # get and check param Data
-    if ( $Param{Data} ) {
-        if ( ref $Param{Data} ne 'HASH' ) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message  => "Need HashRef in Param Data! Got: '" . ref( $Param{Data} ) . "'!",
-            );
-            $Self->FatalError();
-        }
-    }
-    else {
-        $Param{Data} = {};
+    if ( ref $Param{Data} ne 'HASH' ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need HashRef in Param Data! Got: '" . ref $Param{Data} . "'!",
+        );
+        $Self->FatalError();
     }
 
     # fill init Env
@@ -571,19 +568,54 @@ sub Output {
         $Self->FatalError();
     }
 
-    # custom pre filters
-    if ( $Self->{FilterElementPre} ) {
-        my %Filters = %{ $Self->{FilterElementPre} };
-        for my $Filter ( sort keys %Filters ) {
-            next if !$Self->{MainObject}->Require( $Filters{$Filter}->{Module} );
-            my $Object = $Filters{$Filter}->{Module}->new(
+    # run output element pre filters
+    if ( $Self->{FilterElementPre} && ref $Self->{FilterElementPre} eq 'HASH' ) {
+
+        # extract filter list
+        my %FilterList = %{ $Self->{FilterElementPre} };
+
+        FILTER:
+        for my $Filter ( sort keys %FilterList ) {
+
+            # extract filter config
+            my $FilterConfig = $FilterList{$Filter};
+
+            next FILTER if !$FilterConfig;
+            next FILTER if ref $FilterConfig ne 'HASH';
+
+            # extract template list
+            my $TemplateList = $FilterConfig->{Templates};
+
+            # check template list
+            if ( !$TemplateList || ref $TemplateList ne 'HASH' || !%{$TemplateList} ) {
+
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message =>
+                        "Please add a template list to output filter $FilterConfig->{Module} "
+                        . "to improve performance. Use ALL if OutputFilter should modify all "
+                        . "templates of the system (deprecated).",
+                );
+            }
+
+            # check template list
+            if ( $Param{TemplateFile} && !$TemplateList->{ALL} ) {
+                next FILTER if !$TemplateList->{ $Param{TemplateFile} };
+            }
+
+            next FILTER if !$Self->{MainObject}->Require( $FilterConfig->{Module} );
+
+            # create new instance
+            my $Object = $FilterConfig->{Module}->new(
                 %{$Self},
                 LayoutObject => $Self,
             );
 
-            # run module
+            next FILTER if !$Object;
+
+            # run output filter
             $Object->Run(
-                %{ $Filters{$Filter} },
+                %{$FilterConfig},
                 Data => \$TemplateString,
                 TemplateFile => $Param{TemplateFile} || '',
             );
@@ -743,19 +775,54 @@ sub Output {
         }iegx;
     }
 
-    # custom post filters
-    if ( $Self->{FilterElementPost} ) {
-        my %Filters = %{ $Self->{FilterElementPost} };
-        for my $Filter ( sort keys %Filters ) {
-            next if !$Self->{MainObject}->Require( $Filters{$Filter}->{Module} );
-            my $Object = $Filters{$Filter}->{Module}->new(
+    # run output element post filters
+    if ( $Self->{FilterElementPost} && ref $Self->{FilterElementPost} eq 'HASH' ) {
+
+        # extract filter list
+        my %FilterList = %{ $Self->{FilterElementPost} };
+
+        FILTER:
+        for my $Filter ( sort keys %FilterList ) {
+
+            # extract filter config
+            my $FilterConfig = $FilterList{$Filter};
+
+            next FILTER if !$FilterConfig;
+            next FILTER if ref $FilterConfig ne 'HASH';
+
+            # extract template list
+            my $TemplateList = $FilterConfig->{Templates};
+
+            # check template list
+            if ( !$TemplateList || ref $TemplateList ne 'HASH' || !%{$TemplateList} ) {
+
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message =>
+                        "Please add a template list to output filter $FilterConfig->{Module} "
+                        . "to improve performance. Use ALL if OutputFilter should modify all "
+                        . "templates of the system (deprecated).",
+                );
+            }
+
+            # check template list
+            if ( $Param{TemplateFile} && !$TemplateList->{ALL} ) {
+                next FILTER if !$TemplateList->{ $Param{TemplateFile} };
+            }
+
+            next FILTER if !$Self->{MainObject}->Require( $FilterConfig->{Module} );
+
+            # create new instance
+            my $Object = $FilterConfig->{Module}->new(
                 %{$Self},
                 LayoutObject => $Self,
             );
 
-            # run module
+            next FILTER if !$Object;
+
+            # run output filter
             $Object->Run(
-                %{ $Filters{$Filter} },
+                %{$FilterConfig},
                 Data => \$Output,
                 TemplateFile => $Param{TemplateFile} || '',
             );
@@ -1552,25 +1619,62 @@ sub Footer {
 sub Print {
     my ( $Self, %Param ) = @_;
 
-    # custom post filters
-    if ( $Self->{FilterContent} ) {
-        my %Filters = %{ $Self->{FilterContent} };
-        for my $Filter ( sort keys %Filters ) {
-            next if !$Self->{MainObject}->Require( $Filters{$Filter}->{Module} );
-            my $Object = $Filters{$Filter}->{Module}->new(
+    # run output content filters
+    if ( $Self->{FilterContent} && ref $Self->{FilterContent} eq 'HASH' ) {
+
+        # extract filter list
+        my %FilterList = %{ $Self->{FilterContent} };
+
+        FILTER:
+        for my $Filter ( sort keys %FilterList ) {
+
+            # extract filter config
+            my $FilterConfig = $FilterList{$Filter};
+
+            next FILTER if !$FilterConfig;
+            next FILTER if ref $FilterConfig ne 'HASH';
+
+            # extract template list
+            my $TemplateList = $FilterConfig->{Templates};
+
+            # check template list
+            if ( !$TemplateList || ref $TemplateList ne 'HASH' || !%{$TemplateList} ) {
+
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message =>
+                        "Please add a template list to output filter $FilterConfig->{Module} "
+                        . "to improve performance. Use ALL if OutputFilter should modify all "
+                        . "templates of the system (deprecated).",
+                );
+            }
+
+            # check template list
+            if ( $Param{TemplateFile} && !$TemplateList->{ALL} ) {
+                next FILTER if !$TemplateList->{ $Param{TemplateFile} };
+            }
+
+            next FILTER if !$Self->{MainObject}->Require( $FilterConfig->{Module} );
+
+            # create new instance
+            my $Object = $FilterConfig->{Module}->new(
                 %{$Self},
                 LayoutObject => $Self,
             );
 
-            # run module
+            next FILTER if !$Object;
+
+            # run output filter
             $Object->Run(
-                %{ $Filters{$Filter} },
-                Data         => $Param{Output},
-                TemplateFile => $Param{TemplateFile},
+                %{$FilterConfig},
+                Data => $Param{Output},
+                TemplateFile => $Param{TemplateFile} || '',
             );
         }
     }
+
     print ${ $Param{Output} };
+
     return 1;
 }
 
@@ -1676,21 +1780,46 @@ sub Ascii2Html {
         return '';
     }
 
+    # run output filter text
     my @Filters;
-    if ( $Param{LinkFeature} && $Self->{FilterText} ) {
+    if ( $Param{LinkFeature} && $Self->{FilterText} && ref $Self->{FilterText} eq 'HASH' ) {
 
-        my %Filters = %{ $Self->{FilterText} };
+        # extract filter list
+        my %FilterList = %{ $Self->{FilterText} };
 
         FILTER:
-        for my $Filter ( sort keys %Filters ) {
+        for my $Filter ( sort keys %FilterList ) {
 
-            # load module
-            my $Module = $Filters{$Filter}->{Module};
+            # extract filter config
+            my $FilterConfig = $FilterList{$Filter};
 
-            $Self->FatalDie() if !$Self->{MainObject}->Require($Module);
+            next FILTER if !$FilterConfig;
+            next FILTER if ref $FilterConfig ne 'HASH';
+
+            # extract template list
+            my $TemplateList = $FilterConfig->{Templates};
+
+            # check template list
+            if ( !$TemplateList || ref $TemplateList ne 'HASH' || !%{$TemplateList} ) {
+
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message =>
+                        "Please add a template list to output filter $FilterConfig->{Module} "
+                        . "to improve performance. Use ALL if OutputFilter should modify all "
+                        . "templates of the system (deprecated).",
+                );
+            }
+
+            # check template list
+            if ( $Param{TemplateFile} && !$TemplateList->{ALL} ) {
+                next FILTER if !$TemplateList->{ $Param{TemplateFile} };
+            }
+
+            $Self->FatalDie() if !$Self->{MainObject}->Require( $FilterConfig->{Module} );
 
             # create new instance
-            my $Object = $Module->new(
+            my $Object = $FilterConfig->{Module}->new(
                 %{$Self},
                 LayoutObject => $Self,
             );
@@ -1701,13 +1830,14 @@ sub Ascii2Html {
                 @Filters,
                 {
                     Object => $Object,
-                    Filter => $Filters{$Filter},
+                    Filter => $FilterConfig,
                 },
             );
         }
 
         # pre run
         for my $Filter (@Filters) {
+
             $Text = $Filter->{Object}->Pre(
                 Filter => $Filter->{Filter},
                 Data   => $Text,
@@ -1811,23 +1941,59 @@ sub LinkQuote {
         $Text       = \$TextScalar;
     }
 
+    # run output filter text
     my @Filters;
-    if ( $Self->{FilterText} ) {
-        my %Filters = %{ $Self->{FilterText} };
-        for my $Filter ( sort keys %Filters ) {
-            if ( $Self->{MainObject}->Require( $Filters{$Filter}->{Module} ) ) {
-                my $Object = $Filters{$Filter}->{Module}->new( %{$Self} );
+    if ( $Self->{FilterText} && ref $Self->{FilterText} eq 'HASH' ) {
 
-                # run module
-                if ($Object) {
-                    push @Filters, { Object => $Object, Filter => $Filters{$Filter} };
-                }
+        # extract filter list
+        my %FilterList = %{ $Self->{FilterText} };
+
+        FILTER:
+        for my $Filter ( sort keys %FilterList ) {
+
+            # extract filter config
+            my $FilterConfig = $FilterList{$Filter};
+
+            next FILTER if !$FilterConfig;
+            next FILTER if ref $FilterConfig ne 'HASH';
+
+            # extract template list
+            my $TemplateList = $FilterConfig->{Templates};
+
+            # check template list
+            if ( !$TemplateList || ref $TemplateList ne 'HASH' || !%{$TemplateList} ) {
+
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message =>
+                        "Please add a template list to output filter $FilterConfig->{Module} "
+                        . "to improve performance. Use ALL if OutputFilter should modify all "
+                        . "templates of the system (deprecated).",
+                );
             }
-            else {
-                $Self->FatalDie();
+
+            # check template list
+            if ( $Param{TemplateFile} && !$TemplateList->{ALL} ) {
+                next FILTER if !$TemplateList->{ $Param{TemplateFile} };
             }
+
+            $Self->FatalDie() if !$Self->{MainObject}->Require( $FilterConfig->{Module} );
+
+            # create new instance
+            my $Object = $FilterConfig->{Module}->new(
+                %{$Self},
+                LayoutObject => $Self,
+            );
+
+            next FILTER if !$Object;
+
+            push @Filters, {
+                Object => $Object,
+                Filter => $FilterConfig,
+            };
         }
     }
+
     for my $Filter (@Filters) {
         $Text = $Filter->{Object}->Pre( Filter => $Filter->{Filter}, Data => $Text );
     }
@@ -4098,6 +4264,7 @@ sub _BlockTemplatesReplace {
         # remember not use block data
         $Self->{BlockData} = \@NotUsedBlockData;
     }
+
     return @BR;
 }
 
@@ -4296,7 +4463,6 @@ sub _Output {
 
     $Self->{OutputCount} = 0;
 
-    # return output
     return $Output;
 }
 
@@ -4915,6 +5081,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.383 $ $Date: 2012-05-24 07:35:13 $
+$Revision: 1.384 $ $Date: 2012-05-25 00:28:03 $
 
 =cut
