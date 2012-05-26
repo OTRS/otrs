@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2260.2.34 2012-05-25 13:32:30 mg Exp $
+# $Id: CHANGES,v 1.2260.2.35 2012-05-26 01:46:07 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.1.6 2012-??-??
+ - 2012-05-25 Fixed bug#8522 - Multiple recipient feature is missing in AgentTicketForward.
  - 2012-05-25 Fixed bug#8189 - AgentTicketCompose: Pressing "Enter" will delete Attachment.
  - 2012-05-25 Fixed bug#7844 - Escalation Event does not respect service calendar of ticket/queue.
  - 2012-05-25 Fixed bug#8228 - Ticket::Frontend::AgentTicketNote###StateDefault doesn't work.
