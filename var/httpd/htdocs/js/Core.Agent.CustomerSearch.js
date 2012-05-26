@@ -2,7 +2,7 @@
 // Core.Agent.CustomerSearch.js - provides the special module functions for the customer search
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.CustomerSearch.js,v 1.14.2.8 2012-05-24 23:24:08 cr Exp $
+// $Id: Core.Agent.CustomerSearch.js,v 1.14.2.9 2012-05-26 01:36:15 cr Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -227,15 +227,15 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
                     // reset customer info table
                     $('#CustomerInfo .Content').html(BackupData.CustomerInfo);
 
-                    // reload Crypt options on AgentTicketCompose
-                    if ((Core.Config.Get('Action') === 'AgentTicketEmail' || Core.Config.Get('Action') === 'AgentTicketCompose') && $('#CryptKeyID').length) {
+                    // reload Crypt options on AgentTicketEMail, AgentTicketCompose and AgentTicketForward
+                    if ((Core.Config.Get('Action') === 'AgentTicketEmail' || Core.Config.Get('Action') === 'AgentTicketCompose' || Core.Config.Get('Action') === 'AgentTicketForward') && $('#CryptKeyID').length) {
                         Core.AJAX.FormUpdate($Element.closest('form'), 'AJAXUpdate', '', ['CryptKeyID']);
                     }
                 }
                 else if (!FieldValue && !BackupData.CustomerEmail && !BackupData.CustomerKey) {
 
-                    // reload Crypt options on AgentTicketCompose
-                    if ((Core.Config.Get('Action') === 'AgentTicketEmail' || Core.Config.Get('Action') === 'AgentTicketCompose') && $('#CryptKeyID').length) {
+                 // reload Crypt options on AgentTicketEMail, AgentTicketCompose and AgentTicketForward
+                    if ((Core.Config.Get('Action') === 'AgentTicketEmail' || Core.Config.Get('Action') === 'AgentTicketCompose' || Core.Config.Get('Action') === 'AgentTicketForward') && $('#CryptKeyID').length) {
                         Core.AJAX.FormUpdate($Element.closest('form'), 'AJAXUpdate', '', ['CryptKeyID']);
                     }
                 }
