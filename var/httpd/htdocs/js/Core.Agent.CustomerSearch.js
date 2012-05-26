@@ -2,7 +2,7 @@
 // Core.Agent.CustomerSearch.js - provides the special module functions for the customer search
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.CustomerSearch.js,v 1.33.2.2 2012-05-24 23:24:01 cr Exp $
+// $Id: Core.Agent.CustomerSearch.js,v 1.33.2.3 2012-05-26 01:44:57 cr Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -224,11 +224,11 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
 
                     $Element.val(UI.item.value);
 
-                    if (Core.Config.Get('Action') === 'AgentTicketEmail' || Core.Config.Get('Action') === 'AgentTicketCompose' ) {
+                    if (Core.Config.Get('Action') === 'AgentTicketEmail' || Core.Config.Get('Action') === 'AgentTicketCompose' || Core.Config.Get('Action') === 'AgentTicketForward') {
                         $Element.val('');
                     }
 
-                    if (Core.Config.Get('Action') !== 'AgentTicketPhone' && Core.Config.Get('Action') !== 'AgentTicketEmail' && Core.Config.Get('Action') !== 'AgentTicketCompose') {
+                    if (Core.Config.Get('Action') !== 'AgentTicketPhone' && Core.Config.Get('Action') !== 'AgentTicketEmail' && Core.Config.Get('Action') !== 'AgentTicketCompose' && Core.Config.Get('Action') !== 'AgentTicketForward') {
                         // set hidden field SelectedCustomerUser
                         $('#SelectedCustomerUser').val(CustomerKey);
 
@@ -258,7 +258,7 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
                 }
             });
 
-            if (Core.Config.Get('Action') !== 'AgentTicketPhone' && Core.Config.Get('Action') !== 'AgentTicketEmail' && Core.Config.Get('Action') !== 'AgentTicketCompose') {
+            if (Core.Config.Get('Action') !== 'AgentTicketPhone' && Core.Config.Get('Action') !== 'AgentTicketEmail' && Core.Config.Get('Action') !== 'AgentTicketCompose' && Core.Config.Get('Action') !== 'AgentTicketForward') {
                 $Element.blur(function () {
                     var FieldValue = $(this).val();
                     if (FieldValue !== BackupData.CustomerEmail && FieldValue !== BackupData.CustomerKey) {
@@ -421,8 +421,8 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
 
         CheckPhoneCustomerCountLimit();
 
-        // reload Crypt options on AgentTicketEmail and AgentTicketCompose
-        if ((Core.Config.Get('Action') === 'AgentTicketEmail' || Core.Config.Get('Action') === 'AgentTicketCompose') && $('#CryptKeyID').length) {
+        // reload Crypt options on AgentTicketEMail, AgentTicketCompose and AgentTicketForward
+        if ((Core.Config.Get('Action') === 'AgentTicketEmail' || Core.Config.Get('Action') === 'AgentTicketCompose' || Core.Config.Get('Action') === 'AgentTicketForward') && $('#CryptKeyID').length) {
             Core.AJAX.FormUpdate( $('#' + Field).closest('form'), 'AJAXUpdate', '', ['CryptKeyID']);
         }
         return false;
@@ -440,7 +440,7 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
         ObjectoToCheck,
         $Form;
 
-        if (Core.Config.Get('Action') === 'AgentTicketEmail' || Core.Config.Get('Action') === 'AgentTicketCompose') {
+        if (Core.Config.Get('Action') === 'AgentTicketEmail' || Core.Config.Get('Action') === 'AgentTicketCompose' || Core.Config.Get('Action') === 'AgentTicketForward') {
             $Form = Object.closest('form');
         }
         Object.parent().remove();
@@ -449,8 +449,8 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
             TargetNS.ResetCustomerInfo();
         }
 
-        // reload Crypt options on AgentTicketCompose
-        if ((Core.Config.Get('Action') === 'AgentTicketEmail' || Core.Config.Get('Action') === 'AgentTicketCompose') && $('#CryptKeyID').length) {
+        // reload Crypt options on AgentTicketEMail, AgentTicketCompose and AgentTicketForward
+        if ((Core.Config.Get('Action') === 'AgentTicketEmail' || Core.Config.Get('Action') === 'AgentTicketCompose' || Core.Config.Get('Action') === 'AgentTicketForward') && $('#CryptKeyID').length) {
             Core.AJAX.FormUpdate($Form, 'AJAXUpdate', '', ['CryptKeyID']);
         }
 
