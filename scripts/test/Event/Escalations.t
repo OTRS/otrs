@@ -2,7 +2,7 @@
 # Escalations.t - escalation event tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Escalations.t,v 1.15 2012-05-24 16:55:55 cg Exp $
+# $Id: Escalations.t,v 1.16 2012-05-29 18:58:43 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -479,6 +479,9 @@ for my $Hours ( sort keys %WorkingHours ) {
         # A timespan of less than 1 minute comes up the 0% reached.
         # However, a NotifyBefore of 0% indicates that no NotifyBefore is emitted.
         my $SleepTime = 60 - ( $TimeObject->SystemTime() - $StartingSystemTime );
+
+        # Add extra second for some slow machines
+        $SleepTime += 5;
         $SleepTime = 10 if $SleepTime lt 1;
         $Self->True( 1, "sleeping for $SleepTime s, percentage reached should not be 0%" );
         sleep $SleepTime;
