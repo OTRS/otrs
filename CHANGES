@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2260.2.39 2012-05-29 17:32:31 cr Exp $
+# $Id: CHANGES,v 1.2260.2.40 2012-05-29 20:12:59 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.1.6 2012-??-??
+ - 2012-05-29 Fixed bug#8482 - Responsible of a ticket without responsible permission.
  - 2012-05-29 Fixed bug#8485 - CustomerUser validation fails in GI Ticket Operations if there is no
     ValidID in the mapping.
  - 2012-05-29 Fixed bug#8529 - Fixed print to STDERR in ReferenceData.pm.
