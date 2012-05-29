@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2307 2012-05-29 06:46:11 mb Exp $
+# $Id: CHANGES,v 1.2308 2012-05-29 17:32:42 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,6 +25,8 @@
     NotificationEvent definitions.
 
 3.1.6 2012-??-??
+ - 2012-05-29 Fixed bug#8485 - CustomerUser validation fails in GI Ticket Operations if there is no
+    ValidID in the mapping.
  - 2012-05-29 Fixed bug#8529 - Fixed print to STDERR in ReferenceData.pm.
  - 2012-05-28 Fixed bug#8427 - Dynamic Field Type Multiselect not shown in Notification (event).
  - 2012-05-27 Updated Norwegian translation, thanks to Lars Magnus Herland!
