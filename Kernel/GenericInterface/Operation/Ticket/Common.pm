@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Ticket/Common.pm - Ticket common operation functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Common.pm,v 1.35 2012-04-18 19:35:40 cr Exp $
+# $Id: Common.pm,v 1.35.2.1 2012-05-29 17:32:31 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -30,7 +30,6 @@ use Kernel::System::Auth;
 use Kernel::System::AuthSession;
 use Kernel::System::Group;
 use Kernel::System::CustomerAuth;
-use Kernel::System::CustomerUser;
 use Kernel::System::CustomerGroup;
 use Kernel::System::AutoResponse;
 use Kernel::System::CheckItem;
@@ -40,7 +39,7 @@ use Kernel::System::GenericInterface::Webservice;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.35 $) [1];
+$VERSION = qw($Revision: 1.35.2.1 $) [1];
 
 =head1 NAME
 
@@ -159,7 +158,6 @@ sub new {
 
     $Self->{CustomerAuthObject}  = Kernel::System::CustomerAuth->new( %{$Self} );
     $Self->{CustomerGroupObject} = Kernel::System::CustomerGroup->new( %{$Self} );
-    $Self->{CustomerUserObject}  = Kernel::System::CustomerUser->new( %{$Self} );
 
     $Self->{WebserviceObject}   = Kernel::System::GenericInterface::Webservice->new( %{$Self} );
     $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new(%Param);
@@ -428,7 +426,6 @@ sub ValidateCustomer {
             User => $Param{CustomerUser},
         );
     }
-
     else {
         return;
     }
@@ -438,8 +435,12 @@ sub ValidateCustomer {
         return $Self->ValidateFrom( From => $Param{CustomerUser} )
     }
 
-    # return false if customer is not valid
-    return if $Self->{ValidObject}->ValidLookup( ValidID => $CustomerData{ValidID} ) ne 'valid';
+    # if ValidID is present, check if it is valid!
+    if ( defined $CustomerData{ValidID} ) {
+
+        # return false if customer is not valid
+        return if $Self->{ValidObject}->ValidLookup( ValidID => $CustomerData{ValidID} ) ne 'valid';
+    }
 
     return 1;
 }
@@ -1530,6 +1531,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.35 $ $Date: 2012-04-18 19:35:40 $
+$Revision: 1.35.2.1 $ $Date: 2012-05-29 17:32:31 $
 
 =cut
