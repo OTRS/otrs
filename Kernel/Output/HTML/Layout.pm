@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.384 2012-05-25 00:28:03 mh Exp $
+# $Id: Layout.pm,v 1.385 2012-05-29 22:53:25 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Mail::Address;
 use URI::Escape qw();
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.384 $) [1];
+$VERSION = qw($Revision: 1.385 $) [1];
 
 =head1 NAME
 
@@ -4769,11 +4769,7 @@ sub _BuildSelectionDataRefCreate {
     # if ArrayRef was given
     elsif ( ref $Param{Data} eq 'ARRAY' ) {
 
-        if (
-            ( $OptionRef->{Sort} eq 'IndividualValue' || $OptionRef->{Sort} eq 'IndividualValue' )
-            && $OptionRef->{SortIndividual}
-            )
-        {
+        if ( $OptionRef->{Sort} eq 'IndividualValue' && $OptionRef->{SortIndividual} ) {
             my %List = map { $_ => 1 } @{ $Param{Data} };
             $Param{Data} = [];
             for my $Key ( @{ $OptionRef->{SortIndividual} } ) {
@@ -5081,6 +5077,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.384 $ $Date: 2012-05-25 00:28:03 $
+$Revision: 1.385 $ $Date: 2012-05-29 22:53:25 $
 
 =cut
