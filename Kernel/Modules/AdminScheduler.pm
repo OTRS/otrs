@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminScheduler.pm - Utilities for scheduler
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminScheduler.pm,v 1.2 2012-01-09 08:39:11 mg Exp $
+# $Id: AdminScheduler.pm,v 1.3 2012-05-29 19:08:59 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -64,7 +64,7 @@ sub Run {
         # start scheduler form the command line
         my $Success = system("$Scheduler -a start $ForceStart");
 
-        # invert system call retrun code to be like in standard perl functions
+        # invert system call return code to be like in standard perl functions
         $Success = !$Success;
 
         # build JSON output

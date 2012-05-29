@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Ticket/TicketUpdate.pm - GenericInterface Ticket TicketUpdate operation backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketUpdate.pm,v 1.5 2012-05-07 22:08:39 cr Exp $
+# $Id: TicketUpdate.pm,v 1.6 2012-05-29 19:08:59 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Kernel::GenericInterface::Operation::Ticket::Common;
 use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData IsStringWithData);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 =head1 NAME
 
@@ -1391,7 +1391,7 @@ sub _TicketUpdate {
 
     my $Access = $Self->_CheckUpdatePermissions(%Param);
 
-    # if no permissions retrun error
+    # if no permissions return error
     if ( !$Access->{Success} ) {
         return $Self->{TicketCommonObject}->ReturnError( %{$Access} );
     }
@@ -2021,6 +2021,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.5 $ $Date: 2012-05-07 22:08:39 $
+$Revision: 1.6 $ $Date: 2012-05-29 19:08:59 $
 
 =cut

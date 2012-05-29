@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Checkbox.pm - Delegate for DynamicField Checkbox backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Checkbox.pm,v 1.53 2012-05-02 23:31:06 cr Exp $
+# $Id: Checkbox.pm,v 1.54 2012-05-29 19:08:59 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::DynamicFieldValue;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.53 $) [1];
+$VERSION = qw($Revision: 1.54 $) [1];
 
 =head1 NAME
 
@@ -760,7 +760,7 @@ sub HistoricalValuesGet {
         ValueType => 'Integer',
     );
 
-    # retrun the historical values from database
+    # return the historical values from database
     return $HistoricalValues;
 }
 
