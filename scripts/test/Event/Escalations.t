@@ -2,7 +2,7 @@
 # Escalations.t - escalation event tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Escalations.t,v 1.16 2012-05-29 18:58:43 cg Exp $
+# $Id: Escalations.t,v 1.17 2012-05-30 14:52:22 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -481,7 +481,7 @@ for my $Hours ( sort keys %WorkingHours ) {
         my $SleepTime = 60 - ( $TimeObject->SystemTime() - $StartingSystemTime );
 
         # Add extra second for some slow machines
-        $SleepTime += 5;
+        $SleepTime += 7;
         $SleepTime = 10 if $SleepTime lt 1;
         $Self->True( 1, "sleeping for $SleepTime s, percentage reached should not be 0%" );
         sleep $SleepTime;
