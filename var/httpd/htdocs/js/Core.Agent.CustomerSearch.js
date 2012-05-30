@@ -2,7 +2,7 @@
 // Core.Agent.CustomerSearch.js - provides the special module functions for the customer search
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.CustomerSearch.js,v 1.33.2.5 2012-05-30 20:17:50 cr Exp $
+// $Id: Core.Agent.CustomerSearch.js,v 1.33.2.6 2012-05-30 20:48:41 cr Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -270,6 +270,18 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
 
                         // reset customer info table
                         $('#CustomerInfo .Content').html(BackupData.CustomerInfo);
+
+                        // reload Crypt options on AgentTicketForward
+                        if ( Core.Config.Get('Action') === 'AgentTicketForward' && $('#CryptKeyID').length) {
+                            Core.AJAX.FormUpdate($Element.closest('form'), 'AJAXUpdate', '', ['CryptKeyID']);
+                        }
+                    }
+                    else if (!FieldValue && !BackupData.CustomerEmail && !BackupData.CustomerKey) {
+
+                        // reload Crypt options on AgentTicketForward
+                        if (Core.Config.Get('Action') === 'AgentTicketForward' && $('#CryptKeyID').length) {
+                            Core.AJAX.FormUpdate($Element.closest('form'), 'AJAXUpdate', '', ['CryptKeyID']);
+                        }
                     }
                 });
             }

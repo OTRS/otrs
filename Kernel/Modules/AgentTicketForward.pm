@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketForward.pm - to forward a message
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketForward.pm,v 1.131.2.4 2012-05-30 20:00:34 cr Exp $
+# $Id: AgentTicketForward.pm,v 1.131.2.5 2012-05-30 20:48:41 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,7 +26,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.131.2.4 $) [1];
+$VERSION = qw($Revision: 1.131.2.5 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -924,6 +924,42 @@ sub AjaxUpdate {
     my %GetParam          = %{ $Self->{GetParam} };
     my %ACLCompatGetParam = %{ $Self->{ACLCompatGetParam} };
 
+    my @ExtendedData;
+
+    # run compose modules
+    if ( ref $Self->{ConfigObject}->Get('Ticket::Frontend::ArticleComposeModule') eq 'HASH' ) {
+        my %Jobs = %{ $Self->{ConfigObject}->Get('Ticket::Frontend::ArticleComposeModule') };
+        for my $Job ( sort keys %Jobs ) {
+
+            # load module
+            next if !$Self->{MainObject}->Require( $Jobs{$Job}->{Module} );
+
+            my $Object = $Jobs{$Job}->{Module}->new( %{$Self}, Debug => $Self->{Debug}, );
+
+            # get params
+            for my $Parameter ( $Object->Option( %GetParam, Config => $Jobs{$Job} ) ) {
+                $GetParam{$Parameter} = $Self->{ParamObject}->GetParam( Param => $Parameter );
+            }
+
+            # run module
+            my %Data = $Object->Data( %GetParam, Config => $Jobs{$Job} );
+
+            my $Key = $Object->Option( %GetParam, Config => $Jobs{$Job} );
+            if ($Key) {
+                push(
+                    @ExtendedData,
+                    {
+                        Name        => $Key,
+                        Data        => \%Data,
+                        SelectedID  => $GetParam{$Key},
+                        Translation => 1,
+                        Max         => 100,
+                    }
+                );
+            }
+        }
+    }
+
     my %DynamicFieldValues;
 
     # cycle trough the activated Dynamic Fields for this screen
@@ -1014,6 +1050,7 @@ sub AjaxUpdate {
                 PossibleNone => 1,
                 Max          => 100,
             },
+            @ExtendedData,
             @DynamicFieldAJAX,
         ],
     );

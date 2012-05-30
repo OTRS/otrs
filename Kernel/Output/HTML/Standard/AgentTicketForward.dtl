@@ -2,7 +2,7 @@
 # AgentTicketForward.dtl - provides HTML form for AgentTicketForward
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketForward.dtl,v 1.95.2.3 2012-05-30 20:00:36 cr Exp $
+# $Id: AgentTicketForward.dtl,v 1.95.2.4 2012-05-30 20:48:41 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -65,6 +65,16 @@ $Include{"AgentCustomerSearch"}
                     <div id="CcServerError" class="TooltipErrorMessage"><p>$Text{"Need a valid email address or don't use a local email address"}</p></div>
                 </div>
                 <div class="Clear"></div>
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+if ($('#CryptKeyID').length){
+    $('#Cc').bind('blur', function (Event) {
+        Core.AJAX.FormUpdate($('#Compose'), 'AJAXUpdate', 'Cc', ['CryptKeyID']);
+    });
+}
+//]]></script>
+<!--dtl:js_on_document_complete-->
+
 
                 <label for="Bcc">$Text{"Bcc"}:</label>
                 <div class="Field">
@@ -80,12 +90,21 @@ $Include{"AgentCustomerSearch"}
                     <div id="SubjectServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
                 </div>
                 <div class="Clear"></div>
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+if ($('#CryptKeyID').length){
+    $('#Bcc').bind('blur', function (Event) {
+        Core.AJAX.FormUpdate($('#Compose'), 'AJAXUpdate', 'Bcc', ['CryptKeyID']);
+    });
+}
+//]]></script>
+<!--dtl:js_on_document_complete-->
 
 <!-- dtl:block:Option -->
-                <label>$Text{"$Data{"Key"}"}:</label>
+                <label for="$QData{"Name"}">$Text{"$Data{"Key"}"}:</label>
                 <div class="Field">
                     $Data{"Value"}
-                    <p class="Error">$QData{"Invalid"}</p>
+                    <div id="$QData{"Name"}ServerError" class="TooltipErrorMessage"><p>$QData{"Invalid"}</p></div>
                 </div>
                 <div class="Clear"></div>
 <!-- dtl:block:Option -->
