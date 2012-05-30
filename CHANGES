@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2311 2012-05-30 12:54:20 mn Exp $
+# $Id: CHANGES,v 1.2312 2012-05-30 13:04:54 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,6 +25,7 @@
     NotificationEvent definitions.
 
 3.1.6 2012-??-??
+ - 2012-05-30 Fixed bug#7532 - 'Field is required' message should be removed in RTE if content is added.
  - 2012-05-30 Fixed bug#8514 - Long words in description break rendering of SysConfig items.
  - 2012-05-30 Fixed bug#8537 - DynamicField caching issue.
  - 2012-05-29 Fixed bug#8482 - Responsible of a ticket without responsible permission.

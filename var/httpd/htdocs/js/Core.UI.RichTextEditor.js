@@ -1,8 +1,8 @@
 // --
 // Core.UI.RichTextEditor.js - provides all UI functions
-// Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+// Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.UI.RichTextEditor.js,v 1.20 2011-11-04 11:49:03 mn Exp $
+// $Id: Core.UI.RichTextEditor.js,v 1.21 2012-05-30 13:04:54 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -61,6 +61,10 @@ Core.UI.RichTextEditor = (function (TargetNS) {
 
         CKEDITOR.on('instanceCreated', function (Editor) {
             Editor.editor.addCss(Core.Config.Get('RichText.EditingAreaCSS'));
+            // Remove the validation error tooltip if content is added to the editor
+            Editor.editor.on('change', function(evt) {
+                Core.Form.Validate.ValidateElement($(Editor.editor.element.$));
+            });
         });
 
         Editor = CKEDITOR.replace(EditorID,
@@ -85,7 +89,7 @@ Core.UI.RichTextEditor = (function (TargetNS) {
             toolbar_Simple: Core.Config.Get('RichText.ToolbarSimple'),
             toolbar: ToolbarSet,
             filebrowserUploadUrl: Core.Config.Get('Baselink'),
-            extraPlugins: Core.Config.Get('RichText.SpellChecker') ? 'aspell' : ''
+            extraPlugins: Core.Config.Get('RichText.SpellChecker') ? 'aspell,onchange' : 'onchange'
         });
         if (CheckFormID().length) {
             CKEDITOR.config.action = Core.Config.Get('RichText.PictureUploadAction', 'PictureUpload');
