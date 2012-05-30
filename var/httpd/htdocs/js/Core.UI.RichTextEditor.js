@@ -1,8 +1,8 @@
 // --
 // Core.UI.RichTextEditor.js - provides all UI functions
-// Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+// Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.UI.RichTextEditor.js,v 1.18.2.1 2011-03-18 06:35:04 mp Exp $
+// $Id: Core.UI.RichTextEditor.js,v 1.18.2.2 2012-05-30 13:04:01 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -61,6 +61,10 @@ Core.UI.RichTextEditor = (function (TargetNS) {
 
         CKEDITOR.on('instanceCreated', function (Editor) {
             Editor.editor.addCss(Core.Config.Get('RichText.EditingAreaCSS'));
+            // Remove the validation error tooltip if content is added to the editor
+            Editor.editor.on('change', function(evt) {
+                Core.Form.Validate.ValidateElement($(Editor.editor.element.$));
+            });
         });
 
         Editor = CKEDITOR.replace(EditorID,
