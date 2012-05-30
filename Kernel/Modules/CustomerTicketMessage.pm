@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketMessage.pm - to handle customer messages
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.pm,v 1.103 2012-05-22 19:13:39 mb Exp $
+# $Id: CustomerTicketMessage.pm,v 1.104 2012-05-30 18:28:06 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.103 $) [1];
+$VERSION = qw($Revision: 1.104 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -119,7 +119,9 @@ sub Run {
                     $QueueDefaultID = $QueueID . '||' . $QueueDefault;
                 }
             }
-            else {
+
+            # warn if there is no (valid) default queue and the customer can't select one
+            elsif ( !$Self->{Config}->{'Queue'} ) {
                 $Self->{LayoutObject}->CustomerFatalError(
                     Message => 'Check SysConfig setting for ' . $Self->{Action} . '::QueueDefault.',
                     Comment => 'Please contact your administrator',
