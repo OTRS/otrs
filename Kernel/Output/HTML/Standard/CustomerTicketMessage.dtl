@@ -1,8 +1,8 @@
 # --
 # CustomerTicketMessage.dtl - provides HTML form for customer message
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.dtl,v 1.66 2011-11-01 16:38:15 cr Exp $
+# $Id: CustomerTicketMessage.dtl,v 1.66.2.1 2012-05-30 16:20:22 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -139,11 +139,23 @@ $Include{"CustomerRichTextEditor"}
 //]]></script>
 <!--dtl:js_on_document_complete-->
 <!-- dtl:block:Attachment -->
-                    <div class="Attachment">
-                        $QData{"Filename"} <span>$QData{"Filesize"}</span>
-                        <button type="submit" name="AttachmentDelete$QData{"FileID"}" value="$Text{"Delete"}" class="SpacingLeft">$Text{"Delete"}</button>
+                    <div class="Attachment" title="$QData{"Filename"} - $QData{"Filesize"}">
+                        $QData{"Filename"} ($QData{"Filesize"})
+                        <button type="button" id="AttachmentDeleteButton$QData{"FileID"}" name="AttachmentDeleteButton$QData{"FileID"}" value="$Text{"Delete"}">$Text{"Delete"}</button>
+                        <input type="hidden" id="AttachmentDelete$QData{"FileID"}" name="AttachmentDelete$QData{"FileID"}" />
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+    $('#AttachmentDeleteButton$QData{"FileID"}').bind('click', function () {
+        var $Form = $('#AttachmentDeleteButton$QData{"FileID"}').closest('form');
+        $('#AttachmentDelete$QData{"FileID"}').val(1);
+        Core.Form.Validate.DisableValidation($Form);
+        $Form.trigger('submit');
+    });
+//]]></script>
+<!--dtl:js_on_document_complete-->
                     </div>
 <!-- dtl:block:Attachment -->
+
                     <div class="Clear"></div>
                 </div>
 <!-- dtl:block:Priority -->
