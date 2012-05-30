@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketActionCommon.pm - common file for several modules
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketActionCommon.pm,v 1.83 2012-05-29 20:13:14 cr Exp $
+# $Id: AgentTicketActionCommon.pm,v 1.84 2012-05-30 21:14:10 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -1243,7 +1243,7 @@ sub _Mask {
             my $GID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Ticket{QueueID} );
             my %MemberList = $Self->{GroupObject}->GroupMemberList(
                 GroupID => $GID,
-                Type    => 'rw',
+                Type    => 'responsible',
                 Result  => 'HASH',
                 Cached  => 1,
             );
@@ -1567,7 +1567,7 @@ sub _GetResponsible {
         my $GID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Param{QueueID} );
         my %MemberList = $Self->{GroupObject}->GroupMemberList(
             GroupID => $GID,
-            Type    => 'rw',
+            Type    => 'responsible',
             Result  => 'HASH',
             Cached  => 1,
         );
