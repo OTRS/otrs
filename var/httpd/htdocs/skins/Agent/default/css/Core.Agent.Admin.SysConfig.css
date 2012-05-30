@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.7 $
+ * @version     $Revision: 1.8 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -60,6 +60,8 @@
     margin: 0 4px;
     color: #404040;
     float: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .RTL #AdminSysConfig .Description {
