@@ -2,7 +2,7 @@
 # DynamicFieldValue.t - DynamicFieldValue backend tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicFieldValue.t,v 1.15 2012-03-29 13:36:10 mg Exp $
+# $Id: DynamicFieldValue.t,v 1.16 2012-05-30 11:31:51 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -66,6 +66,26 @@ my $FieldID = $DynamicFieldObject->DynamicFieldAdd(
 # sanity check
 $Self->True(
     $FieldID,
+    "DynamicFieldAdd() successful for Field ID $FieldID",
+);
+
+# create a dynamic field
+my $FieldID2 = $DynamicFieldObject->DynamicFieldAdd(
+    Name       => "dynamicfield2test$RandomID",
+    Label      => 'a description',
+    FieldOrder => 9991,
+    FieldType  => 'Text',     # mandatory, selects the DF backend to use for this field
+    ObjectType => 'Ticket',
+    Config     => {
+        DefaultValue => 'a value',
+    },
+    ValidID => 1,
+    UserID  => 1,
+);
+
+# sanity check
+$Self->True(
+    $FieldID2,
     "DynamicFieldAdd() successful for Field ID $FieldID",
 );
 
@@ -513,6 +533,24 @@ $Self->True(
         "ValueSet() - New Value2 - with True - for FieldID $FieldID",
     );
 
+    $Success = $DynamicFieldValueObject->ValueSet(
+        FieldID    => $FieldID2,
+        ObjectType => 'Ticket',
+        ObjectID   => $TicketID,
+        Value      => [
+            {
+                ValueText => 'New Value2 field2',
+            },
+        ],
+        UserID => 1,
+    );
+
+    # sanity check
+    $Self->True(
+        $Success,
+        "ValueSet() - New Value2 - with True - for FieldID $FieldID",
+    );
+
     # get the value with ValueGet()
     $Value = $DynamicFieldValueObject->ValueGet(
         FieldID    => $FieldID,
@@ -525,6 +563,20 @@ $Self->True(
         $Value->[0]->{ValueText},
         'New Value2',
         "ValueGet() - New Value2 for ValueText - for FieldID $FieldID",
+    );
+
+    # get the value with ValueGet()
+    $Value = $DynamicFieldValueObject->ValueGet(
+        FieldID    => $FieldID2,
+        ObjectType => 'Ticket',
+        ObjectID   => $TicketID
+    );
+
+    # sanity check
+    $Self->Is(
+        $Value->[0]->{ValueText},
+        'New Value2 field2',
+        "ValueGet() - New Value2 for ValueText - for field2 FieldID $FieldID2",
     );
 
     $Success = $DynamicFieldValueObject->ValueDelete(
@@ -553,6 +605,33 @@ $Self->True(
         0,
         "ValueGet() - deleted value - for FieldID $FieldID",
     );
+
+    $Success = $DynamicFieldValueObject->ValueDelete(
+        FieldID    => $FieldID2,
+        ObjectType => 'Ticket',
+        ObjectID   => $TicketID,
+        UserID     => 1,
+    );
+
+    # sanity check
+    $Self->True(
+        $Success,
+        "ValueDelete() - for FieldID $FieldID",
+    );
+
+    # get the value with ValueGet()
+    $Value = $DynamicFieldValueObject->ValueGet(
+        FieldID    => $FieldID2,
+        ObjectType => 'Ticket',
+        ObjectID   => $TicketID
+    );
+
+    # sanity check
+    $Self->Is(
+        scalar @{$Value},
+        0,
+        "ValueGet() - deleted value - for field2 FieldID $FieldID",
+    );
 }
 
 # delete the dynamic field values
@@ -576,6 +655,17 @@ my $FieldDelete = $DynamicFieldObject->DynamicFieldDelete(
 $Self->True(
     $FieldDelete,
     "DynamicFieldDelete() successful for Field ID $FieldID",
+);
+
+$FieldDelete = $DynamicFieldObject->DynamicFieldDelete(
+    ID     => $FieldID2,
+    UserID => 1,
+);
+
+# sanity check
+$Self->True(
+    $FieldDelete,
+    "DynamicFieldDelete() successful for field2 aField ID $FieldID",
 );
 
 # now that the field was deleted also "New Value" should be deleted too"

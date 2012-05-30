@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2309 2012-05-29 20:13:14 cr Exp $
+# $Id: CHANGES,v 1.2310 2012-05-30 11:31:51 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,6 +25,7 @@
     NotificationEvent definitions.
 
 3.1.6 2012-??-??
+ - 2012-05-30 Fixed bug#8537 - DynamicField caching issue.
  - 2012-05-29 Fixed bug#8482 - Responsible of a ticket without responsible permission.
  - 2012-05-29 Fixed bug#8485 - CustomerUser validation fails in GI Ticket Operations if there is no
     ValidID in the mapping.
