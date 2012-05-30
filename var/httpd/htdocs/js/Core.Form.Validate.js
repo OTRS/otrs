@@ -2,7 +2,7 @@
 // Core.Form.Validate.js - provides functions for validating form inputs
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Form.Validate.js,v 1.39 2012-05-30 15:25:42 mn Exp $
+// $Id: Core.Form.Validate.js,v 1.40 2012-05-30 16:36:28 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -56,6 +56,10 @@ Core.Form.Validate = (function (TargetNS) {
         return;
     }
 
+    if (!Core.Debug.CheckDependency('Core.Form.Validate', 'Core.App', 'Core.App')) {
+        return;
+    }    
+    
     /**
      * @function
      * @private

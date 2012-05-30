@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.409 2012-05-24 07:35:13 mg Exp $
+# $Id: Defaults.pm,v 1.410 2012-05-30 16:36:28 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -29,7 +29,7 @@ use warnings;
 use 5.008_006;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.409 $) [1];
+$VERSION = qw($Revision: 1.410 $) [1];
 
 # prepend '../Custom', '../Kernel/cpan-lib' and '../' to the module search path @INC
 use File::Basename;
@@ -923,6 +923,7 @@ sub LoadDefaults {
       'Core.Exception.js',
       'Core.JSON.js',
       'Core.AJAX.js',
+      'Core.App.js',
       'Core.UI.js',
       'Core.UI.IE7Fixes.js',
       'Core.UI.Accordion.js',
@@ -937,7 +938,6 @@ sub LoadDefaults {
       'Core.Form.Validate.js',
       'Core.UI.ActionRow.js',
       'Core.UI.Popup.js',
-      'Core.App.js',
       'Core.Agent.js'
     ];
 
@@ -1950,6 +1950,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.409 $ $Date: 2012-05-24 07:35:13 $
+$Revision: 1.410 $ $Date: 2012-05-30 16:36:28 $
 
 =cut
