@@ -2,7 +2,7 @@
 # Kernel/System/DynamicFieldValue.pm - DynamicField values backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicFieldValue.pm,v 1.20 2012-03-29 13:36:10 mg Exp $
+# $Id: DynamicFieldValue.pm,v 1.20.2.1 2012-05-30 11:30:32 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Time;
 use Kernel::System::Cache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.20 $) [1];
+$VERSION = qw($Revision: 1.20.2.1 $) [1];
 
 =head1 NAME
 
@@ -248,16 +248,22 @@ sub ValueGet {
         }
     }
 
-    # check cache
-    my $CacheKey = 'ValueGet::FieldID::' . $Param{FieldID} . '::ObjectID::' . $Param{ObjectID};
+    #
+    # Special caching strategy: cache all fields of an object in one cache file.
+    #   This avoids too many cache files on systems with many fields for many objects.
+    #
+
+    my $CacheKey = 'ValueGet::ObjectID::' . $Param{ObjectID};
 
     my $Cache = $Self->{CacheObject}->Get(
         Type => 'DynamicFieldValue',
         Key  => $CacheKey,
     );
 
-    # get data from cache
-    return $Cache if ($Cache);
+    # Check if a cache entry exists for the given FieldID
+    if ( ref $Cache eq 'HASH' && exists $Cache->{ $Param{FieldID} } ) {
+        return $Cache->{ $Param{FieldID} };
+    }
 
     return if !$Self->{DBObject}->Prepare(
         SQL =>
@@ -278,7 +284,7 @@ sub ValueGet {
             if ( $Data[2] eq '0000-00-00 00:00:00' ) {
                 $Data[2] = undef;
             }
-            $Data[2] =~ s/^(\d\d\d\d-\d\d-\d\d\s\d\d:\d\d:\d\d)\..+?$/$1/;
+            $Data[2] =~ s/^(\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2})\..+?$/$1/;
         }
 
         push @Result, {
@@ -289,11 +295,24 @@ sub ValueGet {
         };
     }
 
+    if ( ref $Cache eq 'HASH' ) {
+
+        # Cache file for ObjectID already exists, add field data.
+        $Cache->{ $Param{FieldID} } = \@Result;
+    }
+    else {
+
+        # Create new cache file.
+        $Cache = {
+            $Param{FieldID} => \@Result,
+        };
+    }
+
     # set cache
     $Self->{CacheObject}->Set(
         Type  => 'DynamicFieldValue',
         Key   => $CacheKey,
-        Value => \@Result,
+        Value => $Cache,
         TTL   => $Self->{CacheTTL},
     );
 
@@ -501,7 +520,7 @@ sub HistoricalValueGet {
                 if ( $Row[0] eq '0000-00-00 00:00:00' ) {
                     $Row[0] = undef;
                 }
-                $Row[0] =~ s/^(\d\d\d\d-\d\d-\d\d\s\d\d:\d\d:\d\d)\..+?$/$1/;
+                $Row[0] =~ s/^(\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2})\..+?$/$1/;
             }
 
             # store the results
@@ -538,7 +557,7 @@ sub _DeleteFromCache {
     # Clear ValueGet cache
     $Self->{CacheObject}->Delete(
         Type => 'DynamicFieldValue',
-        Key  => 'ValueGet::FieldID::' . $Param{FieldID} . '::ObjectID::' . $Param{ObjectID},
+        Key  => 'ValueGet::ObjectID::' . $Param{ObjectID},
     );
 
     # Clear HistoricalValueGet caches
@@ -574,6 +593,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.20 $ $Date: 2012-03-29 13:36:10 $
+$Revision: 1.20.2.1 $ $Date: 2012-05-30 11:30:32 $
 
 =cut
