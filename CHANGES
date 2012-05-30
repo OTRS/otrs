@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1758.2.238 2012-05-25 13:32:22 mg Exp $
+# $Id: CHANGES,v 1.1758.2.239 2012-05-30 12:49:28 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.0.13 2012-??-??
+ - 2012-05-30 Fixed bug#8514 - Long words in description break rendering of SysConfig items.
  - 2012-05-25 Fixed bug#8189 - AgentTicketCompose: Pressing "Enter" will delete Attachment.
  - 2012-05-24 Fixed bug#7512 - AJAX-reload of SMIME-fields did not work properly.
  - 2012-05-24 Fixed bug#8518 - Crypt on multiple recipients error replaces Crypt selection.
