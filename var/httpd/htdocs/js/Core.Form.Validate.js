@@ -2,7 +2,7 @@
 // Core.Form.Validate.js - provides functions for validating form inputs
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Form.Validate.js,v 1.38 2012-05-08 23:19:17 cr Exp $
+// $Id: Core.Form.Validate.js,v 1.39 2012-05-30 15:25:42 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -82,7 +82,7 @@ Core.Form.Validate = (function (TargetNS) {
 
         // Add error class to field and its label
         $Element.addClass(Options.ErrorClass);
-        $(Element.form).find("label[for=" + Element.id + "]").addClass(Options.ErrorLabelClass);
+        $(Element.form).find("label[for=" + Core.App.EscapeSelector(Element.id) + "]").addClass(Options.ErrorLabelClass);
 
         // mark field as invalid for screenreader users
         $Element.attr('aria-invalid', true);
@@ -155,7 +155,7 @@ Core.Form.Validate = (function (TargetNS) {
         if (RemoveError) {
             // remove error classes from element and its label
             $Element.removeClass(Options.ErrorClass).removeClass(Options.ServerErrorClass);
-            $(Element.form).find("label[for=" + Element.id + "]").removeClass(Options.ErrorLabelClass);
+            $(Element.form).find("label[for=" + Core.App.EscapeSelector(Element.id) + "]").removeClass(Options.ErrorLabelClass);
 
             // mark field as valid for screenreader users
             $Element.attr('aria-invalid', false);
