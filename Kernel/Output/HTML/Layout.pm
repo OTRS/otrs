@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.385 2012-05-29 22:53:25 cr Exp $
+# $Id: Layout.pm,v 1.386 2012-05-31 02:46:26 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Mail::Address;
 use URI::Escape qw();
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.385 $) [1];
+$VERSION = qw($Revision: 1.386 $) [1];
 
 =head1 NAME
 
@@ -4668,8 +4668,42 @@ sub _BuildSelectionDataRefCreate {
 
     my $Counter = 0;
 
+    # for HashRef and ArrayRef only
+    my %DisabledElements;
+
     # if HashRef was given
     if ( ref $Param{Data} eq 'HASH' ) {
+
+        # get missing parrents and mark them for disable later
+        if ( $OptionRef->{Sort} eq 'TreeView' ) {
+            my %List = reverse %{ $Param{Data} };
+
+            # get each data value
+            for my $Key ( keys %List ) {
+                my $Parents = '';
+
+                # try to split its parents (e.g. Queue or Service) GrandParent::Parent::Son
+                my @Elements = split /::/, $Key;
+
+                # get each element in the hierarchy
+                for my $Element (@Elements) {
+
+                    # add its own parents for the complete name
+                    my $ElementLongName = $Parents . $Element;
+
+                    # check if element exists in the original data or if it is already marked
+                    if ( !$List{$ElementLongName} && !$DisabledElements{$ElementLongName} ) {
+
+                        # mark element as disabled
+                        $DisabledElements{$ElementLongName} = 1;
+
+                        # add the element to the original data to be disabled later
+                        $Param{Data}->{ $ElementLongName . '_Disabled' } = $ElementLongName;
+                    }
+                    $Parents .= $Element . '::';
+                }
+            }
+        }
 
         # sort hash (before the translation)
         my @SortKeys;
@@ -4769,6 +4803,37 @@ sub _BuildSelectionDataRefCreate {
     # if ArrayRef was given
     elsif ( ref $Param{Data} eq 'ARRAY' ) {
 
+        # get missing parrents and mark them for disable later
+        if ( $OptionRef->{Sort} eq 'TreeView' ) {
+            my %List = map { $_ => 1 } @{ $Param{Data} };
+
+            # get each data value
+            for my $Key ( keys %List ) {
+                my $Parents = '';
+
+                # try to split its parents (e.g. Queue or Service) GrandParent::Parent::Son
+                my @Elements = split /::/, $Key;
+
+                # get each element in the hierarchy
+                for my $Element (@Elements) {
+
+                    # add its own parents for the complete name
+                    my $ElementLongName = $Parents . $Element;
+
+                    # check if element exists in the original data or if it is already marked
+                    if ( !$List{$ElementLongName} && !$DisabledElements{$ElementLongName} ) {
+
+                        # mark element as disabled
+                        $DisabledElements{$ElementLongName} = 1;
+
+                        # add the element to the original data to be disabled later
+                        push @{ $Param{Data} }, $ElementLongName;
+                    }
+                    $Parents .= $Element . '::';
+                }
+            }
+        }
+
         if ( $OptionRef->{Sort} eq 'IndividualValue' && $OptionRef->{SortIndividual} ) {
             my %List = map { $_ => 1 } @{ $Param{Data} };
             $Param{Data} = [];
@@ -4838,12 +4903,29 @@ sub _BuildSelectionDataRefCreate {
         }
     }
 
+    # check disabled items on ArrayRef or HashRef only
+    if (
+        ref $Param{Data} eq 'HASH'
+        || ( ref $Param{Data} eq 'ARRAY' && ref $Param{Data}->[0] ne 'HASH' )
+        )
+    {
+        for my $Row ( @{$DataRef} ) {
+            if ( $DisabledElements{ $Row->{Value} } ) {
+                $Row->{Key}      = '-';
+                $Row->{Disabled} = 1;
+            }
+        }
+    }
+
     # SelectedID and SelectedValue option
     if ( $OptionRef->{SelectedID} || $OptionRef->{SelectedValue} ) {
         for my $Row ( @{$DataRef} ) {
             if (
-                $OptionRef->{SelectedID}->{ $Row->{Key} }
-                || $OptionRef->{SelectedValue}->{ $Row->{Value} }
+                (
+                    $OptionRef->{SelectedID}->{ $Row->{Key} }
+                    || $OptionRef->{SelectedValue}->{ $Row->{Value} }
+                )
+                && !$DisabledElements{ $Row->{Value} }
                 )
             {
                 $Row->{Selected} = 1;
@@ -5077,6 +5159,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.385 $ $Date: 2012-05-29 22:53:25 $
+$Revision: 1.386 $ $Date: 2012-05-31 02:46:26 $
 
 =cut
