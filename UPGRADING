@@ -2,7 +2,7 @@
 # UPGRADING - Upgrading Instructions for OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: UPGRADING,v 1.69.2.5 2012-05-22 04:24:01 cr Exp $
+# $Id: UPGRADING,v 1.69.2.6 2012-05-31 15:12:17 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -223,7 +223,7 @@ how to upgrade the data types used by OTRS
     -----------------
 
     If you want to use the new escalation events in your system, you need to activate the
-    corresponding GenericAgent job in Kernel/Config/GenericAcent.pm. Please look into
+    corresponding GenericAgent job in Kernel/Config/GenericAgent.pm. Please look into
     Kernel/Config/GenericAgent.pm.dist for an example of how to do this.
 
 
