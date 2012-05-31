@@ -2,14 +2,14 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1758.2.240 2012-05-30 13:04:01 mn Exp $
+# $Id: CHANGES,v 1.1758.2.241 2012-05-31 08:28:04 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-3.0.13 2012-??-??
+3.0.13 2012-06-05
  - 2012-05-30 Fixed bug#7532 - 'Field is required' message should be removed in RTE if content is added.
  - 2012-05-30 Fixed bug#8514 - Long words in description break rendering of SysConfig items.
  - 2012-05-25 Fixed bug#8189 - AgentTicketCompose: Pressing "Enter" will delete Attachment.
