@@ -2,14 +2,14 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2260.2.46 2012-05-31 01:26:10 cr Exp $
+# $Id: CHANGES,v 1.2260.2.47 2012-05-31 08:28:55 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-3.1.6 2012-??-??
+3.1.6 2012-06-05
  - 2012-05-30 Fixed bug#8495 - Generic Agent TicketAction single value attributes should not let
     multiple selection.
  - 2012-05-30 Fixed bug#8378 - Validation fails if the ID of the element contains a dot (.) or a colon (:).
