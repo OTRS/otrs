@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2317 2012-05-31 08:28:30 mg Exp $
+# $Id: CHANGES,v 1.2318 2012-05-31 17:27:20 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,6 +27,7 @@
     NotificationEvent definitions.
 
 3.1.6 2012-06-05
+ - 2012-05-31 Fixed bug#8533 - Apache will not start using mod_perl on Fedora 16.
  - 2012-05-30 Fixed bug#8495 - Generic Agent TicketAction single value attributes should not let
     multiple selection.
  - 2012-05-30 Fixed bug#8378 - Validation fails if the ID of the element contains a dot (.) or a colon (:).
