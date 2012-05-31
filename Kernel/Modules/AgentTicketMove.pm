@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMove.pm - move tickets to queues
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMove.pm,v 1.112 2012-02-29 14:36:19 ep Exp $
+# $Id: AgentTicketMove.pm,v 1.113 2012-05-31 21:13:20 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.112 $) [1];
+$VERSION = qw($Revision: 1.113 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -874,23 +874,28 @@ sub Run {
         $Self->{UploadCacheObject}->FormIDRemove( FormID => $Self->{FormID} );
     }
 
-    # set dynamic fields
-    # cycle trough the activated Dynamic Fields for this screen
-    DYNAMICFIELD:
-    for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
-        next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+    # only set the dynamic fields if the new window was displayed (link), otherwise if ticket was
+    # moved from the dropdown menu (form) in AgentTicketZoom, the value if the dynamic fields will
+    # be undefined and it will set to empty in the DB, see bug#8481
+    if ( $Self->{ConfigObject}->Get('Ticket::Frontend::MoveType') eq 'link' ) {
 
-        # set the object ID (TicketID or ArticleID) depending on the field configration
-        my $ObjectID
-            = $DynamicFieldConfig->{ObjectType} eq 'Article' ? $ArticleID : $Self->{TicketID};
+        # cycle trough the activated Dynamic Fields for this screen
+        DYNAMICFIELD:
+        for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
+            next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
 
-        # set the value
-        my $Success = $Self->{BackendObject}->ValueSet(
-            DynamicFieldConfig => $DynamicFieldConfig,
-            ObjectID           => $ObjectID,
-            Value              => $DynamicFieldValues{ $DynamicFieldConfig->{Name} },
-            UserID             => $Self->{UserID},
-        );
+            # set the object ID (TicketID or ArticleID) depending on the field configration
+            my $ObjectID
+                = $DynamicFieldConfig->{ObjectType} eq 'Article' ? $ArticleID : $Self->{TicketID};
+
+            # set the value
+            my $Success = $Self->{BackendObject}->ValueSet(
+                DynamicFieldConfig => $DynamicFieldConfig,
+                ObjectID           => $ObjectID,
+                Value              => $DynamicFieldValues{ $DynamicFieldConfig->{Name} },
+                UserID             => $Self->{UserID},
+            );
+        }
     }
 
     # time accounting
