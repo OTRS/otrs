@@ -2,7 +2,7 @@
 # scripts/test/Layout/BuildSelection.t - layout BuildSelection() testscript
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: BuildSelection.t,v 1.1 2012-05-31 02:46:26 cr Exp $
+# $Id: BuildSelection.t,v 1.2 2012-05-31 16:21:24 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -29,7 +29,6 @@ my $TicketObject  = Kernel::System::Ticket->new( %{$Self} );
 my $UserObject    = Kernel::System::User->new( %{$Self} );
 my $ParamObject   = Kernel::System::Web::Request->new(
     %{$Self},
-    WebRequest => $Param{WebRequest} || 0,
 );
 my $LayoutObject = Kernel::Output::HTML::Layout->new(
     ConfigObject       => $Self->{ConfigObject},
