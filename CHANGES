@@ -2,12 +2,15 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2260.2.47 2012-05-31 08:28:55 mg Exp $
+# $Id: CHANGES,v 1.2260.2.48 2012-05-31 18:39:09 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
+
+3.1.7 2012-??-??
+ - 2012-05-31 Fixed bug#8533 - Apache will not start using mod_perl on Fedora 16.
 
 3.1.6 2012-06-05
  - 2012-05-30 Fixed bug#8495 - Generic Agent TicketAction single value attributes should not let
