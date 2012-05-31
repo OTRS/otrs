@@ -2,14 +2,14 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2316 2012-05-31 02:46:26 cr Exp $
+# $Id: CHANGES,v 1.2317 2012-05-31 08:28:30 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-3.2.0 beta1 201?-??-??
+3.2.0 beta1 2012-??-??
  - 2012-05-30 Fixed bug#8251 - Defect handling of invalid Queues in AJAX refresh.
  - 2012-05-25 Fixed bug#8522 - Multiple recipient feature is missing in AgentTicketForward.
  - 2012-05-25 Added template list to all output filter config to improve performance.
@@ -26,7 +26,7 @@
  - 2012-04-27 Added bug#8075 - Article Sender Type to be added to
     NotificationEvent definitions.
 
-3.1.6 2012-??-??
+3.1.6 2012-06-05
  - 2012-05-30 Fixed bug#8495 - Generic Agent TicketAction single value attributes should not let
     multiple selection.
  - 2012-05-30 Fixed bug#8378 - Validation fails if the ID of the element contains a dot (.) or a colon (:).
