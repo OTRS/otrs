@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2260.2.45 2012-05-30 20:00:36 cr Exp $
+# $Id: CHANGES,v 1.2260.2.46 2012-05-31 01:26:10 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.1.6 2012-??-??
+ - 2012-05-30 Fixed bug#8495 - Generic Agent TicketAction single value attributes should not let
+    multiple selection.
  - 2012-05-30 Fixed bug#8378 - Validation fails if the ID of the element contains a dot (.) or a colon (:).
  - 2012-05-30 Fixed bug#7532 - 'Field is required' message should be removed in RTE if content is added.
  - 2012-05-30 Fixed bug#8514 - Long words in description break rendering of SysConfig items.

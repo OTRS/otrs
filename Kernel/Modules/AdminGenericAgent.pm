@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminGenericAgent.pm - admin generic agent interface
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.pm,v 1.102 2011-12-21 14:53:25 mg Exp $
+# $Id: AdminGenericAgent.pm,v 1.102.2.1 2012-05-31 01:26:10 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.102 $) [1];
+$VERSION = qw($Revision: 1.102.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -608,7 +608,7 @@ sub _MaskUpdate {
         Data        => \%ShownUsers,
         Name        => 'NewOwnerID',
         Size        => 5,
-        Multiple    => 1,
+        Multiple    => 0,
         Translation => 0,
         SelectedID  => $JobData{NewOwnerID},
     );
@@ -677,7 +677,7 @@ sub _MaskUpdate {
         },
         Name       => 'NewStateID',
         Size       => 5,
-        Multiple   => 1,
+        Multiple   => 0,
         SelectedID => $JobData{NewStateID},
     );
     $JobData{QueuesStrg} = $Self->{LayoutObject}->AgentQueueListOption(
@@ -691,7 +691,7 @@ sub _MaskUpdate {
     $JobData{NewQueuesStrg} = $Self->{LayoutObject}->AgentQueueListOption(
         Data           => { $Self->{QueueObject}->GetAllQueues(), },
         Size           => 5,
-        Multiple       => 1,
+        Multiple       => 0,
         Name           => 'NewQueueID',
         SelectedID     => $JobData{NewQueueID},
         OnChangeSubmit => 0,
@@ -704,8 +704,8 @@ sub _MaskUpdate {
             ),
         },
         Name       => 'PriorityIDs',
-        Multiple   => 1,
         Size       => 5,
+        Multiple   => 1,
         SelectedID => $JobData{PriorityIDs},
     );
     $JobData{NewPrioritiesStrg} = $Self->{LayoutObject}->BuildSelection(
@@ -716,8 +716,8 @@ sub _MaskUpdate {
             ),
         },
         Name       => 'NewPriorityID',
-        Multiple   => 1,
         Size       => 5,
+        Multiple   => 0,
         SelectedID => $JobData{NewPriorityID},
     );
 
@@ -829,7 +829,7 @@ sub _MaskUpdate {
         },
         Name       => 'NewLockID',
         Size       => 3,
-        Multiple   => 1,
+        Multiple   => 0,
         SelectedID => $JobData{NewLockID},
     );
 
@@ -889,7 +889,7 @@ sub _MaskUpdate {
             SelectedID  => $JobData{NewTypeID},
             Sort        => 'AlphanumericValue',
             Size        => 3,
-            Multiple    => 1,
+            Multiple    => 0,
             Translation => 0,
         );
         $Self->{LayoutObject}->Block(
@@ -917,7 +917,7 @@ sub _MaskUpdate {
             Name        => 'NewServiceID',
             SelectedID  => $JobData{NewServiceID},
             Size        => 5,
-            Multiple    => 1,
+            Multiple    => 0,
             Translation => 0,
             Max         => 200,
         );
@@ -938,7 +938,7 @@ sub _MaskUpdate {
             SelectedID  => $JobData{NewSLAID},
             Sort        => 'AlphanumericValue',
             Size        => 5,
-            Multiple    => 1,
+            Multiple    => 0,
             Translation => 0,
             Max         => 200,
         );
@@ -957,16 +957,16 @@ sub _MaskUpdate {
         $JobData{ResponsibleStrg} = $Self->{LayoutObject}->BuildSelection(
             Data        => \%ShownUsers,
             Name        => 'ResponsibleIDs',
-            Multiple    => 1,
             Size        => 5,
+            Multiple    => 1,
             Translation => 0,
             SelectedID  => $JobData{ResponsibleIDs},
         );
         $JobData{NewResponsibleStrg} = $Self->{LayoutObject}->BuildSelection(
             Data        => \%ShownUsers,
             Name        => 'NewResponsibleID',
-            Multiple    => 1,
             Size        => 5,
+            Multiple    => 0,
             Translation => 0,
             SelectedID  => $JobData{NewResponsibleID},
         );

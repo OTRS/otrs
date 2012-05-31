@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Dropdown.pm - Delegate for DynamicField Dropdown backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Dropdown.pm,v 1.63 2012-04-02 11:46:35 mg Exp $
+# $Id: Dropdown.pm,v 1.63.2.1 2012-05-31 01:26:10 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::DynamicFieldValue;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.63 $) [1];
+$VERSION = qw($Revision: 1.63.2.1 $) [1];
 
 =head1 NAME
 
@@ -237,6 +237,17 @@ sub EditFieldRender {
         $FieldPossibleNone = $FieldConfig->{PossibleNone} || 0;
     }
 
+    my $Size = 1;
+
+    # TODO change ConfirmationNeeded parameter name to something more generic
+
+    # when ConfimationNeeded parameter is present (AdminGenericAgent) the filed should be displayed
+    # as an open list, because you might not want to change the value, otherwise a value will be
+    # selected
+    if ( $Param{ConfirmationNeeded} ) {
+        $Size = 5;
+    }
+
     my $HTMLString = $Param{LayoutObject}->BuildSelection(
         Data => $SelectionData || {},
         Name => $FieldName,
@@ -244,6 +255,7 @@ sub EditFieldRender {
         Translation  => $FieldConfig->{TranslatableValues} || 0,
         PossibleNone => $FieldPossibleNone,
         Class        => $FieldClass,
+        Size         => $Size,
         HTMLQuote    => 1,
     );
 
