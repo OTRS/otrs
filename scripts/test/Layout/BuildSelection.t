@@ -2,7 +2,7 @@
 # scripts/test/Layout/BuildSelection.t - layout BuildSelection() testscript
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: BuildSelection.t,v 1.3 2012-05-31 16:22:05 mg Exp $
+# $Id: BuildSelection.t,v 1.4 2012-06-01 13:12:33 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,8 +13,6 @@ use strict;
 use warnings;
 use utf8;
 use vars (qw($Self %Param));
-
-return 1;
 
 use Kernel::System::AuthSession;
 use Kernel::System::Group;
@@ -38,8 +36,8 @@ my $LayoutObject = Kernel::Output::HTML::Layout->new(
     TimeObject         => $Self->{TimeObject},
     MainObject         => $Self->{MainObject},
     EncodeObject       => $Self->{EncodeObject},
-    SessionObject      => $SessionObject,
     DBObject           => $Self->{DBObject},
+    SessionObject      => $SessionObject,
     ParamObject        => $ParamObject,
     TicketObject       => $TicketObject,
     UserObject         => $UserObject,
