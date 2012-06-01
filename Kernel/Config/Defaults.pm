@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.414 2012-06-01 09:52:59 mb Exp $
+# $Id: Defaults.pm,v 1.415 2012-06-01 15:33:25 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,15 @@ use warnings;
 use 5.008_006;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.414 $) [1];
+$VERSION = qw($Revision: 1.415 $) [1];
+
+# prepend '../Custom', '../Kernel/cpan-lib' and '../' to the module search path @INC
+# but not under mod_perl because $0 is not good and @INC is set by apache2-perl-startup.pl
+use if (!$ENV{MOD_PERL}), 'File::Basename';
+use if (!$ENV{MOD_PERL}), 'FindBin' => '$Bin';
+use if (!$ENV{MOD_PERL}), 'lib' => dirname($Bin);
+use if (!$ENV{MOD_PERL}), 'lib' => dirname($Bin) . '/Kernel/cpan-lib';
+use if (!$ENV{MOD_PERL}), 'lib' => dirname($Bin) . '/Custom';
 
 use File::stat;
 use Digest::MD5;
@@ -1941,6 +1949,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.414 $ $Date: 2012-06-01 09:52:59 $
+$Revision: 1.415 $ $Date: 2012-06-01 15:33:25 $
 
 =cut
