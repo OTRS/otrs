@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/DB.pm - some customer user functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.89 2012-05-16 09:42:24 mg Exp $
+# $Id: DB.pm,v 1.90 2012-06-03 19:38:48 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Valid;
 use Kernel::System::Cache;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.89 $) [1];
+$VERSION = qw($Revision: 1.90 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -31,20 +31,20 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for (
+    for my $Needed (
         qw(DBObject ConfigObject LogObject PreferencesObject CustomerUserMap MainObject EncodeObject)
         )
     {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
+        $Self->{$Needed} = $Param{$Needed} || die "Got no $Needed!";
     }
 
-    # create valid object
-    $Self->{ValidObject} = Kernel::System::Valid->new( %{$Self} );
+    # create additional objects
 
     # create check item object
     $Self->{CheckItemObject} = Kernel::System::CheckItem->new( %{$Self} );
+    $Self->{ValidObject}     = Kernel::System::Valid->new( %{$Self} );
 
-    # max shown user a search list
+    # max shown user per search list
     $Self->{UserSearchListLimit} = $Self->{CustomerUserMap}->{CustomerUserSearchListLimit} || 250;
 
     # config options
@@ -65,7 +65,7 @@ sub new {
     $Self->{DestCharset}         = $Self->{CustomerUserMap}->{Params}->{DestCharset}         || '';
     $Self->{CharsetConvertForce} = $Self->{CustomerUserMap}->{Params}->{CharsetConvertForce} || '';
 
-    # db connection settings, disable Encode utf8 if source db is no utf8
+    # db connection settings, disable Encode utf8 if source db is not utf8
     my %DatabasePreferences;
     if ( $Self->{SourceCharset} !~ /utf(-8|8)/i ) {
         $DatabasePreferences{Encode} = 0;
@@ -127,6 +127,15 @@ sub CustomerName {
         return;
     }
 
+    # check cache
+    if ( $Self->{CacheObject} ) {
+        my $Name = $Self->{CacheObject}->Get(
+            Type => $Self->{CacheType},
+            Key  => "CustomerName::$Param{UserLogin}",
+        );
+        return $Name if defined $Name;
+    }
+
     # build SQL string 1/2
     my $SQL = "SELECT $Self->{CustomerKey} ";
     if ( $Self->{CustomerUserMap}->{CustomerUserNameFields} ) {
@@ -161,37 +170,24 @@ sub CustomerName {
         }
     }
 
-    # check cache
-    if ( $Self->{CacheObject} ) {
-        my $Name = $Self->{CacheObject}->Get(
-            Type => $Self->{CacheType},
-            Key  => "CustomerName::$SQL",
-        );
-        return $Name if defined $Name;
-    }
-
     # get data
-    my $Name       = '';
     my $SQLConvert = $Self->_ConvertTo($SQL);
     return if !$Self->{DBObject}->Prepare( SQL => $SQLConvert, Limit => 1 );
+    my @NameParts;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        for my $Position ( 1 .. 8 ) {
-            next if !$Row[$Position];
-            $Row[$Position] = $Self->_ConvertFrom( $Row[$Position] );
-            if ( !$Name ) {
-                $Name = $Row[$Position];
-            }
-            else {
-                $Name .= ' ' . $Row[$Position];
-            }
+        for my $Field (@Row) {
+            next if !$Field;
+            push @NameParts, $Field;
         }
     }
+    my $Name = join( ' ', @NameParts );
+    $Name = $Self->_ConvertFrom($Name);
 
     # cache request
     if ( $Self->{CacheObject} ) {
         $Self->{CacheObject}->Set(
             Type  => $Self->{CacheType},
-            Key   => "CustomerName::$SQL",
+            Key   => "CustomerName::$Param{UserLogin}",
             Value => $Name,
             TTL   => $Self->{CustomerUserMap}->{CacheTTL},
         );
