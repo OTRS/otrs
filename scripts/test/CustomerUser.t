@@ -2,7 +2,7 @@
 # CustomerUser.t - CustomerUser tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerUser.t,v 1.21 2012-03-18 13:50:42 mh Exp $
+# $Id: CustomerUser.t,v 1.22 2012-06-03 19:37:19 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -355,7 +355,7 @@ for my $Key ( 1 .. 3, 'ä', 'カス' ) {
     );
 
     # check password support
-    for my $Config qw( md5 crypt plain sha1 sha2 ) {
+    for my $Config (qw( md5 crypt plain sha1 sha2 )) {
         $ConfigObject->Set(
             Key   => 'Customer::AuthModule::DB::CryptType',
             Value => $Config,
@@ -365,7 +365,7 @@ for my $Key ( 1 .. 3, 'ä', 'カス' ) {
             ConfigObject => $ConfigObject,
         );
 
-        for my $Password qw(some_pass someカス someäöü) {
+        for my $Password (qw(some_pass someカス someäöü)) {
             $Self->{EncodeObject}->EncodeInput( \$Password );
             my $Set = $CustomerUserObject->SetPassword(
                 UserLogin => $UserID,
@@ -528,6 +528,15 @@ $Self->True(
 $Self->True(
     %UserPreferences || '',
     "GetPreferences for updated user - Updated NewLogin$UserID",
+);
+
+my $Name = $CustomerUserObject->CustomerName(
+    UserLogin => 'NewLogin' . $UserID,
+);
+
+$Self->True(
+    'Firstname Update' . $UserID . ' ' . 'Lastname Update' . $UserID,
+    "CustomerName",
 );
 
 $Self->Is(
