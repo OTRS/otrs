@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.473 2012-04-24 07:44:02 mn Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.473.2.1 2012-06-04 10:25:10 mh Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box (to avoid the use of destructive queries, such as DROP DATABASE, and also to steal user passwords).</Description>
         <Group>Framework</Group>
@@ -2425,11 +2425,16 @@
         <Description Translatable="1">Defines the filter that processes the text in the articles, in order to highlight URLs.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Web</SubGroup>
-            <Setting>
-                <Hash>
-                    <Item Key="Module">Kernel::Output::HTML::OutputFilterTextURL</Item>
-                </Hash>
-            </Setting>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::OutputFilterTextURL</Item>
+                <Item Key="Templates">
+                    <Hash>
+                        <Item Key="AgentTicketZoom">1</Item>
+                    </Hash>
+                </Item>
+            </Hash>
+        </Setting>
     </ConfigItem>
     <ConfigItem Name="LostPassword" Required="1" Valid="1">
         <Description Translatable="1">Activates lost password feature for agents, in the agent interface.</Description>
@@ -3348,69 +3353,69 @@ You can log in via the following URL:
         <Description Translatable="1">Defines a customer item, which generates a google maps icon at the end of a customer info block.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer</SubGroup>
-            <Setting>
-                <Hash>
-                    <Item Key="Module">Kernel::Output::HTML::CustomerUserGeneric</Item>
-                    <Item Key="Required">UserStreet;UserCity;</Item>
-                    <Item Key="Attributes">UserStreet;UserCity;UserCountry;</Item>
-                    <Item Key="CSS">Core.Agent.CustomerUser.GoogleMaps.css</Item>
-                    <Item Key="CSSClass">GoogleMaps</Item>
-                    <Item Key="Target">_blank</Item>
-                    <Item Key="Text">Location</Item>
-                    <Item Key="URL">http://maps.google.com/maps?z=7&amp;q=</Item>
-                </Hash>
-            </Setting>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::CustomerUserGeneric</Item>
+                <Item Key="Required">UserStreet;UserCity;</Item>
+                <Item Key="Attributes">UserStreet;UserCity;UserCountry;</Item>
+                <Item Key="CSS">Core.Agent.CustomerUser.GoogleMaps.css</Item>
+                <Item Key="CSSClass">GoogleMaps</Item>
+                <Item Key="Target">_blank</Item>
+                <Item Key="Text">Location</Item>
+                <Item Key="URL">http://maps.google.com/maps?z=7&amp;q=</Item>
+            </Hash>
+        </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::CustomerUser::Item###2-Google" Required="0" Valid="0">
         <Description Translatable="1">Defines a customer item, which generates a google icon at the end of a customer info block.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer</SubGroup>
-            <Setting>
-                <Hash>
-                    <Item Key="Module">Kernel::Output::HTML::CustomerUserGeneric</Item>
-                    <Item Key="Required">UserFirstname;UserLastname;</Item>
-                    <Item Key="Attributes">UserFirstname;UserLastname;</Item>
-                    <Item Key="CSS">Core.Agent.CustomerUser.Google.css</Item>
-                    <Item Key="CSSClass">Google</Item>
-                    <Item Key="Target">_blank</Item>
-                    <Item Key="Text">Google</Item>
-                    <Item Key="URL">http://google.com/search?q=</Item>
-                </Hash>
-            </Setting>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::CustomerUserGeneric</Item>
+                <Item Key="Required">UserFirstname;UserLastname;</Item>
+                <Item Key="Attributes">UserFirstname;UserLastname;</Item>
+                <Item Key="CSS">Core.Agent.CustomerUser.Google.css</Item>
+                <Item Key="CSSClass">Google</Item>
+                <Item Key="Target">_blank</Item>
+                <Item Key="Text">Google</Item>
+                <Item Key="URL">http://google.com/search?q=</Item>
+            </Hash>
+        </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::CustomerUser::Item###2-LinkedIn" Required="0" Valid="0">
         <Description Translatable="1">Defines a customer item, which generates a LinkedIn icon at the end of a customer info block.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer</SubGroup>
-            <Setting>
-                <Hash>
-                    <Item Key="Module">Kernel::Output::HTML::CustomerUserGeneric</Item>
-                    <Item Key="Required">UserFirstname;UserLastname;</Item>
-                    <Item Key="Attributes">UserFirstname;UserLastname;</Item>
-                    <Item Key="CSS">Core.Agent.CustomerUser.LinkedIn.css</Item>
-                    <Item Key="CSSClass">LinkedIn</Item>
-                    <Item Key="Target">_blank</Item>
-                    <Item Key="Text">LinkedIn</Item>
-                    <Item Key="URL">http://www.linkedin.com/commonSearch?type=people&amp;keywords=</Item>
-                </Hash>
-            </Setting>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::CustomerUserGeneric</Item>
+                <Item Key="Required">UserFirstname;UserLastname;</Item>
+                <Item Key="Attributes">UserFirstname;UserLastname;</Item>
+                <Item Key="CSS">Core.Agent.CustomerUser.LinkedIn.css</Item>
+                <Item Key="CSSClass">LinkedIn</Item>
+                <Item Key="Target">_blank</Item>
+                <Item Key="Text">LinkedIn</Item>
+                <Item Key="URL">http://www.linkedin.com/commonSearch?type=people&amp;keywords=</Item>
+            </Hash>
+        </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::CustomerUser::Item###3-XING" Required="0" Valid="0">
         <Description Translatable="1">Defines a customer item, which generates a XING icon at the end of a customer info block.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer</SubGroup>
-            <Setting>
-                <Hash>
-                    <Item Key="Module">Kernel::Output::HTML::CustomerUserGeneric</Item>
-                    <Item Key="Required">UserFirstname;UserLastname;</Item>
-                    <Item Key="Attributes">UserFirstname;UserLastname;</Item>
-                    <Item Key="CSS">Core.Agent.CustomerUser.Xing.css</Item>
-                    <Item Key="CSSClass">Xing</Item>
-                    <Item Key="Target">_blank</Item>
-                    <Item Key="Text">XING</Item>
-                    <Item Key="URL">https://www.xing.com/app/search?op=search;keywords=</Item>
-                </Hash>
-            </Setting>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::CustomerUserGeneric</Item>
+                <Item Key="Required">UserFirstname;UserLastname;</Item>
+                <Item Key="Attributes">UserFirstname;UserLastname;</Item>
+                <Item Key="CSS">Core.Agent.CustomerUser.Xing.css</Item>
+                <Item Key="CSSClass">Xing</Item>
+                <Item Key="Target">_blank</Item>
+                <Item Key="Text">XING</Item>
+                <Item Key="URL">https://www.xing.com/app/search?op=search;keywords=</Item>
+            </Hash>
+        </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerPanelPreApplicationModule###CustomerAccept" Required="0" Valid="0">
         <Description Translatable="1">This module and its PreRun() function will be executed, if defined, for every request. This module is useful to check some user options or to display news about new applications.</Description>
@@ -5315,11 +5320,16 @@ via the Preferences button after logging in.
         <Description Translatable="1">Defines a filter to process the text in the articles, in order to highlight predefined keywords.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Web</SubGroup>
-            <Setting>
-                <Hash>
-                    <Item Key="Module">Kernel::Output::HTML::OutputFilterTextAutoLink</Item>
-                </Hash>
-            </Setting>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::OutputFilterTextAutoLink</Item>
+                <Item Key="Templates">
+                    <Hash>
+                        <Item Key="AgentTicketZoom">1</Item>
+                    </Hash>
+                </Item>
+            </Hash>
+        </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Output::OutputFilterTextAutoLink###CVE" Required="0" Valid="0">
         <Description Translatable="1">Defines a filter for html output to add links behind CVE numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.</Description>
@@ -5354,6 +5364,11 @@ via the Preferences button after logging in.
                         <Item Key="URL">http://nvd.nist.gov/nvd.cfm?cvename=&lt;MATCH1&gt;-&lt;MATCH2&gt;-&lt;MATCH3&gt;</Item>
                         <Item Key="Image">http://nvd.nist.gov/favicon.ico</Item>
                         <Item Key="Target">_blank</Item>
+                    </Hash>
+                </Item>
+                <Item Key="Templates">
+                    <Hash>
+                        <Item Key="AgentTicketZoom">1</Item>
                     </Hash>
                 </Item>
             </Hash>
@@ -5393,6 +5408,11 @@ via the Preferences button after logging in.
                         <Item Key="Target">_blank</Item>
                     </Hash>
                 </Item>
+                <Item Key="Templates">
+                    <Hash>
+                        <Item Key="AgentTicketZoom">1</Item>
+                    </Hash>
+                </Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -5425,6 +5445,11 @@ via the Preferences button after logging in.
                         <Item Key="Target">_blank</Item>
                     </Hash>
                 </Item>
+                <Item Key="Templates">
+                    <Hash>
+                        <Item Key="AgentTicketZoom">1</Item>
+                    </Hash>
+                </Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -5453,6 +5478,11 @@ via the Preferences button after logging in.
                         <Item Key="URL">URL</Item>
                         <Item Key="Image">Image</Item>
                         <Item Key="Target">_blank</Item>
+                    </Hash>
+                </Item>
+                <Item Key="Templates">
+                    <Hash>
+                        <Item Key="AgentTicketZoom">1</Item>
                     </Hash>
                 </Item>
             </Hash>
@@ -5491,6 +5521,11 @@ via the Preferences button after logging in.
                         <Item Key="URL">URL</Item>
                         <Item Key="Image">Image</Item>
                         <Item Key="Target">_blank</Item>
+                    </Hash>
+                </Item>
+                <Item Key="Templates">
+                    <Hash>
+                        <Item Key="AgentTicketZoom">1</Item>
                     </Hash>
                 </Item>
             </Hash>
