@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.206 2012-03-26 23:18:09 mh Exp $
+# $Id: AgentTicketEmail.pm,v 1.206.2.1 2012-06-04 22:00:55 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -28,7 +28,7 @@ use Mail::Address;
 use Kernel::System::Service;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.206 $) [1];
+$VERSION = qw($Revision: 1.206.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1682,10 +1682,18 @@ sub _GetTypes {
 sub _GetServices {
     my ( $Self, %Param ) = @_;
 
-    # get service
     my %Service;
     my @ServiceList;
-    if ( ( $Param{QueueID} || $Param{TicketID} ) && $Param{CustomerUserID} ) {
+
+    # check needed
+    return \@ServiceList if !$Param{QueueID} && !$Param{TicketID};
+
+    # get options for default services for unknown customers
+    my $DefaultServiceUnknownCustomer
+        = $Self->{ConfigObject}->Get('Ticket::Service::Default::UnknownCustomer');
+
+    # get service list
+    if ( $Param{CustomerUserID} || $DefaultServiceUnknownCustomer ) {
         %Service = $Self->{TicketObject}->TicketServiceList(
             %Param,
             Action => $Self->{Action},
@@ -1694,7 +1702,7 @@ sub _GetServices {
 
         my %OrigService = $Self->{ServiceObject}->CustomerUserServiceMemberList(
             Result            => 'HASH',
-            CustomerUserLogin => $Param{CustomerUserID},
+            CustomerUserLogin => $Param{CustomerUserID} || '',
             UserID            => 1,
         );
 

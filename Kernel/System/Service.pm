@@ -2,7 +2,7 @@
 # Kernel/System/Service.pm - all service function
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Service.pm,v 1.50.2.1 2012-06-04 21:29:20 ub Exp $
+# $Id: Service.pm,v 1.50.2.2 2012-06-04 22:00:55 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Cache;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.50.2.1 $) [1];
+$VERSION = qw($Revision: 1.50.2.2 $) [1];
 
 =head1 NAME
 
@@ -879,17 +879,32 @@ sub CustomerUserServiceMemberList {
         );
         return;
     }
+
+    # set default
+    if ( !defined $Param{DefaultServices} ) {
+        $Param{DefaultServices} = 1;
+    }
+
+    # get options for default services for unknown customers
+    my $DefaultServiceUnknownCustomer
+        = $Self->{ConfigObject}->Get('Ticket::Service::Default::UnknownCustomer');
+    if (
+        $DefaultServiceUnknownCustomer
+        && $Param{DefaultServices}
+        && !$Param{ServiceID}
+        && !$Param{CustomerUserLogin}
+        )
+    {
+        $Param{CustomerUserLogin} = '<DEFAULT>';
+    }
+
+    # check more needed stuff
     if ( !$Param{ServiceID} && !$Param{CustomerUserLogin} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => 'Need ServiceID or CustomerUserLogin!',
         );
         return;
-    }
-
-    # set default
-    if ( !defined $Param{DefaultServices} ) {
-        $Param{DefaultServices} = 1;
     }
 
     # db quote
@@ -964,7 +979,13 @@ sub CustomerUserServiceMemberList {
             push @ID,   $Key;
         }
     }
-    if ( $Param{CustomerUserLogin} && $Param{DefaultServices} && !keys(%Data) ) {
+    if (
+        $Param{CustomerUserLogin}
+        && $Param{CustomerUserLogin} ne '<DEFAULT>'
+        && $Param{DefaultServices}
+        && !keys(%Data)
+        )
+    {
         %Data = $Self->CustomerUserServiceMemberList(
             CustomerUserLogin => '<DEFAULT>',
             Result            => 'HASH',
@@ -1177,6 +1198,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.50.2.1 $ $Date: 2012-06-04 21:29:20 $
+$Revision: 1.50.2.2 $ $Date: 2012-06-04 22:00:55 $
 
 =cut
