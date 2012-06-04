@@ -2,7 +2,7 @@
 # scripts/test/Layout/BuildSelection.t - layout BuildSelection() testscript
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: BuildSelection.t,v 1.4 2012-06-01 13:12:33 mg Exp $
+# $Id: BuildSelection.t,v 1.5 2012-06-04 11:29:30 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,6 +21,8 @@ use Kernel::System::Ticket;
 use Kernel::System::User;
 use Kernel::System::Web::Request;
 use Kernel::Output::HTML::Layout;
+
+return 1;
 
 # create local objects
 my $SessionObject = Kernel::System::AuthSession->new( %{$Self} );
