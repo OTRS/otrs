@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminService.pm - admin frontend to manage services
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminService.pm,v 1.35 2011-12-05 14:21:44 mg Exp $
+# $Id: AdminService.pm,v 1.35.2.1 2012-06-04 22:08:52 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Service;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.35 $) [1];
+$VERSION = qw($Revision: 1.35.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -209,35 +209,28 @@ sub Run {
         );
 
         # get service list
-        my %ServiceList = $Self->{ServiceObject}->ServiceList(
+        my $ServiceList = $Self->{ServiceObject}->ServiceListGet(
             Valid  => 0,
             UserID => $Self->{UserID},
         );
 
         # if there are any services defined, they are shown
-        if (%ServiceList) {
+        if ( @{$ServiceList} ) {
 
             # get valid list
             my %ValidList = $Self->{ValidObject}->ValidList();
 
-            # add suffix for correct sorting
-            for ( keys %ServiceList ) {
-                $ServiceList{$_} .= '::';
-            }
-            for my $ServiceID ( sort { $ServiceList{$a} cmp $ServiceList{$b} } keys %ServiceList ) {
+            # sort the service list by long service name
+            @{$ServiceList} = sort { $a . '::' cmp $b . '::' } @{$ServiceList};
 
-                # get service data
-                my %ServiceData = $Self->{ServiceObject}->ServiceGet(
-                    ServiceID => $ServiceID,
-                    UserID    => $Self->{UserID},
-                );
+            for my $ServiceData ( @{$ServiceList} ) {
 
                 # output row
                 $Self->{LayoutObject}->Block(
                     Name => 'OverviewListRow',
                     Data => {
-                        %ServiceData,
-                        Valid => $ValidList{ $ServiceData{ValidID} },
+                        %{$ServiceData},
+                        Valid => $ValidList{ $ServiceData->{ValidID} },
                     },
                 );
             }
