@@ -2,12 +2,15 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1758.2.241 2012-05-31 08:28:04 mg Exp $
+# $Id: CHANGES,v 1.1758.2.242 2012-06-04 10:20:43 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
+
+3.0.14 2012-??-??
+ - 2012-06-04 Improved performance of TemplateGenerator.pm, thanks to Stelios Gikas!
 
 3.0.13 2012-06-05
  - 2012-05-30 Fixed bug#7532 - 'Field is required' message should be removed in RTE if content is added.
