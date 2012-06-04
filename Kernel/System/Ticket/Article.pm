@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.311.2.1 2012-05-14 07:07:33 mg Exp $
+# $Id: Article.pm,v 1.311.2.2 2012-06-04 22:16:39 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::EmailParser;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.311.2.1 $) [1];
+$VERSION = qw($Revision: 1.311.2.2 $) [1];
 
 =head1 NAME
 
@@ -235,6 +235,18 @@ sub ArticleCreate {
     # check if this is the first article (for notifications)
     my @Index = $Self->ArticleIndex( TicketID => $Param{TicketID} );
     my $FirstArticle = scalar @Index ? 0 : 1;
+
+    # if the original article body contains just one pasted picture and no text, at this point of
+    # the code the body is an empty string, Oracle databases will transform the empty string value
+    # to NULL and will try to insert a NULL value in a field that should not be NULL. see bug 7533.
+    if (
+        $Self->{DBObject}->GetDatabaseFunction('Type') eq 'oracle'
+        && defined $Param{Body}
+        && !$Param{Body}
+        )
+    {
+        $Param{Body} = ' ';
+    }
 
     # do db insert
     return if !$Self->{DBObject}->Do(
@@ -2892,7 +2904,7 @@ sub SendAutoResponse {
         return 1;
     }
 
-    # check if sender is e. g. MAILDER-DAEMON or Postmaster
+    # check if sender is e. g. MAILER-DAEMON or Postmaster
     my $NoAutoRegExp = $Self->{ConfigObject}->Get('SendNoAutoResponseRegExp');
     if ( $OrigHeader{From} =~ /$NoAutoRegExp/i ) {
 
@@ -3491,6 +3503,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.311.2.1 $ $Date: 2012-05-14 07:07:33 $
+$Revision: 1.311.2.2 $ $Date: 2012-06-04 22:16:39 $
 
 =cut
