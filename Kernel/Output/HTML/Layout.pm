@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.386 2012-05-31 02:46:26 cr Exp $
+# $Id: Layout.pm,v 1.387 2012-06-04 07:34:16 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Mail::Address;
 use URI::Escape qw();
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.386 $) [1];
+$VERSION = qw($Revision: 1.387 $) [1];
 
 =head1 NAME
 
@@ -599,7 +599,7 @@ sub Output {
             }
 
             # check template list
-            if ( $Param{TemplateFile} && !$TemplateList->{ALL} ) {
+            if ( $Param{TemplateFile} && ref $TemplateList && !$TemplateList->{ALL} ) {
                 next FILTER if !$TemplateList->{ $Param{TemplateFile} };
             }
 
@@ -806,7 +806,7 @@ sub Output {
             }
 
             # check template list
-            if ( $Param{TemplateFile} && !$TemplateList->{ALL} ) {
+            if ( $Param{TemplateFile} && ref $TemplateList && !$TemplateList->{ALL} ) {
                 next FILTER if !$TemplateList->{ $Param{TemplateFile} };
             }
 
@@ -1650,7 +1650,7 @@ sub Print {
             }
 
             # check template list
-            if ( $Param{TemplateFile} && !$TemplateList->{ALL} ) {
+            if ( $Param{TemplateFile} && ref $TemplateList && !$TemplateList->{ALL} ) {
                 next FILTER if !$TemplateList->{ $Param{TemplateFile} };
             }
 
@@ -1812,7 +1812,7 @@ sub Ascii2Html {
             }
 
             # check template list
-            if ( $Param{TemplateFile} && !$TemplateList->{ALL} ) {
+            if ( $Param{TemplateFile} && ref $TemplateList && !$TemplateList->{ALL} ) {
                 next FILTER if !$TemplateList->{ $Param{TemplateFile} };
             }
 
@@ -1973,7 +1973,7 @@ sub LinkQuote {
             }
 
             # check template list
-            if ( $Param{TemplateFile} && !$TemplateList->{ALL} ) {
+            if ( $Param{TemplateFile} && ref $TemplateList && !$TemplateList->{ALL} ) {
                 next FILTER if !$TemplateList->{ $Param{TemplateFile} };
             }
 
@@ -5159,6 +5159,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.386 $ $Date: 2012-05-31 02:46:26 $
+$Revision: 1.387 $ $Date: 2012-06-04 07:34:16 $
 
 =cut
