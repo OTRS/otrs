@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2320 2012-05-31 21:13:20 cr Exp $
+# $Id: CHANGES,v 1.2321 2012-06-04 10:20:55 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,6 +27,7 @@
     NotificationEvent definitions.
 
 3.1.7 2012-??-??
+ - 2012-06-04 Improved performance of TemplateGenerator.pm, thanks to Stelios Gikas!
  - 2012-05-31 Fixed bug#8481 - Dynamic Fields lost after ticket move to another queue (using quick
     move Dropdown).
  - 2012-05-31 Fixed bug#8533 - Apache will not start using mod_perl on Fedora 16.

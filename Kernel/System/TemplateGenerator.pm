@@ -2,7 +2,7 @@
 # Kernel/System/TemplateGenerator.pm - generate salutations, signatures and responses
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TemplateGenerator.pm,v 1.60 2012-03-28 14:42:57 ub Exp $
+# $Id: TemplateGenerator.pm,v 1.61 2012-06-04 10:20:55 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.60 $) [1];
+$VERSION = qw($Revision: 1.61 $) [1];
 
 =head1 NAME
 
@@ -622,7 +622,11 @@ sub AutoResponse {
     # format body (only if longer the 86 chars)
     if ( $Param{OrigHeader}->{Body} ) {
         if ( length $Param{OrigHeader}->{Body} > 86 ) {
-            $Param{OrigHeader}->{Body} =~ s/(^>.+|.{4,86})(?:\s|\z)/$1\n/gm;
+            my @lines = split /\n/, $Param{OrigHeader}->{Body};
+            for my $line (@lines) {
+                $line =~ s/(^>.+|.{4,86})(?:\s|\z)/$1\n/gm;
+            }
+            $Param{OrigHeader}->{Body} = join '', @lines;
         }
     }
 
@@ -779,7 +783,11 @@ sub NotificationAgent {
     # format body (only if longer the 86 chars)
     if ( $Param{CustomerMessageParams}->{Body} ) {
         if ( length $Param{CustomerMessageParams}->{Body} > 86 ) {
-            $Param{CustomerMessageParams}->{Body} =~ s/(^>.+|.{4,86})(?:\s|\z)/$1\n/gm;
+            my @lines = split /\n/, $Param{CustomerMessageParams}->{Body};
+            for my $line (@lines) {
+                $line =~ s/(^>.+|.{4,86})(?:\s|\z)/$1\n/gm;
+            }
+            $Param{CustomerMessageParams}->{Body} = join '', @lines;
         }
     }
 
@@ -1419,6 +1427,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.60 $ $Date: 2012-03-28 14:42:57 $
+$Revision: 1.61 $ $Date: 2012-06-04 10:20:55 $
 
 =cut
