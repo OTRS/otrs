@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketActionCommon.pm - common file for several modules
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketActionCommon.pm,v 1.84 2012-05-30 21:14:10 cr Exp $
+# $Id: AgentTicketActionCommon.pm,v 1.85 2012-06-04 22:00:07 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -1662,9 +1662,16 @@ sub _GetOldOwners {
 
 sub _GetServices {
     my ( $Self, %Param ) = @_;
+
     my %Service;
     my @ServiceList;
-    if ( $Param{CustomerUserID} ) {
+
+    # get options for default services for unknown customers
+    my $DefaultServiceUnknownCustomer
+        = $Self->{ConfigObject}->Get('Ticket::Service::Default::UnknownCustomer');
+
+    # get service list
+    if ( $Param{CustomerUserID} || $DefaultServiceUnknownCustomer ) {
         %Service = $Self->{TicketObject}->TicketServiceList(
             %Param,
             Action => $Self->{Action},
@@ -1673,7 +1680,7 @@ sub _GetServices {
 
         my %OrigService = $Self->{ServiceObject}->CustomerUserServiceMemberList(
             Result            => 'HASH',
-            CustomerUserLogin => $Param{CustomerUserID},
+            CustomerUserLogin => $Param{CustomerUserID} || '',
             UserID            => 1,
         );
 
