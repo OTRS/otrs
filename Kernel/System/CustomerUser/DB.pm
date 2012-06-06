@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/DB.pm - some customer user functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.90 2012-06-03 19:38:48 mb Exp $
+# $Id: DB.pm,v 1.91 2012-06-06 14:41:36 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,12 +16,13 @@ use warnings;
 
 use Crypt::PasswdMD5 qw(unix_md5_crypt);
 
-use Kernel::System::CheckItem;
-use Kernel::System::Valid;
 use Kernel::System::Cache;
+use Kernel::System::CheckItem;
+use Kernel::System::Time;
+use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.90 $) [1];
+$VERSION = qw($Revision: 1.91 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -39,9 +40,8 @@ sub new {
     }
 
     # create additional objects
-
-    # create check item object
     $Self->{CheckItemObject} = Kernel::System::CheckItem->new( %{$Self} );
+    $Self->{TimeObject}      = Kernel::System::Time->new( %{$Self} );
     $Self->{ValidObject}     = Kernel::System::Valid->new( %{$Self} );
 
     # max shown user per search list
@@ -555,16 +555,11 @@ sub CustomerUserAdd {
         return;
     }
 
-    # just if no UserLogin is given
+    # if no UserLogin is given
     if ( !$Param{UserLogin} && $Self->{CustomerUserMap}->{AutoLoginCreation} ) {
-        my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WDay ) = localtime( time() );
-        $Year  = $Year - 100;
-        $Year  = "0$Year" if ( $Year < 10 );
-        $Month = $Month + 1;
-        $Month = "0$Month" if ( $Month < 10 );
-        $Day   = "0$Day" if ( $Day < 10 );
-        $Hour  = "0$Hour" if ( $Hour < 10 );
-        $Min   = "0$Min" if ( $Min < 10 );
+        my ( $Sec, $Min, $Hour, $Day, $Month, $Year ) = $Self->{TimeObject}->SystemTime2Date(
+            SystemTime => $Self->{TimeObject}->SystemTime(),
+        );
         my $Prefix = $Self->{CustomerUserMap}->{AutoLoginCreationPrefix} || 'auto';
         $Param{UserLogin} = "$Prefix-$Year$Month$Day$Hour$Min" . int( rand(99) );
     }
