@@ -1,8 +1,8 @@
 # --
 # Ticket/Number/DateChecksum.pm - a date ticket number generator
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DateChecksum.pm,v 1.35 2009-05-15 10:12:02 martin Exp $
+# $Id: DateChecksum.pm,v 1.36 2012-06-06 14:23:50 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -29,7 +29,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.35 $) [1];
+$VERSION = qw($Revision: 1.36 $) [1];
 
 sub TicketCreateNumber {
     my ( $Self, $JumpCounter ) = @_;
@@ -91,9 +91,7 @@ sub TicketCreateNumber {
     }
 
     # pad ticket number with leading '0' to length 5
-    while ( length($Count) < 5 ) {
-        $Count = '0' . $Count;
-    }
+    $Count = sprintf "%.5d", $Count;
 
     # create new ticket number
     my $Tn = $Year . $Month . $Day . $SystemID . $Count;
