@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentCustomerSearch.pm - a module used for the autocomplete feature
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentCustomerSearch.pm,v 1.29 2011-12-12 16:23:14 jp Exp $
+# $Id: AgentCustomerSearch.pm,v 1.30 2012-06-06 12:07:30 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.29 $) [1];
+$VERSION = qw($Revision: 1.30 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -139,9 +139,12 @@ sub Run {
         my $CustomerID     = $Self->{ParamObject}->GetParam( Param => 'CustomerID' )     || '';
 
         # get secondary customer ids
-        my @CustomerIDs = $Self->{CustomerUserObject}->CustomerIDs(
-            User => $CustomerUserID,
-        );
+        my @CustomerIDs;
+        if ($CustomerUserID) {
+            @CustomerIDs = $Self->{CustomerUserObject}->CustomerIDs(
+                User => $CustomerUserID,
+            );
+        }
 
         # add own customer id
         if ($CustomerID) {
