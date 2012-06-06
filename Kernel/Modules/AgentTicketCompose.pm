@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.pm,v 1.164 2012-04-17 20:40:39 mb Exp $
+# $Id: AgentTicketCompose.pm,v 1.165 2012-06-06 21:50:17 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.164 $) [1];
+$VERSION = qw($Revision: 1.165 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -221,7 +221,7 @@ sub Run {
                 }
 
                 my $CustomerDisabled = '';
-                my $CountAux         = $Count;
+                my $CountAux         = $CustomerCounter++;
                 if ( $CustomerError ne '' ) {
                     $CustomerDisabled = 'disabled="disabled"';
                     $CountAux         = $Count . 'Error';
@@ -251,6 +251,7 @@ sub Run {
         = $Self->{ParamObject}->GetParam( Param => 'CustomerTicketCounterCcCustomer' ) || 0;
 
     if ($CustomersNumberCc) {
+        my $CustomerCounterCc = 1;
         for my $Count ( 1 ... $CustomersNumberCc ) {
             my $CustomerElementCc
                 = $Self->{ParamObject}->GetParam( Param => 'CcCustomerTicketText_' . $Count );
@@ -282,7 +283,7 @@ sub Run {
                 }
 
                 my $CustomerDisabledCc = '';
-                my $CountAuxCc         = $Count;
+                my $CountAuxCc         = $CustomerCounterCc++;
                 if ( $CustomerErrorCc ne '' ) {
                     $CustomerDisabledCc = 'disabled="disabled"';
                     $CountAuxCc         = $Count . 'Error';
@@ -311,6 +312,7 @@ sub Run {
         = $Self->{ParamObject}->GetParam( Param => 'CustomerTicketCounterBccCustomer' ) || 0;
 
     if ($CustomersNumberBcc) {
+        my $CustomerCounterBcc = 1;
         for my $Count ( 1 ... $CustomersNumberBcc ) {
             my $CustomerElementBcc
                 = $Self->{ParamObject}->GetParam( Param => 'BccCustomerTicketText_' . $Count );
@@ -343,7 +345,7 @@ sub Run {
                 }
 
                 my $CustomerDisabledBcc = '';
-                my $CountAuxBcc         = $Count;
+                my $CountAuxBcc         = $CustomerCounterBcc++;
                 if ( $CustomerErrorBcc ne '' ) {
                     $CustomerDisabledBcc = 'disabled="disabled"';
                     $CountAuxBcc         = $Count . 'Error';
