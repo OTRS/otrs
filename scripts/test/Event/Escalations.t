@@ -2,7 +2,7 @@
 # Escalations.t - escalation event tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Escalations.t,v 1.17 2012-05-30 14:52:22 cg Exp $
+# $Id: Escalations.t,v 1.18 2012-06-07 20:04:08 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -92,8 +92,8 @@ my $CheckNumEvents = sub {
 # One time with the business hours changed to 24x7, and
 # one time with no business hours at all
 my %WorkingHours = (
-    0 => '0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23',
-    1 => '',
+    0 => '',
+    1 => '0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23',
 );
 
 for my $Hours ( sort keys %WorkingHours ) {
@@ -133,9 +133,9 @@ for my $Hours ( sort keys %WorkingHours ) {
             Name                => $QueueName,
             ValidID             => 1,
             GroupID             => 1,
-            FirstResponseTime   => -20,
+            FirstResponseTime   => -10,
             FirstResponseNotify => 80,
-            UpdateTime          => -30,
+            UpdateTime          => -20,
             UpdateNotify        => 80,
             SolutionTime        => -40,
             SolutionNotify      => 80,
