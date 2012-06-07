@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Notification.pm - lib for notifications
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Notification.pm,v 1.38 2011-08-12 09:06:15 mg Exp $
+# $Id: Notification.pm,v 1.39 2012-06-07 11:52:31 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.38 $) [1];
+$VERSION = qw($Revision: 1.39 $) [1];
 
 =head1 NAME
 
@@ -112,22 +112,14 @@ sub NotificationGet {
         $Type     = $Self->{DBObject}->Quote($2);
     }
 
-    # db quote
-    $Param{ID} = $Self->{DBObject}->Quote( $Param{ID}, 'Integer' );
-
-    # sql
-    my $SQL = 'SELECT id, notification_type, notification_charset, '
-        . ' notification_language, subject, text, content_type '
-        . ' FROM notifications WHERE ';
-
-    if ( $Param{ID} ) {
-        $SQL .= " id = $Param{ID}";
-    }
-    else {
-        $SQL .= " notification_type = '$Type' AND notification_language = '$Language'";
-    }
-
-    return if !$Self->{DBObject}->Prepare( SQL => $SQL );
+    $Self->{DBObject}->Prepare(
+        SQL => 'SELECT id, notification_type, notification_charset, '
+            . ' notification_language, subject, text, content_type '
+            . ' FROM notifications WHERE '
+            . ' notification_type = ? AND notification_language = ?',
+        Bind => [ \$Type, \$Language, ],
+        Limit => 1,
+    );
 
     my %Data;
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
@@ -307,6 +299,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.38 $ $Date: 2011-08-12 09:06:15 $
+$Revision: 1.39 $ $Date: 2012-06-07 11:52:31 $
 
 =cut
