@@ -2,7 +2,7 @@
 # Kernel/System/Crypt/SMIME.pm - the main crypt module
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: SMIME.pm,v 1.66 2012-05-22 04:23:47 cr Exp $
+# $Id: SMIME.pm,v 1.67 2012-06-09 02:43:23 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.66 $) [1];
+$VERSION = qw($Revision: 1.67 $) [1];
 
 =head1 NAME
 
@@ -768,6 +768,65 @@ sub CertificateAttributes {
         $Attributes{Type} = 'cert';
     }
     return %Attributes;
+}
+
+=item CertificateRead()
+
+show a local certificate in plain text
+
+    my $CertificateText = $CryptObject->CertificateRead(
+        Filename => $CertificateFilename,
+    );
+
+    my $CertificateText = $CryptObject->CertificateRead(
+        Fingerprint => $Fingerprint,
+        Hash        => $Hash,
+    );
+
+=cut
+
+sub CertificateRead {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    if ( !$Param{Filename} && !( $Param{Fingerprint} && $Param{Hash} ) ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Filename or Fingerprint and Hash!'
+        );
+        return;
+    }
+
+    if ( !$Param{Filename} && ( $Param{Fingerprint} && $Param{Hash} ) ) {
+        $Param{Filename} = $Self->_CertificateFilename(%Param);
+        return if !$Param{Filename};
+    }
+
+    my $File = "$Self->{CertPath}/$Param{Filename}";
+
+    # check if file exists and can be readed
+    if ( !-e $File ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Certificate $File does not exist!"
+        );
+        return;
+    }
+    if ( !-r $File ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Can not read certificate $File!"
+        );
+        return;
+    }
+
+    # set options to retreive certiciate contents
+    my $Options = "x509 -in $File -noout -text";
+
+    # get the output string
+    my $Output = qx{$Self->{Cmd} $Options 2>&1};
+
+    return $Output;
 }
 
 =item PrivateSearch()
@@ -2406,6 +2465,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.66 $ $Date: 2012-05-22 04:23:47 $
+$Revision: 1.67 $ $Date: 2012-06-09 02:43:23 $
 
 =cut
