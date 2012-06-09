@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.36 $
+ * @version     $Revision: 1.37 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -72,6 +72,7 @@ button.Primary {
 
 a.CertificateRelationAdd,
 button.CertificateRelationAdd,
+a.CertificateRead,
 button.Add,
 a.Add,
 button.Remove,
@@ -108,6 +109,10 @@ a.Add:focus {
 button.CertificateRelationAdd,
 a.CertificateRelationAdd {
     background: url(../img/icons/certificate-plus.png) no-repeat center;
+}
+
+a.CertificateRead {
+    background: url(../img/icons/certificate.png) no-repeat center;
 }
 
 button.Remove,
