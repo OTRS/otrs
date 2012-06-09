@@ -2,7 +2,7 @@
 # SMIME.t - SMIME tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: SMIME.t,v 1.38 2012-05-22 21:13:30 cr Exp $
+# $Id: SMIME.t,v 1.39 2012-06-09 02:44:12 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -2247,4 +2247,152 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
         }
     }
 }
+
+# CertificateRead() tests
+{
+
+    # add certificates
+    for my $CA (qw( OTRSRootCA OTRSLabCA )) {
+        my %Result = $CryptObject->CertificateAdd(
+            Certificate => $Certificates{$CA}->{String},
+        );
+
+        # sanity check
+        $Self->True(
+            $Result{Successful},
+            "CertificateAdd() $CA for CertificateRead() add success with true",
+        );
+    }
+
+    # create test cases
+    my @Tests = (
+        {
+            Name    => 'Empty Params',
+            Params  => {},
+            Success => 0,
+        },
+        {
+            Name   => 'Wrong Filename',
+            Params => {
+                Filename => "$Certificates{OTRSRDCA}->{Hash}.0",
+            },
+            Success => 0,
+        },
+        {
+            Name   => 'Missing Hash',
+            Params => {
+                Hash        => '',
+                Fingerprint => $Certificates{OTRSRootCA}->{Fingerprint},
+            },
+            Success => 0,
+        },
+        {
+            Name   => 'Missing Fingerprint',
+            Params => {
+                Hash        => $Certificates{OTRSRootCA}->{Hash},
+                Fingerprint => '',
+            },
+            Success => 0,
+        },
+        {
+            Name   => 'Wrong Hash',
+            Params => {
+                Hash        => $Certificates{OTRSLabCA}->{Hash},
+                Fingerprint => $Certificates{OTRSRootCA}->{Fingerprint},
+            },
+            Success => 0,
+        },
+        {
+            Name   => 'Wrong Fingerprint',
+            Params => {
+                Hash        => $Certificates{OTRSRootCA}->{Hash},
+                Fingerprint => $Certificates{OTRSLabCA}->{Fingerprint},
+            },
+            Success => 0,
+        },
+        {
+            Name   => 'Correct Filename',
+            Params => {
+                Filename => "$Certificates{OTRSRootCA}->{Hash}.0",
+            },
+            Success => 1,
+        },
+        {
+            Name   => 'Correct Hash, Fingerprint',
+            Params => {
+                Hash        => $Certificates{OTRSRootCA}->{Hash},
+                Fingerprint => $Certificates{OTRSRootCA}->{Fingerprint},
+            },
+            Success => 1,
+        },
+
+    );
+
+    for my $Test (@Tests) {
+        my $CertificateText = $CryptObject->CertificateRead( %{ $Test->{Params} } );
+
+        if ( $Test->{Success} ) {
+            $Self->IsNot(
+                $CertificateText,
+                undef,
+                "CertificateRead() $Test->{Name}: should return the certificate",
+            );
+
+            # check for certificate words
+            for my $String (
+                qw(
+                Certificate Serial Signature Issuer: Validity Before After Subject: Modulus RSA
+                )
+                )
+            {
+                my $Match;
+                if ( $CertificateText =~ m{\Q$String\E} ) {
+                    $Match = 1;
+                }
+
+                $Self->True(
+                    $Match,
+                    "CertificateRead $Test->{Name}: Certificate contains word '$String'",
+                    )
+            }
+        }
+        else {
+            $Self->Is(
+                $CertificateText,
+                undef,
+                "CertificateRead() $Test->{Name}: should return undef",
+            );
+        }
+    }
+
+    # compare both methods
+    my $CertificateText1 = $CryptObject->CertificateRead(
+        Filename => "$Certificates{OTRSRootCA}->{Hash}.0",
+    );
+    my $CertificateText2 = $CryptObject->CertificateRead(
+        Hash        => $Certificates{OTRSRootCA}->{Hash},
+        Fingerprint => $Certificates{OTRSRootCA}->{Fingerprint},
+    );
+
+    $Self->Is(
+        $CertificateText1,
+        $CertificateText2,
+        "CertificateRead() using Filename / Hash and Fingerprint certificates match",
+    );
+
+    # clean system, remove certificates
+    for my $CA (qw( OTRSRootCA OTRSLabCA )) {
+        my %Result = $CryptObject->CertificateRemove(
+            Hash        => $Certificates{$CA}->{Hash},
+            Fingerprint => $Certificates{$CA}->{Fingerprint},
+        );
+
+        # sanity check
+        $Self->True(
+            $Result{Successful},
+            "CertificateRemove() $CA for CertificateRead() remove success with true",
+        );
+    }
+}
+
 1;
