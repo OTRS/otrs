@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSMIME.pm - to add/update/delete smime keys
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSMIME.pm,v 1.43 2012-02-27 22:53:37 ep Exp $
+# $Id: AdminSMIME.pm,v 1.44 2012-06-09 02:52:21 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.43 $) [1];
+$VERSION = qw($Revision: 1.44 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -447,6 +447,26 @@ sub Run {
     }
 
     # ------------------------------------------------------------ #
+    # read certificate
+    # ------------------------------------------------------------ #
+    elsif ( $Self->{Subaction} eq 'Read' ) {
+        my $Filename = $Self->{ParamObject}->GetParam( Param => 'Filename' ) || '';
+        if ( !$Filename ) {
+            return $Self->{LayoutObject}
+                ->ErrorScreen( Message => 'Need param Filename to download!' );
+        }
+
+        my $Output = $Self->_CertificateRead( Filename => $Filename );
+
+        if ( !$Output ) {
+            return $Self->{LayoutObject}
+                ->ErrorScreen( Message => "Certificate $Filename could not be read!" );
+        }
+
+        return $Output;
+    }
+
+    # ------------------------------------------------------------ #
     # overview
     # ------------------------------------------------------------ #
     else {
@@ -563,6 +583,12 @@ sub _Overview {
             if ( $Attributes->{Type} eq 'key' ) {
                 $Self->{LayoutObject}->Block(
                     Name => 'CertificateRelationAdd',
+                    Data => $Attributes,
+                );
+            }
+            elsif ( $Attributes->{Type} eq 'cert' ) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'CertificateRead',
                     Data => $Attributes,
                 );
             }
@@ -733,5 +759,34 @@ sub _SignerCertificateOverview {
     $Output .= $Self->{LayoutObject}->Footer();
 
     return $Output;
+}
+
+sub _CertificateRead {
+    my ( $Self, %Param ) = @_;
+
+    my $Output = $Self->{LayoutObject}->Header(
+        Value => $Param{Filename},
+        Type  => 'Small',
+    );
+
+    # get the certificate content as plain text
+    my $CertificateText = $Self->{CryptObject}->CertificateRead(%Param);
+
+    return if !$CertificateText;
+
+    # convert content to html string
+    $Param{CertificateText} = $Self->{LayoutObject}->Ascii2Html(
+        Text           => $CertificateText,
+        HTMLResultMode => 1,
+    );
+
+    $Output
+        .= $Self->{LayoutObject}->Output( TemplateFile => 'AdminSMIMECertRead', Data => \%Param );
+
+    $Output .= $Self->{LayoutObject}->Footer(
+        Type => 'Small',
+    );
+    return $Output;
+
 }
 1;

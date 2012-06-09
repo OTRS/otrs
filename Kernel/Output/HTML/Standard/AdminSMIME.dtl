@@ -2,7 +2,7 @@
 # AdminSMIME.dtl - provides HTML form for AdminSMIME html
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSMIME.dtl,v 1.28 2012-01-03 14:58:17 mg Exp $
+# $Id: AdminSMIME.dtl,v 1.29 2012-06-09 02:50:05 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -135,6 +135,19 @@
                                     $Text{"Handle related certificates"}
                                 </a>
 <!-- dtl:block:CertificateRelationAdd -->
+<!-- dtl:block:CertificateRead -->
+                                <a class="CertificateRead" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Read;Type=$LQData{"Type"};Filename=$LQData{"Filename"}" title="$Text{"Read certificate"}">
+                                    $Text{"Read Certificate"}
+                                </a>
+<!-- dtl:js_on_document_complete -->
+<script type="text/javascript">//<![CDATA[
+    $('a.CertificateRead').bind('click', function (Event) {
+        Core.UI.Popup.OpenPopup($(this).attr('href'), 'CertificateRead');
+        return false;
+    });
+//]]></script>
+<!-- dtl:js_on_document_complete -->
+<!-- dtl:block:CertificateRead -->
 
                             </td>
                             <td>$QData{"Type"}</td>
@@ -334,4 +347,3 @@
 <!-- dtl:block:SignerCertificates -->
 </div>
 <div class="Clear"></div>
-</div>
