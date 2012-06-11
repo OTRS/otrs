@@ -3,7 +3,7 @@
 # suse-rcotrs - rc script of otrs for SUSE Linux
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: suse-rcotrs,v 1.35 2012-02-23 14:12:49 mb Exp $
+# $Id: suse-rcotrs,v 1.35.2.1 2012-06-11 16:11:56 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,7 +12,7 @@
 
 ### BEGIN INIT INFO
 # Provides:          otrs
-# Required-Start:    apache
+# Required-Start:    apache2
 # Required-Stop:
 # Default-Start:     3 5
 # Default-Stop:      0 1 2 6
@@ -81,8 +81,8 @@ if ! test -r $OTRS_CHECKDB; then
     exit 5
 fi
 
-if ! test -r $OTRS_CHECKSCHEDULER; then
-    echo "Error: $OTRS_CHECKSCHEDULER not found!"
+if ! test -r $OTRS_SCHEDULER; then
+    echo "Error: $OTRS_SCHEDULER not found!"
     exit 5
 fi
 
@@ -159,13 +159,15 @@ case "$1" in
       # --
       # OTRS Scheduler Service
       # --
-      echo -n " Checking OTRS Scheduler Service... "
-      if ! $OTRS_SCHEDULER_TEST >/dev/null 2>&1; then
-          echo " Error! "
-      echo "  This can happen if your database is not configured yet. "
-          exit 1;
-      else
-          echo " done."
+      if test $OTRS_SCHEDULER_RUNNING -gt 0; then
+          echo -n " Starting OTRS Scheduler Service... "
+          if ! $OTRS_SCHEDULER -a start -s 1; then
+              echo " Error! "
+              echo "  This can happen if your database is not configured yet. "
+              exit 1;
+          else
+              echo " done."
+          fi
       fi  
 
       # --
@@ -416,15 +418,15 @@ case "$1" in
       # --
       # scheduler check
       # --
-      echo -n "Checking OTRS Scheduler service.... "
-      $OTRS_SCHEDULER -a status |grep 'Running' > /dev/null 2>&1
-      TEST_STATUS=$?
-      echo $TEST_STATUS
-      if  test $TEST_STATUS -ne 0; then
-          echo " Error! "
-          echo " Maybe your database isn't configured yet? "
-      else
-          echo "done."
+      
+      if test $OTRS_SCHEDULER_RUNNING -gt 0; then
+          echo -n "Checking OTRS Scheduler service.... "
+          if ! $OTRS_SCHEDULER -a status -s 1; then
+              echo " Error! "
+              echo " Maybe your database isn't configured yet? "
+          else
+              echo "done."
+          fi
       fi
 
       # --
