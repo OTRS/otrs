@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<database Name="otrs">
+
+<!-- Drop unneeded fields in the ticket table -->
+<TableAlter Name="ticket">
+    <ColumnDrop Name="group_read"/>
+    <ColumnDrop Name="group_write"/>
+    <ColumnDrop Name="other_read"/>
+    <ColumnDrop Name="other_write"/>
+</TableAlter>
+
+</database>

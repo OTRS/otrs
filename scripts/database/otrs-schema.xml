@@ -500,10 +500,6 @@
     <Column Name="group_id" Required="true" Type="INTEGER"/>
     <Column Name="ticket_priority_id" Required="true" Type="SMALLINT"/>
     <Column Name="ticket_state_id" Required="true" Type="SMALLINT"/>
-    <Column Name="group_read" Required="false" Type="SMALLINT"/>
-    <Column Name="group_write" Required="false" Type="SMALLINT"/>
-    <Column Name="other_read" Required="false" Type="SMALLINT"/>
-    <Column Name="other_write" Required="false" Type="SMALLINT"/>
     <Column Name="customer_id" Required="false" Size="150" Type="VARCHAR"/>
     <Column Name="customer_user_id" Required="false" Size="250" Type="VARCHAR"/>
     <Column Name="timeout" Required="true" Type="INTEGER"/>
