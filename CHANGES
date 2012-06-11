@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2330 2012-06-11 08:50:48 mg Exp $
+# $Id: CHANGES,v 1.2331 2012-06-11 14:34:49 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -28,6 +28,8 @@
     NotificationEvent definitions.
 
 3.1.7 2012-??-??
+ - 2012-06-11 Fixed bug#8139 - SUSE RPM has no dependency on Date::Format perl
+    module.
  - 2012-06-11 Fixed bug#8544 - Hovering ticket title is still shortened.
  - 2012-06-07 Fixed bug#8553 - Agent notifications can't be loaded from the database in some
     scenarios.
