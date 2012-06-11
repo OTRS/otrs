@@ -3,7 +3,7 @@
 # bin/otrs.ExportStatsToOPM.pl - export all stats of a system and create a package for the package manager
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.ExportStatsToOPM.pl,v 1.5 2012-04-18 19:25:32 cr Exp $
+# $Id: otrs.ExportStatsToOPM.pl,v 1.6 2012-06-11 09:31:14 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -21,19 +21,14 @@
 # or see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-# Remark: You have to install this programm in $OTRS_HOME/bin of the OTRS 2.0
-# installation
-
-# ---------------------------------------------------------- #
-# get needed objects and settings
-# ---------------------------------------------------------- #
-
 use strict;
 use warnings;
 
 use File::Basename;
 use FindBin qw($RealBin);
 use lib dirname($RealBin);
+use lib dirname($RealBin) . '/Kernel/cpan-lib';
+use lib dirname($RealBin) . '/Custom';
 
 use Getopt::Std;
 use Kernel::Config;
@@ -50,7 +45,7 @@ use Kernel::System::CSV;
 
 # get file version
 use vars qw($VERSION $Debug);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 # common objects
 my %CommonObject = ();

@@ -3,7 +3,7 @@
 # bin/otrs.LoaderCache.pl - the global test handle
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.LoaderCache.pl,v 1.4 2012-02-03 14:26:37 mg Exp $
+# $Id: otrs.LoaderCache.pl,v 1.5 2012-06-11 09:31:14 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -28,9 +28,11 @@ use warnings;
 use File::Basename;
 use FindBin qw($RealBin);
 use lib dirname($RealBin);
+use lib dirname($RealBin) . '/Kernel/cpan-lib';
+use lib dirname($RealBin) . '/Custom';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;

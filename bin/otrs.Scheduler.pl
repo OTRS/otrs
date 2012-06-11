@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # otrs.Scheduler.pl - provides Scheduler Daemon control on Unix like OS
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.Scheduler.pl,v 1.37 2011-11-29 13:31:21 mg Exp $
+# $Id: otrs.Scheduler.pl,v 1.38 2012-06-11 09:31:39 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -28,9 +28,11 @@ use warnings;
 use File::Basename;
 use FindBin qw($RealBin);
 use lib dirname($RealBin);
+use lib dirname($RealBin) . '/Kernel/cpan-lib';
+use lib dirname($RealBin) . '/Custom';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.37 $) [1];
+$VERSION = qw($Revision: 1.38 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -510,7 +512,7 @@ exit 1;
 # Internal
 sub _help {
     print "otrs.Scheduler.pl <Revision $VERSION> - OTRS Scheduler Daemon\n";
-    print "Copyright (C) 2001-2011 OTRS AG, http://otrs.org/\n";
+    print "Copyright (C) 2001-2012 OTRS AG, http://otrs.org/\n";
     print "Usage: otrs.Scheduler.pl -a <ACTION> (start|stop|status) [-f (force)]\n";
 
     # Not documented!

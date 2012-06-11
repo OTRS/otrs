@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # otrs.MarkTicketAsSeen.pl - set all ticket to seen
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.MarkTicketAsSeen.pl,v 1.4 2011-11-16 09:02:13 mb Exp $
+# $Id: otrs.MarkTicketAsSeen.pl,v 1.5 2012-06-11 09:31:14 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -28,9 +28,11 @@ use warnings;
 use File::Basename;
 use FindBin qw($RealBin);
 use lib dirname($RealBin);
+use lib dirname($RealBin) . '/Kernel/cpan-lib';
+use lib dirname($RealBin) . '/Custom';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -47,7 +49,7 @@ my %Opts = ();
 getopts( 'ha', \%Opts );
 if ( $Opts{h} ) {
     print "otrs.MarkTicketAsSeen.pl <Revision $VERSION> - mark tickets as seen by the agent\n";
-    print "Copyright (C) 2001-2011 OTRS AG, http://otrs.org/\n\n";
+    print "Copyright (C) 2001-2012 OTRS AG, http://otrs.org/\n\n";
     print "usage: otrs.MarkTicketAsSeen.pl [-a]\n\n";
     print "If you pass '-a' it will update ALL tickets, otherwise only non-closed\n";
     print "tickets will be updated.\n";

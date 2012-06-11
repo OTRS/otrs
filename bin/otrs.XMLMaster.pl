@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.XMLMaster.pl - the global xml handle for xml2db
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.XMLMaster.pl,v 1.3 2010-08-06 17:49:20 cr Exp $
+# $Id: otrs.XMLMaster.pl,v 1.4 2012-06-11 09:31:39 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -28,9 +28,11 @@ use warnings;
 use File::Basename;
 use FindBin qw($RealBin);
 use lib dirname($RealBin);
+use lib dirname($RealBin) . '/Kernel/cpan-lib';
+use lib dirname($RealBin) . '/Custom';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -46,7 +48,7 @@ my %Opts = ();
 getopt( 'hqtd', \%Opts );
 if ( $Opts{'h'} ) {
     print "XMLMaster.pl <Revision $VERSION> - OTRS xml master\n";
-    print "Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
+    print "Copyright (C) 2001-2012 OTRS AG, http://otrs.org/\n";
     print "usage: XMLMaster.pl [-d 1] \n";
     exit 1;
 }

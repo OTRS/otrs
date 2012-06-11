@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.SetPassword.pl - Changes or Sets password for a user
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.SetPassword.pl,v 1.4 2011-11-03 21:00:04 mb Exp $
+# $Id: otrs.SetPassword.pl,v 1.5 2012-06-11 09:31:39 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -28,6 +28,8 @@ use warnings;
 use File::Basename;
 use FindBin qw($RealBin);
 use lib dirname($RealBin);
+use lib dirname($RealBin) . '/Kernel/cpan-lib';
+use lib dirname($RealBin) . '/Custom';
 
 use Getopt::Std;
 use Kernel::Config;
@@ -38,13 +40,13 @@ use Kernel::System::User;
 use Kernel::System::Main;
 use Kernel::System::Time;
 
-my $VERSION = qw($Revision: 1.4 $) [1];
+my $VERSION = qw($Revision: 1.5 $) [1];
 
 my %Opts = ();
 getopt( 'h', \%Opts );
 if ( $Opts{h} ) {
     print "$0 <Revision $VERSION> - set a new agent password\n";
-    print "Copyright (C) 2001-2011 OTRS AG, http://otrs.org/\n";
+    print "Copyright (C) 2001-2012 OTRS AG, http://otrs.org/\n";
     print "usage: otrs.SetPassword user password\n";
     exit 1;
 }

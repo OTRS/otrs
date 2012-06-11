@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.PackageManager.pl - otrs package manager cmd version
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.PackageManager.pl,v 1.10 2010-10-14 08:54:15 bes Exp $
+# $Id: otrs.PackageManager.pl,v 1.11 2012-06-11 09:31:14 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -26,10 +26,12 @@ use warnings;
 
 # use ../ as lib location
 use File::Basename;
-use File::Spec;
 use FindBin qw($RealBin);
 use lib dirname($RealBin);
+use lib dirname($RealBin) . '/Kernel/cpan-lib';
+use lib dirname($RealBin) . '/Custom';
 
+use File::Spec;
 use Getopt::Std;
 
 use Kernel::Config;
@@ -42,7 +44,7 @@ use Kernel::System::Package;
 
 # get file version
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 # common objects
 my %CommonObject = ();
@@ -84,7 +86,7 @@ if ( $Opts{a} && $Opts{a} eq 'index' ) {
 # check needed params
 if ( $Opts{h} ) {
     print "otrs.PackageManager.pl <Revision $VERSION> - OTRS Package Manager\n";
-    print "Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
+    print "Copyright (C) 2001-2012 OTRS AG, http://otrs.org/\n";
     print
         "usage: otrs.PackageManager.pl -a list|install|upgrade|uninstall|reinstall|list-repository|file|build|index \n";
     print

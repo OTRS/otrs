@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # otrs.CleanTicketIndex.pl - Clean the Static Ticket Index
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.CleanTicketIndex.pl,v 1.5 2010-08-06 17:49:20 cr Exp $
+# $Id: otrs.CleanTicketIndex.pl,v 1.6 2012-06-11 09:31:14 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -28,9 +28,11 @@ use warnings;
 use File::Basename;
 use FindBin qw($RealBin);
 use lib dirname($RealBin);
+use lib dirname($RealBin) . '/Kernel/cpan-lib';
+use lib dirname($RealBin) . '/Custom';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 use Kernel::Config;
 use Kernel::System::Encode;
@@ -54,7 +56,7 @@ $CommonObject{DBObject}   = Kernel::System::DB->new(%CommonObject);
 # check args
 my $Command = shift || '--help';
 print "otrs.CleanTicketIndex.pl <Revision $VERSION> - clean static index\n";
-print "Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
+print "Copyright (C) 2001-2012 OTRS AG, http://otrs.org/\n";
 
 my $Module = $CommonObject{ConfigObject}->Get('Ticket::IndexModule');
 print "Module is $Module\n";

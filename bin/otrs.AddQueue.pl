@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.AddQueue.pl - Add Queue from CLI
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.AddQueue.pl,v 1.5 2011-01-30 19:54:28 mb Exp $
+# $Id: otrs.AddQueue.pl,v 1.6 2012-06-11 09:31:14 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -28,9 +28,11 @@ use warnings;
 use File::Basename;
 use FindBin qw($RealBin);
 use lib dirname($RealBin);
+use lib dirname($RealBin) . '/Kernel/cpan-lib';
+use lib dirname($RealBin) . '/Custom';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -49,7 +51,7 @@ getopts( 'hg:n:s:S:c:r:u:l:C:', \%Opts );
 
 if ( $Opts{h} ) {
     print STDOUT "otrs.AddQueue.pl <Revision $VERSION> - add new queue\n";
-    print STDOUT "Copyright (C) 2001-2011 OTRS AG, http://otrs.org/\n";
+    print STDOUT "Copyright (C) 2001-2012 OTRS AG, http://otrs.org/\n";
     print STDOUT "usage: otrs.AddQueue.pl -n <NAME> -g <GROUP> [-s <SYSTEMADDRESSID> -S \n";
     print STDOUT
         "<SYSTEMADDRESS> -c <COMMENT> -r <FirstResponseTime> -u <UpdateTime> \n";
