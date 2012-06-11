@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.207.2.1 2012-05-11 12:32:57 mg Exp $
+# $Id: AgentTicketZoom.dtl,v 1.207.2.2 2012-06-11 08:20:01 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -76,7 +76,7 @@
     <div class="ClearLeft"></div>
     <div class="Headline">
         <div class="Flag" title="$Text{"$Data{"Priority"}"}"><span class="PriorityID-$QData{"PriorityID"}">$Text{"$Data{"Priority"}"}</span></div>
-        <h1 title="$Text{"Zoom"} $Config{"Ticket::Hook"}$Data{"TicketNumber"} &ndash; $QData{"Title", "70"}">
+        <h1 title="$Text{"Zoom"} $Config{"Ticket::Hook"}$Data{"TicketNumber"} &ndash; $QData{"Title", "170"}">
             $Config{"Ticket::Hook"}$Data{"TicketNumber"} <span>&mdash;</span> $QData{"Title", "60"}
         </h1>
     </div>
