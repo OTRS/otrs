@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketForward.pm - to forward a message
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketForward.pm,v 1.133 2012-05-26 01:42:09 cr Exp $
+# $Id: AgentTicketForward.pm,v 1.134 2012-06-11 18:40:57 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,7 +26,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.133 $) [1];
+$VERSION = qw($Revision: 1.134 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1505,7 +1505,7 @@ sub _GetExtendedParams {
                 }
 
                 my $CustomerDisabled = '';
-                my $CountAux         = $Count;
+                my $CountAux         = $CustomerCounter;
                 if ( $CustomerError ne '' ) {
                     $CustomerDisabled = 'disabled="disabled"';
                     $CountAux         = $Count . 'Error';
@@ -1535,6 +1535,7 @@ sub _GetExtendedParams {
         = $Self->{ParamObject}->GetParam( Param => 'CustomerTicketCounterCcCustomer' ) || 0;
 
     if ($CustomersNumberCc) {
+        my $CustomerCounterCc = 1;
         for my $Count ( 1 ... $CustomersNumberCc ) {
             my $CustomerElementCc
                 = $Self->{ParamObject}->GetParam( Param => 'CcCustomerTicketText_' . $Count );
@@ -1566,7 +1567,7 @@ sub _GetExtendedParams {
                 }
 
                 my $CustomerDisabledCc = '';
-                my $CountAuxCc         = $Count;
+                my $CountAuxCc         = $CustomerCounterCc;
                 if ( $CustomerErrorCc ne '' ) {
                     $CustomerDisabledCc = 'disabled="disabled"';
                     $CountAuxCc         = $Count . 'Error';
@@ -1595,6 +1596,7 @@ sub _GetExtendedParams {
         = $Self->{ParamObject}->GetParam( Param => 'CustomerTicketCounterBccCustomer' ) || 0;
 
     if ($CustomersNumberBcc) {
+        my $CustomerCounterBcc = 1;
         for my $Count ( 1 ... $CustomersNumberBcc ) {
             my $CustomerElementBcc
                 = $Self->{ParamObject}->GetParam( Param => 'BccCustomerTicketText_' . $Count );
@@ -1627,7 +1629,7 @@ sub _GetExtendedParams {
                 }
 
                 my $CustomerDisabledBcc = '';
-                my $CountAuxBcc         = $Count;
+                my $CountAuxBcc         = $CustomerCounterBcc;
                 if ( $CustomerErrorBcc ne '' ) {
                     $CustomerDisabledBcc = 'disabled="disabled"';
                     $CountAuxBcc         = $Count . 'Error';
