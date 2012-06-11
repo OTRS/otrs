@@ -2,7 +2,7 @@
 # Escalations.t - escalation event tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Escalations.t,v 1.8.2.3 2012-05-21 13:58:25 cg Exp $
+# $Id: Escalations.t,v 1.8.2.4 2012-06-11 03:34:59 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -68,7 +68,8 @@ my $CheckNumEvents = sub {
         $Self->True( $JobRun, "JobRun() $JobName Run the GenericAgent job" );
     }
 
-    sleep 2;
+    #sleep a bit before to check
+    sleep 3;
 
     my @Lines = $Param{TicketObject}->HistoryGet(
         TicketID => $Param{TicketID},
@@ -91,8 +92,8 @@ my $CheckNumEvents = sub {
 # One time with the business hours changed to 24x7, and
 # one time with no business hours at all
 my %WorkingHours = (
-    0 => '1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24',
-    1 => '',
+    0 => '',
+    1 => '0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23',
 );
 
 for my $Hours ( sort keys %WorkingHours ) {
@@ -477,8 +478,13 @@ for my $Hours ( sort keys %WorkingHours ) {
         # make sure that a least a minute is taken off the used up time
         # A timespan of less than 1 minute comes up the 0% reached.
         # However, a NotifyBefore of 0% indicates that no NotifyBefore is emitted.
-        $Self->True( 1, 'sleeping for 41 s, percentage reached should not be 0%' );
-        sleep 41;
+        my $SleepTime = 60 - ( $TimeObject->SystemTime() - $StartingSystemTime );
+
+        # Add extra second for some slow machines
+        $SleepTime += 7;
+        $SleepTime = 10 if $SleepTime lt 1;
+        $Self->True( 1, "sleeping for $SleepTime s, percentage reached should not be 0%" );
+        sleep $SleepTime;
 
         # explicitly invalidate the cache for the next TicketGet(),
         # as TicketEscalationIndexBuild() of OTRS 2.4.7  does not care
