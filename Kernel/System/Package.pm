@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Package.pm,v 1.130 2012-03-18 20:19:13 mh Exp $
+# $Id: Package.pm,v 1.130.2.1 2012-06-11 21:25:17 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::WebUserAgent;
 use Kernel::System::XML;
 
 use vars qw($VERSION $S);
-$VERSION = qw($Revision: 1.130 $) [1];
+$VERSION = qw($Revision: 1.130.2.1 $) [1];
 
 =head1 NAME
 
@@ -1930,7 +1930,7 @@ sub PackageExport {
     my %Structure = $Self->PackageParse(%Param);
 
     return 1 if !$Structure{Filelist};
-    return 1 if $Structure{Filelist} ne 'ARRAY';
+    return 1 if ref $Structure{Filelist} ne 'ARRAY';
 
     # install files
     for my $File ( @{ $Structure{Filelist} } ) {
@@ -2811,6 +2811,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.130 $ $Date: 2012-03-18 20:19:13 $
+$Revision: 1.130.2.1 $ $Date: 2012-06-11 21:25:17 $
 
 =cut

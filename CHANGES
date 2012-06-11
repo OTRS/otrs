@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2260.2.60 2012-06-11 16:11:55 mb Exp $
+# $Id: CHANGES,v 1.2260.2.61 2012-06-11 21:25:17 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.1.7 2012-??-??
+ - 2012-06-11 Fixed bug#8565 - Exportfile action from otrs.PackageManaget.pl is broken.
  - 2012-06-11 Fixed bug#8458 - $OTRS_SCHEDULER -a start missing from /etc/init.d/otrs after update.
  - 2012-06-11 Fixed bug#8139 - SUSE RPM has no dependency on Date::Format perl
     module.
