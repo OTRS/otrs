@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.381.2.5 2012-06-04 07:48:55 mg Exp $
+# $Id: Layout.pm,v 1.381.2.6 2012-06-11 09:51:35 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Mail::Address;
 use URI::Escape qw();
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.381.2.5 $) [1];
+$VERSION = qw($Revision: 1.381.2.6 $) [1];
 
 =head1 NAME
 
@@ -581,18 +581,6 @@ sub Output {
             my $TemplateList = $FilterConfig->{Templates};
 
             # check template list
-            if ( !$TemplateList || ref $TemplateList ne 'HASH' || !%{$TemplateList} ) {
-
-                $Self->{LogObject}->Log(
-                    Priority => 'notice',
-                    Message =>
-                        "Please add a template list to output filter $FilterConfig->{Module} "
-                        . "to improve performance. Use ALL if OutputFilter should modify all "
-                        . "templates of the system (deprecated).",
-                );
-            }
-
-            # check template list
             if ( $Param{TemplateFile} && ref $TemplateList eq 'HASH' && !$TemplateList->{ALL} ) {
                 next FILTER if !$TemplateList->{ $Param{TemplateFile} };
             }
@@ -786,18 +774,6 @@ sub Output {
 
             # extract template list
             my $TemplateList = $FilterConfig->{Templates};
-
-            # check template list
-            if ( !$TemplateList || ref $TemplateList ne 'HASH' || !%{$TemplateList} ) {
-
-                $Self->{LogObject}->Log(
-                    Priority => 'notice',
-                    Message =>
-                        "Please add a template list to output filter $FilterConfig->{Module} "
-                        . "to improve performance. Use ALL if OutputFilter should modify all "
-                        . "templates of the system (deprecated).",
-                );
-            }
 
             # check template list
             if ( $Param{TemplateFile} && ref $TemplateList eq 'HASH' && !$TemplateList->{ALL} ) {
@@ -1632,18 +1608,6 @@ sub Print {
             my $TemplateList = $FilterConfig->{Templates};
 
             # check template list
-            if ( !$TemplateList || ref $TemplateList ne 'HASH' || !%{$TemplateList} ) {
-
-                $Self->{LogObject}->Log(
-                    Priority => 'notice',
-                    Message =>
-                        "Please add a template list to output filter $FilterConfig->{Module} "
-                        . "to improve performance. Use ALL if OutputFilter should modify all "
-                        . "templates of the system (deprecated).",
-                );
-            }
-
-            # check template list
             if ( $Param{TemplateFile} && ref $TemplateList eq 'HASH' && !$TemplateList->{ALL} ) {
                 next FILTER if !$TemplateList->{ $Param{TemplateFile} };
             }
@@ -1794,18 +1758,6 @@ sub Ascii2Html {
             my $TemplateList = $FilterConfig->{Templates};
 
             # check template list
-            if ( !$TemplateList || ref $TemplateList ne 'HASH' || !%{$TemplateList} ) {
-
-                $Self->{LogObject}->Log(
-                    Priority => 'notice',
-                    Message =>
-                        "Please add a template list to output filter $FilterConfig->{Module} "
-                        . "to improve performance. Use ALL if OutputFilter should modify all "
-                        . "templates of the system (deprecated).",
-                );
-            }
-
-            # check template list
             if ( $Param{TemplateFile} && ref $TemplateList eq 'HASH' && !$TemplateList->{ALL} ) {
                 next FILTER if !$TemplateList->{ $Param{TemplateFile} };
             }
@@ -1953,18 +1905,6 @@ sub LinkQuote {
 
             # extract template list
             my $TemplateList = $FilterConfig->{Templates};
-
-            # check template list
-            if ( !$TemplateList || ref $TemplateList ne 'HASH' || !%{$TemplateList} ) {
-
-                $Self->{LogObject}->Log(
-                    Priority => 'notice',
-                    Message =>
-                        "Please add a template list to output filter $FilterConfig->{Module} "
-                        . "to improve performance. Use ALL if OutputFilter should modify all "
-                        . "templates of the system (deprecated).",
-                );
-            }
 
             # check template list
             if ( $Param{TemplateFile} && ref $TemplateList eq 'HASH' && !$TemplateList->{ALL} ) {
@@ -5071,6 +5011,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.381.2.5 $ $Date: 2012-06-04 07:48:55 $
+$Revision: 1.381.2.6 $ $Date: 2012-06-11 09:51:35 $
 
 =cut
