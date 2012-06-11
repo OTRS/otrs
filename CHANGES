@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2329 2012-06-11 08:20:08 mg Exp $
+# $Id: CHANGES,v 1.2330 2012-06-11 08:50:48 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -37,6 +37,8 @@
  - 2012-06-05 Fixed bug#8546 - LinkObject Type is not translated in ticket zoom.
  - 2012-06-04 Fixed bug#7533 - SQL error if body contains only a picture.
  - 2012-06-04 Fixed bug#2626 - Default Service does not work for "unknown" customers.
+    You can use the new setting "Ticket::Service::Default::UnknownCustomer" to specify if unknown customers
+    should also receive the default services.
  - 2012-06-04 Improved performance of TemplateGenerator.pm, thanks to Stelios Gikas!
  - 2012-05-31 Fixed bug#8481 - Dynamic Fields lost after ticket move to another queue (using quick
     move Dropdown).
