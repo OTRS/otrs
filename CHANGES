@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2331 2012-06-11 14:34:49 mb Exp $
+# $Id: CHANGES,v 1.2332 2012-06-11 16:10:10 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -28,6 +28,7 @@
     NotificationEvent definitions.
 
 3.1.7 2012-??-??
+ - 2012-06-11 Fixed bug#8458 - $OTRS_SCHEDULER -a start missing from /etc/init.d/otrs after update.
  - 2012-06-11 Fixed bug#8139 - SUSE RPM has no dependency on Date::Format perl
     module.
  - 2012-06-11 Fixed bug#8544 - Hovering ticket title is still shortened.
