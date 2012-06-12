@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Cache/FileStorable.pm - all cache functions
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: FileStorable.pm,v 1.9 2011-12-20 10:20:09 mg Exp $
+# $Id: FileStorable.pm,v 1.10 2012-06-12 13:53:12 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ umask 002;
 use Storable qw();
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -58,15 +58,6 @@ sub Set {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
-    }
-
-    # check for 7 bit chars in type
-    if ( grep { $_ < 32 or $_ > 126 } unpack( "C*", $Param{Type} ) ) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => "Can use only 7 bit chars as cache type ($Param{Type})!",
-        );
-        return;
     }
 
     my $Now = time();

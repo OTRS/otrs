@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Cache/FileRaw.pm - all cache functions
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: FileRaw.pm,v 1.6 2011-12-20 10:20:09 mg Exp $
+# $Id: FileRaw.pm,v 1.7 2012-06-12 13:53:12 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use warnings;
 umask 002;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -71,14 +71,6 @@ sub Set {
     $Dump .= "#$Param{KeyNice}\n";
     $Dump .= $Self->{MainObject}->Dump( $Param{Value} ) . "\n1;";
 
-    # check for 7 bit chars in type
-    if ( grep { $_ < 32 or $_ > 126 } unpack( "C*", $Param{Type} ) ) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => "Can use only 7 bit chars as cache type ($Param{Type})!",
-        );
-        return;
-    }
     my $CacheDirectory = $Self->{CacheDirectory} . '/' . $Param{Type};
     if ( !-e $CacheDirectory ) {
         if ( !mkdir( $CacheDirectory, 0775 ) ) {
