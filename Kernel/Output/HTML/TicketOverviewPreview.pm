@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/TicketOverviewPreview.pm
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketOverviewPreview.pm,v 1.49.2.3 2011-09-19 13:56:22 jh Exp $
+# $Id: TicketOverviewPreview.pm,v 1.49.2.4 2012-06-12 10:24:20 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::SystemAddress;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.49.2.3 $) [1];
+$VERSION = qw($Revision: 1.49.2.4 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -342,15 +342,21 @@ sub _Show {
         }
     }
 
+    my %Ticket = $Self->{TicketObject}->TicketGet(
+        TicketID      => $Param{TicketID},
+        DynamicFields => 0,
+    );
+
+    my $AdditionalClasses = $Param{Config}->{TicketActionsPerTicket} ? 'ShowInlineActions' : '';
+
     $Self->{LayoutObject}->Block(
         Name => 'DocumentContent',
         Data => {
             %Param,
             %Article,
             Class             => 'ArticleCount' . $ArticleCount,
-            AdditionalClasses => $Param{Config}->{TicketActionsPerTicket}
-            ? 'ShowInlineActions'
-            : '',
+            AdditionalClasses => $AdditionalClasses,
+            Created           => $Ticket{Created},              # use value from ticket, not article
         },
     );
 
