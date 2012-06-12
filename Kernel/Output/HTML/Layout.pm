@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.388 2012-06-04 07:48:34 mg Exp $
+# $Id: Layout.pm,v 1.389 2012-06-12 22:31:07 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Mail::Address;
 use URI::Escape qw();
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.388 $) [1];
+$VERSION = qw($Revision: 1.389 $) [1];
 
 =head1 NAME
 
@@ -603,6 +603,9 @@ sub Output {
                 next FILTER if !$TemplateList->{ $Param{TemplateFile} };
             }
 
+            next FILTER
+                if !$Param{TemplateFile} && ref $TemplateList eq 'HASH' && !$TemplateList->{ALL};
+
             next FILTER if !$Self->{MainObject}->Require( $FilterConfig->{Module} );
 
             # create new instance
@@ -809,6 +812,9 @@ sub Output {
             if ( $Param{TemplateFile} && ref $TemplateList eq 'HASH' && !$TemplateList->{ALL} ) {
                 next FILTER if !$TemplateList->{ $Param{TemplateFile} };
             }
+
+            next FILTER
+                if !$Param{TemplateFile} && ref $TemplateList eq 'HASH' && !$TemplateList->{ALL};
 
             next FILTER if !$Self->{MainObject}->Require( $FilterConfig->{Module} );
 
@@ -1654,6 +1660,9 @@ sub Print {
                 next FILTER if !$TemplateList->{ $Param{TemplateFile} };
             }
 
+            next FILTER
+                if !$Param{TemplateFile} && ref $TemplateList eq 'HASH' && !$TemplateList->{ALL};
+
             next FILTER if !$Self->{MainObject}->Require( $FilterConfig->{Module} );
 
             # create new instance
@@ -1816,6 +1825,9 @@ sub Ascii2Html {
                 next FILTER if !$TemplateList->{ $Param{TemplateFile} };
             }
 
+            next FILTER
+                if !$Param{TemplateFile} && ref $TemplateList eq 'HASH' && !$TemplateList->{ALL};
+
             $Self->FatalDie() if !$Self->{MainObject}->Require( $FilterConfig->{Module} );
 
             # create new instance
@@ -1976,6 +1988,9 @@ sub LinkQuote {
             if ( $Param{TemplateFile} && ref $TemplateList eq 'HASH' && !$TemplateList->{ALL} ) {
                 next FILTER if !$TemplateList->{ $Param{TemplateFile} };
             }
+
+            next FILTER
+                if !$Param{TemplateFile} && ref $TemplateList eq 'HASH' && !$TemplateList->{ALL};
 
             $Self->FatalDie() if !$Self->{MainObject}->Require( $FilterConfig->{Module} );
 
@@ -5159,6 +5174,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.388 $ $Date: 2012-06-04 07:48:34 $
+$Revision: 1.389 $ $Date: 2012-06-12 22:31:07 $
 
 =cut
