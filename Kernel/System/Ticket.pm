@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.555 2012-05-24 10:33:22 mg Exp $
+# $Id: Ticket.pm,v 1.556 2012-06-12 07:05:44 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -40,7 +40,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.555 $) [1];
+$VERSION = qw($Revision: 1.556 $) [1];
 
 =head1 NAME
 
@@ -1148,43 +1148,8 @@ sub TicketGet {
 
             # set the dynamic field name and value into the ticket hash
             $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = $Value;
-
-            # check if field is TicketFreeKey[1-16], TicketFreeText[1-6] or TicketFreeTime[1-6]
-            # Compatibility feature can be removed on further versions
-            if (
-                $DynamicFieldConfig->{Name} =~ m{
-               \A
-               (
-                    TicketFree
-                    (?:
-                        (?:Text|Key)
-                        (?:1[0-6]|[1-9])
-                        |
-                        (?:Time [1-6])
-                    )
-                )
-                \z
-            }smx
-                )
-            {
-
-                # Set field for 3.0 and 2.4 compatibility
-                $Ticket{ $DynamicFieldConfig->{Name} } = $Value;
-            }
         }
     }
-
-    #    # cleanup time stamps (some databases are using e. g. 2008-02-25 22:03:00.000000
-    #    # and 0000-00-00 00:00:00 time stamps)
-    #    for my $Time ( 1 .. 6 ) {
-    #        my $Key = 'TicketFreeTime' . $Time;
-    #        next if !$Ticket{$Key};
-    #        if ( $Ticket{$Key} eq '0000-00-00 00:00:00' ) {
-    #            $Ticket{$Key} = '';
-    #            next;
-    #        }
-    #        $Ticket{$Key} =~ s/^(\d\d\d\d-\d\d-\d\d\s\d\d:\d\d:\d\d)\..+?$/$1/;
-    #    }
 
     # fillup runtime values
     $Ticket{Age} = $Self->{TimeObject}->SystemTime() - $Ticket{CreateTimeUnix};
@@ -2953,242 +2918,6 @@ sub TicketCustomerSet {
         },
         UserID => $Param{UserID},
     );
-
-    return 1;
-}
-
-=item TicketFreeTextSet()
-
-DEPRECATED. This function will be removed in a future version of OTRS, don't use it any more!
-
-Set ticket free text.
-
-    my $Success = $TicketObject->TicketFreeTextSet(
-        Counter  => 1,
-        Key      => 'Planet', # optional
-        Value    => 'Sun',  # optional
-        TicketID => 123,
-        UserID   => 23,
-    );
-
-=cut
-
-sub TicketFreeTextSet {
-    my ( $Self, %Param ) = @_;
-
-    # check needed stuff
-    for my $Needed (qw(TicketID UserID Counter)) {
-        if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
-            return;
-        }
-    }
-
-    # check if update is needed
-    my %Ticket = $Self->TicketGet(
-        TicketID      => $Param{TicketID},
-        DynamicFields => 1,
-    );
-
-    my $Value = '';
-    my $Key   = '';
-
-    if ( defined $Param{Value} ) {
-        $Value = $Param{Value};
-    }
-    else {
-        $Value = $Ticket{ 'TicketFreeText' . $Param{Counter} };
-    }
-
-    if ( defined $Param{Key} ) {
-        $Key = $Param{Key};
-    }
-    else {
-        $Key = $Ticket{ 'TicketFreeKey' . $Param{Counter} };
-    }
-
-    my $UpdateValue;
-    my $UpdateKey;
-
-    # update if old Value was null and new Value is not null
-    if ( defined $Value && !defined $Ticket{"TicketFreeText$Param{Counter}"} ) {
-        $UpdateValue = 1;
-    }
-
-    # update if old Key was null and new Key is not null
-    if ( defined $Key && !defined $Ticket{"TicketFreeKey$Param{Counter}"} ) {
-        $UpdateKey = 1;
-    }
-
-    # check if last value was not null
-    if (
-        defined $Ticket{"TicketFreeText$Param{Counter}"}
-        && defined $Ticket{"TicketFreeKey$Param{Counter}"}
-        )
-    {
-
-        # no opration is needed if old and new registers are the same on both Key and Value
-        if (
-            $Value  eq $Ticket{"TicketFreeText$Param{Counter}"}
-            && $Key eq $Ticket{"TicketFreeKey$Param{Counter}"}
-            )
-        {
-            return 1;
-        }
-
-        # update Value field if is different form the old one
-        if ( $Value ne $Ticket{"TicketFreeText$Param{Counter}"} ) {
-            $UpdateValue = 1;
-        }
-
-        # update Key field if is different form the old one
-        if ( $Key ne $Ticket{"TicketFreeKey$Param{Counter}"} ) {
-            $UpdateKey = 1;
-        }
-    }
-
-    # set the TicketFreeText as a DynamicField
-    if ($UpdateValue) {
-        my $DynamicFieldConfig = $Self->{DynamicFieldObject}->DynamicFieldGet(
-            Name => "TicketFreeText$Param{Counter}",
-        );
-
-        my $Success = $Self->{DynamicFieldBackendObject}->ValueSet(
-            DynamicFieldConfig => $DynamicFieldConfig,
-            ObjectID           => $Param{TicketID},
-            Value              => $Value,
-            UserID             => $Param{UserID},
-        );
-
-        return if !$Success;
-    }
-
-    # set the TicketFreeKey as a DynamicField
-    if ($UpdateKey) {
-        my $DynamicFieldConfig = $Self->{DynamicFieldObject}->DynamicFieldGet(
-            Name => "TicketFreeKey$Param{Counter}",
-        );
-
-        my $Success = $Self->{DynamicFieldBackendObject}->ValueSet(
-            DynamicFieldConfig => $DynamicFieldConfig,
-            ObjectID           => $Param{TicketID},
-            Value              => $Key,
-            UserID             => $Param{UserID},
-        );
-
-        return if !$Success;
-    }
-
-    # clear ticket cache
-    delete $Self->{ 'Cache::GetTicket' . $Param{TicketID} };
-
-    return 1;
-}
-
-=item TicketFreeTimeSet()
-
-DEPRECATED. This function will be removed in a future version of OTRS, don't use it any more!
-
-Set ticket free text.
-
-    my $Success = $TicketObject->TicketFreeTimeSet(
-        Counter               => 1,
-        Prefix                => 'TicketFreeTime',
-        TicketFreeTime1Year   => 1900,
-        TicketFreeTime1Month  => 12,
-        TicketFreeTime1Day    => 24,
-        TicketFreeTime1Hour   => 22,
-        TicketFreeTime1Minute => 01,
-        TicketID              => 123,
-        UserID                => 23,
-    );
-
-If you want to set a FreeTime value to null, just supply zeros:
-
-    my $Success = $TicketObject->TicketFreeTimeSet(
-        Counter               => 1,
-        Prefix                => 'TicketFreeTime',
-        TicketFreeTime1Year   => 0,
-        TicketFreeTime1Month  => 0,
-        TicketFreeTime1Day    => 0,
-        TicketFreeTime1Hour   => 0,
-        TicketFreeTime1Minute => 0,
-        TicketID              => 123,
-        UserID                => 23,
-    );
-
-Events:
-    TicketFreeTimeUpdate
-
-=cut
-
-sub TicketFreeTimeSet {
-    my ( $Self, %Param ) = @_;
-
-    my $Prefix = $Param{Prefix} || 'TicketFreeTime';
-
-    # check needed stuff
-    for my $Needed (qw(TicketID UserID Counter)) {
-        if ( !defined $Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
-            return;
-        }
-    }
-    for my $DatePart (qw(Year Month Day Hour Minute)) {
-        if ( !defined $Param{ $Prefix . $Param{Counter} . $DatePart } ) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message  => "Need $Prefix" . $Param{Counter} . "$DatePart!",
-            );
-            return;
-        }
-    }
-
-    # generate time stamp to compare if update is needed
-    my $TimeStamp = sprintf(
-        "%04d-%02d-%02d %02d:%02d:00",
-        $Param{ $Prefix . $Param{Counter} . 'Year' },
-        $Param{ $Prefix . $Param{Counter} . 'Month' },
-        $Param{ $Prefix . $Param{Counter} . 'Day' },
-        $Param{ $Prefix . $Param{Counter} . 'Hour' },
-        $Param{ $Prefix . $Param{Counter} . 'Minute' },
-    );
-    if ( $TimeStamp eq '0000-00-00 00:00:00' ) {
-        $TimeStamp = '';
-    }
-
-    # check if update is needed
-    my %Ticket = $Self->TicketGet(
-        TicketID      => $Param{TicketID},
-        DynamicFields => 1,
-    );
-    my $TicketFreeTime = $Ticket{"TicketFreeTime$Param{Counter}"} || '';
-
-    if ( $TimeStamp eq $TicketFreeTime ) {
-        return 1;
-    }
-
-    # set correct value for invalid timestamp
-    if ( !$TimeStamp || $TimeStamp eq '0000-00-00 00:00:00' ) {
-        $TimeStamp = undef;
-    }
-
-    # set the TicketFreeTime value as a DynamicFiled
-    my $DynamicFieldConfig = $Self->{DynamicFieldObject}->DynamicFieldGet(
-        Name => "TicketFreeTime$Param{Counter}",
-    );
-
-    my $Success = $Self->{DynamicFieldBackendObject}->ValueSet(
-        DynamicFieldConfig => $DynamicFieldConfig,
-        ObjectID           => $Param{TicketID},
-        Value              => $TimeStamp,
-        UserID             => $Param{UserID},
-    );
-
-    return if !$Success;
-
-    # clear ticket cache
-    delete $Self->{ 'Cache::GetTicket' . $Param{TicketID} };
 
     return 1;
 }
@@ -5022,7 +4751,7 @@ sub HistoryTicketGet {
                 # Backward compatibility for TicketFreeText and TicketFreeTime
                 if ( $FieldName =~ /^Ticket(Free(?:Text|Key)(?:[?:1[0-6]|[1-9]))$/ ) {
 
-                    # Remove the leading Tiket on field name
+                    # Remove the leading Ticket on field name
                     my $FreeFieldName = $1;
                     $Ticket{$FreeFieldName} = $Value;
                 }
@@ -6181,29 +5910,6 @@ sub TicketAcl {
         # update or add dynamic fields information to the ticket check
         for my $DynamicFieldName ( keys %{ $Param{DynamicField} } ) {
             $Checks{Ticket}->{$DynamicFieldName} = $Param{DynamicField}->{$DynamicFieldName};
-
-            if (
-                $DynamicFieldName =~ m{
-               \A DynamicField_
-               (
-                    TicketFree
-                    (?:
-                        (?:Text|Key)
-                        (?:1[0-6]|[1-9])
-                        |
-                        (?:Time [1-6])
-                    )
-                )
-                \z
-            }smx
-                )
-            {
-
-                # Set field for 3.0 and 2.4 compatibility
-                my $CompatName = $DynamicFieldName;
-                $CompatName =~ s{\A DynamicField_ }{}smx;
-                $Checks{Ticket}->{$CompatName} = $Param{DynamicField}->{$DynamicFieldName};
-            }
         }
     }
 
@@ -6468,7 +6174,7 @@ sub TicketAcl {
        #
        # The parameter type can contain not only the wanted ticket type, because also
        # some other functions in Kernel/System/Ticket.pm use a type paremeter, for example
-       # MoveList(), TicketFreeTextGet(), etc... These functions could be rewritten to not
+       # MoveList() etc... These functions could be rewritten to not
        # use a Type parameter, or the functions that call TicketAcl() could be modified to
        # not just pass the complete Param-Hash, but instead a new parameter, like FrontEndParameter.
        #
@@ -7807,6 +7513,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.555 $ $Date: 2012-05-24 10:33:22 $
+$Revision: 1.556 $ $Date: 2012-06-12 07:05:44 $
 
 =cut

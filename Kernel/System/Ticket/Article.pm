@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.314 2012-06-04 22:16:15 cr Exp $
+# $Id: Article.pm,v 1.315 2012-06-12 07:05:45 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::EmailParser;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.314 $) [1];
+$VERSION = qw($Revision: 1.315 $) [1];
 
 =head1 NAME
 
@@ -1036,135 +1036,6 @@ sub ArticleTypeList {
     return @Array;
 }
 
-=item ArticleFreeTextSet()
-
-DEPRECATED. This function will be removed in a future version of OTRS, don't use it any more!
-
-set an article free text field
-
-    my $Success = $TicketObject->ArticleFreeTextSet(
-        TicketID  => 123,
-        ArticleID => 1234,
-        Counter   => 1,
-        Key       => 'Planet',
-        Value     => 'Sun',
-        UserID    => 123,
-    );
-
-=cut
-
-sub ArticleFreeTextSet {
-    my ( $Self, %Param ) = @_;
-
-    # check needed stuff
-    for (qw(TicketID ArticleID UserID Counter)) {
-        if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
-            return;
-        }
-    }
-
-    # check if update is needed
-    my %Article = $Self->ArticleGet(
-        ArticleID     => $Param{ArticleID},
-        DynamicFields => 1,
-    );
-
-    my $Value = '';
-    my $Key   = '';
-
-    if ( defined $Param{Value} ) {
-        $Value = $Param{Value};
-    }
-    else {
-        $Value = $Article{ 'ArticleFreeText' . $Param{Counter} };
-    }
-
-    if ( defined $Param{Key} ) {
-        $Key = $Param{Key};
-    }
-    else {
-        $Key = $Article{ 'ArticleFreeKey' . $Param{Counter} };
-    }
-
-    my $UpdateValue;
-    my $UpdateKey;
-
-    # update if old Value was null and new Value is not null
-    if ( defined $Value && !defined $Article{"ArticleFreeText$Param{Counter}"} ) {
-        $UpdateValue = 1;
-    }
-
-    # update if old Key was null and new Key is not null
-    if ( defined $Key && !defined $Article{"ArticleFreeKey$Param{Counter}"} ) {
-        $UpdateKey = 1;
-    }
-
-    # check if last value was not null
-    if (
-        defined $Article{"ArticleFreeText$Param{Counter}"}
-        && defined $Article{"ArticleFreeKey$Param{Counter}"}
-        )
-    {
-
-        # no opration is needed if old and new registers are the same on both Key and Value
-        if (
-            $Value  eq $Article{"ArticleFreeText$Param{Counter}"}
-            && $Key eq $Article{"ArticleFreeKey$Param{Counter}"}
-            )
-        {
-            return 1;
-        }
-
-        # update Value field if is different form the old one
-        if ( $Value ne $Article{"ArticleFreeText$Param{Counter}"} ) {
-            $UpdateValue = 1;
-        }
-
-        # update Key field if is different form the old one
-        if ( $Key ne $Article{"ArticleFreeKey$Param{Counter}"} ) {
-            $UpdateKey = 1;
-        }
-    }
-
-    # set the ArticleFreeText as a DynamicField
-    if ($UpdateValue) {
-        my $DynamicFieldConfig = $Self->{DynamicFieldObject}->DynamicFieldGet(
-            Name => "ArticleFreeText$Param{Counter}",
-        );
-
-        my $Success = $Self->{DynamicFieldBackendObject}->ValueSet(
-            DynamicFieldConfig => $DynamicFieldConfig,
-            ObjectID           => $Param{ArticleID},
-            Value              => $Value,
-            UserID             => $Param{UserID},
-        );
-
-        return if !$Success;
-    }
-
-    # set the ArticleFreeKey as a DynamicField
-    if ($UpdateKey) {
-        my $DynamicFieldConfig = $Self->{DynamicFieldObject}->DynamicFieldGet(
-            Name => "ArticleFreeKey$Param{Counter}",
-        );
-
-        my $Success = $Self->{DynamicFieldBackendObject}->ValueSet(
-            DynamicFieldConfig => $DynamicFieldConfig,
-            ObjectID           => $Param{ArticleID},
-            Value              => $Key,
-            UserID             => $Param{UserID},
-        );
-
-        return if !$Success;
-    }
-
-    # clear ticket cache
-    delete $Self->{ 'Cache::GetTicket' . $Param{TicketID} };
-
-    return 1;
-}
-
 =item ArticleLastCustomerArticle()
 
 get last customer article
@@ -1413,8 +1284,6 @@ Article:
     Charset
     MimeType
     IncomingTime
-    ArticleFreeKey1-3
-    ArticleFreeText-3
 
     # If DynamicFields => 1 was passed, you'll get an entry like this for each dynamic field:
     DynamicField_X     => 'value_x',
@@ -1698,27 +1567,6 @@ sub ArticleGet {
 
                 # set the dynamic field name and value into the ticket hash
                 $Article->{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = $Value;
-
-                # check if field is ArticleFreeKey[1-3] or ArticleFreeText[1-3]
-                # Compatibility feature can be removed on further versions
-                if (
-                    $DynamicFieldConfig->{Name} =~ m{
-                        \A
-                        (
-                            ArticleFree
-                            (?:
-                                (?:Text|Key)
-                                (?:[1-3])
-                            )
-                        )
-                        \z
-                    }smxi
-                    )
-                {
-
-                    # Set field for 3.0 and 2.4 compatibility
-                    $Article->{ $DynamicFieldConfig->{Name} } = $Value;
-                }
             }
 
             DYNAMICFIELD:
@@ -3503,6 +3351,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.314 $ $Date: 2012-06-04 22:16:15 $
+$Revision: 1.315 $ $Date: 2012-06-12 07:05:45 $
 
 =cut
