@@ -1,0 +1,25 @@
+? 2012-06-12-clipboard.patch
+Index: plugin.js
+===================================================================
+RCS file: /home/cvs/otrs/var/httpd/htdocs/js/thirdparty/ckeditor-3.6.3/_source/plugins/clipboard/plugin.js,v
+retrieving revision 1.1
+diff -r1.1 plugin.js
+241,243c241,254
+< 			// IE7: selection must go before removing paste. (#8691)
+< 			sel.selectBookmarks( bms );
+< 			pastebin.remove();
+---
+>                         // IE7: selection must go before removing paste bin. (#8691)
+>                         if ( CKEDITOR.env.ie7Compat )
+>                         {
+>                                 sel.selectBookmarks( bms );
+>                                 pastebin.remove();
+>                         }
+>                         // Webkit: selection must go after removing paste bin. (#8921)
+>                         else
+>                         {
+>                                 pastebin.remove();
+>                                 sel.selectBookmarks( bms );
+>                         }
+> 
+> 

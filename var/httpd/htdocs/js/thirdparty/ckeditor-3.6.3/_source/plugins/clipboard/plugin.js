@@ -238,9 +238,20 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						 && ( bogusSpan.is && bogusSpan.hasClass( 'Apple-style-span' ) ) ?
 							bogusSpan : pastebin );
 
-			// IE7: selection must go before removing paste. (#8691)
-			sel.selectBookmarks( bms );
-			pastebin.remove();
+                        // IE7: selection must go before removing paste bin. (#8691)
+                        if ( CKEDITOR.env.ie7Compat )
+                        {
+                                sel.selectBookmarks( bms );
+                                pastebin.remove();
+                        }
+                        // Webkit: selection must go after removing paste bin. (#8921)
+                        else
+                        {
+                                pastebin.remove();
+                                sel.selectBookmarks( bms );
+                        }
+
+
 			callback( pastebin[ 'get' + ( mode == 'text' ? 'Value' : 'Html' ) ]() );
 		}, 0 );
 	}
