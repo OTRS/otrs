@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2260.2.63 2012-06-12 10:24:32 mg Exp $
+# $Id: CHANGES,v 1.2260.2.64 2012-06-12 12:16:25 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.1.7 2012-??-??
+ - 2012-06-12 Updated Hungarian translation, thanks to Németh Csaba!
+ - 2012-06-12 Updated Danish translation, thanks to Lars Jørgensen!
  - 2012-06-12 Fixed bug#7872 - "Created" date in Large view is actually Last Updated date.
  - 2012-06-12 Fixed bug#8457 -  Paste on a newly created ckeditor instance does not work on webkit based browsers.
  - 2012-06-11 Fixed bug#8565 - Exportfile action from otrs.PackageManaget.pl is broken.

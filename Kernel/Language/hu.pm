@@ -7,7 +7,7 @@
 # Copyright (C) 2009 Arnold Matyasi <arn@webma.hu>
 # Copyright (C) 2012 Csaba Németh <csaba@sopron.hu>
 # --
-# $Id: hu.pm,v 1.112.2.1 2012-04-26 13:13:58 mg Exp $
+# $Id: hu.pm,v 1.112.2.2 2012-06-12 12:16:25 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.112.2.1 $) [1];
+$VERSION = qw($Revision: 1.112.2.2 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -233,7 +233,7 @@ sub Data {
         'Login failed! Your user name or password was entered incorrectly.' =>
             '',
         'There is no acount with that user name.' => '',
-        'Please contact your administrator' => '',
+        'Please contact your administrator' => 'Lépjen kapcsolatba a rendszergazdával',
         'Logout' => 'Kilépés',
         'Logout successful. Thank you for using OTRS!' => 'Kilépés megtörtént! Köszönjük, hogy az OTRS-t használja!',
         'Invalid SessionID!' => 'Hibás folyamat azonosító!',
@@ -435,7 +435,7 @@ sub Data {
         'Change Password' => 'Jelszó megváltoztatása',
         'Current password' => 'Jelenlegi jelszó',
         'New password' => 'Új jelszó',
-        'Verify password' => '',
+        'Verify password' => 'Új jelszó ellenőrzése',
         'Spelling Dictionary' => 'Helyesírás-ellenőrző szótár',
         'Default spelling dictionary' => 'Alapértelmezett helyesírás-ellenőrző szótár',
         'Max. shown Tickets a page in Overview.' => 'Max. megjelenített jegy az áttekintésnél.',
@@ -843,11 +843,11 @@ sub Data {
 
         # Template: AdminAutoResponse
         'Auto Response Management' => 'Automatikus válasz kezelőnek',
-        'Add auto response' => '',
-        'Add Auto Response' => '',
-        'Edit Auto Response' => '',
+        'Add auto response' => 'Automatikus válasz hozzáadása',
+        'Add Auto Response' => 'Automatikus válasz hozzáadása',
+        'Edit Auto Response' => 'Automatikus válasz szerkesztése',
         'Response' => 'Válasz',
-        'Auto response from' => '',
+        'Auto response from' => 'Automatikus válasz feladója',
         'Reference' => 'Referencia',
         'You can use the following tags' => '',
         'To get the first 20 character of the subject.' => 'Az első 20 karakter használata a tárgyból',
@@ -871,10 +871,10 @@ sub Data {
         'Add Customer Company' => 'Ügyfél cég hozzáadása',
 
         # Template: AdminCustomerUser
-        'Customer Management' => '',
+        'Customer Management' => 'Ügyfél kezelés',
         'Add customer' => 'Ügyfél hozzáadása',
         'Select' => 'Kiválasztás',
-        'Hint' => '',
+        'Hint' => 'Tipp',
         'Customer will be needed to have a customer history and to login via customer panel.' =>
             '',
         'Please enter a search term to look for customers.' => '',
@@ -924,7 +924,7 @@ sub Data {
 
         # Template: AdminCustomerUserService
         'Manage Customer-Services Relations' => '',
-        'Edit default services' => '',
+        'Edit default services' => 'Alapértelmezett szolgáltatások szerkesztése',
         'Filter for Services' => '',
         'Allocate Services to Customer' => '',
         'Allocate Customers to Service' => '',
@@ -937,21 +937,21 @@ sub Data {
         'Add new field for object' => '',
         'To add a new field, select the field type form one of the object\'s list, the object defines the boundary of the field and it can\'t be changed after the field creation.' =>
             '',
-        'Dynamic Fields List' => '',
+        'Dynamic Fields List' => 'Dinamikus mezők listája',
         'Dynamic fields per page' => '',
         'Label' => '',
         'Order' => 'Sorrend',
         'Object' => 'Objektum',
         'Delete this field' => '',
         'Do you really want to delete this dynamic field? ALL associated data will be LOST!' =>
-            '',
-        'Delete field' => '',
+            'Biztosan törölni akarja ezt a dinamikus mezőt? MINDEN hozzákapcsolt adat EL FOG VESZNI!',
+        'Delete field' => 'Mező törlése',
 
         # Template: AdminDynamicFieldCheckbox
-        'Dynamic Fields' => '',
-        'Field' => '',
+        'Dynamic Fields' => 'Dinamikus mezők',
+        'Field' => 'Mező',
         'Go back to overview' => '',
-        'General' => '',
+        'General' => 'Általános',
         'This field is required, and the value should be alphabetic and numeric characters only.' =>
             '',
         'Must be unique and only accept alphabetic and numeric characters.' =>
@@ -1123,7 +1123,7 @@ sub Data {
 
         # Template: AdminGenericInterfaceDebugger
         'GenericInterface Debugger for Web Service %s' => '',
-        'Web Services' => '',
+        'Web Services' => 'Web szolgáltatások',
         'Debugger' => '',
         'Go back to web service' => '',
         'Clear' => '',
@@ -1386,10 +1386,10 @@ sub Data {
 
         # Template: AdminNavigationBar
         'Admin' => 'Adminisztráció',
-        'Agent Management' => '',
+        'Agent Management' => 'Munkatárs kezelés',
         'Queue Settings' => 'Várólista beállítások',
         'Ticket Settings' => 'Hibajegy beállítások',
-        'System Administration' => '',
+        'System Administration' => 'Rendszer adminisztráció',
 
         # Template: AdminNotification
         'Notification Management' => 'Értesítéskezelés',
@@ -1700,41 +1700,41 @@ sub Data {
 
         # Template: AdminSession
         'Session Management' => 'Folyamatkezelés',
-        'All sessions' => '',
-        'Agent sessions' => '',
-        'Customer sessions' => '',
+        'All sessions' => 'Összes folyamat',
+        'Agent sessions' => 'Munkatársak folyamatai',
+        'Customer sessions' => 'Ügyfelek folyamatai',
         'Unique agents' => '',
         'Unique customers' => '',
         'Kill all sessions' => 'Összes folyamat törlése',
-        'Kill this session' => '',
+        'Kill this session' => 'Folyamat törlése',
         'Session' => 'Folyamat',
         'Kill' => '',
         'Detail View for SessionID' => '',
 
         # Template: AdminSignature
         'Signature Management' => 'Aláírások kezelése',
-        'Add signature' => '',
+        'Add signature' => 'Aláírás hozzáadása',
         'Add Signature' => 'Aláírás hozzáadása',
-        'Edit Signature' => '',
-        'Example signature' => '',
+        'Edit Signature' => 'Aláírás szerkesztése',
+        'Example signature' => 'Példa aláírás',
 
         # Template: AdminState
         'State Management' => 'Állapotok kezelése',
-        'Add state' => '',
+        'Add state' => 'Állapot hozzáadása',
         'Please also update the states in SysConfig where needed.' => '',
         'Add State' => 'Állapot hozzáadása',
-        'Edit State' => '',
-        'State type' => '',
+        'Edit State' => 'Állapot szerkesztése',
+        'State type' => 'Állapot típus',
 
         # Template: AdminSysConfig
         'SysConfig' => 'Rendszerbeállítások',
         'Navigate by searching in %s settings' => '',
         'Navigate by selecting config groups' => '',
         'Download all system config changes' => '',
-        'Export settings' => '',
+        'Export settings' => 'Beállítások exportálása',
         'Load SysConfig settings from file' => '',
-        'Import settings' => '',
-        'Import Settings' => '',
+        'Import settings' => 'Beállítások importálása',
+        'Import Settings' => 'Beállítások importálása',
         'Please enter a search term to look for settings.' => '',
         'Subgroup' => 'Alcsoport',
         'Elements' => 'Elemek száma',
@@ -1750,10 +1750,10 @@ sub Data {
         'Content' => 'Tartalom',
         'Remove this entry' => 'Bejegyzés eltávolítása',
         'Add entry' => 'Bejegyzés hozzáadása',
-        'Remove entry' => '',
-        'Add new entry' => '',
-        'Create new entry' => '',
-        'New group' => '',
+        'Remove entry' => 'Bejegyzés eltávolítása',
+        'Add new entry' => 'Új bejegyzés hozzáadása',
+        'Create new entry' => 'Új bejegyzés létrehozása',
+        'New group' => 'Új csoport',
         'Group ro' => '',
         'Readonly group' => '',
         'New group ro' => '',
@@ -1792,17 +1792,17 @@ sub Data {
         'Edit Type' => '',
 
         # Template: AdminUser
-        'Add agent' => '',
+        'Add agent' => 'Munkatárs hozzáadása',
         'Agents will be needed to handle tickets.' => '',
         'Don\'t forget to add a new agent to groups and/or roles!' => '',
         'Please enter a search term to look for agents.' => '',
-        'Last login' => '',
+        'Last login' => 'Utolsó belépés',
         'Login as' => 'Belép mint',
         'Switch to agent' => '',
-        'Add Agent' => '',
-        'Edit Agent' => '',
-        'Firstname' => 'Keresztnév',
-        'Lastname' => 'Vezetéknév',
+        'Add Agent' => 'Munkatárs hozzáadása',
+        'Edit Agent' => 'Munkatárs szerkesztése',
+        'Firstname' => 'Vezetéknév',
+        'Lastname' => 'Keresztnév',
         'Password is required.' => '',
         'Start' => 'Eleje',
         'End' => 'Vége',
@@ -1866,8 +1866,8 @@ sub Data {
         # Template: AgentHTMLReferenceOverview
 
         # Template: AgentHTMLReferencePageLayout
-        'The ticket has been locked' => '',
-        'Undo & close window' => '',
+        'The ticket has been locked' => 'A hibajegy zárolva lett',
+        'Undo & close window' => 'Visszavonás és ablak bezárása',
 
         # Template: AgentInfo
         'Info' => 'Info',
@@ -1875,7 +1875,7 @@ sub Data {
 
         # Template: AgentLinkObject
         'Link Object: %s' => 'Kapcsolódó Objektum: %s',
-        'Close window' => '',
+        'Close window' => 'Ablak bezárása',
         'go to link delete screen' => '',
         'Select Target Object' => '',
         'Link Object' => 'Objektumok összekapcsolása',
@@ -1886,7 +1886,7 @@ sub Data {
         # Template: AgentNavigationBar
 
         # Template: AgentPreferences
-        'Edit your preferences' => '',
+        'Edit your preferences' => 'Beállításaid szerkesztése',
 
         # Template: AgentSpelling
         'Spell Checker' => 'Helyesírásellenőrző',
@@ -1985,21 +1985,21 @@ sub Data {
         'Close Ticket' => '',
         'Add Note to Ticket' => '',
         'Set Pending' => 'Várakozás beállítás',
-        'Change Priority of Ticket' => '',
+        'Change Priority of Ticket' => 'Hibajegy prioritásának változtatása',
         'Change Responsible of Ticket' => '',
-        'Cancel & close window' => '',
-        'Service invalid.' => '',
+        'Cancel & close window' => 'Mégsem és ablak bezárása',
+        'Service invalid.' => 'Hibás szolgáltatás',
         'New Owner' => 'Új tulajdonos',
         'Please set a new owner!' => '',
         'Previous Owner' => 'Korábbi tulajdonos',
         'Inform Agent' => 'Ügyintéző értsítése',
         'Optional' => 'Nem kötelező',
         'Inform involved Agents' => 'Érintett ügyintézők értesítése',
-        'Spell check' => '',
+        'Spell check' => 'Helyesírás ellenőrzés',
         'Note type' => 'Jegyzet típusa',
         'Next state' => 'Következő állapot',
         'Pending date' => 'Várakozási dátum',
-        'Date invalid!' => '',
+        'Date invalid!' => 'Hibás dátum',
 
         # Template: AgentTicketActionPopupClose
 
@@ -2015,7 +2015,7 @@ sub Data {
 
         # Template: AgentTicketBulk
         'Ticket Bulk Action' => 'Csoportos jegy-művelet',
-        'Send Email' => '',
+        'Send Email' => 'Email küldése',
         'Merge to' => 'Egyesíti',
         'Invalid ticket identifier!' => '',
         'Merge to oldest' => 'Legrégebbihez egyesíti',
@@ -2517,7 +2517,7 @@ sub Data {
             '',
         'Adds the permanent vacation days. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' =>
             '',
-        'Agent Notifications' => '',
+        'Agent Notifications' => 'Munkatárs értesítések',
         'Agent interface article notification module to check PGP.' => '',
         'Agent interface article notification module to check S/MIME.' =>
             '',
@@ -2604,7 +2604,7 @@ sub Data {
         'Cache time in seconds for customer authentication in the GenericInterface.' =>
             '',
         'Cache time in seconds for the web service config backend.' => '',
-        'Change password' => '',
+        'Change password' => 'Jelszó változtatása',
         'Change queue!' => '',
         'Change the customer for this ticket' => '',
         'Change the free fields for this ticket' => '',
@@ -2630,27 +2630,27 @@ sub Data {
             '',
         'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
             '',
-        'Converts HTML mails into text messages.' => '',
+        'Converts HTML mails into text messages.' => 'HTML levelek konvertálása szöveges üzenetre',
         'Create and manage Service Level Agreements (SLAs).' => '',
-        'Create and manage agents.' => '',
-        'Create and manage attachments.' => '',
-        'Create and manage companies.' => '',
-        'Create and manage customers.' => '',
-        'Create and manage dynamic fields.' => '',
-        'Create and manage event based notifications.' => '',
-        'Create and manage groups.' => '',
-        'Create and manage notifications that are sent to agents.' => '',
-        'Create and manage queues.' => '',
-        'Create and manage response templates.' => '',
-        'Create and manage responses that are automatically sent.' => '',
-        'Create and manage roles.' => '',
-        'Create and manage salutations.' => '',
-        'Create and manage services.' => '',
-        'Create and manage signatures.' => '',
-        'Create and manage ticket priorities.' => '',
-        'Create and manage ticket states.' => '',
-        'Create and manage ticket types.' => '',
-        'Create and manage web services.' => '',
+        'Create and manage agents.' => 'Munkatárs létrehozása és kezelése',
+        'Create and manage attachments.' => 'Csatolmány létrehozása és kezelése',
+        'Create and manage companies.' => 'Cégek létrehozása és kezelése',
+        'Create and manage customers.' => 'Ügyfelek létrehozása és kezelése',
+        'Create and manage dynamic fields.' => 'Dinamikus mezők létrehozása és kezelése',
+        'Create and manage event based notifications.' => 'Esemény alapú értesítések létrehozása és kezelése',
+        'Create and manage groups.' => 'Csoportok létrehozása és kezelése',
+        'Create and manage notifications that are sent to agents.' => 'Munkatársaknak küldött értesítések létrehozása és kezelése',
+        'Create and manage queues.' => 'Várólisták létrehozása és kezelése',
+        'Create and manage response templates.' => 'Válasz sablonok létrehozása és kezelése',
+        'Create and manage responses that are automatically sent.' => 'Automatikusan küldött válaszok létrehozása és kezelése',
+        'Create and manage roles.' => 'Szerepek létrehozása és kezelése',
+        'Create and manage salutations.' => 'Megszólítások létrehozása és kezelése',
+        'Create and manage services.' => 'Szolgáltatások létrehozása és kezelése',
+        'Create and manage signatures.' => 'Aláírások létrehozása és kezelése',
+        'Create and manage ticket priorities.' => 'Prioritások létrehozása és kezelése',
+        'Create and manage ticket states.' => 'Hibajegy állapotok létrehozása és kezelése',
+        'Create and manage ticket types.' => 'Hibajegy típusok létrehozása és kezelése',
+        'Create and manage web services.' => 'Web szolgáltatások létrehozása és kezelése',
         'Create new email ticket and send this out (outbound)' => '',
         'Create new phone ticket (inbound)' => '',
         'Custom text for the page shown to customers that have no tickets yet.' =>
@@ -3340,7 +3340,7 @@ sub Data {
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate). This is only possible if all Ticket dynamic fields need the same event.' =>
             '',
         'Example for free text' => '',
-        'Execute SQL statements.' => '',
+        'Execute SQL statements.' => 'SQL parancsok végrehajtása',
         'Executes follow up checks on In-Reply-To or References headers for mails that don\'t have a ticket number in the subject.' =>
             '',
         'Executes follow up mail attachments checks in  mails that don\'t have a ticket number in the subject.' =>
@@ -3519,14 +3519,14 @@ sub Data {
             '',
         'It is possible to configure different themes, for example to distinguish between agents and customers, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in "Key" should match the domain, and the value in "Content" should be a valid theme on your system. Please see the example entries for the proper form of the regex.' =>
             '',
-        'Link agents to groups.' => '',
-        'Link agents to roles.' => '',
-        'Link attachments to responses templates.' => '',
-        'Link customers to groups.' => '',
-        'Link customers to services.' => '',
-        'Link queues to auto responses.' => '',
-        'Link responses to queues.' => '',
-        'Link roles to groups.' => '',
+        'Link agents to groups.' => 'Munkatársak hozzákapcsolása csoportokhoz',
+        'Link agents to roles.' => 'Munkatársak hozzákapcsolása szerepekhez',
+        'Link attachments to responses templates.' => 'Csatolmányok hozzákapcsolása válasz sablonokhoz',
+        'Link customers to groups.' => 'Ügyfelek hozzákapcsolása csoportokhoz',
+        'Link customers to services.' => 'Ügyfelek hozzákapcsolása szolgáltatásokhoz',
+        'Link queues to auto responses.' => 'Várólisták hozzákapcsolása automatikus válaszokhoz',
+        'Link responses to queues.' => 'Válaszok hozzákapcsolása várólistákhoz',
+        'Link roles to groups.' => 'Szerepek hozzákapcsolása csoportokhoz',
         'Links 2 tickets with a "Normal" type link.' => '',
         'Links 2 tickets with a "ParentChild" type link.' => '',
         'List of CSS files to always be loaded for the agent interface.' =>
@@ -3555,11 +3555,11 @@ sub Data {
         'Makes the picture transparent.' => '',
         'Makes the session management use html cookies. If html cookies are disabled or if the client browser disabled html cookies, then the system will work as usual and append the session id to the links.' =>
             '',
-        'Manage PGP keys for email encryption.' => '',
-        'Manage POP3 or IMAP accounts to fetch email from.' => '',
-        'Manage S/MIME certificates for email encryption.' => '',
-        'Manage existing sessions.' => '',
-        'Manage periodic tasks.' => '',
+        'Manage PGP keys for email encryption.' => 'PGP kulcsok kezelése email titkosításhoz',
+        'Manage POP3 or IMAP accounts to fetch email from.' => 'POP3 vagy IMAP fiókok kezelése emailek letöltéséhez',
+        'Manage S/MIME certificates for email encryption.' => 'S/MIME tanusítványok kezelése levelek titkosításához',
+        'Manage existing sessions.' => 'Létező folyamatok kezelése',
+        'Manage periodic tasks.' => 'Ismétlődő feladatok kezelése',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
             '',
         'Max size of the subjects in an email reply.' => '',
@@ -3615,7 +3615,7 @@ sub Data {
             '',
         'Next possible ticket states after adding a phone note in the ticket phone outbound screen of the agent interface.' =>
             '',
-        'Notifications (Event)' => 'Értesítés (Event)',
+        'Notifications (Event)' => 'Értesítés (Esemény)',
         'Number of displayed tickets' => '',
         'Number of lines (per ticket) that are shown by the search utility in the agent interface.' =>
             '',
@@ -3746,7 +3746,7 @@ sub Data {
             '',
         'Send me a notification if a customer sends a follow up and I\'m the owner of the ticket or the ticket is unlocked and is in one of my subscribed queues.' =>
             '',
-        'Send notifications to users.' => '',
+        'Send notifications to users.' => 'Értesítések küldése a felhasználóknak',
         'Send ticket follow up notifications' => '',
         'Sender type for new tickets from the customer inteface.' => '',
         'Sends agent follow-up notification only to the owner, if a ticket is unlocked (the default is to send the notification to all agents).' =>
@@ -4194,8 +4194,8 @@ sub Data {
             '',
         'Uses richtext for viewing and editing: articles, salutations, signatures, standard responses, auto responses and notifications.' =>
             '',
-        'View performance benchmark results.' => '',
-        'View system log messages.' => '',
+        'View performance benchmark results.' => 'Teljesítmény napló eredményeinek megtekintése',
+        'View system log messages.' => 'Rendszernapló üzeneteinek megtekintése',
         'Wear this frontend skin' => '',
         'Webservice path separator.' => '',
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. In this text area you can define this text (This text cannot be changed by the agent).' =>
