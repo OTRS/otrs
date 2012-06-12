@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/TicketOverviewPreview.pm
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketOverviewPreview.pm,v 1.72 2012-04-20 12:16:58 mg Exp $
+# $Id: TicketOverviewPreview.pm,v 1.73 2012-06-12 10:24:10 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.72 $) [1];
+$VERSION = qw($Revision: 1.73 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -272,12 +272,14 @@ sub _Show {
     my %Article = %{ $ArticleBody[0] || {} };
     my $ArticleCount = scalar @ArticleBody;
 
+    my %Ticket = $Self->{TicketObject}->TicketGet(
+        TicketID      => $Param{TicketID},
+        DynamicFields => 0,
+    );
+
     # Fallback for tickets without articles: get at least basic ticket data
     if ( !%Article ) {
-        %Article = $Self->{TicketObject}->TicketGet(
-            TicketID      => $Param{TicketID},
-            DynamicFields => 0,
-        );
+        %Article = %Ticket;
     }
 
     # user info
@@ -386,15 +388,16 @@ sub _Show {
         }
     }
 
+    my $AdditionalClasses = $Param{Config}->{TicketActionsPerTicket} ? 'ShowInlineActions' : '';
+
     $Self->{LayoutObject}->Block(
         Name => 'DocumentContent',
         Data => {
             %Param,
             %Article,
             Class             => 'ArticleCount' . $ArticleCount,
-            AdditionalClasses => $Param{Config}->{TicketActionsPerTicket}
-            ? 'ShowInlineActions'
-            : '',
+            AdditionalClasses => $AdditionalClasses,
+            Created           => $Ticket{Created},              # use value from ticket, not article
         },
     );
 
@@ -1068,7 +1071,11 @@ sub _Show {
     # create & return output
     my $Output = $Self->{LayoutObject}->Output(
         TemplateFile => 'AgentTicketOverviewPreview',
-        Data => { %Param, %Article, %AclAction },
+        Data         => {
+            %Param,
+            %Article,
+            %AclAction,
+        },
     );
     return \$Output;
 }
