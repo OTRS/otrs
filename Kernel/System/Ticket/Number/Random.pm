@@ -2,7 +2,7 @@
 # Ticket/Number/Random.pm - a ticket number random generator
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Random.pm,v 1.24 2012-06-06 14:23:50 mb Exp $
+# $Id: Random.pm,v 1.25 2012-06-12 08:47:46 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.24 $) [1];
+$VERSION = qw($Revision: 1.25 $) [1];
 
 sub TicketCreateNumber {
     my $Self = shift;
@@ -31,7 +31,7 @@ sub TicketCreateNumber {
     # random counter
     my $Count = int( rand(9999999999) );
 
-    $Count = sprintf "%.*d", 10, $Count;
+    $Count = sprintf "%.*u", 10, $Count;
 
     # create new ticket number
     my $Tn = $SystemID . $Count;
