@@ -1,20 +1,28 @@
 # --
-# $Id: OTRS-PATCHES.txt,v 1.1 2012-04-24 07:54:00 mn Exp $
+# $Id: OTRS-PATCHES.txt,v 1.2 2012-06-12 08:48:32 mb Exp $
 # --
 # A list of all patches applied to CKEditor for OTRS.
 # --
 
 Patches to be applied:
 
--   _sources/plugins/image/dialogs/2010-10-28-image-dialog.patch
+-   _source/plugins/image/dialogs/2010-10-28-image-dialog.patch
     OTRS Bug#4503: Removes Border Option from Image Dialog
 
 -   After that, copy _sources/plugins/image/dialogs/image.js to
     plugins/image/dialogs/image.js to make sure the patched version is
     also used in CKEditor.
 
--   _sources/plugins/dialogui/2010-10-28-dialogui.patch
+-   _source/plugins/dialogui/2010-10-28-dialogui.patch
     Adds additional hidden fields to the image upload
+
+-   _source/plugins/clipboard/2012-06-12-clipboard.patch
+    OTRS Bug#8547: Paste on a newly created ckeditor instance does not work 
+     on webkit based browsers
+    CKEditor ref: http://dev.ckeditor.com/ticket/8921
+
+After applying the fixes, run ckpackager to compile a new ckeditor.js as 
+layed out here: http://docs.cksource.com/CKEditor_3.x/Developers_Guide/CKPackager
 
 Content which does not need patching on update:
 
