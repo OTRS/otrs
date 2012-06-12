@@ -2,7 +2,7 @@
 # scripts/test/Layout/BuildSelection.t - layout BuildSelection() testscript
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: BuildSelection.t,v 1.5 2012-06-04 11:29:30 mg Exp $
+# $Id: BuildSelection.t,v 1.6 2012-06-12 16:28:24 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,42 +14,27 @@ use warnings;
 use utf8;
 use vars (qw($Self %Param));
 
-use Kernel::System::AuthSession;
-use Kernel::System::Group;
 use Kernel::System::JSON;
-use Kernel::System::Ticket;
-use Kernel::System::User;
 use Kernel::System::Web::Request;
 use Kernel::Output::HTML::Layout;
 
 return 1;
 
 # create local objects
-my $SessionObject = Kernel::System::AuthSession->new( %{$Self} );
-my $GroupObject   = Kernel::System::Group->new( %{$Self} );
-my $TicketObject  = Kernel::System::Ticket->new( %{$Self} );
-my $UserObject    = Kernel::System::User->new( %{$Self} );
-my $ParamObject   = Kernel::System::Web::Request->new(
+my $JSONObject  = Kernel::System::JSON->new( %{$Self} );
+my $ParamObject = Kernel::System::Web::Request->new(
     %{$Self},
+    WebRequest => $Param{WebRequest} || 0,
 );
 my $LayoutObject = Kernel::Output::HTML::Layout->new(
-    ConfigObject       => $Self->{ConfigObject},
-    LogObject          => $Self->{LogObject},
-    TimeObject         => $Self->{TimeObject},
-    MainObject         => $Self->{MainObject},
-    EncodeObject       => $Self->{EncodeObject},
-    DBObject           => $Self->{DBObject},
-    SessionObject      => $SessionObject,
-    ParamObject        => $ParamObject,
-    TicketObject       => $TicketObject,
-    UserObject         => $UserObject,
-    GroupObject        => $GroupObject,
-    UserChallengeToken => 'TestToken',
-    UserID             => 1,
-    Lang               => 'de',
-    SessionID          => 123,
+    ConfigObject => $Self->{ConfigObject},
+    LogObject    => $Self->{LogObject},
+    TimeObject   => $Self->{TimeObject},
+    MainObject   => $Self->{MainObject},
+    EncodeObject => $Self->{EncodeObject},
+    ParamObject  => $ParamObject,
+    Lang         => 'de',
 );
-my $JSONObject = Kernel::System::JSON->new( %{$Self} );
 
 # set tests
 my @Tests = (
