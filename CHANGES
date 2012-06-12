@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2260.2.64 2012-06-12 12:16:25 mg Exp $
+# $Id: CHANGES,v 1.2260.2.65 2012-06-12 22:30:24 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.1.7 2012-??-??
+ - 2012-06-12 Fixed bug#8557 - OutputFilters called so often in Overviews (on undef TemplateName).
  - 2012-06-12 Updated Hungarian translation, thanks to Németh Csaba!
  - 2012-06-12 Updated Danish translation, thanks to Lars Jørgensen!
  - 2012-06-12 Fixed bug#7872 - "Created" date in Large view is actually Last Updated date.
