@@ -2,7 +2,7 @@
 # PostMaster.t - PostMaster tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: PostMaster.t,v 1.34 2012-01-13 13:13:47 mg Exp $
+# $Id: PostMaster.t,v 1.35 2012-06-12 09:23:17 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -772,9 +772,9 @@ my @Tests = (
             'X-OTRS-TicketValue3' => 'Text3',
         },
         Check => {
-            Queue           => 'Misc',
-            TicketFreeKey3  => 'Key3',
-            TicketFreeText3 => 'Text3',
+            Queue                        => 'Misc',
+            DynamicField_TicketFreeKey3  => 'Key3',
+            DynamicField_TicketFreeText3 => 'Text3',
         },
     },
     {
@@ -790,9 +790,9 @@ my @Tests = (
             'X-OTRS-TicketValue4' => 'Text4#2',
         },
         Check => {
-            Queue           => 'Misc',
-            TicketFreeKey1  => 'Key1#2',
-            TicketFreeText1 => 'Text1#2',
+            Queue                        => 'Misc',
+            DynamicField_TicketFreeKey1  => 'Key1#2',
+            DynamicField_TicketFreeText1 => 'Text1#2',
         },
     },
     {
