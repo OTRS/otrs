@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.381.2.7 2012-06-12 22:30:23 cr Exp $
+# $Id: Layout.pm,v 1.381.2.8 2012-06-13 15:39:13 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Mail::Address;
 use URI::Escape qw();
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.381.2.7 $) [1];
+$VERSION = qw($Revision: 1.381.2.8 $) [1];
 
 =head1 NAME
 
@@ -1618,9 +1618,6 @@ sub Print {
                 next FILTER if !$TemplateList->{ $Param{TemplateFile} };
             }
 
-            next FILTER
-                if !$Param{TemplateFile} && ref $TemplateList eq 'HASH' && !$TemplateList->{ALL};
-
             next FILTER if !$Self->{MainObject}->Require( $FilterConfig->{Module} );
 
             # create new instance
@@ -1771,9 +1768,6 @@ sub Ascii2Html {
                 next FILTER if !$TemplateList->{ $Param{TemplateFile} };
             }
 
-            next FILTER
-                if !$Param{TemplateFile} && ref $TemplateList eq 'HASH' && !$TemplateList->{ALL};
-
             $Self->FatalDie() if !$Self->{MainObject}->Require( $FilterConfig->{Module} );
 
             # create new instance
@@ -1922,9 +1916,6 @@ sub LinkQuote {
             if ( $Param{TemplateFile} && ref $TemplateList eq 'HASH' && !$TemplateList->{ALL} ) {
                 next FILTER if !$TemplateList->{ $Param{TemplateFile} };
             }
-
-            next FILTER
-                if !$Param{TemplateFile} && ref $TemplateList eq 'HASH' && !$TemplateList->{ALL};
 
             $Self->FatalDie() if !$Self->{MainObject}->Require( $FilterConfig->{Module} );
 
@@ -5026,6 +5017,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.381.2.7 $ $Date: 2012-06-12 22:30:23 $
+$Revision: 1.381.2.8 $ $Date: 2012-06-13 15:39:13 $
 
 =cut
