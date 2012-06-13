@@ -2,7 +2,7 @@
 # scripts/test/Layout/BuildSelection.t - layout BuildSelection() testscript
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: BuildSelection.t,v 1.6 2012-06-12 16:28:24 cr Exp $
+# $Id: BuildSelection.t,v 1.7 2012-06-13 02:49:51 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,23 +18,36 @@ use Kernel::System::JSON;
 use Kernel::System::Web::Request;
 use Kernel::Output::HTML::Layout;
 
+use Kernel::System::Encode;
+use Kernel::System::Log;
+use Kernel::System::Main;
+use Kernel::System::Time;
+
 return 1;
 
 # create local objects
-my $JSONObject  = Kernel::System::JSON->new( %{$Self} );
-my $ParamObject = Kernel::System::Web::Request->new(
-    %{$Self},
+my %CommonObject;
+$CommonObject{ConfigObject} = Kernel::Config->new();
+$CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
+$CommonObject{LogObject}    = Kernel::System::Log->new(
+    LogPrefix => 'BuildSelection.t',
+    %CommonObject,
+);
+$CommonObject{TimeObject}  = Kernel::System::Time->new(%CommonObject);
+$CommonObject{MainObject}  = Kernel::System::Main->new(%CommonObject);
+$CommonObject{JSONObject}  = Kernel::System::JSON->new(%CommonObject);
+$CommonObject{ParamObject} = Kernel::System::Web::Request->new(
+    %CommonObject,
     WebRequest => $Param{WebRequest} || 0,
 );
-my $LayoutObject = Kernel::Output::HTML::Layout->new(
-    ConfigObject => $Self->{ConfigObject},
-    LogObject    => $Self->{LogObject},
-    TimeObject   => $Self->{TimeObject},
-    MainObject   => $Self->{MainObject},
-    EncodeObject => $Self->{EncodeObject},
-    ParamObject  => $ParamObject,
-    Lang         => 'de',
+$CommonObject{LayoutObject} = Kernel::Output::HTML::Layout->new(
+    %CommonObject,
+    Lang => 'de',
 );
+
+# set JSON values
+my $JSONTrue  = $CommonObject{JSONObject}->True();
+my $JSONFalse = $CommonObject{JSONObject}->False();
 
 # set tests
 my @Tests = (
@@ -167,73 +180,60 @@ my @Tests = (
             'Select1' => [
                 [
                     '1', 'Object1',
-                    $JSONObject->False(), $JSONObject->False(),
-                    $JSONObject->False(),
+                    $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
                     '2', '&nbsp;&nbsp;AttributeA',
-                    $JSONObject->True(), $JSONObject->True(),
-                    $JSONObject->False(),
+                    $JSONTrue, $JSONTrue, $JSONFalse,
                 ],
                 [
                     '3', '&nbsp;&nbsp;&nbsp;&nbsp;Value1',
-                    $JSONObject->False(), $JSONObject->False(),
-                    $JSONObject->False(),
+                    $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
                     '4', '&nbsp;&nbsp;&nbsp;&nbsp;Value2',
-                    $JSONObject->False(), $JSONObject->False(),
-                    $JSONObject->False(),
+                    $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
                     '5', '&nbsp;&nbsp;AttributeB',
-                    $JSONObject->False(), $JSONObject->False(),
-                    $JSONObject->False(),
+                    $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
                     '6', '&nbsp;&nbsp;&nbsp;&nbsp;Value1',
-                    $JSONObject->False(), $JSONObject->False(),
-                    $JSONObject->False(),
+                    $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
                     '7', '&nbsp;&nbsp;&nbsp;&nbsp;Value2',
-                    $JSONObject->False(), $JSONObject->False(),
-                    $JSONObject->False(),
+                    $JSONFalse, $JSONFalse,
+                    $JSONFalse,
                 ],
                 [
                     '8', 'Object2',
-                    $JSONObject->False(), $JSONObject->False(),
-                    $JSONObject->False(),
+                    $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
                     '9', '&nbsp;&nbsp;AttributeA',
-                    $JSONObject->False(), $JSONObject->False(),
-                    $JSONObject->False(),
+                    $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
                     '10', '&nbsp;&nbsp;&nbsp;&nbsp;Value1',
-                    $JSONObject->False(), $JSONObject->False(),
-                    $JSONObject->False(),
+                    $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
                     '11', '&nbsp;&nbsp;&nbsp;&nbsp;Value2',
-                    $JSONObject->False(), $JSONObject->False(),
-                    $JSONObject->False(),
+                    $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
                     '12', '&nbsp;&nbsp;AttributeB',
-                    $JSONObject->False(), $JSONObject->False(),
-                    $JSONObject->False(),
+                    $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
                     '13', '&nbsp;&nbsp;&nbsp;&nbsp;Value1',
-                    $JSONObject->False(), $JSONObject->False(),
-                    $JSONObject->False(),
+                    $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
                     '14', '&nbsp;&nbsp;&nbsp;&nbsp;Value2',
-                    $JSONObject->False(), $JSONObject->False(),
-                    $JSONObject->False(),
+                    $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
             ],
         },
@@ -293,71 +293,58 @@ my @Tests = (
             'Select1' => [
                 [
                     '1', 'Object1',
-                    $JSONObject->False(), $JSONObject->False(),
-                    $JSONObject->False(),
+                    $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
                     '-', '&nbsp;&nbsp;AttributeA',
-                    $JSONObject->False(), $JSONObject->False(),
-                    $JSONObject->True(),
+                    $JSONFalse, $JSONFalse, $JSONTrue,
                 ],
                 [
                     '3', '&nbsp;&nbsp;&nbsp;&nbsp;Value1',
-                    $JSONObject->False(), $JSONObject->False(),
-                    $JSONObject->False(),
+                    $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
                     '4', '&nbsp;&nbsp;&nbsp;&nbsp;Value2',
-                    $JSONObject->False(), $JSONObject->False(),
-                    $JSONObject->False(),
+                    $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
                     '-', '&nbsp;&nbsp;AttributeB',
-                    $JSONObject->False(), $JSONObject->False(),
-                    $JSONObject->True(),
+                    $JSONFalse, $JSONFalse, $JSONTrue,
                 ],
                 [
                     '6', '&nbsp;&nbsp;&nbsp;&nbsp;Value1',
-                    $JSONObject->False(), $JSONObject->False(),
-                    $JSONObject->False(),
+                    $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
                     '7', '&nbsp;&nbsp;&nbsp;&nbsp;Value2',
-                    $JSONObject->False(), $JSONObject->False(),
-                    $JSONObject->False(),
+                    $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
-                    '-', 'Object2', $JSONObject->False(), $JSONObject->False(), $JSONObject->True(),
+                    '-', 'Object2', $JSONFalse, $JSONFalse, $JSONTrue,
                 ],
                 [
                     '-', '&nbsp;&nbsp;AttributeA',
-                    $JSONObject->False(), $JSONObject->False(),
-                    $JSONObject->True(),
+                    $JSONFalse, $JSONFalse, $JSONTrue,
                 ],
                 [
                     '10', '&nbsp;&nbsp;&nbsp;&nbsp;Value1',
-                    $JSONObject->False(), $JSONObject->False(),
-                    $JSONObject->False(),
+                    $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
                     '11', '&nbsp;&nbsp;&nbsp;&nbsp;Value2',
-                    $JSONObject->False(), $JSONObject->False(),
-                    $JSONObject->False(),
+                    $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
                     '-', '&nbsp;&nbsp;AttributeB',
-                    $JSONObject->False(), $JSONObject->False(),
-                    $JSONObject->True(),
+                    $JSONFalse, $JSONFalse, $JSONTrue,
                 ],
                 [
                     '13', '&nbsp;&nbsp;&nbsp;&nbsp;Value1',
-                    $JSONObject->False(), $JSONObject->False(),
-                    $JSONObject->False(),
+                    $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
                     '14', '&nbsp;&nbsp;&nbsp;&nbsp;Value2',
-                    $JSONObject->False(), $JSONObject->False(),
-                    $JSONObject->False(),
+                    $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
             ],
         },
@@ -413,53 +400,43 @@ my @Tests = (
             'Select1' => [
                 [
                     '1', 'Object1',
-                    $JSONObject->False(), $JSONObject->False(),
-                    $JSONObject->False(),
+                    $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
                     '2', '&nbsp;&nbsp;AttributeA',
-                    $JSONObject->True(), $JSONObject->True(),
-                    $JSONObject->False(),
+                    $JSONTrue, $JSONTrue, $JSONFalse,
                 ],
                 [
                     '3', '&nbsp;&nbsp;&nbsp;&nbsp;Value1',
-                    $JSONObject->False(), $JSONObject->False(),
-                    $JSONObject->False(),
+                    $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
                     '4', '&nbsp;&nbsp;&nbsp;&nbsp;Value2',
-                    $JSONObject->False(), $JSONObject->False(),
-                    $JSONObject->False(),
+                    $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
                     '5', '&nbsp;&nbsp;AttributeB',
-                    $JSONObject->False(), $JSONObject->False(),
-                    $JSONObject->False(),
+                    $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
                     '6', '&nbsp;&nbsp;&nbsp;&nbsp;Value1',
-                    $JSONObject->False(), $JSONObject->False(),
-                    $JSONObject->False(),
+                    $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
                     '7', '&nbsp;&nbsp;&nbsp;&nbsp;Value2',
-                    $JSONObject->False(), $JSONObject->False(),
-                    $JSONObject->False(),
+                    $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
                     '8', 'Object2',
-                    $JSONObject->False(), $JSONObject->False(),
-                    $JSONObject->False(),
+                    $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
                     '-', '&nbsp;&nbsp;AttributeB',
-                    $JSONObject->False(), $JSONObject->False(),
-                    $JSONObject->True(),
+                    $JSONFalse, $JSONFalse, $JSONTrue,
                 ],
                 [
                     '14', '&nbsp;&nbsp;&nbsp;&nbsp;Value2',
-                    $JSONObject->False(), $JSONObject->False(),
-                    $JSONObject->False(),
+                    $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
             ],
         },
@@ -526,73 +503,59 @@ my @Tests = (
             'Select1' => [
                 [
                     'Object1', 'Object1',
-                    $JSONObject->False(), $JSONObject->False(),
-                    $JSONObject->False(),
+                    $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
                     'Object1::AttributeA', '&nbsp;&nbsp;AttributeA',
-                    $JSONObject->True(), $JSONObject->True(),
-                    $JSONObject->False(),
+                    $JSONTrue, $JSONTrue, $JSONFalse,
                 ],
                 [
                     'Object1::AttributeA::Value1', '&nbsp;&nbsp;&nbsp;&nbsp;Value1',
-                    $JSONObject->False(), $JSONObject->False(),
-                    $JSONObject->False(),
+                    $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
                     'Object1::AttributeA::Value2', '&nbsp;&nbsp;&nbsp;&nbsp;Value2',
-                    $JSONObject->False(), $JSONObject->False(),
-                    $JSONObject->False(),
+                    $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
                     'Object1::AttributeB', '&nbsp;&nbsp;AttributeB',
-                    $JSONObject->False(), $JSONObject->False(),
-                    $JSONObject->False(),
+                    $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
                     'Object1::AttributeB::Value1', '&nbsp;&nbsp;&nbsp;&nbsp;Value1',
-                    $JSONObject->False(), $JSONObject->False(),
-                    $JSONObject->False(),
+                    $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
                     'Object1::AttributeB::Value2', '&nbsp;&nbsp;&nbsp;&nbsp;Value2',
-                    $JSONObject->False(), $JSONObject->False(),
-                    $JSONObject->False(),
+                    $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
                     'Object2', 'Object2',
-                    $JSONObject->False(), $JSONObject->False(),
-                    $JSONObject->False(),
+                    $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
                     'Object2::AttributeA', '&nbsp;&nbsp;AttributeA',
-                    $JSONObject->False(), $JSONObject->False(),
-                    $JSONObject->False(),
+                    $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
                     'Object2::AttributeA::Value1', '&nbsp;&nbsp;&nbsp;&nbsp;Value1',
-                    $JSONObject->False(), $JSONObject->False(),
-                    $JSONObject->False(),
+                    $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
                     'Object2::AttributeA::Value2', '&nbsp;&nbsp;&nbsp;&nbsp;Value2',
-                    $JSONObject->False(), $JSONObject->False(),
-                    $JSONObject->False(),
+                    $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
                     'Object2::AttributeB', '&nbsp;&nbsp;AttributeB',
-                    $JSONObject->False(), $JSONObject->False(),
-                    $JSONObject->False(),
+                    $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
                     'Object2::AttributeB::Value1', '&nbsp;&nbsp;&nbsp;&nbsp;Value1',
-                    $JSONObject->False(), $JSONObject->False(),
-                    $JSONObject->False(),
+                    $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
                     'Object2::AttributeB::Value2', '&nbsp;&nbsp;&nbsp;&nbsp;Value2',
-                    $JSONObject->False(), $JSONObject->False(),
-                    $JSONObject->False(),
+                    $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
             ],
         },
@@ -652,71 +615,58 @@ my @Tests = (
             'Select1' => [
                 [
                     'Object1', 'Object1',
-                    $JSONObject->False(), $JSONObject->False(),
-                    $JSONObject->False(),
+                    $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
                     '-', '&nbsp;&nbsp;AttributeA',
-                    $JSONObject->False(), $JSONObject->False(),
-                    $JSONObject->True(),
+                    $JSONFalse, $JSONFalse, $JSONTrue,
                 ],
                 [
                     'Object1::AttributeA::Value1', '&nbsp;&nbsp;&nbsp;&nbsp;Value1',
-                    $JSONObject->False(), $JSONObject->False(),
-                    $JSONObject->False(),
+                    $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
                     'Object1::AttributeA::Value2', '&nbsp;&nbsp;&nbsp;&nbsp;Value2',
-                    $JSONObject->False(), $JSONObject->False(),
-                    $JSONObject->False(),
+                    $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
                     '-', '&nbsp;&nbsp;AttributeB',
-                    $JSONObject->False(), $JSONObject->False(),
-                    $JSONObject->True(),
+                    $JSONFalse, $JSONFalse, $JSONTrue,
                 ],
                 [
                     'Object1::AttributeB::Value1', '&nbsp;&nbsp;&nbsp;&nbsp;Value1',
-                    $JSONObject->False(), $JSONObject->False(),
-                    $JSONObject->False(),
+                    $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
                     'Object1::AttributeB::Value2', '&nbsp;&nbsp;&nbsp;&nbsp;Value2',
-                    $JSONObject->False(), $JSONObject->False(),
-                    $JSONObject->False(),
+                    $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
-                    '-', 'Object2', $JSONObject->False(), $JSONObject->False(), $JSONObject->True(),
+                    '-', 'Object2', $JSONFalse, $JSONFalse, $JSONTrue,
                 ],
                 [
                     '-', '&nbsp;&nbsp;AttributeA',
-                    $JSONObject->False(), $JSONObject->False(),
-                    $JSONObject->True(),
+                    $JSONFalse, $JSONFalse, $JSONTrue,
                 ],
                 [
                     'Object2::AttributeA::Value1', '&nbsp;&nbsp;&nbsp;&nbsp;Value1',
-                    $JSONObject->False(), $JSONObject->False(),
-                    $JSONObject->False(),
+                    $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
                     'Object2::AttributeA::Value2', '&nbsp;&nbsp;&nbsp;&nbsp;Value2',
-                    $JSONObject->False(), $JSONObject->False(),
-                    $JSONObject->False(),
+                    $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
                     '-', '&nbsp;&nbsp;AttributeB',
-                    $JSONObject->False(), $JSONObject->False(),
-                    $JSONObject->True(),
+                    $JSONFalse, $JSONFalse, $JSONTrue,
                 ],
                 [
                     'Object2::AttributeB::Value1', '&nbsp;&nbsp;&nbsp;&nbsp;Value1',
-                    $JSONObject->False(), $JSONObject->False(),
-                    $JSONObject->False(),
+                    $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
                     'Object2::AttributeB::Value2', '&nbsp;&nbsp;&nbsp;&nbsp;Value2',
-                    $JSONObject->False(), $JSONObject->False(),
-                    $JSONObject->False(),
+                    $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
             ],
         },
@@ -774,63 +724,51 @@ my @Tests = (
             'Select1' => [
                 [
                     'Object1', 'Object1',
-                    $JSONObject->False(), $JSONObject->False(),
-                    $JSONObject->False(),
+                    $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
                     'Object1::AttributeA', '&nbsp;&nbsp;AttributeA',
-                    $JSONObject->True(), $JSONObject->True(),
-                    $JSONObject->False(),
+                    $JSONTrue, $JSONTrue, $JSONFalse,
                 ],
                 [
                     'Object1::AttributeA::Value1', '&nbsp;&nbsp;&nbsp;&nbsp;Value1',
-                    $JSONObject->False(), $JSONObject->False(),
-                    $JSONObject->False(),
+                    $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
                     'Object1::AttributeA::Value2', '&nbsp;&nbsp;&nbsp;&nbsp;Value2',
-                    $JSONObject->False(), $JSONObject->False(),
-                    $JSONObject->False(),
+                    $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
                     'Object1::AttributeB', '&nbsp;&nbsp;AttributeB',
-                    $JSONObject->False(), $JSONObject->False(),
-                    $JSONObject->False(),
+                    $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
                     'Object1::AttributeB::Value1', '&nbsp;&nbsp;&nbsp;&nbsp;Value1',
-                    $JSONObject->False(), $JSONObject->False(),
-                    $JSONObject->False(),
+                    $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
                     'Object1::AttributeB::Value2', '&nbsp;&nbsp;&nbsp;&nbsp;Value2',
-                    $JSONObject->False(), $JSONObject->False(),
-                    $JSONObject->False(),
+                    $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
                     'Object2', 'Object2',
-                    $JSONObject->False(), $JSONObject->False(),
-                    $JSONObject->False(),
+                    $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
                     '-', '&nbsp;&nbsp;AttributeB',
-                    $JSONObject->False(), $JSONObject->False(),
-                    $JSONObject->True(),
+                    $JSONFalse, $JSONFalse, $JSONTrue,
                 ],
                 [
                     'Object2::AttributeB::Value1', '&nbsp;&nbsp;&nbsp;&nbsp;Value1',
-                    $JSONObject->False(), $JSONObject->False(),
-                    $JSONObject->False(),
+                    $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
                 [
                     'Object2::AttributeB::Value2', '&nbsp;&nbsp;&nbsp;&nbsp;Value2',
-                    $JSONObject->False(), $JSONObject->False(),
-                    $JSONObject->False(),
+                    $JSONFalse, $JSONFalse, $JSONFalse,
                 ],
             ],
         },
     },
-
 );
 
 for my $Test (@Tests) {
@@ -846,7 +784,7 @@ for my $Test (@Tests) {
     }
 
     # call BuildSelection
-    my $HTML = $LayoutObject->BuildSelection( %{ $Test->{Definition} } );
+    my $HTML = $CommonObject{LayoutObject}->BuildSelection( %{ $Test->{Definition} } );
 
     if ( $Test->{Success} ) {
         $Self->Is(
@@ -874,14 +812,14 @@ for my $Test (@Tests) {
     if ( $Test->{ExecuteJSON} ) {
 
         # call BuildSelectionJSON
-        my $JSON = $LayoutObject->BuildSelectionJSON(
+        my $JSON = $CommonObject{LayoutObject}->BuildSelectionJSON(
             [
                 $Test->{Definition},
             ],
         );
 
         # JSON ecode the expected data for easy compare
-        my $JSONResponse = $JSONObject->Encode(
+        my $JSONResponse = $CommonObject{JSONObject}->Encode(
             Data => $Test->{JSONResponse},
         );
 
