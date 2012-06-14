@@ -1,8 +1,8 @@
 # --
 # Daemon.t - Scheduler tests
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Daemon.t,v 1.13 2011-04-27 21:04:26 cr Exp $
+# $Id: Daemon.t,v 1.13.2.1 2012-06-14 22:28:38 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -63,7 +63,13 @@ my $CheckAction = sub {
         "$Name PID matches DB value before action (current state $StateBefore)",
     );
 
-    my $Result = system("$Scheduler -a $Param{Action}");
+    # check if force action is needed
+    my $Force = '';
+    if ( defined $Param{Force} && $Param{Force} && $Param{Force} == 1 ) {
+        $Force = '-f 1';
+    }
+
+    my $Result = system("$Scheduler -a $Param{Action} $Force");
 
     # special sleep for windows
     if ( $^O =~ /^mswin/i ) {
@@ -129,6 +135,7 @@ if ( $PreviousSchedulerStatus =~ /^running/i ) {
     $CheckAction->(
         Name                => 'Cleanup-stop',
         Action              => 'stop',
+        Force               => 1,
         StateBefore         => 'running',
         ExpectActionSuccess => 1,
         StateAfter          => 'not running',
@@ -136,9 +143,31 @@ if ( $PreviousSchedulerStatus =~ /^running/i ) {
     );
 }
 
+# special case where scheduler is not running but PID is registered
+if ( $PreviousSchedulerStatus =~ m{registered}i ) {
+
+    # force stop direcly before CheckAction
+    `$Scheduler -a stop -f 1`;
+    $Self->True(
+        1,
+        "Force stoping due to bad status...",
+    );
+    print "Sleeping 10s\n";
+    sleep 10;
+    $CheckAction->(
+        Name                => 'Cleanup-stop',
+        Action              => 'stop',
+        StateBefore         => 'not running',
+        ExpectActionSuccess => 0,
+        StateAfter          => 'not running',
+        PIDChangeExpected   => 0,
+    );
+}
+
 $CheckAction->(
     Name                => 'Initial start',
     Action              => 'start',
+    Force               => 1,
     ExpectActionSuccess => 1,
     StateBefore         => 'not running',
     StateAfter          => 'running',
@@ -370,7 +399,7 @@ $CheckAction->(
     PIDChangeExpected   => 0,
 );
 
-# start deamon again
+# start daemon again
 $CheckAction->(
     Name                => 'Start after delete PID',
     Action              => 'start',
@@ -383,6 +412,7 @@ $CheckAction->(
 $CheckAction->(
     Name                => 'Final stop',
     Action              => 'stop',
+    Force               => 1,
     ExpectActionSuccess => 1,
     StateBefore         => 'running',
     StateAfter          => 'not running',
@@ -398,6 +428,7 @@ if ( $PreviousSchedulerStatus =~ /^running/i ) {
     $CheckAction->(
         Name                => 'Cleanup - restart Scheduler as it was running before this test',
         Action              => 'start',
+        Force               => 1,
         ExpectActionSuccess => 1,
         StateBefore         => 'not running',
         StateAfter          => 'running',
