@@ -2,7 +2,7 @@
 # NumberGenerator.t - ticket module testscript
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: NumberGenerator.t,v 1.1 2012-06-12 08:24:41 mg Exp $
+# $Id: NumberGenerator.t,v 1.2 2012-06-14 09:21:32 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Ticket;
 # create local objects
 my $ConfigObject = Kernel::Config->new();
 
-# article attachment checks
+# check all number generators
 for my $Backend (qw(AutoIncrement Date DateChecksum Random)) {
     $ConfigObject->Set(
         Key   => 'Ticket::NumberGenerator',
