@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2342 2012-06-14 13:27:07 mg Exp $
+# $Id: CHANGES,v 1.2343 2012-06-14 17:37:38 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,7 +10,6 @@
 # --
 
 3.2.0 beta1 2012-??-??
- - 2012-06-13 Fixed bug#8574 - Perl special variable $/ is changed and never restored.
  - 2012-06-08 Added feature SMIME certificate read.
  - 2012-05-30 Fixed bug#8251 - Defect handling of invalid Queues in AJAX refresh.
  - 2012-05-25 Fixed bug#8522 - Multiple recipient feature is missing in AgentTicketForward.
@@ -29,6 +28,7 @@
     NotificationEvent definitions.
 
 3.1.7 2012-??-??
+ - 2012-06-14 Fixed bug#8574 - Perl special variable $/ is changed and never restored.
  - 2012-06-14 Fixed bug#8337 - Parentheses in user last_name / first_name are not sanitized (follow-up fix).
  - 2012-06-12 Fixed bug#8575 - Assignment of users does not work for responsible or owner permission
     in AgentTicketPhone.
