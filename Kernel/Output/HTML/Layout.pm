@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.381.2.8 2012-06-13 15:39:13 cr Exp $
+# $Id: Layout.pm,v 1.381.2.9 2012-06-14 17:37:27 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Mail::Address;
 use URI::Escape qw();
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.381.2.8 $) [1];
+$VERSION = qw($Revision: 1.381.2.9 $) [1];
 
 =head1 NAME
 
@@ -4751,22 +4751,8 @@ sub _BuildSelectionDataRefCreate {
         }
         elsif ( $OptionRef->{Sort} eq 'TreeView' ) {
 
-            # add suffix for correct sorting
-            my @SortArray;
-            for my $Row ( @{ $Param{Data} } ) {
-                push @SortArray, ( $Row . '::' );
-            }
-
-            # sort array
-            @SortArray = sort(@SortArray);
-
-            # remove suffix
-            my @SortArray2;
-            for my $Row (@SortArray) {
-                $/ = '::';
-                chomp($Row);
-                push @SortArray2, $Row;
-            }
+            # sort array, add '::' in the comparison, for proper sort of Items with Items::SubItems
+            my @SortArray = sort { $a . '::' cmp $b . '::' } @{ $Param{Data} };
             $Param{Data} = \@SortArray;
         }
 
@@ -5017,6 +5003,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.381.2.8 $ $Date: 2012-06-13 15:39:13 $
+$Revision: 1.381.2.9 $ $Date: 2012-06-14 17:37:27 $
 
 =cut

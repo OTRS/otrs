@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2260.2.68 2012-06-14 13:27:14 mg Exp $
+# $Id: CHANGES,v 1.2260.2.69 2012-06-14 17:37:27 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.1.7 2012-??-??
+ - 2012-06-14 Fixed bug#8574 - Perl special variable $/ is changed and never restored.
  - 2012-06-14 Fixed bug#8337 - Parentheses in user last_name / first_name are not sanitized (follow-up fix).
  - 2012-06-12 Fixed bug#8575 - Assignment of users does not work for responsible or owner permission
     in AgentTicketPhone.
