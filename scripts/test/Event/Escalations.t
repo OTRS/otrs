@@ -2,7 +2,7 @@
 # Escalations.t - escalation event tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Escalations.t,v 1.19 2012-06-13 22:36:55 cg Exp $
+# $Id: Escalations.t,v 1.20 2012-06-14 20:52:15 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -67,9 +67,6 @@ my $CheckNumEvents = sub {
         );
         $Self->True( $JobRun, "JobRun() $JobName Run the GenericAgent job" );
     }
-
-    #sleep a bit before to check
-    sleep 3;
 
     my @Lines = $Param{TicketObject}->HistoryGet(
         TicketID => $Param{TicketID},
@@ -487,7 +484,7 @@ for my $Hours ( sort keys %WorkingHours ) {
         my $SleepTime = $TimeObject->SystemTime() - $TicketGet{CreateTimeUnix};
 
         # Add extra seconds
-        $SleepTime = 10 if $SleepTime lt 1;
+        $SleepTime = 10 if $SleepTime lt 10;
         $SleepTime = 60 - $SleepTime;
         $Self->True( 1, "sleeping for $SleepTime s, percentage reached should not be 0%" );
         sleep $SleepTime;
