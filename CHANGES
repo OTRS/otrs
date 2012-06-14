@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2339 2012-06-13 22:10:25 cr Exp $
+# $Id: CHANGES,v 1.2340 2012-06-14 04:00:55 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -29,6 +29,8 @@
     NotificationEvent definitions.
 
 3.1.7 2012-??-??
+ - 2012-06-12 Fixed bug#8575 - Assignment of users does not work for responsible or owner permission
+    in AgentTicketPhone.
  - 2012-06-12 Fixed bug#8557 - OutputFilters called so often in Overviews (on undef TemplateName).
  - 2012-06-12 Updated Hungarian translation, thanks to Németh Csaba!
  - 2012-06-12 Updated Danish translation, thanks to Lars Jørgensen!
