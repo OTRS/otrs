@@ -2,7 +2,7 @@
 # scripts/test/Layout/BuildSelection.t - layout BuildSelection() testscript
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: BuildSelection.t,v 1.7 2012-06-13 02:49:51 cr Exp $
+# $Id: BuildSelection.t,v 1.8 2012-06-14 00:54:50 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,16 +14,15 @@ use warnings;
 use utf8;
 use vars (qw($Self %Param));
 
-use Kernel::System::JSON;
-use Kernel::System::Web::Request;
-use Kernel::Output::HTML::Layout;
-
 use Kernel::System::Encode;
+use Kernel::System::JSON;
 use Kernel::System::Log;
 use Kernel::System::Main;
 use Kernel::System::Time;
+use Kernel::System::Web::Request;
+use Kernel::Output::HTML::Layout;
 
-return 1;
+#return 1;
 
 # create local objects
 my %CommonObject;
