@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.391 2012-06-13 22:10:25 cr Exp $
+# $Id: Layout.pm,v 1.392 2012-06-14 17:05:50 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Mail::Address;
 use URI::Escape qw();
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.391 $) [1];
+$VERSION = qw($Revision: 1.392 $) [1];
 
 =head1 NAME
 
@@ -4882,24 +4882,9 @@ sub _BuildSelectionDataRefCreate {
         }
         elsif ( $OptionRef->{Sort} eq 'TreeView' ) {
 
-            # add suffix for correct sorting
-            my @SortArray;
-            for my $Row ( @{ $Param{Data} } ) {
-                push @SortArray, ( $Row . '::' );
-            }
-
-            # sort array
-            @SortArray = sort(@SortArray);
-
-            # remove suffix
-            my @RealSortArray;
-            for my $Row (@SortArray) {
-
-                # remove the last 2 characters this is safe, at this point they always are '::'
-                my $RealRow = substr $Row, 0, -2;
-                push @RealSortArray, $RealRow;
-            }
-            $Param{Data} = \@RealSortArray;
+            # sort array, add '::' in the comparison, for proper sort of Items with Items::SubItems
+            my @SortArray = sort { $a . '::' cmp $b . '::' } @{ $Param{Data} };
+            $Param{Data} = \@SortArray;
         }
 
         # create DataRef
@@ -5166,6 +5151,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.391 $ $Date: 2012-06-13 22:10:25 $
+$Revision: 1.392 $ $Date: 2012-06-14 17:05:50 $
 
 =cut
