@@ -2,7 +2,7 @@
 // Core.Agent.CustomerSearch.js - provides the special module functions for the customer search
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.CustomerSearch.js,v 1.36 2012-05-26 01:44:49 cr Exp $
+// $Id: Core.Agent.CustomerSearch.js,v 1.37 2012-06-14 12:55:25 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -204,25 +204,28 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
                         $.each(Result, function () {
                             Data.push({
                                 label: this.CustomerValue + " (" + this.CustomerKey + ")",
-                                value: this.CustomerValue
+                                // customer list representation (see CustomerUserListFields from Defaults.pm)
+                                value: this.CustomerValue,
+                                // customer user id
+                                key: this.CustomerKey
                             });
                         });
                         Response(Data);
                     });
                 },
                 select: function (Event, UI) {
-                    var CustomerKey = UI.item.label.replace(/.*?\(([^\(\)]*)\)$/, '$1'),
+                    var CustomerKey = UI.item.key,
                         CustomerValue = UI.item.value;
 
-                    BackupData.CustomerKey = CustomerKey,
-                    BackupData.CustomerEmail = UI.item.value;
+                    BackupData.CustomerKey = CustomerKey;
+                    BackupData.CustomerEmail = CustomerValue;
 
                     if (Core.Config.Get('Action') === 'AgentBook') {
-                        $('#' + $(this).attr('id')).val(UI.item.value);
+                        $('#' + $(this).attr('id')).val(CustomerValue);
                         return false;
                     }
 
-                    $Element.val(UI.item.value);
+                    $Element.val(CustomerValue);
 
                     if (Core.Config.Get('Action') === 'AgentTicketEmail' || Core.Config.Get('Action') === 'AgentTicketCompose' || Core.Config.Get('Action') === 'AgentTicketForward') {
                         $Element.val('');
