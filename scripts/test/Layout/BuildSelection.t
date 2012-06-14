@@ -2,7 +2,7 @@
 # scripts/test/Layout/BuildSelection.t - layout BuildSelection() testscript
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: BuildSelection.t,v 1.8 2012-06-14 00:54:50 cr Exp $
+# $Id: BuildSelection.t,v 1.9 2012-06-14 00:55:24 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,8 +21,6 @@ use Kernel::System::Main;
 use Kernel::System::Time;
 use Kernel::System::Web::Request;
 use Kernel::Output::HTML::Layout;
-
-#return 1;
 
 # create local objects
 my %CommonObject;
