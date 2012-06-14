@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2341 2012-06-14 13:09:09 mg Exp $
+# $Id: CHANGES,v 1.2342 2012-06-14 13:27:07 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -100,6 +100,7 @@
  - 2012-05-08 Fixed bug#7919 - Translation of ticket states in CSV Export of CustomerTicketSearch.
  - 2012-05-08 Fixed bug#8461 - CustomerTicketSearch doesn't use ticket ACL rules.
  - 2012-05-04 Fixed bug#7877 - SMIME emails don't get parsed properly (follow-up fix).
+ - 2012-05-04 Fixed bug#2452 - SMIME encoded E-Mails are not decrypted properly by OTRS (follow-up fix).
  - 2012-05-03 Fixed bug#8446 - Dynamic Field type TextArea missing > 3800 characters validation.
  - 2012-05-02 Fixed bug#8447 - Checkbox Dynamic Field is wrong calculated in statistics.
  - 2012-05-02 Fixed bug#8328 - Statistic containing restriction on dynamic field ignores the
