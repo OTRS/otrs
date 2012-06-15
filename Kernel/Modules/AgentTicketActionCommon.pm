@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketActionCommon.pm - common file for several modules
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketActionCommon.pm,v 1.81.2.4 2012-06-04 22:00:55 cr Exp $
+# $Id: AgentTicketActionCommon.pm,v 1.81.2.5 2012-06-15 21:29:26 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,6 @@ use Kernel::System::Web::UploadCache;
 use Kernel::System::DynamicField;
 use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
-use Kernel::System::Service;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -41,7 +40,6 @@ sub new {
     $Self->{UploadCacheObject}  = Kernel::System::Web::UploadCache->new(%Param);
     $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new(%Param);
     $Self->{BackendObject}      = Kernel::System::DynamicField::Backend->new(%Param);
-    $Self->{ServiceObject}      = Kernel::System::Service->new(%Param);
 
     # get form id
     $Self->{FormID} = $Self->{ParamObject}->GetParam( Param => 'FormID' );
@@ -783,9 +781,21 @@ sub Run {
     }
     elsif ( $Self->{Subaction} eq 'AJAXUpdate' ) {
         my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Self->{TicketID} );
-        my $CustomerUser = $GetParam{SelectedCustomerUser} || $Ticket{CustomerUserID};
-        my $ServiceID    = $GetParam{ServiceID}            || $Ticket{ServiceID};
-        my $QueueID      = $Ticket{QueueID};
+        my $CustomerUser = $Ticket{CustomerUserID};
+
+        my $ServiceID;
+
+        # get service value from param if field is visible in the screen
+        if ( $Self->{ConfigObject}->Get('Ticket::Service') && $Self->{Config}->{Service} ) {
+            $ServiceID = $GetParam{ServiceID} || '';
+        }
+
+        # otherwise use ticket service value since it can't be changed
+        elsif ( $Self->{ConfigObject}->Get('Ticket::Service') ) {
+            $ServiceID = $Ticket{ServiceID} || '';
+        }
+
+        my $QueueID = $Ticket{QueueID};
 
         # convert dynamic field values into a structure for ACLs
         my %DynamicFieldACLParameters;
@@ -827,6 +837,11 @@ sub Run {
             CustomerUserID => $CustomerUser,
             QueueID        => $QueueID,
         );
+
+        # reset previous ServiceID to reset SLA-List if no service is selected
+        if ( !$Services->{$ServiceID} ) {
+            $ServiceID = '';
+        }
         my $SLAs = $Self->_GetSLAs(
             %GetParam,
             CustomerUserID => $CustomerUser,
@@ -1111,22 +1126,26 @@ sub _Mask {
     # services
     if ( $Self->{ConfigObject}->Get('Ticket::Service') && $Self->{Config}->{Service} ) {
 
-        # my %Service;
-        my $Services;
-        if ( $Ticket{CustomerUserID} ) {
-            $Services = $Self->_GetServices(
-                %Param,
-                Action         => $Self->{Action},
-                CustomerUserID => $Ticket{CustomerUserID},
-                UserID         => $Self->{UserID},
-            );
+        my $Services = $Self->_GetServices(
+            %Param,
+            Action         => $Self->{Action},
+            CustomerUserID => $Ticket{CustomerUserID},
+            UserID         => $Self->{UserID},
+        );
+
+        # reset previous ServiceID to reset SLA-List if no service is selected
+        if ( !$Param{ServiceID} || !$Services->{ $Param{ServiceID} } ) {
+            $Param{ServiceID} = '';
         }
+
         $Param{ServiceStrg} = $Self->{LayoutObject}->BuildSelection(
-            Data  => $Services              || [],
-            Name  => 'ServiceID',
-            Class => $Param{ServiceInvalid} || ' ',
+            Data         => $Services,
+            Name         => 'ServiceID',
+            SelectedID   => $Param{ServiceID},
+            Class        => $Param{ServiceInvalid} || ' ',
             PossibleNone => 1,
             TreeView     => $TreeView,
+            Sort         => 'TreeView',
             Translation  => 0,
             Max          => 200,
         );
@@ -1663,118 +1682,30 @@ sub _GetOldOwners {
 sub _GetServices {
     my ( $Self, %Param ) = @_;
 
+    # get service
     my %Service;
-    my @ServiceList;
 
     # get options for default services for unknown customers
     my $DefaultServiceUnknownCustomer
         = $Self->{ConfigObject}->Get('Ticket::Service::Default::UnknownCustomer');
 
     # get service list
-    if ( $Param{CustomerUserID} || $DefaultServiceUnknownCustomer ) {
+    if (
+        ( defined $Param{CustomerUserID} && $Param{CustomerUserID} )
+        || $DefaultServiceUnknownCustomer
+        )
+    {
         %Service = $Self->{TicketObject}->TicketServiceList(
             %Param,
             Action => $Self->{Action},
             UserID => $Self->{UserID},
         );
-
-        my %OrigService = $Self->{ServiceObject}->CustomerUserServiceMemberList(
-            Result            => 'HASH',
-            CustomerUserLogin => $Param{CustomerUserID} || '',
-            UserID            => 1,
-        );
-
-        # get all services
-        my $ServiceList = $Self->{ServiceObject}->ServiceListGet(
-            Valid  => 0,
-            UserID => 1,
-        );
-
-        # get a service lookup table
-        my %ServiceLoockup;
-        SERVICE:
-        for my $ServiceData ( @{$ServiceList} ) {
-            next SERVICE if !$ServiceData;
-            next SERVICE if !IsHashRefWithData($ServiceData);
-            next SERVICE if !$ServiceData->{ServiceID};
-
-            $ServiceLoockup{ $ServiceData->{ServiceID} } = $ServiceData;
-        }
-
-        # to store already printed ServiceIDs
-        my %AddedServices;
-
-        for my $ServiceKey ( sort { $OrigService{$a} cmp $OrigService{$b} } keys %OrigService ) {
-
-            # get the service parent
-            my $ServiceParentID = $ServiceLoockup{$ServiceKey}->{ParentID} || 0;
-
-            # check if direct parent is not listed as printed
-            if ( $ServiceParentID && !defined $AddedServices{$ServiceParentID} ) {
-
-                # get all parent IDs
-                my $ServiceParents = $Self->{ServiceObject}->ServiceParentsGet(
-                    ServiceID => $ServiceKey,
-                    UserID    => $Self->{UserID},
-                );
-
-                SERVICEID:
-                for my $ServiceID ( @{$ServiceParents} ) {
-                    next SERVICEID if !$ServiceID;
-                    next SERVICEID if $AddedServices{$ServiceID};
-
-                    my $ServiceParent = $ServiceLoockup{$ServiceID};
-                    next SERVICEID if !IsHashRefWithData($ServiceParent);
-
-                    # create a new register for each parent as disabled
-                    my %ParentServiceRegister = (
-                        Key      => $ServiceID,
-                        Value    => $ServiceParent->{Name},
-                        Selected => 0,
-                        Disabled => 1,
-                    );
-                    push @ServiceList, \%ParentServiceRegister;
-
-                    # set service as printed
-                    $AddedServices{$ServiceID} = 1;
-                }
-            }
-
-            # set default service structure
-            my %ServiceRegister = (
-                Key   => $ServiceKey,
-                Value => $OrigService{$ServiceKey},
-            );
-
-            # check if service is selected
-            if ( $Param{ServiceID} && $Param{ServiceID} eq $ServiceKey ) {
-                $ServiceRegister{Selected} = 1;
-            }
-
-            # check if service is disabled
-            if ( !$Service{$ServiceKey} ) {
-                $ServiceRegister{Disabled} = 1;
-            }
-            push @ServiceList, \%ServiceRegister;
-
-            # set service as printed
-            $AddedServices{$ServiceKey} = 1;
-        }
     }
-    return \@ServiceList;
+    return \%Service;
 }
 
 sub _GetSLAs {
     my ( $Self, %Param ) = @_;
-
-    # convert service ArrayHashRef to hashref
-    my %Services;
-    SERVICE:
-    for my $Service ( @{ $Param{Services} } ) {
-        next SERVICE if !$Service;
-        $Services{ $Service->{Key} } = $Service->{Value};
-    }
-    $Param{Services} = \%Services;
 
     my %SLA;
     if ( $Param{ServiceID} ) {
