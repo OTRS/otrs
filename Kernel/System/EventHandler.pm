@@ -2,7 +2,7 @@
 # Kernel/System/EventHandler.pm - global object events
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: EventHandler.pm,v 1.10 2012-03-03 01:34:31 ep Exp $
+# $Id: EventHandler.pm,v 1.11 2012-06-15 09:59:42 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 =head1 NAME
 
@@ -196,8 +196,19 @@ sub EventHandler {
     MODULE:
     for my $Module ( sort keys %{$Modules} ) {
 
-        # execute only if configured (regexp in Event of config is possible)
-        if ( !$Modules->{$Module}->{Event} || $Param{Event} =~ /$Modules->{$Module}->{Event}/ ) {
+      # If the module has an event configuration, determine if it should be executed for this event,
+      #   and store the result in a small cache to avoid repetition on jobs involving many tickets.
+        if ( !defined $Self->{ExecuteModuleOnEvent}->{$Module}->{ $Param{Event} } ) {
+            if ( !$Modules->{$Module}->{Event} ) {
+                $Self->{ExecuteModuleOnEvent}->{$Module}->{ $Param{Event} } = 1;
+            }
+            else {
+                $Self->{ExecuteModuleOnEvent}->{$Module}->{ $Param{Event} } =
+                    $Param{Event} =~ /$Modules->{$Module}->{Event}/;
+            }
+        }
+
+        if ( $Self->{ExecuteModuleOnEvent}->{$Module}->{ $Param{Event} } ) {
 
             # next if we are not in transaction mode, but module is in transaction
             next MODULE if !$Param{Transaction} && $Modules->{$Module}->{Transaction};
@@ -208,24 +219,11 @@ sub EventHandler {
             # load event module
             next MODULE if !$Self->{MainObject}->Require( $Modules->{$Module}->{Module} );
 
-            # get all default objects if given
-            my $ObjectRef = $Self->{EventHandlerInit}->{Objects};
-            my %Objects;
-            if ($ObjectRef) {
-                %Objects = %{$ObjectRef};
-            }
-
             # execute event backend
             my $Generic = $Modules->{$Module}->{Module}->new(
-                %Objects,
+                %{ $Self->{EventHandlerInit}->{Objects} || {} },
                 $Self->{EventHandlerInit}->{BaseObject} => $Self,
             );
-
-            # compatable to old
-            # OTRS 3.x: REMOVE ME
-            if ( $Param{Data} ) {
-                %Param = ( %Param, %{ $Param{Data} } );
-            }
 
             $Generic->Run(
                 %Param,
@@ -265,6 +263,9 @@ sub EventHandlerTransaction {
 
     # execute events on end of transaction
     if ( $Self->{EventHandlerPipe} ) {
+
+        print STDERR "EHP: " . scalar @{ $Self->{EventHandlerPipe} } . "\n";
+
         for my $Params ( @{ $Self->{EventHandlerPipe} } ) {
             $Self->EventHandler(
                 %Param,
@@ -299,6 +300,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.10 $ $Date: 2012-03-03 01:34:31 $
+$Revision: 1.11 $ $Date: 2012-06-15 09:59:42 $
 
 =cut
