@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketMessage.pm - to handle customer messages
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.pm,v 1.104 2012-05-30 18:28:06 mb Exp $
+# $Id: CustomerTicketMessage.pm,v 1.105 2012-06-15 21:30:06 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,13 +18,12 @@ use Kernel::System::Web::UploadCache;
 use Kernel::System::SystemAddress;
 use Kernel::System::Queue;
 use Kernel::System::State;
-use Kernel::System::Service;
 use Kernel::System::DynamicField;
 use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.104 $) [1];
+$VERSION = qw($Revision: 1.105 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -47,7 +46,6 @@ sub new {
     $Self->{UploadCacheObject}  = Kernel::System::Web::UploadCache->new(%Param);
     $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new(%Param);
     $Self->{BackendObject}      = Kernel::System::DynamicField::Backend->new(%Param);
-    $Self->{ServiceObject}      = Kernel::System::Service->new(%Param);
 
     # get form id
     $Self->{FormID} = $Self->{ParamObject}->GetParam( Param => 'FormID' );
@@ -664,109 +662,22 @@ sub _MaskNew {
     }
 
     # services
-
     if ( $Self->{ConfigObject}->Get('Ticket::Service') && $Self->{Config}->{Service} ) {
-
-        # get service
-        my %Service;
-        my @ServiceList;
-        if ( ( $Param{QueueID} || $Param{TicketID} ) ) {
-            %Service = $Self->{TicketObject}->TicketServiceList(
+        my %Services;
+        if ( $Param{QueueID} || $Param{TicketID} ) {
+            %Services = $Self->{TicketObject}->TicketServiceList(
                 %Param,
                 Action         => $Self->{Action},
                 CustomerUserID => $Self->{UserID},
             );
-
-            my %OrigService = $Self->{ServiceObject}->CustomerUserServiceMemberList(
-                Result            => 'HASH',
-                CustomerUserLogin => $Self->{UserID},
-                UserID            => 1,
-            );
-
-            # get all services
-            my $ServiceList = $Self->{ServiceObject}->ServiceListGet(
-                Valid  => 0,
-                UserID => 1,
-            );
-
-            # get a service lookup table
-            my %ServiceLoockup;
-            SERVICE:
-            for my $ServiceData ( @{$ServiceList} ) {
-                next SERVICE if !$ServiceData;
-                next SERVICE if !IsHashRefWithData($ServiceData);
-                next SERVICE if !$ServiceData->{ServiceID};
-
-                $ServiceLoockup{ $ServiceData->{ServiceID} } = $ServiceData;
-            }
-
-            # to store already printed ServiceIDs
-            my %AddedServices;
-
-            for my $ServiceKey ( sort { $OrigService{$a} cmp $OrigService{$b} } keys %OrigService )
-            {
-
-                # get the service parent
-                my $ServiceParentID = $ServiceLoockup{$ServiceKey}->{ParentID} || 0;
-
-                # check if direct parent is not listed as printed
-                if ( $ServiceParentID && !defined $AddedServices{$ServiceParentID} ) {
-
-                    # get all parent IDs
-                    my $ServiceParents = $Self->{ServiceObject}->ServiceParentsGet(
-                        ServiceID => $ServiceKey,
-                        UserID    => $Self->{UserID},
-                    );
-
-                    SERVICEID:
-                    for my $ServiceID ( @{$ServiceParents} ) {
-                        next SERVICEID if !$ServiceID;
-                        next SERVICEID if $AddedServices{$ServiceID};
-
-                        my $ServiceParent = $ServiceLoockup{$ServiceID};
-                        next SERVICEID if !IsHashRefWithData($ServiceParent);
-
-                        # create a new register for each parent as disabled
-                        my %ParentServiceRegister = (
-                            Key      => $ServiceID,
-                            Value    => $ServiceParent->{Name},
-                            Selected => 0,
-                            Disabled => 1,
-                        );
-                        push @ServiceList, \%ParentServiceRegister;
-
-                        # set service as printed
-                        $AddedServices{$ServiceID} = 1;
-                    }
-                }
-
-                # set default service structure
-                my %ServiceRegister = (
-                    Key   => $ServiceKey,
-                    Value => $OrigService{$ServiceKey},
-                );
-
-                # check if service is selected
-                if ( $Param{ServiceID} && $Param{ServiceID} eq $ServiceKey ) {
-                    $ServiceRegister{Selected} = 1;
-                }
-
-                # check if service is disabled
-                if ( !$Service{$ServiceKey} ) {
-                    $ServiceRegister{Disabled} = 1;
-                }
-                push @ServiceList, \%ServiceRegister;
-
-                # set service as printed
-                $AddedServices{$ServiceKey} = 1;
-            }
         }
-
         $Param{ServiceStrg} = $Self->{LayoutObject}->BuildSelection(
-            Data         => \@ServiceList,
+            Data         => \%Services,
             Name         => 'ServiceID',
+            SelectedID   => $Param{ServiceID},
             PossibleNone => 1,
             TreeView     => $TreeView,
+            Sort         => 'TreeView',
             Translation  => 0,
             Max          => 200,
         );
@@ -774,6 +685,11 @@ sub _MaskNew {
             Name => 'TicketService',
             Data => \%Param,
         );
+
+        # reset previous ServiceID to reset SLA-List if no service is selected
+        if ( !$Services{ $Param{ServiceID} } ) {
+            $Param{ServiceID} = '';
+        }
         my %SLA;
         if ( $Self->{Config}->{SLA} ) {
             if ( $Param{ServiceID} ) {
