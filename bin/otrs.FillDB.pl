@@ -3,7 +3,7 @@
 # bin/otrs.FillDB.pl - fill db with demo data
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.FillDB.pl,v 1.10 2012-06-15 12:27:44 mg Exp $
+# $Id: otrs.FillDB.pl,v 1.11 2012-06-15 15:01:03 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin) . '/Custom';
 use strict;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -153,7 +153,6 @@ EOF
     my @GroupIDs;
     if ( !$Opts{g} ) {
         @GroupIDs = GroupGet($CommonObjects);
-        $Opts{g} = $#GroupIDs;
     }
     else {
         @GroupIDs = GroupCreate( $CommonObjects, $Opts{g} );
@@ -163,7 +162,6 @@ EOF
     my @UserIDs;
     if ( !$Opts{u} ) {
         @UserIDs = UserGet($CommonObjects);
-        $Opts{u} = $#UserIDs;
     }
     else {
         @UserIDs = UserCreate( $CommonObjects, $Opts{u}, \@GroupIDs );
@@ -173,7 +171,6 @@ EOF
     my @QueueIDs;
     if ( !$Opts{q} ) {
         @QueueIDs = QueueGet($CommonObjects);
-        $Opts{q} = $#QueueIDs;
     }
     else {
         @QueueIDs = QueueCreate( $CommonObjects, $Opts{q}, \@GroupIDs );
@@ -189,26 +186,31 @@ EOF
     # create tickets
     my @TicketIDs = ();
     foreach ( 1 .. $Opts{'t'} ) {
-        my $TicketID = $CommonObjects->{TicketObject}->TicketCreate(
+        my $TicketUserID =
+
+            my $TicketID = $CommonObjects->{TicketObject}->TicketCreate(
             Title        => RandomSubject(),
-            QueueID      => $QueueIDs[ int( rand( $Opts{q} ) ) ],
+            QueueID      => $QueueIDs[ int( rand($#QueueIDs) ) ],
             Lock         => 'unlock',
             Priority     => '3 normal',
             State        => 'new',
             CustomerNo   => int( rand(1000) ),
             CustomerUser => RandomAddress(),
-            OwnerID      => $UserIDs[ int( rand( $Opts{u} ) ) ],
-            UserID       => $UserIDs[ int( rand( $Opts{u} ) ) ],
-        );
+            OwnerID      => $UserIDs[ int( rand($#UserIDs) ) ],
+            UserID       => $UserIDs[ int( rand($#UserIDs) ) ],
+            );
 
         if ( $Opts{f} ) {
+
+            # bulk-insert the flags directly for improved performance
+            my $SQL
+                = 'INSERT INTO ticket_flag (ticket_id, ticket_key, ticket_value, create_time, create_by) VALUES ';
+            my @Values;
             for my $UserID (@UserIDs) {
-                $CommonObjects->{TicketObject}->TicketFlagSet(
-                    TicketID => $TicketID,
-                    Key      => 'Seen',
-                    Value    => 1,
-                    UserID   => $UserID,
-                );
+                push @Values, "($TicketID, 'Seen', 1, current_timestamp, $UserID)";
+            }
+            while ( my @ValuesPart = splice( @Values, 0, 50 ) ) {
+                $CommonObjects->{DBObject}->Do( SQL => $SQL . join( ',', @ValuesPart ) );
             }
         }
 
@@ -229,18 +231,21 @@ EOF
                     ContentType    => 'text/plain; charset=ISO-8859-15',
                     HistoryType    => 'NewTicket',
                     HistoryComment => 'Some free text!',
-                    UserID         => $UserIDs[ int( rand( $Opts{u} ) ) ],
+                    UserID         => $UserIDs[ int( rand($#UserIDs) ) ],
                     NoAgentNotify => 1,    # if you don't want to send agent notifications
                 );
 
                 if ( $Opts{f} ) {
+
+                    # bulk-insert the flags directly for improved performance
+                    my $SQL
+                        = 'INSERT INTO article_flag (article_id, article_key, article_value, create_time, create_by) VALUES ';
+                    my @Values;
                     for my $UserID (@UserIDs) {
-                        $CommonObjects->{TicketObject}->ArticleFlagSet(
-                            ArticleID => $TicketID,
-                            Key       => 'Seen',
-                            Value     => 1,
-                            UserID    => $UserID,
-                        );
+                        push @Values, "($ArticleID, 'Seen', 1, current_timestamp, $UserID)";
+                    }
+                    while ( my @ValuesPart = splice( @Values, 0, 50 ) ) {
+                        $CommonObjects->{DBObject}->Do( SQL => $SQL . join( ',', @ValuesPart ) );
                     }
                 }
 
@@ -253,7 +258,7 @@ EOF
                     my $Result = $CommonObjects->{DynamicFieldBackendObject}->RandomValueSet(
                         DynamicFieldConfig => $DynamicFieldConfig,
                         ObjectID           => $ArticleID,
-                        UserID             => $UserIDs[ int( rand( $Opts{u} ) ) ],
+                        UserID             => $UserIDs[ int( rand($#UserIDs) ) ],
                     );
 
                     if ( $Result->{Success} ) {
@@ -274,7 +279,7 @@ EOF
                 my $Result = $CommonObjects->{DynamicFieldBackendObject}->RandomValueSet(
                     DynamicFieldConfig => $DynamicFieldConfig,
                     ObjectID           => $TicketID,
-                    UserID             => $UserIDs[ int( rand( $Opts{u} ) ) ],
+                    UserID             => $UserIDs[ int( rand($#UserIDs) ) ],
                 );
 
                 if ( $Result->{Success} ) {
@@ -355,7 +360,7 @@ EOF
                 ContentType    => 'text/plain; charset=ISO-8859-15',
                 HistoryType    => 'AddNote',
                 HistoryComment => 'Some free text!',
-                UserID         => $UserIDs[ int( rand( $Opts{'u'} ) ) ],
+                UserID         => $UserIDs[ int( rand($#UserIDs) ) ],
                 NoAgentNotify => 1,    # if you don't want to send agent notifications
             );
             print "NOTICE: Article added to Ticket '$TicketID/$ArticleID'.\n";
@@ -373,7 +378,7 @@ EOF
                 StateID  => $StateID,
                 TicketID => $TicketID,
                 SendNoNotification => 1,    # optional 1|0 (send no agent and customer notification)
-                UserID => $UserIDs[ int( rand( $Opts{'u'} ) ) ],
+                UserID => $UserIDs[ int( rand($#UserIDs) ) ],
             );
             print "NOTICE: State updated of Ticket '$TicketID/$States{$StateID}'.\n";
 
@@ -383,7 +388,7 @@ EOF
                 $CommonObjects->{TicketObject}->PrioritySet(
                     TicketID   => $TicketID,
                     PriorityID => $PriorityID,
-                    UserID     => $UserIDs[ int( rand( $Opts{'u'} ) ) ],
+                    UserID     => $UserIDs[ int( rand($#UserIDs) ) ],
                 );
                 print "NOTICE: Priority updated of Ticket '$TicketID/$Priorities{$PriorityID}'.\n";
             }
@@ -400,7 +405,7 @@ EOF
                     TargetKey    => $TicketIDChild,
                     Type         => 'ParentChild',
                     State        => 'Valid',
-                    UserID       => $UserIDs[int(rand($Opts{'u'}))],
+                    UserID       => $UserIDs[int(rand($#UserIDs))],
                 );
                 print "NOTICE: Link Ticket $TicketID ParentChild to Ticket $TicketIDChild.\n";
             }
