@@ -1,8 +1,8 @@
 # --
 # Email.t - email parser tests
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Email.t,v 1.7 2010-10-29 07:32:28 mg Exp $
+# $Id: Email.t,v 1.8 2012-06-15 12:01:51 alm Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -137,6 +137,15 @@ for my $Encoding ( '', qw(base64 quoted-printable 8bit) ) {
                 $ParserObject->GetCharset(),
                 $Test->{Data}->{Charset},
                 "$Name GetCharset()",
+            );
+        }
+
+        # check Content-Type
+        if ( $Test->{Data}->{Type} ) {
+            $Self->Is(
+                ( split ';', $ParserObject->GetContentType() )[0],
+                $Test->{Data}->{Type},
+                "$Name GetContentType()",
             );
         }
     }
