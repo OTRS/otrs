@@ -2,7 +2,7 @@
 # Daemon.t - Scheduler tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Daemon.t,v 1.13.2.1 2012-06-14 22:28:38 cr Exp $
+# $Id: Daemon.t,v 1.13.2.2 2012-06-15 12:47:15 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -167,7 +167,6 @@ if ( $PreviousSchedulerStatus =~ m{registered}i ) {
 $CheckAction->(
     Name                => 'Initial start',
     Action              => 'start',
-    Force               => 1,
     ExpectActionSuccess => 1,
     StateBefore         => 'not running',
     StateAfter          => 'running',
@@ -428,7 +427,6 @@ if ( $PreviousSchedulerStatus =~ /^running/i ) {
     $CheckAction->(
         Name                => 'Cleanup - restart Scheduler as it was running before this test',
         Action              => 'start',
-        Force               => 1,
         ExpectActionSuccess => 1,
         StateBefore         => 'not running',
         StateAfter          => 'running',
