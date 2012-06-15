@@ -1,8 +1,8 @@
 # --
 # Run.t - Scheduler tests
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Run.t,v 1.3 2011-04-26 18:23:24 cr Exp $
+# $Id: Run.t,v 1.4 2012-06-15 12:44:06 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -91,6 +91,18 @@ if ( !$PreviousSchedulerStatus ) {
 }
 
 if ( $PreviousSchedulerStatus =~ /^not running/i ) {
+    if ( $PreviousSchedulerStatus =~ m{registered}i ) {
+
+        # force stop
+        `$Scheduler -a stop -f 1`;
+        $Self->True(
+            1,
+            "Force stoping due to bad status...",
+        );
+        print "Sleeping 2s\n";
+        sleep 2;
+    }
+
     my $Result = system("$Scheduler -a start");
     $Self->Is(
         $Result,
@@ -143,6 +155,17 @@ for my $Test (@Tests) {
     # make a deep copy to avoid changing the definition
     $Test = Storable::dclone($Test);
 
+    my $Result = system("$Scheduler -a stop");
+    $Self->Is(
+        $Result,
+        0,
+        "Scheduler stop before register asap tasks.",
+    );
+
+    # wait for scheduler to stop
+    print "Sleeping 3s\n";
+    sleep 3;
+
     # register tasks
     my @FileRemember;
     for my $Task ( @{ $Test->{Tasks} } ) {
@@ -164,6 +187,23 @@ for my $Test (@Tests) {
             $TaskID,
             "$Test->{Name} - asap- Kernel::Scheduler->TaskRegister() success",
         );
+
+        # for debuging, could be removed if needed
+        # try to investigate why the task could not be registered
+        if ( !$TaskID ) {
+
+            # get last log entry (this might help)
+            my $Message = $Self->{LogObject}->GetLogEntry(
+                Type => 'error',        # error|info|notice
+                What => 'Traceback',    # Message|Traceback
+            );
+
+            # output message as error (to be shown in UT servers)
+            $Self->True(
+                0,
+                "Last log entry after TaskRegister(): $Message",
+            );
+        }
     }
 
     # check task list
@@ -171,6 +211,13 @@ for my $Test (@Tests) {
         scalar $TaskManagerObject->TaskList(),
         scalar @{ $Test->{Tasks} },
         "Tasks registered",
+    );
+
+    $Result = system("$Scheduler -a start");
+    $Self->Is(
+        $Result,
+        0,
+        "Scheduler start after register asap tasks.",
     );
 
     # wait for scheduler to execute tasks
