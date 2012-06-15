@@ -2,7 +2,7 @@
 # Kernel/System/Log/SysLog.pm - a wrapper for Sys::Syslog or xyz::Syslog
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: SysLog.pm,v 1.21 2012-01-27 14:49:56 mg Exp $
+# $Id: SysLog.pm,v 1.22 2012-06-15 09:02:52 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,10 +14,10 @@ package Kernel::System::Log::SysLog;
 use strict;
 use warnings;
 
-use Sys::Syslog qw(:DEFAULT setlogsock);
+use Sys::Syslog qw();
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
+$VERSION = qw($Revision: 1.22 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -27,17 +27,28 @@ sub new {
     bless( $Self, $Type );
 
     # get needed objects
-    for (qw(ConfigObject EncodeObject)) {
-        if ( $Param{$_} ) {
-            $Self->{$_} = $Param{$_};
+    for my $Needed (qw(ConfigObject EncodeObject)) {
+        if ( $Param{$Needed} ) {
+            $Self->{$Needed} = $Param{$Needed};
         }
         else {
-            die "Got no $_!";
+            die "Got no $Needed!";
         }
     }
 
     # set syslog facility
     $Self->{SysLogFacility} = $Param{ConfigObject}->Get('LogModule::SysLog::Facility') || 'user';
+
+    # start syslog connect
+
+    # According to the docs, this is not needed any longer and should not be used any more.
+    #   Please see the Sys::Syslog documentation for details.
+    #   #TODO: remove this code sometime, and the config setting.
+    #my $LogSock = $Self->{ConfigObject}->Get('LogModule::SysLog::LogSock') || 'unix';
+    #Sys::Syslog::setlogsock($LogSock);
+
+    # This will only open the connection on the first syslog() call
+    Sys::Syslog::openlog( $Param{LogPrefix}, 'cons,pid', $Self->{SysLogFacility} );
 
     return $Self;
 }
@@ -58,22 +69,17 @@ sub Log {
         );
     }
 
-    # start syslog connect
-    my $LogSock = $Self->{ConfigObject}->Get('LogModule::SysLog::LogSock') || 'unix';
-    setlogsock($LogSock);
-    openlog( $Param{LogPrefix}, 'cons,pid', $Self->{SysLogFacility} );
-
     if ( lc $Param{Priority} eq 'debug' ) {
-        syslog( 'debug', "[Debug][$Param{Module}][$Param{Line}] $Param{Message}" );
+        Sys::Syslog::syslog( 'debug', "[Debug][$Param{Module}][$Param{Line}] $Param{Message}" );
     }
     elsif ( lc $Param{Priority} eq 'info' ) {
-        syslog( 'info', "[Info][$Param{Module}] $Param{Message}" );
+        Sys::Syslog::syslog( 'info', "[Info][$Param{Module}] $Param{Message}" );
     }
     elsif ( lc $Param{Priority} eq 'notice' ) {
-        syslog( 'notice', "[Notice][$Param{Module}] $Param{Message}" );
+        Sys::Syslog::syslog( 'notice', "[Notice][$Param{Module}] $Param{Message}" );
     }
     elsif ( lc $Param{Priority} eq 'error' ) {
-        syslog( 'err', "[Error][$Param{Module}][Line:$Param{Line}]: $Param{Message}" );
+        Sys::Syslog::syslog( 'err', "[Error][$Param{Module}][Line:$Param{Line}]: $Param{Message}" );
     }
     else {
 
@@ -82,14 +88,21 @@ sub Log {
             "[Error][$Param{Module}] Priority: '$Param{Priority}' not defined! Message: $Param{Message}\n";
 
         # and of course to syslog
-        syslog(
+        Sys::Syslog::syslog(
             'err',
             "[Error][$Param{Module}] Priority: '$Param{Priority}' not defined! Message: $Param{Message}"
         );
     }
 
+    return;
+}
+
+sub DESTROY {
+    my $Self = shift;
+
     # close syslog request
-    closelog();
+    Sys::Syslog::closelog();
+
     return;
 }
 
