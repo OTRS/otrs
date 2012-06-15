@@ -2,7 +2,7 @@
 # Escalations.t - escalation event tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Escalations.t,v 1.8.2.4 2012-06-11 03:34:59 cg Exp $
+# $Id: Escalations.t,v 1.8.2.5 2012-06-15 18:34:11 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -67,9 +67,6 @@ my $CheckNumEvents = sub {
         );
         $Self->True( $JobRun, "JobRun() $JobName Run the GenericAgent job" );
     }
-
-    #sleep a bit before to check
-    sleep 3;
 
     my @Lines = $Param{TicketObject}->HistoryGet(
         TicketID => $Param{TicketID},
@@ -475,14 +472,20 @@ for my $Hours ( sort keys %WorkingHours ) {
             UserID   => 1,
         );
 
+        # get ticket attributes
+        my %TicketGet = $TicketObject->TicketGet(
+            TicketID      => $TicketID,
+            DynamicFields => 1,
+        );
+
         # make sure that a least a minute is taken off the used up time
         # A timespan of less than 1 minute comes up the 0% reached.
         # However, a NotifyBefore of 0% indicates that no NotifyBefore is emitted.
-        my $SleepTime = 60 - ( $TimeObject->SystemTime() - $StartingSystemTime );
+        my $SleepTime = $TimeObject->SystemTime() - $TicketGet{CreateTimeUnix};
 
-        # Add extra second for some slow machines
-        $SleepTime += 7;
-        $SleepTime = 10 if $SleepTime lt 1;
+        # Add extra seconds
+        $SleepTime = 10 if $SleepTime lt 10;
+        $SleepTime = 60 - $SleepTime;
         $Self->True( 1, "sleeping for $SleepTime s, percentage reached should not be 0%" );
         sleep $SleepTime;
 
