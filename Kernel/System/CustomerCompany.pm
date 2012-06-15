@@ -2,7 +2,7 @@
 # Kernel/System/CustomerCompany.pm - All customer company related function should be here eventually
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerCompany.pm,v 1.27 2012-06-15 10:25:37 mb Exp $
+# $Id: CustomerCompany.pm,v 1.28 2012-06-15 11:02:09 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.27 $) [1];
+$VERSION = qw($Revision: 1.28 $) [1];
 
 =head1 NAME
 
@@ -140,11 +140,8 @@ sub new {
     $Self->{ForeignDB}
         = $Self->{ConfigObject}->Get('CustomerCompany')->{Params}->{ForeignDB} ? 1 : 0;
 
-    # set lower if database is case sensitive
-    $Self->{Lower} = '';
-    if ( !$Self->{DBObject}->GetDatabaseFunction('CaseInsensitive') ) {
-        $Self->{Lower} = 'LOWER';
-    }
+    # see if database is case sensitive
+    $Self->{CaseInsensitive} = $Self->{DBObject}->GetDatabaseFunction('CaseInsensitive') || 0;
 
     return $Self;
 }
@@ -285,7 +282,7 @@ sub CustomerCompanyGet {
 
     $SQL .= " FROM $Self->{CustomerCompanyTable} WHERE ";
     my $CustomerIDQuoted = $Self->{DBObject}->Quote($CustomerID);
-    if ( $Self->{CaseSensitive} ) {
+    if ( $Self->{CaseInsensitive} ) {
         $SQL .= "$Self->{CustomerCompanyKey} = '$CustomerIDQuoted'";
     }
     else {
@@ -367,8 +364,13 @@ sub CustomerCompanyUpdate {
         $SQL .= ", change_time = current_timestamp, change_by = $Param{UserID} ";
     }
 
-    $SQL .= " WHERE $Self->{Lower}($Self->{CustomerCompanyKey}) = $Self->{Lower}('"
-        . $Self->{DBObject}->Quote( $Param{CustomerCompanyID} ) . "')";
+    my $CustomerCompanyIDQuoted = $Self->{DBObject}->Quote( $Param{CustomerCompanyID} );
+    if ( $Self->{CaseInsensitive} ) {
+        $SQL .= " WHERE $Self->{CustomerCompanyKey} = ' $CustomerCompanyIDQuoted'";
+    }
+    else {
+        $SQL .= " WHERE LOWER($Self->{CustomerCompanyKey}) = LOWER('$CustomerCompanyIDQuoted')";
+    }
 
     return if !$Self->{DBObject}->Do( SQL => $SQL );
 
@@ -431,7 +433,7 @@ sub CustomerCompanyList {
     }
 
     # add valid option if required
-    my $SQL = '';
+    my $SQL;
     if ($Valid) {
         $SQL
             .= "$Self->{CustomerCompanyValid} IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} )";
@@ -440,44 +442,34 @@ sub CustomerCompanyList {
     # where
     if ( $Param{Search} ) {
 
-        my $Count = 0;
         my @Parts = split /\+/, $Param{Search}, 6;
-
         for my $Part (@Parts) {
-
             $Part = $Self->{SearchPrefix} . $Part . $Self->{SearchSuffix};
             $Part =~ s/\*/%/g;
             $Part =~ s/%%/%/g;
 
-            if ( $Count || $SQL ) {
+            if ( defined $SQL ) {
                 $SQL .= " AND ";
             }
-
-            $Count++;
 
             my $CustomerCompanySearchFields
                 = $Self->{ConfigObject}->Get('CustomerCompany')->{CustomerCompanySearchFields};
 
             if ( $CustomerCompanySearchFields && ref $CustomerCompanySearchFields eq 'ARRAY' ) {
 
-                my $SQLExt = '';
-
-                for ( @{$CustomerCompanySearchFields} ) {
-
-                    if ($SQLExt) {
-                        $SQLExt .= ' OR ';
+                my @SQLParts;
+                my $QuotedPart = $Self->{DBObject}->Quote($Part);
+                for my $Field ( @{$CustomerCompanySearchFields} ) {
+                    if ( $Self->{CaseInsensitive} ) {
+                        push @SQLParts, "$Field = '$QuotedPart'";
                     }
-                    $SQLExt .= " $Self->{Lower}($_) LIKE $Self->{Lower}('"
-                        . $Self->{DBObject}->Quote($Part) . "') ";
+                    else {
+                        push @SQLParts, "LOWER($Field) = LOWER('$QuotedPart')";
+                    }
                 }
-
-                if ($SQLExt) {
-                    $SQL .= "($SQLExt)";
+                if (@SQLParts) {
+                    $SQL .= join( @SQLParts, ' OR ' );
                 }
-            }
-            else {
-                $SQL .= " $Self->{Lower}($Self->{CustomerCompanyKey}) LIKE $Self->{Lower}('"
-                    . $Self->{DBObject}->Quote($Part) . "') ";
             }
         }
     }
@@ -544,6 +536,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.27 $ $Date: 2012-06-15 10:25:37 $
+$Revision: 1.28 $ $Date: 2012-06-15 11:02:09 $
 
 =cut
