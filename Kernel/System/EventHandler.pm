@@ -2,7 +2,7 @@
 # Kernel/System/EventHandler.pm - global object events
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: EventHandler.pm,v 1.11 2012-06-15 09:59:42 mg Exp $
+# $Id: EventHandler.pm,v 1.12 2012-06-15 10:52:03 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 =head1 NAME
 
@@ -264,8 +264,6 @@ sub EventHandlerTransaction {
     # execute events on end of transaction
     if ( $Self->{EventHandlerPipe} ) {
 
-        print STDERR "EHP: " . scalar @{ $Self->{EventHandlerPipe} } . "\n";
-
         for my $Params ( @{ $Self->{EventHandlerPipe} } ) {
             $Self->EventHandler(
                 %Param,
@@ -300,6 +298,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.11 $ $Date: 2012-06-15 09:59:42 $
+$Revision: 1.12 $ $Date: 2012-06-15 10:52:03 $
 
 =cut
