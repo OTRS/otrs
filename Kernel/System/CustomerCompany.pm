@@ -2,7 +2,7 @@
 # Kernel/System/CustomerCompany.pm - All customer company related function should be here eventually
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerCompany.pm,v 1.26 2012-03-26 21:47:00 mh Exp $
+# $Id: CustomerCompany.pm,v 1.27 2012-06-15 10:25:37 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.26 $) [1];
+$VERSION = qw($Revision: 1.27 $) [1];
 
 =head1 NAME
 
@@ -280,14 +280,16 @@ sub CustomerCompanyGet {
         $SQL .= ", change_time, create_time";
     }
 
+    # this seems to be legacy, if Name is passed it should take precedence over CustomerID
+    my $CustomerID = $Param{Name} || $Param{CustomerID};
+
     $SQL .= " FROM $Self->{CustomerCompanyTable} WHERE ";
-    if ( $Param{Name} ) {
-        $SQL .= "$Self->{Lower}($Self->{CustomerCompanyKey}) = $Self->{Lower}('"
-            . $Self->{DBObject}->Quote( $Param{Name} ) . "')";
+    my $CustomerIDQuoted = $Self->{DBObject}->Quote($CustomerID);
+    if ( $Self->{CaseSensitive} ) {
+        $SQL .= "$Self->{CustomerCompanyKey} = '$CustomerIDQuoted'";
     }
-    elsif ( $Param{CustomerID} ) {
-        $SQL .= "$Self->{Lower}($Self->{CustomerCompanyKey}) = $Self->{Lower}('"
-            . $Self->{DBObject}->Quote( $Param{CustomerID} ) . "')";
+    else {
+        $SQL .= "LOWER($Self->{CustomerCompanyKey}) = LOWER('$CustomerIDQuoted')";
     }
 
     # get initial data
@@ -542,6 +544,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.26 $ $Date: 2012-03-26 21:47:00 $
+$Revision: 1.27 $ $Date: 2012-06-15 10:25:37 $
 
 =cut
