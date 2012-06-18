@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-#  driver: mysql, generated: 2011-12-08 11:40:33
+#  driver: mysql, generated: 2012-06-18 14:36:02
 # ----------------------------------------------------------
 # ----------------------------------------------------------
 #  create table valid
@@ -335,10 +335,6 @@ CREATE TABLE ticket (
     group_id INTEGER NOT NULL,
     ticket_priority_id SMALLINT NOT NULL,
     ticket_state_id SMALLINT NOT NULL,
-    group_read SMALLINT NULL,
-    group_write SMALLINT NULL,
-    other_read SMALLINT NULL,
-    other_write SMALLINT NULL,
     customer_id VARCHAR (150) NULL,
     customer_user_id VARCHAR (250) NULL,
     timeout INTEGER NOT NULL,
@@ -520,9 +516,7 @@ CREATE TABLE article_flag (
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
     INDEX article_flag_article_id (article_id),
-    INDEX article_flag_article_id_article_key (article_id, article_key),
-    INDEX article_flag_article_id_create_by (article_id, create_by),
-    INDEX article_flag_create_by (create_by)
+    INDEX article_flag_article_id_create_by (article_id, create_by)
 );
 # ----------------------------------------------------------
 #  create table article
@@ -1192,7 +1186,7 @@ CREATE TABLE gi_object_lock_state (
     lock_state_counter INTEGER NOT NULL,
     create_time DATETIME NOT NULL,
     change_time DATETIME NOT NULL,
-    UNIQUE INDEX gi_object_lock_state_U_345 (webservice_id, object_type, object_id),
+    UNIQUE INDEX gi_object_lock_state_U_959 (webservice_id, object_type, object_id),
     INDEX object_lock_state_list_state (webservice_id, object_type, object_id, lock_state)
 );
 # ----------------------------------------------------------
@@ -1242,5 +1236,5 @@ CREATE TABLE dynamic_field (
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE INDEX dynamic_field_U_803 (name)
+    UNIQUE INDEX dynamic_field_U_567 (name)
 );

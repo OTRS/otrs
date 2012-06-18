@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: db2, generated: 2012-06-11 13:38:37
+--  driver: db2, generated: 2012-06-18 14:24:44
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  alter table ticket
@@ -28,3 +28,7 @@ CALL SYSPROC.ADMIN_CMD ('REORG TABLE ticket');
 ALTER TABLE ticket DROP other_write;
 
 CALL SYSPROC.ADMIN_CMD ('REORG TABLE ticket');
+
+DROP INDEX article_flag_create_by;
+
+DROP INDEX article_flag_article_id_articlf0;

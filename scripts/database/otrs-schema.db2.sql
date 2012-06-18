@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: db2, generated: 2011-12-08 11:40:32
+--  driver: db2, generated: 2012-06-18 14:36:01
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -369,10 +369,6 @@ CREATE TABLE ticket (
     group_id INTEGER NOT NULL,
     ticket_priority_id SMALLINT NOT NULL,
     ticket_state_id SMALLINT NOT NULL,
-    group_read SMALLINT,
-    group_write SMALLINT,
-    other_read SMALLINT,
-    other_write SMALLINT,
     customer_id VARCHAR (150),
     customer_user_id VARCHAR (250),
     timeout INTEGER NOT NULL,
@@ -607,11 +603,7 @@ CREATE TABLE article_flag (
 
 CREATE INDEX article_flag_article_id ON article_flag (article_id);
 
-CREATE INDEX article_flag_article_id_articlf0 ON article_flag (article_id, article_key);
-
 CREATE INDEX article_flag_article_id_create15 ON article_flag (article_id, create_by);
-
-CREATE INDEX article_flag_create_by ON article_flag (create_by);
 
 -- ----------------------------------------------------------
 --  create table article
@@ -1359,7 +1351,7 @@ CREATE TABLE gi_object_lock_state (
     lock_state_counter INTEGER NOT NULL,
     create_time TIMESTAMP NOT NULL,
     change_time TIMESTAMP NOT NULL,
-    CONSTRAINT gi_object_lock_state_U_297 UNIQUE (webservice_id, object_type, object_id)
+    CONSTRAINT gi_object_lock_state_U_127 UNIQUE (webservice_id, object_type, object_id)
 );
 
 CREATE INDEX object_lock_state_list_state ON gi_object_lock_state (webservice_id, object_type, object_id, lock_state);
@@ -1416,5 +1408,5 @@ CREATE TABLE dynamic_field (
     change_time TIMESTAMP NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    CONSTRAINT dynamic_field_U_59 UNIQUE (name)
+    CONSTRAINT dynamic_field_U_73 UNIQUE (name)
 );

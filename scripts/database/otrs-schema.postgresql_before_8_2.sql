@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: postgresql_before_8_2, generated: 2011-12-08 11:40:34
+--  driver: postgresql_before_8_2, generated: 2012-06-18 14:36:02
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -335,10 +335,6 @@ CREATE TABLE ticket (
     group_id INTEGER NOT NULL,
     ticket_priority_id INTEGER NOT NULL,
     ticket_state_id INTEGER NOT NULL,
-    group_read INTEGER NULL,
-    group_write INTEGER NULL,
-    other_read INTEGER NULL,
-    other_write INTEGER NULL,
     customer_id VARCHAR (150) NULL,
     customer_user_id VARCHAR (250) NULL,
     timeout INTEGER NOT NULL,
@@ -521,9 +517,7 @@ CREATE TABLE article_flag (
     create_by INTEGER NOT NULL
 );
 CREATE INDEX article_flag_article_id ON article_flag (article_id);
-CREATE INDEX article_flag_article_id_article_key ON article_flag (article_id, article_key);
 CREATE INDEX article_flag_article_id_create_by ON article_flag (article_id, create_by);
-CREATE INDEX article_flag_create_by ON article_flag (create_by);
 -- ----------------------------------------------------------
 --  create table article
 -- ----------------------------------------------------------
@@ -1192,7 +1186,7 @@ CREATE TABLE gi_object_lock_state (
     lock_state_counter INTEGER NOT NULL,
     create_time timestamp(0) NOT NULL,
     change_time timestamp(0) NOT NULL,
-    CONSTRAINT gi_object_lock_state_U_533 UNIQUE (webservice_id, object_type, object_id)
+    CONSTRAINT gi_object_lock_state_U_927 UNIQUE (webservice_id, object_type, object_id)
 );
 CREATE INDEX object_lock_state_list_state ON gi_object_lock_state (webservice_id, object_type, object_id, lock_state);
 -- ----------------------------------------------------------
@@ -1242,5 +1236,5 @@ CREATE TABLE dynamic_field (
     change_time timestamp(0) NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    CONSTRAINT dynamic_field_U_570 UNIQUE (name)
+    CONSTRAINT dynamic_field_U_606 UNIQUE (name)
 );

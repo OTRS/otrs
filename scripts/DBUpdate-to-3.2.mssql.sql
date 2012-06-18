@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: mssql, generated: 2012-06-11 13:38:37
+--  driver: mssql, generated: 2012-06-18 14:24:44
 -- ----------------------------------------------------------
                 DECLARE @defnameticketgroup_read VARCHAR(200), @cmdticketgroup_read VARCHAR(2000)
                 SET @defnameticketgroup_read = (
@@ -105,3 +105,5 @@ ALTER TABLE ticket DROP COLUMN other_read;
 --  alter table ticket
 -- ----------------------------------------------------------
 ALTER TABLE ticket DROP COLUMN other_write;
+DROP INDEX article_flag.article_flag_create_by;
+DROP INDEX article_flag.article_flag_article_id_article_key;

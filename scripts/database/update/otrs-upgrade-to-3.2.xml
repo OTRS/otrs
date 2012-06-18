@@ -9,4 +9,10 @@
     <ColumnDrop Name="other_write"/>
 </TableAlter>
 
+<!-- Drop unneeded indices in the article_flags table -->
+<TableAlter Name="article_flag">
+    <IndexDrop Name="article_flag_create_by"/>
+    <IndexDrop Name="article_flag_article_id_article_key"/>
+</TableAlter>
+
 </database>

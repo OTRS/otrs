@@ -871,13 +871,6 @@
         <IndexColumn Name="article_id"/>
         <IndexColumn Name="create_by"/>
     </Index>
-    <Index Name="article_flag_article_id_article_key">
-        <IndexColumn Name="article_id"/>
-        <IndexColumn Name="article_key"/>
-    </Index>
-    <Index Name="article_flag_create_by">
-        <IndexColumn Name="create_by"/>
-    </Index>
     <Index Name="article_flag_article_id">
         <IndexColumn Name="article_id"/>
     </Index>
