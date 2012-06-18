@@ -8,7 +8,7 @@
 # Copyright (C) 2004-2008 Yann Richard <ze at nbox.org>
 # Copyright (C) 2009-2010 Olivier Sallou <olivier.sallou at irisa.fr>
 # --
-# $Id: fr.pm,v 1.164.2.1 2012-05-15 08:52:29 mg Exp $
+# $Id: fr.pm,v 1.164.2.2 2012-06-18 18:42:36 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.164.2.1 $) [1];
+$VERSION = qw($Revision: 1.164.2.2 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1827,7 +1827,7 @@ sub Data {
         'Apply' => 'Appliquer',
 
         # Template: AgentCustomerSearch
-        'Search Customer' => 'Recherche d\un client',
+        'Search Customer' => 'Recherche d\'un client',
         'Duplicated entry' => '',
         'This address already exists on the address list.' => '',
 

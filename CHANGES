@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2260.2.72 2012-06-15 21:29:26 cr Exp $
+# $Id: CHANGES,v 1.2260.2.73 2012-06-18 18:42:36 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.1.7 2012-??-??
+ - 2012-06-18 Fixed bug#8587 - Typo in French translation.
  - 2012-06-15 Fixed bug#8583 - Unneeded complexity and performance degradation creating Service
     Lists (Replacement for bug fix 7947).
  - 2012-06-15 Fixed bug#8580 - SQL warnings for CustomerCompanyGet on some database backends.
