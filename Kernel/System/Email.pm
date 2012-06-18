@@ -2,7 +2,7 @@
 # Kernel/System/Email.pm - the global email send module
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Email.pm,v 1.78 2012-06-15 12:01:51 alm Exp $
+# $Id: Email.pm,v 1.79 2012-06-18 09:50:28 alm Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Crypt;
 use Kernel::System::HTMLUtils;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.78 $) [1];
+$VERSION = qw($Revision: 1.79 $) [1];
 
 =head1 NAME
 
@@ -446,7 +446,8 @@ sub Send {
                 Charset => $Param{Charset},
             );
 
-            # prepare ContentType for Entity Type
+# prepare ContentType for Entity Type. $Upload->{ContentType} has useless `name` parameter,
+# we don't need to send it to the `attach` constructor. For more details see Bug #7879 and MIME::Entity.
             my $ContentType = ( split ';', $Upload->{ContentType} )[0];
             chomp($ContentType);
 
@@ -889,6 +890,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.78 $ $Date: 2012-06-15 12:01:51 $
+$Revision: 1.79 $ $Date: 2012-06-18 09:50:28 $
 
 =cut
