@@ -622,17 +622,21 @@
     <Column Name="ticket_value" Required="false" Size="50" Type="VARCHAR"/>
     <Column Name="create_time" Required="true" Type="DATE"/>
     <Column Name="create_by" Required="true" Type="INTEGER"/>
+    <!-- index for getting a user's ticket flags -->
     <Index Name="ticket_flag_ticket_id_create_by">
         <IndexColumn Name="ticket_id"/>
         <IndexColumn Name="create_by"/>
     </Index>
+    <!-- index for updating/deleting a certain flag for all users of a ticket -->
     <Index Name="ticket_flag_ticket_id_ticket_key">
         <IndexColumn Name="ticket_id"/>
         <IndexColumn Name="ticket_key"/>
     </Index>
+    <!-- index for deleting all flags from a ticket -->
     <Index Name="ticket_flag_ticket_id">
         <IndexColumn Name="ticket_id"/>
     </Index>
+    <!-- unique index enforcing that each flag key can exist only once per user and ticket -->
     <Unique Name="ticket_flag_per_user">
         <UniqueColumn Name="ticket_id"/>
         <UniqueColumn Name="ticket_key"/>
@@ -867,10 +871,12 @@
     <Column Name="article_value" Required="false" Size="50" Type="VARCHAR"/>
     <Column Name="create_time" Required="true" Type="DATE"/>
     <Column Name="create_by" Required="true" Type="INTEGER"/>
+    <!-- index for a user's article flags -->
     <Index Name="article_flag_article_id_create_by">
         <IndexColumn Name="article_id"/>
         <IndexColumn Name="create_by"/>
     </Index>
+    <!-- index for deleting all flags of an article -->
     <Index Name="article_flag_article_id">
         <IndexColumn Name="article_id"/>
     </Index>
