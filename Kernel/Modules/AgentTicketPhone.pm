@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.241 2012-06-15 21:30:06 cr Exp $
+# $Id: AgentTicketPhone.pm,v 1.242 2012-06-18 16:00:08 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,7 +26,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.241 $) [1];
+$VERSION = qw($Revision: 1.242 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1493,7 +1493,7 @@ sub _GetUsers {
         %ShownUsers = %AllGroupsMembers;
     }
 
-    # show all users who are rw in the queue group
+    # show all users who are owner or rw in the queue group
     elsif ( $Param{QueueID} ) {
         my $GID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Param{QueueID} );
         my %MemberList = $Self->{GroupObject}->GroupMemberList(
@@ -1553,7 +1553,7 @@ sub _GetResponsibles {
         %ShownUsers = %AllGroupsMembers;
     }
 
-    # show all users who are rw in the queue group
+    # show all users who are responsible or rw in the queue group
     elsif ( $Param{QueueID} ) {
         my $GID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Param{QueueID} );
         my %MemberList = $Self->{GroupObject}->GroupMemberList(
