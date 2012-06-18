@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.206.2.4 2012-06-15 21:29:26 cr Exp $
+# $Id: AgentTicketEmail.pm,v 1.206.2.5 2012-06-18 15:58:22 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.206.2.4 $) [1];
+$VERSION = qw($Revision: 1.206.2.5 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1552,12 +1552,12 @@ sub _GetUsers {
         %ShownUsers = %AllGroupsMembers;
     }
 
-    # show all users who are rw in the queue group
+    # show all users who are owner or rw in the queue group
     elsif ( $Param{QueueID} ) {
         my $GID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Param{QueueID} );
         my %MemberList = $Self->{GroupObject}->GroupMemberList(
             GroupID => $GID,
-            Type    => 'rw',
+            Type    => 'owner',
             Result  => 'HASH',
         );
         for my $MemberKey ( keys %MemberList ) {
@@ -1612,12 +1612,12 @@ sub _GetResponsibles {
         %ShownUsers = %AllGroupsMembers;
     }
 
-    # show all users who are rw in the queue group
+    # show all users who are responsible or rw in the queue group
     elsif ( $Param{QueueID} ) {
         my $GID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Param{QueueID} );
         my %MemberList = $Self->{GroupObject}->GroupMemberList(
             GroupID => $GID,
-            Type    => 'rw',
+            Type    => 'responsible',
             Result  => 'HASH',
         );
         for my $MemberKey ( keys %MemberList ) {
