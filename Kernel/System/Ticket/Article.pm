@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.315 2012-06-12 07:05:45 mg Exp $
+# $Id: Article.pm,v 1.316 2012-06-18 12:15:56 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::EmailParser;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.315 $) [1];
+$VERSION = qw($Revision: 1.316 $) [1];
 
 =head1 NAME
 
@@ -2876,14 +2876,17 @@ sub ArticleFlagSet {
 
     # set flag
     return if !$Self->{DBObject}->Do(
-        SQL => 'DELETE FROM article_flag WHERE '
-            . 'article_id = ? AND article_key = ? AND create_by = ?',
+        SQL => '
+            DELETE FROM article_flag
+            WHERE article_id = ?
+                AND article_key = ?
+                AND create_by = ?',
         Bind => [ \$Param{ArticleID}, \$Param{Key}, \$Param{UserID} ],
     );
     return if !$Self->{DBObject}->Do(
-        SQL => 'INSERT INTO article_flag '
-            . ' (article_id, article_key, article_value, create_time, create_by) '
-            . ' VALUES (?, ?, ?, current_timestamp, ?)',
+        SQL => 'INSERT INTO article_flag
+            (article_id, article_key, article_value, create_time, create_by)
+            VALUES (?, ?, ?, current_timestamp, ?)',
         Bind => [ \$Param{ArticleID}, \$Param{Key}, \$Param{Value}, \$Param{UserID} ],
     );
 
@@ -2936,8 +2939,11 @@ sub ArticleFlagDelete {
 
     # do db insert
     return if !$Self->{DBObject}->Do(
-        SQL => 'DELETE FROM article_flag WHERE article_id = ? AND '
-            . 'create_by = ? AND article_key = ?',
+        SQL => '
+            DELETE FROM article_flag
+            WHERE article_id = ?
+                AND create_by = ?
+                AND article_key = ?',
         Bind => [ \$Param{ArticleID}, \$Param{UserID}, \$Param{Key} ],
     );
 
@@ -2984,8 +2990,11 @@ sub ArticleFlagGet {
 
     # sql query
     return if !$Self->{DBObject}->Prepare(
-        SQL => 'SELECT article_key, article_value FROM article_flag WHERE '
-            . 'article_id = ? AND create_by = ?',
+        SQL => '
+            SELECT article_key, article_value
+            FROM article_flag
+            WHERE article_id = ?
+                AND create_by = ?',
         Bind => [ \$Param{ArticleID}, \$Param{UserID} ],
         Limit => 1500,
     );
@@ -3351,6 +3360,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.315 $ $Date: 2012-06-12 07:05:45 $
+$Revision: 1.316 $ $Date: 2012-06-18 12:15:56 $
 
 =cut
