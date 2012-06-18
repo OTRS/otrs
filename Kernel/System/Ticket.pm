@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.556 2012-06-12 07:05:44 mg Exp $
+# $Id: Ticket.pm,v 1.557 2012-06-18 13:33:33 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -40,7 +40,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.556 $) [1];
+$VERSION = qw($Revision: 1.557 $) [1];
 
 =head1 NAME
 
@@ -5595,9 +5595,11 @@ sub TicketFlagSet {
         );
 
         return if !$Self->{DBObject}->Do(
-            SQL => 'UPDATE ticket_flag'
-                . ' SET ticket_value = ?'
-                . ' WHERE ticket_id = ? AND ticket_key = ?',
+            SQL => '
+                UPDATE ticket_flag
+                SET ticket_value = ?
+                WHERE ticket_id = ?
+                    AND ticket_key = ?',
             Bind => [ \$Param{Value}, \$Param{TicketID}, \$Param{Key} ],
         );
 
@@ -5617,14 +5619,18 @@ sub TicketFlagSet {
 
         # set flag
         return if !$Self->{DBObject}->Do(
-            SQL => 'DELETE FROM ticket_flag WHERE '
-                . 'ticket_id = ? AND ticket_key = ? AND create_by = ?',
+            SQL => '
+                DELETE FROM ticket_flag
+                WHERE ticket_id = ?
+                    AND ticket_key = ?
+                    AND create_by = ?',
             Bind => [ \$Param{TicketID}, \$Param{Key}, \$Param{UserID} ],
         );
         return if !$Self->{DBObject}->Do(
-            SQL => 'INSERT INTO ticket_flag '
-                . ' (ticket_id, ticket_key, ticket_value, create_time, create_by) '
-                . ' VALUES (?, ?, ?, current_timestamp, ?)',
+            SQL => '
+                INSERT INTO ticket_flag
+                (ticket_id, ticket_key, ticket_value, create_time, create_by)
+                VALUES (?, ?, ?, current_timestamp, ?)',
             Bind => [ \$Param{TicketID}, \$Param{Key}, \$Param{Value}, \$Param{UserID} ],
         );
 
@@ -5676,8 +5682,11 @@ sub TicketFlagDelete {
 
     # do db insert
     return if !$Self->{DBObject}->Do(
-        SQL => 'DELETE FROM ticket_flag WHERE ticket_id = ? AND '
-            . 'create_by = ? AND ticket_key = ?',
+        SQL => '
+            DELETE FROM ticket_flag
+            WHERE ticket_id = ?
+                AND create_by = ?
+                AND ticket_key = ?',
         Bind => [ \$Param{TicketID}, \$Param{UserID}, \$Param{Key} ],
     );
 
@@ -5740,8 +5749,11 @@ sub TicketFlagGet {
 
         # sql query
         return if !$Self->{DBObject}->Prepare(
-            SQL => 'SELECT ticket_key, ticket_value FROM ticket_flag WHERE '
-                . 'ticket_id = ? AND create_by = ?',
+            SQL => '
+                SELECT ticket_key, ticket_value
+                FROM ticket_flag
+                WHERE ticket_id = ?
+                    AND create_by = ?',
             Bind => [ \$Param{TicketID}, \$Param{UserID} ],
             Limit => 1500,
         );
@@ -5762,8 +5774,10 @@ sub TicketFlagGet {
 
         # sql query
         return if !$Self->{DBObject}->Prepare(
-            SQL => 'SELECT ticket_key, ticket_value, create_by FROM ticket_flag WHERE '
-                . 'ticket_id = ?',
+            SQL => '
+                SELECT ticket_key, ticket_value, create_by
+                FROM ticket_flag
+                WHERE ticket_id = ?',
             Bind  => [ \$Param{TicketID} ],
             Limit => 1500,
         );
@@ -7513,6 +7527,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.556 $ $Date: 2012-06-12 07:05:44 $
+$Revision: 1.557 $ $Date: 2012-06-18 13:33:33 $
 
 =cut
