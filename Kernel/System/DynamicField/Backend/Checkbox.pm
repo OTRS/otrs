@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField/Backend/Checkbox.pm - Delegate for DynamicField Checkbox backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Checkbox.pm,v 1.54 2012-05-29 19:08:59 mb Exp $
+# $Id: Checkbox.pm,v 1.55 2012-06-19 23:53:36 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::DynamicFieldValue;
 use Kernel::System::DynamicField::Backend::BackendCommon;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.54 $) [1];
+$VERSION = qw($Revision: 1.55 $) [1];
 
 =head1 NAME
 
@@ -630,8 +630,7 @@ sub CommonSearchFieldParameterBuild {
     my $Operator = 'Equals';
     my $Value    = $Param{Value};
 
-    if ( ref $Value eq "ARRAY" ) {
-        ITEM:
+    if ( IsArrayRefWithData($Value) ) {
         for my $Item ( @{$Value} ) {
 
             # set the correct value for "unchecked" (-1) search options
