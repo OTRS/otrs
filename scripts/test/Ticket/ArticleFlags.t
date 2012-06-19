@@ -1,8 +1,8 @@
 # --
 # ArticleFlags.t - ticket module testscript
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleFlags.t,v 1.1 2011-08-30 11:53:51 mg Exp $
+# $Id: ArticleFlags.t,v 1.2 2012-06-19 13:00:37 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -67,6 +67,26 @@ $Self->True(
     'ArticleCreate()',
 );
 
+my $ArticleID2 = $TicketObject->ArticleCreate(
+    TicketID       => $TicketID,
+    ArticleType    => 'note-internal',
+    SenderType     => 'agent',
+    From           => 'Some Agent <email@example.com>',
+    To             => 'Some Customer <customer-a@example.com>',
+    Subject        => 'some short description',
+    Body           => 'the message text',
+    ContentType    => 'text/plain; charset=ISO-8859-15',
+    HistoryType    => 'OwnerUpdate',
+    HistoryComment => 'Some free text!',
+    UserID         => 1,
+    NoAgentNotify => 1,    # if you don't want to send agent notifications
+);
+
+$Self->True(
+    $ArticleID2,
+    'ArticleCreate()',
+);
+
 # article flag tests
 my @Tests = (
     {
@@ -76,21 +96,35 @@ my @Tests = (
         UserID => 1,
     },
     {
-        Name   => 'not seend flag',
+        Name   => 'not seen flag',
         Key    => 'not seen',
         Value  => 2,
         UserID => 1,
     },
 );
 
+# delete pre-existing article flags which are created on TicketCreate
+$TicketObject->ArticleFlagDelete(
+    ArticleID => $ArticleID,
+    Key       => 'Seen',
+    UserID    => 1,
+);
+$TicketObject->ArticleFlagDelete(
+    ArticleID => $ArticleID2,
+    Key       => 'Seen',
+    UserID    => 1,
+);
+
 for my $Test (@Tests) {
+
+    # Set for article 1
     my %Flag = $TicketObject->ArticleFlagGet(
         ArticleID => $ArticleID,
         UserID    => 1,
     );
     $Self->False(
         $Flag{ $Test->{Key} },
-        'ArticleFlagGet()',
+        'ArticleFlagGet() article 1',
     );
     my $Set = $TicketObject->ArticleFlagSet(
         ArticleID => $ArticleID,
@@ -100,17 +134,57 @@ for my $Test (@Tests) {
     );
     $Self->True(
         $Set,
-        'ArticleFlagSet()',
+        'ArticleFlagSet() article 1',
+    );
+
+    # Set for article 2
+    %Flag = $TicketObject->ArticleFlagGet(
+        ArticleID => $ArticleID2,
+        UserID    => 1,
+    );
+    $Self->False(
+        $Flag{ $Test->{Key} },
+        'ArticleFlagGet() article 2',
+    );
+    $Set = $TicketObject->ArticleFlagSet(
+        ArticleID => $ArticleID2,
+        Key       => $Test->{Key},
+        Value     => $Test->{Value},
+        UserID    => 1,
+    );
+    $Self->True(
+        $Set,
+        'ArticleFlagSet() article 2',
     );
     %Flag = $TicketObject->ArticleFlagGet(
-        ArticleID => $ArticleID,
+        ArticleID => $ArticleID2,
         UserID    => 1,
     );
     $Self->Is(
         $Flag{ $Test->{Key} },
         $Test->{Value},
-        'ArticleFlagGet()',
+        'ArticleFlagGet() article 2',
     );
+
+    # Get all flags of ticket
+    %Flag = $TicketObject->ArticleFlagsOfTicketGet(
+        TicketID => $TicketID,
+        UserID   => 1,
+    );
+    $Self->IsDeeply(
+        \%Flag,
+        {
+            $ArticleID => {
+                $Test->{Key} => $Test->{Value},
+            },
+            $ArticleID2 => {
+                $Test->{Key} => $Test->{Value},
+            },
+        },
+        'ArticleFlagsOfTicketGet() both articles',
+    );
+
+    # Delete for article 1
     my $Delete = $TicketObject->ArticleFlagDelete(
         ArticleID => $ArticleID,
         Key       => $Test->{Key},
@@ -118,7 +192,7 @@ for my $Test (@Tests) {
     );
     $Self->True(
         $Delete,
-        'ArticleFlagDelete()',
+        'ArticleFlagDelete() article 1',
     );
     %Flag = $TicketObject->ArticleFlagGet(
         ArticleID => $ArticleID,
@@ -126,7 +200,42 @@ for my $Test (@Tests) {
     );
     $Self->False(
         $Flag{ $Test->{Key} },
-        'ArticleFlagGet()',
+        'ArticleFlagGet() article 1',
+    );
+
+    %Flag = $TicketObject->ArticleFlagsOfTicketGet(
+        TicketID => $TicketID,
+        UserID   => 1,
+    );
+    $Self->IsDeeply(
+        \%Flag,
+        {
+            $ArticleID2 => {
+                $Test->{Key} => $Test->{Value},
+            },
+        },
+        'ArticleFlagsOfTicketGet() only one article',
+    );
+
+    # Delete for article 2
+    $Delete = $TicketObject->ArticleFlagDelete(
+        ArticleID => $ArticleID2,
+        Key       => $Test->{Key},
+        UserID    => 1,
+    );
+    $Self->True(
+        $Delete,
+        'ArticleFlagDelete() article 2',
+    );
+
+    %Flag = $TicketObject->ArticleFlagsOfTicketGet(
+        TicketID => $TicketID,
+        UserID   => 1,
+    );
+    $Self->IsDeeply(
+        \%Flag,
+        {},
+        'ArticleFlagsOfTicketGet() empty articles',
     );
 }
 

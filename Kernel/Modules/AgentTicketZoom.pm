@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.177 2012-04-24 09:42:22 sb Exp $
+# $Id: AgentTicketZoom.pm,v 1.178 2012-06-19 13:00:37 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.177 $) [1];
+$VERSION = qw($Revision: 1.178 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -408,6 +408,11 @@ sub MaskAgentZoom {
         $Article->{Count} = $Count;
     }
 
+    my %ArticleFlags = $Self->{TicketObject}->ArticleFlagsOfTicketGet(
+        TicketID => $Ticket{TicketID},
+        UserID   => $Self->{UserID},
+    );
+
     # get selected or last customer article
     my $ArticleID;
     if ( $Self->{ArticleID} ) {
@@ -424,12 +429,7 @@ sub MaskAgentZoom {
                 if $Self->{ConfigObject}->Get('Ticket::NewArticleIgnoreSystemSender')
                     && $Article->{SenderType} eq 'system';
 
-            # get article flags
-            my %ArticleFlag = $Self->{TicketObject}->ArticleFlagGet(
-                ArticleID => $Article->{ArticleID},
-                UserID    => $Self->{UserID},
-            );
-            next ARTICLE if $ArticleFlag{Seen};
+            next ARTICLE if $ArticleFlags{ $Article->{ArticleID} }->{Seen};
             $ArticleID = $Article->{ArticleID};
             last ARTICLE;
         }
@@ -541,6 +541,7 @@ sub MaskAgentZoom {
     # show article tree
     $Param{ArticleTree} = $Self->_ArticleTree(
         Ticket          => \%Ticket,
+        ArticleFlags    => \%ArticleFlags,
         ArticleID       => $ArticleID,
         ArticleMaxLimit => $ArticleMaxLimit,
         ArticleBox      => \@ArticleBox,
@@ -1009,14 +1010,8 @@ sub MaskAgentZoom {
             if $Self->{ConfigObject}->Get('Ticket::NewArticleIgnoreSystemSender')
                 && $Article->{SenderType} eq 'system';
 
-        # get article flags
-        my %ArticleFlag = $Self->{TicketObject}->ArticleFlagGet(
-            ArticleID => $Article->{ArticleID},
-            UserID    => $Self->{UserID},
-        );
-
         # last if article was not shown
-        if ( !$ArticleFlag{Seen} ) {
+        if ( !$ArticleFlags{ $Article->{ArticleID} }->{Seen} ) {
             $ArticleAllSeen = 0;
             last ARTICLE;
         }
@@ -1049,6 +1044,7 @@ sub _ArticleTree {
     my ( $Self, %Param ) = @_;
 
     my %Ticket          = %{ $Param{Ticket} };
+    my %ArticleFlags    = %{ $Param{ArticleFlags} };
     my @ArticleBox      = @{ $Param{ArticleBox} };
     my $ArticleMaxLimit = $Param{ArticleMaxLimit};
     my $ArticleID       = $Param{ArticleID};
@@ -1138,17 +1134,13 @@ sub _ArticleTree {
         }
 
         # show article flags
-        my $Class       = '';
-        my $ClassRow    = '';
-        my $NewArticle  = 0;
-        my %ArticleFlag = $Self->{TicketObject}->ArticleFlagGet(
-            ArticleID => $Article{ArticleID},
-            UserID    => $Self->{UserID},
-        );
+        my $Class      = '';
+        my $ClassRow   = '';
+        my $NewArticle = 0;
 
         # ignore system sender types
         if (
-            !$ArticleFlag{Seen}
+            !$ArticleFlags{ $Article{ArticleID} }->{Seen}
             && (
                 !$Self->{ConfigObject}->Get('Ticket::NewArticleIgnoreSystemSender')
                 || $Self->{ConfigObject}->Get('Ticket::NewArticleIgnoreSystemSender')

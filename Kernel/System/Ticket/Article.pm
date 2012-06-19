@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.316 2012-06-18 12:15:56 mg Exp $
+# $Id: Article.pm,v 1.317 2012-06-19 13:00:37 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::EmailParser;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.316 $) [1];
+$VERSION = qw($Revision: 1.317 $) [1];
 
 =head1 NAME
 
@@ -3005,6 +3005,53 @@ sub ArticleFlagGet {
     return %Flag;
 }
 
+=item ArticleFlagsOfTicketGet()
+
+get all article flags of a ticket
+
+    my %Flags = $TicketObject->ArticleFlagsOfTicketGet(
+        TicketID  => 123,
+        UserID    => 123,
+    );
+
+    returns (
+        123 => {                    # ArticleID
+            'Seen'  => 1,
+            'Other' => 'something',
+        },
+    )
+
+=cut
+
+sub ArticleFlagsOfTicketGet {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for (qw(TicketID UserID)) {
+        if ( !$Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            return;
+        }
+    }
+
+    # sql query
+    return if !$Self->{DBObject}->Prepare(
+        SQL => '
+            SELECT article.id, article_flag.article_key, article_flag.article_value
+            FROM article_flag, article
+            WHERE article.id = article_flag.article_id
+                AND article.ticket_id = ?
+                AND article_flag.create_by = ?',
+        Bind => [ \$Param{TicketID}, \$Param{UserID} ],
+        Limit => 1500,
+    );
+    my %Flag;
+    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        $Flag{ $Row[0] }->{ $Row[1] } = $Row[2];
+    }
+    return %Flag;
+}
+
 =item ArticleAccountedTimeGet()
 
 returns the accounted time of a article.
@@ -3360,6 +3407,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.316 $ $Date: 2012-06-18 12:15:56 $
+$Revision: 1.317 $ $Date: 2012-06-19 13:00:37 $
 
 =cut
