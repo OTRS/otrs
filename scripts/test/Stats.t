@@ -1,8 +1,8 @@
 # --
 # scripts/test/Stats.t - stats module testscript
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Stats.t,v 1.28 2011-12-09 14:30:12 mb Exp $
+# $Id: Stats.t,v 1.29 2012-06-19 13:02:01 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -288,22 +288,7 @@ my $Stat4 = $StatsObject->StatsGet( StatID => $StatID );
 
 # get OTRS home
 my $Home = $Self->{ConfigObject}->Get('Home');
-my $Perl = 'perl';
-
-# check if perl is available
-if ( !qx(perl -v) ) {
-    if ( $^O =~ m{ win }smxi ) {
-        $Perl = $Home;
-        $Perl =~ s{OTRS \/? $}{}smx;
-        $Perl .= 'StrawberryPerl\perl\bin\perl.exe'
-    }
-    else {
-        $Self->True(
-            0,
-            "otrs.GenerateStats.pl - can't call perl via command line.\n",
-        );
-    }
-}
+my $Perl = $^X;
 
 my $Command = "$Perl $Home/bin/otrs.GenerateStats.pl -n $Stat4->{StatNumber} -o $Home/var/tmp/";
 
