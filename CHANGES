@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2351 2012-06-19 13:00:37 mg Exp $
+# $Id: CHANGES,v 1.2352 2012-06-20 09:34:25 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,7 +12,6 @@
 3.2.0 beta1 2012-??-??
  - 2012-06-19 Reduced the number of database calls for the article flags in AgentTicketZoom.
  - 2012-06-18 Removed unneeded indices from the article_flags table.
- - 2012-06-15 Fixed bug#7879 - Broken Content-Type in forwarded attachments.
  - 2012-06-15 Improved performance of Syslog backend by reducing the connection count.
  - 2012-06-08 Added feature SMIME certificate read.
  - 2012-05-25 Fixed bug#8522 - Multiple recipient feature is missing in AgentTicketForward.
@@ -33,6 +32,7 @@
 3.1.7 2012-??-??
  - 2012-06-18 Fixed bug#8593 - Wrong description for 'Agent Notifications' on Admin interface.
  - 2012-06-18 Fixed bug#8587 - Typo in French translation.
+ - 2012-06-15 Fixed bug#7879 - Broken Content-Type in forwarded attachments.
  - 2012-06-15 Fixed bug#8583 - Unneeded complexity and performance degradation creating Service
     Lists (Replacement for bug fix 7947).
  - 2012-06-15 Fixed bug#8580 - SQL warnings for CustomerCompanyGet on some database backends.
