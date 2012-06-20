@@ -2,7 +2,7 @@
 # Attachment.t - email attachments tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Attachment.t,v 1.2 2012-06-20 11:56:12 alm Exp $
+# $Id: Attachment.t,v 1.3 2012-06-20 11:57:07 alm Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -151,6 +151,7 @@ my @Tests = (
 
 my $Count = 0;
 
+# Testing loop
 for my $Test (@Tests) {
 
     $Count++;
