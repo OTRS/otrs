@@ -2,7 +2,7 @@
 # Attachment.t - email attachments tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Attachment.t,v 1.1.2.2 2012-06-19 16:14:41 alm Exp $
+# $Id: Attachment.t,v 1.1.2.3 2012-06-20 12:51:17 alm Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -57,7 +57,7 @@ $ConfigObject->Set(
 # test scenarios. added only one attachment.
 my @Tests = (
     {
-        Name => 'Two attachments.',
+        Name => 'HTML email.',
         Data => {
             From       => 'john.smith@example.com',
             To         => 'john.smith2@example.com',
@@ -75,18 +75,83 @@ my @Tests = (
                     Filename    => 'pngfile.png',
                     Content     => 'empty',
                     ContentType => 'image/png; name=pngfile.png',
-                }
+                },
+                {
+                    Filename    => 'utf-8',
+                    Content     => 'empty',
+                    ContentType => 'text/html; charset="utf-8"',
+                },
+                {
+                    Filename    => 'dos',
+                    Content     => 'empty',
+                    ContentType => 'text/html; charset="dos"; name="utf"',
+                },
+                {
+                    Filename    => 'cp121',
+                    Content     => 'empty',
+                    ContentType => 'text/html; name="utf-7"; charset="cp121"',
+                },
             ],
         },
         ExpectedResults => {
             'csvfile.csv' => 'text/csv',
             'pngfile.png' => 'image/png',
+            'utf-8'       => 'text/html; charset="utf-8"',
+            'dos'         => 'text/html; charset="dos"',
+            'cp121'       => 'text/html; charset="cp121"',
+            }
+    },
+    {
+        Name => 'Text/plain email.',
+        Data => {
+            From       => 'john.smith@example.com',
+            To         => 'john.smith2@example.com',
+            Subject    => 'some subject',
+            Body       => 'Some Body',
+            Type       => 'text/plain',
+            Charset    => 'utf8',
+            Attachment => [
+                {
+                    Filename    => 'csvfile.csv',
+                    Content     => 'empty',
+                    ContentType => 'text/csv',
+                },
+                {
+                    Filename    => 'pngfile.png',
+                    Content     => 'empty',
+                    ContentType => 'image/png; name=pngfile.png',
+                },
+                {
+                    Filename    => 'utf-8',
+                    Content     => 'empty',
+                    ContentType => 'text/html; charset="utf-8"',
+                },
+                {
+                    Filename    => 'dos',
+                    Content     => 'empty',
+                    ContentType => 'text/html; charset="dos"; name="utf"',
+                },
+                {
+                    Filename    => 'cp121',
+                    Content     => 'empty',
+                    ContentType => 'text/html; name="utf-7"; charset="cp121"',
+                },
+            ],
+        },
+        ExpectedResults => {
+            'csvfile.csv' => 'text/csv',
+            'pngfile.png' => 'image/png',
+            'utf-8'       => 'text/html; charset="utf-8"',
+            'dos'         => 'text/html; charset="dos"',
+            'cp121'       => 'text/html; charset="cp121"',
             }
     }
+
 );
 
 my $Count = 0;
 
+# Testing loop
 for my $Test (@Tests) {
 
     $Count++;
