@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.317 2012-06-19 13:00:37 mg Exp $
+# $Id: Article.pm,v 1.318 2012-06-21 10:06:07 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::EmailParser;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.317 $) [1];
+$VERSION = qw($Revision: 1.318 $) [1];
 
 =head1 NAME
 
@@ -318,6 +318,8 @@ sub ArticleCreate {
             );
         }
     }
+
+    $Self->_TicketCacheClear( TicketID => $Param{TicketID} );
 
     # add history row
     $Self->HistoryAdd(
@@ -1135,7 +1137,7 @@ returns an array with article IDs
     );
 
     my @ArticleIDs = $TicketObject->ArticleIndex(
-        SenderType => 'customer',
+        SenderType => 'customer',                   # optional, to limit to a certain sender type
         TicketID   => 123,
     );
 
@@ -1150,18 +1152,49 @@ sub ArticleIndex {
         return;
     }
 
+    # Only cache known sender types, because the cache keys of
+    #   unknown ones cannot be invalidated in _TicketCacheClear().
+    my %CacheableSenderTypes = (
+        'agent'    => 1,
+        'customer' => 1,
+        'system'   => 1,
+        'ALL'      => 1,
+    );
+
+    my $UseCache = $CacheableSenderTypes{ $Param{SenderType} || 'ALL' };
+
+    my $CacheKey = 'ArticleIndex::' . $Param{TicketID} . '::' . ( $Param{SenderType} || 'ALL' );
+
+    if ($UseCache) {
+        my $Cached = $Self->{CacheInternalObject}->Get(
+            Key => $CacheKey,
+        );
+
+        if ( ref $Cached eq 'ARRAY' ) {
+            return @{$Cached};
+        }
+
+    }
+
     # db query
     if ( $Param{SenderType} ) {
         return if !$Self->{DBObject}->Prepare(
-            SQL => 'SELECT art.id FROM article art, article_sender_type ast WHERE '
-                . 'art.ticket_id = ? AND art.article_sender_type_id = ast.id AND '
-                . 'ast.name = ? ORDER BY art.id',
+            SQL => '
+                SELECT art.id FROM article art, article_sender_type ast
+                WHERE art.ticket_id = ?
+                    AND art.article_sender_type_id = ast.id
+                    AND ast.name = ?
+                ORDER BY art.id',
             Bind => [ \$Param{TicketID}, \$Param{SenderType} ],
         );
     }
     else {
         return if !$Self->{DBObject}->Prepare(
-            SQL  => 'SELECT id FROM article WHERE ticket_id = ? ORDER BY id',
+            SQL => '
+                SELECT id
+                FROM article
+                WHERE ticket_id = ?
+                ORDER BY id',
             Bind => [ \$Param{TicketID} ],
         );
     }
@@ -1170,6 +1203,14 @@ sub ArticleIndex {
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         push @Index, $Row[0];
     }
+
+    if ($UseCache) {
+        $Self->{CacheInternalObject}->Set(
+            Key   => $CacheKey,
+            Value => \@Index,
+        );
+    }
+
     return @Index;
 }
 
@@ -1887,6 +1928,8 @@ sub ArticleUpdate {
             . "change_time = current_timestamp, change_by = ? WHERE id = ?",
         Bind => [ \$Param{Value}, \$Param{UserID}, \$Param{ArticleID} ],
     );
+
+    $Self->_TicketCacheClear( TicketID => $Param{TicketID} );
 
     # event
     $Self->EventHandler(
@@ -3407,6 +3450,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.317 $ $Date: 2012-06-19 13:00:37 $
+$Revision: 1.318 $ $Date: 2012-06-21 10:06:07 $
 
 =cut

@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.558 2012-06-21 09:08:34 mg Exp $
+# $Id: Ticket.pm,v 1.559 2012-06-21 10:06:07 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -40,7 +40,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.558 $) [1];
+$VERSION = qw($Revision: 1.559 $) [1];
 
 =head1 NAME
 
@@ -1052,6 +1052,14 @@ sub TicketGet {
     }
     $Param{Extended} ||= '';
 
+    # Caching TicketGet() is a bit more complex than usual.
+    #   The full function result will be cached in an in-memory cache to
+    #       speed up subsequent operations in one request, but not on disk,
+    #       because there are dependencies to other objects such as queue which cannot
+    #       easily be tracked.
+    #   The SQL for fetching ticket data will be cached on disk as well because this cache
+    #       can easily be invalidated on ticket changes.
+
     # check cache
     my $FetchDynamicFields = $Param{DynamicFields} ? 1 : 0;
 
@@ -1257,10 +1265,24 @@ sub _TicketCacheClear {
         }
     }
 
+    # TicketGet()
     my $CacheKey = 'Cache::GetTicket' . $Param{TicketID};
-
     delete $Self->{$CacheKey};
     $Self->{CacheInternalObject}->Delete( Key => $CacheKey );
+
+    # ArticleIndex()
+    $Self->{CacheInternalObject}->Delete(
+        Key => 'ArticleIndex::' . $Param{TicketID} . '::agent'
+    );
+    $Self->{CacheInternalObject}->Delete(
+        Key => 'ArticleIndex::' . $Param{TicketID} . '::customer'
+    );
+    $Self->{CacheInternalObject}->Delete(
+        Key => 'ArticleIndex::' . $Param{TicketID} . '::system'
+    );
+    $Self->{CacheInternalObject}->Delete(
+        Key => 'ArticleIndex::' . $Param{TicketID} . '::ALL'
+    );
 
 }
 
@@ -7571,6 +7593,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.558 $ $Date: 2012-06-21 09:08:34 $
+$Revision: 1.559 $ $Date: 2012-06-21 10:06:07 $
 
 =cut
