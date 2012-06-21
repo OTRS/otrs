@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2354 2012-06-21 12:15:59 mg Exp $
+# $Id: CHANGES,v 1.2355 2012-06-21 14:49:17 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.2.0 beta1 2012-??-??
+ - 2012-06-21 Added bin/otrs.TicketDelete.pl script to delete tickets.
  - 2012-06-21 Fixed bug#8596 - user/group/role data updated unnecessarily on LDAP agent sync.
  - 2012-06-19 Reduced the number of database calls for the article flags in AgentTicketZoom.
  - 2012-06-18 Removed unneeded indices from the article_flags table.
