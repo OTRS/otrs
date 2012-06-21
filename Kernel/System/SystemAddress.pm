@@ -2,7 +2,7 @@
 # Kernel/System/SystemAddress.pm - lib for system addresses
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: SystemAddress.pm,v 1.35 2012-03-26 21:47:00 mh Exp $
+# $Id: SystemAddress.pm,v 1.36 2012-06-21 11:11:36 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,9 +15,10 @@ use strict;
 use warnings;
 
 use Kernel::System::Valid;
+use Kernel::System::CacheInternal;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.35 $) [1];
+$VERSION = qw($Revision: 1.36 $) [1];
 
 =head1 NAME
 
@@ -80,16 +81,21 @@ sub new {
     bless( $Self, $Type );
 
     # get needed objects
-    for (qw(ConfigObject LogObject DBObject MainObject EncodeObject)) {
-        if ( $Param{$_} ) {
-            $Self->{$_} = $Param{$_};
+    for my $Needed (qw(ConfigObject LogObject DBObject MainObject EncodeObject)) {
+        if ( $Param{$Needed} ) {
+            $Self->{$Needed} = $Param{$Needed};
         }
         else {
-            die "Got no $_!";
+            die "Got no $Needed!";
         }
     }
 
-    $Self->{ValidObject} = Kernel::System::Valid->new( %{$Self} );
+    $Self->{ValidObject}         = Kernel::System::Valid->new( %{$Self} );
+    $Self->{CacheInternalObject} = Kernel::System::CacheInternal->new(
+        %Param,
+        Type => 'SystemAddress',
+        TTL  => 60 * 60 * 24,
+    );
 
     return $Self;
 }
@@ -113,9 +119,9 @@ sub SystemAddressAdd {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(Name ValidID Realname QueueID UserID)) {
-        if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+    for my $Needed (qw(Name ValidID Realname QueueID UserID)) {
+        if ( !$Param{$Needed} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }
@@ -143,6 +149,8 @@ sub SystemAddressAdd {
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $ID = $Row[0];
     }
+
+    $Self->{CacheInternalObject}->CleanUp();
 
     return $ID;
 }
@@ -179,6 +187,16 @@ sub SystemAddressGet {
         return;
     }
 
+    my $CacheKey = 'SystemAddressGet::' . $Param{ID};
+
+    my $Cached = $Self->{CacheInternalObject}->Get(
+        Key => $CacheKey,
+    );
+
+    if ( ref $Cached eq 'HASH' ) {
+        return %{$Cached};
+    }
+
     # get system address
     return if !$Self->{DBObject}->Prepare(
         SQL => 'SELECT value0, value1, comments, valid_id, queue_id, change_time, create_time '
@@ -201,6 +219,11 @@ sub SystemAddressGet {
             CreateTime => $Data[6],
         );
     }
+
+    $Self->{CacheInternalObject}->Set(
+        Key   => $CacheKey,
+        Value => \%Data,
+    );
 
     return %Data;
 }
@@ -225,9 +248,9 @@ sub SystemAddressUpdate {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(ID Name ValidID Realname QueueID UserID)) {
-        if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+    for my $Needed (qw(ID Name ValidID Realname QueueID UserID)) {
+        if ( !$Param{$Needed} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }
@@ -241,6 +264,8 @@ sub SystemAddressUpdate {
             \$Param{UserID}, \$Param{QueueID}, \$Param{ID},
         ],
     );
+
+    $Self->{CacheInternalObject}->CleanUp();
 
     return 1;
 }
@@ -271,12 +296,42 @@ sub SystemAddressList {
         $Valid = 0;
     }
 
-    return $Self->{DBObject}->GetTableData(
-        What  => 'id, value1, value0',
-        Valid => $Valid,
-        Clamp => 1,
-        Table => 'system_address',
+    my $CacheKey = 'SystemAddressList::' . $Valid;
+
+    my $Cached = $Self->{CacheInternalObject}->Get(
+        Key => $CacheKey,
     );
+
+    if ( ref $Cached eq 'HASH' ) {
+        return %{$Cached};
+    }
+
+    my $ValidSQL = '';
+    if ($Valid) {
+        my $ValidIDs = join ',', $Self->{ValidObject}->ValidIDsGet();
+        $ValidSQL = " WHERE valid_id IN ($ValidIDs)";
+    }
+
+    # get system address
+    return if !$Self->{DBObject}->Prepare(
+        SQL => "
+            SELECT id, value0
+            FROM system_address
+            $ValidSQL",
+    );
+
+    my %List;
+
+    while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
+        $List{ $Data[0] } = $Data[1];
+    }
+
+    $Self->{CacheInternalObject}->Set(
+        Key   => $CacheKey,
+        Value => \%List,
+    );
+
+    return %List;
 }
 
 =item SystemAddressIsLocalAddress()
@@ -297,9 +352,9 @@ sub SystemAddressIsLocalAddress {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(Address)) {
-        if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+    for my $Needed (qw(Address)) {
+        if ( !$Param{$Needed} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }
@@ -319,9 +374,9 @@ sub SystemAddressQueueID {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(Address)) {
-        if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+    for my $Needed (qw(Address)) {
+        if ( !$Param{$Needed} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }
@@ -329,24 +384,44 @@ sub SystemAddressQueueID {
     # remove spaces
     $Param{Address} =~ s/\s+//g;
 
-    my $Lower = '';
-    if ( !$Self->{DBObject}->GetDatabaseFunction('CaseInsensitive') ) {
-        $Lower = 'LOWER';
+    my $CacheKey = 'SystemAddressQueueID::' . $Param{Address};
+    my $Cached   = $Self->{CacheInternalObject}->Get(
+        Key => $CacheKey,
+    );
+
+    if ( ref $Cached eq 'SCALAR' ) {
+        return ${$Cached};
     }
 
-    return if !$Self->{DBObject}->Prepare(
-        SQL => "SELECT queue_id FROM system_address WHERE "
-            . "valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} ) "
-            . "AND $Lower(value0) = $Lower(?)",
-        Bind  => [ \$Param{Address} ],
-        Limit => 1,
-    );
+    if ( !$Self->{DBObject}->GetDatabaseFunction('CaseInsensitive') ) {
+        return if !$Self->{DBObject}->Prepare(
+            SQL => "SELECT queue_id FROM system_address WHERE "
+                . "valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} ) "
+                . "AND LOWER(value0) = LOWER(?)",
+            Bind  => [ \$Param{Address} ],
+            Limit => 1,
+        );
+    }
+    else {
+        return if !$Self->{DBObject}->Prepare(
+            SQL => "SELECT queue_id FROM system_address WHERE "
+                . "valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} ) "
+                . "AND value0 = ?",
+            Bind  => [ \$Param{Address} ],
+            Limit => 1,
+        );
+    }
 
     # fetch the result
     my $QueueID;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $QueueID = $Row[0];
     }
+
+    $Self->{CacheInternalObject}->Set(
+        Key   => $CacheKey,
+        Value => \$QueueID,
+    );
 
     return $QueueID;
 }
@@ -367,6 +442,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.35 $ $Date: 2012-03-26 21:47:00 $
+$Revision: 1.36 $ $Date: 2012-06-21 11:11:36 $
 
 =cut

@@ -1,8 +1,8 @@
 # --
 # SystemAddress.t - SystemAddress tests
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: SystemAddress.t,v 1.3 2010-10-29 22:16:59 en Exp $
+# $Id: SystemAddress.t,v 1.4 2012-06-21 11:11:36 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -64,8 +64,50 @@ $Self->Is(
     'SystemAddressGet() - ValidID',
 );
 
+# caching
+%SystemAddress = $SystemAddressObject->SystemAddressGet( ID => $SystemAddressID );
+
+$Self->Is(
+    $SystemAddress{Name},
+    $SystemAddressEmail,
+    'SystemAddressGet() - Name',
+);
+$Self->Is(
+    $SystemAddress{Realname},
+    $SystemAddressRealname,
+    'SystemAddressGet() - Realname',
+);
+$Self->Is(
+    $SystemAddress{Comment},
+    'some comment',
+    'SystemAddressGet() - Comment',
+);
+$Self->Is(
+    $SystemAddress{QueueID},
+    2,
+    'SystemAddressGet() - QueueID',
+);
+$Self->Is(
+    $SystemAddress{ValidID},
+    1,
+    'SystemAddressGet() - ValidID',
+);
+
 my %SystemAddressList = $SystemAddressObject->SystemAddressList( Valid => 0 );
 my $Hit = 0;
+for ( sort keys %SystemAddressList ) {
+    if ( $_ eq $SystemAddressID ) {
+        $Hit = 1;
+    }
+}
+$Self->True(
+    $Hit eq 1,
+    'SystemAddressList()',
+);
+
+# caching
+%SystemAddressList = $SystemAddressObject->SystemAddressList( Valid => 0 );
+$Hit = 0;
 for ( sort keys %SystemAddressList ) {
     if ( $_ eq $SystemAddressID ) {
         $Hit = 1;
@@ -104,6 +146,14 @@ my @Tests = (
 );
 for my $Test (@Tests) {
     my $QueueID = $SystemAddressObject->SystemAddressQueueID( Address => $Test->{Address} );
+    $Self->Is(
+        $QueueID,
+        $Test->{QueueID},
+        "SystemAddressQueueID() - $Test->{Address}",
+    );
+
+    # cached
+    $QueueID = $SystemAddressObject->SystemAddressQueueID( Address => $Test->{Address} );
     $Self->Is(
         $QueueID,
         $Test->{QueueID},
