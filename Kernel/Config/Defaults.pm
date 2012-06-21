@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.416 2012-06-01 18:56:50 mb Exp $
+# $Id: Defaults.pm,v 1.417 2012-06-21 11:39:15 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use warnings;
 use 5.008_006;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.416 $) [1];
+$VERSION = qw($Revision: 1.417 $) [1];
 
 # prepend '../Custom', '../Kernel/cpan-lib' and '../' to the module search path @INC
 use File::Basename;
@@ -1354,8 +1354,8 @@ Your OTRS Notification Master
 #        AdminSetPreferences => 1,
 #        # use customer company support (reference to company, See CustomerCompany settings)
 #        CustomerCompanySupport => 1,
-#        # cache time to live in sec. - cache any database queries
-#        CacheTTL => 0,
+        # cache time to live in sec. - cache any database queries
+        CacheTTL => 60 * 60 * 24,
 #        # just a read only source
 #        ReadOnly => 1,
         Map => [
@@ -1948,6 +1948,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.416 $ $Date: 2012-06-01 18:56:50 $
+$Revision: 1.417 $ $Date: 2012-06-21 11:39:15 $
 
 =cut

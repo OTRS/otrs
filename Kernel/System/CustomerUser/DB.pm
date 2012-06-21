@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/DB.pm - some customer user functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.91 2012-06-06 14:41:36 mb Exp $
+# $Id: DB.pm,v 1.92 2012-06-21 11:39:15 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::Time;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.91 $) [1];
+$VERSION = qw($Revision: 1.92 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -651,13 +651,7 @@ sub CustomerUserAdd {
         $Self->SetPassword( UserLogin => $Param{UserLogin}, PW => $Param{UserPassword} );
     }
 
-    # cache reset
-    if ( $Self->{CacheObject} ) {
-        $Self->{CacheObject}->Delete(
-            Type => $Self->{CacheType},
-            Key  => "CustomerUserDataGet::$Param{UserLogin}",
-        );
-    }
+    $Self->_CustomerUserCacheClear( UserLogin => $Param{UserLogin} );
 
     return $Param{UserLogin};
 }
@@ -777,13 +771,8 @@ sub CustomerUserUpdate {
         $Self->SetPassword( UserLogin => $Param{UserLogin}, PW => $Param{UserPassword} );
     }
 
-    # cache reset
-    if ( $Self->{CacheObject} ) {
-        $Self->{CacheObject}->Delete(
-            Type => $Self->{CacheType},
-            Key  => "CustomerUserDataGet::$Param{UserLogin}",
-        );
-    }
+    $Self->_CustomerUserCacheClear( UserLogin => $Param{UserLogin} );
+
     return 1;
 }
 
@@ -920,13 +909,8 @@ sub SetPassword {
             Message  => "CustomerUser: '$Param{UserLogin}' changed password successfully!",
         );
 
-        # cache reset
-        if ( $Self->{CacheObject} ) {
-            $Self->{CacheObject}->Delete(
-                Type => $Self->{CacheType},
-                Key  => "CustomerUserDataGet::$Param{UserLogin}",
-            );
-        }
+        $Self->_CustomerUserCacheClear( UserLogin => $Param{UserLogin} );
+
         return 1;
     }
 
@@ -967,13 +951,8 @@ sub SetPreferences {
         return;
     }
 
-    # cache reset
-    if ( $Self->{CacheObject} ) {
-        $Self->{CacheObject}->Delete(
-            Type => $Self->{CacheType},
-            Key  => "CustomerUserDataGet::$Param{UserID}",
-        );
-    }
+    $Self->_CustomerUserCacheClear( UserLogin => $Param{UserID} );
+
     return $Self->{PreferencesObject}->SetPreferences(%Param);
 }
 
@@ -1025,6 +1004,26 @@ sub _ConvertTo {
         To    => $Self->{SourceCharset},
         From  => $Self->{DestCharset},
         Force => $Self->{CharsetConvertForce},
+    );
+}
+
+sub _CustomerUserCacheClear {
+    my ( $Self, %Param ) = @_;
+
+    return if !$Self->{CacheObject};
+
+    if ( !$Param{UserLogin} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need UserLogin!' );
+        return;
+    }
+
+    $Self->{CacheObject}->Delete(
+        Type => $Self->{CacheType},
+        Key  => "CustomerUserDataGet::$Param{UserLogin}",
+    );
+    $Self->{CacheObject}->Delete(
+        Type => $Self->{CacheType},
+        Key  => "CustomerName::$Param{UserLogin}",
     );
 }
 
