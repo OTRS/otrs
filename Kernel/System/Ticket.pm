@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.557 2012-06-18 13:33:33 mg Exp $
+# $Id: Ticket.pm,v 1.558 2012-06-21 09:08:34 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -40,7 +40,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.557 $) [1];
+$VERSION = qw($Revision: 1.558 $) [1];
 
 =head1 NAME
 
@@ -607,7 +607,7 @@ sub TicketDelete {
     }
 
     # clear ticket cache
-    delete $Self->{ 'Cache::GetTicket' . $Param{TicketID} };
+    $Self->_TicketCacheClear( TicketID => $Param{TicketID} );
 
     # delete ticket links
     my $LinkObject = Kernel::System::LinkObject->new( %{$Self} );
@@ -1062,54 +1062,66 @@ sub TicketGet {
         return %{ $Self->{$CacheKey}->{ $Param{Extended} }->{$FetchDynamicFields} };
     }
 
-    # fetch the result
-    return if !$Self->{DBObject}->Prepare(
-        SQL => 'SELECT st.id, st.queue_id, sq.name, st.ticket_state_id, st.ticket_lock_id,'
-            . ' sp.id, sp.name, st.create_time_unix, st.create_time, sq.group_id, st.tn,'
-            . ' st.customer_id, st.customer_user_id, st.user_id, st.responsible_user_id, '
-            . ' st.until_time, st.change_time, st.title, st.escalation_update_time, st.timeout,'
-            . ' st.type_id, st.service_id, st.sla_id, st.escalation_response_time,'
-            . ' st.escalation_solution_time, st.escalation_time, st.archive_flag,'
-            . ' st.create_by, st.change_by'
-            . ' FROM ticket st, ticket_priority sp, queue sq'
-            . ' WHERE sp.id = st.ticket_priority_id AND sq.id = st.queue_id AND st.id = ?',
-        Bind  => [ \$Param{TicketID} ],
-        Limit => 1,
-    );
-
     my %Ticket;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        $Ticket{TicketID}       = $Row[0];
-        $Ticket{Title}          = $Row[17];
-        $Ticket{QueueID}        = $Row[1];
-        $Ticket{Queue}          = $Row[2];
-        $Ticket{StateID}        = $Row[3];
-        $Ticket{LockID}         = $Row[4];
-        $Ticket{PriorityID}     = $Row[5];
-        $Ticket{Priority}       = $Row[6];
-        $Ticket{CreateTimeUnix} = $Row[7];
-        $Ticket{Created}        = $Self->{TimeObject}->SystemTime2TimeStamp(
-            SystemTime => $Ticket{CreateTimeUnix},
+
+    my $Cached = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+
+    if ( ref $Cached eq 'HASH' ) {
+        %Ticket = %{$Cached};
+    }
+    else {
+
+        return if !$Self->{DBObject}->Prepare(
+            SQL => '
+                SELECT st.id, st.queue_id, st.ticket_state_id, st.ticket_lock_id, st.ticket_priority_id,
+                    st.create_time_unix, st.create_time, st.tn, st.customer_id, st.customer_user_id,
+                    st.user_id, st.responsible_user_id, st.until_time, st.change_time, st.title,
+                    st.escalation_update_time, st.timeout, st.type_id, st.service_id, st.sla_id,
+                    st.escalation_response_time, st.escalation_solution_time, st.escalation_time, st.archive_flag,
+                    st.create_by, st.change_by
+                FROM ticket st
+                WHERE st.id = ?',
+            Bind  => [ \$Param{TicketID} ],
+            Limit => 1,
         );
-        $Ticket{CreateBy}               = $Row[27];
-        $Ticket{ArchiveFlag}            = $Row[26] ? 'y' : 'n';
-        $Ticket{Changed}                = $Row[16];
-        $Ticket{ChangeBy}               = $Row[28];
-        $Ticket{EscalationTime}         = $Row[25];
-        $Ticket{EscalationUpdateTime}   = $Row[18];
-        $Ticket{EscalationResponseTime} = $Row[23];
-        $Ticket{EscalationSolutionTime} = $Row[24];
-        $Ticket{UnlockTimeout}          = $Row[19];
-        $Ticket{GroupID}                = $Row[9];
-        $Ticket{TicketNumber}           = $Row[10];
-        $Ticket{CustomerID}             = $Row[11];
-        $Ticket{CustomerUserID}         = $Row[12];
-        $Ticket{OwnerID}                = $Row[13];
-        $Ticket{ResponsibleID}          = $Row[14] || 1;
-        $Ticket{RealTillTimeNotUsed}    = $Row[15];
-        $Ticket{TypeID}                 = $Row[20] || 1;
-        $Ticket{ServiceID}              = $Row[21] || '';
-        $Ticket{SLAID}                  = $Row[22] || '';
+
+        while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+            $Ticket{TicketID}   = $Row[0];
+            $Ticket{QueueID}    = $Row[1];
+            $Ticket{StateID}    = $Row[2];
+            $Ticket{LockID}     = $Row[3];
+            $Ticket{PriorityID} = $Row[4];
+
+            $Ticket{CreateTimeUnix} = $Row[5];
+            $Ticket{TicketNumber}   = $Row[7];
+            $Ticket{CustomerID}     = $Row[8];
+            $Ticket{CustomerUserID} = $Row[9];
+
+            $Ticket{OwnerID}             = $Row[10];
+            $Ticket{ResponsibleID}       = $Row[11] || 1;
+            $Ticket{RealTillTimeNotUsed} = $Row[12];
+            $Ticket{Changed}             = $Row[13];
+            $Ticket{Title}               = $Row[14];
+
+            $Ticket{EscalationUpdateTime} = $Row[15];
+            $Ticket{UnlockTimeout}        = $Row[16];
+            $Ticket{TypeID}               = $Row[17] || 1;
+            $Ticket{ServiceID}            = $Row[18] || '';
+            $Ticket{SLAID}                = $Row[19] || '';
+
+            $Ticket{EscalationResponseTime} = $Row[20];
+            $Ticket{EscalationSolutionTime} = $Row[21];
+            $Ticket{EscalationTime}         = $Row[22];
+            $Ticket{ArchiveFlag}            = $Row[23] ? 'y' : 'n';
+
+            $Ticket{CreateBy} = $Row[24];
+            $Ticket{ChangeBy} = $Row[25];
+        }
+
+        $Self->{CacheInternalObject}->Set(
+            Key   => $CacheKey,
+            Value => \%Ticket,
+        );
     }
 
     # check ticket
@@ -1151,8 +1163,23 @@ sub TicketGet {
         }
     }
 
+    $Ticket{Created} = $Self->{TimeObject}->SystemTime2TimeStamp(
+        SystemTime => $Ticket{CreateTimeUnix},
+    );
+
+    my %Queue = $Self->{QueueObject}->QueueGet(
+        ID => $Ticket{QueueID},
+    );
+
+    $Ticket{Queue}   = $Queue{Name};
+    $Ticket{GroupID} = $Queue{GroupID};
+
     # fillup runtime values
     $Ticket{Age} = $Self->{TimeObject}->SystemTime() - $Ticket{CreateTimeUnix};
+
+    $Ticket{Priority} = $Self->{PriorityObject}->PriorityLookup(
+        PriorityID => $Ticket{PriorityID},
+    );
 
     # get owner
     $Ticket{Owner} = $Self->{UserObject}->UserLookup(
@@ -1218,6 +1245,23 @@ sub TicketGet {
     $Self->{$CacheKey}->{ $Param{Extended} }->{$FetchDynamicFields} = \%Ticket;
 
     return %Ticket;
+}
+
+sub _TicketCacheClear {
+    my ( $Self, %Param ) = @_;
+
+    for my $Needed (qw(TicketID)) {
+        if ( !defined $Param{$Needed} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            return;
+        }
+    }
+
+    my $CacheKey = 'Cache::GetTicket' . $Param{TicketID};
+
+    delete $Self->{$CacheKey};
+    $Self->{CacheInternalObject}->Delete( Key => $CacheKey );
+
 }
 
 sub _TicketGetExtended {
@@ -1456,7 +1500,7 @@ sub TicketTitleUpdate {
     );
 
     # clear ticket cache
-    delete $Self->{ 'Cache::GetTicket' . $Param{TicketID} };
+    $Self->_TicketCacheClear( TicketID => $Param{TicketID} );
 
     # trigger event
     $Self->EventHandler(
@@ -1512,7 +1556,7 @@ sub TicketUnlockTimeoutUpdate {
     );
 
     # clear ticket cache
-    delete $Self->{ 'Cache::GetTicket' . $Param{TicketID} };
+    $Self->_TicketCacheClear( TicketID => $Param{TicketID} );
 
     # add history
     $Self->HistoryAdd(
@@ -1712,7 +1756,7 @@ sub TicketQueueSet {
     my $Queue = $Self->{QueueObject}->QueueLookup( QueueID => $Param{QueueID} );
 
     # clear ticket cache
-    delete $Self->{ 'Cache::GetTicket' . $Param{TicketID} };
+    $Self->_TicketCacheClear( TicketID => $Param{TicketID} );
 
     # history insert
     $Self->HistoryAdd(
@@ -1959,7 +2003,7 @@ sub TicketTypeSet {
     );
 
     # clear ticket cache
-    delete $Self->{ 'Cache::GetTicket' . $Param{TicketID} };
+    $Self->_TicketCacheClear( TicketID => $Param{TicketID} );
 
     # get new ticket data
     my %TicketNew = $Self->TicketGet(
@@ -2134,7 +2178,7 @@ sub TicketServiceSet {
     );
 
     # clear ticket cache
-    delete $Self->{ 'Cache::GetTicket' . $Param{TicketID} };
+    $Self->_TicketCacheClear( TicketID => $Param{TicketID} );
 
     # get new ticket data
     my %TicketNew = $Self->TicketGet(
@@ -2424,7 +2468,7 @@ sub TicketEscalationIndexBuild {
         }
 
         # clear ticket cache
-        delete $Self->{ 'Cache::GetTicket' . $Param{TicketID} };
+        $Self->_TicketCacheClear( TicketID => $Param{TicketID} );
 
         return 1;
     }
@@ -2659,7 +2703,7 @@ sub TicketEscalationIndexBuild {
     }
 
     # clear ticket cache
-    delete $Self->{ 'Cache::GetTicket' . $Param{TicketID} };
+    $Self->_TicketCacheClear( TicketID => $Param{TicketID} );
 
     return 1;
 }
@@ -2806,7 +2850,7 @@ sub TicketSLASet {
     );
 
     # clear ticket cache
-    delete $Self->{ 'Cache::GetTicket' . $Param{TicketID} };
+    $Self->_TicketCacheClear( TicketID => $Param{TicketID} );
 
     # get new ticket data
     my %TicketNew = $Self->TicketGet(
@@ -2908,7 +2952,7 @@ sub TicketCustomerSet {
     );
 
     # clear ticket cache
-    delete $Self->{ 'Cache::GetTicket' . $Param{TicketID} };
+    $Self->_TicketCacheClear( TicketID => $Param{TicketID} );
 
     # trigger event
     $Self->EventHandler(
@@ -3321,7 +3365,7 @@ sub TicketPendingTimeSet {
     );
 
     # clear ticket cache
-    delete $Self->{ 'Cache::GetTicket' . $Param{TicketID} };
+    $Self->_TicketCacheClear( TicketID => $Param{TicketID} );
 
     # trigger event
     $Self->EventHandler(
@@ -3435,7 +3479,7 @@ sub TicketLockSet {
     );
 
     # clear ticket cache
-    delete $Self->{ 'Cache::GetTicket' . $Param{TicketID} };
+    $Self->_TicketCacheClear( TicketID => $Param{TicketID} );
 
     # add history
     my $HistoryType = '';
@@ -3575,7 +3619,7 @@ sub TicketArchiveFlagSet {
     );
 
     # clear ticket cache
-    delete $Self->{ 'Cache::GetTicket' . $Param{TicketID} };
+    $Self->_TicketCacheClear( TicketID => $Param{TicketID} );
 
     # add history
     $Self->HistoryAdd(
@@ -3687,7 +3731,7 @@ sub TicketStateSet {
     );
 
     # clear ticket cache
-    delete $Self->{ 'Cache::GetTicket' . $Param{TicketID} };
+    $Self->_TicketCacheClear( TicketID => $Param{TicketID} );
 
     # add history
     $Self->HistoryAdd(
@@ -3965,7 +4009,7 @@ sub TicketOwnerSet {
     );
 
     # clear ticket cache
-    delete $Self->{ 'Cache::GetTicket' . $Param{TicketID} };
+    $Self->_TicketCacheClear( TicketID => $Param{TicketID} );
 
     # send agent notify
     if ( !$Param{SendNoNotification} ) {
@@ -4151,7 +4195,7 @@ sub TicketResponsibleSet {
     );
 
     # clear ticket cache
-    delete $Self->{ 'Cache::GetTicket' . $Param{TicketID} };
+    $Self->_TicketCacheClear( TicketID => $Param{TicketID} );
 
     # send agent notify
     if ( !$Param{SendNoNotification} ) {
@@ -4421,7 +4465,7 @@ sub TicketPrioritySet {
     );
 
     # clear ticket cache
-    delete $Self->{ 'Cache::GetTicket' . $Param{TicketID} };
+    $Self->_TicketCacheClear( TicketID => $Param{TicketID} );
 
     # trigger event
     $Self->EventHandler(
@@ -5201,7 +5245,7 @@ sub TicketAccountTime {
     );
 
     # clear ticket cache
-    delete $Self->{ 'Cache::GetTicket' . $Param{TicketID} };
+    $Self->_TicketCacheClear( TicketID => $Param{TicketID} );
 
     # trigger event
     $Self->EventHandler(
@@ -7527,6 +7571,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.557 $ $Date: 2012-06-18 13:33:33 $
+$Revision: 1.558 $ $Date: 2012-06-21 09:08:34 $
 
 =cut

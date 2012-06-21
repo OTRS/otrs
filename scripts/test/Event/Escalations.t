@@ -2,7 +2,7 @@
 # Escalations.t - escalation event tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Escalations.t,v 1.20 2012-06-14 20:52:15 cg Exp $
+# $Id: Escalations.t,v 1.21 2012-06-21 09:08:34 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -405,7 +405,7 @@ for my $Hours ( sort keys %WorkingHours ) {
 
         # we have change the queue, but the ticket does not know that
         # invalidate the cache for the next TicketGet
-        delete $TicketObject->{ 'Cache::GetTicket' . $TicketID };
+        $TicketObject->_TicketCacheClear( TicketID => $TicketID );
 
         # trigger an update
         # a note internal does not make the update time escalation go away
@@ -491,7 +491,7 @@ for my $Hours ( sort keys %WorkingHours ) {
 
         # explicitly invalidate the cache for the next TicketGet(),
         # as TicketEscalationIndexBuild() of OTRS 2.4.7  does not care
-        delete $TicketObject->{ 'Cache::GetTicket' . $TicketID };
+        $TicketObject->_TicketCacheClear( TicketID => $TicketID );
 
         if ( $WorkingHours{$Hours} ) {
             $NumEvents{EscalationSolutionTimeNotifyBefore}++;
