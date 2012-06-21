@@ -2,14 +2,14 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2260.2.75 2012-06-19 16:14:40 alm Exp $
+# $Id: CHANGES,v 1.2260.2.76 2012-06-21 12:15:52 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-3.1.7 2012-??-??
+3.1.7 2012-06-26
  - 2012-06-18 Fixed bug#8593 - Wrong description for 'Agent Notifications' on Admin interface.
  - 2012-06-18 Fixed bug#8587 - Typo in French translation.
  - 2012-06-15 Fixed bug#7879 - Broken Content-Type in forwarded attachments.
@@ -21,7 +21,6 @@
  - 2012-06-14 Fixed bug#8337 - Parentheses in user last_name / first_name are not sanitized (follow-up fix).
  - 2012-06-12 Fixed bug#8575 - Assignment of users does not work for responsible or owner permission
     in AgentTicketPhone.
- - 2012-06-12 Fixed bug#8557 - OutputFilters called so often in Overviews (on undef TemplateName).
  - 2012-06-12 Updated Hungarian translation, thanks to Németh Csaba!
  - 2012-06-12 Updated Danish translation, thanks to Lars Jørgensen!
  - 2012-06-12 Fixed bug#7872 - "Created" date in Large view is actually Last Updated date.
