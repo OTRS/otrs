@@ -2,7 +2,7 @@
 // Core.Agent.TicketAction.js - provides functions for all ticket action popups
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.TicketAction.js,v 1.15 2012-03-09 13:00:30 mg Exp $
+// $Id: Core.Agent.TicketAction.js,v 1.15.2.1 2012-06-21 12:21:50 ub Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -43,10 +43,10 @@ Core.Agent.TicketAction = (function (TargetNS) {
      */
     function OpenAddressBook() {
         var AddressBookIFrameURL, AddressBookIFrame;
-        AddressBookIFrameURL = Core.Config.Get('CGIHandle')
-            + '?Action=AgentBook;ToCustomer=' + encodeURIComponent($('#CustomerAutoComplete, #ToCustomer').val())
-            + ';CcCustomer=' + encodeURIComponent($('#Cc, #CcCustomer').val())
-            + ';BccCustomer=' + encodeURIComponent($('#Bcc, #BccCustomer').val());
+        AddressBookIFrameURL = Core.Config.Get('CGIHandle') +
+            '?Action=AgentBook;ToCustomer=' + encodeURIComponent($('#CustomerAutoComplete, #ToCustomer').val()) +
+            ';CcCustomer=' + encodeURIComponent($('#Cc, #CcCustomer').val()) +
+            ';BccCustomer=' + encodeURIComponent($('#Bcc, #BccCustomer').val());
         AddressBookIFrame = '<iframe class="TextOption" src="' + AddressBookIFrameURL + '"></iframe>';
         Core.UI.Dialog.ShowContentDialog(AddressBookIFrame, '', '10px', 'Center', true);
     }

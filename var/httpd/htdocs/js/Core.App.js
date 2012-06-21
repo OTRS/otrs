@@ -2,7 +2,7 @@
 // Core.App.js - provides the application functions
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.App.js,v 1.7.2.1 2012-05-30 15:25:13 mn Exp $
+// $Id: Core.App.js,v 1.7.2.2 2012-06-21 12:21:50 ub Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -107,7 +107,7 @@ Core.App = (function (TargetNS) {
      */
     TargetNS.EscapeSelector = function (Selector) {
         return Selector.replace(/(:|\.)/g,'\\$1');
-    }
-    
+    };
+
     return TargetNS;
 }(Core.App || {}));
