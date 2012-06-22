@@ -2,7 +2,7 @@
 # TicketGet.t - TicketConnector interface tests for TicketConnector backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketGet.t,v 1.16 2012-03-20 16:27:57 mg Exp $
+# $Id: TicketGet.t,v 1.17 2012-06-22 19:11:46 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,15 +15,16 @@ use utf8;
 use vars (qw($Self));
 
 use MIME::Base64;
-use Kernel::System::User;
-use Kernel::System::Ticket;
+use Kernel::GenericInterface::Debugger;
+use Kernel::GenericInterface::Operation::Session::SessionCreate;
+use Kernel::GenericInterface::Operation::Ticket::TicketGet;
+use Kernel::GenericInterface::Requester;
 use Kernel::System::DynamicField;
 use Kernel::System::DynamicField::Backend;
-use Kernel::GenericInterface::Debugger;
-use Kernel::GenericInterface::Requester;
 use Kernel::System::GenericInterface::Webservice;
-use Kernel::GenericInterface::Operation::Ticket::TicketGet;
-use Kernel::GenericInterface::Operation::Session::SessionCreate;
+use Kernel::System::UnitTest::Helper;
+use Kernel::System::User;
+use Kernel::System::Ticket;
 use Kernel::System::VariableCheck qw(:all);
 
 #get a random id
@@ -31,6 +32,13 @@ my $RandomID = int rand 1_000_000_000;
 
 # create local config object
 my $ConfigObject = Kernel::Config->new();
+
+# helper object
+my $HelperObject = Kernel::System::UnitTest::Helper->new(
+    %{$Self},
+    UnitTestObject             => $Self,
+    RestoreSystemConfiguration => 1,
+);
 
 # disable CheckEmailInvalidAddress setting
 $ConfigObject->Set(
@@ -45,19 +53,11 @@ my $UserObject = Kernel::System::User->new(
 );
 
 # create a new user for current test
-$Self->{UserID} = $UserObject->UserAdd(
-    UserFirstname => 'Test',
-    UserLastname  => 'User',
-    UserLogin     => 'TestUser' . $RandomID,
-    UserPw        => 'some-pass',
-    UserEmail     => 'test' . $RandomID . 'email@example.com',
-    ValidID       => 1,
-    ChangeUserID  => 1,
-);
+my $UserLogin = $HelperObject->TestUserCreate();
+my $Password  = $UserLogin;
 
-$Self->True(
-    $Self->{UserID},
-    'User Add ()',
+$Self->{UserID} = $UserObject->UserLookup(
+    UserLogin => $UserLogin,
 );
 
 # start DynamicFields
@@ -763,8 +763,6 @@ $Self->Is(
 );
 
 # start requester with our webservice
-my $UserLogin              = 'TestUser' . $RandomID;
-my $Password               = 'some-pass';
 my $RequesterSessionResult = $RequesterSessionObject->Run(
     WebserviceID => $WebserviceID,
     Invoker      => 'SessionCreate',
@@ -1328,21 +1326,5 @@ for my $FieldID (@TestDynamicFields) {
         "DynamicFieldDelete() successful for Field ID $FieldID",
     );
 }
-
-my $UpdateUser = $UserObject->UserUpdate(
-    UserID        => $Self->{UserID},
-    UserFirstname => 'TestModified',
-    UserLastname  => 'UserModified',
-    UserLogin     => 'TestUser' . $RandomID,
-    UserEmail     => 'testmodified' . $RandomID . 'email@example.com',
-    ValidID       => 2,
-    ChangeUserID  => $Self->{UserID},
-);
-
-# sanity check
-$Self->True(
-    $UpdateUser,
-    "UserUpdate() successful for User ID $Self->{UserID}",
-);
 
 1;
