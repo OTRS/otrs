@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2355 2012-06-21 14:49:17 ub Exp $
+# $Id: CHANGES,v 1.2356 2012-06-22 17:34:46 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -30,6 +30,9 @@
  - 2012-05-07 Fixed bug#8196 - Wrong article sender type for web service tickets.
  - 2012-04-27 Added bug#8075 - Article Sender Type to be added to
     NotificationEvent definitions.
+
+3.1.8 2012-??-??
+ - 2012-06-22 Fixed bug#8230 - Invalid Challenge Token when creating ticket out of hyperlinks.
 
 3.1.7 2012-06-26
  - 2012-06-18 Fixed bug#8593 - Wrong description for 'Agent Notifications' on Admin interface.
