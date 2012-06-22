@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.381.2.10 2012-06-14 17:59:47 cr Exp $
+# $Id: Layout.pm,v 1.381.2.11 2012-06-22 15:08:45 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Mail::Address;
 use URI::Escape qw();
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.381.2.10 $) [1];
+$VERSION = qw($Revision: 1.381.2.11 $) [1];
 
 =head1 NAME
 
@@ -4614,7 +4614,7 @@ sub _BuildSelectionDataRefCreate {
     # if HashRef was given
     if ( ref $Param{Data} eq 'HASH' ) {
 
-        # get missing parrents and mark them for disable later
+        # get missing parents and mark them for disable later
         if ( $OptionRef->{Sort} eq 'TreeView' ) {
             my %List = reverse %{ $Param{Data} };
 
@@ -4743,7 +4743,7 @@ sub _BuildSelectionDataRefCreate {
     # if ArrayRef was given
     elsif ( ref $Param{Data} eq 'ARRAY' ) {
 
-        # get missing parrents and mark them for disable later
+        # get missing parents and mark them for disable later
         if ( $OptionRef->{Sort} eq 'TreeView' ) {
             my %List = map { $_ => 1 } @{ $Param{Data} };
 
@@ -5085,6 +5085,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.381.2.10 $ $Date: 2012-06-14 17:59:47 $
+$Revision: 1.381.2.11 $ $Date: 2012-06-22 15:08:45 $
 
 =cut
