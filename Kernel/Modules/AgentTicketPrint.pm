@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPrint.pm - print layout for agent interface
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPrint.pm,v 1.86 2012-01-24 00:08:45 cr Exp $
+# $Id: AgentTicketPrint.pm,v 1.87 2012-06-23 12:55:55 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.86 $) [1];
+$VERSION = qw($Revision: 1.87 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -149,9 +149,12 @@ sub Run {
         @ArticleBox = reverse(@ArticleBox);
     }
 
-    $Ticket{TicketTimeUnits} = $Self->{TicketObject}->TicketAccountedTimeGet(
-        TicketID => $Ticket{TicketID},
-    );
+    # show total accounted time if feature is active:
+    if ( $Self->{ConfigObject}->Get('Ticket::Frontend::AccountTime') ) {
+        $Ticket{TicketTimeUnits} = $Self->{TicketObject}->TicketAccountedTimeGet(
+            TicketID => $Ticket{TicketID},
+        );
+    }
 
     # user info
     my %UserInfo = $Self->{UserObject}->GetUserData(
@@ -190,9 +193,6 @@ sub Run {
             Age   => $Ticket{UntilTime},
             Space => ' ',
         );
-    }
-    else {
-        $Ticket{PendingUntil} = '-';
     }
 
     # generate pdf output
@@ -494,15 +494,24 @@ sub _PDFOutputTicketInfos {
                 Data     => \%Ticket,
             ),
         },
-        {
+    ];
+
+    if ( $Self->{ConfigObject}->Get('Ticket::Frontend::AccountTime') ) {
+        my $Row = {
             Key   => $Self->{LayoutObject}->{LanguageObject}->Get('Accounted time') . ':',
             Value => $Ticket{TicketTimeUnits},
-        },
-        {
+        };
+        push( @{$TableRight}, $Row );
+    }
+
+    # only show pending until unless it is really pending
+    if ( $Ticket{PendingUntil} ) {
+        my $Row = {
             Key   => $Self->{LayoutObject}->{LanguageObject}->Get('Pending till') . ':',
             Value => $Ticket{PendingUntil},
-        },
-    ];
+        };
+        push( @{$TableRight}, $Row );
+    }
 
     # add first response time row
     if ( defined( $Ticket{FirstResponseTime} ) ) {
@@ -945,9 +954,12 @@ sub _PDFOutputArticles {
             $Attachments .= $File{Filename} . ' (' . $File{Filesize} . ")\n";
         }
 
-        $Article{'Accounted time'} = $Self->{TicketObject}->ArticleAccountedTimeGet(
-            ArticleID => $Article{ArticleID},
-        );
+        # show total accounted time if feature is active:
+        if ( $Self->{ConfigObject}->Get('Ticket::Frontend::AccountTime') ) {
+            $Article{'Accounted time'} = $Self->{TicketObject}->ArticleAccountedTimeGet(
+                ArticleID => $Article{ArticleID},
+            );
+        }
 
         # generate article info table
         my %TableParam1;
@@ -1148,6 +1160,22 @@ sub _HTMLMask {
                 Service => $Param{Service} || '-',
                 SLA     => $Param{SLA}     || '-',
             },
+        );
+    }
+
+    # output accounted time
+    if ( $Self->{ConfigObject}->Get('Ticket::Frontend::AccountTime') ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'AccountedTime',
+            Data => {%Param},
+        );
+    }
+
+    # output pending date
+    if ( $Param{PendingUntil} ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'PendingUntil',
+            Data => {%Param},
         );
     }
 
