@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: mssql, generated: 2012-06-18 14:24:44
+--  driver: mssql, generated: 2012-06-26 12:11:54
 -- ----------------------------------------------------------
                 DECLARE @defnameticketgroup_read VARCHAR(200), @cmdticketgroup_read VARCHAR(2000)
                 SET @defnameticketgroup_read = (
@@ -107,3 +107,31 @@ ALTER TABLE ticket DROP COLUMN other_read;
 ALTER TABLE ticket DROP COLUMN other_write;
 DROP INDEX article_flag.article_flag_create_by;
 DROP INDEX article_flag.article_flag_article_id_article_key;
+DROP INDEX ticket.ticket_queue_view;
+                DECLARE @defnameticketgroup_id VARCHAR(200), @cmdticketgroup_id VARCHAR(2000)
+                SET @defnameticketgroup_id = (
+                    SELECT name FROM sysobjects so JOIN sysconstraints sc ON so.id = sc.constid
+                    WHERE object_name(so.parent_obj) = 'ticket' AND so.xtype = 'D' AND sc.colid = (
+                        SELECT colid FROM syscolumns WHERE id = object_id('ticket') AND name = 'group_id'
+                    )
+                )
+                SET @cmdticketgroup_id = 'ALTER TABLE ticket DROP CONSTRAINT ' + @defnameticketgroup_id
+                EXEC(@cmdticketgroup_id)
+;
+                    DECLARE @sqlticketgroup_id NVARCHAR(4000)
+
+                    WHILE 1=1
+                    BEGIN
+                        SET @sqlticketgroup_id = (SELECT TOP 1 'ALTER TABLE ticket DROP CONSTRAINT [' + constraint_name + ']'
+                        -- SELECT *
+                        FROM information_schema.CONSTRAINT_COLUMN_USAGE where table_name='ticket' and column_name='group_id'
+                        )
+                        IF @sqlticketgroup_id IS NULL BREAK
+                        EXEC (@sqlticketgroup_id)
+                    END
+;
+-- ----------------------------------------------------------
+--  alter table ticket
+-- ----------------------------------------------------------
+ALTER TABLE ticket DROP COLUMN group_id;
+CREATE INDEX ticket_queue_view ON ticket (ticket_state_id, ticket_lock_id);

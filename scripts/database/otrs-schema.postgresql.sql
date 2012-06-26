@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: postgresql, generated: 2012-06-18 14:36:02
+--  driver: postgresql, generated: 2012-06-26 12:25:48
 -- ----------------------------------------------------------
 SET standard_conforming_strings TO ON;
 -- ----------------------------------------------------------
@@ -333,7 +333,6 @@ CREATE TABLE ticket (
     sla_id INTEGER NULL,
     user_id INTEGER NOT NULL,
     responsible_user_id INTEGER NOT NULL,
-    group_id INTEGER NOT NULL,
     ticket_priority_id INTEGER NOT NULL,
     ticket_state_id INTEGER NOT NULL,
     customer_id VARCHAR (150) NULL,
@@ -365,7 +364,7 @@ CREATE INDEX ticket_escalation_solution_time ON ticket (escalation_solution_time
 CREATE INDEX ticket_escalation_time ON ticket (escalation_time);
 CREATE INDEX ticket_escalation_update_time ON ticket (escalation_update_time);
 CREATE INDEX ticket_queue_id ON ticket (queue_id);
-CREATE INDEX ticket_queue_view ON ticket (ticket_state_id, ticket_lock_id, group_id);
+CREATE INDEX ticket_queue_view ON ticket (ticket_state_id, ticket_lock_id);
 CREATE INDEX ticket_responsible_user_id ON ticket (responsible_user_id);
 CREATE INDEX ticket_ticket_lock_id ON ticket (ticket_lock_id);
 CREATE INDEX ticket_ticket_priority_id ON ticket (ticket_priority_id);
@@ -1187,7 +1186,7 @@ CREATE TABLE gi_object_lock_state (
     lock_state_counter INTEGER NOT NULL,
     create_time timestamp(0) NOT NULL,
     change_time timestamp(0) NOT NULL,
-    CONSTRAINT gi_object_lock_state_U_483 UNIQUE (webservice_id, object_type, object_id)
+    CONSTRAINT gi_object_lock_state_U_629 UNIQUE (webservice_id, object_type, object_id)
 );
 CREATE INDEX object_lock_state_list_state ON gi_object_lock_state (webservice_id, object_type, object_id, lock_state);
 -- ----------------------------------------------------------
@@ -1237,5 +1236,5 @@ CREATE TABLE dynamic_field (
     change_time timestamp(0) NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    CONSTRAINT dynamic_field_U_213 UNIQUE (name)
+    CONSTRAINT dynamic_field_U_232 UNIQUE (name)
 );

@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2012-06-18 14:36:02
+--  driver: oracle, generated: 2012-06-26 12:25:48
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 -- ----------------------------------------------------------
@@ -581,7 +581,6 @@ CREATE TABLE ticket (
     sla_id NUMBER (12, 0) NULL,
     user_id NUMBER (12, 0) NOT NULL,
     responsible_user_id NUMBER (12, 0) NOT NULL,
-    group_id NUMBER (12, 0) NOT NULL,
     ticket_priority_id NUMBER (5, 0) NOT NULL,
     ticket_state_id NUMBER (5, 0) NOT NULL,
     customer_id VARCHAR2 (150) NULL,
@@ -632,7 +631,7 @@ CREATE INDEX ticket_escalation_solution_td9 ON ticket (escalation_solution_time)
 CREATE INDEX ticket_escalation_time ON ticket (escalation_time);
 CREATE INDEX ticket_escalation_update_time ON ticket (escalation_update_time);
 CREATE INDEX ticket_queue_id ON ticket (queue_id);
-CREATE INDEX ticket_queue_view ON ticket (ticket_state_id, ticket_lock_id, group_id);
+CREATE INDEX ticket_queue_view ON ticket (ticket_state_id, ticket_lock_id);
 CREATE INDEX ticket_responsible_user_id ON ticket (responsible_user_id);
 CREATE INDEX ticket_ticket_lock_id ON ticket (ticket_lock_id);
 CREATE INDEX ticket_ticket_priority_id ON ticket (ticket_priority_id);
@@ -1980,7 +1979,7 @@ CREATE TABLE gi_object_lock_state (
     lock_state_counter NUMBER (12, 0) NOT NULL,
     create_time DATE NOT NULL,
     change_time DATE NOT NULL,
-    CONSTRAINT gi_object_lock_state_U_669 UNIQUE (webservice_id, object_type, object_id)
+    CONSTRAINT gi_object_lock_state_U_286 UNIQUE (webservice_id, object_type, object_id)
 );
 CREATE INDEX FK_gi_object_lock_state_webs55 ON gi_object_lock_state (webservice_id);
 CREATE INDEX object_lock_state_list_state ON gi_object_lock_state (webservice_id, object_type, object_id, lock_state);
@@ -2061,7 +2060,7 @@ CREATE TABLE dynamic_field (
     create_by NUMBER (12, 0) NOT NULL,
     change_time DATE NOT NULL,
     change_by NUMBER (12, 0) NOT NULL,
-    CONSTRAINT dynamic_field_U_642 UNIQUE (name)
+    CONSTRAINT dynamic_field_U_836 UNIQUE (name)
 );
 ALTER TABLE dynamic_field ADD CONSTRAINT PK_dynamic_field PRIMARY KEY (id);
 DROP SEQUENCE SE_dynamic_field;

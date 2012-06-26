@@ -497,7 +497,6 @@
     <Column Name="sla_id" Required="false" Type="INTEGER"/>
     <Column Name="user_id" Required="true" Type="INTEGER"/>
     <Column Name="responsible_user_id" Required="true" Type="INTEGER"/>
-    <Column Name="group_id" Required="true" Type="INTEGER"/>
     <Column Name="ticket_priority_id" Required="true" Type="SMALLINT"/>
     <Column Name="ticket_state_id" Required="true" Type="SMALLINT"/>
     <Column Name="customer_id" Required="false" Size="150" Type="VARCHAR"/>
@@ -536,7 +535,6 @@
     <Index Name="ticket_queue_view">
         <IndexColumn Name="ticket_state_id"/>
         <IndexColumn Name="ticket_lock_id"/>
-        <IndexColumn Name="group_id"/>
     </Index>
     <Index Name="ticket_type_id">
         <IndexColumn Name="type_id"/>

@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.559 2012-06-21 10:06:07 mg Exp $
+# $Id: Ticket.pm,v 1.560 2012-06-26 10:30:00 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -40,7 +40,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.559 $) [1];
+$VERSION = qw($Revision: 1.560 $) [1];
 
 =head1 NAME
 
@@ -361,9 +361,8 @@ sub TicketCreate {
     }
 
     # set default values if no values are specified
-    my $GroupID = $Param{GroupID} || 1;
     my $ValidID = $Param{ValidID} || 1;
-    my $Age     = $Self->{TimeObject}->SystemTime();
+    my $Age = $Self->{TimeObject}->SystemTime();
 
     my $ArchiveFlag = 0;
     if ( $Param{ArchiveFlag} && $Param{ArchiveFlag} eq 'y' ) {
@@ -495,17 +494,17 @@ sub TicketCreate {
 
     # create db record
     return if !$Self->{DBObject}->Do(
-        SQL =>
-            'INSERT INTO ticket (tn, title, create_time_unix, type_id, queue_id, ticket_lock_id,'
-            . ' user_id, responsible_user_id, group_id, ticket_priority_id, ticket_state_id,'
-            . ' ticket_answered, escalation_time, escalation_update_time, escalation_response_time,'
-            . ' escalation_solution_time, timeout, service_id, sla_id, until_time,'
-            . ' valid_id, archive_flag, create_time, create_by, change_time, change_by)'
-            . ' VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, 0, 0, 0, 0, 0, ?, ?, 0, ?, ?,'
-            . ' current_timestamp, ?, current_timestamp, ?)',
+        SQL => '
+            INSERT INTO ticket (tn, title, create_time_unix, type_id, queue_id, ticket_lock_id,
+                user_id, responsible_user_id, ticket_priority_id, ticket_state_id,
+                ticket_answered, escalation_time, escalation_update_time, escalation_response_time,
+                escalation_solution_time, timeout, service_id, sla_id, until_time,
+                valid_id, archive_flag, create_time, create_by, change_time, change_by)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, 0, 0, 0, 0, 0, ?, ?, 0, ?, ?,
+                current_timestamp, ?, current_timestamp, ?)',
         Bind => [
             \$Param{TN}, \$Param{Title}, \$Age, \$Param{TypeID}, \$Param{QueueID},
-            \$Param{LockID}, \$Param{OwnerID}, \$Param{ResponsibleID}, \$GroupID,
+            \$Param{LockID},     \$Param{OwnerID}, \$Param{ResponsibleID},
             \$Param{PriorityID}, \$Param{StateID}, \$Param{ServiceID},
             \$Param{SLAID}, \$ValidID, \$ArchiveFlag, \$Param{UserID}, \$Param{UserID},
         ],
@@ -7593,6 +7592,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.559 $ $Date: 2012-06-21 10:06:07 $
+$Revision: 1.560 $ $Date: 2012-06-26 10:30:00 $
 
 =cut

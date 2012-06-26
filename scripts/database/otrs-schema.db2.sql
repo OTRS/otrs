@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: db2, generated: 2012-06-18 14:36:01
+--  driver: db2, generated: 2012-06-26 12:25:47
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -366,7 +366,6 @@ CREATE TABLE ticket (
     sla_id INTEGER,
     user_id INTEGER NOT NULL,
     responsible_user_id INTEGER NOT NULL,
-    group_id INTEGER NOT NULL,
     ticket_priority_id SMALLINT NOT NULL,
     ticket_state_id SMALLINT NOT NULL,
     customer_id VARCHAR (150),
@@ -410,7 +409,7 @@ CREATE INDEX ticket_escalation_update_time ON ticket (escalation_update_time);
 
 CREATE INDEX ticket_queue_id ON ticket (queue_id);
 
-CREATE INDEX ticket_queue_view ON ticket (ticket_state_id, ticket_lock_id, group_id);
+CREATE INDEX ticket_queue_view ON ticket (ticket_state_id, ticket_lock_id);
 
 CREATE INDEX ticket_responsible_user_id ON ticket (responsible_user_id);
 
@@ -1351,7 +1350,7 @@ CREATE TABLE gi_object_lock_state (
     lock_state_counter INTEGER NOT NULL,
     create_time TIMESTAMP NOT NULL,
     change_time TIMESTAMP NOT NULL,
-    CONSTRAINT gi_object_lock_state_U_127 UNIQUE (webservice_id, object_type, object_id)
+    CONSTRAINT gi_object_lock_state_U_477 UNIQUE (webservice_id, object_type, object_id)
 );
 
 CREATE INDEX object_lock_state_list_state ON gi_object_lock_state (webservice_id, object_type, object_id, lock_state);
@@ -1408,5 +1407,5 @@ CREATE TABLE dynamic_field (
     change_time TIMESTAMP NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    CONSTRAINT dynamic_field_U_73 UNIQUE (name)
+    CONSTRAINT dynamic_field_U_867 UNIQUE (name)
 );

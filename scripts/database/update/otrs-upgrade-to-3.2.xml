@@ -15,4 +15,20 @@
     <IndexDrop Name="article_flag_article_id_article_key"/>
 </TableAlter>
 
+<!-- Drop unneeded field group_id from ticket table -->
+<TableAlter Name="ticket">
+    <!-- First drop index using it -->
+    <IndexDrop Name="ticket_queue_view"/>
+
+    <!-- Now drop column -->
+    <ColumnDrop Name="group_id"/>
+
+    <!-- Now recreate index without group_id column -->
+    <IndexCreate Name="ticket_queue_view">
+        <IndexColumn Name="ticket_state_id"/>
+        <IndexColumn Name="ticket_lock_id"/>
+    </IndexCreate>
+</TableAlter>
+
+
 </database>

@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: ingres, generated: 2012-06-18 14:24:44
+--  driver: ingres, generated: 2012-06-26 12:11:54
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  alter table ticket
@@ -17,3 +17,7 @@ ALTER TABLE ticket DROP COLUMN other_read RESTRICT;\g
 --  alter table ticket
 -- ----------------------------------------------------------
 ALTER TABLE ticket DROP COLUMN other_write RESTRICT;\g
+-- ----------------------------------------------------------
+--  alter table ticket
+-- ----------------------------------------------------------
+ALTER TABLE ticket DROP COLUMN group_id RESTRICT;\g
