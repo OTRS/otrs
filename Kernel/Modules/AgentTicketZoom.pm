@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.177 2012-04-24 09:42:22 sb Exp $
+# $Id: AgentTicketZoom.pm,v 1.177.2.1 2012-06-26 07:48:26 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.177 $) [1];
+$VERSION = qw($Revision: 1.177.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -806,9 +806,12 @@ sub MaskAgentZoom {
         if ( $Ticket{UntilTime} < -1 ) {
             $Ticket{PendingUntilClass} = 'Warning';
         }
+        $Ticket{UntilTimeHuman} = $Self->{TimeObject}->SystemTime2TimeStamp(
+            SystemTime => ( $Ticket{UntilTime} + $Self->{TimeObject}->SystemTime() ),
+        );
         $Ticket{PendingUntil} .= $Self->{LayoutObject}->CustomerAge(
             Age   => $Ticket{UntilTime},
-            Space => '<br/>'
+            Space => ' '
         );
         $Self->{LayoutObject}->Block(
             Name => 'PendingUntil',
