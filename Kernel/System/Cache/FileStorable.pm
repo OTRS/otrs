@@ -2,7 +2,7 @@
 # Kernel/System/Cache/FileStorable.pm - all cache functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: FileStorable.pm,v 1.10 2012-06-12 13:53:12 mg Exp $
+# $Id: FileStorable.pm,v 1.11 2012-06-26 13:57:55 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,20 +16,22 @@ use warnings;
 umask 002;
 
 use Storable qw();
+use Digest::MD5 qw();
+use File::Path qw();
+use File::Find qw();
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
 
-    # allocate new hash for object
     my $Self = {};
     bless( $Self, $Type );
 
     # check needed objects
-    for (qw(ConfigObject LogObject MainObject)) {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
+    for my $Needed (qw(ConfigObject LogObject MainObject EncodeObject)) {
+        $Self->{$Needed} = $Param{$Needed} || die "Got no $Needed!";
     }
 
     my $TempDir = $Self->{ConfigObject}->Get('TempDir');
@@ -47,31 +49,34 @@ sub new {
         }
     }
 
+    # Specify how many levels of subdirectories to use, can be 0, 1 or more.
+    $Self->{'Cache::SubdirLevels'} = $Self->{ConfigObject}->Get('Cache::SubdirLevels');
+    $Self->{'Cache::SubdirLevels'} = 2 if !defined $Self->{'Cache::SubdirLevels'};
+
     return $Self;
 }
 
 sub Set {
     my ( $Self, %Param ) = @_;
 
-    for (qw(Type Key Value TTL)) {
-        if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+    for my $Needed (qw(Type Key Value TTL)) {
+        if ( !defined $Param{$Needed} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }
 
-    my $Now = time();
-    my $TTL = $Now + $Param{TTL};
+    my $Dump = Storable::nfreeze(
+        {
+            TTL   => time() + $Param{TTL},
+            Value => $Param{Value},
+        }
+    );
 
-    my $Data = {
-        TTL   => $TTL,
-        Value => $Param{Value},
-    };
-    my $Dump = Storable::nfreeze($Data);
+    my ( $Filename, $CacheDirectory ) = $Self->_GetFilenameAndCacheDirectory(%Param);
 
-    my $CacheDirectory = $Self->{CacheDirectory} . '/' . $Param{Type};
     if ( !-e $CacheDirectory ) {
-        if ( !mkdir( $CacheDirectory, 0775 ) ) {
+        if ( !File::Path::mkpath( $CacheDirectory, 0, 0775 ) ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
                 Message  => "Can't create directory '$CacheDirectory': $!",
@@ -81,9 +86,9 @@ sub Set {
     }
     my $FileLocation = $Self->{MainObject}->FileWrite(
         Directory  => $CacheDirectory,
-        Filename   => $Param{Key},
+        Filename   => $Filename,
         Content    => \$Dump,
-        Type       => 'MD5',
+        Type       => 'Local',
         Mode       => 'binmode',
         Permission => '664',
     );
@@ -97,18 +102,19 @@ sub Get {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(Type Key)) {
-        if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+    for my $Needed (qw(Type Key)) {
+        if ( !defined $Param{$Needed} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }
 
-    my $CacheDirectory = $Self->{CacheDirectory} . '/' . $Param{Type};
-    my $Content        = $Self->{MainObject}->FileRead(
+    my ( $Filename, $CacheDirectory ) = $Self->_GetFilenameAndCacheDirectory(%Param);
+
+    my $Content = $Self->{MainObject}->FileRead(
         Directory       => $CacheDirectory,
-        Filename        => $Param{Key},
-        Type            => 'MD5',
+        Filename        => $Filename,
+        Type            => 'Local',
         Mode            => 'binmode',
         DisableWarnings => 1,
     );
@@ -118,11 +124,7 @@ sub Get {
 
     # read data structure back from file dump, use block eval for safety reasons
     my $Storage = eval { Storable::thaw( ${$Content} ) };
-    return if !$Storage;
-
-    # check ttl
-    my $Now = time();
-    if ( $Storage->{TTL} < $Now ) {
+    if ( ref $Storage ne 'HASH' || $Storage->{TTL} < time() ) {
         $Self->Delete(%Param);
         return;
     }
@@ -133,18 +135,19 @@ sub Delete {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(Type Key)) {
-        if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+    for my $Needed (qw(Type Key)) {
+        if ( !defined $Param{$Needed} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }
 
-    my $CacheDirectory = $Self->{CacheDirectory} . '/' . $Param{Type};
+    my ( $Filename, $CacheDirectory ) = $Self->_GetFilenameAndCacheDirectory(%Param);
+
     return $Self->{MainObject}->FileDelete(
         Directory       => $CacheDirectory,
-        Filename        => $Param{Key},
-        Type            => 'MD5',
+        Filename        => $Filename,
+        Type            => 'Local',
         DisableWarnings => 1,
     );
 }
@@ -152,75 +155,74 @@ sub Delete {
 sub CleanUp {
     my ( $Self, %Param ) = @_;
 
-    my @TypeList;
+    my @TypeList = $Self->{MainObject}->DirectoryRead(
+        Directory => $Self->{CacheDirectory},
+        Filter => $Param{Type} || '*',
+    );
 
-    # get all only one type cache
-    if ( $Param{Type} ) {
-        @TypeList = $Self->{MainObject}->DirectoryRead(
-            Directory => $Self->{CacheDirectory},
-            Filter    => $Param{Type},
-        );
-    }
+    return if !@TypeList;
 
-    # get all cache types
-    else {
-        @TypeList = $Self->{MainObject}->DirectoryRead(
-            Directory => $Self->{CacheDirectory},
-            Filter    => '*',
-        );
-        @TypeList = $Self->{MainObject}->DirectoryRead(
-            Directory => $Self->{CacheDirectory},
-            Filter    => '*',
-        );
-    }
-    for my $Type (@TypeList) {
+    my $FileCallback = sub {
 
-        # get all cache files
-        my @CacheList = $Self->{MainObject}->DirectoryRead(
-            Directory => $Type,
-            Filter    => '*',
-        );
-        CacheFile:
-        for my $CacheFile (@CacheList) {
+        my $CacheFile = $File::Find::name;
 
-            # only remove files
-            next if !-f $CacheFile;
+        # Remove directory if it is empty
+        if ( -d $CacheFile ) {
+            rmdir $CacheFile;
+            return;
+        }
 
-            # only expired
-            if ( $Param{Expired} ) {
-                my $Content = $Self->{MainObject}->FileRead(
-                    Location        => $CacheFile,
-                    Mode            => 'binmode',
-                    DisableWarnings => 1,
-                );
+        # For expired filed, check the content and TTL
+        if ( $Param{Expired} ) {
+            my $Content = $Self->{MainObject}->FileRead(
+                Location        => $CacheFile,
+                Mode            => 'binmode',
+                DisableWarnings => 1,
+            );
 
-                # check if cache exists
-                if ($Content) {
-
-                    my $Storage = Storable::thaw( ${$Content} );
-
-                    # check ttl
-                    my $Now = time();
-                    if ( $Storage->{TTL} > $Now ) {
-                        next CacheFile;
-                    }
-                }
-            }
-
-            # delete all cache files
-            if ( !unlink $CacheFile ) {
-                $Self->{LogObject}->Log(
-                    Priority => 'error',
-                    Message  => "Can't remove file $CacheFile: $!",
-                );
+            if ( ref $Content eq 'SCALAR' ) {
+                my $Storage = eval { Storable::thaw( ${$Content} ); };
+                return if ( ref $Storage eq 'HASH' && $Storage->{TTL} > time() );
             }
         }
 
-        # delete cache directory
-        rmdir $Type;
-    }
+        # delete all cache files
+        if ( !unlink $CacheFile ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Can't remove file $CacheFile: $!",
+            );
+        }
+    };
+
+    # We use finddepth so that the most deeply nested files will be deleted first,
+    #   and then the directories above are already empty and can just be removed.
+    File::Find::finddepth( $FileCallback, @TypeList );
 
     return 1;
+}
+
+sub _GetFilenameAndCacheDirectory {
+    my ( $Self, %Param ) = @_;
+
+    for my $Needed (qw(Type Key)) {
+        if ( !defined $Param{$Needed} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            return;
+        }
+    }
+
+    my $Filename = $Param{Key};
+    $Self->{EncodeObject}->EncodeOutput( \$Filename );
+    $Filename = Digest::MD5::md5_hex($Filename);
+
+    my $CacheDirectory = $Self->{CacheDirectory} . '/' . $Param{Type};
+
+    for my $Level ( 1 .. $Self->{'Cache::SubdirLevels'} ) {
+        $CacheDirectory .= '/' . substr( $Filename, $Level - 1, 1 )
+    }
+
+    return $Filename, $CacheDirectory;
 }
 
 1;

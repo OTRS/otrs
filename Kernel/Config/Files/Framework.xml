@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.478 2012-06-18 18:29:06 mb Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.479 2012-06-26 13:57:55 mg Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box (to avoid the use of destructive queries, such as DROP DATABASE, and also to steal user passwords).</Description>
         <Group>Framework</Group>
@@ -5871,6 +5871,28 @@ via the Preferences button after logging in.
             <Option SelectedID="1">
                 <Item Key="0">No</Item>
                 <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Cache::Module" Required="1" Valid="1" ConfigLevel="200">
+        <Description Translatable="1">Selects the cache backend to use.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Cache</SubGroup>
+        <Setting>
+            <Option Location="Kernel/System/Cache/*.pm" SelectedID="Kernel::System::Cache::FileStorable">
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Cache::SubdirLevels" Required="1" Valid="1" ConfigLevel="200">
+        <Description Translatable="1">Specify how many sub directory levels to use when creating cache files. This should prevent too many cache files being in one directory.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Cache</SubGroup>
+        <Setting>
+            <Option SelectedID="2">
+                <Item Key="0">0</Item>
+                <Item Key="1">1</Item>
+                <Item Key="2">2</Item>
+                <Item Key="3">3</Item>
             </Option>
         </Setting>
     </ConfigItem>
