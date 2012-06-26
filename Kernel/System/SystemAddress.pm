@@ -2,7 +2,7 @@
 # Kernel/System/SystemAddress.pm - lib for system addresses
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: SystemAddress.pm,v 1.36 2012-06-21 11:11:36 mg Exp $
+# $Id: SystemAddress.pm,v 1.37 2012-06-26 11:26:43 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Valid;
 use Kernel::System::CacheInternal;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.36 $) [1];
+$VERSION = qw($Revision: 1.37 $) [1];
 
 =head1 NAME
 
@@ -274,17 +274,17 @@ sub SystemAddressUpdate {
 
 get a list of system addresses
 
-    my %List = $SystemAddressObject->SystemAddressList();
-
-    my %List = $SystemAddressObject->SystemAddressList( Valid => 1 );
+    my %List = $SystemAddressObject->SystemAddressList(
+        Valid => 0,  # optional, defaults to 1
+    );
 
 returns:
 
     %List = (
-        '1' => 'Acme Sales ( sales@example.com )',
-        '2' => 'Acme Purchasing ( purchasing@example.com )',
-        '3' => 'Acme Support ( support@example.com )',
-    )
+        '1' => 'sales@example.com',
+        '2' => 'purchasing@example.com',
+        '3' => 'support@example.com',
+    );
 
 =cut
 
@@ -442,6 +442,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.36 $ $Date: 2012-06-21 11:11:36 $
+$Revision: 1.37 $ $Date: 2012-06-26 11:26:43 $
 
 =cut
