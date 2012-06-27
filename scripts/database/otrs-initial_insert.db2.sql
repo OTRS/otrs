@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: db2, generated: 2012-01-26 13:53:53
+--  driver: db2, generated: 2012-06-27 00:26:39
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  insert into table valid
@@ -893,9 +893,9 @@ INSERT INTO article_sender_type (name, valid_id, create_by, create_time, change_
 -- ----------------------------------------------------------
 --  insert into table ticket
 -- ----------------------------------------------------------
-INSERT INTO ticket (tn, queue_id, ticket_lock_id, ticket_answered, user_id, responsible_user_id, group_id, ticket_priority_id, ticket_state_id, title, create_time_unix, timeout, until_time, escalation_time, escalation_response_time, escalation_update_time, escalation_solution_time, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO ticket (tn, queue_id, ticket_lock_id, ticket_answered, user_id, responsible_user_id, ticket_priority_id, ticket_state_id, title, create_time_unix, timeout, until_time, escalation_time, escalation_response_time, escalation_update_time, escalation_solution_time, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    ('2010080210123456', 2, 1, 0, 1, 1, 1, 3, 1, 'Welcome to OTRS!', 1280750400, 0, 0, 0, 0, 0, 0, 1, 1, current_timestamp, 1, current_timestamp);
+    ('2010080210123456', 2, 1, 0, 1, 1, 3, 1, 'Welcome to OTRS!', 1280750400, 0, 0, 0, 0, 0, 0, 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table article
