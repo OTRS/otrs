@@ -2,7 +2,7 @@
 # Kernel/System/Auth/Sync/LDAP.pm - provides the ldap sync
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: LDAP.pm,v 1.12 2012-06-21 00:02:32 sb Exp $
+# $Id: LDAP.pm,v 1.13 2012-06-27 16:37:26 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Net::LDAP;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -27,7 +27,10 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for my $Needed (qw(LogObject ConfigObject DBObject UserObject GroupObject EncodeObject)) {
+    for my $Needed (
+        qw(LogObject ConfigObject DBObject UserObject GroupObject EncodeObject MainObject)
+        )
+    {
         $Self->{$Needed} = $Param{$Needed} || die "Got no $Needed!";
     }
 
@@ -202,11 +205,11 @@ sub Sync {
         map { $_ => 0 } @{ $Self->{ConfigObject}->Get('System::Permission') };
 
     # get system groups and create lookup
-    my %SystemGroups       = $Self->{GroupObject}->GroupList();
+    my %SystemGroups = $Self->{GroupObject}->GroupList( Valid => 1 );
     my %SystemGroupsByName = reverse %SystemGroups;
 
     # get system roles and create lookup
-    my %SystemRoles       = $Self->{GroupObject}->RoleList();
+    my %SystemRoles = $Self->{GroupObject}->RoleList( Valid => 1 );
     my %SystemRolesByName = reverse %SystemRoles;
 
     # sync user from ldap
@@ -280,7 +283,18 @@ sub Sync {
                 if ($UserSyncInitialGroups) {
                     GROUP:
                     for my $Group ( @{$UserSyncInitialGroups} ) {
-                        next GROUP if !$SystemGroupsByName{$Group};
+
+                        # only for valid groups
+                        if ( !$SystemGroupsByName{$Group} ) {
+                            $Self->{LogObject}->Log(
+                                Priority => 'notice',
+                                Message =>
+                                    "Invalid group '$Group' in "
+                                    . "'AuthSyncModule::LDAP::UserSyncInitialGroups"
+                                    . "$Self->{Count}'!",
+                            );
+                            next GROUP;
+                        }
 
                         $Self->{GroupObject}->GroupMemberAdd(
                             GID        => $SystemGroupsByName{$Group},
@@ -377,8 +391,17 @@ sub Sync {
             SYNCGROUP:
             for my $SyncGroup ( sort keys %SyncGroups ) {
 
-                # exclude if system group doesn't exist
-                next SYNCGROUP if !$SystemGroupsByName{$SyncGroup};
+                # only for valid groups
+                if ( !$SystemGroupsByName{$SyncGroup} ) {
+                    $Self->{LogObject}->Log(
+                        Priority => 'notice',
+                        Message =>
+                            "Invalid group '$SyncGroup' in "
+                            . "'AuthSyncModule::LDAP::UserSyncGroupsDefinition"
+                            . "$Self->{Count}'!",
+                    );
+                    next SYNCGROUP;
+                }
 
                 # set/overwrite remembered permissions
 
@@ -446,8 +469,17 @@ sub Sync {
                         SYNCGROUP:
                         for my $SyncGroup ( sort keys %SyncGroups ) {
 
-                            # exclude if system group doesn't exist
-                            next SYNCGROUP if !$SystemGroupsByName{$SyncGroup};
+                            # only for valid groups
+                            if ( !$SystemGroupsByName{$SyncGroup} ) {
+                                $Self->{LogObject}->Log(
+                                    Priority => 'notice',
+                                    Message =>
+                                        "Invalid group '$SyncGroup' in "
+                                        . "'AuthSyncModule::LDAP::UserSyncAttributeGroupsDefinition"
+                                        . "$Self->{Count}'!",
+                                );
+                                next SYNCGROUP;
+                            }
 
                             # set/overwrite remembered permissions
 
@@ -579,8 +611,17 @@ sub Sync {
             SYNCROLE:
             for my $SyncRole ( sort keys %SyncRoles ) {
 
-                # exclude if system role doesn't exist
-                next SYNCROLE if !$SystemRolesByName{$SyncRole};
+                # only for valid roles
+                if ( !$SystemRolesByName{$SyncRole} ) {
+                    $Self->{LogObject}->Log(
+                        Priority => 'notice',
+                        Message =>
+                            "Invalid role '$SyncRole' in "
+                            . "'AuthSyncModule::LDAP::UserSyncRolesDefinition"
+                            . "$Self->{Count}'!",
+                    );
+                    next SYNCROLE;
+                }
 
                 # set/overwrite remembered permissions
                 $RolePermissionsFromLDAP{ $SystemRolesByName{$SyncRole} } =
@@ -636,8 +677,17 @@ sub Sync {
                         SYNCROLE:
                         for my $SyncRole ( sort keys %SyncRoles ) {
 
-                            # exclude if system role doesn't exist
-                            next SYNCROLE if !$SystemRolesByName{$SyncRole};
+                            # only for valid roles
+                            if ( !$SystemRolesByName{$SyncRole} ) {
+                                $Self->{LogObject}->Log(
+                                    Priority => 'notice',
+                                    Message =>
+                                        "Invalid role '$SyncRole' in "
+                                        . "'AuthSyncModule::LDAP::UserSyncAttributeRolesDefinition"
+                                        . "$Self->{Count}'!",
+                                );
+                                next SYNCROLE;
+                            }
 
                             # set/overwrite remembered permissions
                             $RolePermissionsFromLDAP{ $SystemRolesByName{$SyncRole} } =
