@@ -2,7 +2,7 @@
 # Ticket.t - ticket module testscript
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.t,v 1.101.2.1 2012-05-24 10:32:50 mg Exp $
+# $Id: Ticket.t,v 1.101.2.2 2012-06-27 08:28:23 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -1309,13 +1309,18 @@ my ( $Sec, $Min, $Hour, $Day, $Month, $Year ) = $Self->{TimeObject}->SystemTime2
     SystemTime => $Self->{TimeObject}->SystemTime(),
 );
 
+my ( $StopSec, $StopMin, $StopHour, $StopDay, $StopMonth, $StopYear )
+    = $Self->{TimeObject}->SystemTime2Date(
+    SystemTime => $Self->{TimeObject}->SystemTime() - 60 * 60 * 24,
+    );
+
 my %TicketStatus = $TicketObject->HistoryTicketStatusGet(
     StopYear   => $Year,
     StopMonth  => $Month,
     StopDay    => $Day,
-    StartYear  => $Year - 2,
-    StartMonth => $Month,
-    StartDay   => $Day,
+    StartYear  => $StopYear,
+    StartMonth => $StopMonth,
+    StartDay   => $StopDay,
 );
 
 if ( $TicketStatus{$TicketID} ) {
