@@ -1330,7 +1330,6 @@ Your OTRS Team
         <Data Key="ticket_answered">0</Data>
         <Data Key="user_id">1</Data>
         <Data Key="responsible_user_id">1</Data>
-        <Data Key="group_id">1</Data>
         <Data Key="ticket_priority_id">3</Data>
         <Data Key="ticket_state_id">1</Data>
         <Data Key="title" Type="Quote">Welcome to OTRS!</Data>
