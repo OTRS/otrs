@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Ticket/TicketSearch.pm - GenericInterface Ticket Search operation backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketSearch.pm,v 1.14 2012-02-09 03:04:29 cr Exp $
+# $Id: TicketSearch.pm,v 1.15 2012-06-27 05:09:51 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::GenericInterface::Operation::Common;
 use Kernel::GenericInterface::Operation::Ticket::Common;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 =head1 NAME
 
@@ -302,7 +302,7 @@ sub Run {
     %GetParam = $Self->_CreateTimeSettings(%GetParam);
 
     # get dynamic fields
-    my %DynamicFieldSearchParameters = $Self->_GetDynamicFields(%GetParam);
+    my %DynamicFieldSearchParameters = $Self->_GetDynamicFields( %{ $Param{Data} } );
 
     # perform ticket search
     my @TicketIDs = $Self->{TicketObject}->TicketSearch(
@@ -480,14 +480,10 @@ sub _GetDynamicFields {
     # get single params
     my %AttributeLookup;
 
-    # get dynamic field config for frontend module
-    my $DynamicFieldFilter = $Self->{Config}->{DynamicField};
-
     # get the dynamic fields for ticket object
     $Self->{DynamicField} = $Self->{DynamicFieldObject}->DynamicFieldListGet(
-        Valid       => 1,
-        ObjectType  => ['Ticket'],
-        FieldFilter => $Self->{DynamicFieldFilter} || {},
+        Valid      => 1,
+        ObjectType => ['Ticket'],
     );
 
     for my $ParameterName ( keys %Param ) {
@@ -505,7 +501,7 @@ sub _GetDynamicFields {
 
                 # get new search parameter
                 my $SearchParameter
-                    = $Self->{BackendObject}->CommonSearchFieldParameterBuild(
+                    = $Self->{DFBackendObject}->CommonSearchFieldParameterBuild(
                     DynamicFieldConfig => $DynamicFieldConfig,
                     Value              => $Param{$ParameterName},
                     );
@@ -514,7 +510,7 @@ sub _GetDynamicFields {
                 # set search parameter
                 if ( defined $SearchParameter ) {
                     $DynamicFieldSearchParameters{ 'DynamicField_' . $DynamicFieldConfig->{Name} }
-                        = $SearchParameter->{Parameter};
+                        = $Param{ 'DynamicField_' . $DynamicFieldConfig->{Name} };
                 }
             }
         }
@@ -738,6 +734,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.14 $ $Date: 2012-02-09 03:04:29 $
+$Revision: 1.15 $ $Date: 2012-06-27 05:09:51 $
 
 =cut
