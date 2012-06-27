@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2260.2.79 2012-06-27 21:56:50 mb Exp $
+# $Id: CHANGES,v 1.2260.2.80 2012-06-27 23:18:14 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.1.8 2012-??-??
+ - 2012-06-27 Fixed bug#8558 - GenericInterface: response isn't valid UTF-8 content.
  - 2012-06-27 Added bug#7039 - bin/otrs.AddService.pl script to add services from the command
     line.
  - 2012-06-26 Made display of pending time consistent with escalation time display.
