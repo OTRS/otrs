@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.560 2012-06-26 10:30:00 mg Exp $
+# $Id: Ticket.pm,v 1.561 2012-06-27 08:27:40 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -40,7 +40,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.560 $) [1];
+$VERSION = qw($Revision: 1.561 $) [1];
 
 =head1 NAME
 
@@ -4604,12 +4604,13 @@ sub HistoryTicketStatusGet {
         $SQLExt .= ')';
     }
     return if !$Self->{DBObject}->Prepare(
-        SQL => "SELECT DISTINCT(th.ticket_id), th.create_time FROM "
-            . "ticket_history th WHERE "
-            . "th.create_time <= '$Param{StopYear}-$Param{StopMonth}-$Param{StopDay} 23:59:59' "
-            . "AND "
-            . "th.create_time >= '$Param{StartYear}-$Param{StartMonth}-$Param{StartDay} 00:00:01' "
-            . "$SQLExt ORDER BY th.create_time DESC",
+        SQL => "
+            SELECT DISTINCT(th.ticket_id), th.create_time
+            FROM ticket_history th
+            WHERE th.create_time <= '$Param{StopYear}-$Param{StopMonth}-$Param{StopDay} 23:59:59'
+                AND th.create_time >= '$Param{StartYear}-$Param{StartMonth}-$Param{StartDay} 00:00:01'
+                $SQLExt
+            ORDER BY th.create_time DESC",
         Limit => 150000,
     );
     my %Ticket;
@@ -7592,6 +7593,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.560 $ $Date: 2012-06-26 10:30:00 $
+$Revision: 1.561 $ $Date: 2012-06-27 08:27:40 $
 
 =cut
