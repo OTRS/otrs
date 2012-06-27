@@ -2,7 +2,7 @@
 # TicketSearch.t - GenericInterface transport interface tests for TicketConnector backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketSearch.t,v 1.17 2012-06-27 13:21:47 cg Exp $
+# $Id: TicketSearch.t,v 1.18 2012-06-27 23:18:04 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -1458,14 +1458,14 @@ for my $Test (@Tests) {
     if ( $Test->{ExpectedReturnLocalData} ) {
         $Self->IsDeeply(
             sort $LocalResult,
-            $Test->{ExpectedReturnLocalData},
+            sort $Test->{ExpectedReturnLocalData},
             "$Test->{Name} - Local result matched with expected local call result.",
         );
     }
     else {
         $Self->IsDeeply(
             sort $LocalResult,
-            $Test->{ExpectedReturnRemoteData},
+            sort $Test->{ExpectedReturnRemoteData},
             "$Test->{Name} - Local result matched with remote result.",
         );
     }
