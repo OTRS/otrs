@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Transport/HTTP/SOAP.pm - GenericInterface network transport interface for HTTP::SOAP
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: SOAP.pm,v 1.48 2012-05-10 11:19:14 cr Exp $
+# $Id: SOAP.pm,v 1.49 2012-06-27 23:18:02 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Encode;
 use PerlIO;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.48 $) [1];
+$VERSION = qw($Revision: 1.49 $) [1];
 
 =head1 NAME
 
@@ -53,6 +53,10 @@ sub new {
     for my $Needed (qw(MainObject EncodeObject DebuggerObject TransportConfig)) {
         $Self->{$Needed} = $Param{$Needed} || die "Got no $Needed!";
     }
+
+    # set binary mode for STDIN and STDOUT (normally is the same as :raw)
+    binmode STDIN;
+    binmode STDOUT;
 
     return $Self;
 }
@@ -235,11 +239,6 @@ sub ProviderProcessRequest {
     $Self->{Operation} = $Operation;
 
     my $OperationData = $Body->{$Operation};
-
-    # remember if utf8 mode is set for stdin specially for Windows OS, see bug#8466
-    # this information is very important later (in the response) to set the binmode in STDOUT
-    my @IOLayers = PerlIO::get_layers(STDIN);
-    $Self->{LastIOLayerInbound} = $IOLayers[-1];
 
     # all ok - return data
     return {
@@ -807,28 +806,17 @@ sub _Output {
         Data       => $Param{Content},
     );
 
-    # remember if utf8 mode is set for stout
-    # normally Windows OS needs to set the binmode to :raw, see bug#8466
-    my @IOLayers            = PerlIO::get_layers(STDOUT);
-    my $LastIOLayerOutbound = $IOLayers[-1];
-
-    my $LayerReset;
-
-    # set binmode if necessary, check if the last layer for inbound and outbound are different
-    if ( $LastIOLayerOutbound ne $Self->{LastIOLayerInbound} ) {
-
-        # set the binmode for STOUT to :raw to send the response
-        if ( $LastIOLayerOutbound eq 'utf8' ) {
-            $LayerReset = ':utf8';
-            binmode STDOUT, ':raw';
-        }
-
-        # otherwise set it to :utf8 to send the response
-        elsif ( $Self->{LastIOLayerInbound} eq 'utf8' ) {
-            $LayerReset = ':raw';
-            binmode STDOUT, ':utf8';
-        }
-    }
+    # in the constructor of this module STDIN and STDOUT are set to binmode without any additional
+    # layer (according to the documentation this is the same as set :raw). Previous solutions for
+    # binary responses requires the set of :raw or :utf8 according to IO layers.
+    # with that solution Windows OS requires to set the :raw layer in binmode, see #bug#8466.
+    # while in *nix normally was better to set :utf8 layer in binmode, see bug#8558, otherwise
+    # XML parser complains about it... ( but under special circumstances :raw layer was needed
+    # instead ).
+    # this solution to set the binmode in the constructor and then :utf8 layer before the response
+    # is sent  apparently works in all situations. ( linux circumstances to requires :raw was no
+    # reproducible, and not tested in this solution).
+    binmode STDOUT, ':utf8';
 
     # print data to http - '\r' is required according to HTTP RFCs
     my $StatusMessage = HTTP::Status::status_message( $Param{HTTPCode} );
@@ -837,11 +825,6 @@ sub _Output {
     print STDOUT "Content-Length: $ContentLength\r\n";
     print STDOUT "\r\n";
     print STDOUT $Param{Content};
-
-    # reset binmode for stdout
-    if ($LayerReset) {
-        binmode STDOUT, $LayerReset;
-    }
 
     return {
         Success      => $Success,
@@ -1205,6 +1188,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.48 $ $Date: 2012-05-10 11:19:14 $
+$Revision: 1.49 $ $Date: 2012-06-27 23:18:02 $
 
 =cut
