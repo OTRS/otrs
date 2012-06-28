@@ -1,8 +1,8 @@
 # --
 # Kernel/System/CustomerUser.pm - some customer user functions
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerUser.pm,v 1.63 2011-03-24 17:47:48 en Exp $
+# $Id: CustomerUser.pm,v 1.64 2012-06-28 21:52:01 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerCompany;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.63 $) [1];
+$VERSION = qw($Revision: 1.64 $) [1];
 
 =head1 NAME
 
@@ -284,6 +284,8 @@ get user data (UserLogin, UserFirstname, UserLastname, UserEmail, ...)
 
 sub CustomerUserDataGet {
     my ( $Self, %Param ) = @_;
+
+    return if !$Param{User};
 
     for my $Count ( '', 1 .. 10 ) {
 
@@ -692,6 +694,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.63 $ $Date: 2011-03-24 17:47:48 $
+$Revision: 1.64 $ $Date: 2012-06-28 21:52:01 $
 
 =cut
