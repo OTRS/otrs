@@ -3,7 +3,7 @@
 # otrs.Scheduler.pl - provides Scheduler Daemon control on Unix like OS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.Scheduler.pl,v 1.38 2012-06-11 09:31:39 mg Exp $
+# $Id: otrs.Scheduler.pl,v 1.39 2012-06-28 21:57:40 cr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -32,7 +32,7 @@ use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.38 $) [1];
+$VERSION = qw($Revision: 1.39 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -370,7 +370,7 @@ elsif ( $Opts{a} && $Opts{a} eq "start" ) {
                 Message   => "Could not create the directory $RunDir! Scheduler is stopping...!",
                 DeletePID => 1,
             );
-            return $ExitCode;
+            exit $ExitCode;
         }
     }
 
@@ -387,7 +387,7 @@ elsif ( $Opts{a} && $Opts{a} eq "start" ) {
             Message   => "Can not write into the PIDFILE: $!",
             DeletePID => 1,
         );
-        return $ExitCode;
+        exit $ExitCode;
     }
 
     # Log daemon start up
@@ -433,7 +433,7 @@ elsif ( $Opts{a} && $Opts{a} eq "start" ) {
                 Message => "Process could not be found in the process table!\n"
                     . "Scheduler is stopping...!\n",
             );
-            return $ExitCode;
+            exit $ExitCode;
         }
 
         # check if Framework.xml file exists, otherwise quit because the otrs installation
@@ -446,7 +446,7 @@ elsif ( $Opts{a} && $Opts{a} eq "start" ) {
                     . "Scheduler is stopping...!\n",
                 DeletePID => 1,
             );
-            return $ExitCode;
+            exit $ExitCode;
         }
 
         # get config checksum
@@ -467,7 +467,7 @@ elsif ( $Opts{a} && $Opts{a} eq "start" ) {
             my $ExitCode = _AutoStop(
                 DeletePID => 1,
             );
-            return $ExitCode;
+            exit $ExitCode;
         }
 
         # check for hangup signal, requesting a config reload
