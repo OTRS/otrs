@@ -1,8 +1,8 @@
 # --
 # WebserviceConfig.t - WebserviceConfig tests
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: WebserviceConfig.t,v 1.6 2011-04-28 21:35:50 cr Exp $
+# $Id: WebserviceConfig.t,v 1.6.2.1 2012-06-28 20:34:23 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -154,9 +154,9 @@ my @WebserviceIDs;
 
 for my $Test (@Tests) {
 
-    # add
+    # add (call with 2>&1 to also get STDERR)
     my $WebserviceConfigResult
-        = `$WebserviceConfig $Test->{ParamsAdd} $Test->{FileAdd}`;
+        = `$WebserviceConfig $Test->{ParamsAdd} $Test->{FileAdd} 2>&1`;
 
     if ( !$Test->{SuccessAdd} ) {
         $Self->True(
@@ -175,9 +175,17 @@ for my $Test (@Tests) {
             $?,
             "$Test->{Name} - Add - WebserviceConfig $Test->{ParamsAdd} $Test->{FileAdd}",
         );
+
+        # give some visibility if the test fail when it should not
+        if ($?) {
+            $Self->True(
+                0,
+                "$Test->{Name} - Add - DETECTED $WebserviceConfigResult",
+            );
+        }
     }
 
-    # get new WebseviceID
+    # get new WebserviceID
     my $Fragment =
         substr $WebserviceConfigResult, index( $WebserviceConfigResult, 'ID:' );
     my $WebserviceID = substr $Fragment, 3, -3;
@@ -185,20 +193,28 @@ for my $Test (@Tests) {
     # remember id
     push @WebserviceIDs, $WebserviceID;
 
-    # read
-    $WebserviceConfigResult = `$WebserviceConfig $Test->{ParamsRead} $WebserviceID`;
+    # read (call with 2>&1 to also get STDERR)
+    $WebserviceConfigResult = `$WebserviceConfig $Test->{ParamsRead} $WebserviceID 2>&1`;
     if ( !$Test->{SuccessRead} ) {
-        $Self->False(
-            $WebserviceConfigResult,
+        $Self->True(
+            $?,
             "$Test->{Name} - Read - Webservice $Test->{ParamsRead} $WebserviceID",
         );
         next;
     }
     else {
-        $Self->True(
-            $WebserviceConfigResult,
+        $Self->False(
+            $?,
             "$Test->{Name} - Read - Webservice $Test->{ParamsRead} $WebserviceID",
         );
+
+        # give some visibility if the test fail when it should not
+        if ($?) {
+            $Self->True(
+                0,
+                "$Test->{Name} - READ - DETECTED $WebserviceConfigResult",
+            );
+        }
     }
 
     # compare result with original file
@@ -215,12 +231,12 @@ for my $Test (@Tests) {
         "$Test->{Name} - Compare original file with result",
     );
 
-    # update config with a modification
+    # update config with a modification (call with 2>&1 to also get STDERR)
     $WebserviceConfigResult
-        = `$WebserviceConfig $Test->{ParamsUpdate} $Test->{FileUpdate} -i $WebserviceID`;
+        = `$WebserviceConfig $Test->{ParamsUpdate} $Test->{FileUpdate} -i $WebserviceID 2>&1`;
     if ( !$Test->{SuccessUpdate} ) {
-        $Self->False(
-            $WebserviceConfigResult,
+        $Self->True(
+            $?,
             "$Test->{Name} - Update - Webservice $Test->{ParamsUpdate} $Test->{FileUpdate} -i $WebserviceID",
         );
         next;
@@ -231,10 +247,18 @@ for my $Test (@Tests) {
             $FileExist,
             "$Test->{Name} - File for update - WebserviceConfig $Test->{FileUpdate}",
         );
-        $Self->True(
-            $WebserviceConfigResult,
+        $Self->False(
+            $?,
             "$Test->{Name} - Update - Webservice $Test->{ParamsUpdate} $Test->{FileUpdate} -i $WebserviceID",
         );
+
+        # give some visibility if the test fail when it should not
+        if ($?) {
+            $Self->True(
+                0,
+                "$Test->{Name} - Update - DETECTED $WebserviceConfigResult",
+            );
+        }
     }
 
     # compare result with original file
