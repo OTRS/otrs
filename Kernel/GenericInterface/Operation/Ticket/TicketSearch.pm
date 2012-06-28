@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Ticket/TicketSearch.pm - GenericInterface Ticket Search operation backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketSearch.pm,v 1.15 2012-06-27 05:09:51 cg Exp $
+# $Id: TicketSearch.pm,v 1.16 2012-06-28 21:51:35 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::GenericInterface::Operation::Common;
 use Kernel::GenericInterface::Operation::Ticket::Common;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 =head1 NAME
 
@@ -320,7 +320,7 @@ sub Run {
     );
 
     if (@TicketIDs) {
-
+        @TicketIDs = sort { $a <=> $b } @TicketIDs;
         return {
             Success => 1,
             Data    => {
@@ -734,6 +734,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.15 $ $Date: 2012-06-27 05:09:51 $
+$Revision: 1.16 $ $Date: 2012-06-28 21:51:35 $
 
 =cut
