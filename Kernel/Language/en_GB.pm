@@ -1,8 +1,8 @@
 # --
 # Kernel/Language/en_GB.pm - provides British English language translation
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: en_GB.pm,v 1.13 2011-10-07 09:17:01 mb Exp $
+# $Id: en_GB.pm,v 1.13.2.1 2012-06-28 17:11:20 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.13.2.1 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -114,6 +114,8 @@ sub Data {
         'Don\'t accept license' => 'Don\'t accept licence',
         #'Favorite' is American English
         'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' => 'Your queue selection of your favourite queues. You also get notified about those queues via email if enabled.',
+        #'Zip' is American English
+        'Zip' => 'Postcode',
     };
     # $$STOP$$
     return;
