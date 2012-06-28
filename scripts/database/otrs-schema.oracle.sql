@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2012-06-26 12:25:48
+--  driver: oracle, generated: 2012-06-28 14:30:46
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 -- ----------------------------------------------------------
@@ -575,7 +575,6 @@ CREATE TABLE ticket (
     title VARCHAR2 (255) NULL,
     queue_id NUMBER (12, 0) NOT NULL,
     ticket_lock_id NUMBER (5, 0) NOT NULL,
-    ticket_answered NUMBER (5, 0) NOT NULL,
     type_id NUMBER (5, 0) NULL,
     service_id NUMBER (12, 0) NULL,
     sla_id NUMBER (12, 0) NULL,
@@ -620,7 +619,6 @@ CREATE INDEX FK_ticket_create_by ON ticket (create_by);
 CREATE INDEX FK_ticket_service_id ON ticket (service_id);
 CREATE INDEX FK_ticket_sla_id ON ticket (sla_id);
 CREATE INDEX FK_ticket_valid_id ON ticket (valid_id);
-CREATE INDEX ticket_answered ON ticket (ticket_answered);
 CREATE INDEX ticket_archive_flag ON ticket (archive_flag);
 CREATE INDEX ticket_create_time ON ticket (create_time);
 CREATE INDEX ticket_create_time_unix ON ticket (create_time_unix);
@@ -1979,7 +1977,7 @@ CREATE TABLE gi_object_lock_state (
     lock_state_counter NUMBER (12, 0) NOT NULL,
     create_time DATE NOT NULL,
     change_time DATE NOT NULL,
-    CONSTRAINT gi_object_lock_state_U_286 UNIQUE (webservice_id, object_type, object_id)
+    CONSTRAINT gi_object_lock_state_U_385 UNIQUE (webservice_id, object_type, object_id)
 );
 CREATE INDEX FK_gi_object_lock_state_webs55 ON gi_object_lock_state (webservice_id);
 CREATE INDEX object_lock_state_list_state ON gi_object_lock_state (webservice_id, object_type, object_id, lock_state);
@@ -2060,7 +2058,7 @@ CREATE TABLE dynamic_field (
     create_by NUMBER (12, 0) NOT NULL,
     change_time DATE NOT NULL,
     change_by NUMBER (12, 0) NOT NULL,
-    CONSTRAINT dynamic_field_U_836 UNIQUE (name)
+    CONSTRAINT dynamic_field_U_559 UNIQUE (name)
 );
 ALTER TABLE dynamic_field ADD CONSTRAINT PK_dynamic_field PRIMARY KEY (id);
 DROP SEQUENCE SE_dynamic_field;

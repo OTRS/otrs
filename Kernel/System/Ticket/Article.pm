@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.318 2012-06-21 10:06:07 mg Exp $
+# $Id: Article.pm,v 1.319 2012-06-28 12:43:25 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::EmailParser;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.318 $) [1];
+$VERSION = qw($Revision: 1.319 $) [1];
 
 =head1 NAME
 
@@ -1430,18 +1430,19 @@ sub ArticleGet {
     # sql query
     my @Content;
     my @Bind;
-    my $SQL = 'SELECT sa.ticket_id, sa.a_from, sa.a_to, sa.a_cc, sa.a_subject, '
-        . ' sa.a_reply_to, sa.a_message_id, sa.a_in_reply_to, sa.a_references, sa.a_body, '
-        . ' st.create_time_unix, st.ticket_state_id, st.queue_id, sa.create_time, '
-        . ' sa.a_content_type, sa.create_by, st.tn, article_sender_type_id, st.customer_id, '
-        . ' st.until_time, st.ticket_priority_id, st.customer_user_id, st.user_id, '
-        . ' st.responsible_user_id, sa.article_type_id, '
-        . ' st.ticket_answered, '
-        . ' sa.incoming_time, sa.id, '
-        . ' st.ticket_lock_id, st.title, st.escalation_update_time, '
-        . ' st.type_id, st.service_id, st.sla_id, st.escalation_response_time, '
-        . ' st.escalation_solution_time, st.escalation_time, st.change_time '
-        . ' FROM article sa, ticket st WHERE ';
+    my $SQL = '
+        SELECT sa.ticket_id, sa.a_from, sa.a_to, sa.a_cc, sa.a_subject,
+            sa.a_reply_to, sa.a_message_id, sa.a_in_reply_to, sa.a_references, sa.a_body,
+            st.create_time_unix, st.ticket_state_id, st.queue_id, sa.create_time,
+            sa.a_content_type, sa.create_by, st.tn, article_sender_type_id, st.customer_id,
+            st.until_time, st.ticket_priority_id, st.customer_user_id, st.user_id,
+            st.responsible_user_id, sa.article_type_id,
+            sa.incoming_time, sa.id,
+            st.ticket_lock_id, st.title, st.escalation_update_time,
+            st.type_id, st.service_id, st.sla_id, st.escalation_response_time,
+            st.escalation_solution_time, st.escalation_time, st.change_time
+        FROM article sa, ticket st
+        WHERE ';
 
     if ( $Param{ArticleID} ) {
         $SQL .= 'sa.id = ?';
@@ -1475,45 +1476,71 @@ sub ArticleGet {
     my %Ticket;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         my %Data;
-        $Data{ArticleID}                = $Row[27];
-        $Data{TicketID}                 = $Row[0];
-        $Ticket{TicketID}               = $Data{TicketID};
-        $Data{Title}                    = $Row[29];
-        $Ticket{Title}                  = $Data{Title};
-        $Data{EscalationTime}           = $Row[36];
-        $Ticket{EscalationTime}         = $Data{EscalationTime};
-        $Data{EscalationUpdateTime}     = $Row[30];
-        $Ticket{EscalationUpdateTime}   = $Data{EscalationUpdateTime};
-        $Data{EscalationResponseTime}   = $Row[34];
-        $Ticket{EscalationResponseTime} = $Data{EscalationResponseTime};
-        $Data{EscalationSolutionTime}   = $Row[35];
-        $Ticket{EscalationSolutionTime} = $Data{EscalationSolutionTime};
-        $Data{From}                     = $Row[1];
-        $Data{To}                       = $Row[2];
-        $Data{Cc}                       = $Row[3];
-        $Data{Subject}                  = $Row[4];
-        $Data{ReplyTo}                  = $Row[5];
-        $Data{MessageID}                = $Row[6];
-        $Data{InReplyTo}                = $Row[7];
-        $Data{References}               = $Row[8];
-        $Data{Body}                     = $Row[9];
-        $Ticket{CreateTimeUnix}         = $Row[10];
-        $Ticket{AgeTimeUnix}            = $Self->{TimeObject}->SystemTime()
+        $Data{TicketID}   = $Row[0];
+        $Ticket{TicketID} = $Data{TicketID};
+        $Data{From}       = $Row[1];
+        $Data{To}         = $Row[2];
+        $Data{Cc}         = $Row[3];
+        $Data{Subject}    = $Row[4];
+
+        $Data{ReplyTo}    = $Row[5];
+        $Data{MessageID}  = $Row[6];
+        $Data{InReplyTo}  = $Row[7];
+        $Data{References} = $Row[8];
+        $Data{Body}       = $Row[9];
+
+        $Ticket{CreateTimeUnix} = $Row[10];
+        $Data{StateID}          = $Row[11];
+        $Ticket{StateID}        = $Row[11];
+        $Data{QueueID}          = $Row[12];
+        $Ticket{QueueID}        = $Row[12];
+        $Ticket{AgeTimeUnix}    = $Self->{TimeObject}->SystemTime()
             - $Self->{TimeObject}->TimeStamp2SystemTime( String => $Row[13] );
         $Ticket{Created}
             = $Self->{TimeObject}->SystemTime2TimeStamp( SystemTime => $Ticket{CreateTimeUnix} );
-        $Data{PriorityID}   = $Row[20];
-        $Ticket{PriorityID} = $Row[20];
-        $Data{StateID}      = $Row[11];
-        $Ticket{StateID}    = $Row[11];
-        $Data{QueueID}      = $Row[12];
-        $Ticket{QueueID}    = $Row[12];
-        $Data{Created}      = $Self->{TimeObject}->SystemTime2TimeStamp( SystemTime => $Row[26] );
-        $Data{ContentType}  = $Row[14];
-        $Data{CreatedBy}    = $Row[15];
-        $Data{TicketNumber} = $Row[16];
-        $Data{SenderTypeID} = $Row[17];
-        $Ticket{Changed}    = $Row[37];
+        $Data{ContentType} = $Row[14];
+
+        $Data{CreatedBy}           = $Row[15];
+        $Data{TicketNumber}        = $Row[16];
+        $Data{SenderTypeID}        = $Row[17];
+        $Data{CustomerID}          = $Row[18];
+        $Ticket{CustomerID}        = $Row[18];
+        $Data{RealTillTimeNotUsed} = $Row[19];
+
+        $Data{PriorityID}       = $Row[20];
+        $Ticket{PriorityID}     = $Row[20];
+        $Data{CustomerUserID}   = $Row[21];
+        $Ticket{CustomerUserID} = $Row[21];
+        $Data{OwnerID}          = $Row[22];
+        $Ticket{OwnerID}        = $Row[22];
+        $Data{ResponsibleID}    = $Row[23] || 1;
+        $Ticket{ResponsibleID}  = $Row[23] || 1;
+        $Data{ArticleTypeID}    = $Row[24];
+
+        $Data{IncomingTime} = $Row[25];
+        $Data{Created}      = $Self->{TimeObject}->SystemTime2TimeStamp(
+            SystemTime => $Row[26],
+        );
+        $Data{ArticleID}              = $Row[26];
+        $Ticket{LockID}               = $Row[27];
+        $Data{Title}                  = $Row[28];
+        $Ticket{Title}                = $Data{Title};
+        $Data{EscalationUpdateTime}   = $Row[29];
+        $Ticket{EscalationUpdateTime} = $Data{EscalationUpdateTime};
+
+        $Data{TypeID}                   = $Row[30];
+        $Ticket{TypeID}                 = $Row[30];
+        $Data{ServiceID}                = $Row[31];
+        $Ticket{ServiceID}              = $Row[31];
+        $Data{SLAID}                    = $Row[32];
+        $Ticket{SLAID}                  = $Row[32];
+        $Data{EscalationResponseTime}   = $Row[33];
+        $Ticket{EscalationResponseTime} = $Data{EscalationResponseTime};
+        $Data{EscalationSolutionTime}   = $Row[34];
+        $Ticket{EscalationSolutionTime} = $Data{EscalationSolutionTime};
+        $Data{EscalationTime}           = $Row[35];
+        $Ticket{EscalationTime}         = $Data{EscalationTime};
+        $Ticket{Changed}                = $Row[36];
 
         if ( $Data{ContentType} && $Data{ContentType} =~ /charset=/i ) {
             $Data{Charset} = $Data{ContentType};
@@ -1536,24 +1563,6 @@ sub ArticleGet {
         else {
             $Data{MimeType} = '';
         }
-        $Data{CustomerUserID}      = $Row[21];
-        $Ticket{CustomerUserID}    = $Row[21];
-        $Data{CustomerID}          = $Row[18];
-        $Ticket{CustomerID}        = $Row[18];
-        $Data{OwnerID}             = $Row[22];
-        $Ticket{OwnerID}           = $Row[22];
-        $Data{ResponsibleID}       = $Row[23] || 1;
-        $Ticket{ResponsibleID}     = $Row[23] || 1;
-        $Data{ArticleTypeID}       = $Row[24];
-        $Data{IncomingTime}        = $Row[26];
-        $Data{RealTillTimeNotUsed} = $Row[19];
-        $Ticket{LockID}            = $Row[28];
-        $Data{TypeID}              = $Row[31];
-        $Ticket{TypeID}            = $Row[31];
-        $Data{ServiceID}           = $Row[32];
-        $Ticket{ServiceID}         = $Row[32];
-        $Data{SLAID}               = $Row[33];
-        $Ticket{SLAID}             = $Row[33];
 
         # fill up dynamic varaibles
         $Data{Age} = $Self->{TimeObject}->SystemTime() - $Ticket{CreateTimeUnix};
@@ -1563,18 +1572,6 @@ sub ArticleGet {
             next if !$Data{$Key};
             $Data{$Key} =~ s/\n|\r//g;
         }
-
-        #        # cleanup time stamps (some databases are using e. g. 2008-02-25 22:03:00.000000
-        #        # and 0000-00-00 00:00:00 time stamps)
-        #        for my $Time ( 1 .. 6 ) {
-        #            my $Key = 'TicketFreeTime' . $Time;
-        #            next if !$Data{$Key};
-        #            if ( $Data{$Key} eq '0000-00-00 00:00:00' ) {
-        #                $Data{$Key} = '';
-        #                next;
-        #            }
-        #            $Data{$Key} =~ s/^(\d\d\d\d-\d\d-\d\d\s\d\d:\d\d:\d\d)\..+?$/$1/;
-        #        }
 
         push @Content, { %Ticket, %Data };
     }
@@ -3450,6 +3447,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.318 $ $Date: 2012-06-21 10:06:07 $
+$Revision: 1.319 $ $Date: 2012-06-28 12:43:25 $
 
 =cut

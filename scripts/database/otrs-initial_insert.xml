@@ -1327,7 +1327,6 @@ Your OTRS Team
         <Data Key="tn" Type="Quote">2010080210123456</Data>
         <Data Key="queue_id">2</Data>
         <Data Key="ticket_lock_id">1</Data>
-        <Data Key="ticket_answered">0</Data>
         <Data Key="user_id">1</Data>
         <Data Key="responsible_user_id">1</Data>
         <Data Key="ticket_priority_id">3</Data>

@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: mssql, generated: 2012-06-26 12:11:54
+--  driver: mssql, generated: 2012-06-28 14:27:31
 -- ----------------------------------------------------------
                 DECLARE @defnameticketgroup_read VARCHAR(200), @cmdticketgroup_read VARCHAR(2000)
                 SET @defnameticketgroup_read = (
@@ -105,6 +105,33 @@ ALTER TABLE ticket DROP COLUMN other_read;
 --  alter table ticket
 -- ----------------------------------------------------------
 ALTER TABLE ticket DROP COLUMN other_write;
+DROP INDEX ticket.ticket_answered;
+                DECLARE @defnameticketticket_answered VARCHAR(200), @cmdticketticket_answered VARCHAR(2000)
+                SET @defnameticketticket_answered = (
+                    SELECT name FROM sysobjects so JOIN sysconstraints sc ON so.id = sc.constid
+                    WHERE object_name(so.parent_obj) = 'ticket' AND so.xtype = 'D' AND sc.colid = (
+                        SELECT colid FROM syscolumns WHERE id = object_id('ticket') AND name = 'ticket_answered'
+                    )
+                )
+                SET @cmdticketticket_answered = 'ALTER TABLE ticket DROP CONSTRAINT ' + @defnameticketticket_answered
+                EXEC(@cmdticketticket_answered)
+;
+                    DECLARE @sqlticketticket_answered NVARCHAR(4000)
+
+                    WHILE 1=1
+                    BEGIN
+                        SET @sqlticketticket_answered = (SELECT TOP 1 'ALTER TABLE ticket DROP CONSTRAINT [' + constraint_name + ']'
+                        -- SELECT *
+                        FROM information_schema.CONSTRAINT_COLUMN_USAGE where table_name='ticket' and column_name='ticket_answered'
+                        )
+                        IF @sqlticketticket_answered IS NULL BREAK
+                        EXEC (@sqlticketticket_answered)
+                    END
+;
+-- ----------------------------------------------------------
+--  alter table ticket
+-- ----------------------------------------------------------
+ALTER TABLE ticket DROP COLUMN ticket_answered;
 DROP INDEX article_flag.article_flag_create_by;
 DROP INDEX article_flag.article_flag_article_id_article_key;
 DROP INDEX ticket.ticket_queue_view;

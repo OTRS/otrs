@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: postgresql, generated: 2012-06-26 12:11:54
+--  driver: postgresql, generated: 2012-06-28 14:27:31
 -- ----------------------------------------------------------
 SET standard_conforming_strings TO ON;
 -- ----------------------------------------------------------
@@ -18,6 +18,11 @@ ALTER TABLE ticket DROP other_read;
 --  alter table ticket
 -- ----------------------------------------------------------
 ALTER TABLE ticket DROP other_write;
+DROP INDEX ticket_answered;
+-- ----------------------------------------------------------
+--  alter table ticket
+-- ----------------------------------------------------------
+ALTER TABLE ticket DROP ticket_answered;
 DROP INDEX article_flag_create_by;
 DROP INDEX article_flag_article_id_article_key;
 DROP INDEX ticket_queue_view;

@@ -491,7 +491,6 @@
     <Column Name="title" Required="false" Size="255" Type="VARCHAR"/>
     <Column Name="queue_id" Required="true" Type="INTEGER"/>
     <Column Name="ticket_lock_id" Required="true" Type="SMALLINT"/>
-    <Column Name="ticket_answered" Required="true" Type="SMALLINT"/>
     <Column Name="type_id" Required="false" Type="SMALLINT"/>
     <Column Name="service_id" Required="false" Type="INTEGER"/>
     <Column Name="sla_id" Required="false" Type="INTEGER"/>
@@ -550,9 +549,6 @@
     </Index>
     <Index Name="ticket_ticket_priority_id">
         <IndexColumn Name="ticket_priority_id"/>
-    </Index>
-    <Index Name="ticket_answered">
-        <IndexColumn Name="ticket_answered"/>
     </Index>
     <Index Name="ticket_escalation_time">
         <IndexColumn Name="escalation_time"/>

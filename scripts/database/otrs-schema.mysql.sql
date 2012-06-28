@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-#  driver: mysql, generated: 2012-06-26 12:25:48
+#  driver: mysql, generated: 2012-06-28 14:30:46
 # ----------------------------------------------------------
 # ----------------------------------------------------------
 #  create table valid
@@ -326,7 +326,6 @@ CREATE TABLE ticket (
     title VARCHAR (255) NULL,
     queue_id INTEGER NOT NULL,
     ticket_lock_id SMALLINT NOT NULL,
-    ticket_answered SMALLINT NOT NULL,
     type_id SMALLINT NULL,
     service_id INTEGER NULL,
     sla_id INTEGER NULL,
@@ -351,7 +350,6 @@ CREATE TABLE ticket (
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
     UNIQUE INDEX ticket_tn (tn),
-    INDEX ticket_answered (ticket_answered),
     INDEX ticket_archive_flag (archive_flag),
     INDEX ticket_create_time (create_time),
     INDEX ticket_create_time_unix (create_time_unix),
@@ -1185,7 +1183,7 @@ CREATE TABLE gi_object_lock_state (
     lock_state_counter INTEGER NOT NULL,
     create_time DATETIME NOT NULL,
     change_time DATETIME NOT NULL,
-    UNIQUE INDEX gi_object_lock_state_U_846 (webservice_id, object_type, object_id),
+    UNIQUE INDEX gi_object_lock_state_U_545 (webservice_id, object_type, object_id),
     INDEX object_lock_state_list_state (webservice_id, object_type, object_id, lock_state)
 );
 # ----------------------------------------------------------
@@ -1235,5 +1233,5 @@ CREATE TABLE dynamic_field (
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE INDEX dynamic_field_U_445 (name)
+    UNIQUE INDEX dynamic_field_U_570 (name)
 );

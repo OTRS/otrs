@@ -7,6 +7,8 @@
     <ColumnDrop Name="group_write"/>
     <ColumnDrop Name="other_read"/>
     <ColumnDrop Name="other_write"/>
+    <IndexDrop Name="ticket_answered"/>
+    <ColumnDrop Name="ticket_answered"/>
 </TableAlter>
 
 <!-- Drop unneeded indices in the article_flags table -->

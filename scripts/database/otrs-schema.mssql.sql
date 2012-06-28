@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: mssql, generated: 2012-06-26 12:25:48
+--  driver: mssql, generated: 2012-06-28 14:30:46
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -326,7 +326,6 @@ CREATE TABLE ticket (
     title NVARCHAR (255) NULL,
     queue_id INTEGER NOT NULL,
     ticket_lock_id SMALLINT NOT NULL,
-    ticket_answered SMALLINT NOT NULL,
     type_id SMALLINT NULL,
     service_id INTEGER NULL,
     sla_id INTEGER NULL,
@@ -353,7 +352,6 @@ CREATE TABLE ticket (
     CONSTRAINT ticket_tn UNIQUE (tn)
 );
 ALTER TABLE ticket ADD CONSTRAINT DF_ticket_archive_flag DEFAULT (0) FOR archive_flag;
-CREATE INDEX ticket_answered ON ticket (ticket_answered);
 CREATE INDEX ticket_archive_flag ON ticket (archive_flag);
 CREATE INDEX ticket_create_time ON ticket (create_time);
 CREATE INDEX ticket_create_time_unix ON ticket (create_time_unix);
@@ -1186,7 +1184,7 @@ CREATE TABLE gi_object_lock_state (
     lock_state_counter INTEGER NOT NULL,
     create_time DATETIME NOT NULL,
     change_time DATETIME NOT NULL,
-    CONSTRAINT gi_object_lock_state_U_67 UNIQUE (webservice_id, object_type, object_id)
+    CONSTRAINT gi_object_lock_state_U_543 UNIQUE (webservice_id, object_type, object_id)
 );
 CREATE INDEX object_lock_state_list_state ON gi_object_lock_state (webservice_id, object_type, object_id, lock_state);
 -- ----------------------------------------------------------
@@ -1236,5 +1234,5 @@ CREATE TABLE dynamic_field (
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    CONSTRAINT dynamic_field_U_554 UNIQUE (name)
+    CONSTRAINT dynamic_field_U_761 UNIQUE (name)
 );

@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: postgresql, generated: 2012-06-26 12:25:48
+--  driver: postgresql, generated: 2012-06-28 14:30:46
 -- ----------------------------------------------------------
 SET standard_conforming_strings TO ON;
 -- ----------------------------------------------------------
@@ -327,7 +327,6 @@ CREATE TABLE ticket (
     title VARCHAR (255) NULL,
     queue_id INTEGER NOT NULL,
     ticket_lock_id INTEGER NOT NULL,
-    ticket_answered INTEGER NOT NULL,
     type_id INTEGER NULL,
     service_id INTEGER NULL,
     sla_id INTEGER NULL,
@@ -353,7 +352,6 @@ CREATE TABLE ticket (
     PRIMARY KEY(id),
     CONSTRAINT ticket_tn UNIQUE (tn)
 );
-CREATE INDEX ticket_answered ON ticket (ticket_answered);
 CREATE INDEX ticket_archive_flag ON ticket (archive_flag);
 CREATE INDEX ticket_create_time ON ticket (create_time);
 CREATE INDEX ticket_create_time_unix ON ticket (create_time_unix);
@@ -1186,7 +1184,7 @@ CREATE TABLE gi_object_lock_state (
     lock_state_counter INTEGER NOT NULL,
     create_time timestamp(0) NOT NULL,
     change_time timestamp(0) NOT NULL,
-    CONSTRAINT gi_object_lock_state_U_629 UNIQUE (webservice_id, object_type, object_id)
+    CONSTRAINT gi_object_lock_state_U_401 UNIQUE (webservice_id, object_type, object_id)
 );
 CREATE INDEX object_lock_state_list_state ON gi_object_lock_state (webservice_id, object_type, object_id, lock_state);
 -- ----------------------------------------------------------
@@ -1236,5 +1234,5 @@ CREATE TABLE dynamic_field (
     change_time timestamp(0) NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    CONSTRAINT dynamic_field_U_232 UNIQUE (name)
+    CONSTRAINT dynamic_field_U_507 UNIQUE (name)
 );
