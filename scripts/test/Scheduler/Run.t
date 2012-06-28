@@ -2,7 +2,7 @@
 # Run.t - Scheduler tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Run.t,v 1.4 2012-06-15 12:44:06 cr Exp $
+# $Id: Run.t,v 1.5 2012-06-28 23:11:42 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,6 +18,7 @@ use Storable ();
 
 use Kernel::Scheduler;
 use Kernel::System::Scheduler::TaskManager;
+use Kernel::System::PID;
 
 my @Tests = (
     {
@@ -99,16 +100,24 @@ if ( $PreviousSchedulerStatus =~ /^not running/i ) {
             1,
             "Force stoping due to bad status...",
         );
-        print "Sleeping 2s\n";
-        sleep 2;
+        print "Sleeping 4s\n";
+        sleep 4;
     }
 
-    my $Result = system("$Scheduler -a start");
+    my $ResultMessage = `$Scheduler -a start 2>&1`;
     $Self->Is(
-        $Result,
+        $?,
         0,
         "Scheduler start call returned successfully.",
     );
+
+    # give some visibility if the test fail when it should not
+    if ($?) {
+        $Self->True(
+            0,
+            "Scheduler start DETECTED $ResultMessage"
+        );
+    }
 }
 else {
     $Self->True(
@@ -120,7 +129,7 @@ else {
 my $CurrentSchedulerStatus = `$Scheduler -a status`;
 
 $Self->True(
-    $CurrentSchedulerStatus =~ /^running/i,
+    int $CurrentSchedulerStatus =~ /^running/i,
     "Scheduler is running",
 );
 
@@ -130,6 +139,7 @@ if ( $CurrentSchedulerStatus !~ /^running/i ) {
 
 my $SchedulerObject   = Kernel::Scheduler->new( %{$Self} );
 my $TaskManagerObject = Kernel::System::Scheduler::TaskManager->new( %{$Self} );
+my $PIDObject         = Kernel::System::PID->new( %{$Self} );
 
 $Self->Is(
     ref $SchedulerObject,
@@ -155,12 +165,20 @@ for my $Test (@Tests) {
     # make a deep copy to avoid changing the definition
     $Test = Storable::dclone($Test);
 
-    my $Result = system("$Scheduler -a stop");
+    my $ResultMessage = `$Scheduler -a stop 2>&1`;
     $Self->Is(
-        $Result,
+        $?,
         0,
         "Scheduler stop before register asap tasks.",
     );
+
+    # give some visibility if the test fail when it should not
+    if ($?) {
+        $Self->True(
+            0,
+            "Scheduler stop DETECTED $ResultMessage"
+        );
+    }
 
     # wait for scheduler to stop
     print "Sleeping 3s\n";
@@ -213,12 +231,20 @@ for my $Test (@Tests) {
         "Tasks registered",
     );
 
-    $Result = system("$Scheduler -a start");
+    $ResultMessage = `$Scheduler -a start 2>&1`;
     $Self->Is(
-        $Result,
+        $?,
         0,
         "Scheduler start after register asap tasks.",
     );
+
+    # give some visibility if the test fail when it should not
+    if ($?) {
+        $Self->True(
+            0,
+            "Scheduler start DETECTED $ResultMessage"
+        );
+    }
 
     # wait for scheduler to execute tasks
     print "Sleeping 10s\n";
@@ -432,18 +458,39 @@ for my $Test (@Tests) {
 
 # stop scheduler if it was not already running before this test
 if ( $PreviousSchedulerStatus =~ /^not running/i ) {
-    my $Result = system("$Scheduler -a stop");
+    my $ResultMessage = `$Scheduler -a stop 2>&1`;
     $Self->Is(
-        $Result,
+        $?,
         0,
-        "Scheduler start call returned successfully.",
+        "Scheduler stop call returned successfully.",
     );
 
+    print "sleeping 4s\n";
+    sleep 4;
+
+    # give some visibility if the test fail when it should not
+    if ($?) {
+        $Self->True(
+            0,
+            "Scheduler start DETECTED $ResultMessage"
+        );
+    }
+
+    # get the process ID
+    my %PID = $PIDObject->PIDGet(
+        Name => 'otrs.Scheduler',
+    );
+
+    # verify that PID is removed
+    $Self->False(
+        $PID{PID},
+        "Scheduler PID was correctly removed from DB",
+    );
 }
 
 $CurrentSchedulerStatus = `$Scheduler -a status`;
 
-# remove the process id
+# check if the scheduler status is the same as before the test
 $PreviousSchedulerStatus =~ s{\d}{}g;
 $CurrentSchedulerStatus  =~ s{\d}{}g;
 
