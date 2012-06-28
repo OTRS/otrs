@@ -2,7 +2,7 @@
 # TicketSearch.t - GenericInterface transport interface tests for TicketConnector backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketSearch.t,v 1.18 2012-06-27 23:18:04 cg Exp $
+# $Id: TicketSearch.t,v 1.19 2012-06-28 22:00:20 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -987,13 +987,13 @@ my @Tests = (
         },
         ExpectedReturnLocalData => {
             Data => {
-                TicketID => [ $TicketID3, $TicketID2, $TicketID1 ],
+                TicketID => [ $TicketID1, $TicketID2, $TicketID3 ],
             },
             Success => 1
         },
         ExpectedReturnRemoteData => {
             Data => {
-                TicketID => [ $TicketID3, $TicketID2, $TicketID1 ],
+                TicketID => [ $TicketID1, $TicketID2, $TicketID3 ],
             },
             Success => 1,
         },
@@ -1154,13 +1154,13 @@ my @Tests = (
         },
         ExpectedReturnLocalData => {
             Data => {
-                TicketID => [ $TicketID2, $TicketID1 ],
+                TicketID => [ $TicketID1, $TicketID2 ],
             },
             Success => 1
         },
         ExpectedReturnRemoteData => {
             Data => {
-                TicketID => [ $TicketID2, $TicketID1 ],
+                TicketID => [ $TicketID1, $TicketID2 ],
             },
             Success => 1,
         },
@@ -1353,96 +1353,6 @@ for my $Test (@Tests) {
         "$Test->{Name} - Requester successful result",
     );
 
-    # workaround because results from direct call and
-    # from SOAP call are a little bit different
-    if ( $Test->{Operation} eq 'TicketGet' ) {
-
-        if ( ref $LocalResult->{Data} && ref $LocalResult->{Data}->{Item} eq 'ARRAY' ) {
-            for my $Item ( @{ $LocalResult->{Data}->{Item} } ) {
-                for my $Key ( keys %{ $Item->{Ticket} } ) {
-                    if ( !$Item->{Ticket}->{$Key} ) {
-                        $Item->{Ticket}->{$Key} = '';
-                    }
-                    if ( $Key eq 'Age' ) {
-                        delete $Item->{Ticket}->{$Key};
-                    }
-                }
-
-                # Articles
-                if ( defined $Item->{Articles} ) {
-                    for my $Article ( @{ $Item->{Articles} } ) {
-                        for my $Key ( keys %{$Article} ) {
-                            if ( !$Article->{$Key} ) {
-                                $Article->{$Key} = '';
-                            }
-                            if ( $Key eq 'Age' || $Key eq 'AgeTimeUnix' ) {
-                                delete $Article->{$Key};
-                            }
-
-                            if ( $Key eq 'Atms' ) {
-                                for my $Atm ( @{ $Article->{$Key} } ) {
-                                    $Atm->{ContentAlternative} = '';
-                                    $Atm->{ContentID}          = '';
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-        }
-
-        if (
-            defined $RequesterResult->{Data}
-            && defined $RequesterResult->{Data}->{Item}
-            )
-        {
-            if ( ref $RequesterResult->{Data}->{Item} eq 'ARRAY' ) {
-                for my $Item ( @{ $RequesterResult->{Data}->{Item} } ) {
-                    for my $Key ( keys %{ $Item->{Ticket} } ) {
-                        if ( !$Item->{Ticket}->{$Key} ) {
-                            $Item->{Ticket}->{$Key} = '';
-                        }
-                        if ( $Key eq 'Age' ) {
-                            delete $Item->{Ticket}->{$Key};
-                        }
-                    }
-                }
-            }
-            elsif ( ref $RequesterResult->{Data}->{Item} eq 'HASH' ) {
-                for my $Key ( keys %{ $RequesterResult->{Data}->{Item}->{Ticket} } ) {
-                    if ( !$RequesterResult->{Data}->{Item}->{Ticket}->{$Key} ) {
-                        $RequesterResult->{Data}->{Item}->{Ticket}->{$Key} = '';
-                    }
-                    if ( $Key eq 'Age' ) {
-                        delete $RequesterResult->{Data}->{Item}->{Ticket}->{$Key};
-                    }
-                }
-
-                # Articles
-                if ( defined $RequesterResult->{Data}->{Item}->{Articles} ) {
-                    for my $Article ( @{ $RequesterResult->{Data}->{Item}->{Articles} } ) {
-                        for my $Key ( keys %{$Article} ) {
-                            if ( !$Article->{$Key} ) {
-                                $Article->{$Key} = '';
-                            }
-                            if ( $Key eq 'Age' || $Key eq 'AgeTimeUnix' ) {
-                                delete $Article->{$Key};
-                            }
-                            if ( $Key eq 'Atms' ) {
-                                for my $Atm ( @{ $Article->{$Key} } ) {
-                                    $Atm->{ContentID}          = '';
-                                    $Atm->{ContentAlternative} = '';
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-    }
-
     # remove ErrorMessage parameter from direct call
     # result to be consistent with SOAP call result
     if ( $LocalResult->{ErrorMessage} ) {
@@ -1450,22 +1360,22 @@ for my $Test (@Tests) {
     }
 
     $Self->IsDeeply(
-        sort $RequesterResult,
+        $RequesterResult,
         $Test->{ExpectedReturnRemoteData},
         "$Test->{Name} - Requester success status (needs configured and running webserver)",
     );
 
     if ( $Test->{ExpectedReturnLocalData} ) {
         $Self->IsDeeply(
-            sort $LocalResult,
-            sort $Test->{ExpectedReturnLocalData},
+            $LocalResult,
+            $Test->{ExpectedReturnLocalData},
             "$Test->{Name} - Local result matched with expected local call result.",
         );
     }
     else {
         $Self->IsDeeply(
-            sort $LocalResult,
-            sort $Test->{ExpectedReturnRemoteData},
+            $LocalResult,
+            $Test->{ExpectedReturnRemoteData},
             "$Test->{Name} - Local result matched with remote result.",
         );
     }
