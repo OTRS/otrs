@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketActionCommon.pm - common file for several modules
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketActionCommon.pm,v 1.86 2012-06-15 21:30:06 cr Exp $
+# $Id: AgentTicketActionCommon.pm,v 1.87 2012-06-29 21:06:25 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -1405,12 +1405,14 @@ sub _Mask {
             for my $UserID ( keys %MemberList ) {
                 $ShownUsers{$UserID} = $AllGroupsMembers{$UserID};
             }
+            my $InformAgentSize = $Self->{ConfigObject}->Get('Ticket::Frontend::InformAgentMaxSize')
+                || 3;
             $Param{OptionStrg} = $Self->{LayoutObject}->BuildSelection(
                 Data       => \%ShownUsers,
                 SelectedID => $Self->{InformUserID},
                 Name       => 'InformUserID',
                 Multiple   => 1,
-                Size       => 3,
+                Size       => $InformAgentSize,
             );
             $Self->{LayoutObject}->Block(
                 Name => 'InformAgent',
@@ -1440,12 +1442,14 @@ sub _Mask {
                 $Counter++;
             }
 
+            my $InvolvedAgentSize
+                = $Self->{ConfigObject}->Get('Ticket::Frontend::InvolvedAgentMaxSize') || 3;
             $Param{InvolvedAgentStrg} = $Self->{LayoutObject}->BuildSelection(
                 Data       => \%UserHash,
                 SelectedID => $Self->{InvolvedUserID},
                 Name       => 'InvolvedUserID',
                 Multiple   => 1,
-                Size       => 3,
+                Size       => $InvolvedAgentSize,
             );
             $Self->{LayoutObject}->Block(
                 Name => 'InvolvedAgent',
