@@ -2,7 +2,7 @@
 # Run.t - Scheduler tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Run.t,v 1.5 2012-06-28 23:11:42 cr Exp $
+# $Id: Run.t,v 1.6 2012-06-29 02:58:32 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -465,7 +465,7 @@ if ( $PreviousSchedulerStatus =~ /^not running/i ) {
         "Scheduler stop call returned successfully.",
     );
 
-    print "sleeping 4s\n";
+    print "Sleeping 4s\n";
     sleep 4;
 
     # give some visibility if the test fail when it should not
