@@ -2,7 +2,7 @@
 # Main/Flock.t - flock in file read / write tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Flock.t,v 1.1 2012-06-27 21:28:15 cr Exp $
+# $Id: Flock.t,v 1.2 2012-06-29 11:28:23 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -217,6 +217,32 @@ my $ParentContent  = "VI Return Of The Jedi";
 # get time before write
 my $TimeStart = [ Time::HiRes::gettimeofday() ];
 
+$Self->Is(
+    ref $TimeStart,
+    'ARRAY',
+    "Time::HiRes::gettimeofday() returned correct format",
+);
+
+if ( ref $TimeStart eq 'ARRAY' ) {
+    my $Counter = 1;
+    for my $Element (@$TimeStart) {
+        $Self->IsNot(
+            $Element,
+            0,
+            "Element $Counter from Time::HiRes::gettimeofday() is different than 0",
+        );
+        $Counter++;
+    }
+}
+else {
+
+    # maybe Time::HiRes is not intalled
+    $Self->True(
+        0,
+        "Provably Time::HiRes module is not installed in this system",
+    );
+}
+
 # write initial content in test file
 my $FileLocation = $Self->{MainObject}->FileWrite(
     Location => $File,
@@ -287,8 +313,8 @@ elsif ( $PID == 0 ) {
     );
 
     # wait for parent to read the file
-    print "From Child - Sleeping 1 sec, so parent read the file\n";
-    sleep 1;
+    print "From Child - Sleeping 2 sec, so parent read the file\n";
+    sleep 2;
 
     $FileWriteSleep->(
         Location => $File,
@@ -333,8 +359,8 @@ else {
     );
 
     # wait until child locks the file
-    print "From Parent - Sleeping 1 sec, so child locks the file\n";
-    sleep 1;
+    print "From Parent - Sleeping 2 sec, so child locks the file\n";
+    sleep 2;
 
     # get time before write
     my $TimeStart = [ Time::HiRes::gettimeofday() ];
