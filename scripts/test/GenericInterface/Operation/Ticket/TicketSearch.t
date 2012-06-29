@@ -2,7 +2,7 @@
 # TicketSearch.t - GenericInterface transport interface tests for TicketConnector backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketSearch.t,v 1.19 2012-06-28 22:00:20 cg Exp $
+# $Id: TicketSearch.t,v 1.20 2012-06-29 15:37:48 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -987,13 +987,13 @@ my @Tests = (
         },
         ExpectedReturnLocalData => {
             Data => {
-                TicketID => [ $TicketID1, $TicketID2, $TicketID3 ],
+                TicketID => [ $TicketID3, $TicketID2, $TicketID1 ],
             },
             Success => 1
         },
         ExpectedReturnRemoteData => {
             Data => {
-                TicketID => [ $TicketID1, $TicketID2, $TicketID3 ],
+                TicketID => [ $TicketID3, $TicketID2, $TicketID1 ],
             },
             Success => 1,
         },
@@ -1151,16 +1151,17 @@ my @Tests = (
             "DynamicField_DFT1$RandomID" => {
                 Like => '*_field1',
             },
+            SortBy => 'TicketNumber',
         },
         ExpectedReturnLocalData => {
             Data => {
-                TicketID => [ $TicketID1, $TicketID2 ],
+                TicketID => [ $TicketID2, $TicketID1 ],
             },
             Success => 1
         },
         ExpectedReturnRemoteData => {
             Data => {
-                TicketID => [ $TicketID1, $TicketID2 ],
+                TicketID => [ $TicketID2, $TicketID1 ],
             },
             Success => 1,
         },
