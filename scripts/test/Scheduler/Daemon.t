@@ -2,7 +2,7 @@
 # Daemon.t - Scheduler tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Daemon.t,v 1.15 2012-06-15 12:47:23 cr Exp $
+# $Id: Daemon.t,v 1.16 2012-06-29 02:59:21 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -69,7 +69,7 @@ my $CheckAction = sub {
         $Force = '-f 1';
     }
 
-    my $Result = system("$Scheduler -a $Param{Action} $Force");
+    my $ResultMessage = `$Scheduler -a $Param{Action} $Force 2>&1`;
 
     # special sleep for windows
     if ( $^O =~ /^mswin/i ) {
@@ -86,14 +86,22 @@ my $CheckAction = sub {
 
     if ( $Param{ExpectActionSuccess} ) {
         $Self->Is(
-            $Result,
+            $?,
             0,
             "$Name action executed successfully",
         );
+
+        # give some visibility if the test fail when it should not
+        if ($?) {
+            $Self->True(
+                0,
+                "$Name action DETECTED $ResultMessage",
+            );
+        }
     }
     else {
         $Self->True(
-            $Result,
+            $?,
             "$Name action executed unsuccessfully",
         );
     }
@@ -147,11 +155,26 @@ if ( $PreviousSchedulerStatus =~ /^running/i ) {
 if ( $PreviousSchedulerStatus =~ m{registered}i ) {
 
     # force stop direcly before CheckAction
-    `$Scheduler -a stop -f 1`;
+    my $ResultMessage = `$Scheduler -a stop -f 1 2>&1`;
     $Self->True(
         1,
         "Force stoping due to bad status...",
     );
+
+    $Self->Is(
+        $?,
+        0,
+        "Forced stop Scheduler executed successfully",
+    );
+
+    # give some visibility if the test fail when it should not
+    if ($?) {
+        $Self->True(
+            0,
+            "Forced stopscheduler DETECTED $ResultMessage",
+        );
+    }
+
     print "Sleeping 10s\n";
     sleep 10;
     $CheckAction->(
@@ -418,9 +441,26 @@ $CheckAction->(
     PIDChangeExpected   => 1,
 );
 
+print "Sleeping 4s\n";
+sleep 4;
+
+# get the process ID
+my %PID = $PIDObject->PIDGet(
+    Name => 'otrs.Scheduler',
+);
+
+# verify that PID is removed
+$Self->False(
+    $PID{PID},
+    "Scheduler PID was correctly removed from DB",
+);
+
 # Destroy helper so that system configuration will be restored before
 #   starting the Scheduler again.
 undef $HelperObject;
+
+print "Sleeping 1s\n";
+sleep 1;
 
 # start scheduler if it was already running before this test
 if ( $PreviousSchedulerStatus =~ /^running/i ) {
