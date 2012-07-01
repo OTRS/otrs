@@ -1,8 +1,8 @@
 # --
 # CustomerLogin.dtl - provides customer HTML login screen
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerLogin.dtl,v 1.60 2011-05-16 09:24:01 mb Exp $
+# $Id: CustomerLogin.dtl,v 1.61 2012-07-01 00:27:48 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,6 +17,22 @@ $Include{"CustomerHeader"}
 <!-- dtl:block:Message -->
     <div class="ErrorBox"><span>$Text{"$Data{"Message"}"}</span></div>
 <!-- dtl:block:Message -->
+    <noscript>
+    <div id="NoJavaScript">
+        <h2>$Text{"JavaScript Not Available"}</h2>
+        <p>
+            $Text{"In order to experience OTRS, you'll need to enable JavaScript in your browser."}
+        </p>
+    </div>
+    </noscript>
+    <div class="Hidden" id="OldBrowser">
+        <h2 class="Center">$Text{"Browser Warning"}</h2>
+        <p>
+            $Text{"The browser you are using is too old."}
+            $Text{"OTRS runs with a huge lists of browsers, please upgrade to one of these."}
+            $Text{"Please see the documentation or ask your admin for further information."}
+        </p>
+    </div>
     <div id="Slider">
         <div id="SlideArea">
             <div id="Login">
@@ -40,7 +56,7 @@ $Include{"CustomerHeader"}
 <!-- dtl:block:LostPasswordLink -->
                     </div>
                     <div>
-                        <button type="submit" value="$Text{"Log In"}">$Text{"Log In"}</button>
+                        <button type="submit" value="$Text{"Log In"}" disabled="disabled">$Text{"Log In"}</button>
                     </div>
                     <div class="Clear"></div>
                 </form>
@@ -60,7 +76,7 @@ $Include{"CustomerHeader"}
                         <input title="$Text{"Your User Name"}" type="text" id="ResetUser" name="User" maxlength="150" />
                     </div>
                     <div>
-                        <button type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button>
+                        <button type="submit" value="$Text{"Submit"}"disabled="disabled">$Text{"Submit"}</button>
                     </div>
                     <div class="Clear"></div>
                 </form>
@@ -95,7 +111,7 @@ $Include{"CustomerHeader"}
                         <div id="EmailError" class="TooltipErrorMessage"><p>$Text{"Please supply a"} $Text{"Email{CustomerUser}"}</p></div>
                     </div>
                     <div class="NewLine">
-                        <button id="CreateAccount" type="submit" value="$Text{"Create"}">$Text{"Create"}</button>
+                        <button id="CreateAccount" type="submit" value="$Text{"Create"}" disabled="disabled">$Text{"Create"}</button>
                     </div>
                     <div class="Clear"></div>
                 </form>

@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Customer Frontend
- * @version     $Revision: 1.7 $
+ * @version     $Revision: 1.8 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -21,6 +21,11 @@
     padding: 0;
 }
 
+.Login noscript p{
+    color: #666666;
+    margin: 13px 0 26px;
+}
+
 /**
  * @subsection  Slider
  */
@@ -36,6 +41,13 @@
 #Signup {
     width: 500px;
     height: 260px;
+    padding-left: 142px;
+    position: relative;
+}
+
+#NoJavaScript,
+#OldBrowser {
+    width: 500px;
     padding-left: 142px;
     position: relative;
 }
@@ -91,6 +103,11 @@
 .Login button {
     margin-top: 13px;
     min-width: 70px;
+}
+
+.Login button:disabled {
+    color: #7F7F7F;
+    background: #F0F0F0
 }
 
 /**
