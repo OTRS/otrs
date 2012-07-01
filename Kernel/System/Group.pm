@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Group.pm - All Groups and Roles related functions should be here eventually
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Group.pm,v 1.91 2010-11-30 13:11:11 mg Exp $
+# $Id: Group.pm,v 1.91.4.1 2012-07-01 23:09:45 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Valid;
 use Kernel::System::CacheInternal;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.91 $) [1];
+$VERSION = qw($Revision: 1.91.4.1 $) [1];
 
 =head1 NAME
 
@@ -90,7 +90,7 @@ sub new {
     $Self->{CacheInternalObject} = Kernel::System::CacheInternal->new(
         %{$Self},
         Type => 'Group',
-        TTL  => 60 * 60 * 3,
+        TTL  => 60 * 60 * 24 * 20,
     );
 
     return $Self;
@@ -1686,6 +1686,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.91 $ $Date: 2010-11-30 13:11:11 $
+$Revision: 1.91.4.1 $ $Date: 2012-07-01 23:09:45 $
 
 =cut
