@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminQueue.pm - to add/update/delete queues
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminQueue.pm,v 1.82 2011-09-08 20:51:33 en Exp $
+# $Id: AdminQueue.pm,v 1.83 2012-07-01 22:46:07 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Signature;
 use Kernel::System::SystemAddress;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.82 $) [1];
+$VERSION = qw($Revision: 1.83 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -65,13 +65,22 @@ sub Run {
     );
 
     # get possible sign keys
-    my %KeyList   = ();
-    my %QueueData = ();
+    my %KeyList;
+    my %QueueData;
+
     if ($QueueID) {
+
         %QueueData = $Self->{QueueObject}->QueueGet( ID => $QueueID );
-        my $CryptObjectPGP = Kernel::System::Crypt->new( %{$Self}, CryptType => 'PGP' );
+
+        my $CryptObjectPGP = Kernel::System::Crypt->new(
+            %{$Self},
+            CryptType => 'PGP',
+        );
+
         if ($CryptObjectPGP) {
-            my @PrivateKeys = $CryptObjectPGP->PrivateKeySearch( Search => $QueueData{Email}, );
+
+            my @PrivateKeys = $CryptObjectPGP->PrivateKeySearch( Search => $QueueData{Email} );
+
             for my $DataRef (@PrivateKeys) {
                 $KeyList{"PGP::Inline::$DataRef->{Key}"}
                     = "PGP-Inline: $DataRef->{Key} $DataRef->{Identifier}";
@@ -79,9 +88,16 @@ sub Run {
                     = "PGP-Detached: $DataRef->{Key} $DataRef->{Identifier}";
             }
         }
-        my $CryptObjectSMIME = Kernel::System::Crypt->new( %{$Self}, CryptType => 'SMIME' );
+
+        my $CryptObjectSMIME = Kernel::System::Crypt->new(
+            %{$Self},
+            CryptType => 'SMIME',
+        );
+
         if ($CryptObjectSMIME) {
-            my @PrivateKeys = $CryptObjectSMIME->PrivateSearch( Search => $QueueData{Email}, );
+
+            my @PrivateKeys = $CryptObjectSMIME->PrivateSearch( Search => $QueueData{Email} );
+
             for my $DataRef (@PrivateKeys) {
                 $KeyList{"SMIME::Detached::$DataRef->{Filename}"}
                     = "SMIME-Detached: $DataRef->{Filename} [$DataRef->{EndDate}] $DataRef->{Email}";
@@ -93,20 +109,23 @@ sub Run {
     # change
     # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'Change' ) {
+
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
+
         $Self->_Edit(
             Action => 'Change',
             %Param,
             %QueueData,
             DefaultSignKeyList => \%KeyList,
         );
+
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'AdminQueue',
             Data         => \%Param,
-
         );
         $Output .= $Self->{LayoutObject}->Footer();
+
         return $Output;
     }
 
@@ -161,16 +180,19 @@ sub Run {
                 %GetParam,
                 UserID => $Self->{UserID}
             );
+
             if ($QueueUpdate) {
 
                 # update preferences
                 my %QueueData = $Self->{QueueObject}->QueueGet( ID => $GetParam{QueueID} );
-                my %Preferences = ();
+
+                my %Preferences;
                 if ( $Self->{ConfigObject}->Get('QueuePreferences') ) {
                     %Preferences = %{ $Self->{ConfigObject}->Get('QueuePreferences') };
                 }
 
                 for my $Item ( sort keys %Preferences ) {
+
                     my $Module = $Preferences{$Item}->{Module}
                         || 'Kernel::Output::HTML::QueuePreferencesGeneric';
 
@@ -183,20 +205,28 @@ sub Run {
                         ConfigItem => $Preferences{$Item},
                         Debug      => $Self->{Debug},
                     );
+
                     my @Params = $Object->Param( QueueData => \%QueueData );
+
                     if (@Params) {
-                        my %GetParam = ();
+
+                        my %GetParam;
                         for my $ParamItem (@Params) {
-                            my @Array
-                                = $Self->{ParamObject}->GetArray( Param => $ParamItem->{Name} );
+
+                            my @Array = $Self->{ParamObject}->GetArray(
+                                Param => $ParamItem->{Name},
+                            );
                             $GetParam{ $ParamItem->{Name} } = \@Array;
                         }
+
                         if ( !$Object->Run( GetParam => \%GetParam, QueueData => \%QueueData ) ) {
                             $Note .= $Self->{LayoutObject}->Notify( Info => $Object->Error() );
                         }
                     }
                 }
+
                 $Self->_Overview();
+
                 my $Output = $Self->{LayoutObject}->Header();
                 $Output .= $Self->{LayoutObject}->NavigationBar();
                 $Output .= $Self->{LayoutObject}->Notify( Info => 'Queue updated!' );
@@ -205,6 +235,7 @@ sub Run {
                     Data         => \%Param,
                 );
                 $Output .= $Self->{LayoutObject}->Footer();
+
                 return $Output;
             }
         }
@@ -213,17 +244,19 @@ sub Run {
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
+
         $Self->_Edit(
             Action => 'Change',
             Errors => \%Errors,
             %GetParam,
         );
+
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'AdminQueue',
             Data         => \%Param,
-
         );
         $Output .= $Self->{LayoutObject}->Footer();
+
         return $Output;
 
     }
@@ -232,19 +265,24 @@ sub Run {
     # add
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'Add' ) {
+
         my %GetParam;
         $GetParam{Name} = $Self->{ParamObject}->GetParam( Param => 'Name' );
+
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
+
         $Self->_Edit(
             Action => 'Add',
             %GetParam,
         );
+
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'AdminQueue',
             Data         => \%Param,
         );
         $Output .= $Self->{LayoutObject}->Footer();
+
         return $Output;
     }
 
@@ -264,6 +302,7 @@ sub Run {
 
         # check queue name
         if ( $GetParam{Name} =~ /::/ ) {
+
             my $Output = $Self->{LayoutObject}->Header();
             $Output .= $Self->{LayoutObject}->NavigationBar();
             $Output .= $Self->{LayoutObject}->Warning(
@@ -271,6 +310,7 @@ sub Run {
                 Comment => 'Click back and change it!',
             );
             $Output .= $Self->{LayoutObject}->Footer();
+
             return $Output;
         }
 
@@ -312,15 +352,19 @@ sub Run {
                 UserID          => $Self->{UserID},
                 NoDefaultValues => 1,
             );
+
             if ($Id) {
 
                 # update preferences
                 my %QueueData = $Self->{QueueObject}->QueueGet( ID => $Id );
-                my %Preferences = ();
+
+                my %Preferences;
                 if ( $Self->{ConfigObject}->Get('QueuePreferences') ) {
                     %Preferences = %{ $Self->{ConfigObject}->Get('QueuePreferences') };
                 }
+
                 for my $Item ( keys %Preferences ) {
+
                     my $Module = $Preferences{$Item}->{Module}
                         || 'Kernel::Output::HTML::QueuePreferencesGeneric';
 
@@ -328,24 +372,33 @@ sub Run {
                     if ( !$Self->{MainObject}->Require($Module) ) {
                         return $Self->{LayoutObject}->FatalError();
                     }
+
                     my $Object = $Module->new(
                         %{$Self},
                         ConfigItem => $Preferences{$Item},
                         Debug      => $Self->{Debug},
                     );
+
                     my @Params = $Object->Param( QueueData => \%QueueData );
+
                     if (@Params) {
-                        my %GetParam = ();
+
+                        my %GetParam;
                         for my $ParamItem (@Params) {
-                            my @Array
-                                = $Self->{ParamObject}->GetArray( Param => $ParamItem->{Name} );
+
+                            my @Array = $Self->{ParamObject}->GetArray(
+                                Param => $ParamItem->{Name},
+                            );
+
                             $GetParam{ $ParamItem->{Name} } = \@Array;
                         }
+
                         if ( !$Object->Run( GetParam => \%GetParam, QueueData => \%QueueData ) ) {
                             $Note .= $Self->{LayoutObject}->Notify( Info => $Object->Error() );
                         }
                     }
                 }
+
                 return $Self->{LayoutObject}->Redirect(
                     OP => "Action=AdminQueueResponses&Subaction=Queue&ID=$Id",
                 );
@@ -356,17 +409,19 @@ sub Run {
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
+
         $Self->_Edit(
             Action => 'Add',
             Errors => \%Errors,
             %GetParam,
         );
+
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'AdminQueue',
             Data         => \%Param,
-
         );
         $Output .= $Self->{LayoutObject}->Footer();
+
         return $Output;
     }
 
@@ -374,7 +429,9 @@ sub Run {
     # overview
     # ------------------------------------------------------------ #
     else {
+
         $Self->_Overview();
+
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Output(
@@ -382,6 +439,7 @@ sub Run {
             Data         => \%Param,
         );
         $Output .= $Self->{LayoutObject}->Footer();
+
         return $Output;
     }
 }
@@ -393,8 +451,8 @@ sub _Edit {
         Name => 'Overview',
         Data => \%Param,
     );
-    ${Self}->{LayoutObject}->Block( Name => 'ActionList' );
-    ${Self}->{LayoutObject}->Block( Name => 'ActionOverview' );
+    $Self->{LayoutObject}->Block( Name => 'ActionList' );
+    $Self->{LayoutObject}->Block( Name => 'ActionOverview' );
 
     # get valid list
     my %ValidList        = $Self->{ValidObject}->ValidList();
@@ -434,11 +492,14 @@ sub _Edit {
     }
 
     my %Data = $Self->{QueueObject}->QueueList( Valid => 0 );
+
     my $QueueName = '';
+    KEY:
     for my $Key ( keys %Data ) {
+
         if ( $Param{QueueID} && $Param{QueueID} eq $Key ) {
             $QueueName = $Data{ $Param{QueueID} };
-            last;
+            last KEY;
         }
     }
     my %CleanHash = %Data;
@@ -618,11 +679,13 @@ sub _Edit {
     }
 
     # show each preferences setting
-    my %Preferences = ();
+    my %Preferences;
     if ( $Self->{ConfigObject}->Get('QueuePreferences') ) {
         %Preferences = %{ $Self->{ConfigObject}->Get('QueuePreferences') };
     }
+
     for my $Item ( sort keys %Preferences ) {
+
         my $Module = $Preferences{$Item}->{Module}
             || 'Kernel::Output::HTML::QueuePreferencesGeneric';
 
@@ -635,16 +698,21 @@ sub _Edit {
             ConfigItem => $Preferences{$Item},
             Debug      => $Self->{Debug},
         );
+
         my @Params = $Object->Param( QueueData => \%Param );
+
         if (@Params) {
+
             for my $ParamItem (@Params) {
+
                 $Self->{LayoutObject}->Block(
                     Name => 'Item',
                     Data => { %Param, },
                 );
+
                 if (
-                    ref( $ParamItem->{Data} ) eq 'HASH'
-                    || ref( $Preferences{$Item}->{Data} ) eq 'HASH'
+                    ref $ParamItem->{Data} eq 'HASH'
+                    || ref $Preferences{$Item}->{Data} eq 'HASH'
                     )
                 {
                     $ParamItem->{'Option'} = $Self->{LayoutObject}->BuildSelection(
@@ -652,6 +720,7 @@ sub _Edit {
                         %{$ParamItem},
                     );
                 }
+
                 $Self->{LayoutObject}->Block(
                     Name => $ParamItem->{Block} || $Preferences{$Item}->{Block} || 'Option',
                     Data => {
@@ -669,6 +738,7 @@ sub _Edit {
             String => $Param{Response},
         );
     }
+
     return 1;
 }
 
@@ -679,38 +749,52 @@ sub _Overview {
         Name => 'Overview',
         Data => \%Param,
     );
-    ${Self}->{LayoutObject}->Block( Name => 'ActionList' );
-    ${Self}->{LayoutObject}->Block( Name => 'ActionAdd' );
+
+    $Self->{LayoutObject}->Block( Name => 'ActionList' );
+    $Self->{LayoutObject}->Block( Name => 'ActionAdd' );
 
     $Self->{LayoutObject}->Block(
         Name => 'OverviewResult',
         Data => \%Param,
     );
+
+    # get queue list
     my %List = $Self->{QueueObject}->QueueList( Valid => 0 );
 
-    if (%List) {
+    # error handling
+    if ( !%List ) {
 
-        # get valid list
-        my %ValidList = $Self->{ValidObject}->ValidList();
-        for my $QueueID ( sort { $List{$a} cmp $List{$b} } keys %List ) {
-
-            my %Data = $Self->{QueueObject}->QueueGet( ID => $QueueID, );
-            $Data{GroupName} = $Self->{GroupObject}->GroupLookup( GroupID => $Data{GroupID} );
-            $Self->{LayoutObject}->Block(
-                Name => 'OverviewResultRow',
-                Data => {
-                    Valid => $ValidList{ $Data{ValidID} },
-                    %Data,
-                },
-            );
-        }
-    }
-    else {
         $Self->{LayoutObject}->Block(
             Name => 'NoDataFoundMsg',
-            Data => {},
+        );
+
+        return 1;
+    }
+
+    # get valid list
+    my %ValidList = $Self->{ValidObject}->ValidList();
+
+    for my $QueueID ( sort { $List{$a} cmp $List{$b} } keys %List ) {
+
+        # get queue data
+        my %Data = $Self->{QueueObject}->QueueGet(
+            ID => $QueueID,
+        );
+
+        # group lookup
+        $Data{GroupName} = $Self->{GroupObject}->GroupLookup(
+            GroupID => $Data{GroupID},
+        );
+
+        $Self->{LayoutObject}->Block(
+            Name => 'OverviewResultRow',
+            Data => {
+                Valid => $ValidList{ $Data{ValidID} },
+                %Data,
+            },
         );
     }
+
     return 1;
 }
 
