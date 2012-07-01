@@ -2,7 +2,7 @@
 # Kernel/System/SLA/PreferencesDB.pm - some user functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: PreferencesDB.pm,v 1.4 2012-03-15 20:42:18 mh Exp $
+# $Id: PreferencesDB.pm,v 1.5 2012-07-01 23:07:08 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CacheInternal;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -34,7 +34,7 @@ sub new {
     $Self->{CacheInternalObject} = Kernel::System::CacheInternal->new(
         %{$Self},
         Type => 'SLAPreferencesDB',
-        TTL  => 60 * 60 * 3,
+        TTL  => 60 * 60 * 24 * 20,
     );
 
     # preferences table data

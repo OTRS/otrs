@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Loader.pm - CSS/JavaScript loader backend
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Loader.pm,v 1.18 2011-11-15 11:41:53 mg Exp $
+# $Id: Loader.pm,v 1.19 2012-07-01 23:07:07 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 use Kernel::System::CacheInternal;
 
@@ -84,7 +84,7 @@ sub new {
     $Self->{CacheInternalObject} = Kernel::System::CacheInternal->new(
         %{$Self},
         Type => 'Loader',
-        TTL  => 60 * 60 * 3,
+        TTL  => 60 * 60 * 24 * 3,
     );
 
     return $Self;
@@ -502,6 +502,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.18 $ $Date: 2011-11-15 11:41:53 $
+$Revision: 1.19 $ $Date: 2012-07-01 23:07:07 $
 
 =cut

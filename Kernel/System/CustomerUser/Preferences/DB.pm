@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/Preferences/DB.pm - some customer user functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.24 2012-03-26 22:00:49 mh Exp $
+# $Id: DB.pm,v 1.25 2012-07-01 23:07:08 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CacheInternal;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.24 $) [1];
+$VERSION = qw($Revision: 1.25 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -34,7 +34,7 @@ sub new {
     $Self->{CacheInternalObject} = Kernel::System::CacheInternal->new(
         %{$Self},
         Type => 'CustomerUserPreferencesDB',
-        TTL  => 60 * 60 * 3,
+        TTL  => 60 * 60 * 24,
     );
 
     # preferences table data

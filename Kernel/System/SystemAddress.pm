@@ -2,7 +2,7 @@
 # Kernel/System/SystemAddress.pm - lib for system addresses
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: SystemAddress.pm,v 1.37 2012-06-26 11:26:43 mg Exp $
+# $Id: SystemAddress.pm,v 1.38 2012-07-01 23:07:07 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,11 +14,11 @@ package Kernel::System::SystemAddress;
 use strict;
 use warnings;
 
-use Kernel::System::Valid;
 use Kernel::System::CacheInternal;
+use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.37 $) [1];
+$VERSION = qw($Revision: 1.38 $) [1];
 
 =head1 NAME
 
@@ -94,7 +94,7 @@ sub new {
     $Self->{CacheInternalObject} = Kernel::System::CacheInternal->new(
         %Param,
         Type => 'SystemAddress',
-        TTL  => 60 * 60 * 24,
+        TTL  => 60 * 60 * 24 * 20,
     );
 
     return $Self;
@@ -442,6 +442,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.37 $ $Date: 2012-06-26 11:26:43 $
+$Revision: 1.38 $ $Date: 2012-07-01 23:07:07 $
 
 =cut
