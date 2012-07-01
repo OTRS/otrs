@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketMessage.pm - to handle customer messages
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.pm,v 1.100.2.2 2012-07-01 12:09:09 ub Exp $
+# $Id: CustomerTicketMessage.pm,v 1.100.2.3 2012-07-01 12:29:48 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.100.2.2 $) [1];
+$VERSION = qw($Revision: 1.100.2.3 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -654,7 +654,7 @@ sub _MaskNew {
         );
 
         # reset previous ServiceID to reset SLA-List if no service is selected
-        if ( !$Services{ $Param{ServiceID} } ) {
+        if ( !$Services{ $Param{ServiceID} || '' } ) {
             $Param{ServiceID} = '';
         }
         my %SLA;
