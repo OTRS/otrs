@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketMessage.pm - to handle customer messages
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.pm,v 1.100.2.1 2012-06-15 21:29:26 cr Exp $
+# $Id: CustomerTicketMessage.pm,v 1.100.2.2 2012-07-01 12:09:09 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.100.2.1 $) [1];
+$VERSION = qw($Revision: 1.100.2.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -76,7 +76,7 @@ sub Run {
         $GetParam{$Key} = $Self->{ParamObject}->GetParam( Param => $Key );
     }
 
-    # get Dynamic fields form ParamObject
+    # get Dynamic fields from ParamObject
     my %DynamicFieldValues;
 
     # cycle trough the activated Dynamic Fields for this screen
@@ -112,9 +112,9 @@ sub Run {
         if ( !$GetParam{Dest} && !$Param{ToSelected} ) {
             my $QueueDefault = $Self->{Config}->{'QueueDefault'} || '';
             if ($QueueDefault) {
-                my $QueueID = $Self->{QueueObject}->QueueLookup( Queue => $QueueDefault );
-                if ($QueueID) {
-                    $QueueDefaultID = $QueueID . '||' . $QueueDefault;
+                $QueueDefaultID = $Self->{QueueObject}->QueueLookup( Queue => $QueueDefault );
+                if ($QueueDefaultID) {
+                    $Param{ToSelected} = $QueueDefaultID . '||' . $QueueDefault;
                 }
             }
         }
@@ -169,6 +169,7 @@ sub Run {
         $Output    .= $Self->{LayoutObject}->CustomerNavigationBar();
         $Output    .= $Self->_MaskNew(
             QueueID          => $QueueDefaultID,
+            ToSelected       => $Param{ToSelected},
             DynamicFieldHTML => \%DynamicFieldHTML,
         );
         $Output .= $Self->{LayoutObject}->CustomerFooter();
