@@ -2,7 +2,7 @@
 # CustomerTicketMessage.dtl - provides HTML form for customer message
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.dtl,v 1.67 2012-05-30 16:20:44 mg Exp $
+# $Id: CustomerTicketMessage.dtl,v 1.68 2012-07-01 09:14:12 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -33,7 +33,7 @@
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
     $('#TypeID').bind('change', function (Event) {
-        // make sure the ticket is not yet created on queue change
+        // make sure the ticket is not yet created on type change
         $('input#Expand').val(1);
         Core.Form.Validate.DisableValidation($(this).closest('form'));
         $(this).closest('form').submit();
@@ -74,7 +74,7 @@
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
     $('#ServiceID').bind('change', function (Event) {
-        // make sure the ticket is not yet created on queue change
+        // make sure the ticket is not yet created on service change
         $('input#Expand').val(1);
         Core.Form.Validate.DisableValidation($(this).closest('form'));
         $(this).closest('form').submit();
@@ -92,7 +92,7 @@
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
     $('#SLAID').bind('change', function (Event) {
-        // make sure the ticket is not yet created on queue change
+        // make sure the ticket is not yet created on sla change
         $('input#Expand').val(1);
         Core.Form.Validate.DisableValidation($(this).closest('form'));
         $(this).closest('form').submit();
