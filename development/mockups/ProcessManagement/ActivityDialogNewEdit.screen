@@ -5,10 +5,10 @@
   <widgets xsi:type="model:Rectangle" id="3" x="18" y="70" width="981" height="59" text="Small Header in Popup" measuredWidth="981" measuredHeight="59">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Label" id="4" x="18" y="132" text="Create New Activity Dialog / Edit Activity Dialog &quot;Activity Dialog 1&quot;" measuredWidth="591" measuredHeight="36">
+  <widgets xsi:type="model:Label" id="4" x="18" y="132" text="Create New Activity Dialog / Edit Activity Dialog &quot;Activity Dialog 1&quot;" measuredWidth="649" measuredHeight="31">
     <font size="20px"/>
   </widgets>
-  <widgets xsi:type="model:Note" id="10" x="688" y="108" text="Create and edit Activity Dialogs, add Fields" measuredWidth="234" measuredHeight="25" annotation="true">
+  <widgets xsi:type="model:Note" id="10" x="688" y="108" text="Create and edit Activity Dialogs, add Fields" measuredWidth="260" measuredHeight="25" annotation="true">
     <font/>
   </widgets>
   <widgets xsi:type="model:TextField" id="14" x="200" y="213" width="275" text="Activity Dialog Name" measuredWidth="275" measuredHeight="23">
@@ -18,10 +18,10 @@
     <font/>
   </widgets>
   <widgets xsi:type="model:Window" id="47" x="18" y="475" width="981" height="345" text="Fields" measuredWidth="981" measuredHeight="345" closeButton="false"/>
-  <widgets xsi:type="model:Label" id="49" x="32" y="504" text="Available Fields:" measuredWidth="89" measuredHeight="23">
+  <widgets xsi:type="model:Label" id="49" x="32" y="504" text="Available Fields:" measuredWidth="99" measuredHeight="23">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Label" id="51" x="544" y="504" text="Assigned Fields:" measuredWidth="89" measuredHeight="23">
+  <widgets xsi:type="model:Label" id="51" x="544" y="504" text="Assigned Fields:" measuredWidth="100" measuredHeight="23">
     <font/>
   </widgets>
   <widgets xsi:type="model:List" id="52" x="32" y="529" width="433" height="265" text="DynamicField_Marke&#xD;&#xA;DynamicField_VWModell&#xD;&#xA;DynamicField_PeugeotModell&#xD;&#xA;Title &#xD;&#xA;PriorityID &#xD;&#xA;StateID &#xD;&#xA;QueueID " measuredWidth="433" measuredHeight="265" rowHeight="35" horizontalLines="true">
@@ -39,20 +39,20 @@
     <items x="0" y="2" width="433" height="35" text="DynamicField_Blabla"/>
     <items x="0" y="37" width="433" height="35" text="Customer ID"/>
   </widgets>
-  <widgets xsi:type="model:Note" id="54" x="464" y="627" text="Assign via D'nD" measuredWidth="92" measuredHeight="25" annotation="true">
+  <widgets xsi:type="model:Note" id="54" x="464" y="627" text="Assign via D'nD" measuredWidth="101" measuredHeight="25" annotation="true">
     <font/>
   </widgets>
   <widgets xsi:type="model:HLine" id="55" x="8" y="838" width="1001" measuredWidth="1001" measuredHeight="6"/>
-  <widgets xsi:type="model:Button" id="56" x="488" y="854" text="Save" measuredWidth="44" measuredHeight="25">
+  <widgets xsi:type="model:Button" id="56" x="488" y="854" text="Save" measuredWidth="46" measuredHeight="25" link="ActivityNewEdit.screen">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Button" id="57" x="936" y="537" text="..." measuredWidth="29" measuredHeight="25">
+  <widgets xsi:type="model:Button" id="57" x="936" y="537" text="..." measuredWidth="32" measuredHeight="25" link="ActivityDialogNewEditFieldDialog.screen">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Button" id="58" x="936" y="571" text="..." measuredWidth="29" measuredHeight="25">
+  <widgets xsi:type="model:Button" id="58" x="936" y="571" text="..." measuredWidth="32" measuredHeight="25" link="ActivityDialogNewEditFieldDialog.screen">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Note" id="60" x="736" y="612" text="Button opens dialog &#xD;&#xA;with details:&#xD;&#xA;- modular dialog for details (see extra mockup)" measuredWidth="273" measuredHeight="55" annotation="true" textAlignment="Left">
+  <widgets xsi:type="model:Note" id="60" x="736" y="612" text="Button opens dialog &#xD;&#xA;with details:&#xD;&#xA;- modular dialog for details (see extra mockup)" measuredWidth="305" measuredHeight="55" annotation="true" textAlignment="Left">
     <font/>
   </widgets>
   <widgets xsi:type="model:Label" id="61" x="64" y="242" width="132" text="Description (short):" measuredWidth="132" measuredHeight="23" textAlignment="Right">
@@ -68,10 +68,10 @@
     <font/>
   </widgets>
   <widgets xsi:type="model:ScratchOut" id="65" x="296" y="407" width="33" height="41" measuredWidth="33" measuredHeight="41" annotation="true" alpha="128"/>
-  <widgets xsi:type="model:Note" id="66" x="383" y="408" text="Also: Permission Dropdown, Lock Checkbox, TextInputs for Submit Button Advice and Submit Button Text" measuredWidth="568" measuredHeight="25" annotation="true">
+  <widgets xsi:type="model:Note" id="66" x="383" y="408" text="Also: Permission Dropdown, Lock Checkbox, TextInputs for Submit Button Advice and Submit Button Text" measuredWidth="628" measuredHeight="25" annotation="true">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Note" id="67" x="308" y="503" text="Filter Element like Path screen" measuredWidth="167" measuredHeight="25" annotation="true">
+  <widgets xsi:type="model:Note" id="67" x="308" y="503" text="Filter Element like Path screen" measuredWidth="185" measuredHeight="25" annotation="true">
     <font/>
   </widgets>
   <hRuler/>

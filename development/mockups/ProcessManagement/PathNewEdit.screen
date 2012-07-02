@@ -5,23 +5,23 @@
   <widgets xsi:type="model:Rectangle" id="3" x="18" y="70" width="981" height="59" text="Small Header in Popup" measuredWidth="981" measuredHeight="59">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Label" id="4" x="18" y="132" text="Create New Path / Edit Path" measuredWidth="245" measuredHeight="36">
+  <widgets xsi:type="model:Label" id="4" x="18" y="132" text="Create New Path / Edit Path" measuredWidth="272" measuredHeight="31">
     <font size="20px"/>
   </widgets>
-  <widgets xsi:type="model:Note" id="10" x="688" y="108" text="Create and edit Paths" measuredWidth="122" measuredHeight="25" annotation="true">
+  <widgets xsi:type="model:Note" id="10" x="688" y="108" text="Create and edit Paths" measuredWidth="135" measuredHeight="25" annotation="true">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Label" id="13" x="118" y="211" text="Start Activity:" measuredWidth="75" measuredHeight="23" textAlignment="Right">
+  <widgets xsi:type="model:Label" id="13" x="118" y="211" text="Start Activity:" measuredWidth="83" measuredHeight="23" textAlignment="Right">
     <font/>
   </widgets>
   <widgets xsi:type="model:Label" id="15" x="98" y="243" width="97" text="End Activity:" measuredWidth="97" measuredHeight="23" textAlignment="Right">
     <font/>
   </widgets>
   <widgets xsi:type="model:Window" id="47" x="18" y="327" width="981" height="345" text="Actions" measuredWidth="981" measuredHeight="345" closeButton="false"/>
-  <widgets xsi:type="model:Label" id="49" x="32" y="356" text="Available Actions:" measuredWidth="99" measuredHeight="23">
+  <widgets xsi:type="model:Label" id="49" x="32" y="356" text="Available Actions:" measuredWidth="109" measuredHeight="23">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Label" id="51" x="544" y="356" text="Assigned Actions:" measuredWidth="99" measuredHeight="23">
+  <widgets xsi:type="model:Label" id="51" x="544" y="356" text="Assigned Actions:" measuredWidth="110" measuredHeight="23">
     <font/>
   </widgets>
   <widgets xsi:type="model:List" id="52" x="32" y="432" width="433" text="Action 1&#xD;&#xA;Action 3&#xD;&#xA;Action 5&#xD;&#xA;Action 6&#xD;&#xA;Action 7&#xD;&#xA;Action 8" measuredWidth="433" measuredHeight="214" rowHeight="35" horizontalLines="true">
@@ -38,20 +38,20 @@
     <items x="0" y="2" width="433" height="35" text="Action 2"/>
     <items x="0" y="37" width="433" height="35" text="Action 4"/>
   </widgets>
-  <widgets xsi:type="model:Note" id="54" x="464" y="479" text="Assign via D'nD" measuredWidth="92" measuredHeight="25" annotation="true">
+  <widgets xsi:type="model:Note" id="54" x="464" y="479" text="Assign via D'nD" measuredWidth="101" measuredHeight="25" annotation="true">
     <font/>
   </widgets>
   <widgets xsi:type="model:HLine" id="55" x="8" y="688" width="1001" measuredWidth="1001" measuredHeight="6"/>
-  <widgets xsi:type="model:Button" id="56" x="488" y="704" text="Save" measuredWidth="44" measuredHeight="25">
+  <widgets xsi:type="model:Button" id="56" x="488" y="704" text="Save" measuredWidth="46" measuredHeight="25">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Button" id="57" x="936" y="389" text="..." measuredWidth="29" measuredHeight="25">
+  <widgets xsi:type="model:Button" id="57" x="936" y="389" text="..." measuredWidth="32" measuredHeight="25" link="ActionNewEdit.screen">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Button" id="58" x="936" y="423" text="..." measuredWidth="29" measuredHeight="25">
+  <widgets xsi:type="model:Button" id="58" x="936" y="423" text="..." measuredWidth="32" measuredHeight="25" link="ActionNewEdit.screen">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Note" id="60" x="736" y="464" text="Button opens dialog &#xD;&#xA;with details:&#xD;&#xA;- complete Actions dialog" measuredWidth="163" measuredHeight="55" annotation="true" textAlignment="Left">
+  <widgets xsi:type="model:Note" id="60" x="736" y="464" text="Button opens dialog &#xD;&#xA;with details:&#xD;&#xA;- complete Actions dialog" measuredWidth="179" measuredHeight="55" annotation="true" textAlignment="Left">
     <font/>
   </widgets>
   <widgets xsi:type="model:Combo" id="67" x="200" y="211" width="275" text="Activity 1" measuredWidth="275" measuredHeight="23">
@@ -66,34 +66,34 @@
   <widgets xsi:type="model:Combo" id="70" x="200" y="274" width="275" text="Transition 1" measuredWidth="275" measuredHeight="23">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Button" id="71" x="488" y="273" text="Edit Transition" measuredWidth="96" measuredHeight="25">
+  <widgets xsi:type="model:Button" id="71" x="488" y="273" text="Edit Transition" measuredWidth="105" measuredHeight="25" link="TransistionNewEdit.screen">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Button" id="72" x="424" y="440" text="..." measuredWidth="29" measuredHeight="25">
+  <widgets xsi:type="model:Button" id="72" x="424" y="440" text="..." measuredWidth="32" measuredHeight="25" link="ActionNewEdit.screen">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Button" id="73" x="424" y="474" text="..." measuredWidth="29" measuredHeight="25">
+  <widgets xsi:type="model:Button" id="73" x="424" y="474" text="..." measuredWidth="32" measuredHeight="25" link="ActionNewEdit.screen">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Button" id="74" x="424" y="510" text="..." measuredWidth="29" measuredHeight="25">
+  <widgets xsi:type="model:Button" id="74" x="424" y="510" text="..." measuredWidth="32" measuredHeight="25" link="ActionNewEdit.screen">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Button" id="75" x="424" y="545" text="..." measuredWidth="29" measuredHeight="25">
+  <widgets xsi:type="model:Button" id="75" x="424" y="545" text="..." measuredWidth="32" measuredHeight="25" link="ActionNewEdit.screen">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Button" id="76" x="424" y="579" text="..." measuredWidth="29" measuredHeight="25">
+  <widgets xsi:type="model:Button" id="76" x="424" y="579" text="..." measuredWidth="32" measuredHeight="25" link="ActionNewEdit.screen">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Button" id="77" x="424" y="611" text="..." measuredWidth="29" measuredHeight="25">
+  <widgets xsi:type="model:Button" id="77" x="424" y="611" text="..." measuredWidth="32" measuredHeight="25" link="ActionNewEdit.screen">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Note" id="78" x="416" y="405" text="Opens Actions dialog,&#xD;&#xA;changing allowed!" measuredWidth="126" measuredHeight="40" annotation="true">
+  <widgets xsi:type="model:Note" id="78" x="416" y="405" text="Opens Actions dialog,&#xD;&#xA;changing allowed!" measuredWidth="138" measuredHeight="40" annotation="true">
     <font/>
   </widgets>
   <widgets xsi:type="model:TextField" id="79" x="112" y="383" width="353" text="Live Filter" measuredWidth="353" measuredHeight="23">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Label" id="80" x="34" y="383" text="Filter:" measuredWidth="34" measuredHeight="23">
+  <widgets xsi:type="model:Label" id="80" x="34" y="383" text="Filter:" measuredWidth="39" measuredHeight="23">
     <font/>
   </widgets>
   <hRuler/>

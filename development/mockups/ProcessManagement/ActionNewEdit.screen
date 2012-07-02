@@ -5,20 +5,20 @@
   <widgets xsi:type="model:Rectangle" id="3" x="18" y="70" width="981" height="59" text="Small Header in Popup" measuredWidth="981" measuredHeight="59">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Label" id="4" x="18" y="132" text="Create New Transistion Action / Edit Transition Action &quot;Action 1&quot;" measuredWidth="565" measuredHeight="36">
+  <widgets xsi:type="model:Label" id="4" x="18" y="132" text="Create New Transistion Action / Edit Transition Action &quot;Action 1&quot;" measuredWidth="634" measuredHeight="31">
     <font size="20px"/>
   </widgets>
-  <widgets xsi:type="model:Note" id="10" x="688" y="108" text="Create and edit Actions" measuredWidth="133" measuredHeight="25" annotation="true">
+  <widgets xsi:type="model:Note" id="10" x="688" y="108" text="Create and edit Actions" measuredWidth="147" measuredHeight="25" annotation="true">
     <font/>
   </widgets>
   <widgets xsi:type="model:HLine" id="55" x="8" y="488" width="1001" measuredWidth="1001" measuredHeight="6"/>
-  <widgets xsi:type="model:Button" id="56" x="488" y="504" text="Save" measuredWidth="44" measuredHeight="25">
+  <widgets xsi:type="model:Button" id="56" x="488" y="504" text="Save" measuredWidth="46" measuredHeight="25" link="ProcessViewEdit.screen">
     <font/>
   </widgets>
   <widgets xsi:type="model:TextField" id="72" x="200" y="211" width="275" text="Action ID" measuredWidth="275" measuredHeight="23">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Label" id="73" x="137" y="211" text="Action ID:" measuredWidth="57" measuredHeight="23" textAlignment="Right">
+  <widgets xsi:type="model:Label" id="73" x="137" y="211" text="Action ID:" measuredWidth="63" measuredHeight="23" textAlignment="Right">
     <font/>
   </widgets>
   <widgets xsi:type="model:TextField" id="74" x="200" y="243" width="275" text="Action Name" measuredWidth="275" measuredHeight="23">
@@ -30,13 +30,13 @@
   <widgets xsi:type="model:TextField" id="86" x="264" y="334" width="129" text="TargetQueue" measuredWidth="129" measuredHeight="23">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Label" id="87" x="215" y="334" text="Key:" measuredWidth="27" measuredHeight="23" textAlignment="Right">
+  <widgets xsi:type="model:Label" id="87" x="215" y="334" text="Key:" measuredWidth="30" measuredHeight="23" textAlignment="Right">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Button" id="100" x="200" y="407" text="+" measuredWidth="28" measuredHeight="25">
+  <widgets xsi:type="model:Button" id="100" x="200" y="407" text="+" measuredWidth="30" measuredHeight="25">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Note" id="107" x="241" y="407" text="Add Key/Value Pair" measuredWidth="111" measuredHeight="25" annotation="true">
+  <widgets xsi:type="model:Note" id="107" x="241" y="407" text="Add Key/Value Pair" measuredWidth="122" measuredHeight="25" annotation="true">
     <font/>
   </widgets>
   <widgets xsi:type="model:TextField" id="108" x="200" y="279" width="275" text="Kernel::System::Workflow::Transition::Action::QueueMove" measuredWidth="275" measuredHeight="23">
@@ -51,25 +51,25 @@
   <widgets xsi:type="model:TextField" id="111" x="464" y="334" width="129" text="Raw" measuredWidth="129" measuredHeight="23">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Label" id="112" x="415" y="334" text="Value:" measuredWidth="37" measuredHeight="23" textAlignment="Right">
+  <widgets xsi:type="model:Label" id="112" x="415" y="334" text="Value:" measuredWidth="41" measuredHeight="23" textAlignment="Right">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Button" id="113" x="608" y="333" text="-" measuredWidth="25" measuredHeight="25">
+  <widgets xsi:type="model:Button" id="113" x="608" y="333" text="-" measuredWidth="27" measuredHeight="25">
     <font/>
   </widgets>
   <widgets xsi:type="model:TextField" id="114" x="264" y="365" width="129" text="NewOwner" measuredWidth="129" measuredHeight="23">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Label" id="115" x="215" y="365" text="Key:" measuredWidth="27" measuredHeight="23" textAlignment="Right">
+  <widgets xsi:type="model:Label" id="115" x="215" y="365" text="Key:" measuredWidth="30" measuredHeight="23" textAlignment="Right">
     <font/>
   </widgets>
   <widgets xsi:type="model:TextField" id="116" x="464" y="365" width="129" text="root@localhost" measuredWidth="129" measuredHeight="23">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Label" id="117" x="415" y="365" text="Value:" measuredWidth="37" measuredHeight="23" textAlignment="Right">
+  <widgets xsi:type="model:Label" id="117" x="415" y="365" text="Value:" measuredWidth="41" measuredHeight="23" textAlignment="Right">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Button" id="118" x="608" y="364" text="-" measuredWidth="25" measuredHeight="25">
+  <widgets xsi:type="model:Button" id="118" x="608" y="364" text="-" measuredWidth="27" measuredHeight="25">
     <font/>
   </widgets>
   <hRuler/>
