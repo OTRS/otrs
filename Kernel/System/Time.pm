@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Time.pm - time functions
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Time.pm,v 1.57 2010-12-01 13:41:07 bes Exp $
+# $Id: Time.pm,v 1.58 2012-07-02 11:59:17 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Time::Local;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = qw($Revision: 1.57 $) [1];
+$VERSION = qw($Revision: 1.58 $) [1];
 
 =head1 NAME
 
@@ -215,7 +215,7 @@ sub TimeStamp2SystemTime {
     my $SytemTime = 0;
 
     # match iso date format
-    if ( $Param{String} =~ /(\d\d\d\d)-(\d\d|\d)-(\d\d|\d)\s(\d\d|\d):(\d\d|\d):(\d\d|\d)/ ) {
+    if ( $Param{String} =~ /(\d{4})-(\d{1,2})-(\d{1,2})\s(\d{1,2}):(\d{1,2}):(\d{1,2})/ ) {
         $SytemTime = $Self->Date2SystemTime(
             Year   => $1,
             Month  => $2,
@@ -227,7 +227,7 @@ sub TimeStamp2SystemTime {
     }
 
     # match iso date format (wrong format)
-    elsif ( $Param{String} =~ /(\d\d|\d)-(\d\d|\d)-(\d\d\d\d)\s(\d\d|\d):(\d\d|\d):(\d\d|\d)/ ) {
+    elsif ( $Param{String} =~ /(\d{1,2})-(\d{1,2})-(\d{4})\s(\d{1,2}):(\d{1,2}):(\d{1,2})/ ) {
         $SytemTime = $Self->Date2SystemTime(
             Year   => $3,
             Month  => $2,
@@ -239,7 +239,7 @@ sub TimeStamp2SystemTime {
     }
 
     # match euro time format
-    elsif ( $Param{String} =~ /(\d\d|\d)\.(\d\d|\d)\.(\d\d\d\d)\s(\d\d|\d):(\d\d|\d):(\d\d|\d)/ ) {
+    elsif ( $Param{String} =~ /(\d{1,2})\.(\d{1,2})\.(\d{4})\s(\d{1,2}):(\d{1,2}):(\d{1,2})/ ) {
         $SytemTime = $Self->Date2SystemTime(
             Year   => $3,
             Month  => $2,
@@ -253,7 +253,7 @@ sub TimeStamp2SystemTime {
     # match yyyy-mm-ddThh:mm:ss+tt:zz time format
     elsif (
         $Param{String}
-        =~ /(\d\d\d\d)-(\d\d|\d)-(\d\d|\d)T(\d\d|\d):(\d\d|\d):(\d\d|\d)(\+|\-)((\d\d|\d):(\d\d|\d))/i
+        =~ /(\d{4})-(\d{1,2})-(\d{1,2})T(\d{1,2}):(\d{1,2}):(\d{1,2})(\+|\-)((\d{1,2}):(\d{1,2}))/i
         )
     {
         $SytemTime = $Self->Date2SystemTime(
@@ -269,7 +269,7 @@ sub TimeStamp2SystemTime {
     # match mail time format
     elsif (
         $Param{String}
-        =~ /((...),\s+|)(\d\d|\d)\s(...)\s(\d\d\d\d)\s(\d\d|\d):(\d\d|\d):(\d\d|\d)\s((\+|\-)(\d\d)(\d\d)|...)/
+        =~ /((...),\s+|)(\d{1,2})\s(...)\s(\d{4})\s(\d{1,2}):(\d{1,2}):(\d{1,2})\s((\+|\-)(\d{2})(\d{2})|...)/
         )
     {
         my $DiffTime = 0;
@@ -301,7 +301,7 @@ sub TimeStamp2SystemTime {
         ) + $DiffTime + $Self->{TimeSecDiff};
     }
     elsif (    # match yyyy-mm-ddThh:mm:ssZ
-        $Param{String} =~ /(\d\d\d\d)-(\d\d|\d)-(\d\d|\d)T(\d\d|\d):(\d\d|\d):(\d\d|\d)Z$/
+        $Param{String} =~ /(\d{4})-(\d{1,2})-(\d{1,2})T(\d{1,2}):(\d{1,2}):(\d{1,2})Z$/
         )
     {
         $SytemTime = $Self->Date2SystemTime(
@@ -865,6 +865,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.57 $ $Date: 2010-12-01 13:41:07 $
+$Revision: 1.58 $ $Date: 2012-07-02 11:59:17 $
 
 =cut
