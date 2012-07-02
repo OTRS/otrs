@@ -1,8 +1,8 @@
 // --
 // Core.Debug.js - provides debugging functions
-// Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+// Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Debug.js,v 1.6 2011-02-17 21:30:59 en Exp $
+// $Id: Core.Debug.js,v 1.7 2012-07-02 08:11:38 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -85,15 +85,39 @@ Core.Debug = (function (TargetNS) {
     /*jslint evil: false */
 
     /**
-     * @exports TargetNS.BrowserCheck as Core.Debug.BrowserCheck
+     * @exports TargetNS.BrowserCheck as Core.Debug.BrowserCheckAgent
      * @function
      * @description
-     *      Checks, if the used browser is not on the OTRS browser blacklist.
+     *      Checks if the used browser is not on the OTRS browser blacklist
+     *      of the agent interface.
      * @return true if the used browser is *not* on the black list.
      */
-    TargetNS.BrowserCheck = function () {
+    TargetNS.BrowserCheckAgent = function () {
         var AppropriateBrowser = true,
-            BrowserBlackList = Core.Config.Get('BrowserBlackList');
+            BrowserBlackList = Core.Config.Get('BrowserBlackList::Agent');
+        if (typeof BrowserBlackList !== 'undefined') {
+            $.each(BrowserBlackList, function (Key, Value) {
+                if ($.isFunction(Value)) {
+                    if (Value()) {
+                        AppropriateBrowser = false;
+                    }
+                }
+            });
+            return AppropriateBrowser;
+        }
+    };
+
+    /**
+     * @exports TargetNS.BrowserCheck as Core.Debug.BrowserCheckCustomer
+     * @function
+     * @description
+     *      Checks if the used browser is not on the OTRS browser blacklist
+     *      of the customer interface.
+     * @return true if the used browser is *not* on the black list.
+     */
+    TargetNS.BrowserCheckCustomer = function () {
+        var AppropriateBrowser = true,
+        BrowserBlackList = Core.Config.Get('BrowserBlackList::Customer');
         if (typeof BrowserBlackList !== 'undefined') {
             $.each(BrowserBlackList, function (Key, Value) {
                 if ($.isFunction(Value)) {

@@ -1,8 +1,8 @@
 // --
 // Core.Agent.Login.js - provides the special module functions for the login
-// Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+// Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Login.js,v 1.4 2011-02-17 21:30:59 en Exp $
+// $Id: Core.Agent.Login.js,v 1.5 2012-07-02 08:11:38 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -28,7 +28,7 @@ Core.Agent.Login = (function (TargetNS) {
      */
     TargetNS.Init = function (LoginFailed) {
         // Browser is too old
-        if (!Core.Debug.BrowserCheck()) {
+        if (!Core.Debug.BrowserCheckAgent()) {
             $('#LoginBox').hide();
             $('#OldBrowser').show();
             return;

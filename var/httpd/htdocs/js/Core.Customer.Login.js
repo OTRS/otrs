@@ -2,7 +2,7 @@
 // Core.Customer.js - provides functions for the customer login
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Customer.Login.js,v 1.7 2012-07-01 00:27:48 cr Exp $
+// $Id: Core.Customer.Login.js,v 1.8 2012-07-02 08:11:38 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -65,7 +65,7 @@ Core.Customer.Login = (function (TargetNS) {
             $SliderNavigationLinks = $('#Slider a');
 
         // Browser is too old
-        if (!Core.Debug.BrowserCheck()) {
+        if (!Core.Debug.BrowserCheckCustomer()) {
             $('#Login').hide();
             $('#Reset').hide();
             $('#Signup').hide();

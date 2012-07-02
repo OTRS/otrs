@@ -2,7 +2,7 @@
 // Core.Config.js - provides the JS config
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Config.js,v 1.8 2012-01-23 14:16:25 mb Exp $
+// $Id: Core.Config.js,v 1.9 2012-07-02 08:11:38 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -141,8 +141,9 @@ Core.Config = (function (TargetNS) {
 
     /**
      * @field
-     * @description This variable contains a hash of blacklisted browsers and their recognition functions.
-     * Each function returns true, if the browser is detected.
+     * @description This variable contains a hash of blacklisted browsers
+     *      of the agent interface and their recognition functions.
+     *      Each function returns true, if the browser is detected.
      */
     TargetNS.AddConfig({
         'Microsoft Internet Explorer 5.5': function () {
@@ -182,7 +183,38 @@ Core.Config = (function (TargetNS) {
             }
             return BrowserDetected;
         }
-    }, 'BrowserBlackList');
+    }, 'BrowserBlackList::Agent');
+
+    /**
+     * @field
+     * @description This variable contains a hash of blacklisted browsers
+     *      of the customer interface and their recognition functions.
+     *      Each function returns true, if the browser is detected.
+     */
+    TargetNS.AddConfig({
+        'Microsoft Internet Explorer 5.5': function () {
+            return ($.browser.msie && $.browser.version === '5.5');
+        },
+        'Microsoft Internet Explorer 6': function () {
+            return ($.browser.msie && $.browser.version === '6.0');
+        },
+        // IE7 is allowed.
+        'Konqueror (without WebKit engine)': function () {
+            return ($.browser.webkit && navigator.vendor === 'KDE');
+        },
+        // all Netscape, Mozilla, Firefox before Gecko Version 1.9 (Firefox 3)
+        'Netscape, old Mozilla, old Firefox': function () {
+            var BrowserVersion,
+            BrowserDetected = false;
+            if ($.browser.mozilla) {
+                BrowserVersion = $.browser.version.split('.');
+                if (parseInt(BrowserVersion[0], 10) < 1 || (parseInt(BrowserVersion[0], 10) === 1 && parseInt(BrowserVersion[1], 10) < 9)) {
+                    BrowserDetected = true;
+                }
+            }
+            return BrowserDetected;
+        }
+    }, 'BrowserBlackList::Customer');
 
     return TargetNS;
 }(Core.Config || {}));
