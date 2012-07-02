@@ -2,7 +2,7 @@
 # Group.t - Group tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Group.t,v 1.19 2012-07-02 09:13:53 mg Exp $
+# $Id: Group.t,v 1.20 2012-07-02 09:29:17 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -522,6 +522,23 @@ for ( keys %MemberList1 ) {
 $Self->True(
     $GroupMemberList1,
     'GroupMemberList1()',
+);
+
+# check cache
+%MemberList1 = $GroupObject->GroupMemberList(
+    UserID => $UserID1,
+    Type   => 'ro',
+    Result => 'HASH',
+);
+$GroupMemberList1 = 1;
+for ( keys %MemberList1 ) {
+    if ( $_ ne $GroupID1 ) {
+        $GroupMemberList1 = 0;
+    }
+}
+$Self->True(
+    $GroupMemberList1,
+    'GroupMemberList1() cached',
 );
 
 # check groupmembers of User2
