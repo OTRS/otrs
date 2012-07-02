@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.393 2012-06-22 15:08:20 cr Exp $
+# $Id: Layout.pm,v 1.394 2012-07-02 12:26:56 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Mail::Address;
 use URI::Escape qw();
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.393 $) [1];
+$VERSION = qw($Revision: 1.394 $) [1];
 
 =head1 NAME
 
@@ -3914,7 +3914,8 @@ sub _RichTextReplaceLinkOfInlineContent {
 
 =item RichTextDocumentSafetyCheck()
 
-check if content is safety
+check if content is safe to display. Otherwise insecure content will be removed and
+a warning will be included.
 
     $HTMLBody = $LayoutObject->RichTextDocumentSafetyCheck(
         String => $HTMLBody,
@@ -5151,6 +5152,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.393 $ $Date: 2012-06-22 15:08:20 $
+$Revision: 1.394 $ $Date: 2012-07-02 12:26:56 $
 
 =cut
