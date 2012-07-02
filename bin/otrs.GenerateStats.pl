@@ -3,7 +3,7 @@
 # bin/otrs.GenerateStats.pl - send stats output via email
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.GenerateStats.pl,v 1.9 2012-06-11 09:31:14 mg Exp $
+# $Id: otrs.GenerateStats.pl,v 1.10 2012-07-02 12:35:30 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -32,7 +32,7 @@ use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 use Getopt::Long;
 use Kernel::Config;
@@ -320,7 +320,7 @@ if ( $Format eq 'Print' && $CommonObject{PDFObject} ) {
     # create new pdf document
     $CommonObject{PDFObject}->DocumentNew(
         Title  => $CommonObject{ConfigObject}->Get('Product') . ': ' . $Title,
-        Encode => $CommonObject{LanguageObject}->GetRecommendedCharset(),
+        Encode => 'utf-8',
     );
 
     # start table output

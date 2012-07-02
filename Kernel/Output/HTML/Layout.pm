@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.394 2012-07-02 12:26:56 mg Exp $
+# $Id: Layout.pm,v 1.395 2012-07-02 12:35:30 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Mail::Address;
 use URI::Escape qw();
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.394 $) [1];
+$VERSION = qw($Revision: 1.395 $) [1];
 
 =head1 NAME
 
@@ -166,8 +166,8 @@ sub new {
     }
 
     # set charset if there is no charset given
-    $Self->{UserCharset} = $Self->{LanguageObject}->GetRecommendedCharset();
-    $Self->{Charset}     = $Self->{UserCharset};                               # just for compat.
+    $Self->{UserCharset} = 'utf-8';
+    $Self->{Charset}     = $Self->{UserCharset};                            # just for compat.
     $Self->{SessionID}   = $Param{SessionID} || '';
     $Self->{SessionName} = $Param{SessionName} || 'SessionID';
     $Self->{CGIHandle}   = $ENV{SCRIPT_NAME} || 'No-$ENV{"SCRIPT_NAME"}';
@@ -5152,6 +5152,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.394 $ $Date: 2012-07-02 12:26:56 $
+$Revision: 1.395 $ $Date: 2012-07-02 12:35:30 $
 
 =cut
