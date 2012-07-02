@@ -2,7 +2,7 @@
 # Kernel/System/SysConfig.pm - all system config tool functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: SysConfig.pm,v 1.34 2012-03-01 18:04:44 mg Exp $
+# $Id: SysConfig.pm,v 1.35 2012-07-02 09:50:47 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::Config;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.34 $) [1];
+$VERSION = qw($Revision: 1.35 $) [1];
 
 =head1 NAME
 
@@ -742,7 +742,6 @@ sub ConfigItemGet {
                     for my $Key2 ( %{ $Hash{$Key} } ) {
                         if (
                             $Key2    eq 'CSS'
-                            || $Key2 eq 'CSS_IE6'
                             || $Key2 eq 'CSS_IE7'
                             || $Key2 eq 'CSS_IE8'
                             || $Key2 eq 'JavaScript'
@@ -2123,7 +2122,6 @@ sub _XML2Perl {
                 for my $Key ( sort keys %{$Content} ) {
                     if (
                         $Key    eq 'CSS'
-                        || $Key eq 'CSS_IE6'
                         || $Key eq 'CSS_IE7'
                         || $Key eq 'CSS_IE8'
                         || $Key eq 'JavaScript'
@@ -2283,6 +2281,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.34 $ $Date: 2012-03-01 18:04:44 $
+$Revision: 1.35 $ $Date: 2012-07-02 09:50:47 $
 
 =cut

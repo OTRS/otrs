@@ -1,8 +1,8 @@
 # --
 # CustomerHeader.dtl - provides global HTML header
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerHeader.dtl,v 1.58 2011-12-21 08:16:33 mg Exp $
+# $Id: CustomerHeader.dtl,v 1.59 2012-07-02 09:50:47 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -40,12 +40,6 @@ $Include{"Copyright"}
     <link rel="stylesheet" type="text/css" href="$Config{"Frontend::WebPath"}skins/Customer/$LQData{"Skin"}/$LQData{"CSSDirectory"}/$LQData{"Filename"}" />
 <!-- dtl:block:CommonCSS -->
 
-<!-- dtl:block:CommonCSS_IE6 -->
-<!--[if IE 6]>
-    <link rel="stylesheet" type="text/css" href="$Config{"Frontend::WebPath"}skins/Customer/$LQData{"Skin"}/$LQData{"CSSDirectory"}/$LQData{"Filename"}" />
-    <![endif]-->
-<!-- dtl:block:CommonCSS_IE6 -->
-
 <!-- dtl:block:CommonCSS_IE7 -->
 <!--[if IE 7]>
     <link rel="stylesheet" type="text/css" href="$Config{"Frontend::WebPath"}skins/Customer/$LQData{"Skin"}/$LQData{"CSSDirectory"}/$LQData{"Filename"}" />
@@ -61,12 +55,6 @@ $Include{"Copyright"}
 <!-- dtl:block:ModuleCSS -->
     <link rel="stylesheet" type="text/css" href="$Config{"Frontend::WebPath"}skins/Customer/$LQData{"Skin"}/$LQData{"CSSDirectory"}/$LQData{"Filename"}" />
 <!-- dtl:block:ModuleCSS -->
-
-<!-- dtl:block:ModuleCSS_IE6 -->
-<!--[if IE 6]>
-    <link rel="stylesheet" type="text/css" href="$Config{"Frontend::WebPath"}skins/Customer/$LQData{"Skin"}/$LQData{"CSSDirectory"}/$LQData{"Filename"}" />
-    <![endif]-->
-<!-- dtl:block:ModuleCSS_IE6 -->
 
 <!-- dtl:block:ModuleCSS_IE7 -->
 <!--[if IE 7]>

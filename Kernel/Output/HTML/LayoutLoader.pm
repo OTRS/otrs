@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/LayoutLoader.pm - provides generic HTML output
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutLoader.pm,v 1.37 2010-11-22 16:31:52 cr Exp $
+# $Id: LayoutLoader.pm,v 1.38 2012-07-02 09:50:47 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.37 $) [1];
+$VERSION = qw($Revision: 1.38 $) [1];
 
 use Kernel::System::Loader;
 
@@ -367,25 +367,6 @@ sub LoaderCreateCustomerCSSCalls {
     }
 
     {
-        my $CommonCSSIE6List = $Self->{ConfigObject}->Get('Loader::Customer::CommonCSS::IE6');
-
-        my @FileList;
-
-        for my $Key ( sort keys %{$CommonCSSIE6List} ) {
-            push @FileList, @{ $CommonCSSIE6List->{$Key} };
-        }
-
-        $Self->_HandleCSSList(
-            List      => \@FileList,
-            DoMinify  => $DoMinify,
-            BlockName => 'CommonCSS_IE6',
-            SkinHome  => $SkinHome,
-            SkinType  => 'Customer',
-            Skin      => $SkinSelected,
-        );
-    }
-
-    {
         my $CommonCSSIE7List = $Self->{ConfigObject}->Get('Loader::Customer::CommonCSS::IE7');
 
         my @FileList;
@@ -441,21 +422,6 @@ sub LoaderCreateCustomerCSSCalls {
             List      => \@FileList,
             DoMinify  => $DoMinify,
             BlockName => 'ModuleCSS',
-            SkinHome  => $SkinHome,
-            SkinType  => 'Customer',
-            Skin      => $SkinSelected,
-        );
-    }
-
-    {
-        my $AppCSSList = $FrontendModuleRegistration->{Loader}->{CSS_IE6} || [];
-
-        my @FileList = @{$AppCSSList};
-
-        $Self->_HandleCSSList(
-            List      => \@FileList,
-            DoMinify  => $DoMinify,
-            BlockName => 'ModuleCSS_IE6',
             SkinHome  => $SkinHome,
             SkinType  => 'Customer',
             Skin      => $SkinSelected,
@@ -722,6 +688,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.37 $ $Date: 2010-11-22 16:31:52 $
+$Revision: 1.38 $ $Date: 2012-07-02 09:50:47 $
 
 =cut
