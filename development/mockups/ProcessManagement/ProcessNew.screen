@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model:Screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:model="http://wireframesketcher.com/1.0/model.ecore">
+  <widgets xsi:type="model:Browser" id="1" x="8" y="8" width="1001" height="841" text="Browser&#xA;http://..." measuredWidth="1001" measuredHeight="841"/>
+  <widgets xsi:type="model:Rectangle" id="3" x="18" y="70" width="981" height="99" text="Header with Menu" measuredWidth="981" measuredHeight="99">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="4" x="18" y="176" text="New Process" measuredWidth="114" measuredHeight="36">
+    <font size="20px"/>
+  </widgets>
+  <widgets xsi:type="model:Panel" id="5" x="18" y="216" width="271" height="617" measuredWidth="271" measuredHeight="617"/>
+  <widgets xsi:type="model:Panel" id="6" x="306" y="216" width="693" height="617" measuredWidth="693" measuredHeight="617"/>
+  <widgets xsi:type="model:Text" id="7" x="28" y="320" width="251" height="361" measuredWidth="251" measuredHeight="361" dummyText="true">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Button" id="8" x="32" y="238" width="241" height="33" text="Back To The Overview" measuredWidth="241" measuredHeight="33">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Note" id="10" x="432" y="181" text="Create new Process" measuredWidth="112" measuredHeight="25" annotation="true">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="11" x="316" y="226" text="Create New Process" measuredWidth="175" measuredHeight="36">
+    <font size="20px"/>
+  </widgets>
+  <widgets xsi:type="model:TextField" id="14" x="510" y="272" width="275" text="Process Name" measuredWidth="275" measuredHeight="23">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="15" x="408" y="272" width="97" text="Process Name:" measuredWidth="97" measuredHeight="23" textAlignment="Right">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="17" x="408" y="417" width="97" text="State:" measuredWidth="97" measuredHeight="23" textAlignment="Right">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Combo" id="18" x="510" y="417" width="275" text="State" measuredWidth="275" measuredHeight="23">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Button" id="19" x="467" y="478" text="Save" measuredWidth="44" measuredHeight="25">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Text" id="20" x="520" y="483" text="or Cancel" measuredWidth="50" measuredHeight="15">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="21" x="408" y="298" width="97" text="Description:" measuredWidth="97" measuredHeight="23" textAlignment="Right">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:TextArea" id="22" x="510" y="304" width="275" height="105" text="Description BlaBla&#xD;&#xA;" measuredWidth="275" measuredHeight="105">
+    <font/>
+  </widgets>
+  <hRuler/>
+  <vRuler/>
+  <font size="12px"/>
+</model:Screen>

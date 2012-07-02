@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model:Screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:model="http://wireframesketcher.com/1.0/model.ecore">
+  <widgets xsi:type="model:Browser" id="1" x="12" y="8" width="1001" height="737" text="Browser&#xA;http://..." measuredWidth="1001" measuredHeight="737"/>
+  <widgets xsi:type="model:Window" id="46" x="18" y="176" width="981" height="105" text="Transition" measuredWidth="981" measuredHeight="105" closeButton="false"/>
+  <widgets xsi:type="model:Rectangle" id="3" x="18" y="70" width="981" height="59" text="Small Header in Popup" measuredWidth="981" measuredHeight="59">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="4" x="18" y="132" text="Create New Transition / Edit Transition &quot;Transition 1&quot;" measuredWidth="462" measuredHeight="36">
+    <font size="20px"/>
+  </widgets>
+  <widgets xsi:type="model:Note" id="10" x="688" y="108" text="Create and edit Transitions" measuredWidth="151" measuredHeight="25" annotation="true">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:HLine" id="55" x="8" y="688" width="1001" measuredWidth="1001" measuredHeight="6"/>
+  <widgets xsi:type="model:Button" id="56" x="488" y="704" text="Save" measuredWidth="44" measuredHeight="25">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:TextField" id="72" x="200" y="211" width="275" text="Transition ID" measuredWidth="275" measuredHeight="23">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="73" x="119" y="211" text="Transition ID:" measuredWidth="75" measuredHeight="23" textAlignment="Right">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:TextField" id="74" x="200" y="243" width="275" text="Transition Name" measuredWidth="275" measuredHeight="23">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="75" x="98" y="243" width="97" text="Transition Name:" measuredWidth="97" measuredHeight="23" textAlignment="Right">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Window" id="78" x="18" y="288" width="981" height="385" text="Conditions" measuredWidth="981" measuredHeight="385" closeButton="false"/>
+  <widgets xsi:type="model:Label" id="80" x="91" y="317" width="97" text="Type of Linking:" measuredWidth="97" measuredHeight="23" textAlignment="Right">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Combo" id="81" x="200" y="317" width="275" text="and" measuredWidth="275" measuredHeight="23">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="82" x="91" y="360" width="97" text="Condition 1:" measuredWidth="97" measuredHeight="23" textAlignment="Right">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="83" x="211" y="382" width="97" text="Type of Linking:" measuredWidth="97" measuredHeight="23" textAlignment="Right">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Combo" id="84" x="320" y="382" width="275" text="and" measuredWidth="275" measuredHeight="23">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="85" x="211" y="410" width="97" text="Fields:" measuredWidth="97" measuredHeight="23" textAlignment="Right">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:TextField" id="86" x="368" y="432" width="129" text="DynamicField_Blabla" measuredWidth="129" measuredHeight="23">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="87" x="319" y="432" text="Name:" measuredWidth="40" measuredHeight="23" textAlignment="Right">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="88" x="514" y="432" text="Type:" measuredWidth="34" measuredHeight="23" textAlignment="Right">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Combo" id="89" x="552" y="432" width="57" text="Array" measuredWidth="57" measuredHeight="23">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:TextField" id="90" x="673" y="432" width="129" text="[2], [3]" measuredWidth="129" measuredHeight="23">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="91" x="631" y="432" text="Value:" measuredWidth="37" measuredHeight="23" textAlignment="Right">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Button" id="92" x="824" y="431" text="-" measuredWidth="25" measuredHeight="25">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:TextField" id="93" x="368" y="464" width="129" text="DynamicField_Blabla2" measuredWidth="129" measuredHeight="23">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="94" x="319" y="464" text="Name:" measuredWidth="40" measuredHeight="23" textAlignment="Right">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="95" x="514" y="464" text="Type:" measuredWidth="34" measuredHeight="23" textAlignment="Right">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Combo" id="96" x="552" y="464" width="57" text="String" measuredWidth="57" measuredHeight="23">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:TextField" id="97" x="673" y="464" width="129" text="Buha" measuredWidth="129" measuredHeight="23">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="98" x="631" y="464" text="Value:" measuredWidth="37" measuredHeight="23" textAlignment="Right">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Button" id="99" x="824" y="463" text="-" measuredWidth="25" measuredHeight="25">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Button" id="100" x="319" y="499" text="+" measuredWidth="28" measuredHeight="25">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Button" id="101" x="98" y="552" text="Add New Condition" measuredWidth="125" measuredHeight="25">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Button" id="102" x="200" y="359" text="-" measuredWidth="25" measuredHeight="25">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Note" id="103" x="504" y="317" text="Type of Linking between the Conditions" measuredWidth="221" measuredHeight="25" annotation="true">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Note" id="104" x="224" y="352" text="Delete Condition" measuredWidth="99" measuredHeight="25" annotation="true">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Note" id="105" x="608" y="381" text="Between the Fields of a Condition" measuredWidth="187" measuredHeight="25" annotation="true">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Note" id="106" x="856" y="440" text="Delete Field" measuredWidth="71" measuredHeight="25" annotation="true">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Note" id="107" x="358" y="499" text="Add Field" measuredWidth="60" measuredHeight="25" annotation="true">
+    <font/>
+  </widgets>
+  <hRuler/>
+  <vRuler/>
+  <font size="12px"/>
+</model:Screen>

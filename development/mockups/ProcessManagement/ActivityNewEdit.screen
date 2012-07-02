@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model:Screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:model="http://wireframesketcher.com/1.0/model.ecore">
+  <widgets xsi:type="model:Browser" id="1" x="8" y="8" width="1001" height="745" text="Browser&#xA;http://..." measuredWidth="1001" measuredHeight="745"/>
+  <widgets xsi:type="model:Window" id="46" x="18" y="176" width="981" height="113" text="Activityset" measuredWidth="981" measuredHeight="113" closeButton="false"/>
+  <widgets xsi:type="model:Rectangle" id="3" x="18" y="70" width="981" height="59" text="Small Header in Popup" measuredWidth="981" measuredHeight="59">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="4" x="18" y="132" text="Create New Activity / Edit Activity &quot;Activity 1&quot;" measuredWidth="402" measuredHeight="36">
+    <font size="20px"/>
+  </widgets>
+  <widgets xsi:type="model:Note" id="10" x="671" y="108" text="Create and edit Activities, add Activity Dialogs to Activities" measuredWidth="317" measuredHeight="25" annotation="true">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:TextField" id="14" x="200" y="213" width="275" text="Activity Name" measuredWidth="275" measuredHeight="23">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="15" x="98" y="213" width="97" text="Activity Name:" measuredWidth="97" measuredHeight="23" textAlignment="Right">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Window" id="47" x="18" y="304" width="981" height="345" text="Activity Dialogs" measuredWidth="981" measuredHeight="345" closeButton="false"/>
+  <widgets xsi:type="model:Label" id="49" x="32" y="333" text="Available Activity Dialogs:" measuredWidth="141" measuredHeight="23">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="51" x="544" y="333" text="Assigned Activity Dialogs:" measuredWidth="141" measuredHeight="23">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:List" id="52" x="32" y="358" width="433" height="265" text="Activity Dialog 1&#xD;&#xA;Activity Dialog 2&#xD;&#xA;Activity Dialog 5&#xD;&#xA;Activity Dialog 9&#xD;&#xA;Activity Dialog 10&#xD;&#xA;Activity Dialog 12&#xD;&#xA;Activity Dialog 15" measuredWidth="433" measuredHeight="265" rowHeight="35" horizontalLines="true">
+    <font/>
+    <items x="0" y="2" width="433" height="35" text="Activity Dialog 1"/>
+    <items x="0" y="37" width="433" height="35" text="Activity Dialog 2"/>
+    <items x="0" y="72" width="433" height="35" text="Activity Dialog 5"/>
+    <items x="0" y="107" width="433" height="35" text="Activity Dialog 9"/>
+    <items x="0" y="142" width="433" height="35" text="Activity Dialog 10"/>
+    <items x="0" y="177" width="433" height="35" text="Activity Dialog 12"/>
+    <items x="0" y="212" width="433" height="35" text="Activity Dialog 15"/>
+  </widgets>
+  <widgets xsi:type="model:List" id="53" x="544" y="358" width="433" height="265" text="Activity Dialogs 3&#xD;&#xA;Activity Dialogs 4" measuredWidth="433" measuredHeight="265" rowHeight="35" horizontalLines="true">
+    <font/>
+    <items x="0" y="2" width="433" height="35" text="Activity Dialogs 3"/>
+    <items x="0" y="37" width="433" height="35" text="Activity Dialogs 4"/>
+  </widgets>
+  <widgets xsi:type="model:Note" id="54" x="464" y="456" text="Assign via D'nD" measuredWidth="92" measuredHeight="25" annotation="true">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:HLine" id="55" x="8" y="688" width="1001" measuredWidth="1001" measuredHeight="6"/>
+  <widgets xsi:type="model:Button" id="56" x="488" y="704" text="Save" measuredWidth="44" measuredHeight="25">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Button" id="57" x="936" y="366" text="..." measuredWidth="29" measuredHeight="25">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Button" id="58" x="936" y="400" text="..." measuredWidth="29" measuredHeight="25">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Note" id="60" x="826" y="432" text="Button opens dialog &#xD;&#xA;with details:&#xD;&#xA;- complete &quot;Activity Dialog&quot; dialog" measuredWidth="210" measuredHeight="55" annotation="true" textAlignment="Left">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Note" id="61" x="336" y="332" text="Filter Element like Path screen" measuredWidth="167" measuredHeight="25" annotation="true">
+    <font/>
+  </widgets>
+  <hRuler/>
+  <vRuler/>
+  <font size="12px"/>
+</model:Screen>

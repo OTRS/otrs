@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model:Screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:model="http://wireframesketcher.com/1.0/model.ecore">
+  <widgets xsi:type="model:Browser" id="1" x="8" y="8" width="1001" height="889" text="Browser&#xA;http://..." measuredWidth="1001" measuredHeight="889"/>
+  <widgets xsi:type="model:Window" id="46" x="8" y="174" width="981" height="289" text="Activity" measuredWidth="981" measuredHeight="289" closeButton="false"/>
+  <widgets xsi:type="model:Rectangle" id="3" x="18" y="70" width="981" height="59" text="Small Header in Popup" measuredWidth="981" measuredHeight="59">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="4" x="18" y="132" text="Create New Activity Dialog / Edit Activity Dialog &quot;Activity Dialog 1&quot;" measuredWidth="591" measuredHeight="36">
+    <font size="20px"/>
+  </widgets>
+  <widgets xsi:type="model:Window" id="47" x="18" y="475" width="981" height="345" text="Fields" measuredWidth="981" measuredHeight="345" closeButton="false"/>
+  <widgets xsi:type="model:Label" id="49" x="32" y="504" text="Available Fields:" measuredWidth="89" measuredHeight="23">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="51" x="544" y="504" text="Assigned Fields:" measuredWidth="89" measuredHeight="23">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:List" id="52" x="32" y="529" width="433" height="265" text="DynamicField_Marke&#xD;&#xA;DynamicField_VWModell&#xD;&#xA;DynamicField_PeugeotModell&#xD;&#xA;Title &#xD;&#xA;PriorityID &#xD;&#xA;StateID &#xD;&#xA;QueueID " measuredWidth="433" measuredHeight="265" rowHeight="35" horizontalLines="true">
+    <font/>
+    <items x="0" y="2" width="433" height="35" text="DynamicField_Marke"/>
+    <items x="0" y="37" width="433" height="35" text="DynamicField_VWModell"/>
+    <items x="0" y="72" width="433" height="35" text="DynamicField_PeugeotModell"/>
+    <items x="0" y="107" width="433" height="35" text="Title "/>
+    <items x="0" y="142" width="433" height="35" text="PriorityID "/>
+    <items x="0" y="177" width="433" height="35" text="StateID "/>
+    <items x="0" y="212" width="433" height="35" text="QueueID "/>
+  </widgets>
+  <widgets xsi:type="model:List" id="53" x="544" y="529" width="433" height="265" text="DynamicField_Blabla&#xD;&#xA;Customer ID" measuredWidth="433" measuredHeight="265" rowHeight="35" horizontalLines="true">
+    <font/>
+    <items x="0" y="2" width="433" height="35" text="DynamicField_Blabla"/>
+    <items x="0" y="37" width="433" height="35" text="Customer ID"/>
+  </widgets>
+  <widgets xsi:type="model:HLine" id="55" x="8" y="838" width="1001" measuredWidth="1001" measuredHeight="6"/>
+  <widgets xsi:type="model:Button" id="56" x="488" y="854" text="Save" measuredWidth="44" measuredHeight="25">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Button" id="57" x="936" y="537" text="..." measuredWidth="29" measuredHeight="25">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Button" id="58" x="936" y="571" text="..." measuredWidth="29" measuredHeight="25">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="61" x="64" y="236" width="132" text="Description (short):" measuredWidth="132" measuredHeight="23" textAlignment="Right">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="62" x="65" y="264" width="132" text="Description (long):" measuredWidth="132" measuredHeight="23" textAlignment="Right">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:TextField" id="63" x="200" y="236" width="275" text="Blablablabla" measuredWidth="275" measuredHeight="23">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:TextArea" id="64" x="200" y="268" width="275" height="97" text="Blablablabla...&#xD;&#xA;Blabla&#xD;&#xA;bla&#xD;&#xA;&#xD;&#xA;" measuredWidth="275" measuredHeight="97">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:ScratchOut" id="65" x="296" y="400" width="57" height="65" measuredWidth="57" measuredHeight="65" annotation="true" alpha="128"/>
+  <widgets xsi:type="model:Window" id="67" x="216" y="272" width="672" height="337" text="Field Details" measuredWidth="672" measuredHeight="337"/>
+  <widgets xsi:type="model:Label" id="68" x="283" y="347" width="132" text="Description (short):" measuredWidth="132" measuredHeight="23" textAlignment="Right">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="69" x="284" y="375" width="132" text="Description (long):" measuredWidth="132" measuredHeight="23" textAlignment="Right">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:TextField" id="70" x="419" y="347" width="275" text="Blablablabla" measuredWidth="275" measuredHeight="23">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:TextArea" id="71" x="419" y="379" width="275" height="97" text="Blablablabla...&#xD;&#xA;Blabla&#xD;&#xA;bla&#xD;&#xA;&#xD;&#xA;" measuredWidth="275" measuredHeight="97">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="72" x="226" y="304" text="Edit Details for Field &quot;DynamicField_Blabla&quot;" measuredWidth="302" measuredHeight="29">
+    <font size="16px"/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="73" x="283" y="482" width="132" text="Default value:" measuredWidth="132" measuredHeight="23" textAlignment="Right">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:TextField" id="74" x="419" y="482" width="275" text="Blablablabla" measuredWidth="275" measuredHeight="23">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="75" x="283" y="512" width="132" text="Display:" measuredWidth="132" measuredHeight="23" textAlignment="Right">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Combo" id="77" x="419" y="512" width="275" text="Mandatory&#xD;&#xA;" measuredWidth="275" measuredHeight="23">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Button" id="78" x="520" y="554" text="Save" measuredWidth="44" measuredHeight="25">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Note" id="10" x="576" y="243" text="Modular dialog to edit activity-dialog-specific field details,&#xD;&#xA;Background is greyed out" measuredWidth="318" measuredHeight="40" annotation="true">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:TextField" id="79" x="200" y="208" width="275" text="Activity Dialog Name" measuredWidth="275" measuredHeight="23">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="80" x="48" y="208" width="147" text="Activity Dialog Name:" measuredWidth="147" measuredHeight="23" textAlignment="Right">
+    <font/>
+  </widgets>
+  <hRuler/>
+  <vRuler/>
+  <font size="12px"/>
+</model:Screen>

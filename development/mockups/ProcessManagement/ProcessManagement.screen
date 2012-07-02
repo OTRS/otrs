@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model:Screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:model="http://wireframesketcher.com/1.0/model.ecore">
+  <widgets xsi:type="model:Browser" id="1" x="8" y="8" width="1001" height="841" text="Browser&#xA;http://..." measuredWidth="1001" measuredHeight="841"/>
+  <widgets xsi:type="model:Rectangle" id="3" x="18" y="70" width="981" height="99" text="Header with Menu" measuredWidth="981" measuredHeight="99">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="4" x="18" y="176" text="Process Management" measuredWidth="191" measuredHeight="36">
+    <font size="20px"/>
+  </widgets>
+  <widgets xsi:type="model:Panel" id="5" x="18" y="312" width="271" height="521" measuredWidth="271" measuredHeight="521"/>
+  <widgets xsi:type="model:Panel" id="6" x="306" y="216" width="693" height="617" measuredWidth="693" measuredHeight="617"/>
+  <widgets xsi:type="model:Text" id="7" x="28" y="536" width="251" height="278" measuredWidth="251" measuredHeight="278" dummyText="true">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Button" id="8" x="32" y="329" width="241" height="33" text="Create New Process" measuredWidth="241" measuredHeight="33">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Table" id="9" x="312" y="226" width="673" height="143" text="Process Name, Description,State,Actions&#xA;Process1, Blabla...,Active,View/Edit, Export, Delete&#xA;Process2, Blabla..., Inactive,View/Edit, Export, Delete&#xA;Process3, Blabla..., Fade Away, View/Edit, Export, Delete&#xA;Process4, Blabla..., Active,View/Edit, Export, Delete&#xA;Process5, Blabla..., Active,View/Edit, Export, Delete" measuredWidth="673" measuredHeight="143" alternative="#eeeeee">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Note" id="10" x="552" y="136" text="Overview Screen, Start of Process Management&#xD;&#xA;&#xD;&#xA;Process Overview, Create, Edit, Delete Processes" measuredWidth="261" measuredHeight="55" annotation="true">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Button" id="11" x="32" y="379" width="241" height="33" text="Import New Process from XPDL" measuredWidth="241" measuredHeight="33">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Button" id="12" x="32" y="428" width="241" height="33" text="Import New Process from Configuration" measuredWidth="241" measuredHeight="33">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Panel" id="14" x="19" y="216" width="271" height="81" measuredWidth="271" measuredHeight="81"/>
+  <widgets xsi:type="model:TextField" id="15" x="32" y="249" width="247" text="Live Filter" measuredWidth="247" measuredHeight="23">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="16" x="31" y="227" text="Processes:" measuredWidth="59" measuredHeight="23">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Button" id="17" x="32" y="474" width="241" height="33" text="Synchronize All Processes" measuredWidth="241" measuredHeight="33">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Note" id="18" x="424" y="512" text="Synchronize:&#xD;&#xA;Save Process in a perl configuration file&#xD;&#xA;&#xD;&#xA;You can &quot;Synchronize all&quot; (sidebar).&#xD;&#xA;You also can manually create new processes as perl configuration files in the config dir. &#xD;&#xA;These files will not be handled with the GUI.&#xD;&#xA;&#xD;&#xA;As long as you do not synchronize your changes, the changes made in the GUI&#xD;&#xA;will not be saved in perl config files and also will not be used!!&#xD;&#xA;" measuredWidth="472" measuredHeight="145" annotation="true" textAlignment="Left">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Note" id="19" x="560" y="355" text="More detailed description via hover" measuredWidth="196" measuredHeight="25" annotation="true">
+    <font/>
+  </widgets>
+  <hRuler/>
+  <vRuler/>
+  <font size="12px"/>
+</model:Screen>

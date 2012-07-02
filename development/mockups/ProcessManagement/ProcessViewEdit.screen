@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model:Screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:model="http://wireframesketcher.com/1.0/model.ecore">
+  <widgets xsi:type="model:Browser" id="1" x="8" y="8" width="1001" height="841" text="Browser&#xA;http://..." measuredWidth="1001" measuredHeight="841"/>
+  <widgets xsi:type="model:Rectangle" id="3" x="18" y="70" width="981" height="99" text="Header with Menu" measuredWidth="981" measuredHeight="99">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="4" x="18" y="176" text="View/Edit Process" measuredWidth="158" measuredHeight="36">
+    <font size="20px"/>
+  </widgets>
+  <widgets xsi:type="model:Panel" id="5" x="18" y="216" width="271" height="617" measuredWidth="271" measuredHeight="617"/>
+  <widgets xsi:type="model:Panel" id="6" x="306" y="216" width="693" height="617" measuredWidth="693" measuredHeight="617"/>
+  <widgets xsi:type="model:Button" id="8" x="32" y="238" width="241" height="33" text="Back To The Overview" measuredWidth="241" measuredHeight="33">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Note" id="10" x="432" y="173" text="View and Edit Process,&#xD;&#xA;Select and Add Activities, Activity Dialogs and Transitions" measuredWidth="312" measuredHeight="40" annotation="true">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="11" x="316" y="226" text="Process &quot;Process 1&quot;" measuredWidth="172" measuredHeight="36">
+    <font size="20px" bold="false"/>
+  </widgets>
+  <widgets xsi:type="model:TextField" id="14" x="510" y="272" width="275" text="Process Name" measuredWidth="275" measuredHeight="23">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="15" x="408" y="272" width="97" text="Process Name:" measuredWidth="97" measuredHeight="23" textAlignment="Right">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="17" x="408" y="306" width="97" text="State:" measuredWidth="97" measuredHeight="23" textAlignment="Right">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Combo" id="18" x="510" y="306" width="275" text="State" measuredWidth="275" measuredHeight="23">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Button" id="19" x="467" y="787" text="Save" measuredWidth="44" measuredHeight="25">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Text" id="20" x="668" y="792" text="or Cancel" measuredWidth="50" measuredHeight="15">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Panel" id="21" x="320" y="352" width="669" height="417" measuredWidth="669" measuredHeight="417"/>
+  <widgets xsi:type="model:Note" id="22" x="823" y="368" text="Canvas for Process" measuredWidth="109" measuredHeight="25" annotation="true">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Circle" id="23" x="336" y="400" text="Start" measuredWidth="40" measuredHeight="40">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:WidgetGroup" id="26" x="408" y="448" measuredWidth="82" measuredHeight="73">
+    <widgets xsi:type="model:Rectangle" id="24" width="82" height="73" measuredWidth="82" measuredHeight="73">
+      <font/>
+    </widgets>
+    <widgets xsi:type="model:Text" id="25" x="8" y="8" text="Activity 1&#xD;&#xA;&#xD;&#xA;- blabla&#xD;&#xA;- blabla" measuredWidth="56" measuredHeight="45">
+      <font/>
+    </widgets>
+  </widgets>
+  <widgets xsi:type="model:WidgetGroup" id="27" x="446" y="584" measuredWidth="82" measuredHeight="73">
+    <widgets xsi:type="model:Rectangle" id="28" width="82" height="73" measuredWidth="82" measuredHeight="73">
+      <font/>
+    </widgets>
+    <widgets xsi:type="model:Text" id="29" x="8" y="8" text="Activity 3&#xD;&#xA;&#xD;&#xA;- blabla&#xD;&#xA;- blabla" measuredWidth="56" measuredHeight="45">
+      <font/>
+    </widgets>
+  </widgets>
+  <widgets xsi:type="model:WidgetGroup" id="30" x="584" y="464" measuredWidth="82" measuredHeight="73">
+    <widgets xsi:type="model:Rectangle" id="31" width="82" height="73" measuredWidth="82" measuredHeight="73">
+      <font/>
+    </widgets>
+    <widgets xsi:type="model:Text" id="32" x="8" y="8" text="Activity 2&#xD;&#xA;&#xD;&#xA;- blabla&#xD;&#xA;- blabla" measuredWidth="56" measuredHeight="45">
+      <font/>
+    </widgets>
+  </widgets>
+  <widgets xsi:type="model:Arrow" id="34" x="368" y="424" width="49" height="25" measuredWidth="49" measuredHeight="25" annotation="true" left="false" right="true"/>
+  <widgets xsi:type="model:Arrow" id="35" x="441" y="520" width="49" height="65" measuredWidth="49" measuredHeight="65" annotation="true" left="false" right="true"/>
+  <widgets xsi:type="model:Arrow" id="36" x="527" y="536" width="98" height="105" measuredWidth="98" measuredHeight="105" annotation="true" left="false" right="true" direction="bottom"/>
+  <widgets xsi:type="model:Text" id="37" x="28" y="295" width="245" height="106" measuredWidth="245" measuredHeight="106" dummyText="true">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Accordion" id="38" x="28" y="408" width="251" height="415" text="Activities&#xA;Activity Dialogs&#xA;Transitions&#xA;Actions" measuredWidth="251" measuredHeight="415" selection="0">
+    <items x="0" y="2" width="251" height="25" text="Activities"/>
+    <items x="0" y="340" width="251" height="25" text="Activity Dialogs"/>
+    <items x="0" y="365" width="251" height="25" text="Transitions"/>
+    <items x="0" y="390" width="251" height="25" text="Actions"/>
+  </widgets>
+  <widgets xsi:type="model:List" id="39" x="38" y="472" width="231" height="223" text="Activity 1                                   Edit | Delete&#xD;&#xA;Activity 2                                   Edit | Delete&#xD;&#xA;Activity 3                                   Edit | Delete" measuredWidth="231" measuredHeight="223">
+    <font/>
+    <items x="0" y="2" width="231" height="21" text="Activity 1                                   Edit | Delete"/>
+    <items x="0" y="23" width="231" height="21" text="Activity 2                                   Edit | Delete"/>
+    <items x="0" y="44" width="231" height="21" text="Activity 3                                   Edit | Delete"/>
+  </widgets>
+  <widgets xsi:type="model:Button" id="40" x="95" y="708" text="Create New Activity" measuredWidth="124" measuredHeight="25">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Note" id="41" x="157" y="400" text="Assign via D'n'D" measuredWidth="95" measuredHeight="25" annotation="true">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Tooltip" id="42" x="649" y="498" text="Details:&#xD;&#xA;- Activity Dialog 1&#xD;&#xA;- Activity Dialog 2&#xD;&#xA;- Activity Dialog 3" measuredWidth="120" measuredHeight="85" position="topLeft">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Note" id="44" x="784" y="666" text="Optional:&#xD;&#xA;Canvas as Fullscreen, Sidebar-Tools&#xD;&#xA;as &quot;Flying Tools Overlay&quot;" measuredWidth="197" measuredHeight="55" annotation="true">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Button" id="45" x="822" y="736" text="Show Canvas As Fullscreen" measuredWidth="162" measuredHeight="25">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Note" id="46" x="776" y="443" text="Activities and Transitions&#xD;&#xA;can be opened with double-click" measuredWidth="183" measuredHeight="40" annotation="true">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:TextField" id="48" x="38" y="443" width="231" text="Live Filter" measuredWidth="231" measuredHeight="23">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Button" id="49" x="520" y="787" text="Save And Synchronize" measuredWidth="136" measuredHeight="25">
+    <font/>
+  </widgets>
+  <hRuler/>
+  <vRuler/>
+  <font size="12px"/>
+</model:Screen>
