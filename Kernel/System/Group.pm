@@ -2,7 +2,7 @@
 # Kernel/System/Group.pm - All Groups and Roles related functions should be here eventually
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Group.pm,v 1.92 2012-04-26 13:30:39 jh Exp $
+# $Id: Group.pm,v 1.93 2012-07-02 09:13:53 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Valid;
 use Kernel::System::CacheInternal;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.92 $) [1];
+$VERSION = qw($Revision: 1.93 $) [1];
 
 =head1 NAME
 
@@ -348,11 +348,39 @@ sub GroupList {
     my ( $Self, %Param ) = @_;
 
     my $Valid = $Param{Valid} || 0;
-    my %Groups = $Self->{DBObject}->GetTableData(
-        What  => 'id, name',
-        Table => 'groups',
-        Valid => $Valid,
+
+    # create cache key
+    my $CacheKey = 'GroupList::' . $Valid;
+
+    # check cache
+    my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+    if ( ref $Cache eq 'HASH' ) {
+        return %{$Cache};
+    }
+
+    my $SQL = 'SELECT id, name FROM groups';
+
+    if ($Valid) {
+
+        # get valid ids
+        my $ValidIDs = join( ', ', $Self->{ValidObject}->ValidIDsGet() );
+
+        $SQL .= " WHERE valid_id IN ($ValidIDs)";
+    }
+
+    return if !$Self->{DBObject}->Prepare(
+        SQL => $SQL,
     );
+    my %Groups;
+    while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
+        $Groups{ $Data[0] } = $Data[1];
+    }
+
+    $Self->{CacheInternalObject}->Set(
+        Key   => $CacheKey,
+        Value => \%Groups,
+    );
+
     return %Groups;
 }
 
@@ -1633,11 +1661,39 @@ sub RoleList {
     my ( $Self, %Param ) = @_;
 
     my $Valid = $Param{Valid} || 0;
-    my %Roles = $Self->{DBObject}->GetTableData(
-        What  => 'id, name',
-        Table => 'roles',
-        Valid => $Valid,
+
+    # create cache key
+    my $CacheKey = 'RoleList::' . $Valid;
+
+    # check cache
+    my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+    if ( ref $Cache eq 'HASH' ) {
+        return %{$Cache};
+    }
+
+    my $SQL = 'SELECT id, name FROM roles';
+
+    if ($Valid) {
+
+        # get valid ids
+        my $ValidIDs = join( ', ', $Self->{ValidObject}->ValidIDsGet() );
+
+        $SQL .= " WHERE valid_id IN ($ValidIDs)";
+    }
+
+    return if !$Self->{DBObject}->Prepare(
+        SQL => $SQL,
     );
+    my %Roles;
+    while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
+        $Roles{ $Data[0] } = $Data[1];
+    }
+
+    $Self->{CacheInternalObject}->Set(
+        Key   => $CacheKey,
+        Value => \%Roles,
+    );
+
     return %Roles;
 }
 
@@ -1682,6 +1738,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.92 $ $Date: 2012-04-26 13:30:39 $
+$Revision: 1.93 $ $Date: 2012-07-02 09:13:53 $
 
 =cut

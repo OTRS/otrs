@@ -1,8 +1,8 @@
 # --
 # Group.t - Group tests
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Group.t,v 1.18 2010-10-29 05:03:20 en Exp $
+# $Id: Group.t,v 1.19 2012-07-02 09:13:53 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -220,6 +220,30 @@ $Self->True(
     'GroupList()',
 );
 
+# check cache
+%Groups = $GroupObject->GroupList( Valid => 1 );
+
+$Self->True(
+    $Groups{$GroupID1},
+    'GroupList()',
+);
+
+# check with valid => 0
+%Groups = $GroupObject->GroupList( Valid => 0 );
+
+$Self->True(
+    $Groups{$GroupID1},
+    'GroupList()',
+);
+
+# check cache
+%Groups = $GroupObject->GroupList( Valid => 0 );
+
+$Self->True(
+    $Groups{$GroupID1},
+    'GroupList()',
+);
+
 # add three roles
 my $RoleRand1 = 'example-role1' . int( rand(1000000) );
 my $RoleRand2 = 'example-role2' . int( rand(1000000) );
@@ -354,6 +378,30 @@ $Self->True(
 
 # get list of Roles
 my %Roles = $GroupObject->RoleList( Valid => 1 );
+
+$Self->True(
+    $Roles{$RoleID1},
+    'RoleList()',
+);
+
+# check cache
+%Roles = $GroupObject->RoleList( Valid => 1 );
+
+$Self->True(
+    $Roles{$RoleID1},
+    'RoleList()',
+);
+
+# check valid => 0
+%Roles = $GroupObject->RoleList( Valid => 0 );
+
+$Self->True(
+    $Roles{$RoleID1},
+    'RoleList()',
+);
+
+# check cache
+%Roles = $GroupObject->RoleList( Valid => 0 );
 
 $Self->True(
     $Roles{$RoleID1},
