@@ -2,7 +2,7 @@
 # CustomerGroup.t - Customer Group tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerGroup.t,v 1.1 2012-07-03 06:59:40 cr Exp $
+# $Id: CustomerGroup.t,v 1.2 2012-07-03 07:05:17 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -47,6 +47,10 @@ my $GroupObject = Kernel::System::Group->new(
 $ConfigObject->Set(
     Key   => 'CustomerGroupAlwaysGroups',
     Value => [],
+);
+$ConfigObject->Set(
+    Key   => 'CustomerGroupSupport',
+    Value => 1,
 );
 
 my $RandomID = $HelperObject->GetRandomID();
