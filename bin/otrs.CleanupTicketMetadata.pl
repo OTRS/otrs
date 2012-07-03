@@ -3,7 +3,7 @@
 # bin/otrs.CleanupTicketMetadata.pl - remove unneeded ticket meta data
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.CleanupTicketMetadata.pl,v 1.2 2012-07-03 13:29:59 mg Exp $
+# $Id: otrs.CleanupTicketMetadata.pl,v 1.3 2012-07-03 13:32:04 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin) . '/Custom';
 use strict;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 use Getopt::Long;
 use Kernel::Config;
@@ -81,11 +81,18 @@ otrs.CleanupTicketMetadata.pl <Revision $VERSION> - Remove unneeded ticket metad
 Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 
 Usage:
+
     otrs.CleanupTicketMetadata.pl --archived
 
     # Deletes ticket/article seen flags and ticket watcher entries for archived tickets.
     # This does not regularly need to be run as this data will automatically be removed
     #   when tickets are archived (depending on your system's configuration).
+
+    otrs.CleanupTicketMetadata.pl --invalid-users
+
+    # Deletes ticket/article seen flags and ticket watcher entries of users which have been
+    #   invalid for more than a month. Run this to clean up this kind of data after invalidating
+    #   significant amounts of users.
 
 EOF
         exit 1;
