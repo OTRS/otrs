@@ -3,7 +3,7 @@
 # bin/otrs.CleanupTicketMetadata.pl - remove unneeded ticket meta data
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.CleanupTicketMetadata.pl,v 1.1 2012-07-03 12:13:18 mg Exp $
+# $Id: otrs.CleanupTicketMetadata.pl,v 1.2 2012-07-03 13:29:59 mg Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin) . '/Custom';
 use strict;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 use Getopt::Long;
 use Kernel::Config;
@@ -70,11 +70,12 @@ sub Run {
     my %Opts = ();
     Getopt::Long::Configure('no_ignore_case');
     GetOptions(
-        'archived|a' => \$Opts{Archived},
-        'help|h'     => \$Opts{h},
+        'archived|a'      => \$Opts{Archived},
+        'invalid-users|i' => \$Opts{InvalidUsers},
+        'help|h'          => \$Opts{h},
     );
 
-    if ( $Opts{h} || !$Opts{Archived} ) {
+    if ( $Opts{h} || ( !$Opts{Archived} && !$Opts{InvalidUsers} ) ) {
         print <<EOF;
 otrs.CleanupTicketMetadata.pl <Revision $VERSION> - Remove unneeded ticket metadata
 Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
@@ -90,9 +91,8 @@ EOF
         exit 1;
     }
 
-    if ( $Opts{Archived} ) {
-        CleanupArchived();
-    }
+    CleanupArchived()     if ( $Opts{Archived} );
+    CleanupInvalidUsers() if ( $Opts{InvalidUsers} );
 }
 
 sub CleanupArchived {
@@ -137,13 +137,13 @@ sub CleanupArchived {
             );
 
             if ( $Count++ % $CommonObjectRefresh == 0 ) {
-                print "Removing seen flags of ticket $Count\n";
+                print "    Removing seen flags of ticket $Count\n";
                 $CommonObject = _CommonObjects();
             }
         }
 
         print "Done (changed $Count tickets).\n";
-        print "Checking for archived tickets with seen flags...\n";
+        print "Checking for archived articles with seen flags...\n";
 
         # Find all articles of archived tickets which have ticket seen flags set
         return if !$DBObject2->Prepare(
@@ -168,7 +168,7 @@ sub CleanupArchived {
             );
 
             if ( $Count++ % $CommonObjectRefresh == 0 ) {
-                print "Removing seen flags of article $Count\n";
+                print "    Removing seen flags of article $Count\n";
                 $CommonObject = _CommonObjects();
             }
 
@@ -206,7 +206,7 @@ sub CleanupArchived {
             );
 
             if ( $Count++ % $CommonObjectRefresh == 0 ) {
-                print "Removing ticket watcher entries of ticket $Count\n";
+                print "    Removing ticket watcher entries of ticket $Count\n";
                 $CommonObject = _CommonObjects();
             }
         }
@@ -214,6 +214,153 @@ sub CleanupArchived {
         print "Done (changed $Count tickets).\n";
 
     }
+}
+
+sub CleanupInvalidUsers {
+    my ( $Self, %Param ) = @_;
+
+    my $CommonObject = _CommonObjects();
+
+    # Refresh common objects after a certain number of loop iterations.
+    #   This will call event handlers and clean up caches to avoid excessive mem usage.
+    my $CommonObjectRefresh = 50;
+
+    my $InvalidID = 2;
+
+    # Users must be invalid for at least one month
+    my $Offset        = 60 * 60 * 24 * 10;
+    my $InvalidBefore = $CommonObject->{TimeObject}->SystemTime() - $Offset;
+
+    # First, find all invalid users which are invalid for more than one month
+    my %AllUsers = $CommonObject->{UserObject}->UserList( Valid => 0 );
+    my @CleanupInvalidUsers;
+    USERID:
+    for my $UserID ( keys %AllUsers ) {
+        my %User = $CommonObject->{UserObject}->GetUserData( UserID => $UserID );
+
+        # Only take invalid users
+        next USERID if ( $User{ValidID} != $InvalidID );
+
+        # Only take users which are invalid for more than one month
+        my $InvalidTime = $CommonObject->{TimeObject}->TimeStamp2SystemTime(
+            String => $User{ChangeTime},
+        );
+        next USERID if ( $InvalidTime >= $InvalidBefore );
+
+        push @CleanupInvalidUsers, $UserID;
+    }
+
+    if ( !@CleanupInvalidUsers ) {
+        print "No cleanup for invalid users is needed.";
+        return;
+    }
+
+    print "Cleanup for " . ( scalar @CleanupInvalidUsers ) . " starting...";
+
+    my $DBObject2 = Kernel::System::DB->new( %{$CommonObject} );
+
+    for my $UserID (@CleanupInvalidUsers) {
+        my %User = $CommonObject->{UserObject}->GetUserData( UserID => $UserID );
+
+        print "\nChecking for tickets with seen flags for user $User{UserLogin}...\n";
+
+        # Find all archived tickets which have ticket seen flags set
+        return if !$DBObject2->Prepare(
+            SQL => "
+                SELECT DISTINCT(ticket.id)
+                FROM ticket
+                    INNER JOIN ticket_flag ON ticket.id = ticket_flag.ticket_id
+                WHERE ticket_flag.create_by = $UserID
+                    AND ticket_flag.ticket_key = 'Seen'",
+            Limit => 1_000_000,
+        );
+
+        my $Count = 0;
+
+        while ( my @Row = $DBObject2->FetchrowArray() ) {
+
+            $CommonObject->{TicketObject}->TicketFlagDelete(
+                TicketID => $Row[0],
+                Key      => 'Seen',
+                UserID   => $UserID,
+            );
+
+            if ( $Count++ % $CommonObjectRefresh == 0 ) {
+                print "    Removing seen flags of ticket $Count for user $User{UserLogin}\n";
+                $CommonObject = _CommonObjects();
+            }
+        }
+
+        print "Done (changed $Count tickets for user $User{UserLogin}).\n";
+        print "Checking for articles with seen flags for user $User{UserLogin}...\n";
+
+        # Find all articles of archived tickets which have ticket seen flags set
+        return if !$DBObject2->Prepare(
+            SQL => "
+                SELECT DISTINCT(article.id)
+                FROM article
+                    INNER JOIN ticket ON ticket.id = article.ticket_id
+                    INNER JOIN article_flag ON article.id = article_flag.article_id
+                WHERE article_flag.create_by = $UserID
+                    AND article_flag.article_key = 'Seen'",
+            Limit => 1_000_000,
+        );
+
+        $Count = 0;
+
+        while ( my @Row = $DBObject2->FetchrowArray() ) {
+
+            $CommonObject->{TicketObject}->ArticleFlagDelete(
+                ArticleID => $Row[0],
+                Key       => 'Seen',
+                UserID    => $UserID,
+            );
+
+            if ( $Count++ % $CommonObjectRefresh == 0 ) {
+                print "    Removing seen flags of article $Count for user $User{UserLogin}\n";
+                $CommonObject = _CommonObjects();
+            }
+
+        }
+        print "Done (changed $Count articles for user $User{UserLogin}).\n";
+
+        if ( $CommonObject->{ConfigObject}->Get('Ticket::Watcher') )
+        {
+
+            print "Checking for tickets with ticket watcher entries for user $User{UserLogin}...\n";
+
+            # Find all archived tickets which have ticket seen flags set
+            return if !$DBObject2->Prepare(
+                SQL => "
+                    SELECT DISTINCT(ticket.id)
+                    FROM ticket
+                        INNER JOIN ticket_watcher ON ticket.id = ticket_watcher.ticket_id
+                    WHERE ticket.archive_flag = 1",
+                Limit => 1_000_000,
+            );
+
+            my $Count = 0;
+
+            while ( my @Row = $DBObject2->FetchrowArray() ) {
+
+                $CommonObject->{TicketObject}->TicketWatchUnsubscribe(
+                    TicketID    => $Row[0],
+                    WatchUserID => $UserID,
+                    UserID      => 1,
+                );
+
+                if ( $Count++ % $CommonObjectRefresh == 0 ) {
+                    print
+                        "    Removing ticket watcher entries of ticket $Count for user $User{UserLogin}\n";
+                    $CommonObject = _CommonObjects();
+                }
+            }
+
+            print "Done (changed $Count tickets for user $User{UserLogin}).\n";
+
+        }
+    }
+
 }
 
 Run();
