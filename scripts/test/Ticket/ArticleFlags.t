@@ -2,7 +2,7 @@
 # ArticleFlags.t - ticket module testscript
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleFlags.t,v 1.2 2012-06-19 13:00:37 mg Exp $
+# $Id: ArticleFlags.t,v 1.3 2012-07-03 09:42:45 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -236,6 +236,45 @@ for my $Test (@Tests) {
         \%Flag,
         {},
         'ArticleFlagsOfTicketGet() empty articles',
+    );
+
+    # test ArticleFlagsDelete for AllUsers
+    $Set = $TicketObject->ArticleFlagSet(
+        ArticleID => $ArticleID,
+        Key       => $Test->{Key},
+        Value     => $Test->{Value},
+        UserID    => 1,
+    );
+    $Self->True(
+        $Set,
+        'ArticleFlagSet() article 1',
+    );
+    %Flag = $TicketObject->ArticleFlagGet(
+        ArticleID => $ArticleID,
+        UserID    => 1,
+    );
+    $Self->Is(
+        $Flag{ $Test->{Key} },
+        $Test->{Value},
+        'ArticleFlagGet() article 1',
+    );
+    $Delete = $TicketObject->ArticleFlagDelete(
+        ArticleID => $ArticleID,
+        Key       => $Test->{Key},
+        AllUsers  => 1,
+    );
+    $Self->True(
+        $Delete,
+        'ArticleFlagDelete() article 2 for AllUsers',
+    );
+    %Flag = $TicketObject->ArticleFlagGet(
+        ArticleID => $ArticleID,
+        UserID    => 1,
+    );
+    $Self->Is(
+        $Flag{ $Test->{Key} },
+        scalar undef,
+        'ArticleFlagGet() article 1 after delete for AllUsers',
     );
 }
 

@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.319 2012-06-28 12:43:25 mg Exp $
+# $Id: Article.pm,v 1.320 2012-07-03 09:42:36 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::EmailParser;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.319 $) [1];
+$VERSION = qw($Revision: 1.320 $) [1];
 
 =head1 NAME
 
@@ -2961,6 +2961,12 @@ delete article flag
         UserID    => 123,
     );
 
+    my $Success = $TicketObject->ArticleFlagDelete(
+        ArticleID => 123,
+        Key       => 'seen',
+        AllUsers  => 1,         # delete for all users
+    );
+
 Events:
     ArticleFlagDelete
 
@@ -2970,39 +2976,58 @@ sub ArticleFlagDelete {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(ArticleID Key UserID)) {
+    for (qw(ArticleID Key)) {
         if ( !$Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
 
-    # do db insert
-    return if !$Self->{DBObject}->Do(
-        SQL => '
-            DELETE FROM article_flag
-            WHERE article_id = ?
-                AND create_by = ?
-                AND article_key = ?',
-        Bind => [ \$Param{ArticleID}, \$Param{UserID}, \$Param{Key} ],
-    );
+    if ( !$Param{AllUsers} && !$Param{UserID} ) {
+        if ( !$Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need AllUsers or UserID!" );
+            return;
+        }
+    }
 
-    # event
-    my %Article = $Self->ArticleGet(
-        ArticleID     => $Param{ArticleID},
-        UserID        => $Param{UserID},
-        DynamicFields => 0,
-    );
-    $Self->EventHandler(
-        Event => 'ArticleFlagDelete',
-        Data  => {
-            TicketID  => $Article{TicketID},
-            ArticleID => $Param{ArticleID},
-            Key       => $Param{Key},
-            UserID    => $Param{UserID},
-        },
-        UserID => $Param{UserID},
-    );
+    if ( $Param{AllUsers} ) {
+        return if !$Self->{DBObject}->Do(
+            SQL => '
+                DELETE FROM article_flag
+                WHERE article_id = ?
+                    AND article_key = ?',
+            Bind => [ \$Param{ArticleID}, \$Param{Key} ],
+        );
+    }
+    else {
+        return if !$Self->{DBObject}->Do(
+            SQL => '
+                DELETE FROM article_flag
+                WHERE article_id = ?
+                    AND create_by = ?
+                    AND article_key = ?',
+            Bind => [ \$Param{ArticleID}, \$Param{UserID}, \$Param{Key} ],
+        );
+
+        # event
+        my %Article = $Self->ArticleGet(
+            ArticleID     => $Param{ArticleID},
+            UserID        => $Param{UserID},
+            DynamicFields => 0,
+        );
+
+        $Self->EventHandler(
+            Event => 'ArticleFlagDelete',
+            Data  => {
+                TicketID  => $Article{TicketID},
+                ArticleID => $Param{ArticleID},
+                Key       => $Param{Key},
+                UserID    => $Param{UserID},
+            },
+            UserID => $Param{UserID},
+        );
+    }
+
     return 1;
 }
 
@@ -3447,6 +3472,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.319 $ $Date: 2012-06-28 12:43:25 $
+$Revision: 1.320 $ $Date: 2012-07-03 09:42:36 $
 
 =cut
