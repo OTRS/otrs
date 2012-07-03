@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.565 2012-07-03 09:47:35 mg Exp $
+# $Id: Ticket.pm,v 1.566 2012-07-03 10:00:16 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -40,7 +40,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.565 $) [1];
+$VERSION = qw($Revision: 1.566 $) [1];
 
 =head1 NAME
 
@@ -3677,7 +3677,7 @@ sub TicketArchiveFlagSet {
         $Self->TicketWatchUnsubscribe(
             TicketID => $Param{TicketID},
             AllUsers => 1,
-            UserID   => 1,
+            UserID   => $Param{UserID},
         );
     }
 
@@ -7678,6 +7678,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.565 $ $Date: 2012-07-03 09:47:35 $
+$Revision: 1.566 $ $Date: 2012-07-03 10:00:16 $
 
 =cut
