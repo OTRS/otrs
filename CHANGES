@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2365 2012-07-03 09:47:35 mg Exp $
+# $Id: CHANGES,v 1.2366 2012-07-03 09:48:06 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,7 +13,7 @@
  - 2012-07-03 Added new feature to remove seen flags and ticket watcher information of
     archived tickets. Use the config settings Ticket::ArchiveSystem::RemoveSeenFlags and
     Ticket::ArchiveSystem::RemoveTicketWatchers to control if this data is removed when
-    a ticket is being archived.
+    a ticket is being archived (active by default).
  - 2012-06-26 Improved cache performance with many cache files.
  - 2012-06-26 Removed unneeded columns from the ticket table.
  - 2012-06-21 Added bin/otrs.TicketDelete.pl script to delete tickets.
