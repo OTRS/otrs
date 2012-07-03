@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.566 2012-07-03 10:00:16 mg Exp $
+# $Id: Ticket.pm,v 1.567 2012-07-03 14:29:24 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -40,7 +40,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.566 $) [1];
+$VERSION = qw($Revision: 1.567 $) [1];
 
 =head1 NAME
 
@@ -3644,6 +3644,39 @@ sub TicketArchiveFlagSet {
     # clear ticket cache
     $Self->_TicketCacheClear( TicketID => $Param{TicketID} );
 
+    # Remove seen flags from ticket and article and ticket watcher data if configured
+    #   and if the ticket flag was just set.
+    if ($ArchiveFlag) {
+
+        if ( $Self->{ConfigObject}->Get('Ticket::ArchiveSystem::RemoveSeenFlags') ) {
+            $Self->TicketFlagDelete(
+                TicketID => $Param{TicketID},
+                Key      => 'Seen',
+                AllUsers => 1,
+            );
+
+            for my $ArticleID ( $Self->ArticleIndex( TicketID => $Param{TicketID} ) ) {
+                $Self->ArticleFlagDelete(
+                    ArticleID => $ArticleID,
+                    Key       => 'Seen',
+                    AllUsers  => 1,
+                );
+            }
+        }
+
+        if (
+            $Self->{ConfigObject}->Get('Ticket::ArchiveSystem::RemoveTicketWatchers')
+            && $Self->{ConfigObject}->Get('Ticket::Watcher')
+            )
+        {
+            $Self->TicketWatchUnsubscribe(
+                TicketID => $Param{TicketID},
+                AllUsers => 1,
+                UserID   => $Param{UserID},
+            );
+        }
+    }
+
     # add history
     $Self->HistoryAdd(
         TicketID     => $Param{TicketID},
@@ -3651,35 +3684,6 @@ sub TicketArchiveFlagSet {
         HistoryType  => 'ArchiveFlagUpdate',
         Name         => "\%\%$Param{ArchiveFlag}",
     );
-
-    # Remove seen flags from ticket and article if configured
-    if ( $Self->{ConfigObject}->Get('Ticket::ArchiveSystem::RemoveSeenFlags') ) {
-        $Self->TicketFlagDelete(
-            TicketID => $Param{TicketID},
-            Key      => 'Seen',
-            AllUsers => 1,
-        );
-
-        for my $ArticleID ( $Self->ArticleIndex( TicketID => $Param{TicketID} ) ) {
-            $Self->ArticleFlagDelete(
-                ArticleID => $ArticleID,
-                Key       => 'Seen',
-                AllUsers  => 1,
-            );
-        }
-    }
-
-    if (
-        $Self->{ConfigObject}->Get('Ticket::ArchiveSystem::RemoveTicketWatchers')
-        && $Self->{ConfigObject}->Get('Ticket::Watcher')
-        )
-    {
-        $Self->TicketWatchUnsubscribe(
-            TicketID => $Param{TicketID},
-            AllUsers => 1,
-            UserID   => $Param{UserID},
-        );
-    }
 
     # trigger event
     $Self->EventHandler(
@@ -7678,6 +7682,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.566 $ $Date: 2012-07-03 10:00:16 $
+$Revision: 1.567 $ $Date: 2012-07-03 14:29:24 $
 
 =cut
