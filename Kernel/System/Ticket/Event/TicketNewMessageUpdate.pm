@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Ticket/Event/TicketNewMessageUpdate.pm - update ticket new message flag
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketNewMessageUpdate.pm,v 1.5 2010-11-26 05:43:46 martin Exp $
+# $Id: TicketNewMessageUpdate.pm,v 1.6 2012-07-03 09:47:36 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -57,10 +57,9 @@ sub Run {
 
     # update ticket new message flag
     if ( $Param{Event} eq 'ArticleCreate' ) {
-        $Self->{TicketObject}->TicketFlagSet(
+        $Self->{TicketObject}->TicketFlagDelete(
             TicketID => $Param{Data}->{TicketID},
             Key      => 'Seen',
-            Value    => 0,
             AllUsers => 1,
         );
 

@@ -2,7 +2,7 @@
 # TicketFlags.t - ticket module testscript
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketFlags.t,v 1.2 2012-01-27 12:04:19 mg Exp $
+# $Id: TicketFlags.t,v 1.3 2012-07-03 09:47:35 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -97,6 +97,44 @@ for my $Test (@Tests) {
     $Self->True(
         $Delete,
         'TicketFlagDelete()',
+    );
+    %Flag = $TicketObject->TicketFlagGet(
+        TicketID => $TicketID,
+        UserID   => 1,
+    );
+    $Self->False(
+        $Flag{ $Test->{Key} },
+        'TicketFlagGet()',
+    );
+
+    # check delete for all users
+    $Set = $TicketObject->TicketFlagSet(
+        TicketID => $TicketID,
+        Key      => $Test->{Key},
+        Value    => $Test->{Value},
+        UserID   => 1,
+    );
+    $Self->True(
+        $Set,
+        'TicketFlagSet()',
+    );
+    %Flag = $TicketObject->TicketFlagGet(
+        TicketID => $TicketID,
+        UserID   => 1,
+    );
+    $Self->Is(
+        $Flag{ $Test->{Key} },
+        $Test->{Value},
+        'TicketFlagGet()',
+    );
+    $Delete = $TicketObject->TicketFlagDelete(
+        TicketID => $TicketID,
+        Key      => $Test->{Key},
+        AllUsers => 1,
+    );
+    $Self->True(
+        $Delete,
+        'TicketFlagDelete() for AllUsers',
     );
     %Flag = $TicketObject->TicketFlagGet(
         TicketID => $TicketID,

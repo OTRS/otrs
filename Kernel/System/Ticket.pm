@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.564 2012-07-02 07:35:54 mh Exp $
+# $Id: Ticket.pm,v 1.565 2012-07-03 09:47:35 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -40,7 +40,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.564 $) [1];
+$VERSION = qw($Revision: 1.565 $) [1];
 
 =head1 NAME
 
@@ -3634,8 +3634,10 @@ sub TicketArchiveFlagSet {
 
     # set new archive flag
     return if !$Self->{DBObject}->Do(
-        SQL => 'UPDATE ticket SET archive_flag = ?, '
-            . ' change_time = current_timestamp, change_by = ? WHERE id = ?',
+        SQL => '
+            UPDATE ticket
+            SET archive_flag = ?, change_time = current_timestamp, change_by = ?
+            WHERE id = ?',
         Bind => [ \$ArchiveFlag, \$Param{UserID}, \$Param{TicketID} ],
     );
 
@@ -3649,6 +3651,35 @@ sub TicketArchiveFlagSet {
         HistoryType  => 'ArchiveFlagUpdate',
         Name         => "\%\%$Param{ArchiveFlag}",
     );
+
+    # Remove seen flags from ticket and article if configured
+    if ( $Self->{ConfigObject}->Get('Ticket::ArchiveSystem::RemoveSeenFlags') ) {
+        $Self->TicketFlagDelete(
+            TicketID => $Param{TicketID},
+            Key      => 'Seen',
+            AllUsers => 1,
+        );
+
+        for my $ArticleID ( $Self->ArticleIndex( TicketID => $Param{TicketID} ) ) {
+            $Self->ArticleFlagDelete(
+                ArticleID => $ArticleID,
+                Key       => 'Seen',
+                AllUsers  => 1,
+            );
+        }
+    }
+
+    if (
+        $Self->{ConfigObject}->Get('Ticket::ArchiveSystem::RemoveTicketWatchers')
+        && $Self->{ConfigObject}->Get('Ticket::Watcher')
+        )
+    {
+        $Self->TicketWatchUnsubscribe(
+            TicketID => $Param{TicketID},
+            AllUsers => 1,
+            UserID   => 1,
+        );
+    }
 
     # trigger event
     $Self->EventHandler(
@@ -5430,7 +5461,7 @@ get list of users to notify
 
 get list of users as array
 
-    my Watch = $TicketObject->TicketWatchGet(
+    my @Watch = $TicketObject->TicketWatchGet(
         TicketID => 123,
         Result   => 'ARRAY',
     );
@@ -5451,8 +5482,10 @@ sub TicketWatchGet {
 
     # get all attributes of an watched ticket
     return if !$Self->{DBObject}->Prepare(
-        SQL => 'SELECT user_id, create_time, create_by, change_time, change_by'
-            . ' FROM ticket_watcher WHERE ticket_id = ?',
+        SQL => '
+            SELECT user_id, create_time, create_by, change_time, change_by
+            FROM ticket_watcher
+            WHERE ticket_id = ?',
         Bind => [ \$Param{TicketID} ],
     );
 
@@ -5519,13 +5552,16 @@ sub TicketWatchSubscribe {
 
     # db access
     return if !$Self->{DBObject}->Do(
-        SQL => 'DELETE FROM ticket_watcher WHERE ticket_id = ? AND user_id = ?',
+        SQL => '
+            DELETE FROM ticket_watcher
+            WHERE ticket_id = ?
+            AND user_id = ?',
         Bind => [ \$Param{TicketID}, \$Param{WatchUserID} ],
     );
     return if !$Self->{DBObject}->Do(
-        SQL =>
-            'INSERT INTO ticket_watcher (ticket_id, user_id, create_time, create_by, change_time, change_by) '
-            . ' VALUES (?, ?, current_timestamp, ?, current_timestamp, ?)',
+        SQL => '
+            INSERT INTO ticket_watcher (ticket_id, user_id, create_time, create_by, change_time, change_by)
+            VALUES (?, ?, current_timestamp, ?, current_timestamp, ?)',
         Bind => [ \$Param{TicketID}, \$Param{WatchUserID}, \$Param{UserID}, \$Param{UserID} ],
     );
 
@@ -5573,40 +5609,79 @@ sub TicketWatchUnsubscribe {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for my $Needed (qw(TicketID WatchUserID UserID)) {
+    for my $Needed (qw(TicketID UserID)) {
         if ( !defined $Param{$Needed} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }
 
-    # db access
-    return if !$Self->{DBObject}->Do(
-        SQL => 'DELETE FROM ticket_watcher WHERE ticket_id = ? AND user_id = ?',
-        Bind => [ \$Param{TicketID}, \$Param{WatchUserID} ],
-    );
+    # only one of these parameters is needed
+    if ( !$Param{WatchUserID} && !$Param{AllUsers} ) {
+        $Self->{LogObject}
+            ->Log( Priority => 'error', Message => "Need WatchUserID or AllUsers param!" );
+        return;
+    }
 
-    # get user data
-    my %User = $Self->{UserObject}->GetUserData(
-        UserID => $Param{WatchUserID},
-    );
-
-    # add history
-    $Self->HistoryAdd(
-        TicketID     => $Param{TicketID},
-        CreateUserID => $Param{UserID},
-        HistoryType  => 'Unsubscribe',
-        Name         => "\%\%$User{UserFirstname} $User{UserLastname} ($User{UserLogin})",
-    );
-
-    # trigger event
-    $Self->EventHandler(
-        Event => 'TicketUnsubscribe',
-        Data  => {
+    if ( $Param{AllUsers} ) {
+        my @WatchUsers = $Self->TicketWatchGet(
             TicketID => $Param{TicketID},
-        },
-        UserID => $Param{UserID},
-    );
+            Result   => 'ARRAY',
+        );
+
+        return if !$Self->{DBObject}->Do(
+            SQL  => 'DELETE FROM ticket_watcher WHERE ticket_id = ?',
+            Bind => [ \$Param{TicketID} ],
+        );
+
+        for my $WatchUser (@WatchUsers) {
+
+            my %User = $Self->{UserObject}->GetUserData(
+                UserID => $WatchUser,
+            );
+
+            $Self->HistoryAdd(
+                TicketID     => $Param{TicketID},
+                CreateUserID => $Param{UserID},
+                HistoryType  => 'Unsubscribe',
+                Name         => "\%\%$User{UserFirstname} $User{UserLastname} ($User{UserLogin})",
+            );
+
+            $Self->EventHandler(
+                Event => 'TicketUnsubscribe',
+                Data  => {
+                    TicketID => $Param{TicketID},
+                },
+                UserID => $Param{UserID},
+            );
+        }
+
+    }
+    else {
+        return if !$Self->{DBObject}->Do(
+            SQL => 'DELETE FROM ticket_watcher WHERE ticket_id = ? AND user_id = ?',
+            Bind => [ \$Param{TicketID}, \$Param{WatchUserID} ],
+        );
+
+        my %User = $Self->{UserObject}->GetUserData(
+            UserID => $Param{WatchUserID},
+        );
+
+        $Self->HistoryAdd(
+            TicketID     => $Param{TicketID},
+            CreateUserID => $Param{UserID},
+            HistoryType  => 'Unsubscribe',
+            Name         => "\%\%$User{UserFirstname} $User{UserLastname} ($User{UserLogin})",
+        );
+
+        $Self->EventHandler(
+            Event => 'TicketUnsubscribe',
+            Data  => {
+                TicketID => $Param{TicketID},
+            },
+            UserID => $Param{UserID},
+        );
+    }
 
     return 1;
 }
@@ -5622,13 +5697,6 @@ set ticket flags
         UserID   => 123, # apply to this user
     );
 
-    my $Success = $TicketObject->TicketFlagSet(
-        TicketID => 123,
-        Key      => 'Seen',
-        Value    => 1,
-        AllUsers => 1, # apply to all users
-    );
-
 Events:
     TicketFlagSet
 
@@ -5638,8 +5706,81 @@ sub TicketFlagSet {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for my $Needed (qw(TicketID Key Value)) {
+    for my $Needed (qw(TicketID Key Value UserID)) {
         if ( !defined $Param{$Needed} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            return;
+        }
+    }
+
+    my %Flag = $Self->TicketFlagGet(%Param);
+
+    # check if set is needed
+    return 1 if defined $Flag{ $Param{Key} } && $Flag{ $Param{Key} } eq $Param{Value};
+
+    # set flag
+    return if !$Self->{DBObject}->Do(
+        SQL => '
+            DELETE FROM ticket_flag
+            WHERE ticket_id = ?
+                AND ticket_key = ?
+                AND create_by = ?',
+        Bind => [ \$Param{TicketID}, \$Param{Key}, \$Param{UserID} ],
+    );
+    return if !$Self->{DBObject}->Do(
+        SQL => '
+            INSERT INTO ticket_flag
+            (ticket_id, ticket_key, ticket_value, create_time, create_by)
+            VALUES (?, ?, ?, current_timestamp, ?)',
+        Bind => [ \$Param{TicketID}, \$Param{Key}, \$Param{Value}, \$Param{UserID} ],
+    );
+
+    # delete cache
+    my $CacheKey = 'TicketFlagGet::' . $Param{TicketID} . '::' . $Param{UserID};
+    $Self->{CacheInternalObject}->Delete( Key => $CacheKey );
+
+    # event
+    $Self->EventHandler(
+        Event => 'TicketFlagSet',
+        Data  => {
+            TicketID => $Param{TicketID},
+            Key      => $Param{Key},
+            Value    => $Param{Value},
+            UserID   => $Param{UserID},
+        },
+        UserID => $Param{UserID},
+    );
+
+    return 1;
+}
+
+=item TicketFlagDelete()
+
+delete ticket flag
+
+    my $Success = $TicketObject->TicketFlagDelete(
+        TicketID => 123,
+        Key      => 'Seen',
+        UserID   => 123,
+    );
+
+    my $Success = $TicketObject->TicketFlagDelete(
+        TicketID => 123,
+        Key      => 'Seen',
+        AllUsers => 1,
+    );
+
+Events:
+    TicketFlagDelete
+
+=cut
+
+sub TicketFlagDelete {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Needed (qw(TicketID Key)) {
+        if ( !$Param{$Needed} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
@@ -5660,13 +5801,13 @@ sub TicketFlagSet {
             AllUsers => 1,
         );
 
+        # do db insert
         return if !$Self->{DBObject}->Do(
             SQL => '
-                UPDATE ticket_flag
-                SET ticket_value = ?
+                DELETE FROM ticket_flag
                 WHERE ticket_id = ?
                     AND ticket_key = ?',
-            Bind => [ \$Param{Value}, \$Param{TicketID}, \$Param{Key} ],
+            Bind => [ \$Param{TicketID}, \$Param{Key} ],
         );
 
         # clean the cache
@@ -5675,101 +5816,45 @@ sub TicketFlagSet {
 
             # delete cache
             $Self->{CacheInternalObject}->Delete( Key => $CacheKey );
+
+            $Self->EventHandler(
+                Event => 'TicketFlagDelete',
+                Data  => {
+                    TicketID => $Param{TicketID},
+                    Key      => $Param{Key},
+                    UserID   => $Record->{UserID},
+                },
+                UserID => $Record->{UserID},
+            );
         }
     }
-    elsif ( $Param{UserID} ) {
-        my %Flag = $Self->TicketFlagGet(%Param);
+    else {
 
-        # check if set is needed
-        return 1 if defined $Flag{ $Param{Key} } && $Flag{ $Param{Key} } eq $Param{Value};
-
-        # set flag
+        # do db insert
         return if !$Self->{DBObject}->Do(
             SQL => '
                 DELETE FROM ticket_flag
                 WHERE ticket_id = ?
-                    AND ticket_key = ?
-                    AND create_by = ?',
-            Bind => [ \$Param{TicketID}, \$Param{Key}, \$Param{UserID} ],
-        );
-        return if !$Self->{DBObject}->Do(
-            SQL => '
-                INSERT INTO ticket_flag
-                (ticket_id, ticket_key, ticket_value, create_time, create_by)
-                VALUES (?, ?, ?, current_timestamp, ?)',
-            Bind => [ \$Param{TicketID}, \$Param{Key}, \$Param{Value}, \$Param{UserID} ],
+                    AND create_by = ?
+                    AND ticket_key = ?',
+            Bind => [ \$Param{TicketID}, \$Param{UserID}, \$Param{Key} ],
         );
 
         # delete cache
         my $CacheKey = 'TicketFlagGet::' . $Param{TicketID} . '::' . $Param{UserID};
         $Self->{CacheInternalObject}->Delete( Key => $CacheKey );
 
-        # event
         $Self->EventHandler(
-            Event => 'TicketFlagSet',
+            Event => 'TicketFlagDelete',
             Data  => {
                 TicketID => $Param{TicketID},
                 Key      => $Param{Key},
-                Value    => $Param{Value},
                 UserID   => $Param{UserID},
             },
             UserID => $Param{UserID},
         );
     }
 
-    return 1;
-}
-
-=item TicketFlagDelete()
-
-delete ticket flag
-
-    my $Success = $TicketObject->TicketFlagDelete(
-        TicketID => 123,
-        Key      => 'Seen',
-        UserID   => 123,
-    );
-
-Events:
-    TicketFlagDelete
-
-=cut
-
-sub TicketFlagDelete {
-    my ( $Self, %Param ) = @_;
-
-    # check needed stuff
-    for my $Needed (qw(TicketID Key UserID)) {
-        if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
-            return;
-        }
-    }
-
-    # do db insert
-    return if !$Self->{DBObject}->Do(
-        SQL => '
-            DELETE FROM ticket_flag
-            WHERE ticket_id = ?
-                AND create_by = ?
-                AND ticket_key = ?',
-        Bind => [ \$Param{TicketID}, \$Param{UserID}, \$Param{Key} ],
-    );
-
-    # delete cache
-    my $CacheKey = 'TicketFlagGet::' . $Param{TicketID} . '::' . $Param{UserID};
-    $Self->{CacheInternalObject}->Delete( Key => $CacheKey );
-
-    # event
-    $Self->EventHandler(
-        Event => 'TicketFlagDelete',
-        Data  => {
-            TicketID => $Param{TicketID},
-            Key      => $Param{Key},
-            UserID   => $Param{UserID},
-        },
-        UserID => $Param{UserID},
-    );
     return 1;
 }
 
@@ -7593,6 +7678,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.564 $ $Date: 2012-07-02 07:35:54 $
+$Revision: 1.565 $ $Date: 2012-07-03 09:47:35 $
 
 =cut
