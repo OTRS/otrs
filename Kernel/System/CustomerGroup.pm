@@ -1,8 +1,8 @@
 # --
 # Kernel/System/CustomerGroup.pm - All Groups related function should be here eventually
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerGroup.pm,v 1.25 2010-06-17 21:39:40 cr Exp $
+# $Id: CustomerGroup.pm,v 1.26 2012-07-03 06:58:51 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,11 +14,12 @@ package Kernel::System::CustomerGroup;
 use strict;
 use warnings;
 
+use Kernel::System::CacheInternal;
 use Kernel::System::Group;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.25 $) [1];
+$VERSION = qw($Revision: 1.26 $) [1];
 
 =head1 NAME
 
@@ -81,11 +82,17 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for (qw(DBObject ConfigObject LogObject EncodeObject)) {
+    for (qw(DBObject ConfigObject LogObject EncodeObject MainObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
     $Self->{GroupObject} = Kernel::System::Group->new(%Param);
     $Self->{ValidObject} = Kernel::System::Valid->new(%Param);
+
+    $Self->{CacheInternalObject} = Kernel::System::CacheInternal->new(
+        %{$Self},
+        Type => 'Group',
+        TTL  => 60 * 60 * 3,
+    );
 
     return $Self;
 }
@@ -96,7 +103,7 @@ to add a member to a group
 
     Permission: ro,move_into,priority,create,rw
 
-    my $ID = $CustomerGroupObject->GroupMemberAdd(
+    my $Success = $CustomerGroupObject->GroupMemberAdd(
         GID => 12,
         UID => 6,
         Permission => {
@@ -160,6 +167,10 @@ sub GroupMemberAdd {
             ],
         );
     }
+
+    # reset cache
+    $Self->{CacheInternalObject}->CleanUp();
+
     return 1;
 }
 
@@ -211,6 +222,22 @@ sub GroupMemberList {
         }
     }
 
+    # create cache key
+    my $CacheKey = 'GroupMemberList::' . $Param{Type} . '::' . $Param{Result} . '::';
+    if ( $Param{UserID} ) {
+        $CacheKey .= "UserID::$Param{UserID}";
+    }
+    else {
+        $CacheKey .= "GroupID::$Param{GroupID}";
+    }
+
+    # check cache
+    my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+    if ($Cache) {
+        return @{$Cache} if ref $Cache eq 'ARRAY';
+        return %{$Cache} if ref $Cache eq 'HASH';
+    }
+
     # if it's activ, return just the permitted groups
     my $SQL = "SELECT g.id, g.name, gu.permission_key, gu.permission_value, gu.user_id "
         . " FROM groups g, group_customer_user gu WHERE "
@@ -260,11 +287,20 @@ sub GroupMemberList {
 
     # return type
     if ( $Param{Result} && $Param{Result} eq 'ID' ) {
+
+        # set cache
+        $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => \@ID );
         return @ID;
     }
     if ( $Param{Result} && $Param{Result} eq 'Name' ) {
+
+        # set cache
+        $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => \@Name );
         return @Name;
     }
+
+    # set cache
+    $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => \%Data );
     return %Data;
 }
 
@@ -287,13 +323,17 @@ sub GroupLookup {
         return;
     }
 
-    # check if we can answer from our cache
-    if ( $Param{GroupID} && $Self->{"GL::Group$Param{GroupID}"} ) {
-        return $Self->{"GL::Group$Param{GroupID}"};
+    # check if result is cached
+    my $CacheKey;
+    if ( $Param{GroupID} ) {
+        $CacheKey = "GroupLookup::ID::$Param{GroupID}";
     }
-    if ( $Param{Group} && $Self->{"GL::GroupID$Param{Group}"} ) {
-        return $Self->{"GL::GroupID$Param{Group}"};
+    elsif ( $Param{Group} ) {
+        $CacheKey = "GroupLookup::Name::$Param{Group}";
     }
+
+    my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+    return $Cache if $Cache;
 
     # get data
     my $SQL;
@@ -315,14 +355,16 @@ sub GroupLookup {
         SQL  => $SQL,
         Bind => \@Bind,
     );
+
+    my $Result;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
 
         # store result
-        $Self->{"GL::$Suffix$Param{What}"} = $Row[0];
+        $Result = $Row[0];
     }
 
     # check if data exists
-    if ( !exists $Self->{"GL::$Suffix$Param{What}"} ) {
+    if ( !$Result ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "Found no \$$Suffix for $Param{What}!",
@@ -330,8 +372,11 @@ sub GroupLookup {
         return;
     }
 
+    # set cache
+    $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => $Result );
+
     # return result
-    return $Self->{"GL::$Suffix$Param{What}"};
+    return $Result;
 }
 
 1;
@@ -350,6 +395,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.25 $ $Date: 2010-06-17 21:39:40 $
+$Revision: 1.26 $ $Date: 2012-07-03 06:58:51 $
 
 =cut
