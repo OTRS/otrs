@@ -2,7 +2,7 @@
 # RPM spec file for OpenSUSE 11.x of the OTRS package
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: suse-otrs-11.0.spec,v 1.11 2012-06-11 14:34:49 mb Exp $
+# $Id: suse-otrs-11.0.spec,v 1.12 2012-07-04 09:51:51 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -60,9 +60,6 @@ install -d -m 755 $RPM_BUILD_ROOT/etc/sysconfig
 install -d -m 744 $RPM_BUILD_ROOT/var/adm/fillup-templates
 install -d -m 755 $RPM_BUILD_ROOT/etc/apache2/conf.d
 
-# replace apache with apache2
-sed  "s/rcapache/rcapache2/" scripts/suse-rcotrs-config > /tmp.otrs.$$ && mv /tmp.otrs.$$ scripts/suse-rcotrs-config
-sed  "s/apache/apache2/" scripts/suse-rcotrs > /tmp.otrs.$$ && mv /tmp.otrs.$$ scripts/suse-rcotrs
 install -m 644 scripts/suse-rcotrs-config $RPM_BUILD_ROOT/etc/sysconfig/otrs
 
 install -m 755 scripts/suse-rcotrs $RPM_BUILD_ROOT/etc/init.d/otrs
