@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2369 2012-07-05 13:10:31 mg Exp $
+# $Id: CHANGES,v 1.2370 2012-07-05 13:14:02 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,8 +10,8 @@
 # --
 
 3.2.0 beta1 2012-??-??
- - 2012-07-04 The customer web interface now requires JavaScript and can no longer be used
-    with Internet Explorer 6 or earlier versions.
+ - 2012-07-04 The customer web interface now fully supports AJAX and ACLs.
+    It now requires JavaScript and can no longer be used with Internet Explorer 6 or earlier versions.
  - 2012-07-03 Added new feature to remove seen flags and ticket watcher information of
     archived tickets. Use the config settings Ticket::ArchiveSystem::RemoveSeenFlags and
     Ticket::ArchiveSystem::RemoveTicketWatchers to control if this data is removed when
