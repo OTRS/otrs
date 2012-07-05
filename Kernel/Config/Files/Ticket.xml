@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.509 2012-07-03 09:47:35 mg Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.510 2012-07-05 18:45:30 mb Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Translatable="1">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Group>Ticket</Group>
@@ -1570,7 +1570,7 @@ Description>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketFreeText###ArticleTypes" Required="0" Valid="1">
-        <Description Translatable="1">Specifies the different note types that will be used in the system.</Description>
+        <Description Translatable="1">Specifies the available note types for this ticket mask. If the option is deselected, ArticleTypeDefault is used and the option is removed from the mask.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewFreeText</SubGroup>
         <Setting>
@@ -2225,7 +2225,7 @@ Description>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketClose###ArticleTypes" Required="0" Valid="1">
-        <Description Translatable="1">Specifies the different note types that will be used in the system.</Description>
+        <Description Translatable="1">Specifies the available note types for this ticket mask. If the option is deselected, ArticleTypeDefault is used and the option is removed from the mask.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewClose</SubGroup>
         <Setting>
@@ -2449,7 +2449,7 @@ Description>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketNote###ArticleTypes" Required="0" Valid="1">
-        <Description Translatable="1">Specifies the different note types that will be used in the system.</Description>
+        <Description Translatable="1">Specifies the available note types for this ticket mask. If the option is deselected, ArticleTypeDefault is used and the option is removed from the mask.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewNote</SubGroup>
         <Setting>
@@ -2672,7 +2672,7 @@ Description>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketOwner###ArticleTypes" Required="0" Valid="1">
-        <Description Translatable="1">Specifies the different note types that will be used in the system.</Description>
+        <Description Translatable="1">Specifies the available note types for this ticket mask. If the option is deselected, ArticleTypeDefault is used and the option is removed from the mask.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewOwner</SubGroup>
         <Setting>
@@ -2893,7 +2893,7 @@ Description>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketPending###ArticleTypes" Required="0" Valid="1">
-        <Description Translatable="1">Specifies the different note types that will be used in the system.</Description>
+        <Description Translatable="1">Specifies the available note types for this ticket mask. If the option is deselected, ArticleTypeDefault is used and the option is removed from the mask.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewPending</SubGroup>
         <Setting>
@@ -3116,7 +3116,7 @@ Description>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketPriority###ArticleTypes" Required="0" Valid="1">
-        <Description Translatable="1">Specifies the different note types that will be used in the system.</Description>
+        <Description Translatable="1">Specifies the available note types for this ticket mask. If the option is deselected, ArticleTypeDefault is used and the option is removed from the mask.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewPriority</SubGroup>
         <Setting>
@@ -3339,7 +3339,7 @@ Description>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketResponsible###ArticleTypes" Required="0" Valid="1">
-        <Description Translatable="1">Specifies the different note types that will be used in the system.</Description>
+        <Description Translatable="1">Specifies the available note types for this ticket mask. If the option is deselected, ArticleTypeDefault is used and the option is removed from the mask.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewResponsible</SubGroup>
         <Setting>

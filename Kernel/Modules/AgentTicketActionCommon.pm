@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketActionCommon.pm - common file for several modules
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketActionCommon.pm,v 1.87 2012-06-29 21:06:25 cr Exp $
+# $Id: AgentTicketActionCommon.pm,v 1.88 2012-07-05 18:45:30 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -620,6 +620,12 @@ sub Run {
         # add note
         my $ArticleID = '';
         if ( $Self->{Config}->{Note} ) {
+
+            # if there is no ArticleTypeID, use the default value
+            if ( !defined $GetParam{ArticleTypeID} ) {
+                $GetParam{ArticleType} = $Self->{Config}->{ArticleTypeDefault};
+            }
+
             my $MimeType = 'text/plain';
             if ( $Self->{LayoutObject}->{BrowserRichText} ) {
                 $MimeType = 'text/html';
@@ -1489,22 +1495,25 @@ sub _Mask {
         }
 
         # get possible notes
-        my %DefaultNoteTypes = %{ $Self->{Config}->{ArticleTypes} };
-        my %NoteTypes = $Self->{TicketObject}->ArticleTypeList( Result => 'HASH' );
-        for my $KeyNoteType ( keys %NoteTypes ) {
-            if ( !$DefaultNoteTypes{ $NoteTypes{$KeyNoteType} } ) {
-                delete $NoteTypes{$KeyNoteType};
+        if ( $Self->{Config}->{ArticleTypes} ) {
+            my %DefaultNoteTypes = %{ $Self->{Config}->{ArticleTypes} };
+            my %NoteTypes = $Self->{TicketObject}->ArticleTypeList( Result => 'HASH' );
+            for my $KeyNoteType ( keys %NoteTypes ) {
+                if ( !$DefaultNoteTypes{ $NoteTypes{$KeyNoteType} } ) {
+                    delete $NoteTypes{$KeyNoteType};
+                }
             }
+
+            $Param{ArticleTypeStrg} = $Self->{LayoutObject}->BuildSelection(
+                Data => \%NoteTypes,
+                Name => 'ArticleTypeID',
+                %ArticleType,
+            );
+            $Self->{LayoutObject}->Block(
+                Name => 'ArticleType',
+                Data => \%Param,
+            );
         }
-        $Param{ArticleTypeStrg} = $Self->{LayoutObject}->BuildSelection(
-            Data => \%NoteTypes,
-            Name => 'ArticleTypeID',
-            %ArticleType,
-        );
-        $Self->{LayoutObject}->Block(
-            Name => 'ArticleType',
-            Data => \%Param,
-        );
 
         # show time accounting box
         if ( $Self->{ConfigObject}->Get('Ticket::Frontend::AccountTime') ) {
