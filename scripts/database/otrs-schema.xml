@@ -1802,7 +1802,7 @@
     <Column Name="lock_state_counter" Required="true" Type="INTEGER"/>
     <Column Name="create_time" Required="true" Type="DATE"/>
     <Column Name="change_time" Required="true" Type="DATE"/>
-    <Unique Name="gi_object_lock_state_webservice_id_object_type_object_id">
+    <Unique Name="gi_object_lock_state_list">
         <UniqueColumn Name="webservice_id"/>
         <UniqueColumn Name="object_type"/>
         <UniqueColumn Name="object_id"/>
