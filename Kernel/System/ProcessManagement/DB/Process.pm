@@ -2,7 +2,7 @@
 # Kernel/System/ProcessManagement/Process.pm - Process Management DB Process backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Process.pm,v 1.3 2012-07-05 20:18:29 cr Exp $
+# $Id: Process.pm,v 1.4 2012-07-05 21:28:00 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::ProcessManagement::DB::Activity;
 use Kernel::System::ProcessManagement::DB::Process::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 =head1 NAME
 
@@ -454,8 +454,6 @@ sub ProcessGet {
     return \%Data;
 }
 
-#TODO Add tests
-
 =item ProcessUpdate()
 
 update Process attributes
@@ -588,8 +586,6 @@ sub ProcessUpdate {
     return 1;
 }
 
-#TODO add tests
-
 =item ProcessList()
 
 get a Process list
@@ -695,6 +691,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.3 $ $Date: 2012-07-05 20:18:29 $
+$Revision: 1.4 $ $Date: 2012-07-05 21:28:00 $
 
 =cut
