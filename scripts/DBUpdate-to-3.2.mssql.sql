@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: mssql, generated: 2012-06-28 14:27:31
+--  driver: mssql, generated: 2012-07-05 07:36:37
 -- ----------------------------------------------------------
                 DECLARE @defnameticketgroup_read VARCHAR(200), @cmdticketgroup_read VARCHAR(2000)
                 SET @defnameticketgroup_read = (
@@ -162,3 +162,39 @@ DROP INDEX ticket.ticket_queue_view;
 -- ----------------------------------------------------------
 ALTER TABLE ticket DROP COLUMN group_id;
 CREATE INDEX ticket_queue_view ON ticket (ticket_state_id, ticket_lock_id);
+-- ----------------------------------------------------------
+--  create table pm_process
+-- ----------------------------------------------------------
+CREATE TABLE pm_process (
+    id INTEGER NOT NULL IDENTITY(1,1) ,
+    entity_id NVARCHAR (50) NOT NULL,
+    name NVARCHAR (200) NOT NULL,
+    state_id SMALLINT NOT NULL,
+    layout NVARCHAR (MAX) NULL,
+    config NVARCHAR (MAX) NULL,
+    create_time DATETIME NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time DATETIME NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id),
+    CONSTRAINT pm_process_entity_id UNIQUE (entity_id)
+);
+-- ----------------------------------------------------------
+--  create table pm_activity
+-- ----------------------------------------------------------
+CREATE TABLE pm_activity (
+    id INTEGER NOT NULL IDENTITY(1,1) ,
+    entity_id NVARCHAR (50) NOT NULL,
+    name NVARCHAR (200) NOT NULL,
+    config NVARCHAR (MAX) NULL,
+    create_time DATETIME NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time DATETIME NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id),
+    CONSTRAINT pm_activity_entity_id UNIQUE (entity_id)
+);
+ALTER TABLE pm_process ADD CONSTRAINT FK_pm_process_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
+ALTER TABLE pm_process ADD CONSTRAINT FK_pm_process_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
+ALTER TABLE pm_activity ADD CONSTRAINT FK_pm_activity_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
+ALTER TABLE pm_activity ADD CONSTRAINT FK_pm_activity_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);

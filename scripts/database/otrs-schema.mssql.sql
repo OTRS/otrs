@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: mssql, generated: 2012-07-05 06:04:16
+--  driver: mssql, generated: 2012-07-05 07:30:23
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -1184,7 +1184,7 @@ CREATE TABLE gi_object_lock_state (
     lock_state_counter INTEGER NOT NULL,
     create_time DATETIME NOT NULL,
     change_time DATETIME NOT NULL,
-    CONSTRAINT gi_object_lock_state_webservice_id_object_type_object_id UNIQUE (webservice_id, object_type, object_id)
+    CONSTRAINT gi_object_lock_state_list UNIQUE (webservice_id, object_type, object_id)
 );
 CREATE INDEX object_lock_state_list_state ON gi_object_lock_state (webservice_id, object_type, object_id, lock_state);
 -- ----------------------------------------------------------

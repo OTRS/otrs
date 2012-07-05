@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: db2, generated: 2012-06-28 14:27:31
+--  driver: db2, generated: 2012-07-05 07:36:37
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  alter table ticket
@@ -52,3 +52,45 @@ ALTER TABLE ticket DROP group_id;
 CALL SYSPROC.ADMIN_CMD ('REORG TABLE ticket');
 
 CREATE INDEX ticket_queue_view ON ticket (ticket_state_id, ticket_lock_id);
+
+-- ----------------------------------------------------------
+--  create table pm_process
+-- ----------------------------------------------------------
+CREATE TABLE pm_process (
+    id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
+    entity_id VARCHAR (50) NOT NULL,
+    name VARCHAR (200) NOT NULL,
+    state_id SMALLINT NOT NULL,
+    layout BLOB (30M),
+    config BLOB (30M),
+    create_time TIMESTAMP NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time TIMESTAMP NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id),
+    CONSTRAINT pm_process_entity_id UNIQUE (entity_id)
+);
+
+-- ----------------------------------------------------------
+--  create table pm_activity
+-- ----------------------------------------------------------
+CREATE TABLE pm_activity (
+    id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
+    entity_id VARCHAR (50) NOT NULL,
+    name VARCHAR (200) NOT NULL,
+    config BLOB (30M),
+    create_time TIMESTAMP NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time TIMESTAMP NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id),
+    CONSTRAINT pm_activity_entity_id UNIQUE (entity_id)
+);
+
+ALTER TABLE pm_process ADD CONSTRAINT FK_pm_process_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
+
+ALTER TABLE pm_process ADD CONSTRAINT FK_pm_process_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
+
+ALTER TABLE pm_activity ADD CONSTRAINT FK_pm_activity_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
+
+ALTER TABLE pm_activity ADD CONSTRAINT FK_pm_activity_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
