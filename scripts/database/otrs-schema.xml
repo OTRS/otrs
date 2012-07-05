@@ -1894,4 +1894,47 @@
     </ForeignKey>
 </TableCreate>
 
+<TableCreate Name="pm_process">
+    <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
+    <!-- entity_id is a unique identifier independent from id -->
+    <Column Name="entity_id" Required="true" Type="VARCHAR" Size="50"/>
+    <Column Name="name" Required="true" Type="VARCHAR" Size="200"/>
+    <Column Name="state_id" Required="true" Type="SMALLINT"/>
+    <!-- layout stored as YAML -->
+    <Column Name="layout" Type="LONGBLOB"/>
+    <!-- config stored as YAML like in the web service configuration -->
+    <Column Name="config" Type="LONGBLOB"/>
+    <Column Name="create_time" Required="true" Type="DATE"/>
+    <Column Name="create_by" Required="true" Type="INTEGER"/>
+    <Column Name="change_time" Required="true" Type="DATE"/>
+    <Column Name="change_by" Required="true" Type="INTEGER"/>
+    <Unique Name="pm_process_entity_id">
+        <UniqueColumn Name="entity_id"/>
+    </Unique>
+    <ForeignKey ForeignTable="users">
+        <Reference Local="create_by" Foreign="id"/>
+        <Reference Local="change_by" Foreign="id"/>
+    </ForeignKey>
+</TableCreate>
+
+<TableCreate Name="pm_activity">
+    <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
+    <!-- entity_id is a unique identifier independent from id -->
+    <Column Name="entity_id" Required="true" Type="VARCHAR" Size="50"/>
+    <Column Name="name" Required="true" Type="VARCHAR" Size="200"/>
+    <!-- config stored as YAML like in the web service configuration -->
+    <Column Name="config" Type="LONGBLOB"/>
+    <Column Name="create_time" Required="true" Type="DATE"/>
+    <Column Name="create_by" Required="true" Type="INTEGER"/>
+    <Column Name="change_time" Required="true" Type="DATE"/>
+    <Column Name="change_by" Required="true" Type="INTEGER"/>
+    <Unique Name="pm_activity_entity_id">
+        <UniqueColumn Name="entity_id"/>
+    </Unique>
+    <ForeignKey ForeignTable="users">
+        <Reference Local="create_by" Foreign="id"/>
+        <Reference Local="change_by" Foreign="id"/>
+    </ForeignKey>
+</TableCreate>
+
 </database>
