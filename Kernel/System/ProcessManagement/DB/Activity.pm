@@ -2,7 +2,7 @@
 # Kernel/System/ProcessManagement/Activity.pm - Process Management DB Activity backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Activity.pm,v 1.1 2012-07-05 14:54:30 cr Exp $
+# $Id: Activity.pm,v 1.2 2012-07-05 20:30:01 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Cache;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 =head1 NAME
 
@@ -186,11 +186,6 @@ sub ActivityAdd {
     # Make sure the resulting string has the UTF-8 flag. YAML only sets it if
     #   part of the data already had it.
     utf8::upgrade($Config);
-
-    # md5 of content
-    my $MD5 = $Self->{MainObject}->MD5sum(
-        String => $Self->{TimeObject}->SystemTime() . int( rand(1000000) ),
-    );
 
     # sql
     return if !$Self->{DBObject}->Do(
@@ -367,6 +362,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2012-07-05 14:54:30 $
+$Revision: 1.2 $ $Date: 2012-07-05 20:30:01 $
 
 =cut
