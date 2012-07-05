@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2012-06-28 14:30:46
+--  driver: oracle, generated: 2012-07-05 06:04:16
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 -- ----------------------------------------------------------
@@ -1977,7 +1977,7 @@ CREATE TABLE gi_object_lock_state (
     lock_state_counter NUMBER (12, 0) NOT NULL,
     create_time DATE NOT NULL,
     change_time DATE NOT NULL,
-    CONSTRAINT gi_object_lock_state_U_385 UNIQUE (webservice_id, object_type, object_id)
+    CONSTRAINT gi_object_lock_state_webservff UNIQUE (webservice_id, object_type, object_id)
 );
 CREATE INDEX FK_gi_object_lock_state_webs55 ON gi_object_lock_state (webservice_id);
 CREATE INDEX object_lock_state_list_state ON gi_object_lock_state (webservice_id, object_type, object_id, lock_state);
@@ -2058,7 +2058,7 @@ CREATE TABLE dynamic_field (
     create_by NUMBER (12, 0) NOT NULL,
     change_time DATE NOT NULL,
     change_by NUMBER (12, 0) NOT NULL,
-    CONSTRAINT dynamic_field_U_559 UNIQUE (name)
+    CONSTRAINT dynamic_field_name UNIQUE (name)
 );
 ALTER TABLE dynamic_field ADD CONSTRAINT PK_dynamic_field PRIMARY KEY (id);
 DROP SEQUENCE SE_dynamic_field;
@@ -2078,3 +2078,67 @@ end;
 CREATE INDEX FK_dynamic_field_change_by ON dynamic_field (change_by);
 CREATE INDEX FK_dynamic_field_create_by ON dynamic_field (create_by);
 CREATE INDEX FK_dynamic_field_valid_id ON dynamic_field (valid_id);
+-- ----------------------------------------------------------
+--  create table pm_process
+-- ----------------------------------------------------------
+CREATE TABLE pm_process (
+    id NUMBER (12, 0) NOT NULL,
+    entity_id VARCHAR2 (50) NOT NULL,
+    name VARCHAR2 (200) NOT NULL,
+    state_id NUMBER (5, 0) NOT NULL,
+    layout CLOB NULL,
+    config CLOB NULL,
+    create_time DATE NOT NULL,
+    create_by NUMBER (12, 0) NOT NULL,
+    change_time DATE NOT NULL,
+    change_by NUMBER (12, 0) NOT NULL,
+    CONSTRAINT pm_process_entity_id UNIQUE (entity_id)
+);
+ALTER TABLE pm_process ADD CONSTRAINT PK_pm_process PRIMARY KEY (id);
+DROP SEQUENCE SE_pm_process;
+CREATE SEQUENCE SE_pm_process;
+CREATE OR REPLACE TRIGGER SE_pm_process_t
+before insert on pm_process
+for each row
+begin
+  if :new.id IS NULL then
+    select SE_pm_process.nextval
+    into :new.id
+    from dual;
+  end if;
+end;
+/
+--;
+CREATE INDEX FK_pm_process_change_by ON pm_process (change_by);
+CREATE INDEX FK_pm_process_create_by ON pm_process (create_by);
+-- ----------------------------------------------------------
+--  create table pm_activity
+-- ----------------------------------------------------------
+CREATE TABLE pm_activity (
+    id NUMBER (12, 0) NOT NULL,
+    entity_id VARCHAR2 (50) NOT NULL,
+    name VARCHAR2 (200) NOT NULL,
+    config CLOB NULL,
+    create_time DATE NOT NULL,
+    create_by NUMBER (12, 0) NOT NULL,
+    change_time DATE NOT NULL,
+    change_by NUMBER (12, 0) NOT NULL,
+    CONSTRAINT pm_activity_entity_id UNIQUE (entity_id)
+);
+ALTER TABLE pm_activity ADD CONSTRAINT PK_pm_activity PRIMARY KEY (id);
+DROP SEQUENCE SE_pm_activity;
+CREATE SEQUENCE SE_pm_activity;
+CREATE OR REPLACE TRIGGER SE_pm_activity_t
+before insert on pm_activity
+for each row
+begin
+  if :new.id IS NULL then
+    select SE_pm_activity.nextval
+    into :new.id
+    from dual;
+  end if;
+end;
+/
+--;
+CREATE INDEX FK_pm_activity_change_by ON pm_activity (change_by);
+CREATE INDEX FK_pm_activity_create_by ON pm_activity (create_by);

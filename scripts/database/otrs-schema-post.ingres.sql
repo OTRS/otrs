@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: ingres, generated: 2012-06-28 14:30:45
+--  driver: ingres, generated: 2012-07-05 06:04:16
 -- ----------------------------------------------------------
 ALTER TABLE valid ADD FOREIGN KEY (create_by) REFERENCES users(id);\g
 ALTER TABLE valid ADD FOREIGN KEY (change_by) REFERENCES users(id);\g
@@ -204,3 +204,7 @@ ALTER TABLE dynamic_field_value ADD FOREIGN KEY (field_id) REFERENCES dynamic_fi
 ALTER TABLE dynamic_field ADD FOREIGN KEY (create_by) REFERENCES users(id);\g
 ALTER TABLE dynamic_field ADD FOREIGN KEY (change_by) REFERENCES users(id);\g
 ALTER TABLE dynamic_field ADD FOREIGN KEY (valid_id) REFERENCES valid(id);\g
+ALTER TABLE pm_process ADD FOREIGN KEY (create_by) REFERENCES users(id);\g
+ALTER TABLE pm_process ADD FOREIGN KEY (change_by) REFERENCES users(id);\g
+ALTER TABLE pm_activity ADD FOREIGN KEY (create_by) REFERENCES users(id);\g
+ALTER TABLE pm_activity ADD FOREIGN KEY (change_by) REFERENCES users(id);\g

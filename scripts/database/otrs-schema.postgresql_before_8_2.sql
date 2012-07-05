@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: postgresql_before_8_2, generated: 2012-06-28 14:30:46
+--  driver: postgresql_before_8_2, generated: 2012-07-05 06:04:16
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -1183,7 +1183,7 @@ CREATE TABLE gi_object_lock_state (
     lock_state_counter INTEGER NOT NULL,
     create_time timestamp(0) NOT NULL,
     change_time timestamp(0) NOT NULL,
-    CONSTRAINT gi_object_lock_state_U_144 UNIQUE (webservice_id, object_type, object_id)
+    CONSTRAINT gi_object_lock_state_webservice_id_object_type_object_id UNIQUE (webservice_id, object_type, object_id)
 );
 CREATE INDEX object_lock_state_list_state ON gi_object_lock_state (webservice_id, object_type, object_id, lock_state);
 -- ----------------------------------------------------------
@@ -1233,5 +1233,37 @@ CREATE TABLE dynamic_field (
     change_time timestamp(0) NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    CONSTRAINT dynamic_field_U_433 UNIQUE (name)
+    CONSTRAINT dynamic_field_name UNIQUE (name)
+);
+-- ----------------------------------------------------------
+--  create table pm_process
+-- ----------------------------------------------------------
+CREATE TABLE pm_process (
+    id serial NOT NULL,
+    entity_id VARCHAR (50) NOT NULL,
+    name VARCHAR (200) NOT NULL,
+    state_id INTEGER NOT NULL,
+    layout TEXT NULL,
+    config TEXT NULL,
+    create_time timestamp(0) NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time timestamp(0) NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id),
+    CONSTRAINT pm_process_entity_id UNIQUE (entity_id)
+);
+-- ----------------------------------------------------------
+--  create table pm_activity
+-- ----------------------------------------------------------
+CREATE TABLE pm_activity (
+    id serial NOT NULL,
+    entity_id VARCHAR (50) NOT NULL,
+    name VARCHAR (200) NOT NULL,
+    config TEXT NULL,
+    create_time timestamp(0) NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time timestamp(0) NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id),
+    CONSTRAINT pm_activity_entity_id UNIQUE (entity_id)
 );
