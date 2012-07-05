@@ -1,15 +1,15 @@
 # --
-# Kernel/System/ProcessManagement/Activity.pm - Process Management Activity backend
+# Kernel/System/ProcessManagement/Activity.pm - Process Management DB Activity backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Activity.pm,v 1.1 2012-07-05 04:17:25 cr Exp $
+# $Id: Activity.pm,v 1.1 2012-07-05 14:54:30 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::System::ProcessManagement::Activity;
+package Kernel::System::ProcessManagement::DB::Activity;
 
 use strict;
 use warnings;
@@ -24,11 +24,11 @@ $VERSION = qw($Revision: 1.1 $) [1];
 
 =head1 NAME
 
-Kernel::System::ProcessManagement::Activity.pm
+Kernel::System::ProcessManagement::DB::Activity.pm
 
 =head1 SYNOPSIS
 
-Process Management Activity backend
+Process Management DB Activity backend
 
 =head1 PUBLIC INTERFACE
 
@@ -46,7 +46,7 @@ create an Activity object
     use Kernel::System::Main;
     use Kernel::System::Time;
     use Kernel::System::DB;
-    use Kernel::System::ProcessManagement::Activity;
+    use Kernel::System::ProcessManagement::DB::Activity;
 
     my $ConfigObject = Kernel::Config->new();
     my $EncodeObject = Kernel::System::Encode->new(
@@ -72,7 +72,7 @@ create an Activity object
         TimeObject   => $TimeObject,
         MainObject   => $MainObject,
     );
-    my $ActivityObject = Kernel::System::ProcessManagement::Activity->new(
+    my $ActivityObject = Kernel::System::ProcessManagement::DB::Activity->new(
         ConfigObject        => $ConfigObject,
         EncodeObject        => $EncodeObject,
         LogObject           => $LogObject,
@@ -367,6 +367,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2012-07-05 04:17:25 $
+$Revision: 1.1 $ $Date: 2012-07-05 14:54:30 $
 
 =cut

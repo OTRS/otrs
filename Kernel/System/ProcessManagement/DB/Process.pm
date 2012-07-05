@@ -1,15 +1,15 @@
 # --
-# Kernel/System/ProcessManagement/Process.pm - Process Management Process backend
+# Kernel/System/ProcessManagement/Process.pm - Process Management DB Process backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Process.pm,v 1.1 2012-07-05 04:19:11 cr Exp $
+# $Id: Process.pm,v 1.1 2012-07-05 14:54:30 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::System::ProcessManagement::Process;
+package Kernel::System::ProcessManagement::DB::Process;
 
 use strict;
 use warnings;
@@ -19,19 +19,19 @@ use YAML;
 use Kernel::System::Cache;
 use Kernel::System::VariableCheck qw(:all);
 
-use Kernel::System::ProcessManagement::Activity;
-use Kernel::System::ProcessManagement::Process::State;
+use Kernel::System::ProcessManagement::DB::Activity;
+use Kernel::System::ProcessManagement::DB::Process::State;
 
 use vars qw($VERSION);
 $VERSION = qw($Revision: 1.1 $) [1];
 
 =head1 NAME
 
-Kernel::System::ProcessManagement::Process.pm
+Kernel::System::ProcessManagement::DB::Process.pm
 
 =head1 SYNOPSIS
 
-Process Management Process backend
+Process Management DB Process backend
 
 =head1 PUBLIC INTERFACE
 
@@ -49,7 +49,7 @@ create a Process object
     use Kernel::System::Main;
     use Kernel::System::Time;
     use Kernel::System::DB;
-    use Kernel::System::ProcessManagement::Process;
+    use Kernel::System::ProcessManagement::DB::Process;
 
     my $ConfigObject = Kernel::Config->new();
     my $EncodeObject = Kernel::System::Encode->new(
@@ -75,7 +75,7 @@ create a Process object
         TimeObject   => $TimeObject,
         MainObject   => $MainObject,
     );
-    my $ProcessObject = Kernel::System::ProcessManagement::Process->new(
+    my $ProcessObject = Kernel::System::ProcessManagement::DB::Process->new(
         ConfigObject        => $ConfigObject,
         EncodeObject        => $EncodeObject,
         LogObject           => $LogObject,
@@ -102,8 +102,8 @@ sub new {
     # create additional objects
     $Self->{CacheObject} = Kernel::System::Cache->new( %{$Self} );
 
-    $Self->{ActivityObject} = Kernel::System::ProcessManagement::Activity->new( %{$Self} );
-    $Self->{StateObject}    = Kernel::System::ProcessManagement::Process::State->new( %{$Self} );
+    $Self->{ActivityObject} = Kernel::System::ProcessManagement::DB::Activity->new( %{$Self} );
+    $Self->{StateObject} = Kernel::System::ProcessManagement::DB::Process::State->new( %{$Self} );
 
     # get the cache TTL (in seconds)
     $Self->{CacheTTL}
@@ -692,6 +692,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2012-07-05 04:19:11 $
+$Revision: 1.1 $ $Date: 2012-07-05 14:54:30 $
 
 =cut

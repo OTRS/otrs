@@ -1,15 +1,15 @@
 # --
-# Kernel/System/ProcessManagement/Process/State.pm - Process Management State backend
+# Kernel/System/ProcessManagement/Process/State.pm - Process Management DB State backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: State.pm,v 1.1 2012-07-05 04:14:22 cr Exp $
+# $Id: State.pm,v 1.1 2012-07-05 14:54:30 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::System::ProcessManagement::Process::State;
+package Kernel::System::ProcessManagement::DB::Process::State;
 
 use strict;
 use warnings;
@@ -19,11 +19,11 @@ $VERSION = qw($Revision: 1.1 $) [1];
 
 =head1 NAME
 
-Kernel::System::ProcessManagement::Process::State.pm
+Kernel::System::ProcessManagement::DB::Process::State.pm
 
 =head1 SYNOPSIS
 
-Process Management State backend
+Process Management DB State backend
 
 =head1 PUBLIC INTERFACE
 
@@ -38,7 +38,7 @@ create a State object
     use Kernel::Config;
     use Kernel::System::Encode;
     use Kernel::System::Log;
-    use Kernel::System::ProcessManagement::Process::State;
+    use Kernel::System::ProcessManagement::DB::Process::State;
 
     my $ConfigObject = Kernel::Config->new();
     my $EncodeObject = Kernel::System::Encode->new(
@@ -48,7 +48,7 @@ create a State object
         ConfigObject => $ConfigObject,
         EncodeObject => $EncodeObject,
     );
-    my $StateObject = Kernel::System::ProcessManagement::Process::State->new(
+    my $StateObject = Kernel::System::ProcessManagement::DB::Process::State->new(
         ConfigObject        => $ConfigObject,
         EncodeObject        => $EncodeObject,
         LogObject           => $LogObject,
@@ -182,6 +182,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2012-07-05 04:14:22 $
+$Revision: 1.1 $ $Date: 2012-07-05 14:54:30 $
 
 =cut
