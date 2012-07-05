@@ -1,8 +1,8 @@
 # --
-# Process.t - ProcessManagement process tests
+# Process.t - ProcessManagement DB process tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Process.t,v 1.2 2012-07-05 20:32:10 cr Exp $
+# $Id: Process.t,v 1.3 2012-07-05 21:27:39 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
