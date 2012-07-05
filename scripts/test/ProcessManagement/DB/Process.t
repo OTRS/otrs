@@ -2,7 +2,7 @@
 # Process.t - ProcessManagement process tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Process.t,v 1.1 2012-07-05 14:55:36 cr Exp $
+# $Id: Process.t,v 1.2 2012-07-05 20:32:10 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -61,11 +61,25 @@ my $AcitivityID1 = $ActivityObject->ActivityAdd(
     Config   => {},
     UserID   => $UserID,
 );
+
+# sanity test
+$Self->IsNot(
+    $AcitivityID1,
+    undef,
+    "ActivityAdd Test1: EntittyID '$ActivityEntityID1', Name '$ActivityName1' | Should not be undef",
+);
 my $AcitivityID2 = $ActivityObject->ActivityAdd(
     EntityID => $ActivityEntityID2,
     Name     => $ActivityName2,
     Config   => {},
     UserID   => $UserID,
+);
+
+# sanity test
+$Self->IsNot(
+    $AcitivityID2,
+    undef,
+    "ActivityAdd Test2: EntittyID '$ActivityEntityID2', Name '$ActivityName2' | Should not be undef",
 );
 my $AcitivityID3 = $ActivityObject->ActivityAdd(
     EntityID => $ActivityEntityID3,
@@ -73,11 +87,22 @@ my $AcitivityID3 = $ActivityObject->ActivityAdd(
     Config   => {},
     UserID   => $UserID,
 );
+
+# sanity test
+$Self->IsNot(
+    $AcitivityID3,
+    undef,
+    "ActivityAdd Test3: EntittyID '$ActivityEntityID3', Name '$ActivityName3' | Should not be undef",
+);
+
 my @AddedActivities = ( $AcitivityID1, $AcitivityID2, $AcitivityID3 );
 my $ActivityList = $ActivityObject->ActivityList(
     UseEntities => 1,
     UserID      => $UserID,
 );
+
+# get original process list
+my $OriginalProcessList = $ProcessObject->ProcessList( UserID => $UserID ) || {};
 
 #
 # Tests for ProcessAdd
@@ -306,7 +331,7 @@ for my $Test (@Tests) {
 # ProcessGet()
 #
 
-my @ProcessList = map {$_} sort keys %AddedProcess;
+my @AddedProcessList = map {$_} sort keys %AddedProcess;
 @Tests = (
     {
         Name    => 'ProcessGet Test 1: No params',
@@ -356,7 +381,7 @@ my @ProcessList = map {$_} sort keys %AddedProcess;
     {
         Name   => 'ProcessGet Test 6: Correct ASCII, W/ID, WO/ActivityNames ',
         Config => {
-            ID            => $ProcessList[0],
+            ID            => $AddedProcessList[0],
             EntityID      => undef,
             ActivityNames => 0,
             UserID        => $UserID,
@@ -366,7 +391,7 @@ my @ProcessList = map {$_} sort keys %AddedProcess;
     {
         Name   => 'ProcessGet Test 7: Correct ASCII, W/ID, W/ActivityNames ',
         Config => {
-            ID            => $ProcessList[0],
+            ID            => $AddedProcessList[0],
             EntityID      => undef,
             ActivityNames => 1,
             UserID        => $UserID,
@@ -376,7 +401,7 @@ my @ProcessList = map {$_} sort keys %AddedProcess;
     {
         Name   => 'ProcessGet Test 8: Correct UTF8, W/ID, WO/ActivityNames ',
         Config => {
-            ID            => $ProcessList[1],
+            ID            => $AddedProcessList[1],
             EntityID      => undef,
             ActivityNames => 0,
             UserID        => $UserID,
@@ -386,7 +411,7 @@ my @ProcessList = map {$_} sort keys %AddedProcess;
     {
         Name   => 'ProcessGet Test 9: Correct UTF8, W/ID, W/ActivityNames ',
         Config => {
-            ID            => $ProcessList[1],
+            ID            => $AddedProcessList[1],
             EntityID      => undef,
             ActivityNames => 1,
             UserID        => $UserID,
@@ -396,7 +421,7 @@ my @ProcessList = map {$_} sort keys %AddedProcess;
     {
         Name   => 'ProcessGet Test 11: Correct UTF82, W/ID, WO/ActivityNames ',
         Config => {
-            ID            => $ProcessList[2],
+            ID            => $AddedProcessList[2],
             EntityID      => undef,
             ActivityNames => 0,
             UserID        => $UserID,
@@ -406,7 +431,7 @@ my @ProcessList = map {$_} sort keys %AddedProcess;
     {
         Name   => 'ProcessGet Test 12: Correct UTF82, W/ID, W/ActivityNames ',
         Config => {
-            ID            => $ProcessList[2],
+            ID            => $AddedProcessList[2],
             EntityID      => undef,
             ActivityNames => 1,
             UserID        => $UserID,
@@ -417,7 +442,7 @@ my @ProcessList = map {$_} sort keys %AddedProcess;
         Name   => 'ProcessGet Test 13: Correct ASCII, W/EntityID, WO/ActivityNames ',
         Config => {
             ID            => undef,
-            EntityID      => $AddedProcess{ $ProcessList[0] }->{EntityID},
+            EntityID      => $AddedProcess{ $AddedProcessList[0] }->{EntityID},
             ActivityNames => 0,
             UserID        => $UserID,
         },
@@ -427,7 +452,7 @@ my @ProcessList = map {$_} sort keys %AddedProcess;
         Name   => 'ProcessGet Test 14: Correct ASCII, W/EntityID, W/ActivityNames ',
         Config => {
             ID            => undef,
-            EntityID      => $AddedProcess{ $ProcessList[0] }->{EntityID},
+            EntityID      => $AddedProcess{ $AddedProcessList[0] }->{EntityID},
             ActivityNames => 1,
             UserID        => $UserID,
         },
@@ -437,7 +462,7 @@ my @ProcessList = map {$_} sort keys %AddedProcess;
         Name   => 'ProcessGet Test 15: Correct UTF8, W/EntityID, WO/ActivityNames ',
         Config => {
             ID            => undef,
-            EntityID      => $AddedProcess{ $ProcessList[1] }->{EntityID},
+            EntityID      => $AddedProcess{ $AddedProcessList[1] }->{EntityID},
             ActivityNames => 0,
             UserID        => $UserID,
         },
@@ -447,7 +472,7 @@ my @ProcessList = map {$_} sort keys %AddedProcess;
         Name   => 'ProcessGet Test 16: Correct UTF8, W/EntityID, W/ActivityNames ',
         Config => {
             ID            => undef,
-            EntityID      => $AddedProcess{ $ProcessList[1] }->{EntityID},
+            EntityID      => $AddedProcess{ $AddedProcessList[1] }->{EntityID},
             ActivityNames => 1,
             UserID        => $UserID,
         },
@@ -457,7 +482,7 @@ my @ProcessList = map {$_} sort keys %AddedProcess;
         Name   => 'ProcessGet Test 17: Correct UTF82, W/EntityID, WO/ActivityNames ',
         Config => {
             ID            => undef,
-            EntityID      => $AddedProcess{ $ProcessList[2] }->{EntityID},
+            EntityID      => $AddedProcess{ $AddedProcessList[2] }->{EntityID},
             ActivityNames => 0,
             UserID        => $UserID,
         },
@@ -467,7 +492,7 @@ my @ProcessList = map {$_} sort keys %AddedProcess;
         Name   => 'ProcessGet Test 18: Correct UTF82, W/EntityID, W/ActivityNames ',
         Config => {
             ID            => undef,
-            EntityID      => $AddedProcess{ $ProcessList[2] }->{EntityID},
+            EntityID      => $AddedProcess{ $AddedProcessList[2] }->{EntityID},
             ActivityNames => 1,
             UserID        => $UserID,
         },
@@ -527,12 +552,12 @@ for my $Test (@Tests) {
 
         # check cache
         my $CacheKey;
-        if ( $Process->{ID} ) {
-            $CacheKey = 'ProcessGet::ID::' . $Process->{ID} . '::ActivityNames::'
+        if ( $Test->{Config}->{ID} ) {
+            $CacheKey = 'ProcessGet::ID::' . $Test->{Config}->{ID} . '::ActivityNames::'
                 . $ActivityNames;
         }
         else {
-            $CacheKey = 'ProcessGet::EntityID::' . $Process->{EntityID} . '::ActivityNames::'
+            $CacheKey = 'ProcessGet::EntityID::' . $Test->{Config}->{EntityID} . '::ActivityNames::'
                 . $ActivityNames;
         }
 
@@ -580,6 +605,482 @@ for my $Test (@Tests) {
 }
 
 #
+# ProcessUpdate() tests
+#
+@Tests = (
+    {
+        Name    => 'ProcessUpdate Test 1: No params',
+        Config  => {},
+        Success => 0,
+    },
+    {
+        Name   => 'ProcessUpdate Test 2: No ID',
+        Config => {
+            ID       => undef,
+            EntityID => $RandomID . '-U',
+            Name     => "Process-$RandomID",
+            StateID  => 1,
+            Layout   => {},
+            Config   => {
+                Description => 'a Description',
+            },
+            UserID => $UserID,
+        },
+        Success => 0,
+    },
+    {
+        Name   => 'ProcessUpdate Test 3: No EntityID',
+        Config => {
+            ID       => 1,
+            EntityID => undef,
+            Name     => "Process-$RandomID",
+            StateID  => 1,
+            Layout   => {},
+            Config   => {
+                Description => 'a Description',
+            },
+            UserID => $UserID,
+        },
+        Success => 0,
+    },
+    {
+        Name   => 'ProcessUpdate Test 5: No Name',
+        Config => {
+            ID       => 1,
+            EntityID => $RandomID . '-U',
+            Name     => undef,
+            StateID  => 1,
+            Layout   => {},
+            Config   => {
+                Description => 'a Description',
+            },
+            UserID => $UserID,
+        },
+        Success => 0,
+    },
+    {
+        Name   => 'ProcessUpdate Test 6: No StateID',
+        Config => {
+            ID       => 1,
+            EntityID => $RandomID . '-U',
+            Name     => "Process-$RandomID",
+            StateID  => undef,
+            Layout   => {},
+            Config   => {
+                Description => 'a Description',
+            },
+            UserID => $UserID,
+        },
+        Success => 0,
+    },
+    {
+        Name   => 'ProcessUpdate Test 7: No Layout',
+        Config => {
+            ID       => 1,
+            EntityID => $RandomID . '-U',
+            Name     => "Process-$RandomID",
+            StateID  => 1,
+            Layout   => undef,
+            Config   => {
+                Description => 'a Description',
+            },
+            UserID => $UserID,
+        },
+        Success => 0,
+    },
+    {
+        Name   => 'ProcessUpdate Test 7: No Layout',
+        Config => {
+            ID       => 1,
+            EntityID => $RandomID . '-U',
+            Name     => "Process-$RandomID",
+            StateID  => 1,
+            Layout   => undef,
+            Config   => {
+                Description => 'a Description',
+            },
+            UserID => $UserID,
+        },
+        Success => 0,
+    },
+    {
+        Name   => 'ProcessUpdate Test 9: No Config',
+        Config => {
+            ID       => 1,
+            EntityID => $RandomID . '-U',
+            Name     => "Process-$RandomID",
+            StateID  => 1,
+            Layout   => {},
+            Config   => undef,
+            UserID   => $UserID,
+        },
+        Success => 0,
+    },
+    {
+        Name   => 'ProcessUpdate Test 10: No UserID',
+        Config => {
+            ID       => 1,
+            EntityID => $RandomID . '-U',
+            Name     => "Process-$RandomID",
+            StateID  => 1,
+            Layout   => {},
+            Config   => {
+                Description => 'a Description',
+            },
+            UserID => undef,
+        },
+        Success => 0,
+    },
+    {
+        Name   => 'ProcessUpdate Test 11: Correct ASCII',
+        Config => {
+            ID       => $AddedProcessList[0],
+            EntityID => $RandomID . '-U',
+            Name     => "Process-$RandomID -U",
+            StateID  => 1,
+            Layout   => {},
+            Config   => {
+                Description => 'a Description-U',
+            },
+            UserID => $UserID,
+        },
+        Success  => 1,
+        UpdateDB => 1
+    },
+    {
+        Name   => 'ProcessUpdate Test 12: Correct UTF8',
+        Config => {
+            ID       => $AddedProcessList[1],
+            EntityID => $RandomID . '-1-U',
+            Name     => "Process-$RandomID -!Â§$%&/()=?Ã*ÃÃL:L@,.--U",
+            StateID  => 1,
+            Layout   => {},
+            Config   => {
+                Description => 'a Description Â§$%&/()=?Ã*ÃÃL:L@,.--U',
+            },
+            UserID => $UserID,
+        },
+        Success  => 1,
+        UpdateDB => 1
+    },
+    {
+        Name   => 'ProcessUpdate Test 13: Correct UTF8 2',
+        Config => {
+            ID       => $AddedProcessList[1],
+            EntityID => $RandomID . '-2-U',
+            Name     => "Process-$RandomID -äöüßÄÖÜ€исáéíúóúÁÉÍÓÚñÑ-U",
+            StateID  => 1,
+            Layout   => {},
+            Config   => {
+                Description => 'a Description -äöüßÄÖÜ€исáéíúóúÁÉÍÓÚñÑ-U',
+            },
+            UserID => $UserID,
+        },
+        Success  => 1,
+        UpdateDB => 1
+    },
+    {
+        Name   => 'ProcessUpdate Test 14: Correct ASCII No DBUpdate',
+        Config => {
+            ID       => $AddedProcessList[0],
+            EntityID => $RandomID . '-U',
+            Name     => "Process-$RandomID -U",
+            StateID  => 1,
+            Layout   => {},
+            Config   => {
+                Description => 'a Description-U',
+            },
+            UserID => $UserID,
+        },
+        Success  => 1,
+        UpdateDB => 0,
+    },
+);
+
+for my $Test (@Tests) {
+
+    # get the old process (if any)
+    my $OldProcess = $ProcessObject->ProcessGet(
+        ID => $Test->{Config}->{ID} || 0,
+        UserID => $Test->{Config}->{UserID},
+    );
+
+    if ( $Test->{Success} ) {
+
+        # try to update the process
+        print "Force a gap between create and update process, Sleeping 2s\n";
+        sleep 2;
+
+        my $Success = $ProcessObject->ProcessUpdate( %{ $Test->{Config} } );
+
+        $Self->IsNot(
+            $Success,
+            0,
+            "$Test->{Name} | Result should be 1"
+        );
+
+        # check cache
+        my $CacheKey = 'ProcessGet::ID::' . $Test->{Config}->{ID} . '::ActivityNames::0';
+
+        my $Cache = $ProcessObject->{CacheObject}->Get(
+            Type => 'ProcessManagement_Process',
+            Key  => $CacheKey,
+        );
+
+        if ( $Test->{UpdateDB} ) {
+            $Self->Is(
+                $Cache,
+                undef,
+                "$Test->{Name} | Cache should be deleted after update, should be undef",
+            );
+        }
+        else {
+            $Self->IsNot(
+                $Cache,
+                undef,
+                "$Test->{Name} | Cache should not be deleted after update, since no update needed",
+            );
+        }
+
+        # get the new process
+        my $NewProcess = $ProcessObject->ProcessGet(
+            ID     => $Test->{Config}->{ID},
+            UserID => $Test->{Config}->{UserID},
+        );
+
+        # check cache
+        $Cache = $ProcessObject->{CacheObject}->Get(
+            Type => 'ProcessManagement_Process',
+            Key  => $CacheKey,
+        );
+
+        $Self->IsDeeply(
+            $Cache,
+            $NewProcess,
+            "$Test->{Name} | Cache is equal to updated process",
+        );
+
+        if ( $Test->{UpdateDB} ) {
+            $Self->IsNotDeeply(
+                $NewProcess,
+                $OldProcess,
+                "$Test->{Name} | Updated process is different than original",
+            );
+
+            # check create and change times
+            $Self->Is(
+                $NewProcess->{CreateTime},
+                $OldProcess->{CreateTime},
+                "$Test->{Name} | Updated process create time should not change",
+            );
+            $Self->IsNot(
+                $NewProcess->{ChangeTime},
+                $OldProcess->{ChangeTime},
+                "$Test->{Name} | Updated process change time should be different",
+            );
+
+            # remove not need parameters
+            my %ExpectedProcess = %{ $Test->{Config} };
+            delete $ExpectedProcess{UserID};
+
+            for my $Attribute (qw( Activities CreateTime ChangeTime State)) {
+                delete $NewProcess->{$Attribute};
+            }
+
+            $Self->IsDeeply(
+                $NewProcess,
+                \%ExpectedProcess,
+                "$Test->{Name} | Process"
+            );
+        }
+        else {
+            $Self->IsDeeply(
+                $NewProcess,
+                $OldProcess,
+                "$Test->{Name} | Updated process is equal than original",
+            );
+        }
+    }
+    else {
+        my $Success = $ProcessObject->ProcessUpdate( %{ $Test->{Config} } );
+
+        $Self->False(
+            $Success,
+            "$Test->{Name} | Result should fail",
+        );
+    }
+}
+
+#
+# ProcessList() tests
+#
+
+# no params
+my $TestProcessList = $ProcessObject->ProcessList();
+
+$Self->Is(
+    $TestProcessList,
+    undef,
+    "ProcessList Test 1: No Params | Should be undef",
+);
+
+# normal process list
+$TestProcessList = $ProcessObject->ProcessList( UserID => $UserID );
+
+$Self->Is(
+    ref $TestProcessList,
+    'HASH',
+    "ProcessList Test 2: All Process | Should be a HASH",
+);
+
+$Self->True(
+    IsHashRefWithData($TestProcessList),
+    "ProcessList Test 2: All Process | Should be not empty HASH",
+);
+
+$Self->IsNotDeeply(
+    $TestProcessList,
+    $OriginalProcessList,
+    "ProcessList Test 2: All Process | Should be different than the original",
+);
+
+# delete original process
+for my $ProcessID ( keys %{$OriginalProcessList} ) {
+    delete $TestProcessList->{$ProcessID};
+}
+
+$Self->Is(
+    scalar keys %{$TestProcessList},
+    scalar @AddedProcessList,
+    "ProcessList Test 2: All Process | Number of processes match added processes",
+);
+
+my $Counter = 0;
+for my $ProcessID ( sort { $a <=> $b } keys %{$TestProcessList} ) {
+    $Self->Is(
+        $ProcessID,
+        $AddedProcessList[$Counter],
+        "ProcessList Test 2: All Process | ProcessID match AddedProcessID",
+        ),
+        $Counter++;
+}
+
+# prepare process for listing
+my $Process = $ProcessObject->ProcessGet(
+    ID     => $AddedProcessList[0],
+    UserID => $UserID,
+);
+my $Success = $ProcessObject->ProcessUpdate(
+    ID => $AddedProcessList[0],
+    %{$Process},
+    StateID => 1,
+    UserID  => 1,
+);
+
+$Self->IsNot(
+    $Success,
+    0,
+    "ProcessList | Updated process for ProcessID:'$AddedProcessList[0]' result should be 1",
+);
+
+for my $Index ( 1, 2 ) {
+
+    my $Process = $ProcessObject->ProcessGet(
+        ID     => $AddedProcessList[$Index],
+        UserID => $UserID,
+    );
+    my $Success = $ProcessObject->ProcessUpdate(
+        ID => $AddedProcessList[$Index],
+        %{$Process},
+        StateID => 2,
+        UserID  => 1,
+    );
+
+    $Self->IsNot(
+        $Success,
+        0,
+        "ProcessList | Updated process for ProcessID:'$AddedProcessList[$Index]' result should be 1",
+    );
+}
+
+@Tests = (
+    {
+        Name   => 'ProcessList Test3: State1',
+        Config => {
+            UseEntities => 0,
+            StateIDs    => [1],
+            UserID      => $UserID,
+        },
+    },
+    {
+        Name   => 'ProcessList Test3: State2',
+        Config => {
+            UseEntities => 0,
+            StateIDs    => [2],
+            UserID      => $UserID,
+        },
+    },
+    {
+        Name   => 'ProcessList Test4: State3',
+        Config => {
+            UseEntities => 0,
+            StateIDs    => [3],
+            UserID      => $UserID,
+        },
+    },
+    {
+        Name   => 'ProcessList Test5: State1, State2, State3',
+        Config => {
+            UseEntities => 0,
+            StateIDs    => [ 1, 2, 3 ],
+            UserID      => $UserID,
+        },
+        AllProcess => 1,
+    },
+);
+
+for my $Test (@Tests) {
+    my $ProcessList = $ProcessObject->ProcessList( %{ $Test->{Config} } );
+
+    # remove original processes
+    for my $ProcessID ( keys %{$OriginalProcessList} ) {
+        next if !$ProcessList->{$ProcessID};
+        delete $ProcessList->{$ProcessID};
+    }
+
+    # special case for empty list
+    if ( $Test->{Config} == 3 ) {
+        $Self->Flase(
+            IsHashRefWithData($ProcessList),
+            "$Test->{Name} | List is empty",
+        );
+    }
+    else {
+
+        # special case for all process
+        if ( $Test->{AllProcess} ) {
+            $Self->IsDeeply(
+                $ProcessList,
+                $TestProcessList,
+                "$Test->{Name} | List is identical as in no State filter",
+                ),
+        }
+        else {
+            $Self->IsNotDeeply(
+                $ProcessList,
+                $TestProcessList,
+                "$Test->{Name} | List is different as in no State filter",
+                ),
+                $Self->IsNot(
+                scalar keys %{$ProcessList},
+                scalar keys %{$TestProcessList},
+                "$Test->{Name} | Number of processes List is different as in no State filter",
+                ),
+        }
+    }
+}
+
+#
 # ProcessDelete() (test for fail, test for success are done by removing processes at the end)
 #
 @Tests = (
@@ -592,7 +1093,7 @@ for my $Test (@Tests) {
         Name   => 'ProcessDelete Test 2: No process ID',
         Config => {
             ID     => undef,
-            UserID => $UserID,
+            UserID => $RandomID,
         },
         Success => 0,
     },
