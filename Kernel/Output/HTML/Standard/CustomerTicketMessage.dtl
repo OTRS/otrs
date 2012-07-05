@@ -2,7 +2,7 @@
 # CustomerTicketMessage.dtl - provides HTML form for customer message
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.dtl,v 1.68 2012-07-01 09:14:12 ub Exp $
+# $Id: CustomerTicketMessage.dtl,v 1.69 2012-07-05 05:20:02 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,7 +10,7 @@
 # --
 <div id="MainBox" class="TicketCompose ARIARoleMain">
     <div class="Content">
-        <form action="$Env{"CGIHandle"}" method="post" name="compose" enctype="multipart/form-data" class="Validate PreventMultipleSubmits">
+        <form action="$Env{"CGIHandle"}" method="post" name="compose" id="NewCustomerTicket" enctype="multipart/form-data" class="Validate PreventMultipleSubmits">
             <input type="hidden" name="Action" value="$Env{"Action"}" />
             <input type="hidden" name="Subaction" value="StoreNew" />
             <input type="hidden" name="Expand" id="Expand" value="" />
@@ -19,24 +19,21 @@
 
 <!-- dtl:block:TicketType -->
                 <div>
-<!--<label for="TicketNumber">$Config{"Ticket::Hook"}</label>
-                    <input title="Ticket#" type="text" name="TicketNumber" size="30" value="$QData{"TicketNumber"}" />-->
-                    <label for="TypeID" class="Mandatory">
-                        <span class="Marker">*</span>
-                        $Text{"Type"}:
-                    </label>
+<!--
+                    <label for="TicketNumber">$Config{"Ticket::Hook"}</label>
+                    <input title="Ticket#" type="text" name="TicketNumber" size="30" value="$QData{"TicketNumber"}" />
+                    -->
+                    <label for="TypeID" class="Mandatory"><span class="Marker">*</span>$Text{"Type"}:</label>
                     $Data{"TypeStrg"}
                     <div id="TypeIDError" class="TooltipErrorMessage" ><p>$Text{"This field is required."}</p></div>
                     <div id="TypeIDServerError" class="TooltipErrorMessage NoJavaScriptMessage$QData{"TypeIDInvalid"}" ><p>$Text{"This field is required."}</p></div>
                     <div class="Clear"></div>
                 </div>
+
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
     $('#TypeID').bind('change', function (Event) {
-        // make sure the ticket is not yet created on type change
-        $('input#Expand').val(1);
-        Core.Form.Validate.DisableValidation($(this).closest('form'));
-        $(this).closest('form').submit();
+        Core.AJAX.FormUpdate($('#NewCustomerTicket'), 'AJAXUpdate', 'TypeID', ['Dest', 'PriorityID', 'ServiceID', 'SLAID', $Data{"DynamicFieldNamesStrg"}]);
     });
 //]]></script>
 <!--dtl:js_on_document_complete-->
@@ -56,10 +53,7 @@
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
     $('#Dest').bind('change', function (Event) {
-        // make sure the ticket is not yet created on queue change
-        $('input#Expand').val(1);
-        Core.Form.Validate.DisableValidation($(this).closest('form'));
-        $(this).closest('form').submit();
+        Core.AJAX.FormUpdate($('#NewCustomerTicket'), 'AJAXUpdate', 'Dest', ['TypeID', 'PriorityID', 'ServiceID', 'SLAID', $Data{"DynamicFieldNamesStrg"}]);
     });
 //]]></script>
 <!--dtl:js_on_document_complete-->
@@ -74,10 +68,7 @@
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
     $('#ServiceID').bind('change', function (Event) {
-        // make sure the ticket is not yet created on service change
-        $('input#Expand').val(1);
-        Core.Form.Validate.DisableValidation($(this).closest('form'));
-        $(this).closest('form').submit();
+        Core.AJAX.FormUpdate($('#NewCustomerTicket'), 'AJAXUpdate', 'ServiceID', ['TypeID', 'Dest', 'PriorityID', 'SLAID', $Data{"DynamicFieldNamesStrg"}]);
     });
 //]]></script>
 <!--dtl:js_on_document_complete-->
@@ -92,10 +83,7 @@
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
     $('#SLAID').bind('change', function (Event) {
-        // make sure the ticket is not yet created on sla change
-        $('input#Expand').val(1);
-        Core.Form.Validate.DisableValidation($(this).closest('form'));
-        $(this).closest('form').submit();
+        Core.AJAX.FormUpdate($('#NewCustomerTicket'), 'AJAXUpdate', 'SLAID', ['TypeID', 'Dest', 'ServiceID', 'PriorityID', 'SignKeyID', 'CryptKeyID', $Data{"DynamicFieldNamesStrg"}]);
     });
 //]]></script>
 <!--dtl:js_on_document_complete-->
@@ -164,6 +152,13 @@ $Include{"CustomerRichTextEditor"}
                     $Data{"PriorityStrg"}
                     <div class="Clear"></div>
                 </div>
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+    $('#PriorityID').bind('change', function (Event) {
+        Core.AJAX.FormUpdate($('#NewCustomerTicket'), 'AJAXUpdate', 'PriorityID', [ 'TypeID', 'Dest', 'ServiceID', 'SLAID', $Data{"DynamicFieldNamesStrg"}]);
+    });
+//]]></script>
+<!--dtl:js_on_document_complete-->
 <!-- dtl:block:Priority -->
 
 <!-- dtl:block:DynamicField -->

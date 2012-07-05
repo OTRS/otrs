@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Customer Frontend
- * @version     $Revision: 1.15 $
+ * @version     $Revision: 1.16 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -360,4 +360,17 @@ div.TooltipErrorMessage {
 .NoJavaScript .NoJavaScriptMessageServerError,
 .NoJavaScript .NoJavaScriptMessageServerError * {
     color: #ff505e;
+}
+
+/**
+ * @subsection AJAX Loader
+ */
+
+.AJAXLoader {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    margin: 2px;
+    background: url("../img/loader.gif") no-repeat right center;
+    vertical-align: bottom;
 }

@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketMessage.pm - to handle customer messages
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.pm,v 1.107 2012-07-01 12:29:57 ub Exp $
+# $Id: CustomerTicketMessage.pm,v 1.108 2012-07-05 05:20:01 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.107 $) [1];
+$VERSION = qw($Revision: 1.108 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -75,6 +75,10 @@ sub Run {
     for my $Key (qw( Subject Body PriorityID TypeID ServiceID SLAID Expand Dest)) {
         $GetParam{$Key} = $Self->{ParamObject}->GetParam( Param => $Key );
     }
+
+    # ACL compatibility translation
+    my %ACLCompatGetParam;
+    $ACLCompatGetParam{OwnerID} = $GetParam{NewUserID};
 
     # get Dynamic fields from ParamObject
     my %DynamicFieldValues;
@@ -536,13 +540,289 @@ sub Run {
             OP => "Action=$NextScreen;TicketID=$TicketID",
         );
     }
-    my $Output = $Self->{LayoutObject}->CustomerHeader( Title => 'Error' );
-    $Output .= $Self->{LayoutObject}->CustomerError(
-        Message => 'No Subaction!!',
-        Comment => 'Please contact your administrator',
-    );
-    $Output .= $Self->{LayoutObject}->CustomerFooter();
-    return $Output;
+
+    elsif ( $Self->{Subaction} eq 'AJAXUpdate' ) {
+
+        my $Dest         = $Self->{ParamObject}->GetParam( Param => 'Dest' ) || '';
+        my $CustomerUser = $Self->{UserID};
+        my $QueueID      = '';
+        if ( $Dest =~ /^(\d{1,100})\|\|.+?$/ ) {
+            $QueueID = $1;
+        }
+
+        # get list type
+        my $TreeView = 0;
+        if ( $Self->{ConfigObject}->Get('Ticket::Frontend::ListType') eq 'tree' ) {
+            $TreeView = 1;
+        }
+
+        my $Tos = $Self->_GetTos(
+            %GetParam,
+            %ACLCompatGetParam,
+            QueueID => $QueueID,
+        );
+
+        my $NewTos;
+
+        if ($Tos) {
+            for my $KeyTo ( keys %{$Tos} ) {
+                $NewTos->{"$KeyTo||$Tos->{$KeyTo}"} = $Tos->{$KeyTo};
+            }
+        }
+        my $Priorities = $Self->_GetPriorities(
+            %GetParam,
+            %ACLCompatGetParam,
+            CustomerUserID => $CustomerUser || '',
+            QueueID        => $QueueID      || 1,
+        );
+        my $Services = $Self->_GetServices(
+            %GetParam,
+            %ACLCompatGetParam,
+            CustomerUserID => $CustomerUser || '',
+            QueueID        => $QueueID      || 1,
+        );
+        my $SLAs = $Self->_GetSLAs(
+            %GetParam,
+            %ACLCompatGetParam,
+            CustomerUserID => $CustomerUser || '',
+            QueueID        => $QueueID      || 1,
+            Services       => $Services,
+        );
+
+        # update Dynamic Fields Possible Values via AJAX
+        my @DynamicFieldAJAX;
+
+        # cycle trough the activated Dynamic Fields for this screen
+        DYNAMICFIELD:
+        for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
+            next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+            next DYNAMICFIELD
+                if !$Self->{BackendObject}->IsAJAXUpdateable(
+                DynamicFieldConfig => $DynamicFieldConfig,
+                );
+            next DYNAMICFIELD if $DynamicFieldConfig->{ObjectType} ne 'Ticket';
+
+            my $PossibleValues = $Self->{BackendObject}->AJAXPossibleValuesGet(
+                DynamicFieldConfig => $DynamicFieldConfig,
+            );
+
+            # set possible values filter from ACLs
+            my $ACL = $Self->{TicketObject}->TicketAcl(
+                %GetParam,
+                %ACLCompatGetParam,
+                Action         => $Self->{Action},
+                QueueID        => $QueueID || 0,
+                ReturnType     => 'Ticket',
+                ReturnSubType  => 'DynamicField_' . $DynamicFieldConfig->{Name},
+                Data           => $PossibleValues,
+                CustomerUserID => $Self->{UserID},
+            );
+            if ($ACL) {
+                my %Filter = $Self->{TicketObject}->TicketAclData();
+                $PossibleValues = \%Filter;
+            }
+
+            # add dynamic field to the list of fields to update
+            push(
+                @DynamicFieldAJAX,
+                {
+                    Name        => 'DynamicField_' . $DynamicFieldConfig->{Name},
+                    Data        => $PossibleValues,
+                    SelectedID  => $DynamicFieldValues{ $DynamicFieldConfig->{Name} },
+                    Translation => $DynamicFieldConfig->{Config}->{TranslatableValues} || 0,
+                    Max         => 100,
+                }
+            );
+        }
+
+        my $JSON = $Self->{LayoutObject}->BuildSelectionJSON(
+            [
+                {
+                    Name         => 'Dest',
+                    Data         => $NewTos,
+                    SelectedID   => $Dest,
+                    Translation  => 0,
+                    PossibleNone => 0,
+                    TreeView     => $TreeView,
+                    Max          => 100,
+                },
+                {
+                    Name        => 'PriorityID',
+                    Data        => $Priorities,
+                    SelectedID  => $GetParam{PriorityID},
+                    Translation => 1,
+                    Max         => 100,
+                },
+                {
+                    Name         => 'ServiceID',
+                    Data         => $Services,
+                    SelectedID   => $GetParam{ServiceID},
+                    PossibleNone => 1,
+                    Translation  => 0,
+                    TreeView     => $TreeView,
+                    Max          => 100,
+                },
+                {
+                    Name         => 'SLAID',
+                    Data         => $SLAs,
+                    SelectedID   => $GetParam{SLAID},
+                    PossibleNone => 1,
+                    Translation  => 0,
+                    Max          => 100,
+                },
+                @DynamicFieldAJAX,
+            ],
+        );
+        return $Self->{LayoutObject}->Attachment(
+            ContentType => 'application/json; charset=' . $Self->{LayoutObject}->{Charset},
+            Content     => $JSON,
+            Type        => 'inline',
+            NoCache     => 1,
+        );
+    }
+    else {
+        return $Self->{LayoutObject}->ErrorScreen(
+            Message => 'No Subaction!!',
+            Comment => 'Please contact your administrator',
+        );
+    }
+
+}
+
+sub _GetPriorities {
+    my ( $Self, %Param ) = @_;
+
+    # get priority
+    my %Priorities;
+    if ( $Param{QueueID} || $Param{TicketID} ) {
+        %Priorities = $Self->{TicketObject}->TicketPriorityList(
+            %Param,
+            Action         => $Self->{Action},
+            CustomerUserID => $Self->{UserID},
+        );
+    }
+    return \%Priorities;
+}
+
+sub _GetTypes {
+    my ( $Self, %Param ) = @_;
+
+    # get type
+    my %Type;
+    if ( $Param{QueueID} || $Param{TicketID} ) {
+        %Type = $Self->{TicketObject}->TicketTypeList(
+            %Param,
+            Action         => $Self->{Action},
+            CustomerUserID => $Self->{UserID},
+        );
+    }
+    return \%Type;
+}
+
+sub _GetServices {
+    my ( $Self, %Param ) = @_;
+
+    # get service
+    my %Service;
+
+    # check needed
+    return \%Service if !$Param{QueueID} && !$Param{TicketID};
+
+    # get options for default services for unknown customers
+    my $DefaultServiceUnknownCustomer
+        = $Self->{ConfigObject}->Get('Ticket::Service::Default::UnknownCustomer');
+
+    # get service list
+    if ( $Param{CustomerUserID} || $DefaultServiceUnknownCustomer ) {
+        %Service = $Self->{TicketObject}->TicketServiceList(
+            %Param,
+            Action         => $Self->{Action},
+            CustomerUserID => $Self->{UserID},
+        );
+    }
+    return \%Service;
+}
+
+sub _GetSLAs {
+    my ( $Self, %Param ) = @_;
+
+    # get sla
+    my %SLA;
+    if ( $Param{ServiceID} && $Param{Services} && %{ $Param{Services} } ) {
+        if ( $Param{Services}->{ $Param{ServiceID} } ) {
+            %SLA = $Self->{TicketObject}->TicketSLAList(
+                %Param,
+                Action         => $Self->{Action},
+                CustomerUserID => $Self->{UserID},
+            );
+        }
+    }
+    return \%SLA;
+}
+
+sub _GetTos {
+    my ( $Self, %Param ) = @_;
+
+    # check own selection
+    my %NewTos;
+    if ( $Self->{ConfigObject}->Get('Ticket::Frontend::NewQueueOwnSelection') ) {
+        %NewTos = %{ $Self->{ConfigObject}->Get('Ticket::Frontend::NewQueueOwnSelection') };
+    }
+    else {
+
+        # SelectionType Queue or SystemAddress?
+        my %Tos;
+        if ( $Self->{ConfigObject}->Get('Ticket::Frontend::NewQueueSelectionType') eq 'Queue' ) {
+            %Tos = $Self->{TicketObject}->MoveList(
+                %Param,
+                Type           => 'create',
+                Action         => $Self->{Action},
+                QueueID        => $Self->{QueueID},
+                CustomerUserID => $Self->{UserID},
+            );
+        }
+        else {
+            %Tos = $Self->{DBObject}->GetTableData(
+                Table => 'system_address',
+                What  => 'queue_id, id',
+                Valid => 1,
+                Clamp => 1,
+            );
+        }
+
+        # get create permission queues
+        my %UserGroups = $Self->{GroupObject}->GroupMemberList(
+            UserID => $Self->{UserID},
+            Type   => 'create',
+            Result => 'HASH',
+        );
+
+        # build selection string
+        for my $QueueID ( keys %Tos ) {
+            my %QueueData = $Self->{QueueObject}->QueueGet( ID => $QueueID );
+
+            # permission check, can we create new tickets in queue
+            next if !$UserGroups{ $QueueData{GroupID} };
+
+            my $String = $Self->{ConfigObject}->Get('Ticket::Frontend::NewQueueSelectionString')
+                || '<Realname> <<Email>> - Queue: <Queue>';
+            $String =~ s/<Queue>/$QueueData{Name}/g;
+            $String =~ s/<QueueComment>/$QueueData{Comment}/g;
+            if ( $Self->{ConfigObject}->Get('Ticket::Frontend::NewQueueSelectionType') ne 'Queue' )
+            {
+                my %SystemAddressData = $Self->{SystemAddress}->SystemAddressGet(
+                    ID => $Tos{$QueueID},
+                );
+                $String =~ s/<Realname>/$SystemAddressData{Realname}/g;
+                $String =~ s/<Email>/$SystemAddressData{Name}/g;
+            }
+            $NewTos{$QueueID} = $String;
+        }
+    }
+
+    # add empty selection
+    $NewTos{''} = '-';
+    return \%NewTos;
 }
 
 sub _MaskNew {
