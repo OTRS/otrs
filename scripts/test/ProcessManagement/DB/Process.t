@@ -2,7 +2,7 @@
 # Process.t - ProcessManagement process tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Process.t,v 1.1 2012-07-05 04:19:49 cr Exp $
+# $Id: Process.t,v 1.1 2012-07-05 14:55:36 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,8 +16,8 @@ use vars (qw($Self));
 use utf8;
 
 use Kernel::Config;
-use Kernel::System::ProcessManagement::Activity;
-use Kernel::System::ProcessManagement::Process;
+use Kernel::System::ProcessManagement::DB::Activity;
+use Kernel::System::ProcessManagement::DB::Process;
 use Kernel::System::UnitTest::Helper;
 use Kernel::System::VariableCheck qw(:all);
 
@@ -30,11 +30,11 @@ my $HelperObject = Kernel::System::UnitTest::Helper->new(
 
 my $ConfigObject = Kernel::Config->new();
 
-my $ProcessObject = Kernel::System::ProcessManagement::Process->new(
+my $ProcessObject = Kernel::System::ProcessManagement::DB::Process->new(
     %{$Self},
     ConfigObject => $ConfigObject,
 );
-my $ActivityObject = Kernel::System::ProcessManagement::Activity->new(
+my $ActivityObject = Kernel::System::ProcessManagement::DB::Activity->new(
     %{$Self},
     ConfigObject => $ConfigObject,
 );

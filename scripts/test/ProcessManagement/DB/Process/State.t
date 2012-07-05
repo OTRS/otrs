@@ -2,7 +2,7 @@
 # State.t - ProcessManagement state tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: State.t,v 1.1 2012-07-05 04:19:49 cr Exp $
+# $Id: State.t,v 1.1 2012-07-05 14:55:36 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use warnings;
 use vars (qw($Self));
 
 use Kernel::Config;
-use Kernel::System::ProcessManagement::Process::State;
+use Kernel::System::ProcessManagement::DB::Process::State;
 use Kernel::System::UnitTest::Helper;
 use Kernel::System::VariableCheck qw(:all);
 
@@ -27,7 +27,7 @@ my $HelperObject = Kernel::System::UnitTest::Helper->new(
 
 my $ConfigObject = Kernel::Config->new();
 
-my $StateObject = Kernel::System::ProcessManagement::Process::State->new(
+my $StateObject = Kernel::System::ProcessManagement::DB::Process::State->new(
     %{$Self},
     ConfigObject => $ConfigObject,
 );
