@@ -1813,7 +1813,7 @@
     <Column Name="lock_state_counter" Required="true" Type="INTEGER"/>
     <Column Name="create_time" Required="true" Type="DATE"/>
     <Column Name="change_time" Required="true" Type="DATE"/>
-    <Unique>
+    <Unique Name="gi_object_lock_state_list">
         <UniqueColumn Name="webservice_id"/>
         <UniqueColumn Name="object_type"/>
         <UniqueColumn Name="object_id"/>
@@ -1893,7 +1893,7 @@
     <Column Name="create_by" Required="true" Type="INTEGER"/>
     <Column Name="change_time" Required="true" Type="DATE"/>
     <Column Name="change_by" Required="true" Type="INTEGER"/>
-    <Unique>
+    <Unique Name="dynamic_field_name">
         <UniqueColumn Name="name"/>
     </Unique>
     <ForeignKey ForeignTable="valid">
