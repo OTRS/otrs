@@ -2,7 +2,7 @@
 # Kernel/System/ProcessManagement/Process.pm - Process Management DB Process backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Process.pm,v 1.1 2012-07-05 14:54:30 cr Exp $
+# $Id: Process.pm,v 1.2 2012-07-05 15:35:24 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::ProcessManagement::DB::Activity;
 use Kernel::System::ProcessManagement::DB::Process::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 =head1 NAME
 
@@ -463,7 +463,7 @@ update Process attributes
 returns 1 if success or undef otherwise
 
     my $Success = $ProcessObject->ProcessUpdate(
-        ID          => 123              $ mandatory
+        ID          => 123,             # mandatory
         EntityID    => 'P1'             # mandatory, exportable unique identifier
         Name        => 'NameOfProcess', # mandatory
         StateID     => 1,
@@ -692,6 +692,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2012-07-05 14:54:30 $
+$Revision: 1.2 $ $Date: 2012-07-05 15:35:24 $
 
 =cut
