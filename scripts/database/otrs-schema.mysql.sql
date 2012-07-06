@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-#  driver: mysql, generated: 2012-07-05 07:30:23
+#  driver: mysql, generated: 2012-07-05 22:22:29
 # ----------------------------------------------------------
 # ----------------------------------------------------------
 #  create table valid
@@ -1243,8 +1243,8 @@ CREATE TABLE pm_process (
     entity_id VARCHAR (50) NOT NULL,
     name VARCHAR (200) NOT NULL,
     state_id SMALLINT NOT NULL,
-    layout LONGBLOB NULL,
-    config LONGBLOB NULL,
+    layout LONGBLOB NOT NULL,
+    config LONGBLOB NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
     change_time DATETIME NOT NULL,
@@ -1259,11 +1259,26 @@ CREATE TABLE pm_activity (
     id INTEGER NOT NULL AUTO_INCREMENT,
     entity_id VARCHAR (50) NOT NULL,
     name VARCHAR (200) NOT NULL,
-    config LONGBLOB NULL,
+    config LONGBLOB NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
     UNIQUE INDEX pm_activity_entity_id (entity_id)
+);
+# ----------------------------------------------------------
+#  create table pm_activity_dialog
+# ----------------------------------------------------------
+CREATE TABLE pm_activity_dialog (
+    id INTEGER NOT NULL AUTO_INCREMENT,
+    entity_id VARCHAR (50) NOT NULL,
+    name VARCHAR (200) NOT NULL,
+    config LONGBLOB NOT NULL,
+    create_time DATETIME NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time DATETIME NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id),
+    UNIQUE INDEX pm_activity_dialog_entity_id (entity_id)
 );

@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: db2, generated: 2012-07-05 07:30:23
+--  driver: db2, generated: 2012-07-05 22:22:28
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -1415,8 +1415,8 @@ CREATE TABLE pm_process (
     entity_id VARCHAR (50) NOT NULL,
     name VARCHAR (200) NOT NULL,
     state_id SMALLINT NOT NULL,
-    layout BLOB (30M),
-    config BLOB (30M),
+    layout BLOB (30M) NOT NULL,
+    config BLOB (30M) NOT NULL,
     create_time TIMESTAMP NOT NULL,
     create_by INTEGER NOT NULL,
     change_time TIMESTAMP NOT NULL,
@@ -1432,11 +1432,27 @@ CREATE TABLE pm_activity (
     id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
     entity_id VARCHAR (50) NOT NULL,
     name VARCHAR (200) NOT NULL,
-    config BLOB (30M),
+    config BLOB (30M) NOT NULL,
     create_time TIMESTAMP NOT NULL,
     create_by INTEGER NOT NULL,
     change_time TIMESTAMP NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
     CONSTRAINT pm_activity_entity_id UNIQUE (entity_id)
+);
+
+-- ----------------------------------------------------------
+--  create table pm_activity_dialog
+-- ----------------------------------------------------------
+CREATE TABLE pm_activity_dialog (
+    id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
+    entity_id VARCHAR (50) NOT NULL,
+    name VARCHAR (200) NOT NULL,
+    config BLOB (30M) NOT NULL,
+    create_time TIMESTAMP NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time TIMESTAMP NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id),
+    CONSTRAINT pm_activity_dialog_entity_id UNIQUE (entity_id)
 );

@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: mssql, generated: 2012-07-05 07:30:23
+--  driver: mssql, generated: 2012-07-05 22:22:29
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -1244,8 +1244,8 @@ CREATE TABLE pm_process (
     entity_id NVARCHAR (50) NOT NULL,
     name NVARCHAR (200) NOT NULL,
     state_id SMALLINT NOT NULL,
-    layout NVARCHAR (MAX) NULL,
-    config NVARCHAR (MAX) NULL,
+    layout NVARCHAR (MAX) NOT NULL,
+    config NVARCHAR (MAX) NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
     change_time DATETIME NOT NULL,
@@ -1260,11 +1260,26 @@ CREATE TABLE pm_activity (
     id INTEGER NOT NULL IDENTITY(1,1) ,
     entity_id NVARCHAR (50) NOT NULL,
     name NVARCHAR (200) NOT NULL,
-    config NVARCHAR (MAX) NULL,
+    config NVARCHAR (MAX) NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
     CONSTRAINT pm_activity_entity_id UNIQUE (entity_id)
+);
+-- ----------------------------------------------------------
+--  create table pm_activity_dialog
+-- ----------------------------------------------------------
+CREATE TABLE pm_activity_dialog (
+    id INTEGER NOT NULL IDENTITY(1,1) ,
+    entity_id NVARCHAR (50) NOT NULL,
+    name NVARCHAR (200) NOT NULL,
+    config NVARCHAR (MAX) NOT NULL,
+    create_time DATETIME NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time DATETIME NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id),
+    CONSTRAINT pm_activity_dialog_entity_id UNIQUE (entity_id)
 );

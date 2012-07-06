@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: postgresql_before_8_2, generated: 2012-07-05 07:36:37
+--  driver: postgresql_before_8_2, generated: 2012-07-05 22:24:17
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  alter table ticket
@@ -38,8 +38,8 @@ CREATE TABLE pm_process (
     entity_id VARCHAR (50) NOT NULL,
     name VARCHAR (200) NOT NULL,
     state_id INTEGER NOT NULL,
-    layout TEXT NULL,
-    config TEXT NULL,
+    layout TEXT NOT NULL,
+    config TEXT NOT NULL,
     create_time timestamp(0) NOT NULL,
     create_by INTEGER NOT NULL,
     change_time timestamp(0) NOT NULL,
@@ -54,7 +54,7 @@ CREATE TABLE pm_activity (
     id serial NOT NULL,
     entity_id VARCHAR (50) NOT NULL,
     name VARCHAR (200) NOT NULL,
-    config TEXT NULL,
+    config TEXT NOT NULL,
     create_time timestamp(0) NOT NULL,
     create_by INTEGER NOT NULL,
     change_time timestamp(0) NOT NULL,
@@ -62,7 +62,24 @@ CREATE TABLE pm_activity (
     PRIMARY KEY(id),
     CONSTRAINT pm_activity_entity_id UNIQUE (entity_id)
 );
+-- ----------------------------------------------------------
+--  create table pm_activity_dialog
+-- ----------------------------------------------------------
+CREATE TABLE pm_activity_dialog (
+    id serial NOT NULL,
+    entity_id VARCHAR (50) NOT NULL,
+    name VARCHAR (200) NOT NULL,
+    config TEXT NOT NULL,
+    create_time timestamp(0) NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time timestamp(0) NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id),
+    CONSTRAINT pm_activity_dialog_entity_id UNIQUE (entity_id)
+);
 ALTER TABLE pm_process ADD CONSTRAINT FK_pm_process_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
 ALTER TABLE pm_process ADD CONSTRAINT FK_pm_process_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
 ALTER TABLE pm_activity ADD CONSTRAINT FK_pm_activity_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
 ALTER TABLE pm_activity ADD CONSTRAINT FK_pm_activity_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
+ALTER TABLE pm_activity_dialog ADD CONSTRAINT FK_pm_activity_dialog_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
+ALTER TABLE pm_activity_dialog ADD CONSTRAINT FK_pm_activity_dialog_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
