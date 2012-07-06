@@ -2,7 +2,7 @@
 # State.t - ProcessManagement state tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: State.t,v 1.1 2012-07-05 14:55:36 cr Exp $
+# $Id: State.t,v 1.2 2012-07-06 16:36:53 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -75,67 +75,67 @@ my @Tests = (
         Success => 0,
     },
     {
-        Name   => 'StateLookup Test2: No ID and Name',
+        Name   => 'StateLookup Test2: No EntityID and Name',
         Config => {
-            ID     => undef,
-            Name   => undef,
-            UserID => $UserID,
+            EntityID => undef,
+            Name     => undef,
+            UserID   => $UserID,
         },
         Success => 0,
     },
     {
         Name   => 'StateLookup Test3: No UserID',
         Config => {
-            ID     => 1,
+            ID     => 'S1',
             Name   => undef,
             UserID => undef,
         },
         Success => 0,
     },
     {
-        Name   => 'StateLookup Test4: Wrong ID',
+        Name   => 'StateLookup Test4: Wrong EntityID',
         Config => {
-            ID     => 9999,
-            Name   => undef,
-            UserID => $UserID,
+            EntityID => 'NonExistent',
+            Name     => undef,
+            UserID   => $UserID,
         },
         Success => 0,
     },
     {
         Name   => 'StateLookup Test5: Wrong Name',
         Config => {
-            ID     => undef,
-            Name   => 'NonExistent',
-            UserID => $UserID,
+            EntityID => undef,
+            Name     => 'NonExistent',
+            UserID   => $UserID,
         },
         Success => 0,
     },
     {
-        Name   => 'StateLookup Test6: ID 1',
+        Name   => 'StateLookup Test6: EntityID 1',
         Config => {
-            ID     => 1,
-            Name   => undef,
-            UserID => $UserID,
+            EntityID => 'S1',
+            Name     => undef,
+            UserID   => $UserID,
         },
         Result  => 'Active',
         Success => 1,
     },
     {
-        Name   => 'StateLookup Test7: ID 2',
+        Name   => 'StateLookup Test7: EntityID 2',
         Config => {
-            ID     => 2,
-            Name   => undef,
-            UserID => $UserID,
+            EntityID => 'S2',
+            Name     => undef,
+            UserID   => $UserID,
         },
         Result  => 'Inactive',
         Success => 1,
     },
     {
-        Name   => 'StateLookup Test8: ID 3',
+        Name   => 'StateLookup Test8: EntityID 3',
         Config => {
-            ID     => 3,
-            Name   => undef,
-            UserID => $UserID,
+            EntityID => 'S3',
+            Name     => undef,
+            UserID   => $UserID,
         },
         Result  => 'FadeAway',
         Success => 1,
@@ -144,31 +144,31 @@ my @Tests = (
     {
         Name   => 'StateLookup Test9: Name Active',
         Config => {
-            ID     => undef,
-            Name   => 'Active',
-            UserID => $UserID,
+            EntityID => undef,
+            Name     => 'Active',
+            UserID   => $UserID,
         },
-        Result  => 1,
+        Result  => 'S1',
         Success => 1,
     },
     {
         Name   => 'StateLookup Test10: Name Inactive',
         Config => {
-            ID     => undef,
-            Name   => 'Inactive',
-            UserID => $UserID,
+            EntityID => undef,
+            Name     => 'Inactive',
+            UserID   => $UserID,
         },
-        Result  => 2,
+        Result  => 'S2',
         Success => 1,
     },
     {
         Name   => 'StateLookup Test11: Name FadeAway',
         Config => {
-            ID     => undef,
-            Name   => 'FadeAway',
-            UserID => $UserID,
+            EntotyID => undef,
+            Name     => 'FadeAway',
+            UserID   => $UserID,
         },
-        Result  => 3,
+        Result  => 'S3',
         Success => 1,
     },
 );

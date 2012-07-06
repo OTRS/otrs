@@ -2,7 +2,7 @@
 # Kernel/System/ProcessManagement/Process.pm - Process Management DB Process backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Process.pm,v 1.5 2012-07-06 03:29:30 cr Exp $
+# $Id: Process.pm,v 1.6 2012-07-06 16:36:54 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::ProcessManagement::DB::Activity;
 use Kernel::System::ProcessManagement::DB::Process::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 =head1 NAME
 
@@ -125,14 +125,14 @@ add new Process
 returns the id of the created process if success or undef otherwise
 
     my $ID = $ProcessObject->ProcessAdd(
-        EntityID    => 'P1'             # mandatory, exportable unique identifier
-        Name        => 'NameOfProcess', # mandatory
-        StateID     => 1,
-        Layout      => $LayoutHashRef,  # mandatory, diagram objects positions to be stored in
-                                        #   YAML format
-        Config      => $ConfigHashRef,  # mandatory, process configuration to be stored in YAML
-                                        #   format
-        UserID      => 123,             # mandatory
+        EntityID       => 'P1'             # mandatory, exportable unique identifier
+        Name           => 'NameOfProcess', # mandatory
+        StateEntityID  => 'S1',
+        Layout         => $LayoutHashRef,  # mandatory, diagram objects positions to be stored in
+                                           #   YAML format
+        Config         => $ConfigHashRef,  # mandatory, process configuration to be stored in YAML
+                                           #   format
+        UserID         => 123,             # mandatory
     );
 
 Returns:
@@ -145,7 +145,7 @@ sub ProcessAdd {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for my $Key (qw(EntityID Name StateID Layout Config UserID)) {
+    for my $Key (qw(EntityID Name StateEntityID Layout Config UserID)) {
         if ( !$Param{$Key} ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
@@ -206,12 +206,12 @@ sub ProcessAdd {
     # sql
     return if !$Self->{DBObject}->Do(
         SQL => '
-            INSERT INTO pm_process ( entity_id, name, state_id, layout, config, create_time,
+            INSERT INTO pm_process ( entity_id, name, state_entity_id, layout, config, create_time,
                 create_by, change_time, change_by )
             VALUES (?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
         Bind => [
-            \$Param{EntityID}, \$Param{Name}, \$Param{StateID}, \$Layout, \$Config, \$Param{UserID},
-            \$Param{UserID},
+            \$Param{EntityID}, \$Param{Name}, \$Param{StateEntityID}, \$Layout, \$Config,
+            \$Param{UserID}, \$Param{UserID},
         ],
     );
 
@@ -297,33 +297,33 @@ get Process attributes
 Returns:
 
     $Process = {
-        ID           => 123,
-        EntityID     => 'P1',
-        Name         => 'some name',
-        StateID      => 1,
-        State        => 'Active',
-        Layout       => $LayoutHashRef,
-        Config       => $ConfigHashRef,
-        Activities => ['A1','A2','A3'],
-        CreateTime   => '2012-07-04 15:08:00',
-        ChangeTime   => '2012-07-04 15:08:00',
+        ID            => 123,
+        EntityID      => 'P1',
+        Name          => 'some name',
+        StateEntityID => 'S1',
+        State         => 'Active',
+        Layout        => $LayoutHashRef,
+        Config        => $ConfigHashRef,
+        Activities    => ['A1','A2','A3'],
+        CreateTime    => '2012-07-04 15:08:00',
+        ChangeTime    => '2012-07-04 15:08:00',
     };
 
     $Process = {
-        ID           => 123,
-        EntityID     => 'P1',
-        Name         => 'some name',
-        StateID      => 1,
-        State        => 'Active',
-        Layout       => $LayoutHashRef,
-        Config       => $ConfigHashRef,
-        Activities => {
+        ID            => 123,
+        EntityID      => 'P1',
+        Name          => 'some name',
+        StateEntityID => 'S1',
+        State         => 'Active',
+        Layout        => $LayoutHashRef,
+        Config        => $ConfigHashRef,
+        Activities    => {
             'A1' => 'Activity1',
             'A2' => 'Activity2',
             'A3' => 'Activity3',
         };
-        CreateTime   => '2012-07-04 15:08:00',
-        ChangeTime   => '2012-07-04 15:08:00',
+        CreateTime => '2012-07-04 15:08:00',
+        ChangeTime => '2012-07-04 15:08:00',
     };
 
 =cut
@@ -371,7 +371,8 @@ sub ProcessGet {
     if ( $Param{ID} ) {
         return if !$Self->{DBObject}->Prepare(
             SQL => '
-                SELECT id, entity_id, name, state_id, layout, config, create_time, change_time
+                SELECT id, entity_id, name, state_entity_id, layout, config, create_time,
+                    change_time
                 FROM pm_process
                 WHERE id = ?',
             Bind  => [ \$Param{ID} ],
@@ -381,7 +382,8 @@ sub ProcessGet {
     else {
         return if !$Self->{DBObject}->Prepare(
             SQL => '
-                SELECT id, entity_id, name, state_id, layout, config, create_time, change_time
+                SELECT id, entity_id, name, state_entity_id, layout, config, create_time,
+                    change_time
                 FROM pm_process
                 WHERE entity_id = ?',
             Bind  => [ \$Param{EntityID} ],
@@ -396,14 +398,14 @@ sub ProcessGet {
         my $Config = YAML::Load( $Data[5] );
 
         %Data = (
-            ID         => $Data[0],
-            EntityID   => $Data[1],
-            Name       => $Data[2],
-            StateID    => $Data[3],
-            Layout     => $Layout,
-            Config     => $Config,
-            CreateTime => $Data[6],
-            ChangeTime => $Data[7],
+            ID            => $Data[0],
+            EntityID      => $Data[1],
+            Name          => $Data[2],
+            StateEntityID => $Data[3],
+            Layout        => $Layout,
+            Config        => $Config,
+            CreateTime    => $Data[6],
+            ChangeTime    => $Data[7],
 
         );
     }
@@ -439,8 +441,8 @@ sub ProcessGet {
     }
 
     $Data{State} = $Self->{StateObject}->StateLookup(
-        ID     => $Data{StateID},
-        UserID => 1,
+        EntityID => $Data{StateEntityID},
+        UserID   => 1,
     );
 
     # set cache
@@ -461,15 +463,15 @@ update Process attributes
 returns 1 if success or undef otherwise
 
     my $Success = $ProcessObject->ProcessUpdate(
-        ID          => 123,             # mandatory
-        EntityID    => 'P1'             # mandatory, exportable unique identifier
-        Name        => 'NameOfProcess', # mandatory
-        StateID     => 1,
-        Layout      => $LayoutHashRef,  # mandatory, diagram objects positions to be stored in
-                                        #   YAML format
-        Config      => $ConfigHashRef,  # mandatory, process configuration to be stored in YAML
-                                        #   format
-        UserID      => 123,             # mandatory
+        ID            => 123,             # mandatory
+        EntityID      => 'P1'             # mandatory, exportable unique identifier
+        Name          => 'NameOfProcess', # mandatory
+        StateentityID => 'S1',
+        Layout        => $LayoutHashRef,  # mandatory, diagram objects positions to be stored in
+                                          #   YAML format
+        Config        => $ConfigHashRef,  # mandatory, process configuration to be stored in YAML
+                                          #   format
+        UserID        => 123,             # mandatory
     );
 
 =cut
@@ -478,7 +480,7 @@ sub ProcessUpdate {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for my $Key (qw(ID EntityID Name StateID Layout Config UserID)) {
+    for my $Key (qw(ID EntityID Name StateEntityID Layout Config UserID)) {
         if ( !$Param{$Key} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Key!" );
             return;
@@ -536,7 +538,7 @@ sub ProcessUpdate {
     # check if need to update db
     return if !$Self->{DBObject}->Prepare(
         SQL => '
-            SELECT entity_id, name, state_id, layout, config
+            SELECT entity_id, name, state_entity_id, layout, config
             FROM pm_process
             WHERE id = ?',
         Bind  => [ \$Param{ID} ],
@@ -545,36 +547,36 @@ sub ProcessUpdate {
 
     my $CurrentEntityID;
     my $CurrentName;
-    my $CurrentStateID;
+    my $CurrentStateEntityID;
     my $CurrentLayout;
     my $CurrentConfig;
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
-        $CurrentEntityID = $Data[0];
-        $CurrentName     = $Data[1];
-        $CurrentStateID  = $Data[2];
-        $CurrentLayout   = $Data[3];
-        $CurrentConfig   = $Data[4];
+        $CurrentEntityID      = $Data[0];
+        $CurrentName          = $Data[1];
+        $CurrentStateEntityID = $Data[2];
+        $CurrentLayout        = $Data[3];
+        $CurrentConfig        = $Data[4];
     }
 
     if ($CurrentEntityID) {
 
         return 1 if $CurrentEntityID eq $Param{EntityID}
-                && $CurrentName    eq $Param{Name}
-                && $CurrentStateID eq $Param{StateID}
-                && $CurrentLayout  eq $Layout
-                && $CurrentConfig  eq $Config;
+                && $CurrentName          eq $Param{Name}
+                && $CurrentStateEntityID eq $Param{StateEntityID}
+                && $CurrentLayout        eq $Layout
+                && $CurrentConfig        eq $Config;
     }
 
     # sql
     return if !$Self->{DBObject}->Do(
         SQL => '
             UPDATE pm_process
-            SET entity_id = ?, name = ?,  state_id = ?, layout = ?, config = ?,
+            SET entity_id = ?, name = ?,  state_entity_id = ?, layout = ?, config = ?,
                 change_time = current_timestamp,  change_by = ?
             WHERE id = ?',
         Bind => [
-            \$Param{EntityID}, \$Param{Name}, \$Param{StateID}, \$Layout, \$Config, \$Param{UserID},
-            \$Param{ID},
+            \$Param{EntityID}, \$Param{Name}, \$Param{StateEntityID}, \$Layout, \$Config,
+            \$Param{UserID}, \$Param{ID},
         ],
     );
 
@@ -591,12 +593,12 @@ sub ProcessUpdate {
 get a Process list
 
     my $List = $ProcessObject->ProcessList(
-        UseEntities => 0,                       # default 0, 1 || 0. if 0 the return hash keys are
+        UseEntities     => 0,                   # default 0, 1 || 0. if 0 the return hash keys are
                                                 #    the process IDs otherwise keys are the
                                                 #    process entity IDs
-        StateIDs    => [1,2],                   # optional, to filter proceses that match listed
-                                                #    state IDs
-        UserID      => 1,
+        StateEntityIDs  => ['S1','S2'],         # optional, to filter proceses that match listed
+                                                #    state entity IDs
+        UserID          => 1,
     );
 
     Returns:
@@ -624,12 +626,12 @@ sub ProcessList {
         return;
     }
 
-    my $StateIDsStrg;
-    if ( !IsArrayRefWithData( $Param{StateIDs} ) ) {
-        $StateIDsStrg = 'ALL';
+    my $StateEntityIDsStrg;
+    if ( !IsArrayRefWithData( $Param{StateEntityIDs} ) ) {
+        $StateEntityIDsStrg = 'ALL';
     }
     else {
-        $StateIDsStrg = join ',', @{ $Param{StateIDs} };
+        $StateEntityIDsStrg = join ',', @{ $Param{StateEntityIDs} };
     }
 
     # check cache
@@ -638,8 +640,9 @@ sub ProcessList {
         $UseEntities = 1;
     }
 
-    my $CacheKey = 'ProcessList::UseEntities::' . $UseEntities . '::StateIDs::' . $StateIDsStrg;
-    my $Cache    = $Self->{CacheObject}->Get(
+    my $CacheKey = 'ProcessList::UseEntities::' . $UseEntities . '::StateEntityIDs::'
+        . $StateEntityIDsStrg;
+    my $Cache = $Self->{CacheObject}->Get(
         Type => 'ProcessManagement_Process',
         Key  => $CacheKey,
     );
@@ -648,8 +651,12 @@ sub ProcessList {
     my $SQL = '
             SELECT id, entity_id, name
             FROM pm_process ';
-    if ( $StateIDsStrg ne 'ALL' ) {
-        $SQL .= "WHERE state_id IN ($StateIDsStrg)";
+    if ( $StateEntityIDsStrg ne 'ALL' ) {
+
+        my $StateEntityIDsStrgDB
+            = join ',', map "'" . $Self->{DBObject}->Quote($_) . "'", @{ $Param{StateEntityIDs} };
+
+        $SQL .= "WHERE state_entity_id IN ($StateEntityIDsStrgDB)";
     }
 
     return if !$Self->{DBObject}->Prepare( SQL => $SQL );
@@ -691,6 +698,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.5 $ $Date: 2012-07-06 03:29:30 $
+$Revision: 1.6 $ $Date: 2012-07-06 16:36:54 $
 
 =cut

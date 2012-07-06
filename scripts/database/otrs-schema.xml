@@ -1901,7 +1901,7 @@
     <!-- entity_id is a unique identifier independent from id -->
     <Column Name="entity_id" Required="true" Type="VARCHAR" Size="50"/>
     <Column Name="name" Required="true" Type="VARCHAR" Size="200"/>
-    <Column Name="state_id" Required="true" Type="SMALLINT"/>
+    <Column Name="state_entity_id" Required="true" Type="VARCHAR" Size="50"/>
     <!-- layout stored as YAML -->
     <Column Name="layout" Required="true" Type="LONGBLOB"/>
     <!-- config stored as YAML like in the web service configuration -->

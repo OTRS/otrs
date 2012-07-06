@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-#  driver: mysql, generated: 2012-07-06 10:40:29
+#  driver: mysql, generated: 2012-07-06 10:43:46
 # ----------------------------------------------------------
 # ----------------------------------------------------------
 #  alter table ticket
@@ -37,7 +37,7 @@ CREATE TABLE pm_process (
     id INTEGER NOT NULL AUTO_INCREMENT,
     entity_id VARCHAR (50) NOT NULL,
     name VARCHAR (200) NOT NULL,
-    state_id SMALLINT NOT NULL,
+    state_entity_id VARCHAR (50) NOT NULL,
     layout LONGBLOB NOT NULL,
     config LONGBLOB NOT NULL,
     create_time DATETIME NOT NULL,

@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: postgresql, generated: 2012-07-06 10:25:13
+--  driver: postgresql, generated: 2012-07-06 10:43:44
 -- ----------------------------------------------------------
 SET standard_conforming_strings TO ON;
 -- ----------------------------------------------------------
@@ -1244,7 +1244,7 @@ CREATE TABLE pm_process (
     id serial NOT NULL,
     entity_id VARCHAR (50) NOT NULL,
     name VARCHAR (200) NOT NULL,
-    state_id INTEGER NOT NULL,
+    state_entity_id VARCHAR (50) NOT NULL,
     layout TEXT NOT NULL,
     config TEXT NOT NULL,
     create_time timestamp(0) NOT NULL,

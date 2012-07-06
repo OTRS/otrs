@@ -2,7 +2,7 @@
 # Process.t - ProcessManagement DB process tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Process.t,v 1.3 2012-07-05 21:27:39 cr Exp $
+# $Id: Process.t,v 1.4 2012-07-06 16:36:53 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -116,11 +116,11 @@ my @Tests = (
     {
         Name   => 'ProcessAdd Test 2: No EntityID',
         Config => {
-            EntityID => undef,
-            Name     => 'Process-$RandomID',
-            StateID  => 1,
-            Layout   => {},
-            Config   => {
+            EntityID      => undef,
+            Name          => 'Process-$RandomID',
+            StateEntityID => 'S1',
+            Layout        => {},
+            Config        => {
                 Description => 'a Description',
             },
             UserID => $UserID,
@@ -131,11 +131,11 @@ my @Tests = (
     {
         Name   => 'ProcessAdd Test 3: No Name',
         Config => {
-            EntityID => $RandomID,
-            Name     => undef,
-            StateID  => 1,
-            Layout   => {},
-            Config   => {
+            EntityID      => $RandomID,
+            Name          => undef,
+            StateEntityID => 'S1',
+            Layout        => {},
+            Config        => {
                 Description => 'a Description',
             },
             UserID => $UserID,
@@ -144,13 +144,13 @@ my @Tests = (
 
     },
     {
-        Name   => 'ProcessAdd Test 4: No StateID',
+        Name   => 'ProcessAdd Test 4: No StateEntityID',
         Config => {
-            EntityID => $RandomID,
-            Name     => "Process-$RandomID",
-            StateID  => undef,
-            Layout   => {},
-            Config   => {
+            EntityID      => $RandomID,
+            Name          => "Process-$RandomID",
+            StateEntityID => undef,
+            Layout        => {},
+            Config        => {
                 Description => 'a Description',
             },
             UserID => $UserID,
@@ -160,11 +160,11 @@ my @Tests = (
     {
         Name   => 'ProcessAdd Test 5: No Layout',
         Config => {
-            EntityID => $RandomID,
-            Name     => "Process-$RandomID",
-            StateID  => 1,
-            Layout   => undef,
-            Config   => {
+            EntityID      => $RandomID,
+            Name          => "Process-$RandomID",
+            StateEntityID => 'S1',
+            Layout        => undef,
+            Config        => {
                 Description => 'a Description',
             },
             UserID => $UserID,
@@ -174,23 +174,23 @@ my @Tests = (
     {
         Name   => 'ProcessAdd Test 6: No Config',
         Config => {
-            EntityID => $RandomID,
-            Name     => "Process-$RandomID",
-            StateID  => 1,
-            Layout   => {},
-            Config   => undef,
-            UserID   => $UserID,
+            EntityID      => $RandomID,
+            Name          => "Process-$RandomID",
+            StateEntityID => 'S1',
+            Layout        => {},
+            Config        => undef,
+            UserID        => $UserID,
         },
         Success => 0,
     },
     {
         Name   => 'ProcessAdd Test 7: No Config Description',
         Config => {
-            EntityID => $RandomID,
-            Name     => "Process-$RandomID",
-            StateID  => 1,
-            Layout   => {},
-            Config   => {
+            EntityID      => $RandomID,
+            Name          => "Process-$RandomID",
+            StateEntityID => 'S1',
+            Layout        => {},
+            Config        => {
                 Data => 1,
             },
             UserID => $UserID,
@@ -200,11 +200,11 @@ my @Tests = (
     {
         Name   => 'ProcessAdd Test 8: No UserID',
         Config => {
-            EntityID => $RandomID,
-            Name     => "Process-$RandomID",
-            StateID  => 1,
-            Layout   => {},
-            Config   => {
+            EntityID      => $RandomID,
+            Name          => "Process-$RandomID",
+            StateEntityID => 'S1',
+            Layout        => {},
+            Config        => {
                 Description => 'a Description',
             },
             UserID => undef,
@@ -214,35 +214,35 @@ my @Tests = (
     {
         Name   => 'ProcessAdd Test 9: Wrong Config format',
         Config => {
-            EntityID => $RandomID,
-            Name     => "Process-$RandomID",
-            StateID  => 1,
-            Layout   => {},
-            Config   => {},
-            UserID   => $UserID,
+            EntityID      => $RandomID,
+            Name          => "Process-$RandomID",
+            StateEntityID => 'S1',
+            Layout        => {},
+            Config        => {},
+            UserID        => $UserID,
         },
         Success => 0,
     },
     {
         Name   => 'ProcessAdd Test 10: Wrong Config format 2',
         Config => {
-            EntityID => $RandomID,
-            Name     => "Process-$RandomID",
-            StateID  => 1,
-            Layout   => {},
-            Config   => 'Config',
-            UserID   => $UserID,
+            EntityID      => $RandomID,
+            Name          => "Process-$RandomID",
+            StateEntityID => 'S1',
+            Layout        => {},
+            Config        => 'Config',
+            UserID        => $UserID,
         },
         Success => 0,
     },
     {
         Name   => 'ProcessAdd Test 11: Correct ASCII',
         Config => {
-            EntityID => $RandomID,
-            Name     => "Process-$RandomID",
-            StateID  => 1,
-            Layout   => {},
-            Config   => {
+            EntityID      => $RandomID,
+            Name          => "Process-$RandomID",
+            StateEntityID => 'S1',
+            Layout        => {},
+            Config        => {
                 Description => 'a Description',
                 Path        => {
                     $ActivityEntityID1 => {},
@@ -255,11 +255,11 @@ my @Tests = (
     {
         Name   => 'ProcessAdd Test 12: Duplicated EntityID',
         Config => {
-            EntityID => $RandomID,
-            Name     => "Process-$RandomID",
-            StateID  => 1,
-            Layout   => {},
-            Config   => {
+            EntityID      => $RandomID,
+            Name          => "Process-$RandomID",
+            StateEntityID => 'S1',
+            Layout        => {},
+            Config        => {
                 Description => 'a Description',
             },
             UserID => $UserID,
@@ -269,11 +269,11 @@ my @Tests = (
     {
         Name   => 'ProcessAdd Test 13: Correct UTF8',
         Config => {
-            EntityID => "$RandomID-1",
-            Name     => "Process-$RandomID-!Â§$%&/()=?Ã*ÃÃL:L@,.-",
-            StateID  => 1,
-            Layout   => {},
-            Config   => {
+            EntityID      => "$RandomID-1",
+            Name          => "Process-$RandomID-!Â§$%&/()=?Ã*ÃÃL:L@,.-",
+            StateEntityID => 'S1',
+            Layout        => {},
+            Config        => {
                 Description => 'a Description Â§$%&/()=?Ã*ÃÃL:L@,.-',
                 Path        => {
                     $ActivityEntityID1 => {},
@@ -287,11 +287,11 @@ my @Tests = (
     {
         Name   => 'ProcessAdd Test 14: Correct UTF8 2',
         Config => {
-            EntityID => "$RandomID-2",
-            Name     => "Process-$RandomID-äöüßÄÖÜ€исáéíúóúÁÉÍÓÚñÑ",
-            StateID  => 1,
-            Layout   => {},
-            Config   => {
+            EntityID      => "$RandomID-2",
+            Name          => "Process-$RandomID-äöüßÄÖÜ€исáéíúóúÁÉÍÓÚñÑ",
+            StateEntityID => 'S1',
+            Layout        => {},
+            Config        => {
                 Description => 'a Description äöüßÄÖÜ€исáéíúóúÁÉÍÓÚñÑ',
                 Path        => {
                     $ActivityEntityID1 => {},
@@ -616,12 +616,12 @@ for my $Test (@Tests) {
     {
         Name   => 'ProcessUpdate Test 2: No ID',
         Config => {
-            ID       => undef,
-            EntityID => $RandomID . '-U',
-            Name     => "Process-$RandomID",
-            StateID  => 1,
-            Layout   => {},
-            Config   => {
+            ID            => undef,
+            EntityID      => $RandomID . '-U',
+            Name          => "Process-$RandomID",
+            StateEntityID => 'S1',
+            Layout        => {},
+            Config        => {
                 Description => 'a Description',
             },
             UserID => $UserID,
@@ -631,12 +631,12 @@ for my $Test (@Tests) {
     {
         Name   => 'ProcessUpdate Test 3: No EntityID',
         Config => {
-            ID       => 1,
-            EntityID => undef,
-            Name     => "Process-$RandomID",
-            StateID  => 1,
-            Layout   => {},
-            Config   => {
+            ID            => 1,
+            EntityID      => undef,
+            Name          => "Process-$RandomID",
+            StateEntityID => 'S1',
+            Layout        => {},
+            Config        => {
                 Description => 'a Description',
             },
             UserID => $UserID,
@@ -646,12 +646,12 @@ for my $Test (@Tests) {
     {
         Name   => 'ProcessUpdate Test 5: No Name',
         Config => {
-            ID       => 1,
-            EntityID => $RandomID . '-U',
-            Name     => undef,
-            StateID  => 1,
-            Layout   => {},
-            Config   => {
+            ID            => 1,
+            EntityID      => $RandomID . '-U',
+            Name          => undef,
+            StateEntityID => 'S1',
+            Layout        => {},
+            Config        => {
                 Description => 'a Description',
             },
             UserID => $UserID,
@@ -659,29 +659,14 @@ for my $Test (@Tests) {
         Success => 0,
     },
     {
-        Name   => 'ProcessUpdate Test 6: No StateID',
+        Name   => 'ProcessUpdate Test 6: No StateEntityID',
         Config => {
-            ID       => 1,
-            EntityID => $RandomID . '-U',
-            Name     => "Process-$RandomID",
-            StateID  => undef,
-            Layout   => {},
-            Config   => {
-                Description => 'a Description',
-            },
-            UserID => $UserID,
-        },
-        Success => 0,
-    },
-    {
-        Name   => 'ProcessUpdate Test 7: No Layout',
-        Config => {
-            ID       => 1,
-            EntityID => $RandomID . '-U',
-            Name     => "Process-$RandomID",
-            StateID  => 1,
-            Layout   => undef,
-            Config   => {
+            ID            => 1,
+            EntityID      => $RandomID . '-U',
+            Name          => "Process-$RandomID",
+            StateEntityID => undef,
+            Layout        => {},
+            Config        => {
                 Description => 'a Description',
             },
             UserID => $UserID,
@@ -691,12 +676,27 @@ for my $Test (@Tests) {
     {
         Name   => 'ProcessUpdate Test 7: No Layout',
         Config => {
-            ID       => 1,
-            EntityID => $RandomID . '-U',
-            Name     => "Process-$RandomID",
-            StateID  => 1,
-            Layout   => undef,
-            Config   => {
+            ID            => 1,
+            EntityID      => $RandomID . '-U',
+            Name          => "Process-$RandomID",
+            StateEntityID => 'S1',
+            Layout        => undef,
+            Config        => {
+                Description => 'a Description',
+            },
+            UserID => $UserID,
+        },
+        Success => 0,
+    },
+    {
+        Name   => 'ProcessUpdate Test 7: No Layout',
+        Config => {
+            ID            => 1,
+            EntityID      => $RandomID . '-U',
+            Name          => "Process-$RandomID",
+            StateEntityID => 'S1',
+            Layout        => undef,
+            Config        => {
                 Description => 'a Description',
             },
             UserID => $UserID,
@@ -706,25 +706,25 @@ for my $Test (@Tests) {
     {
         Name   => 'ProcessUpdate Test 9: No Config',
         Config => {
-            ID       => 1,
-            EntityID => $RandomID . '-U',
-            Name     => "Process-$RandomID",
-            StateID  => 1,
-            Layout   => {},
-            Config   => undef,
-            UserID   => $UserID,
+            ID            => 1,
+            EntityID      => $RandomID . '-U',
+            Name          => "Process-$RandomID",
+            StateEntityID => 'S1',
+            Layout        => {},
+            Config        => undef,
+            UserID        => $UserID,
         },
         Success => 0,
     },
     {
         Name   => 'ProcessUpdate Test 10: No UserID',
         Config => {
-            ID       => 1,
-            EntityID => $RandomID . '-U',
-            Name     => "Process-$RandomID",
-            StateID  => 1,
-            Layout   => {},
-            Config   => {
+            ID            => 1,
+            EntityID      => $RandomID . '-U',
+            Name          => "Process-$RandomID",
+            StateEntityID => 'S1',
+            Layout        => {},
+            Config        => {
                 Description => 'a Description',
             },
             UserID => undef,
@@ -734,12 +734,12 @@ for my $Test (@Tests) {
     {
         Name   => 'ProcessUpdate Test 11: Correct ASCII',
         Config => {
-            ID       => $AddedProcessList[0],
-            EntityID => $RandomID . '-U',
-            Name     => "Process-$RandomID -U",
-            StateID  => 1,
-            Layout   => {},
-            Config   => {
+            ID            => $AddedProcessList[0],
+            EntityID      => $RandomID . '-U',
+            Name          => "Process-$RandomID -U",
+            StateEntityID => 'S1',
+            Layout        => {},
+            Config        => {
                 Description => 'a Description-U',
             },
             UserID => $UserID,
@@ -750,12 +750,12 @@ for my $Test (@Tests) {
     {
         Name   => 'ProcessUpdate Test 12: Correct UTF8',
         Config => {
-            ID       => $AddedProcessList[1],
-            EntityID => $RandomID . '-1-U',
-            Name     => "Process-$RandomID -!Â§$%&/()=?Ã*ÃÃL:L@,.--U",
-            StateID  => 1,
-            Layout   => {},
-            Config   => {
+            ID            => $AddedProcessList[1],
+            EntityID      => $RandomID . '-1-U',
+            Name          => "Process-$RandomID -!Â§$%&/()=?Ã*ÃÃL:L@,.--U",
+            StateEntityID => 'S1',
+            Layout        => {},
+            Config        => {
                 Description => 'a Description Â§$%&/()=?Ã*ÃÃL:L@,.--U',
             },
             UserID => $UserID,
@@ -766,12 +766,12 @@ for my $Test (@Tests) {
     {
         Name   => 'ProcessUpdate Test 13: Correct UTF8 2',
         Config => {
-            ID       => $AddedProcessList[1],
-            EntityID => $RandomID . '-2-U',
-            Name     => "Process-$RandomID -äöüßÄÖÜ€исáéíúóúÁÉÍÓÚñÑ-U",
-            StateID  => 1,
-            Layout   => {},
-            Config   => {
+            ID            => $AddedProcessList[1],
+            EntityID      => $RandomID . '-2-U',
+            Name          => "Process-$RandomID -äöüßÄÖÜ€исáéíúóúÁÉÍÓÚñÑ-U",
+            StateEntityID => 'S1',
+            Layout        => {},
+            Config        => {
                 Description => 'a Description -äöüßÄÖÜ€исáéíúóúÁÉÍÓÚñÑ-U',
             },
             UserID => $UserID,
@@ -782,12 +782,12 @@ for my $Test (@Tests) {
     {
         Name   => 'ProcessUpdate Test 14: Correct ASCII No DBUpdate',
         Config => {
-            ID       => $AddedProcessList[0],
-            EntityID => $RandomID . '-U',
-            Name     => "Process-$RandomID -U",
-            StateID  => 1,
-            Layout   => {},
-            Config   => {
+            ID            => $AddedProcessList[0],
+            EntityID      => $RandomID . '-U',
+            Name          => "Process-$RandomID -U",
+            StateEntityID => 'S1',
+            Layout        => {},
+            Config        => {
                 Description => 'a Description-U',
             },
             UserID => $UserID,
@@ -973,8 +973,8 @@ my $Process = $ProcessObject->ProcessGet(
 my $Success = $ProcessObject->ProcessUpdate(
     ID => $AddedProcessList[0],
     %{$Process},
-    StateID => 1,
-    UserID  => 1,
+    StateEntityID => 'S1',
+    UserID        => 1,
 );
 
 $Self->IsNot(
@@ -992,8 +992,8 @@ for my $Index ( 1, 2 ) {
     my $Success = $ProcessObject->ProcessUpdate(
         ID => $AddedProcessList[$Index],
         %{$Process},
-        StateID => 2,
-        UserID  => 1,
+        StateEntityID => 'S2',
+        UserID        => 1,
     );
 
     $Self->IsNot(
@@ -1005,35 +1005,35 @@ for my $Index ( 1, 2 ) {
 
 @Tests = (
     {
-        Name   => 'ProcessList Test3: State1',
+        Name   => 'ProcessList Test3: State S1',
         Config => {
-            UseEntities => 0,
-            StateIDs    => [1],
-            UserID      => $UserID,
+            UseEntities    => 0,
+            StateEntityIDs => ['S1'],
+            UserID         => $UserID,
         },
     },
     {
-        Name   => 'ProcessList Test3: State2',
+        Name   => 'ProcessList Test3: State S2',
         Config => {
-            UseEntities => 0,
-            StateIDs    => [2],
-            UserID      => $UserID,
+            UseEntities    => 0,
+            StateEntityIDs => ['S2'],
+            UserID         => $UserID,
         },
     },
     {
-        Name   => 'ProcessList Test4: State3',
+        Name   => 'ProcessList Test4: State S3',
         Config => {
-            UseEntities => 0,
-            StateIDs    => [3],
-            UserID      => $UserID,
+            UseEntities    => 0,
+            StateEntityIDs => ['S3'],
+            UserID         => $UserID,
         },
     },
     {
-        Name   => 'ProcessList Test5: State1, State2, State3',
+        Name   => 'ProcessList Test5: State S1, State S2, State S3',
         Config => {
-            UseEntities => 0,
-            StateIDs    => [ 1, 2, 3 ],
-            UserID      => $UserID,
+            UseEntities    => 0,
+            StateEntityIDs => [ 'S1', 'S2', 'S3' ],
+            UserID         => $UserID,
         },
         AllProcess => 1,
     },

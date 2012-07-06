@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: mssql, generated: 2012-07-06 10:40:29
+--  driver: mssql, generated: 2012-07-06 10:43:46
 -- ----------------------------------------------------------
                 DECLARE @defnameticketgroup_read VARCHAR(200), @cmdticketgroup_read VARCHAR(2000)
                 SET @defnameticketgroup_read = (
@@ -169,7 +169,7 @@ CREATE TABLE pm_process (
     id INTEGER NOT NULL IDENTITY(1,1) ,
     entity_id NVARCHAR (50) NOT NULL,
     name NVARCHAR (200) NOT NULL,
-    state_id SMALLINT NOT NULL,
+    state_entity_id NVARCHAR (50) NOT NULL,
     layout NVARCHAR (MAX) NOT NULL,
     config NVARCHAR (MAX) NOT NULL,
     create_time DATETIME NOT NULL,

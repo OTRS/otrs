@@ -2,7 +2,7 @@
 # Kernel/System/ProcessManagement/Process/State.pm - Process Management DB State backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: State.pm,v 1.1 2012-07-05 14:54:30 cr Exp $
+# $Id: State.pm,v 1.2 2012-07-06 16:36:54 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 =head1 NAME
 
@@ -72,9 +72,9 @@ sub new {
 
     # create States list
     $Self->{StateList} = {
-        1 => 'Active',
-        2 => 'Inactive',
-        3 => 'FadeAway',
+        'S1' => 'Active',
+        'S2' => 'Inactive',
+        'S3' => 'FadeAway',
     };
 
     return $Self;
@@ -91,9 +91,9 @@ get a State list
     Returns:
 
     $List = {
-        1 => 'Active',
-        2 => 'Inactive',
-        3 => 'FadeAway',
+        'S1' => 'Active',
+        'S2' => 'Inactive',
+        'S3' => 'FadeAway',
     }
 =cut
 
@@ -114,21 +114,23 @@ sub StateList {
 
 =item StateLookup()
 
-get State name or State ID
+get State name or State EntityID
 
-    my $List = $StateObject->StateLookup(
-        ID     => 1,            # ID or Name is required
-        Name   => 'Active',
-        UserID => 123,
+    my $Name = $StateObject->StateLookup(
+        EntityID => 'S1',
+        UserID   => 123,
     );
 
     Returns:
+    $Name = 'Active';
 
-    $List = {
-        1 => 'Active',
-        2 => 'Inactive',
-        3 => 'FadeAway',
-    }
+    my $EntityID = $StateObject->StateLookup(
+        Name     => 'Active',
+        UserID   => 123,
+    );
+
+    Returns:
+    $EntityID = 'S1';
 =cut
 
 sub StateLookup {
@@ -143,10 +145,10 @@ sub StateLookup {
         return;
     }
 
-    if ( !$Param{ID} && !$Param{Name} ) {
+    if ( !$Param{EntityID} && !$Param{Name} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "ID or Name is required!"
+            Message  => "EntityID or Name is required!"
         );
         return;
     }
@@ -154,11 +156,11 @@ sub StateLookup {
     my $Result;
 
     # return state name
-    if ( $Param{ID} ) {
-        $Result = $Self->{StateList}->{ $Param{ID} };
+    if ( $Param{EntityID} ) {
+        $Result = $Self->{StateList}->{ $Param{EntityID} };
     }
 
-    # return state ID
+    # return state entity ID
     else {
         my %ReversedStateList = reverse %{ $Self->{StateList} };
         $Result = $ReversedStateList{ $Param{Name} }
@@ -182,6 +184,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2012-07-05 14:54:30 $
+$Revision: 1.2 $ $Date: 2012-07-06 16:36:54 $
 
 =cut

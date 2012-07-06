@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2012-07-06 10:25:13
+--  driver: oracle, generated: 2012-07-06 10:43:43
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 -- ----------------------------------------------------------
@@ -2086,7 +2086,7 @@ CREATE TABLE pm_process (
     id NUMBER (12, 0) NOT NULL,
     entity_id VARCHAR2 (50) NOT NULL,
     name VARCHAR2 (200) NOT NULL,
-    state_id NUMBER (5, 0) NOT NULL,
+    state_entity_id VARCHAR2 (50) NOT NULL,
     layout CLOB NOT NULL,
     config CLOB NOT NULL,
     create_time DATE NOT NULL,

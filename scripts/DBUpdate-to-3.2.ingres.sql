@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: ingres, generated: 2012-07-06 10:40:29
+--  driver: ingres, generated: 2012-07-06 10:43:46
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  alter table ticket
@@ -25,12 +25,12 @@ ALTER TABLE ticket DROP COLUMN ticket_answered RESTRICT;\g
 --  alter table ticket
 -- ----------------------------------------------------------
 ALTER TABLE ticket DROP COLUMN group_id RESTRICT;\g
-CREATE SEQUENCE pm_process_242;\g
+CREATE SEQUENCE pm_process_96;\g
 CREATE TABLE pm_process (
-    id INTEGER NOT NULL DEFAULT pm_process_242.NEXTVAL,
+    id INTEGER NOT NULL DEFAULT pm_process_96.NEXTVAL,
     entity_id VARCHAR(50) NOT NULL,
     name VARCHAR(200) NOT NULL,
-    state_id SMALLINT NOT NULL,
+    state_entity_id VARCHAR(50) NOT NULL,
     layout LONG BYTE NOT NULL,
     config LONG BYTE NOT NULL,
     create_time TIMESTAMP NOT NULL,
@@ -41,9 +41,9 @@ CREATE TABLE pm_process (
 );\g
 MODIFY pm_process TO btree unique ON id WITH unique_scope = statement;\g
 ALTER TABLE pm_process ADD PRIMARY KEY ( id ) WITH index = base table structure;\g
-CREATE SEQUENCE pm_activity_701;\g
+CREATE SEQUENCE pm_activity_769;\g
 CREATE TABLE pm_activity (
-    id INTEGER NOT NULL DEFAULT pm_activity_701.NEXTVAL,
+    id INTEGER NOT NULL DEFAULT pm_activity_769.NEXTVAL,
     entity_id VARCHAR(50) NOT NULL,
     name VARCHAR(200) NOT NULL,
     config LONG BYTE NOT NULL,
@@ -55,9 +55,9 @@ CREATE TABLE pm_activity (
 );\g
 MODIFY pm_activity TO btree unique ON id WITH unique_scope = statement;\g
 ALTER TABLE pm_activity ADD PRIMARY KEY ( id ) WITH index = base table structure;\g
-CREATE SEQUENCE pm_activity_dialog_679;\g
+CREATE SEQUENCE pm_activity_dialog_171;\g
 CREATE TABLE pm_activity_dialog (
-    id INTEGER NOT NULL DEFAULT pm_activity_dialog_679.NEXTVAL,
+    id INTEGER NOT NULL DEFAULT pm_activity_dialog_171.NEXTVAL,
     entity_id VARCHAR(50) NOT NULL,
     name VARCHAR(200) NOT NULL,
     config LONG BYTE NOT NULL,
