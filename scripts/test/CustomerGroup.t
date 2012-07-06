@@ -2,7 +2,7 @@
 # CustomerGroup.t - Customer Group tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerGroup.t,v 1.2 2012-07-03 07:05:17 cr Exp $
+# $Id: CustomerGroup.t,v 1.3 2012-07-06 16:58:04 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -947,11 +947,11 @@ for my $Test (@Tests) {
             $CacheKey = "GroupLookup::Name::$Test->{Config}->{Group}";
         }
 
-        # check cache
+        # check cache (cahce is an scalar reference)
         my $Cache = $CustomerGroupObject->{CacheInternalObject}->Get( Key => $CacheKey );
 
         $Self->Is(
-            $Cache,
+            ${$Cache},
             $Result,
             "Cache after GroupGroupLookup() $Test->{Name} - Key: $CacheKey",
         );
