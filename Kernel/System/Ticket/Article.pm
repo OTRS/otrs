@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.320 2012-07-03 09:42:36 mg Exp $
+# $Id: Article.pm,v 1.321 2012-07-06 10:29:48 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::EmailParser;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.320 $) [1];
+$VERSION = qw($Revision: 1.321 $) [1];
 
 =head1 NAME
 
@@ -3178,8 +3178,6 @@ sub ArticleAccountedTimeDelete {
 
 1;
 
-=cut
-
 # the following is the pod for Kernel/System/Ticket/ArticleStorage*.pm
 
 =item ArticleDelete()
@@ -3472,6 +3470,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.320 $ $Date: 2012-07-03 09:42:36 $
+$Revision: 1.321 $ $Date: 2012-07-06 10:29:48 $
 
 =cut
