@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminDynamicField.pm - provides a dynamic fields view for admins
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminDynamicField.pm,v 1.17 2012-05-07 19:18:04 cr Exp $
+# $Id: AdminDynamicField.pm,v 1.18 2012-07-06 09:04:04 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::DynamicField;
 use Kernel::System::DynamicField::Backend;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.17 $) [1];
+$VERSION = qw($Revision: 1.18 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -93,6 +93,14 @@ sub _DynamicFieldDelete {
         $Self->{'LogObject'}->Log(
             'Priority' => 'error',
             'Message'  => "Could not find DynamicField $ID!",
+        );
+        return;
+    }
+
+    if ( $DynamicFieldConfig->{InternalField} ) {
+        $Self->{'LogObject'}->Log(
+            'Priority' => 'error',
+            'Message'  => "Could not delete internal DynamicField $ID!",
         );
         return;
     }
@@ -347,6 +355,20 @@ sub _DynamicFieldsListShow {
                         ObjectTypeName => $ObjectTypeName,
                     },
                 );
+
+                # Internal fields can not be deleted.
+                if ( !$DynamicFieldData->{InternalField} ) {
+                    $Self->{LayoutObject}->Block(
+                        Name => 'DeleteLink',
+                        Data => {
+                            %{$DynamicFieldData},
+                            Valid          => $Valid,
+                            ConfigDialog   => $ConfigDialog,
+                            FieldTypeName  => $FieldTypeName,
+                            ObjectTypeName => $ObjectTypeName,
+                        },
+                    );
+                }
 
                 # set MaxFieldOrder
                 if ( int $DynamicFieldData->{FieldOrder} > int $MaxFieldOrder ) {

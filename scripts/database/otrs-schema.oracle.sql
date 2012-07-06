@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2012-07-05 22:22:29
+--  driver: oracle, generated: 2012-07-06 10:25:13
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 -- ----------------------------------------------------------
@@ -2047,6 +2047,7 @@ CREATE INDEX index_search_int ON dynamic_field_value (field_id, value_int);
 -- ----------------------------------------------------------
 CREATE TABLE dynamic_field (
     id NUMBER (12, 0) NOT NULL,
+    internal_field NUMBER (5, 0) DEFAULT 0 NOT NULL,
     name VARCHAR2 (200) NOT NULL,
     label VARCHAR2 (200) NOT NULL,
     field_order NUMBER (12, 0) NOT NULL,

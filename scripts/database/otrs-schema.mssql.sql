@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: mssql, generated: 2012-07-05 22:22:29
+--  driver: mssql, generated: 2012-07-06 10:25:13
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -1222,6 +1222,7 @@ CREATE INDEX index_search_int ON dynamic_field_value (field_id, value_int);
 -- ----------------------------------------------------------
 CREATE TABLE dynamic_field (
     id INTEGER NOT NULL IDENTITY(1,1) ,
+    internal_field SMALLINT NOT NULL,
     name NVARCHAR (200) NOT NULL,
     label NVARCHAR (200) NOT NULL,
     field_order INTEGER NOT NULL,
@@ -1236,6 +1237,7 @@ CREATE TABLE dynamic_field (
     PRIMARY KEY(id),
     CONSTRAINT dynamic_field_name UNIQUE (name)
 );
+ALTER TABLE dynamic_field ADD CONSTRAINT DF_dynamic_field_internal_field DEFAULT (0) FOR internal_field;
 -- ----------------------------------------------------------
 --  create table pm_process
 -- ----------------------------------------------------------

@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2012-07-05 22:24:16
+--  driver: oracle, generated: 2012-07-06 10:40:29
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 -- ----------------------------------------------------------
@@ -126,6 +126,24 @@ end;
 --;
 CREATE INDEX FK_pm_activity_dialog_change65 ON pm_activity_dialog (change_by);
 CREATE INDEX FK_pm_activity_dialog_create86 ON pm_activity_dialog (create_by);
+-- ----------------------------------------------------------
+--  alter table dynamic_field
+-- ----------------------------------------------------------
+ALTER TABLE dynamic_field ADD internal_field NUMBER (5, 0) NULL;
+UPDATE dynamic_field SET internal_field = 0 WHERE internal_field IS NULL;
+ALTER TABLE dynamic_field MODIFY internal_field NUMBER (5, 0) DEFAULT 0 NOT NULL;
+-- ----------------------------------------------------------
+--  insert into table dynamic_field
+-- ----------------------------------------------------------
+INSERT INTO dynamic_field (internal_field, name, label, field_order, field_type, object_type, config, valid_id, create_by, create_time, change_by, change_time)
+    VALUES
+    (1, 'ProcessManagementProcessID', 'ProcessManagementProcessID', 1, 'Text', 'Ticket', '---DefaultValue: ''''', 1, 1, current_timestamp, 1, current_timestamp);
+-- ----------------------------------------------------------
+--  insert into table dynamic_field
+-- ----------------------------------------------------------
+INSERT INTO dynamic_field (internal_field, name, label, field_order, field_type, object_type, config, valid_id, create_by, create_time, change_by, change_time)
+    VALUES
+    (1, 'ProcessManagementActivityID', 'ProcessManagementActivityID', 1, 'Text', 'Ticket', '---DefaultValue: ''''', 1, 1, current_timestamp, 1, current_timestamp);
 SET DEFINE OFF;
 ALTER TABLE pm_process ADD CONSTRAINT FK_pm_process_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
 ALTER TABLE pm_process ADD CONSTRAINT FK_pm_process_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);

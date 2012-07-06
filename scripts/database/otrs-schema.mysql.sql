@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-#  driver: mysql, generated: 2012-07-05 22:22:29
+#  driver: mysql, generated: 2012-07-06 10:25:13
 # ----------------------------------------------------------
 # ----------------------------------------------------------
 #  create table valid
@@ -1221,6 +1221,7 @@ CREATE TABLE dynamic_field_value (
 # ----------------------------------------------------------
 CREATE TABLE dynamic_field (
     id INTEGER NOT NULL AUTO_INCREMENT,
+    internal_field SMALLINT NOT NULL DEFAULT 0,
     name VARCHAR (200) NOT NULL,
     label VARCHAR (200) NOT NULL,
     field_order INTEGER NOT NULL,

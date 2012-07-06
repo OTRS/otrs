@@ -2,7 +2,7 @@
 # DynamicField.t - DynamicField tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicField.t,v 1.27 2012-04-26 23:02:23 cr Exp $
+# $Id: DynamicField.t,v 1.28 2012-07-06 09:04:03 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -38,6 +38,24 @@ my @Tests = (
         SuccessUpdate => 1,
         Add           => {
             Config => {
+                Name        => 'AnyName',
+                Description => 'Description for Dynamic Field.',
+            },
+            Label      => 'something for label',
+            FieldOrder => 10000,
+            FieldType  => 'Text',
+            ObjectType => 'Article',
+            ValidID    => 1,
+            UserID     => $UserID,
+        },
+    },
+    {
+        Name          => 'InternalField',
+        SuccessAdd    => 1,
+        SuccessUpdate => 1,
+        Add           => {
+            InternalField => 1,
+            Config        => {
                 Name        => 'AnyName',
                 Description => 'Description for Dynamic Field.',
             },
@@ -296,7 +314,12 @@ for my $Test (@Tests) {
     $Self->Is(
         $Test->{Name} . $RandomID,
         $DynamicField->{Name},
-        "$Test->{Name} - DynamicFieldGet()",
+        "$Test->{Name} - DynamicFieldGet() Name",
+    );
+    $Self->Is(
+        $DynamicField->{InternalField},
+        $Test->{Add}->{InternalField} ? 1 : 0,
+        "$Test->{Name} - DynamicFieldGet() - InternalField",
     );
     $Self->IsDeeply(
         $DynamicField->{Config},

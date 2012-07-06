@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: mssql, generated: 2012-07-05 22:24:16
+--  driver: mssql, generated: 2012-07-06 10:40:29
 -- ----------------------------------------------------------
                 DECLARE @defnameticketgroup_read VARCHAR(200), @cmdticketgroup_read VARCHAR(2000)
                 SET @defnameticketgroup_read = (
@@ -209,6 +209,28 @@ CREATE TABLE pm_activity_dialog (
     PRIMARY KEY(id),
     CONSTRAINT pm_activity_dialog_entity_id UNIQUE (entity_id)
 );
+-- ----------------------------------------------------------
+--  alter table dynamic_field
+-- ----------------------------------------------------------
+ALTER TABLE dynamic_field ADD internal_field SMALLINT NULL;
+GO
+UPDATE dynamic_field SET internal_field = 0 WHERE internal_field IS NULL;
+GO
+ALTER TABLE dynamic_field ALTER COLUMN internal_field SMALLINT NOT NULL;
+GO
+ALTER TABLE dynamic_field ADD CONSTRAINT DF_dynamic_field_internal_field DEFAULT (0) FOR internal_field;
+-- ----------------------------------------------------------
+--  insert into table dynamic_field
+-- ----------------------------------------------------------
+INSERT INTO dynamic_field (internal_field, name, label, field_order, field_type, object_type, config, valid_id, create_by, create_time, change_by, change_time)
+    VALUES
+    (1, 'ProcessManagementProcessID', 'ProcessManagementProcessID', 1, 'Text', 'Ticket', '---DefaultValue: ''''', 1, 1, current_timestamp, 1, current_timestamp);
+-- ----------------------------------------------------------
+--  insert into table dynamic_field
+-- ----------------------------------------------------------
+INSERT INTO dynamic_field (internal_field, name, label, field_order, field_type, object_type, config, valid_id, create_by, create_time, change_by, change_time)
+    VALUES
+    (1, 'ProcessManagementActivityID', 'ProcessManagementActivityID', 1, 'Text', 'Ticket', '---DefaultValue: ''''', 1, 1, current_timestamp, 1, current_timestamp);
 ALTER TABLE pm_process ADD CONSTRAINT FK_pm_process_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
 ALTER TABLE pm_process ADD CONSTRAINT FK_pm_process_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
 ALTER TABLE pm_activity ADD CONSTRAINT FK_pm_activity_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);

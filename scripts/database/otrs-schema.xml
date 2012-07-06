@@ -1865,6 +1865,8 @@
 
 <TableCreate Name="dynamic_field">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
+    <!-- internal fields are protected -->
+    <Column Name="internal_field" Required="true" Type="SMALLINT" Default="0"/>
     <!-- the internal field name to be used in response templates, allow only lowercase letters and numbers -->
     <Column Name="name" Required="true" Type="VARCHAR" Size="200"/>
     <!-- label, always translate -->

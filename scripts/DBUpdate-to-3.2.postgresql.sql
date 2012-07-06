@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: postgresql, generated: 2012-07-05 22:24:17
+--  driver: postgresql, generated: 2012-07-06 10:40:29
 -- ----------------------------------------------------------
 SET standard_conforming_strings TO ON;
 -- ----------------------------------------------------------
@@ -78,6 +78,25 @@ CREATE TABLE pm_activity_dialog (
     PRIMARY KEY(id),
     CONSTRAINT pm_activity_dialog_entity_id UNIQUE (entity_id)
 );
+-- ----------------------------------------------------------
+--  alter table dynamic_field
+-- ----------------------------------------------------------
+ALTER TABLE dynamic_field ADD internal_field INTEGER NULL;
+UPDATE dynamic_field SET internal_field = 0 WHERE internal_field IS NULL;
+ALTER TABLE dynamic_field ALTER internal_field SET DEFAULT 0;
+ALTER TABLE dynamic_field ALTER internal_field SET NOT NULL;
+-- ----------------------------------------------------------
+--  insert into table dynamic_field
+-- ----------------------------------------------------------
+INSERT INTO dynamic_field (internal_field, name, label, field_order, field_type, object_type, config, valid_id, create_by, create_time, change_by, change_time)
+    VALUES
+    (1, 'ProcessManagementProcessID', 'ProcessManagementProcessID', 1, 'Text', 'Ticket', '---DefaultValue: ''''', 1, 1, current_timestamp, 1, current_timestamp);
+-- ----------------------------------------------------------
+--  insert into table dynamic_field
+-- ----------------------------------------------------------
+INSERT INTO dynamic_field (internal_field, name, label, field_order, field_type, object_type, config, valid_id, create_by, create_time, change_by, change_time)
+    VALUES
+    (1, 'ProcessManagementActivityID', 'ProcessManagementActivityID', 1, 'Text', 'Ticket', '---DefaultValue: ''''', 1, 1, current_timestamp, 1, current_timestamp);
 SET standard_conforming_strings TO ON;
 ALTER TABLE pm_process ADD CONSTRAINT FK_pm_process_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
 ALTER TABLE pm_process ADD CONSTRAINT FK_pm_process_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);

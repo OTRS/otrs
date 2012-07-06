@@ -2,7 +2,7 @@
 # AdminDynamicField.dtl - provides HTML form for DynamicFields
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminDynamicField.dtl,v 1.20 2012-03-20 16:27:57 mg Exp $
+# $Id: AdminDynamicField.dtl,v 1.21 2012-07-06 09:04:04 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -169,9 +169,11 @@ $('#ShowContextSettingsDialog').bind('click', function (Event) {
                                 <div>$Text{"$Data{"Valid"}"}</div>
                             </td>
                             <td class="Center">
+<!-- dtl:block:DeleteLink -->
                                 <div>
                                     <a class="TrashCan DynamicFieldDelete" href="#" data-query-string="Action=AdminDynamicField;Subaction=DynamicFieldDelete;ID=$LQData{"ID"};$QEnv{"ChallengeTokenParam"}" title="$Text{"Delete this field"}">$Text{"Delete this field"}</a>
                                 </div>
+<!-- dtl:block:DeleteLink -->
                             </td>
                         </tr>
 <!-- dtl:block:DynamicFieldsRow -->

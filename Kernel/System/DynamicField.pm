@@ -2,7 +2,7 @@
 # Kernel/System/DynamicField.pm - DynamicFields configuration backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DynamicField.pm,v 1.58 2012-05-11 08:26:25 mb Exp $
+# $Id: DynamicField.pm,v 1.59 2012-07-06 09:04:03 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Valid;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.58 $) [1];
+$VERSION = qw($Revision: 1.59 $) [1];
 
 =head1 NAME
 
@@ -115,6 +115,7 @@ add new Dynamic Field config
 returns id of new Dynamic field if successful or undef otherwise
 
     my $ID = $DynamicFieldObject->DynamicFieldAdd(
+        InternalField => 0,             # optional, 0 or 1, internal fields are protected
         Name        => 'NameForField',  # mandatory
         Label       => 'a description', # mandatory, label to show
         FieldOrder  => 123,             # mandatory, display order
@@ -189,14 +190,17 @@ sub DynamicFieldAdd {
     #   part of the data already had it.
     utf8::upgrade($Config);
 
+    my $InternalField = $Param{InternalField} ? 1 : 0;
+
     # sql
     return if !$Self->{DBObject}->Do(
         SQL =>
-            'INSERT INTO dynamic_field (name, label, field_Order, field_type, object_type,' .
+            'INSERT INTO dynamic_field (internal_field, name, label, field_Order, field_type, object_type,'
+            .
             'config, valid_id, create_time, create_by, change_time, change_by)' .
-            ' VALUES (?, ?, ?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
+            ' VALUES (?, ?, ?, ?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
         Bind => [
-            \$Param{Name}, \$Param{Label}, \$Param{FieldOrder}, \$Param{FieldType},
+            \$InternalField, \$Param{Name}, \$Param{Label}, \$Param{FieldOrder}, \$Param{FieldType},
             \$Param{ObjectType}, \$Config, \$Param{ValidID}, \$Param{UserID}, \$Param{UserID},
         ],
     );
@@ -238,6 +242,7 @@ Returns:
 
     $DynamicField = {
         ID          => 123,
+        InternalField => 0,
         Name        => 'NameForField',
         Label       => 'The label to show',
         FieldOrder  => 123,
@@ -279,7 +284,8 @@ sub DynamicFieldGet {
     if ( $Param{ID} ) {
         return if !$Self->{DBObject}->Prepare(
             SQL =>
-                'SELECT id, name, label, field_order, field_type, object_type, config,' .
+                'SELECT id, internal_field, name, label, field_order, field_type, object_type, config,'
+                .
                 ' valid_id, create_time, change_time ' .
                 'FROM dynamic_field WHERE id = ?',
             Bind => [ \$Param{ID} ],
@@ -288,7 +294,8 @@ sub DynamicFieldGet {
     else {
         return if !$Self->{DBObject}->Prepare(
             SQL =>
-                'SELECT id, name, label, field_order, field_type, object_type, config,' .
+                'SELECT id, internal_field, name, label, field_order, field_type, object_type, config,'
+                .
                 ' valid_id, create_time, change_time ' .
                 'FROM dynamic_field WHERE name = ?',
             Bind => [ \$Param{Name} ],
@@ -297,19 +304,20 @@ sub DynamicFieldGet {
 
     my %Data;
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
-        my $Config = YAML::Load( $Data[6] ) || {};
+        my $Config = YAML::Load( $Data[7] ) || {};
 
         %Data = (
-            ID         => $Data[0],
-            Name       => $Data[1],
-            Label      => $Data[2],
-            FieldOrder => $Data[3],
-            FieldType  => $Data[4],
-            ObjectType => $Data[5],
-            Config     => $Config,
-            ValidID    => $Data[7],
-            CreateTime => $Data[8],
-            ChangeTime => $Data[9],
+            ID            => $Data[0],
+            InternalField => $Data[1],
+            Name          => $Data[2],
+            Label         => $Data[3],
+            FieldOrder    => $Data[4],
+            FieldType     => $Data[5],
+            ObjectType    => $Data[6],
+            Config        => $Config,
+            ValidID       => $Data[8],
+            CreateTime    => $Data[9],
+            ChangeTime    => $Data[10],
         );
     }
 
@@ -809,6 +817,7 @@ Returns:
     $List = (
         {
             ID          => 123,
+            InternalField => 0,
             Name        => 'nameforfield',
             Label       => 'The label to show',
             FieldType   => 'Text',
@@ -820,6 +829,7 @@ Returns:
         },
         {
             ID          => 321,
+            InternalField => 0,
             Name        => 'fieldname',
             Label       => 'It is not a label',
             FieldType   => 'Text',
@@ -1299,6 +1309,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.58 $ $Date: 2012-05-11 08:26:25 $
+$Revision: 1.59 $ $Date: 2012-07-06 09:04:03 $
 
 =cut

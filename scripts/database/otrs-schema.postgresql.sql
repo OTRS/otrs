@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: postgresql, generated: 2012-07-05 22:22:29
+--  driver: postgresql, generated: 2012-07-06 10:25:13
 -- ----------------------------------------------------------
 SET standard_conforming_strings TO ON;
 -- ----------------------------------------------------------
@@ -1222,6 +1222,7 @@ CREATE INDEX index_search_int ON dynamic_field_value (field_id, value_int);
 -- ----------------------------------------------------------
 CREATE TABLE dynamic_field (
     id serial NOT NULL,
+    internal_field INTEGER DEFAULT 0 NOT NULL,
     name VARCHAR (200) NOT NULL,
     label VARCHAR (200) NOT NULL,
     field_order INTEGER NOT NULL,

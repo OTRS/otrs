@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: db2, generated: 2012-07-05 22:22:28
+--  driver: db2, generated: 2012-07-06 10:25:12
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -1392,6 +1392,7 @@ CREATE INDEX index_search_int ON dynamic_field_value (field_id, value_int);
 -- ----------------------------------------------------------
 CREATE TABLE dynamic_field (
     id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
+    internal_field SMALLINT NOT NULL DEFAULT 0,
     name VARCHAR (200) NOT NULL,
     label VARCHAR (200) NOT NULL,
     field_order INTEGER NOT NULL,
