@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.179 2012-06-26 07:48:43 mg Exp $
+# $Id: AgentTicketZoom.pm,v 1.180 2012-07-06 07:44:53 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.179 $) [1];
+$VERSION = qw($Revision: 1.180 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -143,7 +143,12 @@ sub Run {
 
     # mark shown ticket as seen
     if ( $Self->{Subaction} eq 'TicketMarkAsSeen' ) {
-        my $Success = $Self->_TicketItemSeen( TicketID => $Self->{TicketID} );
+        my $Success = 1;
+
+        # always show archived tickets as seen
+        if ( $Ticket{ArchiveFlag} ne 'y' ) {
+            $Success = $Self->_TicketItemSeen( TicketID => $Self->{TicketID} );
+        }
 
         return $Self->{LayoutObject}->Attachment(
             ContentType => 'text/html',
@@ -155,7 +160,12 @@ sub Run {
 
     # mark shown article as seen
     if ( $Self->{Subaction} eq 'MarkAsSeen' ) {
-        my $Success = $Self->_ArticleItemSeen( ArticleID => $Self->{ArticleID} );
+        my $Success = 1;
+
+        # always show archived tickets as seen
+        if ( $Ticket{ArchiveFlag} ne 'y' ) {
+            $Success = $Self->_ArticleItemSeen( ArticleID => $Self->{ArticleID} );
+        }
 
         return $Self->{LayoutObject}->Attachment(
             ContentType => 'text/html',
@@ -574,7 +584,8 @@ sub MaskAgentZoom {
         );
     }
 
-    if ( $Self->{ZoomExpand} ) {
+    # always show archived tickets as seen
+    if ( $Self->{ZoomExpand} && $Ticket{ArchiveFlag} ne 'y' ) {
         $Self->{LayoutObject}->Block(
             Name => 'TicketItemMarkAsSeen',
             Data => { TicketID => $Ticket{TicketID} },
@@ -671,6 +682,13 @@ sub MaskAgentZoom {
         $Self->{LayoutObject}->Block(
             Name => 'CreatedBy',
             Data => {%Ticket},
+        );
+    }
+
+    if ( $Ticket{ArchiveFlag} eq 'y' ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'ArchiveFlag',
+            Data => { %Ticket, %AclAction },
         );
     }
 
@@ -1154,8 +1172,12 @@ sub _ArticleTree {
             $NewArticle = 1;
 
             # show ticket flags
-            $Class    .= ' UnreadArticles';
-            $ClassRow .= ' UnreadArticles';
+
+            # always show archived tickets as seen
+            if ( $Ticket{ArchiveFlag} ne 'y' ) {
+                $Class    .= ' UnreadArticles';
+                $ClassRow .= ' UnreadArticles';
+            }
 
             # just show ticket flags if agent belongs to the ticket
             my $ShowMeta;
@@ -1207,7 +1229,8 @@ sub _ArticleTree {
             },
         );
 
-        if ($NewArticle) {
+        # always show archived tickets as seen
+        if ( $NewArticle && $Ticket{ArchiveFlag} ne 'y' ) {
             $Self->{LayoutObject}->Block(
                 Name => 'TreeItemNewArticle',
                 Data => {
@@ -1376,21 +1399,25 @@ sub _ArticleItem {
         );
     }
 
-    # mark shown article as seen
-    if ( $Param{Type} eq 'OnLoad' ) {
-        $Self->_ArticleItemSeen( ArticleID => $Article{ArticleID} );
-    }
-    else {
-        if (
-            !$Self->{ZoomExpand}
-            && defined $Param{ActualArticleID}
-            && $Param{ActualArticleID} == $Article{ArticleID}
-            )
-        {
-            $Self->{LayoutObject}->Block(
-                Name => 'ArticleItemMarkAsSeen',
-                Data => { %Param, %Article, %AclAction },
-            );
+    # always show archived tickets as seen
+    if ( $Ticket{ArchiveFlag} ne 'y' ) {
+
+        # mark shown article as seen
+        if ( $Param{Type} eq 'OnLoad' ) {
+            $Self->_ArticleItemSeen( ArticleID => $Article{ArticleID} );
+        }
+        else {
+            if (
+                !$Self->{ZoomExpand}
+                && defined $Param{ActualArticleID}
+                && $Param{ActualArticleID} == $Article{ArticleID}
+                )
+            {
+                $Self->{LayoutObject}->Block(
+                    Name => 'ArticleItemMarkAsSeen',
+                    Data => { %Param, %Article, %AclAction },
+                );
+            }
         }
     }
 

@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.210 2012-06-26 07:48:43 mg Exp $
+# $Id: AgentTicketZoom.dtl,v 1.211 2012-07-06 07:44:53 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -89,6 +89,11 @@
                 </div>
                 <div class="Content">
                     <fieldset class="TableLike FixedLabelSmall">
+<!-- dtl:block:ArchiveFlag -->
+                        <label>$Text{"Archive"}:</label>
+                        <p class="Value">$Text{"This ticket is archived."}</p>
+                        <div class="Clear"></div>
+<!-- dtl:block:ArchiveFlag -->
 <!-- dtl:block:Type -->
                         <label>$Text{"Type"}:</label>
                         <p class="Value" title="$QData{"Type"}">$QData{"Type","18"}</p>
