@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.142 2012-05-22 10:34:27 mab Exp $
+# $Id: LayoutTicket.pm,v 1.143 2012-07-06 07:57:44 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.142 $) [1];
+$VERSION = qw($Revision: 1.143 $) [1];
 
 sub AgentCustomerViewTable {
     my ( $Self, %Param ) = @_;
@@ -971,14 +971,18 @@ sub TicketMetaItems {
         ClassTable => 'Flags',
     };
 
-    # show new article
-    my %TicketFlag = $Self->{TicketObject}->TicketFlagGet(
-        TicketID => $Param{Ticket}->{TicketID},
-        UserID   => $Self->{UserID},
-    );
+    my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Param{Ticket}->{TicketID} );
 
-    # show if new message is in there
-    if ( $TicketFlag{Seen} ) {
+    # Show if new message is in there, but show archived tickets as read.
+    my %TicketFlag;
+    if ( $Ticket{ArchiveFlag} ne 'y' ) {
+        %TicketFlag = $Self->{TicketObject}->TicketFlagGet(
+            TicketID => $Param{Ticket}->{TicketID},
+            UserID   => $Self->{UserID},
+        );
+    }
+
+    if ( $Ticket{ArchiveFlag} eq 'y' || $TicketFlag{Seen} ) {
         push @Result, undef;
     }
     else {
