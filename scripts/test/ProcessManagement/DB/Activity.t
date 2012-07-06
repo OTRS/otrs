@@ -2,7 +2,7 @@
 # Activity.t - ProcessManagement DB Activity tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Activity.t,v 1.1 2012-07-06 03:32:08 cr Exp $
+# $Id: Activity.t,v 1.2 2012-07-06 17:50:53 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -59,7 +59,9 @@ my $AcitivityDialogID1 = $ActivityDialogObject->ActivityDialogAdd(
     EntityID => $ActivityDialogEntityID1,
     Name     => $ActivityDialogName1,
     Config   => {
-        Description => 'a Description',
+        DescriptionShort => 'a Description',
+        Fields           => {},
+        FieldOrder       => [],
     },
     UserID => $UserID,
 );
@@ -74,7 +76,9 @@ my $AcitivityDialogID2 = $ActivityDialogObject->ActivityDialogAdd(
     EntityID => $ActivityDialogEntityID2,
     Name     => $ActivityDialogName2,
     Config   => {
-        Description => 'a Description',
+        DescriptionShort => 'a Description',
+        Fields           => {},
+        FieldOrder       => [],
     },
     UserID => $UserID,
 );
@@ -89,7 +93,9 @@ my $AcitivityDialogID3 = $ActivityDialogObject->ActivityDialogAdd(
     EntityID => $ActivityDialogEntityID3,
     Name     => $ActivityDialogName3,
     Config   => {
-        Description => 'a Description',
+        DescriptionShort => 'a Description',
+        Fields           => {},
+        FieldOrder       => [],
     },
     UserID => $UserID,
 );
