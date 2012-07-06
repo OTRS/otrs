@@ -2,7 +2,7 @@
 # Kernel/System/ProcessManagement/Activity/ActivityDialog.pm - Process Management DB ActivityDialog backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: ActivityDialog.pm,v 1.1 2012-07-06 03:31:42 cr Exp $
+# $Id: ActivityDialog.pm,v 1.2 2012-07-06 20:50:35 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Cache;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 =head1 NAME
 
@@ -112,8 +112,6 @@ sub new {
     return $Self;
 }
 
-#TODO add tests
-
 =item ActivityDialogAdd()
 
 add new ActivityDialog
@@ -171,7 +169,8 @@ sub ActivityDialogAdd {
         return;
     }
 
-    # check config valid format (at least it must contain the description)
+    # check config valid format (at least it must contain the description short, fields and field
+    # order)
     if ( !IsHashRefWithData( $Param{Config} ) ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
@@ -179,10 +178,28 @@ sub ActivityDialogAdd {
         );
         return;
     }
-    if ( !$Param{Config}->{Description} ) {
+    for my $Needed (qw(DescriptionShort Fields FieldOrder)) {
+        if ( !$Param{Config}->{$Needed} ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed in Config!",
+            );
+            return;
+        }
+    }
+
+    # check config formats
+    if ( ref $Param{Config}->{Fields} ne 'HASH' ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Need Description in Config!",
+            Message  => "Config Fields must be a Hash!",
+        );
+        return;
+    }
+    if ( ref $Param{Config}->{FieldOrder} ne 'ARRAY' ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Config Fields must be an Array!",
         );
         return;
     }
@@ -225,8 +242,6 @@ sub ActivityDialogAdd {
     return $ID;
 }
 
-#TODO add tests
-
 =item ActivityDialogDelete()
 
 delete an ActivityDialog
@@ -251,13 +266,12 @@ sub ActivityDialogDelete {
         }
     }
 
-    #TODO re-enable
-    #    # check if exists
-    #    my $ActivityDialog = $Self->ActivityDialogGet(
-    #        ID     => $Param{ID},
-    #        UserID => 1,
-    #    );
-    #    return if !IsHashRefWithData($ActivityDialog);
+    # check if exists
+    my $ActivityDialog = $Self->ActivityDialogGet(
+        ID     => $Param{ID},
+        UserID => 1,
+    );
+    return if !IsHashRefWithData($ActivityDialog);
 
     # delete process
     return if !$Self->{DBObject}->Do(
@@ -272,8 +286,6 @@ sub ActivityDialogDelete {
 
     return 1;
 }
-
-#TODO add tests
 
 =item ActivityDialogGet()
 
@@ -301,11 +313,85 @@ Returns:
 sub ActivityDialogGet {
     my ( $Self, %Param ) = @_;
 
-    # TODO Implement
-    return 1;
-}
+    # check needed stuff
+    if ( !$Param{ID} && !$Param{EntityID} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need ID or EntityID!' );
+        return;
+    }
 
-#TODO add tests
+    if ( !$Param{UserID} ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need UserID!',
+        );
+        return;
+    }
+
+    # check cache
+    my $CacheKey;
+    if ( $Param{ID} ) {
+        $CacheKey = 'ActivityDialogGet::ID::' . $Param{ID};
+    }
+    else {
+        $CacheKey = 'ActivityDialogGet::EntityID::' . $Param{EntityID};
+    }
+
+    my $Cache = $Self->{CacheObject}->Get(
+        Type => 'ProcessManagement_ActivityDialog',
+        Key  => $CacheKey,
+    );
+    return $Cache if $Cache;
+
+    # sql
+    if ( $Param{ID} ) {
+        return if !$Self->{DBObject}->Prepare(
+            SQL => '
+                SELECT id, entity_id, name, config, create_time, change_time
+                FROM pm_activity_dialog
+                WHERE id = ?',
+            Bind  => [ \$Param{ID} ],
+            Limit => 1,
+        );
+    }
+    else {
+        return if !$Self->{DBObject}->Prepare(
+            SQL => '
+                SELECT id, entity_id, name, config, create_time, change_time
+                FROM pm_activity_dialog
+                WHERE entity_id = ?',
+            Bind  => [ \$Param{EntityID} ],
+            Limit => 1,
+        );
+    }
+
+    my %Data;
+
+    while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
+        my $Config = YAML::Load( $Data[3] );
+
+        %Data = (
+            ID         => $Data[0],
+            EntityID   => $Data[1],
+            Name       => $Data[2],
+            Config     => $Config,
+            CreateTime => $Data[4],
+            ChangeTime => $Data[5],
+
+        );
+    }
+
+    return if !$Data{ID};
+
+    # set cache
+    $Self->{CacheObject}->Set(
+        Type  => 'ProcessManagement_ActivityDialog',
+        Key   => $CacheKey,
+        Value => \%Data,
+        TTL   => $Self->{CacheTTL},
+    );
+
+    return \%Data;
+}
 
 =item ActivityDialogUpdate()
 
@@ -327,11 +413,123 @@ returns 1 if success or undef otherwise
 sub ActivityDialogUpdate {
     my ( $Self, %Param ) = @_;
 
-    #TODO Implement
+    # check needed stuff
+    for my $Key (qw(ID EntityID Name Config UserID)) {
+        if ( !$Param{$Key} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Key!" );
+            return;
+        }
+    }
+
+    # check if EntityID already exists
+    return if !$Self->{DBObject}->Prepare(
+        SQL => "
+            SELECT id FROM pm_activity_dialog
+            WHERE $Self->{Lower}(entity_id) = $Self->{Lower}(?)
+            AND id != ?",
+        Bind => [ \$Param{EntityID}, \$Param{ID} ],
+        LIMIT => 1,
+    );
+
+    my $EntityExists;
+    while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
+        $EntityExists = 1;
+    }
+
+    if ($EntityExists) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "The EntityID:$Param{Name} already exists for an ActivityDialog!",
+        );
+        return;
+    }
+
+    # check config valid format (at least it must contain the description)
+    if ( !IsHashRefWithData( $Param{Config} ) ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Config needs to be a valid Hash reference!",
+        );
+        return;
+    }
+    for my $Needed (qw(DescriptionShort Fields FieldOrder)) {
+        if ( !$Param{Config}->{$Needed} ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed in Config!",
+            );
+            return;
+        }
+    }
+
+    # check config formats
+    if ( ref $Param{Config}->{Fields} ne 'HASH' ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Config Fields must be a Hash!",
+        );
+        return;
+    }
+    if ( ref $Param{Config}->{FieldOrder} ne 'ARRAY' ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Config Fields must be an Array!",
+        );
+        return;
+    }
+
+    # dump layout and config as string
+    my $Config = YAML::Dump( $Param{Config} );
+
+    # Make sure the resulting string has the UTF-8 flag. YAML only sets it if
+    #   part of the data already had it.
+    utf8::upgrade($Config);
+
+    # check if need to update db
+    return if !$Self->{DBObject}->Prepare(
+        SQL => '
+            SELECT entity_id, name, config
+            FROM pm_activity_dialog
+            WHERE id = ?',
+        Bind  => [ \$Param{ID} ],
+        Limit => 1,
+    );
+
+    my $CurrentEntityID;
+    my $CurrentName;
+    my $CurrentConfig;
+    while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
+        $CurrentEntityID = $Data[0];
+        $CurrentName     = $Data[1];
+        $CurrentConfig   = $Data[4];
+    }
+
+    if ($CurrentEntityID) {
+
+        return 1 if $CurrentEntityID eq $Param{EntityID}
+                && $CurrentName   eq $Param{Name}
+                && $CurrentConfig eq $Config;
+    }
+
+    # sql
+    return if !$Self->{DBObject}->Do(
+        SQL => '
+            UPDATE pm_activity_dialog
+            SET entity_id = ?, name = ?,  config = ?, change_time = current_timestamp,
+                change_by = ?
+            WHERE id = ?',
+        Bind => [
+            \$Param{EntityID}, \$Param{Name}, \$Config, \$Param{UserID}, \$Param{ID},
+        ],
+    );
+
+    # delete cache
+    $Self->{CacheObject}->CleanUp(
+        Type => 'ProcessManagement_ActivityDialog',
+    );
+
     return 1;
 }
-
-#TODO add tests
 
 =item ActivityDialogList()
 
@@ -426,6 +624,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2012-07-06 03:31:42 $
+$Revision: 1.2 $ $Date: 2012-07-06 20:50:35 $
 
 =cut
