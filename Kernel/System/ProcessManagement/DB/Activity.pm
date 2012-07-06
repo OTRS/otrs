@@ -2,7 +2,7 @@
 # Kernel/System/ProcessManagement/Activity.pm - Process Management DB Activity backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Activity.pm,v 1.3 2012-07-05 20:51:18 cr Exp $
+# $Id: Activity.pm,v 1.4 2012-07-06 03:30:58 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,8 +19,10 @@ use YAML;
 use Kernel::System::Cache;
 use Kernel::System::VariableCheck qw(:all);
 
+use Kernel::System::ProcessManagement::DB::Activity::ActivityDialog;
+
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 =head1 NAME
 
@@ -109,10 +111,11 @@ sub new {
         $Self->{Lower} = 'LOWER';
     }
 
+    $Self->{ActivityDialogObject}
+        = Kernel::System::ProcessManagement::DB::Activity::ActivityDialog->new( %{$Self} );
+
     return $Self;
 }
-
-#TODO add tests
 
 =item ActivityAdd()
 
@@ -218,8 +221,6 @@ sub ActivityAdd {
     return $ID;
 }
 
-#TODO add tests
-
 =item ActivityDelete()
 
 delete an Activity
@@ -247,13 +248,12 @@ sub ActivityDelete {
         }
     }
 
-    # TODO re-enable
-    #    # check if exists
-    #    my $Activity = $Self->ActivityGet(
-    #        ID     => $Param{ID},
-    #        UserID => 1,
-    #    );
-    #    return if !IsHashRefWithData($Activity);
+    # check if exists
+    my $Activity = $Self->ActivityGet(
+        ID     => $Param{ID},
+        UserID => 1,
+    );
+    return if !IsHashRefWithData($Activity);
 
     # delete activity
     return if !$Self->{DBObject}->Do(
@@ -269,7 +269,284 @@ sub ActivityDelete {
     return 1;
 }
 
-# TODO add tests
+=item ActivityGet()
+
+get Activity attributes
+
+    my $Activity = $ActivityObject->ActivityGet(
+        ID                  => 123,      # ID or EntityID is needed
+        EntityID            => 'P1',
+        ActivityDialogNames => 1,        # default 0, 1 || 0, if 0 returns an ActivityDialogs array
+                                         #     with the activity dialog entity IDs, if 1 returns an
+                                         #     ActivitiDialogs hash with the activity entity IDs as
+                                         #     keys and ActivityDialog Names as values
+        UserID        => 123,            # mandatory
+    );
+
+Returns:
+
+    $Activity = {
+        ID             => 123,
+        EntityID       => 'P1',
+        Name           => 'some name',
+        Config         => $ConfigHashRef,
+        ActiviyDialogs => ['AD1','AD2','AD3'],
+        CreateTime     => '2012-07-04 15:08:00',
+        ChangeTime     => '2012-07-04 15:08:00',
+    };
+
+    $Activity = {
+        ID           => 123,
+        EntityID     => 'P1',
+        Name         => 'some name',
+        Config       => $ConfigHashRef,
+        ActivityDialogs => {
+            'AD1' => 'ActivityDialog1',
+            'AD2' => 'ActivityDialog2',
+            'AD3' => 'ActivityDialog3',
+        };
+        CreateTime   => '2012-07-04 15:08:00',
+        ChangeTime   => '2012-07-04 15:08:00',
+    };
+
+=cut
+
+sub ActivityGet {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    if ( !$Param{ID} && !$Param{EntityID} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need ID or EntityID!' );
+        return;
+    }
+
+    if ( !$Param{UserID} ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need UserID!',
+        );
+        return;
+    }
+
+    my $ActivityDialogNames = 0;
+    if ( defined $Param{ActivityDialogNames} && $Param{ActivityDialogNames} == 1 ) {
+        $ActivityDialogNames = 1;
+    }
+
+    # check cache
+    my $CacheKey;
+    if ( $Param{ID} ) {
+        $CacheKey = 'ActivityGet::ID::' . $Param{ID} . '::ActivityDialogNames::'
+            . $ActivityDialogNames;
+    }
+    else {
+        $CacheKey = 'ActivityGet::EntityID::' . $Param{EntityID} . '::ActivityDialogNames::'
+            . $ActivityDialogNames;
+    }
+
+    my $Cache = $Self->{CacheObject}->Get(
+        Type => 'ProcessManagement_Activity',
+        Key  => $CacheKey,
+    );
+    return $Cache if $Cache;
+
+    # sql
+    if ( $Param{ID} ) {
+        return if !$Self->{DBObject}->Prepare(
+            SQL => '
+                SELECT id, entity_id, name, config, create_time, change_time
+                FROM pm_activity
+                WHERE id = ?',
+            Bind  => [ \$Param{ID} ],
+            Limit => 1,
+        );
+    }
+    else {
+        return if !$Self->{DBObject}->Prepare(
+            SQL => '
+                SELECT id, entity_id, name, config, create_time, change_time
+                FROM pm_activity
+                WHERE entity_id = ?',
+            Bind  => [ \$Param{EntityID} ],
+            Limit => 1,
+        );
+    }
+
+    my %Data;
+
+    while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
+        my $Config = YAML::Load( $Data[3] );
+
+        %Data = (
+            ID         => $Data[0],
+            EntityID   => $Data[1],
+            Name       => $Data[2],
+            Config     => $Config,
+            CreateTime => $Data[4],
+            ChangeTime => $Data[5],
+        );
+    }
+
+    return if !$Data{ID};
+
+    # create the ActivityDialogsList
+    if ($ActivityDialogNames) {
+        my %ActivityDialogs;
+
+        if ( IsHashRefWithData( $Data{Config}->{ActivityDialog} ) ) {
+
+            my $ActivityDialogList = $Self->{ActivityDialogObject}->ActivityDialogList(
+                UseEntities => 1,
+                UserID      => 1,
+            );
+
+            for my $ActivityOrder ( sort { $a <=> $b } keys %{ $Data{Config}->{ActivityDialog} } ) {
+                $ActivityDialogs{ $Data{Config}->{ActivityDialog}->{$ActivityOrder} }
+                    = $ActivityDialogList->{ $Data{Config}->{ActivityDialog}->{$ActivityOrder} };
+            }
+        }
+        $Data{ActivityDialogs} = \%ActivityDialogs;
+    }
+    else {
+        my @ActivityDialogList;
+
+        if ( IsHashRefWithData( $Data{Config}->{ActivityDialog} ) ) {
+            @ActivityDialogList = map { $Data{Config}->{ActivityDialog}->{$_} }
+                sort { $a <=> $b } keys %{ $Data{Config}->{ActivityDialog} };
+        }
+        $Data{ActivityDialogs} = \@ActivityDialogList;
+    }
+
+    # set cache
+    $Self->{CacheObject}->Set(
+        Type  => 'ProcessManagement_Activity',
+        Key   => $CacheKey,
+        Value => \%Data,
+        TTL   => $Self->{CacheTTL},
+    );
+
+    return \%Data;
+}
+
+=item ActivityUpdate()
+
+update Activity attributes
+
+returns 1 if success or undef otherwise
+
+    my $Success = $ActivityObject->ActivityUpdate(
+        ID          => 123,             # mandatory
+        EntityID    => 'P1'             # mandatory, exportable unique identifier
+        Name        => 'NameOfProcess', # mandatory
+        Config      => $ConfigHashRef,  # mandatory, process configuration to be stored in YAML
+                                        #   format
+        UserID      => 123,             # mandatory
+    );
+
+=cut
+
+sub ActivityUpdate {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Key (qw(ID EntityID Name Config UserID)) {
+        if ( !$Param{$Key} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Key!" );
+            return;
+        }
+    }
+
+    # check if EntityID already exists
+    return if !$Self->{DBObject}->Prepare(
+        SQL => "
+            SELECT id FROM pm_activity
+            WHERE $Self->{Lower}(entity_id) = $Self->{Lower}(?)
+            AND id != ?",
+        Bind => [ \$Param{EntityID}, \$Param{ID} ],
+        LIMIT => 1,
+    );
+
+    my $EntityExists;
+    while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
+        $EntityExists = 1;
+    }
+
+    if ($EntityExists) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "The EntityID:$Param{Name} already exists for a activity!",
+        );
+        return;
+    }
+
+    # check config valid format (at least it must contain the description)
+    if ( !IsHashRefWithData( $Param{Config} ) ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Config needs to be a valid Hash reference!",
+        );
+        return;
+    }
+    if ( !$Param{Config}->{Description} ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need Description in Config!",
+        );
+        return;
+    }
+
+    # dump config as string
+    my $Config = YAML::Dump( $Param{Config} );
+
+    # Make sure the resulting string has the UTF-8 flag. YAML only sets it if
+    #   part of the data already had it.
+    utf8::upgrade($Config);
+
+    # check if need to update db
+    return if !$Self->{DBObject}->Prepare(
+        SQL => '
+            SELECT entity_id, name, config
+            FROM pm_activity
+            WHERE id = ?',
+        Bind  => [ \$Param{ID} ],
+        Limit => 1,
+    );
+
+    my $CurrentEntityID;
+    my $CurrentName;
+    my $CurrentConfig;
+    while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
+        $CurrentEntityID = $Data[0];
+        $CurrentName     = $Data[1];
+        $CurrentConfig   = $Data[2];
+    }
+
+    if ($CurrentEntityID) {
+
+        return 1 if $CurrentEntityID eq $Param{EntityID}
+                && $CurrentName   eq $Param{Name}
+                && $CurrentConfig eq $Config;
+    }
+
+    # sql
+    return if !$Self->{DBObject}->Do(
+        SQL => '
+            UPDATE pm_activity
+            SET entity_id = ?, name = ?,  config = ?, change_time = current_timestamp, change_by = ?
+            WHERE id = ?',
+        Bind => [
+            \$Param{EntityID}, \$Param{Name}, \$Config, \$Param{UserID},
+            \$Param{ID},
+        ],
+    );
+
+    # delete cache
+    $Self->{CacheObject}->CleanUp(
+        Type => 'ProcessManagement_Activity',
+    );
+
+    return 1;
+}
 
 =item ActivityList()
 
@@ -362,6 +639,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.3 $ $Date: 2012-07-05 20:51:18 $
+$Revision: 1.4 $ $Date: 2012-07-06 03:30:58 $
 
 =cut
