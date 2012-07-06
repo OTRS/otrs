@@ -2,7 +2,7 @@
 # CustomerTicketZoom.dtl - provides HTML TicketZoom for CustomerTicketZoom.pm
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.dtl,v 1.118 2012-05-30 16:20:44 mg Exp $
+# $Id: CustomerTicketZoom.dtl,v 1.119 2012-07-06 04:25:17 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -89,7 +89,7 @@
             </ul>
             <div class="Clear"></div>
         </div>
-        <form action="$Env{"CGIHandle"}#FollowUp" method="post" enctype="multipart/form-data" name="compose" class="Validate PreventMultipleSubmits">
+        <form action="$Env{"CGIHandle"}#FollowUp" method="post" enctype="multipart/form-data" name="compose" id="ReplyCustomerTicket" class="Validate PreventMultipleSubmits">
             <input type="hidden" name="Action" value="CustomerTicketZoom" />
             <input type="hidden" name="Subaction" value="Store" />
             <input type="hidden" name="TicketID" value="$QData{"TicketID"}" />
@@ -241,11 +241,25 @@
                         <div>
                             <label for="StateID">$Text{"Next state"}:</label> $Data{"NextStatesStrg"}
                         </div>
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+    $('#StateID').bind('change', function (Event) {
+        Core.AJAX.FormUpdate($('#ReplyCustomerTicket'), 'AJAXUpdate', 'StateID', [ 'PriorityID', 'TicketID' ]);
+    });
+//]]></script>
+<!--dtl:js_on_document_complete-->
 <!-- dtl:block:FollowUpState -->
 <!-- dtl:block:FollowUpPriority -->
                         <div>
                             <label for="PriorityID">$Text{"Priority"}:</label> $Data{"PriorityStrg"}
                         </div>
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+    $('#PriorityID').bind('change', function (Event) {
+        Core.AJAX.FormUpdate($('#ReplyCustomerTicket'), 'AJAXUpdate', 'PriorityID', [ 'StateID', 'TicketID' ]);
+    });
+//]]></script>
+<!--dtl:js_on_document_complete-->
 <!-- dtl:block:FollowUpPriority -->
                     </fieldset>
                     <div class="ActionRow">

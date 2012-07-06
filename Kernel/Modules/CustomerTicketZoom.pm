@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.pm,v 1.89 2012-05-07 22:52:15 cg Exp $
+# $Id: CustomerTicketZoom.pm,v 1.90 2012-07-06 04:25:17 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.89 $) [1];
+$VERSION = qw($Revision: 1.90 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -142,8 +142,62 @@ sub Run {
         $GetParam{$Key} = $Self->{ParamObject}->GetParam( Param => $Key );
     }
 
+    # ACL compatibility translation
+    my %ACLCompatGetParam;
+    $ACLCompatGetParam{OwnerID} = $GetParam{NewUserID};
+
+    if ( $Self->{Subaction} eq 'AJAXUpdate' ) {
+
+        # get TicketID
+        if ( !$GetParam{TicketID} ) {
+            $GetParam{TicketID} =
+                $Self->{TicketID} ||
+                $Self->{ParamObject}->GetParam( Param => 'TicketID' );
+        }
+
+        my $CustomerUser = $Self->{UserID};
+
+        my $Priorities = $Self->_GetPriorities(
+            %GetParam,
+            %ACLCompatGetParam,
+            CustomerUserID => $CustomerUser || '',
+        );
+        my $NextStates = $Self->_GetNextStates(
+            %GetParam,
+            %ACLCompatGetParam,
+            CustomerUserID => $CustomerUser || '',
+        );
+
+        my $JSON = $Self->{LayoutObject}->BuildSelectionJSON(
+            [
+                {
+                    Name        => 'PriorityID',
+                    Data        => $Priorities,
+                    SelectedID  => $GetParam{PriorityID},
+                    Translation => 1,
+                    Max         => 100,
+                },
+                {
+                    Name        => 'StateID',
+                    Data        => $NextStates,
+                    SelectedID  => $GetParam{StateID},
+                    Translation => 1,
+                    Max         => 100,
+                },
+            ],
+        );
+        return $Self->{LayoutObject}->Attachment(
+            ContentType => 'application/json; charset=' . $Self->{LayoutObject}->{Charset},
+            Content     => $JSON,
+            Type        => 'inline',
+            NoCache     => 1,
+        );
+    }
+
+    #   end AJAX Update
+
     # check follow up
-    if ( $Self->{Subaction} eq 'Store' ) {
+    elsif ( $Self->{Subaction} eq 'Store' ) {
         my $NextScreen = $Self->{NextScreen} || $Self->{Config}->{NextScreenAfterFollowUp};
         my %Error;
 
@@ -402,6 +456,35 @@ sub Run {
 
     # return output
     return $Output;
+}
+
+sub _GetNextStates {
+    my ( $Self, %Param ) = @_;
+
+    my %NextStates;
+    if ( $Param{TicketID} ) {
+        %NextStates = $Self->{TicketObject}->TicketStateList(
+            %Param,
+            Action         => $Self->{Action},
+            CustomerUserID => $Self->{UserID},
+        );
+    }
+    return \%NextStates;
+}
+
+sub _GetPriorities {
+    my ( $Self, %Param ) = @_;
+
+    # get priority
+    my %Priorities;
+    if ( $Param{TicketID} ) {
+        %Priorities = $Self->{TicketObject}->TicketPriorityList(
+            %Param,
+            Action         => $Self->{Action},
+            CustomerUserID => $Self->{UserID},
+        );
+    }
+    return \%Priorities;
 }
 
 sub _Mask {
