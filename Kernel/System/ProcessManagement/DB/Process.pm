@@ -2,7 +2,7 @@
 # Kernel/System/ProcessManagement/Process.pm - Process Management DB Process backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Process.pm,v 1.6 2012-07-06 16:36:54 cr Exp $
+# $Id: Process.pm,v 1.7 2012-07-07 00:46:15 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,10 +20,11 @@ use Kernel::System::Cache;
 use Kernel::System::VariableCheck qw(:all);
 
 use Kernel::System::ProcessManagement::DB::Activity;
+use Kernel::System::ProcessManagement::DB::Activity::ActivityDialog;
 use Kernel::System::ProcessManagement::DB::Process::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 =head1 NAME
 
@@ -102,6 +103,8 @@ sub new {
     # create additional objects
     $Self->{CacheObject} = Kernel::System::Cache->new( %{$Self} );
 
+    $Self->{ActivityDialogObject}
+        = Kernel::System::ProcessManagement::DB::Activity::ActivityDialog->new( %{$Self} );
     $Self->{ActivityObject} = Kernel::System::ProcessManagement::DB::Activity->new( %{$Self} );
     $Self->{StateObject} = Kernel::System::ProcessManagement::DB::Process::State->new( %{$Self} );
 
@@ -682,6 +685,168 @@ sub ProcessList {
     return \%Data;
 }
 
+# TODO Ddd POD
+# TODO Finish Implementation
+# TODO Add full tests
+sub ProcessDump {
+    my ( $Self, %Param ) = @_;
+
+    # get States
+    my %StateDump = %{ $Self->{StateObject}->StateList( UserID => 1 ) };
+
+    # get Processes
+    my $ProcessList = $Self->ProcessList( UserID => 1 );
+
+    my %ProcessDump;
+
+    PROCESS:
+    for my $ProcessID ( keys %{$ProcessList} ) {
+
+        next PROCESS if !$ProcessID;
+        next PROCESS if !$ProcessList->{$ProcessID};
+
+        my $ProcessData = $Self->ProcessGet(
+            ID     => $ProcessID,
+            UserID => 1,
+        );
+
+        next PROCESS if !IsHashRefWithData($ProcessData);
+
+        $ProcessDump{$ProcessID} = {
+            Name                => $ProcessData->{Name},
+            CreateTime          => $ProcessData->{CreateTime},
+            ChangeTime          => $ProcessData->{ChangeTime},
+            State               => $ProcessData->{StateEntityID},
+            StartActivity       => $ProcessData->{Config}->{StartActivity} || '',
+            StartActivityDialog => $ProcessData->{Config}->{StartActivityDialog} || '',
+            Path                => $ProcessData->{Config}->{Path} || {},
+        };
+    }
+
+    # get Activities
+    my $ActivitiesList = $Self->{ActivityObject}->ActivityList( UserID => 1 );
+
+    my %ActivityDump;
+
+    ACTIVITY:
+    for my $ActivityID ( keys %{$ActivitiesList} ) {
+
+        next ACTIVITY if !$ActivityID;
+        next ACTIVITY if !$ActivitiesList->{$ActivityID};
+
+        my $ActivityData = $Self->{ActivityObject}->ActivityGet(
+            ID     => $ActivityID,
+            UserID => 1,
+        );
+
+        next ACTIVITY if !IsHashRefWithData($ActivityData);
+
+        $ActivityDump{$ActivityID} = {
+            Name           => $ActivityData->{Name},
+            CreateTime     => $ActivityData->{CreateTime},
+            ChangeTime     => $ActivityData->{ChangeTime},
+            ActivityDialog => $ActivityData->{Config}->{ActivityDialog} || '',
+        };
+    }
+
+    # get ActivityDialogs
+    my $ActivityDialogsList = $Self->{ActivityDialogObject}->ActivityDialogList( UserID => 1 );
+
+    my %ActivityDialogDump;
+
+    ACTIVITYDIALOG:
+    for my $ActivityDialogID ( keys %{$ActivityDialogsList} ) {
+
+        next ACTIVITYDIALOG if !$ActivityDialogID;
+        next ACTIVITYDIALOG if !$ActivityDialogsList->{$ActivityDialogID};
+
+        my $ActivityDialogData = $Self->{ActivityDialogObject}->ActivityDialogGet(
+            ID     => $ActivityDialogID,
+            UserID => 1,
+        );
+
+        next ACTIVITYDIALOG if !IsHashRefWithData($ActivityDialogData);
+
+        $ActivityDialogDump{$ActivityDialogID} = {
+            Name             => $ActivityDialogData->{Name},
+            CreateTime       => $ActivityDialogData->{CreateTime},
+            ChangeTime       => $ActivityDialogData->{ChangeTime},
+            DescriptionShort => $ActivityDialogData->{Config}->{DescripionShort} || '',
+            DescriptionLong  => $ActivityDialogData->{Config}->{DescripionLong} || '',
+            Fields           => $ActivityDialogData->{Config}->{Fields} || {},
+            FieldOrder       => $ActivityDialogData->{Config}->{FieldOrder} || [],
+            Permission       => $ActivityDialogData->{Config}->{Permission} || '',
+            RequiredLock     => $ActivityDialogData->{Config}->{RequiredLock} || '',
+            SubmitAdviceText => $ActivityDialogData->{Config}->{SubmitAdviceText} || '',
+            SubmitButtonText => $ActivityDialogData->{Config}->{SubmitButtonText} || '',
+        };
+    }
+
+    # get Transitions
+    # my $TransitionsDialogsList = $Self->{TransitionObject}->TransitionList{ UserID => 1 };
+    # TODO Implement
+
+    # get Actions
+    # my $ActionsList = $Self->{ActionObject}->ActionList{ UserID => 1 };
+    # TODO Implement
+
+    # get ACLs?
+    # TODO Implement?
+
+    # create output
+    my $Output = "my \$Self = shift;\n";
+
+    $Output .= $Self->_ProcessItemOutput(
+        Key   => "Process",
+        Value => \%ProcessDump,
+    );
+
+    $Output .= $Self->_ProcessItemOutput(
+        Key   => 'Process::State',
+        Value => \%StateDump,
+    );
+
+    $Output .= $Self->_ProcessItemOutput(
+        Key   => 'Process::Activity',
+        Value => \%ActivityDump,
+    );
+
+    $Output .= $Self->_ProcessItemOutput(
+        Key   => 'Process::ActivityDialog',
+        Value => \%ActivityDialogDump,
+    );
+
+    #    $Output .= $Self->_ProcessItemOutput(
+    #        Key   => 'Process::Transition',
+    #        Value => \%TransitionDump,
+    #    );
+    #
+    #    $Output .= $Self->_ProcessItemOutput(
+    #        Key   => 'Process::Action',
+    #        Value => \%ActionDump,
+    #    );
+    #
+    #    $Output .= $Self->_ProcessItemOutput(
+    #        Key   => 'Process::ACLs',
+    #        Value => \%ACLsDump,
+    #    );
+
+    return $Output;
+}
+
+# TODO Add POD
+sub _ProcessItemOutput {
+    my ( $Self, %Param ) = @_;
+
+    my $Output = $Self->{MainObject}->Dump(
+        $Param{Value},
+    );
+
+    my $Key = "\$Self=>{'$Param{Key}'}";
+    $Output =~ s{\A \$VAR1}{$Key}mxs;
+
+    return $Output . "\n";
+}
 1;
 
 =back
@@ -698,6 +863,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.6 $ $Date: 2012-07-06 16:36:54 $
+$Revision: 1.7 $ $Date: 2012-07-07 00:46:15 $
 
 =cut
