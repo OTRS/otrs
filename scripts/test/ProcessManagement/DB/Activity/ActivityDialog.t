@@ -2,7 +2,7 @@
 # ActivityDialog.t - ProcessManagement DB activity dialog tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: ActivityDialog.t,v 1.1 2012-07-06 20:51:13 cr Exp $
+# $Id: ActivityDialog.t,v 1.1 2012-07-07 12:47:19 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
