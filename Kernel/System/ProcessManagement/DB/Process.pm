@@ -2,7 +2,7 @@
 # Kernel/System/ProcessManagement/Process.pm - Process Management DB Process backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Process.pm,v 1.7 2012-07-07 00:46:15 cr Exp $
+# $Id: Process.pm,v 1.8 2012-07-07 12:44:48 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::ProcessManagement::DB::Activity::ActivityDialog;
 use Kernel::System::ProcessManagement::DB::Process::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 =head1 NAME
 
@@ -685,7 +685,7 @@ sub ProcessList {
     return \%Data;
 }
 
-# TODO Ddd POD
+# TODO Add POD
 # TODO Finish Implementation
 # TODO Add full tests
 sub ProcessDump {
@@ -712,7 +712,7 @@ sub ProcessDump {
 
         next PROCESS if !IsHashRefWithData($ProcessData);
 
-        $ProcessDump{$ProcessID} = {
+        $ProcessDump{ $ProcessData->{EntityID} } = {
             Name                => $ProcessData->{Name},
             CreateTime          => $ProcessData->{CreateTime},
             ChangeTime          => $ProcessData->{ChangeTime},
@@ -741,7 +741,7 @@ sub ProcessDump {
 
         next ACTIVITY if !IsHashRefWithData($ActivityData);
 
-        $ActivityDump{$ActivityID} = {
+        $ActivityDump{ $ActivityData->{EntityID} } = {
             Name           => $ActivityData->{Name},
             CreateTime     => $ActivityData->{CreateTime},
             ChangeTime     => $ActivityData->{ChangeTime},
@@ -767,7 +767,7 @@ sub ProcessDump {
 
         next ACTIVITYDIALOG if !IsHashRefWithData($ActivityDialogData);
 
-        $ActivityDialogDump{$ActivityDialogID} = {
+        $ActivityDialogDump{ $ActivityDialogData->{EntityID} } = {
             Name             => $ActivityDialogData->{Name},
             CreateTime       => $ActivityDialogData->{CreateTime},
             ChangeTime       => $ActivityDialogData->{ChangeTime},
@@ -783,12 +783,18 @@ sub ProcessDump {
     }
 
     # get Transitions
-    # my $TransitionsDialogsList = $Self->{TransitionObject}->TransitionList{ UserID => 1 };
+
     # TODO Implement
+    # my $TransitionsList = $Self->{TransitionObject}->TransitionList{ UserID => 1 };
+
+    my %TransitionDump;
 
     # get Actions
-    # my $ActionsList = $Self->{ActionObject}->ActionList{ UserID => 1 };
+
     # TODO Implement
+    # my $ActionsList = $Self->{ActionObject}->ActionList{ UserID => 1 };
+
+    my %ActionDump;
 
     # get ACLs?
     # TODO Implement?
@@ -816,16 +822,16 @@ sub ProcessDump {
         Value => \%ActivityDialogDump,
     );
 
-    #    $Output .= $Self->_ProcessItemOutput(
-    #        Key   => 'Process::Transition',
-    #        Value => \%TransitionDump,
-    #    );
-    #
-    #    $Output .= $Self->_ProcessItemOutput(
-    #        Key   => 'Process::Action',
-    #        Value => \%ActionDump,
-    #    );
-    #
+    $Output .= $Self->_ProcessItemOutput(
+        Key   => 'Process::Transition',
+        Value => \%TransitionDump,
+    );
+
+    $Output .= $Self->_ProcessItemOutput(
+        Key   => 'Process::Action',
+        Value => \%ActionDump,
+    );
+
     #    $Output .= $Self->_ProcessItemOutput(
     #        Key   => 'Process::ACLs',
     #        Value => \%ACLsDump,
@@ -863,6 +869,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.7 $ $Date: 2012-07-07 00:46:15 $
+$Revision: 1.8 $ $Date: 2012-07-07 12:44:48 $
 
 =cut
