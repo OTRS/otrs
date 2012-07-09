@@ -1,0 +1,255 @@
+# --
+# AdminProcessManagementProcessEdit.dtl - provides HTML for AdminProcessManagement
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# --
+# $Id: AdminProcessManagementProcessEdit.dtl,v 1.1 2012-07-09 12:56:02 mn Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+    <h1>$Text{"Edit Process"} "Process 1"</h1>
+
+    <div class="SidebarColumn">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>$Text{"Actions"}</h2>
+            </div>
+            <div class="Content">
+                <ul class="ActionList">
+                    <li>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="CallForAction"><span>$Text{"Back To Overview"}</span></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>$Text{"Available Process Elements"}</h2>
+            </div>
+            <div class="Content">
+                <ul id="ProcessElements">
+                    <li class="AccordionElement Active">
+                        <h2><a href="#" class="AsBlock">Activities</a></h2>
+                        <div class="Content">
+                            <input type="text" id="ActivityFilter" class="ProcessElementFilter W75pc" placeholder="$Text{"Filter Activities..."}" />
+                            <ul class="Tablelike">
+                                <li>
+                                    Activity 1
+                                    <span><a href="#">Edit</a> | <a href="#">Delete</a></span>
+                                </li>
+                                <li>
+                                    Activity 2
+                                    <span><a href="#">Edit</a> | <a href="#">Delete</a></span>
+                                </li>
+                                <li>
+                                    Activity 3
+                                    <span><a href="#">Edit</a> | <a href="#">Delete</a></span>
+                                </li>
+                                <li>
+                                    Activity 4
+                                    <span><a href="#">Edit</a> | <a href="#">Delete</a></span>
+                                </li>
+                                <li>
+                                    Activity 5
+                                    <span><a href="#">Edit</a> | <a href="#">Delete</a></span>
+                                </li>
+                                <li>
+                                    Activity 6
+                                    <span><a href="#">Edit</a> | <a href="#">Delete</a></span>
+                                </li>
+                                <li>
+                                    Activity 7
+                                    <span><a href="#">Edit</a> | <a href="#">Delete</a></span>
+                                </li>
+                                <li>
+                                    Activity 8
+                                    <span><a href="#">Edit</a> | <a href="#">Delete</a></span>
+                                </li>
+                                <li>
+                                    Activity 9
+                                    <span><a href="#">Edit</a> | <a href="#">Delete</a></span>
+                                </li>
+                                <li>
+                                    Activity 10
+                                    <span><a href="#">Edit</a> | <a href="#">Delete</a></span>
+                                </li>
+                            </ul>
+                            <button class="ProcessElementButton" id="ActivityButtonCreate">$Text{"Create New Activity"}</button>
+                        </div>
+                    </li>
+                    <li class="AccordionElement">
+                        <h2><a href="#" class="AsBlock">Activity Dialogs</a></h2>
+                        <div class="Content">
+                            <input type="text" id="ActivityDialogFilter" class="ProcessElementFilter W75pc" placeholder="$Text{"Filter Activity Dialogs..."}" />
+                            <ul class="Tablelike">
+                                <li>
+                                    Activity Dialog 1
+                                    <span><a href="#">Edit</a> | <a href="#">Delete</a></span>
+                                </li>
+                                <li>
+                                    Activity Dialog 2
+                                    <span><a href="#">Edit</a> | <a href="#">Delete</a></span>
+                                </li>
+                                <li>
+                                    Activity Dialog 3
+                                    <span><a href="#">Edit</a> | <a href="#">Delete</a></span>
+                                </li>
+                                <li>
+                                    Activity Dialog 4
+                                    <span><a href="#">Edit</a> | <a href="#">Delete</a></span>
+                                </li>
+                                <li>
+                                    Activity Dialog 5
+                                    <span><a href="#">Edit</a> | <a href="#">Delete</a></span>
+                                </li>
+                            </ul>
+                            <button class="ProcessElementButton" id="ActivityDialogButtonCreate">$Text{"Create New Activity Dialog"}</button>
+                        </div>
+                    </li>
+                    <li class="AccordionElement">
+                        <h2><a href="#" class="AsBlock">Transitions</a></h2>
+                        <div class="Content">
+                            <input type="text" id="TransitionFilter" class="ProcessElementFilter W75pc" placeholder="$Text{"Filter Transitions..."}" />
+                            <ul class="Tablelike">
+                                <li>
+                                    Transition 1
+                                    <span><a href="#">Edit</a> | <a href="#">Delete</a></span>
+                                </li>
+                                <li>
+                                    Transition 2
+                                    <span><a href="#">Edit</a> | <a href="#">Delete</a></span>
+                                </li>
+                                <li>
+                                    Transition 3
+                                    <span><a href="#">Edit</a> | <a href="#">Delete</a></span>
+                                </li>
+                                <li>
+                                    Transition 4
+                                    <span><a href="#">Edit</a> | <a href="#">Delete</a></span>
+                                </li>
+                                <li>
+                                    Transition 5
+                                    <span><a href="#">Edit</a> | <a href="#">Delete</a></span>
+                                </li>
+                            </ul>
+                            <button class="ProcessElementButton" id="TransitionButtonCreate">$Text{"Create New Transition"}</button>
+                        </div>
+                    </li>
+                    <li class="AccordionElement">
+                        <h2><a href="#" class="AsBlock">Transition Actions</a></h2>
+                        <div class="Content">
+                            <input type="text" id="TransitionActionFilter" class="ProcessElementFilter W75pc" placeholder="$Text{"Filter Transition Actions..."}" />
+                            <ul class="Tablelike">
+                                <li>
+                                    Transition Action 1
+                                    <span><a href="#">Edit</a> | <a href="#">Delete</a></span>
+                                </li>
+                                <li>
+                                    Transition Action 2
+                                    <span><a href="#">Edit</a> | <a href="#">Delete</a></span>
+                                </li>
+                                <li>
+                                    Transition Action 3
+                                    <span><a href="#">Edit</a> | <a href="#">Delete</a></span>
+                                </li>
+                                <li>
+                                    Transition Action 4
+                                    <span><a href="#">Edit</a> | <a href="#">Delete</a></span>
+                                </li>
+                                <li>
+                                    Transition Action 5
+                                    <span><a href="#">Edit</a> | <a href="#">Delete</a></span>
+                                </li>
+                            </ul>
+                            <button class="ProcessElementButton" id="TransitionActionButtonCreate">$Text{"Create New Transition Action"}</button>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>$Text{"Description"}</h2>
+            </div>
+            <div class="Content">
+                <p class="FieldExplanation">
+                    $Text{"Here is the description of what this screen is all about."}
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="ContentColumn">
+        <form action="$Env{"CGIHandle"}" method="post" class="Validate PreventMultipleSubmits">
+            <div class="WidgetSimple Expanded">
+                <div class="Header">
+                    <div class="WidgetAction Toggle">
+                        <a href="#" title="$Text{"Show or hide the content"}"></a>
+                    </div>
+                    <h2>$Text{"Edit Process Information"}</h2>
+                </div>
+                <div class="Content">
+                    <input type="hidden" name="Action" value="$Env{"Action"}"/>
+                    <input type="hidden" name="Subaction" value="ProcessNew"/>
+                    <fieldset class="TableLike">
+                        <label class="Mandatory" for="Name"><span class="Marker">*</span> $Text{"Process Name"}:</label>
+                        <div class="Field">
+                            <input type="text" name="Name" id="Name" value="$QData{"Name"}" class="W50pc Validate_Required" maxlength="70"/>
+                            <div id="NameError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
+                            <div id="NameServerError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="Description">$Text{"Description"}:</label>
+                        <div class="Field">
+                            <textarea name="Description" id="Description" class="W50pc" rows="10">$QData{"Description"}</textarea>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="StateID">$Text{"State"}:</label>
+                        <div class="Field">
+                            $Data{"StateSelection"}
+                        </div>
+                        <div class="Clear"></div>
+                    </fieldset>
+                </div>
+            </div>
+
+            <div class="WidgetSimple">
+                <div class="Header Expanded">
+                    <div class="WidgetAction Toggle">
+                        <a href="#" title="$Text{"Show or hide the content"}"></a>
+                    </div>
+                    <h2>$Text{"Add and Edit Activities, Activity Dialogs and Transitions"}</h2>
+                </div>
+                <div class="Content">
+                    <fieldset class="TableLike">
+                        <div class="Field SpacingTop">
+                            <button class="Primary" id="Submit" type="submit" value="$Text{"Save"}">$Text{"Save"}</button>
+                            <button id="SubmitSynchronize" type="submit" value="$Text{"Save"}">$Text{"Save And Synchronize All Processes"}</button>
+                            $Text{"or"}
+                            <a href="$Env{"Baselink"}Action=$Env{"Action"}"><span>$Text{"Cancel"}</span></a>
+                        </div>
+                        <div class="Clear"></div>
+                    </fieldset>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="Clear"></div>
+</div>
+
+<!-- dtl:js_on_document_complete -->
+<script type="text/javascript">//<![CDATA[
+    Core.UI.Accordion.Init($('ul#ProcessElements'), 'li.AccordionElement h2 a', 'div.Content');
+//]]></script>
+<!-- dtl:js_on_document_complete -->

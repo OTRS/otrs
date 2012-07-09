@@ -1,0 +1,92 @@
+/**
+ * @project     OTRS (http://www.otrs.org) - Agent Frontend
+ * @version     $Revision: 1.1 $
+ * @copyright   OTRS AG
+ * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
+ */
+
+/**
+ * @package     Skin "Default"
+ * @section     Application
+ * @subsection  ProcessManagement
+ */
+
+@media screen,projection,tv,handheld {
+
+/**
+ * @subsubsection     Icon Definition
+ */
+a.Export {
+    background: url("../img/database_export.png") no-repeat left center;
+    padding-left: 24px;
+}
+
+/**
+ * @subsubsection     Process Element Accordion
+ */
+ul#ProcessElements {
+    border: 1px solid #CCC;
+}
+
+ul#ProcessElements li.AccordionElement h2 {
+    margin-bottom: 0px;
+    border: 1px solid #FFF;
+    border-bottom: 1px solid #CCC;
+}
+
+ul#ProcessElements li.AccordionElement h2 a {
+    padding: 5px;
+    color: #474747;
+}
+
+ul#ProcessElements li.AccordionElement div.Content {
+    border: 1px solid #FFF;
+    border-bottom: 1px solid #CCC;
+    background-color: #FFF;
+    padding: 5px;
+    display: none;
+}
+
+ul#ProcessElements li.AccordionElement.Active div.Content {
+    display: block;
+}
+
+ul#ProcessElements li.AccordionElement:last-child div.Content {
+    border-bottom: 1px solid #FFF;
+}
+
+ul#ProcessElements li.AccordionElement:last-child h2 {
+    border-bottom: none;
+}
+
+ul#ProcessElements li.AccordionElement.Active:last-child h2 {
+    border-bottom: 1px solid #CCC;
+}
+
+
+ul#ProcessElements li.AccordionElement div.Content ul {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    max-height: 150px;
+    overflow-y: scroll;
+}
+
+ul#ProcessElements li.AccordionElement div.Content ul li {
+    padding: 2px 5px 2px 5px;
+    position: relative;
+    cursor: move;
+}
+
+ul#ProcessElements li.AccordionElement div.Content ul li span {
+    position: absolute;
+    right: 5px;
+    top: 2px;    
+}
+
+ul#ProcessElements li.AccordionElement div.Content .ProcessElementButton {
+    width: 90%;
+    display: block;
+    margin: auto;
+}
+
+}/* end @media */

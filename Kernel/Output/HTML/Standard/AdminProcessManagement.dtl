@@ -1,0 +1,95 @@
+# --
+# AdminProcessManagement.dtl - provides HTML for AdminProcessManagement
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# --
+# $Id: AdminProcessManagement.dtl,v 1.1 2012-07-09 12:56:02 mn Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+    <h1>$Text{"Process Management"}</h1>
+
+    <div class="SidebarColumn">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2><label for="Filter">$Text{"Filter for Processes"}</label></h2>
+            </div>
+            <div class="Content">
+                <input type="text" id="Filter" class="W50pc" name="Filter" value="" title="$Text{"Filter"}" placeholder="Process Name" />
+            </div>
+        </div>
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>$Text{"Actions"}</h2>
+            </div>
+            <div class="Content">
+                <ul class="ActionList">
+                    <li>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="CallForAction Plus"><span>$Text{"Create New Process"}</span></a>
+                    </li>
+                    <li>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="CallForAction Plus"><span>$Text{"Import New Process from XPDL"}</span></a>
+                    </li>
+                    <li>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="CallForAction Plus"><span>$Text{"Import Process from Configuration"}</span></a>
+                    </li>
+                    <li>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="CallForAction"><span>$Text{"Synchronize All Processes"}</span></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>$Text{"Description"}</h2>
+            </div>
+            <div class="Content">
+                <p class="FieldExplanation">
+                    <a href="?Action=AdminProcessManagement;Subaction=ProcessNew">Dialog ProcessNew</a><br>
+                    <a href="?Action=AdminProcessManagement;Subaction=ProcessEdit">Dialog ProcessEdit</a><br>
+                    $Text{"Here is the description of what this screen is all about."}
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="ContentColumn">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>$Text{"Processes"}</h2>
+            </div>
+            <div class="Content">
+                <table class="DataTable">
+                    <thead>
+                        <tr>
+                            <th>$Text{"Process name"}</th>
+                            <th>$Text{"Description"}</th>
+                            <th>$Text{"State"}</th>
+                            <th>$Text{"Export"}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+<!-- dtl:block:NoDataFoundMsg -->
+                        <tr>
+                            <td colspan="4">
+                                $Text{"No data found."}
+                            </td>
+                        </tr>
+<!-- dtl:block:NoDataFoundMsg -->
+                        <tr>
+                            <td><a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};" title="Long Name">Name</a></td>
+                            <td>Description</td>
+                            <td>State</td>
+                            <td><a href="#" class="Export AsBlock">Export Process Configuration</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+    <div class="Clear"></div>
+</div>
