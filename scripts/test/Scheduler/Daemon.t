@@ -2,7 +2,7 @@
 # Daemon.t - Scheduler tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Daemon.t,v 1.13.2.2 2012-06-15 12:47:15 cr Exp $
+# $Id: Daemon.t,v 1.13.2.3 2012-07-10 10:19:54 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use warnings;
 use utf8;
 use vars (qw($Self));
 
-use Storable ();
+use Storable qw();
 
 use Kernel::Scheduler;
 use Kernel::System::PID;
@@ -29,10 +29,9 @@ my $HelperObject = Kernel::System::UnitTest::Helper->new(
 );
 
 my $SysConfigObject = Kernel::System::SysConfig->new( %{$Self} );
+my $PIDObject       = Kernel::System::PID->new( %{$Self} );
 
 my $Home = $Self->{ConfigObject}->Get('Home');
-
-my $PIDObject = Kernel::System::PID->new( %{$Self} );
 
 my $Scheduler = $Home . '/bin/otrs.Scheduler.pl';
 if ( $^O =~ /^mswin/i ) {
@@ -69,7 +68,7 @@ my $CheckAction = sub {
         $Force = '-f 1';
     }
 
-    my $Result = system("$Scheduler -a $Param{Action} $Force");
+    my $ResultMessage = `$Scheduler -a $Param{Action} $Force 2>&1`;
 
     # special sleep for windows
     if ( $^O =~ /^mswin/i ) {
@@ -86,14 +85,22 @@ my $CheckAction = sub {
 
     if ( $Param{ExpectActionSuccess} ) {
         $Self->Is(
-            $Result,
+            $?,
             0,
             "$Name action executed successfully",
         );
+
+        # give some visibility if the test fail when it should not
+        if ($?) {
+            $Self->True(
+                0,
+                "$Name action DETECTED $ResultMessage",
+            );
+        }
     }
     else {
         $Self->True(
-            $Result,
+            $?,
             "$Name action executed unsuccessfully",
         );
     }
@@ -147,13 +154,29 @@ if ( $PreviousSchedulerStatus =~ /^running/i ) {
 if ( $PreviousSchedulerStatus =~ m{registered}i ) {
 
     # force stop direcly before CheckAction
-    `$Scheduler -a stop -f 1`;
+    my $ResultMessage = `$Scheduler -a stop -f 1 2>&1`;
     $Self->True(
         1,
         "Force stoping due to bad status...",
     );
+
+    $Self->Is(
+        $?,
+        0,
+        "Forced stop Scheduler executed successfully",
+    );
+
+    # give some visibility if the test fail when it should not
+    if ($?) {
+        $Self->True(
+            0,
+            "Forced stopscheduler DETECTED $ResultMessage",
+        );
+    }
+
     print "Sleeping 10s\n";
     sleep 10;
+
     $CheckAction->(
         Name                => 'Cleanup-stop',
         Action              => 'stop',
@@ -418,9 +441,26 @@ $CheckAction->(
     PIDChangeExpected   => 1,
 );
 
+print "Sleeping 4s\n";
+sleep 4;
+
+# get the process ID
+my %PID = $PIDObject->PIDGet(
+    Name => 'otrs.Scheduler',
+);
+
+# verify that PID is removed
+$Self->False(
+    $PID{PID},
+    "Scheduler PID was correctly removed from DB",
+);
+
 # Destroy helper so that system configuration will be restored before
 #   starting the Scheduler again.
 undef $HelperObject;
+
+print "Sleeping 1s\n";
+sleep 1;
 
 # start scheduler if it was already running before this test
 if ( $PreviousSchedulerStatus =~ /^running/i ) {

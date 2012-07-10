@@ -1,8 +1,8 @@
 # --
 # Run.t - Scheduler tests
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Run.t,v 1.3 2011-04-26 18:23:24 cr Exp $
+# $Id: Run.t,v 1.3.2.1 2012-07-10 10:19:54 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,10 +14,11 @@ use warnings;
 use utf8;
 use vars (qw($Self));
 
-use Storable ();
+use Storable qw();
 
 use Kernel::Scheduler;
 use Kernel::System::Scheduler::TaskManager;
+use Kernel::System::PID;
 
 my @Tests = (
     {
@@ -91,12 +92,32 @@ if ( !$PreviousSchedulerStatus ) {
 }
 
 if ( $PreviousSchedulerStatus =~ /^not running/i ) {
-    my $Result = system("$Scheduler -a start");
+    if ( $PreviousSchedulerStatus =~ m{registered}i ) {
+
+        # force stop
+        `$Scheduler -a stop -f 1`;
+        $Self->True(
+            1,
+            "Force stoping due to bad status...",
+        );
+        print "Sleeping 4s\n";
+        sleep 4;
+    }
+
+    my $ResultMessage = `$Scheduler -a start 2>&1`;
     $Self->Is(
-        $Result,
+        $?,
         0,
         "Scheduler start call returned successfully.",
     );
+
+    # give some visibility if the test fail when it should not
+    if ($?) {
+        $Self->True(
+            0,
+            "Scheduler start DETECTED $ResultMessage",
+        );
+    }
 }
 else {
     $Self->True(
@@ -108,7 +129,7 @@ else {
 my $CurrentSchedulerStatus = `$Scheduler -a status`;
 
 $Self->True(
-    $CurrentSchedulerStatus =~ /^running/i,
+    int $CurrentSchedulerStatus =~ /^running/i,
     "Scheduler is running",
 );
 
@@ -118,6 +139,12 @@ if ( $CurrentSchedulerStatus !~ /^running/i ) {
 
 my $SchedulerObject   = Kernel::Scheduler->new( %{$Self} );
 my $TaskManagerObject = Kernel::System::Scheduler::TaskManager->new( %{$Self} );
+my $PIDObject         = Kernel::System::PID->new( %{$Self} );
+
+# define global wait times (Secs)
+my $TotalWaitToExecute    = 15;
+my $TotalWaitToStop       = 5;
+my $TotalWaitToReSchedule = 20;
 
 $Self->Is(
     ref $SchedulerObject,
@@ -143,12 +170,51 @@ for my $Test (@Tests) {
     # make a deep copy to avoid changing the definition
     $Test = Storable::dclone($Test);
 
+    my $ResultMessage = `$Scheduler -a stop 2>&1`;
+    $Self->Is(
+        $?,
+        0,
+        "Scheduler stop before register asap tasks.",
+    );
+
+    # give some visibility if the test fail when it should not
+    if ($?) {
+        $Self->True(
+            0,
+            "Scheduler stop DETECTED $ResultMessage"
+        );
+    }
+
+    # wait for scheduler to stop
+    WAITSTOP:
+    for my $Wait ( 1 .. $TotalWaitToStop ) {
+        print "Waiting for Scheduler to stop, $Wait seconds\n";
+        sleep 1;
+
+        my $SchedulerStatus = `$Scheduler -a status`;
+
+        if ( $SchedulerStatus =~ m{\ANot}i ) {
+            $Self->True(
+                1,
+                "$Test->{Name} - Scheduler is stoped",
+            );
+            last WAITSTOP;
+        }
+
+        next WAITSTOP if $Wait < $TotalWaitToExecute;
+
+        $Self->True(
+            0,
+            "$Test->{Name} - Scheduler didn't stop after $TotalWaitToExecute seconds!",
+        );
+    }
+
     # register tasks
     my @FileRemember;
     for my $Task ( @{ $Test->{Tasks} } ) {
 
         if ( $Task->{Type} eq 'Test' ) {
-            my $File = $Self->{ConfigObject}->Get('Home') . '/var/tmp/task_' . rand(1000000);
+            my $File = $Self->{ConfigObject}->Get('Home') . '/var/tmp/task_' . int rand 1000000;
             if ( -e $File ) {
                 unlink $File;
             }
@@ -164,6 +230,23 @@ for my $Test (@Tests) {
             $TaskID,
             "$Test->{Name} - asap- Kernel::Scheduler->TaskRegister() success",
         );
+
+        # for debuging, could be removed if needed
+        # try to investigate why the task could not be registered
+        if ( !$TaskID ) {
+
+            # get last log entry (this might help)
+            my $Message = $Self->{LogObject}->GetLogEntry(
+                Type => 'error',        # error|info|notice
+                What => 'Traceback',    # Message|Traceback
+            );
+
+            # output message as error (to be shown in UT servers)
+            $Self->True(
+                0,
+                "Last log entry after TaskRegister(): $Message",
+            );
+        }
     }
 
     # check task list
@@ -173,9 +256,44 @@ for my $Test (@Tests) {
         "Tasks registered",
     );
 
+    $ResultMessage = `$Scheduler -a start 2>&1`;
+    $Self->Is(
+        $?,
+        0,
+        "Scheduler start after register asap tasks.",
+    );
+
+    # give some visibility if the test fail when it should not
+    if ($?) {
+        $Self->True(
+            0,
+            "Scheduler start DETECTED $ResultMessage"
+        );
+    }
+
     # wait for scheduler to execute tasks
-    print "Sleeping 10s\n";
-    sleep 10;
+    WAITEXECUTE:
+    for my $Wait ( 1 .. $TotalWaitToExecute ) {
+        print "Waiting for Scheduler to execute tasks, $Wait seconds\n";
+        sleep 1;
+
+        my @List = $TaskManagerObject->TaskList();
+
+        if ( scalar @List eq 0 ) {
+            $Self->True(
+                1,
+                "$Test->{Name} - asap - all tasks are dropped from task list",
+            );
+            last WAITEXECUTE;
+        }
+
+        next WAITEXECUTE if $Wait < $TotalWaitToExecute;
+
+        $Self->True(
+            0,
+            "$Test->{Name} - asap - all tasks are not dropped from task list after $TotalWaitToExecute seconds!",
+        );
+    }
 
     # check if files are there
     for my $FileToCheck (@FileRemember) {
@@ -185,12 +303,6 @@ for my $Test (@Tests) {
         );
         unlink $FileToCheck;
     }
-
-    $Self->Is(
-        scalar $TaskManagerObject->TaskList(),
-        0,
-        "$Test->{Name} - asap - all tasks are dropped from task list",
-    );
 }
 
 # round 2: task execution in future
@@ -200,14 +312,14 @@ for my $Test (@Tests) {
     $Test = Storable::dclone($Test);
 
     my $DueTime = $Self->{TimeObject}->SystemTime2TimeStamp(
-        SystemTime => ( $Self->{TimeObject}->SystemTime() + 14 ),
+        SystemTime => ( $Self->{TimeObject}->SystemTime() + 9 ),
     );
 
     # register tasks
     my @FileRemember;
     for my $Task ( @{ $Test->{Tasks} } ) {
         if ( $Task->{Type} eq 'Test' ) {
-            my $File = $Self->{ConfigObject}->Get('Home') . '/var/tmp/task_' . rand(1000000);
+            my $File = $Self->{ConfigObject}->Get('Home') . '/var/tmp/task_' . int rand 1000000;
             if ( -e $File ) {
                 unlink $File;
             }
@@ -234,8 +346,8 @@ for my $Test (@Tests) {
     );
 
     # wait for scheduler, it will not execute the tasks yet
-    print "Sleeping 10s\n";
-    sleep 10;
+    print "Sleeping 6s\n";
+    sleep 6;
 
     # check task list again
     $Self->Is(
@@ -253,8 +365,28 @@ for my $Test (@Tests) {
     }
 
     # wait for scheduler to execute tasks
-    print "Sleeping 10s\n";
-    sleep 10;
+    WAITEXECUTE:
+    for my $Wait ( 1 .. $TotalWaitToExecute ) {
+        print "Waiting for Scheduler to execute tasks, $Wait seconds\n";
+        sleep 1;
+
+        my @List = $TaskManagerObject->TaskList();
+
+        if ( scalar @List eq 0 ) {
+            $Self->True(
+                1,
+                "$Test->{Name} - future - all tasks are dropped from task list",
+            );
+            last WAITEXECUTE;
+        }
+
+        next WAITEXECUTE if $Wait < $TotalWaitToExecute;
+
+        $Self->True(
+            0,
+            "$Test->{Name} - future - all tasks are not dropped from task list after $TotalWaitToExecute seconds!",
+        );
+    }
 
     # check if files are there
     for my $FileToCheck (@FileRemember) {
@@ -264,12 +396,6 @@ for my $Test (@Tests) {
         );
         unlink $FileToCheck;
     }
-
-    $Self->Is(
-        scalar $TaskManagerObject->TaskList(),
-        0,
-        "$Test->{Name} - future - all tasks are dropped from task list",
-    );
 }
 
 # round 3: task rescheduling
@@ -279,7 +405,7 @@ for my $Test (@Tests) {
     $Test = Storable::dclone($Test);
 
     my $DueTime = $Self->{TimeObject}->SystemTime2TimeStamp(
-        SystemTime => ( $Self->{TimeObject}->SystemTime() + 14 ),
+        SystemTime => ( $Self->{TimeObject}->SystemTime() + 9 ),
     );
 
     # register tasks
@@ -301,7 +427,7 @@ for my $Test (@Tests) {
         $Task->{Data}->{ReScheduleDueTime} = $DueTime;
 
         if ( $Task->{Type} eq 'Test' ) {
-            my $File = $Self->{ConfigObject}->Get('Home') . '/var/tmp/task_' . rand(1000000);
+            my $File = $Self->{ConfigObject}->Get('Home') . '/var/tmp/task_' . int rand 1000000;
             if ( -e $File ) {
                 unlink $File;
             }
@@ -309,7 +435,7 @@ for my $Test (@Tests) {
             $Task->{Data}->{File} = $File;
 
             my $RescheduleFile
-                = $Self->{ConfigObject}->Get('Home') . '/var/tmp/task_' . rand(1000000);
+                = $Self->{ConfigObject}->Get('Home') . '/var/tmp/task_' . int rand 1000000;
             if ( -e $RescheduleFile ) {
                 unlink $RescheduleFile;
             }
@@ -331,20 +457,33 @@ for my $Test (@Tests) {
     # check task list
     $Self->Is(
         scalar $TaskManagerObject->TaskList(),
-        scalar $TaskCount,
+        $TaskCount,
         "$Test->{Name} - re-schedule - Tasks registered",
     );
 
     # wait for scheduler to execute and reschedule the tasks
-    print "Sleeping 10s\n";
-    sleep 10;
+    WAITRESCHEDULE:
+    for my $Wait ( 1 .. $TotalWaitToReSchedule ) {
+        print "Waiting for Scheduler to execute and re-schedule tasks, $Wait seconds\n";
+        sleep 1;
 
-    # check task list again
-    $Self->Is(
-        scalar $TaskManagerObject->TaskList(),
-        scalar $TaskCount,
-        "$Test->{Name} - re-schedule - tasks are re-scheduled",
-    );
+        my @List = $TaskManagerObject->TaskList();
+
+        if ( scalar @List eq $TaskCount ) {
+            $Self->True(
+                1,
+                "$Test->{Name} - re-schedule - tasks are re-scheduled",
+            );
+            last WAITRESCHEDULE;
+        }
+
+        next WAITRESCHEDULE if $Wait < $TotalWaitToReSchedule;
+
+        $Self->True(
+            0,
+            "$Test->{Name} - re-schedule - tasks was not re-scheduled $TotalWaitToReSchedule seconds!",
+        );
+    }
 
     # check if files are there
     for my $FileToCheck (@FileRemember) {
@@ -364,8 +503,28 @@ for my $Test (@Tests) {
     }
 
     # wait for scheduler to execute tasks
-    print "Sleeping 10s\n";
-    sleep 10;
+    WAITEXECUTE:
+    for my $Wait ( 1 .. $TotalWaitToExecute ) {
+        print "Waiting for Scheduler to execute tasks, $Wait seconds\n";
+        sleep 1;
+
+        my @List = $TaskManagerObject->TaskList();
+
+        if ( scalar @List eq 0 ) {
+            $Self->True(
+                1,
+                "$Test->{Name} - re-schedule - all tasks are dropped from task list",
+            );
+            last WAITEXECUTE;
+        }
+
+        next WAITEXECUTE if $Wait < $TotalWaitToExecute;
+
+        $Self->True(
+            0,
+            "$Test->{Name} - re-schedule - all tasks are not dropped from task list after $TotalWaitToExecute seconds!",
+        );
+    }
 
     # check if files are there
     for my $FileToCheck (@RescheduleFileRemember) {
@@ -375,28 +534,64 @@ for my $Test (@Tests) {
         );
         unlink $FileToCheck;
     }
-
-    $Self->Is(
-        scalar $TaskManagerObject->TaskList(),
-        0,
-        "$Test->{Name} - re-schedule - all tasks are dropped from task list",
-    );
 }
 
 # stop scheduler if it was not already running before this test
 if ( $PreviousSchedulerStatus =~ /^not running/i ) {
-    my $Result = system("$Scheduler -a stop");
+    my $ResultMessage = `$Scheduler -a stop 2>&1`;
     $Self->Is(
-        $Result,
+        $?,
         0,
-        "Scheduler start call returned successfully.",
+        "Scheduler stop call returned successfully.",
     );
 
+    # give some visibility if the test fail when it should not
+    if ($?) {
+        $Self->True(
+            0,
+            "Scheduler start DETECTED $ResultMessage"
+        );
+    }
+
+    # wait for scheduler to stop
+    WAITSTOP:
+    for my $Wait ( 1 .. $TotalWaitToStop ) {
+        print "Waiting for Scheduler to stop, $Wait seconds\n";
+        sleep 1;
+
+        my $SchedulerStatus = `$Scheduler -a status`;
+
+        if ( $SchedulerStatus =~ m{\ANot}i ) {
+            $Self->True(
+                1,
+                "Scheduler is stoped",
+            );
+            last WAITSTOP;
+        }
+
+        next WAITSTOP if $Wait < $TotalWaitToExecute;
+
+        $Self->True(
+            0,
+            "Scheduler didn't stop after $TotalWaitToExecute seconds!",
+        );
+    }
+
+    # get the process ID
+    my %PID = $PIDObject->PIDGet(
+        Name => 'otrs.Scheduler',
+    );
+
+    # verify that PID is removed
+    $Self->False(
+        $PID{PID},
+        "Scheduler PID was correctly removed from DB",
+    );
 }
 
 $CurrentSchedulerStatus = `$Scheduler -a status`;
 
-# remove the process id
+# check if the scheduler status is the same as before the test
 $PreviousSchedulerStatus =~ s{\d}{}g;
 $CurrentSchedulerStatus  =~ s{\d}{}g;
 
