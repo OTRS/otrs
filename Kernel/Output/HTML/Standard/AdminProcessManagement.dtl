@@ -2,7 +2,7 @@
 # AdminProcessManagement.dtl - provides HTML for AdminProcessManagement
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagement.dtl,v 1.1 2012-07-09 12:56:02 mn Exp $
+# $Id: AdminProcessManagement.dtl,v 1.2 2012-07-10 03:01:13 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -28,7 +28,7 @@
             <div class="Content">
                 <ul class="ActionList">
                     <li>
-                        <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="CallForAction Plus"><span>$Text{"Create New Process"}</span></a>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=ProcessNew" class="CallForAction Plus"><span>$Text{"Create New Process"}</span></a>
                     </li>
                     <li>
                         <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="CallForAction Plus"><span>$Text{"Import New Process from XPDL"}</span></a>
@@ -48,8 +48,8 @@
             </div>
             <div class="Content">
                 <p class="FieldExplanation">
-                    <a href="?Action=AdminProcessManagement;Subaction=ProcessNew">Dialog ProcessNew</a><br>
-                    <a href="?Action=AdminProcessManagement;Subaction=ProcessEdit">Dialog ProcessEdit</a><br>
+#                    <a href="?Action=AdminProcessManagement;Subaction=ProcessNew">Dialog ProcessNew</a><br>
+#                    <a href="?Action=AdminProcessManagement;Subaction=ProcessEdit">Dialog ProcessEdit</a><br>
                     $Text{"Here is the description of what this screen is all about."}
                 </p>
             </div>
@@ -79,12 +79,14 @@
                             </td>
                         </tr>
 <!-- dtl:block:NoDataFoundMsg -->
+<!-- dtl:block:ProcessRow -->
                         <tr>
-                            <td><a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};" title="Long Name">Name</a></td>
-                            <td>Description</td>
-                            <td>State</td>
+                            <td><a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=ProcessEdit;ID=$QData{"ID"};EntityID=$QData{"EntityID"}" title="Long Name">$QData{"Name"}</a></td>
+                            <td>$QData{"Description"}</td>
+                            <td>$QData{"State"}</td>
                             <td><a href="#" class="Export AsBlock">Export Process Configuration</a></td>
                         </tr>
+<!-- dtl:block:ProcessRow -->
                     </tbody>
                 </table>
             </div>
