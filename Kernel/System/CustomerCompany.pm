@@ -2,7 +2,7 @@
 # Kernel/System/CustomerCompany.pm - All customer company related function should be here eventually
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerCompany.pm,v 1.29 2012-06-15 14:14:52 mb Exp $
+# $Id: CustomerCompany.pm,v 1.30 2012-07-10 12:06:16 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.29 $) [1];
+$VERSION = qw($Revision: 1.30 $) [1];
 
 =head1 NAME
 
@@ -461,14 +461,14 @@ sub CustomerCompanyList {
                 my $QuotedPart = $Self->{DBObject}->Quote($Part);
                 for my $Field ( @{$CustomerCompanySearchFields} ) {
                     if ( $Self->{CaseInsensitive} ) {
-                        push @SQLParts, "$Field = '$QuotedPart'";
+                        push @SQLParts, "$Field LIKE '$QuotedPart'";
                     }
                     else {
-                        push @SQLParts, "LOWER($Field) = LOWER('$QuotedPart')";
+                        push @SQLParts, "LOWER($Field) LIKE LOWER('$QuotedPart')";
                     }
                 }
                 if (@SQLParts) {
-                    $SQL .= join( @SQLParts, ' OR ' );
+                    $SQL .= join( ' OR ', @SQLParts );
                 }
             }
         }
@@ -536,6 +536,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.29 $ $Date: 2012-06-15 14:14:52 $
+$Revision: 1.30 $ $Date: 2012-07-10 12:06:16 $
 
 =cut

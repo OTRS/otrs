@@ -1,8 +1,8 @@
 # --
 # CustomerCompany.t - CustomerCompany tests
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerCompany.t,v 1.4 2011-08-15 12:06:18 mg Exp $
+# $Id: CustomerCompany.t,v 1.5 2012-07-10 12:06:31 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -343,6 +343,26 @@ my $CompanyList = %CustomerCompanyList ? 1 : 0;
 $Self->True(
     $CompanyList,
     "CustomerCompanyList() with Valid=>0",
+);
+
+%CustomerCompanyList = $CustomerCompanyObject->CustomerCompanyList(
+    Search => 'Example',
+    Valid  => 0,
+);
+
+$Self->True(
+    scalar keys %CustomerCompanyList,
+    "CustomerCompanyList() with Search",
+);
+
+%CustomerCompanyList = $CustomerCompanyObject->CustomerCompanyList(
+    Search => 'Foo-123FALSE-Example*',
+    Valid  => 0,
+);
+
+$Self->False(
+    scalar keys %CustomerCompanyList,
+    "CustomerCompanyList() with Search",
 );
 
 1;
