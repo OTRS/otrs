@@ -2,7 +2,7 @@
 # Run.t - Scheduler tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Run.t,v 1.7 2012-07-10 04:20:23 cr Exp $
+# $Id: Run.t,v 1.8 2012-07-10 10:13:03 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use warnings;
 use utf8;
 use vars (qw($Self));
 
-use Storable ();
+use Storable qw();
 
 use Kernel::Scheduler;
 use Kernel::System::Scheduler::TaskManager;
@@ -115,7 +115,7 @@ if ( $PreviousSchedulerStatus =~ /^not running/i ) {
     if ($?) {
         $Self->True(
             0,
-            "Scheduler start DETECTED $ResultMessage"
+            "Scheduler start DETECTED $ResultMessage",
         );
     }
 }
@@ -214,7 +214,7 @@ for my $Test (@Tests) {
     for my $Task ( @{ $Test->{Tasks} } ) {
 
         if ( $Task->{Type} eq 'Test' ) {
-            my $File = $Self->{ConfigObject}->Get('Home') . '/var/tmp/task_' . rand(1000000);
+            my $File = $Self->{ConfigObject}->Get('Home') . '/var/tmp/task_' . int rand 1000000;
             if ( -e $File ) {
                 unlink $File;
             }
@@ -319,7 +319,7 @@ for my $Test (@Tests) {
     my @FileRemember;
     for my $Task ( @{ $Test->{Tasks} } ) {
         if ( $Task->{Type} eq 'Test' ) {
-            my $File = $Self->{ConfigObject}->Get('Home') . '/var/tmp/task_' . rand(1000000);
+            my $File = $Self->{ConfigObject}->Get('Home') . '/var/tmp/task_' . int rand 1000000;
             if ( -e $File ) {
                 unlink $File;
             }
@@ -427,7 +427,7 @@ for my $Test (@Tests) {
         $Task->{Data}->{ReScheduleDueTime} = $DueTime;
 
         if ( $Task->{Type} eq 'Test' ) {
-            my $File = $Self->{ConfigObject}->Get('Home') . '/var/tmp/task_' . rand(1000000);
+            my $File = $Self->{ConfigObject}->Get('Home') . '/var/tmp/task_' . int rand 1000000;
             if ( -e $File ) {
                 unlink $File;
             }
@@ -435,7 +435,7 @@ for my $Test (@Tests) {
             $Task->{Data}->{File} = $File;
 
             my $RescheduleFile
-                = $Self->{ConfigObject}->Get('Home') . '/var/tmp/task_' . rand(1000000);
+                = $Self->{ConfigObject}->Get('Home') . '/var/tmp/task_' . int rand 1000000;
             if ( -e $RescheduleFile ) {
                 unlink $RescheduleFile;
             }
@@ -457,7 +457,7 @@ for my $Test (@Tests) {
     # check task list
     $Self->Is(
         scalar $TaskManagerObject->TaskList(),
-        scalar $TaskCount,
+        $TaskCount,
         "$Test->{Name} - re-schedule - Tasks registered",
     );
 
@@ -469,7 +469,7 @@ for my $Test (@Tests) {
 
         my @List = $TaskManagerObject->TaskList();
 
-        if ( scalar @List eq scalar $TaskCount ) {
+        if ( scalar @List eq $TaskCount ) {
             $Self->True(
                 1,
                 "$Test->{Name} - re-schedule - tasks are re-scheduled",

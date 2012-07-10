@@ -2,7 +2,7 @@
 # Daemon.t - Scheduler tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Daemon.t,v 1.16 2012-06-29 02:59:21 cr Exp $
+# $Id: Daemon.t,v 1.17 2012-07-10 10:13:03 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use warnings;
 use utf8;
 use vars (qw($Self));
 
-use Storable ();
+use Storable qw();
 
 use Kernel::Scheduler;
 use Kernel::System::PID;
@@ -29,10 +29,9 @@ my $HelperObject = Kernel::System::UnitTest::Helper->new(
 );
 
 my $SysConfigObject = Kernel::System::SysConfig->new( %{$Self} );
+my $PIDObject       = Kernel::System::PID->new( %{$Self} );
 
 my $Home = $Self->{ConfigObject}->Get('Home');
-
-my $PIDObject = Kernel::System::PID->new( %{$Self} );
 
 my $Scheduler = $Home . '/bin/otrs.Scheduler.pl';
 if ( $^O =~ /^mswin/i ) {
@@ -177,6 +176,7 @@ if ( $PreviousSchedulerStatus =~ m{registered}i ) {
 
     print "Sleeping 10s\n";
     sleep 10;
+
     $CheckAction->(
         Name                => 'Cleanup-stop',
         Action              => 'stop',
