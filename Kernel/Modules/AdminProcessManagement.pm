@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminProcessManagement.pm - process management
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagement.pm,v 1.2 2012-07-10 03:01:13 cr Exp $
+# $Id: AdminProcessManagement.pm,v 1.3 2012-07-10 13:29:33 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::ProcessManagement::DB::Process::State;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -67,7 +67,7 @@ sub Run {
     # ------------------------------------------------------------ #
     # ProcessNewAction
     # ------------------------------------------------------------ #
-    if ( $Self->{Subaction} eq 'ProcessNewAction' ) {
+    elsif ( $Self->{Subaction} eq 'ProcessNewAction' ) {
 
         # challenge token check for write action
         $Self->{LayoutObject}->ChallengeTokenCheck();
@@ -181,7 +181,7 @@ sub Run {
     # ------------------------------------------------------------ #
     # ProcessEditAction
     # ------------------------------------------------------------ #
-    if ( $Self->{Subaction} eq 'ProcessEditAction' ) {
+    elsif ( $Self->{Subaction} eq 'ProcessEditAction' ) {
 
         # challenge token check for write action
         $Self->{LayoutObject}->ChallengeTokenCheck();
@@ -258,6 +258,28 @@ sub Run {
 
         # return to overview
         return $Self->_ShowOverview();
+    }
+
+    # ------------------------------------------------------------ #
+    # ProcessNewAction
+    # ------------------------------------------------------------ #
+    elsif ( $Self->{Subaction} eq 'Activity' ) {
+
+        my $Output = $Self->{LayoutObject}->Header(
+            Value => 'Activity',
+            Type  => 'Small',
+        );
+
+        $Output .= $Self->{LayoutObject}->Output(
+            TemplateFile => 'AdminProcessManagementActivity',
+            Data         => \%Param,
+        );
+
+        $Output .= $Self->{LayoutObject}->Footer(
+            Type => 'Small',
+        );
+
+        return $Output;
     }
 
     # ------------------------------------------------------------ #
