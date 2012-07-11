@@ -2,7 +2,7 @@
 # Activity.t - ProcessManagement DB Activity tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Activity.t,v 1.2 2012-07-06 17:50:53 cr Exp $
+# $Id: Activity.t,v 1.3 2012-07-11 14:21:05 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -888,6 +888,72 @@ for my $Test (@Tests) {
         );
     }
 }
+
+#
+# ActivityListGet() tests
+#
+
+my $FullList = $ActivityObject->ActivityListGet(
+    UserID => undef,
+);
+
+$Self->IsNot(
+    ref $FullList,
+    'ARRAY',
+    "ActivityListGet Test 1: No UserID | List Should not be an array",
+);
+
+# get the List of activities with all details
+$FullList = $ActivityObject->ActivityListGet(
+    UserID => $UserID,
+);
+
+# get simple list of activities
+my $List = $ActivityObject->ActivityList(
+    UserID => $UserID,
+);
+
+# create the list of activities with details manually
+my $ExpectedActivityList;
+for my $ActivityID ( sort keys %{$List} ) {
+
+    my $ActivityData = $ActivityObject->ActivityGet(
+        ID     => $ActivityID,
+        UserID => $UserID,
+    );
+    push @{$ExpectedActivityList}, $ActivityData;
+}
+
+$Self->Is(
+    ref $FullList,
+    'ARRAY',
+    "ActivityListGet Test 2: Correct List | Should be an array",
+);
+
+$Self->True(
+    IsArrayRefWithData($FullList),
+    "ActivityListGet Test 2: Correct List | The list is not empty",
+);
+
+$Self->IsDeeply(
+    $FullList,
+    $ExpectedActivityList,
+    "ActivityListGet Test 2: Correct List | Activity List",
+);
+
+# check cache
+my $CacheKey = 'ActivityListGet';
+
+my $Cache = $ActivityObject->{CacheObject}->Get(
+    Type => 'ProcessManagement_Activity',
+    Key  => $CacheKey,
+);
+
+$Self->IsDeeply(
+    $Cache,
+    $FullList,
+    "ActivityListGet Test 2: Correct List | Cache",
+);
 
 print "------------System Cleanup------------\n";
 
