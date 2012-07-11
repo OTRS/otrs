@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<otrs_config version="1.0" init="Application">
+    <CVS>$Id: ProcessManagement.xml,v 1.1 2012-07-11 14:18:52 cr Exp $</CVS>
+    <ConfigItem Name="Process::CacheTTL" Required="1" Valid="1">
+        <Description Translatable="1">Cache time in seconds for the DB process backend.</Description>
+        <Group>ProcessManagement</Group>
+        <SubGroup>Core::Cache</SubGroup>
+        <Setting>
+            <String Regex="">3600</String><!-- default 1 hour -->
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Process::Entity::Prefix" Required="1" Valid="1">
+        <Description Translatable="1">Default Process Management Entity prefixes for entity IDs.</Description>
+        <Group>ProcessManagement</Group>
+        <SubGroup>Core::Entity</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Process">P</Item>
+                <Item Key="Activity">A</Item>
+                <Item Key="ActivityDialog">AD</Item>
+                <Item Key="Transition">T</Item>
+                <Item Key="TransitionAction">TA</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+</otrs_config>
