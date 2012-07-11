@@ -2,7 +2,7 @@
 # Kernel/System/ProcessManagement/Activity.pm - Process Management DB Activity backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Activity.pm,v 1.4 2012-07-06 03:30:58 cr Exp $
+# $Id: Activity.pm,v 1.5 2012-07-11 14:20:29 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::ProcessManagement::DB::Activity::ActivityDialog;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 =head1 NAME
 
@@ -275,7 +275,7 @@ get Activity attributes
 
     my $Activity = $ActivityObject->ActivityGet(
         ID                  => 123,      # ID or EntityID is needed
-        EntityID            => 'P1',
+        EntityID            => 'A1',
         ActivityDialogNames => 1,        # default 0, 1 || 0, if 0 returns an ActivityDialogs array
                                          #     with the activity dialog entity IDs, if 1 returns an
                                          #     ActivitiDialogs hash with the activity entity IDs as
@@ -287,7 +287,7 @@ Returns:
 
     $Activity = {
         ID             => 123,
-        EntityID       => 'P1',
+        EntityID       => 'A1',
         Name           => 'some name',
         Config         => $ConfigHashRef,
         ActiviyDialogs => ['AD1','AD2','AD3'],
@@ -436,7 +436,7 @@ returns 1 if success or undef otherwise
 
     my $Success = $ActivityObject->ActivityUpdate(
         ID          => 123,             # mandatory
-        EntityID    => 'P1'             # mandatory, exportable unique identifier
+        EntityID    => 'A1'             # mandatory, exportable unique identifier
         Name        => 'NameOfProcess', # mandatory
         Config      => $ConfigHashRef,  # mandatory, process configuration to be stored in YAML
                                         #   format
@@ -623,6 +623,94 @@ sub ActivityList {
     return \%Data;
 }
 
+=item ActivityListGet()
+
+get an Activity list with all activity details
+
+    my $List = $ActivityObject->ActivityListGet(
+        UserID      => 1,
+    );
+
+Returns:
+
+    $List = [
+        {
+            ID             => 123,
+            EntityID       => 'A1',
+            Name           => 'some name',
+            Config         => $ConfigHashRef,
+            ActiviyDialogs => ['AD1','AD2','AD3'],
+            CreateTime     => '2012-07-04 15:08:00',
+            ChangeTime     => '2012-07-04 15:08:00',
+        }
+        {
+            ID             => 456,
+            EntityID       => 'A2',
+            Name           => 'some name',
+            Config         => $ConfigHashRef,
+            ActiviyDialogs => ['AD3','AD4','AD5'],
+            CreateTime     => '2012-07-04 15:09:00',
+            ChangeTime     => '2012-07-04 15:09:00',
+        }
+    ];
+
+=cut
+
+sub ActivityListGet {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    if ( !$Param{UserID} ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need UserID!',
+        );
+        return;
+    }
+
+    # check cache
+    my $CacheKey = 'ActivityListGet';
+
+    my $Cache = $Self->{CacheObject}->Get(
+        Type => 'ProcessManagement_Activity',
+        Key  => $CacheKey,
+    );
+    return $Cache if $Cache;
+
+    # sql
+    return if !$Self->{DBObject}->Prepare(
+        SQL => '
+            SELECT id, entity_id
+            FROM pm_activity
+            ORDER BY id',
+    );
+
+    my @ActivityIDs;
+    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        push @ActivityIDs, $Row[0];
+    }
+
+    my @Data;
+    for my $ItemID (@ActivityIDs) {
+
+        my $ActivityData = $Self->ActivityGet(
+            ID     => $ItemID,
+            UserID => 1,
+        );
+        push @Data, $ActivityData;
+    }
+
+    # set cache
+    $Self->{CacheObject}->Set(
+        Type  => 'ProcessManagement_Activity',
+        Key   => $CacheKey,
+        Value => \@Data,
+        TTL   => $Self->{CacheTTL},
+    );
+
+    return \@Data;
+}
+
 1;
 
 =back
@@ -639,6 +727,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.4 $ $Date: 2012-07-06 03:30:58 $
+$Revision: 1.5 $ $Date: 2012-07-11 14:20:29 $
 
 =cut
