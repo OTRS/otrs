@@ -1,8 +1,8 @@
 # --
 # Kernel/System/MailAccount/IMAPTLS.pm - lib for imap accounts over TLS encryption
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: IMAPTLS.pm,v 1.1 2011-11-14 15:27:31 mb Exp $
+# $Id: IMAPTLS.pm,v 1.1.2.1 2012-07-11 07:22:42 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Mail::IMAPClient;
 use Kernel::System::PostMaster;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.1.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -57,7 +57,7 @@ sub Connect {
     );
 
     if ( !$IMAPObject ) {
-        return ( Successful => 0, Message => "IMAP: Can't connect to $Param{Host}: $@\n" );
+        return ( Successful => 0, Message => "IMAPTLS: Can't connect to $Param{Host}: $@\n" );
     }
 
     return (
@@ -132,9 +132,9 @@ sub _Fetch {
     my $IMAPObject = $Connect{IMAPObject};
     $IMAPObject->select($IMAPFolder) or die "Could not select: $@\n";
 
-    my @Messages = $IMAPObject->messages()
+    my $Messages = $IMAPObject->messages()
         || die "Could not retrieve messages : $@\n";
-    my $NumberOfMessages = scalar @Messages;
+    my $NumberOfMessages = scalar @{$Messages};
 
     if ($CMD) {
         print "$AuthType: I found $NumberOfMessages messages on $Param{Login}/$Param{Host}. "
@@ -147,7 +147,7 @@ sub _Fetch {
         }
     }
     else {
-        for my $Messageno (@Messages) {
+        for my $Messageno ( @{$Messages} ) {
 
             # check if reconnect is needed
             $FetchCounter++;
@@ -243,8 +243,7 @@ sub _Fetch {
             Message => "$AuthType: Fetched $FetchCounter email(s) from $Param{Login}/$Param{Host}.",
         );
     }
-    $IMAPObject->expunge_mailbox($IMAPFolder);
-    $IMAPObject->close();
+    $IMAPObject->close;
     if ($CMD) {
         print "$AuthType: Connection to $Param{Host} closed.\n\n";
     }
