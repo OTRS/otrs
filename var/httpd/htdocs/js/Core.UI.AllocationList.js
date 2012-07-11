@@ -2,7 +2,7 @@
 // Core.UI.AllocationList.js - provides functionality for allocation lists
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.UI.AllocationList.js,v 1.1 2012-07-10 13:29:32 mn Exp $
+// $Id: Core.UI.AllocationList.js,v 1.2 2012-07-11 22:21:12 cr Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -78,4 +78,4 @@ Core.UI.AllocationList = (function (TargetNS) {
     };
 
     return TargetNS;
-}(Core.UI.Popup || {}));
+}(Core.UI.AllocationList || {}));
