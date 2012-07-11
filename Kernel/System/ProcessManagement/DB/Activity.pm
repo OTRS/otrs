@@ -2,7 +2,7 @@
 # Kernel/System/ProcessManagement/Activity.pm - Process Management DB Activity backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Activity.pm,v 1.5 2012-07-11 14:20:29 cr Exp $
+# $Id: Activity.pm,v 1.6 2012-07-11 22:33:59 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::ProcessManagement::DB::Activity::ActivityDialog;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 =head1 NAME
 
@@ -479,18 +479,11 @@ sub ActivityUpdate {
         return;
     }
 
-    # check config valid format (at least it must contain the description)
-    if ( !IsHashRefWithData( $Param{Config} ) ) {
+    # check config valid format
+    if ( ref $Param{Config} ne 'HASH' ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "Config needs to be a valid Hash reference!",
-        );
-        return;
-    }
-    if ( !$Param{Config}->{Description} ) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => "Need Description in Config!",
         );
         return;
     }
@@ -727,6 +720,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.5 $ $Date: 2012-07-11 14:20:29 $
+$Revision: 1.6 $ $Date: 2012-07-11 22:33:59 $
 
 =cut
