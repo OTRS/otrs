@@ -2,7 +2,7 @@
 # AdminProcessManagementProcessEdit.dtl - provides HTML for AdminProcessManagement
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementProcessEdit.dtl,v 1.3 2012-07-10 13:29:33 mn Exp $
+# $Id: AdminProcessManagementProcessEdit.dtl,v 1.4 2012-07-11 14:55:46 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -37,46 +37,28 @@
                         <div class="Content">
                             <input type="text" id="ActivityFilter" class="ProcessElementFilter W75pc" placeholder="$Text{"Filter Activities..."}" />
                             <ul class="Tablelike">
-                                <li>
-                                    Activity 1
-                                    <span><a href="#" onclick="Core.UI.Popup.OpenPopup('$Env{"Baselink"}Action=$Env{"Action"};Subaction=Activity', 'Action');">Edit</a> | <a href="#">Delete</a></span>
+<!-- dtl:block:ActivityRow -->
+                                <li title=$QData{"Name"}>
+                                    $QData{"Name","22"}
+                                    <span><a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Activity;ID=$LQData{"ID"};EntityID=$LQData{"EntityID"}" class="AsPopup PopupType_Activity">Edit</a> | <a href="#">Delete</a></span>
                                 </li>
-                                <li>
-                                    Activity 2
-                                    <span><a href="#">Edit</a> | <a href="#">Delete</a></span>
-                                </li>
-                                <li>
-                                    Activity 3
-                                    <span><a href="#">Edit</a> | <a href="#">Delete</a></span>
-                                </li>
-                                <li>
-                                    Activity 4
-                                    <span><a href="#">Edit</a> | <a href="#">Delete</a></span>
-                                </li>
-                                <li>
-                                    Activity 5
-                                    <span><a href="#">Edit</a> | <a href="#">Delete</a></span>
-                                </li>
-                                <li>
-                                    Activity 6
-                                    <span><a href="#">Edit</a> | <a href="#">Delete</a></span>
-                                </li>
-                                <li>
-                                    Activity 7
-                                    <span><a href="#">Edit</a> | <a href="#">Delete</a></span>
-                                </li>
-                                <li>
-                                    Activity 8
-                                    <span><a href="#">Edit</a> | <a href="#">Delete</a></span>
-                                </li>
-                                <li>
-                                    Activity 9
-                                    <span><a href="#">Edit</a> | <a href="#">Delete</a></span>
-                                </li>
-                                <li>
-                                    Activity 10
-                                    <span><a href="#">Edit</a> | <a href="#">Delete</a></span>
-                                </li>
+<!-- dtl:block:ActivityRow -->
+<!-- dtl:js_on_document_complete -->
+<script type="text/javascript">//<![CDATA[
+    $('a.AsPopup').bind('click', function (Event) {
+        var Matches,
+            PopupType = 'TicketAction';
+
+        Matches = $(this).attr('class').match(/PopupType_(\w+)/);
+        if (Matches) {
+            PopupType = Matches[1];
+        }
+
+        Core.UI.Popup.OpenPopup($(this).attr('href'), PopupType);
+        return false;
+    });
+//]]></script>
+<!-- dtl:js_on_document_complete -->
                             </ul>
                             <button class="ProcessElementButton" id="ActivityButtonCreate">$Text{"Create New Activity"}</button>
                         </div>
