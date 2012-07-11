@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: db2, generated: 2012-07-06 10:43:43
+--  driver: db2, generated: 2012-07-10 16:24:22
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -1456,4 +1456,12 @@ CREATE TABLE pm_activity_dialog (
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
     CONSTRAINT pm_activity_dialog_entity_id UNIQUE (entity_id)
+);
+
+-- ----------------------------------------------------------
+--  create table pm_entity
+-- ----------------------------------------------------------
+CREATE TABLE pm_entity (
+    entity_type VARCHAR (50) NOT NULL,
+    entity_counter INTEGER NOT NULL
 );

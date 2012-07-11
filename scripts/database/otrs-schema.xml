@@ -1959,4 +1959,9 @@
     </ForeignKey>
 </TableCreate>
 
+<TableCreate Name="pm_entity">
+    <Column Name="entity_type" Required="true" Type="VARCHAR" Size="50"/>
+    <Column Name="entity_counter" Required="true" Type="INTEGER"/>
+</TableCreate>
+
 </database>

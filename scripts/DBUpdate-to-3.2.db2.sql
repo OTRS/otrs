@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: db2, generated: 2012-07-06 10:43:46
+--  driver: db2, generated: 2012-07-11 09:06:54
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  alter table ticket
@@ -101,6 +101,14 @@ CREATE TABLE pm_activity_dialog (
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
     CONSTRAINT pm_activity_dialog_entity_id UNIQUE (entity_id)
+);
+
+-- ----------------------------------------------------------
+--  create table pm_entity
+-- ----------------------------------------------------------
+CREATE TABLE pm_entity (
+    entity_type VARCHAR (50) NOT NULL,
+    entity_counter INTEGER NOT NULL
 );
 
 -- ----------------------------------------------------------

@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2012-07-06 10:43:43
+--  driver: oracle, generated: 2012-07-10 16:24:22
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 -- ----------------------------------------------------------
@@ -2174,3 +2174,10 @@ end;
 --;
 CREATE INDEX FK_pm_activity_dialog_change65 ON pm_activity_dialog (change_by);
 CREATE INDEX FK_pm_activity_dialog_create86 ON pm_activity_dialog (create_by);
+-- ----------------------------------------------------------
+--  create table pm_entity
+-- ----------------------------------------------------------
+CREATE TABLE pm_entity (
+    entity_type VARCHAR2 (50) NOT NULL,
+    entity_counter NUMBER (12, 0) NOT NULL
+);
