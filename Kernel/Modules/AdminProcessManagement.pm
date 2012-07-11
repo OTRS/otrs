@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminProcessManagement.pm - process management
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagement.pm,v 1.3 2012-07-10 13:29:33 mn Exp $
+# $Id: AdminProcessManagement.pm,v 1.4 2012-07-11 14:55:14 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,13 +14,15 @@ package Kernel::Modules::AdminProcessManagement;
 use strict;
 use warnings;
 
+use Kernel::System::ProcessManagement::DB::Entity;
+use Kernel::System::ProcessManagement::DB::Activity;
 use Kernel::System::ProcessManagement::DB::Process;
 use Kernel::System::ProcessManagement::DB::Process::State;
 
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -40,8 +42,10 @@ sub new {
     }
 
     # create additional objects
-    $Self->{ProcessObject} = Kernel::System::ProcessManagement::DB::Process->new( %{$Self} );
-    $Self->{StateObject}   = Kernel::System::ProcessManagement::DB::Process::State->new( %{$Self} );
+    $Self->{ProcessObject}  = Kernel::System::ProcessManagement::DB::Process->new( %{$Self} );
+    $Self->{EntityObject}   = Kernel::System::ProcessManagement::DB::Entity->new( %{$Self} );
+    $Self->{ActivityObject} = Kernel::System::ProcessManagement::DB::Activity->new( %{$Self} );
+    $Self->{StateObject} = Kernel::System::ProcessManagement::DB::Process::State->new( %{$Self} );
 
     return $Self;
 }
@@ -120,8 +124,9 @@ sub Run {
         }
 
         # generate entity ID
-        my $EntityID = 'P-' . $Self->{MainObject}->MD5sum(
-            String => $Self->{TimeObject}->SystemTime() . int( rand(1000000) ),
+        my $EntityID = $Self->{EntityObject}->EntityIDGenerate(
+            EntityType => 'Process',
+            UserID     => $Self->{UserID},
         );
 
         # otherwise save configuration and return to overview screen
@@ -138,6 +143,17 @@ sub Run {
         if ( !$ProcessID ) {
             return $Self->{LayoutObject}->ErrorScreen(
                 Message => "There was an error creating the process",
+            );
+        }
+
+        my $Success = $Self->{EntityObject}->EntityIDUpdate(
+            EntityType => 'Process',
+            UserID     => $Self->{UserID},
+        );
+
+        if ( !$Success ) {
+            return $Self->{LayoutObject}->ErrorScreen(
+                Message => "There was an error updating the entity counters",
             );
         }
 
@@ -331,6 +347,23 @@ sub _ShowEdit {
     # get process information
     my $ProcessData = $Param{ProcessData};
 
+    if ( defined $Param{Action} && $Param{Action} eq 'Edit' ) {
+
+        # get a list of all activities with details
+        my $ActivityList = $Self->{ActivityObject}->ActivityListGet( UserID => $Self->{UserID} );
+
+        for my $ActivityData ( @{$ActivityList} ) {
+
+            # print each activity in the accordion
+            $Self->{LayoutObject}->Block(
+                Name => 'ActivityRow',
+                Data => {
+                    %{$ActivityData},
+                },
+            );
+        }
+    }
+
     # get a list of all states
     my $StateList = $Self->{StateObject}->StateList( UserID => $Self->{UserID} );
 
@@ -346,7 +379,8 @@ sub _ShowEdit {
         ID         => 'StateEntityID',
         SelectedID => $ProcessData->{StateEntityID} || '',
         Sort       => 'AlphanumericKey',
-        Class      => 'W50pc ' . $StateError,
+        Translation => 1,
+        Class       => 'W50pc ' . $StateError,
     );
 
     my $Output = $Self->{LayoutObject}->Header();
