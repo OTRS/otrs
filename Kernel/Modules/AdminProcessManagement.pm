@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminProcessManagement.pm - process management
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagement.pm,v 1.4 2012-07-11 14:55:14 cr Exp $
+# $Id: AdminProcessManagement.pm,v 1.5 2012-07-12 04:29:42 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,13 +16,14 @@ use warnings;
 
 use Kernel::System::ProcessManagement::DB::Entity;
 use Kernel::System::ProcessManagement::DB::Activity;
+use Kernel::System::ProcessManagement::DB::Activity::ActivityDialog;
 use Kernel::System::ProcessManagement::DB::Process;
 use Kernel::System::ProcessManagement::DB::Process::State;
 
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -45,6 +46,8 @@ sub new {
     $Self->{ProcessObject}  = Kernel::System::ProcessManagement::DB::Process->new( %{$Self} );
     $Self->{EntityObject}   = Kernel::System::ProcessManagement::DB::Entity->new( %{$Self} );
     $Self->{ActivityObject} = Kernel::System::ProcessManagement::DB::Activity->new( %{$Self} );
+    $Self->{ActivityDialogObject}
+        = Kernel::System::ProcessManagement::DB::Activity::ActivityDialog->new( %{$Self} );
     $Self->{StateObject} = Kernel::System::ProcessManagement::DB::Process::State->new( %{$Self} );
 
     return $Self;
@@ -76,7 +79,7 @@ sub Run {
         # challenge token check for write action
         $Self->{LayoutObject}->ChallengeTokenCheck();
 
-        # get webserice configuration
+        # get process data
         my $ProcessData;
 
         # get parameter from web browser
@@ -250,7 +253,7 @@ sub Run {
                 %Error,
                 %Param,
                 ProcessData => $ProcessData,
-                Action      => 'New',
+                Action      => 'Edit',
             );
         }
 
@@ -274,28 +277,6 @@ sub Run {
 
         # return to overview
         return $Self->_ShowOverview();
-    }
-
-    # ------------------------------------------------------------ #
-    # ProcessNewAction
-    # ------------------------------------------------------------ #
-    elsif ( $Self->{Subaction} eq 'Activity' ) {
-
-        my $Output = $Self->{LayoutObject}->Header(
-            Value => 'Activity',
-            Type  => 'Small',
-        );
-
-        $Output .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'AdminProcessManagementActivity',
-            Data         => \%Param,
-        );
-
-        $Output .= $Self->{LayoutObject}->Footer(
-            Type => 'Small',
-        );
-
-        return $Output;
     }
 
     # ------------------------------------------------------------ #
@@ -345,7 +326,7 @@ sub _ShowEdit {
     my ( $Self, %Param ) = @_;
 
     # get process information
-    my $ProcessData = $Param{ProcessData};
+    my $ProcessData = $Param{ProcessData} || {};
 
     if ( defined $Param{Action} && $Param{Action} eq 'Edit' ) {
 
@@ -359,6 +340,21 @@ sub _ShowEdit {
                 Name => 'ActivityRow',
                 Data => {
                     %{$ActivityData},
+                },
+            );
+        }
+
+        # get a list of all activity dialogs with details
+        my $ActivityDialogList
+            = $Self->{ActivityDialogObject}->ActivityDialogListGet( UserID => $Self->{UserID} );
+
+        for my $ActivityDialogData ( @{$ActivityDialogList} ) {
+
+            # print each activity dialog in the accordion
+            $Self->{LayoutObject}->Block(
+                Name => 'ActivityDialogRow',
+                Data => {
+                    %{$ActivityDialogData},
                 },
             );
         }
