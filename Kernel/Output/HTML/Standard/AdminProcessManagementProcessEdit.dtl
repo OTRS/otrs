@@ -2,7 +2,7 @@
 # AdminProcessManagementProcessEdit.dtl - provides HTML for AdminProcessManagement
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementProcessEdit.dtl,v 1.5 2012-07-12 04:31:00 cr Exp $
+# $Id: AdminProcessManagementProcessEdit.dtl,v 1.6 2012-07-12 13:56:40 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -36,69 +36,37 @@
                         <h2><a href="#" class="AsBlock">Activities</a></h2>
                         <div class="Content">
                             <input type="text" id="ActivityFilter" class="ProcessElementFilter W75pc" placeholder="$Text{"Filter Activities..."}" />
-                            <ul class="Tablelike">
+                            <ul class="Tablelike" id="Activities">
 <!-- dtl:block:ActivityRow -->
-                                <li title="$QData{"Name"}">
+                                <li title="$QData{"Name"}" data-entity="$QData{"EntityID"}">
                                     $QData{"Name","22"}
-                                    <span><a href="$Env{"Baselink"}Action=AdminProcessManagementActivity;Subaction=ActivityEdit;ID=$LQData{"ID"};EntityID=$LQData{"EntityID"}" class="AsPopup PopupType_Activity">Edit</a> | <a href="#">Delete</a></span>
+                                    <span><a href="$Env{"Baselink"}Action=AdminProcessManagementActivity;Subaction=ActivityEdit;ID=$LQData{"ID"};EntityID=$LQData{"EntityID"}" class="AsPopup PopupType_Activity">Edit</a> | <a href="#" class="DeleteEntity DeleteActivity">Delete</a></span>
                                 </li>
 <!-- dtl:block:ActivityRow -->
                             </ul>
-                            <button class="ProcessElementButton" id="ActivityButtonCreate">$Text{"Create New Activity"}</button>
-<!-- dtl:js_on_document_complete -->
-<script type="text/javascript">//<![CDATA[
-$('#ActivityButtonCreate').bind('click', function (Event) {
-    Core.UI.Popup.OpenPopup('$Env{"Baselink"}Action=AdminProcessManagementActivity;Subaction=ActivityNew;', 'Activity');
-    return false;
-});
-//]]></script>
-<!-- dtl:js_on_document_complete -->
+                            <a href="$Env{"Baselink"}Action=AdminProcessManagementActivity;Subaction=ActivityNew;" class="CallForAction AsPopup PopupType_Activity Center ProcessElementButton" ><span>$Text{"Create New Activity"}</span></a>
                         </div>
                     </li>
                     <li class="AccordionElement">
                         <h2><a href="#" class="AsBlock">Activity Dialogs</a></h2>
                         <div class="Content">
                             <input type="text" id="ActivityDialogFilter" class="ProcessElementFilter W75pc" placeholder="$Text{"Filter Activity Dialogs..."}" />
-                            <ul class="Tablelike">
+                            <ul class="Tablelike" id="ActivityDialogs">
 <!-- dtl:block:ActivityDialogRow -->
                                 <li title="$QData{"Name"}">
                                     $QData{"Name","22"}
                                     <span><a href="$Env{"Baselink"}Action=AdminProcessManagementActivityDialog;Subaction=ActivityDialogEdit;ID=$LQData{"ID"};EntityID=$LQData{"EntityID"}" class="AsPopup PopupType_ActivityDialog">Edit</a> | <a href="#">Delete</a></span>
                                 </li>
 <!-- dtl:block:ActivityDialogRow -->
-<!-- dtl:js_on_document_complete -->
-<script type="text/javascript">//<![CDATA[
-$('a.AsPopup').bind('click', function (Event) {
-    var Matches,
-        PopupType = 'Process';
-
-    Matches = $(this).attr('class').match(/PopupType_(\w+)/);
-    if (Matches) {
-        PopupType = Matches[1];
-    }
-
-    Core.UI.Popup.OpenPopup($(this).attr('href'), PopupType);
-    return false;
-});
-//]]></script>
-<!-- dtl:js_on_document_complete -->
                             </ul>
-                            <button class="ProcessElementButton" id="ActivityDialogButtonCreate">$Text{"Create New Activity Dialog"}</button>
-<!-- dtl:js_on_document_complete -->
-<script type="text/javascript">//<![CDATA[
-$('#ActivityDialogButtonCreate').bind('click', function (Event) {
-    Core.UI.Popup.OpenPopup('$Env{"Baselink"}Action=AdminProcessManagementActivityDialog;Subaction=ActivityDialogNew;', 'ActivityDialog');
-    return false;
-});
-//]]></script>
-<!-- dtl:js_on_document_complete -->
+                            <a href="$Env{"Baselink"}Action=AdminProcessManagementActivityDialog;Subaction=ActivityDialogNew;" class="CallForAction AsPopup PopupType_ActivityDialog Center ProcessElementButton" ><span>$Text{"Create New Activity Dialog"}</span></a>
                         </div>
                     </li>
                     <li class="AccordionElement">
                         <h2><a href="#" class="AsBlock">Transitions</a></h2>
                         <div class="Content">
                             <input type="text" id="TransitionFilter" class="ProcessElementFilter W75pc" placeholder="$Text{"Filter Transitions..."}" />
-                            <ul class="Tablelike">
+                            <ul class="Tablelike" id="Transitions">
                                 <li>
                                     Transition 1
                                     <span><a href="#">Edit</a> | <a href="#">Delete</a></span>
@@ -120,14 +88,14 @@ $('#ActivityDialogButtonCreate').bind('click', function (Event) {
                                     <span><a href="#">Edit</a> | <a href="#">Delete</a></span>
                                 </li>
                             </ul>
-                            <button class="ProcessElementButton" id="TransitionButtonCreate">$Text{"Create New Transition"}</button>
+                            <a href="" class="CallForAction AsPopup PopupType_Transition Center ProcessElementButton" ><span>$Text{"Create New Transition"}</span></a>
                         </div>
                     </li>
                     <li class="AccordionElement">
                         <h2><a href="#" class="AsBlock">Transition Actions</a></h2>
                         <div class="Content">
                             <input type="text" id="TransitionActionFilter" class="ProcessElementFilter W75pc" placeholder="$Text{"Filter Transition Actions..."}" />
-                            <ul class="Tablelike">
+                            <ul class="Tablelike" id="TransitionActions">
                                 <li>
                                     Transition Action 1
                                     <span><a href="#">Edit</a> | <a href="#">Delete</a></span>
@@ -149,7 +117,7 @@ $('#ActivityDialogButtonCreate').bind('click', function (Event) {
                                     <span><a href="#">Edit</a> | <a href="#">Delete</a></span>
                                 </li>
                             </ul>
-                            <button class="ProcessElementButton" id="TransitionActionButtonCreate">$Text{"Create New Transition Action"}</button>
+                            <a href="" class="CallForAction AsPopup PopupType_TransitionAction Center ProcessElementButton" ><span>$Text{"Create New Transition Action"}</span></a>
                         </div>
                     </li>
                 </ul>
@@ -242,9 +210,8 @@ $('#ActivityDialogButtonCreate').bind('click', function (Event) {
     </div>
     <div class="Clear"></div>
 </div>
-
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
-    Core.UI.Accordion.Init($('ul#ProcessElements'), 'li.AccordionElement h2 a', 'div.Content');
+Core.Agent.Admin.ProcessManagement.InitProcessEdit();
 //]]></script>
 <!-- dtl:js_on_document_complete -->

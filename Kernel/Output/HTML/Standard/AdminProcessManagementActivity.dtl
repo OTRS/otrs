@@ -2,7 +2,7 @@
 # AdminProcessManagementActivity.dtl - provides HTML for AdminProcessManagement
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementActivity.dtl,v 1.2 2012-07-12 04:26:21 cr Exp $
+# $Id: AdminProcessManagementActivity.dtl,v 1.3 2012-07-12 13:56:40 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,6 +23,7 @@
                 <input type="hidden" name="Subaction" value="Activity$QData{"Action"}Action"/>
                 <input type="hidden" name="EntityID" value="$QData{"EntityID"}"/>
                 <input type="hidden" name="ID" value="$QData{"ID"}"/>
+                <input type="hidden" name="ActivityDialogs" value=""/>
 
                 <div class="WidgetSimple Expanded">
                     <div class="Header">
@@ -71,7 +72,7 @@
                             </ul>
                             <ul class="AllocationList Tablelike W90pc" id="AvailableActivityDialogs">
 <!-- dtl:block:AvailableActivityDialogRow -->
-                                <li id="$QData{"ID"}" title="$QData{"Name"}">
+                                <li data-id="$QData{"ID"}" title="$QData{"Name"}">
                                     $QData{"Name", "55"}
                                     <span class="Functions"><a href="$Env{"Baselink"}Action=AdminProcessManagementActivityDialog;Subaction=ActivityDialogEdit;ID=$LQData{"ID"};EntityID=$LQData{"EntityID"}" class="AsPopup PopupType_ActivityDialog">Edit</a></span>
                                 </li>
@@ -86,28 +87,12 @@
                             </ul>
                             <ul class="AllocationList Tablelike W90pc" id="AssignedActivityDialogs">
 <!-- dtl:block:AssignedActivityDialogRow -->
-                                <li id="$QData{"ID"}" title="$QData{"Name"}">
+                                <li data-id="$QData{"ID"}" title="$QData{"Name"}">
                                     $QData{"Name", "55"}
                                     <span class="Functions"><a href="$Env{"Baselink"}Action=AdminProcessManagementActivityDialog;Subaction=ActivityDialogEdit;ID=$LQData{"ID"};EntityID=$LQData{"EntityID"}" class="AsPopup PopupType_ActivityDialog">Edit</a></span>
                                 </li>
 <!-- dtl:block:AssignedActivityDialogRow -->
                             </ul>
-<!-- dtl:js_on_document_complete -->
-<script type="text/javascript">//<![CDATA[
-$('a.AsPopup').bind('click', function (Event) {
-    var Matches,
-        PopupType = 'Process';
-
-    Matches = $(this).attr('class').match(/PopupType_(\w+)/);
-    if (Matches) {
-        PopupType = Matches[1];
-    }
-
-    Core.UI.Popup.OpenPopup($(this).attr('href'), PopupType);
-    return false;
-});
-//]]></script>
-<!-- dtl:js_on_document_complete -->
                         </div>
                     </div>
                 </div>
@@ -117,18 +102,9 @@ $('a.AsPopup').bind('click', function (Event) {
     <div class="Footer">
         <button class="Primary" id="Submit" title="$Text{"Submit"}" type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button>
     </div>
-<!-- dtl:js_on_document_complete -->
-<script type="text/javascript">//<![CDATA[
-$('#Submit').bind('click', function (Event) {
-    $('#ActivityForm').submit();
-    return false;
-});
-//]]></script>
-<!-- dtl:js_on_document_complete -->
-
 </div>
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
-    Core.UI.AllocationList.Init("#AvailableActivityDialogs, #AssignedActivityDialogs", ".AllocationList");
+Core.Agent.Admin.ProcessManagement.InitActivityEdit();
 //]]></script>
 <!--dtl:js_on_document_complete-->
