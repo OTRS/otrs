@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminProcessManagementActivityDialog.pm - process management activity
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementActivityDialog.pm,v 1.1 2012-07-12 04:24:04 cr Exp $
+# $Id: AdminProcessManagementActivityDialog.pm,v 1.2 2012-07-12 16:59:05 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::ProcessManagement::DB::Activity::ActivityDialog;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -46,15 +46,21 @@ sub new {
     $Self->{ActivityDialogObject}
         = Kernel::System::ProcessManagement::DB::Activity::ActivityDialog->new( %{$Self} );
 
-    #TODO check the complete list of fields that can be shown
     # create available Fields list
     $Self->{AvailableFields} = {
-        Title      => 1,
-        PriorityID => 1,
-        StateID    => 1,
-        QueueID    => 1,
-        Lock       => 1,
-        CustomerID => 1,
+        State          => 'StateID',
+        Priority       => 'PriorityID',
+        Lock           => 'LockID',
+        Queue          => 'QueueID',
+        CustomerID     => 'CustomerID',
+        CustomerUserID => 'CustomerUserID',
+        Owner          => 'OwnerID',
+        Type           => 'TypeID',
+        SLA            => 'SLAID',
+        Service        => 'Service',
+        Responsible    => 'ResponsibleID',
+        PendingTime    => 'PendingTime',
+        Title          => 'Title',
     };
 
     my $DynamicFieldList = $Self->{DynamicFieldObject}->DynamicFieldList(
@@ -65,7 +71,7 @@ sub new {
     for my $DynamicFieldName ( values %{$DynamicFieldList} ) {
         next if !$DynamicFieldName;
 
-        $Self->{AvailableFields}->{"DynamicField_$DynamicFieldName"} = 1;
+        $Self->{AvailableFields}->{"DynamicField_$DynamicFieldName"} = $DynamicFieldName;
     }
 
     return $Self;
