@@ -2,7 +2,7 @@
 # AdminProcessManagementProcessEdit.dtl - provides HTML for AdminProcessManagement
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementProcessEdit.dtl,v 1.7 2012-07-12 17:39:49 cr Exp $
+# $Id: AdminProcessManagementProcessEdit.dtl,v 1.8 2012-07-12 22:33:56 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,6 +22,39 @@
                     <li>
                         <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="CallForAction"><span>$Text{"Back To Overview"}</span></a>
                     </li>
+<!-- dtl:block:ProcessDeleteAction -->
+                    <li>
+                        <a href="#" id="ProcessDelete" class="CallForAction Trash"><span>$Text{"Delete Inactive Process"}</span></a>
+                    </li>
+<!-- dtl:js_on_document_complete -->
+<!--
+#
+# TODO Replace this with a delete dialog!
+#
+                    -->
+<script type="text/javascript">//<![CDATA[
+$('#ProcessDelete').bind('click', function (Event) {
+    var Data = {
+        Action: 'AdminProcessManagement',
+        Subaction: 'ProcessDelete',
+        ID: $QData{"ID"}
+    };
+
+    Core.AJAX.FunctionCall(Core.Config.Get('CGIHandle'), Data, function (Response) {
+        if (!Response || !Response.Success) {
+            alert(Response.Message);
+            return;
+        }
+
+        Core.App.InternalRedirect({
+            Action: Data.Action,
+        });
+    }, 'json');
+    Event.stopPropagation();
+});
+//]]></script>
+<!-- dtl:js_on_document_complete -->
+<!-- dtl:block:ProcessDeleteAction -->
                 </ul>
             </div>
         </div>
@@ -38,7 +71,7 @@
                             <input type="text" id="ActivityFilter" class="ProcessElementFilter W75pc" placeholder="$Text{"Filter Activities..."}" />
                             <ul class="Tablelike" id="Activities">
 <!-- dtl:block:ActivityRow -->
-                                <li title="$QData{"Name"}" data-entity="$QData{"EntityID"}">
+                                <li title="$QData{"Name"}" data-entity="$QData{"EntityID"} data-id="$QData{"ID"}>
                                     $QData{"Name","22"}
                                     <span><a href="$Env{"Baselink"}Action=AdminProcessManagementActivity;Subaction=ActivityEdit;ID=$LQData{"ID"};EntityID=$LQData{"EntityID"}" class="AsPopup PopupType_Activity">Edit</a> | <a href="#" class="DeleteEntity DeleteActivity">Delete</a></span>
                                 </li>
@@ -64,7 +97,7 @@
                                 </li>
 <!-- dtl:block:ActivityDialogRow -->
 <!-- dtl:block:ActivityDialogNoDataRow -->
-                                <li title="$QData{"Name"}">
+                                <li title="$QData{"Name"}" data-entity="$QData{"EntityID"} data-id="$QData{"ID"}>
                                     $Text{"No data found."}
                                 </li>
 <!-- dtl:block:ActivityDialogNoDataRow -->
