@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminProcessManagement.pm - process management
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagement.pm,v 1.6 2012-07-12 17:40:48 cr Exp $
+# $Id: AdminProcessManagement.pm,v 1.7 2012-07-12 22:35:10 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::ProcessManagement::DB::Process::State;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -280,6 +280,120 @@ sub Run {
     }
 
     # ------------------------------------------------------------ #
+    # ProcessDeleteCheck AJAX
+    # ------------------------------------------------------------ #
+    elsif ( $Self->{Subaction} eq 'ProcessDeleteCheck' ) {
+
+        # check for ProcessID
+        return if !$ProcessID;
+
+        my $CheckResult = $Self->_CheckProcessDelete( ID => $ProcessID );
+
+        # build JSON output
+        my $JSON = $Self->{LayoutObject}->JSONEncode(
+            Data => {
+                %{$CheckResult},
+            },
+        );
+
+        # send JSON response
+        return $Self->{LayoutObject}->Attachment(
+            ContentType => 'application/json; charset=' . $Self->{LayoutObject}->{Charset},
+            Content     => $JSON,
+            Type        => 'inline',
+            NoCache     => 1,
+        );
+    }
+
+    # ------------------------------------------------------------ #
+    # ProcessDelete AJAX
+    # ------------------------------------------------------------ #
+    elsif ( $Self->{Subaction} eq 'ProcessDelete' ) {
+
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
+
+        # check for ProcessID
+        return if !$ProcessID;
+
+        my $CheckResult = $Self->_CheckProcessDelete( ID => $ProcessID );
+
+        my $JSON;
+        if ( $CheckResult->{Success} ) {
+
+            my $Success = $Self->{ProcessObject}->ProcessDelete(
+                ID     => $ProcessID,
+                UserID => $Self->{UserID},
+            );
+
+            my %DeleteResult = (
+                Success => $Success,
+            );
+
+            if ( !$Success ) {
+                $DeleteResult{Message} = 'Process $ProcessID could not be deleted';
+            }
+
+            # build JSON output
+            $JSON = $Self->{LayoutObject}->JSONEncode(
+                Data => {
+                    %DeleteResult,
+                },
+            );
+        }
+        else {
+
+            # build JSON output
+            $JSON = $Self->{LayoutObject}->JSONEncode(
+                Data => {
+                    %{$CheckResult},
+                },
+            );
+        }
+
+        # send JSON response
+        return $Self->{LayoutObject}->Attachment(
+            ContentType => 'application/json; charset=' . $Self->{LayoutObject}->{Charset},
+            Content     => $JSON,
+            Type        => 'inline',
+            NoCache     => 1,
+        );
+    }
+
+    # ------------------------------------------------------------ #
+    # EntityUsageCheck AJAX
+    # ------------------------------------------------------------ #
+    elsif ( $Self->{Subaction} eq 'EntityUsageCheck' ) {
+
+        my %GetParam;
+        for my $Param (qw( EntityType Entity ID )) {
+            $GetParam{$Param} = $Self->{ParamObject}->GetParam( Param => $Param ) || '';
+        }
+
+        # check needed information
+        return if !$GetParam{EntityType} || !$GetParam{EntityID} || !$GetParam{ID};
+
+        my $EntityMethod = '_Check' . $GetParam{EntityType} . 'Usage';
+
+        my $EntityCheck = $Self->$EntityMethod(%GetParam);
+
+        # build JSON output
+        my $JSON = $Self->{LayoutObject}->JSONEncode(
+            Data => {
+                %{$EntityCheck},
+            },
+        );
+
+        # send JSON response
+        return $Self->{LayoutObject}->Attachment(
+            ContentType => 'application/json; charset=' . $Self->{LayoutObject}->{Charset},
+            Content     => $JSON,
+            Type        => 'inline',
+            NoCache     => 1,
+        );
+    }
+
+    # ------------------------------------------------------------ #
     # Overview
     # ------------------------------------------------------------ #
     else {
@@ -329,6 +443,20 @@ sub _ShowEdit {
     my $ProcessData = $Param{ProcessData} || {};
 
     if ( defined $Param{Action} && $Param{Action} eq 'Edit' ) {
+
+        # check if process is inactive and show delete action
+        my $State = $Self->{StateObject}->StateLookup(
+            EntityID => $ProcessData->{StateEntityID},
+            UserID   => $Self->{UserID},
+        );
+        if ( $State eq 'Inactive' ) {
+            $Self->{LayoutObject}->Block(
+                Name => 'ProcessDeleteAction',
+                Data => {
+                    %{$ProcessData},
+                },
+            );
+        }
 
         #TODO Add Transition and TransitionAction to Elements when backend and frontennds are ready
         # ouput available process elements in the accordion
@@ -415,4 +543,48 @@ sub _GetParams {
     return $GetParam;
 }
 
+sub _CheckProcessDelete {
+    my ( $Self, %Param ) = @_;
+
+    # get Process data
+    my $ProcessData = $Self->{ProcessObject}->ProcessGet(
+        ID     => $Param{ID},
+        UserID => $Self->{UserID},
+    );
+
+    # check for valid Process data
+    if ( !IsHashRefWithData($ProcessData) ) {
+        return {
+            Success => 0,
+            Message => "Could not get data for ProcessID $Param{ID}",
+        };
+    }
+
+    # check that the Process is in Inactive state
+    my $State = $Self->{StateObject}->StateLookup(
+        EntityID => $ProcessData->{StateEntityID},
+        UserID   => $Self->{UserID},
+    );
+
+    if ( $State ne 'Inactive' ) {
+        return {
+            Success => 0,
+            Message => "Process $Param{ID} is not Inactive",
+        };
+    }
+
+    return {
+        Success => 1,
+        }
+}
+
+sub _CheckActivityUsage {
+    my ( $Self, %Param ) = @_;
+
+    # TODO Implement
+
+    return {
+        Success => 1
+    };
+}
 1;
