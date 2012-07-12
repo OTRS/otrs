@@ -2,7 +2,7 @@
 // Core.Agent.Admin.ProcessManagement.js - provides the special module functions for the Process Management.
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.1 2012-07-12 13:56:39 mn Exp $
+// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.2 2012-07-12 22:32:54 cr Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -54,6 +54,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
         // Initialize the different Delete Links
         $('a.DeleteEntity').bind('click.DeleteEntity', function (Event) {
            var Entity = $(this).closest('li').data('entity'),
+               ID = $(this).closest('li').data('id'),
                EntityType,
                CheckResult;
            
@@ -77,7 +78,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
            // Now check (via ajax) if the given entity is still used in a process/activity/activity dialog etc.
            // If so, show an error message in a modal dialog.
            // If not, show a confirmation modal dialog. Deletion via ajax. If successful, remove element from list.
-           CheckResult = CheckUsageOfEntity('Activity', Entity);
+           CheckResult = CheckUsageOfEntity(EntityType, Entity, ID);
            if (!CheckResult.Deleteable) {
                ShowErrorDialog(CheckResult.Usage);
            }
