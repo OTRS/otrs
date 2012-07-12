@@ -2,7 +2,7 @@
 # Kernel/System/ProcessManagement/Activity/ActivityDialog.pm - Process Management DB ActivityDialog backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: ActivityDialog.pm,v 1.2 2012-07-06 20:50:35 cr Exp $
+# $Id: ActivityDialog.pm,v 1.3 2012-07-12 04:21:24 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Cache;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 =head1 NAME
 
@@ -608,6 +608,92 @@ sub ActivityDialogList {
     return \%Data;
 }
 
+=item ActivityDialogListGet()
+
+get an Activity Dialog list with all activity dialog details
+
+    my $List = $ActivityDialogObject->ActivityDialogListGet(
+        UserID      => 1,
+    );
+
+Returns:
+
+    $List = [
+        {
+            ID             => 123,
+            EntityID       => 'AD1',
+            Name           => 'some name',
+            Config         => $ConfigHashRef,
+            CreateTime     => '2012-07-04 15:08:00',
+            ChangeTime     => '2012-07-04 15:08:00',
+        }
+        {
+            ID             => 456,
+            EntityID       => 'AD2',
+            Name           => 'some name',
+            Config         => $ConfigHashRef,
+            CreateTime     => '2012-07-04 15:09:00',
+            ChangeTime     => '2012-07-04 15:09:00',
+        }
+    ];
+
+=cut
+
+sub ActivityDialogListGet {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    if ( !$Param{UserID} ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need UserID!',
+        );
+        return;
+    }
+
+    # check cache
+    my $CacheKey = 'ActivityDialogListGet';
+
+    my $Cache = $Self->{CacheObject}->Get(
+        Type => 'ProcessManagement_ActivityDialog',
+        Key  => $CacheKey,
+    );
+    return $Cache if $Cache;
+
+    # sql
+    return if !$Self->{DBObject}->Prepare(
+        SQL => '
+            SELECT id, entity_id
+            FROM pm_activity_dialog
+            ORDER BY id',
+    );
+
+    my @ActivityDialogIDs;
+    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        push @ActivityDialogIDs, $Row[0];
+    }
+
+    my @Data;
+    for my $ItemID (@ActivityDialogIDs) {
+
+        my $ActivityDialogData = $Self->ActivityDialogGet(
+            ID     => $ItemID,
+            UserID => 1,
+        );
+        push @Data, $ActivityDialogData;
+    }
+
+    # set cache
+    $Self->{CacheObject}->Set(
+        Type  => 'ProcessManagement_ActivityDialog',
+        Key   => $CacheKey,
+        Value => \@Data,
+        TTL   => $Self->{CacheTTL},
+    );
+
+    return \@Data;
+}
+
 1;
 
 =back
@@ -624,6 +710,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.2 $ $Date: 2012-07-06 20:50:35 $
+$Revision: 1.3 $ $Date: 2012-07-12 04:21:24 $
 
 =cut

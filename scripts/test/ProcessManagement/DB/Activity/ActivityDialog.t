@@ -2,7 +2,7 @@
 # ActivityDialog.t - ProcessManagement DB activity dialog tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: ActivityDialog.t,v 1.1 2012-07-07 12:47:19 cr Exp $
+# $Id: ActivityDialog.t,v 1.2 2012-07-12 04:21:24 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -887,6 +887,72 @@ for my $Test (@Tests) {
         );
     }
 }
+
+#
+# ActivityListGet() tests
+#
+
+my $FullList = $ActivityDialogObject->ActivityDialogListGet(
+    UserID => undef,
+);
+
+$Self->IsNot(
+    ref $FullList,
+    'ARRAY',
+    "ActivityDialogListGet Test 1: No UserID | List Should not be an array",
+);
+
+# get the List of activity dialogs with all details
+$FullList = $ActivityDialogObject->ActivityDialogListGet(
+    UserID => $UserID,
+);
+
+# get simple list of activity dialogs
+my $List = $ActivityDialogObject->ActivityDialogList(
+    UserID => $UserID,
+);
+
+# create the list of activity dialogs with details manually
+my $ExpectedActivityDialogList;
+for my $ActivityDialogID ( sort { $a <=> $b } keys %{$List} ) {
+
+    my $ActivityDialogData = $ActivityDialogObject->ActivityDialogGet(
+        ID     => $ActivityDialogID,
+        UserID => $UserID,
+    );
+    push @{$ExpectedActivityDialogList}, $ActivityDialogData;
+}
+
+$Self->Is(
+    ref $FullList,
+    'ARRAY',
+    "ActivityDialogListGet Test 2: Correct List | Should be an array",
+);
+
+$Self->True(
+    IsArrayRefWithData($FullList),
+    "ActivityDialogListGet Test 2: Correct List | The list is not empty",
+);
+
+$Self->IsDeeply(
+    $FullList,
+    $ExpectedActivityDialogList,
+    "ActivityDialogListGet Test 2: Correct List | Activity List",
+);
+
+# check cache
+my $CacheKey = 'ActivityDialogListGet';
+
+my $Cache = $ActivityDialogObject->{CacheObject}->Get(
+    Type => 'ProcessManagement_ActivityDialog',
+    Key  => $CacheKey,
+);
+
+$Self->IsDeeply(
+    $Cache,
+    $FullList,
+    "ActivityDialogListGet Test 2: Correct List | Cache",
+);
 
 print "------------System Cleanup------------\n";
 
