@@ -2,7 +2,7 @@
 # Process.t - ProcessManagement DB process tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Process.t,v 1.4 2012-07-06 16:36:53 cr Exp $
+# $Id: Process.t,v 1.5 2012-07-12 22:49:28 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -1131,6 +1131,72 @@ for my $Test (@Tests) {
         );
     }
 }
+
+#
+# ProcessListGet() tests
+#
+
+my $FullList = $ProcessObject->ProcessListGet(
+    UserID => undef,
+);
+
+$Self->IsNot(
+    ref $FullList,
+    'ARRAY',
+    "ProcessListGet Test 1: No UserID | List Should not be an array",
+);
+
+# get the List of processes with all details
+$FullList = $ProcessObject->ProcessListGet(
+    UserID => $UserID,
+);
+
+# get simple list of processes
+my $List = $ProcessObject->ProcessList(
+    UserID => $UserID,
+);
+
+# create the list of processes with details manually
+my $ExpectedProcessList;
+for my $ProcessID ( sort { $a <=> $b } keys %{$List} ) {
+
+    my $ProcessData = $ProcessObject->ProcessGet(
+        ID     => $ProcessID,
+        UserID => $UserID,
+    );
+    push @{$ExpectedProcessList}, $ProcessData;
+}
+
+$Self->Is(
+    ref $FullList,
+    'ARRAY',
+    "ProcessListGet Test 2: Correct List | Should be an array",
+);
+
+$Self->True(
+    IsArrayRefWithData($FullList),
+    "ProcessListGet Test 2: Correct List | The list is not empty",
+);
+
+$Self->IsDeeply(
+    $FullList,
+    $ExpectedProcessList,
+    "ProcessListGet Test 2: Correct List | Process List",
+);
+
+# check cache
+my $CacheKey = 'ProcessListGet';
+
+my $Cache = $ProcessObject->{CacheObject}->Get(
+    Type => 'ProcessManagement_Process',
+    Key  => $CacheKey,
+);
+
+$Self->IsDeeply(
+    $Cache,
+    $FullList,
+    "ProcessListGet Test 2: Correct List | Cache",
+);
 
 print "------------System Cleanup------------\n";
 

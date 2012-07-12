@@ -2,7 +2,7 @@
 # Kernel/System/ProcessManagement/Process.pm - Process Management DB Process backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Process.pm,v 1.9 2012-07-07 12:55:55 cr Exp $
+# $Id: Process.pm,v 1.10 2012-07-12 22:49:28 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::ProcessManagement::DB::Activity::ActivityDialog;
 use Kernel::System::ProcessManagement::DB::Process::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 =head1 NAME
 
@@ -685,6 +685,100 @@ sub ProcessList {
     return \%Data;
 }
 
+=item ProcessListGet()
+
+get a Process list with all process details
+
+    my $List = $ProcessObject->ProcessListGet(
+        UserID      => 1,
+    );
+
+Returns:
+
+    $List = [
+        {
+            ID            => 123,
+            EntityID      => 'P1',
+            Name          => 'some name',
+            StateEntityID => 'S1',
+            State         => 'Active',
+            Layout        => $LayoutHashRef,
+            Config        => $ConfigHashRef,
+            Activities    => ['A1','A2','A3'],
+            CreateTime    => '2012-07-04 15:08:00',
+            ChangeTime    => '2012-07-04 15:08:00',
+        }
+        {
+            ID            => 456,
+            EntityID      => 'P2',
+            Name          => 'some name',
+            StateEntityID => 'S1',
+            State         => 'Active',
+            Layout        => $LayoutHashRef,
+            Config        => $ConfigHashRef,
+            Activities    => ['A3','A4','A5'],
+            CreateTime    => '2012-07-04 15:10:00',
+            ChangeTime    => '2012-07-04 15:10:00',
+        }
+    ];
+
+=cut
+
+sub ProcessListGet {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    if ( !$Param{UserID} ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need UserID!',
+        );
+        return;
+    }
+
+    # check cache
+    my $CacheKey = 'ProcessListGet';
+
+    my $Cache = $Self->{CacheObject}->Get(
+        Type => 'ProcessManagement_Process',
+        Key  => $CacheKey,
+    );
+    return $Cache if $Cache;
+
+    # sql
+    return if !$Self->{DBObject}->Prepare(
+        SQL => '
+            SELECT id, entity_id
+            FROM pm_process
+            ORDER BY id',
+    );
+
+    my @ProcessIDs;
+    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        push @ProcessIDs, $Row[0];
+    }
+
+    my @Data;
+    for my $ItemID (@ProcessIDs) {
+
+        my $ProcessData = $Self->ProcessGet(
+            ID     => $ItemID,
+            UserID => 1,
+        );
+        push @Data, $ProcessData;
+    }
+
+    # set cache
+    $Self->{CacheObject}->Set(
+        Type  => 'ProcessManagement_Process',
+        Key   => $CacheKey,
+        Value => \@Data,
+        TTL   => $Self->{CacheTTL},
+    );
+
+    return \@Data;
+}
+
 # TODO Add POD
 # TODO Finish Implementation
 # TODO Add full tests
@@ -869,6 +963,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.9 $ $Date: 2012-07-07 12:55:55 $
+$Revision: 1.10 $ $Date: 2012-07-12 22:49:28 $
 
 =cut
