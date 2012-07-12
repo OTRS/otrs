@@ -2,7 +2,7 @@
 # AdminProcessManagementProcessEdit.dtl - provides HTML for AdminProcessManagement
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementProcessEdit.dtl,v 1.6 2012-07-12 13:56:40 mn Exp $
+# $Id: AdminProcessManagementProcessEdit.dtl,v 1.7 2012-07-12 17:39:49 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -43,6 +43,11 @@
                                     <span><a href="$Env{"Baselink"}Action=AdminProcessManagementActivity;Subaction=ActivityEdit;ID=$LQData{"ID"};EntityID=$LQData{"EntityID"}" class="AsPopup PopupType_Activity">Edit</a> | <a href="#" class="DeleteEntity DeleteActivity">Delete</a></span>
                                 </li>
 <!-- dtl:block:ActivityRow -->
+<!-- dtl:block:ActivityNoDataRow -->
+                                <li title="$QData{"Name"}">
+                                    $Text{"No data found."}
+                                </li>
+<!-- dtl:block:ActivityNoDataRow -->
                             </ul>
                             <a href="$Env{"Baselink"}Action=AdminProcessManagementActivity;Subaction=ActivityNew;" class="CallForAction AsPopup PopupType_Activity Center ProcessElementButton" ><span>$Text{"Create New Activity"}</span></a>
                         </div>
@@ -58,6 +63,11 @@
                                     <span><a href="$Env{"Baselink"}Action=AdminProcessManagementActivityDialog;Subaction=ActivityDialogEdit;ID=$LQData{"ID"};EntityID=$LQData{"EntityID"}" class="AsPopup PopupType_ActivityDialog">Edit</a> | <a href="#">Delete</a></span>
                                 </li>
 <!-- dtl:block:ActivityDialogRow -->
+<!-- dtl:block:ActivityDialogNoDataRow -->
+                                <li title="$QData{"Name"}">
+                                    $Text{"No data found."}
+                                </li>
+<!-- dtl:block:ActivityDialogNoDataRow -->
                             </ul>
                             <a href="$Env{"Baselink"}Action=AdminProcessManagementActivityDialog;Subaction=ActivityDialogNew;" class="CallForAction AsPopup PopupType_ActivityDialog Center ProcessElementButton" ><span>$Text{"Create New Activity Dialog"}</span></a>
                         </div>
@@ -67,6 +77,12 @@
                         <div class="Content">
                             <input type="text" id="TransitionFilter" class="ProcessElementFilter W75pc" placeholder="$Text{"Filter Transitions..."}" />
                             <ul class="Tablelike" id="Transitions">
+<!-- dtl:block:TransitionRow -->
+                                <li title="$QData{"Name"}">
+                                    $QData{"Name","22"}
+                                    <span><a href="$Env{"Baselink"}Action=AdminProcessManagementTransition;Subaction=TransitionEdit;ID=$LQData{"ID"};EntityID=$LQData{"EntityID"}" class="AsPopup PopupType_Transition">Edit</a> | <a href="#">Delete</a></span>
+                                </li>
+<!-- dtl:block:TransitionRow -->
                                 <li>
                                     Transition 1
                                     <span><a href="#">Edit</a> | <a href="#">Delete</a></span>
@@ -87,6 +103,11 @@
                                     Transition 5
                                     <span><a href="#">Edit</a> | <a href="#">Delete</a></span>
                                 </li>
+<!-- dtl:block:TransitionNoDataRow -->
+                                <li title="$QData{"Name"}">
+                                    $Text{"No data found."}
+                                </li>
+<!-- dtl:block:TransitionNoDataRow -->
                             </ul>
                             <a href="" class="CallForAction AsPopup PopupType_Transition Center ProcessElementButton" ><span>$Text{"Create New Transition"}</span></a>
                         </div>
@@ -96,6 +117,12 @@
                         <div class="Content">
                             <input type="text" id="TransitionActionFilter" class="ProcessElementFilter W75pc" placeholder="$Text{"Filter Transition Actions..."}" />
                             <ul class="Tablelike" id="TransitionActions">
+<!-- dtl:block:TransitionActionRow -->
+                                <li title="$QData{"Name"}">
+                                    $QData{"Name","22"}
+                                    <span><a href="$Env{"Baselink"}Action=AdminProcessManagementTransitionAction;Subaction=TransitionActionEdit;ID=$LQData{"ID"};EntityID=$LQData{"EntityID"}" class="AsPopup PopupType_TransitionAction">Edit</a> | <a href="#">Delete</a></span>
+                                </li>
+<!-- dtl:block:TransitionActionRow -->
                                 <li>
                                     Transition Action 1
                                     <span><a href="#">Edit</a> | <a href="#">Delete</a></span>
@@ -116,6 +143,11 @@
                                     Transition Action 5
                                     <span><a href="#">Edit</a> | <a href="#">Delete</a></span>
                                 </li>
+<!-- dtl:block:TransitionActionNoDataRow -->
+                                <li title="$QData{"Name"}">
+                                    $Text{"No data found."}
+                                </li>
+<!-- dtl:block:TransitionActionNoDataRow -->
                             </ul>
                             <a href="" class="CallForAction AsPopup PopupType_TransitionAction Center ProcessElementButton" ><span>$Text{"Create New Transition Action"}</span></a>
                         </div>

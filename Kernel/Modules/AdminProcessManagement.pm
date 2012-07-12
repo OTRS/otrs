@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminProcessManagement.pm - process management
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagement.pm,v 1.5 2012-07-12 04:29:42 cr Exp $
+# $Id: AdminProcessManagement.pm,v 1.6 2012-07-12 17:40:48 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::ProcessManagement::DB::Process::State;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -330,33 +330,37 @@ sub _ShowEdit {
 
     if ( defined $Param{Action} && $Param{Action} eq 'Edit' ) {
 
-        # get a list of all activities with details
-        my $ActivityList = $Self->{ActivityObject}->ActivityListGet( UserID => $Self->{UserID} );
+        #TODO Add Transition and TransitionAction to Elements when backend and frontennds are ready
+        # ouput available process elements in the accordion
+        for my $Element (qw(Activity ActivityDialog)) {
 
-        for my $ActivityData ( @{$ActivityList} ) {
+            my $ElementMethod = $Element . 'ListGet';
 
-            # print each activity in the accordion
-            $Self->{LayoutObject}->Block(
-                Name => 'ActivityRow',
-                Data => {
-                    %{$ActivityData},
-                },
-            );
-        }
+            # get a list of all elements with details
+            my $ElementList
+                = $Self->{ $Element . 'Object' }->$ElementMethod( UserID => $Self->{UserID} );
 
-        # get a list of all activity dialogs with details
-        my $ActivityDialogList
-            = $Self->{ActivityDialogObject}->ActivityDialogListGet( UserID => $Self->{UserID} );
+            # check there are elements to display
+            if ( IsArrayRefWithData($ElementList) ) {
+                for my $ElementData ( @{$ElementList} ) {
 
-        for my $ActivityDialogData ( @{$ActivityDialogList} ) {
+                    # print each element in the accordion
+                    $Self->{LayoutObject}->Block(
+                        Name => $Element . 'Row',
+                        Data => {
+                            %{$ElementData},
+                        },
+                    );
+                }
+            }
+            else {
 
-            # print each activity dialog in the accordion
-            $Self->{LayoutObject}->Block(
-                Name => 'ActivityDialogRow',
-                Data => {
-                    %{$ActivityDialogData},
-                },
-            );
+                # print no data found in the accordion
+                $Self->{LayoutObject}->Block(
+                    Name => $Element . 'NoDataRow',
+                    Data => {},
+                );
+            }
         }
     }
 
