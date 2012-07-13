@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminProcessManagement.pm - process management
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagement.pm,v 1.7 2012-07-12 22:35:10 cr Exp $
+# $Id: AdminProcessManagement.pm,v 1.8 2012-07-13 03:41:59 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::ProcessManagement::DB::Process::State;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -331,7 +331,7 @@ sub Run {
             );
 
             if ( !$Success ) {
-                $DeleteResult{Message} = 'Process $ProcessID could not be deleted';
+                $DeleteResult{Message} = 'Process:$ProcessID could not be deleted';
             }
 
             # build JSON output
@@ -366,16 +366,15 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'EntityUsageCheck' ) {
 
         my %GetParam;
-        for my $Param (qw( EntityType Entity ID )) {
+        for my $Param (qw(EntityType EntityID)) {
             $GetParam{$Param} = $Self->{ParamObject}->GetParam( Param => $Param ) || '';
         }
 
         # check needed information
-        return if !$GetParam{EntityType} || !$GetParam{EntityID} || !$GetParam{ID};
+        return if !$GetParam{EntityType};
+        return if !$GetParam{EntityID};
 
-        my $EntityMethod = '_Check' . $GetParam{EntityType} . 'Usage';
-
-        my $EntityCheck = $Self->$EntityMethod(%GetParam);
+        my $EntityCheck = $Self->_CheckEntityUsage(%GetParam);
 
         # build JSON output
         my $JSON = $Self->{LayoutObject}->JSONEncode(
@@ -383,6 +382,92 @@ sub Run {
                 %{$EntityCheck},
             },
         );
+
+        # send JSON response
+        return $Self->{LayoutObject}->Attachment(
+            ContentType => 'application/json; charset=' . $Self->{LayoutObject}->{Charset},
+            Content     => $JSON,
+            Type        => 'inline',
+            NoCache     => 1,
+        );
+    }
+
+    # ------------------------------------------------------------ #
+    # EntityDelete AJAX
+    # ------------------------------------------------------------ #
+    elsif ( $Self->{Subaction} eq 'EntityDelete' ) {
+
+        # challenge token check for write action
+        #$Self->{LayoutObject}->ChallengeTokenCheck();
+
+        my %GetParam;
+        for my $Param (qw(EntityType EntityID ItemID)) {
+            $GetParam{$Param} = $Self->{ParamObject}->GetParam( Param => $Param ) || '';
+        }
+
+        # check needed information
+        return if !$GetParam{EntityType};
+        return if !$GetParam{EntityID};
+        return if !$GetParam{ItemID};
+
+        return if $GetParam{EntityType} ne 'Activity'
+                && $GetParam{EntityType} ne 'ActivityDialog'
+                && $GetParam{EntityType} ne 'Transition'
+                && $GetParam{EntityType} ne 'TransitionAction';
+
+        my $EntityCheck = $Self->_CheckEntityUsage(%GetParam);
+
+        my $JSON;
+        if ( !$EntityCheck->{Deleteable} ) {
+            $JSON = $Self->{LayoutObject}->JSONEncode(
+                Data => {
+                    Success => 0,
+                    Message => "The $GetParam{EntityType}:$GetParam{EntityID} is still in use",
+                },
+            );
+        }
+        else {
+
+            # get entity
+            my $Method = $GetParam{EntityType} . 'Get';
+            my $Entity = $Self->{ $GetParam{EntityType} . 'Object' }->$Method(
+                ID     => $GetParam{ItemID},
+                UserID => $Self->{UserID},
+            );
+
+            if ( $Entity->{EntityID} ne $GetParam{EntityID} ) {
+                $JSON = $Self->{LayoutObject}->JSONEncode(
+                    Data => {
+                        Success => 0,
+                        Message => "The $GetParam{EntityType}:$GetParam{ItemID} has a different"
+                            . " EntityID",
+                    },
+                );
+            }
+            else {
+
+                # delete entity
+                $Method = $GetParam{EntityType} . 'Delete';
+                my $Success = $Self->{ $GetParam{EntityType} . 'Object' }->$Method(
+                    IDs    => $GetParam{ItemID},
+                    UserID => $Self->{UserID},
+                );
+
+                my $Message;
+                if ( !$Success ) {
+                    $Success = 0;
+                    $Message = "Could not delete $GetParam{EntityType}:$GetParam{ItemID}";
+                }
+
+                # build JSON output
+                $JSON = $Self->{LayoutObject}->JSONEncode(
+                    Data => {
+                        Success => $Success,
+                        Message => $Message,
+                    },
+                );
+            }
+        }
 
         # send JSON response
         return $Self->{LayoutObject}->Attachment(
@@ -569,22 +654,69 @@ sub _CheckProcessDelete {
     if ( $State ne 'Inactive' ) {
         return {
             Success => 0,
-            Message => "Process $Param{ID} is not Inactive",
+            Message => "Process:$Param{ID} is not Inactive",
         };
     }
 
     return {
         Success => 1,
-        }
-}
-
-sub _CheckActivityUsage {
-    my ( $Self, %Param ) = @_;
-
-    # TODO Implement
-
-    return {
-        Success => 1
     };
 }
+
+sub _CheckEntityUsage {
+    my ( $Self, %Param ) = @_;
+
+    my %Config = (
+        Activity => {
+            Parent => 'Process',
+            Method => 'ProcessListGet',
+            Array  => 'Activities',
+        },
+        ActivityDialog => {
+            Parent => 'Activity',
+            Method => 'ActivityListGet',
+            Array  => 'ActivityDialogs',
+            }
+    );
+
+    return if !$Config{ $Param{EntityType} };
+
+    my $Parent = $Config{ $Param{EntityType} }->{Parent};
+    my $Method = $Config{ $Param{EntityType} }->{Method};
+    my $Array  = $Config{ $Param{EntityType} }->{Array};
+
+    # get a list of parents with all the details
+    my $List = $Self->{ $Parent . 'Object' }->$Method(
+        UserID => 1,
+    );
+
+    my @Usage;
+
+    # search entity id in all parents
+    PARENT:
+    for my $ParentData ( @{$List} ) {
+        next PARENT if !$ParentData;
+        next PARENT if !$ParentData->{$Array};
+
+        ENTITY:
+        for my $EntityID ( @{ $ParentData->{$Array} } ) {
+            if ( $EntityID eq $Param{EntityID} ) {
+                push @Usage, $ParentData->{Name};
+                last ENTITY;
+            }
+        }
+    }
+
+    my $Deleteable = 0;
+
+    if ( scalar @Usage == 0 ) {
+        $Deleteable = 1;
+    }
+
+    return {
+        Deleteable => $Deleteable,
+        Usage      => \@Usage,
+    };
+}
+
 1;
