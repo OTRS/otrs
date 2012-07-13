@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminProcessManagementActivity.pm - process management activity
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementActivity.pm,v 1.3 2012-07-13 18:05:29 cr Exp $
+# $Id: AdminProcessManagementActivity.pm,v 1.4 2012-07-13 18:06:27 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::ProcessManagement::DB::Activity::ActivityDialog;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
