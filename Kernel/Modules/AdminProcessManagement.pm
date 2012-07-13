@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminProcessManagement.pm - process management
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagement.pm,v 1.8 2012-07-13 03:41:59 cr Exp $
+# $Id: AdminProcessManagement.pm,v 1.9 2012-07-13 14:58:16 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::ProcessManagement::DB::Process::State;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -495,20 +495,31 @@ sub _ShowOverview {
     # get a process list
     my $ProcessList = $Self->{ProcessObject}->ProcessList( UserID => $Self->{UserID} );
 
-    # get each process data
-    for my $ProcessID ( sort keys %{$ProcessList} ) {
-        my $ProcessData = $Self->{ProcessObject}->ProcessGet(
-            ID     => $ProcessID,
-            UserID => $Self->{UserID},
-        );
+    if ( IsHashRefWithData($ProcessList) ) {
 
-        # print each process in overview table
+        # get each process data
+        for my $ProcessID ( sort keys %{$ProcessList} ) {
+            my $ProcessData = $Self->{ProcessObject}->ProcessGet(
+                ID     => $ProcessID,
+                UserID => $Self->{UserID},
+            );
+
+            # print each process in overview table
+            $Self->{LayoutObject}->Block(
+                Name => 'ProcessRow',
+                Data => {
+                    %{$ProcessData},
+                    Description => $ProcessData->{Config}->{Description},
+                    }
+            );
+        }
+    }
+    else {
+
+        # print no data found message
         $Self->{LayoutObject}->Block(
-            Name => 'ProcessRow',
-            Data => {
-                %{$ProcessData},
-                Description => $ProcessData->{Config}->{Description},
-                }
+            Name => 'ProcessNoDataRow',
+            Data => {},
         );
     }
 
