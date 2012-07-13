@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminProcessManagement.pm - process management
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagement.pm,v 1.9 2012-07-13 14:58:16 cr Exp $
+# $Id: AdminProcessManagement.pm,v 1.10 2012-07-13 16:52:44 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::ProcessManagement::DB::Process::State;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -132,6 +132,13 @@ sub Run {
             UserID     => $Self->{UserID},
         );
 
+        # show error if can't generate a new EntityID
+        if ( !$EntityID ) {
+            return $Self->{LayoutObject}->ErrorScreen(
+                Message => "There was an error generating a new EntityID for this process",
+            );
+        }
+
         # otherwise save configuration and return to overview screen
         my $ProcessID = $Self->{ProcessObject}->ProcessAdd(
             Name          => $ProcessData->{Name},
@@ -146,17 +153,6 @@ sub Run {
         if ( !$ProcessID ) {
             return $Self->{LayoutObject}->ErrorScreen(
                 Message => "There was an error creating the process",
-            );
-        }
-
-        my $Success = $Self->{EntityObject}->EntityIDUpdate(
-            EntityType => 'Process',
-            UserID     => $Self->{UserID},
-        );
-
-        if ( !$Success ) {
-            return $Self->{LayoutObject}->ErrorScreen(
-                Message => "There was an error updating the entity counters",
             );
         }
 

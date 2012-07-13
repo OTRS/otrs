@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminProcessManagementActivityDialog.pm - process management activity
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementActivityDialog.pm,v 1.2 2012-07-12 16:59:05 cr Exp $
+# $Id: AdminProcessManagementActivityDialog.pm,v 1.3 2012-07-13 16:52:44 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::ProcessManagement::DB::Activity::ActivityDialog;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -176,6 +176,13 @@ sub Run {
             UserID     => $Self->{UserID},
         );
 
+        # show error if can't generate a new EntityID
+        if ( !$EntityID ) {
+            return $Self->{LayoutObject}->ErrorScreen(
+                Message => "There was an error generating a new EntityID for this activity dialog",
+            );
+        }
+
         # otherwise save configuration and return process screen
         my $ActivityDialogID = $Self->{ActivityDialogObject}->ActivityDialogAdd(
             Name     => $ActivityDialogData->{Name},
@@ -188,17 +195,6 @@ sub Run {
         if ( !$ActivityDialogID ) {
             return $Self->{LayoutObject}->ErrorScreen(
                 Message => "There was an error creating the activity dialog",
-            );
-        }
-
-        my $Success = $Self->{EntityObject}->EntityIDUpdate(
-            EntityType => 'ActivityDialog',
-            UserID     => $Self->{UserID},
-        );
-
-        if ( !$Success ) {
-            return $Self->{LayoutObject}->ErrorScreen(
-                Message => "There was an error updating the entity counters",
             );
         }
 
