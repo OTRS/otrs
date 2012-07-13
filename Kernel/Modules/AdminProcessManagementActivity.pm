@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminProcessManagementActivity.pm - process management activity
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementActivity.pm,v 1.2 2012-07-13 16:52:44 cr Exp $
+# $Id: AdminProcessManagementActivity.pm,v 1.3 2012-07-13 18:05:29 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,6 +14,7 @@ package Kernel::Modules::AdminProcessManagementActivity;
 use strict;
 use warnings;
 
+use Kernel::System::JSON;
 use Kernel::System::ProcessManagement::DB::Entity;
 use Kernel::System::ProcessManagement::DB::Activity;
 use Kernel::System::ProcessManagement::DB::Activity::ActivityDialog;
@@ -21,7 +22,7 @@ use Kernel::System::ProcessManagement::DB::Activity::ActivityDialog;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -41,10 +42,15 @@ sub new {
     }
 
     # create additional objects
+    $Self->{JSONObject}     = Kernel::System::JSON->new( %{$Self} );
     $Self->{EntityObject}   = Kernel::System::ProcessManagement::DB::Entity->new( %{$Self} );
     $Self->{ActivityObject} = Kernel::System::ProcessManagement::DB::Activity->new( %{$Self} );
     $Self->{ActivityDialogObject}
         = Kernel::System::ProcessManagement::DB::Activity::ActivityDialog->new( %{$Self} );
+
+    # get available activity dialogs
+    $Self->{ActivityDialogsList}
+        = $Self->{ActivityDialogObject}->ActivityDialogListGet( UserID => $Self->{UserID} );
 
     return $Self;
 }
@@ -83,7 +89,45 @@ sub Run {
 
         # set new confguration
         $ActivityData->{Name}   = $GetParam->{Name};
-        $ActivityData->{Config} = {};                  #TODO get actual configuration
+        $ActivityData->{Config} = {};
+
+        # set the rest of the config
+        if ( IsArrayRefWithData( $GetParam->{ActivityDialogs} ) ) {
+
+            # create available activity dialogs lookup tables based on DB id
+            my %ActivityDialogsLookup;
+
+            ACTIVITYDDIALOG:
+            for my $ActivityDialogConfig ( @{ $Self->{ActivityDialogsList} } ) {
+                next ACTIVITYDDIALOG if !$ActivityDialogConfig;
+                next ACTIVITYDDIALOG if !$ActivityDialogConfig->{ID};
+
+                $ActivityDialogsLookup{ $ActivityDialogConfig->{ID} }
+                    = $ActivityDialogConfig;
+            }
+
+            my %ConfigActivityDialog;
+
+            # set activity dialogs in config
+            my $Counter = 1;
+            for my $ActivityDialogID ( @{ $GetParam->{ActivityDialogs} } ) {
+
+                # check if the activiry dialog and it's entity id are in the list
+                if (
+                    $ActivityDialogsLookup{$ActivityDialogID}
+                    && $ActivityDialogsLookup{$ActivityDialogID}->{EntityID}
+                    )
+                {
+                    my $EntityID = $ActivityDialogsLookup{$ActivityDialogID}->{EntityID};
+
+                    $ConfigActivityDialog{$Counter} = $EntityID;
+                    $Counter++;
+                }
+            }
+
+            # set the final config value
+            $ActivityData->{Config}->{ActivityDialog} = \%ConfigActivityDialog;
+        }
 
         # check required parameters
         my %Error;
@@ -188,20 +232,55 @@ sub Run {
         # set new confguration
         $ActivityData->{Name}     = $GetParam->{Name};
         $ActivityData->{EntityID} = $GetParam->{EntityID};
-        $ActivityData->{Config}   = {};                      #TODO get actual configuration
+        $ActivityData->{Config}   = {};
 
-        #TODO also get other prameters
+        # set the rest of the config
+        if ( IsArrayRefWithData( $GetParam->{ActivityDialogs} ) ) {
+
+            # create available activity dialogs lookup tables based on DB id
+            my %ActivityDialogsLookup;
+
+            ACTIVITYDDIALOG:
+            for my $ActivityDialogConfig ( @{ $Self->{ActivityDialogsList} } ) {
+                next ACTIVITYDDIALOG if !$ActivityDialogConfig;
+                next ACTIVITYDDIALOG if !$ActivityDialogConfig->{ID};
+
+                $ActivityDialogsLookup{ $ActivityDialogConfig->{ID} }
+                    = $ActivityDialogConfig;
+            }
+
+            my %ConfigActivityDialog;
+
+            # set activity dialogs in config
+            my $Counter = 1;
+            for my $ActivityDialogID ( @{ $GetParam->{ActivityDialogs} } ) {
+
+                # check if the activiry dialog and it's entity id are in the list
+                if (
+                    $ActivityDialogsLookup{$ActivityDialogID}
+                    && $ActivityDialogsLookup{$ActivityDialogID}->{EntityID}
+                    )
+                {
+                    my $EntityID = $ActivityDialogsLookup{$ActivityDialogID}->{EntityID};
+
+                    $ConfigActivityDialog{$Counter} = $EntityID;
+                    $Counter++;
+                }
+            }
+
+            # set the final config value
+            $ActivityData->{Config}->{ActivityDialog} = \%ConfigActivityDialog;
+        }
 
         # check required parameters
         my %Error;
+
         if ( !$GetParam->{Name} ) {
 
             # add server error error class
             $Error{NameServerError}        = 'ServerError';
             $Error{NameServerErrorMessage} = 'This field is required';
         }
-
-        #TODO check also other parameters
 
         # if there is an error return to edit screen
         if ( IsHashRefWithData( \%Error ) ) {
@@ -251,10 +330,7 @@ sub _ShowEdit {
     # get Activity information
     my $ActivityData = $Param{ActivityData} || {};
 
-    # get available activity dialogs
-    my $List = $Self->{ActivityDialogObject}->ActivityDialogListGet( UserID => $Self->{UserID} );
-
-    my @AvailableActivityDialogs = @{$List};
+    my @AvailableActivityDialogs = @{ $Self->{ActivityDialogsList} };
 
     # create available activity dialogs lookup tables based on entity id
     my %AvailableActivityDialogsLookup;
@@ -311,7 +387,7 @@ sub _ShowEdit {
                 = $AssignedActivityDialogs{ $ActivityData->{Config}->{ActivityDialog}->{$Order} };
 
             $Self->{LayoutObject}->Block(
-                Name => 'AssinedActivityDialogRow',
+                Name => 'AssignedActivityDialogRow',
                 Data => {
                     ID       => $ActivityDialogData->{ID},
                     EntityID => $ActivityDialogData->{EntityID},
@@ -371,6 +447,10 @@ sub _GetParams {
     {
         $GetParam->{$ParamName} = $Self->{ParamObject}->GetParam( Param => $ParamName ) || '';
     }
+
+    $GetParam->{ActivityDialogs} = $Self->{JSONObject}->Decode(
+        Data => $Self->{ParamObject}->GetParam( Param => 'ActivityDialogs' ) || '',
+    );
 
     return $GetParam;
 }
