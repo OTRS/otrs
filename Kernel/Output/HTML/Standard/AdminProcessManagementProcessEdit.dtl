@@ -2,7 +2,7 @@
 # AdminProcessManagementProcessEdit.dtl - provides HTML for AdminProcessManagement
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementProcessEdit.dtl,v 1.8 2012-07-12 22:33:56 cr Exp $
+# $Id: AdminProcessManagementProcessEdit.dtl,v 1.9 2012-07-13 12:00:24 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,36 +24,8 @@
                     </li>
 <!-- dtl:block:ProcessDeleteAction -->
                     <li>
-                        <a href="#" id="ProcessDelete" class="CallForAction Trash"><span>$Text{"Delete Inactive Process"}</span></a>
+                        <a href="#" id="ProcessDelete" class="CallForAction Trash" data-dialog-element="DeleteProcessConfirmationDialog" data-dialog-title="$Text{"Delete Process"}" data-id="$QData{"ID"}"><span>$Text{"Delete Inactive Process"}</span></a>
                     </li>
-<!-- dtl:js_on_document_complete -->
-<!--
-#
-# TODO Replace this with a delete dialog!
-#
-                    -->
-<script type="text/javascript">//<![CDATA[
-$('#ProcessDelete').bind('click', function (Event) {
-    var Data = {
-        Action: 'AdminProcessManagement',
-        Subaction: 'ProcessDelete',
-        ID: $QData{"ID"}
-    };
-
-    Core.AJAX.FunctionCall(Core.Config.Get('CGIHandle'), Data, function (Response) {
-        if (!Response || !Response.Success) {
-            alert(Response.Message);
-            return;
-        }
-
-        Core.App.InternalRedirect({
-            Action: Data.Action,
-        });
-    }, 'json');
-    Event.stopPropagation();
-});
-//]]></script>
-<!-- dtl:js_on_document_complete -->
 <!-- dtl:block:ProcessDeleteAction -->
                 </ul>
             </div>
@@ -215,6 +187,7 @@ $('#ProcessDelete').bind('click', function (Event) {
                     <input type="hidden" name="Subaction" value="ProcessEditAction"/>
                     <input type="hidden" name="EntityID" value="$QData{"EntityID"}"/>
                     <input type="hidden" name="ID" value="$QData{"ID"}"/>
+                    <input type="hidden" name="ProcessData" id="ProcessData" value="$QData{"ProcessDataJSON"}"/>
                     <fieldset class="TableLike">
                         <label class="Mandatory" for="Name"><span class="Marker">*</span> $Text{"Process Name"}:</label>
                         <div class="Field">
@@ -275,8 +248,26 @@ $('#ProcessDelete').bind('click', function (Event) {
     </div>
     <div class="Clear"></div>
 </div>
+
+<div id="Dialogs" class="Hidden">
+    <div id="DeleteProcessConfirmationDialog">
+        <p>$Text{"Do you really want to delete this Process?"}</p>
+        <p class="SpacingTop"><strong>$QData{"Name"}</strong></p>
+    </div>
+    <div id="DeleteActivityConfirmationDialog">
+        <p>$Text{"Do you really want to delete this Activity?"}</p>
+        <p class="SpacingTop"><strong><span id="ActivityName"></span></strong></p>
+    </div>
+
+</div>
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
 Core.Agent.Admin.ProcessManagement.InitProcessEdit();
+
+//Localizations
+Core.Agent.Admin.ProcessManagement.Localization = {
+        CancelMsg: "$Text{"Cancel"}",
+        DeleteMsg: "$Text{"Delete"}"
+};
 //]]></script>
 <!-- dtl:js_on_document_complete -->

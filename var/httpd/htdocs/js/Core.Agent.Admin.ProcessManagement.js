@@ -2,7 +2,7 @@
 // Core.Agent.Admin.ProcessManagement.js - provides the special module functions for the Process Management.
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.3 2012-07-13 03:42:35 cr Exp $
+// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.4 2012-07-13 12:00:24 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -37,8 +37,57 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
             return false;
         });        
     }
+
+    function ShowConfirmationDialog($Element) {
+        var DialogElement = $Element.data('dialog-element'),
+            DialogTitle = $Element.data('dialog-title'),
+            EntityID = $Element.data('id');
+        
+        Core.UI.Dialog.ShowContentDialog(
+            $('#Dialogs #' + DialogElement),
+            DialogTitle,
+            '240px',
+            'Center',
+            true,
+            [
+               {
+                   Label: TargetNS.Localization.CancelMsg,
+                   Class: 'Primary',
+                   Function: function () {
+                       Core.UI.Dialog.CloseDialog($('.Dialog'));
+                   }
+               },
+               {
+                   Label: TargetNS.Localization.DeleteMsg,
+                   Function: function () {
+                       var Data = {
+                               Action: 'AdminProcessManagement',
+                               Subaction: 'ProcessDelete',
+                               ID: ProcessID
+                           };
+
+                       Core.AJAX.FunctionCall(Core.Config.Get('CGIHandle'), Data, function (Response) {
+                           if (!Response || !Response.Success) {
+                               alert(Response.Message);
+                               return;
+                           }
+
+                           Core.App.InternalRedirect({
+                               Action: Data.Action,
+                           });
+                       }, 'json');
+                   }
+               }
+           ]
+        );        
+    }
+    
+    TargetNS.ProcessData = {};
     
     TargetNS.InitProcessEdit = function () {
+        // Get Process Data
+        TargetNS.ProcessData = Core.JSON.Parse($('#ProcessData').val());
+        
         // Initialize Accordion in the sidebar
         Core.UI.Accordion.Init($('ul#ProcessElements'), 'li.AccordionElement h2 a', 'div.Content');
 
@@ -83,10 +132,17 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
                ShowErrorDialog(CheckResult.Usage);
            }
            else {
-               ShowDeleteConfirmationDialog(EntityType, EntityID, ItemID);
+               ShowConfirmationDialog(EntityType, EntityID, ItemID);
            }
 
            return false;
+        });
+        
+        // Initialize DeleteProcess
+        $('#ProcessDelete').bind('click.ProcessDelete', function (Event) {
+            ShowConfirmationDialog($(Event.target).closest('a'));
+            Event.stopPropagation();
+            return false;
         });
     };
     
