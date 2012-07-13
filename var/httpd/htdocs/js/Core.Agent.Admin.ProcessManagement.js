@@ -2,7 +2,7 @@
 // Core.Agent.Admin.ProcessManagement.js - provides the special module functions for the Process Management.
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.2 2012-07-12 22:32:54 cr Exp $
+// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.3 2012-07-13 03:42:35 cr Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -53,15 +53,15 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
         
         // Initialize the different Delete Links
         $('a.DeleteEntity').bind('click.DeleteEntity', function (Event) {
-           var Entity = $(this).closest('li').data('entity'),
-               ID = $(this).closest('li').data('id'),
+           var EntityID = $(this).closest('li').data('entity'),
+               ItemID = $(this).closest('li').data('id'),
                EntityType,
                CheckResult;
            
-           if (!Entity.length) {
+           if (!EntityID.length) {
                return false;
            }
-           
+
            if ($(this).hasClass('DeleteActivity')) {
                EntityType = 'Activity';
            }
@@ -78,12 +78,12 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
            // Now check (via ajax) if the given entity is still used in a process/activity/activity dialog etc.
            // If so, show an error message in a modal dialog.
            // If not, show a confirmation modal dialog. Deletion via ajax. If successful, remove element from list.
-           CheckResult = CheckUsageOfEntity(EntityType, Entity, ID);
+           CheckResult = CheckUsageOfEntity(EntityType, EntityID);
            if (!CheckResult.Deleteable) {
                ShowErrorDialog(CheckResult.Usage);
            }
            else {
-               ShowDeleteConfirmationDialog(Entity);
+               ShowDeleteConfirmationDialog(EntityType, EntityID, ItemID);
            }
 
            return false;
