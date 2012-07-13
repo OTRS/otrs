@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminProcessManagementActivityDialog.pm - process management activity
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementActivityDialog.pm,v 1.3 2012-07-13 16:52:44 cr Exp $
+# $Id: AdminProcessManagementActivityDialog.pm,v 1.4 2012-07-13 21:43:21 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,6 +14,7 @@ package Kernel::Modules::AdminProcessManagementActivityDialog;
 use strict;
 use warnings;
 
+use Kernel::System::JSON;
 use Kernel::System::DynamicField;
 use Kernel::System::ProcessManagement::DB::Entity;
 use Kernel::System::ProcessManagement::DB::Activity::ActivityDialog;
@@ -21,7 +22,7 @@ use Kernel::System::ProcessManagement::DB::Activity::ActivityDialog;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -41,6 +42,7 @@ sub new {
     }
 
     # create additional objects
+    $Self->{JSONObject}         = Kernel::System::JSON->new( %{$Self} );
     $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new( %{$Self} );
     $Self->{EntityObject}       = Kernel::System::ProcessManagement::DB::Entity->new( %{$Self} );
     $Self->{ActivityDialogObject}
@@ -118,10 +120,23 @@ sub Run {
         $ActivityDialogData->{Config}->{RequiredLock}     = $GetParam->{RequiredLock} || 0;
         $ActivityDialogData->{Config}->{SubmitAdviceText} = $GetParam->{SubmitAdviceText};
         $ActivityDialogData->{Config}->{SubmitButtonText} = $GetParam->{SubmitButtonText};
-        $ActivityDialogData->{Config}->{Fields}     = {};    # TODO use actual configuration
-        $ActivityDialogData->{Config}->{FieldOrder} = [];    # TODO use actual configuration
+        $ActivityDialogData->{Config}->{Fields}           = {};
+        $ActivityDialogData->{Config}->{FieldOrder}       = [];
 
-        #TODO also get other prameters
+        if ( IsArrayRefWithData( $GetParam->{Fields} ) ) {
+
+            FIELD:
+            for my $FieldName ( @{ $GetParam->{Fields} } ) {
+                next FIELD if !$FieldName;
+                next FIELD if !$Self->{AvailableFields}->{$FieldName};
+
+                # set fields hash
+                $ActivityDialogData->{Config}->{Fields}->{$FieldName} = {};
+
+                # set field order array
+                push @{ $ActivityDialogData->{Config}->{FieldOrder} }, $FieldName;
+            }
+        }
 
         # check required parameters
         my %Error;
@@ -157,8 +172,6 @@ sub Run {
             # add server error error class
             $Error{RequiredLockServerError} = 'ServerError';
         }
-
-        #TODO check also other config items
 
         # if there is an error return to edit screen
         if ( IsHashRefWithData( \%Error ) ) {
@@ -260,10 +273,23 @@ sub Run {
         $ActivityDialogData->{Config}->{RequiredLock}     = $GetParam->{RequiredLock} || 0;
         $ActivityDialogData->{Config}->{SubmitAdviceText} = $GetParam->{SubmitAdviceText};
         $ActivityDialogData->{Config}->{SubmitButtonText} = $GetParam->{SubmitButtonText};
-        $ActivityDialogData->{Config}->{Fields}     = {};    # TODO use actual configuration
-        $ActivityDialogData->{Config}->{FieldOrder} = [];    # TODO use actual configuration
+        $ActivityDialogData->{Config}->{Fields}           = {};
+        $ActivityDialogData->{Config}->{FieldOrder}       = [];
 
-        #TODO also get other prameters
+        if ( IsArrayRefWithData( $GetParam->{Fields} ) ) {
+
+            FIELD:
+            for my $FieldName ( @{ $GetParam->{Fields} } ) {
+                next FIELD if !$FieldName;
+                next FIELD if !$Self->{AvailableFields}->{$FieldName};
+
+                # set fields hash
+                $ActivityDialogData->{Config}->{Fields}->{$FieldName} = {};
+
+                # set field order array
+                push @{ $ActivityDialogData->{Config}->{FieldOrder} }, $FieldName;
+            }
+        }
 
         # check required parameters
         my %Error;
@@ -299,8 +325,6 @@ sub Run {
             # add server error error class
             $Error{RequiredLockServerError} = 'ServerError';
         }
-
-        #TODO check also other parameters
 
         # if there is an error return to edit screen
         if ( IsHashRefWithData( \%Error ) ) {
@@ -386,7 +410,7 @@ sub _ShowEdit {
         # display used fields
         for my $Field ( sort keys %AssignedFields ) {
             $Self->{LayoutObject}->Block(
-                Name => 'AssinedFieldRow',
+                Name => 'AssignedFieldRow',
                 Data => {
                     Field => $Field,
                 },
@@ -472,6 +496,10 @@ sub _GetParams {
     {
         $GetParam->{$ParamName} = $Self->{ParamObject}->GetParam( Param => $ParamName ) || '';
     }
+
+    $GetParam->{Fields} = $Self->{JSONObject}->Decode(
+        Data => $Self->{ParamObject}->GetParam( Param => 'Fields' ) || '',
+    );
 
     return $GetParam;
 }
