@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: postgresql, generated: 2012-07-10 16:24:22
+--  driver: postgresql, generated: 2012-07-13 20:08:26
 -- ----------------------------------------------------------
 SET standard_conforming_strings TO ON;
 -- ----------------------------------------------------------
@@ -1290,4 +1290,15 @@ CREATE TABLE pm_activity_dialog (
 CREATE TABLE pm_entity (
     entity_type VARCHAR (50) NOT NULL,
     entity_counter INTEGER NOT NULL
+);
+-- ----------------------------------------------------------
+--  create table pm_entity_sync
+-- ----------------------------------------------------------
+CREATE TABLE pm_entity_sync (
+    entity_type VARCHAR (30) NOT NULL,
+    entity_id VARCHAR (50) NOT NULL,
+    sync_state VARCHAR (30) NOT NULL,
+    create_time timestamp(0) NOT NULL,
+    change_time timestamp(0) NOT NULL,
+    CONSTRAINT pm_entity_sync_list UNIQUE (entity_type, entity_id)
 );

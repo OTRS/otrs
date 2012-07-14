@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: ingres, generated: 2012-07-11 09:06:54
+--  driver: ingres, generated: 2012-07-13 23:48:12
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  alter table ticket
@@ -25,9 +25,9 @@ ALTER TABLE ticket DROP COLUMN ticket_answered RESTRICT;\g
 --  alter table ticket
 -- ----------------------------------------------------------
 ALTER TABLE ticket DROP COLUMN group_id RESTRICT;\g
-CREATE SEQUENCE pm_process_656;\g
+CREATE SEQUENCE pm_process_610;\g
 CREATE TABLE pm_process (
-    id INTEGER NOT NULL DEFAULT pm_process_656.NEXTVAL,
+    id INTEGER NOT NULL DEFAULT pm_process_610.NEXTVAL,
     entity_id VARCHAR(50) NOT NULL,
     name VARCHAR(200) NOT NULL,
     state_entity_id VARCHAR(50) NOT NULL,
@@ -41,9 +41,9 @@ CREATE TABLE pm_process (
 );\g
 MODIFY pm_process TO btree unique ON id WITH unique_scope = statement;\g
 ALTER TABLE pm_process ADD PRIMARY KEY ( id ) WITH index = base table structure;\g
-CREATE SEQUENCE pm_activity_521;\g
+CREATE SEQUENCE pm_activity_455;\g
 CREATE TABLE pm_activity (
-    id INTEGER NOT NULL DEFAULT pm_activity_521.NEXTVAL,
+    id INTEGER NOT NULL DEFAULT pm_activity_455.NEXTVAL,
     entity_id VARCHAR(50) NOT NULL,
     name VARCHAR(200) NOT NULL,
     config LONG BYTE NOT NULL,
@@ -55,9 +55,9 @@ CREATE TABLE pm_activity (
 );\g
 MODIFY pm_activity TO btree unique ON id WITH unique_scope = statement;\g
 ALTER TABLE pm_activity ADD PRIMARY KEY ( id ) WITH index = base table structure;\g
-CREATE SEQUENCE pm_activity_dialog_403;\g
+CREATE SEQUENCE pm_activity_dialog_519;\g
 CREATE TABLE pm_activity_dialog (
-    id INTEGER NOT NULL DEFAULT pm_activity_dialog_403.NEXTVAL,
+    id INTEGER NOT NULL DEFAULT pm_activity_dialog_519.NEXTVAL,
     entity_id VARCHAR(50) NOT NULL,
     name VARCHAR(200) NOT NULL,
     config LONG BYTE NOT NULL,
@@ -74,6 +74,15 @@ CREATE TABLE pm_entity (
     entity_counter INTEGER NOT NULL
 );\g
 MODIFY pm_entity TO btree;\g
+CREATE TABLE pm_entity_sync (
+    entity_type VARCHAR(30) NOT NULL,
+    entity_id VARCHAR(50) NOT NULL,
+    sync_state VARCHAR(30) NOT NULL,
+    create_time TIMESTAMP NOT NULL,
+    change_time TIMESTAMP NOT NULL,
+    UNIQUE (entity_type, entity_id)
+);\g
+MODIFY pm_entity_sync TO btree;\g
 -- ----------------------------------------------------------
 --  alter table dynamic_field
 -- ----------------------------------------------------------

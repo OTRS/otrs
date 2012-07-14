@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: mssql, generated: 2012-07-10 16:24:22
+--  driver: mssql, generated: 2012-07-13 20:08:26
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -1291,4 +1291,15 @@ CREATE TABLE pm_activity_dialog (
 CREATE TABLE pm_entity (
     entity_type NVARCHAR (50) NOT NULL,
     entity_counter INTEGER NOT NULL
+);
+-- ----------------------------------------------------------
+--  create table pm_entity_sync
+-- ----------------------------------------------------------
+CREATE TABLE pm_entity_sync (
+    entity_type NVARCHAR (30) NOT NULL,
+    entity_id NVARCHAR (50) NOT NULL,
+    sync_state NVARCHAR (30) NOT NULL,
+    create_time DATETIME NOT NULL,
+    change_time DATETIME NOT NULL,
+    CONSTRAINT pm_entity_sync_list UNIQUE (entity_type, entity_id)
 );

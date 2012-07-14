@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-#  driver: mysql, generated: 2012-07-11 09:06:54
+#  driver: mysql, generated: 2012-07-13 23:48:12
 # ----------------------------------------------------------
 # ----------------------------------------------------------
 #  alter table ticket
@@ -83,6 +83,17 @@ CREATE TABLE pm_activity_dialog (
 CREATE TABLE pm_entity (
     entity_type VARCHAR (50) NOT NULL,
     entity_counter INTEGER NOT NULL
+);
+# ----------------------------------------------------------
+#  create table pm_entity_sync
+# ----------------------------------------------------------
+CREATE TABLE pm_entity_sync (
+    entity_type VARCHAR (30) NOT NULL,
+    entity_id VARCHAR (50) NOT NULL,
+    sync_state VARCHAR (30) NOT NULL,
+    create_time DATETIME NOT NULL,
+    change_time DATETIME NOT NULL,
+    UNIQUE INDEX pm_entity_sync_list (entity_type, entity_id)
 );
 # ----------------------------------------------------------
 #  alter table dynamic_field

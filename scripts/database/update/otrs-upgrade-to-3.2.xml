@@ -101,6 +101,18 @@
     <Column Name="entity_counter" Required="true" Type="INTEGER"/>
 </TableCreate>
 
+<TableCreate Name="pm_entity_sync">
+    <Column Name="entity_type" Required="true" Size="30" Type="VARCHAR"/>
+    <Column Name="entity_id" Required="true" Size="50" Type="VARCHAR"/>
+    <Column Name="sync_state" Required="true" Size="30" Type="VARCHAR"/>
+    <Column Name="create_time" Required="true" Type="DATE"/>
+    <Column Name="change_time" Required="true" Type="DATE"/>
+    <Unique Name="pm_entity_sync_list">
+        <UniqueColumn Name="entity_type"/>
+        <UniqueColumn Name="entity_id"/>
+    </Unique>
+</TableCreate>
+
 <TableAlter Name="dynamic_field">
     <ColumnAdd Name="internal_field" Required="true" Type="SMALLINT" Default="0"/>/>
 </TableAlter>

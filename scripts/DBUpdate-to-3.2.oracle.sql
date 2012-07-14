@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2012-07-11 09:06:54
+--  driver: oracle, generated: 2012-07-13 23:48:12
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 -- ----------------------------------------------------------
@@ -132,6 +132,17 @@ CREATE INDEX FK_pm_activity_dialog_create86 ON pm_activity_dialog (create_by);
 CREATE TABLE pm_entity (
     entity_type VARCHAR2 (50) NOT NULL,
     entity_counter NUMBER (12, 0) NOT NULL
+);
+-- ----------------------------------------------------------
+--  create table pm_entity_sync
+-- ----------------------------------------------------------
+CREATE TABLE pm_entity_sync (
+    entity_type VARCHAR2 (30) NOT NULL,
+    entity_id VARCHAR2 (50) NOT NULL,
+    sync_state VARCHAR2 (30) NOT NULL,
+    create_time DATE NOT NULL,
+    change_time DATE NOT NULL,
+    CONSTRAINT pm_entity_sync_list UNIQUE (entity_type, entity_id)
 );
 -- ----------------------------------------------------------
 --  alter table dynamic_field
