@@ -2,7 +2,7 @@
 # Kernel/System/ProcessManagement/Entity.pm - Process Management DB Entity backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Entity.pm,v 1.2 2012-07-13 16:52:44 cr Exp $
+# $Id: Entity.pm,v 1.3 2012-07-14 04:52:35 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Cache;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 =head1 NAME
 
@@ -362,6 +362,317 @@ sub EntityCounterGet {
     return $EntityCounter;
 }
 
+=item EntitySyncStateSet()
+
+set sync state for an entity.
+
+    my $Success = $EntityObject->EntitySyncStateSet(
+        EntityType       => 'Process',      # 'Process' || 'Activity' || 'ActivityDialog'
+                                            #   || 'Transition' || 'TransitionAction', type of the
+                                            #   entity
+        EntityID         => 'P1',
+        SyncState        => 'not_sync',     # the sync state to set
+        UserID           => 123,
+    );
+
+=cut
+
+sub EntitySyncStateSet {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Needed (qw(EntityType EntityID SyncState UserID)) {
+        if ( !$Param{$Needed} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            return;
+        }
+    }
+
+    # check entity type
+    if ( !$Self->{ValidEntities}->{ $Param{EntityType} } ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "The EntityType:$Param{EntityType} is invalid!"
+        );
+        return;
+    }
+
+    # create new
+    if ( !%{ $Self->EntitySyncStateGet(%Param) || {} } ) {
+        return if !$Self->{DBObject}->Do(
+            SQL => '
+                INSERT INTO pm_entity_sync
+                    (entity_type, entity_id, sync_state, create_time, change_time)
+                VALUES (?, ?, ?, current_timestamp, current_timestamp)',
+            Bind => [
+                \$Param{EntityType}, \$Param{EntityID}, \$Param{SyncState},
+            ],
+        );
+    }
+    else {    # update existing
+
+        return if !$Self->{DBObject}->Do(
+            SQL => '
+                UPDATE pm_entity_sync
+                SET sync_state = ?, change_time = current_timestamp
+                WHERE entity_type = ?
+                    AND entity_id = ?',
+            Bind => [
+                \$Param{SyncState}, \$Param{EntityType}, \$Param{EntityID},
+            ],
+        );
+    }
+
+    return 1;
+}
+
+=item EntitySyncStateGet()
+
+gets the sync state of an entity
+
+    my $EntitySyncState = $EntityObject->EntitySyncStateGet(
+        EntityType       => 'Process',      # 'Process' || 'Activity' || 'ActivityDialog'
+                                            #   || 'Transition' || 'TransitionAction', type of the
+                                            #   entity
+        EntityID         => 'P1',
+        UserID           => 123,
+    );
+
+If sync state was found, returns:
+
+    $ObjectLockState = {
+        EntityType       => 'Process',
+        EntityID         => 'P1',
+        SyncState        => 'not_sync',
+        CreateTime       => '2011-02-08 15:08:00',
+        ChangeTime       => '2011-02-08 15:08:00',
+    };
+
+If no sync state was found, returns undef.
+
+=cut
+
+sub EntitySyncStateGet {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Needed (qw(EntityType EntityID UserID)) {
+        if ( !$Param{$Needed} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            return;
+        }
+    }
+
+    # check entity type
+    if ( !$Self->{ValidEntities}->{ $Param{EntityType} } ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "The EntityType:$Param{EntityType} is invalid!"
+        );
+        return;
+    }
+
+    return if !$Self->{DBObject}->Prepare(
+        SQL => '
+            SELECT entity_type, entity_id, sync_state, create_time, change_time
+            FROM pm_entity_sync
+            WHERE entity_type =?
+                AND entity_id = ?',
+        Bind => [
+            \$Param{EntityType}, \$Param{EntityID},
+        ],
+    );
+
+    my %Result;
+
+    while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
+
+        %Result = (
+            EntityType => $Data[0],
+            EntityID   => $Data[1],
+            SyncState  => $Data[2],
+            CreateTime => $Data[3],
+            ChangeTime => $Data[4],
+        );
+    }
+
+    return if !IsHashRefWithData( \%Result );
+
+    return \%Result;
+}
+
+=item EntitySyncStateDelete()
+
+deletes sync state of an entity.
+
+    my $Success = $EntityObject->EntitySyncStateDelete(
+        EntityType       => 'Process',      # 'Process' || 'Activity' || 'ActivityDialog'
+                                            #   || 'Transition' || 'TransitionAction', type of the
+                                            #   entity
+        EntityID         => 'P1',
+        UserID           => 123,
+    );
+
+=cut
+
+sub EntitySyncStateDelete {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Key (qw(EntityType EntityID UserID)) {
+        if ( !$Param{$Key} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Key!" );
+            return;
+        }
+    }
+
+    # check entity type
+    if ( !$Self->{ValidEntities}->{ $Param{EntityType} } ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "The EntityType:$Param{EntityType} is invalid!"
+        );
+        return;
+    }
+
+    return if ( !%{ $Self->EntitySyncStateGet(%Param) || {} } );
+
+    return if !$Self->{DBObject}->Do(
+        SQL => '
+            DELETE FROM pm_entity_sync
+            WHERE entity_type = ?
+                AND entity_id = ?',
+        Bind => [
+            \$Param{EntityType}, \$Param{EntityID},
+        ],
+    );
+
+    return 1;
+}
+
+=item EntitySyncStatePurge()
+
+deletes all entries .
+
+    my $Success = $EntityObject->EntitySyncStatePurge(
+        UserID           => 123,
+    );
+
+=cut
+
+sub EntitySyncStatePurge {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Needed (qw(UserID)) {
+        if ( !$Param{$Needed} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            return;
+        }
+    }
+
+    return if !$Self->{DBObject}->Do(
+        SQL => '
+            DELETE FROM pm_entity_sync',
+        Bind => [],
+    );
+
+    return 1;
+}
+
+=item EntitySyncStateList()
+
+gets a list of sync states.
+
+    my $EntitySyncStateList = $EntityObject->EntitySyncStateList(
+        EntityType       => 'Process',      # optional, 'Process' || 'Activity' || 'ActivityDialog'
+                                            #   || 'Transition' || 'TransitionAction', type of the
+                                            #   entity
+        SyncState        => 'not_sync',     # optional, only entries with this sync state
+        UserID           => 123,
+    );
+
+Returns:
+
+    $EntitySyncStateList = [
+        {
+            EntityType       => 'Process',
+            EntityID         => 'P1',
+            SyncState        => 'sync_started',
+            CreateTime       => '2011-02-08 15:08:00',
+            ChangeTime       => '2011-02-08 15:08:00',
+        },
+        ...
+    ];
+
+=cut
+
+sub EntitySyncStateList {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Needed (qw(UserID)) {
+        if ( !$Param{$Needed} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            return;
+        }
+    }
+
+    if ( $Param{EntityType} ) {
+
+        # check entity type
+        if ( !$Self->{ValidEntities}->{ $Param{EntityType} } ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "The EntityType:$Param{EntityType} is invalid!"
+            );
+            return;
+        }
+    }
+
+    my $SQL = '
+        SELECT entity_type, entity_id, sync_state, create_time, change_time
+        FROM pm_entity_sync';
+
+    my @Bind;
+
+    if ( $Param{EntityType} ) {
+        $SQL .= ' WHERE entity_type = ?';
+        push @Bind, \$Param{EntityType};
+
+        if ( $Param{SyncState} ) {
+            $SQL .= ' AND sync_state = ?';
+            push @Bind, \$Param{SyncState};
+        }
+    }
+    elsif ( $Param{SyncState} ) {
+        $SQL .= ' WHERE sync_state = ?';
+        push @Bind, \$Param{SyncState};
+    }
+
+    $SQL .= ' ORDER BY entity_id ASC';
+
+    return if !$Self->{DBObject}->Prepare(
+        SQL  => $SQL,
+        Bind => \@Bind,
+    );
+
+    my @Result;
+
+    while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
+
+        push @Result, {
+            EntityType => $Data[0],
+            EntityID   => $Data[1],
+            SyncState  => $Data[2],
+            CreateTime => $Data[3],
+            ChangeTime => $Data[4],
+        };
+    }
+
+    return \@Result;
+}
+
 1;
 
 =back
@@ -378,6 +689,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.2 $ $Date: 2012-07-13 16:52:44 $
+$Revision: 1.3 $ $Date: 2012-07-14 04:52:35 $
 
 =cut
