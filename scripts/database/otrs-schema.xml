@@ -1794,7 +1794,7 @@
     </ForeignKey>
 </Table>
 
-<TableCreate Name="gi_object_lock_state">
+<Table Name="gi_object_lock_state">
     <Column Name="webservice_id" Required="true" Type="INTEGER"/>
     <Column Name="object_type" Required="true" Size="30" Type="VARCHAR"/>
     <Column Name="object_id" Required="true" Type="BIGINT"/>
@@ -1816,9 +1816,9 @@
     <ForeignKey ForeignTable="gi_webservice_config">
         <Reference Local="webservice_id" Foreign="id"/>
     </ForeignKey>
-</TableCreate>
+</Table>
 
-<TableCreate Name="smime_signer_cert_relations">
+<Table Name="smime_signer_cert_relations">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
     <Column Name="cert_hash" Required="true" Size="8" Type="VARCHAR"/>
     <Column Name="cert_fingerprint" Required="true" Size="59" Type="VARCHAR"/>
@@ -1832,9 +1832,9 @@
         <Reference Local="create_by" Foreign="id"/>
         <Reference Local="change_by" Foreign="id"/>
     </ForeignKey>
-</TableCreate>
+</Table>
 
-<TableCreate Name="dynamic_field_value">
+<Table Name="dynamic_field_value">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
     <!-- foreign key to the dynamic_field -->
     <Column Name="field_id" Required="true" Type="INTEGER"/>
@@ -1861,9 +1861,9 @@
     <ForeignKey ForeignTable="dynamic_field">
         <Reference Local="field_id" Foreign="id"/>
     </ForeignKey>
-</TableCreate>
+</Table>
 
-<TableCreate Name="dynamic_field">
+<Table Name="dynamic_field">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
     <!-- internal fields are protected -->
     <Column Name="internal_field" Required="true" Type="SMALLINT" Default="0"/>
@@ -1894,9 +1894,9 @@
         <Reference Local="create_by" Foreign="id"/>
         <Reference Local="change_by" Foreign="id"/>
     </ForeignKey>
-</TableCreate>
+</Table>
 
-<TableCreate Name="pm_process">
+<Table Name="pm_process">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
     <!-- entity_id is a unique identifier independent from id -->
     <Column Name="entity_id" Required="true" Type="VARCHAR" Size="50"/>
@@ -1917,9 +1917,9 @@
         <Reference Local="create_by" Foreign="id"/>
         <Reference Local="change_by" Foreign="id"/>
     </ForeignKey>
-</TableCreate>
+</Table>
 
-<TableCreate Name="pm_activity">
+<Table Name="pm_activity">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
     <!-- entity_id is a unique identifier independent from id -->
     <Column Name="entity_id" Required="true" Type="VARCHAR" Size="50"/>
@@ -1937,9 +1937,9 @@
         <Reference Local="create_by" Foreign="id"/>
         <Reference Local="change_by" Foreign="id"/>
     </ForeignKey>
-</TableCreate>
+</Table>
 
-<TableCreate Name="pm_activity_dialog">
+<Table Name="pm_activity_dialog">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
     <!-- entity_id is a unique identifier independent from id -->
     <Column Name="entity_id" Required="true" Type="VARCHAR" Size="50"/>
@@ -1957,14 +1957,14 @@
         <Reference Local="create_by" Foreign="id"/>
         <Reference Local="change_by" Foreign="id"/>
     </ForeignKey>
-</TableCreate>
+</Table>
 
-<TableCreate Name="pm_entity">
+<Table Name="pm_entity">
     <Column Name="entity_type" Required="true" Type="VARCHAR" Size="50"/>
     <Column Name="entity_counter" Required="true" Type="INTEGER"/>
-</TableCreate>
+</Table>
 
-<TableCreate Name="pm_entity_sync">
+<Table Name="pm_entity_sync">
     <Column Name="entity_type" Required="true" Size="30" Type="VARCHAR"/>
     <Column Name="entity_id" Required="true" Size="50" Type="VARCHAR"/>
     <Column Name="sync_state" Required="true" Size="30" Type="VARCHAR"/>
@@ -1974,6 +1974,6 @@
         <UniqueColumn Name="entity_type"/>
         <UniqueColumn Name="entity_id"/>
     </Unique>
-</TableCreate>
+</Table>
 
 </database>
