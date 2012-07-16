@@ -1,4 +1,6 @@
 package MIME::Decoder::BinHex;
+use strict;
+use warnings;
 
 
 =head1 NAME
@@ -45,7 +47,7 @@ use Convert::BinHex;
 @ISA = qw(MIME::Decoder);
 
 # The package version, both in 1.23 style *and* usable by MakeMaker:
-$VERSION = "5.428";
+$VERSION = "5.503";
 
 
 #------------------------------

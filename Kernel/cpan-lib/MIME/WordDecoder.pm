@@ -1,10 +1,11 @@
 package MIME::WordDecoder;
 
-
 =head1 NAME
 
 MIME::WordDecoder - decode RFC 2047 encoded words to a local representation
 
+WARNING: Most of this module is deprecated and may disappear.  The only
+function you should use for MIME decoding is "mime_to_perl_string".
 
 =head1 SYNOPSIS
 
@@ -27,8 +28,15 @@ See L<"DESCRIPTION"> for how this class works.
     ### Decode a string using the default decoder, non-OO style:
     $str = unmime('To: =?ISO-8859-1?Q?Keld_J=F8rn_Simonsen?= <keld>');
 
+    ### Decode a string to an internal Perl string, non-OO style
+    ### The result is likely to have the UTF8 flag ON.
+    $str = mime_to_perl_string('To: =?ISO-8859-1?Q?Keld_J=F8rn_Simonsen?= <keld>');
 
 =head1 DESCRIPTION
+
+WARNING: Most of this module is deprecated and may disappear.  It
+duplicates (badly) the function of the standard 'Encode' module.  The
+only function you should rely on is mime_to_perl_string.
 
 A MIME::WordDecoder consists, fundamentally, of a hash which maps
 a character set name (US-ASCII, ISO-8859-1, etc.) to a subroutine which
@@ -64,7 +72,15 @@ Here's a decoder which uses that:
 
    ### ...which will now hold: "To: Keld J#rn Simonsen <keld>"
 
+The UTF-8 built-in decoder decodes everything into Perl's internal
+string format, possibly turning on the internal UTF8 flag.  Use it like
+this:
 
+    $wd = supported MIME::WordDecoder 'UTF-8';
+    $perl_string = $wd->decode('To: =?ISO-8859-1?Q?Keld_J=F8rn_Simonsen?= <keld>');
+    # perl_string will be a valid UTF-8 string with the "UTF8" flag set.
+
+Generally, you should use the UTF-8 decoder in preference to "unmime".
 
 =head1 PUBLIC INTERFACE
 
@@ -79,7 +95,7 @@ use Exporter;
 use vars qw(@ISA @EXPORT);
 
 @ISA = qw(Exporter);
-@EXPORT = qw( unmime );
+@EXPORT = qw( unmime mime_to_perl_string );
 
 
 
@@ -104,6 +120,8 @@ my %Handler =
 ### Global default decoder.  We init it below.
 my $Default;
 
+### Global UTF8 decoder.
+my $DefaultUTF8;
 
 #------------------------------
 
@@ -294,6 +312,9 @@ I<Function, exported.>
 Decode the given STRING using the default() decoder.
 See L<default()|/default>.
 
+You should consider using the UTF-8 decoder instead.  It decodes
+MIME strings into Perl's internal string format.
+
 =cut
 
 sub unmime($) {
@@ -301,6 +322,21 @@ sub unmime($) {
     $Default->decode($str);
 }
 
+=item mime_to_perl_string
+
+I<Function, exported.>
+Decode the given STRING into an internal Perl Unicode string.
+You should use this function in preference to all others.
+
+The result of mime_to_perl_string is likely to have Perl's
+UTF8 flag set.
+
+=cut
+
+sub mime_to_perl_string($) {
+    my $str = shift;
+    $DecoderFor{'UTF-8'}->decode($str);
+}
 
 =back
 
@@ -401,6 +437,7 @@ sub h_utf8 {
     my $latin1 = ($_[2]->{MWDI_Num} == 1);
     #print STDERR "UTF8 in:  <$_>\n";
 
+    local($1,$2,$3);
     my $tgt = '';
     while (m{\G(
           ([\x00-\x7F])                | # 0xxxxxxx
@@ -428,6 +465,7 @@ sub h_utf16 {
     my $latin1 = ($_[2]->{MWDI_Num} == 1);
     #print STDERR "UTF16 in:  <$_>\n";
 
+    local($1,$2,$3,$4,$5);
     my $tgt = '';
     while (m{\G(
 		(  \x00  ([\x00-\x7F])) |  # 00000000 0xxxxxxx
@@ -558,6 +596,34 @@ sub decode {
 
 =cut
 
+package MIME::WordDecoder::UTF_8;
+use strict;
+use Encode qw();
+use Carp qw( carp );
+use vars qw(@ISA);
+
+@ISA = qw( MIME::WordDecoder );
+
+sub h_convert_to_utf8
+{
+	my ($data, $charset, $decoder) = @_;
+	$charset = 'US-ASCII' if ($charset eq 'raw');
+	my $enc = Encode::find_encoding($charset);
+	if (!$enc) {
+		carp "Unable to convert text in character set `$charset' to UTF-8... ignoring\n";
+		return '';
+	}
+	my $ans = $enc->decode($data, Encode::FB_PERLQQ);
+	return $ans;
+}
+
+sub new {
+	my ($class) = @_;
+	my $self = $class->SUPER::new();
+	$self->handler('*'     => \&h_convert_to_utf8);
+}
+
+
 #------------------------------------------------------------
 #------------------------------------------------------------
 
@@ -566,6 +632,7 @@ package MIME::WordDecoder;
 ### Now we can init the default handler.
 $Default = (MIME::WordDecoder::ISO_8859->new('1'));
 
+
 ### Add US-ASCII handler:
 $DecoderFor{"US-ASCII"} = MIME::WordDecoder::US_ASCII->new;
 
@@ -573,6 +640,9 @@ $DecoderFor{"US-ASCII"} = MIME::WordDecoder::US_ASCII->new;
 for (1..15) {
     $DecoderFor{"ISO-8859-$_"} = MIME::WordDecoder::ISO_8859->new($_);
 }
+
+### UTF-8
+$DecoderFor{'UTF-8'} = MIME::WordDecoder::UTF_8->new();
 
 1;           # end the module
 __END__

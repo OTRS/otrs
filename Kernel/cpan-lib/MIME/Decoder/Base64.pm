@@ -1,4 +1,6 @@
 package MIME::Decoder::Base64;
+use strict;
+use warnings;
 
 
 =head1 NAME
@@ -58,7 +60,7 @@ use MIME::Tools qw(debug);
 @ISA = qw(MIME::Decoder);
 
 ### The package version, both in 1.23 style *and* usable by MakeMaker:
-$VERSION = "5.428";
+$VERSION = "5.503";
 
 ### How many bytes to encode at a time (must be a multiple of 3, and
 ### less than (76 * 0.75)!

@@ -34,7 +34,7 @@ should make sense.
 
 =head2 Semi-public interface
 
-These methods might be overriden or ignored in some subclasses,
+These methods might be overridden or ignored in some subclasses,
 so they don't all make sense in all circumstances:
 
     ### Tweak the mapping from content-type to extension:
@@ -327,7 +327,8 @@ I<Instance method.>
 Is this an evil filename; i.e., one which should not be used
 in generating a disk file name?  It is if any of these are true:
 
-    * it is empty
+    * it is empty or entirely whitespace
+    * it contains leading or trailing whitespace
     * it is a string of dots: ".", "..", etc.
     * it contains characters not in the set: "A" - "Z", "a" - "z",
       "0" - "9", "-", "_", "+", "=", ".", ",", "@", "#",
@@ -395,7 +396,13 @@ sub exorcise_filename {
     my ($self, $fname) = @_;
 
     ### Isolate to last path element:
-    my $last = $fname; $last =~ s{^.*[/\\\[\]:]}{};
+    my $last = $fname;
+
+    ### Path separators are / or \
+    $last =~ s{^.*[/\\]}{};
+
+    ### Convert semi-evil characters to underscores
+    $last =~ s/[\/\\\[\]:]/_/g;
     if ($last and !$self->evil_filename($last)) {
 	$self->debug("looks like I can use the last path element");
 	return $last;
@@ -530,7 +537,7 @@ sub output_filename {
     my ($self, $head) = @_;
 
     ### Get the recommended name:
-    my $recommended = unmime $head->recommended_filename;
+    my $recommended = $head->recommended_filename;
 
     ### Get content type:
     my ($type, $subtype) = split m{/}, $head->mime_type; $subtype ||= '';
@@ -655,8 +662,8 @@ sub output_path {
     ### Get the output directory:
     my $dir = $self->output_dir($head);
 
-    ### Get the output filename, decoding into the local character set:
-    my $fname = unmime $head->recommended_filename;
+    ### Get the output filename as UTF-8
+    my $fname = $head->recommended_filename;
 
     ### Can we use it:
     if    (!defined($fname)) {
