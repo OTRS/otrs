@@ -5,7 +5,7 @@ use vars qw(@ISA $VERSION);
 
 require LWP::MemberMixin;
 @ISA = qw(LWP::MemberMixin);
-$VERSION = "6.03";
+$VERSION = "6.04";
 
 use HTTP::Request ();
 use HTTP::Response ();
@@ -427,6 +427,22 @@ sub head {
 }
 
 
+sub put {
+    require HTTP::Request::Common;
+    my($self, @parameters) = @_;
+    my @suff = $self->_process_colonic_headers(\@parameters, (ref($parameters[1]) ? 2 : 1));
+    return $self->request( HTTP::Request::Common::PUT( @parameters ), @suff );
+}
+
+
+sub delete {
+    require HTTP::Request::Common;
+    my($self, @parameters) = @_;
+    my @suff = $self->_process_colonic_headers(\@parameters,1);
+    return $self->request( HTTP::Request::Common::DELETE( @parameters ), @suff );
+}
+
+
 sub _process_colonic_headers {
     # Process :content_cb / :content_file / :read_size_hint headers.
     my($self, $args, $start_index) = @_;
@@ -475,6 +491,15 @@ sub _process_colonic_headers {
     return $arg, $size if     defined $size;
     return $arg;
 }
+
+
+sub is_online {
+    my $self = shift;
+    return 1 if $self->get("http://www.msftncsi.com/ncsi.txt")->content eq "Microsoft NCSI";
+    return 1 if $self->get("http://www.apple.com")->content =~ m,<title>Apple</title>,;
+    return 0;
+}
+
 
 my @ANI = qw(- \ | /);
 
@@ -1058,8 +1083,8 @@ needs to be performed. This request is then passed to one of the
 request method the UserAgent, which dispatches it using the relevant
 protocol, and returns a C<HTTP::Response> object.  There are
 convenience methods for sending the most common request types: get(),
-head() and post().  When using these methods then the creation of the
-request object is hidden as shown in the synopsis above.
+head(), post(), put() and delete().  When using these methods then the
+creation of the request object is hidden as shown in the synopsis above.
 
 The basic approach of the library is to use HTTP style communication
 for all protocol schemes.  This means that you will construct
@@ -1100,7 +1125,7 @@ The following options correspond to attribute methods described below:
 The following additional options are also accepted: If the C<env_proxy> option
 is passed in with a TRUE value, then proxy settings are read from environment
 variables (see env_proxy() method below).  If C<env_proxy> isn't provided the
-C<PERL_LWP_ENV_PROXY> envirionment variable controls if env_proxy() is called
+C<PERL_LWP_ENV_PROXY> environment variable controls if env_proxy() is called
 during initalization.  If the C<keep_alive> option is passed in, then a
 C<LWP::ConnCache> is set up (see conn_cache() method below).  The C<keep_alive>
 value is passed on as the C<total_capacity> for the connection cache.
@@ -1356,7 +1381,7 @@ checks are made and you can't be sure that you communicate with the expected pee
 The no checks behaviour was the default for libwww-perl-5.837 and earlier releases.
 
 This option is initialized from the L<PERL_LWP_SSL_VERIFY_HOSTNAME> environment
-variable.  If this envirionment variable isn't set; then C<verify_hostname>
+variable.  If this environment variable isn't set; then C<verify_hostname>
 defaults to 1.
 
 =item C<SSL_ca_file> => $path
@@ -1641,6 +1666,38 @@ This method will use the POST() function from C<HTTP::Request::Common>
 to build the request.  See L<HTTP::Request::Common> for a details on
 how to pass form content and other advanced features.
 
+=item $ua->put( $url, \%form )
+
+=item $ua->put( $url, \@form )
+
+=item $ua->put( $url, \%form, $field_name => $value, ... )
+
+=item $ua->put( $url, $field_name => $value,... Content => \%form )
+
+=item $ua->put( $url, $field_name => $value,... Content => \@form )
+
+=item $ua->put( $url, $field_name => $value,... Content => $content )
+
+This method will dispatch a C<PUT> request on the given $url, with
+%form or @form providing the key/value pairs for the fill-in form
+content. Additional headers and content options are the same as for
+the get() method.
+
+This method will use the PUT() function from C<HTTP::Request::Common>
+to build the request.  See L<HTTP::Request::Common> for a details on
+how to pass form content and other advanced features.
+
+=item $ua->delete( $url )
+
+=item $ua->delete( $url, $field_name => $value, ... )
+
+This method will dispatch a C<DELETE> request on the given $url.  Additional
+headers and content options are the same as for the get() method.
+
+This method will use the DELETE() function from C<HTTP::Request::Common>
+to build the request.  See L<HTTP::Request::Common> for a details on
+how to pass form content and other advanced features.
+
 =item $ua->mirror( $url, $filename )
 
 This method will get the document identified by $url and store it in
@@ -1699,6 +1756,12 @@ received.  Arguments are the same as for request() described above.
 The difference from request() is that simple_request() will not try to
 handle redirects or authentication responses.  The request() method
 will in fact invoke this method for each simple request it sends.
+
+=item $ua->is_online
+
+Tries to determine if you have access to the Internet.  Returns
+TRUE if the built-in heuristics determine that the user agent is
+able to access the Internet (over HTTP).  See also L<LWP::Online>.
 
 =item $ua->is_protocol_supported( $scheme )
 
