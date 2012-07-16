@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1758.2.247 2012-06-29 21:06:51 cr Exp $
+# $Id: CHANGES,v 1.1758.2.248 2012-07-16 09:16:49 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.0.14 2012-??-??
+ - 2012-07-16 Fixed bug#8616 - Spell Checker does not work using IE9.
+ - 2012-07-16 Fixed JavaScript error when no suggestions can be made by the spell checker.
  - 2012-06-29 Fixed bug#8618 - Inform and Involved Agents select boxes can not be resizable.
  - 2012-06-15 Fixed bug#7879 - Broken Content-Type in forwarded attachments.
  - 2012-06-14 Fixed bug#8574 - Perl special variable $/ is changed and never restored.
