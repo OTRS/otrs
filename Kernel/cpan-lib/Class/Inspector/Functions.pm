@@ -8,7 +8,7 @@ use Class::Inspector ();
 
 use vars qw(@ISA @EXPORT @EXPORT_OK %EXPORT_TAGS $VERSION);
 BEGIN {
-	$VERSION = '1.25';
+	$VERSION = '1.27';
 	@ISA     = 'Exporter';
 
 
@@ -122,7 +122,7 @@ L<http://ali.as/>, L<Class::Handle>
 
 =head1 COPYRIGHT
 
-Copyright 2002 - 2009 Adam Kennedy.
+Copyright 2002 - 2012 Adam Kennedy.
 
 Class::Inspector::Functions copyright 2008 - 2009 Steffen Mueller.
 
