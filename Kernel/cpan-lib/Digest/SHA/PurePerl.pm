@@ -8,7 +8,7 @@ use Fcntl;
 use integer;
 use FileHandle;
 
-$VERSION = '5.70';
+$VERSION = '5.71';
 
 require Exporter;
 @ISA = qw(Exporter);
@@ -884,8 +884,9 @@ sub add_bits {
 sub _bail {
 	my $msg = shift;
 
+	$msg .= ": $!";
         require Carp;
-        Carp::croak("$msg: $!");
+        Carp::croak($msg);
 }
 
 sub _addfile {
@@ -1497,7 +1498,7 @@ darkness and moored it in so perfect a calm and in so brilliant a light"
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (C) 2003-2011 Mark Shelor
+Copyright (C) 2003-2012 Mark Shelor
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
