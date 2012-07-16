@@ -1,7 +1,7 @@
 package YAML::Types;
 use YAML::Mo;
 
-our $VERSION = '0.78';
+our $VERSION = '0.84';
 
 use YAML::Node;
 
@@ -58,10 +58,9 @@ sub yaml_dump {
                                atime mtime ctime blksize blocks);
                 undef $value;
                 $value->{stat} = YAML::Node->new({});
-                map {$value->{stat}{shift @stats} = $_} stat(*{$_[0]});
-                $value->{fileno} = fileno(*{$_[0]});
-                {
+                if ($value->{fileno} = fileno(*{$_[0]})) {
                     local $^W;
+                    map {$value->{stat}{shift @stats} = $_} stat(*{$_[0]});
                     $value->{tell} = tell(*{$_[0]});
                 }
             }
@@ -252,7 +251,7 @@ Ingy döt Net <ingy@cpan.org>
 
 =head1 COPYRIGHT
 
-Copyright (c) 2006. Ingy döt Net. All rights reserved.
+Copyright (c) 2006, 2011-2012. Ingy döt Net. All rights reserved.
 
 This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

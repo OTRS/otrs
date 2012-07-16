@@ -2,7 +2,7 @@ use 5.008001;
 package YAML;
 use YAML::Mo;
 
-our $VERSION = '0.78';
+our $VERSION = '0.84';
 
 use Exporter;
 push @YAML::ISA, 'Exporter';
@@ -787,7 +787,7 @@ L<http://yaml.kwiki.org> is the official YAML wiki.
 
 =head1 SEE ALSO
 
-See YAML::Syck. Fast!
+See YAML::XS. Fast!
 
 =head1 AUTHOR
 
@@ -796,12 +796,12 @@ Ingy döt Net <ingy@cpan.org>
 is resonsible for YAML.pm.
 
 The YAML serialization language is the result of years of collaboration
-between Oren Ben-Kiki, Clark Evans and Ingy dE<ouml>t Net. Several others
+between Oren Ben-Kiki, Clark Evans and Ingy döt Net. Several others
 have added help along the way.
 
 =head1 COPYRIGHT
 
-Copyright (c) 2005, 2006, 2008. Ingy dE<ouml>t Net.
+Copyright (c) 2005, 2006, 2008, 2011-2012. Ingy döt Net.
 
 Copyright (c) 2001, 2002, 2005. Brian Ingerson.
 

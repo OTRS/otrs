@@ -2,13 +2,13 @@ use strict;
 use warnings;
 package YAML::Node;
 
-our $VERSION = '0.78';
+our $VERSION = '0.84';
 
 use YAML::Tag;
 require YAML::Mo;
 
 use Exporter;
-our @ISA     = 'Exporter';
+our @ISA     = qw(Exporter YAML::Mo::Object);
 our @EXPORT  = qw(ynode);
 
 sub ynode {
@@ -18,6 +18,9 @@ sub ynode {
     }
     elsif (ref($_[0]) eq 'ARRAY') {
 	$self = tied(@{$_[0]});
+    }
+    elsif (ref(\$_[0]) eq 'GLOB') {
+	$self = tied(*{$_[0]});
     }
     else {
 	$self = tied($_[0]);
@@ -294,7 +297,7 @@ Ingy döt Net <ingy@cpan.org>
 
 =head1 COPYRIGHT
 
-Copyright (c) 2006. Ingy döt Net. All rights reserved.
+Copyright (c) 2006, 2011-2012. Ingy döt Net. All rights reserved.
 
 Copyright (c) 2002. Brian Ingerson. All rights reserved.
 

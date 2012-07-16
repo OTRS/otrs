@@ -1,6 +1,6 @@
 package YAML::Any;
 
-our $VERSION = '0.78';
+our $VERSION = '0.84';
 
 use strict;
 use Exporter ();
@@ -95,7 +95,7 @@ sub LoadFile {
 
 sub order {
     return @YAML::Any::_TEST_ORDER
-        if defined @YAML::Any::_TEST_ORDER;
+        if @YAML::Any::_TEST_ORDER;
     return @implementations;
 }
 
