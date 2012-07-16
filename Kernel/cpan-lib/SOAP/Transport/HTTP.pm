@@ -4,7 +4,7 @@
 # SOAP::Lite is free software; you can redistribute it
 # and/or modify it under the same terms as Perl itself.
 #
-# $Id: HTTP.pm,v 1.3 2011-08-30 21:42:52 mh Exp $
+# $Id: HTTP.pm,v 1.4 2012-07-16 10:51:12 mh Exp $
 #
 # ======================================================================
 
@@ -12,7 +12,7 @@ package SOAP::Transport::HTTP;
 
 use strict;
 
-our $VERSION = 0.714;
+our $VERSION = 0.715;
 
 use SOAP::Lite;
 use SOAP::Packager;
@@ -131,6 +131,8 @@ sub send_receive {
     my ( $context, $envelope, $endpoint, $action, $encoding, $parts ) =
       @parameters{qw(context envelope endpoint action encoding parts)};
 
+    $encoding ||= 'UTF-8';
+
     $endpoint ||= $self->endpoint;
 
     my $method = 'POST';
@@ -170,7 +172,6 @@ sub send_receive {
           && $self->options->{is_compress}
           && ( $self->options->{compress_threshold} || 0 ) < length $envelope;
 
-        $envelope = Compress::Zlib::memGzip($envelope) if $compressed;
 
         my $original_encoding = $http_request->content_encoding;
 
@@ -202,10 +203,15 @@ sub send_receive {
             }
             else {
                 require Encode;
-                $envelope = Encode::encode('UTF-8', $envelope);
+                $envelope = Encode::encode($encoding, $envelope);
             }
             #  if !$SOAP::Constants::DO_NOT_USE_LWP_LENGTH_HACK
             #      && length($envelope) != $bytelength;
+
+            # compress after encoding
+            # doing it before breaks the compressed content (#74577)
+            $envelope = Compress::Zlib::memGzip($envelope) if $compressed;
+
             $http_request->content($envelope);
             $http_request->protocol('HTTP/1.1');
 
@@ -691,7 +697,13 @@ sub handle {
         while ( my $r = $c->get_request ) {
             $self->request($r);
             $self->SUPER::handle;
-            $c->send_response( $self->response );
+            eval {
+                local $SIG{PIPE} = sub {die "SIGPIPE"};
+                $c->send_response( $self->response );
+            };
+            if ($@ && $@ !~ /^SIGPIPE/) {
+                die $@;
+            }
         }
 
 # replaced ->close, thanks to Sean Meisner <Sean.Meisner@VerizonWireless.com>

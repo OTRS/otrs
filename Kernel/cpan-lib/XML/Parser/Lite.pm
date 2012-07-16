@@ -5,7 +5,7 @@
 # SOAP::Lite is free software; you can redistribute it
 # and/or modify it under the same terms as Perl itself.
 #
-# $Id: Lite.pm,v 1.8 2011-08-30 21:42:52 mh Exp $
+# $Id: Lite.pm,v 1.9 2012-07-16 10:51:12 mh Exp $
 #
 # ======================================================================
 
@@ -14,7 +14,7 @@ package XML::Parser::Lite;
 use strict;
 use warnings;
 
-our $VERSION = 0.714;
+our $VERSION = 0.715;
 
 sub new {
     my $class = shift;
@@ -72,7 +72,8 @@ sub _regexp {
     my $TextSE = "[^<]+";
     my $UntilHyphen = "[^-]*-";
     my $Until2Hyphens = "([^-]*)-(?:[^-]$[^-]*-)*-";
-    my $CommentCE = "$Until2Hyphens(?{${package}::comment(\$2)})>?";
+    #my $CommentCE = "$Until2Hyphens(?{${package}::comment(\$2)})>?";
+    my $CommentCE = "(.+)--(?{${package}::comment(\$2)})>?";
 #    my $Until2Hyphens = "$UntilHyphen(?:[^-]$UntilHyphen)*-";
 #    my $CommentCE = "$Until2Hyphens>?";
     my $UntilRSBs = "[^\\]]*](?:[^\\]]+])*]+";
