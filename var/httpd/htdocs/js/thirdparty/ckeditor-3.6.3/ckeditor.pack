@@ -204,7 +204,6 @@ packages :
 					'_source/plugins/dialogui/plugin.js',
 					'_source/plugins/panel/plugin.js',
 					'_source/plugins/listblock/plugin.js',
-                    '_source/plugins/aspell/plugin.js',  // Aspell spellchecker (ported from FCKE by Christian Boisjoli (SilenceIT) and patched by OTRS)
 					'_source/themes/default/theme.js'
 				]
 		}
