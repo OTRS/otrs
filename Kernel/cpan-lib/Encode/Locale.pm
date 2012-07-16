@@ -1,7 +1,7 @@
 package Encode::Locale;
 
 use strict;
-our $VERSION = "1.02";
+our $VERSION = "1.03";
 
 use base 'Exporter';
 our @EXPORT_OK = qw(
@@ -22,27 +22,34 @@ sub DEBUG () { 0 }
 
 sub _init {
     if ($^O eq "MSWin32") {
-	# Try to obtain what the Windows ANSI code page is
-	eval {
-	    require Win32::API;
-	    if (Win32::API->Import('kernel32', 'int GetACP()')) {
-		my $cp = GetACP();
-		$ENCODING_LOCALE = "cp$cp" if $cp;
-	    }
-	};
+	unless ($ENCODING_LOCALE) {
+	    # Try to obtain what the Windows ANSI code page is
+	    eval {
+		unless (defined &GetACP) {
+		    require Win32::API;
+		    Win32::API->Import('kernel32', 'int GetACP()');
+		};
+		if (defined &GetACP) {
+		    my $cp = GetACP();
+		    $ENCODING_LOCALE = "cp$cp" if $cp;
+		}
+	    };
+	}
 
-	# If we have the Win32::Console module installed we can ask
-	# it for the code set to use
-	eval {
-	    require Win32::Console;
-	    my $cp = Win32::Console::InputCP();
-	    $ENCODING_CONSOLE_IN = "cp$cp" if $cp;
-	    $cp = Win32::Console::OutputCP();
-	    $ENCODING_CONSOLE_OUT = "cp$cp" if $cp;
-	};
-	# Invoking the 'chcp' program might also work
-	if (!$ENCODING_CONSOLE_IN && qx(chcp) =~ /^Active code page: (\d+)/) {
-	    $ENCODING_CONSOLE_IN = "cp$1";
+	unless ($ENCODING_CONSOLE_IN) {
+	    # If we have the Win32::Console module installed we can ask
+	    # it for the code set to use
+	    eval {
+		require Win32::Console;
+		my $cp = Win32::Console::InputCP();
+		$ENCODING_CONSOLE_IN = "cp$cp" if $cp;
+		$cp = Win32::Console::OutputCP();
+		$ENCODING_CONSOLE_OUT = "cp$cp" if $cp;
+	    };
+	    # Invoking the 'chcp' program might also work
+	    if (!$ENCODING_CONSOLE_IN && (qx(chcp) || '') =~ /^Active code page: (\d+)/) {
+		$ENCODING_CONSOLE_IN = "cp$1";
+	    }
 	}
     }
 
@@ -52,7 +59,7 @@ sub _init {
 	    $ENCODING_LOCALE = I18N::Langinfo::langinfo(I18N::Langinfo::CODESET());
 
 	    # Workaround of Encode < v2.25.  The "646" encoding  alias was
-	    # introducted in Encode-2.25, but we don't want to require that version
+	    # introduced in Encode-2.25, but we don't want to require that version
 	    # quite yet.  Should avoid the CPAN testers failure reported from
 	    # openbsd-4.7/perl-5.10.0 combo.
 	    $ENCODING_LOCALE = "ascii" if $ENCODING_LOCALE eq "646";
@@ -88,6 +95,8 @@ sub _init {
 	    unless $foundit;
 
     }
+
+    # use Data::Dump; ddx $ENCODING_LOCALE, $ENCODING_LOCALE_FS, $ENCODING_CONSOLE_IN, $ENCODING_CONSOLE_OUT;
 }
 
 _init();
@@ -170,14 +179,14 @@ Encode::Locale - Determine the locale encoding
 =head1 DESCRIPTION
 
 In many applications it's wise to let Perl use Unicode for the strings it
-processes.  Most of the interfaces Perl has to the outside world is still byte
-based.  Programs therefore needs to decode byte strings that enter the program
+processes.  Most of the interfaces Perl has to the outside world are still byte
+based.  Programs therefore need to decode byte strings that enter the program
 from the outside and encode them again on the way out.
 
 The POSIX locale system is used to specify both the language conventions
 requested by the user and the preferred character set to consume and
 output.  The C<Encode::Locale> module looks up the charset and encoding (called
-a CODESET in the locale jargon) and arrange for the L<Encode> module to know
+a CODESET in the locale jargon) and arranges for the L<Encode> module to know
 this encoding under the name "locale".  It means bytes obtained from the
 environment can be converted to Unicode strings by calling C<<
 Encode::encode(locale => $bytes) >> and converted back again with C<<
@@ -323,7 +332,7 @@ File systems might vary in what encoding is to be used for
 filenames.  Since this module has no way to actually figure out
 what the is correct it goes with the best guess which is to
 assume filenames are encoding according to the current locale.
-Users are adviced to always specify UTF-8 as the locale charset.
+Users are advised to always specify UTF-8 as the locale charset.
 
 =head1 SEE ALSO
 
