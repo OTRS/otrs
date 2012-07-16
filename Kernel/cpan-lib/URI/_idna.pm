@@ -7,6 +7,13 @@ use strict;
 use URI::_punycode qw(encode_punycode decode_punycode);
 use Carp qw(croak);
 
+BEGIN {
+  *URI::_idna::_ENV_::JOIN_LEAKS_UTF8_FLAGS = $] < 5.008_003
+    ? sub () { 1 }
+    : sub () { 0 }
+  ;
+}
+
 my $ASCII = qr/^[\x00-\x7F]*\z/;
 
 sub encode {
@@ -17,6 +24,8 @@ sub encode {
     for (@labels) {
 	$_ = ToASCII($_);
     }
+
+    return eval 'join(".", @labels, @last_empty)' if URI::_idna::_ENV_::JOIN_LEAKS_UTF8_FLAGS;
     return join(".", @labels, @last_empty);
 }
 

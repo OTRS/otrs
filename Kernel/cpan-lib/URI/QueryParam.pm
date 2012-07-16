@@ -8,38 +8,30 @@ sub URI::_query::query_param {
 
     if (@_ == 0) {
 	# get keys
-	my %seen;
-	my @keys;
-	for (my $i = 0; $i < @old; $i += 2) {
-	    push(@keys, $old[$i]) unless $seen{$old[$i]}++;
-	}
-	return @keys;
+	my (%seen, $i);
+	return grep !($i++ % 2 || $seen{$_}++), @old;
     }
 
     my $key = shift;
-    my @i;
-
-    for (my $i = 0; $i < @old; $i += 2) {
-	push(@i, $i) if $old[$i] eq $key;
-    }
+    my @i = grep $_ % 2 == 0 && $old[$_] eq $key, 0 .. $#old;
 
     if (@_) {
 	my @new = @old;
 	my @new_i = @i;
 	my @vals = map { ref($_) eq 'ARRAY' ? @$_ : $_ } @_;
-	#print "VALS:@vals [@i]\n";
+
 	while (@new_i > @vals) {
-	    #print "REMOVE $new_i[-1]\n";
-	    splice(@new, pop(@new_i), 2);
+	    splice @new, pop @new_i, 2;
 	}
-	while (@vals > @new_i) {
+	if (@vals > @new_i) {
 	    my $i = @new_i ? $new_i[-1] + 2 : @new;
-	    #print "SPLICE $i\n";
-	    splice(@new, $i, 0, $key => pop(@vals));
+	    my @splice = splice @vals, @new_i, @vals - @new_i;
+
+	    splice @new, $i, 0, map { $key => $_ } @splice;
 	}
-	for (@vals) {
+	if (@vals) {
 	    #print "SET $new_i[0]\n";
-	    $new[shift(@new_i)+1] = $_;
+	    @new[ map $_ + 1, @new_i ] = @vals;
 	}
 
 	$self->query_form(\@new);
@@ -51,7 +43,8 @@ sub URI::_query::query_param {
 sub URI::_query::query_param_append {
     my $self = shift;
     my $key = shift;
-    $self->query_form($self->query_form, $key => \@_);  # XXX
+    my @vals = map { ref $_ eq 'ARRAY' ? @$_ : $_ } @_;
+    $self->query_form($self->query_form, $key => \@vals);  # XXX
     return;
 }
 
