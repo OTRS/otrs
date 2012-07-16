@@ -2,7 +2,7 @@
 # Ticket.t - ticket module testscript
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.t,v 1.103 2012-06-27 08:28:36 mg Exp $
+# $Id: Ticket.t,v 1.104 2012-07-16 12:31:49 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -630,7 +630,7 @@ my %TicketData = $TicketObject->TicketGet(
 my $ChangeTime = $TicketData{Changed};
 
 # wait 5 seconds
-sleep(5);
+sleep 5;
 
 my $TicketTitle = $TicketObject->TicketTitleUpdate(
     Title    => 'Some Title 1234567',
@@ -665,7 +665,7 @@ $Self->IsNot(
 $ChangeTime = $TicketData{Changed};
 
 # wait 5 seconds
-sleep(5);
+sleep 5;
 
 # set unlock timeout
 my $UnlockTimeout = $TicketObject->TicketUnlockTimeoutUpdate(
@@ -699,7 +699,7 @@ $ChangeTime = $TicketData{Changed};
 my $CurrentQueueID = $TicketData{QueueID};
 
 # wait 5 seconds
-sleep(5);
+sleep 5;
 
 my $NewQueue = $CurrentQueueID != 1 ? 1 : 2;
 
@@ -742,11 +742,11 @@ $ChangeTime = $TicketData{Changed};
 my $CurrentTicketType = $TicketData{TypeID};
 
 # wait 5 seconds
-sleep(5);
+sleep 5;
 
 # create a test type
 my $TypeID = $TypeObject->TypeAdd(
-    Name    => 'Unit Test New Type' . int( rand(10000) ),
+    Name    => 'Unit Test New Type' . int rand 10000,
     ValidID => 1,
     UserID  => 1,
 );
@@ -786,21 +786,21 @@ $TicketTypeSet = $TicketObject->TicketTypeSet(
 # set as invalid the test type
 $TypeObject->TypeUpdate(
     ID      => $TypeID,
-    Name    => 'Unit Test New Type' . int( rand(10000) ),
+    Name    => 'Unit Test New Type' . int rand 10000,
     ValidID => 2,
     UserID  => 1,
 );
 
 # create a test service
 my $ServiceID = $ServiceObject->ServiceAdd(
-    Name    => 'Unit Test New Service' . int( rand(10000) ),
+    Name    => 'Unit Test New Service' . int rand 10000,
     ValidID => 1,
     Comment => 'Unit Test Comment',
     UserID  => 1,
 );
 
-# wait 5 seconds
-sleep(5);
+# wait 1 seconds
+sleep 1;
 
 # set type
 my $TicketServiceSet = $TicketObject->TicketServiceSet(
@@ -830,7 +830,7 @@ $Self->IsNot(
 # set as invalid the test service
 $ServiceObject->ServiceUpdate(
     ServiceID => $ServiceID,
-    Name      => 'Unit Test New Service' . int( rand(10000) ),
+    Name      => 'Unit Test New Service' . int rand 10000,
     ValidID   => 2,
     UserID    => 1,
 );
@@ -839,7 +839,7 @@ $ServiceObject->ServiceUpdate(
 $ChangeTime = $TicketData{Changed};
 
 # wait 5 seconds
-sleep(5);
+sleep 5;
 
 my $TicketEscalationIndexBuild = $TicketObject->TicketEscalationIndexBuild(
     TicketID => $TicketID,
@@ -869,14 +869,14 @@ $ChangeTime = $TicketData{Changed};
 
 # create a test SLA
 my $SLAID = $SLAObject->SLAAdd(
-    Name    => 'Unit Test New SLA' . int( rand(10000) ),
+    Name    => 'Unit Test New SLA' . int rand 10000,
     ValidID => 1,
     Comment => 'Unit Test Comment',
     UserID  => 1,
 );
 
 # wait 5 seconds
-sleep(5);
+sleep 5;
 
 # set SLA
 my $TicketSLASet = $TicketObject->TicketSLASet(
@@ -906,7 +906,7 @@ $Self->IsNot(
 # set as invalid the test SLA
 $SLAObject->SLAUpdate(
     SLAID   => $SLAID,
-    Name    => 'Unit Test New SLA' . int( rand(10000) ),
+    Name    => 'Unit Test New SLA' . int rand 10000,
     ValidID => 1,
     Comment => 'Unit Test Comment',
     UserID  => 1,
