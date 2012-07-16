@@ -9,6 +9,10 @@ var controlWindowObj;
 if( parent.opener ) {
 	spellerObject = parent.opener.speller;
 }
+else if( parent.parent )
+{
+        spellerObject = parent.parent.speller;
+}
 
 function ignore_word() {
 	if( spellerObject ) {

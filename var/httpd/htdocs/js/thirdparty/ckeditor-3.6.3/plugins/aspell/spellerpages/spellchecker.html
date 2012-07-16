@@ -35,21 +35,22 @@ function encodeForPost( str ) {
 // post the text area data to the script that populates the speller
 function postWords() {
 	var bodyDoc = window.frames[0].document;
+	opener = opener || window.parent;
 	bodyDoc.open();
 	bodyDoc.write('<html>');
 	bodyDoc.write('<meta http-equiv="Content-Type" content="text/html; charset=utf-8">');
 	bodyDoc.write('<link rel="stylesheet" type="text/css" href="spellerStyle.css"/>');
+	
 	if (opener) {
 		var speller = opener.speller;
 		bodyDoc.write('<body class="normalText" onLoad="document.forms[0].submit();">');
 		bodyDoc.write('<p>' + window.parent.FCKLang.DlgSpellProgress + '<\/p>');		// by FredCK
 		bodyDoc.write('<form action="'+speller.spellCheckScript+'" method="post">');
-
+// ---
 // OTRS
 		bodyDoc.write('<input type="hidden" name="Action" value="SpellingInline">');
 		bodyDoc.write('<input type="hidden" name="Subaction" value="Inline">');
-// /OTRS
-
+// ---
 		for( var i = 0; i < speller.textInputs.length; i++ ) {
 			bodyDoc.write('<input type="hidden" name="textinputs[]" value="'+encodeForPost(speller.textInputs[i].value)+'">');
 		}

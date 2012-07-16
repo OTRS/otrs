@@ -72,17 +72,18 @@ CKEDITOR.dialog.add('aspell', function( editor )
 		};
 	}
 	
-	function oSpeller_OnFinished(dialog, numberOCorrections)
-	{
-		if (numberOCorrections > 0)
-		{
-			editor.focus();
-			editor.fire('saveSnapshot'); // Best way I could find to trigger undo steps.
-			dialog.getParentEditor().setData(document.getElementById(textareaId).value);
-			editor.fire('saveSnapshot'); // But there's a blank one between!
-		}
-		dialog.hide();
-	}
+	function oSpeller_OnFinished(dialog, numberOCorrections) 
+    {
+        if (numberOCorrections > 0)
+        {
+            editor.focus();
+            editor.fire('saveSnapshot'); // Best way I could find to trigger undo steps.
+            dialog.getParentEditor().setData(document.getElementById(textareaId).value, function () {
+                 editor.fire('saveSnapshot'); // But there's a blank one between!
+            });
+        }
+        dialog.hide();
+    }
 	
 	// Fx and IE don't see the same sizes, it seems. That or Fx is allowing everything to grow.
 	var minW = 485;
