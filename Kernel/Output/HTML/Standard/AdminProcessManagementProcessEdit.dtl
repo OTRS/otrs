@@ -2,7 +2,7 @@
 # AdminProcessManagementProcessEdit.dtl - provides HTML for AdminProcessManagement
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementProcessEdit.dtl,v 1.11 2012-07-17 14:00:22 mn Exp $
+# $Id: AdminProcessManagementProcessEdit.dtl,v 1.12 2012-07-17 21:59:25 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -43,7 +43,7 @@
                             <input type="text" id="ActivityFilter" class="ProcessElementFilter W75pc" placeholder="$Text{"Filter Activities..."}" />
                             <ul class="Tablelike" id="Activities">
 <!-- dtl:block:ActivityRow -->
-                                <li title="$QData{"Name"}" data-entity="$QData{"EntityID"} data-id="$QData{"ID"}>
+                                <li title="$QData{"Name"}" data-entity="$QData{"EntityID"}" data-id="$QData{"ID"}">
                                     $QData{"Name","22"}
                                     <span><a href="$Env{"Baselink"}Action=AdminProcessManagementActivity;Subaction=ActivityEdit;ID=$LQData{"ID"};EntityID=$LQData{"EntityID"}" class="AsPopup PopupType_Activity">Edit</a> | <a href="#" class="DeleteEntity DeleteActivity">Delete</a></span>
                                 </li>
@@ -63,7 +63,7 @@
                             <input type="text" id="ActivityDialogFilter" class="ProcessElementFilter W75pc" placeholder="$Text{"Filter Activity Dialogs..."}" />
                             <ul class="Tablelike" id="ActivityDialogs">
 <!-- dtl:block:ActivityDialogRow -->
-                                <li title="$QData{"Name"}" data-entity="$QData{"EntityID"} data-id="$QData{"ID"}>
+                                <li title="$QData{"Name"}" data-entity="$QData{"EntityID"}" data-id="$QData{"ID"}">
                                     $QData{"Name","22"}
                                     <span><a href="$Env{"Baselink"}Action=AdminProcessManagementActivityDialog;Subaction=ActivityDialogEdit;ID=$LQData{"ID"};EntityID=$LQData{"EntityID"}" class="AsPopup PopupType_ActivityDialog">Edit</a> | <a href="#" class="DeleteEntity DeleteActivityDialog">Delete</a></span>
                                 </li>
@@ -83,7 +83,7 @@
                             <input type="text" id="TransitionFilter" class="ProcessElementFilter W75pc" placeholder="$Text{"Filter Transitions..."}" />
                             <ul class="Tablelike" id="Transitions">
 <!-- dtl:block:TransitionRow -->
-                                <li title="$QData{"Name"}" data-entity="$QData{"EntityID"} data-id="$QData{"ID"}>
+                                <li title="$QData{"Name"}" data-entity="$QData{"EntityID"}" data-id="$QData{"ID"}">
                                     $QData{"Name","22"}
                                     <span><a href="$Env{"Baselink"}Action=AdminProcessManagementTransition;Subaction=TransitionEdit;ID=$LQData{"ID"};EntityID=$LQData{"EntityID"}" class="AsPopup PopupType_Transition">Edit</a> | <a href="#" class="DeleteEntity DeleteTransition">Delete</a></span>
                                 </li>
@@ -123,7 +123,7 @@
                             <input type="text" id="TransitionActionFilter" class="ProcessElementFilter W75pc" placeholder="$Text{"Filter Transition Actions..."}" />
                             <ul class="Tablelike" id="TransitionActions">
 <!-- dtl:block:TransitionActionRow -->
-                                <li title="$QData{"Name"}" data-entity="$QData{"EntityID"} data-id="$QData{"ID"}>
+                                <li title="$QData{"Name"}" data-entity="$QData{"EntityID"}" data-id="$QData{"ID"}">
                                     $QData{"Name","22"}
                                     <span><a href="$Env{"Baselink"}Action=AdminProcessManagementTransitionAction;Subaction=TransitionActionEdit;ID=$LQData{"ID"};EntityID=$LQData{"EntityID"}" class="AsPopup PopupType_TransitionAction">Edit</a> | <a href="#"  class="DeleteEntity DeleteTransitionAction">Delete</a></span>
                                 </li>
