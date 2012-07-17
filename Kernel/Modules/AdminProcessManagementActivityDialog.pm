@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminProcessManagementActivityDialog.pm - process management activity
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementActivityDialog.pm,v 1.5 2012-07-17 22:10:30 cr Exp $
+# $Id: AdminProcessManagementActivityDialog.pm,v 1.6 2012-07-17 22:20:16 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::ProcessManagement::DB::Activity::ActivityDialog;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -370,7 +370,7 @@ sub Run {
 
         # set entitty sync state
         $Success = $Self->{EntityObject}->EntitySyncStateSet(
-            EntityType => 'Activity',
+            EntityType => 'ActivityDialog',
             EntityID   => $ActivityDialogData->{EntityID},
             SyncState  => 'not_sync',
             UserID     => $Self->{UserID},
