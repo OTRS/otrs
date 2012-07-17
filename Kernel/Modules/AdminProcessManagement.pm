@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminProcessManagement.pm - process management
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagement.pm,v 1.10 2012-07-13 16:52:44 cr Exp $
+# $Id: AdminProcessManagement.pm,v 1.11 2012-07-17 22:08:26 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::ProcessManagement::DB::Process::State;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -59,6 +59,22 @@ sub Run {
     $Self->{Subaction} = $Self->{ParamObject}->GetParam( Param => 'Subaction' ) || '';
 
     my $ProcessID = $Self->{ParamObject}->GetParam( Param => 'ID' ) || '';
+
+    # get the list of updated or deleted entities
+    my $EntitySyncStateList = $Self->{EntityObject}->EntitySyncStateList(
+        UserID => $Self->{UserID}
+    );
+
+    if ( IsArrayRefWithData($EntitySyncStateList) ) {
+
+        # create a notification if system is not up to date
+        $Param{NotifyData} = [
+            {
+                Info =>
+                    'Process Management information from database is not in sync with the system configuration, Please synchronize all the processes.',
+            },
+        ];
+    }
 
     # ------------------------------------------------------------ #
     # ProcessNew
@@ -149,15 +165,31 @@ sub Run {
             UserID        => $Self->{UserID},
         );
 
-        # show error if cant create
+        # show error if can't create
         if ( !$ProcessID ) {
             return $Self->{LayoutObject}->ErrorScreen(
                 Message => "There was an error creating the process",
             );
         }
 
+        # set entitty sync state
+        my $Success = $Self->{EntityObject}->EntitySyncStateSet(
+            EntityType => 'Process',
+            EntityID   => $EntityID,
+            SyncState  => 'not_sync',
+            UserID     => $Self->{UserID},
+        );
+
+        # show error if can't set
+        if ( !$Success ) {
+            return $Self->{LayoutObject}->ErrorScreen(
+                Message => "There was an error setting the entity sync status for Process "
+                    . "entity:$EntityID",
+            );
+        }
+
         # return to overview
-        return $Self->_ShowOverview();
+        return $Self->{LayoutObject}->Redirect( OP => "Action=$Self->{Action}" );
     }
 
     # ------------------------------------------------------------ #
@@ -264,15 +296,31 @@ sub Run {
             UserID        => $Self->{UserID},
         );
 
-        # show error if cant update
+        # show error if can't update
         if ( !$Success ) {
             return $Self->{LayoutObject}->ErrorScreen(
                 Message => "There was an error updating the process",
             );
         }
 
+        # set entitty sync state
+        $Success = $Self->{EntityObject}->EntitySyncStateSet(
+            EntityType => 'Process',
+            EntityID   => $ProcessData->{EntityID},
+            SyncState  => 'not_sync',
+            UserID     => $Self->{UserID},
+        );
+
+        # show error if can't set
+        if ( !$Success ) {
+            return $Self->{LayoutObject}->ErrorScreen(
+                Message => "There was an error setting the entity sync status for Process "
+                    . "entity:$ProcessData->{EntityID}",
+            );
+        }
+
         # return to overview
-        return $Self->_ShowOverview();
+        return $Self->{LayoutObject}->Redirect( OP => "Action=$Self->{Action}" );
     }
 
     # ------------------------------------------------------------ #
@@ -329,6 +377,23 @@ sub Run {
             if ( !$Success ) {
                 $DeleteResult{Message} = 'Process:$ProcessID could not be deleted';
             }
+            else {
+
+                # set entitty sync state
+                my $Success = $Self->{EntityObject}->EntitySyncStateSet(
+                    EntityType => 'Process',
+                    EntityID   => $CheckResult->{ProcessData}->{EntityID},
+                    SyncState  => 'deleted',
+                    UserID     => $Self->{UserID},
+                );
+
+                # show error if cant set
+                if ( !$Success ) {
+                    $DeleteResult{Success} = $Success;
+                    $DeleteResult{Message} = "There was an error setting the entity sync status "
+                        . "for Process entity:$CheckResult->{ProcessData}->{EntityID}"
+                }
+            }
 
             # build JSON output
             $JSON = $Self->{LayoutObject}->JSONEncode(
@@ -354,6 +419,21 @@ sub Run {
             Type        => 'inline',
             NoCache     => 1,
         );
+    }
+
+    # ------------------------------------------------------------ #
+    # ProcessSync
+    # ------------------------------------------------------------ #
+    elsif ( $Self->{Subaction} eq 'ProcessSync' ) {
+
+        # TODO Implement
+        # currently it only deletes the sync flags for the entities
+
+        my $Success = $Self->{EntityObject}->EntitySyncStatePurge(
+            UserID => $Self->{UserID},
+        );
+
+        return $Self->{LayoutObject}->Redirect( OP => "Action=$Self->{Action}" );
     }
 
     # ------------------------------------------------------------ #
@@ -445,7 +525,7 @@ sub Run {
                 # delete entity
                 $Method = $GetParam{EntityType} . 'Delete';
                 my $Success = $Self->{ $GetParam{EntityType} . 'Object' }->$Method(
-                    IDs    => $GetParam{ItemID},
+                    ID     => $GetParam{ItemID},
                     UserID => $Self->{UserID},
                 );
 
@@ -453,6 +533,23 @@ sub Run {
                 if ( !$Success ) {
                     $Success = 0;
                     $Message = "Could not delete $GetParam{EntityType}:$GetParam{ItemID}";
+                }
+                else {
+
+                    # set entitty sync state
+                    my $Success = $Self->{EntityObject}->EntitySyncStateSet(
+                        EntityType => $GetParam{EntityType},
+                        EntityID   => $Entity->{EntityID},
+                        SyncState  => 'deleted',
+                        UserID     => $Self->{UserID},
+                    );
+
+                    # show error if cant set
+                    if ( !$Success ) {
+                        $Success = 0;
+                        $Message = "There was an error setting the entity sync status for "
+                            . "$GetParam{EntityType} entity:$Entity->{EntityID}"
+                    }
                 }
 
                 # build JSON output
@@ -478,7 +575,9 @@ sub Run {
     # Overview
     # ------------------------------------------------------------ #
     else {
-        return $Self->_ShowOverview();
+        return $Self->_ShowOverview(
+            %Param,
+        );
     }
 }
 
@@ -487,6 +586,15 @@ sub _ShowOverview {
 
     my $Output = $Self->{LayoutObject}->Header();
     $Output .= $Self->{LayoutObject}->NavigationBar();
+
+    # show notifications if any
+    if ( $Param{NotifyData} ) {
+        for my $Notification ( @{ $Param{NotifyData} } ) {
+            $Output .= $Self->{LayoutObject}->Notify(
+                %{$Notification},
+            );
+        }
+    }
 
     # get a process list
     my $ProcessList = $Self->{ProcessObject}->ProcessList( UserID => $Self->{UserID} );
@@ -605,6 +713,16 @@ sub _ShowEdit {
 
     my $Output = $Self->{LayoutObject}->Header();
     $Output .= $Self->{LayoutObject}->NavigationBar();
+
+    # show notifications if any
+    if ( $Param{NotifyData} ) {
+        for my $Notification ( @{ $Param{NotifyData} } ) {
+            $Output .= $Self->{LayoutObject}->Notify(
+                %{$Notification},
+            );
+        }
+    }
+
     $Output .= $Self->{LayoutObject}->Output(
         TemplateFile => "AdminProcessManagementProcess$Param{Action}",
         Data         => {
@@ -666,7 +784,8 @@ sub _CheckProcessDelete {
     }
 
     return {
-        Success => 1,
+        Success     => 1,
+        ProcessData => $ProcessData,
     };
 }
 
