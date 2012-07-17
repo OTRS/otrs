@@ -2,7 +2,7 @@
 # CustomerAuth.t - Customer authentication tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerAuth.t,v 1.2 2012-07-17 12:53:42 mh Exp $
+# $Id: CustomerAuth.t,v 1.3 2012-07-17 18:40:52 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use warnings;
 use utf8;
 use vars (qw($Self));
 
-exit 0;
+return;
 
 #use Kernel::System::CustomerAuth;
 #use Kernel::System::User;
