@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminProcessManagement.pm - process management
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagement.pm,v 1.11 2012-07-17 22:08:26 cr Exp $
+# $Id: AdminProcessManagement.pm,v 1.12 2012-07-17 22:19:08 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::ProcessManagement::DB::Process::State;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -71,7 +71,7 @@ sub Run {
         $Param{NotifyData} = [
             {
                 Info =>
-                    'Process Management information from database is not in sync with the system configuration, Please synchronize all the processes.',
+                    'Process Management information from database is not in sync with the system configuration, Please synchronize all the Processes.',
             },
         ];
     }
@@ -151,7 +151,7 @@ sub Run {
         # show error if can't generate a new EntityID
         if ( !$EntityID ) {
             return $Self->{LayoutObject}->ErrorScreen(
-                Message => "There was an error generating a new EntityID for this process",
+                Message => "There was an error generating a new EntityID for this Process",
             );
         }
 
@@ -168,7 +168,7 @@ sub Run {
         # show error if can't create
         if ( !$ProcessID ) {
             return $Self->{LayoutObject}->ErrorScreen(
-                Message => "There was an error creating the process",
+                Message => "There was an error creating the Process",
             );
         }
 
@@ -299,7 +299,7 @@ sub Run {
         # show error if can't update
         if ( !$Success ) {
             return $Self->{LayoutObject}->ErrorScreen(
-                Message => "There was an error updating the process",
+                Message => "There was an error updating the Process",
             );
         }
 
