@@ -2,7 +2,7 @@
 # AdminProcessManagementProcessEdit.dtl - provides HTML for AdminProcessManagement
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementProcessEdit.dtl,v 1.9 2012-07-13 12:00:24 mn Exp $
+# $Id: AdminProcessManagementProcessEdit.dtl,v 1.10 2012-07-17 09:44:52 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -63,13 +63,13 @@
                             <input type="text" id="ActivityDialogFilter" class="ProcessElementFilter W75pc" placeholder="$Text{"Filter Activity Dialogs..."}" />
                             <ul class="Tablelike" id="ActivityDialogs">
 <!-- dtl:block:ActivityDialogRow -->
-                                <li title="$QData{"Name"}">
+                                <li title="$QData{"Name"}" data-entity="$QData{"EntityID"} data-id="$QData{"ID"}>
                                     $QData{"Name","22"}
-                                    <span><a href="$Env{"Baselink"}Action=AdminProcessManagementActivityDialog;Subaction=ActivityDialogEdit;ID=$LQData{"ID"};EntityID=$LQData{"EntityID"}" class="AsPopup PopupType_ActivityDialog">Edit</a> | <a href="#">Delete</a></span>
+                                    <span><a href="$Env{"Baselink"}Action=AdminProcessManagementActivityDialog;Subaction=ActivityDialogEdit;ID=$LQData{"ID"};EntityID=$LQData{"EntityID"}" class="AsPopup PopupType_ActivityDialog">Edit</a> | <a href="#" class="DeleteEntity DeleteActivityDialog">Delete</a></span>
                                 </li>
 <!-- dtl:block:ActivityDialogRow -->
 <!-- dtl:block:ActivityDialogNoDataRow -->
-                                <li title="$QData{"Name"}" data-entity="$QData{"EntityID"} data-id="$QData{"ID"}>
+                                <li title="$QData{"Name"}">
                                     $Text{"No data found."}
                                 </li>
 <!-- dtl:block:ActivityDialogNoDataRow -->
@@ -83,9 +83,9 @@
                             <input type="text" id="TransitionFilter" class="ProcessElementFilter W75pc" placeholder="$Text{"Filter Transitions..."}" />
                             <ul class="Tablelike" id="Transitions">
 <!-- dtl:block:TransitionRow -->
-                                <li title="$QData{"Name"}">
+                                <li title="$QData{"Name"}" data-entity="$QData{"EntityID"} data-id="$QData{"ID"}>
                                     $QData{"Name","22"}
-                                    <span><a href="$Env{"Baselink"}Action=AdminProcessManagementTransition;Subaction=TransitionEdit;ID=$LQData{"ID"};EntityID=$LQData{"EntityID"}" class="AsPopup PopupType_Transition">Edit</a> | <a href="#">Delete</a></span>
+                                    <span><a href="$Env{"Baselink"}Action=AdminProcessManagementTransition;Subaction=TransitionEdit;ID=$LQData{"ID"};EntityID=$LQData{"EntityID"}" class="AsPopup PopupType_Transition">Edit</a> | <a href="#" class="DeleteEntity DeleteTransition">Delete</a></span>
                                 </li>
 <!-- dtl:block:TransitionRow -->
                                 <li>
@@ -123,9 +123,9 @@
                             <input type="text" id="TransitionActionFilter" class="ProcessElementFilter W75pc" placeholder="$Text{"Filter Transition Actions..."}" />
                             <ul class="Tablelike" id="TransitionActions">
 <!-- dtl:block:TransitionActionRow -->
-                                <li title="$QData{"Name"}">
+                                <li title="$QData{"Name"}" data-entity="$QData{"EntityID"} data-id="$QData{"ID"}>
                                     $QData{"Name","22"}
-                                    <span><a href="$Env{"Baselink"}Action=AdminProcessManagementTransitionAction;Subaction=TransitionActionEdit;ID=$LQData{"ID"};EntityID=$LQData{"EntityID"}" class="AsPopup PopupType_TransitionAction">Edit</a> | <a href="#">Delete</a></span>
+                                    <span><a href="$Env{"Baselink"}Action=AdminProcessManagementTransitionAction;Subaction=TransitionActionEdit;ID=$LQData{"ID"};EntityID=$LQData{"EntityID"}" class="AsPopup PopupType_TransitionAction">Edit</a> | <a href="#"  class="DeleteEntity DeleteTransitionAction">Delete</a></span>
                                 </li>
 <!-- dtl:block:TransitionActionRow -->
                                 <li>
@@ -256,9 +256,20 @@
     </div>
     <div id="DeleteActivityConfirmationDialog">
         <p>$Text{"Do you really want to delete this Activity?"}</p>
-        <p class="SpacingTop"><strong><span id="ActivityName"></span></strong></p>
+        <p class="SpacingTop"><strong><span class="EntityName"></span></strong></p>
     </div>
-
+    <div id="DeleteActivityDialogConfirmationDialog">
+        <p>$Text{"Do you really want to delete this Activity Dialog?"}</p>
+        <p class="SpacingTop"><strong><span class="EntityName"></span></strong></p>
+    </div>
+    <div id="DeleteTransitionConfirmationDialog">
+        <p>$Text{"Do you really want to delete this Transition?"}</p>
+        <p class="SpacingTop"><strong><span class="EntityName"></span></strong></p>
+    </div>
+    <div id="DeleteTransitionActionConfirmationDialog">
+        <p>$Text{"Do you really want to delete this Transition Action?"}</p>
+        <p class="SpacingTop"><strong><span class="EntityName"></span></strong></p>
+    </div>
 </div>
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
@@ -267,7 +278,8 @@ Core.Agent.Admin.ProcessManagement.InitProcessEdit();
 //Localizations
 Core.Agent.Admin.ProcessManagement.Localization = {
         CancelMsg: "$Text{"Cancel"}",
-        DeleteMsg: "$Text{"Delete"}"
+        DeleteMsg: "$Text{"Delete"}",
+        DeleteEntityTitle: "$Text{"Delete Entity"}"
 };
 //]]></script>
 <!-- dtl:js_on_document_complete -->
