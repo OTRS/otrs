@@ -2,7 +2,7 @@
 // Core.Agent.Admin.ProcessManagement.js - provides the special module functions for the Process Management.
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.6 2012-07-17 14:00:21 mn Exp $
+// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.7 2012-07-17 21:57:37 cr Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -41,7 +41,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
     function ShowDeleteProcessConfirmationDialog($Element) {
         var DialogElement = $Element.data('dialog-element'),
             DialogTitle = $Element.data('dialog-title'),
-            EntityID = $Element.data('id');
+            ProcessID = $Element.data('id');
         
         Core.UI.Dialog.ShowContentDialog(
             $('#Dialogs #' + DialogElement),
@@ -107,10 +107,11 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
                    Label: TargetNS.Localization.DeleteMsg,
                    Function: function () {
                        var Data = {
-                               Action: 'AdminProcessManagementProcessEdit',
-                               Subaction: EntityType + 'Delete',
-                               ID: ItemID,
-                               EntityID: EntityID
+                               Action: 'AdminProcessManagement',
+                               Subaction: 'EntityDelete',
+                               EntityType: EntityType,
+                               EntityID: EntityID,
+                               ItemID: ItemID
                            };
 
                        Core.AJAX.FunctionCall(Core.Config.Get('CGIHandle'), Data, function (Response) {
@@ -119,16 +120,16 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
                                return;
                            }
 
-                           
+                           //TODO refresh the current page to get the update notification
                        }, 'json');
                    }
                }
            ]
-        );        
-    }    
-    
+        );
+    }
+
     TargetNS.ProcessData = {};
-    
+
     TargetNS.InitProcessEdit = function () {
         // Get Process Data
         TargetNS.ProcessData = Core.JSON.Parse($('#ProcessData').val());
