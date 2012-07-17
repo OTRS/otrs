@@ -1,8 +1,8 @@
 # --
 # Kernel/System/UnitTest.pm - the global test wrapper
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: UnitTest.pm,v 1.60 2011-10-10 14:06:19 ep Exp $
+# $Id: UnitTest.pm,v 1.61 2012-07-17 13:47:51 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.60 $) [1];
+$VERSION = qw($Revision: 1.61 $) [1];
 
 =head1 NAME
 
@@ -346,7 +346,12 @@ sub Run {
         }
         $XML .= "</Summary>\n";
         for my $Key ( sort keys %{ $Self->{XML}->{Test} } ) {
-            $XML .= "<Unit Name=\"$Key\">\n";
+
+            # extract duration time
+            my $Duration = $Self->{XML}->{Test}->{$Key}->{Duration};
+
+            $XML .= "<Unit Name=\"$Key\" Duration=\"$Duration\">\n";
+
             for my $TestCount ( sort { $a <=> $b } keys %{ $Self->{XML}->{Test}->{$Key} } ) {
                 my $Result  = $Self->{XML}->{Test}->{$Key}->{$TestCount}->{Result};
                 my $Content = $Self->{XML}->{Test}->{$Key}->{$TestCount}->{Name};
@@ -355,6 +360,7 @@ sub Run {
                 $Content =~ s/>/&gt;/g;
                 $XML .= qq|  <Test Result="$Result" Count="$TestCount">$Content</Test>\n|;
             }
+
             $XML .= "</Unit>\n";
         }
         $XML .= "</otrs_test>\n";
@@ -830,9 +836,9 @@ sub _PrintSummary {
 
 sub _PrintHeadlineStart {
     my ( $Self, $Name ) = @_;
-    if ( !$Name ) {
-        $Name = '->>No Name!<<-';
-    }
+
+    # set default name
+    $Name ||= '->>No Name!<<-';
 
     if ( $Self->{Output} eq 'HTML' ) {
         $Self->{Content} .= "<table width='600' border='1'>\n";
@@ -843,21 +849,37 @@ sub _PrintHeadlineStart {
         print "$Name:\n";
         print "+-------------------------------------------------------------------+\n";
     }
+
     $Self->{XMLUnit} = $Name;
+
+    # set duration start time
+    $Self->{DurationStartTime}->{$Name} = $Self->{TimeObject}->SystemTime();
+
     return 1;
 }
 
 sub _PrintHeadlineEnd {
     my ( $Self, $Name ) = @_;
-    if ( !$Name ) {
-        $Name = '->>No Name!<<-';
-    }
+
+    # set default name
+    $Name ||= '->>No Name!<<-';
 
     if ( $Self->{Output} eq 'HTML' ) {
         $Self->{Content} .= "</table><br>\n";
     }
     elsif ( $Self->{Output} eq 'ASCII' ) {
     }
+
+    # calculate duration time
+    my $Duration = '';
+    if ( $Self->{DurationStartTime}->{$Name} ) {
+
+        $Duration = $Self->{TimeObject}->SystemTime() - $Self->{DurationStartTime}->{$Name};
+
+        delete $Self->{DurationStartTime}->{$Name};
+    }
+    $Self->{XML}->{Test}->{$Name}->{Duration} = $Duration;
+
     return 1;
 }
 
@@ -924,6 +946,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.60 $ $Date: 2011-10-10 14:06:19 $
+$Revision: 1.61 $ $Date: 2012-07-17 13:47:51 $
 
 =cut
