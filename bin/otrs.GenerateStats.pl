@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.GenerateStats.pl - send stats output via email
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.GenerateStats.pl,v 1.8 2011-08-12 09:06:15 mg Exp $
+# $Id: otrs.GenerateStats.pl,v 1.8.2.1 2012-07-17 12:43:44 mb Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.8.2.1 $) [1];
 
 use Getopt::Long;
 use Kernel::Config;
@@ -88,7 +88,7 @@ GetOptions(
 
 if ( $Opts{h} || !$Opts{n} ) {
     print "otrs.GenerateStats.pl <Revision $VERSION> - OTRS cmd stats\n";
-    print "Copyright (C) 2001-2011 OTRS AG, http://otrs.org/\n";
+    print "Copyright (C) 2001-2012 OTRS AG, http://otrs.org/\n";
     print
         "usage: otrs.GenerateStats.pl -n <StatNumber> [-p <PARAM_STRING>] [-o <DIRECTORY>] [-r <RECIPIENT> -r ... -s <SENDER>] [-m <MESSAGE>] [-l <LANGUAGE>] [-f CSV|Print] [-S <SEPARATOR>] [-F <FILENAME> [-R]\n";
     print
@@ -141,18 +141,11 @@ $CommonObject{LanguageObject} = Kernel::Language->new(
 );
 
 # format
-my $Format = 'CSV';
-if ( $Opts{f} ) {
-    if ( $Opts{f} eq 'Print' ) {
-        $Format = 'Print';
-    }
-}
+my $Format = ( $Opts{f} eq 'Print' ) ? 'Print' : 'CSV';
 
 # separator (for CSV files)
-my $Separator = ';';    # for backwards compatibility no comma as default
-if ( $Opts{c} ) {
-    $Separator = $Opts{S};
-}
+# for backwards compatibility no comma as default
+my $Separator = $Opts{S} || ';';
 
 # sender, if given
 if ( !$Opts{s} ) {
