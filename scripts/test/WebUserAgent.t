@@ -2,7 +2,7 @@
 # WebUserAgent.t - Authentication tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: WebUserAgent.t,v 1.1 2012-07-13 19:14:08 cg Exp $
+# $Id: WebUserAgent.t,v 1.2 2012-07-17 22:04:36 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -49,7 +49,7 @@ my @Tests = (
     {
         Name        => 'Test ' . $TestNumber++,
         URL         => "http://ftp.otrs.org/pub/otrs/packages/otrs.xml",
-        Timeout     => '0.1',
+        Timeout     => '0.01',
         Proxy       => $Proxy,
         Success     => '0',
         ErrorNumber => '500',
@@ -66,9 +66,9 @@ my @Tests = (
         Name        => 'Test ' . $TestNumber++,
         URL         => "http://ftp.otrs.org/pub/otrs/packages/otrs.xml",
         Timeout     => $TimeOut,
-        Proxy       => 'https://NoProxy',
+        Proxy       => 'http://NoProxy',
         Success     => '0',
-        ErrorNumber => '501',
+        ErrorNumber => '500',
     },
     {
         Name        => 'Test ' . $TestNumber++,
