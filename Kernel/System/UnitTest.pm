@@ -2,7 +2,7 @@
 # Kernel/System/UnitTest.pm - the global test wrapper
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: UnitTest.pm,v 1.61 2012-07-17 13:47:51 mh Exp $
+# $Id: UnitTest.pm,v 1.62 2012-07-17 14:19:40 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.61 $) [1];
+$VERSION = qw($Revision: 1.62 $) [1];
 
 =head1 NAME
 
@@ -348,7 +348,7 @@ sub Run {
         for my $Key ( sort keys %{ $Self->{XML}->{Test} } ) {
 
             # extract duration time
-            my $Duration = $Self->{XML}->{Test}->{$Key}->{Duration};
+            my $Duration = $Self->{Duration}->{$Key};
 
             $XML .= "<Unit Name=\"$Key\" Duration=\"$Duration\">\n";
 
@@ -878,7 +878,7 @@ sub _PrintHeadlineEnd {
 
         delete $Self->{DurationStartTime}->{$Name};
     }
-    $Self->{XML}->{Test}->{$Name}->{Duration} = $Duration;
+    $Self->{Duration}->{$Name} = $Duration;
 
     return 1;
 }
@@ -946,6 +946,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.61 $ $Date: 2012-07-17 13:47:51 $
+$Revision: 1.62 $ $Date: 2012-07-17 14:19:40 $
 
 =cut
