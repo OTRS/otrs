@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2376 2012-07-17 12:46:34 mb Exp $
+# $Id: CHANGES,v 1.2377 2012-07-17 19:39:38 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,6 @@
  - 2012-07-16 Updated CPAN module URI to version 1.60.
  - 2012-07-16 Updated CPAN module SOAP::Lite to version 0.715.
  - 2012-07-16 Updated CPAN module Mozilla::CA to version 20120309.
- - 2012-07-16 Updated CPAN module MailTools to version 2.09.
  - 2012-07-16 Updated CPAN module MIME::Tools to version 5.503.
  - 2012-07-16 Updated CPAN module Local::Codes to version 3.22.
  - 2012-07-16 Updated CPAN module Encode::Locale to version 1.03.
