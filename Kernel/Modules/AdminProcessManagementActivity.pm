@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminProcessManagementActivity.pm - process management activity
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementActivity.pm,v 1.4 2012-07-13 18:06:27 cr Exp $
+# $Id: AdminProcessManagementActivity.pm,v 1.5 2012-07-17 22:08:57 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::ProcessManagement::DB::Activity::ActivityDialog;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -169,10 +169,26 @@ sub Run {
             UserID   => $Self->{UserID},
         );
 
-        # show error if cant create
+        # show error if can't create
         if ( !$ActivityID ) {
             return $Self->{LayoutObject}->ErrorScreen(
                 Message => "There was an error creating the activity",
+            );
+        }
+
+        # set entitty sync state
+        my $Success = $Self->{EntityObject}->EntitySyncStateSet(
+            EntityType => 'Activity',
+            EntityID   => $EntityID,
+            SyncState  => 'not_sync',
+            UserID     => $Self->{UserID},
+        );
+
+        # show error if can't set
+        if ( !$Success ) {
+            return $Self->{LayoutObject}->ErrorScreen(
+                Message => "There was an error setting the entity sync status for Activity "
+                    . "entity:$EntityID",
             );
         }
 
@@ -301,10 +317,26 @@ sub Run {
             UserID   => $Self->{UserID},
         );
 
-        # show error if cant update
+        # show error if can't update
         if ( !$Success ) {
             return $Self->{LayoutObject}->ErrorScreen(
                 Message => "There was an error updating the activity",
+            );
+        }
+
+        # set entitty sync state
+        $Success = $Self->{EntityObject}->EntitySyncStateSet(
+            EntityType => 'Activity',
+            EntityID   => $ActivityData->{EntityID},
+            SyncState  => 'not_sync',
+            UserID     => $Self->{UserID},
+        );
+
+        # show error if can't set
+        if ( !$Success ) {
+            return $Self->{LayoutObject}->ErrorScreen(
+                Message => "There was an error setting the entity sync status for Activity "
+                    . "entity:$ActivityData->{EntityID}",
             );
         }
 

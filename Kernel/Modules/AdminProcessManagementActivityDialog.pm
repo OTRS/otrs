@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminProcessManagementActivityDialog.pm - process management activity
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementActivityDialog.pm,v 1.4 2012-07-13 21:43:21 cr Exp $
+# $Id: AdminProcessManagementActivityDialog.pm,v 1.5 2012-07-17 22:10:30 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::ProcessManagement::DB::Activity::ActivityDialog;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -192,7 +192,7 @@ sub Run {
         # show error if can't generate a new EntityID
         if ( !$EntityID ) {
             return $Self->{LayoutObject}->ErrorScreen(
-                Message => "There was an error generating a new EntityID for this activity dialog",
+                Message => "There was an error generating a new EntityID for this ActivityDialog",
             );
         }
 
@@ -204,10 +204,26 @@ sub Run {
             UserID   => $Self->{UserID},
         );
 
-        # show error if cant create
+        # show error if can't create
         if ( !$ActivityDialogID ) {
             return $Self->{LayoutObject}->ErrorScreen(
-                Message => "There was an error creating the activity dialog",
+                Message => "There was an error creating the ActivityDialog",
+            );
+        }
+
+        # set entitty sync state
+        my $Success = $Self->{EntityObject}->EntitySyncStateSet(
+            EntityType => 'ActivityDialog',
+            EntityID   => $EntityID,
+            SyncState  => 'not_sync',
+            UserID     => $Self->{UserID},
+        );
+
+        # show error if can't set
+        if ( !$Success ) {
+            return $Self->{LayoutObject}->ErrorScreen(
+                Message => "There was an error setting the entity sync status for ActivityDialog "
+                    . "entity:$EntityID",
             );
         }
 
@@ -345,10 +361,26 @@ sub Run {
             UserID   => $Self->{UserID},
         );
 
-        # show error if cant update
+        # show error if can't update
         if ( !$Success ) {
             return $Self->{LayoutObject}->ErrorScreen(
-                Message => "There was an error updating the activity dialog",
+                Message => "There was an error updating the ActivityDialog",
+            );
+        }
+
+        # set entitty sync state
+        $Success = $Self->{EntityObject}->EntitySyncStateSet(
+            EntityType => 'Activity',
+            EntityID   => $ActivityDialogData->{EntityID},
+            SyncState  => 'not_sync',
+            UserID     => $Self->{UserID},
+        );
+
+        # show error if can't set
+        if ( !$Success ) {
+            return $Self->{LayoutObject}->ErrorScreen(
+                Message => "There was an error setting the entity sync status for ActivityDialog "
+                    . "entity:$ActivityDialogData->{EntityID}",
             );
         }
 
