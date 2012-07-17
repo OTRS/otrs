@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminProcessManagement.pm - process management
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagement.pm,v 1.12 2012-07-17 22:19:08 cr Exp $
+# $Id: AdminProcessManagement.pm,v 1.13 2012-07-17 22:59:14 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::ProcessManagement::DB::Process::State;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -723,12 +723,18 @@ sub _ShowEdit {
         }
     }
 
+    # dump process data into a json string so it can be parsed in JS
+    my $ProcessDataJSON = $Self->{LayoutObject}->JSONEncode(
+        Data => $ProcessData,
+    );
+
     $Output .= $Self->{LayoutObject}->Output(
         TemplateFile => "AdminProcessManagementProcess$Param{Action}",
         Data         => {
             %Param,
             %{$ProcessData},
             Description => $ProcessData->{Config}->{Description} || '',
+            ProcessDataJSON => $ProcessDataJSON,
         },
     );
 
