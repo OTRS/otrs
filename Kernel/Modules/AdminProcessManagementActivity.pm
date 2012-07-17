@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminProcessManagementActivity.pm - process management activity
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementActivity.pm,v 1.5 2012-07-17 22:08:57 cr Exp $
+# $Id: AdminProcessManagementActivity.pm,v 1.6 2012-07-17 22:12:59 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::ProcessManagement::DB::Activity::ActivityDialog;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -157,7 +157,7 @@ sub Run {
         # show error if can't generate a new EntityID
         if ( !$EntityID ) {
             return $Self->{LayoutObject}->ErrorScreen(
-                Message => "There was an error generating a new EntityID for this activity",
+                Message => "There was an error generating a new EntityID for this Activity",
             );
         }
 
@@ -172,7 +172,7 @@ sub Run {
         # show error if can't create
         if ( !$ActivityID ) {
             return $Self->{LayoutObject}->ErrorScreen(
-                Message => "There was an error creating the activity",
+                Message => "There was an error creating the Activity",
             );
         }
 
@@ -320,7 +320,7 @@ sub Run {
         # show error if can't update
         if ( !$Success ) {
             return $Self->{LayoutObject}->ErrorScreen(
-                Message => "There was an error updating the activity",
+                Message => "There was an error updating the Activity",
             );
         }
 
