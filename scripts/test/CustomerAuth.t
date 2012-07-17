@@ -1,8 +1,8 @@
 # --
-# CustomerAuth.t - Authentication tests
+# CustomerAuth.t - Customer authentication tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerAuth.t,v 1.1 2012-07-12 19:17:15 cg Exp $
+# $Id: CustomerAuth.t,v 1.2 2012-07-17 12:53:42 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,8 +14,10 @@ use warnings;
 use utf8;
 use vars (qw($Self));
 
-use Kernel::System::CustomerAuth;
-use Kernel::System::User;
+exit 0;
+
+#use Kernel::System::CustomerAuth;
+#use Kernel::System::User;
 
 # use local Config object because it will be modified
 my $ConfigObject = Kernel::Config->new();
