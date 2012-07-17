@@ -2,7 +2,7 @@
 # AdminProcessManagementProcessEdit.dtl - provides HTML for AdminProcessManagement
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementProcessEdit.dtl,v 1.10 2012-07-17 09:44:52 mn Exp $
+# $Id: AdminProcessManagementProcessEdit.dtl,v 1.11 2012-07-17 14:00:22 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -233,6 +233,8 @@
                     <h2>$Text{"Add and Edit Activities, Activity Dialogs and Transitions"}</h2>
                 </div>
                 <div class="Content">
+                    <div id="Canvas"></div>
+
                     <fieldset class="TableLike">
                         <div class="Field SpacingTop">
                             <button class="Primary" id="Submit" type="submit" value="$Text{"Save"}">$Text{"Save"}</button>

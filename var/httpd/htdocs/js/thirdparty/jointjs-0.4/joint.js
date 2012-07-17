@@ -791,7 +791,7 @@ Joint.prototype = {
      * @private
      */
     draw: function(components){
-	var self = this,
+    var self = this,
 	    paper = this.paper,
 	    jointLocation = this.jointLocation(
 	        {

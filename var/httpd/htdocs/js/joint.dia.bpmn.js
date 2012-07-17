@@ -2,7 +2,7 @@
 // joint.dia.bpmn.js - provides the BPMN diagram functionality for JointJS
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: joint.dia.bpmn.js,v 1.1 2012-07-17 09:44:52 mn Exp $
+// $Id: joint.dia.bpmn.js,v 1.2 2012-07-17 14:00:21 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -94,6 +94,7 @@ bpmn.Activity = Element.extend({
         // mouse events
         this.wrapper.mousedown(function() {
             elem.checkDblClick(new Date().getTime());
+            elem.hideTooltip();
         });
         
         this.wrapper.mouseup(function() {
@@ -243,13 +244,13 @@ bpmn.Activity = Element.extend({
         return t;        
     },
     showTooltip: function (ElementProperties) {
-        var $tooltip = $('#tooltip'),
+        var $tooltip = $('#DiagramTooltip'),
             text = '<p><strong>' + ElementProperties.label + '</strong></p><p>Dialogs: ...</p>',
             canvasPosition = $(this.paper.canvas).offset(),
             position = { x: 0, y: 0};
         
         if (!$tooltip.length) {
-            $tooltip = $('<div id="tooltip"></div>').css('display', 'none').appendTo('body');
+            $tooltip = $('<div id="DiagramTooltip"></div>').css('display', 'none').appendTo('body');
         }
         else if ($tooltip.is(':visible')) {
             $tooltip.hide();
@@ -269,7 +270,7 @@ bpmn.Activity = Element.extend({
             .show();
     },
     hideTooltip: function () {
-        $('#tooltip').hide();
+        $('#DiagramTooltip').hide();
     },
     initTransitionDblClick: function (JointObject) {
         var Joints = (JointObject)? (JointObject && JointObject._joints) : (this.wrapper && this.wrapper._joints);
