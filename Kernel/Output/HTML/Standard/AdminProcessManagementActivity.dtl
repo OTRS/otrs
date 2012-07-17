@@ -2,7 +2,7 @@
 # AdminProcessManagementActivity.dtl - provides HTML for AdminProcessManagement
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementActivity.dtl,v 1.4 2012-07-13 12:00:24 mn Exp $
+# $Id: AdminProcessManagementActivity.dtl,v 1.5 2012-07-17 22:42:17 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -72,7 +72,7 @@
                             </ul>
                             <ul class="AllocationList Tablelike W90pc" id="AvailableActivityDialogs">
 <!-- dtl:block:AvailableActivityDialogRow -->
-                                <li data-id="$QData{"ID"}" title="$QData{"Name"}">
+                                <li data-id="$QData{"ID"}" title="Name: $QData{"Name"} EntityID: $QData{"EntityID"}">
                                     $QData{"Name", "55"}
                                     <span class="Functions"><a href="$Env{"Baselink"}Action=AdminProcessManagementActivityDialog;Subaction=ActivityDialogEdit;ID=$LQData{"ID"};EntityID=$LQData{"EntityID"}" class="AsPopup PopupType_ActivityDialog">Edit</a></span>
                                 </li>
@@ -90,7 +90,7 @@
                             </ul>
                             <ul class="AllocationList Tablelike W90pc" id="AssignedActivityDialogs">
 <!-- dtl:block:AssignedActivityDialogRow -->
-                                <li data-id="$QData{"ID"}" title="$QData{"Name"}">
+                                <li data-id="$QData{"ID"}" title="Name: $QData{"Name"} EntityID: $QData{"EntityID"}">
                                     $QData{"Name", "55"}
                                     <span class="Functions"><a href="$Env{"Baselink"}Action=AdminProcessManagementActivityDialog;Subaction=ActivityDialogEdit;ID=$LQData{"ID"};EntityID=$LQData{"EntityID"}" class="AsPopup PopupType_ActivityDialog">Edit</a></span>
                                 </li>
