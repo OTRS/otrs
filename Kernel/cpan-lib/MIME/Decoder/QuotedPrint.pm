@@ -1,6 +1,4 @@
 package MIME::Decoder::QuotedPrint;
-use strict;
-use warnings;
 
 
 =head1 NAME
@@ -58,7 +56,7 @@ use MIME::QuotedPrint;
 @ISA = qw(MIME::Decoder);
 
 # The package version, both in 1.23 style *and* usable by MakeMaker:
-$VERSION = "5.503";
+$VERSION = "5.428";
 
 #------------------------------
 # If we have MIME::QuotedPrint 3.03 or later, use the three-argument

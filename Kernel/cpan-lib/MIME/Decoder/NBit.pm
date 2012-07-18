@@ -1,6 +1,4 @@
 package MIME::Decoder::NBit;
-use strict;
-use warnings;
 
 
 =head1 NAME
@@ -98,7 +96,7 @@ use MIME::Tools qw(:msgs);
 @ISA = qw(MIME::Decoder);
 
 ### The package version, both in 1.23 style *and* usable by MakeMaker:
-$VERSION = "5.503";
+$VERSION = "5.428";
 
 ### How many bytes to decode at a time?
 my $DecodeChunkLength = 8 * 1024;
