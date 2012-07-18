@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminProcessManagement.pm - process management
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagement.pm,v 1.13 2012-07-17 22:59:14 cr Exp $
+# $Id: AdminProcessManagement.pm,v 1.14 2012-07-18 23:37:34 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::ProcessManagement::DB::Process::State;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -58,7 +58,8 @@ sub Run {
 
     $Self->{Subaction} = $Self->{ParamObject}->GetParam( Param => 'Subaction' ) || '';
 
-    my $ProcessID = $Self->{ParamObject}->GetParam( Param => 'ID' ) || '';
+    my $ProcessID = $Self->{ParamObject}->GetParam( Param => 'ID' )       || '';
+    my $EntityID  = $Self->{ParamObject}->GetParam( Param => 'EntityID' ) || '';
 
     # get the list of updated or deleted entities
     my $EntitySyncStateList = $Self->{EntityObject}->EntitySyncStateList(
@@ -203,6 +204,26 @@ sub Run {
                 Message => "Need ProcessID!",
             );
         }
+
+        # set screens path in session
+        my @ScreensPath = (
+            {
+                Action    => $Self->{Action}    || '',
+                Subaction => $Self->{Subaction} || '',
+                Parameters => 'ID=' . $ProcessID . ';EntityID=' . $EntityID
+            }
+        );
+
+        # convert screens patch to string (JSON)
+        my $JSONScreensPath = $Self->{LayoutObject}->JSONEncode(
+            Data => \@ScreensPath,
+        );
+
+        $Self->{SessionObject}->UpdateSessionID(
+            SessionID => $Self->{SessionID},
+            Key       => 'ProcessManagementScreensPath',
+            Value     => $JSONScreensPath,
+        );
 
         # get Process data
         my $ProcessData = $Self->{ProcessObject}->ProcessGet(

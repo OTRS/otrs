@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminProcessManagementActivity.pm - process management activity
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementActivity.pm,v 1.6 2012-07-17 22:12:59 cr Exp $
+# $Id: AdminProcessManagementActivity.pm,v 1.7 2012-07-18 23:37:34 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::ProcessManagement::DB::Activity::ActivityDialog;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -60,7 +60,17 @@ sub Run {
 
     $Self->{Subaction} = $Self->{ParamObject}->GetParam( Param => 'Subaction' ) || '';
 
-    my $ActivityID = $Self->{ParamObject}->GetParam( Param => 'ID' ) || '';
+    my $ActivityID = $Self->{ParamObject}->GetParam( Param => 'ID' )       || '';
+    my $EntityID   = $Self->{ParamObject}->GetParam( Param => 'EntityID' ) || '';
+
+    my %SessionData = $Self->{SessionObject}->GetSessionIDData(
+        SessionID => $Self->{SessionID},
+    );
+
+    # convert JSON string to array
+    $Self->{ScreensPath} = $Self->{JSONObject}->Decode(
+        Data => $SessionData{ProcessManagementScreensPath}
+    );
 
     # ------------------------------------------------------------ #
     # ActivityNew
@@ -192,10 +202,54 @@ sub Run {
             );
         }
 
-        # close the popup
-        $Self->{LayoutObject}->PopupClose(
-            Reload => 1,
-        );
+        # remove this screen from session screen path
+        $Self->_PopSessionScreen( OnlyCurrent => 1 );
+
+        my $Redirect = $Self->{ParamObject}->GetParam( Param => 'PopupRedirect' ) || '';
+
+        # check if needed to open another window or if popup should go back
+        if ( $Redirect && $Redirect eq '1' ) {
+
+            $Self->_PushSessionScreen(
+                ID        => $ActivityID,
+                EntityID  => $ActivityData->{EntityID},
+                Subaction => 'ActivityEdit'               # always use edit screen
+            );
+
+            my $RedirectID = $Self->{ParamObject}->GetParam( Param => 'PopupRedirectID' ) || '';
+            my $RedirectEntityID
+                = $Self->{ParamObject}->GetParam( Param => 'PopupRedirectEntityID' ) || '';
+
+            # redirect to another popup window
+            return $Self->{LayoutObject}->Redirect(
+                OP => "Action=AdminProcessManagementActivityDialog;Subaction=ActivityDialogEdit;"
+                    . "ID=$RedirectID;EntityID=$RedirectEntityID",
+            );
+        }
+        else {
+
+            # remove last screen
+            my $LastScreen = $Self->_PopSessionScreen();
+
+            # check if needed to return to main screen or to be redirected to last screen
+            if ( $LastScreen->{Action} eq 'AdminProcessManagement' ) {
+
+                # close the popup
+                $Self->{LayoutObject}->PopupClose(
+                    Reload => 1,
+                );
+            }
+            else {
+
+                # redirect to las screen
+                return $Self->{LayoutObject}->Redirect(
+                    OP =>
+                        "Action=$LastScreen->{Action};"
+                        . "Subaction=$LastScreen->{Subaction};"
+                        . $LastScreen->{Parameters},
+                );
+            }
+        }
     }
 
     # ------------------------------------------------------------ #
@@ -209,6 +263,9 @@ sub Run {
                 Message => "Need ActivityID!",
             );
         }
+
+        # remove this screen from session screen path
+        $Self->_PopSessionScreen( OnlyCurrent => 1 );
 
         # get Activity data
         my $ActivityData = $Self->{ActivityObject}->ActivityGet(
@@ -340,10 +397,54 @@ sub Run {
             );
         }
 
-        # close the popup
-        $Self->{LayoutObject}->PopupClose(
-            Reload => 1,
-        );
+        # remove this screen from session screen path
+        $Self->_PopSessionScreen( OnlyCurrent => 1 );
+
+        my $Redirect = $Self->{ParamObject}->GetParam( Param => 'PopupRedirect' ) || '';
+
+        # check if needed to open another window or if popup should go back
+        if ( $Redirect && $Redirect eq '1' ) {
+
+            $Self->_PushSessionScreen(
+                ID        => $ActivityID,
+                EntityID  => $ActivityData->{EntityID},
+                Subaction => 'ActivityEdit'               # always use edit screen
+            );
+
+            my $RedirectID = $Self->{ParamObject}->GetParam( Param => 'PopupRedirectID' ) || '';
+            my $RedirectEntityID
+                = $Self->{ParamObject}->GetParam( Param => 'PopupRedirectEntityID' ) || '';
+
+            # redirect to another popup window
+            return $Self->{LayoutObject}->Redirect(
+                OP => "Action=AdminProcessManagementActivityDialog;Subaction=ActivityDialogEdit;"
+                    . "ID=$RedirectID;EntityID=$RedirectEntityID",
+            );
+        }
+        else {
+
+            # remove last screen
+            my $LastScreen = $Self->_PopSessionScreen();
+
+            # check if needed to return to main screen or to be redirected to last screen
+            if ( $LastScreen->{Action} eq 'AdminProcessManagement' ) {
+
+                # close the popup
+                $Self->{LayoutObject}->PopupClose(
+                    Reload => 1,
+                );
+            }
+            else {
+
+                # redirect to las screen
+                return $Self->{LayoutObject}->Redirect(
+                    OP =>
+                        "Action=$LastScreen->{Action};"
+                        . "Subaction=$LastScreen->{Subaction};"
+                        . $LastScreen->{Parameters},
+                );
+            }
+        }
     }
 
     # ------------------------------------------------------------ #
@@ -362,6 +463,29 @@ sub _ShowEdit {
     # get Activity information
     my $ActivityData = $Param{ActivityData} || {};
 
+    # check if last screen action is main screen
+    if ( $Self->{ScreensPath}->[-1]->{Action} eq 'AdminProcessManagement' ) {
+
+        # show close popup link
+        $Self->{LayoutObject}->Block(
+            Name => 'ClosePopup',
+            Data => {},
+        );
+    }
+    else {
+
+        # show go back link
+        $Self->{LayoutObject}->Block(
+            Name => 'GoBack',
+            Data => {
+                Action     => $Self->{ScreensPath}->[-1]->{Action},
+                Subaction  => $Self->{ScreensPath}->[-1]->{Subaction},
+                Parameters => $Self->{ScreensPath}->[-1]->{Parameters},
+            },
+        );
+    }
+
+    # localize available actvity dialogs
     my @AvailableActivityDialogs = @{ $Self->{ActivityDialogsList} };
 
     # create available activity dialogs lookup tables based on entity id
@@ -397,7 +521,7 @@ sub _ShowEdit {
             delete $AvailableActivityDialogsLookup{$EntityID};
         }
 
-        # display available fields
+        # display available activity dialogs
         for my $EntityID ( sort keys %AvailableActivityDialogsLookup ) {
 
             my $ActivityDialogData = $AvailableActivityDialogsLookup{$EntityID};
@@ -432,7 +556,7 @@ sub _ShowEdit {
     }
     else {
 
-        # display available fields
+        # display available activity dialogs
         for my $EntityID ( sort keys %AvailableActivityDialogsLookup ) {
 
             my $ActivityDialogData = $AvailableActivityDialogsLookup{$EntityID};
@@ -485,6 +609,66 @@ sub _GetParams {
     );
 
     return $GetParam;
+}
+
+sub _PopSessionScreen {
+    my ( $Self, %Param ) = @_;
+
+    my $LastScreen;
+
+    if ( defined $Param{OnlyCurrent} && $Param{OnlyCurrent} == 1 ) {
+
+        # check if last screen action is current screen action
+        if ( $Self->{ScreensPath}->[-1]->{Action} eq $Self->{Action} ) {
+
+            # remove last screen
+            $LastScreen = pop @{ $Self->{ScreensPath} };
+        }
+    }
+    else {
+
+        # remove last screen
+        $LastScreen = pop @{ $Self->{ScreensPath} };
+    }
+
+    # convert screens path to string (JSON)
+    my $JSONScreensPath = $Self->{LayoutObject}->JSONEncode(
+        Data => $Self->{ScreensPath},
+    );
+
+    # update session
+    $Self->{SessionObject}->UpdateSessionID(
+        SessionID => $Self->{SessionID},
+        Key       => 'ProcessManagementScreensPath',
+        Value     => $JSONScreensPath,
+    );
+
+    return $LastScreen;
+}
+
+sub _PushSessionScreen {
+    my ( $Self, %Param ) = @_;
+
+    # add screen to the screen path
+    push @{ $Self->{ScreensPath} }, {
+        Action => $Self->{Action} || '',
+        Subaction  => $Param{Subaction},
+        Parameters => 'ID=' . $Param{ID} . ';EntityID=' . $Param{EntityID},
+    };
+
+    # convert screens path to string (JSON)
+    my $JSONScreensPath = $Self->{LayoutObject}->JSONEncode(
+        Data => $Self->{ScreensPath},
+    );
+
+    # update session
+    $Self->{SessionObject}->UpdateSessionID(
+        SessionID => $Self->{SessionID},
+        Key       => 'ProcessManagementScreensPath',
+        Value     => $JSONScreensPath,
+    );
+
+    return 1;
 }
 
 1;
