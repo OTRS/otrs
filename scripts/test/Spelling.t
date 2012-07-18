@@ -2,7 +2,7 @@
 # Spelling.t - Authentication tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Spelling.t,v 1.1 2012-07-16 23:34:16 cg Exp $
+# $Id: Spelling.t,v 1.2 2012-07-18 04:22:34 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -29,7 +29,6 @@ my @Tests = (
         SpellLanguage => "en",
         Text          => "Something for check",
         Replace       => 0,
-        Line          => 0,
         Error         => 1,
     },
 
@@ -39,7 +38,6 @@ my @Tests = (
         SpellLanguage => "en",
         Text          => "Something for check",
         Replace       => 0,
-        Line          => 0,
         Error         => 1,
     },
 
@@ -49,7 +47,6 @@ my @Tests = (
         SpellLanguage => "en",
         Text          => "This is a textu with errors",
         Replace       => 1,
-        Line          => 5,
         Error         => 0,
     },
 
@@ -59,12 +56,20 @@ my @Tests = (
         SpellLanguage => "en",
         Text          => "Anoter wronj text",
         Replace       => 1,
-        Line          => 2,
+        Error         => 0,
+    },
+
+    {
+        Name          => 'Test ' . $TestNumber++,
+        SpellChecker  => "/usr/bin/aspell",
+        SpellLanguage => "en",
+        Text          => "A small text without errors,\n should be showed as OK",
+        Replace       => 0,
         Error         => 0,
     },
 
 );
-TESTS:
+
 for my $Test (@Tests) {
 
     # configure spell checker bin
@@ -106,26 +111,29 @@ for my $Test (@Tests) {
             IsHashRefWithData( \%SpellCheck ),
             "$Test->{Name} - Spelling - Check result structure",
         );
-        $Self->True(
-            $SpellCheck{ $Test->{Line} }->{Replace},
-            "$Test->{Name} - Spelling - Check structure - 'Replace' entry",
-        );
-        $Self->True(
-            IsArrayRefWithData( $SpellCheck{ $Test->{Line} }->{Replace} ),
-            "$Test->{Name} - Spelling - Check replace structure",
-        );
-        $Self->True(
-            $SpellCheck{ $Test->{Line} }->{Line},
-            "$Test->{Name} - Spelling -Check structure - 'Line' entry",
-        );
-        $Self->True(
-            $SpellCheck{ $Test->{Line} }->{Word},
-            "$Test->{Name} - Spelling - Check structure - 'Word' entry",
-        );
-        $Self->False(
-            $SpellingObject->Error(),
-            "$Test->{Name} - Spelling Not error",
-        );
+
+        for my $Key ( sort keys %SpellCheck ) {
+            $Self->True(
+                $SpellCheck{$Key}->{Replace},
+                "$Test->{Name} - Spelling - Check structure - 'Replace' entry",
+            );
+            $Self->True(
+                IsArrayRefWithData( $SpellCheck{$Key}->{Replace} ),
+                "$Test->{Name} - Spelling - Check replace structure",
+            );
+            $Self->True(
+                $SpellCheck{$Key}->{Line},
+                "$Test->{Name} - Spelling -Check structure - 'Line' entry",
+            );
+            $Self->True(
+                $SpellCheck{$Key}->{Word},
+                "$Test->{Name} - Spelling - Check structure - 'Word' entry",
+            );
+            $Self->False(
+                $SpellingObject->Error(),
+                "$Test->{Name} - Spelling Not error",
+            );
+        }
 
     }
     elsif ( $Test->{Error} ) {
