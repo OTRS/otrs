@@ -2,7 +2,7 @@
 # CustomerAuth.t - Customer authentication tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerAuth.t,v 1.3 2012-07-17 18:40:52 mh Exp $
+# $Id: CustomerAuth.t,v 1.4 2012-07-18 03:40:40 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,10 +14,8 @@ use warnings;
 use utf8;
 use vars (qw($Self));
 
-return;
-
-#use Kernel::System::CustomerAuth;
-#use Kernel::System::User;
+use Kernel::System::CustomerAuth;
+use Kernel::System::User;
 
 # use local Config object because it will be modified
 my $ConfigObject = Kernel::Config->new();
@@ -54,9 +52,16 @@ $TestUserID = $GlobalUserObject->CustomerUserAdd(
     UserEmail      => $UserRand1 . '@example.com',
     ValidID        => 1,
     UserID         => 1,
-) || die "Could not create test user";
+);
 
-for my $CryptType (qw(plain crypt md5 sha1 sha2)) {
+$Self->True(
+    $TestUserID,
+    "Creating test customer user",
+);
+
+# missing auth modules:
+# sha1 sha2
+for my $CryptType (qw(plain crypt md5)) {
 
     $ConfigObject->Set(
         Key   => "Customer::AuthModule::DB::CryptType",
@@ -74,7 +79,6 @@ for my $CryptType (qw(plain crypt md5 sha1 sha2)) {
     );
 
     # set pw
-
     my @Tests = (
         {
             Password => 'simple',
@@ -170,15 +174,20 @@ for my $CryptType (qw(plain crypt md5 sha1 sha2)) {
     }
 }
 
-$TestUserID = $GlobalUserObject->UserUpdate(
-    UserID         => $TestUserID,
+my $Success = $GlobalUserObject->CustomerUserUpdate(
+    ID             => $TestUserID,
     UserFirstname  => 'CustomerFirstname Test1',
     UserLastname   => 'CustomerLastname Test1',
     UserCustomerID => 'Customer246',
     UserLogin      => $UserRand1,
     UserEmail      => $UserRand1 . '@example.com',
     ValidID        => 2,
-    ChangeUserID   => 1,
-) || die "Could not invalidate test user";
+    UserID         => 1,
+);
+
+$Self->True(
+    $Success,
+    "Invalidating test customer user",
+);
 
 1;
