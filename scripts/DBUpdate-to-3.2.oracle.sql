@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2012-07-18 20:11:08
+--  driver: oracle, generated: 2012-07-19 10:27:17
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 -- ----------------------------------------------------------
@@ -158,6 +158,37 @@ end;
 CREATE INDEX FK_pm_transition_change_by ON pm_transition (change_by);
 CREATE INDEX FK_pm_transition_create_by ON pm_transition (create_by);
 -- ----------------------------------------------------------
+--  create table pm_transition_action
+-- ----------------------------------------------------------
+CREATE TABLE pm_transition_action (
+    id NUMBER (12, 0) NOT NULL,
+    entity_id VARCHAR2 (50) NOT NULL,
+    name VARCHAR2 (200) NOT NULL,
+    config CLOB NOT NULL,
+    create_time DATE NOT NULL,
+    create_by NUMBER (12, 0) NOT NULL,
+    change_time DATE NOT NULL,
+    change_by NUMBER (12, 0) NOT NULL,
+    CONSTRAINT pm_transition_action_entity_id UNIQUE (entity_id)
+);
+ALTER TABLE pm_transition_action ADD CONSTRAINT PK_pm_transition_action PRIMARY KEY (id);
+DROP SEQUENCE SE_pm_transition_action;
+CREATE SEQUENCE SE_pm_transition_action;
+CREATE OR REPLACE TRIGGER SE_pm_transition_action_t
+before insert on pm_transition_action
+for each row
+begin
+  if :new.id IS NULL then
+    select SE_pm_transition_action.nextval
+    into :new.id
+    from dual;
+  end if;
+end;
+/
+--;
+CREATE INDEX FK_pm_transition_action_chan4f ON pm_transition_action (change_by);
+CREATE INDEX FK_pm_transition_action_crea78 ON pm_transition_action (create_by);
+-- ----------------------------------------------------------
 --  create table pm_entity
 -- ----------------------------------------------------------
 CREATE TABLE pm_entity (
@@ -202,3 +233,5 @@ ALTER TABLE pm_activity_dialog ADD CONSTRAINT FK_pm_activity_dialog_create32 FOR
 ALTER TABLE pm_activity_dialog ADD CONSTRAINT FK_pm_activity_dialog_changee5 FOREIGN KEY (change_by) REFERENCES users (id);
 ALTER TABLE pm_transition ADD CONSTRAINT FK_pm_transition_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
 ALTER TABLE pm_transition ADD CONSTRAINT FK_pm_transition_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
+ALTER TABLE pm_transition_action ADD CONSTRAINT FK_pm_transition_action_crea8b FOREIGN KEY (create_by) REFERENCES users (id);
+ALTER TABLE pm_transition_action ADD CONSTRAINT FK_pm_transition_action_chan8c FOREIGN KEY (change_by) REFERENCES users (id);

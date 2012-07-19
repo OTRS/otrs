@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-#  driver: mysql, generated: 2012-07-18 20:11:08
+#  driver: mysql, generated: 2012-07-19 10:27:17
 # ----------------------------------------------------------
 # ----------------------------------------------------------
 #  alter table ticket
@@ -93,6 +93,21 @@ CREATE TABLE pm_transition (
     UNIQUE INDEX pm_transition_entity_id (entity_id)
 );
 # ----------------------------------------------------------
+#  create table pm_transition_action
+# ----------------------------------------------------------
+CREATE TABLE pm_transition_action (
+    id INTEGER NOT NULL AUTO_INCREMENT,
+    entity_id VARCHAR (50) NOT NULL,
+    name VARCHAR (200) NOT NULL,
+    config LONGBLOB NOT NULL,
+    create_time DATETIME NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time DATETIME NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id),
+    UNIQUE INDEX pm_transition_action_entity_id (entity_id)
+);
+# ----------------------------------------------------------
 #  create table pm_entity
 # ----------------------------------------------------------
 CREATE TABLE pm_entity (
@@ -136,3 +151,5 @@ ALTER TABLE pm_activity_dialog ADD CONSTRAINT FK_pm_activity_dialog_create_by_id
 ALTER TABLE pm_activity_dialog ADD CONSTRAINT FK_pm_activity_dialog_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
 ALTER TABLE pm_transition ADD CONSTRAINT FK_pm_transition_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
 ALTER TABLE pm_transition ADD CONSTRAINT FK_pm_transition_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
+ALTER TABLE pm_transition_action ADD CONSTRAINT FK_pm_transition_action_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
+ALTER TABLE pm_transition_action ADD CONSTRAINT FK_pm_transition_action_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);

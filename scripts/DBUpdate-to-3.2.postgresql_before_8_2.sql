@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: postgresql_before_8_2, generated: 2012-07-18 20:11:08
+--  driver: postgresql_before_8_2, generated: 2012-07-19 10:27:17
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  alter table ticket
@@ -93,6 +93,21 @@ CREATE TABLE pm_transition (
     CONSTRAINT pm_transition_entity_id UNIQUE (entity_id)
 );
 -- ----------------------------------------------------------
+--  create table pm_transition_action
+-- ----------------------------------------------------------
+CREATE TABLE pm_transition_action (
+    id serial NOT NULL,
+    entity_id VARCHAR (50) NOT NULL,
+    name VARCHAR (200) NOT NULL,
+    config TEXT NOT NULL,
+    create_time timestamp(0) NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time timestamp(0) NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id),
+    CONSTRAINT pm_transition_action_entity_id UNIQUE (entity_id)
+);
+-- ----------------------------------------------------------
 --  create table pm_entity
 -- ----------------------------------------------------------
 CREATE TABLE pm_entity (
@@ -137,3 +152,5 @@ ALTER TABLE pm_activity_dialog ADD CONSTRAINT FK_pm_activity_dialog_create_by_id
 ALTER TABLE pm_activity_dialog ADD CONSTRAINT FK_pm_activity_dialog_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
 ALTER TABLE pm_transition ADD CONSTRAINT FK_pm_transition_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
 ALTER TABLE pm_transition ADD CONSTRAINT FK_pm_transition_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
+ALTER TABLE pm_transition_action ADD CONSTRAINT FK_pm_transition_action_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
+ALTER TABLE pm_transition_action ADD CONSTRAINT FK_pm_transition_action_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);

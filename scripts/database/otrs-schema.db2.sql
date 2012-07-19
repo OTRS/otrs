@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: db2, generated: 2012-07-18 20:12:36
+--  driver: db2, generated: 2012-07-19 10:27:08
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -1472,6 +1472,22 @@ CREATE TABLE pm_transition (
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
     CONSTRAINT pm_transition_entity_id UNIQUE (entity_id)
+);
+
+-- ----------------------------------------------------------
+--  create table pm_transition_action
+-- ----------------------------------------------------------
+CREATE TABLE pm_transition_action (
+    id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
+    entity_id VARCHAR (50) NOT NULL,
+    name VARCHAR (200) NOT NULL,
+    config BLOB (30M) NOT NULL,
+    create_time TIMESTAMP NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time TIMESTAMP NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id),
+    CONSTRAINT pm_transition_action_entity_id UNIQUE (entity_id)
 );
 
 -- ----------------------------------------------------------

@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2012-07-18 20:12:37
+--  driver: oracle, generated: 2012-07-19 10:27:08
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 ALTER TABLE valid ADD CONSTRAINT FK_valid_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
@@ -213,3 +213,5 @@ ALTER TABLE pm_activity_dialog ADD CONSTRAINT FK_pm_activity_dialog_create32 FOR
 ALTER TABLE pm_activity_dialog ADD CONSTRAINT FK_pm_activity_dialog_changee5 FOREIGN KEY (change_by) REFERENCES users (id);
 ALTER TABLE pm_transition ADD CONSTRAINT FK_pm_transition_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
 ALTER TABLE pm_transition ADD CONSTRAINT FK_pm_transition_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
+ALTER TABLE pm_transition_action ADD CONSTRAINT FK_pm_transition_action_crea8b FOREIGN KEY (create_by) REFERENCES users (id);
+ALTER TABLE pm_transition_action ADD CONSTRAINT FK_pm_transition_action_chan8c FOREIGN KEY (change_by) REFERENCES users (id);

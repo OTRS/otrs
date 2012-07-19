@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: mssql, generated: 2012-07-18 20:12:36
+--  driver: mssql, generated: 2012-07-19 10:27:08
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -1299,6 +1299,21 @@ CREATE TABLE pm_transition (
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
     CONSTRAINT pm_transition_entity_id UNIQUE (entity_id)
+);
+-- ----------------------------------------------------------
+--  create table pm_transition_action
+-- ----------------------------------------------------------
+CREATE TABLE pm_transition_action (
+    id INTEGER NOT NULL IDENTITY(1,1) ,
+    entity_id NVARCHAR (50) NOT NULL,
+    name NVARCHAR (200) NOT NULL,
+    config NVARCHAR (MAX) NOT NULL,
+    create_time DATETIME NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time DATETIME NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id),
+    CONSTRAINT pm_transition_action_entity_id UNIQUE (entity_id)
 );
 -- ----------------------------------------------------------
 --  create table pm_entity

@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: ingres, generated: 2012-07-18 20:12:36
+--  driver: ingres, generated: 2012-07-19 10:27:08
 -- ----------------------------------------------------------
 ALTER TABLE valid ADD FOREIGN KEY (create_by) REFERENCES users(id);\g
 ALTER TABLE valid ADD FOREIGN KEY (change_by) REFERENCES users(id);\g
@@ -212,3 +212,5 @@ ALTER TABLE pm_activity_dialog ADD FOREIGN KEY (create_by) REFERENCES users(id);
 ALTER TABLE pm_activity_dialog ADD FOREIGN KEY (change_by) REFERENCES users(id);\g
 ALTER TABLE pm_transition ADD FOREIGN KEY (create_by) REFERENCES users(id);\g
 ALTER TABLE pm_transition ADD FOREIGN KEY (change_by) REFERENCES users(id);\g
+ALTER TABLE pm_transition_action ADD FOREIGN KEY (create_by) REFERENCES users(id);\g
+ALTER TABLE pm_transition_action ADD FOREIGN KEY (change_by) REFERENCES users(id);\g
