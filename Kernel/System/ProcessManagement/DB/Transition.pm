@@ -2,7 +2,7 @@
 # Kernel/System/ProcessManagement/Transition.pm - Process Management DB Transition backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Transition.pm,v 1.1 2012-07-19 02:25:01 cr Exp $
+# $Id: Transition.pm,v 1.2 2012-07-19 19:21:23 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Cache;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 =head1 NAME
 
@@ -266,7 +266,7 @@ sub TransitionDelete {
     );
     return if !IsHashRefWithData($Transition);
 
-    # delete process
+    # delete transition
     return if !$Self->{DBObject}->Do(
         SQL  => 'DELETE FROM pm_transition WHERE id = ?',
         Bind => [ \$Param{ID} ],
@@ -525,7 +525,6 @@ get an Transition list
         UseEntities => 0,                       # default 0, 1 || 0. if 0 the return hash keys are
                                                 #    the transition IDs otherwise keys are the
                                                 #    transition entity IDs
-                                                #    state IDs
         UserID      => 1,
     );
 
@@ -696,6 +695,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2012-07-19 02:25:01 $
+$Revision: 1.2 $ $Date: 2012-07-19 19:21:23 $
 
 =cut
