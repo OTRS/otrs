@@ -2,7 +2,7 @@
 // Core.Agent.Admin.ProcessManagement.Canvas.js - provides the special module functions for the Process Management Diagram Canvas.
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.ProcessManagement.Canvas.js,v 1.2 2012-07-17 14:00:21 mn Exp $
+// $Id: Core.Agent.Admin.ProcessManagement.Canvas.js,v 1.3 2012-07-19 14:14:15 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -33,6 +33,10 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
         ElementList = $.map(Elements, function (Value, Key) {
             return Value;
         });
+    }
+    
+    function TransitionDblClick() {
+        alert();
     }
     
     TargetNS.CreateStartEvent = function (PosX, PosY) {
@@ -73,8 +77,26 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
         }
     };
     
-    TargetNS.CreateTransition = function (StartElement, EndElement, TransitionName) {
-        // TODO
+    TargetNS.CreateTransition = function (StartElement, EndElement, EntityID, TransitionName) {
+        var Config = Core.Agent.Admin.ProcessManagement.ProcessData;
+            
+        if ((Elements[StartElement] === 'undefined') || (Elements[EndElement] === 'undefined')) {
+            return false;
+        }
+        
+        // Get TransitionName from Config
+        if (TransitionName === 'undefined') {
+            if (Config.Transition && Config.Transition[EntityID]) {
+                TransitionName = Config.Transition[EntityID].Name;
+            }
+            else {
+                TransitionName = 'NoName';
+            }
+        }
+        
+        Elements[StartElement].joint(Elements[EndElement], (BPMN.Arrow.label = TransitionName, BPMN.Arrow)).registerForever(ElementList);
+        Elements[StartElement].initTransitionDblClick(undefined, TransitionDblClick);
+        Elements[EndElement].initTransitionDblClick(undefined, TransitionDblClick);
     };
     
     TargetNS.DrawDiagram = function () {
@@ -85,6 +107,8 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
         TargetNS.CreateActivity('A-2', 'Test-Activity 2', 300, 70);
         
         TargetNS.SetStartActivity('A-1');
+        
+        //TargetNS.CreateTransition('A-1', 'A-2', 'T-1');
     };
     
     TargetNS.Init = function () {
@@ -101,7 +125,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
             if (JointObject && JointObject._registeredObjects) {
                 $.each(JointObject._registeredObjects, function (Key, Value) {
                     if (typeof Value.initTransitionDblClick !== 'undefined') {
-                        Value.initTransitionDblClick(SingleJointObject);
+                        Value.initTransitionDblClick(SingleJointObject, TransitionDblClick);
                     }
                 });
             }

@@ -2,7 +2,7 @@
 # AdminProcessManagementProcessEdit.dtl - provides HTML for AdminProcessManagement
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementProcessEdit.dtl,v 1.13 2012-07-17 22:39:50 cr Exp $
+# $Id: AdminProcessManagementProcessEdit.dtl,v 1.14 2012-07-19 14:14:16 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -88,33 +88,13 @@
                                     <span><a href="$Env{"Baselink"}Action=AdminProcessManagementTransition;Subaction=TransitionEdit;ID=$LQData{"ID"};EntityID=$LQData{"EntityID"}" class="AsPopup PopupType_Transition">Edit</a> | <a href="#" class="DeleteEntity DeleteTransition">Delete</a></span>
                                 </li>
 <!-- dtl:block:TransitionRow -->
-                                <li>
-                                    Transition 1
-                                    <span><a href="#">Edit</a> | <a href="#">Delete</a></span>
-                                </li>
-                                <li>
-                                    Transition 2
-                                    <span><a href="#">Edit</a> | <a href="#">Delete</a></span>
-                                </li>
-                                <li>
-                                    Transition 3
-                                    <span><a href="#">Edit</a> | <a href="#">Delete</a></span>
-                                </li>
-                                <li>
-                                    Transition 4
-                                    <span><a href="#">Edit</a> | <a href="#">Delete</a></span>
-                                </li>
-                                <li>
-                                    Transition 5
-                                    <span><a href="#">Edit</a> | <a href="#">Delete</a></span>
-                                </li>
 <!-- dtl:block:TransitionNoDataRow -->
                                 <li title="$QData{"Name"}">
                                     $Text{"No data found."}
                                 </li>
 <!-- dtl:block:TransitionNoDataRow -->
                             </ul>
-                            <a href="" class="CallForAction AsPopup PopupType_Transition Center ProcessElementButton" ><span>$Text{"Create New Transition"}</span></a>
+                            <a href="$Env{"Baselink"}Action=AdminProcessManagementTransition;Subaction=TransitionNew;" class="CallForAction AsPopup PopupType_Transition Center ProcessElementButton" ><span>$Text{"Create New Transition"}</span></a>
                         </div>
                     </li>
                     <li class="AccordionElement">
@@ -128,33 +108,13 @@
                                     <span><a href="$Env{"Baselink"}Action=AdminProcessManagementTransitionAction;Subaction=TransitionActionEdit;ID=$LQData{"ID"};EntityID=$LQData{"EntityID"}" class="AsPopup PopupType_TransitionAction">Edit</a> | <a href="#"  class="DeleteEntity DeleteTransitionAction">Delete</a></span>
                                 </li>
 <!-- dtl:block:TransitionActionRow -->
-                                <li>
-                                    Transition Action 1
-                                    <span><a href="#">Edit</a> | <a href="#">Delete</a></span>
-                                </li>
-                                <li>
-                                    Transition Action 2
-                                    <span><a href="#">Edit</a> | <a href="#">Delete</a></span>
-                                </li>
-                                <li>
-                                    Transition Action 3
-                                    <span><a href="#">Edit</a> | <a href="#">Delete</a></span>
-                                </li>
-                                <li>
-                                    Transition Action 4
-                                    <span><a href="#">Edit</a> | <a href="#">Delete</a></span>
-                                </li>
-                                <li>
-                                    Transition Action 5
-                                    <span><a href="#">Edit</a> | <a href="#">Delete</a></span>
-                                </li>
 <!-- dtl:block:TransitionActionNoDataRow -->
                                 <li title="$QData{"Name"}">
                                     $Text{"No data found."}
                                 </li>
 <!-- dtl:block:TransitionActionNoDataRow -->
                             </ul>
-                            <a href="" class="CallForAction AsPopup PopupType_TransitionAction Center ProcessElementButton" ><span>$Text{"Create New Transition Action"}</span></a>
+                            <a href="$Env{"Baselink"}Action=AdminProcessManagementTransitionAction;Subaction=TransitionActionNew;" class="CallForAction AsPopup PopupType_TransitionAction Center ProcessElementButton" ><span>$Text{"Create New Transition Action"}</span></a>
                         </div>
                     </li>
                 </ul>

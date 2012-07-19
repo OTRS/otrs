@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.2 $
+ * @version     $Revision: 1.3 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -100,4 +100,12 @@ ul#ProcessElements li.AccordionElement div.Content .ProcessElementButton {
     position: absolute;
 }
 
+/**
+ * @subsubsection     Transition Popup / Transition Action Popup
+ */    
+
+.Fields {
+    margin-top: 15px;
+}    
+    
 }/* end @media */
