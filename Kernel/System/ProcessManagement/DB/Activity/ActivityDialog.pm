@@ -2,7 +2,7 @@
 # Kernel/System/ProcessManagement/Activity/ActivityDialog.pm - Process Management DB ActivityDialog backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: ActivityDialog.pm,v 1.4 2012-07-19 02:22:43 cr Exp $
+# $Id: ActivityDialog.pm,v 1.5 2012-07-19 19:20:59 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Cache;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 =head1 NAME
 
@@ -273,7 +273,7 @@ sub ActivityDialogDelete {
     );
     return if !IsHashRefWithData($ActivityDialog);
 
-    # delete process
+    # delete activity dialog
     return if !$Self->{DBObject}->Do(
         SQL  => 'DELETE FROM pm_activity_dialog WHERE id = ?',
         Bind => [ \$Param{ID} ],
@@ -301,7 +301,7 @@ Returns:
 
     $ActivityDialog = {
         ID           => 123,
-        EntityID     => 'P1',
+        EntityID     => 'AD1',
         Name         => 'some name',
         Config       => $ConfigHashRef,
         CreateTime   => '2012-07-04 15:08:00',
@@ -401,7 +401,7 @@ returns 1 if success or undef otherwise
 
     my $Success = $ActivityDialogObject->ActivityDialogUpdate(
         ID          => 123,                    # mandatory
-        EntityID    => 'P1'                    # mandatory, exportable unique identifier
+        EntityID    => 'AD1'                   # mandatory, exportable unique identifier
         Name        => 'NameOfActivityDialog', # mandatory
         Config      => $ConfigHashRef,         # mandatory, actvity dialog configuration to be
                                                #   stored in YAML format
@@ -501,7 +501,7 @@ sub ActivityDialogUpdate {
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
         $CurrentEntityID = $Data[0];
         $CurrentName     = $Data[1];
-        $CurrentConfig   = $Data[4];
+        $CurrentConfig   = $Data[2];
     }
 
     if ($CurrentEntityID) {
@@ -539,7 +539,6 @@ get an ActivityDialog list
         UseEntities => 0,                       # default 0, 1 || 0. if 0 the return hash keys are
                                                 #    the activity dialog IDs otherwise keys are the
                                                 #    activity dialog entity IDs
-                                                #    state IDs
         UserID      => 1,
     );
 
@@ -710,6 +709,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.4 $ $Date: 2012-07-19 02:22:43 $
+$Revision: 1.5 $ $Date: 2012-07-19 19:20:59 $
 
 =cut
