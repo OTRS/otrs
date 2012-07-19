@@ -2,7 +2,7 @@
 # Kernel/System/ProcessManagement/Activity/ActivityDialog.pm - Process Management DB ActivityDialog backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: ActivityDialog.pm,v 1.3 2012-07-12 04:21:24 cr Exp $
+# $Id: ActivityDialog.pm,v 1.4 2012-07-19 02:22:43 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Cache;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 =head1 NAME
 
@@ -118,11 +118,11 @@ add new ActivityDialog
 
 returns the id of the created activity dialog if success or undef otherwise
 
-    my $ID = $ProcessObject->ActivityDialogAdd(
-        EntityID    => 'AD1'                    # mandatory, exportable unique identifier
+    my $ID = $ActivityDialogObject->ActivityDialogAdd(
+        EntityID    => 'AD1'                   # mandatory, exportable unique identifier
         Name        => 'NameOfActivityDialog', # mandatory
-        Config      => $ConfigHashRef,         # mandatory, process configuration to be stored in YAML
-                                               #   YAML format
+        Config      => $ConfigHashRef,         # mandatory, activity dialog configuration to be
+                                               #    stored in YAML format
         UserID      => 123,                    # mandatory
     );
 
@@ -400,12 +400,12 @@ update ActivityDialog attributes
 returns 1 if success or undef otherwise
 
     my $Success = $ActivityDialogObject->ActivityDialogUpdate(
-        ID          => 123,             # mandatory
-        EntityID    => 'P1'             # mandatory, exportable unique identifier
-        Name        => 'NameOfProcess', # mandatory
-        Config      => $ConfigHashRef,  # mandatory, process configuration to be stored in YAML
-                                        #   format
-        UserID      => 123,             # mandatory
+        ID          => 123,                    # mandatory
+        EntityID    => 'P1'                    # mandatory, exportable unique identifier
+        Name        => 'NameOfActivityDialog', # mandatory
+        Config      => $ConfigHashRef,         # mandatory, actvity dialog configuration to be
+                                               #   stored in YAML format
+        UserID      => 123,                    # mandatory
     );
 
 =cut
@@ -552,7 +552,7 @@ get an ActivityDialog list
     or
 
     $List = {
-        'P1' => 'NameOfActivityDialog',
+        'AD1' => 'NameOfActivityDialog',
     }
 =cut
 
@@ -710,6 +710,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.3 $ $Date: 2012-07-12 04:21:24 $
+$Revision: 1.4 $ $Date: 2012-07-19 02:22:43 $
 
 =cut
