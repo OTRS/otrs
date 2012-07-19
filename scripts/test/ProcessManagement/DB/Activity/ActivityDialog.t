@@ -2,7 +2,7 @@
 # ActivityDialog.t - ProcessManagement DB activity dialog tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: ActivityDialog.t,v 1.2 2012-07-12 04:21:24 cr Exp $
+# $Id: ActivityDialog.t,v 1.3 2012-07-19 02:23:04 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -889,7 +889,7 @@ for my $Test (@Tests) {
 }
 
 #
-# ActivityListGet() tests
+# ActivityDialogListGet() tests
 #
 
 my $FullList = $ActivityDialogObject->ActivityDialogListGet(
