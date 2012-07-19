@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2012-07-13 20:08:26
+--  driver: oracle, generated: 2012-07-18 20:12:37
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 -- ----------------------------------------------------------
@@ -2174,6 +2174,37 @@ end;
 --;
 CREATE INDEX FK_pm_activity_dialog_change65 ON pm_activity_dialog (change_by);
 CREATE INDEX FK_pm_activity_dialog_create86 ON pm_activity_dialog (create_by);
+-- ----------------------------------------------------------
+--  create table pm_transition
+-- ----------------------------------------------------------
+CREATE TABLE pm_transition (
+    id NUMBER (12, 0) NOT NULL,
+    entity_id VARCHAR2 (50) NOT NULL,
+    name VARCHAR2 (200) NOT NULL,
+    config CLOB NOT NULL,
+    create_time DATE NOT NULL,
+    create_by NUMBER (12, 0) NOT NULL,
+    change_time DATE NOT NULL,
+    change_by NUMBER (12, 0) NOT NULL,
+    CONSTRAINT pm_transition_entity_id UNIQUE (entity_id)
+);
+ALTER TABLE pm_transition ADD CONSTRAINT PK_pm_transition PRIMARY KEY (id);
+DROP SEQUENCE SE_pm_transition;
+CREATE SEQUENCE SE_pm_transition;
+CREATE OR REPLACE TRIGGER SE_pm_transition_t
+before insert on pm_transition
+for each row
+begin
+  if :new.id IS NULL then
+    select SE_pm_transition.nextval
+    into :new.id
+    from dual;
+  end if;
+end;
+/
+--;
+CREATE INDEX FK_pm_transition_change_by ON pm_transition (change_by);
+CREATE INDEX FK_pm_transition_create_by ON pm_transition (create_by);
 -- ----------------------------------------------------------
 --  create table pm_entity
 -- ----------------------------------------------------------

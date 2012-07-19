@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: db2, generated: 2012-07-13 23:48:12
+--  driver: db2, generated: 2012-07-18 20:11:08
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  alter table ticket
@@ -104,6 +104,22 @@ CREATE TABLE pm_activity_dialog (
 );
 
 -- ----------------------------------------------------------
+--  create table pm_transition
+-- ----------------------------------------------------------
+CREATE TABLE pm_transition (
+    id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
+    entity_id VARCHAR (50) NOT NULL,
+    name VARCHAR (200) NOT NULL,
+    config BLOB (30M) NOT NULL,
+    create_time TIMESTAMP NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time TIMESTAMP NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id),
+    CONSTRAINT pm_transition_entity_id UNIQUE (entity_id)
+);
+
+-- ----------------------------------------------------------
 --  create table pm_entity
 -- ----------------------------------------------------------
 CREATE TABLE pm_entity (
@@ -163,3 +179,7 @@ ALTER TABLE pm_activity ADD CONSTRAINT FK_pm_activity_change_by_id FOREIGN KEY (
 ALTER TABLE pm_activity_dialog ADD CONSTRAINT FK_pm_activity_dialog_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
 
 ALTER TABLE pm_activity_dialog ADD CONSTRAINT FK_pm_activity_dialog_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
+
+ALTER TABLE pm_transition ADD CONSTRAINT FK_pm_transition_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
+
+ALTER TABLE pm_transition ADD CONSTRAINT FK_pm_transition_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);

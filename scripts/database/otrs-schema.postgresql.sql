@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: postgresql, generated: 2012-07-13 20:08:26
+--  driver: postgresql, generated: 2012-07-18 20:12:37
 -- ----------------------------------------------------------
 SET standard_conforming_strings TO ON;
 -- ----------------------------------------------------------
@@ -1283,6 +1283,21 @@ CREATE TABLE pm_activity_dialog (
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
     CONSTRAINT pm_activity_dialog_entity_id UNIQUE (entity_id)
+);
+-- ----------------------------------------------------------
+--  create table pm_transition
+-- ----------------------------------------------------------
+CREATE TABLE pm_transition (
+    id serial NOT NULL,
+    entity_id VARCHAR (50) NOT NULL,
+    name VARCHAR (200) NOT NULL,
+    config TEXT NOT NULL,
+    create_time timestamp(0) NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time timestamp(0) NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id),
+    CONSTRAINT pm_transition_entity_id UNIQUE (entity_id)
 );
 -- ----------------------------------------------------------
 --  create table pm_entity
