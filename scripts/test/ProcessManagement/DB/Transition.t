@@ -2,7 +2,7 @@
 # Transition.t - ProcessManagement DB transition tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Transition.t,v 1.1 2012-07-19 02:25:01 cr Exp $
+# $Id: Transition.t,v 1.2 2012-07-19 19:19:32 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -136,7 +136,7 @@ my @Tests = (
         Success => 0,
     },
     {
-        Name   => 'TransitionAdd Test 8: Wrong Config Fields format',
+        Name   => 'TransitionAdd Test 8: Wrong Config Condition format',
         Config => {
             EntityID => $RandomID,
             Name     => "Transition-$RandomID",
