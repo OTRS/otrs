@@ -2,7 +2,7 @@
 # Spelling.t - Authentication tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Spelling.t,v 1.3 2012-07-18 17:57:17 cg Exp $
+# $Id: Spelling.t,v 1.4 2012-07-19 21:11:05 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,10 +20,30 @@ use Kernel::System::VariableCheck qw(:all);
 # use local Config object because it will be modified
 my $ConfigObject = Kernel::Config->new();
 
+my $SpellCheckerBin = $ConfigObject->Get('SpellCheckerBin');
+
+# check if spelling bin is located there
+if ( !-e $SpellCheckerBin ) {
+
+    # maybe in another location
+    if ( -e '/usr/bin/aspell' ) {
+        $ConfigObject->Set(
+            Key   => 'SpellCheckerBin',
+            Value => '/usr/bin/aspell',
+        );
+    }
+    else {
+        $Self->False(
+            1,
+            "No such $SpellCheckerBin!",
+        );
+        return 1;
+    }
+}
+
 # test for check spelling
 my $LongText =
     '
-Text
 In deeling with students on the hih-school level - that is, the second, third, and
 forth year of high school - we must bare in mind that to some degree they are at a
 dificult sychological stage, generaly called adolesence. Students at this level are
@@ -48,7 +68,7 @@ my @Tests = (
     {
         Name          => 'Test ' . $TestNumber++,
         SpellChecker  => "/usr/bin/nospellchecker",
-        SpellLanguage => "en",
+        SpellLanguage => "english",
         Text          => "Something for check",
         Replace       => 0,
         Error         => 1,
@@ -56,8 +76,8 @@ my @Tests = (
 
     {
         Name          => 'Test ' . $TestNumber++,
-        SpellChecker  => "/wrong/path/aspell",
-        SpellLanguage => "en",
+        SpellChecker  => "/wrong/path/ispell",
+        SpellLanguage => "english",
         Text          => "Something for check",
         Replace       => 0,
         Error         => 1,
@@ -65,8 +85,8 @@ my @Tests = (
 
     {
         Name          => 'Test ' . $TestNumber++,
-        SpellChecker  => "/usr/bin/aspell",
-        SpellLanguage => "en",
+        SpellChecker  => "/usr/bin/ispell",
+        SpellLanguage => "english",
         Text          => "Thes is a textu with errors",
         Replace       => 1,
         Error         => 0,
@@ -74,8 +94,8 @@ my @Tests = (
 
     {
         Name          => 'Test ' . $TestNumber++,
-        SpellChecker  => "/usr/bin/aspell",
-        SpellLanguage => "en",
+        SpellChecker  => "/usr/bin/ispell",
+        SpellLanguage => "english",
         Text          => "Anoter wronj text",
         Replace       => 1,
         Error         => 0,
@@ -83,8 +103,8 @@ my @Tests = (
 
     {
         Name          => 'Test ' . $TestNumber++,
-        SpellChecker  => "/usr/bin/aspell",
-        SpellLanguage => "en",
+        SpellChecker  => $SpellCheckerBin,
+        SpellLanguage => "english",
         Text          => "A small text without errors,\n should be showed as OK",
         Replace       => 0,
         Error         => 0,
@@ -92,8 +112,8 @@ my @Tests = (
 
     {
         Name          => 'Test ' . $TestNumber++,
-        SpellChecker  => "/usr/bin/aspell",
-        SpellLanguage => "en",
+        SpellChecker  => $SpellCheckerBin,
+        SpellLanguage => "english",
         Text          => $LongText,
         Replace       => 1,
         Error         => 0,
@@ -144,21 +164,30 @@ for my $Test (@Tests) {
         );
 
         for my $Key ( sort keys %SpellCheck ) {
-            $Self->True(
-                $SpellCheck{$Key}->{Replace},
-                "$Test->{Name} - Spelling - Check structure - 'Replace' entry",
-            );
-            $Self->True(
-                IsArrayRefWithData( $SpellCheck{$Key}->{Replace} ),
-                "$Test->{Name} - Spelling - Check replace structure",
-            );
+
+            if ( $SpellCheck{$Key}->{Replace} ) {
+                $Self->True(
+                    $SpellCheck{$Key}->{Replace},
+                    "$Test->{Name} - Spelling - Check structure - 'Replace' entry",
+                );
+                $Self->True(
+                    IsArrayRefWithData( $SpellCheck{$Key}->{Replace} ),
+                    "$Test->{Name} - Spelling - Check replace structure",
+                );
+            }
+            else {
+                $Self->True(
+                    1,
+                    "$Test->{Name} - Spelling -Not replace suggestions for - $SpellCheck{$Key}->{Word}",
+                );
+            }
             $Self->True(
                 $SpellCheck{$Key}->{Line},
-                "$Test->{Name} - Spelling -Check structure - 'Line' entry",
+                "$Test->{Name} - Spelling -Check structure - 'Line' entry - $SpellCheck{$Key}->{Line}",
             );
             $Self->True(
                 $SpellCheck{$Key}->{Word},
-                "$Test->{Name} - Spelling - Check structure - 'Word' entry",
+                "$Test->{Name} - Spelling - Check structure - 'Word' entry - $SpellCheck{$Key}->{Word}",
             );
             $Self->False(
                 $SpellingObject->Error(),
