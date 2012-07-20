@@ -1,0 +1,45 @@
+# --
+# AdminProcessManagementPopupResponse.dtl - provides HTML for AdminProcessManagement
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# --
+# $Id: AdminProcessManagementPopupResponse.dtl,v 1.1 2012-07-20 23:25:29 cr Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+<div class="Spacing Center AJAXWaiting">
+    <span class="AJAXLoader" title="$Text{"Loading"}"></span>
+</div>
+
+<!-- dtl:block:Redirect -->
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+var Data = {
+    Action: "$Data{"Action"}",
+    Subaction: "$Data{"Subaction"}",
+    ID: "$Data{"ID"}",
+    EntityID: "$Data{"EntityID"}",
+    Field: "$Data{"Field"}",
+};
+
+// send results to main window
+//window.opener.Core.Agent.Admin.ProcessManagement.SOMEFUNCTION();
+
+// reload popup
+Core.App.InternalRedirect(Data);
+//]]></script>
+<!--dtl:js_on_document_complete-->
+<!-- dtl:block:Redirect -->
+
+<!-- dtl:block:ClosePopup -->
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+//send results to main window
+//window.opener.Core.Agent.Admin.ProcessManagement.SOMEFUNCTION();
+
+// close popup
+window.close();
+//]]></script>
+<!--dtl:js_on_document_complete-->
+<!-- dtl:block:ClosePopup -->
