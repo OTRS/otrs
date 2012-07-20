@@ -2,7 +2,7 @@
 # Kernel/System/ProcessManagement/Process.pm - Process Management DB Process backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Process.pm,v 1.10 2012-07-12 22:49:28 cr Exp $
+# $Id: Process.pm,v 1.11 2012-07-20 06:05:04 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,11 +20,11 @@ use Kernel::System::Cache;
 use Kernel::System::VariableCheck qw(:all);
 
 use Kernel::System::ProcessManagement::DB::Activity;
-use Kernel::System::ProcessManagement::DB::Activity::ActivityDialog;
+use Kernel::System::ProcessManagement::DB::ActivityDialog;
 use Kernel::System::ProcessManagement::DB::Process::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 =head1 NAME
 
@@ -104,7 +104,7 @@ sub new {
     $Self->{CacheObject} = Kernel::System::Cache->new( %{$Self} );
 
     $Self->{ActivityDialogObject}
-        = Kernel::System::ProcessManagement::DB::Activity::ActivityDialog->new( %{$Self} );
+        = Kernel::System::ProcessManagement::DB::ActivityDialog->new( %{$Self} );
     $Self->{ActivityObject} = Kernel::System::ProcessManagement::DB::Activity->new( %{$Self} );
     $Self->{StateObject} = Kernel::System::ProcessManagement::DB::Process::State->new( %{$Self} );
 
@@ -963,6 +963,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.10 $ $Date: 2012-07-12 22:49:28 $
+$Revision: 1.11 $ $Date: 2012-07-20 06:05:04 $
 
 =cut

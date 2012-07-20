@@ -2,7 +2,7 @@
 # Kernel/System/ProcessManagement/Activity.pm - Process Management DB Activity backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Activity.pm,v 1.6 2012-07-11 22:33:59 cr Exp $
+# $Id: Activity.pm,v 1.7 2012-07-20 06:05:04 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,10 +19,10 @@ use YAML;
 use Kernel::System::Cache;
 use Kernel::System::VariableCheck qw(:all);
 
-use Kernel::System::ProcessManagement::DB::Activity::ActivityDialog;
+use Kernel::System::ProcessManagement::DB::ActivityDialog;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 =head1 NAME
 
@@ -112,7 +112,7 @@ sub new {
     }
 
     $Self->{ActivityDialogObject}
-        = Kernel::System::ProcessManagement::DB::Activity::ActivityDialog->new( %{$Self} );
+        = Kernel::System::ProcessManagement::DB::ActivityDialog->new( %{$Self} );
 
     return $Self;
 }
@@ -720,6 +720,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.6 $ $Date: 2012-07-11 22:33:59 $
+$Revision: 1.7 $ $Date: 2012-07-20 06:05:04 $
 
 =cut

@@ -2,7 +2,7 @@
 # Activity.t - ProcessManagement DB Activity tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Activity.t,v 1.4 2012-07-12 04:22:00 cr Exp $
+# $Id: Activity.t,v 1.5 2012-07-20 06:05:42 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use utf8;
 
 use Kernel::Config;
 use Kernel::System::ProcessManagement::DB::Activity;
-use Kernel::System::ProcessManagement::DB::Activity::ActivityDialog;
+use Kernel::System::ProcessManagement::DB::ActivityDialog;
 use Kernel::System::UnitTest::Helper;
 use Kernel::System::VariableCheck qw(:all);
 
@@ -34,7 +34,7 @@ my $ActivityObject = Kernel::System::ProcessManagement::DB::Activity->new(
     %{$Self},
     ConfigObject => $ConfigObject,
 );
-my $ActivityDialogObject = Kernel::System::ProcessManagement::DB::Activity::ActivityDialog->new(
+my $ActivityDialogObject = Kernel::System::ProcessManagement::DB::ActivityDialog->new(
     %{$Self},
     ConfigObject => $ConfigObject,
 );
