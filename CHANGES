@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2378 2012-07-18 09:46:52 mh Exp $
+# $Id: CHANGES,v 1.2379 2012-07-20 05:49:11 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -55,6 +55,7 @@
     NotificationEvent definitions.
 
 3.1.8 2012-??-??
+ - 2012-07-20 Fixed bug#8660 - Duplicate DF X-Headers in PostMaster module.
  - 2012-07-17 Fixed bug#8647 - otrs.GenerateStats.pl "-S" option does not function.
  - 2012-07-11 Fixed bug#8568 - IMAPTLS - More than one email at one cron run will not work.
  - 2012-07-05 Added bug#8627 - bin/otrs.AddQueue2StdResponse.pl Script to add standard responses
