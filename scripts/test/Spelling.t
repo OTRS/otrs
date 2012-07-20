@@ -2,7 +2,7 @@
 # Spelling.t - Authentication tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Spelling.t,v 1.5 2012-07-20 17:27:47 cg Exp $
+# $Id: Spelling.t,v 1.6 2012-07-20 18:18:00 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -149,7 +149,8 @@ for my $Test (@Tests) {
     );
 
     if ( $Test->{Replace} ) {
-        $Self->True(
+        $Self->Is(
+            1,
             IsHashRefWithData( \%SpellCheck ),
             "$Test->{Name} - Spelling - Check result structure",
         );
