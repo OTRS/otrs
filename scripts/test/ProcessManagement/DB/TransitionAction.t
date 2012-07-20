@@ -2,7 +2,7 @@
 # TransitionAction.t - ProcessManagement DB TransitionAction tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TransitionAction.t,v 1.1 2012-07-19 19:22:02 cr Exp $
+# $Id: TransitionAction.t,v 1.1 2012-07-20 06:04:14 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use vars (qw($Self));
 use utf8;
 
 use Kernel::Config;
-use Kernel::System::ProcessManagement::DB::Transition::TransitionAction;
+use Kernel::System::ProcessManagement::DB::TransitionAction;
 use Kernel::System::UnitTest::Helper;
 use Kernel::System::VariableCheck qw(:all);
 
@@ -30,7 +30,7 @@ my $HelperObject = Kernel::System::UnitTest::Helper->new(
 my $ConfigObject = Kernel::Config->new();
 
 my $TransitionActionObject
-    = Kernel::System::ProcessManagement::DB::Transition::TransitionAction->new(
+    = Kernel::System::ProcessManagement::DB::TransitionAction->new(
     %{$Self},
     ConfigObject => $ConfigObject,
     );
