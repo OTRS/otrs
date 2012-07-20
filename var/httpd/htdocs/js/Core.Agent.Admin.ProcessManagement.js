@@ -2,7 +2,7 @@
 // Core.Agent.Admin.ProcessManagement.js - provides the special module functions for the Process Management.
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.8 2012-07-18 23:33:53 cr Exp $
+// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.9 2012-07-20 23:24:28 cr Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -39,6 +39,8 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
 
         $('a.AsPopup_Redirect').bind('click', function (Event) {
             $('#PopupRedirect').val(1);
+            $('#PopupRedirectAction').val($(this).data('action'));
+            $('#PopupRedirectSubaction').val($(this).data('subaction'));
             $('#PopupRedirectID').val($(this).data('id'));
             $('#PopupRedirectEntityID').val($(this).data('entity'));
 
@@ -237,7 +239,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
 
         // Init popups
         // TODO create field details popup and re-enable
-        //InitProcessPopups();
+        // InitProcessPopups();
     };
     
     return TargetNS;
