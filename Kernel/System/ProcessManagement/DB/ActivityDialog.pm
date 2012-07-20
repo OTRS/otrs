@@ -2,14 +2,14 @@
 # Kernel/System/ProcessManagement/Activity/ActivityDialog.pm - Process Management DB ActivityDialog backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: ActivityDialog.pm,v 1.5 2012-07-19 19:20:59 cr Exp $
+# $Id: ActivityDialog.pm,v 1.1 2012-07-20 06:01:43 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::System::ProcessManagement::DB::Activity::ActivityDialog;
+package Kernel::System::ProcessManagement::DB::ActivityDialog;
 
 use strict;
 use warnings;
@@ -20,11 +20,11 @@ use Kernel::System::Cache;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.1 $) [1];
 
 =head1 NAME
 
-Kernel::System::ProcessManagement::DB::Activity::ActivityDialog.pm
+Kernel::System::ProcessManagement::DB::ActivityDialog.pm
 
 =head1 SYNOPSIS
 
@@ -46,7 +46,7 @@ create an ActivityDialog object
     use Kernel::System::Main;
     use Kernel::System::Time;
     use Kernel::System::DB;
-    use Kernel::System::ProcessManagement::DB::Activity::ActivityDialog;
+    use Kernel::System::ProcessManagement::DB::ActivityDialog;
 
     my $ConfigObject = Kernel::Config->new();
     my $EncodeObject = Kernel::System::Encode->new(
@@ -72,7 +72,7 @@ create an ActivityDialog object
         TimeObject   => $TimeObject,
         MainObject   => $MainObject,
     );
-    my $ActivityDialogObject = Kernel::System::ProcessManagement::DB::Activity::ActivityDialog->new(
+    my $ActivityDialogObject = Kernel::System::ProcessManagement::DB::ActivityDialog->new(
         ConfigObject        => $ConfigObject,
         EncodeObject        => $EncodeObject,
         LogObject           => $LogObject,
@@ -709,6 +709,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.5 $ $Date: 2012-07-19 19:20:59 $
+$Revision: 1.1 $ $Date: 2012-07-20 06:01:43 $
 
 =cut
