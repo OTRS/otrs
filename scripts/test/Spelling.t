@@ -2,7 +2,7 @@
 # Spelling.t - Authentication tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Spelling.t,v 1.4 2012-07-19 21:11:05 cg Exp $
+# $Id: Spelling.t,v 1.5 2012-07-20 17:27:47 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -33,7 +33,7 @@ if ( !-e $SpellCheckerBin ) {
         );
     }
     else {
-        $Self->False(
+        $Self->True(
             1,
             "No such $SpellCheckerBin!",
         );
@@ -59,21 +59,12 @@ are begining to develop and they are critical of their instructers and of the ma
 they are given to laern. They are begining to feel the presher of time; and althouh they
 seldem say so, they really want to be consulted and given an oportunity to direct their
 own afairs, but they need considerable gidance.
-(From A Language Teacher\'s Guide by E. A. Méras).
+(From A Language Teacher\'s Guide by E. A. Meras).
 ';
 
 my $TestNumber = 1;
 
 my @Tests = (
-    {
-        Name          => 'Test ' . $TestNumber++,
-        SpellChecker  => "/usr/bin/nospellchecker",
-        SpellLanguage => "english",
-        Text          => "Something for check",
-        Replace       => 0,
-        Error         => 1,
-    },
-
     {
         Name          => 'Test ' . $TestNumber++,
         SpellChecker  => "/wrong/path/ispell",
@@ -85,7 +76,7 @@ my @Tests = (
 
     {
         Name          => 'Test ' . $TestNumber++,
-        SpellChecker  => "/usr/bin/ispell",
+        SpellChecker  => $SpellCheckerBin,
         SpellLanguage => "english",
         Text          => "Thes is a textu with errors",
         Replace       => 1,
@@ -94,7 +85,7 @@ my @Tests = (
 
     {
         Name          => 'Test ' . $TestNumber++,
-        SpellChecker  => "/usr/bin/ispell",
+        SpellChecker  => $SpellCheckerBin,
         SpellLanguage => "english",
         Text          => "Anoter wronj text",
         Replace       => 1,
@@ -144,7 +135,7 @@ for my $Test (@Tests) {
     $Self->Is(
         ref $SpellingObject,
         'Kernel::System::Spelling',
-        "$Test->{Name} - WebsUserAgent object creation",
+        "$Test->{Name} - Spelling object creation",
     );
 
     $Self->True(
@@ -165,7 +156,7 @@ for my $Test (@Tests) {
 
         for my $Key ( sort keys %SpellCheck ) {
 
-            if ( $SpellCheck{$Key}->{Replace} ) {
+            if ( defined $SpellCheck{$Key}->{Replace} && $SpellCheck{$Key}->{Replace} ) {
                 $Self->True(
                     $SpellCheck{$Key}->{Replace},
                     "$Test->{Name} - Spelling - Check structure - 'Replace' entry",
