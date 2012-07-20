@@ -2,7 +2,7 @@
 # ProcessDump.t - ProcessManagement DB ProcessDump tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: ProcessDump.t,v 1.1 2012-07-07 12:56:43 cr Exp $
+# $Id: ProcessDump.t,v 1.2 2012-07-20 06:07:04 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::Config;
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::ProcessManagement::DB::Process;
 use Kernel::System::ProcessManagement::DB::Activity;
-use Kernel::System::ProcessManagement::DB::Activity::ActivityDialog;
+use Kernel::System::ProcessManagement::DB::ActivityDialog;
 use Kernel::System::UnitTest::Helper;
 
 # Create Helper instance which will restore system configuration in destructor
@@ -39,32 +39,32 @@ my $ActivityObject = Kernel::System::ProcessManagement::DB::Activity->new(
     %{$Self},
     ConfigObject => $ConfigObject,
 );
-my $ActivityDialogObject = Kernel::System::ProcessManagement::DB::Activity::ActivityDialog->new(
+my $ActivityDialogObject = Kernel::System::ProcessManagement::DB::ActivityDialog->new(
     %{$Self},
     ConfigObject => $ConfigObject,
 );
 
 my $ProcessID = $ProcessObject->ProcessAdd(
-    EntityID      => 'P1',
+    EntityID      => 'PTest1',
     Name          => 'Process 1',
     StateEntityID => 'S1',
     Layout        => {},
     Config        => {
         Description         => 'a Description',
-        StartActivity       => 'A1',
-        StartActivityDialog => 'AD1',
+        StartActivity       => 'ATest1',
+        StartActivityDialog => 'ADTest1',
         Path                => {                  # New way:
-            'A1' => {
-                'T1' => {
-                    'ActivityID' => 'A2',
+            'ATest1' => {
+                'TTest1' => {
+                    'ActivityID' => 'ATest2',
                     'Action'     => [
                         'TA1',
                         'TA2',
                         'TA3',
                     ],
                 },
-                'T2' => {
-                    'ActivityID' => 'A3',
+                'TTest2' => {
+                    'ActivityID' => 'ATest3',
                 },
             },
         },
@@ -79,13 +79,13 @@ $Self->IsNot(
 );
 
 my $ActivityID = $ActivityObject->ActivityAdd(
-    EntityID => 'A1',
+    EntityID => 'ATest1',
     Name     => 'Activity 1',
     Config   => {
         ActivityDialog => {
-            1 => 'AD1',
+            1 => 'ADTest1',
             2 => {
-                ActivityDialogID => 'AD2',
+                ActivityDialogID => 'ADTest2',
                 Overwrite        => {
                     FieldOrder => [ 1, 2, 4, 3 ],
                 },
@@ -102,7 +102,7 @@ $Self->IsNot(
 );
 
 my $ActivityDialogID = $ActivityDialogObject->ActivityDialogAdd(
-    EntityID => 'AD1',
+    EntityID => 'ADTest1',
     Name     => 'Activity Dialog 1',
     Config   => {
         DescriptionShort => 'Short description',
