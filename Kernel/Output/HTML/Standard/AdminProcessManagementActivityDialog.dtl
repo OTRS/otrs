@@ -2,7 +2,7 @@
 # AdminProcessManagementActivityDialog.dtl - provides HTML for AdminProcessManagement
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementActivityDialog.dtl,v 1.4 2012-07-18 23:35:03 cr Exp $
+# $Id: AdminProcessManagementActivityDialog.dtl,v 1.5 2012-07-20 23:29:37 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@
 <!-- dtl:block:ClosePopup -->
 <!-- dtl:block:GoBack -->
         <p>
-            <a class="GoBack" href="$Env{"Baselink"}Action=$LQData{"Action"};Subaction=$LQData{"Subaction"};$Data{"Parameters"};GoBack=1">&lt;- $Text{"Go Back"}</a>
+            <a class="GoBack" href="$Env{"Baselink"}Action=$LQData{"Action"};Subaction=$LQData{"Subaction"};ID=$LQData{"ID"};EntityID=$LQData{"EntityID"}">&lt;- $Text{"Go Back"}</a>
         </p>
 <!-- dtl:block:GoBack -->
     </div>
@@ -32,6 +32,8 @@
                 <input type="hidden" name="ID" value="$QData{"ID"}"/>
                 <input type="hidden" name="Fields" value=""/>
                 <input type="hidden" name="PopupRedirect" value="" id="PopupRedirect"/>
+                <input type="hidden" name="PopupRedirectAction" value="" id="PopupRedirectAction"/>
+                <input type="hidden" name="PopupRedirectSubaction" value="" id="PopupRedirectSubaction"/>
                 <input type="hidden" name="PopupRedirectID" value="" id="PopupRedirectID"/>
                 <input type="hidden" name="PopupRedirectEntityID" value="" id="PopupRedirectEntityID"/>
 
@@ -132,7 +134,7 @@
 <!-- dtl:block:AvailableFieldRow -->
                                 <li title="Name: $QData{"Field"}">
                                     $QData{"Field", "55"}
-                                    <span class="Functions"><a href="#" data-id="$QData{"Field"}" data-entity="$QData{"Field"}" class="AsPopup_Redirect">Edit</a></span>
+                                    <span class="Functions"><a href="#" data-id="$QData{"Field"}" data-entity="$QData{"Field"}" data-action="AdminProcessManagementField" data-subaction="FieldEdit" class="AsPopup_Redirect">Edit</a></span>
                                 </li>
 <!-- dtl:block:AvailableFieldRow -->
                             </ul>
@@ -147,7 +149,7 @@
 <!-- dtl:block:AssignedFieldRow -->
                                 <li data-id="$QData{"Field"}" data-entity="$QData{"Field"}" title="Name: $QData{"Field"}">
                                     $QData{"Field"}
-                                    <span class="Functions"><a href="#" data-id="$QData{"Field"}" data-entity="$QData{"Field"}" class="AsPopup_Redirect">Edit</a></span>
+                                    <span class="Functions"><a href="#" data-id="$QData{"Field"}" data-entity="$QData{"Field"}" data-action="AdminProcessManagementField" data-subaction="FieldEdit" class="AsPopup_Redirect">Edit</a></span>
                                 </li>
 <!-- dtl:block:AssignedFieldRow -->
                             </ul>
