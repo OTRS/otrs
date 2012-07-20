@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminProcessManagementActivityDialog.pm - process management activity
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementActivityDialog.pm,v 1.9 2012-07-20 06:07:40 cr Exp $
+# $Id: AdminProcessManagementActivityDialog.pm,v 1.10 2012-07-20 23:32:18 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::ProcessManagement::DB::ActivityDialog;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -256,9 +256,13 @@ sub Run {
             my $RedirectField = $Self->{ParamObject}->GetParam( Param => 'PopupRedirectID' ) || '';
 
             # redirect to another popup window
-            return $Self->{LayoutObject}->Redirect(
-                OP => "Action=AdminProcessManagementActivityDialog;Subaction=FieldEdit;"
-                    . "Field=$RedirectField",
+            return $Self->_PopupResponse(
+                Redirect => 1,
+                Screen   => {
+                    Action    => 'AdminProcessManagementField',
+                    Subaction => 'FieldEdit',
+                    Field     => $RedirectField,
+                },
             );
         }
         else {
@@ -270,18 +274,16 @@ sub Run {
             if ( $LastScreen->{Action} eq 'AdminProcessManagement' ) {
 
                 # close the popup
-                $Self->{LayoutObject}->PopupClose(
-                    Reload => 1,
+                return $Self->_PopupResponse(
+                    ClosePopup => 1,
                 );
             }
             else {
 
-                # redirect to las screen
-                return $Self->{LayoutObject}->Redirect(
-                    OP =>
-                        "Action=$LastScreen->{Action};"
-                        . "Subaction=$LastScreen->{Subaction};"
-                        . $LastScreen->{Parameters},
+                # redirect to last screen
+                return $Self->_PopupResponse(
+                    Redirect => 1,
+                    Screen   => $LastScreen
                 );
             }
         }
@@ -366,6 +368,7 @@ sub Run {
 
         # check required parameters
         my %Error;
+
         if ( !$GetParam->{Name} ) {
 
             # add server error error class
@@ -461,9 +464,13 @@ sub Run {
             my $RedirectField = $Self->{ParamObject}->GetParam( Param => 'PopupRedirectID' ) || '';
 
             # redirect to another popup window
-            return $Self->{LayoutObject}->Redirect(
-                OP => "Action=AdminProcessManagementField;Subaction=FieldEdit;"
-                    . "Field=$RedirectField",
+            return $Self->_PopupResponse(
+                Redirect => 1,
+                Screen   => {
+                    Action    => 'AdminProcessManagementField',
+                    Subaction => 'FieldEdit',
+                    Field     => $RedirectField,
+                },
             );
         }
         else {
@@ -475,18 +482,16 @@ sub Run {
             if ( $LastScreen->{Action} eq 'AdminProcessManagement' ) {
 
                 # close the popup
-                $Self->{LayoutObject}->PopupClose(
-                    Reload => 1,
+                return $Self->_PopupResponse(
+                    ClosePopup => 1,
                 );
             }
             else {
 
-                # redirect to las screen
-                return $Self->{LayoutObject}->Redirect(
-                    OP =>
-                        "Action=$LastScreen->{Action};"
-                        . "Subaction=$LastScreen->{Subaction};"
-                        . $LastScreen->{Parameters},
+                # redirect to last screen
+                return $Self->_PopupResponse(
+                    Redirect => 1,
+                    Screen   => $LastScreen
                 );
             }
         }
@@ -523,9 +528,10 @@ sub _ShowEdit {
         $Self->{LayoutObject}->Block(
             Name => 'GoBack',
             Data => {
-                Action     => $Self->{ScreensPath}->[-1]->{Action},
-                Subaction  => $Self->{ScreensPath}->[-1]->{Subaction},
-                Parameters => $Self->{ScreensPath}->[-1]->{Parameters},
+                Action    => $Self->{ScreensPath}->[-1]->{Action}    || '',
+                Subaction => $Self->{ScreensPath}->[-1]->{Subaction} || '',
+                ID        => $Self->{ScreensPath}->[-1]->{ID}        || '',
+                EntityID  => $Self->{ScreensPath}->[-1]->{EntityID}  || '',
             },
         );
     }
@@ -653,9 +659,16 @@ sub _GetParams {
         $GetParam->{$ParamName} = $Self->{ParamObject}->GetParam( Param => $ParamName ) || '';
     }
 
-    $GetParam->{Fields} = $Self->{JSONObject}->Decode(
-        Data => $Self->{ParamObject}->GetParam( Param => 'Fields' ) || '',
-    );
+    my $Fields = $Self->{ParamObject}->GetParam( Param => 'Fields' ) || '';
+
+    if ($Fields) {
+        $GetParam->{Fields} = $Self->{JSONObject}->Decode(
+            Data => $Fields,
+        );
+    }
+    else {
+        $GetParam->{Fields} = '';
+    }
 
     return $GetParam;
 }
@@ -701,8 +714,9 @@ sub _PushSessionScreen {
     # add screen to the screen path
     push @{ $Self->{ScreensPath} }, {
         Action => $Self->{Action} || '',
-        Subaction  => $Param{Subaction},
-        Parameters => 'ID=' . $Param{ID} . ';EntityID=' . $Param{EntityID},
+        Subaction => $Param{Subaction},
+        ID        => $Param{ID},
+        EntityID  => $Param{EntityID},
     };
 
     # convert screens path to string (JSON)
@@ -720,4 +734,31 @@ sub _PushSessionScreen {
     return 1;
 }
 
+sub _PopupResponse {
+    my ( $Self, %Param ) = @_;
+
+    if ( $Param{Redirect} && $Param{Redirect} eq 1 ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'Redirect',
+            Data => {
+                %{ $Param{Screen} },
+            },
+        );
+    }
+    elsif ( $Param{ClosePopup} && $Param{ClosePopup} eq 1 ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'ClosePopup',
+            Data => {},
+        );
+    }
+
+    my $Output = $Self->{LayoutObject}->Header( Type => 'Small' );
+    $Output .= $Self->{LayoutObject}->Output(
+        TemplateFile => "AdminProcessManagementPopupResponse",
+        Data         => {},
+    );
+    $Output .= $Self->{LayoutObject}->Footer( Type => 'Small' );
+
+    return $Output;
+}
 1;
