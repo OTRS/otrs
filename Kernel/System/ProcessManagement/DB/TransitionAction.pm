@@ -1,15 +1,15 @@
 # --
-# Kernel/System/ProcessManagement/Transition/TransitionAction.pm - Process Management DB TransitionAction backend
+# Kernel/System/ProcessManagement/TransitionAction.pm - Process Management DB TransitionAction backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TransitionAction.pm,v 1.1 2012-07-19 19:22:02 cr Exp $
+# $Id: TransitionAction.pm,v 1.1 2012-07-20 06:03:34 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::System::ProcessManagement::DB::Transition::TransitionAction;
+package Kernel::System::ProcessManagement::DB::TransitionAction;
 
 use strict;
 use warnings;
@@ -46,7 +46,7 @@ create a TransitionAction object
     use Kernel::System::Main;
     use Kernel::System::Time;
     use Kernel::System::DB;
-    use Kernel::System::ProcessManagement::DB::Transition::TransitionAction;
+    use Kernel::System::ProcessManagement::DB::TransitionAction;
 
     my $ConfigObject = Kernel::Config->new();
     my $EncodeObject = Kernel::System::Encode->new(
@@ -72,8 +72,7 @@ create a TransitionAction object
         TimeObject   => $TimeObject,
         MainObject   => $MainObject,
     );
-    my $TransitionActionObject
-        = Kernel::System::ProcessManagement::DB::Transition::TransitionAction->new(
+    my $TransitionActionObject = Kernel::System::ProcessManagement::DB::TransitionAction->new(
         ConfigObject        => $ConfigObject,
         EncodeObject        => $EncodeObject,
         LogObject           => $LogObject,
@@ -695,6 +694,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2012-07-19 19:22:02 $
+$Revision: 1.1 $ $Date: 2012-07-20 06:03:34 $
 
 =cut
