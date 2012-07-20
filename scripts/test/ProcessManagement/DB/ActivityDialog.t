@@ -2,7 +2,7 @@
 # ActivityDialog.t - ProcessManagement DB activity dialog tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: ActivityDialog.t,v 1.3 2012-07-19 02:23:04 cr Exp $
+# $Id: ActivityDialog.t,v 1.1 2012-07-20 06:02:52 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use vars (qw($Self));
 use utf8;
 
 use Kernel::Config;
-use Kernel::System::ProcessManagement::DB::Activity::ActivityDialog;
+use Kernel::System::ProcessManagement::DB::ActivityDialog;
 use Kernel::System::UnitTest::Helper;
 use Kernel::System::VariableCheck qw(:all);
 
@@ -29,7 +29,7 @@ my $HelperObject = Kernel::System::UnitTest::Helper->new(
 
 my $ConfigObject = Kernel::Config->new();
 
-my $ActivityDialogObject = Kernel::System::ProcessManagement::DB::Activity::ActivityDialog->new(
+my $ActivityDialogObject = Kernel::System::ProcessManagement::DB::ActivityDialog->new(
     %{$Self},
     ConfigObject => $ConfigObject,
 );
