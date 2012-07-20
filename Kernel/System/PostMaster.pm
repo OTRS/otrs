@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster.pm - the global PostMaster module for OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: PostMaster.pm,v 1.87.2.1 2012-05-11 08:33:02 mb Exp $
+# $Id: PostMaster.pm,v 1.87.2.2 2012-07-20 05:48:57 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,7 +26,7 @@ use Kernel::System::PostMaster::DestQueue;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = qw($Revision: 1.87.2.1 $) [1];
+$VERSION = qw($Revision: 1.87.2.2 $) [1];
 
 =head1 NAME
 
@@ -161,10 +161,22 @@ sub new {
             ObjectType => [ 'Ticket', 'Article' ],
             ResultType => 'HASH',
         );
+
+        # create a lookup table
+        my %HeaderLookup = map { $_ => 1 } @{ $Self->{'PostmasterX-Header'} };
+
         for my $DynamicField ( values %$DynamicFields ) {
-            push @{ $Self->{'PostmasterX-Header'} }, 'X-OTRS-DynamicField-' . $DynamicField;
-            push @{ $Self->{'PostmasterX-Header'} },
-                'X-OTRS-FollowUp-DynamicField-' . $DynamicField;
+            for my $Header (
+                'X-OTRS-DynamicField-' . $DynamicField,
+                'X-OTRS-FollowUp-DynamicField-' . $DynamicField,
+                )
+            {
+
+                # only add the header if is not alreday in the conifg
+                if ( !$HeaderLookup{$Header} ) {
+                    push @{ $Self->{'PostmasterX-Header'} }, $Header;
+                }
+            }
         }
     }
 
@@ -666,6 +678,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.87.2.1 $ $Date: 2012-05-11 08:33:02 $
+$Revision: 1.87.2.2 $ $Date: 2012-07-20 05:48:57 $
 
 =cut
