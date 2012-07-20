@@ -2,7 +2,7 @@
 # PostMaster.t - PostMaster tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: PostMaster.t,v 1.34 2012-01-13 13:13:47 mg Exp $
+# $Id: PostMaster.t,v 1.34.2.1 2012-07-20 05:51:14 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,6 +25,14 @@ use Kernel::System::Encode;
 use Kernel::System::DB;
 use Kernel::System::Main;
 use Kernel::System::DynamicField;
+use Kernel::System::UnitTest::Helper;
+
+# helper object
+my $HelperObject = Kernel::System::UnitTest::Helper->new(
+    %{$Self},
+    UnitTestObject             => $Self,
+    RestoreSystemConfiguration => 1,
+);
 
 # create local config object
 my $ConfigObject = Kernel::Config->new();
@@ -179,6 +187,11 @@ for my $Header ( sort keys %NeededXHeaders ) {
 $ConfigObject->Set(
     Key   => 'PostmasterX-Header',
     Value => \@PostmasterXHeader
+);
+
+# disable not needed event module
+$ConfigObject->Set(
+    Key => 'Ticket::EventModulePost###TicketDynamicFieldDefault',
 );
 
 # use different subject format
