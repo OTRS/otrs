@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminProcessManagement.pm - process management
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagement.pm,v 1.16 2012-07-20 06:42:42 cr Exp $
+# $Id: AdminProcessManagement.pm,v 1.17 2012-07-21 14:20:04 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,11 +19,13 @@ use Kernel::System::ProcessManagement::DB::Activity;
 use Kernel::System::ProcessManagement::DB::ActivityDialog;
 use Kernel::System::ProcessManagement::DB::Process;
 use Kernel::System::ProcessManagement::DB::Process::State;
+use Kernel::System::ProcessManagement::DB::Transition;
+use Kernel::System::ProcessManagement::DB::TransitionAction;
 
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -46,9 +48,17 @@ sub new {
     $Self->{ProcessObject}  = Kernel::System::ProcessManagement::DB::Process->new( %{$Self} );
     $Self->{EntityObject}   = Kernel::System::ProcessManagement::DB::Entity->new( %{$Self} );
     $Self->{ActivityObject} = Kernel::System::ProcessManagement::DB::Activity->new( %{$Self} );
+
     $Self->{ActivityDialogObject}
         = Kernel::System::ProcessManagement::DB::ActivityDialog->new( %{$Self} );
+
     $Self->{StateObject} = Kernel::System::ProcessManagement::DB::Process::State->new( %{$Self} );
+
+    $Self->{TransitionObject}
+        = Kernel::System::ProcessManagement::DB::Transition->new( %{$Self} );
+
+    $Self->{TransitionActionObject}
+        = Kernel::System::ProcessManagement::DB::TransitionAction->new( %{$Self} );
 
     return $Self;
 }
@@ -745,9 +755,8 @@ sub _ShowEdit {
             );
         }
 
-        #TODO Add Transition and TransitionAction to Elements when backend and frontennds are ready
         # ouput available process elements in the accordion
-        for my $Element (qw(Activity ActivityDialog)) {
+        for my $Element (qw(Activity ActivityDialog Transition TransitionAction)) {
 
             my $ElementMethod = $Element . 'ListGet';
 
@@ -810,7 +819,39 @@ sub _ShowEdit {
         }
     }
 
-    # dump process data into a json string so it can be parsed in JS
+    # set db dump as config settings
+    my $ProcessDump = $Self->{ProcessObject}->ProcessDump(
+        ResultType => 'HASH',
+        UserID     => $Self->{UserID},
+    );
+    my $ProcessConfigJSON = $Self->{LayoutObject}->JSONEncode(
+        Data => $ProcessDump->{Process},
+    );
+    my $ActivityConfigJSON = $Self->{LayoutObject}->JSONEncode(
+        Data => $ProcessDump->{Activity},
+    );
+    my $ActivityDialogConfigJSON = $Self->{LayoutObject}->JSONEncode(
+        Data => $ProcessDump->{ActivityDialog},
+    );
+    my $TransitionConfigJSON = $Self->{LayoutObject}->JSONEncode(
+        Data => $ProcessDump->{Transition},
+    );
+    my $TransitionActionConfigJSON = $Self->{LayoutObject}->JSONEncode(
+        Data => $ProcessDump->{TransitionAction},
+    );
+
+    $Self->{LayoutObject}->Block(
+        Name => 'ConfigSet',
+        Data => {
+            ProcessConfig          => $ProcessConfigJSON,
+            ActivityConfig         => $ActivityConfigJSON,
+            ActivityDialogConfig   => $ActivityDialogConfigJSON,
+            TransitionConfig       => $TransitionConfigJSON,
+            TransitionActionConfig => $TransitionActionConfigJSON,
+        },
+    );
+
+    # TODO check if this is still needed
     my $ProcessDataJSON = $Self->{LayoutObject}->JSONEncode(
         Data => $ProcessData,
     );
@@ -936,6 +977,11 @@ sub _CheckEntityUsage {
         Deleteable => $Deleteable,
         Usage      => \@Usage,
     };
+}
+
+sub _GetFullProcessConfig {
+    my ( $Self, %Param )
+
 }
 
 1;

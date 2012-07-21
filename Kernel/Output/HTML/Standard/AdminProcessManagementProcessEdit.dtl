@@ -2,7 +2,7 @@
 # AdminProcessManagementProcessEdit.dtl - provides HTML for AdminProcessManagement
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementProcessEdit.dtl,v 1.14 2012-07-19 14:14:16 mn Exp $
+# $Id: AdminProcessManagementProcessEdit.dtl,v 1.15 2012-07-21 14:20:04 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -233,6 +233,19 @@
         <p class="SpacingTop"><strong><span class="EntityName"></span></strong></p>
     </div>
 </div>
+
+<!-- dtl:block:ConfigSet -->
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+    Core.Config.Set('Config.Process', $Data{"ProcessConfig"} );
+    Core.Config.Set('Config.Activity', $Data{"ActivityConfig"} );
+    Core.Config.Set('Config.ActivityDialog', $Data{"ActivityDialogConfig"} );
+    Core.Config.Set('Config.Transition', $Data{"TransitionConfig"} );
+    Core.Config.Set('Config.TransitionAction', $Data{"TransitionActionConfig"} );
+//]]></script>
+<!--dtl:js_on_document_complete-->
+<!-- dtl:block:ConfigSet -->
+
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
 Core.Agent.Admin.ProcessManagement.InitProcessEdit();
