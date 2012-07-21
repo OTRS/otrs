@@ -2,7 +2,7 @@
 # ProcessDump.t - ProcessManagement DB ProcessDump tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: ProcessDump.t,v 1.2 2012-07-20 06:07:04 cr Exp $
+# $Id: ProcessDump.t,v 1.3 2012-07-21 14:18:47 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,6 +20,8 @@ use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::ProcessManagement::DB::Process;
 use Kernel::System::ProcessManagement::DB::Activity;
 use Kernel::System::ProcessManagement::DB::ActivityDialog;
+use Kernel::System::ProcessManagement::DB::Transition;
+use Kernel::System::ProcessManagement::DB::TransitionAction;
 use Kernel::System::UnitTest::Helper;
 
 # Create Helper instance which will restore system configuration in destructor
@@ -28,6 +30,10 @@ my $HelperObject = Kernel::System::UnitTest::Helper->new(
     UnitTestObject             => $Self,
     RestoreSystemConfiguration => 0,
 );
+
+# define needed variables
+my $RandomID = $HelperObject->GetRandomID();
+my $UserID   = 1;
 
 my $ConfigObject = Kernel::Config->new();
 
@@ -43,9 +49,18 @@ my $ActivityDialogObject = Kernel::System::ProcessManagement::DB::ActivityDialog
     %{$Self},
     ConfigObject => $ConfigObject,
 );
+my $TransitionObject = Kernel::System::ProcessManagement::DB::Transition->new(
+    %{$Self},
+    ConfigObject => $ConfigObject,
+);
+my $TransitionActionObject = Kernel::System::ProcessManagement::DB::TransitionAction->new(
+    %{$Self},
+    ConfigObject => $ConfigObject,
+);
 
+# Add process Parts
 my $ProcessID = $ProcessObject->ProcessAdd(
-    EntityID      => 'PTest1',
+    EntityID      => 'P-Test1',
     Name          => 'Process 1',
     StateEntityID => 'S1',
     Layout        => {},
@@ -54,22 +69,22 @@ my $ProcessID = $ProcessObject->ProcessAdd(
         StartActivity       => 'ATest1',
         StartActivityDialog => 'ADTest1',
         Path                => {                  # New way:
-            'ATest1' => {
-                'TTest1' => {
-                    'ActivityID' => 'ATest2',
+            'A-Test1' => {
+                'T-Test1' => {
+                    'ActivityID' => 'A-Test2',
                     'Action'     => [
-                        'TA1',
-                        'TA2',
-                        'TA3',
+                        'TA-Test1',
+                        'TA-Test2',
+                        'TA-Test3',
                     ],
                 },
-                'TTest2' => {
-                    'ActivityID' => 'ATest3',
+                'T-Test2' => {
+                    'ActivityID' => 'A-Test3',
                 },
             },
         },
     },
-    UserID => 1,
+    UserID => $UserID,
 );
 
 $Self->IsNot(
@@ -79,20 +94,20 @@ $Self->IsNot(
 );
 
 my $ActivityID = $ActivityObject->ActivityAdd(
-    EntityID => 'ATest1',
+    EntityID => 'A-Test1',
     Name     => 'Activity 1',
     Config   => {
         ActivityDialog => {
-            1 => 'ADTest1',
+            1 => 'AD-Test1',
             2 => {
-                ActivityDialogID => 'ADTest2',
+                ActivityDialogID => 'AD-Test2',
                 Overwrite        => {
                     FieldOrder => [ 1, 2, 4, 3 ],
                 },
             },
         },
     },
-    UserID => 1,
+    UserID => $UserID,
 );
 
 $Self->IsNot(
@@ -102,7 +117,7 @@ $Self->IsNot(
 );
 
 my $ActivityDialogID = $ActivityDialogObject->ActivityDialogAdd(
-    EntityID => 'ADTest1',
+    EntityID => 'AD-Test1',
     Name     => 'Activity Dialog 1',
     Config   => {
         DescriptionShort => 'Short description',
@@ -172,28 +187,89 @@ my $ActivityDialogID = $ActivityDialogObject->ActivityDialogAdd(
         SubmitAdviceText => 'Waring test...',
         SubmitButtonText => 'Submit äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß',
     },
-    UserID => 1,
+    UserID => $UserID,
 );
 
 $Self->IsNot(
     $ActivityDialogID,
     undef,
-    "ActivityDialogADD() | DialogID is not undef",
+    "ActivityDialogADD() | ActivityDialogID is not undef",
 );
 
-my $Output = $ProcessObject->ProcessDump( UserID => 1 );
+my $TransitionID = $TransitionObject->TransitionAdd(
+    EntityID => 'T-Test1',
+    Name     => 'Transition 1',
+    Config   => {
+        Condition => {
+            Type  => 'and',
+            Cond1 => {
+                Type   => 'and',
+                Fields => {
+                    DynamicField_Marke => {
+                        Type  => 'String',
+                        Match => 'Teststring',
+                    },
+                    DynamicField_VWModell => ['1'],
+                },
+            },
+            Cond2 => {
+                DynamicField_Marke         => ['2'],
+                DynamicField_PeugeotModell => ['1'],
+            },
+        },
+    },
+    UserID => $UserID,
+);
 
-#print $Output;
+$Self->IsNot(
+    $TransitionID,
+    undef,
+    "TransitionADD() | TransitionID is not undef",
+);
+
+my $TransitionActionID = $TransitionActionObject->TransitionActionAdd(
+    EntityID => 'TA-Test1',
+    Name     => 'Queue Move',
+    Config   => {
+        Module => 'Kernel::System::Process::Transition::Action::QueueMove',
+        Config => {
+            TargetQueue => 'Raw',
+            NewOwner    => 'root@localhost',
+        },
+    },
+    UserID => $UserID,
+);
+
+$Self->IsNot(
+    $TransitionActionID,
+    undef,
+    "TransitionActionADD() | TransitionActionID is not undef",
+);
+
+# actual tests
+my $ConfigHash = $ProcessObject->ProcessDump(
+    ResultType => 'HASH',
+    UserID     => 1
+);
+
+$Self->IsNotDeeply(
+    $ConfigHash,
+    {},
+    "ProcessDump() | Output is not emtpy hash",
+);
+
+my $Output = $ProcessObject->ProcessDump( UserID => $UserID );
 
 $Self->IsNot(
     $Output,
     undef,
-    "ProcessOutput() | Output is not undef",
+    "ProcessDump() | Output is not undef",
 );
 
+# clean the system
 my $Success = $ProcessObject->ProcessDelete(
     ID     => $ProcessID,
-    UserID => 1,
+    UserID => $UserID,
 );
 
 $Self->IsNot(
@@ -204,7 +280,7 @@ $Self->IsNot(
 
 $Success = $ActivityObject->ActivityDelete(
     ID     => $ActivityID,
-    UserID => 1,
+    UserID => $UserID,
 );
 
 $Self->IsNot(
@@ -215,13 +291,35 @@ $Self->IsNot(
 
 $Success = $ActivityDialogObject->ActivityDialogDelete(
     ID     => $ActivityDialogID,
-    UserID => 1,
+    UserID => $UserID,
 );
 
 $Self->IsNot(
     $Success,
     undef,
     "ActivityDialogDelete() | Success is not undef",
+);
+
+$Success = $TransitionObject->TransitionDelete(
+    ID     => $TransitionID,
+    UserID => $UserID,
+);
+
+$Self->IsNot(
+    $Success,
+    undef,
+    "TransitionDelete() | Success is not undef",
+);
+
+$Success = $TransitionActionObject->TransitionActionDelete(
+    ID     => $TransitionActionID,
+    UserID => $UserID,
+);
+
+$Self->IsNot(
+    $Success,
+    undef,
+    "TransitionActionDelete() | Success is not undef",
 );
 
 1;
