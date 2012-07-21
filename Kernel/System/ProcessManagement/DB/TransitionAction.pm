@@ -2,7 +2,7 @@
 # Kernel/System/ProcessManagement/TransitionAction.pm - Process Management DB TransitionAction backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TransitionAction.pm,v 1.1 2012-07-20 06:03:34 cr Exp $
+# $Id: TransitionAction.pm,v 1.2 2012-07-21 14:15:42 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Cache;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 =head1 NAME
 
@@ -119,7 +119,7 @@ add new TransitionAction
 returns the id of the created TransitionAction if success or undef otherwise
 
     my $ID = $TransitionActionObject->TransitionActionAdd(
-        EntityID    => 'AD1'                     # mandatory, exportable unique identifier
+        EntityID    => 'TA1'                     # mandatory, exportable unique identifier
         Name        => 'NameOfTransitionAction', # mandatory
         Config      => $ConfigHashRef,           # mandatory, transition action configuration to be
                                                  #    stored in YAML format
@@ -177,7 +177,7 @@ sub TransitionActionAdd {
         );
         return;
     }
-    for my $Needed (qw(Config)) {
+    for my $Needed (qw(Module Config)) {
         if ( !$Param{Config}->{$Needed} ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
@@ -188,10 +188,17 @@ sub TransitionActionAdd {
     }
 
     # check config formats
+    if ( !IsStringWithData( $Param{Config}->{Module} ) ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Config Module must be a non empty String!",
+        );
+        return;
+    }
     if ( ref $Param{Config}->{Config} ne 'HASH' ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Config->Config must be a Hash!",
+            Message  => "Config Config must be a Hash!",
         );
         return;
     }
@@ -444,7 +451,7 @@ sub TransitionActionUpdate {
         );
         return;
     }
-    for my $Needed (qw(Config)) {
+    for my $Needed (qw(Module Config)) {
         if ( !$Param{Config}->{$Needed} ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
@@ -455,6 +462,13 @@ sub TransitionActionUpdate {
     }
 
     # check config formats
+    if ( !IsStringWithData( $Param{Config}->{Module} ) ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Config->Config must be a non empty string!",
+        );
+        return;
+    }
     if ( ref $Param{Config}->{Config} ne 'HASH' ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
@@ -694,6 +708,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2012-07-20 06:03:34 $
+$Revision: 1.2 $ $Date: 2012-07-21 14:15:42 $
 
 =cut
