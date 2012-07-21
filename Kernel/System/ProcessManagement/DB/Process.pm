@@ -2,7 +2,7 @@
 # Kernel/System/ProcessManagement/Process.pm - Process Management DB Process backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Process.pm,v 1.11 2012-07-20 06:05:04 cr Exp $
+# $Id: Process.pm,v 1.12 2012-07-21 14:17:45 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,9 +22,11 @@ use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::ProcessManagement::DB::Activity;
 use Kernel::System::ProcessManagement::DB::ActivityDialog;
 use Kernel::System::ProcessManagement::DB::Process::State;
+use Kernel::System::ProcessManagement::DB::Transition;
+use Kernel::System::ProcessManagement::DB::TransitionAction;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 =head1 NAME
 
@@ -107,6 +109,9 @@ sub new {
         = Kernel::System::ProcessManagement::DB::ActivityDialog->new( %{$Self} );
     $Self->{ActivityObject} = Kernel::System::ProcessManagement::DB::Activity->new( %{$Self} );
     $Self->{StateObject} = Kernel::System::ProcessManagement::DB::Process::State->new( %{$Self} );
+    $Self->{TransitionObject} = Kernel::System::ProcessManagement::DB::Transition->new( %{$Self} );
+    $Self->{TransitionActionObject}
+        = Kernel::System::ProcessManagement::DB::TransitionAction->new( %{$Self} );
 
     # get the cache TTL (in seconds)
     $Self->{CacheTTL}
@@ -779,30 +784,284 @@ sub ProcessListGet {
     return \@Data;
 }
 
-# TODO Add POD
-# TODO Finish Implementation
+=item ProcessDump()
+
+gets a complete procesess information dump from the DB including: Process State, Activities,
+ActivityDialogs, Transitions and TransitionActions
+
+    my $ProcessDump = $ProcessObject->ProcessDump(
+        ResultType  => 'SCALAR'                     # 'SCALAR' || 'HASH' || 'FILE'
+        Location    => '/opt/otrs/var/myfile.txt'   # mandatry for ResultType = 'FILE'
+        UserID      => 1,
+    );
+
+Returns:
+
+    $ProcessDump = '
+        my $Self = shift;
+
+        $Self->{'Process'} = {
+          'P1' => {
+            'Name' => 'Process 1',
+            'CreateTime' => '2012-07-21 08:11:33',
+            'ChangeTime' => '2012-07-21 08:11:33',
+            'Path' => {
+              'A1' => {
+                'T1' => {
+                  'Action' => [
+                    'TA1',
+                  ],
+              }
+            },
+            'StartActivity' => 'A1',
+            'StartActivityDialog' => 'AD1',
+            'State' => 'S1'
+          },
+          # ...
+        };
+
+        $Self->{'Process::State'} = {
+          'S1' => 'Active',
+          'S2' => 'Inactive',
+          'S3' => 'FadeAway'
+        };
+
+        $Self->{'Process::Activity'} = {
+          'A1' => {
+            'Name' => 'Activity 1'
+            'CreateTime' => '2012-07-21 08:11:33',
+            'ChangeTime' => '2012-07-21 08:11:33',
+            'ActivityDialog' => {
+              '1' => 'AD1',
+              }
+            },
+          },
+          # ...
+        };
+
+        $Self->{'Process::ActivityDialog'} = {
+          'AD1' => {
+            'Name' => 'Activity Dialog 1',
+            'CreateTime' => '2012-07-21 08:11:33',
+            'ChangeTime' => '2012-07-21 08:11:33',
+            'DescriptionLong' => 'Longer description',
+            'DescriptionShort' => 'Short description',
+            'FieldOrder' => [
+              'StateID',
+              'DynamicField_Marke',
+            ],
+            'Fields' => {
+              'StateID' => {
+                'DefaultValue' => '1',
+                'DescriptionLong' => 'Longer description',
+                'DescriptionShort' => 'Short description',
+                'Display' => '0'
+              },
+              'DynamicField_Marke' => {
+                'DescriptionLong' => 'Longer description',
+                'DescriptionShort' => 'Short description',
+                'Display' => '2'
+              },
+            },
+            #...
+        };
+
+        $Self->{'Process::Transition'} = {
+          'T1' => {
+            'Name' => 'Transition 1'
+            'ChangeTime' => '2012-07-21 08:11:33',
+            'CreateTime' => '2012-07-21 08:11:33',
+            'Condition' => {
+              'Type' => 'and',
+              'Cond1' => {
+                'Fields' => {
+                  'DynamicField_Marke' => {
+                    'Match' => 'Teststring',
+                    'Type' => 'String',
+                  },
+                },
+                'Type' => 'and',
+              },
+            },
+          },
+          # ...
+        };
+
+        $Self->{'Process::Action'} = {
+          'TA1' => {
+            'Name' => 'Queue Move',
+            'CreateTime' => '2012-07-21 08:11:33',
+            'ChangeTime' => '2012-07-21 08:11:33',
+            'Module' => 'Kernel::System::Process::Transition::Action::QueueMove',
+            'Config' => {
+              'NewOwner' => 'root@localhost',
+              'TargetQueue' => 'Raw',
+            },
+          },
+          # ...
+        };
+     ';
+
+    my $ProcessDump = $ProcessObject->ProcessDump(
+        ResultType  => 'HASH'                       # 'SCALAR' || 'HASH' || 'FILE'
+        Location    => '/opt/otrs/var/myfile.txt'   # mandatry for ResultType = 'FILE'
+        UserID      => 1,
+    );
+
+Returns:
+
+    $ProcessDump = {
+        Process => {
+          'P1' => {
+            'Name' => 'Process 1',
+            'CreateTime' => '2012-07-21 08:11:33',
+            'ChangeTime' => '2012-07-21 08:11:33',
+            'Path' => {
+              'A1' => {
+                'T1' => {
+                  'Action' => [
+                    'TA1',
+                  ],
+              }
+            },
+            'StartActivity' => 'A1',
+            'StartActivityDialog' => 'AD1',
+            'State' => 'S1'
+          },
+          # ...
+        };
+
+        State => {
+          'S1' => 'Active',
+          'S2' => 'Inactive',
+          'S3' => 'FadeAway'
+        };
+
+        Activity => {
+          'A1' => {
+            'Name' => 'Activity 1'
+            'CreateTime' => '2012-07-21 08:11:33',
+            'ChangeTime' => '2012-07-21 08:11:33',
+            'ActivityDialog' => {
+              '1' => 'AD1',
+              }
+            },
+          },
+          # ...
+        };
+
+        ActivityDialog => {
+          'AD1' => {
+            'Name' => 'Activity Dialog 1',
+            'CreateTime' => '2012-07-21 08:11:33',
+            'ChangeTime' => '2012-07-21 08:11:33',
+            'DescriptionLong' => 'Longer description',
+            'DescriptionShort' => 'Short description',
+            'FieldOrder' => [
+              'StateID',
+              'DynamicField_Marke',
+            ],
+            'Fields' => {
+              'StateID' => {
+                'DefaultValue' => '1',
+                'DescriptionLong' => 'Longer description',
+                'DescriptionShort' => 'Short description',
+                'Display' => '0'
+              },
+              'DynamicField_Marke' => {
+                'DescriptionLong' => 'Longer description',
+                'DescriptionShort' => 'Short description',
+                'Display' => '2'
+              },
+            },
+            #...
+        };
+
+        Transition => {
+          'T1' => {
+            'Name' => 'Transition 1'
+            'ChangeTime' => '2012-07-21 08:11:33',
+            'CreateTime' => '2012-07-21 08:11:33',
+            'Condition' => {
+              'Type' => 'and',
+              'Cond1' => {
+                'Fields' => {
+                  'DynamicField_Marke' => {
+                    'Match' => 'Teststring',
+                    'Type' => 'String',
+                  },
+                },
+                'Type' => 'and',
+              },
+            },
+          },
+          # ...
+        };
+
+        TransitionAction => {
+          'TA1' => {
+            'Name' => 'Queue Move',
+            'CreateTime' => '2012-07-21 08:11:33',
+            'ChangeTime' => '2012-07-21 08:11:33',
+            'Module' => 'Kernel::System::Process::Transition::Action::QueueMove',
+            'Config' => {
+              'NewOwner' => 'root@localhost',
+              'TargetQueue' => 'Raw',
+            },
+          },
+          # ...
+        };
+    }
+
+    my $ProcessDump = $ProcessObject->ProcessDump(
+        ResultType  => 'Location'                     # 'SCALAR' || 'HASH' || 'FILE'
+        Location    => '/opt/otrs/var/myfile.txt'     # mandatry for ResultType = 'FILE'
+        UserID      => 1,
+    );
+
+Returns:
+    $ProcessDump = '/opt/otrs/var/myfile.txt';      # or undef if can't write the file
+
+=cut
+
 # TODO Add full tests
 sub ProcessDump {
     my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    if ( !$Param{UserID} ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need UserID!',
+        );
+        return;
+    }
+
+    if ( !defined $Param{ResultType} )
+    {
+        $Param{ResultType} = 'SCALAR';
+    }
+
+    if ( $Param{ResultType} eq 'FILE' ) {
+        if ( !$Param{Location} ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => 'Need Location for ResultType \'FILE\'!',
+            );
+
+        }
+    }
 
     # get States
     my %StateDump = %{ $Self->{StateObject}->StateList( UserID => 1 ) };
 
     # get Processes
-    my $ProcessList = $Self->ProcessList( UserID => 1 );
+    my $ProcessList = $Self->ProcessListGet( UserID => 1 );
 
     my %ProcessDump;
 
     PROCESS:
-    for my $ProcessID ( keys %{$ProcessList} ) {
-
-        next PROCESS if !$ProcessID;
-        next PROCESS if !$ProcessList->{$ProcessID};
-
-        my $ProcessData = $Self->ProcessGet(
-            ID     => $ProcessID,
-            UserID => 1,
-        );
+    for my $ProcessData ( @{$ProcessList} ) {
 
         next PROCESS if !IsHashRefWithData($ProcessData);
 
@@ -818,20 +1077,12 @@ sub ProcessDump {
     }
 
     # get Activities
-    my $ActivitiesList = $Self->{ActivityObject}->ActivityList( UserID => 1 );
+    my $ActivitiesList = $Self->{ActivityObject}->ActivityListGet( UserID => 1 );
 
     my %ActivityDump;
 
     ACTIVITY:
-    for my $ActivityID ( keys %{$ActivitiesList} ) {
-
-        next ACTIVITY if !$ActivityID;
-        next ACTIVITY if !$ActivitiesList->{$ActivityID};
-
-        my $ActivityData = $Self->{ActivityObject}->ActivityGet(
-            ID     => $ActivityID,
-            UserID => 1,
-        );
+    for my $ActivityData ( @{$ActivitiesList} ) {
 
         next ACTIVITY if !IsHashRefWithData($ActivityData);
 
@@ -844,22 +1095,14 @@ sub ProcessDump {
     }
 
     # get ActivityDialogs
-    my $ActivityDialogsList = $Self->{ActivityDialogObject}->ActivityDialogList( UserID => 1 );
+    my $ActivityDialogsList = $Self->{ActivityDialogObject}->ActivityDialogListGet( UserID => 1 );
 
     my %ActivityDialogDump;
 
     ACTIVITYDIALOG:
-    for my $ActivityDialogID ( keys %{$ActivityDialogsList} ) {
+    for my $ActivityDialogData ( @{$ActivityDialogsList} ) {
 
-        next ACTIVITYDIALOG if !$ActivityDialogID;
-        next ACTIVITYDIALOG if !$ActivityDialogsList->{$ActivityDialogID};
-
-        my $ActivityDialogData = $Self->{ActivityDialogObject}->ActivityDialogGet(
-            ID     => $ActivityDialogID,
-            UserID => 1,
-        );
-
-        next ACTIVITYDIALOG if !IsHashRefWithData($ActivityDialogData);
+        next ACTIVITY if !IsHashRefWithData($ActivityDialogData);
 
         $ActivityDialogDump{ $ActivityDialogData->{EntityID} } = {
             Name             => $ActivityDialogData->{Name},
@@ -877,61 +1120,109 @@ sub ProcessDump {
     }
 
     # get Transitions
-
-    # TODO Implement
-    # my $TransitionsList = $Self->{TransitionObject}->TransitionList{ UserID => 1 };
+    my $TransitionsList = $Self->{TransitionObject}->TransitionListGet( UserID => 1 );
 
     my %TransitionDump;
 
-    # get Actions
+    TRANSITION:
+    for my $TransitionData ( @{$TransitionsList} ) {
 
-    # TODO Implement
-    # my $ActionsList = $Self->{ActionObject}->ActionList{ UserID => 1 };
+        next TRANSITION if !IsHashRefWithData($TransitionData);
 
-    my %ActionDump;
+        $TransitionDump{ $TransitionData->{EntityID} } = {
+            Name       => $TransitionData->{Name},
+            CreateTime => $TransitionData->{CreateTime},
+            ChangeTime => $TransitionData->{ChangeTime},
+            Condition  => $TransitionData->{Config}->{Condition} || {},
+        };
+    }
 
-    # get ACLs?
-    # TODO Implement?
+    # get TransitionActions
+    my $TransitionActionsList
+        = $Self->{TransitionActionObject}->TransitionActionListGet( UserID => 1 );
 
-    # create output
-    my $Output = "my \$Self = shift;\n";
+    my %TransitionActionDump;
 
-    $Output .= $Self->_ProcessItemOutput(
-        Key   => "Process",
-        Value => \%ProcessDump,
-    );
+    TRANSITIONACTION:
+    for my $TransitionActionData ( @{$TransitionActionsList} ) {
 
-    $Output .= $Self->_ProcessItemOutput(
-        Key   => 'Process::State',
-        Value => \%StateDump,
-    );
+        next TRANSITIONACTION if !IsHashRefWithData($TransitionActionData);
 
-    $Output .= $Self->_ProcessItemOutput(
-        Key   => 'Process::Activity',
-        Value => \%ActivityDump,
-    );
+        $TransitionActionDump{ $TransitionActionData->{EntityID} } = {
+            Name       => $TransitionActionData->{Name},
+            CreateTime => $TransitionActionData->{CreateTime},
+            ChangeTime => $TransitionActionData->{ChangeTime},
+            Module     => $TransitionActionData->{Config}->{Module} || '',
+            Config     => $TransitionActionData->{Config}->{Config} || {},
+        };
+    }
 
-    $Output .= $Self->_ProcessItemOutput(
-        Key   => 'Process::ActivityDialog',
-        Value => \%ActivityDialogDump,
-    );
+    # return Hash useful for JSON
+    if ( $Param{ResultType} eq 'HASH' ) {
 
-    $Output .= $Self->_ProcessItemOutput(
-        Key   => 'Process::Transition',
-        Value => \%TransitionDump,
-    );
+        return {
+            'Process'          => \%ProcessDump,
+            'State'            => \%StateDump,
+            'Activity'         => \%ActivityDump,
+            'ActivityDialog'   => \%ActivityDialogDump,
+            'Transition'       => \%TransitionDump,
+            'TransitionAction' => \%TransitionActionDump,
+        };
 
-    $Output .= $Self->_ProcessItemOutput(
-        Key   => 'Process::Action',
-        Value => \%ActionDump,
-    );
+    }
+    else {
 
-    #    $Output .= $Self->_ProcessItemOutput(
-    #        Key   => 'Process::ACLs',
-    #        Value => \%ACLsDump,
-    #    );
+        # create output
+        my $Output = "my \$Self = shift;\n";
 
-    return $Output;
+        $Output .= $Self->_ProcessItemOutput(
+            Key   => "Process",
+            Value => \%ProcessDump,
+        );
+
+        $Output .= $Self->_ProcessItemOutput(
+            Key   => 'Process::State',
+            Value => \%StateDump,
+        );
+
+        $Output .= $Self->_ProcessItemOutput(
+            Key   => 'Process::Activity',
+            Value => \%ActivityDump,
+        );
+
+        $Output .= $Self->_ProcessItemOutput(
+            Key   => 'Process::ActivityDialog',
+            Value => \%ActivityDialogDump,
+        );
+
+        $Output .= $Self->_ProcessItemOutput(
+            Key   => 'Process::Transition',
+            Value => \%TransitionDump,
+        );
+
+        $Output .= $Self->_ProcessItemOutput(
+            Key   => 'Process::Action',
+            Value => \%TransitionActionDump,
+        );
+
+        # return a scalar variable with all config as test
+        if ( $Param{ResultType} ne 'FILE' ) {
+
+            return $Output;
+        }
+
+        # return a file location
+        else {
+            my $FileLocation = $Self->{MainObject}->FileWrite(
+                Location => $Param{Location},
+                Content  => \$Output,
+                Mode     => 'utf8',
+                Type     => 'Local',
+            );
+
+            return $FileLocation
+        }
+    }
 }
 
 # TODO Add POD
@@ -963,6 +1254,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.11 $ $Date: 2012-07-20 06:05:04 $
+$Revision: 1.12 $ $Date: 2012-07-21 14:17:45 $
 
 =cut
