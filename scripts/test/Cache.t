@@ -2,7 +2,7 @@
 # Cache.t - Cache tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Cache.t,v 1.25 2012-06-26 13:57:55 mg Exp $
+# $Id: Cache.t,v 1.26 2012-07-23 21:24:50 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::Cache;
 my $ConfigObject = Kernel::Config->new();
 
 MODULE:
-for my $Module qw(FileStorable FileRaw) {
+for my $Module (qw(FileStorable FileRaw)) {
 
     $ConfigObject->Set(
         Key   => 'Cache::Module',
