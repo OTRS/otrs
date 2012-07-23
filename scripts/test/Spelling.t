@@ -2,7 +2,7 @@
 # Spelling.t - Authentication tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Spelling.t,v 1.7 2012-07-23 04:41:42 cg Exp $
+# $Id: Spelling.t,v 1.8 2012-07-23 14:55:08 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -31,6 +31,7 @@ if ( !-e $SpellCheckerBin ) {
             Key   => 'SpellCheckerBin',
             Value => '/usr/bin/aspell',
         );
+        $SpellCheckerBin = '/usr/bin/aspell';
     }
     else {
         $Self->True(
