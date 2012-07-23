@@ -2,7 +2,7 @@
 # Spelling.t - Authentication tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Spelling.t,v 1.6 2012-07-20 18:18:00 cg Exp $
+# $Id: Spelling.t,v 1.7 2012-07-23 04:41:42 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -79,15 +79,6 @@ my @Tests = (
         SpellChecker  => $SpellCheckerBin,
         SpellLanguage => "english",
         Text          => "Thes is a textu with errors",
-        Replace       => 1,
-        Error         => 0,
-    },
-
-    {
-        Name          => 'Test ' . $TestNumber++,
-        SpellChecker  => $SpellCheckerBin,
-        SpellLanguage => "english",
-        Text          => "Anoter wronj text",
         Replace       => 1,
         Error         => 0,
     },
