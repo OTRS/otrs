@@ -2,7 +2,7 @@
 # Kernel/System/ProcessManagement/Process.pm - Process Management DB Process backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Process.pm,v 1.12 2012-07-21 14:17:45 cr Exp $
+# $Id: Process.pm,v 1.13 2012-07-23 22:22:09 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,7 +26,7 @@ use Kernel::System::ProcessManagement::DB::Transition;
 use Kernel::System::ProcessManagement::DB::TransitionAction;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 =head1 NAME
 
@@ -798,8 +798,6 @@ ActivityDialogs, Transitions and TransitionActions
 Returns:
 
     $ProcessDump = '
-        my $Self = shift;
-
         $Self->{'Process'} = {
           'P1' => {
             'Name' => 'Process 1',
@@ -1173,9 +1171,8 @@ sub ProcessDump {
     else {
 
         # create output
-        my $Output = "my \$Self = shift;\n";
 
-        $Output .= $Self->_ProcessItemOutput(
+        my $Output .= $Self->_ProcessItemOutput(
             Key   => "Process",
             Value => \%ProcessDump,
         );
@@ -1213,6 +1210,9 @@ sub ProcessDump {
 
         # return a file location
         else {
+
+            $Output .= "1;\n";
+
             my $FileLocation = $Self->{MainObject}->FileWrite(
                 Location => $Param{Location},
                 Content  => \$Output,
@@ -1254,6 +1254,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.12 $ $Date: 2012-07-21 14:17:45 $
+$Revision: 1.13 $ $Date: 2012-07-23 22:22:09 $
 
 =cut
