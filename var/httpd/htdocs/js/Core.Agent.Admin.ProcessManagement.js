@@ -2,7 +2,7 @@
 // Core.Agent.Admin.ProcessManagement.js - provides the special module functions for the Process Management.
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.9 2012-07-20 23:24:28 cr Exp $
+// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.10 2012-07-23 07:15:37 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -32,6 +32,8 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
             if (Matches) {
                 PopupType = Matches[1];
             }
+            
+            TargetNS.ShowOverlay();
 
             Core.UI.Popup.OpenPopup($(this).attr('href'), PopupType);
             return false;
@@ -48,7 +50,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
             return false;
         });
     }
-
+    
     function ShowDeleteProcessConfirmationDialog($Element) {
         var DialogElement = $Element.data('dialog-element'),
             DialogTitle = $Element.data('dialog-title'),
@@ -77,9 +79,16 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
                                ID: ProcessID
                            };
 
+                       // Change the dialog to an ajax loader
+                       $('.Dialog')
+                           .find('.ContentFooter').empty().end()
+                           .find('.InnerContent').empty().append('<div class="Spacing Center"><span class="AJAXLoader"></span></div>');
+                       
+                       // Call the ajax function
                        Core.AJAX.FunctionCall(Core.Config.Get('CGIHandle'), Data, function (Response) {
                            if (!Response || !Response.Success) {
                                alert(Response.Message);
+                               Core.UI.Dialog.CloseDialog($('.Dialog'));
                                return;
                            }
 
@@ -93,7 +102,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
         );        
     }
 
-    function ShowDeleteEntityConfirmationDialog(EntityType, EntityName, EntityID, ItemID) {
+    function ShowDeleteEntityConfirmationDialog($Element, EntityType, EntityName, EntityID, ItemID) {
         var DialogID = 'Delete' + EntityType + 'ConfirmationDialog',
             $DialogElement = $('#Dialogs #' + DialogID);
         
@@ -125,13 +134,22 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
                                ItemID: ItemID
                            };
 
+                       // Change the dialog to an ajax loader
+                       $('.Dialog')
+                           .find('.ContentFooter').empty().end()
+                           .find('.InnerContent').empty().append('<div class="Spacing Center"><span class="AJAXLoader"></span></div>');
+                       
+                       // Call the ajax function
                        Core.AJAX.FunctionCall(Core.Config.Get('CGIHandle'), Data, function (Response) {
                            if (!Response || !Response.Success) {
                                alert(Response.Message);
+                               Core.UI.Dialog.CloseDialog($('.Dialog'));
                                return;
                            }
 
-                           //TODO refresh the current page to get the update notification
+                           // Remove element from accordion
+                           $Element.closest('li').remove();
+                           Core.UI.Dialog.CloseDialog($('.Dialog'));
                        }, 'json');
                    }
                }
@@ -182,18 +200,8 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
                EntityType = 'TransitionAction';
            }
            
-           // Now check (via ajax) if the given entity is still used in a process/activity/activity dialog etc.
-           // If so, show an error message in a modal dialog.
-           // If not, show a confirmation modal dialog. Deletion via ajax. If successful, remove element from list.
-           //CheckResult = CheckUsageOfEntity(EntityType, EntityID);
-           CheckResult.Deleteable = true;
-           if (!CheckResult.Deleteable) {
-               ShowErrorDialog(CheckResult.Usage);
-           }
-           else {
-               ShowDeleteEntityConfirmationDialog(EntityType, EntityName, EntityID, ItemID);
-           }
-
+           ShowDeleteEntityConfirmationDialog($(this), EntityType, EntityName, EntityID, ItemID);
+           
            return false;
         });
         
@@ -240,6 +248,50 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
         // Init popups
         // TODO create field details popup and re-enable
         // InitProcessPopups();
+    };
+    
+    TargetNS.ShowOverlay = function () {
+        $('<div id="Overlay" tabindex="-1">').appendTo('body');
+        $('body').css({
+            'overflow': 'hidden'
+        });
+        $('#Overlay').height($(document).height()).css('top', 0);
+
+        // If the underlying page is perhaps to small, wie extend the page to window height for the dialog
+        $('body').css('min-height', $(window).height());
+    };
+    
+    TargetNS.HideOverlay = function () {
+        $('#Overlay').remove();
+        $('body').css({
+            'overflow': 'auto'
+        });
+        $('body').css('min-height', 'auto');
+    };
+    
+    TargetNS.UpdateConfig = function (ConfigJSON) {
+        var Config = Core.JSON.Parse(ConfigJSON);
+        
+        if (typeof Config === 'undefined') {
+            return false;
+        }
+        
+        // Update config from popup window
+
+        // Update process 
+        if (typeof Config.Process !== 'undefined') {
+            // TODO: Handle Path update here (merge!)
+            TragetNS.ProcessData.Process = Config.Process;
+        }
+        
+        // Update Activities
+        if (typeof Config.Activity !== 'undefined') {
+            
+            
+        }
+        
+        
+        
     };
     
     return TargetNS;
