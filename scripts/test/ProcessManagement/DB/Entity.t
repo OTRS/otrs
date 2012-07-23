@@ -2,7 +2,7 @@
 # Entity.t - ProcessManagement DB entity tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Entity.t,v 1.2 2012-07-14 04:52:35 cr Exp $
+# $Id: Entity.t,v 1.3 2012-07-23 19:11:50 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -592,7 +592,7 @@ my $OrigEntitySyncStateList = $EntityObject->EntitySyncStateList( UserID => $Use
         Config => {
             EntityType => 'Process',
             EntityID   => 'P-test-1-äüßÄÖÜ€исáéíúúÁÉÍÚñÑ',
-            SyncState  => 'not_sync-äößÄÖ€исáéíúóúÁÉÍÓñÑ',
+            SyncState  => 'not_sync-äßÄ€исáÁñÑ',
             UserID     => $UserID,
         },
         Success => 1,
