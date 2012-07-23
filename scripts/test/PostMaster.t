@@ -2,7 +2,7 @@
 # PostMaster.t - PostMaster tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: PostMaster.t,v 1.37 2012-07-20 05:51:24 cr Exp $
+# $Id: PostMaster.t,v 1.38 2012-07-23 08:49:10 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -182,9 +182,9 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
             );
 
             # add rand postmaster filter
-            my $FilterRand1 = 'filter' . int( rand(1000000) );
-            my $FilterRand2 = 'filter' . int( rand(1000000) );
-            my $FilterRand3 = 'filter' . int( rand(1000000) );
+            my $FilterRand1 = 'filter' . int rand 1000000;
+            my $FilterRand2 = 'filter' . int rand 1000000;
+            my $FilterRand3 = 'filter' . int rand 1000000;
             $PostMasterFilter->FilterAdd(
                 Name           => $FilterRand1,
                 StopAfterMatch => 0,
@@ -224,7 +224,7 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
             );
 
             # get rand sender address
-            my $UserRand1 = 'example-user' . int( rand(1000000) ) . '@example.com';
+            my $UserRand1 = 'example-user' . int rand 1000000 . '@example.com';
 
             for my $File (qw(1 2 3 5 6 11 17 18)) {
 
