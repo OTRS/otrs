@@ -2,7 +2,7 @@
 # AdminProcessManagementProcessEdit.dtl - provides HTML for AdminProcessManagement
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementProcessEdit.dtl,v 1.15 2012-07-21 14:20:04 cr Exp $
+# $Id: AdminProcessManagementProcessEdit.dtl,v 1.16 2012-07-24 14:22:20 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -145,9 +145,8 @@
                 <div class="Content">
                     <input type="hidden" name="Action" value="$Env{"Action"}"/>
                     <input type="hidden" name="Subaction" value="ProcessEditAction"/>
-                    <input type="hidden" name="EntityID" value="$QData{"EntityID"}"/>
+                    <input type="hidden" name="EntityID" id="ProcessEntityID" value="$QData{"EntityID"}"/>
                     <input type="hidden" name="ID" value="$QData{"ID"}"/>
-                    <input type="hidden" name="ProcessData" id="ProcessData" value="$QData{"ProcessDataJSON"}"/>
                     <fieldset class="TableLike">
                         <label class="Mandatory" for="Name"><span class="Marker">*</span> $Text{"Process Name"}:</label>
                         <div class="Field">
@@ -238,6 +237,7 @@
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
     Core.Config.Set('Config.Process', $Data{"ProcessConfig"} );
+    Core.Config.Set('Config.ProcessLayout', $Data{"ProcessLayout"} );
     Core.Config.Set('Config.Activity', $Data{"ActivityConfig"} );
     Core.Config.Set('Config.ActivityDialog', $Data{"ActivityDialogConfig"} );
     Core.Config.Set('Config.Transition', $Data{"TransitionConfig"} );
@@ -254,7 +254,8 @@ Core.Agent.Admin.ProcessManagement.InitProcessEdit();
 Core.Agent.Admin.ProcessManagement.Localization = {
         CancelMsg: "$Text{"Cancel"}",
         DeleteMsg: "$Text{"Delete"}",
-        DeleteEntityTitle: "$Text{"Delete Entity"}"
+        DeleteEntityTitle: "$Text{"Delete Entity"}",
+        ActivityAlreadyPlaced: "$Text{"This Activity is already used in the Process. You cannot add it twice!"}"
 };
 //]]></script>
 <!-- dtl:js_on_document_complete -->

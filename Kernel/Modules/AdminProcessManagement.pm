@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminProcessManagement.pm - process management
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagement.pm,v 1.17 2012-07-21 14:20:04 cr Exp $
+# $Id: AdminProcessManagement.pm,v 1.18 2012-07-24 14:22:20 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,7 +25,7 @@ use Kernel::System::ProcessManagement::DB::TransitionAction;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.17 $) [1];
+$VERSION = qw($Revision: 1.18 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -840,20 +840,20 @@ sub _ShowEdit {
         Data => $ProcessDump->{TransitionAction},
     );
 
+    my $ProcessLayoutJSON = $Self->{LayoutObject}->JSONEncode(
+        Data => $ProcessData->{Layout},
+    );
+
     $Self->{LayoutObject}->Block(
         Name => 'ConfigSet',
         Data => {
             ProcessConfig          => $ProcessConfigJSON,
+            ProcessLayout          => $ProcessLayoutJSON,
             ActivityConfig         => $ActivityConfigJSON,
             ActivityDialogConfig   => $ActivityDialogConfigJSON,
             TransitionConfig       => $TransitionConfigJSON,
             TransitionActionConfig => $TransitionActionConfigJSON,
         },
-    );
-
-    # TODO check if this is still needed
-    my $ProcessDataJSON = $Self->{LayoutObject}->JSONEncode(
-        Data => $ProcessData,
     );
 
     $Output .= $Self->{LayoutObject}->Output(
@@ -862,7 +862,6 @@ sub _ShowEdit {
             %Param,
             %{$ProcessData},
             Description => $ProcessData->{Config}->{Description} || '',
-            ProcessDataJSON => $ProcessDataJSON,
         },
     );
 

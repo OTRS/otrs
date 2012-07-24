@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.4 $
+ * @version     $Revision: 1.5 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -88,6 +88,13 @@ ul#ProcessElements li.AccordionElement div.Content .ProcessElementButton {
     display: block;
     margin: auto;
 }
+
+.EntityDrag {
+    display: block;
+    height: 20px;
+    width: 200px;
+    border: 1px solid #CCC;    
+}    
     
 /**
  * @subsubsection     Diagram Canvas

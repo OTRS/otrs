@@ -2,7 +2,7 @@
 // Core.Agent.Admin.ProcessManagement.js - provides the special module functions for the Process Management.
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.11 2012-07-24 13:33:05 mab Exp $
+// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.12 2012-07-24 14:22:19 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -158,10 +158,158 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
     }
 
     TargetNS.ProcessData = {};
+    TargetNS.ProcessLayout = {};
 
+    TargetNS.InitAccordionDnD = function () {
+        function GetMousePosition(Event) {
+            var PosX = 0;
+            var PosY = 0;
+            if (!Event) var Event = window.event;
+            if (Event.pageX || Event.pageY) {
+                PosX = Event.pageX;
+                PosY = Event.pageY;
+            }
+            else if (Event.clientX || Event.clientY) {
+                PosX = Event.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
+                PosY = Event.clientY + document.body.scrollTop + document.documentElement.scrollTop;
+            }
+            
+            return {left: PosX, top: PosY};
+        }
+        
+        function GetPositionOnCanvas(Event) {
+            var $Canvas = $('#Canvas'),
+                CanvasPosition,
+                MousePosition,
+                PosX, PosY;
+            
+            CanvasPosition = $Canvas.offset();
+            MousePosition = GetMousePosition(Event);
+            
+            PosX = MousePosition.left - CanvasPosition.left;
+            PosY = MousePosition.top - CanvasPosition.top;
+            
+            return {left: PosX, top: PosY};
+        }
+        
+        function AddActivityToCanvas(Event) {
+            var Position = GetPositionOnCanvas(Event),
+                EntityID = $(Event.srcElement).data('entity'),
+                Entity = TargetNS.ProcessData.Activity[EntityID],
+                ProcessEntityID = $('#ProcessEntityID').val(),
+                Path;
+
+            if (typeof Entity !== 'undefined') {
+                // Check if Activity is already placed
+                // If so, it can't be placed again
+                Path = TargetNS.ProcessData.Process[ProcessEntityID].Path;
+                
+                if (!Path[EntityID]) {
+                    // Update Config
+                    Path[EntityID] = {};
+                    // Update Layout
+                    TargetNS.ProcessLayout[EntityID] = {
+                        left: Position.left,
+                        top: Position.top
+                    };
+                    // Draw Entity
+                    TargetNS.Canvas.CreateActivity(EntityID, Entity.Name, Position.left, Position.top);
+                }
+                else {
+                    alert(Core.Agent.Admin.ProcessManagement.Localization.ActivityAlreadyPlaced);
+                }
+            }
+            else {
+                console.log('Error: Entity not defined');
+            }
+        }
+        
+        function CheckIfMousePositionIsOverActivity(Position) {
+            var ProcessEntityID = $('#ProcessEntityID').val(),
+                Path = TargetNS.ProcessData.Process[ProcessEntityID].Path,
+                ActivityMatch = false;
+            
+            // Loop over all assigned activities and check the position
+            $.each(Path, function (Key, Value) {
+                var Activity = Key,
+                    ActivityPosition = TargetNS.ProcessLayout[Key];
+                
+                if (
+                        Position.left > ActivityPosition.left
+                        && Position.left < ActivityPosition.left + 130
+                        && Position.top > ActivityPosition.top
+                        && Position.top < ActivityPosition.top + 100
+                    ) {
+                    ActivityMatch = Key;
+                    return;
+                }
+            });
+            
+            return ActivityMatch;
+        }
+        
+        function AddActivityDialogToCanvas(Event) {
+            var Position = GetPositionOnCanvas(Event),
+                EntityID = $(Event.srcElement).data('entity'),
+                Entity = TargetNS.ProcessData.ActivityDialog[EntityID],
+                Activity;
+
+            if (typeof Entity !== 'undefined') {
+                // Check if mouse position is within an activity
+                // If yes, add the Dialog to the Activity and open the Activity popup
+                // if not, just cancel
+                Activity = CheckIfMousePositionIsOverActivity(Position);
+                
+                if (Activity) {
+                    // Open Popup of Activity with a special Subaction,
+                    // that automatically also adds the dropped ActivityDialog
+                }
+            }
+            else {
+                console.log('Error: Entity not defined');
+            }
+        }
+        
+        $('#Activities li, #ActivityDialogs li').draggable({
+            revert: 'invalid',
+            helper: function () {
+                var $Clone = $(this).clone();
+                $Clone.addClass('EntityDrag').find('span').remove();
+                return $Clone[0];
+            }
+        });
+        
+        $('#Canvas').droppable({
+            accept: '#Activities li, #ActivityDialogs li',
+            drop: function (Event, UI) {
+                var $Source = $(Event.srcElement),
+                    SourceID = $Source.closest('ul').attr('id');
+                
+                if (SourceID === 'Activities') {
+                    AddActivityToCanvas(Event);
+                }
+                else if (SourceID === 'ActivityDialogs') {
+                    AddActivityDialogToCanvas(Event);
+                }
+                else {
+                    console.log('Error: Nomatching droppable found');
+                }
+                
+            }
+        });
+    };
+    
     TargetNS.InitProcessEdit = function () {
         // Get Process Data
-        TargetNS.ProcessData = Core.JSON.Parse($('#ProcessData').val());
+        TargetNS.ProcessData = {
+                Process: Core.Config.Get('Config.Process'),
+                Activity: Core.Config.Get('Config.Activity'),
+                ActivityDialog: Core.Config.Get('Config.ActivityDialog'),
+                Transition: Core.Config.Get('Config.Transition'),
+                TransitionAction: Core.Config.Get('Config.TransitionAction')
+        };
+        
+        TargetNS.ProcessLayout = Core.Config.Get('Config.ProcessLayout');
         
         // Initialize Accordion in the sidebar
         Core.UI.Accordion.Init($('ul#ProcessElements'), 'li.AccordionElement h2 a', 'div.Content');
@@ -171,6 +319,9 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
         Core.UI.Table.InitTableFilter($('#ActivityDialogFilter'), $('#ActivityDialogs'));
         Core.UI.Table.InitTableFilter($('#TransitionFilter'), $('#Transitions'));
         Core.UI.Table.InitTableFilter($('#TransitionActionFilter'), $('#TransitionActions'));
+
+        // Init DnD on Accordion
+        TargetNS.InitAccordionDnD();
         
         // Initialize the different create and edit links/buttons
         InitProcessPopups();
@@ -214,6 +365,8 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
         
         // Init Diagram Canvas
         TargetNS.Canvas.Init();
+        
+
     };
     
     TargetNS.InitActivityEdit = function () {
