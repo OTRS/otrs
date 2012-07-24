@@ -2,7 +2,7 @@
 # AdminProcessManagementTransitionAction.dtl - provides HTML for AdminProcessManagement
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementTransitionAction.dtl,v 1.1 2012-07-19 14:14:16 mn Exp $
+# $Id: AdminProcessManagementTransitionAction.dtl,v 1.2 2012-07-24 13:33:05 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@
     </div>
     <div class="Content">
         <div class="ContentColumn">
-            <form id='TransitionForm' action="$Env{"CGIHandle"}" method="post" class="Validate PreventMultipleSubmits">
+            <form id="TransitionForm" action="$Env{"CGIHandle"}" method="post" class="Validate PreventMultipleSubmits">
                 <input type="hidden" name="Action" value="$Env{"Action"}"/>
                 <input type="hidden" name="Subaction" value="Activity$QData{"Action"}Action"/>
                 <input type="hidden" name="EntityID" value="$QData{"EntityID"}"/>
@@ -63,26 +63,8 @@
                         </fieldset>
                         <fieldset class="TableLike">
                             <label for="Config">$Text{"Config Parameters"}:</label>
-                            <div class="Field">
-                                <fieldset class="Fields">
-                                    <label for="ConfigKey[1]">$Text{"Key"}:</label>
-                                    <input type="text" name="ConfigKey[1]" id="ConfigKey[1]" />
-                                    <label for="ConfigValue[1]">$Text{"Value"}:</label>
-                                    <input type="text" name="ConfigValue[1]" id="ConfigValue[1]" />
-                                    <button class="Remove" type="submit" name="ConfigRemove[1]" title="$Text{"Remove this Parameter"}">
-                                        $Text{"Remove this Parameter"}
-                                    </button>
-                                </fieldset>
-                                <fieldset class="Fields">
-                                    <label for="ConfigKey[2]">$Text{"Key"}:</label>
-                                    <input type="text" name="ConfigKey[2]" id="ConfigKey[2]" />
-                                    <label for="ConfigValue[2]">$Text{"Value"}:</label>
-                                    <input type="text" name="ConfigValue[2]" id="ConfigValue[2]" />
-                                    <button class="Remove" type="submit" name="ConfigRemove[2]" title="$Text{"Remove this Parameter"}">
-                                        $Text{"Remove this Parameter"}
-                                    </button>
-                                </fieldset>
-                                <button class="Add" type="submit" name="ConfigAdd" title="$Text{"Add a new Parameter"}">
+                            <div class="Field" id="ConfigParams">
+                                <button class="Add" type="submit" name="ConfigAdd" id="ConfigAdd" title="$Text{"Add a new Parameter"}">
                                     $Text{"Add a new Parameter"}
                                 </button>
                             </div>
@@ -90,6 +72,17 @@
                     </div>
                 </div>
             </form>
+            <div id="ConfigParamContainer" style="display:none;">
+                <fieldset class="Fields">
+                    <label for="ConfigKey[_INDEX_]">$Text{"Key"}:</label>
+                    <input type="text" name="ConfigKey[_INDEX_]" id="ConfigKey[_INDEX_]" />
+                    <label for="ConfigValue[_INDEX_]">$Text{"Value"}:</label>
+                    <input type="text" name="ConfigValue[_INDEX_]" id="ConfigValue[_INDEX_]" />
+                    <button class="Remove" title="$Text{"Remove this Parameter"}">
+                        $Text{"Remove this Parameter"}
+                    </button>
+                </fieldset>
+            </div>
         </div>
     </div>
     <div class="Footer">
@@ -98,6 +91,6 @@
 </div>
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
-//Core.Agent.Admin.ProcessManagement.InitTransitionEdit();
+Core.Agent.Admin.ProcessManagement.InitTransitionEdit();
 //]]></script>
 <!--dtl:js_on_document_complete-->

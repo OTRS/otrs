@@ -2,7 +2,7 @@
 // Core.Agent.Admin.ProcessManagement.js - provides the special module functions for the Process Management.
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.10 2012-07-23 07:15:37 mn Exp $
+// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.11 2012-07-24 13:33:05 mab Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -250,6 +250,36 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
         // InitProcessPopups();
     };
     
+    TargetNS.InitTransitionEdit = function () {
+        
+        // Init addition of new config parameters
+        $('#ConfigAdd').bind('click', function() {
+            
+            // get current index
+            var ConfigParamsPresent = $('#ConfigParams').find('fieldset'),
+                NewCurrentIndex = ConfigParamsPresent.length + 1;
+
+            // add new config param
+            var ConfigParamHTML = $('#ConfigParamContainer').html().replace(/_INDEX_/g, NewCurrentIndex);;
+            $(ConfigParamHTML).insertBefore($('#ConfigAdd'));
+
+            return false;
+        });
+        
+        // Init removal of fields
+        $('#ConfigParams').delegate('.Remove', 'click', function() {
+            $(this).parent().remove();
+            
+            return false;
+        });
+        
+        $('#Submit').bind('click', function (Event) {
+            $('#TransitionForm').submit();
+            return false;
+        });
+        
+    };
+    
     TargetNS.ShowOverlay = function () {
         $('<div id="Overlay" tabindex="-1">').appendTo('body');
         $('body').css({
@@ -257,7 +287,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
         });
         $('#Overlay').height($(document).height()).css('top', 0);
 
-        // If the underlying page is perhaps to small, wie extend the page to window height for the dialog
+        // If the underlying page is perhaps to small, we extend the page to window height for the dialog
         $('body').css('min-height', $(window).height());
     };
     
