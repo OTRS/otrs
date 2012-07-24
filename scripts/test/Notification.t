@@ -2,7 +2,7 @@
 # Notification.t - Notification tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Notification.t,v 1.1 2012-07-23 23:06:37 cg Exp $
+# $Id: Notification.t,v 1.2 2012-07-24 17:49:31 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,6 +20,13 @@ use Kernel::System::Notification;
 my $UserID = 1;
 
 my $NotificationObject = Kernel::System::Notification->new( %{$Self} );
+
+# workaround for oracle
+# oracle databases can't determine the difference between NULL and ''
+my $IsNotOracle = 1;
+if ( $Self->{DBObject}->GetDatabaseFunction('Type') eq 'oracle' ) {
+    $IsNotOracle = 0;
+}
 
 my $TestNumber = 1;
 
@@ -94,7 +101,7 @@ my @Tests = (
 
     {
         Name          => 'Test ' . $TestNumber++,
-        SuccessAdd    => 1,
+        SuccessAdd    => $IsNotOracle,
         SuccessUpdate => 1,
         Add           => {
             Type        => '',
@@ -107,7 +114,7 @@ my @Tests = (
     },
     {
         Name          => 'Test ' . $TestNumber++,
-        SuccessAdd    => 1,
+        SuccessAdd    => $IsNotOracle,
         SuccessUpdate => 1,
         Add           => {
             Type        => 'NewTicket',
@@ -135,7 +142,7 @@ my @Tests = (
     #    },
     {
         Name          => 'Test ' . $TestNumber++,
-        SuccessAdd    => 1,
+        SuccessAdd    => $IsNotOracle,
         SuccessUpdate => 1,
         Add           => {
             Type        => 'NewTicket',
@@ -148,7 +155,7 @@ my @Tests = (
     },
     {
         Name          => 'Test ' . $TestNumber++,
-        SuccessAdd    => 1,
+        SuccessAdd    => $IsNotOracle,
         SuccessUpdate => 1,
         Add           => {
             Type        => 'NewTicket',
