@@ -2,7 +2,7 @@
 # NotificationEvent.t - NotificationEvent tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: NotificationEvent.t,v 1.2 2012-07-25 16:35:25 cg Exp $
+# $Id: NotificationEvent.t,v 1.3 2012-07-25 19:21:21 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -170,7 +170,7 @@ my @Tests = (
             Charset => 'iso-8895-1',
             Comment => '',
             Data    => {
-                Events => [ 'TicketQueueUpdate', ],
+                Events => [ 'AnEventForThisTest' . $RandomID, ],
                 Queue  => [ 'SomeQueue', ],
             },
             ValidID => 1,
@@ -224,7 +224,7 @@ my @Tests = (
                 Events => [ 'TicketQueueUpdate', ],
                 Queue  => [ 'SomeQueue', ],
             },
-            ValidID => 1,
+            ValidID => 2,
         },
 
         Update => {
@@ -234,10 +234,10 @@ my @Tests = (
             Type    => 'text/plain',
             Charset => 'utf-8',
             Data    => {
-                Events => [ 'TicketQueueUpdate', ],
+                Events => [ 'AnEventForThisTest' . $RandomID, ],
                 Queue  => [ 'ADifferentQueue', ],
             },
-            ValidID => 2,
+            ValidID => 1,
         },
     },
 
@@ -256,7 +256,7 @@ my @Tests = (
                 Events => [ 'TicketQueueUpdate', ],
                 Queue  => [ 'SomeQueue-äüßÄÖÜ€исáéíúúÁÉÍÚñÑ', ],
             },
-            ValidID => 1,
+            ValidID => 2,
         },
 
         Update => {
@@ -267,10 +267,10 @@ my @Tests = (
             Type    => 'text/plain',
             Charset => 'utf-8',
             Data    => {
-                Events => [ 'TicketQueueUpdate', ],
+                Events => [ 'AnEventForThisTest' . $RandomID, ],
                 Queue  => [ 'ADifferentQueue-äüßÄÖÜ€исáéíúúÁÉÍÚñÑ', ],
             },
-            ValidID => 2,
+            ValidID => 1,
         },
     },
 );
@@ -527,6 +527,32 @@ for my $Test (@Tests) {
     );
 
 }
+
+# get ID from added notifications
+my @AddedNotifications = sort keys %NotificationIDs;
+
+# verify IDs
+$Self->Is(
+    1,
+    IsArrayRefWithData( \@AddedNotifications ),
+    "Added Notification IDs- Right structure",
+);
+
+my @IDs
+    = $NotificationEventObject->NotificationEventCheck( Event => 'AnEventForThisTest' . $RandomID );
+
+# verify NotificationEventCheck
+$Self->Is(
+    1,
+    IsArrayRefWithData( \@IDs ),
+    "NotificationEventCheck() - Right structure",
+);
+
+$Self->IsDeeply(
+    \@AddedNotifications,
+    \@IDs,
+    "NotificationEventCheck()",
+);
 
 # list check from DB
 my %NotificationList = $NotificationEventObject->NotificationList();
