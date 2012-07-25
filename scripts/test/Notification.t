@@ -2,7 +2,7 @@
 # Notification.t - Notification tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Notification.t,v 1.2 2012-07-24 17:49:31 cg Exp $
+# $Id: Notification.t,v 1.3 2012-07-25 21:01:43 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -28,8 +28,10 @@ if ( $Self->{DBObject}->GetDatabaseFunction('Type') eq 'oracle' ) {
     $IsNotOracle = 0;
 }
 
+# set test counter
 my $TestNumber = 1;
 
+# define test cases
 my @Tests = (
 
     {
@@ -38,8 +40,8 @@ my @Tests = (
         Add        => {
             Charset     => 'utf-8',
             Language    => 'en',
-            Subject     => 'Some Subject with <OTRS_TAGS>',
-            Body        => 'Some Body with <OTRS_TAGS>',
+            Subject     => 'Some Subject with a tag',
+            Body        => 'Some Body with a tag',
             ContentType => 'text/plain',
         },
     },
@@ -49,8 +51,8 @@ my @Tests = (
         Add        => {
             Type        => 'NewTicket',
             Language    => 'en',
-            Subject     => 'Some Subject with <OTRS_TAGS>',
-            Body        => 'Some Body with <OTRS_TAGS>',
+            Subject     => 'Some Subject with a tag',
+            Body        => 'Some Body with a tag',
             ContentType => 'text/plain',
         },
     },
@@ -60,19 +62,8 @@ my @Tests = (
         Add        => {
             Type        => 'NewTicket',
             Charset     => 'utf-8',
-            Subject     => 'Some Subject with <OTRS_TAGS>',
-            Body        => 'Some Body with <OTRS_TAGS>',
-            ContentType => 'text/plain',
-        },
-    },
-    {
-        Name       => 'Test ' . $TestNumber++,
-        SuccessAdd => 0,
-        Add        => {
-            Type        => 'NewTicket',
-            Charset     => 'utf-8',
-            Language    => 'en',
-            Body        => 'Some Body with <OTRS_TAGS>',
+            Subject     => 'Some Subject with a tag',
+            Body        => 'Some Body with a tag',
             ContentType => 'text/plain',
         },
     },
@@ -83,7 +74,18 @@ my @Tests = (
             Type        => 'NewTicket',
             Charset     => 'utf-8',
             Language    => 'en',
-            Subject     => 'Some Subject with <OTRS_TAGS>',
+            Body        => 'Some Body with a tag',
+            ContentType => 'text/plain',
+        },
+    },
+    {
+        Name       => 'Test ' . $TestNumber++,
+        SuccessAdd => 0,
+        Add        => {
+            Type        => 'NewTicket',
+            Charset     => 'utf-8',
+            Language    => 'en',
+            Subject     => 'Some Subject with a tag',
             ContentType => 'text/plain',
         },
     },
@@ -94,8 +96,8 @@ my @Tests = (
             Type     => 'NewTicket',
             Charset  => 'utf-8',
             Language => 'en',
-            Subject  => 'Some Subject with <OTRS_TAGS>',
-            Body     => 'Some Body with <OTRS_TAGS>',
+            Subject  => 'Some Subject with a tag',
+            Body     => 'Some Body with a tag',
         },
     },
 
@@ -107,8 +109,8 @@ my @Tests = (
             Type        => '',
             Charset     => 'utf-8',
             Language    => 'de',
-            Subject     => 'Some Subject with <OTRS_TAGS>',
-            Body        => 'Some Body with <OTRS_TAGS>',
+            Subject     => 'Some Subject with a tag',
+            Body        => 'Some Body with a tag',
             ContentType => 'text/plain',
         },
     },
@@ -120,8 +122,8 @@ my @Tests = (
             Type        => 'NewTicket',
             Charset     => '',
             Language    => 'en',
-            Subject     => 'Some Subject with <OTRS_TAGS>',
-            Body        => 'Some Body with <OTRS_TAGS>',
+            Subject     => 'Some Subject with a tag',
+            Body        => 'Some Body with a tag',
             ContentType => 'text/plain',
         },
     },
@@ -135,8 +137,8 @@ my @Tests = (
     #            Type        => 'NewTicket' . $TestNumber,
     #            Charset     => 'utf-8',
     #            Language    => '',
-    #            Subject     => 'Some Subject with <OTRS_TAGS>',
-    #            Body        => 'Some Body with <OTRS_TAGS>',
+    #            Subject     => 'Some Subject with a tag',
+    #            Body        => 'Some Body with a tag',
     #            ContentType => 'text/plain',
     #        },
     #    },
@@ -149,7 +151,7 @@ my @Tests = (
             Charset     => 'utf-8',
             Language    => 'en',
             Subject     => '',
-            Body        => 'Some Body with <OTRS_TAGS>',
+            Body        => 'Some Body with a tag',
             ContentType => 'text/plain',
         },
     },
@@ -161,7 +163,7 @@ my @Tests = (
             Type        => 'NewTicket',
             Charset     => 'utf-8',
             Language    => 'en',
-            Subject     => 'Some Subject with <OTRS_TAGS>',
+            Subject     => 'Some Subject with a tag',
             Body        => '',
             ContentType => 'text/plain',
         },
@@ -174,8 +176,8 @@ my @Tests = (
             Type        => 'NewTicket',
             Charset     => 'utf-8',
             Language    => 'en',
-            Subject     => 'Some Subject with <OTRS_TAGS>',
-            Body        => 'Some Body with <OTRS_TAGS>',
+            Subject     => 'Some Subject with a tag',
+            Body        => 'Some Body with a tag',
             ContentType => '',
         },
     },
@@ -188,21 +190,45 @@ my @Tests = (
             Type        => 'NewTicket',
             Charset     => 'utf-8',
             Language    => 'en',
-            Subject     => 'Some Subject with <OTRS_TAGS>',
-            Body        => 'Some Body with <OTRS_TAGS>',
+            Subject     => 'Some Subject with a tag',
+            Body        => 'Some Body with a tag',
             ContentType => 'text/plain',
         },
         Update => {
             Type        => 'NewTicket',
             Charset     => 'utf-8',
             Language    => 'en',
-            Subject     => 'Some Subject with <OTRS_TAGS>',
-            Body        => 'Some Body with <OTRS_TAGS>',
+            Subject     => 'Some Subject with a tag',
+            Body        => 'Some Body with a tag',
+            ContentType => 'text/plain',
+        },
+    },
+
+    {
+        Name          => 'Test ' . $TestNumber++,
+        SuccessAdd    => 1,
+        SuccessUpdate => 1,
+        Add           => {
+            Type        => 'NewTicket-äüßÄÖÜ€исáéíúúÁÉÍÚñÑ',
+            Charset     => 'utf-8',
+            Language    => 'en',
+            Subject     => 'Some Subject with a tag-äüßÄÖÜ€исáéíúúÁÉÍÚñÑ',
+            Body        => 'Some Body with a tag-äüßÄÖÜ€исáéíúúÁÉÍÚñÑ',
+            ContentType => 'text/plain',
+        },
+        Update => {
+            Type     => 'NewTicket - Modified - äüßÄÖÜ€исáéíúúÁÉÍÚñÑ',
+            Charset  => 'utf-8',
+            Language => 'en',
+            Subject => 'Some Subject modified with a tag-äüßÄÖÜ€исáéíúúÁÉÍÚñÑ',
+            Body    => 'Some Body modified with a tag-äüßÄÖÜ€исáéíúúÁÉÍÚñÑ',
             ContentType => 'text/plain',
         },
     },
 );
 
+# Notification names should be stored,
+# for deleting they later
 my @NotificationNames;
 for my $Test (@Tests) {
 
@@ -212,6 +238,7 @@ for my $Test (@Tests) {
         UserID => $UserID,
     );
 
+    # if add test should or not be successful
     if ( !$Test->{SuccessAdd} ) {
         $Self->False(
             $SuccessAdd,
@@ -226,9 +253,10 @@ for my $Test (@Tests) {
         );
     }
 
+    # join language and type for creating Notification's name
     my $NotificationName = $Test->{Add}->{Language} . '::' . $Test->{Add}->{Type};
 
-    # remember name to verify it later
+    # remember name to verify and delete it later
     push @NotificationNames, $NotificationName;
 
     # get notification
@@ -249,21 +277,25 @@ for my $Test (@Tests) {
         "$Test->{Name} - NotificationGet()",
     );
 
+    # check if retrieved result match with the expected one
     $Self->IsDeeply(
         $Test->{Add},
         \%Notification,
         "$Test->{Name} - NotificationGet() - Complete result",
     );
 
-    # update notification
+    # get info from Add data if Update is not set
     if ( !$Test->{Update} ) {
         $Test->{Update} = $Test->{Add};
     }
 
+    # perform notification update
     my $SuccessUpdate = $NotificationObject->NotificationUpdate(
         %{ $Test->{Update} },
         UserID => $UserID,
     );
+
+    # if add test should or not be successful
     if ( !$Test->{SuccessUpdate} ) {
         $Self->False(
             $SuccessUpdate,
@@ -277,6 +309,9 @@ for my $Test (@Tests) {
             "$Test->{Name} - NotificationUpdate() True",
         );
     }
+
+    # join language and type for creating Notification's name, from Update data
+    $NotificationName = $Test->{Update}->{Language} . '::' . $Test->{Update}->{Type};
 
     # get notification
     %Notification = $NotificationObject->NotificationGet(
@@ -296,6 +331,7 @@ for my $Test (@Tests) {
         "$Test->{Name} - NotificationGet() - Update",
     );
 
+    # check if retrieved result match with the expected one
     $Self->IsDeeply(
         $Test->{Update},
         \%Notification,
