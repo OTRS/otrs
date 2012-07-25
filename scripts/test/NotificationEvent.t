@@ -2,7 +2,7 @@
 # NotificationEvent.t - NotificationEvent tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: NotificationEvent.t,v 1.1 2012-07-24 23:05:51 cg Exp $
+# $Id: NotificationEvent.t,v 1.2 2012-07-25 16:35:25 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -69,13 +69,154 @@ my $TestNumber = 1;
 my @Tests = (
 
     {
+        Name       => 'Test ' . $TestNumber++,
+        SuccessAdd => 0,
+        Add        => {
+            Name    => '',
+            Subject => 'Notification subject',
+            Body    => 'Body for notification',
+            Type    => 'text/plain',
+            Charset => 'iso-8895-1',
+            Comment => 'Just something for test',
+            Data    => {
+                Events => [ 'TicketQueueUpdate', ],
+                Queue  => [ 'SomeQueue', ],
+            },
+            ValidID => 1,
+        },
+    },
+
+    {
+        Name       => 'Test ' . $TestNumber++,
+        SuccessAdd => 0,
+        Add        => {
+            Name    => 'NotificationName' . $RandomID,
+            Subject => '',
+            Body    => 'Body for notification',
+            Type    => 'text/plain',
+            Charset => 'iso-8895-1',
+            Comment => 'Just something for test',
+            Data    => {
+                Events => [ 'TicketQueueUpdate', ],
+                Queue  => [ 'SomeQueue', ],
+            },
+            ValidID => 1,
+        },
+    },
+
+    {
+        Name       => 'Test ' . $TestNumber++,
+        SuccessAdd => 0,
+        Add        => {
+            Name    => 'NotificationName' . $RandomID,
+            Subject => 'Notification subject',
+            Body    => '',
+            Type    => 'text/plain',
+            Charset => 'iso-8895-1',
+            Comment => 'Just something for test',
+            Data    => {
+                Events => [ 'TicketQueueUpdate', ],
+                Queue  => [ 'SomeQueue', ],
+            },
+            ValidID => 1,
+        },
+    },
+
+    {
+        Name       => 'Test ' . $TestNumber++,
+        SuccessAdd => 0,
+        Add        => {
+            Name    => 'NotificationName' . $RandomID,
+            Subject => 'Notification subject',
+            Body    => 'Body for notification',
+            Type    => '',
+            Charset => 'iso-8895-1',
+            Comment => 'Just something for test',
+            Data    => {
+                Events => [ 'TicketQueueUpdate', ],
+                Queue  => [ 'SomeQueue', ],
+            },
+            ValidID => 1,
+        },
+    },
+
+    {
+        Name       => 'Test ' . $TestNumber++,
+        SuccessAdd => 0,
+        Add        => {
+            Name    => 'NotificationName' . $RandomID,
+            Subject => 'Notification subject',
+            Body    => 'Body for notification',
+            Type    => 'text/plain',
+            Charset => '',
+            Comment => 'Just something for test',
+            Data    => {
+                Events => [ 'TicketQueueUpdate', ],
+                Queue  => [ 'SomeQueue', ],
+            },
+            ValidID => 1,
+        },
+    },
+
+    {
         Name          => 'Test ' . $TestNumber++,
         SuccessAdd    => 1,
         SuccessUpdate => 1,
         Add           => {
-            Name    => 'JobName' . $RandomID,
-            Subject => 'JobName',
-            Body    => 'JobName',
+            Name    => 'NotificationName' . $RandomID,
+            Subject => 'Notification subject',
+            Body    => 'Body for notification',
+            Type    => 'text/plain',
+            Charset => 'iso-8895-1',
+            Comment => '',
+            Data    => {
+                Events => [ 'TicketQueueUpdate', ],
+                Queue  => [ 'SomeQueue', ],
+            },
+            ValidID => 1,
+        },
+    },
+
+    {
+        Name       => 'Test ' . $TestNumber++,
+        SuccessAdd => 0,
+        Add        => {
+            Name    => 'NotificationName' . $RandomID,
+            Subject => 'Notification subject',
+            Body    => 'Body for notification',
+            Type    => 'text/plain',
+            Charset => 'iso-8895-1',
+            Comment => 'Just something for test',
+            ValidID => 1,
+        },
+    },
+
+    {
+        Name       => 'Test ' . $TestNumber++,
+        SuccessAdd => 0,
+        Add        => {
+            Name    => 'NotificationName' . $RandomID,
+            Subject => 'Notification subject',
+            Body    => 'Body for notification',
+            Type    => 'text/plain',
+            Charset => 'iso-8895-1',
+            Comment => 'Just something for test',
+            Data    => {
+                Events => [ 'TicketQueueUpdate', ],
+                Queue  => [ 'SomeQueue', ],
+            },
+            ValidID => '',
+        },
+    },
+
+    {
+        Name          => 'Test ' . $TestNumber++,
+        SuccessAdd    => 1,
+        SuccessUpdate => 1,
+        Add           => {
+            Name    => 'NotificationNameSuccess' . $RandomID,
+            Subject => 'Notification subject',
+            Body    => 'Body for notification',
             Type    => 'text/plain',
             Charset => 'iso-8895-1',
             Comment => 'Just something for test',
@@ -86,18 +227,51 @@ my @Tests = (
             ValidID => 1,
         },
 
-        #        Update => {
-        #            Name    => 'JobName',
-        #            Subject => 'JobName',
-        #            Body    => 'JobName',
-        #            Type    => 'text/plain',
-        #            Charset => 'iso-8895-1',
-        #            Data => {
-        #                Events => [ 'TicketQueueUpdate', ],
-        #                Queue => [ 'SomeQueue', ],
-        #            },
-        #            ValidID => 1,
-        #        },
+        Update => {
+            Name    => 'NotificationNameModifiedSuccess' . $RandomID,
+            Subject => 'Notification subject modified',
+            Body    => 'Body for notification modified',
+            Type    => 'text/plain',
+            Charset => 'utf-8',
+            Data    => {
+                Events => [ 'TicketQueueUpdate', ],
+                Queue  => [ 'ADifferentQueue', ],
+            },
+            ValidID => 2,
+        },
+    },
+
+    {
+        Name          => 'Test ' . $TestNumber++,
+        SuccessAdd    => 1,
+        SuccessUpdate => 1,
+        Add           => {
+            Name => 'NotificationNameSuccess-äüßÄÖÜ€исáéíúúÁÉÍÚñÑ' . $RandomID,
+            Subject => 'Notification subject-äüßÄÖÜ€исáéíúúÁÉÍÚñÑ',
+            Body    => 'Body for notification-äüßÄÖÜ€исáéíúúÁÉÍÚñÑ',
+            Type    => 'text/plain',
+            Charset => 'iso-8895-1',
+            Comment => 'Just something for test-äüßÄÖÜ€исáéíúúÁÉÍÚñÑ',
+            Data    => {
+                Events => [ 'TicketQueueUpdate', ],
+                Queue  => [ 'SomeQueue-äüßÄÖÜ€исáéíúúÁÉÍÚñÑ', ],
+            },
+            ValidID => 1,
+        },
+
+        Update => {
+            Name => 'Notification-äüßÄÖÜ€исáéíúúÁÉÍÚñÑNameModifiedSuccess'
+                . $RandomID,
+            Subject => 'Notification-äüßÄÖÜ€исáéíúúÁÉÍÚñÑ subject modified',
+            Body    => 'Body for notification-äüßÄÖÜ€исáéíúúÁÉÍÚñÑ modified',
+            Type    => 'text/plain',
+            Charset => 'utf-8',
+            Data    => {
+                Events => [ 'TicketQueueUpdate', ],
+                Queue  => [ 'ADifferentQueue-äüßÄÖÜ€исáéíúúÁÉÍÚñÑ', ],
+            },
+            ValidID => 2,
+        },
     },
 );
 
@@ -250,6 +424,9 @@ for my $Test (@Tests) {
             "$Test->{Name} - NotificationEventUpdate() True",
         );
     }
+
+    # remember ID to verify it later
+    $NotificationIDs{$NotificationID} = $Test->{Update}->{Name};
 
     # get NotificationEvent
     %NotificationEvent = $NotificationEventObject->NotificationGet(
