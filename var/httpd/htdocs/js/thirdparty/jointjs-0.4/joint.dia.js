@@ -903,6 +903,11 @@ Element.mouseUp = function(e){
 	dia._currentZoom.toFront();
     }
 
+ // ---
+ // OTRS    
+ // ---
+     Core.Agent.Admin.ProcessManagement.Canvas.UpdateElementPosition(dia._currentDrag);
+ // ---
     dia._currentDrag = false;
     dia._currentZoom = false;
 };

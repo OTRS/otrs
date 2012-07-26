@@ -2,7 +2,7 @@
 // Core.Agent.Admin.ProcessManagement.Canvas.js - provides the special module functions for the Process Management Diagram Canvas.
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.ProcessManagement.Canvas.js,v 1.5 2012-07-26 08:55:19 mn Exp $
+// $Id: Core.Agent.Admin.ProcessManagement.Canvas.js,v 1.6 2012-07-26 10:52:50 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -90,6 +90,25 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
         }
     };
     
+    TargetNS.UpdateElementPosition = function (Element) {
+        var Properties,
+            EntityID;
+        // Element can be "false" if newly placed on the canvas
+        // otherwise it's an object
+        if (Element) {
+            Properties = Element.properties;
+            EntityID = Properties.id;
+            
+            if (typeof Core.Agent.Admin.ProcessManagement.ProcessLayout[EntityID] !== 'undefined') {
+                // Save new element position
+                Core.Agent.Admin.ProcessManagement.ProcessLayout[EntityID] = {
+                    left: Properties.position.x + Properties.dx,
+                    top: Properties.position.y + Properties.dy
+                };            
+            }
+        }
+    };
+    
     TargetNS.SetStartActivity = function (EntityID) {
         // Not more than one StartActivity allowed, function does not check this!
         // After the initialization of the canvas, an automatic setting of the StratActivity is not useful
@@ -142,8 +161,10 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
         
         TargetNS.DrawDiagram();
 
-        // bind object moving event to all elements. Every move causes a redraw after which we need a new initialization
+        // bind object moving event to all elements (only connected Elements aka Joints).
+        // Every move causes a redraw after which we need a new initialization
         JointObject.registerCallback('objectMoving', function (SingleJointObject) {
+            // Re-Initialize DblClick
             if (JointObject && JointObject._registeredObjects) {
                 $.each(JointObject._registeredObjects, function (Key, Value) {
                     if (typeof Value.initTransitionDblClick !== 'undefined') {
