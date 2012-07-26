@@ -2,7 +2,7 @@
 // joint.dia.bpmn.js - provides the BPMN diagram functionality for JointJS
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: joint.dia.bpmn.js,v 1.4 2012-07-26 08:24:48 mn Exp $
+// $Id: joint.dia.bpmn.js,v 1.5 2012-07-26 08:55:19 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -83,8 +83,7 @@ bpmn.Activity = Element.extend({
         
         this.setWrapper(this.paper.rect(p.position.x, p.position.y, p.width, p.height, p.radius).attr(p.attrs));
         
-        this.label = this.drawLabel();
-        this.addInner(this.label);
+        this.drawLabel();
 
         this.wrapper.node.id = p.id;
         
@@ -244,8 +243,9 @@ bpmn.Activity = Element.extend({
         
         // Move text to the center of the box
         t.translate(bb.x - tbb.x + (bb.width / 2) - (tbb.width / 2), bb.y - tbb.y + (bb.height / 2) - (tbb.height / 2));
-
-        return t;        
+        
+        this.label = t;
+        this.addInner(this.label);        
     },
     showTooltip: function (ElementProperties) {
         var $tooltip = $('#DiagramTooltip'),
@@ -280,7 +280,7 @@ bpmn.Activity = Element.extend({
         var bb = this.wrapper.getBBox(),
             ibb;
         
-        this.loader = this.paper.image(Core.Config.Get('Config.LoaderURI'), bb.x, bb.y, 16, 16);
+        this.loader = this.paper.image(Core.Config.Get('Config.ImagePath') + "/loader.gif", bb.x, bb.y, 16, 16);
         ibb = this.loader.getBBox();
         
         this.loader.translate(bb.x - ibb.x + (bb.width / 2) - (ibb.width / 2), bb.y - ibb.y + (bb.height / 2) - (ibb.height / 2));
@@ -289,6 +289,25 @@ bpmn.Activity = Element.extend({
     hideLoader: function () {
         this.delInner(this.loader);
         this.loader.remove();
+    },
+    showSuccessIcon: function () {
+        var bb = this.wrapper.getBBox(),
+        ibb;
+        
+        this.tick = this.paper.image(Core.Config.Get('Config.ImagePath') + "/icons/tick.png", bb.x, bb.y, 16, 16);
+        ibb = this.tick.getBBox();
+        
+        this.tick.translate(bb.x - ibb.x + (bb.width / 2) - (ibb.width / 2), bb.y - ibb.y + (bb.height / 2) - (ibb.height / 2));
+        this.addInner(this.tick);
+    },
+    hideSuccessIcon: function (callback) {
+        var element = this;
+        this.tick.animate({opacity: 0}, 1000, function () {
+            element.delInner(element.tick);
+            if (typeof callback !== undefined) {
+                callback();
+            }
+        });
     },
     initTransitionDblClick: function (JointObject, Callback) {
         var Joints = (JointObject) ? (JointObject && JointObject._joints) : (this.wrapper && this.wrapper._joints);
