@@ -2,7 +2,7 @@
 // Core.Agent.Admin.ProcessManagement.Canvas.js - provides the special module functions for the Process Management Diagram Canvas.
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.ProcessManagement.Canvas.js,v 1.6 2012-07-26 10:52:50 mn Exp $
+// $Id: Core.Agent.Admin.ProcessManagement.Canvas.js,v 1.7 2012-07-26 13:37:27 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -37,6 +37,50 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
     
     function TransitionDblClick() {
         alert();
+    }
+    
+    function GetCanvasSize($Element) {
+        var MinWidth = 500,
+            MinHeight = 500,
+            MaxWidth = 0,
+            MaxHeight = 0,
+            ScreenWidth;
+        
+        // Find maximum X and maximum Y value in Layout config data.
+        // This data was saved the last time the process was edited
+        // it is possible to extend the canvas for larger drawings.
+        // The minimum width is based on the available space (screen resolution)
+        
+        // Get width of surrounding element (possible canvas width)
+        ScreenWidth = $Element.width();
+        
+        // Loop through available elements and find max needed width and height
+        $.each(Core.Agent.Admin.ProcessManagement.ProcessLayout, function (Key, Value) {
+            if (Value.left > MaxWidth) {
+                MaxWidth = Value.left + 130;
+            }
+            if (Value.top > MaxHeight) {
+                MaxHeight = Value.top + 100;
+            }
+        });
+        
+        // Width should always be at least the screen width
+        if (ScreenWidth > MaxWidth) {
+            MaxWidth = ScreenWidth;
+        }
+        
+        // The canvas should always have at least a minimum size
+        if (MinWidth > MaxWidth) {
+            MaxWidth = MinWidth;
+        }
+        if (MinHeight > MaxHeight) {
+            MaxHeight = MinHeight;
+        }
+        
+        return {
+            Width: MaxWidth,
+            Height: MaxHeight
+        };
     }
     
     TargetNS.CreateStartEvent = function (PosX, PosY) {
@@ -153,9 +197,9 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
     };
     
     TargetNS.Init = function () {
-        // TODO: Correct calculation of needed width and height
-        var CanvasWidth = 1000,
-            CanvasHeight = 500;
+        var CanvasSize = GetCanvasSize($('#Canvas'));
+            CanvasWidth = CanvasSize.Width,
+            CanvasHeight = CanvasSize.Height;
         
         Joint.paper("Canvas", CanvasWidth, CanvasHeight);
         

@@ -2,7 +2,7 @@
 // Core.Agent.Admin.ProcessManagement.js - provides the special module functions for the Process Management.
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.14 2012-07-26 08:55:19 mn Exp $
+// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.15 2012-07-26 13:37:27 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -467,22 +467,41 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
             return false;
         }
         
-        // Update config from popup window
+        // Update config from e.g. popup windows
 
         // Update process 
         if (typeof Config.Process !== 'undefined') {
             // TODO: Handle Path update here (merge!)
-            TragetNS.ProcessData.Process = Config.Process;
+            TargetNS.ProcessData.Process = Config.Process;
         }
         
         // Update Activities
         if (typeof Config.Activity !== 'undefined') {
-            
-            
+            $.each(Config.Activity, function (Key, Value) {
+                TargetNS.ProcessData.Activity[Key] = Value;
+            });
         }
         
-        
-        
+        // Update Activity Dialogs
+        if (typeof Config.ActivityDialog !== 'undefined') {
+            $.each(Config.ActivityDialog, function (Key, Value) {
+                TargetNS.ProcessData.ActivityDialog[Key] = Value;
+            });
+        }
+
+        // Update Transitions
+        if (typeof Config.Transition !== 'undefined') {
+            $.each(Config.Transition, function (Key, Value) {
+                TargetNS.ProcessData.Transition[Key] = Value;
+            });
+        }
+
+        // Update Transition Actions
+        if (typeof Config.TransitionAction !== 'undefined') {
+            $.each(Config.TransitionAction, function (Key, Value) {
+                TargetNS.ProcessData.TransitionAction[Key] = Value;
+            });
+        }
     };
     
     return TargetNS;
