@@ -2,7 +2,7 @@
 # NotificationEvent.t - NotificationEvent tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: NotificationEvent.t,v 1.3 2012-07-25 19:21:21 cg Exp $
+# $Id: NotificationEvent.t,v 1.4 2012-07-26 14:37:48 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -65,6 +65,13 @@ my $HelperObject = Kernel::System::UnitTest::Helper->new(
 my $RandomID = $HelperObject->GetRandomID();
 
 my $TestNumber = 1;
+
+# workaround for oracle
+# oracle databases can't determine the difference between NULL and ''
+my $IsNotOracle = 1;
+if ( $Self->{DBObject}->GetDatabaseFunction('Type') eq 'oracle' ) {
+    $IsNotOracle = 0;
+}
 
 my @Tests = (
 
@@ -159,25 +166,6 @@ my @Tests = (
     },
 
     {
-        Name          => 'Test ' . $TestNumber++,
-        SuccessAdd    => 1,
-        SuccessUpdate => 1,
-        Add           => {
-            Name    => 'NotificationName' . $RandomID,
-            Subject => 'Notification subject',
-            Body    => 'Body for notification',
-            Type    => 'text/plain',
-            Charset => 'iso-8895-1',
-            Comment => '',
-            Data    => {
-                Events => [ 'AnEventForThisTest' . $RandomID, ],
-                Queue  => [ 'SomeQueue', ],
-            },
-            ValidID => 1,
-        },
-    },
-
-    {
         Name       => 'Test ' . $TestNumber++,
         SuccessAdd => 0,
         Add        => {
@@ -214,6 +202,43 @@ my @Tests = (
         SuccessAdd    => 1,
         SuccessUpdate => 1,
         Add           => {
+            Name    => 'NotificationName' . $RandomID,
+            Subject => 'Notification subject',
+            Body    => 'Body for notification',
+            Type    => 'text/plain',
+            Charset => 'iso-8895-1',
+            Comment => '',
+            Data    => {
+                Events => [ 'AnEventForThisTest' . $RandomID, ],
+                Queue  => [ 'SomeQueue', ],
+            },
+            ValidID => 1,
+        },
+    },
+
+    {
+        Name       => 'Test ' . $TestNumber++,
+        SuccessAdd => 0,
+        Add        => {
+            Name    => 'NotificationName' . $RandomID,
+            Subject => 'Notification subject',
+            Body    => 'Body for notification',
+            Type    => 'text/plain',
+            Charset => 'iso-8895-1',
+            Comment => 'Just a comment',
+            Data    => {
+                Events => [ 'AnEventForThisTest' . $RandomID, ],
+                Queue  => [ 'SomeQueue', ],
+            },
+            ValidID => 1,
+        },
+    },
+
+    {
+        Name          => 'Test ' . $TestNumber++,
+        SuccessAdd    => 1,
+        SuccessUpdate => 1,
+        Add           => {
             Name    => 'NotificationNameSuccess' . $RandomID,
             Subject => 'Notification subject',
             Body    => 'Body for notification',
@@ -233,6 +258,7 @@ my @Tests = (
             Body    => 'Body for notification modified',
             Type    => 'text/plain',
             Charset => 'utf-8',
+            Comment => 'Just something for test modified',
             Data    => {
                 Events => [ 'AnEventForThisTest' . $RandomID, ],
                 Queue  => [ 'ADifferentQueue', ],
@@ -266,6 +292,7 @@ my @Tests = (
             Body    => 'Body for notification-äüßÄÖÜ€исáéíúúÁÉÍÚñÑ modified',
             Type    => 'text/plain',
             Charset => 'utf-8',
+            Comment => 'Just something modified for test-äüßÄÖÜ€исáéíúúÁÉÍÚñÑ',
             Data    => {
                 Events => [ 'AnEventForThisTest' . $RandomID, ],
                 Queue  => [ 'ADifferentQueue-äüßÄÖÜ€исáéíúúÁÉÍÚñÑ', ],
@@ -346,6 +373,12 @@ for my $Test (@Tests) {
         $NotificationEvent{Charset},
         "$Test->{Name} - NotificationEventGet() - Charset",
     );
+
+    # workaround for oracle
+    # oracle databases can't determine the difference between NULL and ''
+    if ( !defined $NotificationEvent{Comment} && !$IsNotOracle ) {
+        $NotificationEvent{Comment} = '';
+    }
 
     $Self->Is(
         $Test->{Add}->{Comment},
@@ -474,6 +507,12 @@ for my $Test (@Tests) {
         "$Test->{Name} - NotificationEventGet() - Charset",
     );
 
+    # workaround for oracle
+    # oracle databases can't determine the difference between NULL and ''
+    if ( !defined $NotificationEvent{Comment} && !$IsNotOracle ) {
+        $NotificationEvent{Comment} = '';
+    }
+
     $Self->Is(
         $Test->{Update}->{Comment},
         $NotificationEvent{Comment},
@@ -540,6 +579,7 @@ $Self->Is(
 
 my @IDs
     = $NotificationEventObject->NotificationEventCheck( Event => 'AnEventForThisTest' . $RandomID );
+@IDs = sort @IDs;
 
 # verify NotificationEventCheck
 $Self->Is(
