@@ -2,7 +2,7 @@
 # Kernel/System/NotificationEvent.pm - notification system module
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: NotificationEvent.pm,v 1.9 2012-07-24 23:08:34 cg Exp $
+# $Id: NotificationEvent.pm,v 1.10 2012-07-26 14:37:13 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 =head1 NAME
 
@@ -218,6 +218,7 @@ adds a new notification to the database
             ...
             Queue => [ 'SomeQueue', ],
         },
+        Comment => 'An optional comment', # Optional
         ValidID => 1,
         UserID  => 123,
     );
@@ -450,6 +451,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.9 $ $Date: 2012-07-24 23:08:34 $
+$Revision: 1.10 $ $Date: 2012-07-26 14:37:13 $
 
 =cut
