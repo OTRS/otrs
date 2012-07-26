@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminProcessManagementTransitionAction.pm - process management transition action
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementTransitionAction.pm,v 1.1 2012-07-19 14:14:16 mn Exp $
+# $Id: AdminProcessManagementTransitionAction.pm,v 1.2 2012-07-26 13:18:04 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,12 +16,12 @@ use warnings;
 
 use Kernel::System::JSON;
 use Kernel::System::ProcessManagement::DB::Entity;
-use Kernel::System::ProcessManagement::DB::Transition;
+use Kernel::System::ProcessManagement::DB::TransitionAction;
 
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -43,8 +43,8 @@ sub new {
     # create additional objects
     $Self->{JSONObject}   = Kernel::System::JSON->new( %{$Self} );
     $Self->{EntityObject} = Kernel::System::ProcessManagement::DB::Entity->new( %{$Self} );
-    $Self->{TransitionObject}
-        = Kernel::System::ProcessManagement::DB::Transition->new( %{$Self} );
+    $Self->{TransitionActionObject}
+        = Kernel::System::ProcessManagement::DB::TransitionAction->new( %{$Self} );
 
     return $Self;
 }
@@ -54,8 +54,8 @@ sub Run {
 
     $Self->{Subaction} = $Self->{ParamObject}->GetParam( Param => 'Subaction' ) || '';
 
-    my $ActivityID = $Self->{ParamObject}->GetParam( Param => 'ID' )       || '';
-    my $EntityID   = $Self->{ParamObject}->GetParam( Param => 'EntityID' ) || '';
+    my $TransitionActionID = $Self->{ParamObject}->GetParam( Param => 'ID' )       || '';
+    my $EntityID           = $Self->{ParamObject}->GetParam( Param => 'EntityID' ) || '';
 
     my %SessionData = $Self->{SessionObject}->GetSessionIDData(
         SessionID => $Self->{SessionID},
@@ -82,6 +82,153 @@ sub Run {
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'TransitionActionNewAction' ) {
 
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
+
+        # get transition action data
+        my $TransitionActionData;
+
+        # get parameter from web browser
+        my $GetParam = $Self->_GetParams;
+
+        # set new configuration
+        $TransitionActionData->{Name}             = $GetParam->{Name};
+        $TransitionActionData->{Config}->{Module} = $GetParam->{Module};
+        $TransitionActionData->{Config}->{Config} = $GetParam->{Config};
+
+        # check required parameters
+        my %Error;
+        if ( !$GetParam->{Name} ) {
+
+            # add server error error class
+            $Error{NameServerError}        = 'ServerError';
+            $Error{NameServerErrorMessage} = 'This field is required';
+        }
+
+        if ( !$GetParam->{Module} ) {
+
+            # add server error error class
+            $Error{ModuleServerError}        = 'ServerError';
+            $Error{ModuleServerErrorMessage} = 'This field is required';
+        }
+
+        if ( !$GetParam->{Config} ) {
+
+            # add server error error class
+            $Error{ModuleServerError}        = 'ServerError';
+            $Error{ModuleServerErrorMessage} = 'This field is required';
+        }
+
+        # if there is an error return to edit screen
+        if ( IsHashRefWithData( \%Error ) ) {
+            return $Self->_ShowEdit(
+                %Error,
+                %Param,
+                TransitionActionData => $TransitionActionData,
+                Action               => 'New',
+            );
+        }
+
+        # generate entity ID
+        my $EntityID = $Self->{EntityObject}->EntityIDGenerate(
+            EntityType => 'TransitionAction',
+            UserID     => $Self->{UserID},
+        );
+
+        # show error if can't generate a new EntityID
+        if ( !$EntityID ) {
+            return $Self->{LayoutObject}->ErrorScreen(
+                Message => "There was an error generating a new EntityID for this TransitionAction",
+            );
+        }
+
+        # otherwise save configuration and return process screen
+        my $TransitionActionID = $Self->{TransitionActionObject}->TransitionActionAdd(
+            Name     => $TransitionActionData->{Name},
+            Module   => $TransitionActionData->{Module},
+            EntityID => $EntityID,
+            Config   => $TransitionActionData->{Config},
+            UserID   => $Self->{UserID},
+        );
+
+        # show error if can't create
+        if ( !$TransitionActionID ) {
+            return $Self->{LayoutObject}->ErrorScreen(
+                Message => "There was an error creating the TransitionAction",
+            );
+        }
+
+        # set entitty sync state
+        my $Success = $Self->{EntityObject}->EntitySyncStateSet(
+            EntityType => 'TransitionAction',
+            EntityID   => $EntityID,
+            SyncState  => 'not_sync',
+            UserID     => $Self->{UserID},
+        );
+
+        # show error if can't set
+        if ( !$Success ) {
+            return $Self->{LayoutObject}->ErrorScreen(
+                Message => "There was an error setting the entity sync status for TransitionAction "
+                    . "entity:$EntityID",
+            );
+        }
+
+        # remove this screen from session screen path
+        $Self->_PopSessionScreen( OnlyCurrent => 1 );
+
+        my $Redirect = $Self->{ParamObject}->GetParam( Param => 'PopupRedirect' ) || '';
+
+        # check if needed to open another window or if popup should go back
+        if ( $Redirect && $Redirect eq '1' ) {
+
+            $Self->_PushSessionScreen(
+                ID        => $TransitionActionID,
+                EntityID  => $TransitionActionData->{EntityID},
+                Subaction => 'TransitionActionEdit'               # always use edit screen
+            );
+
+            my $RedirectAction
+                = $Self->{ParamObject}->GetParam( Param => 'PopupRedirectAction' ) || '';
+            my $RedirectSubaction
+                = $Self->{ParamObject}->GetParam( Param => 'PopupRedirectSubaction' ) || '';
+            my $RedirectID = $Self->{ParamObject}->GetParam( Param => 'PopupRedirectID' ) || '';
+            my $RedirectEntityID
+                = $Self->{ParamObject}->GetParam( Param => 'PopupRedirectEntityID' ) || '';
+
+            # redirect to another popup window
+            return $Self->_PopupResponse(
+                Redirect => 1,
+                Screen   => {
+                    Action    => $RedirectAction,
+                    Subaction => $RedirectSubaction,
+                    ID        => $RedirectID,
+                    EntityID  => $RedirectID,
+                },
+            );
+        }
+        else {
+
+            # remove last screen
+            my $LastScreen = $Self->_PopSessionScreen();
+
+            # check if needed to return to main screen or to be redirected to last screen
+            if ( $LastScreen->{Action} eq 'AdminProcessManagement' ) {
+
+                # close the popup
+                return $Self->_PopupResponse(
+                    ClosePopup => 1,
+                );
+            }
+            else {
+
+                # redirect to last screen
+                return $Self->_PopupResponse(
+                    Redirect => 1,
+                    Screen   => $LastScreen
+                );
+            }
+        }
     }
 
     # ------------------------------------------------------------ #
@@ -89,6 +236,35 @@ sub Run {
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'TransitionActionEdit' ) {
 
+        # check for TransitionActionID
+        if ( !$TransitionActionID ) {
+            return $Self->{LayoutObject}->ErrorScreen(
+                Message => "Need TransitionActionID!",
+            );
+        }
+
+        # remove this screen from session screen path
+        $Self->_PopSessionScreen( OnlyCurrent => 1 );
+
+        # get Activity data
+        my $TransitionActionData = $Self->{TransitionActionObject}->TransitionActionGet(
+            ID     => $TransitionActionID,
+            UserID => $Self->{UserID},
+        );
+
+        # check for valid Activity data
+        if ( !IsHashRefWithData($TransitionActionData) ) {
+            return $Self->{LayoutObject}->ErrorScreen(
+                Message => "Could not get data for TransitionActionID $TransitionActionID",
+            );
+        }
+
+        return $Self->_ShowEdit(
+            %Param,
+            TransitionActionID   => $TransitionActionID,
+            TransitionActionData => $TransitionActionData,
+            Action               => 'Edit',
+        );
     }
 
     # ------------------------------------------------------------ #
@@ -108,19 +284,210 @@ sub Run {
     }
 }
 
+sub _GetParams {
+    my ( $Self, %Param ) = @_;
+
+    my $GetParam;
+
+    # get parameters from web browser
+    for my $ParamName (
+        qw( Name Module )
+        )
+    {
+        $GetParam->{$ParamName} = $Self->{ParamObject}->GetParam( Param => $ParamName ) || '';
+    }
+
+    # get config params
+    my @ParamNames = $Self->{ParamObject}->GetParamNames();
+    my ( @ConfigParamKeys, @ConfigParamValues );
+
+    for my $ParamName (@ParamNames) {
+
+        # get keys
+        if ( $ParamName =~ m{ConfigKey\[(\d+)\]}xms ) {
+            push @ConfigParamKeys, $1;
+        }
+
+        # get values
+        if ( $ParamName =~ m{ConfigValue\[(\d+)\]}xms ) {
+            push @ConfigParamValues, $1;
+        }
+    }
+
+    if ( @ConfigParamKeys != @ConfigParamValues ) {
+        return $Self->{LayoutObject}->ErrorScreen(
+            Message => "Error: Not all keys seem to have values or vice versa.",
+        );
+    }
+
+    my ( $KeyValue, $ValueValue );
+    for my $Key (@ConfigParamKeys) {
+        $KeyValue   = $Self->{ParamObject}->GetParam( Param => "ConfigKey[$Key]" );
+        $ValueValue = $Self->{ParamObject}->GetParam( Param => "ConfigValue[$Key]" );
+        $GetParam->{Config}->{$KeyValue} = $ValueValue;
+    }
+
+    return $GetParam;
+}
+
+sub _PopSessionScreen {
+    my ( $Self, %Param ) = @_;
+
+    my $LastScreen;
+
+    if ( defined $Param{OnlyCurrent} && $Param{OnlyCurrent} == 1 ) {
+
+        # check if last screen action is current screen action
+        if ( $Self->{ScreensPath}->[-1]->{Action} eq $Self->{Action} ) {
+
+            # remove last screen
+            $LastScreen = pop @{ $Self->{ScreensPath} };
+        }
+    }
+    else {
+
+        # remove last screen
+        $LastScreen = pop @{ $Self->{ScreensPath} };
+    }
+
+    # convert screens path to string (JSON)
+    my $JSONScreensPath = $Self->{LayoutObject}->JSONEncode(
+        Data => $Self->{ScreensPath},
+    );
+
+    # update session
+    $Self->{SessionObject}->UpdateSessionID(
+        SessionID => $Self->{SessionID},
+        Key       => 'ProcessManagementScreensPath',
+        Value     => $JSONScreensPath,
+    );
+
+    return $LastScreen;
+}
+
+sub _PushSessionScreen {
+    my ( $Self, %Param ) = @_;
+
+    # add screen to the screen path
+    push @{ $Self->{ScreensPath} }, {
+        Action => $Self->{Action} || '',
+        Subaction => $Param{Subaction},
+        ID        => $Param{ID},
+        EntityID  => $Param{EntityID},
+    };
+
+    # convert screens path to string (JSON)
+    my $JSONScreensPath = $Self->{LayoutObject}->JSONEncode(
+        Data => $Self->{ScreensPath},
+    );
+
+    # update session
+    $Self->{SessionObject}->UpdateSessionID(
+        SessionID => $Self->{SessionID},
+        Key       => 'ProcessManagementScreensPath',
+        Value     => $JSONScreensPath,
+    );
+
+    return 1;
+}
+
+sub _PopupResponse {
+    my ( $Self, %Param ) = @_;
+
+    if ( $Param{Redirect} && $Param{Redirect} eq 1 ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'Redirect',
+            Data => {
+                %{ $Param{Screen} },
+            },
+        );
+    }
+    elsif ( $Param{ClosePopup} && $Param{ClosePopup} eq 1 ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'ClosePopup',
+            Data => {},
+        );
+    }
+
+    my $Output = $Self->{LayoutObject}->Header( Type => 'Small' );
+    $Output .= $Self->{LayoutObject}->Output(
+        TemplateFile => "AdminProcessManagementPopupResponse",
+        Data         => {},
+    );
+    $Output .= $Self->{LayoutObject}->Footer( Type => 'Small' );
+
+    return $Output;
+}
+
 sub _ShowEdit {
     my ( $Self, %Param ) = @_;
 
-    $Param{Title} = 'Create New Transition Action';
+    # get TransitionAction information
+    my $TransitionActionData = $Param{TransitionActionData} || {};
+
+    # check if last screen action is main screen
+    if ( $Self->{ScreensPath}->[-1]->{Action} eq 'AdminProcessManagement' ) {
+
+        # show close popup link
+        $Self->{LayoutObject}->Block(
+            Name => 'ClosePopup',
+            Data => {},
+        );
+    }
+    else {
+
+        # show go back link
+        $Self->{LayoutObject}->Block(
+            Name => 'GoBack',
+            Data => {
+                Action    => $Self->{ScreensPath}->[-1]->{Action}    || '',
+                Subaction => $Self->{ScreensPath}->[-1]->{Subaction} || '',
+                ID        => $Self->{ScreensPath}->[-1]->{ID}        || '',
+                EntityID  => $Self->{ScreensPath}->[-1]->{EntityID}  || '',
+            },
+        );
+    }
+
+    if ( defined $Param{Action} && $Param{Action} eq 'Edit' ) {
+        $Param{Title} = "Edit Transition Action \"$TransitionActionData->{Name}\"";
+    }
+    else {
+        $Param{Title} = 'Create New Transition Action';
+    }
 
     my $Output = $Self->{LayoutObject}->Header(
         Value => $Param{Title},
         Type  => 'Small',
     );
+
+    if ( defined $Param{Action} && $Param{Action} eq 'Edit' ) {
+
+        my $Index = 1;
+        for my $Key ( keys %{ $TransitionActionData->{Config}->{Config} } ) {
+
+            $Self->{LayoutObject}->Block(
+                Name => 'ConfigItemEditRow',
+                Data => {
+                    Key   => $Key,
+                    Value => $TransitionActionData->{Config}->{Config}->{$Key},
+                    Index => $Index,
+                },
+            );
+            $Index++;
+        }
+    }
+    else {
+        $Self->{LayoutObject}->Block(
+            Name => 'ConfigItemInitRow',
+        );
+    }
+
     $Output .= $Self->{LayoutObject}->Output(
         TemplateFile => "AdminProcessManagementTransitionAction",
         Data         => {
             %Param,
+            Name   => $TransitionActionData->{Name},
+            Module => $TransitionActionData->{Config}->{Module},
         },
     );
 
