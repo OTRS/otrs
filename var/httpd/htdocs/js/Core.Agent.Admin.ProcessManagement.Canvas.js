@@ -2,12 +2,14 @@
 // Core.Agent.Admin.ProcessManagement.Canvas.js - provides the special module functions for the Process Management Diagram Canvas.
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.ProcessManagement.Canvas.js,v 1.9 2012-07-27 10:21:53 mn Exp $
+// $Id: Core.Agent.Admin.ProcessManagement.Canvas.js,v 1.10 2012-07-27 10:39:48 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
 // did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 // --
+
+/*global Joint */
 
 "use strict";
 
@@ -90,7 +92,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
         PosX = PosX || DefaultX;
         PosY = PosY || DefaultY;
         
-        Elements['StartEvent'] = BPMN.StartEvent.create({
+        Elements.StartEvent = BPMN.StartEvent.create({
             x: PosX,
             y: PosY
         });
@@ -164,7 +166,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
         // After the initialization of the canvas, an automatic setting of the StratActivity is not useful
         // Only the user can change this by moving the arrow
         if (typeof Elements[EntityID] !== 'undefined') {
-            JointObject = Elements['StartEvent'].joint(Elements[EntityID], BPMN.StartArrow).registerForever(ElementList);  
+            JointObject = Elements.StartEvent.joint(Elements[EntityID], BPMN.StartArrow).registerForever(ElementList);  
         }
     };
     
@@ -185,7 +187,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
             }
         }
         
-        Elements[StartElement].joint(Elements[EndElement], (BPMN.Arrow.label = TransitionName, BPMN.Arrow)).registerForever(ElementList);
+        Elements[StartElement].joint(Elements[EndElement], (BPMN.Arrow.label = TransitionName), BPMN.Arrow).registerForever(ElementList);
         Elements[StartElement].initTransitionDblClick(undefined, TransitionDblClick);
         Elements[EndElement].initTransitionDblClick(undefined, TransitionDblClick);
     };
@@ -203,7 +205,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
     };
     
     TargetNS.Init = function () {
-        var CanvasSize = GetCanvasSize($('#Canvas'));
+        var CanvasSize = GetCanvasSize($('#Canvas')),
             CanvasWidth = CanvasSize.Width,
             CanvasHeight = CanvasSize.Height;
         

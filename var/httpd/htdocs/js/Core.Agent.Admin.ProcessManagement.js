@@ -2,7 +2,7 @@
 // Core.Agent.Admin.ProcessManagement.js - provides the special module functions for the Process Management.
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.17 2012-07-27 10:21:53 mn Exp $
+// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.18 2012-07-27 10:39:48 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -93,7 +93,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
                            }
 
                            Core.App.InternalRedirect({
-                               Action: Data.Action,
+                               Action: Data.Action
                            });
                        }, 'json');
                    }
@@ -162,9 +162,11 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
 
     TargetNS.InitAccordionDnD = function () {
         function GetMousePosition(Event) {
-            var PosX = 0;
-            var PosY = 0;
-            if (!Event) var Event = window.event;
+            var PosX = 0,
+                PosY = 0;
+            if (!Event) {
+                Event = window.event;
+            }
             if (Event.pageX || Event.pageY) {
                 PosX = Event.pageX;
                 PosY = Event.pageY;
@@ -236,10 +238,10 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
                     ActivityPosition = TargetNS.ProcessLayout[Key];
                 
                 if (
-                        Position.left > ActivityPosition.left
-                        && Position.left < ActivityPosition.left + 130
-                        && Position.top > ActivityPosition.top
-                        && Position.top < ActivityPosition.top + 100
+                        Position.left > ActivityPosition.left &&
+                        Position.left < ActivityPosition.left + 130 &&
+                        Position.top > ActivityPosition.top &&
+                        Position.top < ActivityPosition.top + 100
                     ) {
                     ActivityMatch = Key;
                     return;
@@ -439,10 +441,10 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
             
             // get current index
             var ConfigParamsPresent = $('#ConfigParams').find('fieldset'),
-                NewCurrentIndex = ConfigParamsPresent.length + 1;
+                NewCurrentIndex = ConfigParamsPresent.length + 1,
+                // add new config param
+                ConfigParamHTML = $('#ConfigParamContainer').html().replace(/_INDEX_/g, NewCurrentIndex);
 
-            // add new config param
-            var ConfigParamHTML = $('#ConfigParamContainer').html().replace(/_INDEX_/g, NewCurrentIndex);;
             $(ConfigParamHTML).insertBefore($('#ConfigAdd'));
 
             return false;

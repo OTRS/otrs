@@ -2,7 +2,7 @@
 // Core.UI.AllocationList.js - provides functionality for allocation lists
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.UI.AllocationList.js,v 1.2 2012-07-11 22:21:12 cr Exp $
+// $Id: Core.UI.AllocationList.js,v 1.3 2012-07-27 10:39:48 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -73,7 +73,7 @@ Core.UI.AllocationList = (function (TargetNS) {
         $Lists
             .find('li').removeClass('Even').end()    
             .sortable({
-                connectWith: ConnectorSelector,
+                connectWith: ConnectorSelector
             }).disableSelection();
     };
 
