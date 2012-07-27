@@ -2,7 +2,7 @@
 # SearchProfile.t - SearchProfile tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: SearchProfile.t,v 1.2 2012-07-27 03:32:24 cg Exp $
+# $Id: SearchProfile.t,v 1.3 2012-07-27 12:57:06 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -90,7 +90,7 @@ my @Tests = (
     # it should be changed
     {
         Name       => 'Test ' . $TestNumber++,
-        SuccessAdd => $IsNotOracle,
+        SuccessAdd => 1,
         Add        => {
             Base      => $Base,
             Name      => 'last-search' . $RandomID,
