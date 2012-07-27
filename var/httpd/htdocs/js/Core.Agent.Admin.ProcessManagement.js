@@ -2,7 +2,7 @@
 // Core.Agent.Admin.ProcessManagement.js - provides the special module functions for the Process Management.
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.16 2012-07-27 10:00:44 mn Exp $
+// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.17 2012-07-27 10:21:53 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -287,6 +287,9 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
                         }
                         
                         TargetNS.Canvas.ShowActivityAddActivityDialogSuccess(Activity);
+                        
+                        // Update Config
+                        TargetNS.ProcessData.Activity[Activity] = Response.ActivityConfig;
 
                     }, 'json');
                 }

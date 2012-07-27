@@ -2,7 +2,7 @@
 // Core.Agent.Admin.ProcessManagement.Canvas.js - provides the special module functions for the Process Management Diagram Canvas.
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.ProcessManagement.Canvas.js,v 1.8 2012-07-27 10:00:44 mn Exp $
+// $Id: Core.Agent.Admin.ProcessManagement.Canvas.js,v 1.9 2012-07-27 10:21:53 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -114,14 +114,14 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
     };
     
     TargetNS.ShowActivityLoader = function (EntityID) {
-        if (Elements[EntityID] !== undefined) {
+        if (typeof Elements[EntityID] !== 'undefined') {
             Elements[EntityID].removeLabel();
             Elements[EntityID].showLoader();
         }
     };
     
     TargetNS.ShowActivityAddActivityDialogSuccess = function (EntityID) {
-        if (Elements[EntityID] !== undefined) {
+        if (typeof Elements[EntityID] !== 'undefined') {
             // show icon for success
             Elements[EntityID].hideLoader();
             Elements[EntityID].showSuccessIcon();
@@ -163,7 +163,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
         // Not more than one StartActivity allowed, function does not check this!
         // After the initialization of the canvas, an automatic setting of the StratActivity is not useful
         // Only the user can change this by moving the arrow
-        if (Elements[EntityID] !== undefined) {
+        if (typeof Elements[EntityID] !== 'undefined') {
             JointObject = Elements['StartEvent'].joint(Elements[EntityID], BPMN.StartArrow).registerForever(ElementList);  
         }
     };
@@ -171,12 +171,12 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
     TargetNS.CreateTransition = function (StartElement, EndElement, EntityID, TransitionName) {
         var Config = Core.Agent.Admin.ProcessManagement.ProcessData;
             
-        if ((Elements[StartElement] === 'undefined') || (Elements[EndElement] === 'undefined')) {
+        if ((typeof Elements[StartElement] === 'undefined') || (typeof Elements[EndElement] === 'undefined')) {
             return false;
         }
         
         // Get TransitionName from Config
-        if (TransitionName === 'undefined') {
+        if (typeof TransitionName === 'undefined') {
             if (Config.Transition && Config.Transition[EntityID]) {
                 TransitionName = Config.Transition[EntityID].Name;
             }

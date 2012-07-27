@@ -2,7 +2,7 @@
 // joint.dia.bpmn.js - provides the BPMN diagram functionality for JointJS
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: joint.dia.bpmn.js,v 1.5 2012-07-26 08:55:19 mn Exp $
+// $Id: joint.dia.bpmn.js,v 1.6 2012-07-27 10:21:53 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -178,7 +178,7 @@ bpmn.Activity = Element.extend({
         this.dblClickTime = 0;
     },
     executeDblClick: function(dblClickFunction) {
-        if (typeof dblClickFunction !== undefined) {
+        if (typeof dblClickFunction !== 'undefined') {
             dblClickFunction();
         }  
     },
@@ -249,9 +249,17 @@ bpmn.Activity = Element.extend({
     },
     showTooltip: function (ElementProperties) {
         var $tooltip = $('#DiagramTooltip'),
-            text = '<p><strong>' + ElementProperties.label + '</strong></p><p>Dialogs: ...</p>',
+            text = '<h4>' + ElementProperties.label + '</h4>',
             canvasPosition = $(this.paper.canvas).offset(),
-            position = { x: 0, y: 0};
+            position = { x: 0, y: 0},
+            Activity = Core.Agent.Admin.ProcessManagement.ProcessData.Activity,
+            ActivityDialogs;
+        
+        if (typeof Activity[ElementProperties.id] === 'undefined') {
+            return false;
+        }
+        
+        ActivityDialogs = Activity[ElementProperties.id].ActivityDialog;
         
         if (!$tooltip.length) {
             $tooltip = $('<div id="DiagramTooltip"></div>').css('display', 'none').appendTo('body');
@@ -266,6 +274,15 @@ bpmn.Activity = Element.extend({
         
         // y: y-coordinate of canvas + y-coordinate of element within canvas + height of element
         position.y = canvasPosition.top + this.wrapper.attrs.y + ElementProperties.height;
+        
+        // Add content to the tooltip
+        text += "<ul>";
+        
+        $.each(ActivityDialogs, function (Key, Value) {
+            text += "<li>" + Core.Agent.Admin.ProcessManagement.ProcessData.ActivityDialog[Value].Name + "</li>";
+        });
+        
+        text += "</ul>";
         
         $tooltip
             .html(text)
@@ -304,7 +321,7 @@ bpmn.Activity = Element.extend({
         var element = this;
         this.tick.animate({opacity: 0}, 1000, function () {
             element.delInner(element.tick);
-            if (typeof callback !== undefined) {
+            if (typeof callback !== 'undefined') {
                 callback();
             }
         });
