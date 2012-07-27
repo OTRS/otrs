@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminProcessManagementActivity.pm - process management activity
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementActivity.pm,v 1.9 2012-07-20 23:32:18 cr Exp $
+# $Id: AdminProcessManagementActivity.pm,v 1.10 2012-07-27 10:00:44 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,10 @@ package Kernel::Modules::AdminProcessManagementActivity;
 use strict;
 use warnings;
 
+use List::Util qw(first);
+
 use Kernel::System::JSON;
+use Kernel::System::ProcessManagement::DB::Process;
 use Kernel::System::ProcessManagement::DB::Entity;
 use Kernel::System::ProcessManagement::DB::Activity;
 use Kernel::System::ProcessManagement::DB::ActivityDialog;
@@ -22,7 +25,7 @@ use Kernel::System::ProcessManagement::DB::ActivityDialog;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -43,6 +46,7 @@ sub new {
 
     # create additional objects
     $Self->{JSONObject}     = Kernel::System::JSON->new( %{$Self} );
+    $Self->{ProcessObject}  = Kernel::System::ProcessManagement::DB::Process->new( %{$Self} );
     $Self->{EntityObject}   = Kernel::System::ProcessManagement::DB::Entity->new( %{$Self} );
     $Self->{ActivityObject} = Kernel::System::ProcessManagement::DB::Activity->new( %{$Self} );
     $Self->{ActivityDialogObject}
@@ -335,7 +339,7 @@ sub Run {
             my $Counter = 1;
             for my $ActivityDialogID ( @{ $GetParam->{ActivityDialogs} } ) {
 
-                # check if the activiry dialog and it's entity id are in the list
+                # check if the activity dialog and it's entity id are in the list
                 if (
                     $ActivityDialogsLookup{$ActivityDialogID}
                     && $ActivityDialogsLookup{$ActivityDialogID}->{EntityID}
@@ -459,6 +463,169 @@ sub Run {
                 );
             }
         }
+    }
+
+    # ------------------------------------------------------------ #
+    # AddActivityDialog AJAX
+    # ------------------------------------------------------------ #
+    elsif ( $Self->{Subaction} eq 'AddActivityDialog' ) {
+
+        my %Params;
+        my %Result;
+        my $JSON;
+
+        $Param{EntityID}       = $Self->{ParamObject}->GetParam( Param => 'EntityID' )       || '';
+        $Param{ActivityDialog} = $Self->{ParamObject}->GetParam( Param => 'ActivityDialog' ) || '';
+
+        # check for Parameters
+        if ( !$Param{EntityID} || !$Param{ActivityDialog} ) {
+            %Result = (
+                Success => 0,
+                Message => "Missing Parameter: Need Activity and ActivityDialog!",
+            );
+
+            $JSON = $Self->{LayoutObject}->JSONEncode( Data => \%Result );
+
+            return $Self->{LayoutObject}->Attachment(
+                ContentType => 'application/json; charset=' . $Self->{LayoutObject}->{Charset},
+                Content     => $JSON,
+                Type        => 'inline',
+                NoCache     => 1,
+            );
+        }
+
+        # get Activity data
+        my $ActivityData = $Self->{ActivityObject}->ActivityGet(
+            EntityID => $Param{EntityID},
+            UserID   => $Self->{UserID},
+        );
+
+        # check for valid Activity data
+        if ( !IsHashRefWithData($ActivityData) ) {
+            %Result = (
+                Success => 0,
+                Message => "Activity not found!",
+            );
+
+            $JSON = $Self->{LayoutObject}->JSONEncode( Data => \%Result );
+
+            return $Self->{LayoutObject}->Attachment(
+                ContentType => 'application/json; charset=' . $Self->{LayoutObject}->{Charset},
+                Content     => $JSON,
+                Type        => 'inline',
+                NoCache     => 1,
+            );
+        }
+
+        # create available activity dialogs lookup tables based on DB id
+        my %ActivityDialogsLookup;
+
+        ACTIVITYDDIALOG:
+        for my $ActivityDialogConfig ( @{ $Self->{ActivityDialogsList} } ) {
+            next ACTIVITYDDIALOG if !$ActivityDialogConfig;
+            next ACTIVITYDDIALOG if !$ActivityDialogConfig->{EntityID};
+
+            $ActivityDialogsLookup{ $ActivityDialogConfig->{EntityID} }
+                = $ActivityDialogConfig;
+        }
+
+        if ( !$ActivityDialogsLookup{ $Param{ActivityDialog} } ) {
+            %Result = (
+                Success => 0,
+                Message => "ActivityDialog not found!",
+            );
+
+            $JSON = $Self->{LayoutObject}->JSONEncode( Data => \%Result );
+
+            return $Self->{LayoutObject}->Attachment(
+                ContentType => 'application/json; charset=' . $Self->{LayoutObject}->{Charset},
+                Content     => $JSON,
+                Type        => 'inline',
+                NoCache     => 1,
+            );
+        }
+
+        # Check if ActivityDialog is already assigned to Activity
+        if ( ref $ActivityData->{Config}->{ActivityDialog} eq 'HASH' ) {
+
+            my $CheckActivityDialog = first { $_ eq $Param{ActivityDialog} }
+            values %{ $ActivityData->{Config}->{ActivityDialog} };
+
+            if ($CheckActivityDialog) {
+                %Result = (
+                    Success => 0,
+                    Message =>
+                        "ActivityDialog already assigned to Activity. You cannot add an ActivityDialog twice!",
+                );
+
+                $JSON = $Self->{LayoutObject}->JSONEncode( Data => \%Result );
+
+                return $Self->{LayoutObject}->Attachment(
+                    ContentType => 'application/json; charset=' . $Self->{LayoutObject}->{Charset},
+                    Content     => $JSON,
+                    Type        => 'inline',
+                    NoCache     => 1,
+                );
+            }
+
+        }
+
+        # Add ActivityDialog to Dialog
+        my @Keys = sort { $a <=> $b } keys %{ $ActivityData->{Config}->{ActivityDialog} };
+        my $NewKey = 1;
+        if (@Keys) {
+            my $LastKey = pop @Keys;
+            $NewKey = $LastKey + 1;
+        }
+
+        $ActivityData->{Config}->{ActivityDialog}->{$NewKey} = $Param{ActivityDialog};
+
+        # Save Activity to DB
+        my $Success = $Self->{ActivityObject}->ActivityUpdate(
+            ID       => $ActivityData->{ID},
+            Name     => $ActivityData->{Name},
+            EntityID => $ActivityData->{EntityID},
+            Config   => $ActivityData->{Config},
+            UserID   => $Self->{UserID},
+        );
+
+        if ( !$Success ) {
+            %Result = (
+                Success => 0,
+                Message => "Error while saving the Activity to the database!",
+            );
+
+            $JSON = $Self->{LayoutObject}->JSONEncode( Data => \%Result );
+
+            return $Self->{LayoutObject}->Attachment(
+                ContentType => 'application/json; charset=' . $Self->{LayoutObject}->{Charset},
+                Content     => $JSON,
+                Type        => 'inline',
+                NoCache     => 1,
+            );
+        }
+
+        # Get new Activity Config as JSON
+        my $ProcessDump = $Self->{ProcessObject}->ProcessDump(
+            ResultType => 'HASH',
+            UserID     => $Self->{UserID},
+        );
+        my $ActivityConfig = $ProcessDump->{Activity}->{ $Param{EntityID} };
+
+        %Result = (
+            Success        => 1,
+            Activity       => $Param{EntityID},
+            ActivityConfig => $ActivityConfig,
+        );
+
+        $JSON = $Self->{LayoutObject}->JSONEncode( Data => \%Result );
+
+        return $Self->{LayoutObject}->Attachment(
+            ContentType => 'application/json; charset=' . $Self->{LayoutObject}->{Charset},
+            Content     => $JSON,
+            Type        => 'inline',
+            NoCache     => 1,
+        );
     }
 
     # ------------------------------------------------------------ #

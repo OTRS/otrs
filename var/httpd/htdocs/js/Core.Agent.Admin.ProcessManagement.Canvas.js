@@ -2,7 +2,7 @@
 // Core.Agent.Admin.ProcessManagement.Canvas.js - provides the special module functions for the Process Management Diagram Canvas.
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.ProcessManagement.Canvas.js,v 1.7 2012-07-26 13:37:27 mn Exp $
+// $Id: Core.Agent.Admin.ProcessManagement.Canvas.js,v 1.8 2012-07-27 10:00:44 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -98,14 +98,15 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
         UpdateElementList();
     };
     
-    TargetNS.CreateActivity = function (EntityID, EntityName, PosX, PosY) {
+    TargetNS.CreateActivity = function (EntityID, EntityName, ActivityID, PosX, PosY) {
         Elements[EntityID] = BPMN.Activity.create({
             position: {x: PosX, y: PosY},
             label: EntityName,
             id: EntityID,
             dblClickFunction: function() {
-                // ToDo: Open Activity Popup
-                alert(EntityID);
+                var Path = Core.Config.Get('Config.PopupPathActivity') + ";EntityID=" + EntityID + ";ID=" + ActivityID;
+                Core.Agent.Admin.ProcessManagement.ShowOverlay();
+                Core.UI.Popup.OpenPopup(Path, 'Activity');
             }
         });
         
@@ -132,6 +133,11 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
                 });
             }, 1000);
         }
+    };
+    
+    TargetNS.ShowActivityAddActivityDialogError = function (EntityID) {
+        Elements[EntityID].hideLoader();
+        Elements[EntityID].drawLabel();
     };
     
     TargetNS.UpdateElementPosition = function (Element) {
@@ -188,8 +194,8 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
         // Dummy-Demo-Content, must be replaced by algorithm to read the config and draw the config elements
         TargetNS.CreateStartEvent();
         
-        TargetNS.CreateActivity('A-1', 'Test-Activity 1', 100, 90);
-        TargetNS.CreateActivity('A-2', 'Test-Activity 2', 300, 70);
+        TargetNS.CreateActivity('A-1', 'Test-Activity 1', '0', 100, 90);
+        TargetNS.CreateActivity('A-2', 'Test-Activity 2', '0', 300, 70);
         
         TargetNS.SetStartActivity('A-1');
         

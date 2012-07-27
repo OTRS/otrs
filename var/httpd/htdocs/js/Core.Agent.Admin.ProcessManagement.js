@@ -2,7 +2,7 @@
 // Core.Agent.Admin.ProcessManagement.js - provides the special module functions for the Process Management.
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.15 2012-07-26 13:37:27 mn Exp $
+// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.16 2012-07-27 10:00:44 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -195,6 +195,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
         function AddActivityToCanvas(Event) {
             var Position = GetPositionOnCanvas(Event),
                 EntityID = $(Event.srcElement).data('entity'),
+                ActivityID = $(Event.srcElement).data('id'),
                 Entity = TargetNS.ProcessData.Activity[EntityID],
                 ProcessEntityID = $('#ProcessEntityID').val(),
                 Path;
@@ -213,7 +214,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
                         top: Position.top
                     };
                     // Draw Entity
-                    TargetNS.Canvas.CreateActivity(EntityID, Entity.Name, Position.left, Position.top);
+                    TargetNS.Canvas.CreateActivity(EntityID, Entity.Name, ActivityID, Position.left, Position.top);
                 }
                 else {
                     alert(Core.Agent.Admin.ProcessManagement.Localization.ActivityAlreadyPlaced);
@@ -252,7 +253,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
             var Position = GetPositionOnCanvas(Event),
                 EntityID = $(Event.srcElement).data('entity'),
                 Entity = TargetNS.ProcessData.ActivityDialog[EntityID],
-                Activity;
+                Activity, AJAXData;
 
             if (typeof Entity !== 'undefined') {
                 // Check if mouse position is within an activity
@@ -263,14 +264,31 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
                 if (Activity) {
                     // Remove Label, show Loader
                     TargetNS.Canvas.ShowActivityLoader(Activity);
-                    // Call AJAX function to add ActivityDialog to Activity
                     
-                    // Show Success (Color flash) and add label again
-                    // Don't forget to update config data structure
-                    // Timeout-Fnc instead of real AJAX request
-                    window.setTimeout(function () {
+                    // Call AJAX function to add ActivityDialog to Activity
+                    AJAXData = {
+                        Action: 'AdminProcessManagementActivity',
+                        Subaction: 'AddActivityDialog',
+                        EntityID: Activity,
+                        ActivityDialog: EntityID
+                    };
+
+                    Core.AJAX.FunctionCall(Core.Config.Get('CGIHandle'), AJAXData, function (Response) {
+                        if (!Response || !Response.Success) {
+                            if (Response && Response.Message) {
+                                alert(Response.Message);
+                            }
+                            else {
+                                alert ('Error during AJAX communication');
+                            }
+                            
+                            TargetNS.Canvas.ShowActivityAddActivityDialogError(Activity);
+                            return;
+                        }
+                        
                         TargetNS.Canvas.ShowActivityAddActivityDialogSuccess(Activity);
-                    }, 1500);
+
+                    }, 'json');
                 }
             }
             else {
