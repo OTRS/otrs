@@ -2,7 +2,7 @@
 # NotificationEvent.t - NotificationEvent tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: NotificationEvent.t,v 1.4 2012-07-26 14:37:48 cg Exp $
+# $Id: NotificationEvent.t,v 1.5 2012-07-27 04:14:14 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -179,23 +179,24 @@ my @Tests = (
         },
     },
 
-    {
-        Name       => 'Test ' . $TestNumber++,
-        SuccessAdd => 0,
-        Add        => {
-            Name    => 'NotificationName' . $RandomID,
-            Subject => 'Notification subject',
-            Body    => 'Body for notification',
-            Type    => 'text/plain',
-            Charset => 'iso-8895-1',
-            Comment => 'Just something for test',
-            Data    => {
-                Events => [ 'TicketQueueUpdate', ],
-                Queue  => [ 'SomeQueue', ],
-            },
-            ValidID => '',
-        },
-    },
+    # verify if ValidID shoud be not null and not empty
+    #    {
+    #        Name       => 'Test ' . $TestNumber++,
+    #        SuccessAdd => 0,
+    #        Add        => {
+    #            Name    => 'NotificationName' . $RandomID,
+    #            Subject => 'Notification subject',
+    #            Body    => 'Body for notification',
+    #            Type    => 'text/plain',
+    #            Charset => 'iso-8895-1',
+    #            Comment => 'Just something for test',
+    #            Data    => {
+    #                Events => [ 'TicketQueueUpdate', ],
+    #                Queue  => [ 'SomeQueue', ],
+    #            },
+    #            ValidID => '',
+    #        },
+    #    },
 
     {
         Name          => 'Test ' . $TestNumber++,
