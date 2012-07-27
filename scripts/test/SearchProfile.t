@@ -2,7 +2,7 @@
 # SearchProfile.t - SearchProfile tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: SearchProfile.t,v 1.1 2012-07-26 23:05:11 cg Exp $
+# $Id: SearchProfile.t,v 1.2 2012-07-27 03:32:24 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -244,10 +244,13 @@ for my $Test (@Tests) {
 
     if ( IsArrayRefWithData( $Test->{Add}->{Value} ) ) {
 
+        my @FromTest   = sort @{ $Test->{Add}->{Value} };
+        my @FromResult = sort @{ $SearchProfile{ $Test->{Add}->{Key} } };
+
         # check if retrieved result match with the expected one
         $Self->IsDeeply(
-            $Test->{Add}->{Value},
-            $SearchProfile{ $Test->{Add}->{Key} },
+            \@FromTest,
+            \@FromResult,
             "$Test->{Name} - NotificationGet() - Value",
         );
     }
