@@ -2,7 +2,7 @@
 # AdminProcessManagementTransitionAction.dtl - provides HTML for AdminProcessManagement
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementTransitionAction.dtl,v 1.3 2012-07-26 13:18:04 mab Exp $
+# $Id: AdminProcessManagementTransitionAction.dtl,v 1.4 2012-07-30 15:31:27 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -110,6 +110,6 @@
 </div>
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
-Core.Agent.Admin.ProcessManagement.InitTransitionEdit();
+Core.Agent.Admin.ProcessManagement.InitTransitionActionEdit();
 //]]></script>
 <!--dtl:js_on_document_complete-->

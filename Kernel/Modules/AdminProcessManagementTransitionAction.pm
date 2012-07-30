@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminProcessManagementTransitionAction.pm - process management transition action
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementTransitionAction.pm,v 1.3 2012-07-30 06:59:29 mab Exp $
+# $Id: AdminProcessManagementTransitionAction.pm,v 1.4 2012-07-30 15:31:27 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::ProcessManagement::DB::TransitionAction;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -113,10 +113,9 @@ sub Run {
         }
 
         if ( !$GetParam->{Config} ) {
-
-            # add server error error class
-            $Error{ModuleServerError}        = 'ServerError';
-            $Error{ModuleServerErrorMessage} = 'This field is required';
+            return $Self->{LayoutObject}->ErrorScreen(
+                Message => "At least one valid config parameter is required.",
+            );
         }
 
         # if there is an error return to edit screen
@@ -420,6 +419,84 @@ sub Run {
     }
 }
 
+sub _ShowEdit {
+    my ( $Self, %Param ) = @_;
+
+    # get TransitionAction information
+    my $TransitionActionData = $Param{TransitionActionData} || {};
+
+    # check if last screen action is main screen
+    if ( $Self->{ScreensPath}->[-1]->{Action} eq 'AdminProcessManagement' ) {
+
+        # show close popup link
+        $Self->{LayoutObject}->Block(
+            Name => 'ClosePopup',
+            Data => {},
+        );
+    }
+    else {
+
+        # show go back link
+        $Self->{LayoutObject}->Block(
+            Name => 'GoBack',
+            Data => {
+                Action    => $Self->{ScreensPath}->[-1]->{Action}    || '',
+                Subaction => $Self->{ScreensPath}->[-1]->{Subaction} || '',
+                ID        => $Self->{ScreensPath}->[-1]->{ID}        || '',
+                EntityID  => $Self->{ScreensPath}->[-1]->{EntityID}  || '',
+            },
+        );
+    }
+
+    if ( defined $Param{Action} && $Param{Action} eq 'Edit' ) {
+        $Param{Title} = "Edit Transition Action \"$TransitionActionData->{Name}\"";
+    }
+    else {
+        $Param{Title} = 'Create New Transition Action';
+    }
+
+    my $Output = $Self->{LayoutObject}->Header(
+        Value => $Param{Title},
+        Type  => 'Small',
+    );
+
+    if ( defined $Param{Action} && $Param{Action} eq 'Edit' ) {
+
+        my $Index = 1;
+        for my $Key ( keys %{ $TransitionActionData->{Config}->{Config} } ) {
+
+            $Self->{LayoutObject}->Block(
+                Name => 'ConfigItemEditRow',
+                Data => {
+                    Key   => $Key,
+                    Value => $TransitionActionData->{Config}->{Config}->{$Key},
+                    Index => $Index,
+                },
+            );
+            $Index++;
+        }
+    }
+    else {
+        $Self->{LayoutObject}->Block(
+            Name => 'ConfigItemInitRow',
+        );
+    }
+
+    $Output .= $Self->{LayoutObject}->Output(
+        TemplateFile => "AdminProcessManagementTransitionAction",
+        Data         => {
+            %Param,
+            %{$TransitionActionData},
+            Name   => $TransitionActionData->{Name},
+            Module => $TransitionActionData->{Config}->{Module},
+        },
+    );
+
+    $Output .= $Self->{LayoutObject}->Footer();
+
+    return $Output;
+}
+
 sub _GetParams {
     my ( $Self, %Param ) = @_;
 
@@ -551,84 +628,6 @@ sub _PopupResponse {
         Data         => {},
     );
     $Output .= $Self->{LayoutObject}->Footer( Type => 'Small' );
-
-    return $Output;
-}
-
-sub _ShowEdit {
-    my ( $Self, %Param ) = @_;
-
-    # get TransitionAction information
-    my $TransitionActionData = $Param{TransitionActionData} || {};
-
-    # check if last screen action is main screen
-    if ( $Self->{ScreensPath}->[-1]->{Action} eq 'AdminProcessManagement' ) {
-
-        # show close popup link
-        $Self->{LayoutObject}->Block(
-            Name => 'ClosePopup',
-            Data => {},
-        );
-    }
-    else {
-
-        # show go back link
-        $Self->{LayoutObject}->Block(
-            Name => 'GoBack',
-            Data => {
-                Action    => $Self->{ScreensPath}->[-1]->{Action}    || '',
-                Subaction => $Self->{ScreensPath}->[-1]->{Subaction} || '',
-                ID        => $Self->{ScreensPath}->[-1]->{ID}        || '',
-                EntityID  => $Self->{ScreensPath}->[-1]->{EntityID}  || '',
-            },
-        );
-    }
-
-    if ( defined $Param{Action} && $Param{Action} eq 'Edit' ) {
-        $Param{Title} = "Edit Transition Action \"$TransitionActionData->{Name}\"";
-    }
-    else {
-        $Param{Title} = 'Create New Transition Action';
-    }
-
-    my $Output = $Self->{LayoutObject}->Header(
-        Value => $Param{Title},
-        Type  => 'Small',
-    );
-
-    if ( defined $Param{Action} && $Param{Action} eq 'Edit' ) {
-
-        my $Index = 1;
-        for my $Key ( keys %{ $TransitionActionData->{Config}->{Config} } ) {
-
-            $Self->{LayoutObject}->Block(
-                Name => 'ConfigItemEditRow',
-                Data => {
-                    Key   => $Key,
-                    Value => $TransitionActionData->{Config}->{Config}->{$Key},
-                    Index => $Index,
-                },
-            );
-            $Index++;
-        }
-    }
-    else {
-        $Self->{LayoutObject}->Block(
-            Name => 'ConfigItemInitRow',
-        );
-    }
-
-    $Output .= $Self->{LayoutObject}->Output(
-        TemplateFile => "AdminProcessManagementTransitionAction",
-        Data         => {
-            %Param,
-            %{$TransitionActionData},
-            Name   => $TransitionActionData->{Name},
-            Module => $TransitionActionData->{Config}->{Module},
-        },
-    );
-
-    $Output .= $Self->{LayoutObject}->Footer();
 
     return $Output;
 }
