@@ -2,7 +2,7 @@
 # AdminProcessManagementTransition.dtl - provides HTML for AdminProcessManagement
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementTransition.dtl,v 1.1 2012-07-19 14:14:16 mn Exp $
+# $Id: AdminProcessManagementTransition.dtl,v 1.2 2012-07-30 15:29:11 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@
         <div class="ContentColumn">
             <form id='TransitionForm' action="$Env{"CGIHandle"}" method="post" class="Validate PreventMultipleSubmits">
                 <input type="hidden" name="Action" value="$Env{"Action"}"/>
-                <input type="hidden" name="Subaction" value="Activity$QData{"Action"}Action"/>
+                <input type="hidden" name="Subaction" value="Transition$QData{"Action"}Action"/>
                 <input type="hidden" name="EntityID" value="$QData{"EntityID"}"/>
                 <input type="hidden" name="ID" value="$QData{"ID"}"/>
                 <input type="hidden" name="ActivityDialogs" value=""/>
@@ -60,23 +60,20 @@
                         <h2>$Text{"Conditions"}</h2>
                     </div>
                     <div class="Content LayoutGrid">
-                        <fieldset class="TableLike">
+                        <fieldset class="TableLike" id="PresentConditionsContainer">
                             <label for="ConditionLinking">$Text{"Type of Linking between Conditions"}:</label>
                             <div class="Field">
                                 $Data{"ConditionLinking"}
                             </div>
+                            <br />
                             <div class="Clear"></div>
 
                             <label for="Condition[1]">$Text{"Condition"} 1:</label>
-                            <div class="Field" id="Condition[1]">
-                                <button class="Remove" type="submit" name="ConditionRemove[1]" title="$Text{"Remove this Condition"}">
-                                    $Text{"Remove this Condition"}
-                                </button>
+                            <div class="Field ConditionField" id="Condition[1]">
                                 <div class="Condition">
                                     <fieldset class="TableLike FixedLabelSmall">
                                         <label for="ConditionLinking[1]">$Text{"Type of Linking"}:</label>
                                         <div class="Field">
-<!-- Name/ID must be ConditionLinking[1] -->
                                             $Data{"ConditionLinking"}
                                         </div>
                                         <div class="Clear"></div>
@@ -86,7 +83,6 @@
                                                 <label for="ConditionFieldName[1][1]">$Text{"Name"}:</label>
                                                 <input type="text" name="ConditionFieldName[1][1]" id="ConditionFieldName[1][1]" />
                                                 <label for="ConditionFieldType[1][1]">$Text{"Type"}:</label>
-<!-- Name/ID must be ConditionFieldType[1][1] -->
                                                 $Data{"ConditionFieldType"}
                                                 <label for="ConditionFieldValue[1][1]">$Text{"Value"}:</label>
                                                 <input type="text" name="ConditionFieldValue[1][1]" id="ConditionFieldValue[1][1]" />
@@ -94,81 +90,71 @@
                                                     $Text{"Remove this Field"}
                                                 </button>
                                             </fieldset>
-                                            <fieldset class="Fields">
-                                                <label for="ConditionFieldName[1][2]">$Text{"Name"}:</label>
-                                                <input type="text" name="ConditionFieldName[1][2]" id="ConditionFieldName[1][2]" />
-                                                <label for="ConditionFieldType[1][2]">$Text{"Type"}:</label>
-<!-- Name/ID must be ConditionFieldType[1][2] -->
-                                                $Data{"ConditionFieldType"}
-                                                <label for="ConditionFieldValue[1][2]">$Text{"Value"}:</label>
-                                                <input type="text" name="ConditionFieldValue[1][2]" id="ConditionFieldValue[1][2]" />
-                                                <button class="Remove" type="submit" name="ConditionFieldRemove[1][2]" title="$Text{"Remove this Field"}">
-                                                    $Text{"Remove this Field"}
-                                                </button>
-                                            </fieldset>
-                                            <button class="Add" type="submit" name="ConditionFieldAdd[2]" title="$Text{"Add a new Field"}">
+                                            <button class="Add ConditionFieldAdd" type="submit" title="$Text{"Add a new Field"}">
                                                 $Text{"Add a new Field"}
                                             </button>
                                         </div>
                                     </fieldset>
                                 </div>
+                                <div class="Clear"></div>
                             </div>
-                            <div class="Clear"></div>
-
-
-
-                            <label for="Condition[2]">$Text{"Condition"} 2:</label>
-                            <div class="Field" id="Condition[2]">
-                                <button class="Remove" type="submit" name="ConditionRemove[2]" title="$Text{"Remove this Condition"}">
-                                    $Text{"Remove this Condition"}
-                                </button>
-                                <div class="Condition">
-                                    <fieldset class="TableLike FixedLabelSmall">
-                                        <label for="ConditionLinking[2]">$Text{"Type of Linking"}:</label>
-                                        <div class="Field">
-<!-- Name/ID must be ConditionLinking[2]-->
-                                            $Data{"ConditionLinking"}
-                                        </div>
-                                        <div class="Clear"></div>
-                                        <label>$Text{"Fields"}:</label>
-                                        <div class="Field">
-                                            <fieldset class="Fields">
-                                                <label for="ConditionFieldName[2][1]">$Text{"Name"}:</label>
-                                                <input type="text" name="ConditionFieldName[2][1]" id="ConditionFieldName[2][1]" />
-                                                <label for="ConditionFieldType[2][1]">$Text{"Type"}:</label>
-<!-- Name/ID must be ConditionFieldType[2][1] -->
-                                                $Data{"ConditionFieldType"}
-                                                <label for="ConditionFieldValue[2][1]">$Text{"Value"}:</label>
-                                                <input type="text" name="ConditionFieldValue[2][1]" id="ConditionFieldValue[2][1]" />
-                                                <button class="Remove" type="submit" name="ConditionFieldRemove[2][1]" title="$Text{"Remove this Field"}">
-                                                    $Text{"Remove this Field"}
-                                                </button>
-                                            </fieldset>
-                                            <fieldset class="Fields">
-                                                <label for="ConditionFieldName[2][2]">$Text{"Name"}:</label>
-                                                <input type="text" name="ConditionFieldName[2][2]" id="ConditionFieldName[2][2]" />
-                                                <label for="ConditionFieldType[2][2]">$Text{"Type"}:</label>
-<!-- Name/ID must be ConditionFieldType[2][2] -->
-                                                $Data{"ConditionFieldType"}
-                                                <label for="ConditionFieldValue[2][2]">$Text{"Value"}:</label>
-                                                <input type="text" name="ConditionFieldValue[2][2]" id="ConditionFieldValue[2][2]" />
-                                                <button class="Remove" type="submit" name="ConditionFieldRemove[2][2]" title="$Text{"Remove this Field"}">
-                                                    $Text{"Remove this Field"}
-                                                </button>
-                                            </fieldset>
-                                            <button class="Add" type="submit" name="ConditionFieldAdd[2]" title="$Text{"Add a new Field"}">
-                                                $Text{"Add a new Field"}
-                                            </button>
-                                        </div>
-                                        <button type="submit">$Text{"Add New Condition"}</button>
-                                    </fieldset>
-                                </div>
-                            </div>
-                            <div class="Clear"></div>
+                            <button type="submit" id="ConditionAdd">$Text{"Add New Condition"}</button>
                         </fieldset>
                     </div>
                 </div>
             </form>
+            <div id="ConditionContainer" style="display:none;">
+
+                <label for="Condition[_INDEX_]">$Text{"Condition"} _INDEX_:</label>
+                <div class="Field ConditionField" id="Condition[_INDEX_]">
+                    <button class="Remove" type="submit" name="ConditionRemove[_INDEX_]" title="$Text{"Remove this Condition"}">
+                        $Text{"Remove this Condition"}
+                    </button>
+                    <div class="Condition">
+                        <fieldset class="TableLike FixedLabelSmall">
+                            <label for="ConditionLinking[_INDEX_]">$Text{"Type of Linking"}:</label>
+                            <div class="Field">
+                                $Data{"ConditionLinking"}
+                            </div>
+                            <div class="Clear"></div>
+                            <label>$Text{"Fields"}:</label>
+                            <div class="Field">
+                                <fieldset class="Fields">
+                                    <label for="ConditionFieldName[_INDEX_][1]">$Text{"Name"}:</label>
+                                    <input type="text" name="ConditionFieldName[_INDEX_][1]" id="ConditionFieldName[_INDEX_][1]" />
+                                    <label for="ConditionFieldType[_INDEX_][1]">$Text{"Type"}:</label>
+                                    $Data{"ConditionFieldType"}
+                                    <label for="ConditionFieldValue[_INDEX_][1]">$Text{"Value"}:</label>
+                                    <input type="text" name="ConditionFieldValue[_INDEX_][1]" id="ConditionFieldValue[_INDEX_][1]" />
+                                    <button class="Remove" type="submit" name="ConditionFieldRemove[_INDEX_][1]" title="$Text{"Remove this Field"}">
+                                        $Text{"Remove this Field"}
+                                    </button>
+                                </fieldset>
+                                <button type="submit" class="Add ConditionFieldAdd" title="$Text{"Add a new Field"}">
+                                    $Text{"Add a new Field"}
+                                </button>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+
+            <div id="ConditionFieldContainer" style="display:none;">
+
+                <fieldset class="Fields">
+                    <label for="ConditionFieldName[_INDEX_][_FIELDINDEX_]">$Text{"Name"}:</label>
+                    <input type="text" name="ConditionFieldName[_INDEX_][_FIELDINDEX_]" id="ConditionFieldName[_INDEX_][_FIELDINDEX_]" />
+                    <label for="ConditionFieldType[_INDEX_][_FIELDINDEX_]">$Text{"Type"}:</label>
+                    $Data{"ConditionFieldType"}
+                    <label for="ConditionFieldValue[_INDEX_][_FIELDINDEX_]">$Text{"Value"}:</label>
+                    <input type="text" name="ConditionFieldValue[_INDEX_][_FIELDINDEX_]" id="ConditionFieldValue[_INDEX_][_FIELDINDEX_]" />
+                    <button class="Remove" type="submit" name="ConditionFieldRemove[_INDEX_][_FIELDINDEX_]" title="$Text{"Remove this Field"}">
+                        $Text{"Remove this Field"}
+                    </button>
+                </fieldset>
+
+            </div>
+
         </div>
     </div>
     <div class="Footer">
@@ -177,6 +163,6 @@
 </div>
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
-//Core.Agent.Admin.ProcessManagement.InitTransitionEdit();
+Core.Agent.Admin.ProcessManagement.InitTransitionEdit();
 //]]></script>
 <!--dtl:js_on_document_complete-->
