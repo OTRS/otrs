@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2260.2.90 2012-07-20 05:48:58 cr Exp $
+# $Id: CHANGES,v 1.2260.2.91 2012-07-30 23:33:18 ep Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.1.8 2012-??-??
+ - 2012-07-31 Fixed bug#8675 - Kernel::GenericInterface::Mapping doesn't provide a ConfigObject.
  - 2012-07-20 Fixed bug#8660 - Duplicate DF X-Headers in PostMaster module.
  - 2012-07-17 Fixed bug#8647 - otrs.GenerateStats.pl "-S" option does not function.
  - 2012-07-16 Fixed bug#8616 - Spell Checker does not work using IE9.
