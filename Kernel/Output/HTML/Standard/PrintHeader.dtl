@@ -1,8 +1,8 @@
 # --
 # PrintHeader.dtl - provides global print header
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: PrintHeader.dtl,v 1.30 2011-12-21 06:51:33 mb Exp $
+# $Id: PrintHeader.dtl,v 1.31 2012-07-30 14:14:55 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,16 +10,15 @@
 # --
 #
 # http headers
-Content-Type: text/html; charset=$Env{"UserCharset"};
+Content-Type: text/html; charset=utf-8;
 Content-Disposition: $Data{"ContentDisposition"}
 X-Powered-By: $Config{"Product"} $Config{"Version"} - Open Ticket Request System (http://otrs.org)
 Expires: Tue, 1 Jan 1980 12:00:00 GMT
 Cache-Control: no-cache
 Pragma: no-cache
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html>
 $Include{"Copyright"}
 <head>
     <title>$Config{"ProductName"} $QData{"TitleArea"}</title>
