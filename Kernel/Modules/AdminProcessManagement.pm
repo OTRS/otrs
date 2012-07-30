@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminProcessManagement.pm - process management
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagement.pm,v 1.18 2012-07-24 14:22:20 mn Exp $
+# $Id: AdminProcessManagement.pm,v 1.19 2012-07-30 10:35:51 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,7 +25,7 @@ use Kernel::System::ProcessManagement::DB::TransitionAction;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -666,6 +666,58 @@ sub Run {
             Type        => 'inline',
             NoCache     => 1,
         );
+    }
+
+    # ------------------------------------------------------------ #
+    # UpdateAccordion AJAX
+    # ------------------------------------------------------------ #
+    elsif ( $Self->{Subaction} eq 'UpdateAccordion' ) {
+
+        # ouput available process elements in the accordion
+        for my $Element (qw(Activity ActivityDialog Transition TransitionAction)) {
+
+            my $ElementMethod = $Element . 'ListGet';
+
+            # get a list of all elements with details
+            my $ElementList
+                = $Self->{ $Element . 'Object' }->$ElementMethod( UserID => $Self->{UserID} );
+
+            # check there are elements to display
+            if ( IsArrayRefWithData($ElementList) ) {
+                for my $ElementData ( @{$ElementList} ) {
+
+                    # print each element in the accordion
+                    $Self->{LayoutObject}->Block(
+                        Name => $Element . 'Row',
+                        Data => {
+                            %{$ElementData},
+                        },
+                    );
+                }
+            }
+            else {
+
+                # print no data found in the accordion
+                $Self->{LayoutObject}->Block(
+                    Name => $Element . 'NoDataRow',
+                    Data => {},
+                );
+            }
+        }
+
+        my $Output = $Self->{LayoutObject}->Output(
+            TemplateFile => "AdminProcessManagementProcessAccordion",
+            Data         => {},
+        );
+
+        # send HTML response
+        return $Self->{LayoutObject}->Attachment(
+            ContentType => 'text/html',
+            Content     => $Output,
+            Type        => 'inline',
+            NoCache     => 1,
+        );
+
     }
 
     # ------------------------------------------------------------ #

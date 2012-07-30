@@ -2,7 +2,7 @@
 # AdminProcessManagementPopupResponse.dtl - provides HTML for AdminProcessManagement
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementPopupResponse.dtl,v 1.1 2012-07-20 23:25:29 cr Exp $
+# $Id: AdminProcessManagementPopupResponse.dtl,v 1.2 2012-07-30 10:35:51 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ var Data = {
 };
 
 // send results to main window
-//window.opener.Core.Agent.Admin.ProcessManagement.SOMEFUNCTION();
+window.opener.Core.Agent.Admin.ProcessManagement.UpdateConfig($Data{"ConfigJSON"});
 
 // reload popup
 Core.App.InternalRedirect(Data);
@@ -36,7 +36,16 @@ Core.App.InternalRedirect(Data);
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
 //send results to main window
-//window.opener.Core.Agent.Admin.ProcessManagement.SOMEFUNCTION();
+window.opener.Core.Agent.Admin.ProcessManagement.UpdateConfig($Data{"ConfigJSON"});
+
+// update accordion
+window.opener.Core.Agent.Admin.ProcessManagement.UpdateAccordion();
+
+// redraw canvas
+window.opener.Core.Agent.Admin.ProcessManagement.Canvas.Redraw();
+
+// remove overlay
+window.opener.Core.Agent.Admin.ProcessManagement.HideOverlay();
 
 // close popup
 window.close();

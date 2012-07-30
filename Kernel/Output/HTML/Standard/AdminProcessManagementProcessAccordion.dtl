@@ -1,0 +1,93 @@
+# --
+# AdminProcessManagementProcessAccordion.dtl - provides HTML for AdminProcessManagement Accordion
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# --
+# $Id: AdminProcessManagementProcessAccordion.dtl,v 1.1 2012-07-30 10:35:51 mn Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<ul id="ProcessElements">
+    <li class="AccordionElement Active">
+        <h2><a href="#" class="AsBlock">Activities</a></h2>
+        <div class="Content">
+            <input type="text" id="ActivityFilter" class="ProcessElementFilter W75pc" placeholder="$Text{"Filter Activities..."}" />
+            <ul class="Tablelike" id="Activities">
+<!-- dtl:block:ActivityRow -->
+                <li title="Name: $QData{"Name"} EntityID: $QData{"EntityID"}" data-entity="$QData{"EntityID"}" data-id="$QData{"ID"}">
+                    $QData{"Name","22"}
+                    <span><a href="$Env{"Baselink"}Action=AdminProcessManagementActivity;Subaction=ActivityEdit;ID=$LQData{"ID"};EntityID=$LQData{"EntityID"}" class="AsPopup PopupType_Activity">Edit</a> | <a href="#" class="DeleteEntity DeleteActivity">Delete</a></span>
+                </li>
+<!-- dtl:block:ActivityRow -->
+<!-- dtl:block:ActivityNoDataRow -->
+                <li title="$QData{"Name"}">
+                    $Text{"No data found."}
+                </li>
+<!-- dtl:block:ActivityNoDataRow -->
+            </ul>
+            <a href="$Env{"Baselink"}Action=AdminProcessManagementActivity;Subaction=ActivityNew;" class="CallForAction AsPopup PopupType_Activity Center ProcessElementButton" ><span>$Text{"Create New Activity"}</span></a>
+        </div>
+    </li>
+    <li class="AccordionElement">
+        <h2><a href="#" class="AsBlock">Activity Dialogs</a></h2>
+        <div class="Content">
+            <input type="text" id="ActivityDialogFilter" class="ProcessElementFilter W75pc" placeholder="$Text{"Filter Activity Dialogs..."}" />
+            <ul class="Tablelike" id="ActivityDialogs">
+<!-- dtl:block:ActivityDialogRow -->
+                <li title="Name: $QData{"Name"} EntityID: $QData{"EntityID"}" data-entity="$QData{"EntityID"}" data-id="$QData{"ID"}">
+                    $QData{"Name","22"}
+                    <span><a href="$Env{"Baselink"}Action=AdminProcessManagementActivityDialog;Subaction=ActivityDialogEdit;ID=$LQData{"ID"};EntityID=$LQData{"EntityID"}" class="AsPopup PopupType_ActivityDialog">Edit</a> | <a href="#" class="DeleteEntity DeleteActivityDialog">Delete</a></span>
+                </li>
+<!-- dtl:block:ActivityDialogRow -->
+<!-- dtl:block:ActivityDialogNoDataRow -->
+                <li title="$QData{"Name"}">
+                    $Text{"No data found."}
+                </li>
+<!-- dtl:block:ActivityDialogNoDataRow -->
+            </ul>
+            <a href="$Env{"Baselink"}Action=AdminProcessManagementActivityDialog;Subaction=ActivityDialogNew;" class="CallForAction AsPopup PopupType_ActivityDialog Center ProcessElementButton" ><span>$Text{"Create New Activity Dialog"}</span></a>
+        </div>
+    </li>
+    <li class="AccordionElement">
+        <h2><a href="#" class="AsBlock">Transitions</a></h2>
+        <div class="Content">
+            <input type="text" id="TransitionFilter" class="ProcessElementFilter W75pc" placeholder="$Text{"Filter Transitions..."}" />
+            <ul class="Tablelike" id="Transitions">
+<!-- dtl:block:TransitionRow -->
+                <li title="Name: $QData{"Name"} EntityID: $QData{"EntityID"}" data-entity="$QData{"EntityID"}" data-id="$QData{"ID"}">
+                    $QData{"Name","22"}
+                    <span><a href="$Env{"Baselink"}Action=AdminProcessManagementTransition;Subaction=TransitionEdit;ID=$LQData{"ID"};EntityID=$LQData{"EntityID"}" class="AsPopup PopupType_Transition">Edit</a> | <a href="#" class="DeleteEntity DeleteTransition">Delete</a></span>
+                </li>
+<!-- dtl:block:TransitionRow -->
+<!-- dtl:block:TransitionNoDataRow -->
+                <li title="$QData{"Name"}">
+                    $Text{"No data found."}
+                </li>
+<!-- dtl:block:TransitionNoDataRow -->
+            </ul>
+            <a href="$Env{"Baselink"}Action=AdminProcessManagementTransition;Subaction=TransitionNew;" class="CallForAction AsPopup PopupType_Transition Center ProcessElementButton" ><span>$Text{"Create New Transition"}</span></a>
+        </div>
+    </li>
+    <li class="AccordionElement">
+        <h2><a href="#" class="AsBlock">Transition Actions</a></h2>
+        <div class="Content">
+            <input type="text" id="TransitionActionFilter" class="ProcessElementFilter W75pc" placeholder="$Text{"Filter Transition Actions..."}" />
+            <ul class="Tablelike" id="TransitionActions">
+<!-- dtl:block:TransitionActionRow -->
+                <li title="Name: $QData{"Name"} EntityID: $QData{"EntityID"}" data-entity="$QData{"EntityID"}" data-id="$QData{"ID"}">
+                    $QData{"Name","22"}
+                    <span><a href="$Env{"Baselink"}Action=AdminProcessManagementTransitionAction;Subaction=TransitionActionEdit;ID=$LQData{"ID"};EntityID=$LQData{"EntityID"}" class="AsPopup PopupType_TransitionAction">Edit</a> | <a href="#"  class="DeleteEntity DeleteTransitionAction">Delete</a></span>
+                </li>
+<!-- dtl:block:TransitionActionRow -->
+<!-- dtl:block:TransitionActionNoDataRow -->
+                <li title="$QData{"Name"}">
+                    $Text{"No data found."}
+                </li>
+<!-- dtl:block:TransitionActionNoDataRow -->
+            </ul>
+            <a href="$Env{"Baselink"}Action=AdminProcessManagementTransitionAction;Subaction=TransitionActionNew;" class="CallForAction AsPopup PopupType_TransitionAction Center ProcessElementButton" ><span>$Text{"Create New Transition Action"}</span></a>
+        </div>
+    </li>
+</ul>

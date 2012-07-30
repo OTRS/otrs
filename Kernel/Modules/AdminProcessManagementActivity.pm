@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminProcessManagementActivity.pm - process management activity
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementActivity.pm,v 1.10 2012-07-27 10:00:44 mn Exp $
+# $Id: AdminProcessManagementActivity.pm,v 1.11 2012-07-30 10:35:51 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,7 +25,7 @@ use Kernel::System::ProcessManagement::DB::ActivityDialog;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -211,6 +211,13 @@ sub Run {
 
         my $Redirect = $Self->{ParamObject}->GetParam( Param => 'PopupRedirect' ) || '';
 
+        # get latest config data to send it back to main window
+        my $ActivityConfig = $Self->_GetActivityConfig(
+            EntityID => $EntityID,
+        );
+
+        my $ConfigJSON = $Self->{LayoutObject}->JSONEncode( Data => $ActivityConfig );
+
         # check if needed to open another window or if popup should go back
         if ( $Redirect && $Redirect eq '1' ) {
 
@@ -237,6 +244,7 @@ sub Run {
                     ID        => $RedirectID,
                     EntityID  => $RedirectID,
                 },
+                ConfigJSON => $ConfigJSON,
             );
         }
         else {
@@ -250,14 +258,16 @@ sub Run {
                 # close the popup
                 return $Self->_PopupResponse(
                     ClosePopup => 1,
+                    ConfigJSON => $ConfigJSON,
                 );
             }
             else {
 
                 # redirect to last screen
                 return $Self->_PopupResponse(
-                    Redirect => 1,
-                    Screen   => $LastScreen
+                    Redirect   => 1,
+                    Screen     => $LastScreen,
+                    ConfigJSON => $ConfigJSON,
                 );
             }
         }
@@ -413,6 +423,13 @@ sub Run {
 
         my $Redirect = $Self->{ParamObject}->GetParam( Param => 'PopupRedirect' ) || '';
 
+        # get latest config data to send it back to main window
+        my $ActivityConfig = $Self->_GetActivityConfig(
+            EntityID => $ActivityData->{EntityID},
+        );
+
+        my $ConfigJSON = $Self->{LayoutObject}->JSONEncode( Data => $ActivityConfig );
+
         # check if needed to open another window or if popup should go back
         if ( $Redirect && $Redirect eq '1' ) {
 
@@ -439,6 +456,7 @@ sub Run {
                     ID        => $RedirectID,
                     EntityID  => $RedirectID,
                 },
+                ConfigJSON => $ConfigJSON,
             );
         }
         else {
@@ -452,14 +470,16 @@ sub Run {
                 # close the popup
                 return $Self->_PopupResponse(
                     ClosePopup => 1,
+                    ConfigJSON => $ConfigJSON,
                 );
             }
             else {
 
                 # redirect to last screen
                 return $Self->_PopupResponse(
-                    Redirect => 1,
-                    Screen   => $LastScreen
+                    Redirect   => 1,
+                    Screen     => $LastScreen,
+                    ConfigJSON => $ConfigJSON,
                 );
             }
         }
@@ -605,12 +625,9 @@ sub Run {
             );
         }
 
-        # Get new Activity Config as JSON
-        my $ProcessDump = $Self->{ProcessObject}->ProcessDump(
-            ResultType => 'HASH',
-            UserID     => $Self->{UserID},
+        my $ActivityConfig = $Self->_GetActivityConfig(
+            EntityID => $Param{EntityID},
         );
-        my $ActivityConfig = $ProcessDump->{Activity}->{ $Param{EntityID} };
 
         %Result = (
             Success        => 1,
@@ -636,6 +653,23 @@ sub Run {
             Message => "This subaction is not valid",
         );
     }
+}
+
+sub _GetActivityConfig {
+    my ( $Self, %Param ) = @_;
+
+    # Get new Activity Config as JSON
+    my $ProcessDump = $Self->{ProcessObject}->ProcessDump(
+        ResultType => 'HASH',
+        UserID     => $Self->{UserID},
+    );
+
+    my %ActivityConfig;
+    $ActivityConfig{Activity} = ();
+    $ActivityConfig{Activity}->{ $Param{EntityID} }
+        = $ProcessDump->{Activity}->{ $Param{EntityID} };
+
+    return \%ActivityConfig;
 }
 
 sub _ShowEdit {
@@ -868,6 +902,7 @@ sub _PopupResponse {
         $Self->{LayoutObject}->Block(
             Name => 'Redirect',
             Data => {
+                ConfigJSON => $Param{ConfigJSON},
                 %{ $Param{Screen} },
             },
         );
@@ -875,7 +910,9 @@ sub _PopupResponse {
     elsif ( $Param{ClosePopup} && $Param{ClosePopup} eq 1 ) {
         $Self->{LayoutObject}->Block(
             Name => 'ClosePopup',
-            Data => {},
+            Data => {
+                ConfigJSON => $Param{ConfigJSON},
+            },
         );
     }
 

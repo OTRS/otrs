@@ -2,7 +2,7 @@
 // Core.Agent.Admin.ProcessManagement.js - provides the special module functions for the Process Management.
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.19 2012-07-30 08:01:49 mn Exp $
+// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.20 2012-07-30 10:35:51 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -325,9 +325,34 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
                 else {
                     console.log('Error: No matching droppable found');
                 }
-                
             }
         });
+    };
+    
+    TargetNS.UpdateAccordion = function () {
+        // get new Accordion HTML via AJAX and replace the accordion with this HTML
+        // re-initialize accordion functions (accordion, filters, DnD)
+        var Data = {
+                Action: 'AdminProcessManagement',
+                Subaction: 'UpdateAccordion',
+            };
+       
+        // Call the ajax function
+        Core.AJAX.FunctionCall(Core.Config.Get('CGIHandle'), Data, function (Response) {
+            $('ul#ProcessElements').replaceWith(Response);
+            
+            // Initialize Accordion in the sidebar
+            Core.UI.Accordion.Init($('ul#ProcessElements'), 'li.AccordionElement h2 a', 'div.Content');
+
+            // Initialize filters
+            Core.UI.Table.InitTableFilter($('#ActivityFilter'), $('#Activities'));
+            Core.UI.Table.InitTableFilter($('#ActivityDialogFilter'), $('#ActivityDialogs'));
+            Core.UI.Table.InitTableFilter($('#TransitionFilter'), $('#Transitions'));
+            Core.UI.Table.InitTableFilter($('#TransitionActionFilter'), $('#TransitionActions'));
+
+            // Init DnD on Accordion
+            TargetNS.InitAccordionDnD();
+        }, 'html');
     };
     
     TargetNS.InitProcessEdit = function () {
@@ -483,15 +508,12 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
         $('body').css('min-height', 'auto');
     };
     
-    TargetNS.UpdateConfig = function (ConfigJSON) {
-        var Config = Core.JSON.Parse(ConfigJSON);
-        
+    TargetNS.UpdateConfig = function (Config) {
         if (typeof Config === 'undefined') {
             return false;
         }
         
         // Update config from e.g. popup windows
-
         // Update process 
         if (typeof Config.Process !== 'undefined') {
             // TODO: Handle Path update here (merge!)
