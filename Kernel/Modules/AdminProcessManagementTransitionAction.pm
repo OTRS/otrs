@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminProcessManagementTransitionAction.pm - process management transition action
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementTransitionAction.pm,v 1.2 2012-07-26 13:18:04 mab Exp $
+# $Id: AdminProcessManagementTransitionAction.pm,v 1.3 2012-07-30 06:59:29 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::ProcessManagement::DB::TransitionAction;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -272,6 +272,142 @@ sub Run {
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'TransitionActionEditAction' ) {
 
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
+
+        # get transition action data
+        my $TransitionActionData;
+
+        # get parameter from web browser
+        my $GetParam = $Self->_GetParams;
+
+        # set new configuration
+        $TransitionActionData->{Name}             = $GetParam->{Name};
+        $TransitionActionData->{EntityID}         = $GetParam->{EntityID};
+        $TransitionActionData->{Config}->{Module} = $GetParam->{Module};
+        $TransitionActionData->{Config}->{Config} = $GetParam->{Config};
+
+        # check required parameters
+        my %Error;
+        if ( !$GetParam->{Name} ) {
+
+            # add server error error class
+            $Error{NameServerError}        = 'ServerError';
+            $Error{NameServerErrorMessage} = 'This field is required';
+        }
+
+        if ( !$GetParam->{Module} ) {
+
+            # add server error error class
+            $Error{ModuleServerError}        = 'ServerError';
+            $Error{ModuleServerErrorMessage} = 'This field is required';
+        }
+
+        if ( !$GetParam->{Config} ) {
+
+            # add server error error class
+            $Error{ModuleServerError}        = 'ServerError';
+            $Error{ModuleServerErrorMessage} = 'This field is required';
+        }
+
+        # if there is an error return to edit screen
+        if ( IsHashRefWithData( \%Error ) ) {
+            return $Self->_ShowEdit(
+                %Error,
+                %Param,
+                TransitionActionData => $TransitionActionData,
+                Action               => 'Edit',
+            );
+        }
+
+        # otherwise save configuration and return to overview screen
+        my $Success = $Self->{TransitionActionObject}->TransitionActionUpdate(
+            ID       => $TransitionActionID,
+            EntityID => $EntityID,
+            Name     => $TransitionActionData->{Name},
+            Module   => $TransitionActionData->{Module},
+            Config   => $TransitionActionData->{Config},
+            UserID   => $Self->{UserID},
+        );
+
+        # show error if can't update
+        if ( !$Success ) {
+            return $Self->{LayoutObject}->ErrorScreen(
+                Message => "There was an error updating the TransitionAction",
+            );
+        }
+
+        # set entitty sync state
+        $Success = $Self->{EntityObject}->EntitySyncStateSet(
+            EntityType => 'TransitionAction',
+            EntityID   => $EntityID,
+            SyncState  => 'not_sync',
+            UserID     => $Self->{UserID},
+        );
+
+        # show error if can't set
+        if ( !$Success ) {
+            return $Self->{LayoutObject}->ErrorScreen(
+                Message => "There was an error setting the entity sync status for TransitionAction "
+                    . "entity:$TransitionActionData->{EntityID}",
+            );
+        }
+
+        # remove this screen from session screen path
+        $Self->_PopSessionScreen( OnlyCurrent => 1 );
+
+        my $Redirect = $Self->{ParamObject}->GetParam( Param => 'PopupRedirect' ) || '';
+
+        # check if needed to open another window or if popup should go back
+        if ( $Redirect && $Redirect eq '1' ) {
+
+            $Self->_PushSessionScreen(
+                ID        => $TransitionActionID,
+                EntityID  => $TransitionActionData->{EntityID},
+                Subaction => 'TransitionActionEdit'               # always use edit screen
+            );
+
+            my $RedirectAction
+                = $Self->{ParamObject}->GetParam( Param => 'PopupRedirectAction' ) || '';
+            my $RedirectSubaction
+                = $Self->{ParamObject}->GetParam( Param => 'PopupRedirectSubaction' ) || '';
+            my $RedirectID = $Self->{ParamObject}->GetParam( Param => 'PopupRedirectID' ) || '';
+            my $RedirectEntityID
+                = $Self->{ParamObject}->GetParam( Param => 'PopupRedirectEntityID' ) || '';
+
+            # redirect to another popup window
+            return $Self->_PopupResponse(
+                Redirect => 1,
+                Screen   => {
+                    Action    => $RedirectAction,
+                    Subaction => $RedirectSubaction,
+                    ID        => $RedirectID,
+                    EntityID  => $RedirectID,
+                },
+            );
+        }
+        else {
+
+            # remove last screen
+            my $LastScreen = $Self->_PopSessionScreen();
+
+            # check if needed to return to main screen or to be redirected to last screen
+            if ( $LastScreen->{Action} eq 'AdminProcessManagement' ) {
+
+                # close the popup
+                return $Self->_PopupResponse(
+                    ClosePopup => 1,
+                );
+            }
+            else {
+
+                # redirect to last screen
+                return $Self->_PopupResponse(
+                    Redirect => 1,
+                    Screen   => $LastScreen
+                );
+            }
+        }
     }
 
     # ------------------------------------------------------------ #
@@ -486,6 +622,7 @@ sub _ShowEdit {
         TemplateFile => "AdminProcessManagementTransitionAction",
         Data         => {
             %Param,
+            %{$TransitionActionData},
             Name   => $TransitionActionData->{Name},
             Module => $TransitionActionData->{Config}->{Module},
         },
