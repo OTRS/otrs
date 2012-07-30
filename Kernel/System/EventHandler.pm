@@ -2,7 +2,7 @@
 # Kernel/System/EventHandler.pm - global object events
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: EventHandler.pm,v 1.13 2012-07-23 08:48:12 mh Exp $
+# $Id: EventHandler.pm,v 1.14 2012-07-30 13:30:40 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 =head1 NAME
 
@@ -173,6 +173,12 @@ Example 2:
 sub EventHandler {
     my ( $Self, %Param ) = @_;
 
+    # check log object
+    if ( !$Self->{LogObject} ) {
+        print STDERR 'Need LogObject to activate event handler!';
+        return;
+    }
+
     # check needed objects
     for my $Object (qw(ConfigObject MainObject)) {
         if ( !$Self->{$Object} ) {
@@ -309,6 +315,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.13 $ $Date: 2012-07-23 08:48:12 $
+$Revision: 1.14 $ $Date: 2012-07-30 13:30:40 $
 
 =cut
