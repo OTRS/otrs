@@ -2,7 +2,7 @@
 // Core.Agent.Admin.ProcessManagement.js - provides the special module functions for the Process Management.
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.21 2012-07-30 13:43:38 mn Exp $
+// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.22 2012-07-30 15:30:16 mab Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -473,14 +473,76 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
     
     TargetNS.InitTransitionEdit = function () {
         
+        // Init addition of new conditions
+        $('#ConditionAdd').bind('click', function() {
+           
+            // get the index for the newly to be added element
+            // therefore, we search the preceding field container 
+            // to get its "id"-attribute which contains the index 
+            var LastKnownFieldIndex = parseInt($(this).prev('.ConditionField').attr('id').replace(/Condition\[/, '').replace(/\]/, ''));
+
+            // get current index
+            var ConditionHTML = $('#ConditionContainer').html().replace(/_INDEX_/g, LastKnownFieldIndex + 1);
+            $(ConditionHTML).insertBefore($('#ConditionAdd'));
+
+            return false;
+        });
+        
+        // Init removal of conditions
+        $('#PresentConditionsContainer').delegate('.Remove', 'click', function() {
+            
+            $(this).parent().prev('label').remove();
+            $(this).parent().remove();
+            
+            return false;
+        });
+        
+        // Init addition of new fields within conditions
+        $('#PresentConditionsContainer').delegate('.ConditionFieldAdd', 'click', function() {
+            
+            // get current parent index
+            var CurrentParentIndex = $(this).closest('.ConditionField').attr('id').replace(/Condition\[/g, '').replace(/\]/g, '');
+            
+            // get the index for the newly to be added element
+            // therefore, we search the preceding fieldset and the first 
+            // label in it to get its "for"-attribute which contains the index 
+            var LastKnownFieldIndex = parseInt($(this).prev('fieldset').find('label').attr('for').replace(/ConditionFieldName\[\d+\]\[/, '').replace(/\]/, ''));
+            
+            // add new field
+            var ConditionFieldHTML = $('#ConditionFieldContainer').html().replace(/_INDEX_/g, CurrentParentIndex).replace(/_FIELDINDEX_/g, LastKnownFieldIndex + 1);
+            $(ConditionFieldHTML).insertBefore($(this));
+
+            return false;
+        });
+        
+        // Init removal of fields within conditions
+        $('#PresentConditionsContainer').delegate('.Remove', 'click', function() {
+            
+            $(this).parent().prev('label').remove();
+            $(this).parent().remove();
+            
+            return false;
+        });
+        
+        $('#Submit').bind('click', function (Event) {
+            $('#TransitionForm').submit();
+            return false;
+        });
+        
+    };
+    
+    TargetNS.InitTransitionActionEdit = function () {
+        
         // Init addition of new config parameters
         $('#ConfigAdd').bind('click', function() {
             
+            // get the index for the newly to be added element
+            // therefore, we search the preceding fieldset and the first 
+            // label in it to get its "for"-attribute which contains the index 
+            var LastKnownFieldIndex = parseInt($(this).prev('fieldset').find('label').attr('for').replace(/ConfigKey\[/, '').replace(/\]/, ''));
+
             // get current index
-            var ConfigParamsPresent = $('#ConfigParams').find('fieldset'),
-                NewCurrentIndex = ConfigParamsPresent.length + 1,
-                // add new config param
-                ConfigParamHTML = $('#ConfigParamContainer').html().replace(/_INDEX_/g, NewCurrentIndex);
+            var ConfigParamHTML = $('#ConfigParamContainer').html().replace(/_INDEX_/g, LastKnownFieldIndex + 1);
 
             $(ConfigParamHTML).insertBefore($('#ConfigAdd'));
 
