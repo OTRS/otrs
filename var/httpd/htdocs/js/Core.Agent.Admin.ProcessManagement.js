@@ -2,7 +2,7 @@
 // Core.Agent.Admin.ProcessManagement.js - provides the special module functions for the Process Management.
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.18 2012-07-27 10:39:48 mn Exp $
+// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.19 2012-07-30 08:01:49 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -194,10 +194,10 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
             return {left: PosX, top: PosY};
         }
         
-        function AddActivityToCanvas(Event) {
+        function AddActivityToCanvas(Event, UI) {
             var Position = GetPositionOnCanvas(Event),
-                EntityID = $(Event.srcElement).data('entity'),
-                ActivityID = $(Event.srcElement).data('id'),
+                EntityID = $(UI.draggable).data('entity'),
+                ActivityID = $(UI.draggable).data('id'),
                 Entity = TargetNS.ProcessData.Activity[EntityID],
                 ProcessEntityID = $('#ProcessEntityID').val(),
                 Path;
@@ -251,9 +251,9 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
             return ActivityMatch;
         }
         
-        function AddActivityDialogToCanvas(Event) {
+        function AddActivityDialogToCanvas(Event, UI) {
             var Position = GetPositionOnCanvas(Event),
-                EntityID = $(Event.srcElement).data('entity'),
+                EntityID = $(UI.draggable).data('entity'),
                 Entity = TargetNS.ProcessData.ActivityDialog[EntityID],
                 Activity, AJAXData;
 
@@ -313,17 +313,17 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
         $('#Canvas').droppable({
             accept: '#Activities li, #ActivityDialogs li',
             drop: function (Event, UI) {
-                var $Source = $(Event.srcElement),
+                var $Source = $(UI.draggable),
                     SourceID = $Source.closest('ul').attr('id');
                 
                 if (SourceID === 'Activities') {
-                    AddActivityToCanvas(Event);
+                    AddActivityToCanvas(Event, UI);
                 }
                 else if (SourceID === 'ActivityDialogs') {
-                    AddActivityDialogToCanvas(Event);
+                    AddActivityDialogToCanvas(Event, UI);
                 }
                 else {
-                    console.log('Error: Nomatching droppable found');
+                    console.log('Error: No matching droppable found');
                 }
                 
             }
