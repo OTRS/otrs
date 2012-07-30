@@ -2,7 +2,7 @@
 // Core.Agent.Admin.ProcessManagement.Canvas.js - provides the special module functions for the Process Management Diagram Canvas.
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.ProcessManagement.Canvas.js,v 1.11 2012-07-30 10:35:51 mn Exp $
+// $Id: Core.Agent.Admin.ProcessManagement.Canvas.js,v 1.12 2012-07-30 13:43:38 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -83,6 +83,24 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
             Width: MaxWidth,
             Height: MaxHeight
         };
+    }
+    
+    function InitObjectMoving() {
+        // bind object moving event to all elements (only connected Elements aka Joints).
+        // Every move causes a redraw after which we need a new initialization
+        
+        if (typeof JointObject !== 'undefined') {
+            JointObject.registerCallback('objectMoving', function (SingleJointObject) {
+                // Re-Initialize DblClick
+                if (JointObject && JointObject._registeredObjects) {
+                    $.each(JointObject._registeredObjects, function (Key, Value) {
+                        if (typeof Value.initTransitionDblClick !== 'undefined') {
+                            Value.initTransitionDblClick(SingleJointObject, TransitionDblClick);
+                        }
+                    });
+                }
+            });        
+        }
     }
     
     TargetNS.CreateStartEvent = function (PosX, PosY) {
@@ -193,14 +211,42 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
     };
     
     TargetNS.DrawDiagram = function () {
+        var Config = Core.Agent.Admin.ProcessManagement.ProcessData,
+            Layout = Core.Agent.Admin.ProcessManagement.ProcessLayout,
+            ProcessEntityID = $('#ProcessEntityID').val(),
+            StartActivity = Config.Process[ProcessEntityID].StartActivity;
+        
+        // Always start with drawing the start event element
+        TargetNS.CreateStartEvent();
+        
+        // Draw all available Activities (Keys of the ProcessData-Path)
+        $.each(Config.Process[ProcessEntityID].Path, function (Key, Value) {
+            if (typeof Layout[Key] !== 'undefined') {
+                TargetNS.CreateActivity(Key, Config.Activity[Key].Name, Config.Activity[Key].ID, Layout[Key].left, Layout[Key].top);
+            }
+            else {
+                console.log('Error: Activity without Layout Position!');
+            }
+        });
+        
+        // Start Activity
+        if (typeof StartActivity !== 'undefined') {
+            TargetNS.SetStartActivity(StartActivity);
+        }
+        
+        // Now draw the Transitions
+        
+        
+        
         // Dummy-Demo-Content, must be replaced by algorithm to read the config and draw the config elements
+        /*
         TargetNS.CreateStartEvent();
         
         TargetNS.CreateActivity('A-1', 'Test-Activity 1', '0', 100, 90);
         TargetNS.CreateActivity('A-2', 'Test-Activity 2', '0', 300, 70);
         
         TargetNS.SetStartActivity('A-1');
-        
+        */
         //TargetNS.CreateTransition('A-1', 'A-2', 'T-1');
     };
     
@@ -218,18 +264,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
         
         TargetNS.DrawDiagram();
 
-        // bind object moving event to all elements (only connected Elements aka Joints).
-        // Every move causes a redraw after which we need a new initialization
-        JointObject.registerCallback('objectMoving', function (SingleJointObject) {
-            // Re-Initialize DblClick
-            if (JointObject && JointObject._registeredObjects) {
-                $.each(JointObject._registeredObjects, function (Key, Value) {
-                    if (typeof Value.initTransitionDblClick !== 'undefined') {
-                        Value.initTransitionDblClick(SingleJointObject, TransitionDblClick);
-                    }
-                });
-            }
-        });
+        InitObjectMoving();
     };
     
     return TargetNS;

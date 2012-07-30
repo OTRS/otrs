@@ -2,7 +2,7 @@
 // joint.dia.bpmn.js - provides the BPMN diagram functionality for JointJS
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: joint.dia.bpmn.js,v 1.7 2012-07-27 10:39:48 mn Exp $
+// $Id: joint.dia.bpmn.js,v 1.8 2012-07-30 13:43:38 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -50,6 +50,7 @@ bpmn.StartEvent = Element.extend({
                  });
 
          this.setWrapper(this.paper.circle(p.position.x, p.position.y, p.radius).attr(p.attrs));
+         this.draggable(false);
      }
 });
 

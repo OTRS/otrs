@@ -2,7 +2,7 @@
 // Core.Agent.Admin.ProcessManagement.js - provides the special module functions for the Process Management.
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.20 2012-07-30 10:35:51 mn Exp $
+// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.21 2012-07-30 13:43:38 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -200,7 +200,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
                 ActivityID = $(UI.draggable).data('id'),
                 Entity = TargetNS.ProcessData.Activity[EntityID],
                 ProcessEntityID = $('#ProcessEntityID').val(),
-                Path;
+                Path, PathLength = 0, PathKey;
 
             if (typeof Entity !== 'undefined') {
                 // Check if Activity is already placed
@@ -217,6 +217,18 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
                     };
                     // Draw Entity
                     TargetNS.Canvas.CreateActivity(EntityID, Entity.Name, ActivityID, Position.left, Position.top);
+                    
+                    // get Path length
+                    for (PathKey in Path) {
+                        if (Path.hasOwnProperty(PathKey)) PathLength++;
+                    }
+
+                    // if no other activity is on the canvas, make this activity to the startactivity
+                    if (PathLength === 1) {
+                        TargetNS.Canvas.SetStartActivity(EntityID);
+                        TargetNS.ProcessData.Process[ProcessEntityID].StartActivity = EntityID;
+                        
+                    }
                 }
                 else {
                     alert(Core.Agent.Admin.ProcessManagement.Localization.ActivityAlreadyPlaced);

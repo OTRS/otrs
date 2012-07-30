@@ -2,7 +2,7 @@
 # Kernel/System/ProcessManagement/Process.pm - Process Management DB Process backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Process.pm,v 1.15 2012-07-26 22:41:36 cr Exp $
+# $Id: Process.pm,v 1.16 2012-07-30 13:43:38 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,7 +26,7 @@ use Kernel::System::ProcessManagement::DB::Transition;
 use Kernel::System::ProcessManagement::DB::TransitionAction;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 =head1 NAME
 
@@ -1086,6 +1086,7 @@ sub ProcessDump {
         next ACTIVITY if !IsHashRefWithData($ActivityData);
 
         $ActivityDump{ $ActivityData->{EntityID} } = {
+            ID             => $ActivityData->{ID},
             Name           => $ActivityData->{Name},
             CreateTime     => $ActivityData->{CreateTime},
             ChangeTime     => $ActivityData->{ChangeTime},
@@ -1255,6 +1256,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.15 $ $Date: 2012-07-26 22:41:36 $
+$Revision: 1.16 $ $Date: 2012-07-30 13:43:38 $
 
 =cut
