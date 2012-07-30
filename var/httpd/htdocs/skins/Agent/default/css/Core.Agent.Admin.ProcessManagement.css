@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.6 $
+ * @version     $Revision: 1.7 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -37,6 +37,7 @@ ul#ProcessElements li.AccordionElement h2 {
 ul#ProcessElements li.AccordionElement h2 a {
     padding: 5px;
     color: #474747;
+    font-size: 12px;
 }
 
 ul#ProcessElements li.AccordionElement div.Content {
@@ -45,6 +46,12 @@ ul#ProcessElements li.AccordionElement div.Content {
     background-color: #FFF;
     padding: 5px;
     display: none;
+}
+
+ul#ProcessElements li.AccordionElement div.Content .ProcessElementFilter {
+    width: 228px;
+    margin-top: 1px;
+    margin-bottom: -5px;
 }
 
 ul#ProcessElements li.AccordionElement.Active div.Content {
@@ -68,7 +75,7 @@ ul#ProcessElements li.AccordionElement div.Content ul {
     margin-top: 10px;
     margin-bottom: 10px;
     max-height: 150px;
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 
 ul#ProcessElements li.AccordionElement div.Content ul li {
@@ -84,9 +91,9 @@ ul#ProcessElements li.AccordionElement div.Content ul li span {
 }
 
 ul#ProcessElements li.AccordionElement div.Content .ProcessElementButton {
-    width: 90%;
+    width: 234px;
     display: block;
-    margin: auto;
+    margin: -5px auto 2px auto;
 }
 
 .EntityDrag {
