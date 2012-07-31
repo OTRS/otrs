@@ -2,7 +2,7 @@
 # AdminDynamicFieldDateTime.dtl - provides HTML form for AdminDynamicFieldsDateTime
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminDynamicFieldDateTime.dtl,v 1.12 2012-01-12 13:06:55 cr Exp $
+# $Id: AdminDynamicFieldDateTime.dtl,v 1.13 2012-07-31 06:00:52 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -47,7 +47,7 @@
                             <fieldset class="TableLike">
                                 <label class="Mandatory" for="Name"><span class="Marker">*</span> $Text{"Name"}:</label>
                                 <div class="Field">
-                                    <input id="Name" class="W50pc $QData{"NameServerError"} $QData{"ShowWarning"}  Validate_Alphanumeric" type="text" maxlength="200" value="$QData{"Name"}" name="Name"/>
+                                    <input id="Name" class="W50pc $QData{"NameServerError"} $QData{"ShowWarning"}  Validate_Alphanumeric" type="text" maxlength="200" value="$QData{"Name"}" name="Name" $QData{"ReadonlyInternalField"} />
                                     <div id="NameError" class="TooltipErrorMessage"><p>$Text{"This field is required, and the value should be alphabetic and numeric characters only."}</p></div>
                                     <div id="NameServerError" class="TooltipErrorMessage"><p>$Text{"$Data{"NameServerErrorMessage"}"}</p></div>
                                     <p class="FieldExplanation">$Text{"Must be unique and only accept alphabetic and numeric characters."}</p>
@@ -95,6 +95,18 @@
                                     <input id="ObjectTypeName" readonly="readonly" class="W50pc" type="text" maxlength="200" value="$QData{"ObjectTypeName"}" name="ObjectTypeName"/>
                                     <div class="Clear"></div>
                                 </div>
+
+<!-- dtl:block:InternalField -->
+                                <div class="SpacingTop"></div>
+                                <label for="InternalField">$Text{"Internal field"}:</label>
+                                <div class="Field">
+                                    <input id="InternalField" readonly="readonly" class="W50pc" type="text" maxlength="1" value="$QData{"InternalField"}" name="InternalField"/>
+                                    <p class="FieldExplanation">
+                                        $Text{"This field is protected and can't be deleted."}
+                                    </p>
+                                    <div class="Clear"></div>
+                                </div>
+<!-- dtl:block:InternalField -->
                             </fieldset>
                         </div>
                     </div>

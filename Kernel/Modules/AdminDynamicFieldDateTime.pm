@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminDynamicFieldDateTime.pm - provides a dynamic fields Date Time config view for admins
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminDynamicFieldDateTime.pm,v 1.15 2012-04-18 19:40:22 cr Exp $
+# $Id: AdminDynamicFieldDateTime.pm,v 1.16 2012-07-31 06:00:52 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::DynamicField;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -540,6 +540,17 @@ sub _ShowScreen {
         $ClassYearsPeriod = '';
     }
 
+    my $ReadonlyInternalField = '';
+
+    # Internal fields can not be deleted and name should not change.
+    if ( $Param{InternalField} ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'InternalField',
+            Data => {%Param},
+        );
+        $ReadonlyInternalField = 'readonly="readonly"';
+    }
+
     # generate output
     $Output .= $Self->{LayoutObject}->Output(
         TemplateFile => 'AdminDynamicFieldDateTime',
@@ -552,6 +563,7 @@ sub _ShowScreen {
             DefaultValue          => $DefaultValue,
             YearsInFuture         => $YearsInFuture,
             YearsInPast           => $YearsInPast,
+            ReadonlyInternalField => $ReadonlyInternalField,
             Link                  => $Link,
             }
     );
