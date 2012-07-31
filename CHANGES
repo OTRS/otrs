@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2382 2012-07-30 23:32:35 ep Exp $
+# $Id: CHANGES,v 1.2383 2012-07-31 07:48:42 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,10 @@
 # --
 
 3.2.0 beta1 2012-??-??
+ - 2012-07-31 HTML will now be displayed in an HTML5 sandbox iframe.
+    This means that modern browsers will not execute plugins or JavaScript on the content
+    any more. Currently, this is supported by Chrome and Safari, but IE10 and FF16 are also
+    planned to support this.
  - 2012-07-31 Fixed bug#8675 - Kernel::GenericInterface::Mapping doesn't provide a ConfigObject.
  - 2012-07-30 Switched the OTRS frontend to use the HTML5 doctype.
  - 2012-07-23 Added object check in the event handler mechanism.
