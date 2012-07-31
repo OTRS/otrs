@@ -2,7 +2,7 @@
 # HTMLUtils.t - HTMLUtils tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: HTMLUtils.t,v 1.36.2.3 2012-02-07 13:16:33 des Exp $
+# $Id: HTMLUtils.t,v 1.36.2.4 2012-07-31 13:44:41 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -802,6 +802,7 @@ var topsy_style = "big";
 ',
         Result => {
             Output => '
+
 ',
             Replace => 1,
         },
@@ -1159,6 +1160,24 @@ PT
         Name =>
             'Safety - Additional test for bug#7972 - Some mails may not present HTML part when using rich viewing.'
     },
+    {
+        Name  => 'Safety - UTF7 tags',
+        Input => <<EOF,
+script:+ADw-script+AD4-alert(1);+ADw-/script+AD4-
+applet:+ADw-applet+AD4-alert(1);+ADw-/applet+AD4-
+embed:+ADw-embed src=test+AD4-
+object:+ADw-object+AD4-alert(1);+ADw-/object+AD4-
+EOF
+        Result => {
+            Output => <<EOF,
+script:
+applet:
+embed:
+object:
+EOF
+            Replace => 1,
+        },
+    },
 );
 
 for my $Test (@Tests) {
@@ -1174,13 +1193,13 @@ for my $Test (@Tests) {
     if ( $Test->{Result}->{Replace} ) {
         $Self->True(
             $Result{Replace},
-            $Test->{Name},
+            "$Test->{Name} replaced",
         );
     }
     else {
         $Self->False(
             $Result{Replace},
-            $Test->{Name},
+            "$Test->{Name} not replaced",
         );
     }
     $Self->Is(
