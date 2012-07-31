@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2260.2.92 2012-07-31 13:44:34 mh Exp $
+# $Id: CHANGES,v 1.2260.2.93 2012-07-31 13:57:47 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.1.8 2012-??-??
+ - 2012-07-31 "Improved robustness of HTML security filter: Detect masked UTF-7 < and > signs."
  - 2012-07-31 Added config option for ticket permission in the escalation view.
  - 2012-07-31 Fixed bug#8675 - Kernel::GenericInterface::Mapping doesn't provide a ConfigObject.
  - 2012-07-20 Fixed bug#8660 - Duplicate DF X-Headers in PostMaster module.
