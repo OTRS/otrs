@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminDynamicFieldText.pm - provides a dynamic fields text config view for admins
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminDynamicFieldText.pm,v 1.25 2012-07-31 06:00:52 cg Exp $
+# $Id: AdminDynamicFieldText.pm,v 1.26 2012-07-31 21:04:58 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::DynamicField;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.25 $) [1];
+$VERSION = qw($Revision: 1.26 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -302,6 +302,18 @@ sub _ChangeAction {
         );
     }
 
+    # get dynamic field data
+    my $DynamicFieldData = $Self->{DynamicFieldObject}->DynamicFieldGet(
+        ID => $FieldID,
+    );
+
+    # check for valid dynamic field configuration
+    if ( !IsHashRefWithData($DynamicFieldData) ) {
+        return $Self->{LayoutObject}->ErrorScreen(
+            Message => "Could not get data for dynamic field $FieldID",
+        );
+    }
+
     if ( $GetParam{Name} ) {
 
         # check if name is lowercase
@@ -333,6 +345,19 @@ sub _ChangeAction {
             $Errors{NameServerError}        = 'ServerError';
             $Errors{NameServerErrorMessage} = 'There is another field with the same name.';
         }
+
+        # if it's an internal field, it's name should not change
+        if (
+            $DynamicFieldData->{InternalField} &&
+            $DynamicFieldsList{ $GetParam{Name} } ne $FieldID
+            )
+        {
+
+            # add server error class
+            $Errors{NameServerError}        = 'ServerError';
+            $Errors{NameServerErrorMessage} = 'The name for this field should not change.';
+            $Param{InternalField}           = $DynamicFieldData->{InternalField};
+        }
     }
 
     if ( $GetParam{FieldOrder} ) {
@@ -357,18 +382,6 @@ sub _ChangeAction {
     if ( !$GetParam{ValidID} ) {
         return $Self->{LayoutObject}->ErrorScreen(
             Message => "Need ValidID",
-        );
-    }
-
-    # get dynamic field data
-    my $DynamicFieldData = $Self->{DynamicFieldObject}->DynamicFieldGet(
-        ID => $FieldID,
-    );
-
-    # check for valid dynamic field configuration
-    if ( !IsHashRefWithData($DynamicFieldData) ) {
-        return $Self->{LayoutObject}->ErrorScreen(
-            Message => "Could not get data for dynamic field $FieldID",
         );
     }
 
