@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2383 2012-07-31 07:48:42 mg Exp $
+# $Id: CHANGES,v 1.2384 2012-07-31 09:33:03 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,7 +10,11 @@
 # --
 
 3.2.0 beta1 2012-??-??
- - 2012-07-31 HTML will now be displayed in an HTML5 sandbox iframe.
+ - 2012-07-31 Changed the behaviour of HTML mail display filtering.
+    By default, all inline/active content (such as script, object, applet or embed tags)
+    will be stripped. If there are external images in mails from the customer, they will be stripped too,
+    but a message will be shown allowing the user to reload the page showing the external images.
+ - 2012-07-31 HTML mails will now be displayed in an HTML5 sandbox iframe.
     This means that modern browsers will not execute plugins or JavaScript on the content
     any more. Currently, this is supported by Chrome and Safari, but IE10 and FF16 are also
     planned to support this.
