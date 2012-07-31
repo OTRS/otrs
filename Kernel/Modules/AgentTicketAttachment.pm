@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketAttachment.pm - to get the attachments
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketAttachment.pm,v 1.35 2011-09-20 22:02:42 cr Exp $
+# $Id: AgentTicketAttachment.pm,v 1.36 2012-07-31 09:27:05 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::FileTemp;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.35 $) [1];
+$VERSION = qw($Revision: 1.36 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -34,11 +34,12 @@ sub new {
     }
 
     # get ArticleID
-    $Self->{ArticleID}         = $Self->{ParamObject}->GetParam( Param => 'ArticleID' );
-    $Self->{FileID}            = $Self->{ParamObject}->GetParam( Param => 'FileID' );
-    $Self->{Viewer}            = $Self->{ParamObject}->GetParam( Param => 'Viewer' ) || 0;
-    $Self->{LoadInlineContent} = $Self->{ParamObject}->GetParam( Param => 'LoadInlineContent' )
-        || 0;
+    $Self->{ArticleID} = $Self->{ParamObject}->GetParam( Param => 'ArticleID' );
+    $Self->{FileID}    = $Self->{ParamObject}->GetParam( Param => 'FileID' );
+    $Self->{Viewer}    = $Self->{ParamObject}->GetParam( Param => 'Viewer' ) || 0;
+    $Self->{LoadExternalImages} = $Self->{ParamObject}->GetParam(
+        Param => 'LoadExternalImages'
+    ) || 0;
 
     return $Self;
 }
@@ -162,8 +163,8 @@ sub Run {
         $Data{Filename} = "Ticket-$Article{TicketNumber}-ArticleID-$Article{ArticleID}.html";
 
         # safety check only on customer article
-        if ( !$Self->{LoadInlineContent} && $Article{SenderType} ne 'customer' ) {
-            $Self->{LoadInlineContent} = 1;
+        if ( !$Self->{LoadExternalImages} && $Article{SenderType} ne 'customer' ) {
+            $Self->{LoadExternalImages} = 1;
         }
 
         # generate base url
@@ -179,10 +180,10 @@ sub Run {
         # reformat rich text document to have correct charset and links to
         # inline documents
         %Data = $Self->{LayoutObject}->RichTextDocumentServe(
-            Data              => \%Data,
-            URL               => $URL,
-            Attachments       => \%AtmBox,
-            LoadInlineContent => $Self->{LoadInlineContent},
+            Data               => \%Data,
+            URL                => $URL,
+            Attachments        => \%AtmBox,
+            LoadExternalImages => $Self->{LoadExternalImages},
         );
 
         # return html attachment

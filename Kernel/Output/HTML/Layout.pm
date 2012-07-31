@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.396 2012-07-30 14:14:55 mg Exp $
+# $Id: Layout.pm,v 1.397 2012-07-31 09:27:06 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Mail::Address;
 use URI::Escape qw();
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.396 $) [1];
+$VERSION = qw($Revision: 1.397 $) [1];
 
 =head1 NAME
 
@@ -3912,65 +3912,14 @@ sub _RichTextReplaceLinkOfInlineContent {
 
 =end Internal:
 
-=item RichTextDocumentSafetyCheck()
-
-check if content is safe to display. Otherwise insecure content will be removed and
-a warning will be included.
-
-    $HTMLBody = $LayoutObject->RichTextDocumentSafetyCheck(
-        String => $HTMLBody,
-    );
-
-=cut
-
-sub RichTextDocumentSafetyCheck {
-    my ( $Self, %Param ) = @_;
-
-    # check needed stuff
-    for (qw(String)) {
-        if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
-            return;
-        }
-    }
-
-    # safety check
-    my %Safety = $Self->{HTMLUtilsObject}->Safety(
-        String       => \$Param{String},
-        NoApplet     => 1,
-        NoObject     => 1,
-        NoEmbed      => 1,
-        NoIntSrcLoad => 0,
-        NoExtSrcLoad => 1,
-        NoJavaScript => 1,
-        Debug        => $Self->{Debug},
-    );
-
-    # return if no safety change has been done
-    return $Param{String} if !$Safety{Replaced};
-
-    # generate blocker message
-    my $Message = $Self->Output(
-        TemplateFile => 'AttachmentBlocker',
-    );
-
-    # add it on top of page
-    if ( ${ $Safety{String} } =~ /<body.*?/si ) {
-        ${ $Safety{String} } =~ s/(<body.*?>)/$1\n$Message/si;
-    }
-
-    # add it to end of page
-    else {
-        ${ $Safety{String} } = $Message . ${ $Safety{String} };
-    }
-
-    return ${ $Safety{String} };
-}
-
 =item RichTextDocumentServe()
 
-serve a rich text document for local view in correct charset and with correct
-links for inline document
+serve a rich text (HTML) document for local view inside of an iframe in correct charset and with correct
+links for inline documents.
+
+By default, all inline/active content (such as script, object, applet or embed tags)
+will be stripped. If there are external images, they will be stripped too,
+but a message will be shown allowing the user to reload the page showing the external images.
 
     my %HTMLFile = $LayoutObject->RichTextDocumentServe(
         Data => {
@@ -3979,7 +3928,11 @@ links for inline document
         },
         URL               => 'AgentTicketAttachment;Subaction=HTMLView;ArticleID=123;FileID=',
         Attachments       => \%AttachmentListOfInlineAttachments,
-        LoadInlineContent => 1,
+
+        LoadInlineContent => 0,     # Serve the document including all inline content. WARNING: This might be dangerous.
+
+        LoadExternalImages => 0,    # Load external images? If this is 0, a message will be included if
+                                    # external images were found and removed.
     );
 
 =cut
@@ -4028,9 +3981,53 @@ sub RichTextDocumentServe {
 
     # safety check
     if ( !$Param{LoadInlineContent} ) {
-        $Param{Data}->{Content} = $Self->RichTextDocumentSafetyCheck(
-            String => $Param{Data}->{Content},
+
+        # Strip out active content first, keeping external images.
+        my %SafetyCheckResult = $Self->{HTMLUtilsObject}->Safety(
+            String       => $Param{Data}->{Content},
+            NoApplet     => 1,
+            NoObject     => 1,
+            NoEmbed      => 1,
+            NoIntSrcLoad => 0,
+            NoExtSrcLoad => 0,
+            NoJavaScript => 1,
+            Debug        => $Self->{Debug},
         );
+
+        $Param{Data}->{Content} = $SafetyCheckResult{String};
+
+        if ( !$Param{LoadExternalImages} ) {
+
+            # Strip out external images, but show a confirmation button to
+            #   load them explicitly.
+            my %SafetyCheckResult = $Self->{HTMLUtilsObject}->Safety(
+                String       => $Param{Data}->{Content},
+                NoApplet     => 1,
+                NoObject     => 1,
+                NoEmbed      => 1,
+                NoIntSrcLoad => 0,
+                NoExtSrcLoad => 1,
+                NoJavaScript => 1,
+                Debug        => $Self->{Debug},
+            );
+
+            $Param{Data}->{Content} = $SafetyCheckResult{String};
+
+            if ( $SafetyCheckResult{Replace} ) {
+
+                # Generate blocker message.
+                my $Message = $Self->Output( TemplateFile => 'AttachmentBlocker' );
+
+                # Add it to the beginning of the body, if possible, otherwise prepend it.
+                if ( $Param{Data}->{Content} =~ /<body.*?>/si ) {
+                    $Param{Data}->{Content} =~ s/(<body.*?>)/$1\n$Message/si;
+                }
+                else {
+                    $Param{Data}->{Content} = $Message . $Param{Data}->{Content};
+                }
+            }
+
+        }
     }
 
     # build base url for inline images
@@ -5152,6 +5149,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.396 $ $Date: 2012-07-30 14:14:55 $
+$Revision: 1.397 $ $Date: 2012-07-31 09:27:06 $
 
 =cut

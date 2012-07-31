@@ -1,8 +1,8 @@
 # --
 # scripts/test/Layout.t - layout module testscript
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.t,v 1.56 2011-12-02 13:56:03 mg Exp $
+# $Id: Layout.t,v 1.57 2012-07-31 09:27:06 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -871,6 +871,79 @@ for my $Test (@Tests) {
             Content =>
                 '<img src=\'No-$ENV{"SCRIPT_NAME"}?Action=SomeAction;FileID=0;;SessionID=123\' />',
             }
+    },
+    {
+        Name => 'RichTextDocumentServe() drop script tag',
+        Data => {
+            Content     => '1<script></script>',
+            ContentType => 'text/html; charset="iso-8859-1"',
+        },
+        URL         => 'Action=SomeAction;FileID=',
+        Attachments => {
+            0 => {
+                ContentID => '<Untitled%20Attachment>',
+            },
+        },
+        Result => {
+            Content => '1',
+        },
+    },
+    {
+        Name => 'RichTextDocumentServe() keep script tag',
+        Data => {
+            Content     => '1<script></script>',
+            ContentType => 'text/html; charset="iso-8859-1"',
+        },
+        URL         => 'Action=SomeAction;FileID=',
+        Attachments => {
+            0 => {
+                ContentID => '<Untitled%20Attachment>',
+            },
+        },
+        LoadInlineContent => 1,
+        Result            => {
+            Content => '1<script></script>',
+        },
+    },
+    {
+        Name => 'RichTextDocumentServe() drop external image',
+        Data => {
+            Content     => '1<img src="http://google.com"/>',
+            ContentType => 'text/html; charset="iso-8859-1"',
+        },
+        URL         => 'Action=SomeAction;FileID=',
+        Attachments => {
+            0 => {
+                ContentID => '<Untitled%20Attachment>',
+            },
+        },
+        Result => {
+            Content => '
+
+<div style="margin: 5px 0; padding: 0px; border: 1px solid #999; border-radius: 2px; -moz-border-radius: 2px; -webkit-border-radius: 2px;">
+    <div style="padding: 5px; background-color: #DDD; font-family:Geneva,Helvetica,Arial,sans-serif; font-size: 11px; text-align: center;">
+        To protect your privacy, remote content was blocked.
+        <a href="No-$ENV{"SCRIPT_NAME"}?;LoadExternalImages=1">Blockierten Inhalt laden.</a>
+    </div>
+</div>1',
+        },
+    },
+    {
+        Name => 'RichTextDocumentServe() keep external image',
+        Data => {
+            Content     => '1<img src="http://google.com"/>',
+            ContentType => 'text/html; charset="iso-8859-1"',
+        },
+        URL         => 'Action=SomeAction;FileID=',
+        Attachments => {
+            0 => {
+                ContentID => '<Untitled%20Attachment>',
+            },
+        },
+        LoadExternalImages => 1,
+        Result             => {
+            Content => '1<img src="http://google.com"/>',
+        },
     },
 );
 
