@@ -2,7 +2,7 @@
 # scripts/test/Layout/BuildSelection.t - layout BuildSelection() testscript
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: BuildSelection.t,v 1.9 2012-06-14 00:55:24 cr Exp $
+# $Id: BuildSelection.t,v 1.10 2012-07-31 09:58:54 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -45,6 +45,46 @@ $CommonObject{LayoutObject} = Kernel::Output::HTML::Layout->new(
 # set JSON values
 my $JSONTrue  = $CommonObject{JSONObject}->True();
 my $JSONFalse = $CommonObject{JSONObject}->False();
+
+# zero test for SelectedID attribute
+my $HTMLCode = $CommonObject{LayoutObject}->BuildSelection(
+    Data => {
+        0 => 'zero',
+        1 => 'one',
+        2 => 'two',
+    },
+    SelectedID  => 0,
+    Name        => 'test',
+    Translation => 0,
+    Max         => 37,
+);
+my $SelectedTest = 0;
+
+if ( $HTMLCode =~ m{ value="0" \s selected}smx ) {
+    $SelectedTest = 1;
+}
+
+$Self->True(
+    $SelectedTest,
+    "Layout.t - zero test for SelectedID attribute in BuildSelection().",
+);
+
+# Ajax and OnChange exclude each other
+$HTMLCode = $CommonObject{LayoutObject}->BuildSelection(
+    Data => {
+        0 => 'zero',
+        1 => 'one',
+        2 => 'two',
+    },
+    Name     => 'test',
+    OnChange => q{alert('just testing')},
+    Ajax     => {},
+);
+
+$Self->False(
+    $HTMLCode,
+    q{Layout.t - 'Ajax' and 'OnChange' exclude each other in BuildSelection().},
+);
 
 # set tests
 my @Tests = (
