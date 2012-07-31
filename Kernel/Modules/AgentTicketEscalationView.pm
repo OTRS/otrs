@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEscalationView.pm - status for all open tickets
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEscalationView.pm,v 1.17 2012-07-31 13:48:23 mh Exp $
+# $Id: AgentTicketEscalationView.pm,v 1.18 2012-07-31 14:01:02 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.17 $) [1];
+$VERSION = qw($Revision: 1.18 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -101,7 +101,7 @@ sub Run {
                 OrderBy                       => $Self->{OrderBy},
                 SortBy                        => $Self->{SortBy},
                 UserID                        => $Self->{UserID},
-                Permission                    => $Self->{Config}->{'TicketPermisson'},
+                Permission                    => $Self->{Config}->{'TicketPermission'},
             },
         },
         Tomorrow => {
@@ -112,7 +112,7 @@ sub Run {
                 OrderBy                       => $Self->{OrderBy},
                 SortBy                        => $Self->{SortBy},
                 UserID                        => $Self->{UserID},
-                Permission                    => $Self->{Config}->{'TicketPermisson'},
+                Permission                    => $Self->{Config}->{'TicketPermission'},
             },
         },
         NextWeek => {
@@ -123,7 +123,7 @@ sub Run {
                 OrderBy                       => $Self->{OrderBy},
                 SortBy                        => $Self->{SortBy},
                 UserID                        => $Self->{UserID},
-                Permission                    => $Self->{Config}->{'TicketPermisson'},
+                Permission                    => $Self->{Config}->{'TicketPermission'},
             },
         },
     );
