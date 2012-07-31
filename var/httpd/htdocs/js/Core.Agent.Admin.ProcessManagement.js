@@ -2,7 +2,7 @@
 // Core.Agent.Admin.ProcessManagement.js - provides the special module functions for the Process Management.
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.22 2012-07-30 15:30:16 mab Exp $
+// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.23 2012-07-31 13:03:03 mab Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -473,6 +473,9 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
     
     TargetNS.InitTransitionEdit = function () {
         
+        // Replace INDEX and FIELDINDEX for first field
+        $('#PresentConditionsContainer .ConditionField').html($('.ConditionField').html().replace(/(_INDEX_|_FIELDINDEX_)/g, '1'));
+        
         // Init addition of new conditions
         $('#ConditionAdd').bind('click', function() {
            
@@ -525,6 +528,9 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
         });
         
         $('#Submit').bind('click', function (Event) {
+            
+            var ConditionConfig = TargetNS.GetConditionConfig($('#PresentConditionsContainer').find('.ConditionField'));
+            $('input[name=ConditionConfig]').val(Core.JSON.Stringify(ConditionConfig));
             $('#TransitionForm').submit();
             return false;
         });
@@ -581,6 +587,43 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
         });
         $('body').css('min-height', 'auto');
     };
+    
+    TargetNS.GetConditionConfig = function ($Conditions) {
+        
+        if (!$Conditions.length) {
+            return {};
+        }
+        
+        var Conditions = {},
+            ConditionKey;
+        
+        $Conditions.each(function() {
+            
+            // get condition key
+            ConditionKey = $(this).attr('id').replace(/(Condition\[|\])/g, '');
+            
+            // use condition key as key for our list
+            Conditions[ConditionKey] = {
+                ConditionLinking: $(this).find('.Field > select').val(),
+                Fields: {}
+            };
+            
+            // get all fields of the current condition
+            $(this).find('fieldset.Fields').each(function() {
+                
+                var FieldKey = $(this).find('label').attr('for').replace(/(ConditionFieldName\[\d+\]\[|\])/g, '');
+                Conditions[ConditionKey]['Fields'][FieldKey] = {
+                    Name  : $(this).find('input').first().val(),
+                    Type  : $(this).find('select').val(),
+                    Value : $(this).find('input').last().val()
+                }
+            });
+            
+        });
+
+        return Conditions;
+    };
+    
     
     TargetNS.UpdateConfig = function (Config) {
         if (typeof Config === 'undefined') {
