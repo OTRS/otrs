@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2385 2012-07-31 13:48:22 mh Exp $
+# $Id: CHANGES,v 1.2386 2012-07-31 13:57:39 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,6 @@
     This means that modern browsers will not execute plugins or JavaScript on the content
     any more. Currently, this is supported by Chrome and Safari, but IE10 and FF16 are also
     planned to support this.
- - 2012-07-31 Fixed bug#8675 - Kernel::GenericInterface::Mapping doesn't provide a ConfigObject.
  - 2012-07-30 Switched the OTRS frontend to use the HTML5 doctype.
  - 2012-07-23 Added object check in the event handler mechanism.
  - 2012-07-16 Updated CPAN module Apache2::Reload to version 0.12.
@@ -66,6 +65,7 @@
     NotificationEvent definitions.
 
 3.1.8 2012-??-??
+ - 2012-07-31 "Improved robustness of HTML security filter: Detect masked UTF-7 < and > signs."
  - 2012-07-31 Added config option for ticket permission in the escalation view.
  - 2012-07-31 Fixed bug#8675 - Kernel::GenericInterface::Mapping doesn't provide a ConfigObject.
  - 2012-07-20 Fixed bug#8660 - Duplicate DF X-Headers in PostMaster module.
