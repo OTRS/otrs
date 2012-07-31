@@ -3,7 +3,7 @@
 # bin/otrs.AddRole.pl - add new system roles
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.AddRole.pl,v 1.5 2012-06-11 09:31:14 mg Exp $
+# $Id: otrs.AddRole.pl,v 1.6 2012-07-31 08:18:34 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -29,6 +29,9 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
+
+use vars qw($VERSION);
+$VERSION = qw($Revision: 1.6 $) [1];
 
 use Kernel::Config;
 use Kernel::System::Encode;

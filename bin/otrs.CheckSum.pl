@@ -3,7 +3,7 @@
 # bin/otrs.CheckSum.pl - a tool to compare changes in a installation
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.CheckSum.pl,v 1.10 2012-06-11 09:31:14 mg Exp $
+# $Id: otrs.CheckSum.pl,v 1.11 2012-07-31 08:23:33 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -24,7 +24,6 @@
 use strict;
 use warnings;
 
-# use ../ as lib location
 use File::Basename;
 use FindBin qw($RealBin);
 use lib dirname($RealBin);
@@ -32,7 +31,7 @@ use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
 use vars qw($VERSION $RealBin);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 use Getopt::Std;
 use Digest::MD5 qw(md5_hex);

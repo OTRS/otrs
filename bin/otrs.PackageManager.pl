@@ -3,7 +3,7 @@
 # bin/otrs.PackageManager.pl - otrs package manager cmd version
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.PackageManager.pl,v 1.11 2012-06-11 09:31:14 mg Exp $
+# $Id: otrs.PackageManager.pl,v 1.12 2012-07-31 08:14:52 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -24,12 +24,14 @@
 use strict;
 use warnings;
 
-# use ../ as lib location
 use File::Basename;
 use FindBin qw($RealBin);
 use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
+
+use vars qw($VERSION);
+$VERSION = qw($Revision: 1.12 $) [1];
 
 use File::Spec;
 use Getopt::Std;
@@ -41,10 +43,6 @@ use Kernel::System::Main;
 use Kernel::System::DB;
 use Kernel::System::Time;
 use Kernel::System::Package;
-
-# get file version
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
 
 # common objects
 my %CommonObject = ();

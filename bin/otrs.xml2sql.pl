@@ -3,7 +3,7 @@
 # bin/otrs.xml2sql.pl - a xml 2 sql processor
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.xml2sql.pl,v 1.8 2012-06-11 09:31:39 mg Exp $
+# $Id: otrs.xml2sql.pl,v 1.9 2012-07-31 08:14:11 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -24,12 +24,14 @@
 use strict;
 use warnings;
 
-# use ../ as lib location
 use File::Basename;
 use FindBin qw($RealBin);
 use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
+
+use vars qw($VERSION);
+$VERSION = qw($Revision: 1.9 $) [1];
 
 use Getopt::Std;
 
@@ -40,9 +42,6 @@ use Kernel::System::DB;
 use Kernel::System::Log;
 use Kernel::System::Main;
 use Kernel::System::XML;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
 
 my %Opts = ();
 getopt( 'hton', \%Opts );

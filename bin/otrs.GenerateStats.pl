@@ -3,7 +3,7 @@
 # bin/otrs.GenerateStats.pl - send stats output via email
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.GenerateStats.pl,v 1.12 2012-07-17 12:56:10 mb Exp $
+# $Id: otrs.GenerateStats.pl,v 1.13 2012-07-31 08:15:38 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -24,7 +24,6 @@
 use strict;
 use warnings;
 
-# use ../ as lib location
 use File::Basename;
 use FindBin qw($RealBin);
 use lib dirname($RealBin);
@@ -32,9 +31,10 @@ use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 use Getopt::Long;
+
 use Kernel::Config;
 use Kernel::System::Encode;
 use Kernel::System::Time;

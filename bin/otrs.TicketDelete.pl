@@ -3,7 +3,7 @@
 # bin/otrs.TicketDelete.pl - delete tickets by ticket number or ticket id
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.TicketDelete.pl,v 1.1 2012-06-21 14:49:16 ub Exp $
+# $Id: otrs.TicketDelete.pl,v 1.2 2012-07-31 08:14:11 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -27,10 +27,11 @@ use warnings;
 use File::Basename;
 use FindBin qw($RealBin);
 use lib dirname($RealBin);
-use lib dirname($RealBin) . "/Kernel/cpan-lib";
+use lib dirname($RealBin) . '/Kernel/cpan-lib';
+use lib dirname($RealBin) . '/Custom';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 use Getopt::Long;
 

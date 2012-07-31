@@ -3,7 +3,7 @@
 # bin/otrs.SetPassword.pl - Changes or Sets password for a user
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.SetPassword.pl,v 1.5 2012-06-11 09:31:39 mg Exp $
+# $Id: otrs.SetPassword.pl,v 1.6 2012-07-31 08:14:11 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -24,14 +24,17 @@
 use strict;
 use warnings;
 
-# use ../ as lib location
 use File::Basename;
 use FindBin qw($RealBin);
 use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
+use vars qw($VERSION);
+$VERSION = qw($Revision: 1.6 $) [1];
+
 use Getopt::Std;
+
 use Kernel::Config;
 use Kernel::System::Encode;
 use Kernel::System::Log;
@@ -39,8 +42,6 @@ use Kernel::System::DB;
 use Kernel::System::User;
 use Kernel::System::Main;
 use Kernel::System::Time;
-
-my $VERSION = qw($Revision: 1.5 $) [1];
 
 my %Opts = ();
 getopt( 'h', \%Opts );

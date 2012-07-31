@@ -3,7 +3,7 @@
 # otrs.Scheduler.pl - provides Scheduler Daemon control on Unix like OS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.Scheduler.pl,v 1.39 2012-06-28 21:57:40 cr Exp $
+# $Id: otrs.Scheduler.pl,v 1.40 2012-07-31 08:14:11 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -24,7 +24,6 @@
 use strict;
 use warnings;
 
-# use ../ as lib location
 use File::Basename;
 use FindBin qw($RealBin);
 use lib dirname($RealBin);
@@ -32,9 +31,11 @@ use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.39 $) [1];
+$VERSION = qw($Revision: 1.40 $) [1];
 
 use Getopt::Std;
+use Proc::Daemon;
+
 use Kernel::Config;
 use Kernel::System::Encode;
 use Kernel::System::Log;
@@ -43,7 +44,6 @@ use Kernel::System::Time;
 use Kernel::System::DB;
 use Kernel::System::PID;
 use Kernel::Scheduler;
-use Proc::Daemon;
 
 # get options
 my %Opts = ();

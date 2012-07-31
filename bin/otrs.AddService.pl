@@ -3,7 +3,7 @@
 # bin/otrs.AddService.pl - add new Services
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.AddService.pl,v 1.1 2012-06-27 21:56:04 mb Exp $
+# $Id: otrs.AddService.pl,v 1.2 2012-07-31 08:18:34 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -29,6 +29,10 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
+
+use vars qw($VERSION);
+$VERSION = qw($Revision: 1.2 $) [1];
+
 use Getopt::Std;
 
 use Kernel::Config;

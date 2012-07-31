@@ -3,7 +3,7 @@
 # bin/otrs.RefreshSMIMEKeys.pl - normalize SMIME private secrets and rename all certificates to the correct hash
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.RefreshSMIMEKeys.pl,v 1.8 2012-06-11 09:31:39 mg Exp $
+# $Id: otrs.RefreshSMIMEKeys.pl,v 1.9 2012-07-31 08:14:52 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -23,8 +23,8 @@
 
 use strict;
 use warnings;
+use utf8;
 
-# use ../ as lib location
 use File::Basename;
 use FindBin qw($RealBin);
 use lib dirname($RealBin);
@@ -32,22 +32,15 @@ use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
-
-use strict;
-use warnings;
-use vars (qw($Self));
-use utf8;
+$VERSION = qw($Revision: 1.9 $) [1];
 
 use Getopt::Std;
+
 use Kernel::Config;
 use Kernel::System::DB;
 use Kernel::System::Encode;
 use Kernel::System::Log;
 use Kernel::System::Main;
-
-#use Kernel::System::Time;
-
 use Kernel::System::Crypt;
 
 # get options

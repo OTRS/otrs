@@ -3,7 +3,7 @@
 # bin/otrs.CleanupTicketMetadata.pl - remove unneeded ticket meta data
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.CleanupTicketMetadata.pl,v 1.3 2012-07-03 13:32:04 mg Exp $
+# $Id: otrs.CleanupTicketMetadata.pl,v 1.4 2012-07-31 08:18:34 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -21,19 +21,20 @@
 # or see L<http://www.gnu.org/licenses/agpl.txt>.
 # --
 
-# use ../ as lib location
+use strict;
+use warnings;
+
 use File::Basename;
 use FindBin qw($RealBin);
 use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
-use strict;
-
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 use Getopt::Long;
+
 use Kernel::Config;
 use Kernel::System::Encode;
 use Kernel::System::Time;

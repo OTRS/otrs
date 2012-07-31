@@ -3,7 +3,7 @@
 # bin/otrs.CheckModules.pl - to check needed cpan framework modules
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.CheckModules.pl,v 1.37 2012-06-11 09:31:14 mg Exp $
+# $Id: otrs.CheckModules.pl,v 1.38 2012-07-31 08:18:34 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -21,12 +21,17 @@
 # or see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-# use ../ as lib location
+use strict;
+use warnings;
+
 use File::Basename;
 use FindBin qw($RealBin);
 use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
+
+use vars qw($VERSION);
+$VERSION = qw($Revision: 1.38 $) [1];
 
 # config
 my @NeededModules = (
@@ -467,9 +472,10 @@ if ( $^O eq "MSWin32" ) {
 
 # try to load modules
 my $Depends = 0;
-foreach my $Module (@NeededModules) {
+for my $Module (@NeededModules) {
     _Check( $Module, $Depends );
 }
+
 exit;
 
 sub _Check {

@@ -3,7 +3,7 @@
 # bin/otrs.PostMaster.pl - the global eMail handle for email2db
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.PostMaster.pl,v 1.6 2012-06-11 09:31:14 mg Exp $
+# $Id: otrs.PostMaster.pl,v 1.7 2012-07-31 08:14:52 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -24,20 +24,19 @@
 use strict;
 use warnings;
 
-# use ../ as lib location
 use File::Basename;
 use FindBin qw($RealBin);
 use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
+use vars qw($VERSION);
+$VERSION = qw($Revision: 1.7 $) [1];
+
 # to get it readable for the webserver user and writable for otrs
 # group (just in case)
 
 umask 002;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
