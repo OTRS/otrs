@@ -2,7 +2,7 @@
 # Kernel/System/HTMLUtils.pm - creating and modifying html strings
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: HTMLUtils.pm,v 1.37 2012-07-30 14:14:55 mg Exp $
+# $Id: HTMLUtils.pm,v 1.38 2012-07-31 13:01:25 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use MIME::Base64;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.37 $) [1];
+$VERSION = qw($Revision: 1.38 $) [1];
 
 =head1 NAME
 
@@ -901,7 +901,7 @@ returns
 
     my %Safe = (
         String  => $HTMLString, # modified html string (scalar or ref)
-        Replace => 1,           # 1|0 - info if something got replaced
+        Replace => 1,           # info if something got replaced
     );
 
 =cut
@@ -928,90 +928,93 @@ sub Safety {
 
     my %Safety;
 
+    # In UTF-7, < and > can be encoded to mask them from security filters like this one.
+    my $TagStart = '(?:<|[+]ADw-)';
+    my $TagEnd   = '(?:>|[+]AD4-)';
+
     # remove script tags
     if ( $Param{NoJavaScript} ) {
-        $Safety{Replace} ||= ${$String} =~ s{
-            <scrip.+?>(.+?|.?)</script>
+        $Safety{Replace} += ${$String} =~ s{
+            $TagStart scrip.+? $TagEnd (.+?|.?) $TagStart /script $TagEnd
         }
-        {}sgxim;
-        $Safety{Replace} ||= ${$String} =~ s{
-            <scrip.+?>.+?(<|>)
+        {}sxim;
+        $Safety{Replace} += ${$String} =~ s{
+            $TagStart scrip.+? $TagEnd .+? ($TagStart|$TagEnd)
         }
         {}sgxim;
     }
 
     # remove <applet> tags
     if ( $Param{NoApplet} ) {
-        $Safety{Replace} ||= ${$String} =~ s{
-            <apple.+?>(.+?)</applet>
+        $Safety{Replace} += ${$String} =~ s{
+            $TagStart apple.+? $TagEnd (.+?) $TagStart /applet $TagEnd
         }
         {}sgxim;
     }
 
     # remove <Object> tags
     if ( $Param{NoObject} ) {
-        $Safety{Replace} ||= ${$String} =~ s{
-            <objec.+?>(.+?)</object>
+        $Safety{Replace} += ${$String} =~ s{
+            $TagStart objec.+? $TagEnd (.+?) $TagStart /object $TagEnd
         }
         {}sgxim;
     }
 
     # remove style/javascript parts
     if ( $Param{NoJavaScript} ) {
-        $Safety{Replace} ||= ${$String} =~ s{
-            <style[^>]+?javascript(.+?|)>(.*?)</style>
+        $Safety{Replace} += ${$String} =~ s{
+            $TagStart style[^>]+?javascript(.+?|) $TagEnd (.*?) $TagStart /style $TagEnd
         }
         {}sgxim;
     }
 
     # remove <embed> tags
     if ( $Param{NoEmbed} ) {
-        $Safety{Replace} ||= ${$String} =~ s{
-            <embed\s.+?>
+        $Safety{Replace} += ${$String} =~ s{
+            $TagStart embed\s.+? $TagEnd
         }
         {}sgxim;
     }
 
     # check each html tag
     ${$String} =~ s{
-        (<.+?>)
+        ($TagStart.+?$TagEnd)
     }
     {
         my $Tag = $1;
         if ($Param{NoJavaScript}) {
 
             # remove on action attributes
-            $Safety{Replace} ||= $Tag =~ s{
-                \son.+?=(".+?"|'.+?'|.+?)(>|\s)
+            $Safety{Replace} += $Tag =~ s{
+                \son.+?=(".+?"|'.+?'|.+?)($TagEnd|\s)
             }
             {$2}sgxim;
 
             # remove entities in tag
-            $Safety{Replace} ||= $Tag =~ s{
+            $Safety{Replace} += $Tag =~ s{
                 (&\{.+?\})
             }
             {}sgxim;
 
             # remove javascript in a href links or src links
-            $Safety{Replace} ||= $Tag =~ s{
-                ((\s|;)(background|url|src|href)=)('|"|)(javascript.+?)('|"|)(\s|>)
+            $Safety{Replace} += $Tag =~ s{
+                ((\s|;)(background|url|src|href)=)('|"|)(javascript.+?)('|"|)(\s|$TagEnd)
             }
             {
                 "$1\"\"$7";
             }sgxime;
 
             # remove link javascript tags
-            $Safety{Replace} ||= $Tag =~ s{
-                (<link.+?javascript(.+?|)>)
+            $Safety{Replace} += $Tag =~ s{
+                ($TagStart link .+? javascript (.+?|) $TagEnd)
             }
             {}sgxim;
-
         }
 
         # remove load tags
         if ($Param{NoIntSrcLoad} || $Param{NoExtSrcLoad}) {
             $Tag =~ s{
-                (<(.+?)\ssrc=(.+?)(\s.+?|)>)
+                ($TagStart (.+?) \s src=(.+?) (\s.+?|) $TagEnd)
             }
             {
                 my $URL = $3;
@@ -1105,6 +1108,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.37 $ $Date: 2012-07-30 14:14:55 $
+$Revision: 1.38 $ $Date: 2012-07-31 13:01:25 $
 
 =cut
