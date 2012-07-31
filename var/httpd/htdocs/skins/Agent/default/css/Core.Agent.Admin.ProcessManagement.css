@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.7 $
+ * @version     $Revision: 1.8 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -115,6 +115,10 @@ ul#ProcessElements li.AccordionElement div.Content .ProcessElementButton {
     border: 1px solid red;
     width: 250px;
     height: 200px;
+    position: absolute;
+}
+    
+#DiagramDeleteLink {
     position: absolute;
 }
 

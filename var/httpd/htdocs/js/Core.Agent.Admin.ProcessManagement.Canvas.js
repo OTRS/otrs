@@ -2,7 +2,7 @@
 // Core.Agent.Admin.ProcessManagement.Canvas.js - provides the special module functions for the Process Management Diagram Canvas.
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.ProcessManagement.Canvas.js,v 1.12 2012-07-30 13:43:38 mn Exp $
+// $Id: Core.Agent.Admin.ProcessManagement.Canvas.js,v 1.13 2012-07-31 12:39:51 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -28,14 +28,8 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
 
     var BPMN = Joint.dia.bpmn,
         Elements = {},
-        ElementList,
+        ElementList = [],
         JointObject;
-    
-    function UpdateElementList() {
-        ElementList = $.map(Elements, function (Value, Key) {
-            return Value;
-        });
-    }
     
     function TransitionDblClick() {
         alert();
@@ -114,8 +108,8 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
             x: PosX,
             y: PosY
         });
-        
-        UpdateElementList();
+
+        ElementList.push(Elements.StartEvent);
     };
     
     TargetNS.CreateActivity = function (EntityID, EntityName, ActivityID, PosX, PosY) {
@@ -130,7 +124,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
             }
         });
         
-        UpdateElementList();
+        ElementList.push(Elements[EntityID]);
     };
     
     TargetNS.ShowActivityLoader = function (EntityID) {
@@ -184,7 +178,35 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
         // After the initialization of the canvas, an automatic setting of the StratActivity is not useful
         // Only the user can change this by moving the arrow
         if (typeof Elements[EntityID] !== 'undefined') {
-            JointObject = Elements.StartEvent.joint(Elements[EntityID], BPMN.StartArrow).registerForever(ElementList);  
+            JointObject = Elements.StartEvent.joint(Elements[EntityID], BPMN.StartArrow).registerForever(ElementList);
+            JointObject.registerCallback("justConnected", function (Side) {
+                var Config = Core.Agent.Admin.ProcessManagement.ProcessData,
+                    ProcessEntityID = $('#ProcessEntityID').val(),
+                    StartActivity, EndActivityID, EndActivity;
+                
+                if (Side === "start") {
+                    // Handle start cap change
+                    StartActivity = this;
+                    if (StartActivity.wholeShape && StartActivity.wholeShape.properties && StartActivity.wholeShape.properties.object === 'Activity') {
+                        alert(Core.Agent.Admin.ProcessManagement.Localization.StartEventCapChange);
+                        window.setTimeout(function () {
+                            var Dummy;
+                            JointObject.disconnect('start');
+                            Dummy = JointObject._start;
+                            JointObject.replaceDummy(Dummy, Elements.StartEvent.wrapper);
+                            JointObject.addJoint(Elements.StartEvent.wrapper);
+                        }, 100);
+                    }
+                }
+                else {  // side === "end"
+                    // Handle end cap change
+                    EndActivity = this;
+                    if (EndActivity.wholeShape && EndActivity.wholeShape.properties && EndActivity.wholeShape.properties.object === 'Activity') {
+                        EndActivityID = EndActivity.wholeShape.properties.id;
+                        Config.Process[ProcessEntityID].StartActivity = EndActivityID;
+                    }
+                }
+            });
         }
     };
     

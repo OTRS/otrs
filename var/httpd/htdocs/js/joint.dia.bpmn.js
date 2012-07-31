@@ -2,7 +2,7 @@
 // joint.dia.bpmn.js - provides the BPMN diagram functionality for JointJS
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: joint.dia.bpmn.js,v 1.8 2012-07-30 13:43:38 mn Exp $
+// $Id: joint.dia.bpmn.js,v 1.9 2012-07-31 12:39:51 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -100,6 +100,7 @@ bpmn.Activity = Element.extend({
         this.wrapper.mousedown(function() {
             elem.checkDblClick(new Date().getTime());
             elem.hideTooltip();
+            elem.hideDeleteButton();
         });
         
         this.wrapper.mouseup(function() {
@@ -124,6 +125,7 @@ bpmn.Activity = Element.extend({
             else {
                 elem.activeHover = true;
                 elem.showTooltip(elem.properties);
+                elem.showDeleteButton(elem.properties);
             }            
         }
         
@@ -131,6 +133,7 @@ bpmn.Activity = Element.extend({
             elem.timer = setTimeout(function () {
                 elem.activeHover = false;
                 elem.hideTooltip();
+                elem.hideDeleteButton();
             }, 50);            
         }
         
@@ -250,6 +253,80 @@ bpmn.Activity = Element.extend({
         
         this.label = t;
         this.addInner(this.label);        
+    },
+    showDeleteButton: function (ElementProperties) {
+        var $delete = $('#DiagramDeleteLink'),
+            canvasPosition = $(this.paper.canvas).offset(),
+            position = { x: 0, y: 0},
+            Activity = Core.Agent.Admin.ProcessManagement.ProcessData.Activity,
+            elem = this;
+
+        if (typeof Activity[ElementProperties.id] === 'undefined') {
+            return false;
+        }
+        
+        if ($delete.is(':visible')) {
+            $delete.hide();
+        }
+        
+        // calculate link position
+        // x: x-coordinate of canvas + x-coordinate of element within canvas + width of element
+        position.x = canvasPosition.left + this.wrapper.attrs.x + ElementProperties.width - 15;
+        
+        // y: y-coordinate of canvas + y-coordinate of element within canvas
+        position.y = canvasPosition.top + this.wrapper.attrs.y + 7;        
+
+        $delete
+            .css('top', position.y)
+            .css('left', position.x)
+            .show()
+            .unbind('mouseover')
+            .bind('mouseover', function () {
+                clearTimeout(elem.timer);
+            })
+            .unbind('click')
+            .bind('click', function () {
+                elem.removeActivity(ElementProperties.id);
+                return false;
+            });
+    },
+    hideDeleteButton: function () {
+        $('#DiagramDeleteLink').hide();
+    },
+    removeActivity: function (Entity) {
+        var Config = Core.Agent.Admin.ProcessManagement.ProcessData,
+            ProcessEntityID = $('#ProcessEntityID').val();
+        
+        // remove HTML elements
+        this.hideTooltip();
+        this.hideDeleteButton();
+        
+        // if Activity id StartActivity, this Actiovity cannot be removed...
+        if (Config.Process[ProcessEntityID].StartActivity === Entity) {
+            alert(Core.Agent.Admin.ProcessManagement.Localization.ActivityCannotBeDeleted);
+            return;
+        }        
+        
+        // update config
+        // delete entity and all transitions starting *from* here
+        if (typeof Config.Process[ProcessEntityID].Path[Entity] !== 'undefined') {
+            delete Config.Process[ProcessEntityID].Path[Entity];
+        }
+        // delete all transitions *to* this entity
+        $.each(Config.Process[ProcessEntityID].Path, function (StartActivity, Value) {
+            // the Value is a hash with the transition name as Key
+            // loop again
+            $.each(Value, function (Transition, EndActivity) {
+                // Key is now the Transition
+                // Value is a hash with a Key "ActivityID" which is possibly our deleted Entity
+                if (EndActivity.ActivityID && EndActivity.ActivityID === Entity) {
+                    delete Config.Process[ProcessEntityID].Path[StartActivity][Transition];
+                }
+            });
+        });
+        
+        // remove element from canvas
+        this.liquidate();
     },
     showTooltip: function (ElementProperties) {
         var $tooltip = $('#DiagramTooltip'),
