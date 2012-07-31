@@ -2,7 +2,7 @@
 # AdminProcessManagementTransition.dtl - provides HTML for AdminProcessManagement
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementTransition.dtl,v 1.2 2012-07-30 15:29:11 mab Exp $
+# $Id: AdminProcessManagementTransition.dtl,v 1.3 2012-07-31 13:01:57 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,6 +24,7 @@
                 <input type="hidden" name="EntityID" value="$QData{"EntityID"}"/>
                 <input type="hidden" name="ID" value="$QData{"ID"}"/>
                 <input type="hidden" name="ActivityDialogs" value=""/>
+                <input type="hidden" name="ConditionConfig" value=""/>
                 <input type="hidden" name="PopupRedirect" value="" id="PopupRedirect"/>
                 <input type="hidden" name="PopupRedirectID" value="" id="PopupRedirectID"/>
                 <input type="hidden" name="PopupRedirectEntityID" value="" id="PopupRedirectEntityID"/>
@@ -63,7 +64,7 @@
                         <fieldset class="TableLike" id="PresentConditionsContainer">
                             <label for="ConditionLinking">$Text{"Type of Linking between Conditions"}:</label>
                             <div class="Field">
-                                $Data{"ConditionLinking"}
+                                $Data{"OverallConditionLinking"}
                             </div>
                             <br />
                             <div class="Clear"></div>
@@ -81,11 +82,11 @@
                                         <div class="Field">
                                             <fieldset class="Fields">
                                                 <label for="ConditionFieldName[1][1]">$Text{"Name"}:</label>
-                                                <input type="text" name="ConditionFieldName[1][1]" id="ConditionFieldName[1][1]" />
+                                                <input type="text" name="ConditionFieldName[1][1]" class="Validate_Required" id="ConditionFieldName[1][1]" />
                                                 <label for="ConditionFieldType[1][1]">$Text{"Type"}:</label>
                                                 $Data{"ConditionFieldType"}
                                                 <label for="ConditionFieldValue[1][1]">$Text{"Value"}:</label>
-                                                <input type="text" name="ConditionFieldValue[1][1]" id="ConditionFieldValue[1][1]" />
+                                                <input type="text" name="ConditionFieldValue[1][1]"  class="Validate_Required" id="ConditionFieldValue[1][1]" />
                                                 <button class="Remove" type="submit" name="ConditionFieldRemove[1][1]" title="$Text{"Remove this Field"}">
                                                     $Text{"Remove this Field"}
                                                 </button>

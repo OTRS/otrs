@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminProcessManagementTransition.pm - process management transition
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementTransition.pm,v 1.2 2012-07-30 15:29:11 mab Exp $
+# $Id: AdminProcessManagementTransition.pm,v 1.3 2012-07-31 12:58:30 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::ProcessManagement::DB::Transition;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -104,12 +104,6 @@ sub Run {
             # add server error error class
             $Error{NameServerError}        = 'ServerError';
             $Error{NameServerErrorMessage} = 'This field is required';
-        }
-
-        if ( !$GetParam->{Config} ) {
-            return $Self->{LayoutObject}->ErrorScreen(
-                Message => "At least one valid condition is required.",
-            );
         }
 
         # if there is an error return to edit screen
@@ -258,10 +252,18 @@ sub _ShowEdit {
         Type  => 'Small',
     );
 
+    $Param{OverallConditionLinking} = $Self->{LayoutObject}->BuildSelection(
+        Data => [ 'and', 'or', 'xor' ],
+        Name => 'OverallConditionLinking',
+        ID   => 'OverallConditionLinking',
+        Sort => 'AlphanumericKey',
+        Translation => 1,
+        Class       => 'W50pc',
+    );
+
     $Param{ConditionLinking} = $Self->{LayoutObject}->BuildSelection(
         Data => [ 'and', 'or', 'xor' ],
-        Name => 'ConditionLinking',
-        ID   => 'ConditionLinking',
+        Name => 'ConditionLinking[_INDEX_]',
         Sort => 'AlphanumericKey',
         Translation => 1,
         Class       => 'W50pc',
@@ -269,8 +271,7 @@ sub _ShowEdit {
 
     $Param{ConditionFieldType} = $Self->{LayoutObject}->BuildSelection(
         Data => [ 'String', 'Hash', 'Array', 'Regexp', 'Module' ],
-        Name => 'ConditionFieldType',
-        ID   => 'ConditionFieldType',
+        Name => 'ConditionFieldType[_INDEX_][_FIELDINDEX_]',
         Sort => 'AlphanumericKey',
         Translation => 1,
     );
@@ -294,11 +295,14 @@ sub _GetParams {
 
     # get parameters from web browser
     $GetParam->{Name} = $Self->{ParamObject}->GetParam( Param => 'Name' ) || '';
+    $GetParam->{ConditionConfig} = $Self->{ParamObject}->GetParam( Param => 'ConditionConfig' )
+        || '';
 
+    my $Config = $Self->{JSONObject}->Decode(
+        Data => $GetParam->{ConditionConfig}
+    );
     $GetParam->{Config} = {};
-    $GetParam->{Config}->{Condition} = {
-        1 => "bla",
-    };
+    $GetParam->{Config}->{Condition} = $Config;
 
     return $GetParam;
 }
