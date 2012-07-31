@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2384 2012-07-31 09:33:03 mg Exp $
+# $Id: CHANGES,v 1.2385 2012-07-31 13:48:22 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -66,6 +66,7 @@
     NotificationEvent definitions.
 
 3.1.8 2012-??-??
+ - 2012-07-31 Added config option for ticket permission in the escalation view.
  - 2012-07-31 Fixed bug#8675 - Kernel::GenericInterface::Mapping doesn't provide a ConfigObject.
  - 2012-07-20 Fixed bug#8660 - Duplicate DF X-Headers in PostMaster module.
  - 2012-07-17 Fixed bug#8647 - otrs.GenerateStats.pl "-S" option does not function.
