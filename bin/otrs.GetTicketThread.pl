@@ -3,7 +3,7 @@
 # bin/otrs.GetTicketThread.pl - to print the whole ticket thread to STDOUT
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.GetTicketThread.pl,v 1.7 2012-07-31 08:15:38 mh Exp $
+# $Id: otrs.GetTicketThread.pl,v 1.8 2012-08-01 23:19:14 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,9 @@ use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
+
+use Getopt::Std;
 
 use Kernel::Config;
 use Kernel::System::Encode;
@@ -40,10 +42,20 @@ use Kernel::System::Log;
 use Kernel::System::Main;
 use Kernel::System::DB;
 use Kernel::System::Ticket;
-use Kernel::System::User;
+
+# get options
+my %Opts;
+getopt( 'htl', \%Opts );
+if ( $Opts{h} || !$Opts{t} ) {
+    print
+        "otrs.GetTicketThread.pl <Revision $VERSION> - Prints out a ticket with all its articles.\n";
+    print "Copyright (C) 2001-2012 OTRS AG, http://otrs.org/\n";
+    print "usage: otrs.GetTicketThread.pl -t <TicketID> [-l article limit]\n";
+    exit 1;
+}
 
 # common objects
-my %CommonObject = ();
+my %CommonObject;
 $CommonObject{ConfigObject} = Kernel::Config->new();
 $CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
 $CommonObject{LogObject}    = Kernel::System::Log->new(
@@ -54,42 +66,66 @@ $CommonObject{TimeObject}   = Kernel::System::Time->new(%CommonObject);
 $CommonObject{MainObject}   = Kernel::System::Main->new(%CommonObject);
 $CommonObject{DBObject}     = Kernel::System::DB->new(%CommonObject);
 $CommonObject{TicketObject} = Kernel::System::Ticket->new(%CommonObject);
-$CommonObject{UserObject}   = Kernel::System::User->new(%CommonObject);
 
-if ( !$ARGV[0] ) {
-    print "$0 <Revision $VERSION>\n";
-    print "Prints out a ticket with all its articles.\n";
-    print "Usage: $0 <TicketID>\n";
-    print "Copyright (C) 2001-2012 OTRS AG, http://otrs.org/\n";
-    exit 1;
-}
-
-my $TicketID = shift;
-my %Ticket   = $CommonObject{TicketObject}->TicketGet(
-    TicketID      => $TicketID,
+# get ticket data
+my %Ticket = $CommonObject{TicketObject}->TicketGet(
+    TicketID      => $Opts{t},
     DynamicFields => 0,
 );
-if ( !%Ticket ) {
-    exit 1;
-}
-print "=====================================================================\n";
-for (qw(TicketNumber TicketID Created Queue State Priority Lock CustomerID CustomerUserID)) {
-    print "$_: $Ticket{$_}\n" if ( $Ticket{$_} );
-}
-print "---------------------------------------------------------------------\n";
 
-my @Index = $CommonObject{TicketObject}->ArticleIndex( TicketID => $TicketID );
-for (@Index) {
+exit 1 if !%Ticket;
+
+print STDOUT "=====================================================================\n";
+
+KEY:
+for my $Key (qw(TicketNumber TicketID Created Queue State Priority Lock CustomerID CustomerUserID))
+{
+
+    next KEY if !$Key;
+    next KEY if !$Ticket{$Key};
+
+    print STDOUT "$Key: $Ticket{$Key}\n";
+}
+
+print STDOUT "---------------------------------------------------------------------\n";
+
+# get article index
+my @Index = $CommonObject{TicketObject}->ArticleIndex(
+    TicketID => $Opts{t},
+);
+
+my $Counter = 1;
+ARTICLEID:
+for my $ArticleID (@Index) {
+
+    last ARTICLEID if $Opts{l} && $Opts{l} < $Counter;
+    next ARTICLEID if !$ArticleID;
+
+    # get article data
     my %Article = $CommonObject{TicketObject}->ArticleGet(
-        ArticleID     => $_,
+        ArticleID     => $ArticleID,
         DynamicFields => 0,
     );
-    for (qw(ArticleID From To Cc Subject ReplyTo InReplyTo Created SenderType)) {
-        print "$_: $Article{$_}\n" if ( $Article{$_} );
+
+    next ARTICLEID if !%Article;
+
+    KEY:
+    for my $Key (qw(ArticleID From To Cc Subject ReplyTo InReplyTo Created SenderType)) {
+
+        next KEY if !$Key;
+        next KEY if !$Article{$Key};
+
+        print STDOUT "$Key: $Article{$Key}\n";
     }
-    print "Body:\n";
-    print "$Article{Body}\n";
-    print "---------------------------------------------------------------------\n";
+
+    $Article{Body} ||= '';
+
+    print STDOUT "Body:\n";
+    print STDOUT "$Article{Body}\n";
+    print STDOUT "---------------------------------------------------------------------\n";
+}
+continue {
+    $Counter++;
 }
 
 1;
