@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminProcessManagementTransitionAction.pm - process management transition action
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementTransitionAction.pm,v 1.4 2012-07-30 15:31:27 mab Exp $
+# $Id: AdminProcessManagementTransitionAction.pm,v 1.5 2012-08-01 15:39:19 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,14 @@ use strict;
 use warnings;
 
 use Kernel::System::JSON;
+use Kernel::System::ProcessManagement::DB::Process;
 use Kernel::System::ProcessManagement::DB::Entity;
 use Kernel::System::ProcessManagement::DB::TransitionAction;
 
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -41,8 +42,9 @@ sub new {
     }
 
     # create additional objects
-    $Self->{JSONObject}   = Kernel::System::JSON->new( %{$Self} );
-    $Self->{EntityObject} = Kernel::System::ProcessManagement::DB::Entity->new( %{$Self} );
+    $Self->{JSONObject}    = Kernel::System::JSON->new( %{$Self} );
+    $Self->{ProcessObject} = Kernel::System::ProcessManagement::DB::Process->new( %{$Self} );
+    $Self->{EntityObject}  = Kernel::System::ProcessManagement::DB::Entity->new( %{$Self} );
     $Self->{TransitionActionObject}
         = Kernel::System::ProcessManagement::DB::TransitionAction->new( %{$Self} );
 
@@ -178,6 +180,13 @@ sub Run {
 
         my $Redirect = $Self->{ParamObject}->GetParam( Param => 'PopupRedirect' ) || '';
 
+        # get latest config data to send it back to main window
+        my $TransitionActionConfig = $Self->_GetTransitionActionConfig(
+            EntityID => $TransitionActionData->{EntityID},
+        );
+
+        my $ConfigJSON = $Self->{LayoutObject}->JSONEncode( Data => $TransitionActionConfig );
+
         # check if needed to open another window or if popup should go back
         if ( $Redirect && $Redirect eq '1' ) {
 
@@ -204,6 +213,7 @@ sub Run {
                     ID        => $RedirectID,
                     EntityID  => $RedirectID,
                 },
+                ConfigJSON => $ConfigJSON,
             );
         }
         else {
@@ -217,14 +227,16 @@ sub Run {
                 # close the popup
                 return $Self->_PopupResponse(
                     ClosePopup => 1,
+                    ConfigJSON => $ConfigJSON,
                 );
             }
             else {
 
                 # redirect to last screen
                 return $Self->_PopupResponse(
-                    Redirect => 1,
-                    Screen   => $LastScreen
+                    Redirect   => 1,
+                    Screen     => $LastScreen,
+                    ConfigJSON => $ConfigJSON,
                 );
             }
         }
@@ -245,13 +257,13 @@ sub Run {
         # remove this screen from session screen path
         $Self->_PopSessionScreen( OnlyCurrent => 1 );
 
-        # get Activity data
+        # get TransitionAction data
         my $TransitionActionData = $Self->{TransitionActionObject}->TransitionActionGet(
             ID     => $TransitionActionID,
             UserID => $Self->{UserID},
         );
 
-        # check for valid Activity data
+        # check for valid TransitionAction data
         if ( !IsHashRefWithData($TransitionActionData) ) {
             return $Self->{LayoutObject}->ErrorScreen(
                 Message => "Could not get data for TransitionActionID $TransitionActionID",
@@ -303,10 +315,9 @@ sub Run {
         }
 
         if ( !$GetParam->{Config} ) {
-
-            # add server error error class
-            $Error{ModuleServerError}        = 'ServerError';
-            $Error{ModuleServerErrorMessage} = 'This field is required';
+            return $Self->{LayoutObject}->ErrorScreen(
+                Message => "At least one valid config parameter is required.",
+            );
         }
 
         # if there is an error return to edit screen
@@ -322,7 +333,7 @@ sub Run {
         # otherwise save configuration and return to overview screen
         my $Success = $Self->{TransitionActionObject}->TransitionActionUpdate(
             ID       => $TransitionActionID,
-            EntityID => $EntityID,
+            EntityID => $TransitionActionData->{EntityID},
             Name     => $TransitionActionData->{Name},
             Module   => $TransitionActionData->{Module},
             Config   => $TransitionActionData->{Config},
@@ -339,7 +350,7 @@ sub Run {
         # set entitty sync state
         $Success = $Self->{EntityObject}->EntitySyncStateSet(
             EntityType => 'TransitionAction',
-            EntityID   => $EntityID,
+            EntityID   => $TransitionActionData->{EntityID},
             SyncState  => 'not_sync',
             UserID     => $Self->{UserID},
         );
@@ -356,6 +367,13 @@ sub Run {
         $Self->_PopSessionScreen( OnlyCurrent => 1 );
 
         my $Redirect = $Self->{ParamObject}->GetParam( Param => 'PopupRedirect' ) || '';
+
+        # get latest config data to send it back to main window
+        my $TransitionActionConfig = $Self->_GetTransitionActionConfig(
+            EntityID => $TransitionActionData->{EntityID},
+        );
+
+        my $ConfigJSON = $Self->{LayoutObject}->JSONEncode( Data => $TransitionActionConfig );
 
         # check if needed to open another window or if popup should go back
         if ( $Redirect && $Redirect eq '1' ) {
@@ -383,6 +401,7 @@ sub Run {
                     ID        => $RedirectID,
                     EntityID  => $RedirectID,
                 },
+                ConfigJSON => $ConfigJSON,
             );
         }
         else {
@@ -396,14 +415,16 @@ sub Run {
                 # close the popup
                 return $Self->_PopupResponse(
                     ClosePopup => 1,
+                    ConfigJSON => $ConfigJSON,
                 );
             }
             else {
 
                 # redirect to last screen
                 return $Self->_PopupResponse(
-                    Redirect => 1,
-                    Screen   => $LastScreen
+                    Redirect   => 1,
+                    Screen     => $LastScreen,
+                    ConfigJSON => $ConfigJSON,
                 );
             }
         }
@@ -417,6 +438,23 @@ sub Run {
             Message => "This subaction is not valid",
         );
     }
+}
+
+sub _GetTransitionActionConfig {
+    my ( $Self, %Param ) = @_;
+
+    # Get new Transition Config as JSON
+    my $ProcessDump = $Self->{ProcessObject}->ProcessDump(
+        ResultType => 'HASH',
+        UserID     => $Self->{UserID},
+    );
+
+    my %TransitionActionConfig;
+    $TransitionActionConfig{TransitionAction} = ();
+    $TransitionActionConfig{TransitionAction}->{ $Param{EntityID} }
+        = $ProcessDump->{TransitionAction}->{ $Param{EntityID} };
+
+    return \%TransitionActionConfig;
 }
 
 sub _ShowEdit {
@@ -462,8 +500,9 @@ sub _ShowEdit {
 
     if ( defined $Param{Action} && $Param{Action} eq 'Edit' ) {
 
-        my $Index = 1;
-        for my $Key ( keys %{ $TransitionActionData->{Config}->{Config} } ) {
+        my $Index       = 1;
+        my @ConfigItems = sort keys %{ $TransitionActionData->{Config}->{Config} };
+        for my $Key (@ConfigItems) {
 
             $Self->{LayoutObject}->Block(
                 Name => 'ConfigItemEditRow',
@@ -504,7 +543,7 @@ sub _GetParams {
 
     # get parameters from web browser
     for my $ParamName (
-        qw( Name Module )
+        qw( Name Module EntityID )
         )
     {
         $GetParam->{$ParamName} = $Self->{ParamObject}->GetParam( Param => $ParamName ) || '';
@@ -611,6 +650,7 @@ sub _PopupResponse {
         $Self->{LayoutObject}->Block(
             Name => 'Redirect',
             Data => {
+                ConfigJSON => $Param{ConfigJSON},
                 %{ $Param{Screen} },
             },
         );
@@ -618,7 +658,9 @@ sub _PopupResponse {
     elsif ( $Param{ClosePopup} && $Param{ClosePopup} eq 1 ) {
         $Self->{LayoutObject}->Block(
             Name => 'ClosePopup',
-            Data => {},
+            Data => {
+                ConfigJSON => $Param{ConfigJSON},
+            },
         );
     }
 
