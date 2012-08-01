@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminProcessManagement.pm - process management
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagement.pm,v 1.19 2012-07-30 10:35:51 mn Exp $
+# $Id: AdminProcessManagement.pm,v 1.20 2012-08-01 15:38:25 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,7 +25,7 @@ use Kernel::System::ProcessManagement::DB::TransitionAction;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.19 $) [1];
+$VERSION = qw($Revision: 1.20 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -987,7 +987,17 @@ sub _CheckEntityUsage {
             Parent => 'Activity',
             Method => 'ActivityListGet',
             Array  => 'ActivityDialogs',
-            }
+        },
+        Transition => {
+            Parent => 'Process',
+            Method => 'ProcessListGet',
+            Array  => 'Transitions',
+        },
+        TransitionAction => {
+            Parent => 'Transition',
+            Method => 'TransitionListGet',
+            Array  => 'TransitionActions',
+        },
     );
 
     return if !$Config{ $Param{EntityType} };
