@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Event/NotificationEvent.pm - a event module to send notifications
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: NotificationEvent.pm,v 1.38 2012-04-27 06:55:47 mb Exp $
+# $Id: NotificationEvent.pm,v 1.39 2012-08-01 22:39:54 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.38 $) [1];
+$VERSION = qw($Revision: 1.39 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -681,23 +681,37 @@ sub _SendNotification {
         my %Article = %{ $ArticleContent{$ArticleItem} };
 
         if (%Article) {
+
             if ( $Article{Body} ) {
 
                 # Use the same line length as HTMLUtils::toAscii to avoid
                 #   line length problems.
                 $Article{Body} =~ s/(^>.+|.{4,78})(?:\s|\z)/$1\n/gm;
             }
-            for ( keys %Article ) {
+
+            for ( sort keys %Article ) {
+
                 next if !$Article{$_};
+
                 $Notification{Body}    =~ s/<$ArticleItem$_>/$Article{$_}/gi;
                 $Notification{Subject} =~ s/<$ArticleItem$_>/$Article{$_}/gi;
             }
+
+            # get accounted time
+            my $AccountedTime = $Self->{TicketObject}->ArticleAccountedTimeGet(
+                ArticleID => $Article{ArticleID},
+            );
+
+            my $MatchString = $ArticleItem . 'TimeUnit';
+            $Notification{Body}    =~ s/<$MatchString>/$AccountedTime/gi;
+            $Notification{Subject} =~ s/<$MatchString>/$AccountedTime/gi;
 
             # prepare subject (insert old subject)
             $Article{Subject} = $Self->{TicketObject}->TicketSubjectClean(
                 TicketNumber => $Article{TicketNumber},
                 Subject => $Article{Subject} || '',
             );
+
             for my $Type (qw(Subject Body)) {
                 if ( $Notification{$Type} =~ /<$ArticleItem(SUBJECT)\[(.+?)\]>/ ) {
                     my $SubjectChar = $2;
@@ -706,6 +720,7 @@ sub _SendNotification {
                     $Notification{$Type} =~ s/<$ArticleItem(SUBJECT)\[.+?\]>/$Subject/g;
                 }
             }
+
             $Notification{Subject} = $Self->{TicketObject}->TicketSubjectBuild(
                 TicketNumber => $Article{TicketNumber},
                 Subject      => $Notification{Subject} || '',
