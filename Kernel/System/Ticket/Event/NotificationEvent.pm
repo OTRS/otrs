@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Ticket/Event/NotificationEvent.pm - a event module to send notifications
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: NotificationEvent.pm,v 1.37 2011-12-08 14:35:40 mg Exp $
+# $Id: NotificationEvent.pm,v 1.37.2.1 2012-08-01 22:39:22 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.37 $) [1];
+$VERSION = qw($Revision: 1.37.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -677,6 +677,15 @@ sub _SendNotification {
                 $Notification{Body}    =~ s/<$ArticleItem$_>/$Article{$_}/gi;
                 $Notification{Subject} =~ s/<$ArticleItem$_>/$Article{$_}/gi;
             }
+
+            # get accounted time
+            my $AccountedTime = $Self->{TicketObject}->ArticleAccountedTimeGet(
+                ArticleID => $Article{ArticleID},
+            );
+
+            my $MatchString = $ArticleItem . 'TimeUnit';
+            $Notification{Body}    =~ s/<$MatchString>/$AccountedTime/gi;
+            $Notification{Subject} =~ s/<$MatchString>/$AccountedTime/gi;
 
             # prepare subject (insert old subject)
             $Article{Subject} = $Self->{TicketObject}->TicketSubjectClean(
