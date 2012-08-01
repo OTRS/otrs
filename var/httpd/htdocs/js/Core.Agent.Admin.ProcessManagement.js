@@ -2,7 +2,7 @@
 // Core.Agent.Admin.ProcessManagement.js - provides the special module functions for the Process Management.
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.23 2012-07-31 13:03:03 mab Exp $
+// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.24 2012-08-01 15:42:00 mab Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -474,18 +474,19 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
     TargetNS.InitTransitionEdit = function () {
         
         // Replace INDEX and FIELDINDEX for first field
-        $('#PresentConditionsContainer .ConditionField').html($('.ConditionField').html().replace(/(_INDEX_|_FIELDINDEX_)/g, '1'));
+        // $('#PresentConditionsContainer .ConditionField').html($('.ConditionField').html().replace(/(_INDEX_|_FIELDINDEX_)/g, '1'));
         
         // Init addition of new conditions
         $('#ConditionAdd').bind('click', function() {
            
-            // get the index for the newly to be added element
-            // therefore, we search the preceding field container 
-            // to get its "id"-attribute which contains the index 
-            var LastKnownFieldIndex = parseInt($(this).prev('.ConditionField').attr('id').replace(/Condition\[/, '').replace(/\]/, ''));
+            // get current parent index
+            var CurrentParentIndex = parseInt($(this).prev('.ConditionField').first().attr('id').replace(/Condition\[/g, '').replace(/\]/g, ''));
+
+            // in case we add a whole new condition, the fieldindex must be 1
+            var LastKnownFieldIndex = 1;
 
             // get current index
-            var ConditionHTML = $('#ConditionContainer').html().replace(/_INDEX_/g, LastKnownFieldIndex + 1);
+            var ConditionHTML = $('#ConditionContainer').html().replace(/_INDEX_/g, CurrentParentIndex + 1).replace(/_FIELDINDEX_/g, LastKnownFieldIndex);
             $(ConditionHTML).insertBefore($('#ConditionAdd'));
 
             return false;
@@ -494,8 +495,14 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
         // Init removal of conditions
         $('#PresentConditionsContainer').delegate('.Remove', 'click', function() {
             
-            $(this).parent().prev('label').remove();
-            $(this).parent().remove();
+            if ($('#PresentConditionsContainer').find('.ConditionField').length > 1) {
+                
+                $(this).parent().prev('label').remove();
+                $(this).parent().remove();
+            }            
+            else {
+                alert("Sorry, the only existing condition can't be removed.")
+            }
             
             return false;
         });
@@ -510,7 +517,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
             // therefore, we search the preceding fieldset and the first 
             // label in it to get its "for"-attribute which contains the index 
             var LastKnownFieldIndex = parseInt($(this).prev('fieldset').find('label').attr('for').replace(/ConditionFieldName\[\d+\]\[/, '').replace(/\]/, ''));
-            
+
             // add new field
             var ConditionFieldHTML = $('#ConditionFieldContainer').html().replace(/_INDEX_/g, CurrentParentIndex).replace(/_FIELDINDEX_/g, LastKnownFieldIndex + 1);
             $(ConditionFieldHTML).insertBefore($(this));
@@ -519,10 +526,16 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
         });
         
         // Init removal of fields within conditions
-        $('#PresentConditionsContainer').delegate('.Remove', 'click', function() {
+        $('.Condition .Fields').delegate('.Remove', 'click', function() {
             
-            $(this).parent().prev('label').remove();
-            $(this).parent().remove();
+            if ($(this).closest('.Field').find('.Fields').length > 1) {
+                
+                $(this).parent().prev('label').remove();
+                $(this).parent().remove();
+            }            
+            else {
+                alert("Sorry, the only existing field can't be removed.")
+            }
             
             return false;
         });
