@@ -2,7 +2,7 @@
 // Core.Agent.Admin.ProcessManagement.Canvas.js - provides the special module functions for the Process Management Diagram Canvas.
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.ProcessManagement.Canvas.js,v 1.15 2012-08-02 07:56:42 mn Exp $
+// $Id: Core.Agent.Admin.ProcessManagement.Canvas.js,v 1.16 2012-08-02 08:22:54 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -105,6 +105,10 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
         }
     }
     
+    function ChangeTransitionColor(TransitionObject, Color) {
+        TransitionObject._opt.attrs.stroke = Color;
+    };
+    
     TargetNS.CreateStartEvent = function (PosX, PosY) {
         var DefaultX = 30,
             DefaultY = 30;
@@ -187,6 +191,11 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
         // Only the user can change this by moving the arrow
         if (typeof Elements[EntityID] !== 'undefined') {
             JointObject = Elements.StartEvent.joint(Elements[EntityID], BPMN.StartArrow).registerForever(ElementList);
+            
+            JointObject.registerCallback("disconnected", function () {
+                ChangeTransitionColor(JointObject, "#F00");
+            });
+            
             JointObject.registerCallback("justConnected", function (Side) {
                 var Config = Core.Agent.Admin.ProcessManagement.ProcessData,
                     ProcessEntityID = $('#ProcessEntityID').val(),
@@ -203,9 +212,19 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
                             Dummy = JointObject._start;
                             JointObject.replaceDummy(Dummy, Elements.StartEvent.wrapper);
                             JointObject.addJoint(Elements.StartEvent.wrapper);
+                            
+                            if (!JointObject.isStartDummy() && !JointObject.isEndDummy()) {
+                                ChangeTransitionColor(JointObject, "#000");                    
+                            }
                             JointObject.update();
                         }, 100);
                     }
+                    window.setTimeout(function () {
+                        if (!JointObject.isStartDummy() && !JointObject.isEndDummy()) {
+                            ChangeTransitionColor(JointObject, "#000");
+                            JointObject.update();
+                        }
+                    }, 200);    
                 }
                 else {  // side === "end"
                     // Handle end cap change
@@ -214,6 +233,13 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
                         EndActivityID = EndActivity.wholeShape.properties.id;
                         Config.Process[ProcessEntityID].StartActivity = EndActivityID;
                     }
+                    
+                    window.setTimeout(function () {
+                        if (!JointObject.isStartDummy() && !JointObject.isEndDummy()) {
+                            ChangeTransitionColor(JointObject, "#000");
+                            JointObject.update();
+                        }
+                    }, 200);
                 }
             });
             InitObjectMoving();
