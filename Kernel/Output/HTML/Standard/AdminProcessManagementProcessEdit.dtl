@@ -2,7 +2,7 @@
 # AdminProcessManagementProcessEdit.dtl - provides HTML for AdminProcessManagement
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementProcessEdit.dtl,v 1.21 2012-08-02 10:09:15 mn Exp $
+# $Id: AdminProcessManagementProcessEdit.dtl,v 1.22 2012-08-02 10:53:55 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -134,7 +134,7 @@
     </div>
 
     <div class="ContentColumn">
-        <form action="$Env{"CGIHandle"}" method="post" class="Validate PreventMultipleSubmits">
+        <form action="$Env{"CGIHandle"}" method="post" id="ProcessForm" class="Validate PreventMultipleSubmits">
             <div class="WidgetSimple Expanded">
                 <div class="Header">
                     <div class="WidgetAction Toggle">
@@ -145,6 +145,10 @@
                 <div class="Content">
                     <input type="hidden" name="Action" value="$Env{"Action"}"/>
                     <input type="hidden" name="Subaction" value="ProcessEditAction"/>
+                    <input type="hidden" name="ProcessLayout" value=""/>
+                    <input type="hidden" name="Path" value=""/>
+                    <input type="hidden" name="StartActivity" value=""/>
+                    <input type="hidden" name="StartActivityDialog" value=""/>
                     <input type="hidden" name="EntityID" id="ProcessEntityID" value="$QData{"EntityID"}"/>
                     <input type="hidden" name="ID" value="$QData{"ID"}"/>
                     <fieldset class="TableLike">
