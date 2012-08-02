@@ -2,7 +2,7 @@
 // Core.Agent.Admin.ProcessManagement.Canvas.js - provides the special module functions for the Process Management Diagram Canvas.
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.ProcessManagement.Canvas.js,v 1.17 2012-08-02 10:09:15 mn Exp $
+// $Id: Core.Agent.Admin.ProcessManagement.Canvas.js,v 1.18 2012-08-02 10:52:25 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -264,6 +264,8 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
     
     TargetNS.CreateTransition = function (StartElement, EndElement, EntityID, TransitionName) {
         var Config = Core.Agent.Admin.ProcessManagement.ProcessData,
+            ProcessEntityID = $('#ProcessEntityID').val(),
+            Path = Config.Process[ProcessEntityID].Path,
             LocalJointObject,
             StartActivity, EndActivity,
             OldActivity;
@@ -308,13 +310,27 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
         LocalJointObject.registerCallback("justConnected", function (Side) {
             var Config = Core.Agent.Admin.ProcessManagement.ProcessData,
                 ProcessEntityID = $('#ProcessEntityID').val(),
-                StartActivity, EndActivityID, EndActivity;
+                StartActivityID, StartActivity, EndActivityID, EndActivity,
+                PathElement,
+                OldActivityID; 
             
+                
+            if (typeof OldActivity !== 'undefined') {
+                OldActivityID = OldActivity.wholeShape.properties.id;    
+            }
+                
             if (Side === "start") {
                 // Handle start cap change
                 StartActivity = this;
                 if (StartActivity.wholeShape && StartActivity.wholeShape.properties && StartActivity.wholeShape.properties.object === 'Activity') {
-// TODO
+                    StartActivityID = StartActivity.wholeShape.properties.id;
+                    
+                    // remove old Path info from config
+                    PathElement = Path[OldActivityID][EntityID];
+                    delete Path[OldActivityID][EntityID];
+                    
+                    // add new path info
+                    Path[StartActivityID][EntityID] = PathElement;
                     
                 }
                 window.setTimeout(function () {
@@ -328,9 +344,11 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
                 // Handle end cap change
                 EndActivity = this;
                 if (EndActivity.wholeShape && EndActivity.wholeShape.properties && EndActivity.wholeShape.properties.object === 'Activity') {
-// TODO
                     EndActivityID = EndActivity.wholeShape.properties.id;
-                    Config.Process[ProcessEntityID].StartActivity = EndActivityID;
+                    StartActivityID = LocalJointObject.startObject().wholeShape.properties.id;
+                    
+                    // otherwise change end activity in Path info from config
+                    Path[StartActivityID][EntityID]["ActivityID"] = EndActivityID;
                 }
                 
                 window.setTimeout(function () {
@@ -368,19 +386,33 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
         }
         
         // Now draw the Transitions
-        
-        
-        
-        // Dummy-Demo-Content, must be replaced by algorithm to read the config and draw the config elements
-        /*
-        TargetNS.CreateStartEvent();
-        
-        TargetNS.CreateActivity('A-1', 'Test-Activity 1', '0', 100, 90);
-        TargetNS.CreateActivity('A-2', 'Test-Activity 2', '0', 300, 70);
-        
-        TargetNS.SetStartActivity('A-1');
-        */
-        //TargetNS.CreateTransition('A-1', 'A-2', 'T-1');
+        $.each(Config.Process[ProcessEntityID].Path, function (Key, Value) {
+            var StartActivityID = Key,
+                TransitionID, EndActivityID,
+                TransitionHash = Value;
+            
+            if (typeof TransitionHash !== 'undefined') {
+                $.each(TransitionHash, function (Key, Value) {
+                    TransitionID = Key;
+                    // if EndActivity available, draw transition directly
+                    if (typeof Value !== 'undefined') {
+                        EndActivityID = Value.ActivityID;
+                        TargetNS.CreateTransition(StartActivityID, EndActivityID, TransitionID);
+                    }
+                    // if EndActivity is undefined draw transition with dummy
+                    else {
+                        // Create dummy activity to use for initial transition
+                        TargetNS.CreateActivityDummy(100, 100);
+                        
+                        // Create transition between this Activity and DummyElement
+                        TargetNS.CreateTransition(Activity, 'Dummy', EntityID);
+                        
+                        // Remove Connection to DummyElement and delete DummyElement again
+                        TargetNS.RemoveActivityDummy();                        
+                    }
+                });
+            }
+        });
     };
     
     TargetNS.Redraw = function () {
