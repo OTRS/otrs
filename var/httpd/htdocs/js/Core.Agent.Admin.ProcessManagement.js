@@ -2,7 +2,7 @@
 // Core.Agent.Admin.ProcessManagement.js - provides the special module functions for the Process Management.
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.25 2012-08-02 07:35:54 mn Exp $
+// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.26 2012-08-02 10:09:15 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -344,7 +344,52 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
             }
         }
         
-        $('#Activities li, #ActivityDialogs li').draggable({
+        function AddTransitionToCanvas(Event, UI) {
+            var Position = GetPositionOnCanvas(Event),
+            EntityID = $(UI.draggable).data('entity'),
+            Entity = TargetNS.ProcessData.Transition[EntityID],
+            ProcessEntityID = $('#ProcessEntityID').val(),
+            Activity,
+            Path = TargetNS.ProcessData.Process[ProcessEntityID].Path;
+
+            if (typeof Entity !== 'undefined') {
+                // Check if mouse position is within an activity
+                // If yes, add the Dialog to the Activity
+                // if not, just cancel
+                Activity = CheckIfMousePositionIsOverActivity(Position);
+                
+                // If this transition is already bind to this activity
+                // you cannot bind it a second time
+                if (Path[Activity] && typeof Path[Activity][EntityID] !== 'undefined') {
+                    alert(Core.Agent.Admin.ProcessManagement.Localization.TransitionAlreadyPlaced);
+                    return;
+                }
+                
+                if (Activity) {
+                    // Create dummy activity to use for initial transition
+                    TargetNS.Canvas.CreateActivityDummy(100, 100);
+                    
+                    // Create transition between this Activity and DummyElement
+                    TargetNS.Canvas.CreateTransition(Activity, 'Dummy', EntityID);
+                    
+                    // Remove Connection to DummyElement and delete DummyElement again
+                    TargetNS.Canvas.RemoveActivityDummy();
+                    
+                    // Add Transition to Path
+                    if (typeof Path[Activity] === 'undefined') {
+                        Path[Activity] = {};
+                    }
+                    Path[Activity][EntityID] = {
+                            ActivityID: undefined
+                    }; 
+                }
+            }
+            else {
+                console.log('Error: Entity not defined');
+            }
+        }
+        
+        $('#Activities li, #ActivityDialogs li, #Transitions li').draggable({
             revert: 'invalid',
             helper: function () {
                 var $Clone = $(this).clone();
@@ -354,7 +399,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
         });
         
         $('#Canvas').droppable({
-            accept: '#Activities li, #ActivityDialogs li',
+            accept: '#Activities li, #ActivityDialogs li, #Transitions li',
             drop: function (Event, UI) {
                 var $Source = $(UI.draggable),
                     SourceID = $Source.closest('ul').attr('id');
@@ -364,6 +409,9 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
                 }
                 else if (SourceID === 'ActivityDialogs') {
                     AddActivityDialogToCanvas(Event, UI);
+                }
+                else if (SourceID === 'Transitions') {
+                    AddTransitionToCanvas(Event, UI);
                 }
                 else {
                     console.log('Error: No matching droppable found');

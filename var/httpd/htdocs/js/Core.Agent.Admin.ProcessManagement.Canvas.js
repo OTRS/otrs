@@ -2,7 +2,7 @@
 // Core.Agent.Admin.ProcessManagement.Canvas.js - provides the special module functions for the Process Management Diagram Canvas.
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.ProcessManagement.Canvas.js,v 1.16 2012-08-02 08:22:54 mn Exp $
+// $Id: Core.Agent.Admin.ProcessManagement.Canvas.js,v 1.17 2012-08-02 10:09:15 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -138,6 +138,22 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
         
         ElementList.push(Elements[EntityID]);
     };
+
+    TargetNS.ActivityDummy = '';
+    
+    TargetNS.CreateActivityDummy = function (PosX, PosY) {
+        TargetNS.ActivityDummy = BPMN.ActivityDummy.create({
+            position: {x: PosX, y: PosY},
+            id: 'ActivityDummy'
+        });
+    };
+    
+    TargetNS.RemoveActivityDummy = function () {
+        var JointObject = TargetNS.ActivityDummy.joints()[0];
+        TargetNS.ActivityDummy.remove();
+        ChangeTransitionColor(JointObject, "#F00");
+        JointObject.update();
+    };
     
     TargetNS.ShowActivityLoader = function (EntityID) {
         if (typeof Elements[EntityID] !== 'undefined') {
@@ -247,9 +263,20 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
     };
     
     TargetNS.CreateTransition = function (StartElement, EndElement, EntityID, TransitionName) {
-        var Config = Core.Agent.Admin.ProcessManagement.ProcessData;
+        var Config = Core.Agent.Admin.ProcessManagement.ProcessData,
+            LocalJointObject,
+            StartActivity, EndActivity,
+            OldActivity;
             
-        if ((typeof Elements[StartElement] === 'undefined') || (typeof Elements[EndElement] === 'undefined')) {
+        StartActivity = Elements[StartElement];
+        if (EndElement === "Dummy") {
+            EndActivity = TargetNS.ActivityDummy;
+        }
+        else {
+            EndActivity = Elements[EndElement];
+        }
+        
+        if ((typeof StartActivity === 'undefined') || (typeof EndActivity === 'undefined')) {
             return false;
         }
         
@@ -263,9 +290,57 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
             }
         }
         
-        Elements[StartElement].joint(Elements[EndElement], (BPMN.Arrow.label = TransitionName), BPMN.Arrow).registerForever(ElementList);
-        Elements[StartElement].initTransitionDblClick(undefined, TransitionDblClick);
-        Elements[EndElement].initTransitionDblClick(undefined, TransitionDblClick);
+        // Establish the joint
+        LocalJointObject = StartActivity.joint(EndActivity, (BPMN.Arrow.label = TransitionName, BPMN.Arrow)).registerForever(ElementList);
+        StartActivity.initTransitionDblClick(undefined, TransitionDblClick);
+        if (EndElement !== "Dummy") {
+            EndActivity.initTransitionDblClick(undefined, TransitionDblClick);    
+        }
+        
+        // Register callbacks for disconnecting and connecting transitions
+        LocalJointObject.registerCallback("disconnected", function () {
+            // get old activity (the activity that was just disconnected)
+            // to find the correct config data if the transition is connected again
+            OldActivity = this;
+            ChangeTransitionColor(LocalJointObject, "#F00");
+        });
+        
+        LocalJointObject.registerCallback("justConnected", function (Side) {
+            var Config = Core.Agent.Admin.ProcessManagement.ProcessData,
+                ProcessEntityID = $('#ProcessEntityID').val(),
+                StartActivity, EndActivityID, EndActivity;
+            
+            if (Side === "start") {
+                // Handle start cap change
+                StartActivity = this;
+                if (StartActivity.wholeShape && StartActivity.wholeShape.properties && StartActivity.wholeShape.properties.object === 'Activity') {
+// TODO
+                    
+                }
+                window.setTimeout(function () {
+                    if (!LocalJointObject.isStartDummy() && !LocalJointObject.isEndDummy()) {
+                        ChangeTransitionColor(LocalJointObject, "#000");
+                        LocalJointObject.update();
+                    }
+                }, 200);    
+            }
+            else {  // side === "end"
+                // Handle end cap change
+                EndActivity = this;
+                if (EndActivity.wholeShape && EndActivity.wholeShape.properties && EndActivity.wholeShape.properties.object === 'Activity') {
+// TODO
+                    EndActivityID = EndActivity.wholeShape.properties.id;
+                    Config.Process[ProcessEntityID].StartActivity = EndActivityID;
+                }
+                
+                window.setTimeout(function () {
+                    if (!LocalJointObject.isStartDummy() && !LocalJointObject.isEndDummy()) {
+                        ChangeTransitionColor(LocalJointObject, "#000");
+                        LocalJointObject.update();
+                    }
+                }, 200);
+            }
+        });
     };
     
     TargetNS.DrawDiagram = function () {

@@ -2,7 +2,7 @@
 // joint.dia.bpmn.js - provides the BPMN diagram functionality for JointJS
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: joint.dia.bpmn.js,v 1.10 2012-08-02 07:56:42 mn Exp $
+// $Id: joint.dia.bpmn.js,v 1.11 2012-08-02 10:09:15 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -446,6 +446,38 @@ bpmn.Activity = Element.extend({
 });
 
 /**
+ * BPMN activity dummy.
+ * @name ActivityDummy.create
+ * @methodOf Joint.dia.bpmn
+ * @param {Object} properties
+ * @param {Object} properties.position
+ * @param {Number} properties.position.x Position of the start state, x-axis
+ * @param {Number} properties.position.y Position of the start state, y-axis
+ * @param {String} properties.id The ID of the DOM node
+ * @example
+var activity1 = Joint.dia.bpmn.ActivityDummy.create({
+  position: {x: 120, y: 70}
+});
+ */
+bpmn.ActivityDummy = Element.extend({
+    object: "ActivityDummy",
+    module: "bpmn",
+    init: function(properties) {
+        var p = Joint.DeepSupplement(this.properties, properties, {
+                position: {x: 0, y: 0},
+                width: 10,
+                height: 10,
+                attrs: { stroke: 'black' }
+            }),
+            elem = this;
+        
+        this.setWrapper(this.paper.rect(p.position.x, p.position.y, p.width, p.height, p.radius).attr(p.attrs));
+        
+        this.wrapper.node.id = p.id;
+    }
+});
+
+/**
  * Conditional arrow element
  * @name Joint.arrows.conditional
  * @memberOf Joint.arrows
@@ -491,9 +523,9 @@ bpmn.StartArrow = {
  * s1.joint(s2, (Arrow.label = "anEvent", Arrow));
  */
 bpmn.Arrow = {
-        startArrow: {type: "conditional"},
-        endArrow: {type: "basic", size: 4},
-        attrs: {"stroke-dasharray": "none"}
-    };
+    startArrow: {type: "conditional"},
+    endArrow: {type: "basic", size: 4},
+    attrs: {"stroke-dasharray": "none"}
+};
 
 }(this));
