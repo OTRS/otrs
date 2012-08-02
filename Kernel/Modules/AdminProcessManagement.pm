@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminProcessManagement.pm - process management
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagement.pm,v 1.20 2012-08-01 15:38:25 mab Exp $
+# $Id: AdminProcessManagement.pm,v 1.21 2012-08-02 10:54:26 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,6 +14,7 @@ package Kernel::Modules::AdminProcessManagement;
 use strict;
 use warnings;
 
+use Kernel::System::JSON;
 use Kernel::System::ProcessManagement::DB::Entity;
 use Kernel::System::ProcessManagement::DB::Activity;
 use Kernel::System::ProcessManagement::DB::ActivityDialog;
@@ -25,7 +26,7 @@ use Kernel::System::ProcessManagement::DB::TransitionAction;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.20 $) [1];
+$VERSION = qw($Revision: 1.21 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -45,6 +46,7 @@ sub new {
     }
 
     # create additional objects
+    $Self->{JSONObject}     = Kernel::System::JSON->new( %{$Self} );
     $Self->{ProcessObject}  = Kernel::System::ProcessManagement::DB::Process->new( %{$Self} );
     $Self->{EntityObject}   = Kernel::System::ProcessManagement::DB::Entity->new( %{$Self} );
     $Self->{ActivityObject} = Kernel::System::ProcessManagement::DB::Activity->new( %{$Self} );
@@ -271,12 +273,14 @@ sub Run {
         my $GetParam = $Self->_GetParams;
 
         # set new confguration
-        $ProcessData->{Name}                  = $GetParam->{Name};
-        $ProcessData->{EntityID}              = $GetParam->{EntityID};
-        $ProcessData->{StateEntityID}         = $GetParam->{StateEntityID};
-        $ProcessData->{Config}->{Description} = $GetParam->{Description};
-
-        #TODO also get Layout and other prameters
+        $ProcessData->{Name}                          = $GetParam->{Name};
+        $ProcessData->{EntityID}                      = $GetParam->{EntityID};
+        $ProcessData->{ProcessLayout}                 = $GetParam->{ProcessLayout};
+        $ProcessData->{StateEntityID}                 = $GetParam->{StateEntityID};
+        $ProcessData->{Config}->{Description}         = $GetParam->{Description};
+        $ProcessData->{Config}->{Path}                = $GetParam->{Path};
+        $ProcessData->{Config}->{StartActivity}       = $GetParam->{StartActivity};
+        $ProcessData->{Config}->{StartActivityDialog} = $GetParam->{StartActivityDialog};
 
         # check required parameters
         my %Error;
@@ -304,8 +308,6 @@ sub Run {
             $Error{StateEntityIDServerError} = 'ServerError';
         }
 
-        #TODO check also other parameters
-
         # if there is an error return to edit screen
         if ( IsHashRefWithData( \%Error ) ) {
             return $Self->_ShowEdit(
@@ -322,7 +324,7 @@ sub Run {
             Name          => $ProcessData->{Name},
             EntityID      => $ProcessData->{EntityID},
             StateEntityID => $ProcessData->{StateEntityID},
-            Layout        => {},
+            Layout        => $ProcessData->{ProcessLayout},
             Config        => $ProcessData->{Config},
             UserID        => $Self->{UserID},
         );
@@ -929,11 +931,19 @@ sub _GetParams {
 
     # get parameters from web browser
     for my $ParamName (
-        qw( Name EntityID Description StateEntityID )
+        qw( Name EntityID ProcessLayout Path StartActivity StartActivityDialog Description StateEntityID )
         )
     {
         $GetParam->{$ParamName} = $Self->{ParamObject}->GetParam( Param => $ParamName ) || '';
     }
+
+    $GetParam->{ProcessLayout} = $Self->{JSONObject}->Decode(
+        Data => $GetParam->{ProcessLayout},
+    );
+
+    $GetParam->{Path} = $Self->{JSONObject}->Decode(
+        Data => $GetParam->{Path},
+    );
 
     return $GetParam;
 }
