@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2389 2012-08-02 08:22:18 mg Exp $
+# $Id: CHANGES,v 1.2390 2012-08-02 14:17:05 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.2.0 beta1 2012-??-??
+ - 2012-08-02 Improved HTML mail display filtering.
+    Simple Microsoft CSS expressions are now filtered out.
  - 2012-07-31 Removed unused script otrs.XMLMaster.pl.
  - 2012-07-31 Changed the behaviour of HTML mail display filtering.
     By default, all inline/active content (such as script, object, applet or embed tags)
