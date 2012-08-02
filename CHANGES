@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2388 2012-08-02 08:17:45 mg Exp $
+# $Id: CHANGES,v 1.2389 2012-08-02 08:22:18 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -65,9 +65,9 @@
  - 2012-04-27 Added bug#8075 - Article Sender Type to be added to
     NotificationEvent definitions.
 
-3.1.8 2012-??-??
+3.1.8 2012-08-07
  - 2012-08-02 Updated Greek translation file, thanks to Maistros Stelios!
- - 2012-07-31 "Improved robustness of HTML security filter: Detect masked UTF-7 < and > signs."
+ - 2012-07-31 Improved robustness of HTML security filter: Detect masked UTF-7 < and > signs.
  - 2012-07-31 Added config option for ticket permission in the escalation view.
  - 2012-07-31 Fixed bug#8675 - Kernel::GenericInterface::Mapping doesn't provide a ConfigObject.
  - 2012-07-20 Fixed bug#8660 - Duplicate DF X-Headers in PostMaster module.
