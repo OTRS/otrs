@@ -2,7 +2,7 @@
 // Core.Agent.Admin.ProcessManagement.Canvas.js - provides the special module functions for the Process Management Diagram Canvas.
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.ProcessManagement.Canvas.js,v 1.18 2012-08-02 10:52:25 mn Exp $
+// $Id: Core.Agent.Admin.ProcessManagement.Canvas.js,v 1.19 2012-08-02 12:49:56 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -32,7 +32,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
         JointObject;
     
     function TransitionDblClick() {
-        alert();
+        alert('Open Path popup if available');
     }
     
     function GetCanvasSize($Element) {
@@ -52,11 +52,14 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
         
         // Loop through available elements and find max needed width and height
         $.each(Core.Agent.Admin.ProcessManagement.ProcessLayout, function (Key, Value) {
-            if (Value.left > MaxWidth) {
-                MaxWidth = Value.left + 130;
+            var Left = parseInt(Value.left, 10),
+                Top = parseInt(Value.top, 10);
+            
+            if (Left > MaxWidth) {
+                MaxWidth = Left + 130;
             }
-            if (Value.top > MaxHeight) {
-                MaxHeight = Value.top + 100;
+            if (Top > MaxHeight) {
+                MaxHeight = Top + 100;
             }
         });
         
@@ -194,8 +197,8 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
             if (typeof Core.Agent.Admin.ProcessManagement.ProcessLayout[EntityID] !== 'undefined') {
                 // Save new element position
                 Core.Agent.Admin.ProcessManagement.ProcessLayout[EntityID] = {
-                    left: Properties.position.x + Properties.dx,
-                    top: Properties.position.y + Properties.dy
+                    left: parseInt(Properties.position.x, 10) + parseInt(Properties.dx, 10),
+                    top: parseInt(Properties.position.y, 10) + parseInt(Properties.dy, 10)
                 };            
             }
         }
@@ -332,8 +335,13 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
                     // add new path info
                     Path[StartActivityID][EntityID] = PathElement;
                     
+                    // re-initialize DblClick
+                    StartActivity.wholeShape.initTransitionDblClick(undefined, TransitionDblClick);
+                    
                 }
                 window.setTimeout(function () {
+                    LocalJointObject.callback("objectMoving", LocalJointObject, [StartActivity]);
+                    
                     if (!LocalJointObject.isStartDummy() && !LocalJointObject.isEndDummy()) {
                         ChangeTransitionColor(LocalJointObject, "#000");
                         LocalJointObject.update();
@@ -349,9 +357,14 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
                     
                     // otherwise change end activity in Path info from config
                     Path[StartActivityID][EntityID]["ActivityID"] = EndActivityID;
+                    
+                    // re-initialize DblClick
+                    Elements[EndActivityID].initTransitionDblClick(undefined, TransitionDblClick);
                 }
                 
                 window.setTimeout(function () {
+                    LocalJointObject.callback("objectMoving", LocalJointObject, [EndActivity]);
+                    
                     if (!LocalJointObject.isStartDummy() && !LocalJointObject.isEndDummy()) {
                         ChangeTransitionColor(LocalJointObject, "#000");
                         LocalJointObject.update();
