@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketBulk.pm - to do bulk actions on tickets
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBulk.pm,v 1.95 2012-04-24 14:56:45 mg Exp $
+# $Id: AgentTicketBulk.pm,v 1.96 2012-08-02 10:14:41 te Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::TemplateGenerator;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.95 $) [1];
+$VERSION = qw($Revision: 1.96 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -829,10 +829,11 @@ sub _Mask {
             }
         }
         $Param{OwnerStrg} = $Self->{LayoutObject}->BuildSelection(
-            Data => { '' => '-', %AllGroupsMembers },
-            Name => 'OwnerID',
-            Translation => 0,
-            SelectedID  => $Param{OwnerID},
+            Data         => \%AllGroupsMembers,
+            Name         => 'OwnerID',
+            Translation  => 0,
+            SelectedID   => $Param{OwnerID},
+            PossibleNone => 1,
         );
         $Self->{LayoutObject}->Block(
             Name => 'Owner',
