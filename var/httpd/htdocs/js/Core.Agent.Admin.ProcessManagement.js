@@ -2,7 +2,7 @@
 // Core.Agent.Admin.ProcessManagement.js - provides the special module functions for the Process Management.
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.24 2012-08-01 15:42:00 mab Exp $
+// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.25 2012-08-02 07:35:54 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -157,6 +157,37 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
         );
     }
 
+    function InitDeleteEntity() {
+        $('a.DeleteEntity').bind('click.DeleteEntity', function (Event) {
+            var EntityID = $(this).closest('li').data('entity'),
+                EntityName = $(this).closest('li').clone().children().remove().end().text(),
+                ItemID = $(this).closest('li').data('id'),
+                EntityType,
+                CheckResult = {};
+            
+            if (!EntityID.length) {
+                return false;
+            }
+    
+            if ($(this).hasClass('DeleteActivity')) {
+                EntityType = 'Activity';
+            }
+            else if ($(this).hasClass('DeleteActivityDialog')) {
+                EntityType = 'ActivityDialog';
+            }
+            else if ($(this).hasClass('DeleteTransition')) {
+                EntityType = 'Transition';
+            }
+            else if ($(this).hasClass('DeleteTransitionAction')) {
+                EntityType = 'TransitionAction';
+            }
+            
+            ShowDeleteEntityConfirmationDialog($(this), EntityType, EntityName, EntityID, ItemID);
+            
+            return false;
+        });
+    }
+    
     TargetNS.ProcessData = {};
     TargetNS.ProcessLayout = {};
 
@@ -364,6 +395,12 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
 
             // Init DnD on Accordion
             TargetNS.InitAccordionDnD();
+
+            // Initialize the different create and edit links/buttons
+            InitProcessPopups();
+            
+            // Initialize the different Delete Links
+            InitDeleteEntity();
         }, 'html');
     };
     
@@ -395,34 +432,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
         InitProcessPopups();
         
         // Initialize the different Delete Links
-        $('a.DeleteEntity').bind('click.DeleteEntity', function (Event) {
-           var EntityID = $(this).closest('li').data('entity'),
-               EntityName = $(this).closest('li').clone().children().remove().end().text(),
-               ItemID = $(this).closest('li').data('id'),
-               EntityType,
-               CheckResult = {};
-           
-           if (!EntityID.length) {
-               return false;
-           }
-
-           if ($(this).hasClass('DeleteActivity')) {
-               EntityType = 'Activity';
-           }
-           else if ($(this).hasClass('DeleteActivityDialog')) {
-               EntityType = 'ActivityDialog';
-           }
-           else if ($(this).hasClass('DeleteTransition')) {
-               EntityType = 'Transition';
-           }
-           else if ($(this).hasClass('DeleteTransitionAction')) {
-               EntityType = 'TransitionAction';
-           }
-           
-           ShowDeleteEntityConfirmationDialog($(this), EntityType, EntityName, EntityID, ItemID);
-           
-           return false;
-        });
+        InitDeleteEntity();
         
         // Initialize DeleteProcess
         $('#ProcessDelete').bind('click.ProcessDelete', function (Event) {
@@ -433,8 +443,6 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
         
         // Init Diagram Canvas
         TargetNS.Canvas.Init();
-        
-
     };
     
     TargetNS.InitActivityEdit = function () {
