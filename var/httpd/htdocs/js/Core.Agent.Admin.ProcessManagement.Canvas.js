@@ -2,7 +2,7 @@
 // Core.Agent.Admin.ProcessManagement.Canvas.js - provides the special module functions for the Process Management Diagram Canvas.
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.ProcessManagement.Canvas.js,v 1.14 2012-07-31 13:10:48 mn Exp $
+// $Id: Core.Agent.Admin.ProcessManagement.Canvas.js,v 1.15 2012-08-02 07:56:42 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -80,19 +80,27 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
     }
     
     function InitObjectMoving() {
+        var MovingTimer;
         // bind object moving event to all elements (only connected Elements aka Joints).
         // Every move causes a redraw after which we need a new initialization
         
         if (typeof JointObject !== 'undefined') {
             JointObject.registerCallback('objectMoving', function (SingleJointObject) {
-                // Re-Initialize DblClick
-                if (JointObject && JointObject._registeredObjects) {
-                    $.each(JointObject._registeredObjects, function (Key, Value) {
-                        if (typeof Value.initTransitionDblClick !== 'undefined') {
-                            Value.initTransitionDblClick(SingleJointObject, TransitionDblClick);
-                        }
-                    });
+                // Event fires very often, so use a timer to reduce the number of function executions
+                if (typeof MovingTimer !== 'undefined') {
+                    window.clearTimeout(MovingTimer);
                 }
+                
+                MovingTimer = window.setTimeout(function () {
+                    // Re-Initialize DblClick
+                    if (JointObject && JointObject._registeredObjects) {
+                        $.each(JointObject._registeredObjects, function (Key, Value) {
+                            if (typeof Value.initTransitionDblClick !== 'undefined') {
+                                Value.initTransitionDblClick(SingleJointObject, TransitionDblClick);
+                            }
+                        });
+                    }                    
+                }, 100);
             });        
         }
     }
@@ -208,6 +216,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
                     }
                 }
             });
+            InitObjectMoving();
         }
     };
     

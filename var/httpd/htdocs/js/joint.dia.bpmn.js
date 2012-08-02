@@ -2,7 +2,7 @@
 // joint.dia.bpmn.js - provides the BPMN diagram functionality for JointJS
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: joint.dia.bpmn.js,v 1.9 2012-07-31 12:39:51 mn Exp $
+// $Id: joint.dia.bpmn.js,v 1.10 2012-08-02 07:56:42 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -96,14 +96,19 @@ bpmn.Activity = Element.extend({
         this.dblClickTime = 0;
         this.dblClickDelta = 300;
 
+        // mousedown status
+        this.mouseDown = false; 
+        
         // mouse events
-        this.wrapper.mousedown(function() {
+        function mousedown() {
+            elem.mouseDown = true;
             elem.checkDblClick(new Date().getTime());
             elem.hideTooltip();
             elem.hideDeleteButton();
-        });
+        }
         
-        this.wrapper.mouseup(function() {
+        function mouseup() {
+            elem.mouseDown = false;
             // only check dblClick status here, 
             // if the mouseup is missing for a correct dblclick
             if (elem.dblClickStatus === 2 && elem.checkDblClick(new Date().getTime())) {
@@ -111,7 +116,16 @@ bpmn.Activity = Element.extend({
                 elem.resetDblClick();
                 elem.executeDblClick(p.dblClickFunction);
             }
-        });
+        }
+        
+        // add mouseup and down events for the box
+        this.wrapper.mousedown(mousedown);
+        this.wrapper.mouseup(mouseup);
+
+        // add mouseup and down events for the label within the box        
+        this.inner[0].mousedown(mousedown);
+        this.inner[0].mouseup(mouseup);
+
         
         // hover variables
         this.activeHover = false;
@@ -119,22 +133,26 @@ bpmn.Activity = Element.extend({
         
         
         function onmouseenter() {
-            if (elem.activeHover) {
-                clearTimeout(elem.timer);
+            if (!elem.mouseDown) {
+                if (elem.activeHover) {
+                    clearTimeout(elem.timer);
+                }
+                else {
+                    elem.activeHover = true;
+                    elem.showTooltip(elem.properties);
+                    elem.showDeleteButton(elem.properties);
+                }
             }
-            else {
-                elem.activeHover = true;
-                elem.showTooltip(elem.properties);
-                elem.showDeleteButton(elem.properties);
-            }            
         }
         
         function onmouseleave() {
-            elem.timer = setTimeout(function () {
-                elem.activeHover = false;
-                elem.hideTooltip();
-                elem.hideDeleteButton();
-            }, 50);            
+            if (!elem.mouseDown) {
+                elem.timer = setTimeout(function () {
+                    elem.activeHover = false;
+                    elem.hideTooltip();
+                    elem.hideDeleteButton();
+                }, 50);
+            }
         }
         
         this.wrapper.hover(onmouseenter, onmouseleave);
