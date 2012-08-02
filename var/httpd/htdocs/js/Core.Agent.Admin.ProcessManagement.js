@@ -2,7 +2,7 @@
 // Core.Agent.Admin.ProcessManagement.js - provides the special module functions for the Process Management.
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.26 2012-08-02 10:09:15 mn Exp $
+// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.27 2012-08-02 10:36:03 mab Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -463,7 +463,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
         };
         
         TargetNS.ProcessLayout = Core.Config.Get('Config.ProcessLayout');
-        
+
         // Initialize Accordion in the sidebar
         Core.UI.Accordion.Init($('ul#ProcessElements'), 'li.AccordionElement h2 a', 'div.Content');
 
@@ -486,6 +486,26 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
         $('#ProcessDelete').bind('click.ProcessDelete', function (Event) {
             ShowDeleteProcessConfirmationDialog($(Event.target).closest('a'));
             Event.stopPropagation();
+            return false;
+        });
+        
+        // Init submit function
+        $('#Submit').bind('click', function (Event) {
+            
+            // get process layout and store it into a hidden field as JSON string
+            $('input[name=ProcessLayout]').val(Core.JSON.Stringify(TargetNS.ProcessLayout));
+            
+            // get process entitiy
+            var ProcessEntityID = $('#ProcessEntityID').val();
+
+            // get process path and store it into a hidden field as JSON string
+            $('input[name=Path]').val(Core.JSON.Stringify(TargetNS.ProcessData.Process[ProcessEntityID].Path));
+
+            // get start activity and dialogs and store it into hidden fields as JSON string
+            $('input[name=StartActivity]').val(TargetNS.ProcessData.Process[ProcessEntityID].StartActivity);
+            $('input[name=StartActivityDialog]').val(TargetNS.ProcessData.Process[ProcessEntityID].StartActivityDialog);
+
+            $('#ProcessForm').submit();
             return false;
         });
         
