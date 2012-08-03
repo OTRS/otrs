@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.36 $
+ * @version     $Revision: 1.36.2.1 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -251,6 +251,7 @@ fieldset.TableLike > .Row > .Field {
     padding-left: 10px;
     padding-right: 0;
     padding-bottom: 3px;
+    min-height: 16px;
 }
 
 .RTL fieldset.TableLike > .Field,
@@ -259,6 +260,7 @@ fieldset.TableLike > .Row > .Field {
     margin-right: 30%;
     padding-left: 0;
     padding-right: 10px;
+    min-height: 16px;
 }
 
 fieldset.TableLike select {
