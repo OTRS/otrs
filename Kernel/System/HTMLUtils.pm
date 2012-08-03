@@ -2,7 +2,7 @@
 # Kernel/System/HTMLUtils.pm - creating and modifying html strings
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: HTMLUtils.pm,v 1.39 2012-08-02 14:17:06 mg Exp $
+# $Id: HTMLUtils.pm,v 1.40 2012-08-03 07:42:09 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use MIME::Base64;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.39 $) [1];
+$VERSION = qw($Revision: 1.40 $) [1];
 
 =head1 NAME
 
@@ -610,7 +610,9 @@ sub DocumentComplete {
     my $Css = $Self->{ConfigObject}->Get('Frontend::RichText::DefaultCSS')
         || 'font-size: 12px; font-family:Courier,monospace,fixed;';
 
-    my $Body = '<html><head>';
+    # Use the HTML5 doctype because it is compatible with HTML4 and causes the browsers
+    #   to render the content in standards mode, which is more safe than quirks mode.
+    my $Body = '<!DOCTYPE html><html><head>';
     $Body
         .= '<meta http-equiv="Content-Type" content="text/html; charset=' . $Param{Charset} . '"/>';
     $Body .= '</head><body style="' . $Css . '">' . $Param{String} . '</body></html>';
@@ -646,22 +648,27 @@ sub DocumentStrip {
     return $Param{String};
 }
 
-=item DocumentStyleCleanup()
+=item DocumentCleanup()
 
-1)  replace MS Word 12 <p|div> with class "MsoNormal" by using <br/> because
-    it's not used as <p><div> (margin:0cm; margin-bottom:.0001pt;)
+perform some sanity checks on HTML content.
 
-2)  replace <blockquote> by using
+ -  Replace MS Word 12 <p|div> with class "MsoNormal" by using <br/> because
+    it's not used as <p><div> (margin:0cm; margin-bottom:.0001pt;).
+
+ -  Replace <blockquote> by using
     "<div style="border:none;border-left:solid blue 1.5pt;padding:0cm 0cm 0cm 4.0pt" type="cite">"
-    because of cross mail client and browser compatability
+    because of cross mail client and browser compatibility.
 
-    my $HTMLString = $HTMLUtilsObject->DocumentStyleCleanup(
-        String  => $HTMLString,
+ -  If there is no HTML doctype present, inject the HTML5 doctype, because it is compatible with HTML4
+    and causes the browsers to render the content in standards mode, which is safer.
+
+    $HTMLBody = $HTMLUtilsObject->DocumentCleanup(
+        String => $HTMLBody,
     );
 
 =cut
 
-sub DocumentStyleCleanup {
+sub DocumentCleanup {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
@@ -671,6 +678,9 @@ sub DocumentStyleCleanup {
             return;
         }
     }
+
+    # If the string starts with <html> directly, inject the doctype
+    $Param{String} =~ s{ \A \s* <html }{<!DOCTYPE html><html}gsmix;
 
     # replace MS Word 12 <p|div> with class "MsoNormal" by using <br/> because
     # it's not used as <p><div> (margin:0cm; margin-bottom:.0001pt;)
@@ -1116,6 +1126,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.39 $ $Date: 2012-08-02 14:17:06 $
+$Revision: 1.40 $ $Date: 2012-08-03 07:42:09 $
 
 =cut

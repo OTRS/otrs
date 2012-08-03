@@ -2,7 +2,7 @@
 # Kernel/System/TemplateGenerator.pm - generate salutations, signatures and responses
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TemplateGenerator.pm,v 1.61 2012-06-04 10:20:55 mg Exp $
+# $Id: TemplateGenerator.pm,v 1.62 2012-08-03 07:42:09 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.61 $) [1];
+$VERSION = qw($Revision: 1.62 $) [1];
 
 =head1 NAME
 
@@ -1236,7 +1236,7 @@ sub _Replace {
                 for ( my $i = 0; $i < $Line; $i++ ) {
                     if ( $#Body >= $i ) {
 
-                        # add no quote char, do it later by using DocumentStyleCleanup()
+                        # add no quote char, do it later by using DocumentCleanup()
                         if ( $Param{RichText} ) {
                             $NewOldBody .= $Body[$i];
                         }
@@ -1267,7 +1267,7 @@ sub _Replace {
 
                     # add quote
                     $NewOldBody = "<blockquote type=\"cite\">$NewOldBody</blockquote>";
-                    $NewOldBody = $Self->{HTMLUtilsObject}->DocumentStyleCleanup(
+                    $NewOldBody = $Self->{HTMLUtilsObject}->DocumentCleanup(
                         String => $NewOldBody,
                     );
                 }
@@ -1289,7 +1289,7 @@ sub _Replace {
                 # http://lists.otrs.org/pipermail/dev/2002-June/000012.html
                 if ( $#Body >= $i ) {
 
-                    # add no quote char, do it later by using DocumentStyleCleanup()
+                    # add no quote char, do it later by using DocumentCleanup()
                     if ( $Param{RichText} ) {
                         $NewOldBody .= $Body[$i];
                     }
@@ -1317,7 +1317,7 @@ sub _Replace {
 
                 # add quote
                 $NewOldBody = "<blockquote type=\"cite\">$NewOldBody</blockquote>";
-                $NewOldBody = $Self->{HTMLUtilsObject}->DocumentStyleCleanup(
+                $NewOldBody = $Self->{HTMLUtilsObject}->DocumentCleanup(
                     String => $NewOldBody,
                 );
             }
@@ -1427,6 +1427,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.61 $ $Date: 2012-06-04 10:20:55 $
+$Revision: 1.62 $ $Date: 2012-08-03 07:42:09 $
 
 =cut

@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.397 2012-07-31 09:27:06 mg Exp $
+# $Id: Layout.pm,v 1.398 2012-08-03 07:42:09 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Mail::Address;
 use URI::Escape qw();
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.397 $) [1];
+$VERSION = qw($Revision: 1.398 $) [1];
 
 =head1 NAME
 
@@ -4104,16 +4104,7 @@ sub RichTextDocumentServe {
 
 =item RichTextDocumentCleanup()
 
-1)  replace MS Word 12 <p|div> with class "MsoNormal" by using <br/> because
-    it's not used as <p><div> (margin:0cm; margin-bottom:.0001pt;)
-
-2)  replace <blockquote> by using
-    "<div style="border:none;border-left:solid blue 1.5pt;padding:0cm 0cm 0cm 4.0pt" type="cite">"
-    because of cross mail client and browser compatability
-
-    $HTMLBody = $LayoutObject->RichTextDocumentCleanup(
-        String => $HTMLBody,
-    );
+please see L<Kernel::System::HTML::Layout::DocumentCleanup()>
 
 =cut
 
@@ -4128,7 +4119,7 @@ sub RichTextDocumentCleanup {
         }
     }
 
-    $Param{String} = $Self->{HTMLUtilsObject}->DocumentStyleCleanup(
+    $Param{String} = $Self->{HTMLUtilsObject}->DocumentCleanup(
         String => $Param{String},
     );
 
@@ -5149,6 +5140,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.397 $ $Date: 2012-07-31 09:27:06 $
+$Revision: 1.398 $ $Date: 2012-08-03 07:42:09 $
 
 =cut
