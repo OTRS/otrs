@@ -2,7 +2,7 @@
 // Core.Agent.Admin.ProcessManagement.Canvas.js - provides the special module functions for the Process Management Diagram Canvas.
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.ProcessManagement.Canvas.js,v 1.19 2012-08-02 12:49:56 mn Exp $
+// $Id: Core.Agent.Admin.ProcessManagement.Canvas.js,v 1.20 2012-08-03 12:15:25 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -301,6 +301,18 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
         if (EndElement !== "Dummy") {
             EndActivity.initTransitionDblClick(undefined, TransitionDblClick);    
         }
+        
+        console.log(LocalJointObject);
+        // Add hook for Joint Hover
+        LocalJointObject.mouseOverCallback = function () {
+            LocalJointObject._opt.attrs["stroke-width"] = 10;
+            LocalJointObject.update();
+        };
+
+        LocalJointObject.mouseOutCallback = function () {
+            LocalJointObject._opt.attrs["stroke-width"] = 1;
+            LocalJointObject.update();
+        };
         
         // Register callbacks for disconnecting and connecting transitions
         LocalJointObject.registerCallback("disconnected", function () {

@@ -658,13 +658,32 @@ Joint.prototype = {
             while (i--) {
 	       this.dom.connection[i].mouseover(function(e){
 	           Joint.fixEvent(e);
-		   self.showHandle();
+	           self.showHandle();
+// ---
+// OTRS    
+// ---	           
+	           if (self.mouseOverCallback) {
+	               self.mouseOverCallback();
+	           }
+// ---	           
 	           setTimeout(function(){
 		       self.hideHandle();
 		   }, self._opt.handle.timeout);
 		   e.stopPropagation();
 		   e.preventDefault();
 	        });
+// ---
+// OTRS    
+// --- 
+           this.dom.connection[i].mouseout(function(e){
+               Joint.fixEvent(e);
+               if (self.mouseOutCallback) {
+                   self.mouseOutCallback();
+               }
+               e.stopPropagation();
+               e.preventDefault();
+            });	       
+// ---             
             }
 	}
 	return this;
