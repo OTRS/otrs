@@ -2,7 +2,7 @@
 # HTMLUtils.t - HTMLUtils tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: HTMLUtils.t,v 1.46 2012-08-03 10:49:48 mg Exp $
+# $Id: HTMLUtils.t,v 1.47 2012-08-03 11:09:56 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -1201,6 +1201,18 @@ EOF
             Replace => 1,
         },
         Name => 'Safety - Filter out MS CSS expressions'
+    },
+    {
+        Input => <<EOF,
+<div><XSS STYLE="xss:expression(alert('XSS'))"></div>
+EOF
+        Result => {
+            Output => <<EOF,
+<div><XSS></div>
+EOF
+            Replace => 1,
+        },
+        Name => 'Safety - Microsoft CSS expression on invalid tag'
     },
     {
         Input => <<EOF,
