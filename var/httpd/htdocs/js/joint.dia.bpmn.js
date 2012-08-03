@@ -2,7 +2,7 @@
 // joint.dia.bpmn.js - provides the BPMN diagram functionality for JointJS
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: joint.dia.bpmn.js,v 1.14 2012-08-03 12:16:32 mab Exp $
+// $Id: joint.dia.bpmn.js,v 1.15 2012-08-03 12:39:56 mab Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -81,7 +81,7 @@ bpmn.Activity = Element.extend({
                 width: 110,
                 height: 80,
                 radius: 10,
-                attrs: { stroke: '#aaa', fill: '#e5e5e5', id: 'test' }
+                attrs: { stroke: '#444', fill: '#e5e5e5', id: 'test' }
             }),
             elem = this;
         
@@ -387,8 +387,7 @@ bpmn.Activity = Element.extend({
             .html(text)
             .css('top', position.y)
             .css('left', position.x)
-            .delay(200)
-            .fadeIn('slow');
+            .show();
     },
     hideTooltip: function () {
         $('#DiagramTooltip').hide();

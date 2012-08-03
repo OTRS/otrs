@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.10 $
+ * @version     $Revision: 1.11 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -117,7 +117,7 @@ ul#ProcessElements li.AccordionElement div.Content .ProcessElementButton {
     border-radius: 5px;
     background-color: #fff;
     width: 200px;
-    opacity: 0.8;
+    opacity: 0.9;
     position: absolute;
 }
 

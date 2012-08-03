@@ -2,7 +2,7 @@
 // Core.Agent.Admin.ProcessManagement.Canvas.js - provides the special module functions for the Process Management Diagram Canvas.
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.ProcessManagement.Canvas.js,v 1.20 2012-08-03 12:15:25 mn Exp $
+// $Id: Core.Agent.Admin.ProcessManagement.Canvas.js,v 1.21 2012-08-03 12:39:56 mab Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -56,10 +56,10 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
                 Top = parseInt(Value.top, 10);
             
             if (Left > MaxWidth) {
-                MaxWidth = Left + 130;
+                MaxWidth = Left + 110;
             }
             if (Top > MaxHeight) {
-                MaxHeight = Top + 100;
+                MaxHeight = Top + 80;
             }
         });
         
