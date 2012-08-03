@@ -2,7 +2,7 @@
 // joint.dia.bpmn.js - provides the BPMN diagram functionality for JointJS
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: joint.dia.bpmn.js,v 1.13 2012-08-02 12:53:11 mn Exp $
+// $Id: joint.dia.bpmn.js,v 1.14 2012-08-03 12:16:32 mab Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -78,10 +78,10 @@ bpmn.Activity = Element.extend({
                 position: {x: 0, y: 0},
                 label: '',
                 dblClickFunction: undefined,
-                width: 130,
-                height: 100,
+                width: 110,
+                height: 80,
                 radius: 10,
-                attrs: { stroke: 'black', fill: '270-#AAA-#FFF', id: 'test' }
+                attrs: { stroke: '#aaa', fill: '#e5e5e5', id: 'test' }
             }),
             elem = this;
         
@@ -288,11 +288,11 @@ bpmn.Activity = Element.extend({
         }
         
         // calculate link position
-        // x: x-coordinate of canvas + x-coordinate of element within canvas + width of element
-        position.x = canvasPosition.left + this.wrapper.attrs.x + ElementProperties.width - 15;
+        // x: x-coordinate of canvas + width of element - some pixels to have it sitting on the top edge
+        position.x = parseInt(this.wrapper.attrs.x + ElementProperties.width - 12);
         
-        // y: y-coordinate of canvas + y-coordinate of element within canvas
-        position.y = canvasPosition.top + this.wrapper.attrs.y + 7;        
+        // y: y-coordinate of canvas - some pixels to have it sitting on the top edge
+        position.y = parseInt(this.wrapper.attrs.y - 8);
 
         $delete
             .css('top', position.y)
@@ -361,7 +361,7 @@ bpmn.Activity = Element.extend({
         ActivityDialogs = Activity[ElementProperties.id].ActivityDialog;
         
         if (!$tooltip.length) {
-            $tooltip = $('<div id="DiagramTooltip"></div>').css('display', 'none').appendTo('body');
+            $tooltip = $('<div id="DiagramTooltip"></div>').css('display', 'none').appendTo('#Canvas');
         }
         else if ($tooltip.is(':visible')) {
             $tooltip.hide();
@@ -369,10 +369,10 @@ bpmn.Activity = Element.extend({
         
         // calculate tooltip position
         // x: x-coordinate of canvas + x-coordinate of element within canvas + width of element
-        position.x = canvasPosition.left + this.wrapper.attrs.x + ElementProperties.width;
+        position.x = this.wrapper.attrs.x + ElementProperties.width + 10;
         
         // y: y-coordinate of canvas + y-coordinate of element within canvas + height of element
-        position.y = canvasPosition.top + this.wrapper.attrs.y + ElementProperties.height;
+        position.y = this.wrapper.attrs.y + 10;
         
         // Add content to the tooltip
         text += "<ul>";
@@ -387,7 +387,8 @@ bpmn.Activity = Element.extend({
             .html(text)
             .css('top', position.y)
             .css('left', position.x)
-            .show();
+            .delay(200)
+            .fadeIn('slow');
     },
     hideTooltip: function () {
         $('#DiagramTooltip').hide();

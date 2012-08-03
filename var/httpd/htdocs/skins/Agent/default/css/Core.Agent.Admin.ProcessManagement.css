@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.9 $
+ * @version     $Revision: 1.10 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -109,18 +109,67 @@ ul#ProcessElements li.AccordionElement div.Content .ProcessElementButton {
 
 #Canvas {
     width: 95%;
+    position: relative;
 }    
     
 #DiagramTooltip {
-    border: 1px solid red;
-    width: 250px;
-    height: 200px;
+    border: 1px solid #aaa;
+    border-radius: 5px;
+    background-color: #fff;
+    width: 200px;
+    opacity: 0.8;
     position: absolute;
+}
+
+#DiagramTooltip h4 {
+    border-bottom: 1px solid #aaa;
+    padding: 7px 10px 5px 10px;
+    margin-bottom: 5px;
+    background-color: #f6f6f6;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-radius: 5px 5px 0px 0px;
+}
+
+#DiagramTooltip ul {
+    padding: 5px 7px 3px 7px;
+    overflow: hidden;
+}
+
+#DiagramTooltip li {
+    display: block;
+    float: left;
+    background-color: #ddd;
+    padding: 5px 7px;
+    border-radius: 5px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    font-size: 11px;
+    line-height: 110%;
 }
     
 #DiagramDeleteLink {
     position: absolute;
     display: none;
+}
+
+#DiagramDeleteLink a {
+    background: #FFFFFF;
+    border: 1px solid #AAAAAA;
+    border-radius: 13px;
+    display: block;
+    font-family: tahoma;
+    font-size: 9px;
+    font-weight: bold;
+    height: 10px;
+    width: 10px;
+    padding: 5px;
+    text-align: center;
+    color: #aaa;
+}
+
+#DiagramDeleteLink a:hover {
+    color: #FF9922;
 }
 
 /**
