@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2391 2012-08-03 07:42:09 mg Exp $
+# $Id: CHANGES,v 1.2392 2012-08-03 08:57:47 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -70,6 +70,9 @@
  - 2012-05-07 Fixed bug#8196 - Wrong article sender type for web service tickets.
  - 2012-04-27 Added bug#8075 - Article Sender Type to be added to
     NotificationEvent definitions.
+
+3.1.9 2012-??-??
+ - 2012-08-04 Fixed bug#8680 - Bulk action fails if cookies are disabled.
 
 3.1.8 2012-08-07
  - 2012-08-02 Updated Greek translation file, thanks to Maistros Stelios!

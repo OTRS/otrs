@@ -2,7 +2,7 @@
 // Core.UI.ActionRow.js - provides all functions for the Action row
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.UI.ActionRow.js,v 1.7 2012-04-26 13:56:37 mn Exp $
+// $Id: Core.UI.ActionRow.js,v 1.8 2012-08-03 08:57:48 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -33,11 +33,26 @@ Core.UI.ActionRow = (function (TargetNS) {
     }
 
     var TicketElementSelectors = {
-        'Small': 'div.Overview table td input:checkbox[name=TicketID]',
-        'Medium': 'ul.Overview input:checkbox[name=TicketID]',
-        'Large': 'ul.Overview input:checkbox[name=TicketID]'
-    },
+            'Small': 'div.Overview table td input:checkbox[name=TicketID]',
+            'Medium': 'ul.Overview input:checkbox[name=TicketID]',
+            'Large': 'ul.Overview input:checkbox[name=TicketID]'
+        },
         TicketView;
+
+    /**
+     * @function
+     * @private
+     * @param {Object} Data The data that should be converted
+     * @return {string} query string of the data
+     * @description Converts a given hash into a query string
+     */
+    function SerializeData(Data) {
+        var QueryString = '';
+        $.each(Data, function (Key, Value) {
+            QueryString += ';' + encodeURIComponent(Key) + '=' + encodeURIComponent(Value);
+        });
+        return QueryString;
+    }
 
     /**
      * @function
@@ -178,7 +193,8 @@ Core.UI.ActionRow = (function (TargetNS) {
             var $Element = $(this),
                 $SelectedTickets,
                 TicketIDParameter = "TicketID=",
-                TicketIDs = "";
+                TicketIDs = "",
+                URL;
             if ($Element.parent('li').hasClass('Inactive')) {
                 return false;
             }
@@ -187,7 +203,9 @@ Core.UI.ActionRow = (function (TargetNS) {
                 $SelectedTickets.each(function () {
                     TicketIDs += TicketIDParameter + $(this).val() + ";";
                 });
-                Core.UI.Popup.OpenPopup(Core.Config.Get('Baselink') + "Action=AgentTicketBulk;" + TicketIDs, 'TicketAction');
+                URL = Core.Config.Get('Baselink') + "Action=AgentTicketBulk;" + TicketIDs, 'TicketAction';
+                URL += SerializeData(Core.App.GetSessionInformation());
+                Core.UI.Popup.OpenPopup(URL);
             }
             return false;
         });
