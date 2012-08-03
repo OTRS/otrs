@@ -2,7 +2,7 @@
 # Kernel/System/HTMLUtils.pm - creating and modifying html strings
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: HTMLUtils.pm,v 1.40 2012-08-03 07:42:09 mg Exp $
+# $Id: HTMLUtils.pm,v 1.41 2012-08-03 10:49:49 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use MIME::Base64;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.40 $) [1];
+$VERSION = qw($Revision: 1.41 $) [1];
 
 =head1 NAME
 
@@ -890,6 +890,7 @@ from html strings.
         NoApplet     => 1,
         NoObject     => 1,
         NoEmbed      => 1,
+        NoSVG        => 1,
         NoIntSrcLoad => 0,
         NoExtSrcLoad => 1,
         NoJavaScript => 1,
@@ -902,6 +903,7 @@ also string ref is possible
         NoApplet     => 1,
         NoObject     => 1,
         NoEmbed      => 1,
+        NoSVG        => 1,
         NoIntSrcLoad => 0,
         NoExtSrcLoad => 1,
         NoJavaScript => 1,
@@ -945,11 +947,11 @@ sub Safety {
     # remove script tags
     if ( $Param{NoJavaScript} ) {
         $Safety{Replace} += ${$String} =~ s{
-            $TagStart scrip.+? $TagEnd (.+?|.?) $TagStart /script $TagEnd
+            $TagStart script.*? $TagEnd .*?  $TagStart /script \s* $TagEnd
         }
-        {}sxim;
+        {}sgxim;
         $Safety{Replace} += ${$String} =~ s{
-            $TagStart scrip.+? $TagEnd .+? ($TagStart|$TagEnd)
+            $TagStart script.*? $TagEnd .+? ($TagStart|$TagEnd)
         }
         {}sgxim;
     }
@@ -957,7 +959,7 @@ sub Safety {
     # remove <applet> tags
     if ( $Param{NoApplet} ) {
         $Safety{Replace} += ${$String} =~ s{
-            $TagStart apple.+? $TagEnd (.+?) $TagStart /applet $TagEnd
+            $TagStart applet.*? $TagEnd (.*?) $TagStart /applet \s* $TagEnd
         }
         {}sgxim;
     }
@@ -965,7 +967,15 @@ sub Safety {
     # remove <Object> tags
     if ( $Param{NoObject} ) {
         $Safety{Replace} += ${$String} =~ s{
-            $TagStart objec.+? $TagEnd (.+?) $TagStart /object $TagEnd
+            $TagStart object.*? $TagEnd (.*?) $TagStart /object \s* $TagEnd
+        }
+        {}sgxim;
+    }
+
+    # remove <svg> tags
+    if ( $Param{NoSVG} ) {
+        $Safety{Replace} += ${$String} =~ s{
+            $TagStart svg.*? $TagEnd (.*?) $TagStart /svg \s* $TagEnd
         }
         {}sgxim;
     }
@@ -973,7 +983,7 @@ sub Safety {
     # remove style/javascript parts
     if ( $Param{NoJavaScript} ) {
         $Safety{Replace} += ${$String} =~ s{
-            $TagStart style[^>]+?javascript(.+?|) $TagEnd (.*?) $TagStart /style $TagEnd
+            $TagStart style[^>]+?javascript(.+?|) $TagEnd (.*?) $TagStart /style \s* $TagEnd
         }
         {}sgxim;
     }
@@ -981,7 +991,7 @@ sub Safety {
     # remove <embed> tags
     if ( $Param{NoEmbed} ) {
         $Safety{Replace} += ${$String} =~ s{
-            $TagStart embed\s.+? $TagEnd
+            $TagStart embed.*? $TagEnd
         }
         {}sgxim;
     }
@@ -1126,6 +1136,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.40 $ $Date: 2012-08-03 07:42:09 $
+$Revision: 1.41 $ $Date: 2012-08-03 10:49:49 $
 
 =cut

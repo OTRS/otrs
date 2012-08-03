@@ -2,7 +2,7 @@
 # HTMLUtils.t - HTMLUtils tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: HTMLUtils.t,v 1.45 2012-08-03 07:42:09 mg Exp $
+# $Id: HTMLUtils.t,v 1.46 2012-08-03 10:49:48 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -1202,6 +1202,30 @@ EOF
         },
         Name => 'Safety - Filter out MS CSS expressions'
     },
+    {
+        Input => <<EOF,
+<div class="svg"><svg some-attribute evil="true"><someevilsvgcontent></svg></div>
+EOF
+        Result => {
+            Output => <<EOF,
+<div class="svg"></div>
+EOF
+            Replace => 1,
+        },
+        Name => 'Safety - Filter out SVG'
+    },
+    {
+        Input => <<EOF,
+<div><script ></script ><applet ></applet ></div >
+EOF
+        Result => {
+            Output => <<EOF,
+<div></div >
+EOF
+            Replace => 1,
+        },
+        Name => 'Safety - Closing tag with space'
+    },
 );
 
 for my $Test (@Tests) {
@@ -1210,6 +1234,7 @@ for my $Test (@Tests) {
         NoApplet     => 1,
         NoObject     => 1,
         NoEmbed      => 1,
+        NoSVG        => 1,
         NoIntSrcLoad => 0,
         NoExtSrcLoad => 1,
         NoJavaScript => 1,
