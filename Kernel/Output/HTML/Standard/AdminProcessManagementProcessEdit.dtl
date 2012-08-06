@@ -2,7 +2,7 @@
 # AdminProcessManagementProcessEdit.dtl - provides HTML for AdminProcessManagement
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementProcessEdit.dtl,v 1.23 2012-08-03 12:16:32 mab Exp $
+# $Id: AdminProcessManagementProcessEdit.dtl,v 1.24 2012-08-06 08:14:48 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -267,6 +267,7 @@ Core.Agent.Admin.ProcessManagement.Localization = {
         ActivityAlreadyPlaced: "$Text{"This Activity is already used in the Process. You cannot add it twice!"}",
         ActivityCannotBeDeleted: "$Text{"This Activity cannot be deleted because it is the Start Activity."}",
         TransitionAlreadyPlaced: "$Text{"This Transition is already used for this Activity. You cannot use it twice!"}",
+        TransitionActionAlreadyPlaced: "$Text{"This TransitionAction is already used in this Path. You cannot use it twice!"}",
         StartEventCapChange: "$Text{"The Start Event cannot loose the Start Transition!"}"
 };
 //]]></script>

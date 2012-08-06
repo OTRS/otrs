@@ -2,7 +2,7 @@
 // Core.Agent.Admin.ProcessManagement.Canvas.js - provides the special module functions for the Process Management Diagram Canvas.
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.ProcessManagement.Canvas.js,v 1.21 2012-08-03 12:39:56 mab Exp $
+// $Id: Core.Agent.Admin.ProcessManagement.Canvas.js,v 1.22 2012-08-06 08:14:48 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -302,16 +302,22 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
             EndActivity.initTransitionDblClick(undefined, TransitionDblClick);    
         }
         
-        console.log(LocalJointObject);
         // Add hook for Joint Hover
         LocalJointObject.mouseOverCallback = function () {
-            LocalJointObject._opt.attrs["stroke-width"] = 10;
-            LocalJointObject.update();
+            if (TargetNS.DragTransitionAction) {
+                TargetNS.DragTransitionActionTransition = {
+                    TransitionID: EntityID,
+                    StartActivity: StartElement
+                };
+                TargetNS.HighlightTransition('#F00', LocalJointObject);
+            }
         };
 
         LocalJointObject.mouseOutCallback = function () {
-            LocalJointObject._opt.attrs["stroke-width"] = 1;
-            LocalJointObject.update();
+            if (TargetNS.DragTransitionAction) {
+                TargetNS.DragTransitionActionTransition = {};
+                TargetNS.HighlightTransition('#000', LocalJointObject);
+            }
         };
         
         // Register callbacks for disconnecting and connecting transitions
@@ -384,6 +390,65 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
                 }, 200);
             }
         });
+    };
+    
+    TargetNS.DragTransitionAction = false;
+    TargetNS.DragTransitionActionTransition = {};
+    
+    TargetNS.HighlightTransition = function (Color, LocalJointObject) {
+        // if JointObject is given, highlight this Transition
+        if (typeof LocalJointObject !== 'undefined') {
+            LocalJointObject._opt.attrs["stroke-width"] = 10;
+            LocalJointObject._opt.attrs["stroke"] = Color;
+            LocalJointObject._opt.attrs["stroke-linecap"] = 'square';
+            LocalJointObject.update();
+        }
+        // otherwise highlight all transitions
+        else {
+            $.each(JointObject._registeredObjects, function () {
+                var Element = this,
+                    ElementJoints;
+                if (Element.wrapper.wholeShape.properties.object === 'Activity') {
+                    ElementJoints = Element.wrapper.joints();
+                    $.each(ElementJoints, function () {
+                        if (this._start.shape.wholeShape.properties.object === 'Activity') {
+                            this._opt.attrs["stroke-width"] = 10;
+                            this._opt.attrs["stroke"] = Color;
+                            this._opt.attrs["stroke-linecap"] = 'square';
+                            this.update();
+                        }
+                    });
+                }
+            });
+        }
+    };
+
+    TargetNS.UnhighlightTransition = function (LocalJointObject) {
+        // if JointObject is given, unhighlight only this Transition
+        if (typeof LocalJointObject !== 'undefined') {
+            LocalJointObject._opt.attrs["stroke-width"] = 1;
+            LocalJointObject._opt.attrs["stroke"] = '#000';
+            LocalJointObject._opt.attrs["stroke-linecap"] = 'round';
+            LocalJointObject.update();
+        }
+        // otherwise highlight all transitions
+        else {
+            $.each(JointObject._registeredObjects, function () {
+                var Element = this,
+                    ElementJoints;
+                if (Element.wrapper.wholeShape.properties.object === 'Activity') {
+                    ElementJoints = Element.wrapper.joints();
+                    $.each(ElementJoints, function () {
+                        if (this._start.shape.wholeShape.properties.object === 'Activity') {
+                            this._opt.attrs["stroke-width"] = 1;
+                            this._opt.attrs["stroke"] = '#000';
+                            this._opt.attrs["stroke-linecap"] = 'round';
+                            this.update();
+                        }
+                    });
+                }
+            });
+        }
     };
     
     TargetNS.DrawDiagram = function () {
