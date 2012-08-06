@@ -1,8 +1,8 @@
 # --
 # DB.t - database tests
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.t,v 1.77.2.6 2011-12-12 16:20:21 jp Exp $
+# $Id: DB.t,v 1.77.2.7 2012-08-06 14:47:32 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -3061,6 +3061,31 @@ for my $QuerySize (
     $Self->True(
         $Self->{DBObject}->Do( SQL => $SQL ) || 0,
         "#11 QuerySize check for size $QuerySize",
+    );
+}
+
+my @Tests = (
+    {
+        Name   => 'empty',
+        Data   => '',
+        Result => '',
+    },
+    {
+        Name   => 'string',
+        Data   => '123 ( (( )) ) & && | ||',
+        Result => '123 \( \(\( \)\) \) \& \&\& \| \|\|',
+    },
+);
+
+for my $Test (@Tests) {
+    my $Result = $Self->{DBObject}->QueryStringEscape(
+        QueryString => $Test->{Data}
+    );
+
+    $Self->Is(
+        $Result,
+        $Test->{Result},
+        'QueryStringEscape - ' . $Test->{Name}
     );
 }
 
