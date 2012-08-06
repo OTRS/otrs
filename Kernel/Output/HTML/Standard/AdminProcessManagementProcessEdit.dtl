@@ -2,7 +2,7 @@
 # AdminProcessManagementProcessEdit.dtl - provides HTML for AdminProcessManagement
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementProcessEdit.dtl,v 1.24 2012-08-06 08:14:48 mn Exp $
+# $Id: AdminProcessManagementProcessEdit.dtl,v 1.25 2012-08-06 15:10:46 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -251,6 +251,7 @@
 
     Core.Config.Set('Config.ImagePath', "$Config{"Frontend::ImagePath"}");
     Core.Config.Set('Config.PopupPathActivity', "$Env{"Baselink"}Action=AdminProcessManagementActivity;Subaction=ActivityEdit;");
+    Core.Config.Set('Config.PopupPathPath', "$Env{"Baselink"}Action=AdminProcessManagementPath;Subaction=PathEdit;");
 //]]></script>
 <!--dtl:js_on_document_complete-->
 <!-- dtl:block:ConfigSet -->

@@ -2,7 +2,7 @@
 // Core.Agent.Admin.ProcessManagement.js - provides the special module functions for the Process Management.
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.31 2012-08-06 08:51:58 mn Exp $
+// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.32 2012-08-06 15:10:47 mab Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -729,6 +729,44 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
         
     };
     
+    TargetNS.InitPathEdit = function () {
+        
+        // Initialize Allocation List
+        Core.UI.AllocationList.Init("#AvailableTransitionActions, #AssignedTransitionActions", ".AllocationList");
+        
+        var CurrentProcessEntityID = Core.Agent.Admin.ProcessManagement.CurrentPath.ProcessEntityID,
+            CurrentTransitionEntityID = Core.Agent.Admin.ProcessManagement.CurrentPath.TransitionEntityID,
+            ActivityInfo = window.opener.Core.Agent.Admin.ProcessManagement.ProcessData.Activity,
+            PathInfo = window.opener.Core.Agent.Admin.ProcessManagement.ProcessData.Process[CurrentProcessEntityID].Path,
+            StartActivity = '',
+            EndActivity = '',
+            AssignedTransitionActions = [];
+
+        // set current start and end activity (just for information purposes, not changable)
+        $.each(PathInfo, function(Activity, Transition) {
+           if (Transition[CurrentTransitionEntityID] !== undefined ) {
+               StartActivity = ActivityInfo[Activity].Name;
+               EndActivity   = ActivityInfo[Transition[CurrentTransitionEntityID].ActivityID].Name;
+               AssignedTransitionActions = Transition[CurrentTransitionEntityID].Action;
+               return false;
+           }
+        });
+
+        // Set chosen Startactivity, Endactivity and Transition
+        $('#Transition').val(CurrentTransitionEntityID);
+        $('#StartActivity').val(StartActivity);
+        $('#EndActivity').val(EndActivity);
+        
+        // Display assigned Transition Actions
+        $.each(AssignedTransitionActions, function(Index, TransitionActionEntityID) {
+
+            $('#AvailableTransitionActions').find('#' + TransitionActionEntityID).remove().appendTo($('#AssignedTransitionActions'));
+        });
+        
+        // Init popups
+        InitProcessPopups();
+    };
+
     TargetNS.ShowOverlay = function () {
         $('<div id="Overlay" tabindex="-1">').appendTo('body');
         $('body').css({

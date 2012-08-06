@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: ProcessManagement.xml,v 1.5 2012-07-19 14:14:16 mn Exp $</CVS>
+    <CVS>$Id: ProcessManagement.xml,v 1.6 2012-08-06 15:10:47 mab Exp $</CVS>
     <ConfigItem Name="Process::CacheTTL" Required="1" Valid="1">
         <Description Translatable="1">Cache time in seconds for the DB process backend.</Description>
         <Group>ProcessManagement</Group>
@@ -119,6 +119,24 @@
                 <Loader>
                     <CSS>Core.Agent.Admin.ProcessManagement.css</CSS>
                     <JavaScript>Core.Agent.Admin.ProcessManagement.js</JavaScript>
+                </Loader>
+            </FrontendModuleReg>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Frontend::Module###AdminProcessManagementPath" Required="0" Valid="1">
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <Group>admin</Group>
+                <Description>Admin</Description>
+                <Title Translatable="1">Process Management Path GUI</Title>
+                <Loader>
+                    <CSS>Core.Agent.Admin.ProcessManagement.css</CSS>
+                    <CSS>Core.AllocationList.css</CSS>
+                    <JavaScript>Core.Agent.Admin.ProcessManagement.js</JavaScript>
+                    <JavaScript>Core.UI.AllocationList.js</JavaScript>
                 </Loader>
             </FrontendModuleReg>
         </Setting>
