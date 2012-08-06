@@ -2,7 +2,7 @@
 # UPGRADING - Upgrading Instructions for OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: UPGRADING,v 1.71 2012-05-21 11:00:16 mg Exp $
+# $Id: UPGRADING,v 1.72 2012-08-06 09:55:31 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -77,7 +77,7 @@ XXXXXXXXXXXXXXXXYZ.
 6) Own themes
    ----------
 
-   Note: The OTRS themes between 3.0 and 3.1 are NOT compatible, so don't use your old themes!
+   Note: The OTRS themes between 3.1 and 3.2 are NOT compatible, so don't use your old themes!
 
    Themes are located under $OTRS_HOME/Kernel/Output/HTML/*/*.dtl (default: OTRS_HOME=/opt/otrs)
 
@@ -149,44 +149,7 @@ XXXXXXXXXXXXXXXXYZ.
     shell> bin/otrs.DeleteCache.pl
 
 
-10) Update your web server configuration
-    ------------------------------------
-
-    Note: this applies only if you use the Apache web server together with mod_perl2,
-    and do not use the configuration file directly from the OTRS installation directory
-    (e. g. with a symlink from the Apache configuration directory).
-
-    Please add a new setting to the Apache configuration file for OTRS:
-
-      # set mod_perl2 option for generic interface
-      <Location /otrs/nph-genericinterface.pl>
-          PerlOptions -ParseHeaders
-      </Location>
-
-    Please see the file /opt/otrs/scripts/apache2-httpd.include.conf for an example of
-    where this new option needs to be added (inside the <IfModule mod_perl.c> block).
-
-    In this file, you will also note a new section on caching:
-
-    <IfModule mod_headers.c>
-        <Directory "/opt/otrs/var/httpd/htdocs/skins/*/*/css-cache">
-            <FilesMatch "\.(css|CSS)$">
-                Header set Cache-Control "max-age=2592000 must-revalidate"
-            </FilesMatch>
-        </Directory>
-
-        <Directory "/opt/otrs/var/httpd/htdocs/js/js-cache">
-            <FilesMatch "\.(js|JS)$">
-                Header set Cache-Control "max-age=2592000 must-revalidate"
-            </FilesMatch>
-        </Directory>
-    </IfModule>
-
-    Please activate this in your local installation too, and make sure that mod_headers
-    is installed and active.
-
-
-11) Restart your services
+10) Restart your services
     ---------------------
 
     e. g. (depends on used services):
@@ -198,10 +161,31 @@ XXXXXXXXXXXXXXXXYZ.
     Now you can log into your system.
 
 
-12) Check installed packages
+11) Check installed packages
     ------------------------
     In the package manager, check if all packages are still marked as
     correctly installed or if any require reinstallation or even a package upgrade.
+
+
+12) Cleanup metadata of archived tickets
+    ------------------------------------
+    Note: This step only applies if you use the ticket archiving feature of OTRS.
+
+    With OTRS 3.2, when tickets are archived, the information which agent read the
+    ticket and articles can be removed, as well as the ticket subscriptions of agents.
+    This is active by default and helps reduce the amount of data in the database on
+    large systems with many tickets and agents.
+
+    If you also want to cleanup this information for existing archived tickets,
+    please run this script:
+
+    shell> bin/otrs.CleanupTicketMetadata.pl --archived
+
+    If you want to KEEP this information instead, please set these
+    SysConfig settings to "No":
+
+    Ticket::ArchiveSystem::RemoveSeenFlags
+    Ticket::ArchiveSystem::RemoveTicketWatchers
 
 
 13) Well done!
