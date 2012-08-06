@@ -590,6 +590,15 @@ Joint.prototype = {
 	    this.replaceDummy(this["_" + capType], o);
 	    this.addJoint(o);
 	}
+// ---
+// OTRS    
+// ---             
+    else {
+        if (this.disconnectedJoint) {
+            this.disconnectedJoint(capType);
+        }
+    }
+// ---             
 
 	this.update();
     },

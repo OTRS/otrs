@@ -2,7 +2,7 @@
 // Core.Agent.Admin.ProcessManagement.Canvas.js - provides the special module functions for the Process Management Diagram Canvas.
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.ProcessManagement.Canvas.js,v 1.24 2012-08-06 09:43:23 mn Exp $
+// $Id: Core.Agent.Admin.ProcessManagement.Canvas.js,v 1.25 2012-08-06 14:04:16 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -336,11 +336,57 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
             }
         };
         
+        // Add hook for Joint disconnection
+        LocalJointObject.disconnectedJoint = function (Side) {
+            var StartActivity, EndActivity, Transition;
+            
+            if (LocalJointObject.isStartDummy() && LocalJointObject.isEndDummy()) {
+                // Both sides are not connected any more
+                // Do you want to remove this transition?
+                // If not, nothing will happen to the transition
+                if (window.confirm('Do you want remove this transition from the canvas?')) {
+                    Transition = LocalJointObject.EntityID;
+                    
+                    if (Side === "start") {
+                        StartActivity = OldActivity.wholeShape.properties.id;
+                        
+                        // remove arrow from canvas
+                        window.setTimeout(function () {
+                            DeleteTransition(LocalJointObject);
+                        }, 200);
+                        
+                        // remove Path info from config
+                        delete Path[StartActivity][Transition];
+                    }
+                    else {
+                        EndActivity = OldActivity.wholeShape.properties.id;
+                        StartActivity = LocalJointObject.OldStartActivity;
+
+                        // remove arrow from canvas
+                        window.setTimeout(function () {
+                            DeleteTransition(LocalJointObject);
+                        }, 200);
+                        
+                        // remove Path info from config
+                        delete Path[StartActivity][Transition];
+                    }
+                }
+            }
+        };
+        
         // Register callbacks for disconnecting and connecting transitions
-        LocalJointObject.registerCallback("disconnected", function () {
+        LocalJointObject.registerCallback("disconnected", function (Side) {
             // get old activity (the activity that was just disconnected)
             // to find the correct config data if the transition is connected again
             OldActivity = this;
+            
+            if (Side === 'start') {
+                LocalJointObject.OldStartActivity = this.wholeShape.properties.id;
+            }
+            else {
+                LocalJointObject.OldEndActivity = this.wholeShape.properties.id;
+            }
+            
             ChangeTransitionColor(LocalJointObject, "#F00");
         });
         
@@ -407,6 +453,14 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
             }
         });
     };
+    
+    function DeleteTransition(LocalJointObject) { 
+        LocalJointObject.freeJoint(LocalJointObject.startObject()); 
+        LocalJointObject.freeJoint(LocalJointObject.endObject()); 
+        Joint.dia.unregisterJoint(LocalJointObject); 
+        LocalJointObject.clean(["connection", "startCap", "endCap", "handleStart", "handleEnd", "label"]); 
+        
+    } 
     
     TargetNS.DragTransitionAction = false;
     TargetNS.DragTransitionActionTransition = {};
