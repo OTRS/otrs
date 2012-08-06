@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Ticket/TicketSearch.pm - GenericInterface Ticket Search operation backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketSearch.pm,v 1.17 2012-06-29 07:50:31 mg Exp $
+# $Id: TicketSearch.pm,v 1.18 2012-08-06 17:31:36 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::GenericInterface::Operation::Common;
 use Kernel::GenericInterface::Operation::Ticket::Common;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.17 $) [1];
+$VERSION = qw($Revision: 1.18 $) [1];
 
 =head1 NAME
 
@@ -365,30 +365,6 @@ sub _GetParams {
         Agent ResultForm TimeSearchType ChangeTimeSearchType CloseTimeSearchType UseSubQueues
         ArticleTimeSearchType SearchInArchive
         Fulltext ShownAttributes
-        ArticleCreateTimePointFormat ArticleCreateTimePoint
-        ArticleCreateTimePointStart
-        ArticleCreateTimeStart ArticleCreateTimeStartDay ArticleCreateTimeStartMonth
-        ArticleCreateTimeStartYear
-        ArticleCreateTimeStop ArticleCreateTimeStopDay ArticleCreateTimeStopMonth
-        ArticleCreateTimeStopYear
-        TicketCreateTimePointFormat TicketCreateTimePoint
-        TicketCreateTimePointStart
-        TicketCreateTimeStart TicketCreateTimeStartDay TicketCreateTimeStartMonth
-        TicketCreateTimeStartYear
-        TicketCreateTimeStop TicketCreateTimeStopDay TicketCreateTimeStopMonth
-        TicketCreateTimeStopYear
-        TicketChangeTimePointFormat TicketChangeTimePoint
-        TicketChangeTimePointStart
-        TicketChangeTimeStart TicketChangeTimeStartDay TicketChangeTimeStartMonth
-        TicketChangeTimeStartYear
-        TicketChangeTimeStop TicketChangeTimeStopDay TicketChangeTimeStopMonth
-        TicketChangeTimeStopYear
-        TicketCloseTimePointFormat TicketCloseTimePoint
-        TicketCloseTimePointStart
-        TicketCloseTimeStart TicketCloseTimeStartDay TicketCloseTimeStartMonth
-        TicketCloseTimeStartYear
-        TicketCloseTimeStop TicketCloseTimeStopDay TicketCloseTimeStopMonth
-        TicketCloseTimeStopYear
         )
         )
     {
@@ -439,6 +415,57 @@ sub _GetParams {
     for my $Index ( sort keys %EscalationTimes ) {
         for my $PostFix (qw( OlderMinutes NewerMinutes NewerDate OlderDate )) {
             my $Item = 'TicketEscalation' . $EscalationTimes{$Index} . $PostFix;
+
+            # get search string params (get submitted params)
+            if ( IsStringWithData( $Param{$Item} ) ) {
+                $GetParam{$Item} = $Param{$Item};
+
+                # remove white space on the start and end
+                $GetParam{$Item} =~ s/\s+$//g;
+                $GetParam{$Item} =~ s/^\s+//g;
+            }
+        }
+    }
+
+    my @Prefixes = (
+        'TicketCreateTime',
+        'TicketChangeTime',
+        'TicketCloseTime',
+        'TicketPendingTime',
+        'ArticleCreateTime',
+    );
+
+    my @Postfixes = (
+        'Point',
+        'PointFormat',
+        'PointStart',
+        'Start',
+        'StartDay',
+        'StartMonth',
+        'StartYear',
+        'Stop',
+        'StopDay',
+        'StopMonth',
+        'StopYear',
+        'OlderMinutes',
+        'NewerMinutes',
+        'OlderDate',
+        'NewerDate',
+    );
+
+    for my $Prefix (@Prefixes) {
+
+        # get search string params (get submitted params)
+        if ( IsStringWithData( $Param{$Prefix} ) ) {
+            $GetParam{$Prefix} = $Param{$Prefix};
+
+            # remove white space on the start and end
+            $GetParam{$Prefix} =~ s/\s+$//g;
+            $GetParam{$Prefix} =~ s/^\s+//g;
+        }
+
+        for my $Postfix (@Postfixes) {
+            my $Item = $Prefix . $Postfix;
 
             # get search string params (get submitted params)
             if ( IsStringWithData( $Param{$Item} ) ) {
@@ -734,6 +761,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.17 $ $Date: 2012-06-29 07:50:31 $
+$Revision: 1.18 $ $Date: 2012-08-06 17:31:36 $
 
 =cut
