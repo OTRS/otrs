@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.pm,v 1.147 2012-07-02 08:47:00 mb Exp $
+# $Id: AgentTicketSearch.pm,v 1.148 2012-08-06 07:33:53 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.147 $) [1];
+$VERSION = qw($Revision: 1.148 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -150,9 +150,10 @@ sub Run {
 
     # check request
     if ( $Self->{ParamObject}->GetParam( Param => 'SearchTemplate' ) && $Self->{Profile} ) {
+        my $Profile = $Self->{LayoutObject}->LinkEncode( $Self->{Profile} );
         return $Self->{LayoutObject}->Redirect(
             OP =>
-                "Action=AgentTicketSearch;Subaction=Search;TakeLastSearch=1;SaveProfile=1;Profile=$Self->{Profile}"
+                "Action=AgentTicketSearch;Subaction=Search;TakeLastSearch=1;SaveProfile=1;Profile=$Profile"
         );
     }
 
