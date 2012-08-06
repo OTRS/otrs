@@ -1,8 +1,8 @@
 # --
 # DB.t - database tests
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.t,v 1.88 2011-12-12 16:23:14 jp Exp $
+# $Id: DB.t,v 1.88.2.1 2012-08-06 14:46:37 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -1973,7 +1973,7 @@ my %Fill = (
     Some5 => 'customer_id_with_underscores',
     Some6 => 'customer&id&with&ampersands',
     Some7 => 'Test (with) (brackets)',
-    Some8 => 'Test (with) (brackets) and & and -',
+    Some8 => 'Test (with) (brackets) and & and |',
 );
 for my $Key ( sort keys %Fill ) {
     my $SQL = "INSERT INTO test_condition (name_a, name_b) VALUES ('$Key', '$Fill{$Key}')";
@@ -2728,7 +2728,7 @@ my @Queries = (
         },
     },
     {
-        Query  => 'Test AND ( \(with\) OR \(brackets\) ) AND \-',
+        Query  => 'Test AND ( \(with\) OR \(brackets\) ) AND \|',
         Result => {
             Some1 => 0,
             Some2 => 0,
@@ -3203,4 +3203,28 @@ for my $QuerySize (
     );
 }
 
+my @Tests = (
+    {
+        Name   => 'empty',
+        Data   => '',
+        Result => '',
+    },
+    {
+        Name   => 'string',
+        Data   => '123 ( (( )) ) & && | ||',
+        Result => '123 \( \(\( \)\) \) \& \&\& \| \|\|',
+    },
+);
+
+for my $Test (@Tests) {
+    my $Result = $DBObject->QueryStringEscape(
+        QueryString => $Test->{Data}
+    );
+
+    $Self->Is(
+        $Result,
+        $Test->{Result},
+        'QueryStringEscape - ' . $Test->{Name}
+    );
+}
 1;

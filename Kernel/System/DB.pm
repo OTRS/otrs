@@ -2,7 +2,7 @@
 # Kernel/System/DB.pm - the global database wrapper to support different databases
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.144.2.1 2012-05-22 09:11:25 mg Exp $
+# $Id: DB.pm,v 1.144.2.2 2012-08-06 14:46:38 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Time;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.144.2.1 $) [1];
+$VERSION = qw($Revision: 1.144.2.2 $) [1];
 
 =head1 NAME
 
@@ -1443,7 +1443,7 @@ sub _SpecialCharactersGet {
         '(' => 1,
         ')' => 1,
         '&' => 1,
-        '-' => 1,
+        '|' => 1,
     );
 
     return \%SpecialCharacter;
@@ -1479,6 +1479,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.144.2.1 $ $Date: 2012-05-22 09:11:25 $
+$Revision: 1.144.2.2 $ $Date: 2012-08-06 14:46:38 $
 
 =cut
