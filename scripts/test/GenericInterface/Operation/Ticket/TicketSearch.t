@@ -2,7 +2,7 @@
 # TicketSearch.t - GenericInterface transport interface tests for TicketConnector backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketSearch.t,v 1.20 2012-06-29 15:37:48 cg Exp $
+# $Id: TicketSearch.t,v 1.21 2012-08-06 17:32:57 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,6 +16,7 @@ use vars (qw($Self));
 
 use MIME::Base64;
 use Kernel::System::User;
+use Kernel::System::Time;
 use Kernel::System::Ticket;
 use Kernel::System::DynamicField;
 use Kernel::System::DynamicField::Backend;
@@ -38,6 +39,15 @@ my $RandomID = int rand 1_000_000_000;
 
 # create local config object
 my $ConfigObject = Kernel::Config->new();
+
+# create time object
+my $TimeObject = Kernel::System::Time->new(
+    %{$Self},
+    ConfigObject => $ConfigObject,
+);
+
+# get the start time for the test
+my $StartTime = $TimeObject->SystemTime();
 
 # disable CheckEmailInvalidAddress setting
 $ConfigObject->Set(
@@ -1163,6 +1173,44 @@ my @Tests = (
             Data => {
                 TicketID => [ $TicketID2, $TicketID1 ],
             },
+            Success => 1,
+        },
+        Operation => 'TicketSearch',
+    },
+    {
+        Name           => "Test DF " . $TestCounter++,
+        SuccessRequest => 1,
+        RequestData    => {
+            TicketCreateTimeNewerDate =>
+                $TimeObject->SystemTime2TimeStamp( SystemTime => $StartTime ),
+        },
+        ExpectedReturnLocalData => {
+            Data => {
+                TicketID => [ $TicketID4, $TicketID3, $TicketID2, $TicketID1 ],
+            },
+            Success => 1
+        },
+        ExpectedReturnRemoteData => {
+            Data => {
+                TicketID => [ $TicketID4, $TicketID3, $TicketID2, $TicketID1 ],
+            },
+            Success => 1,
+        },
+        Operation => 'TicketSearch',
+    },
+    {
+        Name           => "Test DF " . $TestCounter++,
+        SuccessRequest => 1,
+        RequestData    => {
+            TicketCreateTimeNewerDate =>
+                $TimeObject->SystemTime2TimeStamp( SystemTime => $TimeObject->SystemTime() ),
+        },
+        ExpectedReturnLocalData => {
+            Data    => {},
+            Success => 1
+        },
+        ExpectedReturnRemoteData => {
+            Data    => undef,
             Success => 1,
         },
         Operation => 'TicketSearch',
