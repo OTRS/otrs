@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.pm,v 1.118.2.6 2011-08-23 12:45:25 mb Exp $
+# $Id: AgentTicketSearch.pm,v 1.118.2.7 2012-08-06 07:34:08 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::Type;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.118.2.6 $) [1];
+$VERSION = qw($Revision: 1.118.2.7 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -128,9 +128,10 @@ sub Run {
 
     # check request
     if ( $Self->{ParamObject}->GetParam( Param => 'SearchTemplate' ) && $Self->{Profile} ) {
+        my $Profile = $Self->{LayoutObject}->LinkEncode( $Self->{Profile} );
         return $Self->{LayoutObject}->Redirect(
             OP =>
-                "Action=AgentTicketSearch;Subaction=Search;TakeLastSearch=1;SaveProfile=1;Profile=$Self->{Profile}"
+                "Action=AgentTicketSearch;Subaction=Search;TakeLastSearch=1;SaveProfile=1;Profile=$Profile"
         );
     }
 
