@@ -1,8 +1,8 @@
 // --
 // Core.Agent.Admin.DynamicField.js - provides the special module functions for the Dynamic Fields.
-// Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+// Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.DynamicField.js,v 1.10 2011-08-26 23:26:31 cg Exp $
+// $Id: Core.Agent.Admin.DynamicField.js,v 1.11 2012-08-06 12:33:24 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -23,6 +23,21 @@ Core.Agent.Admin = Core.Agent.Admin || {};
  */
 Core.Agent.Admin.DynamicField = (function (TargetNS) {
 
+    /**
+     * @function
+     * @private
+     * @param {Object} Data The data that should be converted
+     * @return {string} query string of the data
+     * @description Converts a given hash into a query string
+     */
+    function SerializeData(Data) {
+        var QueryString = '';
+        $.each(Data, function (Key, Value) {
+            QueryString += ';' + encodeURIComponent(Key) + '=' + encodeURIComponent(Value);
+        });
+        return QueryString;
+    }
+
     TargetNS.Redirect = function( FieldType, ObjectType ) {
         var DynamicFieldsConfig, Action, URL, FieldOrder;
 
@@ -37,6 +52,7 @@ Core.Agent.Admin.DynamicField = (function (TargetNS) {
 
         // redirect to correct url
         URL = Core.Config.Get('Baselink') + 'Action=' + Action + ';Subaction=Add' + ';ObjectType=' + ObjectType + ';FieldType=' + FieldType + ';FieldOrder=' + FieldOrder;
+        URL += SerializeData(Core.App.GetSessionInformation());
         window.location = URL;
     };
 
