@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Package.pm - lib package manager
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Package.pm,v 1.119.2.3 2011-11-15 11:41:39 mg Exp $
+# $Id: Package.pm,v 1.119.2.4 2012-08-07 20:00:10 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::Cache;
 use Kernel::System::Loader;
 
 use vars qw($VERSION $S);
-$VERSION = qw($Revision: 1.119.2.3 $) [1];
+$VERSION = qw($Revision: 1.119.2.4 $) [1];
 
 =head1 NAME
 
@@ -1975,9 +1975,10 @@ The C<Type> is either 'Min' or 'Max'.
 Otherwise undef is returned in scalar context.
 
     my $CheckOk = $PackageObject->_CheckVersion(
-        Version1 => '1.3.92',
-        Version2 => '1.3.91',
-        Type     => 'Min',    # 'Min' or 'Max' a
+        Version1        => '1.3.92',  # new version
+        Version2        => '1.3.91',  # installed version
+        Type            => 'Min',     # 'Min' or 'Max'
+        ExternalPackage => 1,         # optional
     )
 
 =cut
@@ -1988,33 +1989,74 @@ sub _CheckVersion {
     # check needed stuff
     for (qw(Version1 Version2 Type)) {
         if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "$_ not defined!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "$_ not defined!",
+            );
             return;
         }
     }
+
+    my %AllParts;
     for my $Type (qw(Version1 Version2)) {
-        my @Parts = split( /\./, $Param{$Type} );
+
+        # split version string
+        my @Parts = split /\./, $Param{$Type};
+
+        $AllParts{$Type} = \@Parts;
+        $AllParts{ $Type . 'Num' } = scalar @Parts;
+    }
+
+    for my $Type (qw(Version1 Version2)) {
+
+        # extract parts
+        my @Parts = @{ $AllParts{$Type} };
+
+        # remove all version parts after the first three parts and increase
+        # the patchlevel if four version levels are found. --> Testrelease
+        if (
+            !$Param{ExternalPackage}
+            && $AllParts{Version1Num} ne $AllParts{Version2Num}
+            && defined $Parts[3]
+            )
+        {
+            splice @Parts, 3;
+            $Parts[2]++;
+        }
+
+        # reset version
         $Param{$Type} = 0;
-        for ( 0 .. 4 ) {
-            if ( defined $Parts[$_] ) {
-                $Param{$Type} .= sprintf( "%04d", $Parts[$_] );
+
+        # cleanup four levels of the version string
+        for my $Count ( 0 .. 4 ) {
+
+            if ( $Parts[$Count] ) {
+                $Param{$Type} .= sprintf "%08d", $Parts[$Count];
             }
             else {
-                $Param{$Type} .= '0000';
+                $Param{$Type} .= '00000000';
             }
         }
-        $Param{$Type} = int( $Param{$Type} );
+
+        $Param{$Type} = int $Param{$Type};
     }
+
+    # compare versions
     if ( $Param{Type} eq 'Min' ) {
-        return 1 if ( $Param{Version2} >= $Param{Version1} );
+        return 1 if $Param{Version2} >= $Param{Version1};
         return;
     }
     elsif ( $Param{Type} eq 'Max' ) {
-        return 1 if ( $Param{Version2} < $Param{Version1} );
+        return 1 if $Param{Version2} < $Param{Version1};
         return;
     }
 
-    $Self->{LogObject}->Log( Priority => 'error', Message => 'Invalid Type!' );
+    # error handling
+    $Self->{LogObject}->Log(
+        Priority => 'error',
+        Message  => 'Invalid Type!',
+    );
+
     return;
 }
 
@@ -2114,9 +2156,10 @@ sub _CheckModuleRequired {
 
             # check version
             my $Ok = $Self->_CheckVersion(
-                Version1 => $Module->{Version},
-                Version2 => $InstalledVersion,
-                Type     => 'Min'
+                Version1        => $Module->{Version},
+                Version2        => $InstalledVersion,
+                Type            => 'Min',
+                ExternalPackage => 1,
             );
             if ( !$Ok ) {
                 $Self->{LogObject}->Log(
@@ -2499,6 +2542,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.119.2.3 $ $Date: 2011-11-15 11:41:39 $
+$Revision: 1.119.2.4 $ $Date: 2012-08-07 20:00:10 $
 
 =cut
