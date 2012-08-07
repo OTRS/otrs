@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Package.pm,v 1.132 2012-08-07 19:57:52 mh Exp $
+# $Id: Package.pm,v 1.133 2012-08-07 20:17:24 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::WebUserAgent;
 use Kernel::System::XML;
 
 use vars qw($VERSION $S);
-$VERSION = qw($Revision: 1.132 $) [1];
+$VERSION = qw($Revision: 1.133 $) [1];
 
 =head1 NAME
 
@@ -651,9 +651,9 @@ sub PackageUpgrade {
 
     # check version
     my $CheckVersion = $Self->_CheckVersion(
-        Version1 => $Structure{Version}->{Content},
-        Version2 => $InstalledVersion,
-        Type     => 'Max',
+        VersionNew       => $Structure{Version}->{Content},
+        VersionInstalled => $InstalledVersion,
+        Type             => 'Max',
     );
 
     if ( !$CheckVersion ) {
@@ -711,17 +711,17 @@ sub PackageUpgrade {
 
                 # skip code upgrade block if its version is bigger than the new package version
                 my $CheckVersion = $Self->_CheckVersion(
-                    Version1 => $Part->{Version},
-                    Version2 => $Structure{Version}->{Content},
-                    Type     => 'Max',
+                    VersionNew       => $Part->{Version},
+                    VersionInstalled => $Structure{Version}->{Content},
+                    Type             => 'Max',
                 );
 
                 next PART if $CheckVersion;
 
                 $CheckVersion = $Self->_CheckVersion(
-                    Version1 => $Part->{Version},
-                    Version2 => $InstalledVersion,
-                    Type     => 'Min',
+                    VersionNew       => $Part->{Version},
+                    VersionInstalled => $InstalledVersion,
+                    Type             => 'Min',
                 );
 
                 if ( !$CheckVersion ) {
@@ -750,9 +750,9 @@ sub PackageUpgrade {
             if ( $Part->{TagLevel} == 3 && $Part->{Version} ) {
 
                 my $CheckVersion = $Self->_CheckVersion(
-                    Version1 => $Part->{Version},
-                    Version2 => $InstalledVersion,
-                    Type     => 'Min',
+                    VersionNew       => $Part->{Version},
+                    VersionInstalled => $InstalledVersion,
+                    Type             => 'Min',
                 );
 
                 if ( !$CheckVersion ) {
@@ -805,9 +805,9 @@ sub PackageUpgrade {
             if ( $Part->{TagLevel} == 3 && $Part->{Version} ) {
 
                 my $CheckVersion = $Self->_CheckVersion(
-                    Version1 => $Part->{Version},
-                    Version2 => $InstalledVersion,
-                    Type     => 'Min',
+                    VersionNew       => $Part->{Version},
+                    VersionInstalled => $InstalledVersion,
+                    Type             => 'Min',
                 );
 
                 if ( !$CheckVersion ) {
@@ -839,17 +839,17 @@ sub PackageUpgrade {
 
                 # skip code upgrade block if its version is bigger than the new package version
                 my $CheckVersion = $Self->_CheckVersion(
-                    Version1 => $Part->{Version},
-                    Version2 => $Structure{Version}->{Content},
-                    Type     => 'Max',
+                    VersionNew       => $Part->{Version},
+                    VersionInstalled => $Structure{Version}->{Content},
+                    Type             => 'Max',
                 );
 
                 next PART if $CheckVersion;
 
                 $CheckVersion = $Self->_CheckVersion(
-                    Version1 => $Part->{Version},
-                    Version2 => $InstalledVersion,
-                    Type     => 'Min',
+                    VersionNew       => $Part->{Version},
+                    VersionInstalled => $InstalledVersion,
+                    Type             => 'Min',
                 );
 
                 if ( !$CheckVersion ) {
@@ -1145,9 +1145,9 @@ sub PackageOnlineList {
         else {
 
             my $CheckVersion = $Self->_CheckVersion(
-                Version1 => $Package->{Version},
-                Version2 => $Newest{ $Package->{Name} }->{Version},
-                Type     => 'Min',
+                VersionNew       => $Package->{Version},
+                VersionInstalled => $Newest{ $Package->{Name} }->{Version},
+                Type             => 'Min',
             );
 
             if ( !$CheckVersion ) {
@@ -1177,9 +1177,9 @@ sub PackageOnlineList {
 
             if (
                 !$Self->_CheckVersion(
-                    Version1 => $Newest{$Data}->{Version},
-                    Version2 => $Package->{Version}->{Content},
-                    Type     => 'Min',
+                    VersionNew       => $Newest{$Data}->{Version},
+                    VersionInstalled => $Package->{Version}->{Content},
+                    Type             => 'Min',
                 )
                 )
             {
@@ -1189,9 +1189,9 @@ sub PackageOnlineList {
             # check if version or lower is already installed
             elsif (
                 !$Self->_CheckVersion(
-                    Version1 => $Newest{$Data}->{Version},
-                    Version2 => $Package->{Version}->{Content},
-                    Type     => 'Max',
+                    VersionNew       => $Newest{$Data}->{Version},
+                    VersionInstalled => $Package->{Version}->{Content},
+                    Type             => 'Max',
                 )
                 )
             {
@@ -2242,17 +2242,17 @@ sub _CheckFramework {
 
 =item _CheckVersion()
 
-Compare the two version strings C<Version1> and C<Version2>.
-The C<Type> is either 'Min' or 'Max'.
-'Min' returns a true value when C<Version2> >= C<Version1>.
-'Max' returns a true value when C<Version2> < C<Version1>.
+Compare the two version strings $VersionNew and $VersionInstalled.
+The type is either 'Min' or 'Max'.
+'Min' returns a true value if $VersionInstalled >= $VersionNew.
+'Max' returns a true value if $VersionInstalled < $VersionNew.
 Otherwise undef is returned in scalar context.
 
     my $CheckOk = $PackageObject->_CheckVersion(
-        Version1        => '1.3.92',  # new version
-        Version2        => '1.3.91',  # installed version
-        Type            => 'Min',     # 'Min' or 'Max'
-        ExternalPackage => 1,         # optional
+        VersionNew       => '1.3.92',
+        VersionInstalled => '1.3.91',
+        Type             => 'Min',     # 'Min' or 'Max'
+        ExternalPackage  => 1,         # optional
     )
 
 =cut
@@ -2261,7 +2261,7 @@ sub _CheckVersion {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(Version1 Version2 Type)) {
+    for (qw(VersionNew VersionInstalled Type)) {
         if ( !defined $Param{$_} ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
@@ -2272,7 +2272,7 @@ sub _CheckVersion {
     }
 
     my %AllParts;
-    for my $Type (qw(Version1 Version2)) {
+    for my $Type (qw(VersionNew VersionInstalled)) {
 
         # split version string
         my @Parts = split /\./, $Param{$Type};
@@ -2281,7 +2281,7 @@ sub _CheckVersion {
         $AllParts{ $Type . 'Num' } = scalar @Parts;
     }
 
-    for my $Type (qw(Version1 Version2)) {
+    for my $Type (qw(VersionNew VersionInstalled)) {
 
         # extract parts
         my @Parts = @{ $AllParts{$Type} };
@@ -2290,7 +2290,7 @@ sub _CheckVersion {
         # the patchlevel if four version levels are found. --> Testrelease
         if (
             !$Param{ExternalPackage}
-            && $AllParts{Version1Num} ne $AllParts{Version2Num}
+            && $AllParts{VersionNewNum} ne $AllParts{VersionInstalledNum}
             && defined $Parts[3]
             )
         {
@@ -2317,11 +2317,11 @@ sub _CheckVersion {
 
     # compare versions
     if ( $Param{Type} eq 'Min' ) {
-        return 1 if $Param{Version2} >= $Param{Version1};
+        return 1 if $Param{VersionInstalled} >= $Param{VersionNew};
         return;
     }
     elsif ( $Param{Type} eq 'Max' ) {
-        return 1 if $Param{Version2} < $Param{Version1};
+        return 1 if $Param{VersionInstalled} < $Param{VersionNew};
         return;
     }
 
@@ -2379,9 +2379,9 @@ sub _CheckPackageRequired {
         }
 
         my $VersionCheck = $Self->_CheckVersion(
-            Version1 => $Package->{Version},
-            Version2 => $InstalledVersion,
-            Type     => 'Min',
+            VersionNew       => $Package->{Version},
+            VersionInstalled => $InstalledVersion,
+            Type             => 'Min',
         );
 
         next PACKAGE if $VersionCheck;
@@ -2442,10 +2442,10 @@ sub _CheckModuleRequired {
 
             # check version
             my $Ok = $Self->_CheckVersion(
-                Version1        => $Module->{Version},
-                Version2        => $InstalledVersion,
-                Type            => 'Min',
-                ExternalPackage => 1,
+                VersionNew       => $Module->{Version},
+                VersionInstalled => $InstalledVersion,
+                Type             => 'Min',
+                ExternalPackage  => 1,
             );
 
             if ( !$Ok ) {
@@ -2848,6 +2848,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.132 $ $Date: 2012-08-07 19:57:52 $
+$Revision: 1.133 $ $Date: 2012-08-07 20:17:24 $
 
 =cut

@@ -2,7 +2,7 @@
 # Package.t - Package tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Package.t,v 1.38 2012-05-08 12:40:07 mg Exp $
+# $Id: Package.t,v 1.39 2012-08-07 20:17:24 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -653,79 +653,79 @@ $Self->True(
 # #8 version check
 my @Tests = (
     {
-        Version1 => '1.0.1',
-        Version2 => '1.0.2',
-        Type     => 'Min',
-        Result   => 1,
+        VersionNew       => '1.0.1',
+        VersionInstalled => '1.0.2',
+        Type             => 'Min',
+        Result           => 1,
     },
     {
-        Version1 => '1.0.2',
-        Version2 => '1.0.1',
-        Type     => 'Min',
-        Result   => 0,
+        VersionNew       => '1.0.2',
+        VersionInstalled => '1.0.1',
+        Type             => 'Min',
+        Result           => 0,
     },
     {
-        Version1 => '1.0.2',
-        Version2 => '1.0.1',
-        Type     => 'Max',
-        Result   => 1,
+        VersionNew       => '1.0.2',
+        VersionInstalled => '1.0.1',
+        Type             => 'Max',
+        Result           => 1,
     },
     {
-        Version1 => '1.0.1',
-        Version2 => '1.0.2',
-        Type     => 'Max',
-        Result   => 0,
+        VersionNew       => '1.0.1',
+        VersionInstalled => '1.0.2',
+        Type             => 'Max',
+        Result           => 0,
     },
     {
-        Version1 => '1.0',
-        Version2 => '1.0.2',
-        Type     => 'Max',
-        Result   => 0,
+        VersionNew       => '1.0',
+        VersionInstalled => '1.0.2',
+        Type             => 'Max',
+        Result           => 0,
     },
     {
-        Version1 => '1.1',
-        Version2 => '1.5.2.1',
-        Type     => 'Max',
-        Result   => 0,
+        VersionNew       => '1.1',
+        VersionInstalled => '1.5.2.1',
+        Type             => 'Max',
+        Result           => 0,
     },
     {
-        Version1 => '1.0.2',
-        Version2 => '1.0',
-        Type     => 'Min',
-        Result   => 0,
+        VersionNew       => '1.0.2',
+        VersionInstalled => '1.0',
+        Type             => 'Min',
+        Result           => 0,
     },
     {
-        Version1 => '1.0.99.1',
-        Version2 => '1.0.9',
-        Type     => 'Min',
-        Result   => 0,
+        VersionNew       => '1.0.99.1',
+        VersionInstalled => '1.0.9',
+        Type             => 'Min',
+        Result           => 0,
     },
     {
-        Version1 => '1.0.9.1',
-        Version2 => '1.0.99',
-        Type     => 'Min',
-        Result   => 1,
+        VersionNew       => '1.0.9.1',
+        VersionInstalled => '1.0.99',
+        Type             => 'Min',
+        Result           => 1,
     },
     {
-        Version1 => '1.0.9.1',
-        Version2 => '1',
-        Type     => 'Min',
-        Result   => 0,
+        VersionNew       => '1.0.9.1',
+        VersionInstalled => '1',
+        Type             => 'Min',
+        Result           => 0,
     },
     {
-        Version1 => '1.0.9.1',
-        Version2 => '1',
-        Type     => 'Max',
-        Result   => 1,
+        VersionNew       => '1.0.9.1',
+        VersionInstalled => '1',
+        Type             => 'Max',
+        Result           => 1,
     },
 );
 for my $Test (@Tests) {
     my $VersionCheck = $PackageObject->_CheckVersion(
-        Version1 => $Test->{Version1},
-        Version2 => $Test->{Version2},
-        Type     => $Test->{Type},
+        VersionNew       => $Test->{VersionNew},
+        VersionInstalled => $Test->{VersionInstalled},
+        Type             => $Test->{Type},
     );
-    my $Name = "#8 _CheckVersion() - $Test->{Type} ($Test->{Version1}:$Test->{Version2})";
+    my $Name = "#8 _CheckVersion() - $Test->{Type} ($Test->{VersionNew}:$Test->{VersionInstalled})";
     if ( $Test->{Result} ) {
         $Self->True(
             $VersionCheck,
