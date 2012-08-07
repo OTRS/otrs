@@ -2,7 +2,7 @@
 // Core.Agent.Admin.ProcessManagement.Canvas.js - provides the special module functions for the Process Management Diagram Canvas.
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.ProcessManagement.Canvas.js,v 1.26 2012-08-06 15:10:47 mab Exp $
+// $Id: Core.Agent.Admin.ProcessManagement.Canvas.js,v 1.27 2012-08-07 11:43:26 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -538,7 +538,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
                 TargetNS.CreateActivity(Key, Config.Activity[Key].Name, Config.Activity[Key].ID, Layout[Key].left, Layout[Key].top);
             }
             else {
-                console.log('Error: Activity without Layout Position!');
+                Core.Exception.Throw('Error: Activity without Layout Position!', 'ProcessError');
             }
         });
         
@@ -580,6 +580,19 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
     TargetNS.Redraw = function () {
         $('#Canvas').empty();
         TargetNS.Init();
+    };
+    
+    TargetNS.Extend = function (CanvasSize) {
+        var CanvasWidth,
+            CanvasHeight;
+        
+        if (typeof CanvasSize !== 'undefined') {
+            
+            CanvasWidth = Joint.paper().width + parseInt(CanvasSize.Width, 10);
+            CanvasHeight = Joint.paper().height + parseInt(CanvasSize.Height, 10);
+        
+            Joint.paper().setSize(CanvasWidth, CanvasHeight);
+        }
     };
     
     TargetNS.Init = function () {

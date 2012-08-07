@@ -2,7 +2,7 @@
 // Core.Agent.Admin.ProcessManagement.js - provides the special module functions for the Process Management.
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.34 2012-08-07 11:34:28 mab Exp $
+// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.35 2012-08-07 11:43:26 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -266,7 +266,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
                 }
             }
             else {
-                console.log('Error: Entity not defined');
+                Core.Exception.Throw('Error: Entity not defined!', 'ProcessError');
             }
         }
         
@@ -340,7 +340,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
                 }
             }
             else {
-                console.log('Error: Entity not defined');
+                Core.Exception.Throw('Error: Entity not defined!', 'ProcessError');
             }
         }
         
@@ -385,7 +385,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
                 }
             }
             else {
-                console.log('Error: Entity not defined');
+                Core.Exception.Throw('Error: Entity not defined!', 'ProcessError');
             }
         }
         
@@ -419,7 +419,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
                 }
             }
             else {
-                console.log('Error: Entity not defined');
+                Core.Exception.Throw('Error: Entity not defined!', 'ProcessError');
             }
         }
         
@@ -485,7 +485,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
                     AddTransitionActionToCanvas(Event, UI);
                 }
                 else {
-                    console.log('Error: No matching droppable found');
+                    Core.Exception.Throw('Error: No matching droppable found', 'ProcessError');
                 }
             }
         });
@@ -577,6 +577,23 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
             $('input[name=StartActivityDialog]').val(TargetNS.ProcessData.Process[ProcessEntityID].StartActivityDialog);
 
             $('#ProcessForm').submit();
+            return false;
+        });
+        
+        // Init Canvas Resizing Functions
+        $('#ExtendCanvasHeight').bind('click', function () {
+            TargetNS.Canvas.Extend({
+                Width: 0,
+                Height: 150
+            });
+            return false;
+        });
+
+        $('#ExtendCanvasWidth').bind('click', function () {
+            TargetNS.Canvas.Extend({
+                Width: 150,
+                Height: 0
+            });
             return false;
         });
         
