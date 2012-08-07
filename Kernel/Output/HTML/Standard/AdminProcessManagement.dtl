@@ -2,7 +2,7 @@
 # AdminProcessManagement.dtl - provides HTML for AdminProcessManagement
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagement.dtl,v 1.5 2012-07-17 21:58:43 cr Exp $
+# $Id: AdminProcessManagement.dtl,v 1.6 2012-08-07 11:45:05 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -29,9 +29,6 @@
                 <ul class="ActionList">
                     <li>
                         <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=ProcessNew" class="CallForAction Plus"><span>$Text{"Create New Process"}</span></a>
-                    </li>
-                    <li>
-                        <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="CallForAction Plus"><span>$Text{"Import New Process from XPDL"}</span></a>
                     </li>
                     <li>
                         <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="CallForAction Plus"><span>$Text{"Import Process from Configuration"}</span></a>
