@@ -2,7 +2,7 @@
 # AdminProcessManagementPath.dtl - provides HTML for AdminProcessManagementPath
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementPath.dtl,v 1.1 2012-08-06 15:10:46 mab Exp $
+# $Id: AdminProcessManagementPath.dtl,v 1.2 2012-08-07 11:34:12 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -125,9 +125,8 @@
 </div>
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
-Core.Agent.Admin.ProcessManagement.CurrentPath                    = {};
-Core.Agent.Admin.ProcessManagement.CurrentPath.TransitionEntityID = "$Data{"TransitionEntityID"}";
-Core.Agent.Admin.ProcessManagement.CurrentPath.ProcessEntityID    = "$Data{"ProcessEntityID"}";
+    Core.Config.Set('Config.TransitionEntityID', "$Data{"TransitionEntityID"}" );
+    Core.Config.Set('Config.ProcessEntityID', "$Data{"ProcessEntityID"}" );
 //]]></script>
 <!--dtl:js_on_document_complete-->
 

@@ -2,7 +2,7 @@
 // Core.Agent.Admin.ProcessManagement.js - provides the special module functions for the Process Management.
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.33 2012-08-07 11:06:48 mab Exp $
+// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.34 2012-08-07 11:34:28 mab Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -733,9 +733,8 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
         
         // Initialize Allocation List
         Core.UI.AllocationList.Init("#AvailableTransitionActions, #AssignedTransitionActions", ".AllocationList");
-        
-        var CurrentProcessEntityID = Core.Agent.Admin.ProcessManagement.CurrentPath.ProcessEntityID,
-            CurrentTransitionEntityID = Core.Agent.Admin.ProcessManagement.CurrentPath.TransitionEntityID,
+        var CurrentProcessEntityID = Core.Config.Get('Config.ProcessEntityID'),
+            CurrentTransitionEntityID = Core.Config.Get('Config.TransitionEntityID'),
             ActivityInfo = window.opener.Core.Agent.Admin.ProcessManagement.ProcessData.Activity,
             PathInfo = window.opener.Core.Agent.Admin.ProcessManagement.ProcessData.Process[CurrentProcessEntityID].Path,
             StartActivity = '',
