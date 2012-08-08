@@ -2,7 +2,7 @@
 # TicketSearch.t - GenericInterface transport interface tests for TicketConnector backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketSearch.t,v 1.21 2012-08-06 17:32:57 cg Exp $
+# $Id: TicketSearch.t,v 1.22 2012-08-08 17:03:49 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -1183,6 +1183,8 @@ my @Tests = (
         RequestData    => {
             TicketCreateTimeNewerDate =>
                 $TimeObject->SystemTime2TimeStamp( SystemTime => $StartTime ),
+            SortBy  => 'Ticket',    # force order, because the Age (default) can be the same
+            OrderBy => 'Down',
         },
         ExpectedReturnLocalData => {
             Data => {
@@ -1203,7 +1205,9 @@ my @Tests = (
         SuccessRequest => 1,
         RequestData    => {
             TicketCreateTimeNewerDate =>
-                $TimeObject->SystemTime2TimeStamp( SystemTime => $TimeObject->SystemTime() ),
+                $TimeObject->SystemTime2TimeStamp( SystemTime => $TimeObject->SystemTime() + 1 ),
+            SortBy  => 'Ticket',    # force order, because the Age (default) can be the same
+            OrderBy => 'Down',
         },
         ExpectedReturnLocalData => {
             Data    => {},
