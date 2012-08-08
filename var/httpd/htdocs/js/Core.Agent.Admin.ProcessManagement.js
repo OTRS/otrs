@@ -2,7 +2,7 @@
 // Core.Agent.Admin.ProcessManagement.js - provides the special module functions for the Process Management.
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.35 2012-08-07 11:43:26 mn Exp $
+// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.36 2012-08-08 16:35:34 mab Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -754,24 +754,35 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
             CurrentTransitionEntityID = Core.Config.Get('Config.TransitionEntityID'),
             ActivityInfo = window.opener.Core.Agent.Admin.ProcessManagement.ProcessData.Activity,
             PathInfo = window.opener.Core.Agent.Admin.ProcessManagement.ProcessData.Process[CurrentProcessEntityID].Path,
-            StartActivity = '',
-            EndActivity = '',
-            AssignedTransitionActions = [];
+            StartActivityEntityID = '', EndActivityEntityID = '',
+            AssignedTransitionActions = [],
+            OldTransitionEntityID = '',
+            OldTransitionActions  = [];
 
-        // set current start and end activity (just for information purposes, not changable)
+        // store process data to hidden field for later merging
+        $('#ProcessData').val(Core.JSON.Stringify(window.opener.Core.Agent.Admin.ProcessManagement.ProcessData.Process));
+
+        // set current start and end activity (just for information purposes, not changeable)
         $.each(PathInfo, function(Activity, Transition) {
-           if (Transition[CurrentTransitionEntityID] !== undefined ) {
-               StartActivity = ActivityInfo[Activity].Name;
-               EndActivity   = ActivityInfo[Transition[CurrentTransitionEntityID].ActivityID].Name;
-               AssignedTransitionActions = Transition[CurrentTransitionEntityID].Action;
-               return false;
+           if ( Transition[CurrentTransitionEntityID] !== undefined ) {
+               
+                $('#StartActivity').val(ActivityInfo[Activity].Name);
+                $('#EndActivity').val(ActivityInfo[Transition[CurrentTransitionEntityID].ActivityID].Name);
+
+                StartActivityEntityID     = Activity;
+                EndActivityEntityID       = Transition[CurrentTransitionEntityID].ActivityID;
+                AssignedTransitionActions = Transition[CurrentTransitionEntityID].Action;
+
+                // save "old" transition hash for later comparison
+                OldTransitionEntityID = CurrentTransitionEntityID;
+                OldTransitionActions  = AssignedTransitionActions;
+
+                return false;
            }
         });
 
         // Set chosen Startactivity, Endactivity and Transition
         $('#Transition').val(CurrentTransitionEntityID);
-        $('#StartActivity').val(StartActivity);
-        $('#EndActivity').val(EndActivity);
         
         if (AssignedTransitionActions && AssignedTransitionActions.length) {
         
@@ -780,6 +791,55 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
                 $('#AvailableTransitionActions').find('#' + TransitionActionEntityID).remove().appendTo($('#AssignedTransitionActions'));
             });
         }
+        
+        // On submit, pass the new config to parent window 
+        $('#Submit').bind('click', function (Event) {
+            
+            var NewTransitionEntityID = $('#Transition').val(),
+                NewTransitionActions  = [];
+            
+            $('#AssignedTransitionActions li').each(function() {
+                NewTransitionActions.push($(this).attr('id'));    
+            });
+            
+            if (!OldTransitionActions) {
+                OldTransitionActions = [];
+            }
+            
+            // collection transition info for later merging
+            var TransitionInfo = {
+                StartActivityEntityID  : StartActivityEntityID,
+                NewTransitionEntityID  : NewTransitionEntityID,
+                NewTransitionActions   : NewTransitionActions,
+                NewTransitionActivityID: EndActivityEntityID
+            };
+
+            var SomethingHasChanged = 0;
+            if (OldTransitionEntityID !== NewTransitionEntityID) {
+                SomethingHasChanged = 1;
+            }
+            if (Core.JSON.Stringify(OldTransitionActions) !== Core.JSON.Stringify(NewTransitionActions)) {
+                SomethingHasChanged = 1;
+            }
+
+            // if something has changed (either transition or assigned transition actions),
+            // collect path information and submit the form; otherwise just close the popup
+            if (SomethingHasChanged) {
+                
+                $('#TransitionInfo').val(Core.JSON.Stringify(TransitionInfo));
+                $('#PathForm').submit();
+            }
+            else {
+                
+                // remove overlay
+                window.opener.Core.Agent.Admin.ProcessManagement.HideOverlay();
+                
+                // close popup
+                window.close();
+            }
+            
+            return false;
+        });
         
         // Init popups
         InitProcessPopups();

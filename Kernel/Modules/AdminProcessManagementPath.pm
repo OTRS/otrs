@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminProcessManagementPath.pm - process management activity
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementPath.pm,v 1.1 2012-08-06 15:10:47 mab Exp $
+# $Id: AdminProcessManagementPath.pm,v 1.2 2012-08-08 16:35:34 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,7 +26,7 @@ use Kernel::System::ProcessManagement::DB::TransitionAction;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -91,14 +91,7 @@ sub Run {
     }
 
     # ------------------------------------------------------------ #
-    # ActivityNewAction
-    # ------------------------------------------------------------ #
-    elsif ( $Self->{Subaction} eq 'PathNewAction' ) {
-
-    }
-
-    # ------------------------------------------------------------ #
-    # ActivityEdit
+    # PathEdit
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'PathEdit' ) {
 
@@ -119,9 +112,115 @@ sub Run {
     }
 
     # ------------------------------------------------------------ #
-    # ActvityEditAction
+    # PathEditAction
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'PathEditAction' ) {
+
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
+
+        my $TransferData;
+
+        # get parameter from web browser
+        my $GetParam = $Self->_GetParams;
+
+        # merge changed data into process config
+
+        $TransferData->{ProcessEntityID}    = $GetParam->{ProcessEntityID};
+        $TransferData->{TransitionEntityID} = $GetParam->{TransitionEntityID};
+        $TransferData->{ProcessData}        = $GetParam->{ProcessData};
+        $TransferData->{TransitionInfo}     = $GetParam->{TransitionInfo};
+
+        # show error if can't update
+        if (
+            !$TransferData->{ProcessEntityID}
+            || !$TransferData->{TransitionEntityID}
+            || !$TransferData->{ProcessData}
+            || !$TransferData->{TransitionInfo}
+            )
+        {
+            return $Self->{LayoutObject}->ErrorScreen(
+                Message => "There has been a problem transferring the needed parameters",
+            );
+        }
+
+        my $ProcessData = $Self->{JSONObject}->Decode( Data => $TransferData->{ProcessData} );
+        my $DataToMerge = $Self->{JSONObject}->Decode( Data => $TransferData->{TransitionInfo} );
+
+        # delete the "old" transition key from path hash
+        delete $ProcessData->{ $TransferData->{ProcessEntityID} }->{Path}
+            ->{ $DataToMerge->{StartActivityEntityID} }->{ $TransferData->{TransitionEntityID} };
+
+        # insert the "new" transition entry into path hash
+        $ProcessData->{ $TransferData->{ProcessEntityID} }->{Path}
+            ->{ $DataToMerge->{StartActivityEntityID} }->{ $DataToMerge->{NewTransitionEntityID} }
+            = {
+            Action     => $DataToMerge->{NewTransitionActions},
+            ActivityID => $DataToMerge->{NewTransitionActivityID},
+            };
+
+=cut
+        # remove this screen from session screen path
+        $Self->_PopSessionScreen( OnlyCurrent => 1 );
+
+        my $Redirect = $Self->{ParamObject}->GetParam( Param => 'PopupRedirect' ) || '';
+
+        my $ConfigJSON = $Self->{LayoutObject}->JSONEncode( Data => $TransitionConfig );
+
+        # check if needed to open another window or if popup should go back
+        if ( $Redirect && $Redirect eq '1' ) {
+
+            $Self->_PushSessionScreen(
+                ID        => $TransitionID,
+                EntityID  => $TransitionData->{EntityID},
+                Subaction => 'TransitionEdit'               # always use edit screen
+            );
+
+            my $RedirectAction
+                = $Self->{ParamObject}->GetParam( Param => 'PopupRedirectAction' ) || '';
+            my $RedirectSubaction
+                = $Self->{ParamObject}->GetParam( Param => 'PopupRedirectSubaction' ) || '';
+            my $RedirectID = $Self->{ParamObject}->GetParam( Param => 'PopupRedirectID' ) || '';
+            my $RedirectEntityID
+                = $Self->{ParamObject}->GetParam( Param => 'PopupRedirectEntityID' ) || '';
+
+            # redirect to another popup window
+            return $Self->_PopupResponse(
+                Redirect => 1,
+                Screen   => {
+                    Action    => $RedirectAction,
+                    Subaction => $RedirectSubaction,
+                    ID        => $RedirectID,
+                    EntityID  => $RedirectID,
+                },
+                ConfigJSON => $ConfigJSON,
+            );
+        }
+        else {
+
+            # remove last screen
+            my $LastScreen = $Self->_PopSessionScreen();
+
+            # check if needed to return to main screen or to be redirected to last screen
+            if ( $LastScreen->{Action} eq 'AdminProcessManagement' ) {
+
+                # close the popup
+                return $Self->_PopupResponse(
+                    ClosePopup => 1,
+                    ConfigJSON => $ConfigJSON,
+                );
+            }
+            else {
+
+                # redirect to last screen
+                return $Self->_PopupResponse(
+                    Redirect   => 1,
+                    Screen     => $LastScreen,
+                    ConfigJSON => $ConfigJSON,
+                );
+            }
+        }
+=cut
 
     }
 
@@ -176,83 +275,36 @@ sub _ShowEdit {
             = $TransitionActionConfig;
     }
 
-    if ( defined $Param{Action} && $Param{Action} eq 'Edit' ) {
+    # collect possible transitions and build selection
+    my %TransitionList;
+    for my $Transition ( @{ $Self->{TransitionList} } ) {
+        $TransitionList{ $Transition->{EntityID} } = $Transition->{Name};
+    }
 
-        # collect possible transitions and build selection
-        my %TransitionList;
-        for my $Transition ( @{ $Self->{TransitionList} } ) {
-            $TransitionList{ $Transition->{EntityID} } = $Transition->{Name};
-        }
+    $Param{Transition} = $Self->{LayoutObject}->BuildSelection(
+        Data        => \%TransitionList,
+        Name        => "Transition",
+        ID          => "Transition",
+        Sort        => 'AlphanumericKey',
+        Translation => 1,
+        Class       => 'W50pc',
+    );
 
-        $Param{Transition} = $Self->{LayoutObject}->BuildSelection(
-            Data        => \%TransitionList,
-            Name        => "Transition",
-            ID          => "Transition",
-            Sort        => 'AlphanumericKey',
-            Translation => 1,
-            Class       => 'W50pc',
+    # display available activity dialogs
+    for my $EntityID ( sort keys %AvailableTransitionActionsLookup ) {
+
+        my $TransitionActionData = $AvailableTransitionActionsLookup{$EntityID};
+
+        $Self->{LayoutObject}->Block(
+            Name => 'AvailableTransitionActionRow',
+            Data => {
+                ID       => $TransitionActionData->{ID},
+                EntityID => $TransitionActionData->{EntityID},
+                Name     => $TransitionActionData->{Name},
+            },
         );
-
-        # get used activity dialogs in activity
-        my %AssignedTransitionActions;
-
-=cut
-        if ( IsHashRefWithData( $ActivityData->{Config}->{ActivityDialog} ) ) {
-            ACTIVITYDIALOG:
-            for my $Order ( keys %{ $ActivityData->{Config}->{ActivityDialog} } ) {
-                next ACTIVITYDIALOG if !$Order;
-                my $EntityID = $ActivityData->{Config}->{ActivityDialog}->{$Order};
-                next ACTIVITYDIALOG if !$ActivityData->{Config}->{ActivityDialog}->{$Order};
-
-                $AssignedActivityDialogs{$EntityID} = $AvailableActivityDialogsLookup{$EntityID};
-            }
-        }
-
-        # remove used activity dialogs from available list
-        for my $EntityID ( keys %AssignedActivityDialogs ) {
-            delete $AvailableActivityDialogsLookup{$EntityID};
-        }
-=cut
-
-        # display available activity dialogs
-        for my $EntityID ( sort keys %AvailableTransitionActionsLookup ) {
-
-            my $TransitionActionData = $AvailableTransitionActionsLookup{$EntityID};
-
-            $Self->{LayoutObject}->Block(
-                Name => 'AvailableTransitionActionRow',
-                Data => {
-                    ID       => $TransitionActionData->{ID},
-                    EntityID => $TransitionActionData->{EntityID},
-                    Name     => $TransitionActionData->{Name},
-                },
-            );
-        }
-
-=cut
-        # display used activity dialogs
-        for my $Order ( sort { $a <=> $b } keys %{ $ActivityData->{Config}->{ActivityDialog} } ) {
-
-            my $ActivityDialogData
-                = $AssignedActivityDialogs{ $ActivityData->{Config}->{ActivityDialog}->{$Order} };
-
-            $Self->{LayoutObject}->Block(
-                Name => 'AssignedActivityDialogRow',
-                Data => {
-                    ID       => $ActivityDialogData->{ID},
-                    EntityID => $ActivityDialogData->{EntityID},
-                    Name     => $ActivityDialogData->{Name},
-                },
-            );
-        }
-=cut
-
-        $Param{Title} = "Edit Path";
     }
-    else {
-
-        $Param{Title} = 'Create New Path';
-    }
+    $Param{Title} = "Edit Path";
 
     my $Output = $Self->{LayoutObject}->Header(
         Value => $Param{Title},
@@ -276,11 +328,12 @@ sub _GetParams {
     my $GetParam;
 
     # get parameters from web browser
-    $GetParam->{ProcessEntityID} = $Self->{ParamObject}->GetParam( Param => 'ProcessEntityID' )
-        || '';
-    $GetParam->{TransitionEntityID}
-        = $Self->{ParamObject}->GetParam( Param => 'TransitionEntityID' )
-        || '';
+    for my $ParamName (
+        qw( ProcessData TransitionInfo ProcessEntityID TransitionEntityID )
+        )
+    {
+        $GetParam->{$ParamName} = $Self->{ParamObject}->GetParam( Param => $ParamName ) || '';
+    }
 
     return $GetParam;
 }

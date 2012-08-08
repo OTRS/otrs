@@ -2,7 +2,7 @@
 # AdminProcessManagementPath.dtl - provides HTML for AdminProcessManagementPath
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementPath.dtl,v 1.2 2012-08-07 11:34:12 mab Exp $
+# $Id: AdminProcessManagementPath.dtl,v 1.3 2012-08-08 16:35:34 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,11 @@
         <div class="ContentColumn">
             <form id="PathForm" action="$Env{"CGIHandle"}" method="post" class="Validate PreventMultipleSubmits">
                 <input type="hidden" name="Action" value="$Env{"Action"}"/>
-                <input type="hidden" name="Subaction" value="Activity$QData{"Action"}Action"/>
+                <input type="hidden" name="Subaction" value="Path$QData{"Action"}Action"/>
+                <input type="hidden" name="ProcessEntityID" value="$Data{"ProcessEntityID"}" id="ProcessEntityID"/>
+                <input type="hidden" name="TransitionEntityID" value="$Data{"TransitionEntityID"}" id="TransitionEntityID"/>
+                <input type="hidden" name="ProcessData" value="" id="ProcessData"/>
+                <input type="hidden" name="TransitionInfo" value="" id="TransitionInfo"/>
                 <input type="hidden" name="PopupRedirect" value="" id="PopupRedirect"/>
                 <input type="hidden" name="PopupRedirectAction" value="" id="PopupRedirectAction"/>
                 <input type="hidden" name="PopupRedirectSubaction" value="" id="PopupRedirectSubaction"/>
@@ -45,12 +49,12 @@
                         <fieldset class="TableLike">
                             <label class="Mandatory" for="Name">$Text{"Start Activity"}:</label>
                             <div class="Field">
-                                <input type="text" name="StartActivity" id="StartActivity" readonly="readonly" disabled="disabled" value="$QData{"Name"}" class="W50pc Validate_Required $QData{"NameServerError"}" maxlength="70"/>
+                                <input type="text" name="StartActivity" id="StartActivity" readonly="readonly" value="" class="W50pc Validate_Required $QData{"NameServerError"}" maxlength="70"/>
                             </div>
                             <div class="Clear"></div>
                             <label class="Mandatory" for="Name">$Text{"End Activity"}:</label>
                             <div class="Field">
-                                <input type="text" name="EndActivity" id="EndActivity" readonly="readonly" disabled="disabled" value="$QData{"Name"}" class="W50pc Validate_Required $QData{"NameServerError"}" maxlength="70"/>
+                                <input type="text" name="EndActivity" id="EndActivity" readonly="readonly" value="" class="W50pc Validate_Required $QData{"NameServerError"}" maxlength="70"/>
                             </div>
                             <div class="Clear"></div>
                             <label class="Mandatory" for="Name"><span class="Marker">*</span> $Text{"Transition"}:</label>
