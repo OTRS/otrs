@@ -2,7 +2,7 @@
 # SearchProfile.t - SearchProfile tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: SearchProfile.t,v 1.3 2012-07-27 12:57:06 cg Exp $
+# $Id: SearchProfile.t,v 1.4 2012-08-09 16:32:07 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -88,20 +88,20 @@ my @Tests = (
 
     # the current function returns 1 if not Value is defined
     # it should be changed
+    #    {
+    #        Name       => 'Test ' . $TestNumber++,
+    #        SuccessAdd => 1,
+    #        Add        => {
+    #            Base      => $Base,
+    #            Name      => 'last-search' . $RandomID,
+    #            Key       => 'Body',
+    #            Value     => '',                          # SCALAR|ARRAYREF
+    #            UserLogin => $UserID,
+    #        },
+    #    },
     {
         Name       => 'Test ' . $TestNumber++,
         SuccessAdd => 1,
-        Add        => {
-            Base      => $Base,
-            Name      => 'last-search' . $RandomID,
-            Key       => 'Body',
-            Value     => '',                          # SCALAR|ARRAYREF
-            UserLogin => $UserID,
-        },
-    },
-    {
-        Name       => 'Test ' . $TestNumber++,
-        SuccessAdd => $IsNotOracle,
         Add        => {
             Base      => $Base,
             Name      => 'last-search' . $RandomID,
