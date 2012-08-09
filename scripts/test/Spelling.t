@@ -2,7 +2,7 @@
 # Spelling.t - Authentication tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Spelling.t,v 1.9 2012-08-08 21:02:42 cg Exp $
+# $Id: Spelling.t,v 1.10 2012-08-09 15:08:01 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -141,7 +141,7 @@ for my $Test (@Tests) {
     );
 
     # temporal workaround for not installed language issue
-    if ( !defined \%SpellCheck ) {
+    if ( !%SpellCheck ) {
         $Self->True(
             1,
             "$Test->{Name} - Spelling -Seems like language file was not found!",
