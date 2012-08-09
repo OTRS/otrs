@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.11 $
+ * @version     $Revision: 1.12 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -187,5 +187,17 @@ ul#ProcessElements li.AccordionElement div.Content .ProcessElementButton {
 div.AJAXWaiting {
     margin-top:300px; /* TODO Need real vertical center, please fix */
 }
+
+/**
+ * @subsubsection     AllocationList
+ */    
+
+#AvailableFields .ShowOnAssignedList {
+    display: none;
+}    
+    
+#AssignedFields .ShowOnAssignedList {
+    display: inline;
+}    
     
 }/* end @media */

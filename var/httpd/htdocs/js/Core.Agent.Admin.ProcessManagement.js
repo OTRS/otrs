@@ -2,7 +2,7 @@
 // Core.Agent.Admin.ProcessManagement.js - provides the special module functions for the Process Management.
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.36 2012-08-08 16:35:34 mab Exp $
+// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.37 2012-08-09 14:40:06 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -619,20 +619,93 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
     };
 
     TargetNS.InitActivityDialogEdit = function () {
+        function RemoveFieldDetails(Event, UI) {
+            // only do something, if the element was removed from the AssignedFields list
+            if (UI.sender.attr('id') === 'AssignedFields') {
+                $(UI.item)
+                    .removeData('config')
+                    .removeAttr('data-config');
+            }
+        }
+        
         // Initialize Allocation List
-        Core.UI.AllocationList.Init("#AvailableFields, #AssignedFields", ".AllocationList");
+        Core.UI.AllocationList.Init("#AvailableFields, #AssignedFields", ".AllocationList", RemoveFieldDetails);
         
         $('#Submit').bind('click', function (Event) {
+            var FieldConfig = Core.UI.AllocationList.GetResult('#AssignedFields', 'id'),
+                FieldDetails = {};
+            
+            // get FieldDetails and add them to config
+            $('#AssignedFields').find('li').each(function () {
+                var Details = Core.JSON.Parse($(this).data('config')),
+                    Field = $(this).data('id');
+                
+                FieldDetails[Field] = Details;
+            });
+            
             // get assigned activity dialogs
-            $('input[name=Fields]').val(Core.JSON.Stringify(Core.UI.AllocationList.GetResult('#AssignedFields', 'id')));
+            $('input[name=Fields]').val(Core.JSON.Stringify(FieldConfig));
+            $('input[name=FieldDetails]').val(Core.JSON.Stringify(FieldDetails));
 
             $('#ActivityDialogForm').submit();
             return false;
         });
 
-        // Init popups
-        // TODO create field details popup and re-enable
-        // InitProcessPopups();
+        // Init Fields modal overlay
+        $('.FieldDetailsOverlay').unbind('click').bind('click', function () {
+            var FieldID = $(this).data('entity'),
+                FieldConfig = $(this).closest('li').data('config'),
+                $Element = $(this);
+            
+            if (typeof FieldConfig === 'string') {
+                FieldConfig = Core.JSON.Parse(FieldConfig);
+            }
+            
+            // Set field values
+            $('#DialogFieldName').text($(this).closest('li').clone().find('span').remove().end().text());
+            
+            // Open dialog
+            Core.UI.Dialog.ShowContentDialog(
+                $('#Dialogs #FieldDetails'),
+                TargetNS.Localization.DialogTitle,
+                '100px',
+                'Center',
+                true,
+                [
+                     {
+                         Label: TargetNS.Localization.SaveMsg,
+                         Class: 'Primary',
+                         Function: function () {
+                             var FieldConfig = {};
+                             
+                             FieldConfig.DescShort = $('#DescShort').val();
+                             FieldConfig.DescLong = $('#DescLong').val();
+                             FieldConfig.DefaultValue = $('#DefaultValue').val();
+                             FieldConfig.Display = $('#Display').val();
+                             
+                             $Element.closest('li').data('config', Core.JSON.Stringify(FieldConfig));
+                             
+                             Core.UI.Dialog.CloseDialog($('.Dialog'));
+                         }
+                     },
+                     {
+                         Label: TargetNS.Localization.CancelMsg,
+                         Function: function () {
+                             Core.UI.Dialog.CloseDialog($('.Dialog'));
+                         }
+                     }
+                ]
+            );
+            
+            if (typeof FieldConfig !== 'undefined') {
+                $('#DescShort').val(FieldConfig.DescShort);
+                $('#DescLong').val(FieldConfig.DescLong);
+                $('#DefaultValue').val(FieldConfig.DefaultValue);
+                $('#Display').val(FieldConfig.Display);
+            }
+
+            return false;
+        });
     };
     
     TargetNS.InitTransitionEdit = function () {

@@ -2,7 +2,7 @@
 // Core.UI.AllocationList.js - provides functionality for allocation lists
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.UI.AllocationList.js,v 1.3 2012-07-27 10:39:48 mn Exp $
+// $Id: Core.UI.AllocationList.js,v 1.4 2012-08-09 14:40:06 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -61,9 +61,13 @@ Core.UI.AllocationList = (function (TargetNS) {
      *      The selector for the lists to initialize
      * @param {String} ConnectorSelector
      *      The selector for the connection (dnd), probably a class
+     * @param {Function} ReceiveCallback
+     *      The Callback which is called if a list receives an element
+     * @param {Function} RemoveCallback
+     *      The Callback which is called if an element is removed from a list
      * @return nothing
      */
-    TargetNS.Init = function (ListSelector, ConnectorSelector) {
+    TargetNS.Init = function (ListSelector, ConnectorSelector, ReceiveCallback, RemoveCallback) {
         var $Lists = $(ListSelector);
         
         if (!$Lists.length) {
@@ -73,7 +77,17 @@ Core.UI.AllocationList = (function (TargetNS) {
         $Lists
             .find('li').removeClass('Even').end()    
             .sortable({
-                connectWith: ConnectorSelector
+                connectWith: ConnectorSelector,
+                receive: function (Event, UI) {
+                    if ($.isFunction(ReceiveCallback)) {
+                        ReceiveCallback(Event, UI);
+                    }
+                },
+                remove: function (Event, UI) {
+                    if ($.isFunction(RemoveCallback)) {
+                        RemoveCallback(Event, UI);
+                    }
+                }
             }).disableSelection();
     };
 

@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminProcessManagementActivityDialog.pm - process management activity
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementActivityDialog.pm,v 1.12 2012-07-30 10:35:51 mn Exp $
+# $Id: AdminProcessManagementActivityDialog.pm,v 1.13 2012-08-09 14:40:06 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,12 +17,13 @@ use warnings;
 use Kernel::System::JSON;
 use Kernel::System::DynamicField;
 use Kernel::System::ProcessManagement::DB::Entity;
+use Kernel::System::ProcessManagement::DB::Process;
 use Kernel::System::ProcessManagement::DB::ActivityDialog;
 
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -45,6 +46,8 @@ sub new {
     $Self->{JSONObject}         = Kernel::System::JSON->new( %{$Self} );
     $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new( %{$Self} );
     $Self->{EntityObject}       = Kernel::System::ProcessManagement::DB::Entity->new( %{$Self} );
+    $Self->{ProcessObject}
+        = Kernel::System::ProcessManagement::DB::Process->new( %{$Self} );
     $Self->{ActivityDialogObject}
         = Kernel::System::ProcessManagement::DB::ActivityDialog->new( %{$Self} );
 
@@ -145,6 +148,18 @@ sub Run {
 
                 # set field order array
                 push @{ $ActivityDialogData->{Config}->{FieldOrder} }, $FieldName;
+            }
+        }
+
+        # add field detail config to fields
+        if ( IsHashRefWithData( $GetParam->{FieldDetails} ) ) {
+            FIELDDETAIL:
+            for my $FieldDetail ( keys %{ $GetParam->{FieldDetails} } ) {
+                next FIELDDETAIL if !$FieldDetail;
+                next FIELDDETAIL if !$ActivityDialogData->{Config}->{Fields}->{$FieldDetail};
+
+                $ActivityDialogData->{Config}->{Fields}->{$FieldDetail}
+                    = $GetParam->{FieldDetails}->{$FieldDetail};
             }
         }
 
@@ -373,6 +388,18 @@ sub Run {
 
                 # set field order array
                 push @{ $ActivityDialogData->{Config}->{FieldOrder} }, $FieldName;
+            }
+        }
+
+        # add field detail config to fields
+        if ( IsHashRefWithData( $GetParam->{FieldDetails} ) ) {
+            FIELDDETAIL:
+            for my $FieldDetail ( keys %{ $GetParam->{FieldDetails} } ) {
+                next FIELDDETAIL if !$FieldDetail;
+                next FIELDDETAIL if !$ActivityDialogData->{Config}->{Fields}->{$FieldDetail};
+
+                $ActivityDialogData->{Config}->{Fields}->{$FieldDetail}
+                    = $GetParam->{FieldDetails}->{$FieldDetail};
             }
         }
 
@@ -608,10 +635,18 @@ sub _ShowEdit {
 
         # display used fields
         for my $Field ( sort keys %AssignedFields ) {
+
+            my $FieldConfig = $ActivityDialogData->{Config}->{Fields}->{$Field};
+
+            my $FieldConfigJSON = $Self->{JSONObject}->Encode(
+                Data => $FieldConfig,
+            );
+
             $Self->{LayoutObject}->Block(
                 Name => 'AssignedFieldRow',
                 Data => {
-                    Field => $Field,
+                    Field       => $Field,
+                    FieldConfig => $FieldConfigJSON,
                 },
             );
         }
@@ -657,6 +692,19 @@ sub _ShowEdit {
         Sort        => 'AlphanumericKey',
         Translation => 1,
         Class       => $Param{RequiredLockServerError} || '',
+    );
+
+    # create Display selection
+    $Param{DisplaySelection} = $Self->{LayoutObject}->BuildSelection(
+        Data => {
+            0 => 'Do not show Field',
+            1 => 'Show Field',
+            2 => 'Show Field As Mandatory',
+        },
+        Name        => 'Display',
+        ID          => 'Display',
+        Sort        => 'AlphanumericKey',
+        Translation => 1,
     );
 
     # extract parameters from config
@@ -705,6 +753,17 @@ sub _GetParams {
     }
     else {
         $GetParam->{Fields} = '';
+    }
+
+    my $FieldDetails = $Self->{ParamObject}->GetParam( Param => 'FieldDetails' ) || '';
+
+    if ($FieldDetails) {
+        $GetParam->{FieldDetails} = $Self->{JSONObject}->Decode(
+            Data => $FieldDetails,
+        );
+    }
+    else {
+        $GetParam->{FieldDetails} = '';
     }
 
     return $GetParam;
