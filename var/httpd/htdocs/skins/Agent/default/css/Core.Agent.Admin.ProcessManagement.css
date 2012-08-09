@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.12 $
+ * @version     $Revision: 1.13 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -111,6 +111,32 @@ ul#ProcessElements li.AccordionElement div.Content .ProcessElementButton {
     width: 95%;
     position: relative;
 }    
+    
+.CanvasActions {
+    position: absolute;
+    right: 10px;
+    top: 2px;
+    overflow: hidden;
+}
+
+.CanvasActions a {
+    float: left;
+    width: 20px;
+    height: 20px;
+    opacity: 0.4;
+}
+
+.CanvasActions a:hover {
+    opacity: 1.0;
+}
+
+.CanvasActions a#ExtendCanvasHeight {
+    background: url(../img/icon_resize_vertical.png) no-repeat center;
+}
+
+.CanvasActions a#ExtendCanvasWidth {
+    background: url(../img/icon_resize_horizontal.png) no-repeat center;
+}
     
 #DiagramTooltip {
     border: 1px solid #aaa;
