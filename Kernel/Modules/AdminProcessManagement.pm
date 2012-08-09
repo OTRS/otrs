@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminProcessManagement.pm - process management
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagement.pm,v 1.21 2012-08-02 10:54:26 mab Exp $
+# $Id: AdminProcessManagement.pm,v 1.22 2012-08-09 18:22:42 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,7 +26,7 @@ use Kernel::System::ProcessManagement::DB::TransitionAction;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
+$VERSION = qw($Revision: 1.22 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -352,8 +352,19 @@ sub Run {
             );
         }
 
-        # return to overview
-        return $Self->{LayoutObject}->Redirect( OP => "Action=$Self->{Action}" );
+        if ( $Self->{ParamObject}->GetParam( Param => 'ContinueAfterSave' ) eq '1' ) {
+
+          # if the user would like to continue editing the process, just redirect to the edit screen
+            return $Self->{LayoutObject}->Redirect(
+                OP =>
+                    "Action=AdminProcessManagement;Subaction=ProcessEdit;ID=$ProcessID;EntityID=$ProcessData->{EntityID}"
+            );
+        }
+        else {
+
+            # otherwise return to overview
+            return $Self->{LayoutObject}->Redirect( OP => "Action=$Self->{Action}" );
+        }
     }
 
     # ------------------------------------------------------------ #
