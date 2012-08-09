@@ -2,7 +2,7 @@
 // Core.Agent.Admin.ProcessManagement.js - provides the special module functions for the Process Management.
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.37 2012-08-09 14:40:06 mn Exp $
+// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.38 2012-08-09 18:19:26 mab Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -47,6 +47,12 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
             $('#PopupRedirectEntityID').val($(this).data('entity'));
 
             $(this).closest('form').submit();
+            return false;
+        });
+        
+        $('a.AsPopup_Close').bind('click', function (Event) {
+            $('#ClosePopup').val(1);
+            $('form').submit();
             return false;
         });
     }
@@ -560,6 +566,11 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
             return false;
         });
         
+        $('#SubmitAndContinue').bind('click', function() {
+            $('#ContinueAfterSave').val(1);
+            $('#Submit').click();
+        });
+        
         // Init submit function
         $('#Submit').bind('click', function (Event) {
             
@@ -828,9 +839,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
             ActivityInfo = window.opener.Core.Agent.Admin.ProcessManagement.ProcessData.Activity,
             PathInfo = window.opener.Core.Agent.Admin.ProcessManagement.ProcessData.Process[CurrentProcessEntityID].Path,
             StartActivityEntityID = '', EndActivityEntityID = '',
-            AssignedTransitionActions = [],
-            OldTransitionEntityID = '',
-            OldTransitionActions  = [];
+            AssignedTransitionActions = [];
 
         // store process data to hidden field for later merging
         $('#ProcessData').val(Core.JSON.Stringify(window.opener.Core.Agent.Admin.ProcessManagement.ProcessData.Process));
@@ -845,10 +854,6 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
                 StartActivityEntityID     = Activity;
                 EndActivityEntityID       = Transition[CurrentTransitionEntityID].ActivityID;
                 AssignedTransitionActions = Transition[CurrentTransitionEntityID].Action;
-
-                // save "old" transition hash for later comparison
-                OldTransitionEntityID = CurrentTransitionEntityID;
-                OldTransitionActions  = AssignedTransitionActions;
 
                 return false;
            }
@@ -865,19 +870,19 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
             });
         }
         
+        $('#Submit').bind('click', function() {
+            $('#PathForm').submit();
+        });
+        
         // On submit, pass the new config to parent window 
-        $('#Submit').bind('click', function (Event) {
-            
+        $('#PathForm').submit(function() {
+
             var NewTransitionEntityID = $('#Transition').val(),
                 NewTransitionActions  = [];
             
             $('#AssignedTransitionActions li').each(function() {
                 NewTransitionActions.push($(this).attr('id'));    
             });
-            
-            if (!OldTransitionActions) {
-                OldTransitionActions = [];
-            }
             
             // collection transition info for later merging
             var TransitionInfo = {
@@ -886,32 +891,8 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
                 NewTransitionActions   : NewTransitionActions,
                 NewTransitionActivityID: EndActivityEntityID
             };
-
-            var SomethingHasChanged = 0;
-            if (OldTransitionEntityID !== NewTransitionEntityID) {
-                SomethingHasChanged = 1;
-            }
-            if (Core.JSON.Stringify(OldTransitionActions) !== Core.JSON.Stringify(NewTransitionActions)) {
-                SomethingHasChanged = 1;
-            }
-
-            // if something has changed (either transition or assigned transition actions),
-            // collect path information and submit the form; otherwise just close the popup
-            if (SomethingHasChanged) {
                 
-                $('#TransitionInfo').val(Core.JSON.Stringify(TransitionInfo));
-                $('#PathForm').submit();
-            }
-            else {
-                
-                // remove overlay
-                window.opener.Core.Agent.Admin.ProcessManagement.HideOverlay();
-                
-                // close popup
-                window.close();
-            }
-            
-            return false;
+            $('#TransitionInfo').val(Core.JSON.Stringify(TransitionInfo));
         });
         
         // Init popups
@@ -980,9 +961,9 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
         }
         
         // Update config from e.g. popup windows
-        // Update process 
+
+        // Update Process 
         if (typeof Config.Process !== 'undefined') {
-            // TODO: Handle Path update here (merge!)
             TargetNS.ProcessData.Process = Config.Process;
         }
         
