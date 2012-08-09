@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminProcessManagementActivityDialog.pm - process management activity
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementActivityDialog.pm,v 1.13 2012-08-09 14:40:06 mn Exp $
+# $Id: AdminProcessManagementActivityDialog.pm,v 1.14 2012-08-09 18:33:41 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,6 +16,7 @@ use warnings;
 
 use Kernel::System::JSON;
 use Kernel::System::DynamicField;
+use Kernel::System::ProcessManagement::DB::Process;
 use Kernel::System::ProcessManagement::DB::Entity;
 use Kernel::System::ProcessManagement::DB::Process;
 use Kernel::System::ProcessManagement::DB::ActivityDialog;
@@ -23,7 +24,7 @@ use Kernel::System::ProcessManagement::DB::ActivityDialog;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -45,6 +46,7 @@ sub new {
     # create additional objects
     $Self->{JSONObject}         = Kernel::System::JSON->new( %{$Self} );
     $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new( %{$Self} );
+    $Self->{ProcessObject}      = Kernel::System::ProcessManagement::DB::Process->new( %{$Self} );
     $Self->{EntityObject}       = Kernel::System::ProcessManagement::DB::Entity->new( %{$Self} );
     $Self->{ProcessObject}
         = Kernel::System::ProcessManagement::DB::Process->new( %{$Self} );
