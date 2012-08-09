@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminProcessManagementPath.pm - process management activity
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementPath.pm,v 1.2 2012-08-08 16:35:34 mab Exp $
+# $Id: AdminProcessManagementPath.pm,v 1.3 2012-08-09 18:24:31 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,7 +26,7 @@ use Kernel::System::ProcessManagement::DB::TransitionAction;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -101,8 +101,8 @@ sub Run {
         # get parameter from web browser
         my $GetParam = $Self->_GetParams;
 
-        $PathData->{ProcessEntityID}    = $GetParam->{ProcessEntityID};
-        $PathData->{TransitionEntityID} = $GetParam->{TransitionEntityID};
+        $PathData->{ProcessEntityID}    = $GetParam->{ProcessEntityID}    || $GetParam->{ID};
+        $PathData->{TransitionEntityID} = $GetParam->{TransitionEntityID} || $GetParam->{EntityID};
 
         return $Self->_ShowEdit(
             %Param,
@@ -125,23 +125,20 @@ sub Run {
         my $GetParam = $Self->_GetParams;
 
         # merge changed data into process config
-
         $TransferData->{ProcessEntityID}    = $GetParam->{ProcessEntityID};
         $TransferData->{TransitionEntityID} = $GetParam->{TransitionEntityID};
         $TransferData->{ProcessData}        = $GetParam->{ProcessData};
         $TransferData->{TransitionInfo}     = $GetParam->{TransitionInfo};
 
-        # show error if can't update
-        if (
-            !$TransferData->{ProcessEntityID}
-            || !$TransferData->{TransitionEntityID}
-            || !$TransferData->{ProcessData}
-            || !$TransferData->{TransitionInfo}
-            )
-        {
-            return $Self->{LayoutObject}->ErrorScreen(
-                Message => "There has been a problem transferring the needed parameters",
-            );
+        for my $Needed (qw(ProcessEntityID TransitionEntityID ProcessData TransitionInfo)) {
+
+            # show error if can't update
+            if ( !$TransferData->{$Needed} ) {
+
+                return $Self->{LayoutObject}->ErrorScreen(
+                    Message => "Need $Needed!",
+                );
+            }
         }
 
         my $ProcessData = $Self->{JSONObject}->Decode( Data => $TransferData->{ProcessData} );
@@ -159,21 +156,23 @@ sub Run {
             ActivityID => $DataToMerge->{NewTransitionActivityID},
             };
 
-=cut
+        my $ReturnConfig;
+        $ReturnConfig->{Process} = $ProcessData;
+
         # remove this screen from session screen path
         $Self->_PopSessionScreen( OnlyCurrent => 1 );
 
         my $Redirect = $Self->{ParamObject}->GetParam( Param => 'PopupRedirect' ) || '';
 
-        my $ConfigJSON = $Self->{LayoutObject}->JSONEncode( Data => $TransitionConfig );
+        my $ConfigJSON = $Self->{LayoutObject}->JSONEncode( Data => $ReturnConfig );
 
         # check if needed to open another window or if popup should go back
         if ( $Redirect && $Redirect eq '1' ) {
 
             $Self->_PushSessionScreen(
-                ID        => $TransitionID,
-                EntityID  => $TransitionData->{EntityID},
-                Subaction => 'TransitionEdit'               # always use edit screen
+                ID        => $TransferData->{ProcessEntityID},      # abuse!
+                EntityID  => $TransferData->{TransitionEntityID},
+                Subaction => 'PathEdit'                             # always use edit screen
             );
 
             my $RedirectAction
@@ -220,8 +219,6 @@ sub Run {
                 );
             }
         }
-=cut
-
     }
 
     # ------------------------------------------------------------ #
@@ -329,7 +326,7 @@ sub _GetParams {
 
     # get parameters from web browser
     for my $ParamName (
-        qw( ProcessData TransitionInfo ProcessEntityID TransitionEntityID )
+        qw( ID EntityID ProcessData TransitionInfo ProcessEntityID TransitionEntityID )
         )
     {
         $GetParam->{$ParamName} = $Self->{ParamObject}->GetParam( Param => $ParamName ) || '';
