@@ -2,7 +2,7 @@
 # Kernel/System/ProcessManagement/Process.pm - Process Management DB Process backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Process.pm,v 1.16 2012-07-30 13:43:38 mn Exp $
+# $Id: Process.pm,v 1.17 2012-08-10 13:37:40 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,7 +26,7 @@ use Kernel::System::ProcessManagement::DB::Transition;
 use Kernel::System::ProcessManagement::DB::TransitionAction;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 =head1 NAME
 
@@ -358,6 +358,11 @@ sub ProcessGet {
         $ActivityNames = 1;
     }
 
+    my $TransitionNames = 0;
+    if ( defined $Param{TransitionNames} && $Param{TransitionNames} == 1 ) {
+        $TransitionNames = 1;
+    }
+
     # check cache
     my $CacheKey;
     if ( $Param{ID} ) {
@@ -446,6 +451,40 @@ sub ProcessGet {
             @Activities = map {$_} sort keys %{ $Data{Config}->{Path} };
         }
         $Data{Activities} = \@Activities;
+    }
+
+    # create the transition list
+    if ($TransitionNames) {
+
+        my %Transitions;
+        if ( IsHashRefWithData( $Data{Config}->{Path} ) ) {
+
+            my $TransitionList = $Self->{TransitionObject}->TransitionList(
+                UseEntities => 1,
+                UserID      => 1,
+            );
+
+            for my $ActivityEntityID ( sort keys %{ $Data{Config}->{Path} } ) {
+                for my $TransitionEntityID (
+                    sort keys %{ $Data{Config}->{Path}->{$ActivityEntityID} }
+                    )
+                {
+                    $Transitions{$TransitionEntityID} = $TransitionList->{$TransitionEntityID};
+                }
+            }
+        }
+        $Data{Transitions} = \%Transitions;
+    }
+    else {
+        my @Transitions;
+
+        if ( IsHashRefWithData( $Data{Config}->{Path} ) ) {
+
+            for my $ActivityEntityID ( sort keys %{ $Data{Config}->{Path} } ) {
+                @Transitions = map {$_} sort keys %{ $Data{Config}->{Path}->{$ActivityEntityID} };
+            }
+        }
+        $Data{Transitions} = \@Transitions;
     }
 
     $Data{State} = $Self->{StateObject}->StateLookup(
@@ -1256,6 +1295,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.16 $ $Date: 2012-07-30 13:43:38 $
+$Revision: 1.17 $ $Date: 2012-08-10 13:37:40 $
 
 =cut
