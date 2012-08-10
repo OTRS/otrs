@@ -2,7 +2,7 @@
 # Kernel/System/ProcessManagement/Process.pm - Process Management DB Process backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Process.pm,v 1.18 2012-08-10 13:39:24 mab Exp $
+# $Id: Process.pm,v 1.19 2012-08-10 15:53:48 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,7 +26,7 @@ use Kernel::System::ProcessManagement::DB::Transition;
 use Kernel::System::ProcessManagement::DB::TransitionAction;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 =head1 NAME
 
@@ -293,17 +293,17 @@ sub ProcessDelete {
 get Process attributes
 
     my $Process = $ProcessObject->ProcessGet(
-        ID            => 123,            # ID or EntityID is needed
-        EntityID      => 'P1',
-        ActivityNames => 1,              # default 0, 1 || 0, if 0 returns an Activities array
+        ID              => 123,            # ID or EntityID is needed
+        EntityID        => 'P1',
+        ActivityNames   => 1,              # default 0, 1 || 0, if 0 returns an Activities array
                                          #     with the activity entity IDs, if 1 returns an
                                          #     Activities hash with the activity entity IDs as
                                          #     keys and Activity Names as values
-        Transitions   => 1,              # default 0, 1 || 0, if 0 returns an Transitions array
+        TransitionNames => 1,              # default 0, 1 || 0, if 0 returns an Transitions array
                                          #     with the transition entity IDs, if 1 returns an
                                          #     Transitions hash with the transition entity IDs as
                                          #     keys and Transition Names as values
-        UserID        => 123,            # mandatory
+        UserID          => 123,            # mandatory
     );
 
 Returns:
@@ -377,11 +377,11 @@ sub ProcessGet {
     my $CacheKey;
     if ( $Param{ID} ) {
         $CacheKey = 'ProcessGet::ID::' . $Param{ID} . '::ActivityNames::'
-            . $ActivityNames;
+            . $ActivityNames . '::TransitionNames' . $TransitionNames;
     }
     else {
         $CacheKey = 'ProcessGet::EntityID::' . $Param{EntityID} . '::ActivityNames::'
-            . $ActivityNames;
+            . $ActivityNames . '::TransitionNames' . $TransitionNames;
     }
 
     my $Cache = $Self->{CacheObject}->Get(
@@ -491,7 +491,13 @@ sub ProcessGet {
         if ( IsHashRefWithData( $Data{Config}->{Path} ) ) {
 
             for my $ActivityEntityID ( sort keys %{ $Data{Config}->{Path} } ) {
-                @Transitions = map {$_} sort keys %{ $Data{Config}->{Path}->{$ActivityEntityID} };
+
+                for my $TransitionEntityID (
+                    sort keys %{ $Data{Config}->{Path}->{$ActivityEntityID} }
+                    )
+                {
+                    push @Transitions, $TransitionEntityID;
+                }
             }
         }
         $Data{Transitions} = \@Transitions;
@@ -1305,6 +1311,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.18 $ $Date: 2012-08-10 13:39:24 $
+$Revision: 1.19 $ $Date: 2012-08-10 15:53:48 $
 
 =cut
