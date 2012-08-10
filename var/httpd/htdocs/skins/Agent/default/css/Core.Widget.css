@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.34 $
+ * @version     $Revision: 1.35 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -129,6 +129,21 @@ ul.Tablelike li.Header + li {
 
 .WidgetSimple fieldset {
     margin-bottom: 15px;
+}
+
+/**
+ * @subsection Widgets as notices
+ */
+
+.WidgetNotice {
+    background-color: #F39C19
+}
+
+.WidgetNotice .Content {
+    border: 1px solid #F6AF2F;
+    color: #442A0B;
+    font-weight: bold;
+    padding-bottom: 8px;
 }
 
 /**
