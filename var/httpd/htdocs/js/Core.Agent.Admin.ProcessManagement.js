@@ -2,7 +2,7 @@
 // Core.Agent.Admin.ProcessManagement.js - provides the special module functions for the Process Management.
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.40 2012-08-10 11:39:53 mn Exp $
+// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.41 2012-08-10 15:30:44 mab Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -40,13 +40,23 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
         });
 
         $('a.AsPopup_Redirect').bind('click', function (Event) {
+            
             $('#PopupRedirect').val(1);
             $('#PopupRedirectAction').val($(this).data('action'));
             $('#PopupRedirectSubaction').val($(this).data('subaction'));
             $('#PopupRedirectID').val($(this).data('id'));
             $('#PopupRedirectEntityID').val($(this).data('entity'));
 
-            $(this).closest('form').submit();
+            if ($(this).hasClass('Edit_Confirm')) {
+                
+                var Confirm = confirm(Core.Agent.Admin.ProcessManagement.Localization.EditConfirm);
+                if (Confirm) {
+                    $(this).closest('form').submit();
+                }
+            }
+            else {
+                $(this).closest('form').submit();
+            }
             return false;
         });
     }
@@ -525,6 +535,30 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
         }, 'html');
     };
     
+    TargetNS.UpdateScreensPath = function () {
+        
+        // Collect data for update of the screenspath
+        var Data = {
+                Action: 'AdminProcessManagement',
+                Subaction: 'UpdateScreensPath',
+                ProcessID: $('input[name=ID]').val(),
+                ProcessEntityID: $('#ProcessEntityID').val(),
+            };
+       
+        // Call the ajax function
+        Core.AJAX.FunctionCall(Core.Config.Get('CGIHandle'), Data, function (Response) {
+            if (!Response || !Response.Success) {
+                if (Response && Response.Message) {
+                    alert(Response.Message);
+                }
+                else {
+                    alert ('Error during AJAX communication');
+                }
+                return;
+            }
+        }, 'json');
+    };
+    
     TargetNS.HandlePopupClose = function () {
         // update accordion
         Core.Agent.Admin.ProcessManagement.UpdateAccordion();
@@ -742,17 +776,9 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
 
             return false;
         });
-        
-        // Init handling of closing popup with the OS functionality ("X")
-        $(window).unbind("beforeunload.PMPopup").bind("beforeunload.PMPopup", function () {
-            window.opener.Core.Agent.Admin.ProcessManagement.HandlePopupClose();
-        });
     };
     
     TargetNS.InitTransitionEdit = function () {
-        
-        // Replace INDEX and FIELDINDEX for first field
-        // $('#PresentConditionsContainer .ConditionField').html($('.ConditionField').html().replace(/(_INDEX_|_FIELDINDEX_)/g, '1'));
         
         // Init addition of new conditions
         $('#ConditionAdd').bind('click', function() {
