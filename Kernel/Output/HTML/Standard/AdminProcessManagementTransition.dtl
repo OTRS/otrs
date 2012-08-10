@@ -2,7 +2,7 @@
 # AdminProcessManagementTransition.dtl - provides HTML for AdminProcessManagement
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementTransition.dtl,v 1.6 2012-08-10 11:54:14 mn Exp $
+# $Id: AdminProcessManagementTransition.dtl,v 1.7 2012-08-10 15:54:18 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -35,6 +35,12 @@
                 <input type="hidden" name="PopupRedirect" value="" id="PopupRedirect"/>
                 <input type="hidden" name="PopupRedirectID" value="" id="PopupRedirectID"/>
                 <input type="hidden" name="PopupRedirectEntityID" value="" id="PopupRedirectEntityID"/>
+
+<!-- dtl:block:EditWarning -->
+                <div class="WidgetSimple Expanded WidgetNotice">
+                    <div class="Content">$Text{"Please note that changing this transition will affect the following processes"}: $QData{"ProcessList"}</div>
+                </div>
+<!-- dtl:block:EditWarning -->
 
                 <div class="WidgetSimple Expanded">
                     <div class="Header">
@@ -206,5 +212,10 @@
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
 Core.Agent.Admin.ProcessManagement.InitTransitionEdit();
+
+// Localizations
+Core.Agent.Admin.ProcessManagement.Localization = {
+    EditConfirm: "$Text{"As soon as you use this button or link, you will leave this screen and its current state will be saved automatically. Do you want to continue?"}"
+};
 //]]></script>
 <!--dtl:js_on_document_complete-->
