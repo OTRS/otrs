@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminProcessManagementTransition.pm - process management transition
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementTransition.pm,v 1.6 2012-08-10 15:23:58 mab Exp $
+# $Id: AdminProcessManagementTransition.pm,v 1.7 2012-08-10 15:52:41 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::ProcessManagement::DB::Transition;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -738,8 +738,7 @@ sub _CheckTransitionUsage {
 
     # get a list of parents with all the details
     my $List = $Self->{ProcessObject}->ProcessListGet(
-        UserID          => 1,
-        TransitionNames => 1,
+        UserID => 1,
     );
 
     my @Usage;
@@ -750,7 +749,7 @@ sub _CheckTransitionUsage {
         next PARENT if !$ParentData;
         next PARENT if !$ParentData->{Transitions};
         ENTITY:
-        for my $EntityID ( keys %{ $ParentData->{Transitions} } ) {
+        for my $EntityID ( @{ $ParentData->{Transitions} } ) {
             if ( $EntityID eq $Param{EntityID} ) {
                 push @Usage, $ParentData->{Name};
                 last ENTITY;
