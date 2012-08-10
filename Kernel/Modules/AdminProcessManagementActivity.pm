@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminProcessManagementActivity.pm - process management activity
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementActivity.pm,v 1.12 2012-08-10 10:41:14 mab Exp $
+# $Id: AdminProcessManagementActivity.pm,v 1.13 2012-08-10 15:22:58 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,7 +25,7 @@ use Kernel::System::ProcessManagement::DB::ActivityDialog;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -779,6 +779,21 @@ sub _ShowEdit {
             );
         }
 
+        # display other affected processes by editing this activity (if applicable)
+        my $AffectedProcesses = $Self->_CheckActivityUsage(
+            EntityID => $ActivityData->{EntityID},
+        );
+
+        if ( @{$AffectedProcesses} ) {
+
+            $Self->{LayoutObject}->Block(
+                Name => 'EditWarning',
+                Data => {
+                    ProcessList => join( ', ', @{$AffectedProcesses} ),
+                    }
+            );
+        }
+
         $Param{Title} = "Edit Activity \"$ActivityData->{Name}\"";
     }
     else {
@@ -935,5 +950,33 @@ sub _PopupResponse {
     $Output .= $Self->{LayoutObject}->Footer( Type => 'Small' );
 
     return $Output;
+}
+
+sub _CheckActivityUsage {
+    my ( $Self, %Param ) = @_;
+
+    # get a list of parents with all the details
+    my $List = $Self->{ProcessObject}->ProcessListGet(
+        UserID => 1,
+    );
+
+    my @Usage;
+
+    # search entity id in all parents
+    PARENT:
+    for my $ParentData ( @{$List} ) {
+        next PARENT if !$ParentData;
+        next PARENT if !$ParentData->{Activities};
+
+        ENTITY:
+        for my $EntityID ( @{ $ParentData->{Activities} } ) {
+            if ( $EntityID eq $Param{EntityID} ) {
+                push @Usage, $ParentData->{Name};
+                last ENTITY;
+            }
+        }
+    }
+
+    return \@Usage;
 }
 1;
