@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminProcessManagementActivityDialog.pm - process management activity
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementActivityDialog.pm,v 1.15 2012-08-10 10:41:14 mab Exp $
+# $Id: AdminProcessManagementActivityDialog.pm,v 1.16 2012-08-10 15:23:28 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,12 +19,13 @@ use Kernel::System::DynamicField;
 use Kernel::System::ProcessManagement::DB::Process;
 use Kernel::System::ProcessManagement::DB::Entity;
 use Kernel::System::ProcessManagement::DB::Process;
+use Kernel::System::ProcessManagement::DB::Activity;
 use Kernel::System::ProcessManagement::DB::ActivityDialog;
 
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -50,6 +51,8 @@ sub new {
     $Self->{EntityObject}       = Kernel::System::ProcessManagement::DB::Entity->new( %{$Self} );
     $Self->{ProcessObject}
         = Kernel::System::ProcessManagement::DB::Process->new( %{$Self} );
+    $Self->{ActivityObject}
+        = Kernel::System::ProcessManagement::DB::Activity->new( %{$Self} );
     $Self->{ActivityDialogObject}
         = Kernel::System::ProcessManagement::DB::ActivityDialog->new( %{$Self} );
 
@@ -664,6 +667,21 @@ sub _ShowEdit {
             );
         }
 
+        # display other affected processes by editing this activity (if applicable)
+        my $AffectedActivities = $Self->_CheckActivityDialogUsage(
+            EntityID => $ActivityDialogData->{EntityID},
+        );
+
+        if ( @{$AffectedActivities} ) {
+
+            $Self->{LayoutObject}->Block(
+                Name => 'EditWarning',
+                Data => {
+                    ActivityList => join( ', ', @{$AffectedActivities} ),
+                    }
+            );
+        }
+
         $Param{Title} = "Edit Activity Dialog \"$ActivityDialogData->{Name}\"";
     }
     else {
@@ -873,4 +891,32 @@ sub _PopupResponse {
 
     return $Output;
 }
+
+sub _CheckActivityDialogUsage {
+    my ( $Self, %Param ) = @_;
+
+    # get a list of parents with all the details
+    my $List = $Self->{ActivityObject}->ActivityListGet(
+        UserID => 1,
+    );
+
+    my @Usage;
+
+    # search entity id in all parents
+    PARENT:
+    for my $ParentData ( @{$List} ) {
+        next PARENT if !$ParentData;
+        next PARENT if !$ParentData->{ActivityDialogs};
+        ENTITY:
+        for my $EntityID ( @{ $ParentData->{ActivityDialogs} } ) {
+            if ( $EntityID eq $Param{EntityID} ) {
+                push @Usage, $ParentData->{Name};
+                last ENTITY;
+            }
+        }
+    }
+
+    return \@Usage;
+}
+
 1;
