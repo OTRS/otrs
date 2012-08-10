@@ -2,7 +2,7 @@
 # AdminProcessManagementActivityDialog.dtl - provides HTML for AdminProcessManagement
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementActivityDialog.dtl,v 1.7 2012-08-10 10:44:03 mab Exp $
+# $Id: AdminProcessManagementActivityDialog.dtl,v 1.8 2012-08-10 15:32:37 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -37,6 +37,12 @@
                 <input type="hidden" name="PopupRedirectSubaction" value="" id="PopupRedirectSubaction"/>
                 <input type="hidden" name="PopupRedirectID" value="" id="PopupRedirectID"/>
                 <input type="hidden" name="PopupRedirectEntityID" value="" id="PopupRedirectEntityID"/>
+
+<!-- dtl:block:EditWarning -->
+                <div class="WidgetSimple Expanded WidgetNotice">
+                    <div class="Content">$Text{"Please note that changing this activity dialog will affect the following activities"}: $QData{"ActivityList"}</div>
+                </div>
+<!-- dtl:block:EditWarning -->
 
                 <div class="WidgetSimple Expanded">
                     <div class="Header">
@@ -135,7 +141,7 @@
 <!-- dtl:block:AvailableFieldRow -->
                                 <li title="Name: $QData{"Field"}" data-id="$QData{"Field"}" data-config="">
                                     $QData{"Field", "55"}
-                                    <span class="Functions ShowOnAssignedList"><a href="#" class="FieldDetailsOverlay" data-id="$QData{"Field"}" data-entity="$QData{"Field"}">Edit</a></span>
+                                    <span class="Functions ShowOnAssignedList"><a href="#" class="FieldDetailsOverlay" data-id="$QData{"Field"}" data-entity="$QData{"Field"}">$Text{"Edit"}</a></span>
                                 </li>
 <!-- dtl:block:AvailableFieldRow -->
                             </ul>
@@ -150,7 +156,7 @@
 <!-- dtl:block:AssignedFieldRow -->
                                 <li data-id="$QData{"Field"}" data-entity="$QData{"Field"}" data-config='$Data{"FieldConfig"}' title="Name: $QData{"Field"}">
                                     $QData{"Field"}
-                                    <span class="Functions ShowOnAssignedList"><a href="#" class="FieldDetailsOverlay" data-id="$QData{"Field"}" data-entity="$QData{"Field"}">Edit</a></span>
+                                    <span class="Functions ShowOnAssignedList"><a href="#" class="FieldDetailsOverlay" data-id="$QData{"Field"}" data-entity="$QData{"Field"}">$Text{"Edit"}</a></span>
                                 </li>
 <!-- dtl:block:AssignedFieldRow -->
                             </ul>
