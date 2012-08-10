@@ -2,7 +2,7 @@
 # AdminProcessManagementPath.dtl - provides HTML for AdminProcessManagementPath
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementPath.dtl,v 1.6 2012-08-10 11:54:14 mn Exp $
+# $Id: AdminProcessManagementPath.dtl,v 1.7 2012-08-10 15:33:22 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -97,12 +97,12 @@
 <!-- dtl:block:AvailableTransitionActionRow -->
                                 <li data-id="$QData{"ID"}" id="$QData{"EntityID"}" title="Name: $QData{"Name"} EntityID: $QData{"EntityID"}">
                                     $QData{"Name", "55"}
-                                    <span class="Functions"><a href="#" data-entity="$QData{"EntityID"}" data-id="$QData{"ID"}" data-action="AdminProcessManagementTransitionAction" data-subaction="TransitionActionEdit" class="AsPopup_Redirect PopupType_TransitionAction">Edit</a></span>
+                                    <span class="Functions"><a href="#" data-entity="$QData{"EntityID"}" data-id="$QData{"ID"}" data-action="AdminProcessManagementTransitionAction" data-subaction="TransitionActionEdit" class="AsPopup_Redirect Edit_Confirm PopupType_TransitionAction">$Text{"Edit"}</a></span>
                                 </li>
 <!-- dtl:block:AvailableTransitionActionRow -->
                             </ul>
                             <div class="SpacingTop">
-                                <a href="#" data-entity="" data-id="" data-action="AdminProcessManagementTransitionAction" data-subaction="TransitionActionNew" class="CallForAction AsPopup_Redirect" ><span>$Text{"Create New Transition Action"}</span></a>
+                                <a href="#" data-entity="" data-id="" data-action="AdminProcessManagementTransitionAction" data-subaction="TransitionActionNew" class="CallForAction AsPopup_Redirect Edit_Confirm"><span>$Text{"Create New Transition Action"}</span></a>
                             </div>
                         </div>
                         <div class="Size1of2">
@@ -133,5 +133,10 @@
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
 Core.Agent.Admin.ProcessManagement.InitPathEdit();
+
+// Localizations
+Core.Agent.Admin.ProcessManagement.Localization = {
+    EditConfirm: "$Text{"As soon as you use this button or link, you will leave this screen and its current state will be saved automatically. Do you want to continue?"}"
+};
 //]]></script>
 <!--dtl:js_on_document_complete-->
