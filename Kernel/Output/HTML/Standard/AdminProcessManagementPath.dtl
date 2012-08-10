@@ -2,7 +2,7 @@
 # AdminProcessManagementPath.dtl - provides HTML for AdminProcessManagementPath
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementPath.dtl,v 1.4 2012-08-09 18:25:05 mab Exp $
+# $Id: AdminProcessManagementPath.dtl,v 1.5 2012-08-10 10:44:03 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@
         <h1>$Text{"$Data{"Title"}"}</h1>
 <!-- dtl:block:ClosePopup -->
         <p>
-            <a class="AsPopup_Close" href="#">$Text{"Cancel & close window"}</a>
+            <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=ClosePopup">$Text{"Cancel & close window"}</a>
         </p>
 <!-- dtl:block:ClosePopup -->
 <!-- dtl:block:GoBack -->
@@ -32,7 +32,6 @@
                 <input type="hidden" name="TransitionEntityID" value="$Data{"TransitionEntityID"}" id="TransitionEntityID"/>
                 <input type="hidden" name="ProcessData" value="" id="ProcessData"/>
                 <input type="hidden" name="TransitionInfo" value="" id="TransitionInfo"/>
-                <input type="hidden" name="ClosePopup" value="" id="ClosePopup"/>
                 <input type="hidden" name="PopupRedirect" value="" id="PopupRedirect"/>
                 <input type="hidden" name="PopupRedirectAction" value="" id="PopupRedirectAction"/>
                 <input type="hidden" name="PopupRedirectSubaction" value="" id="PopupRedirectSubaction"/>

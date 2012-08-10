@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminProcessManagementTransition.pm - process management transition
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementTransition.pm,v 1.4 2012-08-01 15:40:16 mab Exp $
+# $Id: AdminProcessManagementTransition.pm,v 1.5 2012-08-10 10:41:14 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::ProcessManagement::DB::Transition;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -402,6 +402,17 @@ sub Run {
             }
         }
 
+    }
+
+    # ------------------------------------------------------------ #
+    # Close popup
+    # ------------------------------------------------------------ #
+    elsif ( $Self->{Subaction} eq 'ClosePopup' ) {
+
+        # close the popup
+        return $Self->_PopupResponse(
+            ClosePopup => 1,
+        );
     }
 
     # ------------------------------------------------------------ #

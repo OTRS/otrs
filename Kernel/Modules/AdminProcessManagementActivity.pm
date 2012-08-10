@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminProcessManagementActivity.pm - process management activity
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementActivity.pm,v 1.11 2012-07-30 10:35:51 mn Exp $
+# $Id: AdminProcessManagementActivity.pm,v 1.12 2012-08-10 10:41:14 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,7 +25,7 @@ use Kernel::System::ProcessManagement::DB::ActivityDialog;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -642,6 +642,17 @@ sub Run {
             Content     => $JSON,
             Type        => 'inline',
             NoCache     => 1,
+        );
+    }
+
+    # ------------------------------------------------------------ #
+    # Close popup
+    # ------------------------------------------------------------ #
+    elsif ( $Self->{Subaction} eq 'ClosePopup' ) {
+
+        # close the popup
+        return $Self->_PopupResponse(
+            ClosePopup => 1,
         );
     }
 

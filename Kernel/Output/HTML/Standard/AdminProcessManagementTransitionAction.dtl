@@ -2,7 +2,7 @@
 # AdminProcessManagementTransitionAction.dtl - provides HTML for AdminProcessManagement
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementTransitionAction.dtl,v 1.4 2012-07-30 15:31:27 mab Exp $
+# $Id: AdminProcessManagementTransitionAction.dtl,v 1.5 2012-08-10 10:44:03 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,9 +12,16 @@
 <div class="LayoutPopup ARIARoleMain">
     <div class="Header">
         <h1>$Text{"$Data{"Title"}"}</h1>
+<!-- dtl:block:ClosePopup -->
         <p>
-            <a class="CancelClosePopup" href="#">$Text{"Cancel & close window"}</a>
+            <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=ClosePopup">$Text{"Cancel & close window"}</a>
         </p>
+<!-- dtl:block:ClosePopup -->
+<!-- dtl:block:GoBack -->
+        <p>
+            <a class="GoBack" href="$Env{"Baselink"}Action=$LQData{"Action"};Subaction=$LQData{"Subaction"};ID=$LQData{"ID"};EntityID=$LQData{"EntityID"}">&lt;- $Text{"Go Back"}</a>
+        </p>
+<!-- dtl:block:GoBack -->
     </div>
     <div class="Content">
         <div class="ContentColumn">

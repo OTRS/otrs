@@ -2,7 +2,7 @@
 # AdminProcessManagementActivityDialog.dtl - provides HTML for AdminProcessManagement
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementActivityDialog.dtl,v 1.6 2012-08-09 14:40:06 mn Exp $
+# $Id: AdminProcessManagementActivityDialog.dtl,v 1.7 2012-08-10 10:44:03 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@
         <h1>$Text{"$Data{"Title"}"}</h1>
 <!-- dtl:block:ClosePopup -->
         <p>
-            <a class="CancelClosePopup" href="#">$Text{"Cancel & close window"}</a>
+            <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=ClosePopup">$Text{"Cancel & close window"}</a>
         </p>
 <!-- dtl:block:ClosePopup -->
 <!-- dtl:block:GoBack -->
