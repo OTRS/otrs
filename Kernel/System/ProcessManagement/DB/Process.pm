@@ -2,7 +2,7 @@
 # Kernel/System/ProcessManagement/Process.pm - Process Management DB Process backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Process.pm,v 1.17 2012-08-10 13:37:40 mab Exp $
+# $Id: Process.pm,v 1.18 2012-08-10 13:39:24 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,7 +26,7 @@ use Kernel::System::ProcessManagement::DB::Transition;
 use Kernel::System::ProcessManagement::DB::TransitionAction;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.17 $) [1];
+$VERSION = qw($Revision: 1.18 $) [1];
 
 =head1 NAME
 
@@ -299,6 +299,10 @@ get Process attributes
                                          #     with the activity entity IDs, if 1 returns an
                                          #     Activities hash with the activity entity IDs as
                                          #     keys and Activity Names as values
+        Transitions   => 1,              # default 0, 1 || 0, if 0 returns an Transitions array
+                                         #     with the transition entity IDs, if 1 returns an
+                                         #     Transitions hash with the transition entity IDs as
+                                         #     keys and Transition Names as values
         UserID        => 123,            # mandatory
     );
 
@@ -313,6 +317,7 @@ Returns:
         Layout        => $LayoutHashRef,
         Config        => $ConfigHashRef,
         Activities    => ['A1','A2','A3'],
+        Activities    => ['T1','T2','T3'],
         CreateTime    => '2012-07-04 15:08:00',
         ChangeTime    => '2012-07-04 15:08:00',
     };
@@ -329,6 +334,11 @@ Returns:
             'A1' => 'Activity1',
             'A2' => 'Activity2',
             'A3' => 'Activity3',
+        };
+        Transitions   => {
+            'T1' => 'Transition1',
+            'T2' => 'Transition2',
+            'T3' => 'Transition3',
         };
         CreateTime => '2012-07-04 15:08:00',
         ChangeTime => '2012-07-04 15:08:00',
@@ -1295,6 +1305,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.17 $ $Date: 2012-08-10 13:37:40 $
+$Revision: 1.18 $ $Date: 2012-08-10 13:39:24 $
 
 =cut
