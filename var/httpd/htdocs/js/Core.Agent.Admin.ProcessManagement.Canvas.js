@@ -2,7 +2,7 @@
 // Core.Agent.Admin.ProcessManagement.Canvas.js - provides the special module functions for the Process Management Diagram Canvas.
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.ProcessManagement.Canvas.js,v 1.27 2012-08-07 11:43:26 mn Exp $
+// $Id: Core.Agent.Admin.ProcessManagement.Canvas.js,v 1.28 2012-08-10 11:39:53 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,9 @@
 // --
 
 /*global Joint */
+
+// Don't check this file for "dangling _", because of some needed JointJS functionality usese this
+/*jslint nomen: false*/
 
 "use strict";
 
@@ -113,7 +116,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
     
     function ChangeTransitionColor(TransitionObject, Color) {
         TransitionObject._opt.attrs.stroke = Color;
-    };
+    }
     
     TargetNS.CreateStartEvent = function (PosX, PosY) {
         var DefaultX = 30,
@@ -282,6 +285,13 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
     };
     
     TargetNS.CreateTransition = function (StartElement, EndElement, EntityID, TransitionName) {
+        function DeleteTransition(LocalJointObject) { 
+            LocalJointObject.freeJoint(LocalJointObject.startObject()); 
+            LocalJointObject.freeJoint(LocalJointObject.endObject()); 
+            Joint.dia.unregisterJoint(LocalJointObject); 
+            LocalJointObject.clean(["connection", "startCap", "endCap", "handleStart", "handleEnd", "label"]); 
+        } 
+        
         var Config = Core.Agent.Admin.ProcessManagement.ProcessData,
             ProcessEntityID = $('#ProcessEntityID').val(),
             Path = Config.Process[ProcessEntityID].Path,
@@ -312,7 +322,8 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
         }
         
         // Establish the joint
-        LocalJointObject = StartActivity.joint(EndActivity, (BPMN.Arrow.label = TransitionName, BPMN.Arrow)).registerForever(ElementList);
+        BPMN.Arrow.label = TransitionName;
+        LocalJointObject = StartActivity.joint(EndActivity, BPMN.Arrow).registerForever(ElementList);
         StartActivity.initTransitionDblClick(undefined, TransitionDblClick);
         if (EndElement !== "Dummy") {
             EndActivity.initTransitionDblClick(undefined, TransitionDblClick);    
@@ -346,7 +357,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
                 // Both sides are not connected any more
                 // Do you want to remove this transition?
                 // If not, nothing will happen to the transition
-                if (window.confirm('Do you want remove this transition from the canvas?')) {
+                if (window.confirm(Core.Agent.Admin.ProcessManagement.Localization.RemoveTransitionMsg)) {
                     Transition = LocalJointObject.EntityID;
                     
                     if (Side === "start") {
@@ -438,7 +449,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
                     StartActivityID = LocalJointObject.startObject().wholeShape.properties.id;
                     
                     // otherwise change end activity in Path info from config
-                    Path[StartActivityID][EntityID]["ActivityID"] = EndActivityID;
+                    Path[StartActivityID][EntityID].ActivityID = EndActivityID;
                     
                     // re-initialize DblClick
                     Elements[EndActivityID].initTransitionDblClick(undefined, TransitionDblClick);
@@ -456,14 +467,6 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
         });
     };
     
-    function DeleteTransition(LocalJointObject) { 
-        LocalJointObject.freeJoint(LocalJointObject.startObject()); 
-        LocalJointObject.freeJoint(LocalJointObject.endObject()); 
-        Joint.dia.unregisterJoint(LocalJointObject); 
-        LocalJointObject.clean(["connection", "startCap", "endCap", "handleStart", "handleEnd", "label"]); 
-        
-    } 
-    
     TargetNS.DragTransitionAction = false;
     TargetNS.DragTransitionActionTransition = {};
     
@@ -471,7 +474,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
         // if JointObject is given, highlight this Transition
         if (typeof LocalJointObject !== 'undefined') {
             LocalJointObject._opt.attrs["stroke-width"] = 10;
-            LocalJointObject._opt.attrs["stroke"] = Color;
+            LocalJointObject._opt.attrs.stroke = Color;
             LocalJointObject._opt.attrs["stroke-linecap"] = 'square';
             LocalJointObject.update();
         }
@@ -485,7 +488,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
                     $.each(ElementJoints, function () {
                         if (this._start.shape.wholeShape.properties.object === 'Activity') {
                             this._opt.attrs["stroke-width"] = 10;
-                            this._opt.attrs["stroke"] = Color;
+                            this._opt.attrs.stroke = Color;
                             this._opt.attrs["stroke-linecap"] = 'square';
                             this.update();
                         }
@@ -499,7 +502,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
         // if JointObject is given, unhighlight only this Transition
         if (typeof LocalJointObject !== 'undefined') {
             LocalJointObject._opt.attrs["stroke-width"] = 1;
-            LocalJointObject._opt.attrs["stroke"] = '#000';
+            LocalJointObject._opt.attrs.stroke = '#000';
             LocalJointObject._opt.attrs["stroke-linecap"] = 'round';
             LocalJointObject.update();
         }
@@ -513,7 +516,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
                     $.each(ElementJoints, function () {
                         if (this._start.shape.wholeShape.properties.object === 'Activity') {
                             this._opt.attrs["stroke-width"] = 1;
-                            this._opt.attrs["stroke"] = '#000';
+                            this._opt.attrs.stroke = '#000';
                             this._opt.attrs["stroke-linecap"] = 'round';
                             this.update();
                         }
@@ -567,7 +570,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
                         TargetNS.CreateActivityDummy(100, 100);
                         
                         // Create transition between this Activity and DummyElement
-                        TargetNS.CreateTransition(Activity, 'Dummy', EntityID);
+                        TargetNS.CreateTransition(StartActivityID, 'Dummy', TransitionID);
                         
                         // Remove Connection to DummyElement and delete DummyElement again
                         TargetNS.RemoveActivityDummy();                        
@@ -609,3 +612,5 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
     
     return TargetNS;
 }(Core.Agent.Admin.ProcessManagement.Canvas || {}));
+
+/*jslint nomen: true*/

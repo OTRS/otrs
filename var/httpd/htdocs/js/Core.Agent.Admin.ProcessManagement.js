@@ -2,7 +2,7 @@
 // Core.Agent.Admin.ProcessManagement.js - provides the special module functions for the Process Management.
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.39 2012-08-10 10:42:03 mab Exp $
+// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.40 2012-08-10 11:39:53 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -251,7 +251,9 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
                     
                     // get Path length
                     for (PathKey in Path) {
-                        if (Path.hasOwnProperty(PathKey)) PathLength++;
+                        if (Path.hasOwnProperty(PathKey)) {
+                            PathLength++;
+                        }
                     }
 
                     // if no other activity is on the canvas, make this activity to the startactivity
@@ -496,7 +498,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
         // re-initialize accordion functions (accordion, filters, DnD)
         var Data = {
                 Action: 'AdminProcessManagement',
-                Subaction: 'UpdateAccordion',
+                Subaction: 'UpdateAccordion'
             };
        
         // Call the ajax function
@@ -521,6 +523,15 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
             // Initialize the different Delete Links
             InitDeleteEntity();
         }, 'html');
+    };
+    
+    TargetNS.HandlePopupClose = function () {
+        // update accordion
+        Core.Agent.Admin.ProcessManagement.UpdateAccordion();
+        // redraw canvas
+        Core.Agent.Admin.ProcessManagement.Canvas.Redraw();
+        // remove overlay
+        Core.Agent.Admin.ProcessManagement.HideOverlay();        
     };
     
     TargetNS.InitProcessEdit = function () {
@@ -607,8 +618,18 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
     };
     
     TargetNS.InitActivityEdit = function () {
+        function InitListFilter(Event, UI) {
+         // only do something, if the element was removed from the right list
+            if (UI.sender.attr('id') === 'AssignedActivityDialogs') {
+                Core.UI.Table.InitTableFilter($('#FilterAvailableActivityDialogs'), $('#AvailableActivityDialogs'));
+            }            
+        }
+        
         // Initialize Allocation List
-        Core.UI.AllocationList.Init("#AvailableActivityDialogs, #AssignedActivityDialogs", ".AllocationList");
+        Core.UI.AllocationList.Init("#AvailableActivityDialogs, #AssignedActivityDialogs", ".AllocationList", InitListFilter);
+        
+        // Initialize list filter
+        Core.UI.Table.InitTableFilter($('#FilterAvailableActivityDialogs'), $('#AvailableActivityDialogs'));
         
         // Init submit function
         $('#Submit').bind('click', function (Event) {
@@ -621,12 +642,18 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
         
         // Init popups
         InitProcessPopups();
+        
+        // Init handling of closing popup with the OS functionality ("X")
+        $(window).unbind("beforeunload.PMPopup").bind("beforeunload.PMPopup", function () {
+            window.opener.Core.Agent.Admin.ProcessManagement.HandlePopupClose();
+        });
     };
 
     TargetNS.InitActivityDialogEdit = function () {
         function RemoveFieldDetails(Event, UI) {
             // only do something, if the element was removed from the AssignedFields list
             if (UI.sender.attr('id') === 'AssignedFields') {
+                Core.UI.Table.InitTableFilter($('#FilterAvailableFields'), $('#AvailableFields'));
                 $(UI.item)
                     .removeData('config')
                     .removeAttr('data-config');
@@ -636,6 +663,10 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
         // Initialize Allocation List
         Core.UI.AllocationList.Init("#AvailableFields, #AssignedFields", ".AllocationList", RemoveFieldDetails);
         
+        // Initialize list filter
+        Core.UI.Table.InitTableFilter($('#FilterAvailableFields'), $('#AvailableFields'));
+        
+        // Initialize form submit
         $('#Submit').bind('click', function (Event) {
             var FieldConfig = Core.UI.AllocationList.GetResult('#AssignedFields', 'id'),
                 FieldDetails = {};
@@ -711,6 +742,11 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
 
             return false;
         });
+        
+        // Init handling of closing popup with the OS functionality ("X")
+        $(window).unbind("beforeunload.PMPopup").bind("beforeunload.PMPopup", function () {
+            window.opener.Core.Agent.Admin.ProcessManagement.HandlePopupClose();
+        });
     };
     
     TargetNS.InitTransitionEdit = function () {
@@ -720,30 +756,26 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
         
         // Init addition of new conditions
         $('#ConditionAdd').bind('click', function() {
-           
             // get current parent index
-            var CurrentParentIndex = parseInt($(this).prev('.ConditionField').first().attr('id').replace(/Condition\[/g, '').replace(/\]/g, ''));
-
-            // in case we add a whole new condition, the fieldindex must be 1
-            var LastKnownFieldIndex = 1;
-
-            // get current index
-            var ConditionHTML = $('#ConditionContainer').html().replace(/_INDEX_/g, CurrentParentIndex + 1).replace(/_FIELDINDEX_/g, LastKnownFieldIndex);
+            var CurrentParentIndex = parseInt($(this).prev('.ConditionField').first().attr('id').replace(/Condition\[/g, '').replace(/\]/g, ''), 10),
+                // in case we add a whole new condition, the fieldindex must be 1
+                LastKnownFieldIndex = 1,
+                // get current index
+                ConditionHTML = $('#ConditionContainer').html().replace(/_INDEX_/g, CurrentParentIndex + 1).replace(/_FIELDINDEX_/g, LastKnownFieldIndex);
+            
             $(ConditionHTML).insertBefore($('#ConditionAdd'));
-
             return false;
         });
         
         // Init removal of conditions
         $('#PresentConditionsContainer').delegate('.Remove', 'click', function() {
-            
             if ($('#PresentConditionsContainer').find('.ConditionField').length > 1) {
                 
                 $(this).parent().prev('label').remove();
                 $(this).parent().remove();
             }            
             else {
-                alert("Sorry, the only existing condition can't be removed.")
+                alert("Sorry, the only existing condition can't be removed.");
             }
             
             return false;
@@ -751,69 +783,63 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
         
         // Init addition of new fields within conditions
         $('#PresentConditionsContainer').delegate('.ConditionFieldAdd', 'click', function() {
-            
             // get current parent index
-            var CurrentParentIndex = $(this).closest('.ConditionField').attr('id').replace(/Condition\[/g, '').replace(/\]/g, '');
+            var CurrentParentIndex = $(this).closest('.ConditionField').attr('id').replace(/Condition\[/g, '').replace(/\]/g, ''),
+                // get the index for the newly to be added element
+                // therefore, we search the preceding fieldset and the first 
+                // label in it to get its "for"-attribute which contains the index 
+                LastKnownFieldIndex = parseInt($(this).prev('fieldset').find('label').attr('for').replace(/ConditionFieldName\[\d+\]\[/, '').replace(/\]/, ''), 10),
+                // add new field
+                ConditionFieldHTML = $('#ConditionFieldContainer').html().replace(/_INDEX_/g, CurrentParentIndex).replace(/_FIELDINDEX_/g, LastKnownFieldIndex + 1);
             
-            // get the index for the newly to be added element
-            // therefore, we search the preceding fieldset and the first 
-            // label in it to get its "for"-attribute which contains the index 
-            var LastKnownFieldIndex = parseInt($(this).prev('fieldset').find('label').attr('for').replace(/ConditionFieldName\[\d+\]\[/, '').replace(/\]/, ''));
-
-            // add new field
-            var ConditionFieldHTML = $('#ConditionFieldContainer').html().replace(/_INDEX_/g, CurrentParentIndex).replace(/_FIELDINDEX_/g, LastKnownFieldIndex + 1);
             $(ConditionFieldHTML).insertBefore($(this));
-
             return false;
         });
         
         // Init removal of fields within conditions
         $('.Condition .Fields').delegate('.Remove', 'click', function() {
-            
             if ($(this).closest('.Field').find('.Fields').length > 1) {
-                
                 $(this).parent().prev('label').remove();
                 $(this).parent().remove();
             }            
             else {
-                alert("Sorry, the only existing field can't be removed.")
+                alert("Sorry, the only existing field can't be removed.");
             }
             
             return false;
         });
         
         $('#Submit').bind('click', function (Event) {
-            
             var ConditionConfig = TargetNS.GetConditionConfig($('#PresentConditionsContainer').find('.ConditionField'));
             $('input[name=ConditionConfig]').val(Core.JSON.Stringify(ConditionConfig));
             $('#TransitionForm').submit();
             return false;
         });
         
+        // Init handling of closing popup with the OS functionality ("X")
+        $(window).unbind("beforeunload.PMPopup").bind("beforeunload.PMPopup", function () {
+            window.opener.Core.Agent.Admin.ProcessManagement.HandlePopupClose();
+        });
+        
     };
     
     TargetNS.InitTransitionActionEdit = function () {
-        
         // Init addition of new config parameters
         $('#ConfigAdd').bind('click', function() {
-            
             // get the index for the newly to be added element
             // therefore, we search the preceding fieldset and the first 
             // label in it to get its "for"-attribute which contains the index 
-            var LastKnownFieldIndex = parseInt($(this).prev('fieldset').find('label').attr('for').replace(/ConfigKey\[/, '').replace(/\]/, ''));
-
-            // get current index
-            var ConfigParamHTML = $('#ConfigParamContainer').html().replace(/_INDEX_/g, LastKnownFieldIndex + 1);
+            var LastKnownFieldIndex = parseInt($(this).prev('fieldset').find('label').attr('for').replace(/ConfigKey\[/, '').replace(/\]/, ''), 10),
+                // get current index
+                ConfigParamHTML = $('#ConfigParamContainer').html().replace(/_INDEX_/g, LastKnownFieldIndex + 1);
 
             $(ConfigParamHTML).insertBefore($('#ConfigAdd'));
-
             return false;
         });
         
         // Init removal of fields
         $('#ConfigParams').delegate('.Remove', 'click', function() {
             $(this).parent().remove();
-            
             return false;
         });
         
@@ -822,12 +848,13 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
             return false;
         });
         
+        // Init handling of closing popup with the OS functionality ("X")
+        $(window).unbind("beforeunload.PMPopup").bind("beforeunload.PMPopup", function () {
+            window.opener.Core.Agent.Admin.ProcessManagement.HandlePopupClose();
+        });
     };
     
     TargetNS.InitPathEdit = function () {
-        
-        // Initialize Allocation List
-        Core.UI.AllocationList.Init("#AvailableTransitionActions, #AssignedTransitionActions", ".AllocationList");
         var CurrentProcessEntityID = Core.Config.Get('Config.ProcessEntityID'),
             CurrentTransitionEntityID = Core.Config.Get('Config.TransitionEntityID'),
             ActivityInfo = window.opener.Core.Agent.Admin.ProcessManagement.ProcessData.Activity,
@@ -835,6 +862,9 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
             StartActivityEntityID = '', EndActivityEntityID = '',
             AssignedTransitionActions = [];
 
+        // Initialize Allocation List
+        Core.UI.AllocationList.Init("#AvailableTransitionActions, #AssignedTransitionActions", ".AllocationList");
+        
         // store process data to hidden field for later merging
         $('#ProcessData').val(Core.JSON.Stringify(window.opener.Core.Agent.Admin.ProcessManagement.ProcessData.Process));
 
@@ -870,16 +900,16 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
         
         // On submit, pass the new config to parent window 
         $('#PathForm').submit(function() {
-
             var NewTransitionEntityID = $('#Transition').val(),
-                NewTransitionActions  = [];
+                NewTransitionActions  = [],
+                TransitionInfo;
             
             $('#AssignedTransitionActions li').each(function() {
                 NewTransitionActions.push($(this).attr('id'));    
             });
             
             // collection transition info for later merging
-            var TransitionInfo = {
+            TransitionInfo = {
                 StartActivityEntityID  : StartActivityEntityID,
                 NewTransitionEntityID  : NewTransitionEntityID,
                 NewTransitionActions   : NewTransitionActions,
@@ -891,6 +921,11 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
         
         // Init popups
         InitProcessPopups();
+        
+        // Init handling of closing popup with the OS functionality ("X")
+        $(window).unbind("beforeunload.PMPopup").bind("beforeunload.PMPopup", function () {
+            window.opener.Core.Agent.Admin.ProcessManagement.HandlePopupClose();
+        });
     };
 
     TargetNS.ShowOverlay = function () {
@@ -936,11 +971,11 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
             $(this).find('fieldset.Fields').each(function() {
                 
                 var FieldKey = $(this).find('label').attr('for').replace(/(ConditionFieldName\[\d+\]\[|\])/g, '');
-                Conditions[ConditionKey]['Fields'][FieldKey] = {
+                Conditions[ConditionKey].Fields[FieldKey] = {
                     Name  : $(this).find('input').first().val(),
                     Type  : $(this).find('select').val(),
                     Value : $(this).find('input').last().val()
-                }
+                };
             });
             
         });
