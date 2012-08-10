@@ -2,7 +2,7 @@
 # AdminProcessManagementActivity.dtl - provides HTML for AdminProcessManagement
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementActivity.dtl,v 1.8 2012-08-10 10:44:03 mab Exp $
+# $Id: AdminProcessManagementActivity.dtl,v 1.9 2012-08-10 15:32:11 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -36,6 +36,12 @@
                 <input type="hidden" name="PopupRedirectSubaction" value="" id="PopupRedirectSubaction"/>
                 <input type="hidden" name="PopupRedirectID" value="" id="PopupRedirectID"/>
                 <input type="hidden" name="PopupRedirectEntityID" value="" id="PopupRedirectEntityID"/>
+
+<!-- dtl:block:EditWarning -->
+                <div class="WidgetSimple Expanded WidgetNotice">
+                    <div class="Content">$Text{"Please note, that changing this activity will affect the following processes"}: $QData{"ProcessList"}</div>
+                </div>
+<!-- dtl:block:EditWarning -->
 
                 <div class="WidgetSimple Expanded">
                     <div class="Header">
@@ -86,7 +92,7 @@
 <!-- dtl:block:AvailableActivityDialogRow -->
                                 <li data-id="$QData{"ID"}" title="Name: $QData{"Name"} EntityID: $QData{"EntityID"}">
                                     $QData{"Name", "55"}
-                                    <span class="Functions"><a href="#" data-entity="$QData{"EntityID"}" data-id="$QData{"ID"}" data-action="AdminProcessManagementActivityDialog" data-subaction="ActivityDialogEdit" class="AsPopup_Redirect PopupType_ActivityDialog">Edit</a></span>
+                                    <span class="Functions"><a href="#" data-entity="$QData{"EntityID"}" data-id="$QData{"ID"}" data-action="AdminProcessManagementActivityDialog" data-subaction="ActivityDialogEdit" class="AsPopup_Redirect Edit_Confirm PopupType_ActivityDialog">$Text{"Edit"}</a></span>
                                 </li>
 <!-- dtl:block:AvailableActivityDialogRow -->
                             </ul>
@@ -108,7 +114,7 @@
 <!-- dtl:block:AssignedActivityDialogRow -->
                                 <li data-id="$QData{"ID"}" title="Name: $QData{"Name"} EntityID: $QData{"EntityID"}">
                                     $QData{"Name", "55"}
-                                    <span class="Functions"><a href="#" data-entity="$QData{"EntityID"}" data-id="$QData{"ID"}" data-action="AdminProcessManagementActivityDialog" data-subaction="ActivityDialogEdit" class="AsPopup_Redirect PopupType_ActivityDialog">Edit</a></span>
+                                    <span class="Functions"><a href="#" data-entity="$QData{"EntityID"}" data-id="$QData{"ID"}" data-action="AdminProcessManagementActivityDialog" data-subaction="ActivityDialogEdit" class="AsPopup_Redirect PopupType_ActivityDialog">$Text{"Edit"}</a></span>
                                 </li>
 <!-- dtl:block:AssignedActivityDialogRow -->
                             </ul>
@@ -125,5 +131,10 @@
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
 Core.Agent.Admin.ProcessManagement.InitActivityEdit();
+
+// Localizations
+Core.Agent.Admin.ProcessManagement.Localization = {
+    EditConfirm: "$Text{"As soon as you use this button or link, you will leave this screen and its current state will be saved automatically. Do you want to continue?"}"
+};
 //]]></script>
 <!--dtl:js_on_document_complete-->
