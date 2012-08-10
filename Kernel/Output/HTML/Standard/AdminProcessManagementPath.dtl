@@ -2,7 +2,7 @@
 # AdminProcessManagementPath.dtl - provides HTML for AdminProcessManagementPath
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementPath.dtl,v 1.5 2012-08-10 10:44:03 mab Exp $
+# $Id: AdminProcessManagementPath.dtl,v 1.6 2012-08-10 11:54:14 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -47,17 +47,17 @@
                     </div>
                     <div class="Content">
                         <fieldset class="TableLike">
-                            <label class="Mandatory" for="Name">$Text{"Start Activity"}:</label>
+                            <label class="Mandatory" for="StartActivity">$Text{"Start Activity"}:</label>
                             <div class="Field">
                                 <input type="text" name="StartActivity" id="StartActivity" readonly="readonly" value="" class="W50pc Validate_Required $QData{"NameServerError"}" maxlength="70"/>
                             </div>
                             <div class="Clear"></div>
-                            <label class="Mandatory" for="Name">$Text{"End Activity"}:</label>
+                            <label class="Mandatory" for="EndActivity">$Text{"End Activity"}:</label>
                             <div class="Field">
                                 <input type="text" name="EndActivity" id="EndActivity" readonly="readonly" value="" class="W50pc Validate_Required $QData{"NameServerError"}" maxlength="70"/>
                             </div>
                             <div class="Clear"></div>
-                            <label class="Mandatory" for="Name"><span class="Marker">*</span> $Text{"Transition"}:</label>
+                            <label class="Mandatory" for="Transition"><span class="Marker">*</span> $Text{"Transition"}:</label>
                             <div class="Field">
                                 $Data{"Transition"}
                                 <div id="NameError" class="TooltipErrorMessage">

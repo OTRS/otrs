@@ -2,7 +2,7 @@
 # AdminProcessManagementProcessEdit.dtl - provides HTML for AdminProcessManagement
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementProcessEdit.dtl,v 1.28 2012-08-10 11:39:53 mn Exp $
+# $Id: AdminProcessManagementProcessEdit.dtl,v 1.29 2012-08-10 11:54:14 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -40,7 +40,7 @@
                     <li class="AccordionElement Active">
                         <h2><a href="#" class="AsBlock">Activities</a></h2>
                         <div class="Content">
-                            <input type="text" id="ActivityFilter" class="ProcessElementFilter W75pc" placeholder="$Text{"Filter Activities..."}" />
+                            <input type="text" id="ActivityFilter" class="ProcessElementFilter W75pc" placeholder="$Text{"Filter Activities..."}" title="$Text{"Filter Activities..."}" />
                             <ul class="Tablelike" id="Activities">
 <!-- dtl:block:ActivityRow -->
                                 <li title="Name: $QData{"Name"} EntityID: $QData{"EntityID"}" data-entity="$QData{"EntityID"}" data-id="$QData{"ID"}">
@@ -60,7 +60,7 @@
                     <li class="AccordionElement">
                         <h2><a href="#" class="AsBlock">Activity Dialogs</a></h2>
                         <div class="Content">
-                            <input type="text" id="ActivityDialogFilter" class="ProcessElementFilter W75pc" placeholder="$Text{"Filter Activity Dialogs..."}" />
+                            <input type="text" id="ActivityDialogFilter" class="ProcessElementFilter W75pc" placeholder="$Text{"Filter Activity Dialogs..."}" title="$Text{"Filter Activity Dialogs..."}" />
                             <ul class="Tablelike" id="ActivityDialogs">
 <!-- dtl:block:ActivityDialogRow -->
                                 <li title="Name: $QData{"Name"} EntityID: $QData{"EntityID"}" data-entity="$QData{"EntityID"}" data-id="$QData{"ID"}">
@@ -80,7 +80,7 @@
                     <li class="AccordionElement">
                         <h2><a href="#" class="AsBlock">Transitions</a></h2>
                         <div class="Content">
-                            <input type="text" id="TransitionFilter" class="ProcessElementFilter W75pc" placeholder="$Text{"Filter Transitions..."}" />
+                            <input type="text" id="TransitionFilter" class="ProcessElementFilter W75pc" placeholder="$Text{"Filter Transitions..."}" title="$Text{"Filter Transitions..."}" />
                             <ul class="Tablelike" id="Transitions">
 <!-- dtl:block:TransitionRow -->
                                 <li title="Name: $QData{"Name"} EntityID: $QData{"EntityID"}" data-entity="$QData{"EntityID"}" data-id="$QData{"ID"}">
@@ -100,7 +100,7 @@
                     <li class="AccordionElement">
                         <h2><a href="#" class="AsBlock">Transition Actions</a></h2>
                         <div class="Content">
-                            <input type="text" id="TransitionActionFilter" class="ProcessElementFilter W75pc" placeholder="$Text{"Filter Transition Actions..."}" />
+                            <input type="text" id="TransitionActionFilter" class="ProcessElementFilter W75pc" placeholder="$Text{"Filter Transition Actions..."}" title="$Text{"Filter Transition Actions..."}" />
                             <ul class="Tablelike" id="TransitionActions">
 <!-- dtl:block:TransitionActionRow -->
                                 <li title="Name: $QData{"Name"} EntityID: $QData{"EntityID"}" data-entity="$QData{"EntityID"}" data-id="$QData{"ID"}">
@@ -196,8 +196,8 @@
                     </div>
                     <h2>$Text{"Add and Edit Activities, Activity Dialogs and Transitions"}</h2>
                     <div class="CanvasActions">
-                        <a href="#" id="ExtendCanvasWidth"></a>
-                        <a href="#" id="ExtendCanvasHeight"></a>
+                        <a href="#" id="ExtendCanvasWidth" title="$Text{"Extend the width of the Canvas"}"></a>
+                        <a href="#" id="ExtendCanvasHeight" title="$Text{"Extend the height of the Canvas"}"></a>
                     </div>
                 </div>
                 <div class="Content">
