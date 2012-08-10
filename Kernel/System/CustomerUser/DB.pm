@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/DB.pm - some customer user functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.92 2012-06-21 11:39:15 mg Exp $
+# $Id: DB.pm,v 1.93 2012-08-10 07:26:28 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::Time;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.92 $) [1];
+$VERSION = qw($Revision: 1.93 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -715,7 +715,9 @@ sub CustomerUserUpdate {
 
     # update db
     my $SQL = "UPDATE $Self->{CustomerTable} SET ";
+    ENTRY:
     for my $Entry ( @{ $Self->{CustomerUserMap}->{Map} } ) {
+        next ENTRY if $Entry->[7];    # skip readonly fields
         if ( $Entry->[0] !~ /^UserPassword$/i ) {
             $SQL .= " $Entry->[2] = $Value{ $Entry->[0] }, ";
         }
