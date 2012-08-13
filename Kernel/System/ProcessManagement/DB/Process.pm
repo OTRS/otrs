@@ -2,7 +2,7 @@
 # Kernel/System/ProcessManagement/Process.pm - Process Management DB Process backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Process.pm,v 1.20 2012-08-13 16:22:35 mab Exp $
+# $Id: Process.pm,v 1.21 2012-08-13 16:26:01 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,7 +26,7 @@ use Kernel::System::ProcessManagement::DB::Transition;
 use Kernel::System::ProcessManagement::DB::TransitionAction;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.20 $) [1];
+$VERSION = qw($Revision: 1.21 $) [1];
 
 =head1 NAME
 
@@ -543,13 +543,7 @@ sub ProcessGet {
                         = $Data{Config}->{Path}->{$ActivityEntityID}->{$TransitionEntityID}
                         ->{Action};
                     if ( $TransitionActionPath && @{$TransitionActionPath} ) {
-                        for my $TransitionActionEntityID (
-                            sort @{
-                                $Data{Config}->{Path}->{$ActivityEntityID}->{$TransitionEntityID}
-                                    ->{Action}
-                            }
-                            )
-                        {
+                        for my $TransitionActionEntityID ( sort @{$TransitionActionPath} ) {
                             $TransitionActions{$TransitionActionEntityID}
                                 = $TransitionActionList->{$TransitionEntityID};
                         }
@@ -571,13 +565,7 @@ sub ProcessGet {
 
                     my $TransitionActionPath = $TransitionPath->{$TransitionEntityID}->{Action};
                     if ( $TransitionActionPath && @{$TransitionActionPath} ) {
-                        for my $TransitionActionEntityID (
-                            sort @{
-                                $Data{Config}->{Path}->{$ActivityEntityID}->{$TransitionEntityID}
-                                    ->{Action}
-                            }
-                            )
-                        {
+                        for my $TransitionActionEntityID ( sort @{$TransitionActionPath} ) {
                             push @TransitionActions, $TransitionActionEntityID;
                         }
                     }
@@ -1395,6 +1383,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.20 $ $Date: 2012-08-13 16:22:35 $
+$Revision: 1.21 $ $Date: 2012-08-13 16:26:01 $
 
 =cut
