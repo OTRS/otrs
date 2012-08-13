@@ -2,7 +2,7 @@
 // Core.Agent.Admin.ProcessManagement.js - provides the special module functions for the Process Management.
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.42 2012-08-13 09:34:04 mn Exp $
+// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.43 2012-08-13 13:31:54 mab Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -665,13 +665,16 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
         // Initialize list filter
         Core.UI.Table.InitTableFilter($('#FilterAvailableActivityDialogs'), $('#AvailableActivityDialogs'));
         
-        // Init submit function
-        $('#Submit').bind('click', function (Event) {
+        $('#Submit').bind('click', function() {
+            $('#ActivityForm').submit();
+        });
+        
+        Core.Form.Validate.SetSubmitFunction($('#ActivityForm'), function (Form) {
+        
             // get assigned activity dialogs
             $('input[name=ActivityDialogs]').val(Core.JSON.Stringify(Core.UI.AllocationList.GetResult('#AssignedActivityDialogs', 'id')));
-            
-            $('#ActivityForm').submit();
-            return false;
+        
+            Form.submit();
         });
         
         // Init popups
@@ -929,8 +932,9 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
             $('#PathForm').submit();
         });
         
-        // On submit, pass the new config to parent window 
-        $('#PathForm').submit(function() {
+        // init submit
+        Core.Form.Validate.SetSubmitFunction($('#PathForm'), function (Form) {
+        
             var NewTransitionEntityID = $('#Transition').val(),
                 NewTransitionActions  = [],
                 TransitionInfo;
@@ -948,6 +952,8 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
             };
                 
             $('#TransitionInfo').val(Core.JSON.Stringify(TransitionInfo));
+        
+            Form.submit();
         });
         
         // Init popups
