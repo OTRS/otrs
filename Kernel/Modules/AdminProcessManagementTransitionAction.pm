@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminProcessManagementTransitionAction.pm - process management transition action
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementTransitionAction.pm,v 1.6 2012-08-10 10:41:14 mab Exp $
+# $Id: AdminProcessManagementTransitionAction.pm,v 1.7 2012-08-13 16:20:35 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::ProcessManagement::DB::TransitionAction;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -525,6 +525,22 @@ sub _ShowEdit {
             );
             $Index++;
         }
+
+        # display other affected transitions by editing this activity (if applicable)
+        my $AffectedProcesses = $Self->_CheckTransitionActionUsage(
+            EntityID => $TransitionActionData->{EntityID},
+        );
+
+        if ( @{$AffectedProcesses} ) {
+
+            $Self->{LayoutObject}->Block(
+                Name => 'EditWarning',
+                Data => {
+                    ProcessList => join( ', ', @{$AffectedProcesses} ),
+                    }
+            );
+        }
+
     }
     else {
         $Self->{LayoutObject}->Block(
@@ -683,6 +699,33 @@ sub _PopupResponse {
     $Output .= $Self->{LayoutObject}->Footer( Type => 'Small' );
 
     return $Output;
+}
+
+sub _CheckTransitionActionUsage {
+    my ( $Self, %Param ) = @_;
+
+    # get a list of parents with all the details
+    my $List = $Self->{ProcessObject}->ProcessListGet(
+        UserID => 1,
+    );
+
+    my @Usage;
+
+    # search entity id in all parents
+    PARENT:
+    for my $ParentData ( @{$List} ) {
+        next PARENT if !$ParentData;
+        next PARENT if !$ParentData->{TransitionActions};
+        ENTITY:
+        for my $EntityID ( @{ $ParentData->{TransitionActions} } ) {
+            if ( $EntityID eq $Param{EntityID} ) {
+                push @Usage, $ParentData->{Name};
+                last ENTITY;
+            }
+        }
+    }
+
+    return \@Usage;
 }
 
 1;
