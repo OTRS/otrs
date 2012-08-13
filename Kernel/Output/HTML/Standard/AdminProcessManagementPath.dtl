@@ -2,7 +2,7 @@
 # AdminProcessManagementPath.dtl - provides HTML for AdminProcessManagementPath
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementPath.dtl,v 1.7 2012-08-10 15:33:22 mab Exp $
+# $Id: AdminProcessManagementPath.dtl,v 1.8 2012-08-13 13:32:34 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,7 +25,7 @@
     </div>
     <div class="Content">
         <div class="ContentColumn">
-            <form id="PathForm" action="$Env{"CGIHandle"}" method="post" class="PreventMultipleSubmits">
+            <form id="PathForm" action="$Env{"CGIHandle"}" method="post" class="Validate PreventMultipleSubmits">
                 <input type="hidden" name="Action" value="$Env{"Action"}"/>
                 <input type="hidden" name="Subaction" value="Path$QData{"Action"}Action"/>
                 <input type="hidden" name="ProcessEntityID" value="$Data{"ProcessEntityID"}" id="ProcessEntityID"/>
