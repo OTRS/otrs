@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminProcessManagement.pm - process management
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagement.pm,v 1.23 2012-08-10 15:22:22 mab Exp $
+# $Id: AdminProcessManagement.pm,v 1.24 2012-08-13 16:22:02 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,7 +26,7 @@ use Kernel::System::ProcessManagement::DB::TransitionAction;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.23 $) [1];
+$VERSION = qw($Revision: 1.24 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -739,11 +739,13 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'UpdateScreensPath' ) {
 
         my $Success = 1;
+        my $Message = '';
         for my $Needed (qw(ProcessID ProcessEntityID)) {
 
             $Param{$Needed} = $Self->{ParamObject}->GetParam( Param => $Needed ) || '';
             if ( !$Param{$Needed} ) {
                 $Success = 0;
+                $Message = 'Need $Needed!';
             }
         }
 
@@ -761,6 +763,7 @@ sub Run {
         my $JSON = $Self->{LayoutObject}->JSONEncode(
             Data => {
                 Success => $Success,
+                Message => $Message,
             },
         );
 
@@ -896,6 +899,14 @@ sub _ShowEdit {
     # get a list of all states
     my $StateList = $Self->{StateObject}->StateList( UserID => $Self->{UserID} );
 
+    # get the 'inactive' state for init
+    my $InactiveStateID;
+    for my $StateID ( keys %{$StateList} ) {
+        if ( $StateList->{$StateID} =~ m{Inactive}xmsi ) {
+            $InactiveStateID = $StateID;
+        }
+    }
+
     my $StateError = '';
     if ( $Param{StateEntityIDServerError} ) {
         $StateError = $Param{StateEntityIDServerError};
@@ -903,11 +914,12 @@ sub _ShowEdit {
 
     # create estate selection
     $Param{StateSelection} = $Self->{LayoutObject}->BuildSelection(
-        Data       => $StateList                    || {},
-        Name       => 'StateEntityID',
-        ID         => 'StateEntityID',
-        SelectedID => $ProcessData->{StateEntityID} || '',
-        Sort       => 'AlphanumericKey',
+        Data => $StateList || {},
+        Name => 'StateEntityID',
+        ID   => 'StateEntityID',
+        SelectedID => $ProcessData->{StateEntityID}
+            || $InactiveStateID,    # select inactive by default
+        Sort        => 'AlphanumericKey',
         Translation => 1,
         Class       => 'W50pc ' . $StateError,
     );
