@@ -1,8 +1,8 @@
 # --
 # Kernel/System/UnitTest.pm - the global test wrapper
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: UnitTest.pm,v 1.60 2011-10-10 14:06:19 ep Exp $
+# $Id: UnitTest.pm,v 1.60.2.1 2012-08-14 11:23:22 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.60 $) [1];
+$VERSION = qw($Revision: 1.60.2.1 $) [1];
 
 =head1 NAME
 
@@ -180,11 +180,16 @@ sub Run {
         else {
             $Self->_PrintHeadlineStart($File);
 
-            # HERE the actual tests are run!!!
-            if ( !eval ${$UnitTestFile} ) {
-                $Self->True( 0, "ERROR: Syntax error in $File: $@" );
-                print STDERR "ERROR: Syntax error in $File: $@\n";
+            # create a new scope to be sure to destroy local object of the test files
+            {
+
+                # HERE the actual tests are run!!!
+                if ( !eval ${$UnitTestFile} ) {
+                    $Self->True( 0, "ERROR: Syntax error in $File: $@" );
+                    print STDERR "ERROR: Syntax error in $File: $@\n";
+                }
             }
+
             $Self->_PrintHeadlineEnd($File);
         }
     }
@@ -924,6 +929,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.60 $ $Date: 2011-10-10 14:06:19 $
+$Revision: 1.60.2.1 $ $Date: 2012-08-14 11:23:22 $
 
 =cut
