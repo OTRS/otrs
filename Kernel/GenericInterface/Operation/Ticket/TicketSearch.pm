@@ -2,7 +2,7 @@
 # Kernel/GenericInterface/Operation/Ticket/TicketSearch.pm - GenericInterface Ticket Search operation backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketSearch.pm,v 1.14 2012-02-09 03:04:29 cr Exp $
+# $Id: TicketSearch.pm,v 1.14.2.1 2012-08-14 22:45:21 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::GenericInterface::Operation::Common;
 use Kernel::GenericInterface::Operation::Ticket::Common;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.14.2.1 $) [1];
 
 =head1 NAME
 
@@ -302,7 +302,7 @@ sub Run {
     %GetParam = $Self->_CreateTimeSettings(%GetParam);
 
     # get dynamic fields
-    my %DynamicFieldSearchParameters = $Self->_GetDynamicFields(%GetParam);
+    my %DynamicFieldSearchParameters = $Self->_GetDynamicFields( %{ $Param{Data} } );
 
     # perform ticket search
     my @TicketIDs = $Self->{TicketObject}->TicketSearch(
@@ -365,30 +365,6 @@ sub _GetParams {
         Agent ResultForm TimeSearchType ChangeTimeSearchType CloseTimeSearchType UseSubQueues
         ArticleTimeSearchType SearchInArchive
         Fulltext ShownAttributes
-        ArticleCreateTimePointFormat ArticleCreateTimePoint
-        ArticleCreateTimePointStart
-        ArticleCreateTimeStart ArticleCreateTimeStartDay ArticleCreateTimeStartMonth
-        ArticleCreateTimeStartYear
-        ArticleCreateTimeStop ArticleCreateTimeStopDay ArticleCreateTimeStopMonth
-        ArticleCreateTimeStopYear
-        TicketCreateTimePointFormat TicketCreateTimePoint
-        TicketCreateTimePointStart
-        TicketCreateTimeStart TicketCreateTimeStartDay TicketCreateTimeStartMonth
-        TicketCreateTimeStartYear
-        TicketCreateTimeStop TicketCreateTimeStopDay TicketCreateTimeStopMonth
-        TicketCreateTimeStopYear
-        TicketChangeTimePointFormat TicketChangeTimePoint
-        TicketChangeTimePointStart
-        TicketChangeTimeStart TicketChangeTimeStartDay TicketChangeTimeStartMonth
-        TicketChangeTimeStartYear
-        TicketChangeTimeStop TicketChangeTimeStopDay TicketChangeTimeStopMonth
-        TicketChangeTimeStopYear
-        TicketCloseTimePointFormat TicketCloseTimePoint
-        TicketCloseTimePointStart
-        TicketCloseTimeStart TicketCloseTimeStartDay TicketCloseTimeStartMonth
-        TicketCloseTimeStartYear
-        TicketCloseTimeStop TicketCloseTimeStopDay TicketCloseTimeStopMonth
-        TicketCloseTimeStopYear
         )
         )
     {
@@ -451,6 +427,57 @@ sub _GetParams {
         }
     }
 
+    my @Prefixes = (
+        'TicketCreateTime',
+        'TicketChangeTime',
+        'TicketCloseTime',
+        'TicketPendingTime',
+        'ArticleCreateTime',
+    );
+
+    my @Postfixes = (
+        'Point',
+        'PointFormat',
+        'PointStart',
+        'Start',
+        'StartDay',
+        'StartMonth',
+        'StartYear',
+        'Stop',
+        'StopDay',
+        'StopMonth',
+        'StopYear',
+        'OlderMinutes',
+        'NewerMinutes',
+        'OlderDate',
+        'NewerDate',
+    );
+
+    for my $Prefix (@Prefixes) {
+
+        # get search string params (get submitted params)
+        if ( IsStringWithData( $Param{$Prefix} ) ) {
+            $GetParam{$Prefix} = $Param{$Prefix};
+
+            # remove white space on the start and end
+            $GetParam{$Prefix} =~ s/\s+$//g;
+            $GetParam{$Prefix} =~ s/^\s+//g;
+        }
+
+        for my $Postfix (@Postfixes) {
+            my $Item = $Prefix . $Postfix;
+
+            # get search string params (get submitted params)
+            if ( IsStringWithData( $Param{$Item} ) ) {
+                $GetParam{$Item} = $Param{$Item};
+
+                # remove white space on the start and end
+                $GetParam{$Item} =~ s/\s+$//g;
+                $GetParam{$Item} =~ s/^\s+//g;
+            }
+        }
+    }
+
     return %GetParam;
 
 }
@@ -480,14 +507,10 @@ sub _GetDynamicFields {
     # get single params
     my %AttributeLookup;
 
-    # get dynamic field config for frontend module
-    my $DynamicFieldFilter = $Self->{Config}->{DynamicField};
-
     # get the dynamic fields for ticket object
     $Self->{DynamicField} = $Self->{DynamicFieldObject}->DynamicFieldListGet(
-        Valid       => 1,
-        ObjectType  => ['Ticket'],
-        FieldFilter => $Self->{DynamicFieldFilter} || {},
+        Valid      => 1,
+        ObjectType => ['Ticket'],
     );
 
     for my $ParameterName ( keys %Param ) {
@@ -505,7 +528,7 @@ sub _GetDynamicFields {
 
                 # get new search parameter
                 my $SearchParameter
-                    = $Self->{BackendObject}->CommonSearchFieldParameterBuild(
+                    = $Self->{DFBackendObject}->CommonSearchFieldParameterBuild(
                     DynamicFieldConfig => $DynamicFieldConfig,
                     Value              => $Param{$ParameterName},
                     );
@@ -514,7 +537,7 @@ sub _GetDynamicFields {
                 # set search parameter
                 if ( defined $SearchParameter ) {
                     $DynamicFieldSearchParameters{ 'DynamicField_' . $DynamicFieldConfig->{Name} }
-                        = $SearchParameter->{Parameter};
+                        = $Param{ 'DynamicField_' . $DynamicFieldConfig->{Name} };
                 }
             }
         }
@@ -738,6 +761,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.14 $ $Date: 2012-02-09 03:04:29 $
+$Revision: 1.14.2.1 $ $Date: 2012-08-14 22:45:21 $
 
 =cut
