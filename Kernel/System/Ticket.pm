@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.567 2012-07-03 14:29:24 mg Exp $
+# $Id: Ticket.pm,v 1.568 2012-08-14 07:54:12 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -40,7 +40,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.567 $) [1];
+$VERSION = qw($Revision: 1.568 $) [1];
 
 =head1 NAME
 
@@ -5559,7 +5559,7 @@ sub TicketWatchSubscribe {
         SQL => '
             DELETE FROM ticket_watcher
             WHERE ticket_id = ?
-            AND user_id = ?',
+                AND user_id = ?',
         Bind => [ \$Param{TicketID}, \$Param{WatchUserID} ],
     );
     return if !$Self->{DBObject}->Do(
@@ -7682,6 +7682,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.567 $ $Date: 2012-07-03 14:29:24 $
+$Revision: 1.568 $ $Date: 2012-08-14 07:54:12 $
 
 =cut
