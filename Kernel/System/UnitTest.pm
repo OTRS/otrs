@@ -1,8 +1,8 @@
 # --
 # Kernel/System/UnitTest.pm - the global test wrapper
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: UnitTest.pm,v 1.45.2.7 2011-03-09 17:01:33 mh Exp $
+# $Id: UnitTest.pm,v 1.45.2.8 2012-08-14 11:22:58 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.45.2.7 $) [1];
+$VERSION = qw($Revision: 1.45.2.8 $) [1];
 
 =head1 NAME
 
@@ -180,11 +180,16 @@ sub Run {
         else {
             $Self->_PrintHeadlineStart($File);
 
-            # HERE the actual tests are run!!!
-            if ( !eval ${$UnitTestFile} ) {
-                $Self->True( 0, "ERROR: Syntax error in $File: $@" );
-                print STDERR "ERROR: Syntax error in $File: $@\n";
+            # create a new scope to be sure to destroy local object of the test files
+            {
+
+                # HERE the actual tests are run!!!
+                if ( !eval ${$UnitTestFile} ) {
+                    $Self->True( 0, "ERROR: Syntax error in $File: $@" );
+                    print STDERR "ERROR: Syntax error in $File: $@\n";
+                }
             }
+
             $Self->_PrintHeadlineEnd($File);
         }
     }
@@ -509,9 +514,9 @@ Where $ParamA and $ParamB must be references to a structure (scalar, list or has
 Returns 1 if the data structures are the same, or undef otherwise.
 
     my $IsDeeplyResult = $UnitTestObject->IsDeeply(
-        \%ResultHash,           # test data
-        \%ExpectedHash,         # expected value
-        'Dummy Test Name',
+    ï¿½ï¿½ï¿½ \%ResultHash,           # test data
+    ï¿½ï¿½ï¿½ \%ExpectedHash,         # expected value
+    ï¿½ï¿½ï¿½ 'Dummy Test Name',
     );
 
 =cut
@@ -880,6 +885,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.45.2.7 $ $Date: 2011-03-09 17:01:33 $
+$Revision: 1.45.2.8 $ $Date: 2012-08-14 11:22:58 $
 
 =cut
