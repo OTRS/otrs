@@ -2,7 +2,7 @@
 # Process.t - ProcessManagement DB process tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Process.t,v 1.5 2012-07-12 22:49:28 cr Exp $
+# $Id: Process.t,v 1.6 2012-08-14 10:59:23 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -550,15 +550,38 @@ for my $Test (@Tests) {
             $ActivityNames = 1;
         }
 
+        my $TransitionNames = 0;
+        if ( defined $Test->{Config}->{TransitionNames} && $Test->{Config}->{TransitionNames} == 1 )
+        {
+            $TransitionNames = 1;
+        }
+
+        my $TransitionActionNames = 0;
+        if (
+            defined $Test->{Config}->{TransitionActionNames}
+            && $Test->{Config}->{TransitionActionNames} == 1
+            )
+        {
+            $TransitionActionNames = 1;
+        }
+
         # check cache
         my $CacheKey;
         if ( $Test->{Config}->{ID} ) {
             $CacheKey = 'ProcessGet::ID::' . $Test->{Config}->{ID} . '::ActivityNames::'
-                . $ActivityNames;
+                . $ActivityNames
+                . '::TransitionNames::'
+                . $TransitionNames
+                . '::TransitionActionNames::'
+                . $TransitionActionNames;
         }
         else {
             $CacheKey = 'ProcessGet::EntityID::' . $Test->{Config}->{EntityID} . '::ActivityNames::'
-                . $ActivityNames;
+                . $ActivityNames
+                . '::TransitionNames::'
+                . $TransitionNames
+                . '::TransitionActionNames::'
+                . $TransitionActionNames;
         }
 
         my $Cache = $ProcessObject->{CacheObject}->Get(
@@ -576,7 +599,10 @@ for my $Test (@Tests) {
         my %ExpectedProcess = %{ $AddedProcess{ $Process->{ID} } };
         delete $ExpectedProcess{UserID};
 
-        for my $Attribute (qw(ID Activities CreateTime ChangeTime State)) {
+        for my $Attribute (
+            qw(ID Activities Transitions TransitionActions CreateTime ChangeTime State)
+            )
+        {
             $Self->IsNot(
                 $Process->{$Attribute},
                 undef,
@@ -820,7 +846,10 @@ for my $Test (@Tests) {
         );
 
         # check cache
-        my $CacheKey = 'ProcessGet::ID::' . $Test->{Config}->{ID} . '::ActivityNames::0';
+        my $CacheKey
+            = 'ProcessGet::ID::'
+            . $Test->{Config}->{ID}
+            . '::ActivityNames::0::TransitionNames::0::TransitionActionNames::0';
 
         my $Cache = $ProcessObject->{CacheObject}->Get(
             Type => 'ProcessManagement_Process',
@@ -883,7 +912,10 @@ for my $Test (@Tests) {
             my %ExpectedProcess = %{ $Test->{Config} };
             delete $ExpectedProcess{UserID};
 
-            for my $Attribute (qw( Activities CreateTime ChangeTime State)) {
+            for my $Attribute (
+                qw( Activities Transitions TransitionActions CreateTime ChangeTime State)
+                )
+            {
                 delete $NewProcess->{$Attribute};
             }
 
