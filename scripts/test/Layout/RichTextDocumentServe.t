@@ -2,7 +2,7 @@
 # scripts/test/Layout/RichTextDocumentServe.t - layout testscript
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: RichTextDocumentServe.t,v 1.2 2012-08-14 10:58:32 mg Exp $
+# $Id: RichTextDocumentServe.t,v 1.3 2012-08-14 12:42:52 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -50,7 +50,7 @@ my $LayoutObject = Kernel::Output::HTML::Layout->new(
 
 my @Tests = (
     {
-        Name => 'RichTextDocumentServe() ',
+        Name => '',
         Data => {
             Content     => '<img src="cid:1234567890ABCDEF">',
             ContentType => 'text/html; charset="iso-8859-1"',
@@ -69,7 +69,7 @@ my @Tests = (
         },
     },
     {
-        Name => 'RichTextDocumentServe() ',
+        Name => '',
         Data => {
             Content     => "<img border=\"0\" src=\"cid:1234567890ABCDEF\">",
             ContentType => 'text/html; charset="iso-8859-1"',
@@ -88,7 +88,7 @@ my @Tests = (
         },
     },
     {
-        Name => 'RichTextDocumentServe() ',
+        Name => '',
         Data => {
             Content     => "<img border=\"0\" \nsrc=\"cid:1234567890ABCDEF\">",
             ContentType => 'text/html; charset="iso-8859-1"',
@@ -107,7 +107,7 @@ my @Tests = (
         },
     },
     {
-        Name => 'RichTextDocumentServe() ',
+        Name => '',
         Data => {
             Content     => '<img src=cid:1234567890ABCDEF>',
             ContentType => 'text/html; charset="iso-8859-1"',
@@ -126,7 +126,7 @@ my @Tests = (
         },
     },
     {
-        Name => 'RichTextDocumentServe() ',
+        Name => '',
         Data => {
             Content     => '<img src=cid:1234567890ABCDEF />',
             ContentType => 'text/html; charset="iso-8859-1"',
@@ -145,7 +145,7 @@ my @Tests = (
         },
     },
     {
-        Name => 'RichTextDocumentServe() ',
+        Name => '',
         Data => {
             Content     => '<img src=\'cid:1234567890ABCDEF\' />',
             ContentType => 'text/html; charset="iso-8859-1"',
@@ -164,7 +164,7 @@ my @Tests = (
         },
     },
     {
-        Name => 'RichTextDocumentServe() ',
+        Name => '',
         Data => {
             Content     => '<img src=\'Untitled%20Attachment\' />',
             ContentType => 'text/html; charset="iso-8859-1"',
@@ -183,7 +183,7 @@ my @Tests = (
         },
     },
     {
-        Name => 'RichTextDocumentServe() drop script tag',
+        Name => 'drop script tag',
         Data => {
             Content     => '1<script></script>',
             ContentType => 'text/html; charset="iso-8859-1"',
@@ -200,7 +200,7 @@ my @Tests = (
         },
     },
     {
-        Name => 'RichTextDocumentServe() keep script tag',
+        Name => 'keep script tag',
         Data => {
             Content     => '1<script></script>',
             ContentType => 'text/html; charset="iso-8859-1"',
@@ -218,7 +218,7 @@ my @Tests = (
         },
     },
     {
-        Name => 'RichTextDocumentServe() drop external image',
+        Name => 'drop external image',
         Data => {
             Content     => '1<img src="http://google.com"/>',
             ContentType => 'text/html; charset="iso-8859-1"',
@@ -242,7 +242,7 @@ my @Tests = (
         },
     },
     {
-        Name => 'RichTextDocumentServe() keep external image',
+        Name => 'keep external image',
         Data => {
             Content     => '1<img src="http://google.com"/>',
             ContentType => 'text/html; charset="iso-8859-1"',
@@ -256,6 +256,46 @@ my @Tests = (
         LoadExternalImages => 1,
         Result             => {
             Content     => '1<img src="http://google.com"/>',
+            ContentType => 'text/html; charset="utf-8"',
+        },
+    },
+    {
+        Name => 'transform content charset',
+        Data => {
+            Content => <<EOF,
+<!DOCTYPE html SYSTEM "about:legacy-compat">
+<html lang="de-de">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+<body>
+    <p>Some note about UTF8, UTF-8, utf8 and utf-8.</p>
+    <p>Some note about ISO-8859-1 and iso-8859-1.</p>
+</body>
+</html>
+EOF
+            ContentType => 'text/html; charset="iso-8859-1"',
+        },
+        URL         => 'Action=SomeAction;FileID=',
+        Attachments => {
+            0 => {
+                ContentID => '<Untitled%20Attachment>',
+            },
+        },
+        LoadExternalImages => 1,
+        Result             => {
+            Content => <<EOF,
+<!DOCTYPE html SYSTEM "about:legacy-compat">
+<html lang="de-de">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+<body>
+    <p>Some note about UTF8, UTF-8, utf8 and utf-8.</p>
+    <p>Some note about ISO-8859-1 and iso-8859-1.</p>
+</body>
+</html>
+EOF
             ContentType => 'text/html; charset="utf-8"',
         },
     },
