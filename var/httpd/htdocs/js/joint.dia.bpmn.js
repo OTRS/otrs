@@ -2,7 +2,7 @@
 // joint.dia.bpmn.js - provides the BPMN diagram functionality for JointJS
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: joint.dia.bpmn.js,v 1.17 2012-08-10 11:39:53 mn Exp $
+// $Id: joint.dia.bpmn.js,v 1.18 2012-08-14 07:03:52 mab Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -304,7 +304,10 @@ bpmn.Activity = Element.extend({
             })
             .unbind('click')
             .bind('click', function () {
-                elem.removeActivity(ElementProperties.id);
+                var Remove = confirm(Core.Agent.Admin.ProcessManagement.Localization.RemoveActivityMsg);
+                if (Remove) {
+                    elem.removeActivity(ElementProperties.id);
+                }
                 return false;
             });
     },
@@ -377,9 +380,14 @@ bpmn.Activity = Element.extend({
         // Add content to the tooltip
         text += "<ul>";
         
-        $.each(ActivityDialogs, function (Key, Value) {
-            text += "<li>" + Core.Agent.Admin.ProcessManagement.ProcessData.ActivityDialog[Value].Name + "</li>";
-        });
+        if (ActivityDialogs.length) {
+            $.each(ActivityDialogs, function (Key, Value) {
+                text += "<li>" + Core.Agent.Admin.ProcessManagement.ProcessData.ActivityDialog[Value].Name + "</li>";
+            });
+        }
+        else {
+            text += '<li class="NoDialogsAssigned">' + Core.Agent.Admin.ProcessManagement.Localization.NoDialogsAssigned + '</li>';
+        }
         
         text += "</ul>";
         
@@ -525,7 +533,9 @@ bpmn.StartArrow = {
 bpmn.Arrow = {
     startArrow: {type: "conditional"},
     endArrow: {type: "basic", size: 4},
-    attrs: {"stroke-dasharray": "none"}
+    attrs: {"stroke-dasharray": "none"},
+    labelAttrs: { "font-size": "11", "fill": "#fff" },
+    labelBoxAttrs: { "fill": "#444", "r": 2, "stroke": "#444", "stroke-width": 13 }
 };
 
 }(this));
