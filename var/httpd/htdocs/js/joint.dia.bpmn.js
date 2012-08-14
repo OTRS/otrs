@@ -2,7 +2,7 @@
 // joint.dia.bpmn.js - provides the BPMN diagram functionality for JointJS
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: joint.dia.bpmn.js,v 1.18 2012-08-14 07:03:52 mab Exp $
+// $Id: joint.dia.bpmn.js,v 1.19 2012-08-14 08:24:48 mab Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -379,8 +379,7 @@ bpmn.Activity = Element.extend({
         
         // Add content to the tooltip
         text += "<ul>";
-        
-        if (ActivityDialogs.length) {
+        if (ActivityDialogs) {
             $.each(ActivityDialogs, function (Key, Value) {
                 text += "<li>" + Core.Agent.Admin.ProcessManagement.ProcessData.ActivityDialog[Value].Name + "</li>";
             });
