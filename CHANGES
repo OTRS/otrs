@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2260.2.101 2012-08-14 07:33:45 mg Exp $
+# $Id: CHANGES,v 1.2260.2.102 2012-08-14 10:06:42 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 3.1.9 2012-??-??
+ - 2012-08-14 Fixed bug#8685 - Cannot use address book / customer / spell check in phone /
+    email if cookies are disabled. (partly fixed)
  - 2012-08-06 Fixed bug#8682 - linking search conditions with && in
     Customersearch is not working since Update from 3.1.1 to 3.1.7. - 2012-08-06 Fixed bug#8683 - Cannot create dynamic field if cookies are disabled.
  - 2012-08-06 Fixed bug#8672 - Search Profile can't have an ampersand in the name via
