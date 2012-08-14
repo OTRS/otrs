@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: ProcessManagement.xml,v 1.6 2012-08-06 15:10:47 mab Exp $</CVS>
+    <CVS>$Id: ProcessManagement.xml,v 1.7 2012-08-14 12:57:09 mn Exp $</CVS>
     <ConfigItem Name="Process::CacheTTL" Required="1" Valid="1">
         <Description Translatable="1">Cache time in seconds for the DB process backend.</Description>
         <Group>ProcessManagement</Group>
@@ -37,7 +37,7 @@
                 <Loader>
                     <CSS>Core.Agent.Admin.ProcessManagement.css</CSS>
                     <CSS>Core.AllocationList.css</CSS>
-                    <JavaScript>thirdparty/raphael-1.3.1/raphael.js</JavaScript>
+                    <JavaScript>thirdparty/raphael-1.3.2/raphael.js</JavaScript>
                     <JavaScript>thirdparty/jointjs-0.4/joint.js</JavaScript>
                     <JavaScript>thirdparty/jointjs-0.4/joint.dia.js</JavaScript>
                     <JavaScript>joint.dia.bpmn.js</JavaScript>

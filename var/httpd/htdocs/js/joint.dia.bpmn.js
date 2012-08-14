@@ -2,7 +2,7 @@
 // joint.dia.bpmn.js - provides the BPMN diagram functionality for JointJS
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: joint.dia.bpmn.js,v 1.19 2012-08-14 08:24:48 mab Exp $
+// $Id: joint.dia.bpmn.js,v 1.20 2012-08-14 12:57:09 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -322,7 +322,7 @@ bpmn.Activity = Element.extend({
         this.hideTooltip();
         this.hideDeleteButton();
         
-        // if Activity id StartActivity, this Actiovity cannot be removed...
+        // if Activity id StartActivity, this Activity cannot be removed...
         if (Config.Process[ProcessEntityID].StartActivity === Entity) {
             alert(Core.Agent.Admin.ProcessManagement.Localization.ActivityCannotBeDeleted);
             return;
@@ -333,6 +333,10 @@ bpmn.Activity = Element.extend({
         if (typeof Config.Process[ProcessEntityID].Path[Entity] !== 'undefined') {
             delete Config.Process[ProcessEntityID].Path[Entity];
         }
+        
+        // delete Elements array entry
+        Core.Agent.Admin.ProcessManagement.Canvas.RemoveActivityFromConfig(Entity);
+        
         // delete all transitions *to* this entity
         $.each(Config.Process[ProcessEntityID].Path, function (StartActivity, Value) {
             // the Value is a hash with the transition name as Key

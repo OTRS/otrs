@@ -832,9 +832,9 @@ Element.mouseMove = function(e){
     if (dia._currentDrag){
 	if (dia._currentDrag._opt.ghosting)	// if ghosting, move ghost
 	    dia._currentDrag.ghost.translate(e.clientX - dia._currentDrag.dx, e.clientY - dia._currentDrag.dy);
-	else	// otherwise, move the whole shape
+	else 	// otherwise, move the whole shape
 	    dia._currentDrag.translate(e.clientX - dia._currentDrag.dx, e.clientY - dia._currentDrag.dy);
-
+	
 	dia._currentDrag.dx = e.clientX;
 	dia._currentDrag.dy = e.clientY;
     }
