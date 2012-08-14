@@ -2,7 +2,7 @@
 # scripts/test/Layout/RichTextDocumentServe.t - layout testscript
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: RichTextDocumentServe.t,v 1.1 2012-07-31 09:58:54 mg Exp $
+# $Id: RichTextDocumentServe.t,v 1.2 2012-08-14 10:58:32 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -65,7 +65,8 @@ my @Tests = (
         Result => {
             Content =>
                 '<img src="No-$ENV{"SCRIPT_NAME"}?Action=SomeAction;FileID=0;;SessionID=123">',
-            }
+            ContentType => 'text/html; charset="utf-8"',
+        },
     },
     {
         Name => 'RichTextDocumentServe() ',
@@ -83,7 +84,8 @@ my @Tests = (
         Result => {
             Content =>
                 '<img border="0" src="No-$ENV{"SCRIPT_NAME"}?Action=SomeAction;FileID=0;;SessionID=123">',
-            }
+            ContentType => 'text/html; charset="utf-8"',
+        },
     },
     {
         Name => 'RichTextDocumentServe() ',
@@ -101,7 +103,8 @@ my @Tests = (
         Result => {
             Content =>
                 "<img border=\"0\" \nsrc=\"No-\$ENV{\"SCRIPT_NAME\"}?Action=SomeAction;FileID=0;;SessionID=123\">",
-            }
+            ContentType => 'text/html; charset="utf-8"',
+        },
     },
     {
         Name => 'RichTextDocumentServe() ',
@@ -119,7 +122,8 @@ my @Tests = (
         Result => {
             Content =>
                 '<img src="No-$ENV{"SCRIPT_NAME"}?Action=SomeAction;FileID=0;;SessionID=123">',
-            }
+            ContentType => 'text/html; charset="utf-8"',
+        },
     },
     {
         Name => 'RichTextDocumentServe() ',
@@ -137,7 +141,8 @@ my @Tests = (
         Result => {
             Content =>
                 '<img src="No-$ENV{"SCRIPT_NAME"}?Action=SomeAction;FileID=0;;SessionID=123" />',
-            }
+            ContentType => 'text/html; charset="utf-8"',
+        },
     },
     {
         Name => 'RichTextDocumentServe() ',
@@ -155,7 +160,8 @@ my @Tests = (
         Result => {
             Content =>
                 '<img src=\'No-$ENV{"SCRIPT_NAME"}?Action=SomeAction;FileID=0;;SessionID=123\' />',
-            }
+            ContentType => 'text/html; charset="utf-8"',
+        },
     },
     {
         Name => 'RichTextDocumentServe() ',
@@ -173,7 +179,8 @@ my @Tests = (
         Result => {
             Content =>
                 '<img src=\'No-$ENV{"SCRIPT_NAME"}?Action=SomeAction;FileID=0;;SessionID=123\' />',
-            }
+            ContentType => 'text/html; charset="utf-8"',
+        },
     },
     {
         Name => 'RichTextDocumentServe() drop script tag',
@@ -188,7 +195,8 @@ my @Tests = (
             },
         },
         Result => {
-            Content => '1',
+            Content     => '1',
+            ContentType => 'text/html; charset="utf-8"',
         },
     },
     {
@@ -205,7 +213,8 @@ my @Tests = (
         },
         LoadInlineContent => 1,
         Result            => {
-            Content => '1<script></script>',
+            Content     => '1<script></script>',
+            ContentType => 'text/html; charset="utf-8"',
         },
     },
     {
@@ -229,6 +238,7 @@ my @Tests = (
         <a href="No-$ENV{"SCRIPT_NAME"}?;LoadExternalImages=1">Blockierten Inhalt laden.</a>
     </div>
 </div>1',
+            ContentType => 'text/html; charset="utf-8"',
         },
     },
     {
@@ -245,7 +255,8 @@ my @Tests = (
         },
         LoadExternalImages => 1,
         Result             => {
-            Content => '1<img src="http://google.com"/>',
+            Content     => '1<img src="http://google.com"/>',
+            ContentType => 'text/html; charset="utf-8"',
         },
     },
 );
@@ -257,7 +268,12 @@ for my $Test (@Tests) {
     $Self->Is(
         $HTML{Content},
         $Test->{Result}->{Content},
-        $Test->{Name},
+        "$Test->{Name} - Content",
+    );
+    $Self->Is(
+        $HTML{ContentType},
+        $Test->{Result}->{ContentType},
+        "$Test->{Name} - ContentType",
     );
 }
 
