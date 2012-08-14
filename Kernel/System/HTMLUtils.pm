@@ -2,7 +2,7 @@
 # Kernel/System/HTMLUtils.pm - creating and modifying html strings
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: HTMLUtils.pm,v 1.41 2012-08-03 10:49:49 mg Exp $
+# $Id: HTMLUtils.pm,v 1.42 2012-08-14 08:47:17 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use MIME::Base64;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.41 $) [1];
+$VERSION = qw($Revision: 1.42 $) [1];
 
 =head1 NAME
 
@@ -954,6 +954,26 @@ sub Safety {
             $TagStart script.*? $TagEnd .+? ($TagStart|$TagEnd)
         }
         {}sgxim;
+
+        # remove style/javascript parts
+        $Safety{Replace} += ${$String} =~ s{
+            $TagStart style[^>]+?javascript(.+?|) $TagEnd (.*?) $TagStart /style \s* $TagEnd
+        }
+        {}sgxim;
+
+        # remove MS CSS expressions (JavaScript embedded in CSS)
+        ${$String} =~ s{
+            ($TagStart style[^>]+? $TagEnd .*? $TagStart /style \s* $TagEnd)
+        }
+        {
+            if ( index($1, 'expression(' ) > -1 ) {
+                $Safety{Replace} = 1;
+                '';
+            }
+            else {
+                $1;
+            }
+        }egsxim;
     }
 
     # remove <applet> tags
@@ -976,14 +996,6 @@ sub Safety {
     if ( $Param{NoSVG} ) {
         $Safety{Replace} += ${$String} =~ s{
             $TagStart svg.*? $TagEnd (.*?) $TagStart /svg \s* $TagEnd
-        }
-        {}sgxim;
-    }
-
-    # remove style/javascript parts
-    if ( $Param{NoJavaScript} ) {
-        $Safety{Replace} += ${$String} =~ s{
-            $TagStart style[^>]+?javascript(.+?|) $TagEnd (.*?) $TagStart /style \s* $TagEnd
         }
         {}sgxim;
     }
@@ -1136,6 +1148,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.41 $ $Date: 2012-08-03 10:49:49 $
+$Revision: 1.42 $ $Date: 2012-08-14 08:47:17 $
 
 =cut

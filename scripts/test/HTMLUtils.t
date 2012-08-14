@@ -2,7 +2,7 @@
 # HTMLUtils.t - HTMLUtils tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: HTMLUtils.t,v 1.47 2012-08-03 11:09:56 mg Exp $
+# $Id: HTMLUtils.t,v 1.48 2012-08-14 08:47:17 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -1237,6 +1237,42 @@ EOF
             Replace => 1,
         },
         Name => 'Safety - Closing tag with space'
+    },
+    {
+        Input => <<EOF,
+<style type="text/css">
+div > span {
+    width: 200px;
+}
+</style>
+<style type="text/css">
+div > span {
+    width: expression(evilJS());
+}
+</style>
+<style type="text/css">
+div > span > div {
+    width: 200px;
+}
+</style>
+EOF
+        Result => {
+            Output => <<EOF,
+<style type="text/css">
+div > span {
+    width: 200px;
+}
+</style>
+
+<style type="text/css">
+div > span > div {
+    width: 200px;
+}
+</style>
+EOF
+            Replace => 1,
+        },
+        Name => 'Safety - Style tags with CSS expressions are filtered out'
     },
 );
 
