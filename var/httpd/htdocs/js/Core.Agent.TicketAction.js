@@ -2,7 +2,7 @@
 // Core.Agent.TicketAction.js - provides functions for all ticket action popups
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.TicketAction.js,v 1.16 2012-06-21 12:09:35 ub Exp $
+// $Id: Core.Agent.TicketAction.js,v 1.17 2012-08-14 10:06:33 mg Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -25,12 +25,28 @@ Core.Agent.TicketAction = (function (TargetNS) {
     /**
      * @function
      * @private
+     * @param {Object} Data The data that should be converted
+     * @return {string} query string of the data
+     * @description Converts a given hash into a query string
+     */
+    function SerializeData(Data) {
+        var QueryString = '';
+        $.each(Data, function (Key, Value) {
+            QueryString += ';' + encodeURIComponent(Key) + '=' + encodeURIComponent(Value);
+        });
+        return QueryString;
+    }
+
+    /**
+     * @function
+     * @private
      * @return nothing
      * @description Open the spellchecker screen
      */
     function OpenSpellChecker() {
         var SpellCheckIFrame, SpellCheckIFrameURL;
         SpellCheckIFrameURL = Core.Config.Get('CGIHandle') + '?Action=AgentSpelling;Field=RichText;Body=' + encodeURIComponent($('#RichText').val());
+        SpellCheckIFrameURL += SerializeData(Core.App.GetSessionInformation());
         SpellCheckIFrame = '<iframe class="TextOption SpellCheck" src="' + SpellCheckIFrameURL + '"></iframe>';
         Core.UI.Dialog.ShowContentDialog(SpellCheckIFrame, '', '10px', 'Center', true);
     }
@@ -47,6 +63,7 @@ Core.Agent.TicketAction = (function (TargetNS) {
             '?Action=AgentBook;ToCustomer=' + encodeURIComponent($('#CustomerAutoComplete, #ToCustomer').val()) +
             ';CcCustomer=' + encodeURIComponent($('#Cc, #CcCustomer').val()) +
             ';BccCustomer=' + encodeURIComponent($('#Bcc, #BccCustomer').val());
+        AddressBookIFrameURL += SerializeData(Core.App.GetSessionInformation());
         AddressBookIFrame = '<iframe class="TextOption" src="' + AddressBookIFrameURL + '"></iframe>';
         Core.UI.Dialog.ShowContentDialog(AddressBookIFrame, '', '10px', 'Center', true);
     }
@@ -58,7 +75,12 @@ Core.Agent.TicketAction = (function (TargetNS) {
      * @description Open the CustomerDialog screen
      */
     function OpenCustomerDialog() {
-        var CustomerIFrame = '<iframe class="TextOption Customer" src="' + Core.Config.Get('CGIHandle') + '?Action=AdminCustomerUser;Nav=None;Subject=;What="></iframe>';
+        var CustomerIFrameURL, CustomerIFrame;
+
+        CustomerIFrameURL = Core.Config.Get('CGIHandle') + '?Action=AdminCustomerUser;Nav=None;Subject=;What=';
+        CustomerIFrameURL += SerializeData(Core.App.GetSessionInformation());
+
+        CustomerIFrame = '<iframe class="TextOption Customer" src="' + CustomerIFrameURL + '"></iframe>';
         Core.UI.Dialog.ShowContentDialog(CustomerIFrame, '', '10px', 'Center', true);
     }
 
