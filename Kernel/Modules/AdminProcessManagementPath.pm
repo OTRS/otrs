@@ -1,8 +1,8 @@
 # --
-# Kernel/Modules/AdminProcessManagementPath.pm - process management activity
+# Kernel/Modules/AdminProcessManagementPath.pm - process management path
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementPath.pm,v 1.4 2012-08-10 10:41:14 mab Exp $
+# $Id: AdminProcessManagementPath.pm,v 1.5 2012-08-15 10:36:26 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,14 +19,13 @@ use List::Util qw(first);
 use Kernel::System::JSON;
 use Kernel::System::ProcessManagement::DB::Process;
 use Kernel::System::ProcessManagement::DB::Entity;
-use Kernel::System::ProcessManagement::DB::Activity;
 use Kernel::System::ProcessManagement::DB::Transition;
 use Kernel::System::ProcessManagement::DB::TransitionAction;
 
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -49,7 +48,6 @@ sub new {
     $Self->{JSONObject}       = Kernel::System::JSON->new( %{$Self} );
     $Self->{ProcessObject}    = Kernel::System::ProcessManagement::DB::Process->new( %{$Self} );
     $Self->{EntityObject}     = Kernel::System::ProcessManagement::DB::Entity->new( %{$Self} );
-    $Self->{ActivityObject}   = Kernel::System::ProcessManagement::DB::Activity->new( %{$Self} );
     $Self->{TransitionObject} = Kernel::System::ProcessManagement::DB::Transition->new( %{$Self} );
     $Self->{TransitionActionObject}
         = Kernel::System::ProcessManagement::DB::TransitionAction->new( %{$Self} );
@@ -80,20 +78,9 @@ sub Run {
         = $Self->{TransitionActionObject}->TransitionActionListGet( UserID => $Self->{UserID} );
 
     # ------------------------------------------------------------ #
-    # ActivityNew
-    # ------------------------------------------------------------ #
-    if ( $Self->{Subaction} eq 'PathNew' ) {
-
-        return $Self->_ShowEdit(
-            %Param,
-            Action => 'New',
-        );
-    }
-
-    # ------------------------------------------------------------ #
     # PathEdit
     # ------------------------------------------------------------ #
-    elsif ( $Self->{Subaction} eq 'PathEdit' ) {
+    if ( $Self->{Subaction} eq 'PathEdit' ) {
 
         # get path data
         my $PathData;
@@ -271,7 +258,7 @@ sub _ShowEdit {
     # localize available actvity dialogs
     my @AvailableTransitionActions = @{ $Self->{TransitionActionList} };
 
-    # create available activity dialogs lookup tables based on entity id
+    # create available transition actions lookup tables based on entity id
     my %AvailableTransitionActionsLookup;
 
     TRANSITIONACTION:
@@ -298,7 +285,7 @@ sub _ShowEdit {
         Class       => 'W50pc',
     );
 
-    # display available activity dialogs
+    # display available transition actions
     for my $EntityID ( sort keys %AvailableTransitionActionsLookup ) {
 
         my $TransitionActionData = $AvailableTransitionActionsLookup{$EntityID};
