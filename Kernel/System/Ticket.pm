@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.568 2012-08-14 07:54:12 mg Exp $
+# $Id: Ticket.pm,v 1.569 2012-08-15 20:39:24 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -36,11 +36,13 @@ use Kernel::System::LinkObject;
 use Kernel::System::EventHandler;
 use Kernel::System::DynamicField;
 use Kernel::System::DynamicField::Backend;
+use Kernel::System::ProcessManagement::Activity;
+use Kernel::System::ProcessManagement::ActivityDialog;
 
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.568 $) [1];
+$VERSION = qw($Revision: 1.569 $) [1];
 
 =head1 NAME
 
@@ -174,6 +176,11 @@ sub new {
         %{$Self},
         TicketObject => $Self
     );
+
+    # create ProcessManagement objects
+    $Self->{ActivityObject} = Kernel::System::ProcessManagement::Activity->new( %{$Self} );
+    $Self->{ActivityDialogObject}
+        = Kernel::System::ProcessManagement::ActivityDialog->new( %{$Self} );
 
     # init of event handler
     push @ISA, 'Kernel::System::EventHandler';
@@ -6005,6 +6012,12 @@ prepare ACL execution of current state
 
         UserID         => 123,                        # UserID => 1 is not affected by this function
         CustomerUserID => 'customer login',           # UserID or CustomerUserID are mandatory
+
+        # Process Management Parameters
+        ProcessEntityID        => 123,                # Optional
+        ActivityEntityID       => 123,                # Optional
+        ActivityDialogEntityID => 123,                # Optional
+
     );
 
 or
@@ -6026,14 +6039,20 @@ sub TicketAcl {
 
     # check needed stuff
     if ( !$Param{UserID} && !$Param{CustomerUserID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need UserID or CustomerUserID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need UserID or CustomerUserID!',
+        );
         return;
     }
 
     # check needed stuff
     for my $Needed (qw(ReturnSubType ReturnType Data)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
@@ -6049,6 +6068,9 @@ sub TicketAcl {
     {
         return;
     }
+
+    # to store the restricted actvity dialogs (ProcessManagement)
+    my %AllActivityDialogs;
 
     # match also frontend options
     my %Checks;
@@ -6070,6 +6092,69 @@ sub TicketAcl {
         # keep database ticket data separated since the reference is affected below
         my %TicketDatabase = %Ticket;
         $ChecksDatabase{Ticket} = \%TicketDatabase;
+
+        # get used dynamic fields where Activty and Process Entities IDs are Stored
+        # (ProcessManagement)
+        my $ActivityEntityIDField
+            = $Self->{ConfigObject}->Get("Process::DynamicFieldProcessManagementActivityID");
+        my $ProcessEntityIDField
+            = $Self->{ConfigObject}->Get("Process::DynamicFieldProcessManagementProcessID");
+
+        # check for ActivityEntityID
+        if ( $Ticket{ 'DynamicField_' . $ActivityEntityIDField } ) {
+            $ChecksDatabase{Process}{ActivityEntityID}
+                = $Ticket{ 'DynamicField_' . $ActivityEntityIDField };
+
+            if ( $ChecksDatabase{Process}{ActivityEntityID} ) {
+                my $Activity = $Self->{ActivityObject}->ActivityGet(
+                    ActivityEntityID => $ChecksDatabase{Process}{ActivityEntityID},
+                );
+
+                # store all ActivityDialogs from activity
+                %AllActivityDialogs = map { $Activity->{ActivityDialog}{$_} => 1 }
+                    keys %{ $Activity->{ActivityDialog} };
+            }
+        }
+
+        # check for ProcessEntityID
+        if ( $Ticket{ 'DynamicField_' . $ProcessEntityIDField } ) {
+            $ChecksDatabase{Process}{ProcessEntityID}
+                = $Ticket{ 'DynamicField_' . $ProcessEntityIDField };
+        }
+
+        # take over the ChecksDatabase to the Checks hash as basis
+        if ( $ChecksDatabase{Process} && %{ $ChecksDatabase{Process} } ) {
+            my %ProcessDatabase = %{ $ChecksDatabase{Process} };
+            %{ $Checks{Process} } = %ProcessDatabase;
+        }
+    }
+
+    # check for ProcessEntityID if set as parameter (ProcessManagement)
+    if ( $Param{ProcessEntityID} ) {
+        $Checks{Process}{ProcessEntityID} = $Param{ProcessEntityID};
+    }
+
+    # check for ActivityDialogEntityID if set as parameter (ProcessManagement)
+    if ( $Param{ActivityDialogEntityID} ) {
+        my $ActivityDialog = $Self->{ActivityDialogObject}->ActivityDialogGet(
+            ActivityDialogEntityID => $Param{ActivityDialogEntityID}
+        );
+        if ( IsHashRefWithData($ActivityDialog) ) {
+            $Checks{Process}{ActivityDialogEntityID} = $Param{ActivityDialogEntityID};
+        }
+    }
+
+    # check for ActivityEntityID if set as parameter (ProcessManagement)
+    if ( $Param{ActivityEntityID} ) {
+        my $Activity = $Self->{ActivityObject}->ActivityGet(
+            ActivityEntityID => $Param{ActivityEntityID},
+        );
+        if ( IsHashRefWithData( $Activity->{ActivityDialog} ) ) {
+
+            # store all ActivityDialogs from activity
+            %AllActivityDialogs = map { $Activity->{ActivityDialog}{$_} => 1 }
+                keys %{ $Activity->{ActivityDialog} };
+        }
     }
 
     # check for dynamic fields
@@ -6949,7 +7034,17 @@ sub TicketAcl {
 
     my %NewData;
     my $UseNewMasterParams = 0;
+
+    # to Check if there was already a matching ACL
+    # that had Possible->{ActivityDialog} configured (ProcessManagement)
+    # for my $Acl ( sort keys %Acls ) {
+    my $HadPossibleActivityDialogs = 0;
+    my %PossibleActivityDialogs;
+    my %PossibleNotActivityDialogs;
+
+    ACLRULES:
     for my $Acl ( sort keys %Acls ) {
+
         my %Step = %{ $Acls{$Acl} };
 
         # check force match
@@ -7135,6 +7230,65 @@ sub TicketAcl {
             };
         }
 
+        # build new ActivityDialog data hash (ProcessManagement)
+        # for Step{Possible}
+        if (
+            ( %Checks || %ChecksDatabase )
+            && $Match
+            && $MatchTry
+            && $Step{Possible}{'ActivityDialog'}
+            && IsArrayRefWithData( $Step{Possible}{'ActivityDialog'} )
+            )
+        {
+            $HadPossibleActivityDialogs = 1;
+            if ( !%PossibleActivityDialogs ) {
+
+                # Reformat @{ $Step{Possible}->{'ActivityDialogs'} } array so that each array
+                # value becomes a hashkey with hashvalue 1
+                %PossibleActivityDialogs = map { $_ => 1 } @{ $Step{Possible}{'ActivityDialog'} };
+            }
+            else {
+
+                # 1. grep line: Find all Values of the
+                #   @{ $Step{Possible}->{'ActivityDialog'} } array
+                #   that are already in the %PossibleActivityDialogs Hash
+                # 2. map line: Just those that were found will form become keys
+                #   of the %PossibleActivityDialogs Hash
+                %PossibleActivityDialogs
+                    = map { $_ => 1 } grep { $PossibleActivityDialogs{$_} }
+                    @{ $Step{Possible}{'ActivityDialog'} };
+            }
+        }
+
+        # for Step{PossibleNot}
+        if (
+            ( %Checks || %ChecksDatabase )
+            && $Match
+            && $MatchTry
+            && $Step{PossibleNot}{'ActivityDialog'}
+            && IsArrayRefWithData( $Step{PossibleNot}{'ActivityDialog'} )
+            )
+        {
+
+            if ( !%PossibleNotActivityDialogs ) {
+
+                # Reformat @{ $Step{PossibleNot}->{'ActivityDialog'} } array so that each array
+                # value becomes a hashkey with hashvalue 1
+                %PossibleNotActivityDialogs
+                    = map { $_ => 1 } @{ $Step{PossibleNot}{'ActivityDialog'} };
+            }
+            else {
+
+                # Add the Arrayvalues of the PossibleNot as hash keys with hashvalue 1
+                # to the existing %PossibleNotActivityDialog Hash
+                # (map returns an anonymous hash in here)
+                %PossibleNotActivityDialogs = (
+                    %PossibleNotActivityDialogs,
+                    map { $_ => 1 } @{ $Step{PossibleNot}{'ActivityDialog'} }
+                );
+            }
+        }
+
         # build new ticket data hash
         if (
             ( %Checks || %ChecksDatabase )
@@ -7259,8 +7413,46 @@ sub TicketAcl {
         # return new params if stop after this step
         if ( $UseNewParams && $Step{StopAfterMatch} ) {
             $Self->{TicketAclData} = \%NewData;
-            return 1;
+
+            # if we stop after the first match
+            # exit the ACLRULES loop
+            last ACLRULES;
         }
+    }
+
+    # after all ACL checks, sum up the PossibleActivityDialogs
+    # as well as the PossibleNotActivityDialogs
+    # Rules:
+    # 1. AllActivityDialos is the origin
+    # 2. if there are %PossibleAcitivitydialogs find the activity dialogs of %AllActivityDialogs
+    #       that are also present in %PossibleActivityDialogs
+    # 3. if there are %PossibleNotActivityDialogs the %AllActivityDialogs hash of above
+    #       is reduced by the %PossibleNotActivityDialogs
+
+    if ($HadPossibleActivityDialogs) {
+
+        # grep part: find those keys of %AllActivityDialogs that are
+        # in %PossibleActivityDialogs
+        # map part: reformat array returned by grep
+        # to become the new AllActivityDialogs hash
+        %AllActivityDialogs
+            = map { $_ => 1 } grep { $PossibleActivityDialogs{$_} } keys %AllActivityDialogs;
+    }
+
+    if ( IsHashRefWithData( \%PossibleNotActivityDialogs ) ) {
+
+        # grep part: find those keys of %AllActivityDialogs that are NOT
+        # in the %PossibleNotActivityDialogs
+        # map part: reformat array returned by grep
+        # to become the new AllActivityDialogs hash
+        %AllActivityDialogs
+            = map { $_ => 1 } grep { !$PossibleNotActivityDialogs{$_} } keys %AllActivityDialogs;
+    }
+    if (%AllActivityDialogs) {
+        %{ $Self->{TicketAclActivityDialogData} } = %AllActivityDialogs;
+    }
+    else {
+        %{ $Self->{TicketAclActivityDialogData} } = ();
     }
 
     # return if no new param exists
@@ -7572,6 +7764,82 @@ sub TicketArticleStorageSwitch {
     return 1;
 }
 
+# ProcessManagement functions
+
+=item TicketCheckForProcessType()
+
+    checks wether or not the ticket is of a process type.
+
+    $TicketObject->TicketCheckForProcessType(
+        TicketID => 123,
+    );
+
+=cut
+
+sub TicketCheckForProcessType {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    if ( !$Param{TicketID} ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need TicketID!',
+        );
+        return;
+    }
+
+    my $DynamicFieldName
+        = $Self->{ConfigObject}->Get('Process::DynamicFieldProcessManagementProcessID');
+
+    return if !$DynamicFieldName;
+    $DynamicFieldName = 'DynamicField_' . $DynamicFieldName;
+
+    # get ticket attributes
+    my %Ticket = $Self->TicketGet(
+        TicketID      => $Param{TicketID},
+        DynamicFields => 1,
+    );
+
+    # return 1 if we got process ticket
+    return 1 if $Ticket{$DynamicFieldName};
+}
+
+=item TicketAclActivityDialogData()
+
+return the ACL validated possible activity dialogs as array after TicketAcl()
+
+    my @PossibleActivityDialogs = $TicketObject->TicketAclActivityDialogData(
+        ActivityDialogs => [ AD1, AD2, AD3 ],
+    );
+
+=cut
+
+sub TicketAclActivityDialogData {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    if ( !IsArrayRefWithData( $Param{ActivityDialogs} ) ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Actvity Dialogs!' );
+        return;
+    }
+
+    # Root user didn't produce TicketAclActivityDialogData
+    # -> Return all questioned Activitydialogs
+    if ( !defined $Self->{TicketAclActivityDialogData} ) {
+        return @{ $Param{ActivityDialogs} };
+    }
+
+    # If no restriction was set, allow all activity dialogs
+    if ( !IsHashRefWithData( $Self->{TicketAclActivityDialogData} ) ) {
+        return ();
+    }
+
+    # Limit the activity dialogs to the ones allowed by acls
+    #        my @returners
+    #            = grep { $Self->{TicketAclActivityDialogData}->{$_} } @{ $Param{ActivityDialogs} };
+    return grep { $Self->{TicketAclActivityDialogData}->{$_} } @{ $Param{ActivityDialogs} };
+}
+
 sub DESTROY {
     my $Self = shift;
 
@@ -7682,6 +7950,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.568 $ $Date: 2012-08-14 07:54:12 $
+$Revision: 1.569 $ $Date: 2012-08-15 20:39:24 $
 
 =cut
