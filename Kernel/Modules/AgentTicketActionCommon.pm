@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketActionCommon.pm - common file for several modules
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketActionCommon.pm,v 1.81.2.6 2012-06-29 21:07:15 cr Exp $
+# $Id: AgentTicketActionCommon.pm,v 1.81.2.7 2012-08-15 09:55:11 te Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -1199,12 +1199,12 @@ sub _Mask {
         # get old owner
         my @OldUserInfo = $Self->{TicketObject}->TicketOwnerList( TicketID => $Self->{TicketID} );
         $Param{OwnerStrg} = $Self->{LayoutObject}->BuildSelection(
-            Data       => \%ShownUsers,
-            SelectedID => $Param{NewOwnerID},
-            Name       => 'NewOwnerID',
-            Class      => $Param{NewOwnerInvalid} || ' ',
-            Size       => 1,
-
+            Data         => \%ShownUsers,
+            SelectedID   => $Param{NewOwnerID},
+            Name         => 'NewOwnerID',
+            Class        => $Param{NewOwnerInvalid} || ' ',
+            Size         => 1,
+            PossibleNone => 1,
         );
         my %UserHash;
         if (@OldUserInfo) {
@@ -1216,9 +1216,6 @@ sub _Mask {
                 $Counter++;
             }
         }
-        if ( !%UserHash ) {
-            $UserHash{''} = '-';
-        }
         my $OldOwnerSelectedID = '';
         if ( $Param{OldOwnerID} ) {
             $OldOwnerSelectedID = $Param{OldOwnerID};
@@ -1229,11 +1226,11 @@ sub _Mask {
 
         # build string
         $Param{OldOwnerStrg} = $Self->{LayoutObject}->BuildSelection(
-            Data       => \%UserHash,
-            SelectedID => $OldOwnerSelectedID,
-            Name       => 'OldOwnerID',
-            Class      => $Param{OldOwnerInvalid} || ' ',
-
+            Data         => \%UserHash,
+            SelectedID   => $OldOwnerSelectedID,
+            Name         => 'OldOwnerID',
+            Class        => $Param{OldOwnerInvalid} || ' ',
+            PossibleNone => 1,
         );
         if ( $Param{NewOwnerType} && $Param{NewOwnerType} eq 'Old' ) {
             $Param{'NewOwnerType::Old'} = 'checked = "checked"';
