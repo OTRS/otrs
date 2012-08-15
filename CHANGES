@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2401 2012-08-14 12:42:52 mg Exp $
+# $Id: CHANGES,v 1.2402 2012-08-15 04:24:05 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.2.0 beta1 2012-??-??
+ - 2012-08-14 Fixed bug#8697 Time related restrictions in TicketSearch operator (GenericInterface) not working.
  - 2012-08-14 Fixed bug#8679 - OTRS changes "UTF-8" to "utf-8" in displayed emails.
  - 2012-08-10 Don't update read only fields in the CustomerUser DB.
  - 2012-08-03 Improved HTML mail display filtering. SVG content is now filtered out because
@@ -76,6 +77,7 @@
     NotificationEvent definitions.
 
 3.1.9 2012-??-??
+ - 2012-08-14 Fixed bug#8697 Time related restrictions in TicketSearch operator (GenericInterface) not working.
  - 2012-08-14 Fixed bug#8685 - Cannot use address book / customer / spell check in phone /
     email if cookies are disabled. (partly fixed)
  - 2012-08-06 Fixed bug#8682 - linking search conditions with && in
