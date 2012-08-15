@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminProcessManagement.pm - process management
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagement.pm,v 1.24 2012-08-13 16:22:02 mab Exp $
+# $Id: AdminProcessManagement.pm,v 1.25 2012-08-15 14:33:14 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,6 +13,8 @@ package Kernel::Modules::AdminProcessManagement;
 
 use strict;
 use warnings;
+
+use YAML;
 
 use Kernel::System::JSON;
 use Kernel::System::ProcessManagement::DB::Entity;
@@ -26,7 +28,7 @@ use Kernel::System::ProcessManagement::DB::TransitionAction;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.24 $) [1];
+$VERSION = qw($Revision: 1.25 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -84,15 +86,96 @@ sub Run {
         $Param{NotifyData} = [
             {
                 Info =>
-                    'Process Management information from database is not in sync with the system configuration, Please synchronize all the Processes.',
+                    'Process Management information from database is not in sync with the system configuration, please synchronize all the Processes.',
             },
         ];
     }
 
     # ------------------------------------------------------------ #
+    # ProcessExport
+    # ------------------------------------------------------------ #
+    if ( $Self->{Subaction} eq 'ProcessExport' ) {
+
+        my $ProcessID = $Self->{ParamObject}->GetParam( Param => 'ID' ) || '';
+
+        # check for ProcessID
+        if ( !$ProcessID ) {
+            return $Self->{LayoutObject}->ErrorScreen(
+                Message => "Need ProcessID!",
+            );
+        }
+
+        my %ProcessData;
+
+        # get process data
+        my $Process = $Self->{ProcessObject}->ProcessGet(
+            ID     => $ProcessID,
+            UserID => $Self->{UserID},
+        );
+        if ( !$Process ) {
+            return $Self->{LayoutObject}->ErrorScreen(
+                Message => "Unknown Process $ProcessID!",
+            );
+        }
+        $ProcessData{Process} = $Process;
+
+        # get all used activities
+        for my $ActivityEntityID ( @{ $Process->{Activities} } ) {
+
+            my $Activity = $Self->{ActivityObject}->ActivityGet(
+                EntityID => $ActivityEntityID,
+                UserID   => $Self->{UserID},
+            );
+            $ProcessData{Activities}->{$ActivityEntityID} = $Activity;
+
+            # get all used activity dialogs
+            for my $ActivityDialogEntityID ( @{ $Activity->{ActivityDialogs} } ) {
+
+                my $ActivityDialog = $Self->{ActivityDialogObject}->ActivityDialogGet(
+                    EntityID => $ActivityDialogEntityID,
+                    UserID   => $Self->{UserID},
+                );
+                $ProcessData{ActivityDialogs}->{$ActivityDialogEntityID} = $ActivityDialog;
+            }
+        }
+
+        # get all used transitions
+        for my $TransitionEntityID ( @{ $Process->{Transitions} } ) {
+
+            my $Transition = $Self->{TransitionObject}->TransitionGet(
+                EntityID => $TransitionEntityID,
+                UserID   => $Self->{UserID},
+            );
+            $ProcessData{Transitions}->{$TransitionEntityID} = $Transition;
+        }
+
+        # get all used transition actions
+        for my $TransitionActionEntityID ( @{ $Process->{TransitionActions} } ) {
+
+            my $TransitionAction = $Self->{TransitionActionObject}->TransitionActionGet(
+                EntityID => $TransitionActionEntityID,
+                UserID   => $Self->{UserID},
+            );
+            $ProcessData{TransitionActions}->{$TransitionActionEntityID} = $TransitionAction;
+        }
+
+        # convert the processdata hash to string
+        my $ProcessData = YAML::Dump( \%ProcessData );
+
+        # send the result to the browser
+        return $Self->{LayoutObject}->Attachment(
+            ContentType => 'text/html; charset=' . $Self->{LayoutObject}->{Charset},
+            Content     => $ProcessData,
+            Type        => 'attachment',
+            Filename    => 'Export_ProcessEntityID_' . $Process->{EntityID} . '.yml',
+            NoCache     => 1,
+        );
+    }
+
+    # ------------------------------------------------------------ #
     # ProcessNew
     # ------------------------------------------------------------ #
-    if ( $Self->{Subaction} eq 'ProcessNew' ) {
+    elsif ( $Self->{Subaction} eq 'ProcessNew' ) {
 
         return $Self->_ShowEdit(
             %Param,

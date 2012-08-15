@@ -2,7 +2,7 @@
 # AdminProcessManagement.dtl - provides HTML for AdminProcessManagement
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagement.dtl,v 1.6 2012-08-07 11:45:05 mn Exp $
+# $Id: AdminProcessManagement.dtl,v 1.7 2012-08-15 14:33:14 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -72,7 +72,7 @@
                             <td><a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=ProcessEdit;ID=$QData{"ID"};EntityID=$QData{"EntityID"}" title="Long Name">$QData{"Name"}</a></td>
                             <td>$QData{"Description"}</td>
                             <td>$Text{"$Data{"State"}"}</td>
-                            <td><a href="#" class="Export AsBlock">$Text{"Export Process Configuration"}</a></td>
+                            <td><a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=ProcessExport;ID=$QData{"ID"}" class="Export AsBlock">$Text{"Export Process Configuration"}</a></td>
                         </tr>
 <!-- dtl:block:ProcessRow -->
 <!-- dtl:block:ProcessNoDataRow -->
