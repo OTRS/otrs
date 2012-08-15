@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.2402 2012-08-15 04:24:05 cg Exp $
+# $Id: CHANGES,v 1.2403 2012-08-15 04:24:58 cg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 3.2.0 beta1 2012-??-??
+ - 2012-08-14 Fixed bug#8360 Cannot search for tickets by dynamic fields via SOAP.
  - 2012-08-14 Fixed bug#8697 Time related restrictions in TicketSearch operator (GenericInterface) not working.
  - 2012-08-14 Fixed bug#8679 - OTRS changes "UTF-8" to "utf-8" in displayed emails.
  - 2012-08-10 Don't update read only fields in the CustomerUser DB.
@@ -77,6 +78,7 @@
     NotificationEvent definitions.
 
 3.1.9 2012-??-??
+ - 2012-08-14 Fixed bug#8360 Cannot search for tickets by dynamic fields via SOAP.
  - 2012-08-14 Fixed bug#8697 Time related restrictions in TicketSearch operator (GenericInterface) not working.
  - 2012-08-14 Fixed bug#8685 - Cannot use address book / customer / spell check in phone /
     email if cookies are disabled. (partly fixed)
