@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.14 $
+ * @version     $Revision: 1.15 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -70,7 +70,6 @@ ul#ProcessElements li.AccordionElement.Active:last-child h2 {
     border-bottom: 1px solid #CCC;
 }
 
-
 ul#ProcessElements li.AccordionElement div.Content ul {
     margin-top: 10px;
     margin-bottom: 10px;
@@ -102,6 +101,24 @@ ul#ProcessElements li.AccordionElement div.Content .ProcessElementButton {
     width: 200px;
     border: 1px solid #CCC;    
 }    
+
+.Icon {
+    display: block;
+    height: 16px;
+    width: 16px;
+    background-repeat: no-repeat;
+    background-position: center;
+    float: right;
+    margin-left: 5px;
+}
+
+.Icon_Delete {
+    background-image: url(../img/icons/trash-can.png);
+}
+
+.Icon_Edit {
+    background-image: url(../img/icons/folder-small.png);
+}
     
 /**
  * @subsubsection     Diagram Canvas
@@ -213,6 +230,64 @@ ul#ProcessElements li.AccordionElement div.Content .ProcessElementButton {
 .Fields {
     margin-top: 15px;
 }    
+
+/**
+ * @subsubsection     Path popup
+ */
+
+ul.Path {
+    overflow: hidden;
+    padding: 10px 0px;
+    width: 620px;
+    margin-left: 150px;
+}
+
+ul.Path li {
+    width: 150px;
+    line-height: 120%;
+    float: left;
+    position: relative;
+    text-align: center;
+    padding: 30px 0px;
+    min-height: 25px;
+}
+
+ul.Path li.Transition {
+    width: 230px;
+    margin-left: 0px;
+}
+
+ul.Path li.StartActivity, ul.Path li.EndActivity {
+    background-color: #e5e5e5;
+    border: 1px solid #444;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    margin: 0px 20px;
+    position: relative;
+    z-index: 2;
+    font-size: 11px;
+}
+
+ul.Path li select {
+    width: 180px;
+    position: absolute;
+    top: 30px;
+    left: 50%;
+    margin-left: -90px;
+    z-index: 2;
+}
+
+ul.Path li.Transition span {
+    display: block;
+    position: absolute;
+    z-index: 1;
+    width: 270px;
+    border-top: 1px solid #444;
+    height: 2px;
+    left: -20px;
+    top: 38px;
+}
 
 /**
  * @subsubsection     Popup Result

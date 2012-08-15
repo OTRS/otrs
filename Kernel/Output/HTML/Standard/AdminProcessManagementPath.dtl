@@ -2,7 +2,7 @@
 # AdminProcessManagementPath.dtl - provides HTML for AdminProcessManagementPath
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementPath.dtl,v 1.8 2012-08-13 13:32:34 mab Exp $
+# $Id: AdminProcessManagementPath.dtl,v 1.9 2012-08-15 18:22:26 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -46,29 +46,14 @@
                         <h2>$Text{"Path"}</h2>
                     </div>
                     <div class="Content">
-                        <fieldset class="TableLike">
-                            <label class="Mandatory" for="StartActivity">$Text{"Start Activity"}:</label>
-                            <div class="Field">
-                                <input type="text" name="StartActivity" id="StartActivity" readonly="readonly" value="" class="W50pc Validate_Required $QData{"NameServerError"}" maxlength="70"/>
-                            </div>
-                            <div class="Clear"></div>
-                            <label class="Mandatory" for="EndActivity">$Text{"End Activity"}:</label>
-                            <div class="Field">
-                                <input type="text" name="EndActivity" id="EndActivity" readonly="readonly" value="" class="W50pc Validate_Required $QData{"NameServerError"}" maxlength="70"/>
-                            </div>
-                            <div class="Clear"></div>
-                            <label class="Mandatory" for="Transition"><span class="Marker">*</span> $Text{"Transition"}:</label>
-                            <div class="Field">
+                        <ul class="Path">
+                            <li id="StartActivity" class="StartActivity"></li>
+                            <li class="Transition">
                                 $Data{"Transition"}
-                                <div id="NameError" class="TooltipErrorMessage">
-                                    <p>$Text{"This field is required."}</p>
-                                </div>
-                                <div id="NameServerError" class="TooltipErrorMessage">
-                                    <p>$Text{"This field is required."}</p>
-                                </div>
-                            </div>
-                            <div class="Clear"></div>
-                        </fieldset>
+                                <span></span>
+                            </li>
+                            <li id="EndActivity" class="EndActivity"></li>
+                        </ul>
                     </div>
                 </div>
 
