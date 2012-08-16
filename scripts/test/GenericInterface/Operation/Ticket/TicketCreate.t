@@ -2,7 +2,7 @@
 # TicketCreate.t - GenericInterface TicketCreate tests for TicketConnector backend
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketCreate.t,v 1.10 2012-02-13 22:27:38 cr Exp $
+# $Id: TicketCreate.t,v 1.10.2.1 2012-08-16 14:17:45 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -34,6 +34,7 @@ use Kernel::System::SLA;
 use Kernel::System::State;
 use Kernel::System::DynamicField;
 use Kernel::System::User;
+use Kernel::System::Valid;
 
 # set UserID to root because in public interface there is no user
 $Self->{UserID} = 1;
@@ -141,6 +142,11 @@ my $UserObject = Kernel::System::User->new(
     ConfigObject => $ConfigObject,
 );
 
+my $ValidObject = Kernel::System::Valid->new(
+    %{$Self},
+    ConfigObject => $ConfigObject,
+);
+
 my $TestOwnerLogin        = $HelperObject->TestUserCreate();
 my $TestResponsibleLogin  = $HelperObject->TestUserCreate();
 my $TestCustomerUserLogin = $HelperObject->TestCustomerUserCreate();
@@ -149,6 +155,15 @@ my $OwnerID               = $UserObject->UserLookup(
 );
 my $ResponsibleID = $UserObject->UserLookup(
     UserLogin => $TestResponsibleLogin,
+);
+
+my $InvalidID = $ValidObject->ValidLookup( Valid => 'invalid' );
+
+# sanity test
+$Self->IsNot(
+    $InvalidID,
+    undef,
+    "ValidLookup() for 'invalid' should not be undef"
 );
 
 # create new queue
@@ -3541,7 +3556,7 @@ $Self->True(
 {
     my $Success = $QueueObject->QueueUpdate(
         %QueueData,
-        ValidID => 1,
+        ValidID => $InvalidID,
         UserID  => 1,
     );
 
@@ -3556,7 +3571,7 @@ $Self->True(
 {
     my $Success = $TypeObject->TypeUpdate(
         %TypeData,
-        ValidID => 1,
+        ValidID => $InvalidID,
         UserID  => 1,
     );
 
@@ -3571,7 +3586,7 @@ $Self->True(
 {
     my $Success = $ServiceObject->ServiceUpdate(
         %ServiceData,
-        ValidID => 1,
+        ValidID => $InvalidID,
         UserID  => 1,
     );
 
@@ -3586,7 +3601,7 @@ $Self->True(
 {
     my $Success = $SLAObject->SLAUpdate(
         %SLAData,
-        ValidID => 1,
+        ValidID => $InvalidID,
         UserID  => 1,
     );
 
@@ -3601,7 +3616,7 @@ $Self->True(
 {
     my $Success = $StateObject->StateUpdate(
         %StateData,
-        ValidID => 1,
+        ValidID => $InvalidID,
         UserID  => 1,
     );
 
@@ -3617,7 +3632,7 @@ $Self->True(
     my $Success = $PriorityObject->PriorityUpdate(
         %PriorityData,
         PriorityID => $PriorityID,
-        ValidID    => 1,
+        ValidID    => $InvalidID,
         UserID     => 1,
     );
 
