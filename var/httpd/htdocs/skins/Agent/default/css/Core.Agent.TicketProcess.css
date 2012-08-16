@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.1 $
+ * @version     $Revision: 1.2 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -86,6 +86,12 @@
 .FieldSeparator {
     border-top: 1px solid #ccc;
     margin: 5px 0px;
+}
+
+.FieldOverlay {
+    width:550px;
+    line-height: 150%;
+    padding:5px;
 }
 
 /**
