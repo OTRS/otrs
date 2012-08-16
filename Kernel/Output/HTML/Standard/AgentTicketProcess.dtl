@@ -1,0 +1,76 @@
+# --
+# AgentTicketProcess.dtl - provides HTML for AgentTicketProcess.pm
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# --
+# $Id: AgentTicketProcess.dtl,v 1.1 2012-08-16 15:37:11 cr Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+<div class="MainBox ARIARoleMain">
+    <h1>$Text{"Create New Process Ticket"}</h1>
+    <div class="ContentColumn">
+        <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose" id="NewProcessTicket" class="Validate PreventMultipleSubmits">
+            <input type="hidden" name="Action" value="$Env{"Action"}"/>
+            <input type="hidden" name="Subaction" value="DisplayActivityDialog"/>
+            <input type="hidden" name="FormID" value="$QData{"FormID"}"/>
+            <fieldset class="TableLike">
+<!-- dtl:block:ProcessList -->
+                <label class="Mandatory" for="ProcessEntityID"><span class="Marker">*</span>$Text{"Process"}:</label>
+                <div class="Field">
+                    $Data{"ProcessList"}
+                    <div id="ProcessEntityIDError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
+                    <div id="ProcessEntityIDServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
+                </div>
+                <div class="Clear"></div>
+<!-- dtl:block:ProcessList -->
+            </fieldset>
+        </form>
+        <div id="AJAXLoader" class="Spacing Center Hidden">
+            <span class="AJAXLoader" title="$Text{"Loading"}"></span>
+        </div>
+        <div id="ActivityDialogContent"></div>
+    </div>
+</div>
+<!-- dtl:js_on_document_complete -->
+<script type="text/javascript">//<![CDATA[
+    $('#ProcessEntityID').bind('change', function() {
+        if ($('#ProcessEntityID').val()) {
+            $('#AJAXLoader').removeClass('Hidden');
+            Core.AJAX.FunctionCall('$Env{"Baselink"}', 'Action=$Env{"Action"};Subaction=DisplayActivityDialogAJAX;ProcessEntityID=' + $('#ProcessEntityID').val(), function (Response) {
+                var $ElementToUpdate = $('#ActivityDialogContent'),
+                    JavaScriptString = '';
+                if (!Response) {
+                    // We are out of the OTRS App scope, that's why an exception would not be caught. Therefor we handle the error manually.
+                    Core.Exception.HandleFinalError(new Core.Exception.ApplicationError("No content from: " + URL, 'CommunicationError'));
+                    $('#AJAXLoader').addClass('Hidden');
+                }
+                else if ($ElementToUpdate && isJQueryObject($ElementToUpdate) && $ElementToUpdate.length) {
+                    $ElementToUpdate.get(0).innerHTML = Response;
+                    $ElementToUpdate.find('script').each(function() {
+                        JavaScriptString += $(this).text();
+                        $(this).remove();
+                    });
+                    $ElementToUpdate.fadeIn();
+                    try {
+                        eval(JavaScriptString);
+                    }
+                    catch (Exception) {}
+                    Core.Form.Validate.Init();
+                    $('#AJAXLoader').addClass('Hidden');
+                }
+                else {
+                    // We are out of the OTRS App scope, that's why an exception would not be caught. Therefor we handle the error manually.
+                    Core.Exception.HandleFinalError(new Core.Exception.ApplicationError("No such element id: " + $ElementToUpdate.attr('id') + " in page!", 'CommunicationError'));
+                    $('#AJAXLoader').addClass('Hidden');
+                }
+            }, 'html');
+        }
+        else {
+            $('#ActivityDialogContent').fadeOut();
+        }
+        return false;
+    });
+//]]></script>
+<!-- dtl:js_on_document_complete -->

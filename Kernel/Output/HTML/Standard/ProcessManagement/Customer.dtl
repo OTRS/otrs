@@ -1,0 +1,34 @@
+# --
+# Customer.dtl - provides Customer HTML for the AgentTicketProcess.pm
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# --
+# $Id: Customer.dtl,v 1.1 2012-08-16 15:37:11 cr Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+$Include{"AgentCustomerSearch"}
+
+<!-- dtl:block:rw:Customer -->
+<input type="hidden" name="SelectedCustomerUser" id="SelectedCustomerUser" value="$QData{"SelectedCustomerUser"}"/>
+<label for="CustomerAutoComplete" $Data{"ClassMandatory"}>$Data{"Marker"}$Data{"LabelCustomerUser"}:</label>
+<div class="Field">
+    <input id="CustomerAutoComplete" type="text" name="CustomerUserID" value="$QData{"CustomerUserID"}" class="W75pc AutocompleteOff Validate_Required $QData{"CustomerUserIDInvalid"}"/>
+    <div id="CustomerAutoCompleteError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
+    <div id="CustomerAutoCompleteServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
+<!-- dtl:block:rw:Customer:DescriptionShort -->
+    <div class="FieldExplanation">$Data{"DescriptionShort"}</div>
+<!-- dtl:block:rw:Customer:DescriptionShort -->
+</div>
+<div class="Clear"></div>
+
+<label for="CustomerID"$Data{"ClassMandatory"}>$Data{"Marker"}$Data{"LabelCustomerID"}:</label>
+<div class="Field">
+    <input type="text" id="CustomerID" name="CustomerID" value="$QData{"CustomerID"}" class="W50pc Validate_Required $QData{"CustomerIDInvalid"}"/>
+    <div id="CustomerIDError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
+    <div id="CustomerIDServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
+</div>
+<div class="Clear"></div>
+<!-- dtl:block:rw:Customer -->

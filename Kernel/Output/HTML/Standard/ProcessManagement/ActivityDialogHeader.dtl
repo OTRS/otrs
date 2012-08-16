@@ -1,0 +1,49 @@
+# --
+# ActivityDialogHeader.dtl - provides ActivityDialogHeader HTML for the AgentTicketProcess.pm
+# Copyright (C) 2003-2012 OTRS AG, http://otrs.com/
+# --
+# $Id: ActivityDialogHeader.dtl,v 1.1 2012-08-16 15:37:10 cr Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="$Data{"FormName"}" id="$Data{"FormID"}" class="Validate PreventMultipleSubmits">
+    <input type="hidden" name="Action" value="$Env{"Action"}"/>
+    <input type="hidden" name="Subaction" value="$Data{"Subaction"}"/>
+    <input type="hidden" name="TicketID" value="$Data{"TicketID"}"/>
+    <input type="hidden" name="ProcessEntityID" value="$Data{"ProcessEntityID"}"/>
+    <input type="hidden" name="ActivityDialogEntityID" value="$Data{"ActivityDialogEntityID"}"/>
+    <input type="hidden" name="Expand" id="Expand" value=""/>
+    <input type="hidden" name="FormID" value="$QData{"FormID"}"/>
+    <div class="LayoutPopup ARIARoleMain">
+<!-- dtl:block:Header -->
+        <div class="Header">
+            <h1>
+                $Data{"Name"}
+<!-- dtl:block:DescriptionShort -->
+                 - $Data{"DescriptionShort"}
+<!-- dtl:block:DescriptionShort -->
+            </h1>
+            <p>
+<!-- dtl:block:DescriptionLong -->
+                $Data{"DescriptionLong"} - 
+<!-- dtl:block:DescriptionLong -->
+<!-- dtl:block:CancelLink -->
+                <a class="CancelClosePopup" href="#">$Text{"Cancel & close window"}</a>
+<!-- dtl:block:CancelLink -->            
+            </p>
+<!-- dtl:block:PropertiesLock -->
+            <p>
+                $Text{"The ticket has been locked"}.
+                <a class="UndoClosePopup" href="$Env{"Baselink"}Action=AgentTicketLock;Subaction=Unlock;TicketID=$Data{"TicketID"};$QEnv{"ChallengeTokenParam"}">
+                    $Text{"Undo & close window"}
+                </a>
+            </p>
+<!-- dtl:block:PropertiesLock -->
+
+        </div>
+<!-- dtl:block:Header -->
+        <div class="Content">
+            <fieldset class="TableLike">
