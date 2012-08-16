@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminProcessManagementActivity.pm - process management activity
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementActivity.pm,v 1.14 2012-08-16 10:21:42 mab Exp $
+# $Id: AdminProcessManagementActivity.pm,v 1.15 2012-08-16 10:24:58 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,7 +25,7 @@ use Kernel::System::ProcessManagement::DB::ActivityDialog;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -750,12 +750,32 @@ sub _ShowEdit {
 
             my $ActivityDialogData = $AvailableActivityDialogsLookup{$EntityID};
 
+            my $AvailableIn       = '';
+            my $ConfigAvailableIn = $ActivityDialogData->{Config}->{Interface};
+
+            if ( defined $ConfigAvailableIn ) {
+                my $InterfaceLength = scalar @{$ConfigAvailableIn};
+                if ( $InterfaceLength == 2 ) {
+                    $AvailableIn = 'A, C';
+                }
+                elsif ( $InterfaceLength == 1 ) {
+                    $AvailableIn = substr( $ConfigAvailableIn->[0], 0, 1 );
+                }
+                else {
+                    $AvailableIn = 'A';
+                }
+            }
+            else {
+                $AvailableIn = 'A';
+            }
+
             $Self->{LayoutObject}->Block(
                 Name => 'AvailableActivityDialogRow',
                 Data => {
-                    ID       => $ActivityDialogData->{ID},
-                    EntityID => $ActivityDialogData->{EntityID},
-                    Name     => $ActivityDialogData->{Name},
+                    ID          => $ActivityDialogData->{ID},
+                    EntityID    => $ActivityDialogData->{EntityID},
+                    Name        => $ActivityDialogData->{Name},
+                    AvailableIn => $AvailableIn,
                 },
             );
         }
@@ -766,12 +786,32 @@ sub _ShowEdit {
             my $ActivityDialogData
                 = $AssignedActivityDialogs{ $ActivityData->{Config}->{ActivityDialog}->{$Order} };
 
+            my $AvailableIn       = '';
+            my $ConfigAvailableIn = $ActivityDialogData->{Config}->{Interface};
+
+            if ( defined $ConfigAvailableIn ) {
+                my $InterfaceLength = scalar @{$ConfigAvailableIn};
+                if ( $InterfaceLength == 2 ) {
+                    $AvailableIn = 'A, C';
+                }
+                elsif ( $InterfaceLength == 1 ) {
+                    $AvailableIn = substr( $ConfigAvailableIn->[0], 0, 1 );
+                }
+                else {
+                    $AvailableIn = 'A';
+                }
+            }
+            else {
+                $AvailableIn = 'A';
+            }
+
             $Self->{LayoutObject}->Block(
                 Name => 'AssignedActivityDialogRow',
                 Data => {
-                    ID       => $ActivityDialogData->{ID},
-                    EntityID => $ActivityDialogData->{EntityID},
-                    Name     => $ActivityDialogData->{Name},
+                    ID          => $ActivityDialogData->{ID},
+                    EntityID    => $ActivityDialogData->{EntityID},
+                    Name        => $ActivityDialogData->{Name},
+                    AvailableIn => $AvailableIn,
                 },
             );
         }

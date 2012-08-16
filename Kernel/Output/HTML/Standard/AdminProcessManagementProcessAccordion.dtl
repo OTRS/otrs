@@ -2,7 +2,7 @@
 # AdminProcessManagementProcessAccordion.dtl - provides HTML for AdminProcessManagement Accordion
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementProcessAccordion.dtl,v 1.3 2012-08-16 09:16:52 mab Exp $
+# $Id: AdminProcessManagementProcessAccordion.dtl,v 1.4 2012-08-16 10:24:28 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -45,6 +45,7 @@
                         <a href="#" class="DeleteEntity DeleteActivityDialog Icon Icon_Delete"></a>
                         <a href="$Env{"Baselink"}Action=AdminProcessManagementActivityDialog;Subaction=ActivityDialogEdit;ID=$LQData{"ID"};EntityID=$LQData{"EntityID"}" class="AsPopup PopupType_ActivityDialog Icon Icon_Edit"></a>
                     </span>
+                    <span class="AvailableIn">$Text{"$Data{"AvailableIn"}"}</span>
                 </li>
 <!-- dtl:block:ActivityDialogRow -->
 <!-- dtl:block:ActivityDialogNoDataRow -->

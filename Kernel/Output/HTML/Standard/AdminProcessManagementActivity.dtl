@@ -2,7 +2,7 @@
 # AdminProcessManagementActivity.dtl - provides HTML for AdminProcessManagement
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementActivity.dtl,v 1.9 2012-08-10 15:32:11 mab Exp $
+# $Id: AdminProcessManagementActivity.dtl,v 1.10 2012-08-16 10:24:28 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -93,6 +93,7 @@
                                 <li data-id="$QData{"ID"}" title="Name: $QData{"Name"} EntityID: $QData{"EntityID"}">
                                     $QData{"Name", "55"}
                                     <span class="Functions"><a href="#" data-entity="$QData{"EntityID"}" data-id="$QData{"ID"}" data-action="AdminProcessManagementActivityDialog" data-subaction="ActivityDialogEdit" class="AsPopup_Redirect Edit_Confirm PopupType_ActivityDialog">$Text{"Edit"}</a></span>
+                                    <span class="AvailableIn">$Text{"$Data{"AvailableIn"}"}</span>
                                 </li>
 <!-- dtl:block:AvailableActivityDialogRow -->
                             </ul>
@@ -115,6 +116,7 @@
                                 <li data-id="$QData{"ID"}" title="Name: $QData{"Name"} EntityID: $QData{"EntityID"}">
                                     $QData{"Name", "55"}
                                     <span class="Functions"><a href="#" data-entity="$QData{"EntityID"}" data-id="$QData{"ID"}" data-action="AdminProcessManagementActivityDialog" data-subaction="ActivityDialogEdit" class="AsPopup_Redirect PopupType_ActivityDialog">$Text{"Edit"}</a></span>
+                                    <span class="AvailableIn">$Text{"$Data{"AvailableIn"}"}</span>
                                 </li>
 <!-- dtl:block:AssignedActivityDialogRow -->
                             </ul>
