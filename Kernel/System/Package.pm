@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Package.pm,v 1.134 2012-08-14 12:12:54 mh Exp $
+# $Id: Package.pm,v 1.135 2012-08-16 14:35:55 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::WebUserAgent;
 use Kernel::System::XML;
 
 use vars qw($VERSION $S);
-$VERSION = qw($Revision: 1.134 $) [1];
+$VERSION = qw($Revision: 1.135 $) [1];
 
 =head1 NAME
 
@@ -2271,66 +2271,68 @@ sub _CheckVersion {
         }
     }
 
-    my %AllParts;
+    # check Type
+    if ( $Param{Type} ne 'Min' && $Param{Type} ne 'Max' ) {
+
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Invalid Type!',
+        );
+        return;
+    }
+
+    # prepare parts hash
+    my %Parts;
+    TYPE:
     for my $Type (qw(VersionNew VersionInstalled)) {
 
         # split version string
-        my @Parts = split /\./, $Param{$Type};
+        my @ThisParts = split /\./, $Param{$Type};
 
-        $AllParts{$Type} = \@Parts;
-        $AllParts{ $Type . 'Num' } = scalar @Parts;
+        $Parts{$Type} = \@ThisParts;
+        $Parts{ $Type . 'Num' } = scalar @ThisParts;
     }
 
-    for my $Type (qw(VersionNew VersionInstalled)) {
+    # remove all version parts after the first three parts and increase
+    # the patchlevel if four version levels are found. --> Testrelease
+    if ( !$Param{ExternalPackage} && $Parts{VersionNewNum} ne $Parts{VersionInstalledNum} ) {
 
-        # extract parts
-        my @Parts = @{ $AllParts{$Type} };
+        TYPE:
+        for my $Type (qw(VersionNew VersionInstalled)) {
 
-        # remove all version parts after the first three parts and increase
-        # the patchlevel if four version levels are found. --> Testrelease
-        if (
-            !$Param{ExternalPackage}
-            && $AllParts{VersionNewNum} ne $AllParts{VersionInstalledNum}
-            && defined $Parts[3]
-            )
-        {
-            splice @Parts, 3;
-            $Parts[2]++;
+            next TYPE if $Parts{ $Type . 'Num' } <= 3;
+
+            # extract parts
+            my @ThisParts = @{ $Parts{$Type} };
+
+            splice @ThisParts, 3;
+            $ThisParts[2]++;
+
+            $Parts{$Type} = \@ThisParts;
+            $Parts{ $Type . 'Num' } = scalar @ThisParts;
         }
+    }
 
-        # reset version
-        $Param{$Type} = 0;
+    COUNT:
+    for my $Count ( 0 .. 5 ) {
 
-        # cleanup four levels of the version string
-        for my $Count ( 0 .. 4 ) {
+        $Parts{VersionNew}->[$Count]       ||= 0;
+        $Parts{VersionInstalled}->[$Count] ||= 0;
 
-            if ( $Parts[$Count] ) {
-                $Param{$Type} .= sprintf "%04d", $Parts[$Count];
-            }
-            else {
-                $Param{$Type} .= '0000';
-            }
+        next COUNT if $Parts{VersionNew}->[$Count] eq $Parts{VersionInstalled}->[$Count];
+
+        # compare versions
+        if ( $Param{Type} eq 'Min' ) {
+            return 1 if $Parts{VersionInstalled}->[$Count] >= $Parts{VersionNew}->[$Count];
+            return;
         }
-
-        $Param{$Type} = int $Param{$Type};
+        elsif ( $Param{Type} eq 'Max' ) {
+            return 1 if $Parts{VersionInstalled}->[$Count] < $Parts{VersionNew}->[$Count];
+            return;
+        }
     }
 
-    # compare versions
-    if ( $Param{Type} eq 'Min' ) {
-        return 1 if $Param{VersionInstalled} >= $Param{VersionNew};
-        return;
-    }
-    elsif ( $Param{Type} eq 'Max' ) {
-        return 1 if $Param{VersionInstalled} < $Param{VersionNew};
-        return;
-    }
-
-    # error handling
-    $Self->{LogObject}->Log(
-        Priority => 'error',
-        Message  => 'Invalid Type!',
-    );
-
+    return 1 if $Param{Type} eq 'Min';
     return;
 }
 
@@ -2848,6 +2850,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.134 $ $Date: 2012-08-14 12:12:54 $
+$Revision: 1.135 $ $Date: 2012-08-16 14:35:55 $
 
 =cut
