@@ -2,7 +2,7 @@
 // Core.Agent.Admin.ProcessManagement.js - provides the special module functions for the Process Management.
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.45 2012-08-16 08:19:44 mn Exp $
+// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.46 2012-08-16 09:25:13 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -48,10 +48,14 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
 
             if ($(this).hasClass('Edit_Confirm')) {
                 if (window.confirm(Core.Agent.Admin.ProcessManagement.Localization.EditConfirm)) {
+                    // Remove onbeforeunload event (which is only needed if you close the popup via the window "X")
+                    $(window).unbind("beforeunload.PMPopup");
                     $(this).closest('form').submit();
                 }
             }
             else {
+                // Remove onbeforeunload event (which is only needed if you close the popup via the window "X")
+                $(window).unbind("beforeunload.PMPopup");
                 $(this).closest('form').submit();
             }
             return false;
@@ -671,6 +675,9 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
             // get assigned activity dialogs
             $('input[name=ActivityDialogs]').val(Core.JSON.Stringify(Core.UI.AllocationList.GetResult('#AssignedActivityDialogs', 'id')));
         
+            // not needed for normal submit
+            $(window).unbind("beforeunload.PMPopup");
+            
             Form.submit();
         });
         
@@ -717,6 +724,9 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
             $('input[name=Fields]').val(Core.JSON.Stringify(FieldConfig));
             $('input[name=FieldDetails]').val(Core.JSON.Stringify(FieldDetails));
 
+            // not needed for normal submit
+            $(window).unbind("beforeunload.PMPopup");
+            
             $('#ActivityDialogForm').submit();
             return false;
         });
@@ -774,13 +784,13 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
                 $('#Display').val(FieldConfig.Display);
             }
 
-            // Init handling of closing popup with the OS functionality ("X")
-            $(window).unbind("beforeunload.PMPopup").bind("beforeunload.PMPopup", function () {
-                window.opener.Core.Agent.Admin.ProcessManagement.HandlePopupClose();
-            });
-            
             return false;
         });
+        
+        // Init handling of closing popup with the OS functionality ("X")
+        $(window).unbind("beforeunload.PMPopup").bind("beforeunload.PMPopup", function () {
+            window.opener.Core.Agent.Admin.ProcessManagement.HandlePopupClose();
+        });        
     };
     
     TargetNS.InitTransitionEdit = function () {
@@ -843,6 +853,10 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
         $('#Submit').bind('click', function (Event) {
             var ConditionConfig = TargetNS.GetConditionConfig($('#PresentConditionsContainer').find('.ConditionField'));
             $('input[name=ConditionConfig]').val(Core.JSON.Stringify(ConditionConfig));
+
+            // not needed for normal submit
+            $(window).unbind("beforeunload.PMPopup");
+
             $('#TransitionForm').submit();
             return false;
         });
@@ -875,6 +889,9 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
         });
         
         $('#Submit').bind('click', function (Event) {
+            // not needed for normal submit
+            $(window).unbind("beforeunload.PMPopup");
+
             $('#TransitionForm').submit();
             return false;
         });
@@ -926,6 +943,9 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
         }
         
         $('#Submit').bind('click', function() {
+            // not needed for normal submit
+            $(window).unbind("beforeunload.PMPopup");
+
             $('#PathForm').submit();
         });
         
@@ -949,7 +969,10 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
             };
                 
             $('#TransitionInfo').val(Core.JSON.Stringify(TransitionInfo));
-        
+
+            // not needed for normal submit
+            $(window).unbind("beforeunload.PMPopup");
+            
             Form.submit();
         });
         

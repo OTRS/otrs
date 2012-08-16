@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminProcessManagementActivityDialog.pm - process management activity
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementActivityDialog.pm,v 1.16 2012-08-10 15:23:28 mab Exp $
+# $Id: AdminProcessManagementActivityDialog.pm,v 1.17 2012-08-16 09:25:14 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,7 +25,7 @@ use Kernel::System::ProcessManagement::DB::ActivityDialog;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -132,6 +132,7 @@ sub Run {
         # set new confguration
         $ActivityDialogData->{Name}                       = $GetParam->{Name};
         $ActivityDialogData->{EntityID}                   = $GetParam->{EntityID};
+        $ActivityDialogData->{Config}->{Interface}        = $GetParam->{Interface};
         $ActivityDialogData->{Config}->{DescriptionShort} = $GetParam->{DescriptionShort};
         $ActivityDialogData->{Config}->{DescriptionLong}  = $GetParam->{DescriptionLong};
         $ActivityDialogData->{Config}->{Permission}       = $GetParam->{Permission};
@@ -166,6 +167,19 @@ sub Run {
                 $ActivityDialogData->{Config}->{Fields}->{$FieldDetail}
                     = $GetParam->{FieldDetails}->{$FieldDetail};
             }
+        }
+
+        # set correct Interface value
+        my %Interfaces = (
+            AgentInterface    => ['AgentInterface'],
+            CustomerInterface => ['CustomerInterface'],
+            BothInterfaces    => [ 'AgentInterface', 'CustomerInterface' ],
+        );
+        $ActivityDialogData->{Config}->{Interface}
+            = $Interfaces{ $ActivityDialogData->{Config}->{Interface} };
+
+        if ( !$ActivityDialogData->{Config}->{Interface} ) {
+            $ActivityDialogData->{Config}->{Interface} = $Interfaces{Agent};
         }
 
         # check required parameters
@@ -372,6 +386,7 @@ sub Run {
         # set new confguration
         $ActivityDialogData->{Name}                       = $GetParam->{Name};
         $ActivityDialogData->{EntityID}                   = $GetParam->{EntityID};
+        $ActivityDialogData->{Config}->{Interface}        = $GetParam->{Interface};
         $ActivityDialogData->{Config}->{DescriptionShort} = $GetParam->{DescriptionShort};
         $ActivityDialogData->{Config}->{DescriptionLong}  = $GetParam->{DescriptionLong};
         $ActivityDialogData->{Config}->{Permission}       = $GetParam->{Permission};
@@ -406,6 +421,19 @@ sub Run {
                 $ActivityDialogData->{Config}->{Fields}->{$FieldDetail}
                     = $GetParam->{FieldDetails}->{$FieldDetail};
             }
+        }
+
+        # set correct Interface value
+        my %Interfaces = (
+            AgentInterface    => ['AgentInterface'],
+            CustomerInterface => ['CustomerInterface'],
+            BothInterfaces    => [ 'AgentInterface', 'CustomerInterface' ],
+        );
+        $ActivityDialogData->{Config}->{Interface}
+            = $Interfaces{ $ActivityDialogData->{Config}->{Interface} };
+
+        if ( !$ActivityDialogData->{Config}->{Interface} ) {
+            $ActivityDialogData->{Config}->{Interface} = $Interfaces{Agent};
         }
 
         # check required parameters
@@ -699,6 +727,39 @@ sub _ShowEdit {
         $Param{Title} = 'Create New Activity Dialog';
     }
 
+    # get interface infos
+    if ( defined $ActivityDialogData->{Config}->{Interface} ) {
+        my $InterfaceLength = scalar @{ $ActivityDialogData->{Config}->{Interface} };
+        if ( $InterfaceLength == 2 ) {
+            $ActivityDialogData->{Config}->{Interface} = 'BothInterfaces';
+        }
+        elsif ( $InterfaceLength == 1 ) {
+            $ActivityDialogData->{Config}->{Interface}
+                = $ActivityDialogData->{Config}->{Interface}->[0];
+        }
+        else {
+            $ActivityDialogData->{Config}->{Interface} = 'AgentInterface';
+        }
+    }
+    else {
+        $ActivityDialogData->{Config}->{Interface} = 'AgentInterface';
+    }
+
+    # create interface selection
+    $Param{InterfaceSelection} = $Self->{LayoutObject}->BuildSelection(
+        Data => {
+            AgentInterface    => 'Agent Interface',
+            CustomerInterface => 'Customer Interface',
+            BothInterfaces    => 'Agent and Customer Interface',
+        },
+        Name         => 'Interface',
+        ID           => 'Interface',
+        SelectedID   => $ActivityDialogData->{Config}->{Interface} || '',
+        Sort         => 'AlphanumericKey',
+        Translation  => 1,
+        PossibleNone => 0,
+    );
+
     # create permssion selection
     $Param{PermissionSelection} = $Self->{LayoutObject}->BuildSelection(
         Data       => $Self->{ConfigObject}->Get('System::Permission') || ['rw'],
@@ -768,7 +829,7 @@ sub _GetParams {
 
     # get parameters from web browser
     for my $ParamName (
-        qw( Name EntityID DescriptionShort DescriptionLong Permission RequiredLock SubmitAdviceText
+        qw( Name EntityID Interface DescriptionShort DescriptionLong Permission RequiredLock SubmitAdviceText
         SubmitButtonText )
         )
     {
