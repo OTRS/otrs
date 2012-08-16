@@ -2,7 +2,7 @@
 # ActivityDialogACL.t - ActivityDialog ACL testscript
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: ActivityDialogACL.t,v 1.1 2012-08-15 20:40:19 cr Exp $
+# $Id: ActivityDialogACL.t,v 1.2 2012-08-16 14:27:43 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,6 +19,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::CustomerUser;
 use Kernel::System::Service;
 use Kernel::System::SLA;
+use Kernel::System::State;
 use Kernel::System::ProcessManagement::Activity;
 use Kernel::System::ProcessManagement::TransitionAction;
 use Kernel::System::ProcessManagement::Transition;
@@ -58,6 +59,10 @@ my $ServiceObject = Kernel::System::Service->new(
     ConfigObject => $ConfigObject,
 );
 my $SLAObject = Kernel::System::SLA->new(
+    %{$Self},
+    ConfigObject => $ConfigObject,
+);
+my $StateObject = Kernel::System::State->new(
     %{$Self},
     ConfigObject => $ConfigObject,
 );
@@ -322,7 +327,7 @@ my $ACLCounter = 1;
 # Includes a test on "PossibleNot"
 # Configured Activity Dialogs are: 'AD3', 'AD5', 'AD6'
 # 'AD5' and 'AD6' will be returned by the Possible test
-# and will be reduced to 'AD5'Â by the PossibleNot statement in the State ACL
+# and will be reduced to 'AD5' by the PossibleNot statement in the State ACL
 
 $TestACLs{"00$ACLCounter-ACL-State"} = {
     Properties => {
@@ -430,7 +435,7 @@ my $ProcessConfigSub = sub {
 
         # form it as hashkey and value in order to
         # get a translation hash
-        # DynamicField_Fieldname => DynamicField_Fieldname839391ÃŸ,
+        # DynamicField_Fieldname => DynamicField_Fieldname839391ß,
         "DynamicField_$key" => "DynamicField_$_"
         }
         ( keys %{$DynamicFields} );
@@ -833,16 +838,9 @@ for my $Type qw(Positive Negative) {
 # ----------------------------------------
 # ACL Tests
 # ----------------------------------------
-my %StateResult = (
-    '1' => 'new',
-    '2' => 'closed successful',
-    '3' => 'closed unsuccessful',
-    '4' => 'open',
-    '5' => 'removed',
-    '6' => 'pending reminder',
-    '7' => 'pending auto close+',
-    '8' => 'pending auto close-',
-    '9' => 'merged'
+my %StateResult = $StateObject->StateList(
+    UserID => 1,
+    Valid  => 1,
 );
 
 # Check if Rootuser doesn't get reduced
