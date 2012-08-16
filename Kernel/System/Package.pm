@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Package.pm,v 1.119.2.5 2012-08-14 12:11:52 mh Exp $
+# $Id: Package.pm,v 1.119.2.6 2012-08-16 14:03:06 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::Cache;
 use Kernel::System::Loader;
 
 use vars qw($VERSION $S);
-$VERSION = qw($Revision: 1.119.2.5 $) [1];
+$VERSION = qw($Revision: 1.119.2.6 $) [1];
 
 =head1 NAME
 
@@ -1997,66 +1997,68 @@ sub _CheckVersion {
         }
     }
 
-    my %AllParts;
+    # check Type
+    if ( $Param{Type} ne 'Min' && $Param{Type} ne 'Max' ) {
+
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Invalid Type!',
+        );
+        return;
+    }
+
+    # prepare parts hash
+    my %Parts;
+    TYPE:
     for my $Type (qw(Version1 Version2)) {
 
         # split version string
-        my @Parts = split /\./, $Param{$Type};
+        my @ThisParts = split /\./, $Param{$Type};
 
-        $AllParts{$Type} = \@Parts;
-        $AllParts{ $Type . 'Num' } = scalar @Parts;
+        $Parts{$Type} = \@ThisParts;
+        $Parts{ $Type . 'Num' } = scalar @ThisParts;
     }
 
-    for my $Type (qw(Version1 Version2)) {
+    # remove all version parts after the first three parts and increase
+    # the patchlevel if four version levels are found. --> Testrelease
+    if ( !$Param{ExternalPackage} && $Parts{Version1Num} ne $Parts{Version2Num} ) {
 
-        # extract parts
-        my @Parts = @{ $AllParts{$Type} };
+        TYPE:
+        for my $Type (qw(Version1 Version2)) {
 
-        # remove all version parts after the first three parts and increase
-        # the patchlevel if four version levels are found. --> Testrelease
-        if (
-            !$Param{ExternalPackage}
-            && $AllParts{Version1Num} ne $AllParts{Version2Num}
-            && defined $Parts[3]
-            )
-        {
-            splice @Parts, 3;
-            $Parts[2]++;
+            next TYPE if $Parts{ $Type . 'Num' } <= 3;
+
+            # extract parts
+            my @ThisParts = @{ $Parts{$Type} };
+
+            splice @ThisParts, 3;
+            $ThisParts[2]++;
+
+            $Parts{$Type} = \@ThisParts;
+            $Parts{ $Type . 'Num' } = scalar @ThisParts;
         }
+    }
 
-        # reset version
-        $Param{$Type} = 0;
+    COUNT:
+    for my $Count ( 0 .. 5 ) {
 
-        # cleanup four levels of the version string
-        for my $Count ( 0 .. 4 ) {
+        $Parts{Version1}->[$Count] ||= 0;
+        $Parts{Version2}->[$Count] ||= 0;
 
-            if ( $Parts[$Count] ) {
-                $Param{$Type} .= sprintf "%04d", $Parts[$Count];
-            }
-            else {
-                $Param{$Type} .= '0000';
-            }
+        next COUNT if $Parts{Version1}->[$Count] eq $Parts{Version2}->[$Count];
+
+        # compare versions
+        if ( $Param{Type} eq 'Min' ) {
+            return 1 if $Parts{Version2}->[$Count] >= $Parts{Version1}->[$Count];
+            return;
         }
-
-        $Param{$Type} = int $Param{$Type};
+        elsif ( $Param{Type} eq 'Max' ) {
+            return 1 if $Parts{Version2}->[$Count] < $Parts{Version1}->[$Count];
+            return;
+        }
     }
 
-    # compare versions
-    if ( $Param{Type} eq 'Min' ) {
-        return 1 if $Param{Version2} >= $Param{Version1};
-        return;
-    }
-    elsif ( $Param{Type} eq 'Max' ) {
-        return 1 if $Param{Version2} < $Param{Version1};
-        return;
-    }
-
-    # error handling
-    $Self->{LogObject}->Log(
-        Priority => 'error',
-        Message  => 'Invalid Type!',
-    );
-
+    return 1 if $Param{Type} eq 'Min';
     return;
 }
 
@@ -2542,6 +2544,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.119.2.5 $ $Date: 2012-08-14 12:11:52 $
+$Revision: 1.119.2.6 $ $Date: 2012-08-16 14:03:06 $
 
 =cut
