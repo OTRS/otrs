@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.pm,v 1.148 2012-08-06 07:33:53 mg Exp $
+# $Id: AgentTicketSearch.pm,v 1.149 2012-08-16 19:13:15 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.148 $) [1];
+$VERSION = qw($Revision: 1.149 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -91,6 +91,11 @@ sub new {
         ObjectType  => ['Ticket'],
         FieldFilter => $Self->{DynamicFieldFilter} || {},
     );
+    for my $Field ( keys %{ $Self->{DynamicFieldFilter} } ) {
+        if ( $Self->{DynamicFieldFilter}->{$Field} == 2 ) {
+            $Self->{Config}->{Defaults}->{ 'Search_DynamicField_' . $Field } = 1;
+        }
+    }
 
     # get the ticket dynamic fields for CSV display
     $Self->{CSVDynamicField} = $Self->{DynamicFieldObject}->DynamicFieldListGet(
