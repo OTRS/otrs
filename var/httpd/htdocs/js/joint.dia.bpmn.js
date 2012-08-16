@@ -2,7 +2,7 @@
 // joint.dia.bpmn.js - provides the BPMN diagram functionality for JointJS
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: joint.dia.bpmn.js,v 1.20 2012-08-14 12:57:09 mn Exp $
+// $Id: joint.dia.bpmn.js,v 1.21 2012-08-16 08:19:44 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -289,10 +289,10 @@ bpmn.Activity = Element.extend({
         
         // calculate link position
         // x: x-coordinate of canvas + width of element - some pixels to have it sitting on the top edge
-        position.x = parseInt(this.wrapper.attrs.x + ElementProperties.width - 12, 10);
+        position.x = parseInt(this.wrapper.attrs.x, 10) + parseInt(ElementProperties.width, 10) - 12;
         
         // y: y-coordinate of canvas - some pixels to have it sitting on the top edge
-        position.y = parseInt(this.wrapper.attrs.y - 8, 10);
+        position.y = parseInt(this.wrapper.attrs.y, 10) - 8;
 
         $delete
             .css('top', position.y)
@@ -376,10 +376,10 @@ bpmn.Activity = Element.extend({
         
         // calculate tooltip position
         // x: x-coordinate of canvas + x-coordinate of element within canvas + width of element
-        position.x = this.wrapper.attrs.x + ElementProperties.width + 10;
+        position.x = parseInt(this.wrapper.attrs.x, 10) + parseInt(ElementProperties.width, 10) + 10;
         
         // y: y-coordinate of canvas + y-coordinate of element within canvas + height of element
-        position.y = this.wrapper.attrs.y + 10;
+        position.y = parseInt(this.wrapper.attrs.y, 10) + 10;
         
         // Add content to the tooltip
         text += "<ul>";

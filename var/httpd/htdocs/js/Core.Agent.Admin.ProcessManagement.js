@@ -2,7 +2,7 @@
 // Core.Agent.Admin.ProcessManagement.js - provides the special module functions for the Process Management.
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
-// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.44 2012-08-15 18:22:26 mab Exp $
+// $Id: Core.Agent.Admin.ProcessManagement.js,v 1.45 2012-08-16 08:19:44 mn Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -40,7 +40,6 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
         });
 
         $('a.AsPopup_Redirect').bind('click', function (Event) {
-            
             $('#PopupRedirect').val(1);
             $('#PopupRedirectAction').val($(this).data('action'));
             $('#PopupRedirectSubaction').val($(this).data('subaction'));
@@ -48,9 +47,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
             $('#PopupRedirectEntityID').val($(this).data('entity'));
 
             if ($(this).hasClass('Edit_Confirm')) {
-                
-                var Confirm = confirm(Core.Agent.Admin.ProcessManagement.Localization.EditConfirm);
-                if (Confirm) {
+                if (window.confirm(Core.Agent.Admin.ProcessManagement.Localization.EditConfirm)) {
                     $(this).closest('form').submit();
                 }
             }
@@ -542,7 +539,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
                 Action: 'AdminProcessManagement',
                 Subaction: 'UpdateScreensPath',
                 ProcessID: $('input[name=ID]').val(),
-                ProcessEntityID: $('#ProcessEntityID').val(),
+                ProcessEntityID: $('#ProcessEntityID').val()
             };
        
         // Call the ajax function
