@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminProcessManagementTransition.pm - process management transition
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementTransition.pm,v 1.7 2012-08-10 15:52:41 mab Exp $
+# $Id: AdminProcessManagementTransition.pm,v 1.8 2012-08-16 10:21:42 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::ProcessManagement::DB::Transition;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -240,9 +240,6 @@ sub Run {
                 Message => "Need TransitionID!",
             );
         }
-
-        # remove this screen from session screen path
-        $Self->_PopSessionScreen( OnlyCurrent => 1 );
 
         # get Transition data
         my $TransitionData = $Self->{TransitionObject}->TransitionGet(

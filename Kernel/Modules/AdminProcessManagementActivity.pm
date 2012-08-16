@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminProcessManagementActivity.pm - process management activity
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementActivity.pm,v 1.13 2012-08-10 15:22:58 mab Exp $
+# $Id: AdminProcessManagementActivity.pm,v 1.14 2012-08-16 10:21:42 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,7 +25,7 @@ use Kernel::System::ProcessManagement::DB::ActivityDialog;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -284,9 +284,6 @@ sub Run {
                 Message => "Need ActivityID!",
             );
         }
-
-        # remove this screen from session screen path
-        $Self->_PopSessionScreen( OnlyCurrent => 1 );
 
         # get Activity data
         my $ActivityData = $Self->{ActivityObject}->ActivityGet(

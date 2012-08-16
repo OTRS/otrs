@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminProcessManagementActivityDialog.pm - process management activity
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementActivityDialog.pm,v 1.17 2012-08-16 09:25:14 mn Exp $
+# $Id: AdminProcessManagementActivityDialog.pm,v 1.18 2012-08-16 10:21:42 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,7 +25,7 @@ use Kernel::System::ProcessManagement::DB::ActivityDialog;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.17 $) [1];
+$VERSION = qw($Revision: 1.18 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -334,7 +334,7 @@ sub Run {
     }
 
     # ------------------------------------------------------------ #
-    # ActivityEdit
+    # ActivityDialogEdit
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'ActivityDialogEdit' ) {
 
@@ -344,9 +344,6 @@ sub Run {
                 Message => "Need ActivityDialogID!",
             );
         }
-
-        # remove this screen from session screen path
-        $Self->_PopSessionScreen( OnlyCurrent => 1 );
 
         # get Activity Dialog data
         my $ActivityDialogData = $Self->{ActivityDialogObject}->ActivityDialogGet(
