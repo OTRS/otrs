@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: ProcessManagement.xml,v 1.8 2012-08-15 16:40:24 cr Exp $</CVS>
+    <CVS>$Id: ProcessManagement.xml,v 1.9 2012-08-16 15:38:30 cr Exp $</CVS>
     <ConfigItem Name="Process::CacheTTL" Required="1" Valid="1">
         <Description Translatable="1">Cache time in seconds for the DB process backend.</Description>
         <Group>ProcessManagement</Group>
@@ -144,8 +144,6 @@
 
     <!-- OTRSTicketProcesses Merged Settings Start -->
     <!-- TODO: The groups of this settings must be updated after the file in the FAO is QA'ed -->
-    <!-- TODO: Re-enable when module is ported-->
-    <!--
     <ConfigItem Name="Frontend::Module###AgentTicketProcess" Required="0" Valid="1">
         <Description Translatable="1">Frontend module registration for the agent interface.</Description>
         <Group>OTRSTicketProcesses</Group>
@@ -185,7 +183,6 @@
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
-    -->
     <!--  TODO: Re-enable when module is ported-->
     <!--
     <ConfigItem Name="Ticket::EventModulePost###TicketProcessTransitions" Required="0" Valid="1">
@@ -250,7 +247,7 @@
             <String Regex="">3 normal</String>
         </Setting>
     </ConfigItem>
-    <!-- TODO: Delete this setting since the module will be merged into Kernel/SystemTicket.pm -->
+    <!-- TODO: Delete this setting since the module will be merged into Kernel/System/Ticket.pm -->
     <!--
     <ConfigItem Name="Ticket::CustomModule###100-ProcessManagement" Required="1" Valid="1">
         <Description Translatable="1">Adds more functions to Kernel::System::Ticket.</Description>
