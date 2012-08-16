@@ -2,7 +2,7 @@
 # Package.t - Package tests
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Package.t,v 1.39 2012-08-07 20:17:24 mh Exp $
+# $Id: Package.t,v 1.40 2012-08-16 14:33:13 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -652,80 +652,262 @@ $Self->True(
 
 # #8 version check
 my @Tests = (
+
+    # test invalid type
+    {
+        VersionNew       => '1.0.1',
+        VersionInstalled => '1.0.2',
+        Type             => 'Something',
+        ExternalPackage  => 0,
+        Result           => 0,
+    },
+    {
+        VersionNew       => '1.0.2',
+        VersionInstalled => '1.0.1',
+        Type             => 'Something',
+        ExternalPackage  => 0,
+        Result           => 0,
+    },
+
+    # minimum tests
     {
         VersionNew       => '1.0.1',
         VersionInstalled => '1.0.2',
         Type             => 'Min',
+        ExternalPackage  => 0,
         Result           => 1,
     },
     {
         VersionNew       => '1.0.2',
         VersionInstalled => '1.0.1',
         Type             => 'Min',
-        Result           => 0,
-    },
-    {
-        VersionNew       => '1.0.2',
-        VersionInstalled => '1.0.1',
-        Type             => 'Max',
-        Result           => 1,
-    },
-    {
-        VersionNew       => '1.0.1',
-        VersionInstalled => '1.0.2',
-        Type             => 'Max',
-        Result           => 0,
-    },
-    {
-        VersionNew       => '1.0',
-        VersionInstalled => '1.0.2',
-        Type             => 'Max',
-        Result           => 0,
-    },
-    {
-        VersionNew       => '1.1',
-        VersionInstalled => '1.5.2.1',
-        Type             => 'Max',
+        ExternalPackage  => 0,
         Result           => 0,
     },
     {
         VersionNew       => '1.0.2',
         VersionInstalled => '1.0',
         Type             => 'Min',
+        ExternalPackage  => 0,
         Result           => 0,
     },
     {
-        VersionNew       => '1.0.99.1',
-        VersionInstalled => '1.0.9',
+        VersionNew       => '1.1',
+        VersionInstalled => '1.5.2.1',
         Type             => 'Min',
-        Result           => 0,
-    },
-    {
-        VersionNew       => '1.0.9.1',
-        VersionInstalled => '1.0.99',
-        Type             => 'Min',
+        ExternalPackage  => 0,
         Result           => 1,
     },
     {
         VersionNew       => '1.0.9.1',
         VersionInstalled => '1',
         Type             => 'Min',
+        ExternalPackage  => 0,
+        Result           => 0,
+    },
+    {
+        VersionNew       => '1.3.5',
+        VersionInstalled => '1.3.4',
+        Type             => 'Min',
+        ExternalPackage  => 0,
+        Result           => 0,
+    },
+    {
+        VersionNew       => '1.3.99',
+        VersionInstalled => '1.3.0',
+        Type             => 'Min',
+        ExternalPackage  => 0,
+        Result           => 0,
+    },
+    {
+        VersionNew       => '100.100.100',
+        VersionInstalled => '99.100.100',
+        Type             => 'Min',
+        ExternalPackage  => 0,
+        Result           => 0,
+    },
+    {
+        VersionNew       => '1000.1000.1000',
+        VersionInstalled => '999.1000.1000',
+        Type             => 'Min',
+        ExternalPackage  => 0,
+        Result           => 0,
+    },
+    {
+        VersionNew       => '1000.1000.1000',
+        VersionInstalled => '1000.999.1000',
+        Type             => 'Min',
+        ExternalPackage  => 0,
+        Result           => 0,
+    },
+    {
+        VersionNew       => '1000.1000.1000',
+        VersionInstalled => '1000.1000.999',
+        Type             => 'Min',
+        ExternalPackage  => 0,
+        Result           => 0,
+    },
+    {
+        VersionNew       => '9999.9999.9999.9999',
+        VersionInstalled => '9999.9999.9999.9998',
+        Type             => 'Min',
+        ExternalPackage  => 0,
+        Result           => 0,
+    },
+    {
+        VersionNew       => '1.0.1.2',
+        VersionInstalled => '1.0.1.1',
+        Type             => 'Min',
+        ExternalPackage  => 0,
+        Result           => 0,
+    },
+    {
+        VersionNew       => '1.0.1.2',
+        VersionInstalled => '1.0.1',
+        Type             => 'Min',
+        ExternalPackage  => 0,
+        Result           => 0,
+    },
+    {
+        VersionNew       => '1.0.1.999',
+        VersionInstalled => '1.0.1.1',
+        Type             => 'Min',
+        ExternalPackage  => 0,
+        Result           => 0,
+    },
+    {
+        VersionNew       => '1.0.0.999',
+        VersionInstalled => '1.0.0.1',
+        Type             => 'Min',
+        ExternalPackage  => 0,
+        Result           => 0,
+    },
+
+    # maximum tests
+    {
+        VersionNew       => '1.0.1',
+        VersionInstalled => '1.0.2',
+        Type             => 'Max',
+        ExternalPackage  => 0,
+        Result           => 0,
+    },
+    {
+        VersionNew       => '1.0.2',
+        VersionInstalled => '1.0.1',
+        Type             => 'Max',
+        ExternalPackage  => 0,
+        Result           => 1,
+    },
+    {
+        VersionNew       => '1.0',
+        VersionInstalled => '1.0.2',
+        Type             => 'Max',
+        ExternalPackage  => 0,
+        Result           => 0,
+    },
+    {
+        VersionNew       => '1.1',
+        VersionInstalled => '1.5.2.1',
+        Type             => 'Max',
+        ExternalPackage  => 0,
         Result           => 0,
     },
     {
         VersionNew       => '1.0.9.1',
         VersionInstalled => '1',
         Type             => 'Max',
+        ExternalPackage  => 0,
+        Result           => 1,
+    },
+    {
+        VersionNew       => '1.3.5',
+        VersionInstalled => '1.3.4',
+        Type             => 'Max',
+        ExternalPackage  => 0,
+        Result           => 1,
+    },
+    {
+        VersionNew       => '1.3.99',
+        VersionInstalled => '1.3.0',
+        Type             => 'Max',
+        ExternalPackage  => 0,
+        Result           => 1,
+    },
+    {
+        VersionNew       => '100.100.100',
+        VersionInstalled => '99.100.100',
+        Type             => 'Max',
+        ExternalPackage  => 0,
+        Result           => 1,
+    },
+    {
+        VersionNew       => '1000.1000.1000',
+        VersionInstalled => '999.1000.1000',
+        Type             => 'Max',
+        ExternalPackage  => 0,
+        Result           => 1,
+    },
+    {
+        VersionNew       => '1000.1000.1000',
+        VersionInstalled => '1000.999.1000',
+        Type             => 'Max',
+        ExternalPackage  => 0,
+        Result           => 1,
+    },
+    {
+        VersionNew       => '1000.1000.1000',
+        VersionInstalled => '1000.1000.999',
+        Type             => 'Max',
+        ExternalPackage  => 0,
+        Result           => 1,
+    },
+    {
+        VersionNew       => '9999.9999.9999.9999',
+        VersionInstalled => '9999.9999.9999.9998',
+        Type             => 'Max',
+        ExternalPackage  => 0,
+        Result           => 1,
+    },
+    {
+        VersionNew       => '1.0.1.2',
+        VersionInstalled => '1.0.1.1',
+        Type             => 'Max',
+        ExternalPackage  => 0,
+        Result           => 1,
+    },
+    {
+        VersionNew       => '1.0.1.2',
+        VersionInstalled => '1.0.1',
+        Type             => 'Max',
+        ExternalPackage  => 0,
+        Result           => 1,
+    },
+    {
+        VersionNew       => '1.0.1.999',
+        VersionInstalled => '1.0.1.1',
+        Type             => 'Max',
+        ExternalPackage  => 0,
+        Result           => 1,
+    },
+    {
+        VersionNew       => '1.0.0.999',
+        VersionInstalled => '1.0.0.1',
+        Type             => 'Max',
+        ExternalPackage  => 0,
         Result           => 1,
     },
 );
+
 for my $Test (@Tests) {
+
     my $VersionCheck = $PackageObject->_CheckVersion(
         VersionNew       => $Test->{VersionNew},
         VersionInstalled => $Test->{VersionInstalled},
         Type             => $Test->{Type},
     );
+
     my $Name = "#8 _CheckVersion() - $Test->{Type} ($Test->{VersionNew}:$Test->{VersionInstalled})";
+
     if ( $Test->{Result} ) {
         $Self->True(
             $VersionCheck,
