@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketProcess.pm - to create process tickets
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketProcess.pm,v 1.1 2012-08-16 15:37:54 cr Exp $
+# $Id: AgentTicketProcess.pm,v 1.2 2012-08-16 23:34:08 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -33,7 +33,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -3894,38 +3894,56 @@ sub _GetResponsibles {
         Valid => 1,
     );
 
-    # just show only users with selected custom queue
-    if ( $Param{QueueID} && !$Param{ResponsibleAll} ) {
-        my @UserIDs = $Self->{TicketObject}->GetSubscribedUserIDsByQueueID(%Param);
-        for my $KeyGroupMember ( keys %AllGroupsMembers ) {
-            my $Hit = 0;
-            for my $UID (@UserIDs) {
-                if ( $UID eq $KeyGroupMember ) {
-                    $Hit = 1;
-                }
-            }
-            if ( !$Hit ) {
-                delete $AllGroupsMembers{$KeyGroupMember};
+    # if we are updating a ticket show the full list of possible responsibles
+    if ( $Param{TicketID} ) {
+        if ( $Param{QueueID} && !$Param{AllUsers} ) {
+            my $GID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Param{QueueID} );
+            my %MemberList = $Self->{GroupObject}->GroupMemberList(
+                GroupID => $GID,
+                Type    => 'responsible',
+                Result  => 'HASH',
+                Cached  => 1,
+            );
+            for my $UserID ( keys %MemberList ) {
+                $ShownUsers{$UserID} = $AllGroupsMembers{$UserID};
             }
         }
     }
+    else {
 
-    # show all system users
-    if ( $Self->{ConfigObject}->Get('Ticket::ChangeOwnerToEveryone') ) {
-        %ShownUsers = %AllGroupsMembers;
-    }
+        # just show only users with selected custom queue
+        if ( $Param{QueueID} && !$Param{ResponsibleAll} ) {
+            my @UserIDs = $Self->{TicketObject}->GetSubscribedUserIDsByQueueID(%Param);
+            for my $KeyGroupMember ( keys %AllGroupsMembers ) {
+                my $Hit = 0;
+                for my $UID (@UserIDs) {
+                    if ( $UID eq $KeyGroupMember ) {
+                        $Hit = 1;
+                    }
+                }
+                if ( !$Hit ) {
+                    delete $AllGroupsMembers{$KeyGroupMember};
+                }
+            }
+        }
 
-    # show all users who are rw in the queue group
-    elsif ( $Param{QueueID} ) {
-        my $GID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Param{QueueID} );
-        my %MemberList = $Self->{GroupObject}->GroupMemberList(
-            GroupID => $GID,
-            Type    => 'rw',
-            Result  => 'HASH',
-        );
-        for my $KeyMember ( keys %MemberList ) {
-            if ( $AllGroupsMembers{$KeyMember} ) {
-                $ShownUsers{$KeyMember} = $AllGroupsMembers{$KeyMember};
+        # show all system users
+        if ( $Self->{ConfigObject}->Get('Ticket::ChangeOwnerToEveryone') ) {
+            %ShownUsers = %AllGroupsMembers;
+        }
+
+        # show all users who are rw in the queue group
+        elsif ( $Param{QueueID} ) {
+            my $GID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Param{QueueID} );
+            my %MemberList = $Self->{GroupObject}->GroupMemberList(
+                GroupID => $GID,
+                Type    => 'responsible',
+                Result  => 'HASH',
+            );
+            for my $KeyMember ( keys %MemberList ) {
+                if ( $AllGroupsMembers{$KeyMember} ) {
+                    $ShownUsers{$KeyMember} = $AllGroupsMembers{$KeyMember};
+                }
             }
         }
     }
@@ -3954,38 +3972,56 @@ sub _GetOwners {
         Valid => 1,
     );
 
-    # just show only users with selected custom queue
-    if ( $Param{QueueID} && !$Param{OwnerAll} ) {
-        my @UserIDs = $Self->{TicketObject}->GetSubscribedUserIDsByQueueID(%Param);
-        for my $KeyGroupMember ( keys %AllGroupsMembers ) {
-            my $Hit = 0;
-            for my $UID (@UserIDs) {
-                if ( $UID eq $KeyGroupMember ) {
-                    $Hit = 1;
-                }
-            }
-            if ( !$Hit ) {
-                delete $AllGroupsMembers{$KeyGroupMember};
+    # if we are updating a ticket show the full list of posible owners
+    if ( $Param{TicketID} ) {
+        if ( $Param{QueueID} && !$Param{AllUsers} ) {
+            my $GID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Param{QueueID} );
+            my %MemberList = $Self->{GroupObject}->GroupMemberList(
+                GroupID => $GID,
+                Type    => 'owner',
+                Result  => 'HASH',
+                Cached  => 1,
+            );
+            for my $UserID ( keys %MemberList ) {
+                $ShownUsers{$UserID} = $AllGroupsMembers{$UserID};
             }
         }
     }
+    else {
 
-    # show all system users
-    if ( $Self->{ConfigObject}->Get('Ticket::ChangeOwnerToEveryone') ) {
-        %ShownUsers = %AllGroupsMembers;
-    }
+        # just show only users with selected custom queue
+        if ( $Param{QueueID} && !$Param{OwnerAll} ) {
+            my @UserIDs = $Self->{TicketObject}->GetSubscribedUserIDsByQueueID(%Param);
+            for my $KeyGroupMember ( keys %AllGroupsMembers ) {
+                my $Hit = 0;
+                for my $UID (@UserIDs) {
+                    if ( $UID eq $KeyGroupMember ) {
+                        $Hit = 1;
+                    }
+                }
+                if ( !$Hit ) {
+                    delete $AllGroupsMembers{$KeyGroupMember};
+                }
+            }
+        }
 
-    # show all users who are rw in the queue group
-    elsif ( $Param{QueueID} ) {
-        my $GID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Param{QueueID} );
-        my %MemberList = $Self->{GroupObject}->GroupMemberList(
-            GroupID => $GID,
-            Type    => 'rw',
-            Result  => 'HASH',
-        );
-        for my $KeyMember ( keys %MemberList ) {
-            if ( $AllGroupsMembers{$KeyMember} ) {
-                $ShownUsers{$KeyMember} = $AllGroupsMembers{$KeyMember};
+        # show all system users
+        if ( $Self->{ConfigObject}->Get('Ticket::ChangeOwnerToEveryone') ) {
+            %ShownUsers = %AllGroupsMembers;
+        }
+
+        # show all users who are rw in the queue group
+        elsif ( $Param{QueueID} ) {
+            my $GID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Param{QueueID} );
+            my %MemberList = $Self->{GroupObject}->GroupMemberList(
+                GroupID => $GID,
+                Type    => 'owner',
+                Result  => 'HASH',
+            );
+            for my $KeyMember ( keys %MemberList ) {
+                if ( $AllGroupsMembers{$KeyMember} ) {
+                    $ShownUsers{$KeyMember} = $AllGroupsMembers{$KeyMember};
+                }
             }
         }
     }
@@ -4232,6 +4268,10 @@ sub _GetStates {
     if ( $Param{QueueID} || $Param{TicketID} ) {
         %States = $Self->{TicketObject}->TicketStateList(
             %Param,
+
+            # remove type, since if Ticket::Type is active in sysconfig, the Type parameter will
+            # be sent and the TicketStateList will send the parameter as State Type
+            Type => undef,
 
             #   Action may come in later if there's a reduced State list in config
             #    Action => $Self->{Action},
