@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.213 2012-07-31 09:01:11 mg Exp $
+# $Id: AgentTicketZoom.dtl,v 1.214 2012-08-16 23:34:48 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -76,8 +76,8 @@
     <div class="ClearLeft"></div>
     <div class="Headline">
         <div class="Flag" title="$Text{"$Data{"Priority"}"}"><span class="PriorityID-$QData{"PriorityID"}">$Text{"$Data{"Priority"}"}</span></div>
-        <h1 title="$Text{"Zoom"} $Config{"Ticket::Hook"}$Data{"TicketNumber"} &ndash; $QData{"Title", "170"}">
-            $Config{"Ticket::Hook"}$Data{"TicketNumber"} <span>&mdash;</span> $QData{"Title", "60"}
+        <h1 title="$Text{"Zoom"} $Data{"Hook"}$Data{"TicketNumber"} &ndash; $QData{"Title", "70"}">
+            $Data{"Hook"}$Data{"TicketNumber"} <span>&mdash;</span> $QData{"Title", "60"}
         </h1>
     </div>
 
@@ -85,7 +85,7 @@
         <div class="SidebarColumn">
             <div class="WidgetSimple">
                 <div class="Header">
-                    <h2>$Text{"Ticket Information"}</h2>
+                    <h2>$Text{"$Data{"WidgetTitle"}"}</h2>
                 </div>
                 <div class="Content">
                     <fieldset class="TableLike FixedLabelSmall">
@@ -316,9 +316,127 @@
                 <div class="Clear"></div>
             </div>
 
+<!-- dtl:block:ProcessWidget -->
+<!-- dtl:js_on_document_complete -->
+<script type="text/javascript">//<![CDATA[
+var WidgetWidth   = parseInt($('#DynamicFieldsWidget').innerWidth() - 15, 10);
+var FieldsPerRow  = 4;
+var FieldMargin   = parseInt($('.DynamicFieldAutoResize').css('margin-right'), 10) + 2;
+
+// define amount of fields per row depending on display resolution
+if ( WidgetWidth < 1000 ) {
+    FieldsPerRow = 3;
+}
+if ( WidgetWidth < 600 ) {
+    FieldsPerRow = 2;
+}
+if ( WidgetWidth < 400 ) {
+    FieldsPerRow = 1;
+}
+
+// determine the needed field width and resize the fields
+var FieldWidth = parseInt(WidgetWidth / FieldsPerRow - FieldMargin - 1, 10);
+$('.DynamicFieldAutoResize').width(FieldWidth);
+
+$('.ShowFieldInfoOverlay').bind('click', function() {
+
+    var OverlayTitle  = $(this).closest('label').attr('title'),
+        OverlayHTML   = $(this).closest('.FieldContainer').find('.Value').html();
+
+    OverlayHTML = '<div class="FieldOverlay">' + OverlayHTML + '</div>';
+
+    Core.UI.Dialog.ShowDialog({
+        Modal: true,
+        Title: OverlayTitle,
+        HTML: OverlayHTML,
+        PositionTop: '100px',
+        PositionLeft: 'Center',
+        CloseOnEscape: true,
+        Buttons: [
+            {
+                Type: 'Close',
+                Label: "$JSText{"Close"}",
+                Function: function() {
+                    Core.UI.Dialog.CloseDialog($('.Dialog:visible'));
+                    Core.Form.EnableForm($('form[name="compose"]'));
+                    return false;
+                }
+            }
+        ]
+    });
+});
+//]]></script>
+<!-- dtl:js_on_document_complete -->
+            <div class="WidgetBox SpacingTop Expanded" id="DynamicFieldsWidget">
+                <div class="LightRow Header">
+                    <div class="WidgetAction Toggle"><a href="#" title="$Text{"Show or hide the content"}"><span></span></a></div>
+                    <h2>$Text{"$Data{"WidgetTitle"}"}</h2>
+                </div>
+<!-- dtl:block:NextActivityDialogs -->
+                <div class="ActionRow">
+                    <ul class="Actions">
+<!-- dtl:block:ActivityDialog -->
+                        <li>
+                            <a title="$QData{"Name"}" class="AsPopup PopupType_TicketAction" href="$Env{"Baselink"}Action=AgentTicketProcess;Subaction=DisplayActivityDialog;TicketID=$QData{"TicketID"};ProcessEntityID=$QData{"ProcessEntityID"};ActivityDialogEntityID=$QData{"ActivityDialogEntityID"}">$QData{"Name"}</a>
+                        </li>
+<!-- dtl:block:ActivityDialog -->
+                    </ul>
+                    <div class="Clear"></div>
+                </div>
+<!-- dtl:block:NextActivityDialogs -->
+                <div class="Content ProcessInfo">
+                    <fieldset class="TableLike FixedLabelSmall">
+<!-- dtl:block:ProcessWidgetDynamicFieldGroups -->
+<!-- dtl:block:ProcessWidgetDynamicFieldGroupSeparator -->
+                        <h2 class="FieldSetSeparator">$Data{"Name"}</h2>
+<!-- dtl:block:ProcessWidgetDynamicFieldGroupSeparator -->
+<!-- dtl:block:ProcessWidgetDynamicField -->
+                        <div class="FieldContainer DynamicFieldAutoResize">
+                            <label title="$QData{"Label"}">
+                                $QData{"Label", "30"}
+<!-- dtl:block:ProcessWidgetDynamicFieldValueOverlayTrigger -->
+                                <a href="#" class="ShowFieldInfoOverlay">+</a>
+<!-- dtl:block:ProcessWidgetDynamicFieldValueOverlayTrigger -->
+                            </label>
+                            <p class="Value CutValue DynamicField_$Data{"Name"}">
+
+<!-- OutputFilterHook_WidgetDynamicFieldBegin -->
+<!-- dtl:block:ProcessWidgetDynamicFieldLink -->
+                                <span title="$QData{"Title"}"><a href="$Data{"Link"}" target="_blank" class="DynamicFieldLink">$Data{"Value"}</a></span>
+
+<!-- dtl:block:ProcessWidgetDynamicFieldLink -->
+<!-- dtl:block:ProcessWidgetDynamicFieldPlain -->
+                                $Data{"Value"}
+<!-- dtl:block:ProcessWidgetDynamicFieldPlain -->
+<!-- OutputFilterHook_WidgetDynamicFieldEnd -->
+
+                            </p>
+                            <p class="ValueLong">
+<!-- dtl:block:ProcessWidgetDynamicFieldValueLong -->
+                                $Data{"Value"}
+<!-- dtl:block:ProcessWidgetDynamicFieldValueLong -->
+
+                            </p>
+                            <div class="Clear"></div>
+                        </div>
+<!-- dtl:block:ProcessWidgetDynamicField -->
+<!-- dtl:block:ProcessWidgetDynamicFieldGroups -->
+                    </fieldset>
+                </div>
+            </div>
+<!-- dtl:block:ProcessWidget -->
+
             <div id="ArticleTree">
 $Data{"ArticleTree"}
             </div>
+
+<!-- dtl:block:HintNoArticles -->
+            <div class="WidgetSimple">
+                <div class="Content">
+                    $Text{"This item has no articles yet."}
+                </div>
+            </div>
+<!-- dtl:block:HintNoArticles -->
 
             <div id="ArticleItems">
 $Data{"ArticleItems"}
@@ -336,8 +454,6 @@ $Data{"ArticleItems"}
 
 </div>
 <!-- dtl:block:Header -->
-
-
 
 <!-- dtl:block:Tree -->
 <div id="ArticleTable"  class="FixedHeader">
