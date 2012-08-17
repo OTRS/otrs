@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminProcessManagement.pm - process management
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagement.pm,v 1.26 2012-08-16 10:24:58 mn Exp $
+# $Id: AdminProcessManagement.pm,v 1.27 2012-08-17 07:09:51 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -28,7 +28,7 @@ use Kernel::System::ProcessManagement::DB::TransitionAction;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.26 $) [1];
+$VERSION = qw($Revision: 1.27 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -789,7 +789,7 @@ sub Run {
                         if ( defined $ConfigAvailableIn ) {
                             my $InterfaceLength = scalar @{$ConfigAvailableIn};
                             if ( $InterfaceLength == 2 ) {
-                                $AvailableIn = 'A, C';
+                                $AvailableIn = 'A/C';
                             }
                             elsif ( $InterfaceLength == 1 ) {
                                 $AvailableIn = substr( $ConfigAvailableIn->[0], 0, 1 );
@@ -988,7 +988,7 @@ sub _ShowEdit {
                         if ( defined $ConfigAvailableIn ) {
                             my $InterfaceLength = scalar @{$ConfigAvailableIn};
                             if ( $InterfaceLength == 2 ) {
-                                $AvailableIn = 'A, C';
+                                $AvailableIn = 'A/C';
                             }
                             elsif ( $InterfaceLength == 1 ) {
                                 $AvailableIn = substr( $ConfigAvailableIn->[0], 0, 1 );
