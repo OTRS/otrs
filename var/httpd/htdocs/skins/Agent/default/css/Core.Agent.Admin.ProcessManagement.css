@@ -1,6 +1,6 @@
 /**
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.15 $
+ * @version     $Revision: 1.16 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -26,6 +26,10 @@ a.Export {
  */
 ul#ProcessElements {
     border: 1px solid #CCC;
+}
+
+ul#ProcessElements * {
+    font-size: 11px;
 }
 
 ul#ProcessElements li.AccordionElement h2 {
@@ -243,18 +247,19 @@ ul.Path {
 }
 
 ul.Path li {
-    width: 150px;
+    width: 130px;
     line-height: 120%;
     float: left;
     position: relative;
     text-align: center;
-    padding: 30px 0px;
+    padding: 30px 10px;
     min-height: 25px;
 }
 
 ul.Path li.Transition {
     width: 230px;
     margin-left: 0px;
+    padding: 30px 0px;
 }
 
 ul.Path li.StartActivity, ul.Path li.EndActivity {
@@ -266,7 +271,7 @@ ul.Path li.StartActivity, ul.Path li.EndActivity {
     margin: 0px 20px;
     position: relative;
     z-index: 2;
-    font-size: 11px;
+    font-size: 12px;
 }
 
 ul.Path li select {
