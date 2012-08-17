@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: ProcessManagement.xml,v 1.11 2012-08-17 18:00:57 cr Exp $</CVS>
+    <CVS>$Id: ProcessManagement.xml,v 1.12 2012-08-17 20:00:31 cr Exp $</CVS>
     <ConfigItem Name="Process::CacheTTL" Required="1" Valid="1">
         <Description Translatable="1">Cache time in seconds for the DB process backend.</Description>
         <Group>ProcessManagement</Group>
@@ -243,18 +243,7 @@
             <String Regex="">3 normal</String>
         </Setting>
     </ConfigItem>
-    <!-- TODO: Delete this setting since the module will be merged into Kernel/System/Ticket.pm -->
-    <!--
-    <ConfigItem Name="Ticket::CustomModule###100-ProcessManagement" Required="1" Valid="1">
-        <Description Translatable="1">Adds more functions to Kernel::System::Ticket.</Description>
-        <Group>OTRSTicketProcesses</Group>
-        <SubGroup>Core::Ticket</SubGroup>
-        <Setting>
-            <String Regex="">Kernel::System::Ticket::OTRSTicketProcesses</String>
-        </Setting>
-    </ConfigItem>
-    -->
-    <!-- config for some display settings in ticket zoom -->
+
     <ConfigItem Name="Ticket::Frontend::AgentTicketZoom###SidebarDynamicField" Required="1" Valid="1">
         <Description Translatable="1">Dynamic fields shown in the sidebar in ticket zoom screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled.</Description>
         <Group>OTRSTicketProcesses</Group>
