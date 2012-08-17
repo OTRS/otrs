@@ -2,7 +2,7 @@
 # AdminProcessManagementActivityDialog.dtl - provides HTML for AdminProcessManagement
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementActivityDialog.dtl,v 1.9 2012-08-16 09:25:14 mn Exp $
+# $Id: AdminProcessManagementActivityDialog.dtl,v 1.10 2012-08-17 06:25:33 mab Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -53,7 +53,7 @@
                     </div>
                     <div class="Content">
                         <fieldset class="TableLike">
-                            <label class="Mandatory" for="Name"><span class="Marker">*</span> $Text{"Activity Name"}:</label>
+                            <label class="Mandatory" for="Name"><span class="Marker">*</span> $Text{"Activity dialog Name"}:</label>
                             <div class="Field">
                                 <input type="text" name="Name" id="Name" value="$QData{"Name"}" class="W50pc Validate_Required $QData{"NameServerError"}" maxlength="70"/>
                                 <div id="NameError" class="TooltipErrorMessage">
