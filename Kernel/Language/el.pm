@@ -3,7 +3,7 @@
 # Copyright (C) 2006 Stelios Maistros <smaistros aegean.gr>
 # Copyright (C) 2006 George Thomas <gthomas aegean.gr>
 # --
-# $Id: el.pm,v 1.96.2.1 2012-08-02 08:17:53 mg Exp $
+# $Id: el.pm,v 1.96.2.2 2012-08-17 12:07:56 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,13 +16,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.96.2.1 $) [1];
+$VERSION = qw($Revision: 1.96.2.2 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-03-01 14:19:52
+    # Last translation file sync: 2012-08-17 14:04:39
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -264,8 +264,6 @@ sub Data {
         'No entry found!' => 'Δεν βρεθηκε εγγραφή',
         'Session has timed out. Please log in again.' => 'Εξαντλήθηκε ο χρόνος τής σύνδεσης. Παρακαλώ συνδεθείτε ξανά.',
         'No Permission!' => 'Απαγορεύεται!',
-        'To: (%s) replaced with database email!' => 'Πρός: (%s) αντικαταστάθηκε με το email της βάσης δεδομένων!',
-        'Cc: (%s) added database email!' => 'Σε: (%s) προστέθηκε το email της βάσης δεδομένων !',
         '(Click here to add)' => '(πατήστε εδώ για προσθήκη)',
         'Preview' => 'Προεπισκόπηση',
         'Package not correctly deployed! Please reinstall the package.' =>
@@ -674,6 +672,8 @@ sub Data {
         'Send Email and create a new Ticket' => 'Αποστολη email και δημιουργια νεου Δελτίου',
         'Create new Email Ticket and send this out (Outbound)' => 'Δημιουργία Νεόυ Δελτίου (email) και αποστολή',
         'Create new Phone Ticket (Inbound)' => 'Δημιουργία νέου δελτίου μέσω τηλέφώνου',
+        'Address %s replaced with registered customer address.' => '',
+        'Customer automatically added in Cc.' => '',
         'Overview of all open Tickets' => 'Έλεγχος όλων των ανοιχτών Δελτίων',
         'Locked Tickets' => 'Κλειδωμένα Δελτία',
         'My Locked Tickets' => 'Τα κλειδωμενα δελτία μου',
@@ -939,6 +939,10 @@ sub Data {
         'Label' => 'Ετικέττα',
         'Order' => 'Ταξινόμηση',
         'Object' => 'Αντικείμενο',
+        'Delete this field' => '',
+        'Do you really want to delete this dynamic field? ALL associated data will be LOST!' =>
+            '',
+        'Delete field' => '',
 
         # Template: AdminDynamicFieldCheckbox
         'Dynamic Fields' => 'Δυναμικά Πεδια',
@@ -1254,6 +1258,29 @@ sub Data {
         'A "-" value means no authentication.' => '',
         'The user name to be used to access the remote system.' => '',
         'The password for the privileged user.' => '',
+        'Use SSL Options' => '',
+        'Show or hide SSL options to connect to the remote system.' => '',
+        'Certificate File' => '',
+        'The full path and name of the SSL certificate file (must be in .p12 format).' =>
+            '',
+        'e.g. /opt/otrs/var/certificates/SOAP/certificate.p12' => '',
+        'Certificate Password File' => '',
+        'The password to open the SSL certificate.' => '',
+        'Certification Authority (CA) File' => '',
+        'The full path and name of the certification authority certificate file that validates SSL certificate.' =>
+            '',
+        'e.g. /opt/otrs/var/certificates/SOAP/CA/ca.pem' => '',
+        'Certification Authority (CA) Directory' => '',
+        'The full path of the certification authority directory where the CA certificates are stored in the file system.' =>
+            '',
+        'e.g. /opt/otrs/var/certificates/SOAP/CA' => '',
+        'Proxy Server' => '',
+        'URI of a proxy server to be used (if needed).' => '',
+        'e.g. http://proxy_hostname:8080' => '',
+        'Proxy User' => '',
+        'The user name to be used to access the proxy server.' => '',
+        'Proxy Password' => '',
+        'The password for the proxy user.' => '',
 
         # Template: AdminGenericInterfaceWebservice
         'GenericInterface Web Service Management' => '',
@@ -1435,6 +1462,7 @@ sub Data {
         'Local Repository' => 'Τοπικός αποθηκευτικός χώρος',
         'Uninstall' => 'Απεγκατάσταση',
         'Reinstall' => 'Επανεγκατάσταση',
+        'Feature Add-Ons' => '',
         'Download package' => '',
         'Rebuild package' => '',
         'Metadata' => '',
@@ -2540,6 +2568,8 @@ sub Data {
             '',
         'Allows customers to set the ticket service in the customer interface.' =>
             '',
+        'Allows default services to be selected also for non existing customers.' =>
+            '',
         'Allows defining new types for ticket (if ticket type feature is enabled).' =>
             '',
         'Allows defining services and SLAs for tickets (e. g. email, desktop, network, ...), and escalation attributes for SLAs (if ticket service/SLA feature is enabled).' =>
@@ -2602,6 +2632,8 @@ sub Data {
             '',
         'Controls if customers have the ability to sort their tickets.' =>
             '',
+        'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
+            '',
         'Converts HTML mails into text messages.' => '',
         'Create and manage Service Level Agreements (SLAs).' => '',
         'Create and manage agents.' => '',
@@ -2611,7 +2643,6 @@ sub Data {
         'Create and manage dynamic fields.' => '',
         'Create and manage event based notifications.' => '',
         'Create and manage groups.' => '',
-        'Create and manage notifications that are sent to agents.' => '',
         'Create and manage queues.' => '',
         'Create and manage response templates.' => '',
         'Create and manage responses that are automatically sent.' => '',
@@ -2834,7 +2865,7 @@ sub Data {
             '',
         'Defines the default shown ticket search attribute for ticket search screen.' =>
             '',
-        'Defines the default shown ticket search attribute for ticket search screen. Example: a text, 1, DynamicField_Field1StartYear=2002;DynamicField_Field1StartMonth=12;DynamicField_Field1StartDay=12;DynamicField_Field1StartHour=00;DynamicField_Field1StartMinute=00;DynamicField_Field1StartSecond=00;DynamicField_Field1StopYear=2009;DynamicField_Field1StopMonth=02;DynamicField_Field1StopDay=10;DynamicField_Field1StopHour=23;DynamicField_Field1StopMinute=59;DynamicField_Field1StopSecond=59;.' =>
+        'Defines the default shown ticket search attribute for ticket search screen. Example: a text, 1, DynamicField_Field1StartYear=2002; DynamicField_Field1StartMonth=12; DynamicField_Field1StartDay=12; DynamicField_Field1StartHour=00; DynamicField_Field1StartMinute=00; DynamicField_Field1StartSecond=00; DynamicField_Field1StopYear=2009; DynamicField_Field1StopMonth=02; DynamicField_Field1StopDay=10; DynamicField_Field1StopHour=23; DynamicField_Field1StopMinute=59; DynamicField_Field1StopSecond=59;.' =>
             '',
         'Defines the default sort criteria for all queues displayed in the queue view, after sort by priority is done.' =>
             '',
@@ -3126,6 +3157,8 @@ sub Data {
         'Defines the receipent target of the phone ticket and the sender of the email ticket ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the agent interface.' =>
             '',
         'Defines the receipent target of the tickets ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the customer interface.' =>
+            '',
+        'Defines the required permission to show a ticket in the escalation view of the agent interface.' =>
             '',
         'Defines the search limit for the stats.' => '',
         'Defines the sender for rejected emails.' => '',
@@ -3507,8 +3540,6 @@ sub Data {
             '',
         'List of IE6-specific CSS files to always be loaded for the customer interface.' =>
             '',
-        'List of IE7-specific CSS files to always be loaded for the agent interface.' =>
-            '',
         'List of IE7-specific CSS files to always be loaded for the customer interface.' =>
             '',
         'List of IE8-specific CSS files to always be loaded for the agent interface.' =>
@@ -3533,8 +3564,13 @@ sub Data {
         'Manage POP3 or IMAP accounts to fetch email from.' => '',
         'Manage S/MIME certificates for email encryption.' => '',
         'Manage existing sessions.' => '',
+        'Manage notifications that are sent to agents.' => '',
         'Manage periodic tasks.' => '',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
+            '',
+        'Max size (in rows) of the informed agents box in the agent interface.' =>
+            '',
+        'Max size (in rows) of the involved agents box in the agent interface.' =>
             '',
         'Max size of the subjects in an email reply.' => '',
         'Maximal auto email responses to own email-address a day (Loop-Protection).' =>
@@ -4150,6 +4186,8 @@ sub Data {
         'Tickets' => 'Δελτια',
         'Time in seconds that gets added to the actual time if setting a pending-state (default: 86400 = 1 day).' =>
             '',
+        'Toggles display of OTRS FeatureAddons list in PackageManager.' =>
+            '',
         'Toolbar Item for a shortcut.' => '',
         'Turns on the animations used in the GUI. If you have problems with these animations (e.g. performance issues), you can turn them off here.' =>
             '',
@@ -4247,6 +4285,7 @@ sub Data {
         'Can\'t update password, your new passwords do not match! Please try again!' =>
             'Δεν μπορεί να γίνει αλλαγή κωδικού,οι κωδικοί δεν ταιριάζουν!',
         'Category Tree' => 'Δέντρο Κατηγοριών',
+        'Cc: (%s) added database email!' => 'Σε: (%s) προστέθηκε το email της βάσης δεδομένων !',
         'Change %s settings' => 'Αλλαγή  %s επιλογών',
         'Change free text of ticket' => 'Αλλαγή ελεύθερου κειμένου του δελτίου',
         'Change owner of ticket' => 'Αλλαγή Ιδιοκτήτη Δελτίου',
@@ -4516,6 +4555,7 @@ anyway.' =>
         'Tickets available' => 'Διαθέσιμα Δελτία',
         'Tickets shown' => 'Εμφανή Δελτία',
         'Times' => 'Φορές',
+        'To: (%s) replaced with database email!' => 'Πρός: (%s) αντικαταστάθηκε με το email της βάσης δεδομένων!',
         'Top of Page' => 'Αρχή Σελίδας',
         'Total hits' => 'Συνολικα hits',
         'Uniq' => 'Μοναδικό',

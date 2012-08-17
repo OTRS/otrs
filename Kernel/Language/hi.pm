@@ -4,7 +4,7 @@
 # Copyright (C) 2011 Chetan Nagaonkar <Chetan_Nagaonkar at OptForOPS.com>
 # Copyright (C) 2011 Chetan Nagaonkar <ChetanNagaonkar at yahoo.com>
 # --
-# $Id: hi.pm,v 1.23 2012-04-17 07:11:53 mg Exp $
+# $Id: hi.pm,v 1.23.2.1 2012-08-17 12:07:55 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,13 +17,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.23 $) [1];
+$VERSION = qw($Revision: 1.23.2.1 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-04-17 09:08:21
+    # Last translation file sync: 2012-08-17 14:04:48
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2563,6 +2563,8 @@ sub Data {
             'ग्राहकों को ग्राहक अंतरफलक में टिकट श्रेणी स्थापित करने के लिए अनुमति देता है। यदि यह  \'नहीं\'के लिए स्थापित है,तयशुदा श्रेणी विन्यस्त होना चाहिये।',
         'Allows customers to set the ticket service in the customer interface.' =>
             'ग्राहकों को ग्राहक अंतरफलक में टिकट सेवा स्थापित करने के लिए अनुमति देता है।',
+        'Allows default services to be selected also for non existing customers.' =>
+            '',
         'Allows defining new types for ticket (if ticket type feature is enabled).' =>
             'टिकट के लिए नए प्रकार को परिभाषित करने की अनुमति देता है (अगर टिकट प्रकार सुविधा सक्षम है)।',
         'Allows defining services and SLAs for tickets (e. g. email, desktop, network, ...), and escalation attributes for SLAs (if ticket service/SLA feature is enabled).' =>
@@ -2636,7 +2638,6 @@ sub Data {
         'Create and manage dynamic fields.' => '',
         'Create and manage event based notifications.' => 'घटना आधारित अधिसूचना को बनाएँ और प्रबंधन करें।',
         'Create and manage groups.' => 'समूहों को बनाएँ और प्रबंधन करें।',
-        'Create and manage notifications that are sent to agents.' => 'अधिसूचना जो प्रतिनिधियॊ को भेजे जाते हैं को बनाएँ और प्रबंधन करें।',
         'Create and manage queues.' => 'श्रेणीयों को बनाएँ और प्रबंधन करें।',
         'Create and manage response templates.' => 'प्रतिक्रिया टेम्पलेट्स को बनाएँ और प्रबंधन करें।',
         'Create and manage responses that are automatically sent.' => 'प्रतिक्रियाएं जो स्वचालित रूप से भेजी जाती है को बनाएँ और प्रबंधन करें।',
@@ -2859,7 +2860,7 @@ sub Data {
             '',
         'Defines the default shown ticket search attribute for ticket search screen.' =>
             'टिकट की खोज स्क्रीन के लिए दिखाई टिकट की तयशुदा खोज विशेषता को परिभाषित करता है।',
-        'Defines the default shown ticket search attribute for ticket search screen. Example: a text, 1, DynamicField_Field1StartYear=2002;DynamicField_Field1StartMonth=12;DynamicField_Field1StartDay=12;DynamicField_Field1StartHour=00;DynamicField_Field1StartMinute=00;DynamicField_Field1StartSecond=00;DynamicField_Field1StopYear=2009;DynamicField_Field1StopMonth=02;DynamicField_Field1StopDay=10;DynamicField_Field1StopHour=23;DynamicField_Field1StopMinute=59;DynamicField_Field1StopSecond=59;.' =>
+        'Defines the default shown ticket search attribute for ticket search screen. Example: a text, 1, DynamicField_Field1StartYear=2002; DynamicField_Field1StartMonth=12; DynamicField_Field1StartDay=12; DynamicField_Field1StartHour=00; DynamicField_Field1StartMinute=00; DynamicField_Field1StartSecond=00; DynamicField_Field1StopYear=2009; DynamicField_Field1StopMonth=02; DynamicField_Field1StopDay=10; DynamicField_Field1StopHour=23; DynamicField_Field1StopMinute=59; DynamicField_Field1StopSecond=59;.' =>
             '',
         'Defines the default sort criteria for all queues displayed in the queue view, after sort by priority is done.' =>
             'प्राथमिकता के आधार पर क्रमबद्ध करने के बाद,श्रेणी दृश्य में प्रदर्शित सभी श्रेणीऔ के लिए तयशुदा क्रमबद्ध करने के मापदंड को परिभाषित करता है।',
@@ -3152,6 +3153,8 @@ sub Data {
             'प्रतिनिधि अंतरफलक के फोन टिकट के प्राप्तकर्ता लक्ष्य और ईमेल के प्रेषक टिकट को परिभाषित करता है (सभी श्रेणी को "श्रेणी"दिखाता है,"SystemAddress" सभी प्रणाली पते को प्रदर्शित करता है)।',
         'Defines the receipent target of the tickets ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the customer interface.' =>
             'प्रतिनिधि अंतरफलक के फोन टिकट के प्राप्तकर्ता लक्ष्य को परिभाषित करता है (सभी श्रेणी को "श्रेणी"दिखाता है,"SystemAddress" सभी प्रणाली पते को प्रदर्शित करता है)।',
+        'Defines the required permission to show a ticket in the escalation view of the agent interface.' =>
+            '',
         'Defines the search limit for the stats.' => 'आँकड़े के लिए खोज सीमा को परिभाषित करता है।',
         'Defines the sender for rejected emails.' => '',
         'Defines the separator between the agents real name and the given queue email address.' =>
@@ -3556,9 +3559,14 @@ sub Data {
         'Manage POP3 or IMAP accounts to fetch email from.' => 'ईमेल आनयन करने के लिए POP3 या IMAP खातों का प्रबंधन करें।',
         'Manage S/MIME certificates for email encryption.' => 'ईमेल कूटलेखन के लिए S/MIME प्रमाणपत्र कुंजी प्रबंधित का प्रबंधन करें।',
         'Manage existing sessions.' => 'मौजूदा सत्र का प्रबंधन करें।',
+        'Manage notifications that are sent to agents.' => '',
         'Manage periodic tasks.' => 'आवधिक कार्यों का प्रबंधन करें।',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
             'ग्राहक जानकारी तालिका(फोन और ईमेल) के स्क्रीन रचना में अधिकतम आकार(अक्षरों में)।',
+        'Max size (in rows) of the informed agents box in the agent interface.' =>
+            '',
+        'Max size (in rows) of the involved agents box in the agent interface.' =>
+            '',
         'Max size of the subjects in an email reply.' => 'ईमेल जवाब में विषय का अधिकतम आकार।',
         'Maximal auto email responses to own email-address a day (Loop-Protection).' =>
             'अधिकतम स्वत ईमेल प्रतिक्रियाओं जो ईमेल पता एक दिन स्वयं के लिए(लूप-संरक्षण)।',
@@ -4282,6 +4290,7 @@ sub Data {
             'टिकट स्वतंत्र क्षेत्र तयशुदा व्यवस्थाऐं विन्यस्त करें। "काउंटर"मुक्त पाठ फ़ील्ड जो प्रयोग किया जाना चाहिए को परिभाषित करता है,"कुंजी" मुक्त फ़ील्ड कुंजी है,"मान" टिकट मुक्त पाठ है और ट्रिगर घटना "घटना" को परिभाषित करता है।',
         'Configures a default TicketFreeField setting. "Counter" defines the free text field which should be used, "Key" is the TicketFreeKey, "Value" is the TicketFreeText and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".' =>
             'टिकट स्वतंत्र क्षेत्र तयशुदा व्यवस्थाऐं विन्यस्त करें। "काउंटर"मुक्त पाठ फ़ील्ड जो प्रयोग किया जाना चाहिए को परिभाषित करता है,"कुंजी" मुक्त फ़ील्ड कुंजी है,"मान" टिकट मुक्त पाठ है और ट्रिगर घटना "घटना" को परिभाषित करता है। विकासकर्ता पुस्तिका(http://doc.otrs.org/) अध्याय "टिकट घटना मॉड्यूल " की जाँच करें।',
+        'Create and manage notifications that are sent to agents.' => 'अधिसूचना जो प्रतिनिधियॊ को भेजे जाते हैं को बनाएँ और प्रबंधन करें।',
         'Create/Expires' => 'बनाना/समाप्त होना',
         'Customer item (icon) which shows the open tickets of this customer as info block.' =>
             'ग्राहक वस्तु (चिह्न) जो जानकारी ब्लॉक के रूप में इस ग्राहक के खुले टिकटों को दिखाता है।',

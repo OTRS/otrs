@@ -2,7 +2,7 @@
 # Kernel/Language/uk.pm - provides ru language translation
 # Copyright (C) 2010 Бельский Артем
 # --
-# $Id: uk.pm,v 1.37 2012-04-17 07:11:54 mg Exp $
+# $Id: uk.pm,v 1.37.2.1 2012-08-17 12:07:57 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.37 $) [1];
+$VERSION = qw($Revision: 1.37.2.1 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-04-17 09:08:47
+    # Last translation file sync: 2012-08-17 14:05:12
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2561,6 +2561,8 @@ sub Data {
             '',
         'Allows customers to set the ticket service in the customer interface.' =>
             '',
+        'Allows default services to be selected also for non existing customers.' =>
+            '',
         'Allows defining new types for ticket (if ticket type feature is enabled).' =>
             '',
         'Allows defining services and SLAs for tickets (e. g. email, desktop, network, ...), and escalation attributes for SLAs (if ticket service/SLA feature is enabled).' =>
@@ -2634,7 +2636,6 @@ sub Data {
         'Create and manage dynamic fields.' => '',
         'Create and manage event based notifications.' => '',
         'Create and manage groups.' => 'Створення й керування групами.',
-        'Create and manage notifications that are sent to agents.' => 'Створення й керування повідомленнями для агентів.',
         'Create and manage queues.' => 'Створення й керування чергами.',
         'Create and manage response templates.' => 'Створення й керування шаблонами відповідей.',
         'Create and manage responses that are automatically sent.' => 'Створення й керування автовідповідями.',
@@ -2857,7 +2858,7 @@ sub Data {
             '',
         'Defines the default shown ticket search attribute for ticket search screen.' =>
             '',
-        'Defines the default shown ticket search attribute for ticket search screen. Example: a text, 1, DynamicField_Field1StartYear=2002;DynamicField_Field1StartMonth=12;DynamicField_Field1StartDay=12;DynamicField_Field1StartHour=00;DynamicField_Field1StartMinute=00;DynamicField_Field1StartSecond=00;DynamicField_Field1StopYear=2009;DynamicField_Field1StopMonth=02;DynamicField_Field1StopDay=10;DynamicField_Field1StopHour=23;DynamicField_Field1StopMinute=59;DynamicField_Field1StopSecond=59;.' =>
+        'Defines the default shown ticket search attribute for ticket search screen. Example: a text, 1, DynamicField_Field1StartYear=2002; DynamicField_Field1StartMonth=12; DynamicField_Field1StartDay=12; DynamicField_Field1StartHour=00; DynamicField_Field1StartMinute=00; DynamicField_Field1StartSecond=00; DynamicField_Field1StopYear=2009; DynamicField_Field1StopMonth=02; DynamicField_Field1StopDay=10; DynamicField_Field1StopHour=23; DynamicField_Field1StopMinute=59; DynamicField_Field1StopSecond=59;.' =>
             '',
         'Defines the default sort criteria for all queues displayed in the queue view, after sort by priority is done.' =>
             '',
@@ -3149,6 +3150,8 @@ sub Data {
         'Defines the receipent target of the phone ticket and the sender of the email ticket ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the agent interface.' =>
             '',
         'Defines the receipent target of the tickets ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the customer interface.' =>
+            '',
+        'Defines the required permission to show a ticket in the escalation view of the agent interface.' =>
             '',
         'Defines the search limit for the stats.' => '',
         'Defines the sender for rejected emails.' => '',
@@ -3554,8 +3557,13 @@ sub Data {
         'Manage POP3 or IMAP accounts to fetch email from.' => 'Керування POP3 або IMAP обліковими записами для одержання поштових повідомлень.',
         'Manage S/MIME certificates for email encryption.' => '',
         'Manage existing sessions.' => 'Керування активними сеансами.',
+        'Manage notifications that are sent to agents.' => '',
         'Manage periodic tasks.' => 'Керування повторюваними завданнями.',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
+            '',
+        'Max size (in rows) of the informed agents box in the agent interface.' =>
+            '',
+        'Max size (in rows) of the involved agents box in the agent interface.' =>
             '',
         'Max size of the subjects in an email reply.' => '',
         'Maximal auto email responses to own email-address a day (Loop-Protection).' =>
@@ -4343,6 +4351,7 @@ sub Data {
         'Create New Template' => 'Створити новий шаблон',
         'Create Times' => 'Час створення',
         'Create and manage Service Level Agreements (Slas).' => 'Створення й керування Угодами про Рівень Сервісу ( Sla-Мі).',
+        'Create and manage notifications that are sent to agents.' => 'Створення й керування повідомленнями для агентів.',
         'Create new Phone Ticket' => 'Створити телефонну заявку',
         'Create new database' => 'Створити нову бази даних',
         'Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...).' =>

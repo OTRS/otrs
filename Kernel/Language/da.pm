@@ -4,7 +4,7 @@
 # Copyright (C) 2007-2008 Mads N. Vestergaard <mnv[at]timmy.dk>
 # Copyright (C) 2010 Lars Jørgensen <lajo[at]kb.dk>
 # --
-# $Id: da.pm,v 1.105.2.1 2012-06-12 12:16:25 mg Exp $
+# $Id: da.pm,v 1.105.2.2 2012-08-17 12:07:56 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,13 +17,13 @@ use warnings;
 
 use vars qw($VERSION);
 
-$VERSION = qw($Revision: 1.105.2.1 $) [1];
+$VERSION = qw($Revision: 1.105.2.2 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-04-17 09:08:09
+    # Last translation file sync: 2012-08-17 14:04:37
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -689,7 +689,6 @@ sub Data {
         'Print this ticket' => 'Udskriv denne sag',
         'Print this article' => 'Udskriv dette indlæg',
         'Split this article' => 'Opdel dette indlæg',
-    'Split' => 'Opdel',
         'Forward article via mail' => 'Videresend indlæg via mail',
         'Change the ticket priority' => 'Ændr sagens prioritet',
         'Change the ticket free fields!' => 'Skift sagens frie felter.',
@@ -2564,6 +2563,8 @@ sub Data {
             '',
         'Allows customers to set the ticket service in the customer interface.' =>
             '',
+        'Allows default services to be selected also for non existing customers.' =>
+            '',
         'Allows defining new types for ticket (if ticket type feature is enabled).' =>
             '',
         'Allows defining services and SLAs for tickets (e. g. email, desktop, network, ...), and escalation attributes for SLAs (if ticket service/SLA feature is enabled).' =>
@@ -2637,7 +2638,6 @@ sub Data {
         'Create and manage dynamic fields.' => '',
         'Create and manage event based notifications.' => 'Administrer hændelsesbaserede beskeder.',
         'Create and manage groups.' => 'Administrer grupper.',
-        'Create and manage notifications that are sent to agents.' => 'Administrer beskeder, der sendes til agenter.',
         'Create and manage queues.' => 'Administrer køer.',
         'Create and manage response templates.' => 'Administrer svar-skabeloner.',
         'Create and manage responses that are automatically sent.' => 'Administrer svar, der sendes automatisk.',
@@ -2860,7 +2860,7 @@ sub Data {
             '',
         'Defines the default shown ticket search attribute for ticket search screen.' =>
             '',
-        'Defines the default shown ticket search attribute for ticket search screen. Example: a text, 1, DynamicField_Field1StartYear=2002;DynamicField_Field1StartMonth=12;DynamicField_Field1StartDay=12;DynamicField_Field1StartHour=00;DynamicField_Field1StartMinute=00;DynamicField_Field1StartSecond=00;DynamicField_Field1StopYear=2009;DynamicField_Field1StopMonth=02;DynamicField_Field1StopDay=10;DynamicField_Field1StopHour=23;DynamicField_Field1StopMinute=59;DynamicField_Field1StopSecond=59;.' =>
+        'Defines the default shown ticket search attribute for ticket search screen. Example: a text, 1, DynamicField_Field1StartYear=2002; DynamicField_Field1StartMonth=12; DynamicField_Field1StartDay=12; DynamicField_Field1StartHour=00; DynamicField_Field1StartMinute=00; DynamicField_Field1StartSecond=00; DynamicField_Field1StopYear=2009; DynamicField_Field1StopMonth=02; DynamicField_Field1StopDay=10; DynamicField_Field1StopHour=23; DynamicField_Field1StopMinute=59; DynamicField_Field1StopSecond=59;.' =>
             '',
         'Defines the default sort criteria for all queues displayed in the queue view, after sort by priority is done.' =>
             '',
@@ -3152,6 +3152,8 @@ sub Data {
         'Defines the receipent target of the phone ticket and the sender of the email ticket ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the agent interface.' =>
             '',
         'Defines the receipent target of the tickets ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the customer interface.' =>
+            '',
+        'Defines the required permission to show a ticket in the escalation view of the agent interface.' =>
             '',
         'Defines the search limit for the stats.' => '',
         'Defines the sender for rejected emails.' => '',
@@ -3557,8 +3559,13 @@ sub Data {
         'Manage POP3 or IMAP accounts to fetch email from.' => 'Administrer POP3- eller IMAP-konto, der skal hentes mail fra.',
         'Manage S/MIME certificates for email encryption.' => 'Administrer S/MIME-certifikater for mail-kryptering.',
         'Manage existing sessions.' => 'Administrer eksisterende sessioner.',
+        'Manage notifications that are sent to agents.' => '',
         'Manage periodic tasks.' => 'Administrer periodiske opgaver.',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
+            '',
+        'Max size (in rows) of the informed agents box in the agent interface.' =>
+            '',
+        'Max size (in rows) of the involved agents box in the agent interface.' =>
             '',
         'Max size of the subjects in an email reply.' => 'Max. størrelse på emnet i et mail-svar.',
         'Maximal auto email responses to own email-address a day (Loop-Protection).' =>
@@ -4204,9 +4211,6 @@ sub Data {
         'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' =>
             'Dit valg af foretrukne køer. Du får besked om handlinger i disse køer via mail, hvis det er aktiveret.',
 
-    # STRINGS NOT FOUND ELSEWHERE IN THE TRANSLATION FILE
-    'Reset of unlock time.' => 'Tid til automatisk frigivelse nulstillet.',
-
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
@@ -4227,6 +4231,7 @@ sub Data {
         'Change the ticket priority!' => 'Skift sagens prioritet.',
         'Close this ticket!' => 'Luk denne sag.',
         'Confidential information' => 'Konfidentiel information',
+        'Create and manage notifications that are sent to agents.' => 'Administrer beskeder, der sendes til agenter.',
         'Create your first Ticket' => 'Opret din første sag',
         'Create/Expires' => 'Oprettet/Udløber',
         'Customer item (icon) which shows the open tickets of this customer as info block.' =>
@@ -4269,6 +4274,7 @@ sub Data {
         'Please select a multiplier and press start button.' => 'Vælg venligst en multiplikationsfaktor og tryk på start-knappen.',
         'Print this ticket!' => 'Udskriv denne sag.',
         'QueueView Refresh Time' => 'Opdateringsfrekvens af kø-billedet',
+        'Reset of unlock time.' => 'Tid til automatisk frigivelse nulstillet.',
         'Run Search' => 'Søg',
         'SQL benchmark' => 'SQL Benchmark',
         'Search Ticket' => 'Søg sager',
@@ -4276,6 +4282,7 @@ sub Data {
         'Set this ticket to pending!' => 'Marker denne sag som afventende.',
         'Should not take more than' => 'Skal ikke tage mere end',
         'Shows the ticket history!' => 'Vis saghistorik.',
+        'Split' => 'Opdel',
         'Start support' => 'Start Systemvurdering',
         'Support Assessment' => 'Support Assessment (Systemvurdering)',
         'Take care that you also updated the default states in you Kernel/Config.pm!' =>

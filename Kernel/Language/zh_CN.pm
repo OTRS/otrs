@@ -7,7 +7,7 @@
 # Copyright (C) 2009 Qingjiu Jia <jiaqj at yahoo.com>
 # Copyright (C) 2011 Martin Liu <liuzh66 at gmail.com> http://martinliu.cn
 # --
-# $Id: zh_CN.pm,v 1.112 2012-04-17 07:11:54 mg Exp $
+# $Id: zh_CN.pm,v 1.112.2.1 2012-08-17 12:07:58 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,13 +20,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.112 $) [1];
+$VERSION = qw($Revision: 1.112.2.1 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-04-17 09:08:50
+    # Last translation file sync: 2012-08-17 14:05:15
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2566,6 +2566,8 @@ sub Data {
             '',
         'Allows customers to set the ticket service in the customer interface.' =>
             '',
+        'Allows default services to be selected also for non existing customers.' =>
+            '',
         'Allows defining new types for ticket (if ticket type feature is enabled).' =>
             '',
         'Allows defining services and SLAs for tickets (e. g. email, desktop, network, ...), and escalation attributes for SLAs (if ticket service/SLA feature is enabled).' =>
@@ -2639,7 +2641,6 @@ sub Data {
         'Create and manage dynamic fields.' => '',
         'Create and manage event based notifications.' => '创建和管理基于事件的通知.',
         'Create and manage groups.' => '创建和管理群组.',
-        'Create and manage notifications that are sent to agents.' => '创建和管理由系统发给服务人员的通知.',
         'Create and manage queues.' => '创建和管理队列.',
         'Create and manage response templates.' => '创建和管理回复模板.',
         'Create and manage responses that are automatically sent.' => '创建和管理自动发送的回复.',
@@ -2862,7 +2863,7 @@ sub Data {
             '',
         'Defines the default shown ticket search attribute for ticket search screen.' =>
             '',
-        'Defines the default shown ticket search attribute for ticket search screen. Example: a text, 1, DynamicField_Field1StartYear=2002;DynamicField_Field1StartMonth=12;DynamicField_Field1StartDay=12;DynamicField_Field1StartHour=00;DynamicField_Field1StartMinute=00;DynamicField_Field1StartSecond=00;DynamicField_Field1StopYear=2009;DynamicField_Field1StopMonth=02;DynamicField_Field1StopDay=10;DynamicField_Field1StopHour=23;DynamicField_Field1StopMinute=59;DynamicField_Field1StopSecond=59;.' =>
+        'Defines the default shown ticket search attribute for ticket search screen. Example: a text, 1, DynamicField_Field1StartYear=2002; DynamicField_Field1StartMonth=12; DynamicField_Field1StartDay=12; DynamicField_Field1StartHour=00; DynamicField_Field1StartMinute=00; DynamicField_Field1StartSecond=00; DynamicField_Field1StopYear=2009; DynamicField_Field1StopMonth=02; DynamicField_Field1StopDay=10; DynamicField_Field1StopHour=23; DynamicField_Field1StopMinute=59; DynamicField_Field1StopSecond=59;.' =>
             '',
         'Defines the default sort criteria for all queues displayed in the queue view, after sort by priority is done.' =>
             '',
@@ -3154,6 +3155,8 @@ sub Data {
         'Defines the receipent target of the phone ticket and the sender of the email ticket ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the agent interface.' =>
             '',
         'Defines the receipent target of the tickets ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the customer interface.' =>
+            '',
+        'Defines the required permission to show a ticket in the escalation view of the agent interface.' =>
             '',
         'Defines the search limit for the stats.' => '',
         'Defines the sender for rejected emails.' => '',
@@ -3559,8 +3562,13 @@ sub Data {
         'Manage POP3 or IMAP accounts to fetch email from.' => '管理收取邮件的 POP3 或 IMAP 帐号.',
         'Manage S/MIME certificates for email encryption.' => '管理邮件的 S/MIME 加密证书.',
         'Manage existing sessions.' => '管理当前登录会话.',
+        'Manage notifications that are sent to agents.' => '',
         'Manage periodic tasks.' => '管理周期性执行的任务.',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
+            '',
+        'Max size (in rows) of the informed agents box in the agent interface.' =>
+            '',
+        'Max size (in rows) of the involved agents box in the agent interface.' =>
             '',
         'Max size of the subjects in an email reply.' => '',
         'Maximal auto email responses to own email-address a day (Loop-Protection).' =>
@@ -4336,6 +4344,7 @@ sub Data {
         'Contact customer' => '联系客户',
         'Create New Template' => '创建新的模板',
         'Create Times' => '创建时间',
+        'Create and manage notifications that are sent to agents.' => '创建和管理由系统发给服务人员的通知.',
         'Create new Phone Ticket' => '创建新的电话 Ticket',
         'Create new database' => '创建新的数据库',
         'Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...).' =>

@@ -8,7 +8,7 @@
 # Copyright (C) 2010 Ton van Boven <ton 'at' avebo.nl>
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: nl.pm,v 1.183.2.1 2012-05-09 08:01:12 mb Exp $
+# $Id: nl.pm,v 1.183.2.2 2012-08-17 12:07:59 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,13 +21,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.183.2.1 $) [1];
+$VERSION = qw($Revision: 1.183.2.2 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-04-17 09:08:32
+    # Last translation file sync: 2012-08-17 14:04:59
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2567,6 +2567,8 @@ sub Data {
             '',
         'Allows customers to set the ticket service in the customer interface.' =>
             '',
+        'Allows default services to be selected also for non existing customers.' =>
+            '',
         'Allows defining new types for ticket (if ticket type feature is enabled).' =>
             '',
         'Allows defining services and SLAs for tickets (e. g. email, desktop, network, ...), and escalation attributes for SLAs (if ticket service/SLA feature is enabled).' =>
@@ -2640,7 +2642,6 @@ sub Data {
         'Create and manage dynamic fields.' => 'Aanmaken en beheren van dynamische velden.',
         'Create and manage event based notifications.' => 'Aanmaken en beheren van meldingen door gebeurtenissen.',
         'Create and manage groups.' => 'Aanmaken en beheren van groepen.',
-        'Create and manage notifications that are sent to agents.' => 'Aanmaken en beheren van meldingen die naar de behandelaars gestuurd worden.',
         'Create and manage queues.' => 'Aanmaken en beheren van wachtrijen.',
         'Create and manage response templates.' => 'Aanmaken en beheren van voorgedefiniëerde antwoorden.',
         'Create and manage responses that are automatically sent.' => 'Aanmaken en beheren van teksten die automatisch naar de klant worden gestuurd.',
@@ -2863,7 +2864,7 @@ sub Data {
             '',
         'Defines the default shown ticket search attribute for ticket search screen.' =>
             '',
-        'Defines the default shown ticket search attribute for ticket search screen. Example: a text, 1, DynamicField_Field1StartYear=2002;DynamicField_Field1StartMonth=12;DynamicField_Field1StartDay=12;DynamicField_Field1StartHour=00;DynamicField_Field1StartMinute=00;DynamicField_Field1StartSecond=00;DynamicField_Field1StopYear=2009;DynamicField_Field1StopMonth=02;DynamicField_Field1StopDay=10;DynamicField_Field1StopHour=23;DynamicField_Field1StopMinute=59;DynamicField_Field1StopSecond=59;.' =>
+        'Defines the default shown ticket search attribute for ticket search screen. Example: a text, 1, DynamicField_Field1StartYear=2002; DynamicField_Field1StartMonth=12; DynamicField_Field1StartDay=12; DynamicField_Field1StartHour=00; DynamicField_Field1StartMinute=00; DynamicField_Field1StartSecond=00; DynamicField_Field1StopYear=2009; DynamicField_Field1StopMonth=02; DynamicField_Field1StopDay=10; DynamicField_Field1StopHour=23; DynamicField_Field1StopMinute=59; DynamicField_Field1StopSecond=59;.' =>
             '',
         'Defines the default sort criteria for all queues displayed in the queue view, after sort by priority is done.' =>
             '',
@@ -3155,6 +3156,8 @@ sub Data {
         'Defines the receipent target of the phone ticket and the sender of the email ticket ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the agent interface.' =>
             '',
         'Defines the receipent target of the tickets ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the customer interface.' =>
+            '',
+        'Defines the required permission to show a ticket in the escalation view of the agent interface.' =>
             '',
         'Defines the search limit for the stats.' => '',
         'Defines the sender for rejected emails.' => '',
@@ -3560,8 +3563,13 @@ sub Data {
         'Manage POP3 or IMAP accounts to fetch email from.' => 'Beheer POP3 of IMAP accounts om e-mail van op te halen en om te zetten in tickets.',
         'Manage S/MIME certificates for email encryption.' => 'Beheer S/MIME certificaten voor encryptie van e-mail.',
         'Manage existing sessions.' => 'Beheer sessies van klanten en gebruikers.',
+        'Manage notifications that are sent to agents.' => '',
         'Manage periodic tasks.' => 'Beheer terugkerende taken.',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
+            '',
+        'Max size (in rows) of the informed agents box in the agent interface.' =>
+            '',
+        'Max size (in rows) of the involved agents box in the agent interface.' =>
             '',
         'Max size of the subjects in an email reply.' => '',
         'Maximal auto email responses to own email-address a day (Loop-Protection).' =>
@@ -4355,6 +4363,7 @@ sub Data {
         'Country{CustomerUser}' => 'Land',
         'Create New Template' => 'Maak nieuwe template',
         'Create Times' => 'Zoek op aanmaakdatum',
+        'Create and manage notifications that are sent to agents.' => 'Aanmaken en beheren van meldingen die naar de behandelaars gestuurd worden.',
         'Create new Phone Ticket' => 'Maak nieuw telefoon ticket aan',
         'Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...).' =>
             'Maak nieuwe groepen aan om de toegangsrechten te regelen voor verschillende groepen van agenten (bijvoorbeeld verkoopafdeling, supportafdeling).',

@@ -4,7 +4,7 @@
 # Copyright (C) 2010-2011 Kaz Kamimura <kamypus at yahoo.co.jp>
 # Copyright (C) 2011/12/08 Kaoru Hayama TIS Inc.
 # --
-# $Id: ja.pm,v 1.32 2012-04-17 07:11:54 mg Exp $
+# $Id: ja.pm,v 1.32.2.1 2012-08-17 12:07:58 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,13 +16,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.32 $) [1];
+$VERSION = qw($Revision: 1.32.2.1 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-04-17 09:08:27
+    # Last translation file sync: 2012-08-17 14:04:54
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2562,6 +2562,8 @@ sub Data {
             '顧客が顧客インタフェースでチケット・キューを設定することを、許可します。‘No’に設定した場合、QueueDefaultを設定する必要があります。',
         'Allows customers to set the ticket service in the customer interface.' =>
             '顧客が顧客インタフェースでチケット・サービスを設定することを、許可します。',
+        'Allows default services to be selected also for non existing customers.' =>
+            '',
         'Allows defining new types for ticket (if ticket type feature is enabled).' =>
             'チケットに関して新規タイプを定義することを許可します（チケット責任者機能が有効となっている場合）。',
         'Allows defining services and SLAs for tickets (e. g. email, desktop, network, ...), and escalation attributes for SLAs (if ticket service/SLA feature is enabled).' =>
@@ -2635,7 +2637,6 @@ sub Data {
         'Create and manage dynamic fields.' => '',
         'Create and manage event based notifications.' => 'イベント経由通知の作成と管理',
         'Create and manage groups.' => 'グループの作成と管理',
-        'Create and manage notifications that are sent to agents.' => '担当者へ送信する通知の作成と管理',
         'Create and manage queues.' => 'キューの作成と管理',
         'Create and manage response templates.' => '応答テンプレートの作成と管理',
         'Create and manage responses that are automatically sent.' => '自動送信する応答の作成と管理',
@@ -2858,7 +2859,7 @@ sub Data {
             '',
         'Defines the default shown ticket search attribute for ticket search screen.' =>
             'チケット検索画面で、デフォルトの表示されるチケット検索属性を定義します。',
-        'Defines the default shown ticket search attribute for ticket search screen. Example: a text, 1, DynamicField_Field1StartYear=2002;DynamicField_Field1StartMonth=12;DynamicField_Field1StartDay=12;DynamicField_Field1StartHour=00;DynamicField_Field1StartMinute=00;DynamicField_Field1StartSecond=00;DynamicField_Field1StopYear=2009;DynamicField_Field1StopMonth=02;DynamicField_Field1StopDay=10;DynamicField_Field1StopHour=23;DynamicField_Field1StopMinute=59;DynamicField_Field1StopSecond=59;.' =>
+        'Defines the default shown ticket search attribute for ticket search screen. Example: a text, 1, DynamicField_Field1StartYear=2002; DynamicField_Field1StartMonth=12; DynamicField_Field1StartDay=12; DynamicField_Field1StartHour=00; DynamicField_Field1StartMinute=00; DynamicField_Field1StartSecond=00; DynamicField_Field1StopYear=2009; DynamicField_Field1StopMonth=02; DynamicField_Field1StopDay=10; DynamicField_Field1StopHour=23; DynamicField_Field1StopMinute=59; DynamicField_Field1StopSecond=59;.' =>
             '',
         'Defines the default sort criteria for all queues displayed in the queue view, after sort by priority is done.' =>
             'キュー・ビューで表示される全てのキューに関して、優先度によるソートを実行した後の、デフォルトのソート基準を定義します。',
@@ -3151,6 +3152,8 @@ sub Data {
             '担当者インタフェースにおいて、電話チケットの受領者ターゲットおよびEメール・チケットの送信者を定義します（“Queue”は全てのキューを表示し、“SystemAddress”は全てのシステム・アドレスを表示します）。',
         'Defines the receipent target of the tickets ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the customer interface.' =>
             '顧客インタフェースで、チケットの受信者ターゲットを定義します("Queue"は全てのキューを表示し、"SystemAddress"は全てのシステム・アドレスを表示します)。',
+        'Defines the required permission to show a ticket in the escalation view of the agent interface.' =>
+            '',
         'Defines the search limit for the stats.' => '統計に関する検索のリミットを定義します。',
         'Defines the sender for rejected emails.' => '',
         'Defines the separator between the agents real name and the given queue email address.' =>
@@ -3557,8 +3560,13 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         'Manage POP3 or IMAP accounts to fetch email from.' => 'メール受信用POP3/IMAPアカウント管理',
         'Manage S/MIME certificates for email encryption.' => 'メール暗号用のS/MIME証明書管理',
         'Manage existing sessions.' => '既存セッション管理',
+        'Manage notifications that are sent to agents.' => '',
         'Manage periodic tasks.' => '周期的なタスク管理',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
+            '',
+        'Max size (in rows) of the informed agents box in the agent interface.' =>
+            '',
+        'Max size (in rows) of the involved agents box in the agent interface.' =>
             '',
         'Max size of the subjects in an email reply.' => 'Eメール・リプライにおける件名の最大サイズです。',
         'Maximal auto email responses to own email-address a day (Loop-Protection).' =>
@@ -4461,6 +4469,7 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         'Create Times' => '作成時間',
         'Create a template to import and export object information.' => '目的のデータをインポート/エクスポートするためのテンプレートを作成する',
         'Create a template to import and export object information. ' => '目的のデータをインポート/エクスポートするためのテンプレートを作成する',
+        'Create and manage notifications that are sent to agents.' => '担当者へ送信する通知の作成と管理',
         'Create and manage the General Catalog.' => '一般的なカタログの作成と管理',
         'Create and manage the definitions for Configuration Items.' => 'コンフィグ項目の定義の作成と管理',
         'Create new Phone Ticket' => '新規電話チケットの作成',

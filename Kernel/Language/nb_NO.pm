@@ -9,7 +9,7 @@
 # Copyright (C) 2011 Espen Stefansen <espen.stefansen at imr.no>
 # Copyright (C) 2012 Lars Magnus Herland <lars.magnus at herland.priv.no>
 # --
-# $Id: nb_NO.pm,v 1.129.2.1 2012-05-27 18:36:49 mb Exp $
+# $Id: nb_NO.pm,v 1.129.2.2 2012-08-17 12:07:55 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,13 +22,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.129.2.1 $;
+$VERSION = q$Revision: 1.129.2.2 $;
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-04-17 09:08:31
+    # Last translation file sync: 2012-08-17 14:04:58
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2568,6 +2568,8 @@ sub Data {
             'Tillater kundene å sette saks-kø når en sak opprettes. Hvis denne settes til \'Nei\' må standardkø være satt.',
         'Allows customers to set the ticket service in the customer interface.' =>
             'Lar kunder velge sakens tjeneste i kundeportalen.',
+        'Allows default services to be selected also for non existing customers.' =>
+            '',
         'Allows defining new types for ticket (if ticket type feature is enabled).' =>
             'Tillater å definere nye typer saker (dersom sakstype-funksjonaliteten er slått på).',
         'Allows defining services and SLAs for tickets (e. g. email, desktop, network, ...), and escalation attributes for SLAs (if ticket service/SLA feature is enabled).' =>
@@ -2641,7 +2643,6 @@ sub Data {
         'Create and manage dynamic fields.' => 'Administrasjon av dynamiske felter',
         'Create and manage event based notifications.' => 'Administrasjon av hendelsebaserte varslinger',
         'Create and manage groups.' => 'Administrasjon av grupper.',
-        'Create and manage notifications that are sent to agents.' => 'Administrasjon av varslinger som sendes ut til saksbehandlere.',
         'Create and manage queues.' => 'Administrasjon av køer.',
         'Create and manage response templates.' => 'Administrasjon av responsmaler.',
         'Create and manage responses that are automatically sent.' => 'Administrasjon av autosvar.',
@@ -2864,7 +2865,7 @@ sub Data {
             '',
         'Defines the default shown ticket search attribute for ticket search screen.' =>
             '',
-        'Defines the default shown ticket search attribute for ticket search screen. Example: a text, 1, DynamicField_Field1StartYear=2002;DynamicField_Field1StartMonth=12;DynamicField_Field1StartDay=12;DynamicField_Field1StartHour=00;DynamicField_Field1StartMinute=00;DynamicField_Field1StartSecond=00;DynamicField_Field1StopYear=2009;DynamicField_Field1StopMonth=02;DynamicField_Field1StopDay=10;DynamicField_Field1StopHour=23;DynamicField_Field1StopMinute=59;DynamicField_Field1StopSecond=59;.' =>
+        'Defines the default shown ticket search attribute for ticket search screen. Example: a text, 1, DynamicField_Field1StartYear=2002; DynamicField_Field1StartMonth=12; DynamicField_Field1StartDay=12; DynamicField_Field1StartHour=00; DynamicField_Field1StartMinute=00; DynamicField_Field1StartSecond=00; DynamicField_Field1StopYear=2009; DynamicField_Field1StopMonth=02; DynamicField_Field1StopDay=10; DynamicField_Field1StopHour=23; DynamicField_Field1StopMinute=59; DynamicField_Field1StopSecond=59;.' =>
             '',
         'Defines the default sort criteria for all queues displayed in the queue view, after sort by priority is done.' =>
             'Definerer standard sorteringskriterier for alle køer vist i køvisning, etter at de har blitt sortert etter prioritet.',
@@ -3156,6 +3157,8 @@ sub Data {
         'Defines the receipent target of the phone ticket and the sender of the email ticket ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the agent interface.' =>
             '',
         'Defines the receipent target of the tickets ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the customer interface.' =>
+            '',
+        'Defines the required permission to show a ticket in the escalation view of the agent interface.' =>
             '',
         'Defines the search limit for the stats.' => '',
         'Defines the sender for rejected emails.' => '',
@@ -3561,9 +3564,14 @@ sub Data {
         'Manage POP3 or IMAP accounts to fetch email from.' => 'Administrasjon av POP3- og IMAP-kontoer for innkommende epost',
         'Manage S/MIME certificates for email encryption.' => 'Adminstrasjon av S/MIME-sertifikater for epostkryptering',
         'Manage existing sessions.' => 'Administrasjon av aktive sesjoner',
+        'Manage notifications that are sent to agents.' => '',
         'Manage periodic tasks.' => 'Administrasjon av periodiske oppgaver.',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
             'Maks. størrelse (antall tegn) for kundelisten (telefon og epost) i opprett-skjermen.',
+        'Max size (in rows) of the informed agents box in the agent interface.' =>
+            '',
+        'Max size (in rows) of the involved agents box in the agent interface.' =>
+            '',
         'Max size of the subjects in an email reply.' => 'Maks. størrelse (antall tegn) for emner i epost-svar.',
         'Maximal auto email responses to own email-address a day (Loop-Protection).' =>
             'Maksimum antall autosvar til egne epostadresser per dag (beskyttelse mot epost-looping)',
@@ -4440,6 +4448,7 @@ sub Data {
         'Country{CustomerUser}' => 'Land',
         'Create New Template' => 'Opprett Ny Mal',
         'Create Times' => 'Opprettelsestidspunkt',
+        'Create and manage notifications that are sent to agents.' => 'Administrasjon av varslinger som sendes ut til saksbehandlere.',
         'Create new Phone Ticket' => 'Opprett ny henvendelse',
         'Create new database' => 'Opprett ny database',
         'Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...).' =>

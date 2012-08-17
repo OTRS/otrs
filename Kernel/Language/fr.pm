@@ -8,7 +8,7 @@
 # Copyright (C) 2004-2008 Yann Richard <ze at nbox.org>
 # Copyright (C) 2009-2010 Olivier Sallou <olivier.sallou at irisa.fr>
 # --
-# $Id: fr.pm,v 1.164.2.2 2012-06-18 18:42:36 mb Exp $
+# $Id: fr.pm,v 1.164.2.3 2012-08-17 12:07:58 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,13 +21,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.164.2.2 $) [1];
+$VERSION = qw($Revision: 1.164.2.3 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-04-17 09:08:20
+    # Last translation file sync: 2012-08-17 14:04:47
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2567,6 +2567,8 @@ sub Data {
             '',
         'Allows customers to set the ticket service in the customer interface.' =>
             '',
+        'Allows default services to be selected also for non existing customers.' =>
+            '',
         'Allows defining new types for ticket (if ticket type feature is enabled).' =>
             '',
         'Allows defining services and SLAs for tickets (e. g. email, desktop, network, ...), and escalation attributes for SLAs (if ticket service/SLA feature is enabled).' =>
@@ -2640,7 +2642,6 @@ sub Data {
         'Create and manage dynamic fields.' => 'Créer et gérer les champs dynamiques.',
         'Create and manage event based notifications.' => 'Créer et gérer les notifications évenementielles.',
         'Create and manage groups.' => 'Créer et gérer les groupes.',
-        'Create and manage notifications that are sent to agents.' => 'Créer et gérer les notifications envoyées aux opérateurs.',
         'Create and manage queues.' => 'Créer et gérer les files.',
         'Create and manage response templates.' => 'Créer et gérer les modèles de réponse.',
         'Create and manage responses that are automatically sent.' => 'Créer et gérer  les réponses envoyées automatiquement.',
@@ -2863,7 +2864,7 @@ sub Data {
             '',
         'Defines the default shown ticket search attribute for ticket search screen.' =>
             '',
-        'Defines the default shown ticket search attribute for ticket search screen. Example: a text, 1, DynamicField_Field1StartYear=2002;DynamicField_Field1StartMonth=12;DynamicField_Field1StartDay=12;DynamicField_Field1StartHour=00;DynamicField_Field1StartMinute=00;DynamicField_Field1StartSecond=00;DynamicField_Field1StopYear=2009;DynamicField_Field1StopMonth=02;DynamicField_Field1StopDay=10;DynamicField_Field1StopHour=23;DynamicField_Field1StopMinute=59;DynamicField_Field1StopSecond=59;.' =>
+        'Defines the default shown ticket search attribute for ticket search screen. Example: a text, 1, DynamicField_Field1StartYear=2002; DynamicField_Field1StartMonth=12; DynamicField_Field1StartDay=12; DynamicField_Field1StartHour=00; DynamicField_Field1StartMinute=00; DynamicField_Field1StartSecond=00; DynamicField_Field1StopYear=2009; DynamicField_Field1StopMonth=02; DynamicField_Field1StopDay=10; DynamicField_Field1StopHour=23; DynamicField_Field1StopMinute=59; DynamicField_Field1StopSecond=59;.' =>
             '',
         'Defines the default sort criteria for all queues displayed in the queue view, after sort by priority is done.' =>
             '',
@@ -3155,6 +3156,8 @@ sub Data {
         'Defines the receipent target of the phone ticket and the sender of the email ticket ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the agent interface.' =>
             '',
         'Defines the receipent target of the tickets ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the customer interface.' =>
+            '',
+        'Defines the required permission to show a ticket in the escalation view of the agent interface.' =>
             '',
         'Defines the search limit for the stats.' => '',
         'Defines the sender for rejected emails.' => '',
@@ -3560,8 +3563,13 @@ sub Data {
         'Manage POP3 or IMAP accounts to fetch email from.' => 'Gérer les comptes POP3 ou IMAP d\'où chercher les emails.',
         'Manage S/MIME certificates for email encryption.' => 'Gérer les certificats S/MIME pour le cryptage email.',
         'Manage existing sessions.' => 'Gérer les sessions existantes.',
+        'Manage notifications that are sent to agents.' => '',
         'Manage periodic tasks.' => 'Gérer les tâches périodiques.',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
+            '',
+        'Max size (in rows) of the informed agents box in the agent interface.' =>
+            '',
+        'Max size (in rows) of the involved agents box in the agent interface.' =>
             '',
         'Max size of the subjects in an email reply.' => '',
         'Maximal auto email responses to own email-address a day (Loop-Protection).' =>
@@ -4410,6 +4418,7 @@ sub Data {
         'Country{CustomerUser}' => 'Pays{CustomerUser}',
         'Create New Template' => 'Créer Nouveau Modèle',
         'Create Times' => 'Dates de création',
+        'Create and manage notifications that are sent to agents.' => 'Créer et gérer les notifications envoyées aux opérateurs.',
         'Create new Phone Ticket' => 'Saisie d\'une demande téléphonique',
         'Create new database' => 'Créer une nouvelle base de données',
         'Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...).' =>

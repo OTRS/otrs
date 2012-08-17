@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # Copyright (C) 2010 Milorad Jovanovic <j.milorad at gmail.com>
 # --
-# $Id: sr_Latn.pm,v 1.32 2012-04-17 07:11:54 mg Exp $
+# $Id: sr_Latn.pm,v 1.32.2.1 2012-08-17 12:07:58 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.32 $) [1];
+$VERSION = qw($Revision: 1.32.2.1 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-04-17 09:08:43
+    # Last translation file sync: 2012-08-17 14:05:09
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2561,6 +2561,8 @@ sub Data {
             'Dozvoljava korisnicima da podese red tiketa u korisničkom interfejsu. Ako je podešeno na "Ne", onda treba podesiti "QueueDefault".',
         'Allows customers to set the ticket service in the customer interface.' =>
             'Dozvoljava korisnicima da podese servis za tiket u korisničkom interfejsu.',
+        'Allows default services to be selected also for non existing customers.' =>
+            '',
         'Allows defining new types for ticket (if ticket type feature is enabled).' =>
             'Dozvoljava definisanje novog tipa tiketa (ako je opcije tipa tiketa aktivirana).',
         'Allows defining services and SLAs for tickets (e. g. email, desktop, network, ...), and escalation attributes for SLAs (if ticket service/SLA feature is enabled).' =>
@@ -2634,7 +2636,6 @@ sub Data {
         'Create and manage dynamic fields.' => '',
         'Create and manage event based notifications.' => 'Kreiranje i upravljanje obaveštenjima na bazi događaja.',
         'Create and manage groups.' => 'Kreiranje i upravljanje grupama.',
-        'Create and manage notifications that are sent to agents.' => 'Kreiranje i upravljanje obaveštenjima za operatere.',
         'Create and manage queues.' => 'Kreiranje i upravljanje redovima.',
         'Create and manage response templates.' => 'Kreiranje i upravljanje šablonima odgovora.',
         'Create and manage responses that are automatically sent.' => 'Kreiranje i upravljanje automatskim odgovorima.',
@@ -2857,7 +2858,7 @@ sub Data {
             '',
         'Defines the default shown ticket search attribute for ticket search screen.' =>
             '',
-        'Defines the default shown ticket search attribute for ticket search screen. Example: a text, 1, DynamicField_Field1StartYear=2002;DynamicField_Field1StartMonth=12;DynamicField_Field1StartDay=12;DynamicField_Field1StartHour=00;DynamicField_Field1StartMinute=00;DynamicField_Field1StartSecond=00;DynamicField_Field1StopYear=2009;DynamicField_Field1StopMonth=02;DynamicField_Field1StopDay=10;DynamicField_Field1StopHour=23;DynamicField_Field1StopMinute=59;DynamicField_Field1StopSecond=59;.' =>
+        'Defines the default shown ticket search attribute for ticket search screen. Example: a text, 1, DynamicField_Field1StartYear=2002; DynamicField_Field1StartMonth=12; DynamicField_Field1StartDay=12; DynamicField_Field1StartHour=00; DynamicField_Field1StartMinute=00; DynamicField_Field1StartSecond=00; DynamicField_Field1StopYear=2009; DynamicField_Field1StopMonth=02; DynamicField_Field1StopDay=10; DynamicField_Field1StopHour=23; DynamicField_Field1StopMinute=59; DynamicField_Field1StopSecond=59;.' =>
             '',
         'Defines the default sort criteria for all queues displayed in the queue view, after sort by priority is done.' =>
             '',
@@ -3149,6 +3150,8 @@ sub Data {
         'Defines the receipent target of the phone ticket and the sender of the email ticket ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the agent interface.' =>
             '',
         'Defines the receipent target of the tickets ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the customer interface.' =>
+            '',
+        'Defines the required permission to show a ticket in the escalation view of the agent interface.' =>
             '',
         'Defines the search limit for the stats.' => '',
         'Defines the sender for rejected emails.' => '',
@@ -3554,8 +3557,13 @@ sub Data {
         'Manage POP3 or IMAP accounts to fetch email from.' => '',
         'Manage S/MIME certificates for email encryption.' => '',
         'Manage existing sessions.' => 'Upravljanje postojećim sesijama.',
+        'Manage notifications that are sent to agents.' => '',
         'Manage periodic tasks.' => 'Upravljanje povremenim zadacima.',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
+            '',
+        'Max size (in rows) of the informed agents box in the agent interface.' =>
+            '',
+        'Max size (in rows) of the involved agents box in the agent interface.' =>
             '',
         'Max size of the subjects in an email reply.' => '',
         'Maximal auto email responses to own email-address a day (Loop-Protection).' =>
@@ -4398,6 +4406,7 @@ sub Data {
         'Country{CustomerUser}' => 'Država (korisnik)',
         'Create New Template' => 'Napravi novi šablon',
         'Create Times' => 'Vremena otvaranja',
+        'Create and manage notifications that are sent to agents.' => 'Kreiranje i upravljanje obaveštenjima za operatere.',
         'Create new Phone Ticket' => 'Otvori novi telefonski tiket',
         'Create new database' => 'Kreirajte novu bazu podataka',
         'Create your first Ticket' => 'Otvorita vaš prvi tiket',

@@ -2,7 +2,7 @@
 # Kernel/Language/es_MX.pm - provides Spanish language translation for Mexico
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: es_MX.pm,v 1.61 2012-04-17 07:11:54 mg Exp $
+# $Id: es_MX.pm,v 1.61.2.1 2012-08-17 12:07:58 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.61 $) [1];
+$VERSION = qw($Revision: 1.61.2.1 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2012-04-17 09:08:14
+    # Last translation file sync: 2012-08-17 14:04:41
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -2561,6 +2561,8 @@ sub Data {
             'Permite a los clientes definir la fila del ticket en la interfaz del cliente. Si se selecciona \'No\', es necesario que se configure la fila por defecto.',
         'Allows customers to set the ticket service in the customer interface.' =>
             'Permite a los clientes definir el servicio del ticket en la interfaz del cliente.',
+        'Allows default services to be selected also for non existing customers.' =>
+            '',
         'Allows defining new types for ticket (if ticket type feature is enabled).' =>
             'Permite definir nuevos tipos para los tickets (si la funcionalidad de tipo de ticket está habilitada).',
         'Allows defining services and SLAs for tickets (e. g. email, desktop, network, ...), and escalation attributes for SLAs (if ticket service/SLA feature is enabled).' =>
@@ -2634,7 +2636,6 @@ sub Data {
         'Create and manage dynamic fields.' => '',
         'Create and manage event based notifications.' => 'Crear y gestionar notificaciones basadas en eventos.',
         'Create and manage groups.' => 'Crear y gestionar grupos.',
-        'Create and manage notifications that are sent to agents.' => 'Crear y gestionar notificaciones que se envían a agentes.',
         'Create and manage queues.' => 'Crear y gestionar filas.',
         'Create and manage response templates.' => 'Crear y gestionar plantillas de respuesta.',
         'Create and manage responses that are automatically sent.' => 'Crear y gestionar respuestas enviadas de forma automática.',
@@ -2857,7 +2858,7 @@ sub Data {
             '',
         'Defines the default shown ticket search attribute for ticket search screen.' =>
             'Define el atributo mostrado por defecto para la búsqueda de tickets, en la ventana de búsqueda.',
-        'Defines the default shown ticket search attribute for ticket search screen. Example: a text, 1, DynamicField_Field1StartYear=2002;DynamicField_Field1StartMonth=12;DynamicField_Field1StartDay=12;DynamicField_Field1StartHour=00;DynamicField_Field1StartMinute=00;DynamicField_Field1StartSecond=00;DynamicField_Field1StopYear=2009;DynamicField_Field1StopMonth=02;DynamicField_Field1StopDay=10;DynamicField_Field1StopHour=23;DynamicField_Field1StopMinute=59;DynamicField_Field1StopSecond=59;.' =>
+        'Defines the default shown ticket search attribute for ticket search screen. Example: a text, 1, DynamicField_Field1StartYear=2002; DynamicField_Field1StartMonth=12; DynamicField_Field1StartDay=12; DynamicField_Field1StartHour=00; DynamicField_Field1StartMinute=00; DynamicField_Field1StartSecond=00; DynamicField_Field1StopYear=2009; DynamicField_Field1StopMonth=02; DynamicField_Field1StopDay=10; DynamicField_Field1StopHour=23; DynamicField_Field1StopMinute=59; DynamicField_Field1StopSecond=59;.' =>
             '',
         'Defines the default sort criteria for all queues displayed in the queue view, after sort by priority is done.' =>
             'Define el criterio de ordenamiento por defecto para todas las filas mostradas en la vista de filas, luego de haberse ordenado por prioridad.',
@@ -3150,6 +3151,8 @@ sub Data {
             'Define el destinatario objetivo de los tickets telefónicos y el remitente de los tickets de correo electrónico ("Queue" muestra todas las filas, "SystemAddress" despliega todas las direcciones del sistema), en la interfaz del agente.',
         'Defines the receipent target of the tickets ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the customer interface.' =>
             'Define el destinatario objetivo de los tickets telefónicos y el remitente de los tickets de correo electrónico ("Queue" muestra todas las filas, "SystemAddress" despliega todas las direcciones del sistema), en la interfaz del cliente.',
+        'Defines the required permission to show a ticket in the escalation view of the agent interface.' =>
+            '',
         'Defines the search limit for the stats.' => 'Define el límite de búsqueda para las estadísticas.',
         'Defines the sender for rejected emails.' => '',
         'Defines the separator between the agents real name and the given queue email address.' =>
@@ -3554,9 +3557,14 @@ sub Data {
         'Manage POP3 or IMAP accounts to fetch email from.' => 'Gestionar las cuentas POP3 o IMAP de las que se extraen correos.',
         'Manage S/MIME certificates for email encryption.' => 'Gestionar certificados S/MIME para encriptación de correos electrónicos.',
         'Manage existing sessions.' => 'Gestionar sesiones existentes.',
+        'Manage notifications that are sent to agents.' => '',
         'Manage periodic tasks.' => 'Gestionar tareas periódicas.',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
             'Tamaño máximo (en caracteres) para la tabla de información del cliente (teléfono y correo electrónico) en la ventana de redacción.',
+        'Max size (in rows) of the informed agents box in the agent interface.' =>
+            '',
+        'Max size (in rows) of the involved agents box in the agent interface.' =>
+            '',
         'Max size of the subjects in an email reply.' => 'Tamaño máximo para los asuntos en la respuesta a un correo electrónico.',
         'Maximal auto email responses to own email-address a day (Loop-Protection).' =>
             'Número máximo de respuestas automáticas (vía correos electrónicos) al día para la dirección de correo electrónico propia (protección de bucle).',
@@ -4403,6 +4411,7 @@ sub Data {
         'Contact customer' => 'Contactar con el cliente',
         'Country{CustomerUser}' => 'País',
         'Create Times' => 'Tiempos de Creación',
+        'Create and manage notifications that are sent to agents.' => 'Crear y gestionar notificaciones que se envían a agentes.',
         'Create new Phone Ticket' => 'Crear un nuevo Ticket Telefónico',
         'Create new database' => 'Crear nueva base de datos',
         'Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...).' =>
