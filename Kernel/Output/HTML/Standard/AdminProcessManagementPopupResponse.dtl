@@ -2,7 +2,7 @@
 # AdminProcessManagementPopupResponse.dtl - provides HTML for AdminProcessManagement
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminProcessManagementPopupResponse.dtl,v 1.6 2012-08-16 09:25:14 mn Exp $
+# $Id: AdminProcessManagementPopupResponse.dtl,v 1.7 2012-08-17 07:24:39 mn Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -35,26 +35,26 @@ Core.App.InternalRedirect(Data);
 <!-- dtl:block:ClosePopup -->
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
-//send results to main window
-window.opener.Core.Agent.Admin.ProcessManagement.UpdateConfig($Data{"ConfigJSON"});
-
-// update accordion
-window.opener.Core.Agent.Admin.ProcessManagement.UpdateAccordion();
-
-// redraw canvas
-window.opener.Core.Agent.Admin.ProcessManagement.Canvas.Redraw();
-
-// remove overlay
-window.opener.Core.Agent.Admin.ProcessManagement.HideOverlay();
-
-// remove onbeforeunload event (which is only needed if you close the popup via the window "X")
-$(window).unbind("beforeunload.PMPopup");
-
 // update screen path
-window.opener.Core.Agent.Admin.ProcessManagement.UpdateScreensPath();
+window.opener.Core.Agent.Admin.ProcessManagement.UpdateScreensPath(window, function (WindowObject) {
+    //send results to main window
+    WindowObject.opener.Core.Agent.Admin.ProcessManagement.UpdateConfig($Data{"ConfigJSON"});
 
-// close popup
-window.close();
+    // update accordion
+    WindowObject.opener.Core.Agent.Admin.ProcessManagement.UpdateAccordion();
+
+    // redraw canvas
+    WindowObject.opener.Core.Agent.Admin.ProcessManagement.Canvas.Redraw();
+
+    // remove overlay
+    WindowObject.opener.Core.Agent.Admin.ProcessManagement.HideOverlay();
+
+    // remove onbeforeunload event (which is only needed if you close the popup via the window "X")
+    $(WindowObject).unbind("beforeunload.PMPopup");
+
+    // close popup
+    WindowObject.close();
+});
 //]]></script>
 <!--dtl:js_on_document_complete-->
 <!-- dtl:block:ClosePopup -->
