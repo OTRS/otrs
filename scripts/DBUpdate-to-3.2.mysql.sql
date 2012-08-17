@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-#  driver: mysql, generated: 2012-07-19 10:27:17
+#  driver: mysql, generated: 2012-08-17 05:47:11
 # ----------------------------------------------------------
 # ----------------------------------------------------------
 #  alter table ticket
@@ -142,7 +142,7 @@ INSERT INTO dynamic_field (id, internal_field, name, label, field_order, field_t
 # ----------------------------------------------------------
 INSERT INTO dynamic_field (id, internal_field, name, label, field_order, field_type, object_type, config, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (1, 1, 'ProcessManagementActivityID', 'ProcessManagementActivityID', 1, 'Text', 'Ticket', '---DefaultValue: \'\'', 1, 1, current_timestamp, 1, current_timestamp);
+    (2, 1, 'ProcessManagementActivityID', 'ProcessManagementActivityID', 1, 'Text', 'Ticket', '---DefaultValue: \'\'', 1, 1, current_timestamp, 1, current_timestamp);
 ALTER TABLE pm_process ADD CONSTRAINT FK_pm_process_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
 ALTER TABLE pm_process ADD CONSTRAINT FK_pm_process_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
 ALTER TABLE pm_activity ADD CONSTRAINT FK_pm_activity_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);

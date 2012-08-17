@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: ingres, generated: 2012-08-15 16:48:42
+--  driver: ingres, generated: 2012-08-17 05:45:01
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  insert into table valid
@@ -978,4 +978,4 @@ INSERT INTO dynamic_field (id, internal_field, name, label, field_order, field_t
 -- ----------------------------------------------------------
 INSERT INTO dynamic_field (id, internal_field, name, label, field_order, field_type, object_type, config, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (1, 1, 'ProcessManagementActivityID', 'ProcessManagementActivityID', 1, 'Text', 'Ticket', '---DefaultValue: ''''', 1, 1, current_timestamp, 1, current_timestamp);\g
+    (2, 1, 'ProcessManagementActivityID', 'ProcessManagementActivityID', 1, 'Text', 'Ticket', '---DefaultValue: ''''', 1, 1, current_timestamp, 1, current_timestamp);\g
