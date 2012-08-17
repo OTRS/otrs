@@ -2,7 +2,7 @@
 # Kernel/System/ProcessManagement/Process.pm - all ticket functions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Process.pm,v 1.3 2012-08-15 16:38:16 cr Exp $
+# $Id: Process.pm,v 1.4 2012-08-17 22:36:57 cr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::DynamicField;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 =head1 NAME
 
@@ -41,15 +41,15 @@ create an object
 
     use Kernel::Config;
     use Kernel::System::Encode;
-    use Kernel::System::Log;
-    use Kernel::System::Time;
-    use Kernel::System::ProcessManagement::Activity;
-    use Kernel::System::ProcessManagement::TransitionAction;
-    use Kernel::System::Main;
-    use Kernel::System::ProcessManagement::Transition;
     use Kernel::System::DB;
-    use Kernel::System::Ticket;
+    use Kernel::System::Log;
+    use Kernel::System::Main;
+    use Kernel::System::ProcessManagement::Activity;
+    use Kernel::System::ProcessManagement::Transition;
+    use Kernel::System::ProcessManagement::TransitionAction;
     use Kernel::System::ProcessManagement::Process;
+    use Kernel::System::Time;
+    use Kernel::System::Ticket;
 
     my $ConfigObject = Kernel::Config->new();
     my $EncodeObject = Kernel::System::Encode->new(
@@ -100,15 +100,16 @@ create an object
     );
 
     my $ProcessObject = Kernel::System::ProcessManagement::Process->new(
-        ConfigObject     => $ConfigObject,
-        LogObject        => $LogObject,
-        TicketObject     => $TicketObject,
-        ActivityObject   => $ActivityObject,
-        TransitionObject => $TransitionObject,
-        EncodeObject     => $EncodeObject,
-        DBObject         => $DBObject,
-        MainObject       => $MainObject,
-        TimeObject       => $TimeObject,
+        ConfigObject           => $ConfigObject,
+        LogObject              => $LogObject,
+        TicketObject           => $TicketObject,
+        ActivityObject         => $ActivityObject,
+        TransitionObject       => $TransitionObject,
+        TransitionActionObject => $TransitionActionObject,
+        EncodeObject           => $EncodeObject,
+        DBObject               => $DBObject,
+        MainObject             => $MainObject,
+        TimeObject             => $TimeObject,
     );
 
 =cut
@@ -812,6 +813,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.3 $ $Date: 2012-08-15 16:38:16 $
+$Revision: 1.4 $ $Date: 2012-08-17 22:36:57 $
 
 =cut
