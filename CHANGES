@@ -2,14 +2,14 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.1758.2.253 2012-08-17 09:01:21 mg Exp $
+# $Id: CHANGES,v 1.1758.2.254 2012-08-17 10:05:36 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-3.0.15 2012-??-??
+3.0.15 2012-09-04
  - 2012-08-17 HTML mails will now be displayed in an HTML5 sandbox iframe.
     This means that modern browsers will not execute plugins or JavaScript on the content
     any more. Currently, this is supported by Chrome and Safari, but IE10 and FF16 are also
