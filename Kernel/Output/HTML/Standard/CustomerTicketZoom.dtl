@@ -1,8 +1,8 @@
 # --
 # CustomerTicketZoom.dtl - provides HTML TicketZoom for CustomerTicketZoom.pm
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.dtl,v 1.44.2.3 2009-10-01 14:14:16 ub Exp $
+# $Id: CustomerTicketZoom.dtl,v 1.44.2.4 2012-08-17 09:00:01 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -67,10 +67,10 @@ function submit_compose() {
 <!-- dtl:block:Tree -->
             <table border="0" width="100%" cellspacing="0" cellpadding="1">
 <!-- dtl:block:TreeItem -->
-                <tr class="$QData{"SenderType"}-$QData{"ArticleType"}" onmouseover="this.className='highlight';" onmouseout="this.className='$QData{"SenderType"}-$QData{"ArticleType"}';">
+                <tr class="$QData{"SenderType"}-$QData{"ArticleType"}" onmouseover="this.className='highlight';" onmouseout="this.className=' $QData{"SenderType"}-$QData{"ArticleType"}';">
                     <td class="small">
                         <div title="$QData{"From","50"}: $QData{"Subject","200"} - $TimeLong{"$QData{"Created"}"}">
-                            $Data{"Start2"}$Data{"Space"}$Data{"Stop2"}$Data{"Start"}$Data{"Start2"}&nbsp;$QData{"Count"}.&nbsp;$Data{"Stop2"}&nbsp;<a href="$Env{"Baselink"}Action=CustomerTicketZoom&TicketID=$QData{"TicketID"}&ArticleID=$QData{"ArticleID"}#$QData{"ArticleID"}" onmouseover="window.status='$JSText{"$QData{"SenderType"}"} ($Text{"$QData{"ArticleType"}"})'; return true;" onmouseout="window.status='';">$Text{"$QData{"SenderType"}"} ($Text{"$QData{"ArticleType"}"})</a>
+                            $Data{"Start2"}$Data{"Space"}$Data{"Stop2"}$Data{"Start"}$Data{"Start2"}&nbsp;$QData{"Count"}.&nbsp;$Data{"Stop2"}&nbsp;<a href="$Env{"Baselink"}Action=CustomerTicketZoom&TicketID=$QData{"TicketID"}&ArticleID=$QData{"ArticleID"}#$QData{"ArticleID"}" onmouseover="window.status='$JSText{"$Data{"SenderType"}"} ($Text{"$Data{"ArticleType"}"})'; return true;" onmouseout="window.status='';">$Text{"$Data{"SenderType"}"} ($Text{"$Data{"ArticleType"}"})</a>
                             $QData{"From","24"}: $QData{"Subject","30"}$Data{"Stop"}
                         </div>
                     </td>
@@ -117,10 +117,10 @@ function submit_compose() {
                                 <td>$QData{"Filename"}</td>
                                 <td>
 <!-- dtl:block:ArticleAttachmentRowLink -->
-                                    <a href="$Data{"Link"}" $Data{"Target"} onmouseover="window.status='$JSText{"$QData{"Action"}"}: $QData{"Filename"}';return true;" onmouseout="window.status='';"><img src="$Config{"Frontend::ImagePath"}$QData{"Image"}" border="0" alt="$Text{"$QData{"Action"}"}" title="$Text{"$QData{"Action"}"}"></a>
+                                    <a href="$Data{"Link"}" $Data{"Target"} onmouseover="window.status='$JSText{"$Data{"Action"}"}: $QData{"Filename"}';return true;" onmouseout="window.status='';"><img src="$Config{"Frontend::ImagePath"}$QData{"Image"}" border="0" alt="$Text{"$Data{"Action"}"}" title="$Text{"$Data{"Action"}"}"></a>
 <!-- dtl:block:ArticleAttachmentRowLink -->
 <!-- dtl:block:ArticleAttachmentRowNoLink -->
-                                    <img src="$Config{"Frontend::ImagePath"}$QData{"Image"}" border="0" alt="$Text{"$QData{"Action"}"}" title="$Text{"$QData{"Action"}"}">
+                                    <img src="$Config{"Frontend::ImagePath"}$QData{"Image"}" border="0" alt="$Text{"$Data{"Action"}"}" title="$Text{"$Data{"Action"}"}">
 <!-- dtl:block:ArticleAttachmentRowNoLink -->
                                 </td>
                                 <td align="right">$QData{"Filesize"}</td>
@@ -160,7 +160,9 @@ $Data{"Article::Text"}
                     }
                     //-->
                     </script>
-                    <iframe width="100%" frameborder="0" border="0" marginwidth="0" marginheight="0" leftmargin="0" topmargin="0" style="width: 100%;" id="iframe$QData{"ArticleID"}" onload="IframeAutoHeight('iframe$QData{"ArticleID"}');" src="$Env{"Baselink"}Action=CustomerTicketAttachment&Subaction=HTMLView&ArticleID=$QData{"ArticleID"}&FileID=$QData{"AttachmentIDOfHTMLBody"}"></iframe>
+# Use the HTML5 sandbox attribute to prevent plugins and scripts from being executed in the browser.
+# Use IE's (non-standard) security attribute to achieve something similar in older IE browsers. Append session info to URL because IE will not send cookies.
+                    <iframe sandbox="allow-same-origin" security="restricted" width="100%" frameborder="0" border="0" marginwidth="0" marginheight="0" leftmargin="0" topmargin="0" style="width: 100%;" id="iframe$QData{"ArticleID"}" onload="IframeAutoHeight('iframe$QData{"ArticleID"}');" src="$Env{"Baselink"}Action=CustomerTicketAttachment&Subaction=HTMLView&ArticleID=$QData{"ArticleID"}&FileID=$QData{"AttachmentIDOfHTMLBody"}&$QEnv{"SessionName"}=$QEnv{"SessionID"}"></iframe>
                 </div>
 <!-- dtl:block:BodyHTML -->
             </p>
@@ -312,7 +314,7 @@ $Include{"RichTextEditor"}
 # use this if you want to show TicketFreeTime1-6
 <!-- dtl:block:TicketFreeTime -->
                 <tr>
-                    <td class="contentkey">$Text{"$QData{"TicketFreeTimeKey"}"}:</td>
+                    <td class="contentkey">$Text{"$Data{"TicketFreeTimeKey"}"}:</td>
                     <td class="contentvalue"><div title="$TimeShort{"$QData{"TicketFreeTime"}"}">$TimeShort{"$QData{"TicketFreeTime"}"}</div></td>
                 </tr>
 <!-- dtl:block:TicketFreeTime -->

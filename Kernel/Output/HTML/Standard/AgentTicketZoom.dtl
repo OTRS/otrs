@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.62.2.3 2012-07-30 10:31:54 mg Exp $
+# $Id: AgentTicketZoom.dtl,v 1.62.2.4 2012-08-17 09:00:01 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -35,7 +35,7 @@ $Include{"AgentTicketZoomArticleFilterDialog"}
             -
 <!-- dtl:block:MenuItemSplit -->
 <!-- dtl:block:MenuItem -->
-            <a href="$Env{"Baselink"}$Data{"Link"}" $Data{"LinkParam"} onmouseover="window.status='$JSText{"$QData{"Name"}"}'; return true;" onmouseout="window.status='';" class="menuitem" title="$Text{"$Data{"Description"}"}">$Text{"$Data{"Name"}"}</a>
+            <a href="$Env{"Baselink"}$Data{"Link"}" $Data{"LinkParam"} onmouseover="window.status='$JSText{"$Data{"Name"}"}'; return true;" onmouseout="window.status='';" class="menuitem" title="$Text{"$Data{"Description"}"}">$Text{"$Data{"Name"}"}</a>
 <!-- dtl:block:MenuItem -->
 <!-- dtl:block:Menu -->
         </td>
@@ -74,7 +74,7 @@ $Include{"AgentTicketZoomArticleFilterDialog"}
                             <tr class="$QData{"SenderType"}-$QData{"ArticleType"}" onmouseover="this.className='highlight';" onmouseout="this.className=' $QData{"SenderType"}-$QData{"ArticleType"}';">
                                 <td class="small">
                                     <div title="$QData{"From","70"}: $QData{"Subject","200"} - $TimeShort{"$QData{"Created"}"}">
-                                        $Data{"Start2"}$Data{"Space"}$Data{"Stop2"}$Data{"Start"}$Data{"Start2"}&nbsp;$QData{"Count"}.&nbsp;$Data{"Stop2"}&nbsp;<a href="$Env{"Baselink"}Action=AgentTicketZoom&TicketID=$QData{"TicketID"}&ArticleID=$QData{"ArticleID"}&ZoomExpand=$LQData{"ZoomExpand"}#$QData{"ArticleID"}" onmouseover="window.status='$JSText{"$QData{"SenderType"}"} ($Text{"$Data{"ArticleType"}"})'; return true;" onmouseout="window.status='';">$Text{"$Data{"SenderType"}"}&nbsp;($Text{"$Data{"ArticleType"}"})</a>$Data{"Stop"}
+                                        $Data{"Start2"}$Data{"Space"}$Data{"Stop2"}$Data{"Start"}$Data{"Start2"}&nbsp;$QData{"Count"}.&nbsp;$Data{"Stop2"}&nbsp;<a href="$Env{"Baselink"}Action=AgentTicketZoom&TicketID=$QData{"TicketID"}&ArticleID=$QData{"ArticleID"}&ZoomExpand=$LQData{"ZoomExpand"}#$QData{"ArticleID"}" onmouseover="window.status='$JSText{"$Data{"SenderType"}"} ($Text{"$Data{"ArticleType"}"})'; return true;" onmouseout="window.status='';">$Text{"$Data{"SenderType"}"}&nbsp;($Text{"$Data{"ArticleType"}"})</a>$Data{"Stop"}
 <!-- dtl:block:TreeItemEmail -->
                                         (<a href="$Env{"Baselink"}Action=AgentTicketPlain&TicketID=$QData{"TicketID"}&ArticleID=$QData{"ArticleID"}" onmouseover="window.status='$JSText{"plain"}'; return true;" onmouseout="window.status='';" title="$Text{"plain"}">$Text{"plain"}</a>)
 <!-- dtl:block:TreeItemEmail -->
@@ -155,7 +155,7 @@ $Include{"AgentTicketZoomArticleFilterDialog"}
                                             <td>$QData{"Filename"}</td>
                                             <td>
 <!-- dtl:block:ArticleAttachmentRowLink -->
-                                                <a href="$Data{"Link"}" $Data{"Target"} onmouseover="window.status='$JSText{"$QData{"Action"}"}: $JSText{"$QData{"Filename"}"}';return true;" onmouseout="window.status='';"><img src="$Config{"Frontend::ImagePath"}$QData{"Image"}" border="0" alt="$Text{"$Data{"Action"}"}" title="$Text{"$Data{"Action"}"}"></a>
+                                                <a href="$Data{"Link"}" $Data{"Target"} onmouseover="window.status='$JSText{"$Data{"Action"}"}: $JSText{"$Data{"Filename"}"}';return true;" onmouseout="window.status='';"><img src="$Config{"Frontend::ImagePath"}$QData{"Image"}" border="0" alt="$Text{"$Data{"Action"}"}" title="$Text{"$Data{"Action"}"}"></a>
 <!-- dtl:block:ArticleAttachmentRowLink -->
 <!-- dtl:block:ArticleAttachmentRowNoLink -->
                                                 <img src="$Config{"Frontend::ImagePath"}$QData{"Image"}" border="0" alt="$Text{"$Data{"Action"}"}" title="$Text{"$Data{"Action"}"}">
@@ -198,7 +198,9 @@ $Data{"Body"}
                             }
                             //-->
                             </script>
-                            <iframe width="100%" frameborder="0" border="0" marginwidth="0" marginheight="0" leftmargin="0" topmargin="0" style="width: 100%;" id="iframe$QData{"ArticleID"}" onload="IframeAutoHeight('iframe$QData{"ArticleID"}');" src="$Env{"Baselink"}Action=AgentTicketAttachment&Subaction=HTMLView&ArticleID=$QData{"ArticleID"}&FileID=$QData{"AttachmentIDOfHTMLBody"}"></iframe>
+# Use the HTML5 sandbox attribute to prevent plugins and scripts from being executed in the browser.
+# Use IE's (non-standard) security attribute to achieve something similar in older IE browsers. Append session info to URL because IE will not send cookies.
+                            <iframe sandbox="allow-same-origin" security="restricted" width="100%" frameborder="0" border="0" marginwidth="0" marginheight="0" leftmargin="0" topmargin="0" style="width: 100%;" id="iframe$QData{"ArticleID"}" onload="IframeAutoHeight('iframe$QData{"ArticleID"}');" src="$Env{"Baselink"}Action=AgentTicketAttachment&Subaction=HTMLView&ArticleID=$QData{"ArticleID"}&FileID=$QData{"AttachmentIDOfHTMLBody"}&$QEnv{"SessionName"}=$QEnv{"SessionID"}"></iframe>
                         </div>
 <!-- dtl:block:BodyHTML -->
                     </td>
